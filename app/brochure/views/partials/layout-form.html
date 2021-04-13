@@ -1,42 +1,15 @@
 {{> head}}
-
-<style type="text/css">.x {text-decoration: none;} .x:hover{text-decoration: underline}</style>
 <body>
-  <br>
-  <div class="wrapper" style="margin: 2rem auto">
-  <div style="display:flex;">
-    <div style="flex-basis:25%">
-      <p>
-      <a style="font-weight: 600;color:inherit;" class="x" title="Blot" href="/" >Blot</a>
-    </p>
-</div>
+      <div style="max-width:435px;margin: 0 auto;display: flex;flex-direction: column;justify-content: center;min-height: 100vh">
 
-   
-
-
-  <div style="flex-basis: 55%;border:1px solid #eee;border-radius: 4px;padding: 0 0 1rem 0">
- {{#if selected.log-in}}
-    <p style="white-space:nowrap;margin:.725rem 2rem;color:#aaa"><span style="font-weight:600;color:black">Log in</span><span class="arrow">&rarr;</span>Your account</p>
-    {{/if}}
-
-    {{#if selected.sign-up}}
-    <p style="white-space:nowrap;margin:.725rem 2rem;color:#aaa"><span style="font-weight:600;color:black">Sign up</span><span class="arrow">&rarr;</span>Create a blog</p>
-    {{/if}}
-
-<hr style="margin:0;border:none;border-bottom:1px solid #eee">
-<br>
-    <div class="form" style="padding: 0 2rem">
-      {{{body}}}
-    </div>
-  </div>
-</div>
-<script type="text/javascript">
-  document.querySelectorAll('input[type=submit]').onclick = function(){
-    this.className += ' working';
-    alert('hey')
-  }
-
-</script>
+<div class="form-container" style="padding-top: 16px;color:;position: relative;">
+	<a href="{{#if from}}{{{from}}}{{else}}/{{/if}}" class="grow-on-hover huge" style="position: absolute;top: 0;right: 0;padding: 1rem">
+        	      <svg id="hider" style="width: 0.75rem; height: 0.75rem;">
+         <line x1="0" y1="0" x2="100%" y2="100%" stroke="#888"></line>
+         <line x1="0" y1="100%" x2="100%" y2="0%" stroke="#888"></line>
+      </svg></a>
+        {{{body}}}
+        </div>
+      </div>
 </body>
-
 </html>

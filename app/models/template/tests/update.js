@@ -1,15 +1,15 @@
-describe("template", function() {
+describe("template", function () {
   require("./setup")({ createTemplate: true });
 
   var update = require("../index").update;
   var getMetadata = require("../index").getMetadata;
 
-  it("updates a template", function(done) {
+  it("updates a template", function (done) {
     var test = this;
     var updates = { description: test.fake.random.word() };
-    update(test.blog.id, test.template.name, updates, function(err) {
+    update(test.blog.id, test.template.name, updates, function (err) {
       if (err) return done.fail(err);
-      getMetadata(test.template.id, function(err, template) {
+      getMetadata(test.template.id, function (err, template) {
         if (err) return done.fail(err);
         expect(template.description).toEqual(updates.description);
         done();
@@ -20,8 +20,8 @@ describe("template", function() {
   // Enable this once we have decided whether or not setMetadata
   // should be used for new templates. This might break uses of the
   // api internally so be carefull.
-  xit("throws an error if you update a template which does not exist", function(done) {
-    update(this.blog.owner, this.fake.random.word(), {}, function(err) {
+  xit("throws an error if you update a template which does not exist", function (done) {
+    update(this.blog.owner, this.fake.random.word(), {}, function (err) {
       expect(err instanceof Error).toEqual(true);
       done();
     });

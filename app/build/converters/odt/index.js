@@ -1,22 +1,23 @@
 var fs = require("fs-extra");
-var helper = require("helper");
-var ensure = helper.ensure;
-var LocalPath = helper.localPath;
+var ensure = require("helper/ensure");
+var makeUid = require("helper/makeUid");
+var LocalPath = require("helper/localPath");
 var extname = require("path").extname;
 var exec = require("child_process").exec;
 var cheerio = require("cheerio");
-var Metadata = require("../../metadata");
-var extend = helper.extend;
+var Metadata = require("build/metadata");
+var extend = require("helper/extend");
 var join = require("path").join;
 var config = require("config");
 var pandoc_path = config.pandoc_path;
+var tempDir = require("helper/tempDir");
 
 function is(path) {
   return [".odt"].indexOf(extname(path).toLowerCase()) > -1;
 }
 
 function TempDir() {
-  return helper.tempDir() + helper.makeUid(20);
+  return tempDir() + makeUid(20);
 }
 
 function read(blog, path, options, callback) {
@@ -33,10 +34,10 @@ function read(blog, path, options, callback) {
   var blogDir = join(config.blog_static_files_dir, blog.id);
   var assetDir = join(blogDir, "_assets");
 
-  fs.ensureDir(outDir, function(err) {
+  fs.ensureDir(outDir, function (err) {
     if (err) return callback(err);
 
-    fs.stat(localPath, function(err, stat) {
+    fs.stat(localPath, function (err, stat) {
       if (err) return callback(err);
 
       var args = [
@@ -48,10 +49,10 @@ function read(blog, path, options, callback) {
         "odt+backtick_code_blocks",
         "-t",
         "html5",
-        "-s"
+        "-s",
       ].join(" ");
 
-      exec(pandoc_path + " " + args, function(err, stdout, stderr) {
+      exec(pandoc_path + " " + args, function (err, stdout, stderr) {
         if (err) {
           return callback(
             new Error(
@@ -60,7 +61,7 @@ function read(blog, path, options, callback) {
           );
         }
 
-        fs.readFile(outPath, "utf-8", function(err, html) {
+        fs.readFile(outPath, "utf-8", function (err, html) {
           var $ = cheerio.load(html, { decodeEntities: false });
 
           // all p that contain possible metadata are checked until one is encountered that does not
@@ -69,7 +70,7 @@ function read(blog, path, options, callback) {
 
           var metadata = {};
 
-          $("p").each(function(i) {
+          $("p").each(function (i) {
             if ($(this).children().length) return false;
 
             if (i === 0 && $(this).prev().length) {
@@ -100,7 +101,7 @@ function read(blog, path, options, callback) {
 
           // find titles
           // this is possibly? span id="h.ulrsxjddh07w" class="anchor">
-          $("p").each(function() {
+          $("p").each(function () {
             var text = $(this).text();
             var strong = $(this).find("strong");
             var strongText = strong.text();
@@ -123,7 +124,7 @@ function read(blog, path, options, callback) {
             }
           });
 
-          $("a").each(function() {
+          $("a").each(function () {
             var text = $(this).text();
             var em = $(this).find("em");
             var emText = em.text();
@@ -133,7 +134,7 @@ function read(blog, path, options, callback) {
               $(this).html(em.html());
           });
 
-          $("li").each(function() {
+          $("li").each(function () {
             var text = $(this).text();
             var blockquote = $(this).find("blockquote");
             var blockquoteText = blockquote.text();
@@ -150,16 +151,14 @@ function read(blog, path, options, callback) {
 
           // fix image links etc...
 
-          $("img").each(function() {
+          $("img").each(function () {
             var src = $(this).attr("src");
 
             if (src.indexOf(blogDir) === 0)
               $(this).attr("src", src.slice(blogDir.length));
           });
 
-          html = $("body")
-            .html()
-            .trim();
+          html = $("body").html().trim();
 
           var metadataString = "<!--";
 
@@ -172,7 +171,7 @@ function read(blog, path, options, callback) {
           }
 
           callback(null, html, stat);
-          fs.remove(outPath, function(err){});
+          fs.remove(outPath, function (err) {});
         });
       });
     });

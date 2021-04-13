@@ -1,8 +1,10 @@
 module.exports = {
   // codebase expects either 'production' or 'development'
-  environment: process.env.NODE_ENV === 'production' ? 'production' : 'development',
+  environment:
+    process.env.NODE_ENV === "production" ? "production" : "development",
   host: process.env.BLOT_HOST,
   protocol: process.env.BLOT_PROTOCOL + "://",
+  pidfile: process.env.BLOT_DIRECTORY + "/data/process.pid",
 
   maintenance: process.env.BLOT_MAINTENANCE === "true",
   cache: process.env.BLOT_CACHE === "true",
@@ -17,6 +19,14 @@ module.exports = {
   port: 8080,
 
   redis: { port: 6379 },
+
+  postgres: {
+    user: process.env.BLOT_POSTGRES_USER,
+    host: process.env.BLOT_POSTGRES_HOST,
+    database: process.env.BLOT_POSTGRES_DB,
+    password: process.env.BLOT_POSTGRES_PASSWORD,
+    port: process.env.BLOT_POSTGRES_PORT,
+  },
 
   admin: {
     uid: process.env.BLOT_ADMIN_UID,
@@ -38,11 +48,11 @@ module.exports = {
     key: process.env.BLOT_STRIPE_KEY,
     secret: process.env.BLOT_STRIPE_SECRET,
     // Ensure that each monthly plan has a corresponding
-    // annual plan, and vice versa, and that these IDs 
-    // correspond to plans on Stripe in both live and 
+    // annual plan, and vice versa, and that these IDs
+    // correspond to plans on Stripe in both live and
     // test modes when you change Blot's price.
     plan: "monthly_4",
-    
+
     plan_map: {
       yearly_30: "monthly_3",
       monthly_3: "yearly_30",
@@ -58,10 +68,8 @@ module.exports = {
   pandoc_path: process.env.BLOT_PANDOC_PATH,
 
   cdn: {
-    bucket: "blot-blogs",
-    host: "blotcdn.com",
     origin:
-      process.env.BLOT_ENVIRONMENT === "production"
+      process.env.NODE_ENV === "production"
         ? process.env.BLOT_PROTOCOL + "://blotcdn.com"
         : "https://" + process.env.BLOT_HOST + "/cdn",
   },
@@ -85,16 +93,8 @@ module.exports = {
     from: "David Merfield <david@blot.im>",
   },
 
-  s3: {
-    buckets: {
-      dump: "blot-dump",
-      blogs: "blot-blogs",
-      backups: "blot-backups",
-    },
-  },
-
   backup: {
-    bucket: "blot-backups",
+    bucket: "blot-daily-backups",
     password: process.env.BLOT_BACKUP_SECRET,
   },
 

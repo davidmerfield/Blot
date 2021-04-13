@@ -1,0 +1,16 @@
+# https://stackoverflow.com/a/57291363
+sudo yum install -y https://download.postgresql.org/pub/repos/yum/12/redhat/rhel-6-x86_64/postgresql12-libs-12.3-1PGDG.rhel6.x86_64.rpm
+sudo yum install -y https://download.postgresql.org/pub/repos/yum/12/redhat/rhel-6-x86_64/postgresql12-12.3-1PGDG.rhel6.x86_64.rpm
+sudo yum install -y https://download.postgresql.org/pub/repos/yum/12/redhat/rhel-6-x86_64/postgresql12-server-12.3-1PGDG.rhel6.x86_64.rpm
+
+
+
+
+# Used to create a database for the current user
+createdb
+
+# Start a daemon running the db server
+pg_ctl start -D data/db/postgres
+
+# Initialize a postgres data directory
+pg_ctl init -D data/db/postgres

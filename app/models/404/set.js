@@ -1,16 +1,13 @@
 var client = require("client");
-var helper = require("helper");
-var ensure = helper.ensure;
+var ensure = require("helper/ensure");
 var Key = require("./key");
 
 var MAX_404s = 500;
 
-module.exports = function(blogID, url, callback) {
-  callback = callback || function() {};
+module.exports = function (blogID, url, callback) {
+  callback = callback || function () {};
 
-  ensure(blogID, "string")
-    .and(url, "string")
-    .and(callback, "function");
+  ensure(blogID, "string").and(url, "string").and(callback, "function");
 
   var key = Key.everything(blogID);
   var now = Date.now();
@@ -27,7 +24,7 @@ module.exports = function(blogID, url, callback) {
   // Trim the list of 404s
   multi.ZREMRANGEBYRANK(key, 0, -MAX_404s);
 
-  multi.exec(function(err) {
+  multi.exec(function (err) {
     if (err) throw err;
 
     callback();

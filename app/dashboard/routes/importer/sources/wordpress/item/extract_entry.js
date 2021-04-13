@@ -1,12 +1,8 @@
 var url = require("url");
 var moment = require("moment");
-var join = require("path").join;
-var helper = require("../../../helper");
-var determine_path = helper.determine_path;
-var tidy = require("./tidy");
 
-module.exports = function(item, output_directory) {
-  return function(callback) {
+module.exports = function (item) {
+  return function (callback) {
     var entry = {};
 
     entry.draft =
@@ -26,13 +22,8 @@ module.exports = function(item, output_directory) {
       item.pubDate[0]
     ).valueOf();
 
-    entry.path = join(
-      output_directory,
-      determine_path(entry.title, entry.page, entry.draft, entry.dateStamp)
-    );
-
     if (item.category) {
-      entry.tags = item.category.map(function(category) {
+      entry.tags = item.category.map(function (category) {
         return category._;
       });
     }

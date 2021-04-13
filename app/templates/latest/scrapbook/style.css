@@ -123,6 +123,8 @@ a.light:active img {
   align-items: center
 }
 
+ul.task-list { list-style-type: none; }
+
 @media screen and (max-width: 1200px) {
   .post {
     width: 33.3333%

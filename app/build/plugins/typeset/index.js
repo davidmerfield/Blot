@@ -29,6 +29,6 @@ module.exports = {
   options: {
     hangingPunctuation: true,
     punctuation: true,
-    smallCaps: true
-  }
+    smallCaps: true,
+  },
 };

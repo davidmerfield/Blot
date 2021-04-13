@@ -1,5 +1,4 @@
-var helper = require("helper");
-var normalize = helper.pathNormalizer;
+var normalize = require("helper/pathNormalizer");
 var rebuildDependents = require("./rebuildDependents");
 var Ignore = require("./ignore");
 var Metadata = require("metadata");
@@ -9,7 +8,8 @@ var isPreview = require("./drafts").isPreview;
 var async = require("async");
 var WRONG_TYPE = "WRONG_TYPE";
 var PUBLIC_FILE = "PUBLIC_FILE";
-var isHidden = require("../../build/prepare/isHidden");
+var isHidden = require("build/prepare/isHidden");
+var build = require("build");
 
 function isPublic(path) {
   return (
@@ -28,9 +28,7 @@ function isTemplate(path) {
   return normalize(path).indexOf("/templates/") === 0;
 }
 
-var build = require("../../build");
-
-module.exports = function(blog, path, options, callback) {
+module.exports = function (blog, path, options, callback) {
   var queue;
 
   if (callback === undefined && typeof options === "function") {
@@ -43,7 +41,7 @@ module.exports = function(blog, path, options, callback) {
 
   queue = {
     is_preview: isPreview.bind(this, blog.id, path),
-    dependents: rebuildDependents.bind(this, blog.id, path)
+    dependents: rebuildDependents.bind(this, blog.id, path),
   };
 
   // Store the case-preserved name against the
@@ -52,7 +50,7 @@ module.exports = function(blog, path, options, callback) {
     queue.metadata = Metadata.add.bind(this, blog.id, path, options.name);
   }
 
-  async.parallel(queue, function(err, result) {
+  async.parallel(queue, function (err, result) {
     if (err) return callback(err);
 
     // This is a preview file, don't create an entry
@@ -68,7 +66,7 @@ module.exports = function(blog, path, options, callback) {
     // therefore not be a blog post.
     if (isPublic(path)) return Ignore(blog.id, path, PUBLIC_FILE, callback);
 
-    build(blog, path, options, function(err, entry) {
+    build(blog, path, options, function (err, entry) {
       if (err && err.code === "WRONGTYPE")
         return Ignore(blog.id, path, WRONG_TYPE, callback);
 

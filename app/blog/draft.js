@@ -1,15 +1,19 @@
 module.exports = function route(server) {
   var Entry = require("entry");
   var Entries = require("entries");
-  var drafts = require("../sync/update/drafts");
+  var drafts = require("sync/update/drafts");
   var redis = require("redis");
 
-  server.get(drafts.streamRoute, function(req, res, next) {
+  // (node:73631) TimeoutOverflowWarning: 1.7976931348623157e+308 does not fit into a 32-bit signed integer.
+  // Timer duration was truncated to 2147483647.
+  const MAX_TIMEOUT = 2147483647;
+
+  server.get(drafts.streamRoute, function (req, res, next) {
     var blogID = req.blog.id;
     var client = redis.createClient();
     var path = drafts.getPath(req.url, drafts.streamRoute);
 
-    req.socket.setTimeout(Number.MAX_VALUE);
+    req.socket.setTimeout(MAX_TIMEOUT);
 
     res.writeHead(200, {
       // This header tells NGINX to NOT
@@ -20,7 +24,7 @@ module.exports = function route(server) {
       "X-Accel-Buffering": "no",
       "Content-Type": "text/event-stream",
       "Cache-Control": "no-cache",
-      Connection: "keep-alive"
+      "Connection": "keep-alive",
     });
 
     res.write("\n");
@@ -29,10 +33,10 @@ module.exports = function route(server) {
 
     client.subscribe(channel);
 
-    client.on("message", function(_channel) {
+    client.on("message", function (_channel) {
       if (_channel !== channel) return;
 
-      renderDraft(req, res, next, path, function(html, bodyHTML) {
+      renderDraft(req, res, next, path, function (html, bodyHTML) {
         res.write("\n");
         res.write("data: " + JSON.stringify(bodyHTML.trim()) + "\n\n");
         res.flush();
@@ -40,17 +44,17 @@ module.exports = function route(server) {
     });
 
     // In case we encounter an error...print it out to the console
-    client.on("error", function(err) {
+    client.on("error", function (err) {
       console.log("Redis Error: " + err);
     });
 
-    req.on("close", function() {
+    req.on("close", function () {
       client.unsubscribe();
       client.quit();
     });
   });
 
-  server.get(drafts.viewRoute, function(request, response, next) {
+  server.get(drafts.viewRoute, function (request, response, next) {
     // console.log('Draft: Request to a draft view page ' + request.url);
 
     var filePath = drafts.getPath(request.url, drafts.viewRoute);
@@ -59,7 +63,7 @@ module.exports = function route(server) {
     response.set("X-Robots-Tag", "noindex");
     response.set("Cache-Control", "no-cache");
 
-    renderDraft(request, response, next, filePath, function(html) {
+    renderDraft(request, response, next, filePath, function (html) {
       // this is to override the header set by the middleware
       // helmet.frameguard in server.js. It prevents Firefox
       // from rendering the iframe in the preview file.
@@ -76,7 +80,7 @@ module.exports = function route(server) {
 
     // console.log('Draft: Rendering draft HTML for entry at: ' + filePath);
 
-    Entry.get(blogID, filePath, function(entry) {
+    Entry.get(blogID, filePath, function (entry) {
       if (!entry || !entry.draft || entry.deleted) return next();
 
       // GET FULL ENTRY RETURNS NULL SINCE IT"S DRAFT
@@ -84,7 +88,11 @@ module.exports = function route(server) {
       // THE LINE TO SHOW OR NOT TO SHOW?
       // PERHAPS PASS {drafts: show}? or something?
 
-      Entries.adjacentTo(blogID, entry.id, function(nextEntry, previousEntry, index) {
+      Entries.adjacentTo(blogID, entry.id, function (
+        nextEntry,
+        previousEntry,
+        index
+      ) {
         entry.next = nextEntry;
         entry.index = index;
         entry.previous = previousEntry;
@@ -96,10 +104,10 @@ module.exports = function route(server) {
         response.addLocals({
           pageTitle: entry.title + " - " + blog.title,
           pageDescription: entry.summary,
-          entry: entry
+          entry: entry,
         });
 
-        response.renderView("entry.html", next, function(err, output) {
+        response.renderView("entry.html", next, function (err, output) {
           drafts.injectScript(output, filePath, callback);
         });
       });

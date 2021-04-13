@@ -21,7 +21,7 @@ function dependencies(path, html, metadata) {
   var attribute, value, resolved_value;
 
   // We have to be slightly stricter for
-  Object.keys(metadata).forEach(function(attribute) {
+  Object.keys(metadata).forEach(function (attribute) {
     value = metadata[attribute];
     resolved_value = resolve(path, value);
 
@@ -63,7 +63,7 @@ function dependencies(path, html, metadata) {
   // This matches CSS files in the blog post
   // This matches just about everything else,
   // including images, videos, scripts.
-  $("link[href], [src]").each(function() {
+  $("link[href], [src]").each(function () {
     if (!!$(this).attr("href")) attribute = "href";
     if (!!$(this).attr("src")) attribute = "src";
 

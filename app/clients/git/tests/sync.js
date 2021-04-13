@@ -1,4 +1,4 @@
-describe("git client sync", function() {
+describe("git client sync", function () {
   // Sets up a clean test blog (this.blog) for each test,
   // sets the blog's client to git (this.client), then creates
   // a test server with the git client's routes exposed, then
@@ -7,7 +7,7 @@ describe("git client sync", function() {
 
   var fs = require("fs-extra");
   var async = require("async");
-  var sync = require("../sync");
+  var sync = require("clients/git/sync");
   var basename = require("path").basename;
   var dirname = require("path").dirname;
 
@@ -15,13 +15,13 @@ describe("git client sync", function() {
   // which simulate's the folder on the user's computer exactly matches
   // the state of the blogDirectory on Blot's server
 
-  beforeEach(function() {
+  beforeEach(function () {
     var ctx = this;
 
-    ctx.areReposSynced = function(done) {
-      ctx.gitBare.raw(["rev-parse", "HEAD"], function(err, bareHead) {
-        ctx.gitBlot.raw(["rev-parse", "HEAD"], function(err, blotHead) {
-          ctx.git.raw(["rev-parse", "HEAD"], function(err, userHead) {
+    ctx.areReposSynced = function (done) {
+      ctx.gitBare.raw(["rev-parse", "HEAD"], function (err, bareHead) {
+        ctx.gitBlot.raw(["rev-parse", "HEAD"], function (err, blotHead) {
+          ctx.git.raw(["rev-parse", "HEAD"], function (err, userHead) {
             if (
               userHead &&
               bareHead &&
@@ -35,7 +35,7 @@ describe("git client sync", function() {
               "State of git repos (HEAD):",
               "- user's machine: " + (userHead && userHead.trim()),
               "- bare data repo: " + (bareHead && bareHead.trim()),
-              "- blog directory: " + (blotHead && blotHead.trim())
+              "- blog directory: " + (blotHead && blotHead.trim()),
             ].join("\n");
 
             done(new Error(message));
@@ -44,8 +44,8 @@ describe("git client sync", function() {
       });
     };
 
-    ctx.push = function(done) {
-      ctx.git.push(function(err) {
+    ctx.push = function (done) {
+      ctx.git.push(function (err) {
         if (err) return done(new Error(err));
 
         // how do we work out when the sync has finished?
@@ -55,16 +55,16 @@ describe("git client sync", function() {
           protocol: "http",
           hostname: "localhost",
           port: ctx.server.port,
-          pathname: "/clients/git/syncs-finished/" + ctx.blog.id
+          pathname: "/clients/git/syncs-finished/" + ctx.blog.id,
         });
 
         http.get(url, function check(res) {
           var response = "";
           res.setEncoding("utf8");
-          res.on("data", function(chunk) {
+          res.on("data", function (chunk) {
             response += chunk;
           });
-          res.on("end", function() {
+          res.on("end", function () {
             if (response !== "true") {
               return http.get(url, check);
             }
@@ -74,11 +74,11 @@ describe("git client sync", function() {
       });
     };
 
-    ctx.commitAndPush = function(callback) {
-      ctx.git.add(".", function(err) {
+    ctx.commitAndPush = function (callback) {
+      ctx.git.add(".", function (err) {
         if (err) return callback(new Error(err));
 
-        ctx.git.commit(".", function(err) {
+        ctx.git.commit(".", function (err) {
           if (err) return callback(new Error(err));
 
           ctx.push(callback);
@@ -86,16 +86,16 @@ describe("git client sync", function() {
       });
     };
 
-    ctx.writeAndCommit = function(path, content, callback) {
+    ctx.writeAndCommit = function (path, content, callback) {
       var output = ctx.repoDirectory + path;
 
-      fs.outputFile(output, content, function(err) {
+      fs.outputFile(output, content, function (err) {
         if (err) return callback(err);
 
-        ctx.git.add(".", function(err) {
+        ctx.git.add(".", function (err) {
           if (err) return callback(new Error(err));
 
-          ctx.git.commit(".", function(err) {
+          ctx.git.commit(".", function (err) {
             if (err) return callback(new Error(err));
 
             callback();
@@ -104,8 +104,8 @@ describe("git client sync", function() {
       });
     };
 
-    ctx.writeAndPush = function(path, content, callback) {
-      ctx.writeAndCommit(path, content, function(err) {
+    ctx.writeAndPush = function (path, content, callback) {
+      ctx.writeAndCommit(path, content, function (err) {
         if (err) return callback(err);
 
         ctx.push(callback);
@@ -114,20 +114,20 @@ describe("git client sync", function() {
   });
 
   // Checks if two directories are identical
-  afterEach(function(done) {
+  afterEach(function (done) {
     var ctx = this;
 
     global.test.compareDir(
       this.repoDirectory,
       this.blogDirectory,
       {
-        excludeFilter: ".git"
+        excludeFilter: ".git",
       },
-      function(err) {
+      function (err) {
         if (!err) return done();
 
         var message = err.message;
-        ctx.areReposSynced(function(reposErr) {
+        ctx.areReposSynced(function (reposErr) {
           if (reposErr && reposErr.message) {
             message += "\n\n" + reposErr.message;
           } else {
@@ -140,27 +140,27 @@ describe("git client sync", function() {
     );
   });
 
-  xit("should return an error if there is no git repo in blog folder", function(done) {
+  xit("should return an error if there is no git repo in blog folder", function (done) {
     fs.removeSync(this.blogDirectory + "/.git");
 
-    sync(this.blog.id, function(err) {
+    sync(this.blog.id, function (err) {
       expect(err.message).toContain("repo does not exist");
       done();
     });
   });
 
-  xit("handles a new file", function(done) {
+  xit("handles a new file", function (done) {
     var path = this.fake.path(".txt");
     var content = this.fake.file();
 
-    this.writeAndPush(path, content, function(err) {
+    this.writeAndPush(path, content, function (err) {
       if (err) return done.fail(err);
 
       done();
     });
   });
 
-  xit("handles updates to a file", function(done) {
+  xit("handles updates to a file", function (done) {
     var writeAndPush = this.writeAndPush;
     var path = this.fake.path(".txt");
 
@@ -170,10 +170,10 @@ describe("git client sync", function() {
     var changedTitle = this.fake.lorem.sentence();
     var changedContent = this.fake.file({ title: changedTitle });
 
-    writeAndPush(path, content, function(err) {
+    writeAndPush(path, content, function (err) {
       if (err) return done.fail(err);
 
-      writeAndPush(path, changedContent, function(err) {
+      writeAndPush(path, changedContent, function (err) {
         if (err) return done.fail(err);
 
         done();
@@ -181,7 +181,7 @@ describe("git client sync", function() {
     });
   });
 
-  xit("handles a renamed file", function(done) {
+  xit("handles a renamed file", function (done) {
     var writeAndPush = this.writeAndPush;
     var commitAndPush = this.commitAndPush;
 
@@ -191,12 +191,12 @@ describe("git client sync", function() {
 
     var repoDirectory = this.repoDirectory;
 
-    writeAndPush(path, content, function(err) {
+    writeAndPush(path, content, function (err) {
       if (err) return done.fail(err);
 
       fs.moveSync(repoDirectory + path, repoDirectory + newPath);
 
-      commitAndPush(function(err) {
+      commitAndPush(function (err) {
         if (err) return done.fail(err);
 
         done();
@@ -204,7 +204,7 @@ describe("git client sync", function() {
     });
   });
 
-  xit("handles a removed file", function(done) {
+  xit("handles a removed file", function (done) {
     var writeAndPush = this.writeAndPush;
     var commitAndPush = this.commitAndPush;
     var repoDirectory = this.repoDirectory;
@@ -213,12 +213,12 @@ describe("git client sync", function() {
     // since git does not keep track of empty directories
     var path = "/" + this.fake.lorem.word() + ".txt";
 
-    writeAndPush(path, this.fake.file(), function(err) {
+    writeAndPush(path, this.fake.file(), function (err) {
       if (err) return done.fail(err);
 
       fs.removeSync(repoDirectory + path);
 
-      commitAndPush(function(err) {
+      commitAndPush(function (err) {
         if (err) return done.fail(err);
 
         done();
@@ -226,7 +226,7 @@ describe("git client sync", function() {
     });
   });
 
-  xit("handles multiple commits pushed at once", function(done) {
+  xit("handles multiple commits pushed at once", function (done) {
     var writeAndCommit = this.writeAndCommit;
     var push = this.push;
 
@@ -237,13 +237,13 @@ describe("git client sync", function() {
 
     async.eachOf(
       files,
-      function(content, path, next) {
+      function (content, path, next) {
         writeAndCommit(path, content, next);
       },
-      function(err) {
+      function (err) {
         if (err) return done.fail(err);
 
-        push(function(err) {
+        push(function (err) {
           if (err) return done.fail(err);
 
           done();
@@ -252,7 +252,7 @@ describe("git client sync", function() {
     );
   });
 
-  xit("handles two pushes during a single sync", function(done) {
+  xit("handles two pushes during a single sync", function (done) {
     var git = this.git;
     var writeAndPush = this.writeAndPush;
     var fake = this.fake;
@@ -260,11 +260,11 @@ describe("git client sync", function() {
     for (var i = 0; i < 10; i++)
       fs.outputFileSync(this.repoDirectory + fake.path(".txt"), fake.file());
 
-    git.add(".", function(err) {
+    git.add(".", function (err) {
       if (err) return done(new Error(err));
-      git.commit("x", function(err) {
+      git.commit("x", function (err) {
         if (err) return done(new Error(err));
-        git.push(function(err) {
+        git.push(function (err) {
           if (err) return done(new Error(err));
 
           writeAndPush(fake.path(), fake.file(), done);
@@ -273,7 +273,7 @@ describe("git client sync", function() {
     });
   });
 
-  xit("resets any uncommitted changes in the server's blog folder", function(done) {
+  xit("resets any uncommitted changes in the server's blog folder", function (done) {
     var writeAndPush = this.writeAndPush;
 
     var path = "/Hello world.txt";
@@ -283,14 +283,14 @@ describe("git client sync", function() {
 
     var blogDirectory = this.blogDirectory;
 
-    writeAndPush(path, content, function(err) {
+    writeAndPush(path, content, function (err) {
       if (err) return done.fail(err);
 
       // This simulates an incorrect change to the blog's source folder
       // made by potentially buggy Blot code. This was NOT done by the client.
       fs.outputFileSync(blogDirectory + path, contentBadChange);
 
-      writeAndPush(path, contentGoodChange, function(err) {
+      writeAndPush(path, contentGoodChange, function (err) {
         if (err) return done.fail(err);
 
         done();
@@ -298,7 +298,7 @@ describe("git client sync", function() {
     });
   });
 
-  xit("handles a force push", function(done) {
+  xit("handles a force push", function (done) {
     var writeAndPush = this.writeAndPush;
     var writeAndCommit = this.writeAndCommit;
     var blogDirectory = this.blogDirectory;
@@ -311,22 +311,22 @@ describe("git client sync", function() {
     var newContent = "Good, World!";
     var badContent = "Bad, World!";
 
-    writeAndPush(path, content, function(err) {
+    writeAndPush(path, content, function (err) {
       if (err) return done.fail(err);
 
       // delete .git repo, then re-init, then add remote,
       // then write and push. It should fail.
       fs.removeSync(repoDirectory + "/.git");
-      git.init(repoDirectory, function(err) {
+      git.init(repoDirectory, function (err) {
         if (err) return done.fail(new Error(err));
 
-        git.addRemote("origin", repoUrl, function(err) {
+        git.addRemote("origin", repoUrl, function (err) {
           if (err) return done.fail(new Error(err));
 
-          writeAndCommit(path, newContent, function(err) {
+          writeAndCommit(path, newContent, function (err) {
             if (err) return done.fail(err);
 
-            git.push("origin", "master", { "--set-upstream": true }, function(
+            git.push("origin", "master", { "--set-upstream": true }, function (
               err
             ) {
               expect(err).toContain(
@@ -344,10 +344,10 @@ describe("git client sync", function() {
                 "origin",
                 "master",
                 { "--set-upstream": true, "--force": true },
-                function(err) {
+                function (err) {
                   if (err) return done.fail(new Error(err));
 
-                  writeAndPush("/other-path.txt", "other file", function(err) {
+                  writeAndPush("/other-path.txt", "other file", function (err) {
                     if (err) return done.fail(new Error(err));
 
                     done();

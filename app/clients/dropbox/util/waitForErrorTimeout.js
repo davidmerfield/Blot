@@ -26,8 +26,8 @@ module.exports = function waitForErrorTimeout(err) {
   // so we have to use this for now.
   if (delay) {
     debug("Waiting", delay, "seconds to re-throw error");
-    return new Promise(function(resolve, reject) {
-      setTimeout(function() {
+    return new Promise(function (resolve, reject) {
+      setTimeout(function () {
         debug("Wait over, re-throwing error");
         reject(err);
       }, delay * 1000); // delay is in seconds, convert to ms

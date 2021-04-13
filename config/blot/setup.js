@@ -1,5 +1,5 @@
 var config = require("../index");
-var root = require("../../app/helper").rootDir;
+var root = require("helper/rootDir");
 var fs = require("fs-extra");
 var redis = require("redis").createClient();
 
@@ -12,7 +12,7 @@ var redis = require("redis").createClient();
 // but since the homepage is not a blog, we just use a placeholder 'X'
 redis.mset(
   ["domain:" + config.host, "X", "domain:www." + config.host, "X"],
-  function(err) {
+  function (err) {
     if (err) {
       console.error(
         "Unable to set domain flag for host" +
@@ -27,6 +27,7 @@ redis.mset(
 // Create empty directories if they don't exist
 fs.ensureDirSync(root + "/blogs");
 fs.ensureDirSync(root + "/tmp");
+fs.ensureDirSync(root + "/data");
 fs.ensureDirSync(root + "/logs");
 fs.ensureDirSync(root + "/db");
 fs.ensureDirSync(root + "/static");

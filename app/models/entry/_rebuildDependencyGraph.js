@@ -10,7 +10,7 @@ var _ = require("lodash");
 // This means when the dependency changes (even if it is
 // not an entry) we can rebuild this entry.
 
-module.exports = function(blogID, entry, previous_dependencies, callback) {
+module.exports = function (blogID, entry, previous_dependencies, callback) {
   var removed_dependencies = [];
   var new_dependencies = [];
   var multi = client.multi();
@@ -31,11 +31,11 @@ module.exports = function(blogID, entry, previous_dependencies, callback) {
     );
   }
 
-  removed_dependencies.forEach(function(path) {
+  removed_dependencies.forEach(function (path) {
     multi.SREM(dependentsKey(blogID, path), entry.path);
   });
 
-  new_dependencies.forEach(function(path) {
+  new_dependencies.forEach(function (path) {
     multi.SADD(dependentsKey(blogID, path), entry.path);
   });
 

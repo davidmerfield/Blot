@@ -1,8 +1,8 @@
-describe("dropbox client", function() {
+describe("dropbox client", function () {
   // In root means the user has set up their
   // entire Dropbox folder as their blog folder.
   // This typically only happens for 'App folders'
-  describe("in root", function() {
+  describe("in root", function () {
     // Create test blog, clients & prepare Dropbox
     require("./setup")({ root: true });
 
@@ -15,7 +15,7 @@ describe("dropbox client", function() {
     specs();
   });
 
-  describe("in subfolder", function() {
+  describe("in subfolder", function () {
     // Create test blog, clients & prepare Dropbox
     require("./setup")();
 
@@ -26,7 +26,7 @@ describe("dropbox client", function() {
 
     specs();
 
-    xit("retrieves changes after blog folder is renamed", function(done) {
+    xit("retrieves changes after blog folder is renamed", function (done) {
       var addFile = this.addFile;
       var oldFolder = this.account.folder;
       var newFolder = "/" + this.fake.random.uuid();
@@ -37,30 +37,30 @@ describe("dropbox client", function() {
       this.client
         .filesMove({
           from_path: oldFolder,
-          to_path: newFolder
+          to_path: newFolder,
         })
-        .then(function() {
+        .then(function () {
           addFile(done);
         })
         .catch(done.fail);
     });
 
     // This does not work right now, you'll need to go the dashboard and re-create
-    xit("retrieves changes after blog folder is removed then re-created", function(done) {
+    xit("retrieves changes after blog folder is removed then re-created", function (done) {
       var ctx = this;
 
       ctx.client
         .filesDelete({
-          path: ctx.account.folder
+          path: ctx.account.folder,
         })
-        .then(function() {
+        .then(function () {
           return ctx.client.filesCreateFolder({
             path: ctx.account.folder,
-            autorename: false
+            autorename: false,
           });
         })
-        .then(function() {
-          ctx.delta(function(err, res) {
+        .then(function () {
+          ctx.delta(function (err, res) {
             console.log(err);
             console.log(res);
             done();
@@ -69,15 +69,15 @@ describe("dropbox client", function() {
         .catch(done.fail);
     });
 
-    xit("returns a tidy error when the folder is removed", function(done) {
+    xit("returns a tidy error when the folder is removed", function (done) {
       var ctx = this;
 
       ctx.client
         .filesDelete({
-          path: ctx.account.folder
+          path: ctx.account.folder,
         })
-        .then(function() {
-          ctx.delta(function(err, res) {
+        .then(function () {
+          ctx.delta(function (err, res) {
             expect(err).toEqual(jasmine.any(Error));
             expect(res).toEqual(null);
             done();
@@ -88,8 +88,8 @@ describe("dropbox client", function() {
   });
 
   function specs() {
-    xit("retrieves list of changes", function(done) {
-      this.delta(function(err, res) {
+    xit("retrieves list of changes", function (done) {
+      this.delta(function (err, res) {
         if (err) return done.fail(err);
 
         expect(res.entries).toEqual([]);
@@ -100,11 +100,11 @@ describe("dropbox client", function() {
       });
     });
 
-    xit("detects a new file", function(done) {
+    xit("detects a new file", function (done) {
       this.addFile(done);
     });
 
-    xit("detects a removed file", function(done) {
+    xit("detects a removed file", function (done) {
       this.removeFile(done);
     });
   }
@@ -117,8 +117,8 @@ function setupDelta(done) {
   var account = this.account;
   var delta = new Delta(account.access_token, account.folder_id);
 
-  context.delta = function(callback) {
-    delta(context.account.cursor, function(err, res) {
+  context.delta = function (callback) {
+    delta(context.account.cursor, function (err, res) {
       if (err) return callback(err, res);
       context.account.cursor = res.cursor;
       callback(null, res);
@@ -138,7 +138,7 @@ function setupDelta(done) {
 
 function addFile() {
   var ctx = this;
-  this.addFile = function(callback) {
+  this.addFile = function (callback) {
     var path = ctx.fake.path(".txt");
     var contents = ctx.fake.file();
     var pathInDropbox = ctx.account.folder + path;
@@ -146,14 +146,14 @@ function addFile() {
     ctx.client
       .filesUpload({
         path: pathInDropbox,
-        contents: contents
+        contents: contents,
       })
-      .then(function() {
-        ctx.delta(function(err, res) {
+      .then(function () {
+        ctx.delta(function (err, res) {
           if (err) return callback(err);
 
           if (
-            res.entries.some(function(entry) {
+            res.entries.some(function (entry) {
               return (
                 entry.relative_path === path.toLowerCase() &&
                 entry[".tag"] === "file"
@@ -165,7 +165,7 @@ function addFile() {
           callback(new Error("No file in delta"));
         });
       })
-      .catch(function(err) {
+      .catch(function (err) {
         callback(err);
       });
   };
@@ -173,18 +173,18 @@ function addFile() {
 
 function removeFile() {
   var ctx = this;
-  this.removeFile = function(callback) {
-    ctx.addFile(function(err, path) {
+  this.removeFile = function (callback) {
+    ctx.addFile(function (err, path) {
       ctx.client
         .filesDelete({
-          path: ctx.account.folder + path
+          path: ctx.account.folder + path,
         })
-        .then(function() {
-          ctx.delta(function(err, res) {
+        .then(function () {
+          ctx.delta(function (err, res) {
             if (err) return callback(err);
 
             if (
-              res.entries.some(function(entry) {
+              res.entries.some(function (entry) {
                 return (
                   entry.relative_path === path.toLowerCase() &&
                   entry[".tag"] === "deleted"
@@ -198,7 +198,7 @@ function removeFile() {
             callback(new Error("No removed file in delta"));
           });
         })
-        .catch(function(err) {
+        .catch(function (err) {
           callback(err);
         });
     });

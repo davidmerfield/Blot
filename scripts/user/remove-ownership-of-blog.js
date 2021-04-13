@@ -6,8 +6,7 @@ if (!blogID) throw new Error("Please pass blogID as second argument");
 
 var User = require("user");
 
-User.getById(userID, function(err, user) {
-  
+User.getById(userID, function (err, user) {
   if (err || !user) throw err || new Error("No user with userID " + userID);
 
   if (user.blogs.indexOf(blogID) === -1)
@@ -15,16 +14,18 @@ User.getById(userID, function(err, user) {
 
   var before = user.blogs.slice();
 
-  user.blogs = user.blogs.filter(function(otherBlogID) {
+  user.blogs = user.blogs.filter(function (otherBlogID) {
     return otherBlogID !== blogID;
   });
 
-  console.log('BEFORE', before, 'AFTER', user.blogs);
+  console.log("BEFORE", before, "AFTER", user.blogs);
 
-  User.set(userID, { blogs: user.blogs }, function(err) {
+  User.set(userID, { blogs: user.blogs }, function (err) {
     if (err) throw err;
 
-    console.log('Warning! This will not affect the user\'s subscription settings to make sure to adjust their bill');
+    console.log(
+      "Warning! This will not affect the user's subscription settings to make sure to adjust their bill"
+    );
     console.log("Done!");
     process.exit();
   });

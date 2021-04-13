@@ -1,17 +1,13 @@
-module.exports = function(server) {
-  var helper = require("helper");
-  var type = helper.type;
-  var Redirects = require("../models/redirects");
-  var store404 = require("../models/404").set;
+module.exports = function (server) {
+  var type = require("helper/type");
+  var Redirects = require("models/redirects");
+  var store404 = require("models/404").set;
   var config = require("config");
-  var CONTACT =
-    ' Please <a href="https://' +
-    config.host +
-    "/contact\">contact me</a> if you cannot fix this. I'll be able to help you.";
+  var VIEW_DIR = require("path").resolve(__dirname + "/../brochure/views");
 
   // Redirects
-  server.use(function(req, res, next) {
-    Redirects.check(req.blog.id, req.url, function(err, redirect) {
+  server.use(function (req, res, next) {
+    Redirects.check(req.blog.id, req.url, function (err, redirect) {
       if (err) return next(err);
 
       // Nothing in the user's setup matches this
@@ -29,13 +25,13 @@ module.exports = function(server) {
   });
 
   // 404s
-  server.use(function(req, res, next) {
+  server.use(function (req, res, next) {
     res.addLocals({
       error: {
         title: "Page not found",
         message: "There is no page on this blog with this URL.",
-        status: 404
-      }
+        status: 404,
+      },
     });
 
     res.status(404);
@@ -46,7 +42,7 @@ module.exports = function(server) {
   });
 
   // Errors
-  server.use(function(err, req, res, next) {
+  server.use(function (err, req, res, next) {
     // This reponse was partially finished
     // end it now and get over it...
     if (res.headersSent) return res.end();
@@ -63,7 +59,13 @@ module.exports = function(server) {
     // Blog does not exist...
     if (err.code === "ENOENT") {
       res.status(404);
-      res.send("There is no blog at this address." + CONTACT);
+
+      if (req.hostname.endsWith(config.host)) {
+        res.sendFile(VIEW_DIR + "/error-no-blog.html");
+      } else {
+        res.sendFile(VIEW_DIR + "/error-almost-connected.html");
+      }
+
       return;
     }
 
@@ -75,11 +77,11 @@ module.exports = function(server) {
       error: {
         title: "Error",
         message: "",
-        status: err.status
-      }
+        status: err.status,
+      },
     });
 
-    res.renderView("error.html", next, function(err, output) {
+    res.renderView("error.html", next, function (err, output) {
       if (err) return next(err);
 
       res.status(status || 500);
@@ -88,10 +90,10 @@ module.exports = function(server) {
   });
 
   // There was an issue with renderView
-  server.use(function(err, req, res, next) {
+  server.use(function (err, req, res, next) {
     if (res.headersSent) return res.end();
 
     res.status(500);
-    res.send("Your blog's template failed to render properly." + CONTACT);
+    res.sendFile(VIEW_DIR + "/error-bad-render.html");
   });
 };

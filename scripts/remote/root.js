@@ -1,1 +1,1 @@
-module.exports = '/var/www/blot';
+module.exports = "/var/www/blot";

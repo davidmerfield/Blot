@@ -9,5 +9,5 @@ module.exports = {
   write: require("./write"),
   disconnect: require("./disconnect"),
   dashboard_routes: require("./routes").dashboard,
-  site_routes: require("./routes").site
+  site_routes: require("./routes").site,
 };

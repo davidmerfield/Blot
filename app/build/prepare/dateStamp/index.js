@@ -1,14 +1,13 @@
-const helper = require("helper");
 const debug = require("debug")("blot:build:dateStamp");
 
 const fromPath = require("./fromPath");
 const fromMetadata = require("./fromMetadata");
-const type = helper.type;
+const type = require("helper/type");
 
 const moment = require("moment");
 require("moment-timezone");
 
-module.exports = function(blog, path, metadata) {
+module.exports = function (blog, path, metadata) {
   const { id, dateFormat, timeZone } = blog;
   let dateStamp;
 
@@ -55,8 +54,5 @@ function adjustByBlogTimezone(timeZone, stamp) {
   var zone = moment.tz.zone(timeZone);
   var offset = zone.offset(stamp);
 
-  return moment
-    .utc(stamp)
-    .add(offset, "minutes")
-    .valueOf();
+  return moment.utc(stamp).add(offset, "minutes").valueOf();
 }

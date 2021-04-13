@@ -4,5 +4,5 @@ module.exports = {
   partials: "object",
   locals: "object",
   retrieve: "object",
-  url: "string"
+  url: "string",
 };

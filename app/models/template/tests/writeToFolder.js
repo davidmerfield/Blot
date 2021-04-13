@@ -1,4 +1,4 @@
-describe("template", function() {
+describe("template", function () {
   var writeToFolder = require("../index").writeToFolder;
   var setView = require("../index").setView;
   var setMetadata = require("../index").setMetadata;
@@ -6,19 +6,19 @@ describe("template", function() {
 
   require("./setup")({ createTemplate: true });
 
-  it("writes a template to a folder", function(done) {
+  it("writes a template to a folder", function (done) {
     var test = this;
     var view = {
       name: test.fake.random.word() + ".html",
-      content: test.fake.random.word()
+      content: test.fake.random.word(),
     };
     var path =
       test.blogDirectory + "/Templates/" + test.template.slug + "/" + view.name;
 
-    setView(this.template.id, view, function(err) {
+    setView(this.template.id, view, function (err) {
       if (err) return done.fail(err);
 
-      writeToFolder(test.blog.id, test.template.id, function(err) {
+      writeToFolder(test.blog.id, test.template.id, function (err) {
         if (err) return done.fail(err);
         expect(fs.readFileSync(path, "utf-8")).toEqual(view.content);
         done();
@@ -26,16 +26,16 @@ describe("template", function() {
     });
   });
 
-  it("writes template metadata to package.json in a folder", function(done) {
+  it("writes template metadata to package.json in a folder", function (done) {
     var test = this;
     var metadata = { locals: { foo: "bar" } };
     var path =
       test.blogDirectory + "/Templates/" + test.template.slug + "/package.json";
 
-    setMetadata(this.template.id, metadata, function(err) {
+    setMetadata(this.template.id, metadata, function (err) {
       if (err) return done.fail(err);
 
-      writeToFolder(test.blog.id, test.template.id, function(err) {
+      writeToFolder(test.blog.id, test.template.id, function (err) {
         if (err) return done.fail(err);
         expect(fs.readJsonSync(path).locals).toEqual(metadata.locals);
         done();
@@ -43,20 +43,20 @@ describe("template", function() {
     });
   });
 
-  it("writes view metadata to package.json to a folder", function(done) {
+  it("writes view metadata to package.json to a folder", function (done) {
     var test = this;
     var view = {
       name: test.fake.random.word() + ".html",
       content: test.fake.random.word(),
-      locals: { foo: "bar" }
+      locals: { foo: "bar" },
     };
     var path =
       test.blogDirectory + "/Templates/" + test.template.slug + "/package.json";
 
-    setView(this.template.id, view, function(err) {
+    setView(this.template.id, view, function (err) {
       if (err) return done.fail(err);
 
-      writeToFolder(test.blog.id, test.template.id, function(err) {
+      writeToFolder(test.blog.id, test.template.id, function (err) {
         if (err) return done.fail(err);
         expect(fs.readJsonSync(path).views[view.name].locals).toEqual(
           view.locals

@@ -10,7 +10,7 @@ var monthNames = [
   "September",
   "October",
   "November",
-  "December"
+  "December",
 ];
 
 module.exports = function prettyDate(date) {

@@ -3,7 +3,7 @@ var database = require("./database");
 var debug = require("debug")("blot:clients:dropbox:write");
 var createClient = require("./util/createClient");
 var fs = require("fs-extra");
-var localPath = require("helper").localPath;
+var localPath = require("helper/localPath");
 var retry = require("./util/retry");
 
 // Write should only ever be called inside the function returned
@@ -13,7 +13,7 @@ function write(blogID, path, contents, callback) {
 
   debug("Blog:", blogID, "Writing", path);
 
-  database.get(blogID, function(err, account) {
+  database.get(blogID, function (err, account) {
     if (err || !account) return callback(err || new Error("No account"));
 
     client = createClient(account.access_token);
@@ -29,15 +29,15 @@ function write(blogID, path, contents, callback) {
         contents: contents,
         autorename: false,
         mode: { ".tag": "overwrite" },
-        path: pathInDropbox
+        path: pathInDropbox,
       })
-      .then(function() {
+      .then(function () {
         return fs.outputFile(pathOnBlot, contents);
       })
-      .then(function() {
+      .then(function () {
         callback(null);
       })
-      .catch(function(err) {
+      .catch(function (err) {
         callback(err);
       });
   });

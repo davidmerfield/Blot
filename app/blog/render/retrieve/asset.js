@@ -1,6 +1,6 @@
-module.exports = function(req, callback) {
-  return callback(null, function() {
-    return function(text, render) {
+module.exports = function (req, callback) {
+  return callback(null, function () {
+    return function (text, render) {
       var extension;
       var ends_with = Ends_With(text);
       var starts_with = Starts_With(text);
@@ -22,13 +22,13 @@ module.exports = function(req, callback) {
 var assert = require("assert");
 
 function Ends_With(str) {
-  return function(token) {
+  return function (token) {
     return str.slice(-token.length) === token;
   };
 }
 
 function Starts_With(str) {
-  return function(token) {
+  return function (token) {
     return str.slice(0, token.length) === token;
   };
 }

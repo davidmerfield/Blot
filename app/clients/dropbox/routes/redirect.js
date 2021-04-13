@@ -1,6 +1,6 @@
 var Dropbox = require("dropbox").Dropbox;
 var config = require("config");
-module.exports = function(req, res) {
+module.exports = function (req, res) {
   var callback, key, secret, authentication_url;
 
   callback =
@@ -17,7 +17,7 @@ module.exports = function(req, res) {
 
   var client = new Dropbox({
     clientId: key,
-    secret: secret
+    secret: secret,
   });
 
   authentication_url = client.getAuthenticationUrl(callback, null, "code");

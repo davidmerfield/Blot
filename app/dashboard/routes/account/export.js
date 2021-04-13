@@ -1,36 +1,36 @@
 var Entries = require("entries");
 var Template = require("template");
+var Redirects = require("redirects");
+var Tags = require("tags");
 var async = require("async");
 var Express = require("express");
 var Export = new Express.Router();
 
-Export.route("/")
-.get(function(req, res) {
+Export.route("/").get(function (req, res) {
   res.render("account/export", {
     title: "Export your data",
-    breadcrumb: "Export"
+    breadcrumb: "Export",
   });
 });
 
-Export.route("/account.json")
-.get(function(req, res, next) {
+Export.route("/account.json").get(function (req, res, next) {
   var blogs = {};
 
   async.each(
     req.blogs || [],
-    function(blog, nextBlog) {
+    function (blog, nextBlog) {
       var templates = {};
 
-      Template.getTemplateList(blog.id, function(err, res) {
+      Template.getTemplateList(blog.id, function (err, res) {
         if (err) return next(err);
 
         async.each(
           res,
-          function(template, nextTemplate) {
+          function (template, nextTemplate) {
             // Don't include Global templates in this file...
             if (template.owner === "SITE") return nextTemplate();
 
-            Template.getAllViews(template.id, function(err, allviews) {
+            Template.getAllViews(template.id, function (err, allviews) {
               if (err) return next(err);
 
               template.views = allviews;
@@ -39,23 +39,29 @@ Export.route("/account.json")
               nextTemplate();
             });
           },
-          function() {
-            Entries.getAll(blog.id, function(entries) {
-              blog.entries = entries;
-              blog.templates = templates;
+          function () {
+            Redirects.list(blog.id, function (err, redirects) {
+              Tags.list(blog.id, function (err, tags) {
+                Entries.getAll(blog.id, function (entries) {
+                  blog.redirects = redirects;
+                  blog.entries = entries;
+                  blog.tags = tags;
+                  blog.templates = templates;
 
-              blogs[blog.handle] = blog;
+                  blogs[blog.handle] = blog;
 
-              nextBlog();
+                  nextBlog();
+                });
+              });
             });
           }
         );
       });
     },
-    function() {
+    function () {
       var result = {
         user: req.user,
-        blogs: blogs
+        blogs: blogs,
       };
 
       res.setHeader("Content-Type", "application/json");

@@ -1,14 +1,14 @@
-describe("blog server vhosts", function() {
+describe("blog server vhosts", function () {
   var vhosts = require("../vhosts");
   var config = require("config");
 
-  it("extracts a blot domain", function(done) {
+  it("extracts a blot domain", function (done) {
     var ctx = this;
     var host = this.blog.handle + "." + config.host;
 
     this.url("http://" + host);
 
-    vhosts(this.req, this.res, function(err) {
+    vhosts(this.req, this.res, function (err) {
       expect(err).not.toBeDefined();
       expect(ctx.req.originalHost).toEqual(host);
       expect(ctx.req.blog).toEqual(jasmine.any(Object));
@@ -16,7 +16,7 @@ describe("blog server vhosts", function() {
     });
   });
 
-  it("extracts a preview domain for one of Blot's template", function(done) {
+  it("extracts a preview domain for one of Blot's template", function (done) {
     var ctx = this;
     var template = "default";
     var host =
@@ -24,7 +24,7 @@ describe("blog server vhosts", function() {
 
     this.url("http://" + host);
 
-    vhosts(this.req, this.res, function(err) {
+    vhosts(this.req, this.res, function (err) {
       expect(err).not.toBeDefined();
       expect(ctx.req.originalHost).toEqual(host);
       expect(ctx.req.preview).toEqual(true);
@@ -34,7 +34,7 @@ describe("blog server vhosts", function() {
     });
   });
 
-  it("extracts a preview domain for one of the user's template", function(done) {
+  it("extracts a preview domain for one of the user's template", function (done) {
     var ctx = this;
     var template = "default";
     var host =
@@ -42,7 +42,7 @@ describe("blog server vhosts", function() {
 
     this.url("http://" + host);
 
-    vhosts(this.req, this.res, function(err) {
+    vhosts(this.req, this.res, function (err) {
       expect(err).not.toBeDefined();
       expect(ctx.req.originalHost).toEqual(host);
       expect(ctx.req.preview).toEqual(true);
@@ -54,15 +54,15 @@ describe("blog server vhosts", function() {
 
   global.test.blog();
 
-  beforeEach(function() {
+  beforeEach(function () {
     var ctx = this;
 
-    ctx.url = function(url) {
+    ctx.url = function (url) {
       ctx.url = require("url").parse(url);
     };
 
     ctx.req = {
-      get: function() {
+      get: function () {
         return ctx.url.hostname;
       },
       url: ctx.url.pathname,
@@ -70,8 +70,8 @@ describe("blog server vhosts", function() {
     };
 
     ctx.res = {
-      set: function() {},
-      removeHeader: function() {},
+      set: function () {},
+      removeHeader: function () {},
     };
   });
 });

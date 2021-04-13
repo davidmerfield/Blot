@@ -1,7 +1,6 @@
 var fs = require("fs-extra");
-var join = require("path").join;
 var cheerio = require("cheerio");
-var helper = require("../../helper");
+var helper = require("dashboard/routes/importer/helper");
 
 var insert_video_embeds = helper.insert_video_embeds;
 var determine_path = helper.determine_path;
@@ -10,7 +9,6 @@ var insert_metadata = helper.insert_metadata;
 var to_markdown = helper.to_markdown;
 var for_each = helper.for_each;
 
-var extract_author = require("./extract_author");
 var extract_tags = require("./extract_tags");
 var extract_summary = require("./extract_summary");
 var find_thumbnail = require("./find_thumbnail");
@@ -27,10 +25,10 @@ function main(output_directory, blog, callback) {
 
   for_each(
     blog.posts,
-    function(post, next) {
+    function (post, next) {
       // console.log(post.title, post.url);
 
-      var created, updated, path_without_extension, author;
+      var created, updated;
       var dateStamp, tags, draft, page, metadata, summary;
       var $, content, title, html, url;
 
@@ -39,19 +37,12 @@ function main(output_directory, blog, callback) {
       html = post.html;
       url = post.url;
 
-      var date_string = url
-        .split("/")
-        .slice(3, 6)
-        .join("/");
+      var date_string = url.split("/").slice(3, 6).join("/");
 
       created = updated = dateStamp = new Date(date_string).valueOf();
       draft = page = false;
       metadata = {};
       tags = extract_tags(html);
-      path_without_extension = join(
-        output_directory,
-        determine_path(title, page, draft, dateStamp)
-      );
 
       content = insert_video_embeds(content);
 
@@ -79,7 +70,6 @@ function main(output_directory, blog, callback) {
         name: "",
         permalink: "",
         summary: summary,
-        path: path_without_extension,
         html: content,
         title: title,
 
@@ -92,10 +82,12 @@ function main(output_directory, blog, callback) {
         // Clean up the contents of the <content>
         // tag. Evernote has quite a lot of cruft.
         // Then convert into Markdown!
-        content: content
+        content: content,
       };
 
-      download_images(post, function(err, post) {
+      post = determine_path(post);
+
+      download_images(post, function (err, post) {
         if (err) throw err;
 
         $ = cheerio.load(post.html, { decodeEntities: false });
@@ -108,14 +100,14 @@ function main(output_directory, blog, callback) {
         post = insert_metadata(post);
 
         console.log(++done + "/" + blog.posts.length, "...", post.path);
-        fs.outputFile(post.path, post.content, function(err) {
+        fs.outputFile(post.path, post.content, function (err) {
           if (err) return callback(err);
 
           next();
         });
       });
     },
-    function() {
+    function () {
       callback(null, blog);
     }
   );
@@ -137,19 +129,14 @@ if (require.main === module) {
   // blog.posts = blog.posts.slice(0, 100);
 
   if (filter)
-    blog.posts = blog.posts.filter(function(post) {
-      return (
-        post.url
-          .trim()
-          .toLowerCase()
-          .indexOf(filter) > -1
-      );
+    blog.posts = blog.posts.filter(function (post) {
+      return post.url.trim().toLowerCase().indexOf(filter) > -1;
     });
 
-  fs.emptyDir(output_directory, function(err) {
+  fs.emptyDir(output_directory, function (err) {
     if (err) throw err;
 
-    main(output_directory, blog, function(err) {
+    main(output_directory, blog, function (err) {
       if (err) throw err;
 
       console.log("Complete!");

@@ -23,30 +23,28 @@
   <div class="entry pv0  w-80 b--black-10" >
     
 
-<div class="measure-wide lh-copy f5 black-90" style="position:relative">
-{{{body}}}
-</div>
+    <div class="measure-wide lh-copy f5 black-90" style="position:relative">
+    {{{body}}}
+    </div>
 
 </div>
 
 {{/entry}}
 
-{{#recent_entries}}{{/recent_entries}}
-
-{{#entry}}
-
-{{^page}}  
-
 <div class="bt b--black-10 mv4"></div>
 
 {{> pluginHTML}}
+
+{{^entry.page}}  
+
 
 <div class="cf mt6"></div>
 
 <div class="w-50 fl pr4">
 
 <span class="db f6 bt b--black-10 black-50 pv3">Up next</span>
-  
+
+{{#entry}}  
 {{#previous}}
 <a href="{{{url}}}" class="db pb3 lh-title  dim no-underline">
 <span class="db">
@@ -86,7 +84,7 @@
   {{/next.thumbnail.medium}}  
 </a>
 {{/next}}
-
+{{/entry}}
 </div>
   
   
@@ -106,8 +104,7 @@
   </a>
 {{/recent_entries}}
 </div>
-{{/page}}
-{{/entry}}
+{{/entry.page}}
 
 
 <div class="cf"></div>

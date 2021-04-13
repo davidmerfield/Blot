@@ -2,7 +2,7 @@ var Git = require("simple-git");
 var debug = require("debug")("blot:clients:git:checkGitRepoExists");
 var fs = require("fs-extra");
 
-module.exports = function(blogDirectory, callback) {
+module.exports = function (blogDirectory, callback) {
   var git;
 
   // Throws an error if folder does not exist
@@ -20,7 +20,7 @@ module.exports = function(blogDirectory, callback) {
   // repo in the user's blog's folder. So we use this git command which
   // tells us the top level of the current git repository:
 
-  git.revparse(["--show-toplevel"], function(err, pathToGitRepository) {
+  git.revparse(["--show-toplevel"], function (err, pathToGitRepository) {
     if (err) {
       return callback(new Error(err));
     }
@@ -38,7 +38,7 @@ module.exports = function(blogDirectory, callback) {
           blogDirectory +
           " exists? " +
           fs.existsSync(blogDirectory),
-        "Match? " + pathToGitRepository === blogDirectory
+        "Match? " + pathToGitRepository === blogDirectory,
       ];
 
       return callback(new Error(message.join("\n")));

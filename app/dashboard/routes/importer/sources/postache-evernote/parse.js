@@ -1,7 +1,6 @@
 var fs = require("fs-extra");
-var join = require("path").join;
 var moment = require("moment");
-var helper = require("../../helper");
+var helper = require("dashboard/routes/importer/helper");
 
 var forEach = helper.for_each;
 var Extract = helper.extract;
@@ -13,19 +12,19 @@ var extract_html = require("./extract_html");
 var extract_files = require("./extract_files");
 var replace_images = require("./replace_images");
 
-module.exports = function($, output_directory, callback) {
+module.exports = function ($, output_directory, callback) {
   var blog = {
     title: "",
     host: "",
-    posts: []
+    posts: [],
   };
 
-  extract_files($, output_directory, function(err, files) {
+  extract_files($, output_directory, function (err, files) {
     if (err) return callback(err);
 
     forEach(
       $("note"),
-      function(i, el, next) {
+      function (i, el, next) {
         var extract, created, updated, metadata, path_without_extension;
         var title, dateStamp, tags, draft, page, html, post, path;
 
@@ -49,7 +48,7 @@ module.exports = function($, output_directory, callback) {
         //
         draft = tags.indexOf("published") === -1;
         page = tags.indexOf("page") > -1;
-        tags = tags.filter(function(tag) {
+        tags = tags.filter(function (tag) {
           return ["published", "page"].indexOf(tag) === -1;
         });
 
@@ -70,12 +69,7 @@ module.exports = function($, output_directory, callback) {
 
         html = extract_html(extract("content"), files);
 
-        path_without_extension = join(
-          output_directory,
-          determine_path(title, page, draft, dateStamp)
-        );
-
-        replace_images(html, files, path_without_extension, function(
+        replace_images(html, files, path_without_extension, function (
           err,
           html,
           has_images
@@ -100,7 +94,6 @@ module.exports = function($, output_directory, callback) {
             name: "",
             permalink: "",
             summary: "",
-            path: path,
 
             title: extract("title"),
 
@@ -113,12 +106,14 @@ module.exports = function($, output_directory, callback) {
             // Clean up the contents of the <content>
             // tag. Evernote has quite a lot of cruft.
             // Then convert into Markdown!
-            content: to_markdown(html)
+            content: to_markdown(html),
           };
+
+          post = determine_path(post);
 
           post = insert_metadata(post);
 
-          fs.outputFile(post.path, post.content, function(err) {
+          fs.outputFile(post.path, post.content, function (err) {
             if (err) return callback(err);
 
             next();

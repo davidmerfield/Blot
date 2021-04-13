@@ -1,6 +1,6 @@
-var User = require("../../app/models/user");
-var Blog = require("../../app/models/blog");
-var forEach = require("../../app/helper").forEach;
+var User = require("models/user");
+var Blog = require("models/blog");
+var async = require("async");
 var get = require("../get/user");
 var each = require("../each/user");
 var config = require("config");
@@ -43,12 +43,11 @@ function main(user, callback) {
 
   async.map(
     user.blogs,
-    function(blogID, next) {
+    function (blogID, next) {
       Blog.get({ id: blogID }, next);
     },
-    function(err, blogs) {
-      blogs.forEach(function(blog) {
-        
+    function (err, blogs) {
+      blogs.forEach(function (blog) {
         if (!blog) {
           message.push(colors.red("Warning no blog with ID " + user.blogs));
           return;
@@ -74,18 +73,18 @@ function main(user, callback) {
           colors.yellow(user.email) +
           "? (y/n)"
       );
-      yesno.ask(message.join("\n"), true, function(ok) {
+      yesno.ask(message.join("\n"), true, function (ok) {
         if (!ok) {
           console.log(colors.red("Did not disable " + user.email));
           return callback();
         }
-        forEach(
+        async.eachSeries(
           user.blogs,
-          function(blogID, next) {
+          function (blogID, next) {
             Blog.set(blogID, { isDisabled: true }, next);
           },
-          function() {
-            User.set(user.uid, { isDisabled: true }, function(err) {
+          function () {
+            User.set(user.uid, { isDisabled: true }, function (err) {
               if (err) return callback(err);
               console.log(colors.green("Disabled " + user.email));
               callback();
@@ -98,9 +97,9 @@ function main(user, callback) {
 }
 
 if (process.argv[2]) {
-  get(process.argv[2], function(err, user) {
+  get(process.argv[2], function (err, user) {
     if (err) throw err;
-    main(user, function(err) {
+    main(user, function (err) {
       if (err) throw err;
       process.exit();
     });
@@ -108,7 +107,7 @@ if (process.argv[2]) {
 } else {
   console.log("Searching for users to disable");
   each(
-    function(user, next) {
+    function (user, next) {
       if (user.isDisabled) return next();
 
       // If the user doesn't have a Stripe subscription
@@ -132,7 +131,7 @@ if (process.argv[2]) {
       stripe.customers.retrieveSubscription(
         user.subscription.customer,
         user.subscription.id,
-        function(err, subscription) {
+        function (err, subscription) {
           if (err && err.code === "resource_missing" && err.param === "id") {
             console.log(
               "used to have a Stripe subscription but no longer does, customer does not exist on Stripe"
@@ -166,7 +165,7 @@ if (process.argv[2]) {
         }
       );
     },
-    function(err) {
+    function (err) {
       if (err) throw err;
       console.log("Search complete!");
       process.exit();

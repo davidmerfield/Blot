@@ -1,8 +1,9 @@
-var insert_video_embeds = require("../../../helper").insert_video_embeds;
+var insert_video_embeds = require("dashboard/routes/importer/helper")
+  .insert_video_embeds;
 var debug = require("debug")("blot:importer:wordpress:tidy");
 var remove_inline_images = require("./remove_inline_images.js");
 
-module.exports = function(entry, callback) {
+module.exports = function (entry, callback) {
   var html = entry.html;
 
   html = fix_missing_p_tags(html);
@@ -77,7 +78,7 @@ function fix_missing_p_tags(html) {
   // console.log('----');
 
   html = html.split("\n\n");
-  html = html.map(function(line) {
+  html = html.map(function (line) {
     return "<p>" + line + "</p>";
   });
   html = html.join("\n\n");

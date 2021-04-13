@@ -1,5 +1,6 @@
-var helper = require("helper");
-var amountInWords = helper.amountInWords;
+var amountInWords = require("helper/amountInWords");
+var prettyDate = require("helper/prettyDate");
+var prettyPrice = require("helper/prettyPrice");
 
 module.exports = function extend(user) {
   // True if the user has set a password, false otherwise
@@ -19,10 +20,8 @@ module.exports = function extend(user) {
       user.pretty.amount = subscription.quantity;
       user.pretty.s = subscription.quantity === 1 ? "" : "s";
       user.pretty.amount_in_words = amountInWords(subscription.quantity);
-      user.pretty.expiry = helper.prettyDate(
-        subscription.current_period_end * 1000
-      );
-      user.pretty.price = helper.prettyPrice(
+      user.pretty.expiry = prettyDate(subscription.current_period_end * 1000);
+      user.pretty.price = prettyPrice(
         subscription.plan.amount * subscription.quantity
       );
     }

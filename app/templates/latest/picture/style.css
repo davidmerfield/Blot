@@ -349,13 +349,13 @@ font-feature-settings: 'tnum';
     position: relative;
   }
 
-
 .body ul li:before {
   content: "–";
   position: absolute;
   left: -1.4em;
 }
 
+.body ul.task-list { list-style-type: none; }
 
 .body p {
   margin: 1.4em 0

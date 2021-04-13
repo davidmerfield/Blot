@@ -2,6 +2,7 @@ var PUBLIC = require("./scheme").PUBLIC;
 var config = require("config");
 var url = require("./url");
 var protocol = "https";
+var punycode = require("helper/punycode");
 
 if (config.environment === "development") protocol = "http";
 
@@ -23,7 +24,7 @@ module.exports = function extend(blog) {
     for (var i in blog.menu) {
       // External links have a timestamp
       // as their ID, pages have their entry ID
-      if (blog.menu[i].id[0] === '/') {
+      if (blog.menu[i].id[0] === "/") {
         blog.menu[i].isPage = true;
       }
     }
@@ -44,7 +45,8 @@ module.exports = function extend(blog) {
 
   if (blog.domain) {
     blog.url = protocol + "://" + blog.domain;
-    blog.pretty.url = blog.domain;
+    blog.pretty.url = punycode.toUnicode(blog.domain);
+    blog.pretty.domain = punycode.toUnicode(blog.domain);
   }
 
   blog.blogURL = protocol + "://" + blog.handle + "." + config.host;
@@ -56,7 +58,7 @@ module.exports = function extend(blog) {
     feedURL: blog.feedURL,
     blogURL: blog.blogURL,
     cssURL: blog.cssURL,
-    scriptURL: blog.scriptURL
+    scriptURL: blog.scriptURL,
   };
 
   // Import blog info into

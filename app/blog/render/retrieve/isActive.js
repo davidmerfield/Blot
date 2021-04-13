@@ -1,11 +1,10 @@
-var helper = require("helper");
-var normalize = helper.urlNormalizer;
+var normalize = require("helper/urlNormalizer");
 
-module.exports = function(req, callback) {
-  return callback(null, function() {
+module.exports = function (req, callback) {
+  return callback(null, function () {
     var url = normalize(req.url) || "/";
 
-    return function(text) {
+    return function (text) {
       var active = "";
 
       if (text === url) active = "active";

@@ -1,8 +1,8 @@
-module.exports = function(req, res, next) {
+module.exports = function (req, res, next) {
   var _render = res.render;
   var wrapper;
   res._render = _render;
-  res.render = function(view, locals, callback) {
+  res.render = function (view, locals, callback) {
     if (view === "error") {
       res.locals.partials = res.locals.partials || {};
       res.locals.partials.head = __dirname + "/views/partials/head";
@@ -20,18 +20,6 @@ module.exports = function(req, res, next) {
       wrapper = __dirname + "/views/partials/wrapper-public.html";
 
       return _render.call(this, wrapper, locals, callback);
-    }
-
-    if (
-      view.indexOf("create-blog") > -1 ||
-      view.indexOf("wrapper-setup") > -1
-    ) {
-      res.locals.partials = res.locals.partials || {};
-      res.locals.partials.head = __dirname + "/views/partials/head";
-      res.locals.partials.dropdown = __dirname + "/views/partials/dropdown";
-      res.locals.partials.footer = __dirname + "/views/partials/footer";
-
-      return _render.call(this, view, locals, callback);
     }
 
     if (req.query.setup)

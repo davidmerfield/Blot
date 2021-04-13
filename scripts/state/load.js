@@ -3,7 +3,7 @@ require("../only_locally");
 var fs = require("fs-extra");
 var exec = require("child_process").exec;
 var redis = require("redis");
-
+var cp = require("child_process");
 var ROOT = process.env.BLOT_DIRECTORY;
 
 var DATA_DIRECTORY = ROOT + "/data";
@@ -20,12 +20,22 @@ function main(label, callback) {
   if (!fs.existsSync(directory))
     return callback(new Error("No state " + label));
 
-  loadDB(directory, function(err) {
+  cp.execSync("pg_ctl stop -D " + DATA_DIRECTORY + "/db/postgres", {
+    stdio: "inherit",
+  });
+
+  loadDB(directory, function (err) {
     if (err) return callback(err);
 
     fs.emptyDirSync(DATA_DIRECTORY);
     fs.ensureDirSync(directory + "/data");
     fs.copySync(directory + "/data", DATA_DIRECTORY);
+
+    // Why stdio: inherit?
+    // https://github.com/shelljs/shelljs/issues/770#issuecomment-329357465
+    cp.execSync("pg_ctl start -D " + DATA_DIRECTORY + "/db/postgres", {
+      stdio: "inherit",
+    });
 
     fs.emptyDirSync(BLOG_FOLDERS_DIRECTORY);
     fs.ensureDirSync(directory + "/blogs");
@@ -50,16 +60,13 @@ function loadDB(directory, callback) {
 
   // If redis was already shut down, then
   // we won't be able to execute the multi()
-  client.on("error", function(err) {
+  client.on("error", function (err) {
     if (err.code === "ECONNREFUSED") {
       then();
     }
   });
 
-  multi
-    .config("SET", "appendonly", "no")
-    .config("SET", "save", "")
-    .shutdown();
+  multi.config("SET", "appendonly", "no").config("SET", "save", "").shutdown();
 
   multi.exec(then);
 
@@ -69,9 +76,8 @@ function loadDB(directory, callback) {
     exec(
       "redis-server " + ROOT + "/config/redis.conf",
       { silent: true },
-      function(err) {
+      function (err) {
         if (err) return callback(err);
-
         callback(null);
       }
     );
@@ -79,7 +85,7 @@ function loadDB(directory, callback) {
 }
 
 if (require.main === module) {
-  main(process.argv[2], function(err) {
+  main(process.argv[2], function (err) {
     if (err) throw err;
     process.exit();
   });

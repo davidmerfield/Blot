@@ -1,5 +1,5 @@
 var moment = require("moment");
-var lineReader = require("helper").lineReader;
+var lineReader = require("helper/lineReader");
 
 if (require.main === module) {
   var range = process.argv[2] || "hours";
@@ -15,17 +15,19 @@ if (require.main === module) {
     throw new Error("Only use day or month for range");
   }
 
-  main({ range: range, number: number }, function(err, res) {
-
-    console.log(res.errors.join('\n'));
-    console.log('--------------------------------------------------');
+  main({ range: range, number: number }, function (err, res) {
+    console.log(res.errors.join("\n"));
+    console.log("--------------------------------------------------");
     console.log(
       res.errors.length +
         " requests errored out of " +
         res.hits +
         " total (" +
         ((res.errors.length / res.hits) * 100).toFixed(2) +
-        "%) in previous " + number + " " + range
+        "%) in previous " +
+        number +
+        " " +
+        range
     );
   });
 }
@@ -33,7 +35,7 @@ function main(options, callback) {
   var hits = 0;
   var errors = [];
   lineReader
-    .eachLine(__dirname + "/../../logs/nginx.log", function(line, last) {
+    .eachLine(__dirname + "/../../logs/nginx.log", function (line, last) {
       // Last line of file is often empty
       if (!line) return true;
 
@@ -62,10 +64,10 @@ function main(options, callback) {
         return false;
       }
     })
-    .then(function() {
+    .then(function () {
       callback(null, {
         hits: hits,
-        errors: errors
+        errors: errors,
       });
     });
 }

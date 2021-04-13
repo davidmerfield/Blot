@@ -23,7 +23,7 @@ function urlNormalizer(url) {
   return url.toLowerCase();
 }
 
-var is = require("./is")(urlNormalizer);
+var is = require("./_is")(urlNormalizer);
 
 is("", "");
 is("/", "/");

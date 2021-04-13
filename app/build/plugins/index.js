@@ -1,14 +1,12 @@
 var config = require("config");
-var helper = require("helper");
 var marked = require("marked");
 var cheerio = require("cheerio");
 var fs = require("fs");
-var ensure = helper.ensure;
-var callOnce = helper.callOnce;
-var extend = helper.extend;
-var deCamelize = helper.deCamelize;
-var log = new helper.logg("PLUGIN");
-var time = helper.time;
+var ensure = require("helper/ensure");
+var callOnce = require("helper/callOnce");
+var extend = require("helper/extend");
+var deCamelize = require("helper/deCamelize");
+var time = require("helper/time");
 var async = require("async");
 
 // Wait 10 minutes to go to next plugin
@@ -44,12 +42,12 @@ function convert(blog, path, contents, callback) {
     domain: blog.domain,
     blogID: blog.id,
     path: path,
-    baseURL: "https://" + blog.handle + "." + config.host
+    baseURL: "https://" + blog.handle + "." + config.host,
   };
 
   async.eachSeries(
     prerenderers,
-    function(plugin, next) {
+    function (plugin, next) {
       var id, blogOptions, options, prerender, timeout;
 
       id = plugin.id;
@@ -67,9 +65,7 @@ function convert(blog, path, contents, callback) {
       options = {};
       prerender = plugin.prerender;
 
-      extend(options)
-        .and(blogOptions)
-        .and(globalOptions);
+      extend(options).and(blogOptions).and(globalOptions);
 
       // We wrap the callback passed to the function
       // to ensure its called once. This allows us
@@ -80,7 +76,7 @@ function convert(blog, path, contents, callback) {
 
       prerender(
         contents,
-        function(err, result) {
+        function (err, result) {
           time.end(id);
           clearTimeout(timeout);
 
@@ -91,13 +87,13 @@ function convert(blog, path, contents, callback) {
         options
       );
     },
-    function() {
+    function () {
       // Don't decode entities, preserve the original content
       var $ = cheerio.load(contents, { decodeEntities: false });
 
       async.eachSeries(
         plugins,
-        function(plugin, next) {
+        function (plugin, next) {
           var id, options, blogOptions, timeout;
 
           id = plugin.id;
@@ -111,9 +107,7 @@ function convert(blog, path, contents, callback) {
           options = {};
           blogOptions = blog.plugins[id] ? blog.plugins[id].options : {};
 
-          extend(options)
-            .and(blogOptions)
-            .and(globalOptions);
+          extend(options).and(blogOptions).and(globalOptions);
 
           // We wrap the callback passed to the function
           // to ensure its called once. This allows us
@@ -124,7 +118,7 @@ function convert(blog, path, contents, callback) {
 
           plugin.render(
             $,
-            function() {
+            function () {
               time.end(id);
               clearTimeout(timeout);
 
@@ -133,7 +127,7 @@ function convert(blog, path, contents, callback) {
             options
           );
         },
-        function() {
+        function () {
           // Return the entry's completed HTML
           // pass the HTML so it can be rendered totally tast
           callback(null, $.html());
@@ -195,7 +189,7 @@ function loadPlugins(dir) {
   var _plugins = [];
   var _prerenderers = [];
 
-  fs.readdirSync(dir).forEach(function(name) {
+  fs.readdirSync(dir).forEach(function (name) {
     // Ignore this file (index.js) and sys files
     if (name[0] === ".") return;
     if (name.slice(-3) === ".js") return;
@@ -250,20 +244,20 @@ function loadPlugins(dir) {
     // default plugins for each user
     defaultPlugins[name] = {
       enabled: plugin.isDefault,
-      options: plugin.options || {}
+      options: plugin.options || {},
     };
   });
 
   return {
     plugins: _plugins,
     prerenderers: _prerenderers,
-    list: _list
+    list: _list,
   };
 }
 
 function Timeout(name, cb) {
-  return setTimeout(function() {
-    log.debug(name + " timed out. Moving to next plugin.");
+  return setTimeout(function () {
+    console.log(name + " timed out. Moving to next plugin.");
     cb();
   }, TIMEOUT);
 }
@@ -272,5 +266,5 @@ module.exports = {
   convert: convert,
   load: load,
   list: list,
-  defaultList: defaultPlugins
+  defaultList: defaultPlugins,
 };

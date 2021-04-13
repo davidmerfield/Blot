@@ -5,7 +5,7 @@ var formats = ["D/M/YYYY", "M/D/YYYY", "YYYY/M/D"];
 var alias = {
   "D/M/YYYY": "Day-Month-Year",
   "M/D/YYYY": "Month-Day-Year",
-  "YYYY/M/D": "Year-Month-Day"
+  "YYYY/M/D": "Year-Month-Day",
 };
 
 var displays = [
@@ -16,31 +16,28 @@ var displays = [
   "MMMM D, Y [at] h:mma",
   "D MMMM Y",
   "Y-MM-DD",
-  "Y-MM-DD HH:mm"
+  "Y-MM-DD HH:mm",
 ];
 
-module.exports = function(req, res, next) {
+module.exports = function (req, res, next) {
   var displayFormats = [];
   var dateFormats = [];
 
-  formats.forEach(function(format) {
+  formats.forEach(function (format) {
     dateFormats.push({
       value: format,
       selected: format === req.blog.dateFormat ? "selected" : "",
-      date: alias[format]
+      date: alias[format],
     });
   });
 
-  displays.forEach(function(display) {
-    var now = moment
-      .utc(Date.now())
-      .tz(req.blog.timeZone)
-      .format(display);
+  displays.forEach(function (display) {
+    var now = moment.utc(Date.now()).tz(req.blog.timeZone).format(display);
 
     displayFormats.push({
       value: display,
       selected: display === req.blog.dateDisplay ? "selected" : "",
-      date: now
+      date: now,
     });
   });
 

@@ -1,18 +1,28 @@
-<p id="error" class="error">{{error}}</p>
 
-<p style="max-width:380px">A blog costs <strong>{{price}} per {{interval}}</strong> and includes hosting and support. You can cancel at any point. You must agree to the <a href="/terms" style="color: inherit;text-decoration: underline;">terms of use</a>.</p>
+
+
+
+  <p style="margin:0;color:grey;background:rgba(0,0,0,0.02);border-bottom: 1px solid var(--light-border-color);padding-bottom: 16px;margin:-17px -25px 0;padding: 16px 24px;border-radius: 6px 6px 0 0"><strong style="display: block;color: #000;">Create a blog</strong>Sign up</p>
+
+
+{{#if error}}
+<p id="error" class="error">{{error}}</p>
+{{/if}}
+{{#unless error}}
+<p id="error" class="error" style="display: none"></p>
+{{/unless}}
+
+<p style="margin: 24px 0 -8px">A blog costs <strong>{{price}} per {{interval}}</strong> and includes hosting and support. You can cancel at any point. You must agree to the <a href="/terms" style="color: inherit;text-decoration: underline;">terms of use</a>.</p>
 
 <noscript>
   <p class="error"><mark>Enable JavaScript to purchase an account.</mark> Payments are processed by Stripe without touching Blot's servers. This requires JavaScript.</p>
 </noscript>
 
-<form method="POST" style="width:330px">
-
+<form method="POST" style="margin-top: 2em;">
   <p>
     <label for="email">Your email address</label>
     <input type="text" class="email" name="email" autofocus />
   </p>
-
 
   <p style="margin-bottom: 0">
     <label for="number">Card number
@@ -21,32 +31,30 @@
     <input type="text" data-stripe="number" name="number" />
   </p>
 
-  <flex>
+  <div style="display: flex; margin: 1em 0 1em 0;">
+    <div>
+      <label for="month">Expiration date</label>
+      <div style="display: flex;">
+        <input name="exp-month" maxlength="2" placeholder="MM" type="text" data-stripe="exp-month" />
+        <input name="exp-year" maxlength="4" placeholder="YYYY" type="text" size="4" data-stripe="exp-year" />
+      </div>
+    </div>
 
-  <p>
-    <label for="month">Expiration date</label>
-    <flex>
-    <input name="exp-month" maxlength="2" placeholder="MM" type="text" data-stripe="exp-month" />
-    <input name="exp-year" maxlength="4" placeholder="YYYY" type="text" size="4" data-stripe="exp-year" />
-    </flex>
-  </p>
+    <div>
+      <label for="cvc">CVC
+        <em>The CVC is the 3- or 4-digit code on your card, separate from the 16-digit number.</em>
+      </label>
+      <input type="text" size="4" data-stripe="cvc" id="cvc" name="cvc" />
+    </div>
+  </div>
 
-  <p >
-    <label for="cvc">CVC
-      <em>The CVC is the 3- or 4-digit code on your card, separate from the 16-digit number.</em>
-    </label>
-    <input type="text" size="4" data-stripe="cvc" id="cvc" name="cvc" />
-  </p>
-  </flex>
-    <div style="flex-grow:1;margin-right:2em">
-  <p style="margin-bottom:0">
+  <p style="margin:0">
     <label>Amount due today</label>
   </p>
     <hr style="margin:2px 0;border:none;border-top:1px solid rgba(0, 0, 0, .25)">
     <p style="margin-top:4px">{{price}}</p>
-  </div>
-  <input type="submit" value="Submit payment" onclick="this.classList.add('working')"/>
-</flex>
+  <input type="submit" value="Sign up" onclick="this.classList.add('working')"/>
+  <input type="hidden" name="_csrf" value="{{csrf}}" />
   <input type="hidden" class="stripeToken" name="stripeToken" />
 </form>
 
@@ -62,6 +70,9 @@ $('form').submit(function(event) {
   $form
     .find('[type="submit"]')
     .prop('disabled', true);
+
+  $('#error').hide();
+
   // Validate the email address
   var email = $('[name="email"]').val() || '';
   var emailRegex = /[^\s@]+@[^\s@]+\.[^\s@]+/;

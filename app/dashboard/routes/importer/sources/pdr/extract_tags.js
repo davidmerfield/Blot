@@ -1,14 +1,12 @@
 var cheerio = require("cheerio");
 
-module.exports = function(html) {
+module.exports = function (html) {
   var $ = cheerio.load(html, { decodeEntities: false });
-  var class_names = $(".hpy_single_article article")
-    .first()
-    .attr("class");
+  var class_names = $(".hpy_single_article article").first().attr("class");
 
   var tags = class_names
     .split(" ")
-    .filter(function(name) {
+    .filter(function (name) {
       name = name.trim().toLowerCase();
 
       return (
@@ -18,11 +16,8 @@ module.exports = function(html) {
         name.indexOf("article") === -1
       );
     })
-    .map(function(name) {
-      name = name
-        .trim()
-        .toLowerCase()
-        .slice("category-".length);
+    .map(function (name) {
+      name = name.trim().toLowerCase().slice("category-".length);
       name = name.split("-").join(" ");
       name = name[0].toUpperCase() + name.slice(1);
 

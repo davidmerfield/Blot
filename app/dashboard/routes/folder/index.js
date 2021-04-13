@@ -3,10 +3,10 @@ var renderFolder = require("./renderFolder");
 var breadcrumbs = require("./breadcrumbs");
 var determinePath = require("./determinePath");
 var router = require("express").Router();
-var debug = require("../../debug");
+var debug = require("dashboard/debug");
 
 router
-  .use(function(req, res, next) {
+  .use(function (req, res, next) {
     res.locals.partials.entry = "folder/entry";
     res.locals.partials.stat = "folder/stat";
     res.locals.partials.file = "folder/file";
@@ -22,13 +22,13 @@ router
   .use(renderFolder)
   .use(debug("renderFile"))
   .use(renderFile)
-  .use(function(err, req, res, next) {
+  .use(function (err, req, res, next) {
     console.log(err);
     // suppress errors
     next();
   });
 
-router.post("/path", function(req, res) {
+router.post("/path", function (req, res) {
   req.session[req.blog.id] = req.session[req.blog.id] || {};
   req.session[req.blog.id].path = req.body.path || "/";
   return res.redirect(req.body.redirect || "/");

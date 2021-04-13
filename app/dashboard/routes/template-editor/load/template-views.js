@@ -1,9 +1,8 @@
 var Template = require("template");
-var helper = require("helper");
-var arrayify = helper.arrayify;
+var arrayify = require("helper/arrayify");
 
-module.exports = function(req, res, next) {
-  Template.getAllViews(req.template.id, function(err, views, template) {
+module.exports = function (req, res, next) {
+  Template.getAllViews(req.template.id, function (err, views, template) {
     if (err || !views || !template) return next(new Error("No template"));
 
     res.locals.getAllViews = { views, template };
@@ -12,7 +11,7 @@ module.exports = function(req, res, next) {
 
     views.push({ name: "package.json" });
 
-    views.forEach(function(view) {
+    views.forEach(function (view) {
       if (req.params.viewSlug && view.name === req.params.viewSlug)
         view.selected = "selected";
     });
@@ -25,7 +24,7 @@ module.exports = function(req, res, next) {
 };
 
 function sort(arr) {
-  return arr.sort(function(a, b) {
+  return arr.sort(function (a, b) {
     if (a.name < b.name) return -1;
 
     if (a.name > b.name) return 1;

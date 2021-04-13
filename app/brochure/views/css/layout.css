@@ -4,7 +4,7 @@ L A Y O U T . C S S
 ^^^^^^^^^^^^^^^^^^^
 
 All this depends on having a relatively positioned
-container, e.g. body {postion: relative;} otherwise
+container, e.g. body {position: relative;} otherwise
 the absolutely positioned stuff is off the viewport.
 
 */
@@ -40,30 +40,28 @@ the absolutely positioned stuff is off the viewport.
 .column.two {
   width: 48.5%;
   /* (100 - 3 * 1)/2 */
-  margin-right: 3%
+  margin-right: 3%;
 }
 
 .column.three {
   width: 31.333%;
   /* (100 - 3 * 2)/3 */
-  margin-right: 3%
+  margin-right: 3%;
 }
 
 .column.four {
   width: 22.75%;
   /* (100 - 3 * 3)/4 */
-  margin-right: 3%
+  margin-right: 3%;
 }
 
 .column.two:nth-child(2n),
 .column.three:nth-child(3n),
 .column.four:nth-child(4n) {
-  margin-right: 0
+  margin-right: 0;
 }
 
 @media screen and (min-width: 900px) {
-
-
   /* For larger screens, we allow wide things to break out */
 
   .wide {
@@ -76,13 +74,12 @@ the absolutely positioned stuff is off the viewport.
   }
 
   .wide.left {
-    margin-left: -25%
+    margin-left: -25%;
   }
 
   .wide.right {
-    margin-right: -25%
+    margin-right: -25%;
   }
-
 
   /* For larger screens, we allow this to enter the margins */
 

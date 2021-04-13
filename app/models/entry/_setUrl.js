@@ -1,13 +1,12 @@
-var helper = require("helper");
 var async = require("async");
-var ensure = helper.ensure;
+var ensure = require("helper/ensure");
 var _ = require("lodash");
-var urlNormalizer = helper.urlNormalizer;
-var UID = helper.makeUid;
-var makeSlug = helper.makeSlug;
-var withoutExtension = helper.withoutExtension;
+var urlNormalizer = require("helper/urlNormalizer");
+var UID = require("helper/makeUid");
+var makeSlug = require("helper/makeSlug");
+var withoutExtension = require("helper/withoutExtension");
 var redis = require("client");
-var Permalink = require("../../build/prepare/permalink");
+var Permalink = require("build/prepare/permalink");
 var Key = require("./key").url;
 var model = require("./model");
 var Blog = require("blog");
@@ -57,6 +56,7 @@ function Candidates(blog, entry) {
   if (
     !entry.metadata.permalink &&
     !entry.metadata.slug &&
+    !entry.metadata.link &&
     !entry.metadata.url &&
     !entry.page
   ) {
@@ -116,7 +116,7 @@ function Candidates(blog, entry) {
   // We store the decoded version. Not sure if this is a good idea
   // or not but it works for now. Pandoc *en*codes by default.
   // Perhaps I could store both?
-  candidates = candidates.map(function(url) {
+  candidates = candidates.map(function (url) {
     try {
       url = decodeURI(url);
     } catch (e) {
@@ -126,7 +126,7 @@ function Candidates(blog, entry) {
     return url;
   });
 
-  candidates = candidates.filter(function(candidate) {
+  candidates = candidates.filter(function (candidate) {
     if (!candidate) return false;
 
     // WE DONT EVER ADD ENTRY.PATH so images are always accessible
@@ -146,7 +146,7 @@ function Candidates(blog, entry) {
 function check(blogID, candidate, entryID, callback) {
   var key = Key(blogID, candidate);
 
-  redis.get(key, function(err, existingID) {
+  redis.get(key, function (err, existingID) {
     if (err) return callback(err);
 
     // This url is available and unused
@@ -156,7 +156,7 @@ function check(blogID, candidate, entryID, callback) {
     if (existingID === entryID) return callback();
 
     // This url points to a different entry
-    get(blogID, existingID, function(existingEntry) {
+    get(blogID, existingID, function (existingEntry) {
       // For some reason (bug) the url key was
       // set but the entry does not exist. Claim the url.
       if (!existingEntry) return callback();
@@ -180,14 +180,12 @@ function check(blogID, candidate, entryID, callback) {
 
 // this needs to return an error if something went wrong
 // and the finalized, stored url to the entry...
-module.exports = function(blogID, entry, callback) {
-  ensure(blogID, "string")
-    .and(entry, model)
-    .and(callback, "function");
+module.exports = function (blogID, entry, callback) {
+  ensure(blogID, "string").and(entry, model).and(callback, "function");
 
   if (entry.draft || entry.deleted) return callback(null, "");
 
-  Blog.get({ id: blogID }, function(err, blog) {
+  Blog.get({ id: blogID }, function (err, blog) {
     if (err) return callback(err);
 
     // does This cause a memory leak? we sometimes
@@ -195,22 +193,22 @@ module.exports = function(blogID, entry, callback) {
     // if we find a successful candidate.
     async.eachSeries(
       Candidates(blog, entry),
-      function(candidate, next) {
-        check(blogID, candidate, entry.id, function(err, taken) {
+      function (candidate, next) {
+        check(blogID, candidate, entry.id, function (err, taken) {
           if (err) return callback(err);
 
           if (taken) return next();
 
           var key = Key(blogID, candidate);
 
-          redis.set(key, entry.id, function(err) {
+          redis.set(key, entry.id, function (err) {
             if (err) return callback(err);
 
             return callback(null, candidate);
           });
         });
       },
-      function() {
+      function () {
         // if we exhaust the list of candidates, what should happen?
         // just return an error for now... TODO in future, just keep
         // generating UIDS... but whatever for now.

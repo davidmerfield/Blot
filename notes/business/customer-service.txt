@@ -1,0 +1,18 @@
+# Customer service
+
+Almost without exception, every single support request, bug report, customer query, has been conducted with undue politeness and good-grace. 
+
+## Tracking customer requests
+
+We use a single text-file ([todo.txt](https://github.com/davidmerfield/Blot/blob/master/todo.txt)) to track all of the tasks for Blot. Customer requests are entered in this text-file with links to the relevant email correspondence. This text file is used to generate the [news page](/about/news) on this site. 
+
+## Incorporating customer feedback
+
+Blot has a good number of enthusiastic customers willing to correspond with me about their ideas for the service. Plenty of these ideas are good ones and get incorporated into the product. However, not every idea is a good idea and it's important to learn how to politely say no. It's even more important to learn how to say no without spending too much time justifying yourself.  This was much harder at the start of Blot than it is now. 
+
+## Bad habits and common mistakes
+
+- **Ask the customer to provide information that I could find myself**
+  I often find myself asking the customer information that I could look up with a little effort (*what's the URL to your site? which blog post are you having that issue with?*). Firing even a single question back in the customer's direction makes it much more likely the customer will lose interest in the issue and move on.
+- **Taking too long to respond** When the customer request requires a quick bug fix, I found myself waiting to fix the bug before responding to the customer. I believe the polite way to handle things is first to respond saying I am fixing the problem, then follow up with a response when the problem is fixed, rather than leave the customer in the dark until the problem is fixed.
+- **Mistyping the customer's name** Instead of retyping I now always copy-paste the customers name in my response now – I've mistyped too many names.
