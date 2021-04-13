@@ -1,6 +1,5 @@
 const async = require("async");
 const ignore = "head, code, pre, script, style";
-const Entry = require("models/entry");
 
 // RegEx's inspired by this
 // https://stackoverflow.com/questions/478857/wikilinks-turn-the-text-a-into-an-internal-link
@@ -58,12 +57,7 @@ function render($, callback, { blogID, path }) {
       const dirname = require("path").dirname(path);
       const pathToLink = require("path").resolve(dirname, href + '.md');
 
-      console.log('path:', path);
-      console.log('dirname:', dirname);
-      console.log('href:', href);
-      console.log('pathToLink:', pathToLink)
-
-      Entry.get(blogID, pathToLink, (entry) => {
+      require("models/entry").get(blogID, pathToLink, (entry) => {
         if (!entry || !entry.url) return next(err);
 
         $(node).attr("href", entry.url);
