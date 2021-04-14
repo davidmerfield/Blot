@@ -31,7 +31,7 @@ function convertLinks(html) {
 
 function render($, callback, { blogID, path }) {
 
-  const dependencies = [];
+  let dependencies = [];
   
   $(":root").each(function findTextNodes(i, node) {
     if ($(node).is(ignore)) return false;
