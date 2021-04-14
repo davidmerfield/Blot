@@ -55,11 +55,13 @@ function render($, callback, { blogID, path }) {
 
       const href = $(node).attr("href");
       const dirname = require("path").dirname(path);
-      const pathToLink = require("path").resolve(dirname, href + '.md');
+      const pathToLinkWithMD = require("path").resolve(dirname, href + ".md");
+      const pathToLinkWithTXT = require("path").resolve(dirname, href + ".txt");
+      const paths = [pathToLinkWithMD, pathToLinkWithTXT];
 
-      require("models/entry").get(blogID, pathToLink, (entry) => {
-        if (!entry || !entry.url) return next(err);
-
+      require("models/entry").get(blogID, paths, (entries) => {
+        if (!entries || !entries.length) return next();
+        let entry = entries.shift();
         $(node).attr("href", entry.url);
         next();
       });
