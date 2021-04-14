@@ -53,13 +53,14 @@ module.exports = function (blog, path, options, callback) {
 
         // We pass the contents to the plugins for
         // this blog. The resulting HTML is now ready.
-        Plugins(blog, path, html, function (err, html) {
+        Plugins(blog, path, html, function (err, html, newDependencies) {
           debug("Blog:", blog.id, path, "finished plugins");
 
           if (err) return callback(err);
 
           html = fixMustache(html);
-
+          dependencies = dependencies.concat(newDependencies);
+          
           return callback(null, html, metadata, stat, dependencies);
         });
       });

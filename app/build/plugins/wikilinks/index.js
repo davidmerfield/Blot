@@ -30,6 +30,9 @@ function convertLinks(html) {
 }
 
 function render($, callback, { blogID, path }) {
+
+  const dependencies = [];
+  
   $(":root").each(function findTextNodes(i, node) {
     if ($(node).is(ignore)) return false;
 
@@ -59,6 +62,8 @@ function render($, callback, { blogID, path }) {
       const pathToLinkWithTXT = require("path").resolve(dirname, href + ".txt");
       const paths = [pathToLinkWithMD, pathToLinkWithTXT];
 
+      dependencies = dependencies.concat(paths);
+
       require("models/entry").get(blogID, paths, (entries) => {
         if (!entries || !entries.length) return next();
         let entry = entries.shift();
@@ -66,7 +71,9 @@ function render($, callback, { blogID, path }) {
         next();
       });
     },
-    callback
+    function (err) {
+      callback(null, dependencies);
+    }
   );
 }
 

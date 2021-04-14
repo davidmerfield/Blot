@@ -32,6 +32,7 @@ function convert(blog, path, contents, callback) {
     .and(callback, "function");
 
   var enabled = Enabled(blog.plugins);
+  var dependencies = [];
 
   // This is passed to all plugins
   // I need to change this when we move
@@ -118,10 +119,12 @@ function convert(blog, path, contents, callback) {
 
           plugin.render(
             $,
-            function () {
+            function (err, newDependencies) {
               time.end(id);
+              if (newDependencies) {
+                dependencies = dependencies.concat(newDependencies);
+              }
               clearTimeout(timeout);
-
               next();
             },
             options
@@ -130,7 +133,7 @@ function convert(blog, path, contents, callback) {
         function () {
           // Return the entry's completed HTML
           // pass the HTML so it can be rendered totally tast
-          callback(null, $.html());
+          callback(null, $.html(), dependencies);
         }
       );
     }
