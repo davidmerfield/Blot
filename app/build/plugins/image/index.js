@@ -16,6 +16,9 @@ function render($, callback, options) {
       var src = $(el).attr("src");
       var width, height, parsedSrc;
 
+      // The image might not have an src attribute – it happens!
+      if (!src) return next();
+
       try {
         // Test for query string to skip caching & optimizing
         parsedSrc = url.parse(src, { parseQueryString: true });

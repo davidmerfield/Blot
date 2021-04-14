@@ -4,6 +4,7 @@ var isURL = require("./isURL");
 var Keys = require("./keys");
 var HashFile = require("./hash");
 var download = require("./download");
+var type = require("../type");
 var ensure = require("../ensure");
 var fs = require("fs-extra");
 var localPath = require("../localPath");
@@ -39,6 +40,14 @@ function Transformer(blogID, name) {
   var keys = Keys(blogID, name);
 
   function lookup(src, transform, callback) {
+    if (type(src) !== "string") {
+      return callback(new Error("Transformer: src is not a string"));
+    }
+
+    if (type(transform) !== "function") {
+      return callback(new Error("Transformer: transformer is not a function"));
+    }
+
     src = resolveCDNPath(src);
 
     var url = isURL(src);
