@@ -1,12 +1,12 @@
 describe("date integration tests", function () {
   const sync = require("sync");
-  const blogServer = require("blog");
+  const blogServer = require("../../blog");
   const fs = require("fs-extra");
   const Blog = require("models/blog");
   const Template = require("models/template");
   const request = require("request");
   const Express = require("express");
-  const config = require("../../config");
+  const config = require("config");
 
   const resultFormat = "ddd, DD MMM YYYY HH:mm:ss ZZ";
 

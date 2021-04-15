@@ -8,11 +8,8 @@ var seed;
 var config = {
   spec_dir: "",
   spec_files: [
-    "tests/**/*.js",
     "app/**/tests/**/*.js",
     "app/**/tests.js",
-    "scripts/**/tests.js",
-    "scripts/**/tests/*.js",
     "!**/node_modules/**", // excludes tests inside node_modules directories
   ],
   helpers: [],
@@ -31,7 +28,7 @@ if (process.argv[2]) {
     // We have passed directory of tests to run
   } else {
     config.spec_dir = process.argv[2];
-    config.spec_files = ["**/tests/**/*.js", "**/tests.js"];
+    config.spec_files = ["**/tests/**/*.js", "**/tests.js", "!**/node_modules/**"];
   }
 } else {
   console.log(
@@ -55,12 +52,10 @@ jasmine.loadConfig(config);
 
 jasmine.addReporter({
   specStarted: function (result) {
-    console.log();
-    console.log(colors.dim(".. " + result.fullName));
+    console.time(colors.dim(" " + result.fullName));
   },
   specDone: function (result) {
-    console.log(colors.dim(". " + result.fullName));
-    console.log();
+    console.timeEnd(colors.dim(" " + result.fullName));
   },
 });
 
