@@ -14,20 +14,47 @@ describe("build", function () {
     this.checkEntry = global.test.CheckEntry(this.blog.id);
   });
 
+  it("rebuilds dependent entries", async function (done) {
+    var Entry = require("models/entry");
+    var imagePath = "/image.png";
+    var imageContent = await this.fake.image();
+    var path = "/post.txt";
+    var content = "![](/image.png)";
+
+    sync(this.blog.id, (err, folder, syncDone) => {
+      if (err) return done.fail(err);
+
+      fs.outputFileSync(folder.path + path, content, "utf-8");
+      folder.update(path, (err) => {
+        if (err) return done.fail(err);
+
+        fs.outputFileSync(folder.path + imagePath, imageContent);
+        folder.update(imagePath, (err) => {
+          if (err) return done.fail(err);
+
+          Entry.get(this.blog.id, path, (entry) => {
+            expect(entry.html).toContain("/cdn/" + this.blog.id);
+            syncDone(null, done);
+          });
+        });
+      });
+    });
+  });
+
   it("hides date with timestamp from title if its in the file name", function (testDone) {
     var path = "/2018-10-02-02-35 Hello.png";
     var content = this.fake.file();
     var checkEntry = this.checkEntry;
 
     sync(this.blog.id, function (err, folder, done) {
-      if (err) testDone.fail(err);
+      if (err) return testDone.fail(err);
 
       fs.outputFileSync(folder.path + path, content, "utf-8");
       folder.update(path, function (err) {
-        if (err) testDone.fail(err);
+        if (err) return testDone.fail(err);
 
         checkEntry({ path: path, title: "Hello" }, function (err) {
-          if (err) testDone.fail(err);
+          if (err) return testDone.fail(err);
 
           done(null, testDone);
         });
@@ -41,14 +68,14 @@ describe("build", function () {
     var checkEntry = this.checkEntry;
 
     sync(this.blog.id, function (err, folder, done) {
-      if (err) testDone.fail(err);
+      if (err) return testDone.fail(err);
 
       fs.outputFileSync(folder.path + path, content, "utf-8");
       folder.update(path, function (err) {
-        if (err) testDone.fail(err);
+        if (err) return testDone.fail(err);
 
         checkEntry({ path: path, title: "Hello" }, function (err) {
-          if (err) testDone.fail(err);
+          if (err) return testDone.fail(err);
 
           done(null, testDone);
         });
@@ -62,14 +89,14 @@ describe("build", function () {
     var checkEntry = this.checkEntry;
 
     sync(this.blog.id, function (err, folder, done) {
-      if (err) testDone.fail(err);
+      if (err) return testDone.fail(err);
 
       fs.outputFileSync(folder.path + path, content, "utf-8");
       folder.update(path, { name: "[Tag] Hello.jpg" }, function (err) {
-        if (err) testDone.fail(err);
+        if (err) return testDone.fail(err);
 
         checkEntry({ path: path, title: "Hello" }, function (err) {
-          if (err) testDone.fail(err);
+          if (err) return testDone.fail(err);
 
           done(null, testDone);
         });
@@ -83,14 +110,14 @@ describe("build", function () {
     var checkEntry = this.checkEntry;
 
     sync(this.blog.id, function (err, folder, done) {
-      if (err) testDone.fail(err);
+      if (err) return testDone.fail(err);
 
       fs.outputFileSync(folder.path + path, content, "utf-8");
       folder.update(path, function (err) {
-        if (err) testDone.fail(err);
+        if (err) return testDone.fail(err);
 
         checkEntry({ path: path, title: "Hello" }, function (err) {
-          if (err) testDone.fail(err);
+          if (err) return testDone.fail(err);
 
           done(null, testDone);
         });

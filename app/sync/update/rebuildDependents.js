@@ -22,7 +22,7 @@ module.exports = function (blogID, path, callback) {
       async.eachSeries(
         dependent_paths,
         function (dependent_path, next) {
-          Entry.get(blogID, dependent_path, function (err, entry) {
+          Entry.get(blogID, dependent_path, function (entry) {
             if (err) {
               console.log("Error rebuilding dependents:", path, err);
               return next();

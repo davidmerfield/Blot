@@ -1,6 +1,7 @@
 // Docs
 // https://rawgit.com/Marak/faker.js/master/examples/browser/index.html
 
+var sharp = require("sharp");
 var fake = require("faker");
 var join = require("path").join;
 
@@ -19,6 +20,19 @@ fake.path = function path(ext) {
 
   // would be nice to remove this
   return "/" + join.apply(this, res);
+};
+
+fake.image = function () {
+  return sharp({
+    create: {
+      width: 48,
+      height: 48,
+      channels: 4,
+      background: { r: 255, g: 0, b: 0, alpha: 0.5 },
+    },
+  })
+    .png()
+    .toBuffer();
 };
 
 fake.file = function (options) {
