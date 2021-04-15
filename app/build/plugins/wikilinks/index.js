@@ -57,6 +57,9 @@ function render($, callback, { blogID, path }) {
 
       const href = $(node).attr("href");
       const dirname = require("path").dirname(path);
+
+      // We can't trust this href - it could belong to a file outside the blog
+      // folder for this blog with sufficient ../../../
       const pathToLinkWithMD = require("path").resolve(dirname, href + ".md");
 
       // we could add other paths in future, or test
@@ -82,5 +85,5 @@ module.exports = {
   render: render,
   category: "Typography",
   title: "Wikilinks",
-  description: "Converts Wikilinks into links",
+  description: "Convert Wikilinks into links",
 };
