@@ -2,7 +2,8 @@ Simplify local dev setup for [David and write guide](https://mail.google.com/mai
 
 Add action to lint code with jshint and eslint
   - any other static code analysis tools?
-
+  - separate code to check for broken links, run in parallel
+  
 Server changes
 - Write useful benchmark tool for Blot
 - Add memory monitor
