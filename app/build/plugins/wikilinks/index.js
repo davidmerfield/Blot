@@ -30,9 +30,8 @@ function convertLinks(html) {
 }
 
 function render($, callback, { blogID, path }) {
-
   let dependencies = [];
-  
+
   $(":root").each(function findTextNodes(i, node) {
     if ($(node).is(ignore)) return false;
 
@@ -59,8 +58,10 @@ function render($, callback, { blogID, path }) {
       const href = $(node).attr("href");
       const dirname = require("path").dirname(path);
       const pathToLinkWithMD = require("path").resolve(dirname, href + ".md");
-      const pathToLinkWithTXT = require("path").resolve(dirname, href + ".txt");
-      const paths = [pathToLinkWithMD, pathToLinkWithTXT];
+
+      // we could add other paths in future, or test
+      // against post titles, for example.
+      const paths = [pathToLinkWithMD];
 
       dependencies = dependencies.concat(paths);
 
