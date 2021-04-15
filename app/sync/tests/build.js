@@ -14,8 +14,8 @@ describe("build", function () {
     this.checkEntry = global.test.CheckEntry(this.blog.id);
   });
 
-  fit("rebuilds dependent entries", async function (done) {
-    var Entry = require('models/entry');
+  it("rebuilds dependent entries", async function (done) {
+    var Entry = require("models/entry");
     var imagePath = "/image.png";
     var imageContent = await this.fake.image();
     var path = "/post.txt";
