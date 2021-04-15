@@ -10,6 +10,13 @@ Server changes
 - Work out how to detect stray build processes. There were a bunch of zombies consuming memory on Blot's server. Work out how to kill them safely
 - Experiment with different EBS types, perhaps try to use ephemeral disk more since lower latency?
 
+Improvements to Wikilinks feature:
+- test with non-[[Wikilinks]] options in Obsidian
+- add support for other (non-Obsidian) wikilink styles (i.e. title-based?)
+- use the location of the nearest `.obsidian` directory to determine the 'root' against which to resolve styles?
+- look up the config in the the nearest `.obsidian` directory to determine whether shortest, relative or absolute wikilinks are in use?
+- test with all Obsidian new link settings (shortest, relative and absolute)
+
 Improvements to Dropbox client
 - Migrate [App permissions before September 2021](https://dropbox.tech/developers/migrating-app-permissions-and-access-tokens)
   - https://developers.dropbox.com/oauth-guide
