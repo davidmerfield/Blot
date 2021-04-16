@@ -154,14 +154,24 @@ function Prepare(entry) {
   // Add the permalink automatically if the metadata
   // declared a page with no permalink set. We can't
   // do this earlier, since we don't know the slug then
-  entry.permalink =
-    entry.metadata.permalink ||
-    entry.metadata.slug ||
-    entry.metadata.link ||
-    entry.metadata.url ||
-    "";
-  entry.permalink = normalize(entry.permalink);
+  let permalinkCandidates = [
+    entry.metadata.permalink,
+    entry.metadata.slug,
+    entry.metadata.link,
+    entry.metadata.url,
+  ];
 
+  permalinkCandidates = permalinkCandidates
+    .filter(
+      (candidate) =>
+        candidate &&
+        type(candidate, "string") &&
+        candidate.indexOf("://") === -1
+    )
+    .map(normalize)
+    .filter((candidate) => candidate !== "");
+
+  entry.permalink = permalinkCandidates.shift() || "";
   debug(entry.path, "Generated  permalink");
 
   debug(entry.path, "Generating meta-overwrite");
