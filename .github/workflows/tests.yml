@@ -41,7 +41,7 @@ jobs:
     - name: Set up Pandoc
       if: steps.pandoc.outputs.cache-hit != 'true'
       run: |
-        wget https://github.com/jgm/pandoc/releases/download/${{ matrix.pandoc-version }}/pandoc-${{ matrix.pandoc-version }}-linux-amd64.tar.gz -O pandoc.tar.gz
+        wget https://github.com/jgm/pandoc/releases/download/${{ env.pandoc-version }}/pandoc-${{ env.pandoc-version }}-linux-amd64.tar.gz -O pandoc.tar.gz
         mkdir pandoc
         tar xvzf pandoc.tar.gz --strip-components 1 -C pandoc
         echo "$(pwd)/pandoc/bin" >> $GITHUB_PATH
@@ -52,12 +52,12 @@ jobs:
     - name: Set up Node
       uses: actions/setup-node@v2
       with:
-        node-version: ${{ matrix.node-version }}
+        node-version: ${{ env.node-version }}
 
     - name: Set up Redis
       uses: shogo82148/actions-setup-redis@v1
       with:
-        redis-version: ${{ matrix.redis-version }}
+        redis-version: ${{ env.redis-version }}
 
     - name: Load dependencies
       uses: actions/cache@v2
@@ -139,7 +139,7 @@ jobs:
     - name: Set up Pandoc
       if: steps.pandoc.outputs.cache-hit != 'true'
       run: |
-        wget https://github.com/jgm/pandoc/releases/download/${{ matrix.pandoc-version }}/pandoc-${{ matrix.pandoc-version }}-linux-amd64.tar.gz -O pandoc.tar.gz
+        wget https://github.com/jgm/pandoc/releases/download/${{ env.pandoc-version }}/pandoc-${{ env.pandoc-version }}-linux-amd64.tar.gz -O pandoc.tar.gz
         mkdir pandoc
         tar xvzf pandoc.tar.gz --strip-components 1 -C pandoc
         echo "$(pwd)/pandoc/bin" >> $GITHUB_PATH
@@ -150,12 +150,12 @@ jobs:
     - name: Set up Node
       uses: actions/setup-node@v2
       with:
-        node-version: ${{ matrix.node-version }}
+        node-version: ${{ env.node-version }}
 
     - name: Set up Redis
       uses: shogo82148/actions-setup-redis@v1
       with:
-        redis-version: ${{ matrix.redis-version }}
+        redis-version: ${{ env.redis-version }}
 
     - name: Load dependencies
       uses: actions/cache@v2
@@ -237,7 +237,7 @@ jobs:
     - name: Set up Pandoc
       if: steps.pandoc.outputs.cache-hit != 'true'
       run: |
-        wget https://github.com/jgm/pandoc/releases/download/${{ matrix.pandoc-version }}/pandoc-${{ matrix.pandoc-version }}-linux-amd64.tar.gz -O pandoc.tar.gz
+        wget https://github.com/jgm/pandoc/releases/download/${{ env.pandoc-version }}/pandoc-${{ env.pandoc-version }}-linux-amd64.tar.gz -O pandoc.tar.gz
         mkdir pandoc
         tar xvzf pandoc.tar.gz --strip-components 1 -C pandoc
         echo "$(pwd)/pandoc/bin" >> $GITHUB_PATH
@@ -248,12 +248,12 @@ jobs:
     - name: Set up Node
       uses: actions/setup-node@v2
       with:
-        node-version: ${{ matrix.node-version }}
+        node-version: ${{ env.node-version }}
 
     - name: Set up Redis
       uses: shogo82148/actions-setup-redis@v1
       with:
-        redis-version: ${{ matrix.redis-version }}
+        redis-version: ${{ env.redis-version }}
 
     - name: Load dependencies
       uses: actions/cache@v2
