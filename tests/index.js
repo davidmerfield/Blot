@@ -66,6 +66,7 @@ jasmine.addReporter({
 
 global.test = {
   CheckEntry: require("./util/checkEntry"),
+  SyncAndCheck: require("./util/syncAndCheck"),
 
   compareDir: require("./util/compareDir"),
 

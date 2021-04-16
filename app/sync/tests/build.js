@@ -1,7 +1,4 @@
 describe("build", function () {
-  const sync = require("../index");
-  const fs = require("fs-extra");
-
   // Set up a test blog before each test
   global.test.blog();
 
@@ -12,117 +9,57 @@ describe("build", function () {
 
   beforeEach(function () {
     this.checkEntry = global.test.CheckEntry(this.blog.id);
+    this.syncAndCheck = global.test.SyncAndCheck(this.blog.id);
   });
 
-  it("rebuilds dependent entries", async function (done) {
-    var Entry = require("models/entry");
-    var imagePath = "/image.png";
-    var imageContent = await this.fake.image();
-    var path = "/post.txt";
-    var content = "![](/image.png)";
-
-    sync(this.blog.id, (err, folder, syncDone) => {
-      if (err) return done.fail(err);
-
-      fs.outputFileSync(folder.path + path, content, "utf-8");
-      folder.update(path, (err) => {
-        if (err) return done.fail(err);
-
-        fs.outputFileSync(folder.path + imagePath, imageContent);
-        folder.update(imagePath, (err) => {
-          if (err) return done.fail(err);
-
-          Entry.get(this.blog.id, path, (entry) => {
-            expect(entry.html).toContain("/cdn/" + this.blog.id);
-            syncDone(null, done);
-          });
-        });
-      });
-    });
-  });
-
-  it("hides date with timestamp from title if its in the file name", function (testDone) {
+  it("hides date with timestamp from title if its in the file name", function (done) {
     const path = "/2018-10-02-02-35 Hello.png";
     const content = this.fake.file();
-    const checkEntry = this.checkEntry;
 
-    sync(this.blog.id, function (err, folder, done) {
-      if (err) return testDone.fail(err);
+    const file = { path, content };
+    const entry = { path, title: "Hello" };
 
-      fs.outputFileSync(folder.path + path, content, "utf-8");
-      folder.update(path, function (err) {
-        if (err) return testDone.fail(err);
-
-        checkEntry({ path: path, title: "Hello" }, function (err) {
-          if (err) return testDone.fail(err);
-
-          done(null, testDone);
-        });
-      });
-    });
+    this.syncAndCheck(file, entry, done);
   });
 
-  it("hides date from title if its in the file name", function (testDone) {
+  it("hides date from title if its in the file name", function (done) {
     const path = "/2018/06-04 Hello.jpg";
     const content = this.fake.file();
-    const checkEntry = this.checkEntry;
 
-    sync(this.blog.id, function (err, folder, done) {
-      if (err) return testDone.fail(err);
+    const file = { path, content };
+    const entry = { path, title: "Hello" };
 
-      fs.outputFileSync(folder.path + path, content, "utf-8");
-      folder.update(path, function (err) {
-        if (err) return testDone.fail(err);
-
-        checkEntry({ path: path, title: "Hello" }, function (err) {
-          if (err) return testDone.fail(err);
-
-          done(null, testDone);
-        });
-      });
-    });
+    this.syncAndCheck(file, entry, done);
   });
 
-  it("preserves case in title generated from file name passed as option", function (testDone) {
-    const path = "/[tag] hello.jpg";
-    const content = this.fake.file();
-    const checkEntry = this.checkEntry;
+  it("uses link metadata", function (done) {
+    const path = "/hey.txt";
+    const content = "Link: example.com/\n\nHey!";
 
-    sync(this.blog.id, function (err, folder, done) {
-      if (err) return testDone.fail(err);
+    const file = { path, content };
+    const entry = { path, url: "/example.com" };
 
-      fs.outputFileSync(folder.path + path, content, "utf-8");
-      folder.update(path, { name: "[Tag] Hello.jpg" }, function (err) {
-        if (err) return testDone.fail(err);
-
-        checkEntry({ path: path, title: "Hello" }, function (err) {
-          if (err) return testDone.fail(err);
-
-          done(null, testDone);
-        });
-      });
-    });
+    this.syncAndCheck(file, entry, done);
   });
 
-  it("hides tags from title if its in the file name", function (testDone) {
+  it("ignores link metadata if it contains a full URL", function (done) {
+    const path = "/hey.txt";
+    const content = "Link: http://example.com/\n\nHey!";
+
+    const file = { path, content };
+    const entry = { path, url: "/hey" };
+
+    this.syncAndCheck(file, entry, done);
+  });
+
+  it("hides tags from title if its in the file name", function (done) {
     const path = "/[Tag] Hello.jpg";
     const content = this.fake.file();
-    const checkEntry = this.checkEntry;
 
-    sync(this.blog.id, function (err, folder, done) {
-      if (err) return testDone.fail(err);
+    const file = { path, content };
+    const entry = { path, title: "Hello" };
 
-      fs.outputFileSync(folder.path + path, content, "utf-8");
-      folder.update(path, function (err) {
-        if (err) return testDone.fail(err);
-
-        checkEntry({ path: path, title: "Hello" }, function (err) {
-          if (err) return testDone.fail(err);
-
-          done(null, testDone);
-        });
-      });
-    });
+    this.syncAndCheck(file, entry, done);
   });
 
   it("turns wikilinks into links", function (done) {
@@ -136,29 +73,25 @@ describe("build", function () {
     // because the href is set to foo!
     const html = '<p><a href="/foo" class="wikilink">wikilink</a></p>';
 
-    sync(this.blog.id, (err, folder, syncDone) => {
-      if (err) return done.fail(err);
+    const files = [
+      { path, content },
+      { path: linkPath, content: linkContent },
+    ];
 
-      fs.outputFileSync(folder.path + path, content, "utf-8");
-      fs.outputFileSync(folder.path + linkPath, linkContent, "utf-8");
+    const entry = { path, html };
 
-      folder.update(linkPath, (err) => {
-        if (err) return done.fail(err);
-        folder.update(path, (err) => {
-          if (err) return done.fail(err);
-          this.checkEntry(
-            {
-              path,
-              html,
-            },
-            function (err) {
-              if (err) return done.fail(err);
-              syncDone(null, done);
-            }
-          );
-        });
-      });
-    });
+    this.syncAndCheck(files, entry, done);
+  });
+
+  it("preserves case in title generated from file name passed as option", function (done) {
+    const path = "/[tag] hello.jpg";
+    const content = this.fake.file();
+    const options = { name: "[Tag] Hello.jpg" };
+
+    const file = { path, content, options };
+    const entry = { path, title: "Hello" };
+
+    this.syncAndCheck(file, entry, done);
   });
 
   // we switch the order when writing files to test
@@ -175,31 +108,33 @@ describe("build", function () {
     // because the href is set to foo!
     const html = '<p><a href="/foo" class="wikilink">target-of-link</a></p>';
 
-    sync(this.blog.id, (err, folder, syncDone) => {
-      if (err) return done.fail(err);
+    const files = [
+      { path, content },
+      { path: linkPath, content: linkContent },
+    ];
 
-      fs.outputFileSync(folder.path + path, content, "utf-8");
-      fs.outputFileSync(folder.path + linkPath, linkContent, "utf-8");
+    const entry = { path, html, dependencies: ["/target-of-link.md"] };
 
-      folder.update(path, (err) => {
-        if (err) return done.fail(err);
-        folder.update(linkPath, (err) => {
-          if (err) return done.fail(err);
-          this.checkEntry(
-            {
-              path,
-              html,
-              dependencies: [
-                "/target-of-link.md"
-              ],
-            },
-            function (err) {
-              if (err) return done.fail(err);
-              syncDone(null, done);
-            }
-          );
-        });
-      });
-    });
+    this.syncAndCheck(files, entry, done);
+  });
+
+  it("rebuilds dependent entries", async function (done) {
+    var path = "/post.txt";
+    var content = "![](/image.png)";
+
+    var imagePath = "/image.png";
+    var imageContent = await this.fake.image();
+
+    const files = [
+      { path, content },
+      { path: imagePath, content: imageContent },
+    ];
+
+    const entry = {
+      path,
+      html: (result) => result.indexOf("/cdn/" + this.blog.id) > -1,
+    };
+
+    this.syncAndCheck(files, entry, done);
   });
 });
