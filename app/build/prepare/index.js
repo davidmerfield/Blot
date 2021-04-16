@@ -155,13 +155,12 @@ function Prepare(entry) {
   // declared a page with no permalink set. We can't
   // do this earlier, since we don't know the slug then
   entry.permalink =
-    entry.metadata.permalink ||
-    entry.metadata.slug ||
-    entry.metadata.link ||
-    entry.metadata.url ||
+    normalize(entry.metadata.permalink) ||
+    normalize(entry.metadata.slug) ||
+    normalize(entry.metadata.link) ||
+    normalize(entry.metadata.url) ||
     "";
-  entry.permalink = normalize(entry.permalink);
-
+  entry.urlCandidates = 
   debug(entry.path, "Generated  permalink");
 
   debug(entry.path, "Generating meta-overwrite");

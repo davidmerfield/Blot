@@ -2,6 +2,7 @@ module.exports = {
   id: "string",
   guid: "string", // used to identify an entry across different paths / urls, needed to make disqus comments work, for instance.
   url: "string",
+  urlCandidates: "array",
   permalink: "string",
   title: "string",
   titleTag: "string", // The HTML tag containing the title text

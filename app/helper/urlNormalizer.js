@@ -3,7 +3,7 @@ var Url = require("url");
 
 // takes URL path, adds leading slash, removes trailing slash;
 
-function urlNormalizer(url) {
+function urlNormalizer(url = "") {
   ensure(url, "string");
 
   if (!url) return "";

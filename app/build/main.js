@@ -4,16 +4,13 @@ var basename = require("path").basename;
 var isDraft = require("../sync/update/drafts").isDraft;
 var Build = require("./single");
 var Prepare = require("./prepare");
+var Permalink = require('./prepare/permalink');
 var Thumbnail = require("./thumbnail");
 var DateStamp = require("./prepare/dateStamp");
 var moment = require("moment");
 var converters = require("./converters");
 var exitHook = require("async-exit-hook");
 var clfdate = require("helper/clfdate");
-
-// setTimeout(function(){
-//   throw new Error('EXCEPTION!');
-// }, Math.random() * 20 * 1000);
 
 exitHook(function () {
   debug("Shutting down worker:", process.pid);
@@ -111,6 +108,7 @@ function build(blog, path, options, callback) {
               entry.name
             );
             entry = Prepare(entry, options);
+            entry.urlCandidates = Permalink(blog, entry);
             debug("Blog:", blog.id, path, " additional properties computed.");
           } catch (e) {
             return callback(e);
