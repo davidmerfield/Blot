@@ -28,7 +28,11 @@ if (process.argv[2]) {
     // We have passed directory of tests to run
   } else {
     config.spec_dir = process.argv[2];
-    config.spec_files = ["**/tests/**/*.js", "**/tests.js", "!**/node_modules/**"];
+    config.spec_files = [
+      "**/tests/**/*.js",
+      "**/tests.js",
+      "!**/node_modules/**",
+    ];
   }
 } else {
   console.log(
@@ -56,6 +60,29 @@ jasmine.addReporter({
   },
   specDone: function (result) {
     console.timeEnd(colors.dim(" " + result.fullName));
+  },
+});
+
+var startTimes = {};
+var durations = {};
+
+jasmine.addReporter({
+
+  specStarted: function (result) {
+    startTimes[result.fullName] = Date.now();
+  },
+  specDone: function (result) {
+    durations[result.fullName] = Date.now() - startTimes[result.fullName];
+  },
+  jasmineDone: function () {
+    console.log("Slowest specs:");
+    Object.keys(durations)
+      .sort(function (a, b) {
+        return durations[b] - durations[a];
+      })
+      .map((fullName) => durations[fullName] + "ms " + colors.dim(fullName))
+      .slice(0, 10)
+      .forEach((line) => console.log(line));
   },
 });
 
