@@ -1,6 +1,6 @@
 const async = require("async");
 const type = require("helper/type");
-const CheckEntry = require("./CheckEntry");
+const CheckEntry = require("./checkEntry");
 const sync = require("sync");
 const fs = require("fs-extra");
 
