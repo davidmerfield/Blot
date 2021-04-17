@@ -42,6 +42,8 @@
     "async-exit-hook": "^2.0.1",
     "aws-sdk": "^2.1.26",
     "bcryptjs": "^2.4.3",
+    "blessed": "^0.1.81",
+    "blessed-contrib": "^4.8.21",
     "body-parser": "^1.4.3",
     "cheerio": "^0.22.0",
     "clean-css": "^4.2.1",
