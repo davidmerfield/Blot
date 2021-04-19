@@ -323,9 +323,7 @@ setInterval(refreshSpark, 1000);
 function refreshSpark() {
   spark1.shift();
   spark1.push(Math.random() * 5 + 1);
-  spark2.shift();
-  spark2.push(Math.random() * 5 + 1);
-  sparkline.setData(["Server1", "Server2"], [spark1, spark2]);
+  sparkline.setData(["Server1"], [spark1]);
 }
 
 //set line charts dummy data
