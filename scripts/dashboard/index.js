@@ -12,6 +12,43 @@ var grid = new contrib.grid({ rows: 12, cols: 12, screen: screen });
   self.options.yPadding = options.yPadding || 2; //padding from the top
  */
 
+var execSync = require("child_process").execSync;
+
+const calcDisk = () => {
+  const diskOut = execSync("df -k").toString();
+  let disk = diskOut.split("\n")[1].replace(/\s+/g, " ").split(" ");
+  const usage = parseInt(disk[2]);
+  const available = parseInt(disk[3]);
+  const total = usage + available;
+  let pct = ((usage / total) * 100).toFixed(2);
+  return pct;
+};
+
+var diskDonut = grid.set(0, 10, 3, 2, contrib.donut, {
+  label: "Disk space",
+  radius: 10,
+  arcWidth: 4,
+  yPadding: 2,
+  data: [{ label: "used / total", percent: calcDisk() }],
+});
+
+function updateDiskSpace() {
+  var pct = calcDisk();
+  var color = "green";
+  if (pct >= 25) color = "cyan";
+  if (pct >= 50) color = "yellow";
+  if (pct >= 75) color = "red";
+  diskDonut.setData([
+    {
+      percent: pct,
+      label: "used / total",
+      color: color,
+    },
+  ]);
+}
+
+setInterval(updateDiskSpace, 1000);
+
 const os = require("os");
 
 const calcMem = () => {
@@ -21,9 +58,9 @@ const calcMem = () => {
   return pct;
 };
 
-var donut = grid.set(8, 8, 4, 2, contrib.donut, {
+var donut = grid.set(0, 8, 3, 2, contrib.donut, {
   label: "Memory",
-  radius: 16,
+  radius: 10,
   arcWidth: 4,
   yPadding: 2,
   data: [{ label: "used / total", percent: calcMem() }],
@@ -43,6 +80,7 @@ function updateMemoryUsage() {
     },
   ]);
 }
+setInterval(updateMemoryUsage, 1500);
 
 const calcCPU = () => {
   let loadavg = os.loadavg()[0];
@@ -51,9 +89,9 @@ const calcCPU = () => {
   return pct;
 };
 
-var cpuDonut = grid.set(8, 6, 4, 2, contrib.donut, {
+var cpuDonut = grid.set(0, 6, 3, 2, contrib.donut, {
   label: "CPU",
-  radius: 16,
+  radius: 10,
   arcWidth: 4,
   yPadding: 2,
   data: [{ label: "load / num cpu", percent: calcCPU() }],
@@ -74,6 +112,8 @@ function updateCPUUsage() {
   ]);
 }
 
+setInterval(updateCPUUsage, 1500);
+
 // var latencyLine = grid.set(8, 8, 4, 2, contrib.line,
 //   { style:
 //     { line: "yellow"
@@ -83,35 +123,37 @@ function updateCPUUsage() {
 //   , xPadding: 5
 //   , label: 'Network Latency (sec)'})
 
-var gauge = grid.set(8, 10, 2, 2, contrib.gauge, {
-  label: "Storage",
-  percent: [80, 20],
-});
-var gauge_two = grid.set(2, 9, 2, 3, contrib.gauge, {
-  label: "Deployment Progress",
-  percent: 80,
-});
+// var gauge = grid.set(2, 9, 2, 3, contrib.gauge, {
+//   label: "Cached requests",
+//   percent: [80, 20],
+// });
 
-var sparkline = grid.set(10, 10, 2, 2, contrib.sparkline, {
+// var gauge_two = grid.set(2, 9, 2, 3, contrib.gauge, {
+//   label: "Deployment Progress",
+//   percent: 80,
+// });
+
+var sparkline = grid.set(3, 6, 3, 3, contrib.sparkline, {
   label: "Throughput (bits/sec)",
   tags: true,
   style: { fg: "blue", titleFg: "white" },
 });
 
-var bar = grid.set(4, 6, 4, 3, contrib.bar, {
-  label: "Server Utilization (%)",
-  barWidth: 4,
-  barSpacing: 6,
-  xOffset: 2,
-  maxHeight: 9,
-});
+// var bar = grid.set(0, 9, 2, 3, contrib.bar, {
+//   label: "Server Utilization (%)",
+//   barWidth: 4,
+//   barSpacing: 6,
+//   xOffset: 2,
+//   maxHeight: 9,
+// });
 
-var table = grid.set(4, 9, 4, 3, contrib.table, {
-  keys: true,
+var table = grid.set(3, 9, 3, 3, contrib.table, {
+  keys: false,
+  interactive: false,
   fg: "green",
-  label: "Active Processes",
+  label: "Active syncs",
   columnSpacing: 1,
-  columnWidth: [24, 10, 10],
+  columnWidth: [24, 10],
 });
 
 /*
@@ -129,36 +171,32 @@ var table = grid.set(4, 9, 4, 3, contrib.table, {
 //coloring
   options.color = options.color || "white";
 */
-var lcdLineOne = grid.set(0, 9, 2, 3, contrib.lcd, {
-  label: "LCD Test",
-  segmentWidth: 0.06,
-  segmentInterval: 0.11,
-  strokeWidth: 0.1,
-  elements: 5,
-  display: 3210,
-  elementSpacing: 4,
-  elementPadding: 2,
-});
 
-var errorsLine = grid.set(0, 6, 4, 3, contrib.line, {
-  style: { line: "red", text: "white", baseline: "black" },
-  label: "Errors Rate",
-  maxY: 60,
-  showLegend: true,
-});
+// var errorsLine = grid.set(0, 6, 4, 3, contrib.line, {
+//   style: { line: "red", text: "white", baseline: "black" },
+//   label: "Errors Rate",
+//   maxY: 60,
+//   showLegend: true,
+// });
 
 var transactionsLine = grid.set(0, 0, 6, 6, contrib.line, {
   showNthLabel: 5,
   maxY: 100,
   label: "Requests per second",
-  showLegend: true,
+  showLegend: false,
   legend: { width: 10 },
 });
 
-var log = grid.set(6, 0, 6, 6, contrib.log, {
+var log = grid.set(6, 0, 3, 12, contrib.log, {
   fg: "green",
   selectedFg: "green",
   label: "NGINX Log",
+});
+
+var appLog = grid.set(9, 0, 3, 12, contrib.log, {
+  fg: "green",
+  selectedFg: "green",
+  label: "App Log",
 });
 
 //dummy data
@@ -178,30 +216,23 @@ var commands = [
 ];
 
 //set dummy data on gauge
-var gauge_percent = 0;
-setInterval(function () {
-  gauge.setData([gauge_percent, 100 - gauge_percent]);
-  gauge_percent++;
-  if (gauge_percent >= 100) gauge_percent = 0;
-}, 200);
-
-var gauge_percent_two = 0;
-setInterval(function () {
-  gauge_two.setData(gauge_percent_two);
-  gauge_percent_two++;
-  if (gauge_percent_two >= 100) gauge_percent_two = 0;
-}, 200);
+// var gauge_percent = 0;
+// setInterval(function () {
+//   gauge.setData([gauge_percent, 100 - gauge_percent]);
+//   gauge_percent++;
+//   if (gauge_percent >= 100) gauge_percent = 0;
+// }, 200);
 
 //set dummy data on bar chart
-function fillBar() {
-  var arr = [];
-  for (var i = 0; i < servers.length; i++) {
-    arr.push(Math.round(Math.random() * 10));
-  }
-  bar.setData({ titles: servers, data: arr });
-}
-fillBar();
-setInterval(fillBar, 2000);
+// function fillBar() {
+//   var arr = [];
+//   for (var i = 0; i < servers.length; i++) {
+//     arr.push(Math.round(Math.random() * 10));
+//   }
+//   bar.setData({ titles: servers, data: arr });
+// }
+// fillBar();
+// setInterval(fillBar, 2000);
 
 //set dummy data for table
 function generateTable() {
@@ -211,16 +242,13 @@ function generateTable() {
     var row = [];
     row.push(commands[Math.round(Math.random() * (commands.length - 1))]);
     row.push(Math.round(Math.random() * 5));
-    row.push(Math.round(Math.random() * 100));
-
     data.push(row);
   }
 
-  table.setData({ headers: ["Process", "Cpu (%)", "Memory"], data: data });
+  table.setData({ headers: ["BlogID", "URL"], data: data });
 }
 
 generateTable();
-table.focus();
 setInterval(generateTable, 3000);
 
 const tail = new Tail("logs/nginx.log", { nLines: 100 });
@@ -236,6 +264,13 @@ tail.on("line", function (data) {
   const cache = data[5];
   const line = status + " " + req_id.slice(0, 6) + " " + url;
   log.log(line);
+  screen.render();
+});
+
+const tailApp = new Tail("logs/app.log", { nLines: 100 });
+
+tailApp.on("line", function (data) {
+  appLog.log(data);
   screen.render();
 });
 
@@ -323,7 +358,7 @@ setInterval(refreshSpark, 1000);
 function refreshSpark() {
   spark1.shift();
   spark1.push(Math.random() * 5 + 1);
-  sparkline.setData(["Server1"], [spark1]);
+  sparkline.setData(["Received", "Sent"], [spark1, spark1]);
 }
 
 //set line charts dummy data
@@ -478,7 +513,7 @@ var latencyData = {
 };
 
 setLineData([transactionsData, transactionsData1], transactionsLine);
-setLineData([errorsData], errorsLine);
+// setLineData([errorsData], errorsLine);
 // setLineData([latencyData], latencyLine)
 
 setInterval(function () {
@@ -486,22 +521,9 @@ setInterval(function () {
   screen.render();
 }, 500);
 
-setInterval(function () {
-  setLineData([errorsData], errorsLine);
-}, 1500);
-
-setInterval(function () {
-  var colors = ["green", "magenta", "cyan", "red", "blue"];
-  var text = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L"];
-
-  var value = Math.round(Math.random() * 100);
-  lcdLineOne.setDisplay(value + text[value % 12]);
-  lcdLineOne.setOptions({
-    color: colors[value % 5],
-    elementPadding: 4,
-  });
-  screen.render();
-}, 1500);
+// setInterval(function () {
+//   setLineData([errorsData], errorsLine);
+// }, 1500);
 
 setInterval(function () {
   updateMemoryUsage();
@@ -526,15 +548,9 @@ screen.key(["escape", "q", "C-c"], function (ch, key) {
 // fixes https://github.com/yaronn/blessed-contrib/issues/10
 screen.on("resize", function () {
   donut.emit("attach");
-  gauge.emit("attach");
-  gauge_two.emit("attach");
   sparkline.emit("attach");
-  bar.emit("attach");
   table.emit("attach");
-  lcdLineOne.emit("attach");
-  errorsLine.emit("attach");
   transactionsLine.emit("attach");
-  map.emit("attach");
   log.emit("attach");
 });
 
