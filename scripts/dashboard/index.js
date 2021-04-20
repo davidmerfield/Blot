@@ -276,7 +276,26 @@ function updateLog(data) {
 const tailApp = new Tail("logs/app.log", { nLines: 100 });
 
 tailApp.on("line", function (data) {
-  appLog.log(data);
+  let line;
+  // has the clfdate at start: [19/Apr/2021:20:28:00 -0400]
+  if (data.indexOf("[") === 0 && data.indexOf("]") === 27) {
+    //[19/Apr/2021:20:28:00 -0400] 6b4ff6cbc4de2a240424aba029ab5030 PID=76005 https://blot.development/log-in?then=/settings/client/git GET
+    if (data.split(" ")[3].indexOf("PID=") === 0) {
+      line = data.split(" ")[5] + " " + data.split(" ")[4];
+      //[19/Apr/2021:20:28:00 -0400] 6b4ff6cbc4de2a240424aba029ab5030 429 0.003 PID=76005 https://blot.development/log-in?then=/settings/client/git
+    } else {
+      line =
+        data.split(" ")[3] +
+        " " +
+        data.split(" ")[4] +
+        " " +
+        data.split(" ")[6];
+    }
+  } else {
+    line = data;
+  }
+
+  appLog.log(line);
   screen.render();
 });
 
@@ -308,7 +327,7 @@ function updateThroughput(data) {
     sent.push(responseDataSentInCurrentSecond);
     received.push(requestDataReceievedInCurrentSecond);
     currentThroughputSecond = second;
-    
+
     responseDataSentInCurrentSecond = 0;
     requestDataReceievedInCurrentSecond = 0;
 
