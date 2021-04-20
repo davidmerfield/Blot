@@ -151,9 +151,9 @@ var table = grid.set(3, 9, 3, 3, contrib.table, {
   keys: false,
   interactive: false,
   fg: "green",
-  label: "Active syncs",
+  label: "Syncing blogs",
   columnSpacing: 1,
-  columnWidth: [24, 10],
+  columnWidth: [100],
 });
 
 /*
@@ -181,7 +181,6 @@ var table = grid.set(3, 9, 3, 3, contrib.table, {
 
 var transactionsLine = grid.set(0, 0, 6, 6, contrib.line, {
   showNthLabel: 5,
-  maxY: 30,
   label: "Requests per second",
   showLegend: false,
   legend: { width: 10 },
@@ -234,22 +233,28 @@ var commands = [
 // fillBar();
 // setInterval(fillBar, 2000);
 
-//set dummy data for table
-function generateTable() {
-  var data = [];
+var tableData = [];
 
-  for (var i = 0; i < 30; i++) {
-    var row = [];
-    row.push(commands[Math.round(Math.random() * (commands.length - 1))]);
-    row.push(Math.round(Math.random() * 5));
-    data.push(row);
+function updateSyncs(data) {
+  // [20/Apr/2021:21:58:11 +0000] blog_483b45b sync_46fc6cc Finished
+  // [20/Apr/2021:21:58:12 +0000] blog_483b45b sync_95d46ef Started
+
+  if (data.indexOf(" blog_") > -1 && data.indexOf(" sync_") > -1) {
+    let blogID = data.slice(data.indexOf("blog_"), data.indexOf(" sync_"));
+    let syncID = data.slice(data.indexOf("sync_"), data.indexOf("sync_") + 14);
+
+    if (data.indexOf(" Finished") > -1) {
+      tableData = tableData.filter((row) => row[0] !== blogID);
+    }
+    if (data.indexOf(" Started") > -1) {
+      tableData.push([blogID]);
+    }
+
+    table.setData({ headers: ["BlogID"], data: tableData });
   }
-
-  table.setData({ headers: ["BlogID", "URL"], data: data });
 }
 
-generateTable();
-setInterval(generateTable, 3000);
+table.setData({ headers: ["BlogID"], data: tableData });
 
 const tail = new Tail("logs/nginx.log", { nLines: 100 });
 
@@ -276,6 +281,8 @@ function updateLog(data) {
 const tailApp = new Tail("logs/app.log", { nLines: 100 });
 
 tailApp.on("line", function (data) {
+  updateSyncs(data);
+
   let line;
   // has the clfdate at start: [19/Apr/2021:20:28:00 -0400]
   if (data.indexOf("[") === 0 && data.indexOf("]") === 27) {
