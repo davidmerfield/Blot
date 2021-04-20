@@ -1,6 +1,6 @@
 Fix [Roberto's bug with Wikilinks](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLtGhBgVRhfdCHkxwdjVdDpqzh)
 
-Migrate mailgun-js to mailgun.js https://github.com/mailgun/mailgun-js
+Migrate from mailgun to SES, mailgun's javascript sdk [seems](https://github.com/mailgun/mailgun-js/issues/122) [like](https://github.com/mailgun/mailgun-js#setup-client) a mess.
 
 Simplify local dev setup for [David and write guide](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLtQNnggzjkfrPmTMwVqlHKDWL)
 
@@ -14,7 +14,9 @@ Server changes
 - Migrate to lower-cost r6gd.xlarge instance, which is not possible using the AWS console due to some difference in architecture (intel vs. amazon chip?). 
 - Work out how to detect stray build processes. There were a bunch of zombies consuming memory on Blot's server. Work out how to kill them safely
 - Experiment with different EBS types, perhaps try to use ephemeral disk more since lower latency?
-
+- Take full advantage of attached SSD
+  - use rsync/inotify to synchronize 'source of truth' EBS disk with the local SSD cache then modify NGINX to check the synced folder on the /cache disk
+  - on boot we would gently copy across all /blogs folders and the /static directory in background task
 Improvements to Wikilinks feature:
 - test with non-[[Wikilinks]] options in Obsidian
 - add support for other (non-Obsidian) wikilink styles (i.e. title-based?)
