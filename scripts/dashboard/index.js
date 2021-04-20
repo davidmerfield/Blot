@@ -181,7 +181,7 @@ var table = grid.set(3, 9, 3, 3, contrib.table, {
 
 var transactionsLine = grid.set(0, 0, 6, 6, contrib.line, {
   showNthLabel: 5,
-  maxY: 100,
+  maxY: 30,
   label: "Requests per second",
   showLegend: false,
   legend: { width: 10 },
@@ -254,6 +254,11 @@ setInterval(generateTable, 3000);
 const tail = new Tail("logs/nginx.log", { nLines: 100 });
 
 tail.on("line", function (data) {
+  updateReqPerSecond(data);
+  updateLog(data);
+});
+
+function updateLog(data) {
   const date = data.slice(1, data.indexOf("]"));
   data = data.slice(data.indexOf("]") + 2).split(" ");
   const req_id = data[0];
@@ -265,7 +270,7 @@ tail.on("line", function (data) {
   const line = status + " " + req_id.slice(0, 6) + " " + url;
   log.log(line);
   screen.render();
-});
+}
 
 const tailApp = new Tail("logs/app.log", { nLines: 100 });
 
@@ -360,146 +365,42 @@ function refreshSpark() {
   spark1.push(Math.random() * 5 + 1);
   sparkline.setData(["Received", "Sent"], [spark1, spark1]);
 }
+const moment = require("moment");
 
-//set line charts dummy data
-
+// [17/Apr/2021:15:20:09 -0400] 4c071011176edb096b3461d2bd9a40f1 502 0.001 888:1220 https://blot.development/settings/photo  cache=-
+var currentSecond;
+var currentSecondReqs = 0;
 var transactionsData = {
-  title: "USA",
+  title: "NGINX",
   style: { line: "red" },
-  x: [
-    "00:00",
-    "00:05",
-    "00:10",
-    "00:15",
-    "00:20",
-    "00:30",
-    "00:40",
-    "00:50",
-    "01:00",
-    "01:10",
-    "01:20",
-    "01:30",
-    "01:40",
-    "01:50",
-    "02:00",
-    "02:10",
-    "02:20",
-    "02:30",
-    "02:40",
-    "02:50",
-    "03:00",
-    "03:10",
-    "03:20",
-    "03:30",
-    "03:40",
-    "03:50",
-    "04:00",
-    "04:10",
-    "04:20",
-    "04:30",
-  ],
-  y: [
-    0,
-    20,
-    40,
-    45,
-    45,
-    50,
-    55,
-    70,
-    65,
-    58,
-    50,
-    55,
-    60,
-    65,
-    70,
-    80,
-    70,
-    50,
-    40,
-    50,
-    60,
-    70,
-    82,
-    88,
-    89,
-    89,
-    89,
-    80,
-    72,
-    70,
-  ],
+  x: [],
+  y: [],
 };
 
-var transactionsData1 = {
-  title: "Europe",
-  style: { line: "yellow" },
-  x: [
-    "00:00",
-    "00:05",
-    "00:10",
-    "00:15",
-    "00:20",
-    "00:30",
-    "00:40",
-    "00:50",
-    "01:00",
-    "01:10",
-    "01:20",
-    "01:30",
-    "01:40",
-    "01:50",
-    "02:00",
-    "02:10",
-    "02:20",
-    "02:30",
-    "02:40",
-    "02:50",
-    "03:00",
-    "03:10",
-    "03:20",
-    "03:30",
-    "03:40",
-    "03:50",
-    "04:00",
-    "04:10",
-    "04:20",
-    "04:30",
-  ],
-  y: [
-    0,
-    5,
-    5,
-    10,
-    10,
-    15,
-    20,
-    30,
-    25,
-    30,
-    30,
-    20,
-    20,
-    30,
-    30,
-    20,
-    15,
-    15,
-    19,
-    25,
-    30,
-    25,
-    25,
-    20,
-    25,
-    30,
-    35,
-    35,
-    30,
-    30,
-  ],
-};
+function updateReqPerSecond(data) {
+  const date = data.slice(1, data.indexOf("]"));
+
+  let second = moment(date, "DD/MMM/YYYY:HH:mm:ss Z")
+    .startOf("second")
+    .format("mm:ss");
+
+  if (currentSecond === undefined) {
+    currentSecond = second;
+  }
+
+  if (second === currentSecond) {
+    currentSecondReqs++;
+  } else {
+    transactionsData.x.push(currentSecond);
+    transactionsData.y.push(currentSecondReqs);
+    currentSecond = second;
+    currentSecondReqs = 1;
+    if (transactionsData.x.length > 30)
+      transactionsData.x = transactionsData.x.slice(-1 * 30);
+    if (transactionsData.y.length > 30)
+      transactionsData.y = transactionsData.y.slice(-1 * 30);
+  }
+}
 
 var errorsData = {
   title: "server 1",
@@ -512,14 +413,14 @@ var latencyData = {
   y: [5, 1, 7, 5],
 };
 
-setLineData([transactionsData, transactionsData1], transactionsLine);
+transactionsLine.setData(transactionsData);
 // setLineData([errorsData], errorsLine);
 // setLineData([latencyData], latencyLine)
 
 setInterval(function () {
-  setLineData([transactionsData, transactionsData1], transactionsLine);
+  transactionsLine.setData(transactionsData);
   screen.render();
-}, 500);
+}, 1000);
 
 // setInterval(function () {
 //   setLineData([errorsData], errorsLine);
@@ -529,17 +430,6 @@ setInterval(function () {
   updateMemoryUsage();
   screen.render();
 }, 500);
-
-function setLineData(mockData, line) {
-  for (var i = 0; i < mockData.length; i++) {
-    var last = mockData[i].y[mockData[i].y.length - 1];
-    mockData[i].y.shift();
-    var num = Math.max(last + Math.round(Math.random() * 10) - 5, 10);
-    mockData[i].y.push(num);
-  }
-
-  line.setData(mockData);
-}
 
 screen.key(["escape", "q", "C-c"], function (ch, key) {
   return process.exit(0);

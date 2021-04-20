@@ -19,5 +19,5 @@ function randomReq(cb) {
 
 randomReq(function wait() {
   console.log("waiting to make request...");
-  setTimeout(randomReq.bind(null, wait), Math.random() * 1000);
+  setTimeout(randomReq.bind(null, wait), Math.random() * 100);
 });
