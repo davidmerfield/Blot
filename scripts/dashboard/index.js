@@ -256,6 +256,7 @@ const tail = new Tail("logs/nginx.log", { nLines: 100 });
 tail.on("line", function (data) {
   updateReqPerSecond(data);
   updateLog(data);
+  updateThroughput(data);
 });
 
 function updateLog(data) {
@@ -279,92 +280,46 @@ tailApp.on("line", function (data) {
   screen.render();
 });
 
-//set spark dummy data
-var spark1 = [
-  1,
-  2,
-  5,
-  2,
-  1,
-  5,
-  1,
-  2,
-  5,
-  2,
-  1,
-  5,
-  4,
-  4,
-  5,
-  4,
-  1,
-  5,
-  1,
-  2,
-  5,
-  2,
-  1,
-  5,
-  1,
-  2,
-  5,
-  2,
-  1,
-  5,
-  1,
-  2,
-  5,
-  2,
-  1,
-  5,
-];
-var spark2 = [
-  4,
-  4,
-  5,
-  4,
-  1,
-  5,
-  1,
-  2,
-  5,
-  2,
-  1,
-  5,
-  4,
-  4,
-  5,
-  4,
-  1,
-  5,
-  1,
-  2,
-  5,
-  2,
-  1,
-  5,
-  1,
-  2,
-  5,
-  2,
-  1,
-  5,
-  1,
-  2,
-  5,
-  2,
-  1,
-  5,
-];
+var received = [];
+var sent = [];
 
-refreshSpark();
-setInterval(refreshSpark, 1000);
+var currentThroughputSecond;
+var responseDataSentInCurrentSecond = 0;
+var requestDataReceievedInCurrentSecond = 0;
 
-function refreshSpark() {
-  spark1.shift();
-  spark1.push(Math.random() * 5 + 1);
-  sparkline.setData(["Received", "Sent"], [spark1, spark1]);
+function updateThroughput(data) {
+  const date = data.slice(1, data.indexOf("]"));
+
+  let second = moment(date, "DD/MMM/YYYY:HH:mm:ss Z")
+    .startOf("second")
+    .format("mm:ss");
+
+  const requestDataReceived = parseInt(data.split(" ")[5].split(":")[0]);
+  const responseDataSent = parseInt(data.split(" ")[5].split(":")[1]);
+
+  if (currentThroughputSecond === undefined) {
+    currentThroughputSecond = second;
+  }
+
+  if (second === currentThroughputSecond) {
+    responseDataSentInCurrentSecond += responseDataSent;
+    requestDataReceievedInCurrentSecond += requestDataReceived;
+  } else {
+    sent.push(responseDataSentInCurrentSecond);
+    received.push(requestDataReceievedInCurrentSecond);
+    currentThroughputSecond = second;
+    
+    responseDataSentInCurrentSecond = 0;
+    requestDataReceievedInCurrentSecond = 0;
+
+    if (sent.length > 30) sent = sent.slice(-1 * 30);
+
+    if (received.length > 30) received = received.slice(-1 * 30);
+
+    sparkline.setData(["Received", "Sent"], [received, sent]);
+  }
 }
+
 const moment = require("moment");
 
 // [17/Apr/2021:15:20:09 -0400] 4c071011176edb096b3461d2bd9a40f1 502 0.001 888:1220 https://blot.development/settings/photo  cache=-
