@@ -1,7 +1,8 @@
-var debug = require("debug")("blot:build:metadata");
-var ensure = require("helper/ensure");
+const debug = require("debug")("blot:build:metadata");
+const ensure = require("helper/ensure");
+const matter = require("gray-matter");
 
-var alphaNumericRegEx = /^([a-zA-Z0-9\-_ ]+)$/;
+const alphaNumericRegEx = /^([a-zA-Z0-9\-_ ]+)$/;
 
 function Metadata(html) {
   ensure(html, "string");
@@ -13,20 +14,38 @@ function Metadata(html) {
 
   // Somehow some text-editors/OSs have a single return character
   // to signify a newline. Although it doesn't seem technically correct
-  // we handle this edge cache here.
+  // we handle this edge case here.
   html = html.replace(/\r/gm, "\n");
 
-  var metadata = {};
+  let metadata = {};
 
-  var linesToRemove = [];
-  var lines = html.trim().split(/\n/);
+  // YAML-style fenced front-matter!
+  if (html.trim().indexOf("---") === 0) {
+    let frontmatter = matter(html.trim(), {language: 'yaml'});
+    metadata = frontmatter.data;
+    html = frontmatter.content;
+
+    // Alias { Permalink } to { permalink }
+    // lots of other parts of the build process
+    // depend on lowercase metadata keys
+    Object.keys(metadata).forEach((key) => {
+      let lowerCaseKey = key.toLowerCase();
+      if (lowerCaseKey !== key && metadata[lowerCaseKey] === undefined)
+        metadata[lowerCaseKey] = metadata[key];
+    });
+
+    return { html, metadata };
+  }
+
+  let linesToRemove = [];
+  let lines = html.trim().split(/\n/);
 
   debug(lines.length, "lines found");
 
   // THIS SHOULD ALSO WORK FOR HTML:
   // i.e. <p>Page: yes</p>
-  for (var i = 0; i < lines.length; i++) {
-    var line, key, value, firstColon, firstCharacter;
+  for (let i = 0; i < lines.length; i++) {
+    let line, key, value, firstColon, firstCharacter;
 
     line = lines[i];
 
@@ -98,7 +117,7 @@ function Metadata(html) {
     linesToRemove.push(i);
   }
 
-  var linesRemoved = linesToRemove.length;
+  let linesRemoved = linesToRemove.length;
 
   // Remove lines with valid metadata
   while (linesToRemove.length) {
