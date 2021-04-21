@@ -1,6 +1,7 @@
 Fix [Roberto's bug with Wikilinks](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLtGhBgVRhfdCHkxwdjVdDpqzh)
 
-Migrate from mailgun to SES, mailgun's javascript sdk [seems](https://github.com/mailgun/mailgun-js/issues/122) [like](https://github.com/mailgun/mailgun-js#setup-client) a mess.
+Fix bug with close button on Magazine template and tell [Jens](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLtGthWZhlVsJfMwfCcCZQspdG)
+- Seems to happen with files with [accents in their name](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLtGthWZhlVsJfMwfCcCZQspdG)
 
 Simplify local dev setup for [David and write guide](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLtQNnggzjkfrPmTMwVqlHKDWL)
 
@@ -17,6 +18,9 @@ Server changes
 - Take full advantage of attached SSD
   - use rsync/inotify to synchronize 'source of truth' EBS disk with the local SSD cache then modify NGINX to check the synced folder on the /cache disk
   - on boot we would gently copy across all /blogs folders and the /static directory in background task
+
+Migrate from mailgun to SES, mailgun's javascript sdk [seems](https://github.com/mailgun/mailgun-js/issues/122) [like](https://github.com/mailgun/mailgun-js#setup-client) a mess.
+
 Improvements to Wikilinks feature:
 - test with non-[[Wikilinks]] options in Obsidian
 - add support for other (non-Obsidian) wikilink styles (i.e. title-based?)
@@ -33,7 +37,6 @@ Improvements to Dropbox client
 Use postcss to compile template CSS
   - Use [color function](https://mono.software/2017/08/08/supercharge-your-colors/) to improve UX of borders/highlights
 
-Fix bug with close button on Magazine template and tell [Jens](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLtGthWZhlVsJfMwfCcCZQspdG)
 
 Template engine plan
 - create data/blogs/blogID/templates directory
@@ -82,8 +85,6 @@ Resolve [issue](https://blot.im/questions/33) with Pandoc and footnotes and aria
 
 Improve server-side scheduled tasks:
 - Write task to identify and delete long overdue users
-- Write task to rotate log files (remember permissions issues)
-- Understand why some backups don't appear and others are not deleted
 - Back up postgres database
 
 Fetch dimensions of images even if optimize and cache is disable, so that image zoom can work. Tell [Joshua](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsmhMtGvPcwxlSHSSTFVpJVbd)
@@ -913,8 +914,6 @@ Consider supporting Micro pub and tell [Jamie](https://mail.google.com/mail/u/0/
 
 Consider offering newsletter service and tell [David](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKkbrQKXjDGTFNmtHVwJXThsWR) and [Nash](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLtGhBWHnmtJMPGRhNDkLTMbCV)
 
-Consider offering a DNS server with cloudflare like UX to avoid issues connecting the domain
-
 Consider adding a crop of a livestream of the sky above me to the contact page. Possibly sourced from [something like this](https://www.earthcam.com/usa/newyork/worldtradecenter/?cam=hyatthd). Just like this: https://sistercitynyc.com/
 
 Consider adding support for [PubSubHubbub](https://en.wikipedia.org/wiki/WebSub) support and tell [Thomas](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJdDWZmclLFChDsbWBQlWsfk)
@@ -922,4 +921,3 @@ Consider adding support for [PubSubHubbub](https://en.wikipedia.org/wiki/WebSub)
 Consider atompub support for Marsedit and tell Chet and [David](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKjBGqSqTdQqtRCwdKplFvgBCP)
 
 Consider incorporating typographic features from [Textile](http://redcloth.org/textile/phrase-modifiers/)? 
-
