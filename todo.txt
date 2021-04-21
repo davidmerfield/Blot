@@ -388,8 +388,6 @@ Add more fonts to font picker:
 - [ ] Wremena
 - [ ] Young Serif
 
-Add support for YAML-style custom metadata. Consider using something like StrictYAML or [Graymatter](https://github.com/jonschlinkert/gray-matter). Tell [Shibel](https://mail.google.com/mail/u/1/#inbox/164a96aa0fbd4f32) and [Casey](https://twitter.com/ckolderup/status/1050882922591309824?s=12) and [Amit](https://mail.google.com/mail/u/0/#inbox/FMfcgxvwzvMhPfhPCwsfVBLvsxFckCpm) and [Martin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqnhgBjBSKzvtclvqcFcMptMR) and [Kyle](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMZRzMDKzrMwWqQTvWdnlrMJF) and [Brett](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMjvLPvkwHWhDTsVwlChZcBKl) and [SKYue](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJWXQbDQwRZbJLqsqcwrSZjhxF) and [Eric](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJXVNnDPRZsZMlBxwdbjtTsdfn) and [questions](https://blot.im/questions/42)
-
 Add support for paying with Bitcoin and tell [Chaz](https://mail.google.com/mail/u/1/#sent/165b726aa900158a) and [Anita](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsSWMtCTdmrbscFCFLggctmxH)
 
 Add support for paths to static files with a trailing slash then tell [Sean](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGBwbZsfsWKHCGcbzXXSPhQWXx)

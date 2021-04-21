@@ -1,6 +1,6 @@
 const debug = require("debug")("blot:build:metadata");
 const ensure = require("helper/ensure");
-const matter = require("gray-matter");
+const YAML = require("yaml");
 
 const alphaNumericRegEx = /^([a-zA-Z0-9\-_ ]+)$/;
 
@@ -20,10 +20,13 @@ function Metadata(html) {
   let metadata = {};
 
   // YAML-style fenced front-matter!
-  if (html.trim().indexOf("---") === 0) {
-    let frontmatter = matter(html.trim(), {language: 'yaml'});
-    metadata = frontmatter.data;
-    html = frontmatter.content;
+  if (
+    html.trim().startsWith("---") &&
+    html.lastIndexOf("---") !== html.indexOf("---")
+  ) {
+    let frontmatter = html.trim().split("---")[1];
+    metadata = YAML.parse(frontmatter);
+    html = html.trim().split("---").slice(2).join("---");
 
     // Alias { Permalink } to { permalink }
     // lots of other parts of the build process

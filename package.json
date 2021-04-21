@@ -60,7 +60,6 @@
     "fontkit": "^1.8.1",
     "fs-extra": "^8.0.1",
     "gifsicle": "^5.1.0",
-    "gray-matter": "^4.0.2",
     "hbs": "^4.1.1",
     "he": "^1.1.0",
     "helmet": "^3.21.2",
@@ -101,7 +100,8 @@
     "typeset": "^0.2.6",
     "uglify-js": "^2.4.16",
     "uuid": "^3.2.1",
-    "vhost": "^3.0.2"
+    "vhost": "^3.0.2",
+    "yaml": "2.0.0-5"
   },
   "devDependencies": {
     "blessed": "^0.1.81",
