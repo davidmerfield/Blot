@@ -34,7 +34,7 @@ describe("build", function () {
     this.buildAndCheck({ path, contents }, { html }, done);
   });
 
-  fit("will ignore wikilinks spanning multiple lines", function (done) {
+  it("will ignore wikilinks spanning multiple lines", function (done) {
     const contents = "[[wiki\n\nhey]]";
     const path = "/hello.txt";
     const html =
