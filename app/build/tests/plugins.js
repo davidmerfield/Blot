@@ -36,6 +36,22 @@ describe("build", function () {
     });
   });
 
+  it("will convert wikilinks whose path contains square brackets", function (done) {
+    var contents = "[[../[snips]/wikilink]]";
+    var path = "/hello.txt";
+
+    this.blog.plugins.wikilinks = { enabled: true, options: {} };
+
+    fs.outputFileSync(this.blogDirectory + path, contents);
+
+    build(this.blog, path, {}, function (err, entry) {
+      expect(entry.html).toEqual(
+        '<p><a href="../[snips]/wikilink" class="wikilink">../[snips]/wikilink</a></p>'
+      );
+      done();
+    });
+  });
+
   it("will turn titles into title case if plugin is enabled", function (done) {
     var contents = "# Title goes here";
     var path = "/hello.txt";

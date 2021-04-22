@@ -15,17 +15,17 @@ function convertLinks(html) {
   // convert wikilinks with custom link text, e.g.
   // [[hello|world]]
   html = html.replace(
-    /\[\[([^\]\|\r\n]+?)\|([^\]\|\r\n]+?)\]\]/gm,
+    /\[\[([^\|\r\n]+?)\|([^\|\r\n]+?)\]\]/gm,
     '<a href="$1" class="wikilink">$2</a>'
   );
 
   // convert wikilinks without custom link text, e.g.
   // [[hello]]
   html = html.replace(
-    /\[\[([^\]\|\r\n]+?)\]\]/gm,
+    /\[\[([^\r\n]+?)\]\]/gm,
     '<a href="$1" class="wikilink">$1</a>'
   );
-
+  
   return html;
 }
 
