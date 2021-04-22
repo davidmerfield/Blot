@@ -41,7 +41,7 @@ function render($, callback, { blogID, path }) {
         if (childNode.nodeType === 3) {
           $(childNode).replaceWith(convertLinks(childNode.data));
         } else {
-          findTextNodes(childNode);
+          findTextNodes(i, childNode);
         }
       });
   });

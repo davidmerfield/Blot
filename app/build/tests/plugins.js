@@ -20,6 +20,22 @@ describe("build", function () {
     });
   });
 
+  it("will convert wikilinks inside other nodes", function (done) {
+    var contents = "- A **[[wikilink]]** in a list";
+    var path = "/hello.txt";
+
+    this.blog.plugins.wikilinks = { enabled: true, options: {} };
+
+    fs.outputFileSync(this.blogDirectory + path, contents);
+
+    build(this.blog, path, {}, function (err, entry) {
+      expect(entry.html).toEqual(
+        '<ul>\n<li>A <strong><a href="wikilink" class="wikilink">wikilink</a></strong> in a list</li>\n</ul>'
+      );
+      done();
+    });
+  });
+
   it("will turn titles into title case if plugin is enabled", function (done) {
     var contents = "# Title goes here";
     var path = "/hello.txt";
