@@ -1,5 +1,3 @@
-Fix [Roberto's bug with Wikilinks](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLtGhBgVRhfdCHkxwdjVdDpqzh)
-
 Fix bug with close button on Magazine template and tell [Jens](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLtGthWZhlVsJfMwfCcCZQspdG)
 - Seems to happen with files with [accents in their name](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLtGthWZhlVsJfMwfCcCZQspdG)
 
@@ -22,6 +20,7 @@ Server changes
 Migrate from mailgun to SES, mailgun's javascript sdk [seems](https://github.com/mailgun/mailgun-js/issues/122) [like](https://github.com/mailgun/mailgun-js#setup-client) a mess.
 
 Improvements to Wikilinks feature:
+- Write documentation and tell [Roberto](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLtGhBgVRhfdCHkxwdjVdDpqzh)
 - test with non-[[Wikilinks]] options in Obsidian
 - add support for other (non-Obsidian) wikilink styles (i.e. title-based?)
 - use the location of the nearest `.obsidian` directory to determine the 'root' against which to resolve styles?
