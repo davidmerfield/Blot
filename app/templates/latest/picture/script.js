@@ -26,17 +26,13 @@ function lastIndexPage () {
 
   visitedPosts.slice().reverse().forEach(function(item, i) {
           
-    // console.log(backIndex, item.pathname, articles.indexOf(item.pathname));
-
-    if (backIndex === null && articles.indexOf(item.pathname) === -1) {
+    if (backIndex === null && articles.indexOf(decodeURIComponent(item.pathname)) === -1) {
       backIndex = i;
       return false;
     }
   });
 
-  // console.log('BACK INDEX', backIndex);
-
-  if (backIndex !== null) 
+  if (backIndex !== null && backIndex !== 0) 
     window.history.go(-backIndex);
   else 
     window.location = '/';
