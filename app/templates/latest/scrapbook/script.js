@@ -39,14 +39,19 @@ var backIndex;
 var articles;
 
 localHistory.reverse().forEach(function(href, i) {
-  if (backIndex === undefined && articles.indexOf(href.pathname) === -1) {
+  if (backIndex === undefined && articles.indexOf(decodeURIComponent(href.pathname)) === -1) {
     backIndex = i;
     return false;
   }
 });
 
 function lastIndexPage() {
-  window.history.go(-backIndex);
+  if (backIndex !== undefined && -backIndex < 0) {
+    window.history.go(-backIndex);    
+  } else {
+    window.location = '/';
+  }
+
   return false;
 }
 
