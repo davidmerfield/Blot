@@ -1,8 +1,6 @@
 Fix bug with close button on Magazine template and tell [Jens](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLtGthWZhlVsJfMwfCcCZQspdG)
 - Seems to happen with files with [accents in their name](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLtGthWZhlVsJfMwfCcCZQspdG)
 
-Fix bug with close button Picture template and tell [Jordan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLtZxvSbBjqTCnBrJdgjTRJCXv)
-
 Simplify local dev setup for [David and write guide](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLtQNnggzjkfrPmTMwVqlHKDWL)
 
 Add action to lint code with jshint and eslint
