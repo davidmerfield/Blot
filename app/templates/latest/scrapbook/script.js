@@ -18,40 +18,57 @@ will return you to the old scroll offset with great speed.
 
 */
 
-var localHistory = sessionStorage.getItem("localHistory");
-
-if (localHistory) {
-  try {
-    localHistory = JSON.parse(localHistory);
-  } catch (e) {
-    localHistory = [];
-  }
-} else {
-  localHistory = [];
-}
-
-localHistory = localHistory.slice(-50);
-localHistory.push(window.location);
-sessionStorage.setItem("localHistory", JSON.stringify(localHistory));
-
 var articles = [{{#all_entries}}'{{{url}}}'{{^last}},{{/last}}{{/all_entries}}];
 var backIndex;
-var articles;
 
-localHistory.reverse().forEach(function(href, i) {
-  if (backIndex === undefined && articles.indexOf(decodeURIComponent(href.pathname)) === -1) {
-    backIndex = i;
-    return false;
+determineBackIndex();
+
+function determineBackIndex () {
+  var localHistory = sessionStorage.getItem("localHistory");
+
+  if (localHistory) {
+    try {
+      localHistory = JSON.parse(localHistory);
+    } catch (e) {
+      localHistory = [];
+    }
+  } else {
+    localHistory = [];
+  }
+
+  localHistory = localHistory.slice(-50);
+  localHistory.push(window.location);
+  sessionStorage.setItem("localHistory", JSON.stringify(localHistory));
+
+  // we go back in the list of visited pages until we find
+  // an item which doesn't match a known entry's URL
+  localHistory.reverse().forEach(function(href, i) {
+    if (backIndex === undefined && articles.indexOf(decodeURIComponent(href.pathname)) === -1) {
+      backIndex = i;
+      return false;
+    }
+  });
+}
+// Safari does not re-run scripts when the page is navigated
+// to using browser history, so we need to detect this event
+// and re-calculate the index page in the history location.
+window.addEventListener( "pageshow", function ( event ) {
+  var historyTraversal = event.persisted || 
+                         ( typeof window.performance != "undefined" && 
+                              window.performance.navigation.type === 2 );
+  if ( historyTraversal ) {
+    determineBackIndex();
   }
 });
 
 function lastIndexPage() {
-  if (backIndex !== undefined && -backIndex < 0) {
+  // reset the list of pages visited
+  sessionStorage.setItem("localHistory", JSON.stringify([]));
+  if (backIndex !== undefined && -backIndex < 0 && window.history.length > backIndex) {
     window.history.go(-backIndex);    
   } else {
     window.location = '/';
   }
-
   return false;
 }
 
