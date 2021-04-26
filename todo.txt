@@ -1,3 +1,7 @@
+Finish YAML support
+- select 1000 random files from blot
+- check parsed metadata remains the same
+
 Add action to lint code with jshint and eslint
   - any other static code analysis tools?
   - separate code to check for broken links, run in parallel
