@@ -1,3 +1,5 @@
+Work on Lisa's template wireframe
+
 Finish YAML support
 - select 1000 random files from blot
 - check parsed metadata remains the same
