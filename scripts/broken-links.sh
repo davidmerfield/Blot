@@ -12,6 +12,4 @@ if [[ -z "$BLOT_DIRECTORY" ]]; then
     exit 1
 fi
 
-TOTAL_REQUESTS=400000
-
-tail -n $TOTAL_REQUESTS $BLOT_DIRECTORY/logs/nginx.log | grep //$BLOT_HOST | grep " 404 " | grep -oE "[^ ]+$" | sort | uniq
+cat $BLOT_DIRECTORY/logs/nginx.log | grep //$BLOT_HOST | grep " 404 " | grep -oE "[^ ]+$" | sort | uniq

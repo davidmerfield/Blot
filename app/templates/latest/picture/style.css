@@ -319,9 +319,10 @@ font-feature-settings: 'tnum';
 }
 
 .edge a[title="Close"] {
-  position: fixed;
-    top: 1.5rem;
-    right: 1.5em;
+    top: 0;
+    right: 0;
+    z-index: 1;
+    padding: 1.5rem;
 }
 .entry.page {
   padding-top: 3rem;

@@ -10,22 +10,18 @@ const ignore = "head, code, pre, script, style";
 // But that kind of strikes me as a weird wikilink
 
 function convertLinks(html) {
-  if (html.indexOf("[[") === -1 || html.indexOf("]]") === -1) return html;
+  html = html.replace(/\[\[(.+?)\]\]/g, function (match, linkContents) {
+    let text = linkContents;
+    let href = linkContents;
 
-  // convert wikilinks with custom link text, e.g.
-  // [[hello|world]]
-  html = html.replace(
-    /\[\[([^\]\|\r\n]+?)\|([^\]\|\r\n]+?)\]\]/gm,
-    '<a href="$1" class="wikilink">$2</a>'
-  );
+    // Handle wikilinks with custom text, e.g. [[../hello|Hey!]]
+    if (linkContents.indexOf("|") > -1) {
+      href = linkContents.slice(0, linkContents.indexOf("|"));
+      text = linkContents.slice(linkContents.indexOf("|") + 1);
+    }
 
-  // convert wikilinks without custom link text, e.g.
-  // [[hello]]
-  html = html.replace(
-    /\[\[([^\]\|\r\n]+?)\]\]/gm,
-    '<a href="$1" class="wikilink">$1</a>'
-  );
-
+    return `<a href="${href}" class="wikilink">${text}</a>`;
+  });
   return html;
 }
 
@@ -41,7 +37,7 @@ function render($, callback, { blogID, path }) {
         if (childNode.nodeType === 3) {
           $(childNode).replaceWith(convertLinks(childNode.data));
         } else {
-          findTextNodes(childNode);
+          findTextNodes(i, childNode);
         }
       });
   });

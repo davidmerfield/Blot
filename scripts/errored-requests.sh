@@ -8,6 +8,4 @@ if [[ -z "$BLOT_DIRECTORY" ]]; then
     exit 1
 fi
 
-TOTAL_REQUESTS=400000
-
-tail -n $TOTAL_REQUESTS $BLOT_DIRECTORY/logs/nginx.log | grep -e " 500 " -e " 501 " -e " 502 " -e " 503 " -e " 504 " -e " 505 "
+cat $BLOT_DIRECTORY/logs/nginx.log | grep -e " 500 " -e " 501 " -e " 502 " -e " 503 " -e " 504 " -e " 505 "
