@@ -16,9 +16,9 @@ jobs:
           ref: ${{ github.head_ref }}
           fetch-depth: 0
 
-      # My fork of this action does not automatically
-      # commit the changes, meaning we can create a pull
-      # request with them as needed
+       # My fork of this action does not automatically
+       # commit the changes, meaning we can create a pull
+       # request with them as needed
       - name: Run code formatting tool
         uses: davidmerfield/prettier_action@3.4
         with:
