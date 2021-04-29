@@ -18,6 +18,7 @@ each(
     fs.copy(from, to, next);
   },
   (err) => {
+    if (err) throw err;
     console.log("done! wrote result to", TMP);
     process.exit();
   }
