@@ -19,9 +19,16 @@ each((user, blog, entry, next) => {
 
   // 1 in 100 files
   if (Math.floor(Math.random() * 100) > 1) return next();
-  total++;
   const from = localPath(blog.id, entry.id);
   const to = join(TMP, entry.id);
   console.log(blog.id, entry.id);
-  fs.copy(from, to, next);
+  fs.copy(from, to, function(err){
+    if (err) {
+      console.log(entry);
+      console.log(err);
+    } else {
+      total++;
+    }
+    next();
+  });
 }, onComplete);
