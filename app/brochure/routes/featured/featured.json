@@ -10,7 +10,7 @@
       "name": "zacharykeeting.com.png",
       "classname": "zacharykeeting-com",
       "coordinates": {
-        "x": 96,
+        "x": 144,
         "y": 384,
         "width": 48,
         "height": 48,
@@ -30,7 +30,7 @@
       "classname": "www-souloftheimage-com",
       "coordinates": {
         "x": 384,
-        "y": 240,
+        "y": 288,
         "width": 48,
         "height": 48,
         "background_width": 432
@@ -49,7 +49,7 @@
       "classname": "www-skincarriedaway-com",
       "coordinates": {
         "x": 384,
-        "y": 192,
+        "y": 240,
         "width": 48,
         "height": 48,
         "background_width": 432
@@ -67,8 +67,8 @@
       "name": "www.tillmanjex.info.jpg",
       "classname": "www-tillmanjex-info",
       "coordinates": {
-        "x": 384,
-        "y": 336,
+        "x": 0,
+        "y": 384,
         "width": 48,
         "height": 48,
         "background_width": 432
@@ -162,7 +162,7 @@
       "name": "www.inextenso.dev.jpg",
       "classname": "www-inextenso-dev",
       "coordinates": {
-        "x": 48,
+        "x": 96,
         "y": 336,
         "width": 48,
         "height": 48,
@@ -182,7 +182,7 @@
       "classname": "www-andrew-bishop-com",
       "coordinates": {
         "x": 336,
-        "y": 48,
+        "y": 96,
         "width": 48,
         "height": 48,
         "background_width": 432
@@ -220,7 +220,7 @@
       "classname": "www-rebeccatron-com",
       "coordinates": {
         "x": 384,
-        "y": 96,
+        "y": 144,
         "width": 48,
         "height": 48,
         "background_width": 432
@@ -258,7 +258,7 @@
       "classname": "www-alexgibson-nyc",
       "coordinates": {
         "x": 336,
-        "y": 0,
+        "y": 48,
         "width": 48,
         "height": 48,
         "background_width": 432
@@ -276,7 +276,7 @@
       "name": "www.jacobyyoung.com.png",
       "classname": "www-jacobyyoung-com",
       "coordinates": {
-        "x": 192,
+        "x": 240,
         "y": 336,
         "width": 48,
         "height": 48,
@@ -371,7 +371,7 @@
       "name": "www.failuretolerated.com.jpg",
       "classname": "www-failuretolerated-com",
       "coordinates": {
-        "x": 0,
+        "x": 48,
         "y": 336,
         "width": 48,
         "height": 48,
@@ -410,7 +410,7 @@
       "classname": "www-querlin-com",
       "coordinates": {
         "x": 384,
-        "y": 48,
+        "y": 96,
         "width": 48,
         "height": 48,
         "background_width": 432
@@ -524,7 +524,7 @@
       "classname": "www-elisamirkil-com",
       "coordinates": {
         "x": 336,
-        "y": 240,
+        "y": 288,
         "width": 48,
         "height": 48,
         "background_width": 432
@@ -637,7 +637,7 @@
       "name": "www.ishshah.me.jpg",
       "classname": "www-ishshah-me",
       "coordinates": {
-        "x": 144,
+        "x": 192,
         "y": 336,
         "width": 48,
         "height": 48,
@@ -657,7 +657,7 @@
       "classname": "www-chrbutler-com",
       "coordinates": {
         "x": 336,
-        "y": 96,
+        "y": 144,
         "width": 48,
         "height": 48,
         "background_width": 432
@@ -714,7 +714,7 @@
       "classname": "www-crossingthethreshold-net",
       "coordinates": {
         "x": 336,
-        "y": 144,
+        "y": 192,
         "width": 48,
         "height": 48,
         "background_width": 432
@@ -732,7 +732,7 @@
       "name": "www.inthemargins.ca.jpg",
       "classname": "www-inthemargins-ca",
       "coordinates": {
-        "x": 96,
+        "x": 144,
         "y": 336,
         "width": 48,
         "height": 48,
@@ -789,7 +789,7 @@
       "name": "www.zinzy.website.jpg",
       "classname": "www-zinzy-website",
       "coordinates": {
-        "x": 0,
+        "x": 48,
         "y": 384,
         "width": 48,
         "height": 48,
@@ -847,7 +847,7 @@
       "classname": "www-skellis-net",
       "coordinates": {
         "x": 384,
-        "y": 144,
+        "y": 192,
         "width": 48,
         "height": 48,
         "background_width": 432
@@ -923,7 +923,7 @@
       "classname": "www-dustinsenos-com",
       "coordinates": {
         "x": 336,
-        "y": 192,
+        "y": 240,
         "width": 48,
         "height": 48,
         "background_width": 432
@@ -998,8 +998,8 @@
       "name": "www.emilycass.org.jpg",
       "classname": "www-emilycass-org",
       "coordinates": {
-        "x": 336,
-        "y": 288,
+        "x": 0,
+        "y": 336,
         "width": 48,
         "height": 48,
         "background_width": 432
@@ -1074,7 +1074,7 @@
       "name": "www.jsoliday.com.jpg",
       "classname": "www-jsoliday-com",
       "coordinates": {
-        "x": 240,
+        "x": 288,
         "y": 336,
         "width": 48,
         "height": 48,
@@ -1093,8 +1093,8 @@
       "name": "www.minnowlikethefish.com.jpg",
       "classname": "www-minnowlikethefish-com",
       "coordinates": {
-        "x": 336,
-        "y": 336,
+        "x": 384,
+        "y": 0,
         "width": 48,
         "height": 48,
         "background_width": 432
@@ -1169,7 +1169,7 @@
       "name": "xn--gntherwegs-9db.com.jpg",
       "classname": "xn--gntherwegs-9db-com",
       "coordinates": {
-        "x": 48,
+        "x": 96,
         "y": 384,
         "width": 48,
         "height": 48,
@@ -1321,7 +1321,7 @@
       "name": "www.maxkeith.co.png",
       "classname": "www-maxkeith-co",
       "coordinates": {
-        "x": 288,
+        "x": 336,
         "y": 336,
         "width": 48,
         "height": 48,
@@ -1340,8 +1340,8 @@
       "name": "www.aarondowd.com.jpg",
       "classname": "www-aarondowd-com",
       "coordinates": {
-        "x": 288,
-        "y": 288,
+        "x": 336,
+        "y": 0,
         "width": 48,
         "height": 48,
         "background_width": 432
@@ -1360,7 +1360,7 @@
       "classname": "www-thoughtsbyora-com",
       "coordinates": {
         "x": 384,
-        "y": 288,
+        "y": 336,
         "width": 48,
         "height": 48,
         "background_width": 432
@@ -1417,7 +1417,26 @@
       "classname": "www-praveenjayasuriya-com",
       "coordinates": {
         "x": 384,
-        "y": 0,
+        "y": 48,
+        "width": 48,
+        "height": 48,
+        "background_width": 432
+      }
+    }
+  },
+  {
+    "link": "https://windhausen.co",
+    "host": "windhausen.co",
+    "color": "#361712",
+    "name": "Sönke Windhausen",
+    "firstName": "Sönke",
+    "bio": " is a student of history and philosophy in Freiburg",
+    "favicon": {
+      "name": "windhausen.co.jpg",
+      "classname": "windhausen-co",
+      "coordinates": {
+        "x": 288,
+        "y": 288,
         "width": 48,
         "height": 48,
         "background_width": 432
