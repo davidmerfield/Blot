@@ -1,3 +1,5 @@
+Work on Lisa's template wireframe
+
 Improvements for customers
 - Faster server, with SSL termination across CDN
 - Better templates
@@ -8,8 +10,6 @@ Improvements for template developers
 - Better more consistent documentation
 - Improve template engine itself
 - Improve source code for templates
-
-Work on Lisa's template wireframe
 
 Finish YAML support
 - select 1000 random files from blot
