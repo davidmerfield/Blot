@@ -24,6 +24,9 @@ module.exports = function (blog, output_directory, source_domain, callback) {
               return html;
             };
 
+            // allow video embeds like youtube
+            turndown.keep(["iframe"]);
+
             post.content = turndown.turndown(post.html);
 
             post.content = post.content.trim();

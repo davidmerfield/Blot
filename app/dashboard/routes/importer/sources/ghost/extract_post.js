@@ -6,7 +6,9 @@ var extract_tags = require("./extract_tags");
 
 module.exports = function (blog, post, source_domain) {
   return function (callback) {
-    var created, updated, metadata;
+    console.log(post);
+
+    var created, updated, metadata, permalink;
     var title, dateStamp, tags, draft, page, html;
 
     title = post.title;
@@ -21,6 +23,7 @@ module.exports = function (blog, post, source_domain) {
     // if (extract_author(post, blog))
     //   metadata.author = extract_author(post, blog);
 
+    permalink = post.slug;
     draft = post.status === "draft" || post.visibility !== "public";
     page = !!post.page;
     created = moment(post.created_at).valueOf();
@@ -42,13 +45,13 @@ module.exports = function (blog, post, source_domain) {
 
     // Add the new post to the list of posts!
     post = {
-      draft: draft,
-      page: page,
+      draft,
+      page,
 
       // We don't know any of these properties
       // as far as I can tell.
       name: "",
-      permalink: "",
+      permalink,
       summary: "",
 
       title: title,
