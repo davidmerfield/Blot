@@ -1,5 +1,3 @@
-Work on Lisa's template wireframe
-
 Improvements for customers
 - Faster server, with SSL termination across CDN
 - Better templates
