@@ -1968,13 +1968,15 @@ form.account,
 }
 
 .pageLink {
-  line-height: 35px;
-  height: 37px;
-  text-decoration: none;
-  overflow: hidden;
-  border: 1px solid;
-  margin-left: -1px;
-  padding: 0 8px
+line-height: 48px;
+    height: 48px;
+    text-decoration: none;
+    overflow: hidden;
+    border: 1px solid;
+    margin-left: -1px;
+    padding: 0 8px;
+    display: block;
+    margin-top: 2px;
 }
 
 .lab[type="text"],
