@@ -181,7 +181,8 @@ function generateTypeset(path, name, hasSmallCaps) {
 .push-double{margin-right:${double_quote_width}em}
 .pull-single{margin-left:-${single_quote_width}em}
 .push-single{margin-right:${single_quote_width}em}
-.pull-double,.pull-single,.push-double,.push-single{display:inline-block}`;
+.push-double,.push-single{display:inline-block}
+`;
 
   if (hasSmallCaps) {
     typeset += `.small-caps {font-family: ${name}small-caps;text-transform:lowercase}`;
