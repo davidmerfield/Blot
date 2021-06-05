@@ -432,17 +432,6 @@ hr {
   transition: opacity 0.3s, visibility 0.3s;
 }
 
-/* Typeset.css */
-
-/* Small caps */
-/* Double quote (") marks */
-.pull-double{margin-left:-.47em}
-.push-double{margin-right:.47em}
-
-/* Single quote (') marks */
-.pull-single{margin-left:-.28em}
-.push-single{margin-right:.28em}
-
 /*
 
 L A Y O U T . C S S
