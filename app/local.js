@@ -8,6 +8,21 @@ var clfdate = require("helper/clfdate");
 const User = require("models/user");
 const Blog = require("models/blog");
 
+
+// To verify you have installed and run redis, and the correct versions of `node` and `npm`, please ensure the output of the following commands matches:
+// ```sh
+// node -v
+// > v12.16.3
+// ```
+// ```sh
+// npm -v
+// > 6.14.4
+// ```
+// ```sh
+// redis-cli ping
+// > PONG
+//  ```
+ 
 // Welcome to Blot. This is the Express application which listens on port 8080.
 // NGINX listens on port 80 in front of Express app and proxies requests to
 // port 8080. NGINX handles SSL termination, cached response delivery and
@@ -37,10 +52,10 @@ function establishTestBlog(user, callback) {
 
 establishTestUser(function (err, user) {
   // Built and watch template directory
-  // require("./templates")({ watch: true }, function (err) {
-  //   if (err) throw err;
-  //   process.exit();
-  // });
+  require("./templates")({ watch: true }, function (err) {
+    if (err) throw err;
+    process.exit();
+  });
 
   // Blot is composed of four sub applications.
 
