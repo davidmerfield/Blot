@@ -1,9 +1,10 @@
-if (!process.env.BLOT_DIRECTORY)
-  throw new Error("Please declare a BLOT_DIRECTORY environment variable");
+var config = require("config");
+
+if (!config.cache_directory)
+  throw new Error("Please declare a config.cache_directory variable");
 
 var fs = require("fs-extra");
 var async = require("async");
-var config = require("config");
 var flush = require("express-disk-cache")(config.cache_directory).flush;
 var localPath = require("helper/localPath");
 var HOSTS = config.cache_directory;

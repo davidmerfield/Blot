@@ -3,6 +3,10 @@
   "repository": "https://github.com/davidmerfield/Blot",
   "description": "A blogging platform",
   "main": "app/index.js",
+  "files": [
+    "app/*",
+    "config/*"
+  ],
   "engines": {
     "node": "12.16.3",
     "npm": "6.14.4"
@@ -34,7 +38,8 @@
   },
   "scripts": {
     "test": "node tests",
-    "start": "node app"
+    "start": "node app",
+    "local": "NODE_PATH=app BLOT_SESSION_SECRET=insecure node app/local"
   },
   "version": "0.0.0",
   "dependencies": {

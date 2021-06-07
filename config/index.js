@@ -1,18 +1,24 @@
+const BLOT_DIRECTORY =
+  process.env.BLOT_DIRECTORY || require("path").resolve(__dirname + "/../");
+const BLOT_HOST = process.env.BLOT_HOST || "localhost";
+const BLOT_PROTOCOL = process.env.BLOT_PROTOCOL || "http";
+
 module.exports = {
   // codebase expects either 'production' or 'development'
   environment:
     process.env.NODE_ENV === "production" ? "production" : "development",
-  host: process.env.BLOT_HOST,
-  protocol: process.env.BLOT_PROTOCOL + "://",
-  pidfile: process.env.BLOT_DIRECTORY + "/data/process.pid",
+  host: BLOT_HOST,
+  protocol: BLOT_PROTOCOL + "://",
+  pidfile: BLOT_DIRECTORY + "/data/process.pid",
 
   maintenance: process.env.BLOT_MAINTENANCE === "true",
   cache: process.env.BLOT_CACHE === "true",
   debug: process.env.BLOT_DEBUG === "true",
 
-  blog_static_files_dir: process.env.BLOT_DIRECTORY + "/static",
-  blog_folder_dir: process.env.BLOT_DIRECTORY + "/blogs",
-  cache_directory: process.env.BLOT_CACHE_DIRECTORY,
+  blog_static_files_dir: BLOT_DIRECTORY + "/static",
+  blog_folder_dir: BLOT_DIRECTORY + "/blogs",
+  cache_directory:
+    process.env.BLOT_CACHE_DIRECTORY || BLOT_DIRECTORY + "/cache",
 
   ip: process.env.BLOT_IP || "127.0.0.1",
 
@@ -70,7 +76,7 @@ module.exports = {
   cdn: {
     origin:
       process.env.NODE_ENV === "production"
-        ? process.env.BLOT_PROTOCOL + "://blotcdn.com"
+        ? BLOT_PROTOCOL + "://blotcdn.com"
         : "https://" + process.env.BLOT_HOST + "/cdn",
   },
 
