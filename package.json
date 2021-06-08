@@ -3,10 +3,6 @@
   "repository": "https://github.com/davidmerfield/Blot",
   "description": "A blogging platform",
   "main": "app/index.js",
-  "files": [
-    "app/*",
-    "config/*"
-  ],
   "engines": {
     "node": "12.16.3",
     "npm": "6.14.4"

@@ -4,25 +4,37 @@ var vhost = require("vhost");
 var blog = require("./blog");
 var dashboard = require("./dashboard");
 var cdn = require("./cdn");
-var clfdate = require("helper/clfdate");
 const User = require("models/user");
 const Blog = require("models/blog");
+const child_process = require("child_process");
 
+const NODE_VERSION = "v12.16.3";
+const NPM_VERSION = "6.14.4";
 
-// To verify you have installed and run redis, and the correct versions of `node` and `npm`, please ensure the output of the following commands matches:
-// ```sh
-// node -v
-// > v12.16.3
-// ```
-// ```sh
-// npm -v
-// > 6.14.4
-// ```
-// ```sh
-// redis-cli ping
-// > PONG
-//  ```
- 
+// I was getting a warning message from npm when I 'cntrl-c' out 
+// of the server without this.
+process.on('SIGINT', () => {
+    process.exit();
+});
+
+if (child_process.execSync("node -v").toString().trim() !== NODE_VERSION) {
+  throw new Error(
+    `Error: incorrect version of node installed. Please install and use node version: ${NODE_VERSION}`
+  );
+}
+
+if (child_process.execSync("npm -v").toString().trim() !== NPM_VERSION) {
+  throw new Error(
+    `Error: incorrect version of npm installed. Please install and use npm version: ${NPM_VERSION}`
+  );
+}
+
+if (child_process.execSync("redis-cli ping").toString().trim() !== "PONG") {
+  throw new Error(
+    `Error: redis server not running.  Please install and run a redis server`
+  );
+}
+
 // Welcome to Blot. This is the Express application which listens on port 8080.
 // NGINX listens on port 80 in front of Express app and proxies requests to
 // port 8080. NGINX handles SSL termination, cached response delivery and
@@ -97,4 +109,6 @@ establishTestUser(function (err, user) {
   console.log();
 
   Blot.listen(config.port, function () {});
+
+  console.log('Started server successfully!')
 });
