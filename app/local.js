@@ -44,6 +44,7 @@ console.log("- markdown with pandoc  " + !!config.pandoc_path);
 console.log("- .docx conversion  " + !!config.pandoc_path);
 console.log("- .odt conversion  " + !!config.pandoc_path);
 console.log("- dropbox client " + !!config.dropbox.app.key);
+console.log("- persistent dashboard sessions  " + !!config.session.secret);
 
 // Welcome to Blot. This is the Express application which listens on port 8080.
 // NGINX listens on port 80 in front of Express app and proxies requests to

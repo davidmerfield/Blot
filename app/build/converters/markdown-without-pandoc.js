@@ -1,3 +1,6 @@
+// This is used when people are running the server
+// locally on a machine without pandoc – it's useful
+// for developers who want to contribute
 const fs = require("fs-extra");
 const marked = require("marked");
 const extname = require("path").extname;
