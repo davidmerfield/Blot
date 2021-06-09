@@ -16,7 +16,7 @@ npm ci
 
 4. Run Blot's local server:
 ```
-npm start
+npm run local
 ```
 
 You should then see your blog here:
