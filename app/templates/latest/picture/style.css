@@ -319,9 +319,10 @@ font-feature-settings: 'tnum';
 }
 
 .edge a[title="Close"] {
-  position: fixed;
-    top: 1.5rem;
-    right: 1.5em;
+    top: 0;
+    right: 0;
+    z-index: 1;
+    padding: 1.5rem;
 }
 .entry.page {
   padding-top: 3rem;
@@ -430,17 +431,6 @@ hr {
   opacity: 1;
   transition: opacity 0.3s, visibility 0.3s;
 }
-
-/* Typeset.css */
-
-/* Small caps */
-/* Double quote (") marks */
-.pull-double{margin-left:-.47em}
-.push-double{margin-right:.47em}
-
-/* Single quote (') marks */
-.pull-single{margin-left:-.28em}
-.push-single{margin-right:.28em}
 
 /*
 

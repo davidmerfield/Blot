@@ -69,6 +69,33 @@ describe("build", function () {
     });
   });
 
+  it("includes inline code tags in the summary", function (done) {
+    var path = "/hello.txt";
+    var contents = "# Title\n\nThis `should` appear ```in``` the summary";
+
+    fs.outputFileSync(this.blogDirectory + path, contents);
+
+    build(this.blog, path, {}, function (err, entry) {
+      if (err) return done.fail(err);
+      expect(entry.summary).toEqual('This should appear in the summary');
+      done();
+    });
+  });
+
+  it("excludes block code tags in the summary", function (done) {
+    var path = "/hello.txt";
+    var contents = "# Title\n\n```\nNot in\n```\n\nthe summary";
+
+    fs.outputFileSync(this.blogDirectory + path, contents);
+
+    build(this.blog, path, {}, function (err, entry) {
+      if (err) return done.fail(err);
+      expect(entry.summary).toEqual('the summary');
+      done();
+    });
+  });
+
+
   it("resolves relative paths inside files", function (done) {
     var path = "/blog/foo.txt";
     var contents = "![Image](_foo.jpg)";

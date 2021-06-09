@@ -1,22 +1,40 @@
+const BLOT_DIRECTORY =
+  process.env.BLOT_DIRECTORY || require("path").resolve(__dirname + "/../");
+const BLOT_HOST = process.env.BLOT_HOST || "localhost";
+const BLOT_PROTOCOL = process.env.BLOT_PROTOCOL || "http";
+const BLOT_PORT = process.env.BLOT_PORT || "8080";
+
+let BLOT_CDN;
+
+if (process.env.NODE_ENV === "production") {
+  BLOT_CDN = BLOT_PROTOCOL + "://blotcdn.com";
+} else if (BLOT_HOST === "localhost") {
+  BLOT_CDN = BLOT_PROTOCOL + "://" + BLOT_HOST + ":" + BLOT_PORT + "/cdn";
+} else {
+  BLOT_CDN = BLOT_PROTOCOL + "://" + BLOT_HOST + "/cdn";
+}
+
 module.exports = {
   // codebase expects either 'production' or 'development'
   environment:
     process.env.NODE_ENV === "production" ? "production" : "development",
-  host: process.env.BLOT_HOST,
-  protocol: process.env.BLOT_PROTOCOL + "://",
-  pidfile: process.env.BLOT_DIRECTORY + "/data/process.pid",
+  host: BLOT_HOST,
+  protocol: BLOT_PROTOCOL + "://",
+  pidfile: BLOT_DIRECTORY + "/data/process.pid",
 
   maintenance: process.env.BLOT_MAINTENANCE === "true",
   cache: process.env.BLOT_CACHE === "true",
   debug: process.env.BLOT_DEBUG === "true",
 
-  blog_static_files_dir: process.env.BLOT_DIRECTORY + "/static",
-  blog_folder_dir: process.env.BLOT_DIRECTORY + "/blogs",
-  cache_directory: process.env.BLOT_CACHE_DIRECTORY,
+  blot_directory: BLOT_DIRECTORY,
+  blog_static_files_dir: BLOT_DIRECTORY + "/static",
+  blog_folder_dir: BLOT_DIRECTORY + "/blogs",
+  cache_directory:
+    process.env.BLOT_CACHE_DIRECTORY || BLOT_DIRECTORY + "/cache",
 
   ip: process.env.BLOT_IP || "127.0.0.1",
 
-  port: 8080,
+  port: BLOT_PORT,
 
   redis: { port: 6379 },
 
@@ -68,10 +86,7 @@ module.exports = {
   pandoc_path: process.env.BLOT_PANDOC_PATH,
 
   cdn: {
-    origin:
-      process.env.NODE_ENV === "production"
-        ? process.env.BLOT_PROTOCOL + "://blotcdn.com"
-        : "https://" + process.env.BLOT_HOST + "/cdn",
+    origin: BLOT_CDN,
   },
 
   session: {
