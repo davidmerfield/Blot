@@ -15,6 +15,7 @@ module.exports = {
   cache: process.env.BLOT_CACHE === "true",
   debug: process.env.BLOT_DEBUG === "true",
 
+  blot_directory: BLOT_DIRECTORY,
   blog_static_files_dir: BLOT_DIRECTORY + "/static",
   blog_folder_dir: BLOT_DIRECTORY + "/blogs",
   cache_directory:

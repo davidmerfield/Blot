@@ -1,7 +1,9 @@
 var config = require("config");
+var async = require("async");
 
 console.log("Capabilities:");
 console.log("- Twitter " + !!config.twitter.consumer_secret);
+console.log("- Pandoc  " + !!config.pandoc_path);
 
 var Express = require("express");
 const User = require("models/user");
@@ -43,11 +45,11 @@ const email = "example@example.com";
 
 function establishTestUser(callback) {
   User.getByEmail(email, function (err, user) {
-    if (user) return establishTestBlog(user, callback);
+    if (user) return callback(null, user);
 
     User.create(email, "", {}, function (err, user) {
       if (err) return callback(err);
-      establishTestBlog(user, callback);
+      callback(null, user);
     });
   });
 }
@@ -55,64 +57,94 @@ function establishTestUser(callback) {
 function establishTestBlog(user, callback) {
   if (user.blogs.length > 0) return callback(null, user);
 
-  Blog.create(user.uid, { handle: "example", forceSSL: false }, function (err) {
+  Blog.create(user.uid, { handle: "example" }, function (err) {
     if (err) return callback(err);
     callback(null, user);
   });
 }
 
-establishTestUser(function (err, user) {
-  // Built and watch template directory
-  require("./templates")({ watch: true }, function (err) {
-    if (err) throw err;
-    process.exit();
-  });
+function configureBlogs(user, callback) {
+  let port = parseInt(config.port);
+  async.eachSeries(
+    user.blogs,
+    (blogID, next) => {
+      Blog.get({ id: blogID }, (err, blog) => {
+        if (err) return next(err);
+        Blog.set(blogID, { forceSSL: false, client: "local" }, (err) => {
+          if (err) return next(err);
 
-  // Blot is composed of four sub applications.
+          var blogServer = Express();
 
-  // The Dashboard
-  // -------------
-  // Serve the dashboard and public site (the brochure)
-  // Webhooks from Dropbox and Stripe, git pushes are
-  // served by these two applications. The dashboard can
-  // only ever be served for request to the host
-  var dashboardServer = Express();
+          blogServer.use(function (req, res, next) {
+            var _get = req.get;
+            req.get = function (p) {
+              if (p === "host") return "example.localhost";
+              return _get(p);
+            };
+            next();
+          });
 
-  dashboardServer.use(require("dashboard/session"));
+          port++;
 
-  dashboardServer.use(function (req, res, next) {
-    req.session.uid = user.uid;
-    req.session.blogID = user.lastSession;
-    next();
-  });
+          blogServer.use(require("./blog"));
+          blogServer.listen(port);
 
-  dashboardServer.use(require("./dashboard"));
+          console.log();
+          console.log(`Visit your dashboard:`);
+          console.log("http://localhost:" + config.port);
+          console.log();
 
-  dashboardServer.listen("8081");
+          console.log(`Visit your blog:`);
+          console.log(`http://localhost:${port}`);
+          console.log();
 
-  console.log(`Visit your dashboard:`);
-  console.log("http://localhost:8081");
-  console.log();
+          console.log(`Open your blog's folder:`);
+          console.log(config.blot_directory + "/tmp/" + blog.handle);
+          console.log();
 
-  var blogServer = Express();
+          require("clients/local").setup(
+            blogID,
+            config.blot_directory + "/tmp/" + blog.handle,
+            next
+          );
+        });
+      });
+    },
+    (err) => {
+      callback(err, user);
+    }
+  );
+}
 
-  blogServer.use(function (req, res, next) {
-    var _get = req.get;
-    req.get = function (p) {
-      if (p === "host") return "example.localhost";
-      return _get(p);
-    };
-    next();
-    console.log("here", req.get("host"));
-  });
+async.waterfall(
+  [establishTestUser, establishTestBlog, configureBlogs],
+  function (err, user) {
+    // Built and watch template directory
+    require("./templates")({ watch: true }, function (err) {
+      if (err) throw err;
+      process.exit();
+    });
 
-  blogServer.use(require("./blog"));
-  blogServer.listen("8080");
+    // Blot is composed of four sub applications.
 
-  console.log();
-  console.log(`Visit your site:`);
-  console.log("http://localhost:8080");
-  console.log();
+    // The Dashboard
+    // -------------
+    // Serve the dashboard and public site (the brochure)
+    // Webhooks from Dropbox and Stripe, git pushes are
+    // served by these two applications. The dashboard can
+    // only ever be served for request to the host
+    var dashboardServer = Express();
 
-  console.log("Started server successfully!");
-});
+    dashboardServer.use(require("dashboard/session"));
+
+    dashboardServer.use(function (req, res, next) {
+      req.session.uid = user.uid;
+      req.session.blogID = user.lastSession;
+      next();
+    });
+
+    dashboardServer.use(require("./dashboard"));
+
+    dashboardServer.listen(config.port);
+  }
+);
