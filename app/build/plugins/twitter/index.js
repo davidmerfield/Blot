@@ -7,26 +7,12 @@ var Twitter;
 var SCRIPT =
   '<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>';
 
-if (!process.env.BLOT_TWITTER_CONSUMER_KEY) {
-  console.log(
-    "Warning: Please get twitter credentials and pass them as environment variables"
-  );
+// Disable this module if we have not set a Twitter key
+if (!config.twitter.consumer_key) {
   return (module.exports = {});
 }
 
-try {
-  Twitter = new Twit({
-    consumer_key: process.env.BLOT_TWITTER_CONSUMER_KEY,
-    consumer_secret: process.env.BLOT_TWITTER_CONSUMER_SECRET,
-    access_token: process.env.BLOT_TWITTER_ACCESS_TOKEN_KEY,
-    access_token_secret: process.env.BLOT_TWITTER_ACCESS_TOKEN_SECRET,
-  });
-} catch (e) {
-  console.log(
-    "Warning: Please get twitter credentials and pass them as environment variables"
-  );
-  return (module.exports = {});
-}
+Twitter = new Twit(config.twitter);
 
 function render($, callback) {
   var prepend;

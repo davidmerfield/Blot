@@ -9,10 +9,24 @@ var Mustache = require("mustache");
 var marked = require("marked");
 
 var Mailgun = require("mailgun-js");
-var mailgun = new Mailgun({
-  apiKey: config.mailgun.key,
-  domain: config.mailgun.domain,
-});
+var mailgun;
+
+if (config && config.mailgun && config.mailgun.key) {
+  mailgun = new Mailgun({
+    apiKey: config.mailgun.key,
+    domain: config.mailgun.domain,
+  });
+} else {
+  mailgun = {
+    messages: function () {
+      return {
+        send: function (email, callback) {
+          callback(null);
+        },
+      };
+    },
+  };
+}
 
 var adminDir = __dirname + "/admin/";
 var userDir = __dirname + "/user/";

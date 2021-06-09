@@ -8,6 +8,12 @@ Simplify local dev setup for [David and write guide](https://mail.google.com/mai
 
 Add options to [preserve linebreaks](https://stackoverflow.com/questions/26066621/preserve-line-breaks-in-pandoc-markdown-latex-conversion) in Markdown and tell [Matt](https://mail.google.com/mail/u/0/#inbox/FMfcgzGkXcwpJzKrBrGKDcZKBPSSdsfh)
 
+Improvements to simple local server (npm run local):
+- Consider using [redis-mock](https://github.com/yeahoffline/redis-mock) and [mockery](https://github.com/mfncooper/mockery) 
+-  Persist data somehow? import/export from local folder .blot?
+-  Fix 'Visit' link on dashboard
+-  Can we expand this to a simple self-hosting process ('npx blot-server')?
+
 Improvements for customers
 - Faster server, with SSL termination across CDN
 - Better templates

@@ -34,7 +34,8 @@
   },
   "scripts": {
     "test": "node tests",
-    "start": "node app"
+    "start": "node app",
+    "local": "NODE_PATH=app node app/local"
   },
   "version": "0.0.0",
   "dependencies": {
