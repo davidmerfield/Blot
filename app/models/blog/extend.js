@@ -49,6 +49,11 @@ module.exports = function extend(blog) {
     blog.pretty.domain = punycode.toUnicode(blog.domain);
   }
 
+  if (config.host === 'localhost') {
+    blog.url = 'http://localhost:8081';
+    blog.pretty.url = 'localhost:8081';
+  }
+
   blog.blogURL = protocol + "://" + blog.handle + "." + config.host;
   blog.cssURL = blog.cssURL || url.css(blog.cacheID);
   blog.scriptURL = blog.scriptURL || url.js(blog.cacheID);

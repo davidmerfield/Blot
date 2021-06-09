@@ -2,6 +2,17 @@ const BLOT_DIRECTORY =
   process.env.BLOT_DIRECTORY || require("path").resolve(__dirname + "/../");
 const BLOT_HOST = process.env.BLOT_HOST || "localhost";
 const BLOT_PROTOCOL = process.env.BLOT_PROTOCOL || "http";
+const BLOT_PORT = process.env.BLOT_PORT || "8080";
+
+let BLOT_CDN;
+
+if (process.env.NODE_ENV === "production") {
+  BLOT_CDN = BLOT_PROTOCOL + "://blotcdn.com";
+} else if (BLOT_HOST === "localhost") {
+  BLOT_CDN = BLOT_PROTOCOL + "://" + BLOT_HOST + ":" + BLOT_PORT + "/cdn";
+} else {
+  BLOT_CDN = BLOT_PROTOCOL + "://" + BLOT_HOST + "/cdn";
+}
 
 module.exports = {
   // codebase expects either 'production' or 'development'
@@ -23,7 +34,7 @@ module.exports = {
 
   ip: process.env.BLOT_IP || "127.0.0.1",
 
-  port: 8080,
+  port: BLOT_PORT,
 
   redis: { port: 6379 },
 
@@ -75,10 +86,7 @@ module.exports = {
   pandoc_path: process.env.BLOT_PANDOC_PATH,
 
   cdn: {
-    origin:
-      process.env.NODE_ENV === "production"
-        ? BLOT_PROTOCOL + "://blotcdn.com"
-        : "https://" + process.env.BLOT_HOST + "/cdn",
+    origin: BLOT_CDN,
   },
 
   session: {

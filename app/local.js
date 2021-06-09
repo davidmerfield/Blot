@@ -55,19 +55,16 @@ const email = "example@example.com";
 function establishTestUser(callback) {
   User.getByEmail(email, function (err, user) {
     if (user) return callback(null, user);
-
-    User.create(email, "", {}, function (err, user) {
-      if (err) return callback(err);
-      callback(null, user);
-    });
+    User.create(email, "", {}, callback);
   });
 }
 
 function establishTestBlog(user, callback) {
   if (user.blogs.length > 0) return callback(null, user);
 
-  Blog.create(user.uid, { handle: "example" }, function (err) {
+  Blog.create(user.uid, { handle: "example" }, function (err, blog) {
     if (err) return callback(err);
+    user.blogs.push(blog.id);
     callback(null, user);
   });
 }
@@ -128,6 +125,8 @@ function configureBlogs(user, callback) {
 async.waterfall(
   [establishTestUser, establishTestBlog, configureBlogs],
   function (err, user) {
+    if (err) throw err;
+
     // Built and watch template directory
     require("./templates")({ watch: true }, function (err) {
       if (err) throw err;
@@ -143,6 +142,8 @@ async.waterfall(
     // served by these two applications. The dashboard can
     // only ever be served for request to the host
     var dashboardServer = Express();
+
+    dashboardServer.use(require("cdn"));
 
     dashboardServer.use(require("dashboard/session"));
 
