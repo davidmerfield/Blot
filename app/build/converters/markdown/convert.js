@@ -12,13 +12,6 @@ var csl = require("./csl");
 // insert a <br /> for each carriage return
 // '+hard_line_breaks' +
 
-if (!config.pandoc_path) {
-  module.exports = function (blog, text, callback) {
-    callback(null, require("marked")(text));
-  };
-  return;
-}
-
 module.exports = function (blog, text, callback) {
   var extensions =
     // replace url strings with a tags

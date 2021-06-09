@@ -3,7 +3,9 @@ var async = require("async");
 
 console.log("Capabilities:");
 console.log("- Twitter " + !!config.twitter.consumer_secret);
-console.log("- Pandoc  " + !!config.pandoc_path);
+console.log("- markdown with pandoc  " + !!config.pandoc_path);
+console.log("- .docx conversion  " + !!config.pandoc_path);
+console.log("- .odt conversion  " + !!config.pandoc_path);
 
 var Express = require("express");
 const User = require("models/user");
