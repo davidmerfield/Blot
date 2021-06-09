@@ -3,6 +3,7 @@ var Template = require("template");
 var capitalize = require("helper/capitalize");
 var extend = require("helper/extend");
 var basename = require("path").basename;
+var debug = require('debug')('blot:templates');
 
 var fs = require("fs-extra");
 var async = require("async");
@@ -50,10 +51,8 @@ function buildAll(directory, options, callback) {
         if (!options.watch) {
           return callback(result.error);
         } else {
-          console.log();
           console.error("Error building: " + dirs[i]);
           console.error(result.error.stack);
-          console.log();
         }
       }
     });
@@ -64,7 +63,7 @@ function buildAll(directory, options, callback) {
 
 // Path to a directory containing template files
 function build(directory, callback) {
-  console.log("..", require("path").basename(directory), directory);
+  debug("..", require("path").basename(directory), directory);
 
   var templatePackage, isPublic;
   var name, template, description, id;
@@ -193,7 +192,7 @@ function checkForExtinctTemplates(directory, callback) {
     return name.toLowerCase();
   });
 
-  console.log("Checking for extinct templates...");
+  debug("Checking for extinct templates...");
 
   Template.getTemplateList("", function (err, templates) {
     if (err) return callback(err);
@@ -207,14 +206,14 @@ function checkForExtinctTemplates(directory, callback) {
     });
 
     if (templates.length) {
-      console.log(
+      debug(
         templates.length +
           " templates no longer exist. Please run these scripts to safely remove them from the database:"
       );
     }
 
     templates.forEach(function (template) {
-      console.log(
+      debug(
         "node scripts/template/archive.js",
         template.id.split(":")[1]
       );
@@ -227,7 +226,7 @@ function checkForExtinctTemplates(directory, callback) {
 function watch(directory) {
   // Stop the process from exiting automatically
   process.stdin.resume();
-  console.log("Watching", directory, "for changes...");
+  debug("Watching", directory, "for changes...");
 
   var queue = async.queue(function (directory, callback) {
     build(directory, function (err) {
@@ -276,7 +275,7 @@ function emptyCacheForBlogsUsing(templateID, callback) {
           Blog.set(blogID, { cacheID: Date.now() }, function (err) {
             if (err) return next(err);
 
-            console.log(
+            debug(
               "..",
               templateID,
               "flushed for",
