@@ -8,19 +8,12 @@ var alias = {
   "YYYY/M/D": "Year-Month-Day",
 };
 
-var displays = [
-  "D/M/Y",
-  "M/D/Y",
-  "Y/M/D",
-  "MMMM D, Y",
-  "MMMM D, Y [at] h:mma",
-  "D MMMM Y",
-  "Y-MM-DD",
-  "Y-MM-DD HH:mm",
-];
-
 module.exports = function (req, res, next) {
-  var displayFormats = [];
+  res.locals.currentTime = moment
+    .utc(Date.now())
+    .tz(req.blog.timeZone)
+    .format("h:mma, MMMM D");
+
   var dateFormats = [];
 
   formats.forEach(function (format) {
@@ -31,17 +24,6 @@ module.exports = function (req, res, next) {
     });
   });
 
-  displays.forEach(function (display) {
-    var now = moment.utc(Date.now()).tz(req.blog.timeZone).format(display);
-
-    displayFormats.push({
-      value: display,
-      selected: display === req.blog.dateDisplay ? "selected" : "",
-      date: now,
-    });
-  });
-
-  res.locals.displayFormats = displayFormats;
   res.locals.dateFormats = dateFormats;
   next();
 };
