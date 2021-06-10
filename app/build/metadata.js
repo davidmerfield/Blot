@@ -25,17 +25,18 @@ function Metadata(html) {
     html.lastIndexOf("---") !== html.indexOf("---")
   ) {
     let frontmatter = html.trim().split("---")[1];
-    metadata = YAML.parse(frontmatter);
-    html = html.trim().split("---").slice(2).join("---");
+    let mixedCaseMetadata = YAML.parse(frontmatter);
 
-    // Alias { Permalink } to { permalink }
-    // lots of other parts of the build process
-    // depend on lowercase metadata keys
-    Object.keys(metadata).forEach((key) => {
-      let lowerCaseKey = key.toLowerCase();
-      if (lowerCaseKey !== key && metadata[lowerCaseKey] === undefined)
-        metadata[lowerCaseKey] = metadata[key];
+    // Map { Permalink } to { permalink }
+    // Blot uses lowercase metadata keys
+    Object.keys(mixedCaseMetadata).forEach((mixedCaseKey) => {
+      let key = mixedCaseKey.toLowerCase();
+      let value = mixedCaseMetadata[mixedCaseKey];
+      metadata[key] = value;
     });
+
+    // Remove the metadata from the returned HTML
+    html = html.trim().split("---").slice(2).join("---");
 
     return { html, metadata };
   }

@@ -44,9 +44,7 @@ describe("metadata parser", function () {
       ).metadata
     ).toEqual({
       permalink: "hey",
-      Permalink: "hey",
       page: "yes",
-      Page: "yes",
     });
   });
 
