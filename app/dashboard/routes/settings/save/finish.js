@@ -13,8 +13,7 @@ var dictionary = {
   avatar: "Saved changes to your photo",
   handle: "Saved changes to your username",
   timeZone: "Saved changes to your time zone",
-  dateFormat: "Saved changes to your date settings",
-  dateDisplay: "Saved changes to your date settings"
+  dateFormat: "Saved changes to your date settings"
 };
 
 module.exports = function (req, res, next) {
@@ -34,7 +33,6 @@ module.exports = function (req, res, next) {
     // changes to permalink format take effect.
     if (
       changes.indexOf("timeZone") > -1 ||
-      changes.indexOf("dateDisplay") > -1 ||
       changes.indexOf("permalink") > -1
     ) {
       resaveEntries(blogID, function () {});

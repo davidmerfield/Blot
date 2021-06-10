@@ -15,25 +15,21 @@ var displays = [
 module.exports = function (req, res, next) {
   var displayFormats = [];
 
-  let dateDisplay =
-    req.template.locals.dateDisplay ||
-    req.template.locals.date_display;
+  let date_display = req.template.locals.date_display;
 
-  let hideDates =
-    req.template.locals.hideDates ||
-    req.template.locals.hide_dates;
+  let hide_dates = req.template.locals.hide_dates;
 
   displays.forEach(function (display) {
     var now = moment.utc(Date.now()).tz(req.blog.timeZone).format(display);
 
     displayFormats.push({
       value: display,
-      selected: display === dateDisplay ? "selected" : "",
+      selected: display === date_display ? "selected" : "",
       date: now,
     });
   });
 
-  res.locals.hideDates = hideDates;
+  res.locals.hide_dates = hide_dates;
   res.locals.displayFormats = displayFormats;
   next();
 };

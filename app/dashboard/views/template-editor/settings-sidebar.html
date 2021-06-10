@@ -19,13 +19,13 @@
 		>
 
 			<label style="padding:5px 1rem;border-bottom: 1px solid #eee;display: block;">
-				<input type="hidden" value="off" name="locals.hideDates" />
-				<input id="hideDates" type="checkbox" name="locals.hideDates"
-				{{#hideDates}}checked{{/hideDates}}/> Hide dates
+				<input type="hidden" value="off" name="locals.hide_dates" />
+				<input id="hide_dates" type="checkbox" name="locals.hide_dates"
+				{{#hide_dates}}checked{{/hide_dates}}/> Hide dates
 			</label>
 			<label style="padding:0 1rem">
 				Date format<br />
-				<select style="margin: 0 1rem" id="dateDisplay" name="locals.dateDisplay">
+				<select style="margin: 0 1rem" id="date_display" name="locals.date_display">
 					{{#displayFormats}}
 					<option value="{{value}}" {{selected}}>{{date}}</option>
 					{{/displayFormats}}
@@ -34,14 +34,14 @@
 			<hr />
 			<script type="text/javascript">
 				const dateSettings = document.getElementById("dateSettings");
-				const dateDisplay = document.getElementById("dateDisplay");
-				const hideDates = document.getElementById("hideDates");
+				const date_display = document.getElementById("date_display");
+				const hide_dates = document.getElementById("hide_dates");
 
-				hideDates.addEventListener("change", () => {
+				hide_dates.addEventListener("change", () => {
 					dateSettings.submit();
 				});
 
-				dateDisplay.addEventListener("change", () => {
+				date_display.addEventListener("change", () => {
 					dateSettings.submit();
 				});
 			</script>

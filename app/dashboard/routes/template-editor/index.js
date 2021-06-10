@@ -47,9 +47,6 @@ TemplateEditor.route("/:templateSlug/settings")
         newLocals.hide_dates = newLocals.hide_dates === 'on';
       }
 
-      if (newLocals.hideDates) {
-        newLocals.hideDates = newLocals.hideDates === 'on';
-      }
       for (let key in newLocals) locals[key] = newLocals[key];
       for (let key in newPartials) partials[key] = newPartials[key];
 
