@@ -10,7 +10,7 @@ module.exports = function (req, res) {
   // Can be either inherited from the properties of the blog
   // or from the template, or from the view
   var hideDate = res.locals.hide_dates || false;
-  var dateDisplay = res.locals.date_display;
+  var dateDisplay = res.locals.date_display || "MMMM D, Y";
 
   return function (entry) {
     entry.formatDate = FormatDate(entry.dateStamp, req.blog.timeZone);
