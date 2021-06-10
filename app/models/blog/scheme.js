@@ -18,11 +18,11 @@ var DECLARATION = {
   permalink: [PERMALINK, true, true],
   menu: [[LINK], true, true],
   dateFormat: ["string", true, true],
+  cacheID: ["number", false, true],
 
-  // these need to be removed, what the hell was I thinking?
+  // Eventually deprecate these (by incorporation into template engine)
   cssURL: ["string", false, true],
   scriptURL: ["string", false, true],
-  cacheID: ["number", false, true],
   roundAvatar: ["boolean", true, true],
 
   // Flags
