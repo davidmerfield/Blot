@@ -1,21 +1,12 @@
-Subdomains with numbers in them cause SSL certificate errors (e.g. foo2.blot.im)
-
-The typeset settings do not actually affect anything (you can only disable/enable)
-
-New views on template editor have URL "undefined"
-
-Simplify local dev setup for [David and write guide](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLtQNnggzjkfrPmTMwVqlHKDWL)
-
-Add options to [preserve linebreaks](https://stackoverflow.com/questions/26066621/preserve-line-breaks-in-pandoc-markdown-latex-conversion) in Markdown and tell [Matt](https://mail.google.com/mail/u/0/#inbox/FMfcgzGkXcwpJzKrBrGKDcZKBPSSdsfh)
-
-Improvements to simple local server (npm run local):
-- Consider using [redis-mock](https://github.com/yeahoffline/redis-mock) and [mockery](https://github.com/mfncooper/mockery) 
--  Persist data somehow? import/export from local folder .blot?
--  Fix 'Visit' link on dashboard
--  Can we expand this to a simple self-hosting process ('npx blot-server')?
+Improvements to template editor
+- New views on template editor have URL "undefined"
+- Add layout option
+- Add color processing
+- Make 'date-format' and 'hide dates' template properties in package.json
 
 Improvements for customers
 - Faster server, with SSL termination across CDN
+  - set up 'cdn.blot.im' as cloudfront distribution endpoint?
 - Better templates
   - Better customization options
 - Easier import and export
@@ -61,9 +52,20 @@ Improvements to Dropbox client
   - https://dropbox.tech/developers/now-available--scoped-apps-and-enhanced-permissions
   - https://dropbox.tech/developers/migrating-app-permissions-and-access-tokens
 
+Improvements to simple local server (npm run local):
+- Consider using [redis-mock](https://github.com/yeahoffline/redis-mock) and [mockery](https://github.com/mfncooper/mockery) 
+-  Persist data somehow? import/export from local folder .blot?
+-  Fix 'Visit' link on dashboard
+-  Can we expand this to a simple self-hosting process ('npx blot-server')?
+
 Use postcss to compile template CSS
   - Use [color function](https://mono.software/2017/08/08/supercharge-your-colors/) to improve UX of borders/highlights
 
+Add options to [preserve linebreaks](https://stackoverflow.com/questions/26066621/preserve-line-breaks-in-pandoc-markdown-latex-conversion) in Markdown and tell [Matt](https://mail.google.com/mail/u/0/#inbox/FMfcgzGkXcwpJzKrBrGKDcZKBPSSdsfh)
+
+Subdomains with numbers in them cause SSL certificate errors (e.g. foo2.blot.im)
+
+The typeset settings do not actually affect anything (you can only disable/enable)
 
 Template engine plan
 - create data/blogs/blogID/templates directory
