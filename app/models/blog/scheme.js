@@ -22,7 +22,6 @@ var DECLARATION = {
   cssURL: ["string", false, true],
   scriptURL: ["string", false, true],
   dateDisplay: ["string", true, true],
-  hideDates: ["boolean", true, true],
   cacheID: ["number", false, true],
   roundAvatar: ["boolean", true, true],
   dateFormat: ["string", true, true],

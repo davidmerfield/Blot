@@ -14,8 +14,7 @@ var dictionary = {
   handle: "Saved changes to your username",
   timeZone: "Saved changes to your time zone",
   dateFormat: "Saved changes to your date settings",
-  dateDisplay: "Saved changes to your date settings",
-  hideDates: "Saved changes to your date settings",
+  dateDisplay: "Saved changes to your date settings"
 };
 
 module.exports = function (req, res, next) {

@@ -16,19 +16,16 @@
 		<form
 			id="dateSettings"
 			method="post"
-			action="/settings"
-			enctype="multipart/form-data"
 		>
-			<input type="hidden" name="redirect" value="{{{base}}}/settings" />
 
 			<label style="padding:5px 1rem;border-bottom: 1px solid #eee;display: block;">
-				<input type="hidden" value="off" name="hideDates" />
-				<input id="hideDates" type="checkbox" name="hideDates"
-				{{#blog.hideDates}}checked{{/blog.hideDates}}/> Hide dates
+				<input type="hidden" value="off" name="locals.hideDates" />
+				<input id="hideDates" type="checkbox" name="locals.hideDates"
+				{{#hideDates}}checked{{/hideDates}}/> Hide dates
 			</label>
 			<label style="padding:0 1rem">
 				Date format<br />
-				<select style="margin: 0 1rem" id="dateDisplay" name="dateDisplay">
+				<select style="margin: 0 1rem" id="dateDisplay" name="locals.dateDisplay">
 					{{#displayFormats}}
 					<option value="{{value}}" {{selected}}>{{date}}</option>
 					{{/displayFormats}}
