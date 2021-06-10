@@ -1,5 +1,5 @@
-var writeToFolder = require("modules/template").writeToFolder;
 var eachTemplate = require("../each/template");
+var writeToFolder = require("models/template").writeToFolder;
 var Template = require("models/template");
 var async = require("async");
 var shouldWrite = {};
@@ -8,15 +8,28 @@ eachTemplate(
   function (user, blog, template, next) {
     if (!template) return next();
 
-    if (blog.hideDates) {
-      template.locals.hide_dates = true;
+    let hide_dates = blog.hideDates === true;
+    let date_display = blog.dateDisplay;
+    let changes = false;
+
+    if (hide_dates !== template.locals.hide_dates) {
+      template.locals.hide_dates = hide_dates;
+      changes = true;
     }
 
-    template.locals.date_display = blog.dateDisplay;
+    if (date_display !== template.locals.date_display) {
+      template.locals.date_display = blog.dateDisplay;
+      changes = true;
+    }
 
-    if (template.localEditing) shouldWrite[template.id] = blog.id;
-    console.log("Changed", template.id);
-    Template.setMetadata(template.id, template.locals, next);
+    if (changes) {
+      console.log("Changed", template.id);
+      if (template.localEditing) shouldWrite[template.id] = blog.id;
+
+      Template.setMetadata(template.id, { locals: template.locals }, next);
+    } else {
+      next();
+    }
   },
   function () {
     console.log();
