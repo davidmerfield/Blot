@@ -17,13 +17,11 @@ module.exports = function (req, res, next) {
 
   let dateDisplay =
     req.template.locals.dateDisplay ||
-    req.template.locals.date_display ||
-    req.blog.dateDisplay;
+    req.template.locals.date_display;
 
   let hideDates =
     req.template.locals.hideDates ||
-    req.template.locals.hide_dates ||
-    req.blog.hideDates;
+    req.template.locals.hide_dates;
 
   displays.forEach(function (display) {
     var now = moment.utc(Date.now()).tz(req.blog.timeZone).format(display);
