@@ -14,7 +14,7 @@ var PAST_TEMPLATES_DIRECTORY = require("path").resolve(__dirname + "/past");
 var TEMPLATES_OWNER = "SITE";
 
 if (require.main === module) {
-  main({ watch: true }, function (err) {
+  main({ watch: config.environment === 'development' }, function (err) {
     if (err) throw err;
     process.exit();
   });
@@ -31,6 +31,8 @@ function main(options, callback) {
         if (err) return callback(err);
 
         if (options.watch) {
+          console.log('Built all templates.')
+          console.log('Watching templates directory for changes');
           watch(TEMPLATES_DIRECTORY);
           watch(PAST_TEMPLATES_DIRECTORY);
         } else {
