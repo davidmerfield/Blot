@@ -42,6 +42,14 @@ TemplateEditor.route("/:templateSlug/settings")
       let locals = req.template.locals;
       let partials = req.template.partials;
 
+      // Booleans
+      if (newLocals.hide_dates) {
+        newLocals.hide_dates = newLocals.hide_dates === 'on';
+      }
+
+      if (newLocals.hideDates) {
+        newLocals.hideDates = newLocals.hideDates === 'on';
+      }
       for (let key in newLocals) locals[key] = newLocals[key];
       for (let key in newPartials) partials[key] = newPartials[key];
 
