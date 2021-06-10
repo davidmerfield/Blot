@@ -76,6 +76,8 @@ module.exports = function (req, res) {
         .utc(entry.dateStamp)
         .tz(blog.timeZone)
         .format(dateDisplay);
+    } else {
+      delete entry.date;
     }
 
     return entry;
