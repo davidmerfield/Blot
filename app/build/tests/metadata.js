@@ -37,6 +37,17 @@ describe("metadata parser", function () {
     });
   });
 
+  it("parses YAML metadata", function () {
+    expect(
+      Metadata(
+        ["---", "Page: yes", "Permalink: hey", "---", "", "# Hi"].join("\n")
+      ).metadata
+    ).toEqual({
+      permalink: "hey",
+      page: "yes",
+    });
+  });
+
   it("handles colons", function () {
     expect(
       Metadata(
