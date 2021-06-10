@@ -98,9 +98,6 @@ module.exports = function route(server) {
         entry.previous = previousEntry;
         entry.adjacent = !!(nextEntry || previousEntry);
 
-        // Dont show dates on a page
-        if (blog.hideDates || entry.menu) delete entry.date;
-
         response.addLocals({
           pageTitle: entry.title + " - " + blog.title,
           pageDescription: entry.summary,
