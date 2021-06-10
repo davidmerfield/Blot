@@ -7,6 +7,8 @@
     "text_color": "rgba(0, 0, 0, 0.85)",
     "link_color": "#00008B",
     "font_size": 16,
+    "hide_dates": false,
+    "date_display": "MMMM D, Y",    
     "body_font": {
       "name": "System sans-serif",
       "stack": "-apple-system, BlinkMacSystemFont, 'avenir next', avenir, 'helvetica neue', helvetica, ubuntu, roboto, noto, 'segoe ui', arial, sans-serif",
