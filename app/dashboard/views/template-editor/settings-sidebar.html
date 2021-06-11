@@ -10,19 +10,22 @@
 	{{#fonts.length}}
 		{{#fonts}} {{> font}} {{/fonts}} 
 	{{/fonts.length}}
-
+  
+  {{#show_date_options}}
 	<div style="margin:1rem;background: #fff">
 		<h2>Date and time</h2>
 		<form
 			id="dateSettings"
 			method="post"
 		>
-
+			{{#show_hide_dates}}
 			<label style="padding:5px 1rem;border-bottom: 1px solid #eee;display: block;">
 				<input type="hidden" value="off" name="locals.hide_dates" />
 				<input id="hide_dates" type="checkbox" name="locals.hide_dates"
 				{{#hide_dates}}checked{{/hide_dates}}/> Hide dates
 			</label>
+			{{/show_hide_dates}}
+			{{#displayFormats.length}}
 			<label style="padding:0 1rem">
 				Date format<br />
 				<select style="margin: 0 1rem" id="date_display" name="locals.date_display">
@@ -31,6 +34,7 @@
 					{{/displayFormats}}
 				</select>
 			</label>
+			{{/displayFormats.length}}
 			<hr />
 			<script type="text/javascript">
 				const dateSettings = document.getElementById("dateSettings");
@@ -47,6 +51,7 @@
 			</script>
 		</form>
 	</div>
+	{{/show_date_options}}
 
 	{{#layouts.length}}
 	<div style="margin:1rem;background: #fff">

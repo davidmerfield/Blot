@@ -13,23 +13,32 @@ var displays = [
 ];
 
 module.exports = function (req, res, next) {
-  var displayFormats = [];
-
   let date_display = req.template.locals.date_display;
-
   let hide_dates = req.template.locals.hide_dates;
 
-  displays.forEach(function (display) {
-    var now = moment.utc(Date.now()).tz(req.blog.timeZone).format(display);
+  if (date_display) {
+    var displayFormats = [];
 
-    displayFormats.push({
-      value: display,
-      selected: display === date_display ? "selected" : "",
-      date: now,
+    displays.forEach(function (display) {
+      var now = moment.utc(Date.now()).tz(req.blog.timeZone).format(display);
+
+      displayFormats.push({
+        value: display,
+        selected: display === date_display ? "selected" : "",
+        date: now,
+      });
     });
-  });
 
+    res.locals.displayFormats = displayFormats;
+  } else {
+    res.locals.displayFormats = false;
+  }
+
+  res.locals.show_hide_dates = hide_dates !== undefined;
   res.locals.hide_dates = hide_dates;
-  res.locals.displayFormats = displayFormats;
+
+  res.locals.show_date_options =
+    res.locals.show_hide_dates && res.locals.displayFormats;
+
   next();
 };
