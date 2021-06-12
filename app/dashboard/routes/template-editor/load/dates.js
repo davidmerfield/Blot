@@ -38,7 +38,7 @@ module.exports = function (req, res, next) {
   res.locals.hide_dates = hide_dates;
 
   res.locals.show_date_options =
-    res.locals.show_hide_dates && res.locals.displayFormats;
+    res.locals.show_hide_dates && res.locals.displayFormats.length;
 
   next();
 };
