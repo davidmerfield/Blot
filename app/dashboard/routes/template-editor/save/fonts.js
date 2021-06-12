@@ -16,6 +16,8 @@ module.exports = function (req, res, next) {
       for (let prop in match)
         req.locals[key][prop] = req.locals[key][prop] || match[prop];
     }
+
+    console.log(req.locals);
   }
 
   next();
