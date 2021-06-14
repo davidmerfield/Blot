@@ -1,3 +1,6 @@
+Finish Lisa's site translation
+- work on SVG animator
+
 Improvements to template editor
 - New views on template editor have URL "undefined"
 - Add layout option
