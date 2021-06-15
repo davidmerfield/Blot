@@ -78,7 +78,7 @@ function generatePackage(directory) {
   package.stack = package.stack || `'${package.name}'`;
   package.line_height = package.line_height || 1.4;
   package.line_width = package.line_width || 38;
-  package.font_size = package.font_size || 1;
+  package.font_size = package.font_size || 16;
 
   fs.outputJsonSync(directory + "/package.json", package, { spaces: 2 });
 }

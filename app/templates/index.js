@@ -3,8 +3,8 @@ var Template = require("template");
 var capitalize = require("helper/capitalize");
 var extend = require("helper/extend");
 var basename = require("path").basename;
-var debug = require('debug')('blot:templates');
-
+var debug = require("debug")("blot:templates");
+var Mustache = require("mustache");
 var fs = require("fs-extra");
 var async = require("async");
 var Blog = require("blog");
@@ -14,7 +14,7 @@ var PAST_TEMPLATES_DIRECTORY = require("path").resolve(__dirname + "/past");
 var TEMPLATES_OWNER = "SITE";
 
 if (require.main === module) {
-  main({ watch: config.environment === 'development' }, function (err) {
+  main({ watch: config.environment === "development" }, function (err) {
     if (err) throw err;
     process.exit();
   });
@@ -31,8 +31,8 @@ function main(options, callback) {
         if (err) return callback(err);
 
         if (options.watch) {
-          console.log('Built all templates.')
-          console.log('Watching templates directory for changes');
+          console.log("Built all templates.");
+          console.log("Watching templates directory for changes");
           watch(TEMPLATES_DIRECTORY);
           watch(PAST_TEMPLATES_DIRECTORY);
         } else {
@@ -88,6 +88,22 @@ function build(directory, callback) {
     description: description,
     locals: templatePackage.locals,
   };
+
+  // Set the default font for each template
+  if (template.locals.body_font !== undefined) {
+    template.locals.body_font = require("blog/static/fonts")
+      .filter((font) => font.name === "System sans-serif")
+      .map((font) => {
+        console.log(config.cdn.origin);
+        console.log(font.styles);
+        font.styles = Mustache.render(font.styles, {
+          config: {
+            cdn: { origin: config.cdn.origin },
+          },
+        });
+        return font;
+      })[0];
+  }
 
   Template.drop(TEMPLATES_OWNER, basename(directory), function () {
     Template.create(TEMPLATES_OWNER, name, template, function (err) {
@@ -215,10 +231,7 @@ function checkForExtinctTemplates(directory, callback) {
     }
 
     templates.forEach(function (template) {
-      debug(
-        "node scripts/template/archive.js",
-        template.id.split(":")[1]
-      );
+      debug("node scripts/template/archive.js", template.id.split(":")[1]);
     });
 
     callback();

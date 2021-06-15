@@ -7,12 +7,7 @@
     "link_color": "#004984",
     "hide_dates": false,
     "date_display": "MMMM D, Y",
-    "body_font": {
-      "name": "System sans-serif",
-      "stack": "-apple-system, BlinkMacSystemFont, 'avenir next', avenir, 'helvetica neue', helvetica, ubuntu, roboto, noto, 'segoe ui', arial, sans-serif",
-      "line_height": 1.45,
-      "font_size": 18
-    }
+    "body_font": {}
   },
   "isPublic": true,
   "views": {
