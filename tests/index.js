@@ -8,6 +8,7 @@ var seed;
 var config = {
   spec_dir: "",
   spec_files: [
+    "tests/**/*.js",
     "app/**/tests/**/*.js",
     "app/**/tests.js",
     "!**/node_modules/**", // excludes tests inside node_modules directories
