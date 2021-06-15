@@ -58,4 +58,5 @@
 .push-double{margin-right:0.365234375em}
 .pull-single{margin-left:-0.365234375em}
 .push-single{margin-right:0.365234375em}
-.pull-double,.pull-single,.push-double,.push-single{display:inline-block}
+.push-double,.push-single{display:inline-block}
+

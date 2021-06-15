@@ -39,8 +39,8 @@ hr {
 /* Proportions */
 
 body{
-  font-size: {{font_size}}px;
-  line-height: {{line_height}};
+  font-size: {{body_font.font_size}}px;
+  line-height: {{body_font.line_height}};
 }
 
 .index a {
@@ -431,17 +431,6 @@ hr {
   opacity: 1;
   transition: opacity 0.3s, visibility 0.3s;
 }
-
-/* Typeset.css */
-
-/* Small caps */
-/* Double quote (") marks */
-.pull-double{margin-left:-.47em}
-.push-double{margin-right:.47em}
-
-/* Single quote (') marks */
-.pull-single{margin-left:-.28em}
-.push-single{margin-right:.28em}
 
 /*
 

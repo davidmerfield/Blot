@@ -72,4 +72,13 @@ describe("build", function () {
     this.blog.plugins.titlecase = { enabled: true, options: {} };
     this.buildAndCheck({ path, contents }, { html }, done);
   });
+
+  it("will turn titles with nested children into title case if plugin is enabled", function (done) {
+    const contents = "# Title *goes [with](/here)* children";
+    const path = "/hello.txt";
+    const html = '<h1 id="title-goes-with-children">Title <em>Goes <a href="/here">With</a></em> Children</h1>';
+
+    this.blog.plugins.titlecase = { enabled: true, options: {} };
+    this.buildAndCheck({ path, contents }, { html }, done);
+  });
 });

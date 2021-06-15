@@ -65,7 +65,7 @@ function titlecase(
     excludedWords.push(...smallWords);
   }
 
-  const words = string.trim().split(/(\s+)/);
+  const words = string.split(/(\s+)/);
 
   let previousWord = "";
   const lastWordIndex = words.length - 1;

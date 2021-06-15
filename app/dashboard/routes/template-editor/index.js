@@ -32,7 +32,7 @@ TemplateEditor.route("/:templateSlug/settings")
   .all(require("./load/font-inputs"))
   .all(require("./load/color-inputs"))
   .all(require("./load/layout-inputs"))
-  .all(require("../settings/load/dates"))
+  .all(require("./load/dates"))
   .post(
     bodyParser,
     function (req, res, next) {
@@ -42,14 +42,16 @@ TemplateEditor.route("/:templateSlug/settings")
       let locals = req.template.locals;
       let partials = req.template.partials;
 
+      // Booleans
+      if (newLocals.hide_dates) {
+        newLocals.hide_dates = newLocals.hide_dates === 'on';
+      }
+
       for (let key in newLocals) locals[key] = newLocals[key];
       for (let key in newPartials) partials[key] = newPartials[key];
 
       req.locals = locals;
       req.partials = partials || {};
-
-      console.log(req.locals);
-      console.log(req.partials);
 
       next();
     },

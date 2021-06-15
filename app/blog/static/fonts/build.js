@@ -78,7 +78,7 @@ function generatePackage(directory) {
   package.stack = package.stack || `'${package.name}'`;
   package.line_height = package.line_height || 1.4;
   package.line_width = package.line_width || 38;
-  package.font_size = package.font_size || 1;
+  package.font_size = package.font_size || 16;
 
   fs.outputJsonSync(directory + "/package.json", package, { spaces: 2 });
 }
@@ -181,7 +181,8 @@ function generateTypeset(path, name, hasSmallCaps) {
 .push-double{margin-right:${double_quote_width}em}
 .pull-single{margin-left:-${single_quote_width}em}
 .push-single{margin-right:${single_quote_width}em}
-.pull-double,.pull-single,.push-double,.push-single{display:inline-block}`;
+.push-double,.push-single{display:inline-block}
+`;
 
   if (hasSmallCaps) {
     typeset += `.small-caps {font-family: ${name}small-caps;text-transform:lowercase}`;
