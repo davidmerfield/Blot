@@ -94,6 +94,8 @@ function build(directory, callback) {
     template.locals.body_font = require("blog/static/fonts")
       .filter((font) => font.name === "System sans-serif")
       .map((font) => {
+        console.log(config.cdn.origin);
+        console.log(font.styles);
         font.styles = Mustache.render(font.styles, {
           config: {
             cdn: { origin: config.cdn.origin },
