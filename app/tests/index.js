@@ -1,5 +1,17 @@
-describe("Blot endpoints", function () {
-  var request = require("request");
+describe("Blot configuration", function () {
+  // The test to start the main server
+  // and resolve unused dependencies both
+  // needs a little longer to run. 20s should be plenty
+  var LONG_TIMEOUT = 20 * 1000;
+
+  // TODO: check that g
+  it("config loads without error", function () {
+    expect(function () {
+      require("../../config");
+    }).not.toThrow();
+  });
+
+var request = require("request");
   var START_MESSAGE = "listening";
   var server;
   var stderr = "";
@@ -41,6 +53,13 @@ describe("Blot endpoints", function () {
       if (err) return done.fail(err);
       expect(res.statusCode).toBe(200);
       expect(body).toEqual("OK");
+      done();
+    });
+  });
+
+  it("can connect to redis", function (done) {
+    require("models/client").ping(function (err) {
+      expect(err).toBe(null);
       done();
     });
   });

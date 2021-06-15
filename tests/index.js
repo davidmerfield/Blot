@@ -11,8 +11,6 @@ var config = {
     "tests/**/*.js",
     "app/**/tests/**/*.js",
     "app/**/tests.js",
-    "scripts/**/tests.js",
-    "scripts/**/tests/*.js",
     "!**/node_modules/**", // excludes tests inside node_modules directories
   ],
   helpers: [],
@@ -31,7 +29,11 @@ if (process.argv[2]) {
     // We have passed directory of tests to run
   } else {
     config.spec_dir = process.argv[2];
-    config.spec_files = ["**/tests/**/*.js", "**/tests.js"];
+    config.spec_files = [
+      "**/tests/**/*.js",
+      "**/tests.js",
+      "!**/node_modules/**",
+    ];
   }
 } else {
   console.log(
@@ -55,12 +57,33 @@ jasmine.loadConfig(config);
 
 jasmine.addReporter({
   specStarted: function (result) {
-    console.log();
-    console.log(colors.dim(".. " + result.fullName));
+    console.time(colors.dim(" " + result.fullName));
   },
   specDone: function (result) {
-    console.log(colors.dim(". " + result.fullName));
-    console.log();
+    console.timeEnd(colors.dim(" " + result.fullName));
+  },
+});
+
+var startTimes = {};
+var durations = {};
+
+jasmine.addReporter({
+
+  specStarted: function (result) {
+    startTimes[result.fullName] = Date.now();
+  },
+  specDone: function (result) {
+    durations[result.fullName] = Date.now() - startTimes[result.fullName];
+  },
+  jasmineDone: function () {
+    console.log("Slowest specs:");
+    Object.keys(durations)
+      .sort(function (a, b) {
+        return durations[b] - durations[a];
+      })
+      .map((fullName) => durations[fullName] + "ms " + colors.dim(fullName))
+      .slice(0, 10)
+      .forEach((line) => console.log(line));
   },
 });
 

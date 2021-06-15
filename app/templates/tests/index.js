@@ -1,10 +1,8 @@
-describe("Blot broken links", function () {
+describe("Templates", function () {
   var buildTemplates = require("templates");
-  var dashboard = require("dashboard");
-  var broken = require("../util/broken");
 
   it(
-    "templates build without error",
+    "build without error",
     function (done) {
       buildTemplates({ watch: false }, function (err) {
         if (err) return done.fail(err);

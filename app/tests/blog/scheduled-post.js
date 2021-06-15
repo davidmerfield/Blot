@@ -4,11 +4,11 @@ xdescribe("scheduled posts", function () {
   const Template = require("models/template");
   const Blog = require("models/blog");
   const sync = require("sync");
-  const blogServer = require("blog");
+  const blogServer = require("../../blog");
   const fs = require("fs-extra");
   const request = require("request");
   const Express = require("express");
-  const config = require("../../config");
+  const config = require("config");
   const guid = require("helper/guid");
   const moment = require("moment");
   const MINUTE = 60 * 1000;

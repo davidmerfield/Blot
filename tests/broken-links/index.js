@@ -1,4 +1,4 @@
-describe("Blot broken links", function () {
+describe("Blot's website'", function () {
   var brochure = require("brochure");
   var dashboard = require("dashboard");
   var broken = require("../util/broken");
