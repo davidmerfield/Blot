@@ -68,7 +68,6 @@ var startTimes = {};
 var durations = {};
 
 jasmine.addReporter({
-
   specStarted: function (result) {
     startTimes[result.fullName] = Date.now();
   },
