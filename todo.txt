@@ -1,6 +1,8 @@
 Finish Lisa's site translation
 - work on SVG animator
 
+Show templates from your other blogs on a seperate page and tell [Chet](https://mail.google.com/mail/u/0/#inbox/FMfcgzGkXmfdrsfVWdVVNbXddvcLBLCV)
+
 Improvements to template editor
 - New views on template editor have URL "undefined"
 - Add layout option
