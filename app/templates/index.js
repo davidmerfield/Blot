@@ -90,16 +90,18 @@ function build(directory, callback) {
   };
 
   // Set the default font for each template
-  if (template.locals.body_font !== undefined)
+  if (template.locals.body_font !== undefined) {
     template.locals.body_font = require("blog/static/fonts")
       .filter((font) => font.name === "System sans-serif")
-      .forEach((font) => {
+      .map((font) => {
         font.styles = Mustache.render(font.styles, {
           config: {
             cdn: { origin: config.cdn.origin },
           },
         });
+        return font;
       })[0];
+  }
 
   Template.drop(TEMPLATES_OWNER, basename(directory), function () {
     Template.create(TEMPLATES_OWNER, name, template, function (err) {
