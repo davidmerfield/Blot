@@ -26,7 +26,7 @@ module.exports = function (req, res, next) {
 
     queue = async.queue(function (task, callback) {
       upload(token, task.source, task.destination, callback);
-    }, 5);
+    });
 
     queue.drain = function () {
       if (walked) {
@@ -56,11 +56,12 @@ module.exports = function (req, res, next) {
 // want to clobber /foo/bar/baz.jpg if it already exists
 // so we run down a list of options. Returns the
 // name of the lowercased file.
-function ensureLowerCase(directory, name, callback) {
-  var currentPath, parsedPath, names;
-
+function ensureLowerCase(blogID, localFolder, path, name, callback) {
   if (name === name.toLowerCase()) return callback(null, name);
 
+  var currentPath, parsedPath, names;
+  var originalName = name;
+  var directory = join(localFolder, path);
   currentPath = join(directory, name);
   parsedPath = Path.parse(currentPath);
 
@@ -84,9 +85,26 @@ function ensureLowerCase(directory, name, callback) {
   async.eachSeries(
     names,
     function (name, next) {
-      fs.move(currentPath, join(directory, name), function (err) {
-        if (err) return next();
-        callback(null, name);
+      debug("attempting to move", currentPath, "to", join(directory, name));
+      fs.rename(currentPath, join(directory, name), function (err) {
+        if (err) {
+          debug(err);
+          return next();
+        }
+
+        debug("successfully moved", currentPath, "to", join(directory, name));
+
+        // The git client does not store the case-sensitive name
+        // since it allows for case-sensitive files. The Dropbox
+        // client does not however, so we save the original name in the db
+        if (originalName.toLowerCase() === name && name !== originalName) {
+          Metadata.add(blogID, join(path, name), originalName, function (err) {
+            debug("saved", originalName, "against", join(path, name));
+            callback(null, name);
+          });
+        } else {
+          callback(null, name);
+        }
       });
     },
     function () {
@@ -111,7 +129,10 @@ function walker(blogID, localFolder, dropboxFolder, queue) {
           // when the Dropbox client syncs, it writes lowercase
           // files only. Without this step, you end up with duplicated
           // files and folders, one case-preserved, one lowercase
-          ensureLowerCase(join(localFolder, path), name, function (err, name) {
+          ensureLowerCase(blogID, localFolder, path, name, function (
+            err,
+            name
+          ) {
             if (err) return next(err);
 
             fs.stat(join(localFolder, path, name), function (err, stat) {
