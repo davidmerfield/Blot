@@ -8,8 +8,9 @@ module.exports = function ($, tag, doThis, callback) {
   // Eventually I'd like to make this parallel
   // when forEach can handle paralell execution
   // for objects...
-  async.eachOfSeries(
+  async.eachOfLimit(
     $(tag),
+    10,
     function (el, i, next) {
       // The cheerio object contains other
       if (!el || el.name !== tag) return next();
