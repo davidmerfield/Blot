@@ -1,6 +1,10 @@
 Finish Lisa's site translation
 - work on SVG animator
 
+If using the git client, if building one entry fails, it seems that the rest of the entries in the same sync also fail?
+
+If there is a build error with a specific post, show it on the dashboard, e.g. on the file viewer
+
 Show templates from your other blogs on a seperate page and tell [Chet](https://mail.google.com/mail/u/0/#inbox/FMfcgzGkXmfdrsfVWdVVNbXddvcLBLCV)
 
 Improvements to template editor
