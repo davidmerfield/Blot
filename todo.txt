@@ -1,6 +1,8 @@
 Finish Lisa's site translation
 - work on SVG animator
 
+Summer newsletter
+
 If using the git client, if building one entry fails, it seems that the rest of the entries in the same sync also fail?
 
 If there is a build error with a specific post, show it on the dashboard, e.g. on the file viewer
