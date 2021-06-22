@@ -6,8 +6,7 @@ var extract_tags = require("./extract_tags");
 
 module.exports = function (blog, post, source_domain) {
   return function (callback) {
-    console.log(post);
-
+    
     var created, updated, metadata, permalink;
     var title, dateStamp, tags, draft, page, html;
 
