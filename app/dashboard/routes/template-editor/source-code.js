@@ -59,7 +59,7 @@ SourceCode.route("/create")
       if (!url && name.endsWith(".html") && name.length > ".html".length) {
         url = "/" + name.slice(0, -1 * ".html".length);
       } else if (!url) {
-        url = "/" + view.name;
+        url = "/" + name;
       }
 
       Template.setView(req.template.id, { name, url, content }, function (err) {

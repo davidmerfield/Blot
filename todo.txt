@@ -12,7 +12,6 @@ Show templates from your other blogs on a seperate page and tell [Chet](https://
 Add [.rtf support](https://github.com/tbluemel/rtf.js)
 
 Improvements to template editor
-- New views on template editor have URL "undefined"
 - Add layout option
 - Add color processing
 - Make 'date-format' and 'hide dates' template properties in package.json
