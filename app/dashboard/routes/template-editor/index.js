@@ -75,9 +75,13 @@ TemplateEditor.route("/:templateSlug/settings")
   });
 
 TemplateEditor.route("/:templateSlug/local-editing")
+  .all(require("./load/font-inputs"))
+  .all(require("./load/color-inputs"))
+  .all(require("./load/layout-inputs"))
+  .all(require("./load/dates"))
   .get(function (req, res) {
-    res.locals.partials.yield = "template-editor/preview";
-    res.locals.partials.sidebar = "template-editor/local-editing";
+    res.locals.partials.yield = "template-editor/local-editing";
+    res.locals.partials.sidebar = "template-editor/settings-sidebar";
     res.locals.enabled = req.template.localEditing;
     res.locals.title = `Local editing - ${req.template.name}`;
     res.render("template-editor/layout");
@@ -105,9 +109,14 @@ TemplateEditor.route("/:templateSlug/local-editing")
   });
 
 TemplateEditor.route("/:templateSlug/rename")
+  .all(require("./load/font-inputs"))
+  .all(require("./load/color-inputs"))
+  .all(require("./load/layout-inputs"))
+  .all(require("./load/dates"))
+
   .get(function (req, res) {
-    res.locals.partials.yield = "template-editor/preview";
-    res.locals.partials.sidebar = "template-editor/rename";
+    res.locals.partials.yield = "template-editor/rename";
+    res.locals.partials.sidebar = "template-editor/settings-sidebar";
     res.locals.title = `Rename - ${req.template.name}`;
     res.render("template-editor/layout");
   })
@@ -121,9 +130,14 @@ TemplateEditor.route("/:templateSlug/rename")
   });
 
 TemplateEditor.route("/:templateSlug/delete")
+  .all(require("./load/font-inputs"))
+  .all(require("./load/color-inputs"))
+  .all(require("./load/layout-inputs"))
+  .all(require("./load/dates"))
+
   .get(function (req, res, next) {
-    res.locals.partials.yield = "template-editor/preview";
-    res.locals.partials.sidebar = "template-editor/delete";
+    res.locals.partials.yield = "template-editor/delete";
+    res.locals.partials.sidebar = "template-editor/settings-sidebar";
     res.locals.title = `Delete - ${req.template.name}`;
     res.render("template-editor/layout");
   })

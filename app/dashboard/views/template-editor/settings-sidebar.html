@@ -1,10 +1,8 @@
 <div class="inputs">
 	
 	{{#colors.length}}
-	<div style="margin:1rem;background: #fff">
-		<h2>Color scheme</h2>
+		<h2>Colors</h2>
 		{{#colors}} {{> color}} {{/colors}}
-	</div>
 	{{/colors.length}}
 
 	{{#fonts.length}}
@@ -12,30 +10,30 @@
 	{{/fonts.length}}
   
   {{#show_date_options}}
-	<div style="margin:1rem;background: #fff">
-		<h2>Date and time</h2>
+		<h2>Date format</h2>
 		<form
 			id="dateSettings"
 			method="post"
 		>
-			{{#show_hide_dates}}
-			<label style="padding:5px 1rem;border-bottom: 1px solid #eee;display: block;">
-				<input type="hidden" value="off" name="locals.hide_dates" />
-				<input id="hide_dates" type="checkbox" name="locals.hide_dates"
-				{{#hide_dates}}checked{{/hide_dates}}/> Hide dates
-			</label>
-			{{/show_hide_dates}}
+			{{^hide_dates}}
 			{{#displayFormats.length}}
 			<label style="padding:0 1rem">
-				Date format<br />
-				<select style="margin: 0 1rem" id="date_display" name="locals.date_display">
+				<select style="width:257px;font-size:1rem;margin: 16px 0 8px;" id="date_display" name="locals.date_display">
 					{{#displayFormats}}
 					<option value="{{value}}" {{selected}}>{{date}}</option>
 					{{/displayFormats}}
 				</select>
 			</label>
 			{{/displayFormats.length}}
-			<hr />
+			{{/hide_dates}}
+			
+{{#show_hide_dates}}
+			<label style="padding:5px 1rem;border-bottom: 1px solid #eee;display: block;">
+				<input type="hidden" value="off" name="locals.hide_dates" />
+				<input id="hide_dates" type="checkbox" name="locals.hide_dates"
+				{{#hide_dates}}checked{{/hide_dates}}/> Hide dates
+			</label>
+			{{/show_hide_dates}}			
 			<script type="text/javascript">
 				const dateSettings = document.getElementById("dateSettings");
 				const date_display = document.getElementById("date_display");
@@ -50,11 +48,9 @@
 				});
 			</script>
 		</form>
-	</div>
 	{{/show_date_options}}
 
 	{{#layouts.length}}
-	<div style="margin:1rem;background: #fff">
 		<h2>Layout</h2>
 		{{#layouts}}
 
@@ -63,7 +59,6 @@
 		{{/isRange}}
 
 		{{/layouts}}
-	</div>
 {{/layouts.length}}
 </div>
 <div style="margin:1rem;background: #fff">

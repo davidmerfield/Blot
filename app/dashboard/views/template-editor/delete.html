@@ -19,13 +19,11 @@
 	}
 </style>
 <form action="{{{base}}}/delete" method="post">
-	<h1>Delete template</h1>
 	<p>
-		Are you sure you want to delete <strong>{{template.name}}</strong>? This
-		cannot be undone.
+		Are you sure you want to delete this template?
 	</p>
 	<div style="display: flex;margin: 0 1rem">
-		<button class="red" type="submit">Delete</button>
+		<button class="red" type="submit" style="cursor: pointer;">Delete</button>
 		<a class="grey" href="{{{base}}}/settings">Cancel</a>
 	</div>
 </form>

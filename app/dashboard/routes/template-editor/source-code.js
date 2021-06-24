@@ -69,6 +69,29 @@ SourceCode.route("/create")
     });
   });
 
+SourceCode.route("/:viewSlug/configure")
+  .all(function (req, res, next) {
+    if (req.params.viewSlug === "package.json") {
+      return next(new Error("You cannot rename package.json"));
+    }
+    next();
+  })
+  .get(function (req, res) {
+    const { views, template } = res.locals.getAllViews;
+
+    req.view = res.locals.view = {
+      content: Template.package.generate(req.blog.id, template, views),
+      name: "package.json",
+      editorMode: editorMode("package.json"),
+    };
+
+    res.locals.partials.yield = "template-editor/source-code/edit";
+    res.render("template-editor/layout");
+  })
+  .post(bodyParser, function (req, res, next) {
+    Template.setView(req.template.id, view, next);
+  });
+
 SourceCode.route("/:viewSlug/edit")
   .get(function (req, res) {
     res.locals.title = `${req.view.name} - ${req.template.name}`;
