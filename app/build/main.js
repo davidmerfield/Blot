@@ -11,10 +11,6 @@ var converters = require("./converters");
 var exitHook = require("async-exit-hook");
 var clfdate = require("helper/clfdate");
 
-// setTimeout(function(){
-//   throw new Error('EXCEPTION!');
-// }, Math.random() * 20 * 1000);
-
 exitHook(function () {
   debug("Shutting down worker:", process.pid);
 });
