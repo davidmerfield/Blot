@@ -12,6 +12,7 @@ var exitHook = require("async-exit-hook");
 var clfdate = require("helper/clfdate");
 
 exitHook(function () {
+  console.log(clfdate(), `Build process pid=${process.pid} exiting...`);
   debug("Shutting down worker:", process.pid);
 });
 
