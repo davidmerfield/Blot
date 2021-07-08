@@ -15,8 +15,11 @@ var TIMEOUT = 5 * 1000; // 10s
 function download(url, _callback) {
   console.log("Attempting to download", url);
 
+  var time;
+
   var callback = callOnce(function (err, data) {
     console.log("Finishing attempt to download", url);
+    clearTimeout(time);
     _callback(err, data);
   });
 
@@ -26,7 +29,7 @@ function download(url, _callback) {
   if (!url || url.indexOf("data:") === 0)
     return callback(new Error("Invalid URL: " + url));
 
-  setTimeout(function () {
+  time = setTimeout(function () {
     console.log("Timing out downloading", url);
     callback(new Error("Timeout: >10s downloading " + url));
   }, TIMEOUT);

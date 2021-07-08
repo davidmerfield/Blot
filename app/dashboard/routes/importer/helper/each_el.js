@@ -10,7 +10,7 @@ module.exports = function ($, tag, doThis, callback) {
   // for objects...
   async.eachOfLimit(
     $(tag),
-    10,
+    1,
     function (el, i, next) {
       // The cheerio object contains other
       if (!el || el.name !== tag) return next();

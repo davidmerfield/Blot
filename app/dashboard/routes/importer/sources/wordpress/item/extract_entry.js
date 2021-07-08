@@ -19,7 +19,7 @@ module.exports = function (item) {
     entry.title = item.title[0].trim();
 
     entry.dateStamp = entry.created = entry.updated = moment(
-      item.pubDate[0]
+      item.pubdate[0]
     ).valueOf();
 
     if (item.category) {
