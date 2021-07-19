@@ -1,7 +1,18 @@
+Finish [Lisa](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKkblfGVjwsxMrJLDkwRRQfbzp)'s site translation
+- work on SVG animator using [skeleton tracing](https://github.com/LingDong-/skeleton-tracing) possibly
+
+Fix issue with Wordpress import script and [tell Sruthi](https://mail.google.com/mail/u/0/#inbox/FMfcgzGkZGfQjGbMTtcMsLbVhNsWWdvX)
+
 Summer newsletter
 
-Finish Lisa's site translation
-- work on SVG animator
+Fix issue with excessive recurring 'account closed' notifications and tell [Harry](https://mail.google.com/mail/u/0/#inbox/FMfcgzGkZQGTMbfJWTXKLjpvkPqdnchP)
+
+Resolve [issues with borked git client and tell V](https://mail.google.com/mail/u/0/#inbox/FMfcgzGkXwDNqDFKdWBQPTBpwQRzgsGd)
+
+---
+
+Fix bug with case-correct Bibliography and CSL files and tell [Benjamin](https://mail.google.com/mail/u/0/#inbox/FMfcgzGkZGlDGBNDdpkgGprpwzVxwljq). Basically we need to resolve the case-insensitive path to the file because the Dropbox client lower-cases all files before storing them on disk
+
 
 If using the git client, if building one entry fails, it seems that the rest of the entries in the same sync also fail?
 - so right now build/metadata is used multiple times. in certain cases it is wrapped in a try/catch but in others it is not. we need to wrap it in try/catch wherever it is used
