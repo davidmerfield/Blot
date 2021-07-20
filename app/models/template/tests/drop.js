@@ -26,6 +26,27 @@ describe("template", function () {
     });
   });
 
+  it("drop removes the URL key for a view in the template", function (done) {
+    var test = this;
+    var view = {
+      name: test.fake.random.word() + ".txt",
+      content: test.fake.random.word(),
+      url: "/" + test.fake.random.word(),
+    };
+
+    require("../index").setView(test.template.id, view, function (err) {
+      if (err) return done.fail(err);
+      drop(test.blog.id, test.template.name, function (err) {
+        if (err) return done.fail(err);
+        client.keys("*" + test.template.id + "*", function (err, result) {
+          if (err) return done.fail(err);
+          expect(result).toEqual([]);
+          done();
+        });
+      });
+    });
+  });
+
   it("drop removes all keys for the template", function (done) {
     var test = this;
     drop(test.blog.id, test.template.name, function (err) {
