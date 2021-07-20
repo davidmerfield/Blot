@@ -43,7 +43,17 @@ module.exports = function (req, res, _next) {
     if (callback) callback = callOnce(callback);
 
     Template.getFullView(blogID, templateID, name, function (err, response) {
-      if (err || !response) return next(ERROR.NO_VIEW());
+      if (err) {
+        return next(err);
+      }
+
+      if (!response) {
+        err = new Error(
+          `The view '${name}' does not exist under templateID=${templateID}`
+        );
+        err.code = "NO_VIEW";
+        return next(err);
+      }
 
       var viewLocals = response[0];
       var viewPartials = response[1];
