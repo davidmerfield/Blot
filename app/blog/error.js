@@ -4,6 +4,7 @@ module.exports = function (server) {
   var store404 = require("models/404").set;
   var config = require("config");
   var VIEW_DIR = require("path").resolve(__dirname + "/../brochure/views");
+  var clfdate = require("helper/clfdate");
 
   // Redirects
   server.use(function (req, res, next) {
@@ -43,6 +44,13 @@ module.exports = function (server) {
 
   // Errors
   server.use(function (err, req, res, next) {
+    console.log(
+      clfdate(),
+      req.headers["x-request-id"] && req.headers["x-request-id"],
+      'Template error:',
+      err
+    );
+
     // This reponse was partially finished
     // end it now and get over it...
     if (res.headersSent) return res.end();
