@@ -1,8 +1,6 @@
 Finish [Lisa](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKkblfGVjwsxMrJLDkwRRQfbzp)'s site translation
 - work on SVG animator using [skeleton tracing](https://github.com/LingDong-/skeleton-tracing) possibly
 
-Ensure that all URL keys are deleted when template is deleted and tell Abigail
-
 Fix issue with Wordpress import script and [tell Sruthi](https://mail.google.com/mail/u/0/#inbox/FMfcgzGkZGfQjGbMTtcMsLbVhNsWWdvX)
 
 Summer newsletter
