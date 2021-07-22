@@ -46,7 +46,7 @@ function main(sourceFile, outputDirectory, options, callback) {
     // and normalizeTags:true.
     parseXML(
       xml,
-      { strict: false, normalize: true, normalizeTags: true },
+      { strict: false, normalizeTags: true },
       function (err, result) {
         if (err) return callback(err);
 
@@ -66,7 +66,7 @@ function main(sourceFile, outputDirectory, options, callback) {
           console.log("filter by:", options.filter);
           result.rss.channel[0].item = result.rss.channel[0].item.filter(
             function (item) {
-              return item.title[0].toLowerCase().indexOf(options.filter) > -1;
+              return item.title[0].toLowerCase().indexOf(options.filter.toLowerCase()) > -1;
             }
           );
         }
