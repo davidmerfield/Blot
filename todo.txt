@@ -1,8 +1,3 @@
-Finish [Lisa](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKkblfGVjwsxMrJLDkwRRQfbzp)'s site translation
-- work on SVG animator using [skeleton tracing](https://github.com/LingDong-/skeleton-tracing) possibly
-
-Fix issue with Wordpress import script and [tell Sruthi](https://mail.google.com/mail/u/0/#inbox/FMfcgzGkZGfQjGbMTtcMsLbVhNsWWdvX)
-
 Summer newsletter
 
 Fix issue with excessive recurring 'account closed' notifications and tell [Harry](https://mail.google.com/mail/u/0/#inbox/FMfcgzGkZQGTMbfJWTXKLjpvkPqdnchP)
