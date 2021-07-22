@@ -63,7 +63,11 @@ function update_subscription(customer_id, subscription_id, callback) {
       )
         email.RECOVERED(user.uid);
 
-      if (subscription.status === "unpaid") email.OVERDUE_CLOSURE(user.uid);
+      if (
+        subscription.status === "unpaid" &&
+        user.subscription.status !== "unpaid"
+      )
+        email.OVERDUE_CLOSURE(user.uid);
 
       User.set(user.uid, { subscription: subscription }, callback);
     });
