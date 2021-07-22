@@ -1,0 +1,27 @@
+Summer newsletter
+
+*You received this email because you subscribed to [Blot’s newsletter](https://blot.im/about/news). You can [unsubscribe](https://blot.im/about/news/cancel) if you like. Please reply directly to this email if you have any thoughts or questions.*
+
+**New features**
+- Added support for [Wikilinks](https://blot.im/how/guides/wikilinks). This makes Blot a useful companion to note-management tools like [Obsidian](https://obsidian.md/).
+- You can now specify metadata using [YAML front-matter](https://blot.im/how/metadata#yaml)
+
+**Changes**
+- Date display settings are now local to each template, rather than set globally across all of your templates. This means it's now possible to hide dates on one template but show them on another.
+- Reduced some of the rate-limits which affect [the git client](https://blot.im/how/clients/git). You can now make pushes including commits up to a gigabyte in size. Previously, pushes were limited to 250 megabytes.
+- Updated the tools Blot depends on to patch any known security vulnerabilities.
+- Tweaked the design of the documentation and the dashboard, per tradition.
+
+**Bugs fixed**
+- If you set *Link* [metadata](https://blot.im/how/metadata) in your post to an external URL, Blot no longer incorrectly changes the permalink of the post to your homepage.
+- The service which [converts your titles to titlecase](https://blot.im/settings/services) now respects text styling, like bold or italic, within the title.
+- Mid-paragraph hanging punctuation now works again on all of the built-in templates.
+- You can now switch your site from the Dropbox client to the Git client without duplicating all the posts in your folder derived from files whose name contains uppercase characters.
+
+**Mistakes**
+
+**Plans for this season**
+
+If you have any thoughts or questions about any of this, please don’t hesitate to reply directly to this email.
+
+Sincerely, David

@@ -1,4 +1,5 @@
-Summer newsletter
+Finish summer newsletter [using PRs](https://github.com/davidmerfield/Blot/pulls?page=2&q=is%3Apr+is%3Amerged+updated%3A%3E%3D2021-03-23
+)
 
 ---
 
