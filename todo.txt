@@ -1,19 +1,32 @@
-Finish summer newsletter [using PRs](https://github.com/davidmerfield/Blot/pulls?page=2&q=is%3Apr+is%3Amerged+updated%3A%3E%3D2021-03-23
-)
+Begin collecting proper measurements for page-rendering speed on the server. This will help us identify ways to improve the speed of your site.
+
+Release a new film showing some of Blot’s more recent features – the current [video on Blot’s homepage](http://blot.im/) is now many years out of date
+- Finish video script in brochure/readme.txt
+- Work out how a photographer might use Blot, does lightroom work well?
+- Tidy up fontarchive.org
+- Find a neat public domain song to play 
+   - https://archive.org/details/Grab_Bag-12446/03_-_Trust.mp3
+   - https://archive.org/details/Winter_Sunshine_EP-8201/Evgeny_Grinko_-_01_-_Winter_Sunshine.mp3
+
+Improvements to Dropbox client
+- Migrate [App permissions before September 2021](https://dropbox.tech/developers/migrating-app-permissions-and-access-tokens)
+  - https://developers.dropbox.com/oauth-guide
+  - https://dropbox.tech/developers/now-available--scoped-apps-and-enhanced-permissions
+  - https://dropbox.tech/developers/migrating-app-permissions-and-access-tokens
 
 ---
 
+Fix bug with case-correct Bibliography and CSL files and tell [Benjamin](https://mail.google.com/mail/u/0/#inbox/FMfcgzGkZGlDGBNDdpkgGprpwzVxwljq). Basically we need to resolve the case-insensitive path to the file because the Dropbox client lower-cases all files before storing them on disk
+
 Resolve [issues with borked git client and tell V](https://mail.google.com/mail/u/0/#inbox/FMfcgzGkXwDNqDFKdWBQPTBpwQRzgsGd)
 
-Fix bug with case-correct Bibliography and CSL files and tell [Benjamin](https://mail.google.com/mail/u/0/#inbox/FMfcgzGkZGlDGBNDdpkgGprpwzVxwljq). Basically we need to resolve the case-insensitive path to the file because the Dropbox client lower-cases all files before storing them on disk
+Show templates from your other blogs on a seperate page and tell [Chet](https://mail.google.com/mail/u/0/#inbox/FMfcgzGkXmfdrsfVWdVVNbXddvcLBLCV)
 
 If using the git client, if building one entry fails, it seems that the rest of the entries in the same sync also fail?
 - so right now build/metadata is used multiple times. in certain cases it is wrapped in a try/catch but in others it is not. we need to wrap it in try/catch wherever it is used
 - right now, if build/main throws an uncaught exception, it seems like the rest of the sync fails. this needs to not happen
 - to debug, add one invalid file ('foo: bar: baz\nxyz') and one valid file ('valid') and sync
 - If there is a build error with a specific post, show it on the dashboard, e.g. on the file viewer
-
-Show templates from your other blogs on a seperate page and tell [Chet](https://mail.google.com/mail/u/0/#inbox/FMfcgzGkXmfdrsfVWdVVNbXddvcLBLCV)
 
 Add [.rtf support](https://github.com/tbluemel/rtf.js)
 
@@ -34,10 +47,6 @@ Improvements for template developers
 - Improve template engine itself
 - Improve source code for templates
 
-Finish YAML support
-- select 1000 random files from blot
-- check parsed metadata remains the same
-
 Add action to lint code with jshint and eslint
   - any other static code analysis tools?
   - separate code to check for broken links, run in parallel
@@ -57,18 +66,11 @@ Server changes
 Migrate from mailgun to SES, mailgun's javascript sdk [seems](https://github.com/mailgun/mailgun-js/issues/122) [like](https://github.com/mailgun/mailgun-js#setup-client) a mess.
 
 Improvements to Wikilinks feature:
-- Write documentation and tell [Roberto](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLtGhBgVRhfdCHkxwdjVdDpqzh)
 - test with non-[[Wikilinks]] options in Obsidian
 - add support for other (non-Obsidian) wikilink styles (i.e. title-based?)
 - use the location of the nearest `.obsidian` directory to determine the 'root' against which to resolve styles?
 - look up the config in the the nearest `.obsidian` directory to determine whether shortest, relative or absolute wikilinks are in use?
 - test with all Obsidian new link settings (shortest, relative and absolute)
-
-Improvements to Dropbox client
-- Migrate [App permissions before September 2021](https://dropbox.tech/developers/migrating-app-permissions-and-access-tokens)
-  - https://developers.dropbox.com/oauth-guide
-  - https://dropbox.tech/developers/now-available--scoped-apps-and-enhanced-permissions
-  - https://dropbox.tech/developers/migrating-app-permissions-and-access-tokens
 
 Improvements to simple local server (npm run local):
 - Consider using [redis-mock](https://github.com/yeahoffline/redis-mock) and [mockery](https://github.com/mfncooper/mockery) 
@@ -109,20 +111,6 @@ Improve templates
 - Fix bug with 'Previous' page link in Magazine theme and tell [Alex](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDNPVtfJDLpjZVqjTThxdFvkC)
 - Fix column formatting for layout.css on default template and tell [Ryan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqThrjQzFppTFftfNFtNdMCpp)
 - Fix Diary template mobile issues and contact [Jonas](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJWjCrwrXTkDqnNtkMbzLlvQjx) and [Brandon](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJWrgCvbdMxMfrGNJkzPsPkJNz)
-
-Improve dashboard
-- Align styles with brochure (merge view directories?)
-
-Record new demo video
-- Finish video script in brochure/readme.txt
-- Work out how a photographer might use Blot, does lightroom work well?
-- Tidy up fontarchive.org
-- Find a neat public domain song to play 
-   - https://archive.org/details/Grab_Bag-12446/03_-_Trust.mp3
-   - https://archive.org/details/Winter_Sunshine_EP-8201/Evgeny_Grinko_-_01_-_Winter_Sunshine.mp3
-
-Improve brochure
-- Finish mobile design
 
 ---
 
