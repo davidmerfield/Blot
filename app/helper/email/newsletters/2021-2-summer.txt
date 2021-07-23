@@ -8,7 +8,7 @@ Summer newsletter
 - All of [the main templates](https://blot.im/templates/) now contain the *\<meta\>* tags required for thumbnails to appear on the popular *social networks* when your visitors share links to your site.
 
 **Changes**
-- The rate-limits which affect the [git client](https://blot.im/how/clients/git) are now more generous. Previously, pushes were limited to 250 megabytes – now you can push up to a gigabyte at once.
+- The rate-limits which affect the [Git client](https://blot.im/how/clients/git) are now more generous. Previously, pushes were limited to 250 megabytes – now you can push up to a gigabyte at once.
 - The settings which affect the appearance of dates are now specific to each of your templates. For example, this means it’s now possible to hide dates on one template and show them on another.
 - Updated the tools Blot depends upon to patch any known security vulnerabilities.
 
@@ -17,11 +17,11 @@ Summer newsletter
 - The service which [converts your titles to title case](https://blot.im/settings/services) now respects text styling, like bold or italic, within the title.
 - If you set *Link* [metadata](https://blot.im/how/metadata) in your post to an external URL, Blot no longer incorrectly changes the URL of the post to your site’s index page.
 - Mid-paragraph hanging punctuation now works again on all of [the main templates](https://blot.im/templates/).
-- You can now switch your site from the [Dropbox client](https://blot.im/how/clients/dropbox) to the [git client](https://blot.im/how/clients/git) without duplicating all the posts whose filenames contain uppercase characters.
+- You can now switch your site from the [Dropbox client](https://blot.im/how/clients/dropbox) to the [Git client](https://blot.im/how/clients/git) without duplicating posts whose filename contains uppercase characters.
 
 **Mistakes**
 
-There were [two downtime incidents](https://status.blot.im/) this season, the first on July 8th for 12 minutes and the second on July 15th for 21 minutes. The cause of both incidents remains mysterious.
+There were [two downtime incidents](https://status.blot.im/) this season, the first on July 8th for 12 minutes and the second on July 15th for 21 minutes. The cause of these incidents remains mysterious.
 
 **Plans for this season**
 
