@@ -13,129 +13,133 @@ var csl = require("./csl");
 // '+hard_line_breaks' +
 
 module.exports = function (blog, text, callback) {
-  var extensions =
-    // replace url strings with a tags
-    "+autolink_bare_uris" +
-    // Fucks up with using horizontal rules
-    // without blank lines between them.
-    "-simple_tables" +
-    "-multiline_tables" +
-    // We already convert any math with katex
-    // perhaps we should use pandoc to do this
-    // instead of a separate function?
-    "-tex_math_dollars" +
-    // This sometimes throws errors for some reason
-    "-yaml_metadata_block" +
-    // Don't generate figures automatically
-    "-implicit_figures" +
-    // These require a blank line before shit
-    "+lists_without_preceding_blankline" +
-    "-blank_before_header" +
-    "-blank_before_blockquote";
+  // Bibliography and possible corresponding Citation Style Language
+  extractBibAndCSL(blog, text, function (err, bibPath, cslPath) {
+    var extensions =
+      // replace url strings with a tags
+      "+autolink_bare_uris" +
+      // Fucks up with using horizontal rules
+      // without blank lines between them.
+      "-simple_tables" +
+      "-multiline_tables" +
+      // We already convert any math with katex
+      // perhaps we should use pandoc to do this
+      // instead of a separate function?
+      "-tex_math_dollars" +
+      // This sometimes throws errors for some reason
+      "-yaml_metadata_block" +
+      // Don't generate figures automatically
+      "-implicit_figures" +
+      // These require a blank line before shit
+      "+lists_without_preceding_blankline" +
+      "-blank_before_header" +
+      "-blank_before_blockquote";
 
-  // This feature fucks with [@twitter]() links
-  // perhaps make it an option in future?
-  if (!(bib(blog, text) || csl(blog, text))) extensions += "-citations";
+    // This feature fucks with [@twitter]() links
+    // which is why we disable if if no bib or csl
+    // metadata exists. Perhaps make it an option in future?
+    if (!(bibPath || cslPath)) extensions += "-citations";
 
-  var args = [
-    "-f",
-    "markdown" + extensions,
+    var args = [
+      "-f",
+      "markdown" + extensions,
 
-    // Not really sure what the difference is between
-    // this and just HTML.
-    "-t",
-    "html5",
+      // Not really sure what the difference is between
+      // this and just HTML.
+      "-t",
+      "html5",
 
-    // Don't declare widths for tables
-    // https://github.com/jgm/pandoc/issues/2574
-    "--columns",
-    "1000",
+      // Don't declare widths for tables
+      // https://github.com/jgm/pandoc/issues/2574
+      "--columns",
+      "1000",
 
-    // we use our own highlighint library (hljs) later
-    "--no-highlight",
+      // we use our own highlighint library (hljs) later
+      "--no-highlight",
 
-    // such a dumb default feature... sorry john!
-    "--email-obfuscation=none",
-  ];
+      // such a dumb default feature... sorry john!
+      "--email-obfuscation=none",
+    ];
 
-  if (bib(blog, text)) {
-    args.push("-M");
-    args.push("bibliography=" + bib(blog, text));
-  }
-
-  if (csl(blog, text)) {
-    args.push("-M");
-    args.push("csl=" + csl(blog, text));
-  }
-
-  if (bib(blog, text) || csl(blog, text)) {
-    args.push("--citeproc");
-  }
-
-  var pandoc = spawn(pandoc_path, args);
-
-  var result = "";
-  var error = "";
-
-  pandoc.stdout.on("data", function (data) {
-    result += data;
-  });
-
-  pandoc.stderr.on("data", function (data) {
-    error += data;
-  });
-
-  pandoc.on("close", function (code) {
-    time.end("pandoc");
-
-    var err = null;
-
-    // This means something went wrong
-    if (code !== 0) {
-      err = "Pandoc exited with code " + code;
-      err += error;
-      err = new Error(err);
+    if (bibPath) {
+      args.push("-M");
+      args.push("bibliography=" + bibPath);
     }
 
-    if (err) return callback(err);
+    if (cslPath) {
+      args.push("-M");
+      args.push("csl=" + cslPath);
+    }
 
-    debug("Pre-footnotes", result);
-    time("footnotes");
-    result = safely(footnotes, result);
-    time.end("footnotes");
+    if (bibPath || cslPath) {
+      args.push("--citeproc");
+    }
 
-    debug("Final:", result);
-    callback(null, result);
+    var pandoc = spawn(pandoc_path, args);
+
+    var result = "";
+    var error = "";
+
+    pandoc.stdout.on("data", function (data) {
+      result += data;
+    });
+
+    pandoc.stderr.on("data", function (data) {
+      error += data;
+    });
+
+    pandoc.on("close", function (code) {
+      time.end("pandoc");
+
+      var err = null;
+
+      // This means something went wrong
+      if (code !== 0) {
+        err = "Pandoc exited with code " + code;
+        err += error;
+        err = new Error(err);
+      }
+
+      if (err) return callback(err);
+
+      debug("Pre-footnotes", result);
+      time("footnotes");
+      result = safely(footnotes, result);
+      time.end("footnotes");
+
+      debug("Final:", result);
+      callback(null, result);
+    });
+
+    // Pandoc is very strict and treats indents inside
+    // HTML blocks as code blocks. This is correct but
+    // bad user experience. For instance this:
+    //
+    // <table>
+    //     <td>[Hey!](/goo)</td>
+    // </table>
+    //
+    // Becomes:
+    //
+    // <table>
+    // <pre><code><td>[Hey!](/goo)</td></code></pre>
+    // </table>
+    //
+    // This is obviously not desirable. But we want to
+    // mix HTML and Markdown in the same file. So I wrote
+    // a little script to collapse the indentation
+    // for the contents of an HTML tag. This preserves
+    // indentation in text! More discussion of this issue:
+    // https://github.com/jgm/pandoc/issues/1841
+    debug("Pre-indentation", text);
+    time("indentation");
+    text = safely(indentation, text);
+    time.end("indentation");
+
+    debug("Pre-pandoc", text);
+    time("pandoc");
+    pandoc.stdin.end(text, "utf8");
   });
-
-  // Pandoc is very strict and treats indents inside
-  // HTML blocks as code blocks. This is correct but
-  // bad user experience. For instance this:
-  //
-  // <table>
-  //     <td>[Hey!](/goo)</td>
-  // </table>
-  //
-  // Becomes:
-  //
-  // <table>
-  // <pre><code><td>[Hey!](/goo)</td></code></pre>
-  // </table>
-  //
-  // This is obviously not desirable. But we want to
-  // mix HTML and Markdown in the same file. So I wrote
-  // a little script to collapse the indentation
-  // for the contents of an HTML tag. This preserves
-  // indentation in text! More discussion of this issue:
-  // https://github.com/jgm/pandoc/issues/1841
-  debug("Pre-indentation", text);
-  time("indentation");
-  text = safely(indentation, text);
-  time.end("indentation");
-
-  debug("Pre-pandoc", text);
-  time("pandoc");
-  pandoc.stdin.end(text, "utf8");
 };
 
 function safely(method, input) {
