@@ -28,12 +28,9 @@ If using the git client, if building one entry fails, it seems that the rest of 
 - to debug, add one invalid file ('foo: bar: baz\nxyz') and one valid file ('valid') and sync
 - If there is a build error with a specific post, show it on the dashboard, e.g. on the file viewer
 
-Add [.rtf support](https://github.com/tbluemel/rtf.js)
-
 Improvements to template editor
 - Add layout option
 - Add color processing
-- Make 'date-format' and 'hide dates' template properties in package.json
 
 Improvements for customers
 - Faster server, with SSL termination across CDN
@@ -62,6 +59,8 @@ Server changes
 - Take full advantage of attached SSD
   - use rsync/inotify to synchronize 'source of truth' EBS disk with the local SSD cache then modify NGINX to check the synced folder on the /cache disk
   - on boot we would gently copy across all /blogs folders and the /static directory in background task
+
+Add [.rtf support](https://github.com/tbluemel/rtf.js)
 
 Migrate from mailgun to SES, mailgun's javascript sdk [seems](https://github.com/mailgun/mailgun-js/issues/122) [like](https://github.com/mailgun/mailgun-js#setup-client) a mess.
 
