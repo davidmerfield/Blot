@@ -20,6 +20,8 @@ Fix bug with case-correct Bibliography and CSL files and tell [Benjamin](https:/
 
 Resolve [issues with borked git client and tell V](https://mail.google.com/mail/u/0/#inbox/FMfcgzGkXwDNqDFKdWBQPTBpwQRzgsGd)
 
+Fix bug with hyphen appearing in the {{stem}} for custom permalinks and tell [Kyle](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKkHZVgwCNwsdlhdzCggRtsRhN)
+
 Show templates from your other blogs on a seperate page and tell [Chet](https://mail.google.com/mail/u/0/#inbox/FMfcgzGkXmfdrsfVWdVVNbXddvcLBLCV)
 
 If using the git client, if building one entry fails, it seems that the rest of the entries in the same sync also fail?
