@@ -1,10 +1,8 @@
-Fix menu on Lisa's site
+Fix bug with hyphen appearing in the {{stem}} for custom permalinks and tell [Kyle](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKkHZVgwCNwsdlhdzCggRtsRhN)
 
 Blogger import script and tell [Ben](https://mail.google.com/mail/u/0/#inbox/KtbxLvHHnQlTzPJFlFjpRgzcNcLJMLwTfL)
 
 Write some JS to improve load speed on [Nitin's archives page](https://mail.google.com/mail/u/0/#inbox/FMfcgzGkZZknzRNPjnNGbSpdZZjZZZDr)
-
-Fix bug with hyphen appearing in the {{stem}} for custom permalinks and tell [Kyle](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKkHZVgwCNwsdlhdzCggRtsRhN)
 
 ---
 
