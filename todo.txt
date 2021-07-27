@@ -1,7 +1,3 @@
-Blogger import script and tell [Ben](https://mail.google.com/mail/u/0/#inbox/KtbxLvHHnQlTzPJFlFjpRgzcNcLJMLwTfL)
-
----
-
 Determine cause of yesterday's downtime, and fix
 
 Begin collecting proper measurements for page-rendering speed on the server. This will help us identify ways to improve the speed of your site.
