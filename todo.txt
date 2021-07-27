@@ -1,3 +1,13 @@
+Fix menu on Lisa's site
+
+Blogger import script and tell [Ben](https://mail.google.com/mail/u/0/#inbox/KtbxLvHHnQlTzPJFlFjpRgzcNcLJMLwTfL)
+
+Write some JS to improve load speed on [Nitin's archives page](https://mail.google.com/mail/u/0/#inbox/FMfcgzGkZZknzRNPjnNGbSpdZZjZZZDr)
+
+Fix bug with hyphen appearing in the {{stem}} for custom permalinks and tell [Kyle](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKkHZVgwCNwsdlhdzCggRtsRhN)
+
+---
+
 Begin collecting proper measurements for page-rendering speed on the server. This will help us identify ways to improve the speed of your site.
 
 Release a new film showing some of Blot’s more recent features – the current [video on Blot’s homepage](http://blot.im/) is now many years out of date
@@ -19,8 +29,6 @@ Improvements to Dropbox client
 Fix bug with case-correct Bibliography and CSL files and tell [Benjamin](https://mail.google.com/mail/u/0/#inbox/FMfcgzGkZGlDGBNDdpkgGprpwzVxwljq). Basically we need to resolve the case-insensitive path to the file because the Dropbox client lower-cases all files before storing them on disk
 
 Resolve [issues with borked git client and tell V](https://mail.google.com/mail/u/0/#inbox/FMfcgzGkXwDNqDFKdWBQPTBpwQRzgsGd)
-
-Fix bug with hyphen appearing in the {{stem}} for custom permalinks and tell [Kyle](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKkHZVgwCNwsdlhdzCggRtsRhN)
 
 Show templates from your other blogs on a seperate page and tell [Chet](https://mail.google.com/mail/u/0/#inbox/FMfcgzGkXmfdrsfVWdVVNbXddvcLBLCV)
 
