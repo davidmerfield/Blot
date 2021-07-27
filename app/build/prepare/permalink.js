@@ -68,7 +68,6 @@ var MOMENT_TOKENS = [
   "x",
 ];
 var normalize = require("helper/urlNormalizer");
-var makeSlug = require("helper/makeSlug");
 var allow = [
   "slug",
   "name",
@@ -120,7 +119,8 @@ module.exports = function (timeZone, format, entry) {
 
     for (var i in entry) if (allow.indexOf(i) > -1) view[i] = entry[i];
 
-    view.stem = makeSlug(entry.path.slice(0, entry.path.lastIndexOf(".")));
+    // stem should be path without extension
+    view.stem = entry.path.slice(0, entry.path.lastIndexOf("."));
 
     // this needs a better name but make sure to update any
     // existing custom formats for folks...
@@ -139,6 +139,7 @@ module.exports = function (timeZone, format, entry) {
 
     permalink = mustache.render(format || DEFAULT, view);
   } catch (e) {
+    console.log(e);
     permalink = "";
   }
 
