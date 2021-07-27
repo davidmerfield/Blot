@@ -61,9 +61,17 @@ function parseTemplate(template) {
         token[0] === "^" ||
         token[0] === "&"
       ) {
+        // e.g. all_entries.length
         var variable = token[1];
+        // e.g. all_entries
+        var variableRoot =
+          variable.indexOf(".") > -1 &&
+          variable.slice(0, variable.indexOf("."));
 
         if (retrieveThese.indexOf(variable) > -1) retrieve[variable] = true;
+
+        if (retrieveThese.indexOf(variableRoot) > -1)
+          retrieve[variableRoot] = true;
 
         // console.log(context + variable);
 
