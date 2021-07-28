@@ -1,4 +1,7 @@
 Determine cause of yesterday's downtime, and fix
+- it seems to be memory related
+- print out the most memory intensive applications, periodically?
+- work out if RPS was elevated?
 
 Begin collecting proper measurements for page-rendering speed on the server. This will help us identify ways to improve the speed of your site.
 
