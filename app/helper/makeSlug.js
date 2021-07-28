@@ -3,9 +3,8 @@ var MAX_LENGTH = 100;
 
 // This must always return a string but it can be empty
 function makeSlug(string) {
-  var words,
-    components,
-    trimmed = "";
+  var words;
+  var trimmed = "";
 
   ensure(string, "string");
 
@@ -54,14 +53,12 @@ function makeSlug(string) {
 
   slug = trimmed;
 
-  // Remove leading and trailing
-  // slashes and dashes.
+  slug = slug
+    .split("/")
+    .map((str) => trimLeadingAndTrailing(str, ["-"]))
+    .join("/");
 
-  while (slug.length > 1 && (slug[0] === "/" || slug[0] === "-"))
-    slug = slug.slice(1);
-
-  while (slug.length > 1 && (slug.slice(-1) === "/" || slug.slice(-1) === "-"))
-    slug = slug.slice(0, -1);
+  slug = trimLeadingAndTrailing(slug, ["-", "/"]);
 
   if (slug === "-") slug = "";
 
@@ -70,6 +67,15 @@ function makeSlug(string) {
   slug = slug || "";
 
   return slug;
+}
+
+function trimLeadingAndTrailing(str, characters) {
+  while (str.length > 1 && characters.indexOf(str[0]) > -1) str = str.slice(1);
+
+  while (str.length > 1 && characters.indexOf(str.slice(-1)) > -1)
+    str = str.slice(0, -1);
+
+  return str;
 }
 
 var Is = require("./_is");
@@ -100,6 +106,10 @@ is("1-2-3-4", "1-2-3-4");
 is("12 34", "12-34");
 is("f/ü/k", "f/%C3%BC/k");
 is("微博", "%E5%BE%AE%E5%8D%9A");
+
+is("/[design]/abc", "design/abc");
+
+is("/[design](foo)/apple bc", "design-foo/apple-bc");
 
 is(
   "remove object replacement character: ￼",

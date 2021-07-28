@@ -1,7 +1,10 @@
+var makeSlug = require("helper/makeSlug");
 var mustache = require("mustache");
-var DEFAULT = "{{slug}}";
 var moment = require("moment");
+
 require("moment-timezone");
+
+var DEFAULT = "{{slug}}";
 
 // this needs to be pulled directly from the moment library
 // i copied them from the docs.
@@ -119,8 +122,15 @@ module.exports = function (timeZone, format, entry) {
 
     for (var i in entry) if (allow.indexOf(i) > -1) view[i] = entry[i];
 
+    // this needs a better name but make sure to update any
+    // existing custom formats for folks...
+    view["path-without-extension"] = entry.path.slice(
+      0,
+      entry.path.lastIndexOf(".")
+    );
+
     // stem should be path without extension
-    view.stem = entry.path.slice(0, entry.path.lastIndexOf("."));
+    view.stem = makeSlug(view["path-without-extension"]);
 
     // this needs a better name but make sure to update any
     // existing custom formats for folks...

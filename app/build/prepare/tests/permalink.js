@@ -6,7 +6,23 @@ describe("title parser", function () {
   it("generates a permalink from the entry's path", function () {
     let entry = {
       path: "/[design]/bar.txt",
-      name: 'bar.txt',
+      name: "bar.txt",
+      size: 123,
+      html: "",
+      updated: 123,
+      draft: false,
+      metadata: {},
+    };
+
+    let permalink = Permalink(this.blog.timeZone, "{{stem}}", entry);
+
+    expect(permalink).toEqual("/design/bar");
+  });
+
+  it("generates a permalink from the entry's path", function () {
+    let entry = {
+      path: "/[design]/bar.txt",
+      name: "bar.txt",
       size: 123,
       html: "",
       updated: 123,
@@ -16,7 +32,7 @@ describe("title parser", function () {
 
     let permalink = Permalink(
       this.blog.timeZone,
-      '{{stem}}',
+      "{{path-without-extension}}",
       entry
     );
 
