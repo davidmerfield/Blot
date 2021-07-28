@@ -53,6 +53,8 @@ function makeSlug(string) {
 
   slug = trimmed;
 
+  // remove internal leading and trailing hyphens, e.g. 
+  // /-foo-/bar -> /foo/bar
   slug = slug
     .split("/")
     .map((str) => trimLeadingAndTrailing(str, ["-"]))
