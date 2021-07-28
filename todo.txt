@@ -1,7 +1,28 @@
 Determine cause of yesterday's downtime, and fix
-- it seems to be memory related
-- print out the most memory intensive applications, periodically?
-- work out if RPS was elevated?
+- Print out the most memory intensive applications, periodically?
+- Work out if RPS was elevated?
+- Incidents: 
+  - 27 Jul 22:10 UTC 
+      node: cat logs/archive-2021-07-28-ec2-user/app.log | grep "22\:10\:33"
+      redis: cat logs/archive-2021-07-28-ec2-user/redis.log | grep "27 Jul 22\:0" -A 20 -B 20
+      monit: cat logs/archive-2021-07-28-ec2-user/monit.log | grep "22\:10\:" -B 10 -A 10
+      system: cat logs/archive-2021-07-28-ec2-user/sys.log | grep "T22\:" -B 100
+      nginx: cat logs/archive-2021-07-28-ec2-user/nginx.log | grep "22\:10\:35" -B 100
+      nginx error: cat logs/archive-2021-07-28-root/nginx.error.log | grep "22\:10\:36" -B 15 -A 5
+
+      looking at app.log, memuse spikes from 60 to 90% a few minutes before the issue:
+      cat logs/archive-2021-07-28-ec2-user/app.log | grep "22\:10\:33" -B 10000 | grep memuse
+        big sync blog_2be3cf8 sync_0b963ae from 22:06:00 -> 22:06:11
+        nothing too out of the ordinary though
+  - Jul 27, 21:40 UTC
+  - Jul 27, 07:03 UTC
+  - Jul 27, 06:30 UTC
+  - Jul 27, 06:03 UTC
+  - Jul 27, 05:53 UTC
+      node: cat logs/archive-2021-07-28-ec2-user/app.log | grep "05\:53\:28" -A 10
+
+
+Work on Lisa's handwriting animation
 
 Begin collecting proper measurements for page-rendering speed on the server. This will help us identify ways to improve the speed of your site.
 
