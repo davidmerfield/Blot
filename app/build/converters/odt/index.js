@@ -46,7 +46,7 @@ function read(blog, path, options, callback) {
         '"' + outPath + '"',
         "--extract-media=" + assetDir,
         "-f",
-        "odt+backtick_code_blocks",
+        "odt",
         "-t",
         "html5",
         "-s",
