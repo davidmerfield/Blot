@@ -9,7 +9,7 @@ var Metadata = require("build/metadata");
 var extend = require("helper/extend");
 var join = require("path").join;
 var config = require("config");
-var pandoc = config.pandoc.bin;
+var Pandoc = config.pandoc.bin;
 var tempDir = require("helper/tempDir");
 
 function is(path) {
@@ -58,7 +58,7 @@ function read(blog, path, options, callback) {
         " -RTS",
       ].join(" ");
 
-      exec(pandoc + " " + args, function (err, stdout, stderr) {
+      exec(Pandoc + " " + args, function (err, stdout, stderr) {
         if (err) {
           return callback(
             new Error(
