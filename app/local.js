@@ -40,9 +40,9 @@ if (redisPing !== "PONG") {
 
 console.log("Local server capabilities:");
 console.log("- twitter embeds " + !!config.twitter.consumer_secret);
-console.log("- markdown with pandoc  " + !!config.pandoc_path);
-console.log("- .docx conversion  " + !!config.pandoc_path);
-console.log("- .odt conversion  " + !!config.pandoc_path);
+console.log("- markdown with pandoc  " + !!config.pandoc.bin);
+console.log("- .docx conversion  " + !!config.pandoc.bin);
+console.log("- .odt conversion  " + !!config.pandoc.bin);
 console.log("- dropbox client " + !!config.dropbox.app.key);
 console.log("- persistent dashboard sessions  " + !!config.session.secret);
 

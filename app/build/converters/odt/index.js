@@ -9,7 +9,7 @@ var Metadata = require("build/metadata");
 var extend = require("helper/extend");
 var join = require("path").join;
 var config = require("config");
-var pandoc_path = config.pandoc_path;
+var Pandoc = config.pandoc.bin;
 var tempDir = require("helper/tempDir");
 
 function is(path) {
@@ -50,13 +50,31 @@ function read(blog, path, options, callback) {
         "-t",
         "html5",
         "-s",
+        // Limit the heap size for the pandoc process
+        // to prevent pandoc consuming all the system's
+        // memory in corner cases
+        "+RTS",
+        "-M" + config.pandoc.maxmemory,
+        " -RTS",
       ].join(" ");
 
-      exec(pandoc_path + " " + args, function (err, stdout, stderr) {
+      var startTime = Date.now();
+      exec(Pandoc + " " + args, { timeout: config.pandoc.timeout }, function (
+        err,
+        stdout,
+        stderr
+      ) {
         if (err) {
           return callback(
             new Error(
-              "Pandoc exited with code " + err + " and message " + stderr
+              "Pandoc exited in " +
+                (Date.now() - startTime) +
+                "ms (timeout=" +
+                config.pandoc.timeout +
+                "ms) with: " +
+                err +
+                " and message " +
+                stderr
             )
           );
         }

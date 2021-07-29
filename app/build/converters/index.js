@@ -4,7 +4,7 @@ const config = require("config");
 // software (i.e. pandoc) to function
 let converters = [require("./html"), require("./img"), require("./webloc")];
 
-if (config.pandoc_path) {
+if (config.pandoc.bin) {
   converters.push(require("./docx"));
   converters.push(require("./odt"));
   converters.push(require("./markdown"));
