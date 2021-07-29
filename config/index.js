@@ -83,7 +83,10 @@ module.exports = {
     },
   },
 
-  pandoc_path: process.env.BLOT_PANDOC_PATH,
+  pandoc: {
+    bin: process.env.BLOT_PANDOC_PATH,
+    maxmemory: "250M",
+  },
 
   cdn: {
     origin: BLOT_CDN,

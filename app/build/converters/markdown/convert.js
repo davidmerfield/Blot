@@ -3,7 +3,7 @@ var indentation = require("./indentation");
 var footnotes = require("./footnotes");
 var time = require("helper/time");
 var config = require("config");
-var pandoc_path = config.pandoc_path;
+var pandoc = config.pandoc.bin;
 var debug = require("debug")("blot:converters:markdown");
 
 var bib = require("./bib");
@@ -38,6 +38,14 @@ module.exports = function (blog, text, callback) {
   if (!(bib(blog, text) || csl(blog, text))) extensions += "-citations";
 
   var args = [
+
+    // Limit the heap size for the pandoc process
+    // to prevent pandoc consuming all the system's
+    // memory in corner cases
+    "+RTS",
+    "-M" + config.pandoc.maxmemory,
+    "-RTS",
+
     "-f",
     "markdown" + extensions,
 
@@ -72,7 +80,7 @@ module.exports = function (blog, text, callback) {
     args.push("--citeproc");
   }
 
-  var pandoc = spawn(pandoc_path, args);
+  var pandoc = spawn(pandoc, args);
 
   var result = "";
   var error = "";
