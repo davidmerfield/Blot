@@ -60,6 +60,7 @@ function read(blog, path, options, callback) {
         " -RTS",
       ].join(" ");
 
+      var startTime = Date.now();
       exec(Pandoc + " " + args, { timeout: config.pandoc.timeout }, function (
         err,
         stdout,
@@ -68,7 +69,12 @@ function read(blog, path, options, callback) {
         if (err) {
           return callback(
             new Error(
-              "Pandoc exited with code " + err + " and message " + stderr
+              "Pandoc exited in " +
+                (Date.now() - startTime) +
+                "ms (timeout=" + config.pandoc.timeout + "ms) with: " +
+                err +
+                " and message " +
+                stderr
             )
           );
         }

@@ -78,8 +78,8 @@ module.exports = function (blog, text, callback) {
   if (bib(blog, text) || csl(blog, text)) {
     args.push("--citeproc");
   }
-
-  var pandoc = spawn(Pandoc, args, { timeout: config.pandoc.timeout });
+  var startTime = Date.now();
+  var pandoc = spawn(Pandoc, args);
 
   var result = "";
   var error = "";
@@ -92,6 +92,10 @@ module.exports = function (blog, text, callback) {
     error += data;
   });
 
+  setTimeout(function () {
+    pandoc.kill();
+  }, config.pandoc.timeout);
+
   pandoc.on("close", function (code) {
     time.end("pandoc");
 
@@ -99,7 +103,14 @@ module.exports = function (blog, text, callback) {
 
     // This means something went wrong
     if (code !== 0) {
-      err = "Pandoc exited with code " + code;
+      err =
+        "Pandoc exited with code " +
+        code +
+        " in " +
+        (Date.now() - startTime) +
+        "ms (timeout=" +
+        config.pandoc.timeout +
+        "ms)";
       err += error;
       err = new Error(err);
     }
