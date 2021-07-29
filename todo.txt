@@ -1,7 +1,16 @@
 Determine cause of yesterday's downtime, and fix
 - Print out the most memory intensive applications, periodically?
+- is redis bgsave the culprit? unlikely
+- ensure swap is set up
+- it seems that based on this:
+  sudo grep -i -r 'out of memory' /var/log/
+  pandoc is being killed around some of the downtimes
+  let's investigate the pandoc memory limits:
+  https://pandoc.org/MANUAL.html#a-note-on-security
 - remediations:
   - timeouts at NGINX/node/blog level? it seems the node server was swamped
+     - timeouts for building an entry
+     - timeouts for 
   - begin dumping output of 'top' when memuse > 90%?
 - server became unresponsive to ssh at multiple incidents
 - Work out if RPS was elevated?
@@ -27,10 +36,9 @@ Determine cause of yesterday's downtime, and fix
   - Jul 27, 05:53 UTC
       node: cat logs/archive-2021-07-28-ec2-user/app.log | grep "05\:53\:28" -A 10
 
+---
 
 Work on Lisa's handwriting animation
-
-Begin collecting proper measurements for page-rendering speed on the server. This will help us identify ways to improve the speed of your site.
 
 Release a new film showing some of Blot’s more recent features – the current [video on Blot’s homepage](http://blot.im/) is now many years out of date
 - Finish video script in brochure/readme.txt
@@ -45,6 +53,8 @@ Improvements to Dropbox client
   - https://developers.dropbox.com/oauth-guide
   - https://dropbox.tech/developers/now-available--scoped-apps-and-enhanced-permissions
   - https://dropbox.tech/developers/migrating-app-permissions-and-access-tokens
+
+Begin collecting proper measurements for page-rendering speed on the server. This will help us identify ways to improve the speed of your site.
 
 ---
 
