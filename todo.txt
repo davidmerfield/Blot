@@ -1,41 +1,11 @@
 Determine cause of yesterday's downtime, and fix
 - Print out the most memory intensive applications, periodically?
-- is redis bgsave the culprit? unlikely
-- ensure swap is set up
-- it seems that based on this:
-  sudo grep -i -r 'out of memory' /var/log/
-  pandoc is being killed around some of the downtimes
-  let's investigate the pandoc memory limits:
-  https://pandoc.org/MANUAL.html#a-note-on-security
-- remediations:
-  - timeouts at NGINX/node/blog level? it seems the node server was swamped
-     - timeouts for building an entry
-     - timeouts for 
-  - begin dumping output of 'top' when memuse > 90%?
-- server became unresponsive to ssh at multiple incidents
-- Work out if RPS was elevated?
-- To find notifications: 
-  https://mail.google.com/mail/u/0/#search/subject%3A%22%E2%96%BC+%5Bupdown+alert%5D%5BDOWN%5D+Blot%22
-- Incidents: 
-  - 27 Jul 22:10 UTC 
-      node: cat logs/archive-2021-07-28-ec2-user/app.log | grep "22\:10\:33"
-      redis: cat logs/archive-2021-07-28-ec2-user/redis.log | grep "27 Jul 22\:0" -A 20 -B 20
-      monit: cat logs/archive-2021-07-28-ec2-user/monit.log | grep "22\:10\:" -B 10 -A 10
-      system: cat logs/archive-2021-07-28-ec2-user/sys.log | grep "T22\:" -B 100
-      nginx: cat logs/archive-2021-07-28-ec2-user/nginx.log | grep "22\:10\:35" -B 100
-      nginx error: cat logs/archive-2021-07-28-root/nginx.error.log | grep "22\:10\:36" -B 15 -A 5
-
-      looking at app.log, memuse spikes from 60 to 90% a few minutes before the issue:
-      cat logs/archive-2021-07-28-ec2-user/app.log | grep "22\:10\:33" -B 10000 | grep memuse
-        big sync blog_2be3cf8 sync_0b963ae from 22:06:00 -> 22:06:11
-        nothing too out of the ordinary though
-  - Jul 27, 21:40 UTC
-  - Jul 27, 07:03 UTC
-  - Jul 27, 06:30 UTC
-  - Jul 27, 06:03 UTC
-  - Jul 27, 05:53 UTC
-      node: cat logs/archive-2021-07-28-ec2-user/app.log | grep "05\:53\:28" -A 10
-
+- ensure memory swap is set up
+- review redis-performance related changes and ensure they still apply (vm overcommit etc.)
+- request level timeouts to prevent server swamping
+- determine how many files were syncing during the downtime? see if they trigger the new limits
+  - for the most recent downtime, this is true. check the others
+  
 ---
 
 Work on Lisa's handwriting animation

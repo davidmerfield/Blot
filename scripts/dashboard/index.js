@@ -1,5 +1,15 @@
-var blessed = require("blessed");
-var contrib = require("blessed-contrib");
+var blessed;
+var contrib;
+
+try {
+  blessed = require("blessed");
+  contrib = require("blessed-contrib");
+} catch (e) {
+  console.log(e);
+  console.log("Try running npm ci --also=dev");
+  return;
+}
+
 const Tail = require("../../app/helper/tail");
 var screen = blessed.screen();
 //create layout and widgets
