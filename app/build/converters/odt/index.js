@@ -58,7 +58,11 @@ function read(blog, path, options, callback) {
         " -RTS",
       ].join(" ");
 
-      exec(Pandoc + " " + args, function (err, stdout, stderr) {
+      exec(Pandoc + " " + args, { timeout: config.pandoc.timeout }, function (
+        err,
+        stdout,
+        stderr
+      ) {
         if (err) {
           return callback(
             new Error(

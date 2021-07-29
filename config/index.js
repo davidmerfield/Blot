@@ -85,7 +85,8 @@ module.exports = {
 
   pandoc: {
     bin: process.env.BLOT_PANDOC_PATH,
-    maxmemory: "250M",
+    maxmemory: "250M", // 250mb
+    timeout: 5000, // 5s
   },
 
   cdn: {

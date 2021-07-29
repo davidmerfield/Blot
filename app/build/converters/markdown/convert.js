@@ -79,7 +79,7 @@ module.exports = function (blog, text, callback) {
     args.push("--citeproc");
   }
 
-  var pandoc = spawn(Pandoc, args);
+  var pandoc = spawn(Pandoc, args, { timeout: config.pandoc.timeout });
 
   var result = "";
   var error = "";
