@@ -67,4 +67,9 @@ Find posts that began to built, but never succeeded:
   comm tmp/paths-started.txt tmp/paths-succeeded.txt -2 -3
 
   This did uncover a post whose sync process began but did not end, shortly before the downtime. I tried to rebuild this post, after applying the time and memory limits to the pandoc process, and it did indeed break those limits.
+
+a83f9b303c72f6c0e86f4bee8a0c2e13
+  
+fc114dc8cc0b897c221b168ee96fa0a2:
+  /drafts/[name]/a23/2 feb/calibre/unknown/b071yx3db5 ebok (17)/b071yx3db5 ebok - unknown.md  
   

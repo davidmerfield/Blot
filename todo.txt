@@ -1,14 +1,6 @@
-Determine cause of yesterday's downtime, and fix
-- Print out the most memory intensive applications, periodically?
-- ensure memory swap is set up
-- review redis-performance related changes and ensure they still apply (vm overcommit etc.)
-- request level timeouts to prevent server swamping
-- determine how many files were syncing during the downtime? see if they trigger the new limits
-  - for the most recent downtime, this is true. check the others
-  
----
-
 Work on Lisa's handwriting animation
+
+---
 
 Release a new film showing some of Blot’s more recent features – the current [video on Blot’s homepage](http://blot.im/) is now many years out of date
 - Finish video script in brochure/readme.txt
@@ -60,6 +52,11 @@ Add action to lint code with jshint and eslint
   - any other static code analysis tools?
   - separate code to check for broken links, run in parallel
   
+Add request level timeouts to prevent server swamping
+- ensure to remove the timeout from the SSE streaming routes (drafts, sync status on dashboard)
+- read this guide: http://expressjs.com/en/resources/middleware/timeout.html
+- it seems we also need to cancel the resources involved in responding to the request (i.e. disk io, db calls) for this to be really useful
+
 Expose log files on blog's dashboard and tell [Sönke](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLtsxjSMlVmNRFGJJxkpsVFNvg)
 
 Server changes
