@@ -5,8 +5,8 @@
     {{> header}}
     <div class="container">
       <div class="main">
-        <form action='/search' style="margin:-0.66em 0 1em">
-          <input placeholder="What are you looking for? Search for an entry..." value="{{#query}}{{query}}{{/query}}" name="q" id="search" type="text" />
+        <form action='/search' >
+          <input placeholder="Enter your search..." value="{{#query}}{{query}}{{/query}}" name="q" id="search" type="text" />
         </form>
         <div class="archives">
           {{#query}}
