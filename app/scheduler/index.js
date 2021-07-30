@@ -13,7 +13,11 @@ const fs = require("fs-extra");
 const exec = require("child_process").exec;
 
 module.exports = function () {
+
+  // Log useful system information, once per minute
   schedule("* * * * *", function () {
+
+    // Print most memory-intensive processes
     exec("ps -eo pmem,pcpu,comm,args | sort -k 1 -nr | head -10", function (
       err,
       stdout
@@ -22,10 +26,8 @@ module.exports = function () {
       console.log(clfdate(), "[STATS]", "top");
       console.log(stdout);
     });
-  });
 
-  // Every minute look
-  schedule("* * * * *", function () {
+    // Print cpu and memory information
     fs.readFile("/proc/meminfo", "utf-8", function (err, contents) {
       // This won't work on MacOS
       if (err || !contents) return;
