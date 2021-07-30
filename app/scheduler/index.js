@@ -32,9 +32,14 @@ module.exports = function () {
 
       let stats = {};
 
-      contents.split("\n").forEach((line) => {
-        stats[line.split(":")[0].trim()] = parseInt(line.split(":")[1].trim());
-      });
+      contents
+        .trim()
+        .split("\n")
+        .forEach((line) => {
+          stats[line.split(":")[0].trim()] = parseInt(
+            line.split(":")[1].trim()
+          );
+        });
 
       let loadavg = os.loadavg()[0];
       let totalCPUs = os.cpus().length;
