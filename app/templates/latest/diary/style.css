@@ -50,7 +50,7 @@ div {
   position: relative;
 }
 
-div.header {padding: 1.45rem;margin:1.4rem;display: flex;align-items:baseline;position: sticky;top:0;background: {{background_color}};z-index: 100}
+div.header {padding: 1.45rem;margin:1.4rem;display: flex;align-items:baseline;position: sticky;top:0;background: {{background_color}};z-index: 100;    justify-content: space-between;}
 .main {max-width: 60%;min-width: 720px}
 .container {max-width: 1000px}
 .entry {margin: 72px 0 120px}
@@ -318,7 +318,8 @@ div.header .nav a {opacity: 0.4}
 
 div.header .nav {
   display: flex;
-  flex-grow: 1;
+  flex-grow: 0;
+  margin: 0;
   align-content: baseline;
   justify-content: flex-end;
   flex-shrink: 0;
