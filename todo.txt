@@ -1,7 +1,3 @@
-Work on Lisa's handwriting animation
-
----
-
 Release a new film showing some of Blot’s more recent features – the current [video on Blot’s homepage](http://blot.im/) is now many years out of date
 - Finish video script in brochure/readme.txt
 - Work out how a photographer might use Blot, does lightroom work well?
@@ -19,6 +15,8 @@ Improvements to Dropbox client
 Begin collecting proper measurements for page-rendering speed on the server. This will help us identify ways to improve the speed of your site.
 
 ---
+
+Add raw-link -> embed function, which would fetch the title, description and thumbnail for a link 
 
 Fix bug with case-correct Bibliography and CSL files and tell [Benjamin](https://mail.google.com/mail/u/0/#inbox/FMfcgzGkZGlDGBNDdpkgGprpwzVxwljq). Basically we need to resolve the case-insensitive path to the file because the Dropbox client lower-cases all files before storing them on disk
 
@@ -56,12 +54,13 @@ Add request level timeouts to prevent server swamping
 - ensure to remove the timeout from the SSE streaming routes (drafts, sync status on dashboard)
 - read this guide: http://expressjs.com/en/resources/middleware/timeout.html
 - it seems we also need to cancel the resources involved in responding to the request (i.e. disk io, db calls) for this to be really useful
+- Add a timeout of 15 seconds for building posts.
 
 Expose log files on blog's dashboard and tell [Sönke](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLtsxjSMlVmNRFGJJxkpsVFNvg)
 
 Server changes
 - Write useful benchmark tool for Blot
-- Add memory monitor
+- Add memory monitor which notifies me when memory is mostly consumed
 - Migrate to lower-cost r6gd.xlarge instance, which is not possible using the AWS console due to some difference in architecture (intel vs. amazon chip?). 
 - Work out how to detect stray build processes. There were a bunch of zombies consuming memory on Blot's server. Work out how to kill them safely
 - Experiment with different EBS types, perhaps try to use ephemeral disk more since lower latency?
@@ -142,6 +141,7 @@ Reduce image compression settings and tell [Joshua](https://mail.google.com/mail
 
 Improve questions section of site, in approximate order of importance:
   - store version history of the question and answer edits
+  - add option to hide/delete a question
   - question tagging, including a list of all tags, and popular tags
   - give the 'ask' and 'answer' textarea inputs the full functionality of the GitHub issue/PR comment inputs (i.e. code snippets / preview / copy/paste screenshots from clipboard)
   - email notifications (There's an existing system in place for sending emails in app/helper/email)  
@@ -198,8 +198,6 @@ Improve brochure
 - Personalize the documentation for logged in users
 - Tooltips for lock and CVC on sign up page
 - Prune unused font-face declarations from CSS passed to dashboard
-
-Add a timeout of 15 seconds for building posts.
 
 Add a 'page link format' option to the dashboard – the link format now only applies to entries. Tell [Mike](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKkbjLjgTZLQqMFFMzBBpzMZTg)
 
