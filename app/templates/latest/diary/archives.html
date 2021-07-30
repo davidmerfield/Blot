@@ -6,15 +6,17 @@
     <div class="container">
       <div class="main">
         <h1>Archives</h1>
-        <h2>Categories</h2>
-            <div class="tags">
-      <div style="overflow: hidden;height: 1.45em">
+        <form action='/search' style="margin:-0.66em 0 1em">
+          <input placeholder="What are you looking for? Search for an entry..." value="{{#query}}{{query}}{{/query}}" name="q" id="search" type="text" />
+        </form>
+            <div class="tags" >
+      <div >
       {{#popular_tags}}
       <a href="/tagged/{{slug}}" {{#active}}style="font-weight:600"{{/active}} title="{{tag}}">{{tag}}</a>
       {{/popular_tags}}
     </div>
     </div>
-    <hr>
+    <hr><br>
         <div>
           {{#allEntries}}
           <a href="{{{url}}}">{{title}}</a>&nbsp;<span class="small">{{date}}</span>
