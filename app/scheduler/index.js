@@ -9,23 +9,44 @@ var schedule = require("node-schedule").scheduleJob;
 var checkFeatuedSites = require("../brochure/routes/featured/check");
 var publishScheduledEntries = require("./publish-scheduled-entries");
 const os = require("os");
+const fs = require("fs-extra");
+const exec = require("child_process").exec;
 
 module.exports = function () {
-  // Every minute
   schedule("* * * * *", function () {
-    let loadavg = os.loadavg()[0];
-    let totalCPUs = os.cpus().length;
-    let totalmem = os.totalmem();
-    let freemem = os.freemem();
+    exec("ps -eo pmem,pcpu,comm,args | sort -k 1 -nr | head -10", function (
+      err,
+      stdout
+    ) {
+      if (err || !stdout) return;
+      console.log(clfdate(), "[STATS]", "top");
+      console.log(stdout);
+    });
+  });
 
-    let pretty = (num) => (100 * num).toFixed(3) + "%";
+  // Every minute look
+  schedule("* * * * *", function () {
+    fs.readFile("/proc/meminfo", "utf-8", function (err, contents) {
+      // This won't work on MacOS
+      if (err || !contents) return;
 
-    console.log(
-      clfdate(),
-      "[STATS]",
-      "cpuuse=" + pretty(loadavg / totalCPUs),
-      "memuse=" + pretty((totalmem - freemem) / totalmem)
-    );
+      let stats = contents.split("\n").forEach((line) => {
+        stats[line.split(":")[0].trim()] = parseInt(line.split(":")[1].trim());
+      });
+
+      let loadavg = os.loadavg()[0];
+      let totalCPUs = os.cpus().length;
+      let totalmem = stats.MemTotal;
+      let freemem = stats.MemAvailable;
+      let pretty = (num) => (100 * num).toFixed(3) + "%";
+
+      console.log(
+        clfdate(),
+        "[STATS]",
+        "cpuuse=" + pretty(loadavg / totalCPUs),
+        "memuse=" + pretty((totalmem - freemem) / totalmem)
+      );
+    });
   });
 
   // Bash the cache for scheduled posts
@@ -57,7 +78,7 @@ module.exports = function () {
   schedule({ hour: 10, minute: 0 }, function () {
     console.log(clfdate(), "Scheduler: Checking available disk space");
 
-    require("child_process").exec("df -h", function (err, stdout) {
+    exec("df -h", function (err, stdout) {
       if (err) throw err;
 
       var disk = stdout.split("\n")[1].replace(/\s+/g, " ").split(" ");
