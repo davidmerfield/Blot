@@ -20,7 +20,7 @@ function main(label, callback) {
   if (!fs.existsSync(directory))
     return callback(new Error("No state " + label));
 
-  cp.execSync("pg_ctl stop -D " + DATA_DIRECTORY + "/db/postgres", {
+  cp.execSync("pg_ctl -s -l logs/post.log  stop -D " + DATA_DIRECTORY + "/db/postgres", {
     stdio: "inherit",
   });
 
@@ -33,7 +33,7 @@ function main(label, callback) {
 
     // Why stdio: inherit?
     // https://github.com/shelljs/shelljs/issues/770#issuecomment-329357465
-    cp.execSync("pg_ctl start -D " + DATA_DIRECTORY + "/db/postgres", {
+    cp.execSync("pg_ctl -s -l logs/post.log start -D " + DATA_DIRECTORY + "/db/postgres", {
       stdio: "inherit",
     });
 
