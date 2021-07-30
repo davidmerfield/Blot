@@ -20,7 +20,8 @@ body {
   color: {{text_color}};
   background: {{background_color}};
   word-wrap: break-word;
-  margin: 10px 15px;
+  margin: 0;
+  padding: 0;
 }
 
 .clear {width: 100%;clear: both;float: none;display: block;height: 0}
@@ -326,9 +327,13 @@ div.header .nav {
 }
 div.header .tags {margin:0 2rem;flex-grow: 1}
 
+.nav a {
+  order: 1;
+}
 .nav a[href="/feed.rss"],
 .nav a[href="/search"] {
   float: right;
+  order: 2;
   color: {{text_color}};
   text-indent: -1000px;
   overflow: hidden;
