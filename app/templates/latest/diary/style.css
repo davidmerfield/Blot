@@ -359,19 +359,23 @@ input#search:focus {
 }
 
 ::-webkit-input-placeholder {
-   color: #A4A9B0;
+   color: {{text_color}};
+   opacity: 0.5;
 }
 
 :-moz-placeholder { /* Firefox 18- */
-   color: #A4A9B0;
+   color: {{text_color}};
+   opacity: 0.5;   
 }
 
 ::-moz-placeholder {  /* Firefox 19+ */
-   color: #A4A9B0;
+   color: {{text_color}};
+   opacity: 0.5;   
 }
 
 :-ms-input-placeholder {
-   color: #A4A9B0;
+   color: {{text_color}};
+   opacity: 0.5;   
 }
 
 .date {margin-top: 10px;text-decoration: none;}
