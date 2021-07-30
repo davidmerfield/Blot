@@ -7,20 +7,15 @@
       <div class="main">
         <div class="entry">
         {{#entry}}
-          {{#date}}
-          <a class="small date" href="{{{url}}}">{{date}}</a>
-          {{/date}}
           
           {{{html}}}
           
-          {{#tags.length}}
-          <br />
           <p>
-            {{#tags}}
-            <a class="small tag" href="/tagged/{{slug}}">{{name}}</a>
-            {{/tags}}
+          <a class="small date" href="{{{url}}}">{{date}}</a>
+          {{#tags}}
+          <a class="small tag" href="/tagged/{{slug}}">{{name}}</a>
+          {{/tags}}
           </p>
-          {{/tags.length}}
 
           <div class="clear"></div>
           {{> pluginHTML}}

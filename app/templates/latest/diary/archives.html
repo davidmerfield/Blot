@@ -9,6 +9,7 @@
         <form action='/search' style="margin:-0.66em 0 1em">
           <input placeholder="Search..." value="{{#query}}{{query}}{{/query}}" name="q" id="search" type="text" />
         </form>
+{{#popular_tags.length}}        
             <div class="tags" >
       <div >
       {{#popular_tags}}
@@ -17,6 +18,8 @@
     </div>
     </div>
     <hr><br>
+{{/popular_tags.length}}        
+
         <div>
           {{#allEntries}}
           <a href="{{{url}}}">{{title}}</a>&nbsp;<span class="small">{{date}}</span>
