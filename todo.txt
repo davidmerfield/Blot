@@ -16,9 +16,17 @@ Begin collecting proper measurements for page-rendering speed on the server. Thi
 
 ---
 
-Add raw-link -> embed function, which would fetch the title, description and thumbnail for a link 
+Add raw-link -> embed function, which would fetch the title, description and thumbnail for a link using <meta> tags. 
 
-Internal links (e.g. #section) in {{{teaser}}} should be resolved against the entry's permalink.
+Improvements to teaser generator
+- Improve estimate of teaser length
+- Remove trailing non-text elements (like <hr>)
+- Add {{small}} and {{long}} versions of teaser?
+- Fix bug with makeTeaser for ~/Dropbox/bug.html which locks main process painfully
+- Internal links (e.g. #section) in {{{teaser}}} should be resolved against the entry's permalink.
+- Add hasBreakpoint property to entry to allow greater control over display of {{{teaser}}} and tell [Pratik](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTsfMTHqWMQFmprMcjNpdBQzp)
+- Fix [issue with teaser generator](https://github.com/davidmerfield/Blot/issues/15) that locks up a build process, sometimes for 10+ seconds.
+- Fix bug with footnote links in a teaser from #frag to {{permalink}}#frag
 
 Fix bug with case-correct Bibliography and CSL files and tell [Benjamin](https://mail.google.com/mail/u/0/#inbox/FMfcgzGkZGlDGBNDdpkgGprpwzVxwljq). Basically we need to resolve the case-insensitive path to the file because the Dropbox client lower-cases all files before storing them on disk
 
@@ -305,7 +313,6 @@ Improvements to entry builder
 - Parse Word Document subtitles as h2 and tell [Matt](https://mail.google.com/mail/u/0/#sent/FMfcgxwDrlfrjDMsDlkLHNsnbtmXQtDw)
 - Add way to filter entries by post type (e.g. photo) and tell [Justin](https://twitter.com/juter/status/1079767534231011330).
 - If entries share publish date, sort them by blot creation date
-- Fix [issue with teaser generator](https://github.com/davidmerfield/Blot/issues/15) that locks up a build process, sometimes for 10+ seconds.
 - Fix bug with blockquotes and tell [Kerim](https://mail.google.com/mail/u/1/#inbox/165b813e36c5ad67). Multiple ">" symbols on the blank paragraphs between other quoted text are not formatting properly.
 - Fix bug with indented code in pre tags and tell [Michael](https://mail.google.com/mail/u/0/#inbox/166704e2c0187e5c)
 
@@ -537,8 +544,6 @@ Improve 404 log page on Dashboard
 - Add frequency indicator for each route 404 log and tell [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDLzTVpVZHfgwRgcmtGXFHXx)
 - Add filtering by date to 404 log and [tell this person](https://mail.google.com/mail/u/0/#inbox/1566e52d170f29ca)
 
-Add hasBreakpoint property to entry to allow greater control over display of {{{teaser}}} and tell [Pratik](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTsfMTHqWMQFmprMcjNpdBQzp)
-
 Add way to auto-refresh page during template development on preview subdomains. Tell [Ryan](https://mail.google.com/mail/u/1/#inbox/FMfcgxwBVDHXWxBGqwNlmsmgZjbnHXvg)
 
 Add support for nesting multiple layout tags e.g. "{<>} {||} Y" and tell [Marius](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVqNqbsQJjcrTXRcsFxHVPzDq)
@@ -617,8 +622,6 @@ Investigate [support for xattr](https://github.com/LinusU/fs-xattr) to read imag
 Set NODE_ENV [environment variable to production](https://expressjs.com/en/advanced/best-practice-performance.html#set-node_env-to-production)
 
 Add support for HTTP2 and tell [Ryan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqnjnkQjwXHFWSTtWtwhFWxGd)
-
-Fix bug with makeTeaser for ~/Dropbox/bug.html which locks main process painfully
 
 Fix bug with rename catcher which allows two posts to share a guid. It caused a bug with Disqus comments. To reproduce this bug: Rename an entry. Create new entry with old name. Both entries have same GUID.
 
@@ -811,8 +814,6 @@ is happening before doing this.
 Add support for native PDF embeds in posts, just put a link to a PDF or a path, e.g. /_assets/file.pdf --> would become a nice embed.
 
 Add support for native MP3 embeds in posts, just put a link to an MP3 or a path, e.g. /_assets/file.mp3 --> would become a nice embed then tell [Luke](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVWLlqqwbksXcScNdhcTjhjfq) and [Nash](http://twitter.com/nashp) and [Andy](https://mail.google.com/mail/u/0/#inbox/LXphbRLrghxkrJmtbtfXwZHrBHqGzzjDqLZVmfRCzrg) and [Charlie](mailto:hi@charlliegleason.com) and [Konstantin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrRQPphRrjCrWXPLzgHhxkzMN)
-
-Fix bug with footnote links in a teaser from #frag to {{permalink}}#frag
 
 File converters / codecs
 - Video posts (.mp4)
