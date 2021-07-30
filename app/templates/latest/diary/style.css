@@ -155,12 +155,7 @@ big {color: {{text_color}};font-size: 32px;line-height: 48px;display: block;}
 
 a {
   color: {{link_color}}; /* 02569B */
-  text-decoration: none;
-  text-shadow: .03em 0 {{background_color}}, -.03em 0 {{background_color}}, 0 .03em {{background_color}}, 0 -.03em {{background_color}}, .06em 0 {{background_color}}, -.06em 0 {{background_color}}, .09em 0 {{background_color}}, -.09em 0 {{background_color}}, .12em 0 {{background_color}}, -.12em 0 {{background_color}}, 0 0.03em {{background_color}}, 0 -.03em {{background_color}}, 0 .06em {{background_color}}, 0 -.06em {{background_color}}, 0 .08em {{background_color}}, 0 -.08em {{background_color}};
-  background-image: linear-gradient({{background_color}}, {{background_color}}), linear-gradient({{background_color}}, {{background_color}}), linear-gradient({{link_color}}, {{link_color}});
-  background-size: 0 0,0 0,0.07em 0.07em;
-  background-repeat: no-repeat, no-repeat, repeat-x;
-  background-position: 0% 90%, 100% 90%, 0% 95%;
+  text-decoration: underline;
 }
 
 a:hover {
@@ -169,23 +164,12 @@ a:hover {
 
 a::selection {
   background: #b3d4fd;
-  text-shadow: .03em 0 #b3d4fd, -.03em 0 #b3d4fd, 0 .03em #b3d4fd, 0 -.03em #b3d4fd, .06em 0 #b3d4fd, -.06em 0 #b3d4fd, .09em 0 #b3d4fd, -.09em 0 #b3d4fd, .12em 0 #b3d4fd, -.12em 0 #b3d4fd;
 }
 
 a::-moz-selection {
   background: #b3d4fd;
-  text-shadow: .03em 0 #b3d4fd, -.03em 0 #b3d4fd, 0 .03em #b3d4fd, 0 -.03em #b3d4fd, .06em 0 #b3d4fd, -.06em 0 #b3d4fd, .09em 0 #b3d4fd, -.09em 0 #b3d4fd, .12em 0 #b3d4fd, -.12em 0 #b3d4fd;
 }
 
-h1 a {
-  background-size: 0 0,0 0,0.07em 0.07em;
-  background-position: 0% 90%, 100% 90%, 0% 98%;
-}
-
-h2 a, h3 a, h4 a, h5 a, h6 a {
-  background-size: 0 0,0 0,0.07em 0.07em;
-  background-position: 0% 90%, 100% 90%, 0% 97%;
-}
 
 a.tag {
   padding-left: 1.33em;
@@ -312,7 +296,7 @@ iframe {width: 100%;}
 #logo img:active {margin-top: 1px}
 
 /* Nav links are underlined which affects their optical lineheight */
-div.header a {margin-right: 1rem;font-size: 15px;background: none;text-shadow: none;color: {{text_color}};}
+div.header a {margin-right: 1rem;font-size: 15px;color: {{text_color}};text-decoration: none}
 div.header a:hover {text-decoration: underline;}
 div.header .tags a {opacity: 1.0}
 div.header .nav a {opacity: 0.4}
@@ -389,7 +373,7 @@ input#search:focus {
    color: #A4A9B0;
 }
 
-.date {margin-top: 10px;background: none;text-shadow: none;}
+.date {margin-top: 10px;text-decoration: none;}
 .date:empty {display: none;}
 
 /* Reset the spacing when date is not followed by an h1 tag */
@@ -418,8 +402,6 @@ input#search:focus {
 .previousEntry,
 .nextEntry {
   text-decoration: none;
-  background: none;
-  text-shadow: none;
   font-size: 0.88em;
   line-height: 1.33em;
   width: 48%;
