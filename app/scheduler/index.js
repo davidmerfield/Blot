@@ -13,10 +13,8 @@ const fs = require("fs-extra");
 const exec = require("child_process").exec;
 
 module.exports = function () {
-
   // Log useful system information, once per minute
   schedule("* * * * *", function () {
-
     // Print most memory-intensive processes
     exec("ps -eo pmem,pcpu,comm,args | sort -k 1 -nr | head -10", function (
       err,
@@ -32,7 +30,9 @@ module.exports = function () {
       // This won't work on MacOS
       if (err || !contents) return;
 
-      let stats = contents.split("\n").forEach((line) => {
+      let stats = {};
+
+      contents.split("\n").forEach((line) => {
         stats[line.split(":")[0].trim()] = parseInt(line.split(":")[1].trim());
       });
 
