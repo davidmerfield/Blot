@@ -18,6 +18,8 @@ Begin collecting proper measurements for page-rendering speed on the server. Thi
 
 Add raw-link -> embed function, which would fetch the title, description and thumbnail for a link 
 
+Internal links (e.g. #section) in {{{teaser}}} should be resolved against the entry's permalink.
+
 Fix bug with case-correct Bibliography and CSL files and tell [Benjamin](https://mail.google.com/mail/u/0/#inbox/FMfcgzGkZGlDGBNDdpkgGprpwzVxwljq). Basically we need to resolve the case-insensitive path to the file because the Dropbox client lower-cases all files before storing them on disk
 
 Resolve [issues with borked git client and tell V](https://mail.google.com/mail/u/0/#inbox/FMfcgzGkXwDNqDFKdWBQPTBpwQRzgsGd)
