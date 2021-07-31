@@ -304,10 +304,8 @@ div.header .nav a {opacity: 0.4}
 
 div.header .nav {
   display: flex;
-  flex-grow: 0;
   margin: 0;
   align-content: baseline;
-  justify-content: flex-end;
   flex-shrink: 0;
 }
 div.header .tags {margin:0 2rem;flex-grow: 1}
@@ -316,24 +314,20 @@ div.header .tags {margin:0 2rem;flex-grow: 1}
   order: 1;
 }
 .nav a[href="/feed.rss"],
-.nav a[href="/archives"] {
-  float: right;
+.nav a[href="/search"] {
   order: 2;
   color: {{text_color}};
   font-weight: 600;
-  font-size: 12px;
-  line-height:2;
-  padding-left: 2em;
-  padding-right:1em;
-  background: url('data:image/svg+xml;utf8,<svg fill="{{#encodeURIComponent}}{{text_color}}{{/encodeURIComponent}}" id="icon-broadcast" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 120 120" xml:space="preserve"><circle cx="18.385" cy="101.615" r="18.385"/><g><path d="M-1.031,61c32.533,0,59,26.468,59,59s-26.467,59-59,59s-59-26.468-59-59S-33.564,61-1.031,61 M-1.031,38 c-45.288,0-82,36.713-82,82s36.712,82,82,82s82-36.713,82-82S44.257,38-1.031,38L-1.031,38z"/></g><g><path d="M0.154,23.041c53.349,0,96.75,43.402,96.75,96.75s-43.402,96.75-96.75,96.75c-53.348,0-96.75-43.402-96.75-96.75 S-53.194,23.041,0.154,23.041 M0.154,0.041c-66.136,0-119.75,53.615-119.75,119.75s53.614,119.75,119.75,119.75 c66.135,0,119.75-53.615,119.75-119.75S66.289,0.041,0.154,0.041L0.154,0.041z"/></g></svg>') no-repeat 0.5rem center / 100%;
-  background-size: 0.88em;
-  background-color: rgba(0,0,0,0.1);
-  border-radius:1rem;
+  
+    text-indent: -1000px;
+  overflow: hidden;
+  width: 1em;
+  margin-left: 0.5em;
+  background: url('data:image/svg+xml;utf8,<svg fill="{{#encodeURIComponent}}{{text_color}}{{/encodeURIComponent}}" id="icon-broadcast" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 120 120" xml:space="preserve"><circle cx="18.385" cy="101.615" r="18.385"/><g><path d="M-1.031,61c32.533,0,59,26.468,59,59s-26.467,59-59,59s-59-26.468-59-59S-33.564,61-1.031,61 M-1.031,38 c-45.288,0-82,36.713-82,82s36.712,82,82,82s82-36.713,82-82S44.257,38-1.031,38L-1.031,38z"/></g><g><path d="M0.154,23.041c53.349,0,96.75,43.402,96.75,96.75s-43.402,96.75-96.75,96.75c-53.348,0-96.75-43.402-96.75-96.75 S-53.194,23.041,0.154,23.041 M0.154,0.041c-66.136,0-119.75,53.615-119.75,119.75s53.614,119.75,119.75,119.75 c66.135,0,119.75-53.615,119.75-119.75S66.289,0.041,0.154,0.041L0.154,0.041z"/></g></svg>') no-repeat center center / 100%;
 }
 
-.nav a[href="/search"] {display: none; }
 
-.nav a[href="/archives"] {
+.nav a[href="/search"] {
   background-image: url('data:image/svg+xml;utf8,<svg id="icon-search" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 8 8" xml:space="preserve"><path fill="{{#encodeURIComponent}}{{text_color}}{{/encodeURIComponent}}" id="search" d="M7.99,6.928L5.847,4.784c0.289-0.476,0.458-1.033,0.458-1.63C6.305,1.412,4.895,0,3.152,0 C1.411,0,0,1.412,0,3.154c0,1.741,1.412,3.151,3.153,3.151c0.597,0,1.154-0.169,1.63-0.458l2.145,2.146L7.99,6.928z M1.203,3.154 c0.002-1.077,0.874-1.949,1.951-1.951c1.076,0.002,1.948,0.874,1.949,1.951C5.101,4.23,4.229,5.103,3.153,5.103 C2.075,5.103,1.205,4.23,1.203,3.154z"/></svg>');
   background-size: 0.94em;
 }
@@ -454,7 +448,6 @@ input#search:focus {
   .wide, .wide.left, .wide.right {width: 100%;margin: 0}
   .wide.left .caption {margin-left: 0}
 
-  .date {position: absolute;top: -24px;left: 0;text-align: left;margin: 0}
 }
 
 @media screen and (max-width: 730px) {
