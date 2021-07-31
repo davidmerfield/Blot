@@ -1,12 +1,15 @@
-var normalize = require("helper/urlNormalizer");
-
 module.exports = function (req, callback) {
   return callback(null, function () {
-    try {
-      var url = normalize(req.url) || "/";
-      var link = this.url;
+    var url;
+    var link;
 
-      if (!link && this.slug) link = "/tagged/" + this.slug;
+    try {
+      url = decodeURI(req.url);
+      link = this.url;
+
+      // it's neccessary to decodeURI
+      // in order for tag slugs with accents to work
+      if (!link && this.slug) link = "/tagged/" + decodeURIComponent(this.slug);
 
       url = url.trim();
       link = link.trim();
