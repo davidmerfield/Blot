@@ -28,6 +28,7 @@ var dictionary = {
   "public": require("./public"),
   "recentEntries": require("./recentEntries"),
   "recent_entries": require("./recent_entries"),
+  "rgb": require("./rgb"),
   "script_url": require("./script_url"),
   "search_query": require("./search_query"),
   "search_results": require("./search_results"),
