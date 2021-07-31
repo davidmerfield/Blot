@@ -51,10 +51,10 @@ div {
   position: relative;
 }
 
-div.header {padding: 1.4rem;display: flex;align-items:baseline;position: sticky;top:0;background: {{background_color}};z-index: 100;    justify-content: space-between;}
+div.header {padding: 1.4rem;display: flex;align-items:baseline;position: sticky;top:0;background: {{background_color}};z-index: 100;    justify-content: space-between;margin-bottom:36px}
 .main {max-width: 60%;min-width: 720px}
 .container {max-width: 1000px}
-.entry {margin: 72px 0 120px}
+.entry {margin: 0 0 192px}
 
 /* LAYOUT */
 
@@ -347,6 +347,7 @@ input#search {
   background: url('data:image/svg+xml;utf8,<svg id="icon-search" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 8 8" xml:space="preserve"><path fill="{{#encodeURIComponent}}{{text_color}}{{/encodeURIComponent}}" id="search" d="M7.99,6.928L5.847,4.784c0.289-0.476,0.458-1.033,0.458-1.63C6.305,1.412,4.895,0,3.152,0 C1.411,0,0,1.412,0,3.154c0,1.741,1.412,3.151,3.153,3.151c0.597,0,1.154-0.169,1.63-0.458l2.145,2.146L7.99,6.928z M1.203,3.154 c0.002-1.077,0.874-1.949,1.951-1.951c1.076,0.002,1.948,0.874,1.949,1.951C5.101,4.23,4.229,5.103,3.153,5.103 C2.075,5.103,1.205,4.23,1.203,3.154z"/></svg>') 1em center/0.8em no-repeat;
   border-radius: 3em;
   width: 103.5%;
+  color: {{link_color}};
   box-sizing: border-box;
   margin: .33em .66em 2em -1em;
   border: 1px solid {{text_color}};
@@ -354,28 +355,28 @@ input#search {
 
 input#search:focus {
   outline: none;
-  box-shadow: 0 0 5px {{link_color}};
-  border: 1px solid {{link_color}};
+  background: url('data:image/svg+xml;utf8,<svg id="icon-search" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 8 8" xml:space="preserve"><path fill="{{#encodeURIComponent}}{{link_color}}{{/encodeURIComponent}}" id="search" d="M7.99,6.928L5.847,4.784c0.289-0.476,0.458-1.033,0.458-1.63C6.305,1.412,4.895,0,3.152,0 C1.411,0,0,1.412,0,3.154c0,1.741,1.412,3.151,3.153,3.151c0.597,0,1.154-0.169,1.63-0.458l2.145,2.146L7.99,6.928z M1.203,3.154 c0.002-1.077,0.874-1.949,1.951-1.951c1.076,0.002,1.948,0.874,1.949,1.951C5.101,4.23,4.229,5.103,3.153,5.103 C2.075,5.103,1.205,4.23,1.203,3.154z"/></svg>') 1em center/0.8em no-repeat;  
+  border: 1px solid {{link_color}};  
 }
 
 ::-webkit-input-placeholder {
    color: {{text_color}};
-   opacity: 0.5;
+   opacity: 0.33;
 }
 
 :-moz-placeholder { /* Firefox 18- */
    color: {{text_color}};
-   opacity: 0.5;   
+   opacity: 0.33;   
 }
 
 ::-moz-placeholder {  /* Firefox 19+ */
    color: {{text_color}};
-   opacity: 0.5;   
+   opacity: 0.33;   
 }
 
 :-ms-input-placeholder {
    color: {{text_color}};
-   opacity: 0.5;   
+   opacity: 0.33;   
 }
 
 .date {margin-top: 10px;text-decoration: none;}
