@@ -1,3 +1,7 @@
+Work on Diary template
+
+---
+
 Release a new film showing some of Blot’s more recent features – the current [video on Blot’s homepage](http://blot.im/) is now many years out of date
 - Finish video script in brochure/readme.txt
 - Work out how a photographer might use Blot, does lightroom work well?
