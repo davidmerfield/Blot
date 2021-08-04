@@ -116,11 +116,11 @@ settings
   .post(require("./save/newTemplate"));
 
 settings
-  .route("/settings/template/archived")
+  .route("/settings/template/archive")
   .all(load.pastTemplates)
   .get(function (req, res) {
-    res.locals.breadcrumbs.add("Archived templates", "archived");
-    res.render("template/archived", { title: "Archived templates" });
+    res.locals.breadcrumbs.add("Archive", "archive");
+    res.render("template/archive", { title: "Archive" });
   });
 
 settings.get("/settings/:section/:view", function (req, res) {

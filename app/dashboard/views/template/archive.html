@@ -55,6 +55,8 @@
   color: white;
 }
 
+h2 {font-size: 20px;padding: 11px 20px;margin: 20px 0 0}
+
 .butty {
   color: #365899;
   padding: 10px 20px;
@@ -70,7 +72,6 @@
 </style>
 
 <div class="subpage">
-  <p style="margin:11px 20px">These templates are no longer maintained. Some are unfinished, some are experimental, some are translations of popular templates on other platforms. You can fork a copy of any of them to use on your account if you like.</p>
 
   <input type="hidden" name="redirect" value="/settings/template">
 
@@ -110,7 +111,11 @@
     </span>
   </div>
 
+  <h2>Unsupported templates</h2>
+
   {{#templates}}
+    {{#isMine}}
+
   <div class="line theme {{checked}}">
 
     <span style="flex-grow:1">{{name}}</span>
@@ -129,6 +134,30 @@
   </div>
   <div class="clear"></div>
 
+  {{/isMine}}
+  {{/templates}}
+
+    <h2>Templates from your other blogs</h2>
+  {{#templates}}
+    {{^isMine}}
+
+  <div class="line theme {{checked}}">
+
+    <span style="flex-grow:1">{{name}}</span>
+
+
+
+    <form method='post' action="/settings/template/new">
+      <input type="hidden" name="redirect" value="/settings/template">
+      <input type="hidden" name="name" value="Copy of {{name}}" />
+      <input type="hidden" name="cloneFrom" value="{{id}}" />
+      <button type="submit" style="color:#365899;padding:11px 20px;display:block;text-align:left;width:100%"><span class="square">Copy to this blog</span></button>
+    </form>
+
+  </div>
+  <div class="clear"></div>
+
+  {{/isMine}}
   {{/templates}}
 
   {{/blog.template}}
