@@ -1,3 +1,6 @@
+const Express = require("express");
+const redirector = new Express.Router();
+
 var config = require("config");
 var type = require("helper/type");
 
@@ -30,7 +33,21 @@ var STATIC = [
   DEVELOPERS,
 ];
 
-module.exports = function (req, res, next) {
+var internal = {
+  "/settings/template/archived": "/settings/template/archive",
+};
+
+Object.keys(internal).forEach((from) => {
+  redirector.use(from, function (req, res) {
+    let to = internal[from];
+    let redirect = req.originalUrl.replace(from, to);
+    // By default, res.redirect returns a 302 status
+    // code (temporary) rather than 301 (permanent)
+    res.redirect(301, redirect);
+  });
+});
+
+redirector.use(function (req, res, next) {
   var user = req.user;
 
   // Allows requests to static files...
@@ -86,4 +103,6 @@ module.exports = function (req, res, next) {
   }
 
   return next();
-};
+});
+
+module.exports = redirector;
