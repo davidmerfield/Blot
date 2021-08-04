@@ -2,8 +2,9 @@ var express = require("express");
 var settings = express.Router();
 var load = require("./load");
 var save = require("./save");
-var debug = require("dashboard/debug");
-var load = require("./load");
+var debug = require("../../debug");
+
+var Template = require("template");
 
 settings.use(function (req, res, next) {
   res.locals.selected = { settings: "selected" };
@@ -122,6 +123,28 @@ settings
     res.locals.breadcrumbs.add("Archive", "archive");
     res.render("template/archive", { title: "Archive" });
   });
+
+settings
+  .route("/settings/template/share/:shareID")
+  .all(function (req, res, next) {
+    Template.getByShareID(req.params.shareID, function (err, template) {
+      if (err || !template) return next(err || new Error("No template"));
+      req.template = res.locals.template = template;
+      next();
+    });
+  })
+
+  .get(function (req, res) {
+    res.render("template/share");
+  })
+
+  .post(function (req, res, next) {
+    req.body = {
+      name: req.template.name,
+      cloneFrom: req.template.id,
+    };
+    next();
+  }, require("./save/newTemplate"));
 
 settings.get("/settings/:section/:view", function (req, res) {
   var uppercaseName = req.params.view;

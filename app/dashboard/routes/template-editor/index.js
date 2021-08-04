@@ -44,7 +44,7 @@ TemplateEditor.route("/:templateSlug/settings")
 
       // Booleans
       if (newLocals.hide_dates) {
-        newLocals.hide_dates = newLocals.hide_dates === 'on';
+        newLocals.hide_dates = newLocals.hide_dates === "on";
       }
 
       for (let key in newLocals) locals[key] = newLocals[key];
@@ -127,6 +127,33 @@ TemplateEditor.route("/:templateSlug/rename")
       if (err) return next(err);
       res.message(res.locals.base + "/settings", "Renamed template!");
     });
+  });
+
+TemplateEditor.route("/:templateSlug/share")
+  .all(require("./load/font-inputs"))
+  .all(require("./load/color-inputs"))
+  .all(require("./load/layout-inputs"))
+  .all(require("./load/dates"))
+
+  .get(function (req, res) {
+    res.locals.partials.yield = "template-editor/share";
+    res.locals.partials.sidebar = "template-editor/settings-sidebar";
+    res.locals.title = `Share - ${req.template.name}`;
+    res.locals.shareURL = `${config.protocol}${config.host}/settings/template/share/${res.locals.template.shareID}`
+    res.render("template-editor/layout");
+  })
+  .post(bodyParser, function (req, res, next) {
+    if (req.template.shareID) {
+      Template.dropShareID(req.template.shareID, function (err) {
+        if (err) return next(err);
+        res.message(res.locals.base + "/share", "Unshared template!");
+      });
+    } else {
+      Template.createShareID(req.template.id, function (err) {
+        if (err) return next(err);
+        res.message(res.locals.base + "/share", "Shared template!");
+      });
+    }
   });
 
 TemplateEditor.route("/:templateSlug/delete")

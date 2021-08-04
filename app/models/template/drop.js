@@ -19,6 +19,10 @@ module.exports = function drop(owner, templateName, callback) {
     multi.del(key.metadata(templateID));
     multi.del(key.allViews(templateID));
 
+    if (metadata.shareID) {
+      multi.del(key.share(metadata.shareID));
+    }
+
     for (var i in views) {
       multi.del(key.view(templateID, views[i].name));
       multi.del(key.url(templateID, views[i].url));

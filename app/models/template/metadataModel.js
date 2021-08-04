@@ -4,6 +4,7 @@ module.exports = {
   slug: "string",
   owner: "string",
   cloneFrom: "string",
+  shareID: "string",
   isPublic: "boolean",
   description: "string",
   localEditing: "boolean",

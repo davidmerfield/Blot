@@ -11,6 +11,10 @@ module.exports = {
     return "template:" + templateID + ":url:" + url;
   },
 
+  share: function (shareID) {
+    return "template:share:" + shareID;
+  },
+
   allViews: function allViews(name) {
     return "template:" + name + ":all_views";
   },
