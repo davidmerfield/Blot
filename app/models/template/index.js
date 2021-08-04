@@ -15,6 +15,10 @@ module.exports = {
   getAllViews: require("./getAllViews"),
   getTemplateList: require("./getTemplateList"),
 
+  createShareID: require("./createShareID"),
+  dropShareID: require("./dropShareID"),
+  getByShareID: require("./getByShareID"),
+
   drop: require("./drop"),
 
   makeID: require("./util/makeID"),
