@@ -139,7 +139,7 @@ TemplateEditor.route("/:templateSlug/share")
     res.locals.partials.yield = "template-editor/share";
     res.locals.partials.sidebar = "template-editor/settings-sidebar";
     res.locals.title = `Share - ${req.template.name}`;
-    res.locals.shareURL = `${config.protocol}${config.host}/settings/template/share/${res.locals.template.shareID}`
+    res.locals.shareURL = `${config.protocol}${config.host}/settings/template/share/${res.locals.template.shareID}`;
     res.render("template-editor/layout");
   })
   .post(bodyParser, function (req, res, next) {

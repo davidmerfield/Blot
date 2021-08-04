@@ -39,6 +39,7 @@ module.exports = function create(owner, name, metadata, callback) {
   metadata.thumb = metadata.thumb || "";
   metadata.localEditing = metadata.localEditing === true;
   metadata.previewPath = "/";
+  metadata.shareID = "";
 
   ensure(metadata, metadataModel);
 
