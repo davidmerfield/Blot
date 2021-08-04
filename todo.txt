@@ -2,6 +2,9 @@ Work on Diary template
 
 ---
 
+Ensure I am doing request coalescing on NGINX and lower proxy timeout limit
+- Read the [5 hour CDN post](https://fly.io/blog/the-5-hour-content-delivery-network/) and [discussion](https://news.ycombinator.com/item?id=28053168)
+
 Release a new film showing some of Blot’s more recent features – the current [video on Blot’s homepage](http://blot.im/) is now many years out of date
 - Finish video script in brochure/readme.txt
 - Work out how a photographer might use Blot, does lightroom work well?
