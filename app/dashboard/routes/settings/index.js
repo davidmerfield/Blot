@@ -129,7 +129,6 @@ settings
   .all(function (req, res, next) {
     Template.getByShareID(req.params.shareID, function (err, template) {
       if (err || !template) return next(err || new Error("No template"));
-
       req.template = res.locals.template = template;
       next();
     });
