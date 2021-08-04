@@ -1,7 +1,7 @@
 var yaml = require("js-yaml");
 var async = require("async");
 
-module.exports = function(result, callback) {
+module.exports = function (result, callback) {
   var frontmatter = result.source.split("---")[1];
   var missingHandlers = {};
   var metadata = {};
@@ -30,31 +30,29 @@ module.exports = function(result, callback) {
 
   async.eachOf(
     frontmatter,
-    function(value, key, next) {
+    function (value, key, next) {
       if (key === "tags") {
         if (Array.isArray(value)) {
-
           value = value
-            .filter(function(tag) {
+            .filter(function (tag) {
               if (["blog-post"].indexOf(tag.toLowerCase()) > -1) return false;
               return true;
             })
-            .map(function(tag) {
+            .map(function (tag) {
               if (tag.indexOf("-") > -1)
                 console.log("Warning tag with dash:", tag);
 
               if (tag[0].toLowerCase() === tag[0]) {
                 if (["iphone"].indexOf(tag.toLowerCase) === -1) {
                   tag[0] = tag[0].toUpperCase();
-                  console.log('Warning uppercased tag', tag);
+                  console.log("Warning uppercased tag", tag);
                 }
               }
 
               return tag;
             });
 
-          if (value.length) 
-            metadata.Tags = value.join(", ");
+          if (value.length) metadata.Tags = value.join(", ");
         } else {
           console.log("Unexpected type for Tags", typeof value, value);
         }
@@ -76,7 +74,7 @@ module.exports = function(result, callback) {
 
       next();
     },
-    function(err) {
+    function (err) {
       result.metadata = metadata;
       result.missingHandlers = missingHandlers;
       callback(err, result);

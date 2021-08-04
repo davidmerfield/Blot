@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+  {{> head}}
+  <body>
+    <div class="container">
+    {{> header}}
+    <h1>Archives</h1>
+    {{#allEntries}}
+        <a href="{{{url}}}">{{title}}</a>
+        <p>{{date}}</p>
+    {{/allEntries}}
+    {{> footer}}
+    </div>
+  </body>
+</html>

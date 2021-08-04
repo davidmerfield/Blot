@@ -3,7 +3,9 @@ var mime = require("mime-types");
 var async = require("async");
 var debug = require("debug")("blot:blog:assets");
 
-module.exports = function(req, res, next) {
+var LARGEST_POSSIBLE_MAXAGE = 86400000;
+
+module.exports = function (req, res, next) {
   var paths,
     roots,
     candidates = [];
@@ -18,13 +20,16 @@ module.exports = function(req, res, next) {
     { root: config.blog_folder_dir + "/" + req.blog.id },
 
     // Static directory /static/$id
-    { root: config.blog_static_files_dir + "/" + req.blog.id },
+    {
+      root: config.blog_static_files_dir + "/" + req.blog.id,
+      maxAge: LARGEST_POSSIBLE_MAXAGE,
+    },
 
     // Global static directory
     {
       root: __dirname + "/static",
-      maxAge: 86400000 // largest possible maxAge I believe
-    }
+      maxAge: LARGEST_POSSIBLE_MAXAGE,
+    },
   ];
 
   // decodeURIComponent maps something like
@@ -38,33 +43,44 @@ module.exports = function(req, res, next) {
     decodeURIComponent(req.path).toLowerCase(),
 
     // Finally the path plus an index file
-    withoutTrailingSlash(decodeURIComponent(req.path)) + "/index.html"
+    withoutTrailingSlash(decodeURIComponent(req.path)) + "/index.html",
   ];
 
-  roots.forEach(function(options) {
-    paths.forEach(function(path) {
+  roots.forEach(function (options) {
+    paths.forEach(function (path) {
       candidates.push({
-        options: {
-          root: options.root,
-          maxAge: options.maxAge || 0,
-          headers: {
-            "Content-Type": getContentType(path)
-          }
-        },
-        path: path
+        options: options,
+        path: path,
       });
     });
   });
 
-  candidates = candidates.map(function(candidate) {
-    return function(next) {
+  candidates = candidates.map(function (candidate) {
+    return function (next) {
       debug("Attempting", candidate);
-      res.sendFile(candidate.path, candidate.options, next);
+      var headers = {
+        "Content-Type": getContentType(candidate.path),
+      };
+
+      var options = {
+        root: candidate.options.root,
+        maxAge: candidate.options.maxAge || 0,
+        headers: headers,
+      };
+
+      if (!options.maxAge && !req.query.cache && !req.query.extension) {
+        headers["Cache-Control"] = "no-cache";
+      }
+
+      if (req.query.cache && req.query.extension) {
+        options.maxAge = LARGEST_POSSIBLE_MAXAGE;
+      }
+
+      res.sendFile(candidate.path, options, next);
     };
   });
 
-  async.tryEach(candidates, function(err) {
-
+  async.tryEach(candidates, function (err) {
     // Is this still neccessary?
     if (res.headersSent) return;
 

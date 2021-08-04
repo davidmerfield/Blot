@@ -1,0 +1,118 @@
+<form class="account" method="post">
+  <input type="hidden" name="_csrf" value="{{csrftoken}}" />
+
+  <p style="padding:0em 2em 0 0;margin:11px 0 20px;line-height:1.5">
+    {{#user.isFreeForLife}} You can use Blot <b>for free</b> for as long as Blot
+    exists. {{/user.isFreeForLife}} {{#user.cancel_at_period_end}} Your
+    subscription has been cancelled and you won’t be charged again. On
+    <b>{{user.pretty.expiry}}</b> your account will close and your
+    blog{{user.s}} will shut down. {{/user.cancel_at_period_end}}
+    {{#user.isSubscribed}} 
+
+    {{#user.subscription.quantity}} Your next bill on
+    <b>{{user.pretty.expiry}}</b> will be for <b>{{user.pretty.price}}</b>. 
+    {{#balance}}
+    {{#credit}}
+    Your account has a credit of {{amount}} which will automatically reduce this bill.
+    {{/credit}}
+    {{^credit}}
+    Your account also owes {{amount}}, which will be automatically added to this next bill.
+    {{/credit}}
+    {{/balance}}
+    {{^monthly}}You will receive an email reminder one week before.{{/monthly}}
+    {{/user.subscription.quantity}} 
+
+    {{/user.isSubscribed}}
+  </p>
+
+  <div style="margin:0 -20px;border-top:1px solid #eee">
+    {{#user.isFreeForLife}}
+    <a class="line" href="/account/subscription/create"
+      ><span class="label">Subscribe</span
+      ><span class="center"><span class="link">Create a subscription</span></span></a
+    >
+    {{/user.isFreeForLife}} {{#user.cancel_at_period_end}}
+    <a class="line" href="/account/subscription/restart"
+      ><span class="label">Restart</span
+      ><span class="center"
+        ><span class="link">Restart your subscription</span></span
+      ></a
+    >
+    {{/user.cancel_at_period_end}} {{#user.isSubscribed}}
+
+    <div class="line" style="padding-bottom: 0">
+      <span class="label">Your blogs</span>
+      <style type="text/css">
+        .line.blog{border-bottom:1px solid rgba(0,0,0,0.05)}
+      .line.blog:last-of-type {border-bottom:none}</style>
+      <div class="center">
+        {{#blogs}}
+
+        <div
+          style="display:flex;padding:0 0 11px;"
+          class="line blog"
+        >
+          <span
+            style="display:flex;flex-grow:1;align-items:center;"
+            ><span class="photo-holder" style="margin-top:0">
+              {{#avatar}}<img
+                style="vertical-align: top;"
+                src="{{avatar}}?handle={{handle}}"
+              />{{/avatar}} {{^avatar}}<span
+                class="file"
+                style="font-size:0.8em;opacity:0.5;margin:-0.3em 0 0 0"
+              ></span
+              >{{/avatar}}</span
+            ><span>{{pretty.label}}</span></span
+          >
+
+          <a
+            class="right link"
+            style="display:flex;background:none;padding:0"
+            href="/account/subscription/delete/blog/{{handle}}"
+            >Delete
+          </a>
+        </div>
+
+        {{/blogs}}
+        <!-- <a
+          class="line"
+          style="display:block;padding:11px 0;background:none;border-bottom: none;margin-bottom: -11px"
+          href="/account/create-blog"
+          ><span class="link">Create new blog</span></a
+        > -->
+      </div>
+    </div>
+
+    <div class="clear"></div>
+
+    <a class="line" href="/account/subscription/payment-method"
+      ><span class="label">Payment</span
+      ><span class="center"
+        ><span class="link">Change payment method</span></span
+      ></a
+    >
+
+    <a class="line" href="/account/subscription/billing-interval"
+      ><span class="label">Billing interval</span
+      ><span class="center"
+        ><span class="link">Switch to {{#monthly}}annual{{/monthly}}{{^monthly}}monthly{{/monthly}} billing</span></span
+      ></a
+    >
+
+    <a class="line" href="/account/subscription/cancel"
+      ><span class="label">Cancel</span
+      ><span class="center"
+        ><span class="link">Cancel your subscription</span></span
+      ></a
+    >
+
+    {{/user.isSubscribed}}
+    <a class="line" href="/account/subscription/delete" style="border-bottom: none">
+      <span class="label">Delete</span>
+      <span class="center"
+        ><span class="link">Delete your account</span></span
+      >
+    </a>
+  </div>
+</form>

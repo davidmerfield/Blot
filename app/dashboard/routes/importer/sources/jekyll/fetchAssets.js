@@ -4,7 +4,7 @@ var async = require("async");
 var download = require("download");
 var fs = require("fs-extra");
 
-module.exports = function(result, callback) {
+module.exports = function (result, callback) {
   var markdown = new Markdown({ html: true });
 
   result.content = result.content.split("{{ site.url }}").join("");
@@ -23,7 +23,7 @@ module.exports = function(result, callback) {
     replace.push([m[0], m[1]]);
   }
 
-  replace.forEach(function(change) {
+  replace.forEach(function (change) {
     result.content = result.content.split(change[0]).join(change[1]);
   });
 
@@ -33,14 +33,17 @@ module.exports = function(result, callback) {
   var errors = [];
 
   // find anything with HREF/SRC, download it, store it in assetDirectory
-  $("[src]").each(function() {
+  $("[src]").each(function () {
     var src = $(this).attr("src");
     var newName = "_" + require("path").basename(src);
 
     if (src.indexOf("/assets") !== 0) return;
 
     try {
-      fs.copySync(result.sourceDirectory + src, result.assetDirectory + '/' + newName);      
+      fs.copySync(
+        result.sourceDirectory + src,
+        result.assetDirectory + "/" + newName
+      );
     } catch (e) {
       console.log(e);
       return;

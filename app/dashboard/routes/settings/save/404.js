@@ -1,6 +1,6 @@
-  var fourOhFour = require("../../../../models/404");
+var fourOhFour = require("models/404");
 
-module.exports = function  (req, res, next) {
+module.exports = function (req, res, next) {
   var blog = req.blog;
   var blogID = blog.id;
 
@@ -24,9 +24,9 @@ module.exports = function  (req, res, next) {
 
   if (!doThis || !url) return res.redirect(req.route.path);
 
-  doThis(blogID, url, function(err) {
+  doThis(blogID, url, function (err) {
     if (err) return next(err);
 
     return res.redirect(req.route.path);
   });
-}
+};

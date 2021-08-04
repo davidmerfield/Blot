@@ -3,5 +3,3 @@ Blot could not charge your card
 Blot tried and failed to charge your card to renew your subscription. Please [log in]({{{site}}}/log-in) to Blot and pay your subscription fee.
 
 Please reply directly to this email if you have any questions.
-
-Sincerely, David

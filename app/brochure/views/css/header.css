@@ -1,0 +1,92 @@
+header row {
+  padding: 0 2rem;
+}
+
+.grid {
+  padding: 0.7em;
+}
+
+.links {
+  text-align: right;
+  padding: 0 0.7em;
+}
+
+.links a {
+  margin-left: 1.4em;
+  color: #000;
+  font-weight: 600;
+}
+
+
+
+@media screen and (min-width: 800px) {
+  label[for="toggle"] {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  ul.sidebar {
+    min-height: auto;
+  }
+
+  .breadcrumbs {
+    display: none;
+  }
+  main nav .container {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  ul.sidebar {
+    position: initial;
+    margin-bottom: 1.4em;
+    width: 100%;
+    display: none;
+  }
+
+  main {
+    flex-wrap: wrap;
+  }
+
+  input[name="toggle"] + ul {
+    display: none;
+  }
+
+  .links a {
+    display: none;
+  }
+
+
+}
+
+@media screen and (max-width: 600px) {
+  background {
+    margin-right: -1rem;
+    margin-left: -1rem;
+  }
+}
+
+.sidebar a,
+.links label {
+  color: #989694;
+  box-sizing: border-box;
+  text-decoration: none;
+}
+
+.links a:focus,
+.sidebar a:focus,
+header label:focus {
+  color: #bbb;
+}
+
+header a:hover,
+.sidebar a:hover,
+header label:hover {
+  text-decoration: underline;
+}
+
+.links a:active,
+.links label:active {
+  color: #bbb;
+}

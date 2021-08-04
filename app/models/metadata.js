@@ -1,13 +1,13 @@
 var client = require("client");
 
 var key = {
-  all: function(blogID) {
+  all: function (blogID) {
     return "blog:" + blogID + ":folder:everything";
   },
 
-  path: function(blogID, path) {
+  path: function (blogID, path) {
     return "blog:" + blogID + ":folder:" + path;
-  }
+  },
 };
 
 // store a case preserving name against
@@ -22,7 +22,7 @@ function add(blogID, path, name, callback) {
   // keys if the blog needs to be deleted
   multi.SET(key.path(blogID, path), name);
   multi.SADD(key.all(blogID), key.path(blogID, path));
-  multi.exec(function(err) {
+  multi.exec(function (err) {
     if (err) console.log(err);
 
     return callback(err);
@@ -36,7 +36,7 @@ function drop(blogID, path, callback) {
 
   multi.DEL(key.path(blogID, path));
   multi.SREM(key.all(blogID), key.path(blogID, path));
-  multi.exec(function(err) {
+  multi.exec(function (err) {
     if (err) console.log(err);
 
     return callback(err);
@@ -62,5 +62,5 @@ function get(blogID, input, callback) {
 module.exports = {
   add: add,
   drop: drop,
-  get: get
+  get: get,
 };

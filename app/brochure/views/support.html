@@ -1,2 +1,36 @@
 <h1>Support</h1>
-<p>You can email <a href="mailto:support@blot.im">support@blot.im</a> directly. Feel free to send a message through <a href="https://twitter.com/blot__">Twitter</a> for short or less urgent inquiries.</p>
+
+<p>Please contact <a href="mailto:support@blot.im">support@blot.im</a>. We provide prompt and personal support. If you have a question about a particular site, please include a link where possible.</p>
+
+<style type="text/css">
+  
+  button:focus {outline: none;}
+</style>
+<p><a class="bordered-button" style="border:1px solid;padding: 0.5rem 1rem;display: inline-block;border-radius: 4px 0 0 4px;" id="text_element" href="mailto:support@blot.im">support@blot.im</a><button id="copier" style="border:1px solid var(--light-accent-color);cursor:pointer;background:var(--light-accent-color);color:white;font:inherit;padding:0.5rem 1rem;border-radius: 0 4px 4px 0" onclick="copyToClipboard('text_element')">
+    Copy
+</button></p>
+
+<script type="text/javascript">
+	function copyToClipboard(elementId) {
+
+  // Create an auxiliary hidden input
+  var aux = document.createElement("input");
+
+  // Get the text from the element passed into the input
+  aux.setAttribute("value", document.getElementById(elementId).innerHTML);
+
+  // Append the aux input to the body
+  document.body.appendChild(aux);
+
+  // Highlight the content
+  aux.select();
+
+  // Execute the copy command
+  document.execCommand("copy");
+
+  // Remove the input from the body
+  document.body.removeChild(aux);
+  document.querySelector('#copier').innerHTML = 'Copied'
+  }
+
+</script>

@@ -1,29 +1,28 @@
 var spawn = require("child_process").spawn;
 var indentation = require("./indentation");
 var footnotes = require("./footnotes");
-var helper = require("helper");
-var time = helper.time;
-var encodeAmpersands = helper.encodeAmpersands;
+var time = require("helper/time");
 var config = require("config");
-var pandoc_path = config.pandoc_path;
+var Pandoc = config.pandoc.bin;
+var debug = require("debug")("blot:converters:markdown");
+
+var bib = require("./bib");
+var csl = require("./csl");
 
 // insert a <br /> for each carriage return
 // '+hard_line_breaks' +
 
-module.exports = function(text, callback) {
+module.exports = function (blog, text, callback) {
   var extensions =
     // replace url strings with a tags
     "+autolink_bare_uris" +
-    // This feature fucks with [@twitter]() links
-    // perhaps make it an option in future?
-    "-citations" +
     // Fucks up with using horizontal rules
     // without blank lines between them.
     "-simple_tables" +
     "-multiline_tables" +
     // We already convert any math with katex
     // perhaps we should use pandoc to do this
-    // instead of a seperate function?
+    // instead of a separate function?
     "-tex_math_dollars" +
     // This sometimes throws errors for some reason
     "-yaml_metadata_block" +
@@ -34,7 +33,18 @@ module.exports = function(text, callback) {
     "-blank_before_header" +
     "-blank_before_blockquote";
 
-  var pandoc = spawn(pandoc_path, [
+  // This feature fucks with [@twitter]() links
+  // perhaps make it an option in future?
+  if (!(bib(blog, text) || csl(blog, text))) extensions += "-citations";
+
+  var args = [
+    // Limit the heap size for the pandoc process
+    // to prevent pandoc consuming all the system's
+    // memory in corner cases
+    "+RTS",
+    "-M" + config.pandoc.maxmemory,
+    "-RTS",
+
     "-f",
     "markdown" + extensions,
 
@@ -52,51 +62,69 @@ module.exports = function(text, callback) {
     "--no-highlight",
 
     // such a dumb default feature... sorry john!
-    "--email-obfuscation=none"
-  ]);
+    "--email-obfuscation=none",
+  ];
+
+  if (bib(blog, text)) {
+    args.push("-M");
+    args.push("bibliography=" + bib(blog, text));
+  }
+
+  if (csl(blog, text)) {
+    args.push("-M");
+    args.push("csl=" + csl(blog, text));
+  }
+
+  if (bib(blog, text) || csl(blog, text)) {
+    args.push("--citeproc");
+  }
+  var startTime = Date.now();
+  var pandoc = spawn(Pandoc, args);
 
   var result = "";
   var error = "";
 
-  pandoc.stdout.on("data", function(data) {
+  pandoc.stdout.on("data", function (data) {
     result += data;
   });
 
-  pandoc.stderr.on("data", function(data) {
+  pandoc.stderr.on("data", function (data) {
     error += data;
   });
 
-  pandoc.on("close", function(code) {
+  setTimeout(function () {
+    pandoc.kill();
+  }, config.pandoc.timeout);
+
+  pandoc.on("close", function (code) {
     time.end("pandoc");
 
     var err = null;
 
     // This means something went wrong
     if (code !== 0) {
-      err = "Pandoc exited with code " + code;
+      err =
+        "Pandoc exited with code " +
+        code +
+        " in " +
+        (Date.now() - startTime) +
+        "ms (timeout=" +
+        config.pandoc.timeout +
+        "ms)";
       err += error;
       err = new Error(err);
     }
 
     if (err) return callback(err);
 
+    debug("Pre-footnotes", result);
     time("footnotes");
     result = safely(footnotes, result);
     time.end("footnotes");
 
+    debug("Final:", result);
     callback(null, result);
   });
-
-  // This is to 'fix' and issue that pandoc has with
-  // unescaped ampersands in HTML tag attributes.
-  // Previously it would treat <a href="/?foo=bar&baz=bat">a</a>
-  // as a string, because of the amerpsands.
-  // This is an issue that's open in Pandoc's repo
-  // https://github.com/jgm/pandoc/issues/2410
-
-  time("ampersands");
-  text = safely(encodeAmpersands, text);
-  time.end("ampersands");
 
   // Pandoc is very strict and treats indents inside
   // HTML blocks as code blocks. This is correct but
@@ -118,10 +146,12 @@ module.exports = function(text, callback) {
   // for the contents of an HTML tag. This preserves
   // indentation in text! More discussion of this issue:
   // https://github.com/jgm/pandoc/issues/1841
+  debug("Pre-indentation", text);
   time("indentation");
   text = safely(indentation, text);
   time.end("indentation");
 
+  debug("Pre-pandoc", text);
   time("pandoc");
   pandoc.stdin.end(text, "utf8");
 };

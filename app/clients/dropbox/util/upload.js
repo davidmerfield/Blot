@@ -1,4 +1,4 @@
-var debug = require("debug")("clients:dropbox:upload");
+var debug = require("debug")("blot:clients:dropbox:upload");
 var dropboxStream = require("dropbox-stream");
 var fs = require("fs-extra");
 var retry = require("./retry");
@@ -13,10 +13,10 @@ function upload(token, source, destination, callback) {
       token: token,
       filepath: destination,
       chunkSize: 1000 * 1024,
-      autorename: false
+      autorename: false,
     })
     .on("error", callback)
-    .on("metadata", function() {
+    .on("metadata", function () {
       callback(null);
     });
 

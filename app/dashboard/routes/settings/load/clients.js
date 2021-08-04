@@ -6,15 +6,15 @@ for (var i in clients) {
   list.push({
     name: i,
     display_name: clients[i].display_name,
-    description: clients[i].description
+    description: clients[i].description,
   });
 }
 
-module.exports = function(req, res, next) {
+module.exports = function (req, res, next) {
   res.locals.clients = list.slice();
 
   if (req.blog.client) {
-    res.locals.clients = res.locals.clients.map(function(client){
+    res.locals.clients = res.locals.clients.map(function (client) {
       client.checked = client.name === req.blog.client ? "checked" : "";
       return client;
     });

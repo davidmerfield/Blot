@@ -1,12 +1,35 @@
 {{> head}}
+<body>
+ <style type="text/css">
+	.doc-wrapper{min-height: 100vh}
+	.doc-left {grid-column-start: 9;grid-column-end: 11;margin-top: 0rem;padding-top: 3rem}
+	.doc-right {grid-column-start: 3;grid-column-end: 9;margin-top: 3rem;padding-right: 4rem}
 
-{{> header}}
+	.sidebar {border:none;border-left:1px solid rgba(0,0,0,0.1);}
+	
+	@media screen and (max-width: 800px) {
+		.doc-left {padding: 0;grid-column-start: 1;grid-column-end: 12;grid-row: 1}
+			.doc-right {grid-row:2;grid-column-start: 1;grid-column-end: 12;margin-top: 1.5rem;padding: 1rem 1.5rem}
+			.grid {padding: 0 0}
+		.sidebar {border:none;margin-top: 3rem}
 
-  <main>
-    {{{body}}}
-  </main>
+	}
 
-  {{> footer}}
+</style>
+<div class="doc-wrapper">    
+  <div class="grid">
+    <div class="doc-right">
+			{{> breadcrumbs}}
+      <div style="clear: both;">
+      {{{body}}}
+    	</div>
+  	</div>   
+  	<div class="doc-left">
+			{{> sidebar}}
+		</div>
+
+  </div>
+</div>
+{{> footer}}
 </body>
-
 </html>

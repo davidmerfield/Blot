@@ -1,0 +1,20 @@
+# Copied from:
+# https://github.com/openresty/openresty-packaging/blob/master/deb/openresty/debian/openresty.service
+
+[Unit]
+Description=full-fledged web platform
+After=syslog.target network-online.target remote-fs.target nss-lookup.target redis.service
+Wants=network-online.target
+
+[Service]
+Type=forking
+PIDFile={{nginx.pid}}
+ExecStartPre={{nginx.bin}} -t -c {{nginx.config}} -q -g 'daemon on; master_process on;'
+ExecStart={{nginx.bin}} -c {{nginx.config}} -g 'daemon on; master_process on;'
+ExecReload={{nginx.bin}} -c {{nginx.config}} -g 'daemon on; master_process on;' -s reload
+ExecStop=-/sbin/start-stop-daemon --quiet --stop --retry QUIT/5 --pidfile {{nginx.pid}}
+TimeoutStopSec=5
+KillMode=mixed
+
+[Install]
+WantedBy=multi-user.target

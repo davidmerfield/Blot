@@ -1,10 +1,8 @@
 var Blog = require("blog");
-var helper = require("helper");
-var formJSON = helper.formJSON;
-var extend = helper.extend;
+var formJSON = require("helper/formJSON");
+var extend = require("helper/extend");
 
-module.exports = function(req, res, next) {
-
+module.exports = function (req, res, next) {
   try {
     req.updates = formJSON(req.body, Blog.scheme.TYPE);
   } catch (e) {
@@ -12,7 +10,6 @@ module.exports = function(req, res, next) {
   }
 
   if (req.body.hasMenu) {
-
     req.updates.menu = req.updates.menu || [];
 
     for (var i in req.updates.menu) {
@@ -22,7 +19,7 @@ module.exports = function(req, res, next) {
         }
       }
     }
-  } 
+  }
 
   // If the user has specified a custom permalink format
   // then use it as the blog's permalink format.
@@ -38,8 +35,6 @@ module.exports = function(req, res, next) {
   }
 
   if (req.updates.plugins) {
-
-
     // this bullshit below is because I haven't properly declared
     // the model for blog.plugins so formJSON needs a little help...
     for (var i in req.updates.plugins) {
@@ -53,13 +48,19 @@ module.exports = function(req, res, next) {
           req.updates.plugins.typeset.options[x] === "on";
     }
 
-    if (req.updates.plugins.analytics && req.updates.plugins.analytics.options.provider) {
+    extend(req.updates.plugins).and(req.blog.plugins);
+
+    // We mpdify the analytics settings after the extend function because
+    // the extend function will not overwrite existing conflicting providers
+    // it'll produce {Google: 'selected', Clicky: 'selected'}...
+    if (
+      req.updates.plugins.analytics &&
+      req.updates.plugins.analytics.options.provider
+    ) {
       var provider = {};
       provider[req.updates.plugins.analytics.options.provider] = "selected";
       req.updates.plugins.analytics.options.provider = provider;
     }
-
-    extend(req.updates.plugins).and(req.blog.plugins)
   }
   next();
 };

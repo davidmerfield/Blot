@@ -1,0 +1,13 @@
+# Project management
+
+I haven't found the need to use much software to manage the daily operation of Blot. We use email heavily, preferring it to chatting applications, and a text-file to record our outstanding tasks.
+
+## Task tracking
+
+We use a text-file ([todo.txt](https://github.com/davidmerfield/Blot/blob/master/todo.txt)) to keep track of tasks. This text-file is checked into version control. If somebody needs to be notified when a task is complete, I include a link to the appropriate email thread in the task.
+
+## Email strategy
+
+My email inbox only contains email to which I need to respond. Once I respond to an email, it is archived. If there is a longer task which I need to complete, I will make an entry in [todo.txt](https://github.com/davidmerfield/Blot/blob/master/todo.txt) with a link to the archived email thread, so I can follow up with the customer as soon as the task is complete. 
+
+

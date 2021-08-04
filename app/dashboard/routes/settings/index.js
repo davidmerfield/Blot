@@ -1,4 +1,3 @@
-var errorHandler = require("./errorHandler");
 var express = require("express");
 var settings = express.Router();
 var load = require("./load");
@@ -7,26 +6,21 @@ var debug = require("../../debug");
 var helper = require("helper");
 var Template = require("template");
 var Blog = require("blog");
-var load = require("./load");
 
-settings.use(function(req, res, next) {
+settings.use(function (req, res, next) {
   res.locals.selected = { settings: "selected" };
   next();
 });
 
-settings.use(function(req, res, next) {
-  res.locals.breadcrumbs.add(
-    req.blog.title || req.blog.pretty.url,
-    "/settings"
-  );
+settings.use(function (req, res, next) {
   res.locals.setup = !!req.query.setup;
-
   next();
 });
 
 settings
   .route("/settings")
   .post(
+    debug("parsing form"),
     save.parse,
     debug("parsed form"),
     save.redirects,
@@ -40,51 +34,47 @@ settings
     save.finish
   )
   .get(
+    debug("loading folder"),
+    require("../folder"),
     load.template,
     debug("template loaded"),
     load.menu,
     debug("menu loaded"),
     load.client,
     debug("client loaded"),
-    load.dates,
-    debug("dates loaded"),
-    load.permalinkFormats,
-    debug("permalinks loaded"),
-    function(req, res) {
-      res.render("settings", { title: "Dashboard" });
+    function (req, res) {
+      res.render("settings", { title: req.blog.pretty.label });
     }
   );
 
-settings.get("/settings/urls", function(req, res, next) {
+settings.get("/settings/links", load.menu);
+
+settings.get(
+  "/settings/services",
+  load.plugins,
+  load.permalinkFormats,
+  load.dates
+);
+
+settings.get("/settings/services/date", load.timezones, load.dates);
+
+settings.get("/settings/services/permalinks", load.permalinkFormats, function (
+  req,
+  res,
+  next
+) {
   res.locals.edit = !!req.query.edit;
   next();
 });
 
-settings.use(
-  "/settings/profile",
-  load.menu,
-  load.timezones,
-  load.dates,
-  function(req, res, next) {
-    res.locals.breadcrumbs.add("Profile", "profile");
-    res.locals.setup_title = true;
-    next();
-  }
-);
-
-settings.get("/settings/profile/menu", load.menu);
-settings.get("/settings/date", load.timezones, load.dates);
-settings.get("/settings/services", load.plugins);
-settings.get("/settings/urls", load.permalinkFormats);
-
-settings.use("/settings/urls/*", function(req, res, next) {
-  res.locals.breadcrumbs.add("URLs", "urls");
+settings.use("/settings/services/*", function (req, res, next) {
+  res.locals.breadcrumbs.add("Services", "services");
   next();
 });
 
 settings
-  .route("/settings/urls/404s")
-  .get(load.fourOhFour, function(req, res) {
+  .route("/settings/services/404s")
+  .get(load.fourOhFour, function (req, res) {
     res.locals.breadcrumbs.add("404 log", "404s");
     res.render("settings/404s", { title: "404s" });
   })
@@ -93,48 +83,52 @@ settings
     require("./save/404")
   );
 
-settings.get("/settings/urls/redirects", load.redirects, function(req, res) {
+settings.get("/settings/services/redirects", load.redirects, function (
+  req,
+  res
+) {
   res.locals.breadcrumbs.add("Redirects", "redirects");
   res.locals.partials.subpage = "settings/redirects";
+  res.locals.edit = !!req.query.edit;
   res.render("settings/subpage", { title: "Redirects" });
 });
 
 // Load the list of templates for this user
 
-settings.use("/settings/theme", load.theme, function(req, res, next) {
-  res.locals.breadcrumbs.add("Template", "theme");
+settings.use("/settings/template", load.templates, function (req, res, next) {
+  res.locals.breadcrumbs.add("Template", "template");
   next();
 });
 
 settings.use("/settings/client", require("./client"));
 
 settings
-  .route("/settings/theme")
-  .get(function(req, res) {
-    res.render("theme", { title: "Template" });
+  .route("/settings/template")
+  .get(function (req, res) {
+    res.render("template", { title: "Template" });
   })
-  .post(require("./save/theme"));
+  .post(require("./save/template"));
 
 settings
-  .route("/settings/theme/new")
-  .get(function(req, res) {
+  .route("/settings/template/new")
+  .get(function (req, res) {
     res.locals.breadcrumbs.add("New", "new");
-    res.render("theme/new", { title: "New template" });
+    res.render("template/new", { title: "New template" });
   })
-  .post(require("./save/newTheme"));
+  .post(require("./save/newTemplate"));
 
 settings
-  .route("/settings/theme/past")
+  .route("/settings/template/archive")
   .all(load.pastTemplates)
-  .get(function(req, res) {
-    res.locals.breadcrumbs.add("Past", "past");
-    res.render("theme/past", { title: "Past templates" });
+  .get(function (req, res) {
+    res.locals.breadcrumbs.add("Archive", "archive");
+    res.render("template/archive", { title: "Archive" });
   });
 
 settings
   .route("/settings/theme/:template/share/:handle")
-  .all(function(req, res, next) {
-    Blog.get({ handle: req.params.handle }, function(err, blog) {
+  .all(function (req, res, next) {
+    Blog.get({ handle: req.params.handle }, function (err, blog) {
       if (err || !blog) return next(err || new Error("No blog"));
 
       if (blog.handle === req.blog.handle)
@@ -149,7 +143,7 @@ settings
       var name = helper.makeSlug(req.params.template);
       var templateID = Template.makeID(blog.id, name);
 
-      Template.getMetadata(templateID, function(err, template) {
+      Template.getMetadata(templateID, function (err, template) {
         if (err || !blog) return next(err || new Error("No template"));
 
         res.locals.template = template;
@@ -158,11 +152,11 @@ settings
     });
   })
 
-  .get(function(req, res) {
+  .get(function (req, res) {
     res.render("template/share");
   })
 
-  .post(function(req, res, next) {
+  .post(function (req, res, next) {
     var template = res.locals.template;
 
     template.cloneFrom = res.locals.template.id;
@@ -180,7 +174,7 @@ settings
     });
   });
 
-settings.get("/settings/:section/:view", function(req, res) {
+settings.get("/settings/:section/:view", function (req, res) {
   var uppercaseName = req.params.view;
 
   uppercaseName = uppercaseName[0].toUpperCase() + uppercaseName.slice(1);
@@ -190,12 +184,10 @@ settings.get("/settings/:section/:view", function(req, res) {
   res.render("settings/subpage", { host: process.env.BLOT_HOST });
 });
 
-settings.get("/settings/:view", function(req, res) {
+settings.get("/settings/:view", function (req, res) {
   var uppercaseName = req.params.view;
 
   uppercaseName = uppercaseName[0].toUpperCase() + uppercaseName.slice(1);
-
-  if (uppercaseName === "Urls") uppercaseName = "URLs";
 
   if (uppercaseName !== "Profile") {
     res.locals.breadcrumbs.add(uppercaseName, req.params.view);

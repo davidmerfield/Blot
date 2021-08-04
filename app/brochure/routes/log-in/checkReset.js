@@ -1,31 +1,9 @@
-var helper = require("helper");
-var Email = helper.email;
-var format = require("url").format;
 var User = require("user");
+var Email = require("helper/email");
+var format = require("url").format;
 var NOTOKEN = "Could not generate a token";
 var config = require("config");
 var generateAccessToken = User.generateAccessToken;
-
-function sendPasswordResetEmail(uid, callback) {
-  var url;
-
-  generateAccessToken(uid, function(err, token) {
-    if (err || !token) return callback(err || new Error(NOTOKEN));
-
-    // The full one-time log-in link to be sent to the user
-    url = format({
-      protocol: "https",
-      host: config.host,
-      pathname: "/log-in",
-      query: {
-        token: token,
-        then: "/account/password/set"
-      }
-    });
-
-    Email.SET_PASSWORD(uid, { url: url }, callback);
-  });
-}
 
 module.exports = function checkReset(req, res, next) {
   var user = req.user;
@@ -37,10 +15,32 @@ module.exports = function checkReset(req, res, next) {
   // if they did not click the reset button
   if (!reset && hasPassword) return next();
 
-  sendPasswordResetEmail(user.uid, function(err) {
+  sendPasswordResetEmail(user.uid, function (err) {
     if (err) return next(err);
 
+    res.locals.sent = true;
     res.locals.hasPassword = hasPassword;
     res.render("log-in/reset");
   });
 };
+
+function sendPasswordResetEmail(uid, callback) {
+  var url;
+
+  generateAccessToken(uid, function (err, token) {
+    if (err || !token) return callback(err || new Error(NOTOKEN));
+
+    // The full one-time log-in link to be sent to the user
+    url = format({
+      protocol: "https",
+      host: config.host,
+      pathname: "/log-in",
+      query: {
+        token: token,
+        then: "/account/password/set",
+      },
+    });
+
+    Email.SET_PASSWORD(uid, { url: url }, callback);
+  });
+}

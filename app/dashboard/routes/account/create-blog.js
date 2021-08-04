@@ -1,24 +1,28 @@
 var Express = require("express");
 var CreateBlog = new Express.Router();
 var Blog = require("blog");
-var helper = require("helper");
-var pretty = helper.prettyPrice;
+var prettyPrice = require("helper/prettyPrice");
 var config = require("config");
-var helper = require("helper");
-var pretty = helper.prettyPrice;
 var request = require("request");
 var config = require("config");
 var stripe = require("stripe")(config.stripe.secret);
 var User = require("user");
-
+var Email = require("helper/email");
 var BAD_CHARGE = "Could not charge your card.";
 var ERR = "Could not change your subscription.";
+
+CreateBlog.use(function (req, res, next) {
+  res.locals.breadcrumbs.forEach(function (link) {
+    if (link.label === "Your account") link.label = "Your blogs";
+  });
+  next();
+});
 
 CreateBlog.route("/pay")
 
   .all(validateSubscription)
 
-  .all(function(req, res, next) {
+  .all(function (req, res, next) {
     // Only allow users who have blogs for all they've paid
     // to see the pay page!
     if (req.user.subscription.quantity <= req.user.blogs.length) {
@@ -30,13 +34,13 @@ CreateBlog.route("/pay")
 
   .all(calculateFee)
 
-  .get(function(req, res) {
-    res.locals.partials.yield = "account/create-blog-pay";
-
-    res.render("partials/wrapper-setup", {
+  .get(function (req, res) {
+    res.locals.breadcrumbs = res.locals.breadcrumbs.slice(0, -1);
+    res.locals.breadcrumbs[res.locals.breadcrumbs.length - 1].last = true;
+    res.render("account/create-blog-pay", {
       title: "Create a blog",
       not_paid: true,
-      breadcrumb: "Create a blog"
+      breadcrumb: "Create blog",
     });
   })
 
@@ -44,15 +48,15 @@ CreateBlog.route("/pay")
 
   .post(updateSubscription)
 
-  .post(function(req, res) {
-    res.message(req.baseUrl, "Your payment was received, thank you.");
+  .post(function (req, res) {
+    res.redirect(req.baseUrl);
   });
 
 CreateBlog.route("/")
 
   .all(validateSubscription)
 
-  .all(function(req, res, next) {
+  .all(function (req, res, next) {
     if (
       req.user.subscription &&
       req.user.subscription.quantity !== null &&
@@ -65,23 +69,22 @@ CreateBlog.route("/")
     res.redirect(req.baseUrl + "/pay");
   })
 
-  .get(function(req, res) {
-    res.locals.partials.yield = "account/create-blog";
+  .get(function (req, res) {
     res.locals.blog = {};
-    res.render("partials/wrapper-setup", {
+    res.render("account/create-blog", {
       title: "Create a blog",
       first_blog: req.user.blogs.length === 0,
-      breadcrumb: "Create a blog"
+      breadcrumb: "Create a blog",
     });
   })
 
   .post(saveBlog)
 
-  .post(function(req, res) {
+  .post(function (req, res) {
     res.message("/settings/client?setup=true", "Saved your title");
   })
 
-  .post(function(err, req, res, next) {
+  .post(function (err, req, res, next) {
     res.message(req.baseUrl + req.path, err);
   });
 
@@ -114,10 +117,12 @@ function calculateFee(req, res, next) {
   // change the charge function
   req.amount_due_now = now;
 
-  res.locals.price = pretty(subscription.plan.amount);
-  res.locals.now = pretty(now);
-  res.locals.later = pretty(later);
-  res.locals.individual = pretty(individual);
+  res.locals.monthly = subscription.plan.interval === "month";
+  res.locals.interval = subscription.plan.interval;
+  res.locals.price = prettyPrice(subscription.plan.amount);
+  res.locals.now = prettyPrice(now);
+  res.locals.later = prettyPrice(later);
+  res.locals.individual = prettyPrice(individual);
   res.locals.first_blog =
     req.user.blogs.length === 0 && req.user.subscription.quantity === 1;
 
@@ -134,21 +139,13 @@ function validateSubscription(req, res, next) {
     !subscription.status ||
     subscription.status !== "active"
   ) {
-    next(new Error("You must have an active subscription to create a blog"));
+    res.message(
+      "/account/subscription/create",
+      new Error("You need an active subscription to create a new blog")
+    );
   } else {
     next();
   }
-}
-
-var chars = "acemnorsuvwxz".split("");
-var LEN = 8;
-var PREFIX = "untitled";
-
-function uid() {
-  var res = "";
-  while (res.length < LEN)
-    res += chars[Math.floor(Math.random() * chars.length)];
-  return PREFIX + "-" + res;
 }
 
 var chars = "abcdefghijklmnopqrstuvwxyz".split("");
@@ -167,6 +164,10 @@ function handleFromTitle(title) {
 
   handle = title.toLowerCase().replace(/\W/g, "");
 
+  if (handle.length < 4) {
+    handle += randomChars(4 - handle.length);
+  }
+
   return handle;
 }
 
@@ -174,7 +175,7 @@ function saveBlog(req, res, next) {
   var title, handle;
 
   if (req.body.no_title) {
-    title = "Untitled blog";
+    title = "Untitled";
     handle = "untitled" + randomChars(5);
   } else if (!req.body.title) {
     return next(new Error("Please enter a title"));
@@ -186,7 +187,7 @@ function saveBlog(req, res, next) {
   var newBlog = {
     title: title,
     handle: handle,
-    timeZone: req.body.timeZone
+    timeZone: req.body.timeZone,
   };
 
   Blog.create(req.user.uid, newBlog, function onCreate(err, blog) {
@@ -208,7 +209,7 @@ function saveBlog(req, res, next) {
     }
 
     // Begin SSL cert fetching process
-    request(Blog.extend(blog).url, function() {});
+    request(Blog.extend(blog).url, function () {});
 
     // Switch to the new blog
     req.session.blogID = blog.id;
@@ -236,14 +237,19 @@ function updateSubscription(req, res, next) {
     req.user.subscription.id,
     {
       quantity: req.user.blogs.length + 1,
-      prorate: false
+      prorate: false,
     },
-    function(err, subscription) {
+    function (err, subscription) {
       if (err) return next(err);
 
       if (!subscription) return next(new Error(ERR));
 
-      User.set(req.user.uid, { subscription: subscription }, next);
+      User.set(req.user.uid, { subscription: subscription }, function (err) {
+        if (err) return next(err);
+
+        Email.CREATED_BLOG(req.user.uid);
+        next();
+      });
     }
   );
 }
@@ -253,6 +259,9 @@ function chargeForRemaining(req, res, next) {
   if (!req.user.subscription.status) {
     return next();
   }
+
+  /// We don't need to do this for users with monthly billing
+  if (req.user.subscription.plan.interval === "month") return next();
 
   // This is their first blog, so don't charge the user twice
   if (req.user.blogs.length === 0 && req.user.subscription.quantity === 1) {
@@ -264,9 +273,9 @@ function chargeForRemaining(req, res, next) {
       amount: req.amount_due_now,
       currency: "usd",
       customer: req.user.subscription.customer,
-      description: "Charge for the remaining billing period"
+      description: "Charge for the remaining billing period",
     },
-    function(err, charge) {
+    function (err, charge) {
       if (err) return next(err);
 
       if (!charge) return next(new Error(BAD_CHARGE));

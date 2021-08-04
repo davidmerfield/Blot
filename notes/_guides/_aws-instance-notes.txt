@@ -1,0 +1,64 @@
+# Instance notes
+
+https://www.ec2instances.info/?min_memory=20&min_vcpus=4&region=us-west-2&cost_duration=annually&reserved_term=yrTerm1Standard.allUpfront&selected=r5ad.xlarge,z1d.xlarge,m5ad.2xlarge
+
+r5ad.xlarge for 1356/year or 113/month
+
+==-
+
+r5d.xlarge    4 19  32 GiB  1 x 150 NVMe SSD  $0.288 per Hour
+r5dn.xlarge   4 N/A 32 GiB  1 x 150 NVMe SSD  $0.334 per Hour
+i3.xlarge     4 13  30.5 GiB  1 x 950 NVMe SSD  $0.312 per Hour
+z1d.xlarge    4 28  32 GiB  1 x 150 NVMe SSD  $0.372 per Hour
+i3en.xlarge   4 N/A 32 GiB  1 x 2500 NVMe SSD $0.452 per Hour
+
+m5ad.2xlarge  8 N/A 32 GiB  1 x 300 NVMe SSD  $0.412 per Hour
+m5d.2xlarge   8 31  32 GiB  1 x 300 NVMe SSD  $0.452 per Hour
+h1.2xlarge  8 26  32 GiB  1 x 2000 HDD  $0.468 per Hour
+m5dn.2xlarge  8 N/A 32 GiB  1 x 300 NVMe SSD  $0.544 per Hour
+
+==-
+
+At the moment I have moved Blot to an I3 instance which has 16GB of RAM, a 500GB SSD hardrive for temporary data.
+
+The 500GB harddrive is what Amazon calls an 'instance store'. It should not be depended on. When the instance reboots the data on it is lost, I believe.
+
+I think it might be a good idea to use it as a cache. I should also move my EBS data to a cheaper (non-ssd)drive. Then I can use the SSD drive that comes with the i3 instance.
+
+The I3 instance offers volatile storage.
+
+==-
+
+3/3/2018 I have since set up the instance store as a cache.
+
+I followed these steps to set up the disk to use as a cache:
+
+https://richardstechnotes.wordpress.com/2015/12/18/setting-up-an-nvme-ssd-on-ubuntu-14-04-lts/
+
+More instructions here:
+
+https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/add-instance-store-volumes.html
+
+I don't really care about write speed (as opposed to read speed) but here is a guide for optimizing write performance on instance stores:
+
+https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/disk-performance.html
+
+==-
+
+Did some 'hardening' using the following guide:
+
+https://www.rackaid.com/blog/how-to-block-ssh-brute-force-attacks/
+
+I installed fail2ban:
+
+sudo yum install fail2ban
+sudo service start fail2ban
+
+I added firewall rules on port 22 to prevent ssh brute force:
+
+sudo iptables -I INPUT -p tcp ==dport 22 -i eth0 -m state ==state NEW -m recent ==set
+sudo iptables -I INPUT -p tcp ==dport 22 -i eth0 -m state ==state NEW -m recent  ==update ==seconds 60 ==hitcount 4 -j DROP
+
+This ensures the IP tables rules persist across restart:
+
+sudo service iptables save

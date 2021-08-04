@@ -1,6 +1,6 @@
 var eachBlog = require("../each/blog");
-var Template = require("../../app/models/template");
-var Blog = require("../../app/models/blog");
+var Template = require("models/template");
+var Blog = require("models/blog");
 var fs = require("fs-extra");
 var templateDir = require("path").resolve(__dirname + "/../../app/templates");
 
@@ -11,7 +11,7 @@ var templateDir = require("path").resolve(__dirname + "/../../app/templates");
 // users, or for existing users who were not using the template.
 
 if (require.main === module) {
-  main(process.argv[2], function(err) {
+  main(process.argv[2], function (err) {
     if (err) throw err;
 
     process.exit();
@@ -22,9 +22,12 @@ function main(name, callback) {
   var templateID = "SITE:" + name;
 
   if (!fs.existsSync(templateDir + "/" + name))
-    console.warn("Warning: could not find existing global template directory at app/templates/" + name);
+    console.warn(
+      "Warning: could not find existing global template directory at app/templates/" +
+        name
+    );
 
-  Template.getMetadata(templateID, function(err, template) {
+  Template.getMetadata(templateID, function (err, template) {
     if (err) return callback(err);
 
     if (!template)
@@ -40,7 +43,7 @@ function main(name, callback) {
       "(" + templateID + "):"
     );
     eachBlog(
-      function(user, blog, next) {
+      function (user, blog, next) {
         if (blog.template !== templateID) return next();
 
         var newTemplateID = blog.id + ":" + name;
@@ -51,9 +54,9 @@ function main(name, callback) {
           {
             isPublic: false,
             name: name,
-            cloneFrom: blog.template
+            cloneFrom: blog.template,
           },
-          function(err) {
+          function (err) {
             if (err) return next(err);
 
             // We rename the template to include the case-preserved
@@ -62,21 +65,26 @@ function main(name, callback) {
             Template.setMetadata(
               newTemplateID,
               { name: template.name },
-              function(err) {
+              function (err) {
                 if (err) return next(err);
 
-                Template.getMetadata(newTemplateID, function(err, template) {
+                Template.getMetadata(newTemplateID, function (err, template) {
                   if (err || !template)
                     return next(err || new Error("no template"));
 
-                  Blog.set(blog.id, { template: newTemplateID }, function(err) {
+                  Blog.set(blog.id, { template: newTemplateID }, function (
+                    err
+                  ) {
                     if (err) return next(err);
 
                     console.log(
                       blog.id,
                       blog.handle,
-                      "used", templateID, "so I created a clone",
-                      template.id, "\nhttp://" + blog.handle + '.' + process.env.BLOT_HOST
+                      "used",
+                      templateID,
+                      "so I created a clone",
+                      template.id,
+                      "\nhttp://" + blog.handle + "." + process.env.BLOT_HOST
                     );
 
                     total++;
@@ -88,12 +96,12 @@ function main(name, callback) {
           }
         );
       },
-      function(err) {
+      function (err) {
         if (err) return callback(err);
 
         console.log();
 
-        Template.drop("SITE", name, function(err) {
+        Template.drop("SITE", name, function (err) {
           if (err) return callback(err);
           console.log(
             "\nCloned template",

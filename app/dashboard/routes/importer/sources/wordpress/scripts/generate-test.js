@@ -13,8 +13,8 @@ if (!sourceFile || !filter)
     "Please pass source export file as first argument and filter for <item> as second argument"
   );
 
-parseXML(fs.readFileSync(sourceFile, "utf-8"), function(err, result) {
-  var candidates = result.rss.channel[0].item.filter(function(item) {
+parseXML(fs.readFileSync(sourceFile, "utf-8"), function (err, result) {
+  var candidates = result.rss.channel[0].item.filter(function (item) {
     return (
       item.title[0].toLowerCase().indexOf(filter.toLowerCase()) > -1 ||
       digest(item.title[0]) === filter
@@ -31,7 +31,7 @@ parseXML(fs.readFileSync(sourceFile, "utf-8"), function(err, result) {
         '". Please select one of the following:'
     );
 
-    candidates.forEach(function(item, i) {
+    candidates.forEach(function (item, i) {
       console.log();
       console.log(++i + ". " + item.title[0]);
       console.log(
@@ -50,7 +50,7 @@ parseXML(fs.readFileSync(sourceFile, "utf-8"), function(err, result) {
   var path = folder + "/input.txt";
 
   fs.outputFileSync(path, candidates[0]["content:encoded"][0]);
-  fs.outputFileSync(folder + '/result.txt', 'REPLACE');
+  fs.outputFileSync(folder + "/result.txt", "REPLACE");
 
   console.log('Generated new test for "' + title + '" in:');
   console.log(folder);

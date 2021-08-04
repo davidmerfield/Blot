@@ -1,0 +1,43 @@
+# Landing page references
+
+[Pinboard](http://pinboard.in) - Stole much of the copy from their terms page and privacy policy. Macej's design 'philosophy' was also influential. If I could only steal his sense of humour.
+
+[Kirby](http://getkirby.com) - Stole some of their marketing copy. Looking back, they're likely the subliminal inspiration for Blot's first logo.
+
+
+Things I was looking at when working on the site:
+
+https://displaay.net/projects/
+https://fonts.google.com/specimen/Inter?standard-styles=&selection.family=Inter:wght@400;600&sidebar.open=true#standard-styles
+https://rsms.me/inter/lab/?antialias=default&feat-tnum=1&sample=Numbers&size=4&varWeight=736&varfont=1
+https://cargo.site/In-Use
+https://www.muji.com/uk/message/2020/
+https://robofont.com/
+https://shop.marrowbone.ie/19429049/checkouts/8ec580a8e6dbd3b54e0349c580b76676?_fd=0&access_token=e33976e9ed235845c60bad8d4e795960
+https://askplaybook.com/
+https://docs.rs/about/metadata
+https://www.apextypefoundry.com/informations/
+https://eventually.app/support
+https://eventually.app/support
+https://daneden.me/
+https://micromodal.now.sh/#usage
+https://klim.co.nz/retail-fonts/domaine-text/
+https://stripe.com/docs/payments
+https://www.are.na/david-merfield/blot
+https://www.inkandswitch.com/slow-software.html#what-feels-slow
+https://www.apextypefoundry.com/informations/
+https://felicianotype.com/typefaces/parnaso/
+https://thecreativeindependent.com/archive/
+https://flightsimulator.soft.works/
+https://www.apple.com/iphone-12/
+https://urbit.org/community/meetups/
+https://urbit.org/docs/tutorials/hoon/parsing/
+https://urbit.org/privacy/#scope
+https://urbit.org/docs/
+https://urbit.org/bounties/
+https://urbit.org/faq/
+https://www.notion.so/careers
+https://www.notion.so/Guide-to-Engineering-Interviews-at-Notion-63876cbf0aa9455fa0f0ffc854b40f6a
+https://www.notion.so/63876cbf0aa9455fa0f0ffc854b40f6a#607554f10fec4bb7a6a1b87f0b86f51e
+https://www.are.na/
+

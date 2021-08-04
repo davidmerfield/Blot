@@ -1,29 +1,30 @@
-var numCPUs = require("os").cpus().length;
 var uuid = require("uuid/v4");
 var exitHook = require("async-exit-hook");
 var child_process = require("child_process");
 var debug = require("debug")("blot:build");
+var clfdate = require("helper/clfdate");
 var workers = [];
 var jobs = {};
+var numberOfWorkers = 1;
 
-console.log("Master", process.pid, "is running");
+debug("Master", process.pid, "is running");
 
-exitHook(function() {
-  console.log("Shutting down master:", process.pid);
-  workers.forEach(function(item) {
+exitHook(function () {
+  debug("Shutting down master:", process.pid);
+  workers.forEach(function (item) {
     item.worker.kill();
   });
 });
 
-exitHook.uncaughtExceptionHandler(function(err) {
+exitHook.uncaughtExceptionHandler(function (err) {
   console.error(err);
-  workers.forEach(function(item) {
+  workers.forEach(function (item) {
     item.worker.kill();
   });
 });
 
 function messageHandler(id) {
-  return function(message) {
+  return function (message) {
     debug("Handling message", id);
     var err = null;
 
@@ -35,6 +36,7 @@ function messageHandler(id) {
         message.err = JSON.parse(message.err);
         err = new Error(message.err.message);
         err.stack = message.err.stack;
+        if (message.err.code) err.code = message.err.code;
       } catch (e) {
         err = e;
       }
@@ -51,7 +53,7 @@ function messageHandler(id) {
 // remove dead worker from list of workers
 function removeWorker(id) {
   debug("Removing worker", id);
-  workers = workers.filter(function(item) {
+  workers = workers.filter(function (item) {
     return item.id !== id;
   });
 }
@@ -67,7 +69,7 @@ function removeWorker(id) {
 // and 'error' events, it is important to guard against
 // accidentally invoking handler functions multiple times.
 function errorHandler(id) {
-  return function(err) {
+  return function (err) {
     debug("Handling error", err);
     // removeWorker can be safely called multiple times
     removeWorker(id);
@@ -75,41 +77,42 @@ function errorHandler(id) {
 }
 
 function closeHandler(id) {
-  return function(code, signal) {
+  return function (code, signal) {
     removeWorker(id);
 
     // SIGINT, SIGTERM, etc.
     if (signal) {
-      console.log("worker was killed by signal: ", signal);
+      debug("worker was killed by signal: ", signal);
 
       // typically means the process threw and error and had to stop.
     } else if (code !== 0) {
-      console.log("worker exited with error code:", code);
+      debug("worker exited with error code:", code);
       workers.push(new worker());
       // 0 Means the process exitted successfully.
       // Any other code
     } else {
-      console.log("worker exitted success!");
+      debug("worker exitted success!");
     }
   };
 }
 
 // Fork workers.
-for (var i = 0; i < numCPUs; i++) {
+for (var i = 0; i < numberOfWorkers; i++) {
+  console.log(clfdate(), `Worker pid=${process.pid} launching build process`);
   workers.push(new worker());
 }
 
 function worker() {
   var wrkr = child_process.fork(__dirname + "/main");
   var id = uuid();
-  console.log("creating worker", id);
+  debug("creating worker", id);
   wrkr.on("error", errorHandler(id));
   wrkr.on("message", messageHandler(id));
   wrkr.on("close", closeHandler(id));
   return { worker: wrkr, id: id };
 }
 
-module.exports = function(blog, path, options, callback) {
+module.exports = function (blog, path, options, callback) {
   // Pick a worker at random from the pool
   var worker = workers[Math.floor(Math.random() * workers.length)].worker;
   var id = uuid();
@@ -119,7 +122,7 @@ module.exports = function(blog, path, options, callback) {
     id: id,
     path: path,
     options: options,
-    callback: callback
+    callback: callback,
   };
 
   debug("Sending job to worker", jobs[id]);

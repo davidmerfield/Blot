@@ -1,17 +1,30 @@
-var checkToken = require("./checkToken");
-var checkEmail = require("./checkEmail");
-var checkReset = require("./checkReset");
-var checkPassword = require("./checkPassword");
-var LogInError = require("./logInError");
-// Error codes & their corresponding message
-var parse = require("body-parser").urlencoded({ extended: false });
-
+var BodyParser = require("body-parser");
 var Express = require("express");
+
+var checkToken = require("./checkToken");
+var checkReset = require("./checkReset");
+var checkEmail = require("./checkEmail");
+var checkPassword = require("./checkPassword");
+var errorHandler = require("./errorHandler");
+var parse = BodyParser.urlencoded({ extended: false });
+var csrf = require("csurf")();
+
 var form = new Express.Router();
 
-var logIn = form.route("/");
+form.use(require("./rateLimit"));
 
-logIn.all(function(req, res, next) {
+// Used to give context to the user when not logged in.
+// E.g. please log in to access the Services page
+var DASHBOARD_PAGE_DESCRIPTION = {
+  "/settings/services": "access services",
+  "/settings/urls/redirects": "set up redirects",
+  "/settings/services/404s": "view 404s",
+  "/settings/services/permalinks": "set the link format",
+  "/settings/links": "edit the links",
+};
+
+form.use(function (req, res, next) {
+  // Send logged-in users to the dashboard
   if (req.session && req.session.uid && !req.query.token) {
     var then = req.query.then || (req.body && req.body.then) || "/";
     return res.redirect(then);
@@ -19,34 +32,48 @@ logIn.all(function(req, res, next) {
 
   res.header("Cache-Control", "no-cache");
   res.locals.title = "Log in";
-  res.locals.layout = "log-in/layout";
+  res.locals.layout = "partials/layout-form";
+  res.locals.from = req.query.from;
+  res.locals.then = req.query.then;
+  res.locals.then_description = DASHBOARD_PAGE_DESCRIPTION[req.query.then];
+  res.locals.breadcrumbs = [{ label: "Log in" }, { label: "Your account" }];
 
   return next();
 });
 
-// logIn.all(require("./rateLimit"));
+form
+  .route("/reset")
 
-logIn.get(checkToken, function(req, res) {
-  res.render("log-in");
-});
+  .all(function (req, res, next) {
+    res.locals.breadcrumbs = res.locals.breadcrumbs.slice(0, -1);
+    next();
+  })
 
-logIn.post(parse, checkEmail, checkReset, checkPassword);
+  .get(csrf, function (req, res) {
+    res.locals.csrf = req.csrfToken();
+    res.render("log-in/reset");
+  })
 
-logIn.all(function(err, req, res, next) {
-  if (!(err instanceof LogInError)) {
-    console.log(err);
-    return next(err);
-  }
+  .post(parse, csrf, checkEmail, checkReset, errorHandler)
 
-  res.locals.error = res.locals[err.code] = true;
-  res.locals.email = req.body && req.body.email;
-  res.status(403);
+  .post(function (err, req, res, next) {
+    res.locals.csrf = req.csrfToken();
+    res.render("log-in/reset");
+  });
 
-  if (err.code === "BADPASSWORD" || err.code === "NOPASSWORD") {
-    return res.render("log-in/password");
-  }
+form
+  .route("/")
 
-  return res.render("log-in");
-});
+  .get(checkToken, function (req, res) {
+    res.render("log-in");
+  })
+
+  .post(parse, checkEmail, checkReset, checkPassword, errorHandler)
+
+  .post(function (err, req, res, next) {
+    if (req.body && req.body.reset !== undefined)
+      return res.redirect("/log-in/reset");
+    res.render("log-in");
+  });
 
 module.exports = form;

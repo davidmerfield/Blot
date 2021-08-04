@@ -1,19 +1,40 @@
-{{#code.missing}}
-<h1>Page not found</h1>
-<p>Return to <a href="/">the homepage</a>.</p>
-{{/code.missing}}
+<!DOCTYPE html><html lang=en><head><meta charset=utf-8><title>Error</title></head><body>
+  <style type="text/css">
+  
+  html, body {height: 100%}
+  
+  body {
+  color: #000;
+  line-height: 1.4;
+  margin: 0 auto;
+  max-width: 30em;
+  display: flex;
+  flex-direction: column;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica,
+    "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
+  font-size: 18px;
+  font-weight: 400;
+  justify-content:center;
+  color: #111;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  }
 
-{{#code.error}}
-<h1>Error</h1>
-<p>Return to <a href="/">the homepage</a>.</p>
-{{/code.error}}
+  h1 {font-weight: 600;font-size: inherit;}
 
-{{^code}}
-<h1>Error</h1>
-<p>Return to <a href="/">the homepage</a>.</p>
-{{/code}}
+  h1, p {margin: 0.7em 0;}
 
-{{#err}}
-<h1>{{message}}</h1>
-<pre>{{stack}}</pre>
-{{/err}}
+  a {color: var(--accent-color);border:1px solid;border-radius: 4px;padding: 4px 8px 5px;text-decoration: none;font-weight: 400;display: inline-block}
+
+
+  </style>
+
+  <h1>Error</h1>
+  <p>Could not process your request</p>
+  <p>
+    <a style="" href="/">Visit the homepage</a>
+  </p>
+
+</body>
+
+</html>

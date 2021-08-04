@@ -4,7 +4,7 @@
   "description": "For importing ss posts into Blot.",
   "main": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node tests"
   },
   "repository": {
     "type": "git",
@@ -34,6 +34,7 @@
     "single-line-log": "^1.1.2",
     "slug": "^0.9.1",
     "to-markdown": "^2.0.1",
+    "turndown": "^5.0.3",
     "xml2js": "^0.4.19"
   }
 }

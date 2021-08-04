@@ -4,53 +4,20 @@
 // still point to Blot. This filtering should not block
 // the server's boot. This filtering is also rescheduled
 // once per day to ensure sites are fresh.
+var featured = [];
 
-var schedule = require("node-schedule").scheduleJob;
-var filter = require("./filter");
-var config = require("config");
-
-var Cache = require("express-disk-cache");
-var cache = new Cache(config.cache_directory);
-
-var featured = require("./featured.json");
-
-// Check the list of featured sites when the server starts
-check();
-
-console.log("Featured sites: scheduled check each midnight!");
-schedule({ hour: 8, minute: 0 }, check);
-
-function check() {
-  if (config.environment === "development") {
-    console.log("Featured sites: not checking in development environment");
-    return;
-  }
-
-  console.log("Featured sites: checking which sites point to Blot");
-  filter(featured, function(err, filtered, missing) {
-    if (err) return console.log(err);
-
-    featured = filtered;
-
-    missing.forEach(function(site) {
-      console.log("Featured sites:", site.host, "no longer points to Blot");
-    });
-
-    cache.flush(config.host, function(err) {
-      if (err) console.log(err);
-
-      console.log("Featured sites: check completed!");
-    });
-  });
+try {
+  featured = require("./featured-checked.json");
+} catch (e) {
+  console.log("Warning: Please check the list of featured sites:");
+  console.log("node app/brochure/routes/featured/check");
 }
 
-module.exports = function(req, res, next) {
-
+module.exports = function (req, res, next) {
   // Strip the 'www' from the host property for aesthetics
-  res.locals.featured = featured.map(function(site){
-    site.host = site.host.split("www.").join("");
-    return site;
-  });
+  res.locals.featured = featured.slice();
+
+  res.locals.featured = res.locals.featured;
 
   next();
 };

@@ -21,13 +21,19 @@ module.exports = function checkToken(req, res, next) {
   if (req.query.then) then = decodeURIComponent(req.query.then);
 
   // First we make sure that the access token passed is valid.
-  User.checkAccessToken(token, function(err, uid) {
+  User.checkAccessToken(token, function (err, uid) {
     if (err || !uid) return next(new LogInError("BADTOKEN"));
 
     // Then we load the user associated with the access token.
     // Tokens are stored against UIDs in the database.
-    User.getById(uid, function(err, user) {
+    User.getById(uid, function (err, user) {
       if (err || !user) return next(new LogInError("NOUSER"));
+
+      // You used to be able to disable your account
+      // but this is no longer possible. Once all
+      // users with isDisabled:true are removed you
+      // can delete this check safely.
+      if (user.isDisabled) return res.redirect("/account/disabled");
 
       // Store the valid user'd ID in the session.
       authenticate(req, user);
@@ -40,7 +46,7 @@ module.exports = function checkToken(req, res, next) {
         return res.redirect("/");
       }
 
-      User.generateAccessToken(uid, function(err, token) {
+      User.generateAccessToken(uid, function (err, token) {
         if (err) return next(err);
 
         // This token is used to authenticate a password change

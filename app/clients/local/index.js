@@ -23,5 +23,5 @@ module.exports = {
   // for the test suite and script to build the
   // demonstration blogs to interact with this client.
   // No need to expose this for a conventional client.
-  setup: require("./controllers/setup")
+  setup: require("./controllers/setup"),
 };

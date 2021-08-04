@@ -1,7 +1,7 @@
 # Copy this file to /etc/blot/environment.sh and fill it in
 
 # Flags
-export BLOT_PRODUCTION=true
+export NODE_ENV=production
 export BLOT_CACHE=true
 export BLOT_MAINTENANCE=false
 export BLOT_DEBUG=false
@@ -10,15 +10,24 @@ export BLOT_DEBUG=false
 export BLOT_HOST=
 export BLOT_IP=
 export BLOT_DIRECTORY=
+export NODE_PATH=$(cd $BLOT_DIRECTORY/app; pwd)  # same as BLOT_DIRECTORY/app, but must be absolute
 export BLOT_CACHE_DIRECTORY=
 
 # Remove these eventually
 export BLOT_PROTOCOL=https
-export BLOT_ENVIRONMENT=production
+
+# Postgres configuration
+export BLOT_POSTGRES_USER=postgres
+export BLOT_POSTGRES_HOST=localhost
+export BLOT_POSTGRES_DB=blot
+export BLOT_POSTGRES_PASSWORD=
+export BLOT_POSTGRES_PORT=5432
 
 # Name of linux user who runs the blot server
 export BLOT_USER=
-export BLOT_NODE_VERSION=4.4.2
+
+# Use latest stable version which passes tests
+export BLOT_NODE_VERSION=12.16.3
 
 # result of which pandoc
 export BLOT_PANDOC_PATH=

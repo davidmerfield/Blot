@@ -3,14 +3,14 @@ var Password = new Express.Router();
 var User = require("user");
 var checkPassword = require("./util/checkPassword");
 
-Password.route("/change")
+Password.route("/")
 
   .all(requireExisting)
 
-  .get(function(req, res) {
+  .get(function (req, res) {
     res.render("account/change-password", {
       breadcrumb: "Password",
-      title: "Change your password"
+      title: "Change your password",
     });
   })
 
@@ -18,11 +18,11 @@ Password.route("/change")
 
 Password.route("/set")
 
-  .all(requireToken)
+  .all(requireTokenOrLackOfPassword)
 
-  .get(function(req, res) {
+  .get(function (req, res) {
     res.render("account/set-password", {
-      title: "Set your password"
+      title: "Set your password",
     });
   })
 
@@ -41,23 +41,31 @@ function requireExisting(req, res, next) {
   }
 }
 
-function requireToken(req, res, next) {
-  if (!req.session.passwordSetToken) {
-    return res.redirect("/");
+// If users have an existing password then they should
+// not be able to set their password (i.e. overwrite) unless
+// they have a password set token which they will have
+// retrieved through the email associated with their account.
+function requireTokenOrLackOfPassword(req, res, next) {
+  if (req.session.passwordSetToken) {
+    return next();
   }
 
-  next();
+  if (!req.user.passwordHash) {
+    return next();
+  }
+
+  res.redirect("/");
 }
 
 function save(req, res, next) {
-  User.hashPassword(req.body.newPasswordA, function(err, passwordHash) {
+  User.hashPassword(req.body.newPasswordA, function (err, passwordHash) {
     if (err) return next(err);
 
     if (!passwordHash) return next(new Error("Could not hash password"));
 
-    User.set(req.user.uid, { passwordHash: passwordHash }, function(err) {
+    User.set(req.user.uid, { passwordHash: passwordHash }, function (err) {
       if (err) return next(err);
-      res.message("/account", "Saved your new password");
+      res.message("/account/password", "Saved your new password");
     });
   });
 }
@@ -75,11 +83,13 @@ function checkMatching(req, res, next) {
 }
 
 function verifyToken(req, res, next) {
+  if (!req.session.passwordSetToken) return next();
+
   var token = req.session.passwordSetToken;
 
   delete req.session.passwordSetToken;
 
-  User.checkAccessToken(token, function(err, tokenUid) {
+  User.checkAccessToken(token, function (err, tokenUid) {
     if (err) return next(err);
 
     if (tokenUid !== req.user.uid) {

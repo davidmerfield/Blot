@@ -1,95 +1,168 @@
-var client = require('../../models/client');
-var isURL = require('./isURL');
-var Keys = require('./keys');
-var HashFile = require('./hash');
-var download = require('./download');
-var ensure = require('../ensure');
-var fs = require('fs-extra');
-var localPath = require('../localPath');
-var config = require('config');
-var join = require('path').join;
-
-// This module allows us to transform
-// a file to some arbritrary JSON object
-// and persist that in the db. The file can
-// exist on disk or at a URL. This module
-// only applies the transformation function
-// to the same file once.
-
-// I use this module to upload images in blog
-// posts, but to only upload the same image once.
-// If it's already uploaded, this retrieves its
-// url and dimensions from the database.
-// As you can imagine, this massively speeds up
-// saving existing entries, since images don't need
-// to be reuploaded each time!
+var debug = require("debug")("blot:helper:transformer");
+var client = require("models/client");
+var isURL = require("./isURL");
+var Keys = require("./keys");
+var HashFile = require("./hash");
+var download = require("./download");
+var type = require("../type");
+var ensure = require("../ensure");
+var fs = require("fs-extra");
+var localPath = require("../localPath");
+var config = require("config");
+var join = require("path").join;
+var async = require("async");
+var resolveCaseInsensitivePathToFile = require("./resolveCaseInsensitivePathToFile");
 
 // TODO:
 // Fix bug with transformer to handle ESOCKETIMEDOUT error...
 
-function Transformer (blogID, name) {
+// Maps https://blotcdn.com/blog_xyz/_image_cache/abc.jpg to
+// /_image_cache/abc.jpg to enable us to look up the file quickly
+// on disk without making an HTTP request
+function resolveCDNPath(src) {
+  if (src.indexOf(config.cdn.origin) !== 0) return src;
 
-  ensure(blogID, 'string')
-    .and(name, 'string');
+  try {
+    // First we remove the protocol and CDN host
+    src = src.slice(config.cdn.origin.length);
+
+    // Now we remove the blog ID from the path on the CDN
+    src = src.split("/").slice(2).join("/");
+    return src;
+  } catch (e) {
+    return src;
+  }
+}
+
+function Transformer(blogID, name) {
+  ensure(blogID, "string").and(name, "string");
 
   var keys = Keys(blogID, name);
 
-  function lookup (src, transform, callback) {
+  function lookup(src, transform, callback) {
+    if (type(src) !== "string") {
+      return callback(new Error("Transformer: src is not a string"));
+    }
 
-    ensure(src, 'string')
-      .and(transform, 'function')
-      .and(callback, 'function');
+    if (type(transform) !== "function") {
+      return callback(new Error("Transformer: transformer is not a function"));
+    }
 
-    var url, path;
+    src = resolveCDNPath(src);
 
-    try {
-      url = isURL(src);
+    var url = isURL(src);
+    var path = src;
+    var decodedURI;
+    var fullLocalPath;
+    var tasks = [];
 
-      // Images pulled from Word Documents are stored in blot/static/{blogID}/_assets
-      // Images cached from blog posts are stored in blot/static/{blogID}/_image_cache
-      // Eventually we should consolidate this somehow.
-      if (src.indexOf('/_image_cache/') === 0 || src.indexOf('/_assets/') === 0) {
-        path = join(config.blog_static_files_dir, blogID, src);
-      } else {
-        path = localPath(blogID, src);
-      }
-
-      if (src.length > 300) path = false;
-      if (src.indexOf('data:') === 0) path = false;
-
-    } catch (e) {}
+    debug(src);
 
     // We check URLs first since isPath is less strict
-    if (url)
+    if (url) {
+      debug(src, "seemes to be a URL");
       return fromURL(url, transform, callback);
+    }
 
-    if (path)
-      return fromPath(path, transform, callback);
+    if (path.length > 300) {
+      return callback(new Error("Transformer: source too long: " + clip(src)));
+    }
 
-    return callback(bad(src));
+    if (path.indexOf("data:") === 0) {
+      return callback(new Error("Transformer: source is unsupported protocol"));
+    }
+
+    // We try and look up the URI-decoded version of a path
+    // to map "/Hello%20world.txt" to "/Hello word.txt".
+    try {
+      decodedURI = decodeURI(path);
+    } catch (e) {
+      // Can throw an error for a malformed path
+      decodedURI = null;
+    }
+
+    // Images pulled from Word Documents are stored in the static folder
+    tasks.push(function (next) {
+      fullLocalPath = join(config.blog_static_files_dir, blogID, src);
+      fromPath(fullLocalPath, transform, next);
+    });
+
+    // If we make it here, the file doesn't match anything in the static
+    // folder. We don't need to look further inside the static folder since
+    // those paths are added by Blot and guaranteed correct and lowercase.
+
+    // First we check if this path matches a file in the blog folder exactly.
+    tasks.push(function (next) {
+      fullLocalPath = localPath(blogID, path);
+      fromPath(fullLocalPath, transform, next);
+    });
+
+    // Next we attempt to resolve the path case-insensitively
+    tasks.push(function (next) {
+      resolveCaseInsensitivePathToFile(localPath(blogID, "/"), path, function (
+        err,
+        fullLocalPath
+      ) {
+        if (err) return next(err);
+        fromPath(fullLocalPath, transform, next);
+      });
+    });
+
+    // Finally we attempt to resolve the URI-decoded path case-insensitively
+    if (decodedURI)
+      tasks.push(function (next) {
+        resolveCaseInsensitivePathToFile(
+          localPath(blogID, "/"),
+          decodedURI,
+          function (err, fullLocalPath) {
+            if (err) return next(err);
+            fromPath(fullLocalPath, transform, next);
+          }
+        );
+      });
+
+    // Will work down the list of paths. If one of the paths
+    // works then it'll stop and return the result!
+    async.tryEach(tasks, function (err, results) {
+      if (err) return callback(err);
+      debug(results);
+      callback(null, results[0], results[1]);
+    });
   }
 
   // callback must be passed an error or null and result
-  function fromURL (url, transform, callback) {
-
-    ensure(url, 'string')
-      .and(transform, 'function')
-      .and(callback, 'function');
+  function fromURL(url, transform, callback) {
+    var tasks = [];
 
     // Look in the database to see if we have downloaded
     // this URL in the past. If so, retrieve the response
     // headers, hash of the file's content and the result
     // application of the 'transform' called 'result'
-    getURL(url, function(err, headers, hash, result){
-
+    getURL(url, function (err, headers, hash, result) {
       if (err) return callback(err);
 
-      // Now we try and download the URL, passing in previously
-      // stored headers if any. This module interprets 304
-      // responses nicely.
-      download(url, headers, function(err, path, headers){
+      // Right now ampersands in URL queries are escaped
+      // which isn't ideal and breaks the thumbnail generator.
+      // So we try the URL with unescaped ampersands first.
+      if (url.indexOf("&amp;") > -1) {
+        tasks.push(function (next) {
+          download(url.split("&amp;").join("&"), headers, next);
+        });
+      }
 
+      tasks.push(function (next) {
+        download(url, headers, next);
+      });
+
+      async.tryEach(tasks, function (err, results) {
+        // Now we try and download the URL, passing in previously
+        // stored headers if any. This module interprets 304
+        // responses nicely.
         if (err) return callback(err);
+
+        var path = results[0];
+
+        headers = results[1];
 
         // We didn't redownload the file since it's
         if (!path && result) return callback(null, result);
@@ -98,8 +171,7 @@ function Transformer (blogID, name) {
         // and no result. So leave before breaking shit.
         if (!path && !result) return callback(missing(url));
 
-        fromPath(path, transform, function(err, result, hash){
-
+        fromPath(path, transform, function (err, result, hash) {
           // The file was downloaded to the temp
           // directory so we remove it now...
           // do this before handling any errors...
@@ -107,8 +179,7 @@ function Transformer (blogID, name) {
 
           if (err) return callback(err);
 
-          setURL(url, headers, hash, result, function(err){
-
+          setURL(url, headers, hash, result, function (err) {
             if (err) throw err;
 
             callback(err, result);
@@ -118,30 +189,28 @@ function Transformer (blogID, name) {
     });
   }
 
-  function fromPath (path, transform, callback) {
+  function fromPath(path, transform, callback) {
+    ensure(path, "string").and(transform, "function").and(callback, "function");
 
-    ensure(path, 'string')
-      .and(transform, 'function')
-      .and(callback, 'function');
+    debug(path, "hashing file");
 
-    HashFile(path, function(err, hash){
-
+    HashFile(path, function (err, hash) {
       if (err) return callback(err);
 
-      get(hash, function(err, result){
-
+      debug(path, "getting existing result from hash");
+      get(hash, function (err, result) {
         // Leave early, please pass hash so that
         // from URL doesn't have to compute it again
         if (err || result) return callback(err, result, hash);
 
-        transform(path, function(err, result){
-
+        debug(path, "transforming new file");
+        transform(path, function (err, result) {
           if (err) return callback(err);
 
           // Pass hash so that
           // from URL doesn't have to compute it again
-          set(hash, result, function(err){
-
+          debug(path, "saving result of new transform");
+          set(hash, result, function (err) {
             if (err) throw err;
 
             callback(err, result, hash);
@@ -151,15 +220,10 @@ function Transformer (blogID, name) {
     });
   }
 
-  function getURL (url, callback) {
+  function getURL(url, callback) {
+    var info = [keys.url.headers(url), keys.url.content(url)];
 
-    var info = [
-      keys.url.headers(url),
-      keys.url.content(url)
-    ];
-
-    client.mget(info, function(err, res){
-
+    client.mget(info, function (err, res) {
       if (err) throw err;
 
       var headers = null;
@@ -170,20 +234,16 @@ function Transformer (blogID, name) {
         hash = res[1];
       } catch (e) {}
 
-      if (hash === null)
-        return callback(err, headers, hash, null);
+      if (hash === null) return callback(err, headers, hash, null);
 
-      get(hash, function(err, result){
-
+      get(hash, function (err, result) {
         callback(err, headers, hash, result);
       });
     });
   }
 
-  function get (hash, callback) {
-
-    client.get(keys.content(hash), function(err, stringifiedResult){
-
+  function get(hash, callback) {
+    client.get(keys.content(hash), function (err, stringifiedResult) {
       if (err) throw err;
 
       var res = null;
@@ -196,15 +256,14 @@ function Transformer (blogID, name) {
     });
   }
 
-  function setURL (url, headers, hash, result, callback) {
-
+  function setURL(url, headers, hash, result, callback) {
     callback = callback || nothing;
 
-    ensure(url, 'string')
-      .and(headers, 'object')
-      .and(hash,'string')
-      .and(result,'object')
-      .and(callback,'function');
+    ensure(url, "string")
+      .and(headers, "object")
+      .and(hash, "string")
+      .and(result, "object")
+      .and(callback, "function");
 
     var urlContentKey = keys.url.content(url);
     var urlHeadersKey = keys.url.headers(url);
@@ -216,17 +275,21 @@ function Transformer (blogID, name) {
     client
       .multi()
       .sadd(keys.everything, contentKey, urlContentKey, urlHeadersKey)
-      .mset(urlContentKey, hash, urlHeadersKey, stringifiedHeaders, contentKey, stringifiedResult)
+      .mset(
+        urlContentKey,
+        hash,
+        urlHeadersKey,
+        stringifiedHeaders,
+        contentKey,
+        stringifiedResult
+      )
       .exec(callback);
   }
 
-  function set (hash, result, callback) {
-
+  function set(hash, result, callback) {
     callback = callback || nothing;
 
-    ensure(hash,'string')
-      .and(result,'object')
-      .and(callback,'function');
+    ensure(hash, "string").and(result, "object").and(callback, "function");
 
     var stringifiedResult = JSON.stringify(result);
     var contentKey = keys.content(hash);
@@ -238,9 +301,9 @@ function Transformer (blogID, name) {
       .exec(callback);
   }
 
-  function flush (callback) {
-    client.smembers(keys.everything, function(err, keys){
-      client.del(keys, function(){
+  function flush(callback) {
+    client.smembers(keys.everything, function (err, keys) {
+      client.del(keys, function () {
         callback();
       });
     });
@@ -248,24 +311,22 @@ function Transformer (blogID, name) {
 
   return {
     lookup: lookup,
-    flush: flush
+    flush: flush,
   };
 }
 
-function nothing (err){
+function nothing(err) {
   if (err) throw err;
 }
 
-function bad (src) {
-  return new Error('Transformer: Identifier must be path or url: ' + clip(src));
+function missing(src) {
+  return new Error("Transformer: URL could not be downloaded: " + clip(src));
 }
 
-function missing (src) {
-  return new Error('Transformer: URL could not be downloaded: ' + clip(src));
-}
-
-function clip (src) {
-  if (src.length > 50) src = src.slice(0, 50) + '... (' + (src.length - 50) + ' characters removed)';
+function clip(src) {
+  if (src.length > 50)
+    src =
+      src.slice(0, 50) + "... (" + (src.length - 50) + " characters removed)";
   return src;
 }
 

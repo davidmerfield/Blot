@@ -6,12 +6,11 @@ var renderLocals = require("./locals");
 var finalRender = require("./main");
 var retrieve = require("./retrieve");
 
-var helper = require("helper");
-var ensure = helper.ensure;
-var extend = helper.extend;
-var callOnce = helper.callOnce;
-
-var CACHE = require("config").cache;
+var ensure = require("helper/ensure");
+var extend = require("helper/extend");
+var callOnce = require("helper/callOnce");
+var config = require("config");
+var CACHE = config.cache;
 
 // The http headers
 var CONTENT_TYPE = "Content-Type";
@@ -25,7 +24,7 @@ var cacheDuration = "public, max-age=31536000";
 var JS = "application/javascript";
 var STYLE = "text/css";
 
-module.exports = function(req, res, _next) {
+module.exports = function (req, res, _next) {
   res.renderView = render;
 
   return _next();
@@ -43,8 +42,18 @@ module.exports = function(req, res, _next) {
 
     if (callback) callback = callOnce(callback);
 
-    Template.getFullView(blogID, templateID, name, function(err, response) {
-      if (err || !response) return next(ERROR.NO_VIEW());
+    Template.getFullView(blogID, templateID, name, function (err, response) {
+      if (err) {
+        return next(err);
+      }
+
+      if (!response) {
+        err = new Error(
+          `The view '${name}' does not exist under templateID=${templateID}`
+        );
+        err.code = "NO_VIEW";
+        return next(err);
+      }
 
       var viewLocals = response[0];
       var viewPartials = response[1];
@@ -59,17 +68,17 @@ module.exports = function(req, res, _next) {
 
       extend(res.locals.partials).and(viewPartials);
 
-      retrieve(req, missingLocals, function(err, foundLocals) {
+      retrieve(req, missingLocals, function (err, foundLocals) {
         extend(res.locals).and(foundLocals);
 
         // LOAD ANY LOCALS OR PARTIALS
         // WHICH ARE REFERENCED IN LOCALS
-        loadView(req, res, function(err, req, res) {
+        loadView(req, res, function (err, req, res) {
           if (err) return next(ERROR.BAD_LOCALS());
 
           // VIEW IS ALMOST FINISHED
           // ALL PARTRIAL
-          renderLocals(req, res, function(err, req, res) {
+          renderLocals(req, res, function (err, req, res) {
             if (err) return next(ERROR.BAD_LOCALS());
 
             var output;
@@ -95,9 +104,25 @@ module.exports = function(req, res, _next) {
               return callback(null, output);
             }
 
-            if (CACHE && (viewType === STYLE || viewType === JS)) {
+            // Only cache JavaScript and CSS if the request is not to a preview
+            // subdomain and Blot's caching is turned on.
+            if (
+              CACHE &&
+              !req.preview &&
+              (viewType === STYLE || viewType === JS)
+            ) {
               res.header(CACHE_CONTROL, cacheDuration);
             }
+
+            // Replace protocol of CDN links for requests served over HTTP
+            if (
+              viewType.indexOf("text/") > -1 &&
+              req.protocol === "http" &&
+              output.indexOf(config.cdn.origin) > -1
+            )
+              output = output
+                .split(config.cdn.origin)
+                .join(config.cdn.origin.split("https://").join("http://"));
 
             // I believe this minification
             // bullshit locks up the server while it's

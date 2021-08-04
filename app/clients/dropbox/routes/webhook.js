@@ -1,7 +1,7 @@
 var Express = require("express");
 var sync = require("../sync");
 var Database = require("../database");
-var debug = require("debug")("clients:dropbox:routes");
+var debug = require("debug")("blot:clients:dropbox:routes");
 var async = require("async");
 var config = require("config");
 var crypto = require("crypto");
@@ -9,12 +9,12 @@ var Webhook = Express.Router();
 
 // Used for testing purposes only to determine when a sync has finished
 // Redlock means we can't reliably determine this just by calling sync()
-Webhook.get("/syncs-finished/:blogID", function(req, res) {
+Webhook.get("/syncs-finished/:blogID", function (req, res) {
   res.send(finishedAllSyncs(req.params.blogID));
 });
 
 // This is called by Dropbox to verify the webhook exists
-Webhook.get("/", function(req, res, next) {
+Webhook.get("/", function (req, res, next) {
   if (!req.query || !req.query.challenge) return next();
   res.send(req.query.challenge);
 });
@@ -40,7 +40,7 @@ function finishedAllSyncs(blogID) {
   return activeSyncs[blogID] === 0;
 }
 
-Webhook.route("/").post(function(req, res) {
+Webhook.route("/").post(function (req, res) {
   if (config.maintenance) return res.sendStatus(503);
 
   var data = "";
@@ -58,12 +58,12 @@ Webhook.route("/").post(function(req, res) {
 
   req.setEncoding("utf8");
 
-  req.on("data", function(chunk) {
+  req.on("data", function (chunk) {
     data += chunk;
     verification.update(chunk);
   });
 
-  req.on("end", function() {
+  req.on("end", function () {
     if (signature !== verification.digest("hex")) return res.sendStatus(403);
 
     try {
@@ -79,15 +79,15 @@ Webhook.route("/").post(function(req, res) {
     // accounts can be synced in parallel
     async.each(
       accounts,
-      function(account_id, next_account) {
+      function (account_id, next_account) {
         debug("Checking blogs for Dropbox account", account_id);
 
-        Database.listBlogs(account_id, function(err, blogs) {
+        Database.listBlogs(account_id, function (err, blogs) {
           if (err) return next_account(err);
 
           debug("Syncing", blogs.length, "blogs");
 
-          blogs.forEach(function(blog) {
+          blogs.forEach(function (blog) {
             // Used for testing purposes only
             started(blog.id);
           });
@@ -95,14 +95,14 @@ Webhook.route("/").post(function(req, res) {
           // blogs can be synced in parallel
           async.each(
             blogs,
-            function(blog, next) {
-              sync(blog, function(err) {
+            function (blog, next) {
+              sync(blog, function (err) {
                 if (err) console.log("Blog", blog.id, "Sync error:", err);
                 next();
               });
             },
-            function() {
-              blogs.forEach(function(blog) {
+            function () {
+              blogs.forEach(function (blog) {
                 debug("Finish sync for", blog.id);
                 finished(blog.id);
               });
@@ -114,7 +114,7 @@ Webhook.route("/").post(function(req, res) {
 
         // Do nothing when all the accounts have synced.
       },
-      function() {}
+      function () {}
     );
   });
 });

@@ -3,7 +3,7 @@
 	
   {{> head}}
 
-	<body class="sans-serif bg-background f5 center collapse-menu" id="barba-wrapper">
+	<body class="bg-background f5 center collapse-menu" id="barba-wrapper">
 		
     <div id="top"></div>
       	
@@ -17,7 +17,6 @@
         {{^avatar}}{{title}}{{/avatar}}
       </a>
                 {{/avatar}}
-                <!--  -->
           <a href="/"  id="open-nav" class="dib no-underline pa3 fr" style="transform:rotate(90deg);"><span class="bg-background  br-100 b--black-50 black-50 ba w2 h2 lh2 tc black relative db fr f3 fw3" style="box-sizing:border-box"><span class="tc" style="">|||</span></span></a>
       </div>
       
@@ -33,7 +32,7 @@
 			{{/popular_tags}}
 			</div>
 			{{#menu}}
-			<a href="{{url}}"  class="no-underline no-wrap db black-80 f6 fw6 "  title="{{label}}">{{label}}</a>
+			<a href="{{{url}}}"  class="no-underline no-wrap db black-80 f6 fw6 "  title="{{label}}">{{label}}</a>
 			{{/menu}}
 			<a id="top_button" style="position:absolute;bottom:0;width:3rem;height:3rem;line-height:3rem;" class="mb3 white bg-black-20 lh-title br-100 f3 db tc bn no-underline" href="#top">↑</a>
 		</div>

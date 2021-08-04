@@ -19,7 +19,7 @@ var ONE_TO_NINETEEN = [
   "sixteen",
   "seventeen",
   "eighteen",
-  "nineteen"
+  "nineteen",
 ];
 
 var TENS = [
@@ -31,7 +31,7 @@ var TENS = [
   "sixty",
   "seventy",
   "eighty",
-  "ninety"
+  "ninety",
 ];
 
 var SCALES = ["thousand", "million", "billion", "trillion"];
@@ -93,10 +93,9 @@ function appendScale(chunk, exp) {
   return [chunk, scale].filter(isTruthy).join(" ");
 }
 
-module.exports = function(num) {
+module.exports = function (num) {
+  if (num === 0) return "zero";
 
-  if (num === 0) return 'zero';
-  
   return chunk(num)
     .map(inEnglish)
     .map(appendScale)

@@ -1,61 +1,111 @@
-var config = require("config");
-var Express = require("express");
-var helmet = require("helmet");
-var vhost = require("vhost");
+const async = require("async");
+const fs = require("fs-extra");
+const config = require("config");
+const cluster = require("cluster");
+const clfdate = require("helper/clfdate");
 
-var blog = require("./blog");
-var brochure = require("./brochure");
-var dashboard = require("./dashboard");
-var scheduler = require("./scheduler");
+if (cluster.isMaster) {
+  const NUMBER_OF_CORES = require("os").cpus().length;
+  const NUMBER_OF_WORKERS =
+    NUMBER_OF_CORES > 4 ? Math.round(NUMBER_OF_CORES / 2) : 2;
+  const scheduler = require("./scheduler");
+  const publishScheduledEntries = require("./scheduler/publish-scheduled-entries");
 
-// Welcome to Blot. This is the Express application which listens on port 8080.
-// NGINX listens on port 80 in front of Express app and proxies requests to
-// port 8080. NGINX handles SSL termination, cached response delivery and
-// compression. See ../config/nginx for more. Blot does the rest.
-var Blot = Express();
+  console.log(
+    clfdate(),
+    `Starting pid=${process.pid} environment=${config.environment} cache=${config.cache}`
+  );
 
-// Removes a header otherwise added by Express. No wasted bytes
-Blot.disable("x-powered-by");
+  // Write the master process PID so we can signal it
+  fs.writeFileSync(config.pidfile, process.pid, "utf-8");
 
-// Trusts secure requests terminated by NGINX, as far as I know
-Blot.set("trust proxy", "loopback");
+  // Launch scheduler for background tasks, like backups, emails
+  scheduler();
 
-// Prevent <iframes> embedding pages served by Blot
-Blot.use(helmet.frameguard("allow-from", config.host));
+  // Fork workers.
+  for (let i = 0; i < NUMBER_OF_WORKERS; i++) {
+    cluster.fork();
+  }
 
-// Blot is composed of three sub applications.
+  cluster.on("exit", (worker) => {
+    if (worker.exitedAfterDisconnect === false) {
+      console.log(clfdate(), "Worker died unexpectedly, starting a new one");
+      cluster.fork();
+      // worker processes can have scheduled tasks to publish
+      // scheduled entries in future – if the worker dies it's
+      // important the master process instead schedules the task
+      // todo: make it so that workers can ask the master
+      // process to deal with publication scheduling...
+      publishScheduledEntries();
+    }
+  });
 
-// The Dashboard
-// -------------
-// Serve the dashboard and public site (the brochure)
-// Webhooks from Dropbox and Stripe, git pushes are
-// served by these two applications. The dashboard can
-// only ever be served for request to the host
-Blot.use(vhost(config.host, dashboard));
+  // SIGUSR1 is used by node for debugging, so we use SIGUSR2 to
+  // signal the master process that it's time to reboot the servers
+  process.on("SIGUSR2", function () {
+    let workerIDs = Object.keys(cluster.workers);
+    let totalWorkers = workerIDs.length;
 
-// The Brochure
-// ------------
-// The least important application. It serves the documentation
-// and sign up page.
-Blot.use(vhost(config.host, brochure));
+    console.log(
+      clfdate(),
+      `Recieved signal to replace ${totalWorkers} workers`
+    );
 
-// The Blogs
-// ---------
-// Serves the customers's blogs. It should come first because it's the
-// most important. We don't know the hosts for all the blogs in
-// advance so all requests hit this middleware.
-Blot.use(blog);
+    async.eachSeries(
+      workerIDs,
+      function (workerID, next) {
+        let worker;
+        let workerIndex = workerIDs.indexOf(workerID) + 1;
+        let replacementWorker;
+        let timeout;
 
-// Monit, which we use to monitor the server's health, requests
-// localhost/health to see if it should attempt to restart Blot.
-// If you remove this, change monit.rc too.
-Blot.use("/health", function(req, res) {
-  res.send("OK");
-});
+        console.log(
+          clfdate(),
+          `Replacing worker ${workerIndex}/${totalWorkers}`
+        );
 
-// Open the server to handle requests
-Blot.listen(config.port);
+        worker = cluster.workers[workerID];
 
-// Schedule backups, subscription renewal emails
-// and the publication of scheduled blog posts.
-scheduler();
+        worker.on("disconnect", function () {
+          clearTimeout(timeout);
+        });
+
+        worker.disconnect();
+
+        timeout = setTimeout(() => {
+          worker.kill();
+        }, 2000);
+
+        replacementWorker = cluster.fork();
+
+        replacementWorker.on("listening", function () {
+          console.log(
+            clfdate(),
+            `Replaced worker ${workerIndex}/${totalWorkers}`
+          );
+          workerID++;
+          next();
+        });
+      },
+      function () {
+        console.log(clfdate(), `Replaced all workers`);
+        // worker processes can have scheduled tasks to publish
+        // scheduled entries in future – if the worker dies it's
+        // important the master process instead schedules the task
+        // todo: make it so that workers can ask the master
+        // process to deal with publication scheduling...
+        publishScheduledEntries();
+      }
+    );
+  });
+} else {
+  console.log(clfdate(), `Worker process running pid=${process.pid}`);
+
+  // Open the server to handle requests
+  require("./server").listen(config.port, function () {
+    console.log(
+      clfdate(),
+      `Worker process listening pid=${process.pid} port=${config.port}`
+    );
+  });
+}

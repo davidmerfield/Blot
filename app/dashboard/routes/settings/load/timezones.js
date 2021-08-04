@@ -1,11 +1,11 @@
 var moment = require("moment");
 require("moment-timezone");
 
-module.exports = function(req, res, next) {
+module.exports = function (req, res, next) {
   var blog = req.blog;
   var when = Date.now();
 
-  var zones = moment.tz.names().filter(function(s) {
+  var zones = moment.tz.names().filter(function (s) {
     if (s === "UTC") return true;
 
     if (s === "Pacific/Auckland") return true;
@@ -36,10 +36,7 @@ module.exports = function(req, res, next) {
   var timeZones = [];
 
   for (var i in zones) {
-    var time = moment
-      .utc(when)
-      .tz(zones[i])
-      .format("h:mm a, MMMM Do");
+    var time = moment.utc(when).tz(zones[i]).format("h:mm a, MMMM Do");
 
     var zone = moment.tz.zone(zones[i]);
     var offset = zone.offset(when);
@@ -47,11 +44,11 @@ module.exports = function(req, res, next) {
     timeZones.push({
       time: time,
       value: zones[i],
-      offset: offset
+      offset: offset,
     });
   }
 
-  timeZones.sort(function(a, b) {
+  timeZones.sort(function (a, b) {
     if (b.offset - a.offset !== 0) return b.offset - a.offset;
 
     var nameA = a.value.toLowerCase(),
@@ -63,7 +60,6 @@ module.exports = function(req, res, next) {
     if (nameA > nameB) return 1;
     return 0;
   });
-
 
   for (var x in timeZones)
     if (timeZones[x].value === blog.timeZone)

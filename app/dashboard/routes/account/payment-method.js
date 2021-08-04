@@ -2,7 +2,7 @@ var Express = require("express");
 var PaymentMethod = new Express.Router();
 
 var config = require("config");
-var email = require("helper").email;
+var email = require("helper/email");
 var stripe = require("stripe")(config.stripe.secret);
 var User = require("user");
 
@@ -10,23 +10,25 @@ var User = require("user");
 // card used by Stripe to charge their subscription fee
 PaymentMethod.route("/")
 
-  .all(function(req, res, next) {
+  .all(function (req, res, next) {
     // User does not have a payment method on file, so redirect them
     if (!req.user || !req.user.subscription || !req.user.subscription.plan)
-      return res.redirect("/account");
+      return res.redirect("/account/subscription");
+
+    console.log(JSON.stringify(req.user.subscription));
 
     return next();
   })
 
-  .get(function(req, res) {
+  .get(function (req, res) {
     res.render("account/payment-method", {
       stripe_key: config.stripe.key,
       breadcrumb: "Edit payment method",
-      title: "Edit payment information"
+      title: "Edit payment information",
     });
   })
 
-  .post(function(req, res, next) {
+  .post(function (req, res, next) {
     // Stripe generates a token for a payment method
     // on the client. This token is passed to Blot
     // through the update payment method form. We store
@@ -41,7 +43,7 @@ PaymentMethod.route("/")
       req.user.subscription.customer,
       req.user.subscription.id,
       { card: req.body.stripeToken, quantity: req.user.subscription.quantity },
-      function(err, subscription) {
+      function (err, subscription) {
         if (err) return next(err);
 
         if (subscription) req.latestSubscription = subscription;
@@ -57,7 +59,7 @@ PaymentMethod.route("/")
   // create a new subscription and customer, without
   // charging the new payment information and then store
   // it against this blot user.
-  .post(function(err, req, res, next) {
+  .post(function (err, req, res, next) {
     // This is some other error, proceed.
     if (err.code !== "resource_missing") {
       return next(err);
@@ -74,9 +76,9 @@ PaymentMethod.route("/")
         email: req.user.email,
         plan: req.user.subscription.plan.id,
         quantity: 0,
-        description: "Blot subscription"
+        description: "Blot subscription",
       },
-      function(err, customer) {
+      function (err, customer) {
         if (err) return next(err);
 
         // Now we ensure the new subscription has the correct
@@ -87,7 +89,7 @@ PaymentMethod.route("/")
           customer.subscription.customer,
           customer.subscription.id,
           { quantity: req.user.blogs.length || 1, prorate: false },
-          function(err, subscription) {
+          function (err, subscription) {
             if (err) return next(err);
 
             if (subscription) req.latestSubscription = subscription;
@@ -101,17 +103,17 @@ PaymentMethod.route("/")
 
   // This middleware will save a valid, updated
   // subscription with the new payment method.
-  .post(function(req, res, next) {
+  .post(function (req, res, next) {
     if (!req.latestSubscription) return next(new Error("No subscription"));
 
-    User.set(req.user.uid, { subscription: req.latestSubscription }, function(
+    User.set(req.user.uid, { subscription: req.latestSubscription }, function (
       err
     ) {
       if (err) return next(err);
 
       email.UPDATE_BILLING(req.user.uid);
       res.message(
-        "/account",
+        "/account/subscription",
         "Your payment information was updated successfully!"
       );
     });

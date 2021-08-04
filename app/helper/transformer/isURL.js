@@ -1,12 +1,10 @@
-var protocols = ['http:', 'https:'];
-var Url = require('url');
+var protocols = ["http:", "https:"];
+var Url = require("url");
 
-function isURL (url) {
-
+function isURL(url) {
   if (!url) return false;
 
-  if (url.indexOf('//') === 0)
-    url = 'http:' + url;
+  if (url.indexOf("//") === 0) url = "http:" + url;
 
   var parsed;
 
@@ -16,11 +14,9 @@ function isURL (url) {
     return false;
   }
 
-  if (!parsed.host || !parsed.protocol)
-    return false;
+  if (!parsed.host || !parsed.protocol) return false;
 
-  if (protocols.indexOf(parsed.protocol) === -1)
-    return false;
+  if (protocols.indexOf(parsed.protocol) === -1) return false;
 
   return url;
 }

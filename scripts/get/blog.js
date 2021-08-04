@@ -1,26 +1,56 @@
-var User = require("../../app/models/user");
-var Blog = require("../../app/models/blog");
+var User = require("models/user");
+var Blog = require("models/blog");
 var parseUrl = require("url").parse;
 
-// Takes a URL and fetches the blog, user and entry
+function getByPrefix(identifier, callback) {
+  Blog.getAllIDs(function (err, blogIDS) {
+    let id = blogIDS.filter((id) => id.indexOf(identifier) === 0)[0];
+    if (!id) return callback(new Error("no blog"));
+    Blog.get({ id }, callback);
+  });
+}
 
-module.exports = function get(url, callback) {
-  url = parseUrl(url);
+// Takes a URL or handle and fetches the blog and user
+module.exports = function get(identifier, callback) {
+  var domain;
+  var handle;
+  var blog;
 
-  // Map 'preview.default.foo.blot.im' -> 'foo.blot.im'
-  if (url.host.indexOf("preview.") === 0)
-    url.host = url.host
-      .split(".")
-      .slice(-3)
-      .join(".");
+  handle = identifier;
 
-  Blog.get({ domain: url.host }, function(err, blog) {
-    if (err || !blog) return callback(err || new Error("No blog"));
+  try {
+    // Map 'preview.default.foo.blot.im' -> 'foo.blot.im'
+    if (parseUrl(identifier).host.indexOf("preview.") === 0)
+      domain = parseUrl(identifier).host.split(".").slice(-3).join(".");
+    else domain = parseUrl(identifier).host;
+  } catch (e) {
+    domain = identifier;
+  }
 
-    User.getById(blog.owner, function(err, user) {
-      if (err || !user) return callback(err || new Error("No user"));
+  Blog.get({ id: identifier }, function (err, blogFromID) {
+    Blog.get({ domain: domain }, function (err, blogFromDomain) {
+      Blog.get({ handle: handle }, function (err, blogFromHandle) {
+        getByPrefix(identifier, function (err, blogByPrefix) {
+          if (
+            !blogFromDomain &&
+            !blogFromHandle &&
+            !blogFromID &&
+            !blogByPrefix
+          )
+            return callback(new Error("No blog"));
 
-      callback(err, user, blog);
+          blog = blogFromID || blogFromHandle || blogFromDomain || blogByPrefix;
+
+          User.getById(blog.owner, function (err, user) {
+            if (err || !user) return callback(err || new Error("No user"));
+
+            require("../access")(blog.handle, function (err, url) {
+              if (err) return callback(err);
+              callback(err, user, blog, url);
+            });
+          });
+        });
+      });
     });
   });
 };

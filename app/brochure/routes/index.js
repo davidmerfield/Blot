@@ -3,15 +3,54 @@ var brochure = new Express.Router();
 var finder = require("finder");
 var tex = require("./tools/tex");
 var config = require("config");
-var Breadcrumbs = require("./tools/breadcrumbs");
+var titleFromSlug = require("helper/titleFromSlug");
 
 var TITLES = {
-  publishing: "How to use Blot"
+  "how": "How it works",
+  "terms": "Terms of use",
+  "privacy": "Privacy policy",
+  "configure": "Configure your site",
+  "ask": "Ask question",
+  "urls": "Link format",
+  "hard-stop-start-ec2-instance": "How to stop and start an EC2 instance",
+  "who": "Who uses Blot?",
+  "developers": "Developer guide",
+  "json-feed": "JSON feed",
+  "posts-tagged": "A page with posts with a particular tag",
 };
 
-var REDIRECTS = {
-  "/help/tags": "/publishing/metadata"
-};
+if (config.cache) {
+  // Minifies HTML
+  brochure.use(require("./tools/minify-html"));
+
+  // Inlines all CSS properties
+  brochure.use(require("./tools/inline-css"));
+}
+
+brochure.get(["/how/guides/*"], function (req, res, next) {
+  res.locals["show-on-this-page"] = true;
+  next();
+});
+
+brochure.use(function (req, res, next) {
+  res.locals.breadcrumbs = req.url.split("/").map(function (slug, i, arr) {
+    if (!slug) return { label: "Blot", first: true, url: "/" };
+    return {
+      label: TITLES[slug] || titleFromSlug(slug),
+      url: arr.slice(0, i + 1).join("/"),
+      last: i === arr.length - 1,
+    };
+  });
+
+  if (req.url === "/") {
+    res.locals.breadcrumbs = res.locals.breadcrumbs.slice(0, 1);
+    res.locals.breadcrumbs[0].last = true;
+  }
+
+  if (res.locals.breadcrumbs.length < 3) res.locals.hidebreadcrumbs = true;
+
+  next();
+});
 
 // Renders the folders and text editors
 brochure.use(finder.middleware);
@@ -19,169 +58,93 @@ brochure.use(finder.middleware);
 // Renders TeX
 brochure.use(tex);
 
-brochure.use(function(req, res, next) {
-  res.locals.breadcrumbs = new Breadcrumbs();
-  next();
-});
-
-// Renders dates dynamically
-brochure.use(require("./tools/dates"));
-
 // Fixes basic typographic errors
 // See typeset.js for more information
 brochure.use(require("./tools/typeset"));
 
-// CSS required to render the windows
-brochure.get("/css/finder.css", function(req, res) {
-  res.setHeader("Content-Type", "text/css");
-  res.send(finder.css());
+// Generate a table of contents for each page
+brochure.use(require("./tools/on-this-page"));
+
+brochure.use(function (req, res, next) {
+  res.locals.base = "";
+  res.locals.selected = {};
+  var url = req.originalUrl;
+
+  // Trim trailing slash from the URL before working out which
+  // slugs to set as selected. This ensures that the following url
+  // https://blot.im/how/ will set {{publishingIndex}} as selected
+  if (url.length > 1 && url.slice(-1) === "/") url = url.slice(0, -1);
+
+  var slugs = url.split("/");
+
+  slugs.forEach(function (slug) {
+    res.locals.selected[slug] = "selected";
+  });
+
+  res.locals.selected[slugs[slugs.length - 1] + "Index"] = "selected";
+
+  // Handle index page of site.
+  if (req.originalUrl === "/") res.locals.selected.index = "selected";
+
+  let slug = slugs.pop() || "Blot";
+  let title = TITLES[slug] || titleFromSlug(slug);
+  res.locals.title = title;
+
+  next();
 });
 
-brochure.get("/about", function(req, res) {
-  res.locals.title = "Blot – About";
-  res.render("about");
+brochure.use("/account", function (req, res, next) {
+  // we don't want search engines indexing these pages
+  // since they're /logged-out, /disabled and
+  res.set("X-Robots-Tag", "noindex");
+  next();
 });
 
-brochure.get("/support", function(req, res) {
-  res.locals.title = "Blot – Support";
-  res.render("support");
-});
+brochure.get("/", require("./featured"));
 
-brochure.get("/contact", function(req, res) {
-  res.locals.title = "Contact";
-  res.render("contact");
+brochure.get("/", function (req, res, next) {
+  res.locals.layout = "partials/layout-index";
+  next();
 });
-
-brochure.get("/terms", function(req, res) {
-  res.locals.title = "Terms of use";
-  res.locals.layout = "/partials/layout-focussed.html";
-  res.render("terms");
-});
-
-brochure.get("/privacy", function(req, res) {
-  res.locals.title = "Privacy policy";
-  res.locals.layout = "/partials/layout-focussed.html";
-  res.render("privacy");
-});
+brochure.use("/fonts", require("./fonts"));
 
 brochure.get("/sitemap.xml", require("./sitemap"));
 
-brochure.use("/developers", require("./developers"));
+brochure.use("/templates/developers", require("./developers"));
 
-// brochure.use("/templates", require("./templates"));
+brochure.use("/about/notes", require("./notes"));
 
-brochure.use("/news", require("./news"));
+brochure.use("/templates", require("./templates"));
+
+brochure.use("/about/news", require("./news"));
 
 brochure.use("/sign-up", require("./sign-up"));
 
 brochure.use("/log-in", require("./log-in"));
 
-brochure.use(function(req, res, next) {
-  res.locals.base = "";
-  res.locals.selected = {};
-  next();
-});
+brochure.use("/questions", require("./questions"));
 
-brochure.param("section", function(req, res, next, section) {
-  var title = TITLES[section] || capitalize(section);
-  res.locals.sectionTitle = title;
-  res.locals.selected[section] = "selected";
-  res.locals.breadcrumbs.add(title, section);
-  next();
-});
-
-brochure.param("subsection", function(req, res, next, subsection) {
-  var title = TITLES[subsection] || capitalize(subsection);
-  res.locals.sectionTitle = title;
-  res.locals.selected[subsection] = "selected";
-  res.locals.breadcrumbs.add(title, subsection);
-  next();
-});
-
-brochure.param("subsubsection", function(req, res, next, subsubsection) {
-  var title = TITLES[subsubsection] || capitalize(subsubsection);
-  res.locals.sectionTitle = title;
-  res.locals.selected[subsubsection] = "selected";
-  res.locals.breadcrumbs.add(title, subsubsection);
-  next();
-});
-
-brochure.get("/", require("./featured"), function(req, res) {
-  res.locals.title = "Blot – A blogging platform with no interface";
-  res.locals.selected.index = "selected";
-  res.locals.featured = res.locals.featured.slice(0, 6);
-  res.render("index");
-});
-
-var tex = require("./tools/tex");
-
-brochure.use("/publishing/formatting", tex);
-
-brochure.use("/publishing/domain", function(req, res, next) {
+brochure.use("/how/guides/domain", function (req, res, next) {
   res.locals.ip = config.ip;
-  return next();
-});
-
-brochure.get("/:section", function(req, res, next) {
-  // This check is designed to prevent an error polluting
-  // the logs which happens for requests like /images/foo.png
-  // Express doesn't have a renderer for '.png' so there is an error
-  if (req.params.section.indexOf(".") > -1) {
-    return next();
-  }
-
-  res.locals.title = "Blot – " + res.locals.sectionTitle;
-  res.render(req.params.section);
-});
-
-brochure.get("/:section/:subsection", function(req, res, next) {
-  // This check is designed to prevent an error polluting
-  // the logs which happens for requests like /images/foo.png
-  // Express doesn't have a renderer for '.png' so there is an error
-  if (
-    req.params.section.indexOf(".") > -1 ||
-    req.params.subsection.indexOf(".") > -1
-  ) {
-    return next();
-  }
-
-  res.locals.title = "Blot – " + res.locals.sectionTitle;
-  res.render(req.params.section + "/" + req.params.subsection);
-});
-
-brochure.get("/:section/:subsection/:subsubsection", function(req, res, next) {
-  // This check is designed to prevent an error polluting
-  // the logs which happens for requests like /images/foo.png
-  // Express doesn't have a renderer for '.png' so there is an error
-  if (
-    req.params.section.indexOf(".") > -1 ||
-    req.params.subsection.indexOf(".") > -1
-  ) {
-    return next();
-  }
-
-  res.locals.title = "Blot – " + res.locals.sectionTitle;
-  res.render(
-    req.params.section +
-      "/" +
-      req.params.subsection +
-      "/" +
-      req.params.subsubsection
-  );
-});
-
-brochure.use(function(err, req, res, next) {
-  if (REDIRECTS[req.url]) return res.redirect(REDIRECTS[req.url]);
-
   next();
 });
 
-brochure.use(function(err, req, res, next) {
-  if (config.environment === "development") console.log(err);
-  next();
+brochure.use(function (req, res) {
+  res.render(trimLeadingAndTrailingSlash(req.path));
 });
 
-function capitalize(str) {
-  return str[0].toUpperCase() + str.slice(1);
+brochure.use(function (err, req, res, next) {
+  if (err && err.message && err.message.indexOf("Failed to lookup view") === 0)
+    return next();
+
+  next(err);
+});
+
+function trimLeadingAndTrailingSlash(str) {
+  if (!str) return str;
+  if (str[0] === "/") str = str.slice(1);
+  if (str[str.length - 1] === "/") str = str.slice(0, -1);
+  return str;
 }
+
 module.exports = brochure;

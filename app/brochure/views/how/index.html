@@ -1,0 +1,144 @@
+<h1>How it works</h1>
+
+<p>Blot turns a folder into a blog. When you put files inside your blog's folder Blot turns them into blog posts. Blot synchronizes your folder using <a href="/how/clients/dropbox">Dropbox</a> or <a href="/how/clients/git">Git</a>. Consider watching the demonstration to see it work in practice:</p>
+<p><a class="textli" href="/videos/publishing-with-blot.mp4" style="color: var(--accent-color)">Watch the video<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+   viewBox="0 0 15.4 15.4" style="enable-background:new 0 0 15.4 15.4;" xml:space="preserve">
+<style type="text/css">
+  .st1{fill:var(--accent-color);}
+</style>
+<path class="st1" d="M7.7,15.4C3.4,15.4,0,11.9,0,7.7C0,3.4,3.4,0,7.7,0s7.7,3.4,7.7,7.7C15.4,11.9,11.9,15.4,7.7,15.4z M7.7,1.2
+  c-3.5,0-6.4,2.9-6.4,6.4s2.9,6.4,6.4,6.4c3.6,0,6.4-2.9,6.4-6.4S11.2,1.2,7.7,1.2z"/>
+<path class="st1" d="M6.2,10.7l4.2-2.4c0.2-0.1,0.2-0.3,0.2-0.4s-0.1-0.3-0.2-0.4L6.2,5C6,4.9,5.8,4.9,5.7,5
+  C5.5,5.1,5.4,5.3,5.4,5.5v4.8c0,0.2,0.1,0.3,0.2,0.4c0.1,0,0.2,0.1,0.2,0.1S6.1,10.8,6.2,10.7z"/>
+</svg></a>
+  </p>
+
+<style type="text/css">
+  .vidlink {opacity: 0;transition: opacity 0.15s;background: rgba(0,0,0,0.5);border-radius: 12px}
+  .vidlink svg {opacity: 0;transition: opacity 0.15s;}
+  .vidlink:hover {opacity: 1.0;}
+  .vidlink:hover  svg {opacity: 1.0}
+  .vidlink svg {    width: 1rem;
+    vertical-align: baseline;
+    position: relative;
+    top: 2px;
+    left: 7px;
+}
+</style>
+
+<div style="position: relative;">
+<background class="video" style="margin-bottom: 0"><pre class="folder" title="Your blog"><code>Posts
+  Apple.txt
+  Banana.doc
+  Cherry.jpg
+  Date.md
+  Elderberry.webloc
+  Fig.html
+
+
+</code></pre>
+</background>
+
+<a href="/videos/publishing-with-blot.mp4" class="vidlink" style="position: absolute;top: 0;left: 0;right: 0;bottom: 0;display: flex;justify-content: center;align-content: center;flex-direction:column;color:white;text-decoration: none;"><span style="text-align: center;display: block;">Watch the video<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+   viewBox="0 0 15.4 15.4" style="enable-background:new 0 0 15.4 15.4;" xml:space="preserve">
+<style type="text/css">
+  .st0{fill:#fff;}
+</style>
+<path class="st0" d="M7.7,15.4C3.4,15.4,0,11.9,0,7.7C0,3.4,3.4,0,7.7,0s7.7,3.4,7.7,7.7C15.4,11.9,11.9,15.4,7.7,15.4z M7.7,1.2
+  c-3.5,0-6.4,2.9-6.4,6.4s2.9,6.4,6.4,6.4c3.6,0,6.4-2.9,6.4-6.4S11.2,1.2,7.7,1.2z"/>
+<path class="st0" d="M6.2,10.7l4.2-2.4c0.2-0.1,0.2-0.3,0.2-0.4s-0.1-0.3-0.2-0.4L6.2,5C6,4.9,5.8,4.9,5.7,5
+  C5.5,5.1,5.4,5.3,5.4,5.5v4.8c0,0.2,0.1,0.3,0.2,0.4c0.1,0,0.2,0.1,0.2,0.1S6.1,10.8,6.2,10.7z"/>
+</svg></span></a>
+</div>
+<style type="text/css">
+
+.light {opacity: 0.5;margin-left: 1.7em}
+
+.flex-table {max-width: 637px;}
+.flex-table row {display: flex;flex-wrap:wrap;    }
+.flex-table row > :first-child {min-width:190px;flex-shrink:0;padding-right: 1.4em;margin-bottom: 0}
+.flex-table row > :last-child {flex-shrink: 1;
+    flex-basis: 100px;
+    min-width: 256px;
+    flex-grow: 1;
+    margin-left: 1.7em;}
+
+.flex-table hr {    border: none;    
+    border-bottom: 1px solid #eceff1;margin: 0}
+
+</style>
+
+<h2 style="margin-bottom:0">Files which become blog posts</h2>
+<section class="flex-table">
+<row>
+  <p><code class="file md">&nbsp;Text and Markdown</a></code><br><span class="light">.txt&nbsp; .md</span></p>
+  <p>Use the full range of <a href="/how/guides/markdown">Markdown</a> features to add formatting to your blog posts. Blot also renders <a href="/how/guides/tex">mathematics</a>  and provides syntax highlighting for code snippets.</p>
+</row>
+<hr>
+<row>
+  <p><code class="file img" style="margin-left:-3px">&nbsp;Images</a></code><br><span class="light">.png&nbsp; .jpeg&nbsp; .gif</span></p>
+  <p>Put images directly into your blog's folder. Blot generates optimized versions to deliver to your readers. Use the path to add <a href="/how/metadata">tags</a> or change the <a href="/how/metadata">publish date</a>. </p>
+</row>
+<hr>    
+<row>
+  <p><code class="file txt">&nbsp;Word Documents</a></code><br><span class="light">.docx &nbsp;.odt</span></p>
+  <p>Supports files created by <a href="https://en.wikipedia.org/wiki/Microsoft_Word">Microsoft Word</a>, <a href="https://en.wikipedia.org/wiki/Pages_(word_processor)">Pages</a>, <a href="https://en.wikipedia.org/wiki/Google_Docs">Google Docs</a> and <a href="https://en.wikipedia.org/wiki/OpenOffice.org">OpenOffice</a>. Much formatting is stripped so posts match the style of your blog.</p>
+</row>
+<hr>    
+<row>
+  <p><code class="file webloc">&nbsp;Bookmarks</a></code><br><span class="light">.webloc&nbsp; .url</span></p>
+  <p>Drag URLs from your browser's address bar to create blog posts from bookmark files. Use the file's path to add <a href="/how/metadata">tags</a> or change the <a href="/how/metadata">publish date</a>.</p>
+    </row>
+<hr>    
+<row>
+  <p><code class="file html">&nbsp;HTML</a></code><br><span class="light">.html <!-- &nbsp; .htm --></span></p>
+  <p>Published as-is. <a href="/how/metadata">Metadata</a> can be parsed from a comment at the start of a file.</p>
+
+</row>
+</section>
+
+<h2>Prevent a file becoming a blog post</h2>
+<p> Files and folders whose name starts with an underscore are ignored. Ignored files don’t become blog posts themselves but they can be <a href="#files-in-your-folder-are-public">embedded in posts</a>.</p>
+
+<background>
+  <pre class="folder" title="Your blog"><code>Drafts
+Pages
+Posts
+  _Not_a_Post.txt
+  Post.txt
+
+
+</code>
+    </pre>
+</background>
+
+<h2>Drafts</h2>
+
+<p>Files in a folder called <em>Drafts</em> are not published. Instead, Blot creates a preview file which updates as you make changes to your draft. You can share the preview file with others. Preview files work on other computers that are connected to the internet.</p>
+
+<background><pre class="folder" title="Your blog"><code>Drafts
+  Anecdote.txt
+  Anecdote.txt.html
+  Unpublished.txt
+  Unpublished.txt.html
+Pages
+Posts
+
+</code></pre></background>
+
+<h2>Files in your folder are public</h2>
+
+<p>The files in your blog’s folder are public. This is useful if you want to embed an image, a video or an audio file in a blog post. You can also use this to share files with your readers. For example, given the folder below, your readers can download <em>Archive.zip</em> if they visit <em>/Files/Archive.zip</em> on your blog.</p>
+
+<background><pre class="folder" title="Your blog"><code>Files
+  Archive.zip
+  index.html
+Posts
+
+
+
+
+</code></pre>
+</background>
+
+{{> video-player}}

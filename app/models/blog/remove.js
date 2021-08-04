@@ -1,38 +1,105 @@
-var get = require('./get');
-var helper = require('helper');
-var ensure = helper.ensure;
-var async = require('async');
-var client = require('client');
-var START_CURSOR = '0';
+var async = require("async");
+var client = require("client");
+var config = require("config");
+var fs = require("fs-extra");
+var get = require("./get");
+var set = require("./set");
+var key = require("./key");
+var BackupDomain = require("./util/backupDomain");
+var flushCache = require("./flushCache");
+
+var START_CURSOR = "0";
 var SCAN_SIZE = 1000;
 
-module.exports = function (blogID, callback) {
+function remove(blogID, callback) {
+  get({ id: blogID }, function (err, blog) {
+    if (err || !blog) return callback(err || new Error("No blog"));
 
-  ensure(blogID, 'string')
-    .and(callback, 'function');
+    // We need to enable the blog to disconnect the client
+    // since we need to acquire a sync lock...
+    set(blog.id, { isDisabled: false }, function (err) {
+      if (err) return callback(err);
 
-  get({id: blogID}, function(err, blog){
+      flushCache(blogID, function (err) {
+        if (err) return callback(err);
 
-    if (err) return callback(err);
+        // The order of these tasks is important right now.
+        // For example, if you wipe the blog's folder before disconnecting
+        // the client, you might run into an error. It would be nice to
+        // be able to run them in parallel though
+        var tasks = [disconnectClient, updateUser, wipeFolders, deleteKeys].map(
+          function (task) {
+            return task.bind(null, blog);
+          }
+        );
 
-    var patterns = [
-      'template:' + blogID + ':*',
-      'blog:' + blogID + ':*'
-    ];
+        async.series(tasks, callback);
+      });
+    });
+  });
+}
 
-    var remove = [
-      'template:owned_by:' + blogID,
-      'handle:' + blog.handle,
-    ];
+function wipeFolders(blog, callback) {
+  if (!blog.id || typeof blog.id !== "string")
+    return callback(new Error("Invalid blog id"));
 
-    if (blog.domain) remove.push('domain:' + blog.domain);
+  var blogFolder = config.blog_folder_dir + "/" + blog.id;
+  var staticFolder = config.blog_static_files_dir + "/" + blog.id;
 
-    async.each(patterns, function(pattern, next){
+  async.parallel(
+    [
+      safelyRemove.bind(null, blogFolder, config.blog_folder_dir),
+      safelyRemove.bind(null, staticFolder, config.blog_static_files_dir),
+    ],
+    callback
+  );
 
-      var args = [START_CURSOR, 'MATCH', pattern, 'COUNT', SCAN_SIZE];
+  // This could get messy if the blog.id is an empty
+  // string or if it somehow resolves to the blog folder
+  // so we do a few more steps to ensure we're only ever deleting
+  // a folder inside the particular directory and nothing else
+  function safelyRemove(folder, root, callback) {
+    fs.realpath(folder, function (err, realpathToFolder) {
+      // This folder does not exist, so no need to do anything
+      if (err && err.code === "ENOENT") return callback();
 
-      client.scan(args, function then (err, res){
+      if (err) return callback(err);
 
+      fs.realpath(root, function (err, realpathToRoot) {
+        if (err) return callback(err);
+
+        if (realpathToFolder.indexOf(realpathToRoot + "/") !== 0)
+          return callback(
+            new Error("Could not safely remove directory:" + folder)
+          );
+
+        fs.remove(realpathToFolder, callback);
+      });
+    });
+  }
+}
+
+function deleteKeys(blog, callback) {
+  var multi = client.multi();
+
+  var patterns = ["template:" + blog.id + ":*", "blog:" + blog.id + ":*"];
+
+  var remove = ["template:owned_by:" + blog.id, "handle:" + blog.handle];
+
+  // TODO ALSO remove alternate key with/out 'www', e.g. www.example.com
+  if (blog.domain) {
+    remove.push("domain:" + blog.domain);
+    remove.push("domain:" + BackupDomain(blog.domain));
+  }
+
+  remove.push("domain:" + blog.handle + "." + config.host);
+
+  async.each(
+    patterns,
+    function (pattern, next) {
+      var args = [START_CURSOR, "MATCH", pattern, "COUNT", SCAN_SIZE];
+
+      client.scan(args, function then(err, res) {
         if (err) throw err;
 
         // the cursor for the next pass
@@ -46,8 +113,48 @@ module.exports = function (blogID, callback) {
 
         next();
       });
-    }, function(){
-      client.del(remove, callback);
+    },
+    function () {
+      multi.del(remove);
+      multi.srem(key.ids, blog.id);
+      multi.exec(callback);
+    }
+  );
+}
+
+function disconnectClient(blog, callback) {
+  var clients = require("clients");
+
+  if (!blog.client || !clients[blog.client]) return callback(null);
+
+  clients[blog.client].disconnect(blog.id, callback);
+}
+
+function updateUser(blog, callback) {
+  var User = require("user");
+  User.getById(blog.owner, function (err, user) {
+    if (err) return callback(err);
+
+    // If the user has already been deleted then
+    // we don't need to worry about this.
+    if (!user || !user.blogs) {
+      return callback();
+    }
+
+    var changes = {};
+
+    var blogs = user.blogs.slice();
+
+    blogs = blogs.filter(function (otherBlogID) {
+      return otherBlogID !== blog.id;
     });
+
+    changes.blogs = blogs;
+
+    if (user.lastSession === blog.id) changes.lastSession = "";
+
+    User.set(blog.owner, changes, callback);
   });
-};
+}
+
+module.exports = remove;

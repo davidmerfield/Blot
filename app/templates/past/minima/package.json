@@ -15,12 +15,7 @@
     }
   },
   "views": {
-    "minima-social-icons": {
-      "url": "/minima-social-icons.svg",
-      "partials": {}
-    },
     "archives": {
-      "url": "/archives",
       "partials": {
         "title": "Archives - {{{title}}}",
         "description": "All the entries posted on {{{title}}}"
@@ -30,24 +25,6 @@
       "partials": {
         "title": "Entries tagged {{{tag}}} from {{{title}}}",
         "description": "All of the entries posted on {{{title}}} tagged {{{tag}}}"
-      }
-    },
-    "entries": {
-      "partials": {
-        "title": "{{{title}}}",
-        "description": "The latest entries posted on {{{title}}}"
-      }
-    },
-    "error": {
-      "partials": {
-        "title": "{{{error.title}}} - {{{title}}}",
-        "description": "Error on {{{title}}}"
-      }
-    },
-    "entry": {
-      "partials": {
-        "title": "{{{entry.title}}} - {{{title}}}",
-        "description": "{{{entry.summary}}}"
       }
     },
     "public": {
@@ -62,9 +39,6 @@
         "description": "Search all the entries posted on {{{title}}}"
       }
     },
-    "style": {
-      "url": "/style.css"
-    },
     "script": {
       "url": "/script.js"
     },
@@ -72,11 +46,31 @@
       "url": "/sitemap.xml"
     },
     "feed": {
-      "url": "/feed.rss",
-      "type": "application/xml"
+      "url": "/feed.rss"
     },
     "robots": {
       "url": "/robots.txt"
+    },
+    "minima-social-icons.svg": {
+      "partials": {}
+    },
+    "entries.html": {
+      "partials": {
+        "title": "{{{title}}}",
+        "description": "The latest entries posted on {{{title}}}"
+      }
+    },
+    "error.html": {
+      "partials": {
+        "title": "{{{error.title}}} - {{{title}}}",
+        "description": "Error on {{{title}}}"
+      }
+    },
+    "entry.html": {
+      "partials": {
+        "title": "{{{entry.title}}} - {{{title}}}",
+        "description": "{{{entry.summary}}}"
+      }
     }
   }
 }

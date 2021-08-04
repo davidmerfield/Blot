@@ -1,0 +1,5 @@
+# Front-end philosophy
+
+Try and ship as little JavaScript down to the client. In general, I want to do as much computation as possible on the server, as little as possible on the client. This is because I control the server, but not the client. 
+
+I have nothing against JavaScript, the server is written in it. Just I want to exert as much control as possible over the resulting page the reader experiences.

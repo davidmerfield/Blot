@@ -16,10 +16,10 @@ TODO: BUG FIX FOR MULTIPLE IMAGES IN POST
 
 */
 
-module.exports = function(json, outputDirectory, callback) {
+module.exports = function (json, outputDirectory, callback) {
   async.eachSeries(
     json.entries,
-    function(input, next) {
+    function (input, next) {
       var entry = {};
 
       entry.tags = input.tags || [];
@@ -48,7 +48,7 @@ module.exports = function(json, outputDirectory, callback) {
       if (id) {
         var image =
           "_images/" +
-          input.photos.filter(function(i) {
+          input.photos.filter(function (i) {
             return i.identifier === id;
           })[0].md5 +
           ".jpeg";
@@ -78,17 +78,12 @@ module.exports = function(json, outputDirectory, callback) {
 
       var lines = input.text.trim().split("\n");
 
-      lines = lines.filter(function(line) {
+      lines = lines.filter(function (line) {
         return line.indexOf("![") === -1 && line.indexOf("://") === -1;
       });
 
       if (lines.length)
-        slug = lines[0]
-          .split("/")
-          .join("-")
-          .split(" ")
-          .join("-")
-          .toLowerCase();
+        slug = lines[0].split("/").join("-").split(" ").join("-").toLowerCase();
 
       slug = slug.split(".").join("");
       slug = slug.split(",").join("");
@@ -98,8 +93,8 @@ module.exports = function(json, outputDirectory, callback) {
 
       while (slug.indexOf("--") > -1) slug = slug.split("--").join("-");
 
-      slug = slug.slice(0,20);
-      
+      slug = slug.slice(0, 20);
+
       fs.writeFile(
         outputDirectory +
           "/" +

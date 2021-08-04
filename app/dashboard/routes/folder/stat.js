@@ -1,6 +1,5 @@
 var stat = require("fs").stat;
-var helper = require("helper");
-var localPath = helper.localPath;
+var localPath = require("helper/localPath");
 var basename = require("path").basename;
 var dirname = require("path").dirname;
 var joinpath = require("path").join;
@@ -8,38 +7,37 @@ var moment = require("moment");
 require("moment-timezone");
 
 var Entry = require("entry");
-var IgnoredFiles = require("../../../models/ignoredFiles");
+var IgnoredFiles = require("models/ignoredFiles");
 var extname = require("path").extname;
 var Metadata = require("metadata");
 var REASONS = {
   PREVIEW: "it is a preview",
   TOO_LARGE: "it is too large",
   PUBLIC_FILE: "it is a public file",
-  WRONG_TYPE: "it is not a file Blot can process"
+  WRONG_TYPE: "it is not a file Blot can process",
 };
 
 var kind = require("./kind");
 
-module.exports = function(blog, path, callback) {
+module.exports = function (blog, path, callback) {
   var blogID = blog.id;
   var local = localPath(blogID, path);
 
-  stat(local, function(err, stat) {
+  stat(local, function (err, stat) {
     if (err) return callback(err);
 
-    Metadata.get(blogID, path, function(err, casePresevedName) {
+    Metadata.get(blogID, path, function (err, casePresevedName) {
       if (err) return callback(err);
 
-      IgnoredFiles.getStatus(blogID, path, function(err, ignored) {
+      IgnoredFiles.getStatus(blogID, path, function (err, ignored) {
         if (err) return callback(err);
 
-        Entry.get(blogID, path, function(entry) {
-
+        Entry.get(blogID, path, function (entry) {
           if (ignored || !entry) {
             if (path.toLowerCase().indexOf("/templates/") === 0) {
               ignored = "it is part of a template";
             } else if (
-              path.split("/").filter(function(n) {
+              path.split("/").filter(function (n) {
                 return n[0] === "_";
               }).length
             ) {
@@ -62,7 +60,7 @@ module.exports = function(blog, path, callback) {
               sameDay: "[Today], h:mm A",
               lastDay: "[Yesterday], h:mm A",
               lastWeek: "LL, h:mm A",
-              sameElse: "LL, h:mm A"
+              sameElse: "LL, h:mm A",
             });
           stat.modified = moment
             .utc(stat.mtime)
@@ -71,7 +69,7 @@ module.exports = function(blog, path, callback) {
               sameDay: "[Today], h:mm A",
               lastDay: "[Yesterday], h:mm A",
               lastWeek: "LL, h:mm A",
-              sameElse: "LL, h:mm A"
+              sameElse: "LL, h:mm A",
             });
 
           stat.updated = moment.utc(stat.mtime).from(moment.utc());
