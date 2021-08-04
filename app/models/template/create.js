@@ -38,6 +38,7 @@ module.exports = function create(owner, name, metadata, callback) {
   metadata.description = metadata.description || "";
   metadata.thumb = metadata.thumb || "";
   metadata.localEditing = metadata.localEditing === true;
+  metadata.shareID = "";
 
   ensure(metadata, metadataModel);
 
