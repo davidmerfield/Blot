@@ -10,7 +10,14 @@ TemplateEditor.param("viewSlug", require("./load/template-view"));
 TemplateEditor.param("templateSlug", require("./load/template"));
 TemplateEditor.param("templateSlug", function (req, res, next) {
   res.locals.base = `${req.protocol}://${req.hostname}${req.baseUrl}/${req.params.templateSlug}`;
-  res.locals.preview = `https://preview-of-my-${req.template.slug}-on-${req.blog.handle}.${config.host}`;
+  // used to filter messages sent from the iframe which contains a preview of the
+  // template in the template editor, such that we only save the pages which are
+  // part of the template.
+  res.locals.previewOrigin = `https://preview-of-my-${req.template.slug}-on-${req.blog.handle}.${config.host}`;
+  // we persist the path of the page of the template
+  // last viewed by the user in the database
+  res.locals.preview =
+    res.locals.previewOrigin + (req.template.previewPath || "");
   next();
 });
 
@@ -35,6 +42,7 @@ TemplateEditor.route("/:templateSlug/settings")
   .all(require("./load/dates"))
   .post(
     bodyParser,
+    require("./save/previewPath"),
     function (req, res, next) {
       let body = formJSON(req.body, Template.metadataModel);
       let newLocals = body.locals;

@@ -104,6 +104,19 @@ module.exports = function (req, res, _next) {
               return callback(null, output);
             }
 
+            // We need to persist the page shown on the preview inside the
+            // template editor. To do this, we send the page viewed to the
+            // parent window (i.e. the page which embeds the preview in an
+            // iframe). If we can work out how to do this in a cross origin
+            // fashion with injecting a script, then remove this.
+            if (req.preview && viewType === "text/html") {
+              output = output
+                .split("</body>")
+                .join(
+                  "<script>window.onload = function() {window.top.postMessage('iframe:' +  window.location.pathname, '*');};</script></body>"
+                );
+            }
+
             // Only cache JavaScript and CSS if the request is not to a preview
             // subdomain and Blot's caching is turned on.
             if (
