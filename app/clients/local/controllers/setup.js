@@ -7,28 +7,45 @@ var watch = require("./watch");
 var walk = require("./util/walk");
 var hash = require("./util/hash");
 var config = require("config");
+var client = require("redis").createClient();
+var clfdate = require("helper/clfdate");
+
+// This communication channel allows us to load in and out
+// new blogs in external scripts. We send a message to this
+// channel in scripts/load/info.js
+var CHANNEL = "clients:local:new-folder";
+console.log(clfdate(), "Listening for new local folder clients");
+client.subscribe(CHANNEL);
+client.on("message", function (channel, blogID) {
+  if (channel !== CHANNEL) return;
+  init(blogID);
+});
 
 // Start listening for all blogs with this client
 if (config.environment === "development") {
   Folder.list(function (err, blogIDs) {
     if (err) console.error(err);
-    blogIDs.forEach(function (blogID) {
-      Folder.get(blogID, function (err, folder) {
-        if (err) console.error(err);
-        if (!folder) return;
-
-        if (!fs.existsSync(folder)) return;
-
-        watch(blogID, folder);
-
-        synchronize(blogID, folder, function (err) {
-          if (err) console.error(err);
-        });
-      });
-    });
+    blogIDs.forEach(init);
   });
 }
 
+function init(blogID) {
+  console.log(clfdate(), "Blog:", blogID, "Setting up local client");
+  Folder.get(blogID, function (err, folder) {
+    if (err) console.error(err);
+    if (!folder) return;
+    if (!fs.existsSync(folder)) return;
+
+    console.log(clfdate(), "Blog:", blogID, "Watching", folder);
+    watch(blogID, folder);
+
+    console.log(clfdate(), "Blog:", blogID, "Synchronizing", folder);
+    synchronize(blogID, folder, function (err) {
+      if (err) console.error(err);
+      console.log(clfdate(), "Blog:", blogID, "Set up local client");
+    });
+  });
+}
 function setup(blogID, folder, callback) {
   debug("Setting up local client in", folder);
   fs.ensureDir(folder, function (err) {

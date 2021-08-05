@@ -9,7 +9,6 @@ var os = require("os");
 var User = require("user");
 var colors = require("colors/safe");
 var exec = require("child_process").exec;
-
 var access = require("../access");
 var getFolder = require("clients/dropbox/database").get;
 var getToken = require("clients/git/database").getToken;
@@ -117,6 +116,13 @@ function setupLocal(blog, callback) {
 
   clients.local.setup(blog.id, folder, function (err) {
     if (err) return callback(err);
-    callback(null, folder);
+
+    // This tells a running server to start watching this blog
+    // folder locally without needing to restart it.
+    require("redis")
+      .createClient()
+      .publish("clients:local:new-folder", blog.id, function (err) {
+        callback(null, folder);
+      });
   });
 }
