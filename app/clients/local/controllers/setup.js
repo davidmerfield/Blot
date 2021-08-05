@@ -16,9 +16,12 @@ var clfdate = require("helper/clfdate");
 var CHANNEL = "clients:local:new-folder";
 console.log(clfdate(), "Listening for new local folder clients");
 client.subscribe(CHANNEL);
-client.on("message", function (channel, blogID) {
+client.on("message", function (channel, message) {
   if (channel !== CHANNEL) return;
-  init(blogID);
+  let { blogID, folder } = JSON.parse(message);
+  setup(blogID, folder, function (err) {
+    if (err) console.error(err);
+  });
 });
 
 // Start listening for all blogs with this client

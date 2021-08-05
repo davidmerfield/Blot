@@ -13,7 +13,6 @@ var exec = require("child_process").exec;
 var access = require("../access");
 var getFolder = require("clients/dropbox/database").get;
 var getToken = require("clients/git/database").getToken;
-var clients = require("clients");
 
 var ROOT = process.env.BLOT_DIRECTORY;
 var BLOG_FOLDERS_DIRECTORY = ROOT + "/blogs";
@@ -120,13 +119,13 @@ function setupLocal(blog, callback) {
   fs.copySync(BLOG_FOLDERS_DIRECTORY + "/" + blog.id, folder);
   fs.ensureDirSync(folder);
 
-  clients.local.setup(blog.id, folder, function (err) {
-    if (err) return callback(err);
-
-    // This tells a running server to start watching this blog
-    // folder locally without needing to restart it.
-    client.publish("clients:local:new-folder", blog.id, function (err) {
+  // This tells a running server to start watching this blog
+  // folder locally without needing to restart it.
+  client.publish(
+    "clients:local:new-folder",
+    JSON.stringify({ blogID: blog.id, folder }),
+    function (err) {
       callback(null, folder);
-    });
-  });
+    }
+  );
 }
