@@ -1,10 +1,5 @@
 Work on Diary template
 
-Tell that public share url is ready:
-- [Marcus](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTkBzdlVDmTghLnJNfBgsvwZB) 
-- [Chad](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWTHpCpZvdbmLtxMcgMpPRRxG) 
-- [Nash](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCggBFmgljcPqXScrXswlXgjfg)
-
 ---
 
 Ensure I am doing request coalescing on NGINX and lower proxy timeout limit
