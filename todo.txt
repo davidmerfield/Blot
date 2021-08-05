@@ -270,7 +270,7 @@ Add status page information to news page:
 
 Improvements to template editor
 - Add layout options to template editor for native templates
-- Work out how to make live but saveable modifications for preview purposes on the template editor
+- Work out how to make live but saveable modifications for preview purposes on the template editor. I have already established a messaging channel between preview HTML pages and the template editor with the script injected in render/middleware.
 - Add [background patterns](https://bansal.io/pattern-css#checks) to template editor tools, tell [Ish](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMsVFZBwLtkGslXZXkcxmKdvf)
 
 Work out how to cache 404s at the NGINX level
