@@ -23,7 +23,7 @@ if (require.main === module) {
   // using scripts/state/info.js
   let client = require("redis").createClient();
   client.subscribe("templates:rebuild");
-  client.on("message", function (channel, message) {
+  client.on("message", function () {
     main({}, function () {});
   });
 }
@@ -137,20 +137,26 @@ function mirror(id, callback) {
     async.eachSeries(
       ids,
       function (blogID, next) {
-        Template.drop(
-          blogID,
-          "mirror-of-" + id.slice(id.indexOf(":") + 1),
-          function (err) {
-            var template = {
-              isPublic: false,
-              cloneFrom: id,
-              name: "Mirror of " + id.slice(id.indexOf(":") + 1),
-              slug: "mirror-of-" + id.slice(id.indexOf(":") + 1),
-            };
+        let mirrorID = blogID + ":mirror-of-" + id.slice(id.indexOf(":") + 1);
+        Template.getMetadata(mirrorID, function (err, oldMirror) {
+          Template.drop(
+            blogID,
+            "mirror-of-" + id.slice(id.indexOf(":") + 1),
+            function (err) {
+              var template = {
+                isPublic: false,
+                cloneFrom: id,
+                name: "Mirror of " + id.slice(id.indexOf(":") + 1),
+                slug: "mirror-of-" + id.slice(id.indexOf(":") + 1),
+              };
 
-            Template.create(blogID, template.name, template, next);
-          }
-        );
+              if (oldMirror && oldMirror.locals)
+                template.locals = oldMirror.locals;
+
+              Template.create(blogID, template.name, template, next);
+            }
+          );
+        });
       },
       callback
     );

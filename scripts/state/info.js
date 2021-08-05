@@ -44,7 +44,7 @@ module.exports = function (callback) {
               res += `
 ${colors.yellow(blog.title || blog.handle)}  - ${colors.dim(blog.id)}
 Dashboard: ${url}
-Blog: http:// ${blog.handle}.${config.host}
+Blog: http://${blog.handle}.${config.host}
 ${folder ? "Folder: " + folder : ""}
 `;
               next();
