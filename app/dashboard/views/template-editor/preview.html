@@ -2,3 +2,43 @@
 	style="border:none;flex-grow:1;flex-basis:50%;    box-shadow:  0 -1px 1px #000;background:{{template.locals.background_color}}"
 	src="{{{preview}}}"
 ></iframe>
+<script type="text/javascript">
+function init_content_monitor() {
+    var content = document.querySelector('iframe');
+
+    // Listen to messages sent from the content iframe
+    var receiveMessage = function receiveMessage(e){
+      
+      console.log('here', e.origin, "{{{previewOrigin}}}")
+        // // Only react to messages from same domain as current document
+        if (e.origin !== "{{{previewOrigin}}}") return;
+
+        // Handle the message
+        let path = e.data.slice('iframe:'.length);
+
+var http = new XMLHttpRequest();
+var url = "{{{base}}}/previewPath";
+var params = 'previewPath=' + path;
+http.open('POST', url, true);
+
+//Send the proper header information along with the request
+http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+
+http.onreadystatechange = function() {//Call a function when the state changes.
+    if(http.readyState == 4 && http.status == 200) {
+
+        // http.responseText will be anything that the server return
+        console.log(http.responseText);
+    }
+}
+http.send(params);
+
+        console.log(path);
+            };
+    window.addEventListener("message", receiveMessage, false);
+
+  }  
+
+  init_content_monitor();
+
+</script>

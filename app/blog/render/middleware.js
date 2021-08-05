@@ -22,6 +22,7 @@ var minimize = new CleanCSS();
 
 var cacheDuration = "public, max-age=31536000";
 var JS = "application/javascript";
+var HTML = "text/html";
 var STYLE = "text/css";
 
 module.exports = function (req, res, _next) {
@@ -102,6 +103,14 @@ module.exports = function (req, res, _next) {
 
             if (callback) {
               return callback(null, output);
+            }
+
+            if (req.preview && viewType === HTML) {
+              output = output
+                .split("</body>")
+                .join(
+                  "<script>window.onload = function() {window.top.postMessage('iframe:' +  window.location.pathname, '*');};</script></body>"
+                );
             }
 
             // Only cache JavaScript and CSS if the request is not to a preview

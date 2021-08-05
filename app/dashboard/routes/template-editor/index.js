@@ -10,7 +10,10 @@ TemplateEditor.param("viewSlug", require("./load/template-view"));
 TemplateEditor.param("templateSlug", require("./load/template"));
 TemplateEditor.param("templateSlug", function (req, res, next) {
   res.locals.base = `${req.protocol}://${req.hostname}${req.baseUrl}/${req.params.templateSlug}`;
-  res.locals.preview = `https://preview-of-my-${req.template.slug}-on-${req.blog.handle}.${config.host}`;
+  res.locals.previewOrigin = `https://preview-of-my-${req.template.slug}-on-${req.blog.handle}.${config.host}`;
+  res.locals.preview = res.locals.previewOrigin;
+  if (req.template.previewPath)
+    res.locals.preview += req.template.previewPath;
   next();
 });
 
@@ -26,6 +29,22 @@ TemplateEditor.use("/:templateSlug/:section", function (req, res, next) {
   res.locals.selected = {};
   res.locals.selected[req.params.section] = "selected";
   next();
+});
+
+TemplateEditor.post("/:templateSlug/previewPath", bodyParser, function (
+  req,
+  res,
+  next
+) {
+  Template.update(
+    req.blog.id,
+    req.params.templateSlug,
+    { previewPath: req.body.previewPath },
+    function (err) {
+      if (err) return next(err);
+      res.send("Success!");
+    }
+  );
 });
 
 TemplateEditor.route("/:templateSlug/settings")
@@ -139,7 +158,7 @@ TemplateEditor.route("/:templateSlug/share")
     res.locals.partials.yield = "template-editor/share";
     res.locals.partials.sidebar = "template-editor/settings-sidebar";
     res.locals.title = `Share - ${req.template.name}`;
-    res.locals.shareURL = `${config.protocol}${config.host}/settings/template/share/${res.locals.template.shareID}`
+    res.locals.shareURL = `${config.protocol}${config.host}/settings/template/share/${res.locals.template.shareID}`;
     res.render("template-editor/layout");
   })
   .post(bodyParser, function (req, res, next) {
