@@ -22,7 +22,6 @@ var minimize = new CleanCSS();
 
 var cacheDuration = "public, max-age=31536000";
 var JS = "application/javascript";
-var HTML = "text/html";
 var STYLE = "text/css";
 
 module.exports = function (req, res, _next) {
@@ -105,7 +104,12 @@ module.exports = function (req, res, _next) {
               return callback(null, output);
             }
 
-            if (req.preview && viewType === HTML) {
+            // We need to persist the page shown on the preview inside the
+            // template editor. To do this, we send the page viewed to the
+            // parent window (i.e. the page which embeds the preview in an
+            // iframe). If we can work out how to do this in a cross origin
+            // fashion with injecting a script, then remove this.
+            if (req.preview && viewType === "text/html") {
               output = output
                 .split("</body>")
                 .join(
