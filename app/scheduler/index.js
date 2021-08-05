@@ -7,6 +7,7 @@ var clfdate = require("helper/clfdate");
 var warmCache = require("./warmCache");
 var schedule = require("node-schedule").scheduleJob;
 var checkFeatuedSites = require("../brochure/routes/featured/check");
+var config = require("config");
 var publishScheduledEntries = require("./publish-scheduled-entries");
 const os = require("os");
 const fs = require("fs-extra");
@@ -21,8 +22,13 @@ module.exports = function () {
       stdout
     ) {
       if (err || !stdout) return;
-      console.log(clfdate(), "[STATS]", "top");
-      console.log(stdout);
+
+      if (config.environment === "development") {
+        // this is annoying in development
+      } else {
+        console.log(clfdate(), "[STATS]", "top");
+        console.log(stdout);
+      }
     });
 
     // Print cpu and memory information
