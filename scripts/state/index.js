@@ -6,11 +6,25 @@ var moment = require("moment");
 var colors = require("colors/safe");
 
 if (require.main === module && !process.argv[2]) list(process.exit);
-else
+else {
+  var old_stdout_write = process.stdout.write;
+  var old_stderr_write = process.stderr.write;
+
+  process.stdout.write = function () {};
+  process.stderr.write = function () {};
+
   require("./load")(process.argv[2], function (err) {
-    if (err) throw err;
-    process.exit();
+    require("./info")(function (err, res) {
+      if (err) throw err;
+
+      process.stdout.write = old_stdout_write;
+      process.stderr.write = old_stderr_write;
+
+      console.log(res);
+      process.exit();
+    });
   });
+}
 
 function list(callback) {
   console.log(colors.dim("Help:"));

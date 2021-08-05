@@ -25,9 +25,11 @@ module.exports = function (callback) {
   Blog.getAllIDs(function (err, ids) {
     if (err) return callback(err);
 
+    let res = "";
+
     if (ids && ids.length > 10) {
-      console.log("Too many blogs to log in");
-      return callback();
+      res += colors.red("Too many blogs to log in");
+      return callback(null, res);
     }
 
     async.eachSeries(
@@ -40,21 +42,20 @@ module.exports = function (callback) {
             if (err) return next(err);
 
             setupFolder(blog, function (err, folder) {
-              console.log();
-              console.log(
-                colors.yellow(blog.title || blog.handle),
-                "-",
-                colors.dim(blog.id)
-              );
-              console.log("Dashboard:", url);
-              console.log("Blog:", "http://" + blog.handle + "." + config.host);
-              if (folder) console.log("Folder:", folder);
+              res += `
+${colors.yellow(blog.title || blog.handle)}  - ${colors.dim(blog.id)}
+Dashboard: ${url}
+Blog: http:// ${blog.handle}.${config.host}
+${folder ? "Folder: " + folder : ""}
+`;
               next();
             });
           });
         });
       },
-      callback
+      function (err) {
+        callback(err, res);
+      }
     );
   });
 };
