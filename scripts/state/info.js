@@ -1,5 +1,6 @@
 require("../only_locally");
 
+var client = require("redis").createClient();
 var config = require("config");
 var Blog = require("blog");
 var async = require("async");
@@ -53,7 +54,12 @@ ${folder ? "Folder: " + folder : ""}
         });
       },
       function (err) {
-        callback(err, res);
+        if (err) return callback(err, res);
+        // Signal to the process in app/templates/index to rebuild
+        // any templates since they might be out of date in this state
+        client.publish("templates:rebuild", "Go!", function (err) {
+          callback(err, res);
+        });
       }
     );
   });
@@ -119,10 +125,8 @@ function setupLocal(blog, callback) {
 
     // This tells a running server to start watching this blog
     // folder locally without needing to restart it.
-    require("redis")
-      .createClient()
-      .publish("clients:local:new-folder", blog.id, function (err) {
-        callback(null, folder);
-      });
+    client.publish("clients:local:new-folder", blog.id, function (err) {
+      callback(null, folder);
+    });
   });
 }

@@ -18,6 +18,14 @@ if (require.main === module) {
     if (err) throw err;
     process.exit();
   });
+
+  // Rebuilds templates when we load new states
+  // using scripts/state/info.js
+  let client = require("redis").createClient();
+  client.subscribe("templates:rebuild");
+  client.on("message", function (channel, message) {
+    main({}, function () {});
+  });
 }
 
 function main(options, callback) {
