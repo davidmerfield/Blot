@@ -1,4 +1,11 @@
-Work on Diary template
+Improvements to longform-text template (Diary):
+- August 9th 
+   - Ensure that color options for custom Diary template work seamlessly 
+   - Ensure that font-size options work seamlessly
+- August 13th 
+  -  Add header location and alignment options
+- Sept 1st  
+  - Add index page content options (grid, summary, full post)
 
 ---
 
