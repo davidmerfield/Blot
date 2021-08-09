@@ -1,6 +1,4 @@
 Improvements to longform-text template (Diary):
-- August 9th 
-   - Ensure that font-size options work seamlessly
 - August 13th 
   -  Add header location and alignment options
 - Sept 1st  
