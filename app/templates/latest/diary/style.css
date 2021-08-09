@@ -10,13 +10,16 @@ to load which font is selected as the main body font */
 to load which font is selected as the main body font */
 {{{coding_font.styles}}}
 
-body {
+html {
   {{#body_font}}
   font-family: {{{stack}}};
   font-size: {{{font_size}}}px;
   line-height: {{{line_height}}};
   {{/body_font}}
   text-rendering: optimizeLegibility;
+}
+
+body {
   color: {{text_color}};
   background: {{background_color}};
   word-wrap: break-word;
@@ -27,7 +30,7 @@ body {
 .clear {width: 100%;clear: both;float: none;display: block;height: 0}
 
 .small,
-.caption {font-size: 13px;color: {{text_color}};font-weight: 500;opacity:0.5}
+.caption {font-size: .8125rem;color: {{text_color}};font-weight: 500;opacity:0.5}
 
 .caption {
   line-height: 18px;
@@ -66,13 +69,13 @@ div.header {padding: 1.4rem;display: flex;align-items:baseline;position: sticky;
   width: 29.3333%;
 }
 
-.margin blockquote {margin: 3px 0;padding: 3px 6px;font-size: 14px;line-height:18px;}
+.margin blockquote {margin: 3px 0;padding: 3px 6px;font-size: .875rem;line-height:18px;}
 .margin blockquote p {margin: 0}
 
 .margin img,
 .column img {margin-top: 6px}
 
-.margin p {font-style: italic;font-size: 0.9em;margin-top: 0}
+.margin p {font-style: italic;font-size: 0.9rem;margin-top: 0}
 .column p {margin-top: 0}
 .margin h1, .margin h2, .margin h3 {margin-top:0}
 
@@ -135,9 +138,9 @@ p, li {
   margin: 24px 0;
 }
 
-h1 {font-size: 25px;line-height: 36px;font-weight: bold;margin-bottom: 24px}
+h1 {font-size: 1.5625rem;line-height: 36px;font-weight: bold;margin-bottom: 24px}
 
-h2, h3, h4, h5, h6 {font-size: 17px;font-weight: bold;line-height: 24px;margin: 48px 0 24px}
+h2, h3, h4, h5, h6 {font-size: 1.0625rem;font-weight: bold;line-height: 24px;margin: 48px 0 24px}
 
 blockquote {
   padding: 0 0 0 12px;
@@ -151,7 +154,7 @@ li .small-caps {
   font-family: "Georgia Pro SC";
 }*/
 
-big {color: {{text_color}};font-size: 32px;line-height: 48px;display: block;}
+big {color: {{text_color}};font-size: 2rem;line-height: 48px;display: block;}
 
 /* LINKS */
 
@@ -189,7 +192,7 @@ hr {width: 100%;opacity:0.1;margin: 24px auto -1px;border: none;border-bottom: 3
 code {
   font-family: {{{coding_font.stack}}};
   margin: 0;
-  font-size: 85%;
+  font-size: 0.85rem;
   background: rgba(0,0,0,.03);
   border-radius: 3px;
   line-height: 24px;
@@ -226,7 +229,7 @@ table {
   border-collapse: collapse;
   border-spacing: 0;
   box-sizing: border-box;
-  font-size: 15px;
+  font-size: .9375rem;
   line-height: 24px;
 }
 
@@ -282,7 +285,7 @@ iframe {width: 100%;}
 
 /* MATH */
 
-.katex  {font-size: 1.05em;}
+.katex  {font-size: 1.05rem;}
 
 
 
@@ -299,7 +302,7 @@ iframe {width: 100%;}
 #logo img:active {margin-top: 1px}
 
 /* Nav links are underlined which affects their optical lineheight */
-div.header a {margin-right: 1rem;font-size: 15px;color: {{text_color}};text-decoration: none}
+div.header a {margin-right: 1rem;font-size: .9375rem;color: {{text_color}};text-decoration: none}
 div.header a:hover {text-decoration: underline;}
 div.header .tags a {opacity: 1.0}
 div.header .nav a {opacity: 0.4}
@@ -338,7 +341,7 @@ a.feed:hover,
 a.search:hover {opacity: 1}
 
 input#search {
-  font-size: 1.2em;
+  font-size: 1.2rem;
   padding: .5em 1em .5em 2.3em;
   background: url('data:image/svg+xml;utf8,<svg id="icon-search" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 8 8" xml:space="preserve"><path fill="{{#encodeURIComponent}}{{text_color}}{{/encodeURIComponent}}" id="search" d="M7.99,6.928L5.847,4.784c0.289-0.476,0.458-1.033,0.458-1.63C6.305,1.412,4.895,0,3.152,0 C1.411,0,0,1.412,0,3.154c0,1.741,1.412,3.151,3.153,3.151c0.597,0,1.154-0.169,1.63-0.458l2.145,2.146L7.99,6.928z M1.203,3.154 c0.002-1.077,0.874-1.949,1.951-1.951c1.076,0.002,1.948,0.874,1.949,1.951C5.101,4.23,4.229,5.103,3.153,5.103 C2.075,5.103,1.205,4.23,1.203,3.154z"/></svg>') 1em center/0.8em no-repeat;
   border-radius: 3em;
@@ -396,7 +399,7 @@ input#search:focus {
 .pagination {
   text-align: center;
   margin: 72px 0 144px;
-  font-size: 14px;color: {{text_color}};opacity:0.5
+  font-size: .875rem;color: {{text_color}};opacity:0.5
 }
 
 .pagination a {margin: 0 1em;background: none}
@@ -404,7 +407,7 @@ input#search:focus {
 .previousEntry,
 .nextEntry {
   text-decoration: none;
-  font-size: 0.88em;
+  font-size: 0.88rem;
   line-height: 1.33em;
   width: 48%;
   margin: 1em 0 6em 2%;
@@ -416,12 +419,12 @@ input#search:focus {
 .previousEntry {margin: 1em 2% 6em 0;}
 
 .adjacent a h5 {margin-bottom: 3px;color: {{text_color}}}
-.adjacent a .summary {color: {{text_color}};font-size: 13px;line-height: 17px;opacity:0.6}
+.adjacent a .summary {color: {{text_color}};font-size: .8125rem;line-height: 17px;opacity:0.6}
 
 .previousEntry .title,
 .nextEntry .title {
   display: block;
-  font-size: 1.156em;
+  font-size: 1.156rem;
   line-height: 20px;
   margin-bottom: 3px
 }
