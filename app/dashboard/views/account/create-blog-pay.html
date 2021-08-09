@@ -1,12 +1,13 @@
-<form method="post"> 
+<form method="post" class="account"> 
   <input type="hidden" name="_csrf" value="{{csrftoken}}">
   <input type="hidden" name="timeZone" value="">  
   <div style="max-width:440px">
-      <p>Each blog costs <span style="color: #111;
-    background: #fff0a8;">{{price}} per {{interval}}</span>. Each blog is independent:
+      <p><!-- Each blog costs <span style="color: #111;
+    background: #fff0a8;">{{price}} per {{interval}}</span>.  --> {{^monthly}}If you create another today, you will be charged {{now}} to cover its cost until your next bill on <b>{{user.pretty.expiry}}</b>.{{/monthly}}{{#monthly}}If you create another blog, your next bill on <b>{{user.pretty.expiry}}</b> will increase by {{price}}.{{/monthly}}</p>
+    <p>Each blog is independent:
   you could use Dropbox with one and Git with another. Your blogs can use the
-  same Dropbox account, or different accounts. {{^monthly}}If you create another today, you will be charged {{now}} to cover its cost until your next bill on <b>{{user.pretty.expiry}}</b>.{{/monthly}}{{#monthly}}If you create another blog, your next bill on <b>{{user.pretty.expiry}}</b> will increase by {{price}}.{{/monthly}}</p>
-    <div  style="max-width:20rem;margin-top:2.5rem">
+  same Dropbox account, or different accounts.</p>
+    <div  style="margin-top:2.5rem">
       {{^monthly}}
       <hr style="margin:0 0 1rem">
     <div style="display:flex;">
@@ -18,5 +19,5 @@
     <button type="submit" onclick="this.form.submit();this.disabled=true">{{#monthly}}Create blog{{/monthly}}{{^monthly}}Submit payment{{/monthly}}</button>
     <a href="/">Cancel</a>
   </div>
-</div>
+</div></div>
 </form>

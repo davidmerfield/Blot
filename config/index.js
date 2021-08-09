@@ -1,22 +1,50 @@
+const BLOT_DIRECTORY =
+  process.env.BLOT_DIRECTORY || require("path").resolve(__dirname + "/../");
+const BLOT_HOST = process.env.BLOT_HOST || "localhost";
+const BLOT_PROTOCOL = process.env.BLOT_PROTOCOL || "http";
+const BLOT_PORT = process.env.BLOT_PORT || "8080";
+
+let BLOT_CDN;
+
+if (process.env.NODE_ENV === "production") {
+  BLOT_CDN = BLOT_PROTOCOL + "://blotcdn.com";
+} else if (BLOT_HOST === "localhost") {
+  BLOT_CDN = BLOT_PROTOCOL + "://" + BLOT_HOST + ":" + BLOT_PORT + "/cdn";
+} else {
+  BLOT_CDN = BLOT_PROTOCOL + "://" + BLOT_HOST + "/cdn";
+}
+
 module.exports = {
   // codebase expects either 'production' or 'development'
-  environment: process.env.NODE_ENV === 'production' ? 'production' : 'development',
-  host: process.env.BLOT_HOST,
-  protocol: process.env.BLOT_PROTOCOL + "://",
+  environment:
+    process.env.NODE_ENV === "production" ? "production" : "development",
+  host: BLOT_HOST,
+  protocol: BLOT_PROTOCOL + "://",
+  pidfile: BLOT_DIRECTORY + "/data/process.pid",
 
   maintenance: process.env.BLOT_MAINTENANCE === "true",
   cache: process.env.BLOT_CACHE === "true",
   debug: process.env.BLOT_DEBUG === "true",
 
-  blog_static_files_dir: process.env.BLOT_DIRECTORY + "/static",
-  blog_folder_dir: process.env.BLOT_DIRECTORY + "/blogs",
-  cache_directory: process.env.BLOT_CACHE_DIRECTORY,
+  blot_directory: BLOT_DIRECTORY,
+  blog_static_files_dir: BLOT_DIRECTORY + "/static",
+  blog_folder_dir: BLOT_DIRECTORY + "/blogs",
+  cache_directory:
+    process.env.BLOT_CACHE_DIRECTORY || BLOT_DIRECTORY + "/cache",
 
   ip: process.env.BLOT_IP || "127.0.0.1",
 
-  port: 8080,
+  port: BLOT_PORT,
 
   redis: { port: 6379 },
+
+  postgres: {
+    user: process.env.BLOT_POSTGRES_USER,
+    host: process.env.BLOT_POSTGRES_HOST,
+    database: process.env.BLOT_POSTGRES_DB,
+    password: process.env.BLOT_POSTGRES_PASSWORD,
+    port: process.env.BLOT_POSTGRES_PORT,
+  },
 
   admin: {
     uid: process.env.BLOT_ADMIN_UID,
@@ -38,11 +66,11 @@ module.exports = {
     key: process.env.BLOT_STRIPE_KEY,
     secret: process.env.BLOT_STRIPE_SECRET,
     // Ensure that each monthly plan has a corresponding
-    // annual plan, and vice versa, and that these IDs 
-    // correspond to plans on Stripe in both live and 
+    // annual plan, and vice versa, and that these IDs
+    // correspond to plans on Stripe in both live and
     // test modes when you change Blot's price.
     plan: "monthly_4",
-    
+
     plan_map: {
       yearly_30: "monthly_3",
       monthly_3: "yearly_30",
@@ -55,15 +83,14 @@ module.exports = {
     },
   },
 
-  pandoc_path: process.env.BLOT_PANDOC_PATH,
+  pandoc: {
+    bin: process.env.BLOT_PANDOC_PATH,
+    maxmemory: "250M", // 250mb
+    timeout: 5000, // 5s
+  },
 
   cdn: {
-    bucket: "blot-blogs",
-    host: "blotcdn.com",
-    origin:
-      process.env.BLOT_ENVIRONMENT === "production"
-        ? process.env.BLOT_PROTOCOL + "://blotcdn.com"
-        : "https://" + process.env.BLOT_HOST + "/cdn",
+    origin: BLOT_CDN,
   },
 
   session: {
@@ -85,16 +112,8 @@ module.exports = {
     from: "David Merfield <david@blot.im>",
   },
 
-  s3: {
-    buckets: {
-      dump: "blot-dump",
-      blogs: "blot-blogs",
-      backups: "blot-backups",
-    },
-  },
-
   backup: {
-    bucket: "blot-backups",
+    bucket: "blot-daily-backups",
     password: process.env.BLOT_BACKUP_SECRET,
   },
 

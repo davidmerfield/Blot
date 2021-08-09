@@ -39,7 +39,7 @@ console.log("");
 console.log("Finished output_directory:", output_directory);
 
 function walk(input_directory) {
-  fs.readdirSync(input_directory).forEach(function(item) {
+  fs.readdirSync(input_directory).forEach(function (item) {
     if (fs.statSync(input_directory + "/" + item).isDirectory())
       return walk(input_directory + "/" + item);
 
@@ -63,7 +63,7 @@ function fix_text_file(path) {
   var $ = require("cheerio").load(require("marked")(post));
   var urls = [];
 
-  $("[src], [href]").each(function(url, host, parsed, pathToImage, exists) {
+  $("[src], [href]").each(function (url, host, parsed, pathToImage, exists) {
     url = $(this).attr("src") || $(this).attr("href");
     parsed = require("url").parse(url);
     host = parsed.host;
@@ -119,7 +119,7 @@ function fix_text_file(path) {
     // console.log("Path with assets", pathWithAssets);
     // console.log("Folder with assets", folderWithAssets);
 
-    urls.forEach(function(item) {
+    urls.forEach(function (item) {
       post = post.split(item.url).join(item.filename);
     });
 

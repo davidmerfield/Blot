@@ -2,6 +2,7 @@ var config = require("config");
 var async = require("async");
 var stripe = require("stripe")(config.stripe.secret);
 var User = require("user");
+var prettyPrice = require("helper/prettyPrice");
 var Express = require("express");
 var PaySubscription = new Express.Router();
 
@@ -18,10 +19,10 @@ PaySubscription.route("/")
   // re-open their account, so work that out before rendering
   // the payment form on the dashboard.
   .get(listUnpaidInvoices)
-  .get(function(req, res) {
+  .get(function (req, res) {
     res.render("account/pay-subscription", {
       stripe_key: config.stripe.key,
-      title: "Restart subscription"
+      title: "Restart subscription",
     });
   })
 
@@ -30,7 +31,7 @@ PaySubscription.route("/")
   .post(updateCard)
   .post(payUnpaidInvoices)
   .post(updateSubscription)
-  .post(function(req, res) {
+  .post(function (req, res) {
     res.message("/", "Payment recieved, thank you!");
   });
 
@@ -50,12 +51,12 @@ function checkCustomer(req, res, next) {
 }
 
 function listUnpaidInvoices(req, res, next) {
-  stripe.invoices.list({ customer: req.customer }, function(err, invoices) {
+  stripe.invoices.list({ customer: req.customer }, function (err, invoices) {
     if (err) return next(err);
 
     res.locals.amountDue = 0;
 
-    invoices.data.forEach(function(invoice) {
+    invoices.data.forEach(function (invoice) {
       if (invoice.paid === false) res.locals.amountDue += invoice.amount_due;
     });
 
@@ -63,7 +64,7 @@ function listUnpaidInvoices(req, res, next) {
       return res.message("/", "Thank you, your account is in good standing!");
     }
 
-    res.locals.amountDue = require("helper").prettyPrice(res.locals.amountDue);
+    res.locals.amountDue = prettyPrice(res.locals.amountDue);
 
     next();
   });
@@ -78,12 +79,12 @@ function updateCard(req, res, next) {
 }
 
 function payUnpaidInvoices(req, res, next) {
-  stripe.invoices.list({ customer: req.customer }, function(err, invoices) {
+  stripe.invoices.list({ customer: req.customer }, function (err, invoices) {
     if (err) return next(err);
 
     async.each(
       invoices.data,
-      function(invoice, nextInvoice) {
+      function (invoice, nextInvoice) {
         if (invoice.paid) return nextInvoice();
 
         // You can only pay an invoice once
@@ -98,12 +99,12 @@ function updateSubscription(req, res, next) {
   stripe.customers.retrieveSubscription(
     req.user.subscription.customer,
     req.user.subscription.id,
-    function(err, subscription) {
+    function (err, subscription) {
       if (err) return next(err);
 
       if (!subscription) return next(new Error("No subscription"));
 
-      User.set(req.user.uid, { subscription: subscription }, function(err) {
+      User.set(req.user.uid, { subscription: subscription }, function (err) {
         if (err) return next(err);
 
         next();

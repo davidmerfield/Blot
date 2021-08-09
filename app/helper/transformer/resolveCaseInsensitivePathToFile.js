@@ -25,7 +25,7 @@ function resolveCaseInsensitivePathToFile(cwd, path, callback) {
     if (err) return callback(err);
     var exactMatch;
 
-    contents = contents.filter(function(item) {
+    contents = contents.filter(function (item) {
       if (item === name) {
         exactMatch = item;
         return false;

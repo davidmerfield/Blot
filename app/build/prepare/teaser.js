@@ -13,12 +13,12 @@ var breakPoints = [
   "<<more>>",
   "<!-- more -->",
   "<!- more ->",
-  "<!— more —>"
+  "<!— more —>",
 ];
 var charMap = {
   "<": "&lt;",
   ">": "&gt;",
-  "-": "&#x2014;"
+  "-": "&#x2014;",
 };
 
 for (var x in breakPoints) {
@@ -44,16 +44,14 @@ function removeNextSiblings(node, $) {
   }
 
   // Back up...
-  $(node)
-    .nextAll()
-    .remove();
+  $(node).nextAll().remove();
 }
 
 function makeTeaser(html) {
   debug("loading HTML");
 
   var $ = cheerio.load(html, {
-    decodeEntities: false
+    decodeEntities: false,
   });
 
   debug("loaded HTML");
@@ -76,11 +74,7 @@ function makeTeaser(html) {
   root.contents().each(function doLook(i, node) {
     // WE NEED TO IGNORE CERTAIN NODES NOW
     // E.G. CODE, PRE, STYLE
-    if (
-      $(this)
-        .parents()
-        .filter("code, head, pre, script, style").length
-    ) {
+    if ($(this).parents().filter("code, head, pre, script, style").length) {
       debug("should skip this tag");
       return;
     }
@@ -129,9 +123,7 @@ function makeTeaser(html) {
       // We didn't find a breakpoint yet so recurse down each child...
     } else if ($(this).contents() && $(this).contents().length) {
       debug("going deeper");
-      $(this)
-        .contents()
-        .each(doLook);
+      $(this).contents().each(doLook);
     }
   });
 
@@ -145,7 +137,7 @@ function makeTeaser(html) {
 
     // Remove everything after the third node
     // remember i is zero indexed...
-    root.contents().each(function() {
+    root.contents().each(function () {
       if (index > MAXCHILDREN) return $(this).remove();
 
       if (invisible.indexOf(this.name) > -1) return;

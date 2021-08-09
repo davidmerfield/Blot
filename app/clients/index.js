@@ -1,6 +1,6 @@
 var client;
 var config = require("config");
-var ensure = require("helper").ensure;
+var ensure = require("helper/ensure");
 
 // Register new clients here
 var clients = {
@@ -8,6 +8,17 @@ var clients = {
   git: require("./git"),
   "google-drive": require("./google-drive"),
 };
+
+// If we have specified the required 
+// configuration to run the Dropbox app
+if (
+  config.dropbox.app.key &&
+  config.dropbox.app.secret &&
+  config.dropbox.full.key &&
+  config.dropbox.full.secret
+) {
+  clients.dropbox = require("./dropbox");
+}
 
 // Demo local client
 if (config.environment === "development") {

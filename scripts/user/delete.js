@@ -1,5 +1,5 @@
 var config = require("config");
-var Delete = require("../../app/dashboard/routes/account/delete");
+var Delete = require("dashboard/routes/account/delete");
 var get = require("../get/user");
 var yesno = require("yesno");
 var colors = require("colors");
@@ -11,21 +11,21 @@ var moment = require("moment");
 if (!process.argv[2]) {
   console.log("Searching for disabled users to delete");
   each(
-    function(user, next) {
+    function (user, next) {
       if (!user.isDisabled) return next();
 
       main(user, next);
     },
-    function(err) {
+    function (err) {
       if (err) throw err;
       console.log("Search complete!");
       process.exit();
     }
   );
 } else {
-  get(process.argv[2], function(err, user) {
+  get(process.argv[2], function (err, user) {
     if (err) throw err;
-    main(user, function(err) {
+    main(user, function (err) {
       if (err) throw err;
       process.exit();
     });
@@ -35,13 +35,13 @@ if (!process.argv[2]) {
 function main(user, callback) {
   async.map(
     user.blogs,
-    function(blogID, next) {
+    function (blogID, next) {
       Blog.get({ id: blogID }, next);
     },
-    function(err, blogs) {
+    function (err, blogs) {
       if (err) return callback(err);
       var message = [
-        "Do you want to delete account " + colors.red(user.email) + "?"
+        "Do you want to delete account " + colors.red(user.email) + "?",
       ];
 
       if (user.isDisabled) {
@@ -61,7 +61,7 @@ function main(user, callback) {
       }
 
       if (blogs.length) {
-        blogs.forEach(function(blog) {
+        blogs.forEach(function (blog) {
           message.push(
             "- Will delete blog " +
               colors.red(blog.title) +
@@ -81,7 +81,7 @@ function main(user, callback) {
         message.push("- No blogs to delete");
       }
 
-      yesno.ask(message.join("\n"), true, function(yes) {
+      yesno.ask(message.join("\n"), true, function (yes) {
         if (!yes) {
           console.log("\nDid not delete " + user.email);
           return callback();
@@ -94,11 +94,11 @@ function main(user, callback) {
           async.reflectAll([
             Delete.exports.blogs,
             Delete.exports.subscription,
-            Delete.exports.user
+            Delete.exports.user,
           ]),
           req,
           res,
-          function(err, results) {
+          function (err, results) {
             if (err) return callback(err);
             console.log();
 
@@ -127,7 +127,7 @@ function main(user, callback) {
             }
 
             if (
-              results.slice(2).filter(function(i) {
+              results.slice(2).filter(function (i) {
                 return !!i.error;
               }).length
             ) {

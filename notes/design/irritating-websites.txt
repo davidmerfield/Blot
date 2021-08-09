@@ -1,25 +1,26 @@
 # Irritating websites
 
-Each day I do battle with a number of websites, often designed by huge teams of competent people who have sadly produced websites that upset me, even slightly. All of these irritants directly affected the [design of the templates](/notes/design/templates) for Blot.
+I am often annoyed when I browse the internet. This annoyance is part of what motivates me to improve Blot. Here are a few things that commonly upset me about website:
 
 ## When the layout changes as the page loads
 
-I dislike when the layout of the page shifts around as it loads, especially when the page takes a long time to load. It upsets me when I try to click on a link, only for the page layout to shift under your finger as an image off the screen finally makes its way down the pipes. Common remedies to your website's shifting layout: 
-- specify the width and height of images in your site's HTML markup, meaning the browser has to adjust the layout of the page as it determines the dimensions of the loaded image. The solution is to work out the width and height of images on the server, and deliver the HTML to the browser with this information. You can use a different strategy for [responsive images](/notes/programming/responsive-images) to achieve the same result: as the image loads, the layout remains the same.
-- block out the space required by content loaded after your page has been rendered. You can almost always determine in advance the aspect ratio of advertising inserts or embedded media.
+I dislike when the layout of the page shifts around as it loads. It upsets me when I try to click on a link, only for the page layout to shift under my finger as an image off the screen finally loads. The fix for this problem is easy: block out the space required by content loaded after your page has been rendered. You can almost always determine in advance the aspect ratio of advertising inserts or embedded media. For example, specify the width and height of images in your site's HTML markup. This means the browser doesn't need to adjust the layout of the page as it determines the dimensions of the loaded image. The solution is to work out the width and height of images on the server, and deliver the HTML to the browser with this information. You can use a different strategy for [responsive images](/about/notes/programming/responsive-images) to achieve the same result: as the image loads, the layout remains the same.
 
 ## When the text is hard to read
 
-I firmly believe that when you design a webpage, you should start with a paragraph of text and work outwards. There are a number of errors that are easily avoided if you just start with a single paragraph: select an appropriate typeface, then work out according to your own eye the measure and leading that suits the combination of text and the typeface.
+When you design a website, you should start with a paragraph of text and work outwards. There are a number of errors that are easily avoided if you just start with a single paragraph: select an appropriate typeface, then work out the measure and leading that suits the combination of text and the typeface. This can all be done according to your own eye.
 
-## When the page is obscured
+## When part of the page is obscured
 
-My screen is small enough as it is, I do not want it further reduced by sticky headers and footers, by forms cajoling me into signing up for a newsletter. None of these improve the reading experience and only irritate me.
+My screen is small enough as it is, I do not want it further reduced by sticky headers and footers. None of these improve the reading experience and only irritate me.
+
+## When the page tries to cajole me into stuff
+
+No, I probably don't want to subscribe to your newsletter. No, I don't want this, or that. I just want to read your webpage and get on with my life.
 
 ## When the page takes a long time to load
 
-I dislike when the page takes a long time to load. 
-
+`
 ## When there is advertising
 
-It is ugly and cheapening.
+It is ugly.

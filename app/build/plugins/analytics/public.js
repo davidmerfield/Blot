@@ -76,5 +76,15 @@ fathom('trackPageview');
     s.parentNode.insertBefore(pa, s);
 })(); 
 {{/plugins.analytics.options.provider.Plausible}}
-
+{{#plugins.analytics.options.provider.Cloudflare}}
+(function () {
+    var pa = document.createElement('script');
+    pa.type = 'text/javascript';
+    pa.defer = true;
+    pa.setAttribute("data-cf-beacon", "{'token': '{{plugins.analytics.options.trackingID}}'}");
+    pa.src = 'https://static.cloudflareinsights.com/beacon.min.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(pa, s);
+})(); 
+{{/plugins.analytics.options.provider.Cloudflare}}
 }

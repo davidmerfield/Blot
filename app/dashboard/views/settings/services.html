@@ -3,18 +3,15 @@
 
   <a class="line" href="/settings/services/date">
     <span class="label">Date and time</span>
-    <span class="center">{{^blog.hideDates}}{{#displayFormats}}{{#selected}}{{date}}{{/selected}}{{/displayFormats}}{{/blog.hideDates}}
-      {{#blog.hideDates}}<i>Dates are hidden</i>{{/blog.hideDates}}</span>
-    <span class="right">Change</span>
+    <span class="center">{{currentTime}}</span>
   </a>
 
   <a class="line" href="/settings/services/permalinks">
-    <span class="label">URL format</span>
+    <span class="label">Link format</span>
     <span class="center">
       {{#permalinkFormats}}
       {{#checked}}{{example}}{{/checked}}{{/permalinkFormats}}
     </span>
-    <span class="right link">Change</span>
   </a>
 
 
@@ -141,18 +138,18 @@
     $('.plugin > label input[type=checkbox]').click(function() {
       $(this).parent().parent().parent().toggleClass('checked')
     });
-  // Simple Analytics doesn't require a tracking ID
-  if ($('#selectAnalytics').val() !== 'None' && ['SimpleAnalytics', 'Plausible'].indexOf($('#selectAnalytics').val()) === -1) {
-    $('#trackingIdInput').show();
-  } else {
-    $('#trackingIdInput').hide();
-  }
+  // Simple Analytics and Plausible don't require a tracking ID
   $('#selectAnalytics').change(function() {
     if ($(this).val() !== 'None' && ['SimpleAnalytics', 'Plausible'].indexOf($(this).val()) === -1) {
+      // Cloudflare requires Token rather than Tracking ID
+      if ($(this).val() == 'Cloudflare') { $('#trackingIdInput span').text("Token:"); }
+      else { $('#trackingIdInput span').text("Tracking ID:"); }
       $('#trackingIdInput').show();
     } else {
       $('#trackingIdInput').hide();
     }
   });
+  // Trigger change event for correct state on page load
+  $('#selectAnalytics').trigger("change");
   </script>
 </div>

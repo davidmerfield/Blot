@@ -1,6 +1,6 @@
-var client = require("../../app/models/client");
-var redisKeys = require("helper").redisKeys;
-var Blog = require("../../app/models/blog");
+var client = require("models/client");
+var redisKeys = require("helper/redisKeys");
+var Blog = require("models/blog");
 var async = require("async");
 
 if (Blog.key.ids !== "blogs")
@@ -8,13 +8,13 @@ if (Blog.key.ids !== "blogs")
 
 // keys is safe to run in production, I rewrote
 // the SSCAN method so it works like KEYS
-redisKeys("blog:*:info", function(err, keys) {
+redisKeys("blog:*:info", function (err, keys) {
   if (err) throw err;
 
   async.each(
     keys,
-    function(key, next) {
-      client.HGETALL(key, function(err, blog) {
+    function (key, next) {
+      client.HGETALL(key, function (err, blog) {
         if (err) {
           console.log("ERROR hgetall", key, err);
           return next();
@@ -30,7 +30,7 @@ redisKeys("blog:*:info", function(err, keys) {
             new Error("ID mismatch: " + key + " and blog.id " + blog.id)
           );
 
-        client.SISMEMBER(Blog.key.ids, blog.id, function(err, member) {
+        client.SISMEMBER(Blog.key.ids, blog.id, function (err, member) {
           if (err) return next(err);
 
           if (member) {
@@ -42,10 +42,10 @@ redisKeys("blog:*:info", function(err, keys) {
         });
       });
     },
-    function(err) {
+    function (err) {
       if (err) throw err;
 
-      client.smembers(Blog.key.ids, function(err, members) {
+      client.smembers(Blog.key.ids, function (err, members) {
         if (err) throw err;
         console.log(
           "Done! blog:*:info keys: " +

@@ -112,7 +112,7 @@ function formJSON(fields, model) {
       // console.log(i);
 
       if (type(model[i]) === "array") {
-        obj[i] = arrayify(obj[i], function(item) {
+        obj[i] = arrayify(obj[i], function (item) {
           // arrayidy adds cruft like the name property
           // make sure we remove anything thats not in the
           // model definition for this item
@@ -168,7 +168,7 @@ function unitTests() {
     "foo.baz": 1,
     "foo.bar": 2,
     "foo.bat.cat": 3,
-    "foo.bat.bar": 4
+    "foo.bat.bar": 4,
   };
 
   var model1 = {
@@ -177,9 +177,9 @@ function unitTests() {
       bar: "number",
       bat: {
         cat: "number",
-        bar: "string"
-      }
-    }
+        bar: "string",
+      },
+    },
   };
 
   var result1 = {
@@ -188,9 +188,9 @@ function unitTests() {
       bar: 2,
       bat: {
         cat: 3,
-        bar: "4"
-      }
-    }
+        bar: "4",
+      },
+    },
   };
 
   // assert.deepEqual(formJSON(field1, model1), result1);
@@ -201,22 +201,22 @@ function unitTests() {
     "foo.bar.1.id": "1",
     "foo.bar.2.title": "OK",
     "foo.bar.2.url": "GO",
-    "foo.bar.2.id": "2"
+    "foo.bar.2.id": "2",
   };
 
   var model2 = {
     foo: {
-      bar: [{ id: "string", title: "string", url: "string" }]
-    }
+      bar: [{ id: "string", title: "string", url: "string" }],
+    },
   };
 
   var expected2 = {
     foo: {
       bar: [
         { title: "Hello", url: "Bye", id: "1" },
-        { title: "OK", url: "GO", id: "2" }
-      ]
-    }
+        { title: "OK", url: "GO", id: "2" },
+      ],
+    },
   };
 
   var resulted = {
@@ -225,15 +225,15 @@ function unitTests() {
         {
           title: "Hello",
           url: "Bye",
-          id: "1"
+          id: "1",
         },
         {
           title: "OK",
           url: "GO",
-          id: "2"
-        }
-      ]
-    }
+          id: "2",
+        },
+      ],
+    },
   };
 
   var result2 = formJSON(field2, model2);

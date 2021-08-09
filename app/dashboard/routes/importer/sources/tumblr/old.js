@@ -1,7 +1,7 @@
   var program = require('commander'),
       colors = require('colors'),
       path = require('path'),
-      toMarkdown = require('../../helper').to_markdown,
+      toMarkdown = require('dashboard/routes/importer/helper').to_markdown,
       request = require('request'),
       S = require('string'),
       fs = require('fs-extra'),

@@ -1,4 +1,4 @@
-var createClient = require("../util/createClient");
+var createClient = require("clients/dropbox/util/createClient");
 var titleToFolder = require("./titleToFolder");
 
 module.exports = function (req, res, next) {

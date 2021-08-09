@@ -3,9 +3,8 @@ var Redlock = require("redlock");
 var buildFromFolder = require("template").buildFromFolder;
 var Blog = require("blog");
 var Update = require("./update");
-var helper = require("helper");
-var localPath = helper.localPath;
-var clfdate = helper.clfdate;
+var localPath = require("helper/localPath");
+var clfdate = require("helper/clfdate");
 var uuid = require("uuid/v4");
 var async = require("async");
 var renames = require("./renames");
@@ -22,12 +21,12 @@ var DEFAULT_TTL = 10 * 60 * 1000;
 // to sync until the TTL above expires.
 var locks = {};
 
-exitHook(function(callback) {
+exitHook(function (callback) {
   debug("Unlocking all locks...");
 
   async.eachOf(
     locks,
-    function(lock, blogID, next) {
+    function (lock, blogID, next) {
       debug("Unlocking", blogID, "...");
       lock.unlock(next);
     },
@@ -36,7 +35,7 @@ exitHook(function(callback) {
 });
 
 function sync(blogID, options, callback) {
-  var redlock, resource, ttl, folder, now;
+  var redlock, resource, ttl, folder;
 
   if (typeof options === "function" && typeof callback === "undefined") {
     callback = options;
@@ -61,16 +60,16 @@ function sync(blogID, options, callback) {
     // the max time in ms randomly added to retries
     // to improve performance under high contention
     // see https://www.awsarchitectureblog.com/2015/03/backoff.html
-    retryJitter: options.retryJitter || 200 // time in ms
+    retryJitter: options.retryJitter || 200, // time in ms
   });
 
-  Blog.get({ id: blogID }, function(err, blog) {
+  Blog.get({ id: blogID }, function (err, blog) {
     // It would be nice to get an error from Blog.get instead of this...
     if (err || !blog || !blog.id || blog.isDisabled) {
       return callback(new Error("Cannot sync blog " + blogID));
     }
 
-    redlock.lock(resource, ttl, function(err, lock) {
+    redlock.lock(resource, ttl, function (err, lock) {
       // We failed to acquire a lock on the resource
       if (err) return callback(err);
 
@@ -78,9 +77,20 @@ function sync(blogID, options, callback) {
       // so if it dies, we can unlock them all...
       locks[blogID] = lock;
 
+      var syncID = "sync_" + uuid().slice(0, 7);
+      var log = function () {
+        console.log.apply(null, [
+          clfdate(),
+          blogID.slice(0, 12),
+          syncID,
+          ...arguments,
+        ]);
+      };
+
       folder = {
         path: localPath(blogID, "/"),
-        update: new Update(blog)
+        update: new Update(blog, log),
+        log,
       };
 
       // Right now localPath returns a path with a trailing slash for some
@@ -92,43 +102,42 @@ function sync(blogID, options, callback) {
       // We acquired a lock on the resource!
       // This function is to be called when we are finished
       // with the lock on the user's folder.
-      syncID = "sync_" + uuid().slice(0, 7);
-      console.log(clfdate(), blogID, syncID, "Started");
-      client.publish('sync:status:'+blogID, 'Sync started');
+      folder.log("Started");
+      client.publish("sync:status:" + blogID, "Sync started");
 
-      callback(null, folder, function(syncError, callback) {
-        console.log(clfdate(), blogID, syncID, "Released");
-        client.publish('sync:status:'+blogID, 'Sync complete');
-      
+      callback(null, folder, function (syncError, callback) {
+        folder.log("Released lock");
+        client.publish("sync:status:" + blogID, "Sync complete");
+
         if (typeof syncError === "function")
           throw new Error("Pass an error or null as first argument to done");
 
         if (typeof callback !== "function")
           throw new Error("Pass a callback to done");
 
-        renames(blogID, folder.update, function(err) {
+        renames(blogID, function (err) {
           if (err) return callback(err);
 
           // We could do these next two things in parallel
           // but it's a little bit of refactoring...
-          lock.unlock(function(err) {
+          lock.unlock(function (err) {
             if (err) return callback(err);
 
             // We no longer need to unlock if the process dies...
             delete locks[blogID];
 
             // What is the appropriate order for this?
-            buildFromFolder(blogID, function(err) {
+            buildFromFolder(blogID, function (err) {
               if (err) return callback(err);
 
               // Passing in cacheID manually busts the cache.
               // Since Blog.set and Blog.flushCache depend on each other
               // we can't put this there. Ideally we would expose a single function to
               // wipe the cache. So fix that eventually...
-              Blog.set(blogID, { cacheID: Date.now() }, function(err) {
+              Blog.set(blogID, { cacheID: Date.now() }, function (err) {
                 if (err) return callback(err);
 
-                console.log(clfdate(), blogID, syncID, "Finished");
+                folder.log("Finished");
                 callback(syncError);
               });
             });

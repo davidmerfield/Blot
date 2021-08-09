@@ -1,12 +1,10 @@
 var spawn = require("child_process").spawn;
 var indentation = require("./indentation");
 var footnotes = require("./footnotes");
-var helper = require("helper");
-var time = helper.time;
+var time = require("helper/time");
 var config = require("config");
-var pandoc_path = config.pandoc_path;
+var Pandoc = config.pandoc.bin;
 var debug = require("debug")("blot:converters:markdown");
-var ampersands = require("./ampersands");
 
 var bib = require("./bib");
 var csl = require("./csl");
@@ -14,7 +12,7 @@ var csl = require("./csl");
 // insert a <br /> for each carriage return
 // '+hard_line_breaks' +
 
-module.exports = function(blog, text, callback) {
+module.exports = function (blog, text, callback) {
   var extensions =
     // replace url strings with a tags
     "+autolink_bare_uris" +
@@ -37,10 +35,16 @@ module.exports = function(blog, text, callback) {
 
   // This feature fucks with [@twitter]() links
   // perhaps make it an option in future?
-  if (!(bib(blog, text) || csl(blog, text)))
-    extensions += "-citations";
+  if (!(bib(blog, text) || csl(blog, text))) extensions += "-citations";
 
   var args = [
+    // Limit the heap size for the pandoc process
+    // to prevent pandoc consuming all the system's
+    // memory in corner cases
+    "+RTS",
+    "-M" + config.pandoc.maxmemory,
+    "-RTS",
+
     "-f",
     "markdown" + extensions,
 
@@ -72,31 +76,41 @@ module.exports = function(blog, text, callback) {
   }
 
   if (bib(blog, text) || csl(blog, text)) {
-    args.push("--filter");
-    args.push(pandoc_path + "-citeproc");
+    args.push("--citeproc");
   }
-
-  var pandoc = spawn(pandoc_path, args);
+  var startTime = Date.now();
+  var pandoc = spawn(Pandoc, args);
 
   var result = "";
   var error = "";
 
-  pandoc.stdout.on("data", function(data) {
+  pandoc.stdout.on("data", function (data) {
     result += data;
   });
 
-  pandoc.stderr.on("data", function(data) {
+  pandoc.stderr.on("data", function (data) {
     error += data;
   });
 
-  pandoc.on("close", function(code) {
+  setTimeout(function () {
+    pandoc.kill();
+  }, config.pandoc.timeout);
+
+  pandoc.on("close", function (code) {
     time.end("pandoc");
 
     var err = null;
 
     // This means something went wrong
     if (code !== 0) {
-      err = "Pandoc exited with code " + code;
+      err =
+        "Pandoc exited with code " +
+        code +
+        " in " +
+        (Date.now() - startTime) +
+        "ms (timeout=" +
+        config.pandoc.timeout +
+        "ms)";
       err += error;
       err = new Error(err);
     }
@@ -108,25 +122,9 @@ module.exports = function(blog, text, callback) {
     result = safely(footnotes, result);
     time.end("footnotes");
 
-    debug("Pre-de-double-escape amerpsands");
-    time("de-double-escape-ampersands");
-    result = safely(ampersands.deDoubleEscape, result);
-    time.end("de-double-escape-ampersands");
-
     debug("Final:", result);
     callback(null, result);
   });
-
-  // This is to 'fix' and issue that pandoc has with
-  // unescaped ampersands in HTML tag attributes.
-  // Previously it would treat <a href="/?foo=bar&baz=bat">a</a>
-  // as a string, because of the amerpsands.
-  // This is an issue that's open in Pandoc's repo
-  // https://github.com/jgm/pandoc/issues/2410
-  debug("Pre-ampersands-escape", text);
-  time("escape-ampersands");
-  text = safely(ampersands.escape, text);
-  time.end("escape-ampersands");
 
   // Pandoc is very strict and treats indents inside
   // HTML blocks as code blocks. This is correct but

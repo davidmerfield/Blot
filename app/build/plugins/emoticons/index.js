@@ -1,7 +1,7 @@
 var twemoji = require("twemoji");
 
 var options = {
-  callback: function(icon, options) {
+  callback: function (icon, options) {
     switch (icon) {
       case "a9": // copyright  ©
       case "ae": // trademark  ®
@@ -11,7 +11,7 @@ var options = {
     }
 
     return "".concat(options.base, options.size, "/", icon, options.ext);
-  }
+  },
 };
 
 function prerender(html, callback) {
@@ -27,5 +27,5 @@ module.exports = {
   isDefault: false,
   description: "Convert emojis into images",
   category: "Images",
-  prerender: prerender
+  prerender: prerender,
 };

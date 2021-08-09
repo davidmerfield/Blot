@@ -1,13 +1,12 @@
 var blogID = process.argv[2];
 
-if (!blogID) throw 'Please specify a blog id';
+if (!blogID) throw "Please specify a blog id";
 
-var Transformer = require('../../app/transformer');
-var store = Transformer(blogID, 'thumbnails');
+var Transformer = require("transformer");
+var store = Transformer(blogID, "thumbnails");
 
-console.log('flushing', blogID);
+console.log("flushing", blogID);
 
 store.flush(function (err) {
-
-  console.log('flushed', blogID, 'store');
+  console.log("flushed", blogID, "store");
 });

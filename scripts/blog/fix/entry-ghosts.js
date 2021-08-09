@@ -1,7 +1,7 @@
 var yesno = require("yesno");
-var Entries = require("../../../app/models/entries");
-var Entry = require("../../../app/models/entry");
-var localPath = require("helper").localPath;
+var Entries = require("models/entries");
+var Entry = require("models/entry");
+var localPath = require("helper/localPath");
 var fs = require("fs");
 var async = require("async");
 var host = require("../../../config").host;
@@ -31,12 +31,12 @@ function resolvePath(blogID, path, callback) {
 
   async.detect(
     candidates,
-    function(filePath, callback) {
-      fs.access(localPath(blogID, filePath), function(err) {
+    function (filePath, callback) {
+      fs.access(localPath(blogID, filePath), function (err) {
         callback(null, !err);
       });
     },
-    function(err, match) {
+    function (err, match) {
       if (err || !match) {
         return callback(err || new Error("ENOENT: " + path));
       }
@@ -57,12 +57,12 @@ function main(blog, callback) {
 
   Entries.each(
     blog.id,
-    function(_entry, next) {
+    function (_entry, next) {
       // The file definitely no longer exists so we can't do
       // anything now...
       if (_entry.deleted) return next();
 
-      resolvePath(blog.id, _entry.path, function(err, path) {
+      resolvePath(blog.id, _entry.path, function (err, path) {
         if (path && path !== _entry.path) {
           edit.push({ entry: _entry, path: path });
         } else if (err) {
@@ -71,7 +71,7 @@ function main(blog, callback) {
         next();
       });
     },
-    function(err) {
+    function (err) {
       if (err) return callback(err);
 
       if (!missing.length && !edit.length) {
@@ -104,22 +104,22 @@ function main(blog, callback) {
       function log(i) {
         return "\n- Path: " + i.path + "\n- Entry: " + domain + i.entry.url;
       }
-      yesno.ask(message.join("\n"), false, function(yes) {
+      yesno.ask(message.join("\n"), false, function (yes) {
         if (!yes) {
           return callback(new Error("\nDid not apply changes"));
         }
 
         async.eachSeries(
           edit,
-          function(item, next) {
+          function (item, next) {
             Entry.set(blog.id, item.entry.path, { path: item.path }, next);
           },
-          function(err) {
+          function (err) {
             if (err) return callback(err);
 
             async.eachSeries(
               missing,
-              function(item, next) {
+              function (item, next) {
                 Entry.drop(blog.id, item.entry.path, next);
               },
               callback

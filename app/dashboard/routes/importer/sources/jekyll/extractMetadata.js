@@ -1,7 +1,7 @@
 var yaml = require("js-yaml");
 var async = require("async");
 
-module.exports = function(result, callback) {
+module.exports = function (result, callback) {
   var frontmatter = result.source.split("---")[1];
   var missingHandlers = {};
   var metadata = {};
@@ -30,15 +30,15 @@ module.exports = function(result, callback) {
 
   async.eachOf(
     frontmatter,
-    function(value, key, next) {
+    function (value, key, next) {
       if (key === "tags") {
         if (Array.isArray(value)) {
           value = value
-            .filter(function(tag) {
+            .filter(function (tag) {
               if (["blog-post"].indexOf(tag.toLowerCase()) > -1) return false;
               return true;
             })
-            .map(function(tag) {
+            .map(function (tag) {
               if (tag.indexOf("-") > -1)
                 console.log("Warning tag with dash:", tag);
 
@@ -74,7 +74,7 @@ module.exports = function(result, callback) {
 
       next();
     },
-    function(err) {
+    function (err) {
       result.metadata = metadata;
       result.missingHandlers = missingHandlers;
       callback(err, result);

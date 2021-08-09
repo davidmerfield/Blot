@@ -3,10 +3,8 @@ var MAX_LENGTH = 100;
 
 // This must always return a string but it can be empty
 function makeSlug(string) {
-
-  var words,
-    components,
-    trimmed = "";
+  var words;
+  var trimmed = "";
 
   ensure(string, "string");
 
@@ -55,16 +53,16 @@ function makeSlug(string) {
 
   slug = trimmed;
 
-  // Remove leading and trailing
-  // slashes and dashes.
+  // remove internal leading and trailing hyphens, e.g. 
+  // /-foo-/bar -> /foo/bar
+  slug = slug
+    .split("/")
+    .map((str) => trimLeadingAndTrailing(str, ["-"]))
+    .join("/");
 
-  while (slug.length > 1 && (slug[0] === "/" || slug[0] === "-"))
-    slug = slug.slice(1);
+  slug = trimLeadingAndTrailing(slug, ["-", "/"]);
 
-  while (slug.length > 1 && (slug.slice(-1) === "/" || slug.slice(-1) === "-"))
-    slug = slug.slice(0, -1);
-
-  if (slug === '-') slug = '';
+  if (slug === "-") slug = "";
 
   slug = encodeURI(slug);
 
@@ -73,7 +71,16 @@ function makeSlug(string) {
   return slug;
 }
 
-var Is = require("./is");
+function trimLeadingAndTrailing(str, characters) {
+  while (str.length > 1 && characters.indexOf(str[0]) > -1) str = str.slice(1);
+
+  while (str.length > 1 && characters.indexOf(str.slice(-1)) > -1)
+    str = str.slice(0, -1);
+
+  return str;
+}
+
+var Is = require("./_is");
 var is = Is(makeSlug);
 
 is("!@#$^*()=+[]{}\\|;:'\",?><", "");
@@ -102,6 +109,10 @@ is("12 34", "12-34");
 is("f/ü/k", "f/%C3%BC/k");
 is("微博", "%E5%BE%AE%E5%8D%9A");
 
+is("/[design]/abc", "design/abc");
+
+is("/[design](foo)/apple bc", "design-foo/apple-bc");
+
 is(
   "remove object replacement character: ￼",
   "remove-object-replacement-character"
@@ -126,6 +137,9 @@ is("China ← NYC → China", "china-from-nyc-to-china");
 is("China+()[] ← NYC! → China", "china-from-nyc-to-china");
 is("No more cd ../../", "no-more-cd");
 
-is("«&nbsp;French Tech Communauté&nbsp;»&nbsp;: quelle opportunité pour l’État&nbsp;?", "french-tech-communaut%C3%A9-quelle-opportunit%C3%A9-pour-l-%C3%A9tat")
+is(
+  "«&nbsp;French Tech Communauté&nbsp;»&nbsp;: quelle opportunité pour l’État&nbsp;?",
+  "french-tech-communaut%C3%A9-quelle-opportunit%C3%A9-pour-l-%C3%A9tat"
+);
 
 module.exports = makeSlug;

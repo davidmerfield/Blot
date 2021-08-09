@@ -14,6 +14,10 @@ First install the dependencies needed by Blot:
 $ cd <root-of-this-repository>
 $ npm install
 
+Set the environment variable required to direct node to load modules:
+
+$ export NODE_PATH=$(pwd)/app
+
 Then install the dependencies needed by Blot's importer scripts:
 
 $ cd app/dashboard/routes/importer

@@ -15,6 +15,10 @@ module.exports = {
   getAllViews: require("./getAllViews"),
   getTemplateList: require("./getTemplateList"),
 
+  createShareID: require("./createShareID"),
+  dropShareID: require("./dropShareID"),
+  getByShareID: require("./getByShareID"),
+
   drop: require("./drop"),
 
   makeID: require("./util/makeID"),
@@ -25,7 +29,7 @@ module.exports = {
   readFromFolder: require("./readFromFolder"),
   writeToFolder: require("./writeToFolder"),
 
-  package: require('./package'),
+  package: require("./package"),
   viewModel: require("./viewModel"),
-  metadataModel: require("./metadataModel")
+  metadataModel: require("./metadataModel"),
 };

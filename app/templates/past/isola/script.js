@@ -1,3 +1,5 @@
+{{{appJS}}}
+
 {{=<% %>=}}
 
 // START WP EMOJI

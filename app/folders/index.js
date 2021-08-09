@@ -24,23 +24,23 @@ function main(options, callback) {
     options = {};
   }
 
-  loadFoldersToBuild(__dirname, function(err, folders) {
+  loadFoldersToBuild(__dirname, function (err, folders) {
     if (err) return callback(err);
 
     if (options.filter) folders = folders.filter(options.filter);
 
     console.log("Loaded folders from", __dirname);
-    setupUser(function(err, user) {
+    setupUser(function (err, user) {
       if (err) return callback(err);
 
       console.log(
         "Established user " + user.email + " to manage demonstration blogs"
       );
-      setupBlogs(user, folders, function(err) {
+      setupBlogs(user, folders, function (err) {
         if (err) return callback(err);
 
         console.log("Built " + folders.length + " blogs");
-        folders.forEach(function(folder) {
+        folders.forEach(function (folder) {
           console.log("http://" + basename(folder) + "." + config.host);
           console.log("Source folder:", folder);
         });
@@ -52,7 +52,7 @@ function main(options, callback) {
 }
 
 function setupUser(callback) {
-  User.getByEmail(config.admin.email, function(err, user) {
+  User.getByEmail(config.admin.email, function (err, user) {
     if (err) return callback(err);
 
     if (user) return callback(null, user);
@@ -66,9 +66,9 @@ function setupBlogs(user, folders, callback) {
 
   async.eachSeries(
     folders,
-    function(path, next) {
+    function (path, next) {
       var handle = basename(path);
-      Blog.get({ handle: handle }, function(err, existingBlog) {
+      Blog.get({ handle: handle }, function (err, existingBlog) {
         if (err) return next(err);
 
         if (existingBlog && existingBlog.owner !== user.uid)
@@ -81,18 +81,18 @@ function setupBlogs(user, folders, callback) {
           return next();
         }
 
-        Blog.create(user.uid, { handle: handle }, function(err, newBlog) {
+        Blog.create(user.uid, { handle: handle }, function (err, newBlog) {
           blogs[newBlog.id] = path;
           next();
         });
       });
     },
-    function(err) {
+    function (err) {
       if (err) return callback(err);
       async.eachOfSeries(
         blogs,
-        function(path, id, next) {
-          localClient.setup(id, path, function(err) {
+        function (path, id, next) {
+          localClient.setup(id, path, function (err) {
             if (err) return next(err);
 
             if (config.environment !== "development") {
@@ -109,14 +109,14 @@ function setupBlogs(user, folders, callback) {
 }
 
 function loadFoldersToBuild(foldersDirectory, callback) {
-  fs.readdir(foldersDirectory, function(err, folders) {
+  fs.readdir(foldersDirectory, function (err, folders) {
     if (err) return callback(err);
 
     folders = folders
-      .map(function(name) {
+      .map(function (name) {
         return foldersDirectory + "/" + name;
       })
-      .filter(function(path) {
+      .filter(function (path) {
         return basename(path)[0] !== "-" && fs.statSync(path).isDirectory();
       });
 
@@ -128,11 +128,11 @@ if (require.main === module) {
   var options = {};
 
   if (process.argv[2])
-    options.filter = function(path) {
+    options.filter = function (path) {
       return path.indexOf(process.argv[2]) > -1;
     };
 
-  main(options, function(err) {
+  main(options, function (err) {
     if (err) throw err;
     process.exit();
   });

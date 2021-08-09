@@ -1,6 +1,6 @@
 <h1>Link format</h1>
 
-<p>Each post or page is assigned a permanent link automatically. You can edit the format of these links on <a href="/log-in?then=/">the dashboard</a>. If you change the link of a blog post, its old link will redirect to its new link automatically.</p>
+<p>Each post is assigned a permanent link automatically. You can edit the format of these links on <a href="/log-in?then=/">the dashboard</a>. If you change the link of a blog post, its old link will redirect to its new link automatically.</p>
 
 <small><table>
   <thead>
@@ -50,10 +50,18 @@
 
     <tr>
       <td><code>\{{path}}</code></td>
-      <td>The file’s path in lowercase. A blog post's link cannot be identical to the path to its source file so combine this with other properties.</td>
+      <td>The file’s path in lowercase. Note that a post's link cannot be identical to the path to its source file so combine this with other properties.</td>
     </tr>
-    <tr>
 
+    <tr>
+      <td><code>\{{path-without-extension}}</code></td>
+      <td>The file’s path in lowercase without the file extension.</td>
+    </tr>
+
+    <tr>
+      <td><code>\{{stem}}</code></td>
+      <td>A URL-friendly version of the file’s path without the file extension.</td>
+    </tr>
 
     <tr>
       <td><code>\{{size}}</code></td>

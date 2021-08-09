@@ -1,51 +1,55 @@
 
 .breadcrumbs {
-}
-
-.breadcrumbs__list {
   margin: 0;
   padding: 0;
   list-style-type: none;
+  margin-bottom: 16px;
+  /*font-size: 14px;*/
 }
 
-.breadcrumbs__list-item:first-child {
+.breadcrumbs__link:first-child {
   margin-left: 0;
   padding-left: 0;
 }
+/*
+.breadcrumbs__link:last-of-type {
+  font-weight: 600;
+  color: #000
+}*/
 
 .breadcrumbs__link {
   text-decoration: none;
+  color: inherit;
 }
 
-.breadcrumbs__list-item {
+.breadcrumbs__link {
   display: inline-block;
   position: relative;
-  margin-left: 13px;
-  padding-left: 18.655px;
-  float: left;
-  color: grey;
-}
-
-.breadcrumbs__list-item:before {
-  content: "";
-  display: block;
-  position: absolute;
-  top: 0;
-  bottom: 0px;
-  left: -3.31px;
-  width: 6px;
-  height: 6px;
-  margin: auto 0;
-  -webkit-transform: rotate(45deg);
-  -ms-transform: rotate(45deg);
-  transform: rotate(45deg);
-  border: solid;
-  border-width: 1px 1px 0 0;
-  border-color: #929292;
+  margin-left: 0.7rem;
+  padding-left: 0.7rem;
+  color: var(--light-text-color); /*rgb(105, 115, 134)*/
 }
 
 
-.breadcrumbs__list-item a:hover {
+        .breadcrumbs__link:before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    bottom: 0px;
+    left: -4px;
+    width: 4px;
+    height: 4px;
+    margin: auto 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+    border: solid;
+    border-width: 1px 1px 0 0;
+    border-color: var(--light-text-color);
+        }
+
+.breadcrumbs__link a:hover {
   box-shadow: none;
   text-decoration: none;
   background: none;
@@ -53,7 +57,7 @@
 }
 
 
-.breadcrumbs__list-item:first-child:before {
+.breadcrumbs__link:first-child:before {
   content: none;
   display: none;
 }
@@ -62,7 +66,11 @@
   color: #606060;
 }
 
-.breadcrumbs__link:active,
-.breadcrumbs__link:focus {
-  color: #000;
+.breadcrumbs__link:active{
+  color: #999
+}
+
+.breadcrumbs__link:active ~ .breadcrumbs__link,
+.breadcrumbs__link:focus ~ .breadcrumbs__link {
+  display: none;
 }

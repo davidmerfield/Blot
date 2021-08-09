@@ -1,10 +1,10 @@
 module.exports = function setup(options) {
   options = options || {};
-  var database = require("../../database");
+  var database = require("clients/dropbox/database");
   var Blog = require("blog");
   var server = require("./server");
   var createFolder = require("./createFolder");
-  var createClient = require("../../util/createClient");
+  var createClient = require("clients/dropbox/util/createClient");
 
   // Increase timeout
   jasmine.DEFAULT_TIMEOUT_INTERVAL = 60 * 1000;
@@ -19,26 +19,26 @@ module.exports = function setup(options) {
   afterEach(server.close);
 
   // Allows us to check if a blog has finished syncing...
-  beforeEach(function() {
+  beforeEach(function () {
     var port = this.server.port;
     var blogID = this.blog.id;
 
-    this.afterSync = function(callback) {
+    this.afterSync = function (callback) {
       var http = require("http");
       var url = require("url").format({
         protocol: "http",
         hostname: "localhost",
         port: port,
-        pathname: "/clients/dropbox/webhook/syncs-finished/" + blogID
+        pathname: "/clients/dropbox/webhook/syncs-finished/" + blogID,
       });
 
       http.get(url, function check(res) {
         var response = "";
         res.setEncoding("utf8");
-        res.on("data", function(chunk) {
+        res.on("data", function (chunk) {
           response += chunk;
         });
-        res.on("end", function() {
+        res.on("end", function () {
           if (response === "true") {
             callback(null);
           } else {
@@ -50,12 +50,12 @@ module.exports = function setup(options) {
   });
 
   // Expose methods for creating fake files, paths, etc.
-  beforeEach(function() {
+  beforeEach(function () {
     this.fake = global.test.fake;
   });
 
   // Expose methods for creating fake files, paths, etc.
-  beforeEach(function() {
+  beforeEach(function () {
     this.client = createClient(process.env.BLOT_DROPBOX_TEST_ACCOUNT_APP_TOKEN);
   });
 
@@ -65,7 +65,7 @@ module.exports = function setup(options) {
   beforeEach(createFolder(options));
 
   // Create fake dropbox account
-  beforeEach(function(done) {
+  beforeEach(function (done) {
     var email = this.fake.internet.email();
     var blogID = this.blog.id;
     var folder = this.folder;
@@ -79,12 +79,12 @@ module.exports = function setup(options) {
       full_access: false,
       folder: folder,
       folder_id: folderID,
-      cursor: ""
+      cursor: "",
     };
 
     this.account = account;
 
-    Blog.set(blogID, { client: "dropbox" }, function(err) {
+    Blog.set(blogID, { client: "dropbox" }, function (err) {
       if (err) return done(err);
 
       database.set(blogID, account, done);
@@ -92,11 +92,11 @@ module.exports = function setup(options) {
   });
 
   // Remove fake account
-  afterEach(function(done) {
+  afterEach(function (done) {
     database.drop(this.blog.id, done);
   });
 
-  beforeEach(function() {
+  beforeEach(function () {
     var Webhook = require("./webhook");
     var accountID = process.env.BLOT_DROPBOX_TEST_ACCOUNT_ID;
     var webhook = new Webhook(
@@ -104,7 +104,7 @@ module.exports = function setup(options) {
       this.server.baseUrl + "/webhook"
     );
 
-    this.webhook = function(callback) {
+    this.webhook = function (callback) {
       webhook.notify(accountID, callback);
     };
   });

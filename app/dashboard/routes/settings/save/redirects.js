@@ -1,57 +1,34 @@
-var helper = require("helper");
-var Redirects = require("../../../../models/redirects");
-var formJSON = helper.formJSON;
-var arrayify = helper.arrayify;
-var Url = require("url");
+var Redirects = require("models/redirects");
+var formJSON = require("helper/formJSON");
+var arrayify = require("helper/arrayify");
 
-module.exports = function(req, res, next) {
+const normalize = (redirect) => {
+  redirect = redirect.trim();
+
+  // apple -> /apple
+  if (redirect.indexOf("/") === -1) redirect = "/" + redirect;
+
+  // lacks protocol
+  // foo/bar -> /foo/bar
+  if (redirect.indexOf("://") === -1 && redirect[0] !== "/")
+    redirect = "/" + redirect;
+
+  return redirect;
+};
+
+module.exports = function (req, res, next) {
   if (!req.body.has_redirects) return next();
 
   var mappings = {};
 
   mappings = formJSON(req.body, { redirects: "object" });
 
-  mappings = arrayify(mappings.redirects);
+  mappings = arrayify(mappings.redirects)
+    .filter((mapping) => !!mapping.from && !!mapping.to)
 
-  mappings = mappings.filter(function(mapping) {
-    return !!mapping.from && !!mapping.to;
-  });
-
-  // Ensure mappings have a leading slash or are regexes
-  mappings = mappings.map(function(mapping) {
-    mapping.from = normalize(mapping.from);
-    mapping.to = normalize(mapping.to);
-
-    return mapping;
-  });
+    .map(({ from, to }) => {
+      return { from: normalize(from), to: normalize(to) };
+    });
 
   Redirects.set(req.blog.id, mappings, next);
 };
-
-function urlNormalizer(url) {
-  if (!url) return "";
-
-  try {
-    url = Url.parse(url).pathname;
-  } catch (e) {
-    return "";
-  }
-
-  if (url.slice(0, 1) !== "/") url = "/" + url;
-
-  if (url.slice(-1) === "/" && url.length > 1) url = url.slice(0, -1);
-
-  url = url.split("//").join("/");
-
-  return url.toLowerCase();
-}
-
-function normalize(str) {
-  if (str[0] !== "\\" && str[0] !== "/") {
-    try {
-      str = urlNormalizer(str);
-    } catch (e) {}
-  }
-
-  return str;
-}

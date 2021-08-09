@@ -1,26 +1,23 @@
 var client = require("client");
-var helper = require("helper");
-var ensure = helper.ensure;
+var ensure = require("helper/ensure");
 var key = require("./key");
 var util = require("./util");
 var matches = util.matches;
 
 // var drop = require('./drop');
 
-module.exports = function(blogID, mappings, callback) {
-  ensure(blogID, "string")
-    .and(mappings, "array")
-    .and(callback, "function");
+module.exports = function (blogID, mappings, callback) {
+  ensure(blogID, "string").and(mappings, "array").and(callback, "function");
 
   var redirects = key.redirects(blogID);
   var multi = client.multi();
 
-  client.zrange(redirects, 0, -1, function(err, all_keys) {
+  client.zrange(redirects, 0, -1, function (err, all_keys) {
     if (err) return callback(err);
 
     all_keys = all_keys || [];
 
-    all_keys = all_keys.map(function(from) {
+    all_keys = all_keys.map(function (from) {
       return key.redirect(blogID, from);
     });
 
@@ -28,7 +25,7 @@ module.exports = function(blogID, mappings, callback) {
 
     multi.del(all_keys);
 
-    mappings.forEach(function(redirect, index) {
+    mappings.forEach(function (redirect, index) {
       var from = redirect.from;
       var to = redirect.to;
       var fromKey = key.redirect(blogID, from);

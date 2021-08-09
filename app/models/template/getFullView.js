@@ -1,6 +1,6 @@
 var getView = require("./getView");
-var ensure = require("helper").ensure;
-var extend = require("helper").extend;
+var ensure = require("helper/ensure");
+var extend = require("helper/extend");
 var getPartials = require("./getPartials");
 var mime = require("mime-types");
 
@@ -12,7 +12,7 @@ module.exports = function getFullView(blogID, templateID, viewName, callback) {
     .and(viewName, "string")
     .and(callback, "function");
 
-  getView(templateID, viewName, function(err, view) {
+  getView(templateID, viewName, function (err, view) {
     if (err || !view) return callback(err);
 
     // View has:
@@ -22,7 +22,7 @@ module.exports = function getFullView(blogID, templateID, viewName, callback) {
     //                     which need to be fetched.
     // - partials (object) partials in view
 
-    getPartials(blogID, templateID, view.partials, function(
+    getPartials(blogID, templateID, view.partials, function (
       err,
       allPartials,
       retrieveFromPartials
@@ -40,7 +40,7 @@ module.exports = function getFullView(blogID, templateID, viewName, callback) {
         allPartials,
         view.retrieve,
         view.type || mime.lookup(view.name) || "text/html",
-        view.content
+        view.content,
       ];
 
       return callback(null, response);

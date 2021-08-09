@@ -30,6 +30,7 @@ Export [environment variables](/config/environment.sh) needed by Blot:
 ```sh
 export BLOT_HOST=blot.development
 export BLOT_DIRECTORY=~/Projects/Blot
+export NODE_PATH=$(cd $BLOT_DIRECTORY/app; pwd)
 export BLOT_CACHE_DIRECTORY=~/Projects/Blot/data/cache
 export BLOT_SESSION_SECRET=abc
 export BLOT_MAILGUN_KEY=blah
@@ -68,6 +69,21 @@ Start a redis server using the [redis configuation file](/config/redis.conf).
 ```sh
 redis-server config/redis.conf
 ```
+
+## Install Postgres (for QA forum)
+
+At the moment, Postgres is used for the QA forum only ("/questions"). Install Postgres on your machine, and then export the following environment variables:
+
+```sh
+export BLOT_POSTGRES_USER=<YOUR_POSTGRES_USERNAME>
+export BLOT_POSTGRES_HOST=localhost
+export BLOT_POSTGRES_DB=<YOUR_POSTGRES_DATABASE>
+export BLOT_POSTGRES_PASSWORD=<YOUR_POSTGRES_PASSWORD>
+```
+
+Create the DB and the table by running 2 scripts: `scripts/db/create-postgres-db.js` and `scripts/db/create-postgres-table.js`.
+
+## Running nginx
 
 Follow the [guide to generating the SSL certs](ssl-certificate-in-development.txt) needed by nginx in the development environment. Start nginx:
 

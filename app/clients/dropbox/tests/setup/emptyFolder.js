@@ -1,11 +1,11 @@
-var retry = require("../../util/retry");
-var createClient = require("../../util/createClient");
+var retry = require("clients/dropbox/util/retry");
+var createClient = require("clients/dropbox/util/createClient");
 
 function remove(done) {
   var client = createClient(process.env.BLOT_DROPBOX_TEST_ACCOUNT_APP_TOKEN);
 
   function checkBatchStatus(result) {
-    return client.filesDeleteBatchCheck(result).then(function(res) {
+    return client.filesDeleteBatchCheck(result).then(function (res) {
       switch (res[".tag"]) {
         case "in_progress":
           return checkBatchStatus(result);
@@ -19,9 +19,9 @@ function remove(done) {
 
   function removeAllFiles(res) {
     return client.filesDeleteBatch({
-      entries: res.entries.map(function(entry) {
+      entries: res.entries.map(function (entry) {
         return { path: entry.path_lower };
-      })
+      }),
     });
   }
 
@@ -29,9 +29,9 @@ function remove(done) {
     .filesListFolder({ path: "" })
     .then(removeAllFiles)
     .then(checkBatchStatus)
-    .then(function(res) {
+    .then(function (res) {
       if (
-        res.entries.some(function(entry) {
+        res.entries.some(function (entry) {
           return entry[".tag"] !== "success";
         })
       ) {
@@ -40,7 +40,7 @@ function remove(done) {
         done();
       }
     })
-    .catch(function(err) {
+    .catch(function (err) {
       if (err instanceof Error) {
         done(err);
       } else {

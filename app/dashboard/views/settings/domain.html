@@ -1,17 +1,27 @@
 <h1 style="font-size: 22px;font-weight: 700">Domain</h1>
-<h2 style="font-size: 14px">Your site comes with a Blot subdomain. You can also <a href="/how/guides/domain">use your own domain</a>. Please don't hesitate to <a href="/contact">contact support</a> if you have any questions.</h2>
+<h2 style="font-size: 14px">Your site comes with a Blot subdomain. You can also <a href="/how/configure/domain">use your own domain</a>. Please don't hesitate to <a href="/support">contact support</a> if you have any questions.</h2>
 <hr>
 <input type="hidden" name="redirect" value="/settings/domain">
   <label>Your domain</label>
   <div class="messageWrapper">
-    <input type="text" id="customDomain" name="domain" value="{{blog.domain}}" placeholder="Enter your website’s hostname"/>
+    <input type="text" id="customDomain" name="domain" 
+
+    {{! 
+
+      We use blog.pretty.domain instead of blog.domain so we can render punycode domains
+      like exāmple.com nicely. When saved, we convert back to ascii on the server.
+      
+    }}
+    value="{{blog.pretty.domain}}" 
+
+    placeholder="Enter your website’s hostname"/>
     <span id="inputMessage" class="inputMessage"></span>
   </div>
 
   <span class="error" >{{errors.domain}}</span>
 
   {{#blog.domain}}
-  <p class="mess error" style="box-sizing: content-box; border-radius:0;border:none;display:none;margin:20px -20px 0;padding: 8px 20px" id="warning">Your domain does not yet point to Blot. Please read the <a  href="/how/guides/domain">guide to using your own domain</a>. Don't hesitate to <a href="/contact">contact support</a> if you have any questions.
+  <p class="mess error" style="box-sizing: content-box; border-radius:0;border:none;display:none;margin:20px -20px 0;padding: 8px 20px" id="warning">Your domain does not yet point to Blot. Please read the <a  href="/how/configure/domain">guide to using your own domain</a>. Don't hesitate to <a href="/support">contact support</a> if you have any questions.
   </p>
 
 

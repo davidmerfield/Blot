@@ -1,13 +1,13 @@
 var Express = require("express");
 var Delete = new Express.Router();
 var User = require("user");
-var Email = require("helper").email;
+var Email = require("helper/email");
 var checkPassword = require("./util/checkPassword");
 var logout = require("./util/logout");
 var async = require("async");
 
 var Blog = require("blog");
-var pretty = require("helper").prettyPrice;
+var pretty = require("helper/prettyPrice");
 
 var User = require("user");
 var config = require("config");
@@ -21,7 +21,7 @@ Delete.route("/blog/:handle")
   // by after the blog has been deleted.
   .all(loadBlogToDelete, calculateSubscriptionChange)
 
-  .get(function(req, res) {
+  .get(function (req, res) {
     res.locals.title = "Delete " + req.blogToDelete.pretty.label;
     res.locals.breadcrumb = "Delete  " + req.blogToDelete.pretty.label;
     res.render("account/delete-blog", { host: process.env.BLOT_HOST });
@@ -36,18 +36,18 @@ Delete.route("/blog/:handle")
   // Delete the credentials used to sync the blog's folder
   .post(
     checkPassword,
-    function(req, res, next) {
+    function (req, res, next) {
       Blog.remove(req.blogToDelete.id, next);
     },
     calculateSubscriptionChange,
     decreaseSubscription,
-    function(req, res) {
+    function (req, res) {
       res.message("/account/subscription", "Deleted " + req.blogToDelete.title);
     }
   );
 
 function loadBlogToDelete(req, res, next) {
-  Blog.get({ handle: req.params.handle }, function(err, blog) {
+  Blog.get({ handle: req.params.handle }, function (err, blog) {
     if (err) {
       return next(err);
     }
@@ -95,10 +95,10 @@ function calculateSubscriptionChange(req, res, next) {
 
 Delete.route("/")
 
-  .get(function(req, res) {
+  .get(function (req, res) {
     res.render("account/delete", {
       title: "Delete your account",
-      breadcrumb: "Delete"
+      breadcrumb: "Delete",
     });
   })
 
@@ -109,7 +109,7 @@ Delete.route("/")
     deleteUser,
     emailUser,
     logout,
-    function(req, res) {
+    function (req, res) {
       res.redirect("/account/deleted");
     }
   );
@@ -135,12 +135,12 @@ function decreaseSubscription(req, res, next) {
     subscription.customer,
     subscription.id,
     { quantity: quantity, prorate: false },
-    function(err, subscription) {
+    function (err, subscription) {
       if (err) return next(err);
 
       if (!subscription) return next(new Error("No subscription"));
 
-      User.set(req.user.uid, { subscription: subscription }, function(err) {
+      User.set(req.user.uid, { subscription: subscription }, function (err) {
         if (err) return next(err);
 
         Email.SUBSCRIPTION_DECREASE(req.user.uid);
@@ -173,7 +173,7 @@ if (Delete.exports !== undefined)
 Delete.exports = {
   blogs: deleteBlogs,
   user: deleteUser,
-  subscription: deleteSubscription
+  subscription: deleteSubscription,
 };
 
 module.exports = Delete;

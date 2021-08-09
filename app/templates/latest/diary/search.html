@@ -5,21 +5,39 @@
     {{> header}}
     <div class="container">
       <div class="main">
-        <form action='/search' style="margin:-0.66em 0 1em">
-          <input placeholder="What are you looking for? Search for an entry..." value="{{#query}}{{query}}{{/query}}" name="q" id="search" type="text" />
+        <form action='/search' >
+          <input placeholder="Search..." value="{{#query}}{{query}}{{/query}}" name="q" id="search" type="text" />
         </form>
-        <div class="archives">
-          {{#query}}
-            {{^entries}}
-            <p>Sorry, nothing found for “{{query}}”</p>
-            {{/entries}}
-          {{/query}}
+        <div >
 
+          <p>
           {{#entries}}
             <a href="{{{url}}}">{{title}}</a>
             <span class="small">{{date}}</span>
             <br />
           {{/entries}}
+          </p>
+
+          <p><span class="small">
+          {{#entries}}
+            {{#first}}
+              {{#last}}
+                {{entries.length}} result         
+              {{/last}}
+              {{^last}}
+                {{entries.length}} results
+              {{/last}}
+            {{/first}}
+          {{/entries}}
+          {{^entries}}
+            {{#query}}
+              No results
+            {{/query}}
+          {{/entries}}
+          
+          </span> {{#query}}
+          &nbsp; <a class="small date" href="/archives">View the archives &rarr;</a>
+          {{/query}}</p>
         </div>
         {{> footer}}
       </div>

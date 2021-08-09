@@ -10,13 +10,13 @@ function main(callback) {
   var now = Math.round(Date.now() / 1000);
   var directory = __dirname + "/data/production-" + now;
   var local_dump_path = directory + "/dump.rdb";
-  
+
   console.log("Retrieving the last time db was saved to disk...");
-  execRemote("redis-cli lastsave", function(err, lastsave) {
+  execRemote("redis-cli lastsave", function (err, lastsave) {
     if (err) return callback(err);
 
     console.log("Saving db to disk");
-    execRemote("redis-cli bgsave", function(err) {
+    execRemote("redis-cli bgsave", function (err) {
       if (err) return callback(err);
 
       execRemote("redis-cli lastsave", function then(err, latestsave) {
@@ -30,7 +30,7 @@ function main(callback) {
 
         console.log("Done! Downloading db");
 
-        download(REMOTE_DUMP_PATH, local_dump_path, function(err) {
+        download(REMOTE_DUMP_PATH, local_dump_path, function (err) {
           if (err) return callback(err);
 
           console.log("Download complete!");
@@ -42,7 +42,7 @@ function main(callback) {
 }
 
 if (require.main === module) {
-  main(function(err) {
+  main(function (err) {
     if (err) throw err;
 
     process.exit();
