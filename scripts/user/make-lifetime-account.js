@@ -6,12 +6,14 @@ var User = require("user");
 User.getByEmail(from, function (err, user) {
   if (!user) throw "No user";
 
+  console.log("Removing:", user.subscription);
+
   stripe.customers.cancelSubscription(
     user.subscription.customer,
     user.subscription.id,
     { at_period_end: false },
     function (err, subscription) {
-      if (err) throw err;
+      if (err) console.error(err);
 
       User.set(user.uid, { subscription: {} }, function (err) {
         if (err) throw err;
