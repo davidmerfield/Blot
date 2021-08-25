@@ -1,3 +1,9 @@
+Improvements to Dropbox client
+- Migrate [App permissions before September 30th 2021](https://dropbox.tech/developers/migrating-app-permissions-and-access-tokens)
+  - https://developers.dropbox.com/oauth-guide
+  - https://dropbox.tech/developers/now-available--scoped-apps-and-enhanced-permissions
+  - https://dropbox.tech/developers/migrating-app-permissions-and-access-tokens
+
 Improvements to longform-text template (Diary):
 - August 13th 
   -  Add header location and alignment options
@@ -17,12 +23,6 @@ Release a new film showing some of Blot’s more recent features – the current
 - Find a neat public domain song to play 
    - https://archive.org/details/Grab_Bag-12446/03_-_Trust.mp3
    - https://archive.org/details/Winter_Sunshine_EP-8201/Evgeny_Grinko_-_01_-_Winter_Sunshine.mp3
-
-Improvements to Dropbox client
-- Migrate [App permissions before September 2021](https://dropbox.tech/developers/migrating-app-permissions-and-access-tokens)
-  - https://developers.dropbox.com/oauth-guide
-  - https://dropbox.tech/developers/now-available--scoped-apps-and-enhanced-permissions
-  - https://dropbox.tech/developers/migrating-app-permissions-and-access-tokens
 
 Begin collecting proper measurements for page-rendering speed on the server. This will help us identify ways to improve the speed of your site.
 
