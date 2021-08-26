@@ -36,10 +36,16 @@ background-position:-{{x}}px -{{y}}px;width:{{width}}px;height:{{height}}px;{{/f
 {{/featured}}  
 </ul>
 </div>  
-  <div class="home-wrapper">
-    <div class="grid">
-      <div class="home-left" style="border-radius: 10px;background: #fafafa;padding: 1rem 2rem">
-        
+  <div class="s">
+	  <div style="margin:0 auto;max-width: 440px">
+
+
+
+<br><br>
+
+    <div class="home-right" style="background:#f7f7f7;border-radius: 10px;padding: 1rem 2rem">
+    	 <div >
+  
       <p style="font-size:22px">Blot is a blogging platform with no interface. It turns a folder into a website<!-- , so you can blog with your favorite text-editor -->.</p>
 
 
@@ -57,16 +63,8 @@ background-position:-{{x}}px -{{y}}px;width:{{width}}px;height:{{height}}px;{{/f
 
 
   <div style="max-width: 300px" >
-        {{> sidebar}}
+    		{{> sidebar}}
 </div>
-    </div>
-    <div class="home-right">
-      <div class="bod">
-        {{{body}}}
-      </div>
-    </div>
-  </div>
-  </div>
         <style type="text/css">
   ul.who li {position: relative;}
   .who li .contents {display: flex}
@@ -79,7 +77,11 @@ background-position:-{{x}}px -{{y}}px;width:{{width}}px;height:{{height}}px;{{/f
 
   </div>
     	</div>
-     
+      <div class="home-left">
+        <div class="bod">
+        {{{body}}}
+      </div>
+    </div>
     </div>
 </div>
 

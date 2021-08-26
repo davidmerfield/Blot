@@ -2,8 +2,8 @@
 <body>
  <style type="text/css">
 	.doc-wrapper{min-height: 100vh}
-	.doc-left {grid-column-start: 9;grid-column-end: 11;margin-top: 0rem;padding-top: 3rem}
-	.doc-right {grid-column-start: 3;grid-column-end: 9;margin-top: 3rem;padding-right: 4rem}
+	.doc-left {grid-column-start: 3;grid-column-end: 5;margin-top: 0rem;padding-top: 3rem}
+	.doc-right {grid-column-start: 5;grid-column-end: 11;margin-top: 3rem;padding-right: 4rem}
 
 	.sidebar {border:none;border-left:1px solid rgba(0,0,0,0.1);}
 	
@@ -18,14 +18,14 @@
 </style>
 <div class="doc-wrapper">    
   <div class="grid">
-    <div class="doc-right">
-			{{> breadcrumbs}}
+    <div class="doc-left">
+      {{> sidebar}}
+  	</div>   
+  	<div class="doc-right">
+      {{> breadcrumbs}}
       <div style="clear: both;">
       {{{body}}}
-    	</div>
-  	</div>   
-  	<div class="doc-left">
-			{{> sidebar}}
+      </div>
 		</div>
 
   </div>
