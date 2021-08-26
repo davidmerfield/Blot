@@ -16,17 +16,33 @@
 		.sidebar li a {padding-left: 0}
 		.sidebar ul, .sidebar:first-of-type {display: none;}
   </style>
+<div>
+<ul class="who" style="display: flex;flex-wrap: wrap;justify-content: center;">
+{{#featured}}
+  <li style="">
+    <span class="contents"> 
+      <span class="imag">
+    <a target="_blank" rel="noopener" href="{{{link}}}">
+      {{#favicon.coordinates}}
+        <span style="display:block;background:url('/images/featured.png');background-size: {{background_width}}px;
+background-position:-{{x}}px -{{y}}px;width:{{width}}px;height:{{height}}px;{{/favicon.coordinates}}/*border: 2px solid {{color}};*/border-radius: 100px"></span></a>
+      
+      </span>
+      <!-- <span class="text">
+        <a target="_blank" rel="noopener" href="{{{link}}}"></a><span class="a" style="color:{{color}};">{{name}}</span></a> {{bio}}.<span class="uses"> {{firstName}} uses {{#if template.custom}}a custom{{/if}}{{#unless template.custom}}the <a href="{{#if template.custom}}/templates{{/if}}{{#unless template.custom}}/templates/{{template.slug}}{{/unless}}"><span class="a" style="color:{{color}};">{{template.label}}</span></a>{{/unless}} template</a>.</span>
+      </span> -->
+    </span>
+  </li>
+{{/featured}}  
+</ul>
+</div>  
   <div class="home-wrapper">
-	  <div class="grid">
-	    <div class="home-left">
-	      <div class="bod">
-	      {{{body}}}
-	    </div>
-	  </div>
-    <div class="home-right">
-    	 <div style="max-width: 336px">
-  
-      <p>Blot is a blogging platform with no interface. It turns a folder into a website. Blot gives you access to tools – blog with your favorite text-editor.</p>
+    <div class="grid">
+      <div class="home-left" style="border-radius: 10px;background: #fafafa;padding: 1rem 2rem">
+        
+      <p style="font-size:22px">Blot is a blogging platform with no interface. It turns a folder into a website<!-- , so you can blog with your favorite text-editor -->.</p>
+
+
 <p><a class="textli" href="/videos/publishing-with-blot.mp4" style="color: var(--accent-color)">Watch the video<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
    viewBox="0 0 15.4 15.4" style="enable-background:new 0 0 15.4 15.4;" xml:space="preserve">
 <style type="text/css">
@@ -39,11 +55,20 @@
 </svg></a>
   </p><br>
 
-  <div style="max-width: 240px" >
-    		{{> sidebar}}
+
+  <div style="max-width: 300px" >
+        {{> sidebar}}
 </div>
+    </div>
+    <div class="home-right">
+      <div class="bod">
+        {{{body}}}
+      </div>
+    </div>
+  </div>
+  </div>
         <style type="text/css">
-  ul.who li {position: relative;padding-bottom: 12px}
+  ul.who li {position: relative;}
   .who li .contents {display: flex}
   .who li .text {padding-top: 2px}
   .who li .imag {width: 50px;height: 50px}
@@ -54,36 +79,14 @@
 
   </div>
     	</div>
+     
     </div>
 </div>
-<div>
-  <center>
-  <h2 style="border-bottom: none">Who uses Blot?</h2>
-  </center>
 
-<ul class="who" style="display: flex;flex-wrap: wrap;justify-content: center;">
-{{#featured}}
-  <li style="flex-basis: 240px;flex-grow: 1;flex-shrink: 1;max-width: 400px;min-width: 80px">
-    <span class="contents"> 
-      <span class="imag">
-    <a target="_blank" rel="noopener" href="{{{link}}}">
-      {{#favicon.coordinates}}
-        <span style="display:block;background:url('/images/featured.png');background-size: {{background_width}}px;
-background-position:-{{x}}px -{{y}}px;width:{{width}}px;height:{{height}}px;{{/favicon.coordinates}}border: 2px solid {{color}};border-radius: 100px"></span></a>
-      
-      </span>
-      <span class="text">
-        <a target="_blank" rel="noopener" href="{{{link}}}"><span class="a" style="color:{{color}};">{{name}}</span></a> {{bio}}.</a><span class="uses"> {{firstName}} uses {{#if template.custom}}a custom{{/if}}{{#unless template.custom}}the <a href="{{#if template.custom}}/templates{{/if}}{{#unless template.custom}}/templates/{{template.slug}}{{/unless}}"><span class="a" style="color:{{color}};">{{template.label}}</span></a>{{/unless}} template</a>.</span>
-      </span>
-    </span>
-  </li>
-{{/featured}}  
-</ul>
-</div>
 <!-- Randomizes links to member sites and limit total sites to 20 -->
 <script type="text/javascript">
 var ul = document.querySelector('ul.who');
-var MAX_FEATURED = 24;
+var MAX_FEATURED = 36;
 
 for (var i = ul.children.length; i >= 0; i--) {
   ul.appendChild(ul.children[Math.random() * i | 0]);
