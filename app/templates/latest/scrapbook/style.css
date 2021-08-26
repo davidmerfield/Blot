@@ -138,6 +138,8 @@ ul.task-list { list-style-type: none; }
 }
 
 @media screen and (max-width: 500px) {
+
+
   .post {
     width: 100%
   }
