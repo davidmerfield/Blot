@@ -157,9 +157,10 @@ nav a.selected:hover {
  {
     max-height: 300px;
     transition: max-height 0.2s ease-out;
-    border-top: 1px solid white;
     border-bottom: 1px solid var(--light-border-color);
     margin-top: -1px;
+    padding-bottom: 10px;
+    padding-top: 10px;
     position: relative;
 }
 

@@ -14,10 +14,15 @@
 
 		.sidebar {border-right: none;}
 		.sidebar li a {padding-left: 0}
-		.sidebar ul, .sidebar:first-of-type {display: none;}
+		.sidebar ul, .sidebar a[href="/"] {display: none;}
   </style>
-<div>
-<ul class="who" style="display: flex;flex-wrap: wrap;justify-content: center;">
+
+{{> header}}
+
+<ul class="who" style="display: flex;flex-wrap: wrap;justify-content: center;margin: 0 4rem">
+ 
+
+
 {{#featured}}
   <li style="">
     <span class="contents"> 
@@ -35,7 +40,7 @@ background-position:-{{x}}px -{{y}}px;width:{{width}}px;height:{{height}}px;{{/f
   </li>
 {{/featured}}  
 </ul>
-</div>  
+
   <div class="s">
 	  <div style="margin:0 auto;max-width: 440px">
 
@@ -43,10 +48,10 @@ background-position:-{{x}}px -{{y}}px;width:{{width}}px;height:{{height}}px;{{/f
 
 <br><br>
 
-    <div class="home-right" style="background:#f7f7f7;border-radius: 10px;padding: 1rem 2rem">
+    <div class="home-right" style="background:#f7f7f7;border-radius: 18px;padding: 1rem 2rem">
     	 <div >
   
-      <p style="font-size:22px">Blot is a blogging platform with no interface. It turns a folder into a website<!-- , so you can blog with your favorite text-editor -->.</p>
+      <p style="font-size:22px;margin-bottom: 0"><!-- <img src="/logo.svg" style="width:30px;margin-right: 1rem;vertical-align: baseline;"/> -->Blot is a blogging platform with no interface. It turns a folder into a website<!-- , so you can blog with your favorite text-editor -->.</p>
 
 
 <p><a class="textli" href="/videos/publishing-with-blot.mp4" style="color: var(--accent-color)">Watch the video<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
@@ -59,10 +64,11 @@ background-position:-{{x}}px -{{y}}px;width:{{width}}px;height:{{height}}px;{{/f
 <path class="st1" d="M6.2,10.7l4.2-2.4c0.2-0.1,0.2-0.3,0.2-0.4s-0.1-0.3-0.2-0.4L6.2,5C6,4.9,5.8,4.9,5.7,5
   C5.5,5.1,5.4,5.3,5.4,5.5v4.8c0,0.2,0.1,0.3,0.2,0.4c0.1,0,0.2,0.1,0.2,0.1S6.1,10.8,6.2,10.7z"/>
 </svg></a>
-  </p><br>
+  </p>
+  <br>
 
 
-  <div style="max-width: 300px" >
+  <div >
     		{{> sidebar}}
 </div>
         <style type="text/css">

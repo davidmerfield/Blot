@@ -70,7 +70,7 @@
   color: #999
 }
 
-.breadcrumbs__link:active ~ .breadcrumbs__link,
+/*.breadcrumbs__link:active ~ .breadcrumbs__link,
 .breadcrumbs__link:focus ~ .breadcrumbs__link {
   display: none;
-}
+}*/

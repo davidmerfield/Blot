@@ -11,25 +11,26 @@
          <line x1="0" y1="100%" x2="100%" y2="0%" stroke="currentColor"></line>
       </svg>
    </label>
-   <ul class="sidebar"style="margin-bottom: 2rem">
+   <!-- <ul class="sidebar"style="margin-bottom: 2rem">
       <li><a class="{{selected}}" href="/">Home</a></li>
       <li><a class="{{selected}}" href="/sign-up">Create a blog</a></li>
-   </ul>
+   </ul> -->
    <ul class="sidebar" >
+
       <li>
          <a style="border-top:none" class="{{selected.howIndex}}" data-open="{{selected.how}}" href="/how">How it works</a>
          <ul>
             <li><a class="{{selected.pages}}" href="/how/pages">Pages</a></li>
             <li><a class="{{selected.metadata}}" href="/how/metadata">Metadata</a></li>
             <li>
-               <a class="{{selected.clientsIndex}}" data-open="{{selected.clients}}"  href="/how/clients">Clients</a>
+               <a class="{{selected.clientsIndex}}" data-open="{{selected.clients}}"  href="/how/sync">Sync your folder</a>
                <ul>
-                  <li><a class="{{selected.dropbox}}" href="/how/clients/dropbox">Dropbox</a></li>
-                  <li><a class="{{selected.git}}" href="/how/clients/git">Git</a></li>
+                  <li><a class="{{selected.dropbox}}" href="/how/sync/dropbox">Dropbox</a></li>
+                  <li><a class="{{selected.git}}" href="/how/sync/git">Git</a></li>
                </ul>
             </li>
             <li>
-               <a class="{{selected.guidesIndex}}" data-open="{{selected.guides}}" href="/how/guides">Guides</a>
+               <a class="{{selected.guidesIndex}}" data-open="{{selected.guides}}" href="/how/guides">Formatting guides</a>
                <ul>
                   <li><a class="{{selected.markdown}}" href="/how/guides/markdown">Markdown</a></li>
                   <li><a class="{{selected.layout-tags}}" href="/how/guides/layout-tags">Layout</a></li>

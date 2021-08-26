@@ -271,6 +271,7 @@ h1:first-child {
   line-height: 1;
 }
 
+h1 + h2 {padding: 0;margin: -0.5rem 0  1.5rem;font-size:24px;color: #666;font-weight: 400;border:none;}
 h2 {
   font-size: 16px;
   margin: 2.8rem 0 0.35rem;
@@ -615,6 +616,7 @@ a.bordered-button {
 }
 
 ul.who {
+  margin: 1rem 0;
   max-width: none;
   list-style: none;
   padding: 0;
@@ -623,10 +625,13 @@ ul.who {
 ul.who li {
   clear: both;
   /*border-top: 1px solid rgba(0, 0, 0, 0.05);*/
-  padding: 0.5rem;
+  padding: 0.25rem;
+  transform: scale(0.75);
 }
 
-
+ul.who li:hover {
+  transform: scale(1)
+}
 ul.who li:after {
 
 }
