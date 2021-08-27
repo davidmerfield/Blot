@@ -125,19 +125,32 @@ background-position:-{{x}}px -{{y}}px;width:{{width}}px;height:{{height}}px;bord
 <!-- Randomizes links to member sites and limit total sites to 20 -->
 <script type="text/javascript">
 var ul = document.querySelector('ul.who');
-var MAX_FEATURED = 40;
 
-for (var i = ul.children.length; i >= 2; i--) {
-  let index = 2 + (Math.floor(Math.random() * (i - 2)));
-  console.log('i', i);
-  console.log('index', index);
-  console.log('node', ul.children[index]);
-  ul.appendChild(ul.children[index]);
-}
+var people = Array.from(document.querySelector('ul.who').children).slice(2);
 
-for (var x = ul.children.length - 1; x >= MAX_FEATURED; x--) {
-  ul.children[x].remove();
-}
+var firstRowStart = document.querySelector('ul.who :first-child').getBoundingClientRect().right;
+var firstRowEnd = document.querySelector('ul.who :nth-child(2)').getBoundingClientRect().left;
+var personWidth = people[0].getBoundingClientRect().width;
+
+console.log(firstRowStart);
+console.log(firstRowEnd);
+console.log(personWidth);
+
+console.log('num per row', Math.floor((firstRowEnd - firstRowStart)/personWidth));
+
+// var MAX_FEATURED = 40;
+
+// for (var i = ul.children.length; i >= 2; i--) {
+//   let index = 2 + (Math.floor(Math.random() * (i - 2)));
+//   console.log('i', i);
+//   console.log('index', index);
+//   console.log('node', ul.children[index]);
+//   ul.appendChild(ul.children[index]);
+// }
+
+// for (var x = ul.children.length - 1; x >= MAX_FEATURED; x--) {
+//   ul.children[x].remove();
+// }
 </script>
 
 </div>
