@@ -49,12 +49,8 @@
   <div class="home-wrapper">
 	  <div class="grid">
 	    <div class="home-left">
-	      <div class="bod">
-	      {{{body}}}
-	    </div>
-	  </div>
-    <div class="home-right">
-    	 <div style="max-width: 336px">
+	     
+       <div style="max-width: 336px">
   
       <p style="font-size: 20px">Blot is a blogging platform with no interface. It turns a folder into a website. <!-- Blot gives you access to tools – blog with your favorite text-editor. --></p>
 <p><a class="textli" href="/videos/publishing-with-blot.mp4" style="color: var(--accent-color)">Watch the video<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
@@ -70,22 +66,12 @@
   </p><br>
 
   <div  >
-    		{{> sidebar}}
+        {{> sidebar}}
 </div>
-        <style type="text/css">
-  ul.who li {position: relative;padding-bottom: 12px}
-  .who li .contents {display: flex}
-  .who li .text {padding-top: 2px}
-  .who li .imag {width: 50px;height: 50px}
-  /*.who li > a {position: absolute;top: 0;left: 0;right: 0;bottom: 0}*/
-  .who .uses {visibility: hidden}
-  .who li:hover .uses {visibility: visible;}
-</style>
-
+	  </div>
   </div>
-    	</div>
-    </div>
-</div>
+    <div class="home-right">
+
 
 <ul class="who">
 
@@ -115,35 +101,51 @@ background-position:-{{x}}px -{{y}}px;width:{{width}}px;height:{{height}}px;bord
 {{/featured}}  
 </ul>  
 
+        <style type="text/css">
+  ul.who li {position: relative;padding-bottom: 12px}
+  .who li .contents {display: flex}
+  .who li .text {padding-top: 2px}
+  .who li .imag {width: 50px;height: 50px}
+  /*.who li > a {position: absolute;top: 0;left: 0;right: 0;bottom: 0}*/
+  .who .uses {visibility: hidden}
+  .who li:hover .uses {visibility: visible;}
+</style>
+
+  </div>
+    	</div>
+    </div>
+</div>
+
+
 <!-- Randomizes links to member sites and limit total sites to 20 -->
 <script type="text/javascript">
 var ul = document.querySelector('ul.who');
 
-var people = Array.from(document.querySelector('ul.who').children).slice(2);
+// var people = Array.from(document.querySelector('ul.who').children).slice(2);
 
-var firstRowStart = document.querySelector('ul.who :first-child').getBoundingClientRect().right;
-var firstRowEnd = document.querySelector('ul.who :nth-child(2)').getBoundingClientRect().left;
-var personWidth = people[0].getBoundingClientRect().width;
+// var firstRowStart = document.querySelector('ul.who :first-child').getBoundingClientRect().right;
+// var firstRowEnd = document.querySelector('ul.who :nth-child(2)').getBoundingClientRect().left;
+// var personWidth = people[0].getBoundingClientRect().width;
 
-console.log(firstRowStart);
-console.log(firstRowEnd);
-console.log(personWidth);
+// console.log(firstRowStart);
+// console.log(firstRowEnd);
+// console.log(personWidth);
 
-console.log('num per row', Math.floor((firstRowEnd - firstRowStart)/personWidth));
+// console.log('num per row', Math.floor((firstRowEnd - firstRowStart)/personWidth));
 
-// var MAX_FEATURED = 40;
+var MAX_FEATURED = 36;
 
-// for (var i = ul.children.length; i >= 2; i--) {
-//   let index = 2 + (Math.floor(Math.random() * (i - 2)));
-//   console.log('i', i);
-//   console.log('index', index);
-//   console.log('node', ul.children[index]);
-//   ul.appendChild(ul.children[index]);
-// }
+for (var i = ul.children.length; i >= 2; i--) {
+  let index = 2 + (Math.floor(Math.random() * (i - 2)));
+  console.log('i', i);
+  console.log('index', index);
+  console.log('node', ul.children[index]);
+  ul.appendChild(ul.children[index]);
+}
 
-// for (var x = ul.children.length - 1; x >= MAX_FEATURED; x--) {
-//   ul.children[x].remove();
-// }
+for (var x = ul.children.length - 1; x >= MAX_FEATURED; x--) {
+  ul.children[x].remove();
+}
 </script>
 
 </div>
