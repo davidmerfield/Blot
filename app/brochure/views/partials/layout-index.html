@@ -15,28 +15,69 @@
 		.sidebar {border-right: none;}
 		.sidebar li a {padding-left: 0}
 		.sidebar ul{display: none;}
+
+
+    .tooltip {
+      display: none
+    }
+    .who li {
+      position: relative;
+      z-index: 0;
+      display: inline-block;
+
+    }
+       .who li:hover {
+        z-index: 1;
+       }
+
+       .who {display: auto;width: 100%;box-sizing: border-box;}
+    .who li:hover .tooltip {
+      display: block;
+      position: absolute;
+      left: 0;
+      right: 0;
+      padding: 1rem;
+      top: 100%;
+      width: 300px;
+      border:1px solid #efefef;
+      background: #fff;
+      border-radius: 18px
+    }
   </style>
 
 
-{{> header}}
 
-<ul class="who" style="display: flex;flex-wrap: wrap;justify-content: center;margin: 0 4rem">
- 
+<ul class="who">
+  <li style="float: left;margin: 3px 1rem 0"> 
+    <a href="/" ><img src="/logo.svg" style="width:36px;height:36px;"></a>
+  </li>
 
+ <li style="float:right;margin: 0 1rem">
+    <a style="box-sizing:border-box;display:inline-block;font-weight: 600;color:#000;height:36px;line-height:32px;border:1px solid #eee;border-radius: 36px;padding: 0 1rem;margin-left: 1rem" href="/log-in">Log in</a>
+    <a style="box-sizing:border-box;display:inline-block;font-weight: 600;color:#000;height:36px;line-height:32px;border:1px solid #eee;border-radius: 36px;padding: 0 1rem" href="/sign-up">Sign up</a>
+  </li>
 
 {{#featured}}
-  <li style="">
+  <li>
     <span class="contents"> 
       <span class="imag">
-    <a target="_blank" rel="noopener" href="{{{link}}}">
+      <a target="_blank" rel="noopener" href="{{{link}}}">
       {{#favicon.coordinates}}
         <span style="display:block;background:url('/images/featured.png');background-size: {{background_width}}px;
-background-position:-{{x}}px -{{y}}px;width:{{width}}px;height:{{height}}px;{{/favicon.coordinates}}/*border: 2px solid {{color}};*/border-radius: 100px"></span></a>
+background-position:-{{x}}px -{{y}}px;width:{{width}}px;height:{{height}}px;border-radius: 100px"></span>
+{{/favicon.coordinates}}
+    </a>
       
       </span>
-      <!-- <span class="text">
-        <a target="_blank" rel="noopener" href="{{{link}}}"></a><span class="a" style="color:{{color}};">{{name}}</span></a> {{bio}}.<span class="uses"> {{firstName}} uses {{#if template.custom}}a custom{{/if}}{{#unless template.custom}}the <a href="{{#if template.custom}}/templates{{/if}}{{#unless template.custom}}/templates/{{template.slug}}{{/unless}}"><span class="a" style="color:{{color}};">{{template.label}}</span></a>{{/unless}} template</a>.</span>
-      </span> -->
+      <span class="tooltip" style="text-align: left;">
+        <a target="_blank" rel="noopener" href="{{{link}}}"><span class="a" style="color:{{color}};">{{name}}</span></a> {{bio}}.
+<br>
+        <span class="uses" style="font-size: 12px">Joined in 2015 &bull; Updated last month <!-- <br>
+           <a href="{{{link}}}"><span class="a" style="color:{{color}};">{{host}}</span></a> with  --> &bull; Uses {{#if template.custom}}a custom{{/if}}{{#unless template.custom}}the 
+          <a href="{{#if template.custom}}/templates{{/if}}{{#unless template.custom}}/templates/{{template.slug}}{{/unless}}"><span class="a" style="color:{{color}};">{{template.label}}</span></a>
+      {{/unless}} template</span>
+
+      </span>
     </span>
   </li>
 {{/featured}}  
@@ -72,7 +113,7 @@ background-position:-{{x}}px -{{y}}px;width:{{width}}px;height:{{height}}px;{{/f
   .who li .contents {display: flex}
   .who li .text {padding-top: 2px}
   .who li .imag {width: 50px;height: 50px}
-  .who li > a {position: absolute;top: 0;left: 0;right: 0;bottom: 0}
+  /*.who li > a {position: absolute;top: 0;left: 0;right: 0;bottom: 0}*/
   .who .uses {visibility: hidden}
   .who li:hover .uses {visibility: visible;}
 </style>
@@ -84,10 +125,14 @@ background-position:-{{x}}px -{{y}}px;width:{{width}}px;height:{{height}}px;{{/f
 <!-- Randomizes links to member sites and limit total sites to 20 -->
 <script type="text/javascript">
 var ul = document.querySelector('ul.who');
-var MAX_FEATURED = 24;
+var MAX_FEATURED = 36;
 
-for (var i = ul.children.length; i >= 0; i--) {
-  ul.appendChild(ul.children[Math.random() * i | 0]);
+for (var i = ul.children.length; i >= 2; i--) {
+  let index = 2 + (Math.floor(Math.random() * (i - 2)));
+  console.log('i', i);
+  console.log('index', index);
+  console.log('node', ul.children[index]);
+  ul.appendChild(ul.children[index]);
 }
 
 for (var x = ul.children.length - 1; x >= MAX_FEATURED; x--) {

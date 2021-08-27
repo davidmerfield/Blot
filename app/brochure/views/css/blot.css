@@ -618,23 +618,17 @@ a.bordered-button {
 ul.who {
   margin: 1rem 0;
   max-width: none;
+  text-align: center;
   list-style: none;
   padding: 0;
 }
 
 ul.who li {
-  clear: both;
   /*border-top: 1px solid rgba(0, 0, 0, 0.05);*/
   padding: 0.25rem;
-  transform: scale(0.75);
 }
 
-ul.who li:hover {
-  transform: scale(1)
-}
-ul.who li:after {
 
-}
 
 ul.who li a {
   color: inherit;
@@ -647,7 +641,6 @@ ul.who .a {
 
 ul.who .imag {
   float: left;
-  margin: 0 16px 0 0;
   width: 46px;
   height: 46px;
   display: block;
