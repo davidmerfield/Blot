@@ -872,6 +872,6 @@ ul.qa-questions li {
 
 
   .tabs {display: flex}
-  .tabs a {flex-basis: 50%;color: inherit;padding: 16px 24px;border-radius: 6px 0 0 0;border: 1px solid rgba(0,0,0,0.1);border-bottom: none;color: var(--light-text-color)}
-  .tabs a:last-child {background:rgba(0,0,0,0.025);border-left: none;border-radius: 0 6px 0 0;border-bottom: 1px solid rgba(0,0,0,0.1)}
+  .tabs a {flex-basis: 50%;color: inherit;padding: 16px 24px;border-radius: 18px 0 0 0;border: 1px solid rgba(0,0,0,0.1);border-bottom: none;color: var(--light-text-color)}
+  .tabs a:last-child {background:rgba(0,0,0,0.025);border-left: none;border-radius: 0 18px 0 0;border-bottom: 1px solid rgba(0,0,0,0.1)}
   .tabs strong {display: block;color: var(--text-color)}
