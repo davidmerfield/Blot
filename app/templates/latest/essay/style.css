@@ -97,6 +97,34 @@ input[type="submit"] {
 
 .archive h2.margin.left {left: -45%;}
 
+/* Index page table-like layout */ 
+.index-container {
+  display: table;margin: 2rem auto
+}
+
+.index-row {
+  display: table-row;
+}
+
+.index-cell {
+  display: table-cell;padding: 0.7rem 1rem;max-width: 48rem
+}
+
+.index-cell.light {
+  text-align: right;
+}
+
+@media screen and (max-width: 800px) {
+  .index-container, .index-cell, .index-row {
+    display: block;
+    padding-left: 0
+  }
+
+.index-cell.light {
+  text-align: left;
+}
+}
+
 /* MESSY RESPONSIVE BUSINESS */
 
 @media screen and (max-width: 1200px) {
@@ -113,9 +141,7 @@ input[type="submit"] {
   .archive .margin {display: block;width: 100%}
 }
 
-@media screen and (max-width: 800px) {
-  .index .margin {display: block;width: 100%}
-}
+
 
 @media screen and (max-width: 600px) {
 

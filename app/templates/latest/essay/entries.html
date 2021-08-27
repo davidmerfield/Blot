@@ -3,17 +3,21 @@
   {{> head}}
   <body>
     {{> header}}
-    <div class="container index">
+
+    <div class="index-container">
 
       {{#entries}}
-      <p>
-        <span class="light margin left">{{date}}</span>
-        <a href="{{{url}}}">{{title}}</a>
+      <p class="index-row">
+        <span  class="index-cell light">{{date}}</span>
+        <span class="index-cell">
+          <a href="{{{url}}}">{{title}}</a>
+        </span>
       </p>
-      <div style="clear:both"></div>
       {{/entries}}
 
-      <br /><Br />
+    </div>
+
+    <br /><Br />
 
       {{#pagination}}
       <p>
