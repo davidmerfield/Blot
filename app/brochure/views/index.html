@@ -1,6 +1,6 @@
 <div class="tabs">
-  <a href=""><strong>Log in</strong><span style="font-size: 14px">Manage your blogs</span></a>
-  <a href="/sign-up"><strong>Sign up</strong><span style="font-size: 14px">Create a blog</span></a>
+  <a href=""><strong>Log in</strong><span style="font-size:14px;">Manage your blogs</span></a>
+  <a href="/sign-up"><strong>Sign up</strong><span style="font-size:14px;">Create a blog</span></a>
 </div>
 
 <div class="form-container" style="border-radius: 0 0 6px 6px;border-top: none;padding-top: 16px">
@@ -8,13 +8,13 @@
     <input type="hidden" name="_csrf" value="{{csrf}}" />
     <p style="margin-top:0">
       <label for="email">Your email address</label>
-      <input name="email" type="text" value="{{email}}"  />
+      <input name="email" type="text" value="{{email}}" {{#unless validemail}} autofocus{{/unless}} />
     </p>
-    <!-- <p>
+    <p>
       <label for="password">Password</label>
       <input name="password" type="password" {{#if validemail}} autofocus{{/if}} />
-    </p> -->
-    <input type="submit" value="Log in" style="margin-bottom: 8px" />
-    <center><p style="margin-bottom: 0"><a style="font-size:14px;" href="/log-in/reset">Forgot email?</a></p></center>
+    </p>
+    <input type="submit" value="Log in" style="margin-bottom: 0" />
+    <center><p style="margin-bottom: 0"><a style="font-size:14px;" href="/log-in/reset">Forgot password?</a></p></center>
   </form>
 </div>
