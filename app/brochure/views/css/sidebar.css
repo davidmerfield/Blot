@@ -228,7 +228,11 @@ nav a.selected:hover {
   border-left: 1px solid var(--light-border-color);
 }
 
-.on-this-page ul li:before {
+.sidebar li {
+  position: relative;
+}
+.on-this-page ul li:before,
+.sidebar li:before {
   content: " ";
   font-size: 0.333em;
   width: 1em;
@@ -241,6 +245,22 @@ nav a.selected:hover {
   left: -4px;
 }
 
+.sidebar li:before {
+top:5px;
+right: 0;
+left: auto;
+}
+
+.sidebar a.selected:after {
+  content: "";
+  width: 4px;
+  height: 4px;
+  border-radius: 4px;
+  background: var(--accent-color);
+  position: absolute;
+  top: 7px;
+  right: 2px;
+}
 .on-this-page ul li.selected:before {
   background: #000
 }

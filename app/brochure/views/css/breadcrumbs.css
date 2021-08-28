@@ -63,7 +63,7 @@
 }
 
 .breadcrumbs__link:hover {
-  color: #606060;
+  color: var(--accent-color);
 }
 
 .breadcrumbs__link:active{
