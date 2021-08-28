@@ -1,3 +1,10 @@
+New template names:
+- Reference 
+- Blog 
+- Portfolio 
+- Magazine 
+- Photobook
+
 Improvements to Dropbox client
 - Migrate [App permissions before September 30th 2021](https://dropbox.tech/developers/migrating-app-permissions-and-access-tokens)
   - https://developers.dropbox.com/oauth-guide
