@@ -20,18 +20,20 @@
       color: #666;
       position: relative;
       padding: 0.4rem 0;
-      transition: color 0.2s ease-out ;
+      /*transition: color 0.2s ease-out ;*/
       border-bottom: 1px solid rgba(0,0,0,0.05);
     }
     .top-level li a:after {
       content: "→";
       opacity: 0;
-      transition: opacity 0.2s ease-out ;
+      /*transition: opacity 0.2s ease-out ;*/
       position: absolute;
       right: 0;
     }
     .top-level li a:hover {
-      color: #999;
+      /*color: #999;*/
+          color:  var(--accent-color);
+
     }
         .top-level li a:hover:after {
           opacity: 1
