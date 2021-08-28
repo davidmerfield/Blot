@@ -95,7 +95,7 @@ nav a.selected:hover {
   color: grey;
 }
 
-.sidebar a:hover {
+.sidebar a:hover, .sidebar a.selected {
   color: var(--accent-color);
 }
 .sidebar li ul {
@@ -119,11 +119,16 @@ nav a.selected:hover {
 .sidebar > li >  a {
 /*  background: rgba(0,0,0,0.02);
 */  border-bottom: 1px solid rgba(0,0,0,.05);
-  padding-top: 6px;
-    padding-bottom: 6px;
+  padding-top: 0.4rem;
+  color: #666;
+    padding-bottom: 0.4rem;
 
 }
 
+.sidebar li ul a {
+  padding-top: 3px;
+  padding-bottom: 3px;
+}
 .sidebar > li:last-of-type > a {
   border-bottom: none;
 }
