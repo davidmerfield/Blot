@@ -5,13 +5,27 @@
 		.home-left {grid-column-start: 3;grid-column-end: 7;margin-top: 2rem}
 		.home-right {grid-column-start: 7;grid-column-end: 11;margin-top: 2rem;}
 
+ 
+  @media screen and (max-width: 1080px)
+{
+  .home-left {
+    grid-column-start: 2;
+    grid-column-end: 6;
+}
+      .home-right {
+    grid-column-start: 6;
+    grid-column-end: 10;
+}
+}
+
+
 @media screen and (max-width: 800px) {
   .home-left, .home-right {grid-column-start: 1;grid-column-end: 12;}
-  .home-left {grid-row: 2;}
-  .home-right {grid-row: 1;padding: 1.5rem}
+  .home-left {grid-row: 1;}
+  .home-right {grid-row: 2;padding: 1.5rem}
   .grid {padding: 0}
 }
-  
+ 
     .top-level {list-style: none;padding:0;margin:2rem 0 0;}
 		.top-level ul{display: none;}
     .top-level li a {
