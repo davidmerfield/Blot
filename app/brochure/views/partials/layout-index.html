@@ -1,205 +1,53 @@
 {{> head}}
 <body>
-	<style type="text/css">
-		.home-wrapper{display: flex;justify-content: center;flex-direction: column;min-height: 80vh}
-		.home-left {grid-column-start: 3;grid-column-end: 7;margin-top: 2rem}
-		.home-right {grid-column-start: 7;grid-column-end: 11;margin-top: 2rem;}
-
- 
-  @media screen and (max-width: 1080px)
-{
-  .home-left {
-    grid-column-start: 2;
-    grid-column-end: 6;
-}
-      .home-right {
-    grid-column-start: 6;
-    grid-column-end: 10;
-}
-}
-
-
-@media screen and (max-width: 800px) {
-  .home-left, .home-right {grid-column-start: 1;grid-column-end: 12;}
-  .home-left {grid-row: 1;}
-  .home-right {grid-row: 2;padding: 1.5rem}
-  .grid {padding: 0}
-}
- 
-    .top-level {list-style: none;padding:0;margin:2rem 0 0;}
-		.top-level ul{display: none;}
-    .top-level li a {
-      display: block;
-      text-decoration: none;
-      color: #666;
-      position: relative;
-      padding: 0.4rem 0;
-      /*transition: color 0.2s ease-out ;*/
-      border-bottom: 1px solid rgba(0,0,0,0.05);
-    }
-    .top-level li a:after {
-      content: "→";
-      opacity: 0;
-      /*transition: opacity 0.2s ease-out ;*/
-      position: absolute;
-      right: 0;
-    }
-    .top-level li a:hover {
-      /*color: #999;*/
-          color:  var(--accent-color);
-
-    }
-        .top-level li a:hover:after {
-          opacity: 1
-        }
-
-.top-level li:last-child a {border-bottom: none;}
-
-    .tooltip {
-      display: none
-    }
-
-    .who:hover li:not(:last-child) {opacity: 0.5}
-    .who:hover li:hover {opacity: 1.0}
-    .who li {
-      position: relative;
-      z-index: 0;
-      display: inline-block;
-
-    }
-       .who li:hover {
-        z-index: 1;
-       }
-
-       .who {display: auto;width: 100%;box-sizing: border-box;}
-    .who li:hover .tooltip {
-      display: block;
-      position: absolute;
-      left: 0;
-      right: 0;
-      padding: 1rem;
-      top: 100%;
-      width: 300px;
-      border:1px solid #efefef;
-      background: #fff;
-      border-radius: 18px
-    }
-.textli svg {margin-right: 8px;left: 0}
-
-  </style>
-
 {{> header}}
   <div class="home-wrapper">
 	  <div class="grid">
-	    <div class="home-left" style="background: #fafafa;border-radius: 18px;padding:18px 36px">
-	     
-       <div style="max-width: 336px">
-  
-      <p style="font-size: 20px">Blot is a blogging platform with no interface. It turns a folder into a website, like magic. <!-- Blot gives you access to tools – blog with your favorite text-editor. --></p>
-<p><a class="textli" href="/videos/publishing-with-blot.mp4" style="color: var(--accent-color)"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-   viewBox="0 0 15.4 15.4" style="enable-background:new 0 0 15.4 15.4;" xml:space="preserve">
-<style type="text/css">
-  .st1{fill:var(--accent-color);}
-</style>
-<path class="st1" d="M7.7,15.4C3.4,15.4,0,11.9,0,7.7C0,3.4,3.4,0,7.7,0s7.7,3.4,7.7,7.7C15.4,11.9,11.9,15.4,7.7,15.4z M7.7,1.2
-  c-3.5,0-6.4,2.9-6.4,6.4s2.9,6.4,6.4,6.4c3.6,0,6.4-2.9,6.4-6.4S11.2,1.2,7.7,1.2z"/>
-<path class="st1" d="M6.2,10.7l4.2-2.4c0.2-0.1,0.2-0.3,0.2-0.4s-0.1-0.3-0.2-0.4L6.2,5C6,4.9,5.8,4.9,5.7,5
-  C5.5,5.1,5.4,5.3,5.4,5.5v4.8c0,0.2,0.1,0.3,0.2,0.4c0.1,0,0.2,0.1,0.2,0.1S6.1,10.8,6.2,10.7z"/>
-</svg>Watch the video</a>
-  </p>
+	    <div class="home-left">
+        <h1>Blot is a blogging platform with no interface. It turns a folder into a website, like magic.</h1>
+        <p>
+          <a class="textli" href="/videos/publishing-with-blot.mp4">{{> playsvg}}Watch the video</a>
+        </p>
+        <ul class="top-level">
+          {{> links}}
+        </ul>
+      </div>
+      <div class="home-right">
+        <ul class="who">
+          <li><a class="btn" href="/sign-up">Create a blog</a></li>
+        {{#featured}}
+          <li>
+            <span class="contents"> 
+              <span class="imag">
+              <a target="_blank" rel="noopener" href="{{{link}}}">
+              {{#favicon.coordinates}}
+                <span style="display:block;background:url('/images/featured.png');background-size: {{background_width}}px;
+        background-position:-{{x}}px -{{y}}px;width:{{width}}px;height:{{height}}px;border-radius: 100px"></span>
+        {{/favicon.coordinates}}
+            </a>
+              
+              </span>
+              <span class="tooltip" style="text-align: left;">
+                <a target="_blank" rel="noopener" href="{{{link}}}"><span class="a" style="color:{{color}};">{{name}}</span></a> {{bio}}.
+        <br>
+                <span class="uses" style="font-size: 12px">Joined Blot in 2015 &bull; <!-- Updated last month  --><!-- <br>
+                   <a href="{{{link}}}"><span class="a" style="color:{{color}};">{{host}}</span></a> with  --> <!-- &bull; --> Uses {{#if template.custom}}a custom{{/if}}{{#unless template.custom}}the 
+                  <a href="{{#if template.custom}}/templates{{/if}}{{#unless template.custom}}/templates/{{template.slug}}{{/unless}}"><span class="a" style="color:{{color}};">{{template.label}}</span></a>
+              {{/unless}} template</span>
 
-  <ul  class="top-level">
-        {{> links}}
-</ul>
-	  </div>
-  </div>
-    <div class="home-right">
-
-<style type="text/css">
-  
-  .who {display: flex;flex-wrap: wrap;flex-direction: row;}
-  .who .btn {
-    display: block;
-    width: 180px;
-    margin: 0 1rem 0 0;
-    color: white;
-    font-size: 18px;
-    font-weight: 500;
-    background-color:  var(--light-accent-color);
-    border-radius: 24px;
-    line-height: 48px;
-    text-align: center;
-    height: 48px;
-    transition: background-color 0.2s ease-out;
-
-  }
-
-  .who .btn:hover { 
-        background-color: var(--dark-accent-color);
-}
-  ul.who li {padding:0.5rem;}
-</style>
-<ul class="who" style="margin-top: 2rem">
-
-<li><a class="btn" href="/sign-up">Create a blog</a></li>
-
-{{#featured}}
-  <li>
-    <span class="contents"> 
-      <span class="imag">
-      <a target="_blank" rel="noopener" href="{{{link}}}">
-      {{#favicon.coordinates}}
-        <span style="display:block;background:url('/images/featured.png');background-size: {{background_width}}px;
-background-position:-{{x}}px -{{y}}px;width:{{width}}px;height:{{height}}px;border-radius: 100px"></span>
-{{/favicon.coordinates}}
-    </a>
-      
-      </span>
-      <span class="tooltip" style="text-align: left;">
-        <a target="_blank" rel="noopener" href="{{{link}}}"><span class="a" style="color:{{color}};">{{name}}</span></a> {{bio}}.
-<br>
-        <span class="uses" style="font-size: 12px">Joined Blot in 2015 &bull; <!-- Updated last month  --><!-- <br>
-           <a href="{{{link}}}"><span class="a" style="color:{{color}};">{{host}}</span></a> with  --> <!-- &bull; --> Uses {{#if template.custom}}a custom{{/if}}{{#unless template.custom}}the 
-          <a href="{{#if template.custom}}/templates{{/if}}{{#unless template.custom}}/templates/{{template.slug}}{{/unless}}"><span class="a" style="color:{{color}};">{{template.label}}</span></a>
-      {{/unless}} template</span>
-
-      </span>
-    </span>
-  </li>
-{{/featured}}  
-</ul>  
-
-        <style type="text/css">
-  ul.who li {position: relative;}
-  .who li .contents {display: flex}
-  .who li .text {padding-top: 2px}
-  .who li .imag {width: 50px;height: 50px}
-  /*.who li > a {position: absolute;top: 0;left: 0;right: 0;bottom: 0}*/
-  .who .uses {visibility: hidden}
-  .who li:hover .uses {visibility: visible;}
-</style>
-
-  </div>
-    	</div>
+              </span>
+            </span>
+          </li>
+        {{/featured}}  
+      </ul>  
     </div>
+	</div>
 </div>
 
 
 <!-- Randomizes links to member sites and limit total sites to 20 -->
 <script type="text/javascript">
 var ul = document.querySelector('ul.who');
-
-// var people = Array.from(document.querySelector('ul.who').children).slice(2);
-
-// var firstRowStart = document.querySelector('ul.who :first-child').getBoundingClientRect().right;
-// var firstRowEnd = document.querySelector('ul.who :nth-child(2)').getBoundingClientRect().left;
-// var personWidth = people[0].getBoundingClientRect().width;
-
-// console.log(firstRowStart);
-// console.log(firstRowEnd);
-// console.log(personWidth);
-
-// console.log('num per row', Math.floor((firstRowEnd - firstRowStart)/personWidth));
 
 var MAX_FEATURED = 28;
 
@@ -219,9 +67,7 @@ ul.appendChild(ul.children[0]);
 
 </script>
 
-</div>
 {{> video-player}}
 {{> footer}}
 </body>
 </html>
-

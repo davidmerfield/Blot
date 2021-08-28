@@ -617,7 +617,7 @@ a.bordered-button {
 }
 
 ul.who {
-  margin: 1rem 0;
+  margin: 2rem 0 1rem;
   max-width: none;
   text-align: center;
   list-style: none;
@@ -856,9 +856,11 @@ ul.qa-questions li {
   a.biglink strong {display: block;}
 
   
-.textli {text-decoration:none}.textli:hover {text-decoration: underline}
+.textli {text-decoration:none;color: var(--accent-color)}
+.textli:hover {text-decoration: underline}
 
-  .textli svg {width: 1rem;vertical-align: baseline;position: relative;top: 2px;left: 7px}
+  .textli svg {width: 1rem;vertical-align: baseline;position: relative;top: 2px;margin-right: 8px;left: 0}
+
   a.biglink {border:1px solid rgba(0,0,0,0.1);background: rgba(255,255,255,0.2);border-radius: 6px;padding: 8px 16px;display: block;text-decoration: none;}
   a.biglink:hover {text-decoration: none!important;color: black!important}
 
@@ -876,3 +878,119 @@ ul.qa-questions li {
   .tabs a {flex-basis: 50%;color: inherit;padding: 16px 24px;border-radius: 18px 0 0 0;border: 1px solid rgba(0,0,0,0.1);border-bottom: none;color: var(--light-text-color)}
   .tabs a:last-child {background:rgba(0,0,0,0.025);border-left: none;border-radius: 0 18px 0 0;border-bottom: 1px solid rgba(0,0,0,0.1)}
   .tabs strong {display: block;color: var(--text-color)}
+
+  .home-wrapper{display: flex;justify-content: center;flex-direction: column;min-height: 80vh}
+    .home-left {grid-column-start: 3;grid-column-end: 7;margin-top: 2rem; background: #fafafa;border-radius: 18px;padding:18px 36px}
+    .home-right {grid-column-start: 7;grid-column-end: 11;margin-top: 2rem;}
+
+    .home-wrapper h1 {font-weight: 400;font-size: 20px;margin:1em 0;padding: 0;line-height: 1.45}
+ 
+  @media screen and (max-width: 1080px)
+{
+  .home-left {
+    grid-column-start: 2;
+    grid-column-end: 6;
+}
+      .home-right {
+    grid-column-start: 6;
+    grid-column-end: 10;
+}
+}
+
+
+@media screen and (max-width: 800px) {
+  .home-left, .home-right {grid-column-start: 1;grid-column-end: 12;}
+  .home-left {grid-row: 1;}
+  .home-right {grid-row: 2;padding: 1.5rem}
+  .grid {padding: 0}
+}
+ 
+    .top-level {list-style: none;padding:0;margin:2rem 0 0;}
+    .top-level ul{display: none;}
+    .top-level li a {
+      display: block;
+      text-decoration: none;
+      color: #666;
+      position: relative;
+      padding: 0.4rem 0;
+      /*transition: color 0.2s ease-out ;*/
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+    }
+    .top-level li a:after {
+      content: "→";
+      opacity: 0;
+      /*transition: opacity 0.2s ease-out ;*/
+      position: absolute;
+      right: 0;
+    }
+    .top-level li a:hover {
+      /*color: #999;*/
+          color:  var(--accent-color);
+
+    }
+        .top-level li a:hover:after {
+          opacity: 1
+        }
+
+.top-level li:last-child a {border-bottom: none;}
+
+    .tooltip {
+      display: none
+    }
+
+    .who:hover li:not(:last-child) {opacity: 0.5}
+    .who:hover li:hover {opacity: 1.0}
+    .who li {
+      position: relative;
+      z-index: 0;
+      display: inline-block;
+
+    }
+       .who li:hover {
+        z-index: 1;
+       }
+
+       .who {display: auto;width: 100%;box-sizing: border-box;}
+    .who li:hover .tooltip {
+      display: block;
+      position: absolute;
+      left: 0;
+      right: 0;
+      padding: 1rem;
+      top: 100%;
+      width: 300px;
+      border:1px solid #efefef;
+      background: #fff;
+      border-radius: 18px
+    }
+
+  
+    ul.who li {position: relative;}
+  .who li .contents {display: flex}
+  .who li .text {padding-top: 2px}
+  .who li .imag {width: 50px;height: 50px}
+  /*.who li > a {position: absolute;top: 0;left: 0;right: 0;bottom: 0}*/
+  .who .uses {visibility: hidden}
+  .who li:hover .uses {visibility: visible;}
+
+  .who {display: flex;flex-wrap: wrap;flex-direction: row;}
+  .who .btn {
+    display: block;
+    width: 180px;
+    margin: 0 1rem 0 0;
+    color: white;
+    font-size: 18px;
+    font-weight: 500;
+    background-color:  var(--light-accent-color);
+    border-radius: 24px;
+    line-height: 48px;
+    text-align: center;
+    height: 48px;
+    transition: background-color 0.2s ease-out;
+
+  }
+
+  .who .btn:hover { 
+        background-color: var(--dark-accent-color);
+}
+  ul.who li {padding:0.5rem;}
