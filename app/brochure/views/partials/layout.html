@@ -24,16 +24,20 @@
 
 </style>
 <div class="doc-wrapper">    
-  <div class="grid">
-    <div class="doc-left">
+  <div style="display: flex;flex-wrap: wrap;justify-content: center;margin: 4rem 0">
+    <div style="flex-basis: 920px;margin:0 3rem 1rem">
             {{> breadcrumbs}}
-      <div style="clear: both;">
-      {{{body}}}
+    </div>
+          <div style="flex-basis: 100%">
       </div>
-  	</div>   
-  	<div class="doc-right">
+
+    <div style="flex-basis: 270px;margin: 0 2.5rem">
 {{> sidebar}}
-		</div>
+    </div>
+    <div style="flex-basis: 620px;margin: 0 2.5rem">
+            {{{body}}}
+
+  	</div>   
 
   </div>
 </div>
