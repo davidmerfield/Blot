@@ -11,7 +11,7 @@
 	.sidebar {border:none;/*border-left:1px solid rgba(0,0,0,0.1);*/
     background: #fafafa;
     border-radius: 18px;
-    padding: 12px 24px;
+    padding: 18px 36px;
 }
 	
 	@media screen and (max-width: 800px) {
@@ -25,19 +25,19 @@
 </style>
 <div class="doc-wrapper">    
   <div style="display: flex;flex-wrap: wrap;justify-content: center;margin: 4rem 0">
-    <div style="flex-basis: 920px;margin:0 3rem 1rem">
+    <div style="flex-basis: 980px;margin:0.4rem 3rem 13px">
             {{> breadcrumbs}}
     </div>
           <div style="flex-basis: 100%">
       </div>
 
-    <div style="flex-basis: 270px;margin: 0 2.5rem">
-{{> sidebar}}
-    </div>
-    <div style="flex-basis: 620px;margin: 0 2.5rem">
+    <div style="flex-basis: 620px;margin: 0 2.9rem 0 0">
             {{{body}}}
 
   	</div>   
+    <div style="flex-basis: 270px;margin: 0 0 0 2.9rem">
+{{> sidebar}}
+    </div>
 
   </div>
 </div>
