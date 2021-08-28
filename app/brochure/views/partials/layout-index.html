@@ -79,10 +79,11 @@
   .who {display: flex;flex-wrap: wrap;flex-direction: row;}
   .who .btn {
     display: block;
-    width: 164px;
+    width: 180px;
     margin: 0 1rem 0 0;
     color: white;
-    font-size: 20px;
+    font-size: 18px;
+    font-weight: 500;
     background: var(--light-accent-color);
     border-radius: 24px;
     line-height: 48px;
@@ -90,6 +91,7 @@
     height: 48px;
 
   }
+  ul.who li {padding:0.5rem;}
 </style>
 <ul class="who">
 
@@ -122,7 +124,7 @@ background-position:-{{x}}px -{{y}}px;width:{{width}}px;height:{{height}}px;bord
 </ul>  
 
         <style type="text/css">
-  ul.who li {position: relative;padding-bottom: 12px}
+  ul.who li {position: relative;}
   .who li .contents {display: flex}
   .who li .text {padding-top: 2px}
   .who li .imag {width: 50px;height: 50px}
@@ -153,7 +155,7 @@ var ul = document.querySelector('ul.who');
 
 // console.log('num per row', Math.floor((firstRowEnd - firstRowStart)/personWidth));
 
-var MAX_FEATURED = 33;
+var MAX_FEATURED = 28;
 
 for (var i = ul.children.length; i >= 2; i--) {
   let index = 2 + (Math.floor(Math.random() * (i - 2)));
