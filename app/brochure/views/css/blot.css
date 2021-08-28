@@ -617,7 +617,7 @@ a.bordered-button {
 }
 
 ul.who {
-  margin: 2rem 0 1rem;
+  margin: 1rem 0 0;
   max-width: none;
   text-align: center;
   list-style: none;
@@ -880,10 +880,10 @@ ul.qa-questions li {
   .tabs strong {display: block;color: var(--text-color)}
 
   .home-wrapper{display: flex;justify-content: center;flex-direction: column;min-height: 80vh}
-    .home-left {grid-column-start: 3;grid-column-end: 7;margin-top: 2rem; background: #fafafa;border-radius: 18px;padding:18px 36px}
+    .home-left {grid-column-start: 3;grid-column-end: 7;margin-top: 2rem;}
     .home-right {grid-column-start: 7;grid-column-end: 11;margin-top: 2rem;}
 
-    .home-wrapper h1 {font-weight: 400;font-size: 20px;margin:1em 0;padding: 0;line-height: 1.45}
+    h1.inline {font-weight: 400;font-size: 20px;margin:1em 0;padding: 0;line-height: 1.45}
  
   @media screen and (max-width: 1080px)
 {
@@ -973,11 +973,11 @@ ul.qa-questions li {
   .who .uses {visibility: hidden}
   .who li:hover .uses {visibility: visible;}
 
-  .who {display: flex;flex-wrap: wrap;flex-direction: row;}
+  .who {display: flex;flex-wrap: wrap;flex-direction: row;margin:0.5rem 0;}
   .who .btn {
     display: block;
     width: 180px;
-    margin: 0 1rem 0 0;
+    margin: 0;
     color: white;
     font-size: 18px;
     font-weight: 500;

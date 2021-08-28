@@ -1,20 +1,60 @@
-<div class="tabs">
-  <a href=""><strong>Log in</strong><span style="font-size:14px;">Manage your blogs</span></a>
-  <a href="/sign-up"><strong>Sign up</strong><span style="font-size:14px;">Create a blog</span></a>
+<div style="flex-basis: 470px;box-sizing:border-box;margin: 0 1.5rem; background: #fafafa;border-radius: 18px;padding:18px 36px">
+    <h1 class="inline">Blot is a blogging platform with no interface. It turns a folder into a website, like magic.</h1>
+    <p>
+      <a class="textli" href="/videos/publishing-with-blot.mp4">{{> playsvg}}Watch the video</a>
+    </p>
+    <ul class="top-level">
+      {{> links}}
+    </ul>
+  </div>
+  <div style="flex-basis: 470px;box-sizing:border-box;margin: 0 1.5rem;padding:18px 36px">
+    <ul class="who">
+      <li><a class="btn" href="/sign-up">Create a blog</a></li>
+    {{#featured}}
+      <li>
+        <span class="contents"> 
+          <span class="imag">
+          <a target="_blank" rel="noopener" href="{{{link}}}">
+          {{#favicon.coordinates}}
+            <span style="display:block;background:url('/images/featured.png');background-size: {{background_width}}px;
+    background-position:-{{x}}px -{{y}}px;width:{{width}}px;height:{{height}}px;border-radius: 100px"></span>
+    {{/favicon.coordinates}}
+        </a>
+          
+          </span>
+          <span class="tooltip" style="text-align: left;">
+            <a target="_blank" rel="noopener" href="{{{link}}}"><span class="a" style="color:{{color}};">{{name}}</span></a> {{bio}}.
+    <br>
+            <span class="uses" style="font-size: 12px">Joined Blot in 2015 &bull; <!-- Updated last month  --><!-- <br>
+               <a href="{{{link}}}"><span class="a" style="color:{{color}};">{{host}}</span></a> with  --> <!-- &bull; --> Uses {{#if template.custom}}a custom{{/if}}{{#unless template.custom}}the 
+              <a href="{{#if template.custom}}/templates{{/if}}{{#unless template.custom}}/templates/{{template.slug}}{{/unless}}"><span class="a" style="color:{{color}};">{{template.label}}</span></a>
+          {{/unless}} template</span>
+
+          </span>
+        </span>
+      </li>
+    {{/featured}}  
+  </ul>  
 </div>
 
-<div class="form-container" style="border-radius: 0 0 18px 18px;border-top: none;padding-top: 16px">
-  <form method="POST" action="/log-in">
-    <input type="hidden" name="_csrf" value="{{csrf}}" />
-    <p style="margin-top:0">
-      <label for="email">Your email address</label>
-      <input name="email" type="text" value="{{email}}" {{#unless validemail}} autofocus{{/unless}} />
-    </p>
-    <p>
-      <label for="password">Password</label>
-      <input name="password" type="password" {{#if validemail}} autofocus{{/if}} />
-    </p>
-    <input type="submit" value="Log in" style="margin-bottom: 0" />
-    <center><p style="margin-bottom: 0"><a style="font-size:14px;" href="/log-in/reset">Forgot password?</a></p></center>
-  </form>
-</div>
+    <!-- Randomizes links to member sites and limit total sites to 20 -->
+<script type="text/javascript">
+var ul = document.querySelector('ul.who');
+
+var MAX_FEATURED = 28;
+
+for (var i = ul.children.length; i >= 2; i--) {
+  let index = 2 + (Math.floor(Math.random() * (i - 2)));
+  console.log('i', i);
+  console.log('index', index);
+  console.log('node', ul.children[index]);
+  ul.appendChild(ul.children[index]);
+}
+
+for (var x = ul.children.length - 1; x >= MAX_FEATURED; x--) {
+  ul.children[x].remove();
+}
+
+ul.appendChild(ul.children[0]);
+
+</script>
