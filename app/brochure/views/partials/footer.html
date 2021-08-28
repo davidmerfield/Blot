@@ -5,49 +5,38 @@
   .index a:hover {color:grey;}
   .sm a:hover {text-decoration: underline;}
 
+.footer {
+  font-size: 14px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
 
+.footer, .footer ul {list-style: none;padding: 0;margin: 0}
 
+.footer > li {
+  margin: 0 2rem
+}
 
+.footer a {
+  color: #777;
+  text-decoration: none;
+  padding: 3px 0;
+  display: block;
+}
+.footer > li > a {
+  font-weight: 500;
+  color: #000;
+  margin-bottom: 3px;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
 
+}
+
+.footer  ul ul {display: none;}
 </style>
 <br><Br>
-<div class="grid" >
-  
-  <ul class="index col-half-left">
-    <li><a href="/how"><strong>How it works</strong></a></li>
-    <li><a href="/how/pages">Pages</a></li>
-    <li><a href="/how/metadata">Metadata</a></li>
-    <li><a href="/how/sync">Clients</a></li>
-    <li><a href="/how/guides">Guides</a></li>
-    <li><a href="/how/configure">Configure your site</a></li>
-  </ul>
-  
-  <ul class="index col-half-left-middle">
-    <li><a href="/templates"><strong>Templates</strong></a></li>
-    <li><a href="/templates/diary">Diary</a></li>
-    <li><a href="/templates/essay">Essay</a></li>
-    <li><a href="/templates/picture">Picture</a></li>
-    <li><a href="/templates/magazine">Magazine</a></li>
-    <li><a href="/templates/scrapbook">Scrapbook</a></li>
-    <li><a href="/templates/developers">Developer guide</a></li>
-  </ul>
-  
-  <ul class="index col-half-right-middle">
-    <li><a href="/about"><strong>About</strong></a></li>
-    <li><a href="/about/notes">Notes</a></li>
-    <li><a href="/about/source-code">Source code</a></li>
-    <li><a href="/about/news">News</a></li>
-  </ul>
-
-  <ul class="index col-half-right">
-    <li style="padding-bottom:3px;font-weight:600;margin-bottom:3px;border-bottom: 1px solid rgba(0,0,0,0.1)"><a href="/support">Support</a></li>
-    <li style="padding-bottom:3px;margin-bottom:3px;border-bottom: 1px solid rgba(0,0,0,0.1)"><a href="/terms">Terms of use</a></li>
-    <li style="padding-bottom:3px;margin-bottom:3px;border-bottom: 1px solid rgba(0,0,0,0.1)"><a href="/privacy">Privacy policy</a></li>
-    <li style="padding-bottom:3px;margin-bottom:3px;border-bottom: 1px solid rgba(0,0,0,0.1)"><a href="/log-in">Log in</a></li>
-    <li ><a href="/sign-up">Sign up</a></li>
-
-  </ul>  
-
+<div class="footer">
+{{> links}}
 </div>
 <br><Br>
 <script type="text/javascript" src="/js/instant.page.js"></script>

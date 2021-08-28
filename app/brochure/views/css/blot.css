@@ -5,6 +5,7 @@ html {
   --light-text-color: #767676;
   --accent-color: #0070e8; /* used for links */
   --light-accent-color: #0079fc; /* used for button background */
+  --dark-accent-color: #005bbd; /* used for button hover background*/
   --dark-border-color: rgba(0,0,0,0.1);
   --light-border-color: rgba(0,0,0,0.05);
 }

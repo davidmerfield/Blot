@@ -11,11 +11,33 @@
   .home-right {grid-row: 1;padding: 1.5rem}
   .grid {padding: 0}
 }
+  
+    .top-level {list-style: none;padding:0;margin:2rem 0 0;}
+		.top-level ul{display: none;}
+    .top-level li a {
+      display: block;
+      text-decoration: none;
+      color: #666;
+      position: relative;
+      padding: 0.4rem 0;
+      transition: color 0.2s ease-out ;
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+    }
+    .top-level li a:after {
+      content: "→";
+      opacity: 0;
+      transition: opacity 0.2s ease-out ;
+      position: absolute;
+      right: 0;
+    }
+    .top-level li a:hover {
+      color: #999;
+    }
+        .top-level li a:hover:after {
+          opacity: 1
+        }
 
-		.sidebar {border-right: none;}
-		.sidebar li a {padding-left: 0}
-		.sidebar ul{display: none;}
-
+.top-level li:last-child a {border-bottom: none;}
 
     .tooltip {
       display: none
@@ -65,11 +87,11 @@
 <path class="st1" d="M6.2,10.7l4.2-2.4c0.2-0.1,0.2-0.3,0.2-0.4s-0.1-0.3-0.2-0.4L6.2,5C6,4.9,5.8,4.9,5.7,5
   C5.5,5.1,5.4,5.3,5.4,5.5v4.8c0,0.2,0.1,0.3,0.2,0.4c0.1,0,0.2,0.1,0.2,0.1S6.1,10.8,6.2,10.7z"/>
 </svg>Watch the video</a>
-  </p><br>
+  </p>
 
-  <div  >
-        {{> sidebar}}
-</div>
+  <ul  class="top-level">
+        {{> links}}
+</ul>
 	  </div>
   </div>
     <div class="home-right">
@@ -84,13 +106,18 @@
     color: white;
     font-size: 18px;
     font-weight: 500;
-    background: var(--light-accent-color);
+    background-color:  var(--light-accent-color);
     border-radius: 24px;
     line-height: 48px;
     text-align: center;
     height: 48px;
+    transition: background-color 0.2s ease-out;
 
   }
+
+  .who .btn:hover { 
+        background-color: var(--dark-accent-color);
+}
   ul.who li {padding:0.5rem;}
 </style>
 <ul class="who" style="margin-top: 2rem">
