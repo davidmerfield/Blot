@@ -95,6 +95,9 @@ nav a.selected:hover {
   color: grey;
 }
 
+.sidebar a:hover {
+  color: var(--accent-color);
+}
 .sidebar li ul {
   padding: 0;
   margin: 0;
@@ -110,7 +113,7 @@ nav a.selected:hover {
 }
 
 .sidebar a {
-    padding-left: 16px;
+    /*padding-left: 16px;*/
 
 }
 .sidebar > li >  a {
