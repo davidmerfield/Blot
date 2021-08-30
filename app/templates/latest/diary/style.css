@@ -24,7 +24,7 @@ body {
   background: {{background_color}};
   word-wrap: break-word;
   margin: 0;
-  padding: 0;
+  padding: 0 0.75rem;
 }
 
 .clear {width: 100%;clear: both;float: none;display: block;height: 0}
