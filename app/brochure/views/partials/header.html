@@ -1,0 +1,46 @@
+<style type="text/css">
+  .hdr-btn {
+    box-sizing:border-box;display:inline-block;font-weight: 600;color:#000;height:36px;line-height:32px;border:1px solid #eee;border-radius: 36px;padding: 0 1rem;margin-left: 0.5rem
+  }
+
+  .hdr-btn:hover {
+    color:  var(--accent-color);
+  }
+
+.top-r {
+  position: absolute;top: 1rem;right: 1rem
+}
+{{#unless selected.index}}
+@media screen and (max-width: 1000px) {
+  .top-r {
+    right: 4rem;
+  }
+}
+{{/unless}}
+</style>
+<a href="/" style="position: absolute;top:1rem;left: 1.45rem"><img src="/logo.svg" style="width:32px;height:32px;"></a>
+
+       <div class="top-r">
+
+        {{#unless selected.log-in}}
+        {{#unless selected.sign-up}}
+        <a class="hdr-btn" style="" href="/log-in">Log in</a>
+        <a class="hdr-btn"  href="/sign-up">Sign up</a>
+      {{/unless}}
+      {{/unless}}
+
+      {{#if selected.log-in}}
+        <a href="{{#if from}}{{{from}}}{{else}}/{{/if}}" class="grow-on-hover huge hdr-btn">
+                <svg id="hider" style="width: 0.75rem; height: 0.75rem;">
+         <line x1="0" y1="0" x2="100%" y2="100%" stroke="#333"></line>
+         <line x1="0" y1="100%" x2="100%" y2="0%" stroke="#333"></line>
+      </svg></a>
+      {{/if}}
+      {{#if selected.sign-up}}
+<a href="{{#if from}}{{{from}}}{{else}}/{{/if}}" class="grow-on-hover huge hdr-btn">
+                <svg id="hider" style="width: 0.75rem; height: 0.75rem;">
+         <line x1="0" y1="0" x2="100%" y2="100%" stroke="#333"></line>
+         <line x1="0" y1="100%" x2="100%" y2="0%" stroke="#333"></line>
+      </svg></a>
+      {{/if}}
+  </div>

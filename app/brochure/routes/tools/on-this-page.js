@@ -9,7 +9,7 @@ module.exports = function onThisPage(req, res, next) {
   res.send = function (string) {
     const html = string instanceof Buffer ? string.toString() : string;
     const $ = cheerio.load(html, { decodeEntities: false });
-    $("h2,h3").each((i, el) => {
+    $("h2:not(h1 + h2),h3").each((i, el) => {
       const text = $(el).text();
       const id = $(el).attr("id") || makeSlug(text);
       $(el).attr("id", id || makeSlug(text));

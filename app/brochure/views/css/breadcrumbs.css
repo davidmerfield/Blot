@@ -3,7 +3,7 @@
   margin: 0;
   padding: 0;
   list-style-type: none;
-  margin-bottom: 16px;
+  margin-bottom: 8px;
   /*font-size: 14px;*/
 }
 
@@ -63,14 +63,14 @@
 }
 
 .breadcrumbs__link:hover {
-  color: #606060;
+  color: var(--accent-color);
 }
 
 .breadcrumbs__link:active{
   color: #999
 }
 
-.breadcrumbs__link:active ~ .breadcrumbs__link,
+/*.breadcrumbs__link:active ~ .breadcrumbs__link,
 .breadcrumbs__link:focus ~ .breadcrumbs__link {
   display: none;
-}
+}*/

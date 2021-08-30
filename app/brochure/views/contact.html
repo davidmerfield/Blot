@@ -1,5 +1,37 @@
-<h1>Contact</h1>
+<h1>Contact us</h1>
 
-<p>Please email <a href="mailto:contact@blot.im">contact@blot.im</a> directly. You can expect to receive a prompt response. If you have a question about a specific site, please include a link to the site.</p>
+<p>Please email <a href="mailto:contact@blot.im">contact@blot.im</a> directly.  We provide prompt and personal support, so please don't hesitate to ask if you have any questions. Your feedback is also always welcome.<!-- If you have a question about a particular site, please include a link where possible. --></p>
 
-<p><a class="bordered-button" href="mailto:contact@blot.im">contact@blot.im</a></p>
+
+<style type="text/css">
+  
+  button:focus {outline: none;}
+</style>
+<p><a class="bordered-button" style="border:1px solid;padding: 0.5rem 1rem;display: inline-block;border-radius: 4px 0 0 4px;" id="text_element" href="mailto:contact@blot.im">contact@blot.im</a><button id="copier" style="border:1px solid var(--light-accent-color);cursor:pointer;background:var(--light-accent-color);color:white;font:inherit;padding:0.5rem 1rem;border-radius: 0 4px 4px 0" onclick="copyToClipboard('text_element')">
+    Copy
+</button></p>
+
+<script type="text/javascript">
+  function copyToClipboard(elementId) {
+
+  // Create an auxiliary hidden input
+  var aux = document.createElement("input");
+
+  // Get the text from the element passed into the input
+  aux.setAttribute("value", document.getElementById(elementId).innerHTML);
+
+  // Append the aux input to the body
+  document.body.appendChild(aux);
+
+  // Highlight the content
+  aux.select();
+
+  // Execute the copy command
+  document.execCommand("copy");
+
+  // Remove the input from the body
+  document.body.removeChild(aux);
+  document.querySelector('#copier').innerHTML = 'Copied'
+  }
+
+</script>
