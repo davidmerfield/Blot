@@ -1,5 +1,5 @@
 <h1>News</h1>
-
+<!-- <h2>Blot remains an active project.</h2> -->
 <style type="text/css">
 
 
@@ -171,18 +171,22 @@ details summary:before {
 }
 </style>
 
-<p>You can receive a newsletter at the start of each season summarizing what we are working on and what we have planned. Please <a href="/support">contact support</a> if you have any suggestions.</p>
-<br>
-<div style="max-width: 360px">
-<form action="/about/news/sign-up" method="POST">
-  <p style="margin: 0">
+<p>Subscribe to receive a newsletter at the start of each season with a summary of our work and our plans. Please <a href="/contact">send us</a> your suggestions.
+
+</p>
+<form action="/about/news/sign-up" method="POST" style="margin-top:1.45rem;display: flex;align-items: flex-end;">
+  <p style="margin: 0;flex-basis: 75%">
   <label for="email" >Your email address</label>
   <input type="text" required id="email" name="email">
 </p>
-  <input type="submit" value="Subscribe to the newsletter">
+  <input style="flex-basis: 25%;width: auto;margin:0;border-radius: 0 4px 4px 0;    padding: 0 1em;
+    line-height: 42px;
+    margin-bottom: 2px;" type="submit" value="Subscribe">
 </form>
-</div>
 
+<br>
+<br>
+<hr>
 <flex>
 
   <style type="text/css">
@@ -222,7 +226,7 @@ details summary:before {
     <ol >
       {{#days}}
       <li><strong>Done {{day}}</strong>
-      <ol>
+      <ol style="font-size: 14px">
       {{#commits}}
       <li>
         <a href="https://github.com/davidmerfield/Blot/commit/{{hash}}">

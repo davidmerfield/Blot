@@ -10,7 +10,7 @@ var TITLES = {
   "terms": "Terms of use",
   "privacy": "Privacy policy",
   // "configure": "Configure your site",
-  "ask": "Ask question",
+  "ask": "Ask",
   "urls": "Link format",
   "hard-stop-start-ec2-instance": "How to stop and start an EC2 instance",
   "who": "Who uses Blot?",

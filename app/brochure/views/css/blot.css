@@ -422,7 +422,7 @@ th:last-child {
 background {
   display: flex;
   margin: 2rem 0 4rem;
-  border-radius: 12px;
+  /*border-radius: 12px;*/
   background: #b4e6fc;
   overflow: hidden;
   /*border:1px solid #000;*/
@@ -596,9 +596,10 @@ ul.side-links {
   margin: 0;
   width: 100%;
   box-sizing: border-box;
-  padding: 20px 24px;
-  border-radius: 6px;
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 18px 36px;
+  border-radius: 18px;
+  background: #fafafa;
+  border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 form div:focus-within > label,
@@ -916,22 +917,7 @@ ul.qa-questions li {
       /*transition: color 0.2s ease-out ;*/
       border-bottom: 1px solid rgba(0,0,0,0.05);
     }
-    .top-level li a:after {
-      content: "→";
-      opacity: 0;
-      /*transition: opacity 0.2s ease-out ;*/
-      position: absolute;
-      right: 0;
-    }
-    .top-level li a:hover {
-      /*color: #999;*/
-          color:  var(--accent-color);
-
-    }
-        .top-level li a:hover:after {
-          opacity: 1
-        }
-
+    
 .top-level li:last-child a {border-bottom: none;}
 
     .tooltip {
@@ -954,14 +940,14 @@ ul.qa-questions li {
     .who li:hover .tooltip {
       display: block;
       position: absolute;
-      left: 0;
-      right: 0;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      left: 44px;
       padding: 1rem;
-      top: 100%;
+      bottom: 80%;
       width: 300px;
       border:1px solid #efefef;
       background: #fff;
-      border-radius: 18px
+      border-radius: 18px 18px 18px 0;
     }
 
   
@@ -979,8 +965,8 @@ ul.qa-questions li {
     width: 180px;
     margin: 0;
     color: white;
-    font-size: 18px;
-    font-weight: 500;
+    font-size: 17px;
+    font-weight: 600;
     background-color:  var(--light-accent-color);
     border-radius: 24px;
     line-height: 48px;

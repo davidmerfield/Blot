@@ -11,6 +11,8 @@ const internal = {
   "/metadata": "/how/metadata",
   "/404s": "/how/configure/redirects",
   "/howto": "/how",
+  "/how/guides": "/how/format",
+  "/support": "/contact",
   "/how/templates": "/templates",
   "/how/dates": "/how/metadata",
   "/developers/documentation": "/templates/developers",
