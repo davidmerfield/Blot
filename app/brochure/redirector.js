@@ -14,7 +14,7 @@ const internal = {
   "/support": "/contact",
   "/templates/diary": "/templates/blog",
   "/templates/essay": "/templates/portfolio",
-  "/templates/picture": "/templates/photobook",
+  "/templates/picture": "/templates/photo",
   "/templates/scrapbook": "/templates/reference",
   "/how/templates": "/templates",
   "/how/dates": "/how/metadata",
