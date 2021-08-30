@@ -1,5 +1,7 @@
 # Irritating websites
 
+## A few things that annoy me about the internet
+
 I am often annoyed when I browse the internet. This annoyance is part of what motivates me to improve Blot. Here are a few things that commonly upset me about website:
 
 ## When the layout changes as the page loads
@@ -20,7 +22,8 @@ No, I probably don't want to subscribe to your newsletter. No, I don't want this
 
 ## When the page takes a long time to load
 
-`
+I just want to read your webpage and get on with my life.
+
 ## When there is advertising
 
 It is ugly.

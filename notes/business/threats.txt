@@ -29,7 +29,7 @@ I don't make backups of the data on the system outside AWS. I should really do t
 
 ## Personel issues
 
-Blot is still vulnerable if I get hit by a bus. Since the source code is public, it would be possible for those who liked Blot to 
+Blot's bus factor is still 1 – if I get hit by a bus the show stops. Since the source code is public, it would be possible for those who liked Blot to keep it going on a different server, but coordinating the switch might be tough.
 
 *Solutions*: 
 - Hire a full-time employee who is capable of running the site without me, write succession protocol
