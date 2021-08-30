@@ -1,16 +1,16 @@
 {
-  "name": "Essay",
+  "name": "Photo old",
   "locals": {
-    "page_size": 36,
-    "background_color": "#ffffff",
-    "text_color": "#000000",
-    "link_color": "blue",
-    "hide_dates": false,
-    "date_display": "MMMM D, Y",
-    "body_font": {}
+    "page_size": 24
   },
-  "isPublic": true,
+  "isPublic": false,
   "views": {
+    "public": {
+      "partials": {
+        "title": "Index of {{{path}}}",
+        "description": "All the files and folders inside {{{path}}}"
+      }
+    },
     "archives.html": {
       "url": "/archives",
       "partials": {
@@ -40,12 +40,6 @@
       "partials": {
         "title": "{{{entry.title}}} - {{{title}}}",
         "description": "{{{entry.summary}}}"
-      }
-    },
-    "public.html": {
-      "partials": {
-        "title": "Index of {{{path}}}",
-        "description": "All the files and folders inside {{{path}}}"
       }
     },
     "search.html": {

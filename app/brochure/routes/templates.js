@@ -6,11 +6,11 @@ var viewDirectory = fs.realpathSync(__dirname + "/../views/templates");
 var config = require("config");
 
 var folders = {
-  scrapbook: "ferox",
-  essay: "bjorn",
-  diary: "bjorn",
+  blog: "bjorn",
   magazine: "magazine",
-  picture: "bjorn",
+  photo: "bjorn",
+  portfolio: "bjorn",
+  reference: "ferox",
 };
 
 templates.use(function (req, res, next) {

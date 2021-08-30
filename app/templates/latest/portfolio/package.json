@@ -8,7 +8,7 @@
     "text_link_color": "darkblue",
     "text_link_vistied_color": "purple"
   },
-  "isPublic": false,
+  "isPublic": true,
   "views": {
     "search": {
       "partials": {
