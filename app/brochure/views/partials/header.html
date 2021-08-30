@@ -22,6 +22,11 @@
 
        <div class="top-r">
 
+        {{#if user}}
+        <a class="hdr-btn" style="" href="/">Your blogs</a>
+
+        {{else}}
+
         {{#unless selected.log-in}}
         {{#unless selected.sign-up}}
         <a class="hdr-btn" style="" href="/log-in">Log in</a>
@@ -42,5 +47,6 @@
          <line x1="0" y1="0" x2="100%" y2="100%" stroke="#333"></line>
          <line x1="0" y1="100%" x2="100%" y2="0%" stroke="#333"></line>
       </svg></a>
+      {{/if}}
       {{/if}}
   </div>
