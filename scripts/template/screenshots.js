@@ -15,7 +15,7 @@ const SCREENSHOTS = {
     handle: "interviews",
     pages: ["/", "/archives"],
   },
-  picture: {
+  photobook: {
     handle: "bjorn",
     pages: ["/", "/archives"],
   },
@@ -23,7 +23,7 @@ const SCREENSHOTS = {
     handle: "interviews",
     pages: ["/", "/ingrid-newkirk"],
   },
-  scrapbook: {
+  reference: {
     handle: "ferox",
     pages: ["/", "/iems-l13-3"],
   },
