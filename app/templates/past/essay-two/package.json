@@ -1,15 +1,15 @@
 {
-  "name": "Diary",
+  "name": "Essay two",
   "locals": {
-    "page_size": 6,
-    "text_color": "#232323",
-    "background_color": "#fff",
-    "link_color": "#004984",
+    "page_size": 36,
+    "background_color": "#ffffff",
+    "text_color": "#000000",
+    "link_color": "blue",
     "hide_dates": false,
     "date_display": "MMMM D, Y",
     "body_font": {}
   },
-  "isPublic": true,
+  "isPublic": false,
   "views": {
     "archives.html": {
       "url": "/archives",
@@ -20,7 +20,7 @@
     },
     "tagged.html": {
       "partials": {
-        "title": "{{{tag}}} - {{{title}}}",
+        "title": "Entries tagged {{{tag}}} from {{{title}}}",
         "description": "All of the entries posted on {{{title}}} tagged {{{tag}}}"
       }
     },
@@ -40,6 +40,12 @@
       "partials": {
         "title": "{{{entry.title}}} - {{{title}}}",
         "description": "{{{entry.summary}}}"
+      }
+    },
+    "public.html": {
+      "partials": {
+        "title": "Index of {{{path}}}",
+        "description": "All the files and folders inside {{{path}}}"
       }
     },
     "search.html": {

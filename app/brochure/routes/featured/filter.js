@@ -42,7 +42,7 @@ function filter(sites, callback) {
 
 function verify(domain, callback) {
   if (config.environment === "development") {
-    return callback(null, { id: "SITE:diary" }, new Date().getFullYear());
+    return callback(null, { id: "SITE:blog" }, new Date().getFullYear());
   }
 
   Blog.get({ domain: domain }, function (err, blog) {

@@ -7,8 +7,8 @@ var config = require("config");
 
 var folders = {
   scrapbook: "ferox",
-  essay: "bjorn",
-  diary: "bjorn",
+  portfolio: "bjorn",
+  blog: "bjorn",
   magazine: "magazine",
   picture: "bjorn",
 };
