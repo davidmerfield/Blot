@@ -35,7 +35,7 @@ function makeSlug(string) {
     .replace(/←/g, "from")
     .replace(/\./g, "-")
     .replace(
-      /[\«\»\“\”\‘\’\`\~\!\@\#\$\%\^\&\*\(\)\+\=\\\|\]\}\{\[\'\"\;\:\?\>\.\<\,]/g,
+      /[\«\»\“\”\‘\–\’\`\~\!\@\#\$\%\^\&\*\(\)\+\=\\\|\]\}\{\[\'\"\;\:\?\>\.\<\,]/g,
       "-"
     )
     .replace(/[^[:alnum:]0-9_-\s]/g, "") // remove invalid chars
@@ -130,6 +130,9 @@ is(
   "AppleScript/Automator Folder Action to Convert Excel to CSV",
   "applescript/automator-folder-action-to-convert-excel-to-csv"
 );
+
+is("Peter Gregson – Bach recomposed: 6.6 Gigue","peter-gregson-bach-recomposed-6-6-gigue");
+
 is("'xsb' command line error.", "xsb-command-line-error");
 is("Foo & bar", "foo-bar");
 is("Foo &amp; bar", "foo-and-bar");
