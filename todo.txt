@@ -1,9 +1,9 @@
-New template names:
-- Reference 
-- Blog 
-- Portfolio 
-- Magazine 
-- Photobook
+Improvements to longform-text template (Diary):
+- August 13th 
+  -  Add header location and alignment options
+- Sept 1st  
+  - Add index page content options (grid, summary, full post)
+- Add syntax highlighting optional themes using [this demo as a starting point](https://highlightjs.org/static/demo/)
 
 Improvements to Dropbox client
 - Migrate [App permissions before September 30th 2021](https://dropbox.tech/developers/migrating-app-permissions-and-access-tokens)
@@ -19,13 +19,6 @@ If using the git client, if building one entry fails, it seems that the rest of 
 - to debug, add one invalid file ('foo: bar: baz\nxyz') and one valid file ('valid') and sync
 - If there is a build error with a specific post, show it on the dashboard, e.g. on the file viewer
 - Tell Johannes, Rizwan
-
-Improvements to longform-text template (Diary):
-- August 13th 
-  -  Add header location and alignment options
-- Sept 1st  
-  - Add index page content options (grid, summary, full post)
-- Add syntax highlighting optional themes using [this demo as a starting point](https://highlightjs.org/static/demo/)
 
 ---
 
