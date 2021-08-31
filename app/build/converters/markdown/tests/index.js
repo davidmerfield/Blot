@@ -3,8 +3,8 @@ const markdown = require("build/converters/markdown/index");
 
 describe("markdown converter", function () {
   global.test.blog();
-  const dir = __dirname + '/examples';
-  
+  const dir = __dirname + "/examples";
+
   fs.readdirSync(dir)
     .filter((file) => file.slice(-4) === ".txt")
     .forEach((file) => {
