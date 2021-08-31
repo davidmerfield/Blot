@@ -1,8 +1,8 @@
-describe("transformer ", function () {
+describe("caseSensitivePath ", function () {
   // Creates test environment
-  require("./setup")({});
+  require("../transformer/tests/setup")({});
 
-  var resolveCaseInsensitivePathToFile = require("../resolveCaseInsensitivePathToFile");
+  var resolveCaseInsensitivePathToFile = require("../caseSensitivePath");
   var fs = require("fs-extra");
   var async = require("async");
 

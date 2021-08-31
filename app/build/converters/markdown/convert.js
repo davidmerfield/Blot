@@ -6,13 +6,10 @@ var config = require("config");
 var Pandoc = config.pandoc.bin;
 var debug = require("debug")("blot:converters:markdown");
 
-var bib = require("./bib");
-var csl = require("./csl");
-
 // insert a <br /> for each carriage return
 // '+hard_line_breaks' +
 
-module.exports = function (blog, text, callback) {
+module.exports = function (blog, text, options, callback) {
   var extensions =
     // replace url strings with a tags
     "+autolink_bare_uris" +
@@ -35,7 +32,7 @@ module.exports = function (blog, text, callback) {
 
   // This feature fucks with [@twitter]() links
   // perhaps make it an option in future?
-  if (!(bib(blog, text) || csl(blog, text))) extensions += "-citations";
+  if (!(options.bib || options.csl)) extensions += "-citations";
 
   var args = [
     // Limit the heap size for the pandoc process
@@ -65,19 +62,20 @@ module.exports = function (blog, text, callback) {
     "--email-obfuscation=none",
   ];
 
-  if (bib(blog, text)) {
+  if (options.bib) {
     args.push("-M");
-    args.push("bibliography=" + bib(blog, text));
+    args.push("bibliography=" + options.bib);
   }
 
-  if (csl(blog, text)) {
+  if (options.csl) {
     args.push("-M");
-    args.push("csl=" + csl(blog, text));
+    args.push("csl=" + options.csl);
   }
 
-  if (bib(blog, text) || csl(blog, text)) {
+  if (options.bib || options.csl) {
     args.push("--citeproc");
   }
+
   var startTime = Date.now();
   var pandoc = spawn(Pandoc, args);
 
