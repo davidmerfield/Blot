@@ -1,5 +1,7 @@
 # Threats
 
+## A survey of the possible things that could end Blot
+
 There are a number of things that could go wrong. Below are a list of threats to Blot's business that go beyond being merely made irrelevant by a better competitor.
 
 ## Payment processing issues
@@ -22,8 +24,6 @@ I don't make backups of the data on the system outside AWS. I should really do t
 - Run my own hardware in my own building
 
 ## Service provider issues
-
-
 
 ## Legal issues
 

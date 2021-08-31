@@ -104,7 +104,6 @@ ol li a:focus {background: none;box-shadow: none;}
 ol li a:hover small {text-decoration: underline;color: var(--accent-color)}
 ol li small {
   color: #989694;
-  font-size: 14px
 }
 
 content hr {border: none;border-bottom: 1px solid #eee;margin: 2em 0}
@@ -113,7 +112,7 @@ ol li a:hover {
   background: none
 }
 
-flex {display: flex}
+flex {display: flex;}
 
 details ul,
 details ol {padding-left: 1.5em;margin-left: 0}
@@ -215,18 +214,18 @@ details summary:before {
     }
   </style>
   
-  <section style="width:66.6666%;flex-grow:1;padding-right: 3rem;box-sizing: border-box;">
+  <section style="width:60%;flex-grow:1;padding-right: 3rem;box-sizing: border-box;">
     <h2 style="border-bottom: 0;margin-bottom: 0;padding-bottom: 0">To do</h2>
-    <div class="todo">
+    <div class="todo" style="font-size: 15px">
     {{{todo}}}
   </div>
   </section>
 
-  <section style="flex-basis:33.33333%;box-sizing:border-box">
-    <ol >
+  <section style="flex-basis:40%;box-sizing:border-box">
+    <ol>
       {{#days}}
       <li><strong>Done {{day}}</strong>
-      <ol style="font-size: 14px">
+      <ol  style="font-size: 15px">
       {{#commits}}
       <li>
         <a href="https://github.com/davidmerfield/Blot/commit/{{hash}}">

@@ -608,13 +608,15 @@ form p:focus-within > label {
 }
 
 a.bordered-button {
-  border: 1px solid #000;
-  padding: 0.5rem;
+  border: 1px solid var(--accent-color);
   text-decoration: none;
   margin-top: 18px;
+  font-weight: 600;
+  line-height: 36px;
+  padding: 0 2rem;
   display: inline-block;
-  border-color: inherit;
-  border-radius: 6px;
+  border-color: rgba();
+  border-radius: 18px;
 }
 
 ul.who {

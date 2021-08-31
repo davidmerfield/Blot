@@ -1,5 +1,7 @@
 # Revenue model
 
+## No data-mining, no advertisments, just software
+
 I will sell the service to the people who want to host their blog on Blot. I will not generate income in any other way. The cost of the service is slightly higher than the average amount I spend on the infrastructure needed to host your blog, returning a profit with pays for the people who work on Blot. 
 
 
