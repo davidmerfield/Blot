@@ -1,9 +1,13 @@
+Delete long expired folders
+
 Improvements to longform-text template (Diary):
 - August 13th 
   -  Add header location and alignment options
 - Sept 1st  
   - Add index page content options (grid, summary, full post)
 - Add syntax highlighting optional themes using [this demo as a starting point](https://highlightjs.org/static/demo/)
+
+Ensure that all URL keys are deleted when template is deleted and tell Abigail
 
 Improvements to Dropbox client
 - Migrate [App permissions before September 30th 2021](https://dropbox.tech/developers/migrating-app-permissions-and-access-tokens)
