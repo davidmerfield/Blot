@@ -8,6 +8,7 @@ var layout = require("./layout");
 var katex = require("./katex");
 var convert = require("./convert");
 var metadata = require("./metadata");
+var extractBibAndCSL = require("./extractBibAndCSL");
 
 function is(path) {
   return (
@@ -56,10 +57,19 @@ function read(blog, path, options, callback) {
         time.end("katex");
       }
 
-      convert(blog, text, function (err, html) {
+      extractBibAndCSL(blog, path, text, function (err, bib, csl) {
         if (err) return callback(err);
 
-        callback(null, html, stat);
+        let options = {
+          bib: bib,
+          csl: csl,
+        };
+
+        convert(blog, text, options, function (err, html) {
+          if (err) return callback(err);
+
+          callback(null, html, stat);
+        });
       });
     });
   });

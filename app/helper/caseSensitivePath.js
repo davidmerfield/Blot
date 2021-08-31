@@ -1,7 +1,7 @@
 var fs = require("fs");
 var Path = require("path");
 
-function resolveCaseInsensitivePathToFile(cwd, path, callback) {
+function caseSensitivePath(cwd, path, callback) {
   // Will do many things, importantly it will
   // replace double slashes, e.g. /a/b//c -> /a/b/c
   path = Path.normalize(path);
@@ -55,4 +55,4 @@ function resolveCaseInsensitivePathToFile(cwd, path, callback) {
   });
 }
 
-module.exports = resolveCaseInsensitivePathToFile;
+module.exports = caseSensitivePath;
