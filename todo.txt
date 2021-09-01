@@ -2,6 +2,7 @@ Improvements to longform-text template (Diary):
 -  Add header location and alignment options
 - Add index page content options (grid, summary, full post)
 - Add syntax highlighting optional themes using [this demo as a starting point](https://highlightjs.org/static/demo/)
+- Tell David
 
 Improvements to Dropbox client
 - Migrate [App permissions before September 30th 2021](https://dropbox.tech/developers/migrating-app-permissions-and-access-tokens)
