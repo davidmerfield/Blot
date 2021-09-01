@@ -1,32 +1,41 @@
+const _ = require("lodash");
+
 module.exports = function (req, res, next) {
   if (req.template.locals.color_schemes) {
-    res.locals.color_schemes = Object.keys(req.template.locals.color_schemes)
+    let color_schemes = Object.keys(req.template.locals.color_schemes)
       .filter((key) => key !== "custom")
       .map((key) => {
-        let selected = true;
+        // Used to determine whether or not this color scheme is in use
+        // We basically check if all the properties declared for this
+        // color scheme have matching values in the template's locals
         let scheme = req.template.locals.color_schemes[key];
+        let currentSchemeValues = {};
 
-        if (!Object.keys(scheme).length) selected = false;
-
-        for (let property in scheme) {
-          if (req.template.locals[property] !== scheme[property])
-            selected = false;
-        }
+        for (let property in scheme)
+          currentSchemeValues[property] = req.template.locals[property];
 
         return {
           key,
           label: desnake(key),
-          selected: selected ? "selected" : "",
+          selected: _.isEqual(scheme, currentSchemeValues),
         };
       });
 
-    res.locals.color_schemes.unshift({
+    // But the custom scheme always comes first
+    color_schemes.unshift({
       key: "custom",
       label: "Custom",
-      selected: res.locals.color_schemes.filter((i) => i.selected).length
-        ? ""
-        : "selected",
+      selected: color_schemes.filter((i) => i.selected).length === 0,
     });
+
+    // Makes the selected property easier to deal with in our front-end
+    // template code
+    color_schemes = color_schemes.map((scheme) => {
+      scheme.selected = scheme.selected ? "selected" : "";
+      return scheme;
+    });
+
+    res.locals.color_schemes = color_schemes;
   }
 
   return next();
