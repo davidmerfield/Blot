@@ -4,7 +4,6 @@ var config = require("config");
 var ensure = require("../ensure");
 var extend = require("../extend");
 var tempDir = require("../tempDir")();
-var assert = require("assert");
 var Mustache = require("mustache");
 var marked = require("marked");
 
@@ -179,14 +178,7 @@ var exports = {};
 
 for (var i in MESSAGES) {
   var method = MESSAGES[i];
-
   exports[method] = init(method);
-
-  assert(
-    fs.existsSync(adminDir + method + ".txt") ||
-      fs.existsSync(userDir + method + ".txt"),
-    "There is no message file for " + method
-  );
 }
 
 exports.send = send;
