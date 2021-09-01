@@ -93,6 +93,12 @@ brochure.use(function (req, res, next) {
   next();
 });
 
+const VIEWS = require("path").resolve(__dirname + "/../views");
+
+brochure.get("/account/logged-out", function (req, res) {
+  res.sendFile(VIEWS + "/logged-out.html");
+});
+
 brochure.use("/account", function (req, res, next) {
   // we don't want search engines indexing these pages
   // since they're /logged-out, /disabled and

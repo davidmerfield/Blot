@@ -77,9 +77,7 @@ Account.use("/subscription/payment-method", require("./payment-method"));
 Account.route("/log-out")
 
   .get(function (req, res) {
-    res.render("account/log-out", {
-      title: "Log out",
-    });
+    res.redirect("/");
   })
 
   .post(logout, function (req, res) {
