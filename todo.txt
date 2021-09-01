@@ -58,6 +58,25 @@ Improve brochure
 - Tooltips for lock and CVC on sign up page
 - Prune unused font-face declarations from CSS passed to dashboard
 
+Add nice import step under 'Services' and as part of sign up
+- Create importer script for [John's posts from flickr](https://mail.google.com/mail/u/0/#inbox/166da622325d19e7)
+- Create importer script for tumblr text files and tell [Sawyer](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVMhRNdQhfDwlXsqqFNgmKfTk)
+- Create importer script for Weebly and tell [David](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTjzpgHQZMJSsvjktggRFNpDw)
+- Finish Ghost template import for [Kingi](https://mail.google.com/mail/u/1/#inbox/1625fdd572e72c69)
+- Map excerpt metadata to summary for Jekyll converter importer
+- Look into how Hexo has written imports for [blogger](https://github.com/hexojs/hexo-migrator-blogger), [joomla](https://github.com/welksonramos/hexo-migrator-joomla), [rss](https://github.com/hexojs/hexo-migrator-rss), [wordpress](https://github.com/hexojs/hexo-migrator-wordpress).
+- Add importer for Twitter and sell [Sawyer](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVMhRNdQhfDwlXsqqFNgmKfTk)
+
+
+Write new clients to sync blog folders
+- [Box] then tell [Eric](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMZRzCcPkNppMpSbBzNRKFSNs)
+- OneDrive then tell [John](https://mail.google.com/mail/u/0/#inbox/FMfcgzGkbDVrfBwGjnVDdtXkNxKpwjfq) and [Shantesh](https://mail.google.com/mail/u/0/#inbox/166df93b38231ec9), [Nathan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVgvsdfSnqBppQrXLTVjZBBzp), [ekskog](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDBmdRXFWTFLqxKgxVkdWnWL) and [John](https://twitter.com/seismonerd/status/1096862510404128768) and [Simon](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChcrhfQNXvkFkdtKntXlhjNfm) and [Andrew](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLtGjKFlzJFfRcVQdWdMBkZzdK) and [Josh if OneDrive for Business is supported](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVqWwRgxrwLRzrNscfJtllhXz) and [Naveen](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMZJvNGJxTXXcnsmXDqdkNnNq) and [Emad](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNCtzTpZsgXXjWsrTGsTTZLjx) and [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKjnVGxPWrFPKJRqtlnbkHfwXt)
+- [Syncthing](https://www.npmjs.com/package/node-syncthing) and tell [Jason](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpVWzZTVxccmWLmnPBmDFjvV)
+- [SFTP](https://www.npmjs.com/package/ftpd) and tell [Calvin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChclvkfHMWfnqGdWkQnzMdklW) and [Fabrice](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNCspWMdnbCdzfHGwBrSKPBSC)
+- [NextCloud](https://nextcloud.com/) and tell [Andrew](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJgWDpnsGBCXsCwkxRZnXMph) and [Mike](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMGDWmSXxbJkvjZbtvdQtNNGZ)
+- If it ever becomes possible to create an iCloud client for Blot, tell [Andrew](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJfNnhCDNsffJSjnQHnxdSfh) and [David](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJfNfSZgQqjNWLWVHZjwXQrS) and [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJfNTrdmqJwwzCPLrhcQRNWW) and [Dave](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJfNfLmTVjNGcXZVRWdlrLzp) and [Shawn](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJfNfRRjzkzpvQjPTCQtqpDx) and [Andrew](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJgWDpnsGBCXsCwkxRZnXMph) and [Chris](https://mail.google.com/mail/u/0/#inbox/FMfcgxwC1hJjqgsvKxxVgFdbXvxNTHTsz) and [Kerim](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChSJkptkQxlqTjsDCtdTgMWXv) and [Wilt](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChcgKzMGXdrHMVhrjsjJnnBzk) and [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqfMPDQnSTBSsWXdtfkVdJzdD) and [Arlo](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJWrZRLJddkZSdrMVxrNkTZLKn) and [Anders](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKkRFxsDShhsHGNcdRqwHFMmJM) and [Victor](https://mail.google.com/mail/u/0/#inbox/FMfcgzGkbDVrLFlwcgwDddsVPJBVKSvW)
+
+---
 
 Ensure I am doing request coalescing on NGINX and lower proxy timeout limit
 - Read the [5 hour CDN post](https://fly.io/blog/the-5-hour-content-delivery-network/) and [discussion](https://news.ycombinator.com/item?id=28053168)
@@ -141,7 +160,8 @@ Improvements to simple local server (npm run local):
 -  Can we expand this to a simple self-hosting process ('npx blot-server')?
 
 Use postcss to compile template CSS
-  - Use [color function](https://mono.software/2017/08/08/supercharge-your-colors/) to improve UX of borders/highlights
+- Use [color function](https://mono.software/2017/08/08/supercharge-your-colors/) to improve UX of borders/highlights
+- Consider supporting SASS and tell [Max](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDNRnfqdSCvqvTgGZTSSTvGjv)
 
 Add options to [preserve linebreaks](https://stackoverflow.com/questions/26066621/preserve-line-breaks-in-pandoc-markdown-latex-conversion) in Markdown and tell [Matt](https://mail.google.com/mail/u/0/#inbox/FMfcgzGkXcwpJzKrBrGKDcZKBPSSdsfh)
 
@@ -213,7 +233,7 @@ Investigate potentially TeX-related escaping issues and tell [Anthony](https://m
 
 Adjust the chargeForRemaining function in create-blog such that the balance is added or deducted from the proration charge.
 
-Rewrite transformer
+Rewrite transformer (in app/helper/transformer)
 - Speak HTTP properly, respect backoffs, use/send eTags
 - Share information across blogs?
 - Improve transformer so it checks a file's MTIME against a stored value before rehashing the file?
@@ -316,7 +336,6 @@ Improvements to developer guide
 - Tell [Pedro](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMsSvqTVCjSSjJKVrGKmgRbjw)
 - Add a simple 'Beginners guide' to HTML and CSS, which would rely on Blot's functionality as a static file server.
 
-
 Improvements to entry builder
 - Adjust title metadata extractor to fallback to file name rather than first sentence of file if the post does not contain a title tag. The current behaviour has suprised a number of people. If this breaks [John's template](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMjqlPTxhSXLNBDCmqXLQHdvX) create new first_sentence property of entry to use on the template.
 - Fix bug with slashes in tags and tell [Dave](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMjqlPTzJxBPcQPnGsQsPSsvh)
@@ -331,6 +350,21 @@ Improvements to entry builder
 Improvements to dashboard
 - Fix bug with file list on dashboard in Safari and tell [Ryan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMGHzLwclHfnvjZrvfsvTQdGf)
 - Fix missing error messages on overdue subscription payment form
+- Use \<select\> optgroup on timezone select dropdown to subdivide zones by current time, and steal the presentation format used by basecamp.
+- Add a broken link checker
+- Make dashboard requests idempotent to prevent multiple form resubmits, multiple new blogs created accidentally? More information about [idempotent requests](https://stripe.com/docs/api#idempotent_requests)
+- Indicate that some posts' permalink will not change (if metadata) on the dashboard when setting the blog's permalink format. Tell Chet.
+- Dumb quotes are still smartified, even without typeset enabled, possibly by pandoc?
+- Undo option for form changes
+- Add transactional emails notifying user of changes to their email or password.
+- Implement a flags page for toggling all the settings (including hidden ones) for a given blog
+- When a user pastes the whole tracking script into the preferences page on the dashboard,
+strip out everything except the ID which we need... perhaps create a page explaining what
+is happening before doing this.
+- Handle noscript on dashboard / signup gracefully (remove all dashboard js?)
+- Allow users who are restarting an account with multiple blogs to disable some before restarting.
+- Take a look at Notion and Cargo for some neat ideas
+
 
 ---
 
@@ -373,77 +407,6 @@ Ignore files inside 'assets' inside .textbundle directories to improve support f
 Rebuild all the thumbnails and cached images for every blog
 
 ---
-
-Add more fonts to font picker:
-- [ ] Abel
-- [ ] Alegreya
-- [ ] Alte Haas Grotesk
-- [ ] Authentic Sans
-- [ ] Avara
-- [ ] Averia Serif Libre
-- [ ] Bagnard
-- [ ] ANRT Baskervville
-- [ ] Chivo
-- [ ] Cormorant
-- [ ] Computer Modern (entire family)
-- [ ] Crimson Text 
-- [ ] Darker Grotesque
-- [ ] DINosaur
-- [ ] DM Sans
-- [ ] Eb Garamond
-- [ ] ET Book 
-- [ ] Euler AMS
-- [ ] Faune
-- [ ] Fjalla One
-- [ ] Fondamento
-- [ ] Golos Text
-- [ ] Halibut Serif 
-- [ ] Happy Times at the IKOB
-- [ ] Helmet Neue
-- [ ] iA Writer Quattro
-- [ ] Infini GF 
-- [ ] Inter 
-- [ ] Interstate
-- [ ] Inria fonts
-- [ ] JetBrains Mono
-- [ ] Junicode
-- [ ] Karla
-- [ ] Le Murmure
-- [ ] Lincoln Mitre
-- [ ] Libertinus
-- [ ] Literata
-- [ ] Lunchtype
-- [ ] Messapia
-- [ ] Michroma
-- [ ] Mister Pixel
-- [ ] Montserrat
-- [ ] Neuton
-- [ ] Nunito
-- [ ] Optician Sans
-- [ ] Ortica
-- [ ] Oswald
-- [ ] Pilowlava
-- [ ] Pinyon Script
-- [ ] Plex
-- [ ] Quicksand
-- [ ] Roboto
-- [ ] Rosario
-- [ ] Recursive
-- [ ] Routed Gothic
-- [ ] Rubik
-- [ ] Space Grotesk/Mono
-- [ ] Spectral
-- [ ] Syne
-- [ ] Terminal Grotesque
-- [ ] TeX Gyre
-- [ ] Typewriter Condensed
-- [ ] UnifrakturMaguntia
-- [ ] Violet Sans
-- [ ] VCR OSD Mono
-- [ ] Vollkorn
-- [ ] Work Sans
-- [ ] Wremena
-- [ ] Young Serif
 
 Add support for paying with Bitcoin and tell [Chaz](https://mail.google.com/mail/u/1/#sent/165b726aa900158a) and [Anita](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsSWMtCTdmrbscFCFLggctmxH)
 
@@ -512,6 +475,7 @@ Performance improvements
 - Ensure node.js server has one process per CPU
 - Ensure nginx is handling all static file delivery
 - Detect CPU intensive functions in node.js process
+- Use the [--trace-sync-io command-line flag](https://expressjs.com/en/advanced/best-practice-performance.html#set-node_env-to-production) to determine if Blot is using any sync methods inappropriately
 
 Reply to [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChSCwMxNdtdvMHnMVwTcHPjfg) about gitwatch and other newsletter suggestions
 
@@ -541,6 +505,7 @@ Think about adding way to add/edit files from the dashboard directly, bypassing 
 Disable redirect to HTTPS for blogs by default (to ensure old browsers without SNI work) but ensure all prominent links to the blog on dashboard use HTTPS
 
 Move away from reds and investigate good full text search options using Postgres
+- Tell [Tim](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVMjZKgvPxSjvsHjPRzGsDHQX)
 
 Improve Ghost importer and tell [Vin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWSwbGRtFTnJCPCXzVHntQPtC)
 
@@ -638,28 +603,13 @@ Fix bug with .emf files in Word Document and follow up with Todd. Can we convert
 
 Could we have multiple clients attached to one blog?
 
-Use the [--trace-sync-io command-line flag](https://expressjs.com/en/advanced/best-practice-performance.html#set-node_env-to-production) to determine if Blot is using any sync methods inappropriately
-
-Replace some of the assert() tests which run every time the server starts with Jasmine tests that run via ```npm test```.
-
 Generate list of external API dependencies and follow changes for each
 
 Add simple minimal version of Blot that could be npm installed, then tell [Pedro](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMsSvqTVCjSSjJKVrGKmgRbjw) who is frustrated editing templates locally with the git client
 
-Make sure [color schemes have enough contrast](https://stripe.com/blog/accessible-color-systems)
-
 Subscription refactor
 - Different payment methods per blog
 - Seperate blog subscriptions behind the scenes to avoid the crazy calculations. Think of them like domains, you wouldn't do what Blot is doing for those...
-
-Add nice import step under 'Services' and as part of sign up
-- Create importer script for [John's posts from flickr](https://mail.google.com/mail/u/0/#inbox/166da622325d19e7)
-- Create importer script for tumblr text files and tell [Sawyer](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVMhRNdQhfDwlXsqqFNgmKfTk)
-- Create importer script for Weebly and tell [David](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTjzpgHQZMJSsvjktggRFNpDw)
-- Finish Ghost template import for [Kingi](https://mail.google.com/mail/u/1/#inbox/1625fdd572e72c69)
-- Map excerpt metadata to summary for Jekyll converter importer
-- Look into how Hexo has written imports for [blogger](https://github.com/hexojs/hexo-migrator-blogger), [joomla](https://github.com/welksonramos/hexo-migrator-joomla), [rss](https://github.com/hexojs/hexo-migrator-rss), [wordpress](https://github.com/hexojs/hexo-migrator-wordpress).
-- Add importer for Twitter and sell [Sawyer](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVMhRNdQhfDwlXsqqFNgmKfTk)
 
 Create script to export Blot sites to common formats like Wordpress and let Roberto know
 
@@ -745,8 +695,6 @@ Prune package.json
 - To [minify CSS](https://github.com/cssnano/cssnano) [(alternative)](https://github.com/css/csso)
 - To [minify JavaScript](https://github.com/mishoo/UglifyJS2) [(alternative)](https://developers.google.com/closure/compiler/)
 
-Cluster the main process. How will I verify that there is not statefullness somewhere in the server? I also want the main 'server' running on different threads to the CPU intensive stuff like image processing. Will this fix the bug with additional child processes if main process runs out of memory? Something wasn't being killed during the Nash WAV bug of August, 2018. There were duplicate node rebuild processes running.
-
 Fix bugs with RSS feeds validation. Perhaps extend absoluteURLs helper function? Tell [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzMBqKpcLTtxTzcfvMCVckLMJJ)
 
 Add support for Dropbox Paper .paper files and tell [Emad](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMZJvMswZZXKvLfBRBVqfzksw)
@@ -760,8 +708,6 @@ Make improvements to template editor color picker:
    - used on other templates
 
 Add support for Micropub in Blot's API. Tell Amit.
-
-Add an EXPIRY to the log entries for a blog's 404 log
 
 Reconsider default slug length or add new short slug property and tell [Josh](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTjxhZStzKhchtwjXbWxDbdfh)
 
@@ -804,24 +750,9 @@ Add option to sort posts by filename alphabetically and tell [Steve](https://mai
 - Tell [Rodrigo](https://mail.google.com/mail/u/0/#inbox/1564a13991197f63) don't write previews for _ posts
 - Add support for fetching only some properties of an entry (ideally only those that are used). prevent some properties from being fetched in some lists (html, for example in all_entries). Would be a good candidate for hgetall or hget?
 
-Improvements to Dashboard
-- Add a broken link checker
-- Make dashboard requests idempotent to prevent multiple form resubmits, multiple new blogs created accidentally? More information about [idempotent requests](https://stripe.com/docs/api#idempotent_requests)
-- Indicate that some posts' permalink will not change (if metadata) on the dashboard when setting the blog's permalink format. Tell Chet.
-- Dumb quotes are still smartified, even without typeset enabled, possibly by pandoc?
-- Undo option for form changes
-- Add transactional emails notifying user of changes to their email or password.
-- Implement a flags page for toggling all the settings (including hidden ones) for a given blog
-- When a user pastes the whole tracking script into the preferences page on the dashboard,
-strip out everything except the ID which we need... perhaps create a page explaining what
-is happening before doing this.
-- Handle noscript on dashboard / signup gracefully (remove all dashboard js?)
-- Allow users who are restarting an account with multiple blogs to disable some before restarting.
-- Take a look at Notion and Cargo for some neat ideas
-
-Add support for native PDF embeds in posts, just put a link to a PDF or a path, e.g. /_assets/file.pdf --> would become a nice embed.
-
-Add support for native MP3 embeds in posts, just put a link to an MP3 or a path, e.g. /_assets/file.mp3 --> would become a nice embed then tell [Luke](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVWLlqqwbksXcScNdhcTjhjfq) and [Nash](http://twitter.com/nashp) and [Andy](https://mail.google.com/mail/u/0/#inbox/LXphbRLrghxkrJmtbtfXwZHrBHqGzzjDqLZVmfRCzrg) and [Charlie](mailto:hi@charlliegleason.com) and [Konstantin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrRQPphRrjCrWXPLzgHhxkzMN)
+Embed feature
+- Add support for native PDF embeds in posts, just put a link to a PDF or a path, e.g. /_assets/file.pdf --> would become a nice embed.
+- Add support for native MP3 embeds in posts, just put a link to an MP3 or a path, e.g. /_assets/file.mp3 --> would become a nice embed then tell [Luke](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVWLlqqwbksXcScNdhcTjhjfq) and [Nash](http://twitter.com/nashp) and [Andy](https://mail.google.com/mail/u/0/#inbox/LXphbRLrghxkrJmtbtfXwZHrBHqGzzjDqLZVmfRCzrg) and [Charlie](mailto:hi@charlliegleason.com) and [Konstantin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrRQPphRrjCrWXPLzgHhxkzMN)
 
 File converters / codecs
 - Video posts (.mp4)
@@ -834,16 +765,6 @@ Expose exif data on Photo posts? See if you can add comments to image metadata a
 
 Add password protection for blogs then tell [Ed](https://mail.google.com/mail/u/1/#inbox/164edd9d46596ec7), [this person](https://mail.google.com/mail/u/0/#inbox/155f01452a3f7231), [this person](https://mail.google.com/mail/u/1/#inbox/1645b6e48dc13281), [Modomiro](https://twitter.com/modomiro/status/1053345173743329281) and [Julian](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpVWqGMHszwgxZRxNTNXRTlX) and [Raph](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgzFTCKQXQmQqdNMdjMfDFkMW) and [Tara](https://mail.google.com/mail/u/0/#sent/FMfcgxwChJlBCNMWSFhSctjMkBcKdpsq) and [Phil](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChSHbCCgQqZqqKQftJbwHRkss) and [Florian](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrlSVCrQSVMBlFwQcNcGfZLzn) and Roy's friend Tim and [Kaleb](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDNWPljXXlwQVtswFCCLGFCQV) and [Lotus](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDNQfSzPBHtqRCQqCDjMTZLCQ) and [Khaled](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMGBFrctdVXhksCvqXXVPfDWR) and [Noel](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNMdwcwMqfVjmJPHKBMxzQChR) and [Franz](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJXVMfwXfsWswWjvrpVKrPqpDt) and [Justin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKjBRFjtljCQvlhsfXsSxrCKdJ) and [Kyle](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKkHZVgwCNwsdlhdzCggRtsRhN) and [Devan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsJznDjRgbzwPmChbNQdqfnfq) and [Anita](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsSWMtCTdmrbscFCFLggctmxH) and [Emerald](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLtkXpvTkdGzkFCLtmmLTlvrJL)
 - Should we just go all the way and support htaccess? Add URL rewrite feature, e.g. rewrite /randomColor to /public/randomColor?
-
-Write new clients to sync blog folders
-- [Box] then tell [Eric](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMZRzCcPkNppMpSbBzNRKFSNs)
-- OneDrive then tell [John](https://mail.google.com/mail/u/0/#inbox/FMfcgzGkbDVrfBwGjnVDdtXkNxKpwjfq) and [Shantesh](https://mail.google.com/mail/u/0/#inbox/166df93b38231ec9), [Nathan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVgvsdfSnqBppQrXLTVjZBBzp), [ekskog](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDBmdRXFWTFLqxKgxVkdWnWL) and [John](https://twitter.com/seismonerd/status/1096862510404128768) and [Simon](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChcrhfQNXvkFkdtKntXlhjNfm) and [Andrew](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLtGjKFlzJFfRcVQdWdMBkZzdK) and [Josh if OneDrive for Business is supported](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVqWwRgxrwLRzrNscfJtllhXz) and [Naveen](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMZJvNGJxTXXcnsmXDqdkNnNq) and [Emad](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNCtzTpZsgXXjWsrTGsTTZLjx) and [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKjnVGxPWrFPKJRqtlnbkHfwXt)
-- [Syncthing](https://www.npmjs.com/package/node-syncthing) and tell [Jason](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpVWzZTVxccmWLmnPBmDFjvV)
-- [SFTP](https://www.npmjs.com/package/ftpd) and tell [Calvin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChclvkfHMWfnqGdWkQnzMdklW) and [Fabrice](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNCspWMdnbCdzfHGwBrSKPBSC)
-- [NextCloud](https://nextcloud.com/) and tell [Andrew](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJgWDpnsGBCXsCwkxRZnXMph) and [Mike](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMGDWmSXxbJkvjZbtvdQtNNGZ)
-- If it ever becomes possible to create an iCloud client for Blot, tell [Andrew](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJfNnhCDNsffJSjnQHnxdSfh) and [David](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJfNfSZgQqjNWLWVHZjwXQrS) and [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJfNTrdmqJwwzCPLrhcQRNWW) and [Dave](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJfNfLmTVjNGcXZVRWdlrLzp) and [Shawn](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJfNfRRjzkzpvQjPTCQtqpDx) and [Andrew](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJgWDpnsGBCXsCwkxRZnXMph) and [Chris](https://mail.google.com/mail/u/0/#inbox/FMfcgxwC1hJjqgsvKxxVgFdbXvxNTHTsz) and [Kerim](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChSJkptkQxlqTjsDCtdTgMWXv) and [Wilt](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChcgKzMGXdrHMVhrjsjJnnBzk) and [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqfMPDQnSTBSsWXdtfkVdJzdD) and [Arlo](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJWrZRLJddkZSdrMVxrNkTZLKn) and [Anders](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKkRFxsDShhsHGNcdRqwHFMmJM) and [Victor](https://mail.google.com/mail/u/0/#inbox/FMfcgzGkbDVrLFlwcgwDddsVPJBVKSvW)
-
-Allow Blot to fallback to client.read if the file does not exist on the blot server. Say the harddrive is wiped, we still would like to serve blog files
 
 Sync
 - Re-implement folder verification feature and make use of the local content hash computation script to verify we have the correct version of a given file
@@ -862,10 +783,7 @@ Add are.na embeds and tell [Marco](https://mail.google.com/mail/u/0/#inbox/FMfcg
 Increase price to $6 per month for new customers. This will not affect existing customers in any way.
 
 Buy the .com
-- Remember to bump LetsEncrypt rate limits if needed
 - Remember to transfer Dropbox webhooks to new domain on the Dropbox developers console
-
-Incorporate
 
 Support embedding an image in a post by copy-pasting the Dropbox share link
 - Let [Logan](https://twitter.com/blot__/status/962762284782243842) know
@@ -873,37 +791,18 @@ Support embedding an image in a post by copy-pasting the Dropbox share link
 ---
 
 Thumbnail generator
-- Prioritize faces in crop
+- Prioritize faces in crop?
 - Try to crop out ruined borders. E.g. when making a square crop of a rectangular image with a border, crop into the image as well to remove the border-on-three-sides effect
 - Extract color palette too for the image
 - Offer imgix style API for embedding thumbnails
-
-Consider supporting org-mode and tell [Rashawn](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGBmlsGQmkBnXdxJDrSvBllHJJ)
-
-Consider supporting Open Graph
-- Tell [Luke](https://mail.google.com/mail/u/1/#inbox/163993b0f8499ab3)
-
-Search engine
-- Improve search engine results and tell [Tim](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVMjZKgvPxSjvsHjPRzGsDHQX)
 
 Add support for entry property with escaped double quotes, tell [Jay](https://mail.google.com/mail/u/0/#inbox/15e396dbd8350972)
 
 NGINX Install nginx fail2ban & http2
 
-Add a file dependency / dependents list to each entry then use this to rebuild dependent entries when, for example, a public image is updated.
-
 Add support for comments via webmentions like Disqus and tell Amit and [Luke](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqxRmLKckzjnQRsszbdLwvnGb)
 
 Migrate code from require('mime') to require('mime-types') since it doesn't use a global default type. Remove the mime node module.
-
-Use \<select\> optgroup on timezone select dropdown to subdivide zones by current time, and steal the presentation format used by basecamp.
-
-Move to [pretty IDs](https://jsfiddle.net/sg1z5had/) for everything
-- https://jsfiddle.net/m1e9wc6q/
-- [cool user subdomains](https://jsfiddle.net/ev2gLa87/)
-- [generating dope domain names](https://jsfiddle.net/91vwt7p0/)
-
-Enable hyphenation again then tell rodericus
 
 Re-enable CSP on blot site in a way that works in Safari
 
@@ -912,8 +811,6 @@ Plugins
 - Ensure Youtube plugin still functions if apis fails
 
 Menu needs concurrency or atomic operations (so we can build posts in parallel)
-
-Look into how Jekyll does data files and possibly support
 
 Think about responsive images and optimizing at request time and tell [Marius](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVzxxNhtSdxgPSWHZMPkktsvW) and [Jan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDsFfdcKKqDbXrzQFPrwxmKdNt)
 
@@ -945,7 +842,10 @@ Consider adding simple server-side analytics and tell [Tom](https://mail.google.
 
 Consider adding simple commenting system and tell [Precious](https://mail.google.com/mail/u/0/#inbox/QgrcJHrtwLwTldzhrTKHMtnhwVqMXVzCTqv)
 
-Consider supporting SASS and tell [Max](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDNRnfqdSCvqvTgGZTSSTvGjv)
+Consider moving to [pretty IDs](https://jsfiddle.net/sg1z5had/) for everything public-facing
+- https://jsfiddle.net/m1e9wc6q/
+- [cool user subdomains](https://jsfiddle.net/ev2gLa87/)
+- [generating dope domain names](https://jsfiddle.net/91vwt7p0/)
 
 Consider supporting Micro pub and tell [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVzptjbWjjqlhBQtgJsRstVSD)
 
@@ -956,3 +856,8 @@ Consider adding support for [PubSubHubbub](https://en.wikipedia.org/wiki/WebSub)
 Consider atompub support for Marsedit and tell Chet and [David](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKjBGqSqTdQqtRCwdKplFvgBCP)
 
 Consider incorporating typographic features from [Textile](http://redcloth.org/textile/phrase-modifiers/)? 
+
+Consider supporting org-mode and tell [Rashawn](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGBmlsGQmkBnXdxJDrSvBllHJJ)
+
+Consider supporting Open Graph
+- Tell [Luke](https://mail.google.com/mail/u/1/#inbox/163993b0f8499ab3)
