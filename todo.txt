@@ -1,13 +1,7 @@
-Delete long expired folders
-
 Improvements to longform-text template (Diary):
-- August 13th 
-  -  Add header location and alignment options
-- Sept 1st  
-  - Add index page content options (grid, summary, full post)
+-  Add header location and alignment options
+- Add index page content options (grid, summary, full post)
 - Add syntax highlighting optional themes using [this demo as a starting point](https://highlightjs.org/static/demo/)
-
-Ensure that all URL keys are deleted when template is deleted and tell Abigail
 
 Improvements to Dropbox client
 - Migrate [App permissions before September 30th 2021](https://dropbox.tech/developers/migrating-app-permissions-and-access-tokens)
@@ -15,19 +9,11 @@ Improvements to Dropbox client
   - https://dropbox.tech/developers/now-available--scoped-apps-and-enhanced-permissions
   - https://dropbox.tech/developers/migrating-app-permissions-and-access-tokens
 
-Resolve [issues with borked git client and tell V](https://mail.google.com/mail/u/0/#inbox/FMfcgzGkXwDNqDFKdWBQPTBpwQRzgsGd)
-
-If using the git client, if building one entry fails, it seems that the rest of the entries in the same sync also fail?
-- so right now build/metadata is used multiple times. in certain cases it is wrapped in a try/catch but in others it is not. we need to wrap it in try/catch wherever it is used
-- right now, if build/main throws an uncaught exception, it seems like the rest of the sync fails. this needs to not happen
-- to debug, add one invalid file ('foo: bar: baz\nxyz') and one valid file ('valid') and sync
-- If there is a build error with a specific post, show it on the dashboard, e.g. on the file viewer
-- Tell Johannes, Rizwan
-
 ---
 
-Ensure I am doing request coalescing on NGINX and lower proxy timeout limit
-- Read the [5 hour CDN post](https://fly.io/blog/the-5-hour-content-delivery-network/) and [discussion](https://news.ycombinator.com/item?id=28053168)
+Add the Google Drive client
+
+Finish the new template improvements
 
 Release a new film showing some of Blot’s more recent features – the current [video on Blot’s homepage](http://blot.im/) is now many years out of date
 - Finish video script in brochure/readme.txt
@@ -37,9 +23,55 @@ Release a new film showing some of Blot’s more recent features – the current
    - https://archive.org/details/Grab_Bag-12446/03_-_Trust.mp3
    - https://archive.org/details/Winter_Sunshine_EP-8201/Evgeny_Grinko_-_01_-_Winter_Sunshine.mp3
 
+---
+
+Improve templates
+- Run sites and templates through [lighthouse](https://web.dev/measure/) and [observatory](https://observatory.mozilla.org/)
+- Fix bug setting font-size on magazine template and tell [David](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLscxQXjkgJRdPGnkXXTmQJFst)
+- Fix bug in image zoom and tell [Cameron](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKjTQrZJpVXVVGTWsrNJZSCsNr)
+- Fix bug with close button in magazine template and tell [Samuel](https://mail.google.com/mail/u/0/#inbox/QgrcJHsbdwQwrChCLHkpqpxfdPbsLXWFsSv)
+- Respond to Michael's [thoughtful emails](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDWqXmTLfljkKdGlfFMhMdkTm) about the template system
+- Tell these people about new templates, and to subscribe to newsletter:
+  - [Chris](https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e)
+  - [John](https://mail.google.com/mail/u/1/#all/1618ca0420779742)
+  - [Jan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChmLnfMTdtNkpLxHTlPJNHlCT) 
+  - [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrRRZTKntrWKJvfDXrRFTzljs)
+- Fix bug with 'Previous' page link in Magazine theme and tell [Alex](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDNPVtfJDLpjZVqjTThxdFvkC)
+- Fix column formatting for layout.css on default template and tell [Ryan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqThrjQzFppTFftfNFtNdMCpp)
+- Fix Diary template mobile issues and contact [Jonas](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJWjCrwrXTkDqnNtkMbzLlvQjx) and [Brandon](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJWrgCvbdMxMfrGNJkzPsPkJNz)
+
+Improve brochure
+- Finish breadcrumbs scroll on mobile (make sure scrollbars are invisible) on Firefox Windows and tell [Paul](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsdCsHgtKMWhSbwxslbzxZpsq) and Rakhim
+- Generate high quality optimized favicons from new logo
+- Extract SVG of logo which can be used to produce hover effects, and on black
+- Loading state for submit button on sign up page
+- Unify dashboard header style post-payment
+- Write build scripts which can be run to produce results checked into git
+   - inline css in blot.css
+   - inline css in katex.css?
+   - base 64 encode and inline small images on homepage
+   - Optimize all images in image directory
+   - compute content hashes then Use blotcdn for video and other large static files
+- Add integration tests for brochure site to test sign up flow
+- Add guide to useful text editors like [this one recommended by Andrew](https://itunes.apple.com/us/app/write-best-note-taking-app/id848311469)
+- Personalize the documentation for logged in users
+- Tooltips for lock and CVC on sign up page
+- Prune unused font-face declarations from CSS passed to dashboard
+
+
+Ensure I am doing request coalescing on NGINX and lower proxy timeout limit
+- Read the [5 hour CDN post](https://fly.io/blog/the-5-hour-content-delivery-network/) and [discussion](https://news.ycombinator.com/item?id=28053168)
+
 Begin collecting proper measurements for page-rendering speed on the server. This will help us identify ways to improve the speed of your site.
 
----
+Resolve [issues with borked git client and tell V](https://mail.google.com/mail/u/0/#inbox/FMfcgzGkXwDNqDFKdWBQPTBpwQRzgsGd)
+
+If using the git client, if building one entry fails, it seems that the rest of the entries in the same sync also fail?
+- so right now build/metadata is used multiple times. in certain cases it is wrapped in a try/catch but in others it is not. we need to wrap it in try/catch wherever it is used
+- right now, if build/main throws an uncaught exception, it seems like the rest of the sync fails. this needs to not happen
+- to debug, add one invalid file ('foo: bar: baz\nxyz') and one valid file ('valid') and sync
+- If there is a build error with a specific post, show it on the dashboard, e.g. on the file viewer
+- Tell Johannes, Rizwan
 
 Add raw-link -> embed function, which would fetch the title, description and thumbnail for a link using <meta> tags. 
 
@@ -57,11 +89,11 @@ Improvements to template editor
 - Add layout option
 - Add color processing
 
+Ensure that all URL keys are deleted when template is deleted and tell Abigail
+
 Improvements for customers
 - Faster server, with SSL termination across CDN
   - set up 'cdn.blot.im' as cloudfront distribution endpoint?
-- Better templates
-  - Better customization options
 - Easier import and export
 
 Improvements for template developers
@@ -79,8 +111,6 @@ Add request level timeouts to prevent server swamping
 - it seems we also need to cancel the resources involved in responding to the request (i.e. disk io, db calls) for this to be really useful
 - Add a timeout of 15 seconds for building posts.
 
-Expose log files on blog's dashboard and tell [Sönke](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLtsxjSMlVmNRFGJJxkpsVFNvg)
-
 Server changes
 - Write useful benchmark tool for Blot
 - Add memory monitor which notifies me when memory is mostly consumed
@@ -94,6 +124,8 @@ Server changes
 Add [.rtf support](https://github.com/tbluemel/rtf.js)
 
 Migrate from mailgun to SES, mailgun's javascript sdk [seems](https://github.com/mailgun/mailgun-js/issues/122) [like](https://github.com/mailgun/mailgun-js#setup-client) a mess.
+
+Expose log files on blog's dashboard and tell [Sönke](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLtsxjSMlVmNRFGJJxkpsVFNvg)
 
 Improvements to Wikilinks feature:
 - test with non-[[Wikilinks]] options in Obsidian
@@ -126,21 +158,6 @@ Template engine plan
 Fix bug with a once-scheduled post, based on the file's path or previous date metadata. The post remains scheduled even if the date is removed, and even if it is then rebuilt.
 
 Add support for .tiff images
-
-Improve templates
-- Run sites and templates through [lighthouse](https://web.dev/measure/) and [observatory](https://observatory.mozilla.org/)
-- Fix bug setting font-size on magazine template and tell [David](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLscxQXjkgJRdPGnkXXTmQJFst)
-- Fix bug in image zoom and tell [Cameron](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKjTQrZJpVXVVGTWsrNJZSCsNr)
-- Fix bug with close button in magazine template and tell [Samuel](https://mail.google.com/mail/u/0/#inbox/QgrcJHsbdwQwrChCLHkpqpxfdPbsLXWFsSv)
-- Respond to Michael's [thoughtful emails](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDWqXmTLfljkKdGlfFMhMdkTm) about the template system
-- Tell these people about new templates, and to subscribe to newsletter:
-  - [Chris](https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e)
-  - [John](https://mail.google.com/mail/u/1/#all/1618ca0420779742)
-  - [Jan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChmLnfMTdtNkpLxHTlPJNHlCT) 
-  - [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrRRZTKntrWKJvfDXrRFTzljs)
-- Fix bug with 'Previous' page link in Magazine theme and tell [Alex](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDNPVtfJDLpjZVqjTThxdFvkC)
-- Fix column formatting for layout.css on default template and tell [Ryan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqThrjQzFppTFftfNFtNdMCpp)
-- Fix Diary template mobile issues and contact [Jonas](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJWjCrwrXTkDqnNtkMbzLlvQjx) and [Brandon](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJWrgCvbdMxMfrGNJkzPsPkJNz)
 
 ---
 
@@ -203,24 +220,6 @@ Rewrite transformer
 - Adjust interface to accept a number of directories. Make it 'unaware' of blog IDs?
 - Add method which accepts a path or URL and flushes what is stored for it, update the rebuild entry script
 - Cache errors. When a post contains multiple identical links to images that timeout/404, the thumbnail generator should only make 1 attempt to fetch them. Right now we have a post that is filled with identical broken image links (in this case to a spacer.gif) can suck up the build process for hours. 
-
-Improve brochure
-- Finish breadcrumbs scroll on mobile (make sure scrollbars are invisible) on Firefox Windows and tell [Paul](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsdCsHgtKMWhSbwxslbzxZpsq) and Rakhim
-- Generate high quality optimized favicons from new logo
-- Extract SVG of logo which can be used to produce hover effects, and on black
-- Loading state for submit button on sign up page
-- Unify dashboard header style post-payment
-- Write build scripts which can be run to produce results checked into git
-   - inline css in blot.css
-   - inline css in katex.css?
-   - base 64 encode and inline small images on homepage
-   - Optimize all images in image directory
-   - compute content hashes then Use blotcdn for video and other large static files
-- Add integration tests for brochure site to test sign up flow
-- Add guide to useful text editors like [this one recommended by Andrew](https://itunes.apple.com/us/app/write-best-note-taking-app/id848311469)
-- Personalize the documentation for logged in users
-- Tooltips for lock and CVC on sign up page
-- Prune unused font-face declarations from CSS passed to dashboard
 
 Add a 'page link format' option to the dashboard – the link format now only applies to entries. Tell [Mike](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKkbjLjgTZLQqMFFMzBBpzMZTg)
 
@@ -541,7 +540,7 @@ Think about adding way to add/edit files from the dashboard directly, bypassing 
 
 Disable redirect to HTTPS for blogs by default (to ensure old browsers without SNI work) but ensure all prominent links to the blog on dashboard use HTTPS
 
-Move away from reds and investigate good full text search options
+Move away from reds and investigate good full text search options using Postgres
 
 Improve Ghost importer and tell [Vin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWSwbGRtFTnJCPCXzVHntQPtC)
 
@@ -760,7 +759,6 @@ Make improvements to template editor color picker:
 - Swatches
    - used on other templates
 
-
 Add support for Micropub in Blot's API. Tell Amit.
 
 Add an EXPIRY to the log entries for a blog's 404 log
@@ -911,10 +909,6 @@ Move all unit tests which run on server start (the helper folder is littered wit
 
 Re-enable CSP on blot site in a way that works in Safari
 
-Expose list of rendering errors on dashboard
-
-Push [archives feature](https://mail.google.com/mail/u/0/#inbox/14fb1a48c08fe9be)
-
 Plugins
 - Fix image caption plugin to be semantic using <figure>
 - Ensure Youtube plugin still functions if apis fails
@@ -931,7 +925,7 @@ Consider allowing users to buy domains on Blot through [DNS simple](https://deve
 
 Consider distributing static built blogs on [dat](https://github.com/datproject/dat-node) or something similar
 
-Add internationalization (i8n) and translation into other languages:
+Consider adding internationalization (i8n) and translation into other languages:
 - [Yannick](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLtGrNqMwKBqGRFQNZQdLXQTdG) has offered to act as French translator
 - Tell Christian about [Portuguese](https://mail.google.com/mail/u/1/#inbox/1646ff9a7cbf6971) 
 - Tell [Simon about French](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVWSgnQswHnPkNBGvnGnPjGbZ)
@@ -958,8 +952,6 @@ Consider supporting SASS and tell [Max](https://mail.google.com/mail/u/0/#inbox/
 Consider supporting Micro pub and tell [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVzptjbWjjqlhBQtgJsRstVSD)
 
 Consider offering newsletter service and tell [David](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKkbrQKXjDGTFNmtHVwJXThsWR) and [Nash](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLtGhBWHnmtJMPGRhNDkLTMbCV) and [Kyle](https://mail.google.com/mail/u/0/#inbox/FMfcgzGkXSSTDVMfMGZQxcmcmlBSBQrR)
-
-Consider adding a crop of a livestream of the sky above me to the contact page. Possibly sourced from [something like this](https://www.earthcam.com/usa/newyork/worldtradecenter/?cam=hyatthd). Just like this: https://sistercitynyc.com/
 
 Consider adding support for [PubSubHubbub](https://en.wikipedia.org/wiki/WebSub) support and tell [Thomas](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJdDWZmclLFChDsbWBQlWsfk)
 
