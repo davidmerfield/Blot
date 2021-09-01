@@ -66,7 +66,7 @@ describe("layout", function () {
       var bo = m(
         "{<|} Hey",
         "A line",
-        '<div class="lefts margin">',
+        '<div class="left margin">',
         "This",
         "</div>"
       );
