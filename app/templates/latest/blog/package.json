@@ -12,7 +12,7 @@
       "position": "top",
       "alignment": "spread"
     },
-    "themes": {
+    "color_schemes": {
       "light": {
         "text_color": "#232323",
         "background_color": "#fff",

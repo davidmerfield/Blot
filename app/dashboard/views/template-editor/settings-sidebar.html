@@ -1,5 +1,7 @@
 <div class="inputs">
 		
+			{{#color_schemes.length}}
+
 	<h2>Color scheme</h2>
 
 
@@ -10,10 +12,11 @@
 		>
 
 		<style type="text/css">button.selected {border:2px solid blue}</style>
-	{{#themes}}
-		<button style="margin: 6px 3px 0 0;cursor: pointer;" type="submit" class="{{selected}}" name="locals.theme" value="{{key}}">{{label}}</button> 
-		{{/themes}}
+	{{#color_schemes}}
+		<button style="margin: 6px 3px 0 0;cursor: pointer;" type="submit" class="{{selected}}" name="locals.color_scheme" value="{{key}}">{{label}}</button> 
+		{{/color_schemes}}
 	</form>
+	{{/color_schemes.length}}
 
 	{{#colors.length}}
 		<h2>Colors</h2>

@@ -37,7 +37,7 @@ TemplateEditor.use("/:templateSlug/:section", function (req, res, next) {
 
 TemplateEditor.route("/:templateSlug/settings")
   .all(require("./load/font-inputs"))
-  .all(require("./load/theme"))
+  .all(require("./load/color-scheme"))
   .all(require("./load/color-inputs"))
   .all(require("./load/layout-inputs"))
   .all(require("./load/dates"))
@@ -68,7 +68,7 @@ TemplateEditor.route("/:templateSlug/settings")
       next();
     },
     require("./save/fonts"),
-    require("./save/theme"),
+    require("./save/color-scheme"),
     function (req, res, next) {
       Template.update(
         req.blog.id,
