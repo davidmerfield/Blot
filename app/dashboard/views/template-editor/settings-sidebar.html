@@ -1,5 +1,17 @@
 <div class="inputs">
-	
+		
+	{{#color_schemes.length}}
+	<h2>Color scheme</h2>
+	<form method="post" style="padding: 0 1rem">
+	<style type="text/css">
+button {background: white;border: 2px solid #ddd;border-radius: 4px;font:inherit;font-size: 14px;line-height: 1.45}
+	button.selected {border:2px solid #0075ff;border-radius: 4px}</style>
+	{{#color_schemes}}
+	<button style="margin: 6px 3px 0 0;cursor: pointer;" type="submit" class="{{selected}}" name="locals.color_scheme" value="{{key}}">{{label}}</button> 
+	{{/color_schemes}}
+	</form>
+	{{/color_schemes.length}}
+
 	{{#colors.length}}
 		<h2>Colors</h2>
 		{{#colors}} {{> color}} {{/colors}}
