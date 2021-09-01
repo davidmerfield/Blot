@@ -37,6 +37,7 @@ TemplateEditor.use("/:templateSlug/:section", function (req, res, next) {
 
 TemplateEditor.route("/:templateSlug/settings")
   .all(require("./load/font-inputs"))
+  .all(require("./load/theme"))
   .all(require("./load/color-inputs"))
   .all(require("./load/layout-inputs"))
   .all(require("./load/dates"))
@@ -44,7 +45,10 @@ TemplateEditor.route("/:templateSlug/settings")
     bodyParser,
     require("./save/previewPath"),
     function (req, res, next) {
+      console.log("here", req.body);
       let body = formJSON(req.body, Template.metadataModel);
+      console.log("here", body);
+
       let newLocals = body.locals;
       let newPartials = body.partials;
       let locals = req.template.locals;
@@ -64,6 +68,7 @@ TemplateEditor.route("/:templateSlug/settings")
       next();
     },
     require("./save/fonts"),
+    require("./save/theme"),
     function (req, res, next) {
       Template.update(
         req.blog.id,

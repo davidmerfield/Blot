@@ -1,5 +1,17 @@
 <div class="inputs">
-	
+		
+	<h2>Color scheme</h2>
+
+		<form
+			method="post"
+		>
+
+		<style type="text/css">button.selected {border:2px solid blue}</style>
+	{{#themes}}
+		<button type="submit" class="{{selected}}" name="locals.theme" value="{{key}}">{{label}}</button> 
+		{{/themes}}
+	</form>
+
 	{{#colors.length}}
 		<h2>Colors</h2>
 		{{#colors}} {{> color}} {{/colors}}
@@ -57,6 +69,10 @@
 		{{#isRange}}
 		{{> range}} 
 		{{/isRange}}
+
+		{{#isNavigation}}
+		{{> navigation}}
+		{{/isNavigation}}
 
 		{{/layouts}}
 {{/layouts.length}}

@@ -4,10 +4,42 @@
     "page_size": 6,
     "text_color": "#232323",
     "background_color": "#fff",
-    "link_color": "#004984",
+    "accent_color": "#004984",
     "hide_dates": false,
     "date_display": "MMMM D, Y",
-    "body_font": {}
+    "body_font": {},
+    "navigation": {
+      "position": "top",
+      "alignment": "spread"
+    },
+    "themes": {
+      "red": {
+        "text_color": "red",
+        "background_color": "pink",
+        "accent_color": "purple"
+      },
+      "dark": {
+        "text_color": "white",
+        "background_color": "black",
+        "accent_color": "orange"
+      },
+      "green": {
+        "text_color": "green",
+        "background_color": "white",
+        "accent_color": "blue"        
+      },
+      "blue": {
+        "text_color": "MidnightBlue",
+        "background_color": "LightCyan",
+        "accent_color": "Blue"        
+      },
+      "gray": {
+        "text_color": "black",
+        "background_color": "white",
+        "accent_color": "DarkSlateGray"        
+      }
+    },
+    "show_avatar": false
   },
   "isPublic": true,
   "views": {
