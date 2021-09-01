@@ -1,20 +1,12 @@
 <div class="inputs">
 		
-			{{#color_schemes.length}}
-
+	{{#color_schemes.length}}
 	<h2>Color scheme</h2>
-
-
-		<form
-			method="post" 
-
-			style="padding: 0 1rem"
-		>
-
-		<style type="text/css">button.selected {border:2px solid blue}</style>
+	<form method="post" style="padding: 0 1rem">
+	<style type="text/css">button.selected {border:2px solid blue}</style>
 	{{#color_schemes}}
-		<button style="margin: 6px 3px 0 0;cursor: pointer;" type="submit" class="{{selected}}" name="locals.color_scheme" value="{{key}}">{{label}}</button> 
-		{{/color_schemes}}
+	<button style="margin: 6px 3px 0 0;cursor: pointer;" type="submit" class="{{selected}}" name="locals.color_scheme" value="{{key}}">{{label}}</button> 
+	{{/color_schemes}}
 	</form>
 	{{/color_schemes.length}}
 
@@ -75,10 +67,6 @@
 		{{#isRange}}
 		{{> range}} 
 		{{/isRange}}
-
-		{{#isNavigation}}
-		{{> navigation}}
-		{{/isNavigation}}
 
 		{{/layouts}}
 {{/layouts.length}}

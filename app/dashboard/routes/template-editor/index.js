@@ -45,10 +45,7 @@ TemplateEditor.route("/:templateSlug/settings")
     bodyParser,
     require("./save/previewPath"),
     function (req, res, next) {
-      console.log("here", req.body);
       let body = formJSON(req.body, Template.metadataModel);
-      console.log("here", body);
-
       let newLocals = body.locals;
       let newPartials = body.partials;
       let locals = req.template.locals;
