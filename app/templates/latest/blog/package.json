@@ -8,10 +8,6 @@
     "hide_dates": false,
     "date_display": "MMMM D, Y",
     "body_font": {},
-    "navigation": {
-      "position": "top",
-      "alignment": "spread"
-    },
     "color_schemes": {
       "light": {
         "text_color": "#232323",
