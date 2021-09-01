@@ -10,6 +10,13 @@ Improvements to Dropbox client
   - https://dropbox.tech/developers/now-available--scoped-apps-and-enhanced-permissions
   - https://dropbox.tech/developers/migrating-app-permissions-and-access-tokens
 
+Improve brochure
+- Rigorously check site on mobile
+  - Finish breadcrumbs scroll on mobile (make sure scrollbars are invisible) on Firefox Windows and tell [Paul](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsdCsHgtKMWhSbwxslbzxZpsq) and Rakhim
+- Improve loading speed of template preview images
+- Generate high quality optimized favicons from new logo
+- Add loading state for submit button on sign up page
+
 ---
 
 Add the Google Drive client
@@ -41,24 +48,6 @@ Improve templates
 - Fix column formatting for layout.css on default template and tell [Ryan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqThrjQzFppTFftfNFtNdMCpp)
 - Fix Diary template mobile issues and contact [Jonas](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJWjCrwrXTkDqnNtkMbzLlvQjx) and [Brandon](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJWrgCvbdMxMfrGNJkzPsPkJNz)
 
-Improve brochure
-- Finish breadcrumbs scroll on mobile (make sure scrollbars are invisible) on Firefox Windows and tell [Paul](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsdCsHgtKMWhSbwxslbzxZpsq) and Rakhim
-- Generate high quality optimized favicons from new logo
-- Extract SVG of logo which can be used to produce hover effects, and on black
-- Loading state for submit button on sign up page
-- Unify dashboard header style post-payment
-- Write build scripts which can be run to produce results checked into git
-   - inline css in blot.css
-   - inline css in katex.css?
-   - base 64 encode and inline small images on homepage
-   - Optimize all images in image directory
-   - compute content hashes then Use blotcdn for video and other large static files
-- Add integration tests for brochure site to test sign up flow
-- Add guide to useful text editors like [this one recommended by Andrew](https://itunes.apple.com/us/app/write-best-note-taking-app/id848311469)
-- Personalize the documentation for logged in users
-- Tooltips for lock and CVC on sign up page
-- Prune unused font-face declarations from CSS passed to dashboard
-
 Add nice import step under 'Services' and as part of sign up
 - Create importer script for [John's posts from flickr](https://mail.google.com/mail/u/0/#inbox/166da622325d19e7)
 - Create importer script for tumblr text files and tell [Sawyer](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVMhRNdQhfDwlXsqqFNgmKfTk)
@@ -67,7 +56,6 @@ Add nice import step under 'Services' and as part of sign up
 - Map excerpt metadata to summary for Jekyll converter importer
 - Look into how Hexo has written imports for [blogger](https://github.com/hexojs/hexo-migrator-blogger), [joomla](https://github.com/welksonramos/hexo-migrator-joomla), [rss](https://github.com/hexojs/hexo-migrator-rss), [wordpress](https://github.com/hexojs/hexo-migrator-wordpress).
 - Add importer for Twitter and sell [Sawyer](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVMhRNdQhfDwlXsqqFNgmKfTk)
-
 
 Write new clients to sync blog folders
 - [Box] then tell [Eric](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMZRzCcPkNppMpSbBzNRKFSNs)
@@ -151,6 +139,18 @@ Add [.rtf support](https://github.com/tbluemel/rtf.js)
 Migrate from mailgun to SES, mailgun's javascript sdk [seems](https://github.com/mailgun/mailgun-js/issues/122) [like](https://github.com/mailgun/mailgun-js#setup-client) a mess.
 
 Expose log files on blog's dashboard and tell [Sönke](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLtsxjSMlVmNRFGJJxkpsVFNvg)
+
+Improvements to brochure:
+- Write build scripts which can be run to produce results checked into git
+   - inline css in blot.css
+   - inline css in katex.css?
+   - base 64 encode and inline small images on homepage
+   - Optimize all images in image directory
+   - compute content hashes then Use blotcdn for video and other large static files
+- Add end-to-end tests for brochure site to test sign up flow (use Playwright? Phantom? Chrome headless)
+- Add guide to useful text editors like [this one recommended by Andrew](https://itunes.apple.com/us/app/write-best-note-taking-app/id848311469)
+- Personalize the documentation for logged in users
+
 
 Improvements to Wikilinks feature:
 - test with non-[[Wikilinks]] options in Obsidian
