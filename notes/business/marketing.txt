@@ -1,8 +1,8 @@
 # Marketing
 
-## How we found our customers
+## How we find our customers
 
-I have not spent any time actively marketing Blot to potential customers. I announced [the launch of Blot](https://news.ycombinator.com/item?id=8183498) on a forum for programmers. The initial customers which I recieved from that forum post then spread the product by word-of-mouth. 
+I have not spent any time actively marketing Blot to potential customers. I announced [the launch of Blot](https://news.ycombinator.com/item?id=8183498) on a forum for programmers. The initial customers which I recieved from that forum post have since spread the news by word-of-mouth. You can likely trace every customer on my books today back to the people in that post. 
 
 ## Advertising
 

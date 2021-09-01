@@ -23,11 +23,24 @@ I don't make backups of the data on the system outside AWS. I should really do t
 - Control my own hardware
 - Run my own hardware in my own building
 
+## Cultural issues
+
+We have a policy which means that we allow anything legal on our platform. I suspect that one day, someone will post something that pisses of someone else who's prominent enough to trigger a pile on against our platform.
+
+*Solutions*:
+- Have plans in place for a massive reduction in revenue at any point (i.e. cash reserve)
+
 ## Service provider issues
 
 ## Legal issues
 
-## Personel issues
+We could get sued by a well-resourced customer, or someone who reads a customer's site.
+
+*Solutions*:
+- Have enough money in place to hire a lawyer that's better than our opponent
+
+
+## Personnel issues
 
 Blot's bus factor is still 1 – if I get hit by a bus the show stops. Since the source code is public, it would be possible for those who liked Blot to keep it going on a different server, but coordinating the switch might be tough.
 

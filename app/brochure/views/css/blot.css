@@ -331,10 +331,6 @@ ul.templates li a:hover {
   background: none;
 }
 
-ul.templates li a:hover strong {
-  background-color: #eee;
-  box-shadow: 0 0 0 4px #eee;
-}
 
 ul.templates li strong {
   display: inline-block;
