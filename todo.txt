@@ -78,8 +78,10 @@ Write new clients to sync blog folders
 
 ---
 
-Ensure I am doing request coalescing on NGINX and lower proxy timeout limit
-- Read the [5 hour CDN post](https://fly.io/blog/the-5-hour-content-delivery-network/) and [discussion](https://news.ycombinator.com/item?id=28053168)
+Improvements to backup system
+- Add hourly local redis rdb dumps to /cache
+- Test maintenance mode
+- Add script to roll back into hourly local db dumps and remote backups
 
 Begin collecting proper measurements for page-rendering speed on the server. This will help us identify ways to improve the speed of your site.
 
@@ -108,8 +110,6 @@ Improvements to template editor
 - Add layout option
 - Add color processing
 
-Ensure that all URL keys are deleted when template is deleted and tell Abigail
-
 Improvements for customers
 - Faster server, with SSL termination across CDN
   - set up 'cdn.blot.im' as cloudfront distribution endpoint?
@@ -120,15 +120,20 @@ Improvements for template developers
 - Improve template engine itself
 - Improve source code for templates
 
-Add action to lint code with jshint and eslint
-  - any other static code analysis tools?
-  - separate code to check for broken links, run in parallel
-  
-Add request level timeouts to prevent server swamping
-- ensure to remove the timeout from the SSE streaming routes (drafts, sync status on dashboard)
-- read this guide: http://expressjs.com/en/resources/middleware/timeout.html
-- it seems we also need to cancel the resources involved in responding to the request (i.e. disk io, db calls) for this to be really useful
-- Add a timeout of 15 seconds for building posts.
+Performance improvements
+- Streamline and cache loading of data on dashboard
+- Ensure node.js server has one process per CPU
+- Ensure I am doing request coalescing on NGINX and lower proxy timeout limit
+- Read the [5 hour CDN post](https://fly.io/blog/the-5-hour-content-delivery-network/) and [discussion](https://news.ycombinator.com/item?id=28053168)
+- Ensure nginx is handling all static file delivery
+- Detect CPU intensive functions in node.js process
+- Use the [--trace-sync-io command-line flag](https://expressjs.com/en/advanced/best-practice-performance.html#set-node_env-to-production) to determine if Blot is using any sync methods inappropriately
+- Can we keep the pandoc child_process running and pipe stuff in and out for speed? Measure before after to ensure this helps
+- Add request level timeouts to prevent server swamping
+  - ensure to remove the timeout from the SSE streaming routes (drafts, sync status on dashboard)
+  - read this guide: http://expressjs.com/en/resources/middleware/timeout.html
+  - it seems we also need to cancel the resources involved in responding to the request (i.e. disk io, db calls) for this to be really useful
+  - Add a timeout of 15 seconds for building posts.
 
 Server changes
 - Write useful benchmark tool for Blot
@@ -191,11 +196,19 @@ Improve server-side scheduled tasks:
 
 Fetch dimensions of images even if optimize and cache is disable, so that image zoom can work. Tell [Joshua](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsmhMtGvPcwxlSHSSTFVpJVbd)
 
+Ensure that all URL keys are deleted when template is deleted and tell Abigail
+
+Add action to lint code with jshint and eslint
+  - any other static code analysis tools?
+  - separate code to check for broken links, run in parallel
+  
 Improvements to metadata extractor:
 - Make it possible to set the slug-part of a URL for a post and tell [George](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsdBjKHPdsRXJBGSbxpQQCbCN) and follow up for [post in Questions](https://blot.im/questions/23)
 - Improve date parser to use time from file creation date if it's within the same day as the date specified in metadata and follow up with [Nicolas](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsShbhKRcvhWJlKRPHPctMnWM)
 - Fix bug with "Menu: " metadata – that empty value example will cause a post to become a page.
 - Fix summary generator such that a subtitle is used for summary text (i.e. an h2 directly following an h1) We still want to prevent the scenario in which a later h2 becomes the summary, though. Notify [Jessica and rebuild Jessica's site](https://mail.google.com/mail/u/0/#inbox/KtbxLwghhxtxrtdGHFqBRMcDGkGWtxvSdq)
+- Add support for entry property with escaped double quotes, tell [Jay](https://mail.google.com/mail/u/0/#inbox/15e396dbd8350972)
+
 
 Reduce image compression settings and tell [Joshua](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsmhMtGvPcwxlSHSSTFVpJVbd)
 
@@ -277,11 +290,6 @@ Improvements to server infrastructure
 Improve the automatic title generated for screenshots with default MacOs filename from 'at 14:40pm'
 
 Add support for posts generated from Excel files, would generate a table. Use [this library](https://github.com/joshboyan/excel-to-html-table)?
-
-Improvements to backup system
-- Add hourly local redis rdb dumps to /cache
-- Test maintenance mode
-- Add script to roll back into hourly local db dumps and remote backups
 
 Use [blurhash](https://github.com/woltapp/blurhash) to generate placeholders when lazy loading images and tell [David](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJXfqzZvHgrtSxzLBCwcvTsFFB) and [Marius](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLtQPwXwJrwgMzjfvDtcwFZzFC)
 
@@ -470,14 +478,6 @@ Date parser bugs
 
 --- 
 
-Performance improvements
-- Streamline and cache loading of data on dashboard
-- Ensure node.js server has one process per CPU
-- Ensure nginx is handling all static file delivery
-- Detect CPU intensive functions in node.js process
-- Use the [--trace-sync-io command-line flag](https://expressjs.com/en/advanced/best-practice-performance.html#set-node_env-to-production) to determine if Blot is using any sync methods inappropriately
-
-Reply to [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChSCwMxNdtdvMHnMVwTcHPjfg) about gitwatch and other newsletter suggestions
 
 Improve scheduler
 - Adds a command to restore database from backup.
@@ -628,49 +628,6 @@ Increase price to $5 per month for new customers. This will not affect existing 
 Create an API for Blot
 - Add webhooks and tell [Aurynn](https://mail.google.com/mail/u/0/#inbox/1554260da157b405) and [Shawn](https://twitter.com/soypunk)
 
-Create a mock version of these websites and send an email showing the folder structure for them. Offer to convert entire site in return for a link on Blot's homepage:
-
-- Design:
-  - [Frank Chimero](https://frankchimero.com/)
-  - [David Rudnick](https://davidrudnick.org/)
-  - [Peter Mendelsund](https://www.petermendelsund.com/about)
-  - [Rob Giampietro](https://linedandunlined.com/)
-  - [Ben Pierrat](http://pieratt.com/)
-  - [Tina Roth Eisenberg](https://www.swiss-miss.com/)
-  - [Khoi Vinh](https://www.subtraction.com/)
-  - [Jarrett Fuller](https://jarrettfuller.com/)
-  - [Dan Cederholm](http://simplebits.com)
-  - [Hank Beyer](https://hankbeyer.com/)
-
-- Type:
-  - [Just van Rossum](http://dailydrawbot.tumblr.com/)
-  - [Stan Nelson](http://www.atelierpressandletterfoundry.com/contact)
-  - [Tobias Rechsteiner](http://www.tobiasrechsteiner.ch/) knows about Blot
-  - [Nick Sherman](https://nicksherman.com/)
-  
-- Writers:
-  - [Warren Ellis](http://warrenellis.ltd/) via [Kevin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChSHZrcrTqrjtJVqVrhZKLXNw) knows about Blot
-  - [Maciej Ceglowski](https://idlewords.com/about.htm)
-  - [Robin Sloan](https://www.robinsloan.com/)
-  - [Paul Ford](https://www.ftrain.com/)
-  - [Craig Mod](https://craigmod.com/)
-
-- Programming:
-  - [Lovell Fuller](http://lovell.info/)
-  - [Rasmus Andersson](https://rsms.me/)
-  - [Una Kravets](https://una.im/)
-  - [Chris Coyier](https://chriscoyier.net/)
-  - [Moxie Marlinspike](https://moxie.org/)
-  - [Marco Arment](https://marco.org/)
-  - [John Resig](https://johnresig.com/)
-  - [Sahil Lavingia](https://sahillavingia.com/)
-  
-- Created [popular text editors](https://en.wikipedia.org/wiki/List_of_text_editors):
-  - [Oliver Reichenstein](https://ia.net/)
-  - [Zachary Schneirov](http://notational.net/)
-
-Search HN for popular indie-blogs and contact the authors with similar offers. 
-
 Allow logged in users to see public homepage. Perhaps use dashboard.blot.im for dashboard?
 - Add a slack.com style dropdown on the public homepage for logged in users which takes them to the dashboard for their sites.
 
@@ -683,8 +640,6 @@ Add support for IPv6 and tell [Raul](https://mail.google.com/mail/u/0/#inbox/167
 Client.write does not propogate sync errors... to demonstrate this, revoke dropbox token then try to enable local editing.
 
 Re-enable image minifier and fix the bugs it creates
-
-Can we keep the pandoc child_process running and pipe stuff in and out for speed? Measure before after to ensure this helps
 
 Webloc converter
 - Generate screenshots as thumbnails for webloc posts perhaps using [pupeteer](https://github.com/GoogleChrome/puppeteer) and PNG8, which seems [efficient for screenshots](https://news.ycombinator.com/item?id=18236912) and tell [Tom](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWSwcVDLBRqVlxrsXqMcwsKFB)
@@ -796,8 +751,6 @@ Thumbnail generator
 - Extract color palette too for the image
 - Offer imgix style API for embedding thumbnails
 
-Add support for entry property with escaped double quotes, tell [Jay](https://mail.google.com/mail/u/0/#inbox/15e396dbd8350972)
-
 NGINX Install nginx fail2ban & http2
 
 Add support for comments via webmentions like Disqus and tell Amit and [Luke](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqxRmLKckzjnQRsszbdLwvnGb)
@@ -813,6 +766,8 @@ Plugins
 Menu needs concurrency or atomic operations (so we can build posts in parallel)
 
 Think about responsive images and optimizing at request time and tell [Marius](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVzxxNhtSdxgPSWHZMPkktsvW) and [Jan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDsFfdcKKqDbXrzQFPrwxmKdNt)
+
+Reply to [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChSCwMxNdtdvMHnMVwTcHPjfg) about gitwatch and other newsletter suggestions
 
 ---
 
