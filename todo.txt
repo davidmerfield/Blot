@@ -905,8 +905,6 @@ Move to [pretty IDs](https://jsfiddle.net/sg1z5had/) for everything
 
 Enable hyphenation again then tell rodericus
 
-Move all unit tests which run on server start (the helper folder is littered with these, CMD+F for 'require('assert') into CI tests.
-
 Re-enable CSP on blot site in a way that works in Safari
 
 Plugins
