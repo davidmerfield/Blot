@@ -2,13 +2,16 @@
 		
 	<h2>Color scheme</h2>
 
+
 		<form
-			method="post"
+			method="post" 
+
+			style="padding: 0 1rem"
 		>
 
 		<style type="text/css">button.selected {border:2px solid blue}</style>
 	{{#themes}}
-		<button type="submit" class="{{selected}}" name="locals.theme" value="{{key}}">{{label}}</button> 
+		<button style="margin: 6px 3px 0 0;cursor: pointer;" type="submit" class="{{selected}}" name="locals.theme" value="{{key}}">{{label}}</button> 
 		{{/themes}}
 	</form>
 

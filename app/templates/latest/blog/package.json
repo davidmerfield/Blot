@@ -13,33 +13,32 @@
       "alignment": "spread"
     },
     "themes": {
-      "red": {
-        "text_color": "red",
-        "background_color": "pink",
-        "accent_color": "purple"
+      "light": {
+        "text_color": "#232323",
+        "background_color": "#fff",
+        "accent_color": "#004984"
       },
       "dark": {
         "text_color": "white",
         "background_color": "black",
         "accent_color": "orange"
       },
+      "red": {
+        "text_color": "red",
+        "background_color": "pink",
+        "accent_color": "purple"
+      },
       "green": {
         "text_color": "green",
         "background_color": "white",
-        "accent_color": "blue"        
+        "accent_color": "blue"
       },
       "blue": {
         "text_color": "MidnightBlue",
         "background_color": "LightCyan",
-        "accent_color": "Blue"        
-      },
-      "gray": {
-        "text_color": "black",
-        "background_color": "white",
-        "accent_color": "DarkSlateGray"        
+        "accent_color": "Blue"
       }
-    },
-    "show_avatar": false
+    }
   },
   "isPublic": true,
   "views": {
