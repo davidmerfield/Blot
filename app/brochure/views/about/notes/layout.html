@@ -5,11 +5,11 @@
 <ul class="guides" style="display: flex;flex-wrap: wrap;margin:-1rem">
   {{#toc}}
   <li style="flex-basis: 50%;padding:1rem;box-sizing: border-box;">
-    <a class="no-outline" style="display: block;border:none;border-bottom: 1px solid rgba(0,0,0,0.05);text-decoration: none;padding-bottom: 6px" href="{{slug}}">
+    <a class="no-outline" style="display: block;border:none;border-bottom: 1px solid rgba(0,0,0,0.05);text-decoration: none;padding-bottom: 6px;margin-bottom: 3px" href="{{slug}}">
       <span style="font-weight: 600">{{name}}</span></a>
       <ul style="padding-left: 0">
       {{#items}}
-      <li style="list-style-type: none;border:none"><a href="{{slug}}"><code class="file txt"></code>{{name}}</a>
+      <li style="list-style-type: none;border:none"><a href="{{slug}}"><code class="file txt"></code>&thinsp;{{name}}</a>
         {{/items}}
       </ul>
     </li>
@@ -18,10 +18,9 @@
 {{/showToc}}
   
   {{#if subsections}}
-  <br>
   <ul style="list-style-type: none;margin:0;padding: 0">
     {{#subsections}}
-    <li><a class="no-outline" style="display: block;border-bottom: 2px solid #f8f8f8;padding: 0.75rem 0;text-decoration: none;" href="{{slug}}"><span style="font-weight: 600"><code class="file txt"></code> {{name}}</span><br><span style="text-decoration: none;">{{subtitle}}</span></a>
+    <li><a class="no-outline" style="display: flex;border-bottom: 1px solid #f8f8f8;padding: 0.75rem 0;text-decoration: none;" href="{{slug}}"><span style="margin-right: 6px"><code class="file txt"></code></span><span><strong>{{name}}</strong>{{#if subtitle}}<span style="text-decoration: none;margin-top: 3px;display: block;">{{subtitle}}</span>{{/if}}</span></a>
       {{/subsections}}
     </ul>
     {{/if}}
