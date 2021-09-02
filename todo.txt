@@ -1,37 +1,8 @@
-Improvements to longform-text template (Blog):
-- Add index page content options (grid, summary, full post)
-  - what is the appropriate data structure for this? we need to do a mustache conditional
-  - could it just be reduced to a boolean choice?
-- Tell David
-
 Improvements to Dropbox client
 - Migrate [App permissions before September 30th 2021](https://dropbox.tech/developers/migrating-app-permissions-and-access-tokens)
   - https://developers.dropbox.com/oauth-guide
   - https://dropbox.tech/developers/now-available--scoped-apps-and-enhanced-permissions
   - https://dropbox.tech/developers/migrating-app-permissions-and-access-tokens
-
-Improve brochure
-- Rigorously check site on mobile
-  - Finish breadcrumbs scroll on mobile (make sure scrollbars are invisible) on Firefox Windows and tell [Paul](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsdCsHgtKMWhSbwxslbzxZpsq) and Rakhim
-- Improve loading speed of template preview images
-- Generate high quality optimized favicons from new logo
-- Add loading state for submit button on sign up page
-
----
-
-Add the Google Drive client
-
-Finish the new template improvements
-
-Release a new film showing some of Blot’s more recent features – the current [video on Blot’s homepage](http://blot.im/) is now many years out of date
-- Finish video script in brochure/readme.txt
-- Work out how a photographer might use Blot, does lightroom work well?
-- Tidy up fontarchive.org
-- Find a neat public domain song to play 
-   - https://archive.org/details/Grab_Bag-12446/03_-_Trust.mp3
-   - https://archive.org/details/Winter_Sunshine_EP-8201/Evgeny_Grinko_-_01_-_Winter_Sunshine.mp3
-
----
 
 Improve templates
 - Run sites and templates through [lighthouse](https://web.dev/measure/) and [observatory](https://observatory.mozilla.org/)
@@ -48,6 +19,27 @@ Improve templates
 - Fix bug with 'Previous' page link in Magazine theme and tell [Alex](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDNPVtfJDLpjZVqjTThxdFvkC)
 - Fix column formatting for layout.css on default template and tell [Ryan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqThrjQzFppTFftfNFtNdMCpp)
 - Fix Diary template mobile issues and contact [Jonas](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJWjCrwrXTkDqnNtkMbzLlvQjx) and [Brandon](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJWrgCvbdMxMfrGNJkzPsPkJNz)
+
+Improve brochure
+- Rigorously check site on mobile
+  - Finish breadcrumbs scroll on mobile (make sure scrollbars are invisible) on Firefox Windows and tell [Paul](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsdCsHgtKMWhSbwxslbzxZpsq) and Rakhim
+- Improve loading speed of template preview images
+- Generate high quality optimized favicons from new logo
+- Add loading state for submit button on sign up page
+
+---
+
+Add the Google Drive client
+
+Release a new film showing some of Blot’s more recent features – the current [video on Blot’s homepage](http://blot.im/) is now many years out of date
+- Finish video script in brochure/readme.txt
+- Work out how a photographer might use Blot, does lightroom work well?
+- Tidy up fontarchive.org
+- Find a neat public domain song to play 
+   - https://archive.org/details/Grab_Bag-12446/03_-_Trust.mp3
+   - https://archive.org/details/Winter_Sunshine_EP-8201/Evgeny_Grinko_-_01_-_Winter_Sunshine.mp3
+
+---
 
 Add nice import step under 'Services' and as part of sign up
 - Create importer script for [John's posts from flickr](https://mail.google.com/mail/u/0/#inbox/166da622325d19e7)
