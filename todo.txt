@@ -30,7 +30,7 @@ Improve brochure
 
 ---
 
-Add the Google Drive client
+Release the Google Drive client
 
 Release a new film showing some of Blot’s more recent features – the current [video on Blot’s homepage](http://blot.im/) is now many years out of date
 - Finish video script in brochure/readme.txt
