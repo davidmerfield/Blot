@@ -24,17 +24,26 @@
         "background_color": "pink",
         "accent_color": "purple"
       },
-      "green": {
-        "text_color": "green",
-        "background_color": "white",
-        "accent_color": "blue"
-      },
       "blue": {
         "text_color": "MidnightBlue",
         "background_color": "LightCyan",
         "accent_color": "Blue"
       }
-    }
+    },
+    "navigation_alignment": "justified",
+    "navigation_alignment_options": [
+      "justified",
+      "left",
+      "right",
+      "center"
+    ],
+    "navigation_position": "top",
+    "navigation_position_options": [
+      "top",
+      "left",
+      "right",
+      "bottom"
+    ]
   },
   "isPublic": true,
   "views": {
