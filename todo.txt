@@ -1,6 +1,8 @@
 Improvements to longform-text template (Blog):
-- Add index page content options (grid, summary, full post)
 - Add syntax highlighting optional themes using [this demo as a starting point](https://highlightjs.org/static/demo/)
+- Add index page content options (grid, summary, full post)
+  - what is the appropriate data structure for this? we need to do a mustache conditional
+  - could it just be reduced to a boolean choice?
 - Tell David
 
 Improvements to Dropbox client
