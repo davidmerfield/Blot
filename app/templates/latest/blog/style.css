@@ -54,17 +54,17 @@ div {
   position: relative;
 }
 
-div.header {padding: 1.4rem;width:100%;display: flex;align-items:baseline;background: {{background_color}};z-index: 100;justify-content: space-between;margin-bottom:36px;}
+div.header {padding: 1.4rem;position: fixed;width:100%;display: flex;align-items:baseline;background: {{background_color}};z-index: 100;justify-content: space-between;}
 
-.header.position-top {position: sticky;top:0;}
-.header.position-bottom {position: fixed;bottom:0;margin-bottom: 0}
+.header.position-top {top:0;}
+.header.position-bottom {bottom:0;}
 
 .header.alignment-center {justify-content: center;}
 .header.alignment-left {justify-content: flex-start;}
 .header.alignment-right {justify-content: flex-end;}
 
 .main {max-width: 60%;min-width: 720px}
-.container {max-width: 1000px}
+.container {max-width: 1000px;margin-top: 82px} /* 66px header height + 16 */
 .entry {margin: 0 0 192px}
 
 /* LAYOUT */
