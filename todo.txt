@@ -1,9 +1,3 @@
-Improvements to Dropbox client
-- Migrate [App permissions before September 30th 2021](https://dropbox.tech/developers/migrating-app-permissions-and-access-tokens)
-  - https://developers.dropbox.com/oauth-guide
-  - https://dropbox.tech/developers/now-available--scoped-apps-and-enhanced-permissions
-  - https://dropbox.tech/developers/migrating-app-permissions-and-access-tokens
-
 Improve templates
 - Implement David's aesthetic proposals in the Figma mockups in the Blog template
 - Run sites and templates through [lighthouse](https://web.dev/measure/) and [observatory](https://observatory.mozilla.org/)
