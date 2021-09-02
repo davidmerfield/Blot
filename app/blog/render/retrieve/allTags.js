@@ -25,7 +25,11 @@ module.exports = function (req, callback) {
         tag.total = tag.entries.length;
 
         Entry.get(req.blog.id, tag.entries, function (entries) {
-          tag.entries = entries;
+          tag.entries = entries.sort(function(a, b){
+            if (a.dateStamp > b.dateStamp) return -1;
+            if (b.dateStamp > a.dateStamp) return 1;
+            return 0;
+          });
 
           next();
         });

@@ -145,7 +145,7 @@ module.exports = function () {
     console.log(clfdate(), "Checking featured sites");
     checkFeatuedSites(function (err) {
       if (err) {
-        console.log(clfdate(), "Error: Checking featured sites".err);
+        console.log(clfdate(), "Error: Checking featured sites", err);
       } else {
         console.log(clfdate(), "Checked featured sites");
       }

@@ -9,8 +9,8 @@ var TITLES = {
   "how": "How it works",
   "terms": "Terms of use",
   "privacy": "Privacy policy",
-  "configure": "Configure your site",
-  "ask": "Ask question",
+  // "configure": "Configure your site",
+  "ask": "Ask",
   "urls": "Link format",
   "hard-stop-start-ec2-instance": "How to stop and start an EC2 instance",
   "who": "Who uses Blot?",
@@ -91,6 +91,12 @@ brochure.use(function (req, res, next) {
   res.locals.title = title;
 
   next();
+});
+
+const VIEWS = require("path").resolve(__dirname + "/../views");
+
+brochure.get("/account/logged-out", function (req, res) {
+  res.sendFile(VIEWS + "/logged-out.html");
 });
 
 brochure.use("/account", function (req, res, next) {

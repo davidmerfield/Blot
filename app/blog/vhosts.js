@@ -180,3 +180,8 @@ function extractPreviewTemplate(host, blogID) {
 
   return owner + ":" + name;
 }
+
+// for testing in tests/vhosts.js
+module.exports.extractHandle = extractHandle;
+module.exports.extractPreviewTemplate = extractPreviewTemplate;
+module.exports.isSubdomain = isSubdomain;

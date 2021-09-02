@@ -11,7 +11,7 @@ var localPath = require("../localPath");
 var config = require("config");
 var join = require("path").join;
 var async = require("async");
-var resolveCaseInsensitivePathToFile = require("./resolveCaseInsensitivePathToFile");
+var caseSensitivePath = require("../caseSensitivePath");
 
 // TODO:
 // Fix bug with transformer to handle ESOCKETIMEDOUT error...
@@ -99,7 +99,7 @@ function Transformer(blogID, name) {
 
     // Next we attempt to resolve the path case-insensitively
     tasks.push(function (next) {
-      resolveCaseInsensitivePathToFile(localPath(blogID, "/"), path, function (
+      caseSensitivePath(localPath(blogID, "/"), path, function (
         err,
         fullLocalPath
       ) {
@@ -111,14 +111,13 @@ function Transformer(blogID, name) {
     // Finally we attempt to resolve the URI-decoded path case-insensitively
     if (decodedURI)
       tasks.push(function (next) {
-        resolveCaseInsensitivePathToFile(
-          localPath(blogID, "/"),
-          decodedURI,
-          function (err, fullLocalPath) {
-            if (err) return next(err);
-            fromPath(fullLocalPath, transform, next);
-          }
-        );
+        caseSensitivePath(localPath(blogID, "/"), decodedURI, function (
+          err,
+          fullLocalPath
+        ) {
+          if (err) return next(err);
+          fromPath(fullLocalPath, transform, next);
+        });
       });
 
     // Will work down the list of paths. If one of the paths

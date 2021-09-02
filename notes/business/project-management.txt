@@ -1,6 +1,7 @@
 # Project management
+## The tools and strategies we use to work
 
-I haven't found the need to use much software to manage the daily operation of Blot. We use email heavily, preferring it to chatting applications, and a text-file to record our outstanding tasks.
+I haven't found the need to use much software to manage the daily operation of Blot. We use email heavily, preferring it to messaging applications, and a text-file to record our outstanding tasks.
 
 ## Task tracking
 

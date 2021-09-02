@@ -10,6 +10,12 @@ for (var i in clients) {
   });
 }
 
+list.sort(function(a, b) {
+    var textA = a.name.toUpperCase();
+    var textB = b.name.toUpperCase();
+    return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+});
+
 module.exports = function (req, res, next) {
   res.locals.clients = list.slice();
 

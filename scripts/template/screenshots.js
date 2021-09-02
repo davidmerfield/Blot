@@ -1,3 +1,5 @@
+// todo turn this into a github action? runs when changes made automatically?
+
 const screenshot = require("helper/screenshot");
 const async = require("async");
 const config = require("config");
@@ -5,23 +7,23 @@ const VIEW_DIRECTORY =
   require("helper/rootDir") + "/app/brochure/views/templates";
 
 const SCREENSHOTS = {
-  diary: {
+  blog: {
     handle: "bjorn",
     pages: ["/", "/search?q=fishing"],
-  },
-  essay: {
-    handle: "interviews",
-    pages: ["/", "/ingrid-newkirk"],
   },
   magazine: {
     handle: "interviews",
     pages: ["/", "/archives"],
   },
-  picture: {
+  photobook: {
     handle: "bjorn",
     pages: ["/", "/archives"],
   },
-  scrapbook: {
+  portfolio: {
+    handle: "interviews",
+    pages: ["/", "/ingrid-newkirk"],
+  },
+  reference: {
     handle: "ferox",
     pages: ["/", "/iems-l13-3"],
   },
