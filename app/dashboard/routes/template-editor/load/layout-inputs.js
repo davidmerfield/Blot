@@ -18,18 +18,25 @@ module.exports = function (req, res, next) {
         (key.indexOf("_alignment") > -1 && key.indexOf("_options") === -1)
     )
     .map((key) => {
-      let min, max, options;
+      let min, max;
+
+      let options = req.template.locals[key + "_options"];
 
       let isRange =
         ["page_size", "thumbnail_size", "spacing_size"].indexOf(key) > -1;
 
       let isAlignment =
+        !isRange &&
         key.indexOf("_alignment") > -1 &&
-        req.template.locals[key + "_options"] !== undefined;
+        options &&
+        options.constructor === Array;
 
       let isPosition =
+        !isRange &&
+        !isAlignment &&
         key.indexOf("_position") > -1 &&
-        req.template.locals[key + "_options"] !== undefined;
+        options &&
+        options.constructor === Array;
 
       if (isAlignment || isPosition) {
         options = req.template.locals[key + "_options"].map((option) => {
