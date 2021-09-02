@@ -20,6 +20,7 @@ var dictionary = {
   "encodeXML": require("./encodeXML"),
   "feed_url": require("./feed_url"),
   "isActive": require("./isActive"),
+  "is": require("./is"),
   "latestEntry": require("./latestEntry"),
   "page": require("./page"),
   "plugin_css": require("./plugin_css"),

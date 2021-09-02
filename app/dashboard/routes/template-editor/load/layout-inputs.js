@@ -8,14 +8,14 @@ const MAP = {
 
 module.exports = function (req, res, next) {
   res.locals.partials.range = "template-editor/inputs/range";
-  res.locals.partials.position = "template-editor/inputs/position";
-  res.locals.partials.alignment = "template-editor/inputs/alignment";
+  res.locals.partials.select = "template-editor/inputs/select";
   res.locals.layouts = Object.keys(req.template.locals)
     .filter(
       (key) =>
         ["page_size", "thumbnail_size", "spacing_size"].indexOf(key) > -1 ||
-        (key.indexOf("_position") > -1 && key.indexOf("_options") === -1) ||
-        (key.indexOf("_alignment") > -1 && key.indexOf("_options") === -1)
+        (key.indexOf("_options") === -1 &&
+          req.template.locals[key + "_options"] &&
+          req.template.locals[key + "_options"].constructor === Array)
     )
     .map((key) => {
       let min, max;
@@ -25,20 +25,9 @@ module.exports = function (req, res, next) {
       let isRange =
         ["page_size", "thumbnail_size", "spacing_size"].indexOf(key) > -1;
 
-      let isAlignment =
-        !isRange &&
-        key.indexOf("_alignment") > -1 &&
-        options &&
-        options.constructor === Array;
+      let isSelect = !isRange && options.constructor === Array;
 
-      let isPosition =
-        !isRange &&
-        !isAlignment &&
-        key.indexOf("_position") > -1 &&
-        options &&
-        options.constructor === Array;
-
-      if (isAlignment || isPosition) {
+      if (isSelect) {
         options = req.template.locals[key + "_options"].map((option) => {
           return {
             label: desnake(option),
@@ -56,12 +45,11 @@ module.exports = function (req, res, next) {
 
       return {
         key,
+        label: (MAP[key] && MAP[key].label) || desnake(key),
         value: req.template.locals[key],
         isRange,
+        isSelect,
         options,
-        isAlignment,
-        isPosition,
-        label: (MAP[key] && MAP[key].label) || desnake(key),
         max,
         min,
       };
