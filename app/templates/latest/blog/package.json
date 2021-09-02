@@ -30,6 +30,11 @@
         "accent_color": "Blue"
       }
     },
+    "index_layout": "full_posts",
+    "index_layout_options": [
+      "just_titles",
+      "full_posts"
+    ],
     "navigation_alignment": "justified",
     "navigation_alignment_options": [
       "justified",

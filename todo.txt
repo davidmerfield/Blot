@@ -1,5 +1,4 @@
 Improvements to longform-text template (Blog):
-- Add syntax highlighting optional themes using [this demo as a starting point](https://highlightjs.org/static/demo/)
 - Add index page content options (grid, summary, full post)
   - what is the appropriate data structure for this? we need to do a mustache conditional
   - could it just be reduced to a boolean choice?
@@ -45,6 +44,7 @@ Improve templates
   - [John](https://mail.google.com/mail/u/1/#all/1618ca0420779742)
   - [Jan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChmLnfMTdtNkpLxHTlPJNHlCT) 
   - [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrRRZTKntrWKJvfDXrRFTzljs)
+- Add syntax highlighting optional themes using [this demo as a starting point](https://highlightjs.org/static/demo/)
 - Fix bug with 'Previous' page link in Magazine theme and tell [Alex](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDNPVtfJDLpjZVqjTThxdFvkC)
 - Fix column formatting for layout.css on default template and tell [Ryan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqThrjQzFppTFftfNFtNdMCpp)
 - Fix Diary template mobile issues and contact [Jonas](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJWjCrwrXTkDqnNtkMbzLlvQjx) and [Brandon](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJWrgCvbdMxMfrGNJkzPsPkJNz)
