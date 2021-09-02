@@ -5,6 +5,7 @@ Improvements to Dropbox client
   - https://dropbox.tech/developers/migrating-app-permissions-and-access-tokens
 
 Improve templates
+- Implement David's aesthetic proposals in the Figma mockups in the Blog template
 - Run sites and templates through [lighthouse](https://web.dev/measure/) and [observatory](https://observatory.mozilla.org/)
 - Fix bug setting font-size on magazine template and tell [David](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLscxQXjkgJRdPGnkXXTmQJFst)
 - Fix bug in image zoom and tell [Cameron](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKjTQrZJpVXVVGTWsrNJZSCsNr)
