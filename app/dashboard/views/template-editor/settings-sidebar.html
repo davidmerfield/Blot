@@ -4,18 +4,41 @@
 	<h2>Color scheme</h2>
 	<form method="post" style="padding: 0 1rem">
 	<style type="text/css">
-button {background: white;border: 2px solid #ddd;border-radius: 4px;font:inherit;font-size: 14px;line-height: 1.45}
+button {background: white;border: 2px solid #ddd;border-radius: 4px;font:inherit;font-size: 14px;line-height: 1.45;margin: 6px 3px 0 0;cursor: pointer;}
 	button.selected {border:2px solid #0075ff;border-radius: 4px}</style>
 	{{#color_schemes}}
-	<button style="margin: 6px 3px 0 0;cursor: pointer;" type="submit" class="{{selected}}" name="locals.color_scheme" value="{{key}}">{{label}}</button> 
+	<button type="submit" class="{{selected}}" name="locals.color_scheme" value="{{key}}">{{label}}</button> 
 	{{/color_schemes}}
 	</form>
 	{{/color_schemes.length}}
 
-	{{#colors.length}}
+{{#colors.length}}
+	{{^color_schemes.length}}
 		<h2>Colors</h2>
-		{{#colors}} {{> color}} {{/colors}}
+	{{/color_schemes.length}}
 	{{/colors.length}}
+
+	{{#colors}} {{> color}} {{/colors}}
+
+	
+{{#layouts.length}}
+		<h2>Layout</h2>
+		{{#layouts}}
+
+		{{#isAlignment}}
+		{{> alignment}}
+		{{/isAlignment}}
+
+		{{#isPosition}}
+		{{> position}}
+		{{/isPosition}}
+
+		{{#isRange}}
+		{{> range}} 
+		{{/isRange}}
+
+		{{/layouts}}
+{{/layouts.length}}
 
 	{{#fonts.length}}
 		{{#fonts}} {{> font}} {{/fonts}} 
@@ -62,16 +85,7 @@ button {background: white;border: 2px solid #ddd;border-radius: 4px;font:inherit
 		</form>
 	{{/show_date_options}}
 
-	{{#layouts.length}}
-		<h2>Layout</h2>
-		{{#layouts}}
-
-		{{#isRange}}
-		{{> range}} 
-		{{/isRange}}
-
-		{{/layouts}}
-{{/layouts.length}}
+	
 </div>
 <div style="margin:1rem;background: #fff">
 	<a style="text-decoration:none;border-bottom:1px solid #eee;display: block;padding: 5px 20px;color:#666;font-size: 14px" href="{{{base}}}/local-editing">Edit template locally</a>

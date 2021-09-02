@@ -1,5 +1,4 @@
 Improvements to longform-text template (Blog):
-- Add header location and alignment options
 - Add index page content options (grid, summary, full post)
 - Add syntax highlighting optional themes using [this demo as a starting point](https://highlightjs.org/static/demo/)
 - Tell David
