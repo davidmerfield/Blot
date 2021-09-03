@@ -20,6 +20,7 @@
 html {
   margin: 0;
   padding: 0;
+  font-size: {{body_font.font_size}}px;
   width: 100%;
   height: 100%;
 }
@@ -246,6 +247,7 @@ h1 em {font-style:normal}
   -moz-hyphens: auto;
   hyphens: auto;
 }
+
 
 /*Compress title size */ 
 .lh-title.f2, .lh-title.f1 {line-height:1}
