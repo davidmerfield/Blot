@@ -35,7 +35,5 @@ module.exports = function (req, callback) {
     }
   }
 
-  console.log(is);
-
   return callback(null, is);
 };
