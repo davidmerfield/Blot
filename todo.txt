@@ -6,20 +6,14 @@ Improvements to Dropbox client
 
 Improve templates
 - Implement David's aesthetic proposals in the Figma mockups in the Blog template
-- Run sites and templates through [lighthouse](https://web.dev/measure/) and [observatory](https://observatory.mozilla.org/)
 - Fix bug setting font-size on magazine template and tell [David](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLscxQXjkgJRdPGnkXXTmQJFst)
-- Fix bug in image zoom and tell [Cameron](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKjTQrZJpVXVVGTWsrNJZSCsNr)
-- Fix bug with close button in magazine template and tell [Samuel](https://mail.google.com/mail/u/0/#inbox/QgrcJHsbdwQwrChCLHkpqpxfdPbsLXWFsSv)
-- Respond to Michael's [thoughtful emails](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDWqXmTLfljkKdGlfFMhMdkTm) about the template system
+- Add syntax highlighting option themes using [this demo as a starting point](https://highlightjs.org/static/demo/)
+- Run sites and templates through [lighthouse](https://web.dev/measure/) and [observatory](https://observatory.mozilla.org/)
 - Tell these people about new templates, and to subscribe to newsletter:
   - [Chris](https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e)
   - [John](https://mail.google.com/mail/u/1/#all/1618ca0420779742)
   - [Jan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChmLnfMTdtNkpLxHTlPJNHlCT) 
   - [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrRRZTKntrWKJvfDXrRFTzljs)
-- Add syntax highlighting optional themes using [this demo as a starting point](https://highlightjs.org/static/demo/)
-- Fix bug with 'Previous' page link in Magazine theme and tell [Alex](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDNPVtfJDLpjZVqjTThxdFvkC)
-- Fix column formatting for layout.css on default template and tell [Ryan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqThrjQzFppTFftfNFtNdMCpp)
-- Fix Diary template mobile issues and contact [Jonas](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJWjCrwrXTkDqnNtkMbzLlvQjx) and [Brandon](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJWrgCvbdMxMfrGNJkzPsPkJNz)
 
 Improve brochure
 - Rigorously check site on mobile
@@ -89,10 +83,6 @@ Improvements to teaser generator
 - Fix [issue with teaser generator](https://github.com/davidmerfield/Blot/issues/15) that locks up a build process, sometimes for 10+ seconds.
 - Fix bug with footnote links in a teaser from #frag to {{permalink}}#frag
 
-Improvements to template editor
-- Add layout option
-- Add color processing
-
 Improvements for customers
 - Faster server, with SSL termination across CDN
   - set up 'cdn.blot.im' as cloudfront distribution endpoint?
@@ -100,7 +90,6 @@ Improvements for customers
 
 Improvements for template developers
 - Better more consistent documentation
-- Improve template engine itself
 - Improve source code for templates
 
 Performance improvements
@@ -191,8 +180,6 @@ Improve server-side scheduled tasks:
 - Back up postgres database
 
 Fetch dimensions of images even if optimize and cache is disable, so that image zoom can work. Tell [Joshua](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsmhMtGvPcwxlSHSSTFVpJVbd)
-
-Ensure that all URL keys are deleted when template is deleted and tell Abigail
 
 Add action to lint code with jshint and eslint
   - any other static code analysis tools?
@@ -294,18 +281,15 @@ Add status page information to news page:
 - embed a brief status history in the brochure site somewhere
 - link to this status page in the 502 bad gateway error page
 
-Improvements to template editor
-- Add layout options to template editor for native templates
-- Work out how to make live but saveable modifications for preview purposes on the template editor. I have already established a messaging channel between preview HTML pages and the template editor with the script injected in render/middleware.
-- Add [background patterns](https://bansal.io/pattern-css#checks) to template editor tools, tell [Ish](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMsVFZBwLtkGslXZXkcxmKdvf)
-
 Work out how to cache 404s at the NGINX level
 - I tried extending express-disk-cache to store images inside /https/blot.im/missing/foo-bar.html but I can't set a 404 status code for the specific tryfiles directive which could match that file.
 - The application server ends up spending a lot of time serving 404s
 
 Improvements to template engine
-- Make date-format settings template specific and tell [Mike](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDWqXmTLfljkKdGlfFMhMdkTm) "I forked the Archive template but did *not* install it. And yet, changing settings like "Hide the publish date for your posts" affected the currently installed template.""
+- Work out how to make live but saveable modifications for preview purposes on the template editor. I have already established a messaging channel between preview HTML pages and the template editor with the script injected in render/middleware.
+- Add [background patterns](https://bansal.io/pattern-css#checks) to template editor tools, tell [Ish](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMsVFZBwLtkGslXZXkcxmKdvf)
 - Add 'group by' function which would allow you to group posts by month/ year in the same way that {{#archives}} lets you and tell [Jay](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLtGkSQnQDJRMcxKZhgQfbXvSF)
+- Respond to Michael's [thoughtful emails](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDWqXmTLfljkKdGlfFMhMdkTm) about the template system
 - Local editing
   - Fix bug with title and partials in local editing then tell [Luke](https://mail.google.com/mail/u/1/#inbox/164afa87ede57db7) and [Frank](https://mail.google.com/mail/u/1/#inbox/164ae2e3789b8d4c)
 - Add way to iterate over public and private pages to allow sitemap to work properly and tell [Rodrigo](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDsFffNqTnCTjHrNSrrLBtnnGW)
@@ -338,7 +322,6 @@ Re-send receipt when the customer changes their email after initial payment, pre
 
 Improvements to developer guide
 - Tell [Pedro](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMsSvqTVCjSSjJKVrGKmgRbjw)
-- Add a simple 'Beginners guide' to HTML and CSS, which would rely on Blot's functionality as a static file server.
 
 Improvements to entry builder
 - Adjust title metadata extractor to fallback to file name rather than first sentence of file if the post does not contain a title tag. The current behaviour has suprised a number of people. If this breaks [John's template](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMjqlPTxhSXLNBDCmqXLQHdvX) create new first_sentence property of entry to use on the template.
@@ -650,14 +633,6 @@ Fix bugs with RSS feeds validation. Perhaps extend absoluteURLs helper function?
 
 Add support for Dropbox Paper .paper files and tell [Emad](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMZJvMswZZXKvLfBRBVqfzksw)
 
-Make improvements to template editor color picker:
-- Think about customizable svg icon colors?
-- Expose array of rgb values for selected color so we could adjust opacity of color in template, for borders, light text etc: `{{#text_color}} color: rgba({{r}}, {{g}, {{b}}, 0.5); {{/text_color}}`
-- Random color button
-- Recommended presets for color scheme as a whole
-- Swatches
-   - used on other templates
-
 Add support for Micropub in Blot's API. Tell Amit.
 
 Reconsider default slug length or add new short slug property and tell [Josh](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTjxhZStzKhchtwjXbWxDbdfh)
@@ -681,7 +656,6 @@ Add option to sort posts by filename alphabetically and tell [Steve](https://mai
 - How do we share info, like a link on a menu, or a header image across templates? Could there be a shared info repository that templates could access?
 - add support for dynamic partials to make collections possible, e.g. {{> /:tag.html}} ?
 - Add neat interface to customize blog level variables?
-- How do we transition from a global menu to one that the templates have control over? How do we share existing links between templates? How do we deal with the order of pages in a user's folder?
 - How do we transition from a global date display format to one that templates have control over?
 - Port the jekyll template [Neocactus](https://github.com/mmarfil/neocactus/) to Blot and document the process
   then tell [Robert](https://mail.google.com/mail/u/1/#inbox/16288ce117d980e4)
