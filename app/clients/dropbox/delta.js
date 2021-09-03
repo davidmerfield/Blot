@@ -45,7 +45,8 @@ module.exports = function delta(token, folderID) {
 
     Promise.all(requests)
       .then(function (results) {
-        result = results[0];
+
+        result = results[0].result;
 
         if (results[1]) {
           result.path_display = results[1].path_display;

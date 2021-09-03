@@ -9,10 +9,12 @@ module.exports = function (req, res, next) {
     .usersGetCurrentAccount()
 
     .then(function (response) {
+      let { account_id, email } = response.result;
+
       req.unsavedAccount = {
-        account_id: response.account_id,
+        account_id,
         access_token: req.token,
-        email: response.email,
+        email,
         error_code: 0,
         last_sync: Date.now(),
         full_access: req.query.full_access === "true",
