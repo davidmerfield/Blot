@@ -16,6 +16,7 @@ const internal = {
   "/templates/essay": "/templates/portfolio",
   "/templates/picture": "/templates/photo",
   "/templates/scrapbook": "/templates/reference",
+  "/templates/developers/guides": "/templates/developers/tutorials",
   "/how/templates": "/templates",
   "/how/dates": "/how/metadata",
   "/developers/documentation": "/templates/developers",

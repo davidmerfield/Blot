@@ -1,4 +1,4 @@
-<h1>How it works</h1>
+<h1>How Blot works</h1>
 
 <p>In essence, Blot is a static file server. It serves your folder to your readers. When a request from one of your readers arrives at your blog, Blot follows these steps to work out what to send in response.</p>
 
@@ -21,7 +21,7 @@
 </ol></p>
 
 <h2>What if a blog post and a file share the same URL?</h2>
-<p>Blot shows the blog post instead of the file. This is because Blot <a href="/templates/developers#routing">routes requests</a> from your readers to your blog’s template first. If you prefer, you can <a href="/settings/template">disable your blog’s template</a> on the dashboard and just use Blot as a static file server.</p>
+<p>Blot shows the blog post instead of the file. This is because Blot <a href="#routing">routes requests</a> from your readers to your blog’s template first. If you prefer, you can <a href="/settings/template">disable your blog’s template</a> on the dashboard and just use Blot as a static file server.</p>
 
 <h2 id="rendering">Rendering</h2>
 <p>Blot's templates are written in <a href="https://mustache.github.io/">Mustache</a>.
@@ -71,25 +71,3 @@ Consider this example template, which produces a list of all of the posts on you
 
 <h2>Using static files in your templates</h2>
 <p>Remember that your blog's folder behaves like a static file server. This makes it possible to share assets between your templates.</p>
-
-<h2>Custom metadata</h2>
-<p>You can create your own <a href="/how/metadata">metadata</a>. There's no configuration neccessary. Just choose a property that isn't already <a href="/how/metadata">used by Blot</a>, like <code>Author</code> for example:</p>
-
-<pre class="text"><code>Author: Eric Blair
-
-  Metadata keys should be a single word. They are case insensitive
-
-
-</code></pre>
-
-<p>Once the property exists in a file, you can use it in your template:</p>
-<pre class="code html"><code><html>
-  <title>\{{title}}</title>
-  <body>
-    \{{#entry}}
-    <p>Posted by \{{metadata.author}}</p>
-    ...
-    \{{/entry}}
-  </body>
-  </html>
-</code></pre>

@@ -9,6 +9,7 @@ var TITLES = {
   "how": "How it works",
   "terms": "Terms of use",
   "privacy": "Privacy policy",
+  "how-blot-works": "How Blot works",
   // "configure": "Configure your site",
   "ask": "Ask",
   "urls": "Link format",
@@ -16,7 +17,7 @@ var TITLES = {
   "who": "Who uses Blot?",
   "developers": "Developer guide",
   "json-feed": "JSON feed",
-  "posts-tagged": "A page with posts with a particular tag",
+  "posts-tagged": "A page with posts with a particular tag"
 };
 
 if (config.cache) {
