@@ -1,9 +1,14 @@
-var createClient = require("../util/createClient");
+const fetch = require("isomorphic-fetch");
+const Dropbox = require("dropbox").Dropbox;
 
 module.exports = function (req, res, next) {
   if (!req.access_token) return next(new Error("No access token"));
 
-  var client = createClient(req.access_token);
+  const client = new Dropbox({
+    fetch: fetch,
+  });
+
+  client.auth.setAccessToken(req.access_token);
 
   client
     .usersGetCurrentAccount()

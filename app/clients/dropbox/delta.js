@@ -1,5 +1,4 @@
 var debug = require("debug")("blot:clients:dropbox:delta");
-var createClient = require("./util/createClient");
 var retry = require("./util/retry");
 var waitForErrorTimeout = require("./util/waitForErrorTimeout");
 
@@ -7,9 +6,7 @@ var waitForErrorTimeout = require("./util/waitForErrorTimeout");
 // to the blog folder inside a user's Dropbox folder. We add a new
 // property relative_path to each change. This property refers to
 // the path the change relative to the folder for this blog.
-module.exports = function delta(token, folderID) {
-  var client = createClient(token);
-
+module.exports = function delta(client, folderID) {
   function get(cursor, callback) {
     var requests = [];
     var result = {};
@@ -45,12 +42,11 @@ module.exports = function delta(token, folderID) {
 
     Promise.all(requests)
       .then(function (results) {
-
         result = results[0].result;
 
         if (results[1]) {
-          result.path_display = results[1].path_display;
-          result.path_lower = results[1].path_lower;
+          result.path_display = results[1].result.path_display;
+          result.path_lower = results[1].result.path_lower;
         }
 
         // Filter entries to only those changes applied
