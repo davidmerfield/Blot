@@ -18,6 +18,10 @@ developers.param("subsection", function (req, res, next) {
   next();
 });
 
+developers.get(['/reference'], function(req, res, next){
+    res.locals["show-on-this-page"] = true;
+    next();
+})
 developers.get("/", function (req, res) {
   res.locals.title = "Developer guide - Blot";
   res.render("templates/developers");

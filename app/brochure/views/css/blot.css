@@ -1026,18 +1026,26 @@ ul.qa-questions li {
 }
 .document-list.with-border > li > a {
   padding-left: 1rem;
-  padding-right: 1rem;
+  padding-right: 3rem;
   position: relative;
 }
 
 .document-list.with-border > li > a:after {
-  content: "HEY";
+  content: "→";
   position: absolute;
   top: 50%;
   height: 1rem;
   margin-top: -0.5rem;
-  right: 0;
+  right: 1rem;
+  color: var(--light-text-color);
 }
+
+
+.document-list.with-border > li > a:hover:after  {
+  color: var(--accent-color);
+}
+
+
 .document-list.with-border .icon {margin-right: 11px}
 .document-list.with-border > li:last-child > a  {
   border-bottom: none;
