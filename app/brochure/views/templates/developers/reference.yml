@@ -1,0 +1,58 @@
+blog:
+  - name: title
+    type: string
+    description: Your site’s title, set on the title page of your dashboard.
+    example: <h1>{{blog.title}}</h1>
+
+  - name: avatar
+    type: string
+    description: The URL to your profile picture, or avatar, uploaded on the Photo page of your dashboard
+    example: <img src="{{{blog.avatar}}}" />
+  
+  - name: menu
+    type: array
+    description: A list of links on your site's menu, added on the Links page of your site's dashboard and pages. Each item in the list has the following properties
+    example: '{{#blog.menu}}
+      <a href="{{url}}">{{label}}</a>
+      {{/blog.menu}}'
+    properties:
+      - name: id
+        type: string
+        description: Your site’s title, set on the title page of your dashboard.
+      - name: label
+        type: string
+        description: Your site’s title, set on the title page of your dashboard.
+      - name: url
+        type: string
+        description: Your site’s title, set on the title page of your dashboard.
+      - name: metadata
+        type: object
+        description: Your site’s title, set on the title page of your dashboard.
+      - name: first
+        type: boolean
+        description: true if your 
+
+  - name: cacheID
+    type: number
+    description: A datestamp for when your site was last updated
+    example: "Updated: {{cacheID}}"
+
+  - name: blogURL
+    type: string
+    description: URL to your site’s homepage
+
+  - name: feedURL
+    type: string
+    description: Path to your site’s RSS feed
+
+  - name: cssURL
+    type: string
+    description: Path to your site’s stylesheet. It contains a query string for cache-invalidation.
+
+  - name: scriptURL
+    type: string
+    description: Path to your site’s JavaScript file. It contains a query string for cache-invalidation.
+
+  - name: sitemapURL
+    type: string
+    description: Path to your site’s sitemap

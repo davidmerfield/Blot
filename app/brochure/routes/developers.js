@@ -7,15 +7,25 @@ developers.use(function (req, res, next) {
   next();
 });
 
-developers.get(['/reference'], function(req, res, next){
-    res.locals["show-on-this-page"] = true;
-    // These interfere with the reference template
-    // if we rename the reference template, you can
-    // remove these lines
-    delete res.locals.selected.reference;
-    delete res.locals.selected.referenceIndex;
-    next();
-})
+developers.get(["/reference"], function (req, res, next) {
+  res.locals["show-on-this-page"] = true;
+
+  res.locals.docs = require("yaml").parse(
+    require("fs-extra").readFileSync(
+      __dirname + "/../views/templates/developers/reference.yml",
+      'utf-8'
+    )
+  );
+
+  console.log(res.locals.docs);
+  
+  // These interfere with the reference template
+  // if we rename the reference template, you can
+  // remove these lines
+  delete res.locals.selected.reference;
+  delete res.locals.selected.referenceIndex;
+  next();
+});
 
 developers.get("/", function (req, res) {
   res.locals.title = "Developer guide - Blot";
