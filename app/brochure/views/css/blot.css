@@ -1028,6 +1028,7 @@ ul.qa-questions li {
   padding-left: 1rem;
   padding-right: 3rem;
   position: relative;
+  margin-bottom: 0;
 }
 
 .document-list.with-border > li > a:after {
@@ -1035,7 +1036,7 @@ ul.qa-questions li {
   position: absolute;
   top: 50%;
   height: 1rem;
-  margin-top: -0.5rem;
+  margin-top: -0.75rem;
   right: 1rem;
   color: var(--light-text-color);
 }
