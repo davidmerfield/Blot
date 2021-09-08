@@ -153,6 +153,37 @@
         {{#all_entries}}
         <a href="{{url}}">{{title}}</a>
         {{/all_entries}} 
+    - name: archives
+      type: array
+      description: A list of all the entries on your site, structured by date
+      example: |
+        {{#archives}}
+          <h2>{{year}}</h2>
+          {{#months}}
+            <h3>{{month}}</h3>
+            {{#entries}}
+            <a href="{{url}}">{{title}}</a>
+            {{/entries}}
+          {{/months}}
+        {{/archives}}
+
+- name: Lists of tags
+  properties:
+    - name: all_tags
+      type: array
+      description: A list of all the tags used on your site.
+      example: |
+        {{#all_tags}}
+        <a href="{{url}}">{{title}}</a>
+        {{/all_tags}}
+    - name: popular_tags
+      type: array
+      description: A list of the most popular tags used on your site.
+      example: |
+        {{#popular_tags}}
+        <a href="{{url}}">{{title}}</a>
+        {{/popular_tags}} 
+
 
 - name: Utilities
   properties:
@@ -188,3 +219,9 @@
         {{#encodeXML}}
         {{{html}}}
         {{/encodeXML}}                
+
+    - name: rgb
+      type: function
+      description: Extracts the r, g, and b values for a passed color. Returns these values joined by a comma.
+      example: |
+        color: rgba({{#rgb}} #FF00FF {{/rgb}}, 0.5);
