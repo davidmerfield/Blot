@@ -25,16 +25,19 @@ module.exports = function onThisPage(req, res, next) {
 
     if (!html) return next();
 
-    const $ = cheerio.load(html, { decodeEntities: false });
-    const headers = [];
+    // Allows us to specify our own headers dynamically
+    if (res.locals.headers === undefined) {
+      const $ = cheerio.load(html, { decodeEntities: false });
+      const headers = [];
 
-    $("h2,h3").each(function (i, el) {
-      const text = $(el).text();
-      const id = $(el).attr("id") || makeSlug(text);
-      headers.push({ text: text, id: id });
-    });
+      $("h2,h3").each(function (i, el) {
+        const text = $(el).text();
+        const id = $(el).attr("id") || makeSlug(text);
+        headers.push({ text: text, id: id });
+      });
 
-    res.locals.headers = headers;
+      res.locals.headers = headers;
+    }
 
     render.call(this, view, locals, partials);
   };

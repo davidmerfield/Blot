@@ -1,6 +1,6 @@
 var Express = require("express");
 var developers = new Express.Router();
-var titleFromSlug = require("helper/titleFromSlug");
+var makeSlug = require("helper/makeSlug");
 
 developers.use(function (req, res, next) {
   res.locals.base = "/templates/developers";
@@ -13,12 +13,16 @@ developers.get(["/reference"], function (req, res, next) {
   res.locals.docs = require("yaml").parse(
     require("fs-extra").readFileSync(
       __dirname + "/../views/templates/developers/reference.yml",
-      'utf-8'
+      "utf-8"
     )
   );
 
+  res.locals.headers = res.locals.docs.map((item) => {
+    return { text: item.name, id: makeSlug(item.name) };
+  });
+
   console.log(res.locals.docs);
-  
+
   // These interfere with the reference template
   // if we rename the reference template, you can
   // remove these lines
