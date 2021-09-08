@@ -33,9 +33,8 @@ font-size:16px;font-weight:400;margin-left: 2rem;
 <div style="display: table">
 {{#properties}}
 <div style="display: table-row;">
-<h3 style="    white-space: nowrap;
-display:table-cell;margin: 2rem 0 0 0;border-top:1px solid rgba(0,0,0,0.05)">{{name}} <a class="type" target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/{{type}}">{{type}}</a></h3>
-<div style="display:table-cell;font-size: 14px;">
+<h3 style="white-space: nowrap;border-bottom:1px solid rgba(0,0,0,0.05);display:table-cell;margin: 2rem 0 0 0;">{{name}} <a class="type" target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/{{type}}">{{type}}</a></h3>
+<div style="display:table-cell;border-bottom:1px solid rgba(0,0,0,0.05);font-size: 14px;">
 <p style="margin: 6px 0"> {{description}}</p>
 
 {{#if properties.length}}
@@ -48,7 +47,7 @@ display:table-cell;margin: 2rem 0 0 0;border-top:1px solid rgba(0,0,0,0.05)">{{n
 {{/if}}
 
 <div style="">
-<pre style="border-left:1px dotted rgba(0,0,0,0.1);font-size: 13px;font-style: italic;margin:0;padding-left: .45rem"><code>{{example}}</code></pre>
+<pre style="font-size: 13px;font-style: italic;margin:0;padding-left: .45rem"><code>{{example}}</code></pre>
 </div>
 </div>
 </div>

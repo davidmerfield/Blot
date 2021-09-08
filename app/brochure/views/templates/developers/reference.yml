@@ -13,30 +13,43 @@
     - name: menu
       type: array
       description: A list of links on your site's menu, added on the Links page of your site's dashboard and pages. Each item in the list has the following properties
-      example: '{{#blog.menu}}
+      example: |
+        {{#blog.menu}}
         <a href="{{url}}">{{label}}</a>
-        {{/blog.menu}}'
+        {{/blog.menu}}
       properties:
         - name: id
           type: string
-          description: Your site’s title, set on the title page of your dashboard.
+          description: Unique identiﬁer for this link
         - name: label
           type: string
-          description: Your site’s title, set on the title page of your dashboard.
+          description: Text label for this link
         - name: url
           type: string
-          description: Your site’s title, set on the title page of your dashboard.
+          description: URL for this link
         - name: metadata
           type: object
-          description: Your site’s title, set on the title page of your dashboard.
+          description: The metadata set for the page which generated this link.
+        - name: active
+          type: boolean
+          description: true if you are currently looking at this link
         - name: first
           type: boolean
-          description: true if your 
+          description: true if this link is the first in your menu
+        - name: penultimate
+          type: boolean
+          description: true if this link is the penultimate link in your menu
+        - name: last
+          type: boolean
+          description: true if this link is the last in your menu
 
     - name: cacheID
       type: number
       description: A datestamp for when your site was last updated
-      example: "Updated: {{cacheID}}"
+
+    - name: timezone
+      type: string
+      description: Your site’s timezone in the [tz database format](https://en.wikipedia.org/wiki/Tz_database)
 
     - name: blogURL
       type: string
@@ -57,6 +70,12 @@
     - name: sitemapURL
       type: string
       description: Path to your site’s sitemap
+
+    - name: roundAvatar
+      type: boolean
+      description: true if you’ve indicated your avatar is round, false if not
+
+
 
 
 - name: entry
@@ -72,9 +91,10 @@
     - name: url
       type: string
       description: A list of links on your site's menu, added on the Links page of your site's dashboard and pages. Each item in the list has the following properties
-      example: '{{#blog.menu}}
+      example: |
+        {{#blog.menu}}
         <a href="{{url}}">{{label}}</a>
-        {{/blog.menu}}'
+        {{/blog.menu}}
       properties:
         - name: id
           type: string
@@ -116,3 +136,55 @@
     - name: sitemapURL
       type: string
       description: Path to your site’s sitemap
+
+- name: Lists of entries
+  properties:
+    - name: recent_entries
+      type: array
+      description: A list of the 30 most recent entries on your site
+      example: |
+        {{#recent_entries}}
+        <a href="{{url}}">{{title}}</a>
+        {{/recent_entries}}
+    - name: all_entries
+      type: array
+      description: A list of all the entries on your site
+      example: |
+        {{#all_entries}}
+        <a href="{{url}}">{{title}}</a>
+        {{/all_entries}} 
+
+- name: Utilities
+  properties:
+
+    - name: absoluteURLs
+      type: function
+      description: The same contents, with any relative URLs fully resolved. This is useful to create an RSS feed, since many clients struggle with relative URLs. For example
+      example: |
+        {{#absoluteURLs}}
+        {{{html}}}
+        {{/absoluteURLs
+
+    - name: encodeJSON
+      type: function
+      description: The same contents, encoded appropriately for JSON. This is useful to create a JSON feed. You can use it like this
+      example: |
+        {{#encodeJSON}}
+        {{{html}}}
+        {{/encodeJSON}}
+
+    - name: encodeJSON
+      type: function
+      description: The same contents, encoded appropriately for JSON. This is useful to create a JSON feed. You can use it like this
+      example: |
+        {{#encodeJSON}}
+        {{{html}}}
+        {{/encodeJSON}}        
+
+    - name: encodeXML
+      type: function
+      description: The same contents, encoded appropriately for XML. This is useful to create a RSS feed. You can use it like this
+      example: |
+        {{#encodeXML}}
+        {{{html}}}
+        {{/encodeXML}}                
