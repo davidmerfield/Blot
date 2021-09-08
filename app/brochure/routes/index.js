@@ -28,7 +28,7 @@ if (config.cache) {
   brochure.use(require("./tools/inline-css"));
 }
 
-brochure.get(["/how/guides/*"], function (req, res, next) {
+brochure.get(["/how/format/*"], function (req, res, next) {
   res.locals["show-on-this-page"] = true;
   next();
 });
