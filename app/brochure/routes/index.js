@@ -111,6 +111,8 @@ brochure.get("/", require("./featured"));
 
 brochure.get("/", function (req, res, next) {
   res.locals.layout = "partials/layout-index";
+  // otherwise the <title> of the page is 'Blot - Blot'
+  res.locals.hide_title_suffix = true;
   next();
 });
 brochure.use("/fonts", require("./fonts"));
