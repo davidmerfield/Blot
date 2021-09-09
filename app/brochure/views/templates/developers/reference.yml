@@ -120,10 +120,23 @@
         - name: tag
           type: string
           description: Text for the tag
+
+        - name: name
+          type: string
+          description: Alias for tag
+
         - name: slug
           type: string
           description: URL-friendly version of the tag
 
+        - name: first
+          type: boolean
+          description: true if this tag is the first in this entry's list of tags
+
+        - name: last
+          type: boolean
+          description: true if this link is the last in this entry's list of tags
+          
     - name: absoluteURL
       type: string
       description: The full-qualified URL to the post
@@ -138,7 +151,7 @@
 
     - name: formatDate
       type: function
-      description: Used to format to your desired
+      description: Used to format the entry's publish date as you like, using any of the supported [date tokens](#date-tokens).
       example: |
         {{#formatDate}}
         MMMM DDDo, YYYY 
@@ -146,11 +159,19 @@
 
     - name: formatUpdated
       type: function
-      description: Used to format to your desired
+      description: Used to format the entry's updated date as you like, using any of the supported [date tokens](#date-tokens).
       example: |
         {{#formatUpdated}}
         MMMM DDDo, YYYY 
         {{/formatUpdated}}
+
+    - name: formatCreated
+      type: function
+      description: Used to format the entry's created date as you like, using any of the supported [date tokens](#date-tokens).
+      example: |
+        {{#formatCreated}}
+        MMMM DDDo, YYYY 
+        {{/formatCreated}}
 
     - name: thumbnail
       type: object
@@ -212,7 +233,7 @@
 
     - name: teaser
       type: string
-      description: The HTML of the title and the ﬁrst few items in the entry. You can specify the end of the teaser by inserting the special tag more into your blog post's ﬁle. Everything before more will be included in the teaser.
+      description: The HTML of the title and the ﬁrst few items in the entry. You can specify the end of the teaser by inserting the special tag {{more}} into your blog post's ﬁle. Everything before more will be included in the teaser.
 
     - name: teaserBody
       type: string
