@@ -1,6 +1,5 @@
 var debug = require("debug")("blot:clients:dropbox:remove");
 var createClient = require("./util/createClient");
-var database = require("./database");
 var join = require("path").join;
 var fs = require("fs-extra");
 var localPath = require("helper/localPath");
@@ -13,12 +12,11 @@ var waitForErrorTimeout = require("./util/waitForErrorTimeout");
 // if we fail to remove the file from Dropbox, then we do not
 // remove the file from Blot's folder for this blog.
 function remove(blogID, path, callback) {
-  var client, pathOnDropbox, pathOnBlot;
+  var pathOnDropbox, pathOnBlot;
 
   debug("Blog:", blogID, "Removing", path);
 
-  database.get(blogID, function (err, account) {
-    client = createClient(account.access_token);
+  createClient(blogID, function (err, client, account) {
     pathOnDropbox = join(account.folder || "/", path);
 
     // We must lowercase this since localPath no longer
