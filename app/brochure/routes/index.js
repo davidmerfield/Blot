@@ -4,7 +4,7 @@ var finder = require("finder");
 var tex = require("./tools/tex");
 var config = require("config");
 var titleFromSlug = require("helper/titleFromSlug");
-
+var trace = require('helper/trace');
 var TITLES = {
   "how": "How it works",
   "terms": "Terms of use",
@@ -17,8 +17,11 @@ var TITLES = {
   "who": "Who uses Blot?",
   "developers": "Developer guide",
   "json-feed": "JSON feed",
-  "posts-tagged": "A page with posts with a particular tag"
+  "posts-tagged": "A page with posts with a particular tag",
 };
+
+brochure.use(trace("inside routes sub app"));
+
 
 if (config.cache) {
   // Minifies HTML
@@ -27,6 +30,8 @@ if (config.cache) {
   // Inlines all CSS properties
   brochure.use(require("./tools/inline-css"));
 }
+
+
 
 brochure.get(["/how/format/*"], function (req, res, next) {
   res.locals["show-on-this-page"] = true;
@@ -107,6 +112,7 @@ brochure.use("/account", function (req, res, next) {
   next();
 });
 
+
 brochure.get("/", require("./featured"));
 
 brochure.get("/", function (req, res, next) {
@@ -137,6 +143,8 @@ brochure.use("/how/guides/domain", function (req, res, next) {
   res.locals.ip = config.ip;
   next();
 });
+
+brochure.use(trace("calling render"));
 
 brochure.use(function (req, res) {
   res.render(trimLeadingAndTrailingSlash(req.path));
