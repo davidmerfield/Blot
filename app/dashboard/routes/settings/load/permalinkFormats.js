@@ -19,14 +19,14 @@ var SAMPLE = function () {
 module.exports = function (req, res, next) {
   var sample, formats;
 
-  req.debug("Permalink formats: creating sample post");
+  req.trace("Permalink formats: creating sample post");
 
   sample = new SAMPLE();
   sample.dateStamp = moment.utc();
 
   formats = FORMATS.slice();
 
-  req.debug("Permalink formats: creating list");
+  req.trace("Permalink formats: creating list");
 
   formats = formats.map(function (arr) {
     var checked = "";
