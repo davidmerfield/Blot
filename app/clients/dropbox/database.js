@@ -81,13 +81,6 @@ function set(blogID, changes, callback) {
     // Overwrite existing properties with any changes
     for (var i in changes) account[i] = changes[i];
 
-    // Prevent a typeerror when saving old account
-    // todo: write script to add empty string against
-    // this to all existing dropbox accounts then
-    // remove this check
-    if (account.refresh_token === undefined)
-      account.refresh_token = "";
-
     // Verify that the type of new account state
     // matches the expected types declared in Model below.
     try {
