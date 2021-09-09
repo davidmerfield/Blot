@@ -4,11 +4,18 @@ var parseCSS = require("css");
 var CleanCSS = require("clean-css");
 var minimize = new CleanCSS();
 
+var cache = {};
+
 module.exports = function (req, res, next) {
   var send = res.send;
 
   res.send = function (string) {
-    var html = string instanceof Buffer ? string.toString() : string;
+    string = string instanceof Buffer ? string.toString() : string;
+
+    // memoization
+    if (cache[string]) return send.call(this, cache[string]);
+
+    var html = string;
     var css = "";
     var $ = cheerio.load(html, { decodeEntities: false });
 
@@ -107,6 +114,7 @@ module.exports = function (req, res, next) {
       $("head").append('<style type="text/css">' + css + "</style>");
 
       html = $.html();
+      cache[string] = html;
     } catch (e) {}
 
     send.call(this, html);

@@ -73,6 +73,15 @@ brochure.use(
   })
 );
 
+brochure.use(
+  "/js",
+  Express.static(VIEW_DIRECTORY + "/js", {
+    index: false,
+    redirect: false,
+    maxAge: 86400000,
+  })
+);
+
 brochure.use(Express.static(VIEW_DIRECTORY, { index: false, redirect: false }));
 
 brochure.use(trace("before routes"));
@@ -135,7 +144,15 @@ brochure.use(function (err, req, res, next) {
   }
 
   res.status(err.status || 500);
-  res.sendFile(VIEW_DIRECTORY + "/error.html");
+  if (config.environment === "development") {
+    res.send(
+      `<h1>Error: ${err.message}</h2>
+       <pre>${err.stack.toString()}</pre>
+       <p>This message shown in development mode only</p>`
+    );
+  } else {
+    res.sendFile(VIEW_DIRECTORY + "/error.html");
+  }
 });
 
 module.exports = brochure;

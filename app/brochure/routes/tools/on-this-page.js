@@ -2,13 +2,19 @@ const cheerio = require("cheerio");
 const makeSlug = require("helper/makeSlug");
 const fs = require("fs-extra");
 
+let SEND_CACHE = {};
+let RENDER_CACHE = {};
+
 module.exports = function onThisPage(req, res, next) {
   const render = res.render;
   const send = res.send;
 
   res.send = function (string) {
-    req.trace('starting onThisPage send');
-    const html = string instanceof Buffer ? string.toString() : string;
+    req.trace("starting onThisPage send");
+    string = string instanceof Buffer ? string.toString() : string;
+    if (SEND_CACHE[string]) return send.call(this, SEND_CACHE[string]);
+
+    let html = string;
     const $ = cheerio.load(html, { decodeEntities: false });
     $("h2:not(h1 + h2),h3").each((i, el) => {
       const text = $(el).text();
@@ -18,12 +24,14 @@ module.exports = function onThisPage(req, res, next) {
       $(el).html(`<a href="#${id}">${innerHTML}</a>`);
     });
 
-    req.trace('finished onThisPage send');
-    send.call(this, $.html());
+    html = $.html();
+    req.trace("finished onThisPage send");
+    send.call(this, html);
+    SEND_CACHE[string] = html;
   };
 
   res.render = function (view, locals, partials) {
-    req.trace('starting onThisPage render');
+    req.trace("starting onThisPage render");
     const html = loadView(req.app.get("views"), view);
 
     if (!html) return next();
@@ -42,7 +50,7 @@ module.exports = function onThisPage(req, res, next) {
       res.locals.headers = headers;
     }
 
-    req.trace('finished onThisPage render');
+    req.trace("finished onThisPage render");
     render.call(this, view, locals, partials);
   };
 

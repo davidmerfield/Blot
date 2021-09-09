@@ -3,13 +3,19 @@ var katex = require("katex");
 var OPEN_TAG = "\\(";
 var CLOSE_TAG = "\\)";
 
+var cache = {};
+
 module.exports = function render_tex(req, res, next) {
   var send = res.send;
 
   res.send = function (string) {
-    req.trace('starting tex render');
+    req.trace("starting tex render");
 
-    var html = string instanceof Buffer ? string.toString() : string;
+    string = string instanceof Buffer ? string.toString() : string;
+
+    if (cache[string]) return send.call(this, cache[string]);
+
+    var html = string;
 
     var $ = cheerio.load(html, { decodeEntities: false });
     var hadTex = false;
@@ -76,7 +82,8 @@ module.exports = function render_tex(req, res, next) {
 
     html = $.html();
 
-    req.trace('finished tex render');
+    req.trace("finished tex render");
+    cache[string] = html;
     send.call(this, html);
   };
 

@@ -2,8 +2,6 @@ const mustache = require("mustache");
 const fs = require("fs-extra");
 const config = require("config");
 
-let VIEW_CACHE = {};
-
 module.exports = function ({ views, partials }) {
   let loadedPartials = {};
 
@@ -24,7 +22,7 @@ module.exports = function ({ views, partials }) {
           name
         ] = `<h1>For developers only: error loading partial</h1>
       <h2>File: ${partial}</h2>
-      <pre>${e.stack.toString()}</pre>`;
+      <pre>${e.message}</pre>`;
       }
     }
 
@@ -58,36 +56,12 @@ module.exports = function ({ views, partials }) {
     try {
       result = mustache.render(template, options, loadedPartials);
     } catch (e) {
-      console.log(e);
-      if (config.environment === "development") {
-        result = `<h1>For developers only: error rendering</h1>
-      <h2>Filename: ${filename}</h2>
-      <pre>${e.stack.toString()}</pre>`;
-      }
+      let message = `Error rendering ${filename}
+      ${e.message}`;
+      let error = new Error(message);
+      return callback(error);
     }
 
     callback(null, result);
-
-    // console.log(builtTemplatePath, builtTemplate.slice(0, 100));
-
-    // fs.outputFileSync(builtTemplatePath, builtTemplate, "utf-8");
-
-    // let builtTemplate = template;
-
-    // // let builtTemplatePath = views + "_built/" + filename.slice(views.length);
-
-    // // this won't render partials in partials
-    // Object.keys(loadedPartials).forEach((partialName) => {
-    //   builtTemplate = builtTemplate
-    //     .split("{{> " + partialName + "}}")
-    //     .join(loadedPartials[partialName]);
-    // });
-
-    // builtTemplate = require("./inline-css").action(builtTemplate);
-    // builtTemplate = require("./typeset").action(builtTemplate);
-    // builtTemplate = require("./minify-html").action(builtTemplate);
-    // mustache.parse(builtTemplate);
-
-    // VIEW_CACHE[filename] = builtTemplate;
   };
 };

@@ -4,7 +4,7 @@ var finder = require("finder");
 var tex = require("./tools/tex");
 var config = require("config");
 var titleFromSlug = require("helper/titleFromSlug");
-var trace = require('helper/trace');
+var trace = require("helper/trace");
 var TITLES = {
   "how": "How it works",
   "terms": "Terms of use",
@@ -22,16 +22,11 @@ var TITLES = {
 
 brochure.use(trace("inside routes sub app"));
 
+// Minifies HTML
+brochure.use(require("./tools/minify-html"));
 
-if (config.cache) {
-  // Minifies HTML
-  brochure.use(require("./tools/minify-html"));
-
-  // Inlines all CSS properties
-  brochure.use(require("./tools/inline-css"));
-}
-
-
+// Inlines all CSS properties
+brochure.use(require("./tools/inline-css"));
 
 brochure.get(["/how/format/*"], function (req, res, next) {
   res.locals["show-on-this-page"] = true;
@@ -111,7 +106,6 @@ brochure.use("/account", function (req, res, next) {
   res.set("X-Robots-Tag", "noindex");
   next();
 });
-
 
 brochure.get("/", require("./featured"));
 
