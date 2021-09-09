@@ -66,7 +66,7 @@ brochure.use(tex);
 
 // Fixes basic typographic errors
 // See typeset.js for more information
-brochure.use(require("./tools/typeset"));
+// brochure.use(require("./tools/typeset"));
 
 // Generate a table of contents for each page
 brochure.use(require("./tools/on-this-page"));
