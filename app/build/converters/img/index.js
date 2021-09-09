@@ -3,6 +3,8 @@ var extname = require("path").extname;
 var titlify = require("build/prepare/titlify");
 var ensure = require("helper/ensure");
 var LocalPath = require("helper/localPath");
+var dirname = require("path").dirname;
+var join = require("path").join;
 
 function is(path) {
   return (
@@ -21,7 +23,17 @@ function read(blog, path, options, callback) {
   fs.stat(localPath, function (err, stat) {
     if (err) return callback(err);
 
-    var title = titlify(path);
+    let pathForTitle = path;
+
+    // We want to preserve the correct case in the
+    // caption where possible.
+    if (options && options.pathDisplay) {
+      pathForTitle = options.pathDisplay;
+    } else if (options && options.name) {
+      pathForTitle = join(dirname(path), options.name);
+    }
+
+    var title = titlify(pathForTitle);
     var isRetina =
       path.toLowerCase().indexOf("@2x") > -1 ? 'data-2x="true"' : "";
 
