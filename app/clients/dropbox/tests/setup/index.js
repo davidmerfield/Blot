@@ -54,31 +54,20 @@ module.exports = function setup(options) {
     this.fake = global.test.fake;
   });
 
-  // Expose methods for creating fake files, paths, etc.
-  beforeEach(function () {
-    this.client = createClient(process.env.BLOT_DROPBOX_TEST_ACCOUNT_APP_TOKEN);
-  });
-
-  // Create a 'blog folder' for the tests to run against. Why
-  // not just use entire Dropbox folder? We hit 429 too many
-  // write operation errors for some dumb reason...
-  beforeEach(createFolder(options));
-
   // Create fake dropbox account
   beforeEach(function (done) {
     var email = this.fake.internet.email();
     var blogID = this.blog.id;
-    var folder = this.folder;
-    var folderID = this.folderID;
     var account = {
       account_id: process.env.BLOT_DROPBOX_TEST_ACCOUNT_ID,
       access_token: process.env.BLOT_DROPBOX_TEST_ACCOUNT_APP_TOKEN,
+      refresh_token: "",
       email: email,
       error_code: 0,
       last_sync: Date.now(),
       full_access: false,
-      folder: folder,
-      folder_id: folderID,
+      folder: "",
+      folder_id: "",
       cursor: "",
     };
 
@@ -88,6 +77,29 @@ module.exports = function setup(options) {
       if (err) return done(err);
 
       database.set(blogID, account, done);
+    });
+  });
+
+  // Expose methods for creating fake files, paths, etc.
+  beforeEach(function (done) {
+    createClient(this.blog.id, (err, client) => {
+      if (err) return done(err);
+      this.client = client;
+      done();
+    });
+  });
+
+  // Create a 'blog folder' for the tests to run against. Why
+  // not just use entire Dropbox folder? We hit 429 too many
+  // write operation errors for some dumb reason...
+  beforeEach(function (done) {
+    createFolder(this.client, options, (err, folder, folderID) => {
+      if (err) return done(err);
+
+      this.folder = folder || "";
+      this.folderID = folderID || "";
+
+      database.set(this.blog.id, { folder, folderID }, done);
     });
   });
 
