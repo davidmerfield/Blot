@@ -1,7 +1,8 @@
-<h1>Rendering templates</h1>
+<h1>Mustache</h1>
 
 <style type="text/css">
-small pre {padding-left: 2.4em;}
+small pre {padding:0.75rem 1rem;border:1px solid rgba(0,0,0,0.05);}
+
 </style>
 
 <p>Templates are written in <A href="https://mustache.github.io/mustache.5.html">Mustache</a>. Templates can be used for HTML, CSS, JavaScript, RSS feeds - anything. They works by expanding tags using values provided in a object. For example, the template:</p>
@@ -60,7 +61,7 @@ If the top context is reached and the <code>name</code> key is still not found,
 nothing will be rendered.</p>
 
 <p>All variables are HTML escaped by default. If you want to return
-unescaped HTML, use the triple mustache: <code>\{{{name}}}</code>.</p>
+unescaped HTML, use three curly braces rather than two: <code>\{{{name}}}</code>.</p>
 
 <p>You can also use <code>&amp;</code> to unescape a variable: <code>\{{&amp; name}}</code>. This may be
 useful when changing delimiters (see "Set Delimiter" below).</p>

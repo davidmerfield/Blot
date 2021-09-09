@@ -9,6 +9,7 @@ var TITLES = {
   "how": "How it works",
   "terms": "Terms of use",
   "privacy": "Privacy policy",
+  "how-blot-works": "How Blot works",
   // "configure": "Configure your site",
   "ask": "Ask",
   "urls": "Link format",
@@ -16,7 +17,7 @@ var TITLES = {
   "who": "Who uses Blot?",
   "developers": "Developer guide",
   "json-feed": "JSON feed",
-  "posts-tagged": "A page with posts with a particular tag",
+  "posts-tagged": "A page with posts with a particular tag"
 };
 
 if (config.cache) {
@@ -27,7 +28,7 @@ if (config.cache) {
   brochure.use(require("./tools/inline-css"));
 }
 
-brochure.get(["/how/guides/*"], function (req, res, next) {
+brochure.get(["/how/format/*"], function (req, res, next) {
   res.locals["show-on-this-page"] = true;
   next();
 });
@@ -110,6 +111,8 @@ brochure.get("/", require("./featured"));
 
 brochure.get("/", function (req, res, next) {
   res.locals.layout = "partials/layout-index";
+  // otherwise the <title> of the page is 'Blot - Blot'
+  res.locals.hide_title_suffix = true;
   next();
 });
 brochure.use("/fonts", require("./fonts"));

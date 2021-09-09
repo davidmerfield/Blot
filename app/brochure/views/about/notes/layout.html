@@ -1,17 +1,15 @@
 
 {{{body}}}
 
-<!-- <style type="text/css">h1 + h2 {display: none}</style> -->
-
 {{#showToc}}
-<ul class="guides" style="display: flex;flex-wrap: wrap;margin:-1rem">
+<ul class="document-list">
   {{#toc}}
-  <li style="flex-basis: 50%;padding:1rem;box-sizing: border-box;">
-    <a class="no-outline" style="display: block;border:none;border-bottom: 1px solid rgba(0,0,0,0.05);text-decoration: none;padding-bottom: 6px;margin-bottom: 3px" href="{{slug}}">
-      <span style="font-weight: 600">{{name}}</span></a>
-      <ul style="padding-left: 0">
+  <li>
+    <a href="{{slug}}">
+      <span class="heading">{{name}}</span></a>
+      <ul>
       {{#items}}
-      <li style="list-style-type: none;border:none"><a href="{{slug}}"><code class="file txt"></code>&thinsp;{{name}}</a>
+      <li><a href="{{slug}}"><code class="file txt"></code>{{name}}</a>
         {{/items}}
       </ul>
     </li>
@@ -19,92 +17,17 @@
 </ul>
 {{/showToc}}
   
-  {{#if subsections}}
-  <ul style="list-style-type: none;margin:0;padding: 0">
-    {{#subsections}}
-    <li><a class="no-outline" style="display: flex;border-bottom: 1px solid #f8f8f8;padding: 0.75rem 0;text-decoration: none;" href="{{slug}}"><span style="margin-right: 6px"><code class="file txt"></code></span><span><strong>{{name}}</strong>{{#if subtitle}}<span style="text-decoration: none;margin-top: 3px;display: block;">{{subtitle}}</span>{{/if}}</span></a>
-      {{/subsections}}
-    </ul>
-    {{/if}}
-  </content>
+{{#if subsections}}
+<ul class="document-list with-subtitle">
+  {{#subsections}}
+  <li><a href="{{slug}}">
+    <span><code class="file txt"></code></span>
+    <span><strong>{{name}}</strong>
+      {{#if subtitle}}<span class="subtitle">{{subtitle}}</span>{{/if}}
+    </span></a>
+  {{/subsections}}
+</ul>
+{{/if}}
+
+</content>
 </main>
-
-<style type="text/css">
-
-  .no-outline {color: inherit;}
-  .no-outline:hover {color: var(--accent-color)}
-  
-  .wrapper {max-width: 54rem}
-
-  p {margin: 2em 0}
-
-  .guides a:hover {
-    color: var(--accent-color);
-  }
-
-    .guides a:active {
-    color: var(--light-text-color);
-  }
-
-  .buttt {position: relative;
-    padding: 4px 1.65rem 4px 12px;
-    display: inline-block;
-    white-space: nowrap;
-    border: 1px solid #e0e0e0;
-    color: #000;
-    border-radius: 4px;font-weight: 600;
-    text-decoration: none;
-    color: inherit;}
-
-  .buttt:hover {text-decoration: underline;}
-
-  .buttt:after {
-    position: absolute;
-    top: 50%;
-    margin-top: -12px;
-    right: 10px;
-    float: right;
-    content: "\203A";
-  }
-
-  .on-this-page li a {
-    text-indent: -12px;
-    margin-left: 12px
-  }
-  .underline-on-hover:hover {text-decoration: underline;}
-
-  .guides {
-    list-style-type: none;
-    padding: 0;
-    margin: 0
-  }
-
-  .bc a {    display: inline-block;
-    position: relative;
-    margin-left: 10px;
-    padding-left: 15.655px;
-    float: left;
-  }
-
-  .bc a:first-child {margin-left: 0;padding-left: 0}
-
-  .bc a:not(:first-child):before {
-    content: "";
-    display: block;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: -3.31px;
-    width: 7px;
-    height: 7px;
-    margin: auto 0;
-    -webkit-transform: rotate(45deg);
-    -ms-transform: rotate(45deg);
-    transform: rotate(45deg);
-    border: solid;
-    border-width: 1px 1px 0 0;
-    border-color: #626a6e;
-  }
-
-  a.no-outline:hover {box-shadow: none;border:none;background: #f9f9f9}
-</style>

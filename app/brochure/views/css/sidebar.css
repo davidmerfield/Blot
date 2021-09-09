@@ -196,7 +196,9 @@ nav a.selected:hover {
   border-color: rgba(0,0,0,0.6);
 }
 
-
+.on-this-page {
+  margin-left: 2.2rem
+}
 .on-this-page ul {
   list-style: none;
   padding: 0;
@@ -237,6 +239,18 @@ nav a.selected:hover {
   top: 50%;
   margin-top: -3px;
   left: -4px;
+}
+
+.on-this-page ul li a:before {
+  left: -19px
+}
+
+.on-this-page ul .selected a {
+  color: var(--accent-color);
+}
+
+.on-this-page .selected a:before {
+  background: var(--accent-color);
 }
 
 .sidebar li a:before,

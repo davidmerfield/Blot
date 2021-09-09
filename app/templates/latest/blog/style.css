@@ -246,7 +246,7 @@ th, td {box-sizing: border-box;border: 1px solid {{text_color}};padding: 5px 12p
 
 ul, ol {
   margin-left: 0;
-  padding-left: 0;
+  padding-left: 1.5rem;
   list-style-position: outside;
   margin-bottom: 24px;
 }
@@ -254,7 +254,7 @@ ul, ol {
 ul {list-style: circle;}
 ul.task-list { list-style-type: none; }
 
-ul ul, ol ul, ol ol, ul ol {margin-left: 1.33em;margin-bottom: 0}
+ul ul, ol ul, ol ol, ul ol {margin-bottom: 0}
 
 li {margin: 0}
 

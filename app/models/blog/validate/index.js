@@ -5,6 +5,7 @@ var ensure = require("helper/ensure");
 var validator = {
   domain: require("./domain"),
   handle: require("./handle"),
+  plugins: require("./plugins"),
   timeZone: require("./timeZone"),
 };
 
