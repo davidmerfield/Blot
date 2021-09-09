@@ -122,7 +122,6 @@ Questions.get(["/", "/page/:page"], function (req, res, next) {
       }
 
       res.render("questions", {
-        title: "Blot — Questions",
         topics: topics.rows,
         paginator: paginator,
         search_query: search_query,
