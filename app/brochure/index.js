@@ -144,7 +144,7 @@ brochure.use(function (err, req, res, next) {
   }
 
   res.status(err.status || 500);
-  res.render("error");
+  res.sendFile(VIEW_DIRECTORY + "/error.html");
 });
 
 module.exports = brochure;
