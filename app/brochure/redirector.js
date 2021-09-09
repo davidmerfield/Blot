@@ -9,6 +9,7 @@ const internal = {
   "/updates": "/about/news",
   "/source": "/about/source-code",
   "/metadata": "/how/metadata",
+  "/publishing": "/how",
   "/404s": "/how/configure/redirects",
   "/howto": "/how",
   "/support": "/contact",
