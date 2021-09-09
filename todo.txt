@@ -1,9 +1,9 @@
-Improve clients:
-- surface errors for clients on dashboard index
-- add blocking process to dropbox connection when writing folder contents
-- ensure the app permission access_token is destroyed when switching to full-folder and vice versa
-- add a folder chooser during full-folder setup
-- ensure you can move the folder in full-folder permission mode
+Improve brochure
+- Rigorously check site on mobile
+  - Finish breadcrumbs scroll on mobile (make sure scrollbars are invisible) on Firefox Windows and tell [Paul](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsdCsHgtKMWhSbwxslbzxZpsq) and Rakhim
+- Improve loading speed of template preview images
+- Generate high quality optimized favicons from new logo
+- Add loading state for submit button on sign up page
 
 Improve templates
 - Implement David's aesthetic proposals in the Figma mockups in the Blog template
@@ -15,12 +15,12 @@ Improve templates
   - [Jan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChmLnfMTdtNkpLxHTlPJNHlCT) 
   - [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrRRZTKntrWKJvfDXrRFTzljs)
 
-Improve brochure
-- Rigorously check site on mobile
-  - Finish breadcrumbs scroll on mobile (make sure scrollbars are invisible) on Firefox Windows and tell [Paul](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsdCsHgtKMWhSbwxslbzxZpsq) and Rakhim
-- Improve loading speed of template preview images
-- Generate high quality optimized favicons from new logo
-- Add loading state for submit button on sign up page
+Improve clients:
+- surface errors for clients on dashboard index
+- add blocking process to dropbox connection when writing folder contents
+- ensure the app permission access_token is destroyed when switching to full-folder and vice versa
+- add a folder chooser during full-folder setup
+- ensure you can move the folder in full-folder permission mode
 
 ---
 
