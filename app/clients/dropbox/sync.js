@@ -34,7 +34,16 @@ module.exports = function main(blog, callback) {
     // to retrieve the access token used to create a new Dropbox
     // client to retrieve changes made to the user's Dropbox.
     createClient(blog.id, function (err, client, account) {
-      if (err) return done(err, callback);
+      if (err) {
+        folder.log("Error creating client", err);
+        return Database.set(
+          blog.id,
+          { error_code: err.status || 400 },
+          function (err) {
+            done(err, callback);
+          }
+        );
+      }
 
       var token = account.access_token;
       var delta = new Delta(client, account.folder_id);
