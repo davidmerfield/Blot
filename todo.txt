@@ -1,8 +1,6 @@
-Improvements to Dropbox client
-- Migrate [App permissions before September 30th 2021](https://dropbox.tech/developers/migrating-app-permissions-and-access-tokens)
-  - https://developers.dropbox.com/oauth-guide
-  - https://dropbox.tech/developers/now-available--scoped-apps-and-enhanced-permissions
-  - https://dropbox.tech/developers/migrating-app-permissions-and-access-tokens
+Improve clients:
+- surface errors for clients on dashboard index
+- add blocking process to dropbox connection when writing folder contents
 
 Improve templates
 - Implement David's aesthetic proposals in the Figma mockups in the Blog template
