@@ -98,12 +98,10 @@ brochure.use(
 
 brochure.use(Express.static(VIEW_DIRECTORY, { index: false, redirect: false }));
 
+brochure.use(trace("before routes"));
+
 // Now we actually load the routes for the brochure website.
 brochure.use(require("./routes"));
-
-brochure.use("/publishing", function (req, res) {
-  res.redirect(req.originalUrl.split("/publishing").join("/how"));
-});
 
 // Redirect user to dashboard for these links
 brochure.use(["/account", "/settings"], function (req, res) {
