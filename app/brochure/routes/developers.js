@@ -1,6 +1,7 @@
 var Express = require("express");
 var developers = new Express.Router();
 var makeSlug = require("helper/makeSlug");
+var marked = require("marked");
 
 developers.use(function (req, res, next) {
   res.locals.base = "/templates/developers";
@@ -17,11 +18,30 @@ developers.get(["/reference"], function (req, res, next) {
     )
   );
 
+  // Render the descriptions as markdown
+  res.locals.docs.forEach((section) => {
+    section.properties.forEach((property) => {
+      const { description, properties } = property;
+
+      if (description) {
+        property.description = marked(description);
+      }
+
+      if (properties) {
+        property.properties = properties.map((property) => {
+          property.description = marked(property.description);
+          return property;
+        });
+      }
+    });
+  });
+
   res.locals.headers = res.locals.docs.map((item) => {
     return { text: item.name, id: makeSlug(item.name) };
   });
 
-  console.log(res.locals.docs);
+  res.locals.headers.push({text: 'Date tokens', id: 'date-tokens'});
+
 
   // These interfere with the reference template
   // if we rename the reference template, you can
