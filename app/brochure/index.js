@@ -7,7 +7,7 @@ var cache = new Cache(config.cache_directory);
 var moment = require("moment");
 var fs = require("fs-extra");
 const redirector = require("./redirector");
-
+const trace = require('helper/trace');
 const VIEW_DIRECTORY = __dirname + "/views";
 const PARTIAL_DIRECTORY = VIEW_DIRECTORY + "/partials";
 
