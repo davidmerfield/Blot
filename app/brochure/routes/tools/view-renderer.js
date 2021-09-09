@@ -43,28 +43,20 @@ module.exports = function ({ views, partials }) {
     let result = "";
     let template;
 
-    if (VIEW_CACHE[filename]) {
-      template = VIEW_CACHE[filename];
-    } else {
-      const contents = fs.readFileSync(filename, "utf-8");
+    const contents = fs.readFileSync(filename, "utf-8");
 
-      if (options.layout) {
-        template = fs.readFileSync(
-          views + "/" + options.layout + ".html",
-          "utf-8"
-        );
-        loadedPartials.body = contents;
-      } else {
-        template = contents;
-      }
+    if (options.layout) {
+      template = fs.readFileSync(
+        views + "/" + options.layout + ".html",
+        "utf-8"
+      );
+      loadedPartials.body = contents;
+    } else {
+      template = contents;
     }
 
     try {
       result = mustache.render(template, options, loadedPartials);
-
-      // console.log(builtTemplatePath, builtTemplate.slice(0, 100));
-
-      // fs.outputFileSync(builtTemplatePath, builtTemplate, "utf-8");
     } catch (e) {
       console.log(e);
       if (config.environment === "development") {
@@ -76,22 +68,26 @@ module.exports = function ({ views, partials }) {
 
     callback(null, result);
 
-    let builtTemplate = template;
+    // console.log(builtTemplatePath, builtTemplate.slice(0, 100));
 
-    // let builtTemplatePath = views + "_built/" + filename.slice(views.length);
+    // fs.outputFileSync(builtTemplatePath, builtTemplate, "utf-8");
 
-    // this won't render partials in partials
-    Object.keys(loadedPartials).forEach((partialName) => {
-      builtTemplate = builtTemplate
-        .split("{{> " + partialName + "}}")
-        .join(loadedPartials[partialName]);
-    });
+    // let builtTemplate = template;
 
-    builtTemplate = require("./inline-css").action(builtTemplate);
-    builtTemplate = require("./typeset").action(builtTemplate);
-    builtTemplate = require("./minify-html").action(builtTemplate);
-    mustache.parse(builtTemplate);
+    // // let builtTemplatePath = views + "_built/" + filename.slice(views.length);
 
-    VIEW_CACHE[filename] = builtTemplate;
+    // // this won't render partials in partials
+    // Object.keys(loadedPartials).forEach((partialName) => {
+    //   builtTemplate = builtTemplate
+    //     .split("{{> " + partialName + "}}")
+    //     .join(loadedPartials[partialName]);
+    // });
+
+    // builtTemplate = require("./inline-css").action(builtTemplate);
+    // builtTemplate = require("./typeset").action(builtTemplate);
+    // builtTemplate = require("./minify-html").action(builtTemplate);
+    // mustache.parse(builtTemplate);
+
+    // VIEW_CACHE[filename] = builtTemplate;
   };
 };
