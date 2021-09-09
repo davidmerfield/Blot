@@ -19,14 +19,14 @@ var SAMPLE = function () {
 module.exports = function (req, res, next) {
   var sample, formats;
 
-  req.debug("Permalink formats: creating sample post");
+  req.trace("Permalink formats: creating sample post");
 
   sample = new SAMPLE();
   sample.dateStamp = moment.utc();
 
   formats = FORMATS.slice();
 
-  req.debug("Permalink formats: creating list");
+  req.trace("Permalink formats: creating list");
 
   formats = formats.map(function (arr) {
     var checked = "";
@@ -41,9 +41,9 @@ module.exports = function (req, res, next) {
       checked = "checked";
     }
 
-    req.debug("Permalink formats: Rendering", arr[1]);
+    req.trace("Permalink formats: Rendering", arr[1]);
     example = permalink(req.blog.timeZone, arr[1], sample);
-    req.debug("Permalink formats: Rendered", arr[1]);
+    req.trace("Permalink formats: Rendered", arr[1]);
 
     return {
       name: arr[0],
@@ -57,6 +57,6 @@ module.exports = function (req, res, next) {
   formats[formats.length - 1].last = true;
   res.locals.permalinkFormats = formats;
 
-  req.debug("Permalink formats: finished generating list");
+  req.trace("Permalink formats: finished generating list");
   next();
 };
