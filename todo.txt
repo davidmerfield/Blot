@@ -321,9 +321,6 @@ com/mail/u/0/#inbox/1588e3df7489b554)
 Re-send receipt when the customer changes their email after initial payment, pre-account creation.
 - Once stripe allows programmatic receipt delivery
 
-Improvements to developer guide
-- Tell [Pedro](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMsSvqTVCjSSjJKVrGKmgRbjw)
-
 Improvements to entry builder
 - Adjust title metadata extractor to fallback to file name rather than first sentence of file if the post does not contain a title tag. The current behaviour has suprised a number of people. If this breaks [John's template](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMjqlPTxhSXLNBDCmqXLQHdvX) create new first_sentence property of entry to use on the template.
 - Fix bug with slashes in tags and tell [Dave](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMjqlPTzJxBPcQPnGsQsPSsvh)
