@@ -7,36 +7,39 @@ var cache = new Cache(config.cache_directory);
 var moment = require("moment");
 var fs = require("fs-extra");
 const redirector = require("./redirector");
-
+const mex = require("./routes/tools/view-renderer");
 const VIEW_DIRECTORY = __dirname + "/views";
 const PARTIAL_DIRECTORY = VIEW_DIRECTORY + "/partials";
+const trace = require("helper/trace");
 
-const loadPartial = (partial) => {
-  let name = partial.slice(0, partial.indexOf("."));
-  let value = fs.readFileSync(PARTIAL_DIRECTORY + "/" + partial, "utf-8");
-  hbs.registerPartial(name, value);
-};
+// const loadPartial = (partial) => {
+//   let name = partial.slice(0, partial.indexOf("."));
+//   let value = fs.readFileSync(PARTIAL_DIRECTORY + "/" + partial, "utf-8");
+//   hbs.registerPartial(name, value);
+// };
 
-fs.readdirSync(PARTIAL_DIRECTORY).forEach(loadPartial);
+// fs.readdirSync(PARTIAL_DIRECTORY).forEach(loadPartial);
 
-if (!config.cache) {
-  fs.watch(PARTIAL_DIRECTORY, { recursive: true }, (type, partial) =>
-    loadPartial(partial)
-  );
-}
+// if (!config.cache) {
+//   fs.watch(PARTIAL_DIRECTORY, { recursive: true }, (type, partial) =>
+//     loadPartial(partial)
+//   );
+// }
 
 // Renders dates dynamically in the documentation.
 // Can be used like so: {{{date 'MM/YYYY'}}}
-hbs.registerHelper("date", function (text) {
-  try {
-    text = text.trim();
-    text = moment.utc(Date.now()).format(text);
-  } catch (e) {
-    text = "";
-  }
+// hbs.registerHelper("date", function (text) {
+//   try {
+//     text = text.trim();
+//     text = moment.utc(Date.now()).format(text);
+//   } catch (e) {
+//     text = "";
+//   }
 
-  return text;
-});
+//   return text;
+// });
+
+brochure.use(trace("inside brochure sub app"));
 
 // Neccessary to repeat to set the correct IP for the
 // rate-limiter, because this app sits behind nginx
@@ -44,7 +47,10 @@ brochure.set("trust proxy", "loopback");
 
 brochure.set("views", VIEW_DIRECTORY);
 brochure.set("view engine", "html");
-brochure.engine("html", hbs.__express);
+brochure.engine(
+  "html",
+  mex({ partials: PARTIAL_DIRECTORY, views: VIEW_DIRECTORY })
+);
 
 if (config.cache === false) {
   // During development we want views to reload as we edit

@@ -10,13 +10,13 @@
 .top-r {
   position: absolute;top: 1rem;right: 1rem
 }
-{{#unless selected.index}}
+{{^selected.index}}
 @media screen and (max-width: 1000px) {
   .top-r {
     right: 4rem;
   }
 }
-{{/unless}}
+{{/selected.index}}
 </style>
 <a href="/" style="position: absolute;top:1rem;left: 1.45rem">
 <style type="text/css">
@@ -39,31 +39,32 @@
 
        <div class="top-r">
 
-        {{#if user}}
+        {{#user}}
         <a class="hdr-btn" style="" href="/">Your blogs</a>
 
-        {{else}}
+        {{/user}}
+        {{^user}}
 
-        {{#unless selected.log-in}}
-        {{#unless selected.sign-up}}
+        {{#selected.log-in}}
+        {{#selected.sign-up}}
         <a class="hdr-btn" style="" href="/log-in">Log in</a>
         <a class="hdr-btn"  href="/sign-up">Sign up</a>
-      {{/unless}}
-      {{/unless}}
+        {{/selected.sign-up}}
+        {{/selected.log-in}}
 
-      {{#if selected.log-in}}
-        <a href="{{#if from}}{{{from}}}{{else}}/{{/if}}" class="grow-on-hover huge hdr-btn">
+        {{#selected.log-in}}
+        <a href="{{#from}}{{{from}}}{{else}}/{{/from}}" class="grow-on-hover huge hdr-btn">
                 <svg id="hider" style="width: 0.75rem; height: 0.75rem;">
          <line x1="0" y1="0" x2="100%" y2="100%" stroke="#333"></line>
          <line x1="0" y1="100%" x2="100%" y2="0%" stroke="#333"></line>
       </svg></a>
-      {{/if}}
-      {{#if selected.sign-up}}
-<a href="{{#if from}}{{{from}}}{{else}}/{{/if}}" class="grow-on-hover huge hdr-btn">
+        {{/selected.log-in}}
+        {{#selected.sign-up}}
+<a href="{{#from}}{{{from}}}{{else}}/{{/from}}" class="grow-on-hover huge hdr-btn">
                 <svg id="hider" style="width: 0.75rem; height: 0.75rem;">
          <line x1="0" y1="0" x2="100%" y2="100%" stroke="#333"></line>
          <line x1="0" y1="100%" x2="100%" y2="0%" stroke="#333"></line>
       </svg></a>
-      {{/if}}
-      {{/if}}
+        {{/selected.sign-up}}
+      {{/user}}
   </div>
