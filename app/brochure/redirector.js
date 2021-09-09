@@ -24,6 +24,7 @@ const internal = {
   "/templates/developers/reference/date-tokens": "/templates/developers/reference",
   "/templates/developers/rendering-templates": "/templates/developers/tutorials/how-blot-works",
   "/templates/developers/how-blot-works": "/templates/developers/tutorials/how-blot-works",
+  "/about/notes/programming/development-environment": "/templates/developers/tutorials/set-up-development-environment",
   "/how/templates": "/templates",
   "/how/dates": "/how/metadata",
   "/developers/documentation": "/templates/developers",
