@@ -96,8 +96,6 @@ module.exports = function delta(client, folderID) {
           return get(cursor, callback);
         }
 
-        console.log("DELTAERROR:", err);
-
         // Determine the error message to pass back
         // to sync. We might show this to the user.
         if (err.status === 409) {

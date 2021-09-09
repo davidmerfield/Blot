@@ -14,13 +14,6 @@ module.exports = function (req, res, next) {
 
   var folder = "/" + titleToFolder(req.blog.title);
 
-  console.log(
-    "here making folder...",
-    folder,
-    "token=",
-    req.unsavedAccount.access_token
-  );
-
   client
     .filesCreateFolder({ path: folder, autorename: true })
     .then(function ({ result }) {
