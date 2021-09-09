@@ -1,6 +1,9 @@
 Improve clients:
 - surface errors for clients on dashboard index
 - add blocking process to dropbox connection when writing folder contents
+- ensure the app permission access_token is destroyed when switching to full-folder and vice versa
+- add a folder chooser during full-folder setup
+- ensure you can move the folder in full-folder permission mode
 
 Improve templates
 - Implement David's aesthetic proposals in the Figma mockups in the Blog template
