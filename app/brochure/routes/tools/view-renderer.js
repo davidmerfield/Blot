@@ -29,11 +29,15 @@ module.exports = function ({ views, partials }) {
     loadedPartials[name] = value;
   };
 
+  if (!config.cache) {
+    fs.watch(partials, { recursive: true }, (type, partial) =>
+      loadPartial(partial)
+    );
+  }
+
   fs.readdirSync(partials).forEach(loadPartial);
 
   return function middleware(filename, options, callback) {
-
-
     fs.readFile(filename, "utf-8", function (err, contents) {
       if (err) return callback(err);
 
@@ -61,6 +65,7 @@ module.exports = function ({ views, partials }) {
         }
       }
 
+      callback(null, result);
       callback(null, result);
     });
   };

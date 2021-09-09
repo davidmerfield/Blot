@@ -1,6 +1,5 @@
 const Express = require("express");
 const Questions = new Express.Router();
-const hbs = require("hbs");
 const moment = require("moment");
 const csrf = require("csurf")();
 const config = require("config");
@@ -19,17 +18,6 @@ const pool = new Pool({
 // QA Forum View Configuration
 const TOPICS_PER_PAGE = 20;
 
-// Renders datetime in desired format
-// Can be used like so: {{{formatDaytime D}}} where D is timestamp (e.g. from a DB)
-hbs.registerHelper("formatDaytime", function (timestamp) {
-  try {
-    timestamp = moment.utc(timestamp).format("MMM D [']YY [at] H:mm");
-  } catch (e) {
-    timestamp = "";
-  }
-  return timestamp;
-});
-
 Questions.use(
   Express.urlencoded({
     extended: true,
@@ -40,6 +28,17 @@ Questions.use(function (req, res, next) {
   res.locals.base = "/questions";
   // The rest of these pages should not be cached
   res.header("Cache-Control", "no-cache");
+  
+  // Renders datetime in desired format
+  // Can be used like so: {{{formatDaytime D}}} where D is timestamp (e.g. from a DB)
+  res.locals.formatDaytime = function (timestamp) {
+    try {
+      timestamp = moment.utc(timestamp).format("MMM D [']YY [at] H:mm");
+    } catch (e) {
+      timestamp = "";
+    }
+    return timestamp;
+  };
   next();
 });
 

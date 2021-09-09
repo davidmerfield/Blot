@@ -1,43 +1,14 @@
 var config = require("config");
 var Express = require("express");
 var brochure = new Express();
-var hbs = require("hbs");
 var Cache = require("express-disk-cache");
 var cache = new Cache(config.cache_directory);
 var moment = require("moment");
-var fs = require("fs-extra");
 const redirector = require("./redirector");
 const mex = require("./routes/tools/view-renderer");
-const trace = require('helper/trace');
+const trace = require("helper/trace");
 const VIEW_DIRECTORY = __dirname + "/views";
 const PARTIAL_DIRECTORY = VIEW_DIRECTORY + "/partials";
-
-// const loadPartial = (partial) => {
-//   let name = partial.slice(0, partial.indexOf("."));
-//   let value = fs.readFileSync(PARTIAL_DIRECTORY + "/" + partial, "utf-8");
-//   hbs.registerPartial(name, value);
-// };
-
-// fs.readdirSync(PARTIAL_DIRECTORY).forEach(loadPartial);
-
-// if (!config.cache) {
-//   fs.watch(PARTIAL_DIRECTORY, { recursive: true }, (type, partial) =>
-//     loadPartial(partial)
-//   );
-// }
-
-// Renders dates dynamically in the documentation.
-// Can be used like so: {{{date 'MM/YYYY'}}}
-// hbs.registerHelper("date", function (text) {
-//   try {
-//     text = text.trim();
-//     text = moment.utc(Date.now()).format(text);
-//   } catch (e) {
-//     text = "";
-//   }
-
-//   return text;
-// });
 
 brochure.use(trace("inside brochure sub app"));
 
@@ -108,6 +79,22 @@ brochure.use(trace("before routes"));
 
 // Now we actually load the routes for the brochure website.
 brochure.use(require("./routes"));
+
+brochure.use("/how", function (req, res, next) {
+  // Renders dates dynamically in the documentation.
+  // Can be used like so: {{{date 'MM/YYYY'}}}
+  res.locals.date = function (text) {
+    try {
+      text = text.trim();
+      text = moment.utc(Date.now()).format(text);
+    } catch (e) {
+      text = "";
+    }
+
+    return text;
+  };
+  next();
+});
 
 // Redirect user to dashboard for these links
 brochure.use(["/account", "/settings"], function (req, res) {
