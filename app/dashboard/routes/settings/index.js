@@ -2,7 +2,7 @@ var express = require("express");
 var settings = express.Router();
 var load = require("./load");
 var save = require("./save");
-var debug = require("dashboard/debug");
+var trace = require("helper/trace");
 
 var Template = require("template");
 
@@ -19,28 +19,28 @@ settings.use(function (req, res, next) {
 settings
   .route("/settings")
   .post(
-    debug("parsing form"),
+    trace("parsing form"),
     save.parse,
-    debug("parsed form"),
+    trace("parsed form"),
     save.redirects,
-    debug("saved redirects"),
+    trace("saved redirects"),
     save.format,
-    debug("formated form"),
+    trace("formated form"),
     save.avatar,
-    debug("saved avatar"),
+    trace("saved avatar"),
     save.removeTmpFiles,
-    debug("removed any tmp files"),
+    trace("removed any tmp files"),
     save.finish
   )
   .get(
-    debug("loading folder"),
+    trace("loading folder"),
     require("../folder"),
     load.template,
-    debug("template loaded"),
+    trace("template loaded"),
     load.menu,
-    debug("menu loaded"),
+    trace("menu loaded"),
     load.client,
-    debug("client loaded"),
+    trace("client loaded"),
     function (req, res) {
       res.render("settings", { title: req.blog.pretty.label });
     }

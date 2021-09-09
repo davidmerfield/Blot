@@ -1,7 +1,7 @@
 var bodyParser = require("body-parser");
 var hogan = require("hogan-express");
 var express = require("express");
-var debug = require("./debug");
+var trace = require("helper/trace");
 var Blog = require("blog");
 var User = require("user");
 var async = require("async");
@@ -27,9 +27,6 @@ dashboard.use(
   "/scripts",
   express.static(VIEW_DIRECTORY + "/scripts", { maxAge: 86400000 })
 );
-
-// Log response time in development mode
-dashboard.use(debug.init);
 
 // Hide the header which says the app
 // is built with Express
@@ -63,7 +60,7 @@ dashboard.use("/clients", require("./routes/clients"));
 dashboard.use("/stripe-webhook", require("./routes/stripe_webhook"));
 
 /// EVERYTHING AFTER THIS NEEDS TO BE AUTHENTICATED
-dashboard.use(debug("loading session information"));
+dashboard.use(trace("loading session information"));
 dashboard.use(require("./session"));
 dashboard.use(function (req, res, next) {
   if (req.session && req.session.uid) {
@@ -72,7 +69,7 @@ dashboard.use(function (req, res, next) {
 
   return next(new Error("NOUSER"));
 });
-dashboard.use(debug("loaded session information"));
+dashboard.use(trace("loaded session information"));
 
 dashboard.use(require("./message"));
 
@@ -81,7 +78,7 @@ dashboard.use(require("./message"));
 // for each POST request, using csurf.
 dashboard.use(require("./csrf"));
 
-dashboard.use(debug("loading user"));
+dashboard.use(trace("loading user"));
 
 // Load properties as needed
 // these should not be invoked for requests to static files
@@ -113,8 +110,8 @@ dashboard.use(function (req, res, next) {
   });
 });
 
-dashboard.use(debug("loaded user"));
-dashboard.use(debug("loading blogs"));
+dashboard.use(trace("loaded user"));
+dashboard.use(trace("loading blogs"));
 
 dashboard.use(function (req, res, next) {
   if (!req.session || !req.user || !req.user.blogs.length) return next();
@@ -186,16 +183,16 @@ dashboard.use(function (req, res, next) {
   );
 });
 
-dashboard.use(debug("loaded blogs"));
+dashboard.use(trace("loaded blogs"));
 
-dashboard.use(debug("checking redirects"));
+dashboard.use(trace("checking redirects"));
 
 // Performs some basic checks about the
 // state of the user's blog, user's subscription
 // and shuttles the user around as needed
 dashboard.use(require("./redirector"));
 
-dashboard.use(debug("checked redirects"));
+dashboard.use(trace("checked redirects"));
 
 // Send user's avatar
 dashboard.use("/_avatars/:avatar", function (req, res, next) {

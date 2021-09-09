@@ -5,7 +5,7 @@ var config = require("config");
 if (config.environment !== "development") {
   module.exports = function () {
     return function (req, res, next) {
-      req.debug = function () {};
+      req.trace = function () {};
       next();
     };
   };
@@ -18,12 +18,12 @@ if (config.environment !== "development") {
 }
 
 function prefix(req) {
-  return "blot:dashboard:" + req.originalUrl;
+  return "blot:trace:" + req.originalUrl;
 }
 
 module.exports = function (message) {
   return function (req, res, next) {
-    req.debug(message);
+    req.trace(message);
     next();
   };
 };
@@ -31,12 +31,16 @@ module.exports = function (message) {
 module.exports.init = function (req, res, next) {
   var start = Date.now();
 
-  req.debug = Debug(prefix(req));
-  req.debug("request recieved");
+  if (req.trace) {
+    throw new Error('Already definied');
+  }
 
+  req.trace = Debug(prefix(req));
+  req.trace("request recieved (init invoked)");
+  
   res.on("finish", function () {
     var duration = Date.now() - start;
-    req.debug("\x1b[32m%s\x1b[0m", duration + "ms", "taken to render page");
+    req.trace("\x1b[32m%s\x1b[0m", duration + "ms", "taken to finish response");
   });
 
   next();
