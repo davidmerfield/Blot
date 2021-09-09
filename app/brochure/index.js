@@ -8,9 +8,9 @@ var moment = require("moment");
 var fs = require("fs-extra");
 const redirector = require("./redirector");
 const mex = require("./routes/tools/view-renderer");
+const trace = require('helper/trace');
 const VIEW_DIRECTORY = __dirname + "/views";
 const PARTIAL_DIRECTORY = VIEW_DIRECTORY + "/partials";
-const trace = require("helper/trace");
 
 // const loadPartial = (partial) => {
 //   let name = partial.slice(0, partial.indexOf("."));
