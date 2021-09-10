@@ -37,6 +37,7 @@ describe("dropbox database", function () {
     return {
       account_id: "XXXXX",
       access_token: "YYYYY",
+      refresh_token: "ZZZZ",
       email: "",
       error_code: 0,
       last_sync: Date.now(),
