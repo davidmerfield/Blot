@@ -16,7 +16,7 @@
           <span class="imag">
           <a target="_blank" rel="noopener" href="{{{link}}}">
           {{#favicon.coordinates}}
-            <span style="display:block;background:url('/images/featured.png');background-size: {{background_width}}px;
+            <span style="display:block;background:url('/images/featured.png?cacheID={{../../cacheID}}&extension=.png');background-size: {{background_width}}px;
     background-position:-{{x}}px -{{y}}px;width:{{width}}px;height:{{height}}px;border-radius: 100px"></span>
     {{/favicon.coordinates}}
         </a>
@@ -44,7 +44,7 @@ var ul = document.querySelector('ul.who');
 var MAX_FEATURED = 28;
 
 for (var i = ul.children.length; i >= 2; i--) {
-  let index = 1 + (Math.floor(Math.random() * (i - 2)));
+  let index = 1 + (Math.floor(Math.random() * (i - 1)));
   ul.appendChild(ul.children[index]);
 }
 
