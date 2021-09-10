@@ -44,10 +44,7 @@ var ul = document.querySelector('ul.who');
 var MAX_FEATURED = 28;
 
 for (var i = ul.children.length; i >= 2; i--) {
-  let index = 2 + (Math.floor(Math.random() * (i - 2)));
-  console.log('i', i);
-  console.log('index', index);
-  console.log('node', ul.children[index]);
+  let index = 1 + (Math.floor(Math.random() * (i - 2)));
   ul.appendChild(ul.children[index]);
 }
 

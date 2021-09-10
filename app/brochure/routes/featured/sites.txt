@@ -1,14 +1,14 @@
-#d42633 zacharykeeting.com Zachary Keeting, is an artist based in New Haven, Connecticut
+#c33f01 zacharykeeting.com Zachary Keeting, is an artist based in New Haven, Connecticut
 #585858 www.souloftheimage.com Kimberly Evans, is a photographer and writer from Los Angeles
 #c68256 www.skincarriedaway.com Tiffany Cecilia, writes about skincare from San Francisco
 #111111 www.tillmanjex.info Tillman Jex, is a composer based in Berlin
 #c16256 blog.andrewjanjigian.com Andrew Janjigian, is a photographer at Cook’s Illustrated
-#303555 hannautkin.com Hanna Utkin, is a filmmaker and producer from New York City
-#5479bf keywords.oxus.net Kerim Friedman, teaches anthropology in Taiwan
+#dc1c8e hannautkin.com Hanna Utkin, is a filmmaker and producer from New York City
+#272e40 keywords.oxus.net Kerim Friedman, teaches anthropology in Taiwan
 #ba7b6f com.johnbeeler.com John Beeler, is the label director at Asthmatic Kitty Records
 #39292d www.inextenso.dev Nicola Zanon, is a web developer from Berlin
 #87878a www.andrew-bishop.com Andrew Bishop, is an artist and writer living in San Francisco
-#dba14e discombobulated.co.nz Jessica Nickelsen, is a writer from New Zealand
+#43424a discombobulated.co.nz Jessica Nickelsen, is a writer from New Zealand
 #1b6cb5 www.rebeccatron.com Rebecca Kukshtel, is an engineer based in New York City
 #a05781 blog.aurynn.com Aurynn Shaw, is a writer and engineer from New Zealand
 #5a362b www.alexgibson.nyc Alexander Gibson, is an artist from New York City
@@ -24,12 +24,11 @@
 #c56d64 blog.pixelswithin.com Diana Lopez, is a designer and developer based in Southern California
 #b97c29 eli.li Eli Mellen, is a web developer based in Portland, Maine
 #af8f8a rile.yt Riley Tomasek, is a software engineer based in New York City
-#98503f juicenews.com Jan van Iperen, analyzes the juice industry
+#e9d78d juicenews.com Jan van Iperen, analyzes the juice industry
 #025cb3 www.elisamirkil.com Elisa Mirkil, is a designer based in New York
 #d08573 paul.af Paul Esch-Laurent, is a software engineer from Michigan
 #9e826d diary.craigwhite.nyc Craig White, is a visual artist based in Harlem, New York
-#c37728 shashwati.com Shashwati Talukdar, is an independent filmmaker
-#828282 shawn.medero.net Shawn Medero, is a software engineer based in Claremont
+#914312 shashwati.com Shashwati Talukdar, is an independent filmmaker
 #054429 mariusmasalar.me Marius Masalar, is a photographer and journalist based in Toronto
 #4c919c www.ishshah.me Ish Shah, is an engineer based in San Francisco
 #2f565d www.chrbutler.com Chris Butler, is a designer based in Chapel Hill
@@ -43,7 +42,7 @@
 #5d5d55 inhab.it Wil Turner, is a writer based in San Francisco
 #1d1e23 millicent-thomas.com Millicent Thomas, is a journalist and programmer from Manchester
 #55504a www.skellis.net Simon Ellis, is an artist from New Zealand
-#747b96 jeremysarber.com Jeremy Sarber, is a funeral home chaplain in Nappanee
+#485f27 jeremysarber.com Jeremy Sarber, is a funeral home chaplain in Nappanee
 #da6d8d ianamurray.work Iana Murray, is a journalist based in Stirling, Scotland
 #d1a15d diegosegura.me Diego Segura, is a designer based in New York City
 #475162 www.dustinsenos.com Dustin Senos, is a designer and engineer
@@ -51,7 +50,7 @@
 #629292 diklein.com David Klein, is a designer based in San Francisco
 #a4335c rosiecampbell.me Rosie Campbell, is an artificial intelligence researcher
 #c65b2d www.emilycass.org Emily Cass, is an architect from Southern California
-#c0887f abigailswallow.me Abigail Swallow, is a student of social policy and design
+#352f2f abigailswallow.me Abigail Swallow, is a student of social policy and design
 #7d6a89 jessytuddenham.com Jessy Tuddenham, is a dancer and writer from Utah
 #b97371 bnjmnmddn.com Benjamin Madden, teaches at the University of Adelaide
 #1d2c32 www.jsoliday.com J. Soliday, is an electronic musician
@@ -62,7 +61,6 @@
 #8f5160 xn--gntherwegs-9db.com Günther, is a young Weimaraner who loves carrots
 #393939 thejollyteapot.com Nicolas Magand, is a blogger living in Strasbourg, France
 #fb5b1f timeline.marconoris.com Marco Noris, is an artist living in Barcelona, Spain
-#000000 fergus.directory Fergus Egan, is a student of architecture from Australia
 #2e3d5c blog.scren.dk Sören Möller, is a professor of biostatistics from Denmark
 #435338 brainsister.com Jessica Doyle, is a writer, music critic, and city planning researcher
 #b69a51 nngorok.com Nick Ngorok, is an engineering manager based in the Bay Area
@@ -74,3 +72,7 @@
 #9e4b3d nomathontheweekend.co Liana J. Taylor, is an accountant from Philadelphia
 #3267c3 www.praveenjayasuriya.com Praveen Jayasuriya, is engineer based in Australia
 #361712 windhausen.co Sönke Windhausen, is a student of history and philosophy in Freiburg
+#b07246 anitaposch.com Anita Posch, is a writer and podcaster from Austria
+#fcd808 reillybrennan.com Reilly Brennan, is a venture capital fund partner 
+#d48a7d victoriaclarke.art Victoria Clarke, is an artist based in London
+#262626 www.adamsandell.com Adam Sandell, is a doctor in British Colombia
