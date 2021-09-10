@@ -13,7 +13,6 @@
 {{> css-tachyons}}
 {{> css-hljs}}
 {{> css-bigfoot}}
-{{> css-typeset}}
 {{> css-katex}}
 {{> css-video-container}}
 {{> css-layout}}
@@ -21,6 +20,7 @@
 html {
   margin: 0;
   padding: 0;
+  font-size: {{body_font.font_size}}px;
   width: 100%;
   height: 100%;
 }
@@ -148,6 +148,15 @@ hr {
 
 .nav {overflow:hidden;}
 .nav a.no-wrap {width:1000%;text-decoration:none;}
+
+/* 
+
+   TODO enable once we support color manipulation functions 
+   We get an ugly gradient in safari when we don't use a fully 
+   transparent version of the {{background_color}}. See this:
+
+   https://css-tricks.com/thing-know-gradients-transparent-black/
+
 .nav:after {
   width:2rem;
   position:absolute;
@@ -156,12 +165,13 @@ hr {
   right:0;
   z-index:1;
   bottom:0;
-  background: -webkit-gradient(linear,left top, right top,from(rgba(255,255,255,0)),to({{background_color}}));
-  background: -webkit-linear-gradient(left,rgba(255,255,255,0),{{background_color}});
-  background: -o-linear-gradient(left,rgba(255,255,255,0),{{background_color}});
-  background: linear-gradient(to right,rgba(255,255,255,0),{{background_color}});
+  background: -webkit-gradient(linear,left top, right top,from(transparent),to({{background_color}}));
+  background: -webkit-linear-gradient(left,transparent,{{background_color}});
+  background: -o-linear-gradient(left,transparent,{{background_color}});
+  background: linear-gradient(to right,transparent,{{background_color}});
 }
 
+*/
   
 .no-border-5 a:nth-child(n+5) .bb {display:none}
 .no-border-4 a:nth-child(n+4) .bb {display:none}
@@ -237,6 +247,7 @@ h1 em {font-style:normal}
   -moz-hyphens: auto;
   hyphens: auto;
 }
+
 
 /*Compress title size */ 
 .lh-title.f2, .lh-title.f1 {line-height:1}

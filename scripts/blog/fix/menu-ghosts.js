@@ -13,8 +13,8 @@ function main(blog, callback) {
 
   async.map(
     blog.menu,
-    function(item, next) {
-      Entry.get(blog.id, item.id, function(entry) {
+    function (item, next) {
+      Entry.get(blog.id, item.id, function (entry) {
         if (entry && entry.deleted) {
           console.log("Will delete", item);
           next(null, null);
@@ -45,10 +45,10 @@ function main(blog, callback) {
         }
       });
     },
-    function(err, results) {
+    function (err, results) {
       if (err) return callback(err);
 
-      results = results.filter(function(item) {
+      results = results.filter(function (item) {
         return item !== null;
       });
 
@@ -63,7 +63,7 @@ function main(blog, callback) {
         console.log("Fixed menu:");
         console.log(results);
 
-        return yesno.ask("Save menu? (y/n)", false, function(yes) {
+        return yesno.ask("Save menu? (y/n)", false, function (yes) {
           if (!yes) {
             return callback(new Error("\nDid not apply changes"));
           }

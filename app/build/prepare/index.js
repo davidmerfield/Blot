@@ -1,18 +1,17 @@
 var debug = require("debug")("blot:build:prepare");
 var _ = require("lodash");
-var helper = require("helper");
-var falsy = helper.falsy;
-var time = helper.time;
+var falsy = require("helper/falsy");
+var time = require("helper/time");
 var cheerio = require("cheerio");
 
 var decode = require("he").decode;
 
-var normalize = helper.urlNormalizer;
-var pathNormalizer = helper.pathNormalizer;
-var type = helper.type;
+var normalize = require("helper/urlNormalizer");
+var pathNormalizer = require("helper/pathNormalizer");
+var type = require("helper/type");
 
-var makeSlug = helper.makeSlug;
-var ensure = helper.ensure;
+var makeSlug = require("helper/makeSlug");
+var ensure = require("helper/ensure");
 var Model = require("entry").model;
 
 var isHidden = require("./isHidden");
@@ -28,7 +27,7 @@ var overwrite = [
   "body",
   "summary",
   "teaser",
-  "teaserBody"
+  "teaserBody",
 ];
 
 function canOverwrite(key) {
@@ -55,7 +54,7 @@ function Prepare(entry) {
   debug(entry.path, "Generating cheerio");
   var $ = cheerio.load(entry.html, {
     decodeEntities: false,
-    withDomLvl1: false // this may cause issues?
+    withDomLvl1: false, // this may cause issues?
   });
   debug(entry.path, "Generated  cheerio");
 
@@ -109,9 +108,9 @@ function Prepare(entry) {
 
   if (entry.metadata.tags) tags = entry.metadata.tags.split(",");
 
-  tags = Tags(entry.path, tags);
+  tags = Tags(entry.pathDisplay || entry.path, tags);
   tags = _(tags)
-    .map(function(tag) {
+    .map(function (tag) {
       return tag.trim();
     })
     .compact(tags)
@@ -155,11 +154,24 @@ function Prepare(entry) {
   // Add the permalink automatically if the metadata
   // declared a page with no permalink set. We can't
   // do this earlier, since we don't know the slug then
-  entry.permalink =
-    entry.metadata.permalink || entry.metadata.slug ||
-    entry.metadata.link || entry.metadata.url || "";
-  entry.permalink = normalize(entry.permalink);
+  let permalinkCandidates = [
+    entry.metadata.permalink,
+    entry.metadata.slug,
+    entry.metadata.link,
+    entry.metadata.url,
+  ];
 
+  permalinkCandidates = permalinkCandidates
+    .filter(
+      (candidate) =>
+        candidate &&
+        type(candidate, "string") &&
+        candidate.indexOf("://") === -1
+    )
+    .map(normalize)
+    .filter((candidate) => candidate !== "");
+
+  entry.permalink = permalinkCandidates.shift() || "";
   debug(entry.path, "Generated  permalink");
 
   debug(entry.path, "Generating meta-overwrite");

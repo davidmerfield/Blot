@@ -1,15 +1,16 @@
 var Mustache = require("mustache");
-var helper = require("helper");
-var type = helper.type;
+var type = require("helper/type");
 var client = require("client");
 var key = require("./key");
-var ensure = helper.ensure;
-var extend = helper.extend;
+var urlNormalizer = require("helper/urlNormalizer");
+var ensure = require("helper/ensure");
+var extend = require("helper/extend");
 var viewModel = require("./viewModel");
 var getView = require("./getView");
 var serialize = require("./util/serialize");
 var getMetadata = require("./getMetadata");
 var Blog = require("blog");
+var parseTemplate = require("./parseTemplate");
 
 module.exports = function setView(templateID, updates, callback) {
   if (updates.partials !== undefined && type(updates.partials) !== "object") {
@@ -38,17 +39,17 @@ module.exports = function setView(templateID, updates, callback) {
   var allViews = key.allViews(templateID);
   var viewKey = key.view(templateID, name);
 
-  getMetadata(templateID, function(err, metadata) {
+  getMetadata(templateID, function (err, metadata) {
     if (err) return callback(err);
 
     if (!metadata)
       return callback(new Error("There is no template called " + templateID));
 
-    client.sadd(allViews, name, function(err) {
+    client.sadd(allViews, name, function (err) {
       if (err) return callback(err);
 
       // Look up previous state of view if applicable
-      getView(templateID, name, function(err, view) {
+      getView(templateID, name, function (err, view) {
         // This will error if no view exists
         // we ust this method to create a view
         // to so dont use this error...
@@ -57,7 +58,7 @@ module.exports = function setView(templateID, updates, callback) {
         view = view || {};
 
         if (updates.url) {
-          updates.url = helper.urlNormalizer(updates.url || "");
+          updates.url = urlNormalizer(updates.url || "");
 
           client.set(key.url(templateID, updates.url), name);
 
@@ -72,7 +73,7 @@ module.exports = function setView(templateID, updates, callback) {
         view.retrieve = view.retrieve || {};
         view.partials = view.partials || {};
 
-        var parseResult = helper.parseTemplate(view.content);
+        var parseResult = parseTemplate(view.content);
 
         // TO DO REMOVE THIS
         if (type(view.partials, "array")) {
@@ -90,10 +91,10 @@ module.exports = function setView(templateID, updates, callback) {
 
         view = serialize(view, viewModel);
 
-        client.hmset(viewKey, view, function(err) {
+        client.hmset(viewKey, view, function (err) {
           if (err) return callback(err);
 
-          Blog.set(metadata.owner, { cacheID: Date.now() }, function(err) {
+          Blog.set(metadata.owner, { cacheID: Date.now() }, function (err) {
             callback(err);
           });
         });

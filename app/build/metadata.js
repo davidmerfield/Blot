@@ -1,8 +1,8 @@
-var debug = require("debug")("blot:build:metadata");
-var helper = require("helper");
-var ensure = helper.ensure;
+const debug = require("debug")("blot:build:metadata");
+const ensure = require("helper/ensure");
+const YAML = require("yaml");
 
-var alphaNumericRegEx = /^([a-zA-Z0-9\-_ ]+)$/;
+const alphaNumericRegEx = /^([a-zA-Z0-9\-_ ]+)$/;
 
 function Metadata(html) {
   ensure(html, "string");
@@ -14,20 +14,42 @@ function Metadata(html) {
 
   // Somehow some text-editors/OSs have a single return character
   // to signify a newline. Although it doesn't seem technically correct
-  // we handle this edge cache here.
+  // we handle this edge case here.
   html = html.replace(/\r/gm, "\n");
 
-  var metadata = {};
+  let metadata = {};
 
-  var linesToRemove = [];
-  var lines = html.trim().split(/\n/);
+  // YAML-style fenced front-matter!
+  if (
+    html.trim().startsWith("---") &&
+    html.lastIndexOf("---") !== html.indexOf("---")
+  ) {
+    let frontmatter = html.trim().split("---")[1];
+    let mixedCaseMetadata = YAML.parse(frontmatter);
+
+    // Map { Permalink } to { permalink }
+    // Blot uses lowercase metadata keys
+    Object.keys(mixedCaseMetadata).forEach((mixedCaseKey) => {
+      let key = mixedCaseKey.toLowerCase();
+      let value = mixedCaseMetadata[mixedCaseKey];
+      metadata[key] = value;
+    });
+
+    // Remove the metadata from the returned HTML
+    html = html.trim().split("---").slice(2).join("---");
+
+    return { html, metadata };
+  }
+
+  let linesToRemove = [];
+  let lines = html.trim().split(/\n/);
 
   debug(lines.length, "lines found");
 
   // THIS SHOULD ALSO WORK FOR HTML:
   // i.e. <p>Page: yes</p>
-  for (var i = 0; i < lines.length; i++) {
-    var line, key, value, firstColon, firstCharacter;
+  for (let i = 0; i < lines.length; i++) {
+    let line, key, value, firstColon, firstCharacter;
 
     line = lines[i];
 
@@ -71,10 +93,7 @@ function Metadata(html) {
     }
 
     // The key is lowercased and trimmed
-    key = line
-      .slice(0, firstColon)
-      .trim()
-      .toLowerCase();
+    key = line.slice(0, firstColon).trim().toLowerCase();
 
     // The key contains non-alphanumeric characters, so reject it
     if (alphaNumericRegEx.test(key) === false) break;
@@ -102,7 +121,7 @@ function Metadata(html) {
     linesToRemove.push(i);
   }
 
-  var linesRemoved = linesToRemove.length;
+  let linesRemoved = linesToRemove.length;
 
   // Remove lines with valid metadata
   while (linesToRemove.length) {
@@ -132,7 +151,7 @@ function Metadata(html) {
 
   return {
     html: html,
-    metadata: metadata
+    metadata: metadata,
   };
 }
 

@@ -1,4 +1,4 @@
-# Templates for blogging platforms
+# Templates
 
 I find the process of designing templates especially difficult. I was trying to design a themes for all blogs and all material. I think the major things which complicate designs. Some sites have many posts (thousands) and are updated frequently. Some sites have few posts (ten) and are updated infrequently. The quantity of posts has a big effect on the design of the archive page in particular.
 

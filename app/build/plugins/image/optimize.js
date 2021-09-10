@@ -9,7 +9,6 @@ var extname = require("path").extname;
 var uuid = require("uuid/v4");
 var join = require("path").join;
 var debug = require("debug")("blot:entry:build:plugins:image");
-var imageminify = require("helper").imageminify;
 
 // Only cache images with the following file extensions
 // We only resize and optimize JPG and PNG.
@@ -58,13 +57,14 @@ module.exports = function (blogID) {
           return callback(new Error("No width or height"));
 
         debug("Minifying", finalPath);
-        imageminify(finalPath, function (err) {
-          if (err) return callback(err);
+        // minify(finalPath, function(err){
 
-          info.src = src;
+        if (err) return callback(err);
 
-          callback(null, info);
-        });
+        info.src = src;
+
+        callback(null, info);
+        // });
       });
     });
   };

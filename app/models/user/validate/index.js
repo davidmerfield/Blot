@@ -1,17 +1,14 @@
-var helper = require("helper");
-var ensure = helper.ensure;
+var ensure = require("helper/ensure");
 var async = require("async");
 
 var MODEL = require("../model");
 
 var validators = {
-  email: require("./email")
+  email: require("./email"),
 };
 
 module.exports = function validate(user, updates, callback) {
-  ensure(user, MODEL)
-    .and(updates, "object")
-    .and(callback, "function");
+  ensure(user, MODEL).and(updates, "object").and(callback, "function");
 
   var changes = [];
 
@@ -23,7 +20,7 @@ module.exports = function validate(user, updates, callback) {
 
   async.eachOf(
     updates,
-    function(value, name, next) {
+    function (value, name, next) {
       try {
         ensure(value, MODEL[name]);
       } catch (e) {
@@ -36,7 +33,7 @@ module.exports = function validate(user, updates, callback) {
         return next();
       }
 
-      validators[name](user, value, function(err, value) {
+      validators[name](user, value, function (err, value) {
         if (err) return next(err);
 
         if (value && user[name] !== value) {
@@ -47,7 +44,7 @@ module.exports = function validate(user, updates, callback) {
         next();
       });
     },
-    function(err) {
+    function (err) {
       if (err) return callback(err);
 
       // Check user properties are correct type

@@ -20,9 +20,12 @@ function main(label, callback) {
   if (!fs.existsSync(directory))
     return callback(new Error("No state " + label));
 
-  cp.execSync("pg_ctl stop -D " + DATA_DIRECTORY + "/db/postgres", {
-    stdio: "inherit",
-  });
+  cp.execSync(
+    "pg_ctl -s -l logs/post.log  stop -D " + DATA_DIRECTORY + "/db/postgres",
+    {
+      stdio: "inherit",
+    }
+  );
 
   loadDB(directory, function (err) {
     if (err) return callback(err);
@@ -30,12 +33,12 @@ function main(label, callback) {
     fs.emptyDirSync(DATA_DIRECTORY);
     fs.ensureDirSync(directory + "/data");
     fs.copySync(directory + "/data", DATA_DIRECTORY);
-    
+
     // Why stdio: inherit?
     // https://github.com/shelljs/shelljs/issues/770#issuecomment-329357465
-    cp.execSync("pg_ctl start -D " + DATA_DIRECTORY + "/db/postgres", {
-      stdio: "inherit",
-    });
+    cp.execSync(
+      "pg_ctl -s -l logs/post.log start -D " + DATA_DIRECTORY + "/db/postgres"
+    );
 
     fs.emptyDirSync(BLOG_FOLDERS_DIRECTORY);
     fs.ensureDirSync(directory + "/blogs");
@@ -49,7 +52,7 @@ function main(label, callback) {
     fs.ensureDirSync(directory + "/static");
     fs.copySync(directory + "/static", STATIC_FILES_DIRECTORY);
 
-    require("./info")(callback);
+    callback();
   });
 }
 

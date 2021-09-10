@@ -4,6 +4,7 @@ var Blog = require("models/blog");
 var Entries = require("models/entries");
 var Entry = require("models/entry");
 var _ = require("lodash");
+var basename = require("path").basename;
 
 var dictionary = {
   permalink: "Saved changes to your URL format",
@@ -12,9 +13,7 @@ var dictionary = {
   avatar: "Saved changes to your photo",
   handle: "Saved changes to your username",
   timeZone: "Saved changes to your time zone",
-  dateFormat: "Saved changes to your date settings",
-  dateDisplay: "Saved changes to your date settings",
-  hideDates: "Saved changes to your date settings",
+  dateFormat: "Saved changes to your date settings"
 };
 
 module.exports = function (req, res, next) {
@@ -34,7 +33,6 @@ module.exports = function (req, res, next) {
     // changes to permalink format take effect.
     if (
       changes.indexOf("timeZone") > -1 ||
-      changes.indexOf("dateDisplay") > -1 ||
       changes.indexOf("permalink") > -1
     ) {
       resaveEntries(blogID, function () {});
@@ -55,7 +53,14 @@ module.exports = function (req, res, next) {
           // Otherwise this would make the entry visible...
           if (entry.deleted) return next();
 
-          build(blog, entry.path, {}, function (err, entry) {
+          let options = {};
+
+          if (entry.pathDisplay) {
+            options.pathDisplay = entry.pathDisplay;
+            options.name = basename(entry.pathDisplay);
+          }
+
+          build(blog, entry.path, options, function (err, updatedEntry) {
             if (err && err.code === "ENOENT") {
               console.warn("No local file exists for entry", entry.path);
               return next();
@@ -70,10 +75,10 @@ module.exports = function (req, res, next) {
               return next();
             }
 
-            Entry.set(blog.id, entry.path, entry, next);
+            Entry.set(blog.id, updatedEntry.path, updatedEntry, next);
           });
         },
-        function(){
+        function () {
           console.log("Rebuilt blog");
         }
       );

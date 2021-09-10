@@ -1,34 +1,47 @@
 {{> head}}
 <body>
+{{> header}}
+</div>  
+
  <style type="text/css">
 	.doc-wrapper{min-height: 100vh}
-	.doc-left {grid-column-start: 9;grid-column-end: 11;margin-top: 0rem;padding-top: 3rem}
-	.doc-right {grid-column-start: 3;grid-column-end: 9;margin-top: 3rem;padding-right: 4rem}
+	.doc-left {grid-column-start: 4;grid-column-end: 9;margin-top: 0rem;padding-top: 3rem}
+	.doc-right {grid-column-start: 9;grid-column-end: 12;margin-top: 6.25rem;}
 
-	.sidebar {border:none;border-left:1px solid rgba(0,0,0,0.1);}
+	.sidebar {border:none;/*border-left:1px solid rgba(0,0,0,0.1);*/
+    background: #fafafa;
+    border-radius: 18px;
+    padding: 18px 36px;
+}
 	
 	@media screen and (max-width: 800px) {
-		.doc-left {padding: 0;grid-column-start: 1;grid-column-end: 12;grid-row: 1}
-			.doc-right {grid-row:2;grid-column-start: 1;grid-column-end: 12;margin-top: 1.5rem;padding: 1rem 1.5rem}
+/*		.doc-left {padding: 0;grid-column-start: 1;grid-column-end: 12;grid-row: 1}
+			.doc-right {grid-row:2;grid-column-start: 1;grid-column-end: 12;margin-top: 1.5rem;padding: 1rem 1.5rem}*/
 			.grid {padding: 0 0}
 		.sidebar {border:none;margin-top: 3rem}
 
 	}
 
-</style>
-<div class="doc-wrapper">    
-  <div class="grid">
-    <div class="doc-right">
-			{{> breadcrumbs}}
-      <div style="clear: both;">
-      {{{body}}}
-    	</div>
-  	</div>   
-  	<div class="doc-left">
-			{{> sidebar}}
-		</div>
+  .doc-wrapper {max-width: 930px;margin:0 auto;
+    padding: 4rem 1.5rem;display: flex;flex-wrap: wrap;min-height: auto}
 
+  @media screen and (max-width: 1000px) {
+    .doc-wrapper {max-width: 560px}
+  }
+
+</style>
+<input type="checkbox" name="toggle" id="toggle">
+<div class="doc-wrapper"> 
+  <div style="flex-basis: 100%;margin:3px 0 13px;" >
+    {{> breadcrumbs}}
   </div>
+  <div class="yiel" style="flex-basis: 560px;max-width:560px;flex-grow:0;flex-shrink:0;margin: 0 3rem 0 0">
+{{{body}}}
+	</div>   
+  <div style="flex-basis: 270px;flex-grow:0;flex-shrink:0;margin: 0 0 0 3rem;min-height: 61vh">
+  {{> sidebar}}
+  </div>
+</div>
 </div>
 {{> footer}}
 </body>

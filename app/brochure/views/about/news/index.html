@@ -1,5 +1,5 @@
 <h1>News</h1>
-
+<!-- <h2>Blot remains an active project.</h2> -->
 <style type="text/css">
 
 
@@ -104,7 +104,6 @@ ol li a:focus {background: none;box-shadow: none;}
 ol li a:hover small {text-decoration: underline;color: var(--accent-color)}
 ol li small {
   color: #989694;
-  font-size: 14px
 }
 
 content hr {border: none;border-bottom: 1px solid #eee;margin: 2em 0}
@@ -113,7 +112,7 @@ ol li a:hover {
   background: none
 }
 
-flex {display: flex}
+flex {display: flex;}
 
 details ul,
 details ol {padding-left: 1.5em;margin-left: 0}
@@ -171,18 +170,22 @@ details summary:before {
 }
 </style>
 
-<p>You can receive a newsletter at the start of each season summarizing what we are working on and what we have planned. Please <a href="/support">contact support</a> if you have any questions. The full extent of our planned tasks and recent work is detailed below.</p>
-<br>
-<div style="max-width: 360px">
-<form action="/about/news/sign-up" method="POST">
-  <p style="margin: 0">
+<p>Subscribe to receive a newsletter at the start of each season with a summary of our work and our plans. Please <a href="/contact">send us</a> your suggestions.
+
+</p>
+<form action="/about/news/sign-up" method="POST" style="margin-top:1.45rem;display: flex;align-items: flex-end;">
+  <p style="margin: 0;flex-basis: 75%">
   <label for="email" >Your email address</label>
   <input type="text" required id="email" name="email">
 </p>
-  <input type="submit" value="Subscribe to the newsletter">
+  <input style="flex-basis: 25%;width: auto;margin:0;border-radius: 0 4px 4px 0;    padding: 0 1em;
+    line-height: 42px;
+    margin-bottom: 2px;" type="submit" value="Subscribe">
 </form>
-</div>
 
+<br>
+<br>
+<hr>
 <flex>
 
   <style type="text/css">
@@ -211,18 +214,18 @@ details summary:before {
     }
   </style>
   
-  <section style="width:66.6666%;flex-grow:1;padding-right: 3rem;box-sizing: border-box;">
+  <section style="width:60%;flex-grow:1;padding-right: 3rem;box-sizing: border-box;">
     <h2 style="border-bottom: 0;margin-bottom: 0;padding-bottom: 0">To do</h2>
-    <div class="todo">
+    <div class="todo" style="font-size: 15px">
     {{{todo}}}
   </div>
   </section>
 
-  <section style="flex-basis:33.33333%;box-sizing:border-box">
-    <ol >
+  <section style="flex-basis:40%;box-sizing:border-box">
+    <ol>
       {{#days}}
       <li><strong>Done {{day}}</strong>
-      <ol>
+      <ol  style="font-size: 15px">
       {{#commits}}
       <li>
         <a href="https://github.com/davidmerfield/Blot/commit/{{hash}}">

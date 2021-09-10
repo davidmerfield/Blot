@@ -1,6 +1,6 @@
 var clone = require("./clone");
-var ensure = require("helper").ensure;
-var helper = require("helper");
+var ensure = require("helper/ensure");
+var makeSlug = require("helper/makeSlug");
 var makeID = require("./util/makeID");
 var client = require("client");
 var key = require("./key");
@@ -25,7 +25,7 @@ module.exports = function create(owner, name, metadata, callback) {
 
   // The slug cannot contain a slash, or it messes
   // up the routing middleware.
-  metadata.slug = metadata.slug || helper.makeSlug(name).slice(0, 30);
+  metadata.slug = metadata.slug || makeSlug(name).slice(0, 30);
   metadata.slug = metadata.slug.split("/").join("-");
 
   // Each template has an ID which is namespaced under its owner
@@ -38,6 +38,8 @@ module.exports = function create(owner, name, metadata, callback) {
   metadata.description = metadata.description || "";
   metadata.thumb = metadata.thumb || "";
   metadata.localEditing = metadata.localEditing === true;
+  metadata.previewPath = "/";
+  metadata.shareID = "";
 
   ensure(metadata, metadataModel);
 

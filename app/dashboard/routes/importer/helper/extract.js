@@ -1,14 +1,14 @@
 module.exports = function Extract($, el) {
-  return function(name, arr) {
+  return function (name, arr) {
     var result = [];
 
     var matches = $(el)
       .contents()
-      .filter(function() {
+      .filter(function () {
         return this.name === name;
       });
 
-    matches.each(function() {
+    matches.each(function () {
       var html = $(this).html();
 
       if (html.indexOf("<![CDATA[") === 0) {
@@ -22,7 +22,7 @@ module.exports = function Extract($, el) {
       result.push(html);
     });
 
-    result = result.filter(function(i) {
+    result = result.filter(function (i) {
       return !!i;
     });
 
@@ -48,11 +48,11 @@ var htmlEntities = {
   gt: ">",
   quot: '"',
   amp: "&",
-  apos: "'"
+  apos: "'",
 };
 
 function unescapeHTML(str) {
-  return str.replace(/\&([^;]+);/g, function(entity, entityCode) {
+  return str.replace(/\&([^;]+);/g, function (entity, entityCode) {
     var match;
 
     if (entityCode in htmlEntities) {

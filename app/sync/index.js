@@ -3,9 +3,8 @@ var Redlock = require("redlock");
 var buildFromFolder = require("template").buildFromFolder;
 var Blog = require("blog");
 var Update = require("./update");
-var helper = require("helper");
-var localPath = helper.localPath;
-var clfdate = helper.clfdate;
+var localPath = require("helper/localPath");
+var clfdate = require("helper/clfdate");
 var uuid = require("uuid/v4");
 var async = require("async");
 var renames = require("./renames");
@@ -36,7 +35,7 @@ exitHook(function (callback) {
 });
 
 function sync(blogID, options, callback) {
-  var redlock, resource, ttl, folder, now;
+  var redlock, resource, ttl, folder;
 
   if (typeof options === "function" && typeof callback === "undefined") {
     callback = options;
@@ -78,9 +77,20 @@ function sync(blogID, options, callback) {
       // so if it dies, we can unlock them all...
       locks[blogID] = lock;
 
+      var syncID = "sync_" + uuid().slice(0, 7);
+      var log = function () {
+        console.log.apply(null, [
+          clfdate(),
+          blogID.slice(0, 12),
+          syncID,
+          ...arguments,
+        ]);
+      };
+
       folder = {
         path: localPath(blogID, "/"),
-        update: new Update(blog),
+        update: new Update(blog, log),
+        log,
       };
 
       // Right now localPath returns a path with a trailing slash for some
@@ -92,12 +102,11 @@ function sync(blogID, options, callback) {
       // We acquired a lock on the resource!
       // This function is to be called when we are finished
       // with the lock on the user's folder.
-      syncID = "sync_" + uuid().slice(0, 7);
-      console.log(clfdate(), blogID, syncID, "Started");
+      folder.log("Started");
       client.publish("sync:status:" + blogID, "Sync started");
 
       callback(null, folder, function (syncError, callback) {
-        console.log(clfdate(), blogID, syncID, "Released");
+        folder.log("Released lock");
         client.publish("sync:status:" + blogID, "Sync complete");
 
         if (typeof syncError === "function")
@@ -128,7 +137,7 @@ function sync(blogID, options, callback) {
               Blog.set(blogID, { cacheID: Date.now() }, function (err) {
                 if (err) return callback(err);
 
-                console.log(clfdate(), blogID, syncID, "Finished");
+                folder.log("Finished");
                 callback(syncError);
               });
             });

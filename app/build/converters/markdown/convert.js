@@ -1,19 +1,15 @@
 var spawn = require("child_process").spawn;
 var indentation = require("./indentation");
 var footnotes = require("./footnotes");
-var helper = require("helper");
-var time = helper.time;
+var time = require("helper/time");
 var config = require("config");
-var pandoc_path = config.pandoc_path;
+var Pandoc = config.pandoc.bin;
 var debug = require("debug")("blot:converters:markdown");
-
-var bib = require("./bib");
-var csl = require("./csl");
 
 // insert a <br /> for each carriage return
 // '+hard_line_breaks' +
 
-module.exports = function(blog, text, callback) {
+module.exports = function (blog, text, options, callback) {
   var extensions =
     // replace url strings with a tags
     "+autolink_bare_uris" +
@@ -36,10 +32,16 @@ module.exports = function(blog, text, callback) {
 
   // This feature fucks with [@twitter]() links
   // perhaps make it an option in future?
-  if (!(bib(blog, text) || csl(blog, text)))
-    extensions += "-citations";
+  if (!(options.bib || options.csl)) extensions += "-citations";
 
   var args = [
+    // Limit the heap size for the pandoc process
+    // to prevent pandoc consuming all the system's
+    // memory in corner cases
+    "+RTS",
+    "-M" + config.pandoc.maxmemory,
+    "-RTS",
+
     "-f",
     "markdown" + extensions,
 
@@ -60,41 +62,53 @@ module.exports = function(blog, text, callback) {
     "--email-obfuscation=none",
   ];
 
-  if (bib(blog, text)) {
+  if (options.bib) {
     args.push("-M");
-    args.push("bibliography=" + bib(blog, text));
+    args.push("bibliography=" + options.bib);
   }
 
-  if (csl(blog, text)) {
+  if (options.csl) {
     args.push("-M");
-    args.push("csl=" + csl(blog, text));
+    args.push("csl=" + options.csl);
   }
 
-  if (bib(blog, text) || csl(blog, text)) {
+  if (options.bib || options.csl) {
     args.push("--citeproc");
   }
 
-  var pandoc = spawn(pandoc_path, args);
+  var startTime = Date.now();
+  var pandoc = spawn(Pandoc, args);
 
   var result = "";
   var error = "";
 
-  pandoc.stdout.on("data", function(data) {
+  pandoc.stdout.on("data", function (data) {
     result += data;
   });
 
-  pandoc.stderr.on("data", function(data) {
+  pandoc.stderr.on("data", function (data) {
     error += data;
   });
 
-  pandoc.on("close", function(code) {
+  setTimeout(function () {
+    pandoc.kill();
+  }, config.pandoc.timeout);
+
+  pandoc.on("close", function (code) {
     time.end("pandoc");
 
     var err = null;
 
     // This means something went wrong
     if (code !== 0) {
-      err = "Pandoc exited with code " + code;
+      err =
+        "Pandoc exited with code " +
+        code +
+        " in " +
+        (Date.now() - startTime) +
+        "ms (timeout=" +
+        config.pandoc.timeout +
+        "ms)";
       err += error;
       err = new Error(err);
     }

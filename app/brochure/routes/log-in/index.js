@@ -16,11 +16,11 @@ form.use(require("./rateLimit"));
 // Used to give context to the user when not logged in.
 // E.g. please log in to access the Services page
 var DASHBOARD_PAGE_DESCRIPTION = {
-  '/settings/services': 'access services',
-  '/settings/urls/redirects': 'set up redirects',
-  '/settings/services/404s': 'view 404s',
-  '/settings/services/permalinks': 'set the link format',
-  '/settings/links': 'edit the links'
+  "/settings/services": "access services",
+  "/settings/urls/redirects": "set up redirects",
+  "/settings/services/404s": "view 404s",
+  "/settings/services/permalinks": "set the link format",
+  "/settings/links": "edit the links",
 };
 
 form.use(function (req, res, next) {
@@ -44,11 +44,11 @@ form.use(function (req, res, next) {
 form
   .route("/reset")
 
-  .all(function(req, res, next){
+  .all(function (req, res, next) {
     res.locals.breadcrumbs = res.locals.breadcrumbs.slice(0, -1);
-    next()
+    next();
   })
-  
+
   .get(csrf, function (req, res) {
     res.locals.csrf = req.csrfToken();
     res.render("log-in/reset");

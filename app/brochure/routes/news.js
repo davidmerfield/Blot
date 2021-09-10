@@ -1,19 +1,17 @@
 var Express = require("express");
 var news = new Express.Router();
-var moment = require("moment");
-var exec = require("child_process").exec;
 var fs = require("fs-extra");
+var Email = require("helper/email");
 var marked = require("marked");
-var helper = require("helper");
 var parse = require("body-parser").urlencoded({ extended: false });
 var uuid = require("uuid/v4");
 var config = require("config");
 var client = require("client");
-
+var gitCommits = require("./tools/git-commits");
 var listKey = "newsletter:list";
 var TTL = 60 * 60 * 24; // 1 day in seconds
 
-news.get("/", loadDone, loadToDo, function (req, res) {
+news.get("/", gitCommits, loadToDo, function (req, res) {
   res.render("about/news");
 });
 
@@ -85,9 +83,7 @@ news.post("/cancel", parse, function (req, res, next) {
     client.setex(cancellationKey(guid), TTL, email, function (err) {
       if (err) return next(err);
 
-      helper.email.NEWSLETTER_CANCELLATION_CONFIRMATION(null, locals, function (
-        err
-      ) {
+      Email.NEWSLETTER_CANCELLATION_CONFIRMATION(null, locals, function (err) {
         if (err) return next(err);
 
         req.session.newsletter_email = email;
@@ -113,13 +109,9 @@ news.get("/cancel/:guid", function (req, res, next) {
       res.render("about/news/cancelled");
 
       if (removed) {
-        helper.email.NEWSLETTER_CANCELLATION_CONFIRMED(
-          null,
-          locals,
-          function () {
-            // Email confirmation sent
-          }
-        );
+        Email.NEWSLETTER_CANCELLATION_CONFIRMED(null, locals, function () {
+          // Email confirmation sent
+        });
       }
     });
   });
@@ -147,13 +139,9 @@ news.get("/confirm/:guid", function (req, res, next) {
       // link we send out a confirmation email, subsequent
       // clicks they just see the confirmation page.
       if (added) {
-        helper.email.NEWSLETTER_SUBSCRIPTION_CONFIRMED(
-          null,
-          locals,
-          function () {
-            // Email confirmation sent
-          }
-        );
+        Email.NEWSLETTER_SUBSCRIPTION_CONFIRMED(null, locals, function () {
+          // Email confirmation sent
+        });
       }
     });
   });
@@ -176,9 +164,7 @@ news.post("/sign-up", parse, function (req, res, next) {
   client.setex(confirmationKey(guid), TTL, email, function (err) {
     if (err) return next(err);
 
-    helper.email.NEWSLETTER_SUBSCRIPTION_CONFIRMATION(null, locals, function (
-      err
-    ) {
+    Email.NEWSLETTER_SUBSCRIPTION_CONFIRMATION(null, locals, function (err) {
       if (err) return next(err);
 
       req.session.newsletter_email = email;
@@ -207,113 +193,6 @@ function loadToDo(req, res, next) {
 
     res.locals.todo = $.html();
     return next();
-  });
-}
-
-// Ignores merge commits since they're not useful to readers
-// Ignores commits mentioning 'commit' since they're not useful to readers
-// Ignores commits to yml test file since there are so many of them
-// Ignores commits to todo file since there are so many of them
-// Ignores commits with links since they're ugly
-const bannedWords = ["merge", "typo", "commit", ".yml", "todo", "://"];
-const bannedWordsRegEx = new RegExp(bannedWords.join("|"), "i");
-
-// Adjust the tense of verbs in commit message
-const commitMessageMap = {
-  Adds: "Added",
-  Cleans: "Cleaned",
-  Changes: "Changed",
-  Fixes: "Fixed",
-  Finishes: "Finished",
-  Improves: "Improved",
-  Modifies: "Modified",
-  Removes: "Removed",
-  Tweaks: "Tweaked",
-  Updates: "Updated",
-};
-
-const commitMessageMapRegEx = new RegExp(
-  Object.keys(commitMessageMap).join("|"),
-  "g"
-);
-
-function loadDone(req, res, next) {
-  exec("git log -300", { cwd: helper.rootDir }, function (err, output) {
-    if (err) return next(err);
-
-    output = output.split("\n\n");
-
-    var commits = [];
-    var messageMap = {};
-
-    output.forEach(function (item, i) {
-      if (i % 2 === 0) {
-        var message = output[i + 1].trim();
-
-        message = message[0].toUpperCase() + message.slice(1);
-
-        if (bannedWordsRegEx.test(message)) return;
-
-        message = message.replace(commitMessageMapRegEx, function (matched) {
-          return commitMessageMap[matched];
-        });
-
-        // Before: Add removal of old backups (#393)
-        // After:  Add removal of old backups
-        if (message.indexOf("(#") > -1)
-          message = message.slice(0, message.indexOf("(#"));
-
-        // Prevent duplicate messages appearing on news page
-        if (messageMap[message]) return;
-        else messageMap[message] = true;
-
-        commits.push({
-          author: item
-            .slice(
-              item.indexOf("Author:") + "Author:".length,
-              item.indexOf("<")
-            )
-            .trim(),
-          date: new Date(
-            item.slice(item.indexOf("Date:") + "Date:".length).trim()
-          ),
-          hash: item
-            .slice(
-              item.indexOf("commit ") + "commit ".length,
-              item.indexOf("Author")
-            )
-            .trim(),
-          message: message.trim(),
-        });
-      }
-    });
-
-    const dateFormat = "MMM D, YYYY";
-    const today = moment().format(dateFormat);
-    const yesterday = moment().subtract(1, "days").format(dateFormat);
-    let days = [];
-
-    commits.forEach((commit) => {
-      commit.time = moment(commit.date).format(dateFormat);
-
-      if (commit.time === today) commit.time = "today";
-      else if (commit.time === yesterday) commit.time = "yesterday";
-      else commit.time = "on " + commit.time;
-
-      let currentday = days[days.length - 1];
-
-      if (currentday && currentday[0] && currentday[0].time === commit.time) {
-        currentday.push(commit);
-      } else {
-        days.push([commit]);
-      }
-    });
-
-    res.locals.days = days.map((commits) => {
-      return { day: commits[0].time, commits };
-    });
-
-    next();
   });
 }
 

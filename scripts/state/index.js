@@ -6,11 +6,25 @@ var moment = require("moment");
 var colors = require("colors/safe");
 
 if (require.main === module && !process.argv[2]) list(process.exit);
-else
-  require("./load")(process.argv[2], function(err) {
-    if (err) throw err;
-    process.exit();
+else {
+  var old_stdout_write = process.stdout.write;
+  var old_stderr_write = process.stderr.write;
+
+  process.stdout.write = function () {};
+  process.stderr.write = function () {};
+
+  require("./load")(process.argv[2], function (err) {
+    require("./info")(function (err, res) {
+      if (err) throw err;
+
+      process.stdout.write = old_stdout_write;
+      process.stderr.write = old_stderr_write;
+
+      console.log(res);
+      process.exit();
+    });
   });
+}
 
 function list(callback) {
   console.log(colors.dim("Help:"));
@@ -35,13 +49,13 @@ function list(callback) {
   console.log("Local:");
 
   fs.readdirSync(directory)
-    .filter(function(i) {
+    .filter(function (i) {
       return (
         i.indexOf("production-") === -1 &&
         fs.statSync(directory + "/" + i).isDirectory()
       );
     })
-    .map(function(dir) {
+    .map(function (dir) {
       var message = "";
       message += colors.yellow(dir);
 
@@ -62,13 +76,13 @@ function list(callback) {
   console.log();
   console.log("Production database dumps:");
   fs.readdirSync(directory)
-    .filter(function(i) {
+    .filter(function (i) {
       return (
         i.indexOf("production-") === 0 &&
         fs.statSync(directory + "/" + i).isDirectory()
       );
     })
-    .map(function(dir) {
+    .map(function (dir) {
       var message = "";
 
       message += colors.yellow(dir);

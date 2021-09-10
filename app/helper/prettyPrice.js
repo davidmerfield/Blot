@@ -10,7 +10,7 @@ function prettyPrice(cents) {
   return "$" + price;
 }
 
-var is = require("./is")(prettyPrice);
+var is = require("./_is")(prettyPrice);
 
 is(2134, "$21.34");
 is(2000, "$20");

@@ -2,13 +2,14 @@ const async = require("async");
 const fs = require("fs-extra");
 const config = require("config");
 const cluster = require("cluster");
-const clfdate = require("helper").clfdate;
+const clfdate = require("helper/clfdate");
 
 if (cluster.isMaster) {
   const NUMBER_OF_CORES = require("os").cpus().length;
   const NUMBER_OF_WORKERS =
     NUMBER_OF_CORES > 4 ? Math.round(NUMBER_OF_CORES / 2) : 2;
   const scheduler = require("./scheduler");
+  const publishScheduledEntries = require("./scheduler/publish-scheduled-entries");
 
   console.log(
     clfdate(),
@@ -30,6 +31,12 @@ if (cluster.isMaster) {
     if (worker.exitedAfterDisconnect === false) {
       console.log(clfdate(), "Worker died unexpectedly, starting a new one");
       cluster.fork();
+      // worker processes can have scheduled tasks to publish
+      // scheduled entries in future – if the worker dies it's
+      // important the master process instead schedules the task
+      // todo: make it so that workers can ask the master
+      // process to deal with publication scheduling...
+      publishScheduledEntries();
     }
   });
 
@@ -82,6 +89,12 @@ if (cluster.isMaster) {
       },
       function () {
         console.log(clfdate(), `Replaced all workers`);
+        // worker processes can have scheduled tasks to publish
+        // scheduled entries in future – if the worker dies it's
+        // important the master process instead schedules the task
+        // todo: make it so that workers can ask the master
+        // process to deal with publication scheduling...
+        publishScheduledEntries();
       }
     );
   });

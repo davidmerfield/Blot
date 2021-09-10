@@ -8,7 +8,7 @@ var debug = require("debug")("blot:clients:local:disconnect");
 module.exports = function disconnect(blogID, callback) {
   debug("Blog", blogID, "Disconnecting local client");
 
-  Folder.unset(blogID, function(err) {
+  Folder.unset(blogID, function (err) {
     if (err) return callback(err);
     // Right now it is neccessary to set the client
     // property of the blog to an empty string. Eventually

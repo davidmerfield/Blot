@@ -1,9 +1,8 @@
-	<div style="margin:1rem;background: #fff">
 		<h2>{{label}}</h2>
 <form method="post" id="form{{key}}">
 
 
-	<select id="locals.{{key}}.id" name="locals.{{key}}.id" style="width:257px;font-size:1rem;margin: 16px 16px 8px;">
+	<select id="locals.{{key}}.id" name="locals.{{key}}.id" style="width:280px;font-size:1rem;margin: 16px 16px 8px;">
 		<option value="---">---</option>
 		{{#options}}
 		<option {{selected}} value="{{{id}}}">{{{name}}}</option>
@@ -15,7 +14,7 @@
 <div style="display: flex;font-size: 14px;padding-bottom: 16px">
 	<div>
 	<div style="display: flex;align-items: center;">
-	<label for="locals.{{key}}.font_size" style="flex-basis:110px;flex-grow:0;padding:0 0 0 16px">Font size</label><br />
+	<label for="locals.{{key}}.font_size" style="flex-basis:110px;flex-grow:0;padding:0 0 0 16px">Font size:</label><br>
 
 	<div style="flex-basis: 50%;;margin-right: 16px">
 	<input
@@ -38,7 +37,7 @@
 </div>
 	<div style="display: flex;align-items: center;">
 
-	<label for="locals.{{key}}.line_height" style="flex-basis:110px;flex-grow:0;padding:0 0 0 16px">Line height</label><br />
+	<label for="locals.{{key}}.line_height" style="flex-basis:110px;flex-grow:0;padding:0 0 0 16px">Line height:</label><br>
 
 	<div style="flex-basis: 50%;margin-right: 16px">
 	<input
@@ -60,7 +59,6 @@
 </div>
 
 </div>
-
 </form>
 <script type="text/javascript">
 
@@ -114,4 +112,3 @@
 
 </script>
 	</div>
-</div>

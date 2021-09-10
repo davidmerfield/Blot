@@ -1,6 +1,5 @@
 var url = require("url");
 var eachEl = require("build/plugins/eachEl");
-var punycode = require("punycode");
 
 var Players = {
   bandcamp: {
@@ -27,7 +26,7 @@ function render($, callback) {
   eachEl(
     $,
     "a",
-    function(el, next) {
+    function (el, next) {
       var href = $(el).attr("href");
       var hostname;
 
@@ -77,22 +76,16 @@ function render($, callback) {
     if (
       $(el).parent().length &&
       $(el).parent()[0].name === "p" &&
-      $(el)
-        .parent()
-        .text() !== href
+      $(el).parent().text() !== href
     ) {
-      $(el)
-        .parent()
-        .after(template);
+      $(el).parent().after(template);
       $(el).replaceWith("");
 
       // If the link has a parent which doesn't
       // have other child nodes, then replace the
       // entire parent with the template
     } else if ($(el).parent().length) {
-      $(el)
-        .parent()
-        .replaceWith(template);
+      $(el).parent().replaceWith(template);
 
       // if the link is the rootnode (rare but possible)
       // then simply replace the link with the iframe...
@@ -108,5 +101,5 @@ module.exports = {
   render: render,
   category: "external",
   title: "Videos",
-  description: "Embed videos from video/audio URLs"
+  description: "Embed videos from video/audio URLs",
 };

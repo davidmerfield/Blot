@@ -5,7 +5,7 @@ var fs = require("fs-extra");
 var SOURCES = require("./sources.json");
 
 function fetch_source(host) {
-  request("http://" + host, function(err, res, body) {
+  request("http://" + host, function (err, res, body) {
     if (err || !body) {
       console.log("HOST", host);
       return;
@@ -19,30 +19,24 @@ function fetch_source(host) {
     fs.outputJsonSync(__dirname + "/sources.json", SOURCES, { spaces: 2 });
   });
 }
-module.exports = function($) {
-  $("figure, figcaption, figure img").each(function(i, el) {
+module.exports = function ($) {
+  $("figure, figcaption, figure img").each(function (i, el) {
     $(el).removeAttr("class");
   });
 
-  $("figure").each(function(i, el) {
+  $("figure").each(function (i, el) {
     $(el).replaceWith(pretty($.html(el)));
   });
 
-  $("figure img").each(function(i, el) {
+  $("figure img").each(function (i, el) {
     $(el).removeAttr("width");
     $(el).removeAttr("height");
   });
 
-  $("figcaption a").each(function(i, el) {
+  $("figcaption a").each(function (i, el) {
     // console.log('BEFORE:', parent.text().split('\n').join(''));
 
-    if (
-      $(el)
-        .text()
-        .toLowerCase()
-        .indexOf("source") === -1
-    )
-      return;
+    if ($(el).text().toLowerCase().indexOf("source") === -1) return;
 
     var host = $(el).attr("href");
 

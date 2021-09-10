@@ -68,7 +68,10 @@
 
 
   <div class="clear"></div>
+
+  {{^edit}}
   {{#footer}}
+
   <script src="/scripts/jquery.js?{{cacheID}}"></script>
   <script src="/scripts/sortable.js?{{cacheID}}"></script>
   <script type="text/javascript">
@@ -157,11 +160,41 @@ if (newRedirect) {
   createRedirect(newRedirect);
 }
 
+  
 
-  $('#toggleTextarea').click(function () {
-    $('#stage').append($('#backstage').children().first());
-    $('#backstage').append($('#stage').children().first());
+</script>
+{{/footer}}
+{{/edit}}
+
+{{#edit}}
+{{#footer}}
+<script src="/scripts/jquery.js?{{cacheID}}"></script>
+<script type="text/javascript">
+  $('button').attr('onclick', '');
+$('form[action="/settings"]').submit(function(event) {
+
+
+    var redirects = $('textarea').val().trim();
+    
+    console.log(redirects)
+
+    redirects.split('\n').forEach(function(line, index){
+
+      let from = line.split(' ')[0];
+      let to = line.split(' ')[1];
+      
+      $('form[action="/settings"]').append(`
+    <input class="lab" placeholder="from" type="text" name="redirects.${index}.from" value="${from}"/>
+    <input class="val" placeholder="to" type="text" name="redirects.${index}.to" value="${to}"/>`)
+      });
+    
+
+      $('textarea').remove();
+
+    // return false;
+
   });
 
 </script>
 {{/footer}}
+  {{/edit}}

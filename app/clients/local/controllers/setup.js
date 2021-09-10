@@ -7,37 +7,57 @@ var watch = require("./watch");
 var walk = require("./util/walk");
 var hash = require("./util/hash");
 var config = require("config");
+var client = require("redis").createClient();
+var clfdate = require("helper/clfdate");
+
+// This communication channel allows us to load in and out
+// new blogs in external scripts. We send a message to this
+// channel in scripts/load/info.js
+var CHANNEL = "clients:local:new-folder";
+console.log(clfdate(), "Listening for new local folder clients");
+client.subscribe(CHANNEL);
+client.on("message", function (channel, message) {
+  if (channel !== CHANNEL) return;
+  let { blogID, folder } = JSON.parse(message);
+  setup(blogID, folder, function (err) {
+    if (err) console.error(err);
+  });
+});
 
 // Start listening for all blogs with this client
 if (config.environment === "development") {
-  Folder.list(function(err, blogIDs) {
+  Folder.list(function (err, blogIDs) {
     if (err) console.error(err);
-    blogIDs.forEach(function(blogID) {
-      Folder.get(blogID, function(err, folder) {
-        if (err) console.error(err);
-        if (!folder) return;
-
-        if (!fs.existsSync(folder)) return;
-
-        watch(blogID, folder);
-
-        synchronize(blogID, folder, function(err) {
-          if (err) console.error(err);
-        });
-      });
-    });
+    blogIDs.forEach(init);
   });
 }
 
+function init(blogID) {
+  console.log(clfdate(), "Blog:", blogID, "Setting up local client");
+  Folder.get(blogID, function (err, folder) {
+    if (err) console.error(err);
+    if (!folder) return;
+    if (!fs.existsSync(folder)) return;
+
+    console.log(clfdate(), "Blog:", blogID, "Watching", folder);
+    watch(blogID, folder);
+
+    console.log(clfdate(), "Blog:", blogID, "Synchronizing", folder);
+    synchronize(blogID, folder, function (err) {
+      if (err) console.error(err);
+      console.log(clfdate(), "Blog:", blogID, "Set up local client");
+    });
+  });
+}
 function setup(blogID, folder, callback) {
   debug("Setting up local client in", folder);
-  fs.ensureDir(folder, function(err) {
+  fs.ensureDir(folder, function (err) {
     if (err) return callback(err);
     debug("Storing folder for", blogID, "in database");
-    Folder.set(blogID, folder, function(err) {
+    Folder.set(blogID, folder, function (err) {
       if (err) return callback(err);
       debug("Synchronizing source folder with Blot");
-      synchronize(blogID, folder, function(err) {
+      synchronize(blogID, folder, function (err) {
         if (err) return callback(err);
 
         if (config.environment === "development") {
@@ -68,15 +88,15 @@ function synchronize(blogID, sourceFolder, callback) {
   // We don't want to make any changes to the folder in
   // a way which might conflict with other processes
   // so we acquire a lock on the blog's folder on Blot.
-  Sync(blogID, {}, function(err, folder, done) {
+  Sync(blogID, {}, function (err, folder, done) {
     if (err) return callback(err);
 
     try {
-      walk(sourceFolder).forEach(function(path) {
+      walk(sourceFolder).forEach(function (path) {
         sourceFolderTree[path.slice(sourceFolder.length)] = hash(path);
       });
 
-      walk(folder.path).forEach(function(path) {
+      walk(folder.path).forEach(function (path) {
         blotFolderTree[path.slice(folder.path.length)] = hash(path);
       });
     } catch (e) {
@@ -103,7 +123,7 @@ function synchronize(blogID, sourceFolder, callback) {
 
     // We tell Blot to update what it has stored in its database
     // about the files or folders at the paths we modified.
-    async.each(updatedPaths, folder.update, function(err) {
+    async.each(updatedPaths, folder.update, function (err) {
       done(err, callback);
     });
   });

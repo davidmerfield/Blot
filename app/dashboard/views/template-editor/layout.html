@@ -18,6 +18,7 @@
 			body {
 				margin: 0;
 				padding: 0;
+				background: #000;
 			}
 
 			.CodeMirror {
@@ -57,6 +58,26 @@
 				padding: 0.5rem 1rem;
 				font-size: 14px;
 			}
+			h1 {background: #000;
+    color: #fff;
+    font-size: 16px;
+    white-space: nowrap;
+    flex-grow: 1;
+    position: relative;
+    overflow: hidden;}
+
+			h1:after {
+    content: " ";
+    width: 30px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+270deg
+, black, black, transparent);
+}
+
 			.box-button {
 				background: rgba(0, 0, 0, 0.1);
 				color: inherit;
@@ -69,7 +90,14 @@
 				margin: 0;
 				color: #ccc;
 			}
-
+			h2 {
+font-size: 12px;
+    font-weight: 500;
+    color: #666;
+    padding-bottom: 0;
+    padding-top: 1rem;
+    border-bottom: 1px solid #ddd;
+}
 			.box-button.tab {
 				border-bottom: 1px solid #ccc;
 			}
@@ -85,23 +113,32 @@
 	<body>
 		<div style="display:flex;min-height:100vh;">
 			<div
-				style="width: 20rem;flex-shrink:0;display: flex;flex-direction: column;background: #f2f2f2;border-right:5px solid #ccc;"
+				style="width: 20rem;flex-shrink:0;display: flex;flex-direction: column;background: #f2f2f2;;"
 			>
-				<div style="flex-grow: 1">
+				<div style="flex-grow: 1;max-height: 100vh;overflow: scroll;">
 					<div style="display: flex;align-items: baseline;overflow: hidden;">
 						<a
 							class="box-button"
-							style="background: #3d3d3d;color: #ccc"
+							style="background: #000;font-size:14px;color: #aaa;flex-basis: 50%"
 							href="/settings/template"
-							>✕</a
+							>← All templates</a
 						>
-						<h1 style="background: #222;color: #fff;white-space: nowrap;flex-grow: 1">
+												<a
+							class="box-button"
+							style="background: #000;font-size:14px;text-align:right;color: #aaa;flex-basis: 50%"
+							href="{{{preview}}}" target="_blank">Preview ↗</a>
+
+					</div>
+					<div>
+
+						<h1 >
 							{{template.name}}
 						</h1>
 					</div>
+					
 					<div style="display: flex">
 						<a
-							class="box-button tab {{selected.settings}}"
+							class="box-button tab {{selected.settings}} {{selected.rename}} {{selected.delete}} {{selected.local-editing}}"
 							style="flex-basis: 50%;"
 							href="{{{base}}}/settings"
 							>Settings</a
@@ -115,12 +152,6 @@
 					</div>
 
 					{{> sidebar}}
-				</div>
-				<hr />
-				<hr />
-				<div style="padding:1rem">
-				<a style="font-size:14px;color:#666;text-decoration: none;display: block;" href="/support">Contact support</a>
-				<a style="font-size:14px;color:#666;text-decoration: none;display: block;" href="/developers">Developer documentation</a>					
 				</div>
 			</div>
 

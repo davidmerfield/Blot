@@ -27,7 +27,7 @@ function refreshToken(user_id, callback) {
 
   debug("User:", user_id, "Refreshing token");
 
-  client.set(tokenKey(user_id), new_token, function(err) {
+  client.set(tokenKey(user_id), new_token, function (err) {
     if (err) return callback(err);
 
     debug("User:", user_id, "Set token successfully");
@@ -39,7 +39,7 @@ function refreshToken(user_id, callback) {
 function checkToken(user_id, token, callback) {
   debug("User:", user_id, "Checking token", token);
 
-  getToken(user_id, function(err, valid_token) {
+  getToken(user_id, function (err, valid_token) {
     if (err) return callback(err);
 
     return callback(null, token === valid_token);

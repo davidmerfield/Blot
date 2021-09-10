@@ -14,7 +14,13 @@ module.exports = function (metadata, html) {
 
   $("img").each(function () {
     var src = $(this).attr("src");
+
+    // The img lacks an src attribute – it happens!
+    if (!src) return;
+
+    // We've already added this image as a candidate
     if (candidates.indexOf(src) > -1) return;
+
     candidates.push(src);
   });
 

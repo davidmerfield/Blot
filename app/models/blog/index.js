@@ -11,5 +11,5 @@ module.exports = {
   serial: require("./serial"),
   set: require("./set"),
   url: require("./url"),
-  validate: require("./validate")
+  validate: require("./validate"),
 };

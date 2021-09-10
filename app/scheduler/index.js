@@ -1,25 +1,77 @@
-var Entries = require("entries");
-var Entry = require("entry");
 var User = require("user");
 var async = require("async");
-var Blog = require("blog");
 var backup = require("./backup");
 var dailyUpdate = require("./daily");
-var helper = require("helper");
-var email = helper.email;
-var clfdate = require("helper").clfdate;
+var email = require("helper/email");
+var clfdate = require("helper/clfdate");
 var warmCache = require("./warmCache");
 var schedule = require("node-schedule").scheduleJob;
 var checkFeatuedSites = require("../brochure/routes/featured/check");
+var config = require("config");
+var publishScheduledEntries = require("./publish-scheduled-entries");
+const os = require("os");
+const fs = require("fs-extra");
+const exec = require("child_process").exec;
 
 module.exports = function () {
+  // Log useful system information, once per minute
+  schedule("* * * * *", function () {
+    // Print most memory-intensive processes
+    exec("ps -eo pmem,pcpu,comm,args | sort -k 1 -nr | head -10", function (
+      err,
+      stdout
+    ) {
+      if (err || !stdout) return;
+
+      if (config.environment === "development") {
+        // this is annoying in development
+      } else {
+        console.log(clfdate(), "[STATS]", "top");
+        console.log(stdout);
+      }
+    });
+
+    // Print cpu and memory information
+    fs.readFile("/proc/meminfo", "utf-8", function (err, contents) {
+      // This won't work on MacOS
+      if (err || !contents) return;
+
+      let stats = {};
+
+      contents
+        .trim()
+        .split("\n")
+        .forEach((line) => {
+          stats[line.split(":")[0].trim()] = parseInt(
+            line.split(":")[1].trim()
+          );
+        });
+
+      let loadavg = os.loadavg()[0];
+      let totalCPUs = os.cpus().length;
+      let totalmem = stats.MemTotal;
+      let freemem = stats.MemAvailable;
+      let pretty = (num) => (100 * num).toFixed(3) + "%";
+
+      console.log(
+        clfdate(),
+        "[STATS]",
+        "cpuuse=" + pretty(loadavg / totalCPUs),
+        "memuse=" + pretty((totalmem - freemem) / totalmem)
+      );
+    });
+  });
+
   // Bash the cache for scheduled posts
-  cacheScheduler(function (stat) {
-    console.log(clfdate(), stat);
+  publishScheduledEntries(function (err) {
+    if (err) throw err;
+    console.log(clfdate(), "Scheduled entries for future publication");
   });
 
   // Warm the cache for the brochure site
-  warmCache(function (err) {});
+  warmCache(function (err) {
+    if (err) throw err;
+  });
 
   // Warn users about impending subscriptions
   User.getAllIds(function (err, uids) {
@@ -39,7 +91,7 @@ module.exports = function () {
   schedule({ hour: 10, minute: 0 }, function () {
     console.log(clfdate(), "Scheduler: Checking available disk space");
 
-    require("child_process").exec("df -h", function (err, stdout) {
+    exec("df -h", function (err, stdout) {
       if (err) throw err;
 
       var disk = stdout.split("\n")[1].replace(/\s+/g, " ").split(" ");
@@ -93,7 +145,7 @@ module.exports = function () {
     console.log(clfdate(), "Checking featured sites");
     checkFeatuedSites(function (err) {
       if (err) {
-        console.log(clfdate(), "Error: Checking featured sites".err);
+        console.log(clfdate(), "Error: Checking featured sites", err);
       } else {
         console.log(clfdate(), "Checked featured sites");
       }
@@ -109,33 +161,3 @@ module.exports = function () {
     });
   });
 };
-
-function cacheScheduler(callback) {
-  var totalScheduled = 0;
-
-  Blog.getAllIDs(function (err, blogIDs) {
-    async.each(
-      blogIDs,
-      function (blogID, nextBlog) {
-        Entries.get(blogID, { lists: ["scheduled"] }, function (err, list) {
-          async.each(
-            list.scheduled,
-            function (futureEntry, nextEntry) {
-              totalScheduled++;
-
-              // Saving empty updates will call the entry scheduler
-              // and ensure the entry is rebuilt again in future
-              Entry.set(blogID, futureEntry.path, {}, nextEntry);
-            },
-            function () {
-              nextBlog();
-            }
-          );
-        });
-      },
-      function () {
-        callback("Scheduled " + totalScheduled + " posts to clear the cache.");
-      }
-    );
-  });
-}

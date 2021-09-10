@@ -1,9 +1,8 @@
 var debug = require("debug")("blot:clients:dropbox:remove");
 var createClient = require("./util/createClient");
-var database = require("./database");
 var join = require("path").join;
 var fs = require("fs-extra");
-var localPath = require("helper").localPath;
+var localPath = require("helper/localPath");
 var retry = require("./util/retry");
 var waitForErrorTimeout = require("./util/waitForErrorTimeout");
 
@@ -13,12 +12,11 @@ var waitForErrorTimeout = require("./util/waitForErrorTimeout");
 // if we fail to remove the file from Dropbox, then we do not
 // remove the file from Blot's folder for this blog.
 function remove(blogID, path, callback) {
-  var client, pathOnDropbox, pathOnBlot;
+  var pathOnDropbox, pathOnBlot;
 
   debug("Blog:", blogID, "Removing", path);
 
-  database.get(blogID, function(err, account) {
-    client = createClient(account.access_token);
+  createClient(blogID, function (err, client, account) {
     pathOnDropbox = join(account.folder || "/", path);
 
     // We must lowercase this since localPath no longer
@@ -28,14 +26,14 @@ function remove(blogID, path, callback) {
 
     client
       .filesDelete({
-        path: pathOnDropbox
+        path: pathOnDropbox,
       })
 
       // Respect any delay Dropbox would like before
       // potentially retry and requests
       .catch(waitForErrorTimeout)
 
-      .catch(function(err) {
+      .catch(function (err) {
         // This means that error is something other
         // than the file not existing. HTTP 409 means
         // 'CONFLICT' but typically this means that
@@ -45,13 +43,13 @@ function remove(blogID, path, callback) {
         // The file did not exist, no big deal
         return Promise.resolve();
       })
-      .then(function() {
+      .then(function () {
         return fs.remove(pathOnBlot);
       })
-      .then(function() {
+      .then(function () {
         callback(null);
       })
-      .catch(function(err) {
+      .catch(function (err) {
         callback(err);
       });
   });

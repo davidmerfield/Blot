@@ -1,0 +1,36 @@
+Spring newsletter
+
+*You received this email because you subscribed to [Blot’s newsletter](https://blot.im/about/news). You can [unsubscribe](https://blot.im/about/news/cancel) if you like. Please reply directly to this email if you have any thoughts or questions.*
+
+**New features**
+- The [question and answer](https://blot.im/questions) forum is now open to everyone who uses Blot. It should become a useful resource and perhaps one day, a way to interact with others who use Blot. [Rakhim](https://rakhim.org/) worked on this and I’m proud of the result.
+- You can now use *punycode* domains with Blot.
+- We added [Cloudflare web analytics](https://www.cloudflare.com/web-analytics/) to the selection of analytics services on your dashboard.
+- You can now set up [redirects to external URLs](https://blot.im/settings/services/redirects).
+- Added an option to format all post headings in *Title Case* to [the services page](https://blot.im/settings/services) of your dashboard. 
+
+**Changes**
+- Improved the reliability of the server – now we can deploy changes to Blot’s code without dropping a single request to your site. 
+- Updated the tools Blot depends on to patch any known security vulnerabilities.
+- Tweaked the design of the documentation and the dashboard, per tradition.
+
+**Bugs fixed**
+- Fixed a bug [with tag folders](https://blot.im/how/metadata#set-tags-using-your-folder) and the Dropbox client. Previously a file in a Dropbox folder called *\[Apple\]* would have been tagged *apple*, now it is tagged *Apple*.
+- The markdown converter now correctly handles ampersands – previously they were incorrectly encoded twice under particular conditions. 
+- Fixed the [bulk redirect editor](https://blot.im/settings/services/redirects) on your dashboard.
+- Fixed a number of broken URLs on the public site.
+
+**Mistakes**
+
+There were [no major downtime incidents](https://status.blot.im/) this season, everything ran fairly smoothly. There were brief and intermittent periods of unresponsiveness which I intend to resolve as soon as possible.
+
+**Plans for this season**
+
+- Begin collecting proper measurements for page-rendering speed on the server. This will help us identify ways to improve the speed of your site.
+- Add support for \[\[Wikilinks\]\]. This will make Blot an effective companion for tools like [Obsidian](https://obsidian.md/).
+- Work on the templates, particularly the underlying template engine.
+- Finally release the Google Drive client.
+
+If you have any thoughts or questions about any of this, please don’t hesitate to reply directly to this email.
+
+Sincerely, David

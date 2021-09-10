@@ -1,12 +1,8 @@
-var helper = require("helper");
-var firstSentence = helper.firstSentence;
-var titlify = require('./titlify');
+var firstSentence = require("helper/firstSentence");
+var titlify = require("./titlify");
 
 function tidy(str) {
-  return str
-    .split("  ")
-    .join(" ")
-    .trim();
+  return str.split("  ").join(" ").trim();
 }
 
 // Preferred order of title nodes
@@ -20,9 +16,7 @@ function extractTitle($, path) {
   var tag = "";
   var title = "";
 
-  $.root()
-    .children()
-    .each(find);
+  $.root().children().each(find);
 
   function find(i, node) {
     // We only look for a title in the first three top level nodes
@@ -37,9 +31,7 @@ function extractTitle($, path) {
     if (titleNode.name === "h1") return false;
 
     // We need to recurse down each child...
-    $(node)
-      .children()
-      .each(find);
+    $(node).children().each(find);
   }
 
   // We found a title tag
@@ -50,19 +42,8 @@ function extractTitle($, path) {
       $(titleNode).remove();
       tag = $.html($(titleNode));
     }
-  } else if (
-    $.root()
-      .children()
-      .first()
-  ) {
-    title = tidy(
-      firstSentence(
-        $.root()
-          .children()
-          .first()
-          .text()
-      )
-    );
+  } else if ($.root().children().first()) {
+    title = tidy(firstSentence($.root().children().first().text()));
   }
 
   var body = $.html();
@@ -72,7 +53,7 @@ function extractTitle($, path) {
   return {
     title: title,
     tag: tag,
-    body: body
+    body: body,
   };
 }
 

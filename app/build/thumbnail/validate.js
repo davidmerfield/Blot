@@ -16,11 +16,11 @@ var debug = require("debug")("blot:entry:build:thumbnail:validate");
 // or that still needs to be fixed. I should investigate.
 sharp.cache(false);
 
-module.exports = function(path, callback) {
+module.exports = function (path, callback) {
   var format, width, height;
 
   debug(path);
-  sharp(path).metadata(function(err, info) {
+  sharp(path).metadata(function (err, info) {
     if (err) return callback(err);
 
     if (!info) {

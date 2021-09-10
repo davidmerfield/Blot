@@ -1,28 +1,25 @@
-var helper = require("helper");
 var normalize = require("models/tags").normalize;
-var type = helper.type;
+var type = require("helper/type");
 
 var moment = require("moment");
 require("moment-timezone");
 
-module.exports = function(req, res) {
+module.exports = function (req, res) {
   var blog = req.blog;
 
-  // res.locals.hide_date
-  var hideDate = blog.hideDates || false;
-  var dateDisplay = blog.dateDisplay;
+  // Can be either inherited from the properties of the blog
+  // or from the template, or from the view
+  var hideDate = res.locals.hide_dates || false;
+  var dateDisplay = res.locals.date_display || "MMMM D, Y";
 
-  return function(entry) {
+  return function (entry) {
     entry.formatDate = FormatDate(entry.dateStamp, req.blog.timeZone);
     entry.formatUpdated = FormatDate(entry.updated, req.blog.timeZone);
     entry.formatCreated = FormatDate(entry.created, req.blog.timeZone);
-    
+
     entry.absoluteURL =
       req.blog.locals.blogURL +
-      entry.url
-        .split("/")
-        .map(encodeURIComponent)
-        .join("/");
+      entry.url.split("/").map(encodeURIComponent).join("/");
 
     var tags = [];
     var tagged = {};
@@ -58,7 +55,7 @@ module.exports = function(req, res) {
         tag: tag,
         slug: slug,
         first: i === 0,
-        last: i === totalTags - 1
+        last: i === totalTags - 1,
       });
     }
 
@@ -80,6 +77,8 @@ module.exports = function(req, res) {
         .utc(entry.dateStamp)
         .tz(blog.timeZone)
         .format(dateDisplay);
+    } else {
+      delete entry.date;
     }
 
     return entry;
@@ -87,14 +86,11 @@ module.exports = function(req, res) {
 };
 
 function FormatDate(dateStamp, zone) {
-  return function() {
-    return function(text, render) {
+  return function () {
+    return function (text, render) {
       try {
         text = text.trim();
-        text = moment
-          .utc(dateStamp)
-          .tz(zone)
-          .format(text);
+        text = moment.utc(dateStamp).tz(zone).format(text);
       } catch (e) {
         text = "";
       }

@@ -2,7 +2,6 @@ var create = require("models/template/index").create;
 var getTemplateList = require("models/template/index").getTemplateList;
 var setupLocalClient = require("clients/local/controllers/setup");
 var setView = require("models/template/index").setView;
-var helper = require("helper");
 var Blog = require("blog");
 
 module.exports = function setup(options) {
@@ -12,19 +11,19 @@ module.exports = function setup(options) {
   global.test.blog();
 
   // Expose methods for creating fake files, paths, etc.
-  beforeEach(function() {
+  beforeEach(function () {
     this.fake = global.test.fake;
   });
 
   // Create a test template
   if (options.createTemplate) {
-    beforeEach(function(done) {
+    beforeEach(function (done) {
       var test = this;
       var name = test.fake.random.word();
-      create(test.blog.id, name, {}, function(err) {
+      create(test.blog.id, name, {}, function (err) {
         if (err) return done(err);
-        getTemplateList(test.blog.id, function(err, templates) {
-          test.template = templates.filter(function(template) {
+        getTemplateList(test.blog.id, function (err, templates) {
+          test.template = templates.filter(function (template) {
             return template.name === name;
           })[0];
           done();
@@ -35,14 +34,14 @@ module.exports = function setup(options) {
 
   // Create a test view
   if (options.createView) {
-    beforeEach(function(done) {
+    beforeEach(function (done) {
       var test = this;
       var view = {
         name: test.fake.random.word(),
         url: "/" + test.fake.random.word(),
-        content: test.fake.random.word()
+        content: test.fake.random.word(),
       };
-      setView(test.template.id, view, function(err) {
+      setView(test.template.id, view, function (err) {
         if (err) return done(err);
         test.view = view;
         done();

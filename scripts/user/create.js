@@ -8,10 +8,10 @@ if (require.main === module) {
   var password = process.argv[3];
 
   if (password) {
-    User.hashPassword(password, function(err, passwordHash) {
+    User.hashPassword(password, function (err, passwordHash) {
       if (err) throw err;
 
-      User.create(email, passwordHash, subscription, function(err) {
+      User.create(email, passwordHash, subscription, function (err) {
         if (err) throw err;
 
         console.log("Created user", email);
@@ -19,7 +19,7 @@ if (require.main === module) {
       });
     });
   } else {
-    generateLink(email, function(err) {
+    generateLink(email, function (err) {
       if (err) throw err;
 
       process.exit();
@@ -28,7 +28,7 @@ if (require.main === module) {
 }
 
 function generateLink(email, callback) {
-  User.generateAccessToken(email, function(err, token) {
+  User.generateAccessToken(email, function (err, token) {
     if (err) throw err;
 
     // The full one-time log-in link to be sent to the user
@@ -37,8 +37,8 @@ function generateLink(email, callback) {
       host: config.host,
       pathname: "/sign-up",
       query: {
-        already_paid: token
-      }
+        already_paid: token,
+      },
     });
 
     console.log("Use this link to create an account for:", email);

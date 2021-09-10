@@ -15,7 +15,7 @@ module.exports = function write(blogID, path, contents, callback) {
     Buffer.byteLength(contents, "utf8") + " bytes to",
     path
   );
-  Folder.get(blogID, function(err, folder) {
+  Folder.get(blogID, function (err, folder) {
     if (err) return callback(err);
     debug("Blog", blogID, "Directory to write path inside:", folder);
     fs.outputFile(join(folder, path), contents, callback);

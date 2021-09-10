@@ -30,11 +30,11 @@ exports.maxObjectCount = 32768;
 var EPOCH = 978307200000;
 
 // UID object definition
-var UID = (exports.UID = function(id) {
+var UID = (exports.UID = function (id) {
   this.UID = id;
 });
 
-var parseFile = (exports.parseFile = function(fileNameOrBuffer, callback) {
+var parseFile = (exports.parseFile = function (fileNameOrBuffer, callback) {
   function tryParseBuffer(buffer) {
     var err = null;
     var result;
@@ -49,7 +49,7 @@ var parseFile = (exports.parseFile = function(fileNameOrBuffer, callback) {
   if (Buffer.isBuffer(fileNameOrBuffer)) {
     return tryParseBuffer(fileNameOrBuffer);
   } else {
-    fs.readFile(fileNameOrBuffer, function(err, data) {
+    fs.readFile(fileNameOrBuffer, function (err, data) {
       if (err) {
         return callback(err);
       }
@@ -58,7 +58,7 @@ var parseFile = (exports.parseFile = function(fileNameOrBuffer, callback) {
   }
 });
 
-var parseBuffer = (exports.parseBuffer = function(buffer) {
+var parseBuffer = (exports.parseBuffer = function (buffer) {
   var result = {};
 
   // check header

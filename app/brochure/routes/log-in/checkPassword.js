@@ -15,7 +15,7 @@ module.exports = function checkPassword(req, res, next) {
     return res.render("log-in/password");
   }
 
-  User.checkPassword(user.uid, password, function(err, match) {
+  User.checkPassword(user.uid, password, function (err, match) {
     if (err) return next(err);
 
     if (!match) return next(new LogInError("BADPASSWORD"));

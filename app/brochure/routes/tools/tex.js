@@ -6,13 +6,15 @@ var CLOSE_TAG = "\\)";
 module.exports = function render_tex(req, res, next) {
   var send = res.send;
 
-  res.send = function(string) {
+  res.send = function (string) {
+    req.trace('starting tex render');
+
     var html = string instanceof Buffer ? string.toString() : string;
 
     var $ = cheerio.load(html, { decodeEntities: false });
     var hadTex = false;
 
-    $(":root").each(function() {
+    $(":root").each(function () {
       findTextNodes(this);
     });
 
@@ -51,7 +53,7 @@ module.exports = function render_tex(req, res, next) {
 
       $(node)
         .contents()
-        .each(function() {
+        .each(function () {
           var childNode = this;
 
           if (childNode.type === "text") {
@@ -74,6 +76,7 @@ module.exports = function render_tex(req, res, next) {
 
     html = $.html();
 
+    req.trace('finished tex render');
     send.call(this, html);
   };
 

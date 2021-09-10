@@ -3,11 +3,10 @@ var MAX_LENGTH = 100;
 
 // This must always return a string but it can be empty
 function makeSlug(string) {
+  var words;
+  var trimmed = "";
 
-  var words,
-    components,
-    trimmed = "";
-
+  console.log
   ensure(string, "string");
 
   var slug = "";
@@ -29,15 +28,17 @@ function makeSlug(string) {
     .toLowerCase()
 
     // remove common punction, basically everything except & _ and - /
-
+    // Should we be stripping all &encoded; characters?
     .replace(/\%/g, "-percent")
     .replace(/&amp;/g, "and")
     .replace(/&nbsp;/g, " ")
+    .replace(/&thinsp;/g, " ")
+    .replace(/&mdash;/g, "-")
     .replace(/→/g, "to")
     .replace(/←/g, "from")
     .replace(/\./g, "-")
     .replace(
-      /[\«\»\“\”\‘\’\`\~\!\@\#\$\%\^\&\*\(\)\+\=\\\|\]\}\{\[\'\"\;\:\?\>\.\<\,]/g,
+      /[\«\»\“\”\‘\–\’\`\~\!\@\#\$\%\^\&\*\(\)\+\=\\\|\]\}\{\[\'\"\;\:\?\>\.\<\,]/g,
       "-"
     )
     .replace(/[^[:alnum:]0-9_-\s]/g, "") // remove invalid chars
@@ -55,16 +56,16 @@ function makeSlug(string) {
 
   slug = trimmed;
 
-  // Remove leading and trailing
-  // slashes and dashes.
+  // remove internal leading and trailing hyphens, e.g. 
+  // /-foo-/bar -> /foo/bar
+  slug = slug
+    .split("/")
+    .map((str) => trimLeadingAndTrailing(str, ["-"]))
+    .join("/");
 
-  while (slug.length > 1 && (slug[0] === "/" || slug[0] === "-"))
-    slug = slug.slice(1);
+  slug = trimLeadingAndTrailing(slug, ["-", "/"]);
 
-  while (slug.length > 1 && (slug.slice(-1) === "/" || slug.slice(-1) === "-"))
-    slug = slug.slice(0, -1);
-
-  if (slug === '-') slug = '';
+  if (slug === "-") slug = "";
 
   slug = encodeURI(slug);
 
@@ -73,7 +74,16 @@ function makeSlug(string) {
   return slug;
 }
 
-var Is = require("./is");
+function trimLeadingAndTrailing(str, characters) {
+  while (str.length > 1 && characters.indexOf(str[0]) > -1) str = str.slice(1);
+
+  while (str.length > 1 && characters.indexOf(str.slice(-1)) > -1)
+    str = str.slice(0, -1);
+
+  return str;
+}
+
+var Is = require("./_is");
 var is = Is(makeSlug);
 
 is("!@#$^*()=+[]{}\\|;:'\",?><", "");
@@ -102,6 +112,10 @@ is("12 34", "12-34");
 is("f/ü/k", "f/%C3%BC/k");
 is("微博", "%E5%BE%AE%E5%8D%9A");
 
+is("/[design]/abc", "design/abc");
+
+is("/[design](foo)/apple bc", "design-foo/apple-bc");
+
 is(
   "remove object replacement character: ￼",
   "remove-object-replacement-character"
@@ -119,13 +133,20 @@ is(
   "AppleScript/Automator Folder Action to Convert Excel to CSV",
   "applescript/automator-folder-action-to-convert-excel-to-csv"
 );
+
+is("Peter Gregson – Bach recomposed: 6.6 Gigue","peter-gregson-bach-recomposed-6-6-gigue");
+
 is("'xsb' command line error.", "xsb-command-line-error");
 is("Foo & bar", "foo-bar");
 is("Foo &amp; bar", "foo-and-bar");
+is("Foo&thinsp;bar", "foo-bar");
 is("China ← NYC → China", "china-from-nyc-to-china");
 is("China+()[] ← NYC! → China", "china-from-nyc-to-china");
 is("No more cd ../../", "no-more-cd");
 
-is("«&nbsp;French Tech Communauté&nbsp;»&nbsp;: quelle opportunité pour l’État&nbsp;?", "french-tech-communaut%C3%A9-quelle-opportunit%C3%A9-pour-l-%C3%A9tat")
+is(
+  "«&nbsp;French Tech Communauté&nbsp;»&nbsp;: quelle opportunité pour l’État&nbsp;?",
+  "french-tech-communaut%C3%A9-quelle-opportunit%C3%A9-pour-l-%C3%A9tat"
+);
 
 module.exports = makeSlug;
