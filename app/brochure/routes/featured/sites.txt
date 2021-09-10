@@ -24,7 +24,7 @@
 #c56d64 blog.pixelswithin.com Diana Lopez, is a designer and developer based in Southern California
 #b97c29 eli.li Eli Mellen, is a web developer based in Portland, Maine
 #af8f8a rile.yt Riley Tomasek, is a software engineer based in New York City
-#e9d78d juicenews.com Jan van Iperen, analyzes the juice industry
+#bf360c juicenews.com Jan van Iperen, analyzes the juice industry
 #025cb3 www.elisamirkil.com Elisa Mirkil, is a designer based in New York
 #d08573 paul.af Paul Esch-Laurent, is a software engineer from Michigan
 #9e826d diary.craigwhite.nyc Craig White, is a visual artist based in Harlem, New York
@@ -67,12 +67,12 @@
 #152c3b poetry.bencallahan.com Ben Callahan, is a poet based in Ohio
 #6b98d2 www.maxkeith.co Max Keith, is a trail runner from Chile
 #e62a04 www.aarondowd.com Aaron Dowd, is a podcaster and designer
-#cd9350 www.thoughtsbyora.com Uzoamaka Adaora Anyanwu, is a writer living in Amsterdam
+#d28f00 www.thoughtsbyora.com Uzoamaka Adaora Anyanwu, is a writer living in Amsterdam
 #000000 spittingdog.net Dave Haysom, is a translator of Chinese literature
 #9e4b3d nomathontheweekend.co Liana J. Taylor, is an accountant from Philadelphia
 #3267c3 www.praveenjayasuriya.com Praveen Jayasuriya, is engineer based in Australia
 #361712 windhausen.co Sönke Windhausen, is a student of history and philosophy in Freiburg
 #b07246 anitaposch.com Anita Posch, is a writer and podcaster from Austria
-#fcd808 reillybrennan.com Reilly Brennan, is a venture capital fund partner
+#d28f00 reillybrennan.com Reilly Brennan, is a venture capital fund partner
 #d48a7d victoriaclarke.art Victoria Clarke, is an artist based in London
 #262626 www.adamsandell.com Adam Sandell, is a doctor in British Colombia
