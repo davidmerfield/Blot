@@ -1,18 +1,14 @@
-var helper = require("helper");
-var ensure = helper.ensure;
+const imagemin = require("imagemin");
+const imageminPngquant = require("imagemin-pngquant");
+const imageminZopfli = require("imagemin-zopfli");
+const imageminMozjpeg = require("imagemin-mozjpeg"); //need to run 'brew install libpng'
+const imageminGiflossy = require("imagemin-giflossy");
 
-var imagemin = require("imagemin");
-var imageminPngquant = require("imagemin-pngquant");
-var imageminZopfli = require("imagemin-zopfli");
-var imageminMozjpeg = require("imagemin-mozjpeg"); //need to run 'brew install libpng'
-var imageminGiflossy = require("imagemin-giflossy");
-
-var dirname = require("path").dirname;
+const dirname = require("path").dirname;
 
 module.exports = function (path, callback) {
-  console.log("minifying ", path);
   imagemin([path], {
-    destination: require("path").dirname(path),
+    destination: dirname(path),
     plugins: [
       imageminPngquant({
         speed: 1,
