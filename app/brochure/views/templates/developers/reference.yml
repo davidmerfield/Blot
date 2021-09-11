@@ -319,18 +319,46 @@
   properties:
     - name: all_tags
       type: array
-      description: A list of all the tags used on your site.
+      description: A list of all the tags used on your site, sorted alphabetically by tag text.
       example: |
         {{#all_tags}}
-        <a href="{{url}}">{{title}}</a>
+        <a href="/tagged/{{slug}}">{{tag}}</a><br>
         {{/all_tags}}
+      properties:
+      - name: tag
+        type: string
+        description: The tag text
+      - name: slug
+        type: string
+        description: The tag text, in a URL-friendly form
+      - name: entries
+        type: array
+        description: A list of every [entry](#entry) with this tag in reverse-chronological order.
+      - name: total
+        type: number
+        description: The number of entries with this tag.
+
     - name: popular_tags
       type: array
-      description: A list of the most popular tags used on your site.
+      description: A list of all the tags used on your site, sorted by the number of entries with each tag.
       example: |
         {{#popular_tags}}
-        <a href="{{url}}">{{title}}</a>
-        {{/popular_tags}} 
+        <a href="/tagged/{{slug}}">{{tag}}</a><br>
+        {{/popular_tags}}
+      properties:
+      - name: tag
+        type: string
+        description: The tag text
+      - name: slug
+        type: string
+        description: The tag text, in a URL-friendly form
+      - name: entries
+        type: array
+        description: A list of every [entry](#entry) with this tag in reverse-chronological order.
+      - name: total
+        type: number
+        description: The number of entries with this tag.
+
 
 
 - name: Utilities
