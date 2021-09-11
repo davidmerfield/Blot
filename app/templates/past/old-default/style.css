@@ -8,6 +8,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   -moz-font-feature-settings: “liga” on;
   color: #232323;
+  background: #fff;
   word-wrap: break-word;
 }
 

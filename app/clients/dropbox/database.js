@@ -136,6 +136,9 @@ Model = {
   // Used to authenticate Dropbox API requests
   access_token: "string",
 
+  // Used to generate new access tokens
+  refresh_token: "string",
+
   // HTTP status code of an error from the
   // Dropbox API. Will be 0 if sync succeeded
   error_code: "number",

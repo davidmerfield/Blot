@@ -17,31 +17,3 @@ function insideTempDir(checkPath, callback) {
 }
 
 module.exports = insideTempDir;
-
-function unitTests() {
-  var assert = require("assert");
-
-  insideTempDir(__dirname, function (err, isInTempDir) {
-    assert.deepEqual(isInTempDir, false);
-  });
-
-  insideTempDir(__dirname + "/foo.jpg", function (err, isInTempDir) {
-    assert.deepEqual(isInTempDir, undefined);
-  });
-
-  var validDir = tempDir + "foo";
-
-  fs.mkdir(validDir, function (err, stat) {
-    if (err) throw err;
-
-    insideTempDir(validDir, function (err, isInTempDir) {
-      if (err) throw err;
-
-      assert.deepEqual(isInTempDir, true);
-
-      fs.rmdir(validDir, function (err, stat) {
-        if (err) throw err;
-      });
-    });
-  });
-}

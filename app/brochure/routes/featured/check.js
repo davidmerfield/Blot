@@ -27,8 +27,8 @@ function check(callback) {
     featured = filtered.map(function (site) {
       site.host = site.host.split("www.").join("");
       site.template = site.template || {};
-      site.template.label = site.template.label || "Diary";
-      site.template.slug = site.template.slug || "diary";
+      site.template.label = site.template.label || "Blog";
+      site.template.slug = site.template.slug || "blog";
       return site;
     });
 

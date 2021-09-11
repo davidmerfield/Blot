@@ -5,8 +5,7 @@ const fs = require("fs-extra");
 const HASH_TITLE_REGEX = /\# (.*)/;
 const DASH_TITLE_REGEX = /(.*)\n[=-]+\n/;
 
-const extractName = (filePath) => {
-  const contents = fs.readFileSync(filePath, "utf-8");
+const extractName = (path, contents) => {
   const hashTitle = HASH_TITLE_REGEX.exec(contents);
   const dashTitle = DASH_TITLE_REGEX.exec(contents);
 
@@ -15,7 +14,23 @@ const extractName = (filePath) => {
   } else if (dashTitle && dashTitle[1]) {
     return dashTitle[1];
   } else {
-    return withoutExtension(filePath.split("/").pop());
+    return withoutExtension(path.split("/").pop());
+  }
+};
+
+const HASH_SUBTITLE_REGEX = /\# (.*)(\n*)\#\#(.*)/;
+const DASH_SUBTITLE_REGEX = /(.*)\n[=]+\n(\n*)(.*)\n[-]+\n/;
+
+const extractSubtitle = (contents) => {
+  const hashSubtitle = HASH_SUBTITLE_REGEX.exec(contents);
+  const dashSubtitle = DASH_SUBTITLE_REGEX.exec(contents);
+
+  if (hashSubtitle && hashSubtitle[3]) {
+    return hashSubtitle[3];
+  } else if (dashSubtitle && dashSubtitle[3]) {
+    return dashSubtitle[3];
+  } else {
+    return "";
   }
 };
 
@@ -36,10 +51,13 @@ const buildTOC = (NOTES_DIRECTORY) =>
           .readdirSync(NOTES_DIRECTORY + "/" + section)
           .filter(removeIgnorableItems)
           .map((article) => {
+            const contents = fs.readFileSync(
+              NOTES_DIRECTORY + "/" + section + "/" + article,
+              "utf-8"
+            );
             return {
-              name: extractName(
-                NOTES_DIRECTORY + "/" + section + "/" + article
-              ),
+              name: extractName(path, contents),
+              subtitle: extractSubtitle(contents),
               id: withoutExtension(article),
               slug:
                 "/about/notes/" +

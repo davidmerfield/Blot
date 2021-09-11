@@ -30,7 +30,7 @@ module.exports = function (server) {
     res.addLocals({
       error: {
         title: "Page not found",
-        message: "There is no page on this blog with this URL.",
+        message: "There is no page with this URL.",
         status: 404,
       },
     });

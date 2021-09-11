@@ -4,13 +4,14 @@ var finder = require("finder");
 var tex = require("./tools/tex");
 var config = require("config");
 var titleFromSlug = require("helper/titleFromSlug");
-
+var trace = require('helper/trace');
 var TITLES = {
   "how": "How it works",
   "terms": "Terms of use",
   "privacy": "Privacy policy",
-  "configure": "Configure your site",
-  "ask": "Ask question",
+  "how-blot-works": "How Blot works",
+  // "configure": "Configure your site",
+  "ask": "Ask",
   "urls": "Link format",
   "hard-stop-start-ec2-instance": "How to stop and start an EC2 instance",
   "who": "Who uses Blot?",
@@ -18,6 +19,9 @@ var TITLES = {
   "json-feed": "JSON feed",
   "posts-tagged": "A page with posts with a particular tag",
 };
+
+brochure.use(trace("inside routes sub app"));
+
 
 if (config.cache) {
   // Minifies HTML
@@ -27,7 +31,9 @@ if (config.cache) {
   brochure.use(require("./tools/inline-css"));
 }
 
-brochure.get(["/how/guides/*"], function (req, res, next) {
+
+
+brochure.get(["/how/format/*"], function (req, res, next) {
   res.locals["show-on-this-page"] = true;
   next();
 });
@@ -93,6 +99,12 @@ brochure.use(function (req, res, next) {
   next();
 });
 
+const VIEWS = require("path").resolve(__dirname + "/../views");
+
+brochure.get("/account/logged-out", function (req, res) {
+  res.sendFile(VIEWS + "/logged-out.html");
+});
+
 brochure.use("/account", function (req, res, next) {
   // we don't want search engines indexing these pages
   // since they're /logged-out, /disabled and
@@ -100,10 +112,13 @@ brochure.use("/account", function (req, res, next) {
   next();
 });
 
+
 brochure.get("/", require("./featured"));
 
 brochure.get("/", function (req, res, next) {
   res.locals.layout = "partials/layout-index";
+  // otherwise the <title> of the page is 'Blot - Blot'
+  res.locals.hide_title_suffix = true;
   next();
 });
 brochure.use("/fonts", require("./fonts"));
@@ -128,6 +143,8 @@ brochure.use("/how/guides/domain", function (req, res, next) {
   res.locals.ip = config.ip;
   next();
 });
+
+brochure.use(trace("calling render"));
 
 brochure.use(function (req, res) {
   res.render(trimLeadingAndTrailingSlash(req.path));

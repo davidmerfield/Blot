@@ -1,6 +1,8 @@
 # Marketing
 
-I have not spent any time marketing Blot to potential customers. I announced the launch of Blot to the public on a forum for programmers. The initial customers which I recieved from that forum post then spread the product by word-of-mouth. However, I do think that marketing is important. I plan to direct more of my efforts to marketing in future, once I am more satisfied with the quality of the service itself. For now at least, Blot's growth by word-of-mouth is sufficient.
+## How we find our customers
+
+I have not spent any time actively marketing Blot to potential customers. I announced [the launch of Blot](https://news.ycombinator.com/item?id=8183498) on a forum for programmers. The initial customers which I recieved from that forum post have since spread the news by word-of-mouth. You can likely trace every customer on my books today back to the people in that post. 
 
 ## Advertising
 

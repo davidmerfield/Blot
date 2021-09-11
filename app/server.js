@@ -7,6 +7,7 @@ var brochure = require("./brochure");
 var dashboard = require("./dashboard");
 var cdn = require("./cdn");
 var clfdate = require("helper/clfdate");
+var trace = require("helper/trace");
 
 // Welcome to Blot. This is the Express application which listens on port 8080.
 // NGINX listens on port 80 in front of Express app and proxies requests to
@@ -22,6 +23,9 @@ Blot.set("trust proxy", "loopback");
 
 // Prevent <iframes> embedding pages served by Blot
 Blot.use(helmet.frameguard("allow-from", config.host));
+
+// Log response time in development mode
+Blot.use(trace.init);
 
 Blot.use(function (req, res, next) {
   var init = Date.now();

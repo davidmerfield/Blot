@@ -84,6 +84,7 @@ describe("dropbox client", function () {
         });
       })
       .catch(function (err) {
+        console.log(err);
         return done.fail(new Error(err.message));
       });
   });

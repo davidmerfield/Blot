@@ -2,10 +2,12 @@ describe("Blot's website'", function () {
   var brochure = require("brochure");
   var dashboard = require("dashboard");
   var broken = require("../util/broken");
-
+  var trace = require('helper/trace');
+  
   global.test.blog();
 
   global.test.server(function (server) {
+    server.use(trace.init);
     server.use(dashboard);
     server.use(brochure);
   });

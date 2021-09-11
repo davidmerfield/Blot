@@ -6,6 +6,7 @@ function makeSlug(string) {
   var words;
   var trimmed = "";
 
+  console.log
   ensure(string, "string");
 
   var slug = "";
@@ -27,15 +28,17 @@ function makeSlug(string) {
     .toLowerCase()
 
     // remove common punction, basically everything except & _ and - /
-
+    // Should we be stripping all &encoded; characters?
     .replace(/\%/g, "-percent")
     .replace(/&amp;/g, "and")
     .replace(/&nbsp;/g, " ")
+    .replace(/&thinsp;/g, " ")
+    .replace(/&mdash;/g, "-")
     .replace(/→/g, "to")
     .replace(/←/g, "from")
     .replace(/\./g, "-")
     .replace(
-      /[\«\»\“\”\‘\’\`\~\!\@\#\$\%\^\&\*\(\)\+\=\\\|\]\}\{\[\'\"\;\:\?\>\.\<\,]/g,
+      /[\«\»\“\”\‘\–\’\`\~\!\@\#\$\%\^\&\*\(\)\+\=\\\|\]\}\{\[\'\"\;\:\?\>\.\<\,]/g,
       "-"
     )
     .replace(/[^[:alnum:]0-9_-\s]/g, "") // remove invalid chars
@@ -130,9 +133,13 @@ is(
   "AppleScript/Automator Folder Action to Convert Excel to CSV",
   "applescript/automator-folder-action-to-convert-excel-to-csv"
 );
+
+is("Peter Gregson – Bach recomposed: 6.6 Gigue","peter-gregson-bach-recomposed-6-6-gigue");
+
 is("'xsb' command line error.", "xsb-command-line-error");
 is("Foo & bar", "foo-bar");
 is("Foo &amp; bar", "foo-and-bar");
+is("Foo&thinsp;bar", "foo-bar");
 is("China ← NYC → China", "china-from-nyc-to-china");
 is("China+()[] ← NYC! → China", "china-from-nyc-to-china");
 is("No more cd ../../", "no-more-cd");

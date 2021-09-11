@@ -8,7 +8,7 @@ module.exports = {
   roundAvatar: false,
   cssURL: "",
   scriptURL: "",
-  template: "SITE:diary",
+  template: "SITE:blog",
   menu: [
     { id: Date.now() + 1 + "", label: "Home", url: "/" },
     { id: Date.now() + 2 + "", label: "Archives", url: "/archives" },

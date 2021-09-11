@@ -7,6 +7,8 @@ module.exports = function render_tex(req, res, next) {
   var send = res.send;
 
   res.send = function (string) {
+    req.trace('starting tex render');
+
     var html = string instanceof Buffer ? string.toString() : string;
 
     var $ = cheerio.load(html, { decodeEntities: false });
@@ -74,6 +76,7 @@ module.exports = function render_tex(req, res, next) {
 
     html = $.html();
 
+    req.trace('finished tex render');
     send.call(this, html);
   };
 

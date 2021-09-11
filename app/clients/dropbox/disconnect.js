@@ -15,7 +15,7 @@ module.exports = function disconnect(blogID, callback) {
     if (err) return callback(err);
 
     debug("getting account info");
-    database.get(blogID, function (err, account) {
+    createClient(blogID, function (err, client, account) {
       if (err) return done(err, callback);
 
       debug("resetting client setting");
@@ -41,8 +41,6 @@ module.exports = function disconnect(blogID, callback) {
             if (blogs.length) {
               if (err) return done(null, callback);
             }
-
-            var client = createClient(account.access_token);
 
             client
               .authTokenRevoke()

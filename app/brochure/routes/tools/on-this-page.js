@@ -7,9 +7,10 @@ module.exports = function onThisPage(req, res, next) {
   const send = res.send;
 
   res.send = function (string) {
+    req.trace('starting onThisPage send');
     const html = string instanceof Buffer ? string.toString() : string;
     const $ = cheerio.load(html, { decodeEntities: false });
-    $("h2,h3").each((i, el) => {
+    $("h2:not(h1 + h2),h3").each((i, el) => {
       const text = $(el).text();
       const id = $(el).attr("id") || makeSlug(text);
       $(el).attr("id", id || makeSlug(text));
@@ -17,25 +18,31 @@ module.exports = function onThisPage(req, res, next) {
       $(el).html(`<a href="#${id}">${innerHTML}</a>`);
     });
 
+    req.trace('finished onThisPage send');
     send.call(this, $.html());
   };
 
   res.render = function (view, locals, partials) {
+    req.trace('starting onThisPage render');
     const html = loadView(req.app.get("views"), view);
 
     if (!html) return next();
 
-    const $ = cheerio.load(html, { decodeEntities: false });
-    const headers = [];
+    // Allows us to specify our own headers dynamically
+    if (res.locals.headers === undefined) {
+      const $ = cheerio.load(html, { decodeEntities: false });
+      const headers = [];
 
-    $("h2,h3").each(function (i, el) {
-      const text = $(el).text();
-      const id = $(el).attr("id") || makeSlug(text);
-      headers.push({ text: text, id: id });
-    });
+      $("h2,h3").each(function (i, el) {
+        const text = $(el).text();
+        const id = $(el).attr("id") || makeSlug(text);
+        headers.push({ text: text, id: id });
+      });
 
-    res.locals.headers = headers;
+      res.locals.headers = headers;
+    }
 
+    req.trace('finished onThisPage render');
     render.call(this, view, locals, partials);
   };
 

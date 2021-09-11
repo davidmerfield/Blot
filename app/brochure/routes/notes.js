@@ -66,22 +66,26 @@ notes.get("/:section", function (req, res, next) {
 });
 
 notes.get("/:section/:article", function (req, res, next) {
-  // `<p style="margin-bottom:0"><a href="/">${req.params.section.toUpperCase()}</a></h2>`
-  res.locals.body = marked(
-    fs.readFileSync(
-      NOTES_DIRECTORY +
-        "/" +
-        req.params.section +
-        "/" +
-        req.params.article +
-        ".txt",
-      "utf-8"
-    )
-  );
+  try {
+    res.locals.body = marked(
+      fs.readFileSync(
+        NOTES_DIRECTORY +
+          "/" +
+          req.params.section +
+          "/" +
+          req.params.article +
+          ".txt",
+        "utf-8"
+      )
+    );
+  } catch (e) {}
   next();
 });
 
-notes.get(["/", "/:section/:article", "/:section"], function (req, res) {
+notes.get(["/", "/:section/:article", "/:section"], function (req, res, next) {
+  // For some reason we couldn't find the file
+  if (!res.locals.body) return next();
+
   res.render("about/notes/layout");
 });
 module.exports = notes;
