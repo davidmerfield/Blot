@@ -35,8 +35,6 @@ module.exports = {
 		const key = this.accountKey(blogID);
 
 		this.getAccount(blogID, function (err, account) {
-			// we don't care if the account doesn't exist
-			// if (err) return callback(err);
 
 			account = account || {};
 
