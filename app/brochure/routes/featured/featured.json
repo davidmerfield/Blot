@@ -496,7 +496,7 @@
   {
     "link": "https://juicenews.com",
     "host": "juicenews.com",
-    "color": "#e9d78d",
+    "color": "#bf360c",
     "name": "Jan van Iperen",
     "firstName": "Jan",
     "bio": " analyzes the juice industry",
@@ -1313,7 +1313,7 @@
   {
     "link": "https://www.thoughtsbyora.com",
     "host": "www.thoughtsbyora.com",
-    "color": "#cd9350",
+    "color": "#d28f00",
     "name": "Uzoamaka Adaora Anyanwu",
     "firstName": "Uzoamaka",
     "bio": " is a writer living in Amsterdam",
@@ -1427,10 +1427,10 @@
   {
     "link": "https://reillybrennan.com",
     "host": "reillybrennan.com",
-    "color": "#fcd808",
+    "color": "#d28f00",
     "name": "Reilly Brennan",
     "firstName": "Reilly",
-    "bio": " is a venture capital fund partner ",
+    "bio": " is a venture capital fund partner",
     "favicon": {
       "name": "reillybrennan.com.png",
       "classname": "reillybrennan-com",
