@@ -1,11 +1,13 @@
 const google = require("googleapis").google;
 const database = require("../database");
 const config = require("config");
+const debug = require("debug")("blot:clients:google-drive");
 
 module.exports = function client(blogID, callback) {
 	let oauth2Client;
 	let drive;
 
+	debug("Blog", blogID, "creating Drive client");
 	database.getAccount(blogID, function (err, account) {
 		if (err) return callback(err);
 
@@ -17,7 +19,19 @@ module.exports = function client(blogID, callback) {
 		// Read more about this
 		oauth2Client.on("tokens", (tokens) => {
 			if (tokens.refresh_token) {
-				database.setAccount(blogID, { tokens }, function (err) {});
+				debug("Blog", blogID, "used refresh_token to fetch new tokens");
+				database.setAccount(blogID, { tokens }, function (err) {
+					if (err) {
+						console.log(
+							"Blog:",
+							blogID,
+							"Error storing new Google Drive tokens",
+							err
+						);
+					} else {
+						debug("Blog", blogID, "saved new Drive client tokens");
+					}
+				});
 			}
 		});
 
@@ -28,6 +42,6 @@ module.exports = function client(blogID, callback) {
 
 		drive = google.drive({ version: "v3", auth: oauth2Client });
 
-		return callback(null, drive);
+		return callback(null, drive, account);
 	});
 };

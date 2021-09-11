@@ -1,4 +1,29 @@
 {{#account}}
+  <div class="line">
+    <p>
+      <b>Google Drive</b> synchronizes your folder. You can
+      <a class="link" href="/settings/client/switch"
+        >switch to a different client</a
+      >
+      seamlessly.
+    </p>
+  </div>
+
+  {{#folderID}}
+  <a class="line" href="{{{base}}}/create-folder">
+    <span class="label">Folder</span>
+    <span class="center">{{folderName}}</span>
+    <span class="right">Edit</span>
+  </a>
+
+  <form action="{{{base}}}/sync" method="post">
+    <input type="hidden" name="_csrf" value="{{csrftoken}}" />
+    <div class="buttons">
+      <input type="submit" value="Sync" />
+    </div>
+  </form>
+  {{/folderID}}
+
   <a class="line" href="{{{base}}}/disconnect">
     <span class="label">Disconnect</span>
     <span class="link">Disconnect</span>
@@ -7,14 +32,19 @@
 
 {{^account}}
 <div class="inset">
-  <p style="margin:42px 0 20px">Blot will create a new folder for <b style="font-weight:500">{{blog.title}}</b> inside your Google Drive. You can revoke Blot’s access to this folder at any point.</p><br />
+  <p style="margin: 42px 0 20px;">
+    Blot will create a new folder for
+    <b style="font-weight: 500;">{{blog.title}}</b> inside your Google Drive.
+    You can revoke Blot’s access to this folder at any point.
+  </p>
+  <br />
 
-  <form  action="{{{base}}}/disconnect" method="post">
-    <input type="hidden" name="_csrf" value="{{csrftoken}}">
-      <div class="buttons">
+  <form action="{{{base}}}/disconnect" method="post">
+    <input type="hidden" name="_csrf" value="{{csrftoken}}" />
+    <div class="buttons">
       <a href="{{{base}}}/redirect">Connect to Google Drive</a>
-      <input type="submit" value="Cancel">
-</div>
+      <input type="submit" value="Cancel" />
+    </div>
   </form>
 </div>
 {{/account}}

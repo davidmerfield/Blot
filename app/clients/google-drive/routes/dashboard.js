@@ -35,6 +35,59 @@ dashboard.get("/", function (req, res) {
 });
 
 dashboard
+	.route("/sync")
+	.get(function (req, res) {
+		res.render(VIEWS + "sync");
+	})
+	.post(function (req, res, next) {
+		require("../sync")(req.blog.id, function (err) {
+			if (err) return next(err);
+			res.message("/settings/client/google-drive", "Success!");
+		});
+	});
+
+dashboard
+	.route("/create-folder")
+	.get(function (req, res) {
+		res.render(VIEWS + "create-folder");
+	})
+	.post(function (req, res, next) {
+		if (res.locals.account.folderID) return next();
+
+		client(req.blog.id, async function (err, drive) {
+			if (err) return next(err);
+
+			var fileMetadata = {
+				name: req.blog.title,
+				mimeType: "application/vnd.google-apps.folder",
+			};
+
+			let folderID, folderName;
+			try {
+				const folder = await drive.files.create({
+					resource: fileMetadata,
+					fields: "id, name",
+				});
+
+				console.log(folder);
+
+				folderID = folder.data.id;
+				folderName = folder.data.name;
+			} catch (e) {
+				return next(e);
+			}
+
+			console.log("here", folderName, folderID);
+			database.setAccount(req.blog.id, { folderID, folderName }, function (
+				err
+			) {
+				if (err) return next(err);
+				res.redirect("/settings/client/google-drive");
+			});
+		});
+	});
+
+dashboard
 	.route("/disconnect")
 	.get(function (req, res) {
 		res.render(VIEWS + "disconnect");
@@ -54,7 +107,6 @@ dashboard.get("/redirect", function (req, res) {
 });
 
 dashboard.get("/authenticate", function (req, res, next) {
-	console.log("made it to authenticate!");
 	const oauth2Client = new google.auth.OAuth2(
 		config.google.drive.key,
 		config.google.drive.secret,
@@ -71,8 +123,11 @@ dashboard.get("/authenticate", function (req, res, next) {
 				if (err) return next(err);
 				drive.about.get({ fields: "*" }, function (err, response) {
 					if (err) return next(err);
-					console.log(response);
-					res.redirect("/settings/client/google-drive");
+					let email = response.data.user.emailAddress;
+					database.setAccount(req.blog.id, { email }, function (err) {
+						if (err) return next(err);
+						res.redirect("/settings/client/google-drive/create-folder");
+					});
 				});
 			});
 		});
@@ -90,10 +145,14 @@ dashboard.get("/list", function (req, res, next) {
 			(err, response) => {
 				if (err) return next(err);
 				res.locals.files = response.data.files;
-				res.render("list");
+				res.render(VIEWS + "list");
 			}
 		);
 	});
 });
+
+dashboard.use(function(err, req, res, next){
+	res.send(err);
+})
 
 module.exports = dashboard;
