@@ -21,8 +21,13 @@ module.exports = function client(blogID, callback) {
 			}
 		});
 
-		oauth2Client.setCredentials(account.tokens);
+		oauth2Client.setCredentials({
+			refresh_token: account.refresh_token,
+			access_token: account.access_token,
+		});
+
 		drive = google.drive({ version: "v3", auth: oauth2Client });
+
 		return callback(null, drive);
 	});
 };

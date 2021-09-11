@@ -9,6 +9,6 @@ module.exports = {
 };
 
 // Redirect the OAUTH callback URL to blot's server
-if (require('config').environment === 'development') {
-  require('./util/redirect-server');
+if (require("config").environment === "development") {
+  require("./util/redirect-server");
 }

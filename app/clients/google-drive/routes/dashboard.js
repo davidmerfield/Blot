@@ -4,7 +4,7 @@ const dashboard = new express.Router();
 const google = require("googleapis").google;
 const database = require("../database");
 const client = require("../util/client");
-const disconnect = require('../disconnect');
+const disconnect = require("../disconnect");
 const VIEWS = require("path").resolve(__dirname + "/../views") + "/";
 
 const REDIRECT_URL =
@@ -35,13 +35,13 @@ dashboard.get("/", function (req, res) {
 });
 
 dashboard
-  .route("/disconnect")
-  .get(function(req, res) {
-    res.render(VIEWS + "disconnect");
-  })
-  .post(function(req, res, next) {
-    disconnect(req.blog.id, next);
-  });
+	.route("/disconnect")
+	.get(function (req, res) {
+		res.render(VIEWS + "disconnect");
+	})
+	.post(function (req, res, next) {
+		disconnect(req.blog.id, next);
+	});
 
 dashboard.get("/redirect", function (req, res) {
 	const oauth2Client = new google.auth.OAuth2(
@@ -53,8 +53,8 @@ dashboard.get("/redirect", function (req, res) {
 	res.redirect(oauth2Client.generateAuthUrl(AUTH_URL_CONFIG));
 });
 
-dashboard.get("/authenticate"	, function (req, res, next) {
-	console.log('made it to authenticate!');
+dashboard.get("/authenticate", function (req, res, next) {
+	console.log("made it to authenticate!");
 	const oauth2Client = new google.auth.OAuth2(
 		config.google.drive.key,
 		config.google.drive.secret,
