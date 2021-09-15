@@ -21,7 +21,7 @@ if (
 // If we have the require creds to run
 // the google drive app
 if (config.google.drive.key && config.google.drive.secret) {
-  clients.dropbox = require("./google-drive");
+  clients['google-drive'] = require("./google-drive");
 }
 
 // Demo local client

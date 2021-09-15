@@ -1,6 +1,7 @@
 const client = require("./util/client");
 const Sync = require("sync");
 const database = require("./database");
+const async = require("async");
 
 // We ask for a longer TTL (timeout) for the sync lock because sometimes
 // we hit Dropbox's rate limits, which tend to ask for a 5 minute (300s)
@@ -24,21 +25,46 @@ module.exports = function (blogID, callback) {
 
       let pageToken = account.pageToken;
 
+      // The first time we call sync
       if (!pageToken) {
         const gotToken = await drive.changes.getStartPageToken();
         pageToken = gotToken.data.startPageToken;
       }
 
-      const changesList = await drive.changes.list({ pageToken });
-      const changes = changesList.data.changes;
-      const newStartPageToken = changesList.data.newStartPageToken;
-
-      console.log("changes", changes);
-      database.setAccount(blogID, { pageToken, newStartPageToken }, function (
-        err
-      ) {
-        done(null, callback);
+      const changesList = await drive.changes.list({
+        pageToken,
+        fields: "*",
       });
+      const changes = changesList.data.changes;
+
+      pageToken = changesList.data.newStartPageToken;
+
+      const changesInFolder = changes.filter(
+        (change) =>
+          change.file &&
+          change.file.parents &&
+          change.file.parents.indexOf(account.folderID) > -1
+      );
+
+      async.eachSeries(
+        changesInFolder,
+        (change, next) => {
+          console.log(change);
+          return next();
+
+          // if (change.removed) {
+
+          // } else if (change.) {
+
+          // }
+        },
+        (err) => {
+          if (err) return done(err, callback);
+          database.setAccount(blogID, { pageToken }, function (err) {
+            done(err, callback);
+          });
+        }
+      );
     });
   });
 };
