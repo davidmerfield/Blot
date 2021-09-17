@@ -1,3 +1,5 @@
+Rebuild all posts when changing title case setting on services page
+
 Update pandoc and see if it [fixes the aria role footnote issue](https://lighthouse-dot-webdotdevsite.appspot.com//lh/html?url=https://thejollyteapot.com/2020/03/25/on-finding-the-perfect-text-editor-the-one-that-s-right-for-you) then tell [Nicholas](https://mail.google.com/mail/u/0/?zx=ppqfw9q0jli#inbox/FMfcgzGljvJlQCqggLkxvqsQpLKQwqzj)
 
 Fix [google issues](https://search.google.com/search-console/index/drilldown?resource_id=sc-domain%3Ablot.im&item_key=CAMYEyAE&hl=en)
@@ -126,7 +128,7 @@ Server changes
   - use rsync/inotify to synchronize 'source of truth' EBS disk with the local SSD cache then modify NGINX to check the synced folder on the /cache disk
   - on boot we would gently copy across all /blogs folders and the /static directory in background task
 
-Support [Obsidian's syntax for embedding files](https://help.obsidian.md/How+to/Embed+files), and tell [John](https://mail.google.com/mail/u/0/#inbox/FMfcgzGkbDftzhXHGrmzXrjtcMbGrmxM)
+Support [Obsidian's syntax for embedding files](https://help.obsidian.md/How+to/Embed+files) and images, and tell [John](https://mail.google.com/mail/u/0/#inbox/FMfcgzGkbDftzhXHGrmzXrjtcMbGrmxM)
 
 Add [.rtf support](https://github.com/tbluemel/rtf.js)
 
