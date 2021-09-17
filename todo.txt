@@ -1,5 +1,3 @@
-Rebuild all posts when changing title case setting on services page
-
 Update pandoc and see if it [fixes the aria role footnote issue](https://lighthouse-dot-webdotdevsite.appspot.com//lh/html?url=https://thejollyteapot.com/2020/03/25/on-finding-the-perfect-text-editor-the-one-that-s-right-for-you) then tell [Nicholas](https://mail.google.com/mail/u/0/?zx=ppqfw9q0jli#inbox/FMfcgzGljvJlQCqggLkxvqsQpLKQwqzj)
 
 Fix [google issues](https://search.google.com/search-console/index/drilldown?resource_id=sc-domain%3Ablot.im&item_key=CAMYEyAE&hl=en)
