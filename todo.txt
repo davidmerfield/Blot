@@ -1,5 +1,3 @@
-Update pandoc and see if it [fixes the aria role footnote issue](https://lighthouse-dot-webdotdevsite.appspot.com//lh/html?url=https://thejollyteapot.com/2020/03/25/on-finding-the-perfect-text-editor-the-one-that-s-right-for-you) then tell [Nicholas](https://mail.google.com/mail/u/0/?zx=ppqfw9q0jli#inbox/FMfcgzGljvJlQCqggLkxvqsQpLKQwqzj)
-
 Improve brochure
 - Rigorously check site on mobile
   - Finish breadcrumbs scroll on mobile (make sure scrollbars are invisible) on Firefox Windows and tell [Paul](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsdCsHgtKMWhSbwxslbzxZpsq) and Rakhim
@@ -66,6 +64,8 @@ Improvements to backup system
 - Test maintenance mode
 - Add script to roll back into hourly local db dumps and remote backups
 
+Fix bug with footnote links in a teaser from #frag to {{permalink}}#frag
+
 Begin collecting proper measurements for page-rendering speed on the server. This will help us identify ways to improve the speed of your site.
 
 Resolve [issues with borked git client and tell V](https://mail.google.com/mail/u/0/#inbox/FMfcgzGkXwDNqDFKdWBQPTBpwQRzgsGd)
@@ -87,7 +87,6 @@ Improvements to teaser generator
 - Internal links (e.g. #section) in {{{teaser}}} should be resolved against the entry's permalink.
 - Add hasBreakpoint property to entry to allow greater control over display of {{{teaser}}} and tell [Pratik](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTsfMTHqWMQFmprMcjNpdBQzp)
 - Fix [issue with teaser generator](https://github.com/davidmerfield/Blot/issues/15) that locks up a build process, sometimes for 10+ seconds.
-- Fix bug with footnote links in a teaser from #frag to {{permalink}}#frag
 
 Improvements for customers
 - Faster server, with SSL termination across CDN
@@ -180,8 +179,6 @@ Add support for .tiff images
 ---
 
 Fix bug with tokens inside blog posts and follow up with [Karoly](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJXfkFdhXCgBCTwGfBCzPhqwJF)
-
-Resolve [issue](https://blot.im/questions/33) with Pandoc and footnotes and aria and role attributes. Can this be fixed simply by updating pandoc or do we need to prune these attributes ourselves?
 
 Improve server-side scheduled tasks:
 - Write task to identify and delete long overdue users
