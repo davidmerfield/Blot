@@ -29,7 +29,7 @@ module.exports = function create(owner, name, metadata, callback) {
   metadata.slug = metadata.slug.split("/").join("-");
 
   // Each template has an ID which is namespaced under its owner
-  metadata.id = makeID(owner, metadata.slug);
+  metadata.id = makeID(owner, name);
 
   // Defaults
   metadata.name = name;
