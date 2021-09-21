@@ -1,4 +1,6 @@
 Improve brochure
+- Finish templates section
+- Fix bug with featured sites (seems to happen after scheduled check)
 - Rigorously check site on mobile
   - Finish breadcrumbs scroll on mobile (make sure scrollbars are invisible) on Firefox Windows and tell [Paul](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsdCsHgtKMWhSbwxslbzxZpsq) and Rakhim
 - Improve loading speed for logged in users
