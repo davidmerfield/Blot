@@ -28,7 +28,10 @@ const SCREENSHOTS = {
   },
   reference: {
     handle: "frances",
-    pages: ["/", "/marshfield-george-woodward-wickersham-house-cedarhurst-new-york-copy"],
+    pages: [
+      "/",
+      "/marshfield-george-woodward-wickersham-house-cedarhurst-new-york-copy",
+    ],
   },
 };
 
@@ -38,55 +41,36 @@ async.eachOfSeries(
     const baseURL = `https://preview-of-${template}-on-${handle}.${config.host}`;
     async.eachSeries(
       pages,
-      function (page, next) {
+      async function (page, next) {
         const url = baseURL + page;
-        const path = `${VIEW_DIRECTORY}/${template}/${pages.indexOf(page)}.png`;
-        const mediumPath = `${VIEW_DIRECTORY}/${template}/${pages.indexOf(
-          page
-        )}.medium.png`;
-        const smallPath = `${VIEW_DIRECTORY}/${template}/${pages.indexOf(
-          page
-        )}.small.png`;
+        const dir = `${VIEW_DIRECTORY}/${template}`;
+
+        const path = `${dir}/${pages.indexOf(page)}.png`;
+        const mobilePath = `${dir}/${pages.indexOf(page)}.mobile.png`;
+        const squarePath = `${dir}/${pages.indexOf(page)}.square.png`;
+
         console.log("screenshotting", url);
-        screenshot(url, path, (err) => {
-          if (err) return next(err);
+        await screenshot(url, path);
+        await screenshot(url, mobilePath, { mobile: true });
+        await screenshot(url, squarePath, { width: 1060, height: 1060 });
 
-          const resize = ({ label, width }) =>
-            sharp(path)
-              .resize({ width })
-              .toFile(
-                `${dirname(path)}/${basename(
-                  path,
-                  extname(path)
-                )}-${label}${extname(path)}`
-              );
+        const resize = ({ path, label, width }) =>
+          sharp(path)
+            .resize({ width })
+            .toFile(
+              `${dirname(path)}/${basename(
+                path,
+                extname(path)
+              )}-${label}${extname(path)}`
+            );
 
-          Promise.all(
-            [
-              { label: "medium", width: 1120 },
-              { label: "small", width: 306 },
-            ].map(resize)
-          ).then(() => {
-            console.log("complete");
-            next();
-          });
-
-          // console.log("resizing", path);
-          // sharp(path)
-          //   .resize({ width: 1120 }) // 2x the width of the image when viewed
-          //   .toFile(mediumPath)
-          //   .resize({ width: 306 }) // 2x the width of the image when viewed
-          //   .toFile(smallPath)
-          //   .then(() => {
-          //     console.log("minifying", smallPath);
-          //     next();
-          //     // imageminify(smallPath, (err) => {
-          //     //   if (err) return next(err);
-          //     //   console.log("minified", smallPath);
-          //     //   next();
-          //     // });
-          //   });
-        });
+        await Promise.all(
+          [
+            { path: path, label: "medium", width: 1120 },
+            { path: squarePath, label: "small", width: 306 },
+            { path: mobilePath, label: "medium", width: 560 },
+          ].map(resize)
+        );
       },
       next
     );
