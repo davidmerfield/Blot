@@ -16,7 +16,9 @@ var config = require("config");
 var User = require("user");
 var Blog = require("blog");
 var basename = require("path").basename;
-var localClient = require("../clients/local");
+var localClient = require("clients/local");
+
+var DIR = require("helper/rootDir") + "/app/folders";
 
 function main(options, callback) {
   if (callback === undefined && typeof options === "function") {
@@ -24,12 +26,12 @@ function main(options, callback) {
     options = {};
   }
 
-  loadFoldersToBuild(__dirname, function (err, folders) {
+  loadFoldersToBuild(DIR, function (err, folders) {
     if (err) return callback(err);
 
     if (options.filter) folders = folders.filter(options.filter);
 
-    console.log("Loaded folders from", __dirname);
+    console.log("Loaded folders from", DIR);
     setupUser(function (err, user) {
       if (err) return callback(err);
 
@@ -81,7 +83,9 @@ function setupBlogs(user, folders, callback) {
           return next();
         }
 
+        console.log("handle", handle);
         Blog.create(user.uid, { handle: handle }, function (err, newBlog) {
+          if (err) return next(err);
           blogs[newBlog.id] = path;
           next();
         });
@@ -117,9 +121,14 @@ function loadFoldersToBuild(foldersDirectory, callback) {
         return foldersDirectory + "/" + name;
       })
       .filter(function (path) {
-        return basename(path)[0] !== "-" && fs.statSync(path).isDirectory();
+        return (
+          basename(path)[0] !== "-" &&
+          basename(path)[0] !== "." &&
+          fs.statSync(path).isDirectory()
+        );
       });
 
+    console.log(folders);
     callback(null, folders);
   });
 }

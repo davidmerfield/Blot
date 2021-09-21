@@ -11,24 +11,24 @@ const VIEW_DIRECTORY =
 
 const SCREENSHOTS = {
   blog: {
-    handle: "bjorn",
-    pages: ["/", "/search?q=fishing"],
+    handle: "video",
+    pages: ["/", "/search?q=type"],
   },
   magazine: {
     handle: "interviews",
-    pages: ["/", "/archives"],
+    pages: ["/tagged/musicians", "/archives"],
   },
   photo: {
-    handle: "bjorn",
+    handle: "william",
     pages: ["/", "/archives"],
   },
   portfolio: {
-    handle: "interviews",
-    pages: ["/", "/ingrid-newkirk"],
+    handle: "bjorn",
+    pages: ["/page/2", "/lake-smalsjn-dalarna-sweden-16632501564-o"],
   },
   reference: {
-    handle: "ferox",
-    pages: ["/", "/iems-l13-3"],
+    handle: "frances",
+    pages: ["/", "/marshfield-george-woodward-wickersham-house-cedarhurst-new-york-copy"],
   },
 };
 
