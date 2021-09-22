@@ -44,13 +44,6 @@ module.exports = function (server) {
 
   // Errors
   server.use(function (err, req, res, next) {
-    console.log(
-      clfdate(),
-      req.headers["x-request-id"] && req.headers["x-request-id"],
-      'Template error:',
-      err
-    );
-
     // This reponse was partially finished
     // end it now and get over it...
     if (res.headersSent) return res.end();
@@ -80,6 +73,13 @@ module.exports = function (server) {
     var status = 500;
 
     if (err.status && type(err.status, "number")) status = err.status;
+
+    console.log(
+      clfdate(),
+      req.headers["x-request-id"] && req.headers["x-request-id"],
+      "Template error:",
+      err
+    );
 
     res.addLocals({
       error: {

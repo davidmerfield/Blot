@@ -76,3 +76,4 @@
 #d28f00 reillybrennan.com Reilly Brennan, is a venture capital fund partner
 #d48a7d victoriaclarke.art Victoria Clarke, is an artist based in London
 #262626 www.adamsandell.com Adam Sandell, is a doctor in British Colombia
+#eb0003 sidenote.ridwansanusi.com Ridwan Sanusi, works as an experience designer at Amazon

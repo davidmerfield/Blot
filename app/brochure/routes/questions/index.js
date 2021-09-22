@@ -186,8 +186,17 @@ Questions.route("/:id/edit")
 
         if (!topic) return next();
 
-        res.locals.breadcrumbs[res.locals.breadcrumbs.length - 2].label =
-          topic.title || "Answer";
+        let penultimateBreadcrumb =
+          res.locals.breadcrumbs[res.locals.breadcrumbs.length - 2];
+
+        // If this is a question or an answer
+        if (topic.is_topic) {
+          penultimateBreadcrumb.label = topic.title;
+        } else {
+          penultimateBreadcrumb.label = "Answer";
+          penultimateBreadcrumb.url = `/questions/${topic.parent_id}`;
+        }
+
         res.render("questions/edit", {
           topic,
           csrf: req.csrfToken(),

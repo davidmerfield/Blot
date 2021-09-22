@@ -1,27 +1,58 @@
 <h1>Blog</h1>
 
+<h2>A template designed to produce a blog. Suits a mixture of longform writing and brief updates.</h2>
 
 
-<p>
-	The Blog template is designed for a wide range of posts. It features an index
-	page which displays each post in full.
+<style type="text/css">
+		
+	a	.browser {margin-top:6px;border: 1px solid var(--light-border-color);border-radius: 6px;display: block;padding: 0.25rem 0.25rem 0;box-shadow: 0 0 10px rgba(0,0,0,0.03);transition: transform .1s ease;transform: scale(1)}
+
+  a .browser:before {content: "ooo";display: block;border-bottom: 1px solid var(--light-border-color);color: var(--dark-border-color);font-size: 14px;line-height: 12px;margin:0 -0.25rem;padding:0 0.5rem 0.3rem;}
+
+		.devices {position: relative;width: 100%;}
+		.devices img {max-width: 100%}
+	.devices .desktop {
+		border: 1px solid rgba(0,0,0,0.1);
+		border-radius: 18px;
+	}
+
+	.screenshot img {cursor: zoom-in;}
+	.devices .mobile {position: absolute;
+		bottom: 0;right: 0;
+		width: 400px;height: 400px}
+
+		.sc {margin: 3rem 0}
+</style>
+
+
+<p class="sc">	<a style="text-decoration: none;cursor: zoom-in;" href="{{{preview}}}/"
+		>
+		<span class="browser"><img src="/templates/blog/0-medium.png"
+	/></span></a>
 </p>
 
-<p>
-	<a
-		class="screenshot"
-		href="{{{preview}}}/brief-encounters-with-jean-frédéric-maximilien-de-waldeck"
-		><img src="/templates/blog/0-medium.png"
-	/></a>
+<p class="sc">		<a style="text-decoration: none;cursor: zoom-in;" href="{{{preview}}}/search?q=polar+bears"
+		>
+		<span class="browser"><img src="/templates/blog/1-medium.png"
+	/></span></a>
 </p>
 
-<p>
-	<a class="screenshot" href="{{{preview}}}/search?q=polar+bears"
-		><img src="/templates/blog/1-medium.png"
-	/></a>
-</p>
+<h2>Adapts to smaller screens</h2>
 
-<p>
+<div style="display: flex">
+<p class="sc" style="flex-basis: 33%">		<a style="text-decoration: none;cursor: zoom-in;" href="{{{preview}}}/search?q=polar+bears"
+		>
+		<span class="browser"><img src="/templates/blog/1.mobile-medium.png"
+	/></span></a>
+</p>
+<p class="sc" style="flex-basis: 33%">		<a style="text-decoration: none;cursor: zoom-in;" href="{{{preview}}}/search?q=polar+bears"
+		>
+		<span class="browser"><img src="/templates/blog/0.mobile-medium.png"
+	/></span></a>
+</p>
+</div>
+
+	<p>
 	View the
 	<a
 		href="https://github.com/davidmerfield/Blot/tree/master/app/templates/latest/blog"
@@ -32,8 +63,17 @@
 <h2>About the folder</h2>
 
 <p>
-	<a href="https://publicdomainreview.org/about/">The Public Domain Review</a>
-	is an online journal and not-for-profit project dedicated to the exploration
-	of curious and compelling works from the history of art, literature, and
-	ideas.
+	Generated from the demo video for Blot, which you can watch.
 </p>
+
+<ul class="document-list with-subtitle with-border">
+
+  <li>
+    <a href="https://github.com/davidmerfield/folders/releases/latest/download/video.zip"><span><nobr><span class="icon folder"></span> </nobr></span>
+    <span><strong>Download the folder</strong>
+      <span class="subtitle">.zip</span>
+    </span>
+    </a>
+  </li>
+  
+</ul>

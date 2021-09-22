@@ -19,9 +19,9 @@ if (require.main === module) {
 // with the following relevant properties:
 // { "link": "http://example.com", "host": "example.com" }
 function check(callback) {
-  var featured = require("./featured");
+  var featured = fs.readJSONSync(__dirname + "/featured.json");
 
-  filter(featured, function (err, filtered, missing) {
+  filter(featured, function (err, filtered) {
     if (err) return callback(err);
 
     featured = filtered.map(function (site) {
