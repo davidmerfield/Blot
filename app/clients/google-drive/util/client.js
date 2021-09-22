@@ -42,6 +42,6 @@ module.exports = function client(blogID, callback) {
 
 		drive = google.drive({ version: "v3", auth: oauth2Client });
 
-		return callback(null, drive, account);
+		return callback(null, drive, account, oauth2Client);
 	});
 };

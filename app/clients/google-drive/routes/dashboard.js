@@ -17,7 +17,10 @@ const REDIRECT_URL =
 // drive over a long period of time.
 const AUTH_URL_CONFIG = {
 	access_type: "offline",
-	scope: ["https://www.googleapis.com/auth/drive"],
+	scope: [
+		"https://www.googleapis.com/auth/drive",
+		"https://www.googleapis.com/auth/drive.activity",
+	],
 };
 
 dashboard.use(function loadGoogleDriveAccount(req, res, next) {
@@ -40,10 +43,14 @@ dashboard
 		res.render(VIEWS + "sync");
 	})
 	.post(function (req, res, next) {
-		require("../sync")(req.blog.id, function (err) {
-			if (err) return next(err);
-			res.message("/settings/client/google-drive", "Success!");
-		});
+		require("../sync")(
+			req.blog.id,
+			{ fromScratch: req.query.fromScratch },
+			function (err) {
+				if (err) return next(err);
+				res.message("/settings/client/google-drive", "Success!");
+			}
+		);
 	});
 
 dashboard
@@ -151,8 +158,8 @@ dashboard.get("/list", function (req, res, next) {
 	});
 });
 
-dashboard.use(function(err, req, res, next){
+dashboard.use(function (err, req, res, next) {
 	res.send(err);
-})
+});
 
 module.exports = dashboard;
