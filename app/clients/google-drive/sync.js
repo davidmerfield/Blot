@@ -51,7 +51,12 @@ module.exports = function (blogID, options, callback) {
 
       res.data.activities = res.data.activities || [];
 
+      // TODO handle page size overflow
+      // paginate with pageToken
+      
       //  logActivities(res);
+
+      res.data.activities = res.data.activities.reverse();
 
       for (const change of res.data.activities) {
         // Move file
@@ -62,6 +67,12 @@ module.exports = function (blogID, options, callback) {
           const fileID = change.targets[0].driveItem.name.slice(
             "items/".length
           );
+
+          // We moved the
+          if (fileID === account.folderID) {
+            await updateFolderPath(drive, blogID, account.folderID);
+            continue;
+          }
 
           try {
             const relativePath = await determinePathInBlogFolder(
@@ -105,6 +116,12 @@ module.exports = function (blogID, options, callback) {
           const fileID = change.targets[0].driveItem.name.slice(
             "items/".length
           );
+
+          // We moved the
+          if (fileID === account.folderID) {
+            await updateFolderPath(drive, blogID, account.folderID);
+            continue;
+          }
 
           console.log("RENAME > ", fileID);
 
@@ -224,7 +241,7 @@ const savePath = async (folder, relativePath) => {
 const determinePathInBlogFolder = async (drive, fileId, blogFolderID) => {
   console.log("determining path to", fileId);
 
-  if (fileId === blogFolderID) return "/";
+  if (blogFolderID && fileId === blogFolderID) return "/";
 
   const parents = [];
 
@@ -244,14 +261,14 @@ const determinePathInBlogFolder = async (drive, fileId, blogFolderID) => {
       fields: "id, name, parents",
     });
     data = res.data;
-    if (data.id === blogFolderID) {
+    if (blogFolderID && data.id === blogFolderID) {
       insideBlogFolder = true;
     } else {
       parents.unshift({ name: data.name, id: data.id });
     }
   }
 
-  if (insideBlogFolder) {
+  if (insideBlogFolder || !blogFolderID) {
     return "/" + join(parents.map((i) => i.name).join("/"), res.data.name);
   } else {
     return "";
@@ -280,6 +297,18 @@ const download = (drive, fileId, outputPath) => {
     } catch (e) {
       reject(e);
     }
+  });
+};
+
+const updateFolderPath = (drive, blogID, folderID) => {
+  return new Promise(async function (resolve, reject) {
+    const folderPath = await determinePathInBlogFolder(drive, folderID);
+    console.log("Storing new folderPath", folderPath);
+    database.setAccount(blogID, { folderPath }, function (err) {
+      if (err) return reject(err);
+      console.log("Stored new folderPath", folderPath);
+      resolve();
+    });
   });
 };
 

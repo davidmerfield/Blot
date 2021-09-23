@@ -28,6 +28,14 @@ dashboard.use(function loadGoogleDriveAccount(req, res, next) {
 		if (err) return next(err);
 		if (account) {
 			res.locals.account = account;
+
+			if (account.folderPath)
+				res.locals.account.folderParents = account.folderPath
+					.split("/")
+					.slice(1)
+					.map((name, i, arr) => {
+						return { name, last: arr.length - 1 === i };
+					});
 		}
 		next();
 	});
@@ -69,28 +77,29 @@ dashboard
 				mimeType: "application/vnd.google-apps.folder",
 			};
 
-			let folderID, folderName;
+			let folderID, folderName, folderPath;
+
 			try {
 				const folder = await drive.files.create({
 					resource: fileMetadata,
 					fields: "id, name",
 				});
 
-				console.log(folder);
-
 				folderID = folder.data.id;
 				folderName = folder.data.name;
+				folderPath = "/My Drive/" + folderName;
 			} catch (e) {
 				return next(e);
 			}
 
-			console.log("here", folderName, folderID);
-			database.setAccount(req.blog.id, { folderID, folderName }, function (
-				err
-			) {
-				if (err) return next(err);
-				res.redirect("/settings/client/google-drive");
-			});
+			database.setAccount(
+				req.blog.id,
+				{ folderID, folderName, folderPath },
+				function (err) {
+					if (err) return next(err);
+					res.redirect("/settings/client/google-drive");
+				}
+			);
 		});
 	});
 

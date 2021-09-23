@@ -18,6 +18,7 @@ module.exports = function client(blogID, callback) {
 
 		// Read more about this
 		oauth2Client.on("tokens", (tokens) => {
+			console.log('here with tokens', tokens);
 			if (tokens.refresh_token) {
 				debug("Blog", blogID, "used refresh_token to fetch new tokens");
 				database.setAccount(blogID, { tokens }, function (err) {
