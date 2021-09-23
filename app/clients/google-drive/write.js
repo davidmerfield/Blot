@@ -15,8 +15,10 @@ module.exports = function write(blogID, path, contents, callback) {
 
       console.log("parentID is", parentID);
 
-      if (!parentID) throw new Error("h");
+      if (!parentID) throw new Error("No parent ID");
 
+      // todo determine if file already exists
+      // then do update instead to avoid duping it.
       await drive.files.create({
         resource: {
           name: basename(path),
