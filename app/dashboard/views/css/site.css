@@ -666,12 +666,12 @@ p.lock:before {
   opacity: 1;
   box-shadow: none;
   border: none;
-  background: #d5d5d5;
+  background-color: #d5d5d5;
   color: #fff;
 }
 
 .button.working {
-  background: #d5d5d5 url("/images/spinner_grey.gif?{{cacheID}}") center right no-repeat;
+  background: #d5d5d5 url("/images/spinner_grey.gif?{{cacheID}}") center right 20px no-repeat;
   background-size: 1.33em;
   padding-right: 2em;
   box-shadow: none;
@@ -1746,8 +1746,8 @@ background-color: #0079fc;
 
 
 .buttons :disabled, .buttons .disabled {
-  background: #f0f0f0;
-  color: #bbb;
+  background-color: #d5d5d5;
+  color: #999;
   box-shadow: none;
 }
 

@@ -1,7 +1,7 @@
 const remove = require("clients/google-drive/remove");
-const get = require("../get/blog");
+const get = require("./get-blog");
 
-get(process.argv[2], function (err, user, blog) {
+get(function (err, user, blog) {
   if (err) throw err;
   remove(blog.id, "foo/bar/baz.txt", function (err) {
     if (err) throw err;

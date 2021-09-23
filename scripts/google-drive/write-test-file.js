@@ -1,7 +1,7 @@
 const write = require("clients/google-drive/write");
-const get = require("../get/blog");
+const get = require("./get-blog");
 
-get(process.argv[2], function (err, user, blog) {
+get(function (err, user, blog) {
   if (err) throw err;
   const path = "foo/bar/baz.txt";
   const contents = "The time is: " + new Date();

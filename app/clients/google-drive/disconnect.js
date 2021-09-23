@@ -28,7 +28,11 @@ module.exports = function disconnect(blogID, callback) {
 				// destroys the oauth2Client's active
 				// refresh_token and access_token
 				debug("revoking google api credentials");
-				await oauth2Client.revokeCredentials();
+				try {
+					await oauth2Client.revokeCredentials();
+				} catch (e) {
+					console.log(e);
+				}
 			}
 
 			debug("resetting client setting");

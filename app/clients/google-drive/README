@@ -1,0 +1,3 @@
+This makes way too many HTTP requests to perform basic actions.
+
+We should probably store Google Drive's graph for a folder.

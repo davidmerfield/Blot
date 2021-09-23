@@ -1,7 +1,23 @@
+
+
 {{#account}}
+
+{{#error}}
+
+
+<a href="{{{base}}}/redirect" class="mess error">
+
+Blot cannot connect to your <b>Google Drive</b>. Please re-connect to give Blot access so you can sync your folder.<br><br>
+
+<span class="button">Re-connect to Google Drive</span>
+</a>
+
+
+{{/error}}
+
   <div class="line">
     <p>
-      <b>Google Drive</b> synchronizes your folder. You can
+      <b>Google Drive</b> {{#folderID}}synchronizes your folder{{/folderID}}{{^folderID}} is connected to your account. Please set up a folder.{{/folderID}} You can
       <a class="link" href="/settings/client/switch"
         >switch to a different client</a
       >
@@ -31,6 +47,12 @@
 
   {{/folderID}}
 
+  {{^folderID}}
+    <a class="line" href="{{{base}}}/set-up-folder">
+    <span class="label">Location</span>
+    <span class="link">Set up a folder to sync</span>
+  </a>
+  {{/folderID}}
  <div class="line" >
     <span class="label">Account on Google</span>
     <span class="center">{{email}}</span>
@@ -65,21 +87,3 @@
 {{/account}}
 
 
-
-
-{{#account.folderID}}
-  <form action="{{{base}}}/sync" method="post">
-    <input type="hidden" name="_csrf" value="{{csrftoken}}" />
-    <div class="buttons">
-      <input type="submit" value="Sync" />
-    </div>
-  </form>
-
-    <form action="{{{base}}}/sync?fromScratch=true" method="post">
-    <input type="hidden" name="_csrf" value="{{csrftoken}}" />
-    <div class="buttons">
-      <input type="submit" value="Sync from scratch" />
-    </div>
-  </form>
-
-  {{/account.folderID}}

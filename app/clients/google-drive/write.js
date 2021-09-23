@@ -4,8 +4,30 @@ const basename = require("path").basename;
 const localPath = require("helper/localPath");
 const fs = require("fs-extra");
 
+const { Readable } = require("stream");
+
+function bufferToStream(binary) {
+  const readableInstanceStream = new Readable({
+    read() {
+      this.push(binary);
+      this.push(null);
+    },
+  });
+
+  return readableInstanceStream;
+}
+
 module.exports = function write(blogID, path, contents, callback) {
+  if (Buffer.isBuffer(contents)) contents = bufferToStream(contents);
+
   client(blogID, async function (err, drive, account) {
+    if (!account.folderID)
+      return callback(
+        new Error(
+          "Cannot write with the Google Drive client without setting a folderID"
+        )
+      );
+
     try {
       const parentID = await establishParentDirectories(
         drive,
