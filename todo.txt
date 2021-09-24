@@ -1,4 +1,4 @@
-Release the Google Drive client
+Release the Google Drive client in beta
 
 Finish the test folders for each template 
 
