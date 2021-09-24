@@ -1,5 +1,7 @@
 Release the Google Drive client in beta
 
+Fix the bug with featured sites (the sprite gets borked)
+
 Finish the test folders for each template 
 
 Ensure each template is good enough for the new film
