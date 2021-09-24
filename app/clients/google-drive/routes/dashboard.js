@@ -3,7 +3,7 @@ const express = require("express");
 const dashboard = new express.Router();
 const google = require("googleapis").google;
 const database = require("../database");
-const makeClient = require("../util/client");
+const createDriveClient = require("../util/createDriveClient");
 const disconnect = require("../disconnect");
 const VIEWS = require("path").resolve(__dirname + "/../views") + "/";
 const sync = require("../sync");
@@ -28,22 +28,20 @@ const AUTH_URL_CONFIG = {
 	],
 };
 
-dashboard.use(function loadGoogleDriveAccount(req, res, next) {
-	database.getAccount(req.blog.id, function (err, account) {
-		if (err) return next(err);
-		if (account) {
-			res.locals.account = account;
+dashboard.use(async function loadGoogleDriveAccount(req, res, next) {
+	const account = await database.getAccount(req.blog.id);
+	if (account) {
+		res.locals.account = account;
 
-			if (account.folderPath)
-				res.locals.account.folderParents = account.folderPath
-					.split("/")
-					.slice(1)
-					.map((name, i, arr) => {
-						return { name, last: arr.length - 1 === i };
-					});
-		}
-		next();
-	});
+		if (account.folderPath)
+			res.locals.account.folderParents = account.folderPath
+				.split("/")
+				.slice(1)
+				.map((name, i, arr) => {
+					return { name, last: arr.length - 1 === i };
+				});
+	}
+	next();
 });
 
 dashboard.get("/", function (req, res) {
@@ -125,7 +123,7 @@ dashboard
 	})
 	.post(
 		function createDriveClient(req, res, next) {
-			makeClient(req.blog.id, function (err, drive) {
+			createDriveClient(req.blog.id, function (err, drive) {
 				if (err) return next(err);
 				req.drive = drive;
 				next();
@@ -147,22 +145,16 @@ dashboard
 				req.folderID = folder.data.id;
 				req.folderName = folder.data.name;
 				req.folderPath = "/My Drive/" + req.folderName;
+				await database.setAccount(req.blog.id, {
+					folderID: req.folderID,
+					folderName: req.folderName,
+					folderPath: req.folderPath,
+				});
 			} catch (e) {
 				return next(e);
 			}
 
-			database.setAccount(
-				req.blog.id,
-				{
-					folderID: req.folderID,
-					folderName: req.folderName,
-					folderPath: req.folderPath,
-				},
-				function (err) {
-					if (err) return next(err);
-					next();
-				}
-			);
+			next();
 		},
 
 		function transferExistingFiles(req, res, next) {
@@ -208,27 +200,22 @@ dashboard.get("/authenticate", function (req, res, next) {
 
 	// This will provide an object with the access_token and refresh_token.
 	// Save these somewhere safe so they can be used at a later time.
-	oauth2Client.getToken(req.query.code, function (err, account) {
+	oauth2Client.getToken(req.query.code, async function (err, account) {
 		if (err) return next(err);
-		database.setAccount(req.blog.id, account, function (err) {
+		await database.setAccount(req.blog.id, account);
+		createDriveClient(req.blog.id, function (err, drive) {
 			if (err) return next(err);
-			makeClient(req.blog.id, function (err, drive) {
+			drive.about.get({ fields: "*" }, async function (err, response) {
 				if (err) return next(err);
-				drive.about.get({ fields: "*" }, function (err, response) {
-					if (err) return next(err);
-					let email = response.data.user.emailAddress;
-					// If we are re-authenticating because of an error
-					// then remove the error message!
-					database.setAccount(req.blog.id, { email, error: "" }, function (
-						err
-					) {
-						if (err) return next(err);
-						res.message(
-							"/settings/client/google-drive/set-up-folder",
-							"You have connected Blot to Google Drive successfully"
-						);
-					});
-				});
+				let email = response.data.user.emailAddress;
+				// If we are re-authenticating because of an error
+				// then remove the error message!
+				await database.setAccount(req.blog.id, { email, error: "" });
+
+				res.message(
+					"/settings/client/google-drive/set-up-folder",
+					"You have connected Blot to Google Drive successfully"
+				);
 			});
 		});
 	});

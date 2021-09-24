@@ -1,14 +1,14 @@
-const client = require("./util/client");
+const createDriveClient = require("./util/createDriveClient");
 const Sync = require("sync");
 const database = require("./database");
 const tempDir = require("helper/tempDir")();
-const google = require("googleapis").google;
 const fs = require("fs-extra");
 const join = require("path").join;
-const basename = require("path").basename;
 const dirname = require("path").dirname;
 const localPath = require("helper/localPath");
 const guid = require("helper/guid");
+const debug = require("debug")("blot:clients:google-drive:sync");
+const colors = require("colors/safe");
 
 // PREVENT THE PROGRAM from makeing changes
 const DISABLE = false;
@@ -28,153 +28,159 @@ var SYNC_OPTIONS = {
 // https://developers.google.com/drive/api/v3/reference/changes/list
 
 module.exports = function (blogID, options, callback) {
-  Sync(blogID, SYNC_OPTIONS, function (err, folder, done) {
+  debug("Blog:", blogID, "Attempting to sync");
+  Sync(blogID, SYNC_OPTIONS, async function (err, folder, done) {
     if (err) return callback(err);
-    client(blogID, async function (err, drive, account, auth) {
-      if (err) return done(err, callback);
-      const service = google.driveactivity({ version: "v2", auth });
-      const params = {
-        ancestor_name: "items/" + account.folderID,
-        consolidation_strategy: { legacy: {} },
-        filter:
-          "detail.action_detail_case:(CREATE EDIT MOVE RENAME DELETE RESTORE)",
-      };
+    debug("Blog:", blogID, "Acquired lock on folder");
+    const { drive, driveactivity, account } = await createDriveClient(blogID);
+    if (err) return done(err, callback);
+    debug("Blog:", blogID, "Created Drive client");
+    const params = {
+      ancestor_name: "items/" + account.folderID,
+      consolidation_strategy: { legacy: {} },
+      filter:
+        "detail.action_detail_case:(CREATE EDIT MOVE RENAME DELETE RESTORE)",
+    };
 
-      if (account.latestActivity && !options.fromScratch) {
-        params.filter += ` time > \"${account.latestActivity}\"`;
-      }
+    if (account.latestActivity && !options.fromScratch) {
+      params.filter += ` time > \"${account.latestActivity}\"`;
+    }
 
-      console.log();
-      console.log("------------- REQUEST -------------");
-      console.log(params);
-      let res;
-      try {
-        res = await service.activity.query({
-          requestBody: params,
-        });
+    debug();
+    debug("------------- REQUEST -------------");
+    debug(params);
+    let res;
+    try {
+      res = await driveactivity.activity.query({
+        requestBody: params,
+      });
 
-        console.log("------------- RESPONSE -------------");
-        console.log(JSON.stringify(res.data.activities, null, 2) || "{ }");
+      debug("------------- RESPONSE -------------");
+      debug(JSON.stringify(res.data.activities, null, 2) || "{ }");
 
-        res.data.activities = res.data.activities || [];
+      res.data.activities = res.data.activities || [];
 
-        if (res.data.nextPageToken || res.nextPageToken) {
-          console.log("res.data.nextPageToken", res.data.nextPageToken);
-          console.log("res.nextPageToken", res.nextPageToken);
-          throw new Error("THERE IS A nextPageToken to handle");
+      if (res.data.nextPageToken || res.nextPageToken) {
+        debug("res.data.nextPageToken", res.data.nextPageToken);
+
+        let nextPage;
+        try {
+          nextPage = await driveactivity.activity.query({
+            ...params,
+            pageToken: res.data.nextPageToken,
+          });
+          debug(
+          "this page first date",
+          nextPage.data.activities[0].time ||
+            nextPage.data.activities[0].timeRange.endTime
+        );
+
+        debug(
+          "next page first date",
+          nextPage.data.activities[0].time ||
+            nextPage.data.activities[0].timeRange.endTime
+        );
+        } catch (e) {
+          debug("error fetching next page", e);
         }
 
-        // TODO handle page size overflow
-        // paginate with pageToken
 
-        // activities are returned with oldest at start of list
-        // and most recent at the end.
+        throw new Error("THERE IS A nextPageToken to handle");
+      }
 
-        console.log("------------- ACTIONS -------------");
-        if (DISABLE)
-          console.log("WARNING: IN DRY-RUN MODE NONE OF THESE WILL BE APPLIED");
-        // Are we definitely getting sorted activities?
-        // I can't tell
-        const activities = res.data.activities.reverse();
+      // TODO handle page size overflow
+      // paginate with pageToken
 
-        for (const change of activities) {
-          for (const action of change.actions) {
-            const target = action.target || change.targets[0];
-            const fileId = target.driveItem.name.slice("items/".length);
+      // activities are returned with oldest at start of list
+      // and most recent at the end.
 
-            // Remove file
-            if (action.detail.delete) {
-              console.log("DELETE", fileId, target.driveItem.title);
-              if (!DISABLE)
-                await deleteFile(drive, folder, blogID, fileId, account);
-            }
+      debug("------------- ACTIONS -------------");
+      if (DISABLE) {
+        debug("WARNING: IN DRY-RUN MODE NONE OF THESE WILL BE APPLIED");
+        debug("-----------------------------------");
+      }
+      // Are we definitely getting sorted activities?
+      // I can't tell
+      const activities = res.data.activities.reverse();
 
-            // MOVE file
-            // We check for removedParents (i.e. the folder from which)
-            // this file was moved because the event is fired for
-            // file creation as well.
-            if (action.detail.move && action.detail.move.removedParents) {
-              const removedParents = action.detail.move.removedParents;
-              const oldParentID = removedParents[0].driveItem.name.slice(
-                "items/".length
-              );
-              console.log(
-                "MOVE",
-                fileId,
-                target.driveItem.title,
-                "from",
-                oldParentID
-              );
-              if (!DISABLE)
-                await move(drive, folder, blogID, fileId, oldParentID, account);
-            }
+      for (const change of activities) {
+        for (const action of change.actions) {
+          const target = action.target || change.targets[0];
+          const fileId = target.driveItem.name.slice("items/".length);
 
-            // RENAME file (i.e. move within same directory)
-            if (action.detail.rename) {
-              const oldName = action.detail.rename.oldTitle;
-              console.log(
-                "RENAME",
-                fileId,
-                target.driveItem.title,
-                "from",
-                oldName
-              );
-              if (!DISABLE)
-                await rename(drive, folder, blogID, fileId, oldName, account);
-            }
+          // Remove file
+          if (action.detail.delete) {
+            debug("DELETE", fileId, target.driveItem.title);
+            await deleteFile(drive, folder, blogID, fileId);
+          }
 
-            // Download the file
-            if (action.detail.create || action.detail.restore) {
-              console.log("CREATE/RESTORE", fileId, target.driveItem.title);
-              if (!DISABLE)
-                await download(drive, folder, blogID, fileId, target, account);
-            }
+          // MOVE file
+          // We check for removedParents (i.e. the folder from which)
+          // this file was moved because the event is fired for
+          // file creation as well.
+          if (action.detail.move && action.detail.move.removedParents) {
+            const removedParents = action.detail.move.removedParents;
+            const oldParentID = removedParents[0].driveItem.name.slice(
+              "items/".length
+            );
+            debug("MOVE", fileId, target.driveItem.title, "from", oldParentID);
+            await move(
+              drive,
+              folder,
+              blogID,
+              fileId,
+              oldParentID,
+              target,
+              account
+            );
+          }
 
-            // Download updated version of file
-            if (
-              action.detail.edit &&
-              // we might need to check for a different target here as well
-              // We need to continue because the edit event is also
-              // sent along with create
-              change.actions.filter(
-                (i) => i.detail.create || i.detail.restore || i.detail.delete
-              ).length === 0
-            ) {
-              console.log("EDIT", fileId, target.driveItem.title);
-              if (!DISABLE)
-                await download(drive, folder, blogID, fileId, target, account);
-            }
+          // RENAME file (i.e. move within same directory)
+          if (action.detail.rename) {
+            const newTitle = action.detail.rename.newTitle;
+            debug(
+              "RENAME",
+              fileId,
+              action.detail.rename.oldTitle,
+              "to",
+              newTitle
+            );
+            await rename(drive, folder, blogID, fileId, newTitle, account);
+          }
+
+          // Download the file
+          if (action.detail.create || action.detail.restore) {
+            debug("CREATE/RESTORE", fileId, target.driveItem.title);
+            await download(drive, folder, blogID, fileId, target, account);
+          }
+
+          // Download updated version of file
+          if (
+            action.detail.edit &&
+            // we might need to check for a different target here as well
+            // We need to continue because the edit event is also
+            // sent along with create
+            change.actions.filter(
+              (i) => i.detail.create || i.detail.restore || i.detail.delete
+            ).length === 0
+          ) {
+            debug("EDIT", fileId, target.driveItem.title);
+            await download(drive, folder, blogID, fileId, target, account);
           }
         }
 
-        if (!activities.length) {
-          console.log("No actions to take");
-          console.log();
-          return done(null, callback);
-        } else {
-          console.log();
-        }
-
         // We don't neccessarily get a timestamp, some have a time range
-        const latestActivity =
-          activities[activities.length - 1].timestamp ||
-          activities[activities.length - 1].timeRange.endTime;
-
-        console.log("Storing latestActivity", latestActivity);
-        database.setAccount(blogID, { latestActivity }, function (err) {
-          done(err, callback);
-        });
-      } catch (e) {
-        if (e.message === "invalid_grant") {
-          return database.setAccount(
-            blogID,
-            { error: e.message },
-            function () {}
-          );
-        }
-        done(e, callback);
+        const latestActivity = change.timestamp || change.timeRange.endTime;
+        debug("Storing latestActivity", latestActivity);
+        await database.setAccount(blogID, { latestActivity });
       }
-    });
+    } catch (e) {
+      if (e.message === "invalid_grant")
+        await database.setAccount(blogID, { error: e.message });
+      done(e, callback);
+    }
+
+    done(null, callback);
   });
 };
 
@@ -188,10 +194,10 @@ const savePath = async (folder, relativePath) => {
 };
 
 const determinePathInBlogFolder = async (drive, fileId, blogFolderID) => {
-  console.log("The file/folder", fileId, "path will be determined...");
+  debug("The file/folder", fileId, "path will be determined...");
 
   if (blogFolderID && fileId === blogFolderID) {
-    console.log("The file/folder", fileId, "refers to the blog folder");
+    debug("The file/folder", fileId, "refers to the blog folder");
     return "/";
   }
 
@@ -223,10 +229,10 @@ const determinePathInBlogFolder = async (drive, fileId, blogFolderID) => {
   if (insideBlogFolder || !blogFolderID) {
     const result =
       "/" + join(parents.map((i) => i.name).join("/"), res.data.name);
-    console.log("The file/folder", fileId, "has path", result);
+    debug("The file/folder", fileId, "has path", result);
     return result;
   } else {
-    console.log("The file/folder", fileId, "is not in the blog folder");
+    debug("The file/folder", fileId, "is not in the blog folder");
     return "";
   }
 };
@@ -242,17 +248,30 @@ const download = async (drive, folder, blogID, fileId, target, account) => {
     const path = localPath(blogID, relativePath);
     const tempPath = join(tempDir, guid());
 
-    console.log("relativePath:", relativePath);
-    console.log("fullPath", path);
-    console.log("tempPath", tempPath);
-    console.log("fileId", fileId);
-    console.log("target", target);
+    debug("relativePath:", relativePath);
+    debug("fullPath", path);
+    debug("tempPath", tempPath);
+    debug("fileId", fileId);
+    debug("target", target);
 
     try {
       if (target.driveItem.mimeType === "application/vnd.google-apps.folder") {
-        await fs.ensureDir(path);
+        if (!DISABLE) {
+          await fs.ensureDir(path);
+          await database.storeFolder(blogID, { fileId, path: relativePath });
+        }
+        debug("MKDIR folder");
+        debug("   to:", colors.green(path));
+
         return resolve();
       }
+
+      if (DISABLE) {
+        return resolve();
+      }
+
+      debug("DOWNLOAD file");
+      debug("   to:", colors.green(path));
 
       var dest = fs.createWriteStream(tempPath);
 
@@ -265,8 +284,9 @@ const download = async (drive, folder, blogID, fileId, target, account) => {
         .on("end", () => {
           fs.move(tempPath, path, { overwrite: true }, async (err) => {
             if (err) return reject(err);
+            await database.storeFolder(blogID, { fileId, path: relativePath });
             await savePath(folder, relativePath);
-            console.log("saved:", relativePath);
+            debug("DOWNLOAD file SUCCEEDED");
             resolve();
           });
         })
@@ -278,19 +298,23 @@ const download = async (drive, folder, blogID, fileId, target, account) => {
   });
 };
 
-const updateFolderPath = (drive, blogID, folderID) => {
-  return new Promise(async function (resolve, reject) {
-    const folderPath = await determinePathInBlogFolder(drive, folderID);
-    console.log("Storing new folderPath", folderPath);
-    database.setAccount(blogID, { folderPath }, function (err) {
-      if (err) return reject(err);
-      console.log("Stored new folderPath", folderPath);
-      resolve();
-    });
-  });
+const updateFolderPath = async (drive, blogID, folderID) => {
+  const folderPath = await determinePathInBlogFolder(drive, folderID);
+  debug("Storing new folderPath", folderPath);
+  await database.setAccount(blogID, { folderPath });
+  debug("Stored new folderPath", folderPath);
+  return;
 };
 
-const move = async (drive, folder, blogID, fileId, oldParentID, account) => {
+const move = async (
+  drive,
+  folder,
+  blogID,
+  fileId,
+  oldParentID,
+  target,
+  account
+) => {
   // We moved the
   if (fileId === account.folderID) {
     await updateFolderPath(drive, blogID, account.folderID);
@@ -303,63 +327,94 @@ const move = async (drive, folder, blogID, fileId, oldParentID, account) => {
     account.folderID
   );
 
-  const oldParentRelativePath = await determinePathInBlogFolder(
-    drive,
-    oldParentID,
-    account.folderID
-  );
+  const oldRelativePath = await database.getByFileId(blogID, fileId);
 
-  const oldRelativePath = join(oldParentRelativePath, basename(relativePath));
+  if (!oldRelativePath && relativePath) {
+    debug(
+      "WARNING this file/folderPath was MOVED into the blog folder from outside"
+    );
+    debug(" to:", greenIfExists(relativePath));
+    await download(drive, folder, blogID, fileId, target, account);
+    return;
+  }
+
+  if (!relativePath && oldRelativePath) {
+    debug("WARNING this file/folder was MOVED outside the blog folder");
+    debug(" from:", greenIfExists(oldRelativePath));
+    await deleteFile(drive, folder, blogID, fileId);
+    return;
+  }
+
+  if (!relativePath || !oldRelativePath) {
+    throw new Error("WARNING cannot file paths for this file/folder");
+  }
+
   const path = localPath(blogID, relativePath);
   const oldPath = localPath(blogID, oldRelativePath);
 
-  console.log("Moving file/folder on disk:");
-  console.log(" from:", oldPath);
-  console.log("   to:", path);
-
-  await fs.move(oldPath, path);
-  await savePath(folder, relativePath);
-  await savePath(folder, oldRelativePath);
-  console.log("moved:", oldRelativePath, "to", relativePath);
+  debug("MOVE file/folder");
+  debug(" from:", greenIfExists(oldPath));
+  debug("   to:", greenIfNotExists(path));
+  if (!DISABLE) {
+    await fs.move(oldPath, path);
+    await database.storeFolder(blogID, { fileId, path: relativePath });
+    await savePath(folder, relativePath);
+    await savePath(folder, oldRelativePath);
+    debug("MOVE file/folder SUCCEEDED");
+  }
 };
 
-const rename = async (drive, folder, blogID, fileId, oldName, account) => {
+const rename = async (drive, folder, blogID, fileId, newTitle, account) => {
   // We moved the blog folder
   if (fileId === account.folderID) {
     await updateFolderPath(drive, blogID, account.folderID);
     return;
   }
 
-  const relativePath = await determinePathInBlogFolder(
-    drive,
-    fileId,
-    account.folderID
-  );
-
-  const oldRelativePath = join(dirname(relativePath), oldName);
+  const oldRelativePath = await database.getByFileId(blogID, fileId);
+  const relativePath = join(dirname(oldRelativePath), newTitle);
 
   const path = localPath(blogID, relativePath);
   const oldPath = localPath(blogID, oldRelativePath);
 
-  console.log("Moving file/folder on disk:");
-  console.log(" from:", oldPath);
-  console.log("   to:", path);
-
-  await fs.move(oldPath, path);
-  await savePath(folder, relativePath);
-  await savePath(folder, oldRelativePath);
-
-  console.log("renamed:", oldRelativePath, "to", relativePath);
+  debug("MOVE file/folder");
+  debug(" from:", greenIfExists(oldPath));
+  debug("   to:", greenIfNotExists(path));
+  if (!DISABLE) {
+    await fs.move(oldPath, path);
+    await database.storeFolder(blogID, { fileId, path: relativePath });
+    await savePath(folder, relativePath);
+    await savePath(folder, oldRelativePath);
+    debug("MOVE file/folder SUCCEEDED");
+  }
 };
 
-const deleteFile = async (drive, folder, blogID, fileId, account) => {
-  const relativePath = await determinePathInBlogFolder(
-    drive,
-    fileId,
-    account.folderID
-  );
+const deleteFile = async (drive, folder, blogID, fileId) => {
+  const relativePath = await database.getByFileId(blogID, fileId);
+
+  if (!relativePath) {
+    debug("DELETE file/folder", fileId, "does not have a path stored in DB");
+    return;
+  }
+
   const path = localPath(blogID, relativePath);
-  await fs.remove(path);
-  await savePath(folder, relativePath);
-  console.log("removed:", relativePath);
+
+  debug("DELETE file/folder");
+  debug(" from:", greenIfExists(path));
+  if (!DISABLE) {
+    await fs.remove(path);
+    await database.deleteFolder(blogID, { fileId, path: relativePath });
+    await savePath(folder, relativePath);
+    debug("DELETE file/folder SUCCEEDED");
+  }
+};
+
+const greenIfExists = (path) => {
+  const fn = fs.existsSync(path) ? colors.green : colors.red;
+  return fn(path);
+};
+
+const greenIfNotExists = (path) => {
+  const fn = fs.existsSync(path) ? colors.red : colors.green;
+  return fn(path);
 };

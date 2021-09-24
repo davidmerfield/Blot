@@ -1,27 +1,26 @@
-const client = require("./util/client");
+const createDriveClient = require("./util/createDriveClient");
 const localPath = require("helper/localPath");
 const fs = require("fs-extra");
 
-module.exports = function write(blogID, path, callback) {
-  client(blogID, async function (err, drive, account) {
-    try {
-      const fileId = await establishFileId(drive, path, account.folderID);
+module.exports = async function write(blogID, path, callback) {
+  try {
+    const { drive, account } = await createDriveClient(blogID);
+    const fileId = await establishFileId(drive, path, account.folderID);
 
-      console.log("fileId is", fileId);
+    console.log("fileId is", fileId);
 
-      // todo determine if file already exists
-      // then do update instead to avoid duping it.
-      if (fileId) await drive.files.delete({ fileId });
+    // todo determine if file already exists
+    // then do update instead to avoid duping it.
+    if (fileId) await drive.files.delete({ fileId });
 
-      const pathOnBlot = localPath(blogID, path);
-      await fs.remove(pathOnBlot);
-    } catch (e) {
-      console.log(e);
-      return callback(e);
-    }
+    const pathOnBlot = localPath(blogID, path);
+    await fs.remove(pathOnBlot);
+  } catch (e) {
+    console.log(e);
+    return callback(e);
+  }
 
-    callback(null);
-  });
+  callback(null);
 };
 
 const establishFileId = async (drive, path, blogFolderID) => {

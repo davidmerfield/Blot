@@ -1,4 +1,4 @@
-const client = require("./util/client");
+const createDriveClient = require("./util/createDriveClient");
 const dirname = require("path").dirname;
 const basename = require("path").basename;
 const localPath = require("helper/localPath");
@@ -17,50 +17,50 @@ function bufferToStream(binary) {
   return readableInstanceStream;
 }
 
-module.exports = function write(blogID, path, contents, callback) {
+module.exports = async function write(blogID, path, contents, callback) {
   if (Buffer.isBuffer(contents)) contents = bufferToStream(contents);
 
-  client(blogID, async function (err, drive, account) {
-    if (!account.folderID)
-      return callback(
-        new Error(
-          "Cannot write with the Google Drive client without setting a folderID"
-        )
-      );
+  const { drive, account } = await createDriveClient(blogID);
 
-    try {
-      const parentID = await establishParentDirectories(
-        drive,
-        path,
-        account.folderID
-      );
+  if (!account.folderID)
+    return callback(
+      new Error(
+        "Cannot write with the Google Drive client without setting a folderID"
+      )
+    );
 
-      console.log("parentID is", parentID);
+  try {
+    const parentID = await establishParentDirectories(
+      drive,
+      path,
+      account.folderID
+    );
 
-      if (!parentID) throw new Error("No parent ID");
+    console.log("parentID is", parentID);
 
-      // todo determine if file already exists
-      // then do update instead to avoid duping it.
-      await drive.files.create({
-        resource: {
-          name: basename(path),
-          parents: [parentID],
-        },
-        media: {
-          body: contents,
-        },
-        fields: "id",
-      });
+    if (!parentID) throw new Error("No parent ID");
 
-      const pathOnBlot = localPath(blogID, path);
-      await fs.outputFile(pathOnBlot, contents);
-    } catch (e) {
-      console.log(e);
-      return callback(e);
-    }
+    // todo determine if file already exists
+    // then do update instead to avoid duping it.
+    await drive.files.create({
+      resource: {
+        name: basename(path),
+        parents: [parentID],
+      },
+      media: {
+        body: contents,
+      },
+      fields: "id",
+    });
 
-    callback(null);
-  });
+    const pathOnBlot = localPath(blogID, path);
+    await fs.outputFile(pathOnBlot, contents);
+  } catch (e) {
+    console.log(e);
+    return callback(e);
+  }
+
+  callback(null);
 };
 
 const establishParentDirectories = async (drive, path, blogFolderID) => {
