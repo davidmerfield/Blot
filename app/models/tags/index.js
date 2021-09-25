@@ -3,5 +3,5 @@ module.exports = {
   key: require("./key"),
   list: require("./list"),
   normalize: require("./normalize"),
-  set: require("./set")
+  set: require("./set"),
 };

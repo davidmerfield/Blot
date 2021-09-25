@@ -1,13 +1,13 @@
 var TYPES = {
-    undefined: "undefined",
-    number: "number",
-    boolean: "boolean",
-    string: "string",
+    "undefined": "undefined",
+    "number": "number",
+    "boolean": "boolean",
+    "string": "string",
     "[object Function]": "function",
     "[object RegExp]": "regexp",
     "[object Array]": "array",
     "[object Date]": "date",
-    "[object Error]": "error"
+    "[object Error]": "error",
   },
   TOSTRING = Object.prototype.toString;
 
@@ -61,7 +61,7 @@ function seriesItem(list, doThis, callback) {
 
   doThis(
     item,
-    callOnce(function(err) {
+    callOnce(function (err) {
       if (err) {
         // should handle this err
       }
@@ -80,7 +80,7 @@ function seriesPair(list, doThis, callback) {
   doThis(
     item[0],
     item[1],
-    callOnce(function(err) {
+    callOnce(function (err) {
       if (err) {
         // should handle this err
       }
@@ -142,10 +142,10 @@ function parallelPair(list, doThis, callback) {
 }
 
 function multi(max) {
-  return function(array, doThis, done) {
+  return function (array, doThis, done) {
     // Do nothing after
     if (done === undefined)
-      done = function() {
+      done = function () {
         return true;
       };
 
@@ -177,7 +177,7 @@ function multi(max) {
 
       counter++;
 
-      setTimeout(function() {
+      setTimeout(function () {
         // call once people!
         doThis(array[i], callOnce(onComplete));
       }, 0);
@@ -237,17 +237,17 @@ function massiveParallelList(cb) {
 
   forEach.parallel(
     list,
-    function(number, next) {
+    function (number, next) {
       list[number - 1] = number * 10;
       next();
       next();
     },
-    function() {
+    function () {
       console.log("All done!");
       console.log("Checking valid process...");
       assert.deepEqual(
         list,
-        longList(100000).map(function(n) {
+        longList(100000).map(function (n) {
           return n * 10;
         })
       );
@@ -263,17 +263,17 @@ function massiveSeriesList(cb) {
 
   forEach(
     list,
-    function(number, next) {
+    function (number, next) {
       list[number - 1] = number * 2;
       next();
       next();
     },
-    function() {
+    function () {
       console.log("All done!");
       console.log("Checking valid process...");
       assert.deepEqual(
         list,
-        longList(100000).map(function(n) {
+        longList(100000).map(function (n) {
           return n * 2;
         })
       );
@@ -289,15 +289,15 @@ function delayedSeriesList(cb) {
 
   forEach(
     list,
-    function(num, next) {
+    function (num, next) {
       console.log(num + " is processing...");
-      setTimeout(function() {
+      setTimeout(function () {
         console.log(num + " is completed...");
         next();
         next();
       }, 120);
     },
-    function() {
+    function () {
       console.log("All done!");
       cb();
     }
@@ -311,15 +311,15 @@ function delayedParallelList(cb) {
 
   forEach.parallel(
     list,
-    function(letter, next) {
+    function (letter, next) {
       console.log(letter + " is processing...");
-      setTimeout(function() {
+      setTimeout(function () {
         console.log(letter + " is completed...");
         next();
         next();
       }, 120);
     },
-    function() {
+    function () {
       console.log("All done!");
       cb();
     }
@@ -333,15 +333,15 @@ function multiList(cb) {
 
   forEach.multi(2)(
     list,
-    function(letter, next) {
+    function (letter, next) {
       console.log(letter + " is processing...");
-      setTimeout(function() {
+      setTimeout(function () {
         console.log(letter + " is completed...");
         next();
         next();
       }, 120);
     },
-    function() {
+    function () {
       console.log("All done!");
       cb();
     }
@@ -350,15 +350,15 @@ function multiList(cb) {
 
 function listTests(cb) {
   console.log("");
-  massiveParallelList(function() {
+  massiveParallelList(function () {
     console.log("");
-    massiveSeriesList(function() {
+    massiveSeriesList(function () {
       console.log("");
-      delayedSeriesList(function() {
+      delayedSeriesList(function () {
         console.log("");
-        delayedParallelList(function() {
+        delayedParallelList(function () {
           console.log("");
-          multiList(function() {
+          multiList(function () {
             console.log("List tests complete!");
             cb();
           });
@@ -378,7 +378,7 @@ function seriesMassiveObject(cb) {
 
   forEach(
     obj,
-    function(key, value, next) {
+    function (key, value, next) {
       // console.log(key, value.length);
 
       value = false;
@@ -386,7 +386,7 @@ function seriesMassiveObject(cb) {
 
       next();
     },
-    function() {
+    function () {
       console.log("All done!");
       assert.deepEqual(obj, _obj);
       cb();
@@ -411,7 +411,7 @@ function parallelMassiveObject(cb) {
 
   forEach.parallel(
     obj,
-    function(key, value, next) {
+    function (key, value, next) {
       // console.log(key, value.length);
 
       value = false;
@@ -419,7 +419,7 @@ function parallelMassiveObject(cb) {
 
       next();
     },
-    function() {
+    function () {
       console.log("All done!");
       assert.deepEqual(obj, _obj);
       cb();
@@ -434,15 +434,15 @@ function delayedSeriesObject(cb) {
 
   forEach(
     obj,
-    function(letter, number, next) {
+    function (letter, number, next) {
       console.log(letter + " " + number + " is processing...");
-      setTimeout(function() {
+      setTimeout(function () {
         console.log(letter + " " + number + " is completed");
         next();
         next();
       }, 120);
     },
-    function() {
+    function () {
       console.log("All done!");
       cb();
     }
@@ -456,15 +456,15 @@ function delayedParallelObject(cb) {
 
   forEach.parallel(
     obj,
-    function(letter, number, next) {
+    function (letter, number, next) {
       console.log(letter + " " + number + " is processing...");
-      setTimeout(function() {
+      setTimeout(function () {
         console.log(letter + " " + number + " is completed");
         next();
         next();
       }, 120);
     },
-    function() {
+    function () {
       console.log("All done!");
       cb();
     }
@@ -478,15 +478,15 @@ function multiObject(cb) {
 
   forEach.multi(2)(
     obj,
-    function(letter, number, next) {
+    function (letter, number, next) {
       console.log(letter + " " + number + " is processing...");
-      setTimeout(function() {
+      setTimeout(function () {
         console.log(letter + " " + number + " is completed");
         next();
         next();
       }, 120);
     },
-    function() {
+    function () {
       console.log("All done!");
       cb();
     }
@@ -495,15 +495,15 @@ function multiObject(cb) {
 
 function objectTests(cb) {
   console.log("");
-  seriesMassiveObject(function() {
+  seriesMassiveObject(function () {
     console.log("");
-    parallelMassiveObject(function() {
+    parallelMassiveObject(function () {
       console.log("");
-      delayedSeriesObject(function() {
+      delayedSeriesObject(function () {
         console.log("");
-        delayedParallelObject(function() {
+        delayedParallelObject(function () {
           console.log("");
-          multiObject(function() {
+          multiObject(function () {
             console.log("Object tests complete!");
             cb();
           });

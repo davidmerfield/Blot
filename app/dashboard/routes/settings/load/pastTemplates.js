@@ -1,50 +1,62 @@
-var helper = require("helper");
-var arrayify = helper.arrayify;
-var previewHost = "https://preview-of";
-var config = require("config");
-var Template = require("template");
+const arrayify = require("helper/arrayify");
+const config = require("config");
+const Template = require("template");
+const async = require("async");
 
-module.exports = function(req, res, next) {
-  Template.getTemplateList("SITE", function(err, templates) {
-    templates = templates.filter(function(template) {
-      return (
-        !template.isMine && !template.isPublic && template.owner === "SITE"
-      );
-    });
+module.exports = function (req, res, next) {
+  res.locals.templates = [];
+  const otherBlogIDs = req.user.blogs.filter((id) => id !== req.blog.id);
 
-    // Turn the dictionary of templates returned
-    // from the DB into a list that Mustache can render
-    templates = arrayify(templates, function(template) {
-      template.nameLower = template.name.toLowerCase();
+  console.log(otherBlogIDs);
 
-      template.editURL = "/template/" + template.slug;
+  async.eachSeries(
+    ["SITE", ...otherBlogIDs],
+    function (ownerID, next) {
+      Template.getTemplateList(ownerID, function (err, templates) {
+        templates = templates.filter(function (template) {
+          return !template.isPublic && template.owner === ownerID;
+        });
 
-      template.previewURL =
-        previewHost +
-        "-" +
-        template.slug +
-        "-on-" +
-        req.blog.handle +
-        "." +
-        config.host;
-    });
+        templates = templates.map((template) => {
+          template.isMine = ownerID === "SITE";
+          return template;
+        });
+        
+        // Turn the dictionary of templates returned
+        // from the DB into a list that Mustache can render
+        templates = arrayify(templates, function (template) {
+          template.nameLower = template.name.toLowerCase();
 
-    // Sort templates alphabetically,
-    // with my templates above site tmeplates
-    templates.sort(function(a, b) {
-      var aName = a.name.trim().toLowerCase();
+          template.editURL = "/template/" + template.slug;
 
-      var bName = b.name.trim().toLowerCase();
+          template.previewURL =
+            "https://preview-of-" +
+            template.slug +
+            "-on-" +
+            req.blog.handle +
+            "." +
+            config.host;
+        });
 
-      if (aName < bName) return -1;
+        // Sort templates alphabetically,
+        // with my templates above site tmeplates
+        templates.sort(function (a, b) {
+          const aName = a.name.trim().toLowerCase();
 
-      if (aName > bName) return 1;
+          const bName = b.name.trim().toLowerCase();
 
-      return 0;
-    });
+          if (aName < bName) return -1;
 
-    res.locals.templates = templates;
+          if (aName > bName) return 1;
 
-    next();
-  });
+          return 0;
+        });
+
+        res.locals.templates = res.locals.templates.concat(templates);
+
+        next();
+      });
+    },
+    next
+  );
 };

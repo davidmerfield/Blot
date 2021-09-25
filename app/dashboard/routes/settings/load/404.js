@@ -1,8 +1,8 @@
-var fourOhFour = require("../../../../models/404");
+var fourOhFour = require("models/404");
 var List = fourOhFour.list;
 
-module.exports = function(req, res, next) {
-  List(req.blog.id, function(err, list, ignored) {
+module.exports = function (req, res, next) {
+  List(req.blog.id, function (err, list, ignored) {
     if (err) return next(err);
 
     var has_ignored;

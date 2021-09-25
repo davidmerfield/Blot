@@ -5,10 +5,7 @@ var _ = require("lodash");
 module.exports = function parse(path) {
   ensure(path, "string");
 
-  var _list = fs
-    .readFileSync(path)
-    .toString()
-    .split("\n");
+  var _list = fs.readFileSync(path).toString().split("\n");
 
   var list = [];
 

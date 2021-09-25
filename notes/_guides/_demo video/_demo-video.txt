@@ -1,0 +1,20 @@
+# Demo video
+
+Hello, I'm going to show you how to publish with Blot. I've just signed up for Blot and connected this folder in my Dropbox to Blot. 
+
+Here's a text file containing my blog post. To publish it, drag-and-drop it inside my folder. Once Dropbox syncs the folder, Blot transforms the text file into a blog post and publishes it. Here's my blog, there's that post.
+
+To edit the post, I edit the text file. Blot can turn a variety of files into blog posts. Here's a photo straight off the camera. Now it's a blog post. Here's a Word Document. Now it's a blog post. Here's an HTML file with a data visualization I wrote in JavaScript. Now it's a blog post.
+
+The point of Blot is to allow you to use your favourite tools. Right now I'm using my favourite text-editor on my laptop, but there are a number of mobile text-editors for your phone or tablet which synchronize with Dropbox, and so they work with Blot.
+
+Now this was just a demo, but I'll show you how I actually use Blot to run a few websites.
+
+Archive tempate:   The first website I run on Blot contains 
+Custom template: My personal homepage
+Feed template: Blot's developer blog
+
+To show off static file hosting, use the first ever website! Is it this one?
+
+http://info.cern.ch/hypertext/WWW/
+

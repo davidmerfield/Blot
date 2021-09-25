@@ -2,7 +2,7 @@ var pretty = require("pretty");
 var cheerio = require("cheerio");
 var fs = require("fs-extra");
 
-module.exports = function($) {
+module.exports = function ($) {
   $.root()
     .contents()
     .each(function replace_cdate(i, el) {
@@ -19,9 +19,7 @@ module.exports = function($) {
         // This works
         //$(el.parent).remove();
 
-        return $(el)
-          .parent()
-          .remove();
+        return $(el).parent().remove();
       }
 
       // if (el.name === 'content') {console.log(el);throw ''}
@@ -30,9 +28,7 @@ module.exports = function($) {
       //   console.log('TEXT NODE WITH CDATA PARENT', el.parent && el.parent.name);
       // }
 
-      $(el)
-        .contents()
-        .each(replace_cdate);
+      $(el).contents().each(replace_cdate);
     });
 
   fs.outputFileSync(__dirname + "/test.enex", pretty($.html()));

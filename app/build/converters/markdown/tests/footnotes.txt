@@ -1,4 +1,0 @@
-How about footnotes, are they parsed?[^inline](Goes in the para) Use this syntax.[^1] Another line with a different footnote.[^2] And now for an inline footnote.
-
-[^1]: And the note goes here.
-[^2]: And the second goes here too.

@@ -9,33 +9,39 @@ var he = require("he");
 // we have to decode it in advance
 // because the HTML has already been
 // decoded by pandoc...!
-function normalize (str) {
-  return he.decode(str).replace(/\s/g, " ").trim()
+function normalize(str) {
+  return he.decode(str).replace(/\s/g, " ").trim();
 }
 
 function summary($, title) {
   var summary;
 
-debug($.html());
-  
+  debug($.html());
+
   // We ignore the text content of
   // these tags for the summary
   // we only care about the content
   // of parapgraph tags for summaries
   // but these could sneak in
+  // we allow code but not code – this means
+  // that the text of inline code snippets is included:
+  // e.g.  `here` in the paragraph but block code is not:
+  // ```
+  // will be exluded
+  // ```
   $(
-    "pre, code, .katex, script, object, iframe, style, h1, h2, h3, h4, h5, h6, img + .caption"
+    "pre, .katex, script, object, iframe, style, h1, h2, h3, h4, h5, h6, img + .caption"
   ).remove();
 
   // add a space before the end of
   // each node so newlines look ok
-  $("p, blockquote").each(function() {
+  $("p, blockquote").each(function () {
     $(this).append(" ");
   });
 
-  title = normalize(title)
-  summary = normalize($(":root").text())
-
+  title = normalize(title);
+  summary = normalize($(":root").text());
+  
   if (summary.length > MAX_LENGTH) {
     summary = summary.slice(0, MAX_LENGTH);
     summary = summary.trim();

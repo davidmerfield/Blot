@@ -8,11 +8,11 @@ var debug = require("debug")("blot:importer:wordpress:markdown");
 // _Hey_ becomes \_Hey\_ since it assumes the input is pure
 // HTML. But we want the Markdown generally, so we remove the
 // escaping and do nothing to the HTML.
-turndown.escape = function(html) {
+turndown.escape = function (html) {
   return html;
 };
 
-module.exports = function(entry, callback) {
+module.exports = function (entry, callback) {
   debug();
   debug();
   debug("Input HTML:");

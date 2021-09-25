@@ -1,18 +1,17 @@
 var cheerio = require("cheerio");
-var helper = require("helper");
-var UID = helper.makeUid;
+var makeUid = require("helper/makeUid");
 
-module.exports = function(html) {
+module.exports = function (html) {
   var $ = cheerio.load(html, { decodeEntities: false });
 
   var changes = false;
-  var postfix = UID(3);
+  var postfix = makeUid(3);
 
   // The purpose of this is to prefix all the links
   // and IDs which start with #fn... so that
   // multiple entries with footnotes work nicely
   // on the same page.
-  $(".footnotes ol li").each(function() {
+  $(".footnotes ol li").each(function () {
     changes = true;
 
     var noteID = $(this).attr("id");

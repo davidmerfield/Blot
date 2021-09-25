@@ -1,12 +1,12 @@
 var _ = require("lodash");
 var MODEL = require("../scheme").TYPE;
-var helper = require("helper");
-var type = helper.type;
-var ensure = helper.ensure;
+var type = require("helper/type");
+var ensure = require("helper/ensure");
 var validator = {
   domain: require("./domain"),
   handle: require("./handle"),
-  timeZone: require("./timeZone")
+  plugins: require("./plugins"),
+  timeZone: require("./timeZone"),
 };
 
 // validator models should not modifiy the state of
@@ -17,10 +17,8 @@ var validator = {
 // Export a function which provides async access
 // to all the async modules. this requires user
 // each time and is bad in that respect
-module.exports = function(blogID, updates, callback) {
-  ensure(blogID, "string")
-    .and(updates, MODEL)
-    .and(callback, "function");
+module.exports = function (blogID, updates, callback) {
+  ensure(blogID, "string").and(updates, MODEL).and(callback, "function");
 
   var totalUpdates = 0,
     validUpdates = {},
@@ -44,7 +42,7 @@ module.exports = function(blogID, updates, callback) {
       validator[key](blogID, updates[key], onValidation(key));
 
   function onValidation(key) {
-    return function(error, validUpdate) {
+    return function (error, validUpdate) {
       if (error) errors[key] = error;
 
       // validUpdate might be falsy (empty string, FALSE)

@@ -1,3 +1,21 @@
-## Marketing
+# Marketing
 
-To do date I have not dedicated any effort to marketing Blot. I announced the service on a forum for programmers and those initial customers spread the product by word-of-mouth. I built it and they came. 
+## How we find our customers
+
+I have not spent any time actively marketing Blot to potential customers. I announced [the launch of Blot](https://news.ycombinator.com/item?id=8183498) on a forum for programmers. The initial customers which I recieved from that forum post have since spread the news by word-of-mouth. You can likely trace every customer on my books today back to the people in that post. 
+
+## Advertising
+
+I have not ever advertised Blot. There are relatively benign forms of advertising, like the bulletin board at your grocer's. However, I think the world would look better without advertising. Less ugly, much calmer. So I won't advertise.  
+
+## Social Media
+
+Blot does not have a presence on any of the social media platforms.
+
+## Discounts and promotions
+
+I do not offer discounts on Blot. I know that it makes business sense for me to run sales and offer promotions. However, offering a temporary discount seem unfair to customers who had paid full price. The price now is the lowest price it will ever be, and everybody who uses Blot pays it.
+
+## Trial accounts
+
+I also do not give out accounts for free to anyone, out of respect to my customers.

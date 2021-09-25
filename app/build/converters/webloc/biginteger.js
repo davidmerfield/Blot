@@ -26,7 +26,7 @@
 
 // For more information, please refer to <http://unlicense.org>
 
-var bigInt = (function(undefined) {
+var bigInt = (function (undefined) {
   "use strict";
 
   var BASE = 1e7,
@@ -155,7 +155,7 @@ var bigInt = (function(undefined) {
     return r;
   }
 
-  BigInteger.prototype.add = function(v) {
+  BigInteger.prototype.add = function (v) {
     var value,
       n = parseValue(v);
     if (this.sign !== n.sign) {
@@ -170,7 +170,7 @@ var bigInt = (function(undefined) {
   };
   BigInteger.prototype.plus = BigInteger.prototype.add;
 
-  SmallInteger.prototype.add = function(v) {
+  SmallInteger.prototype.add = function (v) {
     var n = parseValue(v);
     var a = this.value;
     if (a < 0 !== n.sign) {
@@ -256,7 +256,7 @@ var bigInt = (function(undefined) {
     return new BigInteger(r, sign);
   }
 
-  BigInteger.prototype.subtract = function(v) {
+  BigInteger.prototype.subtract = function (v) {
     var n = parseValue(v);
     if (this.sign !== n.sign) {
       return this.add(n.negate());
@@ -268,7 +268,7 @@ var bigInt = (function(undefined) {
   };
   BigInteger.prototype.minus = BigInteger.prototype.subtract;
 
-  SmallInteger.prototype.subtract = function(v) {
+  SmallInteger.prototype.subtract = function (v) {
     var n = parseValue(v);
     var a = this.value;
     if (a < 0 !== n.sign) {
@@ -282,20 +282,20 @@ var bigInt = (function(undefined) {
   };
   SmallInteger.prototype.minus = SmallInteger.prototype.subtract;
 
-  BigInteger.prototype.negate = function() {
+  BigInteger.prototype.negate = function () {
     return new BigInteger(this.value, !this.sign);
   };
-  SmallInteger.prototype.negate = function() {
+  SmallInteger.prototype.negate = function () {
     var sign = this.sign;
     var small = new SmallInteger(-this.value);
     small.sign = !sign;
     return small;
   };
 
-  BigInteger.prototype.abs = function() {
+  BigInteger.prototype.abs = function () {
     return new BigInteger(this.value, false);
   };
-  SmallInteger.prototype.abs = function() {
+  SmallInteger.prototype.abs = function () {
     return new SmallInteger(Math.abs(this.value));
   };
 
@@ -379,7 +379,7 @@ var bigInt = (function(undefined) {
     return -0.012 * l1 - 0.012 * l2 + 0.000015 * l1 * l2 > 0;
   }
 
-  BigInteger.prototype.multiply = function(v) {
+  BigInteger.prototype.multiply = function (v) {
     var value,
       n = parseValue(v),
       a = this.value,
@@ -411,7 +411,7 @@ var bigInt = (function(undefined) {
     }
     return new BigInteger(multiplyLong(b, smallToArray(a)), sign);
   }
-  SmallInteger.prototype._multiplyBySmall = function(a) {
+  SmallInteger.prototype._multiplyBySmall = function (a) {
     if (isPrecise(a.value * this.value)) {
       return new SmallInteger(a.value * this.value);
     }
@@ -421,7 +421,7 @@ var bigInt = (function(undefined) {
       this.sign !== a.sign
     );
   };
-  BigInteger.prototype._multiplyBySmall = function(a) {
+  BigInteger.prototype._multiplyBySmall = function (a) {
     if (a.value === 0) return Integer[0];
     if (a.value === 1) return this;
     if (a.value === -1) return this.negate();
@@ -431,7 +431,7 @@ var bigInt = (function(undefined) {
       this.sign !== a.sign
     );
   };
-  SmallInteger.prototype.multiply = function(v) {
+  SmallInteger.prototype.multiply = function (v) {
     return parseValue(v)._multiplyBySmall(this);
   };
   SmallInteger.prototype.times = SmallInteger.prototype.multiply;
@@ -459,11 +459,11 @@ var bigInt = (function(undefined) {
     return r;
   }
 
-  BigInteger.prototype.square = function() {
+  BigInteger.prototype.square = function () {
     return new BigInteger(square(this.value), false);
   };
 
-  SmallInteger.prototype.square = function() {
+  SmallInteger.prototype.square = function () {
     var value = this.value * this.value;
     if (isPrecise(value)) return new SmallInteger(value);
     return new BigInteger(square(smallToArray(Math.abs(this.value))), false);
@@ -621,7 +621,7 @@ var bigInt = (function(undefined) {
         }
         return [
           new BigInteger(quotient, self.sign !== n.sign),
-          new SmallInteger(remainder)
+          new SmallInteger(remainder),
         ];
       }
       b = smallToArray(abs);
@@ -650,28 +650,28 @@ var bigInt = (function(undefined) {
     return [quotient, mod];
   }
 
-  BigInteger.prototype.divmod = function(v) {
+  BigInteger.prototype.divmod = function (v) {
     var result = divModAny(this, v);
     return {
       quotient: result[0],
-      remainder: result[1]
+      remainder: result[1],
     };
   };
   SmallInteger.prototype.divmod = BigInteger.prototype.divmod;
 
-  BigInteger.prototype.divide = function(v) {
+  BigInteger.prototype.divide = function (v) {
     return divModAny(this, v)[0];
   };
   SmallInteger.prototype.over = SmallInteger.prototype.divide = BigInteger.prototype.over =
     BigInteger.prototype.divide;
 
-  BigInteger.prototype.mod = function(v) {
+  BigInteger.prototype.mod = function (v) {
     return divModAny(this, v)[1];
   };
   SmallInteger.prototype.remainder = SmallInteger.prototype.mod = BigInteger.prototype.remainder =
     BigInteger.prototype.mod;
 
-  BigInteger.prototype.pow = function(v) {
+  BigInteger.prototype.pow = function (v) {
     var n = parseValue(v),
       a = this.value,
       b = n.value,
@@ -706,7 +706,7 @@ var bigInt = (function(undefined) {
   };
   SmallInteger.prototype.pow = BigInteger.prototype.pow;
 
-  BigInteger.prototype.modPow = function(exp, mod) {
+  BigInteger.prototype.modPow = function (exp, mod) {
     exp = parseValue(exp);
     mod = parseValue(mod);
     if (mod.isZero()) throw new Error("Cannot take modPow with modulus 0");
@@ -732,14 +732,14 @@ var bigInt = (function(undefined) {
     return 0;
   }
 
-  BigInteger.prototype.compareAbs = function(v) {
+  BigInteger.prototype.compareAbs = function (v) {
     var n = parseValue(v),
       a = this.value,
       b = n.value;
     if (n.isSmall) return 1;
     return compareAbs(a, b);
   };
-  SmallInteger.prototype.compareAbs = function(v) {
+  SmallInteger.prototype.compareAbs = function (v) {
     var n = parseValue(v),
       a = Math.abs(this.value),
       b = n.value;
@@ -750,7 +750,7 @@ var bigInt = (function(undefined) {
     return -1;
   };
 
-  BigInteger.prototype.compare = function(v) {
+  BigInteger.prototype.compare = function (v) {
     // See discussion about comparison with Infinity:
     // https://github.com/peterolson/BigInteger.js/issues/61
     if (v === Infinity) {
@@ -773,7 +773,7 @@ var bigInt = (function(undefined) {
   };
   BigInteger.prototype.compareTo = BigInteger.prototype.compare;
 
-  SmallInteger.prototype.compare = function(v) {
+  SmallInteger.prototype.compare = function (v) {
     if (v === Infinity) {
       return -1;
     }
@@ -794,84 +794,84 @@ var bigInt = (function(undefined) {
   };
   SmallInteger.prototype.compareTo = SmallInteger.prototype.compare;
 
-  BigInteger.prototype.equals = function(v) {
+  BigInteger.prototype.equals = function (v) {
     return this.compare(v) === 0;
   };
   SmallInteger.prototype.eq = SmallInteger.prototype.equals = BigInteger.prototype.eq =
     BigInteger.prototype.equals;
 
-  BigInteger.prototype.notEquals = function(v) {
+  BigInteger.prototype.notEquals = function (v) {
     return this.compare(v) !== 0;
   };
   SmallInteger.prototype.neq = SmallInteger.prototype.notEquals = BigInteger.prototype.neq =
     BigInteger.prototype.notEquals;
 
-  BigInteger.prototype.greater = function(v) {
+  BigInteger.prototype.greater = function (v) {
     return this.compare(v) > 0;
   };
   SmallInteger.prototype.gt = SmallInteger.prototype.greater = BigInteger.prototype.gt =
     BigInteger.prototype.greater;
 
-  BigInteger.prototype.lesser = function(v) {
+  BigInteger.prototype.lesser = function (v) {
     return this.compare(v) < 0;
   };
   SmallInteger.prototype.lt = SmallInteger.prototype.lesser = BigInteger.prototype.lt =
     BigInteger.prototype.lesser;
 
-  BigInteger.prototype.greaterOrEquals = function(v) {
+  BigInteger.prototype.greaterOrEquals = function (v) {
     return this.compare(v) >= 0;
   };
   SmallInteger.prototype.geq = SmallInteger.prototype.greaterOrEquals = BigInteger.prototype.geq =
     BigInteger.prototype.greaterOrEquals;
 
-  BigInteger.prototype.lesserOrEquals = function(v) {
+  BigInteger.prototype.lesserOrEquals = function (v) {
     return this.compare(v) <= 0;
   };
   SmallInteger.prototype.leq = SmallInteger.prototype.lesserOrEquals = BigInteger.prototype.leq =
     BigInteger.prototype.lesserOrEquals;
 
-  BigInteger.prototype.isEven = function() {
+  BigInteger.prototype.isEven = function () {
     return (this.value[0] & 1) === 0;
   };
-  SmallInteger.prototype.isEven = function() {
+  SmallInteger.prototype.isEven = function () {
     return (this.value & 1) === 0;
   };
 
-  BigInteger.prototype.isOdd = function() {
+  BigInteger.prototype.isOdd = function () {
     return (this.value[0] & 1) === 1;
   };
-  SmallInteger.prototype.isOdd = function() {
+  SmallInteger.prototype.isOdd = function () {
     return (this.value & 1) === 1;
   };
 
-  BigInteger.prototype.isPositive = function() {
+  BigInteger.prototype.isPositive = function () {
     return !this.sign;
   };
-  SmallInteger.prototype.isPositive = function() {
+  SmallInteger.prototype.isPositive = function () {
     return this.value > 0;
   };
 
-  BigInteger.prototype.isNegative = function() {
+  BigInteger.prototype.isNegative = function () {
     return this.sign;
   };
-  SmallInteger.prototype.isNegative = function() {
+  SmallInteger.prototype.isNegative = function () {
     return this.value < 0;
   };
 
-  BigInteger.prototype.isUnit = function() {
+  BigInteger.prototype.isUnit = function () {
     return false;
   };
-  SmallInteger.prototype.isUnit = function() {
+  SmallInteger.prototype.isUnit = function () {
     return Math.abs(this.value) === 1;
   };
 
-  BigInteger.prototype.isZero = function() {
+  BigInteger.prototype.isZero = function () {
     return false;
   };
-  SmallInteger.prototype.isZero = function() {
+  SmallInteger.prototype.isZero = function () {
     return this.value === 0;
   };
-  BigInteger.prototype.isDivisibleBy = function(v) {
+  BigInteger.prototype.isDivisibleBy = function (v) {
     var n = parseValue(v);
     var value = n.value;
     if (value === 0) return false;
@@ -890,7 +890,7 @@ var bigInt = (function(undefined) {
     // we don't know if it's prime: let the other functions figure it out
   }
 
-  BigInteger.prototype.isPrime = function() {
+  BigInteger.prototype.isPrime = function () {
     var isPrime = isBasicPrime(this);
     if (isPrime !== undefined) return isPrime;
     var n = this.abs(),
@@ -915,7 +915,7 @@ var bigInt = (function(undefined) {
   };
   SmallInteger.prototype.isPrime = BigInteger.prototype.isPrime;
 
-  BigInteger.prototype.isProbablePrime = function(iterations) {
+  BigInteger.prototype.isProbablePrime = function (iterations) {
     var isPrime = isBasicPrime(this);
     if (isPrime !== undefined) return isPrime;
     var n = this.abs();
@@ -929,7 +929,7 @@ var bigInt = (function(undefined) {
   };
   SmallInteger.prototype.isProbablePrime = BigInteger.prototype.isProbablePrime;
 
-  BigInteger.prototype.modInv = function(n) {
+  BigInteger.prototype.modInv = function (n) {
     var t = bigInt.zero,
       newT = bigInt.one,
       r = parseValue(n),
@@ -957,27 +957,27 @@ var bigInt = (function(undefined) {
   };
   SmallInteger.prototype.modInv = BigInteger.prototype.modInv;
 
-  BigInteger.prototype.next = function() {
+  BigInteger.prototype.next = function () {
     var value = this.value;
     if (this.sign) {
       return subtractSmall(value, 1, this.sign);
     }
     return new BigInteger(addSmall(value, 1), this.sign);
   };
-  SmallInteger.prototype.next = function() {
+  SmallInteger.prototype.next = function () {
     var value = this.value;
     if (value + 1 < MAX_INT) return new SmallInteger(value + 1);
     return new BigInteger(MAX_INT_ARR, false);
   };
 
-  BigInteger.prototype.prev = function() {
+  BigInteger.prototype.prev = function () {
     var value = this.value;
     if (this.sign) {
       return new BigInteger(addSmall(value, 1), true);
     }
     return subtractSmall(value, 1, this.sign);
   };
-  SmallInteger.prototype.prev = function() {
+  SmallInteger.prototype.prev = function () {
     var value = this.value;
     if (value - 1 > -MAX_INT) return new SmallInteger(value - 1);
     return new BigInteger(MAX_INT_ARR, true);
@@ -997,7 +997,7 @@ var bigInt = (function(undefined) {
     );
   }
 
-  BigInteger.prototype.shiftLeft = function(n) {
+  BigInteger.prototype.shiftLeft = function (n) {
     if (!shift_isSmall(n)) {
       throw new Error(String(n) + " is too large for shifting.");
     }
@@ -1012,7 +1012,7 @@ var bigInt = (function(undefined) {
   };
   SmallInteger.prototype.shiftLeft = BigInteger.prototype.shiftLeft;
 
-  BigInteger.prototype.shiftRight = function(n) {
+  BigInteger.prototype.shiftRight = function (n) {
     var remQuo;
     if (!shift_isSmall(n)) {
       throw new Error(String(n) + " is too large for shifting.");
@@ -1061,36 +1061,34 @@ var bigInt = (function(undefined) {
     }
     var result = [];
     for (var i = 0; i < xBits.length; i++) result.push(fn(xBits[i], yBits[i]));
-    var sum = bigInt(result.pop())
-      .negate()
-      .times(bigInt(2).pow(result.length));
+    var sum = bigInt(result.pop()).negate().times(bigInt(2).pow(result.length));
     while (result.length) {
       sum = sum.add(bigInt(result.pop()).times(bigInt(2).pow(result.length)));
     }
     return sum;
   }
 
-  BigInteger.prototype.not = function() {
+  BigInteger.prototype.not = function () {
     return this.negate().prev();
   };
   SmallInteger.prototype.not = BigInteger.prototype.not;
 
-  BigInteger.prototype.and = function(n) {
-    return bitwise(this, n, function(a, b) {
+  BigInteger.prototype.and = function (n) {
+    return bitwise(this, n, function (a, b) {
       return a & b;
     });
   };
   SmallInteger.prototype.and = BigInteger.prototype.and;
 
-  BigInteger.prototype.or = function(n) {
-    return bitwise(this, n, function(a, b) {
+  BigInteger.prototype.or = function (n) {
+    return bitwise(this, n, function (a, b) {
       return a | b;
     });
   };
   SmallInteger.prototype.or = BigInteger.prototype.or;
 
-  BigInteger.prototype.xor = function(n) {
-    return bitwise(this, n, function(a, b) {
+  BigInteger.prototype.xor = function (n) {
+    return bitwise(this, n, function (a, b) {
       return a ^ b;
     });
   };
@@ -1179,7 +1177,7 @@ var bigInt = (function(undefined) {
         : new BigInteger(result, false)
     );
   }
-  var parseBase = function(text, base) {
+  var parseBase = function (text, base) {
     var val = Integer[0],
       pow = Integer[1],
       length = text.length;
@@ -1259,7 +1257,7 @@ var bigInt = (function(undefined) {
     return minusSign + out.reverse().join("");
   }
 
-  BigInteger.prototype.toString = function(radix) {
+  BigInteger.prototype.toString = function (radix) {
     if (radix === undefined) radix = 10;
     if (radix !== 10) return toBase(this, radix);
     var v = this.value,
@@ -1274,18 +1272,18 @@ var bigInt = (function(undefined) {
     var sign = this.sign ? "-" : "";
     return sign + str;
   };
-  SmallInteger.prototype.toString = function(radix) {
+  SmallInteger.prototype.toString = function (radix) {
     if (radix === undefined) radix = 10;
     if (radix != 10) return toBase(this, radix);
     return String(this.value);
   };
 
-  BigInteger.prototype.valueOf = function() {
+  BigInteger.prototype.valueOf = function () {
     return +this.toString();
   };
   BigInteger.prototype.toJSNumber = BigInteger.prototype.valueOf;
 
-  SmallInteger.prototype.valueOf = function() {
+  SmallInteger.prototype.valueOf = function () {
     return this.value;
   };
   SmallInteger.prototype.toJSNumber = SmallInteger.prototype.valueOf;
@@ -1366,7 +1364,7 @@ var bigInt = (function(undefined) {
   Integer.min = min;
   Integer.gcd = gcd;
   Integer.lcm = lcm;
-  Integer.isInstance = function(x) {
+  Integer.isInstance = function (x) {
     return x instanceof BigInteger || x instanceof SmallInteger;
   };
   Integer.randBetween = randBetween;

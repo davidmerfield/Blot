@@ -5,36 +5,47 @@
 // with the following relevant properties:
 // { "link": "http://example.com", "host": "example.com" }
 
+var config = require("config");
 var request = require("request");
 var Blog = require("blog");
+var User = require("models/user");
 var Template = require("template");
 var async = require("async");
+var latest_template_ids = require("fs")
+  .readdirSync(__dirname + "/../../../templates/latest")
+  .map((i) => "SITE:" + i);
 
 function filter(sites, callback) {
   async.groupByLimit(
     sites,
     3,
-    function(site, next) {
-      verify(site.host, function(err, template) {
+    function (site, next) {
+      verify(site.host, function (err, template, joined) {
         if (err !== null) return next(null, false);
 
         site.template = {
-          custom: template.id.indexOf("SITE:") === -1,
+          custom: latest_template_ids.indexOf(template.id) === -1,
           label: template.name,
-          slug: template.slug
+          slug: template.slug,
         };
+
+        site.joined = joined;
 
         next(null, true);
       });
     },
-    function(err, result) {
+    function (err, result) {
       callback(err, result.true || [], result.false || []);
     }
   );
 }
 
 function verify(domain, callback) {
-  Blog.get({ domain: domain }, function(err, blog) {
+  if (config.environment === "development") {
+    return callback(null, { id: "SITE:blog" }, new Date().getFullYear());
+  }
+
+  Blog.get({ domain: domain }, function (err, blog) {
     if (err) return callback(err);
 
     if (!blog) return callback(new Error("No blog with domain " + domain));
@@ -43,33 +54,41 @@ function verify(domain, callback) {
       return callback(new Error("No template for blog"));
     }
 
-    Template.getMetadata(blog.template, function(err, template) {
-      if (err) return callback(err);
+    User.getById(blog.owner, function (err, user) {
+      let joined = new Date().getFullYear();
 
-      if (!template) {
-        return callback(new Error("No template:" + blog.template));
+      if (user && user.subscription && user.subscription.created) {
+        joined = new Date(user.subscription.created * 1000).getFullYear();
       }
 
-      if (!template.id) {
-        console.log("no template id", blog, template);
-        return callback(new Error("No template:" + blog.template));
-      }
-
-      var options = {
-        uri: "http://" + domain + "/verify/domain-setup",
-        timeout: 1000,
-        maxRedirects: 5
-      };
-
-      request(options, function(err, res, body) {
+      Template.getMetadata(blog.template, function (err, template) {
         if (err) return callback(err);
 
-        if (body !== blog.handle)
-          return callback(
-            new Error("Domain" + domain + " no longer connected to Blot")
-          );
+        if (!template) {
+          return callback(new Error("No template:" + blog.template));
+        }
 
-        callback(null, template);
+        if (!template.id) {
+          console.log("no template id", blog, template);
+          return callback(new Error("No template:" + blog.template));
+        }
+
+        var options = {
+          uri: "http://" + domain + "/verify/domain-setup",
+          timeout: 1000,
+          maxRedirects: 5,
+        };
+
+        request(options, function (err, res, body) {
+          if (err) return callback(err);
+
+          if (body !== blog.handle)
+            return callback(
+              new Error("Domain" + domain + " no longer connected to Blot")
+            );
+
+          callback(null, template, joined);
+        });
       });
     });
   });

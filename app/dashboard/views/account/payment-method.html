@@ -1,28 +1,37 @@
+
+
+<form method="POST" class="account" id="payment-form" >
+
 <a href="" class="mess error" style="display:none">
          {{text}}
          <span class="link">Dismiss</span>
         </a>
 
-<form method="POST" class="account" id="payment-form" >
-
+<p style="margin: 11px 0 20px">Your payment method is stored securely on Stripe and is not stored on Blot.</p>
+<hr style="margin: 0 -20px">
+  <section style="max-width: 330px">
   <input type="hidden" name="_csrf" value="{{csrftoken}}">
 
+    <div>
     <label>
       <span>New card number:</span>
       <input type="text" size="20" data-stripe="number" name="number"/>
     </label>
-
+  </div>
+    <div>
     <label class="expiration">
       <span class="title">Expiration date:</span><br>
-      <input class="month" name="exp-month" placeholder="MM" type="text" size="2" data-stripe="exp-month"/>
-      <input class="year" name="exp-year" placeholder="YYYY" type="text" size="4" data-stripe="exp-year"/>
+      <input class="month"  style="border-radius: 0" name="exp-month" placeholder="MM" type="text" size="2" data-stripe="exp-month"/>
+      <input class="year" style="border-radius: 0" name="exp-year" placeholder="YYYY" type="text" size="4" data-stripe="exp-year"/>
     </label>
-
+  </div>
+  <div>
     <label class="cvc">
       <span>CVC:</span>
       <input type="text" size="4" data-stripe="cvc" name="cvc"/>
     </label>
-
+  </div>
+</section>
     <div class="clear"></div>
     
   <div class="buttons">

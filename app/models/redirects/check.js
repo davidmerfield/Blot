@@ -1,20 +1,17 @@
 var client = require("client");
-var helper = require("helper");
-var ensure = helper.ensure;
+var ensure = require("helper/ensure");
 var key = require("./key");
 var get = require("./get");
 var util = require("./util");
 var is = util.is;
 var isRegex = util.isRegex;
 
-module.exports = function(blogID, input, callback) {
-  ensure(blogID, "string")
-    .and(input, "string")
-    .and(callback, "function");
+module.exports = function (blogID, input, callback) {
+  ensure(blogID, "string").and(input, "string").and(callback, "function");
 
   var redirects = key.redirects(blogID);
 
-  get(blogID, input, function(err, redirect) {
+  get(blogID, input, function (err, redirect) {
     if (err) throw err;
 
     if (redirect) return callback(null, redirect);
@@ -25,7 +22,7 @@ module.exports = function(blogID, input, callback) {
       // SORTED SET, precedence is important
       // SSCAN myset 0 match 'Wo*'
 
-      client.ZSCAN(redirects, cursor, function(err, response) {
+      client.ZSCAN(redirects, cursor, function (err, response) {
         if (err) throw err;
 
         if (!response || !response.length) {

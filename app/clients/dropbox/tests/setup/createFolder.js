@@ -1,37 +1,24 @@
 var uuid = require("uuid/v4");
-var retry = require("../../util/retry");
-module.exports = function(options) {
-  return function createFolder(callback) {
-    var client = this.client;
-    var context = this;
+var retry = require("clients/dropbox/util/retry");
+module.exports = function (client, options, callback) {
+  if (options.root) {
+    return callback();
+  }
 
-    if (options.root) {
-      context.folder = "";
-      context.folderID = "";
-      return callback();
-    }
+  var create = retry(Create);
 
-    var create = retry(Create);
-
-    create(client, function(err, folder, folderID) {
-      if (err) return callback(err);
-
-      context.folder = folder;
-      context.folderID = folderID;
-
-      callback(null);
-    });
-  };
+  create(client, callback);
 };
 
 function Create(client, callback) {
   var path = "/" + uuid();
   client
     .filesCreateFolder({ path: path })
-    .then(function(res) {
-      callback(null, res.path_lower, res.id);
+    .then(function ({ result }) {
+      callback(null, result.path_lower, result.id);
     })
-    .catch(function(err) {
+    .catch(function (err) {
+      console.log(err);
       callback(new Error("Could not set up test folder"));
     });
 }

@@ -1,8 +1,8 @@
-var DropboxSync = require("../../app/clients/dropbox/sync");
-var DropboxDatabase = require("../../app/clients/dropbox/database");
+var DropboxSync = require("clients/dropbox/sync");
+var DropboxDatabase = require("clients/dropbox/database");
 var get = require("../get/blog");
 
-get(process.argv[2], function(err, user, blog) {
+get(process.argv[2], function (err, user, blog) {
   if (err) throw err;
 
   console.log(
@@ -10,10 +10,10 @@ get(process.argv[2], function(err, user, blog) {
     blog.handle
   );
 
-  DropboxDatabase.set(blog.id, { cursor: "" }, function(err) {
+  DropboxDatabase.set(blog.id, { cursor: "" }, function (err) {
     if (err) throw err;
 
-    DropboxSync(blog, function(err) {
+    DropboxSync(blog, function (err) {
       if (err) throw err;
 
       console.log("Synced blog!");

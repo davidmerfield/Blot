@@ -5,12 +5,9 @@
     "background_color": "#fff",
     "text_color": "#000",
     "page_size": 20,
-    "body_font": {
-      "name": "System sans-serif",
-      "stack": "-apple-system, BlinkMacSystemFont, 'avenir next', avenir, 'helvetica neue', helvetica, ubuntu, roboto, noto, 'segoe ui', arial, sans-serif",
-      "line_height": 1.4,
-      "font_size": 16
-    }
+    "hide_dates": false,
+    "date_display": "MMMM D, Y",
+    "body_font": {}
   },
   "isPublic": true,
   "views": {

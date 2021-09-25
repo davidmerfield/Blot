@@ -1,0 +1,29 @@
+# Revenue model
+
+## How Blot makes money 
+
+I will sell the service to the people who want to host their blog on Blot. I will not generate income in any other way. The amount the customer pays for the service will be higher than the average amount I spend to provide the service, returning a profit with pays for the labor of the people who work on Blot. 
+
+## How did you decide the price?
+
+I set the price of Blot at whatever I would be comfortable paying myself. When I started Blot, it cost $1 a month. I've improved Blot since then and now Blot costs $4 a month. I feel that's still a fair price since I provide web hosting and personal support. 
+
+## Why don't you charge more?
+
+I know I could get away with charging more. I know this because I get regular emails from customers telling me this. However, I'm interested in having Blot in the hands of more people, even if it means generating less revenue. 
+
+## Why don't you offer a free trial?
+
+The main reason is because I don't want to make the code which deals with customer subscriptions any more complicated than it needs to be. I'm focussed on improving the core product, and I think that meta-features like the infrastructure around collecting payments should be of secondary importance. I'm always willing to refund people who sign up and then decide Blot is not for them.
+
+## Choosing between businesses and consumers
+
+I have chosen to aim the product toward consumers, rather than business customers, to reduce the stress involved in running the project. 
+
+## Investment
+
+I do not plan to raise investment in Blot. The main concern I'd have with bringing in investors would be the risk of compromising the aesthetic. It's vitally important that I love Blot and I know from experience that when one raises money one is forced into decisions that will make me love Blot less. Since I opened Blot to the public, it has been profitable and it remains profitable. I'm sure it makes business sense to raise money but I like how things are going.
+
+## Leaving money on the table
+
+Blot is not maximally optimized to generate revenue in the short-term. I try to take a long-term view where I can. For example, I do lots of things which might hurt my short-term customer churn rate. I'm serious about making Blot a long-term business and view these as investments.

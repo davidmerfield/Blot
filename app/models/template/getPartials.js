@@ -1,6 +1,6 @@
 var getView = require("./getView");
 var async = require("async");
-var ensure = require("helper").ensure;
+var ensure = require("helper/ensure");
 
 module.exports = function getPartials(blogID, templateID, partials, callback) {
   try {
@@ -18,14 +18,14 @@ module.exports = function getPartials(blogID, templateID, partials, callback) {
 
   for (var i in partials) if (partials[i]) allPartials[i] = partials[i];
 
-  fetchList(partials, function() {
+  fetchList(partials, function () {
     return callback(null, allPartials, retrieve);
   });
 
   function fetchList(partials, done) {
     async.eachOfSeries(
       partials,
-      function(value, partial, next) {
+      function (value, partial, next) {
         // Don't fetch a partial if we've got it already.
         // Partials which returned nothing are set as
         // empty strings to prevent any infinities.
@@ -35,7 +35,7 @@ module.exports = function getPartials(blogID, templateID, partials, callback) {
         // If the partial's name starts with a slash,
         // it is a path to an entry.
         if (partial.charAt(0) === "/") {
-          Entry.get(blogID, partial, function(entry) {
+          Entry.get(blogID, partial, function (entry) {
             // empty string and not undefined to
             // prevent infinite fetches
             allPartials[partial] = "";
@@ -53,7 +53,7 @@ module.exports = function getPartials(blogID, templateID, partials, callback) {
         // If the partial's name doesn't start with a slash,
         // it is the name of a tempalte view.
         if (partial.charAt(0) !== "/") {
-          getView(templateID, partial, function(err, view) {
+          getView(templateID, partial, function (err, view) {
             if (view) {
               allPartials[partial] = view.content;
 

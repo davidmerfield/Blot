@@ -1,13 +1,13 @@
-var Tags = require("../../../app/models/tags");
-var Entry = require("../../../app/models/entry");
+var Tags = require("models/tags");
+var Entry = require("models/entry");
 var async = require("async");
 var get = require("../../get/blog");
 var client = require("client");
 
 if (require.main === module) {
-  get(process.argv[2], function(err, user, blog) {
+  get(process.argv[2], function (err, user, blog) {
     if (err) throw err;
-    main(blog, function(err) {
+    main(blog, function (err) {
       if (err) throw err;
       process.exit();
     });
@@ -16,15 +16,15 @@ if (require.main === module) {
 
 function main(blog, callback) {
   console.log("Blog", blog.id, "Fixing tags");
-  Tags.list(blog.id, function(err, tags) {
+  Tags.list(blog.id, function (err, tags) {
     async.eachSeries(
       tags,
-      function(tag, next) {
-        Tags.get(blog.id, tag.slug, function(err, entryIDs) {
+      function (tag, next) {
+        Tags.get(blog.id, tag.slug, function (err, entryIDs) {
           async.each(
             entryIDs,
-            function(entryID, next) {
-              Entry.get(blog.id, entryID, function(entry) {
+            function (entryID, next) {
+              Entry.get(blog.id, entryID, function (entry) {
                 if (entry.id === entryID) return next();
                 console.log("MISMATCH", entryID, entry.id);
                 var multi = client.multi();
@@ -35,7 +35,7 @@ function main(blog, callback) {
                 multi.rename(entryKeyForIncorrectID, entryKeyForCorrectID);
                 multi.srem(tagKey, entryID);
                 multi.sadd(tagKey, entry.id);
-                multi.exec(function(err) {
+                multi.exec(function (err) {
                   if (err) return next(err);
                   Entry.set(blog.id, entry.id, entry, next);
                 });

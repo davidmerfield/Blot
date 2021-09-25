@@ -1,8 +1,8 @@
-var each_el = require("../../helper").each_el;
+var each_el = require("dashboard/routes/importer/helper").each_el;
 var fs = require("fs-extra");
 var cheerio = require("cheerio");
 
-module.exports = function(html, files, path_without_extension, callback) {
+module.exports = function (html, files, path_without_extension, callback) {
   var $ = cheerio.load(html, { decodeEntities: false });
 
   var has_images = false;
@@ -11,7 +11,7 @@ module.exports = function(html, files, path_without_extension, callback) {
   each_el(
     $,
     "en-media",
-    function(el, next) {
+    function (el, next) {
       var contents = $(el).contents();
       var hash = $(el).attr("hash");
       var file = files[hash];
@@ -31,7 +31,7 @@ module.exports = function(html, files, path_without_extension, callback) {
       $(el).after(contents);
       $(el).replaceWith($('<img src="' + file.name + '"></img>'));
 
-      fs.copy(file.path, path_without_extension + "/" + file.name, function(
+      fs.copy(file.path, path_without_extension + "/" + file.name, function (
         err
       ) {
         if (err) return callback(err);
@@ -39,7 +39,7 @@ module.exports = function(html, files, path_without_extension, callback) {
         next();
       });
     },
-    function() {
+    function () {
       callback(null, $.html(), has_images);
     }
   );

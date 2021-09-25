@@ -12,7 +12,7 @@ if (require.main === module) {
 
   var slug = parse_slug(url);
 
-  main(slug, output_directory, function(err) {
+  main(slug, output_directory, function (err) {
     if (err) throw err;
 
     console.log("Done!");
@@ -21,18 +21,15 @@ if (require.main === module) {
 }
 
 function main(slug, output_directory, callback) {
-  fetch(slug, function(err, posts) {
-    fs.emptyDir(output_directory, function(err) {
+  fetch(slug, function (err, posts) {
+    fs.emptyDir(output_directory, function (err) {
       parse(posts, callback);
     });
   });
 }
 
 function parse_slug(url) {
-  return require("url")
-    .parse(url)
-    .path.split("/")
-    .pop();
+  return require("url").parse(url).path.split("/").pop();
 }
 
 module.exports = main;

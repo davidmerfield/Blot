@@ -1,7 +1,5 @@
 {{{appJS}}}
 
-var open = document.getElementById('open-nav');
-var close = document.getElementById('close-nav');
 var body = document.body;
 
 Element.prototype.addClass = function (classToAdd) {
@@ -17,13 +15,13 @@ Element.prototype.removeClass = function (classToRemove) {
   this.className = classes.join(' ')
 }
 
-open.onclick = function (e){
+document.getElementById('open-nav').onclick = function (e){
   body.addClass('nav-is-open');
   e.preventDefault();
   return false;
 };
 
-close.onclick = function (e){
+document.getElementById('close-nav').onclick = function (e){
   body.removeClass('nav-is-open');
   e.preventDefault();
   return false;

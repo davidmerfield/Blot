@@ -1,18 +1,17 @@
 var fs = require("fs-extra");
-var helper = require("../../helper");
+var helper = require("dashboard/routes/importer/helper");
 var for_each = helper.for_each;
 var download_images = helper.download_images;
 var to_markdown = require("./to_markdown");
 var determine_path = helper.determine_path;
 var insert_metadata = helper.insert_metadata;
-var join = require("path").join;
 
 function main(blog, output_directory, callback) {
   for_each(
     blog.posts,
-    function(post, next) {
+    function (post, next) {
       var created, updated, path_without_extension;
-      var dateStamp, tags, draft, page, path, metadata;
+      var dateStamp, tags, draft, page, metadata;
       var content, title, html, url;
 
       switch (post.type) {
@@ -77,10 +76,6 @@ function main(blog, output_directory, callback) {
       draft = page = false;
       metadata = {};
       tags = post.tags;
-      path_without_extension = join(
-        output_directory,
-        determine_path(title, page, draft, dateStamp)
-      );
 
       post = {
         draft: false,
@@ -104,23 +99,25 @@ function main(blog, output_directory, callback) {
         // Clean up the contents of the <content>
         // tag. Evernote has quite a lot of cruft.
         // Then convert into Markdown!
-        html: content
+        html: content,
       };
 
-      download_images(post, function(err, post) {
+      post = determine_path(post);
+
+      download_images(post, function (err, post) {
         if (err) throw err;
 
-        to_markdown(post, function(err, post) {
+        to_markdown(post, function (err, post) {
           if (err) throw err;
 
-          insert_metadata(post, function(err, post) {
+          insert_metadata(post, function (err, post) {
             if (err) throw err;
 
             // Add the new post to the list of posts!
             // console.log(content);
 
             console.log("...", post.path);
-            fs.outputFile(post.path, post.content, function(err) {
+            fs.outputFile(post.path, post.content, function (err) {
               if (err) return callback(err);
 
               next();
@@ -129,7 +126,7 @@ function main(blog, output_directory, callback) {
         });
       });
     },
-    function() {
+    function () {
       callback();
     }
   );
@@ -154,7 +151,7 @@ if (require.main === module) {
   //   return post.type !== 'photo'
   // });
 
-  blog.posts = blog.posts.map(function(post) {
+  blog.posts = blog.posts.map(function (post) {
     delete post.reblog;
     delete post.can_reply;
     delete post.date;
@@ -175,7 +172,7 @@ if (require.main === module) {
 
   fs.emptyDirSync(output_directory);
 
-  main(blog, output_directory, function(err) {
+  main(blog, output_directory, function (err) {
     if (err) throw err;
 
     process.exit();

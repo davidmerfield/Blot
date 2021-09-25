@@ -5,7 +5,7 @@ var shouldWrite = {};
 
 function main(doThis, callback) {
   eachView(
-    function(user, blog, template, view, next) {
+    function (user, blog, template, view, next) {
       if (!template.localEditing) return next();
 
       if (!view) return next();
@@ -26,14 +26,14 @@ function main(doThis, callback) {
       shouldWrite[template.id] = blog.id;
       Template.setView(template.id, view, next);
     },
-    function() {
+    function () {
       console.log();
       console.log("Checking to see if any templates need to be written...");
       async.eachOfSeries(
         shouldWrite,
-        function(blogID, templateID, next) {
+        function (blogID, templateID, next) {
           console.log("Writing", templateID);
-          Template.writeToFolder(blogID, templateID, function(err) {
+          Template.writeToFolder(blogID, templateID, function (err) {
             if (err) console.log(err);
 
             next();
@@ -47,10 +47,10 @@ function main(doThis, callback) {
 
 if (require.main === module) {
   main(
-    function(view, callback) {
+    function (view, callback) {
       callback();
     },
-    function(err) {
+    function (err) {
       if (err) return console.error(err);
 
       console.log("Fixed all templates!");

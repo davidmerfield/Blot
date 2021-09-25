@@ -1,10 +1,6 @@
 Branding
 ========
 
-A few design references:
-
-
-
 Domains
 -------
 
@@ -14,8 +10,10 @@ blot.im
 blot.is
 blot.my
 
+getblot.com
 useblot.com
 tryblot.com
+
 blotcms.com
 blotplatform.com
 

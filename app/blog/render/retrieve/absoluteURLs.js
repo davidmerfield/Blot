@@ -22,7 +22,7 @@ var debug = require("debug")("blot:render:absoluteURLs");
 
 function absoluteURLs(base, $) {
   try {
-    $("[href], [src]").each(function() {
+    $("[href], [src]").each(function () {
       var href = $(this).attr("href");
       var src = $(this).attr("src");
 
@@ -44,9 +44,9 @@ function absoluteURLs(base, $) {
   return $;
 }
 
-module.exports = function(req, callback) {
-  return callback(null, function() {
-    return function(text, render) {
+module.exports = function (req, callback) {
+  return callback(null, function () {
+    return function (text, render) {
       var base = req.protocol + "://" + req.get("host");
 
       text = render(text);

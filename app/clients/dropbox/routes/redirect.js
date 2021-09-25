@@ -1,30 +1,45 @@
-var Dropbox = require("dropbox").Dropbox;
-var config = require("config");
-module.exports = function(req, res) {
-  var callback, key, secret, authentication_url;
+const { Dropbox } = require("dropbox");
+const config = require("config");
+const fetch = require("node-fetch");
 
-  callback =
+module.exports = function (req, res) {
+  var redirectUri, key, secret, authentication_url;
+
+  redirectUri =
     req.protocol + "://" + req.get("host") + req.baseUrl + "/authenticate";
 
   if (req.query.full_access) {
     key = config.dropbox.full.key;
     secret = config.dropbox.full.secret;
-    callback += "?full_access=true";
+    redirectUri += "?full_access=true";
   } else {
     key = config.dropbox.app.key;
     secret = config.dropbox.app.secret;
   }
 
-  var client = new Dropbox({
+  const dbconfig = {
+    fetch,
     clientId: key,
-    secret: secret
-  });
+    clientSecret: secret,
+  };
 
-  authentication_url = client.getAuthenticationUrl(callback, null, "code");
-  authentication_url = authentication_url.replace(
-    "response_type=token",
-    "response_type=code"
-  );
+  const dbx = new Dropbox(dbconfig);
 
-  res.redirect(authentication_url);
+  // what are these mystery params
+  dbx.auth
+    .getAuthenticationUrl(
+      redirectUri,
+      null,
+      "code",
+      "offline",
+      null,
+      "none",
+      false
+    )
+    .then((authUrl) => {
+      res.writeHead(302, { Location: authUrl });
+      res.end();
+    });
+
+  // res.redirect(authentication_url);
 };

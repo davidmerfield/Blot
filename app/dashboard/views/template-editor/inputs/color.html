@@ -13,12 +13,12 @@
 		value="{{value}}"
 	/>
 	<div class="color-picker-{{key}}" style="cursor: pointer;display: flex;align-items: center;">
-		<span style="margin:5px 16px;flex-grow: 1">{{label}}</span>
+        <span id="prev-{{key}}" style="outline: 1px solid rgba(0,0,0,0.2);outline-offset:-1px;margin:0 16px;width:2rem;height:1.25rem;background:{{value}};display: block;"></span>
+		<span style="margin:5px 16px 5px 0;flex-grow: 1">{{label}}</span>
         <span class="pcr-color-preview">
               <span class="pcr-current-color"></span>
             </span>
 
-		<span id="prev-{{key}}" style="outline: 1px solid rgba(0,0,0,0.2);outline-offset:-1px;margin:0 16px;width:2rem;height:1.25rem;background:{{value}};display: block;"></span>
 	</div>
 	<div class="clear"></div>
 </form>
@@ -50,8 +50,8 @@
     .pcr-app[data-theme=monolith] {
     width: 16rem;
     padding: 1em;
-    margin-top: -15px;
-}
+    margin-top: -8px;
+    box-shadow: 0 0 1px #000;}
 
 .pcr-app[data-theme=monolith] .pcr-selection .pcr-color-preview {display: none;}
 

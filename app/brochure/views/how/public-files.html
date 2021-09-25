@@ -36,7 +36,7 @@ Posts
 
 <h2>Embed an image in a post</h2>
 
-<p>An image in your blog’s folder becomes its own blog post by default. However, you can <a href="#prevent">prevent a ﬁle becoming a blog post</a> if you start its name starts with an un­der­score. Then you can use <a href="/how/guides">Markdown</a> to embed the image in a text file:</p>
+<p>An image in your blog’s folder becomes its own blog post by default. However, you can <a href="#prevent">prevent a ﬁle becoming a blog post</a> if you start its name starts with an un­der­score. Then you can use <a href="/how/format">Markdown</a> to embed the image in a text file:</p>
 
 <pre class="text with-chrome" title="Post.txt"><code>Here’s how to embed an image in your folder. Note the image’s name starts with an underscore to prevent it becoming its own blog post:
 
@@ -46,3 +46,9 @@ Absolute paths are resolved with your blog’s folder as root. Relative paths ar
 
 ![Image title](https://url.of/the/image.jpg)
 </code></pre>
+
+<h2>Keeping files private</h2>
+
+<p>All the files in your blog's folder are accessible to the public. If you add _post.txt to your blog's folder, someone who knows the file's path could access it. However, the only way someone could discover that file's path would be if you told them: it's not possible for vistors to your site to determine the contents of a folder. </p>
+
+<p>If you want to keep _post.txt more hidden than it already is, you could add a string of random characters to its filename, e.g. _post_e81cbc3.txt. The more obscure you make the name of the file, the more effectively private it is: think of the file name as a password. But remember: anyone who knows the path to a file in your folder can access it.</p>

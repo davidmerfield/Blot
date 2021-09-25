@@ -8,10 +8,10 @@ var tags = buildTags("{}", {
   "|<": "right margin",
   "||": "two column",
   "|||": "three column",
-  "||||": "four column"
+  "||||": "four column",
 });
 
-var start = function(tag) {
+var start = function (tag) {
   return '<div class="' + tags[tag] + '">\n';
 };
 
@@ -88,11 +88,7 @@ function layout(text) {
 }
 
 function escape(str) {
-  return str
-    .split("<")
-    .join("&lt;")
-    .split(">")
-    .join("&gt;");
+  return str.split("<").join("&lt;").split(">").join("&gt;");
 }
 
 function hasTag(line) {
@@ -121,98 +117,5 @@ function buildTags(wrapper, tags) {
 
   return tags;
 }
-
-var assert = require("assert");
-
-function testLayout(input, expected) {
-  var output = layout(input);
-
-  try {
-    assert(output === expected);
-  } catch (e) {
-    console.log();
-    console.log("INPUT:");
-    console.log("-------------------------");
-    console.log(input);
-
-    console.log();
-    console.log("OUTPUT:");
-    console.log("-------------------------");
-    console.log(output);
-
-    console.log();
-    console.log("EXPECTED:");
-    console.log("-------------------------");
-    console.log(expected);
-  }
-}
-
-function m() {
-  var args = Array.prototype.slice.call(arguments);
-
-  return args.join("\n");
-}
-
-var ai = m(
-  "{||} Hey",
-  "A line",
-  "{||||} This",
-  "{||||} This is dope",
-  "Another line"
-);
-
-var ao = m(
-  '<div class="two column">',
-  "Hey",
-  "</div>",
-  '<div class="clear"></div>',
-  "A line",
-  '<div class="four column">',
-  "This",
-  "</div>",
-  '<div class="four column">',
-  "This is dope",
-  "</div>",
-  '<div class="clear"></div>',
-  "Another line"
-);
-
-testLayout(ai, ao);
-
-var bi = m("{<|} Hey", "A line", "{>|} This");
-
-var bo = m("{<|} Hey", "A line", '<div class="left margin">', "This", "</div>");
-
-testLayout(bi, bo);
-
-var ci = m(
-  "A line we should ignore!",
-  "{>|} First line",
-  "     Another line.",
-  "     And Another!",
-  "Another line we should ignore",
-  "{<>} Wide shit here!",
-  "     more wide shit!",
-  "         Indented wide shit that will not be preserved :(",
-  "A final line to ignore."
-);
-
-var co = m(
-  "A line we should ignore!",
-  '<div class="left margin">',
-  "First line",
-  "Another line.",
-  "And Another!",
-  "</div>",
-  "Another line we should ignore",
-  '<div class="wide">',
-  "Wide shit here!",
-  "more wide shit!",
-  "Indented wide shit that will not be preserved :(",
-  "</div>",
-  "A final line to ignore."
-);
-
-testLayout(ci, co);
 
 module.exports = layout;

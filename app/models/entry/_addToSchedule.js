@@ -1,13 +1,10 @@
 var scheduler = require("node-schedule");
 var scheduled = {};
-var helper = require("helper");
-var ensure = helper.ensure;
+var ensure = require("helper/ensure");
 var model = require("./model");
 
-module.exports = function(blogID, entry, callback) {
-  ensure(blogID, "string")
-    .and(entry, model)
-    .and(callback, "function");
+module.exports = function (blogID, entry, callback) {
+  ensure(blogID, "string").and(entry, model).and(callback, "function");
 
   var set = require("./set");
 
@@ -17,8 +14,8 @@ module.exports = function(blogID, entry, callback) {
   if (!entry.scheduled) return callback();
 
   // Refresh will perform a re-save of the entry
-  var refresh = set.bind(this, blogID, entry.path, {}, function() {
-    require("blog").set(blogID, { cacheID: Date.now() }, function(err) {
+  var refresh = set.bind(this, blogID, entry.path, {}, function () {
+    require("blog").set(blogID, { cacheID: Date.now() }, function (err) {
       console.log(
         "Blog:",
         blogID + ":",

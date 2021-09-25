@@ -1,13 +1,56 @@
 var cheerio = require("cheerio");
 var basename = require("path").basename;
 var parse = require("url").parse;
-var download = require("download");
+var Download = require("download");
 var each_el = require("./each_el");
 var fs = require("fs-extra");
+var sharp = require("sharp");
+var callOnce = require("helper/callOnce");
 
 // Consider using this algorithm to determine best part of alt tag or caption to use
 // as the file's name:
 // http://www.bearcave.com/misl/misl_tech/wavelets/compression/shannon.html
+var TIMEOUT = 5 * 1000; // 10s
+
+function download(url, _callback) {
+  console.log("Attempting to download", url);
+
+  var time;
+
+  var callback = callOnce(function (err, data) {
+    console.log("Finishing attempt to download", url);
+    clearTimeout(time);
+    _callback(err, data);
+  });
+
+  if (!require("url").parse(url).hostname)
+    return callback(new Error("Failed to parse hostname: " + url));
+
+  if (!url || url.indexOf("data:") === 0)
+    return callback(new Error("Invalid URL: " + url));
+
+  time = setTimeout(function () {
+    console.log("Timing out downloading", url);
+    callback(new Error("Timeout: >10s downloading " + url));
+  }, TIMEOUT);
+
+  Download(url)
+    .then(function (data) {
+      console.log("Successfully downloaded", url);
+      sharp(data).metadata(function (err, metadata) {
+        var format;
+        if (metadata && metadata.format) {
+          format = metadata.format;
+        }
+
+        callback(null, data, format);
+      });
+    })
+    .catch(function (err) {
+      console.log("Failed to download", url, err);
+      callback(err);
+    });
+}
 
 function download_thumbnail(post, path, callback) {
   if (!post || !post.metadata || !post.metadata.thumbnail) return callback();
@@ -18,20 +61,26 @@ function download_thumbnail(post, path, callback) {
 
   var name = nameFrom(thumbnail);
 
-  download(thumbnail)
-    .then(function(data) {
-      fs.outputFile(path + "/" + name, data, function(err) {
-        callback(err, name);
-      });
-    })
-    .catch(callback);
+  if (name.charAt(0) !== "_") name = "_" + name;
+
+  download(thumbnail, function (err, data, format) {
+    if (err || !data) return callback(err);
+
+    if (format && !name.toLowerCase().endsWith(format.toLowerCase()))
+      name = name + "." + format;
+
+    fs.outputFile(path + "/" + name, data, function (err) {
+      if (err) return callback(err);
+      callback(null, name);
+    });
+  });
 }
 
 module.exports = function download_images(post, callback) {
   var changes = false;
   var $ = cheerio.load(post.html, { decodeEntities: false });
 
-  download_thumbnail(post, post.path, function(err, thumbnail) {
+  download_thumbnail(post, post.path, function (err, thumbnail) {
     if (!err && thumbnail) {
       changes = true;
       post.metadata.thumbnail = thumbnail;
@@ -40,51 +89,35 @@ module.exports = function download_images(post, callback) {
     each_el(
       $,
       "img",
-      function(el, next) {
+      function (el, next) {
         var src = $(el).attr("src");
 
-        if (!src || src.indexOf("data:") === 0) return next();
-
         var name = nameFrom(src);
+
         if (name.charAt(0) !== "_") name = "_" + name;
 
-        if (!require("url").parse(src).hostname) return next();
-
-        download(src)
-          .then(function(data) {
-            fs.outputFile(post.path + "/" + name, data, function(err) {
-              changes = true;
-
-              $(el).attr("src", name);
-
-              if (
-                $(el)
-                  .parent()
-                  .attr("href") === src
-              )
-                $(el)
-                  .parent()
-                  .attr("href", name);
-
-              next();
-            });
-          })
-          .catch(function(err) {
-            console.log("Image error:", src, err.name, err.statusCode);
+        download(src, function (err, data, format) {
+          if (err || !data) {
             return next();
+          }
+
+          if (format && !name.toLowerCase().endsWith(format.toLowerCase()))
+            name = name + "." + format;
+
+          fs.outputFile(post.path + "/" + name, data, function (err) {
+            if (err) return next();
+            changes = true;
+
+            $(el).attr("src", name);
+
+            if ($(el).parent().attr("href") === src)
+              $(el).parent().attr("href", name);
+
+            next();
           });
+        });
       },
-      function() {
-        // Download PDFS or download images might have already moved the output
-        // path for this file into its own folder, so check.
-        if (changes && post.path.slice(-"/post.txt".length) !== "/post.txt") {
-          post.path = post.path + "/post.txt";
-        }
-
-        if (!changes && post.path.slice(-".txt".length) !== ".txt") {
-          post.path = post.path + ".txt";
-        }
-
+      function () {
         post.html = $.html();
 
         callback(null, post);

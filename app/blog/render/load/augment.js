@@ -1,6 +1,5 @@
-var helper = require("helper");
-var normalize = require("../../../models/tags").normalize;
-var type = helper.type;
+var normalize = require("models/tags").normalize;
+var type = require("helper/type");
 
 var moment = require("moment");
 require("moment-timezone");
@@ -8,9 +7,10 @@ require("moment-timezone");
 module.exports = function (req, res) {
   var blog = req.blog;
 
-  // res.locals.hide_date
-  var hideDate = blog.hideDates || false;
-  var dateDisplay = blog.dateDisplay;
+  // Can be either inherited from the properties of the blog
+  // or from the template, or from the view
+  var hideDate = res.locals.hide_dates || false;
+  var dateDisplay = res.locals.date_display || "MMMM D, Y";
 
   return function (entry) {
     entry.formatDate = FormatDate(entry.dateStamp, req.blog.timeZone);
@@ -81,6 +81,8 @@ module.exports = function (req, res) {
         .utc(entry.dateStamp)
         .tz(blog.timeZone)
         .format(dateDisplay);
+    } else {
+      delete entry.date;
     }
 
     return entry;

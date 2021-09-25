@@ -11,12 +11,12 @@ function curl(url, cb) {
 
 var entries = [];
 
-curl(archives, function(err, res) {
+curl(archives, function (err, res) {
   if (err) throw err;
 
   var $ = cheerio.load(res);
 
-  $("#wsite-content ul li a").each(function() {
+  $("#wsite-content ul li a").each(function () {
     var source;
 
     if ($(this).attr("href")[0] === "/") {
@@ -27,7 +27,7 @@ curl(archives, function(err, res) {
 
     entries.push({
       title: $(this).text(),
-      source: source
+      source: source,
     });
   });
 
@@ -35,28 +35,24 @@ curl(archives, function(err, res) {
 
   async.mapSeries(
     entries,
-    function(entry, next) {
+    function (entry, next) {
       console.log(".", entry.title, entry.source);
-      curl(entry.source, function(err, res) {
+      curl(entry.source, function (err, res) {
         if (err) return next(err);
 
         var $ = cheerio.load(res);
 
-        entry.html = $(".blog-post .blog-content")
-          .html()
-          .trim();
+        entry.html = $(".blog-post .blog-content").html().trim();
 
-        entry.date = $(".blog-date .date-text")
-          .text()
-          .trim();
+        entry.date = $(".blog-date .date-text").text().trim();
 
         return next(null, entry);
       });
     },
-    function(err, entries) {
+    function (err, entries) {
       if (err) throw err;
 
-      fs.outputJson("entries.json", entries, function(err) {
+      fs.outputJson("entries.json", entries, function (err) {
         if (err) throw err;
 
         console.log("Done!");

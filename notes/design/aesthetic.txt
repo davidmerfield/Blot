@@ -1,0 +1,28 @@
+# Aesthetic
+
+## On the visual appearance of Blot's software
+
+In lots of ways, Blot is hidden. Most of the time, people who use Blot do so without looking at it. They simply edit the folder
+
+## Text
+
+Blot uses [Rasmus Andersson](https://rsms.me/)'s terrific *Input* font on its brochure website and dashboard. One day I would like to fully realize my aesthetic preferences and use a font I have designed from scratch.
+
+
+## Black or white backgrounds
+
+Almost every website has a white or light background. So, Blot has a light background. It feels familiar. However, I do sometimes wonder about inverting the color scheme.
+
+I like how [David Rudnick](https://davidrudnick.org/) justified the black backgrounds of his work. To paraphrase – the way compueter screens work is they emit light, and that digital artifacts are light, in lots of ways.
+
+I also spend most of my day in a text editor with a dark background, and find it comfortable on the eyes.
+
+All of Blot's themes can be toggled to from white to black with a single click on the template editor. Perhaps one day I will switch everything from white by default to black by default.
+
+## Emojis
+
+I dislike emojis. Partly because they are infantile. I also dislike them because they are corporate. To use an emoji is to surrender control over your speech to a megacorporation. See the [pistol emoji](https://emojipedia.org/pistol/) for reference: on some platforms it appears as a gun, on others a water pistol.
+
+
+
+

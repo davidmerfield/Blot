@@ -1,33 +1,37 @@
+  <p style="margin:0;color:grey;/*background:rgba(0,0,0,0.02);*/border-bottom: 1px solid var(--light-border-color);padding-bottom: 16px;margin:-18px -36px 0;padding: 18px 36px;border-radius: 18px 18px 0 0"><strong style="display: block;color: #000;">Log in</strong>
+    {{^then}}Manage your blogs{{/then}}
+    {{#if then}}
+      {{#if then_description}}To {{then_description}} on your dashboard{{/if}}
+      {{#unless then_description}}To access your dashboard{{/unless}}
+    {{/if}}</p>
+
 <style type="text/css">
-input[type="submit"].link {
-  font: inherit;
-  color: inherit;
-  background: none;
-  border: none;
-  padding: 0;
-  display: inline;
-  border-radius: 0;
-  margin: 0;
-  text-decoration: underline;
-  transition-property: color, border-color;
-  transition-duration: .1s;
-  transition-timing-function: ease-out;
-}
+  input[type="submit"].link {
+    font: inherit;
+    color: inherit;
+    background: none;
+    border: none;
+    padding: 0;
+    display: inline;
+    border-radius: 0;
+    margin: 0;
+    width: auto;
+    text-decoration: underline;
+    transition-property: color, border-color;
+    transition-duration: .1s;
+    transition-timing-function: ease-out;
+  }
 
-
-input[type="submit"].link:active {
-  margin: 0;
-  padding: 0
-}
-
-
+  input[type="submit"].link:active {
+    margin: 0;
+    padding: 0
+  }
 </style>
 
-<form method="POST" style="margin:0;padding:0">
 
-  <input type="hidden" name="email" value="{{email}}" />
 
-  {{#BADTOKEN}}
+
+{{#BADTOKEN}}
   <p class="error">This link has expired or had already been clicked.</p>
   {{/BADTOKEN}}
 
@@ -47,17 +51,22 @@ input[type="submit"].link:active {
   <p class="error">That was not your password.</p>
   {{/BADPASSWORD}}
 
-  <p {{^error}}style="width:120%"{{/error}}>{{^error}}Welcome back!{{/error}} You can <input type="submit" class="link" name="reset" value="reset your password"> or <a href="/contact" style="color: inherit;text-decoration: underline;">contact me</a> if you’re having trouble logging in.</p>
-</form>
+
+
+
 
 <form method="POST">
+  <input type="hidden" name="_csrf" value="{{csrf}}" />
+
   <p>
     <label for="email">Your email address</label>
     <input name="email" type="text" value="{{email}}" {{#unless validemail}} autofocus{{/unless}} />
   </p>
   <p>
-    <label for="password">Password</label>
+    <label for="password">Password <a style="color:inherit;float:right;" href="/log-in/reset">Reset your password</a></label>
     <input name="password" type="password" {{#if validemail}} autofocus{{/if}} />
   </p>
-  <input type="submit" value="Log in" />
+  <input type="submit" value="Log in" style="margin-bottom: 8px" />
 </form>
+
+

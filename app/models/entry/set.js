@@ -1,11 +1,9 @@
-var helper = require("helper");
-var ensure = helper.ensure;
-var doEach = helper.doEach;
-var clfdate = helper.clfdate;
+var async = require("async");
+var ensure = require("helper/ensure");
 var model = require("./model");
 var redis = require("client");
-var async = require("async");
-var guid = helper.guid;
+var guid = require("helper/guid");
+var clfdate = require("helper/clfdate");
 
 var get = require("./get");
 var key = require("./key");
@@ -15,7 +13,7 @@ var setUrl = require("./_setUrl");
 var rebuildDependencyGraph = require("./_rebuildDependencyGraph");
 var backlinksToUpdate = require("./_backlinksToUpdate");
 var updateSearchIndex = require("./_updateSearchIndex");
-var updateTagList = require("../tags").set;
+var updateTagList = require("models/tags").set;
 var addToSchedule = require("./_addToSchedule");
 var notifyDrafts = require("./_notifyDrafts");
 var assignToLists = require("./_assign");
@@ -59,8 +57,9 @@ module.exports = function set(blogID, path, updates, callback) {
 
     if (entry.dateStamp === undefined) entry.dateStamp = entry.created;
 
-    // ToDO remove this and ensure all existing entries have been rebuilt
+    // ToDO remove these and ensure all existing entries have been rebuilt
     if (entry.dependencies === undefined) entry.dependencies = [];
+    if (entry.pathDisplay === undefined) entry.pathDisplay = entry.path;
 
     entry.scheduled = entry.dateStamp > Date.now();
 
@@ -114,7 +113,7 @@ module.exports = function set(blogID, path, updates, callback) {
 
         if (entry.draft) queue.push(notifyDrafts.bind(this, blogID, entry));
 
-        doEach(queue, function () {
+        async.parallel(queue, function () {
           if (entry.deleted) {
             console.log(clfdate(), blogID, path, "deleted");
           } else {
