@@ -36,11 +36,13 @@ module.exports = function set(blogID, path, updates, callback) {
     // Create an empty object if new entry
     entry = entry || {};
 
-    var previous_internalLinks = entry.internalLinks
+    var previousPermalink = entry.permalink;
+
+    var previousInternalLinks = entry.internalLinks
       ? entry.internalLinks.slice()
       : [];
 
-    var previous_dependencies = entry.dependencies
+    var previousDependencies = entry.dependencies
       ? entry.dependencies.slice()
       : [];
 
@@ -102,7 +104,7 @@ module.exports = function set(blogID, path, updates, callback) {
             this,
             blogID,
             entry,
-            previous_dependencies
+            previousDependencies
           ),
         ];
 
@@ -118,19 +120,22 @@ module.exports = function set(blogID, path, updates, callback) {
             console.log(clfdate(), blogID, path, "updated");
           }
 
-          backlinksToUpdate(blogID, entry, previous_internalLinks, function (
-            err,
-            changes
-          ) {
-            if (err) return callback(err);
-            async.eachOf(
-              changes,
-              function (backlinks, path, next) {
-                set(blogID, path, { backlinks }, next);
-              },
-              callback
-            );
-          });
+          backlinksToUpdate(
+            blogID,
+            entry,
+            previousInternalLinks,
+            previousPermalink,
+            function (err, changes) {
+              if (err) return callback(err);
+              async.eachOf(
+                changes,
+                function (backlinks, path, next) {
+                  set(blogID, path, { backlinks }, next);
+                },
+                callback
+              );
+            }
+          );
         });
       });
     });

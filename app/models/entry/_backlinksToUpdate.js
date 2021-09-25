@@ -3,8 +3,15 @@ var async = require("async");
 var _ = require("lodash");
 var debug = require("debug")("blot:entry:set:backlinksToUpdate");
 
-function backlinksToUpdate(blogID, entry, previousInternalLinks, callback) {
+function backlinksToUpdate(
+	blogID,
+	entry,
+	previousInternalLinks,
+	previousPermalink,
+	callback
+) {
 	var removedInternalLinks = [];
+	var existingInternalLinks = [];
 	var newInternalLinks = [];
 
 	// Since this post is no longer available, none of its current or former
@@ -17,6 +24,10 @@ function backlinksToUpdate(blogID, entry, previousInternalLinks, callback) {
 		// out which dependencies were removed.
 	} else {
 		newInternalLinks = _.difference(entry.internalLinks, previousInternalLinks);
+		existingInternalLinks = _.intersection(
+			entry.internalLinks,
+			previousInternalLinks
+		);
 		removedInternalLinks = _.difference(
 			previousInternalLinks,
 			entry.internalLinks
@@ -29,7 +40,8 @@ function backlinksToUpdate(blogID, entry, previousInternalLinks, callback) {
 	debug("newInternalLinks", newInternalLinks);
 
 	let changes = {};
-	let linksToValidate = removedInternalLinks.concat(newInternalLinks);
+
+	let linksToValidate = entry.internalLinks.concat(removedInternalLinks);
 
 	async.filter(
 		linksToValidate,
@@ -40,8 +52,9 @@ function backlinksToUpdate(blogID, entry, previousInternalLinks, callback) {
 					debug("no backlinked entry for", urlPath);
 					return next(null, false);
 				}
+
 				debug("found backlinked entry", backLinkedEntry.path, "for", urlPath);
-				changes[urlPath] = {
+				changes[backLinkedEntry.url] = {
 					path: backLinkedEntry.path,
 					backlinks: backLinkedEntry.backlinks,
 				};
@@ -57,16 +70,31 @@ function backlinksToUpdate(blogID, entry, previousInternalLinks, callback) {
 				(link) => validInternalLinks.indexOf(link) > -1
 			);
 
+			existingInternalLinks = existingInternalLinks.filter(
+				(link) => validInternalLinks.indexOf(link) > -1
+			);
+
+			// For each internal link which was removed from this
+			//
 			removedInternalLinks.forEach(
 				(link) =>
 					(changes[link].backlinks = changes[link].backlinks.filter(
-						(link) => link !== entry.permalink
+						(link) =>
+							link !== entry.permalink && link !== entry.previousPermalink
 					))
 			);
 
 			newInternalLinks.forEach((link) =>
 				changes[link].backlinks.push(entry.permalink)
 			);
+
+			if (previousPermalink !== entry.permalink)
+				existingInternalLinks.forEach((link) => {
+					changes[link].backlinks = changes[link].backlinks.filter(
+						(link) => link !== previousPermalink
+					);
+					changes[link].backlinks.push(entry.permalink);
+				});
 
 			let result = {};
 

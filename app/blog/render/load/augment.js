@@ -1,8 +1,9 @@
 var normalize = require("models/tags").normalize;
 var type = require("helper/type");
 var Entry = require("models/entry");
-var moment = require("moment");
 var async = require("async");
+var _ = require("lodash");
+var moment = require("moment");
 
 require("moment-timezone");
 
@@ -94,6 +95,7 @@ module.exports = function (req, res, entry, callback) {
     },
     function (err, backlinks) {
       entry.backlinks = backlinks.filter((i) => !!i && i.guid !== entry.guid);
+      entry.backlinks = _.uniqBy(entry.backlinks, "guid");
       callback();
     }
   );

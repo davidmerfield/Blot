@@ -79,4 +79,26 @@ describe("entry.backlinks", function () {
     expect(entryAfterDrop.backlinks).toEqual([]);
     done();
   });
+
+  it("updates the backlink when the linker's URL changes", async function (done) {
+    const path = "/post.txt";
+    const contents = "Link: linker\n\n[linker](/linked)";
+
+    const pathLinked = "/linked.txt";
+    const contentsLinked = "Link: linked\n\nHey";
+
+    await this.set(pathLinked, contentsLinked);
+    await this.set(path, contents);
+
+    const entry = await this.get(pathLinked);
+
+    const updatedContents = "Link: new-linker\n\n[linker](/linked)";
+    await this.set(path, updatedContents);
+
+    const entryAfterUpdate = await this.get(pathLinked);
+
+    expect(entry.backlinks).toEqual(["/linker"]);
+    expect(entryAfterUpdate.backlinks).toEqual(["/new-linker"]);
+    done();
+  });
 });
