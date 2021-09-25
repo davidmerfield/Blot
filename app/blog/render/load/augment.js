@@ -87,12 +87,13 @@ module.exports = function (req, res, entry, callback) {
   async.map(
     entry.backlinks,
     function (linkUrl, next) {
+      if (typeof linkUrl !== "string") return next(null, null);
       Entry.getByUrl(req.blog.id, linkUrl, function (entry) {
         next(null, entry);
       });
     },
     function (err, backlinks) {
-      entry.backlinks = backlinks;
+      entry.backlinks = backlinks.filter((i) => !!i && i.guid !== entry.guid);
       callback();
     }
   );

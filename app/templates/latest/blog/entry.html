@@ -10,7 +10,56 @@
           
           {{{html}}}
           
-          <p>
+<style type="text/css">
+              section.footnotes ol:before {
+                content: "Footnotes"
+              }
+section.footnotes > ol {padding: 0;font-size: 14px;opacity: 0.8}
+section.footnotes > ol li {margin-left: 20px;padding-left: 10px}
+
+              section.footnotes > ol:before,
+              h5 {font-size: 14px;font-weight: 600;color:#aaa;margin-bottom: 24px;margin-top: 1em}
+              .rounded-link {border:1px solid rgba(0,0,0,0.1);border-radius: 6px;text-decoration: none;color:inherit;display: block;padding:1rem 1.4rem;}
+              .rounded-link .title {display: block;margin-bottom: 0.5rem;color:{{accent_color}};text-decoration:underline}
+              .rounded-link .summary {opacity: 0.8}
+            </style>
+            <hr>
+          <div style="font-size: 14px;display: flex">
+            
+            <div style="margin-right: 2rem">
+          {{#previous}}
+            <h5>Previously</h5>
+
+          <a class="rounded-link" href="{{{url}}}">
+            <span class="title">{{title}}</span>
+            <span class="summary">{{summary}}</span>
+          </a>
+          {{/previous}}
+
+          {{#next}}
+            <h5>Next</h5>
+          <a class="rounded-link" href="{{{url}}}">
+            <span class="title">{{title}}</span>
+            <span class="summary">{{summary}}</span>
+          </a>
+          {{/next}}
+
+        </div>
+        <div style="margin-left: 2rem">
+          {{#backlinks.length}}
+          <h5>Links to this post</h5>
+          {{/backlinks.length}}
+
+          {{#backlinks}}
+          <a class="rounded-link" href="{{{url}}}">
+            <span class="title">{{title}}</span>
+            <span class="summary">{{summary}}</span>
+          </a>          
+          {{/backlinks}}
+</div>
+
+          </div>
+<p>
           <a class="small date" href="{{{url}}}">{{date}}</a>
           {{#tags}}
           <a class="small tag" href="/tagged/{{slug}}">{{name}}</a>
@@ -21,37 +70,6 @@
           {{> pluginHTML}}
           <div class="clear"></div>
 
-          {{#adjacent}}
-          <hr class="full" />
-          {{/adjacent}}
-
-          {{#previous}}
-          <a class="halfWidth left previousEntry" href="{{{url}}}">
-            <h5>Previous post</h5>
-            <span class="title">{{title}}</span>
-            <span class="summary">{{summary}}</span>
-          </a>
-          {{/previous}}
-
-          {{#next}}
-          <a class="left halfWidth nextEntry" href="{{{url}}}">
-            <h5>Next post</h5>
-            <span class="title">{{title}}</span>
-            <span class="summary">{{summary}}</span>
-          </a>
-          {{/next}}
-
-          {{#backlinks.length}}
-          <hr class="full" />
-          <p>Links to this post</p>
-          {{/backlinks.length}}
-
-          {{#backlinks}}
-          <a class="left halfWidth " href="{{{url}}}">
-            <span class="title">{{title}}</span>
-            <span class="summary">{{summary}}</span>
-          </a>          
-          {{/backlinks}}
         {{/entry}}
         </div>
         {{> footer}}
