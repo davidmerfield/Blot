@@ -16,23 +16,29 @@
                 .footnotes hr {border-bottom:1px solid;}
 
               section.footnotes > ol:before,
-              h5 {font-size: 14px;font-weight: 600;color:#aaa;margin-bottom: 24px;}
+              .left-label h5 {font-size: 14px;font-weight: 600;color:rgba({{#rgb}}{{text_color}}{{/rgb}}, 0.5);margin-bottom: 24px;}
 
-              h5 {margin-top: 1em}
+              .left-label h5 {margin-top: 1em;position: absolute;top: 0;left: 0}
               .rounded-link {border-bottom:1px solid rgba(0,0,0,0.1);text-decoration: none;color:inherit;display: block;margin-bottom: 1rem;padding-bottom: 1rem}
               .rounded-link:last-child {border-bottom: none;}
               .rounded-link .title {display: block;margin-bottom: 0.5rem;color:{{accent_color}};text-decoration:underline}
               .rounded-link .summary {opacity: 0.8;max-height: 2.8em;overflow: hidden;display: block;}
+              .left-label {
+                padding-left: 140px;padding-top: 1rem;font-size:14px
+              }
+              .left-label .tag {
+                margin:0 1rem 0 0
+              }
             </style>
           
 
           {{#tags.length}}
           <hr class="minimal">
-          <div style="padding-left: 140px;padding-top: 1rem;font-size:14px">
-          <h5 style="position: absolute;top: 0;left: 0">Filed under</h5>
+          <div class="left-label">
+          <h5>Filed under</h5>
 
           {{#tags}}
-          <a class="small tag" style="margin:0 1rem 0 0" href="/tagged/{{slug}}">{{name}}</a>
+          <a class="small tag" href="/tagged/{{slug}}">{{name}}</a>
           {{/tags}}
 
           </div>          
@@ -40,8 +46,8 @@
 
           {{#date}}
           <hr class="minimal">
-          <div style="padding-left: 140px;padding-top: 1rem;font-size:14px">
-          <h5 style="position: absolute;top: 0;left: 0">Published</h5>
+          <div class="left-label">
+          <h5>Date</h5>
 
           {{date}}
           </div>          
@@ -49,8 +55,8 @@
 
           {{#backlinks.length}}
           <hr class="minimal">
-          <div style="padding-left: 140px;padding-top: 1rem;font-size:14px">
-          <h5 style="position: absolute;top: 0;left: 0">Links to this post</h5>
+          <div class="left-label">
+          <h5>Links to this post</h5>
           {{#backlinks}}
           <a class="rounded-link" href="{{{url}}}">
             <span class="title">{{title}}</span>
@@ -62,8 +68,8 @@
 
           {{#next}}
           <hr class="minimal">
-          <div style="padding-left: 140px;padding-top: 1rem;font-size:14px">
-          <h5 style="position: absolute;top: 0;left: 0">Up next</h5>
+          <div class="left-label">
+          <h5>Up next</h5>
           <a class="rounded-link" href="{{{url}}}">
             <span class="title">{{title}}</span>
             <span class="summary">{{summary}}</span>
@@ -73,8 +79,8 @@
 
           {{#previous}}
           <hr class="minimal">
-          <div style="padding-left: 140px;padding-top: 1rem;font-size:14px">
-          <h5 style="position: absolute;top: 0;left: 0">Previously</h5>
+          <div class="left-label">
+          <h5>Previously</h5>
           <a class="rounded-link" href="{{{url}}}">
             <span class="title">{{title}}</span>
             <span class="summary">{{summary}}</span>
