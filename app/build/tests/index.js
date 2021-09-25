@@ -175,23 +175,6 @@ describe("build", function () {
     });
   });
 
-  it("will generate a list of internal links", function (done) {
-    var path = "/Hello world.txt";
-    var contents = "[Hey](/link), [you](/other), [that](http://example.org)";
-
-    fs.outputFileSync(this.blogDirectory + path, contents);
-
-    let blog = this.blog;
-
-    build(blog, path, {}, function (err, entry) {
-      if (err) return done.fail(err);
-
-      // verify a thumbnail was generated from the image
-      expect(entry.internalLinks).toEqual(["/link", "/other"]);
-      done();
-    });
-  });
-
   it("will not include caption text in summaries", function (done) {
     var path = "/Hello world.txt";
     var contents = "# Hello\n\n![Image caption](file.jpg)\n\nWorld";
