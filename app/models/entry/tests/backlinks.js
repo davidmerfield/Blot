@@ -1,37 +1,7 @@
-describe("entry has backlinks", function () {
-  const fs = require("fs-extra");
-  const build = require("build");
-  const get = require("../get");
-  const set = require("../set");
+describe("entry.backlinks", function () {
+  require("./setup");
 
-  global.test.blog();
-
-  beforeEach(function () {
-    this.get = async (path) => {
-      return new Promise((resolve) => {
-        get(this.blog.id, path, (entry) => {
-          resolve(entry);
-        });
-      });
-    };
-
-    this.set = async (path, contents) => {
-      return new Promise((resolve, reject) => {
-        fs.outputFileSync(this.blogDirectory + path, contents);
-        build(this.blog, path, {}, (err, entry) => {
-          if (err) return reject(err);
-          set(this.blog.id, path, entry, (err) => {
-            if (err) return reject(err);
-            get(this.blog.id, path, (entry) => {
-              resolve(entry);
-            });
-          });
-        });
-      });
-    };
-  });
-
-  it("will generate a list of back links", async function (done) {
+  it("works", async function (done) {
     const path = "/post.txt";
     const contents = "Link: linker\n\n[linker](/linked)";
 
@@ -44,6 +14,69 @@ describe("entry has backlinks", function () {
     const entry = await this.get(pathLinked);
 
     expect(entry.backlinks).toEqual(["/linker"]);
+    done();
+  });
+
+  it("will not contain deleted internal links", async function (done) {
+    const path = "/post.txt";
+    const contents = "Link: linker\n\n[linker](/linked)";
+
+    const pathLinked = "/linked.txt";
+    const contentsLinked = "Link: linked\n\nHey";
+
+    await this.set(pathLinked, contentsLinked);
+    await this.set(path, contents);
+
+    const entry = await this.get(pathLinked);
+
+    const updatedContents = "Link: linker\n\nlinker";
+    await this.set(path, updatedContents);
+
+    const entryAfterUpdate = await this.get(pathLinked);
+
+    expect(entry.backlinks).toEqual(["/linker"]);
+    expect(entryAfterUpdate.backlinks).toEqual([]);
+    done();
+  });
+
+  it("works with multiple files", async function (done) {
+    const pathFirst = "/post-1.txt";
+    const contentsFirst = "Link: linker-1\n\n[linker](/linked)";
+
+    const pathSecond = "/post-2.txt";
+    const contentsSecond = "Link: linker-2\n\n[linker](/linked)";
+
+    const pathLinked = "/linked.txt";
+    const contentsLinked = "Link: linked\n\nHey";
+
+    await this.set(pathLinked, contentsLinked);
+    await this.set(pathFirst, contentsFirst);
+    await this.set(pathSecond, contentsSecond);
+
+    const entry = await this.get(pathLinked);
+
+    expect(entry.backlinks.sort()).toEqual(["/linker-1", "/linker-2"]);
+    done();
+  });
+
+  it("won't contain internal links from deleted posts", async function (done) {
+    const path = "/post.txt";
+    const contents = "Link: linker\n\n[linker](/linked)";
+
+    const pathLinked = "/linked.txt";
+    const contentsLinked = "Link: linked\n\nHey";
+
+    await this.set(pathLinked, contentsLinked);
+    await this.set(path, contents);
+
+    const entry = await this.get(pathLinked);
+
+    await this.drop(path);
+
+    const entryAfterDrop = await this.get(pathLinked);
+
+    expect(entry.backlinks).toEqual(["/linker"]);
+    expect(entryAfterDrop.backlinks).toEqual([]);
     done();
   });
 });
