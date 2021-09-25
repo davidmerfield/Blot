@@ -12,18 +12,55 @@
           
 <style type="text/css">
               section.footnotes ol:before {
-                content: "Footnotes"
+                content: "Footnotes";
+                position: absolute;
+                top: 0;
+                left: 0
               }
-section.footnotes > ol {padding: 0;font-size: 14px;opacity: 0.8}
+              section.footnotes {margin-top: 4rem}
+section.footnotes > ol {position:relative;padding: 0;font-size: 14px;opacity: 0.8;padding-left: 100px}
 section.footnotes > ol li {margin-left: 20px;padding-left: 10px}
+  section.footnotes > ol li::marker {
+    color: #aaa;
+    font-weight: bold;
+}
 
+.footnote-back:after {content: "Context"}
+
+  .footnote-ref {text-decoration: none;font-variant-numeric: tabular-nums;}
+  .footnote-ref sup {line-height: 0}
+  .footnote-ref sup:before {
+    content: "["
+  }
+
+  .entry [id] {
+    scroll-margin-top: 100px;
+  }
+
+  .footnote-ref sup:after {
+    content: "]"
+  }
               section.footnotes > ol:before,
               h5 {font-size: 14px;font-weight: 600;color:#aaa;margin-bottom: 24px;margin-top: 1em}
-              .rounded-link {border:1px solid rgba(0,0,0,0.1);border-radius: 6px;text-decoration: none;color:inherit;display: block;padding:1rem 1.4rem;}
+              .rounded-link {border:1px solid rgba(0,0,0,0.1);border-radius: 6px;text-decoration: none;color:inherit;display: block;padding:0.7rem 1rem;margin-bottom: 1rem}
               .rounded-link .title {display: block;margin-bottom: 0.5rem;color:{{accent_color}};text-decoration:underline}
-              .rounded-link .summary {opacity: 0.8}
+              .rounded-link .summary {opacity: 0.8;max-height: 2.8em;overflow: hidden;display: block;}
             </style>
             <hr>
+          {{#backlinks.length}}
+            <div style="padding-left: 140px;padding-top: 1rem;font-size:14px">
+          <h5 style="position: absolute;top: 0;left: 0">Links to this post</h5>
+
+          {{#backlinks}}
+          <a class="rounded-link" href="{{{url}}}">
+            <span class="title">{{title}}</span>
+            <span class="summary">{{summary}}</span>
+          </a>          
+          {{/backlinks}}
+</div>          {{/backlinks.length}}
+
+
+          </div>
           <div style="font-size: 14px;display: flex">
             
             <div style="margin-right: 2rem">
@@ -45,20 +82,7 @@ section.footnotes > ol li {margin-left: 20px;padding-left: 10px}
           {{/next}}
 
         </div>
-        <div style="margin-left: 2rem">
-          {{#backlinks.length}}
-          <h5>Links to this post</h5>
-          {{/backlinks.length}}
-
-          {{#backlinks}}
-          <a class="rounded-link" href="{{{url}}}">
-            <span class="title">{{title}}</span>
-            <span class="summary">{{summary}}</span>
-          </a>          
-          {{/backlinks}}
-</div>
-
-          </div>
+        
 <p>
           <a class="small date" href="{{{url}}}">{{date}}</a>
           {{#tags}}
