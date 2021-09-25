@@ -6,7 +6,7 @@ module.exports = function (blog, entry, callback) {
   ensure(blog, "object").and(entry, "object").and(callback, "function");
 
   if (!entry.pathDisplay) {
-    entry.pathDisplay = ""; // not entry.path because it's optional
+    entry.pathDisplay = entry.path;
     changes.push("pathDisplay");
   }
 
