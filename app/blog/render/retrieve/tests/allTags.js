@@ -1,6 +1,7 @@
 describe("allTags", function () {
   var allTags = require("blog/render/retrieve/allTags");
-  var Entry = require("models/entry");
+  var sync = require("sync");
+  var fs = require("fs-extra");
 
   global.test.blog();
 
@@ -15,43 +16,16 @@ describe("allTags", function () {
   });
 
   beforeEach(function (done) {
-    const firstEntry = {
-      path: "/foo.txt",
-      id: "/foo.txt",
-      name: "foo.txt",
-      title: "Foo",
-      titleTag: "",
-      body: "",
-      summary: "",
-      teaser: "",
-      teaserBody: "",
-      metadata: {},
-      thumbnail: {},
-      draft: false,
-      page: false,
-      menu: false,
-      deleted: false,
-      more: false,
-      updated: Date.now(),
-      tags: ["abc"],
-      backlinks: [],
-      internalLinks: [],
-      html: "",
-      slug: "",
-      size: 0,
-    };
-
-    const secondEntry = {
-      ...firstEntry,
-      path: "/bar.txt",
-      id: "/bar.txt",
-      name: "bar.txt",
-      title: "Bar",
-    };
-
-    Entry.set(this.blog.id, firstEntry.path, firstEntry, (err) => {
-      if (err) return done(err);
-      Entry.set(this.blog.id, secondEntry.path, secondEntry, done);
+    sync(this.blog.id, (err, folder, callback) => {
+      fs.outputFileSync(this.blogDirectory + "/foo.txt", "Tags: abc\n\nFoo");
+      fs.outputFileSync(this.blogDirectory + "/bar.txt", "Tags: abc\n\nBar");
+      folder.update("/foo.txt", function (err) {
+        if (err) return callback(err, done);
+        folder.update("/bar.txt", function (err) {
+          if (err) return callback(err, done);
+          callback(null, done);
+        });
+      });
     });
   });
 
