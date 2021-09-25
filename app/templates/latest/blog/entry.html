@@ -40,6 +40,18 @@
             <span class="summary">{{summary}}</span>
           </a>
           {{/next}}
+
+          {{#backlinks.length}}
+          <hr class="full" />
+          <p>Links to this post</p>
+          {{/backlinks.length}}
+
+          {{#backlinks}}
+          <a class="left halfWidth " href="{{{url}}}">
+            <span class="title">{{title}}</span>
+            <span class="summary">{{summary}}</span>
+          </a>          
+          {{/backlinks}}
         {{/entry}}
         </div>
         {{> footer}}
