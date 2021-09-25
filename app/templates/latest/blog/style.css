@@ -410,31 +410,57 @@ input#search:focus {
 
 .pagination a {margin: 0 1em;background: none}
 
-.previousEntry,
-.nextEntry {
-  text-decoration: none;
-  font-size: 0.88rem;
-  line-height: 1.33em;
-  width: 48%;
-  margin: 1em 0 6em 2%;
-  color: {{text_color}};
-  display: block;
-  float: left;
+/* Hide the footnotes on the homepage */
+.entry.on-index-page .footnotes {display: none;}
+
+.footnotes > ol:before {
+     content: "Footnotes";
+     position: absolute;
+     top: 0;
+     left: 0 
 }
 
-.previousEntry {margin: 1em 2% 6em 0;}
-
-.adjacent a h5 {margin-bottom: 3px;color: {{text_color}}}
-.adjacent a .summary {color: {{text_color}};font-size: .8125rem;line-height: 17px;opacity:0.6}
-
-.previousEntry .title,
-.nextEntry .title {
-  display: block;
-  font-size: 1.156rem;
-  line-height: 20px;
-  margin-bottom: 3px
+.footnotes {
+    margin-top: 4rem
 }
 
+.footnotes > ol {
+    position:relative;
+    padding: 0;
+    font-size: 14px;
+    opacity: 0.8;
+    padding-left: 110px
+}
+.footnotes > ol li {
+    margin-left: 20px;
+    padding-left: 10px
+}
+.footnotes > ol li::marker {
+     color: #aaa;
+     font-weight: bold;
+}
+ .footnote-back:after {
+    content: "Context"
+}
+ .footnote-ref {
+    text-decoration: none;
+    font-variant-numeric: tabular-nums;
+}
+ .footnote-ref sup {
+    line-height: 0
+}
+ .footnote-ref sup:before {
+     content: "[" 
+}
+
+ .footnote-ref sup:after {
+     content: "]" 
+}
+
+
+ .entry [id] {
+     scroll-margin-top: 100px;
+}
 @media screen and (max-width: 976px) {
 
   .main {max-width: 600px;min-width: 0}

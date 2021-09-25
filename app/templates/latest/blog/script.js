@@ -137,3 +137,25 @@ function preload(url) {
 function stopPreloading() {
   prefetcher.removeAttribute('href')
 }
+
+// Hack to fix broken footnote links on the
+// index page of the blog. Remove this once we
+// do it on the server
+expandFootnoteLinks();
+
+function expandFootnoteLinks (){
+  const entries = document.querySelectorAll('.entry.on-index-page');
+  entries.forEach(entry =>{
+    const url = entry.getAttribute('data-url');
+    if (!url) return;
+    const footnotes = document
+      .querySelectorAll('.entry[data-url="' + url + '"] a.footnote-ref');
+
+    footnotes
+      .forEach((footnote)=> {
+        const href = footnote.getAttribute('href');
+        if (!href || href[0] !== '#') return;
+        footnote.setAttribute('href', url + href);
+      });
+  });
+}

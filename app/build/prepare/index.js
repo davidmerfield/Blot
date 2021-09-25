@@ -179,10 +179,6 @@ function Prepare(entry) {
   entry.permalink = permalinkCandidates.shift() || "";
   debug(entry.path, "Generated  permalink");
 
-
-
-  debug(entry.path, "Generated  permalink");
-
   debug(entry.path, "Generating meta-overwrite");
 
   for (var key in entry.metadata)
