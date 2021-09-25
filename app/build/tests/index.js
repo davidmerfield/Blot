@@ -77,7 +77,7 @@ describe("build", function () {
 
     build(this.blog, path, {}, function (err, entry) {
       if (err) return done.fail(err);
-      expect(entry.summary).toEqual("This should appear in the summary");
+      expect(entry.summary).toEqual('This should appear in the summary');
       done();
     });
   });
@@ -90,10 +90,11 @@ describe("build", function () {
 
     build(this.blog, path, {}, function (err, entry) {
       if (err) return done.fail(err);
-      expect(entry.summary).toEqual("the summary");
+      expect(entry.summary).toEqual('the summary');
       done();
     });
   });
+
 
   it("resolves relative paths inside files", function (done) {
     var path = "/blog/foo.txt";
