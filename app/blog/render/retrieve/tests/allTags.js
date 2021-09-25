@@ -33,7 +33,9 @@ describe("allTags", function () {
       deleted: false,
       more: false,
       updated: Date.now(),
-      tags: ['abc'],
+      tags: ["abc"],
+      backlinks: [],
+      internalLinks: [],
       html: "",
       slug: "",
       size: 0,
@@ -57,8 +59,8 @@ describe("allTags", function () {
     allTags(this.request, function (err, tags) {
       expect(tags.length).toEqual(1);
       expect(tags[0].entries.length).toEqual(2);
-      expect(tags[0].entries[0].name).toEqual('bar.txt');
-      expect(tags[0].entries[1].name).toEqual('foo.txt');
+      expect(tags[0].entries[0].name).toEqual("bar.txt");
+      expect(tags[0].entries[1].name).toEqual("foo.txt");
       done();
     });
   });
