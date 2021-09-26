@@ -1,8 +1,17 @@
-var getByUrl = require("./getByUrl");
-var async = require("async");
-var _ = require("lodash");
-var debug = require("debug")("blot:entry:set:backlinksToUpdate");
+const _ = require("lodash");
+const async = require("async");
+const getByUrl = require("./getByUrl");
+const debug = require("debug")("blot:entry:set:backlinksToUpdate");
 
+// This function takes an entry currently being updated
+// and returns a list of other entries whose backlinks
+// property needs to change. This can happen because:
+// - this entry has been removed and it should
+//	 no longer appear on the backlinks lists of other entries
+// - this entry now links to another post and
+//   it should appear on that post's backlinks list
+// - this entry's permalink has changed and the URL that
+//   appears on other post's backlinks list needs to change
 function backlinksToUpdate(
 	blogID,
 	entry,
@@ -10,41 +19,26 @@ function backlinksToUpdate(
 	previousPermalink,
 	callback
 ) {
-	var removedInternalLinks = [];
-	var existingInternalLinks = [];
-	var newInternalLinks = [];
-
 	// Since this post is no longer available, none of its current or former
 	// links are present. Remove everything.
-	if (entry.deleted) {
-		removedInternalLinks = _.union(entry.internalLinks, previousInternalLinks);
+	// Since this post exists, we need to work out which dependencies were
+	// added since the last time this post was saved. We also need to work
+	// out which dependencies were removed.
+	const allInternalLinks = _.union(entry.internalLinks, previousInternalLinks);
+	const currentInternalLinks = entry.deleted ? [] : entry.internalLinks;
+	const formerInternalLinks = entry.deleted
+		? allInternalLinks
+		: _.difference(previousInternalLinks, currentInternalLinks);
 
-		// Since this post exists, we need to work out which dependencies were
-		// added since the last time this post was saved. We also need to work
-		// out which dependencies were removed.
-	} else {
-		newInternalLinks = _.difference(entry.internalLinks, previousInternalLinks);
-		existingInternalLinks = _.intersection(
-			entry.internalLinks,
-			previousInternalLinks
-		);
-		removedInternalLinks = _.difference(
-			previousInternalLinks,
-			entry.internalLinks
-		);
-	}
-
-	debug("internalLinks", entry.internalLinks);
-	debug("previousInternalLinks", previousInternalLinks);
-	debug("removedInternalLinks", removedInternalLinks);
-	debug("newInternalLinks", newInternalLinks);
+	debug(entry.path, ":currentInternalLinks", currentInternalLinks);
+	debug(entry.path, ":previousInternalLinks", previousInternalLinks);
+	debug(entry.path, ":formerInternalLinks", formerInternalLinks);
+	debug(entry.path, ":allInternalLinks", allInternalLinks);
 
 	let changes = {};
 
-	let linksToValidate = entry.internalLinks.concat(removedInternalLinks);
-
 	async.filter(
-		linksToValidate,
+		allInternalLinks,
 		function (urlPath, next) {
 			debug("getting", blogID, urlPath);
 			getByUrl(blogID, urlPath, function (backLinkedEntry) {
@@ -54,54 +48,51 @@ function backlinksToUpdate(
 				}
 
 				debug("found backlinked entry", backLinkedEntry.path, "for", urlPath);
-				changes[backLinkedEntry.url] = {
+				changes[urlPath] = {
 					path: backLinkedEntry.path,
 					backlinks: backLinkedEntry.backlinks,
+					previousBacklinks: backLinkedEntry.backlinks.slice(),
 				};
 				next(null, true);
 			});
 		},
 		function (err, validInternalLinks) {
-			removedInternalLinks = removedInternalLinks.filter(
-				(link) => validInternalLinks.indexOf(link) > -1
-			);
-
-			newInternalLinks = newInternalLinks.filter(
-				(link) => validInternalLinks.indexOf(link) > -1
-			);
-
-			existingInternalLinks = existingInternalLinks.filter(
-				(link) => validInternalLinks.indexOf(link) > -1
-			);
-
-			// For each internal link which was removed from this
-			//
-			removedInternalLinks.forEach(
-				(link) =>
-					(changes[link].backlinks = changes[link].backlinks.filter(
+			debug(entry.path, ":validInternalLinks", validInternalLinks);
+			// Remove this entry from the backlinks list
+			// of the entries which contain it.
+			formerInternalLinks
+				.filter((link) => validInternalLinks.indexOf(link) > -1)
+				.forEach((link) => {
+					changes[link].backlinks = changes[link].backlinks.filter(
 						(link) =>
 							link !== entry.permalink && link !== entry.previousPermalink
-					))
-			);
-
-			newInternalLinks.forEach((link) =>
-				changes[link].backlinks.push(entry.permalink)
-			);
-
-			if (previousPermalink !== entry.permalink)
-				existingInternalLinks.forEach((link) => {
-					changes[link].backlinks = changes[link].backlinks.filter(
-						(link) => link !== previousPermalink
 					);
+				});
+
+			currentInternalLinks
+				.filter((link) => validInternalLinks.indexOf(link) > -1)
+				.forEach((link) => {
 					changes[link].backlinks.push(entry.permalink);
+					if (entry.permalink !== previousPermalink) {
+						changes[link].backlinks = changes[link].backlinks.filter(
+							(link) => link !== previousPermalink
+						);
+					}
 				});
 
 			let result = {};
 
-			for (var foo in changes)
-				result[changes[foo].path] = _.uniq(changes[foo].backlinks);
+			for (const url in changes) {
+				const previousBacklinks = changes[url].previousBacklinks;
+				const updatedBacklinks = _.uniq(changes[url].backlinks);
 
-			debug("result", result);
+				if (_.isEqual(previousBacklinks, updatedBacklinks)) continue;
+
+				result[changes[url].path] = updatedBacklinks;
+			}
+
+			debug(entry.path, "result", result);
+			debug(entry.path, "[backlinks]", entry.backlinks);
 			callback(null, result);
 		}
 	);

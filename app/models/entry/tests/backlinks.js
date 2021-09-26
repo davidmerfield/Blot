@@ -101,4 +101,32 @@ describe("entry.backlinks", function () {
     expect(entryAfterUpdate.backlinks).toEqual(["/new-linker"]);
     done();
   });
+
+  it("updates the backlinks property of deleted posts", async function (done) {
+    const path = "/post.txt";
+    const contents = "Link: linker\n\n[linker](/linked)";
+
+    const pathLinked = "/linked.txt";
+    const contentsLinked = "Link: linked\n\nHey";
+
+    await this.set(pathLinked, contentsLinked);
+    await this.set(path, contents);
+
+    const entry = await this.get(pathLinked);
+
+    await this.drop(pathLinked);
+    await this.drop(path);
+
+    const entryAfterDrop = await this.get(pathLinked);
+
+    await this.set(pathLinked, contentsLinked);
+
+    const entryAfterRestore = await this.get(pathLinked);
+
+
+    expect(entry.backlinks).toEqual(["/linker"]);
+    expect(entryAfterDrop.deleted).toEqual(true);
+    expect(entryAfterRestore.backlinks).toEqual([]);
+    done();
+  });  
 });
