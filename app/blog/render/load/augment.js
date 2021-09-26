@@ -4,7 +4,7 @@ var Entry = require("models/entry");
 var async = require("async");
 var _ = require("lodash");
 var moment = require("moment");
-
+var debug = require("debug")("blog:render:augment");
 require("moment-timezone");
 
 module.exports = function (req, res, entry, callback) {
@@ -85,17 +85,30 @@ module.exports = function (req, res, entry, callback) {
 
   entry.backlinks = entry.backlinks || [];
 
+  debug(entry.path, "fetching backlinks", entry.backlinks);
+
   async.map(
     entry.backlinks,
     function (linkUrl, next) {
-      if (typeof linkUrl !== "string") return next(null, null);
+      debug("Looking up backlink for linkUrl", linkUrl);
+      if (typeof linkUrl !== "string") {
+        return next(null, null);
+      }
       Entry.getByUrl(req.blog.id, linkUrl, function (entry) {
+        if (entry) {
+          debug("Found", entry.path, "for", linkUrl);
+        } else {
+          debug("No entry found for", linkUrl);
+        }
         next(null, entry);
       });
     },
     function (err, backlinks) {
-      entry.backlinks = backlinks.filter((i) => !!i && i.guid !== entry.guid);
-      entry.backlinks = _.uniqBy(entry.backlinks, "guid");
+      debug(entry.path, "fetched backlinks", backlinks);
+      entry.backlinks = backlinks.filter((i) => !!i && i.path !== entry.path);
+      entry.backlinks = _.uniqBy(entry.backlinks, "path");
+      debug(entry.path, "final backlinks", entry.backlinks);
+
       callback();
     }
   );
