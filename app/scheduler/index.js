@@ -6,7 +6,7 @@ var email = require("helper/email");
 var clfdate = require("helper/clfdate");
 var warmCache = require("./warmCache");
 var schedule = require("node-schedule").scheduleJob;
-var checkFeatuedSites = require("../brochure/routes/featured/check");
+// var checkFeaturedSites = require("../brochure/routes/featured/check");
 var config = require("config");
 var publishScheduledEntries = require("./publish-scheduled-entries");
 const os = require("os");
@@ -140,17 +140,17 @@ module.exports = function () {
     });
   });
 
-  console.log(clfdate(), "Scheduled daily check of featured sites");
-  schedule({ hour: 8, minute: 0 }, function () {
-    console.log(clfdate(), "Checking featured sites");
-    checkFeatuedSites(function (err) {
-      if (err) {
-        console.log(clfdate(), "Error: Checking featured sites", err);
-      } else {
-        console.log(clfdate(), "Checked featured sites");
-      }
-    });
-  });
+  // console.log(clfdate(), "Scheduled daily check of featured sites");
+  // schedule({ hour: 8, minute: 0 }, function () {
+  //   console.log(clfdate(), "Checking featured sites");
+  //   checkFeaturedSites(function (err) {
+  //     if (err) {
+  //       console.log(clfdate(), "Error: Checking featured sites", err);
+  //     } else {
+  //       console.log(clfdate(), "Checked featured sites");
+  //     }
+  //   });
+  // });
 
   // At some point I should check this doesnt consume too much memory
   console.log(clfdate(), "Scheduled daily update email for 6:05am!");
