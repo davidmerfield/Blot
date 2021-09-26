@@ -1,0 +1,19 @@
+Autumn newsletter
+
+*You received this email because you subscribed to [Blot’s newsletter](https://blot.im/about/news). You can [unsubscribe](https://blot.im/about/news/cancel) if you like. Please reply directly to this email if you have any thoughts or questions.*
+
+**New features**
+
+**Changes**
+- Updated the tools Blot depends upon to patch any known security vulnerabilities.
+
+**Bugs fixed**
+
+**Mistakes**
+
+**Plans for this season**
+
+
+If you have any thoughts or questions about any of this, please don’t hesitate to reply directly to this email.
+
+Sincerely, David
