@@ -32,7 +32,7 @@ module.exports = function watch(blogID, folder) {
     }
     // Blot likes leading slashes
     path = "/" + path;
-    var syncOptions = { retryCount: -1, retryDelay: 10, retryJitter: 10 };
+    var syncOptions = { retryCount: 10, retryDelay: 200, retryJitter: 200 };
     var affectedPaths = [path];
     var pathInFolder = folder + path;
     var pathOnBlot = localPath(blogID, path);
