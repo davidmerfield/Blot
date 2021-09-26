@@ -114,13 +114,8 @@ module.exports = function set(blogID, path, updates, callback) {
 
         if (entry.draft) queue.push(notifyDrafts.bind(this, blogID, entry));
 
-        async.parallel(queue, function () {
-          if (entry.deleted) {
-            console.log(clfdate(), blogID, path, "deleted");
-          } else {
-            console.log(clfdate(), blogID, path, "updated");
-          }
-
+        async.parallel(queue, function (err) {
+          if (err) return callback(err);
           backlinksToUpdate(
             blogID,
             entry,
@@ -130,10 +125,25 @@ module.exports = function set(blogID, path, updates, callback) {
               if (err) return callback(err);
               async.eachOf(
                 changes,
-                function (backlinks, path, next) {
-                  set(blogID, path, { backlinks }, next);
+                function (backlinks, linkedEntryPath, next) {
+                  console.log(
+                    clfdate(),
+                    blogID,
+                    path,
+                    "updating backlinks list of linked entry",
+                    linkedEntryPath
+                  );
+                  set(blogID, linkedEntryPath, { backlinks }, next);
                 },
-                callback
+                function (err) {
+                  if (err) return callback(err);
+                  if (entry.deleted) {
+                    console.log(clfdate(), blogID, path, "deleted");
+                  } else {
+                    console.log(clfdate(), blogID, path, "updated");
+                  }
+                  callback();
+                }
               );
             }
           );
