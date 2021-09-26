@@ -19,6 +19,8 @@ Release a new film showing some of Blot’s more recent features
 
 ---
 
+It seems possible to have two entries with the same guid, possibly related to an entry rename event (i.e. copying the guid across). Make sure that when a rename happens, the old entry is permanently deleted and its guid cannot be reused.
+
 Resolve issues with git client during a partially-successful sync and tell [V](https://mail.google.com/mail/u/0/#inbox/FMfcgzGkXwDNqDFKdWBQPTBpwQRzgsGd)
 - If using the git client, if building one entry fails, it seems that the rest of the entries in the same sync also fail?
 - so right now build/metadata is used multiple times. in certain cases it is wrapped in a try/catch but in others it is not. we need to wrap it in try/catch wherever it is used
