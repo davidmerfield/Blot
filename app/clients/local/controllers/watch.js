@@ -40,7 +40,14 @@ module.exports = function watch(blogID, folder) {
       // Check the folder is still connected to a client
       if (!folder) return watcher.close();
       Sync(blogID, syncOptions, function (err, folder, done) {
-        if (err) return callback(err);
+        if (err) {
+          console.log(
+            "Blog",
+            blogID,
+            "Failed to acquire sync lock on folder. Likely because another child process was working on it..."
+          );
+          return callback();
+        }
         fs.stat(pathInFolder, function (err, stat) {
           try {
             affectedPaths = affectedPaths.concat(
