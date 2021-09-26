@@ -32,7 +32,7 @@ module.exports = function watch(blogID, folder) {
     }
     // Blot likes leading slashes
     path = "/" + path;
-    var syncOptions = { retryCount: -1, retryDelay: 10, retryJitter: 10 };
+    var syncOptions = { retryCount: 10, retryDelay: 200, retryJitter: 200 };
     var affectedPaths = [path];
     var pathInFolder = folder + path;
     var pathOnBlot = localPath(blogID, path);
@@ -40,7 +40,14 @@ module.exports = function watch(blogID, folder) {
       // Check the folder is still connected to a client
       if (!folder) return watcher.close();
       Sync(blogID, syncOptions, function (err, folder, done) {
-        if (err) return callback(err);
+        if (err) {
+          console.log(
+            "Blog",
+            blogID,
+            "Failed to acquire sync lock on folder. Likely because another child process was working on it..."
+          );
+          return callback();
+        }
         fs.stat(pathInFolder, function (err, stat) {
           try {
             affectedPaths = affectedPaths.concat(

@@ -14,6 +14,7 @@ var makeSlug = require("helper/makeSlug");
 var ensure = require("helper/ensure");
 var Model = require("entry").model;
 
+var internalLinks = require("./internalLinks");
 var isHidden = require("./isHidden");
 var Summary = require("./summary");
 var Teaser = require("./teaser");
@@ -93,6 +94,10 @@ function Prepare(entry) {
   entry.summary = Summary($, title || "");
   debug(entry.path, "Generated  summary");
 
+  debug(entry.path, "Generating internal links");
+  entry.internalLinks = internalLinks($);
+  debug(entry.path, "Generated internal links");
+  
   debug(entry.path, "Generating teasers");
   entry.teaser = Teaser(entry.html) || entry.html;
   entry.teaserBody = Teaser(entry.body) || entry.body;

@@ -17,6 +17,7 @@ var CHANNEL = "clients:local:new-folder";
 console.log(clfdate(), "Listening for new local folder clients");
 client.subscribe(CHANNEL);
 client.on("message", function (channel, message) {
+  debug("recieved", message, "on", channel);
   if (channel !== CHANNEL) return;
   let { blogID, folder } = JSON.parse(message);
   setup(blogID, folder, function (err) {
@@ -50,7 +51,7 @@ function init(blogID) {
   });
 }
 function setup(blogID, folder, callback) {
-  debug("Setting up local client in", folder);
+  console.log("Setting up local client in", folder);
   fs.ensureDir(folder, function (err) {
     if (err) return callback(err);
     debug("Storing folder for", blogID, "in database");
@@ -65,7 +66,7 @@ function setup(blogID, folder, callback) {
           watch(blogID, folder);
         }
 
-        debug("Setup complete");
+        console.log("Setup complete");
         callback();
       });
     });

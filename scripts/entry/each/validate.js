@@ -1,35 +1,25 @@
 var Entry = require("models/entry");
-var eachEntry = require("../each/entry");
+var eachEntry = require("../../each/entry");
 
 var _ = require("lodash");
 var assert = require("assert");
-
-var type = require("helper/type");
-var fakeEntry = require("./fakeEntry");
 
 var ensure = require("helper/ensure");
 var options = require("minimist")(process.argv.slice(2));
 
 var debug = require("./debug");
-
-var log = require("single-line-log").stdout;
+var colors = require("colors/safe");
 var fix = require("./fix");
 
 eachEntry(
-  function (user, blog, entry, _next) {
-    var next = function () {
-      log(" ✔ All entries checked");
-      _next();
-    };
-
-    log(" ", entry.id + ".", entry.path);
-
-    if (type(entry, "number")) {
-      return fakeEntry(blog.id, entry, next);
-    }
-
+  function (user, blog, entry, next) {
+    console.log(colors.dim(blog.id + " " + entry.guid), entry.path);
+    const before = JSON.stringify(entry);
     fix(blog, entry, function (entry, changes) {
       ensure(entry, Entry.model, true);
+      const after = JSON.stringify(entry);
+
+      if (_.isEqual(before, after)) return next();
 
       Entry.set(blog.id, entry.id, entry, function (err) {
         if (err) throw err;

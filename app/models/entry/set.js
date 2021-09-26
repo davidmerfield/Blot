@@ -2,8 +2,8 @@ var async = require("async");
 var ensure = require("helper/ensure");
 var model = require("./model");
 var redis = require("client");
-
 var guid = require("helper/guid");
+var clfdate = require("helper/clfdate");
 
 var get = require("./get");
 var key = require("./key");
@@ -11,6 +11,7 @@ var setUrl = require("./_setUrl");
 
 // Queue items
 var rebuildDependencyGraph = require("./_rebuildDependencyGraph");
+var backlinksToUpdate = require("./_backlinksToUpdate");
 var updateSearchIndex = require("./_updateSearchIndex");
 var updateTagList = require("models/tags").set;
 var addToSchedule = require("./_addToSchedule");
@@ -35,7 +36,13 @@ module.exports = function set(blogID, path, updates, callback) {
     // Create an empty object if new entry
     entry = entry || {};
 
-    var previous_dependencies = entry.dependencies
+    var previousPermalink = entry.permalink;
+
+    var previousInternalLinks = entry.internalLinks
+      ? entry.internalLinks.slice()
+      : [];
+
+    var previousDependencies = entry.dependencies
       ? entry.dependencies.slice()
       : [];
 
@@ -52,6 +59,8 @@ module.exports = function set(blogID, path, updates, callback) {
     // ToDO remove these and ensure all existing entries have been rebuilt
     if (entry.dependencies === undefined) entry.dependencies = [];
     if (entry.pathDisplay === undefined) entry.pathDisplay = entry.path;
+    if (entry.backlinks === undefined) entry.backlinks = [];
+    if (entry.internalLinks === undefined) entry.internalLinks = [];
 
     entry.scheduled = entry.dateStamp > Date.now();
 
@@ -96,7 +105,7 @@ module.exports = function set(blogID, path, updates, callback) {
             this,
             blogID,
             entry,
-            previous_dependencies
+            previousDependencies
           ),
         ];
 
@@ -105,7 +114,40 @@ module.exports = function set(blogID, path, updates, callback) {
 
         if (entry.draft) queue.push(notifyDrafts.bind(this, blogID, entry));
 
-        async.parallel(queue, callback);
+        async.parallel(queue, function (err) {
+          if (err) return callback(err);
+          backlinksToUpdate(
+            blogID,
+            entry,
+            previousInternalLinks,
+            previousPermalink,
+            function (err, changes) {
+              if (err) return callback(err);
+              async.eachOf(
+                changes,
+                function (backlinks, linkedEntryPath, next) {
+                  console.log(
+                    clfdate(),
+                    blogID,
+                    path,
+                    "updating backlinks list of linked entry",
+                    linkedEntryPath
+                  );
+                  set(blogID, linkedEntryPath, { backlinks }, next);
+                },
+                function (err) {
+                  if (err) return callback(err);
+                  if (entry.deleted) {
+                    console.log(clfdate(), blogID, path, "deleted");
+                  } else {
+                    console.log(clfdate(), blogID, path, "updated");
+                  }
+                  callback();
+                }
+              );
+            }
+          );
+        });
       });
     });
   });
