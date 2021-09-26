@@ -60,6 +60,7 @@ module.exports = function set(blogID, path, updates, callback) {
     if (entry.dependencies === undefined) entry.dependencies = [];
     if (entry.pathDisplay === undefined) entry.pathDisplay = entry.path;
     if (entry.backlinks === undefined) entry.backlinks = [];
+    if (entry.internalLinks === undefined) entry.internalLinks = [];
 
     entry.scheduled = entry.dateStamp > Date.now();
 
