@@ -410,31 +410,76 @@ input#search:focus {
 
 .pagination a {margin: 0 1em;background: none}
 
-.previousEntry,
-.nextEntry {
-  text-decoration: none;
-  font-size: 0.88rem;
-  line-height: 1.33em;
-  width: 48%;
-  margin: 1em 0 6em 2%;
-  color: {{text_color}};
-  display: block;
-  float: left;
+/* Hide the footnotes on the homepage */
+.entry.on-index-page .footnotes {display: none;}
+
+.footnotes > ol:before {
+     content: "Footnotes";
+     position: absolute;
+     top: 0;
+     left: 0 
 }
 
-.previousEntry {margin: 1em 2% 6em 0;}
-
-.adjacent a h5 {margin-bottom: 3px;color: {{text_color}}}
-.adjacent a .summary {color: {{text_color}};font-size: .8125rem;line-height: 17px;opacity:0.6}
-
-.previousEntry .title,
-.nextEntry .title {
-  display: block;
-  font-size: 1.156rem;
-  line-height: 20px;
-  margin-bottom: 3px
+.footnotes {
+    margin-top: 4rem
 }
 
+.footnotes > ol {
+    position:relative;
+    padding: 0;
+    font-size: 14px;
+    opacity: 0.8;
+    padding-left: 110px
+}
+.footnotes > ol li {
+    margin-left: 20px;
+    padding-left: 10px
+}
+.footnotes > ol li::marker {
+     color: #aaa;
+     font-weight: bold;
+}
+ .footnote-back:after {
+    content: "Context"
+}
+ .footnote-ref {
+    text-decoration: none;
+    font-variant-numeric: tabular-nums;
+}
+ .footnote-ref sup {
+    line-height: 0
+}
+ .footnote-ref sup:before {
+     content: "[" 
+}
+
+ .footnote-ref sup:after {
+     content: "]" 
+}
+
+
+/* The fixed header interferes with the correct scroll offset for footnotes*/
+.entry [id] {
+ scroll-margin-top: 8rem;
+}
+
+hr.minimal,
+.footnotes hr {border-bottom:1px solid;}
+
+.footnotes > ol:before,
+.left-label h5 {font-size: 14px;font-weight: 600;color:rgba({{#rgb}}{{text_color}}{{/rgb}}, 0.5);margin-bottom: 24px;}
+
+.left-label h5 {margin-top: 1em;position: absolute;top: 0;left: 0}
+.rounded-link {border-bottom:1px solid rgba(0,0,0,0.1);text-decoration: none;color:inherit;display: block;margin-bottom: 1rem;padding-bottom: 1rem}
+.rounded-link:last-child {border-bottom: none;}
+.rounded-link .title {display: block;margin-bottom: 0.5rem;color:{{accent_color}};text-decoration:underline}
+.rounded-link .summary {opacity: 0.8;max-height: 2.8em;overflow: hidden;display: block;}
+.left-label {
+padding-left: 140px;padding-top: 1rem;font-size:14px
+}
+.left-label .tag {
+margin:0 1rem 0 0
+}
 @media screen and (max-width: 976px) {
 
   .main {max-width: 600px;min-width: 0}

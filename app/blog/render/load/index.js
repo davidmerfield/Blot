@@ -1,5 +1,5 @@
 var ensure = require("helper/ensure");
-var Augment = require("./augment");
+var augment = require("./augment");
 var eachEntry = require("./eachEntry");
 
 // then we check each entry in the view
@@ -15,11 +15,13 @@ var eachEntry = require("./eachEntry");
 module.exports = function (req, res, callback) {
   ensure(req, "object").and(res, "object").and(callback, "function");
 
-  var locals = res.locals;
-
-  var augment = Augment(req, res);
-
-  eachEntry(locals, augment);
-
-  return callback(null, req, res);
+  eachEntry(
+    res.locals,
+    function (entry, next) {
+      augment(req, res, entry, next);
+    },
+    function (err) {
+      callback(err, req, res);
+    }
+  );
 };
