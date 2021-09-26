@@ -39,7 +39,28 @@ function check(callback) {
       function (err) {
         if (err) return callback(err);
 
-        cache.flush(config.host, callback);
+        const cache_directory = config.cache_directory + "/" + config.host;
+        let items;
+
+        try {
+          items = fs.readdirSync(cache_directory).length;
+        } catch (e) {
+          console.log("Error reading cache directory contents", e);
+        }
+
+        console.log("Flushing cache directory....");
+        console.log(
+          `${cache_directory} has ${items} items inside before flush..`
+        );
+        cache.flush(config.host, function (err) {
+          if (err) {
+            console.log("Error flushing cache directory:", err);
+          } else {
+            console.log(`${cache_directory} now has ${items} items inside`);
+          }
+
+          callback(null);
+        });
       }
     );
   });

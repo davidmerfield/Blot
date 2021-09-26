@@ -6,27 +6,15 @@
 // once per day to ensure sites are fresh.
 const fs = require("fs-extra");
 
-const loadFeatured = () => {
-  let featured = [];
-
-  try {
-    featured = fs.readJSONSync(__dirname + "/featured-checked.json");
-  } catch (e) {
-    console.log("Warning: Please check the list of featured sites:");
-    console.log("node app/brochure/routes/featured/check");
-  }
-
-  return featured;
-};
-
-let featured = loadFeatured();
-
-// Reload once per day
-setInterval(function () {
-  featured = loadFeatured();
-}, 1000 * 60 * 60 * 24);
-
 module.exports = function (req, res, next) {
-  res.locals.featured = featured.slice();
-  next();
+  fs.readJSON(__dirname + "/featured-checked.json", function (err, featured) {
+    if (err) {
+      console.log("Warning: Please check the list of featured sites:");
+      console.log("node app/brochure/routes/featured/check");
+      featured = [];
+    }
+
+    res.locals.featured = featured;
+    next();
+  });
 };
