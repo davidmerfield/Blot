@@ -55,10 +55,16 @@ function check(callback) {
         cache.flush(config.host, function (err) {
           if (err) {
             console.log("Error flushing cache directory:", err);
-          } else {
-            console.log(`${cache_directory} now has ${items} items inside`);
+            return callback(err);
           }
 
+          try {
+            items = fs.readdirSync(cache_directory).length;
+          } catch (e) {
+            console.log("Error reading cache directory contents", e);
+          }
+
+          console.log(`${cache_directory} now has ${items} items inside`);
           callback(null);
         });
       }
