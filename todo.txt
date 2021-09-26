@@ -1,8 +1,4 @@
-Write and send out fall newsletter (was due Sept 22nd)
-
-Fix the bug with featured sites (the sprite gets borked)
-
----
+Check to see if we have fixed the bug with featured sites sprite
 
 Release the Google Drive client
 
