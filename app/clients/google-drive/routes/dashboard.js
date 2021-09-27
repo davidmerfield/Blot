@@ -11,6 +11,7 @@ const fs = require("fs-extra");
 const localPath = require("helper/localPath");
 const redis = require("redis");
 const client = require("client");
+const _ = require("lodash");
 
 const REDIRECT_URL =
 	config.environment === "development"
@@ -200,20 +201,40 @@ dashboard.get("/authenticate", function (req, res, next) {
 	// Save these somewhere safe so they can be used at a later time.
 	oauth2Client.getToken(req.query.code, async function (err, account) {
 		if (err) return next(err);
-		await database.setAccount(req.blog.id, account);
-		const { drive } = await createDriveClient(req.blog.id);
-		drive.about.get({ fields: "*" }, async function (err, response) {
-			if (err) return next(err);
-			let email = response.data.user.emailAddress;
-			// If we are re-authenticating because of an error
-			// then remove the error message!
-			await database.setAccount(req.blog.id, { email, error: "" });
 
-			res.message(
-				"/settings/client/google-drive/set-up-folder",
-				"You have connected Blot to Google Drive successfully"
-			);
-		});
+		await database.setAccount(req.blog.id, account);
+
+		const tokenInfo = await oauth2Client.getTokenInfo(account.access_token);
+
+		if (
+			!_.isEqual(tokenInfo.scopes.sort(), AUTH_URL_CONFIG.scope.slice().sort())
+		) {
+			// take a look at the scopes originally provisioned for the access token
+			await database.setAccount(req.blog.id, {
+				error: "Not full permission",
+			});
+			return res.redirect("/settings/client/google-drive");
+		}
+
+		const { drive } = await createDriveClient(req.blog.id);
+		let email;
+
+		try {
+			const response = await drive.about.get({ fields: "*" });
+			email = response.data.user.emailAddress;
+		} catch (e) {
+			await database.setAccount(req.blog.id, { error: e.message });
+			return res.redirect("/setting/client/google-drive");
+		}
+
+		// If we are re-authenticating because of an error
+		// then remove the error message!
+		await database.setAccount(req.blog.id, { email, error: "" });
+
+		res.message(
+			"/settings/client/google-drive/set-up-folder",
+			"You have connected Blot to Google Drive successfully"
+		);
 	});
 });
 
