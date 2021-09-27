@@ -3,6 +3,7 @@ var TYPES = {
     "number": "number",
     "boolean": "boolean",
     "string": "string",
+    "[object AsyncFunction]": "function",
     "[object Function]": "function",
     "[object RegExp]": "regexp",
     "[object Array]": "array",
