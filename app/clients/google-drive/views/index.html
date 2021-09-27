@@ -17,7 +17,8 @@ Blot cannot connect to your <b>Google Drive</b>. Please re-connect to give Blot 
 
   <div class="line">
     <p>
-      <b>Google Drive</b> {{#folderID}}synchronizes your folder{{/folderID}}{{^folderID}} is connected to your account. Please set up a folder.{{/folderID}} You can
+      <b>Google Drive</b> {{#folderID}}synchronizes your folder{{/folderID}}{{^folderID}} is connected to your account but you have not set up a folder to synchronize with Blot. Please <a class="link" href="{{{base}}}/set-up-folder">set up a folder to sync
+  </a>.{{/folderID}} You can
       <a class="link" href="/settings/client/switch"
         >switch to a different client</a
       >
@@ -70,10 +71,21 @@ Blot cannot connect to your <b>Google Drive</b>. Please re-connect to give Blot 
 {{^account}}
 <div class="inset">
   <p style="margin: 42px 0 20px;">
-    Blot will create a new folder for
-    <b style="font-weight: 500;">{{blog.title}}</b> inside your Google Drive.
-    You can revoke Blot’s access to this folder at any point.
+    Blot will ask for permission to connect to your <b>Google Drive</b>.
+    You can revoke Blot’s access at any point. Blot will ask for permission to:
+    <ul>
+      <li>See, edit, create, and delete all of your Google Drive files</li>
+      <li>View and add to the activity record of files in your Google Drive. </li>
+    </ul>
   </p>
+  <details>
+    <summary><em>Can I limit Blot's access to a single folder in my Google Drive?</em></summary>
+    <p>Not directly, unfortunately. Google does not offer the API features  required to limit Blot's access to a single folder. Consider the following workaround:</p>
+    <ol>
+      <li>Create a burner Google account</li>
+      <li>Connect Blot to your burner Google account and set up your blog's folder in your burner Google Drive.</li>
+      <li>Share your blog's folder from your burner to your main account's Google Drive.</p>
+  </details>
   <br />
 
   <form action="{{{base}}}/disconnect" method="post">

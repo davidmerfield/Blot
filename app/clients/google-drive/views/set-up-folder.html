@@ -3,7 +3,7 @@
 
 <div class="line" style="border-bottom: none;">
   <p>Blot will create a new folder for your site inside your <b>Google Drive</b>. {{^emptyFolder}}
-The files in your folder on Blot will be copied automatically into Google Drive.{{/emptyFolder}}</p>
+The files currently in your folder on Blot will be copied automatically into Google Drive.{{/emptyFolder}}</p>
 </div>
 
 <div class="line">
@@ -145,7 +145,7 @@ The files in your folder on Blot will be copied automatically into Google Drive.
 <form method="post" class="account" style="border-top:none;padding-top: 0; margin-top: 0;">
   <input type="hidden" name="_csrf" value="{{csrftoken}}" />
   <div class="buttons">
-    <input class="button" type="submit" value="Set up folder" />
+    <input class="button" type="submit" value="Create folder {{^emptyFolder}}and copy files from Blot{{/emptyFolder}}" />
     <a href="{{{base}}}">Cancel</a>
   </div>
 </form>

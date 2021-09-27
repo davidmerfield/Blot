@@ -122,12 +122,10 @@ dashboard
 		res.render(VIEWS + "set-up-folder");
 	})
 	.post(
-		function createDriveClient(req, res, next) {
-			createDriveClient(req.blog.id, function (err, drive) {
-				if (err) return next(err);
-				req.drive = drive;
-				next();
-			});
+		async function (req, res, next) {
+			const { drive } = await createDriveClient(req.blog.id);
+			req.drive = drive;
+			next();
 		},
 
 		async function createBlogFolder(req, res, next) {
@@ -203,20 +201,18 @@ dashboard.get("/authenticate", function (req, res, next) {
 	oauth2Client.getToken(req.query.code, async function (err, account) {
 		if (err) return next(err);
 		await database.setAccount(req.blog.id, account);
-		createDriveClient(req.blog.id, function (err, drive) {
+		const { drive } = await createDriveClient(req.blog.id);
+		drive.about.get({ fields: "*" }, async function (err, response) {
 			if (err) return next(err);
-			drive.about.get({ fields: "*" }, async function (err, response) {
-				if (err) return next(err);
-				let email = response.data.user.emailAddress;
-				// If we are re-authenticating because of an error
-				// then remove the error message!
-				await database.setAccount(req.blog.id, { email, error: "" });
+			let email = response.data.user.emailAddress;
+			// If we are re-authenticating because of an error
+			// then remove the error message!
+			await database.setAccount(req.blog.id, { email, error: "" });
 
-				res.message(
-					"/settings/client/google-drive/set-up-folder",
-					"You have connected Blot to Google Drive successfully"
-				);
-			});
+			res.message(
+				"/settings/client/google-drive/set-up-folder",
+				"You have connected Blot to Google Drive successfully"
+			);
 		});
 	});
 });
