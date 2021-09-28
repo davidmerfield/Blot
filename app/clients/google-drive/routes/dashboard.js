@@ -18,15 +18,17 @@ const REDIRECT_URL =
 		? "http://localhost:8822/settings/client/google-drive/authenticate"
 		: "https://" + config.host + "/settings/client/google-drive/authenticate";
 
+const SCOPES = [
+	"https://www.googleapis.com/auth/drive",
+	"https://www.googleapis.com/auth/drive.activity",
+];
+
 // 'online' (default) or 'offline' (gets refresh_token)
 // which I believe we'll need to interact with user's
 // drive over a long period of time.
 const AUTH_URL_CONFIG = {
 	access_type: "offline",
-	scope: [
-		"https://www.googleapis.com/auth/drive",
-		"https://www.googleapis.com/auth/drive.activity",
-	],
+	scope: SCOPES.slice(),
 };
 
 dashboard.use(async function loadGoogleDriveAccount(req, res, next) {
@@ -156,9 +158,22 @@ dashboard
 			next();
 		},
 
-		function transferExistingFiles(req, res, next) {
+		async function transferExistingFiles(req, res, next) {
 			if (req.emptyFolder) return next();
-			writeContentsOfFolder(req.blog.id, next);
+
+			try {
+				await writeContentsOfFolder(req.blog.id);
+			} catch (e) {
+				if (e.code === 401) {
+					// take a look at the scopes originally provisioned for the access token
+					await database.setAccount(req.blog.id, {
+						error: "Not full permission",
+					});
+				}
+				return res.message("/settings/client/google-drive", e);
+			}
+
+			next();
 		},
 
 		function (req, res) {
@@ -206,9 +221,7 @@ dashboard.get("/authenticate", function (req, res, next) {
 
 		const tokenInfo = await oauth2Client.getTokenInfo(account.access_token);
 
-		if (
-			!_.isEqual(tokenInfo.scopes.sort(), AUTH_URL_CONFIG.scope.slice().sort())
-		) {
+		if (!_.isEqual(tokenInfo.scopes.sort(), SCOPES)) {
 			// take a look at the scopes originally provisioned for the access token
 			await database.setAccount(req.blog.id, {
 				error: "Not full permission",
@@ -233,20 +246,16 @@ dashboard.get("/authenticate", function (req, res, next) {
 
 		res.message(
 			"/settings/client/google-drive/set-up-folder",
-			"You have connected Blot to Google Drive successfully"
+			"Blot now has access to your Google Drive"
 		);
 	});
-});
-
-dashboard.use(function (err, req, res, next) {
-	res.send(err);
 });
 
 const join = require("path").join;
 const { promisify } = require("util");
 const write = promisify(require("../write"));
 
-const writeContentsOfFolder = async (blogID, done) => {
+const writeContentsOfFolder = async (blogID) => {
 	const path = localPath(blogID, "/");
 	const channel = "blog:" + blogID + ":client:google-drive:set-up-folder";
 
@@ -275,29 +284,17 @@ const writeContentsOfFolder = async (blogID, done) => {
 			if (stat.isDirectory()) {
 				await walk(path);
 			} else {
-				publish("Writing " + relative(path));
-				const contents = await fs.readFile(path);
-
-				publish(
-					"Writing " +
-						contents.toString().slice(0, 100) +
-						"... to " +
-						relative(path)
-				);
-				await write(blogID, relative(path), contents);
+				publish("Writing to " + relative(path));
+				console.log('creating read stream from', path);
+				await write(blogID, relative(path), fs.createReadStream(path));
 			}
 		}
 	};
 
 	await walk(path);
-
 	// const interval = setInterval(function () {
 	// 	client.publish(channel, "Syncing " + Date.now() + ".txt");
 	// }, 300);
-
-	setTimeout(function () {
-		done();
-	}, 1000);
 };
 
 module.exports = dashboard;

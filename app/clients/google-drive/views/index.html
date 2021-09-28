@@ -17,12 +17,12 @@ Blot cannot connect to your <b>Google Drive</b>. Please re-connect to give Blot 
 
   <div class="line">
     <p>
-      <b>Google Drive</b> {{#folderID}}synchronizes your folder{{/folderID}}{{^folderID}} is connected to your account but you have not set up a folder to synchronize with Blot. Please <a class="link" href="{{{base}}}/set-up-folder">set up a folder to sync
-  </a>.{{/folderID}} You can
+      <b>Google Drive</b> {{#folderID}}synchronizes your folder{{/folderID}}{{^folderID}} is connected to your account but you have not set up a folder to synchronize with Blot. Please <a class="link" href="{{{base}}}/set-up-folder">create a folder
+  </a> to sync.{{/folderID}} {{#folderID}}You can
       <a class="link" href="/settings/client/switch"
         >switch to a different client</a
       >
-      seamlessly.
+      seamlessly.{{/folderID}}
     </p>
   </div>
 
@@ -55,13 +55,13 @@ Blot cannot connect to your <b>Google Drive</b>. Please re-connect to give Blot 
   </a>
   {{/folderID}}
  <div class="line" >
-    <span class="label">Account on Google</span>
+    <span class="label">Google account</span>
     <span class="center">{{email}}</span>
   </div>
 
   <a class="line" href="{{{base}}}/disconnect">
     <span class="label">Disconnect</span>
-    <span class="link">Revoke access</span>
+    <span class="link">Disconnect from Google Drive</span>
   </a>
 
 <br><br>
