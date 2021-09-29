@@ -5,13 +5,45 @@ const INVALID_ACCOUNT_STRING =
 	"Google Drive client: Error decoding JSON for account of blog ";
 
 const database = {
-	accountKey: function (blogID) {
-		return "blog:" + blogID + ":googledrive:account";
+	keys: {
+		allAccounts: function () {
+			return "clients:google-drive:all-accounts";
+		},
+		account: function (blogID) {
+			return "blog:" + blogID + ":google-drive:account";
+		},
+		folderById: function (blogID) {
+			return "blog:" + blogID + ":google-drive:folder-by-id";
+		},
 	},
-	getAccount: function (blogID, callback) {
-		const key = this.accountKey(blogID);
 
-		client.get(key, function (err, account) {
+	allAccounts: function (callback) {
+		client.smembers(this.keys.allAccounts, (err, blogIDs) => {
+			if (err) return callback(err);
+			if (!blogIDs || !blogIDs.length) return callback(null, []);
+			client.mget(blogIDs.map(this.keys.account), (err, accounts) => {
+				if (err) return callback(err);
+				if (!accounts || !accounts.length) return callback(null, []);
+				accounts = accounts
+					.map((serializedAccount, index) => {
+						if (!serializedAccount) return null;
+						try {
+							const account = JSON.parse(serializedAccount);
+							account.blogID = blogIDs[index];
+							return account;
+						} catch (e) {}
+						return null;
+					})
+					.filter((account) => !!account);
+
+				callback(null, accounts);
+			});
+		});
+	},
+
+	getAccount: function (blogID, callback) {
+		const key = this.keys.account(blogID);
+		client.get(key, (err, account) => {
 			if (err) {
 				return callback(err);
 			}
@@ -29,44 +61,48 @@ const database = {
 			callback(null, account);
 		});
 	},
-	dropAccount: function (blogID, callback) {
-		const key = this.accountKey(blogID);
-		client.del(key, callback);
-	},
-	setAccount: function (blogID, changes, callback) {
-		const key = this.accountKey(blogID);
 
-		this.getAccount(blogID, function (err, account) {
+	setAccount: function (blogID, changes, callback) {
+		const key = this.keys.account(blogID);
+
+		this.getAccount(blogID, (err, account) => {
 			account = account || {};
 
 			for (var i in changes) {
 				account[i] = changes[i];
 			}
 
-			client.set(key, JSON.stringify(account), callback);
+			client
+				.multi()
+				.sadd(this.keys.allAccounts, blogID)
+				.set(key, JSON.stringify(account))
+				.exec(callback);
 		});
 	},
 
-	folderByIdKey: function (blogID) {
-		return "blog:" + blogID + ":googledrive:folder:id";
-	},
-
-	storeFolder: function (blogID, { fileId, path }, callback) {
+	dropAccount: function (blogID, callback) {
 		client
 			.multi()
-			.hset(this.folderByIdKey(blogID), fileId, path)
+			.del(this.keys.account(blogID))
+			.del(this.keys.folderById(blogID))
+			.srem(this.keys.allAccounts, blogID)
 			.exec(callback);
 	},
 
+	storeFolder: function (blogID, { fileId, path }, callback) {
+		client.hset(this.keys.folderById(blogID), fileId, path, callback);
+	},
+
 	deleteFolder: function (blogID, { fileId, path }, callback) {
-		client.multi().hdel(this.folderByIdKey(blogID), fileId).exec(callback);
+		client.hdel(this.keys.folderById(blogID), fileId, callback);
 	},
 
 	getByFileId: function (blogID, id, callback) {
-		client.hget(this.folderByIdKey(blogID), id, callback);
+		client.hget(this.keys.folderById(blogID), id, callback);
 	},
 };
 
 for (const property in database) {
+	if (property === "keys") continue;
 	module.exports[property] = promisify(database[property]).bind(database);
 }

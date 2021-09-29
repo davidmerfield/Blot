@@ -11,11 +11,11 @@ const localPath = require("helper/localPath");
 const redis = require("redis");
 const client = require("client");
 const _ = require("lodash");
+const setupWebhook = require("../util/setupWebhook");
 
-const REDIRECT_URL =
-	config.environment === "development"
-		? "http://localhost:8822/settings/client/google-drive/authenticate"
-		: "https://" + config.host + "/settings/client/google-drive/authenticate";
+const REDIRECT_URL = config.webhook_forwarding_host
+	? `https://${config.webhook_forwarding_host}/clients/google-drive/authenticate`
+	: `https://${config.host}/settings/client/google-drive/authenticate`;
 
 const SCOPES = [
 	"https://www.googleapis.com/auth/drive",
@@ -55,7 +55,6 @@ dashboard.route("/set-up-folder/status").get(function (req, res) {
 	var client = redis.createClient();
 
 	req.socket.setTimeout(2147483647);
-
 	res.writeHead(200, {
 		// This header tells NGINX to NOT
 		// buffer the response. Otherwise
@@ -76,7 +75,6 @@ dashboard.route("/set-up-folder/status").get(function (req, res) {
 
 	client.on("message", function (_channel, message) {
 		if (_channel !== channel) return;
-
 		res.write("\n");
 		res.write("data: " + message + "\n\n");
 		res.flush();
@@ -155,9 +153,9 @@ dashboard
 					// take a look at the scopes originally provisioned for the access token
 					await database.setAccount(req.blog.id, {
 						error: "Not full permission",
-						folderID: "",
-						folderName: "",
-						folderPath: "",
+						folderID: null,
+						folderName: null,
+						folderPath: null,
 					});
 				}
 				return res.message("/settings/client/google-drive", e);
@@ -168,46 +166,23 @@ dashboard
 
 		async function (req, res, next) {
 			try {
-				const guid = require("helper/guid");
-
-				const { data } = await req.drive.changes.getStartPageToken({
-					supportsAllDrives: true,
-				});
-				const pageToken = data.startPageToken;
-				const response = await req.drive.changes.watch({
-					// Whether the user is acknowledging the risk of downloading known malware or other abusive files.
-					// The ID for the file in question.
-					supportsAllDrives: true,
-					includeDeleted: true,
-					includeCorpusRemovals: true,
-					includeItemsFromAllDrives: true,
-					pageToken: pageToken,
-					// Request body metadata
-					requestBody: {
-						id: guid(),
-						resourceId: req.folderID,
-						type: "web_hook",
-						kind: "api#channel",
-						address: `https://${
-							config.webhook_forwarding_host || config.host
-						}/clients/google-drive/webhook`,
-					},
-				});
-
-				console.log("Watch", response);
-				await database.setAccount(req.blog.id, { channel: response.data });
-				console.log("stored channel", response.data);
+				await setupWebhook(req.blog.id);
 			} catch (e) {
+				await database.setAccount(req.blog.id, {
+					error: "Could not set up webhooks",
+					channel: null,
+					folderID: null,
+					folderName: null,
+					folderPath: null,
+				});
+
 				console.log(e);
-				console.log(e.response.data.error);
 				return next(e);
 			}
 			next();
 		},
 
 		function (req, res) {
-			// TODO we will also set up the streaming notifications
-			// here with the webhook service offered by Google Drive
 			res.message(
 				"/settings/client/google-drive",
 				"Your folder is now set up on Google Drive"
@@ -243,12 +218,12 @@ dashboard.get("/authenticate", function (req, res, next) {
 
 	// This will provide an object with the access_token and refresh_token.
 	// Save these somewhere safe so they can be used at a later time.
-	oauth2Client.getToken(req.query.code, async function (err, account) {
+	oauth2Client.getToken(req.query.code, async function (err, credentials) {
 		if (err) return next(err);
 
-		await database.setAccount(req.blog.id, account);
+		await database.setAccount(req.blog.id, credentials);
 
-		const tokenInfo = await oauth2Client.getTokenInfo(account.access_token);
+		const tokenInfo = await oauth2Client.getTokenInfo(credentials.access_token);
 
 		if (!_.isEqual(tokenInfo.scopes.sort(), SCOPES)) {
 			// take a look at the scopes originally provisioned for the access token
@@ -273,9 +248,31 @@ dashboard.get("/authenticate", function (req, res, next) {
 		// then remove the error message!
 		await database.setAccount(req.blog.id, { email, error: "" });
 
-		res.message(
-			"/settings/client/google-drive/set-up-folder",
-			"Blot now has access to your Google Drive"
+		const account = await database.getAccount(req.blog.id);
+
+		if (!account.folderID)
+			return res.message(
+				"/settings/client/google-drive/set-up-folder",
+				"Blot now has access to your Google Drive"
+			);
+
+		try {
+			await setupWebhook(req.blog.id);
+		} catch (e) {
+			await database.setAccount(req.blog.id, {
+				error: "Could not set up webhooks",
+				channel: null,
+				folderID: null,
+				folderName: null,
+				folderPath: null,
+			});
+
+			console.log(e);
+			return next(e);
+		}
+		return res.message(
+			"/settings/client/google-drive",
+			"Re-connected to Google Drive"
 		);
 	});
 });
@@ -311,7 +308,7 @@ const writeContentsOfFolder = async (blogID) => {
 			if (stat.isDirectory()) {
 				await walk(path);
 			} else {
-				publish('Transferring', relative(path));
+				publish("Transferring " + relative(path));
 				await write(blogID, relative(path), fs.createReadStream(path));
 			}
 		}

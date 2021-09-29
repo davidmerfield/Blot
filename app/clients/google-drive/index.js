@@ -8,35 +8,67 @@ module.exports = {
   dashboard_routes: require("./routes/dashboard"),
 };
 
-/* 
+// thiS SHOULD only run on one process (main)
+const debug = require("debug")("clients:google-drive");
+const clfdate = require("helper/clfdate");
+const database = require("./database");
+const setupWebhook = require("./util/setupWebhook");
+const TEN_MINUTES = 1000 * 60 * 10; // in ms
 
-Google places restrictions on the callback URL used 
-during OAUTH. You can't use a fake TLD. In development
-we use the fake domain blot.development, and Google
-forbids this. They do allow the use of localhost though
-so we create a lightweight webserver on a port which 
-will forward requests to blot.development.
+const refreshWebhookChannels = async () => {
+  console.log(
+    clfdate(),
+    "Looking for Google Drive accounts to renew webhooks for"
+  );
+  const accounts = await database.allAccounts();
+  for (const account of accounts) {
+    if (!account.folderID || !account.channel) continue;
+    const tenMinutesFromNow = Date.now() + TEN_MINUTES;
 
-Specifically, this will redirect the following callback url:
-  
-http://localhost:8822/clients/google-drive/authenticate?code=xxxx
+    // The channel will expire in more than ten minutes
+    if (parseInt(account.channel.expiration) > tenMinutesFromNow) {
+      debug("No need to renew channel for ", account);
+      continue;
+    }
 
-to:
+    console.log(clfdate(), "Renewing Google Drive webhook for", account.blogID);
+    try {
+      await setupWebhook(account.blogID);
+    } catch (e) {
+      
+      if (e.message === "Invalid Credentials") {
+        await database.setAccount(account.blogID, {
+          channel: null,
+          error: "Invalid Credentials",
+        });
+      } else {
+        await database.setAccount(account.blogID, {
+          channel: null,
+          error: "Failed to set up webhook",
+        });
+      }
 
-https://blot.development/clients/google-drive/authenticate?code=xxxx
-
-*/
-
-if (require("config").environment === "development") {
-  new require("express")()
-    .use(function (req, res) {
-      console.log("made it here!");
-      res.redirect("https://" + require("config").host + req.originalUrl);
       console.log(
-        "redirected to",
-        "https://" + require("config").host + req.originalUrl
+        clfdate(),
+        "Error renewing Google Drive webhook for",
+        account.blogID,
+        e
       );
-    })
-    .on("error", console.log)
-    .listen(8822);
+    }
+  }
+};
+
+refreshWebhookChannels();
+setInterval(refreshWebhookChannels, TEN_MINUTES);
+
+const { webhook_forwarding_host } = require("config");
+const { spawn } = require("child_process");
+
+if (webhook_forwarding_host) {
+  console.log(clfdate(), "Spawning webhook_forwarding_host tunnel");
+  spawn("ssh", [
+    "-R",
+    webhook_forwarding_host + ":80:localhost:80",
+    "localhost.run",
+  ]);
 }

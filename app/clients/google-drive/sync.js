@@ -18,10 +18,10 @@ const DISABLE = false;
 // delay before retrying a request. 30 minutes is requested, which should
 // be plenty of time to sync a large folder.
 var SYNC_OPTIONS = {
-  retryCount: -1,
+  retryCount: 1,
   retryDelay: 10,
   retryJitter: 10,
-  ttl: 30 * 60 * 1000,
+  ttl: 30 * 60 * 1000, // 30 minutes
 };
 
 // I believe we want to use
@@ -29,7 +29,7 @@ var SYNC_OPTIONS = {
 
 module.exports = function (blogID, options, callback) {
   debug("Blog:", blogID, "Attempting to sync");
-  Sync(blogID, SYNC_OPTIONS, async function (err, folder, done) {
+  Sync(blogID, SYNC_OPTIONS, async function check(err, folder, done) {
     if (err) return callback(err);
     debug("Blog:", blogID, "Acquired lock on folder");
     const { drive, driveactivity, account } = await createDriveClient(blogID);
@@ -190,7 +190,12 @@ module.exports = function (blogID, options, callback) {
       done(e, callback);
     }
 
-    done(null, callback);
+    // Wait a second and then check again
+    if (res && res.data && res.data.activities.length) {
+      return setTimeout(() => check(null, folder, done), 600);
+    } else {
+      done(null, callback);
+    }
   });
 };
 
