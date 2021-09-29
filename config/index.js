@@ -22,6 +22,11 @@ module.exports = {
   protocol: BLOT_PROTOCOL + "://",
   pidfile: BLOT_DIRECTORY + "/data/process.pid",
 
+  // When working locally on Blot we can forward webhooks
+  // using localhost.run through a fixed domain we own
+  // whose host is BLOT_WEBHOOK_FORWARDER, e.g. example.com
+  webhook_forwarding_host: process.env.BLOT_WEBHOOK_FORWARDING_HOST,
+
   maintenance: process.env.BLOT_MAINTENANCE === "true",
   cache: process.env.BLOT_CACHE === "true",
   debug: process.env.BLOT_DEBUG === "true",
@@ -120,8 +125,8 @@ module.exports = {
   google: {
     drive: {
       key: process.env.BLOT_GOOGLEDRIVE_ID,
-      secret: process.env.BLOT_GOOGLEDRIVE_SECRET
-    }
+      secret: process.env.BLOT_GOOGLEDRIVE_SECRET,
+    },
   },
 
   twitter: {

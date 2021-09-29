@@ -6,7 +6,6 @@ const database = require("../database");
 const createDriveClient = require("../util/createDriveClient");
 const disconnect = require("../disconnect");
 const VIEWS = require("path").resolve(__dirname + "/../views") + "/";
-const sync = require("../sync");
 const fs = require("fs-extra");
 const localPath = require("helper/localPath");
 const redis = require("redis");
@@ -50,18 +49,6 @@ dashboard.use(async function loadGoogleDriveAccount(req, res, next) {
 dashboard.get("/", function (req, res) {
 	res.render(VIEWS + "index");
 });
-
-dashboard
-	.route("/webhook")
-	.get(function (req, res) {
-		res.render(VIEWS + "sync");
-	})
-	.post(function (req, res, next) {
-		sync(req.blog.id, { fromScratch: req.query.fromScratch }, function (err) {
-			if (err) return next(err);
-			res.message("/settings/client/google-drive", "Success!");
-		});
-	});
 
 dashboard.route("/set-up-folder/status").get(function (req, res) {
 	var blogID = req.blog.id;
@@ -168,11 +155,53 @@ dashboard
 					// take a look at the scopes originally provisioned for the access token
 					await database.setAccount(req.blog.id, {
 						error: "Not full permission",
+						folderID: "",
+						folderName: "",
+						folderPath: "",
 					});
 				}
 				return res.message("/settings/client/google-drive", e);
 			}
 
+			next();
+		},
+
+		async function (req, res, next) {
+			try {
+				const guid = require("helper/guid");
+
+				const { data } = await req.drive.changes.getStartPageToken({
+					supportsAllDrives: true,
+				});
+				const pageToken = data.startPageToken;
+				const response = await req.drive.changes.watch({
+					// Whether the user is acknowledging the risk of downloading known malware or other abusive files.
+					// The ID for the file in question.
+					supportsAllDrives: true,
+					includeDeleted: true,
+					includeCorpusRemovals: true,
+					includeItemsFromAllDrives: true,
+					pageToken: pageToken,
+					// Request body metadata
+					requestBody: {
+						id: guid(),
+						resourceId: req.folderID,
+						type: "web_hook",
+						kind: "api#channel",
+						address: `https://${
+							config.webhook_forwarding_host || config.host
+						}/clients/google-drive/webhook`,
+					},
+				});
+
+				console.log("Watch", response);
+				await database.setAccount(req.blog.id, { channel: response.data });
+				console.log("stored channel", response.data);
+			} catch (e) {
+				console.log(e);
+				console.log(e.response.data.error);
+				return next(e);
+			}
 			next();
 		},
 
@@ -266,10 +295,9 @@ const writeContentsOfFolder = async (blogID) => {
 		console.log(message);
 	};
 
-	publish("starting sync");
+	publish("Looking for files to transfer");
 
 	const walk = async (dir) => {
-		publish(channel, "Walking " + relative(dir));
 		const contents = await fs.readdir(dir);
 
 		if (!contents.length) {
@@ -280,21 +308,16 @@ const writeContentsOfFolder = async (blogID) => {
 		for (const item of contents) {
 			const path = join(dir, item);
 			const stat = await fs.stat(path);
-			publish("Checking " + relative(path));
 			if (stat.isDirectory()) {
 				await walk(path);
 			} else {
-				publish("Writing to " + relative(path));
-				console.log('creating read stream from', path);
+				publish('Transferring', relative(path));
 				await write(blogID, relative(path), fs.createReadStream(path));
 			}
 		}
 	};
 
 	await walk(path);
-	// const interval = setInterval(function () {
-	// 	client.publish(channel, "Syncing " + Date.now() + ".txt");
-	// }, 300);
 };
 
 module.exports = dashboard;

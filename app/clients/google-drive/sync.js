@@ -70,20 +70,19 @@ module.exports = function (blogID, options, callback) {
             pageToken: res.data.nextPageToken,
           });
           debug(
-          "this page first date",
-          nextPage.data.activities[0].time ||
-            nextPage.data.activities[0].timeRange.endTime
-        );
+            "this page first date",
+            nextPage.data.activities[0].time ||
+              nextPage.data.activities[0].timeRange.endTime
+          );
 
-        debug(
-          "next page first date",
-          nextPage.data.activities[0].time ||
-            nextPage.data.activities[0].timeRange.endTime
-        );
+          debug(
+            "next page first date",
+            nextPage.data.activities[0].time ||
+              nextPage.data.activities[0].timeRange.endTime
+          );
         } catch (e) {
           debug("error fetching next page", e);
         }
-
 
         throw new Error("THERE IS A nextPageToken to handle");
       }
@@ -110,6 +109,17 @@ module.exports = function (blogID, options, callback) {
 
           // Remove file
           if (action.detail.delete) {
+            if (fileId === account.folderID) {
+              debug("DELETE BLOG FOLDER", fileId, target.driveItem.title);
+              await database.setAccount(blogID, {
+                folderID: "",
+                folderPath: "",
+                folderName: "",
+                latestActivity: "",
+              });
+              return done(null, callback);
+            }
+
             debug("DELETE", fileId, target.driveItem.title);
             await deleteFile(drive, folder, blogID, fileId);
           }
@@ -172,7 +182,7 @@ module.exports = function (blogID, options, callback) {
         // We don't neccessarily get a timestamp, some have a time range
         const latestActivity = change.timestamp || change.timeRange.endTime;
         debug("Storing latestActivity", latestActivity);
-        await database.setAccount(blogID, { latestActivity });
+        await database.setAccount(blogID, { latestActivity, error: "" });
       }
     } catch (e) {
       if (e.message === "invalid_grant")
@@ -255,6 +265,8 @@ const download = async (drive, folder, blogID, fileId, target, account) => {
     debug("target", target);
 
     try {
+      console.log("MIME TYPE", target.driveItem.mimeType);
+
       if (target.driveItem.mimeType === "application/vnd.google-apps.folder") {
         if (!DISABLE) {
           await fs.ensureDir(path);
@@ -275,10 +287,29 @@ const download = async (drive, folder, blogID, fileId, target, account) => {
 
       var dest = fs.createWriteStream(tempPath);
 
-      const { data } = await drive.files.get(
-        { fileId, alt: "media" },
-        { responseType: "stream" }
-      );
+      debug("getting file from Drive");
+      let data;
+
+      if (
+        target.driveItem.mimeType === "application/vnd.google-apps.document"
+      ) {
+        const res = await drive.files.export(
+          {
+            fileId: fileId,
+            mimeType: "text/html",
+          },
+          { responseType: "stream" }
+        );
+        data = res.data;
+      } else {
+        const res = await drive.files.get(
+          { fileId, alt: "media" },
+          { responseType: "stream" }
+        );
+        data = res.data;
+      }
+
+      debug("got file from Drive");
 
       data
         .on("end", () => {
@@ -293,6 +324,7 @@ const download = async (drive, folder, blogID, fileId, target, account) => {
         .on("error", reject)
         .pipe(dest);
     } catch (e) {
+      debug("download error", e);
       reject(e);
     }
   });
