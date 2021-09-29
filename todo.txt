@@ -1,5 +1,3 @@
-Check to see if we have fixed the bug with featured sites sprite
-
 Release the Google Drive client
 
 Finish the test folders for each template 
