@@ -9,7 +9,7 @@ module.exports = {
 };
 
 // thiS SHOULD only run on one process (main)
-const debug = require("debug")("clients:google-drive");
+const debug = require("debug")("blot:clients:google-drive");
 const clfdate = require("helper/clfdate");
 const database = require("./database");
 const setupWebhook = require("./util/setupWebhook");

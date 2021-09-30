@@ -4,7 +4,7 @@ const querystring = require("querystring");
 const database = require("../database");
 const config = require("config");
 const createDriveClient = require("./createDriveClient");
-const debug = require("debug")("clients:google-drive");
+const debug = require("debug")("blot:clients:google-drive");
 
 module.exports = async (blogID) => {
   const { drive, account } = await createDriveClient(blogID);

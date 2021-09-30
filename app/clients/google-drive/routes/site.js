@@ -4,6 +4,7 @@ const config = require("config");
 const querystring = require("querystring");
 const hash = require("helper/hash");
 const sync = require("../sync");
+const clfdate = require("helper/clfdate");
 
 dashboard.route("/authenticate").get(function (req, res) {
   res.redirect(
@@ -20,6 +21,7 @@ dashboard
     res.send("GET OK!");
   })
   .post(function (req, res) {
+    console.log(clfdate(), "Google Drive client received webhook");
     if (req.headers["x-goog-channel-token"]) {
       const token = querystring.parse(req.headers["x-goog-channel-token"]);
 
@@ -28,11 +30,46 @@ dashboard
       );
 
       if (token.signature !== signature) {
-        return console.log("Invalid signature in TOKEN");
+        return console.log(
+          clfdate(),
+          "Google Drive client received webhook with bad signature"
+        );
       }
 
+      console.log(
+        clfdate(),
+        "Blog:",
+        token.blogID,
+        "Google Drive client received webhook, starting sync..."
+      );
       sync(token.blogID, { fromScratch: false }, function (err) {
-        if (err) console.log(err);
+        if (
+          err &&
+          err.message.startsWith("Exceeded 1 attempts to lock the resource")
+        ) {
+          console.error(
+            clfdate(),
+            "Blog:",
+            token.blogID,
+            "Google Drive client ran into another process currently syncing this blog, abort!"
+          );
+        } else if (err) {
+          console.error(
+            clfdate(),
+            "Blog:",
+            token.blogID,
+            "Error syncing with Google Drive",
+            err
+          );
+        } else {
+          console.error(
+            clfdate(),
+            "Blog:",
+            token.blogID,
+            "Google Drive client completed sync without error",
+            err
+          );
+        }
       });
     }
 

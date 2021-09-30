@@ -1,14 +1,15 @@
-const createDriveClient = require("./util/createDriveClient");
+const createDriveClient = require("../util/createDriveClient");
 const Sync = require("sync");
-const database = require("./database");
-const tempDir = require("helper/tempDir")();
+const database = require("../database");
 const fs = require("fs-extra");
+const { promisify } = require("util");
 const join = require("path").join;
 const dirname = require("path").dirname;
 const localPath = require("helper/localPath");
-const guid = require("helper/guid");
 const debug = require("debug")("blot:clients:google-drive:sync");
 const colors = require("colors/safe");
+const determinePathInBlogFolder = require("./determinePathInBlogFolder");
+const download = require("./download");
 
 // PREVENT THE PROGRAM from makeing changes
 const DISABLE = false;
@@ -32,8 +33,13 @@ module.exports = function (blogID, options, callback) {
   Sync(blogID, SYNC_OPTIONS, async function check(err, folder, done) {
     if (err) return callback(err);
     debug("Blog:", blogID, "Acquired lock on folder");
+    folder.update = promisify(folder.update);
     const { drive, driveactivity, account } = await createDriveClient(blogID);
     if (err) return done(err, callback);
+
+    if (account.error)
+      return done(new Error("Account has error: " + account.error), callback);
+
     debug("Blog:", blogID, "Created Drive client");
     const params = {
       ancestor_name: "items/" + account.folderID,
@@ -187,7 +193,7 @@ module.exports = function (blogID, options, callback) {
     } catch (e) {
       if (e.message === "invalid_grant")
         await database.setAccount(blogID, { error: e.message });
-      done(e, callback);
+      return done(e, callback);
     }
 
     // Wait a second and then check again
@@ -199,147 +205,11 @@ module.exports = function (blogID, options, callback) {
   });
 };
 
-const savePath = async (folder, relativePath) => {
-  return new Promise(function (resolve, reject) {
-    folder.update(relativePath, function (err) {
-      if (err) return reject(err);
-      resolve();
-    });
-  });
-};
-
-const determinePathInBlogFolder = async (drive, fileId, blogFolderID) => {
-  debug("The file/folder", fileId, "path will be determined...");
-
-  if (blogFolderID && fileId === blogFolderID) {
-    debug("The file/folder", fileId, "refers to the blog folder");
-    return "/";
-  }
-
-  const parents = [];
-
-  let data;
-  let insideBlogFolder = false;
-
-  const res = await drive.files.get({
-    fileId,
-    fields: "id, name, parents",
-  });
-
-  data = res.data;
-
-  while (data.parents && data.parents.length && !insideBlogFolder) {
-    const res = await drive.files.get({
-      fileId: data.parents[0],
-      fields: "id, name, parents",
-    });
-    data = res.data;
-    if (blogFolderID && data.id === blogFolderID) {
-      insideBlogFolder = true;
-    } else {
-      parents.unshift({ name: data.name, id: data.id });
-    }
-  }
-
-  if (insideBlogFolder || !blogFolderID) {
-    const result =
-      "/" + join(parents.map((i) => i.name).join("/"), res.data.name);
-    debug("The file/folder", fileId, "has path", result);
-    return result;
-  } else {
-    debug("The file/folder", fileId, "is not in the blog folder");
-    return "";
-  }
-};
-
-const download = async (drive, folder, blogID, fileId, target, account) => {
-  return new Promise(async function (resolve, reject) {
-    const relativePath = await determinePathInBlogFolder(
-      drive,
-      fileId,
-      account.folderID
-    );
-
-    const path = localPath(blogID, relativePath);
-    const tempPath = join(tempDir, guid());
-
-    debug("relativePath:", relativePath);
-    debug("fullPath", path);
-    debug("tempPath", tempPath);
-    debug("fileId", fileId);
-    debug("target", target);
-
-    try {
-      console.log("MIME TYPE", target.driveItem.mimeType);
-
-      if (target.driveItem.mimeType === "application/vnd.google-apps.folder") {
-        if (!DISABLE) {
-          await fs.ensureDir(path);
-          await database.storeFolder(blogID, { fileId, path: relativePath });
-        }
-        debug("MKDIR folder");
-        debug("   to:", colors.green(path));
-
-        return resolve();
-      }
-
-      if (DISABLE) {
-        return resolve();
-      }
-
-      debug("DOWNLOAD file");
-      debug("   to:", colors.green(path));
-
-      var dest = fs.createWriteStream(tempPath);
-
-      debug("getting file from Drive");
-      let data;
-
-      if (
-        target.driveItem.mimeType === "application/vnd.google-apps.document"
-      ) {
-        const res = await drive.files.export(
-          {
-            fileId: fileId,
-            mimeType: "text/html",
-          },
-          { responseType: "stream" }
-        );
-        data = res.data;
-      } else {
-        const res = await drive.files.get(
-          { fileId, alt: "media" },
-          { responseType: "stream" }
-        );
-        data = res.data;
-      }
-
-      debug("got file from Drive");
-
-      data
-        .on("end", () => {
-          fs.move(tempPath, path, { overwrite: true }, async (err) => {
-            if (err) return reject(err);
-            await database.storeFolder(blogID, { fileId, path: relativePath });
-            await savePath(folder, relativePath);
-            debug("DOWNLOAD file SUCCEEDED");
-            resolve();
-          });
-        })
-        .on("error", reject)
-        .pipe(dest);
-    } catch (e) {
-      debug("download error", e);
-      reject(e);
-    }
-  });
-};
-
 const updateFolderPath = async (drive, blogID, folderID) => {
-  const folderPath = await determinePathInBlogFolder(drive, folderID);
-  debug("Storing new folderPath", folderPath);
-  await database.setAccount(blogID, { folderPath });
-  debug("Stored new folderPath", folderPath);
+  const { relativePath } = await determinePathInBlogFolder(drive, folderID);
+  debug("Storing new folderPath", relativePath);
+  await database.setAccount(blogID, { folderPath: relativePath });
+  debug("Stored new folderPath", relativePath);
   return;
 };
 
@@ -358,7 +228,7 @@ const move = async (
     return;
   }
 
-  const relativePath = await determinePathInBlogFolder(
+  const { relativePath } = await determinePathInBlogFolder(
     drive,
     fileId,
     account.folderID
@@ -395,8 +265,8 @@ const move = async (
   if (!DISABLE) {
     await fs.move(oldPath, path);
     await database.storeFolder(blogID, { fileId, path: relativePath });
-    await savePath(folder, relativePath);
-    await savePath(folder, oldRelativePath);
+    await folder.update(relativePath);
+    await folder.update(oldRelativePath);
     debug("MOVE file/folder SUCCEEDED");
   }
 };
@@ -409,6 +279,10 @@ const rename = async (drive, folder, blogID, fileId, newTitle, account) => {
   }
 
   const oldRelativePath = await database.getByFileId(blogID, fileId);
+
+  if (!oldRelativePath)
+    throw new Error("No fileId in the database for:", fileId);
+  
   const relativePath = join(dirname(oldRelativePath), newTitle);
 
   const path = localPath(blogID, relativePath);
@@ -420,8 +294,8 @@ const rename = async (drive, folder, blogID, fileId, newTitle, account) => {
   if (!DISABLE) {
     await fs.move(oldPath, path);
     await database.storeFolder(blogID, { fileId, path: relativePath });
-    await savePath(folder, relativePath);
-    await savePath(folder, oldRelativePath);
+    await folder.update(relativePath);
+    await folder.update(oldRelativePath);
     debug("MOVE file/folder SUCCEEDED");
   }
 };
@@ -441,7 +315,7 @@ const deleteFile = async (drive, folder, blogID, fileId) => {
   if (!DISABLE) {
     await fs.remove(path);
     await database.deleteFolder(blogID, { fileId, path: relativePath });
-    await savePath(folder, relativePath);
+    await folder.update(relativePath);
     debug("DELETE file/folder SUCCEEDED");
   }
 };

@@ -1,6 +1,7 @@
 const createDriveClient = require("./util/createDriveClient");
 const dirname = require("path").dirname;
 const basename = require("path").basename;
+const computeMd5Checksum = require("./util/md5Checksum");
 const localPath = require("helper/localPath");
 const debug = require("debug")("blot:clients:google-drive:write");
 const fs = require("fs-extra");
@@ -21,6 +22,8 @@ function makeStream(input) {
   return readableInstanceStream;
 }
 
+// We can make this much more efficient by thoughtfully using
+// streams in pipelines rather than wastefully
 module.exports = async function write(blogID, path, input, callback) {
   try {
     let readStream;
@@ -37,6 +40,10 @@ module.exports = async function write(blogID, path, input, callback) {
     const tempPath = await writeToTmp(readStream);
     debug("ws close called");
     debug("wrote stream to tmp", tempPath);
+
+    debug("calculating md5Checksum for", tempPath);
+    const md5Checksum = await computeMd5Checksum(tempPath);
+    debug("md5Checksum for", tempPath, "is", md5Checksum);
 
     const { drive, account } = await createDriveClient(blogID);
 
@@ -57,27 +64,39 @@ module.exports = async function write(blogID, path, input, callback) {
 
     if (!parentID) throw new Error("No parent ID");
 
-    // todo determine if file already exists
-    // then do update instead to avoid duping it.
-    await drive.files.create({
-      resource: {
-        name: basename(path),
-        parents: [parentID],
-      },
-      media: {
-        body: fs.createReadStream(tempPath),
-      },
-      fields: "id",
-    });
+    const match = await determineExistingMatch(drive, path, parentID);
+
+    if (md5Checksum && match && match.md5Checksum === md5Checksum) {
+      debug("The checksum for the local file matches, no need to upload");
+    } else if (match && match.fileId) {
+      await drive.files.update({
+        fileId: match.fileId,
+        media: {
+          body: fs.createReadStream(tempPath),
+        },
+      });
+    } else {
+      await drive.files.create({
+        resource: {
+          name: basename(path),
+          parents: [parentID],
+        },
+        media: {
+          body: fs.createReadStream(tempPath),
+        },
+        fields: "id",
+      });
+    }
 
     const pathOnBlot = localPath(blogID, path);
+    const md5ChecksumOnBlot = await computeMd5Checksum(tempPath);
 
-    debug("moving", tempPath, "to", pathOnBlot);
-
-    await fs.move(tempPath, pathOnBlot, { overwrite: true });
-
-    // should we stream to tmp file then copy across?
-    // can we do a write options:
+    if (md5ChecksumOnBlot === md5Checksum) {
+      debug("md5Checksum of", tempPath, "matches", pathOnBlot, "so dont move");
+    } else {
+      debug("moving", tempPath, "to", pathOnBlot);
+      await fs.move(tempPath, pathOnBlot, { overwrite: true });
+    }
   } catch (e) {
     return callback(e);
   }
@@ -98,6 +117,28 @@ const writeToTmp = (readStream) => {
       .on("finish", () => debug("rs finish called"))
       .pipe(writeStream);
   });
+};
+
+const determineExistingMatch = async (drive, path, parentID) => {
+  debug("Looking for existing match for", basename(path), "in", parentID);
+
+  try {
+    const {
+      data: { files },
+    } = await drive.files.list({
+      q: `'${parentID}' in parents and trashed = false`,
+      fields: "files/id,files/name,files/md5Checksum",
+    });
+
+    const file = files.filter((i) => i.name === basename(path))[0];
+    debug("Found existing match for", basename(path), "with:");
+    debug(file);
+    return file;
+  } catch (e) {
+    debug("Failed to find existing match for", basename(path));
+    debug(e);
+    return null;
+  }
 };
 
 const establishParentDirectories = async (drive, path, blogFolderID) => {
