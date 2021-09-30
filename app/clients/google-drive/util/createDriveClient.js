@@ -15,7 +15,7 @@ module.exports = async function createDriveClient(blogID) {
 	oauth2Client.setCredentials({
 		refresh_token: account.refresh_token,
 		access_token: account.access_token,
-		forceRefreshOnFailure: true,
+		expiry_date: account.expiry_date,
 	});
 
 	const drive = google.drive({ version: "v3", auth: oauth2Client });

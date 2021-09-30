@@ -25,10 +25,6 @@ const SCOPES = [
 // 'online' (default) or 'offline' (gets refresh_token)
 // which I believe we'll need to interact with user's
 // drive over a long period of time.
-const AUTH_URL_CONFIG = {
-	access_type: "offline",
-	scope: SCOPES.slice(),
-};
 
 dashboard.use(async function loadGoogleDriveAccount(req, res, next) {
 	const account = await database.getAccount(req.blog.id);
@@ -96,8 +92,7 @@ dashboard
 	.route("/set-up-folder")
 
 	.all(function (req, res, next) {
-		if (res.locals.account.folderID)
-			return res.redirect("/settings/client/google-drive");
+		if (res.locals.account.folderID) return res.redirect(req.baseUrl);
 
 		fs.readdir(localPath(req.blog.id, "/"), function (err, contents) {
 			if (err) return next(err);
@@ -158,7 +153,7 @@ dashboard
 						folderPath: null,
 					});
 				}
-				return res.message("/settings/client/google-drive", e);
+				return res.message(req.baseUrl, e);
 			}
 
 			next();
@@ -183,10 +178,7 @@ dashboard
 		},
 
 		function (req, res) {
-			res.message(
-				"/settings/client/google-drive",
-				"Your folder is now set up on Google Drive"
-			);
+			res.message(req.baseUrl, "Your folder is now set up on Google Drive");
 		}
 	);
 
@@ -206,7 +198,12 @@ dashboard.get("/redirect", function (req, res) {
 		REDIRECT_URL
 	);
 
-	res.redirect(oauth2Client.generateAuthUrl(AUTH_URL_CONFIG));
+	res.redirect(
+		oauth2Client.generateAuthUrl({
+			access_type: "offline",
+			scope: SCOPES.slice(),
+		})
+	);
 });
 
 dashboard.get("/authenticate", function (req, res, next) {
@@ -223,36 +220,34 @@ dashboard.get("/authenticate", function (req, res, next) {
 
 		await database.setAccount(req.blog.id, credentials);
 
-		const tokenInfo = await oauth2Client.getTokenInfo(credentials.access_token);
-
-		if (!_.isEqual(tokenInfo.scopes.sort(), SCOPES)) {
+		if (!_.isEqual(credentials.scope.split(" ").sort(), SCOPES)) {
 			// take a look at the scopes originally provisioned for the access token
 			await database.setAccount(req.blog.id, {
 				error: "Not full permission",
 			});
-			return res.redirect("/settings/client/google-drive");
+			return res.redirect();
 		}
-
-		const { drive } = await createDriveClient(req.blog.id);
-		let email;
 
 		try {
+			const { drive } = await createDriveClient(req.blog.id);
+			let email;
 			const response = await drive.about.get({ fields: "*" });
 			email = response.data.user.emailAddress;
-		} catch (e) {
-			await database.setAccount(req.blog.id, { error: e.message });
-			return res.redirect("/setting/client/google-drive");
-		}
 
-		// If we are re-authenticating because of an error
-		// then remove the error message!
-		await database.setAccount(req.blog.id, { email, error: "" });
+			// If we are re-authenticating because of an error
+			// then remove the error message!
+			await database.setAccount(req.blog.id, { email, error: "" });
+		} catch (e) {
+			console.log("Error getting info");
+			await database.setAccount(req.blog.id, { error: e.message });
+			return res.redirect(req.baseUrl);
+		}
 
 		const account = await database.getAccount(req.blog.id);
 
 		if (!account.folderID)
 			return res.message(
-				"/settings/client/google-drive/set-up-folder",
+				req.baseUrl + "/set-up-folder",
 				"Blot now has access to your Google Drive"
 			);
 
@@ -270,10 +265,7 @@ dashboard.get("/authenticate", function (req, res, next) {
 			console.log(e);
 			return next(e);
 		}
-		return res.message(
-			"/settings/client/google-drive",
-			"Re-connected to Google Drive"
-		);
+		return res.message(req.baseUrl, "Re-connected to Google Drive");
 	});
 });
 
