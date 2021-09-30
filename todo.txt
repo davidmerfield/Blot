@@ -13,6 +13,8 @@ Release a new film showing some of Blot’s more recent features
 
 ---
 
+Add RTF support using Pandoc or [rtf.js](https://github.com/tbluemel/rtf.js)
+
 Add support for full qualified URLs in the backlinks list for each entry. 
 - For example, if your blog is example.com, the following link will not appear as an internal link: [Foo](https://example.com/foo) because build/prepare/internalLinks is not aware of the blog domain/handle 
 - Tell [Eli](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlkFlwSwXGrFZwvSKdHKvcxplV)
@@ -155,8 +157,6 @@ Server changes
   - on boot we would gently copy across all /blogs folders and the /static directory in background task
 
 Support [Obsidian's syntax for embedding files](https://help.obsidian.md/How+to/Embed+files) and images, and tell [John](https://mail.google.com/mail/u/0/#inbox/FMfcgzGkbDftzhXHGrmzXrjtcMbGrmxM)
-
-Add [.rtf support](https://github.com/tbluemel/rtf.js)
 
 Migrate from mailgun to SES, mailgun's javascript sdk [seems](https://github.com/mailgun/mailgun-js/issues/122) [like](https://github.com/mailgun/mailgun-js#setup-client) a mess.
 
