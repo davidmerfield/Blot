@@ -239,21 +239,9 @@ dashboard.get("/authenticate", function (req, res, next) {
 		if (!refresh_token) {
 			return res.message(
 				req.baseUrl,
-				new Error("Missing refresh_token from Google Drive")
-			);
-		}
-
-		if (!access_token) {
-			return res.message(
-				req.baseUrl,
-				new Error("Missing access_token from Google Drive")
-			);
-		}
-
-		if (!expiry_date) {
-			return res.message(
-				req.baseUrl,
-				new Error("Missing expiry_date from Google Drive")
+				new Error(
+					"Missing refresh_token from Google Drive. This probably happened because you had previously connected Blot with Google Drive. Please remove Blot on your Google Account permissions page."
+				)
 			);
 		}
 
