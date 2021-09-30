@@ -191,7 +191,7 @@ module.exports = function (blogID, options, callback) {
         await database.setAccount(blogID, { latestActivity, error: "" });
       }
     } catch (e) {
-      if (e.message === "invalid_grant")
+      if (e.message === "invalid_grant" || e.message === "Invalid Credentials")
         await database.setAccount(blogID, { error: e.message });
       return done(e, callback);
     }
@@ -282,7 +282,7 @@ const rename = async (drive, folder, blogID, fileId, newTitle, account) => {
 
   if (!oldRelativePath)
     throw new Error("No fileId in the database for:", fileId);
-  
+
   const relativePath = join(dirname(oldRelativePath), newTitle);
 
   const path = localPath(blogID, relativePath);

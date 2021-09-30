@@ -207,6 +207,12 @@ dashboard.get("/redirect", function (req, res) {
 });
 
 dashboard.get("/authenticate", function (req, res, next) {
+	if (!req.query.code) {
+		return res.message(
+			req.baseUrl,
+			new Error("Please authorize Blot to access your Google Drive")
+		);
+	}
 	const oauth2Client = new google.auth.OAuth2(
 		config.google.drive.key,
 		config.google.drive.secret,
@@ -216,17 +222,46 @@ dashboard.get("/authenticate", function (req, res, next) {
 	// This will provide an object with the access_token and refresh_token.
 	// Save these somewhere safe so they can be used at a later time.
 	oauth2Client.getToken(req.query.code, async function (err, credentials) {
-		if (err) return next(err);
-
-		await database.setAccount(req.blog.id, credentials);
-
-		if (!_.isEqual(credentials.scope.split(" ").sort(), SCOPES)) {
-			// take a look at the scopes originally provisioned for the access token
-			await database.setAccount(req.blog.id, {
-				error: "Not full permission",
-			});
-			return res.redirect();
+		if (err) {
+			return res.message(req.baseUrl, err);
 		}
+
+		// take a look at the scopes originally provisioned for the access token
+		if (!_.isEqual(credentials.scope.split(" ").sort(), SCOPES)) {
+			return res.message(
+				req.baseUrl,
+				new Error("Please give Blot access to all the requested permissions")
+			);
+		}
+
+		const { refresh_token, access_token, expiry_date } = credentials;
+
+		if (!refresh_token) {
+			return res.message(
+				req.baseUrl,
+				new Error("Missing refresh_token from Google Drive")
+			);
+		}
+
+		if (!access_token) {
+			return res.message(
+				req.baseUrl,
+				new Error("Missing access_token from Google Drive")
+			);
+		}
+
+		if (!expiry_date) {
+			return res.message(
+				req.baseUrl,
+				new Error("Missing expiry_date from Google Drive")
+			);
+		}
+
+		await database.setAccount(req.blog.id, {
+			refresh_token,
+			access_token,
+			expiry_date,
+		});
 
 		try {
 			const { drive } = await createDriveClient(req.blog.id);
