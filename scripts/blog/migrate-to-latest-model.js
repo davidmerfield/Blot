@@ -10,6 +10,10 @@ each(
       };
     }
 
+    if (blog.redirectSubdomain === undefined) {
+      blog.redirectSubdomain = false;
+    }
+    
     if (blog.new_dashboard) delete blog.new_dashboard;
     if (blog.new_markdown_renderer) delete blog.new_markdown_renderer;
     if (blog.dateDisplay) delete blog.dateDisplay;
