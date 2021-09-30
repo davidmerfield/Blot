@@ -10,14 +10,20 @@ for (var i in clients) {
   });
 }
 
-list.sort(function(a, b) {
-    var textA = a.name.toUpperCase();
-    var textB = b.name.toUpperCase();
-    return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+list.sort(function (a, b) {
+  var textA = a.name.toUpperCase();
+  var textB = b.name.toUpperCase();
+  return textA < textB ? -1 : textA > textB ? 1 : 0;
 });
 
 module.exports = function (req, res, next) {
   res.locals.clients = list.slice();
+
+  if (!req.blog.flags.google_drive_beta) {
+    res.locals.clients = res.locals.clients.filter(
+      (client) => client.name !== "google-drive"
+    );
+  }
 
   if (req.blog.client) {
     res.locals.clients = res.locals.clients.map(function (client) {
@@ -27,8 +33,6 @@ module.exports = function (req, res, next) {
   } else {
     res.locals.clients[0].checked = "checked";
   }
-
-  res.locals.clients = list;
 
   next();
 };

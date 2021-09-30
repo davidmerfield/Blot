@@ -3,6 +3,10 @@ var LINK = { id: "string", metadata: "object", label: "string", url: "string" };
 
 var PERMALINK = { format: "string", custom: "string", isCustom: "boolean" };
 
+var FLAGS = {
+  google_drive_beta: "boolean",
+};
+
 // KEY, TYPE, WRITE?, PUBLIC?
 var DECLARATION = {
   id: ["string", false, false],
@@ -13,6 +17,9 @@ var DECLARATION = {
   avatar: ["string", true, true],
   template: ["string", true, false],
   domain: ["string", true, true],
+  forceSSL: ["boolean", true, false],
+  redirectSubdomain: ["boolean", true, false],
+  isDisabled: ["boolean", true, false],
   timeZone: ["string", true, true],
   plugins: ["object", true, true],
   permalink: [PERMALINK, true, true],
@@ -20,17 +27,13 @@ var DECLARATION = {
   dateFormat: ["string", true, true],
   cacheID: ["number", false, true],
 
+  // Flags
+  flags: [FLAGS, true, false],
+
   // Eventually deprecate these (by incorporation into template engine)
   cssURL: ["string", false, true],
   scriptURL: ["string", false, true],
   roundAvatar: ["boolean", true, true],
-
-  // Flags
-  forceSSL: ["boolean", true, false],
-  isDisabled: ["boolean", true, false],
-  new_dashboard: ["boolean", true, false],
-  new_markdown_renderer: ["boolean", true, false],
-  redirectSubdomain: ["boolean", true, false],
 };
 
 var MODEL = { TYPE: {}, PUBLIC: [], WRITEABLE: [] };
