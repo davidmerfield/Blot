@@ -4,10 +4,17 @@ const Blog = require("models/blog");
 
 each(
   (user, blog, next) => {
+    if (!blog) return next();
+    if (blog.isDisabled) return next();
+    
     if (!blog.flags) {
       blog.flags = {
         google_drive_beta: false,
       };
+    }
+
+    if (blog.redirectSubdomain === undefined) {
+      blog.redirectSubdomain = false;
     }
 
     if (blog.new_dashboard) delete blog.new_dashboard;

@@ -23,4 +23,5 @@ module.exports = {
   redirectSubdomain: true,
   plugins: defaultPlugins,
   cacheID: 0,
+  flags: { google_drive_beta: false },
 };
