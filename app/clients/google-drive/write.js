@@ -8,7 +8,6 @@ const fs = require("fs-extra");
 const TMP = require("helper/tempDir")();
 const guid = require("helper/guid");
 const { Readable } = require("stream");
-const database = require("./database");
 
 // Turns a buffer or string into a readable stream
 function makeStream(input) {

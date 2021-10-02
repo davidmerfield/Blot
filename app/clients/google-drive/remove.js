@@ -2,7 +2,7 @@ const createDriveClient = require("./util/createDriveClient");
 const localPath = require("helper/localPath");
 const fs = require("fs-extra");
 
-module.exports = async function write(blogID, path, callback) {
+module.exports = async function remove(blogID, path, callback) {
   try {
     const { drive, account } = await createDriveClient(blogID);
     const fileId = await establishFileId(drive, path, account.folderID);

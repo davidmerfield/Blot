@@ -7,7 +7,6 @@ const { join } = require("path");
 const localPath = require("helper/localPath");
 const database = require("../database");
 const download = require("./download");
-const db = require("./db");
 const opts = {
   retryCount: 1,
   retryDelay: 10,
@@ -26,6 +25,7 @@ module.exports = function (blogID, options, callback) {
       return done(new Error("Account has error: " + account.error), callback);
 
     const folderId = account.folderID;
+    const db = database.folder(folderId);
     const pageToken = await db.getPageToken(folderId, drive);
     const response = await drive.changes.list({
       supportsAllDrives: true,
