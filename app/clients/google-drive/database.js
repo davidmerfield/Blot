@@ -12,9 +12,6 @@ const database = {
 		account: function (blogID) {
 			return "blog:" + blogID + ":google-drive:account";
 		},
-		folderById: function (blogID) {
-			return "blog:" + blogID + ":google-drive:folder-by-id";
-		},
 	},
 
 	allAccounts: function (callback) {
@@ -87,18 +84,6 @@ const database = {
 			.del(this.keys.folderById(blogID))
 			.srem(this.keys.allAccounts, blogID)
 			.exec(callback);
-	},
-
-	storeFolder: function (blogID, { fileId, path }, callback) {
-		client.hset(this.keys.folderById(blogID), fileId, path, callback);
-	},
-
-	deleteFolder: function (blogID, { fileId, path }, callback) {
-		client.hdel(this.keys.folderById(blogID), fileId, callback);
-	},
-
-	getByFileId: function (blogID, id, callback) {
-		client.hget(this.keys.folderById(blogID), id, callback);
 	},
 };
 
