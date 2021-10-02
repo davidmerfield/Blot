@@ -19,6 +19,8 @@ module.exports = {
   // This is where the user is asked to select a folder
   dashboard_routes: require("./routes"),
 
+  init: require("./init"),
+
   // We expose a special method to make it easier
   // for the test suite and script to build the
   // demonstration blogs to interact with this client.
