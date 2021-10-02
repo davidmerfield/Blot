@@ -32,7 +32,7 @@ module.exports = function (blogID, callback) {
     client.auth.setClientId(clientId);
     client.auth.setClientSecret(clientSecret);
     client.auth.setRefreshToken(account.refresh_token);
-    
+
     client.auth
       .checkAndRefreshAccessToken()
       .then(() => {
