@@ -1,4 +1,8 @@
-Release the Google Drive client
+Release the Google Drive client to testers
+
+---
+
+Release the Google Drive client to all
 
 Finish the test folders for each template 
 
