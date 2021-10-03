@@ -109,19 +109,16 @@ module.exports = async function (blogID, options, callback) {
         retries = 0;
         await db.setPageToken(newStartPageToken);
       } else {
-        console.log("Waiting", RETRY_INTERVALS[retries], "ms");
         await new Promise((resolve) =>
           setTimeout(resolve, RETRY_INTERVALS[retries])
         );
-        console.log("Waited", RETRY_INTERVALS[retries], "ms");
         retries++;
       }
     } while (
       pageToken !== newStartPageToken ||
-      retries <= RETRY_INTERVALS.length
+      retries < RETRY_INTERVALS.length
     );
 
-    console.log("Finished sync!");
     done(null, callback);
   } catch (err) {
     return done(err, callback);
