@@ -172,23 +172,8 @@ const database = {
       await set(this.tokenKey, token);
     };
 
-    this.getPageToken = async (drive) => {
-      const pageToken = await get(this.tokenKey);
-
-      if (pageToken) {
-        return pageToken;
-      }
-
-      const { data } = await drive.changes.getStartPageToken({
-        // Whether the user is acknowledging the risk of downloading known malware or other abusive files.
-        // The ID for the file in question.
-        supportsAllDrives: true,
-        includeDeleted: true,
-        includeCorpusRemovals: true,
-        includeItemsFromAllDrives: true,
-      });
-
-      return data.startPageToken;
+    this.getPageToken = async () => {
+      return await get(this.tokenKey);
     };
 
     return this;

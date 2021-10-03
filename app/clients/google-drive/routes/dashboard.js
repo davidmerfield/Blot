@@ -123,6 +123,20 @@ dashboard
 					fields: "id, name",
 				});
 
+				const db = database.folder(folder.data.id);
+				const { data } = await req.drive.changes.getStartPageToken({
+					// Whether the user is acknowledging the risk of downloading known malware or other abusive files.
+					// The ID for the file in question.
+					supportsAllDrives: true,
+					includeDeleted: true,
+					includeCorpusRemovals: true,
+					includeItemsFromAllDrives: true,
+				});
+
+				// Store blog folder
+				await db.set(folder.data.id, "/");
+				await db.setPageToken(data.startPageToken);
+
 				req.folderID = folder.data.id;
 				req.folderName = folder.data.name;
 				req.folderPath = "/My Drive/" + req.folderName;
