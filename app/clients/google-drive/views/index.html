@@ -1,0 +1,101 @@
+
+
+{{#account}}
+
+{{#error}}
+
+
+<a href="{{{base}}}/redirect" class="mess error">
+
+Blot cannot connect to your <b>Google Drive</b>. Please re-connect to give Blot access so you can sync your folder.<br><br>
+
+<span class="button">Re-connect to Google Drive</span>
+</a>
+
+
+{{/error}}
+
+  <div class="line">
+    <p>
+      <b>Google Drive</b> {{#folderID}}synchronizes your folder{{/folderID}}{{^folderID}} is connected to your account but you have not set up a folder to synchronize with Blot. Please <a class="link" href="{{{base}}}/set-up-folder">create a folder
+  </a> to sync.{{/folderID}} {{#folderID}}You can
+      <a class="link" href="/settings/client/switch"
+        >switch to a different client</a
+      >
+      seamlessly.{{/folderID}}
+    </p>
+  </div>
+
+  {{#folderID}}
+  <div class="line">
+    <span class="label">Location</span>
+    <span class="center"> <span style="margin-top:0em;margin-left:-0.25em;display:inline-block;">
+  <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+   viewBox="0 0 91 80" style="width:1.3em;margin:0 0.3em;position:relative;top:2px;enable-background:new 0 0 91 80;" xml:space="preserve">
+<path fill="#000" d="M41,13L31.8,1.1L31,0H0v80h91V13H41z M87,17v10H51.1l-7.2-10H87z M4,76V4h25l10,13h0l9.4,13.1
+  c0.4,0.5,1,0.8,1.6,0.8V31h37v45H4z"/>
+</svg> 
+
+ 
+</span> {{#folderParents}}
+   <span style="color:#000">{{name}} {{^last}}<span style="margin-left:0.3em"><svg width="12" height="10" style="transform:rotate(270deg)" viewBox="0 0 10 12" xmlns="http://www.w3.org/2000/svg"><path d="M5.998 6.244c-.255 0-.51-.098-.703-.292L1.048 1.705C.663 1.32.66.683 1.05.293 1.444-.1 2.073-.1 2.462.29L6 3.83 9.538.29c.384-.384 1.02-.388 1.412.003.393.393.39 1.023.002 1.412L6.705 5.952c-.192.192-.447.29-.702.29z" fill="#000"></path></svg>{{/last}}</span>
+   {{/folderParents}}</span>
+ </span>
+
+
+</div>
+
+
+  {{/folderID}}
+
+  {{^folderID}}
+    <a class="line" href="{{{base}}}/set-up-folder">
+    <span class="label">Location</span>
+    <span class="link">Set up a folder to sync</span>
+  </a>
+  {{/folderID}}
+ <div class="line" >
+    <span class="label">Google account</span>
+    <span class="center">{{email}}</span>
+  </div>
+
+  <a class="line" href="{{{base}}}/disconnect">
+    <span class="label">Disconnect</span>
+    <span class="link">Disconnect from Google Drive</span>
+  </a>
+
+<br><br>
+
+{{/account}}
+
+{{^account}}
+<div class="inset">
+  <p style="margin: 42px 0 20px;">
+    Blot will ask for permission to connect to your <b>Google Drive</b>.
+    You can revoke Blot’s access at any point. Blot will ask for permission to:
+    <ul>
+      <li>See, edit, create, and delete all of your Google Drive files</li>
+      <li>View and add to the activity record of files in your Google Drive. </li>
+    </ul>
+  </p>
+  <details>
+    <summary><em>Can I limit Blot's access to a single folder in my Google Drive?</em></summary>
+    <p>Not directly, unfortunately. Google does not offer the API features  required to limit Blot's access to a single folder. Consider the following workaround:</p>
+    <ol>
+      <li>Create a burner Google account</li>
+      <li>Connect Blot to your burner Google account and set up your blog's folder in your burner Google Drive.</li>
+      <li>Share your blog's folder from your burner to your main account's Google Drive.</p>
+  </details>
+  <br />
+
+  <form action="{{{base}}}/disconnect" method="post">
+    <input type="hidden" name="_csrf" value="{{csrftoken}}" />
+    <div class="buttons">
+      <a href="{{{base}}}/redirect">Connect to Google Drive</a>
+      <input type="submit" value="Cancel" />
+    </div>
+  </form>
+</div>
+{{/account}}
+
+

@@ -7,7 +7,7 @@ var clients = {
   git: require("./git"),
 };
 
-// If we have specified the required 
+// If we have specified the required
 // configuration to run the Dropbox app
 if (
   config.dropbox.app.key &&
@@ -16,6 +16,12 @@ if (
   config.dropbox.full.secret
 ) {
   clients.dropbox = require("./dropbox");
+}
+
+// If we have the require creds to run
+// the google drive app
+if (config.google.drive.key && config.google.drive.secret) {
+  clients['google-drive'] = require("./google-drive");
 }
 
 // Demo local client

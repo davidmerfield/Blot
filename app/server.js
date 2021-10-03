@@ -75,6 +75,12 @@ Blot.use(vhost(config.host, cdn));
 // served by these two applications. The dashboard can
 // only ever be served for request to the host
 Blot.use(vhost(config.host, dashboard));
+// We only really need the public client routes on
+// the webhook host, and those are unauthenticated
+// so TODO seperate the routes from the dashboard
+if (config.webhook_forwarding_host) {
+  Blot.use(vhost(config.webhook_forwarding_host, dashboard));
+}
 
 // The Brochure
 // ------------
