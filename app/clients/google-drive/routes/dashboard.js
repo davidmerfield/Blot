@@ -8,84 +8,34 @@ const disconnect = require("../disconnect");
 const VIEWS = require("path").resolve(__dirname + "/../views") + "/";
 const fs = require("fs-extra");
 const localPath = require("helper/localPath");
-const redis = require("redis");
 const client = require("client");
-const _ = require("lodash");
 const setupWebhook = require("../util/setupWebhook");
+const sse = require("../util/sse");
+
+const SETUP_CHANNEL = (req) =>
+	"blog:" + req.blog.id + ":client:google-drive:set-up-folder";
 
 const REDIRECT_URL = config.webhook_forwarding_host
 	? `https://${config.webhook_forwarding_host}/clients/google-drive/authenticate`
 	: `https://${config.host}/settings/client/google-drive/authenticate`;
 
-const SCOPES = [
-	"https://www.googleapis.com/auth/drive",
-	"https://www.googleapis.com/auth/drive.activity",
-];
-
-// 'online' (default) or 'offline' (gets refresh_token)
-// which I believe we'll need to interact with user's
-// drive over a long period of time.
-
-dashboard.use(async function loadGoogleDriveAccount(req, res, next) {
+dashboard.use(async function (req, res, next) {
 	const account = await database.getAccount(req.blog.id);
-	if (account) {
-		res.locals.account = account;
+	if (!account) return next();
+	if (account.folderPath)
+		account.folderParents = account.folderPath
+			.split("/")
+			.slice(1)
+			.map((name, i, arr) => {
+				return { name, last: arr.length - 1 === i };
+			});
 
-		if (account.folderPath)
-			res.locals.account.folderParents = account.folderPath
-				.split("/")
-				.slice(1)
-				.map((name, i, arr) => {
-					return { name, last: arr.length - 1 === i };
-				});
-	}
+	res.locals.account = account;
 	next();
 });
 
 dashboard.get("/", function (req, res) {
 	res.render(VIEWS + "index");
-});
-
-dashboard.route("/set-up-folder/status").get(function (req, res) {
-	var blogID = req.blog.id;
-	var client = redis.createClient();
-
-	req.socket.setTimeout(2147483647);
-	res.writeHead(200, {
-		// This header tells NGINX to NOT
-		// buffer the response. Otherwise
-		// the messages don't make it to the client.
-		// A similar problem to the one caused
-		// by the compression middleware a few lines down.
-		"X-Accel-Buffering": "no",
-		"Content-Type": "text/event-stream",
-		"Cache-Control": "no-cache",
-		"Connection": "keep-alive",
-	});
-
-	res.write("\n");
-
-	var channel = "blog:" + blogID + ":client:google-drive:set-up-folder";
-
-	client.subscribe(channel);
-
-	client.on("message", function (_channel, message) {
-		if (_channel !== channel) return;
-		res.write("\n");
-		res.write("data: " + message + "\n\n");
-		res.flush();
-	});
-
-	client.on("error", function (err) {
-		console.error("Error for Google Drive Client:/set-up-folder/status:");
-		console.error(err);
-		res.socket.destroy();
-	});
-
-	req.on("close", function () {
-		client.unsubscribe();
-		client.quit();
-	});
 });
 
 dashboard
@@ -196,6 +146,8 @@ dashboard
 		}
 	);
 
+dashboard.get("/set-up-folder/status", sse(SETUP_CHANNEL));
+
 dashboard
 	.route("/disconnect")
 	.get(function (req, res) {
@@ -215,7 +167,7 @@ dashboard.get("/redirect", function (req, res) {
 	res.redirect(
 		oauth2Client.generateAuthUrl({
 			access_type: "offline",
-			scope: SCOPES.slice(),
+			scope: "https://www.googleapis.com/auth/drive",
 		})
 	);
 });
@@ -238,14 +190,6 @@ dashboard.get("/authenticate", function (req, res, next) {
 	oauth2Client.getToken(req.query.code, async function (err, credentials) {
 		if (err) {
 			return res.message(req.baseUrl, err);
-		}
-
-		// take a look at the scopes originally provisioned for the access token
-		if (!_.isEqual(credentials.scope.split(" ").sort(), SCOPES)) {
-			return res.message(
-				req.baseUrl,
-				new Error("Please give Blot access to all the requested permissions")
-			);
 		}
 
 		const { refresh_token, access_token, expiry_date } = credentials;
@@ -312,12 +256,9 @@ const write = promisify(require("../write"));
 
 const writeContentsOfFolder = async (blogID) => {
 	const path = localPath(blogID, "/");
-	const channel = "blog:" + blogID + ":client:google-drive:set-up-folder";
-
 	const relative = (fullPath) => fullPath.slice(path.length);
-
 	const publish = (message) => {
-		client.publish(channel, message);
+		client.publish(SETUP_CHANNEL({ blog: { id: blogID } }), message);
 		console.log(message);
 	};
 
@@ -325,11 +266,6 @@ const writeContentsOfFolder = async (blogID) => {
 
 	const walk = async (dir) => {
 		const contents = await fs.readdir(dir);
-
-		if (!contents.length) {
-			// TODO we need to mkdir on Google Drive
-			// for empty folder
-		}
 
 		for (const item of contents) {
 			const path = join(dir, item);

@@ -85,11 +85,10 @@ const database = {
     });
   },
 
-  dropAccount: function (blogID, callback) {
+  dropAccount: function (blogID, callback) {    
     client
       .multi()
       .del(this.keys.account(blogID))
-      .del(this.keys.folderById(blogID))
       .srem(this.keys.allAccounts, blogID)
       .exec(callback);
   },
