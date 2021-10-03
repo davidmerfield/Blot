@@ -7,19 +7,11 @@ const tempDir = require("helper/tempDir")();
 const guid = require("helper/guid");
 const computeMd5Checksum = require("../util/md5Checksum");
 
-module.exports = async (
-  blogID,
-  drive,
-  id,
-  path,
-  md5Checksum,
-  mimeType,
-  modifiedTime
-) => {
+module.exports = async (blogID, drive, path, file) => {
   return new Promise(async function (resolve, reject) {
     const pathOnBlot = localPath(blogID, path);
     const tempPath = join(tempDir, guid());
-
+    const { id, md5Checksum, mimeType, modifiedTime } = file;
     try {
       if (mimeType === "application/vnd.google-apps.folder") {
         await fs.ensureDir(pathOnBlot);

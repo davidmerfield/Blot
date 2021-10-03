@@ -1,24 +1,25 @@
-const Sync = require("sync");
-const { promisify } = require("util");
-const createDriveClient = require("../util/createDriveClient");
-const determinePathToFolder = require("./determinePathToFolder");
 const fs = require("fs-extra");
 const { join } = require("path");
 const localPath = require("helper/localPath");
-const database = require("../database");
-const download = require("./download");
-const opts = {
-  retryCount: 1,
-  retryDelay: 10,
-  retryJitter: 10,
-  ttl: 30 * 60 * 1000, // 30 minutes
-};
+const database = require("./database");
 
-module.exports = function (blogID, options, callback) {
-  Sync(blogID, opts, async function check(err, folder, done) {
-    if (err) return callback(err);
-    folder.update = promisify(folder.update);
+const download = require("./util/download");
+const createDriveClient = require("./util/createDriveClient");
+const determinePathToFolder = require("./util/determinePathToFolder");
+const establishSyncLock = require("./util/establishSyncLock");
 
+module.exports = async function (blogID, options, callback) {
+  let done, folder;
+
+  try {
+    let lock = await establishSyncLock(blogID);
+    done = lock.done;
+    folder = lock.folder;
+  } catch (err) {
+    return callback(err);
+  }
+
+  try {
     const { drive, account } = await createDriveClient(blogID);
 
     if (account.error)
@@ -26,7 +27,7 @@ module.exports = function (blogID, options, callback) {
 
     const folderId = account.folderID;
     const db = database.folder(folderId);
-    const pageToken = await db.getPageToken(folderId, drive);
+    const pageToken = await db.getPageToken(drive);
     const response = await drive.changes.list({
       supportsAllDrives: true,
       includeDeleted: true,
@@ -45,42 +46,21 @@ module.exports = function (blogID, options, callback) {
       pageToken,
     });
 
-    await fs.outputJSON(
-      __dirname + "/changes/data/" + new Date() + ".json",
-      response,
-      {
-        spaces: 2,
-      }
-    );
-
     // Store blog folder
-    await db.set(folderId, folderId, "/");
+    await db.set(folderId, "/");
 
     const changes = response.data.changes;
 
     for (const { file } of changes) {
-      // console.log(colors.green(JSON.stringify(file, null, 2)));
-
-      const {
-        id,
-        parents,
-        name,
-        trashed,
-        md5Checksum,
-        modifiedTime,
-        mimeType,
-      } = file;
-      const storedPathForId = await db.get(folderId, id);
-      const storedPathForParentId = await db.get(
-        folderId,
-        parents && parents[0]
-      );
+      const { id, parents, name, trashed } = file;
+      const storedPathForId = await db.get(id);
+      const storedPathForParentId = await db.get(parents && parents[0]);
       const path = storedPathForParentId
         ? join(storedPathForParentId, name)
         : null;
 
       if (trashed && id === folderId) {
-        await db.del(folderId, id);
+        await db.del(id);
         await database.setAccount(blogID, {
           folderID: "",
           folderPath: "",
@@ -93,12 +73,12 @@ module.exports = function (blogID, options, callback) {
         await database.setAccount(blogID, { folderPath });
       } else if (trashed && storedPathForId) {
         console.log("DELETE", storedPathForId);
-        await db.del(folderId, id);
+        await db.del(id);
         await fs.remove(localPath(blogID, storedPathForId));
         await folder.update(storedPathForId);
       } else if (path && storedPathForId && path !== storedPathForId) {
         console.log("  MOVE", storedPathForId, "to", path);
-        await db.move(folderId, id, path);
+        await db.move(id, path);
         await fs.move(
           localPath(blogID, storedPathForId),
           localPath(blogID, path)
@@ -107,28 +87,12 @@ module.exports = function (blogID, options, callback) {
         await folder.update(path);
       } else if (path && !storedPathForId && !trashed) {
         console.log("CREATE", path);
-        await db.set(folderId, id, path);
-        await download(
-          blogID,
-          drive,
-          id,
-          path,
-          md5Checksum,
-          mimeType,
-          modifiedTime
-        );
+        await db.set(id, path);
+        await download(blogID, drive, path, file);
         await folder.update(path);
       } else if (storedPathForId) {
         console.log("UPDATE", storedPathForId);
-        await download(
-          blogID,
-          drive,
-          id,
-          path,
-          md5Checksum,
-          mimeType,
-          modifiedTime
-        );
+        await download(blogID, drive, path, file);
         await folder.update(path);
       } else {
         console.log("IGNORE", id, "outside folder");
@@ -136,14 +100,14 @@ module.exports = function (blogID, options, callback) {
     }
 
     if (response.data.newStartPageToken)
-      await db.setPageToken(folderId, response.data.newStartPageToken);
+      await db.setPageToken(response.data.newStartPageToken);
 
-    await db.print(folderId);
-
-    if (pageToken !== response.data.newStartPageToken) {
-      setTimeout(() => check(null, folder, done), 500);
-    } else {
-      done(null, callback);
-    }
-  });
+    // if (pageToken !== response.data.newStartPageToken) {
+    //   setTimeout(() => check(null, folder, done), 500);
+    // } else {
+    done(null, callback);
+    // }
+  } catch (err) {
+    return done(err, callback);
+  }
 };
