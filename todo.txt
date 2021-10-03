@@ -1,4 +1,44 @@
 Release the Google Drive client to testers
+  - [Naveen](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlkFnFZhgczVPFZXwprzjtbZMN)
+  - [Iván](https://mail.google.com/mail/u/0/#inbox/FMfcgzGljvWRQnjmfcsjxdMTMqPZRsWN)
+  - [Jan](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlkFlvNnDDLvlnXmKnjbhmrkMS)
+  - [Daniel](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlkFltvBvRWQNmxghdmMHLdlrN)
+  - [William](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlkFlwBVSsRrFxjDHwdSrjlmpn)
+  
+Improvements to Google Drive client:
+- [ ] Initial setup should create empty directories in `writeExistingContents`
+- [ ] `database.dropAccount` should also delete `// also delete folder/key and folder/tokenKey`
+- [ ] Error handling
+  - [ ] Retry when we get google drive's `This service is not available` error
+  - [ ] Handle storage quota errors
+  - [ ] Handle `429` errors with exponential backoff retry
+- [ ] Add `verify` method once `writeExistingContents` has established drive as source of truth for folder that will walk the drive, update the local folder and then store the new timestamp to start retrieving activity from. use `md5` checksums.
+   - [ ] store an intial timestamp to fetch drive changes after when setup succeeds!
+   - [ ] run verify again after a re-authentication due to some error
+- [ ] How do we handle two files with same name and same parent? How does our fileId:path hash handle this? Make sure we delete the right file. Will `file.title` as opposed to `file.name` give us the deduped version?
+  - [ ] Bug: move file with deduplicated name from sub folder to other folder
+  - [ ] `download` should check for an existing file with same name but different fileId and dedupe before storing the path?
+- [ ] Tell all the interested people:
+  - [Cecil](https://twitter.com/Blot__/status/988162892594860032?s=20)
+  - [Jonathan](https://twitter.com/chin_jon/status/1032392398473650176)
+  - [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpWgGLjJqthFzlxDnWvlXvbh)
+  - [Saptarshi](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJZmFvCblDdDhMQVzDTRDzML)
+  - [Raph](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgzFTCKQXQmQqdNMdjMfDFkMW)
+  - [Josh](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVqWwRgxrwLRzrNscfJtllhXz)
+  - [Kevin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpgkhDvTPVKvsqmQdLNTCQjz)
+  - [David](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJnSjSLPhVFlsJvzctSwXQKj)
+  - [Kerim](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChSJkptkQxlqTjsDCtdTgMWXv)
+  - [Simon](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChcrhfQNXvkFkdtKntXlhjNfm)
+  - [Steve](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMjkzLLMQHXgtlqwLGxfqfMhS)
+  - [Emad](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNCtzTpZsgXXjWsrTGsTTZLjx)
+  - [Larry](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKkRLkdZrTwKKWhMdXCsHSznfp)
+  - [Rolf](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKkRMvFGtrmhJZGcBQZzWzzKTg)
+  - [Phil](https://mail.google.com/mail/u/0/#inbox/FMfcgzGkZssgkLtXNkWHTSjbbBHrvbjv)
+- [ ] Add `folder.rename` method to `app/sync` to take advantage of Google Drive's true rename feature
+- [ ] Add a way for sync/build to accept a ctime as an option. We can't set this at the operating system level but google drive's API does return a createdTime value and we could use this as the true file's created date, rather than the date the file is made on the server
+- [ ] Work out if we can test this using Mocks
+- [ ] `write` should use the best method for large file uploading
+- [ ] `download` Should nicely handle the export of various Google Doc formats
 
 ---
 
