@@ -1,11 +1,5 @@
-Release the Google Drive client to testers
-  - [Naveen](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlkFnFZhgczVPFZXwprzjtbZMN)
-  - [Iván](https://mail.google.com/mail/u/0/#inbox/FMfcgzGljvWRQnjmfcsjxdMTMqPZRsWN)
-  - [Jan](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlkFlvNnDDLvlnXmKnjbhmrkMS)
-  - [Daniel](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlkFltvBvRWQNmxghdmMHLdlrN)
-  - [William](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlkFlwBVSsRrFxjDHwdSrjlmpn)
-  
 Improvements to Google Drive client:
+- [ ] Fix 504 gateway timeout when transferring in a large folder.
 - [ ] Initial setup should create empty directories in `writeExistingContents`
 - [ ] `database.dropAccount` should also delete `// also delete folder/key and folder/tokenKey`
 - [ ] Error handling
