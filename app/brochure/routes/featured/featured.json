@@ -1499,5 +1499,14 @@
         "background_width": 432
       }
     }
+  },
+  {
+    "link": "https://max.engineer",
+    "host": "max.engineer",
+    "color": "#241d3c",
+    "name": "Max Chernyak",
+    "firstName": "Max",
+    "bio": " is a software engineer and architect based in New York",
+    "favicon": "max.engineer.jpeg"
   }
 ]
