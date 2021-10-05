@@ -78,4 +78,4 @@
 #262626 www.adamsandell.com Adam Sandell, is a doctor in British Colombia
 #eb0003 sidenote.ridwansanusi.com Ridwan Sanusi, works as an experience designer at Amazon
 #241d3c max.engineer Max Chernyak, is a software engineer and architect based in New York
-#f1bd00 oliviaastawood.com, Olivia Wood, is writer and musician from Los Angeles
+#f1bd00 oliviaastawood.com Olivia Wood, is writer and musician from Los Angeles
