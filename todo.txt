@@ -34,6 +34,7 @@ Add RTF support using Pandoc or [rtf.js](https://github.com/tbluemel/rtf.js)
 
 Smooth over the custom domain adding process
 - validate the domain is pointing to Blot before allowing resty-auto-ssl to request a cert. we seem to get into a DNS mismatch where a client thinks a domain points to Blot, and triggers a cert request through resty-auto-ssl but whatever DNS server Blot's server points to has the stale record (pointing elsewhere)
+- Disable redirect to HTTPS for blogs by default (to ensure old browsers without SNI work) but ensure all prominent links to the blog on dashboard use HTTPS
 
 Add support for full qualified URLs in the backlinks list for each entry. 
 - For example, if your blog is example.com, the following link will not appear as an internal link: [Foo](https://example.com/foo) because build/prepare/internalLinks is not aware of the blog domain/handle 
@@ -408,14 +409,10 @@ Improvements to dashboard
 - Dumb quotes are still smartified, even without typeset enabled, possibly by pandoc?
 - Undo option for form changes
 - Add transactional emails notifying user of changes to their email or password.
-- Implement a flags page for toggling all the settings (including hidden ones) for a given blog
-- When a user pastes the whole tracking script into the preferences page on the dashboard,
-strip out everything except the ID which we need... perhaps create a page explaining what
+- When a user pastes the whole tracking script into the preferences page on the dashboard, strip out everything except the ID which we need... perhaps create a page explaining what
 is happening before doing this.
 - Handle noscript on dashboard / signup gracefully (remove all dashboard js?)
 - Allow users who are restarting an account with multiple blogs to disable some before restarting.
-- Take a look at Notion and Cargo for some neat ideas
-
 
 ---
 
@@ -545,10 +542,6 @@ Metadata parser
 - Add support for setting the index of an item in the menu to metadata and tell [Silvio](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJfNfLljXGvbjpNwDBFWXDWR)
 
 Implement hidden link section on Menu page under profile settings. Default links not on the menu would appear there, making it easy to restore them in future. Tell [Josh](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgVTbfgnTVvCjfMGzWDjvjfML)
-
-Think about adding way to add/edit files from the dashboard directly, bypassing need for a client. Tell [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChSCwMxNdtdvMHnMVwTcHPjfg) about the decision. What about a web-based client for Blot with a basic text editor, posts listed on sidebar, conventional tag interface?
-
-Disable redirect to HTTPS for blogs by default (to ensure old browsers without SNI work) but ensure all prominent links to the blog on dashboard use HTTPS
 
 Move away from reds and investigate good full text search options using Postgres
 - Tell [Tim](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVMjZKgvPxSjvsHjPRzGsDHQX)
