@@ -86,6 +86,10 @@ module.exports = function (blog, path, callback) {
             // Replace with case-preserving
             entry.name = stat.name;
 
+            entry.tags = entry.tags.map((tag, i, arr) => {
+              return { tag, first: i === 0, last: i === arr.length - 1 };
+            });
+
             entry.date = moment
               .utc(entry.dateStamp)
               .tz(blog.timeZone)
