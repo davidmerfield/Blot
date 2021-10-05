@@ -32,6 +32,9 @@ Release a new film showing some of Blot’s more recent features
 
 Add RTF support using Pandoc or [rtf.js](https://github.com/tbluemel/rtf.js)
 
+Smooth over the custom domain adding process
+- validate the domain is pointing to Blot before allowing resty-auto-ssl to request a cert. we seem to get into a DNS mismatch where a client thinks a domain points to Blot, and triggers a cert request through resty-auto-ssl but whatever DNS server Blot's server points to has the stale record (pointing elsewhere)
+
 Add support for full qualified URLs in the backlinks list for each entry. 
 - For example, if your blog is example.com, the following link will not appear as an internal link: [Foo](https://example.com/foo) because build/prepare/internalLinks is not aware of the blog domain/handle 
 - Tell [Eli](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlkFlwSwXGrFZwvSKdHKvcxplV)
