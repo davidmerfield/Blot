@@ -111,12 +111,10 @@ function build(directory, callback) {
 
   // Set the default font for each template
   if (template.locals.body_font !== undefined) {
-    console.log("BEFORE", template.locals.body_font);
     template.locals.body_font = _.merge(
       _.cloneDeep(DEFAULT_FONT),
       template.locals.body_font
     );
-    console.log("AFTER", template.locals.body_font);
   }
 
   Template.drop(TEMPLATES_OWNER, basename(directory), function () {
