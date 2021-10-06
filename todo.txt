@@ -186,6 +186,8 @@ Server changes
   - use rsync/inotify to synchronize 'source of truth' EBS disk with the local SSD cache then modify NGINX to check the synced folder on the /cache disk
   - on boot we would gently copy across all /blogs folders and the /static directory in background task
 
+Add [line numbers](https://github.com/wcoder/highlightjs-line-numbers.js/) to highlight.js hljs code tags
+
 Support [Obsidian's syntax for embedding files](https://help.obsidian.md/How+to/Embed+files) and images, and tell [John](https://mail.google.com/mail/u/0/#inbox/FMfcgzGkbDftzhXHGrmzXrjtcMbGrmxM)
 
 Migrate from mailgun to SES, mailgun's javascript sdk [seems](https://github.com/mailgun/mailgun-js/issues/122) [like](https://github.com/mailgun/mailgun-js#setup-client) a mess.
