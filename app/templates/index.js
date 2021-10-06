@@ -149,6 +149,8 @@ function mirror(id, callback) {
             blogID,
             "mirror-of-" + id.slice(id.indexOf(":") + 1),
             function (err) {
+              if (err) return next(err);
+
               var template = {
                 isPublic: false,
                 cloneFrom: id,
@@ -156,8 +158,8 @@ function mirror(id, callback) {
                 slug: "mirror-of-" + id.slice(id.indexOf(":") + 1),
               };
 
-              if (oldMirror && oldMirror.locals)
-                template.locals = oldMirror.locals;
+              for (const local in template.locals)
+                template[local] = oldMirror.locals[local];
 
               Template.create(blogID, template.name, template, next);
             }
