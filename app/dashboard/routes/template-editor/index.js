@@ -64,6 +64,7 @@ TemplateEditor.route("/:templateSlug/settings")
 
       next();
     },
+    require("./save/layout-inputs"),
     require("./save/fonts"),
     require("./save/color-scheme"),
     function (req, res, next) {
