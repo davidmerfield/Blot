@@ -6,7 +6,7 @@ var TransformGIF = require("./transform-gif");
 var join = require("path").join;
 var config = require("config");
 var extname = require("path").extname;
-var TIMEOUT = 10 * 1000; // 10s
+var TIMEOUT = 20 * 1000; // 20s
 var validate = require("./validate");
 var debug = require("debug")("blot:entry:build:thumbnail:create");
 
@@ -14,6 +14,7 @@ function create(blogID, path, done) {
   done = callOnce(done);
 
   var timeout = setTimeout(function () {
+    debug(blogID, "Timeout reached");
     done(new Error("Timeout"));
   }, TIMEOUT);
 
@@ -28,11 +29,13 @@ function create(blogID, path, done) {
       return done(err);
     }
 
+    debug(blogID, "Ensuring output dir exists", fullPathToOutputDirectory);
     fs.ensureDir(fullPathToOutputDirectory, function (err) {
       if (err) return done(err);
 
       var transform = extension === ".gif" ? TransformGIF : Transform;
 
+      debug(blogID, "Transforming", path);
       transform(path, fullPathToOutputDirectory, function (err, thumbnails) {
         if (err) return done(err);
 
@@ -46,6 +49,7 @@ function create(blogID, path, done) {
 
         clearTimeout(timeout);
 
+        debug(blogID, "Done", thumbnails);
         done(null, thumbnails);
       });
     });
