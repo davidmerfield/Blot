@@ -2,14 +2,30 @@
   "name": "Photo",
   "isPublic": true,
   "locals": {
-    "page_size": 16,
-    "background_color": "rgba(255, 255, 255, 1)",
+    "background_color": "#fff",
     "text_color": "rgba(0, 0, 0, 0.85)",
     "link_color": "#00008B",
     "hide_dates": false,
+    "number_of_rows": 7,
+    "number_of_rows_range": [
+      1,
+      20
+    ],
+    "thumbnails_per_row": 6,
+    "thumbnails_per_row_range": [
+      1,
+      7
+    ],
+    "page_size": 42,
     "date_display": "MMMM D, Y",
     "body_font": {},
-    "spacing": 3
+    "spacing": 2,
+    "spacing_range": [0, 5],
+    "grid_layout": "square",
+    "grid_layout_options": [
+      "ragged",
+      "square"
+    ]
   },
   "views": {
     "tagged.html": {

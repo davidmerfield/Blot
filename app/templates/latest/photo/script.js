@@ -101,3 +101,60 @@ function randomPost () {
 
   return false;
 }
+
+
+
+
+let infScroll = new InfiniteScroll( '.index', {
+
+  path: '.next',
+
+  append: '.index > a',
+  // REQUIRED for appending content
+  // Appends selected elements from loaded page to the container
+
+  checkLastPage: true,
+  // Checks if page has path selector element
+  // Set to string if path is not set as selector string:
+  //   checkLastPage: '.pagination__next'
+
+  prefill: false,
+  // Loads and appends pages on intialization until scroll requirement is met.
+
+  responseBody: 'text',
+  // Sets the method used on the response.
+  // Set to 'json' to load JSON.
+
+  domParseResponse: true,
+  // enables parsing response body into a DOM
+  // disable to load flat text
+
+  outlayer: false,
+  // Integrates Masonry, Isotope or Packery
+  // Appended items will be added to the layout
+
+  scrollThreshold: 400,
+  // Sets the distance between the viewport to scroll area
+  // for scrollThreshold event to be triggered.
+
+  history: 'replace',
+  // Changes the browser history and URL.
+  // Set to 'push' to use history.pushState()
+  //    to create new history entries for each page change.
+
+  historyTitle: true,
+  // Updates the window title. Requires history enabled.
+
+  hideNav: undefined,
+  // Hides navigation element
+
+  onInit: undefined,
+  // called on initialization
+  // useful for binding events on init
+  // onInit: function() {
+  //   this.on( 'append', function() {...})
+  // }
+
+  debug: true,
+  // Logs events and state changes to the console.
+})

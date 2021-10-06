@@ -1,0 +1,124 @@
+<style type="text/css">
+  
+.index {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.index a {
+  box-sizing: border-box;
+  width: calc(100% / {{thumbnails_per_row}});
+  text-decoration: none;
+  cursor: zoom-in;
+}
+
+
+
+
+
+@media screen and (max-width: 700px) {
+  .index a {
+    width: 100%;
+    padding-left: 0;
+    padding-right: 0
+  }
+}
+
+.index a:nth-child(2n) {
+  text-align: left;
+}
+
+.index a:nth-child(2n+1) .text {
+  float: right;
+}
+
+
+.index a:last-child:nth-child(2n+1) .text {
+  float: none;
+  margin: 0 auto
+}
+
+.index a:nth-child(2n+1) {
+  text-align: right;
+}
+
+
+.index a img {
+  max-width: 100%;
+  width: auto;
+  height: auto;
+}
+
+.index a .text {
+  border: 2px solid {{text_color}};
+  display: block;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.index a .title {
+    margin: 1rem 2rem;
+    line-height: 1.2;
+}
+
+.index a .thumbnail {
+  display:block;height:0;overflow:hidden}
+
+.index a .date {
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.index a:focus {
+  opacity: 0.8
+}
+
+</style>
+<div class="index">
+
+  {{#entries}}
+  <a href="{{{url}}}">
+
+    {{#thumbnail.large}}
+    <span class="thumbnail" style="padding-bottom:{{ratio}}">
+      <img
+        class="pre-loaded"
+        onload="this.className='loaded'"
+        alt="{{title}}"
+        srcset="
+          {{{thumbnail.small.url}}}  {{thumbnail.small.width}}w,
+          {{{thumbnail.medium.url}}}  {{thumbnail.medium.width}}w,
+          {{{thumbnail.large.url}}}  {{thumbnail.large.width}}w
+        "
+        src="{{{thumbnail.large.url}}}"
+        sizes="calc(100vw / {{thumbnails_per_row}})"
+      >
+      <noscript>  
+      <img
+        alt="{{title}}"
+        srcset="
+          {{{thumbnail.small.url}}}  {{thumbnail.small.width}}w,
+          {{{thumbnail.medium.url}}}  {{thumbnail.medium.width}}w,
+          {{{thumbnail.large.url}}}  {{thumbnail.large.width}}w
+        "
+        src="{{{thumbnail.large.url}}}"
+        sizes="calc(100vw / {{thumbnails_per_row}})"
+      >
+      </noscript>
+    </span>
+    {{/thumbnail.large}}
+
+    {{^thumbnail.large}}
+    <span class="text">
+      <span class="title">{{title}}</span>
+      <span class="date">{{date}}</span>
+    </span>
+    {{/thumbnail.large}}
+
+  </a>
+  {{/entries}}
+</div>
