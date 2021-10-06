@@ -11,7 +11,7 @@
       "classname": "zacharykeeting-com",
       "coordinates": {
         "x": 432,
-        "y": 96,
+        "y": 144,
         "width": 48,
         "height": 48,
         "background_width": 480
@@ -29,7 +29,7 @@
       "name": "www.souloftheimage.com.jpg",
       "classname": "www-souloftheimage-com",
       "coordinates": {
-        "x": 288,
+        "x": 336,
         "y": 384,
         "width": 48,
         "height": 48,
@@ -48,7 +48,7 @@
       "name": "www.skincarriedaway.com.jpg",
       "classname": "www-skincarriedaway-com",
       "coordinates": {
-        "x": 240,
+        "x": 288,
         "y": 384,
         "width": 48,
         "height": 48,
@@ -67,8 +67,8 @@
       "name": "www.tillmanjex.info.jpg",
       "classname": "www-tillmanjex-info",
       "coordinates": {
-        "x": 384,
-        "y": 384,
+        "x": 432,
+        "y": 0,
         "width": 48,
         "height": 48,
         "background_width": 480
@@ -219,7 +219,7 @@
       "name": "www.rebeccatron.com.jpg",
       "classname": "www-rebeccatron-com",
       "coordinates": {
-        "x": 144,
+        "x": 192,
         "y": 384,
         "width": 48,
         "height": 48,
@@ -409,7 +409,7 @@
       "name": "www.querlin.com.jpg",
       "classname": "www-querlin-com",
       "coordinates": {
-        "x": 96,
+        "x": 144,
         "y": 384,
         "width": 48,
         "height": 48,
@@ -771,7 +771,7 @@
       "classname": "www-zinzy-website",
       "coordinates": {
         "x": 432,
-        "y": 0,
+        "y": 48,
         "width": 48,
         "height": 48,
         "background_width": 480
@@ -827,7 +827,7 @@
       "name": "www.skellis.net.png",
       "classname": "www-skellis-net",
       "coordinates": {
-        "x": 192,
+        "x": 240,
         "y": 384,
         "width": 48,
         "height": 48,
@@ -1151,7 +1151,7 @@
       "classname": "xn--gntherwegs-9db-com",
       "coordinates": {
         "x": 432,
-        "y": 48,
+        "y": 96,
         "width": 48,
         "height": 48,
         "background_width": 480
@@ -1321,7 +1321,7 @@
       "name": "www.thoughtsbyora.com.jpg",
       "classname": "www-thoughtsbyora-com",
       "coordinates": {
-        "x": 336,
+        "x": 384,
         "y": 384,
         "width": 48,
         "height": 48,
@@ -1378,7 +1378,7 @@
       "name": "www.praveenjayasuriya.com.jpg",
       "classname": "www-praveenjayasuriya-com",
       "coordinates": {
-        "x": 48,
+        "x": 96,
         "y": 384,
         "width": 48,
         "height": 48,
@@ -1551,6 +1551,25 @@
       "coordinates": {
         "x": 240,
         "y": 0,
+        "width": 48,
+        "height": 48,
+        "background_width": 480
+      }
+    }
+  },
+  {
+    "link": "https://www.nitinpai.in",
+    "host": "www.nitinpai.in",
+    "color": "#21732d",
+    "name": "Nitin Pai",
+    "firstName": "Nitin",
+    "bio": " is the director of the Takshashila Institution in Bangalore",
+    "favicon": {
+      "name": "www.nitinpai.in.jpg",
+      "classname": "www-nitinpai-in",
+      "coordinates": {
+        "x": 48,
+        "y": 384,
         "width": 48,
         "height": 48,
         "background_width": 480
