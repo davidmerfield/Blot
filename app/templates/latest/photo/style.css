@@ -46,6 +46,10 @@ body{
 
 .yield {
   padding: 0 {{spacing}}rem;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .shift-margin {
@@ -81,9 +85,6 @@ body {
   min-height: 100%
 }
 
-.yield {
-  flex-grow: 1;
-}
 
 .archives a {
   text-decoration: none;
@@ -123,7 +124,14 @@ header {
   justify-content: space-between;
   position: relative;
   margin: calc({{spacing}}rem/2) {{spacing}}rem;
+  position: sticky;
+  top: 0;
+  opacity: 0.55;
+  transition: opacity 80ms ease-out;
+  transition-delay: 1s; 
 }
+
+header:hover {opacity: 1.0;    transition-delay: 0s; }
 
 header a {
   display: inline-block;
@@ -146,12 +154,23 @@ header a.active {
 
 nav {
   background: {{background_color}};
-  position: relative
+  position: relative;
+  {{#collapse_menu_by_default}}
+  width: 100%;
+  {{/collapse_menu_by_default}}
 }
 
 nav a {
     margin-left: calc({{spacing}}rem/2);
 
+}
+
+nav .spacer {
+    height: 22px;
+    margin-left: 10px;
+    margin-right: 10px;
+    border-right: 1px solid rgba(0, 0, 0, 0.1);
+    margin: 0 0 0 1.3rem;
 }
 
 #toggle {

@@ -6,6 +6,8 @@
     "text_color": "rgba(0, 0, 0, 0.85)",
     "link_color": "#00008B",
     "hide_dates": false,
+    "infinite_scroll": true,
+    "collapse_menu_by_default": false,
     "number_of_rows": 7,
     "number_of_rows_range": [
       1,

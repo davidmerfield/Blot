@@ -1,13 +1,13 @@
 <style type="text/css">
   
-.index {
+.posts {
   text-align: center;
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
 }
 
-.index a {
+.posts a {
   box-sizing: border-box;
   width: calc(100% / {{thumbnails_per_row}});
   text-decoration: none;
@@ -19,39 +19,39 @@
 
 
 @media screen and (max-width: 700px) {
-  .index a {
+  .posts a {
     width: 100%;
     padding-left: 0;
     padding-right: 0
   }
 }
 
-.index a:nth-child(2n) {
+.posts a:nth-child(2n) {
   text-align: left;
 }
 
-.index a:nth-child(2n+1) .text {
+.posts a:nth-child(2n+1) .text {
   float: right;
 }
 
 
-.index a:last-child:nth-child(2n+1) .text {
+.posts a:last-child:nth-child(2n+1) .text {
   float: none;
   margin: 0 auto
 }
 
-.index a:nth-child(2n+1) {
+.posts a:nth-child(2n+1) {
   text-align: right;
 }
 
 
-.index a img {
+.posts a img {
   max-width: 100%;
   width: auto;
   height: auto;
 }
 
-.index a .text {
+.posts a .text {
   border: 2px solid {{text_color}};
   display: block;
   text-align: center;
@@ -60,25 +60,25 @@
   justify-content: center;
 }
 
-.index a .title {
+.posts a .title {
     margin: 1rem 2rem;
     line-height: 1.2;
 }
 
-.index a .thumbnail {
+.posts a .thumbnail {
   display:block;height:0;overflow:hidden}
 
-.index a .date {
+.posts a .date {
   font-size: 14px;
   text-decoration: none;
 }
 
-.index a:focus {
+.posts a:focus {
   opacity: 0.8
 }
 
 </style>
-<div class="index">
+<div class="posts">
 
   {{#entries}}
   <a href="{{{url}}}">
