@@ -11,14 +11,34 @@
   position: relative;
   padding: 0.8rem;
   margin-bottom: 2rem;
-  width: calc(100% / {{thumbnails_per_row}});
+  width: 25%;
   cursor: zoom-in;
   box-sizing: border-box;
   font-size: 13px;
   color: #aaa;
   text-decoration: none;
   text-align: center;
+  
 }
+{{#is.thumbnail_size}} 
+  {{#small}}
+  .post {width: 33.3333%;}
+  @media screen and (min-width: 540px) {.post {width: 25%;}}
+  @media screen and (min-width: 800px) {.post {width: 20%;}}
+  @media screen and (min-width: 1000px) {.post {width: 16.6666%;}}
+  @media screen and (min-width: 1200px) {.post {width: 14.2857%;}}
+  {{/small}}
+  {{#medium}}
+  width: 33.3333%;
+  {{/medium}}
+  {{#large}}
+  width: 50%;
+  {{/large}}
+  {{#huge}}
+  width: 100%;
+  {{/huge}}
+{{/is.thumbnail_size}} 
+
 
 .post .thumbnail .container {
   top: 0;
@@ -30,24 +50,6 @@
   align-items: center
 }
 
-ul.task-list { list-style-type: none; }
-
-@media screen and (max-width: 500px) {
-
-
-  .post {
-    width: 100%
-  }
-
-  .post:hover .thumbnail:after {
-    border: none !important;
-  }
-
-  .posts {
-    padding-left: 0;
-    padding-right: 0
-  }
-}
 
 .post .date {
   visibility: hidden;

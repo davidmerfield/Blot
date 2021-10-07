@@ -25,14 +25,13 @@ module.exports = function (req, res, next) {
       (key) =>
         [
           "page_size",
-          "thumbnail_size",
           "spacing_size",
           "spacing",
           "thumbnails_per_row",
           "number_of_rows",
-          "collapse_menu_by_default",
-          "infinite_scroll",
         ].indexOf(key) > -1 ||
+        (typeof req.template.locals[key] === "boolean" &&
+          ["hide_dates"].indexOf(key) === -1) ||
         (key.indexOf("_options") === -1 &&
           req.template.locals[key + "_options"] &&
           req.template.locals[key + "_options"].constructor === Array)
@@ -48,7 +47,6 @@ module.exports = function (req, res, next) {
         !isBoolean &&
         [
           "page_size",
-          "thumbnail_size",
           "spacing_size",
           "spacing",
           "number_of_rows",

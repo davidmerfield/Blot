@@ -7,16 +7,26 @@
     "link_color": "#00008B",
     "hide_dates": false,
     "infinite_scroll": true,
-    "collapse_menu_by_default": false,
-    "number_of_rows": 7,
-    "number_of_rows_range": [
-      1,
-      20
+    "sticky_navigation": true,
+    "collapse_navigation_by_default": false,
+    "navigation_alignment": "justified",
+    "navigation_alignment_options": [
+      "justified",
+      "left",
+      "right",
+      "center"
     ],
-    "thumbnails_per_row": 6,
-    "thumbnails_per_row_range": [
-      1,
-      7
+    "thumbnail_size": "small",
+    "thumbnail_size_options": [
+      "small",
+      "medium",
+      "large",
+      "huge"
+    ],
+    "navigation_position": "top",
+    "navigation_position_options": [
+      "top",
+      "bottom"
     ],
     "page_size": 42,
     "date_display": "MMMM D, Y",
@@ -25,8 +35,8 @@
     "spacing_range": [0, 5],
     "grid_layout": "square",
     "grid_layout_options": [
-      "ragged",
-      "square"
+      "square",
+      "ragged"
     ]
   },
   "views": {
