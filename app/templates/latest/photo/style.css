@@ -190,8 +190,9 @@ nav {
 
 nav a {
     margin-left: calc({{spacing}}rem/2);
-
 }
+
+nav a[href="/search"] {display: none}
 
 nav .spacer {
     height: 22px;
