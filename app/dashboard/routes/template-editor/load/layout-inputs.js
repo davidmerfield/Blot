@@ -9,6 +9,8 @@ const MAP = {
 module.exports = function (req, res, next) {
   res.locals.partials.range = "template-editor/inputs/range";
   res.locals.partials.select = "template-editor/inputs/select";
+  res.locals.partials.boolean = "template-editor/inputs/boolean";
+
   res.locals.layouts = Object.keys(req.template.locals)
 
     // If the template uses the thumbnails per row
@@ -28,6 +30,8 @@ module.exports = function (req, res, next) {
           "spacing",
           "thumbnails_per_row",
           "number_of_rows",
+          "collapse_menu_by_default",
+          "infinite_scroll",
         ].indexOf(key) > -1 ||
         (key.indexOf("_options") === -1 &&
           req.template.locals[key + "_options"] &&
@@ -38,7 +42,10 @@ module.exports = function (req, res, next) {
 
       let options = req.template.locals[key + "_options"];
 
+      let isBoolean = typeof req.template.locals[key] === "boolean";
+
       let isRange =
+        !isBoolean &&
         [
           "page_size",
           "thumbnail_size",
@@ -48,7 +55,8 @@ module.exports = function (req, res, next) {
           "thumbnails_per_row",
         ].indexOf(key) > -1;
 
-      let isSelect = !isRange && options && options.constructor === Array;
+      let isSelect =
+        !isRange && !isBoolean && options && options.constructor === Array;
 
       if (isSelect) {
         options = req.template.locals[key + "_options"].map((option) => {
@@ -71,6 +79,7 @@ module.exports = function (req, res, next) {
         label: (MAP[key] && MAP[key].label) || desnake(key),
         value: req.template.locals[key],
         isRange,
+        isBoolean,
         isSelect,
         options,
         max,

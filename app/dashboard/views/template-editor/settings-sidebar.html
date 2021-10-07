@@ -27,6 +27,10 @@ button {background: white;border: 2px solid #ddd;border-radius: 4px;font:inherit
 		<h2>Layout</h2>
 		{{#layouts}}
 
+		{{#isBoolean}}
+		{{> boolean}}
+		{{/isBoolean}}
+
 		{{#isSelect}}
 		{{> select}}
 		{{/isSelect}}
@@ -68,16 +72,19 @@ button {background: white;border: 2px solid #ddd;border-radius: 4px;font:inherit
 			</label>
 			{{/show_hide_dates}}			
 			<script type="text/javascript">
-				const dateSettings = document.getElementById("dateSettings");
-				const date_display = document.getElementById("date_display");
-				const hide_dates = document.getElementById("hide_dates");
+				document.querySelectorAll('[type="checkbox"]').forEach(function(node){
+						let form;
+						let parent = node.parentNode;
 
-				hide_dates.addEventListener("change", () => {
-					dateSettings.submit();
-				});
+						while (parent && !form) {
+							if (parent.tagName.toLowerCase() === 'form')
+								form = parent;
+							parent = parent.parentNode;
+						}
 
-				date_display.addEventListener("change", () => {
-					dateSettings.submit();
+						node.addEventListener("change", () => {
+							form.submit();
+						});
 				});
 			</script>
 		</form>

@@ -149,7 +149,6 @@ function mirror(id, callback) {
             blogID,
             "mirror-of-" + id.slice(id.indexOf(":") + 1),
             function (err) {
-              if (err) return next(err);
 
               var template = {
                 isPublic: false,
