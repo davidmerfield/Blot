@@ -22,7 +22,7 @@ const container = document.getElementById('hyperlist');
 const list = HyperList.create(container, {
   // All items must be the exact same height currently. Although since there is
   // a generate method, in the future this should be configurable.
-  itemHeight: 30,
+  itemHeight: 36,
 
   width: "100vw",
 
