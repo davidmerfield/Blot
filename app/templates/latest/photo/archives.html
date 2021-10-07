@@ -6,13 +6,12 @@
     body, html {height: 100%;overflow: hidden;}
 
     #hyperlist {
-      width: 100%; 
-      height: 100%;
       display: block;
       position: absolute;
       top: 110px;
-      right: 0;
-      left: 0
+      right: calc(-1 * {{spacing}}rem);
+      left:  calc(-1 * {{spacing}}rem);
+      width: 100vw;
     }
 
 
@@ -32,8 +31,8 @@
     #hyperlist a:hover {opacity: 0.75}
     #hyperlist a:active {opacity: 0.5}
     
-    #hyperlist a .thumbnail {width: 2rem;height:36px;}
-    #hyperlist a .title {flex-grow: 1;margin:0 1rem;}
+    #hyperlist a .thumbnail {width: 2rem;height:36px;margin:0 0 0 {{spacing}}rem;}
+    #hyperlist a .title {flex-grow: 1;margin:0 {{spacing}}rem;}
 
 #hyperlist a .thumbnail img {
   max-width: 2rem;max-height: 2rem;width:auto;height: auto;
@@ -45,58 +44,10 @@ input[type=radio] {display: none;}
 </style>
 
 <div style="border:1px solid red;position: absolute;top:55px;left: 0;right: 0">
-  hey
+  
+  <form>
   </div>
     <div id="hyperlist" class="container"></div>
-
-
-<div style="padding: {{spacing_size}}px;margin: {{spacing_size}}px;">  <form action="/search" method="get">
-    <input type="text" autofocus placeholder="Search" name="q" style="border-radius: 9px;border:2px solid #eee;font-size:18px;padding:12px;min-width: 300px">
-  </form>
-
-  <br>
-  
-  <style type="text/css">
-    {{#allTags}}
-    input[id={{slug}}]:checked ~ a:not([data-tags*={{slug}}]) {color:grey;}
-    input[id={{slug}}]:checked ~ .filter label[for={{slug}}] {color:grey;}
-    {{/allTags}}
-  </style>
-
-  {{#allTags}}
-  <input type="radio" id="{{slug}}" name="tags">
-  {{/allTags}}
-    
-
-  <ul class="filter">
-  {{#allTags}}
-  <li>
-    <label for="{{slug}}">{{tag}}</label>
-  </li>
-  {{/allTags}}
-  </ul>
-
-  <br>
-  <br>
-
-  {{#archives}}
-  <input type="radio" id="{{year}}" name="years">
-  {{/archives}}
-
-  <style type="text/css">
-  {{#archives}}
-    input[id="{{year}}"]:checked ~ a:not([data-year*="{{year}}"]) {color:grey;}
-    {{/archives}}
-  </style>
-  <ul class="filter">
-
-  {{#archives}}
-  <li>
-    <label for="{{year}}">{{year}}</label>
-  </li>
-  {{/archives}}
-  </ul>
-
 
 <!-- 
 <tr>
@@ -141,6 +92,8 @@ const list = HyperList.create(container, {
   // All items must be the exact same height currently. Although since there is
   // a generate method, in the future this should be configurable.
   itemHeight: 30,
+
+  width: "100vw",
 
   height: window.innerHeight - 60,
 

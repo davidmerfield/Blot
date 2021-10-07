@@ -156,29 +156,20 @@ header a {
   text-decoration: none;
 }
 
-header > * {
-  color:rgba({{#rgb}}{{text_color}}{{/rgb}}, 0.55);
-  transition: color 80ms ease-out;
-  transition-delay: 1s; 
-}
-
-header:hover > * {
-  color:rgba({{#rgb}}{{text_color}}{{/rgb}}, 1);
-  transition-delay: 0s;
-}
 
 header a:visited {
   color: rgba({{#rgb}}{{text_color}}{{/rgb}},0.5)
 }
 
 header a:hover {
+  color: rgba({{#rgb}}{{text_color}}{{/rgb}},0.75);
   text-decoration: underline;
 }
 
-header a.active {
-  color: rgba({{#rgb}}{{text_color}}{{/rgb}},0.7);
-  font-weight: bold
+header a:active {
+  color: rgba({{#rgb}}{{text_color}}{{/rgb}},0.5);
 }
+
 
 nav {
   background: {{background_color}};

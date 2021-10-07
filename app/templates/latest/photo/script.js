@@ -99,8 +99,10 @@ let infScroll = new InfiniteScroll( '.posts', {
 })
 
 infScroll.on( 'history', function( title, path ) {
-  const pageNumber = path.split('/').pop() || 1;
+  const pageNumber = parseInt(path.split('/').pop()) || 1;
   document.getElementById('current-page').innerHTML = pageNumber;
+  document.querySelector('.next-page').href = '/page/' + (pageNumber+1);
+  document.querySelector('.previous-page').href = '/page/'  + (pageNumber-1);
 });
 
 

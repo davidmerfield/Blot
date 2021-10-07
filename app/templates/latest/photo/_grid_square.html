@@ -4,7 +4,9 @@
 .posts {
   display: flex;
   flex-wrap: wrap;
-  padding: 2.6rem
+  {{#sticky_navigation}}
+  padding-top: calc({{spacing}}rem + 1.4em);
+  {{/sticky_navigation}}
 }
 
 .post {
