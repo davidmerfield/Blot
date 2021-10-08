@@ -133,7 +133,7 @@ module.exports = async function (blogID, options, callback) {
       }
     } while (
       nextPageToken ||
-      pageToken !== newStartPageToken ||
+      newStartPageToken && pageToken !== newStartPageToken ||
       retries < RETRY_INTERVALS.length
     );
 
