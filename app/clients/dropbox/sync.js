@@ -124,7 +124,12 @@ module.exports = function main(blog, callback) {
                 folder.update(
                   item.relative_path,
                   { name: item.name, pathDisplay: item.path_display },
-                  next
+                  function (err) {
+                    // We don't want an error here to block other
+                    // changes from being applied.
+                    if (err) console.log("Dropbox client:", err);
+                    next();
+                  }
                 );
               },
               function () {
