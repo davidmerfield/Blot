@@ -1,6 +1,4 @@
 Finish improvements to Google Drive client
-- Work out why the sync for fontarchive is bugging out
-  Something to do with the pageToken / nextPageToken
   
 Release the Google Drive client to public and tell:
 - [Cecil](https://twitter.com/Blot__/status/988162892594860032?s=20)

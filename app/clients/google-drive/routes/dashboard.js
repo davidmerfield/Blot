@@ -240,6 +240,30 @@ const setUpBlogFolder = async function (blog, emptyFolder) {
 			folderPath: folderPath,
 		});
 
+		// We store the sync point before writing files
+		// since the current implementation of client.write
+		// does not use fileIds and is slow. Once it does,
+		// we can do this afterwards.
+		await checkWeCanContinue();
+		publish("Storing sync point for new folder");
+		const db = database.folder(folder.data.id);
+		const { data } = await drive.changes.getStartPageToken({
+			// Whether the user is acknowledging the risk of downloading known malware or other abusive files.
+			// The ID for the file in question.
+			supportsAllDrives: true,
+			includeDeleted: true,
+			includeCorpusRemovals: true,
+			includeItemsFromAllDrives: true,
+		});
+		// Store blog folder
+		await db.set(folder.data.id, "/");
+		// We store this under the account in case
+		// we want to 're-sync' from scratch
+		await database.setAccount(blog.id, {
+			startPageToken: data.startPageToken,
+		});
+		await db.setPageToken(data.startPageToken);
+
 		if (!emptyFolder) {
 			const path = localPath(blog.id, "/");
 			const relative = (fullPath) => fullPath.slice(path.length);
@@ -265,21 +289,6 @@ const setUpBlogFolder = async function (blog, emptyFolder) {
 
 			await walk(path);
 		}
-
-		await checkWeCanContinue();
-		publish("Storing sync point for new folder");
-		const db = database.folder(folder.data.id);
-		const { data } = await drive.changes.getStartPageToken({
-			// Whether the user is acknowledging the risk of downloading known malware or other abusive files.
-			// The ID for the file in question.
-			supportsAllDrives: true,
-			includeDeleted: true,
-			includeCorpusRemovals: true,
-			includeItemsFromAllDrives: true,
-		});
-		// Store blog folder
-		await db.set(folder.data.id, "/");
-		await db.setPageToken(data.startPageToken);
 
 		await checkWeCanContinue();
 		publish("Setting up webhook");

@@ -33,16 +33,38 @@ module.exports = async function (blogID, options, callback) {
     if (account.error)
       return done(new Error("Account has error: " + account.error), callback);
 
-    do {
+    if (options.fromScratch) {
+      pageToken = account.startPageToken;
+      console.log(
+        prefix(),
+        "Using original startPageToken from setup:",
+        pageToken
+      );
+    } else {
       pageToken = await db.getPageToken();
-      console.log(prefix(), "Retrieving changes since", pageToken);
+      console.log(prefix(), "Using pageToken from db:", pageToken);
+    }
 
+    if (!pageToken) {
+      console.log(prefix(), "Fetching new pageToken from API");
+      const { data } = await drive.changes.getStartPageToken({
+        supportsAllDrives: true,
+        includeDeleted: true,
+        includeCorpusRemovals: true,
+        includeItemsFromAllDrives: true,
+      });
+      pageToken = data.startPageToken;
+    }
+
+    do {
+      console.log(prefix(), "Retrieving changes since", pageToken);
       const response = await drive.changes.list({
         supportsAllDrives: true,
         includeDeleted: true,
         includeCorpusRemovals: true,
         includeItemsFromAllDrives: true,
         fields: [
+          "nextPageToken",
           "newStartPageToken",
           "changes/file/id",
           "changes/file/name",
@@ -119,10 +141,14 @@ module.exports = async function (blogID, options, callback) {
 
       if (newStartPageToken && newStartPageToken !== pageToken) {
         retries = 0;
-        await db.setPageToken(newStartPageToken);
+        pageToken = newStartPageToken;
+        await db.setPageToken(pageToken);
+        console.log(prefix(), "There is new page token");
       } else if (nextPageToken) {
         retries = 0;
-        await db.setPageToken(nextPageToken);
+        pageToken = nextPageToken;
+        await db.setPageToken(pageToken);
+        console.log(prefix(), "There is a NEXT page of changes to fetch");
       } else {
         console.log(prefix(), "Waiting to retry check for changes");
         await new Promise((resolve) =>
@@ -133,7 +159,7 @@ module.exports = async function (blogID, options, callback) {
       }
     } while (
       nextPageToken ||
-      newStartPageToken && pageToken !== newStartPageToken ||
+      (newStartPageToken && pageToken !== newStartPageToken) ||
       retries < RETRY_INTERVALS.length
     );
 
