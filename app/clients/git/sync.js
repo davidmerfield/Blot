@@ -122,10 +122,21 @@ module.exports = function sync(blogID, callback) {
                   // We must do this in series until entry.set becomes
                   // atomic. Right now, making changes to the blog's
                   // menu cannot be done concurrently, hence eachSeries!
-                  async.eachSeries(modified, folder.update, function (err) {
-                    folder.log(`Processed ${modified.length} changes`);
-                    done(null, callback);
-                  });
+                  async.eachSeries(
+                    modified,
+                    function (path, next) {
+                      folder.update(path, function (err) {
+                        // We don't want the error to stop
+                        // processing other files in the sync
+                        if (err) console.log("Git client:", err);
+                        next();
+                      });
+                    },
+                    function (err) {
+                      folder.log(`Processed ${modified.length} changes`);
+                      done(null, callback);
+                    }
+                  );
                 }
               );
             });
