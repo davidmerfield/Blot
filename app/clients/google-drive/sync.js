@@ -28,7 +28,7 @@ module.exports = async function (blogID, options, callback) {
     const folderId = account.folderID;
     const db = database.folder(folderId);
     let retries = 0;
-    let pageToken, newStartPageToken;
+    let pageToken, newStartPageToken, nextPageToken;
 
     if (account.error)
       return done(new Error("Account has error: " + account.error), callback);
@@ -56,6 +56,7 @@ module.exports = async function (blogID, options, callback) {
       });
 
       const changes = response.data.changes;
+      let pathsToUpdate = [];
 
       for (const { file } of changes) {
         const { id, parents, name, trashed } = file;
@@ -81,7 +82,7 @@ module.exports = async function (blogID, options, callback) {
           console.log(prefix(), "DELETE", storedPathForId);
           await db.remove(id);
           await fs.remove(localPath(blogID, storedPathForId));
-          await folder.update(storedPathForId);
+          pathsToUpdate.push(storedPathForId);
         } else if (path && storedPathForId && path !== storedPathForId) {
           console.log(prefix(), "  MOVE", storedPathForId, "to", path);
           await db.move(id, path);
@@ -89,27 +90,39 @@ module.exports = async function (blogID, options, callback) {
             localPath(blogID, storedPathForId),
             localPath(blogID, path)
           );
-          await folder.update(storedPathForId);
-          await folder.update(path);
+          pathsToUpdate.push(storedPathForId);
+          pathsToUpdate.push(path);
         } else if (path && !storedPathForId && !trashed) {
           console.log(prefix(), "CREATE", path);
           await db.set(id, path);
           await download(blogID, drive, path, file);
-          await folder.update(path);
+          pathsToUpdate.push(path);
         } else if (storedPathForId) {
           console.log(prefix(), "UPDATE", storedPathForId);
           await download(blogID, drive, path, file);
-          await folder.update(path);
+          pathsToUpdate.push(path);
         } else {
           console.log(prefix(), "IGNORE", id, "outside folder");
         }
       }
 
-      newStartPageToken = response.data.newStartPageToken;
+      for (const path of pathsToUpdate) {
+        try {
+          await folder.update(path);
+        } catch (e) {
+          console.log(prefix(), "ERROR updating", path, e);
+        }
+      }
 
-      if (newStartPageToken !== pageToken) {
+      newStartPageToken = response.data.newStartPageToken;
+      nextPageToken = response.data.nextPageToken;
+
+      if (newStartPageToken && newStartPageToken !== pageToken) {
         retries = 0;
         await db.setPageToken(newStartPageToken);
+      } else if (nextPageToken) {
+        retries = 0;
+        await db.setPageToken(nextPageToken);
       } else {
         console.log(prefix(), "Waiting to retry check for changes");
         await new Promise((resolve) =>
@@ -119,6 +132,7 @@ module.exports = async function (blogID, options, callback) {
         retries++;
       }
     } while (
+      nextPageToken ||
       pageToken !== newStartPageToken ||
       retries < RETRY_INTERVALS.length
     );
