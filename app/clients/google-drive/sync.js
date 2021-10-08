@@ -25,7 +25,7 @@ module.exports = async function (blogID, options, callback) {
 
   try {
     const { drive, account } = await createDriveClient(blogID);
-    const folderId = account.folderID;
+    const folderId = account.folderId;
     const db = database.folder(folderId);
     let retries = 0;
     let pageToken, newStartPageToken, nextPageToken;
@@ -34,7 +34,7 @@ module.exports = async function (blogID, options, callback) {
       return done(new Error("Account has error: " + account.error), callback);
 
     do {
-      pageToken = await db.getPageToken(drive);
+      pageToken = await db.getPageToken();
       console.log(prefix(), "Retrieving changes since", pageToken);
 
       const response = await drive.changes.list({
@@ -69,7 +69,7 @@ module.exports = async function (blogID, options, callback) {
         if (trashed && id === folderId) {
           await db.remove(id);
           await database.setAccount(blogID, {
-            folderID: "",
+            folderId: "",
             folderPath: "",
             folderName: "",
             latestActivity: "",

@@ -42,7 +42,7 @@ module.exports = async (blogID) => {
     // Request body metadata
     requestBody: {
       id: id,
-      resourceId: account.folderID,
+      resourceId: account.folderId,
       type: "web_hook",
       token: querystring.stringify({
         blogID: blogID,

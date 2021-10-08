@@ -5,7 +5,7 @@ const fs = require("fs-extra");
 module.exports = async function remove(blogID, path, callback) {
   try {
     const { drive, account } = await createDriveClient(blogID);
-    const fileId = await establishFileId(drive, path, account.folderID);
+    const fileId = await establishFileId(drive, path, account.folderId);
 
     console.log("fileId is", fileId);
 
@@ -31,14 +31,14 @@ const establishFileId = async (drive, path, blogFolderID) => {
   const parentDirs = path.split("/").slice(1);
   console.log(parentDirs, "is parentDirs");
 
-  const walk = async (folderID, parentDirs) => {
+  const walk = async (folderId, parentDirs) => {
     const dirToCheck = parentDirs.shift();
 
     const { data } = await drive.files.list({
-      q: `'${folderID}' in parents and trashed = false`,
+      q: `'${folderId}' in parents and trashed = false`,
     });
 
-    console.log("looking for", dirToCheck, "in", folderID);
+    console.log("looking for", dirToCheck, "in", folderId);
 
     let dirID =
       data.files.filter((i) => i.name === dirToCheck).length &&
