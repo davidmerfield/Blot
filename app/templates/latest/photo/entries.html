@@ -1,27 +1,15 @@
 {{> header}}
 
-<div class="index">
-  {{#entries}}
-  <a href="{{{url}}}">
+{{#is.grid_layout.square}}
+{{> grid_square}}
+{{/is.grid_layout.square}}
 
-    {{#thumbnail.large}}
-    <span class="thumbnail" style="padding-bottom:{{ratio}}">
-      <img src="{{{url}}}" class="pre-loaded" onload="this.className='loaded'" />
-      <noscript>  
-      <img src="{{{url}}}">
-      </noscript>
-    </span>
-    {{/thumbnail.large}}
+{{#is.grid_layout.ragged}}
+{{> grid_ragged}}
+{{/is.grid_layout.ragged}}
 
-    {{^thumbnail.large}}
-    <span class="text">
-      <span class="title">{{title}}</span>
-      <span class="date">{{date}}</span>
-    </span>
-    {{/thumbnail.large}}
-
-  </a>
-  {{/entries}}
-</div>
+{{#is.grid_layout.fitted}}
+{{> grid_fitted}}
+{{/is.grid_layout.fitted}}
 
 {{> footer}}

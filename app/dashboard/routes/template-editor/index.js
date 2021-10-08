@@ -51,9 +51,12 @@ TemplateEditor.route("/:templateSlug/settings")
       let locals = req.template.locals;
       let partials = req.template.partials;
 
-      // Booleans
-      if (newLocals.hide_dates) {
-        newLocals.hide_dates = newLocals.hide_dates === "on";
+      for (const local in locals) {
+        if (
+          typeof locals[local] === "boolean" &&
+          newLocals[local] !== undefined
+        )
+          newLocals[local] = newLocals[local] === "on";
       }
 
       for (let key in newLocals) locals[key] = newLocals[key];
@@ -64,6 +67,7 @@ TemplateEditor.route("/:templateSlug/settings")
 
       next();
     },
+    require("./save/layout-inputs"),
     require("./save/fonts"),
     require("./save/color-scheme"),
     function (req, res, next) {

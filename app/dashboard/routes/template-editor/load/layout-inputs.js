@@ -9,10 +9,29 @@ const MAP = {
 module.exports = function (req, res, next) {
   res.locals.partials.range = "template-editor/inputs/range";
   res.locals.partials.select = "template-editor/inputs/select";
+  res.locals.partials.boolean = "template-editor/inputs/boolean";
+
   res.locals.layouts = Object.keys(req.template.locals)
+
+    // If the template uses the thumbnails per row
+    // option then hide the page size option
+    .filter((key) =>
+      req.template.locals.thumbnails_per_row !== undefined
+        ? key !== "page_size"
+        : true
+    )
+
     .filter(
       (key) =>
-        ["page_size", "thumbnail_size", "spacing_size"].indexOf(key) > -1 ||
+        [
+          "page_size",
+          "spacing_size",
+          "spacing",
+          "thumbnails_per_row",
+          "number_of_rows",
+        ].indexOf(key) > -1 ||
+        (typeof req.template.locals[key] === "boolean" &&
+          ["hide_dates"].indexOf(key) === -1) ||
         (key.indexOf("_options") === -1 &&
           req.template.locals[key + "_options"] &&
           req.template.locals[key + "_options"].constructor === Array)
@@ -22,10 +41,20 @@ module.exports = function (req, res, next) {
 
       let options = req.template.locals[key + "_options"];
 
-      let isRange =
-        ["page_size", "thumbnail_size", "spacing_size"].indexOf(key) > -1;
+      let isBoolean = typeof req.template.locals[key] === "boolean";
 
-      let isSelect = !isRange && options.constructor === Array;
+      let isRange =
+        !isBoolean &&
+        [
+          "page_size",
+          "spacing_size",
+          "spacing",
+          "number_of_rows",
+          "thumbnails_per_row",
+        ].indexOf(key) > -1;
+
+      let isSelect =
+        !isRange && !isBoolean && options && options.constructor === Array;
 
       if (isSelect) {
         options = req.template.locals[key + "_options"].map((option) => {
@@ -48,6 +77,7 @@ module.exports = function (req, res, next) {
         label: (MAP[key] && MAP[key].label) || desnake(key),
         value: req.template.locals[key],
         isRange,
+        isBoolean,
         isSelect,
         options,
         max,

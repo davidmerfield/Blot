@@ -2,14 +2,42 @@
   "name": "Photo",
   "isPublic": true,
   "locals": {
-    "page_size": 16,
-    "background_color": "rgba(255, 255, 255, 1)",
+    "background_color": "#fff",
     "text_color": "rgba(0, 0, 0, 0.85)",
     "link_color": "#00008B",
     "hide_dates": false,
+    "infinite_scroll": true,
+    "sticky_navigation": true,
+    "collapse_navigation_by_default": false,
+    "navigation_alignment": "justified",
+    "navigation_alignment_options": [
+      "justified",
+      "left",
+      "right",
+      "center"
+    ],
+    "thumbnail_size": "small",
+    "thumbnail_size_options": [
+      "small",
+      "medium",
+      "large",
+      "huge"
+    ],
+    "navigation_position": "top",
+    "navigation_position_options": [
+      "top",
+      "bottom"
+    ],
+    "page_size": 42,
     "date_display": "MMMM D, Y",
     "body_font": {},
-    "spacing": 3
+    "spacing": 2,
+    "spacing_range": [0, 5],
+    "grid_layout": "square",
+    "grid_layout_options": [
+      "square",
+      "ragged"
+    ]
   },
   "views": {
     "tagged.html": {

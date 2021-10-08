@@ -24,7 +24,6 @@ body {
   background: {{background_color}};
   word-wrap: break-word;
   margin: 0;
-  padding: 0 0.75rem;
 }
 
 .clear {width: 100%;clear: both;float: none;display: block;height: 0}
@@ -33,17 +32,12 @@ body {
 .caption {font-size: .8125rem;color: {{text_color}};font-weight: 500;opacity:0.5}
 
 .caption {
-  line-height: 18px;
   display: block;
-  margin: 9px auto 24px;
-  max-width: 600px;
+  padding: 0 2rem;
+  margin: 1rem auto 1.6666rem;
+  max-width: 1060px;
   font-style: normal;
 }
-
-/* 29.3333 / 1.2933333 */
-.wide.left .caption {margin-left: 22.680412113%}
-.wide.right .caption {margin-right: 22.680412113%}
-
 
 .right {float: right;}
 .left {float: left;}
@@ -54,8 +48,19 @@ div {
   position: relative;
 }
 
-div.header {padding: 1.4rem;position: fixed;width:100%;display: flex;align-items:baseline;background: {{background_color}};z-index: 100;justify-content: space-between;}
-
+div.header {
+  {{#navigation_font}}
+  font-family: {{{stack}}};
+  font-size: {{{font_size}}}px;
+  line-height: {{{line_height}}};
+  {{/navigation_font}}
+  padding: 0.7rem 2rem 0.4rem;
+  position: fixed;width:100%;
+  display: flex;align-items:baseline;
+  background: {{background_color}};
+  z-index: 100;justify-content: space-between;
+  -webkit-backdrop-filter: blur(3px);
+}
 .header.position-top {top:0;}
 .header.position-bottom {bottom:0;}
 
@@ -63,8 +68,11 @@ div.header {padding: 1.4rem;position: fixed;width:100%;display: flex;align-items
 .header.alignment-left {justify-content: flex-start;}
 .header.alignment-right {justify-content: flex-end;}
 
-.main {max-width: 60%;min-width: 720px}
-.container {max-width: 1000px;margin-top: 82px} /* 66px header height + 16 */
+.main {width: 66.6666%;margin: 0;}
+.container {max-width: 1060px;padding:0 2rem;margin-top: 82px;}
+/*.container, .container * {
+  outline:1px solid red
+}*/
 .entry {margin: 0 0 192px}
 
 /* LAYOUT */
@@ -72,39 +80,44 @@ div.header {padding: 1.4rem;position: fixed;width:100%;display: flex;align-items
 .margin {
   position: absolute;
   box-sizing: border-box;
-  width: 29.3333%;
+  width: 50%;
+  left: 100%;
+  padding-left: 2rem;
 }
 
 .margin blockquote {margin: 3px 0;padding: 3px 6px;font-size: .875rem;line-height:18px;}
 .margin blockquote p {margin: 0}
 
+.margin p,
+.column p {margin-top: 0}
+
 .margin img,
 .column img {margin-top: 6px}
 
-.margin p {font-style: italic;font-size: 0.9rem;margin-top: 0}
-.column p {margin-top: 0}
-.margin h1, .margin h2, .margin h3 {margin-top:0}
+.margin p {font-size: 0.8em;color:rgba({{#rgb}}{{text_color}}{{/rgb}}, 0.5);}
 
-.left.margin {
-  left: -29.3333%;
-  padding-right: 30px;
-  text-align: right;
-}
 
-.right.margin {
-  right: -29.3333%;
-  padding-left: 30px;
-}
 
 .wide {
-  width: 158.6666667%;
-  margin-left: -29.3333333%;
-  overflow: auto; /* collapse internal margins */
+    width: calc(100vw - var(--scrollbar-width));
+    margin-left: calc((100vw - var(--scrollbar-width) - 1060px) * -0.5);
+    margin-right: 0;
 }
 
-.wide.left, .wide.right {width: 129.3333333%;float: none;}
-.wide.left {margin: 0 0 0 -29.3333333%}
-.wide.right {margin: 0 -29.3333333% 0 0}
+.wide img {display: block;margin-left: auto;margin-right: auto;}
+@media screen and (max-width: 1146px) {
+  .wide {
+    margin-left: -2rem;
+  }
+}
+
+.wide.left, .wide.right {
+  width: 150%;
+  margin-left: 0;
+  margin-right: -25%;
+  float: none;
+  overflow: auto; /* collapse internal margins */
+}
 
 .column {
   box-sizing: border-box;
@@ -141,7 +154,7 @@ div.header {padding: 1.4rem;position: fixed;width:100%;display: flex;align-items
 
 p, li {
   position: relative;
-  margin: 24px 0;
+  margin: 1.666em 0;
 }
 
 h1 {font-size: 1.5625rem;line-height: 36px;font-weight: bold;margin-bottom: 24px}
@@ -181,6 +194,9 @@ a::-moz-selection {
   background: #b3d4fd;
 }
 
+a:active {
+  opacity: 0.5
+}
 
 a.tag {
   padding-left: 1.33em;
@@ -218,10 +234,15 @@ p code:after {
   content: "\00a0";
 }*/
 
+.katex, pre code {
+  display: block;
+    overflow-x: scroll;
+    overflow-y: hidden;
+}
 pre code {
   display: block;padding: 12px 18px;
-  margin: -11px 0 -13px -18px;
-  background-color: rgba(0,0,0,.02)
+  margin: 0 0 0 0;
+  background-color: rgba(0,0,0,.02);
 }
 
 /* TABLES */
@@ -246,10 +267,12 @@ th, td {box-sizing: border-box;border: 1px solid {{text_color}};padding: 5px 12p
 
 ul, ol {
   margin-left: 0;
-  padding-left: 1.5rem;
+  padding-left: 1.25rem;
   list-style-position: outside;
-  margin-bottom: 24px;
+  margin-bottom: 1.6667rem;
 }
+
+li {padding-left: 0.75rem}
 
 ul {list-style: circle;}
 ul.task-list { list-style-type: none; }
@@ -308,10 +331,12 @@ iframe {width: 100%;}
 #logo img:active {margin-top: 1px}
 
 /* Nav links are underlined which affects their optical lineheight */
-div.header a {margin-right: 1rem;font-size: .9375rem;color: {{text_color}};text-decoration: none}
+div.header a {margin-right: 1rem;color: {{text_color}};text-decoration: none}
 div.header a:hover {text-decoration: underline;}
 div.header .tags a {opacity: 1.0}
-div.header .nav a {opacity: 0.4}
+
+div.header a {opacity: 0.6666;transition: opacity 0.2s ease}
+div.header:hover a {opacity: 1}
 
 div.header .nav {
   display: flex;
@@ -387,20 +412,6 @@ input#search:focus {
 .date {margin-top: 10px;text-decoration: none;}
 .date:empty {display: none;}
 
-/* Reset the spacing when date is not followed by an h1 tag */
-.entry .date + p,
-.entry .date + ul,
-.entry .date + ol {position: relative;top: 9px;padding-bottom: 9px}
-
-.entry .date + .wide {position: relative;top: 2.66em;padding-bottom: 2.66em}
-.entry .date + .wide.right {position: relative;top: 0.66em;padding-bottom: 0.66em}
-.entry .date + h2,
-.entry .date + h3,
-.entry .date + h4,
-.entry .date + h5,
-.entry .date + h6
- {position: relative;top: 9px;}
-
 /* Pagination */
 .pagination {
   text-align: center;
@@ -439,8 +450,12 @@ input#search:focus {
      color: #aaa;
      font-weight: bold;
 }
+ .footnote-back {text-decoration: none;margin-left: 0.5rem}
+ .footnote-back:before {
+    content: "["
+}
  .footnote-back:after {
-    content: "Context"
+    content: "]"
 }
  .footnote-ref {
     text-decoration: none;
@@ -480,67 +495,164 @@ padding-left: 140px;padding-top: 1rem;font-size:14px
 .left-label .tag {
 margin:0 1rem 0 0
 }
-@media screen and (max-width: 976px) {
+@media screen and (max-width: 840px) {
 
-  .main {max-width: 600px;min-width: 0}
 
-  .entry .margin {position: relative;top: auto;left: auto;right: auto;bottom: auto;}
-
-  .entry .margin.right {
-    float: right;
-  }
-
-  .entry .margin.left {
-    text-align: left;
-    display: block;
-    float: left;
-  }
-
-  .entry .date {width: 100%;}
-
-  .entry .margin .caption,
-  .entry .margin p {margin-bottom: 6px;text-align: left;}
-
-  .wide, .wide.left, .wide.right {width: 100%;margin: 0}
-  .wide.left .caption {margin-left: 0}
+  .main, .margin {width: 100%;}
+  .wide {width: 100vw;margin-left: -2rem;margin-right: -2rem}
+  .wide.right {margin-left: 0;margin-right: 0;width:100%;}
+  .margin {left: auto;position: relative;padding-left: 0}
 
 }
 
 @media screen and (max-width: 730px) {
-  div.header {
-    padding-left: 0; 
-    padding-right: 0; 
-    max-width: 600px;
-    min-width: 0;
-    margin: auto;
-  }
-  ul, li {margin-left: 24px}
-  ul ul, ol ul, ol ol, ul ol {margin-left: 0}
+  
   .nav .right {clear: both;float: none;margin-top: 3px}
   a.search {margin-left: 0}
+
+  .footnotes>ol{padding-left: 0;padding-top: 1rem}
+  .left-label {padding-left: 0;padding-top: 3rem}
 }
 
 @media screen and (max-width: 400px) {
   .entry .twitter-tweet {margin-left: 0!important}
   div.header {
-    margin: 9px auto -12px;
     display: flex;
     flex-direction: column;
-    padding: 0.25em 0 1em;
   }
   div.header #logo, div.header .tags, div.header .nav {margin: 0 0 0.5em 0;}
+
+  div.header, .container {
+    padding-left: 1rem;
+    padding-right: 1rem
+  }
+  .wide {width: 100vw;margin-left: -1rem;margin-right: -1rem}
+  .caption {padding-left: 1rem;padding-right: 1rem}
 }
 
 {{#plugins.codeHighlighting.enabled}}
-/* The theme used by the syntax highlighting app */
-.hljs {display: block;overflow-x: auto;}
-.hljs-comment, .hljs-quote, .hljs-variable {color: #008000;}
-.hljs-keyword, .hljs-selector-tag, .hljs-built_in, .hljs-name, .hljs-tag {color: #00f;}
-.hljs-string, .hljs-title, .hljs-section, .hljs-attribute, .hljs-literal, .hljs-template-tag, .hljs-template-variable, .hljs-type, .hljs-addition {color: #a31515;}
-.hljs-deletion, .hljs-selector-attr, .hljs-selector-pseudo, .hljs-meta {color: #2b91af;}
-.hljs-doctag {color: #808080;}
-.hljs-attr {color: #f00;}
-.hljs-symbol, .hljs-bullet, .hljs-link {color: #00b0e8;}
-.hljs-emphasis {font-style: italic;}
-.hljs-strong {font-weight: bold;}
+/*!
+  Theme: GitHub
+  Description: Light theme as seen on github.com
+  Author: github.com
+  Maintainer: @Hirse
+  Updated: 2021-05-15
+
+  Outdated base version: https://github.com/primer/github-syntax-light
+  Current colors taken from GitHub's CSS
+*/
+
+.hljs {
+  color: #24292e;
+}
+
+.hljs-doctag,
+.hljs-keyword,
+.hljs-meta .hljs-keyword,
+.hljs-template-tag,
+.hljs-template-variable,
+.hljs-type,
+.hljs-variable.language_ {
+  /* prettylights-syntax-keyword */
+  color: #d73a49;
+}
+
+.hljs-title,
+.hljs-title.class_,
+.hljs-title.class_.inherited__,
+.hljs-title.function_ {
+  /* prettylights-syntax-entity */
+  color: #6f42c1;
+}
+
+.hljs-attr,
+.hljs-attribute,
+.hljs-literal,
+.hljs-meta,
+.hljs-number,
+.hljs-operator,
+.hljs-variable,
+.hljs-selector-attr,
+.hljs-selector-class,
+.hljs-selector-id {
+  /* prettylights-syntax-constant */
+  color: #005cc5;
+}
+
+.hljs-regexp,
+.hljs-string,
+.hljs-meta .hljs-string {
+  /* prettylights-syntax-string */
+  color: #032f62;
+}
+
+.hljs-built_in,
+.hljs-symbol {
+  /* prettylights-syntax-variable */
+  color: #e36209;
+}
+
+.hljs-comment,
+.hljs-code,
+.hljs-formula {
+  /* prettylights-syntax-comment */
+  color: #6a737d;
+}
+
+.hljs-name,
+.hljs-quote,
+.hljs-selector-tag,
+.hljs-selector-pseudo {
+  /* prettylights-syntax-entity-tag */
+  color: #22863a;
+}
+
+.hljs-subst {
+  /* prettylights-syntax-storage-modifier-import */
+  color: #24292e;
+}
+
+.hljs-section {
+  /* prettylights-syntax-markup-heading */
+  color: #005cc5;
+  font-weight: bold;
+}
+
+.hljs-bullet {
+  /* prettylights-syntax-markup-list */
+  color: #735c0f;
+}
+
+.hljs-emphasis {
+  /* prettylights-syntax-markup-italic */
+  color: #24292e;
+  font-style: italic;
+}
+
+.hljs-strong {
+  /* prettylights-syntax-markup-bold */
+  color: #24292e;
+  font-weight: bold;
+}
+
+.hljs-addition {
+  /* prettylights-syntax-markup-inserted */
+  color: #22863a;
+  background-color: #f0fff4;
+}
+
+.hljs-deletion {
+  /* prettylights-syntax-markup-deleted */
+  color: #b31d28;
+  background-color: #ffeef0;
+}
+
+.hljs-char.escape_,
+.hljs-link,
+.hljs-params,
+.hljs-property,
+.hljs-punctuation,
+.hljs-tag {
+  /* purposely ignored */
+}
 {{/plugins.codeHighlighting.enabled}}

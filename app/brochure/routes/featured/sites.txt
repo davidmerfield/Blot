@@ -77,3 +77,7 @@
 #d48a7d victoriaclarke.art Victoria Clarke, is an artist based in London
 #262626 www.adamsandell.com Adam Sandell, is a doctor in British Colombia
 #eb0003 sidenote.ridwansanusi.com Ridwan Sanusi, works as an experience designer at Amazon
+#241d3c max.engineer Max Chernyak, is a software engineer and architect based in New York
+#f1bd00 oliviaastawood.com Olivia Wood, is writer and musician from Los Angeles
+#387db9 jonahfoss.com Jonah Foss, is a student at the University of Washington
+#21732d www.nitinpai.in Nitin Pai, is the director of the Takshashila Institution in Bangalore

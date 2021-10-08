@@ -3,11 +3,16 @@
   "locals": {
     "page_size": 6,
     "text_color": "#232323",
-    "background_color": "#fff",
-    "accent_color": "#004984",
+    "background_color": "#FFFFFF",
+    "accent_color": "#0078D9",
     "hide_dates": false,
     "date_display": "MMMM D, Y",
-    "body_font": {},
+    "body_font": {
+      "font_size": 18
+    },
+    "navigation_font": {
+      "font_size": 14
+    },
     "color_schemes": {
       "light": {
         "text_color": "#232323",

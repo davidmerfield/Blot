@@ -8,10 +8,22 @@ var Mustache = require("mustache");
 var fs = require("fs-extra");
 var async = require("async");
 var Blog = require("blog");
+var _ = require("lodash");
 
 var TEMPLATES_DIRECTORY = require("path").resolve(__dirname + "/latest");
 var PAST_TEMPLATES_DIRECTORY = require("path").resolve(__dirname + "/past");
 var TEMPLATES_OWNER = "SITE";
+
+var DEFAULT_FONT = require("blog/static/fonts")
+  .filter((font) => font.name === "System sans-serif")
+  .map((font) => {
+    font.styles = Mustache.render(font.styles, {
+      config: {
+        cdn: { origin: config.cdn.origin },
+      },
+    });
+    return font;
+  })[0];
 
 if (require.main === module) {
   main({ watch: config.environment === "development" }, function (err) {
@@ -99,16 +111,10 @@ function build(directory, callback) {
 
   // Set the default font for each template
   if (template.locals.body_font !== undefined) {
-    template.locals.body_font = require("blog/static/fonts")
-      .filter((font) => font.name === "System sans-serif")
-      .map((font) => {
-        font.styles = Mustache.render(font.styles, {
-          config: {
-            cdn: { origin: config.cdn.origin },
-          },
-        });
-        return font;
-      })[0];
+    template.locals.body_font = _.merge(
+      _.cloneDeep(DEFAULT_FONT),
+      template.locals.body_font
+    );
   }
 
   Template.drop(TEMPLATES_OWNER, basename(directory), function () {
@@ -143,6 +149,7 @@ function mirror(id, callback) {
             blogID,
             "mirror-of-" + id.slice(id.indexOf(":") + 1),
             function (err) {
+
               var template = {
                 isPublic: false,
                 cloneFrom: id,
@@ -150,8 +157,8 @@ function mirror(id, callback) {
                 slug: "mirror-of-" + id.slice(id.indexOf(":") + 1),
               };
 
-              if (oldMirror && oldMirror.locals)
-                template.locals = oldMirror.locals;
+              for (const local in template.locals)
+                template[local] = oldMirror.locals[local];
 
               Template.create(blogID, template.name, template, next);
             }

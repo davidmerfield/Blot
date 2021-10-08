@@ -1,11 +1,13 @@
-<div class="inputs">
+<style type="text/css">
+button {background: white;border: 2px solid #ddd;border-radius: 4px;font:inherit;font-size: 14px;line-height: 1.45;margin: 6px 3px 0 0;cursor: pointer;}
+	button.selected {border:2px solid #0075ff;border-radius: 4px}</style>
+
+
+	<div class="inputs">
 		
 	{{#color_schemes.length}}
 	<h2>Color scheme</h2>
 	<form method="post" style="padding: 0 1rem">
-	<style type="text/css">
-button {background: white;border: 2px solid #ddd;border-radius: 4px;font:inherit;font-size: 14px;line-height: 1.45;margin: 6px 3px 0 0;cursor: pointer;}
-	button.selected {border:2px solid #0075ff;border-radius: 4px}</style>
 	{{#color_schemes}}
 	<button type="submit" class="{{selected}}" name="locals.color_scheme" value="{{key}}">{{label}}</button> 
 	{{/color_schemes}}
@@ -24,6 +26,10 @@ button {background: white;border: 2px solid #ddd;border-radius: 4px;font:inherit
 {{#layouts.length}}
 		<h2>Layout</h2>
 		{{#layouts}}
+
+		{{#isBoolean}}
+		{{> boolean}}
+		{{/isBoolean}}
 
 		{{#isSelect}}
 		{{> select}}
@@ -66,16 +72,19 @@ button {background: white;border: 2px solid #ddd;border-radius: 4px;font:inherit
 			</label>
 			{{/show_hide_dates}}			
 			<script type="text/javascript">
-				const dateSettings = document.getElementById("dateSettings");
-				const date_display = document.getElementById("date_display");
-				const hide_dates = document.getElementById("hide_dates");
+				document.querySelectorAll('[type="checkbox"]').forEach(function(node){
+						let form;
+						let parent = node.parentNode;
 
-				hide_dates.addEventListener("change", () => {
-					dateSettings.submit();
-				});
+						while (parent && !form) {
+							if (parent.tagName.toLowerCase() === 'form')
+								form = parent;
+							parent = parent.parentNode;
+						}
 
-				date_display.addEventListener("change", () => {
-					dateSettings.submit();
+						node.addEventListener("change", () => {
+							form.submit();
+						});
 				});
 			</script>
 		</form>

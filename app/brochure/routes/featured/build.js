@@ -111,7 +111,9 @@ function generateAvatars(source, destination, callback) {
     async.mapValues(favicons, createFavicon, function (err, favicons) {
       let src = fs
         .readdirSync(destination)
-        .filter((i) => i.endsWith(".jpg") || i.endsWith(".png"))
+        .filter(
+          (i) => i.endsWith(".jpg") || i.endsWith(".jpeg") || i.endsWith(".png")
+        )
         .map((i) => destination + "/" + i);
 
       Spritesmith.run({ src }, function (err, sprite) {

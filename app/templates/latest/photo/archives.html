@@ -1,25 +1,56 @@
 {{> header}}
 
-<div class="archives">
-  {{#archives}}
-  {{#months}}
-  {{#entries}}
-  <a href="{{{url}}}">
-    {{#thumbnail.small}}
-    <span class="thumbnail">
-      <img src="{{{url}}}" class="pre-loaded" onload="this.className='loaded'" />
-      <noscript>  
-      <img src="{{{url}}}">
-      </noscript>
-    </span>
-    {{/thumbnail.small}}
+
+<style type="text/css">
+  
+    body, html {height: 100%;overflow: hidden;}
+
+    #hyperlist {
+      display: block;
+      position: absolute;
+      top: calc(2 * ({{spacing}}rem + 1.4em));
+      right: calc(-1 * {{spacing}}rem);
+      left:  calc(-1 * {{spacing}}rem);
+      width: 100vw;
+    }
+
+
+
+    #hyperlist a {
+      display: flex;
+      width: 100%;
+      height: 36px;
+      text-decoration: none;
+      color: inherit;
+      margin: 0;
+      padding: 0 {{spacing}}rem;
+      box-sizing:border-box;
+    }
+
+    #hyperlist a:hover {opacity: 0.75}
+    #hyperlist a:hover .title {text-decoration: underline;}
+    #hyperlist a:active {opacity: 0.5}
     
-    <span style="text-decoration:underline">{{title}}</span>
+    #hyperlist a .thumbnail {width: 2rem;height:36px;}
+    #hyperlist a .title {flex-grow: 1;margin:0 {{spacing}}rem;}
 
-  </a>
-  {{/entries}}
-  {{/months}}
-  {{/archives}}
-</div>
+#hyperlist a .thumbnail img {
+  max-width: 2rem;max-height: 2rem;width:auto;height: auto;
+}
 
+input[type=radio] {display: none;}
+.filter {list-style-type: none;padding: 0;display: flex;}
+.filter label {cursor: pointer;padding:{{spacing_size}}px;margin:{{spacing_size}}px;background:#eee}
+</style>
+
+<div style="position: absolute;top:calc({{spacing}}rem + 1.4em);left: 0;right: 0;  
+padding: 0 {{spacing}}rem;    
+box-sizing: border-box;
+width: 100vw">
+  {{> search_form}}
+  </div>
+    <div id="hyperlist" class="container"></div>
+    <script type="text/javascript" src="{{#asset}}/archive.js{{/asset}}"></script>
+}
+}
 {{> footer}}

@@ -21,12 +21,8 @@ hr {
 .archives a:visited {color: purple;}
 
 
-.navigation a {
-  color: {{text_color}};
-}
 
 .index a .text:hover,
-.dim .navigation,
 .edge a {
   color: {{text_color}};
   opacity: 0.4;
@@ -49,7 +45,11 @@ body{
 }
 
 .yield {
-  padding: 0 calc({{spacing}}rem/2);
+  padding: 0 {{spacing}}rem;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .shift-margin {
@@ -85,89 +85,6 @@ body {
   min-height: 100%
 }
 
-.yield.flex {
-  display: flex;
-}
-
-.yield {
-  flex-grow: 1;
-}
-
-.index {
-  text-align: center;
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
-.index a {
-  box-sizing: border-box;
-  width: 50%;
-  text-decoration: none;
-}
-
-
-
-@media screen and (max-width: 700px) {
-  .index a {
-    width: 100%;
-    padding-left: 0;
-    padding-right: 0
-  }
-}
-
-.index a:nth-child(2n) {
-  text-align: left;
-}
-
-.index a:nth-child(2n+1) .text {
-  float: right;
-}
-
-
-.index a:last-child:nth-child(2n+1) .text {
-  float: none;
-  margin: 0 auto
-}
-
-.index a:nth-child(2n+1) {
-  text-align: right;
-}
-
-
-.index a img {
-  max-width: 100%;
-  width: auto;
-  height: auto;
-}
-
-.index a .text {
-  border: 2px solid {{text_color}};
-  display: block;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  width:40vw;
-  height: 25vw;
-}
-
-.index a .title {
-    margin: 1rem 2rem;
-    line-height: 1.2;
-}
-
-.index a .thumbnail {
-  display:block;height:0;overflow:hidden}
-
-.index a .date {
-  font-size: 14px;
-  text-decoration: none;
-}
-
-.index a:focus {
-  opacity: 0.8
-}
 
 .archives a {
   text-decoration: none;
@@ -191,28 +108,167 @@ body {
 
 .archives a:hover {opacity: 0.5}
 
-.navigation {
-  margin: 1.5rem;
-  font-size: 25px;
-  font-size: 14px;
+
+/* NAVIGATION */ 
+
+header > a {
+  white-space: nowrap;
+  margin-bottom: calc({{spacing}}rem/2); /* This ensures the nav wraps underneath */
+}
+
+header {
+  height: {{body_font.line_height}}em;
+  overflow: hidden;
   display: flex;
+  background: {{background_color}};
   flex-wrap: wrap;
+  justify-content: space-between;
+  position: relative;
+  padding: calc({{spacing}}rem/2) {{spacing}}rem;
+  {{#sticky_navigation}}
+  position: fixed;
+  {{#is.navigation_position.top}}
+  top: 0;
+  {{/is.navigation_position.top}}
+  {{#is.navigation_position.bottom}}
+  bottom: 0;
+  {{/is.navigation_position.bottom}}
+  {{#is.navigation_alignment.justified}}
+  left:0;
+  right:0;
+  {{/is.navigation_alignment.justified}}
+  {{#is.navigation_alignment.left}}
+  left:0;
+  {{/is.navigation_alignment.left}}
+  {{#is.navigation_alignment.right}}
+  right:0;
+  {{/is.navigation_alignment.right}}
+
+  z-index: 1;
+  {{/sticky_navigation}}
 }
 
-.navigation .next {position:relative;padding-right: 1.3em}
 
-.navigation .next:after {
-  content: "→";
-  position: absolute;
-  right: 0;
+
+header a {
+  display: inline-block;
+  color: inherit;
+  text-decoration: none;
 }
 
-.navigation .previous {position:relative;padding-left: 1.3em}
 
-.navigation .previous:after {
-  content: "←";
+header a:visited {
+  color: rgba({{#rgb}}{{text_color}}{{/rgb}},0.5)
+}
+
+header a:hover {
+  color: rgba({{#rgb}}{{text_color}}{{/rgb}},0.75);
+  text-decoration: underline;
+}
+
+header a:active {
+  color: rgba({{#rgb}}{{text_color}}{{/rgb}},0.5);
+}
+
+
+nav {
+  background: {{background_color}};
+  position: relative;
+  {{#collapse_navigation_by_default}}
+  width: 100%;
+  {{/collapse_navigation_by_default}}
+}
+
+nav a {
+    margin-left: calc({{spacing}}rem/2);
+}
+
+nav a[href="/search"] {display: none}
+
+nav .spacer {
+    height: 22px;
+    border-right: 1px solid rgba(0, 0, 0, 0.1);
+    margin: 0 calc({{spacing}}rem / 2);
+}
+
+#toggle {
   position: absolute;
-  left: 0;
+  top: calc({{spacing}}rem/2);
+  right:  {{spacing}}rem;
+  background: {{background_color}};
+  cursor: pointer;
+  padding-left:.7em;
+  width: 1.4em;
+  height: 1.4em;
+}
+
+
+#hidden-toggle {
+  display: none
+}
+
+#hidden-toggle:checked~header {
+  height: auto;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1)
+}
+
+#hidden-toggle:checked~header nav {
+  width: 100%
+}
+
+#hidden-toggle:checked~header nav a {
+  display: block;
+  margin-left: 0
+}
+
+#hidden-toggle:checked~header .hamburger-inner:after {
+  bottom: 0;
+  transform: rotate(-90deg);
+}
+
+#hidden-toggle:checked~header .hamburger-inner:before {
+  top: 0;
+  opacity: 0;
+}
+
+#hidden-toggle:checked~header .hamburger-inner {
+  transform: rotate(45deg);
+}
+
+.hamburger-inner,
+.hamburger-inner:after,
+.hamburger-inner:before {
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  background-color: {{text_color}};
+}
+
+.hamburger-box {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  height: 1.4em;
+}
+
+.hamburger-inner:after,
+.hamburger-inner:before {
+  display: block;
+  content: "";
+}
+
+.hamburger-inner:before {
+  top: -7px;
+}
+
+.hamburger-inner:after {
+  bottom: -7px;
+}
+
+.hamburger-inner {
+  top: 50%;
+  display: block;
+  margin-top: -1px;
 }
 
 .tabular-numerals {
@@ -229,20 +285,9 @@ font-feature-settings: 'tnum';
   text-align: right;
 }
 
-.navigation>* {
-  width: 25%;
-  box-sizing: border-box;
-}
-
 
 
 @media screen and (max-width: 500px) {
-  .navigation>* {
-    width: 100%;
-  }
-
-  .navigation> :nth-child(3) {margin-top: 1.3rem}
-  .navigation:first-of-type > :nth-child(n+3) {display: none;}
 
   .shift-margin {padding-left: 0}
   .align-right, .align-center {text-align: left;}
@@ -252,24 +297,11 @@ font-feature-settings: 'tnum';
 }
 
 
-.dim .navigation,
 .edge a {
   text-decoration: none;
 }
 
   
-
-.navigation a[href] {
-  color: inherit;
-  text-decoration: none;
-}
-
-.navigation a[href="/search"],
-.navigation a[href="/search"]+span {
-  display: none;
-}
-
-.navigation a[href]:hover,
 .edge a:hover {
   text-decoration: underline
 }
@@ -373,19 +405,6 @@ font-feature-settings: 'tnum';
 
 .entry.page .body>* {
   max-width: 35em;
-}
-
-.body.post p,
-.body.post .wide {
-  max-width: 35em;
-  margin: 1.4em auto;
-  text-align: left;
-}
-
-.body.post .margin {
-  position: relative;
-  left: auto;
-  right: auto;
 }
 
 hr {
