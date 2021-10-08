@@ -1,5 +1,6 @@
 describe("google drive client: database", function () {
   const database = require("../database");
+  const redisKeys = require("util").promisify(require("helper/redisKeys"));
 
   beforeEach(function () {
     this.db = database.folder(Date.now().toString());
@@ -9,15 +10,22 @@ describe("google drive client: database", function () {
   //   await this.folder.print();
   // });
 
-  it("can store and retrieve account information", function (done) {
-    database.setAccount("123", { foo: "bar" }, function (err) {
-      if (err) throw err;
-      database.getAccount("123", function (err, account) {
-        if (err) throw err;
-        console.log("got account", account);
-        done();
-      });
-    });
+  it("can store and retrieve account information", async function () {
+    await database.setAccount("123", { foo: "bar" });
+    const account = await database.getAccount("123");
+    expect(account).toEqual({ foo: "bar" });
+  });
+
+  it("deletes the folder keys when dropping an account", async function () {
+    const blogId = "blog_" + Date.now().toString();
+    const folderId = "folder_" + Date.now().toString();
+    const fileId = "file_" + Date.now().toString();
+
+    await database.setAccount(blogId, { folderId });
+    const { set } = database.folder(folderId);
+    await set(fileId, "/Hello.txt");
+    await database.dropAccount(blogId);
+    expect(await redisKeys("*" + folderId + "*")).toEqual([]);
   });
 
   it("moves all files in a folder", async function () {

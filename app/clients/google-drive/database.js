@@ -85,12 +85,20 @@ const database = {
     });
   },
 
-  dropAccount: function (blogID, callback) {    
-    client
-      .multi()
-      .del(this.keys.account(blogID))
-      .srem(this.keys.allAccounts, blogID)
-      .exec(callback);
+  dropAccount: function (blogID, callback) {
+    this.getAccount(blogID, (err, account) => {
+      const multi = client.multi();
+
+      multi.del(this.keys.account(blogID)).srem(this.keys.allAccounts, blogID);
+
+      if (account && account.folderId) {
+        multi
+          .del(this.folder(account.folderId).key)
+          .del(this.folder(account.folderId).tokenKey);
+      }
+
+      multi.exec(callback);
+    });
   },
 
   folder: function (folderId) {
