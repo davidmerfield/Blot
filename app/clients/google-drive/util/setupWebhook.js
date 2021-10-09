@@ -55,5 +55,6 @@ module.exports = async (blogID) => {
     },
   });
 
+  await database.folder(account.folderId).setPageToken(startPageToken);
   await database.setAccount(blogID, { channel: response.data });
 };

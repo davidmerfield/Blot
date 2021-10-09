@@ -182,7 +182,10 @@ dashboard.get("/authenticate", function (req, res, next) {
 				"Blot now has access to your Google Drive"
 			);
 
+		res.message(req.baseUrl, "Re-connected to Google Drive");
+
 		try {
+			await verify(req.blog.id);
 			await setupWebhook(req.blog.id);
 		} catch (e) {
 			await database.setAccount(req.blog.id, {
@@ -191,11 +194,7 @@ dashboard.get("/authenticate", function (req, res, next) {
 				folderId: null,
 				folderPath: null,
 			});
-
-			console.log(e);
-			return next(e);
 		}
-		res.message(req.baseUrl, "Re-connected to Google Drive");
 	});
 });
 
@@ -206,7 +205,8 @@ const setUpBlogFolder = async function (blog, emptyFolder) {
 			if (!settingUp) throw new Error("Permission to set up revoked");
 		};
 
-		const publish = (message) => {
+		const publish = (...args) => {
+			const message = args.join(" ");
 			client.publish(SETUP_CHANNEL({ blog: { id: blog.id } }), message);
 			console.log(clfdate(), "Google Drive Client", message);
 		};
@@ -235,7 +235,7 @@ const setUpBlogFolder = async function (blog, emptyFolder) {
 		});
 
 		if (!emptyFolder) {
-			await verify(blog.id);
+			await verify(blog.id, publish);
 		}
 
 		await checkWeCanContinue();

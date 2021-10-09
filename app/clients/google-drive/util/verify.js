@@ -1,13 +1,17 @@
 const fs = require("fs-extra");
-const clfdate = require("helper/clfdate");
 const { join } = require("path");
 const database = require("../database");
 const createDriveClient = require("./createDriveClient");
 const getmd5Checksum = require("./md5Checksum");
 const localPath = require("helper/localPath");
+const clfdate = require("helper/clfdate");
 
-module.exports = async (blogID) => {
-  const prefix = () => clfdate() + " Google Drive:";
+module.exports = async (blogID, publish) => {
+  if (!publish)
+    publish = (...args) => {
+      console.log(clfdate() + " Google Drive:", args.join(" "));
+    };
+
   const { drive, account } = await createDriveClient(blogID);
   const { folderId } = account;
 
@@ -18,14 +22,13 @@ module.exports = async (blogID) => {
 
   const { reset, set } = database.folder(folderId);
 
-  await reset();
-
   // reset pageToken
   // reset db.folder state
+  await reset();
 
   const walk = async (dir, dirId) => {
     await checkWeCanContinue();
-    console.log(prefix(), "Walking", dir);
+    publish("Checking", dir);
 
     const [remoteContents, localContents] = await Promise.all([
       readdir(drive, dirId),
@@ -39,7 +42,7 @@ module.exports = async (blogID) => {
     for (const { name, id } of remoteContents) {
       if (!localContents.find((item) => item.name === name)) {
         await checkWeCanContinue();
-        console.log(prefix(), "- REMOVE", join(dir, name), id, "from DRIVE");
+        publish("Removing", join(dir, name));
         await drive.files.delete({ fileId: id });
       }
     }
@@ -56,13 +59,15 @@ module.exports = async (blogID) => {
           existsOnRemote &&
           existsOnRemote.mimeType !== "application/vnd.google-apps.folder"
         ) {
-          console.log(prefix(), "- REMOVE", path, "from DRIVE");
+          publish("Removing", path);
           await drive.files.delete({ fileId: existsOnRemote.id });
-          pathId = await mkdir(prefix, drive, dirId, name);
+          publish("Creating directory", path);
+          pathId = await mkdir(drive, dirId, name);
         } else if (existsOnRemote && existsOnRemote.id) {
           pathId = existsOnRemote.id;
         } else {
-          pathId = await mkdir(prefix, drive, dirId, name);
+          publish("Creating directory", path);
+          pathId = await mkdir(drive, dirId, name);
         }
 
         await walk(path, pathId);
@@ -71,7 +76,7 @@ module.exports = async (blogID) => {
           existsOnRemote && existsOnRemote.md5Checksum === md5Checksum;
 
         if (existsOnRemote && !identicalOnRemote) {
-          console.log(prefix(), "- UPDATE", name, "at", existsOnRemote.id);
+          publish("Updating", path);
           set(existsOnRemote.id, path);
           await drive.files.update({
             fileId: existsOnRemote.id,
@@ -80,8 +85,8 @@ module.exports = async (blogID) => {
             },
           });
         } else if (!existsOnRemote) {
-          console.log(prefix(), "- CREATE", name, "inside", dirId);
-          const id = await drive.files.create({
+          publish("Transferring", path);
+          const { data } = await drive.files.create({
             resource: {
               name,
               parents: [dirId],
@@ -91,7 +96,7 @@ module.exports = async (blogID) => {
             },
             fields: "id",
           });
-          set(id, path);
+          set(data.id, path);
         }
       }
     }
@@ -99,7 +104,8 @@ module.exports = async (blogID) => {
 
   await walk("/", folderId);
 
-  // set newPageToken
+  // sync will acquire a startPageToken
+  // when it next runs
 };
 
 const localreaddir = async (dir) => {
@@ -142,10 +148,7 @@ const readdir = async (drive, dirId) => {
   return items;
 };
 
-
-const mkdir = async (prefix, drive, parentId, name) => {
-  console.log(prefix(), "- MKDIR", name, "in parentId", parentId);
-
+const mkdir = async (drive, parentId, name) => {
   const res = await drive.files.create({
     resource: {
       name,

@@ -4,6 +4,7 @@ const clfdate = require("helper/clfdate");
 const localPath = require("helper/localPath");
 const database = require("./database");
 
+const verify = require("./util/verify");
 const download = require("./util/download");
 const createDriveClient = require("./util/createDriveClient");
 const determinePathToFolder = require("./util/determinePathToFolder");
@@ -155,6 +156,12 @@ module.exports = async function (blogID, options, callback) {
     console.log(prefix(), "All checks complete");
     done(null, callback);
   } catch (err) {
-    return done(err, callback);
+    try {
+      verify(blogID);
+    } catch (e) {
+      return done(e, callback);
+    }
+
+    done(null, callback);
   }
 };
