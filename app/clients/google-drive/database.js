@@ -183,12 +183,9 @@ const database = {
       } while (cursor !== START_CURSOR);
     };
 
-    this.all = async () => {
-      const res = await hgetall(this.key);
-      const paths = Object.keys(res)
-        .map((key) => res[key])
-        .sort();
-      return paths;
+    this.reset = async () => {
+      await del(this.key);
+      await del(this.tokenKey);
     };
 
     this.setPageToken = async (token) => {

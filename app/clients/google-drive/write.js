@@ -3,7 +3,7 @@ const dirname = require("path").dirname;
 const basename = require("path").basename;
 const computeMd5Checksum = require("./util/md5Checksum");
 const localPath = require("helper/localPath");
-const debug = require("debug")("blot:clients:google-drive:write");
+const clfdate = require("helper/clfdate");
 const fs = require("fs-extra");
 const TMP = require("helper/tempDir")();
 const guid = require("helper/guid");
@@ -16,34 +16,51 @@ const database = require("./database");
 // of file IDs because once removed, we'll sync
 // with google drive after receiving a webhook
 module.exports = async function write(blogID, path, input, callback) {
+  const prefix = () => clfdate() + " Google Drive:";
+
   try {
     if (path[0] !== "/") path = "/" + path;
 
-    debug("writing input to tmp");
+    console.log(prefix(), "writing input to tmp");
     const tempPath = await writeToTmp(input);
 
     const pathOnBlot = localPath(blogID, path);
 
-    debug("calculating md5Checksum for", tempPath);
+    console.log(prefix(), "calculating md5Checksum for", tempPath);
     const md5Checksum = await computeMd5Checksum(tempPath);
+    console.log(prefix(), " md5Checksum for", tempPath, "is", md5Checksum);
 
-    debug("calculating md5Checksum for", pathOnBlot);
+    console.log(prefix(), "calculating md5Checksum for", pathOnBlot);
     const md5ChecksumOnBlot = await computeMd5Checksum(pathOnBlot);
+    console.log(
+      prefix(),
+      " md5Checksum for",
+      pathOnBlot,
+      "is",
+      md5ChecksumOnBlot
+    );
 
     if (md5ChecksumOnBlot === md5Checksum) {
-      debug("md5Checksum matches so no need to make any changes");
-      await fs.remove(tempPath)
+      console.log(
+        prefix(),
+        "md5Checksum matches so no need to make any changes"
+      );
+      await fs.remove(tempPath);
       return callback(null);
     }
 
     const { drive, account } = await createDriveClient(blogID);
 
     if (account.folderId) {
+      console.log(prefix(), "will save remote file");
+
       const { getByPath } = database.folder(account.folderId);
 
       const fileId = await getByPath(path);
 
       if (fileId) {
+        console.log(prefix(), "will update existing file");
+
         await drive.files.update({
           fileId: fileId,
           media: {
@@ -51,6 +68,8 @@ module.exports = async function write(blogID, path, input, callback) {
           },
         });
       } else {
+        console.log(prefix(), "will create new remote file");
+
         const pathParent = dirname(path);
 
         const parentID =
@@ -74,7 +93,7 @@ module.exports = async function write(blogID, path, input, callback) {
       }
     }
 
-    debug("moving", tempPath, "to", pathOnBlot);
+    console.log(prefix(), "moving", tempPath, "to", pathOnBlot);
     await fs.move(tempPath, pathOnBlot, { overwrite: true });
   } catch (e) {
     return callback(e);
@@ -99,10 +118,8 @@ const writeToTmp = (input) => {
     let readStream;
 
     if (input instanceof Readable) {
-      debug("input is readable stream...");
       readStream = input;
     } else if (Buffer.isBuffer(input) || typeof input === "string") {
-      debug("input was converted to readable stream...");
       readStream = makeStream(input);
     }
 
@@ -117,7 +134,6 @@ const establishParentDirectories = async (drive, pathParent, blogFolderID) => {
   if (pathParent === "/") return blogFolderID;
 
   const parentDirs = pathParent.split("/").slice(1);
-  debug(parentDirs, "is parentDirs");
 
   const walk = async (folderId, parentDirs) => {
     const dirToCheck = parentDirs.shift();
@@ -126,14 +142,11 @@ const establishParentDirectories = async (drive, pathParent, blogFolderID) => {
       q: `'${folderId}' in parents and trashed = false`,
     });
 
-    debug("looking for", dirToCheck, "in", folderId);
-
     let dirID =
       data.files.filter((i) => i.name === dirToCheck).length &&
       data.files.filter((i) => i.name === dirToCheck)[0].id;
 
     if (!dirID) {
-      debug("creating", dirToCheck);
       const res = await drive.files.create({
         resource: {
           name: dirToCheck,

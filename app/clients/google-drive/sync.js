@@ -33,17 +33,7 @@ module.exports = async function (blogID, options, callback) {
     if (account.error)
       return done(new Error("Account has error: " + account.error), callback);
 
-    if (options.fromScratch) {
-      pageToken = account.startPageToken;
-      console.log(
-        prefix(),
-        "Using original startPageToken from setup:",
-        pageToken
-      );
-    } else {
-      pageToken = await db.getPageToken();
-      console.log(prefix(), "Using pageToken from db:", pageToken);
-    }
+    pageToken = await db.getPageToken();
 
     if (!pageToken) {
       console.log(prefix(), "Fetching new pageToken from API");
@@ -93,7 +83,6 @@ module.exports = async function (blogID, options, callback) {
           await database.setAccount(blogID, {
             folderId: "",
             folderPath: "",
-            folderName: "",
             latestActivity: "",
           });
           return done(null, callback);

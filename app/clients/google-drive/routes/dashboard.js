@@ -1,17 +1,19 @@
-const config = require("config");
-const express = require("express");
-const clfdate = require("helper/clfdate");
-const dashboard = new express.Router();
-const google = require("googleapis").google;
-const database = require("../database");
-const createDriveClient = require("../util/createDriveClient");
-const disconnect = require("../disconnect");
-const VIEWS = require("path").resolve(__dirname + "/../views") + "/";
-const fs = require("fs-extra");
-const localPath = require("helper/localPath");
 const client = require("client");
+const config = require("config");
+const google = require("googleapis").google;
+const fs = require("fs-extra");
+const clfdate = require("helper/clfdate");
+const localPath = require("helper/localPath");
+const database = require("../database");
+const disconnect = require("../disconnect");
+const verify = require("../util/verify");
+const createDriveClient = require("../util/createDriveClient");
 const setupWebhook = require("../util/setupWebhook");
 const sse = require("../util/sse");
+const express = require("express");
+const dashboard = new express.Router();
+
+const VIEWS = require("path").resolve(__dirname + "/../views") + "/";
 
 const SETUP_CHANNEL = (req) =>
 	"blog:" + req.blog.id + ":client:google-drive:set-up-folder";
@@ -88,7 +90,6 @@ dashboard
 			error: null,
 			channel: null,
 			folderId: null,
-			folderName: null,
 			folderPath: null,
 			settingUp: null,
 		});
@@ -188,7 +189,6 @@ dashboard.get("/authenticate", function (req, res, next) {
 				error: "Could not set up webhooks",
 				channel: null,
 				folderId: null,
-				folderName: null,
 				folderPath: null,
 			});
 
@@ -198,10 +198,6 @@ dashboard.get("/authenticate", function (req, res, next) {
 		res.message(req.baseUrl, "Re-connected to Google Drive");
 	});
 });
-
-const join = require("path").join;
-const { promisify } = require("util");
-const write = promisify(require("../write"));
 
 const setUpBlogFolder = async function (blog, emptyFolder) {
 	try {
@@ -214,6 +210,7 @@ const setUpBlogFolder = async function (blog, emptyFolder) {
 			client.publish(SETUP_CHANNEL({ blog: { id: blog.id } }), message);
 			console.log(clfdate(), "Google Drive Client", message);
 		};
+
 		publish("Establishing connection to Google Drive");
 		const { drive } = await createDriveClient(blog.id);
 
@@ -223,7 +220,6 @@ const setUpBlogFolder = async function (blog, emptyFolder) {
 		};
 
 		await checkWeCanContinue();
-
 		publish("Creating new folder");
 		const folder = await drive.files.create({
 			resource: fileMetadata,
@@ -231,63 +227,15 @@ const setUpBlogFolder = async function (blog, emptyFolder) {
 		});
 
 		const folderId = folder.data.id;
-		const folderName = folder.data.name;
-		const folderPath = "/My Drive/" + folderName;
+		const folderPath = "/My Drive/" + folder.data.name;
 
 		await database.setAccount(blog.id, {
 			folderId: folderId,
-			folderName: folderName,
 			folderPath: folderPath,
 		});
 
-		// We store the sync point before writing files
-		// since the current implementation of client.write
-		// does not use fileIds and is slow. Once it does,
-		// we can do this afterwards.
-		await checkWeCanContinue();
-		publish("Storing sync point for new folder");
-		const db = database.folder(folder.data.id);
-		const { data } = await drive.changes.getStartPageToken({
-			// Whether the user is acknowledging the risk of downloading known malware or other abusive files.
-			// The ID for the file in question.
-			supportsAllDrives: true,
-			includeDeleted: true,
-			includeCorpusRemovals: true,
-			includeItemsFromAllDrives: true,
-		});
-		// Store blog folder
-		await db.set(folder.data.id, "/");
-		// We store this under the account in case
-		// we want to 're-sync' from scratch
-		await database.setAccount(blog.id, {
-			startPageToken: data.startPageToken,
-		});
-		await db.setPageToken(data.startPageToken);
-
 		if (!emptyFolder) {
-			const path = localPath(blog.id, "/");
-			const relative = (fullPath) => fullPath.slice(path.length);
-
-			publish("Looking for files to transfer");
-
-			const walk = async (dir) => {
-				await checkWeCanContinue();
-				const contents = await fs.readdir(dir);
-
-				for (const item of contents) {
-					const path = join(dir, item);
-					const stat = await fs.stat(path);
-					if (stat.isDirectory()) {
-						await walk(path);
-					} else {
-						await checkWeCanContinue();
-						publish("Transferring " + relative(path));
-						await write(blog.id, relative(path), fs.createReadStream(path));
-					}
-				}
-			};
-
-			await walk(path);
+			await verify(blog.id);
 		}
 
 		await checkWeCanContinue();
@@ -310,7 +258,6 @@ const setUpBlogFolder = async function (blog, emptyFolder) {
 			settingUp: null,
 			channel: null,
 			folderId: null,
-			folderName: null,
 			folderPath: null,
 		});
 	}
