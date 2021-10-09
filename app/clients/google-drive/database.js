@@ -4,7 +4,6 @@ const set = promisify(client.set).bind(client);
 const get = promisify(client.get).bind(client);
 const del = promisify(client.del).bind(client);
 const hset = promisify(client.hset).bind(client);
-const hgetall = promisify(client.hgetall).bind(client);
 const hget = promisify(client.hget).bind(client);
 const hdel = promisify(client.hdel).bind(client);
 const hscan = promisify(client.hscan).bind(client);
@@ -14,9 +13,7 @@ const INVALID_ACCOUNT_STRING =
 
 const database = {
   keys: {
-    allAccounts: function () {
-      return "clients:google-drive:all-accounts";
-    },
+    allAccounts: "clients:google-drive:all-accounts",
     account: function (blogID) {
       return "blog:" + blogID + ":google-drive:account";
     },

@@ -189,7 +189,6 @@ dashboard.get("/authenticate", function (req, res, next) {
 			);
 
 		res.message(req.baseUrl, "Re-connected to Google Drive");
-
 		try {
 			await verify(req.blog.id);
 			await setupWebhook(req.blog.id);
@@ -240,9 +239,9 @@ const setUpBlogFolder = async function (blog, emptyFolder) {
 			folderPath: folderPath,
 		});
 
-		if (!emptyFolder) {
-			await verify(blog.id, publish);
-		}
+		await checkWeCanContinue();
+		publish("Ensuring new folder is in sync");
+		await verify(blog.id, publish);
 
 		await checkWeCanContinue();
 		publish("Setting up webhook");
