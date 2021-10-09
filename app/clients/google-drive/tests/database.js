@@ -89,6 +89,16 @@ describe("google drive client: database", function () {
     expect(await get("789")).toEqual("/foo/foo.txt");
   });
 
+  it("you can lookup an ID by path", async function () {
+    const { set, getByPath } = this.db;
+    await set("123", "/bar (1).txt");
+    await set("789", "/bar/foo.txt");
+
+    expect(await getByPath("/bar (1).txt")).toEqual("123");
+    expect(await getByPath("/bar/foo.txt")).toEqual("789");
+    expect(await getByPath("/bar")).toEqual(null);
+  });
+
   it("del wont clobber a similar file", async function () {
     const { set, remove, get } = this.db;
     await set("123", "/bar (1).txt");

@@ -114,6 +114,22 @@ const database = {
       return await hget(this.key, id);
     };
 
+    this.getByPath = async (path) => {
+      const START_CURSOR = "0";
+      let cursor = START_CURSOR;
+      let fileId, results;
+
+      const match = (el, index) =>
+        index % 2 === 0 && results[index + 1] === path;
+
+      do {
+        [cursor, results] = await hscan(this.key, cursor);
+        fileId = results.find(match);
+      } while (!fileId && cursor !== START_CURSOR);
+
+      return fileId || null;
+    };
+
     this.move = async (id, to) => {
       const START_CURSOR = "0";
       const from = await this.get(id);
