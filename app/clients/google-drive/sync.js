@@ -10,7 +10,7 @@ const createDriveClient = require("./util/createDriveClient");
 const determinePathToFolder = require("./util/determinePathToFolder");
 const establishSyncLock = require("./util/establishSyncLock");
 
-const RETRY_INTERVALS = [50, 500, 5000];
+const RETRY_INTERVALS = [50, 500, 3000, 5000];
 
 module.exports = async function (blogID, options, callback) {
   let done, folder;
