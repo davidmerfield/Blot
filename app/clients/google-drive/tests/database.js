@@ -69,11 +69,44 @@ describe("google drive client: database", function () {
     expect(await get("456")).toEqual(null);
   });
 
+  it("remove returns a list of dropped paths", async function () {
+    const { set, remove } = this.db;
+
+    await set("0", "/");
+    await set("1", "/bar.txt");
+    await set("2", "/foo.txt");
+
+    await set("3", "/foo");
+    await set("4", "/foo/too.txt");
+
+    expect((await remove("3")).sort()).toEqual(["/foo", "/foo/too.txt"]);
+    expect((await remove("0")).sort()).toEqual(["/", "/bar.txt", "/foo.txt"]);
+  });
+
   it("move handles a single file", async function () {
     const { set, move, get } = this.db;
     await set("123", "/bar.txt");
     await move("123", "/baz.txt");
     expect(await get("123")).toEqual("/baz.txt");
+  });
+
+  it("move returns a list of affected paths", async function () {
+    const { set, move } = this.db;
+    await set("1", "/bar.txt");
+    await set("2", "/bar");
+    await set("3", "/bar/foo.txt");
+
+    expect((await move("1", "/baz.txt")).sort()).toEqual([
+      "/bar.txt",
+      "/baz.txt",
+    ]);
+
+    expect((await move("2", "/baz")).sort()).toEqual([
+      "/bar",
+      "/bar/foo.txt",
+      "/baz",
+      "/baz/foo.txt",
+    ]);
   });
 
   it("move wont clobber a similar file", async function () {

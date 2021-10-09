@@ -131,6 +131,8 @@ const database = {
       const START_CURSOR = "0";
       const from = await this.get(id);
 
+      let movedPaths = [];
+
       if (from === "/" || to === "/")
         throw new Error("Attempt to move to/from root");
 
@@ -146,6 +148,8 @@ const database = {
                 ? to + path.slice(from.length)
                 : path;
             if (path === modifiedPath) return null;
+            movedPaths.push(path);
+            movedPaths.push(modifiedPath);
             return { id: el, path: modifiedPath };
           })
           .filter((i) => !!i);
@@ -154,13 +158,17 @@ const database = {
 
         [cursor, results] = await hscan(this.key, cursor);
       } while (cursor !== START_CURSOR);
+
+      return movedPaths;
     };
 
     this.remove = async (id) => {
       const START_CURSOR = "0";
       const from = await this.get(id);
 
-      if (from === "/") return await del(this.key);
+      if (from === null || from === undefined) return [];
+
+      let removedPaths = [];
 
       let [cursor, results] = await hscan(this.key, START_CURSOR);
 
@@ -168,16 +176,34 @@ const database = {
         const ids = results
           .map((el, i) => {
             if (i % 2 !== 0) return null;
+
             const path = results[i + 1];
-            if (path !== from && path.indexOf(from + "/") !== 0) return null;
-            return el;
+
+            if (path === from) {
+              removedPaths.push(path);
+              return el;
+            }
+
+            if (from === "/") {
+              removedPaths.push(path);
+              return el;
+            }
+
+            if (path.indexOf(from + "/") === 0) {
+              removedPaths.push(path);
+              return el;
+            }
+
+            return null;
           })
-          .filter((i) => !!i);
+          .filter((i) => i !== null);
 
         await hdel(this.key, ids);
 
         [cursor, results] = await hscan(this.key, cursor);
       } while (cursor !== START_CURSOR);
+
+      return removedPaths;
     };
 
     this.reset = async () => {

@@ -92,18 +92,19 @@ module.exports = async function (blogID, options, callback) {
           await database.setAccount(blogID, { folderPath });
         } else if (trashed && storedPathForId) {
           console.log(prefix(), "DELETE", storedPathForId);
-          await db.remove(id);
+          const removedPaths = await db.remove(id);
+          removedPaths.forEach((removedPath) =>
+            pathsToUpdate.push(removedPath)
+          );
           await fs.remove(localPath(blogID, storedPathForId));
-          pathsToUpdate.push(storedPathForId);
         } else if (path && storedPathForId && path !== storedPathForId) {
           console.log(prefix(), "  MOVE", storedPathForId, "to", path);
-          await db.move(id, path);
+          const movedPaths = await db.move(id, path);
+          movedPaths.forEach((movedPath) => pathsToUpdate.push(movedPath));
           await fs.move(
             localPath(blogID, storedPathForId),
             localPath(blogID, path)
           );
-          pathsToUpdate.push(storedPathForId);
-          pathsToUpdate.push(path);
         } else if (path && !storedPathForId && !trashed) {
           console.log(prefix(), "CREATE", path);
           await db.set(id, path);
