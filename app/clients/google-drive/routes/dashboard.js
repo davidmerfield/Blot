@@ -72,7 +72,13 @@ dashboard
 	})
 	.post(async function (req, res) {
 		await database.setAccount(req.blog.id, { settingUp: true });
-		setUpBlogFolder(req.blog, res.locals.emptyFolder);
+
+		if (res.locals.emptyFolder) {
+			await setUpBlogFolder(req.blog, res.locals.emptyFolder);
+		} else {
+			setUpBlogFolder(req.blog, res.locals.emptyFolder);
+		}
+
 		res.redirect(req.baseUrl + "/set-up-folder");
 	});
 
