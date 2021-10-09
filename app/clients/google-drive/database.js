@@ -4,7 +4,6 @@ const set = promisify(client.set).bind(client);
 const get = promisify(client.get).bind(client);
 const del = promisify(client.del).bind(client);
 const hset = promisify(client.hset).bind(client);
-const hgetall = promisify(client.hgetall).bind(client);
 const hget = promisify(client.hget).bind(client);
 const hdel = promisify(client.hdel).bind(client);
 const hscan = promisify(client.hscan).bind(client);
@@ -14,9 +13,7 @@ const INVALID_ACCOUNT_STRING =
 
 const database = {
   keys: {
-    allAccounts: function () {
-      return "clients:google-drive:all-accounts";
-    },
+    allAccounts: "clients:google-drive:all-accounts",
     account: function (blogID) {
       return "blog:" + blogID + ":google-drive:account";
     },
@@ -85,12 +82,20 @@ const database = {
     });
   },
 
-  dropAccount: function (blogID, callback) {    
-    client
-      .multi()
-      .del(this.keys.account(blogID))
-      .srem(this.keys.allAccounts, blogID)
-      .exec(callback);
+  dropAccount: function (blogID, callback) {
+    this.getAccount(blogID, (err, account) => {
+      const multi = client.multi();
+
+      multi.del(this.keys.account(blogID)).srem(this.keys.allAccounts, blogID);
+
+      if (account && account.folderId) {
+        multi
+          .del(this.folder(account.folderId).key)
+          .del(this.folder(account.folderId).tokenKey);
+      }
+
+      multi.exec(callback);
+    });
   },
 
   folder: function (folderId) {
@@ -106,9 +111,27 @@ const database = {
       return await hget(this.key, id);
     };
 
+    this.getByPath = async (path) => {
+      const START_CURSOR = "0";
+      let cursor = START_CURSOR;
+      let fileId, results;
+
+      const match = (el, index) =>
+        index % 2 === 0 && results[index + 1] === path;
+
+      do {
+        [cursor, results] = await hscan(this.key, cursor);
+        fileId = results.find(match);
+      } while (!fileId && cursor !== START_CURSOR);
+
+      return fileId || null;
+    };
+
     this.move = async (id, to) => {
       const START_CURSOR = "0";
       const from = await this.get(id);
+
+      let movedPaths = [];
 
       if (from === "/" || to === "/")
         throw new Error("Attempt to move to/from root");
@@ -125,6 +148,8 @@ const database = {
                 ? to + path.slice(from.length)
                 : path;
             if (path === modifiedPath) return null;
+            movedPaths.push(path);
+            movedPaths.push(modifiedPath);
             return { id: el, path: modifiedPath };
           })
           .filter((i) => !!i);
@@ -133,13 +158,17 @@ const database = {
 
         [cursor, results] = await hscan(this.key, cursor);
       } while (cursor !== START_CURSOR);
+
+      return movedPaths;
     };
 
     this.remove = async (id) => {
       const START_CURSOR = "0";
       const from = await this.get(id);
 
-      if (from === "/") return await del(this.key);
+      if (from === null || from === undefined) return [];
+
+      let removedPaths = [];
 
       let [cursor, results] = await hscan(this.key, START_CURSOR);
 
@@ -147,24 +176,39 @@ const database = {
         const ids = results
           .map((el, i) => {
             if (i % 2 !== 0) return null;
+
             const path = results[i + 1];
-            if (path !== from && path.indexOf(from + "/") !== 0) return null;
-            return el;
+
+            if (path === from) {
+              removedPaths.push(path);
+              return el;
+            }
+
+            if (from === "/") {
+              removedPaths.push(path);
+              return el;
+            }
+
+            if (path.indexOf(from + "/") === 0) {
+              removedPaths.push(path);
+              return el;
+            }
+
+            return null;
           })
-          .filter((i) => !!i);
+          .filter((i) => i !== null);
 
         await hdel(this.key, ids);
 
         [cursor, results] = await hscan(this.key, cursor);
       } while (cursor !== START_CURSOR);
+
+      return removedPaths;
     };
 
-    this.all = async () => {
-      const res = await hgetall(this.key);
-      const paths = Object.keys(res)
-        .map((key) => res[key])
-        .sort();
-      return paths;
+    this.reset = async () => {
+      await del(this.key);
+      await del(this.tokenKey);
     };
 
     this.setPageToken = async (token) => {

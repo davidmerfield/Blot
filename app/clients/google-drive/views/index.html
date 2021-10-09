@@ -17,16 +17,16 @@ Blot cannot connect to your <b>Google Drive</b>. Please re-connect to give Blot 
 
   <div class="line">
     <p>
-      <b>Google Drive</b> {{#folderID}}synchronizes your folder{{/folderID}}{{^folderID}} is connected to your account but you have not set up a folder to synchronize with Blot. Please <a class="link" href="{{{base}}}/set-up-folder">create a folder
-  </a> to sync.{{/folderID}} {{#folderID}}You can
+      <b>Google Drive</b> {{#folderId}}synchronizes your folder{{/folderId}}{{^folderId}} is connected to your account but you have not set up a folder to synchronize with Blot. Please <a class="link" href="{{{base}}}/set-up-folder">create a folder
+  </a> to sync.{{/folderId}} {{#folderId}}You can
       <a class="link" href="/settings/client/switch"
         >switch to a different client</a
       >
-      seamlessly.{{/folderID}}
+      seamlessly.{{/folderId}}
     </p>
   </div>
 
-  {{#folderID}}
+  {{#folderId}}
   <div class="line">
     <span class="label">Location</span>
     <span class="center"> <span style="margin-top:0em;margin-left:-0.25em;display:inline-block;">
@@ -46,14 +46,14 @@ Blot cannot connect to your <b>Google Drive</b>. Please re-connect to give Blot 
 </div>
 
 
-  {{/folderID}}
+  {{/folderId}}
 
-  {{^folderID}}
+  {{^folderId}}
     <a class="line" href="{{{base}}}/set-up-folder">
     <span class="label">Location</span>
     <span class="link">Set up a folder to sync</span>
   </a>
-  {{/folderID}}
+  {{/folderId}}
  <div class="line" >
     <span class="label">Google account</span>
     <span class="center">{{email}}</span>
@@ -71,12 +71,7 @@ Blot cannot connect to your <b>Google Drive</b>. Please re-connect to give Blot 
 {{^account}}
 <div class="inset">
   <p style="margin: 42px 0 20px;">
-    Blot will ask for permission to connect to your <b>Google Drive</b>.
-    You can revoke Blot’s access at any point. Blot will ask for permission to:
-    <ul>
-      <li>See, edit, create, and delete all of your Google Drive files</li>
-      <li>View and add to the activity record of files in your Google Drive. </li>
-    </ul>
+    Blot will ask for permission to connect to your <b>Google Drive</b>. You can revoke Blot’s access at any point. 
   </p>
   <details>
     <summary><em>Can I limit Blot's access to a single folder in my Google Drive?</em></summary>

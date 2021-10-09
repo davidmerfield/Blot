@@ -4,12 +4,13 @@ const clfdate = require("helper/clfdate");
 const localPath = require("helper/localPath");
 const database = require("./database");
 
+const verify = require("./util/verify");
 const download = require("./util/download");
 const createDriveClient = require("./util/createDriveClient");
 const determinePathToFolder = require("./util/determinePathToFolder");
 const establishSyncLock = require("./util/establishSyncLock");
 
-const RETRY_INTERVALS = [100, 1000, 4000];
+const RETRY_INTERVALS = [50, 500, 3000, 5000];
 
 module.exports = async function (blogID, options, callback) {
   let done, folder;
@@ -25,7 +26,7 @@ module.exports = async function (blogID, options, callback) {
 
   try {
     const { drive, account } = await createDriveClient(blogID);
-    const folderId = account.folderID;
+    const folderId = account.folderId;
     const db = database.folder(folderId);
     let retries = 0;
     let pageToken, newStartPageToken, nextPageToken;
@@ -33,16 +34,28 @@ module.exports = async function (blogID, options, callback) {
     if (account.error)
       return done(new Error("Account has error: " + account.error), callback);
 
-    do {
-      pageToken = await db.getPageToken(drive);
-      console.log(prefix(), "Retrieving changes since", pageToken);
+    pageToken = await db.getPageToken();
 
+    if (!pageToken) {
+      console.log(prefix(), "Fetching new pageToken from API");
+      const { data } = await drive.changes.getStartPageToken({
+        supportsAllDrives: true,
+        includeDeleted: true,
+        includeCorpusRemovals: true,
+        includeItemsFromAllDrives: true,
+      });
+      pageToken = data.startPageToken;
+    }
+
+    do {
+      console.log(prefix(), "Retrieving changes since", pageToken);
       const response = await drive.changes.list({
         supportsAllDrives: true,
         includeDeleted: true,
         includeCorpusRemovals: true,
         includeItemsFromAllDrives: true,
         fields: [
+          "nextPageToken",
           "newStartPageToken",
           "changes/file/id",
           "changes/file/name",
@@ -69,9 +82,8 @@ module.exports = async function (blogID, options, callback) {
         if (trashed && id === folderId) {
           await db.remove(id);
           await database.setAccount(blogID, {
-            folderID: "",
+            folderId: "",
             folderPath: "",
-            folderName: "",
             latestActivity: "",
           });
           return done(null, callback);
@@ -80,18 +92,19 @@ module.exports = async function (blogID, options, callback) {
           await database.setAccount(blogID, { folderPath });
         } else if (trashed && storedPathForId) {
           console.log(prefix(), "DELETE", storedPathForId);
-          await db.remove(id);
+          const removedPaths = await db.remove(id);
+          removedPaths.forEach((removedPath) =>
+            pathsToUpdate.push(removedPath)
+          );
           await fs.remove(localPath(blogID, storedPathForId));
-          pathsToUpdate.push(storedPathForId);
         } else if (path && storedPathForId && path !== storedPathForId) {
           console.log(prefix(), "  MOVE", storedPathForId, "to", path);
-          await db.move(id, path);
+          const movedPaths = await db.move(id, path);
+          movedPaths.forEach((movedPath) => pathsToUpdate.push(movedPath));
           await fs.move(
             localPath(blogID, storedPathForId),
             localPath(blogID, path)
           );
-          pathsToUpdate.push(storedPathForId);
-          pathsToUpdate.push(path);
         } else if (path && !storedPathForId && !trashed) {
           console.log(prefix(), "CREATE", path);
           await db.set(id, path);
@@ -119,10 +132,14 @@ module.exports = async function (blogID, options, callback) {
 
       if (newStartPageToken && newStartPageToken !== pageToken) {
         retries = 0;
-        await db.setPageToken(newStartPageToken);
+        pageToken = newStartPageToken;
+        await db.setPageToken(pageToken);
+        console.log(prefix(), "There is new page token");
       } else if (nextPageToken) {
         retries = 0;
-        await db.setPageToken(nextPageToken);
+        pageToken = nextPageToken;
+        await db.setPageToken(pageToken);
+        console.log(prefix(), "There is a NEXT page of changes to fetch");
       } else {
         console.log(prefix(), "Waiting to retry check for changes");
         await new Promise((resolve) =>
@@ -133,13 +150,19 @@ module.exports = async function (blogID, options, callback) {
       }
     } while (
       nextPageToken ||
-      newStartPageToken && pageToken !== newStartPageToken ||
+      (newStartPageToken && pageToken !== newStartPageToken) ||
       retries < RETRY_INTERVALS.length
     );
 
     console.log(prefix(), "All checks complete");
     done(null, callback);
   } catch (err) {
-    return done(err, callback);
+    try {
+      verify(blogID);
+    } catch (e) {
+      return done(e, callback);
+    }
+
+    done(null, callback);
   }
 };

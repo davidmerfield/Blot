@@ -1,57 +1,38 @@
 const createDriveClient = require("./util/createDriveClient");
 const localPath = require("helper/localPath");
+const clfdate = require("helper/clfdate");
 const fs = require("fs-extra");
+const database = require("./database");
 
 module.exports = async function remove(blogID, path, callback) {
+  const prefix = () => clfdate() + " Google Drive:";
   try {
     const { drive, account } = await createDriveClient(blogID);
-    const fileId = await establishFileId(drive, path, account.folderID);
+    const { getByPath } = database.folder(account.folderId);
 
-    console.log("fileId is", fileId);
+    console.log(prefix(), "Looking up fileId for", path);
 
-    // todo determine if file already exists
-    // then do update instead to avoid duping it.
-    if (fileId) await drive.files.delete({ fileId });
+    const fileId = await getByPath(path);
 
-    const pathOnBlot = localPath(blogID, path);
-    await fs.remove(pathOnBlot);
-  } catch (e) {
-    console.log(e);
-    return callback(e);
-  }
-
-  callback(null);
-};
-
-const establishFileId = async (drive, path, blogFolderID) => {
-  if (path[0] !== "/") path = "/" + path;
-
-  console.log(path, "is path");
-
-  const parentDirs = path.split("/").slice(1);
-  console.log(parentDirs, "is parentDirs");
-
-  const walk = async (folderID, parentDirs) => {
-    const dirToCheck = parentDirs.shift();
-
-    const { data } = await drive.files.list({
-      q: `'${folderID}' in parents and trashed = false`,
-    });
-
-    console.log("looking for", dirToCheck, "in", folderID);
-
-    let dirID =
-      data.files.filter((i) => i.name === dirToCheck).length &&
-      data.files.filter((i) => i.name === dirToCheck)[0].id;
-
-    // One of the parent directories of the path does not exist
-    // therefore the file does not exist
-    if (!dirID) {
-      return null;
+    if (fileId) {
+      console.log(prefix(), "Removing", fileId, "from API");
+      await drive.files.delete({ fileId });
+      console.log(prefix(), "Removed", fileId, "from API");
+    } else {
+      console.log(prefix(), "No fileId found in db for", path);
     }
 
-    return parentDirs.length ? walk(dirID, parentDirs) : dirID;
-  };
-
-  return await walk(blogFolderID, parentDirs);
+    // We don't need to update the client database
+    // database.folder.remove(...)
+    // of file IDs because once removed, we'll sync
+    // with google drive after receiving a webhook
+    console.log(prefix(), "Removing", path, "from local folder");
+    const pathOnBlot = localPath(blogID, path);
+    await fs.remove(pathOnBlot);
+    console.log(prefix(), "Removed", path, "from local folder");
+  } catch (e) {
+    console.log(prefix(), "Error removing", path, e);
+    return callback(e);
+  }
+  callback(null);
 };

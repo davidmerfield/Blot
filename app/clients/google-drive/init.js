@@ -32,7 +32,7 @@ const refreshWebhookChannels = async () => {
   console.log(prefix(), "Looking for accounts to renew webhooks ");
   const accounts = await database.allAccounts();
   for (const account of accounts) {
-    if (!account.folderID || !account.channel) continue;
+    if (!account.folderId || !account.channel) continue;
     const tenMinutesFromNow = Date.now() + TEN_MINUTES;
 
     // The channel will expire in more than ten minutes

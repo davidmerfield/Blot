@@ -20,40 +20,45 @@ dashboard.get("/authenticate", function (req, res) {
   res.redirect(url);
 });
 
-dashboard.route("/webhook").post(function (req, res) {
-  const prefix = () => clfdate() + " Google Drive:";
+dashboard
+  .route("/webhook")
+  .get(function (req, res) {
+    res.send("Ok!");
+  })
+  .post(function (req, res) {
+    const prefix = () => clfdate() + " Google Drive:";
 
-  console.log(prefix(), "Received webhook");
+    console.log(prefix(), "Received webhook");
 
-  if (req.headers["x-goog-channel-token"]) {
-    const token = querystring.parse(req.headers["x-goog-channel-token"]);
+    if (req.headers["x-goog-channel-token"]) {
+      const token = querystring.parse(req.headers["x-goog-channel-token"]);
 
-    const signature = hash(
-      token.blogID + req.headers["x-goog-channel-id"] + config.session.secret
-    );
+      const signature = hash(
+        token.blogID + req.headers["x-goog-channel-id"] + config.session.secret
+      );
 
-    if (token.signature !== signature) {
-      return console.error(prefix(), "Webhook has bad signature");
+      if (token.signature !== signature) {
+        return console.error(prefix(), "Webhook has bad signature");
+      }
+
+      console.log(prefix(), "Webhook is valid, starting sync...");
+
+      sync(token.blogID, { fromScratch: false }, function (err) {
+        if (err && err.message.startsWith(LOCK_ERROR)) {
+          console.error(
+            prefix(),
+            "Could not acquire lock on folder",
+            token.blogID
+          );
+        } else if (err) {
+          console.error(prefix(), token.blogID, "Error:", err);
+        } else {
+          console.log(prefix(), "Completed sync without error", token.blogID);
+        }
+      });
     }
 
-    console.log(prefix(), "Webhook is valid, starting sync...");
-
-    sync(token.blogID, { fromScratch: false }, function (err) {
-      if (err && err.message.startsWith(LOCK_ERROR)) {
-        console.error(
-          prefix(),
-          "Could not acquire lock on folder",
-          token.blogID
-        );
-      } else if (err) {
-        console.error(prefix(), token.blogID, "Error:", err);
-      } else {
-        console.log(prefix(), "Completed sync without error", token.blogID);
-      }
-    });
-  }
-
-  res.send("OK");
-});
+    res.send("OK");
+  });
 
 module.exports = dashboard;
