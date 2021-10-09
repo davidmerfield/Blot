@@ -1,9 +1,6 @@
-Finish the test folders for each template 
-
 Ensure each template is good enough for the new film
 
-Can the google drive client handle multiple connected blogs?
-- I suspect we get the no refresh_token error on second blog
+Finish the test folders for each template 
 
 Release a new film showing some of Blot’s more recent features
 – The current video is now many years out of date
@@ -13,6 +10,15 @@ Release a new film showing some of Blot’s more recent features
    - https://archive.org/details/Winter_Sunshine_EP-8201/Evgeny_Grinko_-_01_-_Winter_Sunshine.mp3
 
 ---
+
+Add nice import step under 'Services' and as part of sign up
+- Create importer script for [John's posts from flickr](https://mail.google.com/mail/u/0/#inbox/166da622325d19e7)
+- Create importer script for tumblr text files and tell [Sawyer](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVMhRNdQhfDwlXsqqFNgmKfTk)
+- Create importer script for Weebly and tell [David](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTjzpgHQZMJSsvjktggRFNpDw)
+- Finish Ghost template import for [Kingi](https://mail.google.com/mail/u/1/#inbox/1625fdd572e72c69)
+- Map excerpt metadata to summary for Jekyll converter importer
+- Look into how Hexo has written imports for [blogger](https://github.com/hexojs/hexo-migrator-blogger), [joomla](https://github.com/welksonramos/hexo-migrator-joomla), [rss](https://github.com/hexojs/hexo-migrator-rss), [wordpress](https://github.com/hexojs/hexo-migrator-wordpress).
+- Add importer for Twitter and sell [Sawyer](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVMhRNdQhfDwlXsqqFNgmKfTk)
 
 Add RTF support using Pandoc or [rtf.js](https://github.com/tbluemel/rtf.js)
 
@@ -34,15 +40,6 @@ Resolve issues with git client during a partially-successful sync and tell [V](h
 - If there is a build error with a specific post, show it on the dashboard, e.g. on the file viewer
 - Tell Johannes, Rizwan
 
-Add nice import step under 'Services' and as part of sign up
-- Create importer script for [John's posts from flickr](https://mail.google.com/mail/u/0/#inbox/166da622325d19e7)
-- Create importer script for tumblr text files and tell [Sawyer](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVMhRNdQhfDwlXsqqFNgmKfTk)
-- Create importer script for Weebly and tell [David](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTjzpgHQZMJSsvjktggRFNpDw)
-- Finish Ghost template import for [Kingi](https://mail.google.com/mail/u/1/#inbox/1625fdd572e72c69)
-- Map excerpt metadata to summary for Jekyll converter importer
-- Look into how Hexo has written imports for [blogger](https://github.com/hexojs/hexo-migrator-blogger), [joomla](https://github.com/welksonramos/hexo-migrator-joomla), [rss](https://github.com/hexojs/hexo-migrator-rss), [wordpress](https://github.com/hexojs/hexo-migrator-wordpress).
-- Add importer for Twitter and sell [Sawyer](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVMhRNdQhfDwlXsqqFNgmKfTk)
-
 Improve templates
 - Implement David's aesthetic proposals in the Figma mockups in the Blog template
 - Add syntax highlighting option themes using [this demo as a starting point](https://highlightjs.org/static/demo/)
@@ -56,7 +53,10 @@ Improve templates
 Add AVIF image post support and tell [Simon](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlkFqWwhwwQgrrlwKtctkTgRXx)
 
 Improve Google Drive client:
-
+- Create test app for local use
+- Can the google drive client handle multiple connected blogs?
+  - I suspect we get the no refresh_token error on second blog
+- Can the google drive client handle a server restart during setup?
 - database.folder should throw ENOENT and EEXIST errors for del, set, move etc.
 - How do we handle two files with same name and same parent? How does our fileId:path hash handle this? Make sure we delete the right file. Will file.title as opposed to file.name give us the deduped version?
   - Bug: move file with deduplicated name from sub folder to other folder
