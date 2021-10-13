@@ -1,5 +1,4 @@
 Ensure each template is good enough for the new film
-- Implement David's aesthetic proposals in the Figma mockups in the Blog template
 - Add syntax highlighting option themes using [this demo as a starting point](https://highlightjs.org/static/demo/)
 - Run templates through [lighthouse](https://web.dev/measure/) and [observatory](https://observatory.mozilla.org/)
 - Tell these people about new templates, and to subscribe to newsletter:
