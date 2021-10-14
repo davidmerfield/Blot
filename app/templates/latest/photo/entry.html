@@ -126,13 +126,10 @@ var gallery;
 var items = Array.from(document.querySelectorAll('.post img')).map(function (node) {
   
   node.onclick = function(){
-    gallery.init();
-     gallery.zoomTo(
-        gallery.currItem.fitRatio,
-        { x: gallery.viewportSize.x/2, y: gallery.viewportSize.y/2 },
-    0
-  ) ;
-  }
+gallery.init();
+gallery.zoomTo(2, {
+  x:gallery.viewportSize.x/2,y:gallery.viewportSize.y/2}, 100, false)
+};
 
   const src = node.getAttribute('src');
   const width = parseInt(node.getAttribute('width'));
@@ -147,12 +144,11 @@ var items = Array.from(document.querySelectorAll('.post img')).map(function (nod
 var options = {
     // optionName: 'option value'
     // for example:
-    index: 0 // start at first slide
+    index: 0, // start at first slide
 };
 
 // Initializes and opens PhotoSwipe
  gallery = new PhotoSwipe( pswpElement, PhotoSwipeUI_Default, items, options);
-// gallery.init();
 
 </script>
 {{> footer}}
