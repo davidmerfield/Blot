@@ -7,7 +7,7 @@ The purpose of this module is to ensure that only one process makes changes to a
 // This function lets you acquire a lock on a blog's folder
 // This prevents buggy behaviour when making changes.
 
-sync(blogID, [options], function(err, folder, done){
+sync(blogID, function(err, folder, done){
     
   // if err, you could not acquire lock on folder
 

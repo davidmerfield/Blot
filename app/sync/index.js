@@ -9,12 +9,8 @@ var renames = require("./renames");
 var debug = require("debug")("blot:blog:sync");
 const lockfile = require("proper-lockfile");
 
-function sync(blogID, options, callback) {
-  if (typeof options === "function" && typeof callback === "undefined") {
-    callback = options;
-    options = {};
-  }
-
+function sync(blogID, callback) {
+  
   Blog.get({ id: blogID }, async function (err, blog) {
     // It would be nice to get an error from Blog.get instead of this...
     if (err || !blog || !blog.id || blog.isDisabled) {

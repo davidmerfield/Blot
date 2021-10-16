@@ -9,24 +9,13 @@ var fs = require("fs-extra");
 var async = require("async");
 var Sync = require("sync");
 
-// We ask for a longer TTL (timeout) for the sync lock because sometimes
-// we hit Dropbox's rate limits, which tend to ask for a 5 minute (300s)
-// delay before retrying a request. 30 minutes is requested, which should
-// be plenty of time to sync a large folder.
-var syncOptions = {
-  retryCount: -1,
-  retryDelay: 10,
-  retryJitter: 10,
-  ttl: 30 * 60 * 1000,
-};
-
 module.exports = function main(blog, callback) {
   debug("Blog:", blog.id, "Attempting to acquire lock on the blog folder.");
 
   // Redlock options to ensure we acquire a lock eventually...
   // pershaps we should keep track and only issue a second pending sync
   // to prevent an infinite stack of webhooks.
-  Sync(blog.id, syncOptions, function (err, folder, done) {
+  Sync(blog.id, function (err, folder, done) {
     if (err) return callback(err);
 
     debug("Blog:", blog.id, "Lock acquired successfully. Beginning sync...");

@@ -32,14 +32,13 @@ module.exports = function watch(blogID, folder) {
     }
     // Blot likes leading slashes
     path = "/" + path;
-    var syncOptions = { retryCount: 10, retryDelay: 200, retryJitter: 200 };
     var affectedPaths = [path];
     var pathInFolder = folder + path;
     var pathOnBlot = localPath(blogID, path);
     Folder.get(blogID, function (err, folder) {
       // Check the folder is still connected to a client
       if (!folder) return watcher.close();
-      Sync(blogID, syncOptions, function (err, folder, done) {
+      Sync(blogID, function (err, folder, done) {
         if (err) {
           console.log(
             "Blog",
