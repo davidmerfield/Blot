@@ -29,6 +29,7 @@ function sync(blogID, callback) {
     var log = function () {
       console.log.apply(null, [
         clfdate(),
+        'pid=' + process.pid,
         blogID.slice(0, 12),
         syncID,
         ...arguments,

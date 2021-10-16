@@ -29,6 +29,7 @@ function isTemplate(path) {
 }
 
 function buildAndSet(blog, path, options, callback) {
+  console.log("buildAndSet", path, options);
   build(blog, path, options, function (err, entry) {
     if (err && err.code === "WRONGTYPE")
       return Ignore(blog.id, path, WRONG_TYPE, callback);
@@ -54,6 +55,9 @@ module.exports = function (blog, path, options, callback) {
     callback = options;
     options = {};
   }
+
+  console.log(path, "callback is", callback.toString());
+  console.log(path, "options is", options);
 
   // Blot likes leading slashes
   if (path[0] !== "/") path = "/" + path;
@@ -83,7 +87,9 @@ module.exports = function (blog, path, options, callback) {
     }
 
     async.parallel(queue, function (err) {
-      if (err) return callback(err);
+      if (err) {
+        return callback(err);
+      }
       rebuildDependents(blog.id, path, callback);
     });
   });
