@@ -1,5 +1,7 @@
 Record new demo video for Google Drive client approval
 
+Add introductory guide to forking a template to templates page
+
 Ensure each template is good enough for the new film
 - Add syntax highlighting option themes using [this demo as a starting point](https://highlightjs.org/static/demo/)
 - Run templates through [lighthouse](https://web.dev/measure/) and [observatory](https://observatory.mozilla.org/)
