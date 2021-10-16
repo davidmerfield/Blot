@@ -1,7 +1,7 @@
 var fs = require("fs-extra");
 
-module.exports = function(post, callback) {
-  fs.outputFile(post.path, post.content, function(err) {
+module.exports = function (post, callback) {
+  fs.outputFile(post.path, post.content, function (err) {
     if (err) return callback(err);
 
     // Set the files atime (access time) and mtime (last-modified)
@@ -10,7 +10,7 @@ module.exports = function(post, callback) {
     var atime = Date.now();
     var mtime = post.updated || Date.now();
 
-    fs.utimes(post.path, atime, mtime, function(err) {
+    fs.utimes(post.path, atime, mtime, function (err) {
       if (err) return callback(err);
 
       callback();

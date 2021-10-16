@@ -10,7 +10,7 @@ var downloadImages = require("./downloadImages");
 var handleIncludes = require("./handleIncludes");
 
 if (require.main === module) {
-  main(process.argv[2], process.argv[3], function(err) {
+  main(process.argv[2], process.argv[3], function (err) {
     if (err) throw err;
     console.log("Built!");
     process.exit();
@@ -26,17 +26,17 @@ function main(sourceDirectory, outputDirectory, callback) {
   fs.emptyDirSync(outputDirectory);
 
   klaw(sourceDirectory + "/_posts")
-    .on("data", function(item) {
+    .on("data", function (item) {
       var extname = require("path").extname(item.path);
 
       if (extname == ".md") paths.push(item.path);
     })
-    .on("end", function() {
+    .on("end", function () {
       console.log("ended!", paths);
 
       async.eachSeries(
         paths,
-        function(path, next) {
+        function (path, next) {
           var tasks = [
             loadFile,
             extractContent,
@@ -45,23 +45,23 @@ function main(sourceDirectory, outputDirectory, callback) {
             determinePath,
             fetchAssets,
             downloadImages,
-            handleIncludes
+            handleIncludes,
           ];
 
           function loadFile(callback) {
-            fs.readFile(path, "utf8", function(err, source) {
+            fs.readFile(path, "utf8", function (err, source) {
               var result = {
                 name: require("path").basename(path),
                 warnings: [],
                 sourceDirectory: sourceDirectory,
                 outputDirectory: outputDirectory,
-                source: source
+                source: source,
               };
               callback(err, result);
             });
           }
 
-          async.waterfall(tasks, function(err, result) {
+          async.waterfall(tasks, function (err, result) {
             var output = [];
 
             if (!result) {
@@ -124,7 +124,7 @@ function main(sourceDirectory, outputDirectory, callback) {
             // console.log(result.date.format("YYYY-MM-DD"), name);
           });
         },
-        function(err) {
+        function (err) {
           if (err) return callback(err);
 
           console.log("Warnings:", warnings);

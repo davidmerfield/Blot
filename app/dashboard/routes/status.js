@@ -6,7 +6,7 @@ status.get("/", function (req, res) {
   var blogID = req.blog.id;
   var client = redis.createClient();
 
-  req.socket.setTimeout(2147483647.);
+  req.socket.setTimeout(2147483647);
 
   res.writeHead(200, {
     // This header tells NGINX to NOT
@@ -15,10 +15,9 @@ status.get("/", function (req, res) {
     // A similar problem to the one caused
     // by the compression middleware a few lines down.
     "X-Accel-Buffering": "no",
-
     "Content-Type": "text/event-stream",
     "Cache-Control": "no-cache",
-    Connection: "keep-alive",
+    "Connection": "keep-alive",
   });
 
   res.write("\n");
@@ -41,6 +40,5 @@ status.get("/", function (req, res) {
     client.quit();
   });
 });
-
 
 module.exports = status;

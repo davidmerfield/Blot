@@ -1,7 +1,10 @@
+var makeSlug = require("helper/makeSlug");
 var mustache = require("mustache");
-var DEFAULT = "{{slug}}";
 var moment = require("moment");
+
 require("moment-timezone");
+
+var DEFAULT = "{{slug}}";
 
 // this needs to be pulled directly from the moment library
 // i copied them from the docs.
@@ -65,11 +68,9 @@ var MOMENT_TOKENS = [
   "Z",
   "ZZ",
   "X",
-  "x"
+  "x",
 ];
-var helper = require("helper");
-var normalize = helper.urlNormalizer;
-var makeSlug = helper.makeSlug;
+var normalize = require("helper/urlNormalizer");
 var allow = [
   "slug",
   "name",
@@ -81,7 +82,7 @@ var allow = [
   "dateStamp",
   "created",
   "updated",
-  "metadata"
+  "metadata",
 ];
 
 // modified from here: https://gist.github.com/mathewbyrne/1280286
@@ -101,7 +102,7 @@ function removeDiacritics(str) {
   return str;
 }
 
-module.exports = function(timeZone, format, entry) {
+module.exports = function (timeZone, format, entry) {
   // Add the permalink automatically if the metadata
   // declared a page with no permalink set. We can't
   // do this earlier, since we don't know the slug then
@@ -112,7 +113,7 @@ module.exports = function(timeZone, format, entry) {
 
   try {
     // this is so inefficient
-    MOMENT_TOKENS.forEach(function(token) {
+    MOMENT_TOKENS.forEach(function (token) {
       view[token] = moment
         .utc(entry.dateStamp || entry.updated)
         .tz(timeZone)
@@ -121,7 +122,15 @@ module.exports = function(timeZone, format, entry) {
 
     for (var i in entry) if (allow.indexOf(i) > -1) view[i] = entry[i];
 
-    view.stem = makeSlug(entry.path.slice(0, entry.path.lastIndexOf(".")));
+    // this needs a better name but make sure to update any
+    // existing custom formats for folks...
+    view["path-without-extension"] = entry.path.slice(
+      0,
+      entry.path.lastIndexOf(".")
+    );
+
+    // stem should be path without extension
+    view.stem = makeSlug(view["path-without-extension"]);
 
     // this needs a better name but make sure to update any
     // existing custom formats for folks...
@@ -140,6 +149,7 @@ module.exports = function(timeZone, format, entry) {
 
     permalink = mustache.render(format || DEFAULT, view);
   } catch (e) {
+    console.log(e);
     permalink = "";
   }
 

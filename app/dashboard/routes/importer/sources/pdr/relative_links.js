@@ -1,5 +1,5 @@
-module.exports = function($, url) {
-  $("a").each(function(i, el) {
+module.exports = function ($, url) {
+  $("a").each(function (i, el) {
     var href = $(el).attr("href");
 
     if (href && href.indexOf(url) === 0) {

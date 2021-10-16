@@ -1,9 +1,8 @@
-var helper = require("helper");
-var extend = helper.extend;
+var extend = require("helper/extend");
 var _ = require("lodash");
 
 module.exports = function init(DEFAULT) {
-  return function(req, res, next) {
+  return function (req, res, next) {
     res.locals = res.locals || {};
     res.locals.partials = res.locals.partials || _.cloneDeep(DEFAULT) || {};
 

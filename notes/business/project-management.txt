@@ -1,10 +1,14 @@
 # Project management
 
-I haven't found the need to use much software to manage the daily operation of Blot. We use email heavily, preferring it to chatting applications, and a text-file to record our outstanding tasks.
+## How we organize our work
+
+I haven't found the need to use much *software* to manage the daily operation of Blot. We like email because it is quieter and less hurried than messaging applications. We like working with plain text to manage our tasks and organize our plans because they are easy to track and share.
 
 ## Task tracking
 
-We use a text-file ([todo.txt](https://github.com/davidmerfield/Blot/blob/master/todo.txt)) to keep track of tasks. This text-file is checked into version control. If somebody needs to be notified when a task is complete, I include a link to the appropriate email thread in the task.
+We use a text-file ([todo.txt](https://github.com/davidmerfield/Blot/blob/master/todo.txt)) to keep track of tasks. If somebody needs to be notified when a task is complete, I include a link to the appropriate email thread in the task. This text-file is checked into version control which means we can easily summarize our completed tasks – the [feed of work completed](/news) on Blot's news page is generated automatically from this todo list. 
+
+I've used a variety of complicated tools to track tasks in the past but I still prefer a text-file.
 
 ## Email strategy
 

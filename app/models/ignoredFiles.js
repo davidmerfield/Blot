@@ -1,22 +1,20 @@
-module.exports = (function() {
+module.exports = (function () {
   var redis = require("client"),
-    helper = require("helper"),
-    clfdate = helper.clfdate,
-    normalize = helper.pathNormalizer,
-    ensure = helper.ensure,
+    normalize = require("helper/pathNormalizer"),
+    ensure = require("helper/ensure"),
     REASONS = {
       TOO_LARGE: {
         message: "too large",
-        url: "/help"
+        url: "/help",
       },
       WRONG_TYPE: {
         message: "not a file Blot can process",
-        url: "/help"
+        url: "/help",
       },
       PUBLIC_FILE: {
         message: "a public file",
-        url: "/help"
-      }
+        url: "/help",
+      },
     };
 
   function add(blogID, path, reason, callback) {
@@ -27,20 +25,18 @@ module.exports = (function() {
 
     path = normalize(path);
 
-    redis.hset(ignoredFilesKey(blogID), path, reason, function(err) {
+    redis.hset(ignoredFilesKey(blogID), path, reason, function (err) {
       if (err) throw err;
       callback();
     });
   }
 
   function drop(blogID, path, callback) {
-    ensure(blogID, "string")
-      .and(path, "string")
-      .and(callback, "function");
+    ensure(blogID, "string").and(path, "string").and(callback, "function");
 
     path = normalize(path);
 
-    redis.hdel(ignoredFilesKey(blogID), path, function(err, stat) {
+    redis.hdel(ignoredFilesKey(blogID), path, function (err, stat) {
       if (err) throw err;
 
       callback();
@@ -50,7 +46,7 @@ module.exports = (function() {
   function get(blogID, callback) {
     ensure(blogID, "string").and(callback, "function");
 
-    redis.hgetall(ignoredFilesKey(blogID), function(error, ignoredFiles) {
+    redis.hgetall(ignoredFilesKey(blogID), function (error, ignoredFiles) {
       callback(error, ignoredFiles || {});
     });
   }
@@ -64,7 +60,7 @@ module.exports = (function() {
   function getArray(blogID, callback) {
     ensure(blogID, "string").and(callback, "function");
 
-    get(blogID, function(err, ignoredFiles) {
+    get(blogID, function (err, ignoredFiles) {
       if (err) return callback(err);
 
       var ignoredFileList = [];
@@ -78,7 +74,7 @@ module.exports = (function() {
           ignoredFileList.push({
             path: path.slice(1),
             reason: reason,
-            url: url
+            url: url,
           });
       }
 
@@ -87,9 +83,7 @@ module.exports = (function() {
   }
 
   function getStatus(blogID, path, callback) {
-    ensure(blogID, "string")
-      .and(path, "string")
-      .and(callback, "function");
+    ensure(blogID, "string").and(path, "string").and(callback, "function");
 
     path = normalize(path);
 
@@ -97,13 +91,11 @@ module.exports = (function() {
   }
 
   function isIt(blogID, path, callback) {
-    ensure(blogID, "string")
-      .and(path, "string")
-      .and(callback, "function");
+    ensure(blogID, "string").and(path, "string").and(callback, "function");
 
     path = normalize(path);
 
-    redis.hexists(ignoredFilesKey(blogID), path, function(err, exists) {
+    redis.hexists(ignoredFilesKey(blogID), path, function (err, exists) {
       return callback(err, !!exists);
     });
   }
@@ -119,6 +111,6 @@ module.exports = (function() {
     getArray: getArray,
     getStatus: getStatus,
     isIt: isIt,
-    flush: flush
+    flush: flush,
   };
 })();

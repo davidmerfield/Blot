@@ -1,6 +1,6 @@
 var config = require("config");
 
-module.exports = function(req, res) {
+module.exports = function (req, res) {
   res.locals.layout = "";
   res.locals.protocol = req.protocol;
   res.locals.host = config.host;
@@ -18,7 +18,7 @@ module.exports = function(req, res) {
     "/developers",
     "/contact",
     "/about",
-    "/news"
+    "/news",
   ];
   res.setHeader("Content-Type", "text/xml");
   res.render("sitemap");

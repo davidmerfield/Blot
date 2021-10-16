@@ -6,11 +6,11 @@ var client = require("client");
 var limiter = rateLimit({
   store: new RedisStore({
     prefix: "rate-limit:log-in:",
-    client: client    
+    client: client,
   }),
   windowMs: 60000, // one minute window
   max: 60, // 1 attempt per second
-  onLimitReached
+  onLimitReached,
 });
 
 function onLimitReached(req, res, options) {

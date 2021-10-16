@@ -13,6 +13,10 @@ export BLOT_DIRECTORY=
 export NODE_PATH=$(cd $BLOT_DIRECTORY/app; pwd)  # same as BLOT_DIRECTORY/app, but must be absolute
 export BLOT_CACHE_DIRECTORY=
 
+# During local development we forward requests using
+# localhost.run through a domain we own
+export BLOT_WEBHOOK_FORWARDING_HOST=
+
 # Remove these eventually
 export BLOT_PROTOCOL=https
 
@@ -78,3 +82,7 @@ export BLOT_TWITTER_CONSUMER_KEY=
 export BLOT_TWITTER_CONSUMER_SECRET=
 export BLOT_TWITTER_ACCESS_TOKEN_KEY=
 export BLOT_TWITTER_ACCESS_TOKEN_SECRET=
+
+# Google Drive client for folder syncing
+export BLOT_GOOGLEDRIVE_ID=
+export BLOT_GOOGLEDRIVE_SECRET=

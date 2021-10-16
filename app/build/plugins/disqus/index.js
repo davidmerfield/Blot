@@ -3,6 +3,6 @@ module.exports = {
   category: "external",
   isDefault: false,
   options: {
-    shortname: ""
-  }
+    shortname: "",
+  },
 };

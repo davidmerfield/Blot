@@ -1,4 +1,4 @@
-module.exports = function(content) {
+module.exports = function (content) {
   content = youtube(content);
   content = addVimeo(content);
   content = addOtherVimeo(content);

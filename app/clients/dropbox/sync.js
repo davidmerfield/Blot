@@ -1,6 +1,7 @@
 var debug = require("debug")("blot:clients:dropbox:sync");
+var createClient = require("./util/createClient");
 var Download = require("./util/download");
-var hashFile = require("helper").hashFile;
+var hashFile = require("helper/hashFile");
 var Database = require("./database");
 var join = require("path").join;
 var Delta = require("./delta");
@@ -32,11 +33,20 @@ module.exports = function main(blog, callback) {
     // We need to look up the Dropbox account for this blog
     // to retrieve the access token used to create a new Dropbox
     // client to retrieve changes made to the user's Dropbox.
-    Database.get(blog.id, function (err, account) {
-      if (err) return done(err, callback);
+    createClient(blog.id, function (err, client, account) {
+      if (err) {
+        folder.log("Error creating client", err);
+        return Database.set(
+          blog.id,
+          { error_code: err.status || 400 },
+          function (err) {
+            done(err, callback);
+          }
+        );
+      }
 
       var token = account.access_token;
-      var delta = new Delta(token, account.folder_id);
+      var delta = new Delta(client, account.folder_id);
       var apply = new Apply(token, folder.path, folder.log);
 
       // Delta retrieves changes to the folder on Dropbox for a given

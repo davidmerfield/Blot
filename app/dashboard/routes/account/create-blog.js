@@ -1,16 +1,13 @@
 var Express = require("express");
 var CreateBlog = new Express.Router();
 var Blog = require("blog");
-var helper = require("helper");
-var pretty = helper.prettyPrice;
+var prettyPrice = require("helper/prettyPrice");
 var config = require("config");
-var helper = require("helper");
-var pretty = helper.prettyPrice;
 var request = require("request");
 var config = require("config");
 var stripe = require("stripe")(config.stripe.secret);
 var User = require("user");
-var Email = helper.email;
+var Email = require("helper/email");
 var BAD_CHARGE = "Could not charge your card.";
 var ERR = "Could not change your subscription.";
 
@@ -122,10 +119,10 @@ function calculateFee(req, res, next) {
 
   res.locals.monthly = subscription.plan.interval === "month";
   res.locals.interval = subscription.plan.interval;
-  res.locals.price = pretty(subscription.plan.amount);
-  res.locals.now = pretty(now);
-  res.locals.later = pretty(later);
-  res.locals.individual = pretty(individual);
+  res.locals.price = prettyPrice(subscription.plan.amount);
+  res.locals.now = prettyPrice(now);
+  res.locals.later = prettyPrice(later);
+  res.locals.individual = prettyPrice(individual);
   res.locals.first_blog =
     req.user.blogs.length === 0 && req.user.subscription.quantity === 1;
 
@@ -149,17 +146,6 @@ function validateSubscription(req, res, next) {
   } else {
     next();
   }
-}
-
-var chars = "acemnorsuvwxz".split("");
-var LEN = 8;
-var PREFIX = "untitled";
-
-function uid() {
-  var res = "";
-  while (res.length < LEN)
-    res += chars[Math.floor(Math.random() * chars.length)];
-  return PREFIX + "-" + res;
 }
 
 var chars = "abcdefghijklmnopqrstuvwxyz".split("");

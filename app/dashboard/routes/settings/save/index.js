@@ -4,5 +4,5 @@ module.exports = {
   format: require("./format"),
   removeTmpFiles: require("./removeTmpFiles"),
   parse: require("./parse"),
-  redirects: require("./redirects")
+  redirects: require("./redirects"),
 };

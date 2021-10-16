@@ -1,7 +1,7 @@
 var mime = require("mime");
 
 function render($, callback) {
-  $("a").each(function() {
+  $("a").each(function () {
     try {
       var href = $(this).attr("href");
       var text = $(this).text();
@@ -28,5 +28,5 @@ module.exports = {
   render: render,
   category: "images",
   title: "Images",
-  description: "Embed images from image URLs"
+  description: "Embed images from image URLs",
 };

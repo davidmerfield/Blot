@@ -1,15 +1,6 @@
 Branding
 ========
 
-A few design references:
-
-
-
-## What I'm against
-
-There is a distinct SAAS-aesthetic. I don't like it and I don't want Blot to be associated with it. This aesthetic is infantile – it uses emojis and animated GIFs. It worships Steve Jobs and Walt Disney. It is obsessed with growth.
-
-
 Domains
 -------
 
@@ -19,8 +10,10 @@ blot.im
 blot.is
 blot.my
 
+getblot.com
 useblot.com
 tryblot.com
+
 blotcms.com
 blotplatform.com
 

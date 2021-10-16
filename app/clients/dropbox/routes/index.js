@@ -12,7 +12,7 @@ dashboard = Express.Router();
 dashboard.use(require("./loadDropboxAccount"));
 
 // The settings page for a Dropbox account
-dashboard.get("/", function(req, res) {
+dashboard.get("/", function (req, res) {
   // Ask to user to authenticate with Dropbox if they have not yet
   if (!req.account) {
     var query = "";
@@ -25,7 +25,7 @@ dashboard.get("/", function(req, res) {
 
 // Explains to the user what will happen when they authenticate
 // then provides them with a link to the dropbox redirect
-dashboard.get("/setup", function(req, res) {
+dashboard.get("/setup", function (req, res) {
   res.render(views + "authenticate");
 });
 
@@ -34,7 +34,7 @@ dashboard.get("/redirect", require("./redirect"));
 
 // Explains to the user what happens when they change the
 // permission they grant to Blot per access to their Dropbox
-dashboard.get("/permission", function(req, res) {
+dashboard.get("/permission", function (req, res) {
   res.render(views + "permission");
 });
 
@@ -49,10 +49,10 @@ dashboard
   .get(require("./askToMigrateIfNeeded"))
   .get(require("./createFolder"))
   .get(require("./saveDropboxAccount"))
-  .get(function(req, res, next) {
+  .get(function (req, res, next) {
     res.message(req.baseUrl, "Set up Dropbox successfuly!");
 
-    require("./writeExistingContents")(req, res, function(err) {
+    require("./writeExistingContents")(req, res, function (err) {
       // Headers have been sent at this point, so just log this error
       if (err) console.log("Dropbox authentication error:", err);
 
@@ -67,7 +67,7 @@ dashboard
   // If we encounter some error during
   // the authentication flow, send them
   // back to the setup page where they started
-  .get(function(err, req, res, next) {
+  .get(function (err, req, res, next) {
     res.message(req.baseUrl + "/setup", err);
   });
 
@@ -80,20 +80,20 @@ dashboard
   .route("/migrate")
   .all(require("./checkUnsavedAccount"))
   .all(require("./checkAppFolder"))
-  .get(function(req, res) {
+  .get(function (req, res) {
     res.render(views + "migrate", {
-      otherBlog: req.otherBlogUsingEntireAppFolder
+      otherBlog: req.otherBlogUsingEntireAppFolder,
     });
   })
   .post(require("./moveExistingFiles"))
   .post(require("./createFolder"))
   .post(require("./saveDropboxAccount"))
-  .post(function(req, res, next) {
+  .post(function (req, res, next) {
     res.message("/settings", "Set up Dropbox successfuly!");
 
     // This happens in the background. It would be nice to
     // expose a progress bar in future.
-    require("./writeExistingContents")(req, res, function(err) {
+    require("./writeExistingContents")(req, res, function (err) {
       // Headers have been sent at this point, so just log this error
       if (err) console.log("Dropbox authentication error:", err);
 
@@ -110,10 +110,10 @@ dashboard
 // and revoke the token if needed.
 dashboard
   .route("/disconnect")
-  .get(function(req, res) {
+  .get(function (req, res) {
     res.render(views + "disconnect");
   })
-  .post(function(req, res, next) {
+  .post(function (req, res, next) {
     disconnect(req.blog.id, next);
   });
 

@@ -1,6 +1,6 @@
 var config = require("config");
 var stripe = require("stripe")(config.stripe.secret);
-var helper = require("helper");
+var prettyPrice = require("helper/prettyPrice");
 
 function main(callback) {
   var now = Date.now();
@@ -25,7 +25,7 @@ function main(callback) {
       return stripe.charges.list(options, then);
     }
 
-    charges.forEach(function(charge) {
+    charges.forEach(function (charge) {
       if (charge.refunded || charge.disputed) return;
 
       if (!charge.paid) return;
@@ -40,9 +40,9 @@ function main(callback) {
     });
 
     callback(null, {
-      revenue_in_last_24_hours: helper.prettyPrice(revenue_in_last_24_hours),
-      revenue_in_last_7_days: helper.prettyPrice(revenue_in_last_7_days),
-      revenue_in_last_30_days: helper.prettyPrice(revenue_in_last_30_days)
+      revenue_in_last_24_hours: prettyPrice(revenue_in_last_24_hours),
+      revenue_in_last_7_days: prettyPrice(revenue_in_last_7_days),
+      revenue_in_last_30_days: prettyPrice(revenue_in_last_30_days),
     });
   });
 }

@@ -10,7 +10,7 @@ if (require.main === module) {
   console.log("Source files:", sourceFiles);
   console.log("Output directory:", outputDirectory);
 
-  main(sourceFiles, outputDirectory, function(err) {
+  main(sourceFiles, outputDirectory, function (err) {
     if (err) throw err;
 
     console.log("Finished!");
@@ -23,7 +23,7 @@ function main(sourceFiles, outputDirectory, callback) {
 
   async.eachSeries(
     sourceFiles,
-    function(sourceFile, next) {
+    function (sourceFile, next) {
       var json = fs.readJsonSync(sourceFile);
 
       parse(json, outputDirectory, next);

@@ -1,8 +1,8 @@
-describe("dropbox client", function() {
+describe("dropbox client", function () {
   // Create test user and tmp directory
   require("./setup")();
 
-  xit("syncs a removed file", function(done) {
+  xit("syncs a removed file", function (done) {
     var client = this.client;
     var webhook = this.webhook;
     var path = this.fake.path(".txt");
@@ -15,20 +15,20 @@ describe("dropbox client", function() {
 
     client
       .filesUpload({ path: folder + path, contents: contents })
-      .then(function() {
-        webhook(function(err) {
+      .then(function () {
+        webhook(function (err) {
           if (err) return done.fail(err);
 
-          afterSync(function(err) {
+          afterSync(function (err) {
             if (err) return done.fail(err);
 
             client
               .filesDelete({ path: folder + path })
-              .then(function() {
-                webhook(function(err) {
+              .then(function () {
+                webhook(function (err) {
                   if (err) return done.fail(err);
 
-                  afterSync(function(err) {
+                  afterSync(function (err) {
                     if (err) return done.fail(err);
 
                     expect(
@@ -38,18 +38,18 @@ describe("dropbox client", function() {
                   });
                 });
               })
-              .catch(function(err) {
+              .catch(function (err) {
                 return done.fail(new Error(err.message));
               });
           });
         });
       })
-      .catch(function(err) {
+      .catch(function (err) {
         return done.fail(new Error(err.message));
       });
   });
 
-  xit("syncs a new file", function(done) {
+  xit("syncs a new file", function (done) {
     var client = this.client;
     var webhook = this.webhook;
     var path = this.fake.path(".txt");
@@ -61,11 +61,11 @@ describe("dropbox client", function() {
 
     client
       .filesUpload({ path: this.folder + path, contents: contents })
-      .then(function() {
-        webhook(function(err) {
+      .then(function () {
+        webhook(function (err) {
           if (err) return done.fail(err);
 
-          afterSync(function(err) {
+          afterSync(function (err) {
             if (err) return done.fail(err);
 
             try {
@@ -83,7 +83,8 @@ describe("dropbox client", function() {
           });
         });
       })
-      .catch(function(err) {
+      .catch(function (err) {
+        console.log(err);
         return done.fail(new Error(err.message));
       });
   });

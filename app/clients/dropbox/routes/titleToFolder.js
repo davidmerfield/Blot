@@ -1,8 +1,8 @@
-module.exports = function titleToFolder (title) {
-	let folder = title || "Untitled";
-	
-	folder = folder.split("/").join("");
-	folder = folder.trim();
+module.exports = function titleToFolder(title) {
+  let folder = title || "Untitled";
 
-	return folder;
+  folder = folder.split("/").join("");
+  folder = folder.trim();
+
+  return folder;
 };

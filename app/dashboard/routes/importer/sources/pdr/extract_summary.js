@@ -1,6 +1,3 @@
-module.exports = function($) {
-  return $("p")
-    .first()
-    .text()
-    .trim();
+module.exports = function ($) {
+  return $("p").first().text().trim();
 };

@@ -76,4 +76,4 @@ I then installed it as the fallback certificate
 I added the following as root to /etc/cron.d/renew-cert
 
 # Renews SSL certificate for blot.im
-12 11 10 * * root timeout -k 600 -s 9 3600 AWS_ACCESS_KEY_ID=XXX AWS_SECRET_ACCESS_KEY=XXX /usr/local/bin/acme-nginx --no-reload-nginx --dns-provider route53 -d "*.blot.im" -d "blot.im" >> /var/log/letsencrypt.log 2>&1 || echo "Failed to renew certificate"
+12 11 10 * * root timeout -k 600 -s 9 3600 AWS_ACCESS_KEY_ID=XXX AWS_SECRET_ACCESS_KEY=XXX /usr/local/bin/acme-nginx --dns-provider route53 -d "*.blot.im" -d "blot.im" >> /var/log/letsencrypt.log 2>&1 || echo "Failed to renew certificate"

@@ -4,7 +4,7 @@ var Metadata = require("metadata");
 // we store the case sensitive name of them for use on the
 // dashboard. This is a little redundant but oh well. Git
 // does not care about empty directories...
-module.exports = function(blogID, path, options, callback) {
+module.exports = function (blogID, path, options, callback) {
   // If there's no case-sensitive name to store then we
   // have literally nothing to do about an empty directory...
   if (options.name) {

@@ -7,7 +7,7 @@ var cache = new Cache(config.cache_directory);
 var moment = require("moment");
 var fs = require("fs-extra");
 const redirector = require("./redirector");
-
+const trace = require('helper/trace');
 const VIEW_DIRECTORY = __dirname + "/views";
 const PARTIAL_DIRECTORY = VIEW_DIRECTORY + "/partials";
 
@@ -98,12 +98,10 @@ brochure.use(
 
 brochure.use(Express.static(VIEW_DIRECTORY, { index: false, redirect: false }));
 
+brochure.use(trace("before routes"));
+
 // Now we actually load the routes for the brochure website.
 brochure.use(require("./routes"));
-
-brochure.use("/publishing", function (req, res) {
-  res.redirect(req.originalUrl.split("/publishing").join("/how"));
-});
 
 // Redirect user to dashboard for these links
 brochure.use(["/account", "/settings"], function (req, res) {
@@ -134,6 +132,8 @@ brochure.use(function (req, res, next) {
 
 // Some kind of other error
 brochure.use(function (err, req, res, next) {
+  // Prevent a linter warning for 'next' above
+  // jshint unused:false
   res.locals.code = { error: true };
 
   if (config.environment === "development") {
@@ -142,7 +142,7 @@ brochure.use(function (err, req, res, next) {
   }
 
   res.status(err.status || 500);
-  res.render("error");
+  res.sendFile(VIEW_DIRECTORY + "/error.html");
 });
 
 module.exports = brochure;

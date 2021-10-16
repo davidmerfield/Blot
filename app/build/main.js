@@ -10,13 +10,10 @@ var DateStamp = require("./prepare/dateStamp");
 var moment = require("moment");
 var converters = require("./converters");
 var exitHook = require("async-exit-hook");
-var clfdate = require("helper").clfdate;
-
-// setTimeout(function(){
-//   throw new Error('EXCEPTION!');
-// }, Math.random() * 20 * 1000);
+var clfdate = require("helper/clfdate");
 
 exitHook(function () {
+  console.log(clfdate(), `Build process pid=${process.pid} exiting...`);
   debug("Shutting down worker:", process.pid);
 });
 

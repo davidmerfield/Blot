@@ -2,7 +2,7 @@ const async = require("async");
 const fs = require("fs-extra");
 const config = require("config");
 const cluster = require("cluster");
-const clfdate = require("helper").clfdate;
+const clfdate = require("helper/clfdate");
 
 if (cluster.isMaster) {
   const NUMBER_OF_CORES = require("os").cpus().length;
@@ -21,6 +21,15 @@ if (cluster.isMaster) {
 
   // Launch scheduler for background tasks, like backups, emails
   scheduler();
+
+  // Run any initialization that clients need
+  // Google Drive will renew any webhooks, e.g.
+  for (const { init, display_name } of Object.values(require("clients"))) {
+    if (init) {
+      console.log(clfdate(), `Initializing ${display_name} client`);
+      init();
+    }
+  }
 
   // Fork workers.
   for (let i = 0; i < NUMBER_OF_WORKERS; i++) {

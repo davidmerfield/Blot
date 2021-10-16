@@ -1,12 +1,12 @@
 var eachEntry = require("../each/entry");
-var parseDate = require("helper").parseDate;
+var parseDate = require("helper/parseDate");
 var dateStamp = require("build/prepare/dateStamp");
 var moment = require("moment");
-var fs = require('fs-extra');
+var fs = require("fs-extra");
 var supportedMetadataFormats = {};
 
 eachEntry(
-  function(user, blog, entry, next) {
+  function (user, blog, entry, next) {
     if (!entry.metadata.date) return next();
 
     try {
@@ -36,11 +36,12 @@ eachEntry(
     // console.log(' entry.dateStamp', entry.dateStamp, new Date(entry.dateStamp));
     // console.log(' entry.dateStamp === adjustedParsedDateStamp', entry.dateStamp === adjustedParsedDateStamp);
 
-    supportedMetadataFormats[blog.dateFormat][entry.metadata.date] = entry.dateStamp;
+    supportedMetadataFormats[blog.dateFormat][entry.metadata.date] =
+      entry.dateStamp;
     console.log(entry.metadata.date);
     next();
   },
-  function(err) {
+  function (err) {
     fs.outputJsonSync(__dirname + "/res.json", supportedMetadataFormats);
     console.log("Done!");
     process.exit();

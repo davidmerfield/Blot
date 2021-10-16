@@ -1,6 +1,9 @@
 
 
-label[for="toggle"] {display: none;cursor: pointer;position: absolute;top: 1.5rem;right: 1.5rem}
+label[for="toggle"] {
+  border:1px solid rgba(0,0,0,0.05);
+  border-radius: 18px;
+  display: none;cursor: pointer;position: absolute;top: 1rem;right: 1rem}
 
 input[name="toggle"] {
   display: none;
@@ -13,11 +16,12 @@ input[name="toggle"] {
    label[for="toggle"] {display: block;}
    label[for="toggle"] svg {width: 40px;height: 40px}
   
-  #toggle:not(:checked) ~ label #hider {display: none;}
-  #toggle:checked ~ label #shower {display: none;}
-  #toggle:checked ~ .sidebar {display: block;}
+  #toggle:not(:checked) ~ .doc-wrapper label #hider {display: none;}
+  #toggle:checked ~ .doc-wrapper  label #shower {display: none;}
+  #toggle:checked ~ .doc-wrapper .sidebar {display: block;position: absolute;
+    top: 4rem;left: 0;right: 0;bottom: 0}
 
-
+#toggle:checked ~ .doc-wrapper .yiel, #toggle:checked ~ .footer {display: none;}
 }
   
 
@@ -26,23 +30,7 @@ input[name="toggle"] {
   display: block;
 }
 
-.sidebar  a:before {
-  content: "";
-  display: none;
-  position: absolute;
-  top: 50%;
-  left: 8px;
-  margin-top: -4px;
-  border:1px solid rgba(0,0,0,0.2);
-  width: 2px;
-  height: 2px;
-  border-radius: 100%;
-}
-.sidebar a.selected:before,
-.sidebar a:focus:before,
-.sidebar a:active:before {
-  background: rgba(0,0,0,0.2);
-}
+
 .sidebar {
   margin: 0;
   list-style: none;
@@ -59,14 +47,16 @@ input[name="toggle"] {
 
 
 
-.sidebar a.selected,
 .sidebar a:active,
-.sidebar a:focus {
+.sidebar a:focus,
+.top-level a:active,
+.top-level a:focus {
   color: grey;
   /*font-weight: 600*/
 }
 
-.sidebar a:active {opacity: 0.5}
+.sidebar a:active,
+.top-level a:active {opacity: 0.5}
 
 nav {
   display: initial;
@@ -85,7 +75,7 @@ nav a {
   transition: color 0.1s ease-out;
 }
 
-nav a:hover {
+/*nav a:hover {
   color: grey;
 }
 
@@ -93,6 +83,10 @@ nav a:active,
 nav a:focus,
 nav a.selected:hover {
   color: grey;
+}*/
+
+.sidebar a:hover, .sidebar a.selected, .top-level a:hover {
+  color: var(--accent-color);
 }
 
 .sidebar li ul {
@@ -110,17 +104,22 @@ nav a.selected:hover {
 }
 
 .sidebar a {
-    padding-left: 16px;
+    /*padding-left: 16px;*/
 
 }
 .sidebar > li >  a {
 /*  background: rgba(0,0,0,0.02);
 */  border-bottom: 1px solid rgba(0,0,0,.05);
-  padding-top: 6px;
-    padding-bottom: 6px;
+  padding-top: 0.4rem;
+  color: #666;
+    padding-bottom: 0.4rem;
 
 }
 
+.sidebar li ul a {
+  padding-top: 3px;
+  padding-bottom: 3px;
+}
 .sidebar > li:last-of-type > a {
   border-bottom: none;
 }
@@ -157,9 +156,10 @@ nav a.selected:hover {
  {
     max-height: 300px;
     transition: max-height 0.2s ease-out;
-    border-top: 1px solid white;
     border-bottom: 1px solid var(--light-border-color);
     margin-top: -1px;
+    padding-bottom: 10px;
+    padding-top: 10px;
     position: relative;
 }
 
@@ -196,7 +196,9 @@ nav a.selected:hover {
   border-color: rgba(0,0,0,0.6);
 }
 
-
+.on-this-page {
+  margin-left: 2.2rem
+}
 .on-this-page ul {
   list-style: none;
   padding: 0;
@@ -219,19 +221,50 @@ nav a.selected:hover {
   border-left: 1px solid var(--light-border-color);
 }
 
-.on-this-page ul li:before {
+.on-this-page ul li a,
+.sidebar li a,
+.top-level a {position: relative;}
+
+
+.on-this-page ul li a:before,
+.sidebar li a:before,
+.top-level a:before {
   content: " ";
-  font-size: 0.333em;
-  width: 1em;
-  height: 1em;
+  width: 3px;
+  height: 3px;
   border-radius: 1em;
   background: #fff;
   border: 1px solid rgba(0,0,0,0.1);
   position: absolute;
-  top: 5px;
+  top: 50%;
+  margin-top: -3px;
   left: -4px;
 }
 
+.on-this-page ul li a:before {
+  left: -19px
+}
+
+.on-this-page ul .selected a {
+  color: var(--accent-color);
+}
+
+.on-this-page .selected a:before {
+  background: var(--accent-color);
+}
+
+.sidebar li a:before,
+.top-level a:before {
+right: 0;
+left: auto;
+}
+
+.sidebar a.selected:before,
+.sidebar a:hover:before,
+.top-level a:hover:before {
+  background: var(--accent-color);
+  border-color: var(--accent-color);
+}
 .on-this-page ul li.selected:before {
   background: #000
 }

@@ -3,7 +3,7 @@ var MIN_WIDTH = 320;
 var Url = require("url");
 
 function render($, callback) {
-  $("img").each(function() {
+  $("img").each(function () {
     try {
       // Ignore img inside links
       if ($(this).parents("a").length) return;
@@ -41,5 +41,5 @@ module.exports = {
   isDefault: false,
   category: "images",
   title: "Zoomer",
-  description: "Adds a zoom to large images"
+  description: "Adds a zoom to large images",
 };

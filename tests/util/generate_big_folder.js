@@ -2,7 +2,7 @@ var output = process.argv[2];
 var fs = require("fs-extra");
 var join = require("path").join;
 
-module.exports = function() {
+module.exports = function () {
   output = join(__dirname, output);
 
   fs.ensureDirSync(output);
@@ -55,7 +55,7 @@ function randomFolder() {
   var documents = [];
   var len = 1 + Math.floor(Math.random() * 20);
   while (documents.length < len) documents.push(randomDocument());
-  documents.forEach(function(document) {
+  documents.forEach(function (document) {
     fs.outputFileSync(join(output, path, randomWord() + ".txt"), document);
   });
 }

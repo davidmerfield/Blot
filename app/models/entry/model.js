@@ -18,6 +18,8 @@ module.exports = {
   size: "number",
   tags: "array",
   dependencies: "array",
+  backlinks: "array",
+  internalLinks: "array",
   menu: "boolean",
   page: "boolean",
   deleted: "boolean",
@@ -27,5 +29,5 @@ module.exports = {
   dateStamp: "number", // UTC timestamp for resolved date
   created: "number", // UTC timestamp for when the entry was added to Blot
   updated: "number", // UTC timestamp for file mtime
-  metadata: "object"
+  metadata: "object",
 };

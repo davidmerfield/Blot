@@ -1,6 +1,7 @@
 var User = require("user");
 var async = require("async");
-var helper = require("helper");
+var prettyPrice = require("helper/prettyPrice");
+var prettyNumber = require("helper/prettyNumber");
 
 function removeStripeFee(amount) {
   return Math.floor(amount - (amount * 0.029 + 30));
@@ -12,9 +13,9 @@ function main(callback) {
   var total_active_blogs = 0;
   var revenue_billed_monthly = 0;
 
-  User.getAllIds(function(err, uids) {
-    async.map(uids, User.getById, function(err, users) {
-      users.forEach(function(user) {
+  User.getAllIds(function (err, uids) {
+    async.map(uids, User.getById, function (err, users) {
+      users.forEach(function (user) {
         if (user.isDisabled) return;
 
         if (!user.subscription.status) return;
@@ -43,16 +44,16 @@ function main(callback) {
       });
 
       callback(null, {
-        revenue_billed_monthly: helper.prettyPrice(
+        revenue_billed_monthly: prettyPrice(
           Math.floor(revenue_billed_monthly / 100) * 100
         ),
-        annual_recurring_revenue: helper.prettyPrice(
+        annual_recurring_revenue: prettyPrice(
           Math.floor(annual_recurring_revenue / 100) * 100
         ),
-        monthly_recurring_revenue: helper.prettyPrice(
+        monthly_recurring_revenue: prettyPrice(
           Math.floor(Math.floor(annual_recurring_revenue / 12) / 100) * 100
         ),
-        total_active_blogs: helper.prettyNumber(total_active_blogs)
+        total_active_blogs: prettyNumber(total_active_blogs),
       });
     });
   });

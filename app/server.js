@@ -6,7 +6,8 @@ var blog = require("./blog");
 var brochure = require("./brochure");
 var dashboard = require("./dashboard");
 var cdn = require("./cdn");
-var clfdate = require("helper").clfdate;
+var clfdate = require("helper/clfdate");
+var trace = require("helper/trace");
 
 // Welcome to Blot. This is the Express application which listens on port 8080.
 // NGINX listens on port 80 in front of Express app and proxies requests to
@@ -23,37 +24,40 @@ Blot.set("trust proxy", "loopback");
 // Prevent <iframes> embedding pages served by Blot
 Blot.use(helmet.frameguard("allow-from", config.host));
 
+// Log response time in development mode
+Blot.use(trace.init);
+
 Blot.use(function (req, res, next) {
-	var init = Date.now();
+  var init = Date.now();
 
-	try {
-		console.log(
-			clfdate(),
-			req.headers["x-request-id"] && 'REQ=' +req.headers["x-request-id"].slice(0,6),
-			'PID=' +process.pid,
-			req.protocol + "://" + req.hostname + req.originalUrl,
-			req.method
-		);
-	} catch (e) {
-		console.error("Error: Failed to construct canonical log line:", e);
-	}
+  try {
+    console.log(
+      clfdate(),
+      req.headers["x-request-id"] && req.headers["x-request-id"],
+      "PID=" + process.pid,
+      req.protocol + "://" + req.hostname + req.originalUrl,
+      req.method
+    );
+  } catch (e) {
+    console.error("Error: Failed to construct canonical log line:", e);
+  }
 
-	res.on("finish", function () {
-		try {
-			console.log(
-				clfdate(),
-				req.headers["x-request-id"] && 'REQ=' +req.headers["x-request-id"].slice(0,6),
-				'PID=' +process.pid,
-				req.protocol + "://" + req.hostname + req.originalUrl,
-				res.statusCode,
-				((Date.now() - init) / 1000).toFixed(3)
-			);
-		} catch (e) {
-			console.error("Error: Failed to construct canonical log line:", e);
-		}
-	});
+  res.on("finish", function () {
+    try {
+      console.log(
+        clfdate(),
+        req.headers["x-request-id"] && req.headers["x-request-id"],
+        res.statusCode,
+        ((Date.now() - init) / 1000).toFixed(3),
+        "PID=" + process.pid,
+        req.protocol + "://" + req.hostname + req.originalUrl
+      );
+    } catch (e) {
+      console.error("Error: Failed to construct canonical log line:", e);
+    }
+  });
 
-	next();
+  next();
 });
 
 // Blot is composed of four sub applications.
@@ -71,6 +75,12 @@ Blot.use(vhost(config.host, cdn));
 // served by these two applications. The dashboard can
 // only ever be served for request to the host
 Blot.use(vhost(config.host, dashboard));
+// We only really need the public client routes on
+// the webhook host, and those are unauthenticated
+// so TODO seperate the routes from the dashboard
+if (config.webhook_forwarding_host) {
+  Blot.use(vhost(config.webhook_forwarding_host, dashboard));
+}
 
 // The Brochure
 // ------------
@@ -89,7 +99,7 @@ Blot.use(blog);
 // localhost/health to see if it should attempt to restart Blot.
 // If you remove this, change monit.rc too.
 Blot.use("/health", function (req, res) {
-	res.send("OK");
+  res.send("OK");
 });
 
 module.exports = Blot;

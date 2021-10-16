@@ -1,6 +1,5 @@
-var helper = require("helper");
 var User = require("user");
-var Email = helper.email;
+var Email = require("helper/email");
 var format = require("url").format;
 var NOTOKEN = "Could not generate a token";
 var config = require("config");
@@ -16,7 +15,7 @@ module.exports = function checkReset(req, res, next) {
   // if they did not click the reset button
   if (!reset && hasPassword) return next();
 
-  sendPasswordResetEmail(user.uid, function(err) {
+  sendPasswordResetEmail(user.uid, function (err) {
     if (err) return next(err);
 
     res.locals.sent = true;
@@ -28,7 +27,7 @@ module.exports = function checkReset(req, res, next) {
 function sendPasswordResetEmail(uid, callback) {
   var url;
 
-  generateAccessToken(uid, function(err, token) {
+  generateAccessToken(uid, function (err, token) {
     if (err || !token) return callback(err || new Error(NOTOKEN));
 
     // The full one-time log-in link to be sent to the user
@@ -38,8 +37,8 @@ function sendPasswordResetEmail(uid, callback) {
       pathname: "/log-in",
       query: {
         token: token,
-        then: "/account/password/set"
-      }
+        then: "/account/password/set",
+      },
     });
 
     Email.SET_PASSWORD(uid, { url: url }, callback);

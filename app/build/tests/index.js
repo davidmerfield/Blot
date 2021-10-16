@@ -17,6 +17,18 @@ describe("build", function () {
     });
   });
 
+  beforeEach(function () {
+    this.build = async (path, contents) => {
+      return new Promise((resolve, reject) => {
+        fs.outputFileSync(this.blogDirectory + path, contents);
+        require("../index")(this.blog, path, {}, function (err, entry) {
+          if (err) return reject(err);
+          resolve(entry);
+        });
+      });
+    };
+  });
+
   it("handles image URLs with query strings", function (done) {
     // The test server defined above will only respond with an image if
     // the query string is preserved. I was running into an ampersand
@@ -65,6 +77,32 @@ describe("build", function () {
     build(this.blog.id, path, { pathDisplay }, (err, entry) => {
       if (err) return done.fail(err);
       expect(entry.tags).toEqual(["Foo"]);
+      done();
+    });
+  });
+
+  it("includes inline code tags in the summary", function (done) {
+    var path = "/hello.txt";
+    var contents = "# Title\n\nThis `should` appear ```in``` the summary";
+
+    fs.outputFileSync(this.blogDirectory + path, contents);
+
+    build(this.blog, path, {}, function (err, entry) {
+      if (err) return done.fail(err);
+      expect(entry.summary).toEqual("This should appear in the summary");
+      done();
+    });
+  });
+
+  it("excludes block code tags in the summary", function (done) {
+    var path = "/hello.txt";
+    var contents = "# Title\n\n```\nNot in\n```\n\nthe summary";
+
+    fs.outputFileSync(this.blogDirectory + path, contents);
+
+    build(this.blog, path, {}, function (err, entry) {
+      if (err) return done.fail(err);
+      expect(entry.summary).toEqual("the summary");
       done();
     });
   });
@@ -204,5 +242,23 @@ describe("build", function () {
 
       done();
     });
+  });
+
+  it("will generate a list of internal links", async function (done) {
+    const path = "/post.txt";
+    const contents = "[linker](/linked)";
+    const entry = await this.build(path, contents);
+
+    expect(entry.internalLinks).toEqual(["/linked"]);
+    done();
+  });
+
+  it("will generate an empty list of internal links", async function (done) {
+    const path = "/post.txt";
+    const contents = "Hey no link here.";
+    const entry = await this.build(path, contents);
+
+    expect(entry.internalLinks).toEqual([]);
+    done();
   });
 });

@@ -1,15 +1,12 @@
-var helper = require("helper");
-var ensure = helper.ensure;
+var ensure = require("helper/ensure");
 
 var moment = require("moment");
 require("moment-timezone");
 
 var INVALID = "Please enter a valid time zone";
 
-module.exports = function(blogID, timeZone, callback) {
-  ensure(blogID, "string")
-    .and(timeZone, "string")
-    .and(callback, "function");
+module.exports = function (blogID, timeZone, callback) {
+  ensure(blogID, "string").and(timeZone, "string").and(callback, "function");
 
   timeZone = timeZone.trim();
 

@@ -1,10 +1,10 @@
-describe("date from file path", function() {
+describe("date from file path", function () {
   var fromPath = require("../fromPath");
 
   function check(str, date, fileName) {
     it(
       "parses " + str + " as " + date + " with filename " + fileName,
-      function() {
+      function () {
         var res = fromPath(str);
 
         if (date === false) {

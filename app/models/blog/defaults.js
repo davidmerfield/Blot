@@ -8,7 +8,7 @@ module.exports = {
   roundAvatar: false,
   cssURL: "",
   scriptURL: "",
-  template: "SITE:diary",
+  template: "SITE:blog",
   menu: [
     { id: Date.now() + 1 + "", label: "Home", url: "/" },
     { id: Date.now() + 2 + "", label: "Archives", url: "/archives" },
@@ -19,10 +19,9 @@ module.exports = {
   permalink: { format: "{{slug}}", custom: "", isCustom: false },
   timeZone: "UTC",
   dateFormat: "M/D/YYYY",
-  dateDisplay: "MMMM D, Y",
-  hideDates: false,
   forceSSL: true,
   redirectSubdomain: true,
   plugins: defaultPlugins,
   cacheID: 0,
+  flags: { google_drive_beta: false },
 };

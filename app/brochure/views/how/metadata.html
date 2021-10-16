@@ -1,4 +1,5 @@
 <h1>Metadata</h1>
+<h2>How to set the publish date, permalink, tags and other properties of your posts</h2>
 
 <p>The link and date of each post are generated from the contents of the file and the date it was created. You can override this and other <em>metadata</em> as needed.</p>
 
@@ -161,7 +162,7 @@ Tags are case-insensitive and may contain whitespace. Blot picks the case you us
 
 
 <h2>Custom metadata</h2>
-<p>You can also <a href="/templates/developers">define your own metadata</a> for use in your template.</p>
+<p>You can also <a href="/templates/developers/tutorials/custom-metadata">define your own metadata</a> for use in your template.</p>
 
 <h2>Metadata in HTML files</h2>
 <p>You can use a comment at the start of an HTML file to specify metadata.</p>
@@ -177,3 +178,16 @@ The comment containing metadata in an HTML file
 
 </code></pre>
 </div>
+
+
+
+<h2 id="yaml">YAML front matter</h2>
+
+<p>You can also use YAML front matter to declare the metadata for your post. For example:</p>
+  <pre class="text with-chrome" title="Post.txt"><code>---
+Date: {{{date 'MMMM Do, YYYY'}}}
+Link: Apple
+---
+
+Blot is able to extract the metadata from this post too.
+</code></pre>

@@ -1,5 +1,5 @@
-module.exports = function($) {
-  $("img").each(function(i, el) {
+module.exports = function ($) {
+  $("img").each(function (i, el) {
     var html = $.html(el);
 
     if (html.indexOf("=") === -1) return;

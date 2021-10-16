@@ -111,7 +111,9 @@ function generateAvatars(source, destination, callback) {
     async.mapValues(favicons, createFavicon, function (err, favicons) {
       let src = fs
         .readdirSync(destination)
-        .filter((i) => i.endsWith(".jpg") || i.endsWith(".png"))
+        .filter(
+          (i) => i.endsWith(".jpg") || i.endsWith(".jpeg") || i.endsWith(".png")
+        )
         .map((i) => destination + "/" + i);
 
       Spritesmith.run({ src }, function (err, sprite) {
@@ -120,7 +122,7 @@ function generateAvatars(source, destination, callback) {
         fs.outputFileSync(destination + ".png", sprite.image);
 
         imagemin([destination + ".png"], dirname(destination + ".png"), {
-          plugins: [pngquant({ quality: '65', speed: 1, floyd: 1 })],
+          plugins: [pngquant({ quality: "65", speed: 1, floyd: 1 })],
         }).then(function () {
           Object.keys(sprite.coordinates).forEach((path) => {
             let name = path.split("/").pop();

@@ -3,11 +3,11 @@ var thumbnails = require("fs-extra")
   .trim()
   .split("\n");
 
-module.exports = function($) {
+module.exports = function ($) {
   var thumbnail, src;
 
   // Fix bare URLs in footnotes
-  $("img").each(function(i, el) {
+  $("img").each(function (i, el) {
     src = $(el).attr("src");
 
     if (thumbnails.indexOf(src) > -1 && !!thumbnail) {

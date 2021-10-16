@@ -1,0 +1,47 @@
+<div style="background: #000;width: 100%;display: flex;min-height: 100vh;flex-direction: column;justify-content: center;">
+  <div style="background: #fff;margin:0 auto;max-width: 400px;padding: 2rem">
+
+<style type="text/css">
+  button.red,
+  .grey {
+    border: none;
+    color: white;
+    padding: 1rem;
+  }
+
+  button.red {
+    flex-grow: 1;
+    background: red;
+    margin-right: 2rem;
+  }
+
+  .grey {
+    flex-grow: 0.5;
+    background: #ccc;
+    color: #fff;
+  }
+</style>
+<form action="{{{base}}}/share" method="post">
+  {{#template.shareID}}
+  <p>Share your template:</p>
+  <p>{{{shareURL}}}</p>
+  <p>
+    Are you sure you want to unshare this template?
+  </p>
+  <div style="display: flex; margin: 0 1rem;">
+    <button type="submit" style="cursor: pointer;">Unshare</button>
+    <a class="grey" href="{{{base}}}/settings">Cancel</a>
+  </div>
+  {{/template.shareID}}
+  {{^template.shareID}}
+  <p>
+    Are you sure you want to share this template?
+  </p>
+  <div style="display: flex; margin: 0 1rem;">
+    <button type="submit" style="cursor: pointer;">Share</button>
+    <a class="grey" href="{{{base}}}/settings">Cancel</a>
+  </div>  
+  {{/template.shareID}}
+</form>
+</div>
+</div>

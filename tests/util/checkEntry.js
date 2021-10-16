@@ -1,5 +1,6 @@
 var assert = require("assert");
 var colors = require("colors");
+var type = require("helper/type");
 
 function pad(len) {
   var str = "";
@@ -23,15 +24,26 @@ module.exports = function CheckEntry(blogID) {
 
       for (var i in entry) {
         try {
-          assert.deepEqual(
-            entry[i],
-            result[i],
-            i +
-              colors.dim(" [expected] ") +
-              entry[i] +
-              colors.dim("\n" + pad(i.length + 1) + "[returned] ") +
-              result[i]
-          );
+          if (type(entry[i], "function")) {
+            assert.deepEqual(
+              entry[i](result[i]),
+              true,
+              i +
+                colors.dim(" [failed check] ") +
+                colors.dim("\n" + pad(i.length + 1) + "[returned] ") +
+                result[i]
+            );
+          } else {
+            assert.deepEqual(
+              entry[i],
+              result[i],
+              i +
+                colors.dim(" [expected] ") +
+                entry[i] +
+                colors.dim("\n" + pad(i.length + 1) + "[returned] ") +
+                result[i]
+            );
+          }
         } catch (e) {
           message.push(e.message);
         }

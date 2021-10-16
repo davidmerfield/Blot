@@ -1,17 +1,17 @@
 # Threats
 
-There are a number of things that could go wrong. Below are a list of threats to Blot's business that go beyond being merely made irrelevant by a better competitor.
+## A survey of Blot's weaknesses 
 
-## Payment processing issues
+## Payment processing
 
-We use Stripe to process 100% of our payments. If Stripe closed our account we would be without revenue. 
+We use Stripe to process almost every single payment. If Stripe closed Blot's account, or if Stripe itself closed, we would be without revenue immediately.
 
 *Solutions*: 
-- Spread payments across different payment processors. We could run a percentage of our payments through Braintree. 
-- Support other payment methods: PayPal.
-- Support payment methods without an intermediary: cryptocurrency is the best option.
+- Spread payments across different payment processors. We could run a percentage of our payments through Stripe's competitor Braintree. 
+- Support other mediated payment methods: e.g. PayPal.
+- Support payment methods without an intermediary: e.g. cryptocurrencies.
 
-## Hosting provider issues
+## Hosting 
 
 We use AWS to host the site. If AWS decides something runs afoul of their intricate terms of use, we would be in trouble. What would happen? Well Blot is easy to deploy on a linux server. I would probably move to another provider, say Linode. What would break? Sites with A records pointing to Amazon's IP address would no longer resolve. Sites with CNAME records pointing to our hostname (blot.im) would continue to work.
 
@@ -21,15 +21,34 @@ I don't make backups of the data on the system outside AWS. I should really do t
 - Control my own hardware
 - Run my own hardware in my own building
 
+## Cultural issues
+
+We have a policy which means that we allow anything legal on our platform. I suspect that one day, someone will post something that pisses of someone else who's prominent enough to trigger a pile on against our platform.
+
+*Solutions*:
+- Have plans in place for a massive reduction in revenue at any point (i.e. cash reserve)
+
 ## Service provider issues
-
-
 
 ## Legal issues
 
-## Personel issues
+We could get sued by a well-resourced customer, or someone who reads a customer's site.
 
-Blot is still vulnerable if I get hit by a bus. Since the source code is public, it would be possible for those who liked Blot to 
+*Solutions*:
+- Have enough money in place to hire a lawyer that's better than our opponent
+
+
+## Personnel issues
+
+Blot's bus factor is still 1 – if I get hit by a bus the show stops. Since the source code is public, it would be possible for those who liked Blot to keep it going on a different server, but coordinating the switch might be tough.
 
 *Solutions*: 
 - Hire a full-time employee who is capable of running the site without me, write succession protocol
+
+
+## Competitors
+
+Someone could come along and produce a superior product to Blot.
+
+*Solutions*: 
+- Keep working hard on Blot's product

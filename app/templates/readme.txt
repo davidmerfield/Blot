@@ -7,6 +7,17 @@ Picture
 Magazine
 Scrapbook
 
+
+
+Useful fiddles:
+
+Pure css gradually collapsing nav:
+  useful for tag lists on archives page?
+  https://codepen.io/kylegach/pen/RRkpEL
+
+Pure css collapsing hamburger nav:
+  https://jsfiddle.net/ejg2sfoc/5/
+
 Template selection
 - archive - optimized for an archive of photos, links, quotes
   index shows big grid of posts

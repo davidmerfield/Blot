@@ -67,7 +67,7 @@
 
 <div style="padding:11px 20px 0">
 <h1 style="font-size: 22px;font-weight: 700">Template</h1>
-<h2 style="font-size: 14px">Your site can use any of the following templates. You can also develop your own template from scratch.</h2>
+<h2 style="font-size: 14px">Your site can use any of the following templates. You can also <a href="/templates/developers">develop your own</a> template from scratch.</h2>
 <hr>
 </div>
 
@@ -80,7 +80,7 @@
 
   <form method='post' style="display:inline">
     <input type="hidden" name="_csrf" value="{{csrftoken}}">
-    <input type="hidden" name="template" value="SITE:diary">
+    <input type="hidden" name="template" value="SITE:blog">
 <div class="buttons">
             <button type="submit" onclick="this.form.submit();this.disabled=true">Enable your template</button>
             <a href="/settings">Cancel</a>
@@ -137,7 +137,7 @@ flex-basis: 50%;">{{name}}</span>
   <form method='post' style="display:inline">
     <input type="hidden" name="_csrf" value="{{csrftoken}}">
     <input type="hidden" name="template" value="{{id}}">
-    <button {{#checked}} disabled{{/checked}} type="submit"><span class="square">Install{{#checked}}ed{{/checked}}</span></button>
+    <button {{#checked}} disabled{{/checked}} type="submit"><span class="square">Use{{#checked}}d{{/checked}}</span></button>
   </form>
 
   <form method='post' style="display:inline" action="/settings/template/new">
@@ -155,9 +155,8 @@ flex-basis: 50%;">{{name}}</span>
 
 {{/templates}}
 
-  <a class="line" style="color:#365899" href="/settings/template/archived">
-  View all archived templates</a>
-
+  <a class="line" style="color:#365899" href="/settings/template/archive">
+  Template archive</a>
 
 <form method='post'>
   <input type="hidden" name="redirect" value="/settings/template">

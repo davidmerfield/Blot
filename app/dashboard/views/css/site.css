@@ -666,12 +666,12 @@ p.lock:before {
   opacity: 1;
   box-shadow: none;
   border: none;
-  background: #d5d5d5;
+  background-color: #d5d5d5;
   color: #fff;
 }
 
 .button.working {
-  background: #d5d5d5 url("/images/spinner_grey.gif?{{cacheID}}") center right no-repeat;
+  background: #d5d5d5 url("/images/spinner_grey.gif?{{cacheID}}") center right 20px no-repeat;
   background-size: 1.33em;
   padding-right: 2em;
   box-shadow: none;
@@ -1746,8 +1746,8 @@ background-color: #0079fc;
 
 
 .buttons :disabled, .buttons .disabled {
-  background: #f0f0f0;
-  color: #bbb;
+  background-color: #d5d5d5;
+  color: #999;
   box-shadow: none;
 }
 
@@ -1859,7 +1859,7 @@ div.center {}
 .tablet {
   border-radius: 6px;
   padding: 0 9px;
-  line-height: 1.45;
+  line-height: 1.4;
   border: 1px solid;
   margin: 0 3px 0 0;
   display: inline-block;
@@ -1968,13 +1968,15 @@ form.account,
 }
 
 .pageLink {
-  line-height: 35px;
-  height: 37px;
-  text-decoration: none;
-  overflow: hidden;
-  border: 1px solid;
-  margin-left: -1px;
-  padding: 0 8px
+line-height: 48px;
+    height: 48px;
+    text-decoration: none;
+    overflow: hidden;
+    border: 1px solid;
+    margin-left: -1px;
+    padding: 0 8px;
+    display: block;
+    margin-top: 2px;
 }
 
 .lab[type="text"],

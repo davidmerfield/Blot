@@ -1,5 +1,4 @@
-var helper = require("helper");
-var callOnce = helper.callOnce;
+var callOnce = require("helper/callOnce");
 var extname = require("path").extname;
 var async = require("async");
 var fs = require("fs-extra");
@@ -22,7 +21,7 @@ var sharp = require("sharp");
 // or that still needs to be fixed. I should investigate.
 sharp.cache(false);
 
-var thumbnails = require('./config').THUMBNAILS;
+var thumbnails = require("./config").THUMBNAILS;
 
 function main(path, outputDirectory, callback) {
   var read, input, result;
@@ -37,7 +36,7 @@ function main(path, outputDirectory, callback) {
 
   async.eachOf(
     thumbnails,
-    function(options, name, next) {
+    function (options, name, next) {
       // We want to ensure that this will work on case-sensitive
       // file systems so we lowercase it. In the past we used the
       // original filename for the file in the resulting path but
@@ -51,7 +50,7 @@ function main(path, outputDirectory, callback) {
       var fileName = name.toLowerCase() + extension;
       var to = outputDirectory + "/" + fileName;
 
-      transform(input, to, options, function(err, width, height) {
+      transform(input, to, options, function (err, width, height) {
         if (err) return next(err);
 
         result[name] = {
@@ -63,7 +62,7 @@ function main(path, outputDirectory, callback) {
         next();
       });
     },
-    function(err) {
+    function (err) {
       callback(err, result);
     }
   );

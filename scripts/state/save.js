@@ -6,13 +6,12 @@ require("../only_locally");
 
 var fs = require("fs-extra");
 var async = require("async");
-var helper = require("helper");
 var yesno = require("yesno");
 var client = require("client");
 var colors = require("colors");
 var moment = require("moment");
 var config = require("config");
-var ROOT = helper.rootDir;
+var ROOT = require("helper/rootDir");
 
 var ACTIVE_DATABASE_DUMP = ROOT + "/db/dump.rdb";
 var DATA_DIRECTORY = ROOT + "/data";
@@ -106,7 +105,7 @@ function saveDB(directory, callback) {
 
     fs.copySync(ACTIVE_DATABASE_DUMP, directory + "/dump.rdb");
     callback();
-   // require("child_process").exec(
+    // require("child_process").exec(
     //   `pg_dump ${config.postgres.database} > ${directory}/postgres.sql`,
     //   function (err, stdout, stderr) {
     //     if (err) throw err;
@@ -115,7 +114,6 @@ function saveDB(directory, callback) {
     //     callback();
     //   }
     // );
- 
   });
 }
 

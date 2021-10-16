@@ -5,7 +5,7 @@ var MODEL = {
   isDisabled: "boolean",
   lastSession: "string",
   passwordHash: "string",
-  subscription: "object"
+  subscription: "object",
 };
 
 module.exports = MODEL;

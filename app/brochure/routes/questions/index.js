@@ -55,16 +55,18 @@ Questions.get(["/", "/page/:page"], function (req, res, next) {
 
   // Search data
   const search_query = req.query.search; // raw query from form
-  let search_arr = ['%']                 // array for Postgres; initial value is needed for empty search query case
+  let search_arr = ["%"]; // array for Postgres; initial value is needed for empty search query case
   if (search_query) {
     // populate with words from query    add '%' prefix and postfix for Postgres pattern matching
-    search_arr = search_query.split(' ').map(el => '%' + el + '%')
-    res.locals.breadcrumbs[res.locals.breadcrumbs.length-1].label = "Questions about " + search_query.split(/[ ,]+/).join(', ')
+    search_arr = search_query.split(" ").map((el) => "%" + el + "%");
+    res.locals.breadcrumbs[res.locals.breadcrumbs.length - 1].label =
+      "Questions about " + search_query.split(/[ ,]+/).join(", ");
   } else {
-    res.locals.breadcrumbs[res.locals.breadcrumbs.length-1].label = "Questions"
+    res.locals.breadcrumbs[res.locals.breadcrumbs.length - 1].label =
+      "Questions";
   }
 
-  const search_arr_str = JSON.stringify(search_arr).replace(/"/g, "'") // stringify and replace double quotes with single quotes for Postgres
+  const search_arr_str = JSON.stringify(search_arr).replace(/"/g, "'"); // stringify and replace double quotes with single quotes for Postgres
 
   pool
     .query(
@@ -89,7 +91,7 @@ Questions.get(["/", "/page/:page"], function (req, res, next) {
       let paginator = {};
 
       // We preview one line of the topic body on the question index page
-      topics.rows.forEach(function(topic){
+      topics.rows.forEach(function (topic) {
         topic.body = marked(topic.body);
       });
 
@@ -120,7 +122,6 @@ Questions.get(["/", "/page/:page"], function (req, res, next) {
       }
 
       res.render("questions", {
-        title: "Blot — Questions",
         topics: topics.rows,
         paginator: paginator,
         search_query: search_query,
@@ -181,10 +182,23 @@ Questions.route("/:id/edit")
     pool
       .query("SELECT * FROM items WHERE id = $1", [id])
       .then((topics) => {
-        res.locals.breadcrumbs[res.locals.breadcrumbs.length - 2].label =
-          topics.rows[0].title || "Answer";
+        let topic = topics.rows[0];
+
+        if (!topic) return next();
+
+        let penultimateBreadcrumb =
+          res.locals.breadcrumbs[res.locals.breadcrumbs.length - 2];
+
+        // If this is a question or an answer
+        if (topic.is_topic) {
+          penultimateBreadcrumb.label = topic.title;
+        } else {
+          penultimateBreadcrumb.label = "Answer";
+          penultimateBreadcrumb.url = `/questions/${topic.parent_id}`;
+        }
+
         res.render("questions/edit", {
-          topic: topics.rows[0],
+          topic,
           csrf: req.csrfToken(),
         });
       })
@@ -219,7 +233,7 @@ Questions.route("/:id/edit")
       .catch(next);
   });
 
-Questions.route("/:id").get(csrf, function (req, res) {
+Questions.route("/:id").get(csrf, function (req, res, next) {
   res.locals.csrf = req.csrfToken();
   const id = parseInt(req.params.id);
   pool
@@ -232,6 +246,9 @@ Questions.route("/:id").get(csrf, function (req, res) {
         )
         .then((replies) => {
           let topic = topics.rows[0];
+
+          if (!topic) return next();
+
           topic.body = marked(topic.body);
           res.locals.breadcrumbs[res.locals.breadcrumbs.length - 1].label =
             topic.title;
@@ -244,13 +261,9 @@ Questions.route("/:id").get(csrf, function (req, res) {
             topic: topic,
           });
         })
-        .catch((err) => {
-          throw err;
-        });
+        .catch(next);
     })
-    .catch((err) => {
-      throw err;
-    });
+    .catch(next);
 });
 
 module.exports = Questions;

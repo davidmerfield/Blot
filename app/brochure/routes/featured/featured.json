@@ -2,19 +2,19 @@
   {
     "link": "https://zacharykeeting.com",
     "host": "zacharykeeting.com",
-    "color": "#d42633",
+    "color": "#c33f01",
     "name": "Zachary Keeting",
     "firstName": "Zachary",
     "bio": " is an artist based in New Haven, Connecticut",
     "favicon": {
-      "name": "zacharykeeting.com.png",
+      "name": "zacharykeeting.com.jpg",
       "classname": "zacharykeeting-com",
       "coordinates": {
-        "x": 96,
-        "y": 384,
+        "x": 432,
+        "y": 144,
         "width": 48,
         "height": 48,
-        "background_width": 432
+        "background_width": 480
       }
     }
   },
@@ -29,11 +29,11 @@
       "name": "www.souloftheimage.com.jpg",
       "classname": "www-souloftheimage-com",
       "coordinates": {
-        "x": 384,
-        "y": 240,
+        "x": 336,
+        "y": 384,
         "width": 48,
         "height": 48,
-        "background_width": 432
+        "background_width": 480
       }
     }
   },
@@ -48,11 +48,11 @@
       "name": "www.skincarriedaway.com.jpg",
       "classname": "www-skincarriedaway-com",
       "coordinates": {
-        "x": 384,
-        "y": 192,
+        "x": 288,
+        "y": 384,
         "width": 48,
         "height": 48,
-        "background_width": 432
+        "background_width": 480
       }
     }
   },
@@ -67,11 +67,11 @@
       "name": "www.tillmanjex.info.jpg",
       "classname": "www-tillmanjex-info",
       "coordinates": {
-        "x": 384,
-        "y": 336,
+        "x": 432,
+        "y": 0,
         "width": 48,
         "height": 48,
-        "background_width": 432
+        "background_width": 480
       }
     }
   },
@@ -86,18 +86,18 @@
       "name": "blog.andrewjanjigian.com.jpg",
       "classname": "blog-andrewjanjigian-com",
       "coordinates": {
-        "x": 48,
-        "y": 48,
+        "x": 96,
+        "y": 0,
         "width": 48,
         "height": 48,
-        "background_width": 432
+        "background_width": 480
       }
     }
   },
   {
     "link": "https://hannautkin.com",
     "host": "hannautkin.com",
-    "color": "#303555",
+    "color": "#dc1c8e",
     "name": "Hanna Utkin",
     "firstName": "Hanna",
     "bio": " is a filmmaker and producer from New York City",
@@ -106,17 +106,17 @@
       "classname": "hannautkin-com",
       "coordinates": {
         "x": 192,
-        "y": 48,
+        "y": 96,
         "width": 48,
         "height": 48,
-        "background_width": 432
+        "background_width": 480
       }
     }
   },
   {
     "link": "https://keywords.oxus.net",
     "host": "keywords.oxus.net",
-    "color": "#5479bf",
+    "color": "#272e40",
     "name": "Kerim Friedman",
     "firstName": "Kerim",
     "bio": " teaches anthropology in Taiwan",
@@ -125,10 +125,10 @@
       "classname": "keywords-oxus-net",
       "coordinates": {
         "x": 240,
-        "y": 0,
+        "y": 96,
         "width": 48,
         "height": 48,
-        "background_width": 432
+        "background_width": 480
       }
     }
   },
@@ -144,10 +144,10 @@
       "classname": "com-johnbeeler-com",
       "coordinates": {
         "x": 144,
-        "y": 48,
+        "y": 96,
         "width": 48,
         "height": 48,
-        "background_width": 432
+        "background_width": 480
       }
     }
   },
@@ -162,11 +162,11 @@
       "name": "www.inextenso.dev.jpg",
       "classname": "www-inextenso-dev",
       "coordinates": {
-        "x": 48,
-        "y": 336,
+        "x": 384,
+        "y": 96,
         "width": 48,
         "height": 48,
-        "background_width": 432
+        "background_width": 480
       }
     }
   },
@@ -181,18 +181,18 @@
       "name": "www.andrew-bishop.com.jpg",
       "classname": "www-andrew-bishop-com",
       "coordinates": {
-        "x": 336,
-        "y": 48,
+        "x": 144,
+        "y": 336,
         "width": 48,
         "height": 48,
-        "background_width": 432
+        "background_width": 480
       }
     }
   },
   {
     "link": "https://discombobulated.co.nz",
     "host": "discombobulated.co.nz",
-    "color": "#dba14e",
+    "color": "#43424a",
     "name": "Jessica Nickelsen",
     "firstName": "Jessica",
     "bio": " is a writer from New Zealand",
@@ -200,11 +200,11 @@
       "name": "discombobulated.co.nz.jpg",
       "classname": "discombobulated-co-nz",
       "coordinates": {
-        "x": 96,
+        "x": 144,
         "y": 144,
         "width": 48,
         "height": 48,
-        "background_width": 432
+        "background_width": 480
       }
     }
   },
@@ -219,11 +219,11 @@
       "name": "www.rebeccatron.com.jpg",
       "classname": "www-rebeccatron-com",
       "coordinates": {
-        "x": 384,
-        "y": 96,
+        "x": 192,
+        "y": 384,
         "width": 48,
         "height": 48,
-        "background_width": 432
+        "background_width": 480
       }
     }
   },
@@ -239,10 +239,10 @@
       "classname": "blog-aurynn-com",
       "coordinates": {
         "x": 96,
-        "y": 0,
+        "y": 48,
         "width": 48,
         "height": 48,
-        "background_width": 432
+        "background_width": 480
       }
     }
   },
@@ -257,11 +257,11 @@
       "name": "www.alexgibson.nyc.png",
       "classname": "www-alexgibson-nyc",
       "coordinates": {
-        "x": 336,
-        "y": 0,
+        "x": 96,
+        "y": 336,
         "width": 48,
         "height": 48,
-        "background_width": 432
+        "background_width": 480
       }
     }
   },
@@ -276,11 +276,11 @@
       "name": "www.jacobyyoung.com.png",
       "classname": "www-jacobyyoung-com",
       "coordinates": {
-        "x": 192,
-        "y": 336,
+        "x": 384,
+        "y": 240,
         "width": 48,
         "height": 48,
-        "background_width": 432
+        "background_width": 480
       }
     }
   },
@@ -295,11 +295,11 @@
       "name": "john.pavlusoffice.com.jpg",
       "classname": "john-pavlusoffice-com",
       "coordinates": {
-        "x": 144,
+        "x": 192,
         "y": 192,
         "width": 48,
         "height": 48,
-        "background_width": 432
+        "background_width": 480
       }
     }
   },
@@ -314,11 +314,11 @@
       "name": "photos.rachelpietraszek.com.jpg",
       "classname": "photos-rachelpietraszek-com",
       "coordinates": {
-        "x": 240,
-        "y": 240,
+        "x": 288,
+        "y": 144,
         "width": 48,
         "height": 48,
-        "background_width": 432
+        "background_width": 480
       }
     }
   },
@@ -333,11 +333,11 @@
       "name": "iiiiiiiii.in.jpg",
       "classname": "iiiiiiiii-in",
       "coordinates": {
-        "x": 192,
-        "y": 144,
+        "x": 0,
+        "y": 192,
         "width": 48,
         "height": 48,
-        "background_width": 432
+        "background_width": 480
       }
     }
   },
@@ -353,10 +353,10 @@
       "classname": "kiefer-design",
       "coordinates": {
         "x": 240,
-        "y": 48,
+        "y": 144,
         "width": 48,
         "height": 48,
-        "background_width": 432
+        "background_width": 480
       }
     }
   },
@@ -371,11 +371,11 @@
       "name": "www.failuretolerated.com.jpg",
       "classname": "www-failuretolerated-com",
       "coordinates": {
-        "x": 0,
-        "y": 336,
+        "x": 384,
+        "y": 48,
         "width": 48,
         "height": 48,
-        "background_width": 432
+        "background_width": 480
       }
     }
   },
@@ -390,11 +390,11 @@
       "name": "mrfrisby.com.jpg",
       "classname": "mrfrisby-com",
       "coordinates": {
-        "x": 48,
+        "x": 192,
         "y": 240,
         "width": 48,
         "height": 48,
-        "background_width": 432
+        "background_width": 480
       }
     }
   },
@@ -409,11 +409,11 @@
       "name": "www.querlin.com.jpg",
       "classname": "www-querlin-com",
       "coordinates": {
-        "x": 384,
-        "y": 48,
+        "x": 144,
+        "y": 384,
         "width": 48,
         "height": 48,
-        "background_width": 432
+        "background_width": 480
       }
     }
   },
@@ -428,11 +428,11 @@
       "name": "vaughntan.org.jpg",
       "classname": "vaughntan-org",
       "coordinates": {
-        "x": 240,
-        "y": 288,
+        "x": 336,
+        "y": 192,
         "width": 48,
         "height": 48,
-        "background_width": 432
+        "background_width": 480
       }
     }
   },
@@ -447,11 +447,11 @@
       "name": "blog.pixelswithin.com.jpg",
       "classname": "blog-pixelswithin-com",
       "coordinates": {
-        "x": 96,
-        "y": 48,
+        "x": 0,
+        "y": 96,
         "width": 48,
         "height": 48,
-        "background_width": 432
+        "background_width": 480
       }
     }
   },
@@ -466,11 +466,11 @@
       "name": "eli.li.jpg",
       "classname": "eli-li",
       "coordinates": {
-        "x": 144,
-        "y": 144,
+        "x": 192,
+        "y": 0,
         "width": 48,
         "height": 48,
-        "background_width": 432
+        "background_width": 480
       }
     }
   },
@@ -485,18 +485,18 @@
       "name": "rile.yt.png",
       "classname": "rile-yt",
       "coordinates": {
-        "x": 288,
-        "y": 48,
+        "x": 0,
+        "y": 288,
         "width": 48,
         "height": 48,
-        "background_width": 432
+        "background_width": 480
       }
     }
   },
   {
     "link": "https://juicenews.com",
     "host": "juicenews.com",
-    "color": "#98503f",
+    "color": "#bf360c",
     "name": "Jan van Iperen",
     "firstName": "Jan",
     "bio": " analyzes the juice industry",
@@ -504,11 +504,11 @@
       "name": "juicenews.com.jpg",
       "classname": "juicenews-com",
       "coordinates": {
-        "x": 192,
-        "y": 192,
+        "x": 240,
+        "y": 48,
         "width": 48,
         "height": 48,
-        "background_width": 432
+        "background_width": 480
       }
     }
   },
@@ -524,10 +524,10 @@
       "classname": "www-elisamirkil-com",
       "coordinates": {
         "x": 336,
-        "y": 240,
+        "y": 336,
         "width": 48,
         "height": 48,
-        "background_width": 432
+        "background_width": 480
       }
     }
   },
@@ -542,11 +542,11 @@
       "name": "paul.af.jpg",
       "classname": "paul-af",
       "coordinates": {
-        "x": 192,
-        "y": 240,
+        "x": 288,
+        "y": 96,
         "width": 48,
         "height": 48,
-        "background_width": 432
+        "background_width": 480
       }
     }
   },
@@ -561,18 +561,18 @@
       "name": "diary.craigwhite.nyc.jpg",
       "classname": "diary-craigwhite-nyc",
       "coordinates": {
-        "x": 144,
-        "y": 96,
+        "x": 0,
+        "y": 144,
         "width": 48,
         "height": 48,
-        "background_width": 432
+        "background_width": 480
       }
     }
   },
   {
     "link": "https://shashwati.com",
     "host": "shashwati.com",
-    "color": "#c37728",
+    "color": "#914312",
     "name": "Shashwati Talukdar",
     "firstName": "Shashwati",
     "bio": " is an independent filmmaker",
@@ -580,30 +580,11 @@
       "name": "shashwati.com.jpg",
       "classname": "shashwati-com",
       "coordinates": {
-        "x": 288,
-        "y": 144,
+        "x": 96,
+        "y": 288,
         "width": 48,
         "height": 48,
-        "background_width": 432
-      }
-    }
-  },
-  {
-    "link": "https://shawn.medero.net",
-    "host": "shawn.medero.net",
-    "color": "#828282",
-    "name": "Shawn Medero",
-    "firstName": "Shawn",
-    "bio": " is a software engineer based in Claremont",
-    "favicon": {
-      "name": "shawn.medero.net.jpg",
-      "classname": "shawn-medero-net",
-      "coordinates": {
-        "x": 288,
-        "y": 192,
-        "width": 48,
-        "height": 48,
-        "background_width": 432
+        "background_width": 480
       }
     }
   },
@@ -618,11 +599,11 @@
       "name": "mariusmasalar.me.jpg",
       "classname": "mariusmasalar-me",
       "coordinates": {
-        "x": 240,
-        "y": 144,
+        "x": 0,
+        "y": 240,
         "width": 48,
         "height": 48,
-        "background_width": 432
+        "background_width": 480
       }
     }
   },
@@ -637,11 +618,11 @@
       "name": "www.ishshah.me.jpg",
       "classname": "www-ishshah-me",
       "coordinates": {
-        "x": 144,
-        "y": 336,
+        "x": 384,
+        "y": 192,
         "width": 48,
         "height": 48,
-        "background_width": 432
+        "background_width": 480
       }
     }
   },
@@ -656,11 +637,11 @@
       "name": "www.chrbutler.com.jpg",
       "classname": "www-chrbutler-com",
       "coordinates": {
-        "x": 336,
-        "y": 96,
+        "x": 192,
+        "y": 336,
         "width": 48,
         "height": 48,
-        "background_width": 432
+        "background_width": 480
       }
     }
   },
@@ -675,11 +656,11 @@
       "name": "tyler.vc.jpg",
       "classname": "tyler-vc",
       "coordinates": {
-        "x": 192,
-        "y": 288,
+        "x": 336,
+        "y": 144,
         "width": 48,
         "height": 48,
-        "background_width": 432
+        "background_width": 480
       }
     }
   },
@@ -694,11 +675,11 @@
       "name": "benlog.net.jpg",
       "classname": "benlog-net",
       "coordinates": {
-        "x": 0,
+        "x": 48,
         "y": 48,
         "width": 48,
         "height": 48,
-        "background_width": 432
+        "background_width": 480
       }
     }
   },
@@ -713,11 +694,11 @@
       "name": "www.crossingthethreshold.net.jpg",
       "classname": "www-crossingthethreshold-net",
       "coordinates": {
-        "x": 336,
-        "y": 144,
+        "x": 240,
+        "y": 336,
         "width": 48,
         "height": 48,
-        "background_width": 432
+        "background_width": 480
       }
     }
   },
@@ -732,11 +713,11 @@
       "name": "www.inthemargins.ca.jpg",
       "classname": "www-inthemargins-ca",
       "coordinates": {
-        "x": 96,
-        "y": 336,
+        "x": 384,
+        "y": 144,
         "width": 48,
         "height": 48,
-        "background_width": 432
+        "background_width": 480
       }
     }
   },
@@ -755,7 +736,7 @@
         "y": 0,
         "width": 48,
         "height": 48,
-        "background_width": 432
+        "background_width": 480
       }
     }
   },
@@ -770,11 +751,11 @@
       "name": "blog.tomwhite.io.jpg",
       "classname": "blog-tomwhite-io",
       "coordinates": {
-        "x": 48,
+        "x": 96,
         "y": 96,
         "width": 48,
         "height": 48,
-        "background_width": 432
+        "background_width": 480
       }
     }
   },
@@ -789,11 +770,11 @@
       "name": "www.zinzy.website.jpg",
       "classname": "www-zinzy-website",
       "coordinates": {
-        "x": 0,
-        "y": 384,
+        "x": 432,
+        "y": 48,
         "width": 48,
         "height": 48,
-        "background_width": 432
+        "background_width": 480
       }
     }
   },
@@ -808,11 +789,11 @@
       "name": "inhab.it.jpg",
       "classname": "inhab-it",
       "coordinates": {
-        "x": 0,
+        "x": 48,
         "y": 192,
         "width": 48,
         "height": 48,
-        "background_width": 432
+        "background_width": 480
       }
     }
   },
@@ -827,11 +808,11 @@
       "name": "millicent-thomas.com.jpg",
       "classname": "millicent-thomas-com",
       "coordinates": {
-        "x": 0,
+        "x": 144,
         "y": 240,
         "width": 48,
         "height": 48,
-        "background_width": 432
+        "background_width": 480
       }
     }
   },
@@ -846,18 +827,18 @@
       "name": "www.skellis.net.png",
       "classname": "www-skellis-net",
       "coordinates": {
-        "x": 384,
-        "y": 144,
+        "x": 240,
+        "y": 384,
         "width": 48,
         "height": 48,
-        "background_width": 432
+        "background_width": 480
       }
     }
   },
   {
     "link": "https://jeremysarber.com",
     "host": "jeremysarber.com",
-    "color": "#747b96",
+    "color": "#485f27",
     "name": "Jeremy Sarber",
     "firstName": "Jeremy",
     "bio": " is a funeral home chaplain in Nappanee",
@@ -865,11 +846,11 @@
       "name": "jeremysarber.com.jpg",
       "classname": "jeremysarber-com",
       "coordinates": {
-        "x": 48,
+        "x": 96,
         "y": 192,
         "width": 48,
         "height": 48,
-        "background_width": 432
+        "background_width": 480
       }
     }
   },
@@ -885,10 +866,10 @@
       "classname": "ianamurray-work",
       "coordinates": {
         "x": 192,
-        "y": 96,
+        "y": 144,
         "width": 48,
         "height": 48,
-        "background_width": 432
+        "background_width": 480
       }
     }
   },
@@ -903,11 +884,11 @@
       "name": "diegosegura.me.jpg",
       "classname": "diegosegura-me",
       "coordinates": {
-        "x": 0,
+        "x": 48,
         "y": 144,
         "width": 48,
         "height": 48,
-        "background_width": 432
+        "background_width": 480
       }
     }
   },
@@ -922,11 +903,11 @@
       "name": "www.dustinsenos.com.jpg",
       "classname": "www-dustinsenos-com",
       "coordinates": {
-        "x": 336,
-        "y": 192,
+        "x": 288,
+        "y": 336,
         "width": 48,
         "height": 48,
-        "background_width": 432
+        "background_width": 480
       }
     }
   },
@@ -941,11 +922,11 @@
       "name": "theocasciani.page.png",
       "classname": "theocasciani-page",
       "coordinates": {
-        "x": 96,
-        "y": 288,
+        "x": 336,
+        "y": 48,
         "width": 48,
         "height": 48,
-        "background_width": 432
+        "background_width": 480
       }
     }
   },
@@ -960,11 +941,11 @@
       "name": "diklein.com.jpg",
       "classname": "diklein-com",
       "coordinates": {
-        "x": 48,
+        "x": 96,
         "y": 144,
         "width": 48,
         "height": 48,
-        "background_width": 432
+        "background_width": 480
       }
     }
   },
@@ -979,11 +960,11 @@
       "name": "rosiecampbell.me.jpg",
       "classname": "rosiecampbell-me",
       "coordinates": {
-        "x": 288,
-        "y": 96,
+        "x": 48,
+        "y": 288,
         "width": 48,
         "height": 48,
-        "background_width": 432
+        "background_width": 480
       }
     }
   },
@@ -998,18 +979,18 @@
       "name": "www.emilycass.org.jpg",
       "classname": "www-emilycass-org",
       "coordinates": {
-        "x": 336,
-        "y": 288,
+        "x": 384,
+        "y": 0,
         "width": 48,
         "height": 48,
-        "background_width": 432
+        "background_width": 480
       }
     }
   },
   {
     "link": "https://abigailswallow.me",
     "host": "abigailswallow.me",
-    "color": "#c0887f",
+    "color": "#352f2f",
     "name": "Abigail Swallow",
     "firstName": "Abigail",
     "bio": " is a student of social policy and design",
@@ -1021,7 +1002,7 @@
         "y": 0,
         "width": 48,
         "height": 48,
-        "background_width": 432
+        "background_width": 480
       }
     }
   },
@@ -1036,11 +1017,11 @@
       "name": "jessytuddenham.com.jpg",
       "classname": "jessytuddenham-com",
       "coordinates": {
-        "x": 96,
+        "x": 144,
         "y": 192,
         "width": 48,
         "height": 48,
-        "background_width": 432
+        "background_width": 480
       }
     }
   },
@@ -1055,11 +1036,11 @@
       "name": "bnjmnmddn.com.jpg",
       "classname": "bnjmnmddn-com",
       "coordinates": {
-        "x": 96,
-        "y": 96,
+        "x": 144,
+        "y": 0,
         "width": 48,
         "height": 48,
-        "background_width": 432
+        "background_width": 480
       }
     }
   },
@@ -1074,11 +1055,11 @@
       "name": "www.jsoliday.com.jpg",
       "classname": "www-jsoliday-com",
       "coordinates": {
-        "x": 240,
-        "y": 336,
+        "x": 384,
+        "y": 288,
         "width": 48,
         "height": 48,
-        "background_width": 432
+        "background_width": 480
       }
     }
   },
@@ -1093,11 +1074,11 @@
       "name": "www.minnowlikethefish.com.jpg",
       "classname": "www-minnowlikethefish-com",
       "coordinates": {
-        "x": 336,
-        "y": 336,
+        "x": 0,
+        "y": 384,
         "width": 48,
         "height": 48,
-        "background_width": 432
+        "background_width": 480
       }
     }
   },
@@ -1112,11 +1093,11 @@
       "name": "tellyou.today.jpg",
       "classname": "tellyou-today",
       "coordinates": {
-        "x": 0,
+        "x": 288,
         "y": 288,
         "width": 48,
         "height": 48,
-        "background_width": 432
+        "background_width": 480
       }
     }
   },
@@ -1132,10 +1113,10 @@
       "classname": "lara-onl",
       "coordinates": {
         "x": 240,
-        "y": 96,
+        "y": 192,
         "width": 48,
         "height": 48,
-        "background_width": 432
+        "background_width": 480
       }
     }
   },
@@ -1150,11 +1131,11 @@
       "name": "milkypekoe.art.jpg",
       "classname": "milkypekoe-art",
       "coordinates": {
-        "x": 240,
-        "y": 192,
+        "x": 96,
+        "y": 240,
         "width": 48,
         "height": 48,
-        "background_width": 432
+        "background_width": 480
       }
     }
   },
@@ -1169,11 +1150,11 @@
       "name": "xn--gntherwegs-9db.com.jpg",
       "classname": "xn--gntherwegs-9db-com",
       "coordinates": {
-        "x": 48,
-        "y": 384,
+        "x": 432,
+        "y": 96,
         "width": 48,
         "height": 48,
-        "background_width": 432
+        "background_width": 480
       }
     }
   },
@@ -1188,11 +1169,11 @@
       "name": "thejollyteapot.com.jpg",
       "classname": "thejollyteapot-com",
       "coordinates": {
-        "x": 48,
-        "y": 288,
+        "x": 336,
+        "y": 0,
         "width": 48,
         "height": 48,
-        "background_width": 432
+        "background_width": 480
       }
     }
   },
@@ -1207,30 +1188,11 @@
       "name": "timeline.marconoris.com.jpg",
       "classname": "timeline-marconoris-com",
       "coordinates": {
-        "x": 144,
-        "y": 288,
+        "x": 336,
+        "y": 96,
         "width": 48,
         "height": 48,
-        "background_width": 432
-      }
-    }
-  },
-  {
-    "link": "https://fergus.directory",
-    "host": "fergus.directory",
-    "color": "#000000",
-    "name": "Fergus Egan",
-    "firstName": "Fergus",
-    "bio": " is a student of architecture from Australia",
-    "favicon": {
-      "name": "fergus.directory.png",
-      "classname": "fergus-directory",
-      "coordinates": {
-        "x": 192,
-        "y": 0,
-        "width": 48,
-        "height": 48,
-        "background_width": 432
+        "background_width": 480
       }
     }
   },
@@ -1245,11 +1207,11 @@
       "name": "blog.scren.dk.jpg",
       "classname": "blog-scren-dk",
       "coordinates": {
-        "x": 0,
+        "x": 48,
         "y": 96,
         "width": 48,
         "height": 48,
-        "background_width": 432
+        "background_width": 480
       }
     }
   },
@@ -1265,10 +1227,10 @@
       "classname": "brainsister-com",
       "coordinates": {
         "x": 144,
-        "y": 0,
+        "y": 48,
         "width": 48,
         "height": 48,
-        "background_width": 432
+        "background_width": 480
       }
     }
   },
@@ -1283,11 +1245,11 @@
       "name": "nngorok.com.jpg",
       "classname": "nngorok-com",
       "coordinates": {
-        "x": 96,
+        "x": 240,
         "y": 240,
         "width": 48,
         "height": 48,
-        "background_width": 432
+        "background_width": 480
       }
     }
   },
@@ -1303,10 +1265,10 @@
       "classname": "poetry-bencallahan-com",
       "coordinates": {
         "x": 288,
-        "y": 0,
+        "y": 192,
         "width": 48,
         "height": 48,
-        "background_width": 432
+        "background_width": 480
       }
     }
   },
@@ -1321,11 +1283,11 @@
       "name": "www.maxkeith.co.png",
       "classname": "www-maxkeith-co",
       "coordinates": {
-        "x": 288,
+        "x": 384,
         "y": 336,
         "width": 48,
         "height": 48,
-        "background_width": 432
+        "background_width": 480
       }
     }
   },
@@ -1340,18 +1302,18 @@
       "name": "www.aarondowd.com.jpg",
       "classname": "www-aarondowd-com",
       "coordinates": {
-        "x": 288,
-        "y": 288,
+        "x": 0,
+        "y": 336,
         "width": 48,
         "height": 48,
-        "background_width": 432
+        "background_width": 480
       }
     }
   },
   {
     "link": "https://www.thoughtsbyora.com",
     "host": "www.thoughtsbyora.com",
-    "color": "#cd9350",
+    "color": "#d28f00",
     "name": "Uzoamaka Adaora Anyanwu",
     "firstName": "Uzoamaka",
     "bio": " is a writer living in Amsterdam",
@@ -1360,10 +1322,10 @@
       "classname": "www-thoughtsbyora-com",
       "coordinates": {
         "x": 384,
-        "y": 288,
+        "y": 384,
         "width": 48,
         "height": 48,
-        "background_width": 432
+        "background_width": 480
       }
     }
   },
@@ -1378,11 +1340,11 @@
       "name": "spittingdog.net.jpg",
       "classname": "spittingdog-net",
       "coordinates": {
-        "x": 288,
-        "y": 240,
+        "x": 240,
+        "y": 288,
         "width": 48,
         "height": 48,
-        "background_width": 432
+        "background_width": 480
       }
     }
   },
@@ -1397,11 +1359,11 @@
       "name": "nomathontheweekend.co.jpg",
       "classname": "nomathontheweekend-co",
       "coordinates": {
-        "x": 144,
-        "y": 240,
+        "x": 288,
+        "y": 0,
         "width": 48,
         "height": 48,
-        "background_width": 432
+        "background_width": 480
       }
     }
   },
@@ -1416,11 +1378,201 @@
       "name": "www.praveenjayasuriya.com.jpg",
       "classname": "www-praveenjayasuriya-com",
       "coordinates": {
-        "x": 384,
+        "x": 96,
+        "y": 384,
+        "width": 48,
+        "height": 48,
+        "background_width": 480
+      }
+    }
+  },
+  {
+    "link": "https://windhausen.co",
+    "host": "windhausen.co",
+    "color": "#361712",
+    "name": "Sönke Windhausen",
+    "firstName": "Sönke",
+    "bio": " is a student of history and philosophy in Freiburg",
+    "favicon": {
+      "name": "windhausen.co.jpg",
+      "classname": "windhausen-co",
+      "coordinates": {
+        "x": 336,
+        "y": 288,
+        "width": 48,
+        "height": 48,
+        "background_width": 480
+      }
+    }
+  },
+  {
+    "link": "https://anitaposch.com",
+    "host": "anitaposch.com",
+    "color": "#b07246",
+    "name": "Anita Posch",
+    "firstName": "Anita",
+    "bio": " is a writer and podcaster from Austria",
+    "favicon": {
+      "name": "anitaposch.com.png",
+      "classname": "anitaposch-com",
+      "coordinates": {
+        "x": 0,
+        "y": 48,
+        "width": 48,
+        "height": 48,
+        "background_width": 480
+      }
+    }
+  },
+  {
+    "link": "https://reillybrennan.com",
+    "host": "reillybrennan.com",
+    "color": "#d28f00",
+    "name": "Reilly Brennan",
+    "firstName": "Reilly",
+    "bio": " is a venture capital fund partner",
+    "favicon": {
+      "name": "reillybrennan.com.png",
+      "classname": "reillybrennan-com",
+      "coordinates": {
+        "x": 288,
+        "y": 240,
+        "width": 48,
+        "height": 48,
+        "background_width": 480
+      }
+    }
+  },
+  {
+    "link": "https://victoriaclarke.art",
+    "host": "victoriaclarke.art",
+    "color": "#d48a7d",
+    "name": "Victoria Clarke",
+    "firstName": "Victoria",
+    "bio": " is an artist based in London",
+    "favicon": {
+      "name": "victoriaclarke.art.png",
+      "classname": "victoriaclarke-art",
+      "coordinates": {
+        "x": 336,
+        "y": 240,
+        "width": 48,
+        "height": 48,
+        "background_width": 480
+      }
+    }
+  },
+  {
+    "link": "https://www.adamsandell.com",
+    "host": "www.adamsandell.com",
+    "color": "#262626",
+    "name": "Adam Sandell",
+    "firstName": "Adam",
+    "bio": " is a doctor in British Colombia",
+    "favicon": {
+      "name": "www.adamsandell.com.png",
+      "classname": "www-adamsandell-com",
+      "coordinates": {
+        "x": 48,
+        "y": 336,
+        "width": 48,
+        "height": 48,
+        "background_width": 480
+      }
+    }
+  },
+  {
+    "link": "https://sidenote.ridwansanusi.com",
+    "host": "sidenote.ridwansanusi.com",
+    "color": "#eb0003",
+    "name": "Ridwan Sanusi",
+    "firstName": "Ridwan",
+    "bio": " works as an experience designer at Amazon",
+    "favicon": {
+      "name": "sidenote.ridwansanusi.com.jpg",
+      "classname": "sidenote-ridwansanusi-com",
+      "coordinates": {
+        "x": 192,
+        "y": 288,
+        "width": 48,
+        "height": 48,
+        "background_width": 480
+      }
+    }
+  },
+  {
+    "link": "https://max.engineer",
+    "host": "max.engineer",
+    "color": "#241d3c",
+    "name": "Max Chernyak",
+    "firstName": "Max",
+    "bio": " is a software engineer and architect based in New York",
+    "favicon": {
+      "name": "max.engineer.jpg",
+      "classname": "max-engineer",
+      "coordinates": {
+        "x": 48,
+        "y": 240,
+        "width": 48,
+        "height": 48,
+        "background_width": 480
+      }
+    }
+  },
+  {
+    "link": "https://oliviaastawood.com",
+    "host": "oliviaastawood.com",
+    "color": "#f1bd00",
+    "name": "Olivia Wood",
+    "firstName": "Olivia",
+    "bio": " is writer and musician from Los Angeles",
+    "favicon": {
+      "name": "oliviaastawood.com.jpg",
+      "classname": "oliviaastawood-com",
+      "coordinates": {
+        "x": 288,
+        "y": 48,
+        "width": 48,
+        "height": 48,
+        "background_width": 480
+      }
+    }
+  },
+  {
+    "link": "https://jonahfoss.com",
+    "host": "jonahfoss.com",
+    "color": "#387db9",
+    "name": "Jonah Foss",
+    "firstName": "Jonah",
+    "bio": " is a student at the University of Washington",
+    "favicon": {
+      "name": "jonahfoss.com.jpg",
+      "classname": "jonahfoss-com",
+      "coordinates": {
+        "x": 240,
         "y": 0,
         "width": 48,
         "height": 48,
-        "background_width": 432
+        "background_width": 480
+      }
+    }
+  },
+  {
+    "link": "https://www.nitinpai.in",
+    "host": "www.nitinpai.in",
+    "color": "#21732d",
+    "name": "Nitin Pai",
+    "firstName": "Nitin",
+    "bio": " is the director of the Takshashila Institution in Bangalore",
+    "favicon": {
+      "name": "www.nitinpai.in.jpg",
+      "classname": "www-nitinpai-in",
+      "coordinates": {
+        "x": 48,
+        "y": 384,
+        "width": 48,
+        "height": 48,
+        "background_width": 480
       }
     }
   }

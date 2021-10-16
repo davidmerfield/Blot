@@ -52,7 +52,7 @@ cdn
 
   .use("/cdn", function (err, req, res, next) {
     res.status(400).send("400: Bad request");
-  })
+  });
 
 // It might be nice to add a route which can render CSS and JS
 // on a particular template

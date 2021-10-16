@@ -6,5 +6,5 @@ module.exports = {
   remove: require("./remove"),
   write: require("./write"),
   site_routes: require("./routes").site,
-  dashboard_routes: require("./routes").dashboard
+  dashboard_routes: require("./routes").dashboard,
 };

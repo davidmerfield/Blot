@@ -52,7 +52,7 @@ function extractID(href) {
   return id;
 }
 
-module.exports = function(href, callback) {
+module.exports = function (href, callback) {
   var id, width, height, ratio, items, player;
 
   try {
@@ -72,10 +72,10 @@ module.exports = function(href, callback) {
   var options = {
     url: apiURL(id),
     json: true,
-    maxRedirects: 5
+    maxRedirects: 5,
   };
 
-  request(options, function(error, response, body) {
+  request(options, function (error, response, body) {
     try {
       var $ = cheerio.load(body.items[0].player.embedHtml);
 

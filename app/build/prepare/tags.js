@@ -1,6 +1,5 @@
-var helper = require("helper");
-var type = helper.type;
-var ensure = helper.ensure;
+var type = require("helper/type");
+var ensure = require("helper/ensure");
 var _ = require("lodash");
 
 // This is used to turn a file path into
@@ -13,9 +12,7 @@ function extractTags(filePath, initial) {
   var opener = "[";
   var closer = "]";
 
-  ensure(filePath, "string")
-    .and(opener, "string")
-    .and(closer, "string");
+  ensure(filePath, "string").and(opener, "string").and(closer, "string");
 
   var tags = initial || [];
 
