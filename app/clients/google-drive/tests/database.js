@@ -1,5 +1,6 @@
 describe("google drive client: database", function () {
   const database = require("../database");
+  const redisKeys = require("util").promisify(require("helper/redisKeys"));
 
   beforeEach(function () {
     this.db = database.folder(Date.now().toString());
@@ -9,15 +10,22 @@ describe("google drive client: database", function () {
   //   await this.folder.print();
   // });
 
-  it("can store and retrieve account information", function (done) {
-    database.setAccount("123", { foo: "bar" }, function (err) {
-      if (err) throw err;
-      database.getAccount("123", function (err, account) {
-        if (err) throw err;
-        console.log("got account", account);
-        done();
-      });
-    });
+  it("can store and retrieve account information", async function () {
+    await database.setAccount("123", { foo: "bar" });
+    const account = await database.getAccount("123");
+    expect(account).toEqual({ foo: "bar" });
+  });
+
+  it("deletes the folder keys when dropping an account", async function () {
+    const blogId = "blog_" + Date.now().toString();
+    const folderId = "folder_" + Date.now().toString();
+    const fileId = "file_" + Date.now().toString();
+
+    await database.setAccount(blogId, { folderId });
+    const { set } = database.folder(folderId);
+    await set(fileId, "/Hello.txt");
+    await database.dropAccount(blogId);
+    expect(await redisKeys("*" + folderId + "*")).toEqual([]);
   });
 
   it("moves all files in a folder", async function () {
@@ -61,11 +69,44 @@ describe("google drive client: database", function () {
     expect(await get("456")).toEqual(null);
   });
 
+  it("remove returns a list of dropped paths", async function () {
+    const { set, remove } = this.db;
+
+    await set("0", "/");
+    await set("1", "/bar.txt");
+    await set("2", "/foo.txt");
+
+    await set("3", "/foo");
+    await set("4", "/foo/too.txt");
+
+    expect((await remove("3")).sort()).toEqual(["/foo", "/foo/too.txt"]);
+    expect((await remove("0")).sort()).toEqual(["/", "/bar.txt", "/foo.txt"]);
+  });
+
   it("move handles a single file", async function () {
     const { set, move, get } = this.db;
     await set("123", "/bar.txt");
     await move("123", "/baz.txt");
     expect(await get("123")).toEqual("/baz.txt");
+  });
+
+  it("move returns a list of affected paths", async function () {
+    const { set, move } = this.db;
+    await set("1", "/bar.txt");
+    await set("2", "/bar");
+    await set("3", "/bar/foo.txt");
+
+    expect((await move("1", "/baz.txt")).sort()).toEqual([
+      "/bar.txt",
+      "/baz.txt",
+    ]);
+
+    expect((await move("2", "/baz")).sort()).toEqual([
+      "/bar",
+      "/bar/foo.txt",
+      "/baz",
+      "/baz/foo.txt",
+    ]);
   });
 
   it("move wont clobber a similar file", async function () {
@@ -79,6 +120,16 @@ describe("google drive client: database", function () {
     expect(await get("123")).toEqual("/bar (1).txt");
     expect(await get("456")).toEqual("/foo");
     expect(await get("789")).toEqual("/foo/foo.txt");
+  });
+
+  it("you can lookup an ID by path", async function () {
+    const { set, getByPath } = this.db;
+    await set("123", "/bar (1).txt");
+    await set("789", "/bar/foo.txt");
+
+    expect(await getByPath("/bar (1).txt")).toEqual("123");
+    expect(await getByPath("/bar/foo.txt")).toEqual("789");
+    expect(await getByPath("/bar")).toEqual(null);
   });
 
   it("del wont clobber a similar file", async function () {

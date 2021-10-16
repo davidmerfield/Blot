@@ -30,8 +30,15 @@ module.exports = function (req, callback) {
           return b.dateStamp - a.dateStamp;
         });
 
+        const tag = tags.join(" + ");
+        const tagged = {};
+
+        tagged[tag] = true;
+        tagged[tag.toLowerCase()] = true;
+
         return callback(null, {
-          tag: tags.join(" + "),
+          tag,
+          tagged,
           entries: entries,
         });
       });

@@ -1,27 +1,15 @@
-Finish improvements to Google Drive client
-- Work out why the sync for fontarchive is bugging out
-  Something to do with the pageToken / nextPageToken
-  
-Release the Google Drive client to public and tell:
-- [Cecil](https://twitter.com/Blot__/status/988162892594860032?s=20)
-- [Jonathan](https://twitter.com/chin_jon/status/1032392398473650176)
-- [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpWgGLjJqthFzlxDnWvlXvbh)
-- [Saptarshi](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJZmFvCblDdDhMQVzDTRDzML)
-- [Raph](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgzFTCKQXQmQqdNMdjMfDFkMW)
-- [Josh](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVqWwRgxrwLRzrNscfJtllhXz)
-- [Kevin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpgkhDvTPVKvsqmQdLNTCQjz)
-- [David](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJnSjSLPhVFlsJvzctSwXQKj)
-- [Kerim](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChSJkptkQxlqTjsDCtdTgMWXv)
-- [Simon](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChcrhfQNXvkFkdtKntXlhjNfm)
-- [Steve](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMjkzLLMQHXgtlqwLGxfqfMhS)
-- [Emad](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNCtzTpZsgXXjWsrTGsTTZLjx)
-- [Larry](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKkRLkdZrTwKKWhMdXCsHSznfp)
-- [Rolf](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKkRMvFGtrmhJZGcBQZzWzzKTg)
-- [Phil](https://mail.google.com/mail/u/0/#inbox/FMfcgzGkZssgkLtXNkWHTSjbbBHrvbjv)
-
-Finish the test folders for each template 
+Record new demo video for Google Drive client approval
 
 Ensure each template is good enough for the new film
+- Add syntax highlighting option themes using [this demo as a starting point](https://highlightjs.org/static/demo/)
+- Run templates through [lighthouse](https://web.dev/measure/) and [observatory](https://observatory.mozilla.org/)
+- Tell these people about new templates, and to subscribe to newsletter:
+  - [Chris](https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e)
+  - [John](https://mail.google.com/mail/u/1/#all/1618ca0420779742)
+  - [Jan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChmLnfMTdtNkpLxHTlPJNHlCT) 
+  - [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrRRZTKntrWKJvfDXrRFTzljs)
+
+Finish the test folders for each template 
 
 Release a new film showing some of Blot’s more recent features
 – The current video is now many years out of date
@@ -32,18 +20,6 @@ Release a new film showing some of Blot’s more recent features
 
 ---
 
-Add RTF support using Pandoc or [rtf.js](https://github.com/tbluemel/rtf.js)
-
-Smooth over the custom domain adding process
-- validate the domain is pointing to Blot before allowing resty-auto-ssl to request a cert. we seem to get into a DNS mismatch where a client thinks a domain points to Blot, and triggers a cert request through resty-auto-ssl but whatever DNS server Blot's server points to has the stale record (pointing elsewhere)
-- Disable redirect to HTTPS for blogs by default (to ensure old browsers without SNI work) but ensure all prominent links to the blog on dashboard use HTTPS
-
-Add support for full qualified URLs in the backlinks list for each entry. 
-- For example, if your blog is example.com, the following link will not appear as an internal link: [Foo](https://example.com/foo) because build/prepare/internalLinks is not aware of the blog domain/handle 
-- Tell [Eli](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlkFlwSwXGrFZwvSKdHKvcxplV)
-
-It seems possible to have two entries with the same guid, possibly related to an entry rename event (i.e. copying the guid across). Make sure that when a rename happens, the old entry is permanently deleted and its guid cannot be reused.
-
 Add nice import step under 'Services' and as part of sign up
 - Create importer script for [John's posts from flickr](https://mail.google.com/mail/u/0/#inbox/166da622325d19e7)
 - Create importer script for tumblr text files and tell [Sawyer](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVMhRNdQhfDwlXsqqFNgmKfTk)
@@ -53,19 +29,53 @@ Add nice import step under 'Services' and as part of sign up
 - Look into how Hexo has written imports for [blogger](https://github.com/hexojs/hexo-migrator-blogger), [joomla](https://github.com/welksonramos/hexo-migrator-joomla), [rss](https://github.com/hexojs/hexo-migrator-rss), [wordpress](https://github.com/hexojs/hexo-migrator-wordpress).
 - Add importer for Twitter and sell [Sawyer](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVMhRNdQhfDwlXsqqFNgmKfTk)
 
-Improve templates
-- Implement David's aesthetic proposals in the Figma mockups in the Blog template
-- Add syntax highlighting option themes using [this demo as a starting point](https://highlightjs.org/static/demo/)
-- Run templates through [lighthouse](https://web.dev/measure/) and [observatory](https://observatory.mozilla.org/)
-- Tell these people about new templates, and to subscribe to newsletter:
-  - [Chris](https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e)
-  - [John](https://mail.google.com/mail/u/1/#all/1618ca0420779742)
-  - [Jan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChmLnfMTdtNkpLxHTlPJNHlCT) 
-  - [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrRRZTKntrWKJvfDXrRFTzljs)
+Smooth over the custom domain adding process
+- validate the domain is pointing to Blot before allowing resty-auto-ssl to request a cert. we seem to get into a DNS mismatch where a client thinks a domain points to Blot, and triggers a cert request through resty-auto-ssl but whatever DNS server Blot's server points to has the stale record (pointing elsewhere)
+- Disable redirect to HTTPS for blogs by default (to ensure old browsers without SNI work) but ensure all prominent links to the blog on dashboard use HTTPS
+
+Rework dashboard design
+
+Add introductory guide to forking a template to templates page
+
+Add [OneDrive](https://onedrive.com) client
+- Tell [John](https://mail.google.com/mail/u/0/#inbox/FMfcgzGkbDVrfBwGjnVDdtXkNxKpwjfq) 
+- Tell [Shantesh](https://mail.google.com/mail/u/0/#inbox/166df93b38231ec9)
+- Tell [Nathan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVgvsdfSnqBppQrXLTVjZBBzp)
+- Tell [ekskog](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDBmdRXFWTFLqxKgxVkdWnWL)  
+- Tell [John](https://twitter.com/seismonerd/status/1096862510404128768)  
+- Tell [Simon](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChcrhfQNXvkFkdtKntXlhjNfm)  
+- Tell [Andrew](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLtGjKFlzJFfRcVQdWdMBkZzdK)  
+- Tell [Naveen](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMZJvNGJxTXXcnsmXDqdkNnNq)  
+- Tell [Emad](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNCtzTpZsgXXjWsrTGsTTZLjx)  
+- Tell [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKjnVGxPWrFPKJRqtlnbkHfwXt)
+- If OneDrive for Business is supported tell [Josh](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVqWwRgxrwLRzrNscfJtllhXz)
+
+---
+
+Add RTF support using Pandoc or [rtf.js](https://github.com/tbluemel/rtf.js)
+
+Add support for full qualified URLs in the backlinks list for each entry. 
+- For example, if your blog is example.com, the following link will not appear as an internal link: [Foo](https://example.com/foo) because build/prepare/internalLinks is not aware of the blog domain/handle 
+- Tell [Eli](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlkFlwSwXGrFZwvSKdHKvcxplV)
+
+It seems possible to have two entries with the same guid, possibly related to an entry rename event (i.e. copying the guid across). Make sure that when a rename happens, the old entry is permanently deleted and its guid cannot be reused.
 
 Add AVIF image post support and tell [Simon](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlkFqWwhwwQgrrlwKtctkTgRXx)
 
 Improve Google Drive client:
+- Create test app for local use
+- Can the google drive client handle multiple connected blogs?
+  - I suspect we get the no refresh_token error on second blog
+- Can the google drive client handle a server restart during setup?
+- database.folder should throw ENOENT and EEXIST errors for del, set, move etc.
+- How do we handle two files with same name and same parent? How does our fileId:path hash handle this? Make sure we delete the right file. Will file.title as opposed to file.name give us the deduped version?
+  - Bug: move file with deduplicated name from sub folder to other folder
+  - download should check for an existing file with same name but different fileId and dedupe before storing the path?
+- Error handling
+  - Retry when we get google drive's This service is not available error
+  - Handle storage quota errors
+  - Handle 429 errors with exponential backoff retry
+- Add percentage progress and a status bar to the folder copying setup page
 - Add `folder.rename` method to `app/sync` to take advantage of Google Drive's true rename feature
 - Add a way for sync/build to accept a ctime as an option. We can't set this at the operating system level but google drive's API does return a createdTime value and we could use this as the true file's created date, rather than the date the file is made on the server
 - Work out if we can test this using Mocks
@@ -93,19 +103,7 @@ Apply helper/imageminify to images in posts with opt-in
 - [ ] Run these changes past John, get opinion on [optimized images](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsmhMtGvPcwxlSHSSTFVpJVbd)
 - [ ] Talk to Marius about [his opinions on the compression settings](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLtQPwXwJrwgMzjfvDtcwFZzFC)
 
-Write new clients to sync blog folders
-- [OneDrive](https://onedrive.com)
-  - Tell [John](https://mail.google.com/mail/u/0/#inbox/FMfcgzGkbDVrfBwGjnVDdtXkNxKpwjfq) 
-  - Tell [Shantesh](https://mail.google.com/mail/u/0/#inbox/166df93b38231ec9)
-  - Tell [Nathan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVgvsdfSnqBppQrXLTVjZBBzp)
-  - Tell [ekskog](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDBmdRXFWTFLqxKgxVkdWnWL)  
-  - Tell [John](https://twitter.com/seismonerd/status/1096862510404128768)  
-  - Tell [Simon](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChcrhfQNXvkFkdtKntXlhjNfm)  
-  - Tell [Andrew](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLtGjKFlzJFfRcVQdWdMBkZzdK)  
-  - Tell [Naveen](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMZJvNGJxTXXcnsmXDqdkNnNq)  
-  - Tell [Emad](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNCtzTpZsgXXjWsrTGsTTZLjx)  
-  - Tell [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKjnVGxPWrFPKJRqtlnbkHfwXt)
-  - If OneDrive for Business is supported tell [Josh](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVqWwRgxrwLRzrNscfJtllhXz)  
+Write new clients to sync blog folders 
 - [SFTP](https://www.npmjs.com/package/ftpd) 
   - Tell [Calvin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChclvkfHMWfnqGdWkQnzMdklW) 
   - Tell [Fabrice](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNCspWMdnbCdzfHGwBrSKPBSC)
@@ -200,7 +198,6 @@ Improvements to brochure:
 - Personalize the documentation for logged in users
 - Add [contributor](https://api.github.com/repos/davidmerfield/blot/contributors) / [language](https://api.github.com/repos/davidmerfield/blot/languages) and repo information to source code page using GitHub API.
 
-
 Improvements to Wikilinks feature:
 - test with non-[[Wikilinks]] options in Obsidian
 - add support for other (non-Obsidian) wikilink styles (i.e. title-based?)
@@ -254,7 +251,6 @@ Improvements to metadata extractor:
 - Fix bug with "Menu: " metadata – that empty value example will cause a post to become a page.
 - Fix summary generator such that a subtitle is used for summary text (i.e. an h2 directly following an h1) We still want to prevent the scenario in which a later h2 becomes the summary, though. Notify [Jessica and rebuild Jessica's site](https://mail.google.com/mail/u/0/#inbox/KtbxLwghhxtxrtdGHFqBRMcDGkGWtxvSdq)
 - Add support for entry property with escaped double quotes, tell [Jay](https://mail.google.com/mail/u/0/#inbox/15e396dbd8350972)
-
 
 Reduce image compression settings and tell [Joshua](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsmhMtGvPcwxlSHSSTFVpJVbd)
 
@@ -578,6 +574,7 @@ Improvements to Git client
 - Rate limit authentication route?
 
 Dropbox client
+- Revert lowercase for all files when disconnecting the client
 - Add integration test with a dropbox Webhook call. I want to not push some code which would prevent syncing user folders.
 - Does client.remove support the removal of folders? If not, make it so and add a test
 - Add a step to authentication flow which says: 'there is already a folder called 'Your blog title' in your Dropbox, would you like to use that?' then overwrite the files inside. This prevents the proliferation of confusing 'Your blog title (1)' when you re-authenticate.
