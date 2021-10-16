@@ -80,34 +80,28 @@
   <script src="/scripts/codemirror/mode-xml.js?{{cacheID}}"></script>
 
   <script type="text/javascript">
-    $("#source").hide();
 
-    // Editor
-    var editor = CodeMirror.fromTextArea(document.getElementById("source"), {
-      mode: { name: "handlebars", base: $("#source").attr("data-mode") },
-      lineNumbers: true,
-      smartIndent: false,
-      styleActiveLine: true,
-      theme: "default",
-    });
+    function save() {
+      if ($("#save").hasClass("disabled")) {
+        e.preventDefault();
+        return false;
+      }
 
-    editor.on("keyup", function() {
       $("#save")
-        .removeClass("disabled")
-        .text("Save changes")
-        .prop("disabled", false)
-        .val("Save");
-    });
+        .addClass("working")
+        .addClass("disabled")
+        .val("Saving");
 
-    $(".save").submit(function() {
+      $('input[name="content"]').val(editor.getValue());
+
+
+
       $("#save").text("Saving changes")
       $.ajax({
         type: "POST",
         url: $(".save").attr("action"),
         data: $(".save").serialize(),
         error: function(res) {
-
-
           $("#save")
             .text("Save changes")
             .removeClass("working")
@@ -139,24 +133,32 @@
       });
 
       return false; // avoid to execute the actual submit of the form.
+    }
+    $("#source").hide();
+
+    // Editor
+    var editor = CodeMirror.fromTextArea(document.getElementById("source"), {
+      mode: { name: "handlebars", base: $("#source").attr("data-mode") },
+      lineNumbers: true,
+      smartIndent: false,
+      styleActiveLine: true,
+      theme: "default",
     });
 
-    $("#save").click(function(e) {
-      if ($(this).hasClass("disabled")) {
+    editor.on('keydown', function(mirror, e){
+      if (e.keyCode == 83 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)) {
         e.preventDefault();
-        return false;
+        $(".save").submit();
+      } else {
+        $("#save")
+        .removeClass("disabled")
+        .text("Save changes")
+        .prop("disabled", false)
+        .val("Save")
       }
-
-      $(this)
-        .addClass("working")
-        .addClass("disabled")
-        .val("Saving");
-
-      $('input[name="content"]').val(editor.getValue());
-      $(".save").submit();
-
-      return false;
     });
+
+    $(".save").submit(save);
   </script>
   {{/view}}
 </div>
