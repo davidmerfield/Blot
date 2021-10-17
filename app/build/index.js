@@ -5,6 +5,11 @@ var clfdate = require("helper/clfdate");
 var jobs = {};
 
 const prefix = () => clfdate() + " Build:";
+var exitHook = require("async-exit-hook");
+
+exitHook(function () {
+  worker.kill();
+});
 
 var worker = new Worker();
 
@@ -35,6 +40,7 @@ function Worker() {
   const newWorker = child_process.fork(__dirname + "/main", {
     detached: false,
   });
+
   newWorker.on("message", function ({ err, jobId, entry }) {
     var job = jobs[jobId];
 
