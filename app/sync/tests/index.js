@@ -35,6 +35,7 @@ describe("sync", function () {
     function (testDone) {
       var child = require("child_process").fork(__dirname + "/error", {
         silent: true,
+        execArgv: ["--unhandled-rejections=strict"],        
       });
       var blog = this.blog;
 
