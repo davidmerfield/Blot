@@ -1,17 +1,17 @@
-var debug = require("debug")("blot:build");
-var uuid = require("uuid/v4");
-var child_process = require("child_process");
-var clfdate = require("helper/clfdate");
-var jobs = {};
-
 const prefix = () => clfdate() + " Build:";
-var exitHook = require("async-exit-hook");
+const debug = require("debug")("blot:build");
+const uuid = require("uuid/v4");
+const child_process = require("child_process");
+const clfdate = require("helper/clfdate");
+const jobs = {};
 
-exitHook(function () {
+let worker = new Worker();
+
+// Does this handle the cluster reload action too?
+// e.g. scripts/reload-server.sh?
+process.on("exit", function () {
   worker.kill();
 });
-
-var worker = new Worker();
 
 module.exports = function (blog, path, options, callback) {
   const jobId = uuid();
