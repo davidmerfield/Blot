@@ -1,3 +1,8 @@
+Document the downtime for the next newsletter
+- Prevent full disk from affecting access to people's blogs. 
+- switch into a read-only mode?
+- Ensure that this issue is surfaced on status page (currently it just verifies that nginx is working, let's ping a route served by node.js instead)
+
 Record new demo video for Google Drive client approval
 
 Ensure each template is good enough for the new film
