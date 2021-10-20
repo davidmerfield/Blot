@@ -38,7 +38,7 @@ Smooth over the custom domain adding process
 - validate the domain is pointing to Blot before allowing resty-auto-ssl to request a cert. we seem to get into a DNS mismatch where a client thinks a domain points to Blot, and triggers a cert request through resty-auto-ssl but whatever DNS server Blot's server points to has the stale record (pointing elsewhere)
 - Disable redirect to HTTPS for blogs by default (to ensure old browsers without SNI work) but ensure all prominent links to the blog on dashboard use HTTPS
 
-Move citations out of {{{html}}} and tell [questioner](https://blot.im/questions/298)
+Move citations out of {{{html}}} and tell [questioner](https://blot.im/questions/298) and [Mikka](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlkPcprJZlTSFbTGlqSPJcfWJJ)
 
 Rework dashboard design
 
