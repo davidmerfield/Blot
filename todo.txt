@@ -5,6 +5,8 @@ Document the downtime for the next newsletter
 
 Record new demo video for Google Drive client approval
 
+Fix bug with changing text color on magazine template and tell [Will](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlkXtmxxRWGmBxCZbFxTrJGVrR)
+
 Investigate [Adam's broken template](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlkPcpFqrPfrVjQTdjNSTMbgrP)
 
 Ensure each template is good enough for the new film
