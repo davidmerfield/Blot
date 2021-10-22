@@ -75,7 +75,7 @@
 #b07246 anitaposch.com Anita Posch, is a writer and podcaster from Austria
 #d28f00 reillybrennan.com Reilly Brennan, is a venture capital fund partner
 #d48a7d victoriaclarke.art Victoria Clarke, is an artist based in London
-#262626 www.adamsandell.com Adam Sandell, is a doctor in British Colombia
+#262626 www.adamsandell.com Adam Sandell, is a doctor in British Columbia
 #eb0003 sidenote.ridwansanusi.com Ridwan Sanusi, works as an experience designer at Amazon
 #241d3c max.engineer Max Chernyak, is a software engineer and architect based in New York
 #f1bd00 oliviaastawood.com Olivia Wood, is writer and musician from Los Angeles

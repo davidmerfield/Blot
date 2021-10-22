@@ -5,6 +5,8 @@ Document the downtime for the next newsletter
 
 Record new demo video for Google Drive client approval
 
+Investigate [Adam's broken template](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlkPcpFqrPfrVjQTdjNSTMbgrP)
+
 Ensure each template is good enough for the new film
 - Add syntax highlighting option themes using [this demo as a starting point](https://highlightjs.org/static/demo/)
 - Run templates through [lighthouse](https://web.dev/measure/) and [observatory](https://observatory.mozilla.org/)
