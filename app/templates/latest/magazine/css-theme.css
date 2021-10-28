@@ -42,6 +42,14 @@ body {
   color: {{text_color}};
 }
 
+.black {
+    color: {{text_color}};
+}
+
+.bg-black-05 {
+    background-color: rgba({{#rgb}}{{text_color}}{{/rgb}},.05);
+}
+
 .black-90 {
     color: rgba({{#rgb}}{{text_color}}{{/rgb}},.9);
 }
@@ -58,8 +66,51 @@ body {
     color: rgba({{#rgb}}{{text_color}}{{/rgb}},.3);
 }
 
-.b--black-10 {border-color:rgba({{#rgb}}{{text_color}}{{/rgb}},.05);}
+.b--black-10 {border-color:rgba({{#rgb}}{{text_color}}{{/rgb}},.10);}
+.b--black-05 {
+    border-color:rgba({{#rgb}}{{text_color}}{{/rgb}},.05)
+}
 
+.bigfoot-footnote__content, 
+.bigfoot-footnote,
+.bigfoot-footnote__tooltip  { 
+    background-color: {{background_color}};
+  }
+
+.bigfoot-footnote.is-scrollable .bigfoot-footnote__wrapper:before {
+    background-image: -webkit-gradient(linear, left top, left bottom, from({{background_color}}), to(rgba(250, 250, 250, 0)));
+    background-image: -webkit-linear-gradient(top, {{background_color}} 50%, rgba(250, 250, 250, 0) 100%);
+    background-image: linear-gradient(to bottom, {{background_color}} 50%, rgba(250, 250, 250, 0) 100%);
+}
+
+.bigfoot-footnote.is-scrollable .bigfoot-footnote__wrapper:after {
+    background-image: -webkit-gradient(linear, left bottom, left top, from({{background_color}}), to(rgba(250, 250, 250, 0)));
+    background-image: -webkit-linear-gradient(bottom, {{background_color}}  50%, rgba(250, 250, 250, 0) 100%);
+    background-image: linear-gradient(to top, {{background_color}}  50%, rgba(250, 250, 250, 0) 100%);
+}
+
+.bigfoot-footnote { 
+    border: 1px solid rgba({{#rgb}}{{text_color}}{{/rgb}},.2);
+    border-bottom-color: rgba({{#rgb}}{{text_color}}{{/rgb}},.25);
+    border-top-color: rgba({{#rgb}}{{text_color}}{{/rgb}},.15);
+    -webkit-box-shadow: 0 0 15px 0 rgba({{#rgb}}{{text_color}}{{/rgb}},.15);
+    -moz-box-shadow: 0 0 15px 0 rgba({{#rgb}}{{text_color}}{{/rgb}},.15);
+    box-shadow: 0 0 15px 0 rgba({{#rgb}}{{text_color}}{{/rgb}},.15);
+}
+
+.bigfoot-footnote__button {
+  background-color: rgba({{#rgb}}{{text_color}}{{/rgb}},.1);
+
+}
+.bigfoot-footnote__button:after {
+  color: rgba({{#rgb}}{{text_color}}{{/rgb}},.5);
+}
+
+.bigfoot-footnote__button:hover, .bigfoot-footnote__button:focus {
+    outline: none;
+  background-color: rgba({{#rgb}}{{text_color}}{{/rgb}},.9);
+  color: {{background_color}};
+}
 
 .page-container {
   margin: 0 0 0 15rem;
@@ -148,8 +199,8 @@ a {
   transition: color, border-color .2s linear;
   text-decoration:none
 }
-a:not(.no-underline) {border-bottom:1px solid rgba(90,90,90,0.25)}
-a:not(.no-underline):hover {border-color: rgba(90,90,90,1)}
+a:not(.no-underline) {color:{{accent_color}};border-bottom:1px solid rgba({{#rgb}}{{accent_color}}{{/rgb}},0.25)}
+a:not(.no-underline):hover {border-color: rgba({{#rgb}}{{accent_color}}{{/rgb}},1)}
 a:hover {color:rgba({{accent_color}}, 1)}
 
 a.dim {transition: opacity .2s linear;opacity:1}
