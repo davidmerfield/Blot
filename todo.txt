@@ -1,3 +1,13 @@
+Tell will fixed bug with changing text color on magazine template and tell [Will](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlkXtmxxRWGmBxCZbFxTrJGVrR)
+
+---
+
+Fix bug with a once-scheduled post, based on the file's path or previous date metadata. The post remains scheduled even if the date is removed, and even if it is then rebuilt.
+
+Fix bug with tokens inside blog posts and follow up with [Karoly](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJXfkFdhXCgBCTwGfBCzPhqwJF)
+
+---
+
 Question about noindex:
 
 Yes! You'll need to edit your template and add some custom metadata to posts you want noindexed, for example:
@@ -24,11 +34,10 @@ Please let me know if you have any questions about this or anything else.
 Document the downtime for the next newsletter
 - Prevent full disk from affecting access to people's blogs. 
 - switch into a read-only mode?
+  - the specific issue that takes down the server seems to be the redis error (cannot persist on disk, out of space)
 - Ensure that this issue is surfaced on status page (currently it just verifies that nginx is working, let's ping a route served by node.js instead)
 
 Record new demo video for Google Drive client approval
-
-Fix bug with changing text color on magazine template and tell [Will](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlkXtmxxRWGmBxCZbFxTrJGVrR)
 
 Investigate [Adam's broken template](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlkPcpFqrPfrVjQTdjNSTMbgrP)
 
@@ -171,7 +180,7 @@ Improvements to backup system
 - Test maintenance mode
 - Add script to roll back into hourly local db dumps and remote backups
 
-Fix bug with footnote links in a teaser from #frag to {{permalink}}#frag
+Improve footnote links in a teaser by switching #frag to {{permalink}}#frag
 
 Begin collecting proper measurements for page-rendering speed on the server
 
@@ -262,13 +271,9 @@ Template engine plan
 - only allow valid templates to get stored in data/blogs/blogID/templates, used for live site?
   - maybe we only store in redis valid templates, live site pulls
 
-Fix bug with a once-scheduled post, based on the file's path or previous date metadata. The post remains scheduled even if the date is removed, and even if it is then rebuilt.
-
 Add support for .tiff images
 
 ---
-
-Fix bug with tokens inside blog posts and follow up with [Karoly](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJXfkFdhXCgBCTwGfBCzPhqwJF)
 
 Improve server-side scheduled tasks:
 - Write task to identify and delete long overdue users
@@ -283,7 +288,6 @@ Add action to lint code with jshint and eslint
 Improvements to metadata extractor:
 - Make it possible to set the slug-part of a URL for a post and tell [George](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsdBjKHPdsRXJBGSbxpQQCbCN) and follow up for [post in Questions](https://blot.im/questions/23)
 - Improve date parser to use time from file creation date if it's within the same day as the date specified in metadata and follow up with [Nicolas](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsShbhKRcvhWJlKRPHPctMnWM)
-- Fix bug with "Menu: " metadata – that empty value example will cause a post to become a page.
 - Fix summary generator such that a subtitle is used for summary text (i.e. an h2 directly following an h1) We still want to prevent the scenario in which a later h2 becomes the summary, though. Notify [Jessica and rebuild Jessica's site](https://mail.google.com/mail/u/0/#inbox/KtbxLwghhxtxrtdGHFqBRMcDGkGWtxvSdq)
 - Add support for entry property with escaped double quotes, tell [Jay](https://mail.google.com/mail/u/0/#inbox/15e396dbd8350972)
 
