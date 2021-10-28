@@ -39,7 +39,27 @@ body {
   height: 100%;
   -webkit-font-smoothing:antialiased;
   background:{{background_color}};
+  color: {{text_color}};
 }
+
+.black-90 {
+    color: rgba({{#rgb}}{{text_color}}{{/rgb}},.9);
+}
+
+.black-80 {
+    color: rgba({{#rgb}}{{text_color}}{{/rgb}},.8);
+}
+
+.black-50 {
+    color: rgba({{#rgb}}{{text_color}}{{/rgb}},.5);
+}
+
+.black-30 {
+    color: rgba({{#rgb}}{{text_color}}{{/rgb}},.3);
+}
+
+.b--black-10 {border-color:rgba({{#rgb}}{{text_color}}{{/rgb}},.05);}
+
 
 .page-container {
   margin: 0 0 0 15rem;
@@ -67,16 +87,16 @@ body {
 
 ul.task-list { list-style-type: none; }
 input {
-  color: #555;
+  color: rgba({{#rgb}}{{text_color}}{{/rgb}}, 0.5);
   background-color: {{background_color}};
   background-image: none;
-  border: 1px solid #ccc;
+  border: 1px solid rgba({{#rgb}}{{text_color}}{{/rgb}}, 0.2);
   border-radius: 4px;
   transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
 }
 
 input[type="text"] {
-  box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+  box-shadow: inset 0 1px 1px rgba({{#rgb}}{{text_color}}{{/rgb}},.075);
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 }
@@ -85,7 +105,7 @@ input[type="submit"] {
   font-weight: 500;
   border-left:none;
   border-top-left-radius: 0;
-  border-bottom-left-radius: 0;color: #333;
+  border-bottom-left-radius: 0;color: rgba({{#rgb}}{{text_color}}{{/rgb}},.8);
   background-color: {{background_color}};
   cursor:pointer;
 }
@@ -260,8 +280,6 @@ figure cite, figure cite a {font-size:0.8rem;color:#999;font-style:normal;border
   
 
 /* Tachyons customizations */
-.b--black-10 {border-color:#f1f1f1;}
-.black-50 {color:rgb(119, 119, 119)}
 .lh-title.tracked-tight {line-height:1.15}
 
 .pv2-5 {padding-top:0.75rem;padding-bottom:0.75rem}
