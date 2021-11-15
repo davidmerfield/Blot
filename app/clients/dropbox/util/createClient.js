@@ -50,7 +50,10 @@ module.exports = function (blogID, callback) {
         });
       })
       .catch(function (err) {
-        callback(err);
+        // We need the account information
+        // during disconnection, even if there
+        // is an error with the client
+        callback(err, null, account);
       });
   });
 };
