@@ -1,35 +1,19 @@
+Make retreiving files from server case-insentive
+- i.e. add resolve case insensitive path to file to blog/asset.js
+
 Tell will fixed bug with changing text color on magazine template and tell [Will](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlkXtmxxRWGmBxCZbFxTrJGVrR)
 
+Fix issues with Dropbox sync and tell Victor
+
 ---
+
+Fix bug with [many twitter embeds and tell Nash](https://mail.google.com/mail/u/0/#inbox/FMfcgzGllMNfjvRBthVncQtPJQpmrksx)
 
 Fix bug with a once-scheduled post, based on the file's path or previous date metadata. The post remains scheduled even if the date is removed, and even if it is then rebuilt.
 
 Fix bug with tokens inside blog posts and follow up with [Karoly](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJXfkFdhXCgBCTwGfBCzPhqwJF)
 
 ---
-
-Question about noindex:
-
-Yes! You'll need to edit your template and add some custom metadata to posts you want noindexed, for example:
-
-```
-noindex: yes
-```
-
-Then add the following to your template's <head> tag, usually in th *head.html* file:
-
-```
-{{#entry.metadata.noindex}}
-<meta>...</meta>
-{{/entry.metadata.noindex}}
-```
-
-Please let me know if you have any questions about this or anything else.
-
-
----
-
-
 
 Document the downtime for the next newsletter
 - Prevent full disk from affecting access to people's blogs. 
@@ -95,6 +79,8 @@ Add [OneDrive](https://onedrive.com) client
 
 ---
 
+Re-order blog engine routes such that pages/entries are evauluated first, making it possible to set up custom redirects and tell [Marco](https://mail.google.com/mail/u/0/#inbox/FMfcgzGllCcNbxjDTdZzRCcNgmnJjXWM)
+
 Add RTF support using Pandoc or [rtf.js](https://github.com/tbluemel/rtf.js)
 
 Add support for full qualified URLs in the backlinks list for each entry. 
@@ -148,9 +134,11 @@ Apply helper/imageminify to images in posts with opt-in
 
 Write new clients to sync blog folders 
 - [SFTP](https://www.npmjs.com/package/ftpd) 
+  - Tell [Coraline](https://mail.google.com/mail/u/0/#inbox/FMfcgzGllCmcFflWmXcCdVzTJztDTwXx)
   - Tell [Calvin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChclvkfHMWfnqGdWkQnzMdklW) 
   - Tell [Fabrice](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNCspWMdnbCdzfHGwBrSKPBSC)
 - [NextCloud](https://nextcloud.com/) 
+  - Tell [Coraline](https://mail.google.com/mail/u/0/#inbox/FMfcgzGllCmcFflWmXcCdVzTJztDTwXx)
   - Tell [Andrew](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJgWDpnsGBCXsCwkxRZnXMph) 
   - Tell [Mike](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMGDWmSXxbJkvjZbtvdQtNNGZ)
 - [Box](https://box.com) 
@@ -184,7 +172,7 @@ Improve footnote links in a teaser by switching #frag to {{permalink}}#frag
 
 Begin collecting proper measurements for page-rendering speed on the server
 
-Add raw-link -> embed function, which would fetch the title, description and thumbnail for a link using <meta> tags. 
+Add raw-link -> open graph cards/embed function, which would fetch the title, description and thumbnail for a link using <meta> tags. Tell [Robert](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlksJFbBlWtzMHgcxcdBRBhQSJ)
 
 Improvements to teaser generator
 - Improve estimate of teaser length
@@ -224,7 +212,7 @@ Server changes
 
 Add [line numbers](https://github.com/wcoder/highlightjs-line-numbers.js/) to highlight.js hljs code tags
 
-Support [Obsidian's syntax for embedding files](https://help.obsidian.md/How+to/Embed+files) and images, and tell [John](https://mail.google.com/mail/u/0/#inbox/FMfcgzGkbDftzhXHGrmzXrjtcMbGrmxM)
+Support [Obsidian's syntax for embedding files](https://help.obsidian.md/How+to/Embed+files) and images, and tell [John](https://mail.google.com/mail/u/0/#inbox/FMfcgzGkbDftzhXHGrmzXrjtcMbGrmxM) and [Robert](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlksJFbBlWtzMHgcxcdBRBhQSJ)
 
 Migrate from mailgun to SES, mailgun's javascript sdk [seems](https://github.com/mailgun/mailgun-js/issues/122) [like](https://github.com/mailgun/mailgun-js#setup-client) a mess.
 
@@ -738,7 +726,7 @@ Work out why Pandoc cannot handle 'linked' images (instead of conventionally emb
 Self-hosting documentation then tell [Jake](https://mail.google.com/mail/u/1/#inbox/1659d67326849fb3) and [Berndl](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlkPcpPHkbRnKFRWNPGcGTPcJD) and [Mohammed](https://twitter.com/mnafees_me/status/1051121206030753794?s=12) and [BP](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGCQVldJqdJZjktfKxNfgCdkTh) and [Rado](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDDjrKSQVTXqvgFRGrhMSFvrR) and [Nuno](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDDmKWgcNKgMKBNDXxWqGvqrP) and [Omaid](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDDjqhCxHhJqbGlGNZsfkWWQf) and [Jarod](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDWlwWMfqnWBqxBtznDJVqxfr) and [Francesco](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNWChQlWnBZtSxhFrpVlgMwXx) and [Aryan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJWjCrnXRvhtPtFGVjgkfZqPMQ) and [Todd](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLswHGkjtjmGLZtxXcpNSzKxvd) and [Anita](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLswPCKHSrzLMthNDncznmTnnJ) and [Kaushik](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLtsxhzZVLzpqpTCBmXcsFPPdJ?compose=CllgCJZZQKjZgksDMdQFkdwGNcPMGFpjKxNnbBKxBzVZvVCFMFsmGhbXxnhhxLvKPBzCHcPHKvB) and [Michael](https://mail.google.com/mail/u/0/#inbox/FMfcgzGkXSWvKNHtTgmFlrgkWvkgbksx?compose=CllgCKHQdVwQDCnfClqxMhSRnkDKmXhLckxZBrgkfDjdCrsDZLsRhGmgtgjZdlqmCjmGpKqQJvq) and [Frank](https://mail.google.com/mail/u/0/#inbox/FMfcgzGkZkZWrprNcThxMPQKzSTLbkDs)
 - Tell Nick when it's possible to deploy a self-hosted [Blot on Vercel](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKjxHWSvgjKtCWrbhccKFPlkdD) and [Zia](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsSXWPRNNxDNcdhGHQXBkTtsx)
 
-Review pCloud as a potential client and tell [Omaid](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDDjqhCxHhJqbGlGNZsfkWWQf) and [Anders](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKkRFxsDShhsHGNcdRqwHFMmJM)
+Review pCloud as a potential client and tell [Omaid](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDDjqhCxHhJqbGlGNZsfkWWQf) and [Anders](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKkRFxsDShhsHGNcdRqwHFMmJM) and [Tim](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlkZCjPBbnKtcXvrMQnxSwHBzk)
 
 Review Dropmark as a potential client and tell [Rado](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDDjrKSQVTXqvgFRGrhMSFvrR)
 
