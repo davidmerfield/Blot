@@ -1,6 +1,8 @@
 Make retreiving files from server case-insentive
 - i.e. add resolve case insensitive path to file to blog/asset.js
 
+Fix bug with typeset 'Small caps' setting and wikilinks then follow up with [questioner](https://blot.im/questions/414). The issue is caused by the insertion of the span class="small-caps" before the wikilink converter has had a chance to render the link. Typeset should be run after wikilinks to fix this.
+
 Tell will fixed bug with changing text color on magazine template and tell [Will](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlkXtmxxRWGmBxCZbFxTrJGVrR)
 
 Fix issues with Dropbox sync and tell Victor
@@ -83,6 +85,8 @@ Re-order blog engine routes such that pages/entries are evauluated first, making
 
 Add RTF support using Pandoc or [rtf.js](https://github.com/tbluemel/rtf.js)
 
+Add support for [Jupyter Notebook .ipynb](https://predictablynoisy.com/posts/2019/2019-11-11-ipynb_pandoc/#ipynb-to-html) using Pandoc
+
 Add support for full qualified URLs in the backlinks list for each entry. 
 - For example, if your blog is example.com, the following link will not appear as an internal link: [Foo](https://example.com/foo) because build/prepare/internalLinks is not aware of the blog domain/handle 
 - Tell [Eli](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlkFlwSwXGrFZwvSKdHKvcxplV)
@@ -147,6 +151,7 @@ Write new clients to sync blog folders
   - Tell [Jason](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpVWzZTVxccmWLmnPBmDFjvV)
 - If [iCloud](https://www.icloud.com/) becomes possible
   - Tell [Andrew](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJfNnhCDNsffJSjnQHnxdSfh)
+  - Tell [Cristina](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmtFHHXQKNQKppXpHGpkvLjQSD)
   - Tell [John](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlkPcphtxgswTQccZLfQGwfWhN)
   - Tell [David](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJfNfSZgQqjNWLWVHZjwXQrS)
   - Tell [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJfNTrdmqJwwzCPLrhcQRNWW)
