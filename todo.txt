@@ -9,6 +9,8 @@ Fix issues with Dropbox sync and tell Victor
 
 ---
 
+Convert [Vitepress](https://vitepress.vuejs.org/) to Blot and tell [Nicolas](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmtNldkFnLGgZVNfqLcvBjVxWW)
+
 Fix bug with [many twitter embeds and tell Nash](https://mail.google.com/mail/u/0/#inbox/FMfcgzGllMNfjvRBthVncQtPJQpmrksx)
 
 Fix bug with a once-scheduled post, based on the file's path or previous date metadata. The post remains scheduled even if the date is removed, and even if it is then rebuilt.
