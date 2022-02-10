@@ -11,6 +11,7 @@ Winter newsletter
 - The [Photo template](https://blot.im/templates/photo) has been updated with a new archives page.
 - Remapped 'Command+S' on the web template editor such that it saves any changes you have made, rather than opening the browser's 'Save page' dialog. 
 - Updated the tools Blot depends upon to patch any known security vulnerabilities.
+- Adjusted the Simple Analytics script to conform to their new format.
 
 **Bugs fixed**
 - Disconnecting a partially-setup Dropbox client used to trigger an error. This edge-case is now handled.
@@ -18,13 +19,13 @@ Winter newsletter
 
 **Mistakes**
 
-We had one downtime incident on the 15th of December for less than 20 minutes when one of the processes ran out of memory.
+We had [one downtime incident](http://status.blot.im/) on the 15th of December for less than 20 minutes when one of the processes ran out of memory due to exceptional load.
 
 **Plans for this season**
 
 - Continue to improve the templates. 
 - Work on improving the load time of blogs.
-- Begin marketing Blot. If you have any idea how we could publicize Blot in a tasteful way, please let us know. We're unwilling to advertise, which does limit our options.
+- Begin marketing Blot. If you have any idea how we could publicize Blot in a tasteful way, please let us know. We're unwilling to advertise, which limits our options.
 
 If you have any thoughts or questions about any of this, please don’t hesitate to reply directly to this email.
 
