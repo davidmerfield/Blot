@@ -13,7 +13,7 @@ Blot uses [Rasmus Andersson](https://rsms.me/)'s terrific *Input* font on its br
 
 Almost every website has a white or light background. So, Blot has a light background. It feels familiar. However, I do sometimes wonder about inverting the color scheme.
 
-I like how [David Rudnick](https://davidrudnick.org/) justified the black backgrounds of his work. To paraphrase – the way compueter screens work is they emit light, and that digital artifacts are light, in lots of ways.
+I like how [David Rudnick](https://davidrudnick.org/) justified the black backgrounds of his work. To paraphrase – the way computer screens work is they emit light, and that digital artifacts are light, in lots of ways.
 
 I also spend most of my day in a text editor with a dark background, and find it comfortable on the eyes.
 
