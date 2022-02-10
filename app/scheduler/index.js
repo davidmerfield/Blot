@@ -153,8 +153,8 @@ module.exports = function () {
   });
 
   // At some point I should check this doesnt consume too much memory
-  console.log(clfdate(), "Scheduled daily update email for 6:05am!");
-  schedule({ hour: 10, minute: 5 }, function () {
+  console.log(clfdate(), "Scheduled daily update email for 1:00pm!");
+  schedule({ hour: 13, minute: 0 }, function () {
     console.log(clfdate(), "Generating daily update email...");
     dailyUpdate(function () {
       console.log(clfdate(), "Daily update email update was sent.");
