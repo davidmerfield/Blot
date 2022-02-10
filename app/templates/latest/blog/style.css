@@ -58,6 +58,7 @@ div.header {
   position: fixed;width:100%;
   display: flex;align-items:baseline;
   background: {{background_color}};
+  box-sizing: border-box;
   z-index: 100;justify-content: space-between;
   -webkit-backdrop-filter: blur(3px);
 }
@@ -69,7 +70,7 @@ div.header {
 .header.alignment-right {justify-content: flex-end;}
 
 .main {width: 66.6666%;margin: 0;}
-.container {max-width: 1060px;padding:0 2rem;margin-top: 82px;}
+.container {box-sizing:border-box;max-width: 1060px;padding:0 2rem;margin-top: 82px;}
 /*.container, .container * {
   outline:1px solid red
 }*/
