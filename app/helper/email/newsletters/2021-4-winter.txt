@@ -8,7 +8,7 @@ Winter newsletter
 - You can customize all the colors of the [Magazine template](https://blot.im/templates/magazine) on the web template editor using the point-and-click controls, no need to edit the CSS.
 
 **Changes**
-- Updated the [Photo template](https://blot.im/templates/photo)'s archives page.
+- Updated the [Photo template](https://blot.im/templates/photo)’s archives page.
 - Adjusted the [Simple Analytics](https://blot.im/how/configure/analytics) script to conform to their revised format.
 - Overrode ’Command + S’ on the web template editor so that it now saves any changes you have made to the template, rather than opening the browser’s ’Save page’ dialog. 
 - Updated the tools Blot depends upon to patch any known security vulnerabilities.
@@ -18,7 +18,7 @@ Winter newsletter
 
 **Mistakes**
 
-We had [one downtime incident](http://status.blot.im/) on the 15th of December for less than 20 minutes when one of the server's processes ran out of memory.
+We had [one downtime incident](http://status.blot.im/) on the 15th of December for less than 20 minutes when one of the server’s processes ran out of memory.
 
 I have been less focussed than I ought to be. I will improve for spring.
 
