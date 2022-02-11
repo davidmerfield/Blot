@@ -18,7 +18,25 @@ var Blog = require("blog");
 var basename = require("path").basename;
 var localClient = require("clients/local");
 
-var DIR = require("helper/rootDir") + "/app/folders";
+var DIR = require("helper/rootDir") + "/app/templates/folders";
+
+const updates = {
+  bjorn: {
+    title: "Björn Allard",
+  },
+  david: {
+    title: "David",
+  },
+  frances: {
+    title: "Frances Benjamin Johnston",
+  },
+  interviews: {
+    title: "Interviews",
+  },
+  william: {
+    title: "William Copeland McCalla",
+  },
+};
 
 function main(options, callback) {
   if (callback === undefined && typeof options === "function") {
@@ -79,14 +97,14 @@ function setupBlogs(user, folders, callback) {
           );
 
         if (existingBlog) {
-          blogs[existingBlog.id] = path;
+          blogs[existingBlog.id] = { path, blog: existingBlog };
           return next();
         }
 
         console.log("handle", handle);
         Blog.create(user.uid, { handle: handle }, function (err, newBlog) {
           if (err) return next(err);
-          blogs[newBlog.id] = path;
+          blogs[newBlog.id] = { path, blog: newBlog };
           next();
         });
       });
@@ -95,15 +113,18 @@ function setupBlogs(user, folders, callback) {
       if (err) return callback(err);
       async.eachOfSeries(
         blogs,
-        function (path, id, next) {
-          localClient.setup(id, path, function (err) {
+        function ({ path, blog }, id, next) {
+          Blog.set(id, updates[blog.handle], function (err) {
             if (err) return next(err);
+            localClient.setup(id, path, function (err) {
+              if (err) return next(err);
 
-            if (config.environment !== "development") {
-              localClient.disconnect(id, next);
-            } else {
-              next();
-            }
+              if (config.environment !== "development") {
+                localClient.disconnect(id, next);
+              } else {
+                next();
+              }
+            });
           });
         },
         callback

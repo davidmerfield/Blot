@@ -14,11 +14,11 @@ jobs:
       
       - name: Zip files
         run: |
-          zip -r bjorn.zip app/folders/bjorn/
-          zip -r frances.zip app/folders/frances/
-          zip -r interviews.zip app/folders/interviews/
-          zip -r david.zip app/folders/david/
-          zip -r william.zip app/folders/william/
+          zip -r bjorn.zip app/templates/folders/bjorn/
+          zip -r david.zip app/templates/folders/david/
+          zip -r frances.zip app/templates/folders/frances/
+          zip -r interviews.zip app/templates/folders/interviews/
+          zip -r william.zip app/templates/folders/william/
           
       - run: |
           set -x

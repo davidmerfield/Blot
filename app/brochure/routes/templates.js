@@ -6,11 +6,11 @@ const Blog = require("models/blog");
 const localPath = require("helper/localPath");
 
 const folderForTemplate = {
-  blog: "bjorn",
-  magazine: "magazine",
-  photo: "bjorn",
+  blog: "david",
+  magazine: "interviews",
+  photo: "william",
   portfolio: "bjorn",
-  reference: "ferox",
+  reference: "frances",
 };
 
 templates.get("/:template", function (req, res, next) {
@@ -41,14 +41,19 @@ templates.get("/:template", function (req, res, next) {
       if (err) return next(err);
       res.locals.folderPreview.contents = contents.map((i) => {
         let type = i.indexOf(".") > -1 ? "file" : "folder";
-        if (i.toLowerCase().endsWith("jpg") || i.toLowerCase().endsWith("png"))
-          type += " img";
 
-        if (i.toLowerCase().endsWith("md"))
+        if (
+          i.toLowerCase().endsWith("jpg") ||
+          i.toLowerCase().endsWith("png")
+        ) {
+          type += " img";
+        } else {
           type += " txt";
+        }
 
         return { name: i, type };
       });
+
       next();
     });
   });

@@ -11,7 +11,7 @@ const VIEW_DIRECTORY =
 
 const SCREENSHOTS = {
   blog: {
-    handle: "video",
+    handle: "david",
     pages: ["/", "/search?q=type"],
   },
   magazine: {
