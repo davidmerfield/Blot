@@ -20,7 +20,6 @@ cache/*
 static/*
 tmp/*
 scripts/deploy/out/*
-app/folders
 
 # Eventually ignore all node_modules directories
 node_modules/*

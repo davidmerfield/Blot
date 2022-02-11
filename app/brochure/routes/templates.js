@@ -40,7 +40,14 @@ templates.get("/:template", function (req, res, next) {
     fs.readdir(localPath(blog.id, "/"), function (err, contents) {
       if (err) return next(err);
       res.locals.folderPreview.contents = contents.map((i) => {
-        return { name: i };
+        let type = i.indexOf(".") > -1 ? "file" : "folder";
+        if (i.toLowerCase().endsWith("jpg") || i.toLowerCase().endsWith("png"))
+          type += " img";
+
+        if (i.toLowerCase().endsWith("md"))
+          type += " txt";
+
+        return { name: i, type };
       });
       next();
     });
