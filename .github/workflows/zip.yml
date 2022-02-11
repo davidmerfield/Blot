@@ -1,0 +1,32 @@
+on:
+  push:
+    tags:
+    - '*'
+    
+name: Zip up folders for distribution
+jobs:
+  build:
+    name: Zip up folders for distribution
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      
+      - name: Zip files
+        run: |
+          zip -r bjorn.zip app/folders/bjorn/
+          zip -r frances.zip app/folders/frances/
+          zip -r interviews.zip app/folders/interviews/
+          zip -r david.zip app/folders/david/
+          zip -r william.zip app/folders/william/
+          
+      - run: |
+          set -x
+          assets=()
+          for asset in ./*.zip; do
+            assets+=("-a" "$asset")
+          done
+          tag_name="${GITHUB_REF##*/}"
+          hub release create "${assets[@]}" -m "$tag_name" "$tag_name"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}     
