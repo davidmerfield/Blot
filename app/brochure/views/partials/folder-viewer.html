@@ -1,0 +1,28 @@
+<style type="text/css">
+  .folder-wrap {
+    max-height: 500px;
+    overflow: hidden;
+    border-radius: 6px;
+    border:1px solid #eee;
+    box-shadow: 0 0 10px rgb(0 0 0 / 3%);
+  }
+
+  .heading {padding: 11px 20px}
+  .contents > span {text-decoration: none;padding: 11px 20px;border-top: 1px solid #eee;display: block;font-size: 14px}
+</style>
+{{#folderPreview}}
+<div class="folder-wrap">
+  <div class="heading"><small style="color:var(--light-text-color)">Folder</small>
+</div>
+  {{#breadcrumbs}}
+  
+  {{/breadcrumbs}}
+
+  <div class="contents">
+  {{#contents}}
+    <span><code class="file txt"></code> {{name}}</span>
+  {{/contents}}
+  </div>
+
+</div>
+{{/folderPreview}}
