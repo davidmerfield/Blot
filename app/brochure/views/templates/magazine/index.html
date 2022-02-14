@@ -53,19 +53,14 @@
 </p>
 
 <h2>About the folder</h2>
-
-<p>
-	Wikinews interviews.
-</p>
-
-<ul class="document-list with-subtitle with-border">
-
-  <li>
-    <a href="https://github.com/davidmerfield/folders/releases/latest/download/interviews.zip"><span><nobr><span class="icon folder"></span> </nobr></span>
-    <span><strong>Download the folder</strong>
-      <span class="subtitle">.zip</span>
-    </span>
-    </a>
-  </li>
-  
-</ul>
+<div style="display: flex">  
+  <div>
+    <p>
+      Wikinews interviews.
+    </p>
+    <a class="bordered-button" style="border:1px solid;display: inline-block;" id="text_element" href="https://github.com/davidmerfield/folders/releases/latest/download/{{folder}}.zip">Download folder (.zip)</a>
+  </div>
+  <div>
+  {{> folder-viewer}}
+  </div>
+</div>

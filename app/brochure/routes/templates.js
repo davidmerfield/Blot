@@ -13,7 +13,13 @@ const folderForTemplate = {
   reference: "frances",
 };
 
+templates.get("/:template", require("./featured"));
+
 templates.get("/:template", function (req, res, next) {
+  res.locals.featured = res.locals.featured
+    .filter((i) => i.template.slug === req.params.template)
+    .slice(0, 5);
+
   res.locals.title += " template";
   res.locals.folder = folderForTemplate[req.params.template];
 
