@@ -4,6 +4,12 @@
 <a class="bordered-button" href="/sign-up">Use template</a>
 
 <style type="text/css">
+
+	.in-use, .in-use li {padding: 0;margin:0;list-style-type: none}
+	.in-use a {display: flex;align-items: center;text-decoration: none;color: inherit;margin-bottom: 0.5rem;padding-bottom:0.5rem;border-bottom: 1px solid rgba(0,0,0,0.1)}
+	.in-use .image {margin-right: 0.75em;transform: scale(0.8);}
+.in-use li:last-child a {border-bottom: none;}
+
 		a.bordered-button {font-size:14px;margin-top:0;padding:0 2em;line-height:2em;color: var(--accent-color);margin-right:1em}
 
 	a	.browser {margin-top:6px;border: 1px solid var(--light-border-color);border-radius: 6px;display: block;padding: 0.25rem 0.25rem 0;box-shadow: 0 0 10px rgba(0,0,0,0.03);transition: transform .1s ease;transform: scale(1)}
@@ -43,19 +49,17 @@
 	/></span></a>
 </p></div>
 
-<p>The <em>Blog</em> template is designed to handle a diversity of published material: short posts, long essays, images, links all flow together. The index page features your most recently published posts in full. These people use the <em>Blog</em> template:</p>
+<p>The <em>Blog</em> template is designed to handle a diversity of published material: short posts, long essays, images, links all flow together. The index page features your most recently published posts in full. {{#featured.length}}These people use the <em>Blog</em> template:{{/featured.length}}</p>
 
- <ul class="who">
+ <ul class="in-use">
     {{#featured}}
-      <li style="border-bottom: 1px solid rgba(0,0,0,0.1)">
-          <a target="_blank" rel="noopener" href="{{{link}}}">
-          <span class="imag">
+      <li>
+        	<a target="_blank" rel="noopener" href="{{{link}}}">
           {{#favicon.coordinates}}
-            <span style="display:block;background:url('/images/featured.png?cacheID={{../../cacheID}}&extension=.png');background-size: {{background_width}}px;
+            <span class="image" style="display:block;background:url('/images/featured.png?cacheID={{../../cacheID}}&extension=.png');background-size: {{background_width}}px;
     background-position:-{{x}}px -{{y}}px;width:{{width}}px;height:{{height}}px;border-radius: 100px"></span>
     {{/favicon.coordinates}}
-          </span>
-            <span class="a" style="color:{{color}};">{{name}}</span> {{bio}}.
+            <span><span style="color:{{color}};text-decoration: underline;">{{name}}</span> {{bio}}.</span>
         </a>
       </li>
     {{/featured}}  

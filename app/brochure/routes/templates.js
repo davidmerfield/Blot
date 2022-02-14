@@ -20,6 +20,8 @@ templates.get("/:template", function (req, res, next) {
     .filter((i) => i.template.slug === req.params.template)
     .slice(0, 5);
 
+  if (res.locals.featured.length < 2) delete res.locals.featured;
+
   res.locals.title += " template";
   res.locals.folder = folderForTemplate[req.params.template];
 
@@ -45,20 +47,23 @@ templates.get("/:template", function (req, res, next) {
     if (err || !blog) return next(err);
     fs.readdir(localPath(blog.id, "/"), function (err, contents) {
       if (err) return next(err);
-      res.locals.folderPreview.contents = contents.map((i) => {
-        let type = i.indexOf(".") > -1 ? "file" : "folder";
+      res.locals.folderPreview.contents = contents
+        .filter((i) => i[0] !== ".")
+        .map((i) => {
+          let type = i.indexOf(".") > -1 ? "file" : "folder";
 
-        if (
-          i.toLowerCase().endsWith("jpg") ||
-          i.toLowerCase().endsWith("png")
-        ) {
-          type += " img";
-        } else {
-          type += " txt";
-        }
+          if (
+            i.toLowerCase().endsWith("jpg") ||
+            i.toLowerCase().endsWith("png")
+          ) {
+            type += " img";
+          } else {
+            type += " txt";
+          }
 
-        return { name: i, type };
-      });
+          return { name: i, type };
+        })
+        .slice(0, 6);
 
       next();
     });
