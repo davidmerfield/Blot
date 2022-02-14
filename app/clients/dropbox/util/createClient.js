@@ -9,6 +9,9 @@ const config = require("config");
 
 module.exports = function (blogID, callback) {
   database.get(blogID, function (err, account) {
+    if (err) return callback(err);
+    if (!account) return callback(new Error("No Dropbox account"));
+
     const client = new Dropbox({ fetch });
 
     client.auth.setAccessToken(account.access_token);
