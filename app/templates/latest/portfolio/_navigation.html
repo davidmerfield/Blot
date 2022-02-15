@@ -4,25 +4,27 @@
 
   <div class="navigation">
 
-    <a href="/" class="index light">{{title}}</a>
+    <a href="/" class="index">{{title}}</a>
+    <br>
+    <div class="shrink">
+    
+      <div class="clip-7">
 
-    <br><br>
+        {{#recentEntries}}
+        {{#title}}
+        <a href="{{{url}}}" class="{{active}}">{{title}}</a>
+        {{/title}}
+        {{/recentEntries}}
 
-    <div class="clip-7">
-
-      {{#recentEntries}}
-      {{#title}}
-      <a href="{{{url}}}" class="{{active}}">{{title}}</a>
-      {{/title}}
-      {{/recentEntries}}
+      </div>
 
     </div>
-
     <br>
-
-    {{#menu}}
-    <a href="{{{url}}}" class="menu light {{active}}">{{label}}</a>
-    {{/menu}}
+    <div class="menu">
+      {{#menu}}
+      <a href="{{{url}}}" class="light {{active}}">{{label}}</a>
+      {{/menu}}
+    </div>
 
   </div>
 

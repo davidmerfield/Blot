@@ -1,70 +1,86 @@
+/* Inserts the styles required by various options
+on the services page of the dashboard */
 {{{appCSS}}}
 
-/* Colors inherited from template settings */
-body {
-  background: {{background_color}};
+/* Will be replaced with the @font-face rules required
+to load which font is selected as the main body font */
+{{{body_font.styles}}}
+{{{coding_font.styles}}}
+
+html {
+  {{#body_font}}
+  font-family: {{{stack}}};
+  font-size: {{{font_size}}}px;
+  line-height: {{{line_height}}};
+  {{/body_font}}
+  text-rendering: optimizeLegibility;
 }
 
-body,
-.pagination a,
-.nav a {
+body {
+  font-variant-ligatures: common-ligatures;
+  font-feature-settings: "liga";
+  word-wrap: break-word;
+  background: {{background_color}};
   color: {{text_color}};
+  display: flex;
+  margin: 0;
+}
+
+/* Navigation */
+
+.navigation-container {
+  flex-shrink: 0;
+  height: 100vh;
+  padding: {{spacing}}rem;
+  position: sticky;
+  top:0;
+}
+
+.navigation {
+  max-width: {{sidebar_width}}px;
+  flex-grow: 1;
+  max-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.navigation > * {
+  flex-shrink: 0
+}
+
+.navigation .shrink {
+  flex-shrink: 1;
+}
+
+.navigation a {
+  display: block;
+  text-indent: -{{spacing}};
+  padding-left: {{spacing}};
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.1s;
 }
 
 .navigation a:hover,
-.pagination,
-.post.text .date,
 .navigation a:focus,
 .navigation a.active,
-.navigation a.index,
-.navigation a.light,
-.archives a .date,
-.pagination a[href],
-.nav a[href] {
+.navigation a.light {
   color: {{navigation_link_color}};
 }
 
-.entry a {
-  color: {{text_link_color}}
+
+.clip-7 > :nth-child(n+12) {
+  display: none;
 }
 
-.entry a:visited {
-  color: {{text_link_visited_color}}
+.clip-5 > :nth-child(n+6) {
+  display: none;
 }
-
-
-
-
-.post.text .title {
-  color: {{text_color}};
-}
-
-.post.text:hover {
-  border-color: {{text_color}}
-}
-
-
-
-
-html,
-body {
-  margin: 0;
-  padding: 0
-}
-
-body {
-  font-family: -apple-system, BlinkMacSystemFont, Roboto, "Droid Sans",
-    "Helvetica Neue", Helvetica, Arial, sans-serif;
-  -ms-text-size-adjust: 100%;
-  -webkit-text-size-adjust: 100%;
-  text-rendering: optimizeLegibility;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-  -webkit-text-size-adjust: none;
-  font-variant-ligatures: common-ligatures;
-  font-feature-settings: "liga";
-  line-height: 1.3;
-  display: flex
+/* We never want to show these links on the 
+   portfolio theme since they don't make sense */
+.menu a[href="/feed.rss"],
+.menu a[href="/search"] {
+  display: none !important;
 }
 
 input[name="toggle"] {
@@ -73,7 +89,7 @@ input[name="toggle"] {
 
 .navigation,
 label[for="toggle"] {
-  padding: 3.5rem 2rem;
+  padding: {{spacing}};
 }
 
 label[for="toggle"] {
@@ -98,28 +114,17 @@ label[for="toggle"] {
 }
 
 
-.clip-7> :nth-child(n+18) {
-  display: none;
+.navigation a.index {
+  font-weight: bold
 }
 
-.clip-5> :nth-child(n+6) {
-  display: none;
-}
 
-.navigation-container {
-  flex-shrink: 0;
-}
 
-.navigation {
-  max-width: 12em
-}
 
-.navigation a {
-  display: block;
-  color: inherit;
-  text-decoration: none;
-  transition: color 0.1s;
-}
+
+
+
+
 
 .pagination {
   padding: 1.3rem 2.6rem 1.3rem 2.6rem;
@@ -171,14 +176,6 @@ label[for="toggle"] {
 .pagination a+a {
   margin-left: 1.3em;
   margin-right: 2.6rem
-}
-
-
-/* We never want to show these links on the 
-   portfolio theme since they don't make sense */
-.menu[href="/feed.rss"],
-.menu[href="/search"] {
-  display: none !important;
 }
 
 
@@ -234,14 +231,45 @@ label[for="toggle"] {
 
 
 
+
+
+.pagination,
+.post.text .date,
+.archives a .date,
+.nav a[href] {
+  color: {{navigation_link_color}};
+}
+
+.entry a {
+  color: {{text_link_color}}
+}
+
+.entry a:visited {
+  color: {{text_link_visited_color}}
+}
+
+
+
+
+.post.text .title {
+  color: {{text_color}};
+}
+
+.post.text:hover {
+  border-color: {{text_color}}
+}
+
+
+
+
 .posts {
   display: flex;
   flex-wrap: wrap;
-  padding: 1.3rem 2.6rem 1.3rem 2.6rem;
+  padding: calc({{spacing}}rem * 2 / 3);
 }
 
 .post {
-  margin: 0.65rem;
+  margin: calc({{spacing}}rem * 1 / 3);
   position: relative;
 }
 

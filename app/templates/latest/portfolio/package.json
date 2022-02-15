@@ -6,7 +6,23 @@
     "navigation_link_color": "rgba(0, 0, 0, .4)",
     "text_color": "rgba(0, 0, 0, 0.75)",
     "text_link_color": "darkblue",
-    "text_link_vistied_color": "purple"
+    "text_link_vistied_color": "purple",
+    "body_font": {},
+    "thumbnail_size": 200,
+    "thumbnail_size_range": [
+      50,
+      500
+    ],
+    "spacing": 1.5,
+    "spacing_range": [
+      0,
+      5
+    ],
+    "sidebar_width": 224,
+    "sidebar_width_range": [
+      150,
+      400
+    ]
   },
   "isPublic": true,
   "views": {

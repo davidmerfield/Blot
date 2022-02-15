@@ -7,8 +7,8 @@
     <a class="post photo" href="{{{url}}}" style="
       max-width:{{thumbnail.large.width}};
       max-height:{{thumbnail.large.height}};
-      width:calc({{thumbnail.large.width}}px*250/{{thumbnail.large.height}});
-      flex-grow:calc({{thumbnail.large.width}}*250/{{thumbnail.large.height}})">
+      width:calc({{thumbnail.large.width}}px*{{thumbnail_size}}/{{thumbnail.large.height}});
+      flex-grow:calc({{thumbnail.large.width}}*{{thumbnail_size}}/{{thumbnail.large.height}})">
       <i style="padding-bottom:{{thumbnail.large.ratio}}"></i>
       <img src="{{{thumbnail.large.url}}}" class="pre-loaded" onload="this.className+=' loaded';" />
       <noscript>  
@@ -17,7 +17,7 @@
     </a>
     {{/thumbnail.large.url}}
     {{^thumbnail.large.url}}
-    <a class="post text" href="{{{url}}}" style="flex-grow:250">
+    <a class="post text" href="{{{url}}}" style="flex-grow:{{thumbnail_size}}">
       <span class="title">{{title}}</span>
       <span class="date">{{date}}</span>
     </a>
@@ -40,6 +40,5 @@
     <a href="/archives">Browse the archives<span class="icon-holder margin-left"><span style="position:relative;top:-1px">+</span></span></a>
   </div>
   {{/pagination}}
-  <br><br><br><br><br><br>
 </div>
 {{> footer}}
