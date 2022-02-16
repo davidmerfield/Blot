@@ -160,8 +160,7 @@ label[for="toggle"] {
 
 
 .pagination {
-  padding: 1.3rem 2.6rem 1.3rem 2.6rem;
-  margin: 0.65em;
+  padding: {{spacing}}rem;
   display: flex;
   flex-wrap: wrap;
 }
