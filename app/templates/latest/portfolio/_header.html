@@ -6,7 +6,7 @@
     <title>{{> title}}</title>
     <meta name="description" content="{{> description}}">
     
-    <!-- Begin proprietary meta tags for sharing on social media -->
+    <!-- Begin meta tags for sharing on social media -->
     <meta property="og:title" content="{{> title}}">
     <meta property="og:description" content="{{> description}}">
     <meta property="og:type" content="website">
@@ -17,11 +17,12 @@
     {{/thumbnail.large}}
     <meta property="og:url" content="{{{absoluteURL}}}">
     {{/entry}}
-    <!-- End proprietary meta tags for sharing on social media -->
+    <!-- End meta tags for sharing on social media -->
 
     <link rel="alternate" type="application/rss+xml" title="{{title}}" href="{{{blogURL}}}{{{feedURL}}}">
     {{#avatar}}<link rel="icon" href="{{{avatar}}}" type="image/x-icon">{{/avatar}}
     <link rel="stylesheet" href="{{{cssURL}}}">
 </head>
-<body>
-  {{> navigation}}
+<body class="position-{{navigation_position}}">
+
+{{> navigation}}
