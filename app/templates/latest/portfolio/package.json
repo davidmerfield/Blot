@@ -35,8 +35,13 @@
       0,
       5
     ],
-    "sidebar_width": 224,
-    "sidebar_width_range": [
+    "body_width": 100,
+    "body_width_range": [
+      50,
+      100
+    ],
+    "navigation_width": 224,
+    "navigation_width_range": [
       150,
       400
     ]

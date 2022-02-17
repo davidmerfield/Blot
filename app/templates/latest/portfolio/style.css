@@ -22,7 +22,8 @@ body {
   background: {{background_color}};
   color: {{text_color}};
   word-wrap: break-word;
-  margin: 0;
+  margin: 0 auto;
+  max-width: {{body_width}}%;
 }
 
 /* Navigation */
@@ -35,14 +36,13 @@ body {
   position: absolute;
   {{/sticky_navigation}}
   top: 0;
-  width: {{sidebar_width}}px;
+  width: {{navigation_width}}px;
   height: 100vh;
   padding: {{spacing}}rem;
-  box-sizing: border-box;
 }
 
 body.position-right {
-  padding-right: {{sidebar_width}}px;
+  padding-right: {{navigation_width}}px;
 }
 
 body.position-right .navigation-container {
@@ -50,7 +50,7 @@ body.position-right .navigation-container {
 }
 
 body.position-left {
-  padding-left: {{sidebar_width}}px;
+  padding-left: {{navigation_width}}px;
 }
 
 body.position-left .navigation-container {
@@ -125,10 +125,6 @@ input[name="toggle"] {
   display: none;
 }
 
-.navigation,
-label[for="toggle"] {
-  padding: {{spacing}};
-}
 
 label[for="toggle"] {
   line-height: 0.333;
@@ -505,7 +501,7 @@ blockquote {
 
 .entries h1 {
   padding: 0 {{spacing}}rem;
-  margin: {{spacing}}rem 0 0;
+  margin: calc({{spacing}} * 0.6667rem) 0 0 0;
 }
 
 .archives {
