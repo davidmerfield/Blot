@@ -34,8 +34,9 @@ const internal = {
   "/how/publishing-with-blot": "/how",
   "/how/configuring": "/how/configure",
   "/how/formatting": "/how/guides",
+  "/how/format": "/how/posts",
   "/how/drafts": "/how",
-  "/formatting": "/how/format",
+  "/formatting": "/how/posts",
   "/redirects": "/how/configure/redirects",
   "/configuring": "/how/configure",
 };

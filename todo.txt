@@ -1,13 +1,5 @@
 Email Laurel about templates / use cases / concepts
 
-Add folder viewer to template section
-
-Streamline the demo folders process (and building of demo sites) (and taking of template screenshots)
-
----
-
-Refactor 'how it works page' adding Google Drive to sync section, breaking out the file types into their own pages.
-
 ---
 
 Convert [Vitepress](https://vitepress.vuejs.org/) to Blot and tell [Nicolas](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmtNldkFnLGgZVNfqLcvBjVxWW)
