@@ -1,3 +1,5 @@
+Email Laurel about templates / use cases / concepts
+
 Add folder viewer to template section
 
 Streamline the demo folders process (and building of demo sites) (and taking of template screenshots)
