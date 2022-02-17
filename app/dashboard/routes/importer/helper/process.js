@@ -1,8 +1,8 @@
 const async = require("async");
 const fs = require("fs-extra");
 
-module.exports = (output_directory, posts) => {
-  fs.emptyDirSync(output_directory);
+module.exports = (output_directory, posts, options = {}) => {
+  if (!options.preserve_output_directory) fs.emptyDirSync(output_directory);
 
   async.eachSeries(
     posts,
