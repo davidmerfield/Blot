@@ -402,7 +402,9 @@ label[for="toggle"] {
   margin-left: 0.5rem
 }
 
-.entry {
+.entry {display: flex;min-height: 100vh}
+
+.entry .contents {
   padding: {{spacing}}rem;
   /*  flex-grow: 1;
 */
