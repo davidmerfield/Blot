@@ -181,11 +181,11 @@ label[for="toggle"] {
     display: flex;
     box-sizing: border-box;
     z-index: 1;
+    background: {{background_color}};
   }
 
   .navigation {
-        height: 4rem; /* height of index link */
-    background: {{background_color}};
+        height: 2rem; /* height of index link */
   }
 
   input[name="toggle"]:checked+.navigation {
