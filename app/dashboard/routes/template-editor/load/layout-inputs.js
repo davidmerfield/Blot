@@ -75,9 +75,7 @@ module.exports = function (req, res, next) {
         min = (range && range[0]) || (MAP[key] && MAP[key].min) || 1;
         max = (range && range[1]) || (MAP[key] && MAP[key].max) || 60;
       }
-
-      console.log("HERE", key, "isRange", isRange);
-
+      
       return {
         key,
         label: (MAP[key] && MAP[key].label) || desnake(key),
