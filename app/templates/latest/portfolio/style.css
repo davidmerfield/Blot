@@ -177,9 +177,19 @@ label[for="toggle"] {
 
   .navigation-container {
     width: 100%;
-    height: 4rem; /* height of index link */
+    height: auto;
     display: flex;
+    box-sizing: border-box;
+    z-index: 1;
+  }
+
+  .navigation {
+        height: 4rem; /* height of index link */
     background: {{background_color}};
+  }
+
+  input[name="toggle"]:checked+.navigation {
+    min-height: 100vh;
   }
 
   input[name="toggle"]+.navigation>*:not(.index-link) {
