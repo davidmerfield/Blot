@@ -15,7 +15,7 @@
   }
 </style>
 <form action="/search">
-  <input type="text" name="q" placeholder="Search the archives">
+  <input type="text" {{#query}}autofocus{{/query}} value="{{query}}" name="q" placeholder="Search the archives">
   <input type="submit" value="Search">
 </form>
 

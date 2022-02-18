@@ -238,6 +238,7 @@ label[for="toggle"] {
 
 .pagination a {
   text-decoration: none;
+  color: inherit;
 }
 
 .pagination>* {
