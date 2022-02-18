@@ -42,7 +42,7 @@ body {
 }
 
 body.position-right {
-  padding-right: {{navigation_width}}px;
+  padding-right: calc({{spacing}}rem + {{navigation_width}}px);
 }
 
 body.position-right .navigation-container {
@@ -50,7 +50,7 @@ body.position-right .navigation-container {
 }
 
 body.position-left {
-  padding-left: {{navigation_width}}px;
+  padding-left: calc({{spacing}}rem + {{navigation_width}}px);
 }
 
 body.position-left .navigation-container {
@@ -486,10 +486,9 @@ blockquote {
   }
 }
 
-.nav>* {
+.nav >* {
   display: block;
-  padding: 2rem;
-  font-size: 20px
+  padding: {{spacing}}rem;
 }
 
 .nav a { text-decoration: none; }
