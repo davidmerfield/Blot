@@ -1330,10 +1330,19 @@ p.sub {
 
 .dropdown .menu {
   z-index: 20;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .dropdown .menu button {
   text-align: left;
+}
+
+.dropdown .menu > * {
+  flex-basis: 280px;
+  flex-shrink: 0;
+  flex-grow: 0;
+  margin:1rem;
 }
 
 .dropdown .menu a,
@@ -1341,7 +1350,6 @@ p.sub {
   display: block;
   padding: 0 20px;
   margin: 0;
-  width: 100%;
   line-height: 48px;
   margin: 0;
   color: #909090;
@@ -1914,7 +1922,8 @@ a:hover .tablet-cover {
 form.account,
 .inset {
   padding: 11px 20px;
-  border-top: 1px solid rgba(0,0,0,0.05)
+  border-top: 1px solid rgba(0,0,0,0.05);
+  max-width: 700px
 }
 
 
