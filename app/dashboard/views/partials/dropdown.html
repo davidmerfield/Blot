@@ -16,7 +16,7 @@
     border-radius: 12px;">
         <span class="photo-holder">
           {{#avatar}}<img src="{{avatar}}?handle={{handle}}">{{/avatar}}
-          {{^avatar}}<span class="file" style="width:30px;height:24px;opacity:0.4"></span>{{/avatar}}
+          {{^avatar}}<span class="folder" style="width:30px;height:24px;opacity:0.2"></span>{{/avatar}}
         </span>  
         <span style="color:#365899;font-weight:400;line-height: 1.4;">
           <span class="title" style="height:1.4em;overflow: hidden;display: block;">{{pretty.label}}</span>
@@ -28,7 +28,7 @@
     </form>
     {{/blogs}}
     
-    <a href="/account/create-blog" style="border:1px dashed rgba(0, 0, 0, 0.1);border-radius:12px;color:#365899;padding-right:40px;line-height: 42px;margin:1rem;height:4.2rem"><span class="photo-holder plus" style="text-align:center;text-indent: 1px">+</span><span class="on-hover">Create blog</span></a>
+    <a href="/account/create-blog" style="border:1px dashed rgba(0, 0, 0, 0.1);border-radius:12px;color:#365899;padding-right:40px;line-height: 3.8rem;margin:1rem;height:4.2rem"><span class="photo-holder plus" style="text-align:center;text-indent: 1px">+</span><span class="on-hover">Create blog</span></a>
 
 
   </div>
