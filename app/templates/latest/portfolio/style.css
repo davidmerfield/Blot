@@ -472,6 +472,14 @@ blockquote {
   width: auto;
 }
 
+body.position-left .nav:first-of-type > a:first-of-type {
+  visibility: hidden;
+}
+
+body.position-right .nav:last-of-type > a:first-of-type {
+  visibility: hidden;
+}
+
 .nav {
   display: flex;
   flex-shrink: 0;
@@ -480,6 +488,13 @@ blockquote {
   justify-content: space-between;
 }
 
+.nav svg {
+  width:calc({{body_font.font_size}}px * 2.5);
+  height: calc({{body_font.font_size}}px * 2.5);
+  stroke:{{text_color}};
+  stroke-width:calc({{body_font.font_size}}px * 0.14);
+  stroke-linecap: square;
+}
 @media screen and (max-width: 800px) {
   .nav {
     flex-direction: row;
