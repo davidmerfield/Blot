@@ -1339,13 +1339,16 @@ p.sub {
 }
 
 .dropdown .menu > * {
-  flex-basis: 280px;
+  flex-basis: 320px;
+  width: 320px;
   flex-shrink: 0;
   flex-grow: 0;
-  margin:1rem;
+  padding:1rem;
+  box-sizing: border-box;
+  display: flex;
 }
 
-.dropdown .menu a,
+.dropdown .menu a > span,
 .dropdown .menu button {
   display: block;
   padding: 0 20px;
