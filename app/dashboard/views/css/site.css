@@ -1830,7 +1830,7 @@ div.line a.link:hover {
 
 .link,
 .right {
-  color: #365899;
+  color: #0070e8;
 }
 
 .right {
@@ -2143,7 +2143,7 @@ line-height: 48px;
 }
 
 .external {
-  color: #365899;
+  color: #0070e8;
   /*border:1px solid;*/
   text-decoration: none;
   padding: 0 20px;
@@ -2371,4 +2371,4 @@ a.content-line .file {
   background:#fff;border:1px solid #ddd;border-radius:4px
 }
 
-form a {color: #365899}
+form a {color: #0070e8}
