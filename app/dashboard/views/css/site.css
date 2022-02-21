@@ -1343,7 +1343,7 @@ p.sub {
   width: 320px;
   flex-shrink: 0;
   flex-grow: 0;
-  padding:1rem;
+  padding:0 1rem 1rem;
   box-sizing: border-box;
   display: flex;
 }
@@ -1847,6 +1847,10 @@ div.line a.link:hover {
   font-size: 14px;
   box-sizing: border-box;
   flex-shrink: 0;
+}
+
+@media (min-width:800px) {
+  .label {flex-basis: 20%}
 }
 
 .center,

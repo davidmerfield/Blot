@@ -14,6 +14,9 @@ const output_directory =
     ? input_directory.slice(0, -1)
     : input_directory) + "-output";
 
+if (fs.existsSync(output_directory)) {
+  fs.emptyDirSync(output_directory);
+}
 
 (async () => {
   const paths = walk(input_directory).filter(
@@ -54,17 +57,22 @@ const output_directory =
 
       const $ = cheerio.load(post.html);
 
-      $("img").each(function () {
+      $("img").each(async function () {
         const src = $(this).attr("src");
         const url = require("url").parse(src);
 
-        if (
-          url.hostname === host &&
-          fs.existsSync(input_directory + url.path)
-        ) {
+        try {
           const newPath = "/_assets/" + require("path").basename(url.path);
           fs.copySync(input_directory + url.path, output_directory + newPath);
           $(this).attr("src", newPath);
+        } catch (e) {
+          console.log(
+            "nothing found for",
+            url.path,
+            "via",
+            url.hostname,
+            e.message
+          );
         }
       });
 
@@ -73,6 +81,8 @@ const output_directory =
       return post;
     })
   );
+
+  // throw "here!";
 
   // Writes each post in the post array,
   // downloads any images, pdfs
