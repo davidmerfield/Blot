@@ -137,7 +137,7 @@ brochure.use("/log-in", require("./log-in"));
 
 brochure.use("/questions", require("./questions"));
 
-brochure.use("/how/guides/domain", function (req, res, next) {
+brochure.use("/how/configure/domain", function (req, res, next) {
   res.locals.ip = config.ip;
   next();
 });
