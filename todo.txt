@@ -1,5 +1,7 @@
 Email Laurel about templates / use cases / concepts
 
+Create list of account links for Robin's students, ensure they last longer than 24 hours and can be clicked multiple times
+
 ---
 
 Convert [Vitepress](https://vitepress.vuejs.org/) to Blot and tell [Nicolas](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmtNldkFnLGgZVNfqLcvBjVxWW)
@@ -225,7 +227,7 @@ Support [Obsidian's syntax for embedding files](https://help.obsidian.md/How+to/
 
 Migrate from mailgun to SES, mailgun's javascript sdk [seems](https://github.com/mailgun/mailgun-js/issues/122) [like](https://github.com/mailgun/mailgun-js#setup-client) a mess.
 
-Expose log files on blog's dashboard and tell [Sönke](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLtsxjSMlVmNRFGJJxkpsVFNvg)
+Expose log files on blog's dashboard and tell [Sönke](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLtsxjSMlVmNRFGJJxkpsVFNvg) and [questioner](https://blot.im/questions/136)
 
 Improvements to brochure:
 - Write build scripts which can be run to produce results checked into git
