@@ -32,7 +32,7 @@ function main(handle, callback) {
         if (!uid)
           return callback(new Error("No user with identifier " + handle));
 
-        User.generateAccessToken({uid}, function (err, token) {
+        User.generateAccessToken({ uid }, function (err, token) {
           if (err) throw err;
 
           // The full one-time log-in link to be sent to the user
