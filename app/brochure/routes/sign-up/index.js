@@ -47,14 +47,11 @@ alreadyPaid.get(csrf, function (req, res) {
 });
 
 alreadyPaid.post(parse, csrf, validateEmail, function (req, res, next) {
-  if (!req.params.token) {
-    return next(new Error("You do not have a valid token."));
-  }
 
   // First we make sure that the access token passed is valid.
   User.checkAccessToken(req.params.token, function (err) {
     if (err) {
-      return next(new Error("The link you just used is not valid"));
+      return next(new Error("Your sign up link is not valid. Please ask for another."));
     }
 
     req.session.subscription = {};
