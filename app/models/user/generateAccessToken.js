@@ -3,18 +3,20 @@ var client = require("client");
 var key = require("./key");
 
 var LENGTH = 16; // characters long
-var EXPIRE = 24 * 60 * 60; // 24 hrs
 
-module.exports = function (uid, callback) {
+module.exports = function generateAccessToken({ uid, expires }, callback) {
   crypto.randomBytes(LENGTH, function (err, token) {
     if (err) return callback(err);
 
     token = token.toString("hex");
 
-    client.SETEX(key.accessToken(token), EXPIRE, uid, function (err) {
+    const value = uid || 1;
+    const seconds = expires || 60 * 60 * 24; // one day
+
+    client.SETEX(key.accessToken(token), seconds, value, function (err) {
       if (err) return callback(err);
 
-      return callback(null, token);
+      callback(null, token);
     });
   });
 };

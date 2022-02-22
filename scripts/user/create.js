@@ -28,21 +28,27 @@ if (require.main === module) {
 }
 
 function generateLink(email, callback) {
-  User.generateAccessToken(email, function (err, token) {
+  const expires = 60 * 60 * 24 * 180; // 180 days time
+  User.generateAccessToken({ expires }, function (err, token) {
     if (err) throw err;
 
     // The full one-time log-in link to be sent to the user
     var url = format({
       protocol: "https",
       host: config.host,
-      pathname: "/sign-up",
-      query: {
-        already_paid: token,
-      },
+      pathname: `/sign-up/paid/${token}`,
     });
 
-    console.log("Use this link to create an account for:", email);
+    console.log("Use this link to create an account");
     console.log(url);
+
+    console.log();
+    console.log(
+      `The link will expire ${require("moment")()
+        .add(expires, "seconds")
+        .fromNow()}`
+    );
+
     callback();
   });
 }
