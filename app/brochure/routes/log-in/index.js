@@ -51,6 +51,7 @@ form
 
   .get(csrf, function (req, res) {
     res.locals.csrf = req.csrfToken();
+    res.locals.title = "Reset password";
     res.render("log-in/reset");
   })
 

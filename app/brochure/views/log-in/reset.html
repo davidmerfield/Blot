@@ -24,7 +24,7 @@ input[type="submit"].link:hover {
 
 
 
-  <p style="margin:0;color:grey;background:rgba(0,0,0,0.02);border-bottom: 1px solid var(--light-border-color);padding-bottom: 16px;margin:-17px -25px 0;padding: 16px 24px;border-radius: 6px 6px 0 0"><strong style="display: block;color: #000;">Reset your password</strong>Forgot password</p>
+  <p style="margin:0;color:grey;/*background:rgba(0,0,0,0.02);*/border-bottom: 1px solid var(--light-border-color);padding-bottom: 16px;margin:-18px -36px 0;padding: 18px 36px;border-radius: 18px 18px 0 0""><strong style="display: block;color: #000;">Reset your password</strong>Forgot password</p>
 
 
 {{^sent}}
@@ -48,7 +48,7 @@ input[type="submit"].link:hover {
   </p>
 
   <input type="submit" name="reset"  value="Reset your password" />
-  <a href="/" style="background: #e0e0e0;
+  <a href="/log-in" style="background: #e0e0e0;
     border-radius: 4px;
     -webkit-appearance: none;
     padding: 0.75em 1em;
@@ -67,5 +67,5 @@ input[type="submit"].link:hover {
 {{/sent}}
 
 {{#sent}}
-<p>A link to {{#if hasPassword}}re{{/if}}set your password was sent to <b>{{email}}</b>. Don't hesitate to <a href="/support">contact support</a> if you have any questions.</p>
+<p>A link to {{#if hasPassword}}re{{/if}}set your password was sent to <b>{{email}}</b>. Please <a href="/contact">contact us</a> if you have any questions.</p>
 {{/sent}}
