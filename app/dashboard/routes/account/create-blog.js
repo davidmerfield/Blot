@@ -1,6 +1,7 @@
 var Express = require("express");
 var CreateBlog = new Express.Router();
 var Blog = require("blog");
+var _ = require("lodash");
 var prettyPrice = require("helper/prettyPrice");
 var config = require("config");
 var request = require("request");
@@ -66,6 +67,13 @@ CreateBlog.route("/")
       return next();
     }
 
+    // For institutional accounts, we need to allow them to create
+    // at least one blog.
+    if (_.isEmpty(req.user.subscription) && req.user.blogs.length === 0) {
+      return next();
+    }
+
+    console.log("made it here!", req.user.subscription, req.user.blogs.length);
     res.redirect(req.baseUrl + "/pay");
   })
 
