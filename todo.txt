@@ -1,3 +1,5 @@
+Fix the password reset flow
+
 Email Laurel about templates / use cases / concepts
 
 Fix issues with robustness of sync, esp on Dropbox and tell Victor and Ryan
