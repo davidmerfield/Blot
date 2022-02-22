@@ -1,6 +1,6 @@
 Email Laurel about templates / use cases / concepts
 
-Create list of account links for Robin's students, ensure they last longer than 24 hours and can be clicked multiple times
+Improve video demo and developer documentation of Blot by April 14th for Robin's students
 
 ---
 
