@@ -58,6 +58,17 @@ CreateBlog.route("/")
   .all(validateSubscription)
 
   .all(function (req, res, next) {
+
+    // For institutional accounts, we need to allow them to create
+    // at least one blog.
+    if (_.isEmpty(req.user.subscription) && req.user.blogs.length === 0) {
+      return next();
+    }
+
+    // If the user pays for more blogs than they have
+    // associated with their account, don't charge
+    // them anything. This usually happens when they 
+    // delete their last blog.
     if (
       req.user.subscription &&
       req.user.subscription.quantity !== null &&
@@ -67,13 +78,6 @@ CreateBlog.route("/")
       return next();
     }
 
-    // For institutional accounts, we need to allow them to create
-    // at least one blog.
-    if (_.isEmpty(req.user.subscription) && req.user.blogs.length === 0) {
-      return next();
-    }
-
-    console.log("made it here!", req.user.subscription, req.user.blogs.length);
     res.redirect(req.baseUrl + "/pay");
   })
 
