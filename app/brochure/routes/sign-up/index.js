@@ -41,7 +41,6 @@ alreadyPaid.get(csrf, function (req, res) {
   res.locals.title = "Sign up";
   res.locals.menu = { "sign-up": "selected" };
   res.locals.error = req.query.error;
-  res.locals.errormessage = req.query.error;
   res.locals.csrf = req.csrfToken();
   res.render("sign-up/paid");
 });
@@ -141,7 +140,6 @@ passwordForm.get(csrf, function (req, res) {
   res.locals.email = req.session.email;
   res.locals.subscription = !!req.session.subscription;
   res.locals.error = req.query.error;
-  res.locals.errormessage = req.query.error;
   res.locals.change_email = req.query.change_email;
   res.locals.csrf = req.csrfToken();
   res.render("sign-up/password");
