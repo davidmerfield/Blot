@@ -1,19 +1,19 @@
+Fix the password reset flow
+
 Email Laurel about templates / use cases / concepts
 
-Create list of account links for Robin's students, ensure they last longer than 24 hours and can be clicked multiple times
+Fix issues with robustness of sync, esp on Dropbox and tell Victor and Ryan
+
+Improve video demo and developer documentation of Blot by April 14th for Robin's students
 
 ---
-
-Convert [Vitepress](https://vitepress.vuejs.org/) to Blot and tell [Nicolas](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmtNldkFnLGgZVNfqLcvBjVxWW)
 
 Make retreiving files from server case-insentive
 - i.e. add resolve case insensitive path to file to blog/asset.js
 
 Fix bug with typeset 'Small caps' setting and wikilinks then follow up with [questioner](https://blot.im/questions/414). The issue is caused by the insertion of the span class="small-caps" before the wikilink converter has had a chance to render the link. Typeset should be run after wikilinks to fix this.
 
-Tell will fixed bug with changing text color on magazine template and tell [Will](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlkXtmxxRWGmBxCZbFxTrJGVrR)
-
-Fix issues with Dropbox sync and tell Victor
+Tell [Will](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlkXtmxxRWGmBxCZbFxTrJGVrR) we fixed bug with changing text color on magazine template 
 
 Fix bug with [many twitter embeds and tell Nash](https://mail.google.com/mail/u/0/#inbox/FMfcgzGllMNfjvRBthVncQtPJQpmrksx)
 
@@ -68,8 +68,6 @@ Smooth over the custom domain adding process
 
 Move citations out of {{{html}}} and tell [questioner](https://blot.im/questions/298) and [Mikka](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlkPcprJZlTSFbTGlqSPJcfWJJ)
 
-Rework dashboard design
-
 Add introductory guide to forking a template to templates page
 
 Add [OneDrive](https://onedrive.com) client
@@ -86,6 +84,8 @@ Add [OneDrive](https://onedrive.com) client
 - If OneDrive for Business is supported tell [Josh](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVqWwRgxrwLRzrNscfJtllhXz)
 
 ---
+
+Convert [Vitepress](https://vitepress.vuejs.org/) to Blot and tell [Nicolas](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmtNldkFnLGgZVNfqLcvBjVxWW)
 
 Re-order blog engine routes such that pages/entries are evauluated first, making it possible to set up custom redirects and tell [Marco](https://mail.google.com/mail/u/0/#inbox/FMfcgzGllCcNbxjDTdZzRCcNgmnJjXWM)
 

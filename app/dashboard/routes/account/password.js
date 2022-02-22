@@ -89,10 +89,10 @@ function verifyToken(req, res, next) {
 
   delete req.session.passwordSetToken;
 
-  User.checkAccessToken(token, function (err, tokenUid) {
+  User.checkAccessToken(token, function (err, uid) {
     if (err) return next(err);
 
-    if (tokenUid !== req.user.uid) {
+    if (uid !== req.user.uid) {
       return next(new Error("Your token was invalid."));
     }
 

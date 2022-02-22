@@ -25,13 +25,8 @@ signup.use(function (req, res, next) {
 });
 
 var paymentForm = signup.route("/");
+var alreadyPaid = signup.route("/paid/:token");
 var passwordForm = signup.route("/create-account");
-
-passwordForm.all(function (req, res, next) {
-  if (req.user) return res.redirect("/");
-
-  return next();
-});
 
 if (config.maintenance) {
   paymentForm.use("/sign-up", function (req, res) {
@@ -39,28 +34,49 @@ if (config.maintenance) {
   });
 }
 
-// For users who paid by PayPal I have a tool to skip the Stripe
-// form using an access token I generate myself
-paymentForm.get(function (req, res, next) {
-  // Just a regular old request, carry on.
-  if (!req.query.already_paid) return next();
+// For users who paid by PayPal or institutional customers
+// who paid on Stripe I have a tool to skip the form using
+// a generated access token.
+alreadyPaid.get(csrf, function (req, res) {
+  res.locals.title = "Sign up";
+  res.locals.menu = { "sign-up": "selected" };
+  res.locals.error = req.query.error;
+  res.locals.csrf = req.csrfToken();
+  res.render("sign-up/paid");
+});
+
+alreadyPaid.post(parse, csrf, validateEmail, function (req, res, next) {
 
   // First we make sure that the access token passed is valid.
-  User.checkAccessToken(req.query.already_paid, function (err, email) {
-    if (err || !email) {
-      err = new Error(
-        "The link you just used is not valid, please ask for another one."
-      );
-      return next(err);
+  User.checkAccessToken(req.params.token, function (err) {
+    if (err) {
+      return next(new Error("Your sign up link is not valid. Please ask for another."));
     }
 
-    req.session.email = email;
     req.session.subscription = {};
-    req.session.already_paid = true;
-
-    next();
+    req.session.email = req.email;
+    res.redirect(req.baseUrl + passwordForm.path);
   });
 });
+
+function validateEmail(req, res, next) {
+  var email = req.body && req.body.email;
+
+  // Normalize the email here before storing it
+  // in the browser's session
+  email = email.trim().toLowerCase();
+
+  if (!email) return next(new Error(NO_EMAIL));
+
+  User.getByEmail(email, function (err, existingUser) {
+    if (err) return next(err);
+
+    if (existingUser) return next(new Error(IN_USE));
+
+    req.email = email;
+    next();
+  });
+}
 
 paymentForm.get(csrf, function (req, res) {
   if (req.session && req.session.email && req.session.subscription)
@@ -74,52 +90,39 @@ paymentForm.get(csrf, function (req, res) {
   res.render("sign-up");
 });
 
-paymentForm.post(parse, csrf, function (req, res, next) {
+paymentForm.post(parse, csrf, validateEmail, function (req, res, next) {
   // Card is a stripe token generated on the client
-  var card = req.body && req.body.stripeToken;
-  var email = req.body && req.body.email;
-
-  // Normalize the email here before storing it
-  // in the browser's session
-  email = email.trim().toLowerCase();
-
-  if (!email) return next(new Error(NO_EMAIL));
+  const card = req.body && req.body.stripeToken;
 
   if (!card) return next(new Error(BAD_CHARGE));
-
-  var info = {
-    card: card,
-    email: email,
+  const email = req.email;
+  const info = {
+    card,
+    email,
     plan: config.stripe.plan,
     description: "Blot subscription",
   };
 
-  User.getByEmail(email, function (err, existingUser) {
-    if (err) return next(err);
+  stripe.customers.create(info, function (err, customer) {
+    if (err && err.type === "StripeCardError") {
+      return next(new Error(DECLINED));
+    }
 
-    if (existingUser) return next(new Error(IN_USE));
+    if (err) {
+      return next(new Error(BAD_CHARGE));
+    }
 
-    stripe.customers.create(info, function (err, customer) {
-      if (err && err.type === "StripeCardError") {
-        return next(new Error(DECLINED));
-      }
+    if (!customer) {
+      return next(new Error(NO_CUSTOMER));
+    }
 
-      if (err) {
-        return next(new Error(BAD_CHARGE));
-      }
+    // Store the user's email and charge ID
+    // so that when the user returns from
+    // Dropbox we know they have a blot account
+    req.session.email = email;
+    req.session.subscription = customer.subscription;
 
-      if (!customer) {
-        return next(new Error(NO_CUSTOMER));
-      }
-
-      // Store the user's email and charge ID
-      // so that when the user returns from
-      // Dropbox we know they have a blot account
-      req.session.email = email;
-      req.session.subscription = customer.subscription;
-
-      res.redirect(req.baseUrl + passwordForm.path);
-    });
+    res.redirect(req.baseUrl + passwordForm.path);
   });
 });
 
@@ -137,9 +140,7 @@ passwordForm.get(csrf, function (req, res) {
   res.locals.email = req.session.email;
   res.locals.subscription = !!req.session.subscription;
   res.locals.error = req.query.error;
-  res.locals.errormessage = req.query.error;
   res.locals.change_email = req.query.change_email;
-  res.locals.already_paid = req.session.already_paid;
   res.locals.csrf = req.csrfToken();
   res.render("sign-up/password");
 });
