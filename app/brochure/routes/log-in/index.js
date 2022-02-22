@@ -24,7 +24,8 @@ var DASHBOARD_PAGE_DESCRIPTION = {
 };
 
 form.use(function (req, res, next) {
-  // Send logged-in users to the dashboard
+  // Send logged-in users to the dashboard unless we're using
+  // a one-time log-in link
   if (req.session && req.session.uid && !req.query.token) {
     var then = req.query.then || (req.body && req.body.then) || "/";
     return res.redirect(then);
