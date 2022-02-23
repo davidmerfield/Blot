@@ -9,7 +9,9 @@ var async = require("async");
 var WRONG_TYPE = "WRONG_TYPE";
 var PUBLIC_FILE = "PUBLIC_FILE";
 var isHidden = require("build/prepare/isHidden");
-var build = require("build");
+
+const bull = require("bull");
+const buildQueue = new bull("build");
 
 function isPublic(path) {
   return (
@@ -28,13 +30,11 @@ function isTemplate(path) {
   return normalize(path).indexOf("/templates/") === 0;
 }
 
-function buildAndSet(blog, path, options, callback) {
-  build(blog, path, options, function (err, entry) {
-    if (err && err.code === "WRONGTYPE")
-      return Ignore(blog.id, path, WRONG_TYPE, callback);
+async function buildAndSet(blog, path, options, callback) {
+  const job = await buildQueue.add({ blog, path, options });
 
-    if (err) return callback(err);
-
+  try {
+    const entry = await job.finished();
     Entry.set(blog.id, entry.path, entry, function (err) {
       if (err) return callback(err);
       // This file is a draft, write a preview file
@@ -46,7 +46,14 @@ function buildAndSet(blog, path, options, callback) {
         callback();
       }
     });
-  });
+  } catch (err) {
+    console.log("here", err.message, "code=" + err.code);
+
+    if (err && err.code === "WRONGTYPE")
+      return Ignore(blog.id, path, WRONG_TYPE, callback);
+
+    if (err) return callback(err);
+  }
 }
 
 module.exports = function (blog, path, options, callback) {
@@ -66,7 +73,9 @@ module.exports = function (blog, path, options, callback) {
     // Store the case-preserved name against the
     // path to this file
     if (options.name) {
-      queue.metadata = Metadata.add.bind(this, blog.id, path, options.name);
+      queue.metadata = function (next) {
+        Metadata.add(blog.id, path, options.name, next);
+      };
     }
 
     // The file is public. Its name begins
@@ -74,12 +83,16 @@ module.exports = function (blog, path, options, callback) {
     // whose name begins with an underscore. It should
     // therefore not be a blog post.
     if (isPublic(path)) {
-      queue.ignore = Ignore.bind(this, blog.id, path, PUBLIC_FILE);
+      queue.ignore = function (next) {
+        Ignore.bind(blog.id, path, PUBLIC_FILE, next);
+      };
     }
 
     // This file should become a blog post or page!
     if (!isPublic(path) && !isTemplate(path) && !is_preview) {
-      queue.buildAndSet = buildAndSet.bind(this, blog, path, options);
+      queue.buildAndSet = function (next) {
+        buildAndSet(blog, path, options, next);
+      };
     }
 
     async.parallel(queue, function (err) {

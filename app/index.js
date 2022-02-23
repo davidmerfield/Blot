@@ -11,6 +11,11 @@ if (cluster.isMaster) {
   const scheduler = require("./scheduler");
   const publishScheduledEntries = require("./scheduler/publish-scheduled-entries");
 
+  const bull = require("bull");
+  const buildQueue = new bull("build");
+
+  buildQueue.process(__dirname + "/build/index.js");
+
   console.log(
     clfdate(),
     `Starting pid=${process.pid} environment=${config.environment} cache=${config.cache}`
