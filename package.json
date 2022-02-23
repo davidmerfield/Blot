@@ -44,6 +44,7 @@
     "aws-sdk": "^2.814.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.4.3",
+    "bull": "^4.6.2",
     "cheerio": "^0.22.0",
     "clean-css": "^4.2.1",
     "colors": "^1.3.2",
