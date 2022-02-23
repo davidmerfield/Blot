@@ -1,4 +1,9 @@
-Fix issues with robustness of sync, esp on Dropbox and tell Victor and Ryan
+Fix issues with robustness of sync, esp on Dropbox and tell:
+ - Victor
+ - Ryan
+ - Johannes
+ - Rizwan
+ - [Kevin](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlkFzdBrlJzrGprHNHNmvkQqbW)
 
 Improve video demo and developer documentation of Blot by April 14th for Robin's students
 
