@@ -1,8 +1,8 @@
 describe("Blot configuration", function () {
   // The test to start the main server
   // and resolve unused dependencies both
-  // needs a little longer to run. 20s should be plenty
-  var LONG_TIMEOUT = 20 * 1000;
+  // needs a little longer to run. 50s should be plenty
+  var LONG_TIMEOUT = 50 * 1000;
 
   // TODO: check that g
   it("config loads without error", function () {
@@ -11,7 +11,7 @@ describe("Blot configuration", function () {
     }).not.toThrow();
   });
 
-var request = require("request");
+  var request = require("request");
   var START_MESSAGE = "listening";
   var server;
   var stderr = "";
@@ -34,11 +34,11 @@ var request = require("request");
         done();
       }
     });
-  }, 50 * 1000);
+  }, LONG_TIMEOUT);
 
   afterAll(function (done) {
-    server.on("close", function () {
-      // expect(stderr).toEqual('');
+    
+    server.on("exit", function () {
       done();
     });
 

@@ -47,7 +47,7 @@ function synchronize(blogID, sourceFolder, callback) {
   // We don't want to make any changes to the folder in
   // a way which might conflict with other processes
   // so we acquire a lock on the blog's folder on Blot.
-  Sync(blogID, {}, function (err, folder, done) {
+  Sync(blogID, function (err, folder, done) {
     if (err) return callback(err);
 
     try {

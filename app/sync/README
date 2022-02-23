@@ -24,6 +24,52 @@ sync(blogID, function(err, folder, done){
 It takes advantage of Blot's database and an implementation of
 the redlock algorithm by Mike Marcacci https://redis.io/topics/distlock
 
+Does last commit fix the zombie process issue?
+How do we test the zombie process issue?
+  - more flags to build?
+
+
+Generally, can we offload all expensive work into
+ 'forked' processes to ease the load on the server
+ - almost everything except reads?
+ - all GET requests get their own speedy/high priority process?
+
+Can we abstract the shit in build/index to a helper function
+that could generally make any function 'resilient', e.g.
+
+  const resilient = require('helper/resilient');
+  function build (...) { ... }
+  module.exports = resilient(build);
+
+Possible future architecture
+
+Blot -- cluster --> server  (can initiate a sync)
+                    server  (can initiate a sync)
+                    sync    -- resilient --> build
+
+
+
+
+Let's remove async exit hook and instead use a heartbeat system between processes:
+
+https://www.exratione.com/2013/05/die-child-process-die/
+
+https://www.exratione.com/2013/03/nodejs-run-the-heartbeat-in-a-child-process/
+
+Handle bug with build passing a job to a dead slave
+See if we can handle sync with process restart's gracefully!
+Makes the sync less dependent for upon the success of other files
+
+Resolve issues with git client during a partially-successful sync and tell V
+
+If using the git client, if building one entry fails, it seems that the rest of the entries in the same sync also fail?
+so right now build/metadata is used multiple times. in certain cases it is wrapped in a try/catch but in others it is not. we need to wrap it in try/catch wherever it is used
+right now, if build/main throws an uncaught exception, it seems like the rest of the sync fails. this needs to not happen
+to debug, add one invalid file ('foo: bar: baz\nxyz') and one valid file ('valid') and sync
+If there is a build error with a specific post, show it on the dashboard, e.g. on the file viewer
+
+
+
 To do
 -----
 

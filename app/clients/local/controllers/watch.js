@@ -67,7 +67,7 @@ module.exports = function watch(blogID, folder) {
           } else {
             fs.removeSync(pathOnBlot);
           }
-          async.each(affectedPaths, folder.update, function (err) {
+          async.eachSeries(affectedPaths, folder.update, function (err) {
             if (err) console.log(err);
             done(null, function (err) {
               if (err) return callback(err);
