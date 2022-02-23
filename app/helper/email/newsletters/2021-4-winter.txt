@@ -1,0 +1,32 @@
+Winter newsletter
+
+*You received this email because you subscribed to [Blot’s newsletter](https://blot.im/about/news). You can [unsubscribe](https://blot.im/about/news/cancel) if you like. Please reply directly to this email if you have any thoughts or questions.*
+
+**New features**
+- You can now sync your blog’s folder using [Google Drive](https://blot.im/how/sync/google-drive).
+- Added a script to [import posts from Micro.blog](https://github.com/davidmerfield/Blot/tree/master/app/dashboard/routes/importer/sources/micro.blog). The script generates a directory of Markdown and image files in format suitable for Blot. If you would like us to run this script on your behalf, please [send us](https://blot.im/contact) your [Micro.blog export](https://help.micro.blog/t/exporting-from-micro-blog/557) in the Wordpress format.
+- You can customize all the colors of the [Magazine template](https://blot.im/templates/magazine) on the web template editor using the point-and-click controls, no need to edit the CSS.
+
+**Changes**
+- Updated the [Photo template](https://blot.im/templates/photo)’s archives page.
+- Adjusted the [Simple Analytics](https://blot.im/how/configure/analytics) script to conform to their revised format.
+- Overrode ’Command + S’ on the web template editor so that it now saves any changes you have made to the template, rather than opening the browser’s ’Save page’ dialog. 
+- Updated the tools Blot depends upon to patch any known security vulnerabilities.
+
+**Bugs fixed**
+- Disconnecting a partially-setup Dropbox client used to trigger an error. This edge-case is now properly handled.
+
+**Mistakes**
+
+We had [one downtime incident](http://status.blot.im/) on the 15th of December for less than 20 minutes when one of the server’s processes ran out of memory.
+
+I have been less focussed than I ought to be. I will improve for spring.
+
+**Plans for this season**
+- Continue to improve the templates. 
+- Work on improving the load time of blogs.
+- Begin marketing Blot. If you have any idea how we could publicize Blot in a tasteful way, please let us know. We’re unwilling to advertise, which limits our options.
+
+If you have any thoughts or questions about any of this, please don’t hesitate to reply directly to this email.
+
+Sincerely, David

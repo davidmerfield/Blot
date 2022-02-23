@@ -80,7 +80,7 @@ Questions.get(["/", "/page/:page"], function (req, res, next) {
                     ON r2.parent_id = i.id
                 WHERE i.is_topic = true AND (i.body ILIKE any (array[${search_arr_str}]) OR i.title ILIKE any (array[${search_arr_str}]))
                 GROUP BY i.id, last_reply_created_at
-                ORDER BY has_replies, i.created_at DESC
+                ORDER BY has_replies, last_reply_created_at DESC
                 LIMIT ${TOPICS_PER_PAGE}
                 OFFSET ${offset}`
     )

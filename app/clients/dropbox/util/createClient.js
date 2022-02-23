@@ -9,6 +9,9 @@ const config = require("config");
 
 module.exports = function (blogID, callback) {
   database.get(blogID, function (err, account) {
+    if (err) return callback(err);
+    if (!account) return callback(new Error("No Dropbox account"));
+
     const client = new Dropbox({ fetch });
 
     client.auth.setAccessToken(account.access_token);
@@ -50,7 +53,10 @@ module.exports = function (blogID, callback) {
         });
       })
       .catch(function (err) {
-        callback(err);
+        // We need the account information
+        // during disconnection, even if there
+        // is an error with the client
+        callback(err, null, account);
       });
   });
 };

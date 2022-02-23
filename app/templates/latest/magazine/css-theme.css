@@ -39,6 +39,77 @@ body {
   height: 100%;
   -webkit-font-smoothing:antialiased;
   background:{{background_color}};
+  color: {{text_color}};
+}
+
+.black {
+    color: {{text_color}};
+}
+
+.bg-black-05 {
+    background-color: rgba({{#rgb}}{{text_color}}{{/rgb}},.05);
+}
+
+.black-90 {
+    color: rgba({{#rgb}}{{text_color}}{{/rgb}},.9);
+}
+
+.black-80 {
+    color: rgba({{#rgb}}{{text_color}}{{/rgb}},.8);
+}
+
+.black-50 {
+    color: rgba({{#rgb}}{{text_color}}{{/rgb}},.5);
+}
+
+.black-30 {
+    color: rgba({{#rgb}}{{text_color}}{{/rgb}},.3);
+}
+
+.b--black-10 {border-color:rgba({{#rgb}}{{text_color}}{{/rgb}},.10);}
+.b--black-05 {
+    border-color:rgba({{#rgb}}{{text_color}}{{/rgb}},.05)
+}
+
+.bigfoot-footnote__content, 
+.bigfoot-footnote,
+.bigfoot-footnote__tooltip  { 
+    background-color: {{background_color}};
+  }
+
+.bigfoot-footnote.is-scrollable .bigfoot-footnote__wrapper:before {
+    background-image: -webkit-gradient(linear, left top, left bottom, from({{background_color}}), to(rgba(250, 250, 250, 0)));
+    background-image: -webkit-linear-gradient(top, {{background_color}} 50%, rgba(250, 250, 250, 0) 100%);
+    background-image: linear-gradient(to bottom, {{background_color}} 50%, rgba(250, 250, 250, 0) 100%);
+}
+
+.bigfoot-footnote.is-scrollable .bigfoot-footnote__wrapper:after {
+    background-image: -webkit-gradient(linear, left bottom, left top, from({{background_color}}), to(rgba(250, 250, 250, 0)));
+    background-image: -webkit-linear-gradient(bottom, {{background_color}}  50%, rgba(250, 250, 250, 0) 100%);
+    background-image: linear-gradient(to top, {{background_color}}  50%, rgba(250, 250, 250, 0) 100%);
+}
+
+.bigfoot-footnote { 
+    border: 1px solid rgba({{#rgb}}{{text_color}}{{/rgb}},.2);
+    border-bottom-color: rgba({{#rgb}}{{text_color}}{{/rgb}},.25);
+    border-top-color: rgba({{#rgb}}{{text_color}}{{/rgb}},.15);
+    -webkit-box-shadow: 0 0 15px 0 rgba({{#rgb}}{{text_color}}{{/rgb}},.15);
+    -moz-box-shadow: 0 0 15px 0 rgba({{#rgb}}{{text_color}}{{/rgb}},.15);
+    box-shadow: 0 0 15px 0 rgba({{#rgb}}{{text_color}}{{/rgb}},.15);
+}
+
+.bigfoot-footnote__button {
+  background-color: rgba({{#rgb}}{{text_color}}{{/rgb}},.1);
+
+}
+.bigfoot-footnote__button:after {
+  color: rgba({{#rgb}}{{text_color}}{{/rgb}},.5);
+}
+
+.bigfoot-footnote__button:hover, .bigfoot-footnote__button:focus {
+    outline: none;
+  background-color: rgba({{#rgb}}{{text_color}}{{/rgb}},.9);
+  color: {{background_color}};
 }
 
 .page-container {
@@ -67,16 +138,16 @@ body {
 
 ul.task-list { list-style-type: none; }
 input {
-  color: #555;
+  color: rgba({{#rgb}}{{text_color}}{{/rgb}}, 0.5);
   background-color: {{background_color}};
   background-image: none;
-  border: 1px solid #ccc;
+  border: 1px solid rgba({{#rgb}}{{text_color}}{{/rgb}}, 0.2);
   border-radius: 4px;
   transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
 }
 
 input[type="text"] {
-  box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+  box-shadow: inset 0 1px 1px rgba({{#rgb}}{{text_color}}{{/rgb}},.075);
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 }
@@ -85,7 +156,7 @@ input[type="submit"] {
   font-weight: 500;
   border-left:none;
   border-top-left-radius: 0;
-  border-bottom-left-radius: 0;color: #333;
+  border-bottom-left-radius: 0;color: rgba({{#rgb}}{{text_color}}{{/rgb}},.8);
   background-color: {{background_color}};
   cursor:pointer;
 }
@@ -128,8 +199,8 @@ a {
   transition: color, border-color .2s linear;
   text-decoration:none
 }
-a:not(.no-underline) {border-bottom:1px solid rgba(90,90,90,0.25)}
-a:not(.no-underline):hover {border-color: rgba(90,90,90,1)}
+a:not(.no-underline) {color:{{accent_color}};border-bottom:1px solid rgba({{#rgb}}{{accent_color}}{{/rgb}},0.25)}
+a:not(.no-underline):hover {border-color: rgba({{#rgb}}{{accent_color}}{{/rgb}},1)}
 a:hover {color:rgba({{accent_color}}, 1)}
 
 a.dim {transition: opacity .2s linear;opacity:1}
@@ -260,8 +331,6 @@ figure cite, figure cite a {font-size:0.8rem;color:#999;font-style:normal;border
   
 
 /* Tachyons customizations */
-.b--black-10 {border-color:#f1f1f1;}
-.black-50 {color:rgb(119, 119, 119)}
 .lh-title.tracked-tight {line-height:1.15}
 
 .pv2-5 {padding-top:0.75rem;padding-bottom:0.75rem}

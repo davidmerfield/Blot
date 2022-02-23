@@ -16,7 +16,9 @@ module.exports = function disconnect(blogID, callback) {
 
     debug("getting account info");
     createClient(blogID, function (err, client, account) {
-      if (err) return done(err, callback);
+      // Invalid credentials might cause an error here
+      // we still want to be able to disconnect
+      if (err) debug("error createClient", err);
 
       debug("resetting client setting");
       Blog.set(blogID, { client: "" }, function (err) {
@@ -32,6 +34,11 @@ module.exports = function disconnect(blogID, callback) {
             return done(null, callback);
           }
 
+          if (!client) {
+            debug("the user does not have a valid dropbox account");
+            return done(null, callback);
+          }
+
           debug("listing blogs with this account", account.account_id);
           database.listBlogs(account.account_id, function (err, blogs) {
             if (err) return done(err, callback);
@@ -39,7 +46,7 @@ module.exports = function disconnect(blogID, callback) {
             // check if this is the last blog using this oauth token
             // then revoke it as needed.
             if (blogs.length) {
-              if (err) return done(null, callback);
+              return done(null, callback);
             }
 
             client

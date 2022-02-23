@@ -1,6 +1,5 @@
 var fs = require("fs-extra");
 var async = require("async");
-var fs = require("fs-extra");
 var parseXML = require("xml2js").parseString;
 var colors = require("colors/safe");
 var log = require("single-line-log").stdout;
@@ -44,48 +43,50 @@ function main(sourceFile, outputDirectory, options, callback) {
     // characters in the XML provided by Wordpress.
     // Strict seems to have some side-effects, which is why we also normalize:true
     // and normalizeTags:true.
-    parseXML(
-      xml,
-      { strict: false, normalizeTags: true },
-      function (err, result) {
-        if (err) return callback(err);
+    parseXML(xml, { strict: false, normalizeTags: true }, function (
+      err,
+      result
+    ) {
+      if (err) return callback(err);
 
-        console.log();
-        console.log(result.rss.channel[0].title[0]);
-        console.log(colors.dim("Site URL:"), result.rss.channel[0].link[0]);
-        console.log(
-          colors.dim("Export Version"),
-          result.rss.channel[0]["wp:wxr_version"][0]
-        );
+      console.log(result.rss.channel[0].title[0]);
+      console.log(colors.dim("Site URL:"), result.rss.channel[0].link[0]);
+      console.log(
+        colors.dim("Export Version"),
+        result.rss.channel[0]["wp:wxr_version"][0]
+      );
 
-        // If you want to see other properties available,
-        // log this to STDOUT
-        // console.log(result.rss.channel);
+      // If you want to see other properties available,
+      // log this to STDOUT
+      // console.log(result.rss.channel);
 
-        if (options.filter) {
-          console.log("filter by:", options.filter);
-          result.rss.channel[0].item = result.rss.channel[0].item.filter(
-            function (item) {
-              return item.title[0].toLowerCase().indexOf(options.filter.toLowerCase()) > -1;
-            }
-          );
-        }
-
-        var items = result.rss.channel[0].item;
-
-        var totalItems = items.length;
-
-        async.eachOfSeries(
-          items,
-          function (item, index, done) {
-            log(colors.dim(++index + "/" + totalItems), item.title[0].trim());
-            injectAttachedThumbnail(item, result.rss.channel[0].item);
-            Item(item, outputDirectory, done);
-          },
-          callback
+      if (options.filter) {
+        console.log("filter by:", options.filter);
+        result.rss.channel[0].item = result.rss.channel[0].item.filter(
+          function (item) {
+            return (
+              item.title[0]
+                .toLowerCase()
+                .indexOf(options.filter.toLowerCase()) > -1
+            );
+          }
         );
       }
-    );
+
+      var items = result.rss.channel[0].item;
+
+      var totalItems = items.length;
+
+      async.eachOfSeries(
+        items,
+        function (item, index, done) {
+          log(colors.dim(++index + "/" + totalItems), item.title[0].trim());
+          injectAttachedThumbnail(item, result.rss.channel[0].item);
+          Item(item, outputDirectory, done);
+        },
+        callback
+      );
+    });
   });
 }
 

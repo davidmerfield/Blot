@@ -1,45 +1,22 @@
 {{> header}}
 
-<div>
-  <div class="posts">
-    {{#entries}}
-    {{#thumbnail.large.url}}
-    <a class="post photo" href="{{{url}}}" style="
-      max-width:{{thumbnail.large.width}};
-      max-height:{{thumbnail.large.height}};
-      width:calc({{thumbnail.large.width}}px*250/{{thumbnail.large.height}});
-      flex-grow:calc({{thumbnail.large.width}}*250/{{thumbnail.large.height}})">
-      <i style="padding-bottom:{{thumbnail.large.ratio}}"></i>
-      <img src="{{{thumbnail.large.url}}}" class="pre-loaded" onload="this.className+=' loaded';" />
-      <noscript>  
-      <img src="{{{thumbnail.large.url}}}">
-      </noscript>
-    </a>
-    {{/thumbnail.large.url}}
-    {{^thumbnail.large.url}}
-    <a class="post text" href="{{{url}}}" style="flex-grow:250">
-      <span class="title">{{title}}</span>
-      <span class="date">{{date}}</span>
-    </a>
-    {{/thumbnail.large.url}}
-    {{/entries}}
-  </div>
-  {{#pagination}}
-  <div class="pagination">
-    <span>Page {{current}} of {{total}}</span>
-    <span class="spacer"></span>
-    <a {{#previous}}href="/page/{{previous}}"{{/previous}}>
-      <span class="icon-holder margin-right">&larr;</span>Previous
-    </a>
-    <a {{#next}}href="/page/{{next}}"{{/next}}>
-      Next<span class="icon-holder margin-left"><span>&rarr;</span></span>
-    </a>
+{{> fitted-grid}}
 
-    <div style="flex-grow:1"></div>
+{{#pagination}}
+<div class="pagination">
+  <span>Page {{current}} of {{total}}</span>
+  <span class="spacer"></span>
+  <a {{#previous}}href="/page/{{previous}}"{{/previous}}>
+    <span class="icon-holder margin-right">&larr;</span>Previous
+  </a>
+  <a {{#next}}href="/page/{{next}}"{{/next}}>
+    Next<span class="icon-holder margin-left"><span>&rarr;</span></span>
+  </a>
 
-    <a href="/archives">Browse the archives<span class="icon-holder margin-left"><span style="position:relative;top:-1px">+</span></span></a>
-  </div>
-  {{/pagination}}
-  <br><br><br><br><br><br>
+  <div style="flex-grow:1"></div>
+
+  <a href="/archives">Browse the archives<span class="icon-holder margin-left"><span style="position:relative;top:-1px">+</span></span></a>
 </div>
+{{/pagination}}
+
 {{> footer}}

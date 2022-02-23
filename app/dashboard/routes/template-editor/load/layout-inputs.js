@@ -32,6 +32,9 @@ module.exports = function (req, res, next) {
         ].indexOf(key) > -1 ||
         (typeof req.template.locals[key] === "boolean" &&
           ["hide_dates"].indexOf(key) === -1) ||
+        (key.indexOf("_range") === -1 &&
+          req.template.locals[key + "_range"] &&
+          req.template.locals[key + "_range"].constructor === Array) ||
         (key.indexOf("_options") === -1 &&
           req.template.locals[key + "_options"] &&
           req.template.locals[key + "_options"].constructor === Array)
@@ -45,13 +48,14 @@ module.exports = function (req, res, next) {
 
       let isRange =
         !isBoolean &&
-        [
+        ([
           "page_size",
           "spacing_size",
           "spacing",
           "number_of_rows",
           "thumbnails_per_row",
-        ].indexOf(key) > -1;
+        ].indexOf(key) > -1 ||
+          req.template.locals[key + "_range"] !== undefined);
 
       let isSelect =
         !isRange && !isBoolean && options && options.constructor === Array;
@@ -71,7 +75,7 @@ module.exports = function (req, res, next) {
         min = (range && range[0]) || (MAP[key] && MAP[key].min) || 1;
         max = (range && range[1]) || (MAP[key] && MAP[key].max) || 60;
       }
-
+      
       return {
         key,
         label: (MAP[key] && MAP[key].label) || desnake(key),

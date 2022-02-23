@@ -170,6 +170,22 @@ describe("build", function () {
     });
   });
 
+
+  it("will handle empty metadata", function (done) {
+    var path = "/Hello.txt";
+    var contents = "Menu: \n\nHey";
+
+    fs.outputFileSync(this.blogDirectory + path, contents);
+
+    build(this.blog, path, {}, function (err, entry) {
+      if (err) return done.fail(err);
+
+      expect(entry.menu).toEqual(false);
+      done();
+    });
+  });
+
+
   it("will not use as image to become a thumbnail if it is too small", function (done) {
     var path = "/Hello world.txt";
     var contents = "![Best Image Ever](test.jpg)";

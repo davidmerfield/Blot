@@ -1,4 +1,4 @@
-var FALSY = ["no", "non", "not", "false", "off"];
+var FALSY = ["", "no", "non", "not", "false", "off"];
 var type = require("./type");
 
 module.exports = function (str) {

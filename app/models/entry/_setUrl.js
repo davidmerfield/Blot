@@ -15,7 +15,7 @@ var get = require("./get");
 //'/style.css', '/script.js', '/feed.rss', '/robots.txt', '/sitemap.xml'
 // are not possible because . is replaced with. ideally check for
 // all template views here...
-var banned = ["/archives", "/archive", "/search", "/tagged", "/public", ""];
+var banned = ["/archives", "/search", "/tagged", "/public", ""];
 
 var MIN_SUMMARY_SLUG_WORDS = 3;
 var MAX_SUMMARY_SLUG_WORDS = 10;

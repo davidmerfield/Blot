@@ -19,6 +19,12 @@ Account.use(function (req, res, next) {
     err,
     customer
   ) {
+    
+    // If we're offline or Stripe is down don't take the settings
+    // page
+    if (err && err.type === 'StripeConnectionError') 
+      return next();
+
     if (err) return next(err);
 
     if (customer.balance !== 0 && Math.sign(customer.balance) === -1) {

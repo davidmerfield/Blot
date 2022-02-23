@@ -7,7 +7,20 @@ Picture
 Magazine
 Scrapbook
 
+---
 
+I would like 7 templates because 7 is a good number
+
+What is missing?
+
+Blog
+Portfolio
+Photo
+Magazine
+Reference
+
+- Documentation
+- CV / Personal
 
 Useful fiddles:
 

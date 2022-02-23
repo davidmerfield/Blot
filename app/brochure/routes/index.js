@@ -4,13 +4,15 @@ var finder = require("finder");
 var tex = require("./tools/tex");
 var config = require("config");
 var titleFromSlug = require("helper/titleFromSlug");
-var trace = require('helper/trace');
+var trace = require("helper/trace");
 var TITLES = {
   "how": "How it works",
   "terms": "Terms of use",
   "privacy": "Privacy policy",
+  "google-drive": "Google Drive",
+  "word-documents": "Word Documents",
+  "html": "HTML",
   "how-blot-works": "How Blot works",
-  // "configure": "Configure your site",
   "ask": "Ask",
   "urls": "Link format",
   "hard-stop-start-ec2-instance": "How to stop and start an EC2 instance",
@@ -22,7 +24,6 @@ var TITLES = {
 
 brochure.use(trace("inside routes sub app"));
 
-
 if (config.cache) {
   // Minifies HTML
   brochure.use(require("./tools/minify-html"));
@@ -30,8 +31,6 @@ if (config.cache) {
   // Inlines all CSS properties
   brochure.use(require("./tools/inline-css"));
 }
-
-
 
 brochure.get(["/how/format/*"], function (req, res, next) {
   res.locals["show-on-this-page"] = true;
@@ -112,7 +111,6 @@ brochure.use("/account", function (req, res, next) {
   next();
 });
 
-
 brochure.get("/", require("./featured"));
 
 brochure.get("/", function (req, res, next) {
@@ -139,7 +137,7 @@ brochure.use("/log-in", require("./log-in"));
 
 brochure.use("/questions", require("./questions"));
 
-brochure.use("/how/guides/domain", function (req, res, next) {
+brochure.use("/how/configure/domain", function (req, res, next) {
   res.locals.ip = config.ip;
   next();
 });

@@ -1330,18 +1330,29 @@ p.sub {
 
 .dropdown .menu {
   z-index: 20;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .dropdown .menu button {
   text-align: left;
 }
 
-.dropdown .menu a,
+.dropdown .menu > * {
+  flex-basis: 320px;
+  width: 320px;
+  flex-shrink: 0;
+  flex-grow: 0;
+  padding:0 1rem 1rem;
+  box-sizing: border-box;
+  display: flex;
+}
+
+.dropdown .menu a > span,
 .dropdown .menu button {
   display: block;
   padding: 0 20px;
   margin: 0;
-  width: 100%;
   line-height: 48px;
   margin: 0;
   color: #909090;
@@ -1819,7 +1830,7 @@ div.line a.link:hover {
 
 .link,
 .right {
-  color: #365899;
+  color: #0070e8;
 }
 
 .right {
@@ -1836,6 +1847,10 @@ div.line a.link:hover {
   font-size: 14px;
   box-sizing: border-box;
   flex-shrink: 0;
+}
+
+@media (min-width:800px) {
+  .label {flex-basis: 20%}
 }
 
 .center,
@@ -1914,7 +1929,8 @@ a:hover .tablet-cover {
 form.account,
 .inset {
   padding: 11px 20px;
-  border-top: 1px solid rgba(0,0,0,0.05)
+  border-top: 1px solid rgba(0,0,0,0.05);
+  max-width: 700px
 }
 
 
@@ -2127,7 +2143,7 @@ line-height: 48px;
 }
 
 .external {
-  color: #365899;
+  color: #0070e8;
   /*border:1px solid;*/
   text-decoration: none;
   padding: 0 20px;
@@ -2355,4 +2371,4 @@ a.content-line .file {
   background:#fff;border:1px solid #ddd;border-radius:4px
 }
 
-form a {color: #365899}
+form a {color: #0070e8}

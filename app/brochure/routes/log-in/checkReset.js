@@ -27,7 +27,7 @@ module.exports = function checkReset(req, res, next) {
 function sendPasswordResetEmail(uid, callback) {
   var url;
 
-  generateAccessToken(uid, function (err, token) {
+  generateAccessToken({ uid }, function (err, token) {
     if (err || !token) return callback(err || new Error(NOTOKEN));
 
     // The full one-time log-in link to be sent to the user

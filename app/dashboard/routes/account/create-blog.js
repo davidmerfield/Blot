@@ -1,6 +1,7 @@
 var Express = require("express");
 var CreateBlog = new Express.Router();
 var Blog = require("blog");
+var _ = require("lodash");
 var prettyPrice = require("helper/prettyPrice");
 var config = require("config");
 var request = require("request");
@@ -57,6 +58,17 @@ CreateBlog.route("/")
   .all(validateSubscription)
 
   .all(function (req, res, next) {
+
+    // For institutional accounts, we need to allow them to create
+    // at least one blog.
+    if (_.isEmpty(req.user.subscription) && req.user.blogs.length === 0) {
+      return next();
+    }
+
+    // If the user pays for more blogs than they have
+    // associated with their account, don't charge
+    // them anything. This usually happens when they 
+    // delete their last blog.
     if (
       req.user.subscription &&
       req.user.subscription.quantity !== null &&

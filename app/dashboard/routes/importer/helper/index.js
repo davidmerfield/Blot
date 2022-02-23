@@ -16,4 +16,5 @@ module.exports = {
   slugify: require("./slugify"),
   to_markdown: require("./to_markdown"),
   write: require("./write"),
+  walk: require("./walk"),
 };
