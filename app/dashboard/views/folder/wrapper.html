@@ -9,7 +9,7 @@
       <span class="link">Set up a client to sync your folder</span>
     {{/blog.client}}
     {{#blog.client}}
-    <span class="center">{{client.display_name}}<span id="status">, synced {{blog.updated}}</span></span>
+    <span class="center">{{client.display_name}}, <span id="status">synced {{blog.updated}}</span></span>
     {{/blog.client}}
     </a>{{/root}}
 
@@ -46,7 +46,15 @@
 
 	evtSource.onmessage = function(event) {
 		
-		document.getElementById('status').innerHTML = event.data
+		var message = event.data;
+		
+		// Some of the messages from the server are in title
+		// case, since the current layout shows the message
+		// as part of a sentence, we lowercase it.
+		if (message && message.length)
+			message = message[0].toLowerCase() + message.slice(1);
+
+		document.getElementById('status').innerHTML = message;
 
 		// Fetch the latest folder state if we're not
 		// already fetching it.
