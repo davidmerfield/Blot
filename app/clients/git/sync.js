@@ -8,11 +8,7 @@ module.exports = function sync(blogID, callback) {
   // Attempt to acquire a lock on the blog's folder
   // to apply updates to it... These options are
   // redlock options to ensure we acquire a lock eventually...
-  Sync(blogID, { retryCount: -1, retryDelay: 10, retryJitter: 10 }, function (
-    err,
-    folder,
-    done
-  ) {
+  Sync(blogID, function (err, folder, done) {
     // Typically, this error means were unable to acquire a lock
     // on the folder, perhaps another process is syncing it...
     if (err) return callback(err);

@@ -23,8 +23,7 @@ describe("sync", function () {
       if (err) return testDone.fail(err);
 
       sync(blog.id, function (err) {
-        expect(err.message).toContain("lock the resource");
-
+        expect(err.message).toContain("Failed to acquire lock");
         done(null, testDone);
       });
     });
@@ -34,19 +33,22 @@ describe("sync", function () {
     "will release a lock when the process dies due to an uncaught exception",
     function (testDone) {
       var child = require("child_process").fork(__dirname + "/error", {
-        silent: true,
+        execArgv: ["--unhandled-rejections=strict"],
+        silent: false,
       });
       var blog = this.blog;
 
       // Did sync release the child's lock on the blog when the child
       // died (was killed)? We test this by trying to acquire a lock.
       child.on("close", function () {
+        console.log("CLOSED CALLED! resyncing...");
         sync(blog.id, function (err, folder, done) {
           if (err) return testDone.fail(err);
           done(null, testDone);
         });
       });
 
+      console.log("Sending a message to child");
       child.send(blog.id);
     },
     10 * 1000
