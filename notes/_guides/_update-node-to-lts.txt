@@ -67,3 +67,15 @@ Here's the production checklist for the PR:
 - [ ] npm ci
 - [ ] sudo stop blot && sudo start blot
 ```
+
+## In the past, I have needed to update other tools when increasing the node version.
+
+The native module sharp required a few changes when upgrading from 12 to 16, specifically updating python:
+
+https://techviewleo.com/how-to-install-python-on-amazon-linux/
+
+and also updated gcc following this guide:
+
+https://stackoverflow.com/a/48796814
+
+And I updated python
