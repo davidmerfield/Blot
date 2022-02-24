@@ -13,7 +13,7 @@ const chokidar = require("chokidar");
 const config = require("config");
 
 if (config.environment === "development")
-  chokidar.watch(NOTES_DIRECTORY).on("all", () => {
+  chokidar.watch(NOTES_DIRECTORY, { cwd: NOTES_DIRECTORY }).on("all", () => {
     TOC = buildTOC(NOTES_DIRECTORY);
   });
 

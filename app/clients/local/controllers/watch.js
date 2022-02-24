@@ -17,9 +17,11 @@ module.exports = function watch(blogID, folder) {
 
   try {
     // To stop this watcher, call watcher.close();
-    watcher = chokidar.watch(folder).on("all", (event, path) => {
-      queue.push({ event: event, path: path });
-    });
+    watcher = chokidar
+      .watch(folder, { cwd: folder })
+      .on("all", (event, path) => {
+        queue.push({ event: event, path: path });
+      });
   } catch (e) {
     return console.error(e);
   }

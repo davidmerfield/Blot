@@ -22,12 +22,11 @@ fs.readdirSync(PARTIAL_DIRECTORY).forEach(loadPartial);
 
 // One-liner for current directory
 if (config.environment === "development")
-  chokidar.watch(PARTIAL_DIRECTORY).on("all", (event, path) => {
-    if (path === PARTIAL_DIRECTORY) return;
-
-    let name = require("path").basename(path.slice(PARTIAL_DIRECTORY.length));
-    loadPartial(name);
-  });
+  chokidar.watch(
+    PARTIAL_DIRECTORY,
+    { cwd: PARTIAL_DIRECTORY },
+    (event, partial) => loadPartial(partial)
+  );
 
 // Renders dates dynamically in the documentation.
 // Can be used like so: {{{date 'MM/YYYY'}}}
