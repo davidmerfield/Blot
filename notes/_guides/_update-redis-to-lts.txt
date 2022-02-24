@@ -1,0 +1,78 @@
+# Update the version of Redis
+
+The most important step is to make sure you run Blot's test suite against the new version of redis to catch any obvious breaking changes.
+
+First, work out the version of redis you'd like to use. I do this by visiting [the official website](https://redis.io/download) and selecting the stable version recommended for most users.
+
+The rest of the guide assumes this version happens to be ```6.2.6```.
+
+## In development
+
+First we need to update the redis version in .github/workflows/tests.yml which is used to run the test suite:
+
+```
+        redis-version: [6.2.6]
+```
+
+Then we do the following on MacOS:
+
+```
+wget https://download.redis.io/releases/redis-6.2.6.tar.gz
+tar xzf redis-6.2.6.tar.gz
+cd redis-6.2.6
+make
+make test
+make install
+```
+
+Then we do the following on our production server:
+
+```
+wget https://download.redis.io/releases/redis-6.2.6.tar.gz
+tar xzf redis-6.2.6.tar.gz
+cd redis-6.2.6
+make
+make install
+```
+
+Restart the production server:
+
+```
+ps aux | grep redis
+sudo stop redis && sudo start redis
+ps aux | grep redis
+```
+
+and NGINX and Blot, which obviously depend on redis:
+
+```
+ps aux | grep node
+sudo stop blot && sudo start blot
+ps aux | grep node
+```
+
+```
+ps aux | grep nginx
+sudo stop nginx && sudo start nginx
+ps aux | grep nginx
+```
+
+Here's the production checklist for the PR:
+
+```
+# Note the version for a later sanity check
+/usr/local/bin/redis-server -v
+wget https://download.redis.io/releases/redis-6.2.6.tar.gz
+tar xzf redis-6.2.6.tar.gz
+cd redis-6.2.6
+make
+# I don't run `make test` since I'm not sure if its a good idea in prod
+make install
+# Note the version has changed
+/usr/local/bin/redis-server -v
+# To check we run the new bin
+ps aux | grep redis
+sudo stop redis && sudo start redis
+# Ensure we run the new bin
+ps aux | grep redis
+```
