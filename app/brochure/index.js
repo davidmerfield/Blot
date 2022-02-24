@@ -19,10 +19,10 @@ const loadPartial = (partial) => {
 
 fs.readdirSync(PARTIAL_DIRECTORY).forEach(loadPartial);
 
-if (config.environment === "development")
-  fs.watch(PARTIAL_DIRECTORY, { recursive: true }, (type, partial) =>
-    loadPartial(partial)
-  );
+// if (config.environment === "development")
+//   fs.watch(PARTIAL_DIRECTORY, { recursive: true }, (type, partial) =>
+//     loadPartial(partial)
+//   );
 
 // Renders dates dynamically in the documentation.
 // Can be used like so: {{{date 'MM/YYYY'}}}
