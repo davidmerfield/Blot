@@ -31,6 +31,7 @@ function isTemplate(path) {
 }
 
 async function buildAndSet(blog, path, options, callback) {
+
   const job = await buildQueue.add({ blog, path, options });
 
   try {

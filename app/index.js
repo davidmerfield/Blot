@@ -11,11 +11,6 @@ if (cluster.isMaster) {
   const scheduler = require("./scheduler");
   const publishScheduledEntries = require("./scheduler/publish-scheduled-entries");
 
-  const bull = require("bull");
-  const buildQueue = new bull("build");
-
-  buildQueue.process(__dirname + "/build/index.js");
-
   console.log(
     clfdate(),
     `Starting pid=${process.pid} environment=${config.environment} cache=${config.cache}`
@@ -23,18 +18,6 @@ if (cluster.isMaster) {
 
   // Write the master process PID so we can signal it
   fs.writeFileSync(config.pidfile, process.pid, "utf-8");
-
-  // Launch scheduler for background tasks, like backups, emails
-  scheduler();
-
-  // Run any initialization that clients need
-  // Google Drive will renew any webhooks, e.g.
-  for (const { init, display_name } of Object.values(require("clients"))) {
-    if (init) {
-      console.log(clfdate(), `Initializing ${display_name} client`);
-      init();
-    }
-  }
 
   // Fork workers.
   for (let i = 0; i < NUMBER_OF_WORKERS; i++) {
@@ -53,6 +36,18 @@ if (cluster.isMaster) {
       publishScheduledEntries();
     }
   });
+
+  // Launch scheduler for background tasks, like backups, emails
+  scheduler();
+
+  // Run any initialization that clients need
+  // Google Drive will renew any webhooks, e.g.
+  for (const { init, display_name } of Object.values(require("clients"))) {
+    if (init) {
+      console.log(clfdate(), `Initializing ${display_name} client`);
+      init();
+    }
+  }
 
   // SIGUSR1 is used by node for debugging, so we use SIGUSR2 to
   // signal the master process that it's time to reboot the servers
@@ -115,8 +110,10 @@ if (cluster.isMaster) {
 } else {
   console.log(clfdate(), `Worker process running pid=${process.pid}`);
 
+  const server = require("./server");
+
   // Open the server to handle requests
-  require("./server").listen(config.port, function () {
+  server.listen(config.port, function () {
     console.log(
       clfdate(),
       `Worker process listening pid=${process.pid} port=${config.port}`

@@ -10,6 +10,13 @@ const debug = require("debug")("blot:blog:sync");
 const lockfile = require("proper-lockfile");
 const type = require("helper/type");
 
+ // Launch queue to process the building of entries
+  const bull = require("bull");
+  const buildQueue = new bull("build");
+
+  buildQueue.process(require("helper/rootDir") + "/app/build/index.js");
+
+
 function sync(blogID, callback) {
   if (!type(blogID, "string")) {
     throw new TypeError("Expected blogID with type:String as first argument");
