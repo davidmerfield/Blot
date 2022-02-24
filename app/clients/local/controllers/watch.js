@@ -10,14 +10,6 @@ var chokidar = require("chokidar");
 // This method watches the source folder for subsequent
 // changes after the initial synchronization.
 module.exports = function watch(blogID, folder) {
-
-  console.log("TEST WATCH", require('path').dirname(folder));
-  chokidar.watch(require('path').dirname(folder), { cwd: require('path').dirname(folder) }).on("all", (event, path) => {
-    console.log("TEST CHOK:", event, path);
-  }).on('error', (err)=>{
-    console.log("TEST CHOK err:", err);    
-  })
-
   var queue, watcher;
   // We want to queue up and process in order
   // events from the file system.
@@ -25,12 +17,9 @@ module.exports = function watch(blogID, folder) {
 
   try {
     // To stop this watcher, call watcher.close();
-    console.log("watching", folder);
     watcher = chokidar.watch(folder, { cwd: folder });
 
     watcher.on("all", (event, path) => {
-      console.log("here", event);
-      console.log("path", path);
       if (path) queue.push({ event, path });
     });
   } catch (e) {
