@@ -16,47 +16,63 @@ First we need to update the redis version in .github/workflows/tests.yml which i
 
 Then we do the following on MacOS:
 
-$ wget https://download.redis.io/releases/redis-6.2.6.tar.gz
-$ tar xzf redis-6.2.6.tar.gz
-$ cd redis-6.2.6
-$ make
-$ make test
-$ make install
-
-Then we do the following on our production server:
-
-$ wget https://download.redis.io/releases/redis-6.2.6.tar.gz
-$ tar xzf redis-6.2.6.tar.gz
-$ cd redis-6.2.6
-$ make
-$ make install
-
-Restart the production server:
-
 ```
-sudo stop redis && sudo start redis
-```
-
-and NGINX and Blot:
-
-```
-sudo stop blot && sudo start blot
-```
-
-```
-sudo stop nginx && sudo start nginx
-```
-
-Here's the production checklist for the PR:
-
-```
-/usr/local/bin/redis-server -version
 wget https://download.redis.io/releases/redis-6.2.6.tar.gz
 tar xzf redis-6.2.6.tar.gz
 cd redis-6.2.6
 make
 make test
 make install
-/usr/local/bin/redis-server -version
-sudo restart redis
+```
+
+Then we do the following on our production server:
+
+```
+wget https://download.redis.io/releases/redis-6.2.6.tar.gz
+tar xzf redis-6.2.6.tar.gz
+cd redis-6.2.6
+make
+make install
+```
+
+Restart the production server:
+
+```
+ps aux | grep redis
+sudo stop redis && sudo start redis
+ps aux | grep redis
+```
+
+and NGINX and Blot, which obviously depend on redis:
+
+```
+ps aux | grep node
+sudo stop blot && sudo start blot
+ps aux | grep node
+```
+
+```
+ps aux | grep nginx
+sudo stop nginx && sudo start nginx
+ps aux | grep nginx
+```
+
+Here's the production checklist for the PR:
+
+```
+# Note the version for a later sanity check
+/usr/local/bin/redis-server -v
+wget https://download.redis.io/releases/redis-6.2.6.tar.gz
+tar xzf redis-6.2.6.tar.gz
+cd redis-6.2.6
+make
+# I don't run `make test` since I'm not sure if its a good idea in prod
+make install
+# Note the version has changed
+/usr/local/bin/redis-server -v
+# To check we run the new bin
+ps aux | grep redis
+sudo stop redis && sudo start redis
+# Ensure we run the new bin
+ps aux | grep redis
 ```
