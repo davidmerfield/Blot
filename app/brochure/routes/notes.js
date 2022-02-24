@@ -9,12 +9,13 @@ let buildTOC = require("./tools/toc");
 
 let TOC = buildTOC(NOTES_DIRECTORY);
 
+const chokidar = require("chokidar");
 const config = require("config");
 
 if (config.environment === "development")
-  fs.watch(NOTES_DIRECTORY, { recursive: true }, function () {
-    TOC = buildTOC(NOTES_DIRECTORY);
-  });
+  chokidar
+    .watch(NOTES_DIRECTORY, { cwd: NOTES_DIRECTORY })
+    .on("all", () => (TOC = buildTOC(NOTES_DIRECTORY)));
 
 notes.use(function (req, res, next) {
   res.locals.base = "/about/notes";

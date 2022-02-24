@@ -14,7 +14,7 @@ process.on("SIGINT", () => {
 // A few sanity checks before we begin
 let nodeVersion, redisPing;
 
-const REQUIRED_NODE_VERSION = "v12.16.3";
+const REQUIRED_NODE_VERSION = "v16.14.0";
 
 try {
   nodeVersion = child_process.execSync("node -v").toString().trim();
