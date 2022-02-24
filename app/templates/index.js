@@ -9,7 +9,7 @@ var fs = require("fs-extra");
 var async = require("async");
 var Blog = require("blog");
 var _ = require("lodash");
-
+var chokidar = require('chokidar');
 var TEMPLATES_DIRECTORY = require("path").resolve(__dirname + "/latest");
 var PAST_TEMPLATES_DIRECTORY = require("path").resolve(__dirname + "/past");
 var TEMPLATES_OWNER = "SITE";
@@ -149,7 +149,6 @@ function mirror(id, callback) {
             blogID,
             "mirror-of-" + id.slice(id.indexOf(":") + 1),
             function (err) {
-
               var template = {
                 isPublic: false,
                 cloneFrom: id,
@@ -272,7 +271,7 @@ function watch(directory) {
     });
   });
 
-  fs.watch(directory, { recursive: true }, function (event, path) {
+  chokidar.watch(directory).on("all", (event, path) => {
     var subdirectory = require("path").dirname(path).split("/")[0];
 
     queue.push(directory + "/" + subdirectory);
