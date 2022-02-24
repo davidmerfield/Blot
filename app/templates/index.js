@@ -272,8 +272,8 @@ function watch(directory) {
   });
 
   chokidar.watch(directory, { cwd: directory }).on("all", (event, path) => {
+    if (!path) return;
     var subdirectory = require("path").dirname(path).split("/")[0];
-
     queue.push(directory + "/" + subdirectory);
   });
 }

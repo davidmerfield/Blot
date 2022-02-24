@@ -20,7 +20,9 @@ module.exports = function watch(blogID, folder) {
     watcher = chokidar
       .watch(folder, { cwd: folder })
       .on("all", (event, path) => {
-        queue.push({ event: event, path: path });
+        console.log('here', event);
+        console.log('path', path);
+        if (path) queue.push({ event, path });
       });
   } catch (e) {
     return console.error(e);

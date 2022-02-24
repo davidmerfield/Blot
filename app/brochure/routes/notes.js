@@ -13,9 +13,9 @@ const chokidar = require("chokidar");
 const config = require("config");
 
 if (config.environment === "development")
-  chokidar.watch(NOTES_DIRECTORY, { cwd: NOTES_DIRECTORY }).on("all", () => {
-    TOC = buildTOC(NOTES_DIRECTORY);
-  });
+  chokidar
+    .watch(NOTES_DIRECTORY, { cwd: NOTES_DIRECTORY })
+    .on("all", () => (TOC = buildTOC(NOTES_DIRECTORY)));
 
 notes.use(function (req, res, next) {
   res.locals.base = "/about/notes";
