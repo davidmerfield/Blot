@@ -13,20 +13,14 @@ describe("flaky file", function () {
       await fs.outputFile(this.blogDirectory + path, contents);
 
       // will trigger uncaught exception
-      build(
-        { data: { blog: this.blog, path, options: { kill: true } } },
-        (err) => {
-          expect(err.message).toContain("Failed to finish task");
-          build(
-            { data: { blog: this.blog, path, options: { kill: false } } },
-            (err, entry) => {
-              if (err) return done.fail(err);
-              expect(entry.html).toEqual("<p>World</p>");
-              done();
-            }
-          );
-        }
-      );
+      build(this.blog, path, { kill: true }, (err) => {
+        expect(err.message).toContain("KILL THIS PROCESS PLEASE");
+        build(this.blog, path, { kill: false }, (err, entry) => {
+          if (err) return done.fail(err);
+          expect(entry.html).toEqual("<p>World</p>");
+          done();
+        });
+      });
     },
     10 * 1000 // set timeout to 10 seconds
   );

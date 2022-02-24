@@ -21,13 +21,10 @@ describe("build", function () {
     this.build = async (path, contents) => {
       return new Promise((resolve, reject) => {
         fs.outputFileSync(this.blogDirectory + path, contents);
-        require("../index")(
-          { data: { blog: this.blog, path, options: {} } },
-          function (err, entry) {
-            if (err) return reject(err);
-            resolve(entry);
-          }
-        );
+        require("../index")(this.blog, path, {}, function (err, entry) {
+          if (err) return reject(err);
+          resolve(entry);
+        });
       });
     };
   });
@@ -41,10 +38,7 @@ describe("build", function () {
 
     fs.outputFileSync(this.blogDirectory + path, contents);
 
-    build({ data: { blog: this.blog, path, options: {} } }, function (
-      err,
-      entry
-    ) {
+    build(this.blog, path, {}, function (err, entry) {
       if (err) return done.fail(err);
 
       // verify the image was cached
@@ -66,7 +60,7 @@ describe("build", function () {
 
     fs.outputFileSync(this.blogDirectory + path, contents);
 
-    build({ data: { blog: this.blog, path, options: {} } }, (err, entry) => {
+    build(this.blog, path, {}, (err, entry) => {
       if (err) return done.fail(err);
       expect(entry.tags).toEqual(["foo", "bar", "baz"]);
       done();
@@ -80,14 +74,11 @@ describe("build", function () {
 
     fs.outputFileSync(this.blogDirectory + path, contents);
 
-    build(
-      { data: { blog: this.blog, path, options: { pathDisplay } } },
-      (err, entry) => {
-        if (err) return done.fail(err);
-        expect(entry.tags).toEqual(["Foo"]);
-        done();
-      }
-    );
+    build(this.blog, path, { pathDisplay }, (err, entry) => {
+      if (err) return done.fail(err);
+      expect(entry.tags).toEqual(["Foo"]);
+      done();
+    });
   });
 
   it("includes inline code tags in the summary", function (done) {
@@ -96,10 +87,7 @@ describe("build", function () {
 
     fs.outputFileSync(this.blogDirectory + path, contents);
 
-    build({ data: { blog: this.blog, path, options: {} } }, function (
-      err,
-      entry
-    ) {
+    build(this.blog, path, {}, function (err, entry) {
       if (err) return done.fail(err);
       expect(entry.summary).toEqual("This should appear in the summary");
       done();
@@ -112,10 +100,7 @@ describe("build", function () {
 
     fs.outputFileSync(this.blogDirectory + path, contents);
 
-    build({ data: { blog: this.blog, path, options: {} } }, function (
-      err,
-      entry
-    ) {
+    build(this.blog, path, {}, function (err, entry) {
       if (err) return done.fail(err);
       expect(entry.summary).toEqual("the summary");
       done();
@@ -129,10 +114,7 @@ describe("build", function () {
 
     fs.outputFileSync(this.blogDirectory + path, contents);
 
-    build({ data: { blog: this.blog, path, options: {} } }, function (
-      err,
-      entry
-    ) {
+    build(this.blog, path, {}, function (err, entry) {
       if (err) return done.fail(err);
 
       // It won't be cached since the image doesn't exist
@@ -146,38 +128,7 @@ describe("build", function () {
 
     fs.copySync(__dirname + "/small.jpg", this.blogDirectory + pathToImage);
 
-    build(
-      { data: { blog: this.blog, path: pathToImage, options: {} } },
-      function (err, entry) {
-        if (err) return done.fail(err);
-
-        // verify the image was cached
-        expect(entry.html).toContain("/_image_cache/");
-
-        // verify a thumbnail was generated from the image
-        expect(entry.thumbnail.small).toEqual(
-          jasmine.objectContaining({
-            name: "small.jpg",
-          })
-        );
-
-        done();
-      }
-    );
-  });
-
-  it("handles images with accents and spaces in their filename", function (done) {
-    var path = "/blog/Hello world.txt";
-    var contents = "![Best Image Ever](óå g.jpg)";
-    var pathToImage = "/blog/óå g.jpg";
-
-    fs.outputFileSync(this.blogDirectory + path, contents);
-    fs.copySync(__dirname + "/small.jpg", this.blogDirectory + pathToImage);
-
-    build({ data: { blog: this.blog, path, options: {} } }, function (
-      err,
-      entry
-    ) {
+    build(this.blog, pathToImage, {}, function (err, entry) {
       if (err) return done.fail(err);
 
       // verify the image was cached
@@ -194,22 +145,46 @@ describe("build", function () {
     });
   });
 
+  it("handles images with accents and spaces in their filename", function (done) {
+    var path = "/blog/Hello world.txt";
+    var contents = "![Best Image Ever](óå g.jpg)";
+    var pathToImage = "/blog/óå g.jpg";
+
+    fs.outputFileSync(this.blogDirectory + path, contents);
+    fs.copySync(__dirname + "/small.jpg", this.blogDirectory + pathToImage);
+
+    build(this.blog, path, {}, function (err, entry) {
+      if (err) return done.fail(err);
+
+      // verify the image was cached
+      expect(entry.html).toContain("/_image_cache/");
+
+      // verify a thumbnail was generated from the image
+      expect(entry.thumbnail.small).toEqual(
+        jasmine.objectContaining({
+          name: "small.jpg",
+        })
+      );
+
+      done();
+    });
+  });
+
+
   it("will handle empty metadata", function (done) {
     var path = "/Hello.txt";
     var contents = "Menu: \n\nHey";
 
     fs.outputFileSync(this.blogDirectory + path, contents);
 
-    build({ data: { blog: this.blog, path, options: {} } }, function (
-      err,
-      entry
-    ) {
+    build(this.blog, path, {}, function (err, entry) {
       if (err) return done.fail(err);
 
       expect(entry.menu).toEqual(false);
       done();
     });
   });
+
 
   it("will not use as image to become a thumbnail if it is too small", function (done) {
     var path = "/Hello world.txt";
@@ -219,10 +194,7 @@ describe("build", function () {
     fs.outputFileSync(this.blogDirectory + path, contents);
     fs.copySync(__dirname + "/too-small.jpg", this.blogDirectory + pathToImage);
 
-    build({ data: { blog: this.blog, path, options: {} } }, function (
-      err,
-      entry
-    ) {
+    build(this.blog, path, {}, function (err, entry) {
       if (err) return done.fail(err);
 
       // verify no thumbnail was generated from the image
@@ -240,11 +212,12 @@ describe("build", function () {
     let blog = this.blog;
     blog.plugins.imageCaption.enabled = true;
 
-    build({ data: { blog, path, options: {} } }, function (err, entry) {
+    build(blog, path, {}, function (err, entry) {
       if (err) return done.fail(err);
 
       // verify a thumbnail was generated from the image
       expect(entry.summary).toEqual("World");
+
       done();
     });
   });
@@ -254,10 +227,7 @@ describe("build", function () {
     var contents = "No date in this file";
 
     fs.outputFileSync(this.blogDirectory + path, contents);
-    build({ data: { blog: this.blog, path, options: {} } }, function (
-      err,
-      entry
-    ) {
+    build(this.blog, path, {}, function (err, entry) {
       if (err) return done.fail(err);
       expect(entry.dateStamp).toEqual(undefined);
       done();
@@ -273,10 +243,7 @@ describe("build", function () {
     // creates <embed>'s instead of <img> for certain URLs
     fs.outputFileSync(this.blogDirectory + path, contents);
 
-    build({ data: { blog: this.blog, path, options: {} } }, function (
-      err,
-      entry
-    ) {
+    build(this.blog, path, {}, function (err, entry) {
       if (err) return done.fail(err);
 
       // verify the image was not cached
