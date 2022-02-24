@@ -45,6 +45,7 @@
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.4.3",
     "cheerio": "^0.22.0",
+    "chokidar": "^3.5.3",
     "clean-css": "^4.2.1",
     "colors": "^1.3.2",
     "compression": "^1.0.11",

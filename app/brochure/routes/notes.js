@@ -9,10 +9,11 @@ let buildTOC = require("./tools/toc");
 
 let TOC = buildTOC(NOTES_DIRECTORY);
 
+const chokidar = require("chokidar");
 const config = require("config");
 
 if (config.environment === "development")
-  fs.watch(NOTES_DIRECTORY, { recursive: true }, function () {
+  chokidar.watch(NOTES_DIRECTORY).on("all", () => {
     TOC = buildTOC(NOTES_DIRECTORY);
   });
 

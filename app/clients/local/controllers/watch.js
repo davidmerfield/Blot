@@ -5,6 +5,7 @@ var async = require("async");
 var debug = require("debug")("blot:clients:local:watch");
 var localPath = require("helper/localPath");
 var walk = require("./util/walk");
+var chokidar = require("chokidar");
 
 // This method watches the source folder for subsequent
 // changes after the initial synchronization.
@@ -16,7 +17,7 @@ module.exports = function watch(blogID, folder) {
 
   try {
     // To stop this watcher, call watcher.close();
-    watcher = fs.watch(folder, { recursive: true }, function (event, path) {
+    watcher = chokidar.watch(folder).on("all", (event, path) => {
       queue.push({ event: event, path: path });
     });
   } catch (e) {

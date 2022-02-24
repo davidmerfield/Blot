@@ -10,19 +10,22 @@ const redirector = require("./redirector");
 const trace = require("helper/trace");
 const VIEW_DIRECTORY = __dirname + "/views";
 const PARTIAL_DIRECTORY = VIEW_DIRECTORY + "/partials";
+const chokidar = require("chokidar");
 
-const loadPartial = (partial) => {
-  let name = partial.slice(0, partial.indexOf("."));
-  let value = fs.readFileSync(PARTIAL_DIRECTORY + "/" + partial, "utf-8");
+const loadPartial = (path) => {
+  let name = require("path").basename(path);
+  name = name.slice(0, name.indexOf("."));
+  let value = fs.readFileSync(path, "utf-8");
   hbs.registerPartial(name, value);
 };
 
 fs.readdirSync(PARTIAL_DIRECTORY).forEach(loadPartial);
 
-// if (config.environment === "development")
-//   fs.watch(PARTIAL_DIRECTORY, { recursive: true }, (type, partial) =>
-//     loadPartial(partial)
-//   );
+// One-liner for current directory
+if (config.environment === "development")
+  chokidar.watch(PARTIAL_DIRECTORY).on("all", (event, path) => {
+    loadPartial(path);
+  });
 
 // Renders dates dynamically in the documentation.
 // Can be used like so: {{{date 'MM/YYYY'}}}
