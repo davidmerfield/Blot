@@ -27,6 +27,11 @@ function isWrongType(path) {
 module.exports = function build({ data: { blog, path, options } }, callback) {
   debug("Build:", process.pid, "processing", path);
 
+  // Used for testing
+  if (options.kill) {
+    throw new Error("KILL THIS PROCESS PLEASE");
+  }
+
   if (isWrongType(path)) {
     var err = new Error("Path is wrong type to convert");
     err.code = "WRONGTYPE";
