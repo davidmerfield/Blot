@@ -17,7 +17,7 @@ if (cluster.isMaster) {
   );
 
   // Write the master process PID so we can signal it
-  fs.writeFileSync(config.pidfile, process.pid, "utf-8");
+  fs.writeFileSync(config.pidfile, process.pid.toString(), "utf-8");
 
   // Launch scheduler for background tasks, like backups, emails
   scheduler();
