@@ -7,7 +7,7 @@ describe("build", function () {
   beforeEach(function () {
     this.buildAndCheck = ({ path, contents }, expectedEntry, cb) => {
       fs.outputFileSync(this.blogDirectory + path, contents);
-      build(this.blog, path, {}, function (err, entry) {
+      build({data: {blog: this.blog, path, options: {}}}, function (err, entry) {
         for (let key in expectedEntry)
           expect(expectedEntry[key]).toEqual(entry[key]);
         cb();
