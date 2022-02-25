@@ -31,7 +31,7 @@ export BLOT_POSTGRES_PORT=5432
 export BLOT_USER=
 
 # Use latest stable version which passes tests
-export BLOT_NODE_VERSION=12.16.3
+export BLOT_NODE_VERSION=16.14.0
 
 # result of which pandoc
 export BLOT_PANDOC_PATH=

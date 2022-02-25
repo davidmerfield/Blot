@@ -7,9 +7,10 @@ var cache = new Cache(config.cache_directory);
 var moment = require("moment");
 var fs = require("fs-extra");
 const redirector = require("./redirector");
-const trace = require('helper/trace');
+const trace = require("helper/trace");
 const VIEW_DIRECTORY = __dirname + "/views";
 const PARTIAL_DIRECTORY = VIEW_DIRECTORY + "/partials";
+const chokidar = require("chokidar");
 
 const loadPartial = (partial) => {
   let name = partial.slice(0, partial.indexOf("."));
@@ -19,11 +20,13 @@ const loadPartial = (partial) => {
 
 fs.readdirSync(PARTIAL_DIRECTORY).forEach(loadPartial);
 
-if (!config.cache) {
-  fs.watch(PARTIAL_DIRECTORY, { recursive: true }, (type, partial) =>
-    loadPartial(partial)
-  );
-}
+// One-liner for current directory
+if (config.environment === "development")
+  chokidar
+    .watch(PARTIAL_DIRECTORY, { cwd: PARTIAL_DIRECTORY })
+    .on("all", (event, partial) => {
+      if (partial) loadPartial(partial);
+    });
 
 // Renders dates dynamically in the documentation.
 // Can be used like so: {{{date 'MM/YYYY'}}}
