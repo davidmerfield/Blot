@@ -70,7 +70,7 @@ Blot cannot connect to your <b>Google Drive</b>. Please re-connect to give Blot 
 
 {{^account}}
 <div class="inset">
-  <p style="margin: 42px 0 20px;">
+  <!-- <p style="margin: 42px 0 20px;">
     Blot will ask for permission to connect to your <b>Google Drive</b>. You can revoke Blot’s access at any point. 
   </p>
   <details>
@@ -82,12 +82,16 @@ Blot cannot connect to your <b>Google Drive</b>. Please re-connect to give Blot 
       <li>Share your blog's folder from your burner to your main account's Google Drive.</p>
   </details>
   <br />
+ -->
+ <p><b>Link Google Drive Account</b></p>
+ <p>Press [Yes] to move to authorization page.</p>
 
   <form action="{{{base}}}/disconnect" method="post">
     <input type="hidden" name="_csrf" value="{{csrftoken}}" />
     <div class="buttons">
-      <a href="{{{base}}}/redirect">Connect to Google Drive</a>
-      <input type="submit" value="Cancel" />
+      <a style="background: none;outline:none;box-shadow:none;border:none;color:#0070e8;border:1px solid;" href="{{{base}}}/redirect">
+      Yes</a>
+      <input type="submit" value="No" />
     </div>
   </form>
 </div>
