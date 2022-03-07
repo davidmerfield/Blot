@@ -6,7 +6,7 @@ In lots of ways, Blot is hidden. Most of the time, people who use Blot do so wit
 
 ## Text
 
-Blot uses [Rasmus Andersson](https://rsms.me/)'s terrific *Input* font on its brochure website and dashboard. One day I would like to fully realize my aesthetic preferences and use a font I have designed from scratch.
+Blot uses [Rasmus Andersson](https://rsms.me/)'s terrific *Inter* font on its brochure website and dashboard. One day I would like to fully realize my aesthetic preferences and use a font I have designed from scratch.
 
 
 ## Black or white backgrounds
