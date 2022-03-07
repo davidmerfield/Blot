@@ -85,7 +85,7 @@
     "mime-types": "^2.1.15",
     "moment": "^2.24.0",
     "moment-timezone": "^0.4.1",
-    "multiparty": "^4.1.1",
+    "multiparty": "^4.2.3",
     "mustache": "^2.3.0",
     "node-fetch": "^2.6.7",
     "node-schedule": "^0.1.16",
