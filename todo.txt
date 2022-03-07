@@ -176,7 +176,8 @@ Write new clients to sync blog folders
   - Tell [Arlo](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJWrZRLJddkZSdrMVxrNkTZLKn)
   - Tell [Anders](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKkRFxsDShhsHGNcdRqwHFMmJM)
   - Tell [Victor](https://mail.google.com/mail/u/0/#inbox/FMfcgzGkbDVrLFlwcgwDddsVPJBVKSvW)
-
+- [Github](https://github.com)
+  - Tell [John](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmvBnVvqHdJXLgDhrtChCqdMQX)
 ---
 
 Improvements to backup system
@@ -252,6 +253,7 @@ Improvements to Wikilinks feature:
 - use the location of the nearest `.obsidian` directory to determine the 'root' against which to resolve styles?
 - look up the config in the the nearest `.obsidian` directory to determine whether shortest, relative or absolute wikilinks are in use?
 - test with all Obsidian new link settings (shortest, relative and absolute)
+- add more resolution tolerance and tell [Jonathan](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmvBqpKMNBvlKBSWRLHJWdqDnC)
 
 Improvements to simple local server (npm run local):
 - Consider using [redis-mock](https://github.com/yeahoffline/redis-mock) and [mockery](https://github.com/mfncooper/mockery) 
@@ -408,7 +410,7 @@ com/mail/u/0/#inbox/1588e3df7489b554)
   - Tell [Myron](https://twitter.com/rodriguesmyron) and [Ryan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrvCRNqvVclgfcHmhpJKChMhV) and [Jussi](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGCtQrKrPTxkKlfBMctjWQdbCM) on Twitter when it is possible to rename the folder created for a template in local editing.
 - Support template views inside a subfolder inside template folder, e.g. {{> partials/footer}} and then tell [Nash](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJfNfGHXPKxmntzZRfsDFHpq)
 - Add support for the setting of custom headers (e.g. to enable CORS) and tell [Roy](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrRShkTjNqPxcnPjFcGthZgbh)
-- Add support for listing files in arbritary folders (e.g. use a custom folder as a 'public' folder) and tell [Nash](https://twitter.com/nashp/status/1111655667817947137)
+- Add support for listing files in arbritary folders (e.g. use a custom folder as a 'public' folder) and tell [Nash](https://twitter.com/nashp/status/1111655667817947137) and [Marco](https://mail.google.com/mail/u/0/#search/marco/FMfcgzGmvBrxCgvXVhZQsbdzpgDktSGV)
 - Move to uuid based template IDs instead of slug
 - Add way to list directory contents and tell [Diego](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMZJtkqxhLVWXqdxNVchgGQzp)
 - Move to data directory for templates
