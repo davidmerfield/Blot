@@ -18,12 +18,15 @@ describe("flaky file", function () {
       build(this.blog, path, { kill: true }, (err) => {
         expect(err.message).toContain("KILL THIS PROCESS PLEASE");
 
+        // setTimeout(function () {
         console.log("Building file without error...");
         build(this.blog, path, { kill: false }, (err, entry) => {
+          console.log("HERE WITH ERROR", err);
           if (err) return done.fail(err);
           expect(entry.html).toEqual("<p>World</p>");
           done();
         });
+        // }, 2000);
       });
     },
     10 * 1000 // set timeout to 10 seconds

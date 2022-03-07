@@ -1,31 +1,15 @@
 // Launch queue to process the building of entries
 const bull = require("bull");
-const buildQueue = new bull("build");
+const queue = new bull("build");
 
-buildQueue.process(require("helper/rootDir") + "/app/build/main.js");
-
-// process.on("SIGTERM", async () => {
-//   console.log("Got SIGTERM");
-//   setTimeout(() => {
-//     console.warn(`Couldn't pause all queues within 30s, sorry! Exiting.`);
-//     process.exit(1);
-//   }, 30000);
-
-//   await buildQueue.pause(true);
-//   process.exit(0);
-// });
+queue.process(__dirname + "/main.js");
 
 module.exports = async function (blog, path, options, callback) {
-  const job = await buildQueue.add({
-    blog,
-    path,
-    options,
-  });
-
   try {
-    const entry = await job.finished();
-    callback(null, entry);
+    const job = await queue.add({ blog, path, options });
+    const result = await job.finished();
+    return callback(null, result);
   } catch (e) {
-    callback(e);
+    return callback(e);
   }
 };

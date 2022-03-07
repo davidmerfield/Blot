@@ -1,12 +1,12 @@
 var debug = require("debug")("blot:build");
 var Metadata = require("metadata");
-var basename = require("path").basename;
-var isDraft = require("../sync/update/drafts").isDraft;
-var Build = require("./single");
-var Prepare = require("./prepare");
-var Thumbnail = require("./thumbnail");
-var DateStamp = require("./prepare/dateStamp");
-var moment = require("moment");
+// var basename = require("path").basename;
+// var isDraft = require("../sync/update/drafts").isDraft;
+// var Build = require("./single");
+// var Prepare = require("./prepare");
+// var Thumbnail = require("./thumbnail");
+// var DateStamp = require("./prepare/dateStamp");
+// var moment = require("moment");
 var converters = require("./converters");
 var clfdate = require("helper/clfdate");
 
@@ -25,12 +25,15 @@ function isWrongType(path) {
 }
 
 module.exports = function build({ data: { blog, path, options } }, callback) {
-  debug("Build:", process.pid, "processing", path);
+  console.log(
+    clfdate(),
+    `Build: process pid=${process.pid} processing ${path}`
+  );
 
   // Used for testing
-  if (options.kill) {
-    throw new Error("KILL THIS PROCESS PLEASE");
-  }
+  // if (options.kill) {
+  //   throw new Error("KILL THIS PROCESS PLEASE");
+  // }
 
   if (isWrongType(path)) {
     var err = new Error("Path is wrong type to convert");
@@ -43,66 +46,68 @@ module.exports = function build({ data: { blog, path, options } }, callback) {
 
     if (name) options.name = name;
 
-    debug("Blog:", blog.id, path, " checking if draft");
-    isDraft(blog.id, path, function (err, is_draft) {
-      if (err) return callback(err);
+    return callback(null, { html: "<p>World</p>" });
 
-      debug("Blog:", blog.id, path, " attempting to build html");
-      Build(blog, path, options, function (
-        err,
-        html,
-        metadata,
-        stat,
-        dependencies
-      ) {
-        if (err) return callback(err);
+      debug("Blog:", blog.id, path, " checking if draft");
+    //   isDraft(blog.id, path, function (err, is_draft) {
+    //     if (err) return callback(err);
 
-        debug("Blog:", blog.id, path, " extracting thumbnail");
-        Thumbnail(blog, path, metadata, html, function (err, thumbnail) {
-          // Could be lots of reasons (404?)
-          if (err || !thumbnail) thumbnail = {};
+    //     debug("Blog:", blog.id, path, " attempting to build html");
+    //     Build(blog, path, options, function (
+    //       err,
+    //       html,
+    //       metadata,
+    //       stat,
+    //       dependencies
+    //     ) {
+    //       if (err) return callback(err);
 
-          var entry;
+    //       debug("Blog:", blog.id, path, " extracting thumbnail");
+    //       Thumbnail(blog, path, metadata, html, function (err, thumbnail) {
+    //         // Could be lots of reasons (404?)
+    //         if (err || !thumbnail) thumbnail = {};
 
-          // Given the properties above
-          // that we've extracted from the
-          // local file, compute stuff like
-          // the teaser, isDraft etc..
+    //         var entry;
 
-          try {
-            entry = {
-              html: html,
-              name: options.name || basename(path),
-              path: path,
-              pathDisplay: options.pathDisplay || path,
-              id: path,
-              thumbnail: thumbnail,
-              draft: is_draft,
-              metadata: metadata,
-              size: stat.size,
-              dependencies: dependencies,
-              dateStamp: DateStamp(blog, path, metadata),
-              updated: moment.utc(stat.mtime).valueOf(),
-            };
+    //         // Given the properties above
+    //         // that we've extracted from the
+    //         // local file, compute stuff like
+    //         // the teaser, isDraft etc..
 
-            if (entry.dateStamp === undefined) delete entry.dateStamp;
+    //         try {
+    //           entry = {
+    //             html: html,
+    //             name: options.name || basename(path),
+    //             path: path,
+    //             pathDisplay: options.pathDisplay || path,
+    //             id: path,
+    //             thumbnail: thumbnail,
+    //             draft: is_draft,
+    //             metadata: metadata,
+    //             size: stat.size,
+    //             dependencies: dependencies,
+    //             dateStamp: DateStamp(blog, path, metadata),
+    //             updated: moment.utc(stat.mtime).valueOf(),
+    //           };
 
-            debug(
-              "Blog:",
-              blog.id,
-              path,
-              " preparing additional properties for",
-              entry.name
-            );
-            entry = Prepare(entry, options);
-            debug("Blog:", blog.id, path, " additional properties computed.");
-          } catch (e) {
-            return callback(e);
-          }
+    //           if (entry.dateStamp === undefined) delete entry.dateStamp;
 
-          callback(null, entry);
-        });
-      });
-    });
+    //           debug(
+    //             "Blog:",
+    //             blog.id,
+    //             path,
+    //             " preparing additional properties for",
+    //             entry.name
+    //           );
+    //           entry = Prepare(entry, options);
+    //           debug("Blog:", blog.id, path, " additional properties computed.");
+    //         } catch (e) {
+    //           return callback(e);
+    //         }
+
+    //         callback(null, entry);
+    //       });
+    //     });
+    //   });
   });
 };
