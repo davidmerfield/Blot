@@ -40,10 +40,10 @@
   "version": "0.0.0",
   "dependencies": {
     "async": "^2.6.1",
-    "async-exit-hook": "^2.0.1",
     "aws-sdk": "^2.814.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.4.3",
+    "bull": "^4.6.2",
     "cheerio": "^0.22.0",
     "chokidar": "^3.5.3",
     "clean-css": "^4.2.1",
