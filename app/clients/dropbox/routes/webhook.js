@@ -96,8 +96,7 @@ Webhook.route("/").post(function (req, res) {
           async.each(
             blogs,
             function (blog, next) {
-              sync(blog, function (err) {
-                if (err) console.log("Blog", blog.id, "Sync error:", err);
+              sync(blog, function () {
                 next();
               });
             },

@@ -32,7 +32,7 @@ app.get("/stream", function (req, res) {
 
     res.write("\n");
     res.write("data: " + "MESSAGE!" + "\n\n");
-    res.flush();
+    res.flushHeaders();
   });
 
   client.on("error", function (err) {

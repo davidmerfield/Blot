@@ -21,7 +21,7 @@ module.exports = function (channel) {
       if (_channel !== CHANNEL) return;
       res.write("\n");
       res.write("data: " + message + "\n\n");
-      res.flush();
+      res.flushHeaders();
     });
 
     client.on("error", function (err) {
