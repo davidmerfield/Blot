@@ -1,4 +1,28 @@
-<div style="flex-basis: 430px;box-sizing:border-box;margin: 0 1.5rem; background: #fafafa;border-radius: 18px;padding:18px 36px">
+<style type="text/css">
+  .left-side {
+    flex-basis: 430px;box-sizing:border-box;margin: 0 1.5rem; background: #fafafa;border-radius: 18px;padding:18px 36px
+  }
+  .right-side {
+    flex-basis: 470px;box-sizing:border-box;margin: 0 1.5rem;padding:18px 36px
+  }
+  .sides-container {
+    display: flex;flex-wrap:wrap;justify-content: center;margin:10rem 0 8rem
+  }
+@media (max-width:500px) {
+  .left-side, .right-side {
+    background: none;
+    padding: 18px;
+    margin: 0;
+    border:none;
+  }
+
+  .sides-container {margin:4rem 0 2rem;}
+
+}
+</style>
+    <div class="sides-container">
+
+<div class="left-side">
     <h1 class="inline">Blot is a blogging platform with no interface. It turns a folder into a website, like magic.</h1>
     <p>
       <a class="textli" href="/videos/publishing-with-blot.mp4">{{> playsvg}}Watch the video</a>
@@ -7,7 +31,7 @@
       {{> links}}
     </ul>
   </div>
-  <div style="flex-basis: 470px;box-sizing:border-box;margin: 0 1.5rem;padding:18px 36px">
+  <div class="right-side">
     <ul class="who">
       <li><a class="btn" href="/sign-up">Create a blog</a></li>
     {{#featured}}
@@ -37,6 +61,7 @@
   </ul>  
 </div>
 
+</div>
     <!-- Randomizes links to member sites and limit total sites to 20 -->
 <script type="text/javascript">
 var ul = document.querySelector('ul.who');
