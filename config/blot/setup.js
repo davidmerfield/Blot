@@ -1,7 +1,8 @@
 var config = require("../index");
 var root = require("helper/rootDir");
 var fs = require("fs-extra");
-var redis = require("redis").createClient();
+var redis = require("ioredis");
+var client = new redis(config.redis.port);
 
 // Blot's SSL certificate system requires the existence
 // of the domain key in redis. See config/nginx/auto-ssl.conf
