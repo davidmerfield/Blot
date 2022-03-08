@@ -23,7 +23,7 @@ function prefix(req) {
 
 module.exports = function (message) {
   return function (req, res, next) {
-    req.trace(message);
+    if (req.trace) req.trace(message);
     next();
   };
 };
