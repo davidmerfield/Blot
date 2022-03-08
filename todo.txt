@@ -1,6 +1,6 @@
-Check logs for successful wildcard ssl cert renewal on 2022-03-11 in /var/log/letsencrypt.log
-
 Finish Lisa's handwriting generator
+
+Check logs for successful wildcard ssl cert renewal on 2022-03-11 in /var/log/letsencrypt.log
 
 Fix issues with robustness of sync, esp on Dropbox and tell:
  - Victor
