@@ -25,7 +25,7 @@ module.exports = function getAll(blogID, callback) {
     multi.exec(function (err, res) {
       if (err) throw err;
 
-      var pretty = res.pop();
+      var pretty = res.pop()[1];
 
       for (var i = 0; i < res.length; i++) {
         if (!res[i].length) continue;
@@ -33,7 +33,7 @@ module.exports = function getAll(blogID, callback) {
         tags.push({
           name: pretty[i],
           slug: allTags[i],
-          entries: res[i],
+          entries: res[i][1],
         });
       }
 
