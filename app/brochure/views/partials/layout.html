@@ -29,13 +29,21 @@
     .doc-wrapper {max-width: 560px}
   }
 
+  .yiel {
+    flex-shrink:0;
+    margin: 0 3rem 0 0
+  }
+
+  @media (max-width: 600px) {
+    .yiel {flex-shrink: 1;margin-right: 0}
+  }
 </style>
 <input type="checkbox" name="toggle" id="toggle">
 <div class="doc-wrapper"> 
   <div style="flex-basis: 100%;margin:3px 0 13px;" >
     {{> breadcrumbs}}
   </div>
-  <div class="yiel" style="flex-basis: 560px;max-width:560px;flex-grow:0;flex-shrink:0;margin: 0 3rem 0 0">
+  <div class="yiel" style="flex-basis: 560px;max-width:560px;flex-grow:0;">
 {{{body}}}
 	</div>   
   <div style="flex-basis: 270px;flex-grow:0;flex-shrink:0;margin: 0 0 0 3rem;min-height: 61vh">
