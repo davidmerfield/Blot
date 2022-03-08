@@ -1,4 +1,4 @@
-var redis = require("redis").createClient();
+var redis = require("models/client");
 
 redis.keys("image:dimensions:*", function (error, sessionKeys) {
   sessionKeys.forEach(function (sessionKey) {

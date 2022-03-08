@@ -1,4 +1,4 @@
-var redis = require("redis").createClient();
+var redis = require("models/client");
 
 var TAGS = "blog:*:tags";
 var TAG = "blog:*:tag:*";

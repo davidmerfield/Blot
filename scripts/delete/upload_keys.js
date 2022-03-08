@@ -1,4 +1,4 @@
-var redis = require("redis").createClient();
+var redis = require("models/client");
 var blogID = process.argv[2];
 
 if (!blogID) throw "Please specify a blog id";

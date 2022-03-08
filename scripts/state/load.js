@@ -2,7 +2,7 @@ require("../only_locally");
 
 var fs = require("fs-extra");
 var exec = require("child_process").exec;
-var redis = require("redis");
+var redis = require("ioredis");
 var cp = require("child_process");
 var ROOT = process.env.BLOT_DIRECTORY;
 
@@ -58,7 +58,7 @@ function main(label, callback) {
 
 function loadDB(directory, callback) {
   var dump = directory + "/dump.rdb";
-  var client = redis.createClient();
+  var client = new redis();
   var multi = client.multi();
 
   // If redis was already shut down, then

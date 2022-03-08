@@ -1,4 +1,4 @@
-var client = require("redis").createClient();
+var client = require("models/client");
 var colors = require("colors/safe");
 
 if (require.main === module) {

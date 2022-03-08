@@ -1,6 +1,6 @@
 var each = require("../each/blog");
 var Blog = require("models/blog");
-var client = require("redis").createClient();
+var client = require("models/client");
 var yesno = require("yesno");
 let multi = client.multi();
 let keysToDelete = {};

@@ -1,6 +1,6 @@
 require("../only_locally");
 
-var client = require("redis").createClient();
+var client = require("models/client");
 var config = require("config");
 var Blog = require("blog");
 var async = require("async");

@@ -1,6 +1,6 @@
 require("../only_locally");
 
-var redis = require("redis").createClient();
+var redis = require("models/client");
 
 var SCHEME = "blog:*:entry:*";
 

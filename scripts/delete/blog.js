@@ -1,6 +1,6 @@
 var get = require("../blog/get");
 var async = require("async");
-var redis = require("redis").createClient();
+var redis = require("models/client");
 var User = require("models/user");
 var Blog = require("models/blog");
 

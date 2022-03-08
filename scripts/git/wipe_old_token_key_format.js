@@ -1,4 +1,4 @@
-var redis = require("redis").createClient();
+var redis = require("models/client");
 var each = require("../each/blog");
 
 each(function (user, blog, next) {

@@ -1,4 +1,4 @@
-var client = require("redis").createClient();
+var client = require("models/client");
 var multi = client.multi();
 var keysToDelete = [];
 var yesno = require("yesno");
