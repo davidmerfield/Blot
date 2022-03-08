@@ -1,8 +1,7 @@
 var Entry = require("models/entry");
 var Blog = require("models/blog");
 var async = require("async");
-var yesno = require("yesno");
-var host = require("../../../config").host;
+var host = require("config").host;
 
 var existing = {};
 
@@ -63,12 +62,7 @@ function main(blog, callback) {
         console.log("Fixed menu:");
         console.log(results);
 
-        return yesno.ask("Save menu? (y/n)", false, function (yes) {
-          if (!yes) {
-            return callback(new Error("\nDid not apply changes"));
-          }
-          Blog.set(blog.id, { menu: results }, callback);
-        });
+        Blog.set(blog.id, { menu: results }, callback);
       }
 
       callback();

@@ -1,7 +1,7 @@
 var Entry = require("models/entry");
 var client = require("models/client");
 var async = require("async");
-var host = require("../../../config").host;
+var host = require("config").host;
 
 var lists = ["all", "created", "entries", "drafts", "scheduled", "pages"];
 

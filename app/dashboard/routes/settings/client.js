@@ -5,6 +5,8 @@ var client_routes = express.Router();
 
 var Blog = require("blog");
 var load = require("./load");
+var Sync = require("sync");
+var Fix = require("sync/fix");
 
 // So the breadcrumbs look like: Settings > Client
 client_routes.use(function (req, res, next) {
@@ -17,7 +19,7 @@ client_routes
   .route("/switch")
 
   .get(load.clients, load.client, function (req, res) {
-    res.render("clients-switch", {
+    res.render("clients/switch", {
       title: "Switch to another client",
     });
   })
@@ -37,6 +39,29 @@ client_routes
         if (err) return next(err);
 
         res.redirect(redirect);
+      });
+    });
+  });
+
+client_routes
+  .route("/fix")
+  .get(load.clients, load.client, function (req, res) {
+    res.render("clients/fix", {
+      title: "Fix your folder",
+    });
+  })
+  .post(function (req, res, next) {
+    Sync(req.blog.id, function (err, folder, done) {
+      if (err) return next(err);
+      Fix(req.blog, function (err) {
+        if (err) return next(err);
+        done(null, function (err) {
+          if (err) return next(err);
+          res.message(
+            req.baseUrl + "/" + req.blog.client,
+            "Reset folder successfully"
+          );
+        });
       });
     });
   });

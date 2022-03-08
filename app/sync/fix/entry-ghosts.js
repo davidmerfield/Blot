@@ -1,10 +1,10 @@
-var yesno = require("yesno");
+// var yesno = require("yesno");
 var Entries = require("models/entries");
 var Entry = require("models/entry");
 var localPath = require("helper/localPath");
 var fs = require("fs");
 var async = require("async");
-var host = require("../../../config").host;
+var host = require("config").host;
 
 function resolvePath(blogID, path, callback) {
   var candidates = [];
@@ -48,7 +48,7 @@ function resolvePath(blogID, path, callback) {
 // path properties that were not equal to the location of the file on disk
 // if the file system is case sensitive.
 function main(blog, callback) {
-  yesno.options.yes = [blog.handle];
+  // yesno.options.yes = [blog.handle];
   var missing = [];
   var edit = [];
 
@@ -104,29 +104,29 @@ function main(blog, callback) {
       function log(i) {
         return "\n- Path: " + i.path + "\n- Entry: " + domain + i.entry.url;
       }
-      yesno.ask(message.join("\n"), false, function (yes) {
-        if (!yes) {
-          return callback(new Error("\nDid not apply changes"));
+      // yesno.ask(message.join("\n"), false, function (yes) {
+      //   if (!yes) {
+      //     return callback(new Error("\nDid not apply changes"));
+      //   }
+
+      async.eachSeries(
+        edit,
+        function (item, next) {
+          Entry.set(blog.id, item.entry.path, { path: item.path }, next);
+        },
+        function (err) {
+          if (err) return callback(err);
+
+          async.eachSeries(
+            missing,
+            function (item, next) {
+              Entry.drop(blog.id, item.entry.path, next);
+            },
+            callback
+          );
         }
-
-        async.eachSeries(
-          edit,
-          function (item, next) {
-            Entry.set(blog.id, item.entry.path, { path: item.path }, next);
-          },
-          function (err) {
-            if (err) return callback(err);
-
-            async.eachSeries(
-              missing,
-              function (item, next) {
-                Entry.drop(blog.id, item.entry.path, next);
-              },
-              callback
-            );
-          }
-        );
-      });
+      );
+      // });
     }
   );
 }

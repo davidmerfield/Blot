@@ -1,18 +1,7 @@
 var Tags = require("models/tags");
 var Entry = require("models/entry");
 var async = require("async");
-var get = require("../../get/blog");
 var client = require("client");
-
-if (require.main === module) {
-  get(process.argv[2], function (err, user, blog) {
-    if (err) throw err;
-    main(blog, function (err) {
-      if (err) throw err;
-      process.exit();
-    });
-  });
-}
 
 function main(blog, callback) {
   console.log("Blog", blog.id, "Fixing tags");
