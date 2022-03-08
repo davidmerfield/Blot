@@ -2,5 +2,4 @@ Node worker errored
 
 Log in to server and grep:
 
-tail -n 100000 logs/app.log | grep -B 100 "Worker died unexpectedly"
-
+tail -n 100000 logs/app.log | grep "Worker died unexpectedly" -B 100
