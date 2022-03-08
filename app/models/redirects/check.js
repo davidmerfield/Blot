@@ -22,7 +22,7 @@ module.exports = function (blogID, input, callback) {
       // SORTED SET, precedence is important
       // SSCAN myset 0 match 'Wo*'
 
-      client.ZSCAN(redirects, cursor, function (err, response) {
+      client.zscan(redirects, cursor, function (err, response) {
         if (err) throw err;
 
         if (!response || !response.length) {

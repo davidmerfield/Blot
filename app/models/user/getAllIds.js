@@ -5,5 +5,5 @@ var key = require("./key");
 module.exports = function getAllIds(callback) {
   ensure(callback, "function");
 
-  client.SMEMBERS(key.uids, callback);
+  client.smembers(key.uids, callback);
 };

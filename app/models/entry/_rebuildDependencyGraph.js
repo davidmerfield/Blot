@@ -32,11 +32,11 @@ module.exports = function (blogID, entry, previous_dependencies, callback) {
   }
 
   removed_dependencies.forEach(function (path) {
-    multi.SREM(dependentsKey(blogID, path), entry.path);
+    multi.srem(dependentsKey(blogID, path), entry.path);
   });
 
   new_dependencies.forEach(function (path) {
-    multi.SADD(dependentsKey(blogID, path), entry.path);
+    multi.sadd(dependentsKey(blogID, path), entry.path);
   });
 
   multi.exec(callback);

@@ -20,8 +20,8 @@ function add(blogID, path, name, callback) {
   // look it up later
   // store the key in a set so we can remove all
   // keys if the blog needs to be deleted
-  multi.SET(key.path(blogID, path), name);
-  multi.SADD(key.all(blogID), key.path(blogID, path));
+  multi.set(key.path(blogID, path), name);
+  multi.sadd(key.all(blogID), key.path(blogID, path));
   multi.exec(function (err) {
     if (err) console.log(err);
 
@@ -34,8 +34,8 @@ function add(blogID, path, name, callback) {
 function drop(blogID, path, callback) {
   var multi = client.multi();
 
-  multi.DEL(key.path(blogID, path));
-  multi.SREM(key.all(blogID), key.path(blogID, path));
+  multi.del(key.path(blogID, path));
+  multi.srem(key.all(blogID), key.path(blogID, path));
   multi.exec(function (err) {
     if (err) console.log(err);
 
@@ -47,10 +47,10 @@ function drop(blogID, path, callback) {
 // a given file stored at a particular path
 function get(blogID, input, callback) {
   if (typeof input === "string") {
-    client.GET(key.path(blogID, input), callback);
+    client.get(key.path(blogID, input), callback);
   } else if (Array.isArray(input)) {
     if (input.length) {
-      client.MGET(input.map(key.path.bind(this, blogID)), callback);
+      client.mget(input.map(key.path.bind(this, blogID)), callback);
     } else {
       callback(null, []);
     }

@@ -8,7 +8,10 @@ if (require.main === module) {
 }
 
 function main(callback) {
-  require("redis")
+  const redis = require("ioredis");
+  const config = require("config");
+  const client = new redis(config.redis.port);
+  client
     .createClient()
     .smembers("newsletter:list", function (err, subscribers) {
       callback(null, { newsletter_subscribers: subscribers.length });

@@ -7,7 +7,7 @@ module.exports = function getView(templateID, viewID, callback) {
   var match;
 
   client.hgetall(key.view(templateID, viewID), function (err, view) {
-    if (view) {
+    if (view && Object.keys(view).length) {
       view = deserialize(view, viewModel);
       return callback(err, view);
     }
@@ -26,7 +26,7 @@ module.exports = function getView(templateID, viewID, callback) {
       if (!match) return callback(new Error("No view: " + viewID));
 
       client.hgetall(key.view(templateID, match), function (err, view) {
-        if (!view) return callback(new Error("No view: " + viewID));
+        if (!view || !Object.keys(view).length) return callback(new Error("No view: " + viewID));
 
         view = deserialize(view, viewModel);
         callback(err, view);

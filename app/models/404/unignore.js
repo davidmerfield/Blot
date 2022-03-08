@@ -9,5 +9,5 @@ module.exports = function (blogID, url, callback) {
 
   ensure(ignoreKey, "string");
 
-  return client.SREM(ignoreKey, url, callback);
+  return client.srem(ignoreKey, url, callback);
 };

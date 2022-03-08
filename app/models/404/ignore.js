@@ -9,5 +9,5 @@ module.exports = function (blogID, url, callback) {
 
   ensure(ignoreKey, "string");
 
-  return client.SADD(ignoreKey, url, callback);
+  return client.sadd(ignoreKey, url, callback);
 };

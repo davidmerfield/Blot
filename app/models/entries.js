@@ -184,7 +184,7 @@ module.exports = (function () {
 
     var key = listKey(blogID, "created");
 
-    redis.ZRANGEBYSCORE(key, after, Date.now(), function (err, ids) {
+    redis.zrangebyscore(key, after, Date.now(), function (err, ids) {
       if (err) return callback(err);
 
       Entry.get(blogID, ids, function (entries) {
@@ -198,7 +198,7 @@ module.exports = (function () {
 
     var key = listKey(blogID, "deleted");
 
-    redis.ZRANGEBYSCORE(key, after, Date.now(), function (err, ids) {
+    redis.zrangebyscore(key, after, Date.now(), function (err, ids) {
       if (err) return callback(err);
 
       Entry.get(blogID, ids, function (entries) {

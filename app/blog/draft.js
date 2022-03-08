@@ -2,7 +2,8 @@ module.exports = function route(server) {
   var Entry = require("entry");
   var Entries = require("entries");
   var drafts = require("sync/update/drafts");
-  var redis = require("redis");
+  var redis = require("ioredis");
+  var config = require("config");
 
   // (node:73631) TimeoutOverflowWarning: 1.7976931348623157e+308 does not fit into a 32-bit signed integer.
   // Timer duration was truncated to 2147483647.
@@ -10,7 +11,7 @@ module.exports = function route(server) {
 
   server.get(drafts.streamRoute, function (req, res, next) {
     var blogID = req.blog.id;
-    var client = redis.createClient();
+    var client = new redis(config.redis.port);
     var path = drafts.getPath(req.url, drafts.streamRoute);
 
     req.socket.setTimeout(MAX_TIMEOUT);

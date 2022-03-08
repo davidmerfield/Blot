@@ -1,8 +1,9 @@
-const redis = require("redis");
+const redis = require("ioredis");
+const config = require("config");
 
 module.exports = function (channel) {
   return function (req, res) {
-    var client = redis.createClient();
+    var client = new redis(config.redis.port);
     var CHANNEL = channel(req);
 
     req.socket.setTimeout(2147483647);

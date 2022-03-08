@@ -3,7 +3,9 @@ var Folder = require("clients/local/models/folder");
 var debug = require("debug")("blot:clients:local:setup");
 var watch = require("./controllers/watch");
 var setup = require("./controllers/setup");
-var client = require("redis").createClient();
+var redis = require("ioredis");
+var config = require("config");
+var client = new redis(config.redis.port);
 var clfdate = require("helper/clfdate");
 
 const prefix = () => clfdate() + " Local folder client:";
@@ -33,11 +35,10 @@ module.exports = () => {
         if (!folder) return;
         if (!fs.existsSync(folder)) return;
 
-
         console.log(prefix(), "Synchronizing", folder);
         setup.synchronize(blogID, folder, function (err) {
           if (err) console.error(err);
-  
+
           console.log(prefix(), "Watching", folder);
           watch(blogID, folder);
 

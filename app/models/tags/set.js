@@ -48,7 +48,7 @@ module.exports = function (blogID, entry, callback) {
 
   // First we retrieve a list of all the tags used
   // across the user's blog
-  client.SMEMBERS(existingKey, function (err, existing) {
+  client.smembers(existingKey, function (err, existing) {
     if (err) throw err;
 
     // Then we compute a list of tags which the entry

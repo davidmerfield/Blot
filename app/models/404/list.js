@@ -11,12 +11,12 @@ module.exports = function (blogID, callback) {
 
   ensure(everythingKey, "string").and(ignoreKey, "string");
 
-  client.SMEMBERS(ignoreKey, function (err, ignoreThese) {
+  client.smembers(ignoreKey, function (err, ignoreThese) {
     if (err) throw err;
 
     ensure(ignoreThese, "array");
 
-    client.ZREVRANGE(everythingKey, 0, -1, "WITHSCORES", function (
+    client.zrevrange(everythingKey, 0, -1, "WITHSCORES", function (
       err,
       response
     ) {

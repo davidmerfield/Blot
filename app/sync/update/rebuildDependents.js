@@ -13,7 +13,7 @@ var dependentsKey = Entry.key.dependents;
 
 module.exports = function (blogID, path, callback) {
   Blog.get({ id: blogID }, function (err, blog) {
-    client.SMEMBERS(dependentsKey(blogID, path), function (
+    client.smembers(dependentsKey(blogID, path), function (
       err,
       dependent_paths
     ) {

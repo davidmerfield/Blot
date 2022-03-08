@@ -1,7 +1,9 @@
 var fs = require("fs-extra");
 var config = require("config");
 var Moment = require("moment");
-var redis = require("redis").createClient();
+var redis = require("ioredis");
+var config = require("config");
+var client = new redis(config.redis.port);
 var tmp = require("helper/tempDir")();
 var ensure = require("helper/ensure");
 var encrypt = require("helper/encrypter").encrypt;
@@ -59,18 +61,18 @@ function backup(callback) {
 }
 
 function saveDBToDisk(callback) {
-  redis.lastsave(function (err, last_save_time) {
+  client.lastsave(function (err, last_save_time) {
     if (err) return callback(err);
     console.log("Backup: Saving database to disk at " + last_save_time);
-    redis.bgsave(function (err) {
+    client.bgsave(function (err) {
       if (err) return callback(err);
       console.log("Backup: Asked redis to save database to disk in background");
 
-      redis.lastsave(function onCheck(err, latest_save_time) {
+      client.lastsave(function onCheck(err, latest_save_time) {
         if (err) return callback(err);
 
         if (latest_save_time === last_save_time) {
-          return redis.lastsave(onCheck);
+          return client.lastsave(onCheck);
         }
 
         console.log("Backup: DB saved to disk");

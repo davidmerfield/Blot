@@ -21,7 +21,7 @@ module.exports = function generateAccessToken(options, callback) {
 
     token = token.toString("hex");
 
-    client.SETEX(key.accessToken(token), seconds, value, function (err) {
+    client.setex(key.accessToken(token), seconds, value, function (err) {
       if (err) return callback(err);
 
       callback(null, token);

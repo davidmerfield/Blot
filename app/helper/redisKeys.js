@@ -1,4 +1,6 @@
-var client = require("redis").createClient();
+var redis = require("ioredis");
+var config = require("config");
+var client = new redis(config.redis.port);
 
 module.exports = function redisKeys(pattern, callback) {
   var keys = [];

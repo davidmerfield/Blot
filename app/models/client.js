@@ -1,6 +1,6 @@
 var config = require("config");
-var redis = require("redis");
-var client = redis.createClient(config.redis.port);
+var Redis = require("ioredis");
+var client = new Redis(config.redis.port);
 
 client.on("error", function (err) {
   console.log("Redis Error:");

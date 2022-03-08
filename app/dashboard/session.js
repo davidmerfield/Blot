@@ -2,7 +2,8 @@ const config = require("config");
 const guid = require("helper/guid");
 const session = require("express-session");
 const Store = require("connect-redis")(session);
-const redis = require("redis").createClient();
+const redis = require("ioredis");
+const client = new redis(config.redis.port);
 
 // Session settings. It is important that session
 // comes before the cache so we know what to serve
@@ -19,7 +20,7 @@ module.exports = session({
     maxAge: 1000 * 60 * 60 * 24 * 90, // 90 days in ms
   },
   store: new Store({
-    client: redis,
+    client,
     port: config.redis.port,
   }),
 });

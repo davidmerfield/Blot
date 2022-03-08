@@ -4,12 +4,13 @@ var CHANNEL = "channel:123";
 var Express = require("express");
 var app = Express.Router();
 var bodyParser = require("body-parser").urlencoded({ extended: false });
-var redis = require("redis");
+var redis = require("ioredis");
+var config = require("config");
 
 app.get("/stream", function (req, res) {
   // Eventually identify this by request BLOGID
   var channel = CHANNEL;
-  var client = redis.createClient();
+  var client = new redis(config.redis.port);
 
   req.socket.setTimeout(Number.MAX_VALUE);
 

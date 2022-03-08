@@ -33,7 +33,8 @@ if (require.main === module) {
 
   // Rebuilds templates when we load new states
   // using scripts/state/info.js
-  let client = require("redis").createClient();
+  const redis = require("ioredis");
+  let client = new redis(config.redis.port);
   client.subscribe("templates:rebuild");
   client.on("message", function () {
     main({}, function () {});
@@ -273,8 +274,8 @@ function watch(directory) {
 
   chokidar.watch(directory, { cwd: directory }).on("all", (event, path) => {
     if (!path) return;
-    const subdirectory = path.split('/')[0];
-    if (subdirectory[0] === '.') return;
+    const subdirectory = path.split("/")[0];
+    if (subdirectory[0] === ".") return;
     queue.push(directory + "/" + subdirectory);
   });
 }
