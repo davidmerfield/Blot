@@ -3,6 +3,7 @@ const fs = require("fs-extra");
 const config = require("config");
 const cluster = require("cluster");
 const clfdate = require("helper/clfdate");
+const email = require("helper/email");
 
 if (cluster.isMaster) {
   const NUMBER_OF_CORES = require("os").cpus().length;
@@ -15,6 +16,8 @@ if (cluster.isMaster) {
     clfdate(),
     `Starting pid=${process.pid} environment=${config.environment} cache=${config.cache}`
   );
+
+  email.SERVER_START();
 
   // Write the master process PID so we can signal it
   fs.writeFileSync(config.pidfile, process.pid.toString(), "utf-8");
@@ -40,6 +43,7 @@ if (cluster.isMaster) {
     if (worker.exitedAfterDisconnect === false) {
       console.log(clfdate(), "Worker died unexpectedly, starting a new one");
       cluster.fork();
+      email.WORKER_ERROR();
       // worker processes can have scheduled tasks to publish
       // scheduled entries in future – if the worker dies it's
       // important the master process instead schedules the task
