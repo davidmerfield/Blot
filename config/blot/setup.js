@@ -11,7 +11,7 @@ var client = new redis(config.redis.port);
 // to the apex domain, but we need to generate a cert to do this.
 // Typically, domain keys like domain:example.com store a blog's ID
 // but since the homepage is not a blog, we just use a placeholder 'X'
-redis.mset(
+client.mset(
   ["domain:" + config.host, "X", "domain:www." + config.host, "X"],
   function (err) {
     if (err) {
