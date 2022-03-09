@@ -261,9 +261,10 @@ mark {
 }
 
 h1 {
-  font-size: 32px;
+  font-size: 48px;
   display: block;
   font-weight: 700;
+  border-bottom: 1px solid;
   padding: 0 0 0.5rem;
 }
 

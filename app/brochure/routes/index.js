@@ -69,6 +69,11 @@ brochure.use(require("./tools/typeset"));
 // Generate a table of contents for each page
 brochure.use(require("./tools/on-this-page"));
 
+brochure.use('/how', function(req, res,next){
+  res.locals.showsidebar = true;
+  next();
+})
+
 brochure.use(function (req, res, next) {
   res.locals.base = "";
   res.locals.selected = {};

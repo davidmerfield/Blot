@@ -9,9 +9,6 @@
 	.doc-right {grid-column-start: 9;grid-column-end: 12;margin-top: 6.25rem;}
 
 	.sidebar {border:none;/*border-left:1px solid rgba(0,0,0,0.1);*/
-    background: #fafafa;
-    border-radius: 18px;
-    padding: 18px 36px;
 }
 	
 	@media screen and (max-width: 800px) {
@@ -41,11 +38,13 @@
 <input type="checkbox" name="toggle" id="toggle">
 <div class="doc-wrapper"> 
   
+  {{#if showsidebar}}
   <div style="flex-basis: 270px;max-width:270px;flex-grow:1;flex-shrink:0;margin: 0 10rem 0 0;min-height: 61vh">
   {{> sidebar}}
   </div>
+  {{/if}}
 
-  <div class="yiel" style="flex-basis: 560px;flex-grow:1;">
+  <div class="yiel" style="flex-basis: 560px;flex-grow:1;margin: 0 auto;max-width: 800px">
     {{#unless hidebreadcrumbs}}
 {{> breadcrumbs}}    
 {{/unless}}
