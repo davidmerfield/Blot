@@ -97,8 +97,8 @@ nav a.selected:hover {
   transition: max-height 0.2s ease-out;
   box-sizing: border-box;
 }
-.sidebar ul ul {display: none;}
-.sidebar > li > ul {
+/*.sidebar ul ul {display: none;}
+*/.sidebar > li > ul {
   /*padding-left: 1rem;*/
 }
 

@@ -7,22 +7,44 @@
     color:  var(--accent-color);
   }
 
-.top-r {
-  position: absolute;top: 1rem;right: 1rem
-}
-{{#unless selected.index}}
-@media screen and (max-width: 1000px) {
-  .top-r {
-    right: 4rem;
-  }
-}
-{{/unless}}
 </style>
 
-<div style="flex-basis: 100%;margin:3px 0 13px;" >
-    {{> breadcrumbs}}
-  </div>
 
+<div style="display: flex;justify-content: space-between;padding: 18px">
+
+    <a class="breadcrumbs__link" style="font-size: 20px" href="/">
+<svg version="1.1" id="logo" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+   viewBox="0 0 36 30" style="enable-background:new 0 0 36 30;" xml:space="preserve">
+<path class="st0" d="M35.1,13.3c0,0-2.3-2.4-6.7-2.4H7.6c-4.4,0-6.7,2.4-6.7,2.4"/>
+<g>
+  <path d="M15.1,2.8l2.1,1.6l0.5,0.4h0.6H33c0.7,0,1.2,0.6,1.2,1.2v21c0,0.7-0.6,1.2-1.2,1.2H3c-0.7,0-1.2-0.6-1.2-1.2V4
+    c0-0.7,0.6-1.2,1.2-1.2H15.1 M15.8,1H3C1.3,1,0,2.4,0,4v23c0,1.6,1.3,3,3,3h30c1.7,0,3-1.4,3-3V6c0-1.6-1.3-3-3-3H18.3L15.8,1
+    L15.8,1z"/>
+</g>
+</svg> Blot</a>
+
+  <style type="text/css">
+    .naver {display: flex;}
+    .naver a {
+      font-size: 20px;
+      padding: 8px 16px;
+      line-height: 20px;
+      border:1px solid #eee;
+      margin-left: -1px
+    }
+    .naver a:first-child {
+      border-radius: 6px 0 0 6px
+    }
+    .naver a:last-child {
+      border-radius: 0 6px 6px 0;
+    }
+  </style>
+  <div class="naver">
+        <a style="" href="/how">How it works</a>
+        <a style="" href="/templates">Templates</a>
+        <a style="" href="/questions">Questions</a>
+        <a style="" href="/about">About</a>
+      </div>
        <div class="top-r">
 
         {{#if user}}
@@ -32,6 +54,7 @@
 
         {{#unless selected.log-in}}
         {{#unless selected.sign-up}}
+        <!-- <a class="hdr-btn" style="" href="/about">About</a> -->
         <a class="hdr-btn" style="" href="/log-in">Log in</a>
         <a class="hdr-btn"  href="/sign-up">Sign up</a>
       {{/unless}}
@@ -53,3 +76,4 @@
       {{/if}}
       {{/if}}
   </div>
+</div>
