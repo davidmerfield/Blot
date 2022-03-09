@@ -10,9 +10,20 @@
 </style>
 
 
-<div style="display: flex;justify-content: space-between;padding: 18px">
-
-    <a class="breadcrumbs__link" style="font-size: 20px" href="/">
+<div style="display: flex;justify-content: space-between;padding: 9px 12px">
+<style type="text/css">
+svg#logo {fill:black;width: 1em;height: 1em;font-size: 2.8em;vertical-align: sub;display: block;margin-bottom: 0.1em}
+  svg#logo .st0{fill:none;stroke:black;stroke-width:1.75;stroke-miterlimit:10;}
+  a:hover #logo {fill: var(--accent-color);}
+  a:hover #logo .st0 {stroke: var(--accent-color);}
+  a.lig {color: inherit;    border-radius: 6px;
+padding: 12px 18px}
+  a.lig:hover {
+    color: var(--accent-color);
+    background: #fafafa;
+  }
+</style>
+    <a class="lig" href="/">
 <svg version="1.1" id="logo" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
    viewBox="0 0 36 30" style="enable-background:new 0 0 36 30;" xml:space="preserve">
 <path class="st0" d="M35.1,13.3c0,0-2.3-2.4-6.7-2.4H7.6c-4.4,0-6.7,2.4-6.7,2.4"/>
@@ -21,29 +32,35 @@
     c0-0.7,0.6-1.2,1.2-1.2H15.1 M15.8,1H3C1.3,1,0,2.4,0,4v23c0,1.6,1.3,3,3,3h30c1.7,0,3-1.4,3-3V6c0-1.6-1.3-3-3-3H18.3L15.8,1
     L15.8,1z"/>
 </g>
-</svg> Blot</a>
+</svg><span style="display: block;text-align: center;font-size: 16px">Blot</span></a>
 
   <style type="text/css">
-    .naver {display: flex;}
+    .naver {display: flex;align-self: flex-start;
+
+    /*  border-radius: 100px;background: #fff;border:1px solid rgba(0,0,0,0.1);
+      box-shadow: 0 0 20px rgba(0,0,0,0.05)
+    */
+  }
+
     .naver a {
       font-size: 20px;
       padding: 8px 16px;
+      margin:4px;
+      color: inherit;
       line-height: 20px;
-      border:1px solid #eee;
-      margin-left: -1px
+      border-radius: 100px;
     }
-    .naver a:first-child {
-      border-radius: 6px 0 0 6px
-    }
-    .naver a:last-child {
-      border-radius: 0 6px 6px 0;
+    .naver a:hover {background-color: #fafafa;color:var(--accent-color);}
+    .naver a.selected {
+      background: #fafafa;
+      color: var(--accent-color)
     }
   </style>
   <div class="naver">
-        <a style="" href="/how">How it works</a>
-        <a style="" href="/templates">Templates</a>
-        <a style="" href="/questions">Questions</a>
-        <a style="" href="/about">About</a>
+        <a class="{{selected.how}}" href="/how">How to use Blot</a>
+        <a class="{{selected.templates}}" href="/templates">Templates</a>
+        <a class="{{selected.questions}}" href="/questions">Questions</a>
+        <a class="{{selected.about}}" href="/about">About</a>
       </div>
        <div class="top-r">
 

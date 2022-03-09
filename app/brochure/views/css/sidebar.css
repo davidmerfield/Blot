@@ -30,6 +30,9 @@ input[name="toggle"] {
   display: block;
 }
 
+.sidebar > li > a:not([data-open="selected"]) {
+  display: none;
+}
 
 .sidebar {
   margin: 0;

@@ -6,7 +6,7 @@ var config = require("config");
 var titleFromSlug = require("helper/titleFromSlug");
 var trace = require("helper/trace");
 var TITLES = {
-  "how": "How it works",
+  "how": "How to use Blot",
   "terms": "Terms of use",
   "privacy": "Privacy policy",
   "google-drive": "Google Drive",
@@ -38,21 +38,20 @@ brochure.get(["/how/format/*"], function (req, res, next) {
 });
 
 brochure.use(function (req, res, next) {
-  res.locals.breadcrumbs = req.url.split("/").map(function (slug, i, arr) {
-    if (!slug) return { label: "Blot", first: true, url: "/" };
+  res.locals.breadcrumbs = req.url.split("/").filter(i => !!i).map(function (slug, i, arr) {
     return {
       label: TITLES[slug] || titleFromSlug(slug),
-      url: arr.slice(0, i + 1).join("/"),
+      url: '/' + arr.slice(0, i + 1).join("/"),
       last: i === arr.length - 1,
     };
   });
 
-  if (req.url === "/") {
-    res.locals.breadcrumbs = res.locals.breadcrumbs.slice(0, 1);
-    res.locals.breadcrumbs[0].last = true;
-  }
+  // if (req.url === "/") {
+  //   res.locals.breadcrumbs = res.locals.breadcrumbs.slice(0, 1);
+  //   res.locals.breadcrumbs[0].last = true;
+  // }
 
-  if (res.locals.breadcrumbs.length < 3) res.locals.hidebreadcrumbs = true;
+  if (res.locals.breadcrumbs.length < 2) res.locals.hidebreadcrumbs = true;
 
   next();
 });
