@@ -23,7 +23,7 @@ describe("sync", function () {
       if (err) return testDone.fail(err);
 
       sync(blog.id, function (err) {
-        expect(err.message).toContain("Failed to acquire lock");
+        expect(err.message).toContain("Failed to acquire folder lock");
         done(null, testDone);
       });
     });
