@@ -34,6 +34,9 @@ input[name="toggle"] {
   display: none;
 }
 
+.sidebar > li > a:not([data-open="selected"]) + ul {
+  display: none;
+}
 .sidebar {
   margin: 0;
   list-style: none;
@@ -41,6 +44,7 @@ input[name="toggle"] {
   box-sizing: border-box;
   max-width: none;
   flex-shrink: 0;
+  font-size: 16px;
   top: 0;
   /*margin-top: 74px;*/
   align-self: flex-start;
@@ -92,12 +96,14 @@ nav a.selected:hover {
 }
 
 .sidebar li ul {
-  padding: 0;
+/*  padding: 0;
   margin: 0 0 0 1rem;
-  max-height: 0;
+*//*  max-height: 0;
   overflow: hidden;
   transition: max-height 0.2s ease-out;
-  box-sizing: border-box;
+*/  box-sizing: border-box;
+padding-left: 0.5em;
+border-left: 1px solid #eee;
 }
 /*.sidebar ul ul {display: none;}
 */.sidebar > li > ul {
@@ -128,7 +134,7 @@ nav a.selected:hover {
 
 
 .sidebar > li > ul > li > ul > li > a {
-  padding-left: 1rem;
+  padding-left: 0;
 }
 
 
@@ -150,7 +156,7 @@ nav a.selected:hover {
 .sidebar a + ul ul li:first-child {
   border-top: 1px solid var(--light-border-color);
 }
-
+/*
 .sidebar [data-open="selected"] + ul,
 .sidebar a:active + ul,
 .sidebar a:focus + ul
@@ -162,7 +168,7 @@ nav a.selected:hover {
     padding-bottom: 10px;
     padding-top: 10px;
     position: relative;
-}
+}*/
 
 
 .sidebar [data-open="selected"] + ul li:last-child ul {
