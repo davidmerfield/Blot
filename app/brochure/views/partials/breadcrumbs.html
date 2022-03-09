@@ -4,6 +4,20 @@
   svg#logo .st0{fill:none;stroke:black;stroke-width:1.75;stroke-miterlimit:10;}
   a:hover #logo {fill: var(--accent-color);}
   a:hover #logo .st0 {stroke: var(--accent-color);}
+  .breadcrumbs__link:hover:after {
+    content: " ";
+    background: black;
+    border-radius: 6px;
+    position: absolute;
+    top: -0.2em;
+    left: calc(1em - 0.5em);
+    bottom: -0.2em;
+    right: -0.5em;
+    opacity: 0.05;
+  }
+  .breadcrumbs__link:first-child:hover:after {
+    left: -0.5em;
+  }
 </style>
 
 <div class="breadcrumbs breadcrumbs__list" style="overflow-x: auto;
