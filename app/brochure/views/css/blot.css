@@ -20,7 +20,7 @@ body {
 body {
   background: var(--background-color);
   color: var(--text-color);
-  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica,
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica,
     "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
   font-size: 16px;
   font-weight: 400;
@@ -419,21 +419,21 @@ background {
   display: flex;
   margin: 2rem 0 4rem;
   /*border-radius: 12px;*/
-  background: #b4e6fc;
-  overflow: hidden;
+  /*background: #b4e6fc;*/
+  /*overflow: hidden;*/
   /*border:1px solid #000;*/
   box-sizing: border-box;
-  align-items: center;
-  justify-content: center;
-}
-
+/*  align-items: center;
+*/ /* justify-content: center;
+*/}
+/*
 background.video {
   background: #ffc280;
 }
 background.green {
   background: #ace8b4;
 }
-
+*/
 background + h2,
 .window + h2 {
   margin-top: 3em;
@@ -468,7 +468,7 @@ background .window {
   flex-grow: 1;
   max-width: 320px;
   min-width: 256px;
-  margin: 2.8rem 1.4rem;
+  margin: 0rem 0 4rem 0;
 }
 
 .clients {

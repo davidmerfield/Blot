@@ -22,7 +22,7 @@
 
 	}
 
-  .doc-wrapper {max-width: 930px;margin:0 auto;
+  .doc-wrapper {margin:0 auto;
     padding: 4rem 1.5rem;display: flex;flex-wrap: wrap;min-height: auto}
 
   @media screen and (max-width: 1000px) {
@@ -40,15 +40,15 @@
 </style>
 <input type="checkbox" name="toggle" id="toggle">
 <div class="doc-wrapper"> 
-  <div style="flex-basis: 100%;margin:3px 0 13px;" >
-    {{> breadcrumbs}}
+  
+  <div style="flex-basis: 270px;max-width:300px;flex-grow:1;flex-shrink:0;margin: 0 6rem 0 0;min-height: 61vh">
+  {{> sidebar}}
   </div>
+
   <div class="yiel" style="flex-basis: 560px;max-width:560px;flex-grow:0;">
 {{{body}}}
 	</div>   
-  <div style="flex-basis: 270px;flex-grow:0;flex-shrink:0;margin: 0 0 0 3rem;min-height: 61vh">
-  {{> sidebar}}
-  </div>
+
 </div>
 </div>
 {{> footer}}
