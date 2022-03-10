@@ -78,6 +78,7 @@ module.exports = async function (blogID, options, callback) {
         const path = storedPathForParentId
           ? join(storedPathForParentId, name)
           : null;
+        const movedOutsideFolder = storedPathForId && !storedPathForParentId;
 
         if (trashed && id === folderId) {
           await db.remove(id);
@@ -90,7 +91,7 @@ module.exports = async function (blogID, options, callback) {
         } else if (id === folderId) {
           const folderPath = await determinePathToFolder(drive, id);
           await database.setAccount(blogID, { folderPath });
-        } else if (trashed && storedPathForId) {
+        } else if ((trashed || movedOutsideFolder) && storedPathForId) {
           console.log(prefix(), "DELETE", storedPathForId);
           const removedPaths = await db.remove(id);
           removedPaths.forEach((removedPath) =>
@@ -110,7 +111,7 @@ module.exports = async function (blogID, options, callback) {
           await db.set(id, path);
           await download(blogID, drive, path, file);
           pathsToUpdate.push(path);
-        } else if (storedPathForId) {
+        } else if (path && storedPathForId) {
           console.log(prefix(), "UPDATE", storedPathForId);
           await download(blogID, drive, path, file);
           pathsToUpdate.push(path);
