@@ -92,6 +92,8 @@ module.exports = function download_images(post, callback) {
       function (el, next) {
         var src = $(el).attr("src");
 
+        if (!src) return next();
+         
         var name = nameFrom(src);
 
         if (name.charAt(0) !== "_") name = "_" + name;
