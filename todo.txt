@@ -1,5 +1,12 @@
 Finish Lisa's handwriting generator
 
+Improve backlink's tolerance
+- Add support for full qualified URLs in the backlinks list for each entry. 
+  - For example, if your blog is example.com, the following link will not appear as an internal link: [Foo](https://example.com/foo) because build/prepare/internalLinks is not aware of the blog domain/handle 
+- Tell [Eli](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlkFlwSwXGrFZwvSKdHKvcxplV)
+- Add support for internal links without a leading slash
+  - Tell Laurel
+
 Check logs for successful wildcard ssl cert renewal on 2022-03-11 in /var/log/letsencrypt.log
 
 Fix issues with robustness of sync, esp on Dropbox and tell:
@@ -99,10 +106,6 @@ Re-order blog engine routes such that pages/entries are evauluated first, making
 Add RTF support using Pandoc or [rtf.js](https://github.com/tbluemel/rtf.js)
 
 Add support for [Jupyter Notebook .ipynb](https://predictablynoisy.com/posts/2019/2019-11-11-ipynb_pandoc/#ipynb-to-html) using Pandoc and tell [Arnab](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmtNdkGQxbMVblqjvkHwSMTBbW)
-
-Add support for full qualified URLs in the backlinks list for each entry. 
-- For example, if your blog is example.com, the following link will not appear as an internal link: [Foo](https://example.com/foo) because build/prepare/internalLinks is not aware of the blog domain/handle 
-- Tell [Eli](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlkFlwSwXGrFZwvSKdHKvcxplV)
 
 It seems possible to have two entries with the same guid, possibly related to an entry rename event (i.e. copying the guid across). Make sure that when a rename happens, the old entry is permanently deleted and its guid cannot be reused.
 
