@@ -1,20 +1,20 @@
 Finish Lisa's handwriting generator
 
-Improve backlink's tolerance
-- Add support for full qualified URLs in the backlinks list for each entry. 
-  - For example, if your blog is example.com, the following link will not appear as an internal link: [Foo](https://example.com/foo) because build/prepare/internalLinks is not aware of the blog domain/handle 
-- Tell [Eli](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlkFlwSwXGrFZwvSKdHKvcxplV)
-- Add support for internal links without a leading slash
-  - Tell Laurel
-
-Check logs for successful wildcard ssl cert renewal on 2022-03-11 in /var/log/letsencrypt.log
-
 Fix issues with robustness of sync, esp on Dropbox and tell:
  - Victor
  - Ryan
  - Johannes
  - Rizwan
+ - Fritz whose blog became stuck
  - [Kevin](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlkFzdBrlJzrGprHNHNmvkQqbW)
+
+Check logs for successful wildcard ssl cert renewal on 2022-03-11 in /var/log/letsencrypt.log
+
+Improve backlink's tolerance
+- Add support for full qualified URLs in the backlinks list for each entry. For example, if your blog is example.com, the following link will not appear as an internal link: [Foo](https://example.com/foo) because build/prepare/internalLinks is not aware of the blog domain/handle 
+  - Tell [Eli](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlkFlwSwXGrFZwvSKdHKvcxplV)
+- Add support for internal links without a leading slash
+  - Tell Laurel
 
 Improve video demo and developer documentation of Blot by April 14th for Robin's students
 
