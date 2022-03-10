@@ -89,8 +89,21 @@ Blot cannot connect to your <b>Google Drive</b>. Please re-connect to give Blot 
   <form action="{{{base}}}/disconnect" method="post">
     <input type="hidden" name="_csrf" value="{{csrftoken}}" />
     <div style="display: flex">
-      <a style="display:block;width:191px;height:46px" href="{{{base}}}/redirect">
-      <img style="width:191px;height: 46px;flex-grow:1;" src="/images/btn_google_signin_dark_normal_web@2x.png" width=191></a>
+      <style type="text/css">
+        
+        .gbt {
+          background: url('/images/btn_google_signin_dark_normal_web@2x.png') no-repeat;
+          background-size: contain;
+        }
+        .gbt:focus {
+          background-image: url('/images/btn_google_signin_dark_focus_web@2x.png')
+        }
+        .gbt:active {
+          background-image: url('/images/btn_google_signin_dark_pressed_web@2x.png')
+        }
+      </style>
+      <a style="display:block;width:191px;height:46px" class="gbt" href="{{{base}}}/redirect">
+</a>
       <input style="margin: 0.3rem 2rem" type="submit" value="Cancel" />
     </div>
   </form>
