@@ -130,6 +130,7 @@ passwordForm.all(function (req, res, next) {
   if (!req.session || !req.session.email || !req.session.subscription)
     return res.redirect(req.baseUrl + paymentForm.path);
 
+  res.locals.breadcrumbs = [{ label: "Blot" }, { label: "Sign up" }];
 
   next();
 });

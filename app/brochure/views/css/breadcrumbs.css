@@ -3,7 +3,7 @@
   margin: 0;
   padding: 0;
   list-style-type: none;
-  margin-bottom: 0.5em;
+  margin-bottom: 8px;
   /*font-size: 14px;*/
 }
 
@@ -25,9 +25,9 @@
 .breadcrumbs__link {
   display: inline-block;
   position: relative;
-  margin-left: 1em;
-  padding-left: 1em;
-  /*color: var(--light-text-color); *//*rgb(105, 115, 134)*/
+  margin-left: 0.7rem;
+  padding-left: 0.7rem;
+  color: var(--light-text-color); /*rgb(105, 115, 134)*/
 }
 
 
@@ -37,10 +37,9 @@
     position: absolute;
     top: 0;
     bottom: 0px;
-    font-size: 1.25em;
-    left: -0.25em;
-    width: 0.25em;
-    height: 0.25em;
+    left: -4px;
+    width: 4px;
+    height: 4px;
     margin: auto 0;
     -webkit-transform: rotate(45deg);
     -ms-transform: rotate(45deg);

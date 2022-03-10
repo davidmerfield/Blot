@@ -1,6 +1,6 @@
 <style type="text/css">
   .hdr-btn {
-    box-sizing:border-box;display:inline-block;color:#000;height:36px;line-height:32px;border:1px solid #eee;border-radius: 36px;padding: 0 1rem;margin-left: 0.5rem;
+    box-sizing:border-box;display:inline-block;font-weight: 600;color:#000;height:36px;line-height:32px;border:1px solid #eee;border-radius: 36px;padding: 0 1rem;margin-left: 0.5rem
   }
 
   .hdr-btn:hover {
@@ -18,10 +18,24 @@
 }
 {{/unless}}
 </style>
+<a href="/" style="position: absolute;top:1rem;left: 1.45rem">
+<style type="text/css">
+  svg#logo {fill:black;width: 32px;height: 32px}
+  svg#logo .st0{fill:none;stroke:black;stroke-width:1.75;stroke-miterlimit:10;}
+  a:hover #logo {fill: var(--accent-color);}
+  a:hover #logo .st0 {stroke: var(--accent-color);}
+</style>
+<svg version="1.1" id="logo" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+   viewBox="0 0 36 30" style="enable-background:new 0 0 36 30;" xml:space="preserve">
+<path class="st0" d="M35.1,13.3c0,0-2.3-2.4-6.7-2.4H7.6c-4.4,0-6.7,2.4-6.7,2.4"/>
+<g>
+  <path d="M15.1,2.8l2.1,1.6l0.5,0.4h0.6H33c0.7,0,1.2,0.6,1.2,1.2v21c0,0.7-0.6,1.2-1.2,1.2H3c-0.7,0-1.2-0.6-1.2-1.2V4
+    c0-0.7,0.6-1.2,1.2-1.2H15.1 M15.8,1H3C1.3,1,0,2.4,0,4v23c0,1.6,1.3,3,3,3h30c1.7,0,3-1.4,3-3V6c0-1.6-1.3-3-3-3H18.3L15.8,1
+    L15.8,1z"/>
+</g>
+</svg>
 
-<div style="flex-basis: 100%;margin:3px 0 13px;" >
-    {{> breadcrumbs}}
-  </div>
+</a>
 
        <div class="top-r">
 
