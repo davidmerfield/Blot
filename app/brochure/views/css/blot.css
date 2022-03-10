@@ -418,20 +418,13 @@ th:last-child {
 background {
   display: flex;
   margin: 2rem 0 4rem;
-  /*border-radius: 12px;*/
-  background: #b4e6fc;
+  border-radius: 12px;
+  background: var(--light-accent-color);
   overflow: hidden;
-  /*border:1px solid #000;*/
+  box-shadow: 0 0 1px rgba(0,0,0,.5);
   box-sizing: border-box;
   align-items: center;
   justify-content: center;
-}
-
-background.video {
-  background: #ffc280;
-}
-background.green {
-  background: #ace8b4;
 }
 
 background + h2,
