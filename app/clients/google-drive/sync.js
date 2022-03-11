@@ -14,7 +14,8 @@ const RETRY_INTERVALS = [50, 500, 3000, 5000];
 
 module.exports = async function (blogID, options, callback) {
   let done, folder;
-  const prefix = () => clfdate() + " Google Drive:";
+
+  const prefix = () => clfdate() + `Blog: ${blogID.slice(0, 6)} Google Drive: `;
 
   try {
     let lock = await establishSyncLock(blogID);
@@ -27,7 +28,11 @@ module.exports = async function (blogID, options, callback) {
   try {
     const { drive, account } = await createDriveClient(blogID);
     const folderId = account.folderId;
+
     const db = database.folder(folderId);
+
+    console.log(prefix(), "with folderId=", folderId);
+
     let retries = 0;
     let pageToken, newStartPageToken, nextPageToken;
 
@@ -158,9 +163,11 @@ module.exports = async function (blogID, options, callback) {
     console.log(prefix(), "All checks complete");
     done(null, callback);
   } catch (err) {
+    console.log(prefix(), "Error:", err.message);
     try {
       verify(blogID);
     } catch (e) {
+      console.log(prefix(), "Error verifying folder:", e.message);
       return done(e, callback);
     }
 
