@@ -245,11 +245,11 @@ function Apply(token, blogFolder, log) {
     debug("Folders:", folders);
     debug("Files:", files);
 
-    async.parallel(
+    async.series(
       [
-        async.apply(async.each, deleted, remove),
-        async.apply(async.each, folders, mkdir),
-        async.apply(async.eachLimit, files, 20, download),
+        async.apply(async.eachSeries, deleted, remove),
+        async.apply(async.eachSeries, folders, mkdir),
+        async.apply(async.eachSeries, files, download),
       ],
       callback
     );
