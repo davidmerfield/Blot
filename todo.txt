@@ -8,8 +8,6 @@ Fix issues with robustness of sync, esp on Dropbox and tell:
  - Fritz whose blog became stuck
  - [Kevin](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlkFzdBrlJzrGprHNHNmvkQqbW)
 
-Check logs for successful wildcard ssl cert renewal on 2022-03-11 in /var/log/letsencrypt.log
-
 Improve backlink's tolerance
 - Add support for full qualified URLs in the backlinks list for each entry. For example, if your blog is example.com, the following link will not appear as an internal link: [Foo](https://example.com/foo) because build/prepare/internalLinks is not aware of the blog domain/handle 
   - Tell [Eli](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlkFlwSwXGrFZwvSKdHKvcxplV)
@@ -17,6 +15,8 @@ Improve backlink's tolerance
   - Tell Laurel
 
 Improve video demo and developer documentation of Blot by April 14th for Robin's students
+
+Check logs for successful wildcard ssl cert renewal on after 2022-03-15 09:00:00 in /var/log/letsencrypt.log
 
 ---
 
@@ -42,8 +42,6 @@ Document the downtime for the next newsletter
 - switch into a read-only mode?
   - the specific issue that takes down the server seems to be the redis error (cannot persist on disk, out of space)
 - Ensure that this issue is surfaced on status page (currently it just verifies that nginx is working, let's ping a route served by node.js instead)
-
-Record new demo video for Google Drive client approval
 
 Investigate [Adam's broken template](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlkPcpFqrPfrVjQTdjNSTMbgrP)
 
@@ -119,6 +117,7 @@ Improve Google Drive client:
 - Fix bug which occurs when:
   - move a folder full of files from within google drive into your blog's folder
   - Blot will recieve the folder but not the files inside
+- verify that new webhooks correspond to the latest channel for the blog and dispose of them if they don't match. right now it's possible for a stale webhook to trigger a sync for a partially setup blog.
 - Create test app for local use
 - Can the google drive client handle multiple connected blogs?
   - I suspect we get the no refresh_token error on second blog
