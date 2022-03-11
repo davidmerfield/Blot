@@ -11,9 +11,48 @@ describe("google drive client: database", function () {
   // });
 
   it("can store and retrieve account information", async function () {
-    await database.setAccount("123", { foo: "bar" });
-    const account = await database.getAccount("123");
+    const blogId = "blog_" + Date.now().toString();
+    await database.setAccount(blogId, { foo: "bar" });
+    const account = await database.getAccount(blogId);
     expect(account).toEqual({ foo: "bar" });
+  });
+
+  it("can determine whether its safe to revoke credentials", async function () {
+    const permissionId = "permission_" + Date.now().toString();
+    const secondPermissionId = "permission_" + (Date.now() + 1).toString();
+    const blogId = "blog_" + Date.now().toString();
+    const secondBlogId = "blog_" + (Date.now() + 1).toString();
+
+    expect(await database.canRevoke(permissionId)).toEqual(true);
+    await database.setAccount(blogId, { permissionId });
+    expect(await database.canRevoke(permissionId)).toEqual(true);
+    await database.setAccount(secondBlogId, { permissionId });
+    expect(await database.canRevoke(permissionId)).toEqual(false);
+    await database.setAccount(secondBlogId, {
+      permissionId: secondPermissionId,
+    });
+    expect(await database.canRevoke(permissionId)).toEqual(true);
+    await database.dropAccount(secondBlogId);
+    expect(await database.canRevoke(permissionId)).toEqual(true);
+  });
+
+  it("deletes the permissionId keys when dropping an account", async function () {
+    const blogId = "blog_" + Date.now().toString();
+    const permissionId = "permission_" + Date.now().toString();
+
+    await database.setAccount(blogId, { permissionId });
+    await database.dropAccount(blogId);
+    expect(await redisKeys("*" + permissionId + "*")).toEqual([]);
+  });
+
+  it("changing the permissionId removes the corresponding key", async function () {
+    const blogId = "blog_" + Date.now().toString();
+    const permissionId = "permission_" + Date.now().toString();
+    const newPermissionId = "permission_" + (Date.now() + 1).toString();
+
+    await database.setAccount(blogId, { permissionId });
+    await database.setAccount(blogId, { permissionId: newPermissionId });
+    expect(await redisKeys("*" + permissionId + "*")).toEqual([]);
   });
 
   it("deletes the folder keys when dropping an account", async function () {
