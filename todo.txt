@@ -110,6 +110,7 @@ It seems possible to have two entries with the same guid, possibly related to an
 Add AVIF image post support and tell [Simon](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlkFqWwhwwQgrrlwKtctkTgRXx)
 
 Improve Google Drive client:
+- Handle revoked credentials without tanking server
 - Fix bug which occurs when:
   - move a folder containing a folder containing a file from within your google drive, into your blog folder
   - then move the folder within the folder out of the folder but keep it within your blog folder. 
