@@ -13,7 +13,15 @@ const INVALID_ACCOUNT_STRING =
 
 const database = {
   keys: {
+    // Used to renew webhooks for all connected Google Drives
     allAccounts: "clients:google-drive:all-accounts",
+
+    // Used to determine if another blog is connected to a
+    // given Google Drive account during the disconnection process
+    allBlogs: function (permissionId) {
+      return "clients:google-drive:" + permissionId + ":blogs";
+    },
+
     account: function (blogID) {
       return "blog:" + blogID + ":google-drive:account";
     },
@@ -64,21 +72,53 @@ const database = {
     });
   },
 
+  // During account disconnection from Google Drive
+  // on Blot's folder settings page we need to determine
+  // whether or not to revoke the credentials, which
+  // unfortunately has global effects and would tank
+  // other blogs also connected to this Google Drive account.
+  canRevoke: function (permissionId, callback) {
+    let canRevokeCredentials;
+
+    if (!permissionId) {
+      canRevokeCredentials = true;
+      return callback(null, canRevokeCredentials);
+    }
+
+    client.smembers(this.keys.allBlogs(permissionId), (err, blogs) => {
+      canRevokeCredentials = !blogs || blogs.length < 2;
+      callback(null, canRevokeCredentials);
+    });
+  },
+
   setAccount: function (blogID, changes, callback) {
     const key = this.keys.account(blogID);
 
     this.getAccount(blogID, (err, account) => {
       account = account || {};
 
+      const multi = client.multi();
+
+      if (changes.permissionId)
+        multi.sadd(this.keys.allBlogs(changes.permissionId), blogID);
+
+      if (
+        changes.permissionId &&
+        account.permissionId &&
+        changes.permissionId !== account.permissionId
+      ) {
+        multi.srem(this.keys.allBlogs(account.permissionId), blogID);
+      }
+
       for (var i in changes) {
         account[i] = changes[i];
       }
 
-      client
-        .multi()
+      multi
         .sadd(this.keys.allAccounts, blogID)
-        .set(key, JSON.stringify(account))
-        .exec(callback);
+        .set(key, JSON.stringify(account));
+
+      multi.exec(callback);
     });
   },
 
@@ -87,6 +127,10 @@ const database = {
       const multi = client.multi();
 
       multi.del(this.keys.account(blogID)).srem(this.keys.allAccounts, blogID);
+
+      if (account && account.permissionId) {
+        multi.srem(this.keys.allBlogs(account.permissionId), blogID);
+      }
 
       if (account && account.folderId) {
         multi

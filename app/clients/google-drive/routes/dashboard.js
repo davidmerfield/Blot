@@ -124,6 +124,12 @@ dashboard.get("/redirect", function (req, res) {
 		oauth2Client.generateAuthUrl({
 			access_type: "offline",
 			scope: "https://www.googleapis.com/auth/drive",
+			// Prompt: consent forces us to revisit the consent
+			// screen even if we had previously authorized Blot.
+			// This is neccessary to connect multiple blogs under
+			// one google account to Drive. More discussion here:
+			// https://github.com/googleapis/google-api-python-client/issues/213
+			prompt: "consent",
 		})
 	);
 });
@@ -168,12 +174,28 @@ dashboard.get("/authenticate", function (req, res, next) {
 		try {
 			const { drive } = await createDriveClient(req.blog.id);
 			let email;
+			let permissionId;
 			const response = await drive.about.get({ fields: "*" });
+
+			console.log("user", response.data.user);
+
 			email = response.data.user.emailAddress;
+
+			// The user's ID as visible in the permissions collection.
+			// https://developers.google.com/drive/api/v2/reference/about#resource
+			// we use this to work out if another blog is connected
+			// to this google drive account during disconnection so we
+			// can determine whether or not to revoke the refresh_token
+			// which happens globally and would affect other blogs.
+			permissionId = response.data.user.permissionId;
 
 			// If we are re-authenticating because of an error
 			// then remove the error message!
-			await database.setAccount(req.blog.id, { email, error: "" });
+			await database.setAccount(req.blog.id, {
+				email,
+				permissionId,
+				error: "",
+			});
 		} catch (e) {
 			console.log("Error getting info");
 			await database.setAccount(req.blog.id, { error: e.message });

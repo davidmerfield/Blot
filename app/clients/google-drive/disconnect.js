@@ -17,6 +17,7 @@ async function disconnect(blogID, callback) {
 
 	debug("getting account info");
 	const account = await database.getAccount(blogID);
+	const canRevoke = await database.canRevoke(account.permissionId);
 
 	if (account && account.access_token && account.refresh_token) {
 		const auth = new google.auth.OAuth2(
@@ -43,13 +44,19 @@ async function disconnect(blogID, callback) {
 			}
 		}
 
-		// destroys the oauth2Client's active
-		// refresh_token and access_token
-		try {
-			debug("trying to revoke google api credentials");
-			await auth.revokeCredentials();
-		} catch (e) {
-			debug("failed to revoke but no big deal:", e.message);
+		// We need to preserve Blot's access to this Google
+		// Drive account if another blog uses it. Unfortunately
+		// it seems impossible to simple revoke one blog's access
+		// other blogs connected to the account lose access too.
+		if (canRevoke) {
+			try {
+				debug("Trying to revoke Google API credentials");
+				// destroys the oauth2Client's active
+				// refresh_token and access_token
+				await auth.revokeCredentials();
+			} catch (e) {
+				debug("Failed to revoke but token should expire naturally", e.message);
+			}
 		}
 	}
 
