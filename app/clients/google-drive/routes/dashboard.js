@@ -134,7 +134,7 @@ dashboard.get("/redirect", function (req, res) {
 	);
 });
 
-dashboard.get("/authenticate", function (req, res, next) {
+dashboard.get("/authenticate", function (req, res) {
 	if (!req.query.code) {
 		return res.message(
 			req.baseUrl,
@@ -186,7 +186,9 @@ dashboard.get("/authenticate", function (req, res, next) {
 			// we use this to work out if another blog is connected
 			// to this google drive account during disconnection so we
 			// can determine whether or not to revoke the refresh_token
-			// which happens globally and would affect other blogs.
+			// which happens globally and would affect other blogs. We could
+			// use the email address but it seems like the ID is more robust
+			// since I suppose the user could change their email address...
 			permissionId = response.data.user.permissionId;
 
 			// If we are re-authenticating because of an error
@@ -225,7 +227,7 @@ dashboard.get("/authenticate", function (req, res, next) {
 	});
 });
 
-const setUpBlogFolder = async function (blog, emptyFolder) {
+const setUpBlogFolder = async function (blog) {
 	try {
 		const checkWeCanContinue = async () => {
 			const { settingUp } = await database.getAccount(blog.id);
