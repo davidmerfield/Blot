@@ -102,6 +102,7 @@ const database = {
       if (changes.permissionId)
         multi.sadd(this.keys.allBlogs(changes.permissionId), blogID);
 
+      // Clean up if the permissionId for a blog changes
       if (
         changes.permissionId &&
         account.permissionId &&
