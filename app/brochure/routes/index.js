@@ -14,7 +14,7 @@ var TITLES = {
   "html": "HTML",
   "how-blot-works": "How Blot works",
   "ask": "Ask",
-  "urls": "Link format",
+  "urls": "URL format",
   "hard-stop-start-ec2-instance": "How to stop and start an EC2 instance",
   "who": "Who uses Blot?",
   "developers": "Developer guide",
