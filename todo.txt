@@ -111,6 +111,9 @@ Add AVIF image post support and tell [Simon](https://mail.google.com/mail/u/0/#i
 
 Improve Google Drive client:
 - Weird issue with connecting multiple blogs to same google drive account – the file from one appeared in the folder for the other. Also strangeness possibly related to an empty blog folder?
+- How do we handle two files with same name and same parent? How does our fileId:path hash handle this? Make sure we delete the right file. Will file.title as opposed to file.name give us the deduped version?
+  - Bug: move file with deduplicated name from sub folder to other folder
+  - download should check for an existing file with same name but different fileId and dedupe before storing the path?
 - Handle revoked credentials without tanking server
 - Fix bug which occurs when:
   - move a folder containing a folder containing a file from within your google drive, into your blog folder
@@ -119,15 +122,9 @@ Improve Google Drive client:
 - Fix bug which occurs when:
   - move a folder full of files from within google drive into your blog's folder
   - Blot will recieve the folder but not the files inside
-- verify that new webhooks correspond to the latest channel for the blog and dispose of them if they don't match. right now it's possible for a stale webhook to trigger a sync for a partially setup blog.
 - Create test app for local use
-- Can the google drive client handle multiple connected blogs?
-  - I suspect we get the no refresh_token error on second blog
 - Can the google drive client handle a server restart during setup?
 - database.folder should throw ENOENT and EEXIST errors for del, set, move etc.
-- How do we handle two files with same name and same parent? How does our fileId:path hash handle this? Make sure we delete the right file. Will file.title as opposed to file.name give us the deduped version?
-  - Bug: move file with deduplicated name from sub folder to other folder
-  - download should check for an existing file with same name but different fileId and dedupe before storing the path?
 - Error handling
   - Retry when we get google drive's This service is not available error
   - Handle storage quota errors
