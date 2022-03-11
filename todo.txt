@@ -110,6 +110,7 @@ It seems possible to have two entries with the same guid, possibly related to an
 Add AVIF image post support and tell [Simon](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlkFqWwhwwQgrrlwKtctkTgRXx)
 
 Improve Google Drive client:
+- Weird issue with connecting multiple blogs to same google drive account – the file from one appeared in the folder for the other. Also strangeness possibly related to an empty blog folder?
 - Handle revoked credentials without tanking server
 - Fix bug which occurs when:
   - move a folder containing a folder containing a file from within your google drive, into your blog folder
