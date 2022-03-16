@@ -75,5 +75,12 @@ I then installed it as the fallback certificate
 
 I added the following as root to /etc/cron.d/renew-cert
 
-# Renews SSL certificate for blot.im
-12 11 10 * * root timeout -k 600 -s 9 3600 AWS_ACCESS_KEY_ID=XXX AWS_SECRET_ACCESS_KEY=XXX /usr/local/bin/acme-nginx --dns-provider route53 -d "*.blot.im" -d "blot.im" >> /var/log/letsencrypt.log 2>&1 || echo "Failed to renew certificate"
+# Renews SSL certificate
+AWS_ACCESS_KEY_ID=xxx
+AWS_SECRET_ACCESS_KEY=x
+00 9 15 * * root timeout -k 600 -s 9 3600 . /etc/profile.d/blot.sh && /usr/local/bin/acme-nginx --dns-provider route53 -d "*.blot.im" -d "blot.im" >> /var/log/letsencrypt.log 2>&1 || echo "Failed to renew certificate"
+
+Note that  /etc/profile.d/blot.sh contains the following so acme-nginx reloads openresty once it's renewed the cert:
+
+
+

@@ -84,14 +84,30 @@ Blot cannot connect to your <b>Google Drive</b>. Please re-connect to give Blot 
   <br />
  -->
  <p><b>Link Google Drive Account</b></p>
- <p>Press [Yes] to move to authorization page.</p>
-
+ <p>Sign in to authorize Blot's access to your Google Drive:</p>
+ <br>
   <form action="{{{base}}}/disconnect" method="post">
     <input type="hidden" name="_csrf" value="{{csrftoken}}" />
-    <div class="buttons">
-      <a style="background: none;outline:none;box-shadow:none;border:none;color:#0070e8;border:1px solid;" href="{{{base}}}/redirect">
-      Yes</a>
-      <input type="submit" value="No" />
+    <div style="display: flex">
+<link rel="preload" as="image" href="/images/btn_google_signin_dark_focus_web@2x.png">
+<link rel="preload" as="image" href="/images/btn_google_signin_dark_pressed_web@2x.png">
+      
+      <style type="text/css">
+        
+        .gbt {
+          background: url('/images/btn_google_signin_dark_normal_web@2x.png') no-repeat;
+          background-size: contain;
+        }
+        .gbt:focus {
+          background-image: url('/images/btn_google_signin_dark_focus_web@2x.png')
+        }
+        .gbt:active {
+          background-image: url('/images/btn_google_signin_dark_pressed_web@2x.png')
+        }
+      </style>
+      <a style="display:block;width:191px;height:46px" class="gbt" href="{{{base}}}/redirect">
+</a>
+      <input style="margin: 0.3rem 2rem" type="submit" value="Cancel" />
     </div>
   </form>
 </div>

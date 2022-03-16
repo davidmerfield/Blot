@@ -1,15 +1,28 @@
 Finish Lisa's handwriting generator
 
-Check logs for successful wildcard ssl cert renewal on 2022-03-11 in /var/log/letsencrypt.log
+Do we encounter dropbox/google drive bugs when we remove a directory of files, rather than invidivual files?
+
+Add tag to iterate over all images in a folder and tell [Laurel](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmvBwZtktzGVFtcfDWbGZKhsfh)
+
+Fix local folder client
 
 Fix issues with robustness of sync, esp on Dropbox and tell:
  - Victor
  - Ryan
  - Johannes
  - Rizwan
+ - Fritz whose blog became stuck
  - [Kevin](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlkFzdBrlJzrGprHNHNmvkQqbW)
 
+Improve backlink's tolerance
+- Add support for full qualified URLs in the backlinks list for each entry. For example, if your blog is example.com, the following link will not appear as an internal link: [Foo](https://example.com/foo) because build/prepare/internalLinks is not aware of the blog domain/handle 
+  - Tell [Eli](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlkFlwSwXGrFZwvSKdHKvcxplV)
+- Add support for internal links without a leading slash
+  - Tell Laurel
+
 Improve video demo and developer documentation of Blot by April 14th for Robin's students
+
+Check logs for successful wildcard ssl cert renewal on after 2022-03-15 09:00:00 in /var/log/letsencrypt.log
 
 ---
 
@@ -35,8 +48,6 @@ Document the downtime for the next newsletter
 - switch into a read-only mode?
   - the specific issue that takes down the server seems to be the redis error (cannot persist on disk, out of space)
 - Ensure that this issue is surfaced on status page (currently it just verifies that nginx is working, let's ping a route served by node.js instead)
-
-Record new demo video for Google Drive client approval
 
 Investigate [Adam's broken template](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlkPcpFqrPfrVjQTdjNSTMbgrP)
 
@@ -100,23 +111,26 @@ Add RTF support using Pandoc or [rtf.js](https://github.com/tbluemel/rtf.js)
 
 Add support for [Jupyter Notebook .ipynb](https://predictablynoisy.com/posts/2019/2019-11-11-ipynb_pandoc/#ipynb-to-html) using Pandoc and tell [Arnab](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmtNdkGQxbMVblqjvkHwSMTBbW)
 
-Add support for full qualified URLs in the backlinks list for each entry. 
-- For example, if your blog is example.com, the following link will not appear as an internal link: [Foo](https://example.com/foo) because build/prepare/internalLinks is not aware of the blog domain/handle 
-- Tell [Eli](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlkFlwSwXGrFZwvSKdHKvcxplV)
-
 It seems possible to have two entries with the same guid, possibly related to an entry rename event (i.e. copying the guid across). Make sure that when a rename happens, the old entry is permanently deleted and its guid cannot be reused.
 
 Add AVIF image post support and tell [Simon](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlkFqWwhwwQgrrlwKtctkTgRXx)
 
 Improve Google Drive client:
-- Create test app for local use
-- Can the google drive client handle multiple connected blogs?
-  - I suspect we get the no refresh_token error on second blog
-- Can the google drive client handle a server restart during setup?
-- database.folder should throw ENOENT and EEXIST errors for del, set, move etc.
+- Weird issue with connecting multiple blogs to same google drive account – the file from one appeared in the folder for the other. Also strangeness possibly related to an empty blog folder?
 - How do we handle two files with same name and same parent? How does our fileId:path hash handle this? Make sure we delete the right file. Will file.title as opposed to file.name give us the deduped version?
   - Bug: move file with deduplicated name from sub folder to other folder
   - download should check for an existing file with same name but different fileId and dedupe before storing the path?
+- Handle revoked credentials without tanking server
+- Fix bug which occurs when:
+  - move a folder containing a folder containing a file from within your google drive, into your blog folder
+  - then move the folder within the folder out of the folder but keep it within your blog folder. 
+  - Blot will never transfer the file inside
+- Fix bug which occurs when:
+  - move a folder full of files from within google drive into your blog's folder
+  - Blot will recieve the folder but not the files inside
+- Create test app for local use
+- Can the google drive client handle a server restart during setup?
+- database.folder should throw ENOENT and EEXIST errors for del, set, move etc.
 - Error handling
   - Retry when we get google drive's This service is not available error
   - Handle storage quota errors

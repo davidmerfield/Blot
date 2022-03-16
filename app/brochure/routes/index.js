@@ -6,7 +6,7 @@ var config = require("config");
 var titleFromSlug = require("helper/titleFromSlug");
 var trace = require("helper/trace");
 var TITLES = {
-  "how": "How it works",
+  "how": "How to use Blot",
   "terms": "Terms of use",
   "privacy": "Privacy policy",
   "google-drive": "Google Drive",
@@ -14,7 +14,7 @@ var TITLES = {
   "html": "HTML",
   "how-blot-works": "How Blot works",
   "ask": "Ask",
-  "urls": "Link format",
+  "urls": "URL format",
   "hard-stop-start-ec2-instance": "How to stop and start an EC2 instance",
   "who": "Who uses Blot?",
   "developers": "Developer guide",
