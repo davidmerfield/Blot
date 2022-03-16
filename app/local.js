@@ -108,11 +108,7 @@ function configureBlogs(user, callback) {
           console.log(config.blot_directory + "/tmp/" + blog.handle);
           console.log();
 
-          require("clients/local").setup(
-            blogID,
-            config.blot_directory + "/tmp/" + blog.handle,
-            next
-          );
+          require("clients/local").setup(blogID, next);
         });
       });
     },

@@ -1,11 +1,12 @@
-var fs = require("fs-extra");
-var Folder = require("clients/local/models/folder");
-var debug = require("debug")("blot:clients:local:setup");
-var watch = require("./controllers/watch");
-var setup = require("./controllers/setup");
-var client = require("redis").createClient();
-var clfdate = require("helper/clfdate");
-
+// This is invoked by the master process so if you make any
+// changes to it you need to make sure the master process
+// is restarted, not just the worker processes.
+const async = require("async");
+const debug = require("debug")("blot:clients:local:setup");
+const setup = require("./setup");
+const client = require("redis").createClient();
+const clfdate = require("helper/clfdate");
+const Blog = require("models/blog");
 const prefix = () => clfdate() + " Local folder client:";
 
 module.exports = () => {
@@ -18,32 +19,32 @@ module.exports = () => {
   client.on("message", function (channel, message) {
     debug("recieved", message, "on", channel);
     if (channel !== CHANNEL) return;
-    let { blogID, folder } = JSON.parse(message);
-    setup(blogID, folder, function (err) {
+    let { blogID } = JSON.parse(message);
+    setup(blogID, function (err) {
       if (err) console.error(err);
     });
   });
 
-  Folder.list(function (err, blogIDs) {
+  Blog.getAllIDs(function (err, blogIDs) {
     if (err) console.error(err);
-    blogIDs.forEach(function (blogID) {
-      console.log(prefix(), "Blog:", blogID, "Setting up");
-      Folder.get(blogID, function (err, folder) {
-        if (err) console.error(err);
-        if (!folder) return;
-        if (!fs.existsSync(folder)) return;
+    async.eachSeries(
+      blogIDs,
+      function (blogID, next) {
+        console.log(prefix(), "Blog:", blogID, "Setting up");
+        Blog.get({ id: blogID }, function (err, blog) {
+          if (err) return next(err);
+          if (!blog || blog.client !== "local") return next();
 
-
-        console.log(prefix(), "Synchronizing", folder);
-        setup.synchronize(blogID, folder, function (err) {
-          if (err) console.error(err);
-  
-          console.log(prefix(), "Watching", folder);
-          watch(blogID, folder);
-
-          console.log(prefix(), "Blog:", blogID, "Set up successfully");
+          console.log(prefix(), "Synchronizing", blogID);
+          setup(blogID, function (err) {
+            if (err) return next(err);
+            next();
+          });
         });
-      });
-    });
+      },
+      function (err) {
+        console.log(prefix(), "Checked all blogs");
+      }
+    );
   });
 };

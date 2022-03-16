@@ -1,4 +1,3 @@
-var Folder = require("clients/local/models/folder");
 var Blog = require("blog");
 var debug = require("debug")("blot:clients:local:disconnect");
 
@@ -7,12 +6,5 @@ var debug = require("debug")("blot:clients:local:disconnect");
 // starts, Blot will no longer watch that folder.
 module.exports = function disconnect(blogID, callback) {
   debug("Blog", blogID, "Disconnecting local client");
-
-  Folder.unset(blogID, function (err) {
-    if (err) return callback(err);
-    // Right now it is neccessary to set the client
-    // property of the blog to an empty string. Eventually
-    // clients should not need to do this.
-    Blog.set(blogID, { client: "" }, callback);
-  });
+  Blog.set(blogID, { client: "" }, callback);
 };

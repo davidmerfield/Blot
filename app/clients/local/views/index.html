@@ -1,11 +1,14 @@
-<p>Your folder: {{dir}}</p>
-{{^dir}}
-<form method="POST" action="{{{base}}}/set">
-<label>Name of a folder inside your home directory:</label>
-<input name="folder" type="text" value="">
-<input type="submit">
-</form>
-{{/dir}}
-<form method="POST" action="{{{base}}}/disconnect">
+
+  <div class="line">
+    <p><b>Local client</b> synchronizes your folder. You can <a class="link" href="/settings/client/switch">switch to a different client</a> seamlessly.</p>
+  </div>
+
+  <div class="line" >
+    <span class="label">Disconnect</span>
+    <span class="link"><form method="POST" action="{{{base}}}/disconnect">
 <input type="submit" value="Disconnect">
-</form>
+</form> </span>
+  </div>
+
+<br><br>
+
