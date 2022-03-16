@@ -1,6 +1,5 @@
 var create = require("models/template/index").create;
 var getTemplateList = require("models/template/index").getTemplateList;
-var setupLocalClient = require("clients/local/controllers/setup");
 var setView = require("models/template/index").setView;
 var Blog = require("blog");
 
