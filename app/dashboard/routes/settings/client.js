@@ -44,10 +44,10 @@ client_routes
   });
 
 client_routes
-  .route("/fix")
+  .route("/reset")
   .get(load.clients, load.client, function (req, res) {
-    res.render("clients/fix", {
-      title: "Fix your folder",
+    res.render("clients/reset", {
+      title: "Reset your folder",
     });
   })
   .post(function (req, res, next) {
