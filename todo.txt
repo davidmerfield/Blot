@@ -1,5 +1,7 @@
 Finish Lisa's handwriting generator
 
+Do we encounter dropbox/google drive bugs when we remove a directory of files, rather than invidivual files?
+
 Add tag to iterate over all images in a folder and tell [Laurel](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmvBwZtktzGVFtcfDWbGZKhsfh)
 
 Fix local folder client
