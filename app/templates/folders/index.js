@@ -116,7 +116,7 @@ function setupBlogs(user, folders, callback) {
         function ({ path, blog }, id, next) {
           Blog.set(id, updates[blog.handle], function (err) {
             if (err) return next(err);
-            localClient.setup(id, path, function (err) {
+            localClient.setup(id, function (err) {
               if (err) return next(err);
 
               if (config.environment !== "development") {
