@@ -1,13 +1,11 @@
-var Entry = require("models/entry");
-var client = require("models/client");
-var async = require("async");
-var host = require("config").host;
+const Entry = require("models/entry");
+const client = require("models/client");
+const async = require("async");
 
 var lists = ["all", "created", "entries", "drafts", "scheduled", "pages"];
 
 function main(blog, callback) {
-  var domain = "http://" + blog.handle + "." + host;
-  console.log("Blog", blog.id, "(" + domain + ") Fixing entry lists");
+  const report = [];
 
   async.each(
     lists,
@@ -23,8 +21,7 @@ function main(blog, callback) {
             Entry.get(blog.id, id, function (entry) {
               if (entry.id === id) return next();
 
-              console.log(list, "MISMATCH", id, entry.id);
-
+              report.push([list, "MISMATCH", id, entry.id]);
               client.zrem("blog:" + blog.id + ":" + list, id, function (err) {
                 if (err) return next(err);
                 Entry.set(blog.id, entry.id, entry, next);
@@ -35,7 +32,10 @@ function main(blog, callback) {
         );
       });
     },
-    callback
+    function (err) {
+      if (err) return callback(err);
+      callback(null, report);
+    }
   );
 }
 

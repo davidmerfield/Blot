@@ -1,33 +1,36 @@
-var Blog = require("models/blog");
-var entryGhosts = require("./entry-ghosts");
-var listGhosts = require("./list-ghosts");
-var menuGhosts = require("./menu-ghosts");
-var tagGhosts = require("./tag-ghosts");
+const Blog = require("models/blog");
+const entryGhosts = require("./entry-ghosts");
+const listGhosts = require("./list-ghosts");
+const menuGhosts = require("./menu-ghosts");
+const tagGhosts = require("./tag-ghosts");
 
-module.exports = function main(blog, callback) {
-  if (!blog) return callback(new Error("No blog"));
+module.exports = function (blog, callback) {
+  if (!blog) {
+    throw new TypeError("Fix: Expected blog as first argument");
+  }
 
-  tagGhosts(blog, function (err) {
+  if (typeof callback !== "function") {
+    throw new TypeError("Fix: Expected callback as second argument");
+  }
+
+  const finalReport = {};
+
+  tagGhosts(blog, function (err, report) {
     if (err) return callback(err);
-    entryGhosts(blog, function (err) {
+    if (report && report.length) finalReport.tagGhosts = report;
+    entryGhosts(blog, function (err, report) {
       if (err) return callback(err);
-      listGhosts(blog, function (err) {
+      if (report && report.length) finalReport.entryGhosts = report;
+      listGhosts(blog, function (err, report) {
         if (err) return callback(err);
-        menuGhosts(blog, function (err) {
+        if (report && report.length) finalReport.listGhosts = report;
+        menuGhosts(blog, function (err, report) {
           if (err) return callback(err);
-          Blog.set(blog.id, { cacheID: Date.now() }, function (err) {
+          if (report && report.length) finalReport.menuGhosts = report;
+          const cacheID = Date.now();
+          Blog.set(blog.id, { cacheID }, function (err) {
             if (err) return callback(err);
-            console.log(
-              "Blog",
-              blog.id,
-              "(" +
-                "http://" +
-                blog.handle +
-                "." +
-                require("config").host +
-                ") Flushed cache"
-            );
-            callback(null);
+            callback(null, finalReport);
           });
         });
       });

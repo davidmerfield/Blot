@@ -44,9 +44,9 @@ client_routes
   });
 
 client_routes
-  .route("/reset")
+  .route("/fix")
   .get(load.clients, load.client, function (req, res) {
-    res.render("clients/reset", {
+    res.render("clients/fix", {
       title: "Reset your folder",
     });
   })
@@ -59,7 +59,7 @@ client_routes
           if (err) return next(err);
           res.message(
             req.baseUrl + "/" + req.blog.client,
-            "Reset folder successfully"
+            "Fixed folder successfully"
           );
         });
       });
