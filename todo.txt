@@ -1,5 +1,7 @@
 Finish Lisa's handwriting generator
 
+Add tag to iterate over all images in a folder and tell [Laurel](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmvBwZtktzGVFtcfDWbGZKhsfh)
+
 Fix local folder client
 
 Fix issues with robustness of sync, esp on Dropbox and tell:
