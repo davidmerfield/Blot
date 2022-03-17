@@ -2,9 +2,9 @@ Check logs for successful wildcard ssl cert renewal on after 2022-03-15 09:00:00
 
 Tell [Will](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlkXtmxxRWGmBxCZbFxTrJGVrR) we fixed bug with changing text color on magazine template 
 
-Finish Lisa's handwriting generator
-
 Add tag to iterate over all images in a folder and tell [Laurel](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmvBwZtktzGVFtcfDWbGZKhsfh)
+
+Finish Lisa's handwriting generator
 
 Fix issues with robustness of sync, esp on Dropbox and tell:
 - Do we encounter dropbox/google drive bugs when we remove a directory of files, rather than invidivual files?
@@ -14,12 +14,6 @@ Fix issues with robustness of sync, esp on Dropbox and tell:
 - Rizwan
 - Fritz whose blog became stuck
 - [Kevin](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlkFzdBrlJzrGprHNHNmvkQqbW)
-
-Improve backlink's tolerance
-- Add support for full qualified URLs in the backlinks list for each entry. For example, if your blog is example.com, the following link will not appear as an internal link: [Foo](https://example.com/foo) because build/prepare/internalLinks is not aware of the blog domain/handle 
-  - Tell [Eli](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlkFlwSwXGrFZwvSKdHKvcxplV)
-- Add support for internal links without a leading slash
-  - Tell Laurel
 
 Improve video demo and developer documentation of Blot by April 14th for Robin's students
 
@@ -50,6 +44,12 @@ Fix bug with tokens inside blog posts and follow up with [Karoly](https://mail.g
 Fix bug with two entries with the same guid, possibly related to an entry rename event (i.e. copying the guid across). Make sure that when a rename happens, the old entry is permanently deleted and its guid cannot be reused. I imagine that WRITE foo.txt MV foo.txt bar.txt WRITE bar.txt could trigger this bug.
 
 ---
+
+Improve backlink's tolerance
+- Add support for full qualified URLs in the backlinks list for each entry. For example, if your blog is example.com, the following link will not appear as an internal link: [Foo](https://example.com/foo) because build/prepare/internalLinks is not aware of the blog domain/handle 
+  - Tell [Eli](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlkFlwSwXGrFZwvSKdHKvcxplV)
+- Add support for internal links without a leading slash
+  - Tell Laurel
 
 Add support for 2FA (Two factor authentication) then tell [Luke](https://mail.google.com/mail/u/1/#inbox/163993b0f8499ab3), [Max](https://mail.google.com/mail/u/1/#inbox/1641e9bd104c5b77), [Chaz](https://mail.google.com/mail/u/1/#inbox/165b726aa900158a) and [Tom](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqnpZncgBDbDskMZdPMXkgGCN).
 
