@@ -1,10 +1,10 @@
-Finish Lisa's handwriting generator
+Check logs for successful wildcard ssl cert renewal on after 2022-03-15 09:00:00 in /var/log/letsencrypt.log
 
-Do we encounter dropbox/google drive bugs when we remove a directory of files, rather than invidivual files?
+Finish Lisa's handwriting generator
 
 Add tag to iterate over all images in a folder and tell [Laurel](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmvBwZtktzGVFtcfDWbGZKhsfh)
 
-Fix local folder client
+Do we encounter dropbox/google drive bugs when we remove a directory of files, rather than invidivual files?
 
 Fix issues with robustness of sync, esp on Dropbox and tell:
  - Victor
@@ -21,8 +21,6 @@ Improve backlink's tolerance
   - Tell Laurel
 
 Improve video demo and developer documentation of Blot by April 14th for Robin's students
-
-Check logs for successful wildcard ssl cert renewal on after 2022-03-15 09:00:00 in /var/log/letsencrypt.log
 
 ---
 
