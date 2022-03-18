@@ -1,5 +1,7 @@
 Check logs for successful wildcard ssl cert renewal on after 2022-03-15 09:00:00 in /var/log/letsencrypt.log
 
+---
+
 Tell [Will](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlkXtmxxRWGmBxCZbFxTrJGVrR) we fixed bug with changing text color on magazine template 
 
 Add tag to iterate over all images in a folder and tell [Laurel](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmvBwZtktzGVFtcfDWbGZKhsfh)
