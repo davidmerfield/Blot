@@ -1,4 +1,4 @@
-Check logs for successful wildcard ssl cert renewal on after 2022-03-15 09:00:00 in /var/log/letsencrypt.log
+Check logs for successful wildcard ssl cert renewal on after 2022-03-22 09:00:00 in /var/log/letsencrypt.log and /var/log/cron
 
 ---
 
