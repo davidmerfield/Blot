@@ -4,6 +4,8 @@ Check logs for successful wildcard ssl cert renewal on after 2022-03-22 09:00:00
 
 Tell [Will](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlkXtmxxRWGmBxCZbFxTrJGVrR) we fixed bug with changing text color on magazine template 
 
+Add 'Hidden: yes' metadata to replace 'Menu: no' and tell [Sebastien](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmvTstgvzhzNkPFXdgStpTJvrN)
+
 Add tag to iterate over all images in a folder and tell [Laurel](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmvBwZtktzGVFtcfDWbGZKhsfh)
 
 Finish Lisa's handwriting generator
@@ -22,6 +24,8 @@ Improve video demo and developer documentation of Blot by April 14th for Robin's
 ---
 
 Fix bug with subdomains with numbers in them cause SSL certificate errors (e.g. foo2.blot.im)
+
+Investigate bug with mutex lock and google drive transfer process. It seems one sync tanked the setup transfer with an [ENOENT](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmvTwMksRmWvSpQXVhvlMXjKFC)
 
 Fix bug with the typeset settings do not actually affect anything (you can only disable/enable)
 
