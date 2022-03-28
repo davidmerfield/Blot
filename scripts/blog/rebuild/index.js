@@ -1,14 +1,12 @@
 var colors = require("colors/safe");
 var get = require("../../get/blog");
-var sync = require("sync/index");
-var walk = require("./walk");
-var async = require("async");
+var rebuild = require("sync/reset/rebuild");
 
 if (require.main === module) {
   get(process.argv[2], function (err, user, blog) {
     if (err) throw err;
 
-    main(blog, function (err) {
+    rebuild(blog, function (err) {
       if (err) {
         console.error(colors.red("Error:", err.message));
         return process.exit(1);
@@ -26,32 +24,3 @@ if (require.main === module) {
     });
   });
 }
-
-function main(blog, callback) {
-  console.log("Starting sync for", blog.handle);
-  sync(blog.id, function (err, folder, done) {
-    if (err) return done(err);
-
-    walk(folder.path, function (err, paths) {
-      if (err) return done(err);
-
-      async.eachSeries(
-        paths,
-        function (path, next) {
-          // turn absolute path returned by walk into relative path
-          // used by Blot inside the user's blog folder...
-          path = path.slice(folder.path.length);
-          folder.update(path, next);
-        },
-        function (err) {
-          done(err, function (err) {
-            console.log("Rebuilt:", process.argv[2]);
-            callback(err);
-          });
-        }
-      );
-    });
-  });
-}
-
-module.exports = main;

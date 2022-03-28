@@ -1,10 +1,8 @@
-var yesno = require("yesno");
-var Entries = require("models/entries");
-var Entry = require("models/entry");
-var localPath = require("helper/localPath");
-var fs = require("fs");
-var async = require("async");
-var host = require("../../../config").host;
+const fs = require("fs");
+const Entries = require("models/entries");
+const Entry = require("models/entry");
+const localPath = require("helper/localPath");
+const async = require("async");
 
 function resolvePath(blogID, path, callback) {
   var candidates = [];
@@ -48,18 +46,13 @@ function resolvePath(blogID, path, callback) {
 // path properties that were not equal to the location of the file on disk
 // if the file system is case sensitive.
 function main(blog, callback) {
-  yesno.options.yes = [blog.handle];
   var missing = [];
   var edit = [];
-
-  var domain = "http://" + blog.handle + "." + host;
-  console.log("Blog", blog.id, "(" + domain + ") Fixing entries");
+  var report = [];
 
   Entries.each(
     blog.id,
     function (_entry, next) {
-      // The file definitely no longer exists so we can't do
-      // anything now...
       if (_entry.deleted) return next();
 
       resolvePath(blog.id, _entry.path, function (err, path) {
@@ -78,55 +71,45 @@ function main(blog, callback) {
         return callback();
       }
 
-      var message = [blog.id, blog.title, blog.handle];
-
       if (missing.length) {
-        message.push(
+        report.push(
           missing.length +
             " files are missing from the disk for entries which are not deleted"
         );
-        message = message.concat(missing.map(log));
+        report = report.concat(report.map(log));
       }
 
       if (edit.length) {
-        message.push(
+        report.push(
           edit.length + "files exists on disk with a different case.."
         );
-        message = message.concat(edit.map(log));
+        report = report.concat(report.map(log));
       }
-
-      message.push(
-        "Would you like to resolve these issues? Please type the blog handle (" +
-          blog.handle +
-          ") to confirm:"
-      );
 
       function log(i) {
-        return "\n- Path: " + i.path + "\n- Entry: " + domain + i.entry.url;
+        return "\n- Path: " + i.path + "\n- Entry: " + i.entry.url;
       }
-      yesno.ask(message.join("\n"), false, function (yes) {
-        if (!yes) {
-          return callback(new Error("\nDid not apply changes"));
+
+      async.eachSeries(
+        edit,
+        function (item, next) {
+          Entry.set(blog.id, item.entry.path, { path: item.path }, next);
+        },
+        function (err) {
+          if (err) return callback(err);
+
+          async.eachSeries(
+            missing,
+            function (item, next) {
+              Entry.drop(blog.id, item.entry.path, next);
+            },
+            function (err) {
+              if (err) return callback(err);
+              callback(null, report);
+            }
+          );
         }
-
-        async.eachSeries(
-          edit,
-          function (item, next) {
-            Entry.set(blog.id, item.entry.path, { path: item.path }, next);
-          },
-          function (err) {
-            if (err) return callback(err);
-
-            async.eachSeries(
-              missing,
-              function (item, next) {
-                Entry.drop(blog.id, item.entry.path, next);
-              },
-              callback
-            );
-          }
-        );
-      });
+      );
     }
   );
 }

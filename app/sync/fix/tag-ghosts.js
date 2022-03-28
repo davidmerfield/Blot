@@ -1,21 +1,10 @@
 var Tags = require("models/tags");
 var Entry = require("models/entry");
 var async = require("async");
-var get = require("../../get/blog");
 var client = require("client");
 
-if (require.main === module) {
-  get(process.argv[2], function (err, user, blog) {
-    if (err) throw err;
-    main(blog, function (err) {
-      if (err) throw err;
-      process.exit();
-    });
-  });
-}
-
-function main(blog, callback) {
-  console.log("Blog", blog.id, "Fixing tags");
+module.exports = function main(blog, callback) {
+  const report = [];
   Tags.list(blog.id, function (err, tags) {
     async.eachSeries(
       tags,
@@ -26,7 +15,7 @@ function main(blog, callback) {
             function (entryID, next) {
               Entry.get(blog.id, entryID, function (entry) {
                 if (entry.id === entryID) return next();
-                console.log("MISMATCH", entryID, entry.id);
+                report.push(["MISMATCH", entryID, entry.id]);
                 var multi = client.multi();
                 var entryKeyForIncorrectID = Tags.key.entry(blog.id, entryID);
                 var entryKeyForCorrectID = Tags.key.entry(blog.id, entry.id);
@@ -45,8 +34,10 @@ function main(blog, callback) {
           );
         });
       },
-      callback
+      function (err) {
+        if (err) return callback(err);
+        callback(null, report);
+      }
     );
   });
-}
-module.exports = main;
+};
