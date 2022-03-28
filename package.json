@@ -116,7 +116,7 @@
     "dir-compare": "^1.4.0",
     "faker": "^4.1.0",
     "jasmine": "^3.3.1",
-    "minimist": "^1.2.3",
+    "minimist": "^1.2.6",
     "seedrandom": "^2.4.4",
     "spritesmith": "^3.4.0"
   }
