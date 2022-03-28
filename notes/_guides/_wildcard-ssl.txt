@@ -73,14 +73,8 @@ It works! Amazing.
 
 I then installed it as the fallback certificate
 
-I added the following as root to /etc/cron.d/renew-cert
+I added the following task using sudo crontab -e:
 
-# Renews SSL certificate
-AWS_ACCESS_KEY_ID=xxx
-AWS_SECRET_ACCESS_KEY=x
-00 9 15 * * root timeout -k 600 -s 9 3600 . /etc/profile.d/blot.sh && /usr/local/bin/acme-nginx --dns-provider route53 -d "*.blot.im" -d "blot.im" >> /var/log/letsencrypt.log 2>&1 || echo "Failed to renew certificate"
+00 9 1 * * ./scripts/production/renew-wildcard-ssl.sh >> /var/log/letsencrypt.log 2>&1
 
-Note that  /etc/profile.d/blot.sh contains the following so acme-nginx reloads openresty once it's renewed the cert:
-
-
-
+And exported the neccessary env variables AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY in /etc/blot/environment.sh
