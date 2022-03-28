@@ -1,15 +1,3 @@
-Check logs for successful wildcard ssl cert renewal on after 2022-03-22 09:00:00 in /var/log/letsencrypt.log and /var/log/cron
-
----
-
-Tell [Will](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlkXtmxxRWGmBxCZbFxTrJGVrR) we fixed bug with changing text color on magazine template 
-
-Add 'Hidden: yes' metadata to replace 'Menu: no' and tell [Sebastien](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmvTstgvzhzNkPFXdgStpTJvrN)
-
-Add tag to iterate over all images in a folder and tell [Laurel](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmvBwZtktzGVFtcfDWbGZKhsfh)
-
-Finish Lisa's handwriting generator
-
 Fix issues with robustness of sync, esp on Dropbox and tell:
 - Do we encounter dropbox/google drive bugs when we remove a directory of files, rather than invidivual files?
 - Victor
@@ -19,9 +7,17 @@ Fix issues with robustness of sync, esp on Dropbox and tell:
 - Fritz whose blog became stuck
 - [Kevin](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlkFzdBrlJzrGprHNHNmvkQqbW)
 
+Add tag to iterate over all images in a folder and tell [Laurel](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmvBwZtktzGVFtcfDWbGZKhsfh)
+
+Finish Lisa's handwriting generator
+
 Improve video demo and developer documentation of Blot by April 14th for Robin's students
 
 ---
+
+Check logs for successful wildcard ssl cert renewal on after April 1st in /var/log/letsencrypt.log and /var/log/cron
+
+Add 'Hidden: yes' metadata to replace 'Menu: no' and tell [Sebastien](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmvTstgvzhzNkPFXdgStpTJvrN)
 
 Fix bug with subdomains with numbers in them cause SSL certificate errors (e.g. foo2.blot.im)
 
