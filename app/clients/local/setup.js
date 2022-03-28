@@ -26,8 +26,10 @@ function watch(blogID) {
     Blog.get({ id: blogID }, function (err, blog) {
       if (blog.client !== "local") {
         console.log("Tearing down local client for", blogID);
-        watchers[blogID].close();
-        delete watchers[blogID];
+        if (watchers[blogID]) {
+          watchers[blogID].close();
+          delete watchers[blogID];
+        }
         return callback();
       }
 
