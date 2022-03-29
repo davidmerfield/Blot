@@ -7,6 +7,8 @@ Fix issues with robustness of sync, esp on Dropbox and tell:
 - Fritz whose blog became stuck
 - [Kevin](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlkFzdBrlJzrGprHNHNmvkQqbW)
 
+Fix display of featured post on mobile for magazine template and tell [Ben](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmvTzfVVTRQpBGKPzTjkhVsbKl)
+
 Add tag to iterate over all images in a folder and tell [Laurel](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmvBwZtktzGVFtcfDWbGZKhsfh)
 
 Finish Lisa's handwriting generator
