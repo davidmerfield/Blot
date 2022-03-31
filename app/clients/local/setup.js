@@ -4,19 +4,24 @@ const async = require("async");
 const config = require("config");
 const chokidar = require("chokidar");
 const localPath = require("helper/localPath");
+const Fix = require("sync/fix");
 
 let watchers = {};
 
 function setup(blogID, callback) {
   console.log("Setting up local client for", blogID);
-  // debug("Synchronizing source folder with Blot");
-  // Fix(blogID, function (err) {
-  // console.log("Setup complete");
-  // });
-  if (config.environment === "development") {
-    watch(blogID);
-  }
-  callback();
+
+  Blog.get({ id: blogID }, function (err, blog) {
+    if (err || !blog) return callback();
+    Fix(blog, function (err) {
+      if (err) return callback();
+      if (config.environment === "development") {
+        watch(blogID);
+      }
+      console.log("Setup complete");
+      callback();
+    });
+  });
 }
 
 function watch(blogID) {

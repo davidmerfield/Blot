@@ -10,15 +10,16 @@
 //    pointing to the source folder. Local client will
 //    watch source folder so changes should appear.
 
-var fs = require("fs-extra");
-var async = require("async");
-var config = require("config");
-var User = require("user");
-var Blog = require("blog");
-var basename = require("path").basename;
-var localClient = require("clients/local");
-
-var DIR = require("helper/rootDir") + "/app/templates/folders";
+const fs = require("fs-extra");
+const async = require("async");
+const config = require("config");
+const User = require("user");
+const Blog = require("blog");
+const basename = require("path").basename;
+const localClient = require("clients/local");
+const DIR = require("helper/rootDir") + "/app/templates/folders";
+const format = require("url").format;
+const localPath = require("helper/localPath");
 
 const updates = {
   bjorn: {
@@ -49,8 +50,7 @@ function main(options, callback) {
 
     if (options.filter) folders = folders.filter(options.filter);
 
-    console.log("Loaded folders from", DIR);
-    setupUser(function (err, user) {
+    setupUser(function (err, user, url) {
       if (err) return callback(err);
 
       console.log(
@@ -59,11 +59,13 @@ function main(options, callback) {
       setupBlogs(user, folders, function (err) {
         if (err) return callback(err);
 
-        console.log("Built " + folders.length + " blogs");
         folders.forEach(function (folder) {
           console.log("http://" + basename(folder) + "." + config.host);
-          console.log("Source folder:", folder);
+          console.log("Folder:", folder);
+          console.log();
         });
+
+        console.log("Dashboard:\n" + url);
 
         callback(null);
       });
@@ -71,7 +73,27 @@ function main(options, callback) {
   });
 }
 
-function setupUser(callback) {
+function setupUser(_callback) {
+  const callback = (err, user) => {
+    if (err) return _callback(err);
+
+    User.generateAccessToken({ uid: user.uid }, function (err, token) {
+      if (err) return _callback(err);
+
+      // The full one-time log-in link to be sent to the user
+      var url = format({
+        protocol: "https",
+        host: config.host,
+        pathname: "/log-in",
+        query: {
+          token: token,
+        },
+      });
+
+      _callback(null, user, url);
+    });
+  };
+
   User.getByEmail(config.admin.email, function (err, user) {
     if (err) return callback(err);
 
@@ -101,7 +123,6 @@ function setupBlogs(user, folders, callback) {
           return next();
         }
 
-        console.log("handle", handle);
         Blog.create(user.uid, { handle: handle }, function (err, newBlog) {
           if (err) return next(err);
           blogs[newBlog.id] = { path, blog: newBlog };
@@ -114,8 +135,14 @@ function setupBlogs(user, folders, callback) {
       async.eachOfSeries(
         blogs,
         function ({ path, blog }, id, next) {
-          Blog.set(id, updates[blog.handle], function (err) {
+          const update = updates[blog.handle];
+
+          update.client = "local";
+
+          Blog.set(id, update, function (err) {
             if (err) return next(err);
+            fs.removeSync(localPath(id, '/'));
+            fs.symlinkSync(path, localPath(id, '/').slice(0,-1));
             localClient.setup(id, function (err) {
               if (err) return next(err);
 
@@ -149,7 +176,6 @@ function loadFoldersToBuild(foldersDirectory, callback) {
         );
       });
 
-    console.log(folders);
     callback(null, folders);
   });
 }
