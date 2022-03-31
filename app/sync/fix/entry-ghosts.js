@@ -76,18 +76,14 @@ function main(blog, callback) {
           missing.length +
             " files are missing from the disk for entries which are not deleted"
         );
-        report = report.concat(report.map(log));
+        report.push(missing);
       }
 
       if (edit.length) {
         report.push(
           edit.length + "files exists on disk with a different case.."
         );
-        report = report.concat(report.map(log));
-      }
-
-      function log(i) {
-        return "\n- Path: " + i.path + "\n- Entry: " + i.entry.url;
+        report.push(edit);
       }
 
       async.eachSeries(
