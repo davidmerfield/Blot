@@ -10,8 +10,16 @@ module.exports = function (callback) {
       blogIDs,
       function (blogID, next) {
         Blog.get({ id: blogID }, function (err, blog) {
+          if (err || !blog) {
+            console.error(err || new Error("No blog"));
+            return next();
+          }
+
           Sync(blogID, function (err, folder, done) {
-            if (err) return next(err);
+            if (err) {
+              console.error(err);
+              return next();
+            }
             Fix(blog, function (err, report) {
               if (Object.keys(report).length) finalReport.push(report);
               done(null, next);
