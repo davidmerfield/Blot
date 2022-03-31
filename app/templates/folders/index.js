@@ -10,6 +10,7 @@
 //    pointing to the source folder. Local client will
 //    watch source folder so changes should appear.
 
+const client = require("client");
 const fs = require("fs-extra");
 const async = require("async");
 const config = require("config");
@@ -24,18 +25,23 @@ const localPath = require("helper/localPath");
 const updates = {
   bjorn: {
     title: "Björn Allard",
+    template: 'SITE:portfolio',
   },
   david: {
     title: "David",
+    template: 'SITE:blog',
   },
   frances: {
     title: "Frances Benjamin Johnston",
+    template: 'SITE:reference',
   },
   interviews: {
     title: "Interviews",
+    template: 'SITE:magazine',    
   },
   william: {
     title: "William Copeland McCalla",
+    template: 'SITE:photo',
   },
 };
 
@@ -141,17 +147,20 @@ function setupBlogs(user, folders, callback) {
 
           Blog.set(id, update, function (err) {
             if (err) return next(err);
-            fs.removeSync(localPath(id, '/'));
-            fs.symlinkSync(path, localPath(id, '/').slice(0,-1));
-            localClient.setup(id, function (err) {
-              if (err) return next(err);
-
-              if (config.environment !== "development") {
-                localClient.disconnect(id, next);
-              } else {
-                next();
+            fs.removeSync(localPath(id, "/").slice(0, -1));
+            fs.symlinkSync(path, localPath(id, "/").slice(0, -1));
+            client.publish(
+              "clients:local:new-folder",
+              JSON.stringify({ blogID: id }),
+              function (err) {
+                if (err) return next(err);
+                if (config.environment !== "development") {
+                  localClient.disconnect(id, next);
+                } else {
+                  next();
+                }
               }
-            });
+            );
           });
         },
         callback
