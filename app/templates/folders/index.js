@@ -21,6 +21,7 @@ const localClient = require("clients/local");
 const DIR = require("helper/rootDir") + "/app/templates/folders";
 const format = require("url").format;
 const localPath = require("helper/localPath");
+const zip = require('./zip');
 
 const updates = {
   bjorn: {
@@ -198,7 +199,10 @@ if (require.main === module) {
 
   main(options, function (err) {
     if (err) throw err;
-    process.exit();
+    zip(function(err){
+      if (err) throw err;
+      process.exit();
+    })
   });
 }
 
