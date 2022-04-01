@@ -23,7 +23,7 @@ function main(blog, callback) {
             report.push(["Changed label of", item]);
           }
 
-          if (item.metadata !== entry.metadata) {
+          if (!_.isEqual(item.metadata, entry.metadata)) {
             item.metadata = entry.metadata;
             report.push(["Changed metadata of", item]);
           }
