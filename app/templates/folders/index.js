@@ -72,7 +72,6 @@ function main(options, callback) {
         });
 
         console.log("Dashboard:\n" + url);
-
         callback(null);
       });
     });

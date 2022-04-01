@@ -21,7 +21,10 @@ module.exports = function (callback) {
               return next();
             }
             Fix(blog, function (err, report) {
-              if (Object.keys(report).length) finalReport.push(report);
+              if (Object.keys(report).length) {
+                report.blog = { id: blog.id, handle: blog.handle };
+                finalReport.push(report);
+              }
               done(null, next);
             });
           });
