@@ -17,9 +17,9 @@ async function disconnect(blogID, callback) {
 
 	debug("getting account info");
 	const account = await database.getAccount(blogID);
-	const canRevoke = await database.canRevoke(account.permissionId);
 
 	if (account && account.access_token && account.refresh_token) {
+		const canRevoke = await database.canRevoke(account.permissionId);
 		const auth = new google.auth.OAuth2(
 			config.google.drive.key,
 			config.google.drive.secret
