@@ -28,7 +28,7 @@
     "he": "1.1.0",
     "lodash": "^4.17.21",
     "mkdirp": "^0.5.1",
-    "moment": "^2.11.1",
+    "moment": "^2.29.2",
     "request": "^2.69.0",
     "rimraf": "2.5.4",
     "single-line-log": "^1.1.2",
