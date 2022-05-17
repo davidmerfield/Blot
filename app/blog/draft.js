@@ -37,9 +37,13 @@ module.exports = function route(server) {
       if (_channel !== channel) return;
 
       renderDraft(req, res, next, path, function (html, bodyHTML) {
-        res.write("\n");
-        res.write("data: " + JSON.stringify(bodyHTML.trim()) + "\n\n");
-        res.flushHeaders();
+        try {
+          res.write("\n");
+          res.write("data: " + JSON.stringify(bodyHTML.trim()) + "\n\n");
+          res.flushHeaders();
+        } catch (e) {
+          
+        }
       });
     });
 
