@@ -1,4 +1,10 @@
+Fix issues with sync:
+- Tell [Ryan](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmvTpQrksxRMzFjkwNMvLwVNfn)
+- Tell [Mike](https://mail.google.com/mail/u/0/#inbox/FMfcgzGpFgpdfBScqQctbnNGxBCLrztC) once the bug is sorted so he can rejoin
+
 Add tag to iterate over all images in a folder and tell [Laurel](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmvBwZtktzGVFtcfDWbGZKhsfh)
+
+Fix bug with tags that contain slashes and tell [Jack](https://mail.google.com/mail/u/0/#inbox/FMfcgzGpFgzpsCkCMGqnClfqMkWZqNNz)
 
 Finish Lisa's handwriting generator
 
@@ -16,6 +22,8 @@ Fix display of featured post on mobile for magazine template and tell [Ben](http
 Improve video demo and developer documentation of Blot by April 14th for Robin's students
 
 ---
+
+Create an index of user-created templates and add [Matt's theme](https://www.mattlangford.com/kalena-template-for-blot)
 
 Check logs for successful wildcard ssl cert renewal on after April 1st in /var/log/letsencrypt.log and /var/log/cron
 
