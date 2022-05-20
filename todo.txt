@@ -1,6 +1,7 @@
+
 Fix issues with sync:
-- Tell [Ryan](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmvTpQrksxRMzFjkwNMvLwVNfn)
 - Tell [Mike](https://mail.google.com/mail/u/0/#inbox/FMfcgzGpFgpdfBScqQctbnNGxBCLrztC) once the bug is sorted so he can rejoin
+- Tell questioners](https://blot.im/questions/576)
 
 Add tag to iterate over all images in a folder and tell [Laurel](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmvBwZtktzGVFtcfDWbGZKhsfh)
 
@@ -687,7 +688,7 @@ Investigate [support for xattr](https://github.com/LinusU/fs-xattr) to read imag
 
 Set NODE_ENV [environment variable to production](https://expressjs.com/en/advanced/best-practice-performance.html#set-node_env-to-production)
 
-Add support for HTTP2 and tell [Ryan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqnjnkQjwXHFWSTtWtwhFWxGd)
+Add support for HTTP2 and tell [Ryan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqnjnkQjwXHFWSTtWtwhFWxGd) and [questioner](https://blot.im/questions/573)
 
 Fix bug with rename catcher which allows two posts to share a guid. It caused a bug with Disqus comments. To reproduce this bug: Rename an entry. Create new entry with old name. Both entries have same GUID.
 
