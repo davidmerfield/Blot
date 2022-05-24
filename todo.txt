@@ -1,13 +1,8 @@
-
 Fix issues with sync:
 - Tell [Mike](https://mail.google.com/mail/u/0/#inbox/FMfcgzGpFgpdfBScqQctbnNGxBCLrztC) once the bug is sorted so he can rejoin
 - Tell questioners](https://blot.im/questions/576)
 
-Add tag to iterate over all images in a folder and tell [Laurel](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmvBwZtktzGVFtcfDWbGZKhsfh)
-
-Fix bug with tags that contain slashes and tell [Jack](https://mail.google.com/mail/u/0/#inbox/FMfcgzGpFgzpsCkCMGqnClfqMkWZqNNz)
-
-Finish Lisa's handwriting generator
+Check logs for successful wildcard ssl cert renewal on after April 1st in /var/log/letsencrypt.log and /var/log/cron
 
 Fix issues with robustness of sync, esp on Dropbox and tell:
 - Do we encounter dropbox/google drive bugs when we remove a directory of files, rather than invidivual files?
@@ -18,6 +13,16 @@ Fix issues with robustness of sync, esp on Dropbox and tell:
 - Fritz whose blog became stuck
 - [Kevin](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlkFzdBrlJzrGprHNHNmvkQqbW)
 
+Investigate bug with mutex lock and google drive transfer process. It seems one sync tanked the setup transfer with an [ENOENT](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmvTwMksRmWvSpQXVhvlMXjKFC)
+
+Finish Lisa's handwriting generator
+
+--
+
+Add tag to iterate over all images in a folder and tell [Laurel](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmvBwZtktzGVFtcfDWbGZKhsfh)
+
+Fix bug with tags that contain slashes and tell [Jack](https://mail.google.com/mail/u/0/#inbox/FMfcgzGpFgzpsCkCMGqnClfqMkWZqNNz)
+
 Fix display of featured post on mobile for magazine template and tell [Ben](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmvTzfVVTRQpBGKPzTjkhVsbKl)
 
 Improve video demo and developer documentation of Blot by April 14th for Robin's students
@@ -26,13 +31,9 @@ Improve video demo and developer documentation of Blot by April 14th for Robin's
 
 Create an index of user-created templates and add [Matt's theme](https://www.mattlangford.com/kalena-template-for-blot)
 
-Check logs for successful wildcard ssl cert renewal on after April 1st in /var/log/letsencrypt.log and /var/log/cron
-
 Add 'Hidden: yes' metadata to replace 'Menu: no' and tell [Sebastien](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmvTstgvzhzNkPFXdgStpTJvrN)
 
 Fix bug with subdomains with numbers in them cause SSL certificate errors (e.g. foo2.blot.im)
-
-Investigate bug with mutex lock and google drive transfer process. It seems one sync tanked the setup transfer with an [ENOENT](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmvTwMksRmWvSpQXVhvlMXjKFC)
 
 Fix bug with the typeset settings do not actually affect anything (you can only disable/enable)
 
