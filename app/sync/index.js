@@ -8,7 +8,7 @@ const uuid = require("uuid/v4");
 const renames = require("./renames");
 const lockfile = require("proper-lockfile");
 const type = require("helper/type");
-const email = require('helper/email');
+const email = require("helper/email");
 
 function sync(blogID, callback) {
   if (!type(blogID, "string")) {
@@ -57,6 +57,11 @@ function sync(blogID, callback) {
       log,
     };
 
+    const timeout = setTimeout(function () {
+      log("Warning: sync exceeded 10 minutes");
+      email.LONG_SYNC();
+    }, 10 * 60 * 1000); // 10 minutes
+
     // Right now localPath returns a path with a trailing slash for some
     // crazy reason. This means that we need to remove the trailing
     // slash for this to work properly. In future, you should be able
@@ -80,17 +85,13 @@ function sync(blogID, callback) {
       if (typeof callback !== "function")
         throw new Error("Pass a callback to done");
 
-      setTimeout(function () {
-        log("Warning: sync exceeded 10 minutes");
-        email.LONG_SYNC();
-      }, 10 * 60 * 1000); // 10 minutes
-
       log("Checking for renamed files");
       renames(blogID, async function (err) {
         if (err) {
           log("Error checking file renames");
           log("Releasing lock");
           await release();
+          clearTimeout(timeout);
           return callback(err);
         }
 
@@ -101,6 +102,7 @@ function sync(blogID, callback) {
             log("Error building templates from folder");
             log("Releasing lock");
             await release();
+            clearTimeout(timeout);
             return callback(err);
           }
 
@@ -116,6 +118,7 @@ function sync(blogID, callback) {
               log("Error updating cacheID of blog");
               log("Releasing lock");
               await release();
+              clearTimeout(timeout);
               return callback(err);
             }
 
@@ -123,6 +126,7 @@ function sync(blogID, callback) {
             // but it's a little bit of refactoring...
             log("Releasing lock");
             await release();
+            clearTimeout(timeout);
             log("Finished sync");
             callback(syncError);
           });
