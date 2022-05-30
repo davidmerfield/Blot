@@ -1,0 +1,5 @@
+Long sync
+
+Log in to server and grep:
+
+tail -n 100000 logs/app.log | grep "sync exceeded"

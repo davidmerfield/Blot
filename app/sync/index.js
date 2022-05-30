@@ -8,6 +8,7 @@ const uuid = require("uuid/v4");
 const renames = require("./renames");
 const lockfile = require("proper-lockfile");
 const type = require("helper/type");
+const email = require('helper/email');
 
 function sync(blogID, callback) {
   if (!type(blogID, "string")) {
@@ -78,6 +79,11 @@ function sync(blogID, callback) {
 
       if (typeof callback !== "function")
         throw new Error("Pass a callback to done");
+
+      setTimeout(function () {
+        log("Warning: sync exceeded 10 minutes");
+        email.LONG_SYNC();
+      }, 10 * 60 * 1000); // 10 minutes
 
       log("Checking for renamed files");
       renames(blogID, async function (err) {
