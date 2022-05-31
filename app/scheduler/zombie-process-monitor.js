@@ -15,7 +15,14 @@ function main(callback) {
     function (err, stdout) {
       if (err) return callback(err);
 
-      console.log('result', stdout.split('\n'));
+      const zombie_pids = stdout.split("\n").filter((i) => !!i);
+
+      if (zombie_pids.length) {
+        console.log("zombies", zombie_pids);
+        console.log("src", stdout);
+      } else {
+        console.log("no zombies found");
+      }
 
       // if (config.environment === "development") {
       //   // this is annoying in development
