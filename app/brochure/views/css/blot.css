@@ -1044,3 +1044,49 @@ ul.qa-questions li {
   border-bottom: none;
   margin-bottom: none;
 }
+
+
+
+/* Footer */
+
+.footer {
+  font-size: 14px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.footer, .footer ul {list-style: none;padding: 0;margin: 0}
+
+.footer > li {
+  margin: 0 2rem
+}
+
+.footer a {
+  color: #666;
+  text-decoration: none;
+  padding: 3px 0;
+  display: block;
+}
+
+.footer a:hover {
+  color: var(--accent-color);
+}
+.footer > li > a {
+  font-weight: 600;
+  color: #666;
+  margin-bottom: 3px;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+
+}
+
+@media (max-width: 800px){
+  .footer > li {flex-basis: 50%;margin:1rem 18px;}
+}
+
+
+@media (max-width: 500px){
+  .footer > li {flex-basis: 100%;margin:1rem 18px;}
+}
+
+.footer  ul ul {display: none;}
