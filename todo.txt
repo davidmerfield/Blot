@@ -1,10 +1,8 @@
+Check logs for successful wildcard ssl cert renewal on after June 1st in /var/log/letsencrypt.log and /var/log/cron
+
 Fix issues with sync:
 - Tell [Mike](https://mail.google.com/mail/u/0/#inbox/FMfcgzGpFgpdfBScqQctbnNGxBCLrztC) once the bug is sorted so he can rejoin
 - Tell questioners](https://blot.im/questions/576)
-
-Check logs for successful wildcard ssl cert renewal on after June 1st in /var/log/letsencrypt.log and /var/log/cron
-
-Fix issues with robustness of sync, esp on Dropbox and tell:
 - Do we encounter dropbox/google drive bugs when we remove a directory of files, rather than invidivual files?
 - Victor
 - Ryan
@@ -12,8 +10,7 @@ Fix issues with robustness of sync, esp on Dropbox and tell:
 - Rizwan
 - Fritz whose blog became stuck
 - [Kevin](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlkFzdBrlJzrGprHNHNmvkQqbW)
-
-Investigate bug with mutex lock and google drive transfer process. It seems one sync tanked the setup transfer with an [ENOENT](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmvTwMksRmWvSpQXVhvlMXjKFC)
+- It seems one sync tanked the setup transfer with an [ENOENT](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmvTwMksRmWvSpQXVhvlMXjKFC)
 
 Finish Lisa's handwriting generator
 
