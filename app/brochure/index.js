@@ -1,11 +1,11 @@
-var config = require("config");
-var Express = require("express");
-var brochure = new Express();
-var hbs = require("hbs");
-var Cache = require("express-disk-cache");
-var cache = new Cache(config.cache_directory);
-var moment = require("moment");
-var fs = require("fs-extra");
+const config = require("config");
+const Express = require("express");
+const brochure = new Express();
+const hbs = require("hbs");
+const Cache = require("express-disk-cache");
+const cache = new Cache(config.cache_directory);
+const moment = require("moment");
+const fs = require("fs-extra");
 const redirector = require("./redirector");
 const trace = require("helper/trace");
 const VIEW_DIRECTORY = __dirname + "/views";
@@ -65,9 +65,6 @@ brochure.locals.layout = "/partials/layout";
 brochure.locals.cacheID = Date.now();
 
 // Default page title and <meta> description
-brochure.locals.title = "Blot – A blogging platform with no interface.";
-brochure.locals.description =
-  "Turns a folder into a blog automatically. Use your favorite text-editor to write. Text and Markdown files, Word Documents, images, bookmarks and HTML in your folder become blog posts.";
 
 brochure.locals.price = "$" + config.stripe.plan.split("_").pop();
 brochure.locals.interval =
