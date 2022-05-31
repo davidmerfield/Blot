@@ -18,11 +18,17 @@ function main(callback) {
 
       const zombie_pids = stdout.split("\n").filter((i) => !!i);
 
+      console.log(`Found ${zombie_pids.length} zombie processes`);
+
       async.eachSeries(
         zombie_pids,
         (pid, next) => {
           console.log("found pid", pid);
-          next();
+          exec(`kill ${pid}`, function (err, stdout) {
+            console.log("error:", err);
+            console.log("stdout:", stdout);
+            console.log("this should hang now...");
+          });
         },
         callback
       );
