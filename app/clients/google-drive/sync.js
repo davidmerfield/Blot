@@ -1,6 +1,5 @@
 const fs = require("fs-extra");
 const { join } = require("path");
-const clfdate = require("helper/clfdate");
 const localPath = require("helper/localPath");
 const database = require("./database");
 
@@ -14,8 +13,6 @@ const RETRY_INTERVALS = [50, 500, 3000, 5000];
 
 module.exports = async function (blogID, options, callback) {
   let done, folder;
-
-  const prefix = () => clfdate() + `Blog: ${blogID.slice(0, 6)} Google Drive: `;
 
   try {
     let lock = await establishSyncLock(blogID);
@@ -31,7 +28,7 @@ module.exports = async function (blogID, options, callback) {
 
     const db = database.folder(folderId);
 
-    console.log(prefix(), "with folderId=", folderId);
+    folder.log("folderId =", folderId);
 
     let retries = 0;
     let pageToken, newStartPageToken, nextPageToken;
@@ -42,7 +39,7 @@ module.exports = async function (blogID, options, callback) {
     pageToken = await db.getPageToken();
 
     if (!pageToken) {
-      console.log(prefix(), "Fetching new pageToken from API");
+      folder.log("Fetching new pageToken from API");
       const { data } = await drive.changes.getStartPageToken({
         supportsAllDrives: true,
         includeDeleted: true,
@@ -53,7 +50,7 @@ module.exports = async function (blogID, options, callback) {
     }
 
     do {
-      console.log(prefix(), "Retrieving changes since", pageToken);
+      folder.log("Retrieving changes since", pageToken);
       const response = await drive.changes.list({
         supportsAllDrives: true,
         includeDeleted: true,
@@ -97,14 +94,14 @@ module.exports = async function (blogID, options, callback) {
           const folderPath = await determinePathToFolder(drive, id);
           await database.setAccount(blogID, { folderPath });
         } else if ((trashed || movedOutsideFolder) && storedPathForId) {
-          console.log(prefix(), "DELETE", storedPathForId);
+          folder.log("DELETE", storedPathForId);
           const removedPaths = await db.remove(id);
           removedPaths.forEach((removedPath) =>
             pathsToUpdate.push(removedPath)
           );
           await fs.remove(localPath(blogID, storedPathForId));
         } else if (path && storedPathForId && path !== storedPathForId) {
-          console.log(prefix(), "  MOVE", storedPathForId, "to", path);
+          folder.log("  MOVE", storedPathForId, "to", path);
           const movedPaths = await db.move(id, path);
           movedPaths.forEach((movedPath) => pathsToUpdate.push(movedPath));
           await fs.move(
@@ -112,16 +109,16 @@ module.exports = async function (blogID, options, callback) {
             localPath(blogID, path)
           );
         } else if (path && !storedPathForId && !trashed) {
-          console.log(prefix(), "CREATE", path);
+          folder.log("CREATE", path);
           await db.set(id, path);
           await download(blogID, drive, path, file);
           pathsToUpdate.push(path);
         } else if (path && storedPathForId) {
-          console.log(prefix(), "UPDATE", storedPathForId);
+          folder.log("UPDATE", storedPathForId);
           await download(blogID, drive, path, file);
           pathsToUpdate.push(path);
         } else {
-          console.log(prefix(), "IGNORE", id, "outside folder");
+          folder.log("IGNORE", id, "outside folder");
         }
       }
 
@@ -129,7 +126,7 @@ module.exports = async function (blogID, options, callback) {
         try {
           await folder.update(path);
         } catch (e) {
-          console.log(prefix(), "ERROR updating", path, e);
+          folder.log("ERROR updating", path, e);
         }
       }
 
@@ -140,18 +137,18 @@ module.exports = async function (blogID, options, callback) {
         retries = 0;
         pageToken = newStartPageToken;
         await db.setPageToken(pageToken);
-        console.log(prefix(), "There is new page token");
+        folder.log("There is new page token");
       } else if (nextPageToken) {
         retries = 0;
         pageToken = nextPageToken;
         await db.setPageToken(pageToken);
-        console.log(prefix(), "There is a NEXT page of changes to fetch");
+        folder.log("There is a NEXT page of changes to fetch");
       } else {
-        console.log(prefix(), "Waiting to retry check for changes");
+        folder.log("Waiting to retry check for changes");
         await new Promise((resolve) =>
           setTimeout(resolve, RETRY_INTERVALS[retries])
         );
-        console.log(prefix(), "Wait complete");
+        folder.log("Wait complete");
         retries++;
       }
     } while (
@@ -160,14 +157,14 @@ module.exports = async function (blogID, options, callback) {
       retries < RETRY_INTERVALS.length
     );
 
-    console.log(prefix(), "All checks complete");
+    folder.log("All checks complete");
     done(null, callback);
   } catch (err) {
-    console.log(prefix(), "Error:", err.message);
+    folder.log("Error:", err.message);
     try {
       verify(blogID);
     } catch (e) {
-      console.log(prefix(), "Error verifying folder:", e.message);
+      folder.log("Error verifying folder:", e.message);
       return done(e, callback);
     }
 
