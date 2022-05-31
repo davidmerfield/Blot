@@ -3,15 +3,17 @@ set -e
 
 ACME=/usr/local/bin/acme-nginx
 LOGFILE=/var/log/letsencrypt.log
+OPENRESTY=/usr/local/openresty/bin/openresty
 
 # Sources the environment variables required
 . /etc/blot/environment.sh
 
-# This is required to allow the cron script to work correctly
-alias nginx='/usr/local/openresty/bin/openresty'
+echo "[`date -u +%Y-%m-%dT%T.%3NZ`] Beginning renewal of wildcard certificate" 
+$ACME --no-reload-nginx --dns-provider route53 -d "*.$BLOT_HOST" -d "$BLOT_HOST" 
+echo "[`date -u +%Y-%m-%dT%T.%3NZ`] Finished renewal of wildcard certificate" 
 
-echo "[`date -u +%Y-%m-%dT%T.%3NZ`] Beginning attempt to renew wildcard certificate" 
-
-$ACME --dns-provider route53 -d "*.$BLOT_HOST" -d "$BLOT_HOST" 
-
-echo "[`date -u +%Y-%m-%dT%T.%3NZ`] Finished attempt to renew wildcard certificate" 
+# We reload nginx/openresty manually because the command invoked
+# by $ACME doesn't call openresty, it calls nginx
+echo "[`date -u +%Y-%m-%dT%T.%3NZ`] Beginning reload of nginx/openresty" 
+$OPENRESTY -s reload
+echo "[`date -u +%Y-%m-%dT%T.%3NZ`] Finished reload of nginx/openresty" 
