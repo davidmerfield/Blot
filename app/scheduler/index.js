@@ -13,10 +13,16 @@ const os = require("os");
 const fs = require("fs-extra");
 const exec = require("child_process").exec;
 const fix = require("sync/fix/all");
+const zombies = require("./zombies");
 
 module.exports = function () {
   // Log useful system information, once per minute
   schedule("* * * * *", function () {
+    // Detect any zombie processes
+    zombies(function (err) {
+      if (err) throw err;
+    });
+
     // Print most memory-intensive processes
     exec("ps -eo pmem,pcpu,comm,args | sort -k 1 -nr | head -10", function (
       err,
