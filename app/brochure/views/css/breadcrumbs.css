@@ -53,13 +53,6 @@
   border-color: var(--light-text-color);
 }
 
-.breadcrumbs_link a:hover {
-  box-shadow: none;
-  text-decoration: none;
-  background: none;
-  border: none;
-}
-
 .breadcrumbs_link:first-child:before {
   content: none;
   display: none;
