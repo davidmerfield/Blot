@@ -1,6 +1,7 @@
 const config = require("config");
-const email = require("helper/email");
 const exec = require("child_process").exec;
+const email = require("helper/email");
+const async = require("async");
 
 if (require.main === module) {
   main(function (err) {
@@ -17,12 +18,14 @@ function main(callback) {
 
       const zombie_pids = stdout.split("\n").filter((i) => !!i);
 
-      if (zombie_pids.length) {
-        console.log("zombies", zombie_pids);
-        console.log("src", stdout);
-      } else {
-        console.log("no zombies found");
-      }
+      async.eachSeries(
+        zombie_pids,
+        (pid, next) => {
+          console.log("found pid", pid);
+          next();
+        },
+        callback
+      );
 
       // if (config.environment === "development") {
       //   // this is annoying in development
@@ -30,8 +33,6 @@ function main(callback) {
       //   console.log(clfdate(), "[STATS]", "top");
       //   console.log(stdout);
       // }
-
-      callback();
     }
   );
 }
