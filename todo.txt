@@ -10,6 +10,7 @@ Fix issues with sync:
 - Rizwan
 - Fritz whose blog became stuck
 - [Kevin](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlkFzdBrlJzrGprHNHNmvkQqbW)
+- Is it possible that retry delays from the Dropbox API under excessive number of requests is the cause of the lockup?
 - It seems one sync tanked the setup transfer with an [ENOENT](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmvTwMksRmWvSpQXVhvlMXjKFC)
 
 Finish Lisa's handwriting generator
