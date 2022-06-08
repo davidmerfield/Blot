@@ -11,21 +11,29 @@ var clfdate = require("helper/clfdate");
 // This is used by sync.js to retrieve files efficiently
 // from Dropbox after notification of a change through a webhook
 function download(token, source, destination, _callback) {
-  const prefix = () => clfdate() + " clients:dropbox:download";
+  var ws, down, metadata, timeout;
+  const id = uuid();
+  const prefix = () =>
+    clfdate() + " clients:dropbox:download:" + id.slice(0, 6);
 
   console.log(prefix(), source);
 
-  var ws, down, metadata;
-  var tmpLocation = join(tmpDir, uuid());
+  var tmpLocation = join(tmpDir, id);
   console.log(prefix(), "tmpLocation =", tmpLocation);
 
   var callback = function (err) {
+    clearTimeout(timeout);
     console.log(prefix(), "removing", tmpLocation);
     fs.remove(tmpLocation, function () {
       console.log(prefix(), "calling back with err = ", err);
       _callback(err);
     });
   };
+
+  var timeout = setTimeout(function () {
+    console.log(prefix(), "reached timeout for download");
+    callback(new Error("Timeout reached for download"));
+  }, 4 * 60 * 1000); // 4 minutes
 
   try {
     ws = fs.createWriteStream(tmpLocation);
