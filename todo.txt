@@ -1,5 +1,7 @@
 Check logs for successful wildcard ssl cert renewal on after June 1st in /var/log/letsencrypt.log and /var/log/cron
 
+Determine why we get zombie processes after running reload server script.
+
 Fix issues with sync:
 - Tell [Mike](https://mail.google.com/mail/u/0/#inbox/FMfcgzGpFgpdfBScqQctbnNGxBCLrztC) once the bug is sorted so he can rejoin
 - Tell questioners](https://blot.im/questions/576)
