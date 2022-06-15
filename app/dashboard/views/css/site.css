@@ -1808,7 +1808,7 @@ a.line:hover,
 div.line a.link:hover,
 .dropdown .opener:hover,
 .dropdown .menu button:hover,
-.dropdown .menu a:hover,
+.dropdown .menu a:hover span,
 .line form button:hover {
   background: #f7fafc
 }
@@ -1836,7 +1836,7 @@ div.line a.link:hover {
 .right {
 
   flex-shrink: 0;
-  padding-left: 4px;
+  padding-left: 16px;
 }
 
 
@@ -1857,7 +1857,7 @@ div.line a.link:hover {
 div.line a.link {}
 
 .center {
-  flex-grow: 1;
+  flex-grow: 0;
 }
 
 div.center {}
