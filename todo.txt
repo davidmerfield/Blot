@@ -195,24 +195,8 @@ Write new clients to sync blog folders
   - Tell [Eric](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMZRzCcPkNppMpSbBzNRKFSNs)
 - [Syncthing](https://www.npmjs.com/package/node-syncthing) 
   - Tell [Jason](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpVWzZTVxccmWLmnPBmDFjvV)
-- If [iCloud](https://www.icloud.com/) becomes possible
-  - Tell [Andrew](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJfNnhCDNsffJSjnQHnxdSfh)
-  - Tell [Cristina](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmtFHHXQKNQKppXpHGpkvLjQSD)
-  - Tell [John](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlkPcphtxgswTQccZLfQGwfWhN)
-  - Tell [David](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJfNfSZgQqjNWLWVHZjwXQrS)
-  - Tell [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJfNTrdmqJwwzCPLrhcQRNWW)
-  - Tell [Dave](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJfNfLmTVjNGcXZVRWdlrLzp)
-  - Tell [Shawn](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJfNfRRjzkzpvQjPTCQtqpDx)
-  - Tell [Andrew](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJgWDpnsGBCXsCwkxRZnXMph)
-  - Tell [Chris](https://mail.google.com/mail/u/0/#inbox/FMfcgxwC1hJjqgsvKxxVgFdbXvxNTHTsz)
-  - Tell [Kerim](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChSJkptkQxlqTjsDCtdTgMWXv)
-  - Tell [Wilt](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChcgKzMGXdrHMVhrjsjJnnBzk)
-  - Tell [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqfMPDQnSTBSsWXdtfkVdJzdD)
-  - Tell [Arlo](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJWrZRLJddkZSdrMVxrNkTZLKn)
-  - Tell [Anders](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKkRFxsDShhsHGNcdRqwHFMmJM)
-  - Tell [Victor](https://mail.google.com/mail/u/0/#inbox/FMfcgzGkbDVrLFlwcgwDddsVPJBVKSvW)
 - [Github](https://github.com)
-  - Tell [John](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmvBnVvqHdJXLgDhrtChCqdMQX)
+  - Tell [John](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmvBnVvqHdJXLgDhrtChCqdMQX)  
 
 ---
 
