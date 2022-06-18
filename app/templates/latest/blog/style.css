@@ -448,8 +448,7 @@ input#search:focus {
     padding-left: 10px
 }
 .footnotes > ol li::marker {
-     color: #aaa;
-     font-weight: bold;
+     color: {{text_color}};
 }
  .footnote-back {text-decoration: none;margin-left: 0.5rem}
  .footnote-back:before {
