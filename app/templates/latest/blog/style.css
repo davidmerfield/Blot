@@ -495,8 +495,13 @@ padding-left: 140px;padding-top: 1rem;font-size:14px
 .left-label .tag {
 margin:0 1rem 0 0
 }
-@media screen and (max-width: 840px) {
+@media screen and (max-width: 1200px) {
 
+  .container {margin-left: 0;margin-right: 0}
+
+}
+
+@media screen and (max-width: 840px) {
 
   .main, .margin {width: 100%;}
   .wide {width: 100vw;margin-left: -2rem;margin-right: -2rem}
