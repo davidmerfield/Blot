@@ -1,0 +1,27 @@
+Summer newsletter
+
+*You received this email because you subscribed to [Blot’s newsletter](https://blot.im/about/news). You can [unsubscribe](https://blot.im/about/news/cancel) if you like. Please reply directly to this email if you have any thoughts or questions.*
+
+**New features**
+
+**Changes**
+- Updated the dependencies on which Blot depends to patch any known security vulnerabilities.
+
+**Bugs fixed**
+
+**Interesting questions**
+Here are a few highlights from [Questions](https://blot.im/questions), a section of Blot's site where users can ask and answer questions.
+- [Setting up GitHub with Blot and Obsidian](https://blot.im/questions/642)
+- [Getting the first item in an entries array](https://blot.im/questions/577)
+- [How to have page URLs which mirror folder structure?](https://blot.im/questions/578)
+- [Does Blot use Blot?](https://blot.im/questions/525)
+
+**Mistakes**
+
+**Plans for this season**
+
+We have begun work on an iCloud client, which will mean you can use a folder in your iCloud drive to publish a blog. 
+
+If you have any thoughts or questions about any of this, please don’t hesitate to reply directly to this email.
+
+Sincerely, David
