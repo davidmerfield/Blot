@@ -24,8 +24,8 @@ input[name="toggle"] {
 
   }
   label[for="toggle"] svg {
-    width: 40px;
-    height: 40px;
+    width: 34px;
+    height: 34px;
   }
 
   #toggle:checked ~ div .sidebar-container {display: block;}
