@@ -11,17 +11,18 @@
 .top-r {
   position: absolute;top: 1rem;right: 1rem
 }
+
 {{#unless selected.index}}
-@media screen and (max-width: 1000px) {
-  .top-r {
-    right: 4rem;
-  }
+
+@media (max-width:500px) {
+.hdr-btn {display: none;}
 }
+
 {{/unless}}
 a.lig {color: inherit;}
 a.lig:hover {color: var(--accent-color);}
 </style>
-<div style="padding:1rem">
+<div style="padding:1.5rem 1rem">
     {{> breadcrumbs}}
 
 </div>
@@ -55,4 +56,23 @@ a.lig:hover {color: var(--accent-color);}
       </svg></a>
       {{/if}}
       {{/if}}
+
+        {{#unless selected.log-in}}
+        {{#unless selected.index}}
+        {{#unless selected.sign-up}}
+      <label for="toggle">
+      <svg id="shower" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 45 45" preserveAspectRatio="" class="app-header__menu-icon block absolute inset-0 h-full w-full" style="">
+         <g fill="currentColor" fill-rule="evenodd">
+            <path d="M10 15h25v1H10zM10 22h25v1H10zM10 29h25v1H10z"></path>
+         </g>
+      </svg>
+      <svg id="hider" style="width: 1.5em; height: 1.5em;">
+         <line x1="0" y1="0" x2="100%" y2="100%" stroke="currentColor"></line>
+         <line x1="0" y1="100%" x2="100%" y2="0%" stroke="currentColor"></line>
+      </svg>
+   </label>  
+         {{/unless}}
+      {{/unless}}
+      {{/unless}}
+    
   </div>

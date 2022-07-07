@@ -1,11 +1,12 @@
 label[for="toggle"] {
-  border: 1px solid rgba(0, 0, 0, 0.05);
-  border-radius: 18px;
+      height: 34px;
+    line-height: 32px;
+    border: 1px solid #eee;
+    border-radius: 3px;
+    margin-left: 0.8rem;
   display: none;
   cursor: pointer;
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
+
 }
 
 input[name="toggle"] {
@@ -13,19 +14,26 @@ input[name="toggle"] {
 }
 
 @media screen and (max-width: 1000px) {
-  .sidebar {
+  .sidebar-container {
     display: none;
   }
 
   label[for="toggle"] {
     display: block;
+    float: right;
+
   }
   label[for="toggle"] svg {
     width: 40px;
     height: 40px;
   }
 
-  #toggle:not(:checked) ~ .doc-wrapper label #hider {
+  #toggle:checked ~ div .sidebar-container {display: block;}
+
+  #toggle:not(:checked) ~ .top-r #hider {
+    display: none;
+  }
+    #toggle:checked ~ .top-r #shower {
     display: none;
   }
 }
