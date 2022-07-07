@@ -3,9 +3,8 @@ Summer newsletter
 *You received this email because you subscribed to [Blot’s newsletter](https://blot.im/about/news). You can [unsubscribe](https://blot.im/about/news/cancel) if you like. Please reply directly to this email if you have any thoughts or questions.*
 
 **New features**
-- We've begun a sort of office hours 
 - You can now download the source folders for the test sites used to [preview the templates](https://blot.im/templates).
-- We have are able to mass-create accounts for institutions: Blot was trialed as a teaching tool.
+- For institutions who are interested in using Blot as a teaching tool: we built the infrastructure required to create accounts for your students. Blot was trialed as a teaching tool.
 
 **Changes**
 - Made tweaks to the dashboard and documentation, per tradition.
