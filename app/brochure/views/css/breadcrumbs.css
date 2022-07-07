@@ -14,7 +14,6 @@
   border-top: none;
   border-bottom: none;
   padding: 0 0 16px 0;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
 }
 
 .breadcrumbs_link:first-child {

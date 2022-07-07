@@ -39,17 +39,27 @@
   }
 </style>
 <input type="checkbox" name="toggle" id="toggle">
-<div class="doc-wrapper"> 
-  <div style="flex-basis: 100%;margin:3px 0 13px;" >
-    {{> breadcrumbs}}
+<div style="display: flex"> 
+  
+    <div style="flex-basis: 270px;flex-grow:0;flex-shrink:0;margin: 0 0 0 3rem;">
+   <!--  <div style="background:#fafafa;border-radius: 6px;margin:1rem;padding:11px 20px">
+      <h2>Contact us</h2>
+      <h2>support@blot.im</h2>
+    </div> -->
+    <div>
+    {{> sidebar}}
+    </div>
   </div>
+  <div style="flex-grow: 1"></div>
+  <div>
+
   <div class="yiel" style="flex-basis: 560px;max-width:560px;flex-grow:0;">
 {{{body}}}
-	</div>   
-  <div style="flex-basis: 270px;flex-grow:0;flex-shrink:0;margin: 0 0 0 3rem;">
-  {{> sidebar}}
+  </div>   
+
   </div>
-</div>
+  <div style="flex-grow: 2"></div>
+
 </div>
 {{> footer}}
 </body>

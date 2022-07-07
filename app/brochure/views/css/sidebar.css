@@ -151,6 +151,12 @@ nav a.selected:hover {
   border-top: 1px solid var(--light-border-color);
 }
 
+.sidebar [data-open="selected"],
+.sidebar a:active,
+.sidebar a:focus {
+  border-bottom: none;
+}
+
 .sidebar [data-open="selected"] + ul,
 .sidebar a:active + ul,
 .sidebar a:focus + ul {
@@ -159,7 +165,7 @@ nav a.selected:hover {
   border-bottom: 1px solid var(--light-border-color);
   margin-top: -1px;
   padding-bottom: 10px;
-  padding-top: 10px;
+  padding-top: 0;
   position: relative;
 }
 
