@@ -8,7 +8,7 @@ const moment = require("moment");
 const fs = require("fs-extra");
 const redirector = require("./redirector");
 const trace = require("helper/trace");
-const VIEW_DIRECTORY = __dirname + "/views";
+const VIEW_DIRECTORY = __dirname + "/data/views";
 const PARTIAL_DIRECTORY = VIEW_DIRECTORY + "/partials";
 const chokidar = require("chokidar");
 

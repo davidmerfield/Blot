@@ -24,14 +24,6 @@ var TITLES = {
 
 brochure.use(trace("inside routes sub app"));
 
-if (config.cache) {
-  // Minifies HTML
-  brochure.use(require("./tools/minify-html"));
-
-  // Inlines all CSS properties
-  brochure.use(require("./tools/inline-css"));
-}
-
 brochure.get(["/how/format/*"], function (req, res, next) {
   res.locals["show-on-this-page"] = true;
   next();
@@ -56,19 +48,6 @@ brochure.use(function (req, res, next) {
 
   next();
 });
-
-// Renders the folders and text editors
-brochure.use(finder.middleware);
-
-// Renders TeX
-brochure.use(tex);
-
-// Fixes basic typographic errors
-// See typeset.js for more information
-brochure.use(require("./tools/typeset"));
-
-// Generate a table of contents for each page
-brochure.use(require("./tools/on-this-page"));
 
 brochure.use(function (req, res, next) {
   res.locals.base = "";
