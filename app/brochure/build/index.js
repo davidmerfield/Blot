@@ -2,7 +2,7 @@ const fs = require("fs-extra");
 const OUTPUT = __dirname + "/../data/views";
 const INPUT = __dirname + "/../views";
 const chokidar = require("chokidar");
-const { join, dirname } = require("path");
+const { join } = require("path");
 const finder = require("finder");
 
 async function main(callback) {
@@ -12,7 +12,7 @@ async function main(callback) {
 
   const watcher = chokidar.watch(INPUT, { cwd: INPUT });
 
-  watcher.on("add", handle).on("change", handle);
+  watcher.on("add", handle).on("change", handle).on("ready", callback);
 }
 
 async function handle(path) {
@@ -30,7 +30,6 @@ async function handle(path) {
       .join("\n\n");
     fs.outputFileSync(join(cssDir, "complete.css"), mergedCSS);
   } else if (path.endsWith(".html")) {
-
     // Inlines all CSS properties
     // brochure.use(require("./tools/inline-css"));
 
@@ -45,7 +44,7 @@ async function handle(path) {
     output = require("./typeset")(output);
     output = require("./tex")(output);
     output = finder.html_parser(output);
-    
+
     // output = require("./minify-html")(output);
 
     console.log("html", path);
