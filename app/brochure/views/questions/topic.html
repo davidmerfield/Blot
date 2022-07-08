@@ -4,7 +4,7 @@
   {{{topic.body}}}
   <p class="secondary-text smaller">{{topics.length}} {{#singular}}reply{{/singular}}{{^singular}}replies{{/singular}}
 
-      <span  style="float: right;">Asked {{formatDaytime topic.created_at}} · <a class="secondary-text smaller" href="/questions/{{topic.id}}/edit">Improve this question</a></span>
+      <span  style="float: right;">Asked {{#formatDaytime}}topic.created_at{{/formatDaytime}} · <a class="secondary-text smaller" href="/questions/{{topic.id}}/edit">Improve this question</a></span>
 </p>
 </div>
 
@@ -14,7 +14,7 @@
 {{#topics}}
 <div class="qa-item-container">
     {{{body}}}
-    <span class="secondary-text smaller">Answered {{formatDaytime created_at}} ·</span> 
+    <span class="secondary-text smaller">Answered {{#formatDaytime}}created_at{{/formatDaytime}} ·</span> 
     <a class="secondary-text smaller" href="/questions/{{id}}/edit">Improve this answer</a>
 </div>
 {{/topics}}

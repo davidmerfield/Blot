@@ -18,22 +18,28 @@ const pool = new Pool({
 // QA Forum View Configuration
 const TOPICS_PER_PAGE = 20;
 
-// Renders datetime in desired format
-// Can be used like so: {{{formatDaytime D}}} where D is timestamp (e.g. from a DB)
-// hbs.registerHelper("formatDaytime", function (timestamp) {
-//   try {
-//     timestamp = moment.utc(timestamp).format("MMM D [']YY [at] H:mm");
-//   } catch (e) {
-//     timestamp = "";
-//   }
-//   return timestamp;
-// });
-
 Questions.use(
   Express.urlencoded({
     extended: true,
   })
 );
+
+// Renders dates dynamically in the documentation.
+// Can be used like so: {{#formatDaytime}}D{{/formatDaytime}} where D is timestamp (e.g. from a DB)
+Questions.use(function (req, res, next) {
+  res.locals.formatDaytime = function () {
+    return function (text, render) {
+      try {
+        text = render(text);
+        text = moment.utc(text).format("MMM D [']YY [at] H:mm");
+      } catch (e) {
+        text = "";
+      }
+      return text;
+    };
+  };
+  next();
+});
 
 Questions.use(function (req, res, next) {
   res.locals.base = "/questions";
@@ -121,9 +127,9 @@ Questions.get(["/", "/page/:page"], function (req, res, next) {
       }
 
       res.locals.topics = topics.rows;
-      res.locals.topics = paginator;
-      res.locals.topics = search_query;
-      next();
+      res.locals.paginator = paginator;
+      res.locals.search_query = search_query;
+      res.render('questions');
     })
     .catch(next);
 });
@@ -132,7 +138,7 @@ Questions.get(["/", "/page/:page"], function (req, res, next) {
 Questions.route("/ask")
   .get(csrf, function (req, res, next) {
     res.locals.csrf = req.csrfToken();
-    next();
+    res.render('questions/ask')
   })
   .post(csrf, function (req, res) {
     const author = req.user.uid;
@@ -254,7 +260,7 @@ Questions.route("/:id").get(csrf, function (req, res, next) {
           res.locals.title = topic.title;
           res.locals.topics = replies.rows;
           res.locals.topic = topic;
-          next();
+          res.render('questions/topic');
         })
         .catch(next);
     })

@@ -12,19 +12,6 @@ const VIEW_DIRECTORY = __dirname + "/data/views";
 const PARTIAL_DIRECTORY = VIEW_DIRECTORY + "/partials";
 const chokidar = require("chokidar");
 
-// // Renders dates dynamically in the documentation.
-// // Can be used like so: {{{date 'MM/YYYY'}}}
-// hbs.registerHelper("date", function (text) {
-//   try {
-//     text = text.trim();
-//     text = moment.utc(Date.now()).format(text);
-//   } catch (e) {
-//     text = "";
-//   }
-
-//   return text;
-// });
-
 // Neccessary to repeat to set the correct IP for the
 // rate-limiter, because this app sits behind nginx
 brochure.set("trust proxy", "loopback");
@@ -56,12 +43,10 @@ brochure.locals.price = "$" + config.stripe.plan.split("_").pop();
 brochure.locals.interval =
   config.stripe.plan.indexOf("monthly") === 0 ? "month" : "year";
 
-
 const partials = require("fs-extra")
   .readdirSync(PARTIAL_DIRECTORY)
   .filter((i) => i.endsWith(".html"))
   .map((i) => i.slice(0, i.lastIndexOf(".")));
-
 
 function trimLeadingAndTrailingSlash(str) {
   if (!str) return str;
@@ -88,6 +73,23 @@ brochure.use(function (req, res, next) {
 
     console.log("partials", res.locals.partials);
     _render.call(this, layout);
+  };
+  next();
+});
+
+// Renders dates dynamically in the documentation.
+// Can be used like so: {{#date}}MM/YYYY{{/date}}
+brochure.use(function (req, res, next) {
+  res.locals.date = function () {
+    return function (text, render) {
+      try {
+        text = text.trim();
+        text = moment.utc(Date.now()).format(text);
+      } catch (e) {
+        text = "";
+      }
+      return text;
+    };
   };
   next();
 });
