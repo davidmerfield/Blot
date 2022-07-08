@@ -571,15 +571,16 @@ ul.qa-questions li {
   color: var(--accent-color);
 }
 .textli:hover {
-  text-decoration: underline;
+  color: var(--accent-color);
 }
 
 .textli svg {
-  width: 1rem;
+  width: 2.7rem;
+  float: left;
   vertical-align: baseline;
   position: relative;
   top: 2px;
-  margin-right: 8px;
+  margin-right: 1rem;
   left: 0;
 }
 
