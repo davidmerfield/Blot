@@ -1,38 +1,103 @@
 <style type="text/css">
-  .left-side {
-    flex-basis: 430px;box-sizing:border-box;margin: 0 1.5rem; background: #fafafa;border-radius: 18px;padding:18px 36px
-  }
-  .right-side {
-    flex-basis: 470px;box-sizing:border-box;margin: 0 1.5rem;padding:18px 36px
-  }
-  .sides-container {
-    display: flex;flex-wrap:wrap;justify-content: center;margin:10rem 0 8rem
-  }
-@media (max-width:500px) {
-  .left-side, .right-side {
-    background: none;
-    padding: 18px;
-    margin: 0;
-    border:none;
+  .side {
+    max-width: 720px;box-sizing:border-box;margin: 0 1.5rem; background: #fafafa;border-radius: 18px;padding:18px 36px;
+    display: flex;
+    margin-bottom: 3rem
   }
 
-  .sides-container {margin:4rem 0 2rem;}
+  .side .left {padding-right: 2rem}
+  .side .right {padding-left: 2rem}
+  .side .left, .side .right {flex-basis: 50%;box-sizing: border-box;}
 
-}
+  .sides-container {display: flex;flex-direction: column;align-items: center;}
+ 
 </style>
+<style type="text/css">
+  h2, h1, p {margin:0;padding: 0;line-height: 1.45}
+  h2 {font-weight: 600;border:none;font-size: var(--text-size)}
+  p {margin-bottom: 1.45em}
+  .module {
+background:#f8f8f8;border-radius: 16px;padding:24px;
+margin:0 0 32px 0;
+box-sizing: border-box;
+break-inside: avoid;
+    border-radius: 16px;
+  }
+  b {font-weight: 600}
+  .btn {display: block;
+    width: 180px;
+    margin: 0;
+    color: #fff;
+    font-size: 17px;
+    font-weight: 400;
+    background-color: var(--light-accent-color);
+    border-radius: 24px;
+    line-height: 48px;
+    text-decoration: none;
+    text-align: center;
+    height: 48px;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    transition: background-color .2s ease-out;}
+    .btn svg {width:1.2em;height: 1.2em;margin-right:1em}
+  .arrow-link {
+    color:inherit;display: block;padding:24px;margin:-24px;margin-bottom: 0;
+    border-radius: 16px;
+    background-color: transparent;
+    position: relative;
+    transition: background-color .08s ease;
+  }
+  .arrow-link:after {
+    border-bottom: 1px solid var(--light-border-color);
+    content: "";
+    position: absolute;
+    bottom: 0.725em;
+    left: 24px;
+    right: 24px;
+  }
+  .arrow-link :first-child {position: relative;display: block;}
+  .arrow-link :first-child:after {
+    content: "→";
+    position: absolute;
+    right: 0;
+    /*background: #aaa;*/
+    border-radius: 100%;
+    width: 1.4em;
+    height: 1.4em;
+    line-height: 1.4;
+    text-align: center;
+
+  }
+  .arrow-link :nth-child(2) {opacity: 0.5}
+  .arrow-link:hover {opacity: 0.8}
+  .arrow-link:active {opacity: 0.5}    
+</style>
+
     <div class="sides-container">
 
-<div class="left-side">
-    <h1 class="inline">Blot is a blogging platform with no interface. It turns a folder into a website.</h1>
-    <p>
-      <a class="textli" href="/videos/publishing-with-blot.mp4">{{> playsvg}}Watch the video</a>
+<div class="side">
+  <div class="left">
+    <h1 class="inline" style="font-size:20px;line-height: 30px;font-weight: 600">Blot is a blogging platform with no interface. It turns a folder into a website.</h1>
+        <p style="margin-top: 2.4rem">
+      <a class="textli" href="/videos/publishing-with-blot.mp4">{{> playsvg}}<strong>Watch the film</strong><span style="display: block;opacity: 0.5">Introduction &thinsp;&middot;&thinsp; 09:39</span></a>
     </p>
-    <ul class="top-level">
+<!--     <p>Because there are just files and folders, you can write with your favorite text-editor. You can turn a folder full of images into a photography website. </p>
+ -->      </div>
+
+    <div class="right">
+
+    <ul class="top-level" style="margin-top: 1rem;margin-bottom: 1rem">
       {{> links}}
     </ul>
   </div>
-  <div class="right-side">
-    <ul class="who">
+</div>
+</div>
+<div style="max-width: 540px;margin:0 auto">
+   
+  <div class="module">
+      <h2><a href="">Who uses Blot?</a></h2>
+      <h2 style="opacity: 0.5;font-weight: 400">Some of the people whose site uses Blot</h2>
+<ul class="who">
       <li><a class="btn" href="/sign-up">Create a blog</a></li>
     {{#featured}}
       <li>
@@ -60,6 +125,232 @@
     {{/featured}}  
   </ul>  
 </div>
+<div class="module">
+      <a href="/how" class="arrow-link">
+      <b>How to use Blot</b>
+      <!-- <span>How does a folder become a website?</span> -->
+    </a>
+        <p style="margin-bottom: 0">Blot converts files you put inside a folder into posts on your website. You can connect your folder to Blot with any of the following tools:<br>
+          <a style="text-decoration: none;" href="/how/sync/dropbox"><img src="/how/sync/dropbox.svg" >Dropbox</a><br><a style="text-decoration: none;" href="/how/sync/google-drive"><img src="/how/sync/google-drive.svg" >Google Drive</a><br><a style="text-decoration: none;" href="/how/sync/git"><img src="/how/sync/git.svg" >Git</a></p>
+
+          <p>All of these files become posts automatically when you place them in your blog's folder:</p>
+          <div style="margin-bottom: 1.45em">
+            <a style="color:var(--accent-color);" href="/how/posts/text-and-markdown"><code class="file md">Text and Markdown</code><!-- <span class="light">.txt&nbsp; .md</span> --></a><br>
+
+      <a style="color:var(--accent-color);" href="/how/posts/images"><code class="file img" style="margin-left:-3px">Images</code><!-- <span class="light">.png&nbsp; .jpeg&nbsp; .gif</span> --></a><br>
+
+      <a style="color:var(--accent-color);" href="/how/posts/word-documents"><code class="file txt">Word Documents</code><!-- <span class="light">.docx &nbsp;.odt</span> --></a><br>
+
+      <a style="color:var(--accent-color);" href="/how/posts/bookmarks"><code class="file webloc">Bookmarks</code><!-- <span class="light">.webloc&nbsp; .url</span> --></a><br>
+      
+      <a style="color:var(--accent-color);" href="/how/posts/html"><code class="file html">HTML</code><!-- <span class="light">.html </span> --></div>
+
+        <style type="text/css">
+      img[src*='.svg'] {width: 16px;height: 16px;margin-right: 0.4em}
+    </style>
+
+        <p style="margin-bottom: 0">
+
+    </div>
+
+
+
+   
+<div class="module">
+         <a href="/how" class="arrow-link">
+      <b>Templates</b>
+      <span>What kind of websites can I make?</span>
+    </a>
+<!--   <p>Blot comes with the following templates included, and you can also create your own:</p>
+ -->
+ <style type="text/css">
+   .tmplw {
+    display: flex;flex-wrap:wrap;justify-content: space-between;
+   }
+   .tmplw a {flex-basis: 50%;box-sizing: border-box;padding: 0 12px 0 0;font-size: 14px;color: inherit;margin-top: 1.45em}
+   .tmplw a:nth-child(2n) {padding: 0 0 0 12px}
+   .tmplw a img {width: 100%;height: auto;border:1px solid var(--light-border-color);border-radius: 3px}
+   .tmplw small {font-size: var(--small-text-size);font-weight:600;display: none;}
+   .tmplw span {font-size: var(--small-text-size);font-weight:600;}
+ </style>
+     <div class="tmplw">
+      <a href="/templates/blog" ><img  src="/templates/blog/0-small.png" ><small> a </small> <span>Blog</span></a>
+      <a href="/templates/magazine"><img src="/templates/magazine/0-small.png" ><small>for a </small> <span>Magazine</span></a>
+      <a href="/templates/photo"><img src="/templates/photo/0-small.png" ><small> a </small> <span>Photographer</span></a>
+      <a href="/templates/portfolio"><img src="/templates/portfolio/0-small.png" ><small> a </small> <span>Portfolio</span></a>
+      <a href="/templates/reference"><img src="/templates/reference/0-small.png" ><small> a </small> <span>Reference</span></a>
+      <a href="/templates/developers"><b style="height:80px;font-weight:400;padding:12px;box-sizing:border-box;border-radius:4px;display:block;font-size:var(--small-text-size);opacity:0.5;width: 100%;border:1px dashed;">Developer<br> guide</b><small> a </small> <span>Reference</span></a>
+    </div>  
+
+</div>
+
+
+
+
+
+<!-- 
+    <div class="module">
+      <a href="/questions" class="arrow-link">
+      <b>Questions</b>
+      <span>Answers from people who use Blot</span>
+    </a>
+
+  <ul style="margin:0;padding: 0;list-style-type: none">
+    <li style="padding: 0 0 8px 0;"><span style="color:var(--accent-color);">How do I place this in that?</span><br><span style="background:rgba(0,0,0,0.1);padding:0 2px;margin:0 0 0 -2px;display: inline-block;border-radius: 3px;font-size: var(--small-text-size)">Asked 3 hours ago</span> <span style="background:rgba(0,0,0,0.1);padding:0 2px;margin:0 0 0 -2px;display: inline-block;border-radius: 3px;font-size: var(--small-text-size)">4 answers</span></li>
+     <li style="padding: 8px 0;border-top:1px solid var(--light-border-color)"><span style="color:var(--accent-color);">Adding password protection to a blog?</span><br><span style="background:rgba(0,0,0,0.1);padding:0 2px;margin:0 0 0 -2px;display: inline-block;border-radius: 3px;font-size: var(--small-text-size)">Asked 6 hours ago</span></li>
+ <li style="padding: 8px 0;border-top:1px solid var(--light-border-color);border-bottom:1px solid var(--light-border-color)"><span style="color:var(--accent-color);">How do I place this in that?</span><br><span style="background:rgba(0,0,0,0.1);padding:0 2px;margin:0 0 0 -2px;display: inline-block;border-radius: 3px;font-size: var(--small-text-size)">Asked 8 hours ago</span></li>     
+</ul>
+  </div>  -->     
+<!-- <div class="module">
+    <a href="/about/news" class="arrow-link">
+      <b>News</b>
+      <span>Recent work and future plans</span>
+    </a>
+   <style type="text/css">
+
+ol {
+  list-style-type: none;
+}
+
+ol {
+  margin:0;
+  padding: 0;
+}
+
+ol li {
+  margin-bottom: 1em;
+    position: relative;
+
+}
+
+ol ol {
+  border-left: 1px solid var(--light-border-color);
+}
+
+ol ol li:last-child:before,
+ol ol li:first-child:before {
+  content: "";
+  width: 1px;
+  position: absolute;
+  left: -1px;
+  background: white
+}
+
+
+ol ol li:first-child:before {
+  top: 0;
+  height: 7px;
+}
+
+ol ol li:last-child:before {
+  top: 8px;
+  bottom: 0;
+}
+
+ol ol li:first-child:last-child:before {
+  top: 0;
+  bottom: 0;
+  height: auto;
+}
+
+ol ol li:after {
+  content: "";
+  width: 5px;
+  position: absolute;
+  top: 8px;
+  left: -4px;
+  height: 5px;
+  background: #fff;
+  border: 1px solid rgba(0,0,0,0.1);
+  border-radius: 100%;
+  font-size: 0.5em;
+
+}
+ol li a {
+  display: block;
+  padding-left: 1rem;
+  border: none;
+  color: inherit;
+  text-decoration: none;
+}
+
+ol li p {
+  margin: 0;
+}
+
+ol li a:hover {
+  box-shadow: none;
+  text-decoration: none;
+}
+
+ol li a:active,
+ol li a:focus {background: none;box-shadow: none;}
+
+ol li a:hover small {text-decoration: underline;color: var(--accent-color)}
+ol li small {
+  color: #989694;
+}
+
+content hr {border: none;border-bottom: 1px solid #eee;margin: 2em 0}
+
+ol li a:hover {
+  background: none
+}
+     
+   </style>
+    <ol>
+      <li>
+      <ol>
+      {{#commits}}
+      <li>
+        <a href="https://github.com/davidmerfield/Blot/commit/{{hash}}">
+      {{message}} <span style="font-size: var(--small-text-size);">{{fromNow}}</span>
+      </a>
+      </li>
+      {{/commits}}
+    </ol></li>
+    </ol>
+
+
+  </div> -->
+
+<div class="module">
+    <a href="/about" class="arrow-link">
+      <b>About</b>
+    </a>
+        <p>So you can use your favorite creative tools. Blog with your favorite text-editor. Run your photography portfolio from Adobe Lightroom. There's no publishing interface, just your own files and folders.</p>
+        
+
+    </div> 
+
+    <div class="module">
+      <h2><a href="">Contact us</a></h2>
+      <h2 style="opacity: 0.5;font-weight: 400">Don't hesitate to ask if you have any questions or feedback.</h2>
+      <p style="margin-top: 1.45em;margin-bottom: 0"><!-- Email:  --><a  href="mailto:contact@blot.im" style="text-decoration: none;">contact@blot.im</a></p>
+    </div>
+
+<!--     <div class="module">
+      <h2><a href="">Newsletter</a></h2>
+      <h2 style="opacity: 0.5;font-weight: 400">Subscribe to receive a newsletter at the start of each season with a summary of our work and our plans</h2>
+      
+
+
+<form action="/about/news/sign-up" method="POST" style="margin-top:1.45rem;display: flex;align-items: flex-end;">
+  <p style="margin: 0;flex-basis: 75%">
+  <label for="email" >Your email address</label>
+  <input type="text" required id="email" name="email">
+</p>
+  <input style="flex-basis: 25%;width: auto;margin:0;border-radius: 0 4px 4px 0;    padding: 0 1em;
+    line-height: 42px;
+    margin-bottom: 2px;" type="submit" value="Subscribe">
+</form>
+
+
+    </div> -->
+
+
+
+  </div>
 
 </div>
     <!-- Randomizes links to member sites and limit total sites to 20 -->
