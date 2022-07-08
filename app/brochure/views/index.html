@@ -1,29 +1,26 @@
 <style type="text/css">
-  .left-side {
-    flex-basis: 430px;box-sizing:border-box;margin: 0 1.5rem; background: #fafafa;border-radius: 18px;padding:18px 36px
-  }
-  .right-side {
-    flex-basis: 470px;box-sizing:border-box;margin: 0 1.5rem;padding:18px 36px
-  }
-  .sides-container {
-    display: flex;flex-wrap:wrap;justify-content: center;margin:10rem 0 8rem
-  }
-@media (max-width:500px) {
-  .left-side, .right-side {
-    background: none;
-    padding: 18px;
-    margin: 0;
-    border:none;
+  .side {
+    max-width: 660px;box-sizing:border-box;margin: 0 1.5rem; background: #fafafa;border-radius: 18px;padding:18px 36px;
+    display: flex;
+    margin-bottom: 3rem
   }
 
-  .sides-container {margin:0 0 2rem;}
+  .side .left {padding-right: 2rem}
+  .side .right {padding-left: 2rem}
+  .side .left, .side .right {flex-basis: 50%;box-sizing: border-box;}
 
-}
+  .sides-container {display: flex;flex-direction: column;align-items: center;}
+ 
 </style>
     <div class="sides-container">
 
-<div class="left-side">
-    <h1 class="inline">Blot is a blogging platform with no interface. It turns a folder into a website.</h1>
+<div class="side">
+  <div class="left">
+    <h1 class="inline" style="font-size:20px;line-height: 30px;font-weight: 600">Blot is a blogging platform with no interface. It turns a folder into a website.</h1>
+    <p>Because there are just files and folders, you can use your favorite text-editor to publish.</p>
+      </div>
+
+    <div class="right">
     <p>
       <a class="textli" href="/videos/publishing-with-blot.mp4">{{> playsvg}}Watch the video</a>
     </p>
@@ -31,7 +28,9 @@
       {{> links}}
     </ul>
   </div>
-  <div class="right-side">
+</div>
+  <div class="side" style="display: block;">
+    <h2 style="margin-top: 0">Who uses Blot?</h2>
     <ul class="who">
       <li><a class="btn" href="/sign-up">Create a blog</a></li>
     {{#featured}}
