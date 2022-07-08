@@ -104,4 +104,5 @@ jobs:
         git config --global user.name "Admin"
         node config/blot/setup
         node scripts/db/create-postgres-table
+        node app/brochure/build
         npm test
