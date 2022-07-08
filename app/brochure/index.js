@@ -10,6 +10,10 @@ const redirector = require("./redirector");
 const trace = require("helper/trace");
 const VIEW_DIRECTORY = __dirname + "/data/views";
 const PARTIAL_DIRECTORY = VIEW_DIRECTORY + "/partials";
+
+fs.ensureDirSync(VIEW_DIRECTORY);
+fs.ensureDirSync(PARTIAL_DIRECTORY);
+
 const chokidar = require("chokidar");
 
 // Neccessary to repeat to set the correct IP for the
