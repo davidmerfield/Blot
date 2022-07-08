@@ -180,4 +180,22 @@ module.exports = function () {
       console.log(clfdate(), "Daily update email update was sent.");
     });
   });
+
+  // Build templates and watch directory
+  if (config.environment === "development") {
+    const templates = require("../templates");
+
+    templates({ watch: true }, function (err) {
+      if (err) throw err;
+      process.exit();
+    });
+
+    // Rebuilds templates when we load new states
+    // using scripts/state/info.js
+    const client = require("redis").createClient();
+    client.subscribe("templates:rebuild");
+    client.on("message", function () {
+      templates({}, function () {});
+    });
+  }
 };

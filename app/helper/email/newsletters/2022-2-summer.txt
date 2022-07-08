@@ -1,0 +1,40 @@
+Summer newsletter
+
+*You received this email because you subscribed to [Blot’s newsletter](https://blot.im/about/news). You can [unsubscribe](https://blot.im/about/news/cancel) if you like. Please reply directly to this email if you have any thoughts or questions.*
+
+**New features**
+- You can now download the source folders for the test sites used to [preview the templates](https://blot.im/templates).
+- For institutions who are interested in using Blot as a teaching tool: we built the infrastructure required to create accounts for your students. Blot was trialed as a teaching tool.
+
+**Changes**
+- Made tweaks to the dashboard and documentation, per tradition.
+- Updated the dependencies on which Blot depends to patch any known security vulnerabilities.
+
+**Bugs fixed**
+- You can now connect more than one blog to the same Google Drive account.
+- Fixed various CSS bugs which surfaced when you adjusted the colors on the [Blog template](https://blot.im/templates/blog).
+- Fixed CSS bugs which affected the [Magazine template](https://blot.im/templates/magazine) and prevented the pagination from working under certain circumstances.
+- The wildcard certificate, which is used to secure traffic to all of Blot's subdomains, now properly renews itself automatically. Previously it required manual intervention.
+
+**Questions**
+Here are a few recent questions which I liked from [Questions](https://blot.im/questions), a section of Blot's site where users can ask and answer questions.
+- [Setting up GitHub with Blot and Obsidian](https://blot.im/questions/642)
+- [Getting the first item in an entries array](https://blot.im/questions/577)
+- [How to have page URLs which mirror folder structure?](https://blot.im/questions/578)
+- [Does Blot use Blot?](https://blot.im/questions/525)
+
+**Mistakes**
+
+**Plans for this season**
+
+We have begun work on iCloud client, which will mean you can use a folder in your iCloud drive to publish a blog. If you have emailed me about iCloud support in the past, you might have received a message from me saying 'We'd love to support iCloud but Apple doesn't offer the neccessary APIs'.
+
+Well [Jon](https://jon.bo/) came up with a cunning plan to make it work and kindly shared it with me. I will share the plan with you. 
+
+Our plan is to set aside a Mac, always on, always connected to the internet, with plenty of storage. Our Mac will be signed into iCloud on Blot's account, let's say icloud@blot.im. 
+
+When you want to connect a blog on Blot to iCloud Drive, Blot will ask for your iCloud account email address. Then Blot's Mac will create a new folder in its own iCloud Drive, and invite your iCloud account to it with read/write permissions. You'll be able to make changes to the shared iCloud folder, and when you do, Blot's Mac will sync them back to Blot's main server. Since Apple probably frowns upon the automated used of iCloud, we will of course employ a steward to monitor our Mac around the clock, and we absolutely will not write a script which automates any of this process.
+
+If you have any thoughts or questions about any of this, please don’t hesitate to reply directly to this email.
+
+Sincerely, David

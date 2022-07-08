@@ -137,7 +137,7 @@ function send(locals, messageFile, to, callback) {
     .and(callback, "function");
 
   fs.readFile(messageFile, "utf-8", function (err, text) {
-    if (err) throw err;
+    if (err) return callback(err);
 
     var lines = text.split("\n");
     var subject = Mustache.render(lines[0] || "", locals);
@@ -152,7 +152,11 @@ function send(locals, messageFile, to, callback) {
       to: to,
     };
 
-    ensure(email, EMAIL_MODEL);
+    try {
+      ensure(email, EMAIL_MODEL);
+    } catch (e) {
+      return callback(e);
+    }
 
     if (config.environment === "development") {
       var previewPath = tempDir + Date.now() + ".html";

@@ -2,7 +2,7 @@
    <a style="border-top:none" class="{{selected.howIndex}}" data-open="{{selected.how}}" href="/how">How to use Blot</a>
    <ul>
 <li>
-         <a class="{{selected.format}}" data-open="{{selected.format}}" href="/how/format">Posts</a>
+         <a class="{{selected.posts}}" data-open="{{selected.format}}" href="/how/format">Posts</a>
          <ul>
             <li><a class="{{selected.markdown}}" href="/how/posts/markdown">Markdown</a></li>
             <li><a class="{{selected.layout-tags}}" href="/how/posts/layout-tags">Layout</a></li>
@@ -46,6 +46,12 @@
       </li>
    </ul>
 </li>
+<li><a class="{{selected.questionsIndex}}" data-open="{{selected.questions}}" href="/questions">Questions</a>
+   <ul>
+            <li><a class="{{selected.ask}}" href="/questions/ask">Ask a question</a></li>
+</ul>
+
+</li>
 <li>
    <a class="{{selected.aboutIndex}}" data-open="{{selected.about}}" href="/about">About</a>
    <ul>
@@ -75,12 +81,7 @@
 
    </ul>
 </li>
-<li><a class="{{selected.questionsIndex}}" data-open="{{selected.questions}}" href="/questions">Questions</a>
-   <ul>
-            <li><a class="{{selected.ask}}" href="/questions/ask">Ask a question</a></li>
-</ul>
 
-</li>
 <li><a class="{{selected.contact}}" href="/contact">Contact us</a>
    <ul>
 <li><a class="{{selected.terms}}" href="/terms">Terms of use</a></li>

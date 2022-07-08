@@ -37,7 +37,6 @@ form.use(function (req, res, next) {
   res.locals.from = req.query.from;
   res.locals.then = req.query.then;
   res.locals.then_description = DASHBOARD_PAGE_DESCRIPTION[req.query.then];
-  res.locals.breadcrumbs = [{ label: "Log in" }, { label: "Your account" }];
 
   return next();
 });
@@ -46,7 +45,6 @@ form
   .route("/reset")
 
   .all(function (req, res, next) {
-    res.locals.breadcrumbs = res.locals.breadcrumbs.slice(0, -1);
     next();
   })
 

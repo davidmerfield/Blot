@@ -2,11 +2,23 @@
 
 ## On the visual appearance of Blot's software
 
-In lots of ways, Blot is hidden. Most of the time, people who use Blot do so without looking at it. They simply edit the folder
+In lots of ways, Blot is hidden. Most of the time, people who use Blot do so without looking at it. They simply edit the folder.
+
+## My tastes 
+
+I find old books, especially Italian ones of the 16th century, to be very beautiful. I like objects that can age and break and be repaired with dignity. I like medieval buildings and I don't think that ornament is always a crime. I like things which can be handed down, things that have been handed down.
 
 ## Text
 
-Blot uses [Rasmus Andersson](https://rsms.me/)'s terrific *Inter* font on its brochure website and dashboard. One day I would like to fully realize my aesthetic preferences and use a font I have designed from scratch.
+Blot uses [Inter](https://rsms.me/inter/) by Rasmus Andersson on its brochure website and dashboard. 
+
+
+
+## Emojis
+
+I dislike emojis mostly because they seem to be designed for children. I also dislike them because to use them means to let a corporation control your . To use an emoji is to surrender control over your speech to a megacorporation. See the [pistol emoji](https://emojipedia.org/pistol/) for reference: on some platforms it appears as a gun, on others a water pistol.
+
+
 
 
 ## Black or white backgrounds
@@ -18,11 +30,3 @@ I like how [David Rudnick](https://davidrudnick.org/) justified the black backgr
 I also spend most of my day in a text editor with a dark background, and find it comfortable on the eyes.
 
 All of Blot's themes can be toggled to from white to black with a single click on the template editor. Perhaps one day I will switch everything from white by default to black by default.
-
-## Emojis
-
-I dislike emojis. Partly because they are infantile. I also dislike them because they are corporate. To use an emoji is to surrender control over your speech to a megacorporation. See the [pistol emoji](https://emojipedia.org/pistol/) for reference: on some platforms it appears as a gun, on others a water pistol.
-
-
-
-

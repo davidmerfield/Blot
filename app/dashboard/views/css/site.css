@@ -1339,14 +1339,16 @@ p.sub {
 }
 
 .dropdown .menu > * {
-  flex-basis: 320px;
-  width: 320px;
-  flex-shrink: 0;
-  flex-grow: 0;
+  width: 25%;
   padding:0 1rem 1rem;
   box-sizing: border-box;
   display: flex;
+  margin: 0;
 }
+
+@media (max-width:1600px) { .dropdown .menu > * { width: 33.3333% } }
+@media (max-width:1200px) { .dropdown .menu > * { width: 50% } }
+@media (max-width:800px) { .dropdown .menu > * { width: 100% } }
 
 .dropdown .menu a > span,
 .dropdown .menu button {
@@ -1372,6 +1374,21 @@ p.sub {
   margin-top: -11px;
 }
 
+.dropdown button .fade-out {
+  width: 2em;
+  position: absolute;top: 0;right: 0;bottom: 0;
+  background: -moz-linear-gradient(left,  rgba(255,254,252,0) 0%, rgba(255,254,252,0.75) 75%, rgba(255,254,252,1) 100%); /* FF3.6-15 */
+  background: -webkit-linear-gradient(left,  rgba(255,254,252,0) 0%,rgba(255,254,252,0.75) 75%,rgba(255,254,252,1) 100%); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to right,  rgba(255,254,252,0) 0%,rgba(255,254,252,0.75) 75%,rgba(255,254,252,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00fffefc', endColorstr='#fffefc',GradientType=1 ); /* IE6-9 */
+}
+
+.dropdown button:hover .fade-out {
+  background: -moz-linear-gradient(left,  rgba(247,250,252,0) 0%, rgba(247,250,252,0.75) 75%, rgba(247,250,252,1) 100%); /* FF3.6-15 */
+  background: -webkit-linear-gradient(left,  rgba(247,250,252,0) 0%,rgba(247,250,252,0.75) 75%,rgba(247,250,252,1) 100%); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to right,  rgba(247,250,252,0) 0%,rgba(247,250,252,0.75) 75%,rgba(247,250,252,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00fffefc', endColorstr='#fffefc',GradientType=1 ); /* IE6-9 */
+}
 
 .homeLink {
   line-height: 24px;
@@ -1808,7 +1825,7 @@ a.line:hover,
 div.line a.link:hover,
 .dropdown .opener:hover,
 .dropdown .menu button:hover,
-.dropdown .menu a:hover,
+.dropdown .menu a:hover span,
 .line form button:hover {
   background: #f7fafc
 }
@@ -1817,7 +1834,7 @@ a.line:active,
 div.line a.link:active,
 .dropdown .opener:active,
 .dropdown .menu button:active,
-.dropdown .menu a:active,
+.dropdown .menu a:active span,
 .line form button:active {
   background: rgba(0, 0, 0, 0.04)
 }
@@ -1836,7 +1853,7 @@ div.line a.link:hover {
 .right {
 
   flex-shrink: 0;
-  padding-left: 4px;
+  padding-left: 16px;
 }
 
 
@@ -1857,7 +1874,7 @@ div.line a.link:hover {
 div.line a.link {}
 
 .center {
-  flex-grow: 1;
+  flex-grow: 0;
 }
 
 div.center {}
@@ -1928,7 +1945,7 @@ a:hover .tablet-cover {
 
 form.account,
 .inset {
-  padding: 11px 20px;
+  padding: 11px 26px;
   border-top: 1px solid rgba(0,0,0,0.05);
   max-width: 700px
 }

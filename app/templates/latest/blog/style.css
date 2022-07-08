@@ -439,7 +439,7 @@ input#search:focus {
 .footnotes > ol {
     position:relative;
     padding: 0;
-    font-size: 14px;
+    font-size: 0.875rem;
     opacity: 0.8;
     padding-left: 110px
 }
@@ -448,8 +448,7 @@ input#search:focus {
     padding-left: 10px
 }
 .footnotes > ol li::marker {
-     color: #aaa;
-     font-weight: bold;
+     color: {{text_color}};
 }
  .footnote-back {text-decoration: none;margin-left: 0.5rem}
  .footnote-back:before {
@@ -483,7 +482,7 @@ hr.minimal,
 .footnotes hr {border-bottom:1px solid;}
 
 .footnotes > ol:before,
-.left-label h5 {font-size: 14px;font-weight: 600;color:rgba({{#rgb}}{{text_color}}{{/rgb}}, 0.5);margin-bottom: 24px;}
+.left-label h5 {font-size: 0.875rem;font-weight: 600;color:rgba({{#rgb}}{{text_color}}{{/rgb}}, 0.5);margin-bottom: 24px;}
 
 .left-label h5 {margin-top: 1em;position: absolute;top: 0;left: 0}
 .rounded-link {border-bottom:1px solid rgba(0,0,0,0.1);text-decoration: none;color:inherit;display: block;margin-bottom: 1rem;padding-bottom: 1rem}
@@ -491,13 +490,18 @@ hr.minimal,
 .rounded-link .title {display: block;margin-bottom: 0.5rem;color:{{accent_color}};text-decoration:underline}
 .rounded-link .summary {opacity: 0.8;max-height: 2.8em;overflow: hidden;display: block;}
 .left-label {
-padding-left: 140px;padding-top: 1rem;font-size:14px
+padding-left: 140px;padding-top: 1rem;font-size:0.875rem
 }
 .left-label .tag {
 margin:0 1rem 0 0
 }
-@media screen and (max-width: 840px) {
+@media screen and (max-width: 1200px) {
 
+  .container {margin-left: 0;margin-right: 0}
+
+}
+
+@media screen and (max-width: 840px) {
 
   .main, .margin {width: 100%;}
   .wide {width: 100vw;margin-left: -2rem;margin-right: -2rem}

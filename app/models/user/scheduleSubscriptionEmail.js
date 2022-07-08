@@ -46,12 +46,13 @@ module.exports = function (uid, callback) {
       // from the database in case the user's subscription
       // has changed since the time the server started.
       getById(uid, function (err, user) {
-        debug(user.id, user.email, "Time to notify the user!");
-
         // No callback now, that was called long ago
         if (!user || !user.subscription) {
+          debug(uid, "There is no user!");
           return;
         }
+
+        debug(user.id, user.email, "Time to notify the user!");
 
         if (user.subscription.cancel_at_period_end) {
           debug(

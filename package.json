@@ -98,7 +98,7 @@
     "redis": "^3.1.2",
     "reds": "^0.2.5",
     "request": "^2.72.0",
-    "sharp": "^0.30.1",
+    "sharp": "^0.30.5",
     "simple-git": "^1.102.0",
     "stripe": "^2.9.0",
     "transliteration": "^0.1.1",
