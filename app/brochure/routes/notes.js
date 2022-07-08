@@ -87,7 +87,6 @@ notes.get(["/", "/:section/:article", "/:section"], function (req, res, next) {
   // For some reason we couldn't find the file
   if (!res.locals.body) return next();
 
-  res.locals.body_template = 'about/notes/template';
-  next();
+  res.render('about/notes/template');
 });
 module.exports = notes;

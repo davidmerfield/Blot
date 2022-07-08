@@ -1,6 +1,5 @@
 var Express = require("express");
 var brochure = new Express.Router();
-var tex = require("./tools/tex");
 var config = require("config");
 var titleFromSlug = require("helper/titleFromSlug");
 var trace = require("helper/trace");
@@ -125,28 +124,8 @@ brochure.use("/how/configure/domain", function (req, res, next) {
 
 brochure.use(trace("calling render"));
 
-const partials = require("fs-extra")
-  .readdirSync(__dirname + "/../data/views/partials")
-  .filter((i) => i.endsWith(".html"))
-  .map((i) => i.slice(0, i.lastIndexOf(".")));
-
 brochure.use(function (req, res) {
-  const body = res.locals.body_template || trimLeadingAndTrailingSlash(req.path) || "index.html";
-  const layout =
-    res.locals.layout || __dirname + "/../data/views/partials/layout.html";
-  console.log("here");
-  console.log("body:", body);
-  console.log("layout:", layout);
-
-  res.locals.partials = { body };
-
-  partials.forEach(
-    (partial) => (res.locals.partials[partial] = `partials/${partial}.html`)
-  );
-
-  console.log("partials", res.locals.partials);
-
-  res.render(layout);
+  res.render();
 });
 
 brochure.use(function (err, req, res, next) {
@@ -155,12 +134,5 @@ brochure.use(function (err, req, res, next) {
 
   next(err);
 });
-
-function trimLeadingAndTrailingSlash(str) {
-  if (!str) return str;
-  if (str[0] === "/") str = str.slice(1);
-  if (str[str.length - 1] === "/") str = str.slice(0, -1);
-  return str;
-}
 
 module.exports = brochure;

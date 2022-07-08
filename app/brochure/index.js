@@ -56,6 +56,42 @@ brochure.locals.price = "$" + config.stripe.plan.split("_").pop();
 brochure.locals.interval =
   config.stripe.plan.indexOf("monthly") === 0 ? "month" : "year";
 
+
+const partials = require("fs-extra")
+  .readdirSync(PARTIAL_DIRECTORY)
+  .filter((i) => i.endsWith(".html"))
+  .map((i) => i.slice(0, i.lastIndexOf(".")));
+
+
+function trimLeadingAndTrailingSlash(str) {
+  if (!str) return str;
+  if (str[0] === "/") str = str.slice(1);
+  if (str[str.length - 1] === "/") str = str.slice(0, -1);
+  return str;
+}
+
+brochure.use(function (req, res, next) {
+  const _render = res.render;
+  res.render = function (body_template) {
+    const body =
+      body_template || trimLeadingAndTrailingSlash(req.path) || "index.html";
+    const layout = res.locals.layout || PARTIAL_DIRECTORY + "/layout.html";
+    console.log("here");
+    console.log("body:", body);
+    console.log("layout:", layout);
+
+    res.locals.partials = { body };
+
+    partials.forEach(
+      (partial) => (res.locals.partials[partial] = `partials/${partial}.html`)
+    );
+
+    console.log("partials", res.locals.partials);
+    _render.call(this, layout);
+  };
+  next();
+});
+
 brochure.use(function (req, res, next) {
   if (
     req.user &&
