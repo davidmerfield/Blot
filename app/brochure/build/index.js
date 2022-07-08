@@ -3,6 +3,7 @@ const OUTPUT = __dirname + "/../data/views";
 const INPUT = __dirname + "/../views";
 const chokidar = require("chokidar");
 const { join, dirname } = require("path");
+const finder = require("finder");
 
 async function main(callback) {
   // we should create a tmp dir during the build, then replace OUTPUT
@@ -43,6 +44,8 @@ async function handle(path) {
 
     output = require("./typeset")(output);
     output = require("./tex")(output);
+    output = finder.html_parser(output);
+    
     // output = require("./minify-html")(output);
 
     console.log("html", path);

@@ -1,7 +1,7 @@
 var Typeset = require("typeset");
 module.exports = (input) => {
   let output = Typeset(input, {
-    disable: ["hyphenate"],
+    disable: ["hyphenate", "ligatures"],
     ignore: "textarea, input",
   });
   return output;

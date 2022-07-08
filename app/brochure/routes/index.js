@@ -1,6 +1,5 @@
 var Express = require("express");
 var brochure = new Express.Router();
-var finder = require("finder");
 var tex = require("./tools/tex");
 var config = require("config");
 var titleFromSlug = require("helper/titleFromSlug");
