@@ -125,8 +125,28 @@ brochure.use("/how/configure/domain", function (req, res, next) {
 
 brochure.use(trace("calling render"));
 
+const partials = require("fs-extra")
+  .readdirSync(__dirname + "/../data/views/partials")
+  .filter((i) => i.endsWith(".html"))
+  .map((i) => i.slice(0, i.lastIndexOf(".")));
+
 brochure.use(function (req, res) {
-  res.render(trimLeadingAndTrailingSlash(req.path));
+  const body = res.locals.body_template || trimLeadingAndTrailingSlash(req.path) || "index.html";
+  const layout =
+    res.locals.layout || __dirname + "/../data/views/partials/layout.html";
+  console.log("here");
+  console.log("body:", body);
+  console.log("layout:", layout);
+
+  res.locals.partials = { body };
+
+  partials.forEach(
+    (partial) => (res.locals.partials[partial] = `partials/${partial}.html`)
+  );
+
+  console.log("partials", res.locals.partials);
+
+  res.render(layout);
 });
 
 brochure.use(function (err, req, res, next) {

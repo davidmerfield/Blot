@@ -5,7 +5,7 @@
 {{/unless}}
 
 
-{{#if user}}
+{{#user}}
 <div style="max-width: 637px;">
   <form method="POST" action="/questions/ask" id="new-question-form" class="qa-form">
     <input type="hidden" name="_csrf" value="{{csrf}}" />
@@ -40,4 +40,4 @@
   titleEl.addEventListener('keyup', updateQuestionButtonState);
   bodyEl.addEventListener('keyup', updateQuestionButtonState);
 </script>
-{{/if}}
+{{/user}}

@@ -64,7 +64,6 @@
     "fs-extra": "^8.0.1",
     "gifsicle": "^5.2.0",
     "googleapis": "^85.0.0",
-    "hbs": "^4.1.2",
     "he": "^1.1.0",
     "helmet": "^3.21.2",
     "highlight.js": "^10.4.1",

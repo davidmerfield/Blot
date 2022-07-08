@@ -1,6 +1,5 @@
 const Express = require("express");
 const Questions = new Express.Router();
-const hbs = require("hbs");
 const moment = require("moment");
 const csrf = require("csurf")();
 const config = require("config");
@@ -21,14 +20,14 @@ const TOPICS_PER_PAGE = 20;
 
 // Renders datetime in desired format
 // Can be used like so: {{{formatDaytime D}}} where D is timestamp (e.g. from a DB)
-hbs.registerHelper("formatDaytime", function (timestamp) {
-  try {
-    timestamp = moment.utc(timestamp).format("MMM D [']YY [at] H:mm");
-  } catch (e) {
-    timestamp = "";
-  }
-  return timestamp;
-});
+// hbs.registerHelper("formatDaytime", function (timestamp) {
+//   try {
+//     timestamp = moment.utc(timestamp).format("MMM D [']YY [at] H:mm");
+//   } catch (e) {
+//     timestamp = "";
+//   }
+//   return timestamp;
+// });
 
 Questions.use(
   Express.urlencoded({
@@ -121,20 +120,19 @@ Questions.get(["/", "/page/:page"], function (req, res, next) {
         res.locals.breadcrumbs = res.locals.breadcrumbs.slice(0, -2);
       }
 
-      res.render("questions", {
-        topics: topics.rows,
-        paginator: paginator,
-        search_query: search_query,
-      });
+      res.locals.topics = topics.rows;
+      res.locals.topics = paginator;
+      res.locals.topics = search_query;
+      next();
     })
     .catch(next);
 });
 
 // Handle topic viewing and creation
 Questions.route("/ask")
-  .get(csrf, function (req, res) {
+  .get(csrf, function (req, res, next) {
     res.locals.csrf = req.csrfToken();
-    res.render("questions/ask");
+    next();
   })
   .post(csrf, function (req, res) {
     const author = req.user.uid;
@@ -197,10 +195,8 @@ Questions.route("/:id/edit")
           penultimateBreadcrumb.url = `/questions/${topic.parent_id}`;
         }
 
-        res.render("questions/edit", {
-          topic,
-          csrf: req.csrfToken(),
-        });
+        res.locals.topic = topic;
+        res.locals.csrf = req.csrfToken();
       })
       .catch(next);
   })
@@ -255,11 +251,10 @@ Questions.route("/:id").get(csrf, function (req, res, next) {
           replies.rows.forEach(
             (el, index) => (replies.rows[index].body = marked(el.body))
           );
-          res.render("questions/topic", {
-            title: topic.title,
-            topics: replies.rows,
-            topic: topic,
-          });
+          res.locals.title = topic.title;
+          res.locals.topics = replies.rows;
+          res.locals.topic = topic;
+          next();
         })
         .catch(next);
     })

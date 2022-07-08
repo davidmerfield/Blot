@@ -1,9 +1,9 @@
   <p style="margin:0;color:grey;/*background:rgba(0,0,0,0.02);*/border-bottom: 1px solid var(--light-border-color);padding-bottom: 16px;margin:-18px -36px 0;padding: 18px 36px;border-radius: 18px 18px 0 0"><strong style="display: block;color: #000;">Log in</strong>
     {{^then}}Manage your blogs{{/then}}
-    {{#if then}}
-      {{#if then_description}}To {{then_description}} on your dashboard{{/if}}
-      {{#unless then_description}}To access your dashboard{{/unless}}
-    {{/if}}</p>
+    {{#then}}
+      {{#then_description}}To {{then_description}} on your dashboard{{/then_description}}
+      {{^then_description}}To access your dashboard{{/then_description}}
+    {{/then}}</p>
 
 <style type="text/css">
   input[type="submit"].link {
@@ -60,11 +60,11 @@
 
   <p>
     <label for="email">Your email address</label>
-    <input name="email" type="text" value="{{email}}" {{#unless validemail}} autofocus{{/unless}} />
+    <input name="email" type="text" value="{{email}}" {{^validemail}} autofocus{{/validemail}} />
   </p>
   <p>
     <label for="password">Password <a style="color:inherit;float:right;" href="/log-in/reset">Reset your password</a></label>
-    <input name="password" type="password" {{#if validemail}} autofocus{{/if}} />
+    <input name="password" type="password" {{#validemail}} autofocus{{/validemail}} />
   </p>
   <input type="submit" value="Log in" style="margin-bottom: 8px" />
 </form>

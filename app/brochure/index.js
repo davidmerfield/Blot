@@ -1,7 +1,7 @@
 const config = require("config");
 const Express = require("express");
 const brochure = new Express();
-const hbs = require("hbs");
+const hogan = require("hogan-express");
 const Cache = require("express-disk-cache");
 const cache = new Cache(config.cache_directory);
 const moment = require("moment");
@@ -12,42 +12,28 @@ const VIEW_DIRECTORY = __dirname + "/data/views";
 const PARTIAL_DIRECTORY = VIEW_DIRECTORY + "/partials";
 const chokidar = require("chokidar");
 
-const loadPartial = (partial) => {
-  let name = partial.slice(0, partial.indexOf("."));
-  let value = fs.readFileSync(PARTIAL_DIRECTORY + "/" + partial, "utf-8");
-  hbs.registerPartial(name, value);
-};
+// // Renders dates dynamically in the documentation.
+// // Can be used like so: {{{date 'MM/YYYY'}}}
+// hbs.registerHelper("date", function (text) {
+//   try {
+//     text = text.trim();
+//     text = moment.utc(Date.now()).format(text);
+//   } catch (e) {
+//     text = "";
+//   }
 
-fs.readdirSync(PARTIAL_DIRECTORY).forEach(loadPartial);
-
-// One-liner for current directory
-if (config.environment === "development")
-  chokidar
-    .watch(PARTIAL_DIRECTORY, { cwd: PARTIAL_DIRECTORY })
-    .on("all", (event, partial) => {
-      if (partial) loadPartial(partial);
-    });
-
-// Renders dates dynamically in the documentation.
-// Can be used like so: {{{date 'MM/YYYY'}}}
-hbs.registerHelper("date", function (text) {
-  try {
-    text = text.trim();
-    text = moment.utc(Date.now()).format(text);
-  } catch (e) {
-    text = "";
-  }
-
-  return text;
-});
+//   return text;
+// });
 
 // Neccessary to repeat to set the correct IP for the
 // rate-limiter, because this app sits behind nginx
 brochure.set("trust proxy", "loopback");
 
-brochure.set("views", VIEW_DIRECTORY);
+// Register the engine we will use to
+// render the views.
 brochure.set("view engine", "html");
-brochure.engine("html", hbs.__express);
+brochure.set("views", VIEW_DIRECTORY);
+brochure.engine("html", hogan);
 
 if (config.cache === false) {
   // During development we want views to reload as we edit

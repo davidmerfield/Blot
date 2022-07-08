@@ -10,7 +10,7 @@
 
 
 <div class="reply-container">
-{{#if topics}}
+{{#topics.length}}
 {{#topics}}
 <div class="qa-item-container">
     {{{body}}}
@@ -18,17 +18,17 @@
     <a class="secondary-text smaller" href="/questions/{{id}}/edit">Improve this answer</a>
 </div>
 {{/topics}}
-{{/if}}
+{{/topics.length}}
 
-{{#unless topics}}
+{{^topics.length}}
 <h2>No replies yet</h2>
-{{/unless}}
+{{/topics.length}}
 
-{{#unless user}}
+{{^user}}
 <p>Please, <a href="/log-in">log in</a> to add a reply.</p>
-{{/unless}}
+{{/user}}
 
-{{#if user}}
+{{#user}}
 <br>
 <div style="max-width: 637px;">
 <form method="POST" action="/questions/{{topic.id}}/new" id="new-reply-form" class="qa-form">
@@ -58,5 +58,5 @@
   updateQuestionButtonState();
   bodyEl.addEventListener('keyup', updateQuestionButtonState);
 </script>
-{{/if}}
+{{/user}}
 </div>
