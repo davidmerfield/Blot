@@ -23,14 +23,12 @@ async function handle(path) {
     await fs.outputFile(join(OUTPUT, path), output);
     // merge all css files together into one file
     const cssDir = join(OUTPUT, "css");
-    const cssFiles = fs.readdirSync(cssDir).filter(i => i.endsWith('.css'));
+    const cssFiles = fs.readdirSync(cssDir).filter((i) => i.endsWith(".css"));
     const mergedCSS = cssFiles
       .map((i) => fs.readFileSync(join(cssDir, i)), "utf-8")
       .join("\n\n");
     fs.outputFileSync(join(cssDir, "complete.css"), mergedCSS);
   } else if (path.endsWith(".html")) {
-    // Minifies HTML
-    // brochure.use(require("./tools/minify-html"));
 
     // Inlines all CSS properties
     // brochure.use(require("./tools/inline-css"));
@@ -38,22 +36,15 @@ async function handle(path) {
     // // Renders the folders and text editors
     // brochure.use(finder.middleware);
 
-    // // Renders TeX
-    // brochure.use(tex);
-
-    // // Fixes basic typographic errors
-    // // See typeset.js for more information
-    // brochure.use(require("./tools/typeset"));
-
     // // Generate a table of contents for each page
     // brochure.use(require("./tools/on-this-page"));
 
-    var Typeset = require("typeset");
-    let input = await fs.readFile(join(INPUT, path), "utf-8");
-    let output = Typeset(input, {
-      disable: ["hyphenate"],
-      ignore: "textarea, input",
-    });
+    let output = await fs.readFile(join(INPUT, path), "utf-8");
+
+    output = require("./typeset")(output);
+    output = require("./tex")(output);
+    // output = require("./minify-html")(output);
+
     console.log("html", path);
     await fs.outputFile(join(OUTPUT, path), output);
   } else {
