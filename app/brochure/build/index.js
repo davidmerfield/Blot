@@ -4,28 +4,62 @@ const INPUT = __dirname + "/../views";
 const chokidar = require("chokidar");
 const { join } = require("path");
 const finder = require("finder");
+const async = require("async");
 
-async function main(callback) {
+fs.ensureDirSync(OUTPUT);
+
+async function main(options, callback) {
   // we should create a tmp dir during the build, then replace OUTPUT
   // with the tmp dir once the build is done.
-  await fs.emptyDir(OUTPUT);
+
+  let walked = false;
+  let moved = false;
+
+  const OUTPUT_TMP = OUTPUT + "-tmp-" + Date.now();
+  const OUTPUT_BAK = OUTPUT + "-bak-" + Date.now();
+
+  fs.ensureDirSync(OUTPUT_TMP);
 
   const watcher = chokidar.watch(INPUT, { cwd: INPUT });
+  const queue = async.queue(handle);
 
-  watcher.on("add", handle).on("change", handle).on("ready", function(){
-    // setTimeout(callback, 2*1000);
-  });
+  queue.drain = function () {
+
+    if (walked && !moved) {
+      fs.moveSync(OUTPUT, OUTPUT_BAK);
+      fs.moveSync(OUTPUT_TMP, OUTPUT);
+      fs.removeSync(OUTPUT_BAK);
+      moved = true;
+      callback();
+    }
+
+    if (walked && !options.watch) {
+      watcher.close();
+      callback();
+    }
+  };
+
+  watcher
+    .on("add", function (path) {
+      queue.push({ path, destination: walked ? OUTPUT : OUTPUT_TMP });
+    })
+    .on("change", function (path) {
+      queue.push({ path, destination: walked ? OUTPUT : OUTPUT_TMP });
+    })
+    .on("ready", function () {
+      walked = true;
+    });
 }
 
-async function handle(path) {
+async function handle({ path, destination }, callback) {
   if (path.endsWith(".css")) {
     const CleanCSS = require("clean-css");
     let input = await fs.readFile(join(INPUT, path), "utf-8");
     let output = new CleanCSS().minify(input).styles;
     console.log("css", path, output);
-    await fs.outputFile(join(OUTPUT, path), output);
+    await fs.outputFile(join(destination, path), output);
     // merge all css files together into one file
-    const cssDir = join(OUTPUT, "css");
+    const cssDir = join(destination, "css");
     const cssFiles = fs.readdirSync(cssDir).filter((i) => i.endsWith(".css"));
     const mergedCSS = cssFiles
       .map((i) => fs.readFileSync(join(cssDir, i)), "utf-8")
@@ -50,14 +84,15 @@ async function handle(path) {
     // output = require("./minify-html")(output);
 
     console.log("html", path);
-    await fs.outputFile(join(OUTPUT, path), output);
+    await fs.outputFile(join(destination, path), output);
   } else {
-    await fs.copy(join(INPUT, path), join(OUTPUT, path));
+    await fs.copy(join(INPUT, path), join(destination, path));
   }
+  callback();
 }
 
 if (require.main === module) {
-  main(function (err) {
+  main({ watch: false }, function (err) {
     if (err) throw err;
     process.exit();
   });
