@@ -65,18 +65,17 @@ brochure.use(function (req, res, next) {
     const body =
       body_template || trimLeadingAndTrailingSlash(req.path) || "index.html";
     const layout = res.locals.layout || PARTIAL_DIRECTORY + "/layout.html";
-    console.log("here");
-    console.log("body:", body);
-    console.log("layout:", layout);
-
+   
     res.locals.partials = { body };
 
     partials.forEach(
       (partial) => (res.locals.partials[partial] = `partials/${partial}.html`)
     );
 
-    console.log("partials", res.locals.partials);
-    _render.call(this, layout);
+    _render.call(this, layout, function(err,html){
+      if (err) return res.req.next();
+      res.send(html);
+    });
   };
   next();
 });
