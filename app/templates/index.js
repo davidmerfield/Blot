@@ -55,6 +55,7 @@ function main(options, callback) {
           debug("Watching templates directory for changes");
           watch(TEMPLATES_DIRECTORY);
           watch(PAST_TEMPLATES_DIRECTORY);
+          callback(null);
         } else {
           callback(null);
         }

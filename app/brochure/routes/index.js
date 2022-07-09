@@ -1,7 +1,5 @@
 var Express = require("express");
 var brochure = new Express.Router();
-var finder = require("finder");
-var tex = require("./tools/tex");
 var config = require("config");
 var titleFromSlug = require("helper/titleFromSlug");
 var trace = require("helper/trace");
@@ -23,14 +21,6 @@ var TITLES = {
 };
 
 brochure.use(trace("inside routes sub app"));
-
-if (config.cache) {
-  // Minifies HTML
-  brochure.use(require("./tools/minify-html"));
-
-  // Inlines all CSS properties
-  brochure.use(require("./tools/inline-css"));
-}
 
 brochure.get(["/how/format/*"], function (req, res, next) {
   res.locals["show-on-this-page"] = true;
@@ -56,19 +46,6 @@ brochure.use(function (req, res, next) {
 
   next();
 });
-
-// Renders the folders and text editors
-brochure.use(finder.middleware);
-
-// Renders TeX
-brochure.use(tex);
-
-// Fixes basic typographic errors
-// See typeset.js for more information
-brochure.use(require("./tools/typeset"));
-
-// Generate a table of contents for each page
-brochure.use(require("./tools/on-this-page"));
 
 brochure.use(function (req, res, next) {
   res.locals.base = "";
@@ -148,7 +125,7 @@ brochure.use("/how/configure/domain", function (req, res, next) {
 brochure.use(trace("calling render"));
 
 brochure.use(function (req, res) {
-  res.render(trimLeadingAndTrailingSlash(req.path));
+  res.render();
 });
 
 brochure.use(function (err, req, res, next) {
@@ -157,12 +134,5 @@ brochure.use(function (err, req, res, next) {
 
   next(err);
 });
-
-function trimLeadingAndTrailingSlash(str) {
-  if (!str) return str;
-  if (str[0] === "/") str = str.slice(1);
-  if (str[str.length - 1] === "/") str = str.slice(0, -1);
-  return str;
-}
 
 module.exports = brochure;

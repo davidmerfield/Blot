@@ -1,3 +1,5 @@
+{{=[[ ]]=}}
+
 <h1>Reference</h1>
 
 <span></span>
@@ -47,20 +49,20 @@ font-size:16px;font-weight:400;margin-left: 2rem;
 {{{description}}}
 </div>
 
-{{#if properties.length}}
+{{#properties.length}}
 <ul class="properties" style="padding: 0 0 0 1.3333rem">
 {{#properties}}
   <li><a style="color:inherit;text-decoration: none;" href="#{{../../name}}.{{../name}}.{{name}}"><code id="{{../../name}}.{{../name}}.{{name}}">{{name}}</code></a> <a class="type"  target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/{{type}}">{{type}}</a><div class="sub-description">{{{description}}}</div>
   </li>
 {{/properties}}
 </ul>
-{{/if}}
+{{/properties.length}}
 
-{{#if example}}
+{{#example}}
 <div style="">
 <pre style="font-size: 13px;font-style: italic;margin:0;border:1px solid rgba(0,0,0,0.05);margin:6px 0"><code>{{example}}</code></pre>
 </div>
-{{/if}}
+{{/example}}
 </div>
 </div>
 {{/properties}}
@@ -355,3 +357,5 @@ font-size:16px;font-weight:400;margin-left: 2rem;
     </tr>
   </tbody>
 </table>
+
+[[={{ }}=]]

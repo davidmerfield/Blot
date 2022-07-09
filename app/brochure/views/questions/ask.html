@@ -1,11 +1,11 @@
 <h1>Ask question</h1>
 
-{{#unless user}}
+{{^user}}
 <p>Please, <a href="/log-in">log in</a> to ask a new question.</p>
-{{/unless}}
+{{/user}}
 
 
-{{#if user}}
+{{#user}}
 <div style="max-width: 637px;">
   <form method="POST" action="/questions/ask" id="new-question-form" class="qa-form">
     <input type="hidden" name="_csrf" value="{{csrf}}" />
@@ -40,4 +40,4 @@
   titleEl.addEventListener('keyup', updateQuestionButtonState);
   bodyEl.addEventListener('keyup', updateQuestionButtonState);
 </script>
-{{/if}}
+{{/user}}

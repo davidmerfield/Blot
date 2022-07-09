@@ -7,20 +7,20 @@
    <ul class="sidebar">
      {{> links}}
    </ul>
-   {{#if headers.length}}
-   {{#if show-on-this-page}}
+   {{#headers.length}}
+   {{#show-on-this-page}}
    <section class="on-this-page">
       On this page
       <ul>
          {{#headers}}
-         <li class="{{#if first}}selected{{/if}}">
+         <li class="{{#first}}selected{{/first}}">
             <a href="#{{id}}" class="scroll" style="border-bottom: none;">{{text}}</a>
          </li>
          {{/headers}}
       </ul>
    </section>
-   {{/if}}
-   {{/if}}
+   {{/show-on-this-page}}
+   {{/headers.length}}
 </nav>
 <script type="text/javascript">
    var sidebarLinks = document.querySelectorAll('.sidebar a');

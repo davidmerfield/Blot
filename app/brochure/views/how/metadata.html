@@ -5,7 +5,7 @@
 
 <p>Setting your own metadata is optional. If you want to set your own metadata, you must do so at the very start of the file. For example, consider this post:</p>
 
-  <pre class="text with-chrome" title="Post.txt"><code>Date: {{{date 'MMMM Do, YYYY'}}}
+  <pre class="text with-chrome" title="Post.txt"><code>Date: {{#date}}MMMM Do, YYYY{{/date}}
 Link: introduction
 
 Metadata must be separated from the rest of the post by at least one blank line. You must leave a space after the colon between the metadata property (e.g. Date) and its value. 
@@ -16,12 +16,12 @@ Metadata must be separated from the rest of the post by at least one blank line.
 <h2 id="dates">Dates</h2>
 
 <p>The publish date for a post is copied from the file’s creation date. You can set your own publish date <a href="#set-the-publish-date-using-your-folder">using your folder</a> or in the file's metadata, like this:</p>
-  <pre class="text with-chrome" title="Post.txt"><code>Date: {{{date 'MMMM Do, YYYY'}}}
+  <pre class="text with-chrome" title="Post.txt"><code>Date: {{#date}}MMMM Do, YYYY{{/date}}
 
 Blot supports a variety of date formats. These all produce a post with the same date:
 
-{{{date 'MM/DD/YYYY'}}}   {{{date 'MMMM D, YYYY'}}}
-{{{date 'M.D.YYYY'}}}     {{{date 'YYYY-MM-DD 00:00'}}}
+{{#date}}MM/DD/YYYY{{/date}}   {{#date}}MMMM D, YYYY{{/date}}
+{{#date}}M.D.YYYY{{/date}}     {{#date}}YYYY-MM-DD 00:00{{/date}}
 
 You can use underscores, dashes, slashes and dots to separate the numbers in the date. 
 </code></pre>
@@ -39,21 +39,21 @@ You can use underscores, dashes, slashes and dots to separate the numbers in the
   <tbody>
     <tr>
       <td>
-        <code class="folder">{{{date 'YYYY'}}}<span class="light">›</span></code><code class="folder">{{{date 'MM'}}}<span class="light">›</span></code><code class="folder">{{{date 'DD'}}}<span class="light">›</span></code><code class="file img">Portrait.jpg</a></code>
+        <code class="folder">{{#date}}YYYY{{/date}}<span class="light">›</span></code><code class="folder">{{#date}}MM{{/date}}<span class="light">›</span></code><code class="folder">{{#date}}DD{{/date}}<span class="light">›</span></code><code class="file img">Portrait.jpg</a></code>
       </td>
     </tr>
     <tr>
       <td>
-        <code class="folder">{{{date 'YYYY'}}}<span class="light">›</span></code><code class="folder">{{{date 'MM'}}}<span class="light">›</span></code><code class="file img">{{{date 'DD-[Portrait.jpg]'}}}</code>
+        <code class="folder">{{#date}}YYYY{{/date}}<span class="light">›</span></code><code class="folder">{{#date}}MM{{/date}}<span class="light">›</span></code><code class="file img">{{#date}}DD-[Portrait.jpg]{{/date}}</code>
       </td>
     </tr>
     <tr>
       <td>
-        <code class="folder">{{{date 'YYYY'}}}<span class="light">›</span></code><code class="file img">{{{date 'MM-DD-[Portrait.jpg]'}}}</code>
+        <code class="folder">{{#date}}YYYY{{/date}}<span class="light">›</span></code><code class="file img">{{#date}}MM-DD-[Portrait.jpg]{{/date}}</code>
       </td>
     </tr>
     <tr>
-      <td><code class="file img">{{{date 'YYYY-MM-DD[ Portrait.jpg]'}}}</a></code></td>
+      <td><code class="file img">{{#date}}YYYY-MM-DD[ Portrait.jpg]{{/date}}</a></code></td>
     </tr>
   </tbody>
 </table>
@@ -169,7 +169,7 @@ Tags are case-insensitive and may contain whitespace. Blot picks the case you us
 
 <div style="max-width:39em;margin:3em 0 4em">
   <pre class="code html" title="Post.html"><code><!--
-Date: {{{date 'MMMM Do, YYYY'}}}
+Date: {{#date}}MMMM Do, YYYY{{/date}}
 Link: /metadata
 -->
 
@@ -185,7 +185,7 @@ The comment containing metadata in an HTML file
 
 <p>You can also use YAML front matter to declare the metadata for your post. For example:</p>
   <pre class="text with-chrome" title="Post.txt"><code>---
-Date: {{{date 'MMMM Do, YYYY'}}}
+Date: {{#date}}MMMM Do, YYYY{{/date}}
 Link: Apple
 ---
 

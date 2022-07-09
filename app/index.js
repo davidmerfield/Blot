@@ -4,6 +4,7 @@ const config = require("config");
 const cluster = require("cluster");
 const clfdate = require("helper/clfdate");
 const email = require("helper/email");
+const setup = require("./setup");
 
 if (cluster.isMaster) {
   const NUMBER_OF_CORES = require("os").cpus().length;
@@ -11,6 +12,10 @@ if (cluster.isMaster) {
     NUMBER_OF_CORES > 4 ? Math.round(NUMBER_OF_CORES / 2) : 2;
   const scheduler = require("./scheduler");
   const publishScheduledEntries = require("./scheduler/publish-scheduled-entries");
+
+  setup(function () {
+    console.log("Finished setting up");
+  });
 
   console.log(
     clfdate(),
