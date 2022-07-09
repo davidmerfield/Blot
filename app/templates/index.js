@@ -41,11 +41,9 @@ if (require.main === module) {
 }
 
 function main(options, callback) {
-  console.log("BUILDING ALL live templates...");
   buildAll(TEMPLATES_DIRECTORY, options, function (err) {
     if (err) return callback(err);
 
-    console.log("BUILDING ALL PAST templates...");
     buildAll(PAST_TEMPLATES_DIRECTORY, options, function (err) {
       if (err) return callback(err);
 
@@ -53,8 +51,8 @@ function main(options, callback) {
         if (err) return callback(err);
 
         if (options.watch) {
-          console.log("Built all templates.");
-          console.log("Watching templates directory for changes");
+          debug("Built all templates.");
+          debug("Watching templates directory for changes");
           watch(TEMPLATES_DIRECTORY);
           watch(PAST_TEMPLATES_DIRECTORY);
         } else {
@@ -281,7 +279,6 @@ function watch(directory) {
       ready = true;
     })
     .on("all", (event, path) => {
-      debug("ready=", ready, "event=", event);
 
       if (!ready) return;
 
@@ -291,7 +288,6 @@ function watch(directory) {
 
       if (subdirectory[0] === ".") return;
 
-      debug("event=", event, "subdirectory=", subdirectory);
       queue.push(directory + "/" + subdirectory);
     });
 }
