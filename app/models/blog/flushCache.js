@@ -51,6 +51,8 @@ module.exports = function (blogID, former, callback) {
       affectedHosts.push(BackupDomain(former.domain));
     }
 
+    if (!affectedHosts.length) return callback();
+    
     // We make sure to empty cache directories when deleting a blog
     debug("Emptying cache directories for:", affectedHosts);
     async.each(affectedHosts, flush, function (err) {
