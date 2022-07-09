@@ -12,7 +12,9 @@ async function main(callback) {
 
   const watcher = chokidar.watch(INPUT, { cwd: INPUT });
 
-  watcher.on("add", handle).on("change", handle).on("ready", callback);
+  watcher.on("add", handle).on("change", handle).on("ready", function(){
+    // setTimeout(callback, 2*1000);
+  });
 }
 
 async function handle(path) {

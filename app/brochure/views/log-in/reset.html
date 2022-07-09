@@ -67,5 +67,5 @@ input[type="submit"].link:hover {
 {{/sent}}
 
 {{#sent}}
-<p>A link to {{#if hasPassword}}re{{/if}}set your password was sent to <b>{{email}}</b>. Please <a href="/contact">contact us</a> if you have any questions.</p>
+<p>A link to {{#hasPassword}}re{{/hasPassword}}set your password was sent to <b>{{email}}</b>. Please <a href="/contact">contact us</a> if you have any questions.</p>
 {{/sent}}
