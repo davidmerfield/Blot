@@ -51,8 +51,8 @@ function main(options, callback) {
         if (err) return callback(err);
 
         if (options.watch) {
-          console.log("Built all templates.");
-          console.log("Watching templates directory for changes");
+          debug("Built all templates.");
+          debug("Watching templates directory for changes");
           watch(TEMPLATES_DIRECTORY);
           watch(PAST_TEMPLATES_DIRECTORY);
         } else {
@@ -271,12 +271,29 @@ function watch(directory) {
     });
   });
 
-  chokidar.watch(directory, { cwd: directory }).on("all", (event, path) => {
-    if (!path) return;
-    const subdirectory = path.split('/')[0];
-    if (subdirectory[0] === '.') return;
-    queue.push(directory + "/" + subdirectory);
-  });
+  // When chokidar first crawls a directory to watch
+  // it fires 'add' events for every file it finds.
+  // We watch until its crawled everything 'ready' 
+  // in order to actually listen to new changes.
+  let ready = false;
+
+  chokidar
+    .watch(directory, { cwd: directory })
+    .on("ready", function () {
+      ready = true;
+    })
+    .on("all", (event, path) => {
+
+      if (!ready) return;
+
+      if (!path) return;
+
+      const subdirectory = path.split("/")[0];
+
+      if (subdirectory[0] === ".") return;
+
+      queue.push(directory + "/" + subdirectory);
+    });
 }
 
 // Generate list of template names based on the names of
