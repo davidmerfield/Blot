@@ -271,6 +271,10 @@ function watch(directory) {
     });
   });
 
+  // When chokidar first crawls a directory to watch
+  // it fires 'add' events for every file it finds.
+  // We watch until its crawled everything 'ready' 
+  // in order to actually listen to new changes.
   let ready = false;
 
   chokidar

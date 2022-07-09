@@ -51,10 +51,10 @@ module.exports = function (blogID, former, callback) {
       affectedHosts.push(BackupDomain(former.domain));
     }
 
-    if (!affectedHosts.length) return callback();
-    
     // We make sure to empty cache directories when deleting a blog
-    debug("Emptying cache directories for:", affectedHosts);
+    if (affectedHosts.length)
+      debug("Emptying cache directories for:", affectedHosts);
+
     async.each(affectedHosts, flush, function (err) {
       if (err) return callback(err);
 
@@ -62,7 +62,9 @@ module.exports = function (blogID, former, callback) {
       // folder stored againsts its ID, e.g. blogs/XYZ and its host, e.g. /cache/example.com
       // This is designed to allow NGINX to serve static content without a way to lookup the
       // blog by ID, and will take load off the Node.js server
-      debug("Setting up symlinks to blog folder for", blogHosts);
+      if (blogHosts.length)
+        debug("Setting up symlinks to blog folder for", blogHosts);
+
       async.each(blogHosts, symlink.bind(null, blogID), callback);
     });
   });
