@@ -13,9 +13,9 @@ if (cluster.isMaster) {
   const scheduler = require("./scheduler");
   const publishScheduledEntries = require("./scheduler/publish-scheduled-entries");
 
-  // setup(function () {
-  //   console.log("Finished setting up");
-  // });
+  setup(function () {
+    console.log("Finished setting up");
+  });
 
   console.log(
     clfdate(),

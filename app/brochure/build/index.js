@@ -24,19 +24,20 @@ async function main(options, callback) {
   const queue = async.queue(handle);
 
   queue.drain = function () {
+    if (!walked) return;
 
-    if (walked && !moved) {
+    if (!moved) {
       fs.moveSync(OUTPUT, OUTPUT_BAK);
       fs.moveSync(OUTPUT_TMP, OUTPUT);
       fs.removeSync(OUTPUT_BAK);
       moved = true;
-      callback();
     }
 
-    if (walked && !options.watch) {
+    if (!options.watch) {
       watcher.close();
-      callback();
     }
+
+    return callback();
   };
 
   watcher
