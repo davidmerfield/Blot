@@ -65,7 +65,8 @@ brochure.use(function (req, res, next) {
     const body =
       body_template || trimLeadingAndTrailingSlash(req.path) || "index.html";
     const layout = res.locals.layout || PARTIAL_DIRECTORY + "/layout.html";
-   
+    
+    console.log('body', body);
     res.locals.partials = { body };
 
     partials.forEach(
@@ -73,7 +74,9 @@ brochure.use(function (req, res, next) {
     );
 
     _render.call(this, layout, function(err,html){
-      if (err) return res.req.next();
+      if (err) {
+        return res.req.next();
+      }
       res.send(html);
     });
   };

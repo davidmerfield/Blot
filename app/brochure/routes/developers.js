@@ -56,14 +56,4 @@ developers.get("/", function (req, res) {
   res.render("templates/developers");
 });
 
-developers.get("/:section", function (req, res) {
-  res.render("templates/developers/" + req.params.section);
-});
-
-developers.get("/:section/:subsection", function (req, res) {
-  res.render(
-    "templates/developers/" + req.params.section + "/" + req.params.subsection
-  );
-});
-
 module.exports = developers;
