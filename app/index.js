@@ -111,7 +111,6 @@ if (cluster.isMaster) {
 
   // Launch scheduler for background tasks, like backups, emails
   scheduler();
-
 } else {
   console.log(clfdate(), `Worker process running pid=${process.pid}`);
 
