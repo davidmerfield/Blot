@@ -22,9 +22,6 @@ if (cluster.isMaster) {
   // Write the master process PID so we can signal it
   fs.writeFileSync(config.pidfile, process.pid.toString(), "utf-8");
 
-  // Launch scheduler for background tasks, like backups, emails
-  scheduler();
-
   // Run any initialization that clients need
   // Google Drive will renew any webhooks, e.g.
   for (const { init, display_name } of Object.values(require("clients"))) {
@@ -111,6 +108,10 @@ if (cluster.isMaster) {
       }
     );
   });
+
+  // Launch scheduler for background tasks, like backups, emails
+  scheduler();
+
 } else {
   console.log(clfdate(), `Worker process running pid=${process.pid}`);
 
