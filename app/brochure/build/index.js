@@ -14,6 +14,7 @@ async function main(options, callback) {
 
   let walked = false;
   let moved = false;
+  let called = false;
 
   const OUTPUT_TMP = OUTPUT + "-tmp-" + Date.now();
   const OUTPUT_BAK = OUTPUT + "-bak-" + Date.now();
@@ -37,7 +38,10 @@ async function main(options, callback) {
       watcher.close();
     }
 
-    return callback();
+    if (!called) {
+      called = true;
+      callback();
+    }
   };
 
   watcher
@@ -57,14 +61,17 @@ async function handle({ path, destination }, callback) {
     const CleanCSS = require("clean-css");
     let input = await fs.readFile(join(INPUT, path), "utf-8");
     let output = new CleanCSS().minify(input).styles;
-    console.log("css", path, output);
-    await fs.outputFile(join(destination, path), output);
+    console.log("css", path);
+    fs.outputFileSync(join(destination, path), output);
     // merge all css files together into one file
     const cssDir = join(destination, "css");
     const cssFiles = fs.readdirSync(cssDir).filter((i) => i.endsWith(".css"));
+    console.log('here', cssFiles);
     const mergedCSS = cssFiles
-      .map((i) => fs.readFileSync(join(cssDir, i)), "utf-8")
+      .map((i) => fs.readFileSync(join(cssDir, i), "utf-8"))
       .join("\n\n");
+
+
     fs.outputFileSync(join(cssDir, "complete.css"), mergedCSS);
   } else if (path.endsWith(".html")) {
     // Inlines all CSS properties
@@ -80,6 +87,7 @@ async function handle({ path, destination }, callback) {
 
     output = require("./typeset")(output);
     output = require("./tex")(output);
+    output = require("./anchor-links")(output);
     output = finder.html_parser(output);
 
     // output = require("./minify-html")(output);
