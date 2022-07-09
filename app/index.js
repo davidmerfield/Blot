@@ -13,7 +13,8 @@ if (cluster.isMaster) {
   const scheduler = require("./scheduler");
   const publishScheduledEntries = require("./scheduler/publish-scheduled-entries");
 
-  setup(function () {
+  setup(function (err) {
+    if (err) throw err;
     console.log("Finished setting up");
   });
 

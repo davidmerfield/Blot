@@ -83,7 +83,7 @@ function main(callback) {
 
 if (require.main === module) {
   main(function (err) {
-    if (err) console.error  (err);
+    if (err) throw err;
     process.exit();
   });
 }
