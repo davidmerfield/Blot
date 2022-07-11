@@ -41,35 +41,44 @@ break-inside: avoid;
     transition: background-color .2s ease-out;}
     .btn svg {width:1.2em;height: 1.2em;margin-right:1em}
   .arrow-link {
-    color:inherit;display: block;padding:24px;margin:-24px;margin-bottom: 0;
+    color:inherit;display: block;padding:12px;margin:-12px;margin-bottom: 12px;
     border-radius: 16px;
     background-color: transparent;
     position: relative;
+    border-radius: 10px;
+    border: 1px solid transparent;
     transition: background-color .08s ease;
   }
   .arrow-link:after {
     border-bottom: 1px solid var(--light-border-color);
     content: "";
     position: absolute;
-    bottom: 0.725em;
-    left: 24px;
-    right: 24px;
+    bottom: -1px;
+    left: 12px;
+    right: 12px;
   }
-  .arrow-link :first-child {position: relative;display: block;}
-  .arrow-link :first-child:after {
-    content: "→";
+  .arrow-link > :first-child {display: block;}
+  .arrow-link:before {
+       content: "";
+    display: block;
     position: absolute;
-    right: 0;
-    /*background: #aaa;*/
-    border-radius: 100%;
-    width: 1.4em;
-    height: 1.4em;
-    line-height: 1.4;
-    text-align: center;
+    top: 0;
+    bottom: 0;
+    right: 12px;
+    width: 6px;
+    height: 6px;
+    margin: auto 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+    border: solid;
+    border-width: 1px 1px 0 0;
+    border-color: var(--text-color);
 
   }
   .arrow-link :nth-child(2) {opacity: 0.5}
-  .arrow-link:hover {opacity: 0.8}
+  .arrow-link:hover {opacity:0.75;background: white;border-color: var(--light-border-color)}
+  .arrow-link:hover:after {display: none;}
   .arrow-link:active {opacity: 0.5}    
 </style>
 
@@ -95,8 +104,8 @@ break-inside: avoid;
 <div style="max-width: 540px;margin:0 auto">
    
   <div class="module">
-      <h2>Who uses Blot?</h2>
-      <h2 style="opacity: 0.5;font-weight: 400">Some of the people who use Blot to create their website</h2>
+    <strong>Who uses Blot?</strong><Br>
+      <span style="opacity: 0.5;font-weight: 400">Some of the people who use Blot to create their website</span>
 <ul class="who">
       <li><a class="btn" href="/sign-up">Create a blog</a></li>
     {{#featured}}
@@ -130,20 +139,31 @@ break-inside: avoid;
       <b>How to use Blot</b>
       <!-- <span>How does a folder become a website?</span> -->
     </a>
-        <p style="margin-bottom: 0">Blot converts files you put inside a folder into posts on your website. You can connect your folder to Blot with any of the following tools:<br>
-          <a style="text-decoration: none;" href="/how/sync/dropbox"><img src="/how/sync/dropbox.svg" >Dropbox</a><br><a style="text-decoration: none;" href="/how/sync/google-drive"><img src="/how/sync/google-drive.svg" >Google Drive</a><br><a style="text-decoration: none;" href="/how/sync/git"><img src="/how/sync/git.svg" >Git</a></p>
+        <p style="margin-bottom: 0">Blot converts files you put inside a folder into posts on your website. You can connect your folder to Blot with:</p>
+          <div class="fl">
+          <a class="arrow-link" href="/how/sync/dropbox"><img src="/how/sync/dropbox.svg" >Dropbox</a>
+          <a class="arrow-link" href="/how/sync/google-drive"><img src="/how/sync/google-drive.svg" >Google Drive</a>
+          <a class="arrow-link" href="/how/sync/git"><img src="/how/sync/git.svg" >Git</a>
+        </div>
+        </p>
+        <style type="text/css">
+          .fl {display: flex;flex-wrap: wrap;}
+          .fl a {flex-basis: 50%;flex-grow: 0;flex-shrink: 0;border:1px solid var(--light-border-color);margin:0 0;padding:12px;box-sizing: border-box;text-decoration: none;color:var(--accent-color);border:none;}
+          .fl a img[src*='.svg'] {width: 24px;height: 24px;margin-right: 8px}
+          .fl a {display: flex}
+          .arrow-link nobr:first-child  {display: inline;}
+        </style>
+          <p style="margin-bottom: 0">All of these files become posts automatically when you place them in your blog's folder:</p>
+          <div class="fl" >
+            <a class="arrow-link" href="/how/posts/text-and-markdown"><code class="file md">Text and Markdown</code><!-- <span class="light">.txt&nbsp; .md</span> --></a><br>
 
-          <p>All of these files become posts automatically when you place them in your blog's folder:</p>
-          <div style="margin-bottom: 1.45em">
-            <a style="color:var(--accent-color);" href="/how/posts/text-and-markdown"><code class="file md">Text and Markdown</code><!-- <span class="light">.txt&nbsp; .md</span> --></a><br>
+      <a class="arrow-link" href="/how/posts/images"><code class="file img" style="margin-left:-3px">Images</code><!-- <span class="light">.png&nbsp; .jpeg&nbsp; .gif</span> --></a><br>
 
-      <a style="color:var(--accent-color);" href="/how/posts/images"><code class="file img" style="margin-left:-3px">Images</code><!-- <span class="light">.png&nbsp; .jpeg&nbsp; .gif</span> --></a><br>
+      <a class="arrow-link" href="/how/posts/word-documents"><code class="file txt">Word Documents</code><!-- <span class="light">.docx &nbsp;.odt</span> --></a><br>
 
-      <a style="color:var(--accent-color);" href="/how/posts/word-documents"><code class="file txt">Word Documents</code><!-- <span class="light">.docx &nbsp;.odt</span> --></a><br>
-
-      <a style="color:var(--accent-color);" href="/how/posts/bookmarks"><code class="file webloc">Bookmarks</code><!-- <span class="light">.webloc&nbsp; .url</span> --></a><br>
+      <a class="arrow-link" href="/how/posts/bookmarks"><code class="file webloc">Bookmarks</code><!-- <span class="light">.webloc&nbsp; .url</span> --></a><br>
       
-      <a style="color:var(--accent-color);" href="/how/posts/html"><code class="file html">HTML</code><!-- <span class="light">.html </span> --></div>
+      <a class="arrow-link" href="/how/posts/html"><code class="file html">HTML</code><!-- <span class="light">.html </span> --></div>
 
         <style type="text/css">
       img[src*='.svg'] {width: 16px;height: 16px;margin-right: 0.4em}
@@ -167,19 +187,24 @@ break-inside: avoid;
    .tmplw {
     display: flex;flex-wrap:wrap;justify-content: space-between;
    }
-   .tmplw a {flex-basis: 50%;box-sizing: border-box;padding: 0 12px 0 0;font-size: 14px;color: inherit;margin-top: 1.45em}
+   .tmplw a {flex-basis: 100%;box-sizing: border-box;padding: 0 12px 0 0;color: inherit;margin-top: 1.45em;display: flex;}
    .tmplw a:nth-child(2n) {padding: 0 0 0 12px}
-   .tmplw a img {width: 100%;height: auto;border:1px solid var(--light-border-color);border-radius: 3px}
-   .tmplw small {font-size: var(--small-text-size);font-weight:600;display: none;}
-   .tmplw span {font-size: var(--small-text-size);font-weight:600;}
+   .tmplw a img {width: 50%;height: auto;border:1px solid var(--light-border-color);border-radius: 3px}
+   .tmplw small {font-weight:600;display: none;}
+   .tmplw strong {display: block;}
+   .tmplw span {padding-left: 1rem}
  </style>
      <div class="tmplw">
-      <a href="/templates/blog" ><img  src="/templates/blog/0-small.png" ><small> a </small> <span>Blog</span></a>
-      <a href="/templates/magazine"><img src="/templates/magazine/0-small.png" ><small>for a </small> <span>Magazine</span></a>
+      <a class="arrow-link" href="/templates/blog" ><img  src="/templates/blog/0-small.png" >
+
+         <span><strong>Blog</strong>Imagine blogging with your favorite text-editor.</span></a>
+
+      <a class="arrow-link" href="/templates/magazine"><img src="/templates/magazine/0-small.png" ><span><strong>Magazine</strong>Work collaboratively with others to produce a professional magazine</span></a>
+
+
       <a href="/templates/photo"><img src="/templates/photo/0-small.png" ><small> a </small> <span>Photographer</span></a>
       <a href="/templates/portfolio"><img src="/templates/portfolio/0-small.png" ><small> a </small> <span>Portfolio</span></a>
       <a href="/templates/reference"><img src="/templates/reference/0-small.png" ><small> a </small> <span>Reference</span></a>
-      <a href="/templates/developers"><b style="height:80px;font-weight:400;padding:12px;box-sizing:border-box;border-radius:4px;display:block;font-size:var(--small-text-size);opacity:0.5;width: 100%;border:1px dashed;">Developer<br> guide</b><small> a </small> <span>Reference</span></a>
     </div>  
 
 </div>
@@ -357,7 +382,7 @@ ol li a:hover {
 <script type="text/javascript">
 var ul = document.querySelector('ul.who');
 
-var MAX_FEATURED = 28;
+var MAX_FEATURED = 25;
 
 for (var i = ul.children.length; i >= 2; i--) {
   let index = 1 + (Math.floor(Math.random() * (i - 1)));
