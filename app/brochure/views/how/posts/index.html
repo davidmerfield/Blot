@@ -1,6 +1,6 @@
 <h1>Posts</h1>
 
-<p>A collection of guides to formatting your posts and pages. Posts can be anywhere within your blog folder.</p>
+<p>Files inside your blog's folder become posts on your site. To update a post, update its file. To remove a post, delete its file.</p>
 
 <h2>Files which become posts</h2>
 
@@ -9,9 +9,10 @@
     color: var(--light-text-color);}
 </style>
 <ul class="clients" style="margin-top: 0">
-  <li><a href="/how/posts/text-and-markdown"><code class="file md">&nbsp;Text and Markdown</code><span class="light">.txt&nbsp; .md</span></a></li>
+  <li><a href="/how/posts/text-and-markdown"><code class="file md">
+    <span class="a">Text and Markdown</span><span class="light">.txt&nbsp; .md</span></a></li>
   
-  <li><a href="/how/posts/images"><code class="file img" style="margin-left:-3px">&nbsp;Images</code><span class="light">.png&nbsp; .jpeg&nbsp; .gif</span></a></li>
+  <li><a href="/how/posts/images"><code class="file img" style="margin-left:-3px">&nbsp;<span class="a">Images</span></code><span class="light">.png&nbsp; .jpeg&nbsp; .gif</span></a></li>
 
   <li><a href="/how/posts/word-documents"><code class="file txt">&nbsp;Word Documents</code><span class="light">.docx &nbsp;.odt</span></a></li>
   
@@ -21,7 +22,26 @@
 
 </ul>
  
+<h2>Prevent a file becoming a blog post</h2>
+<p> Files and folders whose name starts with an underscore are ignored. Ignored files don’t become blog posts themselves but they can be <a href="#files-in-your-folder-are-public">embedded in posts</a>. None of these files become posts:</p>
 
+
+<table style="max-width:637px;table-layout: auto;">
+  <tbody>
+
+    <tr>
+       <td>
+        <code class="file img">_Palermo.jpg</a></code>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code class="file img">_Palermo.jpg</a></code>
+      </td>      
+    </tr>
+
+  </tbody>
+</table>
 <h2>Formatting posts</h2>
 
 <ul class="clients" style="margin-top: 0">

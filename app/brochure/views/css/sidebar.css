@@ -126,7 +126,7 @@ nav a.selected:hover {
 */
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
   padding-top: 0.4rem;
-  color: #666;
+  color: var(--light-text-color);
   padding-bottom: 0.4rem;
 }
 
@@ -234,6 +234,7 @@ nav a.selected:hover {
 
 .sidebar a[data-open="selected"]:before,
 .sidebar a:active:before,
+.sidebar a:focus:before,
 .sidebar a.selected:before {
     -webkit-transform: rotate(135deg);
     -ms-transform: rotate(135deg);
