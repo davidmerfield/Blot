@@ -61,17 +61,15 @@ async function handle({ path, destination }, callback) {
     const CleanCSS = require("clean-css");
     let input = await fs.readFile(join(INPUT, path), "utf-8");
     let output = new CleanCSS().minify(input).styles;
-    console.log("css", path);
     fs.outputFileSync(join(destination, path), output);
     // merge all css files together into one file
     const cssDir = join(destination, "css");
-    const cssFiles = fs.readdirSync(cssDir).filter((i) => i.endsWith(".css"));
-    console.log('here', cssFiles);
+    const cssFiles = fs
+      .readdirSync(cssDir)
+      .filter((i) => i.endsWith(".css") && i !== "complete.css");
     const mergedCSS = cssFiles
       .map((i) => fs.readFileSync(join(cssDir, i), "utf-8"))
       .join("\n\n");
-
-
     fs.outputFileSync(join(cssDir, "complete.css"), mergedCSS);
   } else if (path.endsWith(".html")) {
     // Inlines all CSS properties
