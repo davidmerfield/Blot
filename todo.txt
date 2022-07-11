@@ -2,7 +2,7 @@ Look into iA Writer's wikilinks syntax and follow up with Nat
 
 Add `Ignore: yes` metadata to trigger the ignored file behaviour
 
-Express all path-based metadata rules as Regexes, then allow the user to control these, e.g.
+Express all path-based metadata rules as regular expressions, then allow the customer to control these, e.g.
 ```
 \/Pages\/*    ->    Page: yes
 \/Drafts\/*    ->   Draft: yes
@@ -42,7 +42,7 @@ Improve video demo and developer documentation of Blot by April 14th for Robin's
 
 ---
 
-Create an index of user-created templates and add [Matt's theme](https://www.mattlangford.com/kalena-template-for-blot)
+Create an index of customer-created templates and add [Matt's theme](https://www.mattlangford.com/kalena-template-for-blot)
 
 Add 'Hidden: yes' metadata to replace 'Menu: no' and tell [Sebastien](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmvTstgvzhzNkPFXdgStpTJvrN)
 
@@ -297,7 +297,7 @@ Improvements to brochure:
    - compute content hashes then Use blotcdn for video and other large static files
 - Add end-to-end tests for brochure site to test sign up flow (use Playwright? Phantom? Chrome headless)
 - Add guide to useful text editors like [this one recommended by Andrew](https://itunes.apple.com/us/app/write-best-note-taking-app/id848311469)
-- Personalize the documentation for logged in users
+- Personalize the documentation for logged in customers
 - Add [contributor](https://api.github.com/repos/davidmerfield/blot/contributors) / [language](https://api.github.com/repos/davidmerfield/blot/languages) and repo information to source code page using GitHub API.
 
 Improvements to Wikilinks feature:
@@ -330,7 +330,7 @@ Template engine plan
 ---
 
 Improve server-side scheduled tasks:
-- Write task to identify and delete long overdue users
+- Write task to identify and delete long overdue customers
 - Back up postgres database
 
 Fetch dimensions of images even if optimize and cache is disable, so that image zoom can work. Tell [Joshua](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsmhMtGvPcwxlSHSSTFVpJVbd)
@@ -397,7 +397,7 @@ Add custom metadata to turn off/on search indexing on specific post or page and 
 
 Test cloudflare analytics integration from scratch and resolve issue with diklein.com
 
-Prevent long-overdue users from accessing the service, then tell [Matvey](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNgWvzTkMVZXFrSpjGfcCrWJG)
+Prevent long-overdue customers from accessing the service, then tell [Matvey](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNgWvzTkMVZXFrSpjGfcCrWJG)
 
 Add support for arbritary template folder location – any subfolder could be a template folder if it contains a valid template.json file. Tell [Bernardo](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKjfBwnDxMFMGgHtfFFkBvTQbV)
 
@@ -408,7 +408,7 @@ Experiment with GitHub actions setup
   - [super-linter](https://github.com/github/super-linter#how-it-works)?
 
 Improvements to server infrastructure
-- Work out way to recover from expired cert in the cache. To reproduce, consider a member who signed up, connected example.com, then moved the domain to another service. The attempt to renew the cert for example.com will fail. When the user re-registers with Blot, for some reason open-resty-auto-ssl will serve an old certificate. I followed these steps to [reset](https://github.com/GUI/lua-resty-auto-ssl/issues/42) but we should automate this
+- Work out way to recover from expired cert in the cache. To reproduce, consider a member who signed up, connected example.com, then moved the domain to another service. The attempt to renew the cert for example.com will fail. When the customer re-registers with Blot, for some reason open-resty-auto-ssl will serve an old certificate. I followed these steps to [reset](https://github.com/GUI/lua-resty-auto-ssl/issues/42) but we should automate this
 - Create DMARC record for Blot https://en.wikipedia.org/wiki/DomainKeys_Identified_Mail https://docs.aws.amazon.com/ses/latest/DeveloperGuide/dmarc.html
 - NGINX doesn't appear to be following the symlinks created by node.js to serve the contents of each blog's folder and the contents of each blog's static directory. Is this a permissions issue? Is now finally the time to set up users with appropriate permissions for blot, nginx, build etc...
 
@@ -484,11 +484,11 @@ Improvements to dashboard
 - Indicate that some posts' permalink will not change (if metadata) on the dashboard when setting the blog's permalink format. Tell Chet.
 - Dumb quotes are still smartified, even without typeset enabled, possibly by pandoc?
 - Undo option for form changes
-- Add transactional emails notifying user of changes to their email or password.
-- When a user pastes the whole tracking script into the preferences page on the dashboard, strip out everything except the ID which we need... perhaps create a page explaining what
+- Add transactional emails notifying customer of changes to their email or password.
+- When a customer pastes the whole tracking script into the preferences page on the dashboard, strip out everything except the ID which we need... perhaps create a page explaining what
 is happening before doing this.
 - Handle noscript on dashboard / signup gracefully (remove all dashboard js?)
-- Allow users who are restarting an account with multiple blogs to disable some before restarting.
+- Allow customers who are restarting an account with multiple blogs to disable some before restarting.
 
 ---
 
@@ -513,7 +513,7 @@ Improve the markdown converter:
 - Fix bug which injects <p> tags into the following: <div class="img-gallery"><img src="_Floralia.png" title="Floralia"><img src="_Flower.png" title="Flower"><img src="_Mechanical.png" title="Mechanical"><img src="_Curv.png" title="Curv"><img src="_Curvus.png" title="Curvus"><img src="_Futuristic.png" title="Futuristic">
 </div> and tell [Vanessa](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLswJQjKhnLpNZzfPhJZpVtcph)
 
-Finish script to identify long-expired users with blogs to safely delete and free up space. 
+Finish script to identify long-expired customers with blogs to safely delete and free up space. 
 - Sort by date expired
 - Write script to safely delete blogs
   - wipe blog folder
@@ -549,7 +549,7 @@ Add way to filter archives page by year or month and tell [Chad](https://mail.go
 
 Add a cool bookmarklet which [drafts a post a la this demo](https://www.youtube.com/watch?v=cu5uXXulnNk)
 
-Add broken link check for all email templates for logged in and logged out users
+Add broken link check for all email templates for logged in and logged out customers
 
 Fix bug with rename detector which caused old permalinks not to redirect to their latest version and tell [Shibel](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChSMBfbsZQQSGSjtghSHKKVzm)
 - To reproduce, create file 'foo.txt' with title and permalink 'foo'
@@ -646,13 +646,13 @@ Improvements to Git client
 - Thoroughly document:
 - Tidy up tests and reduce size and runtime
 - This client should acquire a lock on the blog's folder before doing stuff to it more generally, especially during initialization etc...
-- what happens if user changes their handle? will pushing break?
+- what happens if customer changes their handle? will pushing break?
   - I want them to be able to keep using their old one *until* someone else claims it, then I want 401 unauthorized, please reauthenticate with new username... but the remote path will be wrong?
 - Rate limit authentication route?
 
 Dropbox client
 - Revert lowercase for all files when disconnecting the client
-- Add integration test with a dropbox Webhook call. I want to not push some code which would prevent syncing user folders.
+- Add integration test with a dropbox Webhook call. I want to not push some code which would prevent syncing customer folders.
 - Does client.remove support the removal of folders? If not, make it so and add a test
 - Add a step to authentication flow which says: 'there is already a folder called 'Your blog title' in your Dropbox, would you like to use that?' then overwrite the files inside. This prevents the proliferation of confusing 'Your blog title (1)' when you re-authenticate.
 - Add a progress bar to the dashboard when writing existing files to Dropbox. It takes a while and confuses people.
@@ -666,7 +666,7 @@ Dropbox client
 - This should be simple once we copy the exisiting state of the blog folder across. But right now it doesn't really do much. It resets the local server folder. Then resyncs.
 - Update to latest version of Dropbox client.
 - Make the folder in Dropbox rename automatically when the
-user changes the username for one of their multiple blogs?
+customer changes the username for one of their multiple blogs?
 
 Add media-query to prevent typeset hanging punctuation on small screens (it looks weird) and tell [Shibel](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpXqMzwcBGWgjxgpcpCnMCQW)
 
@@ -726,7 +726,7 @@ Move to Linode?
 - Preserve AWS elastic IP and proxy to Linode
 - Think about eventual multiple locations around the world from day 1
 - Work out the [pricing model carefully](https://www.linode.com/pricing)
-- Use [blockstorage this for storing all users' folders](https://www.linode.com/blockstorage)
+- Use [blockstorage this for storing all customers' folders](https://www.linode.com/blockstorage)
 - Use [backups](https://www.linode.com/backups)
 - Use [nodebalancers](https://www.linode.com/nodebalancers)
 
@@ -737,10 +737,10 @@ Increase price to $5 per month for new customers. This will not affect existing 
 Create an API for Blot
 - Add webhooks and tell [Aurynn](https://mail.google.com/mail/u/0/#inbox/1554260da157b405) and [Shawn](https://twitter.com/soypunk)
 
-Allow logged in users to see public homepage. Perhaps use dashboard.blot.im for dashboard?
-- Add a slack.com style dropdown on the public homepage for logged in users which takes them to the dashboard for their sites.
+Allow logged in customers to see public homepage. Perhaps use dashboard.blot.im for dashboard?
+- Add a slack.com style dropdown on the public homepage for logged in customers which takes them to the dashboard for their sites.
 
-When the user's blog does not have a client, client.write and client.remove need to remove the files from the source folder. Create some kind of local client which we fall back and use when none is configured?
+When the customer's blog does not have a client, client.write and client.remove need to remove the files from the source folder. Create some kind of local client which we fall back and use when none is configured?
 
 Work out how to host podcasts on Blot and tell [Adrian](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLrCjsVpbQmLZmGvkrPbqWhZC)
 
@@ -799,7 +799,7 @@ Add option to sort posts by filename alphabetically and tell [Steve](https://mai
 - Add way to allow all entry lists to access {{#months}} sorting options just like the archives page.
 - Tell [Marco](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNWCgxHCttPshJRSPCMTPffMP) when arbirary list sorting is ready
 - Fix [Frank](https://mail.google.com/mail/u/0/1527fbcf999ba0c3)'s strange template bug
-- Warn users that underscore will not work for hidden pages
+- Warn customers that underscore will not work for hidden pages
 - Fix _ entries to true public files, tell john & other folks who depend on the menu: yes, page: no side effect
 - Tell [Rodrigo](https://mail.google.com/mail/u/0/#inbox/1564a13991197f63) don't write previews for _ posts
 - Add support for fetching only some properties of an entry (ideally only those that are used). prevent some properties from being fetched in some lists (html, for example in all_entries). Would be a good candidate for hgetall or hget?
@@ -863,7 +863,7 @@ Reply to [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChSCwMxNdtdvMHnM
 
 ---
 
-Consider allowing users to buy domains on Blot through [DNS simple](https://developer.dnsimple.com)
+Consider allowing customers to buy domains on Blot through [DNS simple](https://developer.dnsimple.com)
 
 Consider distributing static built blogs on [dat](https://github.com/datproject/dat-node) or something similar
 
@@ -880,7 +880,7 @@ Consider adding support for Microformats in the default templates
 
 Consider adding JSONFeed to default templates. Tell [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChSCwMxNdtdvMHnMVwTcHPjfg)
 
-Consider using [sshfs](https://github.com/libfuse/sshfs) for server and for users
+Consider using [sshfs](https://github.com/libfuse/sshfs) for server and for customers
 
 Consider establishing bug bounty program
 - Contact Husnain for his [DMARC report](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGCtDMGTLScbpCkBFLBdmrcHpk)
@@ -891,7 +891,7 @@ Consider adding simple commenting system and tell [Precious](https://mail.google
 
 Consider moving to [pretty IDs](https://jsfiddle.net/sg1z5had/) for everything public-facing
 - https://jsfiddle.net/m1e9wc6q/
-- [cool user subdomains](https://jsfiddle.net/ev2gLa87/)
+- [cool customer subdomains](https://jsfiddle.net/ev2gLa87/)
 - [generating dope domain names](https://jsfiddle.net/91vwt7p0/)
 
 Consider supporting Micro pub and tell [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVzptjbWjjqlhBQtgJsRstVSD)
