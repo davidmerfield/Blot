@@ -1,5 +1,6 @@
 # The Ideal Website
 
+
 ## Loads quickly
 
 Waiting for a page to load is not fun. The ideal website loads quickly, and it loads quickly from anywhere.

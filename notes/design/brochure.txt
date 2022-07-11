@@ -1,3 +1,15 @@
+# This website
+
+## How to create an effective brochure and documentation for a SAAS product
+
+## Copy
+
+I tried to avoid using adjectives in any of the copy.
+
+## Social proof
+
+Instead of a wall of logos of corporations that use Blot, I went with a wall of people who use Blot.
+
 # Sign up page
 
 Designing the sign up page for Blot.

@@ -1,7 +1,12 @@
 Open source
 ===========
 
-Blot caters to a largely technical audience, and I'm asking that audience to invest a good deal of their time and some of their money in a piece of software. A large fraction of that audience is sceptical of closed-source, proprietary software. So it makes business sense for me to make [Blot's source code](https://github.com/davidmerfield/Blot) available freely under the most permissive license possible. I also quite like the spectacle of working in public. I suspect it's reassuring to potential customers to see my frantic [git commits on the news page](https://blot.im/news), for them to know that Blot is very much _alive_.
+My decision to make Blot's source code public is partly moral and partly cynical. any of Blot's customers are technical: they like programming. audience, and I'm asking that audience to invest a good deal of their time and some of their money in a piece of software. A large fraction of that audience is sceptical of closed-source, proprietary software. So it makes business sense for me to make [Blot's source code](https://github.com/davidmerfield/Blot) available freely under the most permissive license possible. 
+
+Working in public
+------------
+
+I also quite like the spectacle of working in public. I suspect it's reassuring to potential customers to see my  [git commits on the news page](https://blot.im/news), for them to know that Blot is  _alive_.
 
 Open source? Free software?
 -----------------------------

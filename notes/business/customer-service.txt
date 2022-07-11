@@ -1,8 +1,6 @@
 # Customer service
 
-## What I have learned from our customers
-
-The correspondence I recieve from customers is without exception polite and conducted with good-grace. I had anticipated much worse. It seems that only the nicest people use Blot. 
+Before working on Blot, I hadn't had a customer-facing job. Here are a few of things I have learned over the years. It's worth mentioning that Blot's customers have been polite and good-natured, even in situations when a lapse in politeness would have been reasonable.
 
 ## Tracking requests
 
@@ -24,6 +22,10 @@ Plenty of the suggestions we recieve from our customers are good and are eventua
 - **Taking too long to respond**
 
   When the customer's inquiry involves a bug whose solution is easy, I found myself waiting to fix the bug before responding to the customer. The proper way to handle things is first to respond saying I am fixing the problem, then follow up with a response when the problem is fixed, rather than leave the customer in the dark until the problem is fixed.
+
+- **Avoiding responsibility for mistakes**
+
+  When a bad bug in our product affects a customer, I found it easy to use language which seperated myself from the bug. I find it annoying when people fail in their job and don't take responsibility for it. I don't want to do that myself, although it is tempting.
 
 - **Mistyping the customer's name**
   

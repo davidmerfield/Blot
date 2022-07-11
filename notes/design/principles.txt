@@ -1,8 +1,12 @@
-# Aesthetic
+# Principles
 
-## On the visual appearance of Blot's software
+## On the aesthetic and design philosophy of Blot's software
 
 In lots of ways, Blot is hidden. Most of the time, people who use Blot do so without looking at it. They simply edit the folder.
+
+![](https://upload.wikimedia.org/wikipedia/commons/1/16/Aristoteles_opera_aldus_1495.jpg)
+
+<small>Page-spread from the Aristoteles "Opera" printed by Aldus Manutius about 1495—1498. Copy of the Bayerische Staatsbibliothek.</small>
 
 ## My tastes 
 
@@ -16,7 +20,7 @@ Blot uses [Inter](https://rsms.me/inter/) by Rasmus Andersson on its brochure we
 
 ## Emojis
 
-I dislike emojis mostly because they seem to be designed for children. I also dislike them because to use them means to let a corporation control your . To use an emoji is to surrender control over your speech to a megacorporation. See the [pistol emoji](https://emojipedia.org/pistol/) for reference: on some platforms it appears as a gun, on others a water pistol.
+I dislike emojis partly because they look childish but mostly because their design is controlled by a corporation. See the [pistol emoji](https://emojipedia.org/pistol/) for reference: on some platforms it appears as a gun, on others a water pistol. I love text.
 
 
 
