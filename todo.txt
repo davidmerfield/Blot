@@ -1,6 +1,12 @@
 Look into iA Writer's wikilinks syntax and follow up with Nat
 
-Check logs for successful wildcard ssl cert renewal on after June 1st in /var/log/letsencrypt.log and /var/log/cron
+Add `Ignore: yes` metadata to trigger the ignored file behaviour
+
+Express all path-based metadata rules as Regexes, then allow the user to control these, e.g.
+```
+\/Pages\/*    ->    Page: yes
+\/Drafts\/*    ->   Draft: yes
+```
 
 Determine why we get zombie processes after running reload server script.
 
