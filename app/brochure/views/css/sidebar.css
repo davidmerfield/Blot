@@ -212,34 +212,38 @@ nav a.selected:hover {
 }
 
 .on-this-page ul li a:before,
-.sidebar li a:before,
+.sidebar > li > a:before,
 .top-level a:before {
-  content: " ";
-  width: 3px;
-  height: 3px;
-  border-radius: 1em;
-  background: #fff;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  position: absolute;
-  top: 50%;
-  margin-top: -3px;
-  left: -4px;
+       content: " ";
+    display: block;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 12px;
+    width: 6px;
+    height: 6px;
+    margin: auto 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+    border: solid;
+    border-width: 1px 1px 0 0;
+    border-color: var(--text-color);
 }
 
-.on-this-page ul li a:before {
-  left: -19px;
-}
 
-.sidebar li a:before,
-.top-level a:before {
-  right: 0;
-  left: auto;
+.sidebar a[data-open="selected"]:before,
+.sidebar a:active:before,
+.sidebar a.selected:before {
+    -webkit-transform: rotate(135deg);
+    -ms-transform: rotate(135deg);
+    transform: rotate(135deg);
+
 }
 
 .sidebar a.selected:before,
 .sidebar a:hover:before,
 .top-level a:hover:before {
-  background: var(--accent-color);
   border-color: var(--accent-color);
 }
 
