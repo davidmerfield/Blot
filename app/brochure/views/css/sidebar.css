@@ -44,6 +44,7 @@ input[name="toggle"] {
 
 .sidebar {
   margin: 0;
+  font-size: 14px;
   list-style: none;
   border-right: 1px solid rgba(0, 0, 0, 0.1);
   padding: 0;
@@ -227,8 +228,9 @@ nav a.selected:hover {
     -ms-transform: rotate(45deg);
     transform: rotate(45deg);
     border: solid;
+    opacity: 0.5;
     border-width: 1px 1px 0 0;
-    border-color: var(--text-color);
+    border-color: var(--light-text-color);
 }
 
 

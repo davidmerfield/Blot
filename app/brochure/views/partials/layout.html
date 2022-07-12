@@ -9,67 +9,52 @@
 	.doc-left {grid-column-start: 4;grid-column-end: 9;margin-top: 0rem;padding-top: 3rem}
 	.doc-right {grid-column-start: 9;grid-column-end: 12;margin-top: 6.25rem;}
 
+
+
+  .yiel {
+    flex-shrink:0;
+    max-width: 600px;
+    padding-left: 400px;
+  }
+
 	.sidebar {border:none;/*border-left:1px solid rgba(0,0,0,0.1);*/
     background: #fafafa;
     border-radius: 18px;
-    padding: 18px 36px;
+    padding: 16px 32px;
 }
-	
+
+  @media screen and (max-width: 1000px) {
+	    .yiel {padding-left: 1.5rem}
+}
 	@media screen and (max-width: 800px) {
 /*		.doc-left {padding: 0;grid-column-start: 1;grid-column-end: 12;grid-row: 1}
 			.doc-right {grid-row:2;grid-column-start: 1;grid-column-end: 12;margin-top: 1.5rem;padding: 1rem 1.5rem}*/
 			.grid {padding: 0 0}
 		.sidebar {border:none;margin-top: 3rem}
-
 	}
 
-  .doc-wrapper {max-width: 930px;margin:0 auto;
-    padding: 4rem 1.5rem;display: flex;flex-wrap: wrap;min-height: auto}
 
-  .shrinkplz {
-    flex-grow: 1;min-width: 1.5rem
-  }
-  
-  @media screen and (max-width: 1000px) {
-    .doc-wrapper {max-width: 560px}
-    .shrinkplz {width: 1.5rem;flex-grow: 0}
 
+
+
+  .sidebar-container {
+    position: absolute;
+    left: 1.5rem;
+    width: 270px;
   }
 
-  .yiel {
-    flex-shrink:0;
-    margin: 0 3rem 0 0;
-    width: 560px;
-    width:560px;flex-basis: 560px;max-width:560px;flex-grow:0;
-  }
-
-
-  @media (max-width: 600px) {
-    .yiel {flex-shrink: 1;margin-right: 0;width: auto;}
+  .layout-wrapper {
+    min-height: 80vh
   }
 </style>
 
-<div style="display: flex;min-height: 80vh"> 
-  
-    <div class="sidebar-container" style="flex-basis: 270px;flex-grow:0;flex-shrink:0;margin: 0 0.5rem 0 1.5rem;">
-   <!--  <div style="background:#fafafa;border-radius: 6px;margin:1rem;padding:11px 20px">
-      <h2>Contact us</h2>
-      <h2>support@blot.im</h2>
-    </div> -->
-    <div>
+<div class="layout-wrapper"> 
+  <div class="sidebar-container">
     {{> sidebar}}
-    </div>
   </div>
-  <div class="shrinkplz"></div>
-  <div>
-
   <div class="yiel">
 {{> body}}
   </div>   
-
-  </div>
-  <div style="flex-grow: 2;min-width: 1.5rem"></div>
-
 </div>
 {{> footer}}
 </body>
