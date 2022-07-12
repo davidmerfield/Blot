@@ -1,6 +1,6 @@
 .header {
   padding: 1.5rem;
-  font-size: 14px;
+  font-size: var(--small-font-size);
   display: flex
 }
 
@@ -155,7 +155,7 @@ header label:hover {
   .header-buttons a {
     box-sizing:border-box;display:inline-block;font-weight: 600;color:#000;height:32px;line-height:30px;
     border:1px solid var(--dark-border-color);
-    font-size: 13px;
+    font-size: var(--small-font-size);
     border-radius: 3px;padding: 0 1rem;margin-left: 0.8rem;
   }
 
