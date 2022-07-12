@@ -7,6 +7,8 @@ var TITLES = {
   "how": "How to use Blot",
   "terms": "Terms of use",
   "privacy": "Privacy policy",
+  "sync": "Sync your folder",
+  "configure": "Configure your site",
   "google-drive": "Google Drive",
   "word-documents": "Word Documents",
   "html": "HTML",

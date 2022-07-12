@@ -28,7 +28,7 @@ input[name="toggle"] {
     height: 30px;
   }
 
-  #toggle:checked ~ div .sidebar-container {display: block;}
+  #toggle:checked ~ div .sidebar-container {display: block;position: relative;left: auto;margin:0;padding:0;}
 
   #toggle:not(:checked) ~ .header #hider {
     display: none;
