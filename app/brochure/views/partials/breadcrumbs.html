@@ -26,3 +26,23 @@
     {{/first}}
   {{/breadcrumbs}}
 </div>
+
+<style type="text/css" id="breaker">
+  @media screen and (max-width: 600px) {
+    .breadcrumbs_link {
+      display: none
+    }
+    .breadcrumbs_link:last-child {display: block;}
+  }
+</style>
+<script type="text/javascript">
+const breakpoint = document.querySelector('.breadcrumbs > :last-child').getBoundingClientRect().right + 34 + 48;
+document.getElementById('breaker').innerHTML = `
+  @media screen and (max-width: ${breakpoint}px) {
+    .breadcrumbs_link {
+      display: none
+    }
+    .header-buttons {max-width:34px}
+    .breadcrumbs_link:last-child {display: block;}
+  }`
+</script>

@@ -1,7 +1,7 @@
 label[for="toggle"] {
-      height: 34px;
-    line-height: 32px;
-    border: 1px solid #eee;
+      height: 30px;
+    line-height: 30px;
+    border: 1px solid var(--dark-border-color);
     border-radius: 3px;
     margin-left: 0.8rem;
   display: none;
@@ -24,16 +24,16 @@ input[name="toggle"] {
 
   }
   label[for="toggle"] svg {
-    width: 34px;
-    height: 34px;
+    width: 30px;
+    height: 30px;
   }
 
   #toggle:checked ~ div .sidebar-container {display: block;}
 
-  #toggle:not(:checked) ~ .top-r #hider {
+  #toggle:not(:checked) ~ .header #hider {
     display: none;
   }
-    #toggle:checked ~ .top-r #shower {
+    #toggle:checked ~ .header #shower {
     display: none;
   }
 }

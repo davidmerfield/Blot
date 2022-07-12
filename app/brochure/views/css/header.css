@@ -41,7 +41,6 @@
     position: initial;
     margin-bottom: 1.4em;
     width: 100%;
-    display: none;
   }
 
   main {
@@ -93,11 +92,9 @@ header label:hover {
 .breadcrumbs {
   margin: 0;
   padding: 0;
-  flex-grow:1;
   height: 1.4rem;
-  flex-grow: 1;
+  flex-grow:1;
   display: flex;
-  flex-wrap: wrap;
 }
 
 .breadcrumbs_link:first-child {
