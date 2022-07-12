@@ -907,3 +907,5 @@ Consider incorporating typographic features from [Textile](http://redcloth.org/t
 Consider supporting org-mode and tell [Rashawn](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGBmlsGQmkBnXdxJDrSvBllHJJ)
 
 Consider supporting Open Graph and tell [Luke](https://mail.google.com/mail/u/1/#inbox/163993b0f8499ab3)
+
+Support emacs orgmode
