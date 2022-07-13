@@ -57,7 +57,7 @@ settings.get(
 
 settings.get("/settings/services/date", load.timezones, load.dates);
 
-settings.get("/settings/services/permalinks", load.permalinkFormats, function (
+settings.get("/settings/services/link-format", load.permalinkFormats, function (
   req,
   res,
   next
@@ -150,7 +150,10 @@ settings.get("/settings/:section/:view", function (req, res) {
   var uppercaseName = req.params.view;
 
   uppercaseName = uppercaseName[0].toUpperCase() + uppercaseName.slice(1);
+  uppercaseName = uppercaseName.split('-').join(' ');
 
+  if (uppercaseName === 'Date') uppercaseName = 'Date and time';
+  
   res.locals.breadcrumbs.add(uppercaseName, req.params.view);
   res.locals.partials.subpage = "settings/" + req.params.view;
   res.render("settings/subpage", { host: process.env.BLOT_HOST });

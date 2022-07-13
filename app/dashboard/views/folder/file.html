@@ -26,7 +26,8 @@ td {
 
 td:first-child {
   color: rgb(158, 154, 152);
-  padding-right: 20px
+  padding-right: 20px;
+  min-width: 100px
 }
 
 td a {
@@ -41,19 +42,16 @@ td:nth-child(2) {
 
   {{#folder.stat}}
 
-  <h1 style="line-height:36px;border-bottom:1px solid rgba(0,0,0,0.05);padding-bottom:11px;margin-bottom:11px;font-size: 22px;font-weight: 700">
-      {{#entry}}
-      <img src="/images/file-post.svg" style="margin-right:4px;vertical-align:text-bottom;" width="16">
-      {{/entry}}
-      {{^entry}}
-      <img src="/images/file-empty.svg" style="margin-right:4px;vertical-align:text-bottom;" width="16">
-      {{/entry}}
+  <h1 style="line-height:48px;border-bottom:1px solid rgba(0,0,0,0.05);padding-bottom:16px;margin-top:16px;margin-bottom:11px;font-size: 32px;font-weight: 700">
     {{name}}
   </h1>
 
   <table>
-    {{> entry}}
     {{> stat}}
+  </table>
+  <hr>
+  <table style="background: rgba(0,0,0,0.03);">
+    {{> entry}}
   </table>
 
   {{/folder.stat}}

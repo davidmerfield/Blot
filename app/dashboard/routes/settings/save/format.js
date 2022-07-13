@@ -18,6 +18,19 @@ module.exports = function (req, res, next) {
           extend(req.updates.menu[i]).and(req.blog.menu[x]);
         }
       }
+
+      let linkURL = req.updates.menu[i].url;
+
+      // Turns 'wikipedia.org/david' into 'https://wikipedia.org/david'
+      if (
+        linkURL.indexOf("/") > -1 &&
+        !linkURL.startsWith("/") &&
+        !linkURL.startsWith("http://") &&
+        !linkURL.startsWith("https://") &&
+        linkURL.slice(0, linkURL.indexOf("/")).indexOf('.') > -1        
+      ) {
+        req.updates.menu[i].url = "https://" + req.updates.menu[i].url;
+      }
     }
   }
 

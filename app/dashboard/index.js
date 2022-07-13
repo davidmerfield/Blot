@@ -311,7 +311,7 @@ function Breadcrumbs() {
 
   list.add = function (label, slug) {
     var base = "/";
-
+    
     if (list.length) base = list[list.length - 1].url;
 
     list.push({ label: label, url: require("path").join(base, slug) });

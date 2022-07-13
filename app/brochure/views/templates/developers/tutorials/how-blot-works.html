@@ -32,11 +32,11 @@ Consider this example template, which produces a list of all of the posts on you
 
 <pre class="code html"><code>
   <html>
-  <title>\{{title}}</title>
+  <title>{{title}}</title>
   <body>
-    \{{#all_posts}}
-    <a href="{{{url}}}">\{{title}}</a><br>
-    \{{/all_posts}}
+    {{#all_posts}}
+    <a href="{{{url}}}">{{title}}</a><br>
+    {{/all_posts}}
   </body>
   </html>
 </code></pre>

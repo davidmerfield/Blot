@@ -69,7 +69,7 @@ style.css</pre>
 <p>Jekyll also uses 'layouts', which specify a combination of included template files that are used to render the HTML sent to your readers. Here's the contents of <a href="https://github.com/jekyll/minima/blob/master/_layouts/default.html">layouts/default.html</a> which is used to render all the pages in the Minima template:</p>
 <pre class="window code html">
 <!DOCTYPE html>
-<html lang="\{{ page.lang | default: site.lang | default: "en" }}">
+<html lang="{{ page.lang | default: site.lang | default: "en" }}">
 
   {%- include head.html -%}
 
@@ -79,7 +79,7 @@ style.css</pre>
 
     <main class="page-content" aria-label="Content">
       <div class="wrapper">
-        \{{ content }}
+        {{ content }}
       </div>
     </main>
 
@@ -121,31 +121,31 @@ layout: default
 
 <div class="home">
   {%- if page.title -%}
-    <h1 class="page-heading">\{{ page.title }}</h1>
+    <h1 class="page-heading">{{ page.title }}</h1>
   {%- endif -%}
 
   {{ content }}
 
   {%- if site.posts.size > 0 -%}
-    <h2 class="post-list-heading">\{{ page.list_title | default: "Posts" }}</h2>
+    <h2 class="post-list-heading">{{ page.list_title | default: "Posts" }}</h2>
     <ul class="post-list">
       {%- for post in site.posts -%}
       <li>
         {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
-        <span class="post-meta">\{{ post.date | date: date_format }}</span>
+        <span class="post-meta">{{ post.date | date: date_format }}</span>
         <h3>
-          <a class="post-link" href="\{{ post.url | relative_url }}">
-            \{{ post.title | escape }}
+          <a class="post-link" href="{{ post.url | relative_url }}">
+            {{ post.title | escape }}
           </a>
         </h3>
         {%- if site.show_excerpts -%}
-          \{{ post.excerpt }}
+          {{ post.excerpt }}
         {%- endif -%}
       </li>
       {%- endfor -%}
     </ul>
 
-    <p class="feed-subscribe"><svg class="svg-icon orange"><use xlink:href="\{{ '/assets/minima-social-icons.svg#rss' | relative_url }}"></use></svg><a href="\{{ "/feed.xml" | relative_url }}">Subscribe</a></p>
+    <p class="feed-subscribe"><svg class="svg-icon orange"><use xlink:href="{{ '/assets/minima-social-icons.svg#rss' | relative_url }}"></use></svg><a href="{{ "/feed.xml" | relative_url }}">Subscribe</a></p>
   {%- endif -%}
 
 </div>
@@ -155,33 +155,33 @@ layout: default
 
 <p>Here's how it should look using Blot's template system:</p>
 <pre class="window code html">
-\{{> header}}
+{{> header}}
 <div class="home">
   
   <h2 class="post-list-heading">Posts</h2>
   <ul class="post-list">
-    \{{#entries}}
+    {{#entries}}
     <li>
-      <span class="post-meta">\{{date}}</span>
+      <span class="post-meta">{{date}}</span>
       <h3>
-        <a class="post-link" href="\{{{url}}}">
-          \{{title}}
+        <a class="post-link" href="{{{url}}}">
+          {{title}}
         </a>
       </h3>
-      \{{#show_excerpts}}
-        \{{summary}}
-      \{{/show_excerpts}}
+      {{#show_excerpts}}
+        {{summary}}
+      {{/show_excerpts}}
     </li>
-    \{{/entries}}
+    {{/entries}}
   </ul>
 
   <p class="feed-subscribe"><svg class="svg-icon orange"><use xlink:href="/minima-social-icons.svg#rss"></use></svg><a href="/feed.xml">Subscribe</a></p>
 
 </div>
-\{{> footer}}
+{{> footer}}
 </pre>
 
-<p>We have changed Jekyll's <code>{%- for post in site.posts -%}</code> syntax with Blot's <code>\{{#entries}}</code> syntax.</p>
+<p>We have changed Jekyll's <code>{%- for post in site.posts -%}</code> syntax with Blot's <code>{{#entries}}</code> syntax.</p>
 
 <h2>Config.yml to Package.json</h2>
 

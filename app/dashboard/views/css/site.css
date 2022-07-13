@@ -1,5 +1,3 @@
-:
-/* Normalise */
 
 body,
 fieldset {
@@ -434,7 +432,7 @@ form input[type="number"] {
 input[type="text"]:hover,
 form input[type="password"]:hover,
 textarea:hover {
-  border-color: #999
+  border-color: #0079fc
 }
 
 input[type="text"]:focus,
@@ -442,7 +440,7 @@ form input[type="password"]:focus,
 textarea:focus {
   outline: none;
   z-index: 1;
-  border: 1px solid #005388;
+  border: 1px solid #0079fc;
 }
 
 form input[type="text"]:focus,
@@ -1582,7 +1580,7 @@ span.file {
 .removeLink {
   color: #888;
   text-align: center;
- padding: 0 6px;
+ padding: 0 16px;
   margin:2px 0;
   display: inline-block;
   /*    background: #f1edea;
@@ -1596,7 +1594,7 @@ span.file {
 .handle {
   cursor: ns-resize;
   border-radius: 4px 0 0 4px;
-  min-width: 36px;
+  min-width: 48px;
   line-height: 2.9;  
   z-index: 1;
 }
@@ -2025,9 +2023,8 @@ line-height: 48px;
 .handle:hover,
 .removeLink:hover,
 .pageLink:hover {
-  border-color: #000;
-  z-index: 1;
-  border-color: rgb(152, 152, 152)
+  z-index: 2;
+  border-color: #0079fc
 }
 
 
