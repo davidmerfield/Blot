@@ -42,9 +42,19 @@ td:nth-child(2) {
 
   {{#folder.stat}}
 
-  <h1 style="line-height:48px;border-bottom:1px solid rgba(0,0,0,0.05);padding-bottom:16px;margin-top:16px;margin-bottom:11px;font-size: 32px;font-weight: 700">
+  <h1 style="line-height:48px;padding-bottom:16px;margin-top:16px;margin-bottom:8px;font-size: 32px;font-weight: 700">
     {{name}}
   </h1>
+
+{{#entry}}
+
+<a href="{{{blog.url}}}{{{url}}}" target="_blank" class="s no-underline" style="line-height:28px;border-radius:4px;padding:11px 20px;font-weight:600;flex-shrink:0;color:#0070e8;border: 1px solid rgba(0,0,0,0.1);margin-right: 8px">Visit post &thinsp;↗</a>
+
+{{/entry}}
+
+<a href="{{{blog.url}}}/{{{path}}}" target="_blank" class="s no-underline" style="line-height:28px;border-radius:4px;padding:11px 20px;font-weight:600;flex-shrink:0;color:#0070e8;border: 1px solid rgba(0,0,0,0.1)">Download file &thinsp;↗</a>
+<br><br>
+<hr>
 
   <table>
     {{> stat}}

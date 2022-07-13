@@ -46,8 +46,7 @@ module.exports = function (blog, path, callback) {
               ignored =
                 "it is inside a folder whose name begins with an underscore";
             } else {
-              console.log("ignored=", ignored);
-              ignored = REASONS[ignored] || "it was ignored";
+              ignored = REASONS[ignored] || "it is not a kind of file Blot can process";
             }
           }
 
