@@ -2,12 +2,8 @@ var bodyParser = require("body-parser");
 var hogan = require("hogan-express");
 var express = require("express");
 var trace = require("helper/trace");
-var Blog = require("blog");
-var User = require("user");
-var async = require("async");
 var VIEW_DIRECTORY = __dirname + "/views";
 var config = require("config");
-var prettyPrice = require("helper/prettyPrice");
 
 // This is the express application used by a
 // customer to control the settings and view
@@ -79,149 +75,22 @@ dashboard.use(require("./message"));
 dashboard.use(require("./csrf"));
 
 dashboard.use(trace("loading user"));
-
-// Load properties as needed
-// these should not be invoked for requests to static files
-dashboard.use(function (req, res, next) {
-  if (!req.session || !req.session.uid) return next();
-
-  var uid = req.session.uid;
-
-  User.getById(uid, function (err, user) {
-    if (err) return next(err);
-
-    if (!user) {
-      req.user = null;
-      req.session.uid = null;
-      return next();
-    }
-
-    // Lets append the user and
-    // set the partials to 'logged in mode'
-    req.user = User.extend(user);
-    res.locals.user = user;
-
-    if (user.subscription && user.subscription.plan) {
-      res.locals.price = prettyPrice(user.subscription.plan.amount);
-      res.locals.interval = user.subscription.plan.interval;
-    }
-
-    next();
-  });
-});
-
+dashboard.use(require("./load-user"));
 dashboard.use(trace("loaded user"));
-dashboard.use(trace("loading blogs"));
 
-dashboard.use(function (req, res, next) {
-  if (!req.session || !req.user || !req.user.blogs.length) return next();
-
-  var blogs = [];
-  var activeBlog = null;
-
-  async.each(
-    req.user.blogs,
-    function (blogID, nextBlog) {
-      Blog.get({ id: blogID }, function (err, blog) {
-        if (!blog) return nextBlog();
-
-        try {
-          blog = Blog.extend(blog);
-        } catch (e) {
-          return next(e);
-        }
-
-        if (req.session.blogID === blog.id) {
-          blog.isCurrent = true;
-          blog.updated = require("moment")(blog.cacheID).fromNow();
-          activeBlog = blog;
-        }
-
-        blogs.push(blog);
-        nextBlog();
-      });
-    },
-    function () {
-      if (!activeBlog && !req.session.blogID) {
-        activeBlog = blogs.slice().pop();
-      }
-
-      // The blog active in the users session
-      // no longer exists, redirect them to one
-      if (!activeBlog && req.session.blogID) {
-        var candidates = blogs.slice();
-
-        candidates = candidates.filter(function (id) {
-          return id !== req.session.blogID;
-        });
-
-        if (candidates.length > 0) {
-          activeBlog = candidates.pop();
-          req.session.blogID = activeBlog.id;
-          User.set(
-            req.user.uid,
-            { lastSession: activeBlog.id },
-            function () {}
-          );
-        } else {
-          req.session.blogID = null;
-          User.set(req.user.uid, { lastSession: "" }, function () {});
-          console.log("THERES NOTHING HERE");
-        }
-      }
-
-      if (!activeBlog) return next(new Error("No blog"));
-
-      req.blog = activeBlog;
-      req.blogs = blogs;
-
-      res.locals.blog = activeBlog;
-      res.locals.blogs = blogs;
-
-      return next();
-    }
-  );
-});
-
-dashboard.use(trace("loaded blogs"));
-
-dashboard.use(trace("checking redirects"));
+dashboard.use(trace("loading blog"));
+dashboard.param("handle", require("./load-blog"));
+dashboard.use(trace("loaded blog"));
 
 // Performs some basic checks about the
 // state of the user's blog, user's subscription
 // and shuttles the user around as needed
+dashboard.use(trace("checking redirects"));
 dashboard.use(require("./redirector"));
-
 dashboard.use(trace("checked redirects"));
 
 // Send user's avatar
-dashboard.use("/_avatars/:avatar", function (req, res, next) {
-  var blogID;
-
-  if (req.query.handle) {
-    blogID = req.blogs
-      .filter(function (blog) {
-        return blog.handle === req.query.handle;
-      })
-      .map(function (blog) {
-        return blog.id;
-      });
-  } else {
-    blogID = req.blog.id;
-  }
-
-  res.sendFile(
-    config.blog_static_files_dir +
-      "/" +
-      blogID +
-      "/_avatars/" +
-      req.params.avatar,
-    function (err) {
-      if (err) return next();
-      // sent successfully
-    }
-  );
-});
+dashboard.use("/_avatars/:avatar", require("./routes/avatar"));
 
 dashboard.post(
   [
@@ -240,15 +109,8 @@ dashboard.post(
 // for a particular blog
 
 dashboard.use(function (req, res, next) {
-  res.locals.partials = res.locals.partials || {};
-  // res.locals.partials.head = __dirname + "/views/partials/head";
-  // res.locals.partials.dropdown = __dirname + "/views/partials/dropdown";
-  // res.locals.partials.footer = __dirname + "/views/partials/footer";
-  next();
-});
-
-dashboard.use(function (req, res, next) {
   res.locals.links_for_footer = [];
+  res.locals.partials = res.locals.partials || {};
 
   res.locals.footer = function () {
     return function (text, render) {
@@ -259,8 +121,6 @@ dashboard.use(function (req, res, next) {
 
   next();
 });
-
-// dashboard.use('/documentation', require("../site/documentation"));
 
 // Use this before modifying the render function
 // since it doesn't use the layout for the rest of the dashboard
@@ -282,36 +142,48 @@ dashboard.use(function (req, res, next) {
 dashboard.use("/account", require("./routes/account"));
 
 dashboard.use(function (req, res, next) {
-  res.locals.breadcrumbs.add("Your blogs", "/");
+  res.locals.breadcrumbs.add("Your blogs", "/dashboard");
   next();
 });
 
-dashboard.get("/", function (req, res, next) {
+dashboard.get("/dashboard", require("./load-blogs"), function (req, res, next) {
   res.locals.title = "Your blogs";
   res.render("index");
 });
 
-dashboard.use(function (req, res, next) {
+dashboard.use("/dashboard/:handle", function (req, res, next) {
   // we use pretty.label instead of title for title-less blogs
   // this falls back to the domain of the blog if no title exists
-  res.locals.breadcrumbs.add(req.blog.pretty.label, "/settings");
+  res.locals.base = `/dashboard/${req.params.handle}`;
+  res.locals.breadcrumbs.add(req.blog.pretty.label, `${req.params.handle}`);
   res.locals.title = req.blog.pretty.label;
   next();
 });
 
 // Load the files and folders inside a blog's folder
-dashboard.use("/settings/folder", require("./routes/folder"));
+dashboard.get(
+  "/dashboard/:handle/folder/:path*",
+  
+  function (req, res, next) {
+    req.folderPath = "/" + req.params.path;
+    next();
+  },
 
-dashboard.use("/settings/folder", function (req, res, next) {
-  res.render("folder", { selected: { folder: "selected" } });
-});
+  require("./routes/folder"),
+
+  function (req, res) {
+    res.render("folder", { selected: { folder: "selected" } });
+  }
+);
+
+dashboard.get("/dashboard/:handle", require("./routes/folder"));
 
 function Breadcrumbs() {
   var list = [];
 
   list.add = function (label, slug) {
     var base = "/";
-    
+
     if (list.length) base = list[list.length - 1].url;
 
     list.push({ label: label, url: require("path").join(base, slug) });
@@ -326,9 +198,7 @@ function Breadcrumbs() {
   return list;
 }
 
-require("./routes/tools")(dashboard);
-
-dashboard.use(require("./routes/settings"));
+dashboard.use("/dashboard/:handle", require("./routes/settings"));
 
 dashboard.use(require("./routes/settings/errorHandler"));
 

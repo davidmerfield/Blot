@@ -11,7 +11,8 @@ var dictionary = {
   forceSSL: "Saved SSL redirect setting",
   roundAvatar: "Saved photo settings",
   avatar: "Saved changes to your photo",
-  handle: "Saved changes to your username",
+  menu: "Saved changes to your links",
+  handle: "Saved changes to your subdomain on Blot",
   timeZone: "Saved changes to your time zone",
   dateFormat: "Saved changes to your date settings",
 };
@@ -84,6 +85,10 @@ module.exports = function (req, res, next) {
     // Add success message if we're going to the settings page
     // and successful changes were made
     if (changes && changes.length && _.isEmpty(errors)) {
+
+      if (changes.indexOf('handle') > -1)
+        redirect = `/dashboard/${updates.handle}/domain`;
+
       return res.message(
         redirect,
         dictionary[changes[0]] || "Saved changes to your " + changes[0]

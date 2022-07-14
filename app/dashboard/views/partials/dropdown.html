@@ -9,9 +9,7 @@
 
   <div class="menu">
     {{#blogs}}
-    <form   action="/account/switch-blog" method="POST" > 
-      <input type="hidden" name="_csrf" value="{{csrftoken}}">
-      <input type="hidden" name="to" value="{{id}}"> 
+    <a href="/dashboard/{{handle}}">
       <button type="submit" style="display:flex;line-height:inherit;padding:11px 30px 11px 20px;overflow:hidden;color:#111;width:100%;font-weight:500;   margin-bottom: 11px; /*box-shadow: rgba(15,15,15,.1) 0 0 0 1px, rgba(15,15,15,.1) 0 2px 4px;*/ border: 1px solid rgba(0,0,0,0.1);
     border-radius: 12px;position: relative;">
         <span class="photo-holder">
@@ -26,7 +24,7 @@
         </span>
         <span class="fade-out"></span>
       </button>
-    </form>
+    </a>
     {{/blogs}}
     
     <a  style="display:block;" href="/account/create-blog">
