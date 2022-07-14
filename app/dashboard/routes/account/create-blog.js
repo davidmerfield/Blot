@@ -223,8 +223,6 @@ function saveBlog(req, res, next) {
     // Begin SSL cert fetching process
     request(Blog.extend(blog).url, function () {});
 
-    // Switch to the new blog
-    req.session.blogID = blog.id;
     next();
   });
 }
