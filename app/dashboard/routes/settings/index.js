@@ -82,15 +82,7 @@ settings
     require("./save/404")
   );
 
-settings.get("/services/redirects", load.redirects, function (
-  req,
-  res
-) {
-  res.locals.breadcrumbs.add("Redirects", "redirects");
-  res.locals.partials.subpage = "settings/redirects";
-  res.locals.edit = !!req.query.edit;
-  res.render("settings/subpage", { title: "Redirects" });
-});
+settings.get("/services/redirects", load.redirects);
 
 // Load the list of templates for this user
 
@@ -157,7 +149,8 @@ settings.get("/:section/:view", function (req, res) {
   if (uppercaseName === 'Date') uppercaseName = 'Date and time';
 
   res.locals.breadcrumbs.add(uppercaseName, req.params.view);
-  res.locals.partials.subpage = req.params.view;
+  res.locals.subpage = "services/" + req.params.view;
+  res.locals.partials.subpage = "settings/" + req.params.view;
   res.render("settings/subpage", { host: process.env.BLOT_HOST });
 });
 

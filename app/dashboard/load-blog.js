@@ -12,7 +12,6 @@ module.exports = function (req, res, next, handle) {
       return next(e);
     }
 
-    console.log("here loaded", blog);
     req.blog = blog;
     res.locals.blog = blog;
 

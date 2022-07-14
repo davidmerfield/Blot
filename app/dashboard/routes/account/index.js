@@ -7,7 +7,7 @@ const prettyPrice = require("helper/prettyPrice");
 const type = require("helper/type");
 
 Account.use(function (req, res, next) {
-  res.locals.breadcrumbs.add("Your account", "/");
+  res.locals.breadcrumbs.add("Your account", "/account");
   res.locals.account = true;
   next();
 });
@@ -44,7 +44,7 @@ Account.use(function (req, res, next) {
 });
 
 Account.route("/").get(function (req, res) {
-  res.redirect("/");
+  res.redirect("/dashboard");
 });
 
 Account.use("/:section", function (req, res, next) {

@@ -14,7 +14,7 @@ var dictionary = {
   menu: "Saved changes to your links",
   handle: "Saved changes to your subdomain on Blot",
   timeZone: "Saved changes to your time zone",
-  dateFormat: "Saved changes to your date settings",
+  dateFormat: "Saved changes to the order in which you write your dates",
 };
 
 module.exports = function (req, res, next) {
