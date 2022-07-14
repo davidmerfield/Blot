@@ -32,6 +32,7 @@ const internal = {
   "/how/guides": "/how/format",
   "/how/clients": "/how/sync",
   "/how/publishing-with-blot": "/how",
+  "/how/configure/urls": "/how/configure/link-format",
   "/how/configuring": "/how/configure",
   "/how/formatting": "/how/guides",
   "/how/format": "/how/posts",
