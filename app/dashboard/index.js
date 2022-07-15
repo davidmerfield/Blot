@@ -95,6 +95,7 @@ dashboard.use("/_avatars/:avatar", require("./routes/avatar"));
 dashboard.post(
   [
     "/dashboard/:handle/template*",
+    "/dashboard/:handle/client",
     "/path",
     "/folder*",
     "/settings/client*",

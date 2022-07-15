@@ -3,10 +3,12 @@ const config = require("config");
 const fetch = require("node-fetch");
 
 module.exports = function (req, res) {
-  var redirectUri, key, secret, authentication_url;
+  var redirectUri, key, secret;
 
   redirectUri =
-    req.protocol + "://" + req.get("host") + req.baseUrl + "/authenticate";
+    req.protocol + "://" + req.get("host") + "/clients/dropbox/authenticate";
+
+  req.session.blogToAuthenticate = req.blog.handle;
 
   if (req.query.full_access) {
     key = config.dropbox.full.key;

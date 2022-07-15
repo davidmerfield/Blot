@@ -6,7 +6,7 @@ const fetch = require("node-fetch");
 module.exports = function (req, res, next) {
   let key, secret;
   let redirectUri =
-    req.protocol + "://" + req.get("host") + req.baseUrl + "/authenticate";
+    req.protocol + "://" + req.get("host") + "/clients/dropbox/authenticate";
 
   if (req.query.full_access) {
     key = config.dropbox.full.key;
