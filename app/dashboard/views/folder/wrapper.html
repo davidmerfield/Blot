@@ -38,7 +38,7 @@
 	// we hackily refetch the whole page contents and
 	// extract the folder from that response, injecting
 	// it into the page as-is.
-	var evtSource = new EventSource("/status");
+	var evtSource = new EventSource("{{{base}}}/status");
 
 	// I should use a proper async queue to accomplish
 	// this but for now these flags seem to work.

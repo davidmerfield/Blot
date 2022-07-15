@@ -1,5 +1,9 @@
 # Technique
 
+![](/images/notebook.jpg)
+
+<small style="opacity:0.5;font-size:14px;px">My notebook, specifically the page on which I was exploring ideas for the template editor.</small>
+
 Admittedly the hardest part about blogging is writing the blog post, not publishing it, but that shouldn’t stop us from trying to make publishing just a little bit easier.
 
 My central thesis is that blogging interfaces currently force a user to manually map the file representing the post into a format the platform can parse.

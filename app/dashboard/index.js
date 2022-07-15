@@ -123,10 +123,10 @@ dashboard.use(function (req, res, next) {
 
 // Use this before modifying the render function
 // since it doesn't use the layout for the rest of the dashboard
-dashboard.use("/template-editor", require("./routes/template-editor"));
+dashboard.use("/dashboard/:handle/template/edit", require("./routes/template-editor"));
 
 // Will deliver the sync status of the blog as SSEs
-dashboard.use("/status", require("./routes/status"));
+dashboard.use("/dashboard/:handle/status", require("./routes/status"));
 
 // Special function which wraps render
 // so there is a default layout and a partial
