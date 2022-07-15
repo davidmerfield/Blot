@@ -1,9 +1,8 @@
 <p>Your site comes with a Blot subdomain. You can also <a href="/how/configure/domain">use your own domain</a>. Please don't hesitate to <a href="/support">contact support</a> if you have any questions.</p>
 <hr>
-<input type="hidden" name="redirect" value="/settings/domain">
   <label>Your domain</label>
   <div class="messageWrapper">
-    <input type="text" id="customDomain" name="domain" 
+    <input type="text" id="customDomain" name="domain" data-verify="{{{base}}}/verify-domain/{{blog.pretty.domain}}"
 
     {{! 
 
@@ -27,8 +26,9 @@
   {{#footer}}
   <script src="/scripts/jquery.js?{{cacheID}}"></script>
   <script type="text/javascript">
-    if ($('#customDomain').val()) {
-     $.get('/verify-domain/' + $('#customDomain').val(), function(data) {
+    const verify = $('#customDomain').attr('data-verify');
+    if (verify) {
+     $.get(verify, function(data) {
        if (data && data === 'true' || data === true) {
          $('#inputMessage').html('').addClass('success');
        } else {

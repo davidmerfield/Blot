@@ -7,7 +7,7 @@ const prettyPrice = require("helper/prettyPrice");
 const type = require("helper/type");
 
 Account.use(function (req, res, next) {
-  res.locals.breadcrumbs.add("Your account", "/");
+  res.locals.breadcrumbs.add("Your account", "/account");
   res.locals.account = true;
   next();
 });
@@ -44,7 +44,7 @@ Account.use(function (req, res, next) {
 });
 
 Account.route("/").get(function (req, res) {
-  res.redirect("/");
+  res.redirect("/dashboard");
 });
 
 Account.use("/:section", function (req, res, next) {
@@ -53,7 +53,7 @@ Account.use("/:section", function (req, res, next) {
   uppercaseName = uppercaseName[0].toUpperCase() + uppercaseName.slice(1);
   uppercaseName = uppercaseName.split("-").join(" ");
 
-  res.locals.breadcrumbs.add(uppercaseName, "/account/" + req.params.section);
+  res.locals.breadcrumbs.add(uppercaseName, req.params.section);
   next();
 });
 
@@ -65,7 +65,7 @@ Account.use("/:section/:subsection", function (req, res, next) {
 
   res.locals.breadcrumbs.add(
     uppercaseName,
-    "/account/" + req.params.section + "/" + req.params.subsection
+    req.params.subsection
   );
   next();
 });
@@ -73,7 +73,6 @@ Account.use("/:section/:subsection", function (req, res, next) {
 Account.use("/password", require("./password"));
 Account.use("/export", require("./export"));
 Account.use("/email", require("./email"));
-Account.use("/switch-blog", require("./switch-blog"));
 Account.use("/create-blog", require("./create-blog"));
 Account.use("/subscription", require("./subscription"));
 Account.use("/pay-subscription", require("./pay-subscription"));

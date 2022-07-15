@@ -1,5 +1,5 @@
 - name: blog
-  properties: 
+  keys: 
     - name: title
       type: string
       description: Your site’s title, set on the title page of your dashboard.
@@ -83,7 +83,7 @@
 
 
 - name: entry
-  properties:
+  keys:
 
     - name: id
       type: string
@@ -286,7 +286,7 @@
 
 
 - name: Lists of entries
-  properties:
+  keys:
     - name: recent_entries
       type: array
       description: A list of the 30 most recent entries on your site. Each item in the list is of type [entry](#entry).
@@ -324,7 +324,7 @@
         {{/archives}}
 
 - name: Lists of tags
-  properties:
+  keys:
     - name: all_tags
       type: array
       description: A list of all the tags used on your site, sorted alphabetically by tag text.
@@ -370,7 +370,7 @@
 
 
 - name: Utilities
-  properties:
+  keys:
 
     - name: absoluteURLs
       type: function

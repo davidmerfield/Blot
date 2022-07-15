@@ -8,7 +8,7 @@
   <span style="align-self: center;">Your blog’s folder is empty.</span>
   {{/root}}
   {{^root}}
-  <span style="align-self: center;">This folder is empty.</span>
+  <span style="align-self: center;">There is nothing here.</span>
   {{/root}}
 
 </small>
@@ -21,7 +21,7 @@
 
   {{#contents}}
 
-    <a href="/settings/folder{{path}}" style="align-items:baseline" class="line" style="padding:2px 20px;border:none{{#last}}border-bottom:none{{/last}}">
+    <a href="{{{base}}}/folder{{path}}" style="align-items:baseline" class="line" style="padding:2px 20px;border:none{{#last}}border-bottom:none{{/last}}">
         
       {{#directory}}
       <img src="/images/folder-empty.svg" style="position:relative;top:2px;flex-shrink:0;margin-right:14px" width="16">

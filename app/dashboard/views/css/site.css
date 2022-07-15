@@ -1287,92 +1287,48 @@ p.sub {
   font-weight: 500;
 }
 
-.dropdown .closer {
-  position: fixed;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  z-index: 1;
-  height: 100%;
-  width: 100%;
-}
-
-.dropdown .opener {
-  z-index: 2;
-  padding: 0 20px;
-  line-height: 42px;
-  position: relative;
-  display: inline-block;
-  font-weight: 500;
-  border: none;
-  color: #111;
-  border: none;
-  float: right;
-
-}
-
-.dropdown .opener:hover {
-  background: #eae7e5
-}
 
 .dropdown {
-  z-index: 10;
+  display: flex;
+  flex-wrap: wrap;
   position: relative;
 }
 
-.dropdown.closed .closer,
-.dropdown.closed .menu {
-  visibility: hidden;
-}
-
-.dropdown .menu {
-  z-index: 20;
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.dropdown .menu button {
-  text-align: left;
-}
-
-.dropdown .menu > * {
+.dropdown a {
+      box-shadow: rgba(0,0,0,0.1) 0 0 0 1px,rgba(0,0,0,0.1) 0 2px 4px;
+    background: #fff;
+    color: #0070e8;
+    overflow: hidden;
+      text-align: left;
+  border-radius: 4px;
   width: 25%;
-  padding:0 1rem 1rem;
+  padding:16px 24px;
+  margin: 11px 20px;
+  align-items: center;
   box-sizing: border-box;
   display: flex;
-  margin: 0;
+  text-decoration: none;
 }
 
-@media (max-width:1600px) { .dropdown .menu > * { width: 33.3333% } }
-@media (max-width:1200px) { .dropdown .menu > * { width: 50% } }
-@media (max-width:800px) { .dropdown .menu > * { width: 100% } }
 
-.dropdown .menu a > span,
-.dropdown .menu button {
-  display: block;
-  padding: 0 20px;
-  margin: 0;
-  line-height: 48px;
-  margin: 0;
-  color: #909090;
-  background: transparent;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-}
+@media (max-width:1600px) { .dropdown a { width: 30% } }
+@media (max-width:1200px) { .dropdown a { width: 45% } }
+@media (max-width:800px) { .dropdown a { width: 100% } }
 
-.dropdown .menu a.small {
+
+.dropdown a.small {
   border-bottom: none;
   font-size: 14px
 }
 
-.dropdown .menu a .avatar {
+.dropdown a .avatar {
   position: absolute;
   top: 50%;
   left: 12px;
   margin-top: -11px;
 }
 
-.dropdown button .fade-out {
+.dropdown  .fade-out {
   width: 2em;
   position: absolute;top: 0;right: 0;bottom: 0;
   background: -moz-linear-gradient(left,  rgba(255,254,252,0) 0%, rgba(255,254,252,0.75) 75%, rgba(255,254,252,1) 100%); /* FF3.6-15 */
@@ -1381,7 +1337,7 @@ p.sub {
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00fffefc', endColorstr='#fffefc',GradientType=1 ); /* IE6-9 */
 }
 
-.dropdown button:hover .fade-out {
+.dropdown a:hover .fade-out {
   background: -moz-linear-gradient(left,  rgba(247,250,252,0) 0%, rgba(247,250,252,0.75) 75%, rgba(247,250,252,1) 100%); /* FF3.6-15 */
   background: -webkit-linear-gradient(left,  rgba(247,250,252,0) 0%,rgba(247,250,252,0.75) 75%,rgba(247,250,252,1) 100%); /* Chrome10-25,Safari5.1-6 */
   background: linear-gradient(to right,  rgba(247,250,252,0) 0%,rgba(247,250,252,0.75) 75%,rgba(247,250,252,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
@@ -1411,21 +1367,6 @@ p.sub {
   display: none;
 }
 
-.menu a {
-  display: block;
-  float: left;
-  margin: 0em 2em -1px 0;
-  line-height: 2.5;
-  text-decoration: none;
-  color: blue;
-  border-bottom: 1px solid transparent;
-}
-
-
-
-.dropdown a {
-  text-decoration: none;
-}
 
 .action {
   border-radius: 10em;
@@ -1821,18 +1762,14 @@ form.account>.buttons {
 
 a.line:hover,
 div.line a.link:hover,
-.dropdown .opener:hover,
-.dropdown .menu button:hover,
-.dropdown .menu a:hover span,
+.dropdown a:hover,
 .line form button:hover {
   background: #f7fafc
 }
 
 a.line:active,
 div.line a.link:active,
-.dropdown .opener:active,
-.dropdown .menu button:active,
-.dropdown .menu a:active span,
+.dropdown a:active,
 .line form button:active {
   background: rgba(0, 0, 0, 0.04)
 }
@@ -2330,13 +2267,17 @@ a.content-line .file {
   width: 30px;
   height: 30px;
   display: inline-block;
-  margin: 5px 16px 0 0;color: #a5a5a5
+  margin: 0 16px 0 0;color: #a5a5a5
 }
 
 .photo-holder img {
   vertical-align: text-bottom;
   max-width: 30px;
   max-height: 30px;
+}
+
+.photo-holder img.fallback {
+  position:relative;top:1px;flex-shrink:0;margin-right:8px;opacity: 0.3;max-width: 32px;max-height: 32px;
 }
 
 .photo-holder.plus {

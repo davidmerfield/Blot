@@ -58,7 +58,6 @@ CreateBlog.route("/")
   .all(validateSubscription)
 
   .all(function (req, res, next) {
-
     // For institutional accounts, we need to allow them to create
     // at least one blog.
     if (_.isEmpty(req.user.subscription) && req.user.blogs.length === 0) {
@@ -67,7 +66,7 @@ CreateBlog.route("/")
 
     // If the user pays for more blogs than they have
     // associated with their account, don't charge
-    // them anything. This usually happens when they 
+    // them anything. This usually happens when they
     // delete their last blog.
     if (
       req.user.subscription &&
@@ -93,7 +92,7 @@ CreateBlog.route("/")
   .post(saveBlog)
 
   .post(function (req, res) {
-    res.message("/settings/client?setup=true", "Saved your title");
+    res.message(`/dashboard/${req.blog.handle}/client?setup=true`, "Saved your title");
   })
 
   .post(function (err, req, res, next) {
@@ -222,9 +221,7 @@ function saveBlog(req, res, next) {
 
     // Begin SSL cert fetching process
     request(Blog.extend(blog).url, function () {});
-
-    // Switch to the new blog
-    req.session.blogID = blog.id;
+    req.blog = blog;
     next();
   });
 }

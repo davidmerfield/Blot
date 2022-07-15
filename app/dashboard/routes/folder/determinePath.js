@@ -1,8 +1,5 @@
 module.exports = function determinePath(req, res, next) {
-  var dir = "/";
-
-  if (req.originalUrl.indexOf("/settings/folder") > -1)
-    dir = req.originalUrl.slice("/settings/folder".length);
+  var dir = req.folderPath || '/';
 
   res.locals.folder = {};
 

@@ -6,12 +6,14 @@
     {{/user.isFreeForLife}}
 
     {{#user.cancel_at_period_end}}
-     <p style="padding:0em 2em 0 0;margin:11px 0 20px;line-height:1.5">
- Your
+    <div class="line"
+      ><span class="label">Cancelled</span
+      ><span class="center">Your
     subscription has been cancelled and you won’t be charged again. On
     <b>{{user.pretty.expiry}}</b> your account will close and your
-    blog{{user.s}} will shut down. 
-  </p>{{/user.cancel_at_period_end}}
+    blog{{user.s}} will shut down.</span></div
+    >
+    {{/user.cancel_at_period_end}}
     
     {{#user.isSubscribed}} 
 

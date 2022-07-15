@@ -150,9 +150,19 @@ Add nice import step under 'Services' and as part of sign up
 - Look into how Hexo has written imports for [blogger](https://github.com/hexojs/hexo-migrator-blogger), [joomla](https://github.com/welksonramos/hexo-migrator-joomla), [rss](https://github.com/hexojs/hexo-migrator-rss), [wordpress](https://github.com/hexojs/hexo-migrator-wordpress).
 - Add importer for Twitter and sell [Sawyer](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVMhRNdQhfDwlXsqqFNgmKfTk)
 
-Smooth over the custom domain adding process
-- validate the domain is pointing to Blot before allowing resty-auto-ssl to request a cert. we seem to get into a DNS mismatch where a client thinks a domain points to Blot, and triggers a cert request through resty-auto-ssl but whatever DNS server Blot's server points to has the stale record (pointing elsewhere)
-- Disable redirect to HTTPS for blogs by default (to ensure old browsers without SNI work) but ensure all prominent links to the blog on dashboard use HTTPS
+Improve dashboard:
+- Smooth over the custom domain adding process
+  - cache domain validity and display checkmark on dashboard
+  - validate the domain is pointing to Blot before allowing resty-auto-ssl to request a cert. we seem to get into a DNS mismatch where a client thinks a domain points to Blot, and triggers a cert request through resty-auto-ssl but whatever DNS server Blot's server points to has the stale record (pointing elsewhere)
+  - Disable redirect to HTTPS for blogs by default (to ensure old browsers without SNI work) but ensure all prominent links to the blog on dashboard use HTTPS
+- Improve clients
+  - cache sync validity and display checkmark on dashboard
+  - surface errors for clients on dashboard index
+  - add a change button next to the dropbox folder selected on the dropbox client where possible
+  - add blocking process to dropbox connection when writing folder contents
+  - ensure the app permission access_token is destroyed when switching to full-folder and vice versa
+  - add a folder chooser during full-folder setup
+  - ensure you can move the folder in full-folder permission mode
 
 Move citations out of {{{html}}} and tell [questioner](https://blot.im/questions/298) and [Mikka](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlkPcprJZlTSFbTGlqSPJcfWJJ)
 
@@ -175,13 +185,6 @@ Convert [Vitepress](https://vitepress.vuejs.org/) to Blot and tell [Nicolas](htt
 
 Re-order blog engine routes such that pages/entries are evauluated first, making it possible to set up custom redirects and tell [Marco](https://mail.google.com/mail/u/0/#inbox/FMfcgzGllCcNbxjDTdZzRCcNgmnJjXWM)
 
-Improve clients
-- surface errors for clients on dashboard index
-- add a change button next to the dropbox folder selected on the dropbox client where possible
-- add blocking process to dropbox connection when writing folder contents
-- ensure the app permission access_token is destroyed when switching to full-folder and vice versa
-- add a folder chooser during full-folder setup
-- ensure you can move the folder in full-folder permission mode
 
 ---
 
