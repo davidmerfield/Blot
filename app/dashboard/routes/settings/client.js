@@ -128,7 +128,7 @@ for (var client_name in clients) {
 }
 
 client_routes.use("/:client", function (req, res, next) {
-  res.redirect("/settings/client");
+  res.redirect(`/dashboard/${req.blog.handle}/client`);
 });
 
 module.exports = client_routes;
