@@ -277,6 +277,9 @@ function chargeForRemaining(req, res, next) {
     return next();
   }
 
+  // Stripe won't charge less than $0.50, we'll just take the hit
+  if (req.amount_due_now <= 50) return next();
+
   stripe.charges.create(
     {
       amount: req.amount_due_now,
