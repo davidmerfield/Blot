@@ -1,13 +1,17 @@
-var Blog = require("blog");
+const Blog = require("blog");
+const moment = require("moment");
 
 module.exports = function (req, res, next, handle) {
   if (!req.session || !req.user || !req.user.blogs.length) return next();
   if (!handle) return next();
 
+  req.handle = handle;
+
   Blog.get({ handle }, function (err, blog) {
     if (!blog || blog.owner !== req.user.uid) return next(new Error("No blog"));
     try {
       blog = Blog.extend(blog);
+      blog.updated = moment(blog.cacheID).fromNow();
     } catch (e) {
       return next(e);
     }

@@ -123,7 +123,10 @@ dashboard.use(function (req, res, next) {
 
 // Use this before modifying the render function
 // since it doesn't use the layout for the rest of the dashboard
-dashboard.use("/dashboard/:handle/template/edit", require("./routes/template-editor"));
+dashboard.use(
+  "/dashboard/:handle/template/edit",
+  require("./routes/template-editor")
+);
 
 // Will deliver the sync status of the blog as SSEs
 dashboard.use("/dashboard/:handle/status", require("./routes/status"));
@@ -183,6 +186,9 @@ dashboard.use("/settings", require("./load-blogs"), function (req, res, next) {
     next();
   }
 });
+
+// 
+dashboard.use(require('./redirect-to-other-blog'));
 
 // need to handle dashboard errors better...
 dashboard.use(require("./routes/settings/errorHandler"));
