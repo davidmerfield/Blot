@@ -34,6 +34,8 @@ const extractSubtitle = (contents) => {
   }
 };
 
+const removeLeadingDash = (name) => (name[0] === "-" ? name.slice(1) : name);
+
 const withoutExtension = (name) => path.parse("/" + name).name;
 
 const removeIgnorableItems = (name) =>
@@ -56,14 +58,17 @@ const buildTOC = (NOTES_DIRECTORY) =>
               "utf-8"
             );
             return {
-              name: extractName(path, contents),
+              name: extractName(
+                NOTES_DIRECTORY + "/" + section + "/" + article,
+                contents
+              ),
               subtitle: extractSubtitle(contents),
               id: withoutExtension(article),
               slug:
                 "/about/notes/" +
                 withoutExtension(section) +
                 "/" +
-                withoutExtension(article),
+                removeLeadingDash(withoutExtension(article)),
             };
           }),
         slug: "/about/notes/" + path.parse("/" + section).name,
