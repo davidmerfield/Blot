@@ -7,7 +7,7 @@ var _ = require("lodash");
 var basename = require("path").basename;
 
 var dictionary = {
-  permalink: "Saved changes to your URL format",
+  permalink: "Saved changes to your link format",
   forceSSL: "Saved SSL redirect setting",
   roundAvatar: "Saved photo settings",
   avatar: "Saved changes to your photo",
