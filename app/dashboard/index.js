@@ -177,11 +177,7 @@ dashboard.use("/dashboard/:handle", require("./routes/settings"));
 // Redirect old URLS
 dashboard.use("/settings", require("./load-blogs"), function (req, res, next) {
   try {
-    const redirect = `/dashboard/${req.blogs[0].handle}/${req.path.slice(
-      "/settings".length
-    )}`;
-    console.log('here', redirect);
-    console.log('req.path', req.path);
+    const redirect = `/dashboard/${req.blogs[0].handle}${req.path}`;
     res.redirect(redirect);
   } catch (e) {
     next();
