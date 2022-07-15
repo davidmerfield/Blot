@@ -1762,18 +1762,14 @@ form.account>.buttons {
 
 a.line:hover,
 div.line a.link:hover,
-.dropdown .opener:hover,
-.dropdown .menu button:hover,
-.dropdown .menu a:hover span,
+.dropdown a:hover,
 .line form button:hover {
   background: #f7fafc
 }
 
 a.line:active,
 div.line a.link:active,
-.dropdown .opener:active,
-.dropdown .menu button:active,
-.dropdown .menu a:active span,
+.dropdown a:active,
 .line form button:active {
   background: rgba(0, 0, 0, 0.04)
 }
