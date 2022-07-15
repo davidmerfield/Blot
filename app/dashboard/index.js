@@ -94,7 +94,7 @@ dashboard.use("/_avatars/:avatar", require("./routes/avatar"));
 
 dashboard.post(
   [
-    "/settings/template*",
+    "/dashboard/:handle/template*",
     "/path",
     "/folder*",
     "/settings/client*",
@@ -157,7 +157,7 @@ dashboard.use("/dashboard/:handle", function (req, res, next) {
 
 // Load the files and folders inside a blog's folder
 dashboard.get(
-  "/dashboard/:handle/folder/:path*",
+  "/dashboard/:handle/folder/:path(*)",
 
   function (req, res, next) {
     req.folderPath = "/" + req.params.path;
@@ -172,8 +172,19 @@ dashboard.get(
 );
 
 dashboard.get("/dashboard/:handle", require("./routes/folder"));
-
 dashboard.use("/dashboard/:handle", require("./routes/settings"));
+
+// Redirect old URLS
+dashboard.use("/settings", require("./load-blogs"), function (req, res, next) {
+  try {
+    const redirect = `/dashboard/${req.blogs[0].handle}/${req.path.slice(
+      "/settings".length
+    )}`;
+    res.redirect(redirect);
+  } catch (e) {
+    next();
+  }
+});
 
 // need to handle dashboard errors better...
 dashboard.use(require("./routes/settings/errorHandler"));

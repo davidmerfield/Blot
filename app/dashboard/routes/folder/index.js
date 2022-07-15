@@ -24,6 +24,10 @@ router
   .use(trace("renderFolder"))
   .use(renderFolder)
   .use(trace("renderFile"))
-  .use(renderFile);
+  .use(renderFile)
+  .use(function (err, req, res, next) {
+    if (err && err.code === "ENOENT") return next();
+    next(err);
+  });
 
 module.exports = router;
