@@ -2,7 +2,7 @@
 <hr>
   <label>Your domain</label>
   <div class="messageWrapper">
-    <input type="text" id="customDomain" name="domain" 
+    <input type="text" id="customDomain" name="domain" data-verify="{{{base}}}/verify-domain/{{blog.pretty.domain}}"
 
     {{! 
 
@@ -26,8 +26,9 @@
   {{#footer}}
   <script src="/scripts/jquery.js?{{cacheID}}"></script>
   <script type="text/javascript">
-    if ($('#customDomain').val()) {
-     $.get('{{{base}}}/verify-domain/' + $('#customDomain').val(), function(data) {
+    const verify = $('#customDomain').attr('data-verify');
+    if (verify) {
+     $.get(verify, function(data) {
        if (data && data === 'true' || data === true) {
          $('#inputMessage').html('').addClass('success');
        } else {

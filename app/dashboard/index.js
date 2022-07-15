@@ -112,7 +112,7 @@ dashboard.use(function (req, res, next) {
   res.locals.partials = res.locals.partials || {};
 
   res.locals.footer = function () {
-    return function (text, render) {
+    return function (text) {
       res.locals.links_for_footer.push({ html: text });
       return "";
     };
