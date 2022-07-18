@@ -27,7 +27,7 @@ form.use(function (req, res, next) {
   // Send logged-in users to the dashboard unless we're using
   // a one-time log-in link
   if (req.session && req.session.uid && !req.query.token) {
-    var then = req.query.then || (req.body && req.body.then) || "/";
+    var then = req.query.then || (req.body && req.body.then) || "/dashboard";
     return res.redirect(then);
   }
 
