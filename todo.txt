@@ -1,4 +1,6 @@
-Thoroughly test all clients, both in dev and on blot.im
+Fix bug with questions section, cannot edit question  
+
+-Tho  roughly test all clients, both in dev and on blot.im
 
 Look into iA Writer's wikilinks syntax and follow up with Nat
 
