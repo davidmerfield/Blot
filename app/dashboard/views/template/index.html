@@ -139,7 +139,7 @@ flex-basis: 50%;">{{name}}</span>
     <button {{#checked}} disabled{{/checked}} type="submit"><span class="square">Use{{#checked}}d{{/checked}}</span></button>
   </form>
 
-  <form method='post' style="display:inline" action="/settings/template/new">
+  <form method='post' style="display:inline" action="{{{base}}}/template/new">
     <input type="hidden" name="redirect" value="{{{base}}}/template">
     <input type="hidden" name="name" value="{{^isMine}}Copy of {{/isMine}}{{name}}" />
     <input type="hidden" name="cloneFrom" value="{{id}}" />
