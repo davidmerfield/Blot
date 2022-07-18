@@ -203,6 +203,7 @@ Questions.route("/:id/edit")
 
         res.locals.topic = topic;
         res.locals.csrf = req.csrfToken();
+        res.render('questions/edit')
       })
       .catch(next);
   })

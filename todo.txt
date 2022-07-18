@@ -4,6 +4,10 @@ Fix log-in redirect to index page
 
 -Tho  roughly test all clients, both in dev and on blot.im
 
+Magazine template:
+- Reduce spacing between title and list and tell [Eric](https://mail.google.com/mail/u/0/#inbox/FMfcgzGpGwrDLdSzlVTMmpKCsVMpKxNr)
+- Fix menu icons for hamburger menu
+
 Look into iA Writer's wikilinks syntax and follow up with Nat
 
 Add `Ignore: yes` metadata to trigger the ignored file behaviour
@@ -44,8 +48,6 @@ Add tag to iterate over all images in a folder and tell [Laurel](https://mail.go
 Fix bug with tags that contain slashes and tell [Jack](https://mail.google.com/mail/u/0/#inbox/FMfcgzGpFgzpsCkCMGqnClfqMkWZqNNz)
 
 Fix display of featured post on mobile for magazine template and tell [Ben](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmvTzfVVTRQpBGKPzTjkhVsbKl)
-- Reduce spacing between title and list and tell [Eric](https://mail.google.com/mail/u/0/#inbox/FMfcgzGpGwrDLdSzlVTMmpKCsVMpKxNr)
-- Fix menu icons for hamburger menu
 
 Improve video demo and developer documentation of Blot by April 14th for Robin's students
 
