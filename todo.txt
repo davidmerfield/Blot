@@ -1,3 +1,11 @@
+Fix bug with Google Drive client and tell [Marcus](https://mail.google.com/mail/u/0/#inbox/FMfcgzGpGwrFQmqbDvjrtnRQFBmcvLzn)
+
+Update all feed.rss to latest PR in blog
+- check for compatibility issues before deploying
+
+Re-enable partial templates in posts/pages
+- Tell [Matt](https://mail.google.com/mail/u/0/#inbox/FMfcgzGpGwrFkhsBptjFjjmRcNHSBsGX)
+
 Thoroughly test all clients, both in dev and production
 
 Improvements to Magazine template:
