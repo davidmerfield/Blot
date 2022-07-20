@@ -10,7 +10,6 @@ site.use("/webhook", require("./webhook"));
 
 // this is a hack, we need the session on this route
 site.get("/authenticate", require("dashboard/session"), function (req, res) {
-  console.log("here", req.session);
   res.redirect(
     "/dashboard/" +
       req.session.blogToAuthenticate +

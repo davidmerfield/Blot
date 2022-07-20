@@ -20,7 +20,7 @@ const SETUP_CHANNEL = (req) =>
 
 const REDIRECT_URL = config.webhook_forwarding_host
 	? `https://${config.webhook_forwarding_host}/clients/google-drive/authenticate`
-	: `https://${config.host}/settings/client/google-drive/authenticate`;
+	: `https://${config.host}/clients/google-drive/authenticate`;
 
 dashboard.use(async function (req, res, next) {
 	const account = await database.getAccount(req.blog.id);
@@ -120,6 +120,7 @@ dashboard.get("/redirect", function (req, res) {
 		REDIRECT_URL
 	);
 
+	req.session.blogToAuthenticate = req.blog.handle;
 	res.redirect(
 		oauth2Client.generateAuthUrl({
 			access_type: "offline",

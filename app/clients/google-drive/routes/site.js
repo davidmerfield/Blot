@@ -7,21 +7,40 @@ const sync = require("../sync");
 const clfdate = require("helper/clfdate");
 const database = require("../database");
 const express = require("express");
-const dashboard = new express.Router();
+const site = new express.Router();
+const session = require("dashboard/session");
 
 // This is only neccessary in a development environment
-// when using the webhook forwarding server.
-dashboard.get("/authenticate", function (req, res) {
-  const url =
-    config.protocol +
-    config.host +
-    "/settings/client/google-drive/authenticate?" +
-    querystring.stringify(req.query);
-
-  res.redirect(url);
+// when using the webhook forwarding server. We might need
+// to do this twice to get from tunnel to public site to dashboard
+// with the required session information
+site.get("/authenticate", session, function (req, res) {
+  // This means we hit the public routes on Blot's site
+  if (req.session.blogToAuthenticate) {
+    const url =
+      config.protocol +
+      config.host +
+      "/dashboard/" +
+      req.session.blogToAuthenticate +
+      "/client/google-drive/authenticate?" +
+      querystring.stringify(req.query);
+    delete req.session.blogToAuthenticate;
+    res.redirect(url);
+  // This means we hit the public routes on Blot's webhook
+  // forwarding host (e.g. tunnel.blot.im) we don't have access
+  // to the session info yet so we redirect to the public routes
+  // on Blot's site, which will be able to access the session.
+  } else {
+    const url =
+      config.protocol +
+      config.host +
+      "/clients/google-drive/authenticate?" +
+      querystring.stringify(req.query);
+    res.redirect(url);
+  }
 });
 
-dashboard
+site
   .route("/webhook")
   .get(function (req, res) {
     res.send("Ok!");
@@ -80,4 +99,4 @@ dashboard
     res.send("OK");
   });
 
-module.exports = dashboard;
+module.exports = site;
