@@ -24,11 +24,6 @@
 <h2>No replies yet</h2>
 {{/topics.length}}
 
-{{^user}}
-<p>Please, <a href="/log-in">log in</a> to add a reply.</p>
-{{/user}}
-
-{{#user}}
 <br>
 <div style="max-width: 637px;">
 <form method="POST" action="/questions/{{topic.id}}/new" id="new-reply-form" class="qa-form">
@@ -58,5 +53,4 @@
   updateQuestionButtonState();
   bodyEl.addEventListener('keyup', updateQuestionButtonState);
 </script>
-{{/user}}
 </div>

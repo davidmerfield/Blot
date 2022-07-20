@@ -118,10 +118,12 @@ Questions.get(["/", "/page/:page"], function (req, res, next) {
 // Handle topic viewing and creation
 Questions.route("/ask")
   .get(csrf, function (req, res, next) {
+    if (!req.user) return res.redirect('/log-in?then=/questions/ask');
     res.locals.csrf = req.csrfToken();
     res.render("questions/ask");
   })
   .post(csrf, function (req, res) {
+    if (!req.user) return res.redirect('/log-in?then=/questions/ask');
     const author = req.user.uid;
     const title = req.body.title;
     const body = req.body.body;
@@ -147,6 +149,7 @@ Questions.route("/ask")
 // Handle new reply to topic
 Questions.route("/:id/new").post(csrf, function (req, res, next) {
   const id = parseInt(req.params.id);
+  if (!req.user) return res.redirect(`/log-in?then=/questions/${id}/new`);
   const author = req.user.uid;
   const body = req.body.body;
   if (body.trim().length === 0) res.redirect("/questions/" + id);
@@ -164,6 +167,7 @@ Questions.route("/:id/new").post(csrf, function (req, res, next) {
 Questions.route("/:id/edit")
   .get(csrf, function (req, res, next) {
     const id = parseInt(req.params.id);
+    if (!req.user) return res.redirect(`/log-in?then=/questions/${id}/edit`);
     pool
       .query("SELECT * FROM items WHERE id = $1", [id])
       .then((topics) => {
@@ -190,6 +194,7 @@ Questions.route("/:id/edit")
   })
   .post(csrf, function (req, res, next) {
     const id = parseInt(req.params.id);
+    if (!req.user) return res.redirect(`/log-in?then=/questions/${id}/edit`);
     const title = req.body.title || "";
     const body = req.body.body;
     let query;

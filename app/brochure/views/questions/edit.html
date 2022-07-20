@@ -1,11 +1,7 @@
 <h1>Edit</h1>
 
-{{^user}}
-<p>Please, <a href="/log-in">log in</a> to ask a new question.</p>
-{{/user}}
 
 
-{{#user}}
 <div style="max-width: 637px;">
   <form method="POST" class="qa-form">
     <input type="hidden" name="_csrf" value="{{csrf}}" />
@@ -42,4 +38,3 @@
   titleEl.addEventListener('keyup', updateQuestionButtonState);
   bodyEl.addEventListener('keyup', updateQuestionButtonState);
 </script>
-{{/user}}
