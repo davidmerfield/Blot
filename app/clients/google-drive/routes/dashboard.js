@@ -120,6 +120,7 @@ dashboard.get("/redirect", function (req, res) {
 		REDIRECT_URL
 	);
 
+	req.session.blogToAuthenticate = req.blog.handle;
 	res.redirect(
 		oauth2Client.generateAuthUrl({
 			access_type: "offline",
