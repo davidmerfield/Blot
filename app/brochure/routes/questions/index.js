@@ -24,23 +24,6 @@ Questions.use(
   })
 );
 
-// Renders dates dynamically in the documentation.
-// Can be used like so: {{#formatDaytime}}D{{/formatDaytime}} where D is timestamp (e.g. from a DB)
-Questions.use(function (req, res, next) {
-  res.locals.formatDaytime = function () {
-    return function (text, render) {
-      try {
-        text = render(text);
-        text = moment.utc(text).format("MMM D [']YY [at] H:mm");
-      } catch (e) {
-        text = "";
-      }
-      return text;
-    };
-  };
-  next();
-});
-
 Questions.use(function (req, res, next) {
   res.locals.base = "/questions";
   // The rest of these pages should not be cached
@@ -98,6 +81,9 @@ Questions.get(["/", "/page/:page"], function (req, res, next) {
       // We preview one line of the topic body on the question index page
       topics.rows.forEach(function (topic) {
         topic.body = marked(topic.body);
+        topic.asked = moment
+          .utc(topic.created_at)
+          .format("MMM D [']YY [at] H:mm");
       });
 
       // Data for pagination
@@ -129,7 +115,7 @@ Questions.get(["/", "/page/:page"], function (req, res, next) {
       res.locals.topics = topics.rows;
       res.locals.paginator = paginator;
       res.locals.search_query = search_query;
-      res.render('questions');
+      res.render("questions");
     })
     .catch(next);
 });
@@ -138,7 +124,7 @@ Questions.get(["/", "/page/:page"], function (req, res, next) {
 Questions.route("/ask")
   .get(csrf, function (req, res, next) {
     res.locals.csrf = req.csrfToken();
-    res.render('questions/ask')
+    res.render("questions/ask");
   })
   .post(csrf, function (req, res) {
     const author = req.user.uid;
@@ -203,7 +189,7 @@ Questions.route("/:id/edit")
 
         res.locals.topic = topic;
         res.locals.csrf = req.csrfToken();
-        res.render('questions/edit')
+        res.render("questions/edit");
       })
       .catch(next);
   })
@@ -253,15 +239,21 @@ Questions.route("/:id").get(csrf, function (req, res, next) {
           if (!topic) return next();
 
           topic.body = marked(topic.body);
+          topic.asked = moment
+            .utc(topic.created_at)
+            .format("MMM D [']YY [at] H:mm");
           res.locals.breadcrumbs[res.locals.breadcrumbs.length - 1].label =
             topic.title;
-          replies.rows.forEach(
-            (el, index) => (replies.rows[index].body = marked(el.body))
-          );
+          replies.rows.forEach((el, index) => {
+            replies.rows[index].body = marked(el.body);
+            replies.rows[index].answered = moment
+              .utc(replies.rows[index].created_at)
+              .format("MMM D [']YY [at] H:mm");
+          });
           res.locals.title = topic.title;
           res.locals.topics = replies.rows;
           res.locals.topic = topic;
-          res.render('questions/topic');
+          res.render("questions/topic");
         })
         .catch(next);
     })
