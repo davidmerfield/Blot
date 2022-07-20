@@ -35,7 +35,10 @@ Questions.use(function (req, res, next) {
 // Topics are sorted by datetime of last reply, then by topic creation date
 Questions.get(["/", "/page/:page"], function (req, res, next) {
   // Pagination data
+  if (req.params.page === "1") return res.redirect(req.baseUrl);
+
   const page = req.params.page ? parseInt(req.params.page) : 1;
+
   if (!Number.isInteger(page)) {
     return next();
   }
@@ -47,11 +50,6 @@ Questions.get(["/", "/page/:page"], function (req, res, next) {
   if (search_query) {
     // populate with words from query    add '%' prefix and postfix for Postgres pattern matching
     search_arr = search_query.split(" ").map((el) => "%" + el + "%");
-    res.locals.breadcrumbs[res.locals.breadcrumbs.length - 1].label =
-      "Questions about " + search_query.split(/[ ,]+/).join(", ");
-  } else {
-    res.locals.breadcrumbs[res.locals.breadcrumbs.length - 1].label =
-      "Questions";
   }
 
   const search_arr_str = JSON.stringify(search_arr).replace(/"/g, "'"); // stringify and replace double quotes with single quotes for Postgres
@@ -108,10 +106,7 @@ Questions.get(["/", "/page/:page"], function (req, res, next) {
         }
       }
 
-      if (req.params.page) {
-        res.locals.breadcrumbs = res.locals.breadcrumbs.slice(0, -2);
-      }
-
+      res.locals.title = page > 1 ? `Page ${page} - Questions` : "Questions";
       res.locals.topics = topics.rows;
       res.locals.paginator = paginator;
       res.locals.search_query = search_query;

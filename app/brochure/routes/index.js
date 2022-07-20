@@ -30,14 +30,17 @@ brochure.get(["/how/format/*"], function (req, res, next) {
 });
 
 brochure.use(function (req, res, next) {
-  res.locals.breadcrumbs = req.url.split("/").map(function (slug, i, arr) {
-    if (!slug) return { label: "Blot", first: true, url: "/" };
-    return {
-      label: TITLES[slug] || titleFromSlug(slug),
-      url: arr.slice(0, i + 1).join("/"),
-      last: i === arr.length - 1,
-    };
-  });
+  res.locals.breadcrumbs = require("url")
+    .parse(req.url)
+    .pathname.split("/")
+    .map(function (slug, i, arr) {
+      if (!slug) return { label: "Blot", first: true, url: "/" };
+      return {
+        label: TITLES[slug] || titleFromSlug(slug),
+        url: arr.slice(0, i + 1).join("/"),
+        last: i === arr.length - 1,
+      };
+    });
 
   if (req.url === "/") {
     res.locals.breadcrumbs = res.locals.breadcrumbs.slice(0, 1);
