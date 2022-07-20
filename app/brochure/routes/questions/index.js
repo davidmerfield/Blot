@@ -79,9 +79,9 @@ Questions.get(["/", "/page/:page"], function (req, res, next) {
       // We preview one line of the topic body on the question index page
       topics.rows.forEach(function (topic) {
         topic.body = marked(topic.body);
-        if (topic.tags) topic.tags = topic.tags.split(" ").map((tag) => ({ tag, slug: tag }));
-        topic.asked = moment(topic.created_at)
-          .fromNow();
+        if (topic.tags)
+          topic.tags = topic.tags.split(" ").map((tag) => ({ tag, slug: tag }));
+        topic.asked = moment(topic.created_at).fromNow();
       });
 
       // Data for pagination
@@ -111,6 +111,20 @@ Questions.get(["/", "/page/:page"], function (req, res, next) {
       res.locals.paginator = paginator;
       res.locals.search_query = search_query;
       res.render("questions");
+    })
+    .catch(next);
+});
+
+Questions.route("/tags").get(function (req, res, next) {
+  pool
+    .query(
+      `SELECT DISTINCT unnest(string_to_array(tags, ' ')) as tag
+          FROM items
+          WHERE tags IS NOT NULL`
+    )
+    .then(({rows}) => {
+      res.locals.tags = rows;
+      res.render("questions/tags");
     })
     .catch(next);
 });
@@ -240,15 +254,18 @@ Questions.route("/:id").get(csrf, function (req, res, next) {
 
           topic.body = marked(topic.body);
           topic.reply_count = replies.rows.length;
-          if (topic.tags) topic.tags = topic.tags.split(" ").map((tag) => ({ tag, slug: tag }));
-          topic.asked = moment(topic.created_at)
-            .fromNow();
+          if (topic.tags)
+            topic.tags = topic.tags
+              .split(" ")
+              .map((tag) => ({ tag, slug: tag }));
+          topic.asked = moment(topic.created_at).fromNow();
           res.locals.breadcrumbs[res.locals.breadcrumbs.length - 1].label =
             topic.title;
           replies.rows.forEach((el, index) => {
             replies.rows[index].body = marked(el.body);
-            replies.rows[index].answered = moment(replies.rows[index].created_at)
-              .fromNow();
+            replies.rows[index].answered = moment(
+              replies.rows[index].created_at
+            ).fromNow();
           });
           res.locals.title = topic.title;
           res.locals.topics = replies.rows;
@@ -260,9 +277,14 @@ Questions.route("/:id").get(csrf, function (req, res, next) {
     .catch(next);
 });
 
-Questions.get(["/tagged/:tag", "/tagged/:tag/page/:page"], function (req, res, next) {
+Questions.get(["/tagged/:tag", "/tagged/:tag/page/:page"], function (
+  req,
+  res,
+  next
+) {
   // Pagination data
-  if (req.params.page === "1") return res.redirect(req.baseUrl + `/tagged/${req.params.tag}`);
+  if (req.params.page === "1")
+    return res.redirect(req.baseUrl + `/tagged/${req.params.tag}`);
 
   const page = req.params.page ? parseInt(req.params.page) : 1;
   const tag = req.params.tag;
@@ -280,8 +302,8 @@ Questions.get(["/tagged/:tag", "/tagged/:tag/page/:page"], function (req, res, n
   // Search data
   const search_query = req.query.search; // raw query from form
   let search_arr = ["%"]; // array for Postgres; initial value is needed for empty search query case
-    // populate with words from query    add '%' prefix and postfix for Postgres pattern matching
-    search_arr = tag.split(" ").map((el) => "%" + el + "%");
+  // populate with words from query    add '%' prefix and postfix for Postgres pattern matching
+  search_arr = tag.split(" ").map((el) => "%" + el + "%");
 
   const search_arr_str = JSON.stringify(search_arr).replace(/"/g, "'"); // stringify and replace double quotes with single quotes for Postgres
 
@@ -310,9 +332,9 @@ Questions.get(["/tagged/:tag", "/tagged/:tag/page/:page"], function (req, res, n
       // We preview one line of the topic body on the question index page
       topics.rows.forEach(function (topic) {
         topic.body = marked(topic.body);
-        if (topic.tags) topic.tags = topic.tags.split(" ").map((tag) => ({ tag, slug: tag }));
-        topic.asked = moment(topic.created_at)
-          .fromNow();
+        if (topic.tags)
+          topic.tags = topic.tags.split(" ").map((tag) => ({ tag, slug: tag }));
+        topic.asked = moment(topic.created_at).fromNow();
       });
 
       // Data for pagination
@@ -345,5 +367,7 @@ Questions.get(["/tagged/:tag", "/tagged/:tag/page/:page"], function (req, res, n
     })
     .catch(next);
 });
+
+
 
 module.exports = Questions;
