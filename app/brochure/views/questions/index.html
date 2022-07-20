@@ -1,12 +1,18 @@
 <h1>Questions</h1>
 
-<p><a class="bordered-button" href="/questions/ask">Ask a question</a></p>
 
-<br>
 
-<form action="/questions">
-  <input style="width: 100%" type="search" id="search" name="search" value="{{search_query}}" placeholder="Search all questions">
+  <form action="/questions" style="margin-top:0rem;margin-bottom:1rem;display: flex;align-items: flex-end;">
+    <p style="margin: 0;flex-basis: 50%">
+  <input type="text" style="width: 100%" type="search" id="search" name="search" value="{{search_query}}" placeholder="Search all questions" required="">
+  </p>
+  <input style="flex-basis: 15%;width: auto;margin:0;border-radius: 0 4px 4px 0;    padding: 0 1em;
+    line-height: 42px;
+    margin-bottom: 2px;" type="submit" value="Search">
+  <div style="flex-grow: 1"></div>
+  <a class="bordered-button" style="margin:2px 0;line-height:40px;border-radius:20px;white-space: nowrap;" href="/questions/ask">Ask a question</a>
 </form>
+<br>
 
 <div class="topics">
   {{#topics}}

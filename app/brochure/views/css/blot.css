@@ -400,13 +400,13 @@ form p:focus-within > label {
 
 a.bordered-button {
   border: 1px solid var(--accent-color);
+  color: var(--accent-color);
   text-decoration: none;
   margin-top: 18px;
   font-weight: 600;
   line-height: 36px;
   padding: 0 2rem;
   display: inline-block;
-  border-color: rgba();
   border-radius: 18px;
 }
 
@@ -462,9 +462,6 @@ ul.who .imag {
   border-top: 1px solid var(--light-border-color);
 }
 
-.qa-question-link:first-child {
-  border-top: none;
-}
 
 .qa-question-link h2 {
   margin: 0;
