@@ -79,9 +79,9 @@ Questions.get(["/", "/page/:page"], function (req, res, next) {
       // We preview one line of the topic body on the question index page
       topics.rows.forEach(function (topic) {
         topic.body = marked(topic.body);
-        topic.asked = moment
-          .utc(topic.created_at)
-          .format("MMM D [']YY [at] H:mm");
+        if (topic.tags) topic.tags = topic.tags.split(" ").map((tag) => ({ tag, slug: tag }));
+        topic.asked = moment(topic.created_at)
+          .fromNow();
       });
 
       // Data for pagination
@@ -118,27 +118,26 @@ Questions.get(["/", "/page/:page"], function (req, res, next) {
 // Handle topic viewing and creation
 Questions.route("/ask")
   .get(csrf, function (req, res, next) {
-    if (!req.user) return res.redirect('/log-in?then=/questions/ask');
+    if (!req.user) return res.redirect("/log-in?then=/questions/ask");
     res.locals.csrf = req.csrfToken();
     res.render("questions/ask");
   })
-  .post(csrf, function (req, res) {
-    if (!req.user) return res.redirect('/log-in?then=/questions/ask');
+  .post(csrf, function (req, res, next) {
+    if (!req.user) return res.redirect("/log-in?then=/questions/ask");
     const author = req.user.uid;
     const title = req.body.title;
+    const tags = req.body.tags;
     const body = req.body.body;
     // Disallow empty title or body.
     // TODO: show error message, do not lose form data
     if (title.trim().length === 0 || body.trim().length === 0)
-      res.redirect("/questions/ask");
+      return next(new Error("Title and body must be set"));
     else {
       pool.query(
-        "INSERT INTO items(id, author, title, body, is_topic) VALUES(DEFAULT, $1, $2, $3, true) RETURNING *",
-        [author, title, body],
+        "INSERT INTO items(id, author, title, body, tags, is_topic) VALUES(DEFAULT, $1, $2, $3, $4, true) RETURNING *",
+        [author, title, body, tags],
         (error, topic) => {
-          if (error) {
-            throw error;
-          }
+          if (error) return next(error);
           const newTopic = topic.rows[0];
           res.redirect("/questions/" + newTopic.id);
         }
@@ -197,13 +196,14 @@ Questions.route("/:id/edit")
     if (!req.user) return res.redirect(`/log-in?then=/questions/${id}/edit`);
     const title = req.body.title || "";
     const body = req.body.body;
+    const tags = req.body.tags || "";
     let query;
     let queryParameters;
 
     // For updating questions
     if (title) {
-      query = `UPDATE items SET title=$1, body=$2 WHERE id = $3 RETURNING *`;
-      queryParameters = [title, body, id];
+      query = `UPDATE items SET title=$1, body=$2, tags=$3 WHERE id = $4 RETURNING *`;
+      queryParameters = [title, body, tags, id];
       // For updating answers
     } else {
       query = `UPDATE items SET body=$1 WHERE id = $2 RETURNING *`;
@@ -239,16 +239,16 @@ Questions.route("/:id").get(csrf, function (req, res, next) {
           if (!topic) return next();
 
           topic.body = marked(topic.body);
-          topic.asked = moment
-            .utc(topic.created_at)
-            .format("MMM D [']YY [at] H:mm");
+          topic.reply_count = replies.rows.length;
+          if (topic.tags) topic.tags = topic.tags.split(" ").map((tag) => ({ tag, slug: tag }));
+          topic.asked = moment(topic.created_at)
+            .fromNow();
           res.locals.breadcrumbs[res.locals.breadcrumbs.length - 1].label =
             topic.title;
           replies.rows.forEach((el, index) => {
             replies.rows[index].body = marked(el.body);
-            replies.rows[index].answered = moment
-              .utc(replies.rows[index].created_at)
-              .format("MMM D [']YY [at] H:mm");
+            replies.rows[index].answered = moment(replies.rows[index].created_at)
+              .fromNow();
           });
           res.locals.title = topic.title;
           res.locals.topics = replies.rows;
@@ -256,6 +256,92 @@ Questions.route("/:id").get(csrf, function (req, res, next) {
           res.render("questions/topic");
         })
         .catch(next);
+    })
+    .catch(next);
+});
+
+Questions.get(["/tagged/:tag", "/tagged/:tag/page/:page"], function (req, res, next) {
+  // Pagination data
+  if (req.params.page === "1") return res.redirect(req.baseUrl + `/tagged/${req.params.tag}`);
+
+  const page = req.params.page ? parseInt(req.params.page) : 1;
+  const tag = req.params.tag;
+
+  if (!Number.isInteger(page)) {
+    return next();
+  }
+
+  if (!tag) {
+    return next();
+  }
+
+  const offset = (page - 1) * TOPICS_PER_PAGE;
+
+  // Search data
+  const search_query = req.query.search; // raw query from form
+  let search_arr = ["%"]; // array for Postgres; initial value is needed for empty search query case
+    // populate with words from query    add '%' prefix and postfix for Postgres pattern matching
+    search_arr = tag.split(" ").map((el) => "%" + el + "%");
+
+  const search_arr_str = JSON.stringify(search_arr).replace(/"/g, "'"); // stringify and replace double quotes with single quotes for Postgres
+
+  pool
+    .query(
+      `SELECT i.*, last_reply_created_at, COUNT(r.parent_id) AS reply_count, COUNT(r.parent_id) > 0 AS has_replies, COUNT(*) OVER() AS topics_count
+                FROM items i
+                LEFT JOIN items r ON r.parent_id = i.id
+                    LEFT JOIN (
+                        SELECT parent_id, MAX(created_at) last_reply_created_at 
+                        FROM items GROUP BY parent_id
+                        ) r2 
+                    ON r2.parent_id = i.id
+                WHERE i.is_topic = true AND (i.tags ILIKE any (array[${search_arr_str}]))
+                GROUP BY i.id, last_reply_created_at
+                ORDER BY has_replies, last_reply_created_at DESC
+                LIMIT ${TOPICS_PER_PAGE}
+                OFFSET ${offset}`
+    )
+    .then((topics) => {
+      if (topics.rows.length === 0) return next();
+
+      // Paginator object for the view
+      let paginator = {};
+
+      // We preview one line of the topic body on the question index page
+      topics.rows.forEach(function (topic) {
+        topic.body = marked(topic.body);
+        if (topic.tags) topic.tags = topic.tags.split(" ").map((tag) => ({ tag, slug: tag }));
+        topic.asked = moment(topic.created_at)
+          .fromNow();
+      });
+
+      // Data for pagination
+      let pages_count = Math.ceil(
+        topics.rows[0].topics_count / TOPICS_PER_PAGE
+      ); // total pages
+      let next_page = false;
+      if (page < pages_count) next_page = page + 1; // next page value only if current page is not last
+
+      if (pages_count > 1) {
+        // create paginator only if there are more than 1 pages
+        paginator = {
+          pages: [], // array of pages [{page: 1, current: true}, {...}, ... ]
+          next_page: next_page, // next page int
+          topics_count: topics.rows[0].topics_count, // total number of topics
+        };
+        for (let i = 1; i <= pages_count; i++) {
+          // filling pages array
+          if (i === page) {
+            paginator.pages.push({ page: i, current: true });
+          } else paginator.pages.push({ page: i, current: false });
+        }
+      }
+
+      res.locals.title = page > 1 ? `Page ${page} - Questions` : "Questions";
+      res.locals.topics = topics.rows;
+      res.locals.paginator = paginator;
+      res.locals.search_query = search_query;
+      res.render("questions");
     })
     .catch(next);
 });

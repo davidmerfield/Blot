@@ -20,11 +20,23 @@
   <h2>
     <a href="/questions/{{id}}">{{title}}</a>
   </h2>
-  <div class="question-preview">
+  <div class="question-preview" style="    margin-bottom: 4px;
+">
     {{{body}}}
   </div>
-  <a href="/questions/{{id}}">
-  <span class="secondary-text smaller" style="float: right;">{{reply_count}} {{#singular}}reply{{/singular}}{{^singular}}replies{{/singular}}</span>
+  <div style="display: flex;margin-bottom: 16px">
+
+    <div>
+    {{#tags}}
+      <a href="/questions/tagged/{{slug}}" class="secondary-text smaller" style="color:var(--accent-color);padding:4px 6px;border-radius: 4px;background: #eaf4ff;margin-right: 8px;">
+        {{tag}}
+      </a>
+    {{/tags}}
+    </div>
+    <div style="flex-grow: 1"></div>
+    <a href="/questions/{{id}}">
+
+  <span class="secondary-text smaller">{{reply_count}} {{#singular}}reply{{/singular}}{{^singular}}replies{{/singular}}  &#8226;</span>
   <span class="secondary-text smaller" >asked {{asked}}</span>
   </a>
   </div>
