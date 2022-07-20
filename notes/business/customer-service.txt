@@ -4,7 +4,7 @@ Before working on Blot, I hadn't had a customer-facing job. Here are a few of th
 
 ## Tracking requests
 
-We use a [text-file](/about/notes/business/project-management) to track all of the tasks for Blot. If the task involves following up with the customer – perhaps fixing a bug or adding a feature – we add a link to the relevant email correspondence.
+We use a [text-file](/about/notes/business/technique) to track all of the tasks for Blot. If the task involves following up with the customer – perhaps fixing a bug or adding a feature – we add a link to the relevant email correspondence.
 
 Because this text-file is also used to render our [News](/news) page, the customer has a public committment from us that we will fix their problem. This helps, especially when the problem takes a while to solve.
 

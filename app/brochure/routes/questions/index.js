@@ -35,7 +35,10 @@ Questions.use(function (req, res, next) {
 // Topics are sorted by datetime of last reply, then by topic creation date
 Questions.get(["/", "/page/:page"], function (req, res, next) {
   // Pagination data
+  if (req.params.page === "1") return res.redirect(req.baseUrl);
+
   const page = req.params.page ? parseInt(req.params.page) : 1;
+
   if (!Number.isInteger(page)) {
     return next();
   }
@@ -47,11 +50,6 @@ Questions.get(["/", "/page/:page"], function (req, res, next) {
   if (search_query) {
     // populate with words from query    add '%' prefix and postfix for Postgres pattern matching
     search_arr = search_query.split(" ").map((el) => "%" + el + "%");
-    res.locals.breadcrumbs[res.locals.breadcrumbs.length - 1].label =
-      "Questions about " + search_query.split(/[ ,]+/).join(", ");
-  } else {
-    res.locals.breadcrumbs[res.locals.breadcrumbs.length - 1].label =
-      "Questions";
   }
 
   const search_arr_str = JSON.stringify(search_arr).replace(/"/g, "'"); // stringify and replace double quotes with single quotes for Postgres
@@ -108,10 +106,7 @@ Questions.get(["/", "/page/:page"], function (req, res, next) {
         }
       }
 
-      if (req.params.page) {
-        res.locals.breadcrumbs = res.locals.breadcrumbs.slice(0, -2);
-      }
-
+      res.locals.title = page > 1 ? `Page ${page} - Questions` : "Questions";
       res.locals.topics = topics.rows;
       res.locals.paginator = paginator;
       res.locals.search_query = search_query;
@@ -123,10 +118,12 @@ Questions.get(["/", "/page/:page"], function (req, res, next) {
 // Handle topic viewing and creation
 Questions.route("/ask")
   .get(csrf, function (req, res, next) {
+    if (!req.user) return res.redirect('/log-in?then=/questions/ask');
     res.locals.csrf = req.csrfToken();
     res.render("questions/ask");
   })
   .post(csrf, function (req, res) {
+    if (!req.user) return res.redirect('/log-in?then=/questions/ask');
     const author = req.user.uid;
     const title = req.body.title;
     const body = req.body.body;
@@ -152,6 +149,7 @@ Questions.route("/ask")
 // Handle new reply to topic
 Questions.route("/:id/new").post(csrf, function (req, res, next) {
   const id = parseInt(req.params.id);
+  if (!req.user) return res.redirect(`/log-in?then=/questions/${id}/new`);
   const author = req.user.uid;
   const body = req.body.body;
   if (body.trim().length === 0) res.redirect("/questions/" + id);
@@ -169,6 +167,7 @@ Questions.route("/:id/new").post(csrf, function (req, res, next) {
 Questions.route("/:id/edit")
   .get(csrf, function (req, res, next) {
     const id = parseInt(req.params.id);
+    if (!req.user) return res.redirect(`/log-in?then=/questions/${id}/edit`);
     pool
       .query("SELECT * FROM items WHERE id = $1", [id])
       .then((topics) => {
@@ -195,6 +194,7 @@ Questions.route("/:id/edit")
   })
   .post(csrf, function (req, res, next) {
     const id = parseInt(req.params.id);
+    if (!req.user) return res.redirect(`/log-in?then=/questions/${id}/edit`);
     const title = req.body.title || "";
     const body = req.body.body;
     let query;
