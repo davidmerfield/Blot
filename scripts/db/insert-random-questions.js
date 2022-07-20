@@ -27,6 +27,7 @@ while (questions.length < totalQuestions) {
   questions.push({
     author: faker.name.findName(),
     title: faker.lorem.sentences(1),
+    tags: faker.hacker.noun() + ' ' + faker.hacker.noun() + ' ' + faker.hacker.noun(),
     body: faker.lorem.paragraphs(),
     replies,
   });
@@ -34,11 +35,11 @@ while (questions.length < totalQuestions) {
 
 async.eachSeries(
   questions,
-  ({ author, title, body, replies }, next) => {
+  ({ author, title, body, tags, replies }, next) => {
     console.log("Adding", title);
     pool.query(
-      "INSERT INTO items(id, author, title, body, is_topic) VALUES(DEFAULT, $1, $2, $3, true) RETURNING *",
-      [author, title, body],
+      "INSERT INTO items(id, author, title, body, tags, is_topic) VALUES(DEFAULT, $1, $2, $3, $4, true) RETURNING *",
+      [author, title, body, tags],
       (err, { rows }) => {
         if (err) return next(err);
         const { id } = rows[0];
