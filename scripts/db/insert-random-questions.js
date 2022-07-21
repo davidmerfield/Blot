@@ -27,7 +27,7 @@ while (questions.length < totalQuestions) {
   questions.push({
     author: faker.name.findName(),
     title: faker.lorem.sentences(1),
-    tags: faker.hacker.noun() + ' ' + faker.hacker.noun() + ' ' + faker.hacker.noun(),
+    tags: faker.hacker.noun() + ',' + faker.hacker.noun() + ',' + faker.hacker.noun(),
     body: faker.lorem.paragraphs(),
     replies,
   });

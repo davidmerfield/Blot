@@ -4,7 +4,7 @@ const moment = require("moment");
 const csrf = require("csurf")();
 const config = require("config");
 const marked = require("marked");
-
+const async = require("async");
 // Configure connection to Postgres
 const Pool = require("pg").Pool;
 const pool = new Pool({
@@ -80,7 +80,7 @@ Questions.get(["/", "/page/:page"], function (req, res, next) {
       topics.rows.forEach(function (topic) {
         topic.body = marked(topic.body);
         if (topic.tags)
-          topic.tags = topic.tags.split(" ").map((tag) => ({ tag, slug: tag }));
+          topic.tags = topic.tags.split(",").map((tag) => ({ tag, slug: tag }));
         topic.asked = moment(topic.created_at).fromNow();
       });
 
@@ -115,7 +115,15 @@ Questions.get(["/", "/page/:page"], function (req, res, next) {
     .catch(next);
 });
 
-Questions.route("/tags").get(function (req, res, next) {
+Questions.route(["/tags", "/tags/page/:page"]).get(function (req, res, next) {
+  const TAGS_PER_PAGE = 15;
+  const page = req.params.page ? parseInt(req.params.page) : 1;
+
+  if (!Number.isInteger(page)) {
+    return next();
+  }
+  const offset = (page - 1) * TAGS_PER_PAGE;
+
   pool
     .query(
       `SELECT taglist.tag,
@@ -123,12 +131,37 @@ Questions.route("/tags").get(function (req, res, next) {
         FROM   items
         WHERE  items.tags LIKE '%'
                                || taglist.tag
-                               || '%') AS total
-FROM   (SELECT DISTINCT Unnest(String_to_array(tags, ' ')) AS tag
+                               || '%') AS total,
+    COUNT(*) OVER() AS tags_count                               
+FROM   (SELECT DISTINCT Unnest(String_to_array(tags, ',')) AS tag
         FROM   items) taglist
-ORDER  BY total DESC;`
+ORDER  BY total DESC
+LIMIT ${TAGS_PER_PAGE}
+OFFSET ${offset};`
     )
-    .then(({rows}) => {
+    .then(({ rows }) => {
+      // Data for pagination
+      let pages_count = Math.ceil(rows[0].tags_count / TAGS_PER_PAGE); // total pages
+      let next_page = false;
+      if (page < pages_count) next_page = page + 1; // next page value only if current page is not last
+
+      if (pages_count > 1) {
+        // create paginator only if there are more than 1 pages
+        let paginator = {
+          pages: [], // array of pages [{page: 1, current: true}, {...}, ... ]
+          next_page: next_page, // next page int
+          tags_count: rows[0].tags_count, // total number of topics
+        };
+        for (let i = 1; i <= pages_count; i++) {
+          // filling pages array
+          if (i === page) {
+            paginator.pages.push({ page: i, current: true });
+          } else paginator.pages.push({ page: i, current: false });
+        }
+        res.locals.paginator = paginator;
+      }
+
+      res.locals.title = page > 1 ? `Page ${page} - Tags` : "Tags";
       res.locals.tags = rows;
       res.render("questions/tags");
     })
@@ -262,7 +295,7 @@ Questions.route("/:id").get(csrf, function (req, res, next) {
           topic.reply_count = replies.rows.length;
           if (topic.tags)
             topic.tags = topic.tags
-              .split(" ")
+              .split(",")
               .map((tag) => ({ tag, slug: tag }));
           topic.asked = moment(topic.created_at).fromNow();
           res.locals.breadcrumbs[res.locals.breadcrumbs.length - 1].label =
@@ -282,6 +315,51 @@ Questions.route("/:id").get(csrf, function (req, res, next) {
     })
     .catch(next);
 });
+
+Questions.route("/tagged/:tag/edit")
+  .get(csrf, async function (req, res, next) {
+    const tag = req.params.tag;
+    const {
+      rows,
+    } = await pool.query(
+      `SELECT count(*) AS total_affected FROM items WHERE tags ILIKE '%' || $1 || '%'`,
+      [tag]
+    );
+    const total_affected = rows[0].total_affected;
+
+    res.locals.tag = tag;
+    res.locals.csrf = req.csrfToken();
+    res.locals.total_affected = total_affected;
+    res.render("questions/edit-tag.html");
+  })
+  .post(csrf, async function (req, res, next) {
+    const previousTag = req.body.previousTag;
+    const tag = req.body.tag;
+    const {
+      rows,
+    } = await pool.query(
+      `SELECT tags, id FROM items WHERE tags ILIKE '%' || $1 || '%'`,
+      [previousTag]
+    );
+    async.eachSeries(
+      rows,
+      ({ tags, id }, next) => {
+        tags = tags
+          .split(",")
+          .map((t) => (t === previousTag ? tag : t))
+          .join(",");
+        pool.query(
+          `UPDATE items SET tags = $1 WHERE id = $2;`,
+          [tags, id],
+          next
+        );
+      },
+      (err) => {
+        if (err) return next(err);
+        res.redirect(req.baseUrl + "/tagged/" + tag);
+      }
+    );
+  });
 
 Questions.get(["/tagged/:tag", "/tagged/:tag/page/:page"], function (
   req,
@@ -339,7 +417,7 @@ Questions.get(["/tagged/:tag", "/tagged/:tag/page/:page"], function (
       topics.rows.forEach(function (topic) {
         topic.body = marked(topic.body);
         if (topic.tags)
-          topic.tags = topic.tags.split(" ").map((tag) => ({ tag, slug: tag }));
+          topic.tags = topic.tags.split(",").map((tag) => ({ tag, slug: tag }));
         topic.asked = moment(topic.created_at).fromNow();
       });
 
@@ -373,7 +451,5 @@ Questions.get(["/tagged/:tag", "/tagged/:tag/page/:page"], function (
     })
     .catch(next);
 });
-
-
 
 module.exports = Questions;

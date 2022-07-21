@@ -1,8 +1,23 @@
 <h1>Tags</h1>
 
+<style type="text/css">
+  div.tags {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  div.tags a {
+    flex-basis: 33%;
+    border:1px solid var(--light-border-color);
+      border-radius: 4px;
+    box-sizing: border-box;
+    padding: 11px 20px;
+    margin-bottom: 1rem
+  }
+</style>
 <div class="tags">
   {{#tags}}
-  <a href="/questions/tagged/{{{tag}}}">{{tag}} - {{total}}</a>
+  <a class="tag-link" href="/questions/tagged/{{{tag}}}">{{tag}}<span style="display: block;color:rgba(0,0,0,0.5)">{{total}} questions</span></a>
   {{/tags}}
 </div>
 
@@ -10,7 +25,7 @@
 <div class="paginator">
   {{#pages}}
     {{^current}}
-      <a class="whitebutton pagenum secondary-text" href="/questions/page/{{page}}">{{page}}</a>
+      <a class="whitebutton pagenum secondary-text" href="/questions/tags/page/{{page}}">{{page}}</a>
     {{/current}}
 
     {{#current}}
@@ -19,11 +34,11 @@
   {{/pages}}
 
   {{#next_page}}
-    <a class="next" href="/questions/page/{{.}}">Next</a>
+    <a class="next" href="/questions/tags/page/{{next_page}}">Next</a>
   {{/next_page}}
 
-  {{#topics_count}}
-    <span class="total">{{topics_count}}&nbsp;questions</span>
-  {{/topics_count}}
+  {{#tags_count}}
+    <span class="total">{{tags_count}}&nbsp;tags</span>
+  {{/tags_count}}
 </div>
 {{/paginator}}

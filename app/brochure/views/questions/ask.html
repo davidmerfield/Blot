@@ -10,7 +10,25 @@
       <textarea type="text" name="body" id="body" placeholder="Question..."></textarea>
     </div>
     <div>
+            <script src="/js/tagify.js"></script>
+            <link href="/css/tagify.css" rel="stylesheet" type="text/css" />
+
             <input type="text" name="tags" id="tags" placeholder="Tags..."></input>
+            <script type="text/javascript">
+              // The DOM element you wish to replace with Tagify
+var input = document.querySelector('input[name=tags]');
+
+// initialize Tagify on the above input node reference
+new Tagify(input, {
+    originalInputValueFormat: valuesArr => valuesArr.map(item => item.value).join(',')
+
+})
+            </script>
+            <style type="text/css">
+ tags {
+    min-width: 100%;
+}
+</style>
 </div>
     <div class="qa-form-actionarea">
       <button class="whitebutton" id="post-question-button">Post question</button>
