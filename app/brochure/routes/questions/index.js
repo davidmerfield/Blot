@@ -118,9 +118,15 @@ Questions.get(["/", "/page/:page"], function (req, res, next) {
 Questions.route("/tags").get(function (req, res, next) {
   pool
     .query(
-      `SELECT DISTINCT unnest(string_to_array(tags, ' ')) as tag
-          FROM items
-          WHERE tags IS NOT NULL`
+      `SELECT taglist.tag,
+       (SELECT Count(*)
+        FROM   items
+        WHERE  items.tags LIKE '%'
+                               || taglist.tag
+                               || '%') AS total
+FROM   (SELECT DISTINCT Unnest(String_to_array(tags, ' ')) AS tag
+        FROM   items) taglist
+ORDER  BY total DESC;`
     )
     .then(({rows}) => {
       res.locals.tags = rows;
