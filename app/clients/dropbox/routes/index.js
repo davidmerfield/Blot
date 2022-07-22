@@ -1,24 +1,40 @@
 var Express = require("express");
+var session = require("dashboard/session");
 var disconnect = require("../disconnect");
 var views = __dirname + "/../views/";
 var site, dashboard;
 
+site = Express.Router();
+
 // This is called by Dropbox when changes
 // are made to the folder of a Blot user.
-site = Express.Router();
 site.use("/webhook", require("./webhook"));
 
-// this is a hack, we need the session on this route
-site.get("/authenticate", require("dashboard/session"), function (req, res) {
+// Customers are sent back to:
+// blot.im/clients/dropbox/authenticate
+// when they have authorized (or declined to authorize)
+// Blot's access to their folder. This is a public-facing
+// route without access to the customer's session by default.
+// We need to work out which blog they were
+// authenticating based on a value stored in their session
+// before they were sent out to Dropbox. Unfortunately we
+// can't pass a blog username in the URL, since it needs to
+// be the same URL every time, e.g. this would not work:
+// blot.im/clients/dropbox/authenticate?handle=david
+site.get("/authenticate", session, function (req, res, next) {
+  const handle = req.session.blogToAuthenticate;
+  if (!handle) return next(new Error("No blog to authenticate"));
+  delete req.session.blogToAuthenticate;
   res.redirect(
     "/dashboard/" +
-      req.session.blogToAuthenticate +
+      handle +
       "/client/dropbox/authenticate?code=" +
       req.query.code
   );
 });
 
 dashboard = Express.Router();
+
 dashboard.use(require("./loadDropboxAccount"));
 
 // The settings page for a Dropbox account
@@ -59,7 +75,7 @@ dashboard
   .get(require("./askToMigrateIfNeeded"))
   .get(require("./createFolder"))
   .get(require("./saveDropboxAccount"))
-  .get(function (req, res, next) {
+  .get(function (req, res) {
     res.message(req.baseUrl, "Set up Dropbox successfuly!");
 
     require("./writeExistingContents")(req, res, function (err) {
@@ -77,7 +93,7 @@ dashboard
   // If we encounter some error during
   // the authentication flow, send them
   // back to the setup page where they started
-  .get(function (err, req, res, next) {
+  .get(function (err, req, res) {
     res.message(req.baseUrl + "/setup", err);
   });
 
@@ -98,7 +114,7 @@ dashboard
   .post(require("./moveExistingFiles"))
   .post(require("./createFolder"))
   .post(require("./saveDropboxAccount"))
-  .post(function (req, res, next) {
+  .post(function (req, res) {
     res.message("/settings", "Set up Dropbox successfuly!");
 
     // This happens in the background. It would be nice to

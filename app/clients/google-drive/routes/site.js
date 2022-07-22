@@ -10,10 +10,25 @@ const express = require("express");
 const site = new express.Router();
 const session = require("dashboard/session");
 
-// This is only neccessary in a development environment
-// when using the webhook forwarding server. We might need
-// to do this twice to get from tunnel to public site to dashboard
-// with the required session information
+// Customers are sent back to:
+// blot.im/clients/google-drive/authenticate
+// when they have authorized (or declined to authorize)
+// Blot's access to their folder. This is a public-facing
+// route without access to the customer's session by default.
+// We need to work out which blog they were
+// authenticating based on a value stored in their session
+// before they were sent out to Google Drive. Unfortunately we
+// can't pass a blog username in the URL, since it needs to
+// be the same URL every time, e.g. this would not work:
+// blot.im/clients/google-drive/authenticate?handle=david
+
+// Additionally, in development mode, we are:
+// first sent back to:
+// tunnel.blot.im/clients/google-drive/authenticate
+// are then redirected to:
+// blot.development/clients/google-drive/authenticate
+// and finally redirected to:
+// blot.development/dashboard/*/client/google-drive/authenticate
 site.get("/authenticate", session, function (req, res) {
   // This means we hit the public routes on Blot's site
   if (req.session.blogToAuthenticate) {
