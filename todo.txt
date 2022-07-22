@@ -1,5 +1,4 @@
-Thoroughly test all clients, both in dev and production
-- rework authentication callback URLs to make it less confusing for future developers
+Investigate error which occurred when I disconnected a blog from Google Drive client.
 
 Improvements to Magazine template:
 - Reduce spacing between title and list and tell [Eric](https://mail.google.com/mail/u/0/#inbox/FMfcgzGpGwrDLdSzlVTMmpKCsVMpKxNr)
