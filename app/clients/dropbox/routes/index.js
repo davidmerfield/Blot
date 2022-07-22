@@ -25,12 +25,15 @@ site.get("/authenticate", session, function (req, res, next) {
   const handle = req.session.blogToAuthenticate;
   if (!handle) return next(new Error("No blog to authenticate"));
   delete req.session.blogToAuthenticate;
-  res.redirect(
+  let redirect =
     "/dashboard/" +
-      handle +
-      "/client/dropbox/authenticate?code=" +
-      req.query.code
-  );
+    handle +
+    "/client/dropbox/authenticate?code=" +
+    req.query.code;
+
+  if (req.query.full_access) redirect += "&full_access=true";
+
+  res.redirect(redirect);
 });
 
 dashboard = Express.Router();
