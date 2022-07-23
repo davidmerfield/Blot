@@ -1,5 +1,7 @@
 Investigate error which occurred when I disconnected a blog from Google Drive client.
 
+Fix bug with closing the template editor (it switches to your first blog if you have multiple blogs)
+
 Improvements to Magazine template:
 - Reduce spacing between title and list and tell [Eric](https://mail.google.com/mail/u/0/#inbox/FMfcgzGpGwrDLdSzlVTMmpKCsVMpKxNr)
 - Fix menu icons for hamburger menu
