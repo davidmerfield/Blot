@@ -42,6 +42,10 @@ If you look closely, you can probably feel the influence of these sites on Blot:
 ](https://www.jon-kyle.com/)'s work (also involved with Cargo) and I like [Seth Thompson](https://seththompson.org/)'s work.
 - [**Overcase**](https://overcast.fm/)
 
+## Calming
+
+A lot of software makes me less calm. I want Blot to make more more calm, or at least not less calm.
+
 ## Black or white backgrounds
 
 Almost every website has a white or light background. So, Blot has a light background. It feels familiar. However, I do sometimes wonder about inverting the color scheme.
