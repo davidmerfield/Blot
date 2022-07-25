@@ -1,6 +1,6 @@
 var colors = require("colors/safe");
 var get = require("../../get/blog");
-var rebuild = require("sync/reset/rebuild");
+var rebuild = require("sync/rebuild");
 
 if (require.main === module) {
   get(process.argv[2], function (err, user, blog) {
