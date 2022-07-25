@@ -1,15 +1,20 @@
-Open source
-===========
+# Open source
 
-My decision to make Blot's source code public is partly moral and partly cynical. any of Blot's customers are technical: they like programming. audience, and I'm asking that audience to invest a good deal of their time and some of their money in a piece of software. A large fraction of that audience is sceptical of closed-source, proprietary software. So it makes business sense for me to make [Blot's source code](https://github.com/davidmerfield/Blot) available freely under the most permissive license possible. 
+## A partly moral and partly cynical decision to make Blot's source code public
 
-Working in public
-------------
+Open source just feels good. It projects an aura of insouciance about money that is appealing. any of Blot's customers are technical: they like programming. audience, and I'm asking that audience to invest a good deal of their time and some of their money in a piece of software. A large fraction of that audience is sceptical of closed-source, proprietary software. So it makes business sense for me to make [Blot's source code](https://github.com/davidmerfield/Blot) available freely under the most permissive license possible. 
+
+These aesthetic considerations, after all, are paramount.
+
+## As a moral decision
+
+Intellectual property as a legal regime has its costs and its benefits. Ideas are obviously free by default but sometimes there are advantages to setting up legal defenses. But generally I think this has gone too far in our own culture and so I will not participate in it.
+
+## Working in public
 
 I also quite like the spectacle of working in public. I suspect it's reassuring to potential customers to see my  [git commits on the news page](https://blot.im/news), for them to know that Blot is  _alive_.
 
-Open source? Free software?
------------------------------
+## Terminology
 
 I like the ideals of the free software movement and I like Richard Stallman. However, I think the *free* part of Stallman's term *free software* is confusing. After starting too many explanations with *it's not free as in beer...* I've not to push against the current of popular usage. I'm also aware of the politics of the term 'open source', so I decide to side-step both and simply say _Blot's source code is dedicated to the public domain_. 
 

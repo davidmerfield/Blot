@@ -11,6 +11,8 @@ Re-enable partial templates in posts/pages
 
 Look into iA Writer's wikilinks syntax and follow up with Nat
 
+Fix issue with switching from Dropbox client to Git client, in production which affected Nat
+
 ---
 
 Fix issues with sync:
