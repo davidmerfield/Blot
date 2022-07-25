@@ -132,7 +132,7 @@ news.get("/confirm/:guid", function (req, res, next) {
 
       res.locals.title = "Confirmed";
       res.locals.email = email;
-      next();
+
       // The first time the user clicks the confirmation
       // link we send out a confirmation email, subsequent
       // clicks they just see the confirmation page.
@@ -141,6 +141,8 @@ news.get("/confirm/:guid", function (req, res, next) {
           // Email confirmation sent
         });
       }
+
+      res.redirect(req.baseUrl + "/confirmed");
     });
   });
 });
