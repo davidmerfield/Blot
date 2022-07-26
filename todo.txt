@@ -1,5 +1,4 @@
 Improvements to Magazine template:
-- Reduce spacing between title and list and tell [Eric](https://mail.google.com/mail/u/0/#inbox/FMfcgzGpGwrDLdSzlVTMmpKCsVMpKxNr)
 - Fix menu icons for hamburger menu
 
 ---
