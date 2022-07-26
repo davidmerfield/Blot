@@ -1,10 +1,6 @@
-Fix bug with closing the template editor (it switches to your first blog if you have multiple blogs)
-
 Improvements to Magazine template:
 - Reduce spacing between title and list and tell [Eric](https://mail.google.com/mail/u/0/#inbox/FMfcgzGpGwrDLdSzlVTMmpKCsVMpKxNr)
 - Fix menu icons for hamburger menu
-
-Look into iA Writer's wikilinks syntax and follow up with Nat
 
 ---
 
@@ -321,6 +317,7 @@ Improvements to brochure:
 - Add [contributor](https://api.github.com/repos/davidmerfield/blot/contributors) / [language](https://api.github.com/repos/davidmerfield/blot/languages) and repo information to source code page using GitHub API.
 
 Improvements to Wikilinks feature:
+- use iaWriter spec to make [the lookup more flexible](https://ia.net/writer/support/general/wikilinks#:~:text=How%20Wikilinks%20Work,the%20same%20name.)
 - test with non-[[Wikilinks]] options in Obsidian
 - add support for other (non-Obsidian) wikilink styles (i.e. title-based?)
 - use the location of the nearest `.obsidian` directory to determine the 'root' against which to resolve styles?

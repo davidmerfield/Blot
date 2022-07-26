@@ -199,6 +199,7 @@ a {
   transition: color, border-color .2s linear;
   text-decoration:none
 }
+
 a:not(.no-underline) {color:{{accent_color}};border-bottom:1px solid rgba({{#rgb}}{{accent_color}}{{/rgb}},0.25)}
 a:not(.no-underline):hover {border-color: rgba({{#rgb}}{{accent_color}}{{/rgb}},1)}
 a:hover {color:rgba({{accent_color}}, 1)}
@@ -285,9 +286,17 @@ blockquote {
 ol li {padding-left:0.75rem}
   
 /* Prevent spacing from blowing up in nested lists */ 
+h2 + ul, h2 + ol, 
+h3 + ul, h3 + ol, 
+h4 + ul, h4 + ol, 
+h5 + ul, h5 + ol,
+h6 + ul, h6 + ol {
+  margin-top: -1.5rem
+}
+
 ol ol, ol ul, ul ol, ul ul {margin-top:0;margin-bottom:0}
 
-h1, h2, h3 {margin: 4rem 0 2rem}
+h1, h2, h3 {margin: 3rem 0 2rem}
 
 h4, h5, h6, p, blockquote, ul, ol, table {margin:2rem 0}
   
