@@ -1,5 +1,3 @@
-Investigate error which occurred when I disconnected a blog from Google Drive client.
-
 Fix bug with closing the template editor (it switches to your first blog if you have multiple blogs)
 
 Improvements to Magazine template:
@@ -106,6 +104,7 @@ Make retreiving files from server case-insentive
 Reach out to Wesley about using [notebook](https://github.com/WesleyAC/notebook)'s features in a template
 
 Improve Google Drive client:
+- Resolve error which occurred when I disconnected a blog from Google Drive client, a folder lock issue, which wasn't surfaced properly.
 - Weird issue with connecting multiple blogs to same google drive account – the file from one appeared in the folder for the other. Also strangeness possibly related to an empty blog folder?
 - How do we handle two files with same name and same parent? How does our fileId:path hash handle this? Make sure we delete the right file. Will file.title as opposed to file.name give us the deduped version?
   - Bug: move file with deduplicated name from sub folder to other folder

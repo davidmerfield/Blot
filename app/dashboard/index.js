@@ -122,6 +122,18 @@ dashboard.use(function (req, res, next) {
   next();
 });
 
+dashboard.use(require("./breadcrumbs"));
+
+dashboard.use("/dashboard/:handle", function (req, res, next) {
+  // we use pretty.label instead of title for title-less blogs
+  // this falls back to the domain of the blog if no title exists
+  res.locals.base = `/dashboard/${req.params.handle}`;
+  res.locals.breadcrumbs.add("Your blogs", "/dashboard");
+  res.locals.breadcrumbs.add(req.blog.pretty.label, `${req.params.handle}`);
+  res.locals.title = req.blog.pretty.label;
+  next();
+});
+
 // Use this before modifying the render function
 // since it doesn't use the layout for the rest of the dashboard
 dashboard.use(
@@ -136,27 +148,11 @@ dashboard.use("/dashboard/:handle/status", require("./routes/status"));
 // so there is a default layout and a partial
 dashboard.use(require("./render"));
 
-dashboard.use(require("./breadcrumbs"));
-
 dashboard.use("/account", require("./routes/account"));
-
-dashboard.use(function (req, res, next) {
-  res.locals.breadcrumbs.add("Your blogs", "/dashboard");
-  next();
-});
 
 dashboard.get("/dashboard", require("./load-blogs"), function (req, res, next) {
   res.locals.title = "Your blogs";
   res.render("index");
-});
-
-dashboard.use("/dashboard/:handle", function (req, res, next) {
-  // we use pretty.label instead of title for title-less blogs
-  // this falls back to the domain of the blog if no title exists
-  res.locals.base = `/dashboard/${req.params.handle}`;
-  res.locals.breadcrumbs.add(req.blog.pretty.label, `${req.params.handle}`);
-  res.locals.title = req.blog.pretty.label;
-  next();
 });
 
 // Load the files and folders inside a blog's folder
@@ -188,8 +184,9 @@ dashboard.use("/settings", require("./load-blogs"), function (req, res, next) {
   }
 });
 
-// 
-dashboard.use(require('./redirect-to-other-blog'));
+// This will catch old links to the dashboard before
+// we encoded the blog's username in the URLs
+dashboard.use(require("./redirect-to-other-blog"));
 
 // need to handle dashboard errors better...
 dashboard.use(require("./routes/settings/errorHandler"));
