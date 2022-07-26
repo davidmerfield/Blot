@@ -27,10 +27,8 @@
             <div class="clear" style="margin-bottom: 2em"></div>
           {{/is.index_layout.title_and_summary}}
 
-
           {{#is.index_layout.post_in_full}}
           <div class="entry on-index-page" data-url="{{{url}}}">
-
             {{{html}}}
             <p>
               <a class="small date" href="{{{url}}}">{{date}}</a>
@@ -55,6 +53,7 @@
           {{/next}}
         </div>
         {{/pagination}}
+        
         {{> footer}}
       </div>
     </div>
