@@ -2,6 +2,12 @@
 
 ## A survey of potential crises to Blot's business
 
+![](https://iiif.wellcomecollection.org/image/V0049451/full/1338%2C/0/default.jpg)
+
+<small style="opacity:0.5;font-size:14px;px">Monastery of St. Catherine beneath Mount Sinai. Contains the oldest continually operating library behind its fortress walls. Coloured lithograph by Louis Haghe after David Roberts, 1849.
+Source: <a href="https://wellcomecollection.org/works/abda3s2r/items">Wellcome collection</a></small><br><Br>
+
+
 ## Payment processing
 
 We use Stripe to process almost every single payment. If Stripe closed Blot's account, or if Stripe itself closed, we would be without revenue immediately.

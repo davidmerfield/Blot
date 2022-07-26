@@ -6,10 +6,12 @@ Improvements to Magazine template:
 - Reduce spacing between title and list and tell [Eric](https://mail.google.com/mail/u/0/#inbox/FMfcgzGpGwrDLdSzlVTMmpKCsVMpKxNr)
 - Fix menu icons for hamburger menu
 
+Look into iA Writer's wikilinks syntax and follow up with Nat
+
+---
+
 Re-enable partial templates in posts/pages
 - Tell [Matt](https://mail.google.com/mail/u/0/#inbox/FMfcgzGpGwrFkhsBptjFjjmRcNHSBsGX)
-
-Look into iA Writer's wikilinks syntax and follow up with Nat
 
 Fix issue with switching from Dropbox client to Git client, in production which affected Nat
 
