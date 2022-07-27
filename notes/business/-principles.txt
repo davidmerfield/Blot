@@ -1,6 +1,6 @@
 # Principles
 
-## On the philosophy which guides how we do business
+## The theory and assumptions which guide how we do business
 
 I will sell the service to the people who want to host their blog on Blot. I will not generate income in any other way. The amount the customer pays for the service will be higher than the average amount I spend to provide the service, returning a profit with pays for the labor of the people who work on Blot. 
 
@@ -14,7 +14,7 @@ Blot is not optimized to generate maximally revenue in the short-term. I try to 
 
 ## Allow customers to leave with ease
 
-A number of subscription businesses shoot themselves in the foot when they loose  customers. I make it easy to quit Blot.
+A number of subscription businesses put up barries when customers want to cancel their subscription. I make it easy to quit Blot. This is not because I am a good person, although I am, it is because someone who quits Blot is still a person who knows about Blot. Someone who leaves Blot with a good taste in their mouth might recommend it to others, or even come back and use Blot again. Pissing them off when they leave prevents this.
 
 ## Choose people rather than businesses as customers
 
