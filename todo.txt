@@ -1,3 +1,11 @@
+[Fix bug with Dropbox client](https://mail.google.com/mail/u/0/#inbox/FMfcgzGpHHVZggXQRzJKNTrJHRxLdLjt)
+
+[Fix bug with password reset](https://mail.google.com/mail/u/0/#inbox/FMfcgzGpHHSHlrCTPWzfCSlBdqhDZChQ)
+
+[Fix bug with template editor](https://mail.google.com/mail/u/0/#inbox/FMfcgzGpHHTQnVvQddFjxCGvMwDkMmpp)
+
+---
+
 Re-enable partial templates in posts/pages
 - Tell [Matt](https://mail.google.com/mail/u/0/#inbox/FMfcgzGpGwrFkhsBptjFjjmRcNHSBsGX)
 
