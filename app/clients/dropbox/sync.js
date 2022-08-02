@@ -185,11 +185,19 @@ function Apply(token, blogFolder, log) {
     function mkdir(item, callback) {
       log(item.relative_path, "Making directory in folder");
       fs.ensureDir(join(blogFolder, item.relative_path), function (err) {
+        
+        // we have run into an EEXIST error here when a file exists
+        // where a new folder needs to be. I decided against
+        // just removing the file and replacing it with a folder
+        // since this would reflect something badly out of sync with
+        // dropbox (they would send the deletion before the creation?)
+
         if (err) {
           log(item.relative_path, "Error making directory in folder", err);
         } else {
           log(item.relative_path, "Made directory in folder successfully");
         }
+
         callback(err);
       });
     }
