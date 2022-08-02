@@ -92,6 +92,10 @@ dashboard.use(trace("checked redirects"));
 // Send user's avatar
 dashboard.use("/_avatars/:avatar", require("./routes/avatar"));
 
+// We need to be able to send CSS files through the
+// template editor and they sometimes include base64 stuff.
+const MAX_POST_REQUEST_SIZE = "5mb";
+
 dashboard.post(
   [
     "/dashboard/:handle/template*",
@@ -103,7 +107,7 @@ dashboard.post(
     "/404s",
     "/account*",
   ],
-  bodyParser.urlencoded({ extended: false })
+  bodyParser.urlencoded({ extended: false, limit: MAX_POST_REQUEST_SIZE })
 );
 
 // Account page does not need to know about the state of the folder
