@@ -53,7 +53,6 @@ module.exports = function checkToken(req, res, next) {
         // without an existing password. It's stored in the user's
         // session instead of a query string to keep the URLs tidy.
         req.session.passwordSetToken = token;
-
         res.redirect(then);
       });
     });

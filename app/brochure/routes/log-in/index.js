@@ -1,6 +1,7 @@
 var BodyParser = require("body-parser");
 var Express = require("express");
 
+var blockCrawlers = require("./blockCrawlers");
 var checkToken = require("./checkToken");
 var checkReset = require("./checkReset");
 var checkEmail = require("./checkEmail");
@@ -64,7 +65,7 @@ form
 form
   .route("/")
 
-  .get(checkToken, function (req, res) {
+  .get(blockCrawlers, checkToken, function (req, res) {
     res.render("log-in");
   })
 

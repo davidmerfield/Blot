@@ -41,6 +41,8 @@ Improve video demo and developer documentation of Blot by April 14th for Robin's
 
 ---
 
+Tell [Uzoamaka](https://mail.google.com/mail/u/0/#inbox/FMfcgzGpGwtWfNTbCKpgsktpbPQZFFTl) when it's possible to use Blot's brochure site as a template on a blog
+
 Determine why we get zombie processes after running reload server script.
 
 Add `Ignore: yes` metadata to trigger the ignored file behaviour
