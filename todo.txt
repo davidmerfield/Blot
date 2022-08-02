@@ -1,4 +1,4 @@
-[Fix bug with template editor](https://mail.google.com/mail/u/0/#inbox/FMfcgzGpHHTQnVvQddFjxCGvMwDkMmpp)
+[Fix bug with base64 encoded fonts using web template editor](https://mail.google.com/mail/u/0/#inbox/FMfcgzGpHHTQnVvQddFjxCGvMwDkMmpp)
 
 ---
 
