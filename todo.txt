@@ -1,11 +1,10 @@
-[Fix bug with base64 encoded fonts using web template editor](https://mail.google.com/mail/u/0/#inbox/FMfcgzGpHHTQnVvQddFjxCGvMwDkMmpp)
-
----
-
 Re-enable partial templates in posts/pages
 - Tell [Matt](https://mail.google.com/mail/u/0/#inbox/FMfcgzGpGwrFkhsBptjFjjmRcNHSBsGX)
 
 Fix issue with switching from Dropbox client to Git client, in production which affected Nat
+
+Ensure POST error messages are passed to client properly through ajax
+- to trigger, submit a >5mb file on web template editor
 
 ---
 
