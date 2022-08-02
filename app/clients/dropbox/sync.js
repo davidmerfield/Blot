@@ -191,7 +191,9 @@ function Apply(token, blogFolder, log) {
         // just removing the file and replacing it with a folder
         // since this would reflect something badly out of sync with
         // dropbox (they would send the deletion before the creation?)
-
+        // How could a file named for a folder have gotten here? could
+        // blot have done it or is it just the user?
+        
         if (err) {
           log(item.relative_path, "Error making directory in folder", err);
         } else {
