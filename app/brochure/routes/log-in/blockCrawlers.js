@@ -1,10 +1,11 @@
 module.exports = function (req, res, next) {
-  const ua = req.get("User-Agent");
+  // ua can sometimes be undefined
+  const ua = req.get("User-Agent") || "";
   
   // This is used to auto-crawl links in Outlook
   // and renders the one-time code unusable. We could
   // work around this but for now, let's do this.
-  if (ua && ua.indexOf("BingPreview") === -1) {
+  if (ua.indexOf("BingPreview") === -1) {
     return next();
   }
 
