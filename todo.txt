@@ -1,10 +1,7 @@
-Re-enable partial templates in posts/pages
-- Tell [Matt](https://mail.google.com/mail/u/0/#inbox/FMfcgzGpGwrFkhsBptjFjjmRcNHSBsGX)
-
-Fix issue with switching from Dropbox client to Git client, in production which affected Nat
-
 Ensure POST error messages are passed to client properly through ajax
 - to trigger, submit a >5mb file on web template editor
+
+Fix issue with switching from Dropbox client to Git client, in production which affected Nat
 
 ---
 
@@ -25,6 +22,9 @@ Fix issues with sync:
 Finish Lisa's handwriting generator
 
 --
+
+Re-enable partial templates in posts/pages
+- Tell [Matt](https://mail.google.com/mail/u/0/#inbox/FMfcgzGpGwrFkhsBptjFjjmRcNHSBsGX)
 
 Add tag to iterate over all images in a folder and tell [Laurel](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmvBwZtktzGVFtcfDWbGZKhsfh)
 
@@ -218,6 +218,7 @@ Write new clients to sync blog folders
   - Tell [Calvin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChclvkfHMWfnqGdWkQnzMdklW) 
   - Tell [Fabrice](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNCspWMdnbCdzfHGwBrSKPBSC)
 - [NextCloud](https://nextcloud.com/) 
+  - Tell [Vincent](https://mail.google.com/mail/u/0/#inbox/FMfcgzGpHHVZggXQRzJKNTrJHRxLdLjt)
   - Tell [Coraline](https://mail.google.com/mail/u/0/#inbox/FMfcgzGllCmcFflWmXcCdVzTJztDTwXx)
   - Tell [Andrew](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJgWDpnsGBCXsCwkxRZnXMph) 
   - Tell [Mike](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMGDWmSXxbJkvjZbtvdQtNNGZ)
