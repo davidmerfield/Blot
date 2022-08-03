@@ -4,7 +4,7 @@ module.exports = function (req, res, next) {
   // This is used to auto-crawl links in Outlook
   // and renders the one-time code unusable. We could
   // work around this but for now, let's do this.
-  if (ua.indexOf("BingPreview") === -1) {
+  if (ua && ua.indexOf("BingPreview") === -1) {
     return next();
   }
 
