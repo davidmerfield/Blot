@@ -24,7 +24,7 @@ module.exports = function get(identifier, callback) {
       domain = parseUrl(identifier.toLowerCase()).host.split(".").slice(-3).join(".");
     else domain = parseUrl(identifier.toLowerCase()).host;
   } catch (e) {
-    domain = identifier;
+    domain = identifier.toLowerCase();
   }
 
   Blog.get({ id: identifier }, function (err, blogFromID) {
