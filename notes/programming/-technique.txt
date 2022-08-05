@@ -4,7 +4,7 @@
 
 ## Web server
 - [nginx]() handles all inbound traffic and then passes of anything it can't handle to our application server. 
-- [Node.js](https://nodejs.org/) runs out application server is written in JavaScript and run with . I made this decision because I was vaguely familiar with JavaScript when I first started working on Blot.
+- [Node.js](https://nodejs.org/) runs out application server is written in JavaScript and run with . I made this decision because I was vaguely familiar with JavaScript when I first started working on Blot. [express]() is the framework we use.
 
 ## Version control
 
@@ -22,12 +22,15 @@
 ## Testing
 - [GitHub actions](https://github.com/features/actions) runs our test suite.
 - [Jasmine](https://jasmine.github.io/) is the framework we used to create our test suit.
+- [seedrandom]() and [faker]() are combined to produce reproducible randomized unit tests.
 
 ## Excellent JavaScript libraries
 
 - [sharp]()
 - [cheerio]()
 - [mustache]()
+- [katex]()
+- [moment]()
 - [async]() I'm slowly moving away but it was invaluable in the early days.
 
 ## Production environment
