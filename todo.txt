@@ -1,3 +1,7 @@
+Fix issue which occurs when you change your username with the git client
+
+Fix timeout issue which occurs when your blog has lots of files and you try to set up the git client
+
 Ensure POST error messages are passed to client properly through ajax
 - to trigger, submit a >5mb file on web template editor
 
