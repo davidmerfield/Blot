@@ -1,11 +1,10 @@
-Fix issue which occurs when you change your username with the git client then tell [Nicholas](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqPpbfVgTrXHTrKZTCcWzgDMpl)
-
-Fix timeout issue which occurs when your blog has lots of files and you try to set up the git client then tell [Nicholas](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqPpbfVgTrXHTrKZTCcWzgDMpl)
-
 Ensure POST error messages are passed to client properly through ajax
 - to trigger, submit a >5mb file on web template editor
 
-Fix issue with switching from Dropbox client to Git client, in production which affected Nat
+Git client improvements:
+- Surface status of git client intialization when you first set up your blog on the git client. 
+- Fix issue which occurs when you change your username with the git client
+- Fix issue with switching from Dropbox client to Git client, in production which affected Nat
 
 ---
 

@@ -4,6 +4,7 @@ var Git = require("simple-git");
 var database = require("./database");
 var localPath = require("helper/localPath");
 var dataDir = require("./dataDir");
+var clfdate = require("helper/clfdate");
 
 // What should create do?
 // - should it return an error if there is already a git repo in the user's folder?
@@ -22,6 +23,9 @@ module.exports = function create(blog, callback) {
     database.createToken.bind(this, blog.owner),
   ];
 
+  console.log(
+    clfdate() + " Git: create: making bareRepoDirectory and creating token"
+  );
   async.parallel(queue, function (err) {
     if (err) return callback(err);
 
@@ -33,29 +37,45 @@ module.exports = function create(blog, callback) {
       return callback(err);
     }
 
+    console.log(clfdate() + " Git: create: initing liveRepo");
+
     // Simple git returns stderr as a string
     // so we produce a new error from it...
     liveRepo.init(function (err) {
       if (err) return callback(new Error(err));
 
+      console.log(clfdate() + " Git: create: adding remote to liveRepo");
       liveRepo.addRemote("origin", bareRepoDirectory, function (err) {
         if (err) return callback(new Error(err));
 
         // Create bare repository in git data directory
         // which will serve as source of truth for repo.
+        console.log(clfdate() + " Git: create: initing bareRepo");
         bareRepo.init(true, function (err) {
           if (err) return callback(new Error(err));
 
+          console.log(
+            clfdate() + " Git: create: adding existing folder to liveRepo"
+          );
           liveRepo.add(".", function (err) {
+            if (err) return callback(new Error(err));
+            console.log(
+              clfdate() + " Git: create: commiting existing folder to liveRepo"
+            );
             liveRepo.commit(
               "Initial commit",
               { "--allow-empty": true },
               function (err) {
                 if (err) return callback(new Error(err));
 
+                console.log(
+                  clfdate() +
+                    " Git: create: pushing existing folder to liveRepo"
+                );
                 liveRepo.push(["-u", "origin", "master"], function (err) {
                   if (err) return callback(new Error(err));
 
+                  console.log(clfdate() + " Git: create: complete");
                   callback(null);
                 });
               }

@@ -10,18 +10,27 @@ var Express = require("express");
 var dashboard = Express.Router();
 var site = Express.Router();
 var debug = require("debug")("blot:clients:git:routes");
+var clfdate = require("helper/clfdate");
 
 dashboard.get("/", function (req, res, next) {
   if (req.query.setup)
     return res.redirect(require("url").parse(req.originalUrl).pathname);
 
+  console.log(clfdate() + " Git: checking if repo exists");
   repos.exists(req.blog.handle + ".git", function (exists) {
-    if (exists) return next();
+    if (exists) {
+      console.log(clfdate() + " Git: repo does exist");
+      return next();
+    }
 
+    console.log(clfdate() + " Git: creating repo");
     create(req.blog, function (err) {
-      if (err) return next(err);
+      if (err) {
+        console.log(clfdate() + " Git: err creating repo", err);
+        return next(err);
+      }
 
-      console.log("sending message to", req.baseUrl);
+      console.log(clfdate() + " Git: Set up client successfully");
       res.message(req.baseUrl, "Set up git client successfully");
     });
   });
