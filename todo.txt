@@ -1,5 +1,3 @@
-Fix bug switching from Dropbox to Drive and tell [Marco](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqPpdwHHQTgHmMFwkXQZBjSwXt)ß
-
 Ensure POST error messages are passed to client properly through ajax
 - to trigger, submit a >5mb file on web template editor
 
