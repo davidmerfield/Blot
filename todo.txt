@@ -1,14 +1,7 @@
-Ensure POST error messages are passed to client properly through ajax
-- to trigger, submit a >5mb file on web template editor
-
-Git client improvements:
-- Surface status of git client intialization when you first set up your blog on the git client. 
-- Fix issue which occurs when you change your username with the git client
-- Fix issue with switching from Dropbox client to Git client, in production which affected Nat
-
----
+Expose unlock and verify options for both dropbox and google drive clients
 
 Fix issues with sync:
+- Investigate Bree for mutex/queue/concurrency
 - Tell [Mike](https://mail.google.com/mail/u/0/#inbox/FMfcgzGpFgpdfBScqQctbnNGxBCLrztC) once the bug is sorted so he can rejoin
 - Tell [Juan](https://mail.google.com/mail/u/0/#inbox/FMfcgzGpFzvBSNgqmRVDRHvdGrzqrZDt)
 - Tell questioners](https://blot.im/questions/576)
@@ -21,6 +14,18 @@ Fix issues with sync:
 - [Kevin](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlkFzdBrlJzrGprHNHNmvkQqbW)
 - Is it possible that retry delays from the Dropbox API under excessive number of requests is the cause of the lockup?
 - It seems one sync tanked the setup transfer with an [ENOENT](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmvTwMksRmWvSpQXVhvlMXjKFC)
+
+
+Ensure POST error messages are passed to client properly through ajax
+- to trigger, submit a >5mb file on web template editor
+
+Git client improvements:
+- Surface status of git client intialization when you first set up your blog on the git client. 
+- Fix issue which occurs when you change your username with the git client
+- Fix issue with switching from Dropbox client to Git client, in production which affected Nat
+
+---
+
 
 Finish Lisa's handwriting generator
 
@@ -324,6 +329,8 @@ Improvements to Wikilinks feature:
 - test with non-[[Wikilinks]] options in Obsidian
 - add support for other (non-Obsidian) wikilink styles (i.e. title-based?)
 - use the location of the nearest `.obsidian` directory to determine the 'root' against which to resolve styles?
+- support Obsidian-style media embedding and tell [questioners](https://blot.im/questions/746)
+- wikilinks to images should [embed the image](https://blot.im/questions/746)
 - look up the config in the the nearest `.obsidian` directory to determine whether shortest, relative or absolute wikilinks are in use?
 - test with all Obsidian new link settings (shortest, relative and absolute)
 - add more resolution tolerance and tell [Jonathan](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmvBqpKMNBvlKBSWRLHJWdqDnC)
