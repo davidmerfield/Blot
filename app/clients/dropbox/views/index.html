@@ -17,7 +17,7 @@ Blot cannot sync the folder for <b>{{blog.title}}</b>. You can probably fix this
 {{^error_code}}
 
   <div class="line">
-    <p><b>Dropbox</b> synchronizes your folder. You can <a class="link" href="/settings/client/switch">switch to a different client</a> seamlessly.</p>
+    <p><b>Dropbox</b> synchronizes your folder. You can <a class="link" href="/settings/client/switch">switch to a different method</a> seamlessly.</p>
 <!--     <br>
  --><!--     <span style="color:rgb(109, 109, 109);">Dropbox</span>
  -->  </div>
@@ -42,6 +42,13 @@ Blot cannot sync the folder for <b>{{blog.title}}</b>. You can probably fix this
 
   {{/error_code}}
 
+ <div class="line" >
+    <span class="label">Account on Dropbox</span>
+    <span class="center">{{email}}</span>
+  </div>
+
+
+
   {{^full_access}}
   <a class="line" href="{{{base}}}/permission">
     <span class="label">Permission</span>
@@ -57,12 +64,6 @@ Blot cannot sync the folder for <b>{{blog.title}}</b>. You can probably fix this
     <span class="right">Edit</span>
   </a>
   {{/full_access}}
-
-  <div class="line" >
-    <span class="label">Account on Dropbox</span>
-    <span class="center">{{email}}</span>
-  </div>
-
 
   <a class="line" href="/settings/client/fix">
     <span class="label">Reset</span>
