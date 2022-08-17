@@ -13,10 +13,15 @@ if (cluster.isMaster) {
   const scheduler = require("./scheduler");
   const publishScheduledEntries = require("./scheduler/publish-scheduled-entries");
 
-  setup(function (err) {
-    if (err) throw err;
-    console.log("Finished setting up");
-  });
+  // In development mode we sometimes want to run
+  // just the dashboard, since the server boot is slow
+  // Remove once we get the server online faster
+  if (process.env.FAST !== "true") {
+    setup(function (err) {
+      if (err) throw err;
+      console.log("Finished setting up");
+    });
+  }
 
   console.log(
     clfdate(),
@@ -115,8 +120,13 @@ if (cluster.isMaster) {
     );
   });
 
-  // Launch scheduler for background tasks, like backups, emails
-  scheduler();
+  // In development mode we sometimes want to run
+  // just the dashboard, since the server boot is slow
+  // Remove once we get the server online faster
+  if (process.env.FAST !== "true") {
+    // Launch scheduler for background tasks, like backups, emails
+    scheduler();
+  }
 } else {
   console.log(clfdate(), `Worker process running pid=${process.pid}`);
 
