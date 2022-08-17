@@ -1,10 +1,13 @@
 Expose unlock and verify options for both dropbox and google drive clients
 
 Fix issues with sync:
-- Investigate Bree for mutex/queue/concurrency
-- Tell [Mike](https://mail.google.com/mail/u/0/#inbox/FMfcgzGpFgpdfBScqQctbnNGxBCLrztC) once the bug is sorted so he can rejoin
-- Tell [Juan](https://mail.google.com/mail/u/0/#inbox/FMfcgzGpFzvBSNgqmRVDRHvdGrzqrZDt)
-- Tell questioners](https://blot.im/questions/576)
+-error earlier
+- log all dropbox client related errors?
+- add some kind of request rate limit to dropbox client?
+  - we could use async queue to accomplish this...
+- properlockfile should be fine.
+
+- Is it possible that retry delays from the Dropbox API under excessive number of requests is the cause of the lockup?
 - Do we encounter dropbox/google drive bugs when we remove a directory of files, rather than invidivual files?
 - Victor
 - Ryan
@@ -12,9 +15,12 @@ Fix issues with sync:
 - Rizwan
 - Fritz whose blog became stuck
 - [Kevin](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlkFzdBrlJzrGprHNHNmvkQqbW)
-- Is it possible that retry delays from the Dropbox API under excessive number of requests is the cause of the lockup?
 - It seems one sync tanked the setup transfer with an [ENOENT](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmvTwMksRmWvSpQXVhvlMXjKFC)
+- Tell [Mike](https://mail.google.com/mail/u/0/#inbox/FMfcgzGpFgpdfBScqQctbnNGxBCLrztC) once the bug is sorted so he can rejoin
+- Tell [Juan](https://mail.google.com/mail/u/0/#inbox/FMfcgzGpFzvBSNgqmRVDRHvdGrzqrZDt)
+- Tell questioners](https://blot.im/questions/576)
 
+Get to the bottom of the slow cloudflare issue and follow up with [Wen](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqPzBWZcLJcwtWTXTbQjMbVrZB)
 
 Ensure POST error messages are passed to client properly through ajax
 - to trigger, submit a >5mb file on web template editor
