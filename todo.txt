@@ -327,6 +327,7 @@ Improvements to brochure:
    - compute content hashes then Use blotcdn for video and other large static files
 - Add end-to-end tests for brochure site to test sign up flow (use Playwright? Phantom? Chrome headless)
 - Add guide to useful text editors like [this one recommended by Andrew](https://itunes.apple.com/us/app/write-best-note-taking-app/id848311469)
+  - do this as a marketing strategy, e.g. target 'blog with microsoft word', 'blog with google docs', 'blog with ia writer' etc... contact the people who make text editors and ask them to link to us?
 - Personalize the documentation for logged in customers
 - Add [contributor](https://api.github.com/repos/davidmerfield/blot/contributors) / [language](https://api.github.com/repos/davidmerfield/blot/languages) and repo information to source code page using GitHub API.
 
@@ -685,6 +686,7 @@ Improvements to Git client
 
 Dropbox client
 - Revert lowercase for all files when disconnecting the client
+- add support for Dropbox Paper files using paperDocsDownload
 - Add integration test with a dropbox Webhook call. I want to not push some code which would prevent syncing customer folders.
 - Does client.remove support the removal of folders? If not, make it so and add a test
 - Add a step to authentication flow which says: 'there is already a folder called 'Your blog title' in your Dropbox, would you like to use that?' then overwrite the files inside. This prevents the proliferation of confusing 'Your blog title (1)' when you re-authenticate.
