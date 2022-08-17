@@ -8,9 +8,14 @@
     <p>You have granted <b>App folder</b> access to Blot for <b>{{blog.title}}</b>. This means Blot can only access a single folder in your Dropbox. If you grant <b>full folder access</b> to Blot, you will be freed of two restrictions that Dropbox places on App folders:</p>
   <ul>
   <li>You will be able to move your blog’s folder.</li>
-  <li>You will be able to share your blog’s folder with other people who use Dropbox.</li> 
+  <li>You will be able to share your blog’s folder with others.</li> 
   </ul>
-  <p>If you grant <b>full folder access</b> to Blot, I promise only to access the folder for <b>{{blog.title}}</b>. However, the tokens that Dropbox gives to Blot could be used to view or modify every file and folder in your Dropbox. Please consider the consequences of a hypothetical security breach carefully.</p>
+  <p>If you grant <b>full folder access</b> to Blot, I promise only to access the folder for <b>{{blog.title}}</b>. However, the tokens that Dropbox gives to Blot could be used to view or modify every file and folder in your Dropbox. Please consider this workaround, which does not risk the exposure of your personal data:</p>
+    <ol>
+      <li>Create a second <em>burner</em> Dropbox account</li>
+      <li>Grant full access to your <em>burner</em> Dropbox account on this page.</li>
+      <li>Share your blog's folder from your <em>burner</em> to your main Dropbox account.</li>
+    </ol>
 {{/full_access}}
 {{#full_access}}
 
