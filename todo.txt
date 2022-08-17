@@ -20,6 +20,8 @@ Fix issues with sync:
 - Tell [Juan](https://mail.google.com/mail/u/0/#inbox/FMfcgzGpFzvBSNgqmRVDRHvdGrzqrZDt)
 - Tell questioners](https://blot.im/questions/576)
 
+Replace radio button on clients page
+
 Get to the bottom of the slow cloudflare issue and follow up with [Wen](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqPzBWZcLJcwtWTXTbQjMbVrZB)
 
 Ensure POST error messages are passed to client properly through ajax
