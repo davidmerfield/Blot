@@ -18,7 +18,7 @@ module.exports = function main(blog, callback) {
   Sync(blog.id, function (err, folder, done) {
     if (err) return callback(err);
 
-    debug("Blog:", blog.id, "Lock acquired successfully. Beginning sync...");
+    folder.log("Creating Dropbox client");
     // We need to look up the Dropbox account for this blog
     // to retrieve the access token used to create a new Dropbox
     // client to retrieve changes made to the user's Dropbox.
@@ -34,9 +34,10 @@ module.exports = function main(blog, callback) {
         );
       }
 
-      var token = account.access_token;
+      folder.log("Constructing methods to sync changes");
+
       var delta = new Delta(client, account.folder_id);
-      var apply = new Apply(token, folder.path, folder.log);
+      var apply = new Apply(client, folder.path, folder.log);
 
       // Delta retrieves changes to the folder on Dropbox for a given
       // blog. It returns a list of changes. It also adds a new property
@@ -142,7 +143,7 @@ module.exports = function main(blog, callback) {
   });
 };
 
-function Apply(token, blogFolder, log) {
+function Apply(client, blogFolder, log) {
   return function apply(changes, callback) {
     debug("Retrieved changes", changes);
 
@@ -185,7 +186,6 @@ function Apply(token, blogFolder, log) {
     function mkdir(item, callback) {
       log(item.relative_path, "Making directory in folder");
       fs.ensureDir(join(blogFolder, item.relative_path), function (err) {
-        
         // we have run into an EEXIST error here when a file exists
         // where a new folder needs to be. I decided against
         // just removing the file and replacing it with a folder
@@ -193,7 +193,7 @@ function Apply(token, blogFolder, log) {
         // dropbox (they would send the deletion before the creation?)
         // How could a file named for a folder have gotten here? could
         // blot have done it or is it just the user?
-        
+
         if (err) {
           log(item.relative_path, "Error making directory in folder", err);
         } else {
@@ -224,7 +224,7 @@ function Apply(token, blogFolder, log) {
           "Hash does not match, downloading from Dropbox"
         );
         Download(
-          token,
+          client,
           item.path_lower,
           join(blogFolder, item.relative_path),
           function (err) {

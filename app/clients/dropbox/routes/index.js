@@ -79,7 +79,7 @@ dashboard
   .get(require("./createFolder"))
   .get(require("./saveDropboxAccount"))
   .get(function (req, res) {
-    res.message(req.baseUrl, "Set up Dropbox successfuly!");
+    res.message(req.baseUrl, "Set up Dropbox successfully!");
 
     require("./writeExistingContents")(req, res, function (err) {
       // Headers have been sent at this point, so just log this error
@@ -118,7 +118,7 @@ dashboard
   .post(require("./createFolder"))
   .post(require("./saveDropboxAccount"))
   .post(function (req, res) {
-    res.message("/settings", "Set up Dropbox successfuly!");
+    res.message("/settings", "Set up Dropbox successfully!");
 
     // This happens in the background. It would be nice to
     // expose a progress bar in future.

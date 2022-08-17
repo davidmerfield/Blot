@@ -7,11 +7,13 @@ var join = require("path").join;
 var Metadata = require("metadata");
 var Path = require("path");
 var Entry = require("models/entry");
+const Dropbox = require("dropbox").Dropbox;
+const fetch = require("isomorphic-fetch");
 
 module.exports = function (req, res, next) {
   var walk, walked, queue, localFolder, dropboxFolder, token;
 
-  debug("writing existing contents for", req.blog.title);
+  console.log("writing existing contents for", req.blog.title);
 
   // check if req.account.folder === req.unsavedAccount.folder
   // if so, just next? we want people to be able to re-cruise
@@ -20,19 +22,27 @@ module.exports = function (req, res, next) {
   sync(req.blog.id, function (err, folder, done) {
     if (err) return next(err);
 
+    console.log("here with sync lock!");
+
     localFolder = folder.path;
     token = req.unsavedAccount.access_token;
     dropboxFolder = req.unsavedAccount.folder;
+    const client = new Dropbox({ fetch });
+    client.auth.setAccessToken(token);
     walked = false;
 
     queue = async.queue(function (task, callback) {
-      upload(token, task.source, task.destination, callback);
+      console.log("here with task", task);
+      upload(client, task.source, task.destination, callback);
     });
 
     queue.drain = function () {
       if (walked) {
+        console.log("drain invoked with walked =true");
         debug("drained queue with walk complete for", req.blog.title);
         done(null, next);
+      } else {
+        console.log("drain invoked with walked = false");
       }
     };
 
