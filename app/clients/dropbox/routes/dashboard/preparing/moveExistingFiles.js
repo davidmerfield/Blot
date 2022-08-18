@@ -1,5 +1,5 @@
 var sync = require("sync");
-var database = require("../database");
+var database = require("clients/dropbox/database");
 const fetch = require("isomorphic-fetch");
 const Dropbox = require("dropbox").Dropbox;
 var async = require("async");
@@ -18,6 +18,8 @@ module.exports = function (req, res, next) {
   client.auth.setAccessToken(req.unsavedAccount.access_token);
 
   determineFolder = async.apply(DetermineFolder, otherBlog.title, client);
+
+  req.folder.status("Moving your existing blog folder into a subdirectory");
 
   // Get a lock on the blog to ensure no other changes happen during migration
   // might want to add retries here...
@@ -41,6 +43,11 @@ module.exports = function (req, res, next) {
             cursor: "",
           },
           function (err) {
+            // The front-end listens for this message, so if you change it
+            // also update views/preparing.html
+            req.folder.status(
+              "Moved your existing blog folder into a subdirectory"
+            );
             done(err, next);
           }
         );

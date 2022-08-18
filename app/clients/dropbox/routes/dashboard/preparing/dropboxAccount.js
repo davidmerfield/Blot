@@ -4,6 +4,11 @@ const Dropbox = require("dropbox").Dropbox;
 module.exports = function (req, res, next) {
   if (!req.access_token) return next(new Error("No access token"));
 
+      // The front-end listens for this message, so if you change it
+      // also update views/preparing.html
+      req.folder.status("Loading your Dropbox account information");
+
+
   const client = new Dropbox({
     fetch: fetch,
   });
@@ -16,6 +21,9 @@ module.exports = function (req, res, next) {
     .then(function (response) {
       let { account_id, email } = response.result;
 
+      // The front-end listens for this message, so if you change it
+      // also update views/preparing.html
+      req.folder.status("Loaded your Dropbox account information");
       req.unsavedAccount = {
         account_id,
         access_token: req.access_token,

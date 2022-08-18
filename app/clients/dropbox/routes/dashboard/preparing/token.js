@@ -8,7 +8,9 @@ module.exports = function (req, res, next) {
   let redirectUri =
     req.protocol + "://" + req.get("host") + "/clients/dropbox/authenticate";
 
-  if (req.query.full_access) {
+  const { code, full_access } = req.session.dropbox;
+
+  if (full_access) {
     key = config.dropbox.full.key;
     secret = config.dropbox.full.secret;
     redirectUri += "?full_access=true";
@@ -23,13 +25,15 @@ module.exports = function (req, res, next) {
     clientSecret: secret,
   });
 
-  const { code } = req.query;
-
+  req.folder.status("Receiving permission to access your Dropbox");
   dbx.auth
     .getAccessTokenFromCode(redirectUri, code)
     .then((response) => {
       req.access_token = response.result.access_token;
       req.refresh_token = response.result.refresh_token;
+      // The front-end listens for this message, so if you change it
+      // also update views/preparing.html
+      req.folder.status("Received permission to access your Dropbox");
       next();
     })
     .catch(next);

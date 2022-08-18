@@ -1,4 +1,4 @@
-var Database = require("../database");
+var Database = require("clients/dropbox/database");
 var join = require("path").join;
 var moment = require("moment");
 

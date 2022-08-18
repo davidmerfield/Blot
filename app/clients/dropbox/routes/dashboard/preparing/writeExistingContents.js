@@ -1,8 +1,7 @@
 var fs = require("fs-extra");
 var async = require("async");
 var debug = require("debug")("blot:clients:dropbox:writeExistingContents");
-var sync = require("sync");
-var upload = require("../util/upload");
+var upload = require("clients/dropbox/util/upload");
 var join = require("path").join;
 var Metadata = require("metadata");
 var Path = require("path");
@@ -13,48 +12,48 @@ const fetch = require("isomorphic-fetch");
 module.exports = function (req, res, next) {
   var walk, walked, queue, localFolder, dropboxFolder, token;
 
-  console.log("writing existing contents for", req.blog.title);
+  // The front-end listens for this message, so if you change it
+  // also update views/preparing.html
+  req.folder.status("Transferring the files in your blog folder");
 
   // check if req.account.folder === req.unsavedAccount.folder
   // if so, just next? we want people to be able to re-cruise
   // down this authentication route without freaking out...
 
-  sync(req.blog.id, function (err, folder, done) {
+  localFolder = req.folder.path;
+  token = req.unsavedAccount.access_token;
+  dropboxFolder = req.unsavedAccount.folder;
+  const client = new Dropbox({ fetch });
+  client.auth.setAccessToken(token);
+  walked = false;
+
+  queue = async.queue(function (task, callback) {
+    console.log("here with task", task);
+    req.folder.status("transferring", task.source);
+    upload(client, task.source, task.destination, callback);
+  });
+
+  queue.drain = function () {
+    if (walked) {
+      console.log("drain invoked with walked =true");
+      debug("drained queue with walk complete for", req.blog.title);
+      // The front-end listens for this message, so if you change it
+      // also update views/preparing.html
+      req.folder.status("Transferred the files in your blog folder");
+      next();
+    } else {
+      console.log("drain invoked with walked = false");
+    }
+  };
+
+  walk = new walker(req.blog.id, localFolder, dropboxFolder, queue);
+
+  walk("/", function (err) {
     if (err) return next(err);
 
-    console.log("here with sync lock!");
+    if (!queue.started) return next();
 
-    localFolder = folder.path;
-    token = req.unsavedAccount.access_token;
-    dropboxFolder = req.unsavedAccount.folder;
-    const client = new Dropbox({ fetch });
-    client.auth.setAccessToken(token);
-    walked = false;
-
-    queue = async.queue(function (task, callback) {
-      console.log("here with task", task);
-      upload(client, task.source, task.destination, callback);
-    });
-
-    queue.drain = function () {
-      if (walked) {
-        console.log("drain invoked with walked =true");
-        debug("drained queue with walk complete for", req.blog.title);
-        done(null, next);
-      } else {
-        console.log("drain invoked with walked = false");
-      }
-    };
-
-    walk = new walker(req.blog.id, localFolder, dropboxFolder, queue);
-
-    walk("/", function (err) {
-      if (err) return done(err, next);
-
-      if (!queue.started) return done(null, next);
-
-      walked = true;
-    });
+    walked = true;
   });
 };
 
