@@ -1,92 +1,126 @@
-<h1>Preparing your folder on Dropbox</h1>
-<p>Follow the progress here</p>
-
-<ul>
-  <li class="done">Receiving permission to access your Dropbox</li>
-  <li>Creating a folder in your Dropbox for <b>{{blog.title}}</b> <span class="spinner">
-  <span class="bounce1"></span>
-  <span class="bounce2"></span>
-  <span class="bounce3"></span>
-</span></li>
-  {{#existing_files}}
-  <li>Moving your existing files from Blot to your new Dropbox folder <span class="spinner">
-  <span class="bounce1"></span>
-  <span class="bounce2"></span>
-  <span class="bounce3"></span>
-</span></li>
-  {{/existing_files}}
-  <li>Getting Dropbox to sync changes to the new folder in future <span class="spinner">
-  <span class="bounce1"></span>
-  <span class="bounce2"></span>
-  <span class="bounce3"></span>
-</span></li>
-</ul>
-
-<div id="status"></div>
-
-<form method='post' class="account" style="padding-top:0;margin-top:0">
-
-  <input type="hidden" name="_csrf" value="{{csrftoken}}">
-  <div class="buttons">
-    <input class="button" type="submit" value="Cancel setup" />
-  </div>
-</form>
-
-
-
-
-
-
+<p>Blot is preparing your folder on Dropbox. You can follow the progress here:</p>
 
 <style type="text/css">
-  .spinner {
-  width: 2em;
-  text-align: center;
-}
-
-.spinner > span {
-  width: 0.4em;
-  height: 0.4em;
-  background-color: #02b333;
-  border-radius: 100%;
-  display: inline-block;
-  -webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;
-  animation: sk-bouncedelay 1.4s infinite ease-in-out both;
-}
-
-.spinner .bounce1 {
-  -webkit-animation-delay: -0.32s;
-  animation-delay: -0.32s;
-}
-
-.spinner .bounce2 {
-  -webkit-animation-delay: -0.16s;
-  animation-delay: -0.16s;
-}
-
 @-webkit-keyframes sk-bouncedelay {
-  0%, 80%, 100% { -webkit-transform: scale(0) }
-  40% { -webkit-transform: scale(1.0) }
+  0%,  100% { -webkit-transform: scale(1) }
+  50% { -webkit-transform: scale(1.35) }
 }
 
 @keyframes sk-bouncedelay {
-  0%, 80%, 100% { 
-    -webkit-transform: scale(0);
-    transform: scale(0);
-  } 40% { 
-    -webkit-transform: scale(1.0);
-    transform: scale(1.0);
+  0%, 100% { 
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  } 50% { 
+    -webkit-transform: scale(1.35);
+    transform: scale(1.35);
   }
 }
 
+  .stages {list-style-type: none;
+    border-left: 2px solid rgba(0,0,0,0.1);
+    margin-left: 0.5rem;
+    padding-left: 0;
+  }
+
+  .stages li {position: relative;
+    padding: 6px 26px}
+    
+    .stages li:first-child:after,
+    .stages li:last-child:after {
+      content: "";
+      width: 2px;
+      height: 50%;
+      position: absolute;
+      left: -2px;
+      z-index: 1;
+      background: white
+    }
+
+    .stages li:first-child:after {
+          top: 0;
+
+    }
+
+    .stages li:last-child:after {
+          bottom: 0;
+
+    }
+      
+
+  .stages li:before {
+    content: " ";
+    color: white;
+    font-size: 0.66rem;
+    z-index: 2;
+    width: 1em;
+    height: 1em;
+    border-radius: 1em;
+    background: #eee;
+    position: absolute;
+    top: 50%;
+    margin-top: -0.5em;
+    margin-left: -1px;
+    left: -0.5em;
+  }
+
+  .stages li.active:before {
+  -webkit-animation: sk-bouncedelay 2s infinite ease-in-out both;
+  animation: sk-bouncedelay 2s infinite ease-in-out both;
+  background-color: #677;
+  }
+
+  .stages li.done:before {
+    background-color: #02b333
+  }
+
 </style>
+<ul class="stages">
+  <li id="token" class="{{status.token}}">
+    Receive permission to access your Dropbox
+  </li>
+  <li id="dropboxAccount" class="{{status.dropboxAccount}}">
+    Loading your Dropbox account information
+  </li>
+  <li id="createFolder" class="{{status.createFolder}}">
+    Creating a folder in your Dropbox for <b>{{blog.title}}</b>
+  </li>
+  <li id="writeExistingContents"  class="{{status.writeExistingContents}}">
+    Moving your existing files from Blot to your new Dropbox folder
+    <span id="status"></span>
+  </li>
+  <li id="saveDropboxAccount"  class="{{status.saveDropboxAccount}}">
+  Getting Dropbox to sync changes to the new folder in future
+  </li>
+</ul>
 
 <script type="text/javascript">
   var evtSource = new EventSource("{{{dashboardBase}}}/status");
+  var stages = {{{stages}}};
 
   evtSource.onmessage = function(event) {
-    console.log(event);
 
+    // The process is complete
+    if (event.data === 'Synced') {
+      return window.location.reload();
+    }
+
+    stages.forEach(function(item, i){
+
+      var stage = item.stage;
+      var active = item.active;
+      var done = item.done;
+      var node = document.getElementById(stage);
+
+      if (event.data === active) {
+        node.innerHTML = active;
+        node.className = 'active';
+      }
+
+      if (event.data === done) {
+        node.innerHTML = done;
+        node.className = 'done';
+      }
+    });
 
     document.getElementById('status').innerHTML = event.data;
   }

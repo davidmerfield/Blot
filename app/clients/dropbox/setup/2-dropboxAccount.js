@@ -1,13 +1,12 @@
 const fetch = require("isomorphic-fetch");
 const Dropbox = require("dropbox").Dropbox;
 
-module.exports = function (req, res, next) {
+module.exports = function dropboxAccount(req, res, next) {
   if (!req.access_token) return next(new Error("No access token"));
 
-      // The front-end listens for this message, so if you change it
-      // also update views/preparing.html
-      req.folder.status("Loading your Dropbox account information");
-
+  // The front-end listens for this message, so if you change it
+  // also update views/preparing.html
+  req.status.dropboxAccount.active();
 
   const client = new Dropbox({
     fetch: fetch,
@@ -23,7 +22,7 @@ module.exports = function (req, res, next) {
 
       // The front-end listens for this message, so if you change it
       // also update views/preparing.html
-      req.folder.status("Loaded your Dropbox account information");
+      req.status.dropboxAccount.done();
       req.unsavedAccount = {
         account_id,
         access_token: req.access_token,

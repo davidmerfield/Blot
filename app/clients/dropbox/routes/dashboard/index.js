@@ -1,7 +1,8 @@
-var Express = require("express");
+var express = require("express");
+var dashboard = express.Router();
 var disconnect = require("clients/dropbox/disconnect");
 var views = __dirname + "/../../views/";
-var dashboard = Express.Router();
+var prepare = require("./prepare");
 
 dashboard.use(require("./loadDropboxAccount"));
 
@@ -13,6 +14,9 @@ dashboard.get("/", function (req, res) {
     if (req.query.setup) query = "?setup=true";
     return res.redirect(req.baseUrl + "/setup" + query);
   }
+
+  res.locals.status = req.session.dropbox && req.session.dropbox.status;
+  res.locals.stages = JSON.stringify(STAGES);
 
   res.render(views + "index");
 });
@@ -36,17 +40,20 @@ dashboard.get("/permission", function (req, res) {
 // Dropbox when they have accepted or denied
 // the request to access their folder.
 dashboard.get("/authenticate", function (req, res) {
+  // the user has reloaded this page
+  if (req.session.dropbox && req.session.dropbox.preparing === true) {
+    return res.redirect(req.baseUrl);
+  }
+
   const { code, full_access } = req.query;
 
-  req.session.dropbox = {
-    code,
-    full_access,
-  };
+  // this the first time the user has visited this page
+  req.session.dropbox = { code, full_access, preparing: true };
 
-  res.redirect(req.baseUrl + "/preparing");
+  prepare(req, res);
+
+  res.redirect(req.baseUrl);
 });
-
-dashboard.use("/preparing", require("./preparing"));
 
 // Will remove the Dropbox account from the client's database
 // and revoke the token if needed.

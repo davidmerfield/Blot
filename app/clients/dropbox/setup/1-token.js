@@ -25,7 +25,8 @@ module.exports = function (req, res, next) {
     clientSecret: secret,
   });
 
-  req.folder.status("Receiving permission to access your Dropbox");
+  req.status.token.active();
+
   dbx.auth
     .getAccessTokenFromCode(redirectUri, code)
     .then((response) => {
@@ -33,7 +34,7 @@ module.exports = function (req, res, next) {
       req.refresh_token = response.result.refresh_token;
       // The front-end listens for this message, so if you change it
       // also update views/preparing.html
-      req.folder.status("Received permission to access your Dropbox");
+      req.status.token.done();
       next();
     })
     .catch(next);

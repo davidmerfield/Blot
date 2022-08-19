@@ -14,7 +14,7 @@ module.exports = function (req, res, next) {
 
   // The front-end listens for this message, so if you change it
   // also update views/preparing.html
-  req.folder.status("Transferring the files in your blog folder");
+  req.status.writeExistingContents.active();
 
   // check if req.account.folder === req.unsavedAccount.folder
   // if so, just next? we want people to be able to re-cruise
@@ -39,7 +39,7 @@ module.exports = function (req, res, next) {
       debug("drained queue with walk complete for", req.blog.title);
       // The front-end listens for this message, so if you change it
       // also update views/preparing.html
-      req.folder.status("Transferred the files in your blog folder");
+        req.status.writeExistingContents.done();
       next();
     } else {
       console.log("drain invoked with walked = false");

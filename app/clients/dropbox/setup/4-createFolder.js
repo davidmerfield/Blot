@@ -3,8 +3,12 @@ const Dropbox = require("dropbox").Dropbox;
 var titleToFolder = require("./titleToFolder");
 
 module.exports = function (req, res, next) {
-  if (req.unsavedAccount.full_access === false && !req.otherBlogsUseAppFolder)
+  req.status.createFolder.active();
+
+  if (req.unsavedAccount.full_access === false && !req.otherBlogsUseAppFolder) {
+    req.status.createFolder.done();
     return next();
+  }
 
   const client = new Dropbox({
     fetch: fetch,
@@ -13,7 +17,6 @@ module.exports = function (req, res, next) {
   client.auth.setAccessToken(req.unsavedAccount.access_token);
 
   var folder = "/" + titleToFolder(req.blog.title);
-  req.folder.status("Creating a folder in Dropbox for your blog");
 
   client
     .filesCreateFolder({ path: folder, autorename: true })
@@ -22,7 +25,7 @@ module.exports = function (req, res, next) {
       req.unsavedAccount.folder_id = result.id;
       // The front-end listens for this message, so if you change it
       // also update views/preparing.html
-      req.folder.status("Created a folder in Dropbox for your blog");
+      req.status.createFolder.done();
       next();
     })
     .catch(next);

@@ -9,7 +9,8 @@ module.exports = function (req, res, next) {
   var otherBlog = req.otherBlogUsingEntireAppFolder;
   var determineFolder, move;
 
-  if (!otherBlog) return next(new Error("No blog to move"));
+  //No blog to move
+  if (!otherBlog) return next();
 
   const client = new Dropbox({
     fetch: fetch,
@@ -19,7 +20,7 @@ module.exports = function (req, res, next) {
 
   determineFolder = async.apply(DetermineFolder, otherBlog.title, client);
 
-  req.folder.status("Moving your existing blog folder into a subdirectory");
+  req.status.moveExistingFiles.active();
 
   // Get a lock on the blog to ensure no other changes happen during migration
   // might want to add retries here...
@@ -45,9 +46,8 @@ module.exports = function (req, res, next) {
           function (err) {
             // The front-end listens for this message, so if you change it
             // also update views/preparing.html
-            req.folder.status(
-              "Moved your existing blog folder into a subdirectory"
-            );
+            req.status.moveExistingFiles.done();
+
             done(err, next);
           }
         );
