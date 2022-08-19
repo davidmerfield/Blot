@@ -54,6 +54,7 @@ function sync(blogID, callback) {
     const folder = {
       path: localPath(blogID, "/"),
       update: new Update(blog, log),
+      status: (message) => client.publish("sync:status:" + blogID, message),
       log,
     };
 
@@ -71,13 +72,13 @@ function sync(blogID, callback) {
     // We acquired a lock on the resource!
     // This function is to be called when we are finished
     // with the lock on the user's folder.
-    client.publish("sync:status:" + blogID, "Syncing");
+    folder.status("Syncing");
 
     // Pass methods to trigger folder updates back to the
     // function which wanted to modify the blog's folder.
     callback(null, folder, function (syncError, callback) {
       log("Sync callback invoked");
-      client.publish("sync:status:" + blogID, "Synced");
+      folder.status("Synced");
 
       if (typeof syncError === "function")
         throw new Error("Pass an error or null as first argument to done");

@@ -1,5 +1,7 @@
 Expose unlock and verify options for both dropbox and google drive clients
 
+Add question on custom heading IDs
+
 Fix issues with sync:
 -error earlier
 - log all dropbox client related errors?
@@ -19,6 +21,9 @@ Fix issues with sync:
 - Tell [Mike](https://mail.google.com/mail/u/0/#inbox/FMfcgzGpFgpdfBScqQctbnNGxBCLrztC) once the bug is sorted so he can rejoin
 - Tell [Juan](https://mail.google.com/mail/u/0/#inbox/FMfcgzGpFzvBSNgqmRVDRHvdGrzqrZDt)
 - Tell questioners](https://blot.im/questions/576)
+
+Send out cancellation confirmation emails with option to give feedback
+- auto-refund people who immediately close their account after signing up
 
 Replace radio button on clients page
 
@@ -115,6 +120,7 @@ Make retreiving files from server case-insentive
 Reach out to Wesley about using [notebook](https://github.com/WesleyAC/notebook)'s features in a template
 
 Improve Google Drive client:
+- Uncaught exceptions raised by verify seem to not be caught properly by the try/catch blocks. Simulate an exception and work out why.
 - Resolve error which occurred when I disconnected a blog from Google Drive client, a folder lock issue, which wasn't surfaced properly.
 - Weird issue with connecting multiple blogs to same google drive account – the file from one appeared in the folder for the other. Also strangeness possibly related to an empty blog folder?
 - How do we handle two files with same name and same parent? How does our fileId:path hash handle this? Make sure we delete the right file. Will file.title as opposed to file.name give us the deduped version?

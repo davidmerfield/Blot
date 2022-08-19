@@ -42,8 +42,13 @@ if (cluster.isMaster) {
     }
   }
 
-  // Fork workers.
-  for (let i = 0; i < NUMBER_OF_WORKERS; i++) {
+  if (process.env.FAST !== "true") {
+    // Fork workers based on how many CPUs are available
+    for (let i = 0; i < NUMBER_OF_WORKERS; i++) {
+      cluster.fork();
+    }
+  } else {
+    // In FAST mode, just fork one
     cluster.fork();
   }
 
