@@ -18,4 +18,8 @@ I use a spreadsheet which I update once per month with my revenue and costs.
 
 My email inbox only contains email to which I need to respond. Once I respond to an email, it is archived. If there is a longer task which I need to complete, I will make an entry in [todo.txt](https://github.com/davidmerfield/Blot/blob/master/todo.txt) with a link to the archived email thread, so I can follow up with the customer as soon as the task is complete. 
 
+We use Gmail to host our email, since despite all the downside its interface is the best available.
 
+## Payment processing
+
+We use [Stripe](https://stripe.com/) to process payments. They have been excellent.
