@@ -1,52 +1,44 @@
-var fs = require("fs-extra");
-var async = require("async");
-var debug = require("debug")("blot:clients:dropbox:writeExistingContents");
-var upload = require("clients/dropbox/util/upload");
-var join = require("path").join;
-var Metadata = require("metadata");
-var Path = require("path");
-var Entry = require("models/entry");
-const Dropbox = require("dropbox").Dropbox;
-const fetch = require("isomorphic-fetch");
+const fs = require("fs-extra");
+const async = require("async");
+const debug = require("debug")("blot:clients:dropbox:writeExistingContents");
+const upload = require("clients/dropbox/util/upload");
+const join = require("path").join;
+const Metadata = require("metadata");
+const Path = require("path");
+const Entry = require("models/entry");
+const localPath = require("helper/localPath");
 
-module.exports = function (req, res, next) {
-  var walk, walked, queue, localFolder, dropboxFolder, token;
-
-  // The front-end listens for this message, so if you change it
-  // also update views/preparing.html
-  req.status.writeExistingContents.active();
+// the strategy will be to first: 
+// prepare folder, making all files lowercase
+// then basically run verify.fromBlot
+module.exports = async function writeExistingContents(account) {
+  var walk, walked, queue, localFolder, dropboxFolder;
 
   // check if req.account.folder === req.unsavedAccount.folder
   // if so, just next? we want people to be able to re-cruise
   // down this authentication route without freaking out...
 
-  localFolder = req.folder.path;
-  token = req.unsavedAccount.access_token;
-  dropboxFolder = req.unsavedAccount.folder;
-  const client = new Dropbox({ fetch });
-  client.auth.setAccessToken(token);
+  localFolder = localPath(account.blog.id, "/");
+  dropboxFolder = account.folder;
+
   walked = false;
 
   queue = async.queue(function (task, callback) {
     console.log("here with task", task);
-    req.folder.status("transferring", task.source);
-    upload(client, task.source, task.destination, callback);
+    // req.folder.status("transferring", task.source);
+    upload(account.client, task.source, task.destination, callback);
   });
 
   queue.drain = function () {
     if (walked) {
       console.log("drain invoked with walked =true");
-      debug("drained queue with walk complete for", req.blog.title);
-      // The front-end listens for this message, so if you change it
-      // also update views/preparing.html
-        req.status.writeExistingContents.done();
       next();
     } else {
       console.log("drain invoked with walked = false");
     }
   };
 
-  walk = new walker(req.blog.id, localFolder, dropboxFolder, queue);
+  walk = new walker(account.blog.id, localFolder, dropboxFolder, queue);
 
   walk("/", function (err) {
     if (err) return next(err);
@@ -134,12 +126,11 @@ function ensureLowerCase(blogID, localFolder, path, name, callback) {
   );
 }
 
-// When we lowercase a file, we need to update its entry
-// as well, if one exists.
+// When we lowercase a file, we need to update its entry as well
 function renameEntry(blogID, oldPath, newPath, newName, callback) {
   debug("Attempting to rename", oldPath, "to", newPath);
-
   Entry.get(blogID, oldPath, function (entry) {
+    // This file might not have an entry associated
     if (!entry) {
       debug("No entry from", oldPath);
       return callback();
@@ -148,9 +139,11 @@ function renameEntry(blogID, oldPath, newPath, newName, callback) {
     debug("Removing entry from", oldPath);
     Entry.drop(blogID, oldPath, function (err) {
       if (err) return callback(err);
+
       entry.path = newPath;
       entry.id = newPath;
       entry.name = newName;
+
       Entry.set(blogID, newPath, entry, callback);
     });
   });

@@ -60,8 +60,9 @@ dashboard.get("/", function (req, res) {
     return res.redirect(req.baseUrl + "/setup" + query);
   }
 
-  res.locals.status = req.session.dropbox && req.session.dropbox.status;
-  res.locals.stages = JSON.stringify(STAGES);
+  res.locals.stages =
+    (req.session.dropbox && req.session.dropbox.stages) ||
+    require("./setup/progress").stages;
 
   res.render(views + "index");
 });
@@ -128,9 +129,10 @@ dashboard.get("/permission", function (req, res) {
 // the request to access their folder.
 dashboard.get("/authenticate", function (req, res) {
   // the user has reloaded this page
-  if (req.session.dropbox && req.session.dropbox.preparing === true) {
-    return res.redirect(req.baseUrl);
-  }
+  // if (req.session.dropbox && req.session.dropbox.preparing === true) {
+  //   console.log('here, redirecting cause of session');
+  //   return res.redirect(req.baseUrl);
+  // }
 
   const { code, full_access } = req.query;
   let redirectUri =
@@ -140,13 +142,21 @@ dashboard.get("/authenticate", function (req, res) {
     redirectUri += "?full_access=true";
   }
 
-  const account = { code, full_access, preparing: true };
+  const account = {
+    code,
+    redirectUri,
+    full_access,
+    preparing: true,
+    blog: req.blog,
+  };
 
   // this the first time the user has visited this page
   req.session.dropbox = account;
 
-  setup(req.blog, account);
-
+  setup(account, req.session, function (err) {
+    console.log("err setting up", err);
+  });
+  
   res.redirect(req.baseUrl);
 });
 
