@@ -1,41 +1,29 @@
 const config = require("config");
-const { Dropbox } = require("dropbox");
 const fetch = require("node-fetch");
+const { Dropbox } = require("dropbox");
 
-// Dropbox makes this way harder than it needs to be
-module.exports = function (req, res, next) {
-  let key, secret;
-  let redirectUri =
-    req.protocol + "://" + req.get("host") + "/clients/dropbox/authenticate";
+module.exports = async function token(account) {
+  const { code, full_access, redirectUri } = account;
 
-  const { code, full_access } = req.session.dropbox;
+  const clientId = full_access
+    ? config.dropbox.full.key
+    : config.dropbox.app.key;
 
-  if (full_access) {
-    key = config.dropbox.full.key;
-    secret = config.dropbox.full.secret;
-    redirectUri += "?full_access=true";
-  } else {
-    key = config.dropbox.app.key;
-    secret = config.dropbox.app.secret;
-  }
+  const clientSecret = full_access
+    ? config.dropbox.full.secret
+    : config.dropbox.app.secret;
 
-  const dbx = new Dropbox({
-    fetch,
-    clientId: key,
-    clientSecret: secret,
-  });
+  const dropbox = new Dropbox({ fetch, clientId, clientSecret });
 
-  req.status.token.active();
+  const { result } = await dropbox.auth.getAccessTokenFromCode(
+    redirectUri,
+    code
+  );
 
-  dbx.auth
-    .getAccessTokenFromCode(redirectUri, code)
-    .then((response) => {
-      req.access_token = response.result.access_token;
-      req.refresh_token = response.result.refresh_token;
-      // The front-end listens for this message, so if you change it
-      // also update views/preparing.html
-      req.status.token.done();
-      next();
-    })
-    .catch(next);
+  const { access_token, refresh_token } = result;
+
+  account.access_token = access_token;
+  account.refresh_token = refresh_token;
+
+  return account;
 };

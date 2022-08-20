@@ -2,15 +2,13 @@ const sync = require("sync");
 const STAGES = require("./stages");
 const async = require("async");
 
-module.exports = function (req, res, next) {
-
+module.exports = function (blog, account, next) {
   // I think the function signature can look like
   // we'll need to move some of the session stuff into
   // account, e.g. code, full_access.
   // function(blog, account, callback){ ... }
   // callback(null, blog, account);
   // the status and session stuff can happen here...
-
   async.waterfall(
     [
       function (callback) {
@@ -36,22 +34,22 @@ module.exports = function (req, res, next) {
           if (err) return callback(err);
 
           req.done = done;
-          req.folder = folder;
-          callback(null, req, res);
+          account.folder = folder;
+          callback(null, blog, account);
         });
       },
-      start('token'),
+      start("token"),
       require("./token"),
-      start('dropboxAccount'),
+      start("dropboxAccount"),
       require("./dropboxAccount"),
-      start('moveExistingFiles'),
+      start("moveExistingFiles"),
       require("./checkAppFolder"),
       require("./moveExistingFiles"),
-      start('createFolder'),
+      start("createFolder"),
       require("./createFolder"),
-      start('writeExistingContents'),
+      start("writeExistingContents"),
       require("./writeExistingContents"),
-      start('saveDropboxAccount'),
+      start("saveDropboxAccount"),
       require("./saveDropboxAccount"),
       function (req, res, next) {
         req.done(null, function (err) {

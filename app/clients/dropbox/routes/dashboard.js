@@ -1,14 +1,15 @@
 const express = require("express");
 const dashboard = express.Router();
 const disconnect = require("clients/dropbox/disconnect");
-const views = __dirname + "/../../views/";
-const prepare = require("./prepare");
+const setup = require("./setup");
 const { Dropbox } = require("dropbox");
 const config = require("config");
 const fetch = require("node-fetch");
 const Database = require("clients/dropbox/database");
 const join = require("path").join;
 const moment = require("moment");
+
+const views = __dirname + "/../views/";
 
 dashboard.use(function loadDropboxAccount(req, res, next) {
   Database.get(req.blog.id, function (err, account) {
@@ -132,11 +133,19 @@ dashboard.get("/authenticate", function (req, res) {
   }
 
   const { code, full_access } = req.query;
+  let redirectUri =
+    req.protocol + "://" + req.get("host") + "/clients/dropbox/authenticate";
+
+  if (full_access) {
+    redirectUri += "?full_access=true";
+  }
+
+  const account = { code, full_access, preparing: true };
 
   // this the first time the user has visited this page
-  req.session.dropbox = { code, full_access, preparing: true };
+  req.session.dropbox = account;
 
-  prepare(req, res);
+  setup(req.blog, account);
 
   res.redirect(req.baseUrl);
 });
