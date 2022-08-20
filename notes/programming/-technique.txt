@@ -41,6 +41,7 @@
 
 - [macOS]() is the operating system on which I write Blot's source code.
 - [Sublime text]() is the text editor in which I write the code. I still aspire to learn how to use vim.
+- [localhost.run](https://localhost.run/) sends webhooks to our development environment for testing integration with external APIs like Dropbox or Google Drive. It's an excellent service.
 - [iTerm]() is where I run the code.
 - [JSHint]() and [Prettier]() lint the code I write.
-- All of this runs on a 12-inch [MacBook]() with an Intel 1.2 GHz m3 processor and 8 GB of RAM. I use a laptop stand atop a stack of books, along with an external keyboard and mouse, for posture. I do not have an external monitor since it is important to be able to put my desk in non-tech mode.
+- All of this runs on a 12-inch [MacBook]() with an Intel 1.2 GHz m3 processor and 8 GB of RAM. I use a laptop stand atop a stack of books, along with an external keyboard and mouse, for posture. I do not have an external monitor since it is important to be able to put my desk into a state with no visible technology.
