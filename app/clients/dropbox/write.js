@@ -15,13 +15,13 @@ function write(blogID, path, contents, callback) {
 
   createClient(blogID, async function (err, client, account) {
     if (err || !account) return callback(err || new Error("No account"));
-
+    
     pathInDropbox = join(account.folder || "/", path);
     // We must lowercase this since localPath no longer
     // does and files for the Dropbox client are stored
     // in the folder with a lowercase path.
     pathOnBlot = localPath(blogID, path).toLowerCase();
-
+    
     try {
       await fs.outputFile(pathOnBlot, contents);
       await upload(client, pathOnBlot, pathInDropbox);
