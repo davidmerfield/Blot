@@ -1,5 +1,7 @@
 Expose unlock and verify options for both dropbox and google drive clients
 
+Check that magazine template date settings work and follow up [with questioner](https://blot.im/questions/773)
+
 Add question on custom heading IDs
 
 Fix issues with sync:
