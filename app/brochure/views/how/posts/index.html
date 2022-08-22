@@ -5,7 +5,7 @@
 <h2>Files which become posts</h2>
 
 <style type="text/css">
-  .light {display:block;text-indent: 1.8rem;
+  li .light {display:block;text-indent: 1.8rem;
     color: var(--light-text-color);}
 </style>
 <ul class="clients" style="margin-top: 0">
@@ -25,21 +25,30 @@
 <h2>Prevent a file becoming a blog post</h2>
 <p> Files and folders whose name starts with an underscore are ignored. Ignored files don’t become blog posts themselves but they can be <a href="#files-in-your-folder-are-public">embedded in posts</a>. None of these files become posts:</p>
 
-
+<style type="text/css">
+  table .light {margin: 0 10px 0 12px;
+    color: #777;}
+</style>
 <table style="max-width:637px;table-layout: auto;">
   <tbody>
 
     <tr>
-       <td>
-        <code class="file img">_Palermo.jpg</a></code>
-      </td>
-    </tr>
-    <tr>
       <td>
-        <code class="file img">_Italy/Palermo.jpg</a></code>
+        <code class="folder">_Fruits</code><span class="light">›</span>
+        <code class="folder">Tropical</code><span class="light">›</span><code class="file img">Banana.jpg</a></code>
+      </td>      
+    </tr>
+  <tr>
+      <td>
+        <code class="folder">_Fruits</code><span class="light">›</span><code class="file img">Banana.jpg</a></code>
       </td>      
     </tr>
 
+    <tr>
+       <td>
+        <code class="file img">_Banana.jpg</a></code>
+      </td>
+    </tr>
   </tbody>
 </table>
 <h2>Formatting posts</h2>
