@@ -2,12 +2,12 @@ const express = require("express");
 const dashboard = express.Router();
 const disconnect = require("clients/dropbox/disconnect");
 const setup = require("./setup");
-const { Dropbox } = require("dropbox");
 const config = require("config");
 const fetch = require("node-fetch");
 const Database = require("clients/dropbox/database");
 const join = require("path").join;
 const moment = require("moment");
+const { Dropbox } = require("dropbox");
 
 const views = __dirname + "/../views/";
 
@@ -156,19 +156,18 @@ dashboard.get("/authenticate", function (req, res) {
   setup(account, req.session, function (err) {
     console.log("err setting up", err);
   });
-  
+
   res.redirect(req.baseUrl);
 });
 
 // Will remove the Dropbox account from the client's database
 // and revoke the token if needed.
-dashboard
-  .route("/disconnect")
-  .get(function (req, res) {
-    res.render(views + "disconnect");
-  })
-  .post(function (req, res, next) {
-    disconnect(req.blog.id, next);
-  });
+dashboard.get("/disconnect", function (req, res) {
+  res.render(views + "disconnect");
+});
+
+dashboard.post("/disconnect", function (req, res, next) {
+  disconnect(req.blog.id, next);
+});
 
 module.exports = dashboard;
