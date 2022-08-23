@@ -1,11 +1,3 @@
-Investigate git client mirroring on GitHub and follow up with [n](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqPzKcnQKsQQNkzcRpvCWpWKTr)
-
-Check that magazine template date settings work and follow up [with questioner](https://blot.im/questions/773)
-
-Check [nash's blog section](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqPzMvLDJBfbNfLzpkKDzmZSNt)
-
----
-
 Fix issues with sync:
 -error earlier
 - log all dropbox client related errors?
@@ -28,12 +20,16 @@ Fix issues with sync:
 
 Expose unlock and verify options for both dropbox and google drive clients
 
+Make the magazine template respect the date settings and follow up [with questioner](https://blot.im/questions/773)
+
 Send out cancellation confirmation emails with option to give feedback
 - auto-refund people who immediately close their account after signing up
 
 Replace radio button on clients page
 
 Get to the bottom of the slow cloudflare issue and follow up with [Wen](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqPzBWZcLJcwtWTXTbQjMbVrZB)
+
+Fix issue with git client mirroring on GitHub by follow steps in email and follow up with [n](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqPzKcnQKsQQNkzcRpvCWpWKTr)
 
 Ensure POST error messages are passed to client properly through ajax
 - to trigger, submit a >5mb file on web template editor
