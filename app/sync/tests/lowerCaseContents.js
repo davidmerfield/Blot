@@ -6,6 +6,8 @@ const entries = require("models/entries");
 const rename = require("../rename");
 const localPath = require("helper/localPath");
 
+const LONG_TIMEOUT = 10000;
+
 entries.getAll[promisify.custom] = (blogID) =>
   new Promise((resolve, reject) => {
     entries.getAll(blogID, (entries) => {
@@ -22,6 +24,12 @@ describe("sync lowerCaseContents", function () {
     await this.write("/bAr.txt", "test 2");
     await this.write("/boOo/foO.txt", "test 3");
     await this.write("/bAr/baz.txt", "test 4");
+    await this.write("/Drafts/hEy/you.txt", "test 5");
+    await this.write("/[draft]yOu.txt", "test 6");
+    await this.write("/wIth/case/tEst.pdf", "test 7");
+    await this.write("/wIth/emptydir");
+    await this.write("/anOtherDir");
+    await this.write("/fōO/bbb/te.txt", "test 10");
 
     const entriesBefore = await this.getAll();
     console.log("entries", entriesBefore);
@@ -77,10 +85,15 @@ describe("sync lowerCaseContents", function () {
     expect(pathsRestored.sort()).toEqual(pathsBefore.sort());
   });
 
+  var originalTimeout;
+
   beforeEach(function (done) {
     const ctx = this;
     const sync = require("sync");
     const blogID = this.blog.id;
+
+    originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = LONG_TIMEOUT;
 
     ctx.getAll = async () => {
       const allEntries = await promisify(entries.getAll)(this.blog.id);
@@ -113,7 +126,11 @@ describe("sync lowerCaseContents", function () {
       ctx.folder = folder;
       ctx.complete = complete;
       ctx.write = async function (path, contents) {
-        await fs.outputFile(join(folder.path, path), contents);
+        if (contents) {
+          await fs.outputFile(join(folder.path, path), contents);
+        } else {
+          await fs.ensureDir(join(folder.path, path));
+        }
         await promisify(folder.update)(path, {});
       };
       done();
@@ -121,6 +138,7 @@ describe("sync lowerCaseContents", function () {
   });
 
   afterEach(function (done) {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
     this.complete(null, done);
   });
 });

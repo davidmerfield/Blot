@@ -26,7 +26,12 @@ const rename = (blog, log) => (path, oldPath, options, callback) => {
         if (stat.isDirectory()) return mkdir(blog.id, path, options, callback);
 
         set(blog, path, options, function (err) {
-          if (err) return callback(err);
+          // this will surface an error if:
+          // - the file is not a type blot can convert
+          // - the file is too large
+          // etc.. these are not true ERRORs so we continue
+          if (err) log(err);
+
           Entry.get(blog.id, path, function (createdEntry) {
             if (!createdEntry || !deletedEntry) {
               console.log("no createdEntry or deletedEntry");
