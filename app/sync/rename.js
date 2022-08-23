@@ -15,25 +15,31 @@ const rename = (blog, log) => (path, oldPath, options, callback) => {
     .and(options, "object")
     .and(callback, "function");
 
+  log(path, "<--", oldPath);
+
   Entry.get(blog.id, oldPath, function (deletedEntry) {
     drop(blog.id, oldPath, options, function (err) {
       if (err) return callback(err);
       fs.stat(localPath(blog.id, path), function (err, stat) {
         if (err) return callback(err);
+
         if (stat.isDirectory()) return mkdir(blog.id, path, options, callback);
 
         set(blog, path, options, function (err) {
           if (err) return callback(err);
           Entry.get(blog.id, path, function (createdEntry) {
             if (!createdEntry || !deletedEntry) {
+              console.log("no createdEntry or deletedEntry");
               return callback();
             }
 
-            var updates = {
+            const updates = {
               url: deletedEntry.url,
               created: deletedEntry.created,
               guid: deletedEntry.guid,
             };
+
+            const newGuid = "entry_" + guid();
 
             // If the deleted entry did not have a path specified
             // in its path or its metadata (which we determine by
@@ -49,15 +55,16 @@ const rename = (blog, log) => (path, oldPath, options, callback) => {
             ) {
               updates.dateStamp = deletedEntry.dateStamp;
             }
+            console.log("adding updates to createdEntry", updates);
 
-            Entry.set(blog.id, createdEntry.path, updates, function (err) {
+            Entry.set(blog.id, path, updates, function (err) {
               if (err) return callback(err);
-              Entry.set(
-                blog.id,
-                oldPath,
-                { guid: "entry_" + guid() },
-                callback
-              );
+
+              if (oldPath.toLowerCase() === path.toLowerCase())
+                return callback();
+
+              console.log("removing guid from deletedEntry");
+              Entry.set(blog.id, oldPath, { guid: newGuid }, callback);
             });
           });
         });
