@@ -40,6 +40,11 @@ describe("sync lowerCaseContents", function () {
       promisify(rename(this.blog, console.log))
     )();
 
+    await lowerCaseContents(
+      this.blog,
+      promisify(rename(this.blog, console.log))
+    )({ restore: true });
+
     entries.getAll(this.blog.id, function (entries) {
       console.log(entries.map((i) => i.path));
       done();
