@@ -55,7 +55,7 @@ function sync(blogID, callback) {
     const folder = {
       path: localPath(blogID, "/"),
       update: new Update(blog, log),
-      rename: new Rename(blog, log),
+      rename: Rename(blog, log),
       status: (message) => client.publish("sync:status:" + blogID, message),
       log,
     };

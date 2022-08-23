@@ -1,5 +1,6 @@
 const fs = require("fs-extra");
 const { join } = require("path");
+const localPath = require("helper/localPath");
 
 // Takes a file or folder whose name is not fully
 // lowercase and to make it lowercase. For example:
@@ -10,7 +11,8 @@ const { join } = require("path");
 // folders with a case-sensitive name...
 // think about things e.g. previews which would trigger folder writes...
 
-async function lowerCase(localFolder, update) {
+const lowerCaseContents = (blog, rename) => async () => {
+  const localFolder = localPath(blog.id, "/");
   const renamedDirectories = {};
 
   const walk = async (dir) => {
@@ -34,8 +36,7 @@ async function lowerCase(localFolder, update) {
         renamedDirectories[newPath] = blotPath;
 
         await fs.rename(pathOnDisk, join(localFolder, newPath));
-        await update(blotPath);
-        await update(newPath);
+        await rename(newPath, blotPath, { name: item });
         await walk(newPath);
       }
 
@@ -48,8 +49,7 @@ async function lowerCase(localFolder, update) {
         renamedDirectories[newPath] = path;
 
         await fs.rename(join(localFolder, path), join(localFolder, newPath));
-        await update(path);
-        await update(newPath);
+        await rename(newPath, path, { name: item });
         await walk(newPath);
       }
 
@@ -60,9 +60,7 @@ async function lowerCase(localFolder, update) {
         const path = join(dir, item);
 
         renamedDirectories[path] = blotPath;
-
-        await update(blotPath);
-        await update(path);
+        await rename(path, blotPath, {});
         await walk(path);
       }
 
@@ -79,8 +77,7 @@ async function lowerCase(localFolder, update) {
         const newPath = join(dir, item.toLowerCase());
         const pathOnDisk = join(localFolder, dir, item);
         await fs.rename(pathOnDisk, join(localFolder, newPath));
-        await update(blotPath);
-        await update(newPath);
+        await rename(newPath, blotPath, {});
       }
 
       // this file has a case-sensitive name
@@ -89,8 +86,7 @@ async function lowerCase(localFolder, update) {
         const blotPath = join(dir, item);
         const path = join(dir, item.toLowerCase());
         await fs.rename(join(localFolder, blotPath), join(localFolder, path));
-        await update(blotPath);
-        await update(path);
+        await rename(path, blotPath, {});
       }
 
       // this file does not have a case-sensitive name
@@ -98,8 +94,7 @@ async function lowerCase(localFolder, update) {
       if (file && !hasNameWithCapitals && inMovedDirectory) {
         const blotPath = join(formerParentDirectory, item);
         const path = join(dir, item);
-        await update(blotPath);
-        await update(path);
+        await rename(path, blotPath, {});
       }
 
       // this file has neither a case-sensitive name
@@ -111,6 +106,6 @@ async function lowerCase(localFolder, update) {
   };
 
   await walk("/");
-}
+};
 
-module.exports = lowerCase;
+module.exports = lowerCaseContents;

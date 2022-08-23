@@ -1,8 +1,9 @@
-const lowerCase = require("clients/dropbox/routes/setup/lowerCase");
+const lowerCaseContents = require("../lowerCaseContents");
 const promisify = require("util").promisify;
 const fs = require("fs-extra");
 const { join } = require("path");
 const entries = require("models/entries");
+const rename = require("../rename");
 
 describe("sync lowerCaseContents", function () {
   // Create test blog
@@ -34,7 +35,10 @@ describe("sync lowerCaseContents", function () {
     await fs.outputFile(join(folder.path, "baR.txt"), "bar");
     await update("baR.txt", {});
 
-    await lowerCase(folder.path, update);
+    await lowerCaseContents(
+      this.blog,
+      promisify(rename(this.blog, console.log))
+    )();
 
     entries.getAll(this.blog.id, function (entries) {
       console.log(entries.map((i) => i.path));
