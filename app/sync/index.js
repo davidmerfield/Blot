@@ -2,6 +2,7 @@ const client = require("client");
 const buildFromFolder = require("template").buildFromFolder;
 const Blog = require("blog");
 const Update = require("./update");
+const Rename = require("./rename");
 const localPath = require("helper/localPath");
 const clfdate = require("helper/clfdate");
 const uuid = require("uuid/v4");
@@ -9,6 +10,7 @@ const renames = require("./renames");
 const lockfile = require("proper-lockfile");
 const type = require("helper/type");
 const email = require("helper/email");
+const lowerCaseContents = require("./lowerCaseContents");
 
 function sync(blogID, callback) {
   if (!type(blogID, "string")) {
@@ -54,6 +56,8 @@ function sync(blogID, callback) {
     const folder = {
       path: localPath(blogID, "/"),
       update: new Update(blog, log),
+      rename: Rename(blog, log),
+      lowerCaseContents: lowerCaseContents(blog, Rename(blog, log)),
       status: (message) => client.publish("sync:status:" + blogID, message),
       log,
     };
