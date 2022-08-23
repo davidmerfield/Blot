@@ -145,7 +145,7 @@ dashboard.get("/authenticate", function (req, res) {
   const account = {
     code,
     redirectUri,
-    full_access,
+    full_access: full_access === true,
     preparing: true,
     blog: req.blog,
   };

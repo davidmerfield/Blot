@@ -29,14 +29,25 @@ function setup(account, session, callback) {
       createFolder,
       function (account, callback) {
         sendProgress("syncContents");
-        callback(null, account);
+        callback(null, account, folder.lowerCaseContents);
       },
       syncContents,
     ];
 
     async.waterfall(tasks, async function (err, account) {
       if (!err) {
-        await set(account.blog.id, account);
+        await set(account.blog.id, {
+          account_id: account.account_id,
+          email: account.email,
+          access_token: account.access_token,
+          refresh_token: account.refresh_token,
+          error_code: 0,
+          last_sync: Date.now(),
+          full_access: account.full_access,
+          folder: account.folder,
+          folder_id: account.folder_id,
+          cursor: ""
+        });
         delete session.dropbox;
         session.save();
       }

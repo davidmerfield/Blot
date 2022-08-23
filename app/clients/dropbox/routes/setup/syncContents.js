@@ -1,99 +1,48 @@
 const fs = require("fs-extra");
-const async = require("async");
-const debug = require("debug")("blot:clients:dropbox:writeExistingContents");
-const upload = require("clients/dropbox/util/upload");
+const { promisify } = require("util");
+const upload = promisify(require("clients/dropbox/util/upload"));
 const join = require("path").join;
-const Metadata = require("metadata");
-const Path = require("path");
-const Entry = require("models/entry");
 const localPath = require("helper/localPath");
-const lowerCase = require("./lowerCase");
 
-async function syncContents(account) {
-  const localFolder = localPath(account.blog.id, "/");
-  const dropboxFolder = account.folder;
-
-  // prepare folder, making all files lowercase
-  await lowerCase(localFolder);
-
+async function syncContents(account, lowerCaseContents) {
   // this could become verify.fromBlot
-  await uploadAllFiles();
+  await uploadAllFiles(account);
+
+  // prepare folder for first sync, making all files lowercase
+  await lowerCaseContents();
 
   return account;
 }
 
-function uploadAllFiles() {
-  Metadata.get(blogID, join(path, name), function (err, casePreservedName) {
-    const source = join(localFolder, path, name);
-    const destination = join(dropboxFolder, path, casePreservedName || name);
-  });
-  upload(account.client, source, destination, callback);
+async function uploadAllFiles(account, dir = "/") {
+  const items = await fs.readdir(localPath(account.blog.id, dir));
+
+  for (const item of items) {
+    const stat = await fs.stat(localPath(account.blog.id, join(dir, item)));
+    if (stat.isDirectory()) {
+      await uploadAllFiles(account, join(dir, item));
+    } else {
+      const source = localPath(account.blog.id, join(dir, item));
+      const destination = join(account.folder, dir, item);
+      console.log("uploading from:", source);
+      console.log("uploading to:", destination);
+
+      try {
+        await upload(account.client, source, destination);
+      } catch (err) {
+        const { status, error } = err;
+        if (
+          status === 409 &&
+          error.error_summary.startsWith("path/disallowed_name")
+        ) {
+          continue;
+        } else {
+          console.log("here,", status, error);
+          throw err;
+        }
+      }
+    }
+  }
 }
-
-//   if (name === name.toLowerCase()) return callback(null, name);
-
-//   var currentPath, parsedPath, names;
-//   var originalName = name;
-//   var directory = join(localFolder, path);
-//   currentPath = join(directory, name);
-//   parsedPath = Path.parse(currentPath);
-
-//   names = [
-//     name.toLowerCase(),
-//     parsedPath.name.toLowerCase() +
-//       " (conflict)" +
-//       parsedPath.ext.toLowerCase(),
-//   ];
-
-//   for (var i = 1; i < 100; i++) {
-//     names.push(
-//       parsedPath.name.toLowerCase() +
-//         " (conflict " +
-//         i +
-//         ")" +
-//         parsedPath.ext.toLowerCase()
-//     );
-//   }
-
-//   async.eachSeries(
-//     names,
-//     function (name, next) {
-//       debug("attempting to move", currentPath, "to", join(directory, name));
-//       fs.rename(currentPath, join(directory, name), function (err) {
-//         if (err) {
-//           debug(err);
-//           return next();
-//         }
-
-//         let oldPath = join(path, originalName);
-//         let newPath = join(path, name);
-
-//         renameEntry(blogID, oldPath, newPath, name, function (err) {
-//           if (err) debug(err);
-
-//           // we need to rename the entry otherwise we get duplicates
-//           debug("successfully moved", currentPath, "to", join(directory, name));
-//           // The git client does not store the case-sensitive name
-//           // since it allows for case-sensitive files. The Dropbox
-//           // client does not however, so we save the original name in the db
-//           if (originalName.toLowerCase() === name && name !== originalName) {
-//             Metadata.add(blogID, newPath, originalName, function (err) {
-//               if (err) debug(err);
-//               debug("saved", originalName, "against", join(path, name));
-//               callback(null, name);
-//             });
-//           } else {
-//             callback(null, name);
-//           }
-//         });
-//       });
-//     },
-//     function () {
-//       callback(
-//         new Error("Ran out of candidates to lowercase path: " + currentPath)
-//       );
-//     }
-//   );
-// }
 
 module.exports = syncContents;
