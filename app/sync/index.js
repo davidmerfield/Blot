@@ -2,6 +2,7 @@ const client = require("client");
 const buildFromFolder = require("template").buildFromFolder;
 const Blog = require("blog");
 const Update = require("./update");
+const Rename = require("./rename");
 const localPath = require("helper/localPath");
 const clfdate = require("helper/clfdate");
 const uuid = require("uuid/v4");
@@ -54,6 +55,7 @@ function sync(blogID, callback) {
     const folder = {
       path: localPath(blogID, "/"),
       update: new Update(blog, log),
+      rename: new Rename(blog, log),
       status: (message) => client.publish("sync:status:" + blogID, message),
       log,
     };

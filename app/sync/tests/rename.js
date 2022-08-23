@@ -44,7 +44,9 @@ describe("rename", function () {
     await fs.move(join(folder.path, oldPath), join(folder.path, path));
     await this.rename(path, oldPath, {});
 
-    // await this.checkEntry({ path: path });
+    await this.checkEntry({ path });
+    await this.checkEntry({ path: oldPath, deleted: true });
+
     await done(null);
   });
 });
