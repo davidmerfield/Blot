@@ -114,8 +114,9 @@ client_routes.use("/:client", function (req, res, next) {
     return res.redirect(req.baseUrl + "/" + req.blog.client);
   }
 
+  res.locals.dashboardBase = res.locals.base;
   res.locals.base = req.baseUrl;
-
+  
   next();
 });
 

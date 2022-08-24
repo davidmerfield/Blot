@@ -1,6 +1,7 @@
 const client = require("client");
 const buildFromFolder = require("template").buildFromFolder;
 const Blog = require("blog");
+const { promisify } = require("util");
 const Update = require("./update");
 const Rename = require("./rename");
 const localPath = require("helper/localPath");
@@ -57,7 +58,7 @@ function sync(blogID, callback) {
       path: localPath(blogID, "/"),
       update: new Update(blog, log),
       rename: Rename(blog, log),
-      lowerCaseContents: lowerCaseContents(blog, Rename(blog, log)),
+      lowerCaseContents: lowerCaseContents(blog, promisify(Rename(blog, log))),
       status: (message) => client.publish("sync:status:" + blogID, message),
       log,
     };
