@@ -8,37 +8,42 @@ const listBlogs = promisify(database.listBlogs);
 const get = promisify(database.get);
 const set = promisify(database.set);
 
+// We sometimes need to move the files in the user's
+// Dropbox / Apps / Blot directory into a subfolder
+// if this blog is the second blog they're connecting
+// to the same Dropbox account.
+
+// Since this blog is connected to Dropbox with 'app folder'
+// permissions and there are no other blogs in this app folder
+// we do not need to do anything: the folder was created by
+// dropbox when they granted Blot permission.
+
+// We only need to move the other blog's files if it's not
+// already using a sub folder of the App folder, which can
+// occur when you:
+// 1. connect two blogs to Dropbox with app folder perms
+// 2. then remove one
+// 3. then re-connect another
 async function createFolder(account) {
   const { client, full_access } = account;
-  const otherBlog = await otherBlogUsingAppFolder(account);
+  const { blogToMove, blogsInAppFolder } = await checkAppFolder(account);
+  const shouldCreateFolder = full_access || blogToMove || blogsInAppFolder;
 
-  // Since this blog is connected to Dropbox with 'app folder'
-  // permissions and there are no other blogs in this app folder
-  // we do not need to do anything: the folder was created by
-  // dropbox when they granted Blot permission.
-  if (full_access === false && !otherBlog) return account;
+  if (blogToMove) await moveExistingFiles(client, blogToMove);
 
-  if (otherBlog) await moveExistingFiles(client, otherBlog);
+  const { folder, folder_id } = shouldCreateFolder
+    ? await mkdir(client, account.blog.title)
+    : { folder_id: "", folder: "" };
 
-  const folder = "/" + titleToFolder(account.blog.title);
-
-  const { result } = await client.filesCreateFolder({
-    path: folder,
-    autorename: true,
-  });
-
-  account.folder = result.path_display;
-  account.folder_id = result.id;
+  account.folder = folder;
+  account.folder_id = folder_id;
 
   return account;
 }
 
-async function otherBlogUsingAppFolder(account) {
-  // If we have access to the entire Dropbox folder
-  // just create a new folder for this site in the
-  // root directory of the user's dropbox, then
-  // tell them they can move it wherever they like.
-  if (account.full_access) return null;
+async function checkAppFolder(account) {
+  let blogToMove = null;
+  let blogsInAppFolder = null;
 
   const blogsWithThisDropboxAccount = await listBlogs(account.account_id);
 
@@ -47,14 +52,22 @@ async function otherBlogUsingAppFolder(account) {
   // string (meaning it is the root of the app folder) then
   // there is an existing blog using the entire app folder.
   for (const blog of blogsWithThisDropboxAccount) {
+    // Ignore the blog we're setting up
     if (blog.id === account.blog.id) continue;
     const { folder, full_access } = await get(blog.id);
-    if (folder !== "") continue;
+    // Another blog on this Dropbox account does not use
+    // the app folder
     if (full_access === true) continue;
-    return blog;
+
+    // There are other blogs using app folder
+    blogsInAppFolder = true;
+
+    // Another blog on this Dropbox account uses the app
+    // folder but is not inside a subdirectory
+    if (folder === "" && account.full_access === false) blogToMove = blog;
   }
 
-  return null;
+  return { blogToMove, blogsInAppFolder };
 }
 
 function moveExistingFiles(client, otherBlog) {
@@ -63,24 +76,38 @@ function moveExistingFiles(client, otherBlog) {
     // we should add a way to retry this sync attempt
     sync(otherBlog.id, async function (err, folder, done) {
       try {
-        const { entries, folder, folderID } = await determineFolder(
-          client,
-          otherBlog.title
-        );
+        const { folder, folder_id } = await mkdir(client, otherBlog.title);
+
+        let {
+          result: { entries },
+        } = await client.filesListFolder({
+          path: "",
+          include_deleted: false,
+          recursive: false,
+        });
+
+        entries = entries
+          .filter((entry) => entry.path_display !== folder)
+          .map(function (entry) {
+            return {
+              from_path: entry.path_display,
+              to_path: folder + entry.path_display,
+            };
+          });
 
         const {
-          result: { batchResult },
+          result: { async_job_id },
         } = await client.filesMoveBatch({
-          entries: entries,
+          entries,
           autorename: false,
         });
 
-        if (batchResult.empty) return batchResult;
+        console.log("here", entries, async_job_id);
 
         let tag;
 
         do {
-          const { result } = await client.filesMoveBatchCheck(batchResult);
+          const { result } = await client.filesMoveBatchCheck({ async_job_id });
 
           tag = result[".tag"];
 
@@ -92,8 +119,8 @@ function moveExistingFiles(client, otherBlog) {
         } while (tag === "in_progress");
 
         await set(otherBlog.id, {
-          folder: folder,
-          folder_id: folderID,
+          folder,
+          folder_id,
           cursor: "",
         });
       } catch (err) {
@@ -105,37 +132,17 @@ function moveExistingFiles(client, otherBlog) {
   });
 }
 
-async function determineFolder(title, client) {
-  var folder = "/" + titleToFolder(title);
-  var folderID;
-
-  let {
-    result: { entries },
-  } = await client.filesListFolder({
-    path: "",
-    include_deleted: false,
-    recursive: false,
-  });
-
-  entries.forEach(function (entry) {
-    if (entry.path_lower === folder.toLowerCase()) folder += " (1)";
-  });
-
-  entries = entries.map(function (entry) {
-    return {
-      from_path: entry.path_display,
-      to_path: folder + entry.path_display,
-    };
-  });
+async function mkdir(client, title) {
+  const path = "/" + titleToFolder(title);
 
   const {
     result: { id, path_display },
-  } = await client.filesCreateFolder({ path: folder, autorename: false });
+  } = await client.filesCreateFolder({ path, autorename: true });
 
-  folder = path_display;
-  folderID = id;
+  const folder = path_display;
+  const folder_id = id;
 
-  return { entries, folder, folderID };
+  return { folder, folder_id };
 }
 
 module.exports = createFolder;

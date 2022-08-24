@@ -173,8 +173,8 @@ Model = {
 };
 
 module.exports = {
-  set: set,
-  drop: drop,
-  get: get,
-  listBlogs: listBlogs,
+  set,
+  drop,
+  get,
+  listBlogs,
 };

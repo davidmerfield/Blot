@@ -35,6 +35,9 @@ function setup(account, session, callback) {
     ];
 
     async.waterfall(tasks, async function (err, account) {
+      delete session.dropbox;
+      session.save();
+
       if (!err) {
         await set(account.blog.id, {
           account_id: account.account_id,
@@ -46,12 +49,12 @@ function setup(account, session, callback) {
           full_access: account.full_access,
           folder: account.folder,
           folder_id: account.folder_id,
-          cursor: ""
+          cursor: "",
         });
-        delete session.dropbox;
-        session.save();
       }
-
+      if (err) {
+        folder.status("Error: " + err.message);
+      }
       done(err, callback);
     });
   });

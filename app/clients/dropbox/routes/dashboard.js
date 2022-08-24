@@ -45,12 +45,12 @@ dashboard.get("/", function (req, res) {
     return res.redirect(req.baseUrl + "/setup" + query);
   }
 
-  if (!req.account) {
+  if (req.session.dropbox) {
     res.locals.account = req.session.dropbox;
     res.locals.preparing = true;
     res.locals.stages =
       (req.session.dropbox && req.session.dropbox.stages) || progress.stages;
-  }
+  } 
 
   var dropboxBreadcrumbs = [];
   var folder;
@@ -68,6 +68,7 @@ dashboard.get("/", function (req, res) {
 
     dropboxBreadcrumbs[dropboxBreadcrumbs.length - 1].last = true;
   }
+
   res.locals.dropboxBreadcrumbs = dropboxBreadcrumbs;
 
   res.render(views + "index");
@@ -148,10 +149,12 @@ dashboard.get("/authenticate", function (req, res) {
     redirectUri += "?full_access=true";
   }
 
+  console.log('here!', full_access);
+
   const account = {
     code,
     redirectUri,
-    full_access: full_access === true,
+    full_access: full_access === "true",
     preparing: true,
     blog: req.blog,
   };

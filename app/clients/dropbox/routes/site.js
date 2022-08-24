@@ -35,6 +35,7 @@ site.get("/authenticate", session, function (req, res, next) {
 
   if (req.query.full_access) redirect += "&full_access=true";
 
+  console.log('REDIRECT', redirect);
   res.redirect(redirect);
 });
 
