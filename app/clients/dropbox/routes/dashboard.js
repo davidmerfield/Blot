@@ -8,10 +8,11 @@ const Database = require("clients/dropbox/database");
 const join = require("path").join;
 const moment = require("moment");
 const { Dropbox } = require("dropbox");
-
+const progress = require("./setup/progress");
 const views = __dirname + "/../views/";
 
 dashboard.use(function loadDropboxAccount(req, res, next) {
+  res.locals.partials.location = views + "location";
   Database.get(req.blog.id, function (err, account) {
     if (err) return next(err);
 
@@ -31,9 +32,30 @@ dashboard.use(function loadDropboxAccount(req, res, next) {
       res.locals.account.revoked = error_code === 401;
     }
 
-    var dropboxBreadcrumbs = [];
-    var folder;
+    return next();
+  });
+});
 
+// The settings page for a Dropbox account
+dashboard.get("/", function (req, res) {
+  // Ask to user to authenticate with Dropbox if they have not yet
+  if (!req.account && !req.session.dropbox) {
+    var query = "";
+    if (req.query.setup) query = "?setup=true";
+    return res.redirect(req.baseUrl + "/setup" + query);
+  }
+
+  if (!req.account) {
+    res.locals.account = req.session.dropbox;
+    res.locals.preparing = true;
+    res.locals.stages =
+      (req.session.dropbox && req.session.dropbox.stages) || progress.stages;
+  }
+
+  var dropboxBreadcrumbs = [];
+  var folder;
+
+  if (res.locals.account.folder !== undefined) {
     if (res.locals.account.full_access) {
       folder = join("Dropbox", res.locals.account.folder);
     } else {
@@ -45,24 +67,8 @@ dashboard.use(function loadDropboxAccount(req, res, next) {
     });
 
     dropboxBreadcrumbs[dropboxBreadcrumbs.length - 1].last = true;
-    res.locals.dropboxBreadcrumbs = dropboxBreadcrumbs;
-
-    return next();
-  });
-});
-
-// The settings page for a Dropbox account
-dashboard.get("/", function (req, res) {
-  // Ask to user to authenticate with Dropbox if they have not yet
-  if (!req.account) {
-    var query = "";
-    if (req.query.setup) query = "?setup=true";
-    return res.redirect(req.baseUrl + "/setup" + query);
   }
-
-  res.locals.stages =
-    (req.session.dropbox && req.session.dropbox.stages) ||
-    require("./setup/progress").stages;
+  res.locals.dropboxBreadcrumbs = dropboxBreadcrumbs;
 
   res.render(views + "index");
 });
@@ -167,6 +173,8 @@ dashboard.get("/disconnect", function (req, res) {
 });
 
 dashboard.post("/disconnect", function (req, res, next) {
+  // if we were setting up dropbox during...
+  delete req.session.dropbox;
   disconnect(req.blog.id, next);
 });
 

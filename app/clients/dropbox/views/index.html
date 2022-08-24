@@ -1,62 +1,66 @@
-<style type="text/css">.label {flex-basis:30%}</style>
-
+<div class="dropbox">
 {{#account}}
-      
-{{#error_code}}
-
-<a href="{{{base}}}/redirect{{#full_access}}?full_access=true{{/full_access}}" class="mess error">
-  <b>Error</b><br><br>
-
-Blot cannot sync the folder for <b>{{blog.title}}</b>. You can probably fix this by reconnecting to Dropbox. If you can't fix this, please contact support. <br><br>
-
-<span class="button">Re-connect to Dropbox</span>
-</a>
-
-{{/error_code}}
-
-{{^error_code}}
 
   <div class="line">
     <p><b>Dropbox</b> synchronizes your folder. You can <a class="link" href="/settings/client/switch">switch to a different method</a> seamlessly.</p>
   </div>
 
   <div class="line">
-    <span class="label">Location</span>
-    <span class="center"> <span style="margin-top:0em;margin-left:-0.25em;display:inline-block;">
-  <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-   viewBox="0 0 91 80" style="width:1.3em;margin:0 0.3em;position:relative;top:2px;enable-background:new 0 0 91 80;" xml:space="preserve">
-<path fill="#000" d="M41,13L31.8,1.1L31,0H0v80h91V13H41z M87,17v10H51.1l-7.2-10H87z M4,76V4h25l10,13h0l9.4,13.1
-  c0.4,0.5,1,0.8,1.6,0.8V31h37v45H4z"/>
-</svg> 
-  
-  {{#preparing}}
-    {{> prepare}}
-  {{/preparing}}
- 
-</span> {{#dropboxBreadcrumbs}}
-   <span style="color:#000">{{name}} {{^last}}<span style="margin-left:0.3em"><svg width="12" height="10" style="transform:rotate(270deg)" viewBox="0 0 10 12" xmlns="http://www.w3.org/2000/svg"><path d="M5.998 6.244c-.255 0-.51-.098-.703-.292L1.048 1.705C.663 1.32.66.683 1.05.293 1.444-.1 2.073-.1 2.462.29L6 3.83 9.538.29c.384-.384 1.02-.388 1.412.003.393.393.39 1.023.002 1.412L6.705 5.952c-.192.192-.447.29-.702.29z" fill="#000"></path></svg>{{/last}}</span>
-   {{/dropboxBreadcrumbs}}</span>
-   <span style="opacity:0.5;max-width:500px;display: block;margin-top: 10px">
-   {{#full_folder}}
-   You can rename and move this folder anywhere within Dropbox. Blot will keep track of it.
-   {{/full_folder}}
-   {{^full_folder}}
-   You can rename this folder but you should not move it elsewhere. If you move this folder outside the 'Apps' folder, Dropbox will not sync its contents to Blot. In order to move or share this folder, you must grant Blot <a href="{{{base}}}/permission">full-folder permission</a>.
-   {{/full_folder}}
-    </span>
- </span>
+    <div class="label">Status</div>
+    <div class="center">
+      {{^error_code}}
+      {{^preparing}}
+      <span id="status">Synced {{blog.updated}}</span>
+      {{/preparing}}
+      {{/error_code}}
 
+      {{#error_code}}
 
-</div>
+      <a href="{{{base}}}/redirect{{#full_access}}?full_access=true{{/full_access}}" class="mess error">
 
-  {{/error_code}}
+        <b>Error</b><br><br>
 
- <div class="line" >
-    <span class="label">Account on Dropbox</span>
-    <span class="center">{{email}}</span>
+        Blot cannot sync the folder for <b>{{blog.title}}</b>. You can probably fix this by reconnecting to Dropbox. If you can't fix this, please contact support. <br><br>
+
+        <span class="button">Re-connect to Dropbox</span>
+      </a>
+
+      {{/error_code}}
+
+      {{#preparing}}
+      <ul class="stages">
+        {{#stages}}
+        <li id="{{stage}}" class="{{state}}">{{message}}</li>
+        {{/stages}}
+      </ul>
+      {{/preparing}}
+    </div>
   </div>
 
-  <a class="line" href="{{{base}}}/permission">
+  <div class="line">
+    <div class="label">Location on Dropbox</div>
+    <div class="center"> 
+      {{> location}}
+      <span style="color:rgb(158, 154, 152);max-width:500px;display: block;margin-top: 10px">
+       {{#full_folder}}
+       You can rename and move this folder anywhere within Dropbox. Blot will keep track of it.
+       {{/full_folder}}
+       {{^full_folder}}
+       You can rename this folder but if you move it, Dropbox will stop syncing its contents to Blot. In order to move or share this folder, you must grant Blot <a href="{{{base}}}/permission" class="link">full-folder permission</a>.
+       {{/full_folder}}
+      </span>
+   </div>
+</div>
+
+  <a class="line" {{^preparing}} href="{{{base}}}/edit" {{/preparing}}>
+    <span class="label">Account on Dropbox</span>
+    <span class="center">{{email}}</span>
+    {{^preparing}}
+    <span class="right">Edit</span>    
+    {{/preparing}}
+  </a>
+
+  <a class="line" {{^preparing}} href="{{{base}}}/permission" {{/preparing}}>
     <span class="label">Permission</span>
     {{#full_access}}
     <span class="center">Full folder</span>
@@ -64,7 +68,9 @@ Blot cannot sync the folder for <b>{{blog.title}}</b>. You can probably fix this
     {{^full_access}}
     <span class="center">App folder</span>
     {{/full_access}}
-    <span class="right">Edit</span>
+    {{^preparing}}
+    <span class="right">Edit</span>    
+    {{/preparing}}
   </a>
 
   <a class="line" href="{{{base}}}/disconnect">
@@ -75,3 +81,141 @@ Blot cannot sync the folder for <b>{{blog.title}}</b>. You can probably fix this
 <br><br>
 
 {{/account}}
+</div>
+
+<style type="text/css">.label {flex-basis:30%}</style>
+<style type="text/css">
+@-webkit-keyframes sk-bouncedelay {
+  0%,  100% { -webkit-transform: scale(1) }
+  50% { -webkit-transform: scale(1.35) }
+}
+
+@keyframes sk-bouncedelay {
+  0%, 100% { 
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  } 50% { 
+    -webkit-transform: scale(1.35);
+    transform: scale(1.35);
+  }
+}
+
+  .stages {list-style-type: none;
+    border-left: 2px solid rgba(0,0,0,0.1);
+    margin: 0 0 0 0.5rem;
+    padding-left: 0;
+  }
+
+  .stages li {position: relative;
+    padding: 6px 26px}
+    
+    .stages li:first-child:after,
+    .stages li:last-child:after {
+      content: "";
+      width: 2px;
+      height: 50%;
+      position: absolute;
+      left: -2px;
+      z-index: 1;
+      background: white
+    }
+
+    .stages li:first-child:after {
+          top: 0;
+
+    }
+
+    .stages li:last-child:after {
+          bottom: 0;
+
+    }
+      
+
+  .stages li:before {
+    content: " ";
+    color: white;
+    font-size: 0.66rem;
+    z-index: 2;
+    width: 1em;
+    height: 1em;
+    border-radius: 1em;
+    background: #eee;
+    position: absolute;
+    top: 50%;
+    margin-top: -0.5em;
+    margin-left: -1px;
+    left: -0.5em;
+  }
+
+  .stages li.active:before {
+  -webkit-animation: sk-bouncedelay 2s infinite ease-in-out both;
+  animation: sk-bouncedelay 2s infinite ease-in-out both;
+  background-color: #677;
+  }
+
+  .stages li.done:before {
+    background-color: #02b333
+  }
+
+</style>
+
+<script type="text/javascript">
+  var evtSource = new EventSource("{{{dashboardBase}}}/status");
+  var currentlyLoading;
+  var lastStatus;
+
+  evtSource.onmessage = function(event) {
+
+    console.log('here', event);
+
+    // The process is complete
+    if (event.data === 'Synced') {
+      return window.location.reload();
+    }
+
+    // Fetch the latest folder state if we're not
+    // already fetching it.
+    if (currentlyLoading) {
+      checkAgain = true;
+      return;
+    }
+
+    currentlyLoading = true;
+
+    loadFolder(function onLoad(){
+
+      if (checkAgain === true) {
+        checkAgain = false;
+        return loadFolder(onLoad);
+      }
+
+      currentlyLoading = false;
+    });
+
+    lastStatus = event.data;
+    document.getElementById('status').innerHTML = lastStatus;
+  }
+
+
+  function loadFolder (callback) {
+   
+    var xhr = new XMLHttpRequest();
+
+    xhr.onreadystatechange = function (e) { 
+      if (xhr.readyState == 4 && xhr.status == 200) {
+        var parser = new DOMParser();
+        var xml = parser.parseFromString(xhr.responseText, "text/html");
+        var currentState = document.querySelector('.dropbox').innerHTML;
+        var newState = xml.querySelector('.dropbox').innerHTML;
+        if (newState === currentState) return callback();
+        document.querySelector('.dropbox').innerHTML = newState;
+        document.getElementById('status').innerHTML = lastStatus;
+        callback();
+      }
+    }
+
+    xhr.open("GET", window.location, true);
+    xhr.setRequestHeader('Content-type', 'text/html');
+    xhr.send();
+  }
+</script>
