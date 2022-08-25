@@ -4,28 +4,27 @@ const upload = promisify(require("clients/dropbox/util/upload"));
 const join = require("path").join;
 const localPath = require("helper/localPath");
 
-async function syncContents(account, lowerCaseContents) {
+async function syncContents(account, folder) {
   // this could become verify.fromBlot
-  await uploadAllFiles(account);
+  await uploadAllFiles(account, folder);
 
   // prepare folder for first sync, making all files lowercase
-  await lowerCaseContents();
+  await folder.lowerCaseContents();
 
   return account;
 }
 
-async function uploadAllFiles(account, dir = "/") {
+async function uploadAllFiles(account, folder, dir = "/") {
   const items = await fs.readdir(localPath(account.blog.id, dir));
 
   for (const item of items) {
     const stat = await fs.stat(localPath(account.blog.id, join(dir, item)));
     if (stat.isDirectory()) {
-      await uploadAllFiles(account, join(dir, item));
+      await uploadAllFiles(account, folder, join(dir, item));
     } else {
+      folder.status("Transferring " + join(dir, item));
       const source = localPath(account.blog.id, join(dir, item));
       const destination = join(account.folder, dir, item);
-      console.log("uploading from:", source);
-      console.log("uploading to:", destination);
 
       try {
         await upload(account.client, source, destination);

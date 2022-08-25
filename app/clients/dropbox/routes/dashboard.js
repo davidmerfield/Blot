@@ -8,7 +8,6 @@ const Database = require("clients/dropbox/database");
 const join = require("path").join;
 const moment = require("moment");
 const { Dropbox } = require("dropbox");
-const progress = require("./setup/progress");
 const views = __dirname + "/../views/";
 
 dashboard.use(function loadDropboxAccount(req, res, next) {
@@ -48,8 +47,6 @@ dashboard.get("/", function (req, res) {
   if (req.session.dropbox) {
     res.locals.account = req.session.dropbox;
     res.locals.preparing = true;
-    res.locals.stages =
-      (req.session.dropbox && req.session.dropbox.stages) || progress.stages;
   } 
 
   var dropboxBreadcrumbs = [];
@@ -78,6 +75,12 @@ dashboard.get("/", function (req, res) {
 // then provides them with a link to the dropbox redirect
 dashboard.get("/setup", function (req, res) {
   res.render(views + "authenticate");
+});
+
+// Allows the user to choose a new Dropbox account to connect
+// then provides them with a link to the dropbox redirect
+dashboard.get("/edit", function (req, res) {
+  res.render(views + "edit");
 });
 
 // Redirects the user to the OAuth page on Dropbox.com
@@ -148,8 +151,6 @@ dashboard.get("/authenticate", function (req, res) {
   if (full_access) {
     redirectUri += "?full_access=true";
   }
-
-  console.log('here!', full_access);
 
   const account = {
     code,
