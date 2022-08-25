@@ -7,11 +7,10 @@
     <p>You have granted <b>App folder</b> access to Blot for <b>{{blog.title}}</b>. This means you allow Blot to access a single folder in your Dropbox. If you give Blot <b>full access to your Dropbox</b>, you will be able to:</p>
   <ul>
   <li>Move your blog’s folder.</li>
-  <li>Share your blog’s folder with others.</li> 
+  <li>Share your blog’s folder with other people who use Dropbox.</li> 
   </ul>
-<!--   <p>Unfortunately it is not possible to move or share an app folder on Dropbox. There is no way for Blot to request access to a single folder with Please note if you grant <b>full-folder access</b> to Blot, Blot will only view the folder for <b>{{blog.title}}</b>. However, the credentials that Dropbox gives to Blot could be used to view or modify every file and folder in your Dropbox. Please consider this workaround, which does not risk the exposure of your personal data. Create a second <em>burner</em> Dropbox account, grant full access to your <em>burner</em> Dropbox account on this page then share your blog's folder from your <em>burner</em> to your main Dropbox account.</li>
-    </ol>
- -->{{/full_access}}
+  <p>Unfortunately, Dropbox makes it impossible to move or share an <b>App folder</b> without granting full access to your Dropbox. You can avoid this by creating a second Dropbox account, granting full access to your second account on this page and then sharing your blog's folder from your second to your main Dropbox account.</p>
+{{/full_access}}
 {{#full_access}}
 
   <p>You have granted <b>full folder</b> access to Blot for <b>{{blog.title}}</b>. If you switch to <b>App folder</b> access, you will no longer be able to:</p>
@@ -19,8 +18,6 @@
   <li>Move <b>{{blog.title}}</b>'s folder </li>
   <li>Share <b>{{blog.title}}</b>'s folder with other people who use Dropbox.</li> 
   </ul>
-  <p>Please switch to <b>App folder</b> access if you do not need the two features. The tokens that Dropbox has given to Blot could be used to view or modify every file and folder in your Dropbox. Please consider the consequences of a hypothetical security breach carefully.</p>
-
 {{/full_access}}
 </div>
 
