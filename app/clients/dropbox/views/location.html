@@ -8,14 +8,14 @@
 
   <span style="color:rgb(158, 154, 152);max-width:500px;display: block;margin-top: 10px">
       {{#preparing}}
-      Please wait to make any changes to this folder until it is properly synced with Blot.
+      Please wait to make any changes to this folder until the set-up is complete.
       {{/preparing}}
       {{^preparing}}
        {{#full_access}}
-       You can rename and move this folder anywhere within Dropbox.
+       You can rename and move this folder anywhere within your Dropbox.
        {{/full_access}}
        {{^full_access}}
-       You can rename this folder but if you want to move or share it you must grant Blot <a href="{{{base}}}/permission" class="link">full-folder permission</a>.
+       You can rename this folder but if you want to move or share it you must grant <a href="{{{base}}}/permission" class="link">full-folder permission</a> to Blot.
        {{/full_access}}
       {{/preparing}}
       </span>
