@@ -2,7 +2,7 @@
 {{#account}}
 
   <div class="line">
-    <p><b>Dropbox</b> synchronizes your folder. You can <a class="link" href="/settings/client/switch">switch to a different method</a> seamlessly.</p>
+    <p><b>Dropbox</b> {{#preparing}}is preparing to synchronize{{/preparing}} {{^preparing}}synchronizes{{/preparing}} your folder. You can <a class="link" href="/settings/client/switch">switch to a different method</a> seamlessly.</p>
   </div>
 
   <div class="line">
@@ -39,39 +39,71 @@
 
   <div class="line">
     <div class="label">Location on Dropbox</div>
-    <div class="center"> 
+    <div class="center">
+      {{#dropboxBreadcrumbs.length}}
       {{> location}}
-      <span style="color:rgb(158, 154, 152);max-width:500px;display: block;margin-top: 10px">
-       {{#full_folder}}
-       You can rename and move this folder anywhere within Dropbox. Blot will keep track of it.
-       {{/full_folder}}
-       {{^full_folder}}
-       You can rename this folder but if you move it, Dropbox will stop syncing its contents to Blot. In order to move or share this folder, you must grant Blot <a href="{{{base}}}/permission" class="link">full-folder permission</a>.
-       {{/full_folder}}
+      {{/dropboxBreadcrumbs.length}}
+      {{^dropboxBreadcrumbs.length}}
+      <span class="spinner">
+        <span class="bounce1"></span>
+        <span class="bounce2"></span>
+        <span class="bounce3"></span>
       </span>
+      {{/dropboxBreadcrumbs.length}}
    </div>
 </div>
 
-  <a class="line" {{^preparing}} href="{{{base}}}/edit" {{/preparing}}>
+  {{^preparing}}
+  <a class="line" href="{{{base}}}/edit">
+  {{/preparing}}
+  {{#preparing}}
+  <div class="line">
+  {{/preparing}}
     <span class="label">Account on Dropbox</span>
-    <span class="center">{{email}}</span>
+    <span class="center">
+      {{#email}}
+      {{email}}
+      {{/email}}
+      {{^email}}
+      <span class="spinner">
+        <span class="bounce1"></span>
+        <span class="bounce2"></span>
+        <span class="bounce3"></span>
+      </span>
+      {{/email}}
+    </span>
     {{^preparing}}
     <span class="right">Edit</span>    
     {{/preparing}}
+  {{^preparing}}
   </a>
+  {{/preparing}}
+  {{#preparing}}
+  </div>
+  {{/preparing}}
 
-  <a class="line" {{^preparing}} href="{{{base}}}/permission" {{/preparing}}>
+  {{^preparing}}
+  <a class="line" href="{{{base}}}/permission">
+  {{/preparing}}
+  {{#preparing}}
+  <div class="line">
+  {{/preparing}}
     <span class="label">Permission</span>
     {{#full_access}}
     <span class="center">Full folder</span>
     {{/full_access}}
     {{^full_access}}
-    <span class="center">App folder</span>
+    <span class="center">Apps folder only</span>
     {{/full_access}}
     {{^preparing}}
     <span class="right">Edit</span>    
     {{/preparing}}
+  {{^preparing}}
   </a>
+  {{/preparing}}
+  {{#preparing}}
+  </div>
+  {{/preparing}}
 
   <a class="line" href="{{{base}}}/disconnect">
     <span class="label">Disconnect</span>
@@ -85,12 +117,12 @@
 
 <style type="text/css">.label {flex-basis:30%}</style>
 <style type="text/css">
-@-webkit-keyframes sk-bouncedelay {
+@-webkit-keyframes sk {
   0%,  100% { -webkit-transform: scale(1) }
   50% { -webkit-transform: scale(1.35) }
 }
 
-@keyframes sk-bouncedelay {
+@keyframes sk {
   0%, 100% { 
     -webkit-transform: scale(1);
     transform: scale(1);
@@ -148,14 +180,54 @@
   }
 
   .stages li.active:before {
-  -webkit-animation: sk-bouncedelay 2s infinite ease-in-out both;
-  animation: sk-bouncedelay 2s infinite ease-in-out both;
+  -webkit-animation: sk 2s infinite ease-in-out both;
+  animation: sk 2s infinite ease-in-out both;
   background-color: #677;
   }
 
   .stages li.done:before {
     background-color: #02b333
   }
+
+   .spinner {
+  width: 2em;
+  text-align: center;
+}
+
+.spinner > span {
+  width: 0.4em;
+  height: 0.4em;
+  background-color: #677;
+  border-radius: 100%;
+  display: inline-block;
+  -webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+  animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+}
+
+.spinner .bounce1 {
+  -webkit-animation-delay: -0.32s;
+  animation-delay: -0.32s;
+}
+
+.spinner .bounce2 {
+  -webkit-animation-delay: -0.16s;
+  animation-delay: -0.16s;
+}
+
+@-webkit-keyframes sk-bouncedelay {
+  0%, 80%, 100% { -webkit-transform: scale(0) }
+  40% { -webkit-transform: scale(1.0) }
+}
+
+@keyframes sk-bouncedelay {
+  0%, 80%, 100% { 
+    -webkit-transform: scale(0);
+    transform: scale(0);
+  } 40% { 
+    -webkit-transform: scale(1.0);
+    transform: scale(1.0);
+  }
+}
 
 </style>
 
@@ -209,7 +281,8 @@
         var newState = xml.querySelector('.dropbox').innerHTML;
         if (newState === currentState) return callback();
         document.querySelector('.dropbox').innerHTML = newState;
-        document.getElementById('status').innerHTML = lastStatus;
+        var statusDiv = document.getElementById('status');
+        if (statusDiv) statusDiv.innerHTML = lastStatus;
         callback();
       }
     }
