@@ -1292,6 +1292,7 @@ p.sub {
   display: flex;
   flex-wrap: wrap;
   position: relative;
+  padding-top: 11px;
 }
 
 .dropdown a {
@@ -1760,6 +1761,7 @@ form.account>.buttons {
   padding: 10px 20px;
 }
 
+
 a.line:hover,
 div.line a.link:hover,
 .dropdown a:hover,
@@ -1881,7 +1883,6 @@ a:hover .tablet-cover {
 form.account,
 .inset {
   padding: 11px 26px;
-  border-top: 1px solid rgba(0,0,0,0.05);
   max-width: 700px
 }
 
