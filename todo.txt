@@ -19,6 +19,8 @@ Fix issues with sync:
 - Tell questioners](https://blot.im/questions/576)
 - Tell [N](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqPzKcnRQlXQVVcbdRvLVxtjnD) when you can switch between dropbox and git without bugs
 
+Explain that the git client uses the master branch and repos from github will use main in the docs and on the dashboard then tell [N](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqPzKcnQKsQQNkzcRpvCWpWKTr)
+
 Inject title metadata into h1 tag for all the text-based default templates and tell [questioners](https://blot.im/questions/795)
 
 Expose unlock and verify options for both dropbox and google drive clients
@@ -297,7 +299,7 @@ Improvements to teaser generator
 - Internal links (e.g. #section) in {{{teaser}}} should be resolved against the entry's permalink.
 - Add hasBreakpoint property to entry to allow greater control over display of {{{teaser}}} and tell [Pratik](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTsfMTHqWMQFmprMcjNpdBQzp)
 - Fix [issue with teaser generator](https://github.com/davidmerfield/Blot/issues/15) that locks up a build process, sometimes for 10+ seconds.
-- Make it [possible for users to select length of teasers](https://blot.im/questions/823)
+- Make it [possible for users to select length of teasers](https://blot.im/questions/823) and [Leo](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqQJdjwTLkHkRZvZTQvfSzSFTq)
 
 Performance improvements
 - Faster server, with SSL termination across CDN
