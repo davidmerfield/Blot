@@ -47,7 +47,15 @@ function sync(blogID, callback) {
 
     try {
       log("Acquiring lock on folder");
-      release = await lockfile.lock(localPath(blogID, "/"));
+      release = await lockfile.lock(localPath(blogID, "/"), {
+        retries: {
+          retries: 3,
+          factor: 2,
+          minTimeout: 100,
+          maxTimeout: 200,
+          randomize: true,
+        },
+      });
       log("Successfully acquired lock on folder");
     } catch (e) {
       log("Failed to acquire lock on folder");
@@ -59,7 +67,10 @@ function sync(blogID, callback) {
       update: new Update(blog, log),
       rename: Rename(blog, log),
       lowerCaseContents: lowerCaseContents(blog, promisify(Rename(blog, log))),
-      status: (message) => client.publish("sync:status:" + blogID, message),
+      status: (message) => {
+        log(message);
+        client.publish("sync:status:" + blogID, message);
+      },
       log,
     };
 
