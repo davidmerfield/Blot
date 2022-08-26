@@ -1,7 +1,7 @@
 const key = require("./key");
 const client = require("client");
 
-module.exports = function (blogID, options, callback) {
+module.exports = function (blogID, callback) {
   const offset = 0;
   const limit = 100;
 
@@ -10,7 +10,7 @@ module.exports = function (blogID, options, callback) {
     items
   ) {
     if (err) return callback(err);
-    items = items.map(JSON.stringify);
+    items = items.map(JSON.parse);
     callback(null, items);
   });
 };

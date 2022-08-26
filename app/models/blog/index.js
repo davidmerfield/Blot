@@ -5,7 +5,7 @@ module.exports = {
   get: require("./get"),
   getAllIDs: require("./getAllIDs"),
   getHosts: require("./getHosts"),
-  getStatus: require("./getStatus"),
+  getStatuses: require("./getStatuses"),
   key: require("./key"),
   remove: require("./remove"),
   scheme: require("./scheme"),
