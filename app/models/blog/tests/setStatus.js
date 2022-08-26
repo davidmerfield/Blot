@@ -1,7 +1,7 @@
 describe("Blog.setStatus", function () {
-  const setStatus = require("../setStatus");
   const { promisify } = require("util");
   const get = promisify(require("../get"));
+  const setStatus = promisify(require("../setStatus"));
 
   // Create a test user before each spec
   global.test.blog();

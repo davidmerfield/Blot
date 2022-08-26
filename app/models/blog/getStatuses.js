@@ -1,11 +1,10 @@
 const key = require("./key");
 const client = require("client");
 
-module.exports = function (
-  blogID,
-  options = { limit: 1, offset: 0 },
-  callback
-) {
+module.exports = function (blogID, options, callback) {
+  const offset = 0;
+  const limit = 100;
+
   client.lrange(key.status(blogID), offset, offset + limit, function (
     err,
     items
