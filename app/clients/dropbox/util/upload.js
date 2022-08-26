@@ -45,7 +45,6 @@ async function upload(client, source, destination, callback) {
       autorename: false,
       contents,
     });
-    console.log("here", result);
   } catch (err) {
     return cleanup(err);
   }

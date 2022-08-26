@@ -20,12 +20,14 @@ module.exports = function disconnect(blogID, callback) {
       // we still want to be able to disconnect
       if (err) debug("error createClient", err);
 
+      folder.status("Disconnecting from Dropbox");
       debug("resetting client setting");
       Blog.set(blogID, { client: "" }, function (err) {
         if (err) return done(err, callback);
 
         debug("dropping blog from database");
 
+        folder.status("Removing Dropbox credentials");
         database.drop(blogID, function () {
           if (err) return done(err, callback);
 

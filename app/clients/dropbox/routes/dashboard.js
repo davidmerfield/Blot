@@ -9,6 +9,7 @@ const join = require("path").join;
 const moment = require("moment");
 const { Dropbox } = require("dropbox");
 const views = __dirname + "/../views/";
+const client = require("client");
 
 dashboard.use(function loadDropboxAccount(req, res, next) {
   res.locals.partials.location = views + "location";
@@ -47,7 +48,7 @@ dashboard.get("/", function (req, res) {
   if (req.session.dropbox) {
     res.locals.account = req.session.dropbox;
     res.locals.preparing = true;
-  } 
+  }
 
   var dropboxBreadcrumbs = [];
   var folder;
@@ -177,8 +178,11 @@ dashboard.get("/disconnect", function (req, res) {
 });
 
 dashboard.post("/disconnect", function (req, res, next) {
-  // if we were setting up dropbox during...
-  delete req.session.dropbox;
+  client.publish(
+    "sync:status:" + req.blog.id,
+    "Attempting to disconnect from Dropbox"
+  );
+
   disconnect(req.blog.id, next);
 });
 

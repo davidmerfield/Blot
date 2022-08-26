@@ -1,4 +1,5 @@
 const sync = require("sync");
+const redis = require("redis");
 
 const promisify = require("util").promisify;
 const database = require("clients/dropbox/database");
@@ -12,24 +13,49 @@ function setup(account, session, callback) {
   sync(account.blog.id, async function (err, folder, done) {
     if (err) return callback(err);
 
+    const client = redis.createClient();
+    const signal = { aborted: false };
+    const cleanup = () => {
+      console.log('Cleaning up Dropbox setup');
+      try {
+        delete session.dropbox;
+        session.save();
+        client.unsubscribe();
+        client.quit();
+      } catch (e) {
+        console.log('Error cleaning up:', err);
+      }
+    };
+
+    client.subscribe("sync:status:" + account.blog.id);
+
+    client.on("message", function (channel, message) {
+      if (message !== "Attempting to disconnect from Dropbox") return;
+      signal.aborted = true;
+      cleanup();
+      done(new Error("Aborted setup"), callback);
+    });
+
     try {
       folder.status("Loading your Dropbox account information");
       account = await getAccount(account);
+      if (signal.aborted) return;
       session.save();
+
       folder.status("Creating a folder in Dropbox for your blog");
-      account = await createFolder(account);
+      account = await createFolder(account, signal);
+      if (signal.aborted) return;
       session.save();
+
       folder.status("Transferring files in your folder to Dropbox");
-      account = await syncContents(account, folder);
+      account = await syncContents(account, folder, signal);
+      if (signal.aborted) return;
     } catch (err) {
       folder.status("Error: " + err.message);
-      delete session.dropbox;
-      session.save();
+      cleanup();
       return done(err, callback);
     }
 
-    delete session.dropbox;
-    session.save();
     await set(account.blog.id, {
       account_id: account.account_id,
       email: account.email,
@@ -41,8 +67,9 @@ function setup(account, session, callback) {
       folder: account.folder,
       folder_id: account.folder_id,
       cursor: "",
-    });
-    return done(null, callback);
+    });    
+    cleanup();
+    done(null, callback);
   });
 }
 

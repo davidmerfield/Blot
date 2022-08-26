@@ -9,6 +9,8 @@ var fs = require("fs-extra");
 var async = require("async");
 var Sync = require("sync");
 
+var MAX_CHECKS_WITHOUT_RESULTS = 5;
+
 module.exports = function main(blog, callback) {
   debug("Blog:", blog.id, "Attempting to acquire lock on the blog folder.");
 
@@ -38,6 +40,8 @@ module.exports = function main(blog, callback) {
 
       var delta = new Delta(client, account.folder_id);
       var apply = new Apply(client, folder.path, folder.log);
+
+      var checksWithoutResults = 0;
 
       // Delta retrieves changes to the folder on Dropbox for a given
       // blog. It returns a list of changes. It also adds a new property
@@ -129,10 +133,28 @@ module.exports = function main(blog, callback) {
                 // be split across two pages of file events.
                 if (result.has_more) {
                   folder.log("There are more changes to fetch on Dropbox");
+                  checksWithoutResults = 0;
                   return delta(result.cursor, handle);
                 }
 
-                folder.log("Processed all changes from Dropbox");
+                // If a webhook arrived during this long sync...
+                if (result.entries && result.entries.length) {
+                  folder.log("Checking in case there are new changes to fetch");
+                  checksWithoutResults = 0;
+                  return delta(result.cursor, handle);
+                }
+
+                if (checksWithoutResults < MAX_CHECKS_WITHOUT_RESULTS) {
+                  checksWithoutResults++;
+                  let delay = checksWithoutResults * 100;
+                  folder.log(`Waiting ${delay}ms to check for changes`);
+                  return setTimeout(function () {
+                    folder.log("Checking again for new changes");
+                    delta(result.cursor, handle);
+                  }, delay);
+                }
+
+                folder.log("Folder in sync with Dropbox");
                 done(null, callback);
               }
             );
