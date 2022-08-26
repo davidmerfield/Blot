@@ -3,6 +3,8 @@ var LINK = { id: "string", metadata: "object", label: "string", url: "string" };
 
 var PERMALINK = { format: "string", custom: "string", isCustom: "boolean" };
 
+var STATUS = { error: "boolean", syncing: "boolean", message: "string", datestamp: "number" };
+
 var FLAGS = {
   google_drive_beta: "boolean",
 };
@@ -13,6 +15,7 @@ var DECLARATION = {
   owner: ["string", false, false],
   handle: ["string", true, true],
   client: ["string", true, false],
+  status: [STATUS, true, true],
   title: ["string", true, true],
   avatar: ["string", true, true],
   template: ["string", true, false],

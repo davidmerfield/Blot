@@ -11,6 +11,12 @@ module.exports = {
     return "blog:" + blogID + ":info";
   },
 
+  // List which stores JSON object including status updates for
+  // syncs which take place for the blog.
+  status: function (blogID) {
+    return "blog:" + blogID + ":status";
+  },
+
   // String which stores the blog ID for a domain
   // method accepts the custom domain for a blog as a String
   domain: function (domain) {
