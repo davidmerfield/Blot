@@ -12,10 +12,17 @@ module.exports = function (req, res, next, handle) {
 
     try {
       blog = Blog.extend(blog);
-      
-      if (blog.status && blog.status.message === 'Synced') {
+
+      if (blog.status && blog.status.message === "Synced") {
         blog.status.fromNow = moment(blog.status.datestamp).fromNow();
+        blog.status.state = "synced";
       }
+
+      if (blog.status && blog.status.message !== "Synced") {
+        blog.status.state = "syncing";
+      }
+
+      // todo add error here...
 
       blog.updated = moment(blog.cacheID).fromNow();
     } catch (e) {

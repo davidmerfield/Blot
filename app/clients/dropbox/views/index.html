@@ -1,32 +1,7 @@
 <div class="dropbox">
 {{#account}}
 
-  <a class="line" href="/settings/client/switch">
-    <span class="label">Synced with</span>
-    <span class="center">Dropbox</span>
-    <span class="right">Edit</span>
-  </a>
-
-
-  <!-- <div class="line">
-    <p><b>Dropbox</b> {{#preparing}}is preparing to synchronize{{/preparing}} {{^preparing}}synchronizes{{/preparing}} your folder. You can <a class="link" href="/settings/client/switch">switch to a different service or tool</a>.</p>
-  </div> -->
-
-  <div class="line">
-    <div class="label">Status</div>
-    <div class="center" style="padding-left: 26px;position: relative;">
-      {{^error_code}}
-      {{#preparing}}
-<span class="spinner" style="position: absolute;left:1px;top:1px"><span class="bounce1"></span></span>
-      <span id="status">Setting up folder on Dropbox</span>
-      {{/preparing}}
-      {{^preparing}}
-      
-      <span style="right:auto;left:-2px;transform: scale(0.8)" id="inputMessage" class="inputMessage success"></span>      
-      <span id="status">Synced {{blog.updated}}</span>
-
-      {{/preparing}}
-       {{/error_code}}
+  {{> status-line}}
 
       {{#error_code}}
 

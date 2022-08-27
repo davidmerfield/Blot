@@ -1,3 +1,5 @@
+Switching from another client into the local client doesn't work: you need to restart server.
+
 Fix issues with sync:
 -error earlier
 - log all dropbox client related errors?
