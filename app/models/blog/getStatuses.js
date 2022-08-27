@@ -2,7 +2,7 @@ const key = require("./key");
 const client = require("client");
 const ensure = require("helper/ensure");
 
-module.exports = function (blogID, options, callback) {
+module.exports = function getStatuses(blogID, options, callback) {
   if (typeof options === "function" && callback === undefined) {
     callback = options;
     options = {};
@@ -11,12 +11,32 @@ module.exports = function (blogID, options, callback) {
   ensure(blogID, "string").and(options, "object").and(callback, "function");
 
   // Fetch the first page by default
-  const page = options.page === undefined ? 1 : options.page;
+  options.page = options.page === undefined ? 1 : options.page;
 
   // Use a page size of 100 by default
-  const pageSize = options.pageSize === undefined ? 100 : options.pageSize;
+  options.pageSize = options.pageSize === undefined ? 100 : options.pageSize;
 
-  const offset = (page - 1) * pageSize;
+  const unexpectedOptionParameters = Object.keys(options).filter(
+    (i) => i !== "page" && i !== "pageSize"
+  );
+
+  if (unexpectedOptionParameters.length) {
+    throw new TypeError(
+      `Invalid options: ${unexpectedOptionParameters} are not valid`
+    );
+  }
+
+  if (!Number.isInteger(options.page) || options.page < 1) {
+    throw new TypeError('Invalid option: "page" must be a positive integer');
+  }
+
+  if (!Number.isInteger(options.pageSize) || options.pageSize < 1) {
+    throw new TypeError(
+      'Invalid option: "pageSize" must be a positive integer'
+    );
+  }
+
+  const offset = (options.page - 1) * options.pageSize;
 
   // We remove one because, per the redis docs:
   // > Note that if you have a list of numbers from 0 to 100,
@@ -24,12 +44,9 @@ module.exports = function (blogID, options, callback) {
   // > rightmost item is included. This may or may not be
   // > consistent with behavior of range-related functions in
   // > your programming language of choice.
-  const limit = offset + pageSize - 1;
+  const limit = offset + options.pageSize - 1;
 
-  ensure(offset, "number")
-    .and(limit, "number")
-    .and(page, "number")
-    .and(pageSize, "number");
+  ensure(offset, "number").and(limit, "number");
 
   client.lrange(key.status(blogID), offset, limit, function (err, items) {
     if (err) return callback(err);
