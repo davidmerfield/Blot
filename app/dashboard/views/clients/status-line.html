@@ -1,0 +1,142 @@
+<a class="line" href="/settings/client/switch">
+    <span class="label">Synced with</span>
+    <span class="center">{{client.display_name}}</span>
+    <span class="right">Edit</span>
+  </a>
+
+  <a class="line" href="{{dashboardBase}}/client/status">
+    <span class="label">Status</span>
+    <span class="center">  
+    {{#blog.status}}
+      <span id="status" class="{{state}}">{{message}} {{fromNow}}</span>
+    {{/blog.status}}
+    </span>
+    <span class="right">View activity</span>
+  </a>
+
+<style type="text/css">.label {flex-basis:30%}</style>
+<style type="text/css">
+#status {
+  position: relative;
+  padding-left: 1.25em;
+}
+
+#status:before {
+  content: " ";
+  width: 1em;
+  height: 1em;
+  font-size: 0.8em;
+  border-radius: 100%;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  margin-top:-0.5em;  
+}
+
+#status:before {
+  background: #02b333 url("data:image/svg+xml;base64,PHN2ZyBpZD0iaWNvbi1jaGVjayIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiIHZpZXdCb3g9IjAgMCA4IDgiIHhtbDpzcGFjZT0icHJlc2VydmUiIGZpbGw9IiNmZmYiPgo8cmVjdCB4PSItMC4wMTMiIHk9IjQuMjU4IiB0cmFuc2Zvcm09Im1hdHJpeCgtMC43MDcgLTAuNzA3MiAwLjcwNzIgLTAuNzA3IDAuMDg5MSAxMC4xNzAyKSIgd2lkdGg9IjQuMzMiIGhlaWdodD0iMS42MTgiPjwvcmVjdD4KPHJlY3QgeD0iMi4yMjciIHk9IjIuODk5IiB0cmFuc2Zvcm09Im1hdHJpeCgtMC43MDcxIDAuNzA3MSAtMC43MDcxIC0wLjcwNzEgMTEuNjg3NyAyLjY4MzMpIiB3aWR0aD0iNi4xMjEiIGhlaWdodD0iMS43MjYiPjwvcmVjdD4KPC9zdmc+") no-repeat 45% center / 62%;
+}
+
+#status.error:before {
+  background: #f85149 url('data:image/svg+xml;base64,PHN2ZyBpZD0iaWNvbi1iYW5nIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB4PSIwcHgiIHk9IjBweCIgdmlld0JveD0iMCAwIDggOCIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+CjxyZWN0IGZpbGw9IndoaXRlIiB4PSIyLjk4OSIgd2lkdGg9IjIuMDIzIiBoZWlnaHQ9IjUuNDcxIi8+CjxyZWN0IGZpbGw9IndoaXRlIiB4PSIyLjk4OSIgeT0iNi4zOSIgd2lkdGg9IjIuMDIzIiBoZWlnaHQ9IjEuNjEiLz4KPC9zdmc+') no-repeat center center / 62%;
+
+}
+
+
+#status.syncing:before {
+  background: #ff9800;
+  -webkit-animation: bounce 1.4s infinite ease-in-out both;
+  animation: bounce 1.4s infinite ease-in-out both;
+}
+
+
+@-webkit-keyframes bounce {
+  0%, 40%, 100% { 
+    -webkit-transform: scale(0.8);
+    transform: scale(0.8);
+  } 70% { 
+    -webkit-transform: scale(0.3);
+    transform: scale(0.3);
+  }
+}
+
+@keyframes bounce {
+  0%, 40%, 100% { 
+    -webkit-transform: scale(0.8);
+    transform: scale(0.8);
+  } 70% { 
+    -webkit-transform: scale(0.3);
+    transform: scale(0.3);
+  }
+}
+
+</style>
+
+<script type="text/javascript">
+  var evtSource = new EventSource("{{{dashboardBase}}}/status");
+  var currentlyLoading;
+  var lastStatus;
+  var checkAgain;
+
+  evtSource.onmessage = function(event) {
+
+    // Fetch the latest folder state if we're not
+    // already fetching it.
+    if (currentlyLoading) {
+      checkAgain = true;
+      return;
+    }
+
+    currentlyLoading = true;
+
+    loadFolder(function onLoad(){
+
+      if (checkAgain === true) {
+        checkAgain = false;
+        return loadFolder(onLoad);
+      }
+
+      currentlyLoading = false;
+    });
+
+    lastStatus = event.data;
+    document.getElementById('status').innerHTML = lastStatus;
+    if (lastStatus === 'Synced') {
+      document.getElementById('status').className = ''
+    } else {
+      document.getElementById('status').className = 'syncing'      
+    }
+  }
+
+
+  function loadFolder (callback) {
+   
+    var xhr = new XMLHttpRequest();
+
+    xhr.onreadystatechange = function (e) { 
+      if (xhr.readyState == 4 && xhr.status == 200) {
+        var parser = new DOMParser();
+        var xml = parser.parseFromString(xhr.responseText, "text/html");
+        
+        var currentNode = document.querySelector('.dropbox');
+        var newNode = xml.querySelector('.dropbox');
+
+        if (currentNode !== null && newNode !== null){
+          var currentState = currentNode.innerHTML;
+          var newState = newNode.innerHTML;
+
+          if (newState === currentState) return callback();
+          currentNode.innerHTML = newState;
+          var statusDiv = document.getElementById('status');
+          if (statusDiv) statusDiv.innerHTML = lastStatus;
+        }
+
+        callback();
+      }
+    }
+
+    xhr.open("GET", window.location, true);
+    xhr.setRequestHeader('Content-type', 'text/html');
+    xhr.send();
+  }
+</script>

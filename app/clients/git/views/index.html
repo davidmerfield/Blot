@@ -1,39 +1,33 @@
+{{> status-line}}
 
-<div style="border-top: 1px solid rgba(0,0,0,0.1);padding: 11px 20px">
 {{#error}}
 <p class="box red" style="width:120%"> ... </p>
 {{/error}}
 
-<form >
-  <p>The folder for <b>{{blog.title}}</b> is synchronized by <b>Git</b>. If you would like to <a class="a" href="/settings/client/switch">switch to another client</a>, you can do so without disruption. Blot will transfer the contents of your folder automatically.</p>
-  <br>
-  <span style="color:rgb(109, 109, 109);">Git</span>
-</form>
+<div class="line" >
+  <span class="label">Repository URL</span>
+  <span class="center">https://{{host}}/clients/git/end/{{blog.handle}}.git</span>
+</div>  
 
-<hr>
+<div class="line" >
+  <span class="label">Repository username</span>
+  <span class="center">{{user.email}}</span>
+</div>  
 
-<span class="label">Repository:</span>
-  <p style="margin:0">  https://{{host}}/clients/git/end/{{blog.handle}}.git</p>
-  
-  <span class="label">Username:</span>
-  <p style="margin:0">{{user.email}}</p>
-  <span class="label" style="margin-top:11px">Password:</span>
-  <p style="margin:0">{{token}}</p>
-  <form method="post" action="{{{base}}}/refresh-token">
+<div class="line" >
+  <span class="label">Repository password</span>
+  <span class="center">{{token}}</span>
+  <span class="right"> <form method="post" action="{{{base}}}/refresh-token">
     <input type="hidden" name="_csrf" value="{{csrftoken}}">
     <input type="submit" style="margin-top:11px" value="Refresh token">
   </form>
-  <br><br>
-</div>
+</span>
+</div>  
 
-  <a class="line" href="/settings/client/fix">
-    <span class="label">Reset</span>
-    <span class="link">Fix your folder</span>
-  </a>
+
 
 <a class="line" href="{{{base}}}/disconnect">
   <span class="label">Disconnect</span>
-  <span class="link">Disconnect from Git</span>
+  <span class="link">Disconnect your folder from Git</span>
 </a>
 
-</div>
