@@ -48,6 +48,18 @@ dashboard.get("/", function (req, res) {
   if (req.session.dropbox) {
     res.locals.account = req.session.dropbox;
     res.locals.preparing = true;
+    // Just in case we haven't acquired the sync lock
+    // the first time this page is loaded, we set the
+    // state of the blog to syncing...
+    if (
+      res.locals.blog.status === undefined ||
+      res.locals.blog.status.message === "Synced"
+    ) {
+      res.locals.blog.status = {
+        message: "Setting up your folder on Dropbox",
+        state: "syncing",
+      };
+    }
   }
 
   var dropboxBreadcrumbs = [];
@@ -182,7 +194,7 @@ dashboard.post("/disconnect", function (req, res, next) {
     "sync:status:" + req.blog.id,
     "Attempting to disconnect from Dropbox"
   );
-
+  delete req.session.dropbox;
   disconnect(req.blog.id, next);
 });
 

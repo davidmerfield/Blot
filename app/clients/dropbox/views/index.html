@@ -1,7 +1,7 @@
-<div class="dropbox">
+  {{> status-line}}
+
 {{#account}}
 
-  {{> status-line}}
 
       {{#error_code}}
 
@@ -15,8 +15,8 @@
       </a>
 
       {{/error_code}}
-    </div>
-  </div>
+
+<div class="live-updates">
 
   {{#dropboxBreadcrumbs.length}}
   <div class="line">
@@ -69,6 +69,7 @@
   {{#preparing}}
   </div>
   {{/preparing}}
+</div>
 
   <a class="line" href="{{{base}}}/disconnect">
     <span class="label">Disconnect</span>
@@ -78,93 +79,4 @@
 <br><br>
 
 {{/account}}
-</div>
 
-<style type="text/css">.label {flex-basis:30%}</style>
-<style type="text/css">
-.inputMessage.working {background:#ff9800;display: block;}
-
-.spinner > span {
-  width: 1em;
-  height: 1em;
-  font-size: 0.8em;
-  background-color: #ff9800;
-  border-radius: 100%;
-  display: inline-block;
-  -webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;
-  animation: sk-bouncedelay 1.4s infinite ease-in-out both;
-}
-
-
-@-webkit-keyframes sk-bouncedelay {
-  0%, 80%, 100% { -webkit-transform: scale(0) }
-  40% { -webkit-transform: scale(1.0) }
-}
-
-@keyframes sk-bouncedelay {
-  0%, 40%, 100% { 
-    -webkit-transform: scale(0.9);
-    transform: scale(0.9);
-  } 70% { 
-    -webkit-transform: scale(0.3);
-    transform: scale(0.3);
-  }
-}
-
-</style>
-
-<script type="text/javascript">
-  var evtSource = new EventSource("{{{dashboardBase}}}/status");
-  var currentlyLoading;
-  var lastStatus;
-  var checkAgain;
-
-  evtSource.onmessage = function(event) {
-
-    // Fetch the latest folder state if we're not
-    // already fetching it.
-    if (currentlyLoading) {
-      checkAgain = true;
-      return;
-    }
-
-    currentlyLoading = true;
-
-    loadFolder(function onLoad(){
-
-      if (checkAgain === true) {
-        checkAgain = false;
-        return loadFolder(onLoad);
-      }
-
-      currentlyLoading = false;
-    });
-
-    lastStatus = event.data;
-    document.getElementById('status').innerHTML = lastStatus;
-  }
-
-
-  function loadFolder (callback) {
-   
-    var xhr = new XMLHttpRequest();
-
-    xhr.onreadystatechange = function (e) { 
-      if (xhr.readyState == 4 && xhr.status == 200) {
-        var parser = new DOMParser();
-        var xml = parser.parseFromString(xhr.responseText, "text/html");
-        var currentState = document.querySelector('.dropbox').innerHTML;
-        var newState = xml.querySelector('.dropbox').innerHTML;
-        if (newState === currentState) return callback();
-        document.querySelector('.dropbox').innerHTML = newState;
-        var statusDiv = document.getElementById('status');
-        if (statusDiv) statusDiv.innerHTML = lastStatus;
-        callback();
-      }
-    }
-
-    xhr.open("GET", window.location, true);
-    xhr.setRequestHeader('Content-type', 'text/html');
-    xhr.send();
-  }
-</script>
