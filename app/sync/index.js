@@ -62,15 +62,18 @@ function sync(blogID, callback) {
       return callback(new Error("Failed to acquire folder lock"));
     }
 
+    const status = (message) => {
+      Blog.setStatus(blogID, { message, syncID });
+      log(message);
+      client.publish("sync:status:" + blogID, message);
+    };
+
     const folder = {
       path: localPath(blogID, "/"),
-      update: new Update(blog, log),
+      update: new Update(blog, log, status),
       rename: Rename(blog, log),
       lowerCaseContents: lowerCaseContents(blog, promisify(Rename(blog, log))),
-      status: (message) => {
-        log(message);
-        client.publish("sync:status:" + blogID, message);
-      },
+      status,
       log,
     };
 

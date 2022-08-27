@@ -18,6 +18,11 @@ module.exports = {
   domain: "",
   permalink: { format: "{{slug}}", custom: "", isCustom: false },
   timeZone: "UTC",
+  status: {
+    message: "Created blog",
+    syncID: "",
+    datestamp: Date.now(),
+  },
   dateFormat: "M/D/YYYY",
   forceSSL: true,
   redirectSubdomain: true,

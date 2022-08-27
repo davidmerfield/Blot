@@ -9,7 +9,7 @@
       <span class="link">Set up a client to sync your folder</span>
     {{/blog.client}}
     {{#blog.client}}
-    <span class="center">{{client.display_name}}, <span id="status">synced {{blog.updated}}</span></span>
+    <span class="center">{{client.display_name}}, <span id="status">{{blog.status.message}} {{blog.status.fromNow}}</span></span>
     <span class="right">Edit</span>
     {{/blog.client}}
     </a>{{/root}}
@@ -28,6 +28,17 @@
 
 </div>
 {{/folder}}
+
+<!-- 
+Some of the messages from the server are in title
+case, since the current layout shows the message
+as part of a sentence, we lowercase it.
+-->
+
+<style type="text/css">
+	#status {display: inline-block;}
+	#status:first-letter{  text-transform: lowercase;}
+</style>
 
 <script type="text/javascript">
 		
@@ -48,12 +59,6 @@
 	evtSource.onmessage = function(event) {
 		
 		var message = event.data;
-		
-		// Some of the messages from the server are in title
-		// case, since the current layout shows the message
-		// as part of a sentence, we lowercase it.
-		if (message && message.length)
-			message = message[0].toLowerCase() + message.slice(1);
 
 		document.getElementById('status').innerHTML = message;
 
