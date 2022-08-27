@@ -12,8 +12,7 @@ module.exports = function (blogID, status, callback) {
   // Default values
   status.datestamp =
     status.datestamp === undefined ? Date.now() : status.datestamp;
-  status.error = status.error === undefined ? false : status.error;
-  status.syncing = status.syncing === undefined ? false : status.error;
+  status.syncID = status.syncID === undefined ? "" : status.syncID;
 
   ensure(status, TYPE.status, true);
 

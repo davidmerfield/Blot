@@ -3,7 +3,7 @@ var LINK = { id: "string", metadata: "object", label: "string", url: "string" };
 
 var PERMALINK = { format: "string", custom: "string", isCustom: "boolean" };
 
-var STATUS = { error: "boolean", syncing: "boolean", message: "string", datestamp: "number" };
+var STATUS = { syncID: "string", message: "string", datestamp: "number" };
 
 var FLAGS = {
   google_drive_beta: "boolean",

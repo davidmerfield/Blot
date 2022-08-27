@@ -69,7 +69,7 @@ module.exports = function (doThis, allDone, options) {
             if (err) throw err;
 
             if (!user) {
-              console.error(new Error("No user with uid " + blog.owner));
+              console.error("No user with uid " + blog.owner);
               return nextBlog();
             }
 

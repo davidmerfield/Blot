@@ -2,16 +2,16 @@ describe("Blog.setStatus", function () {
   const { promisify } = require("util");
   const get = promisify(require("../get"));
   const setStatus = promisify(require("../setStatus"));
+  const uuid = require("uuid/v4");
 
   // Create a test user before each spec
   global.test.blog();
 
   it("sets a status", async function () {
     const status = {
-      error: false,
-      syncing: false,
       message: "Hey",
       datestamp: Date.now(),
+      syncID: "sync_" + uuid().slice(0, 7),
     };
     await setStatus(this.blog.id, status);
     const blog = await get({ id: this.blog.id });
@@ -19,19 +19,26 @@ describe("Blog.setStatus", function () {
   });
 
   it("fills in default values for a status", async function () {
-    await setStatus(this.blog.id, { message: "Hey" });
+    await setStatus(this.blog.id, {
+      message: "Hey",
+    });
     let { status } = await get({ id: this.blog.id });
-    expect(status.error).toEqual(false);
-    expect(status.syncing).toEqual(false);
+    expect(status.syncID).toEqual("");
     expect(status.datestamp).toEqual(jasmine.any(Number));
   });
 
   it("overwrites an existing status", async function () {
-    await setStatus(this.blog.id, { message: "First" });
+    await setStatus(this.blog.id, {
+      message: "First",
+      syncID: "sync_" + uuid().slice(0, 7),
+    });
     let blog = await get({ id: this.blog.id });
     const firstStatus = blog.status;
     expect(firstStatus.message).toEqual("First");
-    await setStatus(this.blog.id, { message: "Second" });
+    await setStatus(this.blog.id, {
+      message: "Second",
+      syncID: "sync_" + uuid().slice(0, 7),
+    });
     blog = await get({ id: this.blog.id });
     const secondStatus = blog.status;
     expect(secondStatus.message).toEqual("Second");
@@ -39,8 +46,7 @@ describe("Blog.setStatus", function () {
 
   it("throws errors when the blogID is not passed", async function () {
     const status = {
-      error: false,
-      syncing: false,
+      syncID: "sync_" + uuid().slice(0, 7),
       message: "Hey",
       datestamp: Date.now(),
     };
