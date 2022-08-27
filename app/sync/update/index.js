@@ -5,16 +5,15 @@ var hashFile = require("helper/hashFile");
 var drop = require("./drop");
 var set = require("./set");
 var mkdir = require("./mkdir");
-var client = require("client");
 
-module.exports = function (blog, log) {
+module.exports = function (blog, log, status) {
   return function update(path, options, callback) {
     if (callback === undefined && typeof options === "function") {
       callback = options;
       options = {};
     }
 
-    client.publish("sync:status:" + blog.id, "Syncing " + path);
+    status("Syncing " + path);
 
     // Blot likes leading slashes, the git client
     // for instance does not have them but we

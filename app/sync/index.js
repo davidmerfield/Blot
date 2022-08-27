@@ -47,19 +47,33 @@ function sync(blogID, callback) {
 
     try {
       log("Acquiring lock on folder");
-      release = await lockfile.lock(localPath(blogID, "/"));
+      release = await lockfile.lock(localPath(blogID, "/"), {
+        retries: {
+          retries: 3,
+          factor: 2,
+          minTimeout: 100,
+          maxTimeout: 200,
+          randomize: true,
+        },
+      });
       log("Successfully acquired lock on folder");
     } catch (e) {
       log("Failed to acquire lock on folder");
       return callback(new Error("Failed to acquire folder lock"));
     }
 
+    const status = (message) => {
+      Blog.setStatus(blogID, { message, syncID });
+      log(message);
+      client.publish("sync:status:" + blogID, message);
+    };
+
     const folder = {
       path: localPath(blogID, "/"),
-      update: new Update(blog, log),
+      update: new Update(blog, log, status),
       rename: Rename(blog, log),
       lowerCaseContents: lowerCaseContents(blog, promisify(Rename(blog, log))),
-      status: (message) => client.publish("sync:status:" + blogID, message),
+      status,
       log,
     };
 
