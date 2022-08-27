@@ -75,20 +75,14 @@ client_routes
   .get(load.clients, load.client, async function (req, res) {
     let { statuses, next, previous } = await getStatuses(req.blog.id);
 
-    console.log(statuses);
-
     statuses = _.chain(statuses)
-      // Group the elements of Array based on `color` property
       .groupBy("syncID")
-      // `key` is group's name (color), `value` is the array of objects
       .map((value, key) => ({
         syncID: key,
         messages: value,
         fromNow: moment(value.at(0).datestamp).fromNow(),
       }))
       .value();
-
-    console.log(statuses);
 
     res.render("clients/status", {
       title: "Reset your folder",

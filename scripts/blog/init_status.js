@@ -16,7 +16,7 @@ const getAllIDs = promisify(Blog.getAllIDs);
 
     if (blog.status === undefined) {
       console.log("Adding status to", blogID);
-      await setStatus(blog.id, { message: "Synced" });
+      await setStatus(blog.id, { message: "Synced", datestamp: blog.cacheID });
     }
   }
 
