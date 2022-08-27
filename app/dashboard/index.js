@@ -100,6 +100,7 @@ dashboard.post(
   [
     "/dashboard/:handle/template*",
     "/dashboard/:handle/client",
+    "/dashboard/:handle/client/switch",
     "/path",
     "/folder*",
     "/settings/client*",
