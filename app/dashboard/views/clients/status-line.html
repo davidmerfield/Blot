@@ -1,0 +1,115 @@
+<a class="line" href="/settings/client/switch">
+    <span class="label">Synced with</span>
+    <span class="center">{{client.display_name}}</span>
+    <span class="right">Edit</span>
+  </a>
+
+  <a class="line" href="{{dashboardBase}}/client/status">
+    <span class="label">Status</span>
+    <span class="center" style="padding-left: 26px;position: relative;">
+      {{^error_code}}
+      {{#preparing}}
+<span class="spinner" style="position: absolute;left:1px;top:1px"><span class="bounce1"></span></span>
+      <span id="status">Setting up folder on Dropbox</span>
+      {{/preparing}}
+      {{^preparing}}
+      
+      <span style="right:auto;left:-2px;transform: scale(0.8)" id="inputMessage" class="inputMessage success"></span>      
+      <span id="status">Synced {{blog.updated}}</span>
+
+      {{/preparing}}
+       {{/error_code}}
+
+
+    </span>
+    <span class="right">View activity</span>
+  </a>
+
+<style type="text/css">.label {flex-basis:30%}</style>
+<style type="text/css">
+.inputMessage.working {background:#ff9800;display: block;}
+
+.spinner > span {
+  width: 1em;
+  height: 1em;
+  font-size: 0.8em;
+  background-color: #ff9800;
+  border-radius: 100%;
+  display: inline-block;
+  -webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+  animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+}
+
+
+@-webkit-keyframes sk-bouncedelay {
+  0%, 80%, 100% { -webkit-transform: scale(0) }
+  40% { -webkit-transform: scale(1.0) }
+}
+
+@keyframes sk-bouncedelay {
+  0%, 40%, 100% { 
+    -webkit-transform: scale(0.9);
+    transform: scale(0.9);
+  } 70% { 
+    -webkit-transform: scale(0.3);
+    transform: scale(0.3);
+  }
+}
+
+</style>
+
+<script type="text/javascript">
+  var evtSource = new EventSource("{{{dashboardBase}}}/status");
+  var currentlyLoading;
+  var lastStatus;
+  var checkAgain;
+
+  evtSource.onmessage = function(event) {
+
+    // Fetch the latest folder state if we're not
+    // already fetching it.
+    if (currentlyLoading) {
+      checkAgain = true;
+      return;
+    }
+
+    currentlyLoading = true;
+
+    loadFolder(function onLoad(){
+
+      if (checkAgain === true) {
+        checkAgain = false;
+        return loadFolder(onLoad);
+      }
+
+      currentlyLoading = false;
+    });
+
+    lastStatus = event.data;
+    document.getElementById('status').innerHTML = lastStatus;
+  }
+
+
+  function loadFolder (callback) {
+   
+    var xhr = new XMLHttpRequest();
+
+    xhr.onreadystatechange = function (e) { 
+      if (xhr.readyState == 4 && xhr.status == 200) {
+        var parser = new DOMParser();
+        var xml = parser.parseFromString(xhr.responseText, "text/html");
+        var currentState = document.querySelector('.dropbox').innerHTML;
+        var newState = xml.querySelector('.dropbox').innerHTML;
+        if (newState === currentState) return callback();
+        document.querySelector('.dropbox').innerHTML = newState;
+        var statusDiv = document.getElementById('status');
+        if (statusDiv) statusDiv.innerHTML = lastStatus;
+        callback();
+      }
+    }
+
+    xhr.open("GET", window.location, true);
+    xhr.setRequestHeader('Content-type', 'text/html');
+    xhr.send();
+  }
+</script>
