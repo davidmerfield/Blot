@@ -1,4 +1,9 @@
-<form action="" method="POST">
+<form method="POST" enctype='multipart/form-data'>
   Upload wordpress XML export file
+  <input type="hidden" name="_csrf" value="{{csrftoken}}">
   <input type="file" id="exportUpoad" name="exportUpoad" />
+  <div class="buttons">
+    <button type="submit">Upload XML file</button>
+    <a href="{{{importBase}}}">Cancel</a>
+  </div>
 </form>
