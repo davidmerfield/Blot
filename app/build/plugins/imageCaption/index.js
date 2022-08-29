@@ -42,7 +42,7 @@ function render($, callback) {
 module.exports = {
   render: render,
   category: "images",
-  isDefault: false,
+  isDefault: true,
   title: "Caption",
   description: "Create a caption from the image’s alt text",
 };
