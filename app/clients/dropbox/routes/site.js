@@ -1,22 +1,42 @@
-var Express = require("express");
-var sync = require("../sync");
-var Database = require("../database");
-var debug = require("debug")("blot:clients:dropbox:routes");
-var async = require("async");
-var config = require("config");
-var crypto = require("crypto");
-var Webhook = Express.Router();
+const express = require("express");
+const site = express.Router();
+const session = require("dashboard/session");
+const sync = require("clients/dropbox/sync");
+const Database = require("clients/dropbox/database");
+const debug = require("debug")("blot:clients:dropbox:routes");
+const async = require("async");
+const config = require("config");
+const crypto = require("crypto");
 
-// Used for testing purposes only to determine when a sync has finished
-// Redlock means we can't reliably determine this just by calling sync()
-Webhook.get("/syncs-finished/:blogID", function (req, res) {
-  res.send(finishedAllSyncs(req.params.blogID));
-});
+// This is called by Dropbox when the user
+// authorizes Blot's access to their folder
+// as part of the OAUTH flow. We then redirect
+// them to a dashboard route within the Dropbox client
+// Customers are sent back to:
+// blot.im/clients/dropbox/authenticate
+// when they have authorized (or declined to authorize)
+// Blot's access to their folder. This is a public-facing
+// route without access to the customer's session by default.
+// We need to work out which blog they were
+// authenticating based on a value stored in their session
+// before they were sent out to Dropbox. Unfortunately we
+// can't pass a blog username in the URL, since it needs to
+// be the same URL every time, e.g. this would not work:
+// blot.im/clients/dropbox/authenticate?handle=david
+site.get("/authenticate", session, function (req, res, next) {
+  const handle = req.session.blogToAuthenticate;
+  if (!handle) return next(new Error("No blog to authenticate"));
+  delete req.session.blogToAuthenticate;
+  let redirect =
+    "/dashboard/" +
+    handle +
+    "/client/dropbox/authenticate?code=" +
+    req.query.code;
 
-// This is called by Dropbox to verify the webhook exists
-Webhook.get("/", function (req, res, next) {
-  if (!req.query || !req.query.challenge) return next();
-  res.send(req.query.challenge);
+  if (req.query.full_access) redirect += "&full_access=true";
+
+  console.log('REDIRECT', redirect);
+  res.redirect(redirect);
 });
 
 // We keep a dictionary of synced blogs for testing
@@ -40,7 +60,19 @@ function finishedAllSyncs(blogID) {
   return activeSyncs[blogID] === 0;
 }
 
-Webhook.route("/").post(function (req, res) {
+// Used for testing purposes only to determine when a sync has finished
+// Redlock means we can't reliably determine this just by calling sync()
+site.get("/webhook/syncs-finished/:blogID", function (req, res) {
+  res.send(finishedAllSyncs(req.params.blogID));
+});
+
+// This is called by Dropbox to verify the webhook exists
+site.get("/webhook", function (req, res, next) {
+  if (!req.query || !req.query.challenge) return next();
+  res.send(req.query.challenge);
+});
+
+site.post("/webhook", function (req, res) {
   if (config.maintenance) return res.sendStatus(503);
 
   var data = "";
@@ -118,4 +150,4 @@ Webhook.route("/").post(function (req, res) {
   });
 });
 
-module.exports = Webhook;
+module.exports = site;
