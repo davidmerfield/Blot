@@ -4,7 +4,8 @@ var createClient = require("./util/createClient");
 var fs = require("fs-extra");
 var localPath = require("helper/localPath");
 var retry = require("./util/retry");
-var upload = require("./util/upload");
+const { promisify } = require("util");
+const upload = promisify(require("clients/dropbox/util/upload"));
 
 // Write should only ever be called inside the function returned
 // from Sync for a given blog, since it modifies the blog folder.
@@ -15,13 +16,13 @@ function write(blogID, path, contents, callback) {
 
   createClient(blogID, async function (err, client, account) {
     if (err || !account) return callback(err || new Error("No account"));
-    
+
     pathInDropbox = join(account.folder || "/", path);
     // We must lowercase this since localPath no longer
     // does and files for the Dropbox client are stored
     // in the folder with a lowercase path.
     pathOnBlot = localPath(blogID, path).toLowerCase();
-    
+
     try {
       await fs.outputFile(pathOnBlot, contents);
       await upload(client, pathOnBlot, pathInDropbox);
