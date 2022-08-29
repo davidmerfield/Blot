@@ -1,3 +1,5 @@
+Fix production issue with link screenshots
+
 Filenames with hashtags are unviewable on web templated editor.
 
 Handle long titles in breadcrumbs / file paths in sync log / long links etc. elegantly on the dashboard
