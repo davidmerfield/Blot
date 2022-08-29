@@ -12,11 +12,11 @@ var exitHook = require("async-exit-hook");
 var clfdate = require("helper/clfdate");
 
 exitHook(function () {
-  console.log(clfdate(), `Build process pid=${process.pid} exiting...`);
+  console.log(clfdate(), `Build: process pid=${process.pid} exiting...`);
   debug("Shutting down worker:", process.pid);
 });
 
-console.log(clfdate(), `Build process pid=${process.pid} launched`);
+console.log(clfdate(), `Build: process pid=${process.pid} launched`);
 
 // This file cannot become a blog post because it is not
 // a type that Blot can process properly.
@@ -37,8 +37,8 @@ process.on("message", function (message) {
         err = JSON.stringify(err, Object.getOwnPropertyNames(err));
       } catch (e) {}
     }
-    debug(message.id, "Sending back", err, entry);
-    process.send({ err: err, entry: entry, id: message.id });
+    debug(message.jobId, "Sending back", err, entry);
+    process.send({ err, entry, jobId: message.jobId });
   });
 });
 

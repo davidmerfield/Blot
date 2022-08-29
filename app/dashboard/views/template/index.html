@@ -65,20 +65,18 @@
 <div >
 
 
-<div style="padding:11px 20px 0">
-<h1 style="font-size: 22px;font-weight: 700">Template</h1>
-<h2 style="font-size: 14px">Your site can use any of the following templates. You can also <a href="/templates/developers">develop your own</a> template from scratch.</h2>
+<div style="padding:11px 20px 0;border-top: 1px solid rgba(0,0,0,0.05)">
+<p>Your site can use any of the following templates. You can also <a href="/templates/developers">develop your own</a> template from scratch.</p>
 <hr>
 </div>
 
-
-<input type="hidden" name="redirect" value="/settings/template">
 
 {{^blog.template}}
 <div class="lisne" style="border-bottom:none">
   <span class="box orange fr" style="line-height:2.5;background:#f2f2f2;padding:0 1.33em;border:#aaa;margin:0 0">Your template is disabled. </span>
 
   <form method='post' style="display:inline">
+    <input type="hidden" name="redirect" value="{{{base}}}/template">
     <input type="hidden" name="_csrf" value="{{csrftoken}}">
     <input type="hidden" name="template" value="SITE:blog">
 <div class="buttons">
@@ -136,12 +134,13 @@ flex-basis: 50%;">{{name}}</span>
  -->
   <form method='post' style="display:inline">
     <input type="hidden" name="_csrf" value="{{csrftoken}}">
+    <input type="hidden" name="redirect" value="{{{base}}}/template">
     <input type="hidden" name="template" value="{{id}}">
     <button {{#checked}} disabled{{/checked}} type="submit"><span class="square">Use{{#checked}}d{{/checked}}</span></button>
   </form>
 
-  <form method='post' style="display:inline" action="/settings/template/new">
-    <input type="hidden" name="redirect" value="/settings/template">
+  <form method='post' style="display:inline" action="{{{base}}}/template/new">
+    <input type="hidden" name="redirect" value="{{{base}}}/template">
     <input type="hidden" name="name" value="{{^isMine}}Copy of {{/isMine}}{{name}}" />
     <input type="hidden" name="cloneFrom" value="{{id}}" />
     <button type="submit"><span class="square">Fork</span></button>
@@ -155,11 +154,11 @@ flex-basis: 50%;">{{name}}</span>
 
 {{/templates}}
 
-  <a class="line" style="color:#0070e8" href="/settings/template/archive">
+  <a class="line" style="color:#0070e8" href="{{{base}}}/template/archive">
   Template archive</a>
 
 <form method='post'>
-  <input type="hidden" name="redirect" value="/settings/template">
+  <input type="hidden" name="redirect" value="{{{base}}}/template">
   <input name="template" value="" type="hidden" />
   <button type="submit" style="color:#0070e8;border-bottom: 1px solid rgba(0,0,0,0.05);padding:11px 20px;display:block;text-align:left;width:100%">Disable your template</button>
 </form>

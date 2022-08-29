@@ -3,6 +3,8 @@ const fs = require("fs-extra");
 const config = require("config");
 const cluster = require("cluster");
 const clfdate = require("helper/clfdate");
+const email = require("helper/email");
+const setup = require("./setup");
 
 if (cluster.isMaster) {
   const NUMBER_OF_CORES = require("os").cpus().length;
@@ -11,16 +13,25 @@ if (cluster.isMaster) {
   const scheduler = require("./scheduler");
   const publishScheduledEntries = require("./scheduler/publish-scheduled-entries");
 
+  // In development mode we sometimes want to run
+  // just the dashboard, since the server boot is slow
+  // Remove once we get the server online faster
+  if (process.env.FAST !== "true") {
+    setup(function (err) {
+      if (err) throw err;
+      console.log("Finished setting up");
+    });
+  }
+
   console.log(
     clfdate(),
     `Starting pid=${process.pid} environment=${config.environment} cache=${config.cache}`
   );
 
-  // Write the master process PID so we can signal it
-  fs.writeFileSync(config.pidfile, process.pid, "utf-8");
+  email.SERVER_START();
 
-  // Launch scheduler for background tasks, like backups, emails
-  scheduler();
+  // Write the master process PID so we can signal it
+  fs.writeFileSync(config.pidfile, process.pid.toString(), "utf-8");
 
   // Run any initialization that clients need
   // Google Drive will renew any webhooks, e.g.
@@ -31,8 +42,13 @@ if (cluster.isMaster) {
     }
   }
 
-  // Fork workers.
-  for (let i = 0; i < NUMBER_OF_WORKERS; i++) {
+  if (process.env.FAST !== "true") {
+    // Fork workers based on how many CPUs are available
+    for (let i = 0; i < NUMBER_OF_WORKERS; i++) {
+      cluster.fork();
+    }
+  } else {
+    // In FAST mode, just fork one
     cluster.fork();
   }
 
@@ -40,6 +56,7 @@ if (cluster.isMaster) {
     if (worker.exitedAfterDisconnect === false) {
       console.log(clfdate(), "Worker died unexpectedly, starting a new one");
       cluster.fork();
+      email.WORKER_ERROR();
       // worker processes can have scheduled tasks to publish
       // scheduled entries in future – if the worker dies it's
       // important the master process instead schedules the task
@@ -107,6 +124,14 @@ if (cluster.isMaster) {
       }
     );
   });
+
+  // In development mode we sometimes want to run
+  // just the dashboard, since the server boot is slow
+  // Remove once we get the server online faster
+  if (process.env.FAST !== "true") {
+    // Launch scheduler for background tasks, like backups, emails
+    scheduler();
+  }
 } else {
   console.log(clfdate(), `Worker process running pid=${process.pid}`);
 

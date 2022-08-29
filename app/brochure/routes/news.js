@@ -11,8 +11,8 @@ var gitCommits = require("./tools/git-commits");
 var listKey = "newsletter:list";
 var TTL = 60 * 60 * 24; // 1 day in seconds
 
-news.get("/", gitCommits, loadToDo, function (req, res) {
-  res.render("about/news");
+news.get("/", gitCommits, loadToDo, function (req, res, next) {
+  next();
 });
 
 // The rest of these pages should not be cached
@@ -21,7 +21,7 @@ news.use(function (req, res, next) {
   next();
 });
 
-news.get("/sign-up", function (req, res) {
+news.get("/sign-up", function (req, res, next) {
   if (req.session && req.session.newsletter_email) {
     res.locals.email = req.session.newsletter_email;
     delete req.session.newsletter_email;
@@ -29,16 +29,16 @@ news.get("/sign-up", function (req, res) {
     return res.redirect(req.baseUrl);
   }
 
-  res.render("about/news/sign-up");
+  next();
 });
 
-news.get("/cancel", function (req, res) {
+news.get("/cancel", function (req, res, next) {
   if (req.session && req.session.newsletter_email) {
     res.locals.email = req.session.newsletter_email;
     delete req.session.newsletter_email;
   }
 
-  res.render("about/news/cancel");
+  next();
 });
 
 function confirmationKey(guid) {
@@ -106,8 +106,7 @@ news.get("/cancel/:guid", function (req, res, next) {
 
       res.locals.title = "Cancelled";
       res.locals.email = email;
-      res.render("about/news/cancelled");
-
+      next();
       if (removed) {
         Email.NEWSLETTER_CANCELLATION_CONFIRMED(null, locals, function () {
           // Email confirmation sent
@@ -133,7 +132,6 @@ news.get("/confirm/:guid", function (req, res, next) {
 
       res.locals.title = "Confirmed";
       res.locals.email = email;
-      res.render("about/news/confirmed");
 
       // The first time the user clicks the confirmation
       // link we send out a confirmation email, subsequent
@@ -143,6 +141,8 @@ news.get("/confirm/:guid", function (req, res, next) {
           // Email confirmation sent
         });
       }
+
+      res.redirect(req.baseUrl + "/confirmed");
     });
   });
 });

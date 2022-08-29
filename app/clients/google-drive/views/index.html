@@ -2,6 +2,10 @@
 
 {{#account}}
 
+
+
+ {{> status-line}}
+
 {{#error}}
 
 
@@ -15,16 +19,6 @@ Blot cannot connect to your <b>Google Drive</b>. Please re-connect to give Blot 
 
 {{/error}}
 
-  <div class="line">
-    <p>
-      <b>Google Drive</b> {{#folderId}}synchronizes your folder{{/folderId}}{{^folderId}} is connected to your account but you have not set up a folder to synchronize with Blot. Please <a class="link" href="{{{base}}}/set-up-folder">create a folder
-  </a> to sync.{{/folderId}} {{#folderId}}You can
-      <a class="link" href="/settings/client/switch"
-        >switch to a different client</a
-      >
-      seamlessly.{{/folderId}}
-    </p>
-  </div>
 
   {{#folderId}}
   <div class="line">
@@ -59,9 +53,14 @@ Blot cannot connect to your <b>Google Drive</b>. Please re-connect to give Blot 
     <span class="center">{{email}}</span>
   </div>
 
+  <a class="line" href="/settings/client/fix">
+    <span class="label">Reset</span>
+    <span class="link">Fix your folder</span>
+  </a>
+  
   <a class="line" href="{{{base}}}/disconnect">
     <span class="label">Disconnect</span>
-    <span class="link">Disconnect from Google Drive</span>
+    <span class="link">Disconnect your folder from Google Drive</span>
   </a>
 
 <br><br>
@@ -70,7 +69,7 @@ Blot cannot connect to your <b>Google Drive</b>. Please re-connect to give Blot 
 
 {{^account}}
 <div class="inset">
-  <p style="margin: 42px 0 20px;">
+  <!-- <p style="margin: 42px 0 20px;">
     Blot will ask for permission to connect to your <b>Google Drive</b>. You can revoke Blot’s access at any point. 
   </p>
   <details>
@@ -82,12 +81,32 @@ Blot cannot connect to your <b>Google Drive</b>. Please re-connect to give Blot 
       <li>Share your blog's folder from your burner to your main account's Google Drive.</p>
   </details>
   <br />
-
+ -->
+ <p><b>Link Google Drive Account</b></p>
+ <p>Sign in to authorize Blot's access to your Google Drive:</p>
+ <br>
   <form action="{{{base}}}/disconnect" method="post">
     <input type="hidden" name="_csrf" value="{{csrftoken}}" />
-    <div class="buttons">
-      <a href="{{{base}}}/redirect">Connect to Google Drive</a>
-      <input type="submit" value="Cancel" />
+    <div style="display: flex">
+<link rel="preload" as="image" href="/images/btn_google_signin_dark_focus_web@2x.png">
+<link rel="preload" as="image" href="/images/btn_google_signin_dark_pressed_web@2x.png">
+      
+      <style type="text/css">
+        
+        .gbt {
+          background: url('/images/btn_google_signin_dark_normal_web@2x.png') no-repeat;
+          background-size: contain;
+        }
+        .gbt:focus {
+          background-image: url('/images/btn_google_signin_dark_focus_web@2x.png')
+        }
+        .gbt:active {
+          background-image: url('/images/btn_google_signin_dark_pressed_web@2x.png')
+        }
+      </style>
+      <a style="display:block;width:191px;height:46px" class="gbt" href="{{{base}}}/redirect">
+</a>
+      <input style="margin: 0.3rem 2rem" type="submit" value="Cancel" />
     </div>
   </form>
 </div>

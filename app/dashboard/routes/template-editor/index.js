@@ -9,6 +9,7 @@ TemplateEditor.param("viewSlug", require("./load/template-views"));
 TemplateEditor.param("viewSlug", require("./load/template-view"));
 TemplateEditor.param("templateSlug", require("./load/template"));
 TemplateEditor.param("templateSlug", function (req, res, next) {
+  res.locals.dashboardBase = res.locals.base;
   res.locals.base = `${req.protocol}://${req.hostname}${req.baseUrl}/${req.params.templateSlug}`;
   // used to filter messages sent from the iframe which contains a preview of the
   // template in the template editor, such that we only save the pages which are

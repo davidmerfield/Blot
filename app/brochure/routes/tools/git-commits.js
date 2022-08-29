@@ -12,16 +12,17 @@ const bannedWordsRegEx = new RegExp(bannedWords.join("|"), "i");
 
 // Adjust the tense of verbs in commit message
 const commitMessageMap = {
-  Adds: "Added",
-  Cleans: "Cleaned",
-  Changes: "Changed",
-  Fixes: "Fixed",
-  Finishes: "Finished",
-  Improves: "Improved",
-  Modifies: "Modified",
-  Removes: "Removed",
-  Tweaks: "Tweaked",
-  Updates: "Updated",
+  "Adds": "Added",
+  "Cleans": "Cleaned",
+  "Changes": "Changed",
+  "Fixes": "Fixed",
+  "Finishes": "Finished",
+  "Improves": "Improved",
+  "Modifies": "Modified",
+  "Removes": "Removed",
+  "Tweaks": "Tweaked",
+  "Updates to": "Updated",
+  "Updates": "Updated",
 };
 
 const commitMessageMapRegEx = new RegExp(

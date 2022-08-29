@@ -1,4 +1,4 @@
-<form class="account" method="post">
+<form class="account" method="post" style="padding: 0;max-width: none">
   <input type="hidden" name="_csrf" value="{{csrftoken}}" />
 
     {{#user.isFreeForLife}}
@@ -6,12 +6,14 @@
     {{/user.isFreeForLife}}
 
     {{#user.cancel_at_period_end}}
-     <p style="padding:0em 2em 0 0;margin:11px 0 20px;line-height:1.5">
- Your
+    <div class="line"
+      ><span class="label">Cancelled</span
+      ><span class="center">Your
     subscription has been cancelled and you won’t be charged again. On
     <b>{{user.pretty.expiry}}</b> your account will close and your
-    blog{{user.s}} will shut down. 
-  </p>{{/user.cancel_at_period_end}}
+    blog{{user.s}} will shut down.</span></div
+    >
+    {{/user.cancel_at_period_end}}
     
     {{#user.isSubscribed}} 
 
@@ -19,9 +21,7 @@
 
     <div class="line"
       ><span class="label">Next bill</span
-      ><span class="center"><b>{{user.pretty.price}}</b> on <b>{{user.pretty.expiry}}</b> for {{user.pretty.amount_in_words}} blog{{user.pretty.s}}.
-
-
+      ><span class="center"><b>{{user.pretty.price}}</b> for {{user.pretty.amount_in_words}} blog{{user.pretty.s}} on {{user.pretty.expiry}}.
       </span></div
     >
 
@@ -62,21 +62,22 @@
 
     <div class="clear"></div>
 
-    <a class="line" href="/account/subscription/payment-method"
-      ><span class="label">Payment</span
-      ><span class="center"
-        ><span class="link">Change payment method</span></span
-      ></a
-    >
-
     <a class="line" href="/account/subscription/billing-interval"
       ><span class="label">Billing interval</span
       ><span class="center"
-        ><span class="link">Switch to {{#monthly}}annual{{/monthly}}{{^monthly}}monthly{{/monthly}} billing</span></span
+        >Once per {{#monthly}}month{{/monthly}}{{^monthly}}year{{/monthly}}</span
+      >
+      <span class="right">Switch to {{#monthly}}annual{{/monthly}}{{^monthly}}monthly{{/monthly}} billing</span>
+    </a>
+
+
+    <a class="line" href="/account/subscription/payment-method"
+      ><span class="label">Payment method</span
+      ><span class="center"
+        ><span class="link">Update payment method</span></span
       ></a
     >
 
-    <br>
     <a class="line" href="/account/subscription/cancel"
       ><span class="label">Cancel</span
       ><span class="center"

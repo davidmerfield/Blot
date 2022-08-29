@@ -1,6 +1,7 @@
 var BodyParser = require("body-parser");
 var Express = require("express");
 
+var blockCrawlers = require("./blockCrawlers");
 var checkToken = require("./checkToken");
 var checkReset = require("./checkReset");
 var checkEmail = require("./checkEmail");
@@ -27,7 +28,7 @@ form.use(function (req, res, next) {
   // Send logged-in users to the dashboard unless we're using
   // a one-time log-in link
   if (req.session && req.session.uid && !req.query.token) {
-    var then = req.query.then || (req.body && req.body.then) || "/";
+    var then = req.query.then || (req.body && req.body.then) || "/dashboard";
     return res.redirect(then);
   }
 
@@ -37,7 +38,6 @@ form.use(function (req, res, next) {
   res.locals.from = req.query.from;
   res.locals.then = req.query.then;
   res.locals.then_description = DASHBOARD_PAGE_DESCRIPTION[req.query.then];
-  res.locals.breadcrumbs = [{ label: "Log in" }, { label: "Your account" }];
 
   return next();
 });
@@ -46,7 +46,6 @@ form
   .route("/reset")
 
   .all(function (req, res, next) {
-    res.locals.breadcrumbs = res.locals.breadcrumbs.slice(0, -1);
     next();
   })
 
@@ -66,7 +65,7 @@ form
 form
   .route("/")
 
-  .get(checkToken, function (req, res) {
+  .get(blockCrawlers, checkToken, function (req, res) {
     res.render("log-in");
   })
 

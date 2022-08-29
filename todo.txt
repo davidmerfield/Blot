@@ -1,27 +1,200 @@
-Fix the password reset flow
+Switching from another client into the local client doesn't work: you need to restart server.
 
-Email Laurel about templates / use cases / concepts
+sync.lowerCaseAllFiles needs handle a duplication of files with different cases
 
-Fix issues with robustness of sync, esp on Dropbox and tell Victor and Ryan
+More improvements to Dropbox client:
+
+- [ ] parallelize build/download a little more, so posts appear when many files are dropped into folder
+- [ ] surface errors during setup on dashboard
+   - [ ] surface sync issues with Dropbox client on the homepage of dashboard
+   - [ ] How do we make errors sticky? To make sure users click through to clients page to re-connect to Dropbox, etc...
+- [ ] ensure that when a process dies, any blogs syncing will be re-attempted
+- [ ] ensure that when a process dies, any blogs setting up db client will be re-attempted
+- [ ] reconnecting with the same account and same permissions should not create a new folder for `full_access=true`
+- [ ] add 'verify' method which can run when sync fails / errors
+  - [ ] 'verify' should also run the `blog.fix` option
+- [ ] make full_folder use the old app folder directory? is there a way to disconnect it from the Blot app? otherwise add a big warning to prevent confusion about where the new folder is when transitioning permissions
+
+QA checks before deploy:
+- [ ] test with an empty blog folder
+- [ ] check the adding and removing of a webhook on the dropbox app console
+- [ ] test switch to/fro git client, ensure case is preserved and restored
+
+Later ideas, to migrate to do:
+- [ ] `syncContents` needs to remove any files which existing on Dropbox but do not exist on Blot
+- [ ] handle the download of large files gracefully too
+- [ ] run a complete initial sync during the setup to handle all those deleted files
+- [ ] add a mass upload option to speed up initial setup
+- [ ] consider adding back in download/upload stream, but add a check to see if the download is stuck?
+- [ ] add a check for folder storage before doing mass upload
+- [ ] handle folder full error appropriately
+- [ ] handle a sync lock failure on second blog when migrating an app folder
+- [ ] check content hash for upload where possible
+- [ ] consider re-instating streaming-download but adding a check for progress?
+- [ ] should we persist last sync status message somewhere?
+
+Creating a second blog switches you back to the first blog at the end of the setup flow
+
+The redirect/ignore buttons do not work on the 404 log
+
+Fix issues with sync:
+-error earlier
+- log all dropbox client related errors?
+- add some kind of request rate limit to dropbox client?
+  - we could use async queue to accomplish this...
+- properlockfile should be fine.
+- [tell marco](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqPpdwHHQTgHmMFwkXQZBjSwXt)
+- Is it possible that retry delays from the Dropbox API under excessive number of requests is the cause of the lockup?
+- Do we encounter dropbox/google drive bugs when we remove a directory of files, rather than invidivual files?
+- Victor
+- Ryan
+- Johannes
+- Rizwan
+- Fritz whose blog became stuck
+- [Kevin](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlkFzdBrlJzrGprHNHNmvkQqbW)
+- It seems one sync tanked the setup transfer with an [ENOENT](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmvTwMksRmWvSpQXVhvlMXjKFC)
+- Tell [Mike](https://mail.google.com/mail/u/0/#inbox/FMfcgzGpFgpdfBScqQctbnNGxBCLrztC) once the bug is sorted so he can rejoin
+- Tell [Juan](https://mail.google.com/mail/u/0/#inbox/FMfcgzGpFzvBSNgqmRVDRHvdGrzqrZDt)
+- Tell questioners](https://blot.im/questions/576)
+- Tell [N](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqPzKcnRQlXQVVcbdRvLVxtjnD) when you can switch between dropbox and git without bugs
+
+Explain that the git client uses the master branch and repos from github will use main in the docs and on the dashboard then tell [N](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqPzKcnQKsQQNkzcRpvCWpWKTr)
+
+Inject title metadata into h1 tag for all the text-based default templates and tell [questioners](https://blot.im/questions/795)
+
+Expose unlock and verify options for both dropbox and google drive clients
+
+Make the magazine template respect the date settings and follow up [with questioner](https://blot.im/questions/773)
+
+Send out cancellation confirmation emails with option to give feedback
+- auto-refund people who immediately close their account after signing up
+
+Investigate bug with template views whose names include hashtags and follow up with [Jay](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqPzMvLDJBfbNfLzpkKDzmZSNt)
+
+Replace radio button on clients page
+
+Get to the bottom of the slow cloudflare issue and follow up with [Wen](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqPzBWZcLJcwtWTXTbQjMbVrZB)
+
+Fix issue with git client mirroring on GitHub by follow steps in email and follow up with [n](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqPzKcnQKsQQNkzcRpvCWpWKTr)
+
+Ensure POST error messages are passed to client properly through ajax
+- to trigger, submit a >5mb file on web template editor
+
+Git client improvements:
+- Surface status of git client intialization when you first set up your blog on the git client. 
+- Fix issue which occurs when you change your username with the git client
+- Fix issue with switching from Dropbox client to Git client, in production which affected Nat
+
+---
+
+
+Finish Lisa's handwriting generator
+
+--
+
+Re-enable partial templates in posts/pages
+- Tell [Matt](https://mail.google.com/mail/u/0/#inbox/FMfcgzGpGwrFkhsBptjFjjmRcNHSBsGX)
+
+Add tag to iterate over all images in a folder and tell [Laurel](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmvBwZtktzGVFtcfDWbGZKhsfh)
+
+Fix bug with tags that contain slashes and tell [Jack](https://mail.google.com/mail/u/0/#inbox/FMfcgzGpFgzpsCkCMGqnClfqMkWZqNNz)
+
+Fix display of featured post on mobile for magazine template and tell [Ben](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmvTzfVVTRQpBGKPzTjkhVsbKl)
 
 Improve video demo and developer documentation of Blot by April 14th for Robin's students
 
 ---
 
-Make retreiving files from server case-insentive
-- i.e. add resolve case insensitive path to file to blog/asset.js
+Tell [Uzoamaka](https://mail.google.com/mail/u/0/#inbox/FMfcgzGpGwtWfNTbCKpgsktpbPQZFFTl) when it's possible to use Blot's brochure site as a template on a blog
+
+Determine why we get zombie processes after running reload server script.
+
+Add `Ignore: yes` metadata to trigger the ignored file behaviour
+
+Express all path-based metadata rules as regular expressions, then allow the customer to control these, e.g.
+```
+\/Pages\/*    ->    Page: yes
+\/Drafts\/*    ->   Draft: yes
+```
+
+Create starter kits for each template
+- e.g. a starter kit on the blog template for a writer, or a photographer, or a journalist, or an academic.
+- these could be downloaded as folders on the template page?
+- Get [David](https://mail.google.com/mail/u/0/#inbox/FMfcgzGpGnDfkQbzQqMVDndbNVzwCWZC)'s feedback when one exists for writers
+
+Create an index of customer-created templates and add [Matt's theme](https://www.mattlangford.com/kalena-template-for-blot)
+
+Add 'Hidden: yes' metadata to replace 'Menu: no' and tell [Sebastien](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmvTstgvzhzNkPFXdgStpTJvrN)
+
+Fix bug with subdomains with numbers in them cause SSL certificate errors (e.g. foo2.blot.im)
+
+Fix bug with the typeset settings do not actually affect anything (you can only disable/enable)
 
 Fix bug with typeset 'Small caps' setting and wikilinks then follow up with [questioner](https://blot.im/questions/414). The issue is caused by the insertion of the span class="small-caps" before the wikilink converter has had a chance to render the link. Typeset should be run after wikilinks to fix this.
 
-Tell [Will](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlkXtmxxRWGmBxCZbFxTrJGVrR) we fixed bug with changing text color on magazine template 
+Fix bug not exposing issue with invalid JSON in package.json for locally-edited template on dashboard and tell [Jason](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKjndBRlNNjZtlddcVVfFWVBbg)
+
+Fix bug with particular emoji and tell [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNqBKcPSQQHZtCFpKHrPDFkDq)
+
+Fix case-sensitivity issue for relative (and absolute?) paths to files in folder in production and tell [Marco](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNWHHtTmhpstcFdMfRRpzbnNw)
+
+Fix bug with footnote links in a teaser by switching #frag to {{permalink}}#frag
 
 Fix bug with [many twitter embeds and tell Nash](https://mail.google.com/mail/u/0/#inbox/FMfcgzGllMNfjvRBthVncQtPJQpmrksx)
 
 Fix bug with a once-scheduled post, based on the file's path or previous date metadata. The post remains scheduled even if the date is removed, and even if it is then rebuilt.
 
+Fix bug with date metadata on [Vincent](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJXVMdhvCJPXwVVSKRTFHQTQzn)'s blog and follow up. I suspect it's to do with the ordering of date tokens.
+
 Fix bug with tokens inside blog posts and follow up with [Karoly](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJXfkFdhXCgBCTwGfBCzPhqwJF)
 
+Fix bug with two entries with the same guid, possibly related to an entry rename event (i.e. copying the guid across). Make sure that when a rename happens, the old entry is permanently deleted and its guid cannot be reused. I imagine that WRITE foo.txt MV foo.txt bar.txt WRITE bar.txt could trigger this bug.
+
 ---
+
+Add method to merge updates into custom templates and tell [Dave](https://mail.google.com/mail/u/0/#inbox/FMfcgzGpGnDfkQbzQqMVDndbNVzwCWZC)
+
+Improve backlink's tolerance
+- Add support for full qualified URLs in the backlinks list for each entry. For example, if your blog is example.com, the following link will not appear as an internal link: [Foo](https://example.com/foo) because build/prepare/internalLinks is not aware of the blog domain/handle 
+  - Tell [Eli](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlkFlwSwXGrFZwvSKdHKvcxplV)
+- Add support for internal links without a leading slash
+  - Tell Laurel
+
+Add support for 2FA (Two factor authentication) then tell [Luke](https://mail.google.com/mail/u/1/#inbox/163993b0f8499ab3), [Max](https://mail.google.com/mail/u/1/#inbox/1641e9bd104c5b77), [Chaz](https://mail.google.com/mail/u/1/#inbox/165b726aa900158a) and [Tom](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqnpZncgBDbDskMZdPMXkgGCN).
+
+Make retreiving files from server case-insentive
+- i.e. add resolve case insensitive path to file to blog/asset.js
+
+Reach out to Wesley about using [notebook](https://github.com/WesleyAC/notebook)'s features in a template
+
+Improve Google Drive client:
+- Uncaught exceptions raised by verify seem to not be caught properly by the try/catch blocks. Simulate an exception and work out why.
+- Resolve error which occurred when I disconnected a blog from Google Drive client, a folder lock issue, which wasn't surfaced properly.
+- Weird issue with connecting multiple blogs to same google drive account – the file from one appeared in the folder for the other. Also strangeness possibly related to an empty blog folder?
+- How do we handle two files with same name and same parent? How does our fileId:path hash handle this? Make sure we delete the right file. Will file.title as opposed to file.name give us the deduped version?
+  - Bug: move file with deduplicated name from sub folder to other folder
+  - download should check for an existing file with same name but different fileId and dedupe before storing the path?
+- Handle revoked credentials without tanking server
+- Fix bug which occurs when:
+  - move a folder containing a folder containing a file from within your google drive, into your blog folder
+  - then move the folder within the folder out of the folder but keep it within your blog folder. 
+  - Blot will never transfer the file inside
+- Fix bug which occurs when:
+  - move a folder full of files from within google drive into your blog's folder
+  - Blot will recieve the folder but not the files inside
+- Create test app for local use
+- Can the google drive client handle a server restart during setup?
+- database.folder should throw ENOENT and EEXIST errors for del, set, move etc.
+- Error handling
+  - Retry when we get google drive's This service is not available error
+  - Handle storage quota errors
+  - Handle 429 errors with exponential backoff retry
+- Add percentage progress and a status bar to the folder copying setup page
+- Add `folder.rename` method to `app/sync` to take advantage of Google Drive's true rename feature
+- Add a way for sync/build to accept a ctime as an option. We can't set this at the operating system level but google drive's API does return a createdTime value and we could use this as the true file's created date, rather than the date the file is made on the server
+- Work out if we can test this using Mocks
+- `write` should use the best method for large file uploading
+- `download` Should nicely handle the export of various Google Doc formats
 
 Document the downtime for the next newsletter
 - Prevent full disk from affecting access to people's blogs. 
@@ -29,11 +202,16 @@ Document the downtime for the next newsletter
   - the specific issue that takes down the server seems to be the redis error (cannot persist on disk, out of space)
 - Ensure that this issue is surfaced on status page (currently it just verifies that nginx is working, let's ping a route served by node.js instead)
 
-Record new demo video for Google Drive client approval
-
 Investigate [Adam's broken template](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlkPcpFqrPfrVjQTdjNSTMbgrP)
 
-Ensure each template is good enough for the new film
+Release a new film showing some of Blot’s more recent features
+– The current video is now many years out of date
+- Finish video script in brochure/readme.txt
+- Find a neat public domain song to play 
+   - https://archive.org/details/Grab_Bag-12446/03_-_Trust.mp3
+   - https://archive.org/details/Winter_Sunshine_EP-8201/Evgeny_Grinko_-_01_-_Winter_Sunshine.mp3
+- Ensure each template is good enough for the new film
+- Finish the test folders for each template 
 - Add syntax highlighting option themes using [this demo as a starting point](https://highlightjs.org/static/demo/)
 - Run templates through [lighthouse](https://web.dev/measure/) and [observatory](https://observatory.mozilla.org/)
 - Tell these people about new templates, and to subscribe to newsletter:
@@ -42,18 +220,10 @@ Ensure each template is good enough for the new film
   - [Jan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChmLnfMTdtNkpLxHTlPJNHlCT) 
   - [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrRRZTKntrWKJvfDXrRFTzljs)
 
-Finish the test folders for each template 
-
-Release a new film showing some of Blot’s more recent features
-– The current video is now many years out of date
-- Finish video script in brochure/readme.txt
-- Find a neat public domain song to play 
-   - https://archive.org/details/Grab_Bag-12446/03_-_Trust.mp3
-   - https://archive.org/details/Winter_Sunshine_EP-8201/Evgeny_Grinko_-_01_-_Winter_Sunshine.mp3
-
 ---
 
 Add nice import step under 'Services' and as part of sign up
+- Fix bug with script to import wordpress posts and follow up with [Simon](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGCtMPcJhlmcdNvWwtWvgzWJvZ)
 - Create importer script for [John's posts from flickr](https://mail.google.com/mail/u/0/#inbox/166da622325d19e7)
 - Create importer script for tumblr text files and tell [Sawyer](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVMhRNdQhfDwlXsqqFNgmKfTk)
 - Create importer script for Weebly and tell [David](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTjzpgHQZMJSsvjktggRFNpDw)
@@ -62,13 +232,21 @@ Add nice import step under 'Services' and as part of sign up
 - Look into how Hexo has written imports for [blogger](https://github.com/hexojs/hexo-migrator-blogger), [joomla](https://github.com/welksonramos/hexo-migrator-joomla), [rss](https://github.com/hexojs/hexo-migrator-rss), [wordpress](https://github.com/hexojs/hexo-migrator-wordpress).
 - Add importer for Twitter and sell [Sawyer](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVMhRNdQhfDwlXsqqFNgmKfTk)
 
-Smooth over the custom domain adding process
-- validate the domain is pointing to Blot before allowing resty-auto-ssl to request a cert. we seem to get into a DNS mismatch where a client thinks a domain points to Blot, and triggers a cert request through resty-auto-ssl but whatever DNS server Blot's server points to has the stale record (pointing elsewhere)
-- Disable redirect to HTTPS for blogs by default (to ensure old browsers without SNI work) but ensure all prominent links to the blog on dashboard use HTTPS
+Improve dashboard:
+- Smooth over the custom domain adding process
+  - cache domain validity and display checkmark on dashboard
+  - validate the domain is pointing to Blot before allowing resty-auto-ssl to request a cert. we seem to get into a DNS mismatch where a client thinks a domain points to Blot, and triggers a cert request through resty-auto-ssl but whatever DNS server Blot's server points to has the stale record (pointing elsewhere)
+  - Disable redirect to HTTPS for blogs by default (to ensure old browsers without SNI work) but ensure all prominent links to the blog on dashboard use HTTPS
+- Improve clients
+  - cache sync validity and display checkmark on dashboard
+  - surface errors for clients on dashboard index
+  - add a change button next to the dropbox folder selected on the dropbox client where possible
+  - add blocking process to dropbox connection when writing folder contents
+  - ensure the app permission access_token is destroyed when switching to full-folder and vice versa
+  - add a folder chooser during full-folder setup
+  - ensure you can move the folder in full-folder permission mode
 
 Move citations out of {{{html}}} and tell [questioner](https://blot.im/questions/298) and [Mikka](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlkPcprJZlTSFbTGlqSPJcfWJJ)
-
-Add introductory guide to forking a template to templates page
 
 Add [OneDrive](https://onedrive.com) client
 - Tell [John](https://mail.google.com/mail/u/0/#inbox/FMfcgzGkbDVrfBwGjnVDdtXkNxKpwjfq) 
@@ -89,58 +267,20 @@ Convert [Vitepress](https://vitepress.vuejs.org/) to Blot and tell [Nicolas](htt
 
 Re-order blog engine routes such that pages/entries are evauluated first, making it possible to set up custom redirects and tell [Marco](https://mail.google.com/mail/u/0/#inbox/FMfcgzGllCcNbxjDTdZzRCcNgmnJjXWM)
 
-Add RTF support using Pandoc or [rtf.js](https://github.com/tbluemel/rtf.js)
-
-Add support for [Jupyter Notebook .ipynb](https://predictablynoisy.com/posts/2019/2019-11-11-ipynb_pandoc/#ipynb-to-html) using Pandoc and tell [Arnab](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmtNdkGQxbMVblqjvkHwSMTBbW)
-
-Add support for full qualified URLs in the backlinks list for each entry. 
-- For example, if your blog is example.com, the following link will not appear as an internal link: [Foo](https://example.com/foo) because build/prepare/internalLinks is not aware of the blog domain/handle 
-- Tell [Eli](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlkFlwSwXGrFZwvSKdHKvcxplV)
-
-It seems possible to have two entries with the same guid, possibly related to an entry rename event (i.e. copying the guid across). Make sure that when a rename happens, the old entry is permanently deleted and its guid cannot be reused.
-
-Add AVIF image post support and tell [Simon](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlkFqWwhwwQgrrlwKtctkTgRXx)
-
-Improve Google Drive client:
-- Create test app for local use
-- Can the google drive client handle multiple connected blogs?
-  - I suspect we get the no refresh_token error on second blog
-- Can the google drive client handle a server restart during setup?
-- database.folder should throw ENOENT and EEXIST errors for del, set, move etc.
-- How do we handle two files with same name and same parent? How does our fileId:path hash handle this? Make sure we delete the right file. Will file.title as opposed to file.name give us the deduped version?
-  - Bug: move file with deduplicated name from sub folder to other folder
-  - download should check for an existing file with same name but different fileId and dedupe before storing the path?
-- Error handling
-  - Retry when we get google drive's This service is not available error
-  - Handle storage quota errors
-  - Handle 429 errors with exponential backoff retry
-- Add percentage progress and a status bar to the folder copying setup page
-- Add `folder.rename` method to `app/sync` to take advantage of Google Drive's true rename feature
-- Add a way for sync/build to accept a ctime as an option. We can't set this at the operating system level but google drive's API does return a createdTime value and we could use this as the true file's created date, rather than the date the file is made on the server
-- Work out if we can test this using Mocks
-- `write` should use the best method for large file uploading
-- `download` Should nicely handle the export of various Google Doc formats
-
-Improve brochure
-- Finish templates section
-- Rigorously check site on mobile
-- Finish breadcrumbs scroll on mobile (make sure scrollbars are invisible) on Firefox Windows
-- Improve loading speed for logged in users
-- Add loading state for submit button on sign up page
-
-Improve clients
-- surface errors for clients on dashboard index
-- add a change button next to the dropbox folder selected on the dropbox client where possible
-- add blocking process to dropbox connection when writing folder contents
-- ensure the app permission access_token is destroyed when switching to full-folder and vice versa
-- add a folder chooser during full-folder setup
-- ensure you can move the folder in full-folder permission mode
 
 ---
 
-Apply helper/imageminify to images in posts with opt-in
-- [ ] Run these changes past John, get opinion on [optimized images](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsmhMtGvPcwxlSHSSTFVpJVbd)
-- [ ] Talk to Marius about [his opinions on the compression settings](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLtQPwXwJrwgMzjfvDtcwFZzFC)
+Write new converters to turn files into posts
+- Add AVIF image post support and tell [Simon](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlkFqWwhwwQgrrlwKtctkTgRXx)
+- Add RTF support using Pandoc or [rtf.js](https://github.com/tbluemel/rtf.js)
+- Add support for [Jupyter Notebook .ipynb](https://predictablynoisy.com/posts/2019/2019-11-11-ipynb_pandoc/#ipynb-to-html) using Pandoc and tell [Arnab](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmtNdkGQxbMVblqjvkHwSMTBbW)
+- Add support for .doc using [libreoffice](https://www.npmjs.com/package/libreoffice-convert) and tell [Kyle](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKkHZVgwCNwsdlhdzCggRtsRhN)
+- Video posts (.mp4)
+- Add support for .tiff images
+- OPML files and tell [John](https://mail.google.com/mail/u/1/#inbox/1659bac084c3e404)
+- Audio posts (.mp3 for now?) and tell [Kevin](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLhcqVldHMCFpTWDmfrRHfwpg)
+- Multi-file posts from inside one folder? 'Folder>' Tell [Kevin](https://mail.google.com/mail/u/0/#inbox/1669705dbd65a2e2), [Nash and Roberto](https://twitter.com/rmateu/status/1053665946592858113) and [Calvin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChclvkfHMWfnqGdWkQnzMdklW) and [Ariel](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrRXJqFphKVfJGFQHdlMvjDWW) and [Lara](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGBwTnxxJhZvjGdRPCXSTdcrZB)
+- Multi-file posts with the same name but different extension (image.txt and image.jpg)
 
 Write new clients to sync blog folders 
 - [SFTP](https://www.npmjs.com/package/ftpd) 
@@ -148,6 +288,7 @@ Write new clients to sync blog folders
   - Tell [Calvin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChclvkfHMWfnqGdWkQnzMdklW) 
   - Tell [Fabrice](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNCspWMdnbCdzfHGwBrSKPBSC)
 - [NextCloud](https://nextcloud.com/) 
+  - Tell [Vincent](https://mail.google.com/mail/u/0/#inbox/FMfcgzGpHHVZggXQRzJKNTrJHRxLdLjt)
   - Tell [Coraline](https://mail.google.com/mail/u/0/#inbox/FMfcgzGllCmcFflWmXcCdVzTJztDTwXx)
   - Tell [Andrew](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJgWDpnsGBCXsCwkxRZnXMph) 
   - Tell [Mike](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMGDWmSXxbJkvjZbtvdQtNNGZ)
@@ -171,6 +312,8 @@ Write new clients to sync blog folders
   - Tell [Arlo](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJWrZRLJddkZSdrMVxrNkTZLKn)
   - Tell [Anders](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKkRFxsDShhsHGNcdRqwHFMmJM)
   - Tell [Victor](https://mail.google.com/mail/u/0/#inbox/FMfcgzGkbDVrLFlwcgwDddsVPJBVKSvW)
+- [Github](https://github.com)
+  - Tell [John](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmvBnVvqHdJXLgDhrtChCqdMQX)
 
 ---
 
@@ -179,7 +322,9 @@ Improvements to backup system
 - Test maintenance mode
 - Add script to roll back into hourly local db dumps and remote backups
 
-Improve footnote links in a teaser by switching #frag to {{permalink}}#frag
+Apply helper/imageminify to images in posts with opt-in
+- [ ] Run these changes past John, get opinion on [optimized images](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsmhMtGvPcwxlSHSSTFVpJVbd)
+- [ ] Talk to Marius about [his opinions on the compression settings](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLtQPwXwJrwgMzjfvDtcwFZzFC)
 
 Begin collecting proper measurements for page-rendering speed on the server
 
@@ -193,6 +338,7 @@ Improvements to teaser generator
 - Internal links (e.g. #section) in {{{teaser}}} should be resolved against the entry's permalink.
 - Add hasBreakpoint property to entry to allow greater control over display of {{{teaser}}} and tell [Pratik](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTsfMTHqWMQFmprMcjNpdBQzp)
 - Fix [issue with teaser generator](https://github.com/davidmerfield/Blot/issues/15) that locks up a build process, sometimes for 10+ seconds.
+- Make it [possible for users to select length of teasers](https://blot.im/questions/823) and [Leo](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqQJdjwTLkHkRZvZTQvfSzSFTq)
 
 Performance improvements
 - Faster server, with SSL termination across CDN
@@ -227,7 +373,7 @@ Support [Obsidian's syntax for embedding files](https://help.obsidian.md/How+to/
 
 Migrate from mailgun to SES, mailgun's javascript sdk [seems](https://github.com/mailgun/mailgun-js/issues/122) [like](https://github.com/mailgun/mailgun-js#setup-client) a mess.
 
-Expose log files on blog's dashboard and tell [Sönke](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLtsxjSMlVmNRFGJJxkpsVFNvg) and [questioner](https://blot.im/questions/136)
+Expose log files on blog's dashboard and tell [Sönke](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLtsxjSMlVmNRFGJJxkpsVFNvg) and [questioner](https://blot.im/questions/136) and [John](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmvBnVvqHdJXLgDhrtChCqdMQX)
 
 Improvements to brochure:
 - Write build scripts which can be run to produce results checked into git
@@ -238,15 +384,20 @@ Improvements to brochure:
    - compute content hashes then Use blotcdn for video and other large static files
 - Add end-to-end tests for brochure site to test sign up flow (use Playwright? Phantom? Chrome headless)
 - Add guide to useful text editors like [this one recommended by Andrew](https://itunes.apple.com/us/app/write-best-note-taking-app/id848311469)
-- Personalize the documentation for logged in users
+  - do this as a marketing strategy, e.g. target 'blog with microsoft word', 'blog with google docs', 'blog with ia writer' etc... contact the people who make text editors and ask them to link to us?
+- Personalize the documentation for logged in customers
 - Add [contributor](https://api.github.com/repos/davidmerfield/blot/contributors) / [language](https://api.github.com/repos/davidmerfield/blot/languages) and repo information to source code page using GitHub API.
 
 Improvements to Wikilinks feature:
+- use iaWriter spec to make [the lookup more flexible](https://ia.net/writer/support/general/wikilinks#:~:text=How%20Wikilinks%20Work,the%20same%20name.)
 - test with non-[[Wikilinks]] options in Obsidian
 - add support for other (non-Obsidian) wikilink styles (i.e. title-based?)
 - use the location of the nearest `.obsidian` directory to determine the 'root' against which to resolve styles?
+- support Obsidian-style media embedding and tell [questioners](https://blot.im/questions/746)
+- wikilinks to images should [embed the image](https://blot.im/questions/746)
 - look up the config in the the nearest `.obsidian` directory to determine whether shortest, relative or absolute wikilinks are in use?
 - test with all Obsidian new link settings (shortest, relative and absolute)
+- add more resolution tolerance and tell [Jonathan](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmvBqpKMNBvlKBSWRLHJWdqDnC)
 
 Improvements to simple local server (npm run local):
 - Consider using [redis-mock](https://github.com/yeahoffline/redis-mock) and [mockery](https://github.com/mfncooper/mockery) 
@@ -260,22 +411,17 @@ Use postcss to compile template CSS
 
 Add options to [preserve linebreaks](https://stackoverflow.com/questions/26066621/preserve-line-breaks-in-pandoc-markdown-latex-conversion) in Markdown and tell [Matt](https://mail.google.com/mail/u/0/#inbox/FMfcgzGkXcwpJzKrBrGKDcZKBPSSdsfh)
 
-Subdomains with numbers in them cause SSL certificate errors (e.g. foo2.blot.im)
-
-The typeset settings do not actually affect anything (you can only disable/enable)
-
 Template engine plan
 - create data/blogs/blogID/templates directory
 - show error message on preview-of subdomain
 - only allow valid templates to get stored in data/blogs/blogID/templates, used for live site?
   - maybe we only store in redis valid templates, live site pulls
 
-Add support for .tiff images
 
 ---
 
 Improve server-side scheduled tasks:
-- Write task to identify and delete long overdue users
+- Write task to identify and delete long overdue customers
 - Back up postgres database
 
 Fetch dimensions of images even if optimize and cache is disable, so that image zoom can work. Tell [Joshua](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsmhMtGvPcwxlSHSSTFVpJVbd)
@@ -308,8 +454,6 @@ Improve questions section of site, in approximate order of importance:
 Consider adding support for nested page structure
 - generate nested menu items from nested folders in /pages
 
-Add support for .doc using [libreoffice](https://www.npmjs.com/package/libreoffice-convert) and tell [Kyle](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKkHZVgwCNwsdlhdzCggRtsRhN)
-
 Consider adding a global 'ignore' setting on services page of dashboard?
 - could ignore all '.jpg' say, or all 'index.html' files, etc.
 
@@ -338,21 +482,13 @@ Add a 'page link format' option to the dashboard – the link format now only ap
 
 Tweak {{slug-without-diacritics}} in permalink format such that "ö" becomes "oe" instead of "o" and tell [Domink](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGCGxBpTdztRkpPpScxTxdVMJJ)
 
-Fix bug with date metadata on [Vincent](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJXVMdhvCJPXwVVSKRTFHQTQzn)'s blog and follow up. I suspect it's to do with the ordering of date tokens.
-
 Add queues and progress bars to entry building, client-switching and follow up with [Jacopo](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNCrgCFZKKzdvTFVvWHCpQChM)
-
-Expose issue with invalid JSON in package.json for locally-edited template on dashboard and tell [Jason](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKjndBRlNNjZtlddcVVfFWVBbg)
-
-Fix bug with particular emoji and tell [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNqBKcPSQQHZtCFpKHrPDFkDq)
-
-Fix case-sensitivity issue for relative (and absolute?) paths to files in folder in production and tell [Marco](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNWHHtTmhpstcFdMfRRpzbnNw)
 
 Add custom metadata to turn off/on search indexing on specific post or page and tell [Hani](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNqCSdngxBKHqctWBTgmFBbkB)
 
 Test cloudflare analytics integration from scratch and resolve issue with diklein.com
 
-Prevent long-overdue users from accessing the service, then tell [Matvey](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNgWvzTkMVZXFrSpjGfcCrWJG)
+Prevent long-overdue customers from accessing the service, then tell [Matvey](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNgWvzTkMVZXFrSpjGfcCrWJG)
 
 Add support for arbritary template folder location – any subfolder could be a template folder if it contains a valid template.json file. Tell [Bernardo](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKjfBwnDxMFMGgHtfFFkBvTQbV)
 
@@ -363,7 +499,7 @@ Experiment with GitHub actions setup
   - [super-linter](https://github.com/github/super-linter#how-it-works)?
 
 Improvements to server infrastructure
-- Work out way to recover from expired cert in the cache. To reproduce, consider a member who signed up, connected example.com, then moved the domain to another service. The attempt to renew the cert for example.com will fail. When the user re-registers with Blot, for some reason open-resty-auto-ssl will serve an old certificate. I followed these steps to [reset](https://github.com/GUI/lua-resty-auto-ssl/issues/42) but we should automate this
+- Work out way to recover from expired cert in the cache. To reproduce, consider a member who signed up, connected example.com, then moved the domain to another service. The attempt to renew the cert for example.com will fail. When the customer re-registers with Blot, for some reason open-resty-auto-ssl will serve an old certificate. I followed these steps to [reset](https://github.com/GUI/lua-resty-auto-ssl/issues/42) but we should automate this
 - Create DMARC record for Blot https://en.wikipedia.org/wiki/DomainKeys_Identified_Mail https://docs.aws.amazon.com/ses/latest/DeveloperGuide/dmarc.html
 - NGINX doesn't appear to be following the symlinks created by node.js to serve the contents of each blog's folder and the contents of each blog's static directory. Is this a permissions issue? Is now finally the time to set up users with appropriate permissions for blot, nginx, build etc...
 
@@ -390,6 +526,7 @@ Improvements to template engine
 - Respond to Michael's [thoughtful emails](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDWqXmTLfljkKdGlfFMhMdkTm) about the template system
 - Local editing
   - Fix bug with title and partials in local editing then tell [Luke](https://mail.google.com/mail/u/1/#inbox/164afa87ede57db7) and [Frank](https://mail.google.com/mail/u/1/#inbox/164ae2e3789b8d4c)
+- Add support for chronological template ordering and [follow up with questions](https://blot.im/questions/819) 
 - Add way to iterate over public and private pages to allow sitemap to work properly and tell [Rodrigo](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDsFffNqTnCTjHrNSrrLBtnnGW)
 - Fix bug with template editor which resets content of a view. Follow up with [Nathan](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLhgJQTTQZvpsxJDBgnNQpJnJ) who has extensive steps to reproduce, and John
 - Allow the name/slug of a template to change and tell [Marcus](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChSCwzPxFLvSpLcjjRbCkVVbg) and [Pratik](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDDqldQjWRSnwmcMbcpRMHMxL) and [Brad](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGCkmWNjfwTqvrTgJLCSpDcDfk) when the name of a locally-edited template in your blog's folder updates
@@ -403,7 +540,7 @@ com/mail/u/0/#inbox/1588e3df7489b554)
   - Tell [Myron](https://twitter.com/rodriguesmyron) and [Ryan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrvCRNqvVclgfcHmhpJKChMhV) and [Jussi](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGCtQrKrPTxkKlfBMctjWQdbCM) on Twitter when it is possible to rename the folder created for a template in local editing.
 - Support template views inside a subfolder inside template folder, e.g. {{> partials/footer}} and then tell [Nash](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJfNfGHXPKxmntzZRfsDFHpq)
 - Add support for the setting of custom headers (e.g. to enable CORS) and tell [Roy](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrRShkTjNqPxcnPjFcGthZgbh)
-- Add support for listing files in arbritary folders (e.g. use a custom folder as a 'public' folder) and tell [Nash](https://twitter.com/nashp/status/1111655667817947137)
+- Add support for listing files in arbritary folders (e.g. use a custom folder as a 'public' folder) and tell [Nash](https://twitter.com/nashp/status/1111655667817947137) and [Marco](https://mail.google.com/mail/u/0/#search/marco/FMfcgzGmvBrxCgvXVhZQsbdzpgDktSGV)
 - Move to uuid based template IDs instead of slug
 - Add way to list directory contents and tell [Diego](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMZJtkqxhLVWXqdxNVchgGQzp)
 - Move to data directory for templates
@@ -439,11 +576,11 @@ Improvements to dashboard
 - Indicate that some posts' permalink will not change (if metadata) on the dashboard when setting the blog's permalink format. Tell Chet.
 - Dumb quotes are still smartified, even without typeset enabled, possibly by pandoc?
 - Undo option for form changes
-- Add transactional emails notifying user of changes to their email or password.
-- When a user pastes the whole tracking script into the preferences page on the dashboard, strip out everything except the ID which we need... perhaps create a page explaining what
+- Add transactional emails notifying customer of changes to their email or password.
+- When a customer pastes the whole tracking script into the preferences page on the dashboard, strip out everything except the ID which we need... perhaps create a page explaining what
 is happening before doing this.
 - Handle noscript on dashboard / signup gracefully (remove all dashboard js?)
-- Allow users who are restarting an account with multiple blogs to disable some before restarting.
+- Allow customers who are restarting an account with multiple blogs to disable some before restarting.
 
 ---
 
@@ -460,12 +597,6 @@ Finish template translation offers
 
 ---
 
-Think about appeninding file extension to make requests with query strings cacheable
-- think about emptying cache directory, LRU. But how do we handle .css?query=x?
-- nginx will have to look up a series of extensions -> $requestURI, $requestURI.html, $requestURI.xml, $requestURI.css, $requestURI.js
-
-Fix bug with script to import wordpress posts and follow up with [Simon](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGCtMPcJhlmcdNvWwtWvgzWJvZ)
-
 Improve the markdown converter:
 - Add plugin option to enable hard line breaks in Markdown parser? Tell [Wil](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsmhNWSxQsvMkWPRdQsxQxSvh)
 - Fix bug with nested Markdown and tell [Martin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqnhgBjBSKzvtclvqcFcMptMR):
@@ -474,7 +605,7 @@ Improve the markdown converter:
 - Fix bug which injects <p> tags into the following: <div class="img-gallery"><img src="_Floralia.png" title="Floralia"><img src="_Flower.png" title="Flower"><img src="_Mechanical.png" title="Mechanical"><img src="_Curv.png" title="Curv"><img src="_Curvus.png" title="Curvus"><img src="_Futuristic.png" title="Futuristic">
 </div> and tell [Vanessa](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLswJQjKhnLpNZzfPhJZpVtcph)
 
-Finish script to identify long-expired users with blogs to safely delete and free up space. 
+Finish script to identify long-expired customers with blogs to safely delete and free up space. 
 - Sort by date expired
 - Write script to safely delete blogs
   - wipe blog folder
@@ -510,7 +641,7 @@ Add way to filter archives page by year or month and tell [Chad](https://mail.go
 
 Add a cool bookmarklet which [drafts a post a la this demo](https://www.youtube.com/watch?v=cu5uXXulnNk)
 
-Add broken link check for all email templates for logged in and logged out users
+Add broken link check for all email templates for logged in and logged out customers
 
 Fix bug with rename detector which caused old permalinks not to redirect to their latest version and tell [Shibel](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChSMBfbsZQQSGSjtghSHKKVzm)
 - To reproduce, create file 'foo.txt' with title and permalink 'foo'
@@ -593,8 +724,6 @@ Add way to auto-refresh page during template development on preview subdomains. 
 
 Add support for nesting multiple layout tags e.g. "{<>} {||} Y" and tell [Marius](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVqNqbsQJjcrTXRcsFxHVPzDq)
 
-Add support for 2FA (Two factor authentication) then tell [Luke](https://mail.google.com/mail/u/1/#inbox/163993b0f8499ab3), [Max](https://mail.google.com/mail/u/1/#inbox/1641e9bd104c5b77), [Chaz](https://mail.google.com/mail/u/1/#inbox/165b726aa900158a) and [Tom](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqnpZncgBDbDskMZdPMXkgGCN).
-
 Improvements to Git client
 - Add support for LFS and tell [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVMcpnxGHqnxJHNdbMBSrglzg)
 - Remove git folder when switching to Dropbox client and tell [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDDqlwPCNcJrLDqprtcKWXFTn)
@@ -609,13 +738,14 @@ Improvements to Git client
 - Thoroughly document:
 - Tidy up tests and reduce size and runtime
 - This client should acquire a lock on the blog's folder before doing stuff to it more generally, especially during initialization etc...
-- what happens if user changes their handle? will pushing break?
+- what happens if customer changes their handle? will pushing break?
   - I want them to be able to keep using their old one *until* someone else claims it, then I want 401 unauthorized, please reauthenticate with new username... but the remote path will be wrong?
 - Rate limit authentication route?
 
 Dropbox client
 - Revert lowercase for all files when disconnecting the client
-- Add integration test with a dropbox Webhook call. I want to not push some code which would prevent syncing user folders.
+- add support for Dropbox Paper files using paperDocsDownload
+- Add integration test with a dropbox Webhook call. I want to not push some code which would prevent syncing customer folders.
 - Does client.remove support the removal of folders? If not, make it so and add a test
 - Add a step to authentication flow which says: 'there is already a folder called 'Your blog title' in your Dropbox, would you like to use that?' then overwrite the files inside. This prevents the proliferation of confusing 'Your blog title (1)' when you re-authenticate.
 - Add a progress bar to the dashboard when writing existing files to Dropbox. It takes a while and confuses people.
@@ -629,7 +759,7 @@ Dropbox client
 - This should be simple once we copy the exisiting state of the blog folder across. But right now it doesn't really do much. It resets the local server folder. Then resyncs.
 - Update to latest version of Dropbox client.
 - Make the folder in Dropbox rename automatically when the
-user changes the username for one of their multiple blogs?
+customer changes the username for one of their multiple blogs?
 
 Add media-query to prevent typeset hanging punctuation on small screens (it looks weird) and tell [Shibel](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpXqMzwcBGWgjxgpcpCnMCQW)
 
@@ -667,7 +797,7 @@ Investigate [support for xattr](https://github.com/LinusU/fs-xattr) to read imag
 
 Set NODE_ENV [environment variable to production](https://expressjs.com/en/advanced/best-practice-performance.html#set-node_env-to-production)
 
-Add support for HTTP2 and tell [Ryan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqnjnkQjwXHFWSTtWtwhFWxGd)
+Add support for HTTP2 and tell [Ryan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqnjnkQjwXHFWSTtWtwhFWxGd) and [questioner](https://blot.im/questions/573)
 
 Fix bug with rename catcher which allows two posts to share a guid. It caused a bug with Disqus comments. To reproduce this bug: Rename an entry. Create new entry with old name. Both entries have same GUID.
 
@@ -689,7 +819,7 @@ Move to Linode?
 - Preserve AWS elastic IP and proxy to Linode
 - Think about eventual multiple locations around the world from day 1
 - Work out the [pricing model carefully](https://www.linode.com/pricing)
-- Use [blockstorage this for storing all users' folders](https://www.linode.com/blockstorage)
+- Use [blockstorage this for storing all customers' folders](https://www.linode.com/blockstorage)
 - Use [backups](https://www.linode.com/backups)
 - Use [nodebalancers](https://www.linode.com/nodebalancers)
 
@@ -700,10 +830,10 @@ Increase price to $5 per month for new customers. This will not affect existing 
 Create an API for Blot
 - Add webhooks and tell [Aurynn](https://mail.google.com/mail/u/0/#inbox/1554260da157b405) and [Shawn](https://twitter.com/soypunk)
 
-Allow logged in users to see public homepage. Perhaps use dashboard.blot.im for dashboard?
-- Add a slack.com style dropdown on the public homepage for logged in users which takes them to the dashboard for their sites.
+Allow logged in customers to see public homepage. Perhaps use dashboard.blot.im for dashboard?
+- Add a slack.com style dropdown on the public homepage for logged in customers which takes them to the dashboard for their sites.
 
-When the user's blog does not have a client, client.write and client.remove need to remove the files from the source folder. Create some kind of local client which we fall back and use when none is configured?
+When the customer's blog does not have a client, client.write and client.remove need to remove the files from the source folder. Create some kind of local client which we fall back and use when none is configured?
 
 Work out how to host podcasts on Blot and tell [Adrian](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLrCjsVpbQmLZmGvkrPbqWhZC)
 
@@ -736,10 +866,10 @@ Follow up with [Christian](https://mail.google.com/mail/u/1/#inbox/164811d17f389
 
 Work out why Pandoc cannot handle 'linked' images (instead of conventionally embedded images). For instructiosn on reproducing bug, see [SG's email](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLhcqMVrZbNlKTcVmxVHwRmJC) and follow up when resolved.
 
-Self-hosting documentation then tell [Jake](https://mail.google.com/mail/u/1/#inbox/1659d67326849fb3) and [Berndl](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlkPcpPHkbRnKFRWNPGcGTPcJD) and [Joel](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmtXNqjrzcDZGVTgbvwFJjcDvd) and [Mohammed](https://twitter.com/mnafees_me/status/1051121206030753794?s=12) and [BP](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGCQVldJqdJZjktfKxNfgCdkTh) and [Rado](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDDjrKSQVTXqvgFRGrhMSFvrR) and [Nuno](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDDmKWgcNKgMKBNDXxWqGvqrP) and [Omaid](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDDjqhCxHhJqbGlGNZsfkWWQf) and [Jarod](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDWlwWMfqnWBqxBtznDJVqxfr) and [Francesco](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNWChQlWnBZtSxhFrpVlgMwXx) and [Aryan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJWjCrnXRvhtPtFGVjgkfZqPMQ) and [Todd](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLswHGkjtjmGLZtxXcpNSzKxvd) and [Anita](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLswPCKHSrzLMthNDncznmTnnJ) and [Kaushik](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLtsxhzZVLzpqpTCBmXcsFPPdJ?compose=CllgCJZZQKjZgksDMdQFkdwGNcPMGFpjKxNnbBKxBzVZvVCFMFsmGhbXxnhhxLvKPBzCHcPHKvB) and [Michael](https://mail.google.com/mail/u/0/#inbox/FMfcgzGkXSWvKNHtTgmFlrgkWvkgbksx?compose=CllgCKHQdVwQDCnfClqxMhSRnkDKmXhLckxZBrgkfDjdCrsDZLsRhGmgtgjZdlqmCjmGpKqQJvq) and [Frank](https://mail.google.com/mail/u/0/#inbox/FMfcgzGkZkZWrprNcThxMPQKzSTLbkDs)
+Self-hosting documentation then tell [Jake](https://mail.google.com/mail/u/1/#inbox/1659d67326849fb3) and [Berndl](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlkPcpPHkbRnKFRWNPGcGTPcJD) and [Joel](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmtXNqjrzcDZGVTgbvwFJjcDvd) and [Mohammed](https://twitter.com/mnafees_me/status/1051121206030753794?s=12) and [BP](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGCQVldJqdJZjktfKxNfgCdkTh) and [Rado](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDDjrKSQVTXqvgFRGrhMSFvrR) and [Nuno](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDDmKWgcNKgMKBNDXxWqGvqrP) and [Omaid](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDDjqhCxHhJqbGlGNZsfkWWQf) and [Jarod](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDWlwWMfqnWBqxBtznDJVqxfr) and [Francesco](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNWChQlWnBZtSxhFrpVlgMwXx) and [Aryan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJWjCrnXRvhtPtFGVjgkfZqPMQ) and [Todd](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLswHGkjtjmGLZtxXcpNSzKxvd) and [Anita](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLswPCKHSrzLMthNDncznmTnnJ) and [Kaushik](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLtsxhzZVLzpqpTCBmXcsFPPdJ?compose=CllgCJZZQKjZgksDMdQFkdwGNcPMGFpjKxNnbBKxBzVZvVCFMFsmGhbXxnhhxLvKPBzCHcPHKvB) and [Michael](https://mail.google.com/mail/u/0/#inbox/FMfcgzGkXSWvKNHtTgmFlrgkWvkgbksx?compose=CllgCKHQdVwQDCnfClqxMhSRnkDKmXhLckxZBrgkfDjdCrsDZLsRhGmgtgjZdlqmCjmGpKqQJvq) and [Frank](https://mail.google.com/mail/u/0/#inbox/FMfcgzGkZkZWrprNcThxMPQKzSTLbkDs) and [Zip](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmthffLmfRBswqGmsDKQWdJZFB)
 - Tell Nick when it's possible to deploy a self-hosted [Blot on Vercel](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKjxHWSvgjKtCWrbhccKFPlkdD) and [Zia](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsSXWPRNNxDNcdhGHQXBkTtsx)
 
-Review pCloud as a potential client and tell [Omaid](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDDjqhCxHhJqbGlGNZsfkWWQf) and [Anders](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKkRFxsDShhsHGNcdRqwHFMmJM) and [Tim](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlkZCjPBbnKtcXvrMQnxSwHBzk)
+Review pCloud as a potential client and tell [Omaid](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDDjqhCxHhJqbGlGNZsfkWWQf) and [Anders](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKkRFxsDShhsHGNcdRqwHFMmJM) and [Tim](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlkZCjPBbnKtcXvrMQnxSwHBzk) and [JMN](https://mail.google.com/mail/u/0/#inbox/FMfcgzGpGwtXQsVFFTcnTJdBTNdkMmXv)
 
 Review Dropmark as a potential client and tell [Rado](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDDjrKSQVTXqvgFRGrhMSFvrR)
 
@@ -762,7 +892,7 @@ Add option to sort posts by filename alphabetically and tell [Steve](https://mai
 - Add way to allow all entry lists to access {{#months}} sorting options just like the archives page.
 - Tell [Marco](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNWCgxHCttPshJRSPCMTPffMP) when arbirary list sorting is ready
 - Fix [Frank](https://mail.google.com/mail/u/0/1527fbcf999ba0c3)'s strange template bug
-- Warn users that underscore will not work for hidden pages
+- Warn customers that underscore will not work for hidden pages
 - Fix _ entries to true public files, tell john & other folks who depend on the menu: yes, page: no side effect
 - Tell [Rodrigo](https://mail.google.com/mail/u/0/#inbox/1564a13991197f63) don't write previews for _ posts
 - Add support for fetching only some properties of an entry (ideally only those that are used). prevent some properties from being fetched in some lists (html, for example in all_entries). Would be a good candidate for hgetall or hget?
@@ -771,16 +901,9 @@ Embed feature
 - Add support for native PDF embeds in posts, just put a link to a PDF or a path, e.g. /_assets/file.pdf --> would become a nice embed.
 - Add support for native MP3 embeds in posts, just put a link to an MP3 or a path, e.g. /_assets/file.mp3 --> would become a nice embed then tell [Luke](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVWLlqqwbksXcScNdhcTjhjfq) and [Nash](http://twitter.com/nashp) and [Andy](https://mail.google.com/mail/u/0/#inbox/LXphbRLrghxkrJmtbtfXwZHrBHqGzzjDqLZVmfRCzrg) and [Charlie](mailto:hi@charlliegleason.com) and [Konstantin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrRQPphRrjCrWXPLzgHhxkzMN)
 
-File converters / codecs
-- Video posts (.mp4)
-- OPML files and tell [John](https://mail.google.com/mail/u/1/#inbox/1659bac084c3e404)
-- Audio posts (.mp3 for now?) and tell [Kevin](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLhcqVldHMCFpTWDmfrRHfwpg)
-- Multi-file posts from inside one folder? 'Folder>' Tell [Kevin](https://mail.google.com/mail/u/0/#inbox/1669705dbd65a2e2), [Nash and Roberto](https://twitter.com/rmateu/status/1053665946592858113) and [Calvin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChclvkfHMWfnqGdWkQnzMdklW) and [Ariel](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrRXJqFphKVfJGFQHdlMvjDWW) and [Lara](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGBwTnxxJhZvjGdRPCXSTdcrZB)
-- Multi-file posts with the same name but different extension (image.txt and image.jpg)
-
 Expose exif data on Photo posts? See if you can add comments to image metadata and tell [Riley](https://mail.google.com/mail/u/1/#sent/164756616df069dd), also tell [Mike](https://mail.google.com/mail/u/1/#inbox/16423ebe7b027d48)
 
-Add password protection for blogs then tell [Ed](https://mail.google.com/mail/u/1/#inbox/164edd9d46596ec7), [this person](https://mail.google.com/mail/u/0/#inbox/155f01452a3f7231), [this person](https://mail.google.com/mail/u/1/#inbox/1645b6e48dc13281), and [Will](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlkXsdBcCssKznzgvJQPDQpKlh), and [Modomiro](https://twitter.com/modomiro/status/1053345173743329281) and [Julian](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpVWqGMHszwgxZRxNTNXRTlX) and [Raph](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgzFTCKQXQmQqdNMdjMfDFkMW) and [Tara](https://mail.google.com/mail/u/0/#sent/FMfcgxwChJlBCNMWSFhSctjMkBcKdpsq) and [Phil](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChSHbCCgQqZqqKQftJbwHRkss) and [Florian](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrlSVCrQSVMBlFwQcNcGfZLzn) and Roy's friend Tim and [Kaleb](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDNWPljXXlwQVtswFCCLGFCQV) and [Lotus](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDNQfSzPBHtqRCQqCDjMTZLCQ) and [Khaled](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMGBFrctdVXhksCvqXXVPfDWR) and [Noel](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNMdwcwMqfVjmJPHKBMxzQChR) and [Franz](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJXVMfwXfsWswWjvrpVKrPqpDt) and [Justin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKjBRFjtljCQvlhsfXsSxrCKdJ) and [Kyle](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKkHZVgwCNwsdlhdzCggRtsRhN) and [Devan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsJznDjRgbzwPmChbNQdqfnfq) and [Anita](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsSWMtCTdmrbscFCFLggctmxH) and [Emerald](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLtkXpvTkdGzkFCLtmmLTlvrJL) and [Ben](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmvBmLLlZwPLbdJdXKQXrwrJnL) and [Giuseppe](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmvBnTWqHgFgdwBvcCDcmzLXGV)
+Add password protection for blogs then tell [Ed](https://mail.google.com/mail/u/1/#inbox/164edd9d46596ec7), [this person](https://mail.google.com/mail/u/0/#inbox/155f01452a3f7231), [this person](https://mail.google.com/mail/u/1/#inbox/1645b6e48dc13281), and [Will](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlkXsdBcCssKznzgvJQPDQpKlh), and [Modomiro](https://twitter.com/modomiro/status/1053345173743329281) and [Julian](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpVWqGMHszwgxZRxNTNXRTlX) and [Raph](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgzFTCKQXQmQqdNMdjMfDFkMW) and [Jeremy](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmvTvDjVMLQQmxvnZHBnnxdRpk) and [Tara](https://mail.google.com/mail/u/0/#sent/FMfcgxwChJlBCNMWSFhSctjMkBcKdpsq) and [Phil](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChSHbCCgQqZqqKQftJbwHRkss) and [Florian](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrlSVCrQSVMBlFwQcNcGfZLzn) and Roy's friend Tim and [Kaleb](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDNWPljXXlwQVtswFCCLGFCQV) and [Lotus](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDNQfSzPBHtqRCQqCDjMTZLCQ) and [Khaled](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMGBFrctdVXhksCvqXXVPfDWR) and [Noel](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNMdwcwMqfVjmJPHKBMxzQChR) and [Franz](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJXVMfwXfsWswWjvrpVKrPqpDt) and [Justin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKjBRFjtljCQvlhsfXsSxrCKdJ) and [Kyle](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKkHZVgwCNwsdlhdzCggRtsRhN) and [Devan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsJznDjRgbzwPmChbNQdqfnfq) and [Anita](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsSWMtCTdmrbscFCFLggctmxH) and [Emerald](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLtkXpvTkdGzkFCLtmmLTlvrJL) and [Ben](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmvBmLLlZwPLbdJdXKQXrwrJnL) and [Giuseppe](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmvBnTWqHgFgdwBvcCDcmzLXGV)
 - Should we just go all the way and support htaccess? Add URL rewrite feature, e.g. rewrite /randomColor to /public/randomColor?
 
 Sync
@@ -833,7 +956,7 @@ Reply to [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChSCwMxNdtdvMHnM
 
 ---
 
-Consider allowing users to buy domains on Blot through [DNS simple](https://developer.dnsimple.com)
+Consider allowing customers to buy domains on Blot through [DNS simple](https://developer.dnsimple.com)
 
 Consider distributing static built blogs on [dat](https://github.com/datproject/dat-node) or something similar
 
@@ -850,7 +973,7 @@ Consider adding support for Microformats in the default templates
 
 Consider adding JSONFeed to default templates. Tell [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChSCwMxNdtdvMHnMVwTcHPjfg)
 
-Consider using [sshfs](https://github.com/libfuse/sshfs) for server and for users
+Consider using [sshfs](https://github.com/libfuse/sshfs) for server and for customers
 
 Consider establishing bug bounty program
 - Contact Husnain for his [DMARC report](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGCtDMGTLScbpCkBFLBdmrcHpk)
@@ -861,7 +984,7 @@ Consider adding simple commenting system and tell [Precious](https://mail.google
 
 Consider moving to [pretty IDs](https://jsfiddle.net/sg1z5had/) for everything public-facing
 - https://jsfiddle.net/m1e9wc6q/
-- [cool user subdomains](https://jsfiddle.net/ev2gLa87/)
+- [cool customer subdomains](https://jsfiddle.net/ev2gLa87/)
 - [generating dope domain names](https://jsfiddle.net/91vwt7p0/)
 
 Consider supporting Micro pub and tell [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVzptjbWjjqlhBQtgJsRstVSD)
@@ -877,3 +1000,5 @@ Consider incorporating typographic features from [Textile](http://redcloth.org/t
 Consider supporting org-mode and tell [Rashawn](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGBmlsGQmkBnXdxJDrSvBllHJJ)
 
 Consider supporting Open Graph and tell [Luke](https://mail.google.com/mail/u/1/#inbox/163993b0f8499ab3)
+
+Support emacs orgmode

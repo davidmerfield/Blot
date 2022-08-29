@@ -1,3 +1,3 @@
-An account has been closed after for late payments
+User account has been closed after for late payments
 
 {{email}} used to pay {{pretty.price}} per {{subscription.plan.interval}} for {{pretty.amount}} blog{{pretty.s}}

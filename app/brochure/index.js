@@ -1,50 +1,30 @@
-var config = require("config");
-var Express = require("express");
-var brochure = new Express();
-var hbs = require("hbs");
-var Cache = require("express-disk-cache");
-var cache = new Cache(config.cache_directory);
-var moment = require("moment");
-var fs = require("fs-extra");
+const config = require("config");
+const Express = require("express");
+const brochure = new Express();
+const hogan = require("hogan-express");
+const Cache = require("express-disk-cache");
+const cache = new Cache(config.cache_directory);
+const moment = require("moment");
+const fs = require("fs-extra");
 const redirector = require("./redirector");
-const trace = require('helper/trace');
-const VIEW_DIRECTORY = __dirname + "/views";
+const trace = require("helper/trace");
+const VIEW_DIRECTORY = __dirname + "/data/views";
 const PARTIAL_DIRECTORY = VIEW_DIRECTORY + "/partials";
 
-const loadPartial = (partial) => {
-  let name = partial.slice(0, partial.indexOf("."));
-  let value = fs.readFileSync(PARTIAL_DIRECTORY + "/" + partial, "utf-8");
-  hbs.registerPartial(name, value);
-};
+fs.ensureDirSync(VIEW_DIRECTORY);
+fs.ensureDirSync(PARTIAL_DIRECTORY);
 
-fs.readdirSync(PARTIAL_DIRECTORY).forEach(loadPartial);
-
-if (!config.cache) {
-  fs.watch(PARTIAL_DIRECTORY, { recursive: true }, (type, partial) =>
-    loadPartial(partial)
-  );
-}
-
-// Renders dates dynamically in the documentation.
-// Can be used like so: {{{date 'MM/YYYY'}}}
-hbs.registerHelper("date", function (text) {
-  try {
-    text = text.trim();
-    text = moment.utc(Date.now()).format(text);
-  } catch (e) {
-    text = "";
-  }
-
-  return text;
-});
+const chokidar = require("chokidar");
 
 // Neccessary to repeat to set the correct IP for the
 // rate-limiter, because this app sits behind nginx
 brochure.set("trust proxy", "loopback");
 
-brochure.set("views", VIEW_DIRECTORY);
+// Register the engine we will use to
+// render the views.
 brochure.set("view engine", "html");
-brochure.engine("html", hbs.__express);
+brochure.set("views", VIEW_DIRECTORY);
+brochure.engine("html", hogan);
 
 if (config.cache === false) {
   // During development we want views to reload as we edit
@@ -62,13 +42,63 @@ brochure.locals.layout = "/partials/layout";
 brochure.locals.cacheID = Date.now();
 
 // Default page title and <meta> description
-brochure.locals.title = "Blot – A blogging platform with no interface.";
-brochure.locals.description =
-  "Turns a folder into a blog automatically. Use your favorite text-editor to write. Text and Markdown files, Word Documents, images, bookmarks and HTML in your folder become blog posts.";
 
 brochure.locals.price = "$" + config.stripe.plan.split("_").pop();
 brochure.locals.interval =
   config.stripe.plan.indexOf("monthly") === 0 ? "month" : "year";
+
+const partials = require("fs-extra")
+  .readdirSync(PARTIAL_DIRECTORY)
+  .filter((i) => i.endsWith(".html"))
+  .map((i) => i.slice(0, i.lastIndexOf(".")));
+
+function trimLeadingAndTrailingSlash(str) {
+  if (!str) return str;
+  if (str[0] === "/") str = str.slice(1);
+  if (str[str.length - 1] === "/") str = str.slice(0, -1);
+  return str;
+}
+
+brochure.use(function (req, res, next) {
+  const _render = res.render;
+  res.render = function (body_template) {
+    const body =
+      body_template || trimLeadingAndTrailingSlash(req.path) || "index.html";
+    const layout = res.locals.layout || PARTIAL_DIRECTORY + "/layout.html";
+    
+    console.log('body', body);
+    res.locals.partials = { body };
+
+    partials.forEach(
+      (partial) => (res.locals.partials[partial] = `partials/${partial}.html`)
+    );
+
+    _render.call(this, layout, function(err,html){
+      if (err) {
+        return res.req.next();
+      }
+      res.send(html);
+    });
+  };
+  next();
+});
+
+// Renders dates dynamically in the documentation.
+// Can be used like so: {{#date}}MM/YYYY{{/date}}
+brochure.use(function (req, res, next) {
+  res.locals.date = function () {
+    return function (text, render) {
+      try {
+        text = text.trim();
+        text = moment.utc(Date.now()).format(text);
+      } catch (e) {
+        text = "";
+      }
+      return text;
+    };
+  };
+  next();
+});
 
 brochure.use(function (req, res, next) {
   if (
@@ -131,9 +161,9 @@ brochure.use(function (req, res, next) {
 });
 
 // Some kind of other error
+// Prevent a linter warning for 'next' below
+// jshint unused:false
 brochure.use(function (err, req, res, next) {
-  // Prevent a linter warning for 'next' above
-  // jshint unused:false
   res.locals.code = { error: true };
 
   if (config.environment === "development") {

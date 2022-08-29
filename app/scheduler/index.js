@@ -12,10 +12,17 @@ var publishScheduledEntries = require("./publish-scheduled-entries");
 const os = require("os");
 const fs = require("fs-extra");
 const exec = require("child_process").exec;
+const fix = require("sync/fix/all");
+const zombies = require("./zombies");
 
 module.exports = function () {
   // Log useful system information, once per minute
   schedule("* * * * *", function () {
+    // Detect any zombie processes
+    zombies(function (err) {
+      if (err) throw err;
+    });
+
     // Print most memory-intensive processes
     exec("ps -eo pmem,pcpu,comm,args | sort -k 1 -nr | head -10", function (
       err,
@@ -84,10 +91,7 @@ module.exports = function () {
     });
   });
 
-  console.log(
-    clfdate(),
-    "Scheduled daily check of storage disk usage for 6am!"
-  );
+  console.log(clfdate(), "Scheduled daily check of storage disk usage");
   schedule({ hour: 10, minute: 0 }, function () {
     console.log(clfdate(), "Scheduler: Checking available disk space");
 
@@ -127,7 +131,23 @@ module.exports = function () {
     });
   });
 
-  console.log(clfdate(), "Scheduled daily backups for 3am!");
+  console.log(
+    clfdate(),
+    "Scheduled daily check of folders for sync abnormalities"
+  );
+  schedule({ hour: 8, minute: 0 }, function () {
+    console.log(clfdate(), "Fix sync: checking folders");
+    fix(function (err, report) {
+      if (err) {
+        console.log(clfdate(), "Fix sync: error checking folders", err);
+      } else {
+        email.SYNC_REPORT(null, { report: JSON.stringify(report) });
+        console.log(clfdate(), "Fix sync: checked all folders");
+      }
+    });
+  });
+
+  console.log(clfdate(), "Scheduled daily backups");
   schedule({ hour: 11, minute: 0 }, function () {
     // Start the backup daemon
     console.log(clfdate(), "Backup: Starting backup");
@@ -153,8 +173,8 @@ module.exports = function () {
   });
 
   // At some point I should check this doesnt consume too much memory
-  console.log(clfdate(), "Scheduled daily update email for 1:00pm!");
-  schedule({ hour: 13, minute: 0 }, function () {
+  console.log(clfdate(), "Scheduled daily update email");
+  schedule({ hour: 12, minute: 0 }, function () {
     console.log(clfdate(), "Generating daily update email...");
     dailyUpdate(function () {
       console.log(clfdate(), "Daily update email update was sent.");

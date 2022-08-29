@@ -13,6 +13,7 @@ var exec = require("child_process").exec;
 var access = require("../access");
 var getFolder = require("clients/dropbox/database").get;
 var getToken = require("clients/git/database").getToken;
+var localPath = require("helper/localPath");
 
 var ROOT = process.env.BLOT_DIRECTORY;
 var BLOG_FOLDERS_DIRECTORY = ROOT + "/blogs";
@@ -113,17 +114,13 @@ function setupGit(blog, callback) {
 }
 
 function setupLocal(blog, callback) {
-  var folder = TMP_DIRECTORY + "/local-" + Date.now() + "-" + blog.handle;
-
-  fs.emptyDirSync(TMP_DIRECTORY);
-  fs.copySync(BLOG_FOLDERS_DIRECTORY + "/" + blog.id, folder);
-  fs.ensureDirSync(folder);
+  var folder = localPath(blog.id, "/");
 
   // This tells a running server to start watching this blog
   // folder locally without needing to restart it.
   client.publish(
     "clients:local:new-folder",
-    JSON.stringify({ blogID: blog.id, folder }),
+    JSON.stringify({ blogID: blog.id }),
     function (err) {
       callback(null, folder);
     }

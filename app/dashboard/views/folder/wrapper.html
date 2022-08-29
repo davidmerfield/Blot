@@ -1,15 +1,18 @@
 {{#folder}}
 
+<style type="text/css">#status{padding:0;}
+#status:before{display: none}</style>
   <div style="overflow:hidden;display:flex;flex-direction:column; box-shadow: rgba(15,15,15,.1) 0 0 0 1px, rgba(15,15,15,.1) 0 2px 4px;
     background: #fff;
     border-radius: 6px;">
-{{#root}}<a class="line" href="/settings/client/{{client.name}}">
+{{#root}}<a class="line" href="{{{base}}}/client/{{client.name}}">
 <span class="label">Folder</span>
 {{^blog.client}}
       <span class="link">Set up a client to sync your folder</span>
     {{/blog.client}}
     {{#blog.client}}
-    <span class="center">{{client.display_name}}<span id="status">, synced {{blog.updated}}</span></span>
+    <span class="center">{{client.display_name}}, <span id="status">{{blog.status.message}} {{blog.status.fromNow}}</span></span>
+    <span class="right">Edit</span>
     {{/blog.client}}
     </a>{{/root}}
 
@@ -28,6 +31,17 @@
 </div>
 {{/folder}}
 
+<!-- 
+Some of the messages from the server are in title
+case, since the current layout shows the message
+as part of a sentence, we lowercase it.
+-->
+
+<style type="text/css">
+	#status {display: inline-block;}
+	#status:first-letter{  text-transform: lowercase;}
+</style>
+
 <script type="text/javascript">
 		
 	// Will 'live reload' the contents of the folder 
@@ -37,7 +51,7 @@
 	// we hackily refetch the whole page contents and
 	// extract the folder from that response, injecting
 	// it into the page as-is.
-	var evtSource = new EventSource("/status");
+	var evtSource = new EventSource("{{{base}}}/status");
 
 	// I should use a proper async queue to accomplish
 	// this but for now these flags seem to work.
@@ -46,7 +60,9 @@
 
 	evtSource.onmessage = function(event) {
 		
-		document.getElementById('status').innerHTML = event.data
+		var message = event.data;
+
+		document.getElementById('status').innerHTML = message;
 
 		// Fetch the latest folder state if we're not
 		// already fetching it.

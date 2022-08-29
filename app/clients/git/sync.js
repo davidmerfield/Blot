@@ -8,11 +8,7 @@ module.exports = function sync(blogID, callback) {
   // Attempt to acquire a lock on the blog's folder
   // to apply updates to it... These options are
   // redlock options to ensure we acquire a lock eventually...
-  Sync(blogID, { retryCount: -1, retryDelay: 10, retryJitter: 10 }, function (
-    err,
-    folder,
-    done
-  ) {
+  Sync(blogID, function (err, folder, done) {
     // Typically, this error means were unable to acquire a lock
     // on the folder, perhaps another process is syncing it...
     if (err) return callback(err);
@@ -122,10 +118,21 @@ module.exports = function sync(blogID, callback) {
                   // We must do this in series until entry.set becomes
                   // atomic. Right now, making changes to the blog's
                   // menu cannot be done concurrently, hence eachSeries!
-                  async.eachSeries(modified, folder.update, function (err) {
-                    folder.log(`Processed ${modified.length} changes`);
-                    done(null, callback);
-                  });
+                  async.eachSeries(
+                    modified,
+                    function (path, next) {
+                      folder.update(path, function (err) {
+                        // We don't want the error to stop
+                        // processing other files in the sync
+                        if (err) console.log("Git client:", err);
+                        next();
+                      });
+                    },
+                    function (err) {
+                      folder.log(`Processed ${modified.length} changes`);
+                      done(null, callback);
+                    }
+                  );
                 }
               );
             });

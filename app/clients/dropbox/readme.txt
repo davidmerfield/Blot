@@ -3,6 +3,8 @@ Dropbox client
 
 This client synchronizes a folder in a Dropbox folder with a folder on Blot's server. It does this using Dropbox's webhook api and subsequent calls to filesListFolder, which accepts a cursor indicating the state of the folder at the last fetch. 
 
+The webhooks are now tunnelled through tunnel.blot.im using localhost.run
+
 Dependencies
 ------------
 

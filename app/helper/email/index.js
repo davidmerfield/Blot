@@ -50,6 +50,7 @@ var MESSAGES = [
   "DELETED",
   "DISABLED",
   "LONG_DELAY",
+  "LONG_SYNC",
   "NETWORK_ERROR",
   "NEWSLETTER_SUBSCRIPTION_CONFIRMED",
   "NEWSLETTER_SUBSCRIPTION_CONFIRMATION",
@@ -63,13 +64,17 @@ var MESSAGES = [
   "RECOVERED",
   "REVOKED",
   "SET_PASSWORD",
+  "SERVER_START",
   "SUBSCRIPTION_DECREASE",
   "SYNC_DOWN",
   "SYNC_EXCEPTION",
+  "SYNC_REPORT",
   "UPCOMING_RENEWAL",
   "UPCOMING_EXPIRY",
   "UPDATE_BILLING",
   "WARNING_LOW_DISK_SPACE",
+  "WORKER_ERROR",
+  "ZOMBIE_PROCESS",
 ];
 
 var globals = {
@@ -132,7 +137,7 @@ function send(locals, messageFile, to, callback) {
     .and(callback, "function");
 
   fs.readFile(messageFile, "utf-8", function (err, text) {
-    if (err) throw err;
+    if (err) return callback(err);
 
     var lines = text.split("\n");
     var subject = Mustache.render(lines[0] || "", locals);
@@ -147,7 +152,11 @@ function send(locals, messageFile, to, callback) {
       to: to,
     };
 
-    ensure(email, EMAIL_MODEL);
+    try {
+      ensure(email, EMAIL_MODEL);
+    } catch (e) {
+      return callback(e);
+    }
 
     if (config.environment === "development") {
       var previewPath = tempDir + Date.now() + ".html";

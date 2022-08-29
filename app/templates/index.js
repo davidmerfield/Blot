@@ -9,7 +9,7 @@ var fs = require("fs-extra");
 var async = require("async");
 var Blog = require("blog");
 var _ = require("lodash");
-
+var chokidar = require("chokidar");
 var TEMPLATES_DIRECTORY = require("path").resolve(__dirname + "/latest");
 var PAST_TEMPLATES_DIRECTORY = require("path").resolve(__dirname + "/past");
 var TEMPLATES_OWNER = "SITE";
@@ -51,10 +51,11 @@ function main(options, callback) {
         if (err) return callback(err);
 
         if (options.watch) {
-          console.log("Built all templates.");
-          console.log("Watching templates directory for changes");
+          debug("Built all templates.");
+          debug("Watching templates directory for changes");
           watch(TEMPLATES_DIRECTORY);
           watch(PAST_TEMPLATES_DIRECTORY);
+          callback(null);
         } else {
           callback(null);
         }
@@ -149,7 +150,6 @@ function mirror(id, callback) {
             blogID,
             "mirror-of-" + id.slice(id.indexOf(":") + 1),
             function (err) {
-
               var template = {
                 isPublic: false,
                 cloneFrom: id,
@@ -272,11 +272,29 @@ function watch(directory) {
     });
   });
 
-  fs.watch(directory, { recursive: true }, function (event, path) {
-    var subdirectory = require("path").dirname(path).split("/")[0];
+  // When chokidar first crawls a directory to watch
+  // it fires 'add' events for every file it finds.
+  // We watch until its crawled everything 'ready' 
+  // in order to actually listen to new changes.
+  let ready = false;
 
-    queue.push(directory + "/" + subdirectory);
-  });
+  chokidar
+    .watch(directory, { cwd: directory })
+    .on("ready", function () {
+      ready = true;
+    })
+    .on("all", (event, path) => {
+
+      if (!ready) return;
+
+      if (!path) return;
+
+      const subdirectory = path.split("/")[0];
+
+      if (subdirectory[0] === ".") return;
+
+      queue.push(directory + "/" + subdirectory);
+    });
 }
 
 // Generate list of template names based on the names of

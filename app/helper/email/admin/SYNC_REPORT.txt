@@ -1,0 +1,7 @@
+Sync fix report
+
+We found the following reported issues when attempting to verify the sync for all the blogs:
+
+```
+{{{report}}}
+```

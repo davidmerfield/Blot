@@ -9,16 +9,7 @@ var fs = require("fs-extra");
 var async = require("async");
 var Sync = require("sync");
 
-// We ask for a longer TTL (timeout) for the sync lock because sometimes
-// we hit Dropbox's rate limits, which tend to ask for a 5 minute (300s)
-// delay before retrying a request. 30 minutes is requested, which should
-// be plenty of time to sync a large folder.
-var syncOptions = {
-  retryCount: -1,
-  retryDelay: 10,
-  retryJitter: 10,
-  ttl: 30 * 60 * 1000,
-};
+var MAX_CHECKS_WITHOUT_RESULTS = 5;
 
 module.exports = function main(blog, callback) {
   debug("Blog:", blog.id, "Attempting to acquire lock on the blog folder.");
@@ -26,10 +17,10 @@ module.exports = function main(blog, callback) {
   // Redlock options to ensure we acquire a lock eventually...
   // pershaps we should keep track and only issue a second pending sync
   // to prevent an infinite stack of webhooks.
-  Sync(blog.id, syncOptions, function (err, folder, done) {
+  Sync(blog.id, function (err, folder, done) {
     if (err) return callback(err);
 
-    debug("Blog:", blog.id, "Lock acquired successfully. Beginning sync...");
+    folder.log("Creating Dropbox client");
     // We need to look up the Dropbox account for this blog
     // to retrieve the access token used to create a new Dropbox
     // client to retrieve changes made to the user's Dropbox.
@@ -45,9 +36,12 @@ module.exports = function main(blog, callback) {
         );
       }
 
-      var token = account.access_token;
+      folder.log("Constructing methods to sync changes");
+
       var delta = new Delta(client, account.folder_id);
-      var apply = new Apply(token, folder.path, folder.log);
+      var apply = new Apply(client, folder.path, folder.log);
+
+      var checksWithoutResults = 0;
 
       // Delta retrieves changes to the folder on Dropbox for a given
       // blog. It returns a list of changes. It also adds a new property
@@ -124,7 +118,12 @@ module.exports = function main(blog, callback) {
                 folder.update(
                   item.relative_path,
                   { name: item.name, pathDisplay: item.path_display },
-                  next
+                  function (err) {
+                    // We don't want an error here to block other
+                    // changes from being applied.
+                    if (err) console.log("Dropbox client:", err);
+                    next();
+                  }
                 );
               },
               function () {
@@ -134,10 +133,28 @@ module.exports = function main(blog, callback) {
                 // be split across two pages of file events.
                 if (result.has_more) {
                   folder.log("There are more changes to fetch on Dropbox");
+                  checksWithoutResults = 0;
                   return delta(result.cursor, handle);
                 }
 
-                folder.log("Processed all changes from Dropbox");
+                // If a webhook arrived during this long sync...
+                if (result.entries && result.entries.length) {
+                  folder.log("Checking in case there are new changes to fetch");
+                  checksWithoutResults = 0;
+                  return delta(result.cursor, handle);
+                }
+
+                if (checksWithoutResults < MAX_CHECKS_WITHOUT_RESULTS) {
+                  checksWithoutResults++;
+                  let delay = checksWithoutResults * 100;
+                  folder.log(`Waiting ${delay}ms to check for changes`);
+                  return setTimeout(function () {
+                    folder.log("Checking again for new changes");
+                    delta(result.cursor, handle);
+                  }, delay);
+                }
+
+                folder.log("Folder in sync with Dropbox");
                 done(null, callback);
               }
             );
@@ -148,7 +165,7 @@ module.exports = function main(blog, callback) {
   });
 };
 
-function Apply(token, blogFolder, log) {
+function Apply(client, blogFolder, log) {
   return function apply(changes, callback) {
     debug("Retrieved changes", changes);
 
@@ -191,11 +208,20 @@ function Apply(token, blogFolder, log) {
     function mkdir(item, callback) {
       log(item.relative_path, "Making directory in folder");
       fs.ensureDir(join(blogFolder, item.relative_path), function (err) {
+        // we have run into an EEXIST error here when a file exists
+        // where a new folder needs to be. I decided against
+        // just removing the file and replacing it with a folder
+        // since this would reflect something badly out of sync with
+        // dropbox (they would send the deletion before the creation?)
+        // How could a file named for a folder have gotten here? could
+        // blot have done it or is it just the user?
+
         if (err) {
           log(item.relative_path, "Error making directory in folder", err);
         } else {
           log(item.relative_path, "Made directory in folder successfully");
         }
+
         callback(err);
       });
     }
@@ -220,7 +246,7 @@ function Apply(token, blogFolder, log) {
           "Hash does not match, downloading from Dropbox"
         );
         Download(
-          token,
+          client,
           item.path_lower,
           join(blogFolder, item.relative_path),
           function (err) {
@@ -251,11 +277,11 @@ function Apply(token, blogFolder, log) {
     debug("Folders:", folders);
     debug("Files:", files);
 
-    async.parallel(
+    async.series(
       [
-        async.apply(async.each, deleted, remove),
-        async.apply(async.each, folders, mkdir),
-        async.apply(async.eachLimit, files, 20, download),
+        async.apply(async.eachSeries, deleted, remove),
+        async.apply(async.eachSeries, folders, mkdir),
+        async.apply(async.eachSeries, files, download),
       ],
       callback
     );

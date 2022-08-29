@@ -1,15 +1,19 @@
 {{^entry}}
 <tr>
   <td>Ignored:</td>
-  <td>This file is not a post because {{ignored}}.</td>
+  <td>This file did not become a post because {{ignored}}.</td>
 </tr>
 {{/entry}}
 
 {{#entry}}
+<tr>
+  <td>{{#page}}Page{{/page}}{{^page}}Post{{/page}}:</td>
+  <td><details><summary>Yes</summary>Because foo</td>
+</tr>
 
 <tr>
   <td>Title:</td>
-  <td><a href="{{blog.url}}{{{url}}}">{{title}}</a></td>
+  <td>{{title}}</td>
 </tr>
 
 {{^draft}}{{^scheduled}}
@@ -29,12 +33,7 @@
   <td>{{#draft}}Yes{{/draft}}{{^draft}}No{{/draft}}</td>
 </tr>
 
-<tr >
-  <td>Page:</td>
-  <td>{{#page}}Yes {{/page}}{{^page}}No{{/page}}</td>
-</tr>
-
-<tr class="break"> 
+<tr > 
   <td>Tags:</td>
   <td>{{#tags}} {{tag}}{{^last}},{{/last}} {{/tags}}</td>
 </tr>

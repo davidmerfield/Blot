@@ -4,31 +4,26 @@
   {{{topic.body}}}
   <p class="secondary-text smaller">{{topics.length}} {{#singular}}reply{{/singular}}{{^singular}}replies{{/singular}}
 
-      <span  style="float: right;">Asked {{formatDaytime topic.created_at}} · <a class="secondary-text smaller" href="/questions/{{topic.id}}/edit">Improve this question</a></span>
+      <span  style="float: right;">Asked {{topic.asked}} · <a class="secondary-text smaller" href="/questions/{{topic.id}}/edit">Improve this question</a></span>
 </p>
 </div>
 
 
 <div class="reply-container">
-{{#if topics}}
+{{#topics.length}}
 {{#topics}}
 <div class="qa-item-container">
     {{{body}}}
-    <span class="secondary-text smaller">Answered {{formatDaytime created_at}} ·</span> 
+    <span class="secondary-text smaller">Answered {{answered}} · </span> 
     <a class="secondary-text smaller" href="/questions/{{id}}/edit">Improve this answer</a>
 </div>
 {{/topics}}
-{{/if}}
+{{/topics.length}}
 
-{{#unless topics}}
+{{^topics.length}}
 <h2>No replies yet</h2>
-{{/unless}}
+{{/topics.length}}
 
-{{#unless user}}
-<p>Please, <a href="/log-in">log in</a> to add a reply.</p>
-{{/unless}}
-
-{{#if user}}
 <br>
 <div style="max-width: 637px;">
 <form method="POST" action="/questions/{{topic.id}}/new" id="new-reply-form" class="qa-form">
@@ -58,5 +53,4 @@
   updateQuestionButtonState();
   bodyEl.addEventListener('keyup', updateQuestionButtonState);
 </script>
-{{/if}}
 </div>

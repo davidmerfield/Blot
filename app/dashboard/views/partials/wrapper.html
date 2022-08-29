@@ -17,6 +17,7 @@
 .breadcrumbs {
           font-weight: 400;
           color: #0b0c0c;
+          min-height: 27px;
         }
 
         .breadcrumbs__list {
@@ -73,7 +74,7 @@
           text-decoration: underline;
         }
 
-        .foot a {margin-right: 1rem;color: rgb(153, 153, 153);text-decoration: none;}
+        .foot a {margin-right: 2rem;color: rgb(153, 153, 153);text-decoration: none;}
        
 
 </style>
@@ -82,7 +83,8 @@
 
   <div class="wrapper" style="width:100%;margin:0 auto;display:flex;flex-direction:column;">
 
-    <div style="display: flex;padding-bottom: 0.5rem;">
+    <div style="display: flex;padding-bottom: 0.5rem;  border-bottom:1px solid rgba(0,0,0,0.05)
+">
       <div style="display: flex;width: 100%;          padding: 16px 0 16px 20px
 ">
       <div class="breadcrumbs" style="flex-grow:1;flex-shrink:0;padding-left: 0;margin-top: 3px">
@@ -123,7 +125,7 @@
 }
   }
 </style>
-      <a href="{{{blog.url}}}" target="_blank" class="s no-underline" style="line-height:20px;font-weight:600;flex-shrink:0;color:#0070e8;border: 1px solid rgba(0,0,0,0.1)">Visit</a>
+      <a href="{{{blog.url}}}" target="_blank" class="s no-underline" style="line-height:28px;font-weight:600;flex-shrink:0;color:#0070e8;border: 1px solid rgba(0,0,0,0.1)">Visit {{blog.pretty.url}}</a>
 {{/selected.settings}}      </div>
     </div>
 
@@ -147,15 +149,14 @@
      {{message.text}}
     </a>
         {{/message.error}}
-
         {{> yield}}
       </div>
 
-      <form class="foot" action="/account/log-out" method="post" style="border:none;background:none;padding:11px 20px;font-size: 14px;color: #666">
+      <form class="foot" action="/account/log-out" method="post" style="border:none;background:none;padding:11px 20px;font-size: 14px;color: #666;">
 
 <div style="display: flex">
 <div style="flex-grow: 1">
-<a href="/how">How it works</a>
+<a href="/how">How to use Blot</a>
 <a href="/questions">Questions</a>
 <a href="/contact">Contact us</a>
 </div>
@@ -179,6 +180,8 @@
 {{#links_for_footer}}
 {{{html}}}
 {{/links_for_footer}}
+<script type="text/javascript">document.querySelectorAll(".buttons a, .buttons input, .buttons button").forEach(function(a){a.addEventListener("click",function(a){a.target.classList.add("disabled")})})
+</script>
 </body>
 
 </html>

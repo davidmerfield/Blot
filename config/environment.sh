@@ -31,7 +31,7 @@ export BLOT_POSTGRES_PORT=5432
 export BLOT_USER=
 
 # Use latest stable version which passes tests
-export BLOT_NODE_VERSION=12.16.3
+export BLOT_NODE_VERSION=16.14.0
 
 # result of which pandoc
 export BLOT_PANDOC_PATH=
@@ -73,6 +73,10 @@ export BLOT_YOUTUBE_SECRET=
 # AWS for uploading images to Blot's CDN
 export BLOT_AWS_KEY=
 export BLOT_AWS_SECRET=
+
+# AWS for controlling route 53 for wildcard SSL certficate
+export AWS_ACCESS_KEY_ID=
+export AWS_SECRET_ACCESS_KEY=
 
 # Mailgun for sending emails to customers
 export BLOT_MAILGUN_KEY=

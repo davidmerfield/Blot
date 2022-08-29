@@ -1,0 +1,5 @@
+Zombie process
+
+Log in to server and grep:
+
+cat logs/app.log | grep "zombies found"

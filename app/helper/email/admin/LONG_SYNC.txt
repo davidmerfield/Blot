@@ -1,0 +1,9 @@
+Long sync
+
+Log in to server and grep:
+
+cat logs/app.log | grep "sync exceeded"
+
+Find all the long syncs in the last seven days for a given client:
+
+export CLIENT=dropbox && grep -rnw './logs/' --include=app.log -e 'sync exceeded' | awk '{print $3}' | sort | uniq | xargs -n1 node scripts/info/ | grep "client=$CLIENT" | awk '{print $2}' | cut -c1-12 | awk '{print $1".*sync exceeded"}' | xargs -I {} grep -rnw './logs/' --include=app.log -e '{}'

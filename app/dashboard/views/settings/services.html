@@ -1,21 +1,25 @@
+<style type="text/css">form {max-width:none}
+.shrinker {max-width:none}
+</style>
 <div style="margin:-11px -26px">
-  <input type="hidden" name="redirect" value="/settings/services">
 
-  <a class="line" href="/settings/services/date">
+  <a class="line" href="{{{base}}}/services/date">
     <span class="label">Date and time</span>
     <span class="center">{{currentTime}}</span>
+    <span class="right" >Edit</span>    
   </a>
 
-  <a class="line" href="/settings/services/permalinks">
+  <a class="line" href="{{{base}}}/services/link-format">
     <span class="label">Link format</span>
     <span class="center">
       {{#permalinkFormats}}
       {{#checked}}{{example}}{{/checked}}{{/permalinkFormats}}
     </span>
+    <span class="right" >Edit</span>
   </a>
 
 
-  <a class="line" href="/settings/services/redirects">
+  <a class="line" href="{{{base}}}/services/redirects">
     <span class="label">Redirects</span>
     <span class="link">Edit your redirect rules</span>
   </a>
@@ -26,7 +30,8 @@
     }
 
     .plugin label {
-      padding: 0
+      padding: 0;
+      cursor: pointer;
     }
 
     .plugin {
@@ -51,7 +56,7 @@
             <input name='plugins.{{id}}.enabled' type='hidden' value='off' >
             <input name='plugins.{{id}}.enabled' type="checkbox" {{checked}}/>
           </span>
-          <span style="width:92.5%;display:block;float:left">        {{{description}}}
+          <span style="display:block;float:left">        {{{description}}}
           </span>
           <span class="clear"></span>
         </label>
@@ -79,7 +84,7 @@
             <input name='plugins.{{id}}.enabled' type='hidden' value='off' >
             <input name='plugins.{{id}}.enabled' type="checkbox" {{checked}}/>
           </span>
-          <span style="width:92.5%;display:block;float:left">        {{{description}}}
+          <span style="display:block;float:left">        {{{description}}}
           </span>
           <span class="clear"></span>
         </label>
@@ -108,7 +113,7 @@
             <input name='plugins.{{id}}.enabled' type='hidden' value='off' >
             <input name='plugins.{{id}}.enabled' type="checkbox" {{checked}}/>
           </span>
-          <span style="width:92.5%;display:block;float:left">        {{{description}}}
+          <span style="display:block;float:left">        {{{description}}}
           </span>
           <span class="clear"></span>
         </label>

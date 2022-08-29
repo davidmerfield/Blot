@@ -1,6 +1,5 @@
 const Express = require("express");
 const Questions = new Express.Router();
-const hbs = require("hbs");
 const moment = require("moment");
 const csrf = require("csurf")();
 const config = require("config");
@@ -19,17 +18,6 @@ const pool = new Pool({
 // QA Forum View Configuration
 const TOPICS_PER_PAGE = 20;
 
-// Renders datetime in desired format
-// Can be used like so: {{{formatDaytime D}}} where D is timestamp (e.g. from a DB)
-hbs.registerHelper("formatDaytime", function (timestamp) {
-  try {
-    timestamp = moment.utc(timestamp).format("MMM D [']YY [at] H:mm");
-  } catch (e) {
-    timestamp = "";
-  }
-  return timestamp;
-});
-
 Questions.use(
   Express.urlencoded({
     extended: true,
@@ -47,7 +35,10 @@ Questions.use(function (req, res, next) {
 // Topics are sorted by datetime of last reply, then by topic creation date
 Questions.get(["/", "/page/:page"], function (req, res, next) {
   // Pagination data
+  if (req.params.page === "1") return res.redirect(req.baseUrl);
+
   const page = req.params.page ? parseInt(req.params.page) : 1;
+
   if (!Number.isInteger(page)) {
     return next();
   }
@@ -59,11 +50,6 @@ Questions.get(["/", "/page/:page"], function (req, res, next) {
   if (search_query) {
     // populate with words from query    add '%' prefix and postfix for Postgres pattern matching
     search_arr = search_query.split(" ").map((el) => "%" + el + "%");
-    res.locals.breadcrumbs[res.locals.breadcrumbs.length - 1].label =
-      "Questions about " + search_query.split(/[ ,]+/).join(", ");
-  } else {
-    res.locals.breadcrumbs[res.locals.breadcrumbs.length - 1].label =
-      "Questions";
   }
 
   const search_arr_str = JSON.stringify(search_arr).replace(/"/g, "'"); // stringify and replace double quotes with single quotes for Postgres
@@ -93,6 +79,9 @@ Questions.get(["/", "/page/:page"], function (req, res, next) {
       // We preview one line of the topic body on the question index page
       topics.rows.forEach(function (topic) {
         topic.body = marked(topic.body);
+        topic.asked = moment
+          .utc(topic.created_at)
+          .format("MMM D [']YY [at] H:mm");
       });
 
       // Data for pagination
@@ -117,26 +106,24 @@ Questions.get(["/", "/page/:page"], function (req, res, next) {
         }
       }
 
-      if (req.params.page) {
-        res.locals.breadcrumbs = res.locals.breadcrumbs.slice(0, -2);
-      }
-
-      res.render("questions", {
-        topics: topics.rows,
-        paginator: paginator,
-        search_query: search_query,
-      });
+      res.locals.title = page > 1 ? `Page ${page} - Questions` : "Questions";
+      res.locals.topics = topics.rows;
+      res.locals.paginator = paginator;
+      res.locals.search_query = search_query;
+      res.render("questions");
     })
     .catch(next);
 });
 
 // Handle topic viewing and creation
 Questions.route("/ask")
-  .get(csrf, function (req, res) {
+  .get(csrf, function (req, res, next) {
+    if (!req.user) return res.redirect('/log-in?then=/questions/ask');
     res.locals.csrf = req.csrfToken();
     res.render("questions/ask");
   })
   .post(csrf, function (req, res) {
+    if (!req.user) return res.redirect('/log-in?then=/questions/ask');
     const author = req.user.uid;
     const title = req.body.title;
     const body = req.body.body;
@@ -162,6 +149,7 @@ Questions.route("/ask")
 // Handle new reply to topic
 Questions.route("/:id/new").post(csrf, function (req, res, next) {
   const id = parseInt(req.params.id);
+  if (!req.user) return res.redirect(`/log-in?then=/questions/${id}/new`);
   const author = req.user.uid;
   const body = req.body.body;
   if (body.trim().length === 0) res.redirect("/questions/" + id);
@@ -179,6 +167,7 @@ Questions.route("/:id/new").post(csrf, function (req, res, next) {
 Questions.route("/:id/edit")
   .get(csrf, function (req, res, next) {
     const id = parseInt(req.params.id);
+    if (!req.user) return res.redirect(`/log-in?then=/questions/${id}/edit`);
     pool
       .query("SELECT * FROM items WHERE id = $1", [id])
       .then((topics) => {
@@ -197,15 +186,15 @@ Questions.route("/:id/edit")
           penultimateBreadcrumb.url = `/questions/${topic.parent_id}`;
         }
 
-        res.render("questions/edit", {
-          topic,
-          csrf: req.csrfToken(),
-        });
+        res.locals.topic = topic;
+        res.locals.csrf = req.csrfToken();
+        res.render("questions/edit");
       })
       .catch(next);
   })
   .post(csrf, function (req, res, next) {
     const id = parseInt(req.params.id);
+    if (!req.user) return res.redirect(`/log-in?then=/questions/${id}/edit`);
     const title = req.body.title || "";
     const body = req.body.body;
     let query;
@@ -250,16 +239,21 @@ Questions.route("/:id").get(csrf, function (req, res, next) {
           if (!topic) return next();
 
           topic.body = marked(topic.body);
+          topic.asked = moment
+            .utc(topic.created_at)
+            .format("MMM D [']YY [at] H:mm");
           res.locals.breadcrumbs[res.locals.breadcrumbs.length - 1].label =
             topic.title;
-          replies.rows.forEach(
-            (el, index) => (replies.rows[index].body = marked(el.body))
-          );
-          res.render("questions/topic", {
-            title: topic.title,
-            topics: replies.rows,
-            topic: topic,
+          replies.rows.forEach((el, index) => {
+            replies.rows[index].body = marked(el.body);
+            replies.rows[index].answered = moment
+              .utc(replies.rows[index].created_at)
+              .format("MMM D [']YY [at] H:mm");
           });
+          res.locals.title = topic.title;
+          res.locals.topics = replies.rows;
+          res.locals.topic = topic;
+          res.render("questions/topic");
         })
         .catch(next);
     })

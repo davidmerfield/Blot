@@ -1,87 +1,40 @@
-var debug = require("debug")("blot:clients:dropbox:download");
-var dropboxStream = require("dropbox-stream");
-var fs = require("fs-extra");
-var tmpDir = require("helper/tempDir")();
-var join = require("path").join;
-var uuid = require("uuid/v4");
-var retry = require("./retry");
-var waitForErrorTimeout = require("./waitForErrorTimeout");
+const fs = require("fs-extra");
+const uuid = require("uuid/v4");
+const clfdate = require("helper/clfdate");
+const promisify = require("util").promisify;
+const setMtime = promisify(require("./setMtime"));
+const retry = require("./retry");
 
-// This is used by sync.js to retrieve files efficiently
-// from Dropbox after notification of a change through a webhook
-function download(token, source, destination, _callback) {
-  var ws, down, metadata;
-  var tmpLocation = join(tmpDir, uuid());
-  var callback = function (err) {
-    fs.remove(tmpLocation, function () {
-      _callback(err);
-    });
+const TIMEOUT = 30 * 1000; // 30 seconds
+
+async function download(client, source, destination, callback) {
+  const id = uuid();
+  const prefix = () =>
+    clfdate() + " clients:dropbox:download:" + id.slice(0, 6);
+
+  console.log(prefix(), source);
+
+  const timeout = setTimeout(function () {
+    console.log(prefix(), "reached timeout for download");
+    cleanup(new Error("Timeout reached for download"));
+  }, TIMEOUT); 
+
+  const cleanup = function (err) {
+    clearTimeout(timeout);
+    console.log(prefix(), "calling back with err = ", err);
+    callback(err);
   };
 
-  debug(source, destination);
-
   try {
-    ws = fs.createWriteStream(tmpLocation);
+    const { result } = await client.filesDownload({ path: source });
+    console.log("here", result);
+    await fs.outputFile(destination, result.fileBinary);
+    await setMtime(destination, result.client_modified);
   } catch (err) {
-    debug("Failed to create writeStream", err);
-    return callback(err);
+    return cleanup(err);
   }
 
-  ws.on("finish", function () {
-    fs.move(tmpLocation, destination, { overwrite: true }, function (err) {
-      if (err) return callback(err);
-      debug("Moved", tmpLocation, "to", destination);
-      setMtime(destination, metadata.client_modified, callback);
-    });
-  }).on("error", callback);
-
-  down = dropboxStream
-    .createDropboxDownloadStream({
-      token: token,
-      filepath: source,
-      chunkSize: 1000 * 1024,
-      autorename: false,
-    })
-    .on("progress", function (res) {
-      debug("progress", res);
-    })
-    .on("metadata", function (res) {
-      debug("metadata", res);
-      metadata = res;
-    })
-    .on("error", function (err) {
-      // Since this entire function is wrapped in retry behaviour
-      // we should wait for any retry delay before surfacing
-      // the error. Note that waitForErrorTimeout only ever throws
-      // so we shouldn't need ... .then(callback)
-      waitForErrorTimeout(err).catch(callback);
-    })
-    .pipe(ws);
-}
-
-function setMtime(path, modified, callback) {
-  var mtime;
-
-  try {
-    mtime = new Date(modified);
-  } catch (e) {
-    return callback(e);
-  }
-
-  if (
-    mtime === false ||
-    mtime === null ||
-    mtime === undefined ||
-    !(mtime instanceof Date)
-  ) {
-    return callback(new Error("Download: setMtime: Could not create date"));
-  }
-
-  fs.utimes(path, mtime, mtime, function (err) {
-    if (err) return callback(err);
-
-    return callback(null);
-  });
+  cleanup();
 }
 
 module.exports = retry(download);

@@ -14,6 +14,7 @@ module.exports = function (req, res, next) {
   var template, slug, name;
   var deduplicatedName, deduplicatedSlug;
   var deduplicatingCounter = 1;
+  var redirect = req.body.redirect || req.path;
 
   if (!req.body.name) {
     return next(new Error(NO_NAME));
@@ -71,6 +72,6 @@ module.exports = function (req, res, next) {
       return next(error);
     }
 
-    res.message("/settings/template", SUCCESS);
+    res.message(redirect, SUCCESS);
   });
 };
