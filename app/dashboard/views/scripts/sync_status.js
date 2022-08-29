@@ -3,6 +3,7 @@ var _ReconnectingEventSource;(()=>{"use strict";var e={19:(e,t)=>{Object.defineP
 //# sourceMappingURL=ReconnectingEventSource.min.js.map
 
 var evtSource = new ReconnectingEventSource(syncStatusURL);
+
 var currentlyLoading;
 var lastStatus;
 var checkAgain;
@@ -36,7 +37,6 @@ evtSource.onmessage = function (event) {
 
     currentlyLoading = false;
   });
-
 };
 
 function loadFolder(callback) {
