@@ -5,6 +5,8 @@ const promisify = require("util").promisify;
 const setMtime = promisify(require("./setMtime"));
 const retry = require("./retry");
 
+const TIMEOUT = 30 * 1000; // 30 seconds
+
 async function download(client, source, destination, callback) {
   const id = uuid();
   const prefix = () =>
@@ -15,7 +17,7 @@ async function download(client, source, destination, callback) {
   const timeout = setTimeout(function () {
     console.log(prefix(), "reached timeout for download");
     cleanup(new Error("Timeout reached for download"));
-  }, 4 * 60 * 1000); // 4 minutes
+  }, TIMEOUT); 
 
   const cleanup = function (err) {
     clearTimeout(timeout);
