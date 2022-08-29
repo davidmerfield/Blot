@@ -1,5 +1,42 @@
 Switching from another client into the local client doesn't work: you need to restart server.
 
+sync.lowerCaseAllFiles needs handle a duplication of files with different cases
+
+More improvements to Dropbox client:
+
+- [ ] parallelize build/download a little more, so posts appear when many files are dropped into folder
+- [ ] surface errors during setup on dashboard
+   - [ ] surface sync issues with Dropbox client on the homepage of dashboard
+   - [ ] How do we make errors sticky? To make sure users click through to clients page to re-connect to Dropbox, etc...
+- [ ] ensure that when a process dies, any blogs syncing will be re-attempted
+- [ ] ensure that when a process dies, any blogs setting up db client will be re-attempted
+- [ ] reconnecting with the same account and same permissions should not create a new folder for `full_access=true`
+- [ ] add 'verify' method which can run when sync fails / errors
+  - [ ] 'verify' should also run the `blog.fix` option
+- [ ] make full_folder use the old app folder directory? is there a way to disconnect it from the Blot app? otherwise add a big warning to prevent confusion about where the new folder is when transitioning permissions
+
+QA checks before deploy:
+- [ ] test with an empty blog folder
+- [ ] check the adding and removing of a webhook on the dropbox app console
+- [ ] test switch to/fro git client, ensure case is preserved and restored
+
+Later ideas, to migrate to do:
+- [ ] `syncContents` needs to remove any files which existing on Dropbox but do not exist on Blot
+- [ ] handle the download of large files gracefully too
+- [ ] run a complete initial sync during the setup to handle all those deleted files
+- [ ] add a mass upload option to speed up initial setup
+- [ ] consider adding back in download/upload stream, but add a check to see if the download is stuck?
+- [ ] add a check for folder storage before doing mass upload
+- [ ] handle folder full error appropriately
+- [ ] handle a sync lock failure on second blog when migrating an app folder
+- [ ] check content hash for upload where possible
+- [ ] consider re-instating streaming-download but adding a check for progress?
+- [ ] should we persist last sync status message somewhere?
+
+Creating a second blog switches you back to the first blog at the end of the setup flow
+
+The redirect/ignore buttons do not work on the 404 log
+
 Fix issues with sync:
 -error earlier
 - log all dropbox client related errors?
