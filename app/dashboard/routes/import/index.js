@@ -3,7 +3,10 @@ const Import = express.Router();
 const multiparty = require("multiparty");
 const maxFieldsSize = 4 * 1024 * 1024; // 4mb
 const maxFilesSize = 30 * 1024 * 1024; // 30mb
-const uploadDir = require("helper/tempDir")();
+const { join } = require("path");
+const tempDir = require("helper/tempDir")();
+const wordpressImporter = require("./sources/wordpress");
+const fs = require("fs-extra");
 
 Import.use((req, res, next) => {
   res.locals.importBase = res.locals.base + "/services/import";
@@ -12,7 +15,17 @@ Import.use((req, res, next) => {
   next();
 });
 
-Import.get("/", function (req, res) {
+Import.get("/", async function (req, res) {
+  try {
+    const imports = await fs.readdir(join(tempDir, "import", req.blog.id));
+
+    res.locals.imports = imports.map((i) => {
+      name: i;
+    });
+  } catch (e) {
+    //
+  }
+
   res.render("import");
 });
 
@@ -23,6 +36,9 @@ Import.route("/wordpress")
   })
   .post(
     function (req, res, next) {
+      const uploadDir = join(tempDir, "import", req.blog.id, "wordpress");
+      fs.ensureDirSync(uploadDir);
+      console.log('here', uploadDir);
       const form = new multiparty.Form({
         uploadDir,
         maxFieldsSize,
@@ -39,7 +55,13 @@ Import.route("/wordpress")
       });
     },
     function (req, res) {
-      console.log('here', req.body, req.files);
+      const xmlPath = req.files.exportUpload[0].path;
+      console.log('here', req.files.exportUpload[0]);
+      const outputDirectory = join(tempDir, "import", req.blog.id, "wordpress");
+      wordpressImporter(xmlPath, outputDirectory, {}, function (err) {
+        if (err) throw err;
+        res.send("Done!");
+      });
     }
   );
 

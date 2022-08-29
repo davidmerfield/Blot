@@ -1,5 +1,5 @@
 var async = require("async");
-var helper = require("dashboard/routes/importer/helper");
+var helper = require("dashboard/routes/import/helper");
 var extract_entry = require("./extract_entry");
 var convert_to_markdown = require("./convert_to_markdown");
 var tidy = require("./tidy");
