@@ -748,7 +748,7 @@ Improvements to Git client
 
 Dropbox client
 - Revert lowercase for all files when disconnecting the client
-- add support for Dropbox Paper files using paperDocsDownload
+- add support for Dropbox Paper files using paperDocsDownload and tell [Emad](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMZJvMswZZXKvLfBRBVqfzksw)
 - Add integration test with a dropbox Webhook call. I want to not push some code which would prevent syncing customer folders.
 - Does client.remove support the removal of folders? If not, make it so and add a test
 - Add a step to authentication flow which says: 'there is already a folder called 'Your blog title' in your Dropbox, would you like to use that?' then overwrite the files inside. This prevents the proliferation of confusing 'Your blog title (1)' when you re-authenticate.
@@ -858,8 +858,6 @@ Prune package.json
 
 Fix bugs with RSS feeds validation. Perhaps extend absoluteURLs helper function? Tell [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzMBqKpcLTtxTzcfvMCVckLMJJ)
 
-Add support for Dropbox Paper .paper files and tell [Emad](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMZJvMswZZXKvLfBRBVqfzksw)
-
 Add support for Micropub in Blot's API. Tell Amit.
 
 Reconsider default slug length or add new short slug property and tell [Josh](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTjxhZStzKhchtwjXbWxDbdfh)
@@ -912,11 +910,7 @@ Add password protection for blogs then tell [Ed](https://mail.google.com/mail/u/
 
 Sync
 - Re-implement folder verification feature and make use of the local content hash computation script to verify we have the correct version of a given file
-- Make the sync / rebuild proceses run with unpriviledged user permissions to ensure shit isnt fucked with user input...
-– Re-instate feature to check if a rogue sync took down the server and run sync on a seperate process
-- Add method to pause syncing and prevent future syncs
-then use this method with the create/remove blog migration too.
-- Ensure sync script is run by less priveledged user (just access to /tmp ? /blogs/{{ID}})?
+- Make the sync / rebuild proceses run with unpriviledged user permissions
 
 Add soundcloud embeds then tell [Jonas](https://mail.google.com/mail/u/1/#inbox/16404cc8d437cc23), Nashp, and [Anders](https://twitter.com/4nd3rs/status/1028250661589278720?s=12) and [Richard](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJbvQlJvtLVPDqRCHrGJkZTr)
 
@@ -927,10 +921,6 @@ Add are.na embeds and tell [Marco](https://mail.google.com/mail/u/0/#inbox/FMfcg
 Increase price to $6 per month for new customers. This will not affect existing customers in any way.
 
 Buy the .com
-- Remember to transfer Dropbox webhooks to new domain on the Dropbox developers console
-
-Support embedding an image in a post by copy-pasting the Dropbox share link
-- Let [Logan](https://twitter.com/blot__/status/962762284782243842) know
 
 ---
 
