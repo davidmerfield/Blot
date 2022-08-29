@@ -1,3 +1,7 @@
+Filenames with hashtags are unviewable on web templated editor.
+
+Handle long titles in breadcrumbs / file paths in sync log / long links etc. elegantly on the dashboard
+
 Switching from another client into the local client doesn't work: you need to restart server.
 
 sync.lowerCaseAllFiles needs handle a duplication of files with different cases
