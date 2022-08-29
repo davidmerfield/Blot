@@ -1,5 +1,11 @@
 Switching from another client into the local client doesn't work: you need to restart server.
 
+sync.lowerCaseAllFiles needs handle a duplication of files with different cases
+
+Creating a second blog switches you back to the first blog at the end of the setup flow
+
+The redirect/ignore buttons do not work on the 404 log
+
 Fix issues with sync:
 -error earlier
 - log all dropbox client related errors?
