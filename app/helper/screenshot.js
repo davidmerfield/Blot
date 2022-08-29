@@ -4,11 +4,6 @@ const imageminPngquant = require("imagemin-pngquant");
 const dirname = require("path").dirname;
 const fs = require("fs-extra");
 
-// We wait 1s by default on all pages before 
-// screenshotting, which gives enough time for
-// fade in to happen on annoying websites.
-const WAIT_DELAY = 1000;
-
 async function main(site, path, options = {}) {
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
@@ -29,7 +24,6 @@ async function main(site, path, options = {}) {
 
   await fs.ensureDir(dirname(path));
   await page.goto(site);
-  await page.waitForTimeout(WAIT_DELAY);
   await page.screenshot({ path: path });
   await browser.close();
   await imagemin([path], dirname(path), {
