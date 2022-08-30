@@ -39,7 +39,7 @@ module.exports = function main(blog, callback) {
       folder.log("Constructing methods to sync changes");
 
       var delta = new Delta(client, account.folder_id);
-      var apply = new Apply(client, folder.path, folder.log);
+      var apply = new Apply(client, folder.path, folder.log, folder.status);
 
       var checksWithoutResults = 0;
 
@@ -48,7 +48,7 @@ module.exports = function main(blog, callback) {
       // to each change, relative_path. Use change.relative_path
       // as the 'Blot' path, this is the path of the change relative to the
       // blog folder in the user's Dropbox folder.
-      folder.log("Fetching changes from Dropbox");
+      folder.status("Fetching changes from Dropbox");
       delta(account.cursor, function handle(err, result) {
         if (err) {
           folder.log("Error fetching changes from Dropbox", err);
@@ -165,7 +165,7 @@ module.exports = function main(blog, callback) {
   });
 };
 
-function Apply(client, blogFolder, log) {
+function Apply(client, blogFolder, log, status) {
   return function apply(changes, callback) {
     debug("Retrieved changes", changes);
 
@@ -183,6 +183,7 @@ function Apply(client, blogFolder, log) {
 
     function remove(item, callback) {
       log(item.relative_path, "Removing from folder");
+      status("Removing " + item.relative_path);
       fs.remove(join(blogFolder, item.relative_path), function (err) {
         if (err) {
           log(item.relative_path, "Error removing from folder", err);
@@ -207,6 +208,7 @@ function Apply(client, blogFolder, log) {
 
     function mkdir(item, callback) {
       log(item.relative_path, "Making directory in folder");
+      status("Creating directory " + item.relative_path);
       fs.ensureDir(join(blogFolder, item.relative_path), function (err) {
         // we have run into an EEXIST error here when a file exists
         // where a new folder needs to be. I decided against
@@ -232,6 +234,7 @@ function Apply(client, blogFolder, log) {
     // Dropbox folder might not be the root of the blog.
     function download(item, callback) {
       log(item.relative_path, "Hashing any existing file contents");
+      status("Downloading " + item.relative_path);
       hashFile(join(blogFolder, item.relative_path), function (
         err,
         content_hash
