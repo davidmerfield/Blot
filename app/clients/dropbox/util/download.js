@@ -12,10 +12,12 @@ async function download(client, source, destination, callback) {
   const id = uuid();
   const prefix = () =>
     clfdate() + " clients:dropbox:download:" + id.slice(0, 6);
+  let timedOut = false;
 
   console.log(prefix(), source);
 
   const timeout = setTimeout(function () {
+    timedOut = true;
     console.log(prefix(), "reached timeout for download");
     cleanup(new Error("Timeout reached for download"));
   }, TIMEOUT);
@@ -29,13 +31,16 @@ async function download(client, source, destination, callback) {
 
   try {
     const { result } = await client.filesDownload({ path: source });
-    console.log("here", result);
+    if (timedOut) return;
     await fs.outputFile(destination, result.fileBinary);
+    if (timedOut) return;
     await setMtime(destination, result.client_modified);
+    if (timedOut) return;
   } catch (err) {
     return cleanup(err);
   }
 
+  if (timedOut) return;
   cleanup();
 }
 

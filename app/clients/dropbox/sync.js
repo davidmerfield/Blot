@@ -187,6 +187,7 @@ function Apply(client, blogFolder, log, status) {
       fs.remove(join(blogFolder, item.relative_path), function (err) {
         if (err) {
           log(item.relative_path, "Error removing from folder", err);
+          status("Error removing " + item.relative_path);
         } else {
           log(item.relative_path, "Removed from folder successfully");
         }
@@ -202,7 +203,10 @@ function Apply(client, blogFolder, log, status) {
         // we end up being unable to sync blogs with a single
         // file that has a long name
         if (err && err.code === "ENAMETOOLONG") return callback();
-        callback(err);
+
+        // Swallow errors generally so we can proceed to next file
+        // we might want to mark an error somehow
+        callback();
       });
     }
 
@@ -220,11 +224,14 @@ function Apply(client, blogFolder, log, status) {
 
         if (err) {
           log(item.relative_path, "Error making directory in folder", err);
+          status("Error making directory " + item.relative_path);
         } else {
           log(item.relative_path, "Made directory in folder successfully");
         }
 
-        callback(err);
+        // Swallow errors generally so we can proceed to next file
+        // we might want to mark an error somehow
+        callback();
       });
     }
 
@@ -255,6 +262,7 @@ function Apply(client, blogFolder, log, status) {
           function (err) {
             if (err) {
               log(item.relative_path, "Error downloading from dropbox", err);
+              status("Error downloading " + item.relative_path);
             } else {
               log(item.relative_path, "Downloaded to folder successfully");
             }
@@ -270,7 +278,9 @@ function Apply(client, blogFolder, log, status) {
               return callback();
             }
 
-            callback(err);
+            // Swallow errors generally so we can proceed to next file
+            // we might want to mark an error somehow
+            callback();
           }
         );
       });
