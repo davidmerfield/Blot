@@ -8,6 +8,7 @@ const fs = require("fs-extra");
 const retry = require("./retry");
 const uuid = require("uuid/v4");
 const clfdate = require("helper/clfdate");
+const callOnce = require("helper/callOnce");
 
 async function upload(client, source, destination, callback) {
   const id = uuid();
@@ -20,11 +21,11 @@ async function upload(client, source, destination, callback) {
     cleanup(new Error("Timeout reached for upload"));
   }, 4 * 60 * 1000); // 4 minutes
 
-  const cleanup = function (err) {
+  const cleanup = callOnce(function (err) {
     clearTimeout(timeout);
     console.log(prefix(), "calling back with err = ", err);
     callback(err);
-  };
+  });
 
   try {
     const contents = await fs.readFile(source);

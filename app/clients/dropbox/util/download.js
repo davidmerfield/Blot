@@ -4,6 +4,7 @@ const clfdate = require("helper/clfdate");
 const promisify = require("util").promisify;
 const setMtime = promisify(require("./setMtime"));
 const retry = require("./retry");
+const callOnce = require("helper/callOnce");
 
 const TIMEOUT = 30 * 1000; // 30 seconds
 
@@ -17,13 +18,14 @@ async function download(client, source, destination, callback) {
   const timeout = setTimeout(function () {
     console.log(prefix(), "reached timeout for download");
     cleanup(new Error("Timeout reached for download"));
-  }, TIMEOUT); 
+  }, TIMEOUT);
 
-  const cleanup = function (err) {
+  // Otherwise the timeout triggers a double callback
+  const cleanup = callOnce(function (err) {
     clearTimeout(timeout);
     console.log(prefix(), "calling back with err = ", err);
     callback(err);
-  };
+  });
 
   try {
     const { result } = await client.filesDownload({ path: source });
