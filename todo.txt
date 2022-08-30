@@ -1,10 +1,16 @@
-Fix production issue with link screenshots
+Handle timeout issue with Dropbox client
+
+Handle uncaught error with verify on Google Drive client
+
+Switching from another client into the local client doesn't work: you need to restart server.
+
+Fix issue with variable passed to dateFormat function and tell [Leo](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqQJlfVpSBNBwDxcSlGGqHXQbh)
+
+Add [hot reload for preview subdomains](https://blot.im/questions/832)
 
 Filenames with hashtags are unviewable on web templated editor.
 
 Handle long titles in breadcrumbs / file paths in sync log / long links etc. elegantly on the dashboard
-
-Switching from another client into the local client doesn't work: you need to restart server.
 
 sync.lowerCaseAllFiles needs handle a duplication of files with different cases
 
