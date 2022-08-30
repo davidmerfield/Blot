@@ -1,15 +1,14 @@
-Handle timeout issue with Dropbox client
-
-Handle uncaught error with verify on Google Drive client
+The redirect/ignore buttons do not work on the 404 log
 
 Work out how to ensure fix is able to remove tag items without posts
 - how to reproduce this bug?
 
-Switching from another client into the local client doesn't work: you need to restart server.
+Creating a second blog switches you back to the first blog at the end of the setup flow
 
-Fix issue with variable passed to dateFormat function and tell [Leo](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqQJlfVpSBNBwDxcSlGGqHXQbh)
 
-Add [hot reload for preview subdomains](https://blot.im/questions/832)
+Handle timeout issue with Dropbox client
+
+Handle uncaught error with verify on Google Drive client
 
 Filenames with hashtags are unviewable on web templated editor.
 
@@ -18,8 +17,7 @@ Handle long titles in breadcrumbs / file paths in sync log / long links etc. ele
 sync.lowerCaseAllFiles needs handle a duplication of files with different cases
 - Need a case-sensitive disk to test this on
 
-More improvements to Dropbox client:
-
+Improvements to Dropbox client:
 - [ ] parallelize build/download a little more, so posts appear when many files are dropped into folder
 - [ ] surface errors during setup on dashboard
    - [ ] surface sync issues with Dropbox client on the homepage of dashboard
@@ -30,13 +28,6 @@ More improvements to Dropbox client:
 - [ ] add 'verify' method which can run when sync fails / errors
   - [ ] 'verify' should also run the `blog.fix` option
 - [ ] make full_folder use the old app folder directory? is there a way to disconnect it from the Blot app? otherwise add a big warning to prevent confusion about where the new folder is when transitioning permissions
-
-QA checks before deploy:
-- [ ] test with an empty blog folder
-- [ ] check the adding and removing of a webhook on the dropbox app console
-- [ ] test switch to/fro git client, ensure case is preserved and restored
-
-Later ideas, to migrate to do:
 - [ ] `syncContents` needs to remove any files which existing on Dropbox but do not exist on Blot
 - [ ] handle the download of large files gracefully too
 - [ ] run a complete initial sync during the setup to handle all those deleted files
@@ -49,9 +40,9 @@ Later ideas, to migrate to do:
 - [ ] consider re-instating streaming-download but adding a check for progress?
 - [ ] should we persist last sync status message somewhere?
 
-Creating a second blog switches you back to the first blog at the end of the setup flow
+Fix issue with variable passed to dateFormat function and tell [Leo](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqQJlfVpSBNBwDxcSlGGqHXQbh)
 
-The redirect/ignore buttons do not work on the 404 log
+Add [hot reload for preview subdomains](https://blot.im/questions/832)
 
 Fix issues with sync:
 -error earlier
