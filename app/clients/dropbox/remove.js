@@ -17,6 +17,8 @@ function remove(blogID, path, callback) {
   debug("Blog:", blogID, "Removing", path);
 
   createClient(blogID, function (err, client, account) {
+    if (err) return callback(err);
+
     pathOnDropbox = join(account.folder || "/", path);
 
     // We must lowercase this since localPath no longer
