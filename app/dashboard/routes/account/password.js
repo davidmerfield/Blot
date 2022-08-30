@@ -65,7 +65,7 @@ function save(req, res, next) {
 
     User.set(req.user.uid, { passwordHash: passwordHash }, function (err) {
       if (err) return next(err);
-      res.message("/account/password", "Saved your new password");
+      res.message("/dashboard", "Saved your new password");
     });
   });
 }
