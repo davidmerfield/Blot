@@ -2,6 +2,9 @@ Handle timeout issue with Dropbox client
 
 Handle uncaught error with verify on Google Drive client
 
+Work out how to ensure fix is able to remove tag items without posts
+- how to reproduce this bug?
+
 Switching from another client into the local client doesn't work: you need to restart server.
 
 Fix issue with variable passed to dateFormat function and tell [Leo](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqQJlfVpSBNBwDxcSlGGqHXQbh)
@@ -13,6 +16,7 @@ Filenames with hashtags are unviewable on web templated editor.
 Handle long titles in breadcrumbs / file paths in sync log / long links etc. elegantly on the dashboard
 
 sync.lowerCaseAllFiles needs handle a duplication of files with different cases
+- Need a case-sensitive disk to test this on
 
 More improvements to Dropbox client:
 
