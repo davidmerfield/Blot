@@ -7,7 +7,7 @@ module.exports = function (server) {
     Entries.getAllIDs(req.blog.id, function (err, entryIDs) {
       if (err || !entryIDs || !entryIDs.length) return next();
       const entryID = randomFrom(entryIDs);
-      Entry.get(req.blog.id, entryID, function (err, entry) {
+      Entry.get(req.blog.id, entryID, function (entry) {
         if (err || !entry) return next();
         res.set("Cache-Control", "no-cache");
         // res.redirect does a 302 by default but let's be explicit
