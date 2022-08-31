@@ -1,14 +1,19 @@
 The redirect/ignore buttons do not work on the 404 log
 
+Fix issue with [photo template](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqQJmmvRNFHdnvJQxztmKvHdvb) thumbnail size.
+
+There was a bug with toLowerCase(restore?) that was triggered when disconnecting from Dropbox with a preview file.
+
 Work out how to ensure fix is able to remove tag items without posts
 - how to reproduce this bug?
+- it seems there is a phanton entry which no longer exists on a tag index
+- can we iterate over all tag keys during fix to detect this?
 
 Creating a second blog switches you back to the first blog at the end of the setup flow
 
-
-Handle timeout issue with Dropbox client
-
 Handle uncaught error with verify on Google Drive client
+
+Efficiently handle Dropbox file renames with internal hash of fileIDs
 
 Filenames with hashtags are unviewable on web templated editor.
 
