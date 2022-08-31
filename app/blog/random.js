@@ -8,10 +8,9 @@ module.exports = function (server) {
       if (err || !entryIDs || !entryIDs.length) return next();
       const entryID = randomFrom(entryIDs);
       Entry.get(req.blog.id, entryID, function (entry) {
-        if (err || !entry) return next();
+        if (err || !entry || !entry.url) return next();
         res.set("Cache-Control", "no-cache");
-        // res.redirect does a 302 by default but let's be explicit
-        res.redirect(302, entry.url);
+        res.redirect(entry.url);
       });
     });
   });
