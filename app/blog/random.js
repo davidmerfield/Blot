@@ -1,17 +1,19 @@
-const Entry = require("models/entry");
 const Entries = require("models/entries");
 
 // Redirect to random article
 module.exports = function (server) {
   server.get("/random", function (req, res, next) {
-    Entries.getAllIDs(req.blog.id, function (err, entryIDs) {
-      if (err || !entryIDs || !entryIDs.length) return next();
-      const entryID = randomFrom(entryIDs);
-      Entry.get(req.blog.id, entryID, function (entry) {
-        if (err || !entry || !entry.url) return next();
-        res.set("Cache-Control", "no-cache");
-        res.redirect(entry.url);
-      });
+    Entries.getAll(req.blog.id, function (entries) {
+      if (!entries || !entries.length) return next();
+      let entry = randomFrom(entries);
+      let attempts = 0;
+      while (!entry.url && attempts < 100) {
+        entry = randomFrom(entries);
+        attempts++;
+      }
+      if (!entry.url) return next();
+      res.set("Cache-Control", "no-cache");
+      res.redirect(entry.url);
     });
   });
 };
