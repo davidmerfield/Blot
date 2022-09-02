@@ -18,6 +18,7 @@ Work out how to ensure fix is able to remove tag items without posts
 Creating a second blog switches you back to the first blog at the end of the setup flow
 
 Handle uncaught error with verify on Google Drive client
+- another uncaught error surfaces when the account is deleted, before a verify takes place
 
 Efficiently handle Dropbox file renames with internal hash of fileIDs
 
