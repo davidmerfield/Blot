@@ -4,35 +4,25 @@ Add keyboard shortcuts to reference and portfolio templates and [tell Marco](htt
 
 ---
 
-Fix issue with duplicate posts for [Marco](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqQJlfpZSsgWbgVQwmHZFzsFTm)
+Handle uncaught error with verify on Google Drive client
+- another uncaught error surfaces when the account is deleted, before a verify takes place
 
-Add [a random entry embed](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqQJmpBdxvdmVSZqHNkDqPWwQZ) to Marco's site and post a general solution on questions
+Filenames with hashtags are unviewable on web templated editor.
 
-There was a bug with toLowerCase(restore?) that was triggered when disconnecting from Dropbox with a preview file.
+Handle long titles in breadcrumbs / file paths in sync log / long links etc. elegantly on the dashboard
 
 Work out how to ensure fix is able to remove tag items without posts
 - how to reproduce this bug?
 - it seems there is a phanton entry which no longer exists on a tag index
 - can we iterate over all tag keys during fix to detect this?
 
-Creating a second blog switches you back to the first blog at the end of the setup flow
-
-Handle uncaught error with verify on Google Drive client
-- another uncaught error surfaces when the account is deleted, before a verify takes place
-
-Efficiently handle Dropbox file renames with internal hash of fileIDs
-
-Filenames with hashtags are unviewable on web templated editor.
-
-Handle long titles in breadcrumbs / file paths in sync log / long links etc. elegantly on the dashboard
-
-sync.lowerCaseAllFiles needs handle a duplication of files with different cases
-- Need a case-sensitive disk to test this on
-
-Add [scrubbing pagination to images template](https://jsfiddle.net/tdnc28vm/1/)
+Improvements to toLowerCase:
+- There was a bug with toLowerCase(restore?) that was triggered when disconnecting from Dropbox with a preview file.
+- sync.lowerCaseAllFiles needs handle a duplication of files with different cases. I need a case-sensitive disk to test this on
 
 Improvements to Dropbox client:
 - [ ] parallelize build/download a little more, so posts appear when many files are dropped into folder
+- [ ] Efficiently handle Dropbox file renames with internal hash of fileIDs
 - [ ] surface errors during setup on dashboard
    - [ ] surface sync issues with Dropbox client on the homepage of dashboard
    - [ ] How do we make errors sticky? To make sure users click through to clients page to re-connect to Dropbox, etc...
@@ -95,6 +85,8 @@ Investigate bug with template views whose names include hashtags and follow up w
 Replace radio button on clients page
 
 Get to the bottom of the slow cloudflare issue and follow up with [Wen](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqPzBWZcLJcwtWTXTbQjMbVrZB)
+
+Add [scrubbing pagination to images template](https://jsfiddle.net/tdnc28vm/1/)
 
 Fix issue with git client mirroring on GitHub by follow steps in email and follow up with [n](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqPzKcnQKsQQNkzcRpvCWpWKTr)
 
