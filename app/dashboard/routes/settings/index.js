@@ -48,12 +48,7 @@ settings
 
 settings.get("/links", load.menu);
 
-settings.get(
-  "/services",
-  load.plugins,
-  load.permalinkFormats,
-  load.dates
-);
+settings.get("/services", load.plugins, load.permalinkFormats, load.dates);
 
 settings.get("/services/date", load.timezones, load.dates);
 
@@ -91,7 +86,7 @@ settings.use("/template", load.templates, function (req, res, next) {
   next();
 });
 
-settings.get('/verify-domain/:domain', require('./verify-domain'));
+settings.get("/verify-domain/:domain", require("./verify-domain"));
 
 settings.use("/client", require("./client"));
 
@@ -135,6 +130,7 @@ settings
   .post(function (req, res, next) {
     req.body = {
       name: req.template.name,
+      redirect: res.locals.base + '/template',
       cloneFrom: req.template.id,
     };
     next();
@@ -144,9 +140,9 @@ settings.get("/:section/:view", function (req, res) {
   var uppercaseName = req.params.view;
 
   uppercaseName = uppercaseName[0].toUpperCase() + uppercaseName.slice(1);
-  uppercaseName = uppercaseName.split('-').join(' ');
+  uppercaseName = uppercaseName.split("-").join(" ");
 
-  if (uppercaseName === 'Date') uppercaseName = 'Date and time';
+  if (uppercaseName === "Date") uppercaseName = "Date and time";
 
   res.locals.breadcrumbs.add(uppercaseName, req.params.view);
   res.locals.subpage = "services/" + req.params.view;

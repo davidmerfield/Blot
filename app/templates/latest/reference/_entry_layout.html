@@ -5,10 +5,11 @@
 
   <div class="top">
     <a class="close" style="float:right" href="/" onclick="return lastIndexPage()"></a>
-    <a class="right" style="margin-left:0;{{^previous}}visibility:hidden{{/previous}}" href="{{{previous.url}}}"> </a>
-    <a class="left" style="{{^next}}visibility:hidden{{/next}}" href="{{{next.url}}}"></a>
+    <a class="right" data-previous style="margin-left:0;{{^previous}}visibility:hidden{{/previous}}" href="{{{previous.url}}}"> </a>
+    <a class="left" data-next style="{{^next}}visibility:hidden{{/next}}" href="{{{next.url}}}"></a>
 
   </div>
+
 
   <div class="main" style="display:flex;">
 
@@ -181,13 +182,10 @@
 
   {{/titleTag}}
 
+
+    
   {{/entry}}
 
   {{/entry.page}}
 
-  <script type="text/javascript">
-  document.onkeydown = function(e) {
-    alert(e);
-  };
 
-  </script>

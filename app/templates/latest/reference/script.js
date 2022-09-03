@@ -129,7 +129,20 @@ function parents(node, secondnode) {
   return false;
 }
 
+var nextLink = document.querySelector('[data-next]');
+var previousLink = document.querySelector('[data-previous]');
+var nextURL = nextLink && nextLink.getAttribute('href');
+var previousURL = previousLink && previousLink.getAttribute('href');
+
 document.onkeydown = function(e) {
+
+  if (previousURL && e.keyCode == '39') {
+    return window.location = previousURL;
+  }
+
+   if (nextURL && e.keyCode == '37') {
+    return window.location = nextURL;
+  }
 
   if (!parents(document.activeElement, searchForm)) return;
 

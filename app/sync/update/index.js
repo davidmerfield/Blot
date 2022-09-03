@@ -5,6 +5,7 @@ var hashFile = require("helper/hashFile");
 var drop = require("./drop");
 var set = require("./set");
 var mkdir = require("./mkdir");
+var flushCache = require("models/blog/flushCache");
 
 module.exports = function (blog, log, status) {
   return function update(path, options, callback) {
@@ -26,10 +27,15 @@ module.exports = function (blog, log, status) {
         if (err) {
           console.error(clfdate(), blog.id, path, err);
         }
-
         hashFile(path, function (err, hashAfter) {
-          if (hashBefore === hashAfter) callback(null, { error: err || null });
-          else update(path, options, callback);
+          if (hashBefore !== hashAfter) update(path, options, callback);
+
+          // the cache is flushed at the end of a sync too
+          // but if we don't do it after updating each files
+          // long syncs can produce weird cache behaviour
+          flushCache(blog.id, function () {
+            callback(null, { error: err || null });
+          });
         });
       }
 

@@ -18,7 +18,10 @@ module.exports = function checkToken(req, res, next) {
   // I had previously introduced a bug caused by the fact
   // decodeURIComponent(undefined) === 'undefined'
   // First check that there is 'then' query before attempting to decode
-  if (req.query.then) then = decodeURIComponent(req.query.then);
+  // We check 'amp;then' because I click links in my terminal which
+  // does something (or doesn't do something) to ampersands.
+  if (req.query.then || req.query["amp;then"])
+    then = decodeURIComponent(req.query.then || req.query["amp;then"]);
 
   // First we make sure that the access token passed is valid.
   User.checkAccessToken(token, function (err, uid) {
