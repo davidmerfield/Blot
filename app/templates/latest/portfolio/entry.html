@@ -26,6 +26,29 @@
   {{#entry}}
     {{{html}}}
     {{> pluginHTML}}
+  
+  
+    <script type="text/javascript">
+
+document.onkeydown = checkKey;
+
+function checkKey(e) {
+
+    e = e || window.event;
+
+    var nextURL = "{{{entry.next.url}}}";
+    var previousURL = "{{{entry.previous.url}}}";
+    
+    if (previousURL && e.keyCode == '39') {
+      window.location = previousURL
+    }
+
+     if (nextURL && e.keyCode == '37') {
+      window.location = nextURL
+    }
+
+}
+    </script>    
   {{/entry}}
   </div>
 
