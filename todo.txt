@@ -1,9 +1,5 @@
 Fix issue with [photo template](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqQJmmvRNFHdnvJQxztmKvHdvb) thumbnail size.
 
-Add keyboard shortcuts to reference and portfolio templates and [tell Marco](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqQJmpKpMCVzDssMqmVWxHjbrM)
-
----
-
 Handle uncaught error with verify on Google Drive client
 - another uncaught error surfaces when the account is deleted, before a verify takes place
 
