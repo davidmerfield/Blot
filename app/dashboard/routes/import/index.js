@@ -34,35 +34,33 @@ Import.route("/wordpress")
     res.locals.breadcrumbs.add("Wordpress", "wordpress");
     res.render("import/wordpress");
   })
-  .post(
-    function (req, res, next) {
-      const uploadDir = join(tempDir, "import", req.blog.id, "wordpress");
-      fs.ensureDirSync(uploadDir);
-      console.log('here', uploadDir);
-      const form = new multiparty.Form({
-        uploadDir,
-        maxFieldsSize,
-        maxFilesSize,
-      });
+  .post(function (req, res, next) {
+    const uploadDir = join(tempDir, "import", req.blog.id, "wordpress");
+    fs.ensureDirSync(uploadDir);
+    console.log("here", uploadDir);
+    const form = new multiparty.Form({
+      uploadDir,
+      maxFieldsSize,
+      maxFilesSize,
+    });
 
-      form.parse(req, function (err, fields, files) {
-        if (err) return next(err);
+    form.parse(req, function (err, fields, files) {
+      if (err) return next(err);
 
-        req.body = fields;
-        req.files = files;
+      req.body = fields;
+      req.files = files;
 
-        next();
-      });
-    },
-    function (req, res) {
-      const xmlPath = req.files.exportUpload[0].path;
-      console.log('here', req.files.exportUpload[0]);
-      const outputDirectory = join(tempDir, "import", req.blog.id, "wordpress");
-      wordpressImporter(xmlPath, outputDirectory, {}, function (err) {
+      console.log("here", fields, files);
+      console.log("here", files.exportUpload[0].path);
+      console.log(require("fs").existsSync(files.exportUpload[0].path));
+      const outputDir = fs.ensureDirSync(join(uploadDir, "output"));
+      wordpressImporter(files.exportUpload[0].path, outputDir, {}, function (
+        err
+      ) {
         if (err) throw err;
         res.send("Done!");
       });
-    }
-  );
+    });
+  });
 
 module.exports = Import;

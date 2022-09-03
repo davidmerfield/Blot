@@ -2,7 +2,7 @@ var fs = require("fs-extra");
 var async = require("async");
 var parseXML = require("xml2js").parseString;
 var colors = require("colors/safe");
-var log = require("single-line-log").stdout;
+var log = console.log;
 var Item = require("./item");
 
 if (require.main === module) {
