@@ -1,12 +1,10 @@
-Fix issue with duplicate posts for [Marco](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqQJlfpZSsgWbgVQwmHZFzsFTm)
-
-Template sharing is broken
-
-The redirect/ignore buttons do not work on the 404 log
-
 Fix issue with [photo template](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqQJmmvRNFHdnvJQxztmKvHdvb) thumbnail size.
 
 Add keyboard shortcuts to reference and portfolio templates and [tell Marco](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqQJmpKpMCVzDssMqmVWxHjbrM)
+
+---
+
+Fix issue with duplicate posts for [Marco](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqQJlfpZSsgWbgVQwmHZFzsFTm)
 
 Add [a random entry embed](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqQJmpBdxvdmVSZqHNkDqPWwQZ) to Marco's site and post a general solution on questions
 
