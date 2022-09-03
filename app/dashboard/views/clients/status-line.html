@@ -3,13 +3,13 @@
   var syncStatusURL = "{{{dashboardBase}}}/status";
 </script>
 
-<a class="line" href="/settings/client/switch">
+<a class="line" href="{{{dashboardBase}}}/client/switch">
   <span class="label">Synced with</span>
   <span class="center">{{client.display_name}}</span>
   <span class="right">Edit</span>
 </a>
 
-<a class="line" href="{{dashboardBase}}/client/status">
+<a class="line" href="{{{dashboardBase}}}/client/status">
   <span class="label">Status</span>
   <span class="center">  
   {{#blog.status}}
