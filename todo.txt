@@ -1,5 +1,10 @@
 Fix Marco's [tag ghosts](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqQJlfpZSsgWbgVQwmHZFzsFTm)
 
+Process [Jack's hugo import](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqQSGvKkKrbWCwBcXGMRwhgmJC)
+
+---
+
+
 Handle uncaught error with verify on Google Drive client
 - another uncaught error surfaces when the account is deleted, before a verify takes place
 
