@@ -19,11 +19,12 @@ function main(blog, callback) {
           res,
           function (id, next) {
             Entry.get(blog.id, id, function (entry) {
-              if (entry.id === id) return next();
+              if (entry && entry.id === id) return next();
 
-              report.push([list, "MISMATCH", id, entry.id]);
+              report.push([list, "MISMATCH", id]);
               client.zrem("blog:" + blog.id + ":" + list, id, function (err) {
                 if (err) return next(err);
+                if (!entry) return next();
                 Entry.set(blog.id, entry.id, entry, next);
               });
             });
