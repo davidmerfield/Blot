@@ -1,26 +1,3 @@
-Process [Jack's hugo import](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqQSGvKkKrbWCwBcXGMRwhgmJC)
-
-Fix uncaught exception in scheduler:
-  ```
-  /var/www/blot/app/sync/fix/list-ghosts.js:22
-              if (entry.id === id) return next();
-                        ^
-
-TypeError: Cannot read properties of undefined (reading 'id')
-    at /var/www/blot/app/sync/fix/list-ghosts.js:22:25
-    at Command.callback (/var/www/blot/app/models/entry/get.js:48:36)
-    at normal_reply (/var/www/blot/node_modules/redis/index.js:655:21)
-    at RedisClient.return_reply (/var/www/blot/node_modules/redis/index.js:753:9)
-    at JavascriptRedisParser.returnReply (/var/www/blot/node_modules/redis/index.js:138:18)
-    at JavascriptRedisParser.execute (/var/www/blot/node_modules/redis/node_modules/redis-parser/lib/parser.js:544:14)
-    at Socket.<anonymous> (/var/www/blot/node_modules/redis/index.js:219:27)
-    at Socket.emit (node:events:520:28)
-    at Socket.emit (node:domain:475:12)
-    at addChunk (node:internal/streams/readable:315:12)
-  ```
-
----
-
 Add 'download as zip' option to template editor
 
 Handle uncaught error with verify on Google Drive client
