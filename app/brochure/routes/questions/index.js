@@ -40,7 +40,10 @@ function removeXMLInvalidChars(string) {
 
 Questions.get("/feed.rss", async function (req, res, next) {
   const { rows } = await pool.query(
-    `SELECT * FROM items WHERE is_topic = true LIMIT 100`
+    `SELECT * FROM items 
+      WHERE is_topic = true 
+      ORDER BY created_at DESC 
+      LIMIT ${TOPICS_PER_PAGE}`
   );
 
   res.locals.url = config.protocol + "://" + config.host;
@@ -51,13 +54,12 @@ Questions.get("/feed.rss", async function (req, res, next) {
   rows.forEach(function (topic) {
     topic.body = removeXMLInvalidChars(marked(topic.body));
     topic.url = res.locals.url + "/questions/" + topic.id;
-    topic.author = 'Anonymous';
+    topic.author = "Anonymous";
     topic.date = moment
       .utc(topic.created_at)
       .format("ddd, DD MMM YYYY HH:mm:ss ZZ");
   });
 
-  console.log("here too", rows);
   res.locals.layout = "questions/feed";
   res.render("questions/feed");
 });
