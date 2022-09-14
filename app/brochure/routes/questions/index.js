@@ -31,6 +31,37 @@ Questions.use(function (req, res, next) {
   next();
 });
 
+// Removes everything forbidden by XML 1.0 specifications,
+// plus the unicode replacement character U+FFFD
+function removeXMLInvalidChars(string) {
+  var regex = /((?:[\0-\x08\x0B\f\x0E-\x1F\uFFFD\uFFFE\uFFFF]|[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?:[^\uD800-\uDBFF]|^)[\uDC00-\uDFFF]))/g;
+  return string.replace(regex, "");
+}
+
+Questions.get("/feed.rss", async function (req, res, next) {
+  const { rows } = await pool.query(
+    `SELECT * FROM items WHERE is_topic = true LIMIT 100`
+  );
+
+  res.locals.url = config.protocol + "://" + config.host;
+  res.locals.title = "Questions";
+  res.locals.topics = rows;
+
+  // We preview one line of the topic body on the question index page
+  rows.forEach(function (topic) {
+    topic.body = removeXMLInvalidChars(marked(topic.body));
+    topic.url = res.locals.url + "/questions/" + topic.id;
+    topic.author = 'Anonymous';
+    topic.date = moment
+      .utc(topic.created_at)
+      .format("ddd, DD MMM YYYY HH:mm:ss ZZ");
+  });
+
+  console.log("here too", rows);
+  res.locals.layout = "questions/feed";
+  res.render("questions/feed");
+});
+
 // Handle topic listing
 // Topics are sorted by datetime of last reply, then by topic creation date
 Questions.get(["/", "/page/:page"], function (req, res, next) {
@@ -118,12 +149,12 @@ Questions.get(["/", "/page/:page"], function (req, res, next) {
 // Handle topic viewing and creation
 Questions.route("/ask")
   .get(csrf, function (req, res, next) {
-    if (!req.user) return res.redirect('/log-in?then=/questions/ask');
+    if (!req.user) return res.redirect("/log-in?then=/questions/ask");
     res.locals.csrf = req.csrfToken();
     res.render("questions/ask");
   })
   .post(csrf, function (req, res) {
-    if (!req.user) return res.redirect('/log-in?then=/questions/ask');
+    if (!req.user) return res.redirect("/log-in?then=/questions/ask");
     const author = req.user.uid;
     const title = req.body.title;
     const body = req.body.body;
