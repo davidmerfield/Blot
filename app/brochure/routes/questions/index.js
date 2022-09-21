@@ -46,7 +46,7 @@ Questions.get("/feed.rss", async function (req, res, next) {
       LIMIT ${TOPICS_PER_PAGE}`
   );
 
-  res.locals.url = config.protocol + "://" + config.host;
+  res.locals.url = config.protocol + config.host;
   res.locals.title = "Questions";
   res.locals.topics = rows;
 

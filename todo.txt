@@ -1,6 +1,12 @@
+Make it possible to set the slug-part of a URL for a post and tell [George](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsdBjKHPdsRXJBGSbxpQQCbCN) and follow up for [post in Questions](https://blot.im/questions/23) and tell [Jarrod](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqQcpsRhzFwxVGFJLLTRsFFGKj)
+
 Understand the out of memory errors, are they related to screenshot?
 
+Add custom metadata to turn off/on search indexing on specific post or page and tell [Hani](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNqCSdngxBKHqctWBTgmFBbkB) and [questioner](https://blot.im/questions/890)
+
 ---
+
+Fix bug with leading emoji and title case plugin and tell [questioner](https://blot.im/questions/874)
 
 Add 'download as zip' option to template editor
 
@@ -444,7 +450,6 @@ Add action to lint code with jshint and eslint
   - separate code to check for broken links, run in parallel
   
 Improvements to metadata extractor:
-- Make it possible to set the slug-part of a URL for a post and tell [George](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsdBjKHPdsRXJBGSbxpQQCbCN) and follow up for [post in Questions](https://blot.im/questions/23)
 - Improve date parser to use time from file creation date if it's within the same day as the date specified in metadata and follow up with [Nicolas](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsShbhKRcvhWJlKRPHPctMnWM)
 - Fix summary generator such that a subtitle is used for summary text (i.e. an h2 directly following an h1) We still want to prevent the scenario in which a later h2 becomes the summary, though. Notify [Jessica and rebuild Jessica's site](https://mail.google.com/mail/u/0/#inbox/KtbxLwghhxtxrtdGHFqBRMcDGkGWtxvSdq)
 - Add support for entry property with escaped double quotes, tell [Jay](https://mail.google.com/mail/u/0/#inbox/15e396dbd8350972)
@@ -496,8 +501,6 @@ Add a 'page link format' option to the dashboard – the link format now only ap
 Tweak {{slug-without-diacritics}} in permalink format such that "ö" becomes "oe" instead of "o" and tell [Domink](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGCGxBpTdztRkpPpScxTxdVMJJ)
 
 Add queues and progress bars to entry building, client-switching and follow up with [Jacopo](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNCrgCFZKKzdvTFVvWHCpQChM)
-
-Add custom metadata to turn off/on search indexing on specific post or page and tell [Hani](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNqCSdngxBKHqctWBTgmFBbkB)
 
 Test cloudflare analytics integration from scratch and resolve issue with diklein.com
 
