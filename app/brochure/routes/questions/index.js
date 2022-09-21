@@ -60,8 +60,18 @@ Questions.get("/feed.rss", async function (req, res, next) {
       .format("ddd, DD MMM YYYY HH:mm:ss ZZ");
   });
 
-  res.locals.layout = "questions/feed";
-  res.render("questions/feed");
+  const template = await require("fs-extra").readFile(
+    req.app.get("views") + "/questions/feed.html",
+    "utf-8"
+  );
+  const result = require("mustache").render(template, res.locals);
+
+  res.set("Content-type", "text/xml;charset=UTF-8");
+  res.set("Pragma", "public");
+  res.set("Cache-control", "private");
+  res.set("Expires", "-1");
+
+  res.send(result);
 });
 
 // Handle topic listing
