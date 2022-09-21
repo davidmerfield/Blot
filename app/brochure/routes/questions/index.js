@@ -61,7 +61,7 @@ Questions.get("/feed.rss", async function (req, res, next) {
   });
 
   const template = await require("fs-extra").readFile(
-    req.app.get("views") + "/questions/feed.html",
+    req.app.get("views") + "/questions/_feed.rss",
     "utf-8"
   );
   const result = require("mustache").render(template, res.locals);
