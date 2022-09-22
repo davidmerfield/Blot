@@ -13,8 +13,6 @@ Add 'download as zip' option to template editor
 Handle uncaught error with verify on Google Drive client
 - another uncaught error surfaces when the account is deleted, before a verify takes place
 
-Filenames with hashtags are unviewable on web templated editor.
-
 Handle long titles in breadcrumbs / file paths in sync log / long links etc. elegantly on the dashboard
 
 Work out how to ensure fix is able to remove tag items without posts
