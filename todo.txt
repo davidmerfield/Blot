@@ -1,4 +1,9 @@
+Make the status page hit app server
+
+Support larger files on DB client and tell [Marco](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqQmWjKnmPrwKSXMdZNmlqmtss)
+
 Fix bug with duplicate entries and tell [Marco](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqQcrBrMBLSZGlZZtZPCnRfwXr)
+- [another ghost post](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqQmWhrKRqLgXMRjPbKMsBRbrV)
 - there is an entry without the 'news' tag, that [shows up under 'news'](https://timeline.marconoris.com/caminar-para-entender-caminar-para-recordar-en-frontera-en-eyeframing-on-mediation/7)
 
 Make it possible to set the slug-part of a URL for a post and tell [George](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsdBjKHPdsRXJBGSbxpQQCbCN) and follow up for [post in Questions](https://blot.im/questions/23) and tell [Jarrod](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqQcpsRhzFwxVGFJLLTRsFFGKj)
@@ -180,7 +185,9 @@ Improve backlink's tolerance
 - Add support for internal links without a leading slash
   - Tell Laurel
 
-Add support for 2FA (Two factor authentication) then tell [Luke](https://mail.google.com/mail/u/1/#inbox/163993b0f8499ab3), [Max](https://mail.google.com/mail/u/1/#inbox/1641e9bd104c5b77), [Chaz](https://mail.google.com/mail/u/1/#inbox/165b726aa900158a) and [Tom](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqnpZncgBDbDskMZdPMXkgGCN).
+Add support for 2FA (Two factor authentication) then tell [Luke](https://mail.google.com/mail/u/1/#inbox/163993b0f8499ab3), [Max](https://mail.google.com/mail/u/1/#inbox/1641e9bd104c5b77), [Chaz](https://mail.google.com/mail/u/1/#inbox/165b726aa900158a), [Prathamesh](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqQmWhhpCVSlbhdvlvWdmdtJWQ) and [Tom](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqnpZncgBDbDskMZdPMXkgGCN).
+
+Add support for SSO then tell [Prathamesh](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqQmWhhpCVSlbhdvlvWdmdtJWQ)
 
 Make retreiving files from server case-insentive
 - i.e. add resolve case insensitive path to file to blog/asset.js
