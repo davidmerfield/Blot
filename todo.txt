@@ -479,6 +479,8 @@ Improve questions section of site, in approximate order of importance:
 
 ---
 
+Make it possible to change URL of tagged pages and tell [Jarrod](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqQvxkjzVJFTpMQSNJRzptKkdH)
+
 Consider adding support for nested page structure
 - generate nested menu items from nested folders in /pages
 
