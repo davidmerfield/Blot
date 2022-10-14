@@ -1,9 +1,3 @@
-Make the status page hit app server
-
-Add better tools for reseting Google Drive sync state, pulling from Drive instead of from Blot.
-
-Support larger files on DB client and tell [Marco](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqQmWjKnmPrwKSXMdZNmlqmtss)
-
 Fix bug with duplicate entries and tell [Marco](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqQcrBrMBLSZGlZZtZPCnRfwXr)
 - [another ghost post](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqQmWhrKRqLgXMRjPbKMsBRbrV)
 - there is an entry without the 'news' tag, that [shows up under 'news'](https://timeline.marconoris.com/caminar-para-entender-caminar-para-recordar-en-frontera-en-eyeframing-on-mediation/7)
@@ -13,6 +7,13 @@ Make it possible to set the slug-part of a URL for a post and tell [George](http
 Understand the out of memory errors, are they related to screenshot?
 
 Add custom metadata to turn off/on search indexing on specific post or page and tell [Hani](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNqCSdngxBKHqctWBTgmFBbkB) and [questioner](https://blot.im/questions/890)
+
+Make the status page hit app server
+
+Add better tools for reseting Google Drive sync state, pulling from Drive instead of from Blot.
+
+Support larger files on DB client and tell [Marco](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqQmWjKnmPrwKSXMdZNmlqmtss)
+
 
 ---
 
@@ -111,11 +112,6 @@ Git client improvements:
 - Surface status of git client intialization when you first set up your blog on the git client. 
 - Fix issue which occurs when you change your username with the git client
 - Fix issue with switching from Dropbox client to Git client, in production which affected Nat
-
----
-
-
-Finish Lisa's handwriting generator
 
 --
 
