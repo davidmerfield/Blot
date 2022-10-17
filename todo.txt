@@ -6,6 +6,8 @@ Make it possible to set the slug-part of a URL for a post and tell [George](http
 
 Understand the out of memory errors, are they related to screenshot?
 
+Investigate this [date metadata bug](https://blot.im/questions/936)
+
 Add custom metadata to turn off/on search indexing on specific post or page and tell [Hani](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNqCSdngxBKHqctWBTgmFBbkB) and [questioner](https://blot.im/questions/890)
 
 Make the status page hit app server
