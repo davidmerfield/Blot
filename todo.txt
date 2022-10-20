@@ -420,6 +420,7 @@ Improvements to brochure:
 - Add [contributor](https://api.github.com/repos/davidmerfield/blot/contributors) / [language](https://api.github.com/repos/davidmerfield/blot/languages) and repo information to source code page using GitHub API.
 
 Improvements to Wikilinks feature:
+- fix bug with apostrophe's and tell [Roberto](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqRGVKGmtpJxgwshqLWBWXcFdL)
 - use iaWriter spec to make [the lookup more flexible](https://ia.net/writer/support/general/wikilinks#:~:text=How%20Wikilinks%20Work,the%20same%20name.)
 - test with non-[[Wikilinks]] options in Obsidian
 - add support for other (non-Obsidian) wikilink styles (i.e. title-based?)
