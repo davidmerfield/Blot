@@ -234,7 +234,7 @@ p code:after {
   content: "\00a0";
 }*/
 
-.katex, pre code {
+pre code {
   display: block;
     overflow-x: scroll;
     overflow-y: hidden;
