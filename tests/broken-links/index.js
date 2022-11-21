@@ -24,6 +24,7 @@ describe("Blot's website'", function () {
     5 * 60 * 1000
   );
 
+  // todo enable when we can access the cookie over an insecure connection
   xit(
     "does not have any broken links for logged-in users",
     function (done) {
