@@ -6,7 +6,10 @@ const KEYS_TO_DELETE = [];
 keys(
   "sess:*",
   function (sessionKeys, next) {
-    sessionKeys.forEach((key) => KEYS_TO_DELETE.push(key));
+    sessionKeys.forEach((key) => {
+      if (key.indexOf("sess:") !== 0) throw new Error("Unexpected key: " + key);
+      KEYS_TO_DELETE.push(key);
+    });
     next();
   },
   function (err) {
