@@ -54,6 +54,16 @@ describe("build", function () {
     this.buildAndCheck({ path, contents }, { html }, done);
   });
 
+  it("will convert wikilinks next to ignored nodes", function (done) {
+    const contents = "<script>console.log('hey');</script>\n\nA **[[wikilink elsewhere]]** ";
+    const path = "/hello.txt";
+    const html =
+      `<script>console.log('hey');</script>\n<p>A <strong><a href="wikilink elsewhere" class="wikilink">wikilink elsewhere</a></strong></p>`;
+
+    this.blog.plugins.wikilinks = { enabled: true, options: {} };
+    this.buildAndCheck({ path, contents }, { html }, done);
+  });
+
   it("will convert wikilinks whose path contains square brackets", function (done) {
     const contents = "[[../[snips]/wikilink]]";
     const path = "/hello.txt";
