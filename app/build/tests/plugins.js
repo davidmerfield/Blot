@@ -15,6 +15,15 @@ describe("build", function () {
     };
   });
 
+  it("will use a title to generate an image caption over the alt text", function (done) {
+    const contents = `![Alt text here](foo.jpg "Title here")`;
+    const path = "/hello.txt";
+    const html = '<p><img src="/foo.jpg" title="Title here" alt="Alt text here"><span class="caption">Title here</span></p>';
+
+    this.blog.plugins.imageCaption = { enabled: true, options: {} };
+    this.buildAndCheck({ path, contents }, { html }, done);
+  });
+
   it("will convert wikilinks if plugin is enabled", function (done) {
     const contents = "A [[wikilink]]";
     const path = "/hello.txt";
