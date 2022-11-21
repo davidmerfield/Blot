@@ -2,8 +2,8 @@ describe("Blot's website'", function () {
   var brochure = require("brochure");
   var dashboard = require("dashboard");
   var broken = require("../util/broken");
-  var trace = require('helper/trace');
-  
+  var trace = require("helper/trace");
+
   global.test.blog();
 
   global.test.server(function (server) {
@@ -24,11 +24,13 @@ describe("Blot's website'", function () {
     5 * 60 * 1000
   );
 
-  it(
+  xit(
     "does not have any broken links for logged-in users",
     function (done) {
       var request = require("request");
       var test = this;
+
+      console.log("origin:", this.origin);
 
       request.post(
         this.origin + "/log-in",

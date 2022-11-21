@@ -1,6 +1,14 @@
+Fix bug with wikilinks and tell [max](https://mail.google.com/mail/u/0/?zx=j8rkxjpin0du#inbox/FMfcgzGqRPwNNWKdvplbDZLQnKgZkjfq)
+
+Tell [Alex](https://mail.google.com/mail/u/0/?zx=j8rkxjpin0du#inbox/FMfcgzGqRQGRVhnxdqcWmzcgxkpVCmQh) when tex is aligned centrally by default
+
 Resolve cookie issue and tell [Michael](https://mail.google.com/mail/u/0/?zx=j8rkxjpin0du#inbox/FMfcgzGqRQBnhffbhgdVXCMpzGpbJgbW)
 
 Rebuild folder sites and tell [Michael](https://mail.google.com/mail/u/0/?zx=j8rkxjpin0du#inbox/FMfcgzGqRQBnhXzfWsqFZhBCGVMMzDGX) that the broken image link is fixed
+
+Update KaTeX font and tell [Andrea](https://mail.google.com/mail/u/0/?zx=j8rkxjpin0du#inbox/FMfcgzGrbHmWxcrVtbhnzHVnCtfLZhxH)
+
+Follow conventional delimiters for [KateX](https://mail.google.com/mail/u/0/?zx=j8rkxjpin0du#inbox/FMfcgzGrbHmWxcrVtbhnzHVnCtfLZhxH)
 
 ---
 
