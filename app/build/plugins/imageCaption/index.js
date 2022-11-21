@@ -1,6 +1,6 @@
 function render($, callback) {
   $("img").each(function () {
-    var altText = $(this).attr("alt");
+    var altText = $(this).attr("title") || $(this).attr("alt");
 
     if (!altText) return;
 
