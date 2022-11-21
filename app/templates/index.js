@@ -24,6 +24,16 @@ var DEFAULT_FONT = require("blog/static/fonts")
     });
     return font;
   })[0];
+var DEFAULT_MONO_FONT = require("blog/static/fonts")
+  .filter((font) => font.name === "System mono")
+  .map((font) => {
+    font.styles = Mustache.render(font.styles, {
+      config: {
+        cdn: { origin: config.cdn.origin },
+      },
+    });
+    return font;
+  })[0];  
 
 if (require.main === module) {
   main({ watch: config.environment === "development" }, function (err) {
@@ -118,6 +128,19 @@ function build(directory, callback) {
     );
   }
 
+  if (template.locals.navigation_font !== undefined) {
+    template.locals.navigation_font = _.merge(
+      _.cloneDeep(DEFAULT_FONT),
+      template.locals.navigation_font
+    );
+  }
+
+  if (template.locals.coding_font !== undefined) {
+    template.locals.coding_font = _.merge(
+      _.cloneDeep(DEFAULT_MONO_FONT),
+      template.locals.coding_font
+    );
+  }
   Template.drop(TEMPLATES_OWNER, basename(directory), function () {
     Template.create(TEMPLATES_OWNER, name, template, function (err) {
       if (err) return callback(err);

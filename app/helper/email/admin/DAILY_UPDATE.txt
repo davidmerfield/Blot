@@ -1,6 +1,16 @@
 Daily update for {{date}}
 
-New entries published: {{new_entries.length}}
+Memory available: {{memory_available}} ({{memory_usage}} used)
+
+Disk space available: {{disk_space_available}} ({{disk_space_usage}} used)
+
+Redis memory available: {{redis_memory_available}} ({{redis_memory_usage}} used)
+
+***
+
+New entries: {{new_entries.length}}
+
+Total entries : {{total_entries}}
 
 Requests served: {{total_requests_served}}
 
@@ -8,34 +18,12 @@ Average response time: {{average_response_time}} ({{median_response_time}} media
 
 ***
 
-Memory available: {{memory_available}} ({{memory_usage}} used)
-
-Disk space available: {{disk_space_available}} ({{disk_space_usage}} used)
-
-Redis: {{redis_memory_usage}} used of {{redis_memory_limit}} limit
-
-***
-
-Number of active blogs: {{total_active_blogs}}
-
-Total entries published: {{total_entries}}
-
-Newsletter subscribers: {{newsletter_subscribers}}
+Number of blogs: {{total_active_blogs}}
+Number of subscribers: 
+Revenue: {{revenue_in_last_24_hours}} 24 hours, {{revenue_in_last_7_days}} 7 days, {{revenue_in_last_30_days}} last 30 days
+Expected revenue: {{#renewals_today}} {{revenue}} from {{total}} blog{{s}} in 24 hours, {{/renewals_today}}
 
 ***
-
-Revenue from the last 24 hours: {{revenue_in_last_24_hours}}
-
-Revenue from the last 7 days: {{revenue_in_last_7_days}}
-
-Revenue from the last 30 days: {{revenue_in_last_30_days}}
-
-***
-
-{{#renewals_today}}
-Expected revenue from renewals in the next 24 hours: {{revenue}} from {{total}} blog{{s}}
-
-{{/renewals_today}}
 {{#renewals_next_7_days}}
 Expected revenue from renewals in the next 7 days: {{revenue}} from {{total}} blog{{s}}
 
@@ -48,6 +36,8 @@ Expected revenue from renewals in the next 30 days: {{revenue}}  from {{total}} 
 Annual recurring revenue: {{annual_recurring_revenue}} ({{monthly_recurring_revenue}} per month, {{revenue_billed_monthly}} of which is billed monthly)
 
 {{#new_entries.length}}
+
+Newsletter subscribers: {{newsletter_subscribers}}
 
 ***
 
