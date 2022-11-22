@@ -1,6 +1,7 @@
 var fs = require("fs-extra");
 var basename = require("path").basename;
 var getMetadata = require("./getMetadata");
+var setMetadata = require("./setMetadata");
 var getView = require("./getView");
 var async = require("async");
 var makeID = require("./util/makeID");
@@ -27,6 +28,8 @@ module.exports = function readFromFolder(blogID, dir, callback) {
 
         loadPackage(id, dir, function (err, views) {
           if (err) return callback(err);
+
+          const errors = {};
 
           async.eachSeries(
             contents,
@@ -58,7 +61,11 @@ module.exports = function readFromFolder(blogID, dir, callback) {
                     view.url = view.url || "/" + view.name;
 
                     setView(id, view, function (err) {
-                      if (err) return next();
+                      // we expose this error to the developer on
+                      // the preview subdomain
+                      if (err) {
+                        errors[view.name] = err.message;
+                      }
 
                       next();
                     });
@@ -68,7 +75,9 @@ module.exports = function readFromFolder(blogID, dir, callback) {
             },
             function (err) {
               if (err) return callback(err);
-              getMetadata(id, callback);
+              setMetadata(id, { errors }, function (err) {
+                getMetadata(id, callback);
+              });
             }
           );
         });

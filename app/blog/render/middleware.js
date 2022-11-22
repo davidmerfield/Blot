@@ -42,6 +42,8 @@ module.exports = function (req, res, _next) {
 
     if (callback) callback = callOnce(callback);
 
+    console.log(req.template);
+
     Template.getFullView(blogID, templateID, name, function (err, response) {
       if (err) {
         return next(err);

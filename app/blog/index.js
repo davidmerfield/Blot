@@ -41,6 +41,14 @@ blog.use(function (req, res, next) {
       return next(error);
     }
 
+    if (
+      req.preview &&
+      metadata.errors &&
+      Object.keys(metadata.errors).length > 0
+    ) {
+      return res.json(metadata.errors);
+    }
+
     req.template = {
       locals: metadata.locals,
       id: req.blog.template,
