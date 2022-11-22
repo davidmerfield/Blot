@@ -1,8 +1,34 @@
-Fix bug with undeleteable template files and tell [Stuart](https://mail.google.com/mail/u/0/?zx=j8rkxjpin0du#inbox/FMfcgzGqRZbhWzrwNrgrFLQBBDWBzhxL)
+Expose local template syntax error messages on preview subdomain
+
+Expose local template package.json error messages
+
+Expose template build metadata errors on dashboard
+
+---
+
+Fix bug with undeleteable template files prefixed with dot and tell [Stuart](https://mail.google.com/mail/u/0/?zx=j8rkxjpin0du#inbox/FMfcgzGqRZbhWzrwNrgrFLQBBDWBzhxL)
+
+Add `Ignore: yes` metadata to trigger the ignored file behaviour
+
+Fix bug with leading emoji and title case plugin and tell [questioner](https://blot.im/questions/874)
+
+Fix bug with typeset 'Small caps' setting and wikilinks then follow up with [questioner](https://blot.im/questions/414). The issue is caused by the insertion of the span class="small-caps" before the wikilink converter has had a chance to render the link. Typeset should be run after wikilinks to fix this.
+
+Handle long titles in breadcrumbs / file paths in sync log / long links etc. elegantly on the dashboard
+
+Add [hot reload for preview subdomains](https://blot.im/questions/832)
+
+Make it possible to set the slug-part of a URL for a post and tell [George](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsdBjKHPdsRXJBGSbxpQQCbCN) and follow up for [post in Questions](https://blot.im/questions/23) and tell [Jarrod](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqQcpsRhzFwxVGFJLLTRsFFGKj)
+
+Add custom metadata to turn off/on search indexing on specific post or page and tell [Hani](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNqCSdngxBKHqctWBTgmFBbkB) and [questioner](https://blot.im/questions/890)
+
+---
 
 Rebuild folder sites and tell [Michael](https://mail.google.com/mail/u/0/?zx=j8rkxjpin0du#inbox/FMfcgzGqRQBnhXzfWsqFZhBCGVMMzDGX) that the broken image link is fixed
 
 Follow conventional delimiters for [KateX](https://mail.google.com/mail/u/0/?zx=j8rkxjpin0du#inbox/FMfcgzGrbHmWxcrVtbhnzHVnCtfLZhxH)
+
+Fix bug with chinese characters in template name and follow up with [Alex](https://mail.google.com/mail/u/0/#search/alex/FMfcgzGqRGTCSrMXTznCBvTWhQqvkgCL)
 
 Fix bug with duplicate entries and tell [Marco](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqQcrBrMBLSZGlZZtZPCnRfwXr)
 - [another ghost post](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqQmWhrKRqLgXMRjPbKMsBRbrV)
@@ -12,33 +38,20 @@ Fix bug with duplicate entries and tell [Marco](https://mail.google.com/mail/u/0
 
 Fix bug with this [question](https://blot.im/questions/648)
 
-Fix bug with chinese characters in template name and follow up with [Alex](https://mail.google.com/mail/u/0/#search/alex/FMfcgzGqRGTCSrMXTznCBvTWhQqvkgCL)
-
-Make it possible to set the slug-part of a URL for a post and tell [George](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsdBjKHPdsRXJBGSbxpQQCbCN) and follow up for [post in Questions](https://blot.im/questions/23) and tell [Jarrod](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqQcpsRhzFwxVGFJLLTRsFFGKj)
-
 Understand the out of memory errors, are they related to screenshot?
 
 Investigate this [date metadata bug](https://blot.im/questions/936)
-
-Add custom metadata to turn off/on search indexing on specific post or page and tell [Hani](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNqCSdngxBKHqctWBTgmFBbkB) and [questioner](https://blot.im/questions/890)
-
-Make the status page hit app server
 
 Add better tools for reseting Google Drive sync state, pulling from Drive instead of from Blot.
 
 Support larger files on DB client and tell [Marco](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqQmWjKnmPrwKSXMdZNmlqmtss)
 
-
 ---
-
-Fix bug with leading emoji and title case plugin and tell [questioner](https://blot.im/questions/874)
 
 Add 'download as zip' option to template editor
 
 Handle uncaught error with verify on Google Drive client
 - another uncaught error surfaces when the account is deleted, before a verify takes place
-
-Handle long titles in breadcrumbs / file paths in sync log / long links etc. elegantly on the dashboard
 
 Work out how to ensure fix is able to remove tag items without posts
 - how to reproduce this bug?
@@ -74,8 +87,6 @@ Improvements to Dropbox client:
 - [ ] should we persist last sync status message somewhere?
 
 Fix issue with variable passed to dateFormat function and tell [Leo](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqQJlfVpSBNBwDxcSlGGqHXQbh)
-
-Add [hot reload for preview subdomains](https://blot.im/questions/832)
 
 Fix issues with sync:
 -error earlier
@@ -138,15 +149,9 @@ Fix bug with tags that contain slashes and tell [Jack](https://mail.google.com/m
 
 Fix display of featured post on mobile for magazine template and tell [Ben](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmvTzfVVTRQpBGKPzTjkhVsbKl)
 
-Improve video demo and developer documentation of Blot by April 14th for Robin's students
-
 ---
 
-Tell [Uzoamaka](https://mail.google.com/mail/u/0/#inbox/FMfcgzGpGwtWfNTbCKpgsktpbPQZFFTl) when it's possible to use Blot's brochure site as a template on a blog
-
 Determine why we get zombie processes after running reload server script.
-
-Add `Ignore: yes` metadata to trigger the ignored file behaviour
 
 Express all path-based metadata rules as regular expressions, then allow the customer to control these, e.g.
 ```
@@ -166,8 +171,6 @@ Add 'Hidden: yes' metadata to replace 'Menu: no' and tell [Sebastien](https://ma
 Fix bug with subdomains with numbers in them cause SSL certificate errors (e.g. foo2.blot.im)
 
 Fix bug with the typeset settings do not actually affect anything (you can only disable/enable)
-
-Fix bug with typeset 'Small caps' setting and wikilinks then follow up with [questioner](https://blot.im/questions/414). The issue is caused by the insertion of the span class="small-caps" before the wikilink converter has had a chance to render the link. Typeset should be run after wikilinks to fix this.
 
 Fix bug not exposing issue with invalid JSON in package.json for locally-edited template on dashboard and tell [Jason](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKjndBRlNNjZtlddcVVfFWVBbg)
 
@@ -1031,3 +1034,5 @@ Consider supporting org-mode and tell [Rashawn](https://mail.google.com/mail/u/0
 Consider supporting Open Graph and tell [Luke](https://mail.google.com/mail/u/1/#inbox/163993b0f8499ab3)
 
 Support emacs orgmode
+
+Tell [Uzoamaka](https://mail.google.com/mail/u/0/#inbox/FMfcgzGpGwtWfNTbCKpgsktpbPQZFFTl) when it's possible to use Blot's brochure site as a template on a blog
