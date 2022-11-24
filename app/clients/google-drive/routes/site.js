@@ -8,7 +8,7 @@ const clfdate = require("helper/clfdate");
 const database = require("../database");
 const express = require("express");
 const site = new express.Router();
-const session = require("dashboard/session");
+const cookieParser = require("cookie-parser");
 
 // Customers are sent back to:
 // blot.im/clients/google-drive/authenticate
@@ -29,22 +29,28 @@ const session = require("dashboard/session");
 // blot.development/clients/google-drive/authenticate
 // and finally redirected to:
 // blot.development/dashboard/*/client/google-drive/authenticate
-site.get("/authenticate", session, function (req, res) {
+site.get("/authenticate", cookieParser(), function (req, res) {
   // This means we hit the public routes on Blot's site
-  if (req.session.blogToAuthenticate) {
-    const url =
+  if (req.cookies.blogToAuthenticate) {
+    const redirect =
       config.protocol +
       config.host +
       "/dashboard/" +
-      req.session.blogToAuthenticate +
+      req.cookies.blogToAuthenticate +
       "/client/google-drive/authenticate?" +
       querystring.stringify(req.query);
-    delete req.session.blogToAuthenticate;
-    res.redirect(url);
-  // This means we hit the public routes on Blot's webhook
-  // forwarding host (e.g. tunnel.blot.im) we don't have access
-  // to the session info yet so we redirect to the public routes
-  // on Blot's site, which will be able to access the session.
+
+    res.clearCookie("blogToAuthenticate");
+    res.send(`<html>
+<head>
+<meta http-equiv="refresh" content="0;URL='${redirect}'"/>
+</head>
+<body><p>Continue to <a href="${redirect}">${redirect}</a>.</p></body>
+</html>`);
+    // This means we hit the public routes on Blot's webhook
+    // forwarding host (e.g. tunnel.blot.im) we don't have access
+    // to the session info yet so we redirect to the public routes
+    // on Blot's site, which will be able to access the session.
   } else {
     const url =
       config.protocol +

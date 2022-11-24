@@ -1,12 +1,12 @@
 const express = require("express");
 const site = express.Router();
-const session = require("dashboard/session");
 const sync = require("clients/dropbox/sync");
 const Database = require("clients/dropbox/database");
 const debug = require("debug")("blot:clients:dropbox:routes");
 const async = require("async");
 const config = require("config");
 const crypto = require("crypto");
+const cookieParser = require("cookie-parser");
 
 // This is called by Dropbox when the user
 // authorizes Blot's access to their folder
@@ -23,20 +23,25 @@ const crypto = require("crypto");
 // can't pass a blog username in the URL, since it needs to
 // be the same URL every time, e.g. this would not work:
 // blot.im/clients/dropbox/authenticate?handle=david
-site.get("/authenticate", session, function (req, res, next) {
-  const handle = req.session.blogToAuthenticate;
-  if (!handle) return next(new Error("No blog to authenticate"));
-  delete req.session.blogToAuthenticate;
+site.get("/authenticate", cookieParser(), function (req, res, next) {
+  const handle = req.cookies.blogToAuthenticate;
+  if (!handle) {
+    return next(new Error("No blog to authenticate"));
+  }
   let redirect =
     "/dashboard/" +
     handle +
     "/client/dropbox/authenticate?code=" +
     req.query.code;
-
   if (req.query.full_access) redirect += "&full_access=true";
 
-  console.log('REDIRECT', redirect);
-  res.redirect(redirect);
+  res.clearCookie("blogToAuthenticate");
+  res.send(`<html>
+<head>
+<meta http-equiv="refresh" content="0;URL='${redirect}'"/>
+</head>
+<body><p>Continue to <a href="${redirect}">${redirect}</a>.</p></body>
+</html>`);
 });
 
 // We keep a dictionary of synced blogs for testing

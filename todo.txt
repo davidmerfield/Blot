@@ -1,3 +1,5 @@
+Fix font issue with KaTeX on mobile safari and tell [Andrea](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrbHmWxcrVtbhnzHVnCtfLZhxH)
+
 Expose local template syntax error messages on preview subdomain
 
 Expose local template package.json error messages
