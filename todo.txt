@@ -1,4 +1,6 @@
-Fix font issue with KaTeX on mobile safari and tell [Andrea](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrbHmWxcrVtbhnzHVnCtfLZhxH)
+Improve [url](https://blot.im/questions/1164) generator and tell questioner
+
+Add theme with photoswipe and use sharp's tile generation feature along with 
 
 Expose local template syntax error messages on preview subdomain
 
