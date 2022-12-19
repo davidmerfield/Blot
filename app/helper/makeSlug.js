@@ -136,7 +136,7 @@ is(
 );
 
 is("Peter Gregson – Bach recomposed: 6.6 Gigue","peter-gregson-bach-recomposed-6-6-gigue");
-
+is("Apple's Striking Short Film Ahead of International Day of People with Disabilities", "apples-striking-short-film-ahead-of-international-day-of-people-with-disabilities");
 is("'xsb' command line error.", "xsb-command-line-error");
 is("Foo & bar", "foo-bar");
 is("Foo's bar", "foos-bar");
