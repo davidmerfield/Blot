@@ -1,3 +1,7 @@
+Improve [url](https://blot.im/questions/1164) generator and tell questioner
+
+Add theme with photoswipe and use sharp's tile generation feature along with 
+
 Expose local template syntax error messages on preview subdomain
 
 Expose local template package.json error messages
