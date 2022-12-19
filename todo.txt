@@ -1,7 +1,3 @@
-Improve [url](https://blot.im/questions/1164) generator and tell questioner
-
-Add theme with photoswipe and use sharp's tile generation feature along with 
-
 Expose local template syntax error messages on preview subdomain
 
 Expose local template package.json error messages
@@ -9,6 +5,8 @@ Expose local template package.json error messages
 Expose template build metadata errors on dashboard
 
 ---
+
+Add theme with photoswipe and use sharp's tile generation feature along with 
 
 Fix bug with undeleteable template files prefixed with dot and tell [Stuart](https://mail.google.com/mail/u/0/?zx=j8rkxjpin0du#inbox/FMfcgzGqRZbhWzrwNrgrFLQBBDWBzhxL)
 
