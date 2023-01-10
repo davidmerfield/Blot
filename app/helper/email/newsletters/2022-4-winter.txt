@@ -3,10 +3,10 @@ Winter newsletter
 *You received this email because you subscribed to [Blot’s newsletter](https://blot.im/about/news). You can [unsubscribe](https://blot.im/about/news/cancel) if you like. Please reply directly to this email if you have any thoughts or questions.*
 
 **New features**
-- Blot can now extract thumbnails from video embeds in your post. This makes a big difference on templates which display thumbnails on their index page, like  the Reference, Photo and Portfolio templates.
-- Blot now generates screenshot of link posts. The feature is optional, opt-in required for existing users, turned on by default for new ones. This means you get thumbnails, etc. for webloc posts.
+- Blot now extracts thumbnails from videos in your posts. This makes a big difference on templates which display thumbnails on their index page, like  the Reference, Photo and Portfolio templates.
+- Blot now generates screenshots of link posts. The feature is optional, opt-in required for existing users, turned on by default for new ones. This means you get thumbnails, etc. for webloc posts.
 - You can now download the source folders for the test sites used to [preview the templates](https://blot.im/templates).
-- For institutions who are interested in using Blot as a teaching tool: we built the infrastructure required to create accounts for your students. Blot was trialed as a teaching tool.
+- For institutions who are interested in using Blot as a teaching tool: we built the infrastructure required to create accounts for your students. Blot was tried as a teaching tool.
 - Added a new 'random entry' feature. If you add a link to '/random' on your site to your menu, you'll be redirected to a random entry each time you click.
 - Added sync history and a live ticker for the changes being made to your folder to the client settings page on your dashboard.
 
@@ -15,7 +15,7 @@ Winter newsletter
 - Improved the Portfolio template
 - Updated the dependencies on which Blot depends to patch any known security vulnerabilities.
 - Made tweaks to the dashboard and documentation, per tradition.
-- Improved the Google Drive client: previously it would break when you moving a file from within your blog folder into a folder outside your blog folder but within Google Drive. Also, you can now connect multiple blogs to the same google drive account. 
+- Improved the Google Drive client: previously it would break when you moved a file from within your blog folder into a folder outside your blog folder but within Google Drive. Also, you can now connect multiple blogs to the same google drive account. 
 - Updates dashboard URL scheme
 
 **Bugs fixed**
@@ -25,7 +25,7 @@ Winter newsletter
 - Fixed various CSS bugs which surfaced when you adjusted the colors on the [Blog template](https://blot.im/templates/blog).
 - Fixed CSS bugs which affected the [Magazine template](https://blot.im/templates/magazine) and prevented the pagination from working under certain circumstances.
 - The wildcard certificate, which is used to secure traffic to all of Blot's subdomains, now properly renews itself automatically. Previously it required manual intervention.
-- Emojis now appear correctly in text files sent by Blot. Our static file delivery server previouly neglected to set the character set header.
+- Emojis now appear correctly in text files sent by Blot. Our static file delivery server previously neglected to set the character set header.
 
 **Questions**
 Here are a few recent questions which I liked from [Questions](https://blot.im/questions), a section of Blot's site where users can ask and answer questions.
@@ -40,7 +40,7 @@ Not been as communicative, went through periods taking a break from email. Fortu
 
 **Plans for this season**
 
-We have begun work on iCloud client, which will mean you can use a folder in your iCloud drive to publish a blog. If you have emailed me about iCloud support in the past, you might have received a message from me saying 'We'd love to support iCloud but Apple doesn't offer the neccessary APIs'. Well [Jon](https://jon.bo/) came up with a cunning plan to make it work.
+We have begun work on iCloud client, which will mean you can use a folder in your iCloud drive to publish a blog. If you have emailed me about iCloud support in the past, you might have received a message from me saying 'We'd love to support iCloud but Apple doesn't offer the necessary APIs'. Well [Jon](https://jon.bo/) came up with a cunning plan to make it work.
 
 If you have any thoughts or questions about any of this, please don’t hesitate to reply directly to this email.
 
