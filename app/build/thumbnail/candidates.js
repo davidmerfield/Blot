@@ -15,6 +15,15 @@ module.exports = function (metadata, html) {
 
   $(".videoContainer iframe").each(function () {
     try {
+      // handle vimeo
+      const thumbnail = $(this).attr("data-thumbnail");
+
+      if (thumbnail) {
+        candidates.push(thumbnail);
+        return;
+      }
+
+      // handle youtube
       const { hostname, pathname } = URL.parse($(this).attr("src"));
 
       if (hostname !== "www.youtube-nocookie.com") return;
