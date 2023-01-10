@@ -2,8 +2,6 @@ Fix issue with favicon and [tell questioner](https://blot.im/questions/1202)
 
 Fix missing posts on [preview of reference template](https://preview-of-reference-on-frances.blot.im/)
 
-Extract thumbnails [from embedded videos and use them for posts](https://blot.im/questions/1215)
-
 ---
 
 Expose local template syntax error messages on preview subdomain
