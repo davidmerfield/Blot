@@ -246,11 +246,9 @@ Improve Google Drive client:
 - `write` should use the best method for large file uploading
 - `download` Should nicely handle the export of various Google Doc formats
 
-Document the downtime for the next newsletter
-- Prevent full disk from affecting access to people's blogs. 
+Prevent full disk from affecting access to people's blogs. 
 - switch into a read-only mode?
   - the specific issue that takes down the server seems to be the redis error (cannot persist on disk, out of space)
-- Ensure that this issue is surfaced on status page (currently it just verifies that nginx is working, let's ping a route served by node.js instead)
 
 Investigate [Adam's broken template](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlkPcpFqrPfrVjQTdjNSTMbgrP)
 
