@@ -6,11 +6,13 @@ var basename = require("path").basename;
 // the video player will not show. This causes issues with
 // inline elements displaying (adds extra space) solution needed
 // that doesn't disrupt page layout...
-function template(id, ratio) {
+function template(id, ratio, thumbnail) {
   return (
     '<div style="width:0;height:0"> </div><div class="videoContainer vimeo" style="padding-bottom: ' +
     ratio +
-    '%"><iframe src="//player.vimeo.com/video/' +
+    '%" ><iframe data-thumbnail="' +
+    thumbnail +
+    '" src="//player.vimeo.com/video/' +
     id +
     '?badge=0&color=ffffff&byline=0&portrait=0" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe></div>'
   );
@@ -23,7 +25,7 @@ function apiURL(id) {
 var FAIL = "Could not retrieve video properties";
 
 module.exports = function (href, callback) {
-  var id, height, width, ratio, el;
+  var id, height, width, ratio, el, thumbnail;
 
   try {
     // we trim because without it,
@@ -51,11 +53,11 @@ module.exports = function (href, callback) {
     el = body[0];
 
     if (!el || !el.width || !el.height) return callback(new Error(FAIL));
-
+    thumbnail = el.thumbnail_large + ".jpg";
     height = el.height;
     width = el.width;
     ratio = (height / width) * 100;
 
-    return callback(null, template(id, ratio));
+    return callback(null, template(id, ratio, thumbnail));
   });
 };
