@@ -3,33 +3,30 @@ Winter newsletter
 *You received this email because you subscribed to [Blot’s newsletter](https://blot.im/about/news). You can [unsubscribe](https://blot.im/about/news/cancel) if you like. Please reply directly to this email if you have any thoughts or questions.*
 
 **New features**
-- Blot now extracts thumbnails from videos in your posts. This makes a big difference if you post videos and use a template like Reference, Photo and Portfolio, with thumbnails on their index page.
-- Link posts, from .webloc files, now come with screenshots of the linked site. The feature is turned on by default for new blogs but you'll need to [opt-in on the services page of your dashboard](https://blot.im/settings/services) if you have an existing blog.
-- Added a new 'random entry' feature. If you add a link to '/random' on your site to your menu, you'll be redirected to a random entry each time you click.
+- Blot now extracts thumbnails from videos in your posts. This makes a big difference if you post videos and use a template like [Reference](https://blot.im/templates/reference), [Photo](https://blot.im/templates/photo) or [Portfolio](https://blot.im/templates/portfolio), with thumbnails on their index pages.
+- Link posts, [generated from bookmark files](https://blot.im/how/posts/bookmarks), now include a screenshot of the linked site. This feature is turned on for new blogs. If you have an existing blog, you’ll need to enable ‘Add a screenshot to posts from bookmarks’ on [the services page](https://blot.im/settings/services) of your dashboard.
+- We added a new ‘random entry’ feature. If you add a link to */random* to [your site’s menu](https://blot.im/settings/links), you’ll be redirected to a random post each time you click.
 - You can now download the source folders for the test sites used to [preview the templates](https://blot.im/templates).
-- Blot was tried as a teaching tool at a number of universities so we built the infrastructure required by institutions to create and manage a large number of student accounts.
-- Added sync history and a live ticker for the changes being made to your folder to the client settings page on your dashboard.
+- We added features required by educational institutions to create and manage a large number of student accounts.
+- The [folder settings page](https://blot.im/settings/client) of your dashboard now includes a log of the changes you make to your folder.
 
 **Changes**
-- Updates dashboard URL scheme
-- Improved the appearance of mathematics set with KateX
-- Improved the Portfolio template
-- Updated the dependencies on which Blot depends to patch any known security vulnerabilities.
-- Made tweaks to the dashboard and documentation, per tradition.
+- We adjusted the format of the URLs on your blog’s dashboard so they include the username of the blog you are editing.
+- You can now connect multiple blogs to the same [Google Drive](https://blot.im/how/sync/google-drive) account.
+- We improved the appearance of [equations set with TeX](https://blot.im/how/posts/tex) by updating the typefaces and KaTeX compiler to their latest versions.
+- We updated Blot's dependencies to patch known security vulnerabilities and made tweaks to the dashboard and documentation, per tradition.
 
 **Bugs fixed**
-- Generally improved the sync stability of the Dropbox client. It's rock solid now.
-- Improved the Google Drive client: previously it would break when you moved a file from within your blog folder into a folder outside your blog folder but within Google Drive. Also, you can now connect multiple blogs to the same google drive account. 
-- Fixed an issue with duplicate URLs and Commento.
-- You can now connect more than one blog to the same Google Drive account.
-- Fixed various CSS bugs which surfaced when you adjusted the colors on the [Blog template](https://blot.im/templates/blog).
-- Fixed CSS bugs which affected the [Magazine template](https://blot.im/templates/magazine) and prevented the pagination from working under certain circumstances.
-- The wildcard certificate, which is used to secure traffic to all of Blot's subdomains, now properly renews itself automatically. Previously it required manual intervention.
-- Emojis now appear correctly in text files sent by Blot. Our static file delivery server previously neglected to set the character set header.
+- We generally improved the reliability of the [Dropbox client](https://blot.im/how/sync/dropbox).
+- We fixed a bug with the [Google Drive client](https://blot.im/how/sync/google-drive) which occurred when you moved a file from within your blog folder into another folder in your Google Drive.
+- Emojis now appear correctly in text files served by Blot.
+- We fixed an issue with Blot’s [Commento integration](https://blot.im/how/configure/comments) caused by trailing slashes.
+- You can now adjust the colors on the [Blog template](https://blot.im/templates/blog).
+- The [Magazine template](https://blot.im/templates/magazine)’s pagination now works as expected on smaller screens.
 
 **Questions**
 
-A few of my favorites from [Questions](https://blot.im/questions), a section of Blot's site you can ask and answer questions:
+Here are a few highlights from [Questions](https://blot.im/questions), a section of Blot’s site where you can ask and answer questions:
 
 - [Does Blot use Blot?](https://blot.im/questions/525)
 - [Setting up GitHub with Blot and Obsidian](https://blot.im/questions/642)
@@ -38,11 +35,13 @@ A few of my favorites from [Questions](https://blot.im/questions), a section of 
 
 **Mistakes**
 
-Not been as communicative, went through periods taking a break from email. Fortunately or unfortunately, I get too much email these days to really take time off. I need to think about hiring someone to help with these.
+I was overwhelmed by my inbox a few times recently, which led to unacceptable delays in responding to some of your questions and bug reports. I plan to hire someone to help with this.
+
+Also, I mistakenly allowed the wildcard certificate, which is used to secure traffic to Blot’s template previews, to expire. This certificate now renews itself automatically and is now monitored externally.
 
 **Plans for this season**
 
-We have begun work on iCloud client, which will mean you can use a folder in your iCloud drive to publish a blog. If you have emailed me about iCloud support in the past, you might have received a message from me saying 'We'd love to support iCloud but Apple doesn't offer the necessary APIs'. Well [Jon](https://jon.bo/) came up with a cunning plan to make it work.
+We have begun work on an iCloud client. In the past, you might have received a message from me saying ‘We’d love to support iCloud but Apple doesn’t offer the necessary APIs’. However, [Jon](https://jon.bo/) came up with a clever plan and we’re going to make it work.
 
 If you have any thoughts or questions about any of this, please don’t hesitate to reply directly to this email.
 
