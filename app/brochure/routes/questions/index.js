@@ -162,11 +162,15 @@ Questions.route(["/tags", "/tags/page/:page"]).get(function (req, res, next) {
   const TAGS_PER_PAGE = 15;
   const page = req.params.page ? parseInt(req.params.page) : 1;
 
-  if (!Number.isInteger(page)) {
+  if (page && !Number.isInteger(page)) {
     return next();
   }
+
   const offset = (page - 1) * TAGS_PER_PAGE;
 
+  console.log('page is:', page);
+
+  console.log('offset is:', offset);
   pool
     .query(
       `SELECT taglist.tag,
@@ -184,7 +188,8 @@ OFFSET ${offset};`
     )
     .then(({ rows }) => {
       
-      if (!rows.length) return next();
+      if (!rows.length) return res.render("questions/tags");
+
 
       // Data for pagination
       let pages_count = Math.ceil(rows[0].tags_count / TAGS_PER_PAGE); // total pages
