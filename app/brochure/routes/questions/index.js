@@ -485,7 +485,7 @@ Questions.get(["/tagged/:tag", "/tagged/:tag/page/:page"], function (
           } else paginator.pages.push({ page: i, current: false });
         }
       }
-
+      res.locals.tag = tag;
       res.locals.title = page > 1 ? `Page ${page} - Questions` : "Questions";
       res.locals.topics = topics.rows;
       res.locals.paginator = paginator;
