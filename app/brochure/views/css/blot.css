@@ -540,7 +540,7 @@ ul.qa-questions li {
   transition: border-color ease-in-out 0.1s, box-shadow ease-in-out 0.1s,
     -webkit-box-shadow ease-in-out 0.1s;
   resize: vertical;
-  min-height: 100px;
+  min-height: 300px;
   height: 100px;
 }
 .qa-form .qa-form-actionarea {
@@ -548,6 +548,7 @@ ul.qa-questions li {
   align-items: center;
   justify-content: space-between;
 }
+
 .paginator {
   margin-top: 3em;
   line-height: 2.1em;

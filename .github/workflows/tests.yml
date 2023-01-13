@@ -104,4 +104,5 @@ jobs:
         git config --global user.name "Admin"
         node app/setup
         node scripts/db/create-postgres-table
+        node scripts/db/add-column-tags
         npm test
