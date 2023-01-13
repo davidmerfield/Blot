@@ -2,7 +2,6 @@ var debug = require("debug")("blot:build");
 var Metadata = require("metadata");
 var basename = require("path").basename;
 var isDraft = require("../sync/update/drafts").isDraft;
-var Build = require("./single");
 var Prepare = require("./prepare");
 var Thumbnail = require("./thumbnail");
 var DateStamp = require("./prepare/dateStamp");
@@ -11,12 +10,19 @@ var converters = require("./converters");
 var exitHook = require("async-exit-hook");
 var clfdate = require("helper/clfdate");
 
+var single = require("./single");
+var multiple = require("./multiple");
+
 exitHook(function () {
   console.log(clfdate(), `Build: process pid=${process.pid} exiting...`);
   debug("Shutting down worker:", process.pid);
 });
 
 console.log(clfdate(), `Build: process pid=${process.pid} launched`);
+
+function isMultiFilePost(path) {
+  return !!path.split("/").find((i) => i.startsWith("(") && i.endsWith(")"));
+}
 
 // This file cannot become a blog post because it is not
 // a type that Blot can process properly.
@@ -59,6 +65,14 @@ function build(blog, path, options, callback) {
     debug("Blog:", blog.id, path, " checking if draft");
     isDraft(blog.id, path, function (err, is_draft) {
       if (err) return callback(err);
+
+      let Build;
+
+      if (isMultiFilePost(path)) {
+        Build = multiple;
+      } else {
+        Build = single;
+      }
 
       debug("Blog:", blog.id, path, " attempting to build html");
       Build(blog, path, options, function (
