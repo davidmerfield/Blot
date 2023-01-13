@@ -60,6 +60,7 @@ require("./entry")(blog);
 require("./entries")(blog);
 blog.use(require("./assets"));
 require("./public")(blog);
+require("./random")(blog);
 require("./error")(blog);
 
 module.exports = blog;

@@ -9,6 +9,8 @@ var fs = require("fs-extra");
 var async = require("async");
 var Sync = require("sync");
 
+var MAX_CHECKS_WITHOUT_RESULTS = 5;
+
 module.exports = function main(blog, callback) {
   debug("Blog:", blog.id, "Attempting to acquire lock on the blog folder.");
 
@@ -18,7 +20,7 @@ module.exports = function main(blog, callback) {
   Sync(blog.id, function (err, folder, done) {
     if (err) return callback(err);
 
-    debug("Blog:", blog.id, "Lock acquired successfully. Beginning sync...");
+    folder.log("Creating Dropbox client");
     // We need to look up the Dropbox account for this blog
     // to retrieve the access token used to create a new Dropbox
     // client to retrieve changes made to the user's Dropbox.
@@ -34,16 +36,19 @@ module.exports = function main(blog, callback) {
         );
       }
 
-      var token = account.access_token;
+      folder.log("Constructing methods to sync changes");
+
       var delta = new Delta(client, account.folder_id);
-      var apply = new Apply(token, folder.path, folder.log);
+      var apply = new Apply(client, folder.path, folder.log, folder.status);
+
+      var checksWithoutResults = 0;
 
       // Delta retrieves changes to the folder on Dropbox for a given
       // blog. It returns a list of changes. It also adds a new property
       // to each change, relative_path. Use change.relative_path
       // as the 'Blot' path, this is the path of the change relative to the
       // blog folder in the user's Dropbox folder.
-      folder.log("Fetching changes from Dropbox");
+      folder.status("Fetching changes from Dropbox");
       delta(account.cursor, function handle(err, result) {
         if (err) {
           folder.log("Error fetching changes from Dropbox", err);
@@ -128,10 +133,28 @@ module.exports = function main(blog, callback) {
                 // be split across two pages of file events.
                 if (result.has_more) {
                   folder.log("There are more changes to fetch on Dropbox");
+                  checksWithoutResults = 0;
                   return delta(result.cursor, handle);
                 }
 
-                folder.log("Processed all changes from Dropbox");
+                // If a webhook arrived during this long sync...
+                if (result.entries && result.entries.length) {
+                  folder.log("Checking in case there are new changes to fetch");
+                  checksWithoutResults = 0;
+                  return delta(result.cursor, handle);
+                }
+
+                if (checksWithoutResults < MAX_CHECKS_WITHOUT_RESULTS) {
+                  checksWithoutResults++;
+                  let delay = checksWithoutResults * 100;
+                  folder.log(`Waiting ${delay}ms to check for changes`);
+                  return setTimeout(function () {
+                    folder.log("Checking again for new changes");
+                    delta(result.cursor, handle);
+                  }, delay);
+                }
+
+                folder.log("Folder in sync with Dropbox");
                 done(null, callback);
               }
             );
@@ -142,7 +165,7 @@ module.exports = function main(blog, callback) {
   });
 };
 
-function Apply(token, blogFolder, log) {
+function Apply(client, blogFolder, log, status) {
   return function apply(changes, callback) {
     debug("Retrieved changes", changes);
 
@@ -160,9 +183,11 @@ function Apply(token, blogFolder, log) {
 
     function remove(item, callback) {
       log(item.relative_path, "Removing from folder");
+      status("Removing " + item.relative_path);
       fs.remove(join(blogFolder, item.relative_path), function (err) {
         if (err) {
           log(item.relative_path, "Error removing from folder", err);
+          status("Error removing " + item.relative_path);
         } else {
           log(item.relative_path, "Removed from folder successfully");
         }
@@ -178,19 +203,35 @@ function Apply(token, blogFolder, log) {
         // we end up being unable to sync blogs with a single
         // file that has a long name
         if (err && err.code === "ENAMETOOLONG") return callback();
-        callback(err);
+
+        // Swallow errors generally so we can proceed to next file
+        // we might want to mark an error somehow
+        callback();
       });
     }
 
     function mkdir(item, callback) {
       log(item.relative_path, "Making directory in folder");
+      status("Creating directory " + item.relative_path);
       fs.ensureDir(join(blogFolder, item.relative_path), function (err) {
+        // we have run into an EEXIST error here when a file exists
+        // where a new folder needs to be. I decided against
+        // just removing the file and replacing it with a folder
+        // since this would reflect something badly out of sync with
+        // dropbox (they would send the deletion before the creation?)
+        // How could a file named for a folder have gotten here? could
+        // blot have done it or is it just the user?
+
         if (err) {
           log(item.relative_path, "Error making directory in folder", err);
+          status("Error making directory " + item.relative_path);
         } else {
           log(item.relative_path, "Made directory in folder successfully");
         }
-        callback(err);
+
+        // Swallow errors generally so we can proceed to next file
+        // we might want to mark an error somehow
+        callback();
       });
     }
 
@@ -200,6 +241,7 @@ function Apply(token, blogFolder, log) {
     // Dropbox folder might not be the root of the blog.
     function download(item, callback) {
       log(item.relative_path, "Hashing any existing file contents");
+      status("Downloading " + item.relative_path);
       hashFile(join(blogFolder, item.relative_path), function (
         err,
         content_hash
@@ -214,12 +256,13 @@ function Apply(token, blogFolder, log) {
           "Hash does not match, downloading from Dropbox"
         );
         Download(
-          token,
+          client,
           item.path_lower,
           join(blogFolder, item.relative_path),
           function (err) {
             if (err) {
               log(item.relative_path, "Error downloading from dropbox", err);
+              status("Error downloading " + item.relative_path);
             } else {
               log(item.relative_path, "Downloaded to folder successfully");
             }
@@ -235,7 +278,9 @@ function Apply(token, blogFolder, log) {
               return callback();
             }
 
-            callback(err);
+            // Swallow errors generally so we can proceed to next file
+            // we might want to mark an error somehow
+            callback();
           }
         );
       });

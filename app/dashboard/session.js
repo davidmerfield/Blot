@@ -15,8 +15,11 @@ module.exports = session({
   resave: false,
   proxy: true,
   cookie: {
-    httpOnly: true,
-    maxAge: 1000 * 60 * 60 * 24 * 90, // 90 days in ms
+    httpOnly: true, // prevent the cookie's exposure to client-side js
+    secure: true, // ensure the cookie is only accesible over HTTPS
+    domain: '', // prevent the cookie's exposure to sub domains
+    sameSite: true, // prevent the cookie's exposure to other sites
+    maxAge: 1000 * 60 * 60 * 24 * 30, // 30 days in ms
   },
   store: new Store({
     client: redis,

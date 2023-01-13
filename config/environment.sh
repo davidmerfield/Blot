@@ -41,6 +41,9 @@ export BLOT_START=$BLOT_DIRECTORY/scripts/production/start_blot.sh
 export BLOT_MAIN=$BLOT_DIRECTORY/app
 export BLOT_LOG=$BLOT_DIRECTORY/logs/app.log
 
+# Used to take screenshots with Pupeteer
+export PUPPETEER_EXECUTABLE_PATH=
+
 # Admin information
 export BLOT_ADMIN_UID=
 export BLOT_ADMIN_EMAIL=

@@ -286,7 +286,7 @@ this:</p>
 <small><pre><code>{{&gt; next_more}}
 </code></pre></small>
 
-<p>Why? Because the <code>next_more.mustache</code> file will inherit the <code>size</code> and
+<p>Why? Because the <code>next_more.html</code> file will inherit the <code>size</code> and
 <code>start</code> methods from the calling context.</p>
 
 <p>In this way you may want to think of partials as includes, imports, template
@@ -294,13 +294,13 @@ expansion, nested templates, or subtemplates, even though those aren't literally
 
 <p>For example, this template and partial:</p>
 
-<small><pre><code>base.mustache:
+<small><pre><code>base.html:
 &lt;h2&gt;Names&lt;/h2&gt;
 {{#names}}
   {{&gt; user}}
 {{/names}}
 
-user.mustache:
+user.html:
 &lt;strong&gt;{{name}}&lt;/strong&gt;
 </code></pre></small>
 

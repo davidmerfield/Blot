@@ -3,11 +3,10 @@ on the services page of the dashboard */
 {{{appCSS}}}
 
 /* Will be replaced with the @font-face rules required
-to load which font is selected as the main body font */
+to load whichever fonts are selected. Duplicates should
+be caught my the CSS minifier */
 {{{body_font.styles}}}
-
-/* Will be replaced with the @font-face rules required
-to load which font is selected as the main body font */
+{{{navigation_font.styles}}}
 {{{coding_font.styles}}}
 
 html {
@@ -148,8 +147,7 @@ div.header {
 
 
 .column h1,
-.column h2,
-.column h3 {margin-bottom: -12px}
+.column h2 {margin-bottom: -12px}
 
 /* TEXT */
 
@@ -235,10 +233,9 @@ p code:after {
   content: "\00a0";
 }*/
 
-.katex, pre code {
+pre code {
   display: block;
-    overflow-x: scroll;
-    overflow-y: hidden;
+   white-space: pre-wrap;
 }
 pre code {
   display: block;padding: 12px 18px;
@@ -314,7 +311,7 @@ iframe {width: 100%;}
 .entry .twitter-tweet {margin-left:-16px!important}
 
 /* MATH */
-
+.has-katex {text-align: center;}
 .katex  {font-size: 1.05rem;}
 
 

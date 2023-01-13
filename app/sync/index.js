@@ -1,7 +1,9 @@
 const client = require("client");
 const buildFromFolder = require("template").buildFromFolder;
 const Blog = require("blog");
+const { promisify } = require("util");
 const Update = require("./update");
+const Rename = require("./rename");
 const localPath = require("helper/localPath");
 const clfdate = require("helper/clfdate");
 const uuid = require("uuid/v4");
@@ -9,6 +11,7 @@ const renames = require("./renames");
 const lockfile = require("proper-lockfile");
 const type = require("helper/type");
 const email = require("helper/email");
+const lowerCaseContents = require("./lowerCaseContents");
 
 function sync(blogID, callback) {
   if (!type(blogID, "string")) {
@@ -44,16 +47,33 @@ function sync(blogID, callback) {
 
     try {
       log("Acquiring lock on folder");
-      release = await lockfile.lock(localPath(blogID, "/"));
+      release = await lockfile.lock(localPath(blogID, "/"), {
+        retries: {
+          retries: 3,
+          factor: 2,
+          minTimeout: 100,
+          maxTimeout: 200,
+          randomize: true,
+        },
+      });
       log("Successfully acquired lock on folder");
     } catch (e) {
       log("Failed to acquire lock on folder");
       return callback(new Error("Failed to acquire folder lock"));
     }
 
+    const status = (message) => {
+      Blog.setStatus(blogID, { message, syncID });
+      log(message);
+      client.publish("sync:status:" + blogID, message);
+    };
+
     const folder = {
       path: localPath(blogID, "/"),
-      update: new Update(blog, log),
+      update: new Update(blog, log, status),
+      rename: Rename(blog, log),
+      lowerCaseContents: lowerCaseContents(blog, promisify(Rename(blog, log))),
+      status,
       log,
     };
 
@@ -71,13 +91,13 @@ function sync(blogID, callback) {
     // We acquired a lock on the resource!
     // This function is to be called when we are finished
     // with the lock on the user's folder.
-    client.publish("sync:status:" + blogID, "Syncing");
+    folder.status("Syncing");
 
     // Pass methods to trigger folder updates back to the
     // function which wanted to modify the blog's folder.
     callback(null, folder, function (syncError, callback) {
       log("Sync callback invoked");
-      client.publish("sync:status:" + blogID, "Synced");
+      folder.status("Synced");
 
       if (typeof syncError === "function")
         throw new Error("Pass an error or null as first argument to done");

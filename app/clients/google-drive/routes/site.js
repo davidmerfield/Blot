@@ -8,28 +8,49 @@ const clfdate = require("helper/clfdate");
 const database = require("../database");
 const express = require("express");
 const site = new express.Router();
-const session = require("dashboard/session");
+const cookieParser = require("cookie-parser");
 
-// This is only neccessary in a development environment
-// when using the webhook forwarding server. We might need
-// to do this twice to get from tunnel to public site to dashboard
-// with the required session information
-site.get("/authenticate", session, function (req, res) {
+// Customers are sent back to:
+// blot.im/clients/google-drive/authenticate
+// when they have authorized (or declined to authorize)
+// Blot's access to their folder. This is a public-facing
+// route without access to the customer's session by default.
+// We need to work out which blog they were
+// authenticating based on a value stored in their session
+// before they were sent out to Google Drive. Unfortunately we
+// can't pass a blog username in the URL, since it needs to
+// be the same URL every time, e.g. this would not work:
+// blot.im/clients/google-drive/authenticate?handle=david
+
+// Additionally, in development mode, we are:
+// first sent back to:
+// tunnel.blot.im/clients/google-drive/authenticate
+// are then redirected to:
+// blot.development/clients/google-drive/authenticate
+// and finally redirected to:
+// blot.development/dashboard/*/client/google-drive/authenticate
+site.get("/authenticate", cookieParser(), function (req, res) {
   // This means we hit the public routes on Blot's site
-  if (req.session.blogToAuthenticate) {
-    const url =
+  if (req.cookies.blogToAuthenticate) {
+    const redirect =
       config.protocol +
       config.host +
       "/dashboard/" +
-      req.session.blogToAuthenticate +
+      req.cookies.blogToAuthenticate +
       "/client/google-drive/authenticate?" +
       querystring.stringify(req.query);
-    delete req.session.blogToAuthenticate;
-    res.redirect(url);
-  // This means we hit the public routes on Blot's webhook
-  // forwarding host (e.g. tunnel.blot.im) we don't have access
-  // to the session info yet so we redirect to the public routes
-  // on Blot's site, which will be able to access the session.
+
+    res.clearCookie("blogToAuthenticate");
+    res.send(`<html>
+<head>
+<meta http-equiv="refresh" content="0;URL='${redirect}'"/>
+</head>
+<body><p>Continue to <a href="${redirect}">${redirect}</a>.</p></body>
+</html>`);
+    // This means we hit the public routes on Blot's webhook
+    // forwarding host (e.g. tunnel.blot.im) we don't have access
+    // to the session info yet so we redirect to the public routes
+    // on Blot's site, which will be able to access the session.
   } else {
     const url =
       config.protocol +

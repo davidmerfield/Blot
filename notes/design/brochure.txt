@@ -10,7 +10,7 @@ I tried to avoid using adjectives in any of the copy.
 
 Instead of a wall of logos of corporations that use Blot, I went with a wall of people who use Blot.
 
-# Sign up page
+## Sign up page
 
 Designing the sign up page for Blot.
 

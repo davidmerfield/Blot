@@ -1,8 +1,3 @@
-<div class="subpage">
-<a href="" class="mess error" style="display:none">
-         {{text}}
-         <span class="link">Dismiss</span>
-        </a>
 
 <style type="text/css">
 a {color: rgb(54, 88, 153);text-decoration: none;}
@@ -10,14 +5,18 @@ a:hover {text-decoration: underline;}
 </style>
 
 
-<p style="margin-top:0;padding:11px 20px 0;margin-bottom:0">Your subscription fee is overdue. Please pay {{amountDue}} to restart your subscription. You can also permanently <a href="/account/subscription/delete">delete your account</a>. If you have any questions please <a href="/support">contact support</a>.</p>
+<a href="" class="mess error" style="display:none">
+         {{text}}
+         <span class="link">Dismiss</span>
+        </a>
 
 
-<form method="POST" class="account" id="payment-form">
+<p style="margin-top:0;padding:33px 20px 0;max-width:600px;margin-bottom:0">The subscription fee for <b>{{user.email}}</b> is overdue. Please pay your unpaid invoice if you would like to continue using Blot. If you do not want to continue using Blot, please <a href="/account/subscription/delete"> delete your account</a>.<br><br>If you have any questions please <a href="/contact">contact support</a>.</p>
+
+<form method="POST" style="max-width: 500px;padding:11px 20px" id="payment-form">
 
   <input type="hidden" name="_csrf" value="{{csrftoken}}">
 
-  <div style="max-width:300px">
 
     <label style="margin-top:1rem">
       <span>Card number:</span>
@@ -36,9 +35,13 @@ a:hover {text-decoration: underline;}
     </div>
 
     <div class="clear"></div>
-  </div>
+<div class="line" style="margin-top: 20px;padding-left: 0 ">
+  <span class="label" style="padding-left: 0">Amount due:</span>
+  <span class="center">{{amountDue}}</span>
+</div>
 
-  <div class="buttons" style="max-width:300px">
+
+  <div class="buttons">
     <button type="submit">Submit payment</button>
     <a href="/">Cancel</a>
   </div>
@@ -76,8 +79,6 @@ $('#payment-form').submit(function(event) {
 });
 
 </script>
-
-</div>
 
 
 <form action="/account/log-out" method="post">

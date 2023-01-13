@@ -4,7 +4,21 @@
 
 In lots of ways, Blot is hidden. Most of the time, people who use Blot do so without looking at it. They simply edit the folder. Some things however, are visible. The templates, which I am not yet proud of, are an example of this.
 
-The *aesthetic* is one of my main motivations to work on Blot. I find a lot of the internet deeply ugly. My interests in type design lead me to study the work of the early printers, and I find their books to be intensely beautiful. It upsets me that here we are, decades into the internet, and nobody has made a beautiful website.
+The *aesthetic* is one of my main motivations to work on Blot. I find a lot of the internet deeply ugly. My interests in type design lead me to study the work of the early printers, and I find their books to be intensely beautiful. It upsets me that though we are decades into the internet, its beauty remains lacking.
+
+<br> 
+
+<div style="display:flex">
+<img style="max-width:50%;height:auto" src="/about/notes/first-website.png">
+<div style="max-width:50%;padding:1.2rem 1.5rem">
+<img style="max-width:100%;height:auto" src="/about/notes/first-printed-book.jpg">
+</div>
+</div>
+
+<small style="opacity:0.5;font-size:14px;px">A screenshot of the <a href="http://info.cern.ch/hypertext/WWW/TheProject.html">first website</a>, taken on MacOS on August 3rd, 2022. Next to it a leaf from the 42-line bible, the first book made on the printing press, printed in Mainz by Gutenberg in the 1450s. Image courtesy of <a href="https://www.peterharrington.co.uk/blog/a-leaf-of-the-first-printed-book-the-gutenberg-bible/">Peter Harrington</a></small><br><Br>
+
+I find old books, especially Italian ones made by early printers, to be very beautiful. I like objects that can age and break and be repaired with dignity. I like medieval buildings and I don't think that ornament is always a crime. I like things which can be handed down, things that have been handed down. Old books taught me that beauty is a prophylactic for destruction.
+
 
 <br>
 
@@ -12,7 +26,7 @@ The *aesthetic* is one of my main motivations to work on Blot. I find a lot of t
 
 <small style="opacity:0.5;font-size:14px;px">Page-spread from the Aristoteles "Opera" printed by Aldus Manutius about 1495—1498. Copy of the Bayerische Staatsbibliothek.</small><br><Br>
 
-I find old books, especially Italian ones made by early printers, to be very beautiful. I like objects that can age and break and be repaired with dignity. I like medieval buildings and I don't think that ornament is always a crime. I like things which can be handed down, things that have been handed down. Old books taught me that beauty is a prophylactic for destruction.
+
 
 ## Typefaces I like
 
@@ -41,6 +55,10 @@ If you look closely, you can probably feel the influence of these sites on Blot:
 - [**Mirror**](https://mirror.xyz/) I like [Jon-Kyle
 ](https://www.jon-kyle.com/)'s work (also involved with Cargo) and I like [Seth Thompson](https://seththompson.org/)'s work.
 - [**Overcase**](https://overcast.fm/)
+
+## Calming
+
+A lot of software makes me less calm. I want Blot to make more more calm, or at least not less calm.
 
 ## Black or white backgrounds
 

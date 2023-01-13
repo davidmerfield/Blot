@@ -31,6 +31,49 @@ Questions.use(function (req, res, next) {
   next();
 });
 
+// Removes everything forbidden by XML 1.0 specifications,
+// plus the unicode replacement character U+FFFD
+function removeXMLInvalidChars(string) {
+  var regex = /((?:[\0-\x08\x0B\f\x0E-\x1F\uFFFD\uFFFE\uFFFF]|[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?:[^\uD800-\uDBFF]|^)[\uDC00-\uDFFF]))/g;
+  return string.replace(regex, "");
+}
+
+Questions.get("/feed.rss", async function (req, res, next) {
+  const { rows } = await pool.query(
+    `SELECT * FROM items 
+      WHERE is_topic = true 
+      ORDER BY created_at DESC 
+      LIMIT ${TOPICS_PER_PAGE}`
+  );
+
+  res.locals.url = config.protocol + config.host;
+  res.locals.title = "Questions";
+  res.locals.topics = rows;
+
+  // We preview one line of the topic body on the question index page
+  rows.forEach(function (topic) {
+    topic.body = removeXMLInvalidChars(marked(topic.body));
+    topic.url = res.locals.url + "/questions/" + topic.id;
+    topic.author = "Anonymous";
+    topic.date = moment
+      .utc(topic.created_at)
+      .format("ddd, DD MMM YYYY HH:mm:ss ZZ");
+  });
+
+  const template = await require("fs-extra").readFile(
+    req.app.get("views") + "/questions/_feed.rss",
+    "utf-8"
+  );
+  const result = require("mustache").render(template, res.locals);
+
+  res.set("Content-type", "text/xml;charset=UTF-8");
+  res.set("Pragma", "public");
+  res.set("Cache-control", "private");
+  res.set("Expires", "-1");
+
+  res.send(result);
+});
+
 // Handle topic listing
 // Topics are sorted by datetime of last reply, then by topic creation date
 Questions.get(["/", "/page/:page"], function (req, res, next) {

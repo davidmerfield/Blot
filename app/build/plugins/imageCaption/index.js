@@ -1,6 +1,6 @@
 function render($, callback) {
   $("img").each(function () {
-    var altText = $(this).attr("alt");
+    var altText = $(this).attr("title") || $(this).attr("alt");
 
     if (!altText) return;
 
@@ -42,7 +42,7 @@ function render($, callback) {
 module.exports = {
   render: render,
   category: "images",
-  isDefault: false,
+  isDefault: true,
   title: "Caption",
   description: "Create a caption from the image’s alt text",
 };

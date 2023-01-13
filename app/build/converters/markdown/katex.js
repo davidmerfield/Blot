@@ -35,13 +35,15 @@ function renderTex(str) {
   // in case of rendering error
   var _str = str;
 
+  // If the Katex is on its own line, render it
+  // in the larger 'display style'.
+  var display = str.replace(" ", "").charAt(0) == "\n";
+
   // Null or empty string, return delimiters
   // This is to guard against '$$$$' being in a post
   if (!str) return delimiter + delimiter;
 
-  // If the Katex is on its own line, render it
-  // in the larger 'display style'.
-  if (str.replace(" ", "").charAt(0) == "\n") {
+  if (display) {
     str = "\\displaystyle {" + str + "}";
   }
 
@@ -49,6 +51,7 @@ function renderTex(str) {
   // reset to the source string with delimiters
   try {
     str = katex.renderToString(str);
+    if (display) str = '<p class="has-katex">' + str + "</p>";
   } catch (e) {
     str = delimiter + _str + delimiter;
   }

@@ -15,6 +15,15 @@ describe("build", function () {
     };
   });
 
+  it("will use a title to generate an image caption over the alt text", function (done) {
+    const contents = `![Alt text here](foo.jpg "Title here")`;
+    const path = "/hello.txt";
+    const html = '<p><img src="/foo.jpg" title="Title here" alt="Alt text here"><span class="caption">Title here</span></p>';
+
+    this.blog.plugins.imageCaption = { enabled: true, options: {} };
+    this.buildAndCheck({ path, contents }, { html }, done);
+  });
+
   it("will convert wikilinks if plugin is enabled", function (done) {
     const contents = "A [[wikilink]]";
     const path = "/hello.txt";
@@ -49,6 +58,16 @@ describe("build", function () {
     const path = "/hello.txt";
     const html =
       '<ul>\n<li>A <strong><a href="wikilink" class="wikilink">wikilink</a></strong> in a list</li>\n</ul>';
+
+    this.blog.plugins.wikilinks = { enabled: true, options: {} };
+    this.buildAndCheck({ path, contents }, { html }, done);
+  });
+
+  it("will convert wikilinks next to ignored nodes", function (done) {
+    const contents = "<script>console.log('hey');</script>\n\nA **[[wikilink elsewhere]]** ";
+    const path = "/hello.txt";
+    const html =
+      `<script>console.log('hey');</script>\n<p>A <strong><a href="wikilink elsewhere" class="wikilink">wikilink elsewhere</a></strong></p>`;
 
     this.blog.plugins.wikilinks = { enabled: true, options: {} };
     this.buildAndCheck({ path, contents }, { html }, done);

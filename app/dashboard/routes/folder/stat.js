@@ -46,12 +46,14 @@ module.exports = function (blog, path, callback) {
               ignored =
                 "it is inside a folder whose name begins with an underscore";
             } else {
-              ignored = REASONS[ignored] || "it is not a kind of file Blot can process";
+              ignored =
+                REASONS[ignored] || "it is not a kind of file Blot can process";
             }
           }
 
           stat.kind = kind(path);
           stat.path = path;
+          stat.url = encodeURIComponent(path.slice(1));
           stat.name = casePresevedName || basename(path);
           stat.created = moment
             .utc(stat.ctime)
@@ -76,7 +78,6 @@ module.exports = function (blog, path, callback) {
           stat.size = humanFileSize(stat.size);
           stat.directory = stat.isDirectory();
           stat.file = stat.isFile();
-          stat.url = joinpath("/~", dirname(path), stat.name);
           stat.entry = entry;
           stat.ignored = ignored;
 

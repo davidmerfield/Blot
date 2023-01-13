@@ -34,6 +34,7 @@ function makeSlug(string) {
     .replace(/&nbsp;/g, " ")
     .replace(/&thinsp;/g, " ")
     .replace(/&mdash;/g, "-")
+    .replace(/['’]s/g, "s")
     .replace(/→/g, "to")
     .replace(/←/g, "from")
     .replace(/\./g, "-")
@@ -135,9 +136,12 @@ is(
 );
 
 is("Peter Gregson – Bach recomposed: 6.6 Gigue","peter-gregson-bach-recomposed-6-6-gigue");
-
+is("Apple's Striking Short Film Ahead of International Day of People with Disabilities", "apples-striking-short-film-ahead-of-international-day-of-people-with-disabilities");
 is("'xsb' command line error.", "xsb-command-line-error");
 is("Foo & bar", "foo-bar");
+is("Foo's bar", "foos-bar");
+is("''s bar", "s-bar");
+is("'so' bar", "so-bar");
 is("Foo &amp; bar", "foo-and-bar");
 is("Foo&thinsp;bar", "foo-bar");
 is("China ← NYC → China", "china-from-nyc-to-china");

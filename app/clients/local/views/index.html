@@ -1,8 +1,8 @@
-
-  <div class="line">
-    <p><b>Local client</b> synchronizes your folder. You can <a class="link" href="/settings/client/switch">switch to a different client</a> seamlessly.</p>
+ {{> status-line}}
+  <div class="line" >
+    <span class="label">Location</span>
+    <span class="center">{{blog.id}}</span>
   </div>
-
   <div class="line" >
     <span class="label">Disconnect</span>
     <span class="link"><form method="POST" action="{{{base}}}/disconnect">

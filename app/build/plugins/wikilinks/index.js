@@ -29,7 +29,7 @@ function render($, callback, { blogID, path }) {
   let dependencies = [];
 
   $(":root").each(function findTextNodes(i, node) {
-    if ($(node).is(ignore)) return false;
+    if ($(node).is(ignore)) return;
 
     $(node)
       .contents()
