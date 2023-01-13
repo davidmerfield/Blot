@@ -183,6 +183,9 @@ LIMIT ${TAGS_PER_PAGE}
 OFFSET ${offset};`
     )
     .then(({ rows }) => {
+      
+      if (!rows.length) return next();
+
       // Data for pagination
       let pages_count = Math.ceil(rows[0].tags_count / TAGS_PER_PAGE); // total pages
       let next_page = false;
