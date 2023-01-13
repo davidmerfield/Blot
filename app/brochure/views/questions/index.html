@@ -1,10 +1,4 @@
-{{#tag}}
-<h1>{{tag}} <small>Questions</small></h1>
-{{/tag}}
-
-{{^tag}}
-<h1>Questions</h1>
-{{/tag}}
+<h1>Questions {{#tag}}tagged {{tag}}{{/tag}}</h1>
 
   <form action="/questions" style="margin-top:0rem;margin-bottom:0.5rem;display: flex;align-items: flex-end;">
     <p style="margin: 0;flex-basis: 50%">
@@ -21,10 +15,10 @@
 <div class="topics">
   {{#topics}}
   <div class="qa-question-link">
-  <h2>
+  <h2 style="font-weight: 400">
     <a href="/questions/{{id}}">{{title}}</a>
   </h2>
-  <div class="question-preview" style="    margin-bottom: 4px;
+  <div class="question-preview" style="  font-size: 14px;  margin-bottom: 4px;
 ">
     {{{body}}}
   </div>
