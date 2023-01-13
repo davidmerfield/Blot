@@ -80,7 +80,8 @@ function build(blog, path, options, callback) {
         html,
         metadata,
         stat,
-        dependencies
+        dependencies,
+        newPath
       ) {
         if (err) return callback(err);
 
@@ -100,7 +101,7 @@ function build(blog, path, options, callback) {
             entry = {
               html: html,
               name: options.name || basename(path),
-              path: path,
+              path: newPath || path,
               pathDisplay: options.pathDisplay || path,
               id: path,
               thumbnail: thumbnail,
