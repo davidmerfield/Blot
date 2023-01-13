@@ -502,6 +502,10 @@ Improvements to metadata extractor:
 Reduce image compression settings and tell [Joshua](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsmhMtGvPcwxlSHSSTFVpJVbd)
 
 Improve questions section of site, in approximate order of importance:
+  - Add way to mass-rename tags
+  - Add display aliases for tags e.g. how -> How to use Blot, etc.
+  - Fix breadcrumbs within Questions section
+  - Fix pagination
   - store version history of the question and answer edits
   - add option to hide/delete a question
   - question tagging, including a list of all tags, and popular tags
