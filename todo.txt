@@ -337,12 +337,11 @@ Write new converters to turn files into posts
 - Add RTF support using Pandoc or [rtf.js](https://github.com/tbluemel/rtf.js)
 - Add support for [Jupyter Notebook .ipynb](https://predictablynoisy.com/posts/2019/2019-11-11-ipynb_pandoc/#ipynb-to-html) using Pandoc and tell [Arnab](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmtNdkGQxbMVblqjvkHwSMTBbW)
 - Add support for .doc using [libreoffice](https://www.npmjs.com/package/libreoffice-convert) and tell [Kyle](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKkHZVgwCNwsdlhdzCggRtsRhN)
-- Video posts (.mp4)
-- Add support for .tiff images
+- Video posts (.mp4) - add way to opt-in to these
+- Add support for .tiff images 
 - OPML files and tell [John](https://mail.google.com/mail/u/1/#inbox/1659bac084c3e404)
-- Audio posts (.mp3 for now?) and tell [Kevin](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLhcqVldHMCFpTWDmfrRHfwpg)
-- Multi-file posts from inside one folder? 'Folder>' Tell [Kevin](https://mail.google.com/mail/u/0/#inbox/1669705dbd65a2e2), [Nash and Roberto](https://twitter.com/rmateu/status/1053665946592858113) and [Calvin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChclvkfHMWfnqGdWkQnzMdklW) and [Ariel](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrRXJqFphKVfJGFQHdlMvjDWW) and [Lara](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGBwTnxxJhZvjGdRPCXSTdcrZB)
-- Multi-file posts with the same name but different extension (image.txt and image.jpg)
+- Audio posts (.mp3 for now?) and tell [Kevin](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLhcqVldHMCFpTWDmfrRHfwpg) - add way to opt-in
+
 
 Write new clients to sync blog folders 
 - [SFTP](https://www.npmjs.com/package/ftpd) 
@@ -403,6 +402,8 @@ Improvements to teaser generator
 - Make it [possible for users to select length of teasers](https://blot.im/questions/823) and [Leo](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqQJdjwTLkHkRZvZTQvfSzSFTq)
 
 Performance improvements
+- Consider switching redis client, perhaps to ioredis?
+- Use a docker image to speed up test suite: https://github.com/davidmerfield/Blot/pull/463
 - Faster server, with SSL termination across CDN
 - set up 'cdn.blot.im' as cloudfront distribution endpoint?
 - Streamline and cache loading of data on dashboard
