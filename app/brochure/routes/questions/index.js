@@ -124,6 +124,7 @@ Questions.get(["/", "/page/:page"], function (req, res, next) {
         topic.body = marked(topic.body);
         if (topic.tags)
           topic.tags = topic.tags.split(",").map((tag) => ({ tag, slug: tag }));
+        if (topic.reply_count) topic.answered = moment(topic.last_reply_created_at).fromNow();
         topic.asked = moment(topic.created_at).fromNow();
       });
 
