@@ -20,6 +20,7 @@ var MAINTENANCE = "/maintenance";
 var ACCOUNT = "/account";
 var DELETE_ACCOUNT = "/account/subscription/delete";
 var PAY_SUBSCRIPTION = "/account/pay-subscription";
+var PASSWORD = "/account/password";
 var LOGOUT = "/account/log-out";
 
 var STATIC = [
@@ -97,7 +98,7 @@ redirector.use(function (req, res, next) {
   // Only allow the user to pay
   if (
     user.needsToPay &&
-    pathIsNot([PAY_SUBSCRIPTION, LOGOUT, DELETE_ACCOUNT])
+    pathIsNot([PAY_SUBSCRIPTION, LOGOUT, PASSWORD, CONTACT, DELETE_ACCOUNT])
   ) {
     return res.redirect(PAY_SUBSCRIPTION);
   }

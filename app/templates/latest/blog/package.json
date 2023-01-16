@@ -10,6 +10,9 @@
     "body_font": {
       "font_size": 18
     },
+    "coding_font": {
+      "font_size": 16
+    },
     "navigation_font": {
       "font_size": 14
     },

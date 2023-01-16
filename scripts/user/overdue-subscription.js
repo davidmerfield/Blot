@@ -117,7 +117,7 @@ function main(callback) {
                           stripe.invoices.pay(invoice.id, nextInvoice);
                         },
                         function () {
-                          fetchSubscription(email, function (err) {
+                          fetchSubscription(user, function (err) {
                             if (err) return callback(err);
                             callback(null, email, invoices);
                           });

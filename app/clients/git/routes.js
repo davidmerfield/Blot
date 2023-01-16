@@ -47,6 +47,7 @@ dashboard.get("/", function (req, res) {
 });
 
 dashboard.get("/disconnect", function (req, res) {
+  res.locals.breadcrumbs.add('Disconnect', 'disconnect');
   res.render(__dirname + "/views/disconnect.html", {
     title: "Git",
   });

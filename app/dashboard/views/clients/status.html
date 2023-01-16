@@ -1,0 +1,11 @@
+<ul>
+  {{#statuses}}
+  <li>{{fromNow}} <!-- {{syncID}}  -->
+    <ul>
+      {{#messages}}
+      <li>{{message}}</li>
+      {{/messages}}
+    </ul>
+  </li>
+  {{/statuses}}
+</ul>

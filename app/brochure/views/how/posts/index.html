@@ -5,41 +5,50 @@
 <h2>Files which become posts</h2>
 
 <style type="text/css">
-  .light {display:block;text-indent: 1.8rem;
+  li .light {display:block;text-indent: 1.8rem;
     color: var(--light-text-color);}
 </style>
 <ul class="clients" style="margin-top: 0">
-  <li><a href="/how/posts/text-and-markdown"><code class="file md">
+  <li><a href="/how/posts/text-and-markdown"><code class="file md">&nbsp;
     <span class="a">Text and Markdown</span><span class="light">.txt&nbsp; .md</span></a></li>
   
   <li><a href="/how/posts/images"><code class="file img" style="margin-left:-3px">&nbsp;<span class="a">Images</span></code><span class="light">.png&nbsp; .jpeg&nbsp; .gif</span></a></li>
 
-  <li><a href="/how/posts/word-documents"><code class="file txt">&nbsp;Word Documents</code><span class="light">.docx &nbsp;.odt</span></a></li>
+  <li><a href="/how/posts/word-documents"><code class="file txt">&nbsp;<span class="a">Word Documents</span></code><span class="light">.docx &nbsp;.odt</span></a></li>
   
-  <li><a href="/how/posts/bookmarks"><code class="file webloc">&nbsp;Bookmarks</code><span class="light">.webloc&nbsp; .url</span></a></li>
+  <li><a href="/how/posts/bookmarks"><code class="file webloc">&nbsp;<span class="a">Bookmarks</span></code><span class="light">.webloc&nbsp; .url</span></a></li>
 
-  <li><a href="/how/posts/html"><code class="file html">&nbsp;HTML</code><span class="light">.html <!-- &nbsp; .htm --></span></a></li>
+  <li><a href="/how/posts/html"><code class="file html">&nbsp;<span class="a">HTML</span></code><span class="light">.html <!-- &nbsp; .htm --></span></a></li>
 
 </ul>
  
 <h2>Prevent a file becoming a blog post</h2>
 <p> Files and folders whose name starts with an underscore are ignored. Ignored files don’t become blog posts themselves but they can be <a href="#files-in-your-folder-are-public">embedded in posts</a>. None of these files become posts:</p>
 
-
+<style type="text/css">
+  table .light {margin: 0 10px 0 12px;
+    color: #777;}
+</style>
 <table style="max-width:637px;table-layout: auto;">
   <tbody>
 
     <tr>
-       <td>
-        <code class="file img">_Palermo.jpg</a></code>
-      </td>
-    </tr>
-    <tr>
       <td>
-        <code class="file img">_Palermo.jpg</a></code>
+        <code class="folder">_Fruits</code><span class="light">›</span>
+        <code class="folder">Tropical</code><span class="light">›</span><code class="file img">Banana.jpg</a></code>
+      </td>      
+    </tr>
+  <tr>
+      <td>
+        <code class="folder">_Fruits</code><span class="light">›</span><code class="file img">Banana.jpg</a></code>
       </td>      
     </tr>
 
+    <tr>
+       <td>
+        <code class="file img">_Banana.jpg</a></code>
+      </td>
+    </tr>
   </tbody>
 </table>
 <h2>Formatting posts</h2>

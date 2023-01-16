@@ -1,7 +1,9 @@
 const client = require("client");
 const buildFromFolder = require("template").buildFromFolder;
 const Blog = require("blog");
+const { promisify } = require("util");
 const Update = require("./update");
+const Rename = require("./rename");
 const localPath = require("helper/localPath");
 const clfdate = require("helper/clfdate");
 const uuid = require("uuid/v4");
@@ -9,6 +11,7 @@ const renames = require("./renames");
 const lockfile = require("proper-lockfile");
 const type = require("helper/type");
 const email = require("helper/email");
+const lowerCaseContents = require("./lowerCaseContents");
 
 function sync(blogID, callback) {
   if (!type(blogID, "string")) {
@@ -44,17 +47,33 @@ function sync(blogID, callback) {
 
     try {
       log("Acquiring lock on folder");
-      release = await lockfile.lock(localPath(blogID, "/"));
+      release = await lockfile.lock(localPath(blogID, "/"), {
+        retries: {
+          retries: 3,
+          factor: 2,
+          minTimeout: 100,
+          maxTimeout: 200,
+          randomize: true,
+        },
+      });
       log("Successfully acquired lock on folder");
     } catch (e) {
       log("Failed to acquire lock on folder");
       return callback(new Error("Failed to acquire folder lock"));
     }
 
+    const status = (message) => {
+      Blog.setStatus(blogID, { message, syncID });
+      log(message);
+      client.publish("sync:status:" + blogID, message);
+    };
+
     const folder = {
       path: localPath(blogID, "/"),
-      update: new Update(blog, log),
-      status: (message) => client.publish("sync:status:" + blogID, message),
+      update: new Update(blog, log, status),
+      rename: Rename(blog, log),
+      lowerCaseContents: lowerCaseContents(blog, promisify(Rename(blog, log))),
+      status,
       log,
     };
 

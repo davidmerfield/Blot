@@ -16,6 +16,7 @@ function retry(fn, options) {
   options.errorFilter =
     options.errorFilter ||
     function (err) {
+      console.log("dropbox:retry invoked with err", err);
       return [401, 409].indexOf(err.status) === -1;
     };
 
@@ -29,6 +30,7 @@ function retry(fn, options) {
     async.retry(
       options,
       function (done) {
+        console.log("dropbox:retry attempting");
         fn.apply(null, args.concat(done));
       },
       callback

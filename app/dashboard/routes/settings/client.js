@@ -1,5 +1,6 @@
 var clients = require("clients");
-
+var _ = require("lodash");
+var moment = require("moment");
 var express = require("express");
 var client_routes = express.Router();
 
@@ -8,17 +9,24 @@ var load = require("./load");
 var Sync = require("sync");
 var Fix = require("sync/fix");
 
+const { promisify } = require("util");
+const getStatuses = promisify(Blog.getStatuses);
+
 // So the breadcrumbs look like: Settings > Client
 client_routes.use(function (req, res, next) {
   res.locals.breadcrumbs.add("Folder", "client");
+  res.locals.partials["status-line"] = "clients/status-line";
   next();
 });
+
+client_routes.use(load.client);
 
 client_routes
 
   .route("/switch")
 
-  .get(load.clients, load.client, function (req, res) {
+  .get(load.clients, function (req, res) {
+    res.locals.breadcrumbs.add("Switch", "switch");
     res.render("clients/switch", {
       title: "Switch to another client",
     });
@@ -43,35 +51,33 @@ client_routes
     });
   });
 
-client_routes
-  .route("/fix")
-  .get(load.clients, load.client, function (req, res) {
-    res.render("clients/fix", {
-      title: "Reset your folder",
-    });
-  })
-  .post(function (req, res, next) {
-    Sync(req.blog.id, function (err, folder, done) {
-      if (err) return next(err);
-      Fix(req.blog, function (err) {
-        if (err) return next(err);
-        done(null, function (err) {
-          if (err) return next(err);
-          res.message(
-            req.baseUrl + "/" + req.blog.client,
-            "Fixed folder successfully"
-          );
-        });
-      });
-    });
+client_routes.route("/status").get(load.clients, async function (req, res) {
+  res.locals.breadcrumbs.add("Status", "status");
+
+  let { statuses, next, previous } = await getStatuses(req.blog.id);
+
+  statuses = _.chain(statuses)
+    .groupBy("syncID")
+    .map((value, key) => ({
+      syncID: key,
+      messages: value,
+      fromNow: moment(value.at(0).datestamp).fromNow(),
+    }))
+    .value();
+
+  res.render("clients/status", {
+    title: "Reset your folder",
+    statuses,
+    next,
+    previous,
   });
+});
 
 client_routes
   .route("/")
 
   .get(
     load.clients,
-    load.client,
     function (req, res, next) {
       if (!req.blog.client) return next();
       res.redirect(req.baseUrl + "/" + req.blog.client);
@@ -114,6 +120,7 @@ client_routes.use("/:client", function (req, res, next) {
     return res.redirect(req.baseUrl + "/" + req.blog.client);
   }
 
+  res.locals.dashboardBase = res.locals.base;
   res.locals.base = req.baseUrl;
 
   next();

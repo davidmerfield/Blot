@@ -2,6 +2,7 @@ const puppeteer = require("puppeteer");
 const imagemin = require("imagemin");
 const imageminPngquant = require("imagemin-pngquant");
 const dirname = require("path").dirname;
+const fs = require("fs-extra");
 
 async function main(site, path, options = {}) {
   const browser = await puppeteer.launch();
@@ -21,6 +22,7 @@ async function main(site, path, options = {}) {
     });
   }
 
+  await fs.ensureDir(dirname(path));
   await page.goto(site);
   await page.screenshot({ path: path });
   await browser.close();

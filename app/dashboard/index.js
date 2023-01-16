@@ -100,6 +100,7 @@ dashboard.post(
   [
     "/dashboard/:handle/template*",
     "/dashboard/:handle/client",
+    "/dashboard/:handle/client/switch",
     "/path",
     "/folder*",
     "/settings/client*",
@@ -156,6 +157,7 @@ dashboard.use("/account", require("./routes/account"));
 
 dashboard.get("/dashboard", require("./load-blogs"), function (req, res, next) {
   res.locals.title = "Your blogs";
+  res.locals.breadcrumbs.add("Your blogs", "/dashboard");
   res.render("index");
 });
 
