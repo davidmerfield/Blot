@@ -26,13 +26,12 @@ module.exports = function (blogID, callback) {
 
             var dir = templateDir + "/" + template;
 
-            readFromFolder(blogID, dir, function (err, metadata) {
+            readFromFolder(blogID, dir, function (err) {
               if (err) {
                 // we need to expose this error
                 // on the design page!
               }
 
-              console.log(metadata);
               next();
             });
           },
