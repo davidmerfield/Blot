@@ -1,7 +1,75 @@
-Disable 'long sync' emails
+Add better tools for reseting Google Drive sync state, pulling from Drive instead of from Blot.
+
+Handle uncaught error with verify on Google Drive client
+- another uncaught error surfaces when the account is deleted, before a verify takes place
+
+Improve Google Drive client:
+- Uncaught exceptions raised by verify seem to not be caught properly by the try/catch blocks. Simulate an exception and work out why.
+- Resolve error which occurred when I disconnected a blog from Google Drive client, a folder lock issue, which wasn't surfaced properly.
+- Weird issue with connecting multiple blogs to same google drive account – the file from one appeared in the folder for the other. Also strangeness possibly related to an empty blog folder?
+- How do we handle two files with same name and same parent? How does our fileId:path hash handle this? Make sure we delete the right file. Will file.title as opposed to file.name give us the deduped version?
+  - Bug: move file with deduplicated name from sub folder to other folder
+  - download should check for an existing file with same name but different fileId and dedupe before storing the path?
+- Handle revoked credentials without tanking server
+- Fix bug which occurs when:
+  - move a folder containing a folder containing a file from within your google drive, into your blog folder
+  - then move the folder within the folder out of the folder but keep it within your blog folder. 
+  - Blot will never transfer the file inside
+- Fix bug which occurs when:
+  - move a folder full of files from within google drive into your blog's folder
+  - Blot will recieve the folder but not the files inside
+- Create test app for local use
+- Can the google drive client handle a server restart during setup?
+- database.folder should throw ENOENT and EEXIST errors for del, set, move etc.
+- Error handling
+  - Retry when we get google drive's This service is not available error
+  - Handle storage quota errors
+  - Handle 429 errors with exponential backoff retry
+- Add percentage progress and a status bar to the folder copying setup page
+- Add `folder.rename` method to `app/sync` to take advantage of Google Drive's true rename feature
+- Add a way for sync/build to accept a ctime as an option. We can't set this at the operating system level but google drive's API does return a createdTime value and we could use this as the true file's created date, rather than the date the file is made on the server
+- Work out if we can test this using Mocks
+- `write` should use the best method for large file uploading
+- `download` Should nicely handle the export of various Google Doc formats
+
+Fix issues with sync:
+- Expose unlock and verify options for both dropbox and google drive clients
+- error earlier
+- log all dropbox client related errors?
+- add some kind of request rate limit to dropbox client?
+  - we could use async queue to accomplish this...
+- properlockfile should be fine.
+- [tell marco](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqPpdwHHQTgHmMFwkXQZBjSwXt)
+- Is it possible that retry delays from the Dropbox API under excessive number of requests is the cause of the lockup?
+- Do we encounter dropbox/google drive bugs when we remove a directory of files, rather than invidivual files?
+- Victor
+- Ryan
+- Johannes
+- Rizwan
+- Fritz whose blog became stuck
+- [Kevin](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlkFzdBrlJzrGprHNHNmvkQqbW)
+- It seems one sync tanked the setup transfer with an [ENOENT](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmvTwMksRmWvSpQXVhvlMXjKFC)
+- Tell [Mike](https://mail.google.com/mail/u/0/#inbox/FMfcgzGpFgpdfBScqQctbnNGxBCLrztC) once the bug is sorted so he can rejoin
+- Tell [Juan](https://mail.google.com/mail/u/0/#inbox/FMfcgzGpFzvBSNgqmRVDRHvdGrzqrZDt)
+- Tell questioners](https://blot.im/questions/576)
+- Tell [N](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqPzKcnRQlXQVVcbdRvLVxtjnD) when you can switch between dropbox and git without bugs
+
+---
+
+Expose local template syntax error messages on preview subdomain
+
+Expose local template package.json error messages
+
+Expose template build metadata errors on dashboard
+
+---
 
 Create a 'light local server' for template development which zips then posts template files to Blot's endpoint for live-auto updating previews for a given blog – there would need to be authentication with a one-time pass
 - some blogs could be used unauthenticated
+
+Create a bootswatch template and [tell Michael](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqRQBnhffbhgdVXCMpzGpbJgbW)
+
+---
 
 Fix duplicate GUID issue and tell [Jason](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrbvKsNQgVWVNKrVqMzRJdDvKk)
 
@@ -14,16 +82,6 @@ Fix missing posts on [preview of reference template](https://preview-of-referenc
 Tell [Jarrod](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrbRSDCZqMwzjDdqdGCkScxpsw) when local template folders better reflect template names
 
 Fix navigation link bug with blog tempalte and tell [Jason](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrbcCBmkcVhfWTpZbmqndwXQrL)
-
-Create a bootswatch template and [tell Michael](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqRQBnhffbhgdVXCMpzGpbJgbW)
-
----
-
-Expose local template syntax error messages on preview subdomain
-
-Expose local template package.json error messages
-
-Expose template build metadata errors on dashboard
 
 ---
 
@@ -63,20 +121,13 @@ Fix bug with duplicate entries and tell [Marco](https://mail.google.com/mail/u/0
 
 Fix bug with this [question](https://blot.im/questions/648)
 
-Understand the out of memory errors, are they related to screenshot?
-
 Investigate this [date metadata bug](https://blot.im/questions/936)
-
-Add better tools for reseting Google Drive sync state, pulling from Drive instead of from Blot.
 
 Support larger files on DB client and tell [Marco](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqQmWjKnmPrwKSXMdZNmlqmtss)
 
 ---
 
 Add 'download as zip' option to template editor
-
-Handle uncaught error with verify on Google Drive client
-- another uncaught error surfaces when the account is deleted, before a verify takes place
 
 Work out how to ensure fix is able to remove tag items without posts
 - how to reproduce this bug?
@@ -113,32 +164,10 @@ Improvements to Dropbox client:
 
 Fix issue with variable passed to dateFormat function and tell [Leo](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqQJlfVpSBNBwDxcSlGGqHXQbh)
 
-Fix issues with sync:
--error earlier
-- log all dropbox client related errors?
-- add some kind of request rate limit to dropbox client?
-  - we could use async queue to accomplish this...
-- properlockfile should be fine.
-- [tell marco](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqPpdwHHQTgHmMFwkXQZBjSwXt)
-- Is it possible that retry delays from the Dropbox API under excessive number of requests is the cause of the lockup?
-- Do we encounter dropbox/google drive bugs when we remove a directory of files, rather than invidivual files?
-- Victor
-- Ryan
-- Johannes
-- Rizwan
-- Fritz whose blog became stuck
-- [Kevin](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlkFzdBrlJzrGprHNHNmvkQqbW)
-- It seems one sync tanked the setup transfer with an [ENOENT](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmvTwMksRmWvSpQXVhvlMXjKFC)
-- Tell [Mike](https://mail.google.com/mail/u/0/#inbox/FMfcgzGpFgpdfBScqQctbnNGxBCLrztC) once the bug is sorted so he can rejoin
-- Tell [Juan](https://mail.google.com/mail/u/0/#inbox/FMfcgzGpFzvBSNgqmRVDRHvdGrzqrZDt)
-- Tell questioners](https://blot.im/questions/576)
-- Tell [N](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqPzKcnRQlXQVVcbdRvLVxtjnD) when you can switch between dropbox and git without bugs
 
 Explain that the git client uses the master branch and repos from github will use main in the docs and on the dashboard then tell [N](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqPzKcnQKsQQNkzcRpvCWpWKTr)
 
 Inject title metadata into h1 tag for all the text-based default templates and tell [questioners](https://blot.im/questions/795)
-
-Expose unlock and verify options for both dropbox and google drive clients
 
 Make the magazine template respect the date settings and follow up [with questioner](https://blot.im/questions/773)
 
@@ -234,34 +263,6 @@ Make retreiving files from server case-insentive
 
 Reach out to Wesley about using [notebook](https://github.com/WesleyAC/notebook)'s features in a template
 
-Improve Google Drive client:
-- Uncaught exceptions raised by verify seem to not be caught properly by the try/catch blocks. Simulate an exception and work out why.
-- Resolve error which occurred when I disconnected a blog from Google Drive client, a folder lock issue, which wasn't surfaced properly.
-- Weird issue with connecting multiple blogs to same google drive account – the file from one appeared in the folder for the other. Also strangeness possibly related to an empty blog folder?
-- How do we handle two files with same name and same parent? How does our fileId:path hash handle this? Make sure we delete the right file. Will file.title as opposed to file.name give us the deduped version?
-  - Bug: move file with deduplicated name from sub folder to other folder
-  - download should check for an existing file with same name but different fileId and dedupe before storing the path?
-- Handle revoked credentials without tanking server
-- Fix bug which occurs when:
-  - move a folder containing a folder containing a file from within your google drive, into your blog folder
-  - then move the folder within the folder out of the folder but keep it within your blog folder. 
-  - Blot will never transfer the file inside
-- Fix bug which occurs when:
-  - move a folder full of files from within google drive into your blog's folder
-  - Blot will recieve the folder but not the files inside
-- Create test app for local use
-- Can the google drive client handle a server restart during setup?
-- database.folder should throw ENOENT and EEXIST errors for del, set, move etc.
-- Error handling
-  - Retry when we get google drive's This service is not available error
-  - Handle storage quota errors
-  - Handle 429 errors with exponential backoff retry
-- Add percentage progress and a status bar to the folder copying setup page
-- Add `folder.rename` method to `app/sync` to take advantage of Google Drive's true rename feature
-- Add a way for sync/build to accept a ctime as an option. We can't set this at the operating system level but google drive's API does return a createdTime value and we could use this as the true file's created date, rather than the date the file is made on the server
-- Work out if we can test this using Mocks
-- `write` should use the best method for large file uploading
-- `download` Should nicely handle the export of various Google Doc formats
 
 Prevent full disk from affecting access to people's blogs. 
 - switch into a read-only mode?
