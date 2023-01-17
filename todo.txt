@@ -1,5 +1,8 @@
 Disable 'long sync' emails
 
+Create a 'light local server' for template development which zips then posts template files to Blot's endpoint for live-auto updating previews for a given blog – there would need to be authentication with a one-time pass
+- some blogs could be used unauthenticated
+
 Fix duplicate GUID issue and tell [Jason](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrbvKsNQgVWVNKrVqMzRJdDvKk)
 
 Come up with a workaround for [Silas's Dropbox business issue](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrbvJhdWCxjRHXRbXpjhZtwTst)
