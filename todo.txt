@@ -1,9 +1,8 @@
-Add better tools for reseting Google Drive sync state, pulling from Drive instead of from Blot.
-
-Handle uncaught error with verify on Google Drive client
-- another uncaught error surfaces when the account is deleted, before a verify takes place
-
 Improve Google Drive client:
+- Handle uncaught error with verify on Google Drive client. 
+- another uncaught error surfaces when the account is deleted, before a verify takes place
+- Add better tools for reseting Google Drive sync state, pulling from Drive instead of from Blot.
+- Expose unlock and verify options for  drive
 - Uncaught exceptions raised by verify seem to not be caught properly by the try/catch blocks. Simulate an exception and work out why.
 - Resolve error which occurred when I disconnected a blog from Google Drive client, a folder lock issue, which wasn't surfaced properly.
 - Weird issue with connecting multiple blogs to same google drive account – the file from one appeared in the folder for the other. Also strangeness possibly related to an empty blog folder?
@@ -31,16 +30,6 @@ Improve Google Drive client:
 - Work out if we can test this using Mocks
 - `write` should use the best method for large file uploading
 - `download` Should nicely handle the export of various Google Doc formats
-
-Fix issues with sync:
-- Expose unlock and verify options for both dropbox and google drive clients
-- error earlier
-- log all dropbox client related errors?
-- add some kind of request rate limit to dropbox client?
-  - we could use async queue to accomplish this...
-- properlockfile should be fine.
-- [tell marco](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqPpdwHHQTgHmMFwkXQZBjSwXt)
-- Is it possible that retry delays from the Dropbox API under excessive number of requests is the cause of the lockup?
 - Do we encounter dropbox/google drive bugs when we remove a directory of files, rather than invidivual files?
 - Victor
 - Ryan
@@ -52,7 +41,6 @@ Fix issues with sync:
 - Tell [Mike](https://mail.google.com/mail/u/0/#inbox/FMfcgzGpFgpdfBScqQctbnNGxBCLrztC) once the bug is sorted so he can rejoin
 - Tell [Juan](https://mail.google.com/mail/u/0/#inbox/FMfcgzGpFzvBSNgqmRVDRHvdGrzqrZDt)
 - Tell questioners](https://blot.im/questions/576)
-- Tell [N](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqPzKcnRQlXQVVcbdRvLVxtjnD) when you can switch between dropbox and git without bugs
 
 ---
 
@@ -139,7 +127,16 @@ Improvements to toLowerCase:
 - sync.lowerCaseAllFiles needs handle a duplication of files with different cases. I need a case-sensitive disk to test this on
 
 Improvements to Dropbox client:
-- [ ] parallelize build/download a little more, so posts appear when many files are dropped into folder
+- [ ] Fix issues with sync:
+  - Expose unlock and verify options for  dropbox
+  - error earlier
+  - log all dropbox client related errors?
+  - add some kind of request rate limit to dropbox client?
+    - we could use async queue to accomplish this...
+  - [tell marco](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqPpdwHHQTgHmMFwkXQZBjSwXt)
+  - Is it possible that retry delays from the Dropbox API under excessive number of requests is the cause of the lockup?
+  - Tell [N](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqPzKcnRQlXQVVcbdRvLVxtjnD) when you can switch between dropbox and git without bugs
+   parallelize build/download a little more, so posts appear when many files are dropped into folder
 - [ ] Efficiently handle Dropbox file renames with internal hash of fileIDs
 - [ ] surface errors during setup on dashboard
    - [ ] surface sync issues with Dropbox client on the homepage of dashboard
