@@ -1,4 +1,4 @@
-First draft of Vaughn's site
+Convert Anita's template
 
 ---
 
@@ -45,6 +45,8 @@ Improve Google Drive client:
 - Tell [Mike](https://mail.google.com/mail/u/0/#inbox/FMfcgzGpFgpdfBScqQctbnNGxBCLrztC) once the bug is sorted so he can rejoin
 - Tell [Juan](https://mail.google.com/mail/u/0/#inbox/FMfcgzGpFzvBSNgqmRVDRHvdGrzqrZDt)
 - Tell questioners](https://blot.im/questions/576)
+
+Add simple form endpoint, could be used for contact forms
 
 ---
 
