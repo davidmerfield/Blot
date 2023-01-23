@@ -122,10 +122,12 @@ Questions.get(["/", "/page/:page"], function (req, res, next) {
       // We preview one line of the topic body on the question index page
       topics.rows.forEach(function (topic) {
         topic.body = marked(topic.body);
+        topic.singular = topic.reply_count === '1';
         if (topic.tags)
           topic.tags = topic.tags.split(",").map((tag) => ({ tag, slug: tag }));
-        if (topic.reply_count) topic.answered = moment(topic.last_reply_created_at).fromNow();
-        topic.asked = moment(topic.created_at).fromNow();
+        if (topic.last_reply_created_at)
+          topic.answered = moment(topic.last_reply_created_at).fromNow();
+        if (topic.created_at) topic.asked = moment(topic.created_at).fromNow();
       });
 
       // Data for pagination
@@ -169,9 +171,9 @@ Questions.route(["/tags", "/tags/page/:page"]).get(function (req, res, next) {
 
   const offset = (page - 1) * TAGS_PER_PAGE;
 
-  console.log('page is:', page);
+  console.log("page is:", page);
 
-  console.log('offset is:', offset);
+  console.log("offset is:", offset);
   pool
     .query(
       `SELECT taglist.tag,
@@ -188,9 +190,7 @@ LIMIT ${TAGS_PER_PAGE}
 OFFSET ${offset};`
     )
     .then(({ rows }) => {
-      
       if (!rows.length) return res.render("questions/tags");
-
 
       // Data for pagination
       let pages_count = Math.ceil(rows[0].tags_count / TAGS_PER_PAGE); // total pages
