@@ -481,9 +481,13 @@ ul.who .imag {
   height: 1.5rem;
   overflow: hidden;
   white-space: nowrap;
-  overflow: hidden;
+  position: relative;
   text-overflow: ellipsis;
 }
+
+.question-preview a {color:inherit;text-decoration: none;}
+.question-preview:after {content: " ";position: absolute;top:0;right: 0;left: 0;bottom: 0}
+
 .question-preview > :first-child {
   margin: 0;
   padding: 0;
