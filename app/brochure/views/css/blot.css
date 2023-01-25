@@ -241,8 +241,8 @@ th:last-child {
 background {
   display: flex;
   margin: 1rem 0 5rem;
-  border-radius: 12px;
-  background: #e9f2fc;
+  border-radius: 6px;
+  background: var(--dark-accent-color);
   overflow: hidden;
   box-shadow: 0 0 1px rgb(0 40 255 / 50%);
   box-sizing: border-box;
