@@ -131,6 +131,7 @@ Improvements to toLowerCase:
 - sync.lowerCaseAllFiles needs handle a duplication of files with different cases. I need a case-sensitive disk to test this on
 
 Improvements to Dropbox client:
+- [ ] improve aesthetics of oauth redirect screen (currently an ugly blue link)
 - [ ] Fix issues with sync:
   - Expose unlock and verify options for  dropbox
   - error earlier
