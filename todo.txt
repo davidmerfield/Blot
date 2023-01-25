@@ -1,7 +1,3 @@
-Convert Anita's template
-
----
-
 Improve Google Drive client:
 - Handle uncaught error with verify on Google Drive client. 
 - another uncaught error surfaces when the account is deleted, before a verify takes place
@@ -49,6 +45,8 @@ Improve Google Drive client:
 Add simple form endpoint, could be used for contact forms
 
 ---
+
+Add 'confirm email address' flow to prevent typos in emails
 
 Expose local template syntax error messages on preview subdomain
 
