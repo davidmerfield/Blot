@@ -18,8 +18,6 @@
   }
 
 	.sidebar {border:none;/*border-left:1px solid rgba(0,0,0,0.1);*/
-    background: #fafafa;
-    border-radius: 18px;
     padding: 16px 32px;
 }
 
@@ -39,8 +37,13 @@
 
   .sidebar-container {
     position: absolute;
-    left: 3rem;
-    width: 270px;
+    left: 0;
+    top: 4rem;   
+    border-radius: 0 6px 6px 0;
+    background-color: #fafafa;
+    bottom: 0;
+    width: 320px;
+
   }
 
   .layout-wrapper {
@@ -52,8 +55,9 @@
   <div class="sidebar-container">
     {{> sidebar}}
   </div>
-  <div class="yiel">
-{{> body}}
+  <div class="yiel"> 
+   {{> breadcrumbs}}
+   {{> body}}
   </div>   
 </div>
 {{> footer}}
