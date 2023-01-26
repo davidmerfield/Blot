@@ -343,7 +343,6 @@ background .window {
 
 .clients li a .a {
   color: var(--accent-color);
-  text-decoration: underline;
 }
 
 .clients img {

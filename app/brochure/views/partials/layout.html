@@ -59,23 +59,15 @@
   </div>
   <div style="flex-grow: 1">
   <div class="yiel"> 
-        <input type="text" name="" placeholder="Search" style="    width: 600px;
-    border-radius: 28px;
-    height: 30px;
-    font-size: 16px;
-    margin-top: 1rem;
-    margin-bottom: 12px;
-    border: 1px solid rgba(0,0,0,0.01);
-    box-shadow: none;
-    background: #F4F4F6;
-    padding: 0 16px;" style="">
+          {{> search}}
 
    {{> breadcrumbs}}
+
    {{> body}}
   </div>   
 </div>
      <div class="otp" style="flex-grow:1;max-width:200px;padding-left: 3rem;padding-right: 2rem">
-      <div class="header-buttons" style="margin:16px 0">
+      <div class="header-buttons" style="margin:16px 0 88px">
 
    {{^selected.log-in}}
     {{^selected.index}}
