@@ -128,15 +128,12 @@
    
   </div>
     <div style="padding:16px;background:#fafafa;border-radius: 10px;margin:16px 0">
-    <h2 style="margin: 0;font-size:14px;font-weight:500;color:#999;border:none">Have a question?</h2>
+    <h2 style="margin: 0;font-size:14px;font-weight:500;color:#999;border:none">Question or feedback?</h2>
         <a style="line-height:1.2;padding: 4px 0 4px 0;color:inherit;font-size: 15px;display: block;" href="/contact">Contact us</a>
 
 </div>
 
-  <div style="padding:16px;background:#fafafa;border-radius: 10px;margin:16px 0">
-    <h2 style="margin: 0;font-size:14px;font-weight:500;color:#999;border:none">On this page</h2>
-    <div class="toc" ></div>
-</div>
+    {{#related.length}}
 
   <div style="padding:16px;background:#fafafa;border-radius: 10px;margin:16px 0">
     <h2 style="margin: 0;font-size:14px;font-weight:500;color:#999;border:none">Related questions</h2>
@@ -144,6 +141,16 @@
     <a style="line-height:1.2;padding: 4px 0 4px 0;color:inherit;font-size: 15px;display: block;" href="/questions/{{id}}">{{title}}</a>
     {{/related}}
   </div>
+  {{/related.length}}
+  
+  {{^hide-on-this-page}}
+  <div style="padding:16px;background:#fafafa;border-radius: 10px;margin:16px 0">
+    <h2 style="margin: 0;font-size:14px;font-weight:500;color:#999;border:none">On this page</h2>
+    <div class="toc" ></div>
+</div>
+  {{/hide-on-this-page}}
+
+
 </div>
 
 </div>
