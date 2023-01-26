@@ -126,14 +126,14 @@ background-color: rgba(0,0,0,0.03);
   /*  background: rgba(0,0,0,0.02);
 */
 font-weight: 500;
-  padding-top: 0.4rem;
+  padding-top: 3px;
   color: var(--light-text-color);
-  padding-bottom: 0.4rem;
+  padding-bottom: 3px;
 }
 
 .sidebar li ul a {
-  padding-top: 1px;
-  padding-bottom: 1px;
+  padding-top: 2px;
+  padding-bottom: 2px;
 }
 .sidebar > li:last-of-type > a {
   border-bottom: none;
@@ -144,8 +144,7 @@ font-weight: 500;
 }
 
 .sidebar a + ul li:last-child {
-  margin-bottom: 4px;
-  padding-bottom: 6px;
+  margin-bottom: 16px;
 }
 
 .sidebar a + ul ul li:last-child {
