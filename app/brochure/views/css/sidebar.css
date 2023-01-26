@@ -46,7 +46,6 @@ input[name="toggle"] {
   margin: 0;
   font-size: var(--small-font-size);
   list-style: none;
-  border-right: 1px solid rgba(0, 0, 0, 0.1);
   padding: 0;
   box-sizing: border-box;
   max-width: none;
@@ -56,6 +55,8 @@ input[name="toggle"] {
   align-self: flex-start;
   color: var(--light-text-color);
 }
+
+.sidebar a {border-radius: 6px;padding-left: 12px}
 
 .sidebar a:active,
 .sidebar a:focus,
@@ -101,15 +102,15 @@ nav a.selected:hover {
 .sidebar a.selected,
 .top-level a:hover {
   color: var(--accent-color);
+    text-decoration: none;
+background-color: rgba(0,0,0,0.03);
 }
 
 .sidebar li ul {
   padding: 0;
   margin: 0;
   font-size: var(--small-font-size);
-  max-height: 0;
   overflow: hidden;
-  transition: max-height 0.2s ease-out;
   box-sizing: border-box;
 }
 .sidebar ul ul {
@@ -125,15 +126,15 @@ nav a.selected:hover {
 .sidebar > li > a {
   /*  background: rgba(0,0,0,0.02);
 */
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+font-weight: 500;
   padding-top: 0.4rem;
   color: var(--light-text-color);
   padding-bottom: 0.4rem;
 }
 
 .sidebar li ul a {
-  padding-top: 3px;
-  padding-bottom: 3px;
+  padding-top: 1px;
+  padding-bottom: 1px;
 }
 .sidebar > li:last-of-type > a {
   border-bottom: none;
@@ -170,8 +171,6 @@ nav a.selected:hover {
 .sidebar a:active + ul,
 .sidebar a:focus + ul {
   max-height: 300px;
-  transition: max-height 0.2s ease-out;
-  border-bottom: 1px solid var(--light-border-color);
   margin-top: -1px;
   padding-bottom: 10px;
   padding-top: 0;

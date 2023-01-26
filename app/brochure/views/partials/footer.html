@@ -8,3 +8,16 @@
 
 <script type="text/javascript" src="/js/instant.page.js"></script>
 <script type="text/javascript" src="/js/sidebar.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.11.1/tocbot.min.js"></script>
+<script type="text/javascript">
+  tocbot.init({
+  // Where to render the table of contents.
+  tocSelector: '.toc',
+  // Where to grab the headings to build the table of contents.
+  contentSelector: '.yiel',
+  // Which headings to grab inside of the contentSelector element.
+  headingSelector: 'h2, h3',
+  // For headings inside relative or absolute positioned containers within content.
+  hasInnerContainers: true,
+});
+</script>
