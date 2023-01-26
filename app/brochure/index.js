@@ -50,10 +50,6 @@ brochure.locals.price = "$" + config.stripe.plan.split("_").pop();
 brochure.locals.interval =
   config.stripe.plan.indexOf("monthly") === 0 ? "month" : "year";
 
-const partials = require("fs-extra")
-  .readdirSync(PARTIAL_DIRECTORY)
-  .filter((i) => i.endsWith(".html"))
-  .map((i) => i.slice(0, i.lastIndexOf(".")));
 
 function trimLeadingAndTrailingSlash(str) {
   if (!str) return str;
@@ -70,6 +66,12 @@ brochure.use(function (req, res, next) {
     const layout = res.locals.layout || PARTIAL_DIRECTORY + "/layout.html";
 
     res.locals.partials = { body };
+
+const partials = require("fs-extra")
+  .readdirSync(PARTIAL_DIRECTORY)
+  .filter((i) => i.endsWith(".html"))
+  .map((i) => i.slice(0, i.lastIndexOf(".")));
+
 
     partials.forEach(
       (partial) => (res.locals.partials[partial] = `partials/${partial}.html`)

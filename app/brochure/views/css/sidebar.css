@@ -85,7 +85,6 @@ nav a {
   color: inherit;
   box-sizing: border-box;
   text-decoration: none;
-  transition: color 0.1s ease-out;
 }
 
 /*nav a:hover {
@@ -170,15 +169,15 @@ font-weight: 500;
 .sidebar [data-open="selected"] + ul,
 .sidebar a:active + ul,
 .sidebar a:focus + ul {
-  max-height: 300px;
+/*  max-height: 300px;
   margin-top: -1px;
   padding-bottom: 10px;
   padding-top: 0;
   position: relative;
-}
+*/}
 
 .sidebar [data-open="selected"] + ul li:last-child ul {
-  border-bottom: none;
+  /*border-bottom: none;*/
 }
 
 .sidebar li ul li {
@@ -215,7 +214,7 @@ font-weight: 500;
 .sidebar > li > a:before,
 .top-level a:before {
        content: " ";
-    display: block;
+    display: none;
     position: absolute;
     top: 0;
     bottom: 0;
