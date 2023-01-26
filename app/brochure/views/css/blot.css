@@ -1,6 +1,6 @@
 html {
   --background-color: white;
-  --text-color: rgb(36, 34, 30);
+  --text-color: #333230;
   --medium-text-color: #444;
   --light-text-color: #767676;
   --accent-color: #0070e8; /* used for links */
@@ -22,7 +22,7 @@ body {
 body {
   background: var(--background-color);
 color: var(--text-color);
-    font: var(--font-size)/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica,
+    font: var(--font-size)/1.5 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica,
     "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
     letter-spacing: -0.004em;
     font-weight: 400;
@@ -41,7 +41,10 @@ color: var(--text-color);
     -moz-font-variant-ligatures: contextual common-ligatures;
     -o-font-variant-ligatures: contextual common-ligatures;
     font-feature-settings: 'kern' 1, 'liga' 1, 'calt' 1;  
-}
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: geometricPrecision;
+}}
 
 p a,
 li a,
@@ -908,3 +911,8 @@ ul.who li {
 .footer ul ul {
   display: none;
 }
+
+.toc-list {padding-left: 16px}
+a.toc-link {text-decoration: none;}
+li.toc-list-item {padding: 6px 0;font-size: 15px;line-height: 1.2}
+.is-active-link::before {background-color: var(--dark-accent-color)}

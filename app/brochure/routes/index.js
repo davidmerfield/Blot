@@ -29,6 +29,8 @@ brochure.get(["/how/format/*"], function (req, res, next) {
   next();
 });
 
+brochure.use(require('./questions/related'));
+
 brochure.use(function (req, res, next) {
   res.locals.breadcrumbs = require("url")
     .parse(req.url)
