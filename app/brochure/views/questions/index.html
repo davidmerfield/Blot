@@ -1,15 +1,15 @@
 <h1>Questions {{#tag}}tagged {{tag}}{{/tag}}</h1>
 
-  <form action="/questions" style="margin-top:0rem;margin-bottom:0.5rem;display: flex;align-items: flex-end;">
+  <!-- <form action="/questions" style="margin-top:0rem;margin-bottom:0.5rem;display: flex;align-items: flex-end;">
     <p style="margin: 0;flex-basis: 50%">
   <input type="text" style="font-size:15px;border-radius:16px 0 0 16px;width: 100%;padding-top: 6px;padding-bottom: 6px;padding-left: 16px" type="search" id="search" name="search" value="{{search_query}}" placeholder="Search all questions" required="">
   </p>
   <input style="flex-basis: 15%;width: auto;margin:0;border-radius: 0 4px 4px 0;    padding: 0 1em;
     line-height: 32px;
     margin-bottom: 2px;border-radius: 0 16px 16px 0" type="submit" value="Search">
-  <div style="flex-grow: 1"></div>
+  <div style="flex-grow: 1"></div> -->
   <a class="bordered-button" style="margin:2px 0;line-height:30px;border-radius:16px;white-space: nowrap;" href="/questions/ask">Ask a question</a>
-</form>
+<!-- </form> -->
 <br>
 
 <div class="topics">
@@ -38,8 +38,10 @@
   <span class="secondary-text smaller">{{reply_count}} {{#singular}}reply{{/singular}}{{^singular}}replies{{/singular}}</span>
   </a>
   </div>
+</div>
   {{/topics}}
 </div>
+
 
 {{#paginator}}
 <div class="paginator">

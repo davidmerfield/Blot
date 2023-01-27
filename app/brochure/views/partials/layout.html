@@ -1,7 +1,6 @@
 {{> head}}
 <body>
 <input type="checkbox" name="toggle" id="toggle">
-{{> header}}
 </div>  
 
  <style type="text/css">
@@ -13,13 +12,11 @@
 
   .yiel {
     flex-shrink:0;
+    margin: 0 4rem;
     max-width: 600px;
-    padding-left: 432px;
   }
 
 	.sidebar {border:none;/*border-left:1px solid rgba(0,0,0,0.1);*/
-    background: #fafafa;
-    border-radius: 18px;
     padding: 16px 32px;
 }
 
@@ -38,23 +35,116 @@
 
 
   .sidebar-container {
-    position: absolute;
-    left: 3rem;
-    width: 270px;
+  
+    border-radius: 10;
+    background-color: #fafafa;
+    bottom: 0;
+    top: 0;
+    width: 320px;
+
   }
 
   .layout-wrapper {
-    min-height: 80vh
+    min-height: 80vh;
+    display: flex;
+    justify-content: space-between;
   }
 </style>
 
 <div class="layout-wrapper"> 
   <div class="sidebar-container">
-    {{> sidebar}}
+    
+<!-- <hr style="border:none;border-bottom: 1px solid rgba(0,0,0,0.05)">
+ -->    {{> sidebar}}
   </div>
-  <div class="yiel">
-{{> body}}
+  <div style="flex-grow: 1">
+  <div class="yiel"> 
+          {{> search}}
+
+   {{> breadcrumbs}}
+
+   {{> body}}
   </div>   
+</div>
+     <div class="otp" style="flex-grow:1;max-width:200px;padding-left: 3rem;padding-right: 2rem">
+      <div class="header-buttons" style="margin:16px 0 88px">
+
+   {{^selected.log-in}}
+    {{^selected.index}}
+    {{^selected.sign-up}}
+    <label for="toggle">
+      <svg id="shower" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 45 45" preserveAspectRatio="" class="app-header__menu-icon block absolute inset-0 h-full w-full" style="">
+       <g fill="currentColor" fill-rule="evenodd">
+          <path d="M10 15h25v1H10zM10 22h25v1H10zM10 29h25v1H10z"></path>
+       </g>
+      </svg>
+      <svg id="hider" style="">
+        <line x1="0" y1="0" x2="100%" y2="100%" stroke="currentColor"></line>
+        <line x1="0" y1="100%" x2="100%" y2="0%" stroke="currentColor"></line>
+      </svg>
+    </label>  
+    {{/selected.sign-up}}
+    {{/selected.index}}
+    {{/selected.log-in}}
+
+    {{#user}}
+    <a href="/dashboard" style="border:none;background: var(--dark-accent-color);border-radius: 10px;color:white">Open your dashboard</a>
+    {{/user}}
+
+    {{^user}}
+    {{^selected.log-in}}
+    {{^selected.sign-up}}
+    <a href="/log-in">Log in</a>
+    <a href="/sign-up">Sign up</a>
+    {{/selected.sign-up}}
+    {{/selected.log-in}}
+
+    {{#selected.log-in}}
+    <a href="{{#from}}{{{from}}}{{/from}}{{^from}}/{{/from}}" class="grow-on-hover huge hdr-btn">
+      <svg id="hider" style="width: 0.75rem; height: 0.75rem;">
+        <line x1="0" y1="0" x2="100%" y2="100%" stroke="#333"></line>
+        <line x1="0" y1="100%" x2="100%" y2="0%" stroke="#333"></line>
+      </svg>
+    </a>
+    {{/selected.log-in}}
+    {{#selected.sign-up}}
+    <a href="{{#from}}{{{from}}}{{/from}}{{^from}}/{{/from}}" class="grow-on-hover huge hdr-btn">
+      <svg id="hider" style="width: 0.75rem; height: 0.75rem;">
+       <line x1="0" y1="0" x2="100%" y2="100%" stroke="#333"></line>
+       <line x1="0" y1="100%" x2="100%" y2="0%" stroke="#333"></line>
+      </svg>
+    </a>
+    {{/selected.sign-up}}
+    {{/user}}
+
+   
+  </div>
+    <div style="padding:16px;background:#fafafa;border-radius: 10px;margin:16px 0">
+    <h2 style="margin: 0;font-size:14px;font-weight:500;color:#999;border:none">Question or feedback?</h2>
+        <a style="line-height:1.2;padding: 4px 0 4px 0;color:inherit;font-size: 15px;display: block;" href="/contact">Contact us</a>
+
+</div>
+
+    {{#related.length}}
+
+  <div style="padding:16px;background:#fafafa;border-radius: 10px;margin:16px 0">
+    <h2 style="margin: 0;font-size:14px;font-weight:500;color:#999;border:none">Related questions</h2>
+    {{#related}}
+    <a style="line-height:1.2;padding: 4px 0 4px 0;color:inherit;font-size: 15px;display: block;" href="/questions/{{id}}">{{title}}</a>
+    {{/related}}
+  </div>
+  {{/related.length}}
+  
+  {{^hide-on-this-page}}
+  <div style="padding:16px;background:#fafafa;border-radius: 10px;margin:16px 0">
+    <h2 style="margin: 0;font-size:14px;font-weight:500;color:#999;border:none">On this page</h2>
+    <div class="toc" ></div>
+</div>
+  {{/hide-on-this-page}}
+
+
+</div>
+
 </div>
 {{> footer}}
 </body>

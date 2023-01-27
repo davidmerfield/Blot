@@ -1,6 +1,8 @@
 <h1>How to use Blot</h1>
 
-<p>Blot turns a folder into a blog. Files in­side your blog’s folder be­come blog posts au­to­mat­i­cally. Blot exists so that you can blog with your fa­vorite tools. Use your fa­vorite text-ed­i­tor to write and Blot does the rest.</p>
+<p>Blot turns a folder into a website. Files in­side your website's folder be­come posts on your website. As you make changes to your folder, your website updates automatically.</p>
+
+<p>What's the point of turning a folder into a website? Blot exists so that you can blog with your fa­vorite tools. Use your fa­vorite text-ed­i­tor to write and Blot does the rest.</p>
 
 
         <p style="margin-top: 1rem">
@@ -59,29 +61,33 @@
 
   <li><a href="/how/sync/dropbox">
     <img src="/how/sync/dropbox.svg">
-    <span class="a">Dropbox</span><br>A file hosting and synchronization service</a></li>
+    <span class="a">Dropbox</span><br>Use a folder in Dropbox</a></li>
 
   <li><a href="/how/sync/git">
     <img src="/how/sync/git.svg">
-    <span class="a">Git</span><br>An open source version control system </a></li>
+    <span class="a">Git</span><br>Use a git repository</a></li>
 
     
 <li><a href="/how/sync/google-drive">
 
     <img src="/how/sync/google-drive.svg">
 
-<span class="a">Google Drive</span><br>A file hosting and synchronization service</a></li>
+<span class="a">Google Drive</span><br>Use a folder in Drive</a></li>
 </ul>
 <h2 style="margin-bottom:0">Files which become blog posts</h2>
-  <p><a href="/how/posts/text-and-markdown"><code class="file md">Text and Markdown</code><span class="light">.txt&nbsp; .md</span></a></p>
-  <p><a href="/how/posts/images"><code class="file img" style="margin-left:-3px">Images</code><span class="light">.png&nbsp; .jpeg&nbsp; .gif</span></a></p>
+ <ul class="clients" style="margin-top: 0">
+     <li><a href="/how/posts/text-and-markdown"><nobr><span class="icon md"></span> &nbsp;
+       <span class="a">Text and Markdown</span><span class="light">.txt&nbsp; .md</span></nobr></a></li>
+     
+     <li><a href="/how/posts/images"><nobr><span class="icon img"></span> &nbsp;<span class="a">Images</span></nobr><span class="light">.png&nbsp;&nbsp;.jpeg&nbsp;&nbsp;.gif</span></a></li>
 
-  <p><a href="/how/posts/word-documents"><code class="file txt">Word Documents</code><span class="light">.docx &nbsp;.odt</span></a></p>
+     <li><a href="/how/posts/word-documents"><nobr><span class="icon txt"></span> &nbsp;<span class="a">Word Documents</span></nobr><span class="light">.docx &nbsp;.odt</span></a></li>
+     
+     <li><a href="/how/posts/bookmarks"><nobr><span class="icon webloc"></span> &nbsp;<span class="a">Bookmarks</span></nobr><span class="light">.webloc&nbsp;&nbsp;.url</span></a></li>
 
-  <p><a href="/how/posts/bookmarks"><code class="file webloc">Bookmarks</code><span class="light">.webloc&nbsp; .url</span></a></p>
-  
-  <p><a href="/how/posts/html"><code class="file html">HTML</code><span class="light">.html </span></a></p>
+     <li><a href="/how/posts/html"><nobr><span class="icon html"></span> &nbsp;<span class="a">HTML</span></nobr><span class="light">.html <!-- &nbsp; .htm --></span></a></li>
 
+   </ul>
 <h2>Prevent a file becoming a blog post</h2>
 <p> Files and folders whose name starts with an underscore are ignored. Ignored files don’t become blog posts themselves but they can be <a href="#files-in-your-folder-are-public">embedded in posts</a>.</p>
 

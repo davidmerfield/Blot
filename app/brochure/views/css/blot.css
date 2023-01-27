@@ -1,6 +1,6 @@
 html {
   --background-color: white;
-  --text-color: rgb(36, 34, 30);
+  --text-color: #333230;
   --medium-text-color: #444;
   --light-text-color: #767676;
   --accent-color: #0070e8; /* used for links */
@@ -9,7 +9,7 @@ html {
   --dark-border-color: rgba(0, 0, 0, 0.1);
   --light-border-color: rgba(0, 0, 0, 0.05);
   --small-font-size: 14px;
-  --font-size: 16px;
+  --font-size: 18px;
   --large-font-size: 24px;
 }
 
@@ -22,7 +22,7 @@ body {
 body {
   background: var(--background-color);
 color: var(--text-color);
-    font: var(--font-size)/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica,
+    font: var(--font-size)/1.5 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica,
     "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
     letter-spacing: -0.004em;
     font-weight: 400;
@@ -41,7 +41,10 @@ color: var(--text-color);
     -moz-font-variant-ligatures: contextual common-ligatures;
     -o-font-variant-ligatures: contextual common-ligatures;
     font-feature-settings: 'kern' 1, 'liga' 1, 'calt' 1;  
-}
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: geometricPrecision;
+}}
 
 p a,
 li a,
@@ -241,8 +244,8 @@ th:last-child {
 background {
   display: flex;
   margin: 1rem 0 5rem;
-  border-radius: 12px;
-  background: #e9f2fc;
+  border-radius: 6px;
+  background: var(--dark-accent-color);
   overflow: hidden;
   box-shadow: 0 0 1px rgb(0 40 255 / 50%);
   box-sizing: border-box;
@@ -312,18 +315,18 @@ background .window {
   padding: 0.7em;
   min-width: 256px;
 }
-
-.clients li a {
+/*,
+    var(--dark-border-color) 0px 2px 4px
+*/.clients li a {
   cursor: pointer;
   user-select: none;
   padding: 10px 12px 10px;
-  border-radius: 3px;
+  border-radius: 10px;
   margin-bottom: 1.4 em;
   display: block;
   color: inherit;
   text-decoration: none;
-  box-shadow: var(--dark-border-color) 0px 0px 0px 1px,
-    var(--dark-border-color) 0px 2px 4px;
+  box-shadow: var(--dark-border-color) 0px 0px 0px 1px;
   background: white;
 }
 
@@ -340,7 +343,6 @@ background .window {
 
 .clients li a .a {
   color: var(--accent-color);
-  text-decoration: underline;
 }
 
 .clients img {
@@ -907,4 +909,15 @@ ul.who li {
 
 .footer ul ul {
   display: none;
+}
+
+.toc-list {padding-left: 0}
+a.toc-link {text-decoration: none;}
+li.toc-list-item {padding: 6px 0;font-size: 15px;line-height: 1.2}
+.toc-link::before {content: none}
+.is-active-link {font-weight: 400}
+
+.yiel p a{
+  color:var(--accent-color);
+  text-decoration: underline;
 }

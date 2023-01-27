@@ -29,6 +29,13 @@ brochure.get(["/how/format/*"], function (req, res, next) {
   next();
 });
 
+brochure.use(require('./questions/related'));
+
+brochure.get(['/about', '/how/configure', '/templates', '/questions'], (req, res, next)=>{
+  res.locals['hide-on-this-page'] = true;
+  next();
+});
+
 brochure.use(function (req, res, next) {
   res.locals.breadcrumbs = require("url")
     .parse(req.url)
