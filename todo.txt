@@ -42,11 +42,7 @@ Improve Google Drive client:
 - Tell [Juan](https://mail.google.com/mail/u/0/#inbox/FMfcgzGpFzvBSNgqmRVDRHvdGrzqrZDt)
 - Tell questioners](https://blot.im/questions/576)
 
-Add simple form endpoint, could be used for contact forms
-
 ---
-
-Add 'confirm email address' flow to prevent typos in emails
 
 Expose local template syntax error messages on preview subdomain
 
@@ -55,6 +51,10 @@ Expose local template package.json error messages
 Expose template build metadata errors on dashboard
 
 ---
+
+Add 'confirm email address' flow to prevent typos in emails
+
+Add simple form endpoint, could be used for contact forms
 
 Create a 'light local server' for template development which zips then posts template files to Blot's endpoint for live-auto updating previews for a given blog – there would need to be authentication with a one-time pass
 - some blogs could be used unauthenticated
