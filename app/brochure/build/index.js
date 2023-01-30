@@ -6,6 +6,8 @@ const { join } = require("path");
 const finder = require("finder");
 const async = require("async");
 
+const search = require("./search-index");
+
 fs.ensureDirSync(OUTPUT);
 
 async function main(options, callback) {
@@ -24,6 +26,10 @@ async function main(options, callback) {
   const watcher = chokidar.watch(INPUT, { cwd: INPUT });
   const queue = async.queue(handle);
 
+  search.init();
+
+  // init search index here...
+
   queue.drain = function () {
     if (!walked) return;
 
@@ -40,6 +46,7 @@ async function main(options, callback) {
 
     if (!called) {
       called = true;
+      search.write(OUTPUT + "/search.json");
       callback();
     }
   };
@@ -89,6 +96,8 @@ async function handle({ path, destination }, callback) {
     output = finder.html_parser(output);
 
     // output = require("./minify-html")(output);
+
+    search.add(path, output);
 
     console.log("html", path);
     await fs.outputFile(join(destination, path), output);
