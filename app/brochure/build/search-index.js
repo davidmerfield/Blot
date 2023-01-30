@@ -4,6 +4,8 @@ const fs = require("fs-extra");
 
 let index;
 
+const metadata = {};
+
 module.exports = {
   init: () => {
     index = elasticlunr(function () {
@@ -16,13 +18,16 @@ module.exports = {
   add: (path, html) => {
     const $ = cheerio.load(html, { decodeEntities: false });
     const body = $.text();
-    const id = path;
+    const id = path.endsWith("/index.html")
+      ? path.slice(0, path.indexOf("/index.html"))
+      : path.slice(0, path.indexOf(".html"));
     const title = $("h1").text();
     const doc = { id, title, body };
-    console.log("adding", doc);
+    metadata[id] = { title };
     index.addDoc(doc);
   },
   write: (path) => {
-    fs.outputJSONSync(path, index.toJSON());
+    const result = {metadata, ...index.toJSON()};
+    fs.outputJSONSync(path, result);
   },
 };
