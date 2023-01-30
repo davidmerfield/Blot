@@ -63,6 +63,8 @@ Create a bootswatch template and [tell Michael](https://mail.google.com/mail/u/0
 
 ---
 
+Fix 'back' button in photo template and tell [Bibi](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrcPJTmPXxWvhbmFpvwdfVzhpn)
+
 Fix duplicate GUID issue and tell [Jason](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrbvKsNQgVWVNKrVqMzRJdDvKk)
 
 Come up with a workaround for [Silas's Dropbox business issue](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrbvJhdWCxjRHXRbXpjhZtwTst)
