@@ -18,6 +18,7 @@ news.get("/", gitCommits, loadToDo, function (req, res, next) {
 // The rest of these pages should not be cached
 news.use(function (req, res, next) {
   res.header("Cache-Control", "no-cache");
+  res.locals.fullWidth = true;
   next();
 });
 

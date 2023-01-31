@@ -11,6 +11,7 @@ html {
   --small-font-size: 14px;
   --font-size: 18px;
   --large-font-size: 24px;
+  --spacing: 1rem;
 }
 
 html,
@@ -123,13 +124,13 @@ p,
 .window,
 ul,
 ol,
-.clients,
-ul.templates {
+.clients {
   max-width: 637px;
 }
 
 ul.templates {
   display: flex;
+  max-width: 100%;
   flex-wrap: wrap;
   padding: 0;
   margin: 2em -0.5em;
