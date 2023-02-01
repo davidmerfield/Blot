@@ -515,6 +515,9 @@ ul.qa-questions li {
 }
 .qa-item-container pre {
   white-space: pre-wrap;
+  padding: calc(var(--spacing)*0.5);
+  border-radius: 4px;
+  background: #f6f6f6;
   word-break: break-all;
 }
 .qa-item-container :nth-last-child(2) {
@@ -947,3 +950,131 @@ p.meta-links a {
   position: absolute;
   right: -1em;
 }*/
+
+/*!
+  Theme: StackOverflow Light
+  Description: Light theme as used on stackoverflow.com
+  Author: stackoverflow.com
+  Maintainer: @Hirse
+  Website: https://github.com/StackExchange/Stacks
+  License: MIT
+  Updated: 2021-05-15
+
+  Updated for @stackoverflow/stacks v0.64.0
+  Code Blocks: /blob/v0.64.0/lib/css/components/_stacks-code-blocks.less
+  Colors: /blob/v0.64.0/lib/css/exports/_stacks-constants-colors.less
+*/
+
+.qa-item-container .hljs {
+  /* var(--highlight-color) */
+  color: #2f3337;
+  font-size: 16px;
+  /* var(--highlight-bg) */
+  background: #f6f6f6;
+}
+
+.qa-item-container .hljs-subst {
+  /* var(--highlight-color) */
+  color: #2f3337;
+}
+
+.qa-item-container .hljs-comment {
+  /* var(--highlight-comment) */
+  color: #656e77;
+}
+
+.qa-item-container .hljs-keyword,
+.qa-item-container .hljs-selector-tag,
+.qa-item-container .hljs-meta .qa-item-container .hljs-keyword,
+.qa-item-container .hljs-doctag,
+.qa-item-container .hljs-section {
+  /* var(--highlight-keyword) */
+  color: #015692;
+}
+
+.qa-item-container .hljs-attr {
+  /* var(--highlight-attribute); */
+  color: #015692;
+}
+
+.qa-item-container .hljs-attribute {
+  /* var(--highlight-symbol) */
+  color: #803378;
+}
+
+.qa-item-container .hljs-name,
+.qa-item-container .hljs-type,
+.qa-item-container .hljs-number,
+.qa-item-container .hljs-selector-id,
+.qa-item-container .hljs-quote,
+.qa-item-container .hljs-template-tag {
+  /* var(--highlight-namespace) */
+  color: #b75501;
+}
+
+.qa-item-container .hljs-selector-class {
+  /* var(--highlight-keyword) */
+  color: #015692;
+}
+
+.qa-item-container .hljs-string,
+.qa-item-container .hljs-regexp,
+.qa-item-container .hljs-symbol,
+.qa-item-container .hljs-variable,
+.qa-item-container .hljs-template-variable,
+.qa-item-container .hljs-link,
+.qa-item-container .hljs-selector-attr {
+  /* var(--highlight-variable) */
+  color: #54790d;
+}
+
+.qa-item-container .hljs-meta,
+.qa-item-container .hljs-selector-pseudo {
+  /* var(--highlight-keyword) */
+  color: #015692;
+}
+
+.qa-item-container .hljs-built_in,
+.qa-item-container .hljs-title,
+.qa-item-container .hljs-literal {
+  /* var(--highlight-literal) */
+  color: #b75501;
+}
+
+.qa-item-container .hljs-bullet,
+.qa-item-container .hljs-code {
+  /* var(--highlight-punctuation) */
+  color: #535a60;
+}
+
+.qa-item-container .hljs-meta .qa-item-container .hljs-string {
+  /* var(--highlight-variable) */
+  color: #54790d;
+}
+
+.qa-item-container .hljs-deletion {
+  /* var(--highlight-deletion) */
+  color: #c02d2e;
+}
+
+.qa-item-container .hljs-addition {
+  /* var(--highlight-addition) */
+  color: #2f6f44;
+}
+
+.qa-item-container .hljs-emphasis {
+  font-style: italic;
+}
+
+.qa-item-container .hljs-strong {
+  font-weight: bold;
+}
+
+.qa-item-container .hljs-formula,
+.qa-item-container .hljs-operator,
+.qa-item-container .hljs-params,
+.qa-item-container .hljs-property,
+.qa-item-container .hljs-punctuation,
+.qa-item-container .hljs-tag {
+  /* purposely ignored */
+}

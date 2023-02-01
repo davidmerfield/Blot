@@ -9,27 +9,19 @@ const pool = new Pool({
 });
 
 module.exports = async function related(req, res, next) {
-  if (["/", "/questions", '/questions/ask'].indexOf(req.path) > -1) return next();
+  if (["/questions", "/questions/ask"].indexOf(req.path) > -1) return next();
 
-  let search_arr = ["%"]; // array for Postgres; initial value is needed for empty search query case
-  // populate with words from query    add '%' prefix and postfix for Postgres pattern matching
-  search_arr = req.path
-    .split("/")
-    .filter((i) => !!i)
-    .map((el) => "%" + el + "%");
-
-  const search_arr_str = search_arr.length
-    ? JSON.stringify(search_arr).replace(/"/g, "'")
-    : null; // stringify and replace double quotes with single quotes for Postgres
+  const related_tag = req.path.split("/").pop();
 
   const { rows } = await pool.query(`
-        SELECT *, (SELECT Count(*) FROM items x WHERE x.parent_id = y.id) as reply_count
+    SELECT *, (SELECT Count(*) FROM items x WHERE x.parent_id = y.id) as reply_count
     FROM items y
     WHERE is_topic = true
-    ${search_arr_str ? `AND tags ILIKE any (array[${search_arr_str}])` : ""} 
+    ${related_tag ? `AND (tags ILIKE '${related_tag},%' OR tags ILIKE '%,${related_tag},%' OR tags ILIKE '%,${related_tag}' OR tags ILIKE '${related_tag}') ` : ""} 
     ORDER BY created_at DESC
     LIMIT 5`);
 
+  res.locals.related_tag = related_tag;
   res.locals.related = rows;
 
   return next();

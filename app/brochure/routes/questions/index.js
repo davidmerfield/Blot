@@ -45,7 +45,7 @@ LIMIT ${10}`
 Questions.use(function (req, res, next) {
   res.locals.base = "/questions";
   res.locals["show-question-sidebar"] = true;
-  res.locals['hide-on-this-page'] = true;
+  res.locals["hide-on-this-page"] = true;
   // The rest of these pages should not be cached
   res.header("Cache-Control", "no-cache");
   next();
@@ -360,7 +360,8 @@ Questions.route("/:id").get(csrf, function (req, res, next) {
 
           if (!topic) return next();
 
-          topic.body = marked(topic.body);
+          topic.body = highlight(marked(topic.body));
+
           topic.reply_count = replies.rows.length;
           if (topic.tags)
             topic.tags = topic.tags
@@ -527,5 +528,35 @@ Questions.get(["/tagged/:tag", "/tagged/:tag/page/:page"], function (
     })
     .catch(next);
 });
+
+const he = require("he");
+const hljs = require("highlight.js");
+const cheerio = require("cheerio");
+
+function highlight(html) {
+  const $ = cheerio.load(html);
+
+  $("pre code").each(function () {
+    try {
+      var lang =$(this).attr("class").split("language-")[1];
+      console.log("lang:", lang);
+      if (!lang) return;
+      var code = $(this).text();
+      code = he.decode(code);
+
+      // For some reason highlight
+      // doesn't play nicely with already-decoded
+      // apostrophes like ' &#84; etc...
+
+      var highlighted = hljs.highlight(lang, code).value;
+
+      $(this).html(highlighted).addClass("hljs").addClass(lang);
+    } catch (e) {
+      console.log(e);
+    }
+  });
+
+  return $.html();
+}
 
 module.exports = Questions;
