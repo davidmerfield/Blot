@@ -860,6 +860,8 @@ ul.who li {
 .footer {
   font-size: var(--small-font-size);
   display: flex;
+  background: #fafafa;
+  padding: calc(var(--spacing)*8) 0;
   flex-wrap: wrap;
   justify-content: center;
 }
@@ -867,9 +869,10 @@ ul.who li {
 .footer,
 .footer ul {
   list-style: none;
-  padding: 0;
   margin: 0;
 }
+
+.footer ul {padding: 0;}
 
 .footer > li {
   margin: 0 2rem;
@@ -916,7 +919,7 @@ li.toc-list-item {padding: 6px 0;font-size: 15px;line-height: 1.2}
 .toc-link::before {content: none}
 .is-active-link {font-weight: 400}
 
-.yiel p a{
+.main-page p a{
   color:var(--accent-color);
   text-decoration: underline;
 }
