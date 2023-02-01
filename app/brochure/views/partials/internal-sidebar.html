@@ -1,26 +1,27 @@
  <div class="otp" style="flex-grow:1;max-width:240px;margin-top: calc(var(--spacing)2)">
    
 
- <div style="background:#fafafa;padding:16px;border-radius: 10px;margin:16px 0">
-    <h2 style="margin: 0;font-size:14px;font-weight:500;color:#999;border:none">Question or feedback?</h2>
-        <a style="line-height:1.2;padding: 4px 0 4px 0;color:inherit;font-size: 15px;display: block;" href="/contact">Contact us</a>
+    <a href="/contact" style="display:block;margin: 0;border:none;background:#fafafa;padding:16px;border-radius: 10px;margin:16px 0"><span style="font-size:14px;font-weight:500;color:#999;">Question or feedback?</span><br>
+        <span style="line-height:1.2;padding: 4px 0 4px 0;color:var(--text-color);font-size: 15px;display: block;" >Contact us</span>
+      </a>
 
-</div>
-
-    {{#related.length}}
-
+  {{^hide-on-this-page}}
   <div style="padding:16px;background:#fafafa;border-radius: 10px;margin:16px 0">
-    <h2 style="margin: 0;font-size:14px;font-weight:500;color:#999;border:none">Related questions</h2>
+    <h2 style="margin: 0;font-size:14px;font-weight:500;color:#999;border:none">On this page</h2>
+    <div class="toc"></div>
+  </div>
+  {{/hide-on-this-page}}
+
+  {{#related.length}}
+  <div style="padding:16px;background:#fafafa;border-radius: 10px;margin:16px 0">
+    <h2 style="margin: 0;font-size:14px;font-weight:500;color:#999;border:none">Questions about this</h2>
     {{#related}}
     <a style="line-height:1.2;padding: 4px 0 4px 0;color:inherit;font-size: 15px;display: block;" href="/questions/{{id}}">{{title}}</a>
     {{/related}}
   </div>
   {{/related.length}}
-{{^hide-on-this-page}}
 
-  <div style="padding:16px;background:#fafafa;border-radius: 10px;margin:16px 0">
-    <h2 style="margin: 0;font-size:14px;font-weight:500;color:#999;border:none">On this page</h2>
-    <div class="toc"></div>
-</div>
 
-{{/hide-on-this-page}}
+  {{#show-question-sidebar}}
+  {{> question-sidebar}}
+  {{/show-question-sidebar}}

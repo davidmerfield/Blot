@@ -24,8 +24,28 @@ Questions.use(
   })
 );
 
+Questions.use(async (req, res, next) => {
+  const { rows } = await pool.query(
+    `SELECT taglist.tag,
+       (SELECT Count(*)
+        FROM   items
+        WHERE  items.tags LIKE '%'
+                               || taglist.tag
+                               || '%') AS total,
+    COUNT(*) OVER() AS tags_count                               
+FROM   (SELECT DISTINCT Unnest(String_to_array(tags, ',')) AS tag
+        FROM   items) taglist
+ORDER BY total DESC
+LIMIT ${10}`
+  );
+  res.locals.popular_tags = rows;
+  next();
+});
+
 Questions.use(function (req, res, next) {
   res.locals.base = "/questions";
+  res.locals["show-question-sidebar"] = true;
+  res.locals['hide-on-this-page'] = true;
   // The rest of these pages should not be cached
   res.header("Cache-Control", "no-cache");
   next();
@@ -122,7 +142,7 @@ Questions.get(["/", "/page/:page"], function (req, res, next) {
       // We preview one line of the topic body on the question index page
       topics.rows.forEach(function (topic) {
         topic.body = marked(topic.body);
-        topic.singular = topic.reply_count === '1';
+        topic.singular = topic.reply_count === "1";
         if (topic.tags)
           topic.tags = topic.tags.split(",").map((tag) => ({ tag, slug: tag }));
         if (topic.last_reply_created_at)
@@ -171,9 +191,6 @@ Questions.route(["/tags", "/tags/page/:page"]).get(function (req, res, next) {
 
   const offset = (page - 1) * TAGS_PER_PAGE;
 
-  console.log("page is:", page);
-
-  console.log("offset is:", offset);
   pool
     .query(
       `SELECT taglist.tag,
@@ -432,6 +449,13 @@ Questions.get(["/tagged/:tag", "/tagged/:tag/page/:page"], function (
   if (!tag) {
     return next();
   }
+
+  res.locals.breadcrumbs = res.locals.breadcrumbs.filter(
+    (x, i) => i !== res.locals.breadcrumbs.length - 2
+  );
+
+  res.locals.breadcrumbs[res.locals.breadcrumbs.length - 1].label =
+    "Tagged '" + tag + "'";
 
   const offset = (page - 1) * TOPICS_PER_PAGE;
 

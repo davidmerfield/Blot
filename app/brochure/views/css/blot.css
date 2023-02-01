@@ -459,7 +459,7 @@ ul.who .imag {
 
 .qa-question-link {
   clear: both;
-  padding: 1rem 0;
+  padding: calc(var(--spacing)*0.5) 0 calc(var(--spacing)*2);
   border-top: 1px solid var(--light-border-color);
 }
 
@@ -487,7 +487,6 @@ ul.who .imag {
 }
 
 .question-preview a {color:inherit;text-decoration: none;}
-.question-preview:after {content: " ";position: absolute;top:0;right: 0;left: 0;bottom: 0}
 
 .question-preview > :first-child {
   margin: 0;
@@ -927,12 +926,24 @@ li.toc-list-item {padding: 6px 0;font-size: 15px;line-height: 1.2}
 .meta-links {
   border-top: 1px solid var(--light-border-color);
   margin-top: calc(var(--spacing)*6);
-  padding-top: calc(var(--spacing)/2);
+  padding: calc(var(--spacing)/2) 0;
   font-size: 14px;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row-reverse;
   color: var(--light-text-color);
 }
 
-.meta-links a {
-  display: block;
+p.meta-links a {
+  display: inline-block;
   color: inherit;
+  position: relative;
+  text-decoration: none;
+  color: var(--light-text-color);
 }
+/*
+.meta-links a:last-child:after {
+  content: "→";
+  position: absolute;
+  right: -1em;
+}*/
