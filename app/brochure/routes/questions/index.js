@@ -72,7 +72,7 @@ Questions.get("/feed.rss", async function (req, res, next) {
 
   // We preview one line of the topic body on the question index page
   rows.forEach(function (topic) {
-    topic.body = removeXMLInvalidChars(marked(topic.body));
+    topic.body = removeXMLInvalidChars(render(topic.body));
     topic.url = res.locals.url + "/questions/" + topic.id;
     topic.author = "Anonymous";
     topic.date = moment
@@ -141,7 +141,7 @@ Questions.get(["/", "/page/:page"], function (req, res, next) {
 
       // We preview one line of the topic body on the question index page
       topics.rows.forEach(function (topic) {
-        topic.body = marked(topic.body);
+        topic.body = render(topic.body);
         topic.singular = topic.reply_count === "1";
         if (topic.tags)
           topic.tags = topic.tags.split(",").map((tag) => ({ tag, slug: tag }));
@@ -360,7 +360,7 @@ Questions.route("/:id").get(csrf, function (req, res, next) {
 
           if (!topic) return next();
 
-          topic.body = highlight(marked(topic.body));
+          topic.body = render(topic.body);
 
           topic.reply_count = replies.rows.length;
           if (topic.tags)
@@ -371,7 +371,7 @@ Questions.route("/:id").get(csrf, function (req, res, next) {
           res.locals.breadcrumbs[res.locals.breadcrumbs.length - 1].label =
             topic.title;
           replies.rows.forEach((el, index) => {
-            replies.rows[index].body = marked(el.body);
+            replies.rows[index].body = render(el.body);
             replies.rows[index].answered = moment(
               replies.rows[index].created_at
             ).fromNow();
@@ -492,7 +492,7 @@ Questions.get(["/tagged/:tag", "/tagged/:tag/page/:page"], function (
 
       // We preview one line of the topic body on the question index page
       topics.rows.forEach(function (topic) {
-        topic.body = marked(topic.body);
+        topic.body = render(topic.body);
         if (topic.tags)
           topic.tags = topic.tags.split(",").map((tag) => ({ tag, slug: tag }));
         topic.asked = moment(topic.created_at).fromNow();
@@ -533,12 +533,24 @@ const he = require("he");
 const hljs = require("highlight.js");
 const cheerio = require("cheerio");
 
+function render(input) {
+  let html = input;
+
+  try {
+    html = highlight(marked(input));
+  } catch (e) {
+    console.error(e);
+  }
+
+  return html;
+}
+
 function highlight(html) {
   const $ = cheerio.load(html);
 
   $("pre code").each(function () {
     try {
-      var lang =$(this).attr("class").split("language-")[1];
+      var lang = $(this).attr("class").split("language-")[1];
       console.log("lang:", lang);
       if (!lang) return;
       var code = $(this).text();
