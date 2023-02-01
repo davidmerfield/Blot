@@ -920,3 +920,16 @@ li.toc-list-item {padding: 6px 0;font-size: 15px;line-height: 1.2}
   color:var(--accent-color);
   text-decoration: underline;
 }
+
+.meta-links {
+  border-top: 1px solid var(--light-border-color);
+  margin-top: calc(var(--spacing)*6);
+  padding-top: calc(var(--spacing)/2);
+  font-size: 14px;
+  color: var(--light-text-color);
+}
+
+.meta-links a {
+  display: block;
+  color: inherit;
+}

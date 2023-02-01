@@ -8,14 +8,27 @@ const pool = new Pool({
   port: config.postgres.port,
 });
 
-module.exports = async function (req, res, next) {
+module.exports = async function related(req, res, next) {
+  let search_arr = ["%"]; // array for Postgres; initial value is needed for empty search query case
+  // populate with words from query    add '%' prefix and postfix for Postgres pattern matching
+  search_arr = req.path
+    .split("/")
+    .filter((i) => !!i)
+    .map((el) => "%" + el + "%");
+
+  const search_arr_str = search_arr.length ? JSON.stringify(search_arr).replace(/"/g, "'") : null; // stringify and replace double quotes with single quotes for Postgres
+
+  console.log(search_arr_str);
+
   const { rows } = await pool.query(`
-    SELECT * from items
+        SELECT *, (SELECT Count(*) FROM items x WHERE x.parent_id = y.id) as reply_count
+    FROM items y
     WHERE is_topic = true
+    ${search_arr_str ? `AND tags ILIKE any (array[${search_arr_str}])`: ''} 
+    ORDER BY created_at DESC
     LIMIT 5`);
 
   res.locals.related = rows;
 
-  //AND (tags ILIKE any (array[${search_arr_str}]))
   return next();
 };

@@ -95,9 +95,7 @@ async function handle({ path, destination }, callback) {
     output = require("./anchor-links")(output);
     output = finder.html_parser(output);
     
-    if (path.indexOf('partials/') === -1) {
       output = output + modifiedAndEditLink(INPUT, path);
-    }
 
     // output = require("./minify-html")(output);
 

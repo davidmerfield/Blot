@@ -20,7 +20,7 @@
         width: 600px;
     max-width: 600px;
 
-  }.main-page.full {max-width: 100%}
+  }.main-page.full {max-width: 100%;width:auto;}
 
   @media screen and (max-width: 1000px) {
 	    .main-body {padding-left: 1.5rem; padding-right: 1.5rem}
@@ -65,7 +65,7 @@
     <div style="display: flex;justify-content: space-between;">
     <div class="main-page {{#fullWidth}}full{{/fullWidth}}">
     {{> breadcrumbs}}
-    {{> body}}
+{{> body}}
     </div>
     {{^fullWidth}}
     {{> internal-sidebar}}

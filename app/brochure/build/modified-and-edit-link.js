@@ -6,6 +6,14 @@ module.exports = (dir, path) => {
   // console.log("dir", dir);
   // console.log("path", path);
 
+  if (
+    path.indexOf("how/") !== 0 &&
+    path.indexOf("about/") !== 0 &&
+    path.indexOf("templates/") !== 0
+  ) {
+    return "";
+  }
+
   let modifiedDate = execSync(
     `git log -1 --pretty="format:%ci" ${join(dir, path)}`
   ).toString();
@@ -14,11 +22,14 @@ module.exports = (dir, path) => {
   // console.log("modifiedDate", modifiedDate);
   // console.log("relativeDate", relativeDate);
 
-  const result = `<p class="meta-links"><small>
-    Last updated ${relativeDate} 
-    <a href="https://github.com/davidmerfield/Blot/tree/master/app/brochure/views/${path}">Edit this page</a> 
-    <a href="https://github.com/davidmerfield/Blot/commits/master/app/brochure/views/${path}">View the history of this page</a>
-    </small></p>
+  const result = `<p class="meta-links">
+    <a href="https://github.com/davidmerfield/Blot/commits/master/app/brochure/views/${path}">
+      Last updated ${relativeDate}
+    </a>
+    <a href="https://github.com/davidmerfield/Blot/tree/master/app/brochure/views/${path}">
+    Edit this page
+    </a> 
+    </p>
     `;
   // console.log("result", result);
 
