@@ -32,6 +32,11 @@ brochure.get(["/how/format/*"], function (req, res, next) {
 
 brochure.use(require('./questions/related'));
 
+brochure.get(['/contact'], (req, res, next)=>{
+    res.locals.fullWidth = true;
+    next();
+});
+
 brochure.get(['/about', '/how/configure', '/templates', '/questions'], (req, res, next)=>{
   res.locals['hide-on-this-page'] = true;
   next();

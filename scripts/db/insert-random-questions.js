@@ -43,7 +43,7 @@ const pool = new Pool({
   port: config.postgres.port,
 });
 
-const totalQuestions = 10;
+const totalQuestions = 1000;
 const questions = [];
 
 while (questions.length < totalQuestions) {
@@ -57,7 +57,7 @@ while (questions.length < totalQuestions) {
   }
   questions.push({
     author: faker.name.findName(),
-    title: faker.lorem.sentences(1) + '?',
+    title: faker.lorem.sentences(1).slice(0, -1) + '?',
     tags: randomSlug() + "," + randomSlug() + "," + randomSlug(),
     body: faker.lorem.paragraphs(),
     replies,
