@@ -18,6 +18,8 @@ input[name="toggle"] {
     display: none;
   }
 
+
+
   label[for="toggle"] {
     display: block;
     float: right;
@@ -28,12 +30,15 @@ input[name="toggle"] {
     height: 30px;
   }
 
-  #toggle:checked ~ div .sidebar-container {display: block;position: relative;left: auto;margin:0;padding:0;}
+  #toggle:checked ~ div .sidebar-container {
+    display: block;position: absolute;top:0;left: 0;right: 0;
+    bottom: 0;width: 100%;z-index: 10 }
 
-  #toggle:not(:checked) ~ .header #hider {
+  #toggle:not(:checked) ~ div #hider {
     display: none;
   }
-    #toggle:checked ~ .header #shower {
+    
+  #toggle:checked ~ div #shower {
     display: none;
   }
 }

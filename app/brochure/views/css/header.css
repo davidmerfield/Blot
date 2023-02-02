@@ -32,6 +32,8 @@
     min-height: auto;
   }
 
+    label[for=toggle] svg#hider {display: none;}
+
   main nav .container {
     padding-top: 0;
     padding-bottom: 0;

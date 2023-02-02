@@ -1,4 +1,4 @@
- <div class="otp" style="flex-grow:1;max-width:240px;margin-top: calc(var(--spacing)2)">
+ <div class="otp" style="flex-shrink:0;flex-grow:1;max-width:240px;margin: calc(var(--spacing)*2) 0 0 calc(var(--spacing)*3)">
    
 
     <a href="/contact" style="display:block;margin: 0;border:none;background:#fafafa;padding:16px;border-radius: 10px;margin:16px 0"><span style="font-size:14px;font-weight:500;color:#999;">Question or feedback?</span><br>
@@ -18,6 +18,7 @@
     {{#related}}
     <a style="line-height:1.2;padding: 4px 0 4px 0;color:inherit;font-size: 15px;display: block;" href="/questions/{{id}}">{{title}}</a>
     {{/related}}
+    <a href="/questions" style="color:var(--accent-color);font-size: 14px">More questions</a>
   </div>
   {{/related.length}}
 

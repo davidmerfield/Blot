@@ -1,7 +1,6 @@
 {{> head}}
 <body>
 <input type="checkbox" name="toggle" id="toggle">
-</div>  
 
  <style type="text/css">
 	.doc-wrapper{min-height: 100vh}
@@ -16,14 +15,14 @@
   }
 
   .main-page {
-        flex-shrink:0;
-        width: 600px;
-    max-width: 600px;
+/*        flex-shrink:0;
+*//*        width: 600px;
+  */  max-width: 600px;
 
   }.main-page.full {max-width: 100%;width:auto;}
 
   @media screen and (max-width: 1000px) {
-	    .main-body {padding-left: 1.5rem; padding-right: 1.5rem}
+	    .main-container {padding-left: 1.5rem; padding-right: 1.5rem}
 }
 	@media screen and (max-width: 800px) {
 /*		.doc-left {padding: 0;grid-column-start: 1;grid-column-end: 12;grid-row: 1}
@@ -58,11 +57,11 @@
     {{> sidebar}}
   </div>
   <div class="main-container"> 
-    <div style="display: flex;margin:0 0 calc(var(--spacing)*2) 0"> 
+    <div style="display: flex;margin:0 0 calc(var(--spacing)*2) 0;align-items: baseline;"> 
     {{> search}}
       {{> header-buttons}}
     </div>
-    <div style="display: flex;justify-content: space-between;">
+    <div style="display: flex;justify-content: space-between;flex-wrap: wrap;">
     <div class="main-page {{#fullWidth}}full{{/fullWidth}}">
     {{> breadcrumbs}}
 {{> body}}

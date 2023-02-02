@@ -319,7 +319,7 @@ background .window {
 */.clients li a {
   cursor: pointer;
   user-select: none;
-  padding: 10px 12px 10px;
+  padding: calc(var(--spacing)*0.75) calc(var(--spacing));
   border-radius: 10px;
   margin-bottom: 1.4 em;
   display: block;
@@ -331,9 +331,7 @@ background .window {
 
 .clients li a:hover {
   text-decoration: none;
-  background: #f6f6f6;
-  box-shadow: rgba(15, 15, 15, 0.1) 0px 0px 0px 1px,
-    rgba(15, 15, 15, 0.1) 0px 2px 4px;
+  box-shadow: var(--accent-color) 0px 0px 0px 1px;
 }
 
 .clients li a:hover strong {
