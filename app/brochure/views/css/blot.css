@@ -81,10 +81,11 @@ mark {
 }
 
 h1 {
-  font-size: 32px;
+  font-size: 36px;
   display: block;
   font-weight: 700;
-  padding: 0 0 0.5rem;
+  line-height: 1.15;
+  padding: 0 0 1rem;
 }
 
 h1:first-child {
