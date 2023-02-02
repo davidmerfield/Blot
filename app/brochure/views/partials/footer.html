@@ -6,9 +6,11 @@
 <script type="text/javascript" src="/js/sidebar.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.11.1/tocbot.min.js"></script>
 <script type="text/javascript">
+  const tocSelector = '.toc';
+
   tocbot.init({
   // Where to render the table of contents.
-  tocSelector: '.toc',
+  tocSelector,
   // Where to grab the headings to build the table of contents.
   contentSelector: '.main-page',
   // Which headings to grab inside of the contentSelector element.
@@ -16,4 +18,10 @@
   // For headings inside relative or absolute positioned containers within content.
   hasInnerContainers: true,
 });
+
+  const tocEl = document.querySelector(tocSelector);
+
+  if (tocEl.innerHTML.trim() === '') {
+    tocEl.parentNode.parentNode.removeChild(tocEl.parentNode);
+  }
 </script>
