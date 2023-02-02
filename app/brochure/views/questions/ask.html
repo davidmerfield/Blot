@@ -1,11 +1,11 @@
 <h1>Ask a question</h1>
 
-<div style="max-width: 637px;">
-  <form method="POST" action="/questions/ask" id="new-question-form" class="qa-form">
+  <form method="POST" action="/questions/ask" id="new-question-form" class="qa-form" style="width: 100%;">
     <input type="hidden" name="_csrf" value="{{csrf}}" />
     <div>
-      <input type="text" name="title" id="title" placeholder="Title..."></input>
+      <input type="text" name="title" id="title" placeholder="Title of your question..."></input>
     </div>
+    <br>
     <div>
       <textarea type="text" name="body" id="body" placeholder="Question..."></textarea>
     </div>
@@ -13,26 +13,17 @@
             <script src="/js/tagify.js"></script>
             <link href="/css/tagify.css" rel="stylesheet" type="text/css" />
 
-            <input type="text" name="tags" id="tags" placeholder="Tags..."></input>
-            <script type="text/javascript">
-              // The DOM element you wish to replace with Tagify
-var input = document.querySelector('input[name=tags]');
 
-// initialize Tagify on the above input node reference
-new Tagify(input, {
-    originalInputValueFormat: valuesArr => valuesArr.map(item => item.value).join(',')
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@devhau/md-editor@1.0.4/dist/md-editor.min.css">
+<script src="https://cdn.jsdelivr.net/npm/@devhau/md-editor@1.0.4/dist/md-editor.min.js"></script>
 
-})
-            </script>
-            <style type="text/css">
- tags {
-    min-width: 100%;
-}
-</style>
-</div>
+<script>
+var editor = new mdEditor({ element: document.getElementById("body") });
+</script>
+
     <div class="qa-form-actionarea">
-      <button class="whitebutton" id="post-question-button">Post question</button>
-      <span class="secondary-text">Markdown allowed</span>
+      <button class="bordered-button" style="margin:2px 0;float:right;line-height:30px;border-radius:4px;white-space: nowrap;color:white;background:var(--accent-color);color:white;border:none;font-weight: 500;font-size: 18px;padding:8px" id="post-question-button">Post question</button>
+      <span class="secondary-text"><a href="/how/posts/markdown">Markdown</a> allowed</span>
     </div>
 
   </form>
@@ -44,9 +35,10 @@ new Tagify(input, {
   var bodyEl = document.getElementById('body');
 
   function updateQuestionButtonState() {
-    if (titleEl.value.trim() === '' || bodyEl.value.trim() === '') {
+    if (titleEl.value.trim() === '' || editor.value().trim() === '') {
       buttonEl.setAttribute('disabled', '');
     } else {
+      bodyEl.setAttribute('value', editor.value());
       buttonEl.removeAttribute('disabled');
     }
   }

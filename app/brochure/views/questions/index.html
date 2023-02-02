@@ -1,4 +1,4 @@
-<h1>Questions {{#tag}}tagged {{tag}}{{/tag}}   
+<h1>{{^tag}}Questions {{/tag}}{{#tag}}Tagged '{{tag}}'{{/tag}}   
 </h1>
 
 <style type="text/css">
@@ -79,26 +79,7 @@
 </div>
 
 
-{{#paginator}}
-<div class="paginator">
-  {{#pages}}
-    {{^current}}
-      <a class="whitebutton pagenum secondary-text" href="/questions/page/{{page}}">{{page}}</a>
-    {{/current}}
-
-    {{#current}}
-      <a class="pagenum current">{{page}}</a>
-    {{/current}}
-  {{/pages}}
-
-  {{#next_page}}
-    <a class="next" href="/questions/page/{{next_page}}">Next</a>
-  {{/next_page}}
-
-
-</div>
-{{/paginator}}
+{{> questions-paginator}}
 
 
 
-<a href="/questions/feed.rss">Feed of latest questions</a>
