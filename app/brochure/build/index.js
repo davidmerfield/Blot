@@ -5,7 +5,6 @@ const chokidar = require("chokidar");
 const { join } = require("path");
 const finder = require("finder");
 const async = require("async");
-const modifiedAndEditLink = require("./modified-and-edit-link");
 const search = require("./search-index");
 
 fs.ensureDirSync(OUTPUT);
@@ -95,7 +94,6 @@ async function handle({ path, destination }, callback) {
     output = require("./anchor-links")(output);
     output = finder.html_parser(output);
     
-      output = output + modifiedAndEditLink(INPUT, path);
 
     // output = require("./minify-html")(output);
 

@@ -30,17 +30,26 @@ brochure.get(["/how/format/*"], function (req, res, next) {
   next();
 });
 
-brochure.use(require('./questions/related'));
+brochure.use(require("./questions/related"));
 
-brochure.get(['/contact'], (req, res, next)=>{
-    res.locals.fullWidth = true;
-    next();
-});
-
-brochure.get(['/about', '/how/configure', '/templates', '/questions'], (req, res, next)=>{
-  res.locals['hide-on-this-page'] = true;
+brochure.get(["/contact"], (req, res, next) => {
+  res.locals.fullWidth = true;
   next();
 });
+
+brochure.get(
+  ["/about", "/how/configure", "/templates", "/questions"],
+  (req, res, next) => {
+    res.locals["hide-on-this-page"] = true;
+    next();
+  }
+);
+
+// Adds a handy 'edit this page' link
+brochure.use(
+  ["/how", "/templates", "/about"],
+  require("./tools/determine-source")
+);
 
 brochure.use(function (req, res, next) {
   res.locals.breadcrumbs = require("url")
