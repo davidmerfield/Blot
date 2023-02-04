@@ -3,7 +3,7 @@
 ## How our customers find Blot
 
 
-I dislike the hard sell. To date, I have not tried to convince anyone, ever, in person or online, to use Blot. I announced [the launch of Blot](https://news.ycombinator.com/item?id=8183498) on a forum for programmers. The initial customers which I recieved from that forum post have since spread the news by word-of-mouth. You can trace every customer today back to the people in that post. 
+I dislike the hard sell. To date, I have not tried to convince anyone, ever, in person or online, to use Blot. I announced [the launch of Blot](https://news.ycombinator.com/item?id=8183498) on a forum for programmers. The initial customers which I received from that forum post have since spread the news by word-of-mouth. You can trace every customer today back to the people in that post. 
 
 ## Advertising
 

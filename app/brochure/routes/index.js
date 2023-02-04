@@ -10,10 +10,11 @@ var TITLES = {
   "sync": "Sync your folder",
   "configure": "Configure your site",
   "google-drive": "Google Drive",
+  "markdown": "Text and Markdown",
   "word-documents": "Word Documents",
   "html": "HTML",
   "how-blot-works": "How Blot works",
-  "ask": "Ask",
+  "ask": "Ask a question",
   "urls": "URL format",
   "hard-stop-start-ec2-instance": "How to stop and start an EC2 instance",
   "who": "Who uses Blot?",
@@ -29,12 +30,26 @@ brochure.get(["/how/format/*"], function (req, res, next) {
   next();
 });
 
-brochure.use(require('./questions/related'));
+brochure.use(require("./questions/related"));
 
-brochure.get(['/about', '/how/configure', '/templates', '/questions'], (req, res, next)=>{
-  res.locals['hide-on-this-page'] = true;
+brochure.get(["/contact"], (req, res, next) => {
+  res.locals.fullWidth = true;
   next();
 });
+
+brochure.get(
+  ["/about", "/how/configure", "/templates", "/questions"],
+  (req, res, next) => {
+    res.locals["hide-on-this-page"] = true;
+    next();
+  }
+);
+
+// Adds a handy 'edit this page' link
+brochure.use(
+  ["/how", "/templates", "/about"],
+  require("./tools/determine-source")
+);
 
 brochure.use(function (req, res, next) {
   res.locals.breadcrumbs = require("url")

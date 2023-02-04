@@ -32,6 +32,8 @@
     min-height: auto;
   }
 
+    label[for=toggle] svg#hider {display: none;}
+
   main nav .container {
     padding-top: 0;
     padding-bottom: 0;
@@ -114,20 +116,20 @@ header label:hover {
 .breadcrumbs_link {
   display: inline-block;
   position: relative;
-  margin-left: 0.85rem;
+  margin-left: 0.85em;
   white-space: nowrap;
-  padding-left: 0.85rem;
+  padding-left: 0.85em;
 }
 
 .breadcrumbs_link:before {
   content: "";
   display: block;
   position: absolute;
-  top: 0;
+  top: 5px;
   bottom: 0px;
   left: -4px;
-  width: 4px;
-  height: 4px;
+  width: 6px;
+  height: 6px;
   margin: auto 0;
   -webkit-transform: rotate(45deg);
   -ms-transform: rotate(45deg);

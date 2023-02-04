@@ -1,16 +1,29 @@
 <h1>How to use Blot</h1>
 
-<p>Blot turns a folder into a website. Files in­side your website's folder be­come posts on your website. As you make changes to your folder, your website updates automatically.</p>
-
-<p>What's the point of turning a folder into a website? Blot exists so that you can blog with your fa­vorite tools. Use your fa­vorite text-ed­i­tor to write and Blot does the rest.</p>
+<p>Blot turns a folder into a website. Files in the folder be­come posts on your website. What's the point of turning a folder into a website? So you can blog with your favorite text-editor. There's no interface – just files.</p>
 
 
-        <p style="margin-top: 1rem">
-      <a class="textli" href="/videos/publishing-with-blot.mp4">{{> playsvg}}<strong>Watch the film</strong><span style="display: block;opacity: 0.5">Introduction &thinsp;&middot;&thinsp; 09:39</span></a>
-    </p>
-
-<br>
-<background class="video" style="margin-bottom: 0"><pre class="folder" title="Your blog"><code>Posts
+        <style type="text/css">
+          .textli {
+              color: white;
+              font-size: 14px;
+              position: relative;
+              margin-top: 6rem
+          }
+          .textli svg {
+            width: 1.5em;
+            position: absolute;left: -2em
+          }
+          .textli svg .st1 {fill:white;}
+          .no-border {
+            border-bottom: none;
+            padding-bottom: 0
+          }
+          background.video:hover {background-color: #004a99}
+        </style>
+<background class="video" style="position: relative;margin: calc(var(--spacing)*2) 0">
+      <a class="textli" >{{> playsvg}}<strong>Watch the video</strong><span style="display: block;opacity: 0.5">Introduction &thinsp;&middot;&thinsp; 09:39</span></a>
+    <pre class="folder" title="Your blog"><code>Posts
   Apple.txt
   Blackcurrant.docx
   Cherry.jpg
@@ -18,6 +31,8 @@
   Elderberry.webloc
   Fig.html
 </code></pre>
+    <a href="/videos/publishing-with-blot.mp4" style="position: absolute;top:0;left: 0;right:0;bottom: 0"></a>
+
 </background>
 
 <style type="text/css">
@@ -36,7 +51,7 @@
 
 <style type="text/css">
 
-.light {opacity: 0.5;margin-left: 1.7em}
+.light {opacity: 0.5;}
 
 .flex-table {max-width: 637px;}
 .flex-table row {display: flex;flex-wrap:wrap;    }
@@ -50,45 +65,46 @@
 .flex-table hr {    border: none;    
     border-bottom: 1px solid #eceff1;margin: 0}
 
+h2 + ul.clients {margin-top: 0}
+ul.clients.files .light {margin-left: 1.9rem}
 </style>
 
 <style type="text/css">
-  img[src*='.svg'] {width: 16px;height: 16px;margin-right: 0.4em}
+  img[src*='.svg'] {width: 20px;height: 20px;margin-right: 0.8em}
 </style>
-<h2>Sync your folder</h2>
-<p style="margin-bottom: 0">You can sync your folder to Blot with any of the following:</p>
-<ul class="clients" style="margin-top: 1rem">
+<h2 class="no-border">Sync your folder to Blot</h2>
+<ul class="clients" >
 
   <li><a href="/how/sync/dropbox">
     <img src="/how/sync/dropbox.svg">
-    <span class="a">Dropbox</span><br>Use a folder in Dropbox</a></li>
+    <span class="a">Dropbox</span><br><span class="light">Use a folder in your Dropbox</span></a></li>
 
   <li><a href="/how/sync/git">
     <img src="/how/sync/git.svg">
-    <span class="a">Git</span><br>Use a git repository</a></li>
+    <span class="a">Git</span><br><span class="light">Use a git repository</span></a></li>
 
     
 <li><a href="/how/sync/google-drive">
 
     <img src="/how/sync/google-drive.svg">
 
-<span class="a">Google Drive</span><br>Use a folder in Drive</a></li>
+<span class="a">Google Drive</span><br><span class="light">Use a folder in your Drive</span></a></li>
 </ul>
-<h2 style="margin-bottom:0">Files which become blog posts</h2>
- <ul class="clients" style="margin-top: 0">
+<h2 class="no-border">Files which become posts</h2>
+ <ul class="clients files">
      <li><a href="/how/posts/text-and-markdown"><nobr><span class="icon md"></span> &nbsp;
-       <span class="a">Text and Markdown</span><span class="light">.txt&nbsp; .md</span></nobr></a></li>
+       <span class="a">Text and Markdown</span><br><span class="light">.txt&nbsp; .md</span></nobr></a></li>
      
-     <li><a href="/how/posts/images"><nobr><span class="icon img"></span> &nbsp;<span class="a">Images</span></nobr><span class="light">.png&nbsp;&nbsp;.jpeg&nbsp;&nbsp;.gif</span></a></li>
+     <li><a href="/how/posts/images"><nobr><span class="icon img"></span> &nbsp;<span class="a">Images</span></nobr><br><span class="light">.png&nbsp;&nbsp;.jpeg&nbsp;&nbsp;.gif</span></a></li>
 
-     <li><a href="/how/posts/word-documents"><nobr><span class="icon txt"></span> &nbsp;<span class="a">Word Documents</span></nobr><span class="light">.docx &nbsp;.odt</span></a></li>
+     <li><a href="/how/posts/word-documents"><nobr><span class="icon txt"></span> &nbsp;<span class="a">Word Documents</span></nobr><br><span class="light">.docx &nbsp;.odt</span></a></li>
      
-     <li><a href="/how/posts/bookmarks"><nobr><span class="icon webloc"></span> &nbsp;<span class="a">Bookmarks</span></nobr><span class="light">.webloc&nbsp;&nbsp;.url</span></a></li>
+     <li><a href="/how/posts/bookmarks"><nobr><span class="icon webloc"></span> &nbsp;<span class="a">Bookmarks</span></nobr><br><span class="light">.webloc&nbsp;&nbsp;.url</span></a></li>
 
-     <li><a href="/how/posts/html"><nobr><span class="icon html"></span> &nbsp;<span class="a">HTML</span></nobr><span class="light">.html <!-- &nbsp; .htm --></span></a></li>
+     <li><a href="/how/posts/html"><nobr><span class="icon html"></span> &nbsp;<span class="a">HTML</span></nobr><br><span class="light">.html <!-- &nbsp; .htm --></span></a></li>
 
    </ul>
-<h2>Prevent a file becoming a blog post</h2>
+<h2>Prevent a file becoming a post</h2>
 <p> Files and folders whose name starts with an underscore are ignored. Ignored files don’t become blog posts themselves but they can be <a href="#files-in-your-folder-are-public">embedded in posts</a>.</p>
 
 <background>

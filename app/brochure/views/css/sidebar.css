@@ -18,6 +18,8 @@ input[name="toggle"] {
     display: none;
   }
 
+
+
   label[for="toggle"] {
     display: block;
     float: right;
@@ -28,12 +30,15 @@ input[name="toggle"] {
     height: 30px;
   }
 
-  #toggle:checked ~ div .sidebar-container {display: block;position: relative;left: auto;margin:0;padding:0;}
+  #toggle:checked ~ div .sidebar-container {
+    display: block;position: absolute;top:0;left: 0;right: 0;
+    bottom: 0;width: 100%;z-index: 10 }
 
-  #toggle:not(:checked) ~ .header #hider {
+  #toggle:not(:checked) ~ div #hider {
     display: none;
   }
-    #toggle:checked ~ .header #shower {
+    
+  #toggle:checked ~ div #shower {
     display: none;
   }
 }
@@ -54,7 +59,11 @@ input[name="toggle"] {
   /*margin-top: 74px;*/
   align-self: flex-start;
   color: var(--light-text-color);
+  border:none;/*border-left:1px solid rgba(0,0,0,0.1);*/
+    padding: calc(var(--spacing)*1.5) calc(var(--spacing)*2);
+
 }
+
 
 .sidebar a {border-radius: 6px;padding-left: 12px}
 
@@ -144,7 +153,7 @@ font-weight: 500;
 }
 
 .sidebar a + ul li:last-child {
-  margin-bottom: 16px;
+  margin-bottom: calc(var(--spacing)*1.5);
 }
 
 .sidebar a + ul ul li:last-child {
@@ -251,4 +260,20 @@ font-weight: 500;
   position: sticky;
   top: 2rem;
   margin-top: 2em;
+}
+
+
+.sidebar-container {flex-shrink: 0}
+  .sidebar>li.has-logo>a {font-size: 14px;font-weight:500;color:var(--text-color);}
+ li.has-logo svg {fill:var(--text-color);width: 20px;vertical-align: sub;margin-right:0.5em;position: relative;top:-0.1em;}
+
+ li.has-logo svg path {
+    stroke: var(--text-color);
+    stroke-width: 1.8;
+    }  
+
+.sidebar>li.has-logo {margin-bottom: calc(var(--spacing)*1.5)}
+
+  .sidebar>li.has-logo>a:hover {color: var(--accent-color)}
+  .sidebar>li.has-logo>a:hover  svg path {    stroke: var(--accent-color);
 }

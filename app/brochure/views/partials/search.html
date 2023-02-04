@@ -1,11 +1,138 @@
-<input type="text" name="" placeholder="Search" style="    width: 480px;
-    border-radius: 28px;
-    height: 30px;
+<style type="text/css">
+
+  #search-field {
+    width: 100%;
+    border-radius: 4px;
+    height: 36px;
+    margin: 0;
     font-size: 14px;
-    margin-top: 1rem;
-    margin-bottom: 12px;
-    margin-left: -2px;
-    border: 1px solid rgba(0,0,0,0.01);
+     border: 1px solid rgba(0,0,0,0.01);
     box-shadow: none;
     background: #F4F4F6;
-    padding: 0 16px;" style="">
+    border: 2px solid  #F4F4F6;
+    padding: 0 16px;
+  }
+
+  #search-field:focus {
+    background: #fff;
+    border-color: var(--accent-color);
+  }
+
+  .has-results #search-field {
+    border-radius: 14px 14px 0 0;
+    border-bottom: 1px solid rgba(0,0,0,0.1)
+  }
+
+  #search-results {background:#fff;position: absolute;top:100%;left:0;right:0;
+    min-height: 40px;margin-top: 14px;z-index: 2;display: none;}
+
+#search-results a {
+  border:1px solid rgba(0,0,0,0.1);
+  font-size: 16px;
+  display: block;
+  color: var(--accent-color);
+  padding: 8px 16px;
+  margin-top: -1px;
+  line-height: 1.25;
+}
+
+#search-results a:hover {border-color: var(--accent-color)}
+#search-results a small {color:rgba(0,0,0,0.4);}
+
+
+#search-results:before {
+/*  content: " ";
+*/  width: 1em;
+  height: 1em;
+  font-size: 0.8em;
+  border-radius: 100%;
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  margin-top:-0.5em;  
+    background: rgba(0,0,0,0.25);
+  -webkit-animation: bounce 1.4s infinite ease-in-out both;
+  animation: bounce 1.4s infinite ease-in-out both;
+}
+
+
+@-webkit-keyframes bounce {
+  0%, 40%, 100% { 
+    -webkit-transform: scale(0.8);
+    transform: scale(0.8);
+  } 70% { 
+    -webkit-transform: scale(0.3);
+    transform: scale(0.3);
+  }
+}
+
+@keyframes bounce {
+  0%, 40%, 100% { 
+    -webkit-transform: scale(0.8);
+    transform: scale(0.8);
+  } 70% { 
+    -webkit-transform: scale(0.3);
+    transform: scale(0.3);
+  }
+}
+
+</style>
+<div id="search-wrapper" style="height: 30px;position: relative;overflow: visible;margin-top: 0;
+flex-grow: 1;
+    margin-left: -2px;
+    z-index: 2
+   ">
+   <div id="click-cover" style="display:none;background:rgba(255,255,255,0.66);position: fixed;top:0;right:0;bottom: 0;left: 0;z-index: 1;cursor: pointer;"></div>
+  <input id="search-field" type="text" name="" placeholder="Search" >
+  <svg style="width:16px;position: absolute;top:9px;
+  right:16px;z-index: 2" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 50.166 49.887" direction="ltr" xmlns:v="https://vecta.io/nano"><path stroke-width="2" stroke="var(--light-text-color)" d="M20.689 36.137c3.846 0 7.369-1.396 10.098-3.695l12.418 12.482c.193.172.473.344.795.344.795 0 1.225-.602 1.225-1.225a1.11 1.11 0 0 0-.344-.795L32.463 30.809c2.471-2.771 3.996-6.445 3.996-10.42 0-8.658-7.111-15.77-15.77-15.77S4.941 11.73 4.941 20.389s7.09 15.748 15.748 15.748zm0-1.053c-8.078 0-14.695-6.617-14.695-14.695S12.611 5.672 20.689 5.672s14.717 6.639 14.717 14.717-6.639 14.695-14.717 14.695z"/></svg>
+  <div id="search-results"></div>
+</div>
+
+<script type="text/javascript" src="/js/elasticlunr.js"></script>
+<script type="text/javascript">
+let cachedIndex;
+let metadata;
+
+async function loadIndex () {
+  if (cachedIndex) return cachedIndex;
+
+  const response = await fetch('/search.json');
+  const json = await response.json();
+    
+  // map containing article titles
+  metadata = {...json.metadata};
+  delete json.metadata;
+
+  cachedIndex = elasticlunr.Index.load(json);
+  return cachedIndex;
+}
+
+const searchInput = document.getElementById('search-field');
+const clickCover = document.getElementById('click-cover');
+const searchResults = document.getElementById('search-results');
+
+clickCover.addEventListener('click', async function(){
+  clickCover.style.display = 'none';
+  searchResults.style.display = 'none';
+});
+
+searchInput.addEventListener('focus', async function(){
+  clickCover.style.display = 'block';
+  searchResults.style.display = 'none';
+})
+
+searchInput.addEventListener('keyup', async function(){
+  const index = await loadIndex();
+  const results = index.search(searchInput.value).slice(0,5).filter(({ref, score}) => metadata[ref] && metadata[ref].title);
+  if (results.length === 0) {
+  return searchResults.style.display = 'none';
+
+  }
+  clickCover.style.display = 'block'
+  searchResults.style.display = 'block';
+  searchResults.innerHTML = results.map(({ref, score}) => `<a href="/${ref}">${metadata[ref].title}<br><small>${ref}</small></a>`).join('\n');
+});
+
+
+</script>
