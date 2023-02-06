@@ -18,9 +18,16 @@ describe("sync lowerCaseContents", function () {
   // Create test blog
   global.test.blog();
 
-  it("handles case-conflicting files", async function () {
+  it("handles case-conflicting directories", async function () {
     await this.write("/templates/foo.txt", "test 1");
     await this.write("/Templates/bar.txt", "test 2");
+
+    await this.check();
+  });
+
+  it("handles case-conflicting files", async function () {
+    await this.write("/templates/fOo.txt", "test 1");
+    await this.write("/templates/FoO.txt", "test 2");
 
     await this.check();
   });
