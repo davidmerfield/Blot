@@ -1,4 +1,9 @@
+Fix 'edit this page' link in production
+
+Add 'verify' button for both google drive and Dropbox clients that works then tell [Jonathan](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrcPJVPkQGswgFtCkwbJfFJjnD)
+
 Improve Google Drive client:
+
 - Handle uncaught error with verify on Google Drive client. 
 - another uncaught error surfaces when the account is deleted, before a verify takes place
 - Add better tools for reseting Google Drive sync state, pulling from Drive instead of from Blot.
