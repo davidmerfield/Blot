@@ -4,6 +4,7 @@ const localPath = require("helper/localPath");
 const metadata = require("models/metadata");
 const { promisify } = require("util");
 const getMetadata = promisify(metadata.get);
+const renameOrDeDupe = require("helper/renameOrDeDupe");
 
 // Takes a file or folder whose name is not fully
 // lowercase and to make it lowercase. For example:
@@ -47,7 +48,7 @@ const lowerCaseContents = (blog, rename) => async (
 
         renamedDirectories[newPath] = blotPath;
 
-        await fs.rename(pathOnDisk, join(localFolder, newPath));
+        await renameOrDeDupe(pathOnDisk, join(localFolder, newPath));
         await rename(newPath, blotPath, options);
         await walk(newPath);
       }
@@ -61,7 +62,10 @@ const lowerCaseContents = (blog, rename) => async (
 
         renamedDirectories[newPath] = path;
 
-        await fs.rename(join(localFolder, path), join(localFolder, newPath));
+        await renameOrDeDupe(
+          join(localFolder, path),
+          join(localFolder, newPath)
+        );
         await rename(newPath, path, options);
         await walk(newPath);
       }
@@ -91,7 +95,7 @@ const lowerCaseContents = (blog, rename) => async (
         const pathOnDisk = join(localFolder, dir, item);
         const options = restore ? {} : { name: item };
 
-        await fs.rename(pathOnDisk, join(localFolder, newPath));
+        await renameOrDeDupe(pathOnDisk, join(localFolder, newPath));
         await rename(newPath, blotPath, options);
       }
 
@@ -102,7 +106,10 @@ const lowerCaseContents = (blog, rename) => async (
         const path = join(dir, newName);
         const options = restore ? {} : { name: item };
 
-        await fs.rename(join(localFolder, blotPath), join(localFolder, path));
+        await renameOrDeDupe(
+          join(localFolder, blotPath),
+          join(localFolder, path)
+        );
         await rename(path, blotPath, options);
       }
 
