@@ -25,9 +25,23 @@ describe("sync lowerCaseContents", function () {
     await this.check();
   });
 
+  it("handles case-conflicting directories with case-y parents", async function () {
+    await this.write("/Bar/templates/foo.txt", "test 1");
+    await this.write("/Bar/Templates/bar.txt", "test 2");
+
+    await this.check();
+  });
+
   it("handles case-conflicting files", async function () {
-    await this.write("/templates/fOo.txt", "test 1");
-    await this.write("/templates/FoO.txt", "test 2");
+    await this.write("/fOo.txt", "test 1");
+    await this.write("/FoO.txt", "test 2");
+
+    await this.check();
+  });
+
+  it("handles case-conflicting files with case-y parents", async function () {
+    await this.write("/Templates/fOo.txt", "test 1");
+    await this.write("/Templates/FoO.txt", "test 2");
 
     await this.check();
   });
