@@ -3,7 +3,6 @@ const promisify = require("util").promisify;
 const fs = require("fs-extra");
 const { join } = require("path");
 const entries = require("models/entries");
-const rename = require("../rename");
 const localPath = require("helper/localPath");
 
 const LONG_TIMEOUT = 10000;
@@ -19,6 +18,13 @@ describe("sync lowerCaseContents", function () {
   // Create test blog
   global.test.blog();
 
+  it("handles case-conflicting files", async function () {
+    await this.write("/templates/foo.txt", "test 1");
+    await this.write("/Templates/bar.txt", "test 2");
+
+    await this.check();
+  });
+
   it("lowercases all files in blog folder", async function () {
     await this.write("/bat.txt", "test 1");
     await this.write("/bAr.txt", "test 2");
@@ -31,61 +37,11 @@ describe("sync lowerCaseContents", function () {
     await this.write("/anOtherDir");
     await this.write("/fōO/bbb/te.txt", "test 10");
 
-    const entriesBefore = await this.getAll();
-    console.log("entries", entriesBefore);
-    const pathsBefore = await this.getContents();
-    console.log("pathsBefore", pathsBefore);
-
-    await lowerCaseContents(
-      this.blog,
-      promisify(rename(this.blog, console.log))
-    )();
-
-    const entriesAfter = await this.getAll();
-    console.log("entriesAfter", entriesAfter);
-    const pathsAfter = await this.getContents();
-    console.log("pathsAfter", pathsAfter);
-
-    expect(
-      entriesBefore
-        .map(({ name, guid }) => {
-          return {
-            name,
-            guid,
-          };
-        })
-        .sort()
-    ).toEqual(
-      entriesAfter
-        .map(({ name, guid }) => {
-          return {
-            name,
-            guid,
-          };
-        })
-        .sort()
-    );
-
-    expect(pathsAfter.sort()).toEqual(
-      pathsBefore.map((i) => i.toLowerCase()).sort()
-    );
-
-    // can we reverse the process?
-    await lowerCaseContents(
-      this.blog,
-      promisify(rename(this.blog, console.log))
-    )({ restore: true });
-
-    const entriesRestored = await this.getAll();
-    console.log("entries", entriesRestored);
-    const pathsRestored = await this.getContents();
-    console.log("pathsRestored", pathsRestored);
-
-    expect(entriesRestored.sort()).toEqual(entriesBefore.sort());
-    expect(pathsRestored.sort()).toEqual(pathsBefore.sort());
+    await this.check();
   });
 
   var originalTimeout;
+  const rename = require("../rename");
 
   beforeEach(function (done) {
     const ctx = this;
@@ -125,6 +81,60 @@ describe("sync lowerCaseContents", function () {
       if (err) return done(err);
       ctx.folder = folder;
       ctx.complete = complete;
+      ctx.check = async function check() {
+        const entriesBefore = await ctx.getAll();
+        console.log("entries", entriesBefore);
+        const pathsBefore = await ctx.getContents();
+        console.log("pathsBefore", pathsBefore);
+
+        await lowerCaseContents(
+          ctx.blog,
+          promisify(rename(ctx.blog, console.log))
+        )();
+
+        const entriesAfter = await ctx.getAll();
+        console.log("entriesAfter", entriesAfter);
+        const pathsAfter = await ctx.getContents();
+        console.log("pathsAfter", pathsAfter);
+
+        expect(
+          entriesBefore
+            .map(({ name, guid }) => {
+              return {
+                name,
+                guid,
+              };
+            })
+            .sort()
+        ).toEqual(
+          entriesAfter
+            .map(({ name, guid }) => {
+              return {
+                name,
+                guid,
+              };
+            })
+            .sort()
+        );
+
+        expect(pathsAfter.sort()).toEqual(
+          pathsBefore.map((i) => i.toLowerCase()).sort()
+        );
+
+        // can we reverse the process?
+        await lowerCaseContents(
+          ctx.blog,
+          promisify(rename(ctx.blog, console.log))
+        )({ restore: true });
+
+        const entriesRestored = await ctx.getAll();
+        console.log("entries", entriesRestored);
+        const pathsRestored = await ctx.getContents();
+        console.log("pathsRestored", pathsRestored);
+
+        expect(entriesRestored.sort()).toEqual(entriesBefore.sort());
+        expect(pathsRestored.sort()).toEqual(pathsBefore.sort());
+      };
       ctx.write = async function (path, contents) {
         if (contents) {
           await fs.outputFile(join(folder.path, path), contents);
