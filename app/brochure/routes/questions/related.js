@@ -9,20 +9,39 @@ const pool = new Pool({
 });
 
 module.exports = async function related(req, res, next) {
-  if (["/questions", "/questions/ask"].indexOf(req.path) > -1) return next();
+  const path = require("url").parse(req.originalUrl).pathname;
 
-  const related_tag = req.path.split("/").pop();
+  if (["/questions", "/questions/ask"].indexOf(path) > -1) return next();
 
-  const { rows } = await pool.query(`
-    SELECT *, (SELECT Count(*) FROM items x WHERE x.parent_id = y.id) as reply_count
+  const related_tag = path.split("/").pop();
+  const statement = `SELECT *, (SELECT Count(*) FROM items x WHERE x.parent_id = y.id) as reply_count
     FROM items y
     WHERE is_topic = true
-    ${related_tag ? `AND (tags ILIKE '${related_tag},%' OR tags ILIKE '%,${related_tag},%' OR tags ILIKE '%,${related_tag}' OR tags ILIKE '${related_tag}') ` : ""} 
+    ${
+      related_tag
+        ? `AND (
+            tags ILIKE ($1 || ',%') OR
+            tags ILIKE ('%,' || $1 || ',%') OR
+            tags ILIKE ('%,' || $1) OR
+            tags ILIKE $1
+          )`
+        : ""
+    } 
     ORDER BY created_at DESC
-    LIMIT 5`);
+    LIMIT 5`;
 
-  res.locals.related_tag = related_tag;
-  res.locals.related = rows;
+  try {
+    const { rows } = await pool.query(
+      statement,
+      related_tag ? [related_tag] : undefined
+    );
+    res.locals.related_tag = related_tag;
+    res.locals.related = rows;
+  } catch (e) {
+    console.error("related_tag", related_tag);
+    console.error("statement", statement);
+    console.error(e);
+  }
 
   return next();
 };
