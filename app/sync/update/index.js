@@ -21,8 +21,11 @@ module.exports = function (blog, log, status) {
       err,
       caseResolvedPath
     ) {
+      if (caseResolvedPath) {
+        path = caseResolvedPath.slice(localPath(blog.id, "/").length);
+      }
+
       console.log("hashing file", path);
-      path = caseResolvedPath.slice(localPath(blog.id, "/").length);
 
       // Blot likes leading slashes, the git client
       // for instance does not have them but we
