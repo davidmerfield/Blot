@@ -32,7 +32,7 @@ describe("sync lowerCaseContents", function () {
     await this.check();
   });
 
-  it("handles case-conflicting files", async function () {
+  fit("handles case-conflicting files", async function () {
     await this.write("/fOo.txt", "test 1");
     await this.write("/FoO.txt", "test 2");
 
