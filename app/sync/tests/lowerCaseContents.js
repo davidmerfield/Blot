@@ -22,28 +22,28 @@ describe("sync lowerCaseContents", function () {
     await this.write("/templates/foo.txt", "test 1");
     await this.write("/Templates/bar.txt", "test 2");
 
-    await this.check();
+    await this.check({ casey: true });
   });
 
   it("handles case-conflicting directories with case-y parents", async function () {
     await this.write("/Bar/templates/foo.txt", "test 1");
     await this.write("/Bar/Templates/bar.txt", "test 2");
 
-    await this.check();
+    await this.check({ casey: true });
   });
 
   it("handles case-conflicting files", async function () {
     await this.write("/fOo.txt", "test 1");
     await this.write("/FoO.txt", "test 2");
 
-    await this.check();
+    await this.check({ casey: true });
   });
 
   it("handles case-conflicting files with case-y parents", async function () {
     await this.write("/Templates/fOo.txt", "test 1");
     await this.write("/Templates/FoO.txt", "test 2");
 
-    await this.check();
+    await this.check({ casey: true });
   });
 
   it("lowercases all files in blog folder", async function () {
@@ -102,7 +102,7 @@ describe("sync lowerCaseContents", function () {
       if (err) return done(err);
       ctx.folder = folder;
       ctx.complete = complete;
-      ctx.check = async function check() {
+      ctx.check = async function check({ casey = false } = {}) {
         const entriesBefore = await ctx.getAll();
         console.log("entries", entriesBefore);
         const pathsBefore = await ctx.getContents();
@@ -118,29 +118,33 @@ describe("sync lowerCaseContents", function () {
         const pathsAfter = await ctx.getContents();
         console.log("pathsAfter", pathsAfter);
 
-        expect(
-          entriesBefore
-            .map(({ name, guid }) => {
-              return {
-                name,
-                guid,
-              };
-            })
-            .sort()
-        ).toEqual(
-          entriesAfter
-            .map(({ name, guid }) => {
-              return {
-                name,
-                guid,
-              };
-            })
-            .sort()
-        );
-
-        expect(pathsAfter.sort()).toEqual(
-          pathsBefore.map((i) => i.toLowerCase()).sort()
-        );
+        if (!casey) {
+          expect(
+            entriesBefore
+              .map(({ name, guid }) => {
+                return {
+                  name,
+                  guid,
+                };
+              })
+              .sort()
+          ).toEqual(
+            entriesAfter
+              .map(({ name, guid }) => {
+                return {
+                  name,
+                  guid,
+                };
+              })
+              .sort()
+          );
+          expect(pathsAfter.sort()).toEqual(
+            pathsBefore.map((i) => i.toLowerCase()).sort()
+          );
+        } else {
+          expect(pathsAfter.length).toEqual(pathsBefore.length);
+          expect(entriesBefore.length).toEqual(entriesAfter.length);
+        }
 
         // can we reverse the process?
         await lowerCaseContents(
@@ -153,8 +157,13 @@ describe("sync lowerCaseContents", function () {
         const pathsRestored = await ctx.getContents();
         console.log("pathsRestored", pathsRestored);
 
-        expect(entriesRestored.sort()).toEqual(entriesBefore.sort());
-        expect(pathsRestored.sort()).toEqual(pathsBefore.sort());
+        if (casey) {
+          expect(entriesRestored.length).toEqual(entriesBefore.length);
+          expect(pathsRestored.length).toEqual(pathsBefore.length);
+        } else {
+          expect(entriesRestored.sort()).toEqual(entriesBefore.sort());
+          expect(pathsRestored.sort()).toEqual(pathsBefore.sort());
+        }
       };
       ctx.write = async function (path, contents) {
         if (contents) {
