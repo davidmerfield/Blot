@@ -1,5 +1,7 @@
 Fix 'edit this page' link in production
 
+Store the case-y path for a file when doing dropbox.write
+
 Add 'verify' button for both google drive and Dropbox clients that works then tell [Jonathan](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrcPJVPkQGswgFtCkwbJfFJjnD)
 
 Improve Google Drive client:
