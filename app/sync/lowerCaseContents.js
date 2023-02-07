@@ -41,44 +41,52 @@ const lowerCaseContents = (blog, rename) => async (
       // this directory has a case-sensitive name
       // and it is inside a directory which has moved
       if (directory && hasNewName && inMovedDirectory) {
-        const blotPath = join(formerParentDirectory, item);
-        const newPath = join(dir, newName);
-        const pathOnDisk = join(localFolder, dir, item);
+        const pathInBlotsDB = join(formerParentDirectory, item);
+        const currentPath = join(dir, item);
         const options = restore ? {} : { name: item };
+        const desiredPath = join(dir, newName);
 
-        renamedDirectories[newPath] = blotPath;
+        const newPath = await renameOrDeDupe(
+          localFolder,
+          currentPath,
+          desiredPath
+        );
 
-        await renameOrDeDupe(pathOnDisk, join(localFolder, newPath));
-        await rename(newPath, blotPath, options);
+        await rename(newPath, pathInBlotsDB, options);
+
+        renamedDirectories[newPath] = pathInBlotsDB;
+
         await walk(newPath);
       }
 
       // this directory has a case-sensitive name
       // but it is not inside a directory which has moved
       if (directory && hasNewName && !inMovedDirectory) {
-        const path = join(dir, item);
-        const newPath = join(dir, newName);
+        const currentPath = join(dir, item);
+        const desiredPath = join(dir, newName);
         const options = restore ? {} : { name: item };
 
-        renamedDirectories[newPath] = path;
-
-        await renameOrDeDupe(
-          join(localFolder, path),
-          join(localFolder, newPath)
+        const newPath = await renameOrDeDupe(
+          localFolder,
+          currentPath,
+          desiredPath
         );
-        await rename(newPath, path, options);
+
+        renamedDirectories[newPath] = currentPath;
+
+        await rename(newPath, currentPath, options);
         await walk(newPath);
       }
 
       // this directory does not have a case-sensitive name
-      // but it is inside a directory which has moved
+      // but it is inside a directory which has already moved
       if (directory && !hasNewName && inMovedDirectory) {
-        const blotPath = join(formerParentDirectory, item);
-        const path = join(dir, item);
+        const pathInBlotsDB = join(formerParentDirectory, item);
+        const currentPath = join(dir, item);
 
-        renamedDirectories[path] = blotPath;
-        await rename(path, blotPath, {});
-        await walk(path);
+        renamedDirectories[currentPath] = pathInBlotsDB;
+        await rename(currentPath, pathInBlotsDB, {});
+        await walk(currentPath);
       }
 
       // this directory does not have a case-sensitive name
@@ -90,27 +98,33 @@ const lowerCaseContents = (blog, rename) => async (
       // this file has a case-sensitive name
       // and it is inside a directory which has moved
       if (file && hasNewName && inMovedDirectory) {
-        const blotPath = join(formerParentDirectory, item);
-        const newPath = join(dir, newName);
-        const pathOnDisk = join(localFolder, dir, item);
+        const pathInBlotsDB = join(formerParentDirectory, item);
+        const currentPath = join(dir, item);
+        const desiredPath = join(dir, newName);
         const options = restore ? {} : { name: item };
 
-        await renameOrDeDupe(pathOnDisk, join(localFolder, newPath));
-        await rename(newPath, blotPath, options);
+        const newPath = await renameOrDeDupe(
+          localFolder,
+          currentPath,
+          desiredPath
+        );
+        await rename(newPath, pathInBlotsDB, options);
       }
 
       // this file has a case-sensitive name
       // but it is not inside a directory which has moved
       if (file && hasNewName && !inMovedDirectory) {
-        const blotPath = join(dir, item);
-        const path = join(dir, newName);
+        const currentPath = join(dir, item);
+        const desiredPath = join(dir, newName);
         const options = restore ? {} : { name: item };
 
-        await renameOrDeDupe(
-          join(localFolder, blotPath),
-          join(localFolder, path)
+        const newPath = await renameOrDeDupe(
+          localFolder,
+          currentPath,
+          desiredPath
         );
-        await rename(path, blotPath, options);
+
+        await rename(newPath, currentPath, options);
       }
 
       // this file does not have a case-sensitive name
