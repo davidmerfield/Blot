@@ -30,21 +30,21 @@ const lowerCaseContents = (blog, rename) => async (
       const file = !directory;
       const formerParentDirectory = renamedDirectories[dir];
       const inMovedDirectory = formerParentDirectory !== undefined;
-      const desiredName = restore
+      const newName = restore
         ? (await getMetadata(
             blog.id,
             join(formerParentDirectory || dir, item)
           )) || item
         : item.toLowerCase();
-      const hasDesiredName = item !== desiredName;
+      const hasNewName = item !== newName;
 
       // this directory has a case-sensitive name
       // and it is inside a directory which has moved
-      if (directory && hasDesiredName && inMovedDirectory) {
+      if (directory && hasNewName && inMovedDirectory) {
         const pathInBlotsDB = join(formerParentDirectory, item);
         const currentPath = join(dir, item);
-        const options = { name: item };
-        const desiredPath = join(dir, desiredName);
+        const options = restore ? {} : { name: item };
+        const desiredPath = join(dir, newName);
 
         const newPath = await renameOrDeDupe(
           localFolder,
@@ -61,10 +61,10 @@ const lowerCaseContents = (blog, rename) => async (
 
       // this directory has a case-sensitive name
       // but it is not inside a directory which has moved
-      if (directory && hasDesiredName && !inMovedDirectory) {
+      if (directory && hasNewName && !inMovedDirectory) {
         const currentPath = join(dir, item);
-        const desiredPath = join(dir, desiredName);
-        const options = { name: item };
+        const desiredPath = join(dir, newName);
+        const options = restore ? {} : { name: item };
 
         const newPath = await renameOrDeDupe(
           localFolder,
@@ -80,28 +80,28 @@ const lowerCaseContents = (blog, rename) => async (
 
       // this directory does not have a case-sensitive name
       // but it is inside a directory which has already moved
-      if (directory && !hasDesiredName && inMovedDirectory) {
+      if (directory && !hasNewName && inMovedDirectory) {
         const pathInBlotsDB = join(formerParentDirectory, item);
         const currentPath = join(dir, item);
 
         renamedDirectories[currentPath] = pathInBlotsDB;
-        await rename(currentPath, pathInBlotsDB, { name: item });
+        await rename(currentPath, pathInBlotsDB, {});
         await walk(currentPath);
       }
 
       // this directory does not have a case-sensitive name
       // and it is not inside a directory which has moved
-      if (directory && !hasDesiredName && !inMovedDirectory) {
+      if (directory && !hasNewName && !inMovedDirectory) {
         await walk(join(dir, item));
       }
 
       // this file has a case-sensitive name
       // and it is inside a directory which has moved
-      if (file && hasDesiredName && inMovedDirectory) {
+      if (file && hasNewName && inMovedDirectory) {
         const pathInBlotsDB = join(formerParentDirectory, item);
         const currentPath = join(dir, item);
-        const desiredPath = join(dir, desiredName);
-        const options = { name: item };
+        const desiredPath = join(dir, newName);
+        const options = restore ? {} : { name: item };
 
         const newPath = await renameOrDeDupe(
           localFolder,
@@ -113,10 +113,10 @@ const lowerCaseContents = (blog, rename) => async (
 
       // this file has a case-sensitive name
       // but it is not inside a directory which has moved
-      if (file && hasDesiredName && !inMovedDirectory) {
+      if (file && hasNewName && !inMovedDirectory) {
         const currentPath = join(dir, item);
-        const desiredPath = join(dir, desiredName);
-        const options = { name: item };
+        const desiredPath = join(dir, newName);
+        const options = restore ? {} : { name: item };
 
         const newPath = await renameOrDeDupe(
           localFolder,
@@ -129,15 +129,15 @@ const lowerCaseContents = (blog, rename) => async (
 
       // this file does not have a case-sensitive name
       // but it is inside a directory which has moved
-      if (file && !hasDesiredName && inMovedDirectory) {
+      if (file && !hasNewName && inMovedDirectory) {
         const blotPath = join(formerParentDirectory, item);
         const path = join(dir, item);
-        await rename(path, blotPath, {name: item});
+        await rename(path, blotPath, {});
       }
 
       // this file has neither a case-sensitive name
       // nor is it inside a directory which has moved
-      if (file && !hasDesiredName && !inMovedDirectory) {
+      if (file && !hasNewName && !inMovedDirectory) {
         // do nothing
       }
     }
