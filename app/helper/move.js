@@ -1,7 +1,10 @@
 const fs = require("fs-extra");
 const { join, dirname, basename, extname } = require("path");
 
-const renameOrDeDupe = async (base, from, to) => {
+// a function which will try to move a file or directory
+// if the destination alread exists, it will add a suffix
+// to the destination file name to prevent a conflict
+const move = async (base, from, to) => {
   let destination;
 
   try {
@@ -9,7 +12,7 @@ const renameOrDeDupe = async (base, from, to) => {
     destination = to;
   } catch (e) {
     if (e && e.message === "dest already exists.") {
-      return renameOrDeDupe(base, from, dedupe(to));
+      return move(base, from, dedupe(to));
     } else {
       console.log("error:", e);
       console.log("from:", from);
@@ -37,16 +40,18 @@ const dedupe = (path) => {
     }
   } catch (e) {}
 
+  // 'a copy.txt' => 'a copy 2.txt'
   if (base.endsWith(" copy")) {
-    return join(dir, base + " 2" + ext);
-  } else if (numberAtEnd) {
-    return join(
-      dir,
-      baseWithoutNumber + " " + (numberAtEnd + 1).toString() + ext
-    );
+    return join(dir, `${base} 2${ext}`);
+
+    // 'a copy 2.txt' => 'a copy 3.txt'
+  } else if (numberAtEnd && baseWithoutNumber.endsWith(" copy")) {
+    return join(dir, `${baseWithoutNumber} ${numberAtEnd + 1}${ext}`);
+
+    // 'a.txt' => 'a copy.txt'
   } else {
-    return join(dir, base + " copy" + ext);
+    return join(dir, `${base} copy${ext}`);
   }
 };
 
-module.exports = renameOrDeDupe;
+module.exports = move;

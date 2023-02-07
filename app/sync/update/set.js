@@ -25,7 +25,7 @@ function isPublic(path) {
 }
 
 function isTemplate(path) {
-  return normalize(path).indexOf("/templates/") === 0;
+  return normalize(path).toLowerCase().startsWith("/templates/");
 }
 
 function buildAndSet(blog, path, options, callback) {

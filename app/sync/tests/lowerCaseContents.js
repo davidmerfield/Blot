@@ -19,15 +19,8 @@ describe("sync lowerCaseContents", function () {
   global.test.blog();
 
   it("handles case-conflicting directories", async function () {
-    await this.write("/templates/foo.txt", "test 1");
-    await this.write("/Templates/bar.txt", "test 2");
-
-    await this.check({ casey: true });
-  });
-
-  it("handles case-conflicting directories with case-y parents", async function () {
-    await this.write("/Bar/templates/foo.txt", "test 1");
-    await this.write("/Bar/Templates/bar.txt", "test 2");
+    await this.write("/basil/foo.txt", "test 1");
+    await this.write("/Basil/bar.txt", "test 2");
 
     await this.check({ casey: true });
   });
@@ -35,6 +28,15 @@ describe("sync lowerCaseContents", function () {
   it("handles case-conflicting files", async function () {
     await this.write("/fOo.txt", "test 1");
     await this.write("/FoO.txt", "test 2");
+
+    await this.check({ casey: true });
+  });
+
+
+
+  it("handles case-conflicting directories with case-y parents", async function () {
+    await this.write("/Bar/templates/foo.txt", "test 1");
+    await this.write("/Bar/Templates/bar.txt", "test 2");
 
     await this.check({ casey: true });
   });

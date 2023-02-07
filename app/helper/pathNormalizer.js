@@ -6,8 +6,10 @@ function pathNormalizer(path) {
 
   if (!path) return "";
 
-  path = path.trim().toLowerCase();
+  // trim leading or trailing whitespace
+  path = path.trim();
 
+  // remove double slashes
   path = path.split("//").join("/");
 
   // Remove trailing slash
@@ -15,6 +17,9 @@ function pathNormalizer(path) {
 
   // Add leading slash
   if (path[0] !== "/") path = "/" + path;
+
+  // trim leading or trailing whitespace
+  path = path.trim();
 
   return path;
 }
@@ -38,8 +43,8 @@ is("/foo/", "/foo");
 // Add leading slash
 is("foo", "/foo");
 
-// Lowercase
-is("/BaR", "/bar");
+// Preserve case
+is("/BaR", "/BaR");
 
 // Replace double slashes with single slashes
 is("//foo//bar//", "/foo/bar");

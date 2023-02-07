@@ -1,5 +1,5 @@
-describe("renameOrDeDupe ", function () {
-  const renameOrDeDupe = require("../renameOrDeDupe");
+describe("move ", function () {
+  const move = require("../move");
   const fs = require("fs-extra");
   const { join } = require("path");
 
@@ -10,16 +10,55 @@ describe("renameOrDeDupe ", function () {
     await this.check([{ from: "/foo.txt", to: "/bar.txt" }]);
   });
 
+  it("moves many files", async function () {
+    await this.check([
+      { from: "/Foo/A/b.txt", to: "/Bar/A/b.txt" },
+      { from: "/Foo/B/c.txt", to: "/Bar/B/c.txt" },
+      { from: "/Foo/C/d.txt", to: "/Bar/C/d.txt" },
+      { from: "/Foo/D/e.txt", to: "/Bar/D/e.txt" },
+    ]);
+  });
+
   it("moves a folder", async function () {
-    await this.check([{ from: "/foo", to: "/bar" }]);
+    await this.check([{ from: "/foo", to: "/bar" }], { folders: ["/bar"] });
+  });
+
+  it("moves case-conflicting files", async function () {
+    await this.check([
+      { from: "/foO.txt", to: "/foo.txt" },
+      { from: "/FOO.txt", to: "/foO.txt" },
+    ]);
   });
 
   it("moves a folder and resolves conflicts", async function () {
-    await this.check([
-      { from: "/foo", to: "/bat" },
-      { from: "/bar", to: "/bat", result: "/bat copy" },
-      { from: "/baz", to: "/bat", result: "/bat copy 2" }
-    ]);
+    await this.check(
+      [
+        { from: "/foo", to: "/bat" },
+        { from: "/bar", to: "/bat", result: "/bat copy" },
+        { from: "/baz", to: "/bat", result: "/bat copy 2" },
+      ],
+      { folders: ["/bat", "/bat copy", "/bat copy 2"] }
+    );
+  });
+
+  it("moves a folder in a folder and resolves conflicts", async function () {
+    await this.check(
+      [
+        { from: "/foo/bar/baz", to: "/bar/bat" },
+        { from: "/bat/baz/boo", to: "/bar/bat", result: "/bar/bat copy" },
+      ],
+      {
+        folders: [
+          "/bar",
+          "/bar/bat",
+          "/bar/bat copy",
+          "/bat",
+          "/bat/baz",
+          "/foo",
+          "/foo/bar",
+        ],
+      }
+    );
   });
 
   it("moves a file into a folder", async function () {
@@ -50,13 +89,13 @@ describe("renameOrDeDupe ", function () {
   });
 
   beforeEach(function () {
-    this.check = async (items) => {
+    this.check = async (items, { folders } = {}) => {
       const base = this.blogDirectory;
       const results = {};
       const initialContents = {};
 
       // create the files
-      for (const { from, contents = "bar" } of items) {
+      for (const { from, contents = global.test.fake.file() } of items) {
         if (from.includes(".")) {
           await fs.outputFile(join(base, from), contents);
           initialContents[from] = contents;
@@ -66,7 +105,7 @@ describe("renameOrDeDupe ", function () {
       }
 
       for (const { from, to } of items) {
-        const result = await renameOrDeDupe(base, from, to);
+        const result = await move(base, from, to);
         results[from] = result;
       }
 
@@ -83,9 +122,12 @@ describe("renameOrDeDupe ", function () {
         expect(fs.existsSync(join(base, from))).toEqual(false);
       }
 
-      // if (items.find(({ from }) => !from.includes("."))) {
-      //   const folderList = allFolders(base).sort();
-      // }
+      if (folders) {
+        const folderList = allFolders(base).sort();
+        console.log('folder list:', folderList);
+        console.log('expected folder list:', folders.sort());
+        expect(folders.sort()).toEqual(folderList);
+      }
 
       expect(fileList).toEqual(
         items
@@ -102,9 +144,8 @@ describe("renameOrDeDupe ", function () {
 
       items.forEach(({ to, from }) => {
         if (from.includes(".")) {
-          expect(fs.readFileSync(join(base, to), "utf-8")).toEqual(
-            initialContents[from]
-          );
+          const contents = fs.readFileSync(join(base, results[from]), "utf-8");
+          expect(contents).toEqual(initialContents[from]);
         }
       });
     };
@@ -121,6 +162,23 @@ describe("renameOrDeDupe ", function () {
         results = results.concat(allFiles(base, file));
       } else {
         results.push(file);
+        /* Is a file */
+      }
+    });
+    return results;
+  }
+
+  function allFolders(base, path = "/") {
+    var results = [];
+    var list = fs.readdirSync(join(base, path));
+    list.forEach(function (file) {
+      file = join(path, file);
+      var stat = fs.statSync(join(base, file));
+      if (stat && stat.isDirectory()) {
+        /* Recurse into a subdirectory */
+        results = results.concat(allFolders(base, file));
+        results.push(file);
+      } else {
         /* Is a file */
       }
     });

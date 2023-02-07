@@ -4,7 +4,7 @@ const localPath = require("helper/localPath");
 const metadata = require("models/metadata");
 const { promisify } = require("util");
 const getMetadata = promisify(metadata.get);
-const renameOrDeDupe = require("helper/renameOrDeDupe");
+const move = require("helper/move");
 
 // Takes a file or folder whose name is not fully
 // lowercase and to make it lowercase. For example:
@@ -46,7 +46,7 @@ const lowerCaseContents = (blog, rename) => async (
         const options = restore ? {} : { name: item };
         const desiredPath = join(dir, newName);
 
-        const newPath = await renameOrDeDupe(
+        const newPath = await move(
           localFolder,
           currentPath,
           desiredPath
@@ -66,7 +66,7 @@ const lowerCaseContents = (blog, rename) => async (
         const desiredPath = join(dir, newName);
         const options = restore ? {} : { name: item };
 
-        const newPath = await renameOrDeDupe(
+        const newPath = await move(
           localFolder,
           currentPath,
           desiredPath
@@ -103,7 +103,7 @@ const lowerCaseContents = (blog, rename) => async (
         const desiredPath = join(dir, newName);
         const options = restore ? {} : { name: item };
 
-        const newPath = await renameOrDeDupe(
+        const newPath = await move(
           localFolder,
           currentPath,
           desiredPath
@@ -118,7 +118,7 @@ const lowerCaseContents = (blog, rename) => async (
         const desiredPath = join(dir, newName);
         const options = restore ? {} : { name: item };
 
-        const newPath = await renameOrDeDupe(
+        const newPath = await move(
           localFolder,
           currentPath,
           desiredPath
