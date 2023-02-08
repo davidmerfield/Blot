@@ -22,6 +22,16 @@ describe("build", function () {
     this.syncAndCheck(file, entry, done);
   });
 
+  it("can publish an entry inside a folder with leading and trailing whitespace", function (done) {
+    const path = "/ 2018 / Hello.txt";
+    const content = '# Hello';
+
+    const file = { path, content };
+    const entry = { path, title: "Hello" };
+
+    this.syncAndCheck(file, entry, done);
+  });
+
   it("hides date from title if its in the file name", function (done) {
     const path = "/2018/06-04 Hello.jpg";
     const content = this.fake.file();

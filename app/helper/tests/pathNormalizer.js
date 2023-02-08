@@ -9,12 +9,12 @@ describe("pathNormalizer", function () {
     is("/foo/bar", "/foo/bar");
 
     // Trim leading or trailing whitespace
-    is(" / ", "/");
 
     // Preserve internal whitespace
+    is(" / ", "/ / ");
     is("/a b c", "/a b c");
-    is("/a b c / ", "/a b c");
-    is(" //a b c / ", "/a b c");
+    is("/a b c ", "/a b c ");
+    is("//a b c /", "/a b c ");
 
     // Remove trailing slash
     is("/foo/", "/foo");

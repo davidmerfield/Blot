@@ -3,6 +3,7 @@ const type = require("helper/type");
 const CheckEntry = require("./checkEntry");
 const sync = require("sync");
 const fs = require("fs-extra");
+const { join } = require("path");
 
 module.exports = function SyncAndCheck(blogID) {
   return (files, entries, callback) => {
@@ -15,7 +16,7 @@ module.exports = function SyncAndCheck(blogID) {
       async.eachSeries(
         files,
         ({ path, content, options = {} }, next) => {
-          fs.outputFileSync(folder.path + path, content, "utf-8");
+          fs.outputFileSync(join(folder.path, path), content, "utf-8");
           folder.update(path, options, next);
         },
         (err) => {
