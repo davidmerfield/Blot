@@ -44,19 +44,10 @@ const handleBlog = (user, blog, next) => {
       },
       function (err) {
         if (err) throw err;
-
         multi.exec(function (err, stat) {
           if (err) throw err;
           console.log("Stat:", stat);
-
-          client.hgetall("blog:" + blog.id + ":ignored_files", function (
-            err,
-            ignoredFilePaths
-          ) {
-            if (err) throw err;
-            console.log(ignoredFilePaths);
-            next();
-          });
+          next();
         });
       }
     );
