@@ -13,6 +13,8 @@ describe("pathNormalizer", function () {
 
     // Preserve internal whitespace
     is("/a b c", "/a b c");
+    is("/a b c / ", "/a b c");
+    is(" //a b c / ", "/a b c");
 
     // Remove trailing slash
     is("/foo/", "/foo");
