@@ -14,20 +14,19 @@ module.exports = function (blog, log, status) {
       options = {};
     }
 
-    status("Syncing " + path);
-
     // Blot likes leading slashes, the git client
     // for instance does not have them but we
     // are not so strict above these things...
     if (path[0] !== "/") path = "/" + path;
+    status("Syncing " + path);
 
-    hashFile(path, function (err, hashBefore) {
+    hashFile(localPath(blog.id, path), function (err, hashBefore) {
       function done(err) {
         // we never let this error escape out
         if (err) {
           console.error(clfdate(), blog.id, path, err);
         }
-        hashFile(path, function (err, hashAfter) {
+        hashFile(localPath(blog.id, path), function (err, hashAfter) {
           if (hashBefore !== hashAfter) update(path, options, callback);
 
           // the cache is flushed at the end of a sync too
