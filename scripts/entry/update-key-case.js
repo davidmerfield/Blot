@@ -14,39 +14,49 @@ const handleBlog = (user, blog, next) => {
     async.eachSeries(
       ids,
       (path, next) => {
-        const oldKey = "blog:" + blog.id + ":entry:" + oldPathNormalize(path);
-        const newKey = "blog:" + blog.id + ":entry:" + pathNormalizer(path);
+        const candidates = [];
 
-        const oldDepKey =
-          "blog:" + blog.id + ":dependents:" + oldPathNormalize(path);
-        const newDepKey =
-          "blog:" + blog.id + ":dependents:" + pathNormalizer(path);
-
-        if (oldKey === newKey && oldDepKey === newDepKey) return next();
-
-        client.exists(oldKey, function (err, exists) {
-          if (exists) {
-            console.log("updating:", oldKey, "=>", newKey);
-            multi.rename(oldKey, newKey);
-          } else {
-          }
-
-          client.exists(oldDepKey, function (err, exists) {
-            if (exists) {
-              console.log("updating:", oldDepKey, "=>", newDepKey);
-              multi.rename(oldDepKey, newDepKey);
-            } else {
-            }
-
-            next();
-          });
+        // entry key
+        candidates.push({
+          oldKey: "blog:" + blog.id + ":entry:" + oldPathNormalize(path),
+          newKey: "blog:" + blog.id + ":entry:" + pathNormalizer(path),
         });
+
+        // dependency key
+        candidates.push({
+          oldKey: "blog:" + blog.id + ":dependents:" + oldPathNormalize(path),
+          newKey: "blog:" + blog.id + ":dependents:" + pathNormalizer(path),
+        });
+
+        async.eachSeries(
+          candidates,
+          ({ oldKey, newKey }, next) => {
+            if (!oldKey) return next(new Error("Missing oldKey!"));
+            if (!newKey) return next(new Error("Missing newKey!"));
+            if (oldKey === newKey) return next();
+
+            client.exists(oldKey, function (err, exists) {
+              if (err) return next(err);
+
+              if (exists) {
+                console.log("renaming key:");
+                console.log(oldKey);
+                console.log(newKey);
+                console.log();
+                multi.rename(oldKey, newKey);
+              } else {
+              }
+              next();
+            });
+          },
+          next
+        );
       },
       function (err) {
         if (err) throw err;
         multi.exec(function (err, stat) {
           if (err) throw err;
-          console.log("Stat:", stat);
+            console.log("Blog:", blog.id, "stat:", stat);
           next();
         });
       }
