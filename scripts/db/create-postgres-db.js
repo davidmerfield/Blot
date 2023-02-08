@@ -10,9 +10,11 @@ const pool = new Pool({
   port: config.postgres.port,
 });
 
+console.log(config.postgres.database);
+
 if (config.postgres.database != undefined) {
   pool
-    .query(`CREATE DATABASE ${config.postgres.database}`)
+    .query(`CREATE DATABASE ${config.postgres.database};`)
     .then((res) => {
       console.log("Database created: " + config.postgres.database);
       process.exit();
