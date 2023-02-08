@@ -1,13 +1,14 @@
-var ensure = require("./ensure");
-var Is = require("./_is");
+var ensure = require("helper/ensure");
 
-function pathNormalizer(path) {
+module.exports = function pathNormalizer(path) {
   ensure(path, "string");
 
   if (!path) return "";
 
-  path = path.trim().toLowerCase();
+  // trim leading or trailing whitespace
+  path = path.trim();
 
+  // remove double slashes
   path = path.split("//").join("/");
 
   // Remove trailing slash
@@ -16,39 +17,8 @@ function pathNormalizer(path) {
   // Add leading slash
   if (path[0] !== "/") path = "/" + path;
 
+  // trim leading or trailing whitespace
+  path = path.trim();
+
   return path;
-}
-
-var is = Is(pathNormalizer);
-
-// Sanity
-is("/", "/");
-is("/foo", "/foo");
-is("/foo/bar", "/foo/bar");
-
-// Trim leading or trailing whitespace
-is(" / ", "/");
-
-// Preserve internal whitespace
-is("/a b c", "/a b c");
-
-// Remove trailing slash
-is("/foo/", "/foo");
-
-// Add leading slash
-is("foo", "/foo");
-
-// Lowercase
-is("/BaR", "/bar");
-
-// Replace double slashes with single slashes
-is("//foo//bar//", "/foo/bar");
-
-// Preserve non alphanum characters
-is("/←→", "/←→");
-is("使/用/百/度/馈/", "/使/用/百/度/馈");
-
-// Preserve url encoding
-is("/%20a%20b", "/%20a%20b");
-
-module.exports = pathNormalizer;
+};

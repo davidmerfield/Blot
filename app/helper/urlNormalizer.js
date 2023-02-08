@@ -1,5 +1,5 @@
-var ensure = require("./ensure");
-var Url = require("url");
+const ensure = require("helper/ensure");
+const { parse } = require("url");
 
 // takes URL path, adds leading slash, removes trailing slash;
 
@@ -9,7 +9,7 @@ function urlNormalizer(url) {
   if (!url) return "";
 
   try {
-    url = Url.parse(url).pathname;
+    url = parse(url).pathname;
   } catch (e) {
     return "";
   }
@@ -22,15 +22,5 @@ function urlNormalizer(url) {
 
   return url.toLowerCase();
 }
-
-var is = require("./_is")(urlNormalizer);
-
-is("", "");
-is("/", "/");
-is("//", "/");
-is("/fo/", "/fo");
-is("http://blot.im/foo/bar", "/foo/bar");
-is("/foo/bar/", "/foo/bar");
-is("foo/bar/", "/foo/bar");
 
 module.exports = urlNormalizer;
