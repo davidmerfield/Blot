@@ -5,6 +5,8 @@ var directory = __dirname + "/data";
 var moment = require("moment");
 var colors = require("colors/safe");
 
+fs.ensureDirSync(directory);
+
 if (require.main === module && !process.argv[2]) list(process.exit);
 else {
   var old_stdout_write = process.stdout.write;
@@ -14,6 +16,7 @@ else {
   process.stderr.write = function () {};
 
   require("./load")(process.argv[2], function (err) {
+    if (err) throw err;
     require("./info")(function (err, res) {
       if (err) throw err;
 
