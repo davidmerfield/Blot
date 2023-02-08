@@ -1,4 +1,4 @@
-var normalize = require("helper/pathNormalizer");
+var pathNormalizer = require("helper/pathNormalizer");
 var rebuildDependents = require("./rebuildDependents");
 var Ignore = require("./ignore");
 var Metadata = require("metadata");
@@ -12,20 +12,21 @@ var isHidden = require("build/prepare/isHidden");
 var build = require("build");
 
 function isPublic(path) {
+  const normalizedPath = pathNormalizer(path).toLowerCase();
   return (
     // blot specific rule not to turn files inside
     // a folder called public into blog posts
-    normalize(path).indexOf("/public/") === 0 ||
+    normalizedPath.startsWith("/public/") ||
     // blot specific rule to ignore files and folders
     // whose name begins with an underscore
-    normalize(path).indexOf("/_") > -1 ||
+    normalizedPath.includes("/_") ||
     // convention to ingore dotfiles or folders
-    normalize(path).indexOf("/.") > -1
+    normalizedPath.includes("/.")
   );
 }
 
 function isTemplate(path) {
-  return normalize(path).toLowerCase().startsWith("/templates/");
+  return pathNormalizer(path).toLowerCase().startsWith("/templates/");
 }
 
 function buildAndSet(blog, path, options, callback) {
