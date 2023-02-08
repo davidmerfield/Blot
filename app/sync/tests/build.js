@@ -24,12 +24,58 @@ describe("build", function () {
 
   it("can publish an entry inside a folder with leading and trailing whitespace", function (done) {
     const path = "/ 2018 / Hello.txt";
-    const content = '# Hello';
+    const content = "# Hello";
 
     const file = { path, content };
     const entry = { path, title: "Hello" };
 
     this.syncAndCheck(file, entry, done);
+  });
+
+  it("ignores files in templates folder", function (done) {
+    this.syncAndCheck(
+      [
+        { path: "/Templates/foo.txt", content: this.fake.file() },
+        { path: "/templates/bar.txt", content: this.fake.file() },
+      ],
+      [
+        { path: "/Templates/foo.txt", ignored: true },
+        { path: "/templates/bar.txt", ignored: true },
+      ],
+      done
+    );
+  });
+
+  it("ignores files and files inside folders which start with an underscore", function (done) {
+    this.syncAndCheck(
+      [
+        { path: "/Posts/_foo.txt", content: this.fake.file() },
+        { path: "/_Pages/bar.txt", content: this.fake.file() },
+        { path: "/Mean/_bar/Ba/t.txt", content: this.fake.file() },
+      ],
+      [
+        { path: "/Posts/_foo.txt", ignored: true },
+        { path: "/_Pages/bar.txt", ignored: true },
+        { path: "/Mean/_bar/Ba/t.txt", ignored: true },
+      ],
+      done
+    );
+  });
+
+  it("ignores dot files and files inside dot folders", function (done) {
+    this.syncAndCheck(
+      [
+        { path: "/.foo.txt", content: this.fake.file() },
+        { path: "/.pages/bar.txt", content: this.fake.file() },
+        { path: "/mean/.bar/Ba/t.txt", content: this.fake.file() },
+      ],
+      [
+        { path: "/.foo.txt", ignored: true },
+        { path: "/.pages/bar.txt", ignored: true },
+        { path: "/mean/.bar/Ba/t.txt", ignored: true },
+      ],
+      done
+    );
   });
 
   it("hides date from title if its in the file name", function (done) {
