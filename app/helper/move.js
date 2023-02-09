@@ -1,9 +1,11 @@
 const fs = require("fs-extra");
 const { join, dirname, basename, extname } = require("path");
 
-// a function which will try to move a file or directory
+// A function which will try to move a file or directory
 // if the destination alread exists, it will add a suffix
-// to the destination file name to prevent a conflict
+// to the destination file name to prevent a conflict.
+// e.g. if you 'move' 'a.txt' to a location with another 'a.txt'
+// then 'move' will rename it 'a copy.txt'. 
 const move = async (base, from, to) => {
   let destination;
 
@@ -12,7 +14,7 @@ const move = async (base, from, to) => {
     destination = to;
   } catch (e) {
     if (e && e.message === "dest already exists.") {
-      return move(base, from, dedupe(to));
+      return move(base, from, suffixer(to));
     } else {
       console.log("error:", e);
       console.log("from:", from);
@@ -23,7 +25,7 @@ const move = async (base, from, to) => {
   return destination;
 };
 
-const dedupe = (path) => {
+const suffixer = (path) => {
   const dir = dirname(path);
   const ext = extname(path);
   const base = basename(path, ext);
@@ -53,5 +55,8 @@ const dedupe = (path) => {
     return join(dir, `${base} copy${ext}`);
   }
 };
+
+// export for testing purposes
+move.suffixer = suffixer;
 
 module.exports = move;

@@ -1,5 +1,7 @@
 describe("move ", function () {
   const move = require("../move");
+  const { suffixer } = move;
+  const is = require("./util/is")(suffixer);
   const fs = require("fs-extra");
   const { join } = require("path");
 
@@ -8,6 +10,56 @@ describe("move ", function () {
 
   it("moves a file", async function () {
     await this.check([{ from: "/foo.txt", to: "/bar.txt" }]);
+  });
+
+  it("suffixes a path correctly", function () {
+    const dir = global.test.fake.path();
+    
+    // appends 'copy' to filename after extension
+    is(join(dir, "foo.txt"), join(dir, "foo copy.txt"));
+    is(join(dir, "foo.index.txt"), join(dir, "foo.index copy.txt"));
+    is(join(dir, "foocopy.txt"), join(dir, "foocopy copy.txt"));
+    is(join(dir, "foo c.txt"), join(dir, "foo c copy.txt"));
+    is(join(dir, "foo 1.txt"), join(dir, "foo 1 copy.txt"));
+    is(join(dir, "foo copy1.txt"), join(dir, "foo copy1 copy.txt"));
+    is(join(dir, "foo copy .txt"), join(dir, "foo copy  copy.txt"));
+    is(join(dir, "foo Copy.txt"), join(dir, "foo Copy copy.txt"));
+
+    // appends 'copy 2' to filenames ending in ' copy' after extension
+    is(join(dir, "foo copy.txt"), join(dir, "foo copy 2.txt"));
+    is(join(dir, "foo Copy copy.txt"), join(dir, "foo Copy copy 2.txt"));
+
+    // appends 'copy ${n+1}' to filenames ending in 'copy ${n}'
+    is(join(dir, "foo copy 2.txt"), join(dir, "foo copy 3.txt"));
+    is(join(dir, "foo copy 20000.txt"), join(dir, "foo copy 20001.txt"));
+    is(join(dir, "foo Copy copy 9.txt"), join(dir, "foo Copy copy 10.txt"));
+
+    // does not mess with path
+    is("foo.txt", "foo copy.txt");
+    is(":/foo.txt", ":/foo copy.txt");
+
+    // does replace double slashes
+    is("bar//foo.txt", "bar/foo copy.txt");
+
+    // does not mess with whitespace
+    is(" foo.txt", " foo copy.txt");
+    is(" foo .txt ", " foo  copy.txt ");    
+  });
+
+  it("doesn't throw with random paths", function () {
+    const iterations = 10000;
+
+    function runTest(path) {
+      let result;
+      expect(function () {
+        result = suffixer(path);
+      }).not.toThrow();
+      expect(typeof result).toBe("string");
+    }
+
+    for (var i = 0; i < iterations; i++) {
+      runTest(global.test.fake.path());
+    }
   });
 
   it("moves many files", async function () {
@@ -124,8 +176,6 @@ describe("move ", function () {
 
       if (folders) {
         const folderList = allFolders(base).sort();
-        console.log('folder list:', folderList);
-        console.log('expected folder list:', folders.sort());
         expect(folders.sort()).toEqual(folderList);
       }
 
