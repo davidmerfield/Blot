@@ -27,7 +27,10 @@ module.exports = function (blog, log, status) {
           console.error(clfdate(), blog.id, path, err);
         }
         hashFile(localPath(blog.id, path), function (err, hashAfter) {
-          if (hashBefore !== hashAfter) update(path, options, callback);
+          if (hashBefore !== hashAfter) {
+            status("Re-syncing " + path);
+            return update(path, options, callback);
+          }
 
           // the cache is flushed at the end of a sync too
           // but if we don't do it after updating each files
