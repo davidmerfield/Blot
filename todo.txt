@@ -3,6 +3,9 @@ Add support for new formats via pandoc:
 - jupyter notebooks
   - org mode
 
+Add new logic for blog/asset.js to map /_index.html to -> /index
+- tell questioners: https://blot.im/questions/1040
+
 Investigate ignored files situation
 - handle new pathNormalizer behaviour
 - 'ignoredFilesKey'
