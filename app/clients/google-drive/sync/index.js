@@ -1,9 +1,9 @@
 const fs = require("fs-extra");
 const { join } = require("path");
 const localPath = require("helper/localPath");
-const database = require("./database");
+const database = require("../database");
 
-const verify = require("../util/verify");
+const reset = require("./reset-to-blot");
 const download = require("../util/download");
 const createDriveClient = require("../util/createDriveClient");
 const determinePathToFolder = require("../util/determinePathToFolder");
@@ -162,7 +162,7 @@ module.exports = async function (blogID, options, callback) {
   } catch (err) {
     folder.log("Error:", err.message);
     try {
-      verify(blogID);
+      await reset(blogID);
     } catch (e) {
       folder.log("Error verifying folder:", e.message);
       return done(e, callback);
