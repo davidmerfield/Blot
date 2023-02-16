@@ -144,6 +144,21 @@ ul.templates li {
   width: 33%;
   padding: 1rem;
   box-sizing: border-box;
+  flex-basis: calc(33.33% - 20px);
+}
+
+@media screen and (max-width: 1000px) {
+  ul.templates li {
+    flex-basis: calc(50% - 20px);
+    margin-right: 20px;
+  }
+}
+  
+@media screen and (max-width: 700px) {
+  ul.templates li {
+    flex-basis: 100%;
+    margin-right: 20px;
+  }
 }
 
 ul.templates li a {
