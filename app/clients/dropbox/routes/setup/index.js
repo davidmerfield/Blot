@@ -48,7 +48,15 @@ function setup(account, session, callback) {
       session.save();
 
       folder.status("Transferring files in your folder to Dropbox");
-      account = await resetFromBlot(account.blog.id);
+      if (signal.aborted) return;
+      // prepare folder for first sync, making all files lowercase
+      await folder.lowerCaseContents();
+
+      if (signal.aborted) return;
+      // upload folder contents to dropbox
+      // todo: pass in signal
+      await resetFromBlot(account.blog.id);
+
       if (signal.aborted) return;
     } catch (err) {
       folder.status("Error: " + err.message);

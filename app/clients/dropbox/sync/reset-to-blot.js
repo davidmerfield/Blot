@@ -1,17 +1,19 @@
 // uses dropbox as source of truth
 // so only do this once the folder setup is complete
 
-const createClient = require("./util/createClient");
+const createClient = require("../util/createClient");
 const localPath = require("helper/localPath");
 const fs = require("fs-extra");
 
-module.exports = function (blogID, callback) {
-  createClient(blogID, function (err, client, account) {
-    const compare = new Compare(blogID, client);
+module.exports = async function resetToBlot(blogID) {
+  console.log("here too");
 
-    // try and establish a sync lock where possible?
-    compare("/", function (err, changes) {});
-  });
+  // createClient(blogID, function (err, client, account) {
+  //   const compare = new Compare(blogID, client);
+
+  //   // try and establish a sync lock where possible?
+  //   compare("/", function (err, changes) {});
+  // });
 };
 
 function Compare(blogID, client) {
