@@ -10,7 +10,25 @@ Please don’t hesitate to contact me with any questions: [support@blot.im](mail
 
 Here is an illustration of Blot's structure:
 
-![How Blot works flowchart](https://github.com/davidmerfield/Blot/blob/master/app/blog/static/how-blot-works.svg)
+```mermaid
+flowchart LR
+
+%% Variable declarations
+    internet[<h3>The Internet</h3>]
+    nginx(<h3>NGINX</h3><ul><li>SSL termination</li><li>Serves static files</li></ul>)
+    nodeJs(<h3>Node.js Server</h3><i>Blot</i>)
+    redis(<h3>Redis</h3><ul><li>Stores SSL certificates</li><li>Stores all data that can't be on disk for Blot</li></ul>)
+
+%% Relationship between variables (nodes)
+    internet <--> nginx <--> nodeJs
+    nodeJs <--> redis
+    nginx <--> redis
+
+%% Node styles
+    classDef nodeStyle fill:#FAFAFA,color:#333230,stroke:#333230,stroke-width:2px
+
+    class internet,nginx,nodeJs,redis nodeStyle;
+```
 
 The Node.js server (Blot) itself is responsible for a small crew of child processes which handle things like image minification and document conversion. 
 
