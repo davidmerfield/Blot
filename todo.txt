@@ -1,3 +1,5 @@
+Scheduled posts appear in 'links to this post' – fix and tell [questioner](https://blot.im/questions/1403)
+
 Add 'verify' button for both google drive and Dropbox clients that works then tell [Jonathan](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrcPJVPkQGswgFtCkwbJfFJjnD)
 
 Fix bug with bandcamp embeds in Word Documents and tell [Art](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrcXlgNHJbDLkmkkRmrCGqzHJB)
