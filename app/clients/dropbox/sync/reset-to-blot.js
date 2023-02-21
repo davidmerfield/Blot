@@ -40,7 +40,10 @@ async function resetToBlot(blogID, publish) {
       path: account.folder_id,
     });
     const { path_lower } = result;
-    if (path_lower) dropboxRoot = path_lower;
+    if (path_lower) {
+      dropboxRoot = path_lower;
+      await set(blogID, {folder: path_lower});
+    }
   }
 
   const walk = async (dir) => {
