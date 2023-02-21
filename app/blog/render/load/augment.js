@@ -95,7 +95,7 @@ module.exports = function (req, res, entry, callback) {
         return next(null, null);
       }
       Entry.getByUrl(req.blog.id, linkUrl, function (entry) {
-        if (entry && !entry.scheduled) {
+        if (entry) {
           debug("Found", entry.path, "for", linkUrl);
         } else {
           debug("No entry found for", linkUrl);
@@ -105,7 +105,14 @@ module.exports = function (req, res, entry, callback) {
     },
     function (err, backlinks) {
       debug(entry.path, "fetched backlinks", backlinks);
-      entry.backlinks = backlinks.filter((i) => !!i && i.path !== entry.path);
+      entry.backlinks = backlinks.filter(
+        (backlinkedEntry) =>
+          !!backlinkedEntry &&
+          // we don't want to show unpublished entries
+          !backlinkedEntry.scheduled &&
+          // we don't want to show the same entry
+          backlinkedEntry.path !== entry.path
+      );
       entry.backlinks = _.uniqBy(entry.backlinks, "path");
       debug(entry.path, "final backlinks", entry.backlinks);
 
