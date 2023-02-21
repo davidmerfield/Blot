@@ -42,8 +42,14 @@ module.exports = function (req, res, next) {
     // Then the lowercase path
     decodeURIComponent(req.path).toLowerCase(),
 
-    // Finally the path plus an index file
+    // The path plus an index file
     withoutTrailingSlash(decodeURIComponent(req.path)) + "/index.html",
+
+    // The path plus .html
+    withoutTrailingSlash(decodeURIComponent(req.path)) + ".html"
+
+    // The path with leading underscore and with trailing .html
+    addLeadingUnderscore(req.path) + '.html'
   ];
 
   roots.forEach(function (options) {
@@ -88,6 +94,11 @@ module.exports = function (req, res, next) {
     if (err) return next();
   });
 };
+
+function addLeadingUnderscore (path) {
+  path = withoutTrailingSlash(decodeURIComponent(req.path));
+  return join(dirname(path), '_' + basename(path) + '.html')
+}
 
 function withoutTrailingSlash(path) {
   if (!path || !path.length) return path;
