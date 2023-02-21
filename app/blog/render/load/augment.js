@@ -95,7 +95,7 @@ module.exports = function (req, res, entry, callback) {
         return next(null, null);
       }
       Entry.getByUrl(req.blog.id, linkUrl, function (entry) {
-        if (entry) {
+        if (entry && !entry.scheduled) {
           debug("Found", entry.path, "for", linkUrl);
         } else {
           debug("No entry found for", linkUrl);
