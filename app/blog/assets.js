@@ -1,21 +1,17 @@
-var config = require("config");
-var mime = require("mime-types");
-var async = require("async");
-var debug = require("debug")("blot:blog:assets");
-
-var LARGEST_POSSIBLE_MAXAGE = 86400000;
+const config = require("config");
+const mime = require("mime-types");
+const async = require("async");
+const debug = require("debug")("blot:blog:assets");
+const { join, basename, dirname } = require("path");
+const LARGEST_POSSIBLE_MAXAGE = 86400000;
 
 module.exports = function (req, res, next) {
-  var paths,
-    roots,
-    candidates = [];
-
   // Not sure if or how this can happen
   if (!req.path) return next();
 
   // We check to see if the requests path
   // matches a file in the following directories
-  roots = [
+  const roots = [
     // Blog directory /blogs/$id
     { root: config.blog_folder_dir + "/" + req.blog.id },
 
@@ -35,7 +31,7 @@ module.exports = function (req, res, next) {
   // decodeURIComponent maps something like
   // "/Hello%20World.txt" to "/Hello World.txt"
   // Express does not do this for us.
-  paths = [
+  const paths = [
     // First we try the actual path
     decodeURIComponent(req.path),
 
@@ -46,11 +42,13 @@ module.exports = function (req, res, next) {
     withoutTrailingSlash(decodeURIComponent(req.path)) + "/index.html",
 
     // The path plus .html
-    withoutTrailingSlash(decodeURIComponent(req.path)) + ".html"
+    withoutTrailingSlash(decodeURIComponent(req.path)) + ".html",
 
     // The path with leading underscore and with trailing .html
-    addLeadingUnderscore(req.path) + '.html'
+    addLeadingUnderscore(req.path) + ".html",
   ];
+
+  let candidates = [];
 
   roots.forEach(function (options) {
     paths.forEach(function (path) {
@@ -95,9 +93,9 @@ module.exports = function (req, res, next) {
   });
 };
 
-function addLeadingUnderscore (path) {
-  path = withoutTrailingSlash(decodeURIComponent(req.path));
-  return join(dirname(path), '_' + basename(path) + '.html')
+function addLeadingUnderscore(path) {
+  path = withoutTrailingSlash(decodeURIComponent(path));
+  return join(dirname(path), "_" + basename(path) + ".html");
 }
 
 function withoutTrailingSlash(path) {
