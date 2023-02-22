@@ -1,13 +1,8 @@
-Scheduled posts appear in 'links to this post' – fix and tell [questioner](https://blot.im/questions/1403)
-
 Add 'verify' button for both google drive and Dropbox clients that works then tell [Jonathan](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrcPJVPkQGswgFtCkwbJfFJjnD)
 
 Fix bug with bandcamp embeds in Word Documents and tell [Art](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrcXlgNHJbDLkmkkRmrCGqzHJB)
 
-Dropbox client should empty apps folder
-
-Add new logic for blog/asset.js to map /_index.html to -> /index
-- tell questioners: https://blot.im/questions/1040
+Dropbox client should empty apps folder before sync
   
 Investigate ignored files situation
 - handle new pathNormalizer behaviour
