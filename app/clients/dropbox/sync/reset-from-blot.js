@@ -85,7 +85,6 @@ async function resetFromBlot(blogID, publish) {
         }
 
         await walk(path);
-        
       } else {
         const identicalOnRemote =
           remoteCounterpart &&
@@ -111,6 +110,13 @@ async function resetFromBlot(blogID, publish) {
   };
 
   await walk("/");
+
+  await set(account.blog.id, {
+    error_code: 0,
+    last_sync: Date.now(),
+    cursor: "",
+  });
+
   publish("Finished processing folder");
 
   // // prepare folder for first sync, making all files lowercase
