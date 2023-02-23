@@ -26,13 +26,12 @@
 
         .breadcrumbs a:first-child {
           margin-left: 0;
-          padding-left: 0;
         }
 
         .breadcrumbs a {
-          margin-left: 13px;
           font-weight: 600;
-          padding-left: 18.655px;
+          display: block;
+          margin-left: 31.655px;
         }
 
         .breadcrumbs a:before {
@@ -41,7 +40,7 @@
     position: absolute;
     top: 0;
     bottom: 0px;
-    left: -3.31px;
+    left: -22px;
     width: 6px;
     height: 6px;
     margin: auto 0;
@@ -58,8 +57,6 @@
           display: none
         }
 
-.breadcrumbs a span {display: block;padding:0;margin:0;width:100%;
-}
 
         .breadcrumbs a:link,
         .breadcrumbs a:visited {
@@ -86,13 +83,13 @@
 ">
       <div style="display: flex;width: 100%;     align-items: baseline;         padding: 16px 0 16px 20px
 ">
-      <div class="breadcrumbs">
+      <div class="breadcrumbs truncate-all">
 {{#breadcrumbs}}
             {{^last}}
-            <a href="{{{url}}}"><span class="truncate">{{label}}</span></a>
+            <a href="{{{url}}}">{{label}}</a>
             {{/last}}
             {{#last}}
-            <a ><span class="truncate">{{label}}</span></a>
+            <a>{{label}}</a>
             {{/last}}
           {{/breadcrumbs}}
 
