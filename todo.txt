@@ -123,8 +123,6 @@ Add `Ignore: yes` metadata to trigger the ignored file behaviour
 
 Fix bug with leading emoji and title case plugin and tell [questioner](https://blot.im/questions/874)
 
-Fix bug with typeset 'Small caps' setting and wikilinks then follow up with [questioner](https://blot.im/questions/414). The issue is caused by the insertion of the span class="small-caps" before the wikilink converter has had a chance to render the link. Typeset should be run after wikilinks to fix this.
-
 Handle long titles in breadcrumbs / file paths in sync log / long links etc. elegantly on the dashboard
 
 Add [hot reload for preview subdomains](https://blot.im/questions/832)

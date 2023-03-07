@@ -118,7 +118,8 @@ describe("build", function () {
     this.syncAndCheck(file, entry, done);
   });
 
-  it("turns wikilinks into links", function (done) {
+  // the linked file is added after the linking file
+  it("turns wikilinks into links in reverse order", function (done) {
     const path = "/hello.md";
     const content = "[[wikilink]]";
 
@@ -127,11 +128,54 @@ describe("build", function () {
 
     // We know that Blot has worked out which file to link to
     // because the href is set to foo!
-    const html = '<p><a href="/foo" class="wikilink">wikilink</a></p>';
+    const html = '<p><a href="/foo" class="wikilink">Wikilink</a></p>';
 
     const files = [
       { path, content },
       { path: linkPath, content: linkContent },
+    ];
+
+    const entry = { path, html };
+
+    this.syncAndCheck(files, entry, done);
+  });
+
+      // // Absolute perfect path
+      // "[[/Sub/child/Target]]",
+      // // Absolute path with bad base
+      // "[[/sub/Child/target]]",
+
+  it("turns relative wikilinks into links", function (done) {
+    const path = "/Sub/Source.md";
+    const content = [
+      // Relative perfect path
+      "[[./child/Target]]",
+      // Relative perfect path with extension
+      "[[./child/Target.md]]",
+      // Relative path with bad case
+      "[[./Child/target]]",
+      // Relative path with bad case and extension
+      "[[./Child/target.md]]",
+      // Relative path without dot-slash
+      "[[child/Target]]",
+      // Relative path without dot-slash and extension
+      "[[child/Target.md]]",
+      // Relative path without bad case and dot-slash
+      "[[Child/target]]",
+      // Relative path without bad case and dot-slash but extension
+      "[[Child/target.md]]",
+    ].join("\n");
+
+    const linkPath = "/Sub/child/Target.md";
+    const linkContent = "Link: target\n\n# Target\n\nThe linked file.";
+
+    // We know that Blot has worked out which file to link to
+    // because the href is set to target and the link text to Target!
+    const html = '<p><a href="/target" class="wikilink">Target</a> <a href="/target" class="wikilink">Target</a> <a href="/target" class="wikilink">Target</a> <a href="/target" class="wikilink">Target</a> <a href="/target" class="wikilink">Target</a> <a href="/target" class="wikilink">Target</a> <a href="/target" class="wikilink">Target</a> <a href="/target" class="wikilink">Target</a></p>';
+
+    const files = [
+      { path: linkPath, content: linkContent },
+      { path, content },
     ];
 
     const entry = { path, html };
@@ -162,7 +206,7 @@ describe("build", function () {
 
     // We know that Blot has worked out which file to link to
     // because the href is set to foo!
-    const html = '<p><a href="/foo" class="wikilink">target-of-link</a></p>';
+    const html = '<p><a href="/foo" class="wikilink">Wikilink</a></p>';
 
     const files = [
       { path, content },
