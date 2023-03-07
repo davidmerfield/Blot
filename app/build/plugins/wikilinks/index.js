@@ -4,6 +4,8 @@ const cheerio = require("cheerio");
 const caseSensitivePath = require("helper/caseSensitivePath");
 const { join, resolve } = require("path");
 const localPath = require("helper/localPath");
+const makeSlug = require("helper/makeSlug");
+const urlNormalizer = require("helper/urlNormalizer");
 
 // RegEx's inspired by this
 // https://stackoverflow.com/questions/478857/wikilinks-turn-the-text-a-into-an-internal-link
@@ -37,8 +39,6 @@ function convertLinks(html) {
 function prerender(html, callback) {
   // Don't decode entities, preserve the original content
   var $ = cheerio.load(html, { decodeEntities: false });
-
-  console.log("PRERENDER", html);
 
   $(":root").each(function findTextNodes(i, node) {
     if ($(node).is(ignore)) return;
@@ -75,23 +75,46 @@ function render($, callback, { blogID, path }) {
       // We can't trust this href - it could belong to a file outside the blog
       // folder for this blog with sufficient ../../../
       const relativePathWithMD = resolve(dirname, href + ".md");
-      const relativePathWithTXT = resolve(dirname, href + ".txt");
       const relativePath = resolve(dirname, href);
 
       const absolutePathWithMD = join("/", href + ".md");
-      const absolutePathWithTXT = join("/", href + ".txt");
       const absolutePath = join("/", href);
 
       // we could add other paths in future, or test
       // against post titles, for example.
       const paths = [
         relativePathWithMD,
-        relativePathWithTXT,
         relativePath,
         absolutePathWithMD,
-        absolutePathWithTXT,
         absolutePath,
       ];
+
+      function byTitle(href, done) {
+        require("models/entries").getAll(blogID, function (allEntries) {
+          const perfectMatch = allEntries.find((entry) => entry.title === href);
+
+          if (perfectMatch) return done(null, perfectMatch);
+
+          // Will trim, lowercase, remove punctuation, etc.
+          const roughMatch = allEntries.find(
+            (entry) => makeSlug(entry.title) === makeSlug(href)
+          );
+
+          if (roughMatch) return done(null, roughMatch);
+
+          done(new Error("No entry found by title"));
+        });
+      }
+
+      function byURL(href, done) {
+        const normalizedHref = urlNormalizer(href);
+        require("models/entry").getByUrl(blogID, normalizedHref, function (
+          entry
+        ) {
+          if (entry) return done(null, entry);
+          done(new Error("No entry found by URL"));
+        });
+      }
 
       function checkPath(path, done) {
         caseSensitivePath(root, path, function (err, absolutePath) {
@@ -105,30 +128,32 @@ function render($, callback, { blogID, path }) {
           require("models/entry").get(blogID, correctPath, (entry) => {
             if (!entry) return done(new Error("No entry"));
 
-            done(null, { entry, correctPath });
+            done(null, entry);
           });
         });
       }
 
-      async.tryEach(
-        paths.map((path) => checkPath.bind(null, path)),
-        function (err, result) {
-          if (result) {
-            const { entry, correctPath } = result;
-            const link = entry.url;
-            const linkText = $(node).attr("data-text") || entry.title;
+      const lookups = [
+        ...paths.map((path) => checkPath.bind(null, path)),
+        byURL.bind(null, href),
+        byTitle.bind(null, href),
+      ];
 
-            $(node).attr("href", link).html(linkText).removeAttr("data-text");
+      async.tryEach(lookups, function (err, entry) {
+        if (entry) {
+          const link = entry.url;
+          const linkText = $(node).attr("data-text") || entry.title;
 
-            dependencies.push(correctPath);
-          } else {
-            // we failed to find a path, we should register paths to watch
-            dependencies = dependencies.concat(paths);
-          }
+          $(node).attr("href", link).html(linkText).removeAttr("data-text");
 
-          next();
+          dependencies.push(entry.path);
+        } else {
+          // we failed to find a path, we should register paths to watch
+          dependencies = dependencies.concat(paths);
         }
-      );
+
+        next();
+      });
     },
     function (err) {
       callback(null, dependencies);

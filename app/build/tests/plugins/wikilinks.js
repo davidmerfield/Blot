@@ -14,16 +14,6 @@ describe("wikilinks plugin", function () {
     this.buildAndCheck({ path, contents }, { html }, done);
   });
 
-  it("will convert wikilinks whose links are affected by typeset", function (done) {
-    const contents = "A [[wikilink 3D with acronym]]";
-    const path = "/hello.txt";
-    const html =
-      '<p>A <a href="wikilink 3D with acronym" class="wikilink">wikilink <span class="small-caps">3D</span> with acronym</a></p>';
-
-    this.blog.plugins.wikilinks = { enabled: true, options: {} };
-    this.buildAndCheck({ path, contents }, { html }, done);
-  });
-
   // This is neccessary because other plugins can mess with the
   // link contents (e.g. the typeset plugin) so we remove this later
   it("will preserve custom link text in data attribute", function (done) {
@@ -66,8 +56,7 @@ describe("wikilinks plugin", function () {
   });
 
   it("will convert wikilinks whose text is affected by the typeset plugin", function (done) {
-    const contents =
-      "[[Wikilink CNN acronym]]";
+    const contents = "[[Wikilink CNN acronym]]";
     const path = "/hello.txt";
     const html = `<p><a href="Wikilink CNN acronym" class="wikilink">Wikilink <span class="small-caps">CNN</span> acronym</a></p>`;
 
@@ -95,6 +84,38 @@ describe("wikilinks plugin", function () {
     ];
 
     const entry = { path, html };
+
+    this.syncAndCheck(files, entry, done);
+  });
+
+  it("will support wikilinks by title, ignoring case", function (done) {
+    const path = "/hello.txt";
+
+    const files = [
+      { path: "/target.md", content: "Link: target\n# Title" },
+      { path, content: "[[title]]" },
+    ];
+
+    const entry = {
+      path,
+      html: '<p><a href="/target" class="wikilink">Title</a></p>',
+    };
+
+    this.syncAndCheck(files, entry, done);
+  });
+
+it("will support wikilinks by URL", function (done) {
+    const path = "/hello.txt";
+
+    const files = [
+      { path: "/target.md", content: "Link: target\n# Title" },
+      { path, content: "[[Target]]" },
+    ];
+
+    const entry = {
+      path,
+      html: '<p><a href="/target" class="wikilink">Title</a></p>',
+    };
 
     this.syncAndCheck(files, entry, done);
   });

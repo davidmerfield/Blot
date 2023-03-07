@@ -10,8 +10,6 @@ Make it possible to restore from import
 
 Add way to escape commas in tags and [tell questioner](https://blot.im/questions/1431)
 
-Expand wikilinks algorithm and [tell questioner](https://blot.im/questions/1436)
-
 https://blot.im/questions/1419
 
 Add 'verify' button for both google drive and Dropbox clients that works then tell [Jonathan](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrcPJVPkQGswgFtCkwbJfFJjnD)
@@ -494,6 +492,8 @@ Improvements to brochure:
 - Add [contributor](https://api.github.com/repos/davidmerfield/blot/contributors) / [language](https://api.github.com/repos/davidmerfield/blot/languages) and repo information to source code page using GitHub API.
 
 Improvements to Wikilinks feature:
+- Add support for title-based wikilinks and [tell questioner](https://blot.im/questions/1436)
+- Add support for url-based wikilinks and [tell questioner](https://blot.im/questions/1436)
 - fix bug with apostrophe's and tell [Roberto](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqRGVKGmtpJxgwshqLWBWXcFdL)
 - use iaWriter spec to make [the lookup more flexible](https://ia.net/writer/support/general/wikilinks#:~:text=How%20Wikilinks%20Work,the%20same%20name.)
 - test with non-[[Wikilinks]] options in Obsidian
