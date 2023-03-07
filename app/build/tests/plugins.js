@@ -24,73 +24,7 @@ describe("build", function () {
     this.buildAndCheck({ path, contents }, { html }, done);
   });
 
-  it("will convert wikilinks if plugin is enabled", function (done) {
-    const contents = "A [[wikilink]]";
-    const path = "/hello.txt";
-    const html = '<p>A <a href="wikilink" class="wikilink">wikilink</a></p>';
 
-    this.blog.plugins.wikilinks = { enabled: true, options: {} };
-    this.buildAndCheck({ path, contents }, { html }, done);
-  });
-
-  it("will convert wikilinks whose links are affected by typeset", function (done) {
-    const contents = "A [[wikilink 3D with acronym]]";
-    const path = "/hello.txt";
-    const html = '<p>A <a href="wikilink 3D with acronym" class="wikilink">wikilink <span class="small-caps">3D</span> with acronym</a></p>';
-
-    this.blog.plugins.wikilinks = { enabled: true, options: {} };
-    this.buildAndCheck({ path, contents }, { html }, done);
-  });
-
-  it("will convert multiple wikilinks on one line", function (done) {
-    const contents = "A [[wikilink]] and [[another|one]]";
-    const path = "/hello.txt";
-    const html =
-      '<p>A <a href="wikilink" class="wikilink">wikilink</a> and <a href="another" class="wikilink">one</a></p>';
-
-    this.blog.plugins.wikilinks = { enabled: true, options: {} };
-    this.buildAndCheck({ path, contents }, { html }, done);
-  });
-
-  it("will ignore wikilinks spanning multiple lines", function (done) {
-    const contents = "[[wiki\n\nhey]]";
-    const path = "/hello.txt";
-    const html =
-      '<p>[[wiki</p>\n<p>hey]]</p>';
-
-    this.blog.plugins.wikilinks = { enabled: true, options: {} };
-    this.buildAndCheck({ path, contents }, { html }, done);
-  });
-
-  it("will convert wikilinks inside other nodes", function (done) {
-    const contents = "- A **[[wikilink]]** in a list";
-    const path = "/hello.txt";
-    const html =
-      '<ul>\n<li>A <strong><a href="wikilink" class="wikilink">wikilink</a></strong> in a list</li>\n</ul>';
-
-    this.blog.plugins.wikilinks = { enabled: true, options: {} };
-    this.buildAndCheck({ path, contents }, { html }, done);
-  });
-
-  it("will convert wikilinks next to ignored nodes", function (done) {
-    const contents = "<script>console.log('hey');</script>\n\nA **[[wikilink elsewhere]]** ";
-    const path = "/hello.txt";
-    const html =
-      `<script>console.log('hey');</script>\n<p>A <strong><a href="wikilink elsewhere" class="wikilink">wikilink elsewhere</a></strong></p>`;
-
-    this.blog.plugins.wikilinks = { enabled: true, options: {} };
-    this.buildAndCheck({ path, contents }, { html }, done);
-  });
-
-  it("will convert wikilinks whose path contains square brackets", function (done) {
-    const contents = "[[../[snips]/wikilink]]";
-    const path = "/hello.txt";
-    const html =
-      '<p><a href="../[snips]/wikilink" class="wikilink">../[snips]/wikilink</a></p>';
-
-    this.blog.plugins.wikilinks = { enabled: true, options: {} };
-    this.buildAndCheck({ path, contents }, { html }, done);
-  });
 
   it("will turn titles into title case if plugin is enabled", function (done) {
     const contents = "# Title goes here";

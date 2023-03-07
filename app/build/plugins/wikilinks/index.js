@@ -24,7 +24,7 @@ function convertLinks(html) {
       text = linkContents.slice(linkContents.indexOf("|") + 1);
     }
 
-    return `<a href="${href}" class="wikilink${custom ? " custom-text" : ""}">${text}</a>`;
+    return `<a href="${href}" class="wikilink" ${custom ? `data-text="${text}"` : ""}>${text}</a>`;
   });
   return html;
 }
@@ -112,7 +112,12 @@ function render($, callback, { blogID, path }) {
           if (result) {
             const { entry, correctPath } = result;
             $(node).attr("href", entry.url);
-            if (!$(node).hasClass("custom-text")) $(node).html(entry.title);
+            const link = entry.url;
+            const linkText = $(node).attr("data-text") || entry.title;
+            $(node).html(linkText);
+
+            $(node).removeAttr("data-text");
+
             dependencies.push(correctPath);
           } else {
             // we failed to find a path, we should register paths to watch
