@@ -115,7 +115,6 @@ function render($, callback, { blogID, path }) {
             const link = entry.url;
             const linkText = $(node).attr("data-text") || entry.title;
             $(node).html(linkText);
-
             $(node).removeAttr("data-text");
 
             dependencies.push(correctPath);

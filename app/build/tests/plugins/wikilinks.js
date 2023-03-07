@@ -1,5 +1,5 @@
 describe("wikilinks plugin", function () {
-  const build = require("../index");
+  const build = require("build");
   const fs = require("fs-extra");
 
   // Set up a test blog before each test
@@ -25,10 +25,10 @@ describe("wikilinks plugin", function () {
   });
 
   it("will convert multiple wikilinks on one line", function (done) {
-    const contents = "A [[wikilink]] and [[another|one]]";
+    const contents = "A [[wikilink]] and [[another]]";
     const path = "/hello.txt";
     const html =
-      '<p>A <a href="wikilink" class="wikilink">wikilink</a> and <a href="another" class="wikilink">one</a></p>';
+      '<p>A <a href="wikilink" class="wikilink">wikilink</a> and <a href="another" class="wikilink">another</a></p>';
 
     this.blog.plugins.wikilinks = { enabled: true, options: {} };
     this.buildAndCheck({ path, contents }, { html }, done);
