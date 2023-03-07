@@ -65,6 +65,16 @@ describe("wikilinks plugin", function () {
     this.buildAndCheck({ path, contents }, { html }, done);
   });
 
+  it("will convert wikilinks whose text is affected by the typeset plugin", function (done) {
+    const contents =
+      "[[Wikilink CNN acronym]]";
+    const path = "/hello.txt";
+    const html = `<p><a href="Wikilink CNN acronym" class="wikilink">Wikilink <span class="small-caps">CNN</span> acronym</a></p>`;
+
+    this.blog.plugins.wikilinks = { enabled: true, options: {} };
+    this.buildAndCheck({ path, contents }, { html }, done);
+  });
+
   it("will convert wikilinks next to ignored nodes", function (done) {
     const contents =
       "<script>console.log('hey');</script>\n\nA **[[wikilink elsewhere]]** ";
@@ -73,6 +83,37 @@ describe("wikilinks plugin", function () {
 
     this.blog.plugins.wikilinks = { enabled: true, options: {} };
     this.buildAndCheck({ path, contents }, { html }, done);
+  });
+
+  it("will support wikilinks whose path contains proper apostrophes", function (done) {
+    const path = "/hello.txt";
+    const html = '<p><a href="/target" class="wikilink">Hey</a></p>';
+
+    const files = [
+      { path: "/Target’s.md", content: "Link: target\n# Hey" },
+      { path, content: "[[Target’s]]" },
+    ];
+
+    const entry = { path, html };
+
+    this.syncAndCheck(files, entry, done);
+  });
+
+
+  // Pandoc maps Target's to Target’s before the wikilinks plugin gets ahold
+  // of the HTML which breaks the path, so wikilinks handles this.
+  xit("will support wikilinks whose path contains fake apostrophes", function (done) {
+    const path = "/hello.txt";
+    const html = '<p><a href="/target" class="wikilink">Hey</a></p>';
+
+    const files = [
+      { path: "/Target's.md", content: "Link: target\n# Hey" },
+      { path, content: "[[Target's]]" },
+    ];
+
+    const entry = { path, html };
+
+    this.syncAndCheck(files, entry, done);
   });
 
   it("will convert wikilinks whose path contains square brackets", function (done) {

@@ -38,6 +38,8 @@ function prerender(html, callback) {
   // Don't decode entities, preserve the original content
   var $ = cheerio.load(html, { decodeEntities: false });
 
+  console.log("PRERENDER", html);
+
   $(":root").each(function findTextNodes(i, node) {
     if ($(node).is(ignore)) return;
 
