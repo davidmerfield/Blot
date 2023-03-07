@@ -24,6 +24,8 @@ function convertLinks(html) {
       text = linkContents.slice(linkContents.indexOf("|") + 1);
     }
 
+    // It is neccessary to add the data-text attribute because
+    // other plugins can mess with the link contents (e.g. typeset)
     return `<a href="${href}" class="wikilink" ${custom ? `data-text="${text}"` : ""}>${text}</a>`;
   });
   return html;
@@ -111,11 +113,10 @@ function render($, callback, { blogID, path }) {
         function (err, result) {
           if (result) {
             const { entry, correctPath } = result;
-            $(node).attr("href", entry.url);
             const link = entry.url;
             const linkText = $(node).attr("data-text") || entry.title;
-            $(node).html(linkText);
-            $(node).removeAttr("data-text");
+
+            $(node).attr("href", link).html(linkText).removeAttr("data-text");
 
             dependencies.push(correctPath);
           } else {

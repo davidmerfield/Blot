@@ -24,6 +24,18 @@ describe("wikilinks plugin", function () {
     this.buildAndCheck({ path, contents }, { html }, done);
   });
 
+  // This is neccessary because other plugins can mess with the
+  // link contents (e.g. the typeset plugin) so we remove this later
+  it("will preserve custom link text in data attribute", function (done) {
+    const contents = "[[target|custom]]";
+    const path = "/hello.txt";
+    const html =
+      '<p><a href="target" class="wikilink" data-text="custom">custom</a></p>';
+
+    this.blog.plugins.wikilinks = { enabled: true, options: {} };
+    this.buildAndCheck({ path, contents }, { html }, done);
+  });
+
   it("will convert multiple wikilinks on one line", function (done) {
     const contents = "A [[wikilink]] and [[another]]";
     const path = "/hello.txt";
