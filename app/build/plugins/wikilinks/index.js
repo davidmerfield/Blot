@@ -1,5 +1,6 @@
 const async = require("async");
 const ignore = "head, code, pre, script, style";
+var cheerio = require("cheerio");
 
 // RegEx's inspired by this
 // https://stackoverflow.com/questions/478857/wikilinks-turn-the-text-a-into-an-internal-link
@@ -8,7 +9,6 @@ const ignore = "head, code, pre, script, style";
 // by another node, e.g.
 // [[hey <em>ehy</em> there]]
 // But that kind of strikes me as a weird wikilink
-
 function convertLinks(html) {
   html = html.replace(/\[\[(.+?)\]\]/g, function (match, linkContents) {
     let text = linkContents;
@@ -25,8 +25,12 @@ function convertLinks(html) {
   return html;
 }
 
-function render($, callback, { blogID, path }) {
-  let dependencies = [];
+// we use a pre-rendering function since it's important
+// that wikilinks are converted before typeset is run
+
+function prerender(html, callback) {
+  // Don't decode entities, preserve the original content
+  var $ = cheerio.load(html, { decodeEntities: false });
 
   $(":root").each(function findTextNodes(i, node) {
     if ($(node).is(ignore)) return;
@@ -42,7 +46,12 @@ function render($, callback, { blogID, path }) {
       });
   });
 
+  callback(null, $.html());
+}
+
+function render($, callback, { blogID, path }) {
   const wikilinks = $("a.wikilink");
+  let dependencies = [];
 
   async.eachOf(
     wikilinks,
@@ -76,9 +85,9 @@ function render($, callback, { blogID, path }) {
     }
   );
 }
-
 module.exports = {
-  render: render,
+  prerender,
+  render,
   category: "Typography",
   title: "Wikilinks",
   description: "Convert Wikilinks into links",

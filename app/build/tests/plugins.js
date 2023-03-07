@@ -33,6 +33,15 @@ describe("build", function () {
     this.buildAndCheck({ path, contents }, { html }, done);
   });
 
+  it("will convert wikilinks whose links are affected by typeset", function (done) {
+    const contents = "A [[wikilink 3D with acronym]]";
+    const path = "/hello.txt";
+    const html = '<p>A <a href="wikilink 3D with acronym" class="wikilink">wikilink <span class="small-caps">3D</span> with acronym</a></p>';
+
+    this.blog.plugins.wikilinks = { enabled: true, options: {} };
+    this.buildAndCheck({ path, contents }, { html }, done);
+  });
+
   it("will convert multiple wikilinks on one line", function (done) {
     const contents = "A [[wikilink]] and [[another|one]]";
     const path = "/hello.txt";
