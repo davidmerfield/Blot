@@ -10,8 +10,6 @@ Make it possible to restore from import
 
 Add way to escape commas in tags and [tell questioner](https://blot.im/questions/1431)
 
-Expand wikilinks algorithm and [tell questioner](https://blot.im/questions/1436)
-
 https://blot.im/questions/1419
 
 Add 'verify' button for both google drive and Dropbox clients that works then tell [Jonathan](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrcPJVPkQGswgFtCkwbJfFJjnD)
@@ -122,8 +120,6 @@ Fix bug with undeleteable template files prefixed with dot and tell [Stuart](htt
 Add `Ignore: yes` metadata to trigger the ignored file behaviour
 
 Fix bug with leading emoji and title case plugin and tell [questioner](https://blot.im/questions/874)
-
-Fix bug with typeset 'Small caps' setting and wikilinks then follow up with [questioner](https://blot.im/questions/414). The issue is caused by the insertion of the span class="small-caps" before the wikilink converter has had a chance to render the link. Typeset should be run after wikilinks to fix this.
 
 Handle long titles in breadcrumbs / file paths in sync log / long links etc. elegantly on the dashboard
 
@@ -495,17 +491,15 @@ Improvements to brochure:
 - Personalize the documentation for logged in customers
 - Add [contributor](https://api.github.com/repos/davidmerfield/blot/contributors) / [language](https://api.github.com/repos/davidmerfield/blot/languages) and repo information to source code page using GitHub API.
 
-Improvements to Wikilinks feature:
-- fix bug with apostrophe's and tell [Roberto](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqRGVKGmtpJxgwshqLWBWXcFdL)
-- use iaWriter spec to make [the lookup more flexible](https://ia.net/writer/support/general/wikilinks#:~:text=How%20Wikilinks%20Work,the%20same%20name.)
-- test with non-[[Wikilinks]] options in Obsidian
-- add support for other (non-Obsidian) wikilink styles (i.e. title-based?)
-- use the location of the nearest `.obsidian` directory to determine the 'root' against which to resolve styles?
-- support Obsidian-style media embedding and tell [questioners](https://blot.im/questions/746)
-- wikilinks to images should [embed the image](https://blot.im/questions/746)
-- look up the config in the the nearest `.obsidian` directory to determine whether shortest, relative or absolute wikilinks are in use?
-- test with all Obsidian new link settings (shortest, relative and absolute)
-- add more resolution tolerance and tell [Jonathan](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmvBqpKMNBvlKBSWRLHJWdqDnC)
+Improve wikilinks lookup algorithm:
+- [ ] Add support for 'shortest path where possible' on Obsidian
+  - [ ] search current directory for filename
+  - [ ] search subdirectories for filename
+  - [ ] search parent directories for filename
+- [ ] Add support for 'absolute path' on Obsidian when the vault is a sub directory of your blog folder
+  - [ ] How best to accomplish this?
+
+Support Obsidian-style media embedding and tell [questioners](https://blot.im/questions/746)
 
 Improvements to simple local server (npm run local):
 - Consider using [redis-mock](https://github.com/yeahoffline/redis-mock) and [mockery](https://github.com/mfncooper/mockery) 
