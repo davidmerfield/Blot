@@ -491,6 +491,14 @@ Improvements to brochure:
 - Personalize the documentation for logged in customers
 - Add [contributor](https://api.github.com/repos/davidmerfield/blot/contributors) / [language](https://api.github.com/repos/davidmerfield/blot/languages) and repo information to source code page using GitHub API.
 
+Improve wikilinks lookup algorithm:
+- [ ] Add support for 'shortest path where possible' on Obsidian
+  - [ ] search current directory for filename
+  - [ ] search subdirectories for filename
+  - [ ] search parent directories for filename
+- [ ] Add support for 'absolute path' on Obsidian when the vault is a sub directory of your blog folder
+  - [ ] How best to accomplish this?
+
 Support Obsidian-style media embedding and tell [questioners](https://blot.im/questions/746)
 
 Improvements to simple local server (npm run local):
