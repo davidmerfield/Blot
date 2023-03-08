@@ -101,7 +101,7 @@ module.exports = function byPath(blogID, pathOfPost, href, callback) {
         if (perfectMatch) return done(null, join(correctDir, perfectMatch));
 
         const roughMatch = contents.find((item) =>
-          makeSlug(item).startsWith(makeSlug(base))
+          normalize(item).startsWith(normalize(base))
         );
 
         if (roughMatch) return done(null, join(correctDir, roughMatch));
@@ -117,3 +117,11 @@ module.exports = function byPath(blogID, pathOfPost, href, callback) {
     callback(new Error("No entry found by path"));
   });
 };
+
+function normalize(str) {
+  return stripNonAlphaNumeric(makeSlug(str));
+}
+
+function stripNonAlphaNumeric(str) {
+  return str.toLowerCase().replace(/[^a-z0-9]/g, "");
+}

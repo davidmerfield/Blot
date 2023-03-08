@@ -120,6 +120,42 @@ describe("wikilinks plugin", function () {
     this.syncAndCheck(files, entry, done);
   });
 
+  it("will support wikilinks with a fuzzy match for the path", function (done) {
+    const path = "/Subdirectory/Source.md";
+    const tests = [
+      "[[Target_file]]",
+      "[[Target-file]]",
+      "[[Target file]]",
+      "[[tArget!file]]",
+      "[[/Subdirectory/tArget!file]]",
+      "[[/Subdirectory/Target_file]]",
+      "[[/Subdirectory/Target file]]",
+      "[[/Subdirectory/Target-file]]",
+    ];
+    const content = tests.join("\n");
+
+    const linkPath = "/Subdirectory/Target_file.txt";
+    const linkContent = "Link: target\n\n# Target\n\nThe linked file.";
+
+    // We know that Blot has worked out which file to link to
+    // because the href is set to target and the link text to Target!
+    const html =
+      "<p>" +
+      Array.from(Array(tests.length))
+        .map((i) => '<a href="/target" class="wikilink">Target</a>')
+        .join(" ") +
+      "</p>";
+
+    const files = [
+      { path: linkPath, content: linkContent },
+      { path, content },
+    ];
+
+    const entry = { path, html };
+
+    this.syncAndCheck(files, entry, done);
+  });
+
   // Pandoc maps Target's to Target’s before the wikilinks plugin gets ahold
   // of the HTML which breaks the path, so wikilinks handles this.
   it("will support wikilinks whose path contains fake apostrophes", function (done) {
@@ -170,7 +206,7 @@ describe("wikilinks plugin", function () {
 
   it("turns absolute wikilinks into links", function (done) {
     const path = "/Sub/Source.md";
-    const content = [
+    const tests = [
       // Absolute perfect path without extension
       "[[/Sub/child/Target]]",
       // Absolute perfect path with extension
@@ -181,7 +217,9 @@ describe("wikilinks plugin", function () {
       "[[/sUb/child/taRget.txt]]",
       // Absolute path with extra slashes
       "[[//Sub/child//Target.txt/]]",
-    ].join("\n");
+    ];
+
+    const content = tests.join("\n");
 
     const linkPath = "/Sub/child/Target.txt";
     const linkContent = "Link: target\n\n# Target\n\nThe linked file.";
@@ -189,7 +227,11 @@ describe("wikilinks plugin", function () {
     // We know that Blot has worked out which file to link to
     // because the href is set to target and the link text to Target!
     const html =
-      '<p><a href="/target" class="wikilink">Target</a> <a href="/target" class="wikilink">Target</a> <a href="/target" class="wikilink">Target</a> <a href="/target" class="wikilink">Target</a> <a href="/target" class="wikilink">Target</a></p>';
+      "<p>" +
+      Array.from(Array(tests.length))
+        .map((i) => '<a href="/target" class="wikilink">Target</a>')
+        .join(" ") +
+      "</p>";
 
     const files = [
       { path: linkPath, content: linkContent },
@@ -201,9 +243,9 @@ describe("wikilinks plugin", function () {
     this.syncAndCheck(files, entry, done);
   });
 
-  it("turns relative wikilinks into links", function (done) {
+  it("supports relative wikilinks in subdirectory", function (done) {
     const path = "/Sub/Source.md";
-    const content = [
+    const tests = [
       // Relative perfect path
       "[[./child/Target]]",
       // Relative perfect path with extension
@@ -220,7 +262,8 @@ describe("wikilinks plugin", function () {
       "[[Child/target]]",
       // Relative path without bad case and dot-slash but extension
       "[[Child/target.md]]",
-    ].join("\n");
+    ];
+    const content = tests.join("\n");
 
     const linkPath = "/Sub/child/Target.md";
     const linkContent = "Link: target\n\n# Target\n\nThe linked file.";
@@ -228,7 +271,99 @@ describe("wikilinks plugin", function () {
     // We know that Blot has worked out which file to link to
     // because the href is set to target and the link text to Target!
     const html =
-      '<p><a href="/target" class="wikilink">Target</a> <a href="/target" class="wikilink">Target</a> <a href="/target" class="wikilink">Target</a> <a href="/target" class="wikilink">Target</a> <a href="/target" class="wikilink">Target</a> <a href="/target" class="wikilink">Target</a> <a href="/target" class="wikilink">Target</a> <a href="/target" class="wikilink">Target</a></p>';
+      "<p>" +
+      Array.from(Array(tests.length))
+        .map((i) => '<a href="/target" class="wikilink">Target</a>')
+        .join(" ") +
+      "</p>";
+
+    const files = [
+      { path: linkPath, content: linkContent },
+      { path, content },
+    ];
+
+    const entry = { path, html };
+
+    this.syncAndCheck(files, entry, done);
+  });
+
+  it("supports relative wikilinks in same directory", function (done) {
+    const path = "/Sub/Source.md";
+    const tests = [
+      // Relative perfect path
+      "[[./Target]]",
+      // Relative perfect path with extension
+      "[[./Target.md]]",
+      // Relative path with bad case
+      "[[./target]]",
+      // Relative path with bad case and extension
+      "[[./target.md]]",
+      // Relative path without dot-slash
+      "[[Target]]",
+      // Relative path without dot-slash and extension
+      "[[Target.md]]",
+      // Relative path with bad case and without dot-slash
+      "[[target]]",
+      // Relative path without bad case and dot-slash but extension
+      "[[target.md]]",
+    ];
+    const content = tests.join("\n");
+
+    const linkPath = "/Sub/Target.md";
+    const linkContent = "Link: target\n\n# Target\n\nThe linked file.";
+
+    // We know that Blot has worked out which file to link to
+    // because the href is set to target and the link text to Target!
+    const html =
+      "<p>" +
+      Array.from(Array(tests.length))
+        .map((i) => '<a href="/target" class="wikilink">Target</a>')
+        .join(" ") +
+      "</p>";
+
+    const files = [
+      { path: linkPath, content: linkContent },
+      { path, content },
+    ];
+
+    const entry = { path, html };
+
+    this.syncAndCheck(files, entry, done);
+  });
+
+  it("supports relative wikilinks in a parent directory", function (done) {
+    const path = "/Sub/Deep/Source.md";
+    const tests = [
+      // Relative perfect path
+      "[[../Target]]",
+      // Relative perfect path with extension
+      "[[../Target.md]]",
+      // Relative path with bad case
+      "[[../target]]",
+      // Relative path with bad case and extension
+      "[[../target.md]]",
+      // Relative path without dot-slash
+      "[[../../Sub/Target]]",
+      // Relative path without dot-slash and extension
+      "[[../../Sub/Target.md]]",
+      // Relative path with bad case and without dot-slash
+      "[[../../Sub/target]]",
+      // Relative path without bad case and dot-slash but extension
+      "[[../../Sub/target.md]]",
+    ];
+    const content = tests.join("\n");
+
+    const linkPath = "/Sub/Target.md";
+    const linkContent = "Link: target\n\n# Target\n\nThe linked file.";
+
+    // We know that Blot has worked out which file to link to
+    // because the href is set to target and the link text to Target!
+    const html =
+      "<p>" +
+      Array.from(Array(tests.length))
+        .map((i) => '<a href="/target" class="wikilink">Target</a>')
+        .join(" ") +
+      "</p>";
 
     const files = [
       { path: linkPath, content: linkContent },
