@@ -1,5 +1,3 @@
-Visiting '/page/2211531009399301411-3568040472' tanks the server
-
 Add support for Indian payments and follow up with Indian customers like [Varun](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrcjKRbHhGvtKJKXfGdwDzjTML)
 
 I need to make it clearer which files are causing which menu links 
@@ -9,8 +7,6 @@ Add export button to overdue subscription page
 Make it possible to restore from import
 
 Add way to escape commas in tags and [tell questioner](https://blot.im/questions/1431)
-
-https://blot.im/questions/1419
 
 Add 'verify' button for both google drive and Dropbox clients that works then tell [Jonathan](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrcPJVPkQGswgFtCkwbJfFJjnD)
 
