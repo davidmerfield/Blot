@@ -39,9 +39,6 @@ module.exports = function byPath(blogID, pathOfPost, href, callback) {
   // resolvedHref is '/Posts/sub/Foo.txt'
   const resolvedHref = resolve(dirOfPost, href);
 
-  console.log(pathOfPost, "href:", href);
-  console.log(pathOfPost, "resolvedHref:", resolvedHref);
-
   const lookups = [
     exact.bind(null, blogID, href),
     exact.bind(null, blogID, resolvedHref),
@@ -59,7 +56,6 @@ module.exports = function byPath(blogID, pathOfPost, href, callback) {
   }
 
   function rough(blogID, path, done) {
-    console.log("roughly searching for", path);
     searchForExtension(blogID, path, function (err, finalPath) {
       if (err || !finalPath) return done(new Error("No path"));
       getEntry(blogID, finalPath, (entry) => {
@@ -77,7 +73,6 @@ module.exports = function byPath(blogID, pathOfPost, href, callback) {
 
       getEntry(blogID, correctPath, (entry) => {
         if (!entry) return done(new Error("No entry"));
-
         done(null, entry);
       });
     });
@@ -87,8 +82,6 @@ module.exports = function byPath(blogID, pathOfPost, href, callback) {
   function searchForExtension(blogID, path, done) {
     const dir = dirname(path);
     const base = basename(path);
-    console.log("dir", dir);
-    console.log("base", base);
 
     caseSensitivePath(root, dir, function (err, absoluteDir) {
       // doesn't work for the root blog folder
@@ -96,8 +89,6 @@ module.exports = function byPath(blogID, pathOfPost, href, callback) {
         err = null;
         absoluteDir = localPath(blogID, "/");
       }
-
-      console.log("searched", root, "for", dir, "finding", absoluteDir);
 
       if (err || !absoluteDir) return done(err || new Error("No dir"));
 
