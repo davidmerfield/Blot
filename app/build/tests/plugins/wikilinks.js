@@ -217,19 +217,29 @@ describe("wikilinks plugin", function () {
       "[[/sUb/child/taRget.txt]]",
       // Absolute path with extra slashes
       "[[//Sub/child//Target.txt/]]",
+      // Absolute perfect path without extension and leading slash
+      "[[Sub/child/Target]]",
+      // Absolute perfect path with extension and without leading slash
+      "[[Sub/child/Target.txt]]",
+      // Absolute path with bad case and without leading slash
+      "[[sUb/child/taRget]]",
+      // Absolute path with bad case and extension and without leading slash
+      "[[sUb/child/taRget.txt]]",
+      // Absolute path with extra slashes and without leading slash
+      "[[Sub//child//Target.txt/]]",
     ];
 
     const content = tests.join("\n");
 
     const linkPath = "/Sub/child/Target.txt";
-    const linkContent = "Link: target\n\n# Target\n\nThe linked file.";
+    const linkContent = "Link: not-target\n\n# Not target\n\nThe linked file.";
 
     // We know that Blot has worked out which file to link to
     // because the href is set to target and the link text to Target!
     const html =
       "<p>" +
       Array.from(Array(tests.length))
-        .map((i) => '<a href="/target" class="wikilink">Target</a>')
+        .map((i) => '<a href="/not-target" class="wikilink">Not target</a>')
         .join(" ") +
       "</p>";
 
