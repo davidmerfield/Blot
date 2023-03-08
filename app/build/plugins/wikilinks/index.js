@@ -82,7 +82,6 @@ function render($, callback, { blogID, path }) {
 
           $(node).attr("href", link).html(linkText).removeAttr("data-text");
 
-          console.log("adding dependency", entry.path, "to post:", path);
           dependencies.push(entry.path);
         } else {
           // we failed to find a path, we should register paths to watch
@@ -105,12 +104,6 @@ function render($, callback, { blogID, path }) {
       });
     },
     function () {
-      console.log(
-        "wikilinks:",
-        path,
-        "calling back with dependencies",
-        dependencies
-      );
       callback(null, dependencies);
     }
   );

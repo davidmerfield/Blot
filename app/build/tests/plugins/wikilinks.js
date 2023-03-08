@@ -168,10 +168,38 @@ describe("wikilinks plugin", function () {
     this.syncAndCheck(files, entry, done);
   });
 
-  // // Absolute perfect path
-  // "[[/Sub/child/Target]]",
-  // // Absolute path with bad base
-  // "[[/sub/Child/target]]",
+  it("turns absolute wikilinks into links", function (done) {
+    const path = "/Sub/Source.md";
+    const content = [
+      // Absolute perfect path without extension
+      "[[/Sub/child/Target]]",
+      // Absolute perfect path with extension
+      "[[/Sub/child/Target.txt]]",
+      // Absolute path with bad case
+      "[[/sUb/child/taRget]]",
+      // Absolute path with bad case and extension
+      "[[/sUb/child/taRget.txt]]",
+      // Absolute path with extra slashes
+      "[[//Sub/child//Target.txt/]]",
+    ].join("\n");
+
+    const linkPath = "/Sub/child/Target.txt";
+    const linkContent = "Link: target\n\n# Target\n\nThe linked file.";
+
+    // We know that Blot has worked out which file to link to
+    // because the href is set to target and the link text to Target!
+    const html =
+      '<p><a href="/target" class="wikilink">Target</a> <a href="/target" class="wikilink">Target</a> <a href="/target" class="wikilink">Target</a> <a href="/target" class="wikilink">Target</a> <a href="/target" class="wikilink">Target</a></p>';
+
+    const files = [
+      { path: linkPath, content: linkContent },
+      { path, content },
+    ];
+
+    const entry = { path, html };
+
+    this.syncAndCheck(files, entry, done);
+  });
 
   it("turns relative wikilinks into links", function (done) {
     const path = "/Sub/Source.md";
