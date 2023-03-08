@@ -104,7 +104,7 @@ describe("wikilinks plugin", function () {
     this.syncAndCheck(files, entry, done);
   });
 
-it("will support wikilinks by URL", function (done) {
+  it("will support wikilinks by URL", function (done) {
     const path = "/hello.txt";
 
     const files = [
@@ -120,10 +120,9 @@ it("will support wikilinks by URL", function (done) {
     this.syncAndCheck(files, entry, done);
   });
 
-
   // Pandoc maps Target's to Target’s before the wikilinks plugin gets ahold
   // of the HTML which breaks the path, so wikilinks handles this.
-  xit("will support wikilinks whose path contains fake apostrophes", function (done) {
+  it("will support wikilinks whose path contains fake apostrophes", function (done) {
     const path = "/hello.txt";
     const html = '<p><a href="/target" class="wikilink">Hey</a></p>';
 

@@ -1,11 +1,10 @@
-const async = require("async");
+const { tryEach, eachOf } = require("async");
+const { resolve, dirname } = require("path");
 const ignore = "head, code, pre, script, style";
 const cheerio = require("cheerio");
-const caseSensitivePath = require("helper/caseSensitivePath");
-const { join, resolve } = require("path");
-const localPath = require("helper/localPath");
-const makeSlug = require("helper/makeSlug");
-const urlNormalizer = require("helper/urlNormalizer");
+const byPath = require("./byPath");
+const byURL = require("./byURL");
+const byTitle = require("./byTitle");
 
 // RegEx's inspired by this
 // https://stackoverflow.com/questions/478857/wikilinks-turn-the-text-a-into-an-internal-link
@@ -60,9 +59,8 @@ function prerender(html, callback) {
 function render($, callback, { blogID, path }) {
   const wikilinks = $("a.wikilink");
   let dependencies = [];
-  const root = localPath(blogID, "/");
 
-  async.eachOf(
+  eachOf(
     wikilinks,
     function (node, i, next) {
       // The cheerio object contains other
@@ -70,92 +68,49 @@ function render($, callback, { blogID, path }) {
       if (!node || node.name !== "a") return next();
 
       const href = $(node).attr("href");
-      const dirname = require("path").dirname(path);
-
-      // We can't trust this href - it could belong to a file outside the blog
-      // folder for this blog with sufficient ../../../
-      const relativePathWithMD = resolve(dirname, href + ".md");
-      const relativePath = resolve(dirname, href);
-
-      const absolutePathWithMD = join("/", href + ".md");
-      const absolutePath = join("/", href);
-
-      // we could add other paths in future, or test
-      // against post titles, for example.
-      const paths = [
-        relativePathWithMD,
-        relativePath,
-        absolutePathWithMD,
-        absolutePath,
-      ];
-
-      function byTitle(href, done) {
-        require("models/entries").getAll(blogID, function (allEntries) {
-          const perfectMatch = allEntries.find((entry) => entry.title === href);
-
-          if (perfectMatch) return done(null, perfectMatch);
-
-          // Will trim, lowercase, remove punctuation, etc.
-          const roughMatch = allEntries.find(
-            (entry) => makeSlug(entry.title) === makeSlug(href)
-          );
-
-          if (roughMatch) return done(null, roughMatch);
-
-          done(new Error("No entry found by title"));
-        });
-      }
-
-      function byURL(href, done) {
-        const normalizedHref = urlNormalizer(href);
-        require("models/entry").getByUrl(blogID, normalizedHref, function (
-          entry
-        ) {
-          if (entry) return done(null, entry);
-          done(new Error("No entry found by URL"));
-        });
-      }
-
-      function checkPath(path, done) {
-        caseSensitivePath(root, path, function (err, absolutePath) {
-          if (err || !absolutePath) return done(err || new Error("No path"));
-
-          if (!absolutePath.startsWith(root))
-            return done(new Error("Bad path"));
-
-          const correctPath = join("/", absolutePath.slice(root.length));
-
-          require("models/entry").get(blogID, correctPath, (entry) => {
-            if (!entry) return done(new Error("No entry"));
-
-            done(null, entry);
-          });
-        });
-      }
 
       const lookups = [
-        ...paths.map((path) => checkPath.bind(null, path)),
-        byURL.bind(null, href),
-        byTitle.bind(null, href),
+        byPath.bind(null, blogID, path, href),
+        byURL.bind(null, blogID, href),
+        byTitle.bind(null, blogID, href),
       ];
 
-      async.tryEach(lookups, function (err, entry) {
+      tryEach(lookups, function (err, entry) {
         if (entry) {
           const link = entry.url;
           const linkText = $(node).attr("data-text") || entry.title;
 
           $(node).attr("href", link).html(linkText).removeAttr("data-text");
 
+          console.log("adding dependency", entry.path, "to post:", path);
           dependencies.push(entry.path);
         } else {
           // we failed to find a path, we should register paths to watch
-          dependencies = dependencies.concat(paths);
-        }
+          // if pathOfPost is '/Posts/foo.txt' then dirOfPost is '/Posts'
+          const dirOfPost = dirname(path);
 
+          // if href is 'sub/Foo.txt' and dirOfPost is '/Posts' then
+          // resolvedHref is '/Posts/sub/Foo.txt'
+          const resolvedHref = resolve(dirOfPost, href);
+
+          const pathsToWatch = [
+            resolvedHref,
+            resolvedHref + ".md",
+            resolvedHref + ".txt",
+          ];
+
+          pathsToWatch.forEach((path) => dependencies.push(path));
+        }
         next();
       });
     },
-    function (err) {
+    function () {
+      console.log(
+        "wikilinks:",
+        path,
+        "calling back with dependencies",
+        dependencies
+      );
       callback(null, dependencies);
     }
   );
