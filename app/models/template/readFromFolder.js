@@ -27,9 +27,11 @@ module.exports = function readFromFolder(blogID, dir, callback) {
         if (err) return callback(err);
 
         loadPackage(id, dir, function (err, views) {
-          if (err) return callback(err);
-
           const errors = {};
+
+          if (err) {
+            errors["package.json"] = err.message;
+          }
 
           async.eachSeries(
             contents,
@@ -54,7 +56,10 @@ module.exports = function readFromFolder(blogID, dir, callback) {
                     // we so ignore this error, and create the view object as needed
                     view = view || {};
                     view.name = view.name || name;
-                    if (views[name])
+
+                    // Views might not exist if there's an error
+                    // with the template's package.json file
+                    if (views && views[name])
                       for (var i in views[name]) view[i] = views[name][i];
 
                     view.content = content;
@@ -75,7 +80,7 @@ module.exports = function readFromFolder(blogID, dir, callback) {
             },
             function (err) {
               if (err) return callback(err);
-              setMetadata(id, { errors }, function (err) {
+              setMetadata(id, { errors }, function () {
                 getMetadata(id, callback);
               });
             }
@@ -87,9 +92,23 @@ module.exports = function readFromFolder(blogID, dir, callback) {
 };
 
 function loadPackage(id, dir, callback) {
-  fs.readJson(dir + "/" + PACKAGE, function (err, metadata) {
-    if (err) return callback(null, {});
-    savePackage(id, metadata, callback);
+  fs.readFile(dir + "/" + PACKAGE, "utf-8", function (err, contents) {
+    // Package.json is optional
+    if (err && err.code === "ENOENT") {
+      return callback(null, {});
+    }
+
+    if (err) {
+      return callback(new Error("Invalid package.json file: " + err.code));
+    }
+
+    try {
+      const metadata = JSON.parse(contents);
+
+      savePackage(id, metadata, callback);
+    } catch (err) {
+      return callback(err);
+    }
   });
 }
 
