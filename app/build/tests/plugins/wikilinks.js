@@ -232,14 +232,14 @@ describe("wikilinks plugin", function () {
     const content = tests.join("\n");
 
     const linkPath = "/Sub/child/Target.txt";
-    const linkContent = "Link: not-target\n\n# Not target\n\nThe linked file.";
+    const linkContent = "Link: not-target\n\n# Not Target\n\nThe linked file.";
 
     // We know that Blot has worked out which file to link to
     // because the href is set to target and the link text to Target!
     const html =
       "<p>" +
       Array.from(Array(tests.length))
-        .map((i) => '<a href="/not-target" class="wikilink">Not target</a>')
+        .map((i) => '<a href="/not-target" class="wikilink">Not Target</a>')
         .join(" ") +
       "</p>";
 
