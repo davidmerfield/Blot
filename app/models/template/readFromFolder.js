@@ -69,7 +69,10 @@ module.exports = function readFromFolder(blogID, dir, callback) {
                       // we expose this error to the developer on
                       // the preview subdomain
                       if (err) {
-                        errors[view.name] = err.message;
+                        errors[view.name] = improveMustacheErrorMessage(
+                          err,
+                          content
+                        );
                       }
 
                       next();
@@ -107,9 +110,43 @@ function loadPackage(id, dir, callback) {
 
       savePackage(id, metadata, callback);
     } catch (err) {
-      return callback(err);
+      const error = new Error(improveJSONErrorMessage(err, contents));
+      return callback(error);
     }
   });
+}
+
+// Maps 'at position 505' to
+function improveJSONErrorMessage(err, contents) {
+  try {
+    const regex = /at position (\d+)$/gm;
+    const found = [...err.message.matchAll(regex)][0];
+    const position = parseInt(found[1]);
+    const messageWithoutLocation = err.message.slice(0, found.index).trim();
+    const lines = contents.slice(0, position).split("\n");
+    const lineNumber = lines.length;
+    const linePosition = lines[lineNumber - 1].length;
+    return `${messageWithoutLocation} at position ${linePosition} on line ${lineNumber}`;
+  } catch (e) {
+    return e.message;
+  }
+}
+
+// Maps 'Unclosed section "entriess" at 1446' to
+// `Unclosed section "entriess" on line 12`
+function improveMustacheErrorMessage(err, contents) {
+  try {
+    const regex = /at (\d+)$/gm;
+    const found = [...err.message.matchAll(regex)][0];
+    const position = parseInt(found[1]);
+    const messageWithoutLocation = err.message.slice(0, found.index).trim();
+    const lines = contents.slice(0, position).split("\n");
+    const lineNumber = lines.length;
+    const linePosition = lines[lineNumber - 1].length;
+    return `${messageWithoutLocation} at position ${linePosition} on line ${lineNumber}`;
+  } catch (e) {
+    return e.message;
+  }
 }
 
 function badPermission(blogID, templateID) {
