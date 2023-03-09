@@ -31,7 +31,7 @@ if (cluster.isMaster) {
   email.SERVER_START();
 
   // Write the master process PID so we can signal it
-  fs.writeFileSync(config.pidfile, process.pid.toString(), "utf-8");
+  fs.outputFileSync(config.pidfile, process.pid.toString(), "utf-8");
 
   // Run any initialization that clients need
   // Google Drive will renew any webhooks, e.g.

@@ -24,8 +24,28 @@ Questions.use(
   })
 );
 
+Questions.use(async (req, res, next) => {
+  const { rows } = await pool.query(
+    `SELECT taglist.tag,
+       (SELECT Count(*)
+        FROM   items
+        WHERE  items.tags LIKE '%'
+                               || taglist.tag
+                               || '%') AS total,
+    COUNT(*) OVER() AS tags_count                               
+FROM   (SELECT DISTINCT Unnest(String_to_array(tags, ',')) AS tag
+        FROM   items) taglist
+ORDER BY total DESC
+LIMIT ${10}`
+  );
+  res.locals.popular_tags = rows;
+  next();
+});
+
 Questions.use(function (req, res, next) {
   res.locals.base = "/questions";
+  res.locals["show-question-sidebar"] = true;
+  res.locals["hide-on-this-page"] = true;
   // The rest of these pages should not be cached
   res.header("Cache-Control", "no-cache");
   next();
@@ -52,7 +72,7 @@ Questions.get("/feed.rss", async function (req, res, next) {
 
   // We preview one line of the topic body on the question index page
   rows.forEach(function (topic) {
-    topic.body = removeXMLInvalidChars(marked(topic.body));
+    topic.body = removeXMLInvalidChars(render(topic.body));
     topic.url = res.locals.url + "/questions/" + topic.id;
     topic.author = "Anonymous";
     topic.date = moment
@@ -116,48 +136,83 @@ Questions.get(["/", "/page/:page"], function (req, res, next) {
     .then((topics) => {
       if (topics.rows.length === 0) return next();
 
-      // Paginator object for the view
-      let paginator = {};
-
       // We preview one line of the topic body on the question index page
       topics.rows.forEach(function (topic) {
-        topic.body = marked(topic.body);
+        topic.body = render(topic.body);
+        topic.singular = topic.reply_count === "1";
         if (topic.tags)
           topic.tags = topic.tags.split(",").map((tag) => ({ tag, slug: tag }));
-        if (topic.reply_count) topic.answered = moment(topic.last_reply_created_at).fromNow();
-        topic.asked = moment(topic.created_at).fromNow();
+        if (topic.last_reply_created_at)
+          topic.answered = moment(topic.last_reply_created_at).fromNow();
+        if (topic.created_at) topic.asked = moment(topic.created_at).fromNow();
       });
-
-      // Data for pagination
-      let pages_count = Math.ceil(
-        topics.rows[0].topics_count / TOPICS_PER_PAGE
-      ); // total pages
-      let next_page = false;
-      if (page < pages_count) next_page = page + 1; // next page value only if current page is not last
-
-      if (pages_count > 1) {
-        // create paginator only if there are more than 1 pages
-        paginator = {
-          pages: [], // array of pages [{page: 1, current: true}, {...}, ... ]
-          next_page: next_page, // next page int
-          topics_count: topics.rows[0].topics_count, // total number of topics
-        };
-        for (let i = 1; i <= pages_count; i++) {
-          // filling pages array
-          if (i === page) {
-            paginator.pages.push({ page: i, current: true });
-          } else paginator.pages.push({ page: i, current: false });
-        }
-      }
 
       res.locals.title = page > 1 ? `Page ${page} - Questions` : "Questions";
       res.locals.topics = topics.rows;
-      res.locals.paginator = paginator;
+      res.locals.paginator = Paginator(
+        page,
+        TOPICS_PER_PAGE,
+        topics.rows[0].topics_count,
+        "/questions"
+      );
       res.locals.search_query = search_query;
       res.render("questions");
     })
     .catch(next);
 });
+
+function Paginator(page, itemsPerPage, totalItems, base) {
+  // Data for pagination
+  let pages_count = Math.ceil(totalItems / itemsPerPage);
+
+  // Paginator object for the view
+  let paginator = {};
+
+  // total pages
+  let next_page = false;
+  let previous_page = false;
+
+  if (page < pages_count) next_page = page + 1; // next page value only if current page is not last
+  if (page > 1) previous_page = page - 1; // next page value only if current page is not last
+
+  if (pages_count > 1) {
+    // create paginator only if there are more than 1 pages
+    paginator = {
+      pages: [], // array of pages [{page: 1, current: true}, {...}, ... ]
+      next_page: next_page, // next page int
+      previous_page: previous_page, // next page int
+      topics_count: totalItems, // total number of topics
+    };
+
+    // Produces pagination links like this:
+    // 1 ... 56 57 [58] 59 60 ... 90
+
+    const number_of_links_each_side_of_current_page = 2;
+
+    for (let i = 1; i <= pages_count; i++) {
+      // filling pages array
+      if (
+        i === 1 ||
+        i === page ||
+        i === pages_count ||
+        (i < number_of_links_each_side_of_current_page * 2 + 1 &&
+          page < number_of_links_each_side_of_current_page * 2 + 1) ||
+        Math.abs(page - i) < number_of_links_each_side_of_current_page + 1
+      ) {
+        paginator.pages.push({ page: i, current: i === page, base });
+      } else if (
+        Math.abs(page - i) === number_of_links_each_side_of_current_page + 1 ||
+        (i === number_of_links_each_side_of_current_page * 2 + 1 &&
+          page < number_of_links_each_side_of_current_page * 2 + 1)
+      ) {
+        paginator.pages.push({ elipsis: true });
+      }
+    }
+  }
+
+  console.log("Paginator", paginator);
+  return paginator;
+}
 
 Questions.route(["/tags", "/tags/page/:page"]).get(function (req, res, next) {
   const TAGS_PER_PAGE = 15;
@@ -169,9 +224,6 @@ Questions.route(["/tags", "/tags/page/:page"]).get(function (req, res, next) {
 
   const offset = (page - 1) * TAGS_PER_PAGE;
 
-  console.log('page is:', page);
-
-  console.log('offset is:', offset);
   pool
     .query(
       `SELECT taglist.tag,
@@ -188,32 +240,15 @@ LIMIT ${TAGS_PER_PAGE}
 OFFSET ${offset};`
     )
     .then(({ rows }) => {
-      
       if (!rows.length) return res.render("questions/tags");
 
-
-      // Data for pagination
-      let pages_count = Math.ceil(rows[0].tags_count / TAGS_PER_PAGE); // total pages
-      let next_page = false;
-      if (page < pages_count) next_page = page + 1; // next page value only if current page is not last
-
-      if (pages_count > 1) {
-        // create paginator only if there are more than 1 pages
-        let paginator = {
-          pages: [], // array of pages [{page: 1, current: true}, {...}, ... ]
-          next_page: next_page, // next page int
-          tags_count: rows[0].tags_count, // total number of topics
-        };
-        for (let i = 1; i <= pages_count; i++) {
-          // filling pages array
-          if (i === page) {
-            paginator.pages.push({ page: i, current: true });
-          } else paginator.pages.push({ page: i, current: false });
-        }
-        res.locals.paginator = paginator;
-      }
-
       res.locals.title = page > 1 ? `Page ${page} - Tags` : "Tags";
+      res.locals.paginator = Paginator(
+        page,
+        TAGS_PER_PAGE,
+        rows[0].tags_count,
+        "/questions/tags"
+      );
       res.locals.tags = rows;
       res.render("questions/tags");
     })
@@ -343,7 +378,8 @@ Questions.route("/:id").get(csrf, function (req, res, next) {
 
           if (!topic) return next();
 
-          topic.body = marked(topic.body);
+          topic.body = render(topic.body);
+
           topic.reply_count = replies.rows.length;
           if (topic.tags)
             topic.tags = topic.tags
@@ -353,7 +389,7 @@ Questions.route("/:id").get(csrf, function (req, res, next) {
           res.locals.breadcrumbs[res.locals.breadcrumbs.length - 1].label =
             topic.title;
           replies.rows.forEach((el, index) => {
-            replies.rows[index].body = marked(el.body);
+            replies.rows[index].body = render(el.body);
             replies.rows[index].answered = moment(
               replies.rows[index].created_at
             ).fromNow();
@@ -433,6 +469,13 @@ Questions.get(["/tagged/:tag", "/tagged/:tag/page/:page"], function (
     return next();
   }
 
+  res.locals.breadcrumbs = res.locals.breadcrumbs.filter(
+    (x, i) => i !== res.locals.breadcrumbs.length - 2
+  );
+
+  res.locals.breadcrumbs[res.locals.breadcrumbs.length - 1].label =
+    "Tagged '" + tag + "'";
+
   const offset = (page - 1) * TOPICS_PER_PAGE;
 
   // Search data
@@ -462,46 +505,69 @@ Questions.get(["/tagged/:tag", "/tagged/:tag/page/:page"], function (
     .then((topics) => {
       if (topics.rows.length === 0) return next();
 
-      // Paginator object for the view
-      let paginator = {};
-
       // We preview one line of the topic body on the question index page
       topics.rows.forEach(function (topic) {
-        topic.body = marked(topic.body);
+        topic.body = render(topic.body);
         if (topic.tags)
           topic.tags = topic.tags.split(",").map((tag) => ({ tag, slug: tag }));
         topic.asked = moment(topic.created_at).fromNow();
       });
 
-      // Data for pagination
-      let pages_count = Math.ceil(
-        topics.rows[0].topics_count / TOPICS_PER_PAGE
-      ); // total pages
-      let next_page = false;
-      if (page < pages_count) next_page = page + 1; // next page value only if current page is not last
-
-      if (pages_count > 1) {
-        // create paginator only if there are more than 1 pages
-        paginator = {
-          pages: [], // array of pages [{page: 1, current: true}, {...}, ... ]
-          next_page: next_page, // next page int
-          topics_count: topics.rows[0].topics_count, // total number of topics
-        };
-        for (let i = 1; i <= pages_count; i++) {
-          // filling pages array
-          if (i === page) {
-            paginator.pages.push({ page: i, current: true });
-          } else paginator.pages.push({ page: i, current: false });
-        }
-      }
       res.locals.tag = tag;
       res.locals.title = page > 1 ? `Page ${page} - Questions` : "Questions";
       res.locals.topics = topics.rows;
-      res.locals.paginator = paginator;
+      res.locals.paginator = Paginator(
+        page,
+        TOPICS_PER_PAGE,
+        topics.rows[0].topics_count,
+        "/questions/tagged/" + tag
+      );
       res.locals.search_query = search_query;
       res.render("questions");
     })
     .catch(next);
 });
+
+const he = require("he");
+const hljs = require("highlight.js");
+const cheerio = require("cheerio");
+
+function render(input) {
+  let html = input;
+
+  try {
+    html = highlight(marked(input));
+  } catch (e) {
+    console.error(e);
+  }
+
+  return html;
+}
+
+function highlight(html) {
+  const $ = cheerio.load(html);
+
+  $("pre code").each(function () {
+    try {
+      var lang = $(this).attr("class").split("language-")[1];
+      console.log("lang:", lang);
+      if (!lang) return;
+      var code = $(this).text();
+      code = he.decode(code);
+
+      // For some reason highlight
+      // doesn't play nicely with already-decoded
+      // apostrophes like ' &#84; etc...
+
+      var highlighted = hljs.highlight(lang, code).value;
+
+      $(this).html(highlighted).addClass("hljs").addClass(lang);
+    } catch (e) {
+      console.log(e);
+    }
+  });
+
+  return $.html();
+}
 
 module.exports = Questions;

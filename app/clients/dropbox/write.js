@@ -23,6 +23,8 @@ function write(blogID, path, contents, callback) {
     // in the folder with a lowercase path.
     pathOnBlot = localPath(blogID, path).toLowerCase();
 
+    // todo: metadata.add(case-y path here)
+    
     try {
       await fs.outputFile(pathOnBlot, contents);
       await upload(client, pathOnBlot, pathInDropbox);

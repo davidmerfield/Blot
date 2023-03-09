@@ -1,12 +1,12 @@
 # Censorship
 
-## On the question of content policies and free speech
+Blot has been running for a while now and there is plenty published on it that I dislike. Since I control Blot's servers, I have the power to remove this material. However, I have chosen not to excercise this power. 
 
-Blot has been running for a while now and there is plenty published on it that I dislike. I have the means to remove this material but I won't. I believe that a system of censorship would cause more harm than the material worth censoring. 
+I believe that establishing a system of censorship on Blot will cause more harm than the material worth censoring. 
 
 ## So you accept that free speech causes harm?
 
-Yes, I think that being serious about the principle of free speech means accepting that free speech causes harm. My belief is that the harm resulting from censorship is greater than the harm resulting from free speech. To give up the right to determine which words are acceptable to you is to give up a terrible power.
+Yes, I think that being serious about the principle of free speech means accepting that free speech causes harm. My belief is that the harm resulting from censorship is greater than the harm resulting from free speech. I do not want to give someone else the power to determine what is acceptable to me.
 
 ## You're a private organization, why care about free speech?
 
@@ -22,7 +22,7 @@ At some point in future, I suspect Blot will be blocked in one country or anothe
 
 ## How do I know you won't change your mind about this in future?
 
-This is one reason why I won't depend on advertising to fund Blot. The large businesses that tend to buy advertising are risky patrons. They always impose a regime of censorship in their own bland interests which tend to push down on all that is against the grain. I want to provide a platform for the radical even if it means tolerating stuff that upsets *the market*.
+This is one reason why I won't depend on advertising to fund Blot. The large businesses that tend to buy advertising are precarious patrons. They inevitably impose a regime of censorship in their own bland interests which tend to push down on everything interesting or against the grain. I want to provide a platform for the radical even if it means tolerating material that upsets *the market*.
 
 ## What if I still disagree with you?
 

@@ -1,5 +1,15 @@
-<h1>Markdown</h1>
+<style type="text/css">
+pre {
+    white-space: pre-wrap;
+    padding: calc(var(--spacing)*.5);
+    border-radius: 4px;
+    background: #f6f6f6;
+    word-break: break-all;
+}
+</style>
+<h1>Text and Markdown</h1>
 
+<p>Use the full range of <a href="/how/posts/markdown">Markdown</a> features to add formatting to your blog posts. Blot also renders <a href="/how/posts/tex">mathematics</a>  and provides syntax highlighting for code snippets.</p>
 
 <p>Markdown is a text-to-HTML conversion tool for web writers created by John Gruber. Markdown allows you to write using an easy-to-read, easy-to-write plain text format that is simple to convert to HTML. </p>
 
@@ -10,7 +20,7 @@ You can use <em>*Markdown*</em>, a lightweight markup language for plain text fi
 Use it for links, headings, lists and much more.
 
 </code>
-    </pre>
+</pre>
 
 <p>Note that you can always mix HTML tags directly into Markdown files, should you need to do something beyond the limits of the Markdown.</p>
 
@@ -18,25 +28,25 @@ Use it for links, headings, lists and much more.
 
 <p>Surrounding text with two asterisks makes text bold:</p>
 
-<p><code>**This text will be bold.**</code></p>
+<pre><code>**This text will be bold.**</code></pre>
 
 <p>To create italics, use a single asterix (*) on either side of the text:</p>
 
-<p><code>*This text will be italic.*</code></p>
+<pre><code>*This text will be italic.*</code></pre>
 
 <p>Both * or _ symbols work to make text bold or italic. This way you can combine bold and italic in the same sentence. For example:</p>
 
-<p><code>**Everyone _must_ listen.**</code></p>
+<pre><code>**Everyone _must_ listen.**</code></pre>
 
 <h2>Headings</h2>
 
 <p>You can create headings using the octothorpe (#).</p>
 
-<p><code># Largest heading</code></p>
+<pre><code># Largest heading</code></pre>
 
 <p>Use two octothropes to create a subheading.</p>
 
-<p><code>## Subheading</code></p>
+<pre><code>## Subheading</code></pre>
 
 <p>Alternatively, for H1 and H2, an underline-ish style:</p>
 
@@ -57,9 +67,18 @@ Alternative subheading
 
 <p>Use the syntax for a link, with an exclamation point (!) in front. For example:
 
-<p><code>![Image title](https://url.of/the/image.jpg)</code></p>
+<pre><code>![Image title](https://url.of/the/image.jpg)</code></pre>
 </code></pre>
 
+<p>If the file <code>_image.jpg</code> is inside the same directory, then you can use a relative path like so:</p>
+
+<pre><code>![Image title](_image.jpg)</code></pre>
+</code></pre>
+
+<p>Otherwise, use an absolute path with your blog folder as root:</p>
+
+<pre><code>![Image title](/_Files/image.jpg)</code></pre>
+</code></pre>
 
 <h2>Lists</h2>
 <p>Make a bulleted list by preceding list items with a single hyphen (-)  or an asterix (*). You need a space between the hyphen and the text.</p>
@@ -110,7 +129,7 @@ C.  Tres</pre>
 <h2>Strike out text</h2>
 <p>Put a double tilde (~) on either side of the text you want to strikethrough:</p>
 
-<p><code>~~Strike out mistakes~~</code></p>
+<pre><code>~~Strike out mistakes~~</code></pre>
 
 <h2>Code</h2>
 <p>Indent code with four spaces:</p>
@@ -131,9 +150,9 @@ var foo = "bar";
 
 <p>Use three or more hyphens (-), asterisks (*) or underscores (_) to create a horizontal rule.</p>
 
-<p><code>---</code></p>
-<p><code>***</code></p>
-<p><code>___</code></p>
+<pre><code>---</code></pre>
+<pre><code>***</code></pre>
+<pre><code>___</code></pre>
 
 <h2>Blockquotes</h2>
 

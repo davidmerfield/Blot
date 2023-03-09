@@ -18,6 +18,8 @@ input[name="toggle"] {
     display: none;
   }
 
+
+
   label[for="toggle"] {
     display: block;
     float: right;
@@ -28,12 +30,15 @@ input[name="toggle"] {
     height: 30px;
   }
 
-  #toggle:checked ~ div .sidebar-container {display: block;position: relative;left: auto;margin:0;padding:0;}
+  #toggle:checked ~ div .sidebar-container {
+    display: block;position: absolute;top:0;left: 0;right: 0;
+    bottom: 0;width: 100%;z-index: 10 }
 
-  #toggle:not(:checked) ~ .header #hider {
+  #toggle:not(:checked) ~ div #hider {
     display: none;
   }
-    #toggle:checked ~ .header #shower {
+    
+  #toggle:checked ~ div #shower {
     display: none;
   }
 }
@@ -46,7 +51,6 @@ input[name="toggle"] {
   margin: 0;
   font-size: var(--small-font-size);
   list-style: none;
-  border-right: 1px solid rgba(0, 0, 0, 0.1);
   padding: 0;
   box-sizing: border-box;
   max-width: none;
@@ -55,7 +59,13 @@ input[name="toggle"] {
   /*margin-top: 74px;*/
   align-self: flex-start;
   color: var(--light-text-color);
+  border:none;/*border-left:1px solid rgba(0,0,0,0.1);*/
+    padding: calc(var(--spacing)*1.5) calc(var(--spacing)*2);
+
 }
+
+
+.sidebar a {border-radius: 6px;padding-left: 12px}
 
 .sidebar a:active,
 .sidebar a:focus,
@@ -84,7 +94,6 @@ nav a {
   color: inherit;
   box-sizing: border-box;
   text-decoration: none;
-  transition: color 0.1s ease-out;
 }
 
 /*nav a:hover {
@@ -101,15 +110,15 @@ nav a.selected:hover {
 .sidebar a.selected,
 .top-level a:hover {
   color: var(--accent-color);
+    text-decoration: none;
+background-color: rgba(0,0,0,0.03);
 }
 
 .sidebar li ul {
   padding: 0;
   margin: 0;
   font-size: var(--small-font-size);
-  max-height: 0;
   overflow: hidden;
-  transition: max-height 0.2s ease-out;
   box-sizing: border-box;
 }
 .sidebar ul ul {
@@ -125,15 +134,15 @@ nav a.selected:hover {
 .sidebar > li > a {
   /*  background: rgba(0,0,0,0.02);
 */
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-  padding-top: 0.4rem;
+font-weight: 500;
+  padding-top: 3px;
   color: var(--light-text-color);
-  padding-bottom: 0.4rem;
+  padding-bottom: 3px;
 }
 
 .sidebar li ul a {
-  padding-top: 3px;
-  padding-bottom: 3px;
+  padding-top: 2px;
+  padding-bottom: 2px;
 }
 .sidebar > li:last-of-type > a {
   border-bottom: none;
@@ -144,8 +153,7 @@ nav a.selected:hover {
 }
 
 .sidebar a + ul li:last-child {
-  margin-bottom: 4px;
-  padding-bottom: 6px;
+  margin-bottom: calc(var(--spacing)*1.5);
 }
 
 .sidebar a + ul ul li:last-child {
@@ -169,17 +177,15 @@ nav a.selected:hover {
 .sidebar [data-open="selected"] + ul,
 .sidebar a:active + ul,
 .sidebar a:focus + ul {
-  max-height: 300px;
-  transition: max-height 0.2s ease-out;
-  border-bottom: 1px solid var(--light-border-color);
+/*  max-height: 300px;
   margin-top: -1px;
   padding-bottom: 10px;
   padding-top: 0;
   position: relative;
-}
+*/}
 
 .sidebar [data-open="selected"] + ul li:last-child ul {
-  border-bottom: none;
+  /*border-bottom: none;*/
 }
 
 .sidebar li ul li {
@@ -216,7 +222,7 @@ nav a.selected:hover {
 .sidebar > li > a:before,
 .top-level a:before {
        content: " ";
-    display: block;
+    display: none;
     position: absolute;
     top: 0;
     bottom: 0;
@@ -254,4 +260,20 @@ nav a.selected:hover {
   position: sticky;
   top: 2rem;
   margin-top: 2em;
+}
+
+
+.sidebar-container {flex-shrink: 0}
+  .sidebar>li.has-logo>a {font-size: 14px;font-weight:500;color:var(--text-color);}
+ li.has-logo svg {fill:var(--text-color);width: 20px;vertical-align: sub;margin-right:0.5em;position: relative;top:-0.1em;}
+
+ li.has-logo svg path {
+    stroke: var(--text-color);
+    stroke-width: 1.8;
+    }  
+
+.sidebar>li.has-logo {margin-bottom: calc(var(--spacing)*1.5)}
+
+  .sidebar>li.has-logo>a:hover {color: var(--accent-color)}
+  .sidebar>li.has-logo>a:hover  svg path {    stroke: var(--accent-color);
 }

@@ -1,4 +1,101 @@
-Disable 'long sync' emails
+Add support for Indian payments and follow up with Indian customers like [Varun](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrcjKRbHhGvtKJKXfGdwDzjTML)
+
+---
+
+I need to make it clearer which files are causing which menu links 
+
+Add export button to overdue subscription page
+
+Make it possible to restore from import
+
+Add way to escape commas in tags and [tell questioner](https://blot.im/questions/1431)
+
+Add 'verify' button for both google drive and Dropbox clients that works then tell [Jonathan](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrcPJVPkQGswgFtCkwbJfFJjnD)
+
+Fix bug with bandcamp embeds in Word Documents and tell [Art](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrcXlgNHJbDLkmkkRmrCGqzHJB)
+
+Dropbox client should empty apps folder before sync
+  
+Investigate ignored files situation
+- handle new pathNormalizer behaviour
+- 'ignoredFilesKey'
+- why are ignored files not added to ignored list?
+
+Fix 'edit this page' link in production
+
+Store the case-y path for a file when doing dropbox.write
+
+Add support for new formats via pandoc:
+- rtf
+- jupyter notebooks
+- org mode 
+
+Improve Google Drive client:
+- Handle uncaught error with verify on Google Drive client. 
+- another uncaught error surfaces when the account is deleted, before a verify takes place
+- Add better tools for reseting Google Drive sync state, pulling from Drive instead of from Blot.
+- Expose unlock and verify options for  drive
+- Uncaught exceptions raised by verify seem to not be caught properly by the try/catch blocks. Simulate an exception and work out why.
+- Resolve error which occurred when I disconnected a blog from Google Drive client, a folder lock issue, which wasn't surfaced properly.
+- Weird issue with connecting multiple blogs to same google drive account – the file from one appeared in the folder for the other. Also strangeness possibly related to an empty blog folder?
+- How do we handle two files with same name and same parent? How does our fileId:path hash handle this? Make sure we delete the right file. Will file.title as opposed to file.name give us the deduped version?
+  - Bug: move file with deduplicated name from sub folder to other folder
+  - download should check for an existing file with same name but different fileId and dedupe before storing the path?
+- Handle revoked credentials without tanking server
+- Fix bug which occurs when:
+  - move a folder containing a folder containing a file from within your google drive, into your blog folder
+  - then move the folder within the folder out of the folder but keep it within your blog folder. 
+  - Blot will never transfer the file inside
+- Fix bug which occurs when:
+  - move a folder full of files from within google drive into your blog's folder
+  - Blot will recieve the folder but not the files inside
+- Create test app for local use
+- Can the google drive client handle a server restart during setup?
+- database.folder should throw ENOENT and EEXIST errors for del, set, move etc.
+- Error handling
+  - Retry when we get google drive's This service is not available error
+  - Handle storage quota errors
+  - Handle 429 errors with exponential backoff retry
+- Add percentage progress and a status bar to the folder copying setup page
+- Add `folder.rename` method to `app/sync` to take advantage of Google Drive's true rename feature
+- Add a way for sync/build to accept a ctime as an option. We can't set this at the operating system level but google drive's API does return a createdTime value and we could use this as the true file's created date, rather than the date the file is made on the server
+- Work out if we can test this using Mocks
+- `write` should use the best method for large file uploading
+- `download` Should nicely handle the export of various Google Doc formats
+- Do we encounter dropbox/google drive bugs when we remove a directory of files, rather than invidivual files?
+- Victor
+- Ryan
+- Johannes
+- Rizwan
+- Fritz whose blog became stuck
+- [Kevin](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlkFzdBrlJzrGprHNHNmvkQqbW)
+- It seems one sync tanked the setup transfer with an [ENOENT](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmvTwMksRmWvSpQXVhvlMXjKFC)
+- Tell [Mike](https://mail.google.com/mail/u/0/#inbox/FMfcgzGpFgpdfBScqQctbnNGxBCLrztC) once the bug is sorted so he can rejoin
+- Tell [Juan](https://mail.google.com/mail/u/0/#inbox/FMfcgzGpFzvBSNgqmRVDRHvdGrzqrZDt)
+- Tell questioners](https://blot.im/questions/576)
+
+---
+
+Expose local template syntax error messages on preview subdomain
+
+Expose local template package.json error messages
+
+Expose template build metadata errors on dashboard
+
+---
+
+Add 'confirm email address' flow to prevent typos in emails
+
+Add simple form endpoint, could be used for contact forms
+
+Create a 'light local server' for template development which zips then posts template files to Blot's endpoint for live-auto updating previews for a given blog – there would need to be authentication with a one-time pass
+- some blogs could be used unauthenticated
+
+Create a bootswatch template and [tell Michael](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqRQBnhffbhgdVXCMpzGpbJgbW)
+
+---
+
+Fix 'back' button in photo template and tell [Bibi](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrcPJTmPXxWvhbmFpvwdfVzhpn)
 
 Fix duplicate GUID issue and tell [Jason](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrbvKsNQgVWVNKrVqMzRJdDvKk)
 
@@ -12,16 +109,6 @@ Tell [Jarrod](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrbRSDCZqMwzjDdqdGCk
 
 Fix navigation link bug with blog tempalte and tell [Jason](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrbcCBmkcVhfWTpZbmqndwXQrL)
 
-Create a bootswatch template and [tell Michael](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqRQBnhffbhgdVXCMpzGpbJgbW)
-
----
-
-Expose local template syntax error messages on preview subdomain
-
-Expose local template package.json error messages
-
-Expose template build metadata errors on dashboard
-
 ---
 
 Add theme with photoswipe and use sharp's tile generation feature along with 
@@ -31,8 +118,6 @@ Fix bug with undeleteable template files prefixed with dot and tell [Stuart](htt
 Add `Ignore: yes` metadata to trigger the ignored file behaviour
 
 Fix bug with leading emoji and title case plugin and tell [questioner](https://blot.im/questions/874)
-
-Fix bug with typeset 'Small caps' setting and wikilinks then follow up with [questioner](https://blot.im/questions/414). The issue is caused by the insertion of the span class="small-caps" before the wikilink converter has had a chance to render the link. Typeset should be run after wikilinks to fix this.
 
 Handle long titles in breadcrumbs / file paths in sync log / long links etc. elegantly on the dashboard
 
@@ -60,20 +145,13 @@ Fix bug with duplicate entries and tell [Marco](https://mail.google.com/mail/u/0
 
 Fix bug with this [question](https://blot.im/questions/648)
 
-Understand the out of memory errors, are they related to screenshot?
-
 Investigate this [date metadata bug](https://blot.im/questions/936)
-
-Add better tools for reseting Google Drive sync state, pulling from Drive instead of from Blot.
 
 Support larger files on DB client and tell [Marco](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqQmWjKnmPrwKSXMdZNmlqmtss)
 
 ---
 
 Add 'download as zip' option to template editor
-
-Handle uncaught error with verify on Google Drive client
-- another uncaught error surfaces when the account is deleted, before a verify takes place
 
 Work out how to ensure fix is able to remove tag items without posts
 - how to reproduce this bug?
@@ -85,7 +163,17 @@ Improvements to toLowerCase:
 - sync.lowerCaseAllFiles needs handle a duplication of files with different cases. I need a case-sensitive disk to test this on
 
 Improvements to Dropbox client:
-- [ ] parallelize build/download a little more, so posts appear when many files are dropped into folder
+- [ ] improve aesthetics of oauth redirect screen (currently an ugly blue link)
+- [ ] Fix issues with sync:
+  - Expose unlock and verify options for  dropbox
+  - error earlier
+  - log all dropbox client related errors?
+  - add some kind of request rate limit to dropbox client?
+    - we could use async queue to accomplish this...
+  - [tell marco](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqPpdwHHQTgHmMFwkXQZBjSwXt)
+  - Is it possible that retry delays from the Dropbox API under excessive number of requests is the cause of the lockup?
+  - Tell [N](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqPzKcnRQlXQVVcbdRvLVxtjnD) when you can switch between dropbox and git without bugs
+   parallelize build/download a little more, so posts appear when many files are dropped into folder
 - [ ] Efficiently handle Dropbox file renames with internal hash of fileIDs
 - [ ] surface errors during setup on dashboard
    - [ ] surface sync issues with Dropbox client on the homepage of dashboard
@@ -110,32 +198,10 @@ Improvements to Dropbox client:
 
 Fix issue with variable passed to dateFormat function and tell [Leo](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqQJlfVpSBNBwDxcSlGGqHXQbh)
 
-Fix issues with sync:
--error earlier
-- log all dropbox client related errors?
-- add some kind of request rate limit to dropbox client?
-  - we could use async queue to accomplish this...
-- properlockfile should be fine.
-- [tell marco](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqPpdwHHQTgHmMFwkXQZBjSwXt)
-- Is it possible that retry delays from the Dropbox API under excessive number of requests is the cause of the lockup?
-- Do we encounter dropbox/google drive bugs when we remove a directory of files, rather than invidivual files?
-- Victor
-- Ryan
-- Johannes
-- Rizwan
-- Fritz whose blog became stuck
-- [Kevin](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlkFzdBrlJzrGprHNHNmvkQqbW)
-- It seems one sync tanked the setup transfer with an [ENOENT](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmvTwMksRmWvSpQXVhvlMXjKFC)
-- Tell [Mike](https://mail.google.com/mail/u/0/#inbox/FMfcgzGpFgpdfBScqQctbnNGxBCLrztC) once the bug is sorted so he can rejoin
-- Tell [Juan](https://mail.google.com/mail/u/0/#inbox/FMfcgzGpFzvBSNgqmRVDRHvdGrzqrZDt)
-- Tell questioners](https://blot.im/questions/576)
-- Tell [N](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqPzKcnRQlXQVVcbdRvLVxtjnD) when you can switch between dropbox and git without bugs
 
 Explain that the git client uses the master branch and repos from github will use main in the docs and on the dashboard then tell [N](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqPzKcnQKsQQNkzcRpvCWpWKTr)
 
 Inject title metadata into h1 tag for all the text-based default templates and tell [questioners](https://blot.im/questions/795)
-
-Expose unlock and verify options for both dropbox and google drive clients
 
 Make the magazine template respect the date settings and follow up [with questioner](https://blot.im/questions/773)
 
@@ -231,34 +297,6 @@ Make retreiving files from server case-insentive
 
 Reach out to Wesley about using [notebook](https://github.com/WesleyAC/notebook)'s features in a template
 
-Improve Google Drive client:
-- Uncaught exceptions raised by verify seem to not be caught properly by the try/catch blocks. Simulate an exception and work out why.
-- Resolve error which occurred when I disconnected a blog from Google Drive client, a folder lock issue, which wasn't surfaced properly.
-- Weird issue with connecting multiple blogs to same google drive account – the file from one appeared in the folder for the other. Also strangeness possibly related to an empty blog folder?
-- How do we handle two files with same name and same parent? How does our fileId:path hash handle this? Make sure we delete the right file. Will file.title as opposed to file.name give us the deduped version?
-  - Bug: move file with deduplicated name from sub folder to other folder
-  - download should check for an existing file with same name but different fileId and dedupe before storing the path?
-- Handle revoked credentials without tanking server
-- Fix bug which occurs when:
-  - move a folder containing a folder containing a file from within your google drive, into your blog folder
-  - then move the folder within the folder out of the folder but keep it within your blog folder. 
-  - Blot will never transfer the file inside
-- Fix bug which occurs when:
-  - move a folder full of files from within google drive into your blog's folder
-  - Blot will recieve the folder but not the files inside
-- Create test app for local use
-- Can the google drive client handle a server restart during setup?
-- database.folder should throw ENOENT and EEXIST errors for del, set, move etc.
-- Error handling
-  - Retry when we get google drive's This service is not available error
-  - Handle storage quota errors
-  - Handle 429 errors with exponential backoff retry
-- Add percentage progress and a status bar to the folder copying setup page
-- Add `folder.rename` method to `app/sync` to take advantage of Google Drive's true rename feature
-- Add a way for sync/build to accept a ctime as an option. We can't set this at the operating system level but google drive's API does return a createdTime value and we could use this as the true file's created date, rather than the date the file is made on the server
-- Work out if we can test this using Mocks
-- `write` should use the best method for large file uploading
-- `download` Should nicely handle the export of various Google Doc formats
 
 Prevent full disk from affecting access to people's blogs. 
 - switch into a read-only mode?
@@ -432,7 +470,7 @@ Server changes
 
 Add [line numbers](https://github.com/wcoder/highlightjs-line-numbers.js/) to highlight.js hljs code tags
 
-Support [Obsidian's syntax for embedding files](https://help.obsidian.md/How+to/Embed+files) and images, and tell [John](https://mail.google.com/mail/u/0/#inbox/FMfcgzGkbDftzhXHGrmzXrjtcMbGrmxM) and [Robert](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlksJFbBlWtzMHgcxcdBRBhQSJ)
+Support [Obsidian's syntax for embedding files](https://help.obsidian.md/How+to/Embed+files) and images, and tell [John](https://mail.google.com/mail/u/0/#inbox/FMfcgzGkbDftzhXHGrmzXrjtcMbGrmxM) and [Robert](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlksJFbBlWtzMHgcxcdBRBhQSJ) and [Levo](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrcrrDnssHhbwmzzNFnSbMJqKh)
 
 Migrate from mailgun to SES, mailgun's javascript sdk [seems](https://github.com/mailgun/mailgun-js/issues/122) [like](https://github.com/mailgun/mailgun-js#setup-client) a mess.
 
@@ -451,17 +489,15 @@ Improvements to brochure:
 - Personalize the documentation for logged in customers
 - Add [contributor](https://api.github.com/repos/davidmerfield/blot/contributors) / [language](https://api.github.com/repos/davidmerfield/blot/languages) and repo information to source code page using GitHub API.
 
-Improvements to Wikilinks feature:
-- fix bug with apostrophe's and tell [Roberto](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqRGVKGmtpJxgwshqLWBWXcFdL)
-- use iaWriter spec to make [the lookup more flexible](https://ia.net/writer/support/general/wikilinks#:~:text=How%20Wikilinks%20Work,the%20same%20name.)
-- test with non-[[Wikilinks]] options in Obsidian
-- add support for other (non-Obsidian) wikilink styles (i.e. title-based?)
-- use the location of the nearest `.obsidian` directory to determine the 'root' against which to resolve styles?
-- support Obsidian-style media embedding and tell [questioners](https://blot.im/questions/746)
-- wikilinks to images should [embed the image](https://blot.im/questions/746)
-- look up the config in the the nearest `.obsidian` directory to determine whether shortest, relative or absolute wikilinks are in use?
-- test with all Obsidian new link settings (shortest, relative and absolute)
-- add more resolution tolerance and tell [Jonathan](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmvBqpKMNBvlKBSWRLHJWdqDnC)
+Improve wikilinks lookup algorithm:
+- [ ] Add support for 'shortest path where possible' on Obsidian
+  - [ ] search current directory for filename
+  - [ ] search subdirectories for filename
+  - [ ] search parent directories for filename
+- [ ] Add support for 'absolute path' on Obsidian when the vault is a sub directory of your blog folder
+  - [ ] How best to accomplish this?
+
+Support Obsidian-style media embedding and tell [questioners](https://blot.im/questions/746)
 
 Improvements to simple local server (npm run local):
 - Consider using [redis-mock](https://github.com/yeahoffline/redis-mock) and [mockery](https://github.com/mfncooper/mockery) 
@@ -613,7 +649,7 @@ com/mail/u/0/#inbox/1588e3df7489b554)
 - Move to data directory for templates
   - Serve the template directory as a static folder, allowing things like favicon.png and humans.txt to not become blog posts. Follow up with [Jamie](https://mail.google.com/mail/u/0/#all/FMfcgxwBVMpMKkNJwJtvbQVFvbmHqHpl)
 - Re-do url redirector to use route-parser and properly support regular expressions
-- Add support for paginated list of entries on other pages and tell [Kevin](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLhlvZxhQwWfJmKhnXgkPnmJC) and [Eli](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDJhGpffNsZDjCszcstGVsGh) and [Sven](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJhhfPCqLCXWxtnJsxNfWKdM) and [Nikhil](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrvCRFcMTRcgMJdcCkxSNChXq) and [Adam](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMsQczfjJBHpBSlxTmgxXMQKr) and [Madino](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJXflPbzPWJQdgCxxrSWbzRDWT) and [Ryan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsdFCmRCKzvxTgchlZJzdhwQd)
+- Add support for paginated list of entries on other pages and [Dan](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrcrtWVPZdQnHxXtmFsxDtWVrV) tell [Kevin](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLhlvZxhQwWfJmKhnXgkPnmJC) and [Eli](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDJhGpffNsZDjCszcstGVsGh) and [Sven](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJhhfPCqLCXWxtnJsxNfWKdM) and [Nikhil](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrvCRFcMTRcgMJdcCkxSNChXq) and [Adam](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMsQczfjJBHpBSlxTmgxXMQKr) and [Madino](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJXflPbzPWJQdgCxxrSWbzRDWT) and [Ryan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsdFCmRCKzvxTgchlZJzdhwQd)
 - Add dynamic querying of entry list and tell [Naoki](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMjtCWmHCBZWsVPTCftbQCZTn)
 - Fix bug with filtering paginated list of entries and tell [Roy](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVgrQJWNPHHvdxnMtWCGJkZdM) and [Josh](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVzrFNFzLzbWrssWzbrSvtpTm) and [Logan](https://twitter.com/LoganGreer)
 - Add a popular entry list

@@ -86,9 +86,9 @@ break-inside: avoid;
 
 <div class="side">
   <div class="left">
-    <h1 class="inline" style="font-size:24px;line-height: 36px;font-weight:400">Blot is a blogging platform with no interface. It turns a folder into a website.</h1>
+    <h1 class="inline" style="font-size:24px;line-height: 36px;font-weight:400">Blot turns a folder into a website.</h1>
         <p style="margin-top: 2.4rem">
-      <a class="textli" href="/videos/publishing-with-blot.mp4">{{> playsvg}}<strong>Watch the film</strong><span style="display: block;opacity: 0.5">Introduction &thinsp;&middot;&thinsp; 09:39</span></a>
+      <a class="textli" href="/videos/publishing-with-blot.mp4">{{> playsvg}}<strong>Watch the video</strong><span style="display: block;opacity: 0.5">Introduction &thinsp;&middot;&thinsp; 09:39</span></a>
     </p>
 <!--     <p>Because there are just files and folders, you can write with your favorite text-editor. You can turn a folder full of images into a photography website. </p>
  -->      </div>
@@ -175,7 +175,7 @@ break-inside: avoid;
 
 
 
-   
+   <!-- http://loryjs.github.io/lory/ -->
 <div class="module">
          <a href="/templates" class="arrow-link">
       <b>Templates</b>
@@ -187,7 +187,7 @@ break-inside: avoid;
     padding-left: 12px
    }
    .tmplw a {flex-basis: 100%;box-sizing: border-box;padding: 0 0 0 0;color: inherit;margin-top: 1.45em;display: flex;}
-   .tmplw a img {width: 47%;height: auto;border:1px solid var(--light-border-color);border-radius: 3px}
+   .tmplw a img {max-width: 47%;aspect-ratio: 1.6 / 1;height: auto;border:1px solid var(--light-border-color);border-radius: 3px}
    .tmplw .arrow-link :nth-child(2) {opacity: 1}
    .tmplw small {font-weight:600;display: none;}
    .tmplw strong {display: block;}
@@ -221,7 +221,7 @@ break-inside: avoid;
 
 
 
-<!-- 
+
     <div class="module">
       <a href="/questions" class="arrow-link">
       <b>Questions</b>
@@ -229,11 +229,10 @@ break-inside: avoid;
     </a>
 
   <ul style="margin:0;padding: 0;list-style-type: none">
-    <li style="padding: 0 0 8px 0;"><span style="color:var(--accent-color);">How do I place this in that?</span><br><span style="background:rgba(0,0,0,0.1);padding:0 2px;margin:0 0 0 -2px;display: inline-block;border-radius: 3px;font-size: var(--small-text-size)">Asked 3 hours ago</span> <span style="background:rgba(0,0,0,0.1);padding:0 2px;margin:0 0 0 -2px;display: inline-block;border-radius: 3px;font-size: var(--small-text-size)">4 answers</span></li>
-     <li style="padding: 8px 0;border-top:1px solid var(--light-border-color)"><span style="color:var(--accent-color);">Adding password protection to a blog?</span><br><span style="background:rgba(0,0,0,0.1);padding:0 2px;margin:0 0 0 -2px;display: inline-block;border-radius: 3px;font-size: var(--small-text-size)">Asked 6 hours ago</span></li>
- <li style="padding: 8px 0;border-top:1px solid var(--light-border-color);border-bottom:1px solid var(--light-border-color)"><span style="color:var(--accent-color);">How do I place this in that?</span><br><span style="background:rgba(0,0,0,0.1);padding:0 2px;margin:0 0 0 -2px;display: inline-block;border-radius: 3px;font-size: var(--small-text-size)">Asked 8 hours ago</span></li>     
+    {{#related}}
+    <li style="padding: 0 0 8px 0;"><a href="/questions/{{id}}"><span style="color:var(--accent-color);">{{title}}</span><br><span style="background:rgba(0,0,0,0.1);padding:0 2px;margin:0 0 0 -2px;display: inline-block;border-radius: 3px;font-size: var(--small-text-size)">{{reply_count}} replies</span> <span style="background:rgba(0,0,0,0.1);padding:0 2px;margin:0 0 0 -2px;display: inline-block;border-radius: 3px;font-size: var(--small-text-size)">4 answers</span></li>{{/related}}
 </ul>
-  </div>  -->     
+  </div>      
 <!-- <div class="module">
     <a href="/about/news" class="arrow-link">
       <b>News</b>

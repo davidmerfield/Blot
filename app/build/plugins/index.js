@@ -198,7 +198,7 @@ function loadPlugins(dir) {
     if (name.slice(-3) === ".js") return;
     if (name.slice(-4) === ".txt") return;
     if (name === "tests") return;
-    
+
     var plugin = require("./" + name);
 
     if (plugin.disabled) return;
@@ -238,8 +238,10 @@ function loadPlugins(dir) {
       _plugins.push(plugin);
     }
 
+    // the ordering is important, we need the wikilinks
+    // plugin to run before the typset plugin
     if (plugin.prerender) {
-      _prerenderers.push(plugin);
+      _prerenderers.unshift(plugin);
     }
 
     _list[name] = plugin;

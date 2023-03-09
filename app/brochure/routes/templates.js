@@ -13,6 +13,11 @@ const folderForTemplate = {
   reference: "frances",
 };
 
+templates.get('/', (req, res, next)=>{
+  res.locals.fullWidth = true;
+  next();
+})
+
 templates.get("/:template", require("./featured"));
 
 templates.get("/:template", function (req, res, next) {

@@ -82,12 +82,14 @@ module.exports = (function () {
     redis.zcard(entriesKey, callback);
   }
 
+  // includes deleted entries
   function getAllIDs(blogID, callback) {
     var allKey = listKey(blogID, "all");
 
     redis.zrevrange(allKey, 0, -1, callback);
   }
 
+  // includes deleted entries
   function getAll(blogID, options, callback) {
     if (typeof options === "function" && !callback) {
       callback = options;
@@ -161,6 +163,7 @@ module.exports = (function () {
     });
   }
 
+  // includes deleted entries
   function each(blogID, dothis, callback) {
     ensure(blogID, "string").and(dothis, "function").and(callback, "function");
 
@@ -217,8 +220,9 @@ module.exports = (function () {
     var listName = options.list || "entries";
     var key = listKey(blogID, listName);
 
-    redis.zrevrange(key, start, end, function (error, entryIDs) {
-      if (error) throw error;
+    redis.zrevrange(key, start, end, function (err, entryIDs) {
+      // todo add err as first parameter of callback
+      if (err) return callback([]);
 
       if (!options.full && !options.skinny) return callback(entryIDs);
 
