@@ -1,12 +1,27 @@
-<p>Import posts to Blot from other platforms:</p>
+<p>Import posts to Blot from other platforms. The importers are generally in beta and may be buggy – please <a href="/contact">contact us</a> to report any issues.</p>
 
-<a href="{{{importBase}}}/wordpress">Wordpress</a>
+<ul>
+  <li><a href="{{{importBase}}}/wordpress">Wordpress</a></li>
+</ul>
 
 {{#imports.length}}
 <p>Your imports:</p>
 
-{{#imports}}
- - {{name}}<br />
-{{/imports}} 
+{{#imports}} 
+<div style="display: flex"> <strong>{{name}}</strong> <em>Started: {{started}}</em> {{#complete}}<a href="{{{importBase}}}/download/{{id}}">Download result</a>
+<form  method="post" action="{{{importBase}}}/delete/{{id}}">
+  <button type="submit">Delete</button>
+</form>
+{{/complete}}
 
+{{^complete}}
+currently working...
+<form method="post" action="{{{importBase}}}/delete/{{id}}">
+  <button type="submit">Cancel</button>
+</form>
+{{/complete}}
+</div>
+<hr />
+{{/imports}} 
+<p>Imports are retained for 1 week before we delete them from our system.</p>
 {{/imports.length}}
