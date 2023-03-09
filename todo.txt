@@ -1,5 +1,7 @@
 Add support for Indian payments and follow up with Indian customers like [Varun](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrcjKRbHhGvtKJKXfGdwDzjTML)
 
+---
+
 I need to make it clearer which files are causing which menu links 
 
 Add export button to overdue subscription page
