@@ -1,11 +1,21 @@
+<div style="padding: 11px 26px;">
 <p>The Wordpress importer will turn an XML file into an archive (.zip) containing markdown files</p>
 
+<p style="max-width: 600px">This importer generates an archive (.zip) of Markdown files and images. Once the import has finished, you can download the result, unzip and then add to your blog folder.</p>
+
 <form method="POST" enctype='multipart/form-data' action="{{{importBase}}}/wordpress">
-  Upload wordpress XML export file
   <input type="hidden" name="_csrf" value="{{csrftoken}}">
-  <input type="file" id="exportUpload" name="exportUpload" />
+  <label style="border-radius:4px;border:1px solid rgba(0,0,0,0.05);display:block;padding: 11px 20px;margin-bottom:6px;cursor:pointer;box-sizing: border-box;">
+      
+      <span style="margin-top:0;color:rgb(158, 154, 152);font-size:14px;display:inline;margin-right:10px">Select Wordpress XML file:</span>
+
+      <input type="file" id="exportUpload" name="exportUpload" style="display:inline;margin:0;cursor: pointer;">
+      </label>
+
   <div class="buttons">
     <button type="submit">Upload XML file</button>
     <a href="{{{importBase}}}">Cancel</a>
   </div>
 </form>
+
+</div>

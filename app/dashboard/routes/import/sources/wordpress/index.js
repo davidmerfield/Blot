@@ -2,7 +2,6 @@ var fs = require("fs-extra");
 var async = require("async");
 var parseXML = require("xml2js").parseString;
 var colors = require("colors/safe");
-var log = console.log;
 var Item = require("./item");
 
 if (require.main === module) {
@@ -24,7 +23,7 @@ if (require.main === module) {
   console.log(colors.dim("Starting Wordpress import from"), sourceFile);
   console.log(colors.dim("Output directory:"), outputDirectory);
 
-  main(sourceFile, outputDirectory, options, function (err) {
+  main(sourceFile, outputDirectory, console.log, options, function (err) {
     if (err) throw err;
 
     console.log();
@@ -33,7 +32,7 @@ if (require.main === module) {
   });
 }
 
-function main(sourceFile, outputDirectory, options, callback) {
+function main(sourceFile, outputDirectory, status, options, callback) {
   fs.emptyDirSync(outputDirectory);
 
   fs.readFile(sourceFile, "utf-8", function (err, xml) {
@@ -80,7 +79,12 @@ function main(sourceFile, outputDirectory, options, callback) {
       async.eachOfSeries(
         items,
         function (item, index, done) {
-          log(colors.dim(++index + "/" + totalItems), item.title[0].trim());
+          status("Importing " + item.title[0].trim());
+          status("progress=" + (++index + "/" + totalItems));
+          console.log(
+            colors.dim(++index + "/" + totalItems),
+            item.title[0].trim()
+          );
           injectAttachedThumbnail(item, result.rss.channel[0].item);
           Item(item, outputDirectory, done);
         },
