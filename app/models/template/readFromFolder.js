@@ -1,6 +1,7 @@
 var fs = require("fs-extra");
 var basename = require("path").basename;
 var getMetadata = require("./getMetadata");
+var setMetadata = require("./setMetadata");
 var getView = require("./getView");
 var async = require("async");
 var makeID = require("./util/makeID");
@@ -26,7 +27,11 @@ module.exports = function readFromFolder(blogID, dir, callback) {
         if (err) return callback(err);
 
         loadPackage(id, dir, function (err, views) {
-          if (err) return callback(err);
+          const errors = {};
+
+          if (err) {
+            errors["package.json"] = err.message;
+          }
 
           async.eachSeries(
             contents,
@@ -51,14 +56,24 @@ module.exports = function readFromFolder(blogID, dir, callback) {
                     // we so ignore this error, and create the view object as needed
                     view = view || {};
                     view.name = view.name || name;
-                    if (views[name])
+
+                    // Views might not exist if there's an error
+                    // with the template's package.json file
+                    if (views && views[name])
                       for (var i in views[name]) view[i] = views[name][i];
 
                     view.content = content;
                     view.url = view.url || "/" + view.name;
 
                     setView(id, view, function (err) {
-                      if (err) return next();
+                      // we expose this error to the developer on
+                      // the preview subdomain
+                      if (err) {
+                        errors[view.name] = improveMustacheErrorMessage(
+                          err,
+                          content
+                        );
+                      }
 
                       next();
                     });
@@ -68,7 +83,9 @@ module.exports = function readFromFolder(blogID, dir, callback) {
             },
             function (err) {
               if (err) return callback(err);
-              getMetadata(id, callback);
+              setMetadata(id, { errors }, function () {
+                getMetadata(id, callback);
+              });
             }
           );
         });
@@ -78,10 +95,58 @@ module.exports = function readFromFolder(blogID, dir, callback) {
 };
 
 function loadPackage(id, dir, callback) {
-  fs.readJson(dir + "/" + PACKAGE, function (err, metadata) {
-    if (err) return callback(null, {});
-    savePackage(id, metadata, callback);
+  fs.readFile(dir + "/" + PACKAGE, "utf-8", function (err, contents) {
+    // Package.json is optional
+    if (err && err.code === "ENOENT") {
+      return callback(null, {});
+    }
+
+    if (err) {
+      return callback(new Error("Invalid package.json file: " + err.code));
+    }
+
+    try {
+      const metadata = JSON.parse(contents);
+
+      savePackage(id, metadata, callback);
+    } catch (err) {
+      const error = new Error(improveJSONErrorMessage(err, contents));
+      return callback(error);
+    }
   });
+}
+
+// Maps 'at position 505' to
+function improveJSONErrorMessage(err, contents) {
+  try {
+    const regex = /at position (\d+)$/gm;
+    const found = [...err.message.matchAll(regex)][0];
+    const position = parseInt(found[1]);
+    const messageWithoutLocation = err.message.slice(0, found.index).trim();
+    const lines = contents.slice(0, position).split("\n");
+    const lineNumber = lines.length;
+    const linePosition = lines[lineNumber - 1].length;
+    return `${messageWithoutLocation} at position ${linePosition} on line ${lineNumber}`;
+  } catch (e) {
+    return e.message;
+  }
+}
+
+// Maps 'Unclosed section "entriess" at 1446' to
+// `Unclosed section "entriess" on line 12`
+function improveMustacheErrorMessage(err, contents) {
+  try {
+    const regex = /at (\d+)$/gm;
+    const found = [...err.message.matchAll(regex)][0];
+    const position = parseInt(found[1]);
+    const messageWithoutLocation = err.message.slice(0, found.index).trim();
+    const lines = contents.slice(0, position).split("\n");
+    const lineNumber = lines.length;
+    const linePosition = lines[lineNumber - 1].length;
+    return `${messageWithoutLocation} at position ${linePosition} on line ${lineNumber}`;
+  } catch (e) {
+    return e.message;
+  }
 }
 
 function badPermission(blogID, templateID) {
