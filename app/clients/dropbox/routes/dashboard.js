@@ -103,7 +103,16 @@ dashboard.get("/redirect", function (req, res) {
   redirectUri =
     req.protocol + "://" + req.get("host") + "/clients/dropbox/authenticate";
 
-  req.session.blogToAuthenticate = req.blog.handle;
+  // It's important that sameSite is set to false so the
+  // cookie is exposed to us when OAUTH redirect occurs
+  res.cookie("blogToAuthenticate", req.blog.handle, {
+    domain: "",
+    path: "/",
+    secure: true,
+    httpOnly: true,
+    maxAge: 15 * 60 * 1000, // 15 minutes
+    sameSite: 'Lax',
+  });
 
   if (req.query.full_access) {
     key = config.dropbox.full.key;
@@ -156,6 +165,8 @@ dashboard.get("/authenticate", function (req, res) {
   //   console.log('here, redirecting cause of session');
   //   return res.redirect(req.baseUrl);
   // }
+
+  console.log('here tooo...');
 
   const { code, full_access } = req.query;
   let redirectUri =

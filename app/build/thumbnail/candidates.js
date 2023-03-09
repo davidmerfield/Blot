@@ -1,9 +1,10 @@
-var cheerio = require("cheerio");
+const cheerio = require("cheerio");
+const URL = require("url");
 
 module.exports = function (metadata, html) {
-  var candidates = [];
+  const candidates = [];
 
-  var $ = cheerio.load(html, { decodeEntities: false });
+  const $ = cheerio.load(html, { decodeEntities: false });
 
   // Would be nice to resolve this relative to
   // the location of the entry so we could
@@ -12,8 +13,37 @@ module.exports = function (metadata, html) {
     candidates.push(metadata.thumbnail);
   }
 
+  $(".videoContainer iframe").each(function () {
+    try {
+      // handle vimeo
+      const thumbnail = $(this).attr("data-thumbnail");
+
+      if (thumbnail) {
+        candidates.push(thumbnail);
+        return;
+      }
+
+      // handle youtube
+      const { hostname, pathname } = URL.parse($(this).attr("src"));
+
+      if (hostname !== "www.youtube-nocookie.com") return;
+
+      const id = pathname.slice("/embed/".length);
+
+      if (!id) return;
+
+      candidates.push(`https://i.ytimg.com/vi/${id}/maxresdefault.jpg`);
+      candidates.push(`http://img.youtube.com/vi/${id}/mqdefault.jpg`);
+
+      // see here for a discussion of youtube thumbnail URLs:
+      // https://stackoverflow.com/questions/2068344/how-do-i-get-a-youtube-video-thumbnail-from-the-youtube-api
+    } catch (e) {
+      return;
+    }
+  });
+
   $("img").each(function () {
-    var src = $(this).attr("src");
+    const src = $(this).attr("src");
 
     // The img lacks an src attribute – it happens!
     if (!src) return;

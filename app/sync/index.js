@@ -79,7 +79,7 @@ function sync(blogID, callback) {
 
     const timeout = setTimeout(function () {
       log("Warning: sync exceeded 10 minutes");
-      email.LONG_SYNC();
+      // email.LONG_SYNC();
     }, 10 * 60 * 1000); // 10 minutes
 
     // Right now localPath returns a path with a trailing slash for some

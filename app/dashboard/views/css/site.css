@@ -2332,7 +2332,7 @@ form a {color: #0070e8}
 
 #status {
   position: relative;
-  padding-left: 1.25em;
+  margin-left: 1.25em;
 }
 
 #status:before {
@@ -2342,7 +2342,7 @@ form a {color: #0070e8}
   font-size: 0.8em;
   border-radius: 100%;
   position: absolute;
-  left: 0;
+  left: -1.5em;
   top: 50%;
   margin-top:-0.5em;  
 }

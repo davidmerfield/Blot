@@ -150,6 +150,14 @@ module.exports = function (req, res, _next) {
                 output = UglifyJS.minify(output, { fromString: true }).code;
             } catch (e) {}
 
+            if (res.headerSent) {
+              console.log(
+                "headerSent about to trip for",
+                req.headers["x-request-id"] && req.headers["x-request-id"],
+                req.protocol + "://" + req.hostname + req.originalUrl
+              );
+            }
+
             res.header(CONTENT_TYPE, viewType);
             res.send(output);
           });

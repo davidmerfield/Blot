@@ -17,6 +17,7 @@ form.use(require("./rateLimit"));
 // Used to give context to the user when not logged in.
 // E.g. please log in to access the Services page
 var DASHBOARD_PAGE_DESCRIPTION = {
+  "/questions/ask": "ask a question",
   "/settings/services": "access services",
   "/settings/urls/redirects": "set up redirects",
   "/settings/services/404s": "view 404s",

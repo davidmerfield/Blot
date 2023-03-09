@@ -18,4 +18,4 @@ Discuss the following and no more:
 
 Find PRs using this search query:
 
-https://github.com/davidmerfield/Blot/pulls?q=sort%3Aupdated-asc+is%3Amerged+updated%3A%3E%3D2021-01-08
+https://github.com/davidmerfield/Blot/pulls?q=sort%3Aupdated-asc+is%3Amerged+updated%3A%3E%3D2022-02-10+author%3A%40me+

@@ -39,8 +39,6 @@ Does out text actually get struck out? Looks like it does. Hello is a designer a
 5. How can I get this to work on windows?
 6. Any other ways you can make this script better?
 
-![Taken from the Bedroom Society, a collection of sheets.](http://mineisyours.net.au/content/01-articles/01-monday/01-klo/01.jpg)
-
 I just added RSS feeds to each blog. A link to your feed is in the footer of your blog. Here is [my feed](/feed.rss). While I was in the mood for XML I added a [site map](/sitemap.xml) to each blog and a [robots.txt](/robots.txt) file so Google can index your posts easily. Here is while I was in the mood for XML I added to each blog and file so Google can index your posts easily.
 
 Hello is a designer and writer. Recent work has touched on a range of topics, including the relationship of movement and interaction, the history of visual identity and branding in the arts, and the future of the museum in the digital age. His essay on the rise of graphic design MFA programs, "School Days," was published in the Walker Art Center's Graphic Design: Now in Production catalogue in 2011.

@@ -15,5 +15,5 @@ echo "[`date -u +%Y-%m-%dT%T.%3NZ`] Finished renewal of wildcard certificate"
 # We reload nginx/openresty manually because the command invoked
 # by $ACME doesn't call openresty, it calls nginx
 echo "[`date -u +%Y-%m-%dT%T.%3NZ`] Beginning reload of nginx/openresty" 
-$OPENRESTY -s reload
+$OPENRESTY -s stop && $OPENRESTY -s start
 echo "[`date -u +%Y-%m-%dT%T.%3NZ`] Finished reload of nginx/openresty" 

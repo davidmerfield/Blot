@@ -8,7 +8,10 @@ const moment = require("moment");
 const fs = require("fs-extra");
 const redirector = require("./redirector");
 const trace = require("helper/trace");
-const VIEW_DIRECTORY = __dirname + "/data/views";
+const VIEW_DIRECTORY =
+  process.env.FAST === "true"
+    ? __dirname + "/views"
+    : __dirname + "/data/views";
 const PARTIAL_DIRECTORY = VIEW_DIRECTORY + "/partials";
 
 fs.ensureDirSync(VIEW_DIRECTORY);
@@ -47,10 +50,6 @@ brochure.locals.price = "$" + config.stripe.plan.split("_").pop();
 brochure.locals.interval =
   config.stripe.plan.indexOf("monthly") === 0 ? "month" : "year";
 
-const partials = require("fs-extra")
-  .readdirSync(PARTIAL_DIRECTORY)
-  .filter((i) => i.endsWith(".html"))
-  .map((i) => i.slice(0, i.lastIndexOf(".")));
 
 function trimLeadingAndTrailingSlash(str) {
   if (!str) return str;
@@ -65,16 +64,22 @@ brochure.use(function (req, res, next) {
     const body =
       body_template || trimLeadingAndTrailingSlash(req.path) || "index.html";
     const layout = res.locals.layout || PARTIAL_DIRECTORY + "/layout.html";
-    
-    console.log('body', body);
+
     res.locals.partials = { body };
+
+const partials = require("fs-extra")
+  .readdirSync(PARTIAL_DIRECTORY)
+  .filter((i) => i.endsWith(".html"))
+  .map((i) => i.slice(0, i.lastIndexOf(".")));
+
 
     partials.forEach(
       (partial) => (res.locals.partials[partial] = `partials/${partial}.html`)
     );
 
-    _render.call(this, layout, function(err,html){
+    _render.call(this, layout, function (err, html) {
       if (err) {
+        console.log("Render error:", err);
         return res.req.next();
       }
       res.send(html);
