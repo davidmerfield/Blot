@@ -1,16 +1,3 @@
-<div style="padding: 11px 20px;margin:0 0;max-width: 500px">
-  {{#client}}
-  <p>The folder for <b>{{blog.title}}</b> is synchronized from <b>{{display_name}}</b>. If you would like to switch to another client, you can do so without disruption. Blot will transfer the contents of your folder automatically.
-  </p>
-
-  <hr>
-
-  {{/client}}
-
-  <p>How would you like to sync the folder for <b>{{blog.title}}</b>? </p>
-</div>
-  <!-- <label>Clients</label> -->
-
 <style type="text/css">
 
 button[name="client"] {max-width:475px;margin-bottom: 0;padding: 10px 0;border-top:1px solid rgba(0,0,0,0.05);text-align: left;display: block;width: 100%;color:#0070e8;padding: 11px 20px;}
@@ -24,8 +11,11 @@ button[name="client"]:after {
 button[name="client"]:hover {background: rgba(0,0,0,0.03);cursor: pointer;}
 </style>
 
-{{#clients}}
+<div style="padding: 11px 20px;margin:0 0;max-width: 500px">
+  <p>How would you like to sync the folder for <b>{{blog.title}}</b>? </p>
+</div>
 
+{{#clients}}
 <form method='post' style="padding:0 20px;max-width: 500px">
 
   {{#setup}}
