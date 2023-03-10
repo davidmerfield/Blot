@@ -1,20 +1,18 @@
-
 Importer
 - Make cancelling an import possible
 - Can we offload an import into a resource constrained child process?
 - Can we queue up imports and process them one at a time?
-- Can we surface import errors
 - Add button to move import into folder directly
 - Add nice import step under 'Services' and as part of sign up
 - Fix bug with script to import wordpress posts and follow up with [Simon](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGCtMPcJhlmcdNvWwtWvgzWJvZ)
-- Make it possible to restore from import
+- Make it possible to restore a blog from export
 - Improve Ghost importer and tell [Vin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWSwbGRtFTnJCPCXzVHntQPtC)
 - Create importer script for [John's posts from flickr](https://mail.google.com/mail/u/0/#inbox/166da622325d19e7)
 - Create importer script for tumblr text files and tell [Sawyer](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVMhRNdQhfDwlXsqqFNgmKfTk)
 - Create importer script for Weebly and tell [David](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTjzpgHQZMJSsvjktggRFNpDw)
 - Map excerpt metadata to summary for Jekyll converter importer
 - Look into how Hexo has written imports for [blogger](https://github.com/hexojs/hexo-migrator-blogger), [joomla](https://github.com/welksonramos/hexo-migrator-joomla), [rss](https://github.com/hexojs/hexo-migrator-rss), [wordpress](https://github.com/hexojs/hexo-migrator-wordpress).
-- Add importer for Twitter and sell [Sawyer](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVMhRNdQhfDwlXsqqFNgmKfTk)
+- Add an importer for Twitter and sell [Sawyer](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVMhRNdQhfDwlXsqqFNgmKfTk)
 
 ---
 

@@ -50,33 +50,37 @@ function main(sourceFile, outputDirectory, status, options, callback) {
     ) {
       if (err) return callback(err);
 
-      console.log(result.rss.channel[0].title[0]);
-      console.log(colors.dim("Site URL:"), result.rss.channel[0].link[0]);
-      console.log(
-        colors.dim("Export Version"),
-        result.rss.channel[0]["wp:wxr_version"][0]
-      );
-
-      // If you want to see other properties available,
-      // log this to STDOUT
-      // console.log(result.rss.channel);
-
-      if (options.filter) {
-        console.log("filter by:", options.filter);
-        result.rss.channel[0].item = result.rss.channel[0].item.filter(
-          function (item) {
-            return (
-              item.title[0]
-                .toLowerCase()
-                .indexOf(options.filter.toLowerCase()) > -1
-            );
-          }
+      try {
+        console.log(result.rss.channel[0].title[0]);
+        console.log(colors.dim("Site URL:"), result.rss.channel[0].link[0]);
+        console.log(
+          colors.dim("Export Version"),
+          result.rss.channel[0]["wp:wxr_version"][0]
         );
+
+        // If you want to see other properties available,
+        // log this to STDOUT
+        // console.log(result.rss.channel);
+
+        if (options.filter) {
+          console.log("filter by:", options.filter);
+          result.rss.channel[0].item = result.rss.channel[0].item.filter(
+            function (item) {
+              return (
+                item.title[0]
+                  .toLowerCase()
+                  .indexOf(options.filter.toLowerCase()) > -1
+              );
+            }
+          );
+        }
+
+        var items = result.rss.channel[0].item;
+
+        var totalItems = items.length;
+      } catch (e) {
+        return callback(new Error("Invalid XML"));
       }
-
-      var items = result.rss.channel[0].item;
-
-      var totalItems = items.length;
 
       async.eachOfSeries(
         items,

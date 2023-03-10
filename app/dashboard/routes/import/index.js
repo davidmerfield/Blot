@@ -44,6 +44,9 @@ Import.get("/", async function (req, res) {
       let size;
       let started;
       let identifier;
+      let lastStatus;
+      let error;
+
       try {
         size = prettySize(
           Math.round(
@@ -63,12 +66,28 @@ Import.get("/", async function (req, res) {
           "utf-8"
         );
       } catch (e) {}
-      
+
+      try {
+        error = fs.readFileSync(
+          join(tempDir, "import", req.blog.id, i, "error.txt"),
+          "utf-8"
+        );
+      } catch (e) {}
+
+      try {
+        lastStatus = fs.readFileSync(
+          join(tempDir, "import", req.blog.id, i, "status.txt"),
+          "utf-8"
+        );
+      } catch (e) {}
+
       return {
         id: i,
         name: i.split("-")[0],
         identifier,
         size,
+        error,
+        lastStatus: !!error ? error : lastStatus,
         started,
         complete: !!size,
       };
@@ -106,7 +125,7 @@ Import.post("/delete/:importID", async function (req, res) {
     return res.message(req.baseUrl, new Error("Failed to remove import"));
   }
 
-  res.message(req.baseUrl, "Deleted import");
+  res.message(req.baseUrl, "Removed import");
 });
 
 Import.get("/status", function (req, res) {
@@ -153,27 +172,25 @@ Import.route("/wordpress")
     res.locals.breadcrumbs.add("Wordpress", "wordpress");
     res.render("import/wordpress");
   })
-  .post(function (req, res, next) {
+  .post(function (req, res) {
     const importID = "Wordpress-" + Date.now();
+
     const uploadDir = join(tempDir, "import", req.blog.id, importID);
+
     fs.ensureDirSync(uploadDir);
+
     const form = new multiparty.Form({
       uploadDir,
       maxFieldsSize,
       maxFilesSize,
     });
 
-    const reportStatus = function (status) {
-      console.log("reporting status", status);
-      // should write to disk somehow
-      client.publish(
-        "import:status:" + req.blog.id,
-        JSON.stringify({ status, importID })
-      );
-    };
-
     form.parse(req, function (err, fields, files) {
-      if (err) return next(err);
+      if (err) {
+        return res.message(req.baseUrl, new Error("Failed to parse upload"));
+      }
+
+      res.message(req.baseUrl, "Began import");
 
       req.body = fields;
       req.files = files;
@@ -183,12 +200,22 @@ Import.route("/wordpress")
 
       fs.ensureDirSync(temporaryOutputDir);
 
-      res.message(req.baseUrl, "Began import");
-
       const identifier = files.exportUpload[0].originalFilename;
       const inputXML = files.exportUpload[0].path;
 
       fs.outputFileSync(join(uploadDir, "identifier.txt"), identifier, "utf-8");
+
+      const lastStatus = join(uploadDir, "status.txt");
+
+      const reportStatus = function (status) {
+        console.log("reporting status", status);
+        // should write to disk somehow
+        client.publish(
+          "import:status:" + req.blog.id,
+          JSON.stringify({ status, importID })
+        );
+        fs.outputFile(lastStatus, status);
+      };
 
       wordpressImporter(
         inputXML,
@@ -197,8 +224,7 @@ Import.route("/wordpress")
         {},
         function (err) {
           if (err) {
-            console.log("err", err);
-            return;
+            return fs.outputFile(join(uploadDir, "error.txt"), err.message);
           }
 
           // zip the image and send it
@@ -212,7 +238,8 @@ Import.route("/wordpress")
           });
 
           archive.on("error", (err) => {
-            console.log("err");
+            fs.outputFile(join(uploadDir, "error.txt"), err.message);
+            return;
           });
 
           // pipe the zip to response
