@@ -2,7 +2,6 @@ var fs = require("fs-extra");
 var async = require("async");
 var parseXML = require("xml2js").parseString;
 var colors = require("colors/safe");
-var log = console.log;
 var Item = require("./item");
 
 if (require.main === module) {
@@ -24,7 +23,7 @@ if (require.main === module) {
   console.log(colors.dim("Starting Wordpress import from"), sourceFile);
   console.log(colors.dim("Output directory:"), outputDirectory);
 
-  main(sourceFile, outputDirectory, options, function (err) {
+  main(sourceFile, outputDirectory, console.log, options, function (err) {
     if (err) throw err;
 
     console.log();
@@ -33,8 +32,10 @@ if (require.main === module) {
   });
 }
 
-function main(sourceFile, outputDirectory, options, callback) {
+function main(sourceFile, outputDirectory, status, options, callback) {
   fs.emptyDirSync(outputDirectory);
+
+  status("Reading Wordpress XML file");
 
   fs.readFile(sourceFile, "utf-8", function (err, xml) {
     if (err) return callback(err);
@@ -49,38 +50,51 @@ function main(sourceFile, outputDirectory, options, callback) {
     ) {
       if (err) return callback(err);
 
-      console.log(result.rss.channel[0].title[0]);
-      console.log(colors.dim("Site URL:"), result.rss.channel[0].link[0]);
-      console.log(
-        colors.dim("Export Version"),
-        result.rss.channel[0]["wp:wxr_version"][0]
-      );
-
-      // If you want to see other properties available,
-      // log this to STDOUT
-      // console.log(result.rss.channel);
-
-      if (options.filter) {
-        console.log("filter by:", options.filter);
-        result.rss.channel[0].item = result.rss.channel[0].item.filter(
-          function (item) {
-            return (
-              item.title[0]
-                .toLowerCase()
-                .indexOf(options.filter.toLowerCase()) > -1
-            );
-          }
+      try {
+        console.log(result.rss.channel[0].title[0]);
+        console.log(colors.dim("Site URL:"), result.rss.channel[0].link[0]);
+        console.log(
+          colors.dim("Export Version"),
+          result.rss.channel[0]["wp:wxr_version"][0]
         );
+
+        // If you want to see other properties available,
+        // log this to STDOUT
+        // console.log(result.rss.channel);
+
+        if (options.filter) {
+          console.log("filter by:", options.filter);
+          result.rss.channel[0].item = result.rss.channel[0].item.filter(
+            function (item) {
+              return (
+                item.title[0]
+                  .toLowerCase()
+                  .indexOf(options.filter.toLowerCase()) > -1
+              );
+            }
+          );
+        }
+
+        var items = result.rss.channel[0].item;
+
+        var totalItems = items.length;
+      } catch (e) {
+        return callback(new Error("Invalid XML"));
       }
-
-      var items = result.rss.channel[0].item;
-
-      var totalItems = items.length;
 
       async.eachOfSeries(
         items,
         function (item, index, done) {
-          log(colors.dim(++index + "/" + totalItems), item.title[0].trim());
+          status(
+            "Processing " +
+              (++index + " of " + totalItems) +
+              " " +
+              item.title[0].trim()
+          );
+          console.log(
+            colors.dim(++index + "/" + totalItems),
+            item.title[0].trim()
+          );
           injectAttachedThumbnail(item, result.rss.channel[0].item);
           Item(item, outputDirectory, done);
         },
