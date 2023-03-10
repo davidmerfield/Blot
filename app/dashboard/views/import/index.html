@@ -1,30 +1,44 @@
 <div style="padding: 11px 26px;">
 {{#imports.length}}
+<div class="live-updates">
 <p><strong>Your imports:</strong></h2>
 
 <style type="text/css">
-  .i {display: flex;padding: 11px 0;border-top:1px solid rgba(0,0,0,0.05);}
+  .i {display: flex;align-items:baseline;padding: 11px 0;border-top:1px solid rgba(0,0,0,0.05);}
   .i:hover {background: rgba(0,0,0,0.02)}
   .i > * {margin:0 1rem;}
   .i > *:first-child {margin-left: 0}
   .i > *:last-child {margin-right: 0}
 </style>
 {{#imports}} 
-<div class="i"><span  style="display:block" class="{{state}} truncate status"></span> <span>from {{name}}</span> <em class="light">{{started}}</em> {{#complete}}<a href="{{{importBase}}}/download/{{id}}">Download result as zip ({{size}})</a>
-<form  method="post" action="{{{importBase}}}/delete/{{id}}">
-  <button type="submit">Delete import</button>
-</form>
+<div class="i" id="{{id}}">
+
+  <span class="{{^complete}}working{{/complete}} status" style="margin-left: 2rem;padding-left: 0.5rem">{{name}}</span> 
+
+  <span style="    color: rgb(158, 154, 152);
+    font-size: 14px;
+">{{identifier}}, {{started}}</span> 
+
+  <span style="flex-grow: 1" id="status-{{id}}" class="truncate"></span>  
+
+  {{#complete}}
+
+  <a href="{{{importBase}}}/download/{{id}}" target="_blank" class="s no-underline" style="line-height:28px;border-radius:4px;padding:11px 20px;font-weight:600;flex-shrink:0;color:#0070e8;border: 1px solid rgba(0,0,0,0.1)">Download result as zip ({{size}})  ↗</a>
+
+  <form  method="post" action="{{{importBase}}}/delete/{{id}}">
+    <button type="submit">Remove import</button>
+  </form>
 {{/complete}}
 
 {{^complete}}
-... Generating result ...
 <form method="post" action="{{{importBase}}}/delete/{{id}}">
-  <button type="submit">Cancel</button>
+  <button type="submit">Cancel import</button>
 </form>
 {{/complete}}
 </div>
 {{/imports}} 
 <br>
+</div>
 {{/imports.length}}
 
 <p style="max-width: 500px">The importer generates an archive of files which you can download, unzip and then add to your site's folder.</p>
@@ -52,51 +66,36 @@ var currentlyLoading;
 var lastStatus;
 var checkAgain;
 
-// var statusContainer = document.getElementById("status");
   
 evtSource.onmessage = function (event) {
 
-  var message = event.data;
-  console.log('here', message);
-  // var message = event.data;
+  const {status, importID} = JSON.parse(event.data);
 
-  // // Map long path to just filename, e.g.
-  // // 'Syncing /foo/bar/baz.txt' => 'Syncing baz.txt'
-  // if (message.startsWith('Syncing /')) {
-  //   var path = message.slice('Syncing '.length);
-  //   var filename = path.split('/').pop();
-  //   message = 'Syncing ' + filename;
-  // } 
+  var statusContainer = document.getElementById("status-" + importID);
+  
+  statusContainer.removeAttribute('data-text');
+  statusContainer.innerHTML = status;
+  truncate(statusContainer);
 
-  // statusContainer.removeAttribute('data-text');
-  // statusContainer.innerHTML = message;
-  // truncate(statusContainer);
+  if (status === "Finished") {
+    // Fetch the latest folder state if we're not
+    // already fetching it.
+    if (currentlyLoading) {
+      checkAgain = true;
+      return;
+    }
 
-  // if (event.data === "Synced") {
-  //   statusContainer.classList.remove('syncing');
-  // } else {
-  //   statusContainer.classList.add("syncing");
-  // }
+    currentlyLoading = true;
 
-  // lastStatus = event.data;
+    if (document.querySelector(".live-updates")) loadFolder(function onLoad() {
+      if (checkAgain === true) {
+        checkAgain = false;
+        return loadFolder(onLoad);
+      }
 
-  // // Fetch the latest folder state if we're not
-  // // already fetching it.
-  // if (currentlyLoading) {
-  //   checkAgain = true;
-  //   return;
-  // }
-
-  // currentlyLoading = true;
-
-  // if (document.querySelector(".live-updates")) loadFolder(function onLoad() {
-  //   if (checkAgain === true) {
-  //     checkAgain = false;
-  //     return loadFolder(onLoad);
-  //   }
-
-  //   currentlyLoading = false;
-  // });
+      currentlyLoading = false;
+    });    
+  } 
 };
 
 function loadFolder(callback) {

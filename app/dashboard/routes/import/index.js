@@ -20,12 +20,12 @@ Import.use((req, res, next) => {
   next();
 });
 
-Import.param("import_id", async (req, res, next) => {
+Import.param("importID", async (req, res, next) => {
   const blogImportDirectory = await fs.realpath(
     join(tempDir, "import", req.blog.id)
   );
   const userSuppliedImportDirectory = await fs.realpath(
-    join(tempDir, "import", req.blog.id, req.params.import_id)
+    join(tempDir, "import", req.blog.id, req.params.importID)
   );
 
   if (!userSuppliedImportDirectory.startsWith(blogImportDirectory)) {
@@ -43,22 +43,38 @@ Import.get("/", async function (req, res) {
     res.locals.imports = imports.map((i) => {
       let size;
       let started;
+      let identifier;
       try {
         size = prettySize(
-          fs.statSync(join(tempDir, "import", req.blog.id, i, "result.zip"))
-            .size / 1000
+          Math.round(
+            fs.statSync(join(tempDir, "import", req.blog.id, i, "result.zip"))
+              .size / 1000
+          )
         );
+      } catch (e) {}
+
+      try {
         started = moment(parseInt(i.split("-")[1])).fromNow();
       } catch (e) {}
 
+      try {
+        identifier = fs.readFileSync(
+          join(tempDir, "import", req.blog.id, i, "identifier.txt"),
+          "utf-8"
+        );
+      } catch (e) {}
+      
       return {
         id: i,
         name: i.split("-")[0],
+        identifier,
         size,
         started,
         complete: !!size,
       };
     });
+
+    console.log(res.locals.imports);
   } catch (e) {
     //
   }
@@ -66,7 +82,7 @@ Import.get("/", async function (req, res) {
   res.render("import");
 });
 
-Import.get("/download/:import_id", async function (req, res, next) {
+Import.get("/download/:importID", async function (req, res, next) {
   try {
     const resultZip = join(req.importDirectory, "result.zip");
 
@@ -75,7 +91,7 @@ Import.get("/download/:import_id", async function (req, res, next) {
     }
 
     // name the output file
-    res.attachment(req.params.import_id + ".zip");
+    res.attachment(req.params.importID + ".zip");
 
     fs.createReadStream(resultZip).pipe(res);
   } catch (e) {
@@ -83,7 +99,7 @@ Import.get("/download/:import_id", async function (req, res, next) {
   }
 });
 
-Import.post("/delete/:import_id", async function (req, res) {
+Import.post("/delete/:importID", async function (req, res) {
   try {
     await fs.remove(req.importDirectory);
   } catch (e) {
@@ -138,12 +154,8 @@ Import.route("/wordpress")
     res.render("import/wordpress");
   })
   .post(function (req, res, next) {
-    const uploadDir = join(
-      tempDir,
-      "import",
-      req.blog.id,
-      "Wordpress-" + Date.now()
-    );
+    const importID = "Wordpress-" + Date.now();
+    const uploadDir = join(tempDir, "import", req.blog.id, importID);
     fs.ensureDirSync(uploadDir);
     const form = new multiparty.Form({
       uploadDir,
@@ -152,9 +164,12 @@ Import.route("/wordpress")
     });
 
     const reportStatus = function (status) {
-      console.log('reporting status', status);
+      console.log("reporting status", status);
       // should write to disk somehow
-      client.publish("import:status:" + req.blog.id, status);
+      client.publish(
+        "import:status:" + req.blog.id,
+        JSON.stringify({ status, importID })
+      );
     };
 
     form.parse(req, function (err, fields, files) {
@@ -170,8 +185,13 @@ Import.route("/wordpress")
 
       res.message(req.baseUrl, "Began import");
 
+      const identifier = files.exportUpload[0].originalFilename;
+      const inputXML = files.exportUpload[0].path;
+
+      fs.outputFileSync(join(uploadDir, "identifier.txt"), identifier, "utf-8");
+
       wordpressImporter(
-        files.exportUpload[0].path,
+        inputXML,
         temporaryOutputDir,
         reportStatus,
         {},
@@ -188,6 +208,7 @@ Import.route("/wordpress")
           archive.on("end", () => {
             console.log(archive.pointer() + " total bytes");
             console.log("archiver finalized");
+            reportStatus("Finished");
           });
 
           archive.on("error", (err) => {

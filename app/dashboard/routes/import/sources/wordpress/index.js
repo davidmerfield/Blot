@@ -35,6 +35,8 @@ if (require.main === module) {
 function main(sourceFile, outputDirectory, status, options, callback) {
   fs.emptyDirSync(outputDirectory);
 
+  status("Reading Wordpress XML file");
+
   fs.readFile(sourceFile, "utf-8", function (err, xml) {
     if (err) return callback(err);
 
@@ -79,8 +81,12 @@ function main(sourceFile, outputDirectory, status, options, callback) {
       async.eachOfSeries(
         items,
         function (item, index, done) {
-          status("Importing " + item.title[0].trim());
-          status("progress=" + (++index + "/" + totalItems));
+          status(
+            "Processing " +
+              (++index + " of " + totalItems) +
+              " " +
+              item.title[0].trim()
+          );
           console.log(
             colors.dim(++index + "/" + totalItems),
             item.title[0].trim()
