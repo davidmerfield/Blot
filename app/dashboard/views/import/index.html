@@ -9,13 +9,14 @@
   .i > * {margin:0 1rem;}
   .i > *:first-child {margin-left: 0}
   .i > *:last-child {margin-right: 0}
+  .i > form {flex-shrink: 0}
 </style>
 {{#imports}} 
 <div class="i" id="{{id}}">
 
   <span class="{{^complete}}{{^error}}working{{/error}}{{/complete}}{{#error}}error{{/error}} status" style="margin-left: 2rem;padding-left: 0.5rem">{{name}}</span> 
 
-  <span style="    color: rgb(158, 154, 152);
+  <span class="truncate" style="    color: rgb(158, 154, 152);
     font-size: 14px;
 ">{{identifier}}, {{started}}</span> 
   
@@ -23,7 +24,9 @@
 
   {{#complete}}
 
+  {{^error}}
   <a href="{{{importBase}}}/download/{{id}}" target="_blank" class="s no-underline" style="line-height:28px;border-radius:4px;padding:11px 20px;font-weight:600;flex-shrink:0;color:#0070e8;border: 1px solid rgba(0,0,0,0.1)">Download result as zip ({{size}})  ↓</a>
+  {{/error}}
 
   <form  method="post" action="{{{importBase}}}/delete/{{id}}">
     <button type="submit">Remove import</button>
@@ -31,8 +34,8 @@
 {{/complete}}
 
 {{^complete}}
-<form method="post" action="{{{importBase}}}/delete/{{id}}">
-  <button type="submit">{{#error}}Remove {{/error}}{{^error}}Cancel{{/error}} import</button>
+<form method="post" action="{{{importBase}}}/cancel/{{id}}">
+  <button type="submit">Cancel import</button>
 </form>
 {{/complete}}
 </div>

@@ -40,60 +40,71 @@ Import.get("/", async function (req, res) {
   try {
     const imports = await fs.readdir(join(tempDir, "import", req.blog.id));
 
-    res.locals.imports = imports.map((i) => {
-      let size;
-      let started;
-      let identifier;
-      let lastStatus;
-      let error;
+    res.locals.imports = imports
+      .map((i) => {
+        let size;
+        let started;
+        let identifier;
+        let name;
+        let lastStatus;
+        let error;
+        let cancelled;
 
-      try {
-        size = prettySize(
-          Math.round(
-            fs.statSync(join(tempDir, "import", req.blog.id, i, "result.zip"))
-              .size / 1000
-          )
-        );
-      } catch (e) {}
+        try {
+          size = prettySize(
+            Math.round(
+              fs.statSync(join(tempDir, "import", req.blog.id, i, "result.zip"))
+                .size / 1000
+            )
+          );
+        } catch (e) {}
 
-      try {
-        started = moment(parseInt(i.split("-")[1])).fromNow();
-      } catch (e) {}
+        try {
+          name = i.split("-")[0];
+          started = moment(parseInt(i.split("-")[1])).fromNow();
+        } catch (e) {}
 
-      try {
-        identifier = fs.readFileSync(
-          join(tempDir, "import", req.blog.id, i, "identifier.txt"),
-          "utf-8"
-        );
-      } catch (e) {}
+        try {
+          cancelled = fs.readFileSync(
+            join(tempDir, "import", req.blog.id, i, "cancelled.txt"),
+            "utf-8"
+          );
+        } catch (e) {}
 
-      try {
-        error = fs.readFileSync(
-          join(tempDir, "import", req.blog.id, i, "error.txt"),
-          "utf-8"
-        );
-      } catch (e) {}
+        try {
+          identifier = fs.readFileSync(
+            join(tempDir, "import", req.blog.id, i, "identifier.txt"),
+            "utf-8"
+          );
+        } catch (e) {}
 
-      try {
-        lastStatus = fs.readFileSync(
-          join(tempDir, "import", req.blog.id, i, "status.txt"),
-          "utf-8"
-        );
-      } catch (e) {}
+        try {
+          error = fs.readFileSync(
+            join(tempDir, "import", req.blog.id, i, "error.txt"),
+            "utf-8"
+          );
+        } catch (e) {}
 
-      return {
-        id: i,
-        name: i.split("-")[0],
-        identifier,
-        size,
-        error,
-        lastStatus: !!error ? error : lastStatus,
-        started,
-        complete: !!size,
-      };
-    });
+        try {
+          lastStatus = fs.readFileSync(
+            join(tempDir, "import", req.blog.id, i, "status.txt"),
+            "utf-8"
+          );
+        } catch (e) {}
 
-    console.log(res.locals.imports);
+        return {
+          id: i,
+          name,
+          identifier,
+          cancelled,
+          size,
+          error,
+          lastStatus: !!error ? error : lastStatus,
+          started,
+          complete: !!size || !!error,
+        };
+      })
+      .filter((i) => !!i && !!i.name && i.cancelled === undefined);
   } catch (e) {
     //
   }
@@ -116,6 +127,16 @@ Import.get("/download/:importID", async function (req, res, next) {
   } catch (e) {
     return next(new Error("Failed to download import"));
   }
+});
+
+Import.post("/cancel/:importID", async function (req, res) {
+  try {
+    await fs.outputFile(join(req.importDirectory, "cancelled.txt"), "true");
+  } catch (e) {
+    return res.message(req.baseUrl, new Error("Failed to cancel import"));
+  }
+
+  res.message(req.baseUrl, "Cancelled import");
 });
 
 Import.post("/delete/:importID", async function (req, res) {

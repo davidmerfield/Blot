@@ -1,11 +1,10 @@
 Importer
-- Make cancelling an import possible
 - Can we offload an import into a resource constrained child process?
 - Can we queue up imports and process them one at a time?
-- Add button to move import into folder directly
+- Add interface to move import into folder directly
+- Add scheduled imports on regular basis into folder directly
 - Add nice import step under 'Services' and as part of sign up
 - Fix bug with script to import wordpress posts and follow up with [Simon](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGCtMPcJhlmcdNvWwtWvgzWJvZ)
-- Make it possible to restore a blog from export
 - Improve Ghost importer and tell [Vin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWSwbGRtFTnJCPCXzVHntQPtC)
 - Create importer script for [John's posts from flickr](https://mail.google.com/mail/u/0/#inbox/166da622325d19e7)
 - Create importer script for tumblr text files and tell [Sawyer](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVMhRNdQhfDwlXsqqFNgmKfTk)
@@ -23,6 +22,8 @@ Add support for Indian payments and follow up with Indian customers like [Varun]
 I need to make it clearer which files are causing which menu links 
 
 Add export button to overdue subscription page
+
+Make it possible to restore a blog from export
 
 Add way to escape commas in tags and [tell questioner](https://blot.im/questions/1431)
 
