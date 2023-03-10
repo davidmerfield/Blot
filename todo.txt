@@ -285,8 +285,6 @@ Make the magazine template respect the date settings and follow up [with questio
 Send out cancellation confirmation emails with option to give feedback
 - auto-refund people who immediately close their account after signing up
 
-Replace radio button on clients page
-
 Get to the bottom of the slow cloudflare issue and follow up with [Wen](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqPzBWZcLJcwtWTXTbQjMbVrZB)
 
 Add [scrubbing pagination to images template](https://jsfiddle.net/tdnc28vm/1/)

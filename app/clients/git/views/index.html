@@ -1,33 +1,26 @@
 {{> status-line}}
 
-{{#error}}
-<p class="box red" style="width:120%"> ... </p>
-{{/error}}
-
+<div style="border:1px solid rgba(0,0,0,0.1);border-radius: 4px;margin:20px 0">
 <div class="line" >
-  <span class="label">Repository URL</span>
+  <span class="label">URL</span>
   <span class="center">https://{{host}}/clients/git/end/{{blog.handle}}.git</span>
 </div>  
 
 <div class="line" >
-  <span class="label">Repository username</span>
+  <span class="label">Username</span>
   <span class="center">{{user.email}}</span>
 </div>  
 
 <div class="line" >
-  <span class="label">Repository password</span>
+  <span class="label">Password</span>
   <span class="center">{{token}}</span>
-  <span class="right"> <form method="post" action="{{{base}}}/refresh-token">
-    <input type="hidden" name="_csrf" value="{{csrftoken}}">
-    <input type="submit" style="margin-top:11px" value="Refresh token">
-  </form>
-</span>
+  <a style="margin-left: 1rem" class="link" href="{{{base}}}/reset-password">Reset password</a>
 </div>  
-
+</div>
 
 
 <a class="line" href="{{{base}}}/disconnect">
   <span class="label">Disconnect</span>
-  <span class="link">Disconnect your folder from Git</span>
+  <span class="link">Disconnect your folder</span>
 </a>
 
