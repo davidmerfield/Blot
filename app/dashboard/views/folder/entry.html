@@ -5,11 +5,44 @@
 </tr>
 {{/entry}}
 
+<style type="text/css">
+  .connector {
+    position: relative;
+    margin-left: 1rem;
+    padding-left: 1rem;
+  }
+  .connector:after {
+    width: 1px;
+    content: "";
+    border-left: 1px solid rgba(0,0,0,0.1);
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 3rem;
+  }
+  .connector:before {
+    content: ">";
+    position: absolute;
+    left: 0;
+    margin-left: -0.75em;
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 1em;
+    width: 1.5em;
+    height: 1.5em;
+    text-align: center;
+    line-height: 1.5em;
+  }
+</style>
 {{#entry}}
-<tr>
-  <td>{{#page}}Page{{/page}}{{^page}}Post{{/page}}:</td>
-  <td><details><summary>Yes</summary>Because foo</td>
-</tr>
+<p class="connector">
+
+  {{stat.name}} became a {{#page}}page{{/page}}{{^page}}post{{/page}} because it is a type of file Blot can convert and it was </p>
+
+<div style="border:1px solid rgba(0,0,0,0.1);border-radius: 4px;padding:11px 20px">
+  <p><strong>{{#page}}Page{{/page}}{{^page}}Post{{/page}}</strong></p>
+
+  <table >
+
 
 <tr>
   <td>Title:</td>
@@ -38,5 +71,6 @@
   <td>{{#tags}} {{tag}}{{^last}},{{/last}} {{/tags}}</td>
 </tr>
 
+  </table>
 
 {{/entry}}

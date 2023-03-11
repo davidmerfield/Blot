@@ -1,4 +1,5 @@
-<style type="text/css">
+<div style="padding:11px">
+  <style type="text/css">
 table {
   display: table;
   width: 100%
@@ -40,29 +41,31 @@ td:nth-child(2) {
 </style>
 <div style="padding:0 20px">
 
+  <div style="display: flex;align-items: baseline;">
   {{#folder.stat}}
 
-  <h1 style="line-height:48px;padding-bottom:16px;margin-top:16px;margin-bottom:8px;font-size: 32px;font-weight: 700">
+  {{#entry}}
+      <img src="/images/file-post.svg" style="position:relative;top:-2px;flex-shrink:0;margin-right:20px" width="24">
+      {{/entry}}
+      {{^entry}}
+      <img src="/images/file-empty.svg" style="position:relative;top:-2px;flex-shrink:0;margin-right:20px" width="24">
+      {{/entry}}
+
+
+  <h1 style="line-height:48px;font-size: 32px;margin:0;font-weight: 700;flex-grow: 1">
     {{name}}
   </h1>
 
-{{#entry}}
 
-<a href="{{{blog.url}}}{{{url}}}" target="_blank" class="s no-underline" style="line-height:28px;border-radius:4px;padding:11px 20px;font-weight:600;flex-shrink:0;color:#0070e8;border: 1px solid rgba(0,0,0,0.1);margin-right: 8px">Visit post &thinsp;↗</a>
 
-{{/entry}}
+<a href="{{{blog.url}}}{{{path}}}" target="_blank" class="s no-underline" style="line-height:28px;border-radius:4px;padding:11px 20px;font-weight:600;flex-shrink:0;color:#0070e8;border: 1px solid rgba(0,0,0,0.1)">Download file &thinsp;↗</a>
+</div>
 
-<a href="{{{blog.url}}}/{{{path}}}" target="_blank" class="s no-underline" style="line-height:28px;border-radius:4px;padding:11px 20px;font-weight:600;flex-shrink:0;color:#0070e8;border: 1px solid rgba(0,0,0,0.1)">Download file &thinsp;↗</a>
-<br><br>
-<hr>
+  {{> stat}}
 
-  <table>
-    {{> stat}}
-  </table>
-  <hr>
-  <table style="background: rgba(0,0,0,0.03);">
-    {{> entry}}
-  </table>
+  {{> entry}}
+
 
   {{/folder.stat}}
+</div>
 </div>
