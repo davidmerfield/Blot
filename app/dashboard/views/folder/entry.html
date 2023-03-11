@@ -33,27 +33,41 @@
     line-height: 1.5em;
   }
 </style>
-<p class="connector" style="max-width: 500px">
+<p class="connector" style="display:none;max-width: 500px">
 
 
 {{#entry}}
 
-  Blot converted this file into a {{#page}}page{{/page}}{{^page}}post{{/page}} and published it on your site. Because it is a type of file Blot can convert and its name does not begin with an underscore.</p>
+  Blot turned this file into a {{#page}}page{{/page}}{{^page}}post{{/page}} and published it on your site.</p>
 
 {{/entry}}
 
 {{^entry}}
 This file did not become a post because {{ignored}}. You can still embed or link to this file from other posts.
+<!-- 
+<h2>Embed this file</h2>
+<pre>![]({{stat.path}})</pre>
+
+<h2>Link to this file</h2>
+<pre>[{{stat.name}}]({{stat.path}})</pre>
+ -->
 {{/entry}}
 
 {{#entry}}
-  <hr>
+
+ <div class="line" style="padding-left: 0;border-bottom: none;">
+  <div class="label" style="color:#000;font-size: 16px">
+    Post
+    
+    </div>
+    <div class="center" style="flex-grow: 1">
+
   <table >
 
 
 <tr>
-  <td>Post title:</td>
-  <td>{{title}}</td>
+  <td>Title:</td>
+  <td>{{title}} <a href="{{{blog.url}}}{{{url}}}">Visit post</a></td>
 </tr>
 
 {{^draft}}{{^scheduled}}
@@ -75,9 +89,16 @@ This file did not become a post because {{ignored}}. You can still embed or link
 
 <tr > 
   <td>Tags:</td>
-  <td>{{#tags}} {{tag}}{{^last}},{{/last}} {{/tags}}</td>
+  <td>{{#tags}} {{tag}}{{^last}},{{/last}} {{/tags}}{{^tags.length}}<em>No tags</em>{{/tags.length}}</td>
 </tr>
 
   </table>
-
+</div></div>
+<!-- <a href="{{{blog.url}}}{{{url}}}" target="_blank" class="s no-underline" >View on your site</a>
+ -->
 {{/entry}}
+<!-- 
+<details>
+  <summary>How do I prevent this file appearing as a post on my site?</summary>
+  You can prevent this file beco underscore.
+</details> -->

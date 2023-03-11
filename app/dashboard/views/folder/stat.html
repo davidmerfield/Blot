@@ -1,11 +1,17 @@
 {{#stat}}
-<br>
 <!-- <div style="border:1px solid rgba(0,0,0,0.1);border-radius: 4px;padding:11px 20px">
-  <p><strong>File</strong></p>
- -->  <table>
+ -->  
+ <div class="line" style="padding-left: 0">
+  <div class="label" style="color:#000;font-size: 16px">
+    File
+    
+    </div>
+    <div class="center" style="flex-grow: 1">
+
+  <table>
 <tr>
-  <td>File path:</td>
-  <td>{{path}}</td>
+  <td>Path:</td>
+  <td>{{path}} <a class="link" style="margin-left: 1rem" href="{{{blog.url}}}{{{path}}}">Copy path to clipboard</a></td>
 </tr>
 
 <tr>
@@ -28,6 +34,7 @@
   <td>{{modified}}</td>
 </tr>
   </table>
-<!-- </div> -->
-<hr>
+</div>
+</div>
+
 {{/stat}}
