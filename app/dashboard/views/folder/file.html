@@ -28,7 +28,7 @@ td {
 td:first-child {
   color: rgb(158, 154, 152);
   padding-right: 20px;
-  min-width: 100px
+  min-width: 150px
 }
 
 td a {
@@ -58,8 +58,13 @@ td:nth-child(2) {
 
 
 
-<a href="{{{blog.url}}}{{{path}}}" target="_blank" class="s no-underline" style="line-height:28px;border-radius:4px;padding:11px 20px;font-weight:600;flex-shrink:0;color:#0070e8;border: 1px solid rgba(0,0,0,0.1)">Download file &thinsp;↗</a>
 </div>
+
+<a href="{{{blog.url}}}{{{path}}}" target="_blank" class="s no-underline" style="line-height:28px;border-radius:4px;padding:11px 20px;font-weight:600;display:block;color:#0070e8;border: 1px solid rgba(0,0,0,0.1)">Download file</a>
+
+{{#entry}}
+<a href="{{{blog.url}}}{{{url}}}" target="_blank" class="s no-underline" style="line-height:28px;border-radius:4px;padding:11px 20px;font-weight:600;display:block;color:#0070e8;border: 1px solid rgba(0,0,0,0.1)">Open post</a>
+{{/entry}}
 
   {{> stat}}
 
