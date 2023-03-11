@@ -29,7 +29,7 @@ function walk(dir, done) {
 module.exports = function main(blog, callback) {
   console.log("Starting sync for", blog.handle);
   sync(blog.id, function (err, folder, done) {
-    if (err) return done(err);
+    if (err) return callback(err);
 
     walk(folder.path, function (err, paths) {
       if (err) return done(err);

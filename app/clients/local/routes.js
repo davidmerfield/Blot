@@ -10,7 +10,7 @@ var Dashboard = Express.Router();
 // has fetched the information about this user.
 Dashboard.get("/", function (req, res) {
   setup(req.blog.id, function (err) {
-    if (err) console.log("Error setting up");
+    if (err) console.log("Error setting up", err);
   });
   res.render(__dirname + "/views/index.html");
 });
