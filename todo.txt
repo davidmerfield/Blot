@@ -1,3 +1,12 @@
+Rebuild Chris's thumbnails and ping him over email
+- https://blot.im/questions/1472
+
+Fix Marco's wikilink media embed issue
+- investigate other relative path embeds
+- https://mail.google.com/mail/u/0/#inbox/FMfcgzGqQmZzcVmBXtHMvBBhrPwCQwQb
+
+--
+
 Add 'verify' button for both google drive and Dropbox clients that works then tell [Jonathan](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrcPJVPkQGswgFtCkwbJfFJjnD)
 
 Investigate ignored files situation
@@ -653,7 +662,7 @@ com/mail/u/0/#inbox/1588e3df7489b554)
 - Add dynamic querying of entry list and tell [Naoki](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMjtCWmHCBZWsVPTCftbQCZTn)
 - Fix bug with filtering paginated list of entries and tell [Roy](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVgrQJWNPHHvdxnMtWCGJkZdM) and [Josh](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVzrFNFzLzbWrssWzbrSvtpTm) and [Logan](https://twitter.com/LoganGreer)
 - Add a popular entry list
-- Add a related entry list and tell [Thomas](https://mail.google.com/mail/u/0/#inbox/156dbe97153fab61) know
+- Add a related entry list and tell [Thomas](https://mail.google.com/mail/u/0/#inbox/156dbe97153fab61) and [questioner](https://blot.im/questions/1484)
 - Add way to list files at a path and tell [Matt](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqxRmLMrTjjpjftkSwddPJkTm)
 
 Re-send receipt when the customer changes their email after initial payment, pre-account creation.
