@@ -113,17 +113,18 @@ client_routes
 
 client_routes.post("/reset/rebuild", function (req, res, next) {
   Sync(req.blog.id, function (err, folder, done) {
-    folder.status("Rebuilding your site");
     if (err) {
       return res.message(
         res.locals.base + "/client/reset",
         new Error("Failed to rebuild folder since it is syncing")
       );
     }
+
     res.message(
       res.locals.base + "/client/reset",
       "Begin rebuild of your site"
     );
+    folder.status("Rebuilding your site");
     done(null, function (err) {
       Rebuild(req.blog, function (err) {
         if (err) {
