@@ -1,38 +1,29 @@
-const client = require("client");
 const buildFromFolder = require("template").buildFromFolder;
 const Blog = require("blog");
 const { promisify } = require("util");
 const Update = require("./update");
 const Rename = require("./rename");
 const localPath = require("helper/localPath");
-const clfdate = require("helper/clfdate");
-const uuid = require("uuid/v4");
 const renames = require("./renames");
 const lockfile = require("proper-lockfile");
 const type = require("helper/type");
-const email = require("helper/email");
 const lowerCaseContents = require("./lowerCaseContents");
+const messenger = require("./messenger");
 
 function sync(blogID, callback) {
-  if (!type(blogID, "string")) {
-    throw new TypeError("Expected blogID with type:String as first argument");
-  }
-
   if (!type(callback, "function")) {
     throw new TypeError(
       "Expected callback with type:Function as second argument"
     );
   }
 
-  const syncID = "sync_" + uuid().slice(0, 7);
-  const log = function () {
-    console.log.apply(null, [
-      clfdate(),
-      blogID.slice(0, 12),
-      syncID,
-      ...arguments,
-    ]);
-  };
+  if (!type(blogID, "string")) {
+    return callback(
+      new TypeError("Expected blogID with type:String as first argument")
+    );
+  }
+
+  const { log, status } = messenger(blogID);
 
   log("Starting sync, fetching blog information");
 
@@ -61,12 +52,6 @@ function sync(blogID, callback) {
       log("Failed to acquire lock on folder");
       return callback(new Error("Failed to acquire folder lock"));
     }
-
-    const status = (message) => {
-      Blog.setStatus(blogID, { message, syncID });
-      log(message);
-      client.publish("sync:status:" + blogID, message);
-    };
 
     const folder = {
       path: localPath(blogID, "/"),
