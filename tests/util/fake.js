@@ -8,6 +8,18 @@ var join = require("path").join;
 // Ensure we can reproduce fake data
 fake.seed(Math.floor(Math.random() * 1000));
 
+fake.pngBuffer = () =>
+  sharp({
+    create: {
+      width: 400,
+      height: 400,
+      channels: 4,
+      background: "#f00",
+    },
+  })
+    .png()
+    .toBuffer();
+
 fake.path = function path(ext) {
   var res = [];
   var len = 1 + Math.floor(Math.random() * 10);

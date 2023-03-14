@@ -1,15 +1,15 @@
-Investigate pathDisplay and options.pathDisplay
-- do we need to pass this into rebuild?? what do we lose if we don't?
-- right now rebuild already fetches name from Metadata.get
+Fix [Christopher's bugs](https://mail.google.com/mail/u/0/#inbox/QgrcJHrnvrNzJHZMWcVFzMHvZTnPZfPxfqg)
+- Thumbnail issues
+- Tags becoming lowercase after rebuild
 
-Reproduce bug with rebuildDependents and /public/x.jpg prior to 1f6631a37f652e4a85628aa70b19a9e720358fc3
-Fix Marco's wikilink media embed issue
-- investigate other relative path embeds
-- https://mail.google.com/mail/u/0/#inbox/FMfcgzGqQmZzcVmBXtHMvBBhrPwCQwQb
-
---
+Move Wikilinks to Pandoc
+- Update version of pandoc
+- Support [Obsidian's syntax for embedding files](https://help.obsidian.md/How+to/Embed+files) and images, and tell [John](https://mail.google.com/mail/u/0/#inbox/FMfcgzGkbDftzhXHGrmzXrjtcMbGrmxM) and [Robert](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlksJFbBlWtzMHgcxcdBRBhQSJ) and [Levo](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrcrrDnssHhbwmzzNFnSbMJqKh)
+- Follow up with Marco about ![[_Image.png]]
 
 Add 'verify' button for both google drive and Dropbox clients that works then tell [Jonathan](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrcPJVPkQGswgFtCkwbJfFJjnD)
+
+---
 
 Investigate ignored files situation
 - handle new pathNormalizer behaviour
@@ -510,8 +510,6 @@ Server changes
 Add [line numbers](https://github.com/wcoder/highlightjs-line-numbers.js/) to highlight.js hljs code tags
 
 Convert [Vitepress](https://vitepress.vuejs.org/) to Blot and tell [Nicolas](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmtNldkFnLGgZVNfqLcvBjVxWW)
-
-Support [Obsidian's syntax for embedding files](https://help.obsidian.md/How+to/Embed+files) and images, and tell [John](https://mail.google.com/mail/u/0/#inbox/FMfcgzGkbDftzhXHGrmzXrjtcMbGrmxM) and [Robert](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlksJFbBlWtzMHgcxcdBRBhQSJ) and [Levo](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrcrrDnssHhbwmzzNFnSbMJqKh)
 
 Expose log files on blog's dashboard and tell [Sönke](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLtsxjSMlVmNRFGJJxkpsVFNvg) and [questioner](https://blot.im/questions/136) and [John](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmvBnVvqHdJXLgDhrtChCqdMQX)
 
