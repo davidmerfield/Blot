@@ -1,3 +1,6 @@
+Investigate pathDisplay and options.pathDisplay
+- do we need to pass this into rebuild??
+
 Rebuild Chris's thumbnails and ping him over email
 - https://blot.im/questions/1472
 
