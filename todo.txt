@@ -5,8 +5,9 @@ Fix [Christopher's bugs](https://mail.google.com/mail/u/0/#inbox/QgrcJHrnvrNzJHZ
 Move Wikilinks to Pandoc
 - Update version of pandoc
 - Support [Obsidian's syntax for embedding files](https://help.obsidian.md/How+to/Embed+files) and images, and tell [John](https://mail.google.com/mail/u/0/#inbox/FMfcgzGkbDftzhXHGrmzXrjtcMbGrmxM) and [Robert](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlksJFbBlWtzMHgcxcdBRBhQSJ) and [Levo](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrcrrDnssHhbwmzzNFnSbMJqKh)
-- Follow up with Marco about ![[_Image.png]]
-
+- Follow up with Marco about:
+  `![La Escocesa 2006-2010](files/_laescocesaold.png) ![[files/_laescocesaold.png]]`
+  
 Add 'verify' button for both google drive and Dropbox clients that works then tell [Jonathan](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrcPJVPkQGswgFtCkwbJfFJjnD)
 
 ---
