@@ -1,9 +1,8 @@
 Investigate pathDisplay and options.pathDisplay
-- do we need to pass this into rebuild??
+- do we need to pass this into rebuild?? what do we lose if we don't?
+- right now rebuild already fetches name from Metadata.get
 
-Rebuild Chris's thumbnails and ping him over email
-- https://blot.im/questions/1472
-
+Reproduce bug with rebuildDependents and /public/x.jpg prior to 1f6631a37f652e4a85628aa70b19a9e720358fc3
 Fix Marco's wikilink media embed issue
 - investigate other relative path embeds
 - https://mail.google.com/mail/u/0/#inbox/FMfcgzGqQmZzcVmBXtHMvBBhrPwCQwQb
