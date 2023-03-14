@@ -1,3 +1,8 @@
+Look into Pandoc's RAW HTML extension for resolving issues mixing HTML into markdown files:
+ - markdown_in_html_blocks
+ - raw_html
+ - native_divs
+
 Fix [Christopher's bugs](https://mail.google.com/mail/u/0/#inbox/QgrcJHrnvrNzJHZMWcVFzMHvZTnPZfPxfqg)
 - Thumbnail issues
 - Tags becoming lowercase after rebuild
