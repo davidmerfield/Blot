@@ -17,7 +17,7 @@ if (require.main === module) {
       }
 
       process.exit();
-    });
+    }); 
   });
 }
 

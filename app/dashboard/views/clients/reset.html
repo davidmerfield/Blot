@@ -33,6 +33,20 @@ button[type="submit"]:hover {background: rgba(0,0,0,0.03);cursor: pointer;}
   <button type="submit">Rebuild all posts and pages</button>
 
 </form>
+<form style="padding-top:0;padding-bottom: 0" method='post' class="account"  action="{{{base}}}/client/reset/rebuild?thumbnails=true">
+
+  <input type="hidden" name="_csrf" value="{{csrftoken}}">
+  <button type="submit">Regenerate all thumbnails</button>
+
+</form>
+
+<form style="padding-top:0;padding-bottom: 0" method='post' class="account"  action="{{{base}}}/client/reset/rebuild?imageCache=true">
+
+  <input type="hidden" name="_csrf" value="{{csrftoken}}">
+  <button type="submit">Remove and re-fetch cached images</button>
+
+</form>
+
 <form style="padding-top:0;padding-bottom: 0" method='post' action="{{{base}}}/client/reset/resync" class="account">
 <!-- 
   <input type="hidden" name="_csrf" value="{{csrftoken}}">

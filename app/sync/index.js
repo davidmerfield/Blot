@@ -23,16 +23,18 @@ function sync(blogID, callback) {
     );
   }
 
-  const { log, status } = messenger(blogID);
-
-  log("Starting sync, fetching blog information");
-
   Blog.get({ id: blogID }, async function (err, blog) {
     // It would be nice to get an error from Blog.get instead of this...
     if (err || !blog || !blog.id || blog.isDisabled) {
-      log("Error with blog's ability to sync");
-      return callback(new Error("Cannot sync blog " + blogID));
+      const message = "Cannot sync blog " + blogID;
+      const error = new Error(message);
+      console.log(error);
+      return callback(error);
     }
+
+    const { log, status } = messenger(blog);
+
+    log("Starting sync");
 
     let release;
 
@@ -45,6 +47,12 @@ function sync(blogID, callback) {
           minTimeout: 100,
           maxTimeout: 200,
           randomize: true,
+        },
+        onCompromised: (err) => {
+          // Log will be prefixed with sync_id and blog.id
+          // to help us understand what went wrong...
+          log("Lock on folder compromised");
+          throw err;
         },
       });
       log("Successfully acquired lock on folder");

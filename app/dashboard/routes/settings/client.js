@@ -111,7 +111,7 @@ client_routes
     });
   });
 
-client_routes.post("/reset/rebuild", function (req, res, next) {
+client_routes.post("/reset/rebuild", function (req, res) {
   Sync(req.blog.id, function (err, folder, done) {
     if (err) {
       return res.message(
@@ -124,27 +124,27 @@ client_routes.post("/reset/rebuild", function (req, res, next) {
       res.locals.base + "/client/reset",
       "Begin rebuild of your site"
     );
+
     folder.status("Rebuilding your site");
-    done(null, function (err) {
-      Rebuild(req.blog, function (err) {
-        if (err) {
-          console.log(err);
-        }
-        Sync(req.blog.id, function (err, folder, done) {
-          folder.status("Checking your site for issues");
-          Fix(req.blog, function (err) {
-            folder.status("Finished site rebuild");
-            done(null, function (err) {
-              if (err) console.log("Error releasing sync: ", err);
-            });
-          });
+    
+    const thumbnails = !!req.query.thumbnails;
+    const imageCache = !!req.query.imageCache;
+    
+    Rebuild(req.blog, { thumbnails, imageCache }, function (err) {
+      if (err) console.log(err);
+      folder.status("Checking your site for issues");
+      Fix(req.blog, function (err) {
+        if (err) console.log(err);
+        folder.status("Finished site rebuild");
+        done(null, function (err) {
+          if (err) console.log("Error releasing sync: ", err);
         });
       });
     });
   });
 });
 
-client_routes.post("/reset/resync", function (req, res, next) {
+client_routes.post("/reset/resync", function (req, res) {
   Sync(req.blog.id, function (err, folder, done) {
     if (err) {
       return res.message(
@@ -154,7 +154,9 @@ client_routes.post("/reset/resync", function (req, res, next) {
     }
 
     res.message(res.locals.base + "/client/reset", "Begin resync of your site");
-    done(null, function (err) {});
+    done(null, function (err) {
+      if (err) console.log(err);
+    });
   });
 });
 
@@ -219,7 +221,7 @@ for (var client_name in clients) {
   client_routes.use("/" + client.name, client.dashboard_routes);
 }
 
-client_routes.use("/:client", function (req, res, next) {
+client_routes.use("/:client", (req, res) => {
   res.redirect(`/dashboard/${req.blog.handle}/client`);
 });
 
