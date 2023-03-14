@@ -5,6 +5,7 @@ var Entries = require("models/entries");
 var Entry = require("models/entry");
 var _ = require("lodash");
 var basename = require("path").basename;
+var rebuild = require("sync/rebuild");
 
 var dictionary = {
   permalink: "Saved changes to your link format",
@@ -38,55 +39,18 @@ module.exports = function (req, res, next) {
     // has changed any of the plugins or their permalink
     // format. This should be improved but we.
     if (changes && changes.indexOf("plugins") > -1) {
-      Blog.get({ id: req.blog.id }, function (err, blog) {
-        Entries.each(
-          req.blog.id,
-          function (entry, next) {
-            if (!entry) {
-              console.warn("No entry exists with path", entry.path);
-              return next();
-            }
-
-            // Otherwise this would make the entry visible...
-            if (entry.deleted) return next();
-
-            let options = {};
-
-            if (entry.pathDisplay) {
-              options.pathDisplay = entry.pathDisplay;
-              options.name = basename(entry.pathDisplay);
-            }
-
-            build(blog, entry.path, options, function (err, updatedEntry) {
-              if (err && err.code === "ENOENT") {
-                console.warn("No local file exists for entry", entry.path);
-                return next();
-              }
-
-              // don't know
-              if (err) {
-                console.log("-----> REBUILD ERROR");
-                console.log(err);
-                if (err.stack) console.log(err.stack);
-                if (err.trace) console.log(err.trace);
-                return next();
-              }
-
-              Entry.set(blog.id, updatedEntry.path, updatedEntry, next);
-            });
-          },
-          function () {
-            console.log("Rebuilt blog");
-          }
-        );
-      });
+      // we need to fetch the latest version of the blog to rebuild
+      const options = {
+        thumbnails: false, // do not re-generate thumbnails
+        imageCache: false, // do not re-cache images in posts
+      };
+      rebuild(req.blog.id, options, function () {});
     }
 
     // Add success message if we're going to the settings page
     // and successful changes were made
     if (changes && changes.length && _.isEmpty(errors)) {
-
-      if (changes.indexOf('handle') > -1)
+      if (changes.indexOf("handle") > -1)
         redirect = `/dashboard/${updates.handle}/domain`;
 
       return res.message(
