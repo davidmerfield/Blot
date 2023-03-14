@@ -28,7 +28,7 @@ jobs:
     strategy:
       matrix:
         # If you ever add more node versions you need to replace current caching node_modules with caching of ~/.npm
-        node-version: [16.14.0]
+        node-version: [18.15.0]
         pandoc-version: [2.11.3.2]
         redis-version: [6.2.6]
 
