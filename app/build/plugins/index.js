@@ -238,10 +238,8 @@ function loadPlugins(dir) {
       _plugins.push(plugin);
     }
 
-    // the ordering is important, we need the wikilinks
-    // plugin to run before the typset plugin
     if (plugin.prerender) {
-      _prerenderers.unshift(plugin);
+      _prerenderers.push(plugin);
     }
 
     _list[name] = plugin;
