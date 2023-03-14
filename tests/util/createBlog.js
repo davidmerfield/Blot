@@ -30,7 +30,7 @@ module.exports = function (done) {
     };
 
     context.blog.rebuild = async (options = {}) =>
-      await rebuild(context.blog, options);
+      await rebuild(context.blog.id, options);
 
     context.blog.check = async (entry) =>
       await promisify(checkEntry(context.blog.id))(entry);

@@ -8,6 +8,7 @@ const messenger = require("./messenger");
 const { blog_static_files_dir } = require("config");
 const { promisify } = require("util");
 const Transformer = require("helper/transformer");
+const Blog = require("models/blog");
 
 function walk(dir, done) {
   var results = [];
@@ -32,47 +33,55 @@ function walk(dir, done) {
   });
 }
 
-module.exports = function main(blog, options, callback) {
-  ensure(blog, "object").and(options, "object").and(callback, "function");
+module.exports = function main(blogID, options, callback) {
+  ensure(blogID, "string").and(options, "object").and(callback, "function");
 
-  const { log, status } = messenger(blog);
-  const update = new Update(blog, log, status);
+  Blog.get({ id: blogID }, function (err, blog) {
+    if (err || !blog) return callback(err || new Error("No blog"));
 
-  let blogDirectory = localPath(blog.id, "/");
+    const { log, status } = messenger(blog);
+    const update = new Update(blog, log, status);
 
-  if (blogDirectory.endsWith("/")) blogDirectory = blogDirectory.slice(0, -1);
+    let blogDirectory = localPath(blog.id, "/");
 
-  walk(blogDirectory, async function (err, paths) {
-    if (err) return callback(err);
+    if (blogDirectory.endsWith("/")) blogDirectory = blogDirectory.slice(0, -1);
 
-    try {
-      if (options.thumbnails) {
-        const directory = join(blog_static_files_dir, blog.id, "_thumbnails");
-        await wipeCache({ blogID: blog.id, label: "thumbnails", directory });
+    walk(blogDirectory, async function (err, paths) {
+      if (err) return callback(err);
+
+      try {
+        if (options.thumbnails) {
+          const directory = join(blog_static_files_dir, blog.id, "_thumbnails");
+          await wipeCache({ blogID: blog.id, label: "thumbnails", directory });
+        }
+
+        if (options.imageCache) {
+          const directory = join(
+            blog_static_files_dir,
+            blog.id,
+            "_image_cache"
+          );
+          await wipeCache({ blogID: blog.id, label: "image-cache", directory });
+        }
+      } catch (e) {
+        return callback(e);
       }
 
-      if (options.imageCache) {
-        const directory = join(blog_static_files_dir, blog.id, "_image_cache");
-        await wipeCache({ blogID: blog.id, label: "image-cache", directory });
-      }
-    } catch (e) {
-      return callback(e);
-    }
-
-    async.eachSeries(
-      paths,
-      function (path, next) {
-        path = path.slice(blogDirectory.length);
-        update(path, function () {
+      async.eachSeries(
+        paths,
+        function (path, next) {
+          path = path.slice(blogDirectory.length);
+          update(path, function () {
+            // todo: don't swallow error here
+            next();
+          });
+        },
+        () => {
           // todo: don't swallow error here
-          next();
-        });
-      },
-      () => {
-        // todo: don't swallow error here
-        callback();
-      }
-    );
+          callback();
+        }
+      );
+    });
   });
 };
 

@@ -8,7 +8,7 @@ if (require.main === module) {
 
     const options = {};
 
-    rebuild(blog, options, function (err) {
+    rebuild(blog.id, options, function (err) {
       if (err) {
         console.error(colors.red("Error:", err.message));
         return process.exit(1);

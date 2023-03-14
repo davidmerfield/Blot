@@ -39,11 +39,12 @@ module.exports = function (req, res, next) {
     // has changed any of the plugins or their permalink
     // format. This should be improved but we.
     if (changes && changes.indexOf("plugins") > -1) {
+      // we need to fetch the latest version of the blog to rebuild
       const options = {
         thumbnails: false, // do not re-generate thumbnails
-        imageCache: false  // do not re-cache images in posts
+        imageCache: false, // do not re-cache images in posts
       };
-      rebuild(req.blog, options, function () {});
+      rebuild(req.blog.id, options, function () {});
     }
 
     // Add success message if we're going to the settings page

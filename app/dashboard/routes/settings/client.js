@@ -126,11 +126,11 @@ client_routes.post("/reset/rebuild", function (req, res) {
     );
 
     folder.status("Rebuilding your site");
-    
+
     const thumbnails = !!req.query.thumbnails;
     const imageCache = !!req.query.imageCache;
-    
-    Rebuild(req.blog, { thumbnails, imageCache }, function (err) {
+
+    Rebuild(req.blog.id, { thumbnails, imageCache }, function (err) {
       if (err) console.log(err);
       folder.status("Checking your site for issues");
       Fix(req.blog, function (err) {
