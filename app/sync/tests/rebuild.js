@@ -51,6 +51,28 @@ describe("rebuild", function () {
     done();
   });
 
+  it("will rebuild entries with dependent files", async function (done) {
+    const path = "/Posts/Hello.txt";
+
+    await this.blog.write({ path, content: "![Image](/Public/image.png)" });
+    await this.blog.write({
+      path: "/Public/image.png",
+      content: await imageData(),
+    });
+
+    await this.blog.rebuild();
+
+    const entry = await this.blog.check({ path });
+
+    expect(entry.dependencies).toEqual(['/Public/image.png']);
+
+    await this.blog.rebuild();
+
+    const rebuiltEntry = await this.blog.check({ path });
+
+    done();
+  });
+
   it("will rebuild thumbnails on blog", async function (done) {
     const path = "/Hello.txt";
 
@@ -70,5 +92,5 @@ describe("rebuild", function () {
     expect(entry.thumbnail).not.toEqual(rebuiltEntry.thumbnail);
 
     done();
-  });  
+  });
 });
