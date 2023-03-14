@@ -1,20 +1,6 @@
-const sharp = require("sharp");
-
 describe("rebuild", function () {
   // Set up a test blog before each test
   global.test.blog();
-
-  const imageData = () =>
-    sharp({
-      create: {
-        width: 400,
-        height: 400,
-        channels: 4,
-        background: "#f00",
-      },
-    })
-      .png()
-      .toBuffer();
 
   it("will rebuild entries on blog", async function (done) {
     const path = "/Hello.txt";
@@ -34,7 +20,10 @@ describe("rebuild", function () {
     const path = "/Hello.txt";
 
     await this.blog.write({ path, content: "![](_image.png)" });
-    await this.blog.write({ path: "/_image.png", content: await imageData() });
+    await this.blog.write({
+      path: "/_image.png",
+      content: await global.test.fake.pngBuffer(),
+    });
     await this.blog.rebuild();
 
     const entry = await this.blog.check({ path });
@@ -57,18 +46,17 @@ describe("rebuild", function () {
     await this.blog.write({ path, content: "![Image](/Public/image.png)" });
     await this.blog.write({
       path: "/Public/image.png",
-      content: await imageData(),
+      content: await global.test.fake.pngBuffer(),
     });
 
     await this.blog.rebuild();
 
     const entry = await this.blog.check({ path });
 
-    expect(entry.dependencies).toEqual(['/Public/image.png']);
+    expect(entry.dependencies).toEqual(["/Public/image.png"]);
 
     await this.blog.rebuild();
-
-    const rebuiltEntry = await this.blog.check({ path });
+    await this.blog.check({ path });
 
     done();
   });
@@ -77,7 +65,10 @@ describe("rebuild", function () {
     const path = "/Hello.txt";
 
     await this.blog.write({ path, content: "![](_image.png)" });
-    await this.blog.write({ path: "/_image.png", content: await imageData() });
+    await this.blog.write({
+      path: "/_image.png",
+      content: await global.test.fake.pngBuffer(),
+    });
     await this.blog.rebuild();
 
     const entry = await this.blog.check({ path });
