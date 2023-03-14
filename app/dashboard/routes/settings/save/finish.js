@@ -39,7 +39,10 @@ module.exports = function (req, res, next) {
     // has changed any of the plugins or their permalink
     // format. This should be improved but we.
     if (changes && changes.indexOf("plugins") > -1) {
-      const options = {};
+      const options = {
+        thumbnails: false, // do not re-generate thumbnails
+        imageCache: false  // do not re-cache images in posts
+      };
       rebuild(req.blog, options, function () {});
     }
 
