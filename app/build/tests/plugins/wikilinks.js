@@ -92,6 +92,24 @@ describe("wikilinks plugin", function () {
     this.syncAndCheck(files, entry, done);
   });
 
+  it("will support media embedding", async function (done) {
+
+    await this.blog.write({
+      path: "/_Image.png",
+      content: await global.test.fake.pngBuffer(),
+    });
+
+    await this.blog.write({
+      path: "/Post.txt",
+      content: "![[_Image.png]]",
+    });
+
+    await this.blog.rebuild();
+    await this.blog.check({ path: "/Post.txt", html: "foo" });
+
+    done();
+  });
+
   it("will support wikilinks by URL", function (done) {
     const path = "/hello.txt";
 
