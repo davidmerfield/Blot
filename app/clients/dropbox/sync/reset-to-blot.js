@@ -18,6 +18,8 @@ const createClient = promisify((blogID, cb) =>
 );
 
 async function resetToBlot(blogID, publish) {
+  console.trace();
+
   if (!publish)
     publish = (...args) => {
       console.log(clfdate() + " Dropbox:", args.join(" "));
@@ -42,7 +44,7 @@ async function resetToBlot(blogID, publish) {
     const { path_lower } = result;
     if (path_lower) {
       dropboxRoot = path_lower;
-      await set(blogID, {folder: path_lower});
+      await set(blogID, { folder: path_lower });
     }
   }
 

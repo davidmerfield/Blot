@@ -144,8 +144,11 @@ client_routes.post("/reset/rebuild", function (req, res) {
   });
 });
 
-client_routes.post("/reset/resync", function (req, res) {
-  Sync(req.blog.id, function (err, folder, done) {
+client_routes.post("/reset/resync", load.client, function (req, res, next) {
+  if (!res.locals.client.resync)
+    return next(new Error("Cannot resync using your current client"));
+
+  Sync(req.blog.id, async function (err, folder, done) {
     if (err) {
       return res.message(
         res.locals.base + "/client/reset",
@@ -154,6 +157,9 @@ client_routes.post("/reset/resync", function (req, res) {
     }
 
     res.message(res.locals.base + "/client/reset", "Begin resync of your site");
+
+    await res.locals.client.resync(req.blog.id);
+
     done(null, function (err) {
       if (err) console.log(err);
     });
