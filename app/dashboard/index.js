@@ -178,6 +178,7 @@ dashboard.get(
 );
 
 dashboard.get("/dashboard/:handle", require("./routes/folder"));
+dashboard.use("/dashboard/:handle/services/import", require("./routes/import"));
 dashboard.use("/dashboard/:handle", require("./routes/settings"));
 
 // Redirect old URLS

@@ -1,40 +1,53 @@
 describe("title parser", function () {
-  var Permalink = require("../permalink");
+  const Permalink = require("../permalink");
 
   global.test.blog();
 
-  it("generates a permalink from the entry's path", function () {
-    let entry = {
-      path: "/[design]/bar.txt",
-      name: "bar.txt",
-      size: 123,
-      html: "",
-      updated: 123,
-      draft: false,
-      metadata: {},
-    };
+  const DEFAULT_ENTRY = {
+    path: "/[design]/bar.txt",
+    name: "bar.txt",
+    size: 123,
+    html: "",
+    updated: 123,
+    draft: false,
+    metadata: {},
+  };
 
-    let permalink = Permalink(this.blog.timeZone, "{{stem}}", entry);
+  it("generates a permalink from the entry's path", function () {
+    const entry = {
+      ...DEFAULT_ENTRY,
+      path: "/[design]/bar.txt",
+    };
+    const format = "{{stem}}";
+    const zone = this.blog.timeZone;
+
+    const permalink = Permalink(zone, format, entry);
 
     expect(permalink).toEqual("/design/bar");
   });
 
-  it("generates a permalink from the entry's path", function () {
-    let entry = {
-      path: "/[design]/bar.txt",
-      name: "bar.txt",
-      size: 123,
-      html: "",
-      updated: 123,
-      draft: false,
-      metadata: {},
+  it("converts diacritics appropriately", function () {
+    const zone = this.blog.timeZone;
+    const format = "{{slug-without-diacritics}}";
+    const entry = {
+      ...DEFAULT_ENTRY,
+      slug: "börþåß",
     };
 
-    let permalink = Permalink(
-      this.blog.timeZone,
-      "{{path-without-extension}}",
-      entry
-    );
+    let permalink = Permalink(zone, format, entry);
+
+    expect(permalink).toEqual("/boerthaass");
+  });
+
+  it("generates a permalink from the entry's path with square brackets", function () {
+    const entry = {
+      ...DEFAULT_ENTRY,
+      path: "/[design]/bar.txt",
+    };
+    const zone = this.blog.timeZone;
+    const format = "{{path-without-extension}}";
+
+    const permalink = Permalink(zone, format, entry);
 
     expect(permalink).toEqual("/[design]/bar");
   });

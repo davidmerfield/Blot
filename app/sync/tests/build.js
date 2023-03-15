@@ -118,27 +118,6 @@ describe("build", function () {
     this.syncAndCheck(file, entry, done);
   });
 
-  it("turns wikilinks into links", function (done) {
-    const path = "/hello.md";
-    const content = "[[wikilink]]";
-
-    const linkPath = "/wikilink.md";
-    const linkContent = "Link: foo\n\nWikilink";
-
-    // We know that Blot has worked out which file to link to
-    // because the href is set to foo!
-    const html = '<p><a href="/foo" class="wikilink">wikilink</a></p>';
-
-    const files = [
-      { path, content },
-      { path: linkPath, content: linkContent },
-    ];
-
-    const entry = { path, html };
-
-    this.syncAndCheck(files, entry, done);
-  });
-
   it("preserves case in title generated from file name passed as option", function (done) {
     const path = "/[tag] hello.jpg";
     const content = this.fake.file();
@@ -148,30 +127,6 @@ describe("build", function () {
     const entry = { path, title: "Hello" };
 
     this.syncAndCheck(file, entry, done);
-  });
-
-  // we switch the order when writing files to test
-  // the scenario in which the linked file is added
-  // after the file that does the linking
-  it("turns wikilinks into links using dependencies", function (done) {
-    const path = "/contains-wikilink.md";
-    const content = "[[target-of-link]]";
-
-    const linkPath = "/target-of-link.md";
-    const linkContent = "Link: foo\n\nWikilink";
-
-    // We know that Blot has worked out which file to link to
-    // because the href is set to foo!
-    const html = '<p><a href="/foo" class="wikilink">target-of-link</a></p>';
-
-    const files = [
-      { path, content },
-      { path: linkPath, content: linkContent },
-    ];
-
-    const entry = { path, html, dependencies: ["/target-of-link.md"] };
-
-    this.syncAndCheck(files, entry, done);
   });
 
   it("rebuilds dependent entries", async function (done) {

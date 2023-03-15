@@ -1,47 +1,40 @@
-const client = require("client");
 const buildFromFolder = require("template").buildFromFolder;
 const Blog = require("blog");
 const { promisify } = require("util");
 const Update = require("./update");
 const Rename = require("./rename");
 const localPath = require("helper/localPath");
-const clfdate = require("helper/clfdate");
-const uuid = require("uuid/v4");
 const renames = require("./renames");
 const lockfile = require("proper-lockfile");
 const type = require("helper/type");
-const email = require("helper/email");
 const lowerCaseContents = require("./lowerCaseContents");
+const messenger = require("./messenger");
 
 function sync(blogID, callback) {
-  if (!type(blogID, "string")) {
-    throw new TypeError("Expected blogID with type:String as first argument");
-  }
-
   if (!type(callback, "function")) {
     throw new TypeError(
       "Expected callback with type:Function as second argument"
     );
   }
 
-  const syncID = "sync_" + uuid().slice(0, 7);
-  const log = function () {
-    console.log.apply(null, [
-      clfdate(),
-      blogID.slice(0, 12),
-      syncID,
-      ...arguments,
-    ]);
-  };
-
-  log("Starting sync, fetching blog information");
+  if (!type(blogID, "string")) {
+    return callback(
+      new TypeError("Expected blogID with type:String as first argument")
+    );
+  }
 
   Blog.get({ id: blogID }, async function (err, blog) {
     // It would be nice to get an error from Blog.get instead of this...
     if (err || !blog || !blog.id || blog.isDisabled) {
-      log("Error with blog's ability to sync");
-      return callback(new Error("Cannot sync blog " + blogID));
+      const message = "Cannot sync blog " + blogID;
+      const error = new Error(message);
+      console.log(error);
+      return callback(error);
     }
+
+    const { log, status } = messenger(blog);
+
+    log("Starting sync");
 
     let release;
 
@@ -55,18 +48,18 @@ function sync(blogID, callback) {
           maxTimeout: 200,
           randomize: true,
         },
+        onCompromised: (err) => {
+          // Log will be prefixed with sync_id and blog.id
+          // to help us understand what went wrong...
+          log("Lock on folder compromised");
+          throw err;
+        },
       });
       log("Successfully acquired lock on folder");
     } catch (e) {
       log("Failed to acquire lock on folder");
       return callback(new Error("Failed to acquire folder lock"));
     }
-
-    const status = (message) => {
-      Blog.setStatus(blogID, { message, syncID });
-      log(message);
-      client.publish("sync:status:" + blogID, message);
-    };
 
     const folder = {
       path: localPath(blogID, "/"),
