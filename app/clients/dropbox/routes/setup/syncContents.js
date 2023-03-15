@@ -3,8 +3,9 @@ const { promisify } = require("util");
 const upload = promisify(require("clients/dropbox/util/upload"));
 const join = require("path").join;
 const localPath = require("helper/localPath");
+const lowerCaseContents = require("sync/lowerCaseContents");
 
-async function syncContents(account, folder, signal) {
+async function syncContents(account, folder, signal, blogID) {
   if (signal.aborted) return;
   // this could become verify.fromBlot
   await uploadAllFiles(account, folder, signal);
@@ -12,7 +13,7 @@ async function syncContents(account, folder, signal) {
   if (signal.aborted) return;
 
   // prepare folder for first sync, making all files lowercase
-  await folder.lowerCaseContents();
+  await lowerCaseContents(blogID);
 
   return account;
 }
