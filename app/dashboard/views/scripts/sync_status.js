@@ -8,14 +8,29 @@ var currentlyLoading;
 var lastStatus;
 var checkAgain;
 
+var statusContainer = document.getElementById("status");
+  
 evtSource.onmessage = function (event) {
 
-  document.getElementById("status").innerHTML = event.data;
+
+  var message = event.data;
+
+  // Map long path to just filename, e.g.
+  // 'Syncing /foo/bar/baz.txt' => 'Syncing baz.txt'
+  if (message.startsWith('Syncing /')) {
+    var path = message.slice('Syncing '.length);
+    var filename = path.split('/').pop();
+    message = 'Syncing ' + filename;
+  } 
+
+  statusContainer.removeAttribute('data-text');
+  statusContainer.innerHTML = message;
+  truncate(statusContainer);
 
   if (event.data === "Synced") {
-    document.getElementById("status").className = "";
+    statusContainer.classList.remove('syncing');
   } else {
-    document.getElementById("status").className = "syncing";
+    statusContainer.classList.add("syncing");
   }
 
   lastStatus = event.data;
@@ -29,7 +44,7 @@ evtSource.onmessage = function (event) {
 
   currentlyLoading = true;
 
-  loadFolder(function onLoad() {
+  if (document.querySelector(".live-updates")) loadFolder(function onLoad() {
     if (checkAgain === true) {
       checkAgain = false;
       return loadFolder(onLoad);
@@ -55,9 +70,8 @@ function loadFolder(callback) {
         var newState = newNode.innerHTML;
 
         if (newState === currentState) return callback();
+
         currentNode.innerHTML = newState;
-        var statusDiv = document.getElementById("status");
-        if (statusDiv) statusDiv.innerHTML = lastStatus;
       }
 
       callback();

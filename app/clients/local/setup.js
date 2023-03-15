@@ -9,8 +9,6 @@ const Fix = require("sync/fix");
 let watchers = {};
 
 function setup(blogID, callback) {
-  console.log("Setting up local client for", blogID);
-
   Blog.get({ id: blogID }, function (err, blog) {
     if (err || !blog) return callback();
     Fix(blog, function (err) {
@@ -30,7 +28,6 @@ function watch(blogID) {
   const queue = async.queue(function (path, callback) {
     Blog.get({ id: blogID }, function (err, blog) {
       if (blog.client !== "local") {
-        console.log("Tearing down local client for", blogID);
         if (watchers[blogID]) {
           watchers[blogID].close();
           delete watchers[blogID];

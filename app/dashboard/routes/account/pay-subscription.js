@@ -82,7 +82,7 @@ function payUnpaidInvoices(req, res, next) {
   stripe.invoices.list({ customer: req.customer }, function (err, invoices) {
     if (err) return next(err);
 
-    async.each(
+    async.eachSeries(
       invoices.data,
       function (invoice, nextInvoice) {
         if (invoice.paid) return nextInvoice();

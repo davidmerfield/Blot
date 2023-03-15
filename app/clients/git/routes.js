@@ -46,6 +46,12 @@ dashboard.get("/", function (req, res) {
   });
 });
 
+dashboard.get("/reset-password", function (req, res) {
+  res.render(__dirname + "/views/reset-password.html", {
+    title: "Git",
+  });
+});
+
 dashboard.get("/disconnect", function (req, res) {
   res.locals.breadcrumbs.add('Disconnect', 'disconnect');
   res.render(__dirname + "/views/disconnect.html", {
@@ -53,7 +59,7 @@ dashboard.get("/disconnect", function (req, res) {
   });
 });
 
-dashboard.post("/refresh-token", function (req, res, next) {
+dashboard.post("/reset-password", function (req, res, next) {
   database.refreshToken(req.blog.owner, function (err) {
     if (err) return next(err);
 

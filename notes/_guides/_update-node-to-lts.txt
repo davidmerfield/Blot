@@ -4,15 +4,14 @@ The most important step is to make sure you run Blot's test suite against the ne
 
 First, work out the version of node you'd like to use. I do this by visiting [the official website](https://nodejs.org/en/) and selecting the LTS (long term support) version recommended for most users.
 
-The rest of the guide assumes this version happens to be ```16.14.0```.
+The rest of the guide assumes this version happens to be ```18.15.0```.
 
 ## In development
 
-First we need to make two changes to the codebase. Update the node version in .travis.yml:
+First we need to make two changes to the codebase. Update the node version in .github/workflows/tests.yml:
 
 ```
-node_js:
-  - "16.14.0"
+  node-version: [18.15.0]
 ```
 
 And edit ```BLOT_NODE_VERSION``` in ```config/environment.sh```. Commit and push to a new branch, wait for tests to run on continuous integration server.
@@ -20,7 +19,7 @@ And edit ```BLOT_NODE_VERSION``` in ```config/environment.sh```. Commit and push
 To get the new version of node locally, install the version of node you'd like to use:
 
 ```
-nvm install 16.14.0
+nvm install 18.15.0
 ```
 
 Reinstall the node modules against the new version:
@@ -32,7 +31,7 @@ npm ci
 Then edit ```/etc/blot/environment.sh``` and re-source those environment variables in any open sessions. Use the new version as the default for other projects too:
 
 ```
-nvm alias default 16.14.0
+nvm alias default 18.15.0
 ```
 
 ## In production
@@ -44,7 +43,7 @@ edit BLOT_NODE_VERSION in /etc/blot/environment.sh
 To get the new version of node locally, install the version of node you'd like to use:
 
 ```
-nvm install 16.14.0
+nvm install 18.15.0
 ```
 
 Reinstall the node modules against the new version:
@@ -62,8 +61,8 @@ sudo stop blot && sudo start blot
 Here's the production checklist for the PR:
 
 ```
-- [ ] Edit BLOT_NODE_VERSION to 16.14.0 in `/etc/blot/environment.sh`
-- [ ] nvm install 16.14.0
+- [ ] Edit BLOT_NODE_VERSION to 18.15.0 in `/etc/blot/environment.sh`
+- [ ] nvm install 18.15.0
 - [ ] npm ci
 - [ ] sudo stop blot && sudo start blot
 ```

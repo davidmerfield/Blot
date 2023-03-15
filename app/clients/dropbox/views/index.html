@@ -58,7 +58,7 @@
     <span class="center">Full folder</span>
     {{/full_access}}
     {{^full_access}}
-    <span class="center">Apps folder only</span>
+    <span class="center">Blot's folder only</span>
     {{/full_access}}
     {{^preparing}}
     <span class="right">Edit</span>    
@@ -70,11 +70,8 @@
   </div>
   {{/preparing}}
 </div>
-
-  <a class="line" href="{{{base}}}/disconnect">
-    <span class="label">Disconnect</span>
-    <span class="link">Disconnect your folder from Dropbox</span>
-  </a>
+  
+  {{> disconnect-line}}
 
 <br><br>
 
