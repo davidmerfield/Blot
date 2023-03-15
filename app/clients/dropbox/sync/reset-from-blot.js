@@ -44,6 +44,8 @@ async function resetFromBlot(blogID, publish) {
   }
 
   const walk = async (dir) => {
+    publish("Checking", dir);
+
     const [remoteContents, localContents] = await Promise.all([
       remoteReaddir(client, join(dropboxRoot, dir)),
       localReaddir(blogID, localRoot, dir),
@@ -111,7 +113,7 @@ async function resetFromBlot(blogID, publish) {
 
   await walk("/");
 
-  await set(account.blog.id, {
+  await set(blogID, {
     error_code: 0,
     last_sync: Date.now(),
     cursor: "",
@@ -162,12 +164,13 @@ async function resetFromBlot(blogID, publish) {
 // }
 
 const localReaddir = async (blogID, localRoot, dir) => {
-  const contents = await fs.readdir(join(localRoot, dir));
+  const lowerCaseDir = dir.toLowerCase();
+  const contents = await fs.readdir(join(localRoot, lowerCaseDir));
 
   return Promise.all(
     contents.map(async (name) => {
-      const pathOnDisk = join(localRoot, dir, name);
-      const pathInDB = join(dir, name);
+      const pathOnDisk = join(localRoot, lowerCaseDir, name);
+      const pathInDB = join(lowerCaseDir, name);
       const [content_hash, stat, displayName] = await Promise.all([
         hashFile(pathOnDisk),
         fs.stat(pathOnDisk),
@@ -176,7 +179,7 @@ const localReaddir = async (blogID, localRoot, dir) => {
 
       return {
         name: displayName || name,
-        path_lower: join(dir, name),
+        path_lower: join(lowerCaseDir, name),
         is_directory: stat.isDirectory(),
         content_hash,
       };

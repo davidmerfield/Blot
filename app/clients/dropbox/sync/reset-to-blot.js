@@ -54,6 +54,7 @@ async function resetToBlot(blogID, publish) {
   }
 
   const walk = async (dir) => {
+    publish("Checking", dir);
     const [remoteContents, localContents] = await Promise.all([
       remoteReaddir(client, join(dropboxRoot, dir)),
       localReaddir(blogID, localRoot, dir),
@@ -63,7 +64,7 @@ async function resetToBlot(blogID, publish) {
       const remoteCounterpart = remoteContents.find(
         (remoteItem) => remoteItem.name === name
       );
-      
+
       if (!remoteCounterpart) {
         publish("Removing local copy of", path_lower);
         try {
@@ -82,19 +83,27 @@ async function resetToBlot(blogID, publish) {
       );
 
       const { path_lower, name } = remoteItem;
+      const pathOnDropbox = path_lower;
+      const pathOnBlot =
+        dropboxRoot === "/" ? path_lower : path_lower.slice(dropboxRoot.length);
+      const pathOnDisk = join(localRoot, pathOnBlot);
+
+      console.log("pathOnDropbox", pathOnDropbox);
+      console.log("pathOnBlot", pathOnBlot);
+      console.log("pathOnDisk", pathOnDisk);
 
       if (remoteItem.is_directory) {
         if (localCounterpart && !localCounterpart.is_directory) {
-          publish("Removing local file", join(localRoot, path_lower));
-          await fs.remove(join(localRoot, path_lower));
-          await dropMetadata(blogID, path_lower);
-          publish("Creating local directory", path_lower);
-          await fs.mkdir(join(localRoot, path_lower));
-          await addMetadata(blogID, path_lower, name);
+          publish("Removing local file", pathOnDisk);
+          await fs.remove(pathOnDisk);
+          await dropMetadata(blogID, pathOnBlot);
+          publish("Creating local directory", pathOnDisk);
+          await fs.mkdir(pathOnDisk);
+          await addMetadata(blogID, pathOnBlot, name);
         } else if (!localCounterpart) {
-          publish("Creating local directory", path_lower);
-          await fs.mkdir(join(localRoot, path_lower));
-          await addMetadata(blogID, path_lower, name);
+          publish("Creating local directory", pathOnBlot);
+          await fs.mkdir(pathOnDisk);
+          await addMetadata(blogID, pathOnBlot, name);
         }
 
         await walk(join(dir, name));
@@ -104,26 +113,18 @@ async function resetToBlot(blogID, publish) {
           localCounterpart.content_hash === remoteItem.content_hash;
 
         if (localCounterpart && !identicalLocally) {
-          publish("Overwriting existing remote", path_lower);
+          publish("Overwriting existing remote", pathOnBlot);
           try {
-            await download(
-              client,
-              join(dropboxRoot, dir, name),
-              join(localRoot, path_lower)
-            );
-            await addMetadata(blogID, path_lower, name);
+            await download(client, pathOnDropbox, pathOnDisk);
+            await addMetadata(blogID, pathOnBlot, name);
           } catch (e) {
             continue;
           }
         } else if (!localCounterpart) {
-          publish("Download", path_lower);
+          publish("Download", pathOnBlot);
           try {
-            await addMetadata(blogID, path_lower, name);
-            await download(
-              client,
-              join(dropboxRoot, dir, name),
-              join(localRoot, path_lower)
-            );
+            await addMetadata(blogID, pathOnBlot, name);
+            await download(client, pathOnDropbox, pathOnDisk);
           } catch (e) {
             continue;
           }
@@ -133,6 +134,11 @@ async function resetToBlot(blogID, publish) {
   };
 
   await walk("/");
+  await set(blogID, {
+    error_code: 0,
+    last_sync: Date.now(),
+    cursor: "",
+  });
   publish("Finished processing folder");
 
   // // prepare folder for first sync, making all files lowercase
@@ -224,6 +230,7 @@ const remoteReaddir = async (client, dir) => {
     );
   } while (has_more);
 
+  console.log(items);
   return items;
 };
 

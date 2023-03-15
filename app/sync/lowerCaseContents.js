@@ -14,6 +14,8 @@ const getMetadata = promisify(metadata.get);
 // folders with a case-sensitive name...
 // think about things e.g. previews which would trigger folder writes...
 
+// TODO:
+// Can we simplify this if we go as deep as possible before making changes?
 const lowerCaseContents = (blog, rename) => async (
   { restore } = { restore: false }
 ) => {
