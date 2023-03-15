@@ -159,10 +159,6 @@ client_routes.post("/reset/resync", load.client, function (req, res, next) {
     res.message(res.locals.base + "/client/reset", "Begin resync of your site");
 
     try {
-      // should this be moved into 'resync'?
-      // can we refactor lowerCaseContents so it can be called easily?
-      if (req.blog.client === "dropbox") await folder.lowerCaseContents();
-
       await res.locals.client.resync(req.blog.id, folder.status);
     } catch (err) {
       console.log("ERROR:", err);

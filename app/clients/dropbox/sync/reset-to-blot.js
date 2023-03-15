@@ -3,6 +3,7 @@ const { promisify } = require("util");
 const join = require("path").join;
 const clfdate = require("helper/clfdate");
 const localPath = require("helper/localPath");
+const lowerCaseContents = require("sync/lowerCaseContents");
 const hashFile = promisify((path, cb) => {
   require("helper/hashFile")(path, (err, result) => {
     cb(null, result);
@@ -33,6 +34,8 @@ async function resetToBlot(blogID, publish) {
   // if (signal.aborted) return;
   // // this could become verify.fromBlot
   // await uploadAllFiles(account, folder, signal);
+
+  await lowerCaseContents(blogID);
 
   // if (signal.aborted) return;
   // const account = await get(blogID);
