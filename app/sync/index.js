@@ -1,13 +1,11 @@
 const buildFromFolder = require("template").buildFromFolder;
 const Blog = require("blog");
-const { promisify } = require("util");
 const Update = require("./update");
 const Rename = require("./rename");
 const localPath = require("helper/localPath");
 const renames = require("./renames");
 const lockfile = require("proper-lockfile");
 const type = require("helper/type");
-const lowerCaseContents = require("./lowerCaseContents");
 const messenger = require("./messenger");
 
 function sync(blogID, callback) {
@@ -65,7 +63,6 @@ function sync(blogID, callback) {
       path: localPath(blogID, "/"),
       update: new Update(blog, log, status),
       rename: Rename(blog, log),
-      lowerCaseContents: lowerCaseContents(blog, promisify(Rename(blog, log))),
       status,
       log,
     };

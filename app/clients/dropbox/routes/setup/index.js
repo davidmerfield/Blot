@@ -16,14 +16,14 @@ function setup(account, session, callback) {
     const client = redis.createClient();
     const signal = { aborted: false };
     const cleanup = () => {
-      console.log('Cleaning up Dropbox setup');
+      console.log("Cleaning up Dropbox setup");
       try {
         delete session.dropbox;
         session.save();
         client.unsubscribe();
         client.quit();
       } catch (e) {
-        console.log('Error cleaning up:', err);
+        console.log("Error cleaning up:", err);
       }
     };
 
@@ -48,7 +48,7 @@ function setup(account, session, callback) {
       session.save();
 
       folder.status("Transferring files in your folder to Dropbox");
-      account = await syncContents(account, folder, signal);
+      account = await syncContents(account, folder, signal, account.blog.id);
       if (signal.aborted) return;
     } catch (err) {
       folder.status("Error: " + err.message);
@@ -67,7 +67,7 @@ function setup(account, session, callback) {
       folder: account.folder,
       folder_id: account.folder_id,
       cursor: "",
-    });    
+    });
     cleanup();
     done(null, callback);
   });
