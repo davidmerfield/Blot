@@ -3,6 +3,8 @@ const get = require("../get/blog");
 const each = require("../each/blog");
 
 function main(blog, callback) {
+  if (blog.client !== "dropbox") return callback();
+  console.log("Blog", blog.id, "Checking case local files");
   sync(blog.id, async function (err, folder, done) {
     if (err) return callback(err);
 
