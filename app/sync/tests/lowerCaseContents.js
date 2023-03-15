@@ -14,41 +14,48 @@ entries.getAll[promisify.custom] = (blogID) =>
     });
   });
 
-describe("sync lowerCaseContents", function () {
+describe("lowerCaseContents", function () {
   // Create test blog
   global.test.blog();
+
+  it("lowercases folder contents", async function () {
+    await this.write("/Posts/Foo/Bar.txt", "test 1");
+    await this.write("/Posts/Baz.txt", "test 2");
+    await this.write("/Posts/sub/Baz/Bat.txt", "test 3");
+    await this.write("/BaT.txt", "test 4");
+
+    await this.check({ expectConflict: false });
+  });
 
   it("handles case-conflicting directories", async function () {
     await this.write("/basil/foo.txt", "test 1");
     await this.write("/Basil/bar.txt", "test 2");
 
-    await this.check({ casey: true });
+    await this.check({ expectConflict: true });
   });
 
   it("handles case-conflicting files", async function () {
     await this.write("/fOo.txt", "test 1");
     await this.write("/FoO.txt", "test 2");
 
-    await this.check({ casey: true });
+    await this.check({ expectConflict: true });
   });
-
-
 
   it("handles case-conflicting directories with case-y parents", async function () {
     await this.write("/Bar/templates/foo.txt", "test 1");
     await this.write("/Bar/Templates/bar.txt", "test 2");
 
-    await this.check({ casey: true });
+    await this.check({ expectConflict: true });
   });
 
   it("handles case-conflicting files with case-y parents", async function () {
     await this.write("/Templates/fOo.txt", "test 1");
     await this.write("/Templates/FoO.txt", "test 2");
 
-    await this.check({ casey: true });
+    await this.check({ expectConflict: true });
   });
 
-  it("lowercases all files in blog folder", async function () {
+  it("lowercases all files and folders in blog folder", async function () {
     await this.write("/bat.txt", "test 1");
     await this.write("/bAr.txt", "test 2");
     await this.write("/boOo/foO.txt", "test 3");
@@ -76,14 +83,18 @@ describe("sync lowerCaseContents", function () {
 
     ctx.getAll = async () => {
       const allEntries = await promisify(entries.getAll)(this.blog.id);
-      return allEntries.map((entry) => {
-        return {
-          id: entry.id,
-          path: entry.path,
-          name: entry.name,
-          guid: entry.guid,
-        };
-      });
+      return allEntries
+        .map((entry) => {
+          return {
+            id: entry.id,
+            path: entry.path,
+            name: entry.name,
+            guid: entry.guid,
+          };
+        })
+        .sort((a, b) => {
+          return a.id < b.id;
+        });
     };
 
     ctx.getContents = async (dir = "/") => {
@@ -97,48 +108,51 @@ describe("sync lowerCaseContents", function () {
           for (const child of children) contents.push(child);
         }
       }
-      return contents;
+      return contents.sort();
     };
 
     sync(blogID, async function (err, folder, complete) {
       if (err) return done(err);
       ctx.folder = folder;
       ctx.complete = complete;
-      ctx.check = async function check({ casey = false } = {}) {
+      ctx.check = async function check({ expectConflict = false } = {}) {
         const entriesBefore = await ctx.getAll();
-        console.log("entries", entriesBefore);
         const pathsBefore = await ctx.getContents();
-        console.log("pathsBefore", pathsBefore);
 
-        await lowerCaseContents(
-          ctx.blog,
-          promisify(rename(ctx.blog, console.log))
-        )();
+        await lowerCaseContents(ctx.blog.id);
 
         const entriesAfter = await ctx.getAll();
-        console.log("entriesAfter", entriesAfter);
         const pathsAfter = await ctx.getContents();
-        console.log("pathsAfter", pathsAfter);
 
-        if (!casey) {
+        // Has lowercase actually worked?
+        pathsAfter.forEach((path) => {
+          expect(path).toEqual(path.toLowerCase());
+        });
+        entriesAfter.forEach(({ path }) => {
+          expect(path).toEqual(path.toLowerCase());
+        });
+
+        // Have we stored the case-y path in the db?
+        // pathsAfter.forEach((path, i)=>{
+        //   if (path !== pathsBefore[i])
+        //     const
+        // })
+
+        if (!expectConflict) {
           expect(
-            entriesBefore
-              .map(({ name, guid }) => {
-                return {
-                  name,
-                  guid,
-                };
-              })
-              .sort()
+            entriesBefore.map(({ name, guid }) => {
+              return {
+                name,
+                guid,
+              };
+            })
           ).toEqual(
-            entriesAfter
-              .map(({ name, guid }) => {
-                return {
-                  name,
-                  guid,
-                };
-              })
-              .sort()
+            entriesAfter.map(({ name, guid }) => {
+              return {
+                name,
+                guid,
+              };
+            })
           );
           expect(pathsAfter.sort()).toEqual(
             pathsBefore.map((i) => i.toLowerCase()).sort()
@@ -149,22 +163,17 @@ describe("sync lowerCaseContents", function () {
         }
 
         // can we reverse the process?
-        await lowerCaseContents(
-          ctx.blog,
-          promisify(rename(ctx.blog, console.log))
-        )({ restore: true });
+        await lowerCaseContents(ctx.blog.id, { restore: true });
 
         const entriesRestored = await ctx.getAll();
-        console.log("entries", entriesRestored);
         const pathsRestored = await ctx.getContents();
-        console.log("pathsRestored", pathsRestored);
 
-        if (casey) {
+        if (expectConflict) {
           expect(entriesRestored.length).toEqual(entriesBefore.length);
           expect(pathsRestored.length).toEqual(pathsBefore.length);
         } else {
-          expect(entriesRestored.sort()).toEqual(entriesBefore.sort());
-          expect(pathsRestored.sort()).toEqual(pathsBefore.sort());
+          expect(entriesRestored).toEqual(entriesBefore);
+          expect(pathsRestored).toEqual(pathsBefore);
         }
       };
       ctx.write = async function (path, contents) {

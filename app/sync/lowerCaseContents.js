@@ -4,7 +4,9 @@ const localPath = require("helper/localPath");
 const metadata = require("models/metadata");
 const { promisify } = require("util");
 const getMetadata = promisify(metadata.get);
+const getBlog = promisify(require("models/blog").get);
 const move = require("helper/move");
+const Rename = require("./rename");
 
 // Takes a file or folder whose name is not fully
 // lowercase and to make it lowercase. For example:
@@ -15,9 +17,11 @@ const move = require("helper/move");
 // folders with a case-sensitive name...
 // think about things e.g. previews which would trigger folder writes...
 
-const lowerCaseContents = (blog, rename) => async (
-  { restore } = { restore: false }
-) => {
+// What about doing depth-first? It's complicated by the 'restore'
+// process
+const lowerCaseContents = async (blogID, { restore } = { restore: false }) => {
+  const blog = await getBlog({ id: blogID });
+  const rename = promisify(Rename(blog, console.log));
   const localFolder = localPath(blog.id, "/");
   const renamedDirectories = {};
 
@@ -46,11 +50,7 @@ const lowerCaseContents = (blog, rename) => async (
         const options = restore ? {} : { name: item };
         const desiredPath = join(dir, newName);
 
-        const newPath = await move(
-          localFolder,
-          currentPath,
-          desiredPath
-        );
+        const newPath = await move(localFolder, currentPath, desiredPath);
 
         await rename(newPath, pathInBlotsDB, options);
 
@@ -66,11 +66,7 @@ const lowerCaseContents = (blog, rename) => async (
         const desiredPath = join(dir, newName);
         const options = restore ? {} : { name: item };
 
-        const newPath = await move(
-          localFolder,
-          currentPath,
-          desiredPath
-        );
+        const newPath = await move(localFolder, currentPath, desiredPath);
 
         renamedDirectories[newPath] = currentPath;
 
@@ -103,11 +99,7 @@ const lowerCaseContents = (blog, rename) => async (
         const desiredPath = join(dir, newName);
         const options = restore ? {} : { name: item };
 
-        const newPath = await move(
-          localFolder,
-          currentPath,
-          desiredPath
-        );
+        const newPath = await move(localFolder, currentPath, desiredPath);
         await rename(newPath, pathInBlotsDB, options);
       }
 
@@ -118,11 +110,7 @@ const lowerCaseContents = (blog, rename) => async (
         const desiredPath = join(dir, newName);
         const options = restore ? {} : { name: item };
 
-        const newPath = await move(
-          localFolder,
-          currentPath,
-          desiredPath
-        );
+        const newPath = await move(localFolder, currentPath, desiredPath);
 
         await rename(newPath, currentPath, options);
       }

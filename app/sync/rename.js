@@ -60,7 +60,6 @@ const rename = (blog, log) => (path, oldPath, options, callback) => {
             ) {
               updates.dateStamp = deletedEntry.dateStamp;
             }
-            console.log("adding updates to createdEntry", updates);
 
             Entry.set(blog.id, path, updates, function (err) {
               if (err) return callback(err);
@@ -68,7 +67,6 @@ const rename = (blog, log) => (path, oldPath, options, callback) => {
               if (oldPath.toLowerCase() === path.toLowerCase())
                 return callback();
 
-              console.log("removing guid from deletedEntry");
               Entry.set(blog.id, oldPath, { guid: newGuid }, callback);
             });
           });
