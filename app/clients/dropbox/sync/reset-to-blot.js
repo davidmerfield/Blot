@@ -24,12 +24,12 @@ const createClient = promisify((blogID, cb) =>
 // const get = promisify(require("../database").get);
 
 async function resetToBlot(blogID, publish) {
-  console.trace();
-
   if (!publish)
     publish = (...args) => {
       console.log(clfdate() + " Dropbox:", args.join(" "));
     };
+
+  publish("checking folder");
 
   // if (signal.aborted) return;
   // // this could become verify.fromBlot
@@ -49,10 +49,10 @@ async function resetToBlot(blogID, publish) {
     const { result } = await client.filesGetMetadata({
       path: account.folder_id,
     });
-    const { path_lower } = result;
+    const { path_lower, path_display } = result;
     if (path_lower) {
       dropboxRoot = path_lower;
-      await set(blogID, { folder: path_lower });
+      await set(blogID, { folder: path_display });
     }
   }
 

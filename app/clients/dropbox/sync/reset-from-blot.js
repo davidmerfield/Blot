@@ -43,8 +43,11 @@ async function resetFromBlot(blogID, publish) {
     const { result } = await client.filesGetMetadata({
       path: account.folder_id,
     });
-    const { path_lower } = result;
-    if (path_lower) dropboxRoot = path_lower;
+    const { path_lower, path_display } = result;
+    if (path_lower) {
+      dropboxRoot = path_lower;
+      await set(blogID, { folder: path_display });
+    }
   }
 
   const walk = async (dir) => {
@@ -124,7 +127,6 @@ async function resetFromBlot(blogID, publish) {
   });
 
   publish("Finished processing folder");
-
 
   // reset sync cursor
   // await set(blogID, {cursor: ''});
