@@ -1,6 +1,5 @@
 const fs = require("fs-extra");
 const { promisify } = require("util");
-// const upload = promisify(require("clients/dropbox/util/upload"));
 const join = require("path").join;
 const clfdate = require("helper/clfdate");
 const localPath = require("helper/localPath");
@@ -9,13 +8,19 @@ const hashFile = promisify((path, cb) => {
     cb(null, result);
   });
 });
-const upload = promisify(require("../util/upload"));
+const download = promisify(require("../util/download"));
+
 const getMetadata = promisify(require("models/metadata").get);
+const addMetadata = promisify(require("models/metadata").add);
+const dropMetadata = promisify(require("models/metadata").drop);
+
 const set = promisify(require("../database").set);
-const get = promisify(require("../database").get);
 const createClient = promisify((blogID, cb) =>
   require("../util/createClient")(blogID, (err, ...results) => cb(err, results))
 );
+
+// const upload = promisify(require("clients/dropbox/util/upload"));
+// const get = promisify(require("../database").get);
 
 async function resetToBlot(blogID, publish) {
   console.trace();
@@ -54,55 +59,74 @@ async function resetToBlot(blogID, publish) {
       localReaddir(blogID, localRoot, dir),
     ]);
 
-    for (const { name } of localContents) {
-      const path = join(dir, name);
-      if (!remoteContents.find((remoteItem) => remoteItem.name === name)) {
-        publish("Removing local copy of", path);
+    for (const { name, path_lower } of localContents) {
+      const remoteCounterpart = remoteContents.find(
+        (remoteItem) => remoteItem.name === name
+      );
+      
+      if (!remoteCounterpart) {
+        publish("Removing local copy of", path_lower);
         try {
-          await fs.remove(join(localRoot, path));
+          await dropMetadata(blogID, path_lower);
+          await fs.remove(join(localRoot, path_lower));
         } catch (e) {
-          publish("Failed to remove local copy of", path, e.message);
+          publish("Failed to remove local copy of", path_lower, e.message);
         }
       }
     }
 
     for (const remoteItem of remoteContents) {
-      const path = join(dir, remoteItem.name);
+      // Name can be casey, path_lower is not
       const localCounterpart = localContents.find(
         (localItem) => localItem.name === remoteItem.name
       );
 
+      const { path_lower, name } = remoteItem;
+
       if (remoteItem.is_directory) {
         if (localCounterpart && !localCounterpart.is_directory) {
-          publish("Removing local file", path);
-          await fs.remove(join(localRoot, path));
-          publish("Creating local directory", path);
-          await fs.mkdir(join(localRoot, path));
+          publish("Removing local file", join(localRoot, path_lower));
+          await fs.remove(join(localRoot, path_lower));
+          await dropMetadata(blogID, path_lower);
+          publish("Creating local directory", path_lower);
+          await fs.mkdir(join(localRoot, path_lower));
+          await addMetadata(blogID, path_lower, name);
         } else if (!localCounterpart) {
-          publish("Creating local directory", path);
-          await fs.mkdir(join(localRoot, path));
+          publish("Creating local directory", path_lower);
+          await fs.mkdir(join(localRoot, path_lower));
+          await addMetadata(blogID, path_lower, name);
         }
 
-        await walk(path);
+        await walk(join(dir, name));
       } else {
         const identicalLocally =
           localCounterpart &&
           localCounterpart.content_hash === remoteItem.content_hash;
 
         if (localCounterpart && !identicalLocally) {
-          publish("Overwriting existing remote", path);
-          await download(
-            client,
-            join(localRoot, localItem.path_lower),
-            join(dropboxRoot, path)
-          );
-        } else if (!remoteCounterpart) {
-          publish("Uploading", path);
-          await upload(
-            client,
-            join(localRoot, localItem.path_lower),
-            join(dropboxRoot, path)
-          );
+          publish("Overwriting existing remote", path_lower);
+          try {
+            await download(
+              client,
+              join(dropboxRoot, dir, name),
+              join(localRoot, path_lower)
+            );
+            await addMetadata(blogID, path_lower, name);
+          } catch (e) {
+            continue;
+          }
+        } else if (!localCounterpart) {
+          publish("Download", path_lower);
+          try {
+            await addMetadata(blogID, path_lower, name);
+            await download(
+              client,
+              join(dropboxRoot, dir, name),
+              join(localRoot, path_lower)
+            );
+          } catch (e) {
+            continue;
+          }
         }
       }
     }
@@ -154,12 +178,14 @@ async function resetToBlot(blogID, publish) {
 // }
 
 const localReaddir = async (blogID, localRoot, dir) => {
-  const contents = await fs.readdir(join(localRoot, dir));
+  // The Dropbox client stores all items in lowercase
+  const lowerCaseDir = dir.toLowerCase();
+  const contents = await fs.readdir(join(localRoot, lowerCaseDir));
 
   return Promise.all(
     contents.map(async (name) => {
-      const pathOnDisk = join(localRoot, dir, name);
-      const pathInDB = join(dir, name);
+      const pathOnDisk = join(localRoot, lowerCaseDir, name);
+      const pathInDB = join(lowerCaseDir, name);
       const [content_hash, stat, displayName] = await Promise.all([
         hashFile(pathOnDisk),
         fs.stat(pathOnDisk),

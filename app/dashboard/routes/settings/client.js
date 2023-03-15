@@ -158,10 +158,23 @@ client_routes.post("/reset/resync", load.client, function (req, res, next) {
 
     res.message(res.locals.base + "/client/reset", "Begin resync of your site");
 
-    await res.locals.client.resync(req.blog.id);
+    try {
+      await res.locals.client.resync(req.blog.id);
+    } catch (err) {
+      console.log("ERROR:", err);
+    }
 
-    done(null, function (err) {
+    Rebuild(req.blog.id, function (err) {
       if (err) console.log(err);
+      folder.status("Checking your site for issues");
+      Fix(req.blog, function (err) {
+        if (err) console.log(err);
+        folder.status("Finished site rebuild");
+
+        done(null, function (err) {
+          if (err) console.log(err);
+        });
+      });
     });
   });
 });
