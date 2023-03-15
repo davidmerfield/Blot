@@ -4,6 +4,9 @@ const localPath = require("helper/localPath");
 const metadata = require("models/metadata");
 const { promisify } = require("util");
 const getMetadata = promisify(metadata.get);
+const getBlog = promisify(require("models/blog").get);
+const move = require("helper/move");
+const Rename = require("./rename");
 
 // Takes a file or folder whose name is not fully
 // lowercase and to make it lowercase. For example:
@@ -14,11 +17,11 @@ const getMetadata = promisify(metadata.get);
 // folders with a case-sensitive name...
 // think about things e.g. previews which would trigger folder writes...
 
-// TODO:
-// Can we simplify this if we go as deep as possible before making changes?
-const lowerCaseContents = (blog, rename) => async (
-  { restore } = { restore: false }
-) => {
+// What about doing depth-first? It's complicated by the 'restore'
+// process
+const lowerCaseContents = async (blogID, { restore } = { restore: false }) => {
+  const blog = await getBlog({ id: blogID });
+  const rename = promisify(Rename(blog, console.log));
   const localFolder = localPath(blog.id, "/");
   const renamedDirectories = {};
 
@@ -42,41 +45,44 @@ const lowerCaseContents = (blog, rename) => async (
       // this directory has a case-sensitive name
       // and it is inside a directory which has moved
       if (directory && hasNewName && inMovedDirectory) {
-        const blotPath = join(formerParentDirectory, item);
-        const newPath = join(dir, newName);
-        const pathOnDisk = join(localFolder, dir, item);
+        const pathInBlotsDB = join(formerParentDirectory, item);
+        const currentPath = join(dir, item);
         const options = restore ? {} : { name: item };
+        const desiredPath = join(dir, newName);
 
-        renamedDirectories[newPath] = blotPath;
+        const newPath = await move(localFolder, currentPath, desiredPath);
 
-        await fs.rename(pathOnDisk, join(localFolder, newPath));
-        await rename(newPath, blotPath, options);
+        await rename(newPath, pathInBlotsDB, options);
+
+        renamedDirectories[newPath] = pathInBlotsDB;
+
         await walk(newPath);
       }
 
       // this directory has a case-sensitive name
       // but it is not inside a directory which has moved
       if (directory && hasNewName && !inMovedDirectory) {
-        const path = join(dir, item);
-        const newPath = join(dir, newName);
+        const currentPath = join(dir, item);
+        const desiredPath = join(dir, newName);
         const options = restore ? {} : { name: item };
 
-        renamedDirectories[newPath] = path;
+        const newPath = await move(localFolder, currentPath, desiredPath);
 
-        await fs.rename(join(localFolder, path), join(localFolder, newPath));
-        await rename(newPath, path, options);
+        renamedDirectories[newPath] = currentPath;
+
+        await rename(newPath, currentPath, options);
         await walk(newPath);
       }
 
       // this directory does not have a case-sensitive name
-      // but it is inside a directory which has moved
+      // but it is inside a directory which has already moved
       if (directory && !hasNewName && inMovedDirectory) {
-        const blotPath = join(formerParentDirectory, item);
-        const path = join(dir, item);
+        const pathInBlotsDB = join(formerParentDirectory, item);
+        const currentPath = join(dir, item);
 
-        renamedDirectories[path] = blotPath;
-        await rename(path, blotPath, {});
-        await walk(path);
+        renamedDirectories[currentPath] = pathInBlotsDB;
+        await rename(currentPath, pathInBlotsDB, {});
+        await walk(currentPath);
       }
 
       // this directory does not have a case-sensitive name
@@ -88,24 +94,25 @@ const lowerCaseContents = (blog, rename) => async (
       // this file has a case-sensitive name
       // and it is inside a directory which has moved
       if (file && hasNewName && inMovedDirectory) {
-        const blotPath = join(formerParentDirectory, item);
-        const newPath = join(dir, newName);
-        const pathOnDisk = join(localFolder, dir, item);
+        const pathInBlotsDB = join(formerParentDirectory, item);
+        const currentPath = join(dir, item);
+        const desiredPath = join(dir, newName);
         const options = restore ? {} : { name: item };
 
-        await fs.rename(pathOnDisk, join(localFolder, newPath));
-        await rename(newPath, blotPath, options);
+        const newPath = await move(localFolder, currentPath, desiredPath);
+        await rename(newPath, pathInBlotsDB, options);
       }
 
       // this file has a case-sensitive name
       // but it is not inside a directory which has moved
       if (file && hasNewName && !inMovedDirectory) {
-        const blotPath = join(dir, item);
-        const path = join(dir, newName);
+        const currentPath = join(dir, item);
+        const desiredPath = join(dir, newName);
         const options = restore ? {} : { name: item };
 
-        await fs.rename(join(localFolder, blotPath), join(localFolder, path));
-        await rename(path, blotPath, options);
+        const newPath = await move(localFolder, currentPath, desiredPath);
+
+        await rename(newPath, currentPath, options);
       }
 
       // this file does not have a case-sensitive name
