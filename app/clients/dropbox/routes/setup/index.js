@@ -62,8 +62,6 @@ function setup(account, session, callback) {
 
       folder.status("Transferring files in your folder to Dropbox");
       if (signal.aborted) return;
-      // prepare folder for first sync, making all files lowercase
-      await folder.lowerCaseContents();
 
       if (signal.aborted) return;
       // upload folder contents to dropbox

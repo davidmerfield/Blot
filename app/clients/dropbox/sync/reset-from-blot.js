@@ -13,6 +13,7 @@ const upload = promisify(require("../util/upload"));
 const getMetadata = promisify(require("models/metadata").get);
 const set = promisify(require("../database").set);
 const get = promisify(require("../database").get);
+const lowerCaseContents = require("sync/lowerCaseContents");
 const createClient = promisify((blogID, cb) =>
   require("../util/createClient")(blogID, (err, ...results) => cb(err, results))
 );
@@ -26,6 +27,9 @@ async function resetFromBlot(blogID, publish) {
   // if (signal.aborted) return;
   // // this could become verify.fromBlot
   // await uploadAllFiles(account, folder, signal);
+
+  // prepare folder for first sync, making all files lowercase
+  await lowerCaseContents(blogID);
 
   // if (signal.aborted) return;
   // const account = await get(blogID);
@@ -121,8 +125,6 @@ async function resetFromBlot(blogID, publish) {
 
   publish("Finished processing folder");
 
-  // // prepare folder for first sync, making all files lowercase
-  // await folder.lowerCaseContents();
 
   // reset sync cursor
   // await set(blogID, {cursor: ''});
