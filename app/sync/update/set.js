@@ -1,4 +1,3 @@
-var pathNormalizer = require("helper/pathNormalizer");
 var rebuildDependents = require("./rebuildDependents");
 var Ignore = require("./ignore");
 var Metadata = require("metadata");
@@ -10,6 +9,7 @@ var WRONG_TYPE = "WRONG_TYPE";
 var PUBLIC_FILE = "PUBLIC_FILE";
 var isHidden = require("build/prepare/isHidden");
 var build = require("build");
+var pathNormalizer = require("helper/pathNormalizer");
 
 function isPublic(path) {
   const normalizedPath = pathNormalizer(path).toLowerCase();
@@ -56,8 +56,7 @@ module.exports = function (blog, path, options, callback) {
     options = {};
   }
 
-  // Blot likes leading slashes
-  if (path[0] !== "/") path = "/" + path;
+  path = pathNormalizer(path);
 
   var queue = {};
 

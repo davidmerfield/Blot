@@ -37,12 +37,12 @@ function setup(account, session, callback) {
     });
 
     try {
-      folder.status("Loading your Dropbox account information");
+      folder.status("Loading Dropbox account");
       account = await getAccount(account);
       if (signal.aborted) return;
       session.save();
 
-      folder.status("Creating a folder in Dropbox for your blog");
+      folder.status("Creating folder in Dropbox");
       account = await createFolder(account, signal);
       if (signal.aborted) return;
       session.save();
@@ -60,7 +60,7 @@ function setup(account, session, callback) {
         cursor: "",
       });
 
-      folder.status("Transferring files in your folder to Dropbox");
+      folder.status("Syncing your folder to Dropbox");
       if (signal.aborted) return;
 
       // upload folder contents to dropbox

@@ -1,4 +1,5 @@
 var client = require("client");
+var pathNormalizer = require("helper/pathNormalizer");
 
 var key = {
   all: function (blogID) {
@@ -6,7 +7,7 @@ var key = {
   },
 
   path: function (blogID, path) {
-    return "blog:" + blogID + ":folder:" + path;
+    return "blog:" + blogID + ":folder:" + pathNormalizer(path);
   },
 };
 
