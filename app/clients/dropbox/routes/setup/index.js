@@ -63,10 +63,9 @@ function setup(account, session, callback) {
       folder.status("Transferring files in your folder to Dropbox");
       if (signal.aborted) return;
 
-      if (signal.aborted) return;
       // upload folder contents to dropbox
       // todo: pass in signal
-      await resetFromBlot(account.blog.id);
+      await resetFromBlot(account.blog.id, folder.status);
 
       if (signal.aborted) return;
     } catch (err) {
