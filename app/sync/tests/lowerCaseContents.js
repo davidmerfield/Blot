@@ -52,6 +52,38 @@ describe("lowerCaseContents", function () {
     });
   });
 
+  it("handles nested conflicting files and directories", async function () {
+    await this.write("/Hello.txt", "test 1");
+    await this.write("/hello.txt", "test 2");
+    await this.write("/subDir/Hello.txt", "test 3");
+    await this.write("/subDir/hello.txt", "test 4");
+    await this.write("/subdir/Hello.txt", "test 5");
+    await this.write("/subdir/hello.txt", "test 6");
+
+    await this.check({
+      expectPaths: [
+        "/hello.txt",
+        "/hello copy.txt",
+        "/subdir",
+        "/subdir/hello.txt",
+        "/subdir/hello copy.txt",
+        "/subdir copy",
+        "/subdir copy/hello.txt",
+        "/subdir copy/hello copy.txt",
+      ],
+      expectMetadata: {
+        "/hello.txt": null,
+        "/subdir/hello.txt": null,
+        "/subdir": null,
+        "/subdir copy": "subDir copy",
+        "/subdir copy/hello.txt": null,
+        "/hello copy.txt": "Hello copy.txt",
+        "/subdir/hello copy.txt": "Hello copy.txt",
+        "/subdir copy/hello copy.txt": "Hello copy.txt",
+      },
+    });
+  });
+
   it("handles case-conflicting files", async function () {
     await this.write("/fOo.txt", "test 1");
     await this.write("/FoO.txt", "test 2");

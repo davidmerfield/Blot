@@ -29,20 +29,17 @@ async function resetToBlot(blogID, publish) {
       console.log(clfdate() + " Dropbox:", args.join(" "));
     };
 
-  publish("checking folder");
+  publish("Syncing folder from Dropbox to Blot");
 
   // if (signal.aborted) return;
   // // this could become verify.fromBlot
   // await uploadAllFiles(account, folder, signal);
-
-  await lowerCaseContents(blogID);
 
   // if (signal.aborted) return;
   // const account = await get(blogID);
   const [client, account] = await createClient(blogID);
 
   let dropboxRoot = "/";
-  const localRoot = localPath(blogID, "/");
 
   // Load the path to the blog folder root position in Dropbox
   if (account.folder_id) {
@@ -55,6 +52,9 @@ async function resetToBlot(blogID, publish) {
       await set(blogID, { folder: path_display });
     }
   }
+
+  publish("Checking the case of files within your folder");
+  await lowerCaseContents(blogID);
 
   // It's import that these args match those used in delta.js
   // A way to quickly get a cursor for the folder's state.
@@ -77,134 +77,92 @@ async function resetToBlot(blogID, publish) {
   // This means that future syncs will be fast
   await set(blogID, { cursor });
 
-  const walk = async (dir) => {
-    publish("Checking", dir);
-    const [remoteContents, localContents] = await Promise.all([
-      remoteReaddir(client, join(dropboxRoot, dir)),
-      localReaddir(blogID, localRoot, dir),
-    ]);
+  await walk(blogID, client, publish, dropboxRoot, "/");
 
-    for (const { name, path_lower } of localContents) {
-      const remoteCounterpart = remoteContents.find(
-        (remoteItem) => remoteItem.name === name
-      );
-
-      if (!remoteCounterpart) {
-        publish("Removing local copy of", path_lower);
-        try {
-          await dropMetadata(blogID, path_lower);
-          await fs.remove(join(localRoot, path_lower));
-        } catch (e) {
-          publish("Failed to remove local copy of", path_lower, e.message);
-        }
-      }
-    }
-
-    for (const remoteItem of remoteContents) {
-      // Name can be casey, path_lower is not
-      const localCounterpart = localContents.find(
-        (localItem) => localItem.name === remoteItem.name
-      );
-
-      const { path_lower, name } = remoteItem;
-      const pathOnDropbox = path_lower;
-      const pathOnBlot =
-        dropboxRoot === "/" ? path_lower : path_lower.slice(dropboxRoot.length);
-      const pathOnDisk = join(localRoot, pathOnBlot);
-
-      console.log("pathOnDropbox", pathOnDropbox);
-      console.log("pathOnBlot", pathOnBlot);
-      console.log("pathOnDisk", pathOnDisk);
-
-      if (remoteItem.is_directory) {
-        if (localCounterpart && !localCounterpart.is_directory) {
-          publish("Removing local file", pathOnDisk);
-          await fs.remove(pathOnDisk);
-          await dropMetadata(blogID, pathOnBlot);
-          publish("Creating local directory", pathOnDisk);
-          await fs.mkdir(pathOnDisk);
-          await addMetadata(blogID, pathOnBlot, name);
-        } else if (!localCounterpart) {
-          publish("Creating local directory", pathOnBlot);
-          await fs.mkdir(pathOnDisk);
-          await addMetadata(blogID, pathOnBlot, name);
-        }
-
-        await walk(join(dir, name));
-      } else {
-        const identicalLocally =
-          localCounterpart &&
-          localCounterpart.content_hash === remoteItem.content_hash;
-
-        if (localCounterpart && !identicalLocally) {
-          publish("Overwriting existing remote", pathOnBlot);
-          try {
-            await download(client, pathOnDropbox, pathOnDisk);
-            await addMetadata(blogID, pathOnBlot, name);
-          } catch (e) {
-            continue;
-          }
-        } else if (!localCounterpart) {
-          publish("Download", pathOnBlot);
-          try {
-            await addMetadata(blogID, pathOnBlot, name);
-            await download(client, pathOnDropbox, pathOnDisk);
-          } catch (e) {
-            continue;
-          }
-        }
-      }
-    }
-  };
-
-  await walk("/");
   await set(blogID, {
     error_code: 0,
     last_sync: Date.now(),
   });
+
   publish("Finished processing folder");
-
-  // // prepare folder for first sync, making all files lowercase
-  // await folder.lowerCaseContents();
-
-  // reset sync cursor
-  // await set(blogID, {cursor: ''});
-
-  // return account;
 }
 
-// async function uploadAllFiles(account, folder, signal, dir = "/") {
-//   if (signal.aborted) return;
+const walk = async (blogID, client, publish, dropboxRoot, dir) => {
+  const localRoot = localPath(blogID, "/");
+  publish("Checking", dir);
+  const [remoteContents, localContents] = await Promise.all([
+    remoteReaddir(client, join(dropboxRoot, dir)),
+    localReaddir(blogID, localRoot, dir),
+  ]);
 
-//   const items = await fs.readdir(localPath(account.blog.id, dir));
+  for (const { name, path_lower } of localContents) {
+    const remoteCounterpart = remoteContents.find(
+      (remoteItem) => remoteItem.name === name
+    );
 
-//   for (const item of items) {
-//     if (signal.aborted) return;
-//     const stat = await fs.stat(localPath(account.blog.id, join(dir, item)));
-//     if (stat.isDirectory()) {
-//       await uploadAllFiles(account, folder, signal, join(dir, item));
-//     } else {
-//       folder.status("Transferring " + join(dir, item));
-//       const source = localPath(account.blog.id, join(dir, item));
-//       const destination = join(account.folder, dir, item);
+    if (!remoteCounterpart) {
+      publish("Removing", path_lower);
+      try {
+        await dropMetadata(blogID, path_lower);
+        await fs.remove(join(localRoot, path_lower));
+      } catch (e) {
+        publish("Failed to remove", path_lower, e.message);
+      }
+    }
+  }
 
-//       try {
-//         await upload(account.client, source, destination);
-//       } catch (err) {
-//         const { status, error } = err;
-//         if (
-//           status === 409 &&
-//           error.error_summary.startsWith("path/disallowed_name")
-//         ) {
-//           continue;
-//         } else {
-//           console.log("here,", status, error);
-//           throw err;
-//         }
-//       }
-//     }
-//   }
-// }
+  for (const remoteItem of remoteContents) {
+    // Name can be casey, path_lower is not
+    const localCounterpart = localContents.find(
+      (localItem) => localItem.name === remoteItem.name
+    );
+
+    const { path_lower, name } = remoteItem;
+    const pathOnDropbox = path_lower;
+    const pathOnBlot =
+      dropboxRoot === "/" ? path_lower : path_lower.slice(dropboxRoot.length);
+    const pathOnDisk = join(localRoot, pathOnBlot);
+
+    if (remoteItem.is_directory) {
+      if (localCounterpart && !localCounterpart.is_directory) {
+        publish("Removing", pathOnDisk);
+        await fs.remove(pathOnDisk);
+        await dropMetadata(blogID, pathOnBlot);
+        publish("Creating directory", pathOnDisk);
+        await fs.mkdir(pathOnDisk);
+        await addMetadata(blogID, pathOnBlot, name);
+      } else if (!localCounterpart) {
+        publish("Creating directory", pathOnBlot);
+        await fs.mkdir(pathOnDisk);
+        await addMetadata(blogID, pathOnBlot, name);
+      }
+
+      await walk(blogID, client, publish, dropboxRoot, join(dir, name));
+    } else {
+      const identicalLocally =
+        localCounterpart &&
+        localCounterpart.content_hash === remoteItem.content_hash;
+
+      if (localCounterpart && !identicalLocally) {
+        publish("Downloading", pathOnBlot);
+        try {
+          await download(client, pathOnDropbox, pathOnDisk);
+          await addMetadata(blogID, pathOnBlot, name);
+        } catch (e) {
+          continue;
+        }
+      } else if (!localCounterpart) {
+        publish("Downloading", pathOnBlot);
+        try {
+          await addMetadata(blogID, pathOnBlot, name);
+          await download(client, pathOnDropbox, pathOnDisk);
+        } catch (e) {
+          continue;
+        }
+      }
+    }
+  }
+};
 
 const localReaddir = async (blogID, localRoot, dir) => {
   // The Dropbox client stores all items in lowercase

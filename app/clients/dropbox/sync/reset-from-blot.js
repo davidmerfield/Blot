@@ -59,7 +59,6 @@ async function resetFromBlot(blogID, publish) {
   // needs to know about new files and modifications and doesn't
   // need to know about files that already exist in Dropbox.
   // Route attributes: scope: files.metadata.read
-
   const {
     result: { cursor },
   } = await client.filesListFolderGetLatestCursor({
@@ -67,9 +66,6 @@ async function resetFromBlot(blogID, publish) {
     include_deleted: true,
     recursive: true,
   });
-
-  // This means that future syncs will be fast
-  await set(blogID, { cursor });
 
   const walk = async (dir) => {
     publish("Checking", dir);
@@ -149,9 +145,14 @@ async function resetFromBlot(blogID, publish) {
 
   await walk("/");
 
+  // Because we fetch the cursor before making any changes,
+  // we will recieve webhook notifications for the files we
+  // write and then we'll resync them.
+
   await set(blogID, {
     error_code: 0,
-    last_sync: Date.now()
+    cursor,
+    last_sync: Date.now(),
   });
 
   publish("Finished processing folder");
