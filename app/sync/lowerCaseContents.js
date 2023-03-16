@@ -47,16 +47,22 @@ const lowerCaseContents = async (blogID, { restore } = { restore: false }) => {
       if (directory && hasNewName && inMovedDirectory) {
         const pathInBlotsDB = join(formerParentDirectory, item);
         const currentPath = join(dir, item);
-        const options = restore ? {} : { name: item };
         const desiredPath = join(dir, newName);
+        const { destination, suffix, name, extension } = await move(
+          localFolder,
+          currentPath,
+          desiredPath
+        );
 
-        const newPath = await move(localFolder, currentPath, desiredPath);
+        const options = {
+          name: determineName({ restore, item, suffix, name, extension }),
+        };
 
-        await rename(newPath, pathInBlotsDB, options);
+        await rename(destination, pathInBlotsDB, options);
 
-        renamedDirectories[newPath] = pathInBlotsDB;
+        renamedDirectories[destination] = pathInBlotsDB;
 
-        await walk(newPath);
+        await walk(destination);
       }
 
       // this directory has a case-sensitive name
@@ -64,14 +70,20 @@ const lowerCaseContents = async (blogID, { restore } = { restore: false }) => {
       if (directory && hasNewName && !inMovedDirectory) {
         const currentPath = join(dir, item);
         const desiredPath = join(dir, newName);
-        const options = restore ? {} : { name: item };
+        const { destination, suffix, name, extension } = await move(
+          localFolder,
+          currentPath,
+          desiredPath
+        );
 
-        const newPath = await move(localFolder, currentPath, desiredPath);
+        const options = {
+          name: determineName({ restore, item, suffix, name, extension }),
+        };
 
-        renamedDirectories[newPath] = currentPath;
+        renamedDirectories[destination] = currentPath;
 
-        await rename(newPath, currentPath, options);
-        await walk(newPath);
+        await rename(destination, currentPath, options);
+        await walk(destination);
       }
 
       // this directory does not have a case-sensitive name
@@ -97,10 +109,18 @@ const lowerCaseContents = async (blogID, { restore } = { restore: false }) => {
         const pathInBlotsDB = join(formerParentDirectory, item);
         const currentPath = join(dir, item);
         const desiredPath = join(dir, newName);
-        const options = restore ? {} : { name: item };
 
-        const newPath = await move(localFolder, currentPath, desiredPath);
-        await rename(newPath, pathInBlotsDB, options);
+        const { destination, suffix, name, extension } = await move(
+          localFolder,
+          currentPath,
+          desiredPath
+        );
+
+        const options = {
+          name: determineName({ restore, item, suffix, name, extension }),
+        };
+
+        await rename(destination, pathInBlotsDB, options);
       }
 
       // this file has a case-sensitive name
@@ -108,11 +128,18 @@ const lowerCaseContents = async (blogID, { restore } = { restore: false }) => {
       if (file && hasNewName && !inMovedDirectory) {
         const currentPath = join(dir, item);
         const desiredPath = join(dir, newName);
-        const options = restore ? {} : { name: item };
 
-        const newPath = await move(localFolder, currentPath, desiredPath);
+        const { destination, suffix, name, extension } = await move(
+          localFolder,
+          currentPath,
+          desiredPath
+        );
 
-        await rename(newPath, currentPath, options);
+        const options = {
+          name: determineName({ restore, item, suffix, name, extension }),
+        };
+
+        await rename(destination, currentPath, options);
       }
 
       // this file does not have a case-sensitive name
@@ -133,5 +160,11 @@ const lowerCaseContents = async (blogID, { restore } = { restore: false }) => {
 
   await walk("/");
 };
+
+function determineName({ restore, item, suffix, name, extension }) {
+  if (restore) return undefined;
+
+  return suffix ? item.slice(0, name.length) + suffix + extension : item;
+}
 
 module.exports = lowerCaseContents;

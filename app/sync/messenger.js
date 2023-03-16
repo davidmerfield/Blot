@@ -16,7 +16,9 @@ module.exports = (blog) => {
       ...arguments,
     ]);
   };
-  const status = (message) => {
+  const status = function () {
+    const message = [...arguments].join(" ").trim();
+
     Blog.setStatus(blog.id, { message, syncID });
     log(message);
     client.publish("sync:status:" + blog.id, message);

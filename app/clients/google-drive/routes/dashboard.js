@@ -6,7 +6,7 @@ const clfdate = require("helper/clfdate");
 const localPath = require("helper/localPath");
 const database = require("../database");
 const disconnect = require("../disconnect");
-const verify = require("../util/verify");
+const resetFromBlot = require("../sync/reset-from-blot");
 const createDriveClient = require("../util/createDriveClient");
 const setupWebhook = require("../util/setupWebhook");
 const sse = require("../util/sse");
@@ -128,7 +128,7 @@ dashboard.get("/redirect", function (req, res) {
 		secure: true,
 		httpOnly: true,
 		maxAge: 15 * 60 * 1000, // 15 minutes
-		sameSite: 'Lax', // otherwise we will not see it
+		sameSite: "Lax", // otherwise we will not see it
 	});
 
 	res.redirect(
@@ -225,7 +225,7 @@ dashboard.get("/authenticate", function (req, res) {
 
 		res.message(req.baseUrl, "Re-connected to Google Drive");
 		try {
-			await verify(req.blog.id);
+			await resetFromBlot(req.blog.id);
 			await setupWebhook(req.blog.id);
 		} catch (e) {
 			await database.setAccount(req.blog.id, {
@@ -276,7 +276,7 @@ const setUpBlogFolder = async function (blog) {
 
 		await checkWeCanContinue();
 		publish("Ensuring new folder is in sync");
-		await verify(blog.id, publish);
+		await resetFromBlot(blog.id, publish);
 
 		await checkWeCanContinue();
 		publish("Setting up webhook");

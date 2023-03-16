@@ -22,8 +22,8 @@ module.exports = () => {
     console.log(prefix(), `Spawning tunnel from ${webhook_forwarding_host}`);
     spawn("ssh", [
       "-R",
-      webhook_forwarding_host + ":80:localhost:80",
-      "localhost.run",
+      webhook_forwarding_host + ":80:localhost:8080",
+      "plan@localhost.run",
     ]);
   }
 };
