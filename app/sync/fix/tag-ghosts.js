@@ -14,6 +14,13 @@ module.exports = function main(blog, callback) {
             entryIDs,
             function (entryID, next) {
               Entry.get(blog.id, entryID, function (entry) {
+                if (!entry) {
+                  report.push(["MISSING", entryID]);
+                  var multi = client.multi();
+                  multi.srem(tagKey, entryID);       
+                  return multi.exec(next);
+                }
+
                 if (entry.id === entryID) return next();
                 report.push(["MISMATCH", entryID, entry.id]);
                 var multi = client.multi();
