@@ -1,11 +1,12 @@
-const Fix = require("sync/fix");
-const Rebuild = require("sync/rebuild");
 const Sync = require("sync");
 const clients = require("clients");
 
 const each = require("../each/blog");
 const yesno = require("yesno");
 const get = require("../get/blog");
+
+// const Fix = require("sync/fix");
+// const Rebuild = require("sync/rebuild");
 
 if (process.argv[2]) {
   get(process.argv[2], function (err, user, blog) {
@@ -59,18 +60,18 @@ function main(blog, callback) {
     }
 
     console.log("Rebuilding site");
-    Rebuild(blog.id, function (err) {
+    // Rebuild(blog.id, function (err) {
+    //   if (err) console.log(err);
+    //   console.log("Fixing site");
+    //   Fix(blog, function (err) {
+    //     if (err) console.log(err);
+    //     console.log("Releasing sync");
+    done(null, function (err) {
       if (err) console.log(err);
-      console.log("Fixing site");
-      Fix(blog, function (err) {
-        if (err) console.log(err);
-        console.log("Releasing sync");
-        done(null, function (err) {
-          if (err) console.log(err);
-          console.log("Finished");
-          callback();
-        });
-      });
+      console.log("Finished");
+      callback();
     });
   });
+  //   });
+  // });
 }
