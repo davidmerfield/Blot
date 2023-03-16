@@ -10,6 +10,7 @@ Improvements to sync/reset scripts:
 - [ ] dropbox reset FROM BLOT should handle removed folder
 - [ ] dropbox reset TO BLOT should handle revoked token
 - [ ] dropbox reset FROM BLOT should handle revoked token
+- [ ] make google drive reset TO store metadata for case of file/folder name
 - [ ] make google drive reset FROM abortable
 - [ ] make google drive reset TO abortable
 - [ ] make dropbox reset FROM abortable
