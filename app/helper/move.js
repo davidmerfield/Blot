@@ -5,55 +5,59 @@ const { join, dirname, basename, extname } = require("path");
 // if the destination alread exists, it will add a suffix
 // to the destination file name to prevent a conflict.
 // e.g. if you 'move' 'a.txt' to a location with another 'a.txt'
-// then 'move' will rename it 'a copy.txt'. 
-const move = async (base, from, to) => {
-  let destination;
-
+// then 'move' will rename it 'a copy.txt'.
+const move = async (base, from, to, suffix = "", name = "", extension = "") => {
   try {
     await fs.move(join(base, from), join(base, to));
-    destination = to;
   } catch (e) {
     if (e && e.message === "dest already exists.") {
-      return move(base, from, suffixer(to));
+      const { suffix, destination, name, extension } = suffixer(to);
+      return move(base, from, destination, suffix, name, extension);
     } else {
-      console.log("error:", e);
-      console.log("from:", from);
-      console.log("to:", to);
+      console.log("Error: Move:", e);
+      console.log("  from:", from);
+      console.log("  to:", to);
       throw e;
     }
   }
-  return destination;
+
+  return { destination: to, suffix, name, extension };
 };
 
 const suffixer = (path) => {
   const dir = dirname(path);
-  const ext = extname(path);
-  const base = basename(path, ext);
+  const extension = extname(path);
 
+  let suffix = "";
   let numberAtEnd;
-  let baseWithoutNumber;
+  let nameWithoutNumber;
+
+  let name = basename(path, extension);
 
   try {
-    numberAtEnd = parseInt(base.split(" ").pop());
+    numberAtEnd = parseInt(name.split(" ").pop());
     if (isNaN(numberAtEnd)) {
       numberAtEnd = null;
     } else {
-      baseWithoutNumber = base.split(" ").slice(0, -1).join(" ");
+      nameWithoutNumber = name.split(" ").slice(0, -1).join(" ");
     }
   } catch (e) {}
 
   // 'a copy.txt' => 'a copy 2.txt'
-  if (base.endsWith(" copy")) {
-    return join(dir, `${base} 2${ext}`);
-
+  if (name.endsWith(" copy")) {
+    suffix = " copy 2";
+    name = name.slice(0, -" copy".length);
     // 'a copy 2.txt' => 'a copy 3.txt'
-  } else if (numberAtEnd && baseWithoutNumber.endsWith(" copy")) {
-    return join(dir, `${baseWithoutNumber} ${numberAtEnd + 1}${ext}`);
-
+  } else if (numberAtEnd && nameWithoutNumber.endsWith(" copy")) {
+    suffix = ` copy ${numberAtEnd + 1}`;
+    name = nameWithoutNumber.slice(0, -" copy".length);
     // 'a.txt' => 'a copy.txt'
   } else {
-    return join(dir, `${base} copy${ext}`);
+    suffix = " copy";
   }
+
+  const destination = join(dir, `${name}${suffix}${extension}`);
+  return { destination, suffix, name, extension };
 };
 
 // export for testing purposes
