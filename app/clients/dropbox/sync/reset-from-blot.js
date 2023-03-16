@@ -50,6 +50,27 @@ async function resetFromBlot(blogID, publish) {
     }
   }
 
+  // It's import that these args match those used in delta.js
+  // A way to quickly get a cursor for the folder's state.
+  // From the docs:
+  // https://dropbox.github.io/dropbox-sdk-js/Dropbox.html
+  // Unlike list_folder, list_folder/get_latest_cursor doesn't
+  // return any entries. This endpoint is for app which only
+  // needs to know about new files and modifications and doesn't
+  // need to know about files that already exist in Dropbox.
+  // Route attributes: scope: files.metadata.read
+
+  const {
+    result: { cursor },
+  } = await client.filesListFolderGetLatestCursor({
+    path: account.folder_id || "",
+    include_deleted: true,
+    recursive: true,
+  });
+
+  // This means that future syncs will be fast
+  await set(blogID, { cursor });
+
   const walk = async (dir) => {
     publish("Checking", dir);
 
@@ -101,18 +122,26 @@ async function resetFromBlot(blogID, publish) {
 
         if (remoteCounterpart && !identicalOnRemote) {
           publish("Overwriting existing remote", path);
-          await upload(
-            client,
-            join(localRoot, localItem.path_lower),
-            join(dropboxRoot, path)
-          );
+          try {
+            await upload(
+              client,
+              join(localRoot, localItem.path_lower),
+              join(dropboxRoot, path)
+            );
+          } catch (e) {
+            publish("Failed to overwrite existing remote", path);
+          }
         } else if (!remoteCounterpart) {
           publish("Uploading", path);
-          await upload(
-            client,
-            join(localRoot, localItem.path_lower),
-            join(dropboxRoot, path)
-          );
+          try {
+            await upload(
+              client,
+              join(localRoot, localItem.path_lower),
+              join(dropboxRoot, path)
+            );
+          } catch (e) {
+            publish("Failed to upload", path);
+          }
         }
       }
     }
@@ -122,8 +151,7 @@ async function resetFromBlot(blogID, publish) {
 
   await set(blogID, {
     error_code: 0,
-    last_sync: Date.now(),
-    cursor: "",
+    last_sync: Date.now()
   });
 
   publish("Finished processing folder");

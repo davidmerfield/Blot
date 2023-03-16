@@ -3,7 +3,7 @@ const _ = require("lodash");
 const moment = require("moment");
 const express = require("express");
 const client_routes = express.Router();
-
+const { parse, join } = require("path");
 const Blog = require("blog");
 const load = require("./load");
 const Sync = require("sync");
@@ -53,6 +53,15 @@ client_routes
     });
   });
 
+// Used to change tense of activity on dashboard
+// and to help parse paths from status messages
+const verbs = {
+  Downloading: "downloaded",
+  Syncing: "synced",
+  Transferring: "transferred",
+  Removing: "removed",
+};
+
 client_routes.route("/activity").get(load.clients, async function (req, res) {
   res.locals.breadcrumbs.add("Activity", "activity");
 
@@ -64,27 +73,23 @@ client_routes.route("/activity").get(load.clients, async function (req, res) {
       syncID: key,
       messages: value
         .map((item) => {
-          item.fromNow = moment(item.datestamp).fromNow();
-          item.path = item.message.startsWith("Syncing /")
-            ? item.message.slice("Syncing ".length)
-            : "";
-          item.url = require("path").join(
-            res.locals.base,
-            "folder",
-            encodeURIComponent(item.path.slice(1))
+          const matchedVerb = Object.keys(verbs).find((i) =>
+            item.message.startsWith(i + " /")
           );
-          item.path =
-            item.path || item.message.startsWith("Transferring /")
-              ? item.message.slice("Transferring ".length)
-              : "";
 
-          item.verb = item.message.startsWith("Transferring /")
-            ? "Transferred"
-            : "";
-          item.verb =
-            item.verb || item.message.startsWith("Syncing /") ? "Synced" : "";
+          if (matchedVerb) {
+            const path = item.message.slice((matchedVerb + " ").length);
+            item.path = parse(path);
+            item.verb = verbs[matchedVerb];
+            item.url = join(
+              res.locals.base,
+              "folder",
+              encodeURIComponent(path.slice(1))
+            );
+          }
 
-          item.path = item.path ? require("path").parse(item.path) : "";
+          item.fromNow = moment(item.datestamp).fromNow();
+
           return item;
         })
         .filter(({ message }) => message !== "Syncing" && message !== "Synced"),
