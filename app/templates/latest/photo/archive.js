@@ -34,9 +34,9 @@ const list = HyperList.create(container, {
   total: articles.length,
 
   applyPatch: function applyPatch(element, fragment) {
-    console.log('Applying patch');
-    console.log('element', element);
-    console.log('fragment', fragment);
+    // console.log('Applying patch');
+    // console.log('element', element);
+    // console.log('fragment', fragment);
     fragment.forEach((node)=> {
       if (!node.innerHTML.trim()) return;
       
@@ -66,8 +66,8 @@ const list = HyperList.create(container, {
           </noscript>` : ''}
       </span>
       <span class="title">${articles[index].title}</span>
+      <span class="tags">${articles[index].tags.map(({tag, slug}) => `<a href="/tagged/${slug}">${tag}</a>`).join(' ')}</span>
       <span>${articles[index].date}</span>
-      <span>${articles[index].tags}</span>
     `;
     return el;
   },
