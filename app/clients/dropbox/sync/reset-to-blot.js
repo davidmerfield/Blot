@@ -1,6 +1,6 @@
 const fs = require("fs-extra");
 const { promisify } = require("util");
-const join = require("path").join;
+const { join, basename } = require("path");
 const clfdate = require("helper/clfdate");
 const localPath = require("helper/localPath");
 const lowerCaseContents = require("sync/lowerCaseContents");
@@ -123,18 +123,26 @@ const walk = async (blogID, client, publish, dropboxRoot, dir) => {
       dropboxRoot === "/" ? path_lower : path_lower.slice(dropboxRoot.length);
     const pathOnDisk = join(localRoot, pathOnBlot);
 
+    // We preserve the name of the file with case
+    // in the database here or we remove it
+    // to prevent vestigal names of the file in DB
+    if (name !== basename(path_lower)) {
+      publish("Storing metadata", name, "for", pathOnBlot);
+      await addMetadata(blogID, pathOnBlot, name);
+    } else {
+      publish("Removing metadata for", pathOnBlot);
+      await dropMetadata(blogID, pathOnBlot);
+    }
+
     if (remoteItem.is_directory) {
       if (localCounterpart && !localCounterpart.is_directory) {
         publish("Removing", pathOnDisk);
         await fs.remove(pathOnDisk);
-        await dropMetadata(blogID, pathOnBlot);
         publish("Creating directory", pathOnDisk);
         await fs.mkdir(pathOnDisk);
-        await addMetadata(blogID, pathOnBlot, name);
       } else if (!localCounterpart) {
         publish("Creating directory", pathOnBlot);
         await fs.mkdir(pathOnDisk);
-        await addMetadata(blogID, pathOnBlot, name);
       }
 
       await walk(blogID, client, publish, dropboxRoot, join(dir, name));
@@ -147,14 +155,12 @@ const walk = async (blogID, client, publish, dropboxRoot, dir) => {
         publish("Downloading", pathOnBlot);
         try {
           await download(client, pathOnDropbox, pathOnDisk);
-          await addMetadata(blogID, pathOnBlot, name);
         } catch (e) {
           continue;
         }
       } else if (!localCounterpart) {
         publish("Downloading", pathOnBlot);
         try {
-          await addMetadata(blogID, pathOnBlot, name);
           await download(client, pathOnDropbox, pathOnDisk);
         } catch (e) {
           continue;
