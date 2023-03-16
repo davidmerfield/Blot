@@ -1,3 +1,14 @@
+Improvements to sync/reset scripts:
+- [ ] dropbox reset TO BLOT should handle removed folder
+- [ ] dropbox reset FROM BLOT should handle removed folder
+- [ ] dropbox reset TO BLOT should handle revoked token
+- [ ] dropbox reset FROM BLOT should handle revoked token
+- [ ] dropbox reset TO BLOT should metadata.add afresh
+- [ ] make google drive reset FROM abortable
+- [ ] make google drive reset TO abortable
+- [ ] make dropbox reset FROM abortable
+- [ ] make dropbox reset TO abortable
+
 Look into Pandoc's RAW HTML extension for resolving issues mixing HTML into markdown files:
  - markdown_in_html_blocks
  - raw_html
