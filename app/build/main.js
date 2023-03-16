@@ -51,10 +51,10 @@ function build(blog, path, options, callback) {
     return callback(err);
   }
 
-  Metadata.get(blog.id, path, function (err, name) {
+  Metadata.getPath(blog.id, path, function (err, storedPathDisplay) {
     if (err) return callback(err);
 
-    if (name) options.name = name;
+    const storedName = basename(storedPathDisplay);
 
     debug("Blog:", blog.id, path, " checking if draft");
     isDraft(blog.id, path, function (err, is_draft) {
@@ -85,9 +85,9 @@ function build(blog, path, options, callback) {
           try {
             entry = {
               html: html,
-              name: options.name || basename(path),
+              name: options.name || storedName || basename(path),
               path: path,
-              pathDisplay: options.pathDisplay || path,
+              pathDisplay: options.pathDisplay || storedPathDisplay || path,
               id: path,
               thumbnail: thumbnail,
               draft: is_draft,
