@@ -10,7 +10,6 @@ var moment = require("moment");
 var converters = require("./converters");
 var exitHook = require("async-exit-hook");
 var clfdate = require("helper/clfdate");
-var pathNormalizer = require("helper/pathNormalizer");
 
 exitHook(function () {
   console.log(clfdate(), `Build: process pid=${process.pid} exiting...`);
@@ -45,12 +44,6 @@ process.on("message", function (message) {
 
 function build(blog, path, options, callback) {
   debug("Build:", process.pid, "processing", path);
-
-  // This makes sure any unicode characters in
-  // the file path are merged and treated consistently
-  // it also removes trailing slashes and adds a leading slash
-  // It can safely be run on the path multiple times
-  path = pathNormalizer(path);
 
   if (isWrongType(path)) {
     var err = new Error("Path is wrong type to convert");
