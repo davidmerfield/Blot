@@ -240,7 +240,6 @@ function Apply(client, blogFolder, log, status) {
     // relative path to an item, since the root of the
     // Dropbox folder might not be the root of the blog.
     function download(item, callback) {
-      console.log(item);
       log(item.relative_path, "Hashing any existing file contents");
       status("Downloading " + item.relative_path);
       hashFile(join(blogFolder, item.relative_path), function (

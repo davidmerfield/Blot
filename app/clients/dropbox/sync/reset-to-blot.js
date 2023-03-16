@@ -211,7 +211,6 @@ const remoteReaddir = async (client, dir) => {
     );
   } while (has_more);
 
-  console.log(items);
   return items;
 };
 
