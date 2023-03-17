@@ -1,6 +1,6 @@
-Fix [Christopher's bugs with thumbnails](https://mail.google.com/mail/u/0/#inbox/QgrcJHrnvrNzJHZMWcVFzMHvZTnPZfPxfqg)
-
 Fix bug with toLowerCase for preview files in state complicated, Vælid post.txt produces Vælid post.txt.preview copy.html
+
+Fix [Christopher's bugs with thumbnails](https://mail.google.com/mail/u/0/#inbox/QgrcJHrnvrNzJHZMWcVFzMHvZTnPZfPxfqg)
 
 Improvements to sync/reset scripts:
 - [ ] dropbox reset TO BLOT should handle removed folder
@@ -13,30 +13,19 @@ Improvements to sync/reset scripts:
 - [ ] make dropbox reset FROM abortable
 - [ ] make dropbox reset TO abortable
 
-Investigate ignored files situation
-- does rebuild update ignored files list too?
-- handle new pathNormalizer behaviour
-- 'ignoredFilesKey'
-- why are ignored files not added to ignored list?
-- add 'ignored ghosts' check to sync/fix
 
 Improvements to toLowerCase:
 - There was a bug with toLowerCase(restore?) that was triggered when disconnecting from Dropbox with a preview file.
 
 Add support for other image formats, by converting them into jpg/webp
 
-
 ---
-
 
 Improvements to Dropbox client:
 - [ ] Store the case-y path for a file when doing dropbox.write
-- [ ] Dropbox client should empty apps folder before sync
 - [ ] improve aesthetics of oauth redirect screen (currently an ugly blue link)
 - [ ] Fix issues with sync:
   - error earlier
-  - add some kind of request rate limit to dropbox client?
-    - we could use async queue to accomplish this...
   - [tell marco](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqPpdwHHQTgHmMFwkXQZBjSwXt)
   - Is it possible that retry delays from the Dropbox API under excessive number of requests is the cause of the lockup?
   - Tell [N](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqPzKcnRQlXQVVcbdRvLVxtjnD) when you can switch between dropbox and git without bugs
@@ -246,6 +235,13 @@ Add support for new formats via pandoc:
 - rtf
 - jupyter notebooks
 - orgmode 
+
+Investigate ignored files situation
+- does rebuild update ignored files list too?
+- handle new pathNormalizer behaviour
+- 'ignoredFilesKey'
+- why are ignored files not added to ignored list?
+- add 'ignored ghosts' check to sync/fix
 
 Improvements to importer
 - Can we offload an import into a resource constrained child process?

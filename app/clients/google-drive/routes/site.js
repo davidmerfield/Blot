@@ -79,10 +79,9 @@ site
       );
 
       if (token.signature !== signature) {
+        res.send("OK");
         return console.error(prefix(), "Webhook has bad signature");
       }
-
-      const account = await database.getAccount(token.blogID);
 
       const channel = {
         kind: "api#channel",
@@ -95,6 +94,25 @@ site
           .toString(),
       };
 
+      const account = await database.getAccount(token.blogID);
+
+      // If the blog was disconnected from Google Drive
+      // but we somehow failed to stop the webhook, this can happen
+      if (!account) {
+        const config = require("config");
+        const google = require("googleapis").google;
+        const oauth2Client = new google.auth.OAuth2(
+          config.google.drive.key,
+          config.google.drive.secret
+        );
+        const drive = google.drive({ version: "v3", auth: oauth2Client });
+
+        await drive.channels.stop({
+          requestBody: channel,
+        });
+        return res.send("OK");
+      }
+
       // When for some reason we can't stop the old webhook
       // for this blog during an account disconnection we sometimes
       // recieve webhooks on stale channels. This can tank the setup
@@ -102,12 +120,14 @@ site
       // We can't call drive.stop on the stale channel since the
       // refresh_token likely changed, just let it expire instead.
       if (!_.isEqual(channel, account.channel)) {
+        res.send("OK");
         return console.error(
           prefix(),
           "Mismatch between recieved channel and stored account.channel"
         );
       }
 
+      res.send("OK");
       sync(token.blogID, { fromScratch: false }, function (err) {
         if (err) {
           console.error(prefix(), token.blogID, "Error:", err);
@@ -116,8 +136,6 @@ site
         }
       });
     }
-
-    res.send("OK");
   });
 
 module.exports = site;

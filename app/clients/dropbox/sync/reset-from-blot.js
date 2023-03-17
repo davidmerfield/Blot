@@ -12,7 +12,6 @@ const hashFile = promisify((path, cb) => {
 const upload = promisify(require("../util/upload"));
 const getMetadata = promisify(require("models/metadata").get);
 const set = promisify(require("../database").set);
-const get = promisify(require("../database").get);
 const lowerCaseContents = require("sync/lowerCaseContents");
 const createClient = promisify((blogID, cb) =>
   require("../util/createClient")(blogID, (err, ...results) => cb(err, results))
@@ -78,11 +77,11 @@ async function resetFromBlot(blogID, publish) {
     for (const { name } of remoteContents) {
       const path = join(dir, name);
       if (!localContents.find((localItem) => localItem.name === name)) {
-        publish("Removing remote copy of", path);
+        publish("Removing", path);
         try {
           await client.filesDelete({ path: join(dropboxRoot, path) });
         } catch (e) {
-          publish("Failed to remove remote copy of", path, e.message);
+          publish("Failed to remove", path, e.message);
         }
       }
     }
@@ -95,15 +94,15 @@ async function resetFromBlot(blogID, publish) {
 
       if (localItem.is_directory) {
         if (remoteCounterpart && !remoteCounterpart.is_directory) {
-          publish("Removing remote file", path);
+          publish("Removing", path);
           await client.filesDelete({ path: join(dropboxRoot, path) });
-          publish("Creating remote directory", path);
+          publish("Creating directory", path);
           await client.filesCreateFolder({
             path: join(dropboxRoot, path),
             autorename: false,
           });
         } else if (!remoteCounterpart) {
-          publish("Creating remote directory", path);
+          publish("Creating directory", path);
           await client.filesCreateFolder({
             path: join(dropboxRoot, path),
             autorename: false,
@@ -117,7 +116,7 @@ async function resetFromBlot(blogID, publish) {
           remoteCounterpart.content_hash === localItem.content_hash;
 
         if (remoteCounterpart && !identicalOnRemote) {
-          publish("Overwriting existing remote", path);
+          publish("Transferring", path);
           try {
             await upload(
               client,
@@ -125,10 +124,10 @@ async function resetFromBlot(blogID, publish) {
               join(dropboxRoot, path)
             );
           } catch (e) {
-            publish("Failed to overwrite existing remote", path);
+            publish("Failed to transfer", path);
           }
         } else if (!remoteCounterpart) {
-          publish("Uploading", path);
+          publish("Transferring", path);
           try {
             await upload(
               client,
@@ -136,7 +135,7 @@ async function resetFromBlot(blogID, publish) {
               join(dropboxRoot, path)
             );
           } catch (e) {
-            publish("Failed to upload", path);
+            publish("Failed to transfer", path);
           }
         }
       }
