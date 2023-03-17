@@ -187,16 +187,13 @@ client_routes.post("/reset/resync", load.client, function (req, res, next) {
 client_routes
   .route("/")
 
-  .get(
-    load.clients,
-    function (req, res, next) {
-      if (!req.blog.client) return next();
+  .get(load.clients, function (req, res) {
+    if (req.blog.client) {
       res.redirect(req.baseUrl + "/" + req.blog.client);
-    },
-    function (req, res) {
+    } else {
       res.render("clients", { title: "Select a client", setup_client: true });
     }
-  )
+  })
 
   .post(function (req, res, next) {
     var redirect;
@@ -217,18 +214,17 @@ client_routes
 
     Blog.set(req.blog.id, { client: req.body.client }, function (err) {
       if (err) return next(err);
-
       res.redirect(redirect);
     });
   });
 
 client_routes.use("/:client", function (req, res, next) {
   if (!req.blog.client) {
-    return res.redirect("/settings/client");
+    return res.redirect(res.locals.base + "/client");
   }
 
   if (req.params.client !== req.blog.client) {
-    return res.redirect(req.baseUrl + "/" + req.blog.client);
+    return res.redirect(res.locals.base + "/client/" + req.blog.client);
   }
 
   res.locals.dashboardBase = res.locals.base;
