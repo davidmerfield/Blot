@@ -1,6 +1,6 @@
-Fix [Christopher's bugs with thumbnails](https://mail.google.com/mail/u/0/#inbox/QgrcJHrnvrNzJHZMWcVFzMHvZTnPZfPxfqg)
-
 Add 'verify' button for both google drive and Dropbox clients that works then tell [Jonathan](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrcPJVPkQGswgFtCkwbJfFJjnD)
+
+Fix [Christopher's bugs with thumbnails](https://mail.google.com/mail/u/0/#inbox/QgrcJHrnvrNzJHZMWcVFzMHvZTnPZfPxfqg)
 
 Fix bug with toLowerCase for preview files
 - in state complicated, Vælid post.txt produces Vælid post.txt.preview copy.html
@@ -17,9 +17,11 @@ Improvements to sync/reset scripts:
 - [ ] make dropbox reset TO abortable
 
 Investigate ignored files situation
+- does rebuild update ignored files list too?
 - handle new pathNormalizer behaviour
 - 'ignoredFilesKey'
 - why are ignored files not added to ignored list?
+- add 'ignored ghosts' check to sync/fix
 
 Improvements to toLowerCase:
 - There was a bug with toLowerCase(restore?) that was triggered when disconnecting from Dropbox with a preview file.
