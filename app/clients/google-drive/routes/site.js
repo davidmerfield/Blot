@@ -44,8 +44,11 @@ site.get("/authenticate", cookieParser(), function (req, res) {
     res.send(`<html>
 <head>
 <meta http-equiv="refresh" content="0;URL='${redirect}'"/>
+<script type="text/javascript">window.location='${redirect}'</script>
 </head>
-<body><p>Continue to <a href="${redirect}">${redirect}</a>.</p></body>
+<body>
+<noscript><p>Continue to <a href="${redirect}">${redirect}</a>.</p></noscript>
+</body>
 </html>`);
     // This means we hit the public routes on Blot's webhook
     // forwarding host (e.g. tunnel.blot.im) we don't have access

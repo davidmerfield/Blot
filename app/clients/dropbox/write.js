@@ -18,10 +18,10 @@ function write(blogID, path, contents, callback) {
 
   createClient(blogID, async function (err, client, account) {
     if (err || !account) return callback(err || new Error("No account"));
-  
+
     // We assume that the account's folder has not changed
     // to be perfectly correct, we could check this before
-    // each write but it would double the requests needed    
+    // each write but it would double the requests needed
     pathInDropbox = join(account.folder || "/", path);
 
     // We must lowercase this since localPath no longer
@@ -29,6 +29,8 @@ function write(blogID, path, contents, callback) {
     // in the folder with a lowercase path.
     pathOnBlot = localPath(blogID, path.toLowerCase());
 
+    // Store the casey name of this path if needed
+    // The Dropbox client will persist this file at lowercase
     if (basename(path).toLowerCase() !== basename(path))
       await addMetadata(blogID, path, basename(path));
 

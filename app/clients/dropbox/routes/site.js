@@ -39,8 +39,11 @@ site.get("/authenticate", cookieParser(), function (req, res, next) {
   res.send(`<html>
 <head>
 <meta http-equiv="refresh" content="0;URL='${redirect}'"/>
+<script type="text/javascript">window.location='${redirect}'</script>
 </head>
-<body><p>Continue to <a href="${redirect}">${redirect}</a>.</p></body>
+<body>
+<noscript><p>Continue to <a href="${redirect}">${redirect}</a>.</p></noscript>
+</body>
 </html>`);
 });
 
