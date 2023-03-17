@@ -1,3 +1,7 @@
+Work on overhaul of Google Drive client
+
+---
+
 Fix [Christopher's bugs with thumbnails](https://mail.google.com/mail/u/0/#inbox/QgrcJHrnvrNzJHZMWcVFzMHvZTnPZfPxfqg)
 
 Investigate issues with tunnel for local development webhooks
@@ -38,6 +42,8 @@ Improvements to Dropbox client:
 - [ ] check content hash for upload possible
 
 Improve Google Drive client:
+- major overhaul needed
+- Dragging a folder of files into folder does not sync properly
 - Handle uncaught error with verify on Google Drive client. 
 - another uncaught error surfaces when the account is deleted, before a verify takes place
 - Uncaught exceptions raised by verify seem to not be caught properly by the try/catch blocks. Simulate an exception and work out why.
