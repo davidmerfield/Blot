@@ -57,11 +57,11 @@ module.exports = async (blogID, publish) => {
           await remove(idToRemove);
           await fs.remove(localPath(blogID, path));
           publish("Creating local directory", path);
-          await fs.mkdir(localPath(blogID, path));
+          await fs.ensureDir(localPath(blogID, path));
           await set(id, path);
         } else if (!existsLocally) {
           publish("Creating local directory", path);
-          await fs.mkdir(localPath(blogID, path));
+          await fs.ensureDir(localPath(blogID, path));
           await set(id, path);
         }
 
@@ -71,13 +71,21 @@ module.exports = async (blogID, publish) => {
           existsLocally && existsLocally.md5Checksum === md5Checksum;
 
         if (existsLocally && !identicalOnRemote) {
-          publish("Updating local version of", path);
-          set(id, path);
-          await download(blogID, drive, path, file);
+          try {
+            publish("Downloading", path);
+            await download(blogID, drive, path, file);
+            set(id, path);
+          } catch (e) {
+            publish("Failed to download", path, e);
+          }
         } else if (!existsLocally) {
-          publish("Downloading", path);
-          await download(blogID, drive, path, file);
-          set(id, path);
+          try {
+            publish("Downloading", path);
+            await download(blogID, drive, path, file);
+            set(id, path);
+          } catch (e) {
+            publish("Failed to download", path, e);
+          }
         }
       }
     }
