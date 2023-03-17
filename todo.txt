@@ -1,9 +1,6 @@
-Add 'verify' button for both google drive and Dropbox clients that works then tell [Jonathan](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrcPJVPkQGswgFtCkwbJfFJjnD)
-
 Fix [Christopher's bugs with thumbnails](https://mail.google.com/mail/u/0/#inbox/QgrcJHrnvrNzJHZMWcVFzMHvZTnPZfPxfqg)
 
-Fix bug with toLowerCase for preview files
-- in state complicated, Vælid post.txt produces Vælid post.txt.preview copy.html
+Fix bug with toLowerCase for preview files in state complicated, Vælid post.txt produces Vælid post.txt.preview copy.html
 
 Improvements to sync/reset scripts:
 - [ ] dropbox reset TO BLOT should handle removed folder
@@ -25,20 +22,9 @@ Investigate ignored files situation
 
 Improvements to toLowerCase:
 - There was a bug with toLowerCase(restore?) that was triggered when disconnecting from Dropbox with a preview file.
-- sync.lowerCaseAllFiles needs handle a duplication of files with different cases. I need a case-sensitive disk to test this on
 
 Add support for other image formats, by converting them into jpg/webp
 
-Look into Pandoc's RAW HTML extension for resolving issues mixing HTML into markdown files:
- - markdown_in_html_blocks
- - raw_html
- - native_divs
-
-Move Wikilinks to Pandoc
-- Update version of pandoc
-- Support [Obsidian's syntax for embedding files](https://help.obsidian.md/How+to/Embed+files) and images, and tell [John](https://mail.google.com/mail/u/0/#inbox/FMfcgzGkbDftzhXHGrmzXrjtcMbGrmxM) and [Robert](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlksJFbBlWtzMHgcxcdBRBhQSJ) and [Levo](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrcrrDnssHhbwmzzNFnSbMJqKh)
-- Follow up with Marco about:
-  `![La Escocesa 2006-2010](files/_laescocesaold.png) ![[files/_laescocesaold.png]]`
 
 ---
 
@@ -126,6 +112,17 @@ Fix Git client bugs
 Add support for Indian payments and follow up with Indian customers like [Varun](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrcjKRbHhGvtKJKXfGdwDzjTML)
 
 ---
+
+Look into Pandoc's RAW HTML extension for resolving issues mixing HTML into markdown files:
+ - markdown_in_html_blocks
+ - raw_html
+ - native_divs
+
+Move Wikilinks to Pandoc
+- Update version of pandoc
+- Support [Obsidian's syntax for embedding files](https://help.obsidian.md/How+to/Embed+files) and images, and tell [John](https://mail.google.com/mail/u/0/#inbox/FMfcgzGkbDftzhXHGrmzXrjtcMbGrmxM) and [Robert](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlksJFbBlWtzMHgcxcdBRBhQSJ) and [Levo](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrcrrDnssHhbwmzzNFnSbMJqKh)
+- Follow up with Marco about:
+  `![La Escocesa 2006-2010](files/_laescocesaold.png) ![[files/_laescocesaold.png]]`
 
 Add explanation for which files are causing which menu links 
 
