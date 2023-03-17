@@ -35,6 +35,11 @@ describe("lowerCaseContents", function () {
     await this.write("/fōO/bbb/te.txt", "test 10");
   });
 
+  it("handles drafts and previews", async function () {
+    await this.write("/Drafts/Vælid post.txt", "Valid post");
+    await this.check();
+  });
+
   it("handles case-conflicting directories", async function () {
     await this.write("/basil/foo.txt", "test 1");
     await this.write("/Basil/bar.txt", "test 2");
@@ -92,9 +97,12 @@ describe("lowerCaseContents", function () {
     await this.check({
       expectPaths: ["/foo.txt", "/foo copy.txt", "/foo copy 2.txt"],
       expectMetadata: {
-        "/foo.txt": "FOO.txt",
+        // the order of these is affected by the sorting
+        // added as a hack to lowerCaseContents so don't
+        // be alarmed if you need to move the names around
+        "/foo.txt": "fOo.txt",
         "/foo copy.txt": "FoO copy.txt",
-        "/foo copy 2.txt": "fOo copy 2.txt",
+        "/foo copy 2.txt": "FOO copy 2.txt",
       },
     });
   });

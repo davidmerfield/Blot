@@ -26,7 +26,16 @@ const lowerCaseContents = async (blogID, { restore } = { restore: false }) => {
   const renamedDirectories = {};
 
   const walk = async (dir) => {
-    const contents = await fs.readdir(join(localFolder, dir));
+    let contents = await fs.readdir(join(localFolder, dir));
+
+    // todo: more robust way to fix issue
+    // with preview files, to trigger remove
+    // this line then run tests/lowerCaseContents
+    // by sorting then reversing the order we
+    // process preview files before their original
+    // draft, which prevents the draft from spitting
+    // a new preview file into the folder
+    contents = contents.sort().reverse();
 
     for (const item of contents) {
       const stat = await fs.stat(join(localFolder, join(dir, item)));
