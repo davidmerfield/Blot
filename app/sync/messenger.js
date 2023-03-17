@@ -12,7 +12,7 @@ module.exports = (blog) => {
       clfdate(),
       blog.id.slice(0, 12),
       syncID,
-      "client=" + blog.client,
+      "client=" + (blog.client || "none"),
       ...arguments,
     ]);
   };
