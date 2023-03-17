@@ -6,6 +6,7 @@ const guid = require("helper/guid");
 const ensure = require("helper/ensure");
 const fs = require("fs-extra");
 const localPath = require("helper/localPath");
+const clfdate = require('helper/clfdate');
 
 const rename = (blog, log) => (path, oldPath, options, callback) => {
   ensure(blog, "object")
@@ -15,7 +16,8 @@ const rename = (blog, log) => (path, oldPath, options, callback) => {
     .and(options, "object")
     .and(callback, "function");
 
-  log(path, "<--", oldPath);
+  log(clfdate(), blog.id.slice(0,12), "rename", oldPath);
+  log(clfdate(), blog.id.slice(0,12), "----->", path);
 
   Entry.get(blog.id, oldPath, function (deletedEntry) {
     drop(blog.id, oldPath, options, function (err) {
