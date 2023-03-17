@@ -2,14 +2,17 @@ const fs = require("fs-extra");
 const { join } = require("path");
 const localPath = require("helper/localPath");
 const database = require("../database");
-
-const reset = require("./reset-to-blot");
 const download = require("../util/download");
+const { promisify } = require("util");
 const createDriveClient = require("../util/createDriveClient");
 const determinePathToFolder = require("../util/determinePathToFolder");
 const establishSyncLock = require("../util/establishSyncLock");
+const getBlog = promisify(require("models/blog").get);
+const fix = promisify(require("sync/fix"));
 
 const RETRY_INTERVALS = [50, 500, 3000, 5000];
+
+const reset = require("./reset-to-blot");
 
 module.exports = async function (blogID, options, callback) {
   let done, folder;
@@ -158,11 +161,22 @@ module.exports = async function (blogID, options, callback) {
     );
 
     folder.log("All checks complete");
+    try {
+      await reset(blogID);
+      const blog = await getBlog({ id: blogID });
+      await fix(blog);
+    } catch (e) {
+      folder.log("Error verifying folder:", e.message);
+      return done(e, callback);
+    }
+
     done(null, callback);
   } catch (err) {
     folder.log("Error:", err.message);
     try {
       await reset(blogID);
+      const blog = await getBlog({ id: blogID });
+      await fix(blog);
     } catch (e) {
       folder.log("Error verifying folder:", e.message);
       return done(e, callback);
