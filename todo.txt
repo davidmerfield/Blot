@@ -1,3 +1,9 @@
+Finish PR for sending HTML files at other URLs
+
+Write and then send out newsletter
+
+---
+
 Fix [Christopher's bugs with thumbnails](https://mail.google.com/mail/u/0/#inbox/QgrcJHrnvrNzJHZMWcVFzMHvZTnPZfPxfqg)
 
 Improvements to sync/reset scripts:
