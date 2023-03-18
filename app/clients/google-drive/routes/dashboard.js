@@ -255,7 +255,8 @@ const setUpBlogFolder = async function (blog) {
 			folderId: null,
 			folderPath: null,
 		});
-		if (releaseLock) releaseLock(null, () => {});
+
+		if (releaseLock) releaseLock();
 	}
 };
 
