@@ -23,9 +23,7 @@ module.exports = {
   pidfile: BLOT_DIRECTORY + "/data/process.pid",
 
   // When working locally on Blot we can forward webhooks
-  // using localhost.run through a fixed domain we own
-  // whose host is BLOT_WEBHOOK_FORWARDER, e.g. example.com
-  webhook_forwarding_host: process.env.BLOT_WEBHOOK_FORWARDING_HOST,
+  webhook_forwarding_host: 'webhooks.' + BLOT_HOST,
 
   maintenance: process.env.BLOT_MAINTENANCE === "true",
   cache: process.env.BLOT_CACHE === "true",
