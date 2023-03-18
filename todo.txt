@@ -1,10 +1,11 @@
-Work on overhaul of Google Drive client
-
 Improvements to webhook forwader
+ consolidate config
  Document in notes
  Authenticate forwarding endpoint
  How do we handle redirects from webhooks to localdashboard for OAUTH?
- 
+
+Work on overhaul of Google Drive client
+
 ---
 
 Fix [Christopher's bugs with thumbnails](https://mail.google.com/mail/u/0/#inbox/QgrcJHrnvrNzJHZMWcVFzMHvZTnPZfPxfqg)

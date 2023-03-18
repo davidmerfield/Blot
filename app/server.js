@@ -76,8 +76,19 @@ Blot.use(vhost(config.host, cdn));
 // only ever be served for request to the host
 Blot.use(vhost(config.host, dashboard));
 
+// The Webhook forwarder
+// -------------
 // Forwards webhooks to development environment
-Blot.use(vhost(config.webhook_forwarding_host, require("./clients/webhooks")));
+const webhooks = require("./clients/webhooks");
+
+if (config.webhooks.server_host) {
+  console.log(clfdate(), "Webhooks relay on", config.webhooks.server_host);
+  Blot.use(vhost(config.webhooks.server_host, webhooks.server));
+}
+
+if (config.environment === "development" && config.webhooks.relay_host) {
+  webhooks.client({ host: config.webhooks.relay_host });
+}
 
 // The Brochure
 // ------------

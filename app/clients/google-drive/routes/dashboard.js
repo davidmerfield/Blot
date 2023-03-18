@@ -20,7 +20,7 @@ const SETUP_CHANNEL = (req) =>
 
 const REDIRECT_URL =
 	config.environment === "development"
-		? `https://${config.webhook_forwarding_host}/clients/google-drive/authenticate`
+		? `https://webhooks.blot.im/clients/google-drive/authenticate`
 		: `https://${config.host}/clients/google-drive/authenticate`;
 
 dashboard.use(async function (req, res, next) {
@@ -131,6 +131,8 @@ dashboard.get("/redirect", function (req, res) {
 		maxAge: 15 * 60 * 1000, // 15 minutes
 		sameSite: "Lax", // otherwise we will not see it
 	});
+
+	console.log("redirecting to", REDIRECT_URL);
 
 	res.redirect(
 		oauth2Client.generateAuthUrl({

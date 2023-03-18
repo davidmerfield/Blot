@@ -9,15 +9,12 @@ const clfdate = require("helper/clfdate");
 const querystring = require("querystring");
 const bodyParser = require("body-parser");
 
-const PRODUCTION_HOST = "blot.im";
-const DEVELOPMENT_HOST = "blot.development";
-
 // This app is run on Blot's server in production
 // and relays webhooks to any connected local clients
 // Should this be authenticated in some way?
-const app = express();
+const server = express();
 
-app.get("/connect", function (req, res) {
+server.get("/connect", function (req, res) {
   const client = redis.createClient();
 
   req.socket.setTimeout(2147483647);
@@ -36,6 +33,7 @@ app.get("/connect", function (req, res) {
     if (_channel !== CHANNEL) return;
     res.write("\n");
     res.write("data: " + message + "\n\n");
+    console.log(clfdate(), "Webhooks delivering message to client", message);
     res.flushHeaders();
   });
 
@@ -50,22 +48,22 @@ app.get("/connect", function (req, res) {
   });
 });
 
-app.get("/clients/google-drive/authenticate", (req, res) => {
+server.get("/clients/google-drive/authenticate", (req, res) => {
   const url =
     config.protocol +
-    DEVELOPMENT_HOST +
+    config.webhooks.development_host +
     "/clients/google-drive/authenticate?" +
     querystring.stringify(req.query);
   res.redirect(url);
 });
 
 // This is sent by Dropbox to verify a webhook when first added
-app.get("/clients/dropbox/webhook", (req, res, next) => {
+server.get("/clients/dropbox/webhook", (req, res, next) => {
   if (!req.query || !req.query.challenge) return next();
   res.send(req.query.challenge);
 });
 
-app.use(
+server.use(
   bodyParser.raw({
     inflate: true,
     limit: "100kb",
@@ -93,17 +91,24 @@ app.use(
       body: req.body ? req.body.toString() : "",
     };
 
-    console.log(clfdate(), "Webhooks publishing webhook", req.url);
-    client.publish(CHANNEL, JSON.stringify(message));
+    const messageString = JSON.stringify(message);
+
+    console.log(clfdate(), "Webhooks publishing webhook", messageString);
+    client.publish(CHANNEL, messageString);
   }
 );
 
-function listenForWebhooks(REMOTE_HOST) {
+function listen({ host }) {
+  const url = "https://" + host + "/connect";
+
   // when testing this, replace REMOTE_HOST with 'webhooks.blot.development'
   // and pass this as second argument to new EventSource();
-  // { https: { rejectUnauthorized: false } }
-  const url = "https://" + REMOTE_HOST + "/connect";
-  const stream = new EventSource(url);
+  const options =
+    config.environment === "development" && host === config.webhooks.server_host
+      ? { https: { rejectUnauthorized: false } }
+      : {};
+
+  const stream = new EventSource(url, options);
 
   console.log(clfdate(), "Webhooks subscribing to", url);
 
@@ -127,12 +132,15 @@ function listenForWebhooks(REMOTE_HOST) {
         rejectUnauthorized: false,
       });
 
-      const response = await fetch("https://" + config.host + url, {
+      const options = {
         headers: headers,
         method,
-        body,
         agent,
-      });
+      };
+
+      if (method !== "HEAD" && method !== "GET") options.body = body;
+
+      await fetch("https://" + config.host + url, options);
       // const body = await response.text();
     } catch (e) {
       console.log(e);
@@ -140,7 +148,4 @@ function listenForWebhooks(REMOTE_HOST) {
   };
 }
 
-if (config.environment === "development")
-  listenForWebhooks("webhooks." + PRODUCTION_HOST);
-
-module.exports = app;
+module.exports = { server, client: listen };
