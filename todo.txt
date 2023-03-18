@@ -1,13 +1,8 @@
-Improvements to webhook forwader
- Document in notes
-
 Work on overhaul of Google Drive client
 
 ---
 
 Fix [Christopher's bugs with thumbnails](https://mail.google.com/mail/u/0/#inbox/QgrcJHrnvrNzJHZMWcVFzMHvZTnPZfPxfqg)
-
-Investigate issues with tunnel for local development webhooks
 
 Improvements to sync/reset scripts:
 - [ ] Fix should produce a report which I get email

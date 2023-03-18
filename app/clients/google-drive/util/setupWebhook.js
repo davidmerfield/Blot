@@ -51,7 +51,7 @@ module.exports = async (blogID) => {
       kind: "api#channel",
       address: `https://${
         config.environment === "development"
-          ? config.webhook_forwarding_host
+          ? config.webhooks.relay_host
           : config.host
       }/clients/google-drive/webhook`,
     },
