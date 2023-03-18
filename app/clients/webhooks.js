@@ -123,20 +123,19 @@ function listenForWebhooks(REMOTE_HOST) {
     console.log(clfdate(), "Webhooks requesting", url);
 
     try {
-      const request = require("request");
-      request(
-        {
-          uri: "https://" + config.host + url,
-          headers: headers,
-          method,
-          body,
-        },
-        function (err, res, body) {
-          console.log(err);
-          // console.log(res);
-          // console.log(body);
-        }
-      );
+      const https = require("https");
+
+      const agent = new https.Agent({
+        rejectUnauthorized: false,
+      });
+
+      const response = await fetch("https://" + config.host + url, {
+        headers: headers,
+        method,
+        body,
+        agent,
+      });
+      // const body = await response.text();
     } catch (e) {
       console.log(e);
     }
