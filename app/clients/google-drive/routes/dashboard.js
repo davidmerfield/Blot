@@ -18,9 +18,10 @@ const VIEWS = require("path").resolve(__dirname + "/../views") + "/";
 const SETUP_CHANNEL = (req) =>
 	"blog:" + req.blog.id + ":client:google-drive:set-up-folder";
 
-const REDIRECT_URL = config.webhook_forwarding_host
-	? `https://${config.webhook_forwarding_host}/clients/google-drive/authenticate`
-	: `https://${config.host}/clients/google-drive/authenticate`;
+const REDIRECT_URL =
+	config.environment === "development"
+		? `https://${config.webhook_forwarding_host}/clients/google-drive/authenticate`
+		: `https://${config.host}/clients/google-drive/authenticate`;
 
 dashboard.use(async function (req, res, next) {
 	const account = await database.getAccount(req.blog.id);

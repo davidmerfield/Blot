@@ -7,6 +7,9 @@ const EventSource = require("eventsource");
 const fetch = require("node-fetch");
 const clfdate = require("helper/clfdate");
 
+// This app is run on Blot's server in production
+// and relays webhooks to any connected local clients
+// Should this be authenticated in some way?
 const app = express();
 
 app.get("/connect", function (req, res) {
