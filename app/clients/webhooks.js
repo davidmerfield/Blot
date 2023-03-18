@@ -58,13 +58,14 @@ app.get("/clients/google-drive/authenticate", (req, res) => {
   res.redirect(url);
 });
 
+// This is sent by Dropbox to verify a webhook when first added
+app.get("/clients/dropbox/webhook", (req, res, next) => {
+  if (!req.query || !req.query.challenge) return next();
+  res.send(req.query.challenge);
+});
+
 app.use((req, res) => {
-  // This is sent by Dropbox
-  if (req.query && req.query.challenge) {
-    res.send(req.query.challenge);
-  } else {
-    res.send("OK");
-  }
+  res.send("OK");
 
   const headers = req.headers;
 
