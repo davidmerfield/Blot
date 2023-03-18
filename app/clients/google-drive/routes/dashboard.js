@@ -1,40 +1,27 @@
-const client = require("client");
 const config = require("config");
 const google = require("googleapis").google;
-const fs = require("fs-extra");
 const clfdate = require("helper/clfdate");
-const localPath = require("helper/localPath");
 const database = require("../database");
 const disconnect = require("../disconnect");
 const resetFromBlot = require("../sync/reset-from-blot");
 const createDriveClient = require("../util/createDriveClient");
 const setupWebhook = require("../util/setupWebhook");
-const sse = require("../util/sse");
 const express = require("express");
 const dashboard = new express.Router();
+const establishSyncLock = require("../util/establishSyncLock");
 
 const VIEWS = require("path").resolve(__dirname + "/../views") + "/";
-
-const SETUP_CHANNEL = (req) =>
-	"blog:" + req.blog.id + ":client:google-drive:set-up-folder";
 
 const REDIRECT_URL = config.webhook_forwarding_host
 	? `https://${config.webhook_forwarding_host}/clients/google-drive/authenticate`
 	: `https://${config.host}/clients/google-drive/authenticate`;
 
 dashboard.use(async function (req, res, next) {
+	res.locals.partials.location = VIEWS + "location";
+
 	const account = await database.getAccount(req.blog.id);
-	if (!account) return next();
 
-	if (
-		account.settingUp &&
-		req.originalUrl.indexOf(req.baseUrl + "/set-up-folder") !== 0
-	) {
-		console.log("req.originalUrl", req.originalUrl);
-		return res.redirect(req.baseUrl + "/set-up-folder");
-	}
-
-	if (account.folderPath)
+	if (account && account.folderPath)
 		account.folderParents = account.folderPath
 			.split("/")
 			.slice(1)
@@ -50,42 +37,10 @@ dashboard.get("/", function (req, res) {
 	res.render(VIEWS + "index");
 });
 
-dashboard.use("/set-up-folder", function (req, res, next) {
-	fs.readdir(localPath(req.blog.id, "/"), function (err, contents) {
-		if (err) return next(err);
-		res.locals.emptyFolder = req.emptyFolder = contents.length === 0;
-		res.locals.nameOfFolderToCreate = req.blog.title.split("/").join("").trim();
-		next();
-	});
-});
-
-dashboard
-	.route("/set-up-folder")
-	.get(function (req, res) {
-		if (!res.locals.account.settingUp && res.locals.account.folderId)
-			return res.message(
-				req.baseUrl,
-				"Successfully set up your folder on Google Drive"
-			);
-
-		res.render(VIEWS + "set-up-folder");
-	})
-	.post(async function (req, res) {
-		await database.setAccount(req.blog.id, { settingUp: true });
-
-		if (res.locals.emptyFolder) {
-			await setUpBlogFolder(req.blog, res.locals.emptyFolder);
-		} else {
-			setUpBlogFolder(req.blog, res.locals.emptyFolder);
-		}
-
-		res.redirect(req.baseUrl + "/set-up-folder");
-	});
-
 dashboard
 	.route("/set-up-folder/cancel")
 	.all(function (req, res, next) {
-		if (!res.locals.account.settingUp) return res.redirect(req.baseUrl);
+		if (!res.locals.account.preparing) return res.redirect(req.baseUrl);
 		next();
 	})
 	.get(function (req, res) {
@@ -97,12 +52,10 @@ dashboard
 			channel: null,
 			folderId: null,
 			folderPath: null,
-			settingUp: null,
+			preparing: null,
 		});
 		res.message(req.baseUrl, "Cancelled the creation of your new folder");
 	});
-
-dashboard.get("/set-up-folder/progress", sse(SETUP_CHANNEL));
 
 dashboard
 	.route("/disconnect")
@@ -152,6 +105,7 @@ dashboard.get("/authenticate", function (req, res) {
 			new Error("Please authorize Blot to access your Google Drive")
 		);
 	}
+
 	const oauth2Client = new google.auth.OAuth2(
 		config.google.drive.key,
 		config.google.drive.secret,
@@ -188,8 +142,6 @@ dashboard.get("/authenticate", function (req, res) {
 			let permissionId;
 			const response = await drive.about.get({ fields: "*" });
 
-			console.log("user", response.data.user);
-
 			email = response.data.user.emailAddress;
 
 			// The user's ID as visible in the permissions collection.
@@ -217,16 +169,16 @@ dashboard.get("/authenticate", function (req, res) {
 
 		const account = await database.getAccount(req.blog.id);
 
-		if (!account.folderId)
-			return res.message(
-				req.baseUrl + "/set-up-folder",
-				"Blot now has access to your Google Drive"
-			);
+		res.message(req.baseUrl, "Connected to Google Drive");
 
-		res.message(req.baseUrl, "Re-connected to Google Drive");
 		try {
-			await resetFromBlot(req.blog.id);
-			await setupWebhook(req.blog.id);
+			if (!account.folderId) {
+				await database.setAccount(req.blog.id, { preparing: true });
+				await setUpBlogFolder(req.blog);
+			} else {
+				await resetFromBlot(req.blog.id);
+				await setupWebhook(req.blog.id);
+			}
 		} catch (e) {
 			await database.setAccount(req.blog.id, {
 				error: "Could not set up webhooks",
@@ -239,17 +191,16 @@ dashboard.get("/authenticate", function (req, res) {
 });
 
 const setUpBlogFolder = async function (blog) {
+	let releaseLock;
 	try {
 		const checkWeCanContinue = async () => {
-			const { settingUp } = await database.getAccount(blog.id);
-			if (!settingUp) throw new Error("Permission to set up revoked");
+			const { preparing } = await database.getAccount(blog.id);
+			if (!preparing) throw new Error("Permission to set up revoked");
 		};
 
-		const publish = (...args) => {
-			const message = args.join(" ");
-			client.publish(SETUP_CHANNEL({ blog: { id: blog.id } }), message);
-			console.log(clfdate(), "Google Drive Client", message);
-		};
+		const { folder, done } = await establishSyncLock(blog.id);
+		releaseLock = done;
+		const publish = folder.status;
 
 		publish("Establishing connection to Google Drive");
 		const { drive } = await createDriveClient(blog.id);
@@ -261,13 +212,13 @@ const setUpBlogFolder = async function (blog) {
 
 		await checkWeCanContinue();
 		publish("Creating new folder");
-		const folder = await drive.files.create({
+		const blogFolder = await drive.files.create({
 			resource: fileMetadata,
 			fields: "id, name",
 		});
 
-		const folderId = folder.data.id;
-		const folderPath = "/My Drive/" + folder.data.name;
+		const folderId = blogFolder.data.id;
+		const folderPath = "/My Drive/" + blogFolder.data.name;
 
 		await database.setAccount(blog.id, {
 			folderId: folderId,
@@ -282,8 +233,9 @@ const setUpBlogFolder = async function (blog) {
 		publish("Setting up webhook");
 		await setupWebhook(blog.id);
 
-		await database.setAccount(blog.id, { settingUp: null });
+		await database.setAccount(blog.id, { preparing: null });
 		publish("All files transferred");
+		done(null, ()=>{});
 	} catch (e) {
 		console.log(clfdate(), "Google Drive Client", e);
 
@@ -295,11 +247,12 @@ const setUpBlogFolder = async function (blog) {
 
 		await database.setAccount(blog.id, {
 			error,
-			settingUp: null,
+			preparing: null,
 			channel: null,
 			folderId: null,
 			folderPath: null,
 		});
+		if (releaseLock) releaseLock(null, ()=>{});
 	}
 };
 
