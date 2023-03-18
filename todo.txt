@@ -1,18 +1,4 @@
 Improve Google Drive client:
-- Fix bug which occurs when:
-  - move a folder containing a folder containing a file from within your google drive, into your blog folder
-  - then move the folder within the folder out of the folder but keep it within your blog folder. 
-  - Blot will never transfer the file inside
-- Fix bug which occurs when:
-  - move a folder full of files from within google drive into your blog's folder
-  - Blot will recieve the folder but not the files inside
-- major overhaul needed
-- Dragging a folder of files into folder does not sync properly
-- Handle uncaught error with verify on Google Drive client. 
-- another uncaught error surfaces when the account is deleted, before a verify takes place
-- Uncaught exceptions raised by verify seem to not be caught properly by the try/catch blocks. Simulate an exception and work out why.
-- Resolve error which occurred when I disconnected a blog from Google Drive client, a folder lock issue, which wasn't surfaced properly.
-- Weird issue with connecting multiple blogs to same google drive account – the file from one appeared in the folder for the other. Also strangeness possibly related to an empty blog folder?
 - How do we handle two files with same name and same parent? How does our fileId:path hash handle this? Make sure we delete the right file. Will file.title as opposed to file.name give us the deduped version?
   - Bug: move file with deduplicated name from sub folder to other folder
   - download should check for an existing file with same name but different fileId and dedupe before storing the path?
@@ -23,7 +9,6 @@ Improve Google Drive client:
   - Retry when we get google drive's This service is not available error
   - Handle storage quota errors
   - Handle 429 errors with exponential backoff retry
-- Add percentage progress and a status bar to the folder copying setup page
 - Implement `folder.rename` method to take advantage of Google Drive's true rename feature
 - Add a way for sync/build to accept a ctime as an option. We can't set this at the operating system level but google drive's API does return a createdTime value and we could use this as the true file's created date, rather than the date the file is made on the server
 - `write` should use the best method for large file uploading
