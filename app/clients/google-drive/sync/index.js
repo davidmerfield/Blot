@@ -40,12 +40,6 @@ async function sync(blogID) {
     const storedPathForId = await db.get(id);
     const storedPathForParentId = await db.get(parents && parents[0]);
 
-    if (storedPathForParentId) {
-      console.log("parent path:", storedPathForParentId);
-    } else {
-      console.log("nothing found for", parents);
-    }
-
     const path = storedPathForParentId
       ? join(storedPathForParentId, name)
       : null;
