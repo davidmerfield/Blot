@@ -50,6 +50,7 @@ export BLOT_ADMIN_EMAIL=
 
 export BLOT_SESSION_SECRET=
 export BLOT_BACKUP_SECRET=
+export BLOT_WEBHOOKS_SECRET=
 
 # Stripe for payment processing
 export BLOT_STRIPE_KEY=

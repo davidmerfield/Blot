@@ -17,6 +17,10 @@ const server = express();
 server.get("/connect", function (req, res) {
   const client = redis.createClient();
 
+  if (!req.query || req.query.authorization !== config.webhooks.secret) {
+    return res.status(403).send("Unauthorized");
+  }
+
   req.socket.setTimeout(2147483647);
   res.writeHead(200, {
     "X-Accel-Buffering": "no",
@@ -99,7 +103,8 @@ server.use(
 );
 
 function listen({ host }) {
-  const url = "https://" + host + "/connect";
+  const url =
+    "https://" + host + "/connect?authorization=" + config.webhooks.secret;
 
   // when testing this, replace REMOTE_HOST with 'webhooks.blot.development'
   // and pass this as second argument to new EventSource();

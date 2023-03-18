@@ -1,8 +1,5 @@
 Improvements to webhook forwader
- consolidate config
  Document in notes
- Authenticate forwarding endpoint
- How do we handle redirects from webhooks to localdashboard for OAUTH?
 
 Work on overhaul of Google Drive client
 
