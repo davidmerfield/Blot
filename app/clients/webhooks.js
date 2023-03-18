@@ -7,6 +7,7 @@ const EventSource = require("eventsource");
 const fetch = require("node-fetch");
 const clfdate = require("helper/clfdate");
 const querystring = require("querystring");
+const bodyParser = require("body-parser");
 
 const PRODUCTION_HOST = "blot.im";
 const DEVELOPMENT_HOST = "blot.development";
@@ -64,47 +65,52 @@ app.get("/clients/dropbox/webhook", (req, res, next) => {
   res.send(req.query.challenge);
 });
 
-app.use((req, res) => {
-  res.send("OK");
+app.use(
+  bodyParser.raw({
+    inflate: true,
+    limit: "100kb",
+    type: "application/*",
+  }),
+  (req, res) => {
+    res.send("OK");
 
-  const headers = req.headers;
+    const headers = req.headers;
 
-  // These headers trigger a redirect loop?
-  // host: 'webhooks.blot.development',
-  // 'x-real-ip': '127.0.0.1',
-  // 'x-forwarded-for': '127.0.0.1',
-  // 'x-forwarded-proto': 'https',
-  delete headers.host;
-  delete headers["x-real-ip"];
-  delete headers["x-forwarded-for"];
-  delete headers["x-forwarded-proto"];
+    // These headers trigger a redirect loop?
+    // host: 'webhooks.blot.development',
+    // 'x-real-ip': '127.0.0.1',
+    // 'x-forwarded-for': '127.0.0.1',
+    // 'x-forwarded-proto': 'https',
+    delete headers.host;
+    delete headers["x-real-ip"];
+    delete headers["x-forwarded-for"];
+    delete headers["x-forwarded-proto"];
 
-  const message = {
-    url: req.url,
-    headers,
-  };
+    const message = {
+      url: req.url,
+      headers,
+      method: req.method,
+      body: req.body ? req.body.toString() : "",
+    };
 
-  console.log(clfdate(), "Webhooks publishing webhook", req.url);
-  client.publish(CHANNEL, JSON.stringify(message));
-});
+    console.log(clfdate(), "Webhooks publishing webhook", req.url);
+    client.publish(CHANNEL, JSON.stringify(message));
+  }
+);
 
 function listenForWebhooks(REMOTE_HOST) {
   // when testing this, replace REMOTE_HOST with 'webhooks.blot.development'
   // and use the following config for node-fetch
-  // const https = require("https");
-  //   const httpsAgent = new https.Agent({
-  //   rejectUnauthorized: false,
-  // });
   // and then pass this:
-  //       agent: httpsAgent,
   // and pass this as second argument to new EventSource();
   // { https: { rejectUnauthorized: false } }
-
   const url = "https://" + REMOTE_HOST + "/connect";
   const stream = new EventSource(url);
 
+  console.log(clfdate(), "Webhooks subscribing to", url);
+
   stream.onopen = function () {
-    console.log(clfdate(), "Webhooks subscribed to remote server");
+    console.log(clfdate(), "Webhooks subscribed to", url);
   };
 
   stream.onerror = function (err) {
@@ -112,12 +118,28 @@ function listenForWebhooks(REMOTE_HOST) {
   };
 
   stream.onmessage = async function ({ data }) {
-    const message = JSON.parse(data);
-    const url = "https://" + config.host + message.url;
-    await fetch(url, {
-      headers: message.headers,
-    });
-    console.log(clfdate(), "Webhooks request issued", url);
+    const { method, body, url, headers } = JSON.parse(data);
+
+    console.log(clfdate(), "Webhooks requesting", url);
+
+    try {
+      const request = require("request");
+      request(
+        {
+          uri: "https://" + config.host + url,
+          headers: headers,
+          method,
+          body,
+        },
+        function (err, res, body) {
+          console.log(err);
+          // console.log(res);
+          // console.log(body);
+        }
+      );
+    } catch (e) {
+      console.log(e);
+    }
   };
 }
 
