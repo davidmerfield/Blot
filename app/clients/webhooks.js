@@ -6,6 +6,10 @@ const CHANNEL = "webhook-forwarder";
 const EventSource = require("eventsource");
 const fetch = require("node-fetch");
 const clfdate = require("helper/clfdate");
+const querystring = require("querystring");
+
+const PRODUCTION_HOST = "blot.im";
+const DEVELOPMENT_HOST = "blot.development";
 
 // This app is run on Blot's server in production
 // and relays webhooks to any connected local clients
@@ -43,6 +47,15 @@ app.get("/connect", function (req, res) {
     client.unsubscribe();
     client.quit();
   });
+});
+
+app.get("/clients/google-drive/authenticate", (req, res) => {
+  const url =
+    config.protocol +
+    DEVELOPMENT_HOST +
+    "/clients/google-drive/authenticate?" +
+    querystring.stringify(req.query);
+  res.redirect(url);
 });
 
 app.use((req, res) => {
@@ -107,6 +120,7 @@ function listenForWebhooks(REMOTE_HOST) {
   };
 }
 
-if (config.environment === "development") listenForWebhooks("webhooks.blot.im");
+if (config.environment === "development")
+  listenForWebhooks("webhooks." + PRODUCTION_HOST);
 
 module.exports = app;
