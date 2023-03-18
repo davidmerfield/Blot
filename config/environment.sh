@@ -13,10 +13,6 @@ export BLOT_DIRECTORY=
 export NODE_PATH=$(cd $BLOT_DIRECTORY/app; pwd)  # same as BLOT_DIRECTORY/app, but must be absolute
 export BLOT_CACHE_DIRECTORY=
 
-# During local development we forward requests using
-# localhost.run through a domain we own
-export BLOT_WEBHOOK_FORWARDING_HOST=
-
 # Remove these eventually
 export BLOT_PROTOCOL=https
 
@@ -54,6 +50,7 @@ export BLOT_ADMIN_EMAIL=
 
 export BLOT_SESSION_SECRET=
 export BLOT_BACKUP_SECRET=
+export BLOT_WEBHOOKS_SECRET=
 
 # Stripe for payment processing
 export BLOT_STRIPE_KEY=

@@ -12,9 +12,10 @@ const establishSyncLock = require("../util/establishSyncLock");
 
 const VIEWS = require("path").resolve(__dirname + "/../views") + "/";
 
-const REDIRECT_URL = config.webhook_forwarding_host
-	? `https://${config.webhook_forwarding_host}/clients/google-drive/authenticate`
-	: `https://${config.host}/clients/google-drive/authenticate`;
+const REDIRECT_URL =
+	config.environment === "development"
+		? `https://${config.webhooks.relay_host}/clients/google-drive/authenticate`
+		: `https://${config.host}/clients/google-drive/authenticate`;
 
 dashboard.use(async function (req, res, next) {
 	res.locals.partials.location = VIEWS + "location";
@@ -83,6 +84,8 @@ dashboard.get("/redirect", function (req, res) {
 		maxAge: 15 * 60 * 1000, // 15 minutes
 		sameSite: "Lax", // otherwise we will not see it
 	});
+
+	console.log("redirecting to", REDIRECT_URL);
 
 	res.redirect(
 		oauth2Client.generateAuthUrl({
@@ -235,7 +238,7 @@ const setUpBlogFolder = async function (blog) {
 
 		await database.setAccount(blog.id, { preparing: null });
 		publish("All files transferred");
-		done(null, ()=>{});
+		done(null, () => {});
 	} catch (e) {
 		console.log(clfdate(), "Google Drive Client", e);
 
@@ -252,7 +255,7 @@ const setUpBlogFolder = async function (blog) {
 			folderId: null,
 			folderPath: null,
 		});
-		if (releaseLock) releaseLock(null, ()=>{});
+		if (releaseLock) releaseLock(null, () => {});
 	}
 };
 

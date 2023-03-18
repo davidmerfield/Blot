@@ -14,18 +14,23 @@ if (process.env.NODE_ENV === "production") {
   BLOT_CDN = BLOT_PROTOCOL + "://" + BLOT_HOST + "/cdn";
 }
 
+const environment =
+  process.env.NODE_ENV === "production" ? "production" : "development";
+
 module.exports = {
   // codebase expects either 'production' or 'development'
-  environment:
-    process.env.NODE_ENV === "production" ? "production" : "development",
+  environment,
   host: BLOT_HOST,
   protocol: BLOT_PROTOCOL + "://",
   pidfile: BLOT_DIRECTORY + "/data/process.pid",
 
-  // When working locally on Blot we can forward webhooks
-  // using localhost.run through a fixed domain we own
-  // whose host is BLOT_WEBHOOK_FORWARDER, e.g. example.com
-  webhook_forwarding_host: process.env.BLOT_WEBHOOK_FORWARDING_HOST,
+  webhooks: {
+    server_host: "webhooks." + BLOT_HOST,
+    // replace with "webhooks.blot.development" to test
+    relay_host: environment === "development" && "webhooks.blot.im",
+    development_host: "blot.development",
+    secret: process.env.BLOT_WEBHOOKS_SECRET,
+  },
 
   maintenance: process.env.BLOT_MAINTENANCE === "true",
   cache: process.env.BLOT_CACHE === "true",
