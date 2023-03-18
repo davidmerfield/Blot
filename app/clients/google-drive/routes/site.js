@@ -71,73 +71,56 @@ site
   })
   .post(async function (req, res) {
     const prefix = () => clfdate() + " Google Drive:";
+    const tokenHeader = req.header("x-goog-channel-token");
+    const channelID = req.header("x-goog-channel-id");
 
-    console.log(prefix(), "Received webhook");
+    if (!tokenHeader) return res.status(400).send("Missing header");
 
-    if (req.headers["x-goog-channel-token"]) {
-      const token = querystring.parse(req.headers["x-goog-channel-token"]);
+    const token = querystring.parse(tokenHeader);
+    const { blogID } = token;
+    const signature = hash(blogID + channelID + config.session.secret);
 
-      const signature = hash(
-        token.blogID + req.headers["x-goog-channel-id"] + config.session.secret
-      );
+    if (token.signature !== signature)
+      return res.status(400).send("Invalid signature");
 
-      if (token.signature !== signature) {
-        res.send("OK");
-        return console.error(prefix(), "Webhook has bad signature");
-      }
+    const channel = {
+      kind: "api#channel",
+      id: req.header("x-goog-channel-id"),
+      resourceId: req.header("x-goog-resource-id"),
+      resourceUri: req.header("x-goog-resource-uri"),
+      token: req.header("x-goog-channel-token"),
+      expiration: moment(req.header("x-goog-channel-expiration"))
+        .valueOf()
+        .toString(),
+    };
 
-      const channel = {
-        kind: "api#channel",
-        id: req.headers["x-goog-channel-id"],
-        resourceId: req.headers["x-goog-resource-id"],
-        resourceUri: req.headers["x-goog-resource-uri"],
-        token: req.headers["x-goog-channel-token"],
-        expiration: moment(req.headers["x-goog-channel-expiration"])
-          .valueOf()
-          .toString(),
-      };
+    const account = await database.getAccount(blogID);
 
-      const account = await database.getAccount(token.blogID);
+    // When for some reason we can't stop the old webhook
+    // for this blog during an account disconnection we sometimes
+    // recieve webhooks on stale channels. This can tank the setup
+    // of the blog on Google Drive and happens in my dev env.
+    // We can't call drive.stop on the stale channel since the
+    // refresh_token likely changed, just let it expire instead.
+    if (!account || !_.isEqual(channel, account.channel)) {
+      return res.send("OK");
+    }
 
-      // If the blog was disconnected from Google Drive
-      // but we somehow failed to stop the webhook, this can happen
-      if (!account) {
-        const config = require("config");
-        const google = require("googleapis").google;
-        const oauth2Client = new google.auth.OAuth2(
-          config.google.drive.key,
-          config.google.drive.secret
-        );
-        const drive = google.drive({ version: "v3", auth: oauth2Client });
+    res.send("OK");
 
-        await drive.channels.stop({
-          requestBody: channel,
-        });
-        return res.send("OK");
-      }
-
-      // When for some reason we can't stop the old webhook
-      // for this blog during an account disconnection we sometimes
-      // recieve webhooks on stale channels. This can tank the setup
-      // of the blog on Google Drive and happens in my dev env.
-      // We can't call drive.stop on the stale channel since the
-      // refresh_token likely changed, just let it expire instead.
-      if (!_.isEqual(channel, account.channel)) {
-        res.send("OK");
-        return console.error(
-          prefix(),
-          "Mismatch between recieved channel and stored account.channel"
-        );
-      }
-
-      res.send("OK");
-      sync(token.blogID, { fromScratch: false }, function (err) {
-        if (err) {
-          console.error(prefix(), token.blogID, "Error:", err);
-        } else {
-          console.log(prefix(), "Completed sync without error", token.blogID);
-        }
-      });
+    try {
+      await sync(blogID);
+    } catch (err) {
+      console.error(prefix(), blogID, "Error:", err);
+      // folder.log("Error:", err.message);
+      //    try {
+      //      await reset(blogID);
+      //      const blog = await getBlog({ id: blogID });
+      //      await fix(blog);
+      //    } catch (e) {
+      //      folder.log("Error verifying folder:", e.message);
+      //      return done(e, callback);
+      //    }
     }
   });
 

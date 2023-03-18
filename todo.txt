@@ -1,7 +1,3 @@
-Work on overhaul of Google Drive client
-
----
-
 Fix [Christopher's bugs with thumbnails](https://mail.google.com/mail/u/0/#inbox/QgrcJHrnvrNzJHZMWcVFzMHvZTnPZfPxfqg)
 
 Improvements to sync/reset scripts:
@@ -21,6 +17,23 @@ Add support for other image formats, by converting them into jpg/webp
 
 ---
 
+Improve Google Drive client:
+- How do we handle two files with same name and same parent? How does our fileId:path hash handle this? Make sure we delete the right file. Will file.title as opposed to file.name give us the deduped version?
+  - Bug: move file with deduplicated name from sub folder to other folder
+  - download should check for an existing file with same name but different fileId and dedupe before storing the path?
+- Handle revoked credentials without tanking server
+- Can the google drive client handle a server restart during setup?
+- database.folder should throw ENOENT and EEXIST errors for del, set, move etc.
+- Error handling
+  - Retry when we get google drive's This service is not available error
+  - Handle storage quota errors
+  - Handle 429 errors with exponential backoff retry
+- Implement `folder.rename` method to take advantage of Google Drive's true rename feature
+- Add a way for sync/build to accept a ctime as an option. We can't set this at the operating system level but google drive's API does return a createdTime value and we could use this as the true file's created date, rather than the date the file is made on the server
+- `write` should use the best method for large file uploading
+- `download` Should nicely handle the export of various Google Doc formats
+- Work out if we can test this using Mocks
+
 Improvements to Dropbox client:
 - [ ] Parallelize build/download a little more, so posts appear when many files are dropped into folder?
 - [ ] Efficiently handle Dropbox file renames with internal hash of fileIDs
@@ -38,50 +51,6 @@ Improvements to Dropbox client:
 - [ ] handle folder full error appropriately
 - [ ] handle a sync lock failure on second blog when migrating an app folder
 - [ ] check content hash for upload possible
-
-Improve Google Drive client:
-- major overhaul needed
-- Dragging a folder of files into folder does not sync properly
-- Handle uncaught error with verify on Google Drive client. 
-- another uncaught error surfaces when the account is deleted, before a verify takes place
-- Uncaught exceptions raised by verify seem to not be caught properly by the try/catch blocks. Simulate an exception and work out why.
-- Resolve error which occurred when I disconnected a blog from Google Drive client, a folder lock issue, which wasn't surfaced properly.
-- Weird issue with connecting multiple blogs to same google drive account – the file from one appeared in the folder for the other. Also strangeness possibly related to an empty blog folder?
-- How do we handle two files with same name and same parent? How does our fileId:path hash handle this? Make sure we delete the right file. Will file.title as opposed to file.name give us the deduped version?
-  - Bug: move file with deduplicated name from sub folder to other folder
-  - download should check for an existing file with same name but different fileId and dedupe before storing the path?
-- Handle revoked credentials without tanking server
-- Fix bug which occurs when:
-  - move a folder containing a folder containing a file from within your google drive, into your blog folder
-  - then move the folder within the folder out of the folder but keep it within your blog folder. 
-  - Blot will never transfer the file inside
-- Fix bug which occurs when:
-  - move a folder full of files from within google drive into your blog's folder
-  - Blot will recieve the folder but not the files inside
-- Create test app for local use
-- Can the google drive client handle a server restart during setup?
-- database.folder should throw ENOENT and EEXIST errors for del, set, move etc.
-- Error handling
-  - Retry when we get google drive's This service is not available error
-  - Handle storage quota errors
-  - Handle 429 errors with exponential backoff retry
-- Add percentage progress and a status bar to the folder copying setup page
-- Add `folder.rename` method to `app/sync` to take advantage of Google Drive's true rename feature
-- Add a way for sync/build to accept a ctime as an option. We can't set this at the operating system level but google drive's API does return a createdTime value and we could use this as the true file's created date, rather than the date the file is made on the server
-- Work out if we can test this using Mocks
-- `write` should use the best method for large file uploading
-- `download` Should nicely handle the export of various Google Doc formats
-- Do we encounter dropbox/google drive bugs when we remove a directory of files, rather than invidivual files?
-- Victor
-- Ryan
-- Johannes
-- Rizwan
-- Fritz whose blog became stuck
-- [Kevin](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlkFzdBrlJzrGprHNHNmvkQqbW)
-- It seems one sync tanked the setup transfer with an [ENOENT](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmvTwMksRmWvSpQXVhvlMXjKFC)
-- Tell [Mike](https://mail.google.com/mail/u/0/#inbox/FMfcgzGpFgpdfBScqQctbnNGxBCLrztC) once the bug is sorted so he can rejoin
-- Tell [Juan](https://mail.google.com/mail/u/0/#inbox/FMfcgzGpFzvBSNgqmRVDRHvdGrzqrZDt)
-- Tell questioners](https://blot.im/questions/576)
 
 Fix Git client bugs
 - Fix bug which occurs when you change your username while using the Git client (caused by the broken repo url) and tell [Koen](https://mail.google.com/mail/u/0/#inbox/1670f516115ef9bd) and [Andre](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqfMMxJXpbTZLvGzVmZlFPNfk) and [Josh](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqnkxhvtmPpdMMkRPjzpktrxG) and [Ryan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGCGthpSTxskRFFVjtrGnhnSvh) and [David](https://mail.google.com/mail/u/0/#inbox/FMfcgzGllVjvNfvdDVmnmlRvrFsNnQSD)

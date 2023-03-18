@@ -16,7 +16,7 @@ module.exports = async (blogID, publish) => {
   const { folderId } = account;
 
   const checkWeCanContinue = async () => {
-    if ((await database.getAccount(blogID)).settingUp !== account.settingUp)
+    if ((await database.getAccount(blogID)).preparing !== account.preparing)
       throw new Error("Permission to continue verification changed");
   };
 

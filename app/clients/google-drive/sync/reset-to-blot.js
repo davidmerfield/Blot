@@ -7,19 +7,16 @@ const download = require("../util/download");
 const createDriveClient = require("../util/createDriveClient");
 const getmd5Checksum = require("../util/md5Checksum");
 
-module.exports = async (blogID, publish) => {
+module.exports = async (blogID, publish, update) => {
   if (!publish)
     publish = (...args) => {
       console.log(clfdate() + " Google Drive:", args.join(" "));
     };
 
   const { drive, account } = await createDriveClient(blogID);
-  const { folderId } = account;
+  const { reset, get, set, remove } = database.folder(account.folderId);
 
-  const { reset, get, set, remove } = database.folder(folderId);
-
-  // reset pageToken
-  // reset db.folder state
+  // resets pageToken and folderState
   await reset();
 
   const walk = async (dir, dirId) => {
@@ -41,6 +38,7 @@ module.exports = async (blogID, publish) => {
         const id = await get(path);
         await remove(id);
         await fs.remove(localPath(blogID, path));
+        if (update) await update(path);
       }
     }
 
@@ -50,19 +48,22 @@ module.exports = async (blogID, publish) => {
       const existsLocally = localContents.find((item) => item.name === name);
       const isDirectory = mimeType === "application/vnd.google-apps.folder";
 
+      // Store the Drive ID against the path of this item
+      await set(id, path);
+
       if (isDirectory) {
         if (existsLocally && !existsLocally.isDirectory) {
-          publish("Removing local file", path);
+          publish("Removing", path);
           const idToRemove = await get(path);
           await remove(idToRemove);
           await fs.remove(localPath(blogID, path));
-          publish("Creating local directory", path);
+          publish("Creating directory", path);
           await fs.ensureDir(localPath(blogID, path));
-          await set(id, path);
+          if (update) await update(path);
         } else if (!existsLocally) {
-          publish("Creating local directory", path);
+          publish("Creating directory", path);
           await fs.ensureDir(localPath(blogID, path));
-          await set(id, path);
+          if (update) await update(path);
         }
 
         await walk(path, id);
@@ -74,7 +75,7 @@ module.exports = async (blogID, publish) => {
           try {
             publish("Downloading", path);
             await download(blogID, drive, path, file);
-            set(id, path);
+            if (update) await update(path);
           } catch (e) {
             publish("Failed to download", path, e);
           }
@@ -82,7 +83,7 @@ module.exports = async (blogID, publish) => {
           try {
             publish("Downloading", path);
             await download(blogID, drive, path, file);
-            set(id, path);
+            if (update) await update(path);
           } catch (e) {
             publish("Failed to download", path, e);
           }
@@ -91,7 +92,7 @@ module.exports = async (blogID, publish) => {
     }
   };
 
-  await walk("/", folderId);
+  await walk("/", account.folderId);
 
   // sync will acquire a startPageToken
   // when it next runs
