@@ -17,7 +17,7 @@ const server = express();
 server.get("/connect", function (req, res) {
   const client = redis.createClient();
 
-  if (!req.query || req.query.authorization !== config.webhooks.secret) {
+  if (req.header("Authorization") !== config.webhooks.secret) {
     return res.status(403).send("Unauthorized");
   }
 
@@ -103,15 +103,18 @@ server.use(
 );
 
 function listen({ host }) {
-  const url =
-    "https://" + host + "/connect?authorization=" + config.webhooks.secret;
+  const url = "https://" + host + "/connect";
 
   // when testing this, replace REMOTE_HOST with 'webhooks.blot.development'
   // and pass this as second argument to new EventSource();
-  const options =
-    config.environment === "development" && host === config.webhooks.server_host
-      ? { https: { rejectUnauthorized: false } }
-      : {};
+  const options = { headers: { Authorization: config.webhooks.secret } };
+
+  if (
+    config.environment === "development" &&
+    host === config.webhooks.server_host
+  ) {
+    options.https = { rejectUnauthorized: false };
+  }
 
   const stream = new EventSource(url, options);
 
