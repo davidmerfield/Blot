@@ -14,17 +14,6 @@ Improve Google Drive client:
 - `write` should use the best method for large file uploading
 - `download` Should nicely handle the export of various Google Doc formats
 - Work out if we can test this using Mocks
-- Do we encounter dropbox/google drive bugs when we remove a directory of files, rather than invidivual files?
-- Victor
-- Ryan
-- Johannes
-- Rizwan
-- Fritz whose blog became stuck
-- [Kevin](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlkFzdBrlJzrGprHNHNmvkQqbW)
-- It seems one sync tanked the setup transfer with an [ENOENT](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmvTwMksRmWvSpQXVhvlMXjKFC)
-- Tell [Mike](https://mail.google.com/mail/u/0/#inbox/FMfcgzGpFgpdfBScqQctbnNGxBCLrztC) once the bug is sorted so he can rejoin
-- Tell [Juan](https://mail.google.com/mail/u/0/#inbox/FMfcgzGpFzvBSNgqmRVDRHvdGrzqrZDt)
-- Tell questioners](https://blot.im/questions/576)
 
 ---
 
