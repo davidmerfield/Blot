@@ -100,8 +100,6 @@ app.use(
 
 function listenForWebhooks(REMOTE_HOST) {
   // when testing this, replace REMOTE_HOST with 'webhooks.blot.development'
-  // and use the following config for node-fetch
-  // and then pass this:
   // and pass this as second argument to new EventSource();
   // { https: { rejectUnauthorized: false } }
   const url = "https://" + REMOTE_HOST + "/connect";
