@@ -4,6 +4,7 @@ var express = require("express");
 var trace = require("helper/trace");
 var VIEW_DIRECTORY = __dirname + "/views";
 var config = require("config");
+const cookieParser = require("cookie-parser");
 
 // This is the express application used by a
 // customer to control the settings and view
@@ -56,11 +57,38 @@ dashboard.use("/stripe-webhook", require("./routes/stripe_webhook"));
 /// EVERYTHING AFTER THIS NEEDS TO BE AUTHENTICATED
 dashboard.use(trace("loading session information"));
 dashboard.use(require("./session"));
-dashboard.use(function (req, res, next) {
+dashboard.use(cookieParser(), function (req, res, next) {
   if (req.session && req.session.uid) {
     return next();
   }
-  
+
+  if (!req.cookies || req.cookies.redirectForCookie == undefined) {
+    const redirect = req.protocol + "://" + req.hostname + req.originalUrl;
+
+    res.cookie("redirectForCookie", "true", {
+      domain: config.host,
+      path: "/",
+      secure: true,
+      httpOnly: true,
+      maxAge: 1 * 60 * 1000, // 1 minute
+      sameSite: "Strict",
+    });
+
+    return res.send(`<html>
+<head>
+<meta http-equiv="refresh" content="0;URL='${redirect}'"/>
+<script type="text/javascript">window.location='${redirect}'</script>
+</head>
+<body>
+<noscript><p>Continue to <a href="${redirect}">${redirect}</a>.</p></noscript>
+</body>
+</html>`);
+  }
+
+  if (req.cookies && req.cookies.redirectForCookie) {
+    res.clearCookie("redirectForCookie");
+  }
+
   return next(new Error("NOUSER"));
 });
 dashboard.use(trace("loaded session information"));
