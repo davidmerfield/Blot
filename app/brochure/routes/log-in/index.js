@@ -72,7 +72,7 @@ form
 
   .post(parse, checkEmail, checkReset, checkPassword, errorHandler)
 
-  .post(function (err, req, res, next) {
+  .all(function (err, req, res, next) {
     if (req.body && req.body.reset !== undefined)
       return res.redirect("/log-in/reset");
     res.render("log-in");
