@@ -166,8 +166,6 @@ dashboard.get("/authenticate", function (req, res) {
   //   return res.redirect(req.baseUrl);
   // }
 
-  console.log('here tooo...');
-
   const { code, full_access } = req.query;
   let redirectUri =
     req.protocol + "://" + req.get("host") + "/clients/dropbox/authenticate";

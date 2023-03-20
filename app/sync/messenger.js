@@ -12,11 +12,13 @@ module.exports = (blog) => {
       clfdate(),
       blog.id.slice(0, 12),
       syncID,
-      "client=" + blog.client,
+      "client=" + (blog.client || "none"),
       ...arguments,
     ]);
   };
-  const status = (message) => {
+  const status = function () {
+    const message = [...arguments].join(" ").trim();
+
     Blog.setStatus(blog.id, { message, syncID });
     log(message);
     client.publish("sync:status:" + blog.id, message);

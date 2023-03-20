@@ -1,4 +1,4 @@
-const prefix = () => clfdate() + " Build:";
+const prefix = () => clfdate() + " build";
 const debug = require("debug")("blot:build");
 const uuid = require("uuid/v4");
 const child_process = require("child_process");
@@ -14,7 +14,7 @@ process.on("exit", function () {
 });
 
 module.exports = function (blog, path, options, callback) {
-  const jobId = uuid();
+  const jobId = "job_" + uuid();
   jobs[jobId] = {
     blog,
     jobId,
@@ -30,13 +30,13 @@ module.exports = function (blog, path, options, callback) {
     }
     console.log(
       prefix(),
-      `sent job overseer=${process.pid} worker=${worker.pid}`
+      `master=${process.pid} worker=${worker.pid} ${jobId.slice(0, 12)} sent`
     );
   });
 };
 
 function Worker() {
-  console.log(prefix(), `Launching new build worker overseer=${process.pid}`);
+  console.log(prefix(), `master=${process.pid} launched`);
   const newWorker = child_process.fork(__dirname + "/main", {
     detached: false,
   });
@@ -44,7 +44,10 @@ function Worker() {
   newWorker.on("message", function ({ err, jobId, entry }) {
     var job = jobs[jobId];
 
-    console.log(prefix(), `completed jobId=${jobId} error=${!!err}`);
+    console.log(
+      prefix(),
+      `master=${process.pid} worker=${worker.pid} ${jobId.slice(0, 12)} completed error=${!!err}`
+    );
 
     if (job) {
       delete jobs[jobId];

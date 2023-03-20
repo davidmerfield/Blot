@@ -25,20 +25,28 @@ function Metadata(html) {
     html.lastIndexOf("---") !== html.indexOf("---")
   ) {
     let frontmatter = html.trim().split("---")[1];
-    let mixedCaseMetadata = YAML.parse(frontmatter);
 
-    // Map { Permalink } to { permalink }
-    // Blot uses lowercase metadata keys
-    Object.keys(mixedCaseMetadata).forEach((mixedCaseKey) => {
-      let key = mixedCaseKey.toLowerCase();
-      let value = mixedCaseMetadata[mixedCaseKey];
-      metadata[key] = value;
-    });
+    try {
+      // todo: investigate these options
+      // and understand them
+      let mixedCaseMetadata = YAML.parse(frontmatter);
 
-    // Remove the metadata from the returned HTML
-    html = html.trim().split("---").slice(2).join("---");
+      // Map { Permalink } to { permalink }
+      // Blot uses lowercase metadata keys
+      Object.keys(mixedCaseMetadata).forEach((mixedCaseKey) => {
+        let key = mixedCaseKey.toLowerCase();
+        let value = mixedCaseMetadata[mixedCaseKey];
+        metadata[key] = value;
+      });
 
-    return { html, metadata };
+      // Remove the metadata from the returned HTML
+      html = html.trim().split("---").slice(2).join("---");
+
+      return { html, metadata };
+    } catch (e) {
+      // we need to surface this error with the YAML
+      return { html, metadata };
+    }
   }
 
   let linesToRemove = [];

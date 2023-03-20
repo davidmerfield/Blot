@@ -6,6 +6,7 @@ const guid = require("helper/guid");
 const ensure = require("helper/ensure");
 const fs = require("fs-extra");
 const localPath = require("helper/localPath");
+const clfdate = require('helper/clfdate');
 
 const rename = (blog, log) => (path, oldPath, options, callback) => {
   ensure(blog, "object")
@@ -15,7 +16,8 @@ const rename = (blog, log) => (path, oldPath, options, callback) => {
     .and(options, "object")
     .and(callback, "function");
 
-  log(path, "<--", oldPath);
+  log(clfdate(), blog.id.slice(0,12), "rename", oldPath);
+  log(clfdate(), blog.id.slice(0,12), "----->", path);
 
   Entry.get(blog.id, oldPath, function (deletedEntry) {
     drop(blog.id, oldPath, options, function (err) {
@@ -60,7 +62,6 @@ const rename = (blog, log) => (path, oldPath, options, callback) => {
             ) {
               updates.dateStamp = deletedEntry.dateStamp;
             }
-            console.log("adding updates to createdEntry", updates);
 
             Entry.set(blog.id, path, updates, function (err) {
               if (err) return callback(err);
@@ -68,7 +69,6 @@ const rename = (blog, log) => (path, oldPath, options, callback) => {
               if (oldPath.toLowerCase() === path.toLowerCase())
                 return callback();
 
-              console.log("removing guid from deletedEntry");
               Entry.set(blog.id, oldPath, { guid: newGuid }, callback);
             });
           });

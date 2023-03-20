@@ -36,9 +36,10 @@ var DEFAULT_MONO_FONT = require("blog/static/fonts")
   })[0];  
 
 if (require.main === module) {
-  main({ watch: config.environment === "development" }, function (err) {
+  const watch = config.environment === "development";
+  main({ watch }, function (err) {
     if (err) throw err;
-    process.exit();
+    if (!watch) process.exit();
   });
 
   // Rebuilds templates when we load new states

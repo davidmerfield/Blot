@@ -1,5 +1,6 @@
 const fs = require("fs-extra");
 const ensure = require("helper/ensure");
+const type = require("helper/type");
 const Update = require("./update");
 const async = require("async");
 const { join, resolve } = require("path");
@@ -34,6 +35,11 @@ function walk(dir, done) {
 }
 
 module.exports = function main(blogID, options, callback) {
+  if (type(options, "function") && type(callback, "undefined")) {
+    callback = options;
+    options = {};
+  }
+
   ensure(blogID, "string").and(options, "object").and(callback, "function");
 
   Blog.get({ id: blogID }, function (err, blog) {

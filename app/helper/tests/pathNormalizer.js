@@ -26,6 +26,10 @@ describe("pathNormalizer", function () {
     // Replace double slashes with single slashes
     is("//foo//bar//", "/foo/bar");
 
+    // Normalize UTF-8 characters
+    is("/\u0041\u006d\u00e9\u006c\u0069\u0065", "/Amélie");
+    is("/\u0041\u006d\u0065\u0301\u006c\u0069\u0065", "/Amélie");
+
     // Preserve non alphanum characters
     is("/←→", "/←→");
     is("使/用/百/度/馈/", "/使/用/百/度/馈");

@@ -53,6 +53,7 @@ form
   .get(csrf, function (req, res) {
     res.locals.csrf = req.csrfToken();
     res.locals.title = "Reset password";
+    res.locals.email = req.query.email;
     res.render("log-in/reset");
   })
 
@@ -72,7 +73,7 @@ form
 
   .post(parse, checkEmail, checkReset, checkPassword, errorHandler)
 
-  .post(function (err, req, res, next) {
+  .all(function (err, req, res, next) {
     if (req.body && req.body.reset !== undefined)
       return res.redirect("/log-in/reset");
     res.render("log-in");

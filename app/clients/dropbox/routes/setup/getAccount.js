@@ -4,8 +4,6 @@ const { Dropbox } = require("dropbox");
 
 module.exports = async function getAccount(account) {
   const { code, full_access, redirectUri } = account;
-
-  console.log('here full_access=', full_access);
   
   const clientId = full_access
     ? config.dropbox.full.key

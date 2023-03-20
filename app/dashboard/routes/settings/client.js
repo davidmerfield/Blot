@@ -3,7 +3,7 @@ const _ = require("lodash");
 const moment = require("moment");
 const express = require("express");
 const client_routes = express.Router();
-
+const { parse, join } = require("path");
 const Blog = require("blog");
 const load = require("./load");
 const Sync = require("sync");
@@ -53,6 +53,15 @@ client_routes
     });
   });
 
+// Used to change tense of activity on dashboard
+// and to help parse paths from status messages
+const verbs = {
+  Downloading: "downloaded",
+  Syncing: "synced",
+  Transferring: "transferred",
+  Removing: "removed",
+};
+
 client_routes.route("/activity").get(load.clients, async function (req, res) {
   res.locals.breadcrumbs.add("Activity", "activity");
 
@@ -64,27 +73,23 @@ client_routes.route("/activity").get(load.clients, async function (req, res) {
       syncID: key,
       messages: value
         .map((item) => {
-          item.fromNow = moment(item.datestamp).fromNow();
-          item.path = item.message.startsWith("Syncing /")
-            ? item.message.slice("Syncing ".length)
-            : "";
-          item.url = require("path").join(
-            res.locals.base,
-            "folder",
-            encodeURIComponent(item.path.slice(1))
+          const matchedVerb = Object.keys(verbs).find((i) =>
+            item.message.startsWith(i + " /")
           );
-          item.path =
-            item.path || item.message.startsWith("Transferring /")
-              ? item.message.slice("Transferring ".length)
-              : "";
 
-          item.verb = item.message.startsWith("Transferring /")
-            ? "Transferred"
-            : "";
-          item.verb =
-            item.verb || item.message.startsWith("Syncing /") ? "Synced" : "";
+          if (matchedVerb) {
+            const path = item.message.slice((matchedVerb + " ").length);
+            item.path = parse(path);
+            item.verb = verbs[matchedVerb];
+            item.url = join(
+              res.locals.base,
+              "folder",
+              encodeURIComponent(path.slice(1))
+            );
+          }
 
-          item.path = item.path ? require("path").parse(item.path) : "";
+          item.fromNow = moment(item.datestamp).fromNow();
+
           return item;
         })
         .filter(({ message }) => message !== "Syncing" && message !== "Synced"),
@@ -144,8 +149,11 @@ client_routes.post("/reset/rebuild", function (req, res) {
   });
 });
 
-client_routes.post("/reset/resync", function (req, res) {
-  Sync(req.blog.id, function (err, folder, done) {
+client_routes.post("/reset/resync", load.client, function (req, res, next) {
+  if (!res.locals.client.resync)
+    return next(new Error("Cannot resync using your current client"));
+
+  Sync(req.blog.id, async function (err, folder, done) {
     if (err) {
       return res.message(
         res.locals.base + "/client/reset",
@@ -154,8 +162,24 @@ client_routes.post("/reset/resync", function (req, res) {
     }
 
     res.message(res.locals.base + "/client/reset", "Begin resync of your site");
-    done(null, function (err) {
+
+    try {
+      await res.locals.client.resync(req.blog.id, folder.status);
+    } catch (err) {
+      console.log("ERROR:", err);
+    }
+
+    Rebuild(req.blog.id, function (err) {
       if (err) console.log(err);
+      folder.status("Checking your site for issues");
+      Fix(req.blog, function (err) {
+        if (err) console.log(err);
+        folder.status("Finished site rebuild");
+
+        done(null, function (err) {
+          if (err) console.log(err);
+        });
+      });
     });
   });
 });
@@ -163,16 +187,13 @@ client_routes.post("/reset/resync", function (req, res) {
 client_routes
   .route("/")
 
-  .get(
-    load.clients,
-    function (req, res, next) {
-      if (!req.blog.client) return next();
+  .get(load.clients, function (req, res) {
+    if (req.blog.client) {
       res.redirect(req.baseUrl + "/" + req.blog.client);
-    },
-    function (req, res) {
+    } else {
       res.render("clients", { title: "Select a client", setup_client: true });
     }
-  )
+  })
 
   .post(function (req, res, next) {
     var redirect;
@@ -193,18 +214,17 @@ client_routes
 
     Blog.set(req.blog.id, { client: req.body.client }, function (err) {
       if (err) return next(err);
-
       res.redirect(redirect);
     });
   });
 
 client_routes.use("/:client", function (req, res, next) {
   if (!req.blog.client) {
-    return res.redirect("/settings/client");
+    return res.redirect(res.locals.base + "/client");
   }
 
   if (req.params.client !== req.blog.client) {
-    return res.redirect(req.baseUrl + "/" + req.blog.client);
+    return res.redirect(res.locals.base + "/client/" + req.blog.client);
   }
 
   res.locals.dashboardBase = res.locals.base;

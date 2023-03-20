@@ -1,0 +1,20 @@
+# How to forward API webhooks to development environment
+
+DROPBOX API <====> webhooks.blot.im ====> local server when online
+GOOGLE API
+
+The webhooks are relayed from Blot's production server to a client running when our development server is online.
+
+They relay is secured by a shared secret in CONFIG between production and development environment
+
+The production server always RETURNS OK so that Dropbox/Google don't stop sending webhooks when the local server is offline
+
+There's a SSE connection between Blot's production server and this local client.
+
+All the code is in clients/webhooks.js
+
+Right now, all requests to webhook relay are serialized then broadcast using redis pub/sub. If there's a connected client, they recieve the serialzed request and its then up to the client to 're-create' it
+
+There's some custom logic for handling OAUTH redirects and webhook verification
+
+We used localhost.run to set up a tunnel over a custom domain but it ended up being too complicated

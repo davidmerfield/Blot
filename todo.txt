@@ -1,99 +1,56 @@
-Fix [Christopher's bugs](https://mail.google.com/mail/u/0/#inbox/QgrcJHrnvrNzJHZMWcVFzMHvZTnPZfPxfqg)
-- Thumbnail issues, identify posts which ought to have thumbnails but do not
-- Tags becoming lowercase after rebuild - we should adjust metadata model, probably
-  
-Add 'verify' button for both google drive and Dropbox clients that works then tell [Jonathan](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrcPJVPkQGswgFtCkwbJfFJjnD)
+Fix [Christopher's bugs with thumbnails](https://mail.google.com/mail/u/0/#inbox/QgrcJHrnvrNzJHZMWcVFzMHvZTnPZfPxfqg)
+
+Improvements to sync/reset scripts:
+- [ ] Fix should produce a report which I get email
+- [ ] Resync should produce a report which I get via email
+- [ ] dropbox reset TO BLOT should handle removed folder
+- [ ] dropbox reset FROM BLOT should handle removed folder
+- [ ] dropbox reset TO BLOT should handle revoked token
+- [ ] dropbox reset FROM BLOT should handle revoked token
+- [ ] make google drive reset TO store metadata for case of file/folder name
+- [ ] make google drive reset FROM abortable
+- [ ] make google drive reset TO abortable
+- [ ] make dropbox reset FROM abortable
+- [ ] make dropbox reset TO abortable
+
+Add support for other image formats, by converting them into jpg/webp
 
 ---
 
-Investigate ignored files situation
-- handle new pathNormalizer behaviour
-- 'ignoredFilesKey'
-- why are ignored files not added to ignored list?
-
-Improvements to toLowerCase:
-- There was a bug with toLowerCase(restore?) that was triggered when disconnecting from Dropbox with a preview file.
-- sync.lowerCaseAllFiles needs handle a duplication of files with different cases. I need a case-sensitive disk to test this on
-
-Improvements to Dropbox client:
-- [ ] Store the case-y path for a file when doing dropbox.write
-- [ ] Dropbox client should empty apps folder before sync
-- [ ] improve aesthetics of oauth redirect screen (currently an ugly blue link)
-- [ ] Fix issues with sync:
-  - Expose unlock and verify options for  dropbox
-  - error earlier
-  - log all dropbox client related errors?
-  - add some kind of request rate limit to dropbox client?
-    - we could use async queue to accomplish this...
-  - [tell marco](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqPpdwHHQTgHmMFwkXQZBjSwXt)
-  - Is it possible that retry delays from the Dropbox API under excessive number of requests is the cause of the lockup?
-  - Tell [N](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqPzKcnRQlXQVVcbdRvLVxtjnD) when you can switch between dropbox and git without bugs
-   parallelize build/download a little more, so posts appear when many files are dropped into folder
-- [ ] Efficiently handle Dropbox file renames with internal hash of fileIDs
-- [ ] surface errors during setup on dashboard
-   - [ ] surface sync issues with Dropbox client on the homepage of dashboard
-   - [ ] How do we make errors sticky? To make sure users click through to clients page to re-connect to Dropbox, etc...
-- [ ] ensure that when a process dies, any blogs syncing will be re-attempted
-- [ ] ensure that when a process dies, any blogs setting up db client will be re-attempted
-- [ ] reconnecting with the same account and same permissions should not create a new folder for `full_access=true`
-- [ ] add 'verify' method which can run when sync fails / errors
-  - [ ] 'verify' should also run the `blog.fix` option
-- [ ] make full_folder use the old app folder directory? is there a way to disconnect it from the Blot app? otherwise add a big warning to prevent confusion about where the new folder is when transitioning permissions
-- [ ] `syncContents` needs to remove any files which existing on Dropbox but do not exist on Blot
-- [ ] handle the download of large files gracefully too
-- [ ] run a complete initial sync during the setup to handle all those deleted files
-- [ ] add a mass upload option to speed up initial setup
-- [ ] consider adding back in download/upload stream, but add a check to see if the download is stuck?
-- [ ] add a check for folder storage before doing mass upload
-- [ ] handle folder full error appropriately
-- [ ] handle a sync lock failure on second blog when migrating an app folder
-- [ ] check content hash for upload where possible
-- [ ] consider re-instating streaming-download but adding a check for progress?
-- [ ] should we persist last sync status message somewhere?
-
 Improve Google Drive client:
-- Handle uncaught error with verify on Google Drive client. 
-- another uncaught error surfaces when the account is deleted, before a verify takes place
-- Add better tools for reseting Google Drive sync state, pulling from Drive instead of from Blot.
-- Expose unlock and verify options for  drive
-- Uncaught exceptions raised by verify seem to not be caught properly by the try/catch blocks. Simulate an exception and work out why.
-- Resolve error which occurred when I disconnected a blog from Google Drive client, a folder lock issue, which wasn't surfaced properly.
-- Weird issue with connecting multiple blogs to same google drive account – the file from one appeared in the folder for the other. Also strangeness possibly related to an empty blog folder?
 - How do we handle two files with same name and same parent? How does our fileId:path hash handle this? Make sure we delete the right file. Will file.title as opposed to file.name give us the deduped version?
   - Bug: move file with deduplicated name from sub folder to other folder
   - download should check for an existing file with same name but different fileId and dedupe before storing the path?
 - Handle revoked credentials without tanking server
-- Fix bug which occurs when:
-  - move a folder containing a folder containing a file from within your google drive, into your blog folder
-  - then move the folder within the folder out of the folder but keep it within your blog folder. 
-  - Blot will never transfer the file inside
-- Fix bug which occurs when:
-  - move a folder full of files from within google drive into your blog's folder
-  - Blot will recieve the folder but not the files inside
-- Create test app for local use
 - Can the google drive client handle a server restart during setup?
 - database.folder should throw ENOENT and EEXIST errors for del, set, move etc.
 - Error handling
   - Retry when we get google drive's This service is not available error
   - Handle storage quota errors
   - Handle 429 errors with exponential backoff retry
-- Add percentage progress and a status bar to the folder copying setup page
-- Add `folder.rename` method to `app/sync` to take advantage of Google Drive's true rename feature
+- Implement `folder.rename` method to take advantage of Google Drive's true rename feature
 - Add a way for sync/build to accept a ctime as an option. We can't set this at the operating system level but google drive's API does return a createdTime value and we could use this as the true file's created date, rather than the date the file is made on the server
-- Work out if we can test this using Mocks
 - `write` should use the best method for large file uploading
 - `download` Should nicely handle the export of various Google Doc formats
-- Do we encounter dropbox/google drive bugs when we remove a directory of files, rather than invidivual files?
-- Victor
-- Ryan
-- Johannes
-- Rizwan
-- Fritz whose blog became stuck
-- [Kevin](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlkFzdBrlJzrGprHNHNmvkQqbW)
-- It seems one sync tanked the setup transfer with an [ENOENT](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmvTwMksRmWvSpQXVhvlMXjKFC)
-- Tell [Mike](https://mail.google.com/mail/u/0/#inbox/FMfcgzGpFgpdfBScqQctbnNGxBCLrztC) once the bug is sorted so he can rejoin
-- Tell [Juan](https://mail.google.com/mail/u/0/#inbox/FMfcgzGpFzvBSNgqmRVDRHvdGrzqrZDt)
-- Tell questioners](https://blot.im/questions/576)
+- Work out if we can test this using Mocks
+
+Improvements to Dropbox client:
+- [ ] Parallelize build/download a little more, so posts appear when many files are dropped into folder?
+- [ ] Efficiently handle Dropbox file renames with internal hash of fileIDs
+- [ ] surface errors during setup on dashboard
+   - [ ] surface sync issues with Dropbox client on the homepage of dashboard
+   - [ ] How do we make errors sticky? To make sure users click through to clients page to re-connect to Dropbox, etc...
+- [ ] run reset-to-blot when sync fails / errors
+- [ ] ensure that when a process dies, any blogs syncing will be reset-to-blot
+- [ ] ensure that when a process dies, any blogs setting up db client will be re-attempted
+- [ ] reconnecting with the same account and same permissions should not create a new folder for `full_access=true`
+- [ ] make full_folder use the old app folder directory – is there a way to disconnect it from the Blot app? otherwise add a big warning to prevent confusion about where the new folder is when transitioning permissions
+- [ ] handle the download of large files gracefully too
+- [ ] consider adding back in download/upload stream, but add a check to see if the download is stuck then fall back to other method?
+- [ ] add a check for folder storage before doing mass upload
+- [ ] handle folder full error appropriately
+- [ ] handle a sync lock failure on second blog when migrating an app folder
+- [ ] check content hash for upload possible
 
 Fix Git client bugs
 - Fix bug which occurs when you change your username while using the Git client (caused by the broken repo url) and tell [Koen](https://mail.google.com/mail/u/0/#inbox/1670f516115ef9bd) and [Andre](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqfMMxJXpbTZLvGzVmZlFPNfk) and [Josh](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqnkxhvtmPpdMMkRPjzpktrxG) and [Ryan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGCGthpSTxskRFFVjtrGnhnSvh) and [David](https://mail.google.com/mail/u/0/#inbox/FMfcgzGllVjvNfvdDVmnmlRvrFsNnQSD)
@@ -106,6 +63,17 @@ Fix Git client bugs
 Add support for Indian payments and follow up with Indian customers like [Varun](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrcjKRbHhGvtKJKXfGdwDzjTML)
 
 ---
+
+Look into Pandoc's RAW HTML extension for resolving issues mixing HTML into markdown files:
+ - markdown_in_html_blocks
+ - raw_html
+ - native_divs
+
+Move Wikilinks to Pandoc
+- Update version of pandoc
+- Support [Obsidian's syntax for embedding files](https://help.obsidian.md/How+to/Embed+files) and images, and tell [John](https://mail.google.com/mail/u/0/#inbox/FMfcgzGkbDftzhXHGrmzXrjtcMbGrmxM) and [Robert](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlksJFbBlWtzMHgcxcdBRBhQSJ) and [Levo](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrcrrDnssHhbwmzzNFnSbMJqKh)
+- Follow up with Marco about:
+  `![La Escocesa 2006-2010](files/_laescocesaold.png) ![[files/_laescocesaold.png]]`
 
 Add explanation for which files are causing which menu links 
 
@@ -229,6 +197,13 @@ Add support for new formats via pandoc:
 - rtf
 - jupyter notebooks
 - orgmode 
+
+Investigate ignored files situation
+- does rebuild update ignored files list too?
+- handle new pathNormalizer behaviour
+- 'ignoredFilesKey'
+- why are ignored files not added to ignored list?
+- add 'ignored ghosts' check to sync/fix
 
 Improvements to importer
 - Can we offload an import into a resource constrained child process?

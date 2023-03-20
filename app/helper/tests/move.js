@@ -1,7 +1,10 @@
 describe("move ", function () {
   const move = require("../move");
   const { suffixer } = move;
-  const is = require("./util/is")(suffixer);
+  const is = require("./util/is")(function (path) {
+    const { destination } = suffixer(path);
+    return destination;
+  });
   const fs = require("fs-extra");
   const { join } = require("path");
 
@@ -12,9 +15,30 @@ describe("move ", function () {
     await this.check([{ from: "/foo.txt", to: "/bar.txt" }]);
   });
 
+  it("returns suffix and destination", function () {
+    expect(suffixer("/foo.txt")).toEqual({
+      destination: "/foo copy.txt",
+      suffix: " copy",
+      name: "foo",
+      extension: ".txt",
+    });
+    expect(suffixer("/foo copy.txt")).toEqual({
+      destination: "/foo copy 2.txt",
+      suffix: " copy 2",
+      name: "foo",
+      extension: ".txt",
+    });
+    expect(suffixer("/foo copy 2.txt")).toEqual({
+      destination: "/foo copy 3.txt",
+      suffix: " copy 3",
+      name: "foo",
+      extension: ".txt",
+    });
+  });
+
   it("suffixes a path correctly", function () {
     const dir = global.test.fake.path();
-    
+
     // appends 'copy' to filename after extension
     is(join(dir, "foo.txt"), join(dir, "foo copy.txt"));
     is(join(dir, "foo.index.txt"), join(dir, "foo.index copy.txt"));
@@ -43,7 +67,7 @@ describe("move ", function () {
 
     // does not mess with whitespace
     is(" foo.txt", " foo copy.txt");
-    is(" foo .txt ", " foo  copy.txt ");    
+    is(" foo .txt ", " foo  copy.txt ");
   });
 
   it("doesn't throw with random paths", function () {
@@ -54,7 +78,7 @@ describe("move ", function () {
       expect(function () {
         result = suffixer(path);
       }).not.toThrow();
-      expect(typeof result).toBe("string");
+      expect(typeof result.destination).toBe("string");
     }
 
     for (var i = 0; i < iterations; i++) {
@@ -158,7 +182,7 @@ describe("move ", function () {
 
       for (const { from, to } of items) {
         const result = await move(base, from, to);
-        results[from] = result;
+        results[from] = result.destination;
       }
 
       const fileList = allFiles(base).sort();

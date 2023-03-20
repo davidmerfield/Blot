@@ -27,6 +27,17 @@ button[type="submit"]:hover {background: rgba(0,0,0,0.03);cursor: pointer;}
 
   {{/blog.status}}  
 </form>
+
+
+{{#client.canResync}}
+<form style="padding-top:0;padding-bottom: 0" method='post' class="account"  action="{{{base}}}/client/reset/resync">
+
+  <input type="hidden" name="_csrf" value="{{csrftoken}}">
+  <button type="submit">Resync your folder from {{client.display_name}}</button>
+
+</form>
+{{/client.canResync}}
+
 <form style="padding-top:0;padding-bottom: 0" method='post' class="account"  action="{{{base}}}/client/reset/rebuild">
 
   <input type="hidden" name="_csrf" value="{{csrftoken}}">
@@ -48,10 +59,7 @@ button[type="submit"]:hover {background: rgba(0,0,0,0.03);cursor: pointer;}
 </form>
 
 <form style="padding-top:0;padding-bottom: 0" method='post' action="{{{base}}}/client/reset/resync" class="account">
-<!-- 
-  <input type="hidden" name="_csrf" value="{{csrftoken}}">
-  <button type="submit">Re-sync folder from {{client.display_name}}</button>
- -->
+
   <div class="buttons">
     <a href="/settings/client/{{blog.client}}">Cancel</a>
   </div>

@@ -1,10 +1,10 @@
 var debug = require("debug")("blot:clients:dropbox:sync");
-var createClient = require("./util/createClient");
-var Download = require("./util/download");
+var createClient = require("../util/createClient");
+var Download = require("../util/download");
 var hashFile = require("helper/hashFile");
-var Database = require("./database");
+var Database = require("../database");
 var join = require("path").join;
-var Delta = require("./delta");
+var Delta = require("../delta");
 var fs = require("fs-extra");
 var async = require("async");
 var Sync = require("sync");
@@ -240,7 +240,6 @@ function Apply(client, blogFolder, log, status) {
     // relative path to an item, since the root of the
     // Dropbox folder might not be the root of the blog.
     function download(item, callback) {
-      console.log(item);
       log(item.relative_path, "Hashing any existing file contents");
       status("Downloading " + item.relative_path);
       hashFile(join(blogFolder, item.relative_path), function (
