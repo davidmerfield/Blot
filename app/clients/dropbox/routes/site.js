@@ -39,8 +39,11 @@ site.get("/authenticate", cookieParser(), function (req, res, next) {
   res.send(`<html>
 <head>
 <meta http-equiv="refresh" content="0;URL='${redirect}'"/>
+<script type="text/javascript">window.location='${redirect}'</script>
 </head>
-<body><p>Continue to <a href="${redirect}">${redirect}</a>.</p></body>
+<body>
+<noscript><p>Continue to <a href="${redirect}">${redirect}</a>.</p></noscript>
+</body>
 </html>`);
 });
 
@@ -101,11 +104,15 @@ site.post("/webhook", function (req, res) {
   });
 
   req.on("end", function () {
-    if (signature !== verification.digest("hex")) return res.sendStatus(403);
+    if (signature !== verification.digest("hex")) {
+      return res.sendStatus(403);
+      console.log("invalid signature");
+    }
 
     try {
       accounts = JSON.parse(data).list_folder.accounts;
     } catch (e) {
+      console.log("invalid accounts");
       return res.sendStatus(504);
     }
 

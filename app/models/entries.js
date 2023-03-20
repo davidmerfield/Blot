@@ -220,8 +220,9 @@ module.exports = (function () {
     var listName = options.list || "entries";
     var key = listKey(blogID, listName);
 
-    redis.zrevrange(key, start, end, function (error, entryIDs) {
-      if (error) throw error;
+    redis.zrevrange(key, start, end, function (err, entryIDs) {
+      // todo add err as first parameter of callback
+      if (err) return callback([]);
 
       if (!options.full && !options.skinny) return callback(entryIDs);
 

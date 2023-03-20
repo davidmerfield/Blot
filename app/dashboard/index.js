@@ -4,6 +4,7 @@ var express = require("express");
 var trace = require("helper/trace");
 var VIEW_DIRECTORY = __dirname + "/views";
 var config = require("config");
+const cookieParser = require("cookie-parser");
 
 // This is the express application used by a
 // customer to control the settings and view
@@ -49,10 +50,8 @@ if (config.environment !== "development") {
 // the assets into a single file
 dashboard.locals.cacheID = Date.now();
 
-// Special function which wraps redirect
-// so I can pass messages between views cleanly
+// These routes should be accessible to the public
 dashboard.use("/clients", require("./routes/clients"));
-
 dashboard.use("/stripe-webhook", require("./routes/stripe_webhook"));
 
 /// EVERYTHING AFTER THIS NEEDS TO BE AUTHENTICATED
@@ -63,8 +62,11 @@ dashboard.use(function (req, res, next) {
     return next();
   }
 
-  return next(new Error("NOUSER"));
+  next(new Error("NOUSER"));
 });
+
+dashboard.use(cookieParser(), require("./redirect-to-capture-cookie"));
+
 dashboard.use(trace("loaded session information"));
 
 dashboard.use(require("./message"));
@@ -178,6 +180,7 @@ dashboard.get(
 );
 
 dashboard.get("/dashboard/:handle", require("./routes/folder"));
+dashboard.use("/dashboard/:handle/services/import", require("./routes/import"));
 dashboard.use("/dashboard/:handle", require("./routes/settings"));
 
 // Redirect old URLS

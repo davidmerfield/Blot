@@ -23,5 +23,12 @@ module.exports = function pathNormalizer(path) {
   // Remove trailing slash
   if (path.endsWith("/") && path !== "/") path = path.slice(0, -1);
 
+  // Unicode normalize
+  // otherwise we get a weird category of bug
+  // where Dropbox uses some variant of unicode
+  // and we use another, for example
+  // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/normalize
+  path = path.normalize();
+
   return path;
 };

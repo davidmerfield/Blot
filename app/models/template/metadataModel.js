@@ -5,6 +5,7 @@ module.exports = {
   owner: "string",
   cloneFrom: "string",
   shareID: "string",
+  errors: "object",
   previewPath: "string",
   isPublic: "boolean",
   description: "string",

@@ -15,12 +15,12 @@ module.exports = function (blog, callback) {
 
   const finalReport = {};
 
-  tagGhosts(blog, function (err, report) {
+  entryGhosts(blog, function (err, report) {
     if (err) return callback(err);
-    if (report && report.length) finalReport.tagGhosts = report;
-    entryGhosts(blog, function (err, report) {
+    if (report && report.length) finalReport.entryGhosts = report;
+    tagGhosts(blog, function (err, report) {
       if (err) return callback(err);
-      if (report && report.length) finalReport.entryGhosts = report;
+      if (report && report.length) finalReport.tagGhosts = report;
       listGhosts(blog, function (err, report) {
         if (err) return callback(err);
         if (report && report.length) finalReport.listGhosts = report;

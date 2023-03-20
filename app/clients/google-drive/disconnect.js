@@ -65,8 +65,8 @@ async function disconnect(blogID, callback) {
 
 	debug("resetting client setting");
 	Blog.set(blogID, { client: "" }, async function (err) {
-		if (err) return done(err, callback);
-		done(null, callback);
+		await done(err);
+		callback();
 	});
 }
 

@@ -6,6 +6,7 @@ var drop = require("./drop");
 var set = require("./set");
 var mkdir = require("./mkdir");
 var flushCache = require("models/blog/flushCache");
+var pathNormalizer = require("helper/pathNormalizer");
 
 module.exports = function (blog, log, status) {
   return function update(path, options, callback) {
@@ -14,10 +15,8 @@ module.exports = function (blog, log, status) {
       options = {};
     }
 
-    // Blot likes leading slashes, the git client
-    // for instance does not have them but we
-    // are not so strict above these things...
-    if (path[0] !== "/") path = "/" + path;
+    path = pathNormalizer(path);
+
     status("Syncing " + path);
 
     hashFile(localPath(blog.id, path), function (err, hashBefore) {

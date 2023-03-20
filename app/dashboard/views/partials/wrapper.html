@@ -14,38 +14,33 @@
 }
 
 .no-underline {text-decoration: none;}
+
 .breadcrumbs {
           font-weight: 400;
           color: #0b0c0c;
-          min-height: 27px;
+          flex-grow:1;
+          display: flex;
+          padding-left: 0;margin-top: 3px
         }
 
-        .breadcrumbs__list {
-          margin: 0;
-          padding: 0;
-          list-style-type: none;
-        }
 
-        .breadcrumbs__list-item:first-child {
+        .breadcrumbs a:first-child {
           margin-left: 0;
-          padding-left: 0;
         }
 
-        .breadcrumbs__list-item {
-          display: inline-block;
-          position: relative;
-          margin-left: 13px;
-          padding-left: 18.655px;
-          float: left;
+        .breadcrumbs a {
+          font-weight: 600;
+          display: block;
+          margin-left: 31.655px;
         }
 
-        .breadcrumbs__list-item:before {
+        .breadcrumbs a:before {
     content: "";
     display: block;
     position: absolute;
     top: 0;
     bottom: 0px;
-    left: -3.31px;
+    left: -22px;
     width: 6px;
     height: 6px;
     margin: auto 0;
@@ -57,19 +52,20 @@
     border-color: #5b6879;
         }
 
-        .breadcrumbs__list-item:first-child:before {
+        .breadcrumbs a:first-child:before {
           content: none;
           display: none
         }
 
-        .breadcrumbs__link:link,
-        .breadcrumbs__link:visited {
+
+        .breadcrumbs a:link,
+        .breadcrumbs a:visited {
           color: #0070e8;
           text-decoration: none;
 
         }
 
-        .breadcrumbs__link:hover,
+        .breadcrumbs a[href]:hover,
         .no-underline:hover {
           text-decoration: underline;
         }
@@ -85,23 +81,19 @@
 
     <div style="display: flex;padding-bottom: 0.5rem;  border-bottom:1px solid rgba(0,0,0,0.05)
 ">
-      <div style="display: flex;width: 100%;          padding: 16px 0 16px 20px
+      <div style="display: flex;width: 100%;     align-items: baseline;         padding: 16px 0 16px 20px
 ">
-      <div class="breadcrumbs" style="flex-grow:1;flex-shrink:0;padding-left: 0;margin-top: 3px">
-        <ol class="breadcrumbs__list">
-          {{#breadcrumbs}}
-          <li class="breadcrumbs__list-item">
+      <div class="breadcrumbs truncate-all">
+{{#breadcrumbs}}
             {{^last}}
-            <a class="breadcrumbs__link" href="{{{url}}}"><strong>{{label}}</strong></a>
+            <a href="{{{url}}}">{{label}}</a>
             {{/last}}
             {{#last}}
-            <strong>{{label}}</strong>
+            <a>{{label}}</a>
             {{/last}}
-          </li>
           {{/breadcrumbs}}
-          
-          <br>
-        </ol>
+
+      
       </div>
 {{#selected.settings}}
 <style type="text/css">
@@ -182,6 +174,9 @@
 {{/links_for_footer}}
 <script type="text/javascript">document.querySelectorAll(".buttons a, .buttons input, .buttons button").forEach(function(a){a.addEventListener("click",function(a){a.target.classList.add("disabled")})})
 </script>
+
+<script type="text/javascript" src="/scripts/truncate.js"></script>
+
 </body>
 
 </html>

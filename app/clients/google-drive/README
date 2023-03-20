@@ -13,7 +13,7 @@ https://developers.google.com/drive/activity/v2
 
 Since the changes.list api doesn't return rename events, it seems.
 
-The webhooks are now tunnelled through tunnel.blot.im using localhost.run
+The webhooks are now tunnelled through webhooks.blot.im using clients/webhooks.js
 
 Test server
 ```
@@ -42,13 +42,9 @@ Documentation:
 
 [quickstart](https://developers.google.com/drive/api/v3/quickstart/nodejs)
 
-[Tunnelling requirement for webhooks:](https://github.com/anderspitman/awesome-tunneling)
-
 Actions to test:
 - Mass rename -> mass move
 - Mass move -> mass rename
 - Delete -> Restore -> Delete
 - Move file from outside folder into folder
 - Move file from inside folder out of folder
-
-

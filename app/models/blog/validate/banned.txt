@@ -41,6 +41,7 @@ uucp
 webmaster
 wpad
 www
+webhooks
 test
 preview
 default

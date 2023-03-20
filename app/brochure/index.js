@@ -50,7 +50,6 @@ brochure.locals.price = "$" + config.stripe.plan.split("_").pop();
 brochure.locals.interval =
   config.stripe.plan.indexOf("monthly") === 0 ? "month" : "year";
 
-
 function trimLeadingAndTrailingSlash(str) {
   if (!str) return str;
   if (str[0] === "/") str = str.slice(1);
@@ -67,11 +66,10 @@ brochure.use(function (req, res, next) {
 
     res.locals.partials = { body };
 
-const partials = require("fs-extra")
-  .readdirSync(PARTIAL_DIRECTORY)
-  .filter((i) => i.endsWith(".html"))
-  .map((i) => i.slice(0, i.lastIndexOf(".")));
-
+    const partials = require("fs-extra")
+      .readdirSync(PARTIAL_DIRECTORY)
+      .filter((i) => i.endsWith(".html"))
+      .map((i) => i.slice(0, i.lastIndexOf(".")));
 
     partials.forEach(
       (partial) => (res.locals.partials[partial] = `partials/${partial}.html`)
@@ -139,7 +137,7 @@ brochure.use(trace("before routes"));
 brochure.use(require("./routes"));
 
 // Redirect user to dashboard for these links
-brochure.use(["/account", "/settings"], function (req, res) {
+brochure.use(["/account", "/settings", "/dashboard"], function (req, res) {
   let from;
 
   try {

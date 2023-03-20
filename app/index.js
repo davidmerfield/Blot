@@ -37,7 +37,7 @@ if (cluster.isMaster) {
   // Google Drive will renew any webhooks, e.g.
   for (const { init, display_name } of Object.values(require("clients"))) {
     if (init) {
-      console.log(clfdate(), `Initializing ${display_name} client`);
+      console.log(clfdate(), display_name + " client:", "Initializing");
       init();
     }
   }

@@ -1,14 +1,5 @@
- {{> status-line}}
-  <div class="line" >
-    <span class="label">Location</span>
-    <span class="center">{{blog.id}}</span>
-  </div>
-  <div class="line" >
-    <span class="label">Disconnect</span>
-    <span class="link"><form method="POST" action="{{{base}}}/disconnect">
-<input type="submit" value="Disconnect">
-</form> </span>
-  </div>
+{{> status-line}}
+
+{{> disconnect-line}}
 
 <br><br>
-
