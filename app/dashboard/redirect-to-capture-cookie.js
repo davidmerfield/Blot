@@ -21,13 +21,6 @@ module.exports = function (err, req, res, next) {
   const cookieUnset = !req.cookies || !req.cookies[cookieName];
   const redirect = req.protocol + "://" + req.hostname + req.originalUrl;
 
-  console.log(
-    "differentReferrer",
-    differentReferrer,
-    "cookieUnset",
-    cookieUnset
-  );
-
   if (differentReferrer && cookieUnset) {
     res.cookie(cookieName, "true", {
       domain: config.host,

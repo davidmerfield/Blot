@@ -1,5 +1,3 @@
-Fix links to dashboard with cookie, inject the redirect screen at least once
-
 Finish PR for sending HTML files at other URLs
 
 ---
