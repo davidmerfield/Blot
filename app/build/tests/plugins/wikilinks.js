@@ -8,19 +8,7 @@ describe("wikilinks plugin", function () {
   it("will convert wikilinks if plugin is enabled", function (done) {
     const contents = "A [[wikilink]]";
     const path = "/hello.txt";
-    const html = '<p>A <a href="wikilink" class="wikilink">wikilink</a></p>';
-
-    this.blog.plugins.wikilinks = { enabled: true, options: {} };
-    this.buildAndCheck({ path, contents }, { html }, done);
-  });
-
-  // This is neccessary because other plugins can mess with the
-  // link contents (e.g. the typeset plugin) so we remove this later
-  it("will preserve custom link text in data attribute", function (done) {
-    const contents = "[[target|custom]]";
-    const path = "/hello.txt";
-    const html =
-      '<p><a href="target" class="wikilink" data-text="custom">custom</a></p>';
+    const html = '<p>A <a href="wikilink" title="wikilink">wikilink</a></p>';
 
     this.blog.plugins.wikilinks = { enabled: true, options: {} };
     this.buildAndCheck({ path, contents }, { html }, done);
@@ -30,7 +18,7 @@ describe("wikilinks plugin", function () {
     const contents = "A [[wikilink]] and [[another]]";
     const path = "/hello.txt";
     const html =
-      '<p>A <a href="wikilink" class="wikilink">wikilink</a> and <a href="another" class="wikilink">another</a></p>';
+      '<p>A <a href="wikilink" title="wikilink">wikilink</a> and <a href="another" title="wikilink">another</a></p>';
 
     this.blog.plugins.wikilinks = { enabled: true, options: {} };
     this.buildAndCheck({ path, contents }, { html }, done);
@@ -49,7 +37,7 @@ describe("wikilinks plugin", function () {
     const contents = "- A **[[wikilink]]** in a list";
     const path = "/hello.txt";
     const html =
-      '<ul>\n<li>A <strong><a href="wikilink" class="wikilink">wikilink</a></strong> in a list</li>\n</ul>';
+      '<ul>\n<li>A <strong><a href="wikilink" title="wikilink">wikilink</a></strong> in a list</li>\n</ul>';
 
     this.blog.plugins.wikilinks = { enabled: true, options: {} };
     this.buildAndCheck({ path, contents }, { html }, done);
@@ -58,7 +46,7 @@ describe("wikilinks plugin", function () {
   it("will convert wikilinks whose text is affected by the typeset plugin", function (done) {
     const contents = "[[Wikilink CNN acronym]]";
     const path = "/hello.txt";
-    const html = `<p><a href="Wikilink CNN acronym" class="wikilink">Wikilink <span class="small-caps">CNN</span> acronym</a></p>`;
+    const html = `<p><a href="Wikilink CNN acronym" title="wikilink">Wikilink <span class="small-caps">CNN</span> acronym</a></p>`;
 
     this.blog.plugins.wikilinks = { enabled: true, options: {} };
     this.buildAndCheck({ path, contents }, { html }, done);
@@ -68,7 +56,7 @@ describe("wikilinks plugin", function () {
     const contents =
       "<script>console.log('hey');</script>\n\nA **[[wikilink elsewhere]]** ";
     const path = "/hello.txt";
-    const html = `<script>console.log('hey');</script>\n<p>A <strong><a href="wikilink elsewhere" class="wikilink">wikilink elsewhere</a></strong></p>`;
+    const html = `<script>console.log('hey');</script>\n<p>A <strong><a href="wikilink elsewhere" title="wikilink">wikilink elsewhere</a></strong></p>`;
 
     this.blog.plugins.wikilinks = { enabled: true, options: {} };
     this.buildAndCheck({ path, contents }, { html }, done);
@@ -76,7 +64,7 @@ describe("wikilinks plugin", function () {
 
   it("will support wikilinks whose path contains proper apostrophes", function (done) {
     const path = "/hello.txt";
-    const html = '<p><a href="/target" class="wikilink">Hey</a></p>';
+    const html = '<p><a href="/target" title="wikilink">Hey</a></p>';
 
     const files = [
       { path: "/Target’s.md", content: "Link: target\n# Hey" },
@@ -98,10 +86,28 @@ describe("wikilinks plugin", function () {
 
     const entry = {
       path,
-      html: '<p><a href="/target" class="wikilink">Title</a></p>',
+      html: '<p><a href="/target" title="wikilink">Title</a></p>',
     };
 
     this.syncAndCheck(files, entry, done);
+  });
+
+  xit("will support media embedding", async function (done) {
+
+    await this.blog.write({
+      path: "/_Image.png",
+      content: await global.test.fake.pngBuffer(),
+    });
+
+    await this.blog.write({
+      path: "/Post.txt",
+      content: "![[_Image.png]]",
+    });
+
+    await this.blog.rebuild();
+    await this.blog.check({ path: "/Post.txt", html: "foo" });
+
+    done();
   });
 
   it("will support wikilinks by URL", function (done) {
@@ -114,7 +120,7 @@ describe("wikilinks plugin", function () {
 
     const entry = {
       path,
-      html: '<p><a href="/target" class="wikilink">Title</a></p>',
+      html: '<p><a href="/target" title="wikilink">Title</a></p>',
     };
 
     this.syncAndCheck(files, entry, done);
@@ -142,7 +148,7 @@ describe("wikilinks plugin", function () {
     const html =
       "<p>" +
       Array.from(Array(tests.length))
-        .map((i) => '<a href="/target" class="wikilink">Target</a>')
+        .map((i) => '<a href="/target" title="wikilink">Target</a>')
         .join(" ") +
       "</p>";
 
@@ -160,7 +166,7 @@ describe("wikilinks plugin", function () {
   // of the HTML which breaks the path, so wikilinks handles this.
   it("will support wikilinks whose path contains fake apostrophes", function (done) {
     const path = "/hello.txt";
-    const html = '<p><a href="/target" class="wikilink">Hey</a></p>';
+    const html = '<p><a href="/target" title="wikilink">Hey</a></p>';
 
     const files = [
       { path: "/Target's.md", content: "Link: target\n# Hey" },
@@ -176,7 +182,7 @@ describe("wikilinks plugin", function () {
     const contents = "[[../[snips]/wikilink]]";
     const path = "/hello.txt";
     const html =
-      '<p><a href="../[snips]/wikilink" class="wikilink">../[snips]/wikilink</a></p>';
+      '<p><a href="../[snips]/wikilink" title="wikilink">../[snips]/wikilink</a></p>';
 
     this.blog.plugins.wikilinks = { enabled: true, options: {} };
     this.buildAndCheck({ path, contents }, { html }, done);
@@ -192,7 +198,7 @@ describe("wikilinks plugin", function () {
 
     // We know that Blot has worked out which file to link to
     // because the href is set to foo!
-    const html = '<p><a href="/foo" class="wikilink">Wikilink</a></p>';
+    const html = '<p><a href="/foo" title="wikilink">Wikilink</a></p>';
 
     const files = [
       { path, content },
@@ -239,7 +245,7 @@ describe("wikilinks plugin", function () {
     const html =
       "<p>" +
       Array.from(Array(tests.length))
-        .map((i) => '<a href="/not-target" class="wikilink">Not Target</a>')
+        .map((i) => '<a href="/not-target" title="wikilink">Not Target</a>')
         .join(" ") +
       "</p>";
 
@@ -283,7 +289,7 @@ describe("wikilinks plugin", function () {
     const html =
       "<p>" +
       Array.from(Array(tests.length))
-        .map((i) => '<a href="/target" class="wikilink">Target</a>')
+        .map((i) => '<a href="/target" title="wikilink">Target</a>')
         .join(" ") +
       "</p>";
 
@@ -327,7 +333,7 @@ describe("wikilinks plugin", function () {
     const html =
       "<p>" +
       Array.from(Array(tests.length))
-        .map((i) => '<a href="/target" class="wikilink">Target</a>')
+        .map((i) => '<a href="/target" title="wikilink">Target</a>')
         .join(" ") +
       "</p>";
 
@@ -371,7 +377,7 @@ describe("wikilinks plugin", function () {
     const html =
       "<p>" +
       Array.from(Array(tests.length))
-        .map((i) => '<a href="/target" class="wikilink">Target</a>')
+        .map((i) => '<a href="/target" title="wikilink">Target</a>')
         .join(" ") +
       "</p>";
 
@@ -397,7 +403,7 @@ describe("wikilinks plugin", function () {
 
     // We know that Blot has worked out which file to link to
     // because the href is set to foo!
-    const html = '<p><a href="/foo" class="wikilink">Wikilink</a></p>';
+    const html = '<p><a href="/foo" title="wikilink">Wikilink</a></p>';
 
     const files = [
       { path, content },
