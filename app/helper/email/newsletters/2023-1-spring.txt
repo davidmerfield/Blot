@@ -1,0 +1,44 @@
+Spring newsletter
+
+*You received this email because you subscribed to [Blot’s newsletter](https://blot.im/about/news). You can [unsubscribe](https://blot.im/about/news/cancel) if you like. Please reply directly to this email if you have any thoughts or questions.*
+
+**New features**
+- There's now a Wordpress importer available on the dashboard
+- The question section on the site now has tags. I plan to update the existing questions and re-instate question search soon
+- Reset and rebuild, recache and regenerate thumbnails your folder tools are now exposed on the dashboard
+
+**Changes**
+- The wikilinks lookup algorithm is now much more powerful
+- Errors with locally edited templates are now displayed on your template's preview subdomain rather than being swalloed silently
+- We updated Blot's dependencies to patch known security vulnerabilities and made tweaks to the dashboard and documentation, per tradition.
+- The algorithm which maps diacritics for use in URL slugs now [respects](https://github.com/davidmerfield/Blot/commit/a221c37aea4cacd1b3f297364a876852a77e9456) multi
+
+**Bugs fixed**
+- Improvements to the archives page of the photo template, tags are now displayed
+- Fixed bugs which occured when switching between case-sensitive and case-insensitive clients
+- Scheduled entries no longer appear in the list of backlinks to a given post
+- Fixed some major sync issues with the Google Drive client
+- Fixed a bug with unicode normalization for the Dropbox client
+- Invalid YAML will now not tank the sync of a given post
+
+**Questions**
+
+Here are a few highlights from [Questions](https://blot.im/questions), a section of Blot’s site where you can ask and answer questions:
+- [What new methods of syncing a folder would you like?](https://blot.im/questions/1387)
+- [How to password-protect a site](https://blot.im/questions/1)
+- [Email subscriptions?](https://blot.im/questions/1353)
+- [Is it possible to get the length of the post?](https://blot.im/questions/1502)
+- [Self verification for Mastodon?](https://blot.im/questions/1201)
+- [Multi-file post syntax](https://blot.im/questions/1251)
+- [Moving and styling citations](https://blot.im/questions/298)
+
+
+**Mistakes**
+
+Blot's uptime has been good, again. Talk about the issue I had with my development environment. I know recieve the same webhooks that I use in production.
+
+**Plans for this season**
+
+If you have any thoughts or questions about any of this, please don’t hesitate to reply directly to this email.
+
+Sincerely, David
