@@ -3,41 +3,39 @@ Spring newsletter
 *You received this email because you subscribed to [Blot’s newsletter](https://blot.im/about/news). You can [unsubscribe](https://blot.im/about/news/cancel) if you like. Please reply directly to this email if you have any thoughts or questions.*
 
 **New features**
-- There's now a Wordpress importer available on the dashboard
-- The question section on the site now has tags. I plan to update the existing questions and re-instate question search soon
-- Reset and rebuild, recache and regenerate thumbnails your folder tools are now exposed on the dashboard
+- You can now [import a Wordpress site](https://blot.im/settings/services/import) on your dashboard. The importer generates a Markdown file for each post, preserves the post’s URL and downloads any images.
+- Your dashboard now has tools to [reset and re-sync your folder](https://blot.im/settings/client/reset).
+- Your [questions](https://blot.im/questions) are now organized by tag.
 
 **Changes**
-- The wikilinks lookup algorithm is now much more powerful
-- Errors with locally edited templates are now displayed on your template's preview subdomain rather than being swalloed silently
-- We updated Blot's dependencies to patch known security vulnerabilities and made tweaks to the dashboard and documentation, per tradition.
-- The algorithm which maps diacritics for use in URL slugs now [respects](https://github.com/davidmerfield/Blot/commit/a221c37aea4cacd1b3f297364a876852a77e9456) multi
+- [Wikilinks](https://blot.im/how/posts/wikilinks) now work better. Blot looks up the linked post by title, URL or file name in a more flexible manner.
+- Errors with [locally edited templates](https://blot.im/templates/developers) now appear on your template’s preview subdomain, which makes template development less frustrating.
+- The algorithm which converts characters with diacritics for [custom link formats](https://blot.im/how/configure/link-format) now handles diacritics which should translate to multiple characters. For example, ‘þ’ now becomes ‘th’, ‘ß’ now becomes ‘ss’, and so forth.
+- When you switch from git to another method of [syncing your folder](https://blot.im/how/sync), Blot now removes the git repository in your folder.
+- We updated Blot’s dependencies to patch known security vulnerabilities and made tweaks to the dashboard and documentation, per tradition.
 
 **Bugs fixed**
-- Improvements to the archives page of the photo template, tags are now displayed
-- Fixed bugs which occured when switching between case-sensitive and case-insensitive clients
-- Scheduled entries no longer appear in the list of backlinks to a given post
-- Fixed some major sync issues with the Google Drive client
-- Fixed a bug with unicode normalization for the Dropbox client
-- Invalid YAML will now not tank the sync of a given post
+- We improved the reliability of folders synced with [Google Drive](https://blot.im/how/sync/google-drive) in various ways. 
+- Invalid [YAML metadata](https://blot.im/how/metadata) no longer prevents a post from appearing on your site.
+- [Scheduled entries](https://blot.im/how/metadata#scheduling-a-post-for-publication) no longer appear as backlinks before they are published.
+- Tags now display correctly on the [Photo template](https://blot.im/templates/photo)’s archives page.
 
 **Questions**
 
 Here are a few highlights from [Questions](https://blot.im/questions), a section of Blot’s site where you can ask and answer questions:
-- [What new methods of syncing a folder would you like?](https://blot.im/questions/1387)
-- [How to password-protect a site](https://blot.im/questions/1)
-- [Email subscriptions?](https://blot.im/questions/1353)
+- [How to password-protect a site?](https://blot.im/questions/1)
 - [Is it possible to get the length of the post?](https://blot.im/questions/1502)
-- [Self verification for Mastodon?](https://blot.im/questions/1201)
-- [Multi-file post syntax](https://blot.im/questions/1251)
-- [Moving and styling citations](https://blot.im/questions/298)
-
+- [Multi-file post syntax?](https://blot.im/questions/1251)
+- [Moving and styling citations?](https://blot.im/questions/298)
+- [What new methods of syncing a folder would you like?](https://blot.im/questions/1387)
 
 **Mistakes**
 
-Blot's uptime has been good, again. Talk about the issue I had with my development environment. I know recieve the same webhooks that I use in production.
+Until recently, I worked on [Blot’s code](https://blot.im/about/source-code) using a case-*insensitive* file system. However, Blot is tested and deployed on a case-sensitive file system. This inconsistency obscured a great variety of bugs. I now work on Blot’s code using a case-sensitive file system and am making progress on these bugs.
 
 **Plans for this season**
+
+We plan to finish the iCloud client. We will also improve the demonstration video and add more importers to the dashboard – at the moment you can [import from Wordpress](https://blot.im/settings/services/import) and we plan to add support for Ghost, Substack, Jekyll, Tumblr, Squarespace and many other services.
 
 If you have any thoughts or questions about any of this, please don’t hesitate to reply directly to this email.
 

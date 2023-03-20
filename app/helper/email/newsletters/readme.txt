@@ -8,7 +8,7 @@ node scripts/email/newsletter YYYY-ID-SEASON.txt
 
 You can use a database-state I generated to make things easier:
 
-node scripts/state newsletter && node scripts/email/newsletter $(ls app/helper/email/newsletters | tail -n 2 | head -n 1)
+node scripts/state newsletter && node scripts/email/newsletter $(ls app/helper/email/newsletters | tail -n 3 | head -n 1)
 
 Find PRs using this search query:
 
