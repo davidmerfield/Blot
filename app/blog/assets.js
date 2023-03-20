@@ -45,7 +45,7 @@ module.exports = function (req, res, next) {
     withoutTrailingSlash(decodeURIComponent(req.path)) + ".html",
 
     // The path with leading underscore and with trailing .html
-    addLeadingUnderscore(req.path) + ".html",
+    addLeadingUnderscore(decodeURIComponent(req.path)) + ".html",
   ];
 
   let candidates = [];
@@ -95,7 +95,7 @@ module.exports = function (req, res, next) {
 
 function addLeadingUnderscore(path) {
   path = withoutTrailingSlash(decodeURIComponent(path));
-  return join(dirname(path), "_" + basename(path) + ".html");
+  return join(dirname(path), "_" + basename(path));
 }
 
 function withoutTrailingSlash(path) {
