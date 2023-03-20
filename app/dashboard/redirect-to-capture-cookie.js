@@ -1,41 +1,21 @@
-const config = require("config");
-const { parse } = require("url");
-const cookieName = "alreadyRedirected";
+const querystring = require("querystring");
 
 // Because of our cookie security settings, external
 // links (e.g. from email) deep into the dashboard
 // do not work properly for logged-in users
 // This will insert a redirect page that will allow us
 // to extract a session if it actually exists
+// We can remove this is we remove the samesite requirement
+// from our dashboard session cookies
 module.exports = function (err, req, res, next) {
   if (err && err.message !== "NOUSER") return next(err);
 
-  let referrer = config.host;
+  const query = querystring.stringify({ ...req.query, redirected: true });
+  const redirect =
+    req.protocol + "://" + req.hostname + req.originalUrl + "?" + query;
 
-  try {
-    const header = req.get("Referrer");
-    referrer = header ? parse(header).hostname : "";
-  } catch (e) {}
-
-  const differentReferrer = referrer !== config.host;
-  const cookieUnset = !req.cookies || !req.cookies[cookieName];
-  const redirect = req.protocol + "://" + req.hostname + req.originalUrl;
-
-  if (differentReferrer && cookieUnset) {
-    res.cookie(cookieName, "true", {
-      domain: config.host,
-      path: "/",
-      secure: true,
-      httpOnly: true,
-      maxAge: 1 * 60 * 1000, // 1 minute
-      sameSite: "Strict",
-    });
-
+  if (!req.query.redirected) {
     return res.send(html(redirect));
-  }
-
-  if (req.cookies && req.cookies[cookieName]) {
-    res.clearCookie(cookieName);
   }
 
   return next(err);

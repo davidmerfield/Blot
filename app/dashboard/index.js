@@ -65,8 +65,6 @@ dashboard.use(function (req, res, next) {
   next(new Error("NOUSER"));
 });
 
-dashboard.use(cookieParser(), require("./redirect-to-capture-cookie"));
-
 dashboard.use(trace("loaded session information"));
 
 dashboard.use(require("./message"));
@@ -192,6 +190,13 @@ dashboard.use("/settings", require("./load-blogs"), function (req, res, next) {
     next();
   }
 });
+
+// This will prevent issues with external links
+// into Blot's dashboard and or questions page
+dashboard.use(
+  ["/settings", "/account", "/dashboard", "/questions"],
+  require("./redirect-to-capture-cookie")
+);
 
 // This will catch old links to the dashboard before
 // we encoded the blog's username in the URLs
