@@ -60,7 +60,20 @@ Fix Git client bugs
 
 --
 
+
 Add support for Indian payments and follow up with Indian customers like [Varun](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrcjKRbHhGvtKJKXfGdwDzjTML)
+
+Add support for Obsidian media embedding
+- ```![[_image.png]]```
+- https://help.obsidian.md/Linking+notes+and+files/Embedding+files
+- [Look into Wikipedia's blended wikilinks](https://en.wikipedia.org/wiki/Help:Wikitext#Blend_link)
+- [ ] Update response to question about adding `class="wikilink"` replacing it with `title="wikilink"`
+- [ ] Tell [John](https://mail.google.com/mail/u/0/#inbox/FMfcgzGkbDftzhXHGrmzXrjtcMbGrmxM) 
+- [ ] Tell [Robert](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlksJFbBlWtzMHgcxcdBRBhQSJ) 
+- [ ] Tell [Levo](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrcrrDnssHhbwmzzNFnSbMJqKh)
+- [ ]Follow up with Marco about:
+  `![La Escocesa 2006-2010](files/_laescocesaold.png) ![[files/_laescocesaold.png]]`
+
 
 ---
 
