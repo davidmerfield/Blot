@@ -49,10 +49,8 @@ if (config.environment !== "development") {
 // the assets into a single file
 dashboard.locals.cacheID = Date.now();
 
-// Special function which wraps redirect
-// so I can pass messages between views cleanly
+// These routes should be accessible to the public
 dashboard.use("/clients", require("./routes/clients"));
-
 dashboard.use("/stripe-webhook", require("./routes/stripe_webhook"));
 
 /// EVERYTHING AFTER THIS NEEDS TO BE AUTHENTICATED
@@ -62,7 +60,7 @@ dashboard.use(function (req, res, next) {
   if (req.session && req.session.uid) {
     return next();
   }
-
+  
   return next(new Error("NOUSER"));
 });
 dashboard.use(trace("loaded session information"));
