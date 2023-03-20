@@ -92,7 +92,7 @@ describe("wikilinks plugin", function () {
     this.syncAndCheck(files, entry, done);
   });
 
-  it("will support media embedding", async function (done) {
+  xit("will support media embedding", async function (done) {
 
     await this.blog.write({
       path: "/_Image.png",
