@@ -146,8 +146,10 @@ settings.get("/:section/:view", function (req, res) {
 
   res.locals.breadcrumbs.add(uppercaseName, req.params.view);
   res.locals.subpage = "services/" + req.params.view;
-  res.locals.partials.subpage = "settings/" + req.params.view;
-  res.render("settings/subpage", { host: process.env.BLOT_HOST });
+  res.locals.host = process.env.BLOT_HOST;
+  res.locals.layout = 'partials/wrapper-subpage.html';
+  
+  res.render("settings/" + req.params.view);
 });
 
 settings.get("/:view", function (req, res) {
@@ -160,8 +162,8 @@ settings.get("/:view", function (req, res) {
   }
 
   res.locals.subpage = req.params.view;
-  res.locals.partials.subpage = "settings/" + req.params.view;
-  res.render("settings/subpage", { host: process.env.BLOT_HOST });
+res.locals.layout = 'partials/wrapper-subpage.html';
+    res.render("settings/" + req.params.view, { host: process.env.BLOT_HOST });
 });
 
 module.exports = settings;
