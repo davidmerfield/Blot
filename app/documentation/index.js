@@ -47,7 +47,7 @@ documentation.use(require("./static"));
 
 documentation.use(require("./questions/related"));
 
-documentation.get(["/contact"], (req, res, next) => {
+documentation.get("/contact", (req, res, next) => {
   res.locals.fullWidth = true;
   next();
 });
@@ -79,6 +79,7 @@ documentation.get("/", function (req, res, next) {
   res.locals.hide_title_suffix = true;
   next();
 });
+
 documentation.use("/fonts", require("./fonts"));
 
 documentation.get("/sitemap.xml", require("./sitemap"));

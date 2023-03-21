@@ -48,6 +48,7 @@ if (config.environment !== "development") {
 // eventually remove this when you merge
 // the assets into a single file
 dashboard.locals.cacheID = Date.now();
+dashboard.locals.layout = 'partials/wrapper';
 
 dashboard.use(trace("loading session information"));
 dashboard.use(require("./session"));
@@ -172,9 +173,6 @@ dashboard.use("/:handle/template/edit", require("./routes/template-editor"));
 // Will deliver the sync status of the blog as SSEs
 dashboard.use("/:handle/status", require("./routes/status"));
 
-// Special function which wraps render
-// so there is a default layout and a partial
-dashboard.use(require("./render"));
 
 dashboard.get("/", require("./load-blogs"), function (req, res, next) {
   res.locals.title = "Your blogs";
