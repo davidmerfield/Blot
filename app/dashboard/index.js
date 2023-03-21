@@ -191,13 +191,6 @@ dashboard.use("/settings", require("./load-blogs"), function (req, res, next) {
   }
 });
 
-// This will prevent issues with external links
-// into Blot's dashboard and or questions page
-dashboard.use(
-  ["/settings", "/account", "/dashboard", "/questions"],
-  require("./redirect-to-capture-cookie")
-);
-
 // This will catch old links to the dashboard before
 // we encoded the blog's username in the URLs
 dashboard.use(require("./redirect-to-other-blog"));

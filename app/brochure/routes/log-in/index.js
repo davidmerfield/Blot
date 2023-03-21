@@ -7,6 +7,7 @@ var checkReset = require("./checkReset");
 var checkEmail = require("./checkEmail");
 var checkPassword = require("./checkPassword");
 var errorHandler = require("./errorHandler");
+var redirect = require("./redirect");
 var parse = BodyParser.urlencoded({ extended: false });
 var csrf = require("csurf")();
 
@@ -67,7 +68,7 @@ form
 form
   .route("/")
 
-  .get(blockCrawlers, checkToken, function (req, res) {
+  .get(blockCrawlers, checkToken, redirect, function (req, res) {
     res.render("log-in");
   })
 

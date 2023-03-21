@@ -7,26 +7,15 @@ const querystring = require("querystring");
 // to extract a session if it actually exists
 // We can remove this is we remove the samesite requirement
 // from our dashboard session cookies
-module.exports = function (err, req, res, next) {
-  if (err && err.message !== "NOUSER") return next(err);
-
+module.exports = function (req, res, next) {
   const query = querystring.stringify({ ...req.query, redirected: true });
   const redirect =
     req.protocol + "://" + req.hostname + req.originalUrl + "?" + query;
+  const redirected = req.query.redirected;
 
-  if (!req.query.redirected) {
-    return res.send(html(redirect));
+  if (!redirected) {
+    res.locals.cookie_redirect = redirect;
   }
 
-  return next(err);
+  return next();
 };
-
-const html = (redirect) => `<html>
-<head>
-<meta http-equiv="refresh" content="0;URL='${redirect}'"/>
-<script type="text/javascript">window.location='${redirect}'</script>
-</head>
-<body>
-<noscript><p>Continue to <a href="${redirect}">${redirect}</a>.</p></noscript>
-</body>
-</html>`;
