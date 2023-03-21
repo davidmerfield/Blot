@@ -3,8 +3,7 @@ const redirector = new Express.Router();
 
 const internal = {
   "/account": "/dashboard/account",
-  "/account/email": "/dashboard/account/email",
-  "/account/password": "/dashboard/account/password",
+  "/settings": "/dashboard/settings",
   "/log-in": "/dashboard/log-in",
   "/sign-up": "/dashboard/sign-up",
   "/notes": "/about/notes",
