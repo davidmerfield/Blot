@@ -1,3 +1,5 @@
+Fix awkward cookie redirect system
+
 Add support for Google Docs
 - `download` Should nicely handle the export of various Google Doc formats
 
