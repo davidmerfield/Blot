@@ -1,4 +1,4 @@
-var Template = require("template");
+var Template = require("models/template");
 var makeSlug = require("helper/makeSlug");
 
 var NO_NAME = "Please choose a name for your new template.";

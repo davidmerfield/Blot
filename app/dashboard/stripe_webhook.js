@@ -45,7 +45,7 @@ var Express = require("express");
 var config = require("config");
 var stripe = require("stripe")(config.stripe.secret);
 var email = require("helper/email");
-var User = require("user");
+var User = require("models/user");
 
 var webhooks = Express.Router();
 

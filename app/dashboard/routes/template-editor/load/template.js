@@ -1,4 +1,4 @@
-var Template = require("template");
+var Template = require("models/template");
 var makeSlug = require("helper/makeSlug");
 
 module.exports = function (req, res, next) {

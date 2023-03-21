@@ -3,7 +3,7 @@ describe("template", function () {
 
   var setView = require("../index").setView;
   var getView = require("../index").getView;
-  var Blog = require("blog");
+  var Blog = require("models/blog");
 
   it("sets a view", function (done) {
     var test = this;

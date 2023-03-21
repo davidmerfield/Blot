@@ -1,6 +1,6 @@
 const arrayify = require("helper/arrayify");
 const config = require("config");
-const Template = require("template");
+const Template = require("models/template");
 const async = require("async");
 
 module.exports = function (req, res, next) {

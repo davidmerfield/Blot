@@ -2,10 +2,10 @@
 // for new sites to feature on the homepage and list the email
 // to contact for the site.
 
-var Blog = require("blog");
+var Blog = require("models/blog");
 var moment = require("moment");
-var Entries = require("entries");
-var User = require("user");
+var Entries = require("models/entries");
+var User = require("models/user");
 var colors = require("colors/safe");
 var async = require("async");
 var filter = require("./filter");

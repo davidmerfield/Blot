@@ -1,6 +1,6 @@
 module.exports = function route(server) {
-  var Entry = require("entry");
-  var Entries = require("entries");
+  var Entry = require("models/entry");
+  var Entries = require("models/entries");
   var drafts = require("sync/update/drafts");
   var redis = require("redis");
 

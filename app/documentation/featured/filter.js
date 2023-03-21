@@ -7,9 +7,9 @@
 
 var config = require("config");
 var request = require("request");
-var Blog = require("blog");
+var Blog = require("models/blog");
 var User = require("models/user");
-var Template = require("template");
+var Template = require("models/template");
 var async = require("async");
 var latest_template_ids = require("fs")
   .readdirSync(__dirname + "/../../templates/latest")

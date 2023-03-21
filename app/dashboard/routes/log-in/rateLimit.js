@@ -1,7 +1,7 @@
 var moment = require("moment");
 var rateLimit = require("express-rate-limit");
 var RedisStore = require("rate-limit-redis");
-var client = require("client");
+var client = require("models/client");
 
 var limiter = rateLimit({
   store: new RedisStore({

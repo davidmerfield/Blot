@@ -3,7 +3,7 @@ var express = require("express");
 var config = require("config");
 var compression = require("compression");
 var cache = require("express-disk-cache")(config.cache_directory);
-var Template = require("template");
+var Template = require("models/template");
 var Mustache = require("mustache");
 var fs = require("fs-extra");
 

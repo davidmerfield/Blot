@@ -1,6 +1,6 @@
 var Express = require("express");
 var Password = new Express.Router();
-var User = require("user");
+var User = require("models/user");
 var checkPassword = require("./util/checkPassword");
 
 Password.route("/")

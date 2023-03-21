@@ -1,7 +1,7 @@
 var config = require("config");
 var async = require("async");
 var stripe = require("stripe")(config.stripe.secret);
-var User = require("user");
+var User = require("models/user");
 var prettyPrice = require("helper/prettyPrice");
 var Express = require("express");
 var PaySubscription = new Express.Router();

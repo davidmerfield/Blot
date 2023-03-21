@@ -1,5 +1,5 @@
 var config = require("config");
-var Template = require("template");
+var Template = require("models/template");
 var capitalize = require("helper/capitalize");
 var extend = require("helper/extend");
 var basename = require("path").basename;
@@ -7,7 +7,7 @@ var debug = require("debug")("blot:templates");
 var Mustache = require("mustache");
 var fs = require("fs-extra");
 var async = require("async");
-var Blog = require("blog");
+var Blog = require("models/blog");
 var _ = require("lodash");
 var chokidar = require("chokidar");
 var TEMPLATES_DIRECTORY = require("path").resolve(__dirname + "/latest");

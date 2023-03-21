@@ -1,4 +1,4 @@
-var Template = require("template");
+var Template = require("models/template");
 var arrayify = require("helper/arrayify");
 
 module.exports = function (req, res, next) {

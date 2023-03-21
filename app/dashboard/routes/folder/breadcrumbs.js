@@ -1,4 +1,4 @@
-var Metadata = require("metadata");
+var Metadata = require("models/metadata");
 var async = require("async");
 
 module.exports = function breadcrumbs(req, res, next) {

@@ -1,4 +1,4 @@
-var User = require("user");
+var User = require("models/user");
 var LogInError = require("./logInError");
 
 module.exports = function checkEmail(req, res, next) {

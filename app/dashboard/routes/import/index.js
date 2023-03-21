@@ -11,7 +11,7 @@ const archiver = require("archiver");
 const moment = require("moment");
 const prettySize = require("helper/prettySize");
 const redis = require("redis");
-const client = require("client");
+const client = require("models/client");
 
 Import.use((req, res, next) => {
   res.locals.importBase = res.locals.base + "/services/import";

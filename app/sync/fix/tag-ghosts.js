@@ -1,7 +1,7 @@
 var Tags = require("models/tags");
 var Entry = require("models/entry");
 var async = require("async");
-var client = require("client");
+var client = require("models/client");
 
 module.exports = function main(blog, callback) {
   const report = [];

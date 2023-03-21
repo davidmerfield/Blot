@@ -1,6 +1,6 @@
 var Express = require("express");
 var Email = new Express.Router();
-var User = require("user");
+var User = require("models/user");
 
 Email.route("/")
 

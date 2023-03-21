@@ -1,6 +1,6 @@
 var ensure = require("helper/ensure");
 var key = require("./key");
-var client = require("client");
+var client = require("models/client");
 var validate = require("./validate");
 var generateId = require("./generateId");
 var scheduleSubscriptionEmail = require("./scheduleSubscriptionEmail");

@@ -11,7 +11,7 @@ var type = require("helper/type");
 
 var makeSlug = require("helper/makeSlug");
 var ensure = require("helper/ensure");
-var Model = require("entry").model;
+var Model = require("models/entry").model;
 
 var internalLinks = require("./internalLinks");
 var isHidden = require("./isHidden");

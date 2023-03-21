@@ -1,4 +1,4 @@
-var Metadata = require("metadata");
+var Metadata = require("models/metadata");
 
 // Since the Dropbox client tells us about empty directories
 // we store the case sensitive name of them for use on the

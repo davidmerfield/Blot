@@ -1,4 +1,4 @@
-const Template = require("template");
+const Template = require("models/template");
 
 module.exports = function (req, res, next) {
   if (!req.body || !req.body.previewPath) return next();

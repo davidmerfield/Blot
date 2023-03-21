@@ -1,4 +1,4 @@
-var Blog = require("blog");
+var Blog = require("models/blog");
 var formJSON = require("helper/formJSON");
 var extend = require("helper/extend");
 

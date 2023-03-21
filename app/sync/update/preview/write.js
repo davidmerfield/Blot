@@ -1,6 +1,6 @@
 var drafts = require("../drafts");
 var previewPath = drafts.previewPath;
-var Blog = require("blog");
+var Blog = require("models/blog");
 var localPath = require("helper/localPath");
 var fs = require("fs-extra");
 

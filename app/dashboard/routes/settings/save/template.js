@@ -1,5 +1,5 @@
-var Blog = require("blog");
-var Template = require("template");
+var Blog = require("models/blog");
+var Template = require("models/template");
 
 module.exports = function (req, res, next) {
   var templateID = req.body.template;

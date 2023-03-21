@@ -1,10 +1,10 @@
 var key = require("./key");
-var client = require("client");
+var client = require("models/client");
 var getMetadata = require("./getMetadata");
 var serialize = require("./util/serialize");
 var metadataModel = require("./metadataModel");
 var ensure = require("helper/ensure");
-var Blog = require("blog");
+var Blog = require("models/blog");
 
 module.exports = function setMetadata(id, updates, callback) {
   try {

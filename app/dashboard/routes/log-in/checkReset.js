@@ -1,4 +1,4 @@
-var User = require("user");
+var User = require("models/user");
 var Email = require("helper/email");
 var format = require("url").format;
 var NOTOKEN = "Could not generate a token";

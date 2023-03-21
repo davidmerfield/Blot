@@ -1,4 +1,4 @@
-var Template = require("template");
+var Template = require("models/template");
 var extname = require("path").extname;
 
 module.exports = function (req, res, next) {

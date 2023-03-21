@@ -6,10 +6,10 @@ var joinpath = require("path").join;
 var moment = require("moment");
 require("moment-timezone");
 
-var Entry = require("entry");
+var Entry = require("models/entry");
 var IgnoredFiles = require("models/ignoredFiles");
 var extname = require("path").extname;
-var Metadata = require("metadata");
+var Metadata = require("models/metadata");
 var REASONS = {
   PREVIEW: "it is a preview",
   TOO_LARGE: "it is too large",

@@ -1,4 +1,4 @@
-var User = require("user");
+var User = require("models/user");
 var async = require("async");
 var backup = require("./backup");
 var dailyUpdate = require("./daily");

@@ -1,5 +1,5 @@
-var Tags = require("tags");
-var Entry = require("entry");
+var Tags = require("models/tags");
+var Entry = require("models/entry");
 var async = require("async");
 
 module.exports = function (req, callback) {

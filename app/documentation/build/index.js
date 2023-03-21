@@ -1,7 +1,7 @@
 const fs = require("fs-extra");
 const chokidar = require("chokidar");
 const { join } = require("path");
-const finder = require("finder");
+const finder = require("./finder");
 const async = require("async");
 const search = require("./search-index");
 const root = require("helper/rootDir");

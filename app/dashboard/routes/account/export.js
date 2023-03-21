@@ -1,7 +1,7 @@
-var Entries = require("entries");
-var Template = require("template");
-var Redirects = require("redirects");
-var Tags = require("tags");
+var Entries = require("models/entries");
+var Template = require("models/template");
+var Redirects = require("models/redirects");
+var Tags = require("models/tags");
 var async = require("async");
 var Express = require("express");
 var Export = new Express.Router();

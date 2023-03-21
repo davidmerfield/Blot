@@ -1,6 +1,6 @@
 const config = require("config");
 const redis = require("redis");
-const client = require("client");
+const client = require("models/client");
 const express = require("express");
 const CHANNEL = "webhook-forwarder";
 const EventSource = require("eventsource");

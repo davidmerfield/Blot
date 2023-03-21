@@ -2,7 +2,7 @@ var arrayify = require("helper/arrayify");
 var previewHost = "https://preview-of";
 var ignored = ["blank", "monotone", "mono", "original", "serif"];
 var config = require("config");
-var Template = require("template");
+var Template = require("models/template");
 
 module.exports = function (req, res, next) {
   var blog = req.blog,

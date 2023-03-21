@@ -1,15 +1,15 @@
 var Express = require("express");
 var Delete = new Express.Router();
-var User = require("user");
+var User = require("models/user");
 var Email = require("helper/email");
 var checkPassword = require("./util/checkPassword");
 var logout = require("./util/logout");
 var async = require("async");
 
-var Blog = require("blog");
+var Blog = require("models/blog");
 var pretty = require("helper/prettyPrice");
 
-var User = require("user");
+var User = require("models/user");
 var config = require("config");
 var stripe = require("stripe")(config.stripe.secret);
 

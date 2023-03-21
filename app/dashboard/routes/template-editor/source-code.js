@@ -4,7 +4,7 @@ const bodyParser = require("body-parser").urlencoded({
 });
 const Express = require("express");
 const SourceCode = new Express.Router();
-const Template = require("template");
+const Template = require("models/template");
 const formJSON = require("helper/formJSON");
 const extend = require("helper/extend");
 const async = require("async");

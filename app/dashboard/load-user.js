@@ -1,5 +1,5 @@
 var prettyPrice = require("helper/prettyPrice");
-var User = require("user");
+var User = require("models/user");
 
 module.exports = function (req, res, next) {
   if (!req.session || !req.session.uid) return next();

@@ -10,12 +10,12 @@
 //    pointing to the source folder. Local client will
 //    watch source folder so changes should appear.
 
-const client = require("client");
+const client = require("models/client");
 const fs = require("fs-extra");
 const async = require("async");
 const config = require("config");
-const User = require("user");
-const Blog = require("blog");
+const User = require("models/user");
+const Blog = require("models/blog");
 const basename = require("path").basename;
 const localClient = require("clients/local");
 const DIR = require("helper/rootDir") + "/app/templates/folders";

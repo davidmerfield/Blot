@@ -8,10 +8,6 @@ const fs = require("fs-extra");
 const redirector = require("./redirector");
 const trace = require("helper/trace");
 
-if (config.environment === 'development'){
-  require("./build")({ watch: true });  
-}
-
 // Register the engine we will use to
 // render the views.
 documentation.set("view engine", "html");

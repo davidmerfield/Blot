@@ -4,7 +4,7 @@ var load = require("./load");
 var save = require("./save");
 var trace = require("helper/trace");
 
-var Template = require("template");
+var Template = require("models/template");
 
 settings.use(function (req, res, next) {
   res.locals.selected = { settings: "selected" };

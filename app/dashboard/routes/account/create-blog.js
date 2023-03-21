@@ -1,13 +1,13 @@
 var Express = require("express");
 var CreateBlog = new Express.Router();
-var Blog = require("blog");
+var Blog = require("models/blog");
 var _ = require("lodash");
 var prettyPrice = require("helper/prettyPrice");
 var config = require("config");
 var request = require("request");
 var config = require("config");
 var stripe = require("stripe")(config.stripe.secret);
-var User = require("user");
+var User = require("models/user");
 var Email = require("helper/email");
 var BAD_CHARGE = "Could not charge your card.";
 var ERR = "Could not change your subscription.";

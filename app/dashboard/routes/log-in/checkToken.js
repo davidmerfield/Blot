@@ -1,4 +1,4 @@
-var User = require("user");
+var User = require("models/user");
 var authenticate = require("./authenticate");
 var LogInError = require("./logInError");
 

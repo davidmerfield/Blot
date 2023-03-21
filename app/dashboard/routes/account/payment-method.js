@@ -4,7 +4,7 @@ var PaymentMethod = new Express.Router();
 var config = require("config");
 var email = require("helper/email");
 var stripe = require("stripe")(config.stripe.secret);
-var User = require("user");
+var User = require("models/user");
 
 // The purpose of this page is to allow the user to update the
 // card used by Stripe to charge their subscription fee
