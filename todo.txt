@@ -71,10 +71,6 @@ Investigate this [date metadata bug](https://blot.im/questions/936)
 
 Fix bug with chinese characters in template name and follow up with [Alex](https://mail.google.com/mail/u/0/#search/alex/FMfcgzGqRGTCSrMXTznCBvTWhQqvkgCL)
 
-Fix bug with duplicate entries and tell [Marco](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqQcrBrMBLSZGlZZtZPCnRfwXr)
-- [another ghost post](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqQmWhrKRqLgXMRjPbKMsBRbrV)
-- there is an entry without the 'news' tag, that [shows up under 'news'](https://timeline.marconoris.com/caminar-para-entender-caminar-para-recordar-en-frontera-en-eyeframing-on-mediation/7)
-
 Fix bug with this [question](https://blot.im/questions/648)
 
 Fix issue with git client mirroring on GitHub by follow steps in email and follow up with [n](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqPzKcnQKsQQNkzcRpvCWpWKTr)
