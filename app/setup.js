@@ -2,7 +2,7 @@ const config = require("config");
 const root = require("helper/rootDir");
 const fs = require("fs-extra");
 const redis = require("redis").createClient();
-const buildBrochure = require("./brochure/build");
+const buildDocumentation = require("./documentation/build");
 const templates = require("./templates");
 const async = require("async");
 
@@ -66,12 +66,12 @@ function main(callback) {
         });
       },
       function (callback) {
-        console.log("Building brochure site");
-        buildBrochure(
+        console.log("Building documentation site");
+        buildDocumentation(
           { watch: config.environment === "development" },
           function (err) {
             if (err) throw err;
-            console.log("Built brochure site");
+            console.log("Built documentation site");
             callback();
           }
         );

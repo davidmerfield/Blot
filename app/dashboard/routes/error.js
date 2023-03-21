@@ -1,7 +1,7 @@
 var clfdate = require("helper/clfdate");
 
 module.exports = function (err, req, res, next) {
-  // If the user is not logged in, we sent them to the brochure
+  // If the user is not logged in, we sent them to the documentation
   if (err.message === "NOUSER") {
     return next();
   }

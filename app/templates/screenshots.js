@@ -7,7 +7,7 @@ const config = require("config");
 const sharp = require("sharp");
 const { dirname, basename, extname } = require("path");
 const VIEW_DIRECTORY =
-  require("helper/rootDir") + "/app/brochure/views/templates";
+  require("helper/rootDir") + "/app/templates";
 
 const SCREENSHOTS = {
   blog: {

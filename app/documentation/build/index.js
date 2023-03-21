@@ -79,13 +79,13 @@ async function handle({ path, destination }, callback) {
     fs.outputFileSync(join(cssDir, "complete.css"), mergedCSS);
   } else if (path.endsWith(".html")) {
     // Inlines all CSS properties
-    // brochure.use(require("./tools/inline-css"));
+    // documentation.use(require("./tools/inline-css"));
 
     // // Renders the folders and text editors
-    // brochure.use(finder.middleware);
+    // documentation.use(finder.middleware);
 
     // // Generate a table of contents for each page
-    // brochure.use(require("./tools/on-this-page"));
+    // documentation.use(require("./tools/on-this-page"));
 
     let output = await fs.readFile(join(INPUT, path), "utf-8");
 

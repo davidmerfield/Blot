@@ -1,5 +1,5 @@
 var Express = require("express");
-var brochure = new Express.Router();
+var documentation = new Express.Router();
 var config = require("config");
 var titleFromSlug = require("helper/titleFromSlug");
 var trace = require("helper/trace");
@@ -23,21 +23,21 @@ var TITLES = {
   "posts-tagged": "A page with posts with a particular tag",
 };
 
-brochure.use(trace("inside routes sub app"));
+documentation.use(trace("inside routes sub app"));
 
-brochure.get(["/how/format/*"], function (req, res, next) {
+documentation.get(["/how/format/*"], function (req, res, next) {
   res.locals["show-on-this-page"] = true;
   next();
 });
 
-brochure.use(require("./questions/related"));
+documentation.use(require("./questions/related"));
 
-brochure.get(["/contact"], (req, res, next) => {
+documentation.get(["/contact"], (req, res, next) => {
   res.locals.fullWidth = true;
   next();
 });
 
-brochure.get(
+documentation.get(
   ["/about", "/how/configure", "/templates", "/questions"],
   (req, res, next) => {
     res.locals["hide-on-this-page"] = true;
@@ -46,12 +46,12 @@ brochure.get(
 );
 
 // Adds a handy 'edit this page' link
-brochure.use(
+documentation.use(
   ["/how", "/templates", "/about"],
   require("./tools/determine-source")
 );
 
-brochure.use(function (req, res, next) {
+documentation.use(function (req, res, next) {
   res.locals.breadcrumbs = require("url")
     .parse(req.url)
     .pathname.split("/")
@@ -74,7 +74,7 @@ brochure.use(function (req, res, next) {
   next();
 });
 
-brochure.use(function (req, res, next) {
+documentation.use(function (req, res, next) {
   res.locals.base = "";
   res.locals.selected = {};
   var url = req.originalUrl;
@@ -102,22 +102,10 @@ brochure.use(function (req, res, next) {
   next();
 });
 
-const VIEWS = require("path").resolve(__dirname + "/../views");
 
-brochure.get("/account/logged-out", function (req, res) {
-  res.sendFile(VIEWS + "/logged-out.html");
-});
+documentation.get("/", require("./featured"));
 
-brochure.use("/account", function (req, res, next) {
-  // we don't want search engines indexing these pages
-  // since they're /logged-out, /disabled and
-  res.set("X-Robots-Tag", "noindex");
-  next();
-});
-
-brochure.get("/", require("./featured"));
-
-brochure.get("/", function (req, res, next) {
+documentation.get("/", function (req, res, next) {
   res.locals.layout = "partials/layout-index";
   res.locals.title = "Blot – A blogging platform with no interface.";
   res.locals.description =
@@ -126,40 +114,40 @@ brochure.get("/", function (req, res, next) {
   res.locals.hide_title_suffix = true;
   next();
 });
-brochure.use("/fonts", require("./fonts"));
+documentation.use("/fonts", require("./fonts"));
 
-brochure.get("/sitemap.xml", require("./sitemap"));
+documentation.get("/sitemap.xml", require("./sitemap"));
 
-brochure.use("/templates/developers", require("./developers"));
+documentation.use("/templates/developers", require("./developers"));
 
-brochure.use("/about/notes", require("./notes"));
+documentation.use("/about/notes", require("./notes"));
 
-brochure.use("/templates", require("./templates"));
+documentation.use("/templates", require("./templates"));
 
-brochure.use("/about/news", require("./news"));
+documentation.use("/about/news", require("./news"));
 
-brochure.use("/sign-up", require("./sign-up"));
+documentation.use("/sign-up", require("./sign-up"));
 
-brochure.use("/log-in", require("./log-in"));
+documentation.use("/log-in", require("./log-in"));
 
-brochure.use("/questions", require("./questions"));
+documentation.use("/questions", require("./questions"));
 
-brochure.use("/how/configure/domain", function (req, res, next) {
+documentation.use("/how/configure/domain", function (req, res, next) {
   res.locals.ip = config.ip;
   next();
 });
 
-brochure.use(trace("calling render"));
+documentation.use(trace("calling render"));
 
-brochure.use(function (req, res) {
+documentation.use(function (req, res) {
   res.render();
 });
 
-brochure.use(function (err, req, res, next) {
+documentation.use(function (err, req, res, next) {
   if (err && err.message && err.message.indexOf("Failed to lookup view") === 0)
     return next();
 
   next(err);
 });
 
-module.exports = brochure;
+module.exports = documentation;

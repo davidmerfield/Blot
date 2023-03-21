@@ -3,7 +3,7 @@ var Express = require("express");
 var helmet = require("helmet");
 var vhost = require("vhost");
 var blog = require("./blog");
-var brochure = require("./brochure");
+var documentation = require("./documentation");
 var dashboard = require("./dashboard");
 var cdn = require("./cdn");
 var clfdate = require("helper/clfdate");
@@ -70,7 +70,7 @@ Blot.use(vhost(config.host, cdn));
 
 // The Dashboard
 // -------------
-// Serve the dashboard and public site (the brochure)
+// Serve the dashboard and public site (the documentation)
 // Webhooks from Dropbox and Stripe, git pushes are
 // served by these two applications. The dashboard can
 // only ever be served for request to the host
@@ -90,11 +90,10 @@ if (config.environment === "development" && config.webhooks.relay_host) {
   webhooks.client({ host: config.webhooks.relay_host });
 }
 
-// The Brochure
+// The documentation
 // ------------
 // The least important application. It serves the documentation
-// and sign up page.
-Blot.use(vhost(config.host, brochure));
+Blot.use(vhost(config.host, documentation));
 
 // The Blogs
 // ---------

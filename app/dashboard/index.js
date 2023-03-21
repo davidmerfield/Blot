@@ -2,7 +2,7 @@ var bodyParser = require("body-parser");
 var hogan = require("hogan-express");
 var express = require("express");
 var trace = require("helper/trace");
-var VIEW_DIRECTORY = __dirname + "/views";
+var VIEW_DIRECTORY = __dirname + "/../views/dashboard";
 var config = require("config");
 const cookieParser = require("cookie-parser");
 
@@ -189,6 +189,17 @@ dashboard.use("/settings", require("./load-blogs"), function (req, res, next) {
   } catch (e) {
     next();
   }
+});
+
+dashboard.get("/account/logged-out", function (req, res) {
+  res.sendFile(VIEW_DIRECTORY + "/dashboard/account/logged-out.html");
+});
+
+dashboard.use("/account", function (req, res, next) {
+  // we don't want search engines indexing these pages
+  // since they're /logged-out, /disabled and
+  res.set("X-Robots-Tag", "noindex");
+  next();
 });
 
 // This will catch old links to the dashboard before

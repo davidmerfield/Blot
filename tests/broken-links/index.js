@@ -1,5 +1,5 @@
 describe("Blot's website'", function () {
-  var brochure = require("brochure");
+  var documentation = require("documentation");
   var dashboard = require("dashboard");
   var broken = require("../util/broken");
   var trace = require("helper/trace");
@@ -9,7 +9,7 @@ describe("Blot's website'", function () {
   global.test.server(function (server) {
     server.use(trace.init);
     server.use(dashboard);
-    server.use(brochure);
+    server.use(documentation);
   });
 
   it(

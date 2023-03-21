@@ -19,8 +19,8 @@ module.exports = function determineSource(req, res, next) {
       ];
     } else {
       paths = [
-        join("/app/brochure/views", path + ".html"),
-        join("/app/brochure/views", path, "index.html"),
+        join("/app/views", path + ".html"),
+        join("/app/views", path, "index.html"),
       ];
     }
 

@@ -133,7 +133,7 @@ async.waterfall(
 
     // The Dashboard
     // -------------
-    // Serve the dashboard and public site (the brochure)
+    // Serve the dashboard and public site (the documentation)
     // Webhooks from Dropbox and Stripe, git pushes are
     // served by these two applications. The dashboard can
     // only ever be served for request to the host

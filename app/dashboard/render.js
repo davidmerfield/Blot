@@ -1,3 +1,5 @@
+const VIEWS = __dirname + '/../views/dashboard';
+
 module.exports = function (req, res, next) {
   res.locals.partials = res.locals.partials || {};
 
@@ -7,9 +9,9 @@ module.exports = function (req, res, next) {
   res.render = function (view, locals, callback) {
     if (view === "error") {
       res.locals.partials = res.locals.partials || {};
-      res.locals.partials.head = __dirname + "/views/partials/head";
-      res.locals.partials.dropdown = __dirname + "/views/partials/dropdown";
-      res.locals.partials.footer = __dirname + "/views/partials/footer";
+      res.locals.partials.head = VIEWS + "/partials/head";
+      res.locals.partials.dropdown = VIEWS + "/partials/dropdown";
+      res.locals.partials.footer = VIEWS + "/partials/footer";
 
       return _render.call(this, view, locals, callback);
     }
@@ -19,21 +21,21 @@ module.exports = function (req, res, next) {
 
       res.locals.partials.yield = view;
 
-      wrapper = __dirname + "/views/partials/wrapper-public.html";
+      wrapper = VIEWS + "/partials/wrapper-public.html";
 
       return _render.call(this, wrapper, locals, callback);
     }
 
     if (req.query.setup)
-      wrapper = __dirname + "/views/partials/wrapper-setup.html";
+      wrapper = VIEWS + "/partials/wrapper-setup.html";
     else {
-      wrapper = __dirname + "/views/partials/wrapper.html";
+      wrapper = VIEWS + "/partials/wrapper.html";
     }
 
     if (view === "_static_wrapper") {
       console.log("HERE");
 
-      // wrapper = __dirname + "/views/partials/static_wrapper.html";
+      // wrapper = VIEWS + "/partials/static_wrapper.html";
 
       if (
         res.locals.partials.yield &&
@@ -42,13 +44,13 @@ module.exports = function (req, res, next) {
           res.locals.partials.yield.indexOf("config") > -1 ||
           res.locals.partials.yield.indexOf("account") > -1)
       ) {
-        res.locals.partials.sidebar = __dirname + "/views/partials/sidebar";
+        res.locals.partials.sidebar = VIEWS + "/partials/sidebar";
       }
     } else {
       res.locals.partials = res.locals.partials || {};
-      res.locals.partials.head = __dirname + "/views/partials/head";
-      res.locals.partials.dropdown = __dirname + "/views/partials/dropdown";
-      res.locals.partials.footer = __dirname + "/views/partials/footer";
+      res.locals.partials.head = VIEWS + "/partials/head";
+      res.locals.partials.dropdown = VIEWS + "/partials/dropdown";
+      res.locals.partials.footer = VIEWS + "/partials/footer";
 
       res.locals.partials.yield = view;
     }

@@ -3,7 +3,7 @@ const fs = require("fs-extra");
 const archiver = require("archiver");
 
 const VIEW_DIRECTORY =
-  require("helper/rootDir") + "/app/brochure/views/templates";
+  require("helper/rootDir") + "/app/views/templates";
 
 const FOLDER_DIRECTORY = __dirname;
 

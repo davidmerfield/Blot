@@ -19,7 +19,7 @@ example.com.png
 
 3. Run the script to rebuild the list of featured sites in featured.json then commit your changes:
 
-node app/brochure/routes/featured/build
+node app/documentation/routes/featured/build
 
 
 Specification

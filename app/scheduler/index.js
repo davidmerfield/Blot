@@ -6,7 +6,7 @@ var email = require("helper/email");
 var clfdate = require("helper/clfdate");
 var warmCache = require("./warmCache");
 var schedule = require("node-schedule").scheduleJob;
-var checkFeaturedSites = require("../brochure/routes/featured/check");
+var checkFeaturedSites = require("../documentation/routes/featured/check");
 var config = require("config");
 var publishScheduledEntries = require("./publish-scheduled-entries");
 const os = require("os");
@@ -75,7 +75,7 @@ module.exports = function () {
     console.log(clfdate(), "Scheduled entries for future publication");
   });
 
-  // Warm the cache for the brochure site
+  // Warm the cache for the documentation site
   warmCache(function (err) {
     if (err) throw err;
   });
