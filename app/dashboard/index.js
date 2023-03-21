@@ -4,7 +4,6 @@ var express = require("express");
 var trace = require("helper/trace");
 var VIEW_DIRECTORY = __dirname + "/../views/dashboard";
 var config = require("config");
-const cookieParser = require("cookie-parser");
 
 // This is the express application used by a
 // customer to control the settings and view
@@ -50,14 +49,21 @@ if (config.environment !== "development") {
 // the assets into a single file
 dashboard.locals.cacheID = Date.now();
 
-// These routes should be accessible to the public
-dashboard.use("/clients", require("./routes/clients"));
-dashboard.use("/stripe-webhook", require("./routes/stripe_webhook"));
-
-/// EVERYTHING AFTER THIS NEEDS TO BE AUTHENTICATED
 dashboard.use(trace("loading session information"));
 dashboard.use(require("./session"));
+dashboard.use(trace("loaded session information"));
+
+// Appends a one-time CSRF-checking token
+// for each GET request, and validates this token
+// for each POST request, using csurf.
+dashboard.use(require("./csrf"));
+
+dashboard.use("/sign-up", require("./routes/sign-up"));
+dashboard.use("/log-in", require("./routes/log-in"));
+
+/// EVERYTHING AFTER THIS NEEDS TO BE AUTHENTICATED
 dashboard.use(function (req, res, next) {
+
   if (req.session && req.session.uid) {
     return next();
   }
@@ -65,14 +71,8 @@ dashboard.use(function (req, res, next) {
   next(new Error("NOUSER"));
 });
 
-dashboard.use(trace("loaded session information"));
 
 dashboard.use(require("./message"));
-
-// Appends a one-time CSRF-checking token
-// for each GET request, and validates this token
-// for each POST request, using csurf.
-dashboard.use(require("./csrf"));
 
 dashboard.use(trace("loading user"));
 dashboard.use(require("./load-user"));
@@ -98,9 +98,9 @@ const MAX_POST_REQUEST_SIZE = "5mb";
 
 dashboard.post(
   [
-    "/dashboard/:handle/template*",
-    "/dashboard/:handle/client",
-    "/dashboard/:handle/client/switch",
+    "/:handle/template*",
+    "/:handle/client",
+    "/:handle/client/switch",
     "/path",
     "/folder*",
     "/settings/client*",
@@ -129,7 +129,7 @@ dashboard.use(function (req, res, next) {
 
 dashboard.use(require("./breadcrumbs"));
 
-dashboard.use("/dashboard/:handle", function (req, res, next) {
+dashboard.use("/:handle", function (req, res, next) {
   // we use pretty.label instead of title for title-less blogs
   // this falls back to the domain of the blog if no title exists
   res.locals.base = `/dashboard/${req.params.handle}`;
@@ -141,13 +141,10 @@ dashboard.use("/dashboard/:handle", function (req, res, next) {
 
 // Use this before modifying the render function
 // since it doesn't use the layout for the rest of the dashboard
-dashboard.use(
-  "/dashboard/:handle/template/edit",
-  require("./routes/template-editor")
-);
+dashboard.use("/:handle/template/edit", require("./routes/template-editor"));
 
 // Will deliver the sync status of the blog as SSEs
-dashboard.use("/dashboard/:handle/status", require("./routes/status"));
+dashboard.use("/:handle/status", require("./routes/status"));
 
 // Special function which wraps render
 // so there is a default layout and a partial
@@ -155,7 +152,7 @@ dashboard.use(require("./render"));
 
 dashboard.use("/account", require("./routes/account"));
 
-dashboard.get("/dashboard", require("./load-blogs"), function (req, res, next) {
+dashboard.get("/", require("./load-blogs"), function (req, res, next) {
   res.locals.title = "Your blogs";
   res.locals.breadcrumbs.add("Your blogs", "/dashboard");
   res.render("index");
@@ -163,7 +160,7 @@ dashboard.get("/dashboard", require("./load-blogs"), function (req, res, next) {
 
 // Load the files and folders inside a blog's folder
 dashboard.get(
-  "/dashboard/:handle/folder/:path(*)",
+  "/:handle/folder/:path(*)",
 
   function (req, res, next) {
     req.folderPath = "/" + req.params.path;
@@ -177,9 +174,9 @@ dashboard.get(
   }
 );
 
-dashboard.get("/dashboard/:handle", require("./routes/folder"));
-dashboard.use("/dashboard/:handle/services/import", require("./routes/import"));
-dashboard.use("/dashboard/:handle", require("./routes/settings"));
+dashboard.get("/:handle", require("./routes/folder"));
+dashboard.use("/:handle/services/import", require("./routes/import"));
+dashboard.use("/:handle", require("./routes/settings"));
 
 // Redirect old URLS
 dashboard.use("/settings", require("./load-blogs"), function (req, res, next) {

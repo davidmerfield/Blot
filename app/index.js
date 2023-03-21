@@ -33,15 +33,6 @@ if (cluster.isMaster) {
   // Write the master process PID so we can signal it
   fs.outputFileSync(config.pidfile, process.pid.toString(), "utf-8");
 
-  // Run any initialization that clients need
-  // Google Drive will renew any webhooks, e.g.
-  for (const { init, display_name } of Object.values(require("clients"))) {
-    if (init) {
-      console.log(clfdate(), display_name + " client:", "Initializing");
-      init();
-    }
-  }
-
   if (process.env.FAST !== "true") {
     // Fork workers based on how many CPUs are available
     for (let i = 0; i < NUMBER_OF_WORKERS; i++) {
@@ -131,6 +122,15 @@ if (cluster.isMaster) {
   if (process.env.FAST !== "true") {
     // Launch scheduler for background tasks, like backups, emails
     scheduler();
+  }
+
+  // Run any initialization that clients need
+  // Google Drive will renew any webhooks, e.g.
+  for (const { init, display_name } of Object.values(require("clients"))) {
+    if (init) {
+      console.log(clfdate(), display_name + " client:", "Initializing");
+      init();
+    }
   }
 } else {
   console.log(clfdate(), `Worker process running pid=${process.pid}`);

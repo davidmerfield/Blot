@@ -126,10 +126,6 @@ documentation.use("/templates", require("./templates"));
 
 documentation.use("/about/news", require("./news"));
 
-documentation.use("/sign-up", require("./sign-up"));
-
-documentation.use("/log-in", require("./log-in"));
-
 documentation.use("/questions", require("./questions"));
 
 documentation.use("/how/configure/domain", function (req, res, next) {

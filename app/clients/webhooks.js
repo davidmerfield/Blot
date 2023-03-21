@@ -156,4 +156,8 @@ function listen({ host }) {
   };
 }
 
-module.exports = { server, client: listen };
+if (config.environment === "development" && config.webhooks.relay_host) {
+  listen({ host: config.webhooks.relay_host });
+}
+
+module.exports = server;
