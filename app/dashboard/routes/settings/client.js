@@ -16,8 +16,6 @@ const getStatuses = promisify(Blog.getStatuses);
 // So the breadcrumbs look like: Settings > Client
 client_routes.use(function (req, res, next) {
   res.locals.breadcrumbs.add("Folder", "client");
-  res.locals.partials["status-line"] = "clients/status-line";
-  res.locals.partials["disconnect-line"] = "clients/disconnect-line";
   next();
 });
 
