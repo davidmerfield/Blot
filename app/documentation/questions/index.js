@@ -15,6 +15,11 @@ const pool = new Pool({
   port: config.postgres.port,
 });
 
+/// IF YOU EVER RATE LIMIT THIS MAKE SURE TO
+// Neccessary to repeat to set the correct IP for the
+// rate-limiter, because this app sits behind nginx
+// documentation.set("trust proxy", "loopback");
+
 // QA Forum View Configuration
 const TOPICS_PER_PAGE = 20;
 

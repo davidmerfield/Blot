@@ -36,33 +36,67 @@ const load = async function (path, options, ctx) {
   return template;
 };
 
+const loadPartials = async function (dir, ctx) {
+  console.log("loading partials", dir);
+  console.log("resolved dir to", dir);
+  console.log("using ext", ctx.ext);
+
+  const items = await fs.readdir(dir);
+  const partials = {};
+
+  items
+    .filter((i) => i.endsWith(ctx.ext))
+    .map((i) => i.slice(0, i.lastIndexOf(".")))
+    .forEach((n) => (partials[n] = ""));
+
+  return partials;
+};
+
 const render = async function (path, opt, callback) {
   console.log("HERE", path, opt);
 
-  var partials;
-  var ctx = this;
+  // fs.ensureDirSync(VIEW_DIRECTORY);
+  // fs.ensureDirSync(PARTIAL_DIRECTORY);
 
-  partials = opt.settings.partials || {};
+  var ctx = this;
+  var partials = {};
+
+  try {
+    partials = await loadPartials(opt.settings.partials, ctx);
+  } catch (e) {
+    console.log("error loading partials", e);
+  }
+
+  console.log("loaded partials", partials);
 
   if (opt.partials) {
     partials = { ...partials, ...opt.partials };
   }
 
+  console.log("merged partials", partials);
+
   try {
     for (const name in partials) {
-      partials[name] = await load(partials[name], opt, ctx);
+      console.log("name", name);
+      const res = await load("partials/" + name, opt, ctx);
+      console.log("res", res.slice(0, 100));
+      partials[name] = res;
     }
+
 
     var layout = opt.layout || opt.settings.layout;
     var template;
 
     if (layout) {
+      console.log("loading layout", layout);
       template = await load(layout, opt, ctx);
       partials.body = await load(path, opt, ctx);
     } else {
       template = await load(path, opt, ctx);
     }
 
+
+    console.log("rendering template", template);
     const result = mustache.render(template, opt, partials);
 
     // if (layout) {
