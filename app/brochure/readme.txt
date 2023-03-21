@@ -65,6 +65,13 @@ Some references
   Form labels:
   https://www.ssense.com/en-us/account/login
 
+Demo video
+----------
+- Find a neat public domain song to play 
+   - https://archive.org/details/Grab_Bag-12446/03_-_Trust.mp3
+   - https://archive.org/details/Winter_Sunshine_EP-8201/Evgeny_Grinko_-_01_-_Winter_Sunshine.mp3
+
+
 Demo video script
 -----------------
 
