@@ -1,3 +1,3 @@
 # iCloud client
 
-This module uses a Git repository's working tree as the source folder for a blog on Blot.
+Set up mac without 'Optimize storage' under iCloud drive settings so that the server downloads all the files ASAP
