@@ -103,6 +103,8 @@ break-inside: avoid;
 </div>
 <div style="max-width: 540px;margin:0 auto">
    
+    {{#featured.length}}
+
   <div class="module">
     <strong>Who uses Blot?</strong><Br>
       <span style="opacity: 0.5;font-weight: 400">Some of the people who use Blot to create their website</span>
@@ -134,6 +136,8 @@ break-inside: avoid;
     {{/featured}}  
   </ul>  
 </div>
+    {{/featured.length}}
+
 <div class="module">
       <a href="/how" class="arrow-link">
       <b>How to use Blot</b>
@@ -187,7 +191,7 @@ break-inside: avoid;
     padding-left: 12px
    }
    .tmplw a {flex-basis: 100%;box-sizing: border-box;padding: 0 0 0 0;color: inherit;margin-top: 1.45em;display: flex;}
-   .tmplw a img {max-width: 47%;aspect-ratio: 1.6 / 1;height: auto;border:1px solid var(--light-border-color);border-radius: 3px}
+   .tmplw a img {max-width: 25%;aspect-ratio: 1 / 1;height: auto;border:1px solid var(--light-border-color);border-radius: 3px}
    .tmplw .arrow-link :nth-child(2) {opacity: 1}
    .tmplw small {font-weight:600;display: none;}
    .tmplw strong {display: block;}
