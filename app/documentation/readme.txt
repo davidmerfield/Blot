@@ -11,7 +11,7 @@ Structure of the site
 Adding new content
 ------------------
 
-  Make sure you update ./routes/sitemap.js with any new and important URLs
+  Make sure you update ./sitemap.js with any new and important URLs
 
 Some references
 ---------------

@@ -12,7 +12,7 @@ var User = require("models/user");
 var Template = require("template");
 var async = require("async");
 var latest_template_ids = require("fs")
-  .readdirSync(__dirname + "/../../../templates/latest")
+  .readdirSync(__dirname + "/../../templates/latest")
   .map((i) => "SITE:" + i);
 
 function filter(sites, callback) {

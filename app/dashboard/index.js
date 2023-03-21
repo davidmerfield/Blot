@@ -1,5 +1,5 @@
 var bodyParser = require("body-parser");
-var hogan = require("hogan-express");
+var hogan = require("helper/express-mustache");
 var express = require("express");
 var trace = require("helper/trace");
 var VIEW_DIRECTORY = __dirname + "/../views/dashboard";

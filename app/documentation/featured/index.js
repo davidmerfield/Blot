@@ -10,7 +10,7 @@ module.exports = function (req, res, next) {
   fs.readJSON(__dirname + "/featured-checked.json", function (err, featured) {
     if (err) {
       console.log("Warning: Please check the list of featured sites:");
-      console.log("node app/documentation/routes/featured/check");
+      console.log("node app/documentation/featured/check");
       featured = [];
     }
 
