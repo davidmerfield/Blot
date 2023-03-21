@@ -39,7 +39,7 @@ module.exports = function checkToken(req, res, next) {
       if (user.isDisabled) return res.redirect("/account/disabled");
 
       // Store the valid user'd ID in the session.
-      authenticate(req, user);
+      authenticate(req, res, user);
 
       // If the user does not need to be redirected to another page
       // send them to the dashboard's homepage. Users will be redirected

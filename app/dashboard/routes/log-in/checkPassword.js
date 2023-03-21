@@ -20,7 +20,7 @@ module.exports = function checkPassword(req, res, next) {
 
     if (!match) return next(new LogInError("BADPASSWORD"));
 
-    authenticate(req, user);
+    authenticate(req, res, user);
 
     return res.redirect(then);
   });

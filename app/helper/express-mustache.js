@@ -67,19 +67,13 @@ const render = async function (path, opt, callback) {
     console.log("error loading partials", e);
   }
 
-  console.log("loaded partials", partials);
-
   if (opt.partials) {
     partials = { ...partials, ...opt.partials };
   }
 
-  console.log("merged partials", partials);
-
   try {
     for (const name in partials) {
-      console.log("name", name);
       const res = await load("partials/" + name, opt, ctx);
-      console.log("res", res.slice(0, 100));
       partials[name] = res;
     }
 
@@ -87,14 +81,12 @@ const render = async function (path, opt, callback) {
     var template;
 
     if (layout) {
-      console.log("loading layout", layout);
       template = await load(layout, opt, ctx);
       partials.body = await load(path, opt, ctx);
     } else {
       template = await load(path, opt, ctx);
     }
 
-    console.log("rendering template", template);
     const result = mustache.render(template, opt, partials);
 
     // if (layout) {
@@ -105,6 +97,7 @@ const render = async function (path, opt, callback) {
     // }
     return callback(null, result);
   } catch (err) {
+    console.log(err);
     return callback(err);
   }
 };

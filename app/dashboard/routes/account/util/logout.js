@@ -4,7 +4,9 @@ module.exports = function (req, res, next) {
   req.session.destroy(function (err) {
     if (err) return next(err);
 
-    res.clearCookie("connect.sid");
+    res.clearCookie("signed_into_blot", { domain: "", path: "/" });
+    res.clearCookie("connect.sid", { domain: "", path: "/" });
+
     next();
   });
 };

@@ -101,8 +101,21 @@ function trimLeadingAndTrailingSlash(str) {
   return str;
 }
 
-documentation.use(function (req, res) {
-  res.render(trimLeadingAndTrailingSlash(req.path) || "index.html");
+documentation.use(function (req, res, next) {
+  const view = trimLeadingAndTrailingSlash(req.path) || "index";
+
+  if (require("path").extname(view)) {
+    console.log("skipping render of", view);
+    return next();
+  }
+
+  console.log("rendering", view);
+  res.render(view);
+});
+
+documentation.use((err, req, res, next) => {
+  if (err && err.message.startsWith("Failed to lookup view")) return next();
+  next(err);
 });
 
 // Will redirect old broken links
