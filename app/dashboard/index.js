@@ -89,6 +89,33 @@ dashboard.use(trace("checking redirects"));
 dashboard.use(require("./redirector"));
 dashboard.use(trace("checked redirects"));
 
+dashboard.use(require("./breadcrumbs"));
+
+// This needs to be before ':handle'
+dashboard.use("/account", require("./routes/account"));
+
+
+// Redirect old URLS
+dashboard.use("/settings", require("./load-blogs"), function (req, res, next) {
+  try {
+    const redirect = `/dashboard/${req.blogs[0].handle}${req.path}`;
+    res.redirect(redirect);
+  } catch (e) {
+    next();
+  }
+});
+
+dashboard.get("/account/logged-out", function (req, res) {
+  res.sendFile(VIEW_DIRECTORY + "/dashboard/account/logged-out.html");
+});
+
+dashboard.use("/account", function (req, res, next) {
+  // we don't want search engines indexing these pages
+  // since they're /logged-out, /disabled and
+  res.set("X-Robots-Tag", "noindex");
+  next();
+});
+
 // Send user's avatar
 dashboard.use("/_avatars/:avatar", require("./routes/avatar"));
 
@@ -127,7 +154,6 @@ dashboard.use(function (req, res, next) {
   next();
 });
 
-dashboard.use(require("./breadcrumbs"));
 
 dashboard.use("/:handle", function (req, res, next) {
   // we use pretty.label instead of title for title-less blogs
@@ -149,8 +175,6 @@ dashboard.use("/:handle/status", require("./routes/status"));
 // Special function which wraps render
 // so there is a default layout and a partial
 dashboard.use(require("./render"));
-
-dashboard.use("/account", require("./routes/account"));
 
 dashboard.get("/", require("./load-blogs"), function (req, res, next) {
   res.locals.title = "Your blogs";
@@ -177,27 +201,6 @@ dashboard.get(
 dashboard.get("/:handle", require("./routes/folder"));
 dashboard.use("/:handle/services/import", require("./routes/import"));
 dashboard.use("/:handle", require("./routes/settings"));
-
-// Redirect old URLS
-dashboard.use("/settings", require("./load-blogs"), function (req, res, next) {
-  try {
-    const redirect = `/dashboard/${req.blogs[0].handle}${req.path}`;
-    res.redirect(redirect);
-  } catch (e) {
-    next();
-  }
-});
-
-dashboard.get("/account/logged-out", function (req, res) {
-  res.sendFile(VIEW_DIRECTORY + "/dashboard/account/logged-out.html");
-});
-
-dashboard.use("/account", function (req, res, next) {
-  // we don't want search engines indexing these pages
-  // since they're /logged-out, /disabled and
-  res.set("X-Robots-Tag", "noindex");
-  next();
-});
 
 // This will catch old links to the dashboard before
 // we encoded the blog's username in the URLs

@@ -139,20 +139,6 @@ documentation.use(trace("before routes"));
 // Now we actually load the routes for the documentation website.
 documentation.use(require("./routes"));
 
-// Redirect user to dashboard for these links
-documentation.use(["/account", "/settings", "/dashboard"], function (req, res) {
-  let from;
-
-  try {
-    let referrer = require("url").parse(req.get("Referrer"));
-    if (referrer.host === config.host) from = referrer.path;
-  } catch (e) {}
-
-  return res.redirect(
-    "/log-in?then=" + req.originalUrl + (from ? "&from=" + from : "")
-  );
-});
-
 // Will redirect old broken links
 documentation.use(redirector);
 
