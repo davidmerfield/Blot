@@ -1,6 +1,5 @@
 const Express = require("express");
 const documentation = new Express();
-const fs = require("fs-extra");
 
 const VIEW_DIRECTORY = __dirname + "/../views";
 
@@ -16,24 +15,6 @@ documentation.use(
     maxAge: 86400000,
   })
 );
-
-documentation.get("/css/complete.css", async (req, res) => {
-  const CleanCSS = require("clean-css");
-  const { join } = require("path");
-
-  // merge all css files together into one file
-  const cssDir = join(VIEW_DIRECTORY, "css");
-
-  const cssFiles = fs.readdirSync(cssDir).filter((i) => i.endsWith(".css"));
-
-  const mergedCSS = cssFiles
-    .map((i) => fs.readFileSync(join(cssDir, i), "utf-8"))
-    .map((input) => new CleanCSS().minify(input).styles)
-    .join("\n\n");
-
-  res.header("Content-Type", "text/css");
-  res.send(mergedCSS);
-});
 
 documentation.use(
   "/css",

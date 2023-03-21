@@ -8,10 +8,14 @@ const fs = require("fs-extra");
 const redirector = require("./redirector");
 const trace = require("helper/trace");
 
+if (config.environment === 'development'){
+  require("./build")({ watch: true });  
+}
+
 // Register the engine we will use to
 // render the views.
 documentation.set("view engine", "html");
-documentation.set("views", __dirname + "/../views");
+documentation.set("views", __dirname + "/data/views");
 documentation.engine("html", hogan);
 
 if (config.cache === false) {
@@ -23,19 +27,12 @@ if (config.cache === false) {
   documentation.use(cache);
 }
 
-// This is the layout that HBS uses by default to render a
-// page. Look into the source, but basically {{{body}}} in
-// partials/layout is replaced with the view passed to
-// res.render(). You can modify this in the route if needed.
+const { plan } = config.stripe;
+
 documentation.locals.layout = "partials/layout";
 documentation.locals.cacheID = Date.now();
 documentation.locals.ip = config.ip;
-// Renders dates dynamically in the documentation.
-// Can be used like so: {{#date}}MM/YYYY{{/date}}
 documentation.locals.date = require("./dates.js");
-
-// Default page title and <meta> description
-const { plan } = config.stripe;
 documentation.locals.price = "$" + plan.split("_").pop();
 documentation.locals.interval = plan.startsWith("monthly") ? "month" : "year";
 

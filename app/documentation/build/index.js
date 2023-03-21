@@ -1,15 +1,17 @@
 const fs = require("fs-extra");
-const OUTPUT = __dirname + "/../data/views";
-const INPUT = __dirname + "/../views";
 const chokidar = require("chokidar");
 const { join } = require("path");
 const finder = require("finder");
 const async = require("async");
 const search = require("./search-index");
+const root = require("helper/rootDir");
 
-fs.ensureDirSync(OUTPUT);
+const OUTPUT = join(root, "/app/documentation/data/views");
+const INPUT = join(root, "/app/views");
 
-async function main(options, callback) {
+async function main(options, callback = ()=>{}) {
+  await fs.ensureDir(OUTPUT);
+
   // we should create a tmp dir during the build, then replace OUTPUT
   // with the tmp dir once the build is done.
 
@@ -20,7 +22,7 @@ async function main(options, callback) {
   const OUTPUT_TMP = OUTPUT + "-tmp-" + Date.now();
   const OUTPUT_BAK = OUTPUT + "-bak-" + Date.now();
 
-  fs.ensureDirSync(OUTPUT_TMP);
+  await fs.ensureDir(OUTPUT_TMP);
 
   const watcher = chokidar.watch(INPUT, { cwd: INPUT });
   const queue = async.queue(handle);
@@ -29,13 +31,13 @@ async function main(options, callback) {
 
   // init search index here...
 
-  queue.drain = function () {
+  queue.drain = async function () {
     if (!walked) return;
 
     if (!moved) {
-      fs.moveSync(OUTPUT, OUTPUT_BAK);
-      fs.moveSync(OUTPUT_TMP, OUTPUT);
-      fs.removeSync(OUTPUT_BAK);
+      await fs.move(OUTPUT, OUTPUT_BAK);
+      await fs.move(OUTPUT_TMP, OUTPUT);
+      await fs.remove(OUTPUT_BAK);
       moved = true;
     }
 
@@ -73,10 +75,14 @@ async function handle({ path, destination }, callback) {
     const cssFiles = fs
       .readdirSync(cssDir)
       .filter((i) => i.endsWith(".css") && i !== "complete.css");
-    const mergedCSS = cssFiles
-      .map((i) => fs.readFileSync(join(cssDir, i), "utf-8"))
-      .join("\n\n");
-    fs.outputFileSync(join(cssDir, "complete.css"), mergedCSS);
+
+    let mergedCSS = "";
+
+    for (const name of cssFiles) {
+      mergedCSS += (await fs.readFile(join(cssDir, name), "utf-8")) + "\n\n";
+    }
+
+    await fs.outputFile(join(cssDir, "complete.css"), mergedCSS);
   } else if (path.endsWith(".html")) {
     // Inlines all CSS properties
     // documentation.use(require("./tools/inline-css"));
@@ -93,17 +99,16 @@ async function handle({ path, destination }, callback) {
     output = require("./tex")(output);
     output = require("./anchor-links")(output);
     output = finder.html_parser(output);
-    
 
     // output = require("./minify-html")(output);
 
     search.add(path, output);
 
-    console.log("html", path);
     await fs.outputFile(join(destination, path), output);
   } else {
     await fs.copy(join(INPUT, path), join(destination, path));
   }
+
   callback();
 }
 
