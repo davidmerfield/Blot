@@ -17,7 +17,7 @@ settings.use(function (req, res, next) {
 });
 
 settings
-  .route("/settings")
+  .route("/")
   .post(
     trace("parsing form"),
     save.parse,
@@ -46,18 +46,13 @@ settings
     }
   );
 
-settings.get("/settings/links", load.menu);
+settings.get("/links", load.menu);
 
-settings.get(
-  "/settings/services",
-  load.plugins,
-  load.permalinkFormats,
-  load.dates
-);
+settings.get("/services", load.plugins, load.permalinkFormats, load.dates);
 
-settings.get("/settings/services/date", load.timezones, load.dates);
+settings.get("/services/date", load.timezones, load.dates);
 
-settings.get("/settings/services/permalinks", load.permalinkFormats, function (
+settings.get("/services/link-format", load.permalinkFormats, function (
   req,
   res,
   next
@@ -66,13 +61,13 @@ settings.get("/settings/services/permalinks", load.permalinkFormats, function (
   next();
 });
 
-settings.use("/settings/services/*", function (req, res, next) {
+settings.use("/services/*", function (req, res, next) {
   res.locals.breadcrumbs.add("Services", "services");
   next();
 });
 
 settings
-  .route("/settings/services/404s")
+  .route("/services/404s")
   .get(load.fourOhFour, function (req, res) {
     res.locals.breadcrumbs.add("404 log", "404s");
     res.render("settings/404s", { title: "404s" });
@@ -82,34 +77,28 @@ settings
     require("./save/404")
   );
 
-settings.get("/settings/services/redirects", load.redirects, function (
-  req,
-  res
-) {
-  res.locals.breadcrumbs.add("Redirects", "redirects");
-  res.locals.partials.subpage = "settings/redirects";
-  res.locals.edit = !!req.query.edit;
-  res.render("settings/subpage", { title: "Redirects" });
-});
+settings.get("/services/redirects", load.redirects);
 
 // Load the list of templates for this user
 
-settings.use("/settings/template", load.templates, function (req, res, next) {
+settings.use("/template", load.templates, function (req, res, next) {
   res.locals.breadcrumbs.add("Template", "template");
   next();
 });
 
-settings.use("/settings/client", require("./client"));
+settings.get("/verify-domain/:domain", require("./verify-domain"));
+
+settings.use("/client", require("./client"));
 
 settings
-  .route("/settings/template")
+  .route("/template")
   .get(function (req, res) {
     res.render("template", { title: "Template" });
   })
   .post(require("./save/template"));
 
 settings
-  .route("/settings/template/new")
+  .route("/template/new")
   .get(function (req, res) {
     res.locals.breadcrumbs.add("New", "new");
     res.render("template/new", { title: "New template" });
@@ -117,7 +106,7 @@ settings
   .post(require("./save/newTemplate"));
 
 settings
-  .route("/settings/template/archive")
+  .route("/template/archive")
   .all(load.pastTemplates)
   .get(function (req, res) {
     res.locals.breadcrumbs.add("Archive", "archive");
@@ -125,7 +114,7 @@ settings
   });
 
 settings
-  .route("/settings/template/share/:shareID")
+  .route("/template/share/:shareID")
   .all(function (req, res, next) {
     Template.getByShareID(req.params.shareID, function (err, template) {
       if (err || !template) return next(err || new Error("No template"));
@@ -141,22 +130,27 @@ settings
   .post(function (req, res, next) {
     req.body = {
       name: req.template.name,
+      redirect: res.locals.base + '/template',
       cloneFrom: req.template.id,
     };
     next();
   }, require("./save/newTemplate"));
 
-settings.get("/settings/:section/:view", function (req, res) {
+settings.get("/:section/:view", function (req, res) {
   var uppercaseName = req.params.view;
 
   uppercaseName = uppercaseName[0].toUpperCase() + uppercaseName.slice(1);
+  uppercaseName = uppercaseName.split("-").join(" ");
+
+  if (uppercaseName === "Date") uppercaseName = "Date and time";
 
   res.locals.breadcrumbs.add(uppercaseName, req.params.view);
+  res.locals.subpage = "services/" + req.params.view;
   res.locals.partials.subpage = "settings/" + req.params.view;
   res.render("settings/subpage", { host: process.env.BLOT_HOST });
 });
 
-settings.get("/settings/:view", function (req, res) {
+settings.get("/:view", function (req, res) {
   var uppercaseName = req.params.view;
 
   uppercaseName = uppercaseName[0].toUpperCase() + uppercaseName.slice(1);
@@ -165,6 +159,7 @@ settings.get("/settings/:view", function (req, res) {
     res.locals.breadcrumbs.add(uppercaseName, req.params.view);
   }
 
+  res.locals.subpage = req.params.view;
   res.locals.partials.subpage = "settings/" + req.params.view;
   res.render("settings/subpage", { host: process.env.BLOT_HOST });
 });

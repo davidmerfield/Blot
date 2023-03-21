@@ -90,7 +90,7 @@ function showBlog(blog, user, callback) {
     "." +
     config.host;
   console.log();
-  console.log(colors.dim("Found " + blog.id));
+  console.log(colors.dim("Found " + blog.id + " client=" + blog.client));
   console.log("Site:", colors.green(origin));
   showUser(user, callback);
 }

@@ -29,7 +29,7 @@ jobs:
       matrix:
         # If you ever add more node versions you need to replace current caching node_modules with caching of ~/.npm
         node-version: [16.14.0]
-        pandoc-version: [2.11.3.2]
+        pandoc-version: [3.1.1]
         redis-version: [6.2.6]
 
     environment: Tests
@@ -102,6 +102,7 @@ jobs:
       run: |
         git config --global user.email "admin@example.com"
         git config --global user.name "Admin"
-        node config/blot/setup
+        node app/setup
         node scripts/db/create-postgres-table
+        node scripts/db/add-column-tags
         npm test

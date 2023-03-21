@@ -10,6 +10,9 @@
     "body_font": {
       "font_size": 18
     },
+    "coding_font": {
+      "font_size": 16
+    },
     "navigation_font": {
       "font_size": 14
     },
@@ -35,10 +38,11 @@
         "accent_color": "Blue"
       }
     },
-    "index_layout": "full_posts",
+    "index_layout": "post_in_full",
     "index_layout_options": [
-      "just_titles",
-      "full_posts"
+      "titles",
+      "title_and_summary",
+      "post_in_full"
     ],
     "navigation_alignment": "justified",
     "navigation_alignment_options": [

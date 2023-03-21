@@ -4,6 +4,8 @@ var config = require("config");
 var compression = require("compression");
 var cache = require("express-disk-cache")(config.cache_directory);
 var Template = require("template");
+var Mustache = require("mustache");
+var fs = require("fs-extra");
 
 // This serves the content
 // of users' blogs
@@ -41,6 +43,29 @@ blog.use(function (req, res, next) {
       return next(error);
     }
 
+    if (
+      req.preview &&
+      metadata.errors &&
+      Object.keys(metadata.errors).length > 0
+    ) {
+      const template = fs.readFileSync(
+        __dirname + "/views/template-error.html",
+        "utf-8"
+      );
+
+      const errors = Object.keys(metadata.errors).map((view) => {
+        return { view, error: metadata.errors[view] };
+      });
+
+      const html = Mustache.render(template, {
+        errors,
+        name: metadata.name,
+        path: metadata.localEditing ? "Templates/" + metadata.slug + '/' : '',
+      });
+
+      return res.status(500).send(html);
+    }
+
     req.template = {
       locals: metadata.locals,
       id: req.blog.template,
@@ -59,7 +84,7 @@ require("./view")(blog);
 require("./entry")(blog);
 require("./entries")(blog);
 blog.use(require("./assets"));
-require("./public")(blog);
+require("./random")(blog);
 require("./error")(blog);
 
 module.exports = blog;

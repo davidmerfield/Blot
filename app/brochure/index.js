@@ -1,53 +1,33 @@
 const config = require("config");
 const Express = require("express");
 const brochure = new Express();
-const hbs = require("hbs");
+const hogan = require("hogan-express");
 const Cache = require("express-disk-cache");
 const cache = new Cache(config.cache_directory);
 const moment = require("moment");
 const fs = require("fs-extra");
 const redirector = require("./redirector");
 const trace = require("helper/trace");
-const VIEW_DIRECTORY = __dirname + "/views";
+const VIEW_DIRECTORY =
+  process.env.FAST === "true"
+    ? __dirname + "/views"
+    : __dirname + "/data/views";
 const PARTIAL_DIRECTORY = VIEW_DIRECTORY + "/partials";
+
+fs.ensureDirSync(VIEW_DIRECTORY);
+fs.ensureDirSync(PARTIAL_DIRECTORY);
+
 const chokidar = require("chokidar");
-
-const loadPartial = (partial) => {
-  let name = partial.slice(0, partial.indexOf("."));
-  let value = fs.readFileSync(PARTIAL_DIRECTORY + "/" + partial, "utf-8");
-  hbs.registerPartial(name, value);
-};
-
-fs.readdirSync(PARTIAL_DIRECTORY).forEach(loadPartial);
-
-// One-liner for current directory
-if (config.environment === "development")
-  chokidar
-    .watch(PARTIAL_DIRECTORY, { cwd: PARTIAL_DIRECTORY })
-    .on("all", (event, partial) => {
-      if (partial) loadPartial(partial);
-    });
-
-// Renders dates dynamically in the documentation.
-// Can be used like so: {{{date 'MM/YYYY'}}}
-hbs.registerHelper("date", function (text) {
-  try {
-    text = text.trim();
-    text = moment.utc(Date.now()).format(text);
-  } catch (e) {
-    text = "";
-  }
-
-  return text;
-});
 
 // Neccessary to repeat to set the correct IP for the
 // rate-limiter, because this app sits behind nginx
 brochure.set("trust proxy", "loopback");
 
-brochure.set("views", VIEW_DIRECTORY);
+// Register the engine we will use to
+// render the views.
 brochure.set("view engine", "html");
-brochure.engine("html", hbs.__express);
+brochure.set("views", VIEW_DIRECTORY);
+brochure.engine("html", hogan);
 
 if (config.cache === false) {
   // During development we want views to reload as we edit
@@ -69,6 +49,59 @@ brochure.locals.cacheID = Date.now();
 brochure.locals.price = "$" + config.stripe.plan.split("_").pop();
 brochure.locals.interval =
   config.stripe.plan.indexOf("monthly") === 0 ? "month" : "year";
+
+function trimLeadingAndTrailingSlash(str) {
+  if (!str) return str;
+  if (str[0] === "/") str = str.slice(1);
+  if (str[str.length - 1] === "/") str = str.slice(0, -1);
+  return str;
+}
+
+brochure.use(function (req, res, next) {
+  const _render = res.render;
+  res.render = function (body_template) {
+    const body =
+      body_template || trimLeadingAndTrailingSlash(req.path) || "index.html";
+    const layout = res.locals.layout || PARTIAL_DIRECTORY + "/layout.html";
+
+    res.locals.partials = { body };
+
+    const partials = require("fs-extra")
+      .readdirSync(PARTIAL_DIRECTORY)
+      .filter((i) => i.endsWith(".html"))
+      .map((i) => i.slice(0, i.lastIndexOf(".")));
+
+    partials.forEach(
+      (partial) => (res.locals.partials[partial] = `partials/${partial}.html`)
+    );
+
+    _render.call(this, layout, function (err, html) {
+      if (err) {
+        console.log("Render error:", err);
+        return res.req.next();
+      }
+      res.send(html);
+    });
+  };
+  next();
+});
+
+// Renders dates dynamically in the documentation.
+// Can be used like so: {{#date}}MM/YYYY{{/date}}
+brochure.use(function (req, res, next) {
+  res.locals.date = function () {
+    return function (text, render) {
+      try {
+        text = text.trim();
+        text = moment.utc(Date.now()).format(text);
+      } catch (e) {
+        text = "";
+      }
+      return text;
+    };
+  };
+  next();
+});
 
 brochure.use(function (req, res, next) {
   if (
@@ -104,7 +137,7 @@ brochure.use(trace("before routes"));
 brochure.use(require("./routes"));
 
 // Redirect user to dashboard for these links
-brochure.use(["/account", "/settings"], function (req, res) {
+brochure.use(["/account", "/settings", "/dashboard"], function (req, res) {
   let from;
 
   try {

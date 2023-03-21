@@ -1,34 +1,47 @@
-<h1 >{{topic.title}}</h1>
+  {{#topic}}
+<h1 >{{title}}</h1>
 
 <div class="qa-item-container">
-  {{{topic.body}}}
-  <p class="secondary-text smaller">{{topics.length}} {{#singular}}reply{{/singular}}{{^singular}}replies{{/singular}}
+  {{{body}}}
+    <div style="display: flex;margin-bottom: 16px">
 
-      <span  style="float: right;">Asked {{formatDaytime topic.created_at}} · <a class="secondary-text smaller" href="/questions/{{topic.id}}/edit">Improve this question</a></span>
-</p>
+    <div>
+    {{#tags}}
+      <a href="/questions/tagged/{{slug}}" class="secondary-text smaller" style="color:var(--accent-color);padding:4px 6px;border-radius: 4px;background: #eaf4ff;margin-right: 8px;">
+        {{tag}}
+      </a>
+    {{/tags}}
+    </div>
+    <div style="flex-grow: 1"></div>
+    <a href="/questions/{{id}}/edit">
+
+  <span class="secondary-text smaller" >Asked {{asked}} &#8226; </span> 
+    <span class="secondary-text smaller" >Improve this question</span>
+
+  </a>
+  </div>
 </div>
+
+  <span class="secondary-text smaller">{{reply_count}} {{#singular}}reply{{/singular}}{{^singular}}replies{{/singular}}</span>
+
+{{/topic}}
 
 
 <div class="reply-container">
-{{#if topics}}
+{{#topics.length}}
 {{#topics}}
 <div class="qa-item-container">
     {{{body}}}
-    <span class="secondary-text smaller">Answered {{formatDaytime created_at}} ·</span> 
+    <span class="secondary-text smaller">Answered {{answered}} · </span> 
     <a class="secondary-text smaller" href="/questions/{{id}}/edit">Improve this answer</a>
 </div>
 {{/topics}}
-{{/if}}
+{{/topics.length}}
 
-{{#unless topics}}
+{{^topics.length}}
 <h2>No replies yet</h2>
-{{/unless}}
+{{/topics.length}}
 
-{{#unless user}}
-<p>Please, <a href="/log-in">log in</a> to add a reply.</p>
-{{/unless}}
-
-{{#if user}}
 <br>
 <div style="max-width: 637px;">
 <form method="POST" action="/questions/{{topic.id}}/new" id="new-reply-form" class="qa-form">
@@ -58,5 +71,4 @@
   updateQuestionButtonState();
   bodyEl.addEventListener('keyup', updateQuestionButtonState);
 </script>
-{{/if}}
 </div>

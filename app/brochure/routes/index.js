@@ -1,7 +1,5 @@
 var Express = require("express");
 var brochure = new Express.Router();
-var finder = require("finder");
-var tex = require("./tools/tex");
 var config = require("config");
 var titleFromSlug = require("helper/titleFromSlug");
 var trace = require("helper/trace");
@@ -9,11 +7,14 @@ var TITLES = {
   "how": "How to use Blot",
   "terms": "Terms of use",
   "privacy": "Privacy policy",
+  "sync": "Sync your folder",
+  "configure": "Configure your site",
   "google-drive": "Google Drive",
+  "markdown": "Text and Markdown",
   "word-documents": "Word Documents",
   "html": "HTML",
   "how-blot-works": "How Blot works",
-  "ask": "Ask",
+  "ask": "Ask a question",
   "urls": "URL format",
   "hard-stop-start-ec2-instance": "How to stop and start an EC2 instance",
   "who": "Who uses Blot?",
@@ -24,28 +25,44 @@ var TITLES = {
 
 brochure.use(trace("inside routes sub app"));
 
-if (config.cache) {
-  // Minifies HTML
-  brochure.use(require("./tools/minify-html"));
-
-  // Inlines all CSS properties
-  brochure.use(require("./tools/inline-css"));
-}
-
 brochure.get(["/how/format/*"], function (req, res, next) {
   res.locals["show-on-this-page"] = true;
   next();
 });
 
+brochure.use(require("./questions/related"));
+
+brochure.get(["/contact"], (req, res, next) => {
+  res.locals.fullWidth = true;
+  next();
+});
+
+brochure.get(
+  ["/about", "/how/configure", "/templates", "/questions"],
+  (req, res, next) => {
+    res.locals["hide-on-this-page"] = true;
+    next();
+  }
+);
+
+// Adds a handy 'edit this page' link
+brochure.use(
+  ["/how", "/templates", "/about"],
+  require("./tools/determine-source")
+);
+
 brochure.use(function (req, res, next) {
-  res.locals.breadcrumbs = req.url.split("/").map(function (slug, i, arr) {
-    if (!slug) return { label: "Blot", first: true, url: "/" };
-    return {
-      label: TITLES[slug] || titleFromSlug(slug),
-      url: arr.slice(0, i + 1).join("/"),
-      last: i === arr.length - 1,
-    };
-  });
+  res.locals.breadcrumbs = require("url")
+    .parse(req.url)
+    .pathname.split("/")
+    .map(function (slug, i, arr) {
+      if (!slug) return { label: "Blot", first: true, url: "/" };
+      return {
+        label: TITLES[slug] || titleFromSlug(slug),
+        url: arr.slice(0, i + 1).join("/"),
+        last: i === arr.length - 1,
+      };
+    });
 
   if (req.url === "/") {
     res.locals.breadcrumbs = res.locals.breadcrumbs.slice(0, 1);
@@ -56,19 +73,6 @@ brochure.use(function (req, res, next) {
 
   next();
 });
-
-// Renders the folders and text editors
-brochure.use(finder.middleware);
-
-// Renders TeX
-brochure.use(tex);
-
-// Fixes basic typographic errors
-// See typeset.js for more information
-brochure.use(require("./tools/typeset"));
-
-// Generate a table of contents for each page
-brochure.use(require("./tools/on-this-page"));
 
 brochure.use(function (req, res, next) {
   res.locals.base = "";
@@ -148,7 +152,7 @@ brochure.use("/how/configure/domain", function (req, res, next) {
 brochure.use(trace("calling render"));
 
 brochure.use(function (req, res) {
-  res.render(trimLeadingAndTrailingSlash(req.path));
+  res.render();
 });
 
 brochure.use(function (err, req, res, next) {
@@ -157,12 +161,5 @@ brochure.use(function (err, req, res, next) {
 
   next(err);
 });
-
-function trimLeadingAndTrailingSlash(str) {
-  if (!str) return str;
-  if (str[0] === "/") str = str.slice(1);
-  if (str[str.length - 1] === "/") str = str.slice(0, -1);
-  return str;
-}
 
 module.exports = brochure;

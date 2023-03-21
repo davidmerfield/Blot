@@ -21,10 +21,10 @@ module.exports = function get(identifier, callback) {
   try {
     // Map 'preview.default.foo.blot.im' -> 'foo.blot.im'
     if (parseUrl(identifier).host.indexOf("preview.") === 0)
-      domain = parseUrl(identifier).host.split(".").slice(-3).join(".");
-    else domain = parseUrl(identifier).host;
+      domain = parseUrl(identifier.toLowerCase()).host.split(".").slice(-3).join(".");
+    else domain = parseUrl(identifier.toLowerCase()).host;
   } catch (e) {
-    domain = identifier;
+    domain = identifier.toLowerCase();
   }
 
   Blog.get({ id: identifier }, function (err, blogFromID) {

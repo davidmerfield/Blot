@@ -1,7 +1,6 @@
 var debug = require("debug")("blot:build:prepare");
 var _ = require("lodash");
 var falsy = require("helper/falsy");
-var time = require("helper/time");
 var cheerio = require("cheerio");
 
 var decode = require("he").decode;
@@ -97,7 +96,7 @@ function Prepare(entry) {
   debug(entry.path, "Generating internal links");
   entry.internalLinks = internalLinks($);
   debug(entry.path, "Generated internal links");
-  
+
   debug(entry.path, "Generating teasers");
   entry.teaser = Teaser(entry.html) || entry.html;
   entry.teaserBody = Teaser(entry.body) || entry.body;
@@ -202,8 +201,8 @@ function truthy(str) {
 
 function isPage(path) {
   return (
-    pathNormalizer(path).indexOf("/page/") > -1 ||
-    pathNormalizer(path).indexOf("/pages/") > -1
+    pathNormalizer(path).toLowerCase().startsWith("/page/") ||
+    pathNormalizer(path).toLowerCase().startsWith("/pages/")
   );
 }
 

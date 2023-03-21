@@ -123,14 +123,21 @@ module.exports = function set(blogID, path, updates, callback) {
             previousPermalink,
             function (err, changes) {
               if (err) return callback(err);
+
+              if (changes.length)
+                console.log(
+                  clfdate(),
+                  blogID.slice(0, 12),
+                  "updating backlinks:",
+                  path
+                );
               async.eachOf(
                 changes,
                 function (backlinks, linkedEntryPath, next) {
                   console.log(
                     clfdate(),
-                    blogID,
-                    path,
-                    "updating backlinks list of linked entry",
+                    blogID.slice(0, 12),
+                    "    - linked entry:",
                     linkedEntryPath
                   );
                   set(blogID, linkedEntryPath, { backlinks }, next);
@@ -138,9 +145,19 @@ module.exports = function set(blogID, path, updates, callback) {
                 function (err) {
                   if (err) return callback(err);
                   if (entry.deleted) {
-                    console.log(clfdate(), blogID, path, "deleted");
+                    console.log(
+                      clfdate(),
+                      blogID.slice(0, 12),
+                      "delete",
+                      path
+                    );
                   } else {
-                    console.log(clfdate(), blogID, path, "updated");
+                    console.log(
+                      clfdate(),
+                      blogID.slice(0, 12),
+                      "update",
+                      path
+                    );
                   }
                   callback();
                 }

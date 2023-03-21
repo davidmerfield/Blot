@@ -1,43 +1,42 @@
-<h1>Ask question</h1>
-
-{{#unless user}}
-<p>Please, <a href="/log-in">log in</a> to ask a new question.</p>
-{{/unless}}
-
-
-{{#if user}}
-<div style="max-width: 637px;">
-  <form method="POST" action="/questions/ask" id="new-question-form" class="qa-form">
+<h1>Ask a question</h1>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@devhau/md-editor@1.0.4/dist/md-editor.min.css">
+  
+  <form method="POST" action="/questions/ask" id="new-question-form" class="qa-form" style="width: 100%;">
     <input type="hidden" name="_csrf" value="{{csrf}}" />
     <div>
-      <input type="text" name="title" id="title" placeholder="Title..."></input>
+      <label><strong>Title</strong></label>
+      <input type="text" required name="title" id="title" placeholder="e.g. What text-editors do you recommend for writing Markdown?"></input>
+    </div>
+    <br>
+    <div>
+      <label><strong>Body</strong></label>
+      <textarea type="text" name="body" id="body"  placeholder="Include any information needed to answer your question"></textarea>
     </div>
     <div>
-      <textarea type="text" name="body" id="body" placeholder="Question..."></textarea>
-    </div>
-    <div class="qa-form-actionarea">
-      <button class="whitebutton" id="post-question-button">Post question</button>
-      <span class="secondary-text">Markdown allowed</span>
-    </div>
+            <script src="/js/tagify.js"></script>
+            <link href="/css/tagify.css" rel="stylesheet" type="text/css" />
+
+
+<style type="text/css">
+  .editor-toolbar:after, .editor-toolbar:before {margin:0;}
+  .CodeMirror .CodeMirror-placeholder{
+    opacity: 0.3333
+  }
+.editor-toolbar {border-radius: 0}
+.editor-toolbar{padding:0;}
+  .editor-statusbar {visibility: hidden;}
+.CodeMirror {
+      box-shadow: inset 0 1px 2px 0 rgb(0 0 0 / 8%);
+}
+
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@devhau/md-editor@1.0.4/dist/md-editor.min.js"></script>
+<script>
+var editor = new mdEditor({ element: document.getElementById("body") });
+</script>
+
+<input type="submit" value="Ask your question">     
 
   </form>
 </div>
 
-<script>
-  var buttonEl = document.getElementById('post-question-button');
-  var titleEl = document.getElementById('title');
-  var bodyEl = document.getElementById('body');
-
-  function updateQuestionButtonState() {
-    if (titleEl.value.trim() === '' || bodyEl.value.trim() === '') {
-      buttonEl.setAttribute('disabled', '');
-    } else {
-      buttonEl.removeAttribute('disabled');
-    }
-  }
-
-  updateQuestionButtonState();
-  titleEl.addEventListener('keyup', updateQuestionButtonState);
-  bodyEl.addEventListener('keyup', updateQuestionButtonState);
-</script>
-{{/if}}

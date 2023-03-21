@@ -198,7 +198,7 @@ function loadPlugins(dir) {
     if (name.slice(-3) === ".js") return;
     if (name.slice(-4) === ".txt") return;
     if (name === "tests") return;
-    
+
     var plugin = require("./" + name);
 
     if (plugin.disabled) return;

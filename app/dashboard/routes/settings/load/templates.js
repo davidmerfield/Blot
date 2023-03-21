@@ -30,7 +30,12 @@ module.exports = function (req, res, next) {
 
       var mySubDomain = template.isMine ? "my-" : "";
 
-      template.editURL = "/template-editor/" + template.slug + "/settings";
+      template.editURL =
+        "/dashboard/" +
+        blog.handle +
+        "/template/edit/" +
+        template.slug +
+        "/settings";
 
       template.previewURL =
         previewHost +

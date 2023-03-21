@@ -66,16 +66,20 @@ notes.get("/:section", function (req, res, next) {
   next();
 });
 
+// Hack to allow us to place some articles higher than
+// others. This map allows us to retrieve 
+// notes/business/-principles.txt from disk correctly
+const SORTING_MAP = {
+  principles: "-principles",
+  technique: "-technique",
+};
+
 notes.get("/:section/:article", function (req, res, next) {
   try {
+    let article = SORTING_MAP[req.params.article] || req.params.article;
     res.locals.body = marked(
       fs.readFileSync(
-        NOTES_DIRECTORY +
-          "/" +
-          req.params.section +
-          "/" +
-          req.params.article +
-          ".txt",
+        NOTES_DIRECTORY + "/" + req.params.section + "/" + article + ".txt",
         "utf-8"
       )
     );
@@ -87,6 +91,6 @@ notes.get(["/", "/:section/:article", "/:section"], function (req, res, next) {
   // For some reason we couldn't find the file
   if (!res.locals.body) return next();
 
-  res.render("about/notes/layout");
+  res.render("about/notes/template");
 });
 module.exports = notes;

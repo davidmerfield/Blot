@@ -75,11 +75,19 @@ Blot.use(vhost(config.host, cdn));
 // served by these two applications. The dashboard can
 // only ever be served for request to the host
 Blot.use(vhost(config.host, dashboard));
-// We only really need the public client routes on
-// the webhook host, and those are unauthenticated
-// so TODO seperate the routes from the dashboard
-if (config.webhook_forwarding_host) {
-  Blot.use(vhost(config.webhook_forwarding_host, dashboard));
+
+// The Webhook forwarder
+// -------------
+// Forwards webhooks to development environment
+const webhooks = require("./clients/webhooks");
+
+if (config.webhooks.server_host) {
+  console.log(clfdate(), "Webhooks relay on", config.webhooks.server_host);
+  Blot.use(vhost(config.webhooks.server_host, webhooks.server));
+}
+
+if (config.environment === "development" && config.webhooks.relay_host) {
+  webhooks.client({ host: config.webhooks.relay_host });
 }
 
 // The Brochure

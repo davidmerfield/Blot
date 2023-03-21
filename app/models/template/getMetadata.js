@@ -14,7 +14,7 @@ module.exports = function getMetadata(id, callback) {
       err.code = "ENOENT";
       return callback(err, null);
     }
-
+    
     callback(null, metadata);
   });
 };

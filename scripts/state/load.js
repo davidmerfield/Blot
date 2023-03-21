@@ -14,18 +14,35 @@ var ACTIVE_DATABASE_DUMP = ROOT + "/db/dump.rdb";
 
 if (!ROOT) throw new Error("Please set environment variable BLOT_DIRECTORY");
 
-function main(label, callback) {
+async function main(label, callback) {
   var directory = __dirname + "/data/" + label;
+
+  console.log(directory, "exists?", fs.existsSync(directory));
+  console.log(directory, "contents", fs.readdirSync(__dirname + "/data"));
 
   if (!fs.existsSync(directory))
     return callback(new Error("No state " + label));
 
-  cp.execSync(
-    "pg_ctl -s -l logs/post.log  stop -D " + DATA_DIRECTORY + "/db/postgres",
-    {
-      stdio: "inherit",
+  if (!fs.existsSync(DATA_DIRECTORY + "/db/postgres")) {
+    fs.ensureDirSync(DATA_DIRECTORY + "/db/postgres");
+    cp.execSync("initdb -D " + DATA_DIRECTORY + "/db/postgres");
+  }
+
+  try {
+    await cp.exec(
+      "pg_ctl -s -l logs/post.log  stop -D " + DATA_DIRECTORY + "/db/postgres",
+      {
+        stdio: "inherit",
+      }
+    );
+  } catch (e) {
+    console.log("here!", e.message);
+    if (e.message.includes("Is server running?")) {
+      console.log("postgres not running right now.");
+    } else {
+      throw e;
     }
-  );
+  }
 
   loadDB(directory, function (err) {
     if (err) return callback(err);
@@ -33,6 +50,10 @@ function main(label, callback) {
     fs.emptyDirSync(DATA_DIRECTORY);
     fs.ensureDirSync(directory + "/data");
     fs.copySync(directory + "/data", DATA_DIRECTORY);
+
+    if (!fs.existsSync(DATA_DIRECTORY + "/db/postgres")) {
+      cp.execSync("initdb -D " + DATA_DIRECTORY + "/db/postgres");
+    }
 
     // Why stdio: inherit?
     // https://github.com/shelljs/shelljs/issues/770#issuecomment-329357465

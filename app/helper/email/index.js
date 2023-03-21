@@ -1,14 +1,14 @@
-var fs = require("fs-extra");
-var async = require("async");
-var config = require("config");
-var ensure = require("../ensure");
-var extend = require("../extend");
-var tempDir = require("../tempDir")();
-var Mustache = require("mustache");
-var marked = require("marked");
-
-var Mailgun = require("mailgun-js");
-var mailgun;
+const fs = require("fs-extra");
+const async = require("async");
+const config = require("config");
+const ensure = require("helper/ensure");
+const extend = require("helper/extend");
+const tempDir = require("helper/tempDir")();
+const Mustache = require("mustache");
+const marked = require("marked");
+const clfdate = require("helper/clfdate");
+const Mailgun = require("mailgun-js");
+let mailgun;
 
 if (config && config.mailgun && config.mailgun.key) {
   mailgun = new Mailgun({
@@ -137,7 +137,7 @@ function send(locals, messageFile, to, callback) {
     .and(callback, "function");
 
   fs.readFile(messageFile, "utf-8", function (err, text) {
-    if (err) throw err;
+    if (err) return callback(err);
 
     var lines = text.split("\n");
     var subject = Mustache.render(lines[0] || "", locals);
@@ -152,24 +152,35 @@ function send(locals, messageFile, to, callback) {
       to: to,
     };
 
-    ensure(email, EMAIL_MODEL);
+    try {
+      ensure(email, EMAIL_MODEL);
+    } catch (e) {
+      return callback(e);
+    }
 
     if (config.environment === "development") {
       var previewPath = tempDir + Date.now() + ".html";
       fs.outputFileSync(previewPath, email.html, "utf-8");
-      console.log("Email not sent in development environment:", email);
-      console.log("Preview:", previewPath);
+      console.log(clfdate(), "Email: unsent in development environment:", {
+        ...email,
+        preview: previewPath,
+      });
       return callback();
     }
 
     mailgun.messages().send(email, function (err, body) {
       if (err) {
-        console.log("Error: Mailgun failed to send transactional email:", err);
+        console.log(
+          clfdate(),
+          "Email: error: Mailgun failed to send transactional email:",
+          err
+        );
         return callback(err);
       }
 
       console.log(
-        "Sent to",
+        clfdate(),
+        "Email: sent to",
         email.to,
         '"' + email.subject + '"',
         "(" + body.id + ")"

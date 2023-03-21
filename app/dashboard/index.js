@@ -2,12 +2,9 @@ var bodyParser = require("body-parser");
 var hogan = require("hogan-express");
 var express = require("express");
 var trace = require("helper/trace");
-var Blog = require("blog");
-var User = require("user");
-var async = require("async");
 var VIEW_DIRECTORY = __dirname + "/views";
 var config = require("config");
-var prettyPrice = require("helper/prettyPrice");
+const cookieParser = require("cookie-parser");
 
 // This is the express application used by a
 // customer to control the settings and view
@@ -53,10 +50,8 @@ if (config.environment !== "development") {
 // the assets into a single file
 dashboard.locals.cacheID = Date.now();
 
-// Special function which wraps redirect
-// so I can pass messages between views cleanly
+// These routes should be accessible to the public
 dashboard.use("/clients", require("./routes/clients"));
-
 dashboard.use("/stripe-webhook", require("./routes/stripe_webhook"));
 
 /// EVERYTHING AFTER THIS NEEDS TO BE AUTHENTICATED
@@ -67,8 +62,9 @@ dashboard.use(function (req, res, next) {
     return next();
   }
 
-  return next(new Error("NOUSER"));
+  next(new Error("NOUSER"));
 });
+
 dashboard.use(trace("loaded session information"));
 
 dashboard.use(require("./message"));
@@ -79,153 +75,32 @@ dashboard.use(require("./message"));
 dashboard.use(require("./csrf"));
 
 dashboard.use(trace("loading user"));
-
-// Load properties as needed
-// these should not be invoked for requests to static files
-dashboard.use(function (req, res, next) {
-  if (!req.session || !req.session.uid) return next();
-
-  var uid = req.session.uid;
-
-  User.getById(uid, function (err, user) {
-    if (err) return next(err);
-
-    if (!user) {
-      req.user = null;
-      req.session.uid = null;
-      return next();
-    }
-
-    // Lets append the user and
-    // set the partials to 'logged in mode'
-    req.user = User.extend(user);
-    res.locals.user = user;
-
-    if (user.subscription && user.subscription.plan) {
-      res.locals.price = prettyPrice(user.subscription.plan.amount);
-      res.locals.interval = user.subscription.plan.interval;
-    }
-
-    next();
-  });
-});
-
+dashboard.use(require("./load-user"));
 dashboard.use(trace("loaded user"));
-dashboard.use(trace("loading blogs"));
 
-dashboard.use(function (req, res, next) {
-  if (!req.session || !req.user || !req.user.blogs.length) return next();
-
-  var blogs = [];
-  var activeBlog = null;
-
-  async.each(
-    req.user.blogs,
-    function (blogID, nextBlog) {
-      Blog.get({ id: blogID }, function (err, blog) {
-        if (!blog) return nextBlog();
-
-        try {
-          blog = Blog.extend(blog);
-        } catch (e) {
-          return next(e);
-        }
-
-        if (req.session.blogID === blog.id) {
-          blog.isCurrent = true;
-          blog.updated = require("moment")(blog.cacheID).fromNow();
-          activeBlog = blog;
-        }
-
-        blogs.push(blog);
-        nextBlog();
-      });
-    },
-    function () {
-      if (!activeBlog && !req.session.blogID) {
-        activeBlog = blogs.slice().pop();
-      }
-
-      // The blog active in the users session
-      // no longer exists, redirect them to one
-      if (!activeBlog && req.session.blogID) {
-        var candidates = blogs.slice();
-
-        candidates = candidates.filter(function (id) {
-          return id !== req.session.blogID;
-        });
-
-        if (candidates.length > 0) {
-          activeBlog = candidates.pop();
-          req.session.blogID = activeBlog.id;
-          User.set(
-            req.user.uid,
-            { lastSession: activeBlog.id },
-            function () {}
-          );
-        } else {
-          req.session.blogID = null;
-          User.set(req.user.uid, { lastSession: "" }, function () {});
-          console.log("THERES NOTHING HERE");
-        }
-      }
-
-      if (!activeBlog) return next(new Error("No blog"));
-
-      req.blog = activeBlog;
-      req.blogs = blogs;
-
-      res.locals.blog = activeBlog;
-      res.locals.blogs = blogs;
-
-      return next();
-    }
-  );
-});
-
-dashboard.use(trace("loaded blogs"));
-
-dashboard.use(trace("checking redirects"));
+dashboard.use(trace("loading blog"));
+dashboard.param("handle", require("./load-blog"));
+dashboard.use(trace("loaded blog"));
 
 // Performs some basic checks about the
 // state of the user's blog, user's subscription
 // and shuttles the user around as needed
+dashboard.use(trace("checking redirects"));
 dashboard.use(require("./redirector"));
-
 dashboard.use(trace("checked redirects"));
 
 // Send user's avatar
-dashboard.use("/_avatars/:avatar", function (req, res, next) {
-  var blogID;
+dashboard.use("/_avatars/:avatar", require("./routes/avatar"));
 
-  if (req.query.handle) {
-    blogID = req.blogs
-      .filter(function (blog) {
-        return blog.handle === req.query.handle;
-      })
-      .map(function (blog) {
-        return blog.id;
-      });
-  } else {
-    blogID = req.blog.id;
-  }
-
-  res.sendFile(
-    config.blog_static_files_dir +
-      "/" +
-      blogID +
-      "/_avatars/" +
-      req.params.avatar,
-    function (err) {
-      if (err) return next();
-      // sent successfully
-    }
-  );
-});
+// We need to be able to send CSS files through the
+// template editor and they sometimes include base64 stuff.
+const MAX_POST_REQUEST_SIZE = "5mb";
 
 dashboard.post(
   [
-    "/settings/template*",
+    "/dashboard/:handle/template*",
+    "/dashboard/:handle/client",
+    "/dashboard/:handle/client/switch",
     "/path",
     "/folder*",
     "/settings/client*",
@@ -233,25 +108,17 @@ dashboard.post(
     "/404s",
     "/account*",
   ],
-  bodyParser.urlencoded({ extended: false })
+  bodyParser.urlencoded({ extended: false, limit: MAX_POST_REQUEST_SIZE })
 );
 
 // Account page does not need to know about the state of the folder
 // for a particular blog
-
-dashboard.use(function (req, res, next) {
-  res.locals.partials = res.locals.partials || {};
-  // res.locals.partials.head = __dirname + "/views/partials/head";
-  // res.locals.partials.dropdown = __dirname + "/views/partials/dropdown";
-  // res.locals.partials.footer = __dirname + "/views/partials/footer";
-  next();
-});
-
 dashboard.use(function (req, res, next) {
   res.locals.links_for_footer = [];
+  res.locals.partials = res.locals.partials || {};
 
   res.locals.footer = function () {
-    return function (text, render) {
+    return function (text) {
       res.locals.links_for_footer.push({ html: text });
       return "";
     };
@@ -260,79 +127,76 @@ dashboard.use(function (req, res, next) {
   next();
 });
 
-// dashboard.use('/documentation', require("../site/documentation"));
+dashboard.use(require("./breadcrumbs"));
 
-// Use this before modifying the render function
-// since it doesn't use the layout for the rest of the dashboard
-dashboard.use("/template-editor", require("./routes/template-editor"));
-
-// Will deliver the sync status of the blog as SSEs
-dashboard.use("/status", require("./routes/status"));
-
-// Special function which wraps render
-// so there is a default layout and a partial
-// inserted into it
-dashboard.use(require("./render"));
-
-dashboard.use(function (req, res, next) {
-  res.locals.breadcrumbs = new Breadcrumbs();
-  next();
-});
-
-dashboard.use("/account", require("./routes/account"));
-
-dashboard.use(function (req, res, next) {
-  res.locals.breadcrumbs.add("Your blogs", "/");
-  next();
-});
-
-dashboard.get("/", function (req, res, next) {
-  res.locals.title = "Your blogs";
-  res.render("index");
-});
-
-dashboard.use(function (req, res, next) {
+dashboard.use("/dashboard/:handle", function (req, res, next) {
   // we use pretty.label instead of title for title-less blogs
   // this falls back to the domain of the blog if no title exists
-  res.locals.breadcrumbs.add(req.blog.pretty.label, "/settings");
+  res.locals.base = `/dashboard/${req.params.handle}`;
+  res.locals.breadcrumbs.add("Your blogs", "/dashboard");
+  res.locals.breadcrumbs.add(req.blog.pretty.label, `${req.params.handle}`);
   res.locals.title = req.blog.pretty.label;
   next();
 });
 
-// Load the files and folders inside a blog's folder
-dashboard.use("/settings/folder", require("./routes/folder"));
+// Use this before modifying the render function
+// since it doesn't use the layout for the rest of the dashboard
+dashboard.use(
+  "/dashboard/:handle/template/edit",
+  require("./routes/template-editor")
+);
 
-dashboard.use("/settings/folder", function (req, res, next) {
-  res.render("folder", { selected: { folder: "selected" } });
+// Will deliver the sync status of the blog as SSEs
+dashboard.use("/dashboard/:handle/status", require("./routes/status"));
+
+// Special function which wraps render
+// so there is a default layout and a partial
+dashboard.use(require("./render"));
+
+dashboard.use("/account", require("./routes/account"));
+
+dashboard.get("/dashboard", require("./load-blogs"), function (req, res, next) {
+  res.locals.title = "Your blogs";
+  res.locals.breadcrumbs.add("Your blogs", "/dashboard");
+  res.render("index");
 });
 
-function Breadcrumbs() {
-  var list = [];
+// Load the files and folders inside a blog's folder
+dashboard.get(
+  "/dashboard/:handle/folder/:path(*)",
 
-  list.add = function (label, slug) {
-    var base = "/";
+  function (req, res, next) {
+    req.folderPath = "/" + req.params.path;
+    next();
+  },
 
-    if (list.length) base = list[list.length - 1].url;
+  require("./routes/folder"),
 
-    list.push({ label: label, url: require("path").join(base, slug) });
+  function (req, res) {
+    res.render("folder", { selected: { folder: "selected" } });
+  }
+);
 
-    for (var i = 0; i < list.length; i++) {
-      list[i].first = i === 0;
-      list[i].last = i === list.length - 1;
-      list[i].only = i === 0 && list.length === 1;
-    }
-  };
+dashboard.get("/dashboard/:handle", require("./routes/folder"));
+dashboard.use("/dashboard/:handle/services/import", require("./routes/import"));
+dashboard.use("/dashboard/:handle", require("./routes/settings"));
 
-  return list;
-}
+// Redirect old URLS
+dashboard.use("/settings", require("./load-blogs"), function (req, res, next) {
+  try {
+    const redirect = `/dashboard/${req.blogs[0].handle}${req.path}`;
+    res.redirect(redirect);
+  } catch (e) {
+    next();
+  }
+});
 
-require("./routes/tools")(dashboard);
-
-dashboard.use(require("./routes/settings"));
-
-dashboard.use(require("./routes/settings/errorHandler"));
+// This will catch old links to the dashboard before
+// we encoded the blog's username in the URLs
+dashboard.use(require("./redirect-to-other-blog"));
 
 // need to handle dashboard errors better...
+dashboard.use(require("./routes/settings/errorHandler"));
 dashboard.use(require("./routes/error"));
 
 // Restore render function, remove this dumb bullshit eventually

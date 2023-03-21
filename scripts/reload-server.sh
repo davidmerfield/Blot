@@ -11,6 +11,14 @@ fi
 pid=$(cat $BLOT_DIRECTORY/data/process.pid)
 logfile=$BLOT_DIRECTORY/logs/app.log
 
+echo "Re-installing dependencies"
+npm ci
+echo "Re-installed dependencies"
+
+echo "Setting up server"
+node $BLOT_DIRECTORY/app/setup.js
+echo "Set up server"
+
 kill -s USR2 $pid
 echo "Waiting for 'Replaced all workers' to appear in logs/app.log"
 tail -f $logfile | sed '/Replaced all workers/ q'

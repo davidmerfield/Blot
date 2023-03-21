@@ -18,9 +18,11 @@ developers.get(["/reference"], function (req, res, next) {
     )
   );
 
+  console.log(res.locals.docs);
+  
   // Render the descriptions as markdown
   res.locals.docs.forEach((section) => {
-    section.properties.forEach((property) => {
+    section.keys.forEach((property) => {
       const { description, properties } = property;
 
       if (description) {
@@ -54,16 +56,6 @@ developers.get(["/reference"], function (req, res, next) {
 developers.get("/", function (req, res) {
   res.locals.title = "Developer guide";
   res.render("templates/developers");
-});
-
-developers.get("/:section", function (req, res) {
-  res.render("templates/developers/" + req.params.section);
-});
-
-developers.get("/:section/:subsection", function (req, res) {
-  res.render(
-    "templates/developers/" + req.params.section + "/" + req.params.subsection
-  );
 });
 
 module.exports = developers;

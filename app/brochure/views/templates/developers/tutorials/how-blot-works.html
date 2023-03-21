@@ -1,3 +1,5 @@
+{{=[[ ]]=}}
+
 <h1>How Blot works</h1>
 
 <p>In essence, Blot is a static file server. It serves your folder to your readers. When a request from one of your readers arrives at your blog, Blot follows these steps to work out what to send in response.</p>
@@ -30,11 +32,11 @@ Consider this example template, which produces a list of all of the posts on you
 
 <pre class="code html"><code>
   <html>
-  <title>\{{title}}</title>
+  <title>{{title}}</title>
   <body>
-    \{{#all_posts}}
-    <a href="{{{url}}}">\{{title}}</a><br>
-    \{{/all_posts}}
+    {{#all_posts}}
+    <a href="{{{url}}}">{{title}}</a><br>
+    {{/all_posts}}
   </body>
   </html>
 </code></pre>
@@ -71,3 +73,5 @@ Consider this example template, which produces a list of all of the posts on you
 
 <h2>Using static files in your templates</h2>
 <p>Remember that your blog's folder behaves like a static file server. This makes it possible to share assets between your templates.</p>
+
+[[={{ }}=]]

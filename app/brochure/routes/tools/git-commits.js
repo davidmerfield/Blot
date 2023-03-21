@@ -12,16 +12,17 @@ const bannedWordsRegEx = new RegExp(bannedWords.join("|"), "i");
 
 // Adjust the tense of verbs in commit message
 const commitMessageMap = {
-  Adds: "Added",
-  Cleans: "Cleaned",
-  Changes: "Changed",
-  Fixes: "Fixed",
-  Finishes: "Finished",
-  Improves: "Improved",
-  Modifies: "Modified",
-  Removes: "Removed",
-  Tweaks: "Tweaked",
-  Updates: "Updated",
+  "Adds": "Added",
+  "Cleans": "Cleaned",
+  "Changes": "Changed",
+  "Fixes": "Fixed",
+  "Finishes": "Finished",
+  "Improves": "Improved",
+  "Modifies": "Modified",
+  "Removes": "Removed",
+  "Tweaks": "Tweaked",
+  "Updates to": "Updated",
+  "Updates": "Updated",
 };
 
 const commitMessageMapRegEx = new RegExp(
@@ -90,6 +91,10 @@ module.exports = function loadDone(req, res, next) {
 
       if (commit.time === today) commit.time = "today";
       else if (commit.time === yesterday) commit.time = "yesterday";
+      else if (
+        moment(commit.date).valueOf() > moment().subtract(6, "days").valueOf()
+      )
+        commit.time = moment(commit.date).fromNow();
       else commit.time = "on " + commit.time;
 
       let currentday = days[days.length - 1];

@@ -3,6 +3,7 @@ var database = require("./database");
 var Blog = require("blog");
 var debug = require("debug")("blot:clients:dropbox");
 var Sync = require("sync");
+var lowerCaseContents = require("sync/lowerCaseContents");
 
 // Dont write tests for this or you'll need to regenerate
 // an access token for Travis and it'll be annoying. Just
@@ -15,10 +16,16 @@ module.exports = function disconnect(blogID, callback) {
     if (err) return callback(err);
 
     debug("getting account info");
-    createClient(blogID, function (err, client, account) {
+    createClient(blogID, async function (err, client, account) {
       // Invalid credentials might cause an error here
       // we still want to be able to disconnect
       if (err) debug("error createClient", err);
+
+      folder.status("Disconnecting from Dropbox");
+
+      // Turns lowercase files and folders in the blogs directory
+      // into their real, display case for transition to other clients
+      await lowerCaseContents(blogID, { restore: true });
 
       debug("resetting client setting");
       Blog.set(blogID, { client: "" }, function (err) {
@@ -26,6 +33,7 @@ module.exports = function disconnect(blogID, callback) {
 
         debug("dropping blog from database");
 
+        folder.status("Removing Dropbox credentials");
         database.drop(blogID, function () {
           if (err) return done(err, callback);
 

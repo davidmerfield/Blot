@@ -4,10 +4,11 @@ var Template = require("template");
 module.exports = function (req, res, next) {
   var templateID = req.body.template;
   var blogID = req.blog.id;
+  var redirect = req.body.redirect || req.path;
 
   if (templateID === "")
     return Blog.set(blogID, { template: "" }, function (err) {
-      res.message("/settings/template", "Disabled your template");
+      res.message(redirect, "Disabled your template");
     });
 
   // Blog selected a new template
@@ -21,9 +22,9 @@ module.exports = function (req, res, next) {
 
     Blog.set(blogID, updates, function (errors, changed) {
       if (errors && errors.template) {
-        res.message(req.path, new Error(errors.template));
+        res.message(redirect, new Error(errors.template));
       } else if (changed.indexOf("template") > -1) {
-        res.message(req.path, "Changed your template to " + template.name);
+        res.message(redirect, "Changed your template to " + template.name);
       }
     });
   });

@@ -22,11 +22,11 @@ module.exports = function (req, res, next) {
     url = unignore;
   }
 
-  if (!doThis || !url) return res.redirect(req.route.path);
+  if (!doThis || !url) return res.redirect(res.locals.base + '/services/404s');
 
   doThis(blogID, url, function (err) {
     if (err) return next(err);
 
-    return res.redirect(req.route.path);
+    return res.redirect(res.locals.base + '/services/404s');
   });
 };

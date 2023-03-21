@@ -1,19 +1,19 @@
 # Customer service
 
-## What I have learned from our customers
+## How we help solve our customers' problems
 
-The correspondence I recieve from customers is without exception polite and conducted with good-grace. I had anticipated much worse. It seems that only the nicest people use Blot. 
+Before working on Blot, I hadn't had a customer-facing job. Here are a few of things I have learned over the years. It's worth mentioning that Blot's customers have been polite and good-natured, even in situations when a lapse in politeness would have been reasonable.
 
 ## Tracking requests
 
-We use a [text-file](/about/notes/business/project-management) to track all of the tasks for Blot. If the task involves following up with the customer – perhaps fixing a bug or adding a feature – we add a link to the relevant email correspondence.
+We use a [text-file](/about/notes/business/technique) to track all of the tasks for Blot. If the task involves following up with the customer – perhaps fixing a bug or adding a feature – we add a link to the relevant email correspondence.
 
 Because this text-file is also used to render our [News](/news) page, the customer has a public committment from us that we will fix their problem. This helps, especially when the problem takes a while to solve.
 
 
 ## Responding to suggestions
 
-Plenty of the suggestions we recieve from our customers are good and are eventually incorporated into the software. However, when the suggestion isn't suitable, it's important to learn how to say no politely and concisely. This became easier with practice.
+Plenty of the suggestions we receive from our customers are good and are eventually incorporated into the software. However, when the suggestion isn't suitable, it's important to learn how to say no politely and concisely. This became easier with practice.
 
 ## Bad habits
 
@@ -24,6 +24,10 @@ Plenty of the suggestions we recieve from our customers are good and are eventua
 - **Taking too long to respond**
 
   When the customer's inquiry involves a bug whose solution is easy, I found myself waiting to fix the bug before responding to the customer. The proper way to handle things is first to respond saying I am fixing the problem, then follow up with a response when the problem is fixed, rather than leave the customer in the dark until the problem is fixed.
+
+- **Avoiding responsibility for mistakes**
+
+  When a bad bug in our product affects a customer, I found it easy to use language which seperated myself from the bug. I find it annoying when people fail in their job and don't take responsibility for it. I don't want to do that myself, although it is tempting.
 
 - **Mistyping the customer's name**
   

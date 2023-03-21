@@ -1,55 +1,93 @@
 {{> head}}
 <body>
-{{> header}}
-</div>  
+<input type="checkbox" name="toggle" id="toggle">
 
  <style type="text/css">
 	.doc-wrapper{min-height: 100vh}
 	.doc-left {grid-column-start: 4;grid-column-end: 9;margin-top: 0rem;padding-top: 3rem}
 	.doc-right {grid-column-start: 9;grid-column-end: 12;margin-top: 6.25rem;}
 
-	.sidebar {border:none;/*border-left:1px solid rgba(0,0,0,0.1);*/
-    background: #fafafa;
-    border-radius: 18px;
-    padding: 18px 36px;
+
+
+  .main-container {
+    padding: calc(var(--spacing)) calc(var(--spacing)*4);
+    flex-grow: 1;
+  }
+
+  .main-page {
+/*        flex-shrink:0;
+*//*        width: 600px;
+  */  max-width: 600px;
+  flex-basis: 600px
+
+  }.main-page.full {max-width: 100%;width:auto;flex-basis:auto;}
+
+  @media screen and (max-width: 1000px) {
+	    .main-container {padding-left: 1.5rem; padding-right: 1.5rem}
 }
-	
 	@media screen and (max-width: 800px) {
 /*		.doc-left {padding: 0;grid-column-start: 1;grid-column-end: 12;grid-row: 1}
 			.doc-right {grid-row:2;grid-column-start: 1;grid-column-end: 12;margin-top: 1.5rem;padding: 1rem 1.5rem}*/
 			.grid {padding: 0 0}
-		.sidebar {border:none;margin-top: 3rem}
-
+		.sidebar {border:none;}
 	}
 
-  .doc-wrapper {max-width: 930px;margin:0 auto;
-    padding: 4rem 1.5rem;display: flex;flex-wrap: wrap;min-height: auto}
 
-  @media screen and (max-width: 1000px) {
-    .doc-wrapper {max-width: 560px}
+
+
+
+  .sidebar-container {
+  
+    border-radius: 10;
+    background-color: #fafafa;
+    bottom: 0;
+    top: 0;
+    width: 320px;
+
   }
 
-  .yiel {
-    flex-shrink:0;
-    margin: 0 3rem 0 0
-  }
-
-  @media (max-width: 600px) {
-    .yiel {flex-shrink: 1;margin-right: 0}
+  .layout-wrapper {
+    min-height: 100vh;
+    display: flex;
+    justify-content: space-between;
   }
 </style>
-<input type="checkbox" name="toggle" id="toggle">
-<div class="doc-wrapper"> 
-  <div style="flex-basis: 100%;margin:3px 0 13px;" >
+
+<div class="layout-wrapper"> 
+  <div class="sidebar-container">
+    {{> sidebar}}
+  </div>
+  <div class="main-container"> 
+    <div style="display: flex;margin:0 0 calc(var(--spacing)*2) 0;align-items: baseline;"> 
+    {{> search}}
+      {{> header-buttons}}
+    </div>
+    <div style="display: flex;justify-content: space-between;flex-wrap: wrap;">
+    <div class="main-page {{#fullWidth}}full{{/fullWidth}}">
     {{> breadcrumbs}}
+{{> body}}
+
+{{#sourceFile}}
+
+  <p class="meta-links">
+    <a href="https://github.com/davidmerfield/Blot/commits/master{{{sourceFile}}}">
+      Last updated {{sourceFileUpdated}}
+    </a>
+    <a href="https://github.com/davidmerfield/Blot/tree/master{{{sourceFile}}}">
+    Edit this page
+    </a> 
+    </p>
+
+{{/sourceFile}}
+    </div>
+    {{^fullWidth}}
+    {{> internal-sidebar}}
+    {{/fullWidth}}
   </div>
-  <div class="yiel" style="flex-basis: 560px;max-width:560px;flex-grow:0;">
-{{{body}}}
-	</div>   
-  <div style="flex-basis: 270px;flex-grow:0;flex-shrink:0;margin: 0 0 0 3rem;">
-  {{> sidebar}}
-  </div>
+  </div>   
 </div>
+</div>
+
 </div>
 {{> footer}}
 </body>

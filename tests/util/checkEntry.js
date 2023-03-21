@@ -12,6 +12,9 @@ function pad(len) {
 module.exports = function CheckEntry(blogID) {
   return function (entry, callback) {
     require("models/entry").get(blogID, entry.path, function (result) {
+      if (!result && entry.ignored === true) {
+        return callback(null, result);
+      }
       if (!result) {
         return callback(new Error("No entry exists with path: " + entry.path));
       }

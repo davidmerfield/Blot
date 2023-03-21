@@ -36,6 +36,8 @@ module.exports = function (blog, path, callback) {
           if (ignored || !entry) {
             if (path.toLowerCase().indexOf("/templates/") === 0) {
               ignored = "it is part of a template";
+            } else if (require("path").basename(path)[0] === "_") {
+              ignored = "its name begins with an underscore";
             } else if (
               path.split("/").filter(function (n) {
                 return n[0] === "_";
@@ -43,15 +45,15 @@ module.exports = function (blog, path, callback) {
             ) {
               ignored =
                 "it is inside a folder whose name begins with an underscore";
-            } else if (require("path").basename(path)[0] === "_") {
-              ignored = "its name begins with an underscore";
             } else {
-              ignored = REASONS[ignored] || "it was ignored";
+              ignored =
+                REASONS[ignored] || "it is not a kind of file Blot can process";
             }
           }
 
           stat.kind = kind(path);
           stat.path = path;
+          stat.url = encodeURIComponent(path.slice(1));
           stat.name = casePresevedName || basename(path);
           stat.created = moment
             .utc(stat.ctime)
@@ -76,7 +78,6 @@ module.exports = function (blog, path, callback) {
           stat.size = humanFileSize(stat.size);
           stat.directory = stat.isDirectory();
           stat.file = stat.isFile();
-          stat.url = joinpath("/~", dirname(path), stat.name);
           stat.entry = entry;
           stat.ignored = ignored;
 

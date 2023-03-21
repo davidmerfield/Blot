@@ -2,8 +2,10 @@ describe("google drive client: database", function () {
   const database = require("../database");
   const redisKeys = require("util").promisify(require("helper/redisKeys"));
 
+  global.test.blog();
+
   beforeEach(function () {
-    this.db = database.folder(Date.now().toString());
+    this.db = database.folder(this.blog.id);
   });
 
   // afterEach(async function () {

@@ -15,7 +15,7 @@
   <hr style="margin:4px 0">
   <form style="display:block;float:right;z-index:10;" method='post' action='?_csrf={{csrftoken}}'>
     <button class="link" name="ignore" value="{{{url}}}">Ignore</button>&nbsp;
-    <a class="link" href="/settings/services/redirects#{{url}}" style="text-decoration:none">Redirect</a>
+    <a class="link" href="{{{base}}}/services/redirects#{{url}}" style="text-decoration:none">Redirect</a>
   </form>
   <p style="margin:0">
     <a class="link" href="{{blog.url}}{{url}}" target="_blank">

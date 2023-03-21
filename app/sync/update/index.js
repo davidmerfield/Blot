@@ -5,32 +5,38 @@ var hashFile = require("helper/hashFile");
 var drop = require("./drop");
 var set = require("./set");
 var mkdir = require("./mkdir");
-var client = require("client");
+var flushCache = require("models/blog/flushCache");
+var pathNormalizer = require("helper/pathNormalizer");
 
-module.exports = function (blog, log) {
+module.exports = function (blog, log, status) {
   return function update(path, options, callback) {
     if (callback === undefined && typeof options === "function") {
       callback = options;
       options = {};
     }
 
-    client.publish("sync:status:" + blog.id, "Syncing " + path);
+    path = pathNormalizer(path);
 
-    // Blot likes leading slashes, the git client
-    // for instance does not have them but we
-    // are not so strict above these things...
-    if (path[0] !== "/") path = "/" + path;
+    status("Syncing " + path);
 
-    hashFile(path, function (err, hashBefore) {
+    hashFile(localPath(blog.id, path), function (err, hashBefore) {
       function done(err) {
         // we never let this error escape out
         if (err) {
           console.error(clfdate(), blog.id, path, err);
         }
+        hashFile(localPath(blog.id, path), function (err, hashAfter) {
+          if (hashBefore !== hashAfter) {
+            status("Re-syncing " + path);
+            return update(path, options, callback);
+          }
 
-        hashFile(path, function (err, hashAfter) {
-          if (hashBefore === hashAfter) callback(null, { error: err || null });
-          else update(path, options, callback);
+          // the cache is flushed at the end of a sync too
+          // but if we don't do it after updating each files
+          // long syncs can produce weird cache behaviour
+          flushCache(blog.id, function () {
+            callback(null, { error: err || null });
+          });
         });
       }
 

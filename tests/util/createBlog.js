@@ -1,6 +1,11 @@
 var Blog = require("models/blog");
 var randomString = require("./randomString");
 var localPath = require("helper/localPath");
+const fs = require("fs-extra");
+const { join } = require("path");
+const { promisify } = require("util");
+const rebuild = promisify(require("sync/rebuild"));
+const checkEntry = require("./checkEntry");
 
 module.exports = function (done) {
   var context = this;
@@ -19,6 +24,16 @@ module.exports = function (done) {
       context.blogDirectory = context.blogDirectory.slice(0, -1);
 
     context.blog = blog;
+
+    context.blog.write = async ({ path, content }) => {
+      await fs.outputFile(join(context.blogDirectory, path), content);
+    };
+
+    context.blog.rebuild = async (options = {}) =>
+      await rebuild(context.blog.id, options);
+
+    context.blog.check = async (entry) =>
+      await promisify(checkEntry(context.blog.id))(entry);
 
     done(err);
   });

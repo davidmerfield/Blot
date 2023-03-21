@@ -1,45 +1,44 @@
 <h1>Edit</h1>
 
-{{#unless user}}
-<p>Please, <a href="/log-in">log in</a> to ask a new question.</p>
-{{/unless}}
-
-
-{{#if user}}
 <div style="max-width: 637px;">
   <form method="POST" class="qa-form">
     <input type="hidden" name="_csrf" value="{{csrf}}" />
-    {{#if topic.title}}
+    {{#topic.title}}
     <div>
+      <label><strong>Title</strong></label>
       <input type="text" name="title" id="title" value="{{topic.title}}"></input>
     </div>
-    {{/if}}
+    <br>
     <div>
-      <textarea type="text" name="body" id="body" >{{topic.body}}</textarea>
+<script src="/js/tagify.js"></script>
+            <link href="/css/tagify.css" rel="stylesheet" type="text/css" />
+<style type="text/css">
+ tags {
+    min-width: 100%;
+}
+</style>
+
+      <label><strong>Tags</strong></label>
+            <input type="text" name="tags" id="tags" value="{{topic.tags}}" placeholder="Tags..."></input>
+            <script type="text/javascript">
+              // The DOM element you wish to replace with Tagify
+var input = document.querySelector('input[name=tags]');
+
+// initialize Tagify on the above input node reference
+new Tagify(input, {
+    originalInputValueFormat: valuesArr => valuesArr.map(item => item.value).join(',')
+
+})
+            </script>    </div>
+    {{/topic.title}}
+    <div>
+      <br>
+            <label><strong>Body</strong></label>
+
+      <textarea class="qa-textarea" type="text" name="body" id="body" >{{topic.body}}</textarea>
     </div>
-    <div class="qa-form-actionarea">
-      <button class="whitebutton" id="post-question-button">Save changes</button>
-      <span class="secondary-text">Markdown allowed</span>
-    </div>
+    <input type="submit" value="Save changes">
 
   </form>
 </div>
 
-<script>
-  var buttonEl = document.getElementById('post-question-button');
-  var titleEl = document.getElementById('title');
-  var bodyEl = document.getElementById('body');
-
-  function updateQuestionButtonState() {
-    if (titleEl.value.trim() === '' || bodyEl.value.trim() === '') {
-      buttonEl.setAttribute('disabled', '');
-    } else {
-      buttonEl.removeAttribute('disabled');
-    }
-  }
-
-  updateQuestionButtonState();
-  titleEl.addEventListener('keyup', updateQuestionButtonState);
-  bodyEl.addEventListener('keyup', updateQuestionButtonState);
-</script>
-{{/if}}
