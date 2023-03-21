@@ -62,7 +62,7 @@ const render = async function (path, opt, callback) {
   var partials = {};
 
   try {
-    partials = await loadPartials(opt.settings.partials, ctx);
+    partials = await loadPartials(opt.settings.views + "/partials", ctx);
   } catch (e) {
     console.log("error loading partials", e);
   }
@@ -83,7 +83,6 @@ const render = async function (path, opt, callback) {
       partials[name] = res;
     }
 
-
     var layout = opt.layout || opt.settings.layout;
     var template;
 
@@ -94,7 +93,6 @@ const render = async function (path, opt, callback) {
     } else {
       template = await load(path, opt, ctx);
     }
-
 
     console.log("rendering template", template);
     const result = mustache.render(template, opt, partials);

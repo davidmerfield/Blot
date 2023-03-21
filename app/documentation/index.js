@@ -12,7 +12,6 @@ const trace = require("helper/trace");
 // render the views.
 documentation.set("view engine", "html");
 documentation.set("views", __dirname + "/../views");
-documentation.set("partials", __dirname + "/../views/partials");
 documentation.engine("html", hogan);
 
 if (config.cache === false) {
@@ -44,6 +43,7 @@ documentation.get(["/how/format/*"], function (req, res, next) {
   res.locals["show-on-this-page"] = true;
   next();
 });
+documentation.use(require("./static"));
 
 documentation.use(require("./questions/related"));
 
