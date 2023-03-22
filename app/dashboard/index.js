@@ -43,6 +43,10 @@ dashboard.set("view engine", "html");
 dashboard.set("views", VIEW_DIRECTORY);
 dashboard.engine("html", hogan);
 
+const { plan } = config.stripe;
+dashboard.locals.price = "$" + plan.split("_").pop();
+dashboard.locals.interval = plan.startsWith("monthly") ? "month" : "year";
+
 dashboard.locals.cdn = () => (text, render) =>
   `${config.cdn.origin}/documentation${render(
     text
@@ -241,7 +245,7 @@ dashboard.use(function (err, req, res, next) {
 
   res.locals.layout = "";
   res.status(status);
-  console.log('HERE!', res.locals)
+  console.log("HERE!", res.locals);
   res.render("error");
 });
 module.exports = dashboard;

@@ -1,6 +1,9 @@
 var type = require("helper/type");
 
 module.exports = function (err, req, res, next) {
+
+  console.log('ARE WE HERE I WONDER?', err);
+
   if (!req.body) {
     return next(err);
   }
@@ -17,6 +20,7 @@ module.exports = function (err, req, res, next) {
 
   if (type(err, "object"))
     for (var i in err) if (type(err[i], "string")) message = err[i];
+
 
   res.message(redirect, new Error(message));
 };
