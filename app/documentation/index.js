@@ -26,16 +26,20 @@ if (config.cache === false) {
 const { plan } = config.stripe;
 
 documentation.locals.layout = "partials/layout";
-documentation.locals.cacheID = Date.now();
 documentation.locals.ip = config.ip;
 documentation.locals.date = require("./dates.js");
 documentation.locals.price = "$" + plan.split("_").pop();
 documentation.locals.interval = plan.startsWith("monthly") ? "month" : "year";
+documentation.locals.cdn = () => (text, render) =>
+  `${config.cdn.origin}/documentation${render(
+    text
+  )}?cacheID=${Date.now()}&extension=${require("path").extname(text)}`;
 
 documentation.get(["/how/format/*"], function (req, res, next) {
   res.locals["show-on-this-page"] = true;
   next();
 });
+
 documentation.use(require("./static"));
 
 documentation.use(require("./questions/related"));
@@ -120,7 +124,7 @@ documentation.use(function (req, res, next) {
   // Express application.
   if (req.path.indexOf("/static") === 0) return next();
 
-  res.locals.layout = '';
+  res.locals.layout = "";
   res.status(404);
   res.render("error-404");
 });
@@ -135,7 +139,7 @@ documentation.use(function (err, req, res, next) {
     res.locals.err = err;
   }
 
-  res.locals.layout = '';
+  res.locals.layout = "";
   res.status(err.status || 500);
   res.render("error");
 });

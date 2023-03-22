@@ -88,7 +88,7 @@ break-inside: avoid;
   <div class="left">
     <h1 class="inline" style="font-size:24px;line-height: 36px;font-weight:400">Blot turns a folder into a website.</h1>
         <p style="margin-top: 2.4rem">
-      <a class="textli" href="/videos/publishing-with-blot.mp4">{{> playsvg}}<strong>Watch the video</strong><span style="display: block;opacity: 0.5">Introduction &thinsp;&middot;&thinsp; 09:39</span></a>
+      <a class="textli" href="{{#cdn}}/videos/publishing-with-blot.mp4{{/cdn}}">{{> playsvg}}<strong>Watch the video</strong><span style="display: block;opacity: 0.5">Introduction &thinsp;&middot;&thinsp; 09:39</span></a>
     </p>
 <!--     <p>Because there are just files and folders, you can write with your favorite text-editor. You can turn a folder full of images into a photography website. </p>
  -->      </div>
@@ -116,7 +116,7 @@ break-inside: avoid;
           <span class="imag">
           <a target="_blank" rel="noopener" href="{{{link}}}">
           {{#favicon.coordinates}}
-            <span style="display:block;background:url('/images/featured.png?cacheID={{cacheID}}&extension=.png');background-size: {{background_width}}px;
+            <span style="display:block;background:url('{{#cdn}}/images/featured.png{{/cdn}}');background-size: {{background_width}}px;
     background-position:-{{x}}px -{{y}}px;width:{{width}}px;height:{{height}}px;border-radius: 100px"></span>
     {{/favicon.coordinates}}
         </a>
@@ -145,9 +145,9 @@ break-inside: avoid;
     </a>
         <p style="margin-bottom: 0">Blot converts files you put inside a folder into posts on your website. You can connect your folder to Blot with:</p>
           <div class="fl">
-          <a class="arrow-link" href="/how/sync/dropbox"><img src="/images/sync/dropbox.svg" >Dropbox</a>
-          <a class="arrow-link" href="/how/sync/google-drive"><img src="/images/sync/google-drive.svg" >Google Drive</a>
-          <a class="arrow-link" href="/how/sync/git"><img src="/images/sync/git.svg" >Git</a>
+          <a class="arrow-link" href="/how/sync/dropbox"><img src="{{#cdn}}/images/sync/dropbox.svg{{/cdn}}" >Dropbox</a>
+          <a class="arrow-link" href="/how/sync/google-drive"><img src="{{#cdn}}/images/sync/google-drive.svg{{/cdn}}" >Google Drive</a>
+          <a class="arrow-link" href="/how/sync/git"><img src="{{#cdn}}/images/sync/git.svg{{/cdn}}" >Git</a>
         </div>
         </p>
         <style type="text/css">
@@ -198,23 +198,23 @@ break-inside: avoid;
    .tmplw span {padding-left: 2rem}
  </style>
      <div class="tmplw">
-      <a class="arrow-link" href="/templates/blog" ><img  src="/images/templates/blog/0.square-small.png" >
+      <a class="arrow-link" href="/templates/blog" ><img src="{{#cdn}}/images/templates/blog/0.square-small.png{{/cdn}}" >
 
          <span><strong>Blog</strong>Write with your favorite text-editor.</span></a>
 
-   <a class="arrow-link" href="/templates/magazine" ><img  src="/images/templates/magazine/0.square-small.png" >
+   <a class="arrow-link" href="/templates/magazine" ><img src="{{#cdn}}/images/templates/magazine/0.square-small.png{{/cdn}}" >
 
          <span><strong>Magazine</strong>Turn a folder into a magazine. </span></a>
 
-   <a class="arrow-link" href="/templates/photo" ><img  src="/images/templates/photo/0.square-small.png" >
+   <a class="arrow-link" href="/templates/photo" ><img src="{{#cdn}}/images/templates/photo/0.square-small.png{{/cdn}}" >
 
          <span><strong>Photo</strong>Drag and drop photos into your folder to publish them.</span></a>
 
-   <a class="arrow-link" href="/templates/portfolio" ><img  src="/images/templates/portfolio/0.square-small.png" >
+   <a class="arrow-link" href="/templates/portfolio" ><img src="{{#cdn}}/images/templates/portfolio/0.square-small.png{{/cdn}}" >
 
          <span><strong>Portfolio</strong>Organize your projects and update them.</span></a>
 
-   <a class="arrow-link" href="/templates/reference" ><img  src="/images/templates/reference/0.square-small.png" >
+   <a class="arrow-link" href="/templates/reference" ><img  src="{{#cdn}}/images/templates/reference/0.square-small.png{{/cdn}}" >
 
          <span><strong>Reference</strong>Grow your digital garden.</span></a>                           
     </div>  

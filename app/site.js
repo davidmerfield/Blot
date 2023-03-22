@@ -14,9 +14,11 @@ site.use("/dashboard", dashboard);
 // thumbnails and cached images.
 site.use("/cdn", cdn);
 
-dashboard.use("/clients", require("clients/routes"));
+// The client requests handler
+site.use("/clients", require("clients/routes"));
 
-dashboard.use("/stripe-webhook", require("./dashboard/stripe_webhook"));
+// The stripe webhook handler
+site.use("/stripe-webhook", require("./dashboard/stripe_webhook"));
 
 // The documentation
 // ------------

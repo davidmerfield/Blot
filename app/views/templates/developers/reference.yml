@@ -202,7 +202,7 @@
           description: which has a width and height of 160px.
       example: |
         {{#thumbnail.medium}}
-          <img src="{{url}}
+          <img src="{{#cdn}}{{url}}
                width="{{width}}" 
                height="{{height}}"/>
         {{/thumbnail.medium}}  
