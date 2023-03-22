@@ -1,18 +1,18 @@
 <html>
 	<head>
 		<title>{{title}}</title>
-		<link rel="stylesheet" type="text/css" href="/css/editor.css?{{cacheID}}" />
+		<link rel="stylesheet" type="text/css" href="/css/dashboard/editor.css?{{cacheID}}" />
 		<link
 			rel="stylesheet"
 			type="text/css"
-			href="/scripts/codemirror/codemirror.css?{{cacheID}}"
+			href="/js/codemirror/codemirror.css?{{cacheID}}"
 		/>
 		<link
 			rel="stylesheet"
 			type="text/css"
-			href="/scripts/codemirror/theme.css?{{cacheID}}"
+			href="/js/codemirror/theme.css?{{cacheID}}"
 		/>
-		<link rel="stylesheet" type="text/css" href="/css/editor.css?{{cacheID}}" />
+		<link rel="stylesheet" type="text/css" href="/css/dashboard/editor.css?{{cacheID}}" />
 		<style type="text/css">
 			html,
 			body {
@@ -151,11 +151,10 @@ font-size: 12px;
 						>
 					</div>
 
-					{{> sidebar}}
+					{{> template-editor/settings-sidebar}}
 				</div>
 			</div>
-
-{{> yield}}
+{{> body}}
 		</div>
 	</body>
 </html>

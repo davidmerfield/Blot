@@ -8,10 +8,14 @@ const fs = require("fs-extra");
 const redirector = require("./redirector");
 const trace = require("helper/trace");
 
+const root = require("helper/rootDir");
+const { join } = require("path");
+const VIEW_DIRECTORY = join(root, "app/documentation/data/views");
+
 // Register the engine we will use to
 // render the views.
 documentation.set("view engine", "html");
-documentation.set("views", __dirname + "/data/views");
+documentation.set("views", VIEW_DIRECTORY);
 documentation.engine("html", hogan);
 
 if (config.cache === false) {

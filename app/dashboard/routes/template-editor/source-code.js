@@ -9,12 +9,6 @@ const formJSON = require("helper/formJSON");
 const extend = require("helper/extend");
 const async = require("async");
 
-SourceCode.use(function (req, res, next) {
-  res.locals.partials.sidebar = "template-editor/source-code/sidebar";
-  res.locals.partials.header = "template-editor/source-code/header";
-  next();
-});
-
 SourceCode.param("viewSlug", require("./load/template-views"));
 SourceCode.param("viewSlug", require("./load/template-view"));
 
@@ -27,15 +21,13 @@ SourceCode.route("/")
       );
     }
 
-    res.locals.partials.yield = "template-editor/source-code/edit";
-    res.render("template-editor/layout");
+    res.render("template-editor/source-code/edit");
   });
 
 SourceCode.route("/create")
   .get(require("./load/template-views"))
   .get(function (req, res) {
-    res.locals.partials.yield = "template-editor/source-code/create";
-    res.render("template-editor/layout");
+    res.render("template-editor/source-code/create");
   })
   .post(bodyParser, function (req, res, next) {
     const name = req.body.name;
@@ -85,8 +77,7 @@ SourceCode.route("/:viewSlug/configure")
       editorMode: editorMode("package.json"),
     };
 
-    res.locals.partials.yield = "template-editor/source-code/edit";
-    res.render("template-editor/layout");
+    res.render("template-editor/source-code/edit");
   })
   .post(bodyParser, function (req, res, next) {
     Template.setView(req.template.id, view, next);
@@ -95,8 +86,7 @@ SourceCode.route("/:viewSlug/configure")
 SourceCode.route("/:viewSlug/edit")
   .get(function (req, res) {
     res.locals.title = `${req.view.name} - ${req.template.name}`;
-    res.locals.partials.yield = "template-editor/source-code/edit";
-    res.render("template-editor/layout");
+    res.render("template-editor/source-code/edit");
   })
   .post(bodyParser, function (req, res, next) {
     var view = formJSON(req.body, Template.viewModel);
@@ -146,9 +136,8 @@ SourceCode.route("/:viewSlug/rename")
       return next(new Error("You cannot rename package.json"));
     }
 
-    res.locals.partials.yield = "template-editor/source-code/rename";
     res.locals.title = `Rename - ${req.view.name} - ${req.template.name}`;
-    res.render("template-editor/layout");
+    res.render("template-editor/source-code/rename");
   })
   .post(bodyParser, function (req, res, next) {
     if (req.params.viewSlug === "package.json") {
@@ -185,9 +174,8 @@ SourceCode.route("/:viewSlug/rename")
 
 SourceCode.route("/:viewSlug/delete")
   .get(function (req, res) {
-    res.locals.partials.yield = "template-editor/source-code/delete";
     res.locals.title = `Delete - ${req.view.name} - ${req.template.name}`;
-    res.render("template-editor/layout");
+    res.render("template-editor/source-code/delete");
   })
   .post(bodyParser, function (req, res, next) {
     Template.dropView(req.template.id, req.view.name, function (err) {

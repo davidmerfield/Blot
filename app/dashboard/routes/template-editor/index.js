@@ -22,6 +22,11 @@ TemplateEditor.param("templateSlug", function (req, res, next) {
   next();
 });
 
+TemplateEditor.use((req, res, next) => {
+  res.locals.layout = "template-editor/layout";
+  next();
+});
+
 TemplateEditor.use("/:templateSlug", function (req, res, next) {
   if (req.template.localEditing && req.path !== "/local-editing")
     return res.redirect(res.locals.base + "/local-editing");
@@ -84,9 +89,7 @@ TemplateEditor.route("/:templateSlug/settings")
     }
   )
   .get(function (req, res) {
-    res.locals.partials.yield = "template-editor/preview";
-    res.locals.partials.sidebar = "template-editor/settings-sidebar";
-    res.render("template-editor/layout");
+    res.render("template-editor/preview");
   });
 
 TemplateEditor.route("/:templateSlug/local-editing")
@@ -95,11 +98,9 @@ TemplateEditor.route("/:templateSlug/local-editing")
   .all(require("./load/layout-inputs"))
   .all(require("./load/dates"))
   .get(function (req, res) {
-    res.locals.partials.yield = "template-editor/local-editing";
-    res.locals.partials.sidebar = "template-editor/settings-sidebar";
     res.locals.enabled = req.template.localEditing;
     res.locals.title = `Local editing - ${req.template.name}`;
-    res.render("template-editor/layout");
+    res.render("template-editor/local-editing");
   })
   .post(bodyParser, function (req, res, next) {
     const localEditing = !req.template.localEditing;
@@ -130,10 +131,8 @@ TemplateEditor.route("/:templateSlug/rename")
   .all(require("./load/dates"))
 
   .get(function (req, res) {
-    res.locals.partials.yield = "template-editor/rename";
-    res.locals.partials.sidebar = "template-editor/settings-sidebar";
     res.locals.title = `Rename - ${req.template.name}`;
-    res.render("template-editor/layout");
+    res.render("template-editor/rename");
   })
   .post(bodyParser, function (req, res, next) {
     Template.setMetadata(req.template.id, { name: req.body.name }, function (
@@ -151,11 +150,9 @@ TemplateEditor.route("/:templateSlug/share")
   .all(require("./load/dates"))
 
   .get(function (req, res) {
-    res.locals.partials.yield = "template-editor/share";
-    res.locals.partials.sidebar = "template-editor/settings-sidebar";
     res.locals.title = `Share - ${req.template.name}`;
     res.locals.shareURL = `${config.protocol}${config.host}/settings/template/share/${res.locals.template.shareID}`;
-    res.render("template-editor/layout");
+    res.render("template-editor/share");
   })
   .post(bodyParser, function (req, res, next) {
     if (req.template.shareID) {
@@ -178,10 +175,8 @@ TemplateEditor.route("/:templateSlug/delete")
   .all(require("./load/dates"))
 
   .get(function (req, res, next) {
-    res.locals.partials.yield = "template-editor/delete";
-    res.locals.partials.sidebar = "template-editor/settings-sidebar";
     res.locals.title = `Delete - ${req.template.name}`;
-    res.render("template-editor/layout");
+    res.render("template-editor/delete");
   })
   .post(function (req, res, next) {
     Template.drop(req.blog.id, req.template.slug, function (err) {

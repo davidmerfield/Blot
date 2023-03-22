@@ -54,7 +54,7 @@
   }
 </style>
 <div style="flex-grow: 1;max-width: calc(100vw - 20rem);background:#f8f8f8;box-shadow:  0 -1px 1px #000">
-  {{> header}}
+  {{> template-editor/source-code/header}}
   <div style="background: rgba(0, 0, 0, 0.1);padding: 0 1rem"></div>
 
   {{#view}}
@@ -68,16 +68,16 @@
   name="content"
 >{{content}}</textarea>
 
-  <script src="/scripts/jquery.js?{{cacheID}}"></script>
-  <script src="/scripts/codemirror/codemirror.js?{{cacheID}}"></script>
-  <script src="/scripts/codemirror/active-line.js?{{cacheID}}"></script>
-  <script src="/scripts/codemirror/mode-css.js?{{cacheID}}"></script>
-  <script src="/scripts/codemirror/mode-simple.js?{{cacheID}}"></script>
-  <script src="/scripts/codemirror/mode-multiplex.js?{{cacheID}}"></script>
-  <script src="/scripts/codemirror/mode-handlebars.js?{{cacheID}}"></script>
-  <script src="/scripts/codemirror/mode-htmlmixed.js?{{cacheID}}"></script>
-  <script src="/scripts/codemirror/mode-javascript.js?{{cacheID}}"></script>
-  <script src="/scripts/codemirror/mode-xml.js?{{cacheID}}"></script>
+  <script src="/js/jquery.js?{{cacheID}}"></script>
+  <script src="/js/codemirror/codemirror.js?{{cacheID}}"></script>
+  <script src="/js/codemirror/active-line.js?{{cacheID}}"></script>
+  <script src="/js/codemirror/mode-css.js?{{cacheID}}"></script>
+  <script src="/js/codemirror/mode-simple.js?{{cacheID}}"></script>
+  <script src="/js/codemirror/mode-multiplex.js?{{cacheID}}"></script>
+  <script src="/js/codemirror/mode-handlebars.js?{{cacheID}}"></script>
+  <script src="/js/codemirror/mode-htmlmixed.js?{{cacheID}}"></script>
+  <script src="/js/codemirror/mode-javascript.js?{{cacheID}}"></script>
+  <script src="/js/codemirror/mode-xml.js?{{cacheID}}"></script>
 
   <script type="text/javascript">
 

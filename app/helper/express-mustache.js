@@ -36,6 +36,18 @@ const load = async function (path, options, ctx) {
   return template;
 };
 
+async function recursiveReaddir(dir, allFiles = []) {
+  const files = (await fs.readdir(dir)).map((f) => join(dir, f));
+  allFiles.push(...files);
+  await Promise.all(
+    files.map(
+      async (f) =>
+        (await fs.stat(f)).isDirectory() && recursiveReaddir(f, allFiles)
+    )
+  );
+  return allFiles;
+}
+
 const loadPartials = async function (dir, ctx) {
   console.log("loading partials", dir);
   console.log("resolved dir to", dir);
@@ -53,7 +65,6 @@ const loadPartials = async function (dir, ctx) {
 };
 
 const render = async function (path, opt, callback) {
-
   // fs.ensureDirSync(VIEW_DIRECTORY);
   // fs.ensureDirSync(PARTIAL_DIRECTORY);
 
@@ -80,7 +91,7 @@ const render = async function (path, opt, callback) {
     var template;
 
     if (layout) {
-      console.log('using layout', layout, 'and body', path);
+      console.log("using layout", layout, "and body", path);
       template = await load(layout, opt, ctx);
       partials.body = await load(path, opt, ctx);
     } else {

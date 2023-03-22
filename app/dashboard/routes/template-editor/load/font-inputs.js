@@ -1,8 +1,7 @@
 const FONTS = require("blog/static/fonts");
 
 module.exports = function (req, res, next) {
-  res.locals.partials.font = "template-editor/inputs/font";
-  res.locals.fonts = Object.keys(req.template.locals)
+ res.locals.fonts = Object.keys(req.template.locals)
     .filter((key) => key.indexOf("_font") > -1)
     .map((key) => {
       return {
@@ -29,11 +28,11 @@ module.exports = function (req, res, next) {
 };
 
 // function (req, res, next) {
-// 	let fontChanges =
+//  let fontChanges =
 
-// 	if (changes.)
+//  if (changes.)
 
-// 	return next()
+//  return next()
 // }
 
 function desnake(str) {

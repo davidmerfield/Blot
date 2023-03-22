@@ -2,8 +2,12 @@ var bodyParser = require("body-parser");
 var hogan = require("helper/express-mustache");
 var express = require("express");
 var trace = require("helper/trace");
-var VIEW_DIRECTORY = __dirname + "/../views/dashboard";
+const root = require("helper/rootDir");
+const { join } = require("path");
+var VIEW_DIRECTORY = join(root, "app/documentation/data/views/dashboard");
 var config = require("config");
+
+console.log(VIEW_DIRECTORY);
 
 // This is the express application used by a
 // customer to control the settings and view
@@ -48,7 +52,7 @@ if (config.environment !== "development") {
 // eventually remove this when you merge
 // the assets into a single file
 dashboard.locals.cacheID = Date.now();
-dashboard.locals.layout = 'partials/wrapper';
+dashboard.locals.layout = "partials/wrapper";
 
 dashboard.use(trace("loading session information"));
 dashboard.use(require("./session"));
@@ -64,14 +68,12 @@ dashboard.use("/log-in", require("./routes/log-in"));
 
 /// EVERYTHING AFTER THIS NEEDS TO BE AUTHENTICATED
 dashboard.use(function (req, res, next) {
-
   if (req.session && req.session.uid) {
     return next();
   }
 
   next(new Error("NOUSER"));
 });
-
 
 dashboard.use(require("./message"));
 
@@ -94,7 +96,6 @@ dashboard.use(require("./breadcrumbs"));
 
 // This needs to be before ':handle'
 dashboard.use("/account", require("./routes/account"));
-
 
 // Redirect old URLS
 dashboard.use("/settings", require("./load-blogs"), function (req, res, next) {
@@ -153,7 +154,6 @@ dashboard.use(function (req, res, next) {
   next();
 });
 
-
 dashboard.use("/:handle", function (req, res, next) {
   // we use pretty.label instead of title for title-less blogs
   // this falls back to the domain of the blog if no title exists
@@ -170,7 +170,6 @@ dashboard.use("/:handle/template/edit", require("./routes/template-editor"));
 
 // Will deliver the sync status of the blog as SSEs
 dashboard.use("/:handle/status", require("./routes/status"));
-
 
 dashboard.get("/", require("./load-blogs"), function (req, res, next) {
   res.locals.title = "Your blogs";

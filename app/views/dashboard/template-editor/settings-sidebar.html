@@ -20,7 +20,7 @@ button {background: white;border: 2px solid #ddd;border-radius: 4px;font:inherit
 	{{/color_schemes.length}}
 	{{/colors.length}}
 
-	{{#colors}} {{> color}} {{/colors}}
+	{{#colors}} {{> template-editor/inputs/color}} {{/colors}}
 
 	
 {{#layouts.length}}
@@ -28,22 +28,22 @@ button {background: white;border: 2px solid #ddd;border-radius: 4px;font:inherit
 		{{#layouts}}
 
 		{{#isBoolean}}
-		{{> boolean}}
+		{{> template-editor/inputs/boolean}}
 		{{/isBoolean}}
 
 		{{#isSelect}}
-		{{> select}}
+		{{> template-editor/inputs/select}}
 		{{/isSelect}}
 
 		{{#isRange}}
-		{{> range}} 
+		{{> template-editor/inputs/range}} 
 		{{/isRange}}
 
 		{{/layouts}}
 {{/layouts.length}}
 
 	{{#fonts.length}}
-		{{#fonts}} {{> font}} {{/fonts}} 
+		{{#fonts}} {{> template-editor/inputs/font}} {{/fonts}} 
 	{{/fonts.length}}
   
   {{#show_date_options}}
@@ -64,13 +64,22 @@ button {background: white;border: 2px solid #ddd;border-radius: 4px;font:inherit
 			{{/displayFormats.length}}
 			{{/hide_dates}}
 			
+
 {{#show_hide_dates}}
 			<label style="padding:5px 1rem;border-bottom: 1px solid #eee;display: block;">
 				<input type="hidden" value="off" name="locals.hide_dates" />
-				<input id="hide_dates" type="checkbox" name="locals.hide_dates"
-				{{#hide_dates}}checked{{/hide_dates}}/> Hide dates
+				{{#hide_dates}}
+				<input checked id="hide_dates" type="checkbox" name="locals.hide_dates"
+				/>
+				{{/hide_dates}}
+				{{^hide_dates}}
+				<input  id="hide_dates" type="checkbox" name="locals.hide_dates"
+				/>
+				{{/hide_dates}}
+				 Hide dates
 			</label>
-			{{/show_hide_dates}}			
+			{{/show_hide_dates}}
+						
 			<script type="text/javascript">
 				document.querySelectorAll('[type="checkbox"], select').forEach(function(node){
 						let form;

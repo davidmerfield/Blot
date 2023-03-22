@@ -7,10 +7,7 @@ const MAP = {
 };
 
 module.exports = function (req, res, next) {
-  res.locals.partials.range = "template-editor/inputs/range";
-  res.locals.partials.select = "template-editor/inputs/select";
-  res.locals.partials.boolean = "template-editor/inputs/boolean";
-
+  
   res.locals.layouts = Object.keys(req.template.locals)
 
     // If the template uses the thumbnails per row
@@ -75,7 +72,7 @@ module.exports = function (req, res, next) {
         min = (range && range[0]) || (MAP[key] && MAP[key].min) || 1;
         max = (range && range[1]) || (MAP[key] && MAP[key].max) || 60;
       }
-      
+
       return {
         key,
         label: (MAP[key] && MAP[key].label) || desnake(key),
