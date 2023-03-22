@@ -4,7 +4,7 @@ var express = require("express");
 var trace = require("helper/trace");
 const root = require("helper/rootDir");
 const { join } = require("path");
-var VIEW_DIRECTORY = join(root, "app/documentation/data/views/dashboard");
+var VIEW_DIRECTORY = join(root, "app/views/dashboard");
 var config = require("config");
 
 console.log(VIEW_DIRECTORY);
@@ -171,7 +171,7 @@ dashboard.use("/:handle/template/edit", require("./routes/template-editor"));
 // Will deliver the sync status of the blog as SSEs
 dashboard.use("/:handle/status", require("./routes/status"));
 
-dashboard.get("/", require("./load-blogs"), function (req, res, next) {
+dashboard.get("/", require("./load-blogs"), function (req, res) {
   res.locals.title = "Your blogs";
   res.locals.breadcrumbs.add("Your blogs", "/dashboard");
   res.render("index");
@@ -203,12 +203,40 @@ dashboard.use(require("./redirect-to-other-blog"));
 
 // need to handle dashboard errors better...
 dashboard.use(require("./routes/settings/errorHandler"));
-dashboard.use(require("./routes/error"));
 
-// Restore render function, remove this dumb bullshit eventually
 dashboard.use(function (req, res, next) {
-  if (res._render) res.render = res._render;
-  next();
+  const err = new Error("Page not found");
+  err.status = 404;
+  next(err);
 });
 
+// Some kind of other error
+// jshint unused:false
+dashboard.use(function (err, req, res, next) {
+  // If the user is not logged in, we sent them to the documentation
+  if (err.message === "NOUSER") {
+    let from;
+    try {
+      let referrer = require("url").parse(req.get("Referrer"));
+      if (referrer.host === config.host) from = referrer.path;
+    } catch (e) {}
+
+    return res.redirect(
+      "/log-in?then=" + req.originalUrl + (from ? "&from=" + from : "")
+    );
+  }
+
+  const status = err.status || 500;
+
+  if (config.environment === "development") {
+    res.locals.error = {
+      stack: err.stack,
+    };
+  }
+
+  res.locals.layout = "";
+  res.status(status);
+  console.log('HERE!', res.locals)
+  res.render("error");
+});
 module.exports = dashboard;

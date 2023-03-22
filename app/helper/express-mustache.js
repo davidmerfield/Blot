@@ -1,5 +1,5 @@
 const fs = require("fs-extra");
-const { extname } = require("path");
+const { extname, join } = require("path");
 const mustache = require("mustache");
 
 const cache = {};
@@ -81,35 +81,40 @@ const render = async function (path, opt, callback) {
     partials = { ...partials, ...opt.partials };
   }
 
+  var template;
+  var layout = opt.layout || opt.settings.layout;
+  var body;
+
   try {
     for (const name in partials) {
       const res = await load("partials/" + name, opt, ctx);
       partials[name] = res;
     }
 
-    var layout = opt.layout || opt.settings.layout;
-    var template;
-
     if (layout) {
-      console.log("using layout", layout, "and body", path);
       template = await load(layout, opt, ctx);
       partials.body = await load(path, opt, ctx);
+      body = path;
     } else {
       template = await load(path, opt, ctx);
     }
 
     const result = mustache.render(template, opt, partials);
 
-    // if (layout) {
-    //   opt.yield = result;
-    //   tmpl = hogan.compile(layout, opt);
-    //   result = tmpl.render(opt, partials);
-    //   return fn(null, result);
-    // }
     return callback(null, result);
   } catch (err) {
-    console.log(err);
-    return callback(err);
+    if (err.message.indexOf(" at ") > -1) {
+      const index = parseInt(err.message.split(" ").pop());
+      console.log("INDEX is", index);
+      console.log("SECTION::", template.slice(index - 10, index + 10));
+    }
+    const error = new Error(
+      "Error rendering " +
+        path.slice(opt.settings.views.length) +
+        ": " +
+        err.message
+    );
+    return callback(error);
   }
 };
 

@@ -124,13 +124,9 @@ documentation.use(redirector);
 
 // Missing page
 documentation.use(function (req, res, next) {
-  // Pass on requests to static files down to app/blog
-  // Express application.
-  if (req.path.indexOf("/static") === 0) return next();
-
-  res.locals.layout = "";
-  res.status(404);
-  res.render("error-404");
+  const err = new Error("Page not found");
+  err.status = 404;
+  next(err);
 });
 
 // Some kind of other error
@@ -139,8 +135,7 @@ documentation.use(function (err, req, res, next) {
   res.locals.code = { error: true };
 
   if (config.environment === "development") {
-    console.error(err);
-    res.locals.err = err;
+    res.locals.error = { stack: err.stack };
   }
 
   res.locals.layout = "";
