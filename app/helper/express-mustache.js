@@ -53,7 +53,6 @@ const loadPartials = async function (dir, ctx) {
 };
 
 const render = async function (path, opt, callback) {
-  console.log("HERE", path, opt);
 
   // fs.ensureDirSync(VIEW_DIRECTORY);
   // fs.ensureDirSync(PARTIAL_DIRECTORY);
@@ -81,6 +80,7 @@ const render = async function (path, opt, callback) {
     var template;
 
     if (layout) {
+      console.log('using layout', layout, 'and body', path);
       template = await load(layout, opt, ctx);
       partials.body = await load(path, opt, ctx);
     } else {

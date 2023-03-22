@@ -10,6 +10,8 @@ var client = require("models/client");
 var gitCommits = require("./tools/git-commits");
 var listKey = "newsletter:list";
 var TTL = 60 * 60 * 24; // 1 day in seconds
+const { join } = require("path");
+const root = require("helper/rootDir");
 
 news.get("/", gitCommits, loadToDo, function (req, res, next) {
   next();
@@ -175,7 +177,7 @@ news.post("/sign-up", parse, function (req, res, next) {
 });
 
 function loadToDo(req, res, next) {
-  fs.readFile(__dirname + "/../../../todo.txt", "utf-8", function (err, todo) {
+  fs.readFile(join(root, "todo.txt"), "utf-8", function (err, todo) {
     if (err) return next(err);
     res.locals.todo = marked(todo);
 

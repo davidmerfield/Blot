@@ -1,7 +1,6 @@
 const Express = require("express");
 const Questions = new Express.Router();
 const moment = require("moment");
-const csrf = require("csurf")();
 const config = require("config");
 const marked = require("marked");
 const async = require("async");
@@ -22,6 +21,10 @@ const pool = new Pool({
 
 // QA Forum View Configuration
 const TOPICS_PER_PAGE = 20;
+
+Questions.use(require('dashboard/session'));
+
+Questions.use(require('dashboard/csrf'));
 
 Questions.use(
   Express.urlencoded({
@@ -262,13 +265,13 @@ OFFSET ${offset};`
 
 // Handle topic viewing and creation
 Questions.route("/ask")
-  .get(csrf, function (req, res, next) {
-    if (!req.user) return res.redirect("/log-in?then=/questions/ask");
+  .get(function (req, res, next) {
+    if (!req.session || !req.session.uid) return res.redirect("/log-in?then=/questions/ask");
     res.locals.csrf = req.csrfToken();
     res.render("questions/ask");
   })
-  .post(csrf, function (req, res, next) {
-    if (!req.user) return res.redirect("/log-in?then=/questions/ask");
+  .post(function (req, res, next) {
+    if (!req.session || !req.session.uid) return res.redirect("/log-in?then=/questions/ask");
     const author = req.user.uid;
     const title = req.body.title;
     const tags = req.body.tags;
@@ -291,9 +294,9 @@ Questions.route("/ask")
   });
 
 // Handle new reply to topic
-Questions.route("/:id/new").post(csrf, function (req, res, next) {
+Questions.route("/:id/new").post( function (req, res, next) {
   const id = parseInt(req.params.id);
-  if (!req.user) return res.redirect(`/log-in?then=/questions/${id}/new`);
+  if (!req.session || !req.session.uid) return res.redirect(`/log-in?then=/questions/${id}/new`);
   const author = req.user.uid;
   const body = req.body.body;
   if (body.trim().length === 0) res.redirect("/questions/" + id);
@@ -309,9 +312,9 @@ Questions.route("/:id/new").post(csrf, function (req, res, next) {
 });
 
 Questions.route("/:id/edit")
-  .get(csrf, function (req, res, next) {
+  .get(function (req, res, next) {
     const id = parseInt(req.params.id);
-    if (!req.user) return res.redirect(`/log-in?then=/questions/${id}/edit`);
+    if (!req.session || !req.session.uid) return res.redirect(`/log-in?then=/questions/${id}/edit`);
     pool
       .query("SELECT * FROM items WHERE id = $1", [id])
       .then((topics) => {
@@ -336,9 +339,9 @@ Questions.route("/:id/edit")
       })
       .catch(next);
   })
-  .post(csrf, function (req, res, next) {
+  .post(function (req, res, next) {
     const id = parseInt(req.params.id);
-    if (!req.user) return res.redirect(`/log-in?then=/questions/${id}/edit`);
+    if (!req.session || !req.session.uid) return res.redirect(`/log-in?then=/questions/${id}/edit`);
     const title = req.body.title || "";
     const body = req.body.body;
     const tags = req.body.tags || "";
@@ -367,7 +370,7 @@ Questions.route("/:id/edit")
       .catch(next);
   });
 
-Questions.route("/:id").get(csrf, function (req, res, next) {
+Questions.route("/:id").get(function (req, res, next) {
   res.locals.csrf = req.csrfToken();
   const id = parseInt(req.params.id);
   pool
@@ -410,7 +413,8 @@ Questions.route("/:id").get(csrf, function (req, res, next) {
 });
 
 Questions.route("/tagged/:tag/edit")
-  .get(csrf, async function (req, res, next) {
+
+  .get(async function (req, res, next) {
     const tag = req.params.tag;
     const {
       rows,
@@ -425,7 +429,7 @@ Questions.route("/tagged/:tag/edit")
     res.locals.total_affected = total_affected;
     res.render("questions/edit-tag.html");
   })
-  .post(csrf, async function (req, res, next) {
+  .post(async function (req, res, next) {
     const previousTag = req.body.previousTag;
     const tag = req.body.tag;
     const {

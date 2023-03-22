@@ -120,6 +120,7 @@ documentation.use(function (req, res, next) {
   // Express application.
   if (req.path.indexOf("/static") === 0) return next();
 
+  res.locals.layout = '';
   res.status(404);
   res.render("error-404");
 });
@@ -134,6 +135,7 @@ documentation.use(function (err, req, res, next) {
     res.locals.err = err;
   }
 
+  res.locals.layout = '';
   res.status(err.status || 500);
   res.render("error");
 });
