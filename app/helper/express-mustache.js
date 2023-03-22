@@ -88,6 +88,7 @@ const render = async function (path, opt, callback) {
   try {
     for (const name in partials) {
       const res = await load("partials/" + name, opt, ctx);
+      mustache.parse(res);
       partials[name] = res;
     }
 
@@ -103,11 +104,9 @@ const render = async function (path, opt, callback) {
 
     return callback(null, result);
   } catch (err) {
-    if (err.message.indexOf(" at ") > -1) {
-      const index = parseInt(err.message.split(" ").pop());
-      console.log("INDEX is", index);
-      console.log("SECTION::", template.slice(index - 10, index + 10));
-    }
+    // if (err.message.indexOf(" at ") > -1) {
+    //   const index = parseInt(err.message.split(" ").pop());
+    // }
     const error = new Error(
       "Error rendering " +
         path.slice(opt.settings.views.length) +

@@ -9,6 +9,11 @@ const formJSON = require("helper/formJSON");
 const extend = require("helper/extend");
 const async = require("async");
 
+SourceCode.use((req, res, next)=>{
+  res.locals.layout = "template-editor/source-code/layout";
+  next();
+});
+
 SourceCode.param("viewSlug", require("./load/template-views"));
 SourceCode.param("viewSlug", require("./load/template-view"));
 

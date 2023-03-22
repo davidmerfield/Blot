@@ -20,7 +20,7 @@ button {background: white;border: 2px solid #ddd;border-radius: 4px;font:inherit
 	{{/color_schemes.length}}
 	{{/colors.length}}
 
-	{{#colors}} {{> template-editor/inputs/color}} {{/colors}}
+	{{#colors}} {{> template-editor-color}} {{/colors}}
 
 	
 {{#layouts.length}}
@@ -28,22 +28,22 @@ button {background: white;border: 2px solid #ddd;border-radius: 4px;font:inherit
 		{{#layouts}}
 
 		{{#isBoolean}}
-		{{> template-editor/inputs/boolean}}
+		{{> template-editor-boolean}}
 		{{/isBoolean}}
 
 		{{#isSelect}}
-		{{> template-editor/inputs/select}}
+		{{> template-editor-select}}
 		{{/isSelect}}
 
 		{{#isRange}}
-		{{> template-editor/inputs/range}} 
+		{{> template-editor-range}} 
 		{{/isRange}}
 
 		{{/layouts}}
 {{/layouts.length}}
 
 	{{#fonts.length}}
-		{{#fonts}} {{> template-editor/inputs/font}} {{/fonts}} 
+		{{#fonts}} {{> template-editor-font}} {{/fonts}} 
 	{{/fonts.length}}
   
   {{#show_date_options}}
