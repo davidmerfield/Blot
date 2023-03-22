@@ -43,6 +43,11 @@ dashboard.set("view engine", "html");
 dashboard.set("views", VIEW_DIRECTORY);
 dashboard.engine("html", hogan);
 
+dashboard.locals.cdn = () => (text, render) =>
+  `${config.cdn.origin}/documentation${render(
+    text
+  )}?cacheID=${Date.now()}&extension=${require("path").extname(text)}`;
+
 // For when we want to cache templates
 if (config.environment !== "development") {
   dashboard.enable("view cache");

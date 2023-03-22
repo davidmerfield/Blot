@@ -1,4 +1,29 @@
-{{> head}}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>{{title}}{{^hide_title_suffix}} - Blot{{/hide_title_suffix}}</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="description" content="{{description}}" />
+
+    {{#cookie_redirect}}
+    <meta http-equiv="refresh" content="0;URL='{{{cookie_redirect}}}'" />
+    <script type="text/javascript">
+      window.location = "{{{cookie_redirect}}}";
+    </script>
+    {{/cookie_redirect}}
+
+    <link rel="icon" sizes="180x180" href="/favicon-180x180.png" />
+    <link rel="apple-touch-icon" href="/favicon-180x180.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{#cdn}}/css/complete.css{{/cdn}}"
+    />
+  </head>
 <body>
     <a href="{{#from}}{{{from}}}{{/from}}{{^from}}/{{/from}}" class="grow-on-hover huge hdr-btn">
       <svg id="hider" style="width: 0.75rem; height: 0.75rem;">
