@@ -1,3 +1,7 @@
+Finish and deploy changes to brochure
+
+---
+
 Add support for Google Docs
 - `download` Should nicely handle the export of various Google Doc formats
 
