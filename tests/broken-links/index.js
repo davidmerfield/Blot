@@ -8,12 +8,12 @@ describe("Blot's website'", function () {
 
   global.test.server(function (server, test) {
     server.use(trace.init);
-    server.use("/dashboard", (req, res, next) => {
-      req.session = {};
-      req.session.uid = test.user.uid;
-      console.log('req.session!', req.session);
-      next();
-    });
+    // server.use("/dashboard", (req, res, next) => {
+    //   req.session = {};
+    //   req.session.uid = test.user.uid;
+    //   console.log('req.session!', req.session);
+    //   next();
+    // });
     server.use("/dashboard", dashboard);
     server.use(documentation);
   });
@@ -31,7 +31,7 @@ describe("Blot's website'", function () {
   );
 
   // todo enable when we can access the cookie over an insecure connection
-  fit(
+  xit(
     "does not have any broken links for logged-in users",
     function (done) {
       var request = require("request");
