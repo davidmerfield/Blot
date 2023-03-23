@@ -1,4 +1,6 @@
 Improvements to server
+- [ ] fix issue with favicon on site
+- [ ] fix issue with missing font files (Iawriter...) on docs
 - [ ] Check NGINX can deliver cached files
 - [ ] Check scheduler works
 - [ ] Check scheduled posts appear
