@@ -104,11 +104,11 @@ global.test = {
     var port = 8919;
 
     // Create a webserver for testing remote files
-    beforeAll(function (done) {
+    beforeEach(function (done) {
       server = Express();
 
       // Load in routes in suite
-      fn(server);
+      fn(server, this);
 
       this.origin = "http://localhost:" + port;
       server = server.listen(port, function () {
@@ -124,7 +124,7 @@ global.test = {
       });
     });
 
-    afterAll(function (done) {
+    afterEach(function (done) {
       server.close(done);
       setTimeout(done, 1500);
     });

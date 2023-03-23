@@ -272,7 +272,7 @@ Questions.route("/ask")
   })
   .post(function (req, res, next) {
     if (!req.session || !req.session.uid) return res.redirect("/log-in?then=/questions/ask");
-    const author = req.user.uid;
+    const author = req.session.uid;
     const title = req.body.title;
     const tags = req.body.tags;
     const body = req.body.body;
@@ -297,7 +297,7 @@ Questions.route("/ask")
 Questions.route("/:id/new").post( function (req, res, next) {
   const id = parseInt(req.params.id);
   if (!req.session || !req.session.uid) return res.redirect(`/log-in?then=/questions/${id}/new`);
-  const author = req.user.uid;
+  const author = req.session.uid;
   const body = req.body.body;
   if (body.trim().length === 0) res.redirect("/questions/" + id);
   else {

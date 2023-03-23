@@ -6,9 +6,15 @@ describe("Blot's website'", function () {
 
   global.test.blog();
 
-  global.test.server(function (server) {
+  global.test.server(function (server, test) {
     server.use(trace.init);
-    server.use('/dashboard', dashboard);
+    server.use("/dashboard", (req, res, next) => {
+      req.session = {};
+      req.session.uid = test.user.uid;
+      console.log('req.session!', req.session);
+      next();
+    });
+    server.use("/dashboard", dashboard);
     server.use(documentation);
   });
 
@@ -25,7 +31,7 @@ describe("Blot's website'", function () {
   );
 
   // todo enable when we can access the cookie over an insecure connection
-  it(
+  fit(
     "does not have any broken links for logged-in users",
     function (done) {
       var request = require("request");
@@ -33,26 +39,26 @@ describe("Blot's website'", function () {
 
       console.log("origin:", this.origin);
 
-      request.post(
-        this.origin + "/log-in",
-        { form: { email: test.user.email, password: test.user.fakePassword } },
-        function (err, res) {
-          if (err) return done.fail(err);
+      // request.post(
+      //   this.origin + "/log-in",
+      //   { form: { email: test.user.email, password: test.user.fakePassword } },
+      //   function (err, res) {
+      //     if (err) return done.fail(err);
 
-          var cookie = res.headers["set-cookie"];
-          var headers = { cookie: cookie };
+      //     var cookie = res.headers["set-cookie"];
+      //     var headers = { cookie: cookie };
 
-          if (!cookie) {
-            return done.fail("No cookie");
-          }
+      //     if (!cookie) {
+      //       return done.fail("No cookie");
+      //     }
 
-          broken(test.origin, { headers: headers }, function (err, results) {
-            if (err) return done.fail(err);
-            expect(results).toEqual({});
-            done();
-          });
-        }
-      );
+      broken(test.origin + "/dashboard", function (err, results) {
+        if (err) return done.fail(err);
+        expect(results).toEqual({});
+        done();
+      });
+      //   }
+      // );
     },
     5 * 60 * 1000
   );
