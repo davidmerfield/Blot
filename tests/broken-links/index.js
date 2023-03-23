@@ -8,7 +8,7 @@ describe("Blot's website'", function () {
 
   global.test.server(function (server) {
     server.use(trace.init);
-    server.use(dashboard);
+    server.use('/dashboard', dashboard);
     server.use(documentation);
   });
 
@@ -25,7 +25,7 @@ describe("Blot's website'", function () {
   );
 
   // todo enable when we can access the cookie over an insecure connection
-  xit(
+  it(
     "does not have any broken links for logged-in users",
     function (done) {
       var request = require("request");

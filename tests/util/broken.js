@@ -53,13 +53,7 @@ function main(url, options, callback) {
 
     const URL = require("url");
     const parsedURL = URL.parse(url);
-    const extension = require("path").extname(parsedURL.pathname);
     const uri = { url: url, headers: options.headers || {} };
-
-    if (extension) {
-      console.log("skipping", url);
-      return callback();
-    }
 
     console.log("requesting", url);
 
@@ -93,7 +87,7 @@ function main(url, options, callback) {
       return callback(e);
     }
 
-    $("[href],[src]").each(function () {
+    $("[href], [src]").each(function () {
       let url = $(this).attr("href") || $(this).attr("src");
 
       if (!url) return;
