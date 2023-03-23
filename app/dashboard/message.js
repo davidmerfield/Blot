@@ -1,8 +1,23 @@
+const { join } = require("path");
+const pathNormalizer = require("helper/pathNormalizer");
+const normalize = (path) => pathNormalizer(path).toLowerCase();
+
 module.exports = function (req, res, next) {
   // Expose a valid message to the view
   if (req.session.message) {
-    if (req.session.message.url === req.path) {
+    const currentURL = req.baseUrl ? join(req.baseUrl, req.path) : req.path;
+
+    if (normalize(req.session.message.url) === normalize(currentURL)) {
       res.locals.message = req.session.message;
+    } else {
+      console.log(
+        "skipping message with url",
+        req.session.message.url,
+        "and currentURL",
+        currentURL,
+        "message=",
+        req.session.message
+      );
     }
 
     if (req.session.message.error) {
@@ -13,21 +28,35 @@ module.exports = function (req, res, next) {
   }
 
   res.message = function (value, message) {
+    let url = join(req.baseUrl || "", req.path);
+    let text = "";
+    let error = false;
+
+    // res.message('/path', new Error('hey'));
     if (message instanceof Error) {
-      req.session.message = {
-        text: message.message || "Error",
-        error: true,
-        url: value,
-      };
+      url = value;
+      text = message.message || "Error";
+      error = true;
+      // res.message('/path', 'Success!')
     } else if (typeof message === "string") {
-      req.session.message = {
-        text: message,
-        error: false,
-        url: value,
-      };
+      url = value;
+      text = message;
+      // res.message('Success!')
+    } else if (message === undefined && typeof value === "string") {
+      text = value;
+      // res.message(new Error('X'))
+    } else if (message === undefined && value instanceof Error) {
+      text = message.message || "Error";
+      error = true;
     }
 
-    res.redirect(value);
+    req.session.message = {
+      text,
+      error,
+      url,
+    };
+
+    res.redirect(url);
   };
 
   next();

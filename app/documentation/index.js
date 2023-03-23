@@ -44,8 +44,36 @@ documentation.get(["/how/format/*"], function (req, res, next) {
   next();
 });
 
-documentation.use(require("./static"));
+const files = [
+  "/favicon-180x180.png",
+  "/favicon-32x32.png",
+  "/favicon-16x16.png",
+  "/favicon.ico",
+];
 
+for (const path of files) {
+  documentation.get(path, (req, res) =>
+    res.sendFile(join(VIEW_DIRECTORY, path), {
+      lastModified: false, // do not send Last-Modified header
+      maxAge: 86400000, // cache forever
+      acceptRanges: false, // do not allow ranged requests
+      immutable: true, // the file will not change
+    })
+  );
+}
+
+const directories = ["/fonts", "/css", "/images", "/js", "/videos"];
+
+for (const path of directories) {
+  documentation.use(
+    path,
+    Express.static(VIEW_DIRECTORY + path, {
+      index: false, // Without 'index: false' this will server the index.html files inside
+      redirect: false, // Without 'redirect: false' this will redirect URLs to existent directories
+      maxAge: 86400000,
+    })
+  );
+}
 documentation.use(require("./questions/related"));
 
 documentation.get("/contact", (req, res, next) => {

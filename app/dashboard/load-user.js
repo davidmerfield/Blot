@@ -15,6 +15,14 @@ module.exports = function (req, res, next) {
       return next();
     }
 
+    // You used to be able to disable your account
+    // but this is no longer possible. Once all
+    // users with isDisabled:true are removed you
+    // can delete this check safely.
+    if (user.isDisabled) {
+      return res.redirect("/dashboard/disabled");
+    }
+
     // Lets append the user and
     // set the partials to 'logged in mode'
     req.user = User.extend(user);

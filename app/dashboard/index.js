@@ -1,32 +1,21 @@
-var bodyParser = require("body-parser");
 var hogan = require("helper/express-mustache");
-var express = require("express");
 var trace = require("helper/trace");
 const root = require("helper/rootDir");
 const { join } = require("path");
 var VIEW_DIRECTORY = join(root, "app/views/dashboard");
 var config = require("config");
-
-console.log(VIEW_DIRECTORY);
+const { static } = require("express");
+var express = require("express");
 
 // This is the express application used by a
 // customer to control the settings and view
 // the state of the blog's folder
 var dashboard = express();
 
-// Send static files
-dashboard.use(
-  "/css",
-  express.static(VIEW_DIRECTORY + "/css", { maxAge: 86400000 })
-);
-dashboard.use(
-  "/images",
-  express.static(VIEW_DIRECTORY + "/images", { maxAge: 86400000 })
-);
-dashboard.use(
-  "/scripts",
-  express.static(VIEW_DIRECTORY + "/scripts", { maxAge: 86400000 })
-);
+// Serve static files
+for (const path of ["/css", "/images", "/scripts"]) {
+  dashboard.use(path, static(join(VIEW_DIRECTORY, path), { maxAge: 86400000 }));
+}
 
 // Hide the header which says the app
 // is built with Express
@@ -72,10 +61,23 @@ dashboard.use(trace("loaded session information"));
 // for each POST request, using csurf.
 dashboard.use(require("./csrf"));
 
-dashboard.use("/sign-up", require("./routes/sign-up"));
-dashboard.use("/log-in", require("./routes/log-in"));
+// These need to be accessible to unauthenticated users
+dashboard.use("/sign-up", require("./sign-up"));
+dashboard.use("/log-in", require("./log-in"));
 
-/// EVERYTHING AFTER THIS NEEDS TO BE AUTHENTICATED
+var logout = require("dashboard/account/util/logout");
+
+dashboard.get("/disabled", logout, (req, res) => {
+  res.locals.layout = "partials/layout-form";
+  res.render("disabled");
+});
+
+dashboard.get("/deleted", logout, (req, res) => {
+  res.locals.layout = "partials/layout-form";
+  res.render("deleted");
+});
+
+// Everything afterwards should be authenticated
 dashboard.use(function (req, res, next) {
   if (req.session && req.session.uid) {
     return next();
@@ -104,7 +106,7 @@ dashboard.use(trace("checked redirects"));
 dashboard.use(require("./breadcrumbs"));
 
 // This needs to be before ':handle'
-dashboard.use("/account", require("./routes/account"));
+dashboard.use("/account", require("./account"));
 
 // Redirect old URLS
 dashboard.use("/settings", require("./load-blogs"), function (req, res, next) {
@@ -116,10 +118,6 @@ dashboard.use("/settings", require("./load-blogs"), function (req, res, next) {
   }
 });
 
-dashboard.get("/account/logged-out", function (req, res) {
-  res.sendFile(VIEW_DIRECTORY + "/dashboard/account/logged-out.html");
-});
-
 dashboard.use("/account", function (req, res, next) {
   // we don't want search engines indexing these pages
   // since they're /logged-out, /disabled and
@@ -128,29 +126,8 @@ dashboard.use("/account", function (req, res, next) {
 });
 
 // Send user's avatar
-dashboard.use("/_avatars/:avatar", require("./routes/avatar"));
+dashboard.use("/_avatars/:avatar", require("./avatar"));
 
-// We need to be able to send CSS files through the
-// template editor and they sometimes include base64 stuff.
-const MAX_POST_REQUEST_SIZE = "5mb";
-
-dashboard.post(
-  [
-    "/:handle/template*",
-    "/:handle/client",
-    "/:handle/client/switch",
-    "/path",
-    "/folder*",
-    "/settings/client*",
-    "/flags",
-    "/404s",
-    "/account*",
-  ],
-  bodyParser.urlencoded({ extended: false, limit: MAX_POST_REQUEST_SIZE })
-);
-
-// Account page does not need to know about the state of the folder
-// for a particular blog
 dashboard.use(function (req, res, next) {
   res.locals.links_for_footer = [];
   res.locals.footer = function () {
@@ -175,10 +152,10 @@ dashboard.use("/:handle", function (req, res, next) {
 
 // Use this before modifying the render function
 // since it doesn't use the layout for the rest of the dashboard
-dashboard.use("/:handle/template/edit", require("./routes/template-editor"));
+dashboard.use("/:handle/template/edit", require("./template-editor"));
 
 // Will deliver the sync status of the blog as SSEs
-dashboard.use("/:handle/status", require("./routes/status"));
+dashboard.use("/:handle/status", require("./status"));
 
 dashboard.get("/", require("./load-blogs"), function (req, res) {
   res.locals.title = "Your blogs";
@@ -189,29 +166,26 @@ dashboard.get("/", require("./load-blogs"), function (req, res) {
 // Load the files and folders inside a blog's folder
 dashboard.get(
   "/:handle/folder/:path(*)",
-
   function (req, res, next) {
     req.folderPath = "/" + req.params.path;
     next();
   },
-
-  require("./routes/folder"),
-
+  require("./folder"),
   function (req, res) {
     res.render("folder", { selected: { folder: "selected" } });
   }
 );
 
-dashboard.get("/:handle", require("./routes/folder"));
-dashboard.use("/:handle/services/import", require("./routes/import"));
-dashboard.use("/:handle", require("./routes/settings"));
+dashboard.get("/:handle", require("./folder"));
+dashboard.use("/:handle/services/import", require("./import"));
+dashboard.use("/:handle", require("./settings"));
 
 // This will catch old links to the dashboard before
 // we encoded the blog's username in the URLs
 dashboard.use(require("./redirect-to-other-blog"));
 
 // need to handle dashboard errors better...
-dashboard.use(require("./routes/settings/errorHandler"));
+dashboard.use(require("./settings/errorHandler"));
 
 dashboard.use(function (req, res, next) {
   const err = new Error("Page not found");
@@ -245,7 +219,7 @@ dashboard.use(function (err, req, res, next) {
 
   res.locals.layout = "";
   res.status(status);
-  console.log("HERE!", res.locals);
   res.render("error");
 });
+
 module.exports = dashboard;
