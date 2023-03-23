@@ -1,5 +1,5 @@
 const debug = require("debug")("blot:helper:queue");
-const client = require("client");
+const client = require("models/client");
 
 // Terminology
 // Sources generate tasks, they are effectively users/blogs/tenants

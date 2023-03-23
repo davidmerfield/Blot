@@ -1,6 +1,6 @@
 var Mustache = require("mustache");
 var type = require("helper/type");
-var client = require("client");
+var client = require("models/client");
 var key = require("./key");
 var urlNormalizer = require("helper/urlNormalizer");
 var ensure = require("helper/ensure");
@@ -9,7 +9,7 @@ var viewModel = require("./viewModel");
 var getView = require("./getView");
 var serialize = require("./util/serialize");
 var getMetadata = require("./getMetadata");
-var Blog = require("blog");
+var Blog = require("models/blog");
 var parseTemplate = require("./parseTemplate");
 
 module.exports = function setView(templateID, updates, callback) {

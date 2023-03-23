@@ -1,4 +1,4 @@
-const Blog = require("blog");
+const Blog = require("models/blog");
 const moment = require("moment");
 
 module.exports = function (req, res, next, handle) {

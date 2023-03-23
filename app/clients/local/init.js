@@ -25,26 +25,28 @@ module.exports = () => {
     });
   });
 
-  Blog.getAllIDs(function (err, blogIDs) {
-    if (err) console.error(err);
-    async.eachSeries(
-      blogIDs,
-      function (blogID, next) {
-        console.log(prefix(), "Blog:", blogID, "Setting up");
-        Blog.get({ id: blogID }, function (err, blog) {
-          if (err) return next(err);
-          if (!blog || blog.client !== "local") return next();
-
-          console.log(prefix(), "Synchronizing", blogID);
-          setup(blogID, function (err) {
+  setTimeout(function () {
+    Blog.getAllIDs(function (err, blogIDs) {
+      if (err) console.error(err);
+      async.eachSeries(
+        blogIDs,
+        function (blogID, next) {
+          console.log(prefix(), "Blog:", blogID, "Setting up");
+          Blog.get({ id: blogID }, function (err, blog) {
             if (err) return next(err);
-            next();
+            if (!blog || blog.client !== "local") return next();
+
+            console.log(prefix(), "Synchronizing", blogID);
+            setup(blogID, function (err) {
+              if (err) return next(err);
+              next();
+            });
           });
-        });
-      },
-      function (err) {
-        console.log(prefix(), "Checked all blogs");
-      }
-    );
-  });
+        },
+        function (err) {
+          console.log(prefix(), "Checked all blogs");
+        }
+      );
+    });
+  }, 5 * 1000); // 5s
 };

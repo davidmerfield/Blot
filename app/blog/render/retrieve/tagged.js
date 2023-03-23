@@ -1,5 +1,5 @@
-const Entry = require("entry");
-const Tags = require("tags");
+const Entry = require("models/entry");
+const Tags = require("models/tags");
 const type = require("helper/type");
 const _ = require("lodash");
 const async = require("async");

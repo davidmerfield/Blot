@@ -1,6 +1,6 @@
 const config = require("config");
 const redis = require("redis");
-const client = require("client");
+const client = require("models/client");
 const express = require("express");
 const CHANNEL = "webhook-forwarder";
 const EventSource = require("eventsource");
@@ -156,4 +156,8 @@ function listen({ host }) {
   };
 }
 
-module.exports = { server, client: listen };
+if (config.environment === "development" && config.webhooks.relay_host) {
+  listen({ host: config.webhooks.relay_host });
+}
+
+module.exports = server;

@@ -1,6 +1,6 @@
-var Entries = require("entries");
+var Entries = require("models/entries");
 var async = require("async");
-var Entry = require("entry");
+var Entry = require("models/entry");
 var clfdate = require("helper/clfdate");
 
 module.exports = function (blogID, callback) {

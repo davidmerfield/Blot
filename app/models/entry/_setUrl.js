@@ -5,11 +5,11 @@ var urlNormalizer = require("helper/urlNormalizer");
 var UID = require("helper/makeUid");
 var makeSlug = require("helper/makeSlug");
 var withoutExtension = require("helper/withoutExtension");
-var redis = require("client");
+var redis = require("models/client");
 var Permalink = require("build/prepare/permalink");
 var Key = require("./key").url;
 var model = require("./model");
-var Blog = require("blog");
+var Blog = require("models/blog");
 var get = require("./get");
 
 //'/style.css', '/script.js', '/feed.rss', '/robots.txt', '/sitemap.xml'

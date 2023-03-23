@@ -1,4 +1,4 @@
-const client = require("client");
+const client = require("models/client");
 const promisify = require("util").promisify;
 const set = promisify(client.set).bind(client);
 const get = promisify(client.get).bind(client);

@@ -1,4 +1,4 @@
-var client = require("client");
+var client = require("models/client");
 var ensure = require("helper/ensure");
 var Key = require("./key");
 

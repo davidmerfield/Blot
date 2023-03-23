@@ -1,7 +1,7 @@
 const config = require("config");
 const database = require("./database");
 const google = require("googleapis").google;
-const Blog = require("blog");
+const Blog = require("models/blog");
 const establishSyncLock = require("./util/establishSyncLock");
 const debug = require("debug")("blot:clients:google-drive");
 

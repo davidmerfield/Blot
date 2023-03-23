@@ -17,7 +17,7 @@ describe("Queue.destroy", function () {
     this.queue.drain(() => {
       this.queue.destroy((err) => {
         if (err) return done.fail(err);
-        require("client").keys(`queue:${this.queueID}*`, (err, keys) => {
+        require("models/client").keys(`queue:${this.queueID}*`, (err, keys) => {
           if (err) return done.fail(err);
           expect(keys).toEqual([]);
           done();

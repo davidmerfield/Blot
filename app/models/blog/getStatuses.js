@@ -1,5 +1,5 @@
 const key = require("./key");
-const client = require("client");
+const client = require("models/client");
 const ensure = require("helper/ensure");
 
 module.exports = function getStatuses(blogID, options, callback) {

@@ -1,4 +1,4 @@
-var Template = require("template");
+var Template = require("models/template");
 
 var ERROR = require("./error");
 var loadView = require("./load");

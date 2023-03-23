@@ -1,6 +1,6 @@
 var auth = require("http-auth");
-var Blog = require("blog");
-var User = require("user");
+var Blog = require("models/blog");
+var User = require("models/user");
 var database = require("./database");
 
 module.exports = auth.connect(

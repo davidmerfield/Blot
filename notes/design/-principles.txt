@@ -21,13 +21,13 @@ The *aesthetic* is one of my main motivations to work on Blot. I find a lot of t
 
 I find old books, especially Italian ones made by early printers, to be very beautiful. I like objects that can age and break and be repaired with dignity. I like medieval buildings and I don't think that ornament is always a crime. I like things which can be handed down, things that have been handed down. Old books taught me that beauty is a prophylactic for destruction.
 
-
+<!--
 <br>
 
 ![](https://upload.wikimedia.org/wikipedia/commons/1/16/Aristoteles_opera_aldus_1495.jpg)
 
 <small style="opacity:0.5;font-size:14px;px">Page-spread from the Aristoteles "Opera" printed by Aldus Manutius about 1495—1498. Copy of the Bayerische Staatsbibliothek.</small><br><Br>
-
+-->
 
 
 ## Typefaces I like

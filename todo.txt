@@ -1,4 +1,18 @@
-Finish and deploy changes to brochure
+Improvements to server
+- [ ] Check NGINX can deliver cached files
+- [ ] Check scheduler works
+- [ ] Check scheduled posts appear
+- [ ] Check template editor
+- [ ] build JS using esbuild
+- [ ] tune performance of express-mustache in production
+- [ ] tune performance of express-mustache in development
+- [ ] Write browser based integration tests for core functionality
+- [ ] work out how to re-enable broken link check for logged in users
+- [ ] Test overdue subscription re-start
+- [ ] disable call to stripe for every pageview on /account
+- [ ] Add spell checking test
+- [ ] Create blog > Dropbox > Create blog > Dropbox failed to set up properly
+- [ ] prevent GET request to log in page from setting `connect.sid` cookie
 
 ---
 
@@ -681,10 +695,15 @@ Finish template translation offers
 Improve the markdown converter:
 - Add plugin option to enable hard line breaks in Markdown parser? Tell [Wil](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsmhNWSxQsvMkWPRdQsxQxSvh)
 - Fix bug with nested Markdown and tell [Martin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqnhgBjBSKzvtclvqcFcMptMR):
+```
   - ![This is a picture of me testing **Sonikebana**, a nine channel sound piece for mobile loudspeakers that respond when moved. Photo (and artwork) by [Anna Chapman Parker](http://www.annachapman.co.uk)](http://example.com/images/_landingImage_01.jpg)
+```
 - Extend the Markdown converted to add support for Ulysses highlighting and iAWriter highlighting syntax, using the [example files provided by Marco](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsKFQGTxDTnxNddZQxjsLZJGb). Tell [Marco](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsKFQGTxDTnxNddZQxjsLZJGb)
-- Fix bug which injects <p> tags into the following: <div class="img-gallery"><img src="_Floralia.png" title="Floralia"><img src="_Flower.png" title="Flower"><img src="_Mechanical.png" title="Mechanical"><img src="_Curv.png" title="Curv"><img src="_Curvus.png" title="Curvus"><img src="_Futuristic.png" title="Futuristic">
-</div> and tell [Vanessa](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLswJQjKhnLpNZzfPhJZpVtcph)
+- Fix bug and tell [Vanessa](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLswJQjKhnLpNZzfPhJZpVtcph) which injects `<p>` tags into the following: 
+```
+<div class="img-gallery"><img src="_Floralia.png" title="Floralia"><img src="_Flower.png" title="Flower"><img src="_Mechanical.png" title="Mechanical"><img src="_Curv.png" title="Curv"><img src="_Curvus.png" title="Curvus"><img src="_Futuristic.png" title="Futuristic">
+</div>
+```
 
 Finish script to identify long-expired customers with blogs to safely delete and free up space. 
 - Sort by date expired

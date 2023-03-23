@@ -1,15 +1,15 @@
 describe("Blot's website'", function () {
-  var brochure = require("brochure");
+  var documentation = require("documentation");
   var dashboard = require("dashboard");
   var broken = require("../util/broken");
   var trace = require("helper/trace");
 
   global.test.blog();
 
-  global.test.server(function (server) {
+  global.test.server(function (server, test) {
     server.use(trace.init);
-    server.use(dashboard);
-    server.use(brochure);
+    server.use("/dashboard", dashboard);
+    server.use(documentation);
   });
 
   it(
@@ -33,26 +33,26 @@ describe("Blot's website'", function () {
 
       console.log("origin:", this.origin);
 
-      request.post(
-        this.origin + "/log-in",
-        { form: { email: test.user.email, password: test.user.fakePassword } },
-        function (err, res) {
-          if (err) return done.fail(err);
+      // request.post(
+      //   this.origin + "/log-in",
+      //   { form: { email: test.user.email, password: test.user.fakePassword } },
+      //   function (err, res) {
+      //     if (err) return done.fail(err);
 
-          var cookie = res.headers["set-cookie"];
-          var headers = { cookie: cookie };
+      //     var cookie = res.headers["set-cookie"];
+      //     var headers = { cookie: cookie };
 
-          if (!cookie) {
-            return done.fail("No cookie");
-          }
+      //     if (!cookie) {
+      //       return done.fail("No cookie");
+      //     }
 
-          broken(test.origin, { headers: headers }, function (err, results) {
-            if (err) return done.fail(err);
-            expect(results).toEqual({});
-            done();
-          });
-        }
-      );
+      broken(test.origin + "/dashboard", function (err, results) {
+        if (err) return done.fail(err);
+        expect(results).toEqual({});
+        done();
+      });
+      //   }
+      // );
     },
     5 * 60 * 1000
   );

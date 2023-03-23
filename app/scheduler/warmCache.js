@@ -25,10 +25,10 @@ function main() {
   cache.flush(config.host, function (err) {
     if (err) console.warn(err);
     setTimeout(function () {
-      console.log(clfdate(), "Warming cache for brochure site");
+      console.log(clfdate(), "Warming cache for documentation");
       warmCache(config.protocol + config.host, function (err) {
         if (err) console.warn(clfdate(), "Warming cache error:", err.message);
-        console.log(clfdate(), "Warmed cache for brochure site");
+        console.log(clfdate(), "Warmed cache for documentation");
       });
     }, 10 * 1000);
   });

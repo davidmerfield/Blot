@@ -15,7 +15,7 @@ module.exports = function (blogID, entry, callback) {
 
   // Refresh will perform a re-save of the entry
   var refresh = set.bind(this, blogID, entry.path, {}, function () {
-    require("blog").set(blogID, { cacheID: Date.now() }, function (err) {
+    require("models/blog").set(blogID, { cacheID: Date.now() }, function (err) {
       console.log(
         "Blog:",
         blogID + ":",

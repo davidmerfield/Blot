@@ -1,6 +1,6 @@
 var createClient = require("./util/createClient");
 var database = require("./database");
-var Blog = require("blog");
+var Blog = require("models/blog");
 var debug = require("debug")("blot:clients:dropbox");
 var Sync = require("sync");
 var lowerCaseContents = require("sync/lowerCaseContents");

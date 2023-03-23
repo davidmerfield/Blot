@@ -1,8 +1,8 @@
 var async = require("async");
 var ensure = require("helper/ensure");
 
-var addIgnore = require("ignored").add;
-var dropEntry = require("entry").drop;
+var addIgnore = require("models/ignoredFiles").add;
+var dropEntry = require("models/entry").drop;
 
 module.exports = function (blogID, path, reason, callback) {
   ensure(blogID, "string")

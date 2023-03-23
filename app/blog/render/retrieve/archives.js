@@ -1,4 +1,4 @@
-var Entries = require("entries");
+var Entries = require("models/entries");
 var arrayify = require("helper/arrayify");
 var moment = require("moment");
 require("moment-timezone");

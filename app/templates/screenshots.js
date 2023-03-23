@@ -1,13 +1,13 @@
 // todo turn this into a github action? runs when changes made automatically?
+// const imageminify = require("helper/imageminify");
 
 const screenshot = require("helper/screenshot");
-const imageminify = require("helper/imageminify");
 const async = require("async");
 const config = require("config");
 const sharp = require("sharp");
 const { dirname, basename, extname } = require("path");
-const VIEW_DIRECTORY =
-  require("helper/rootDir") + "/app/brochure/views/templates";
+const root = require("helper/rootDir");
+const VIEW_DIRECTORY = root + "/app/views/images/templates";
 
 const SCREENSHOTS = {
   blog: {
@@ -49,10 +49,14 @@ async.eachOfSeries(
         const mobilePath = `${dir}/${pages.indexOf(page)}.mobile.png`;
         const squarePath = `${dir}/${pages.indexOf(page)}.square.png`;
 
-        console.log("screenshotting", url);
+        console.log("Capturing screenshots:", url, path);
         await screenshot(url, path);
+        console.log("Capturing screenshots:", url, mobilePath);
         await screenshot(url, mobilePath, { mobile: true });
+        console.log("Capturing screenshots:", url, squarePath);
         await screenshot(url, squarePath, { width: 1060, height: 1060 });
+        console.log("Done with", url);
+        console.log();
 
         const resize = ({ path, label, width }) =>
           sharp(path)
