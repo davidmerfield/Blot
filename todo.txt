@@ -1,4 +1,18 @@
-Finish and deploy changes to brochure
+Improvements to server
+- [ ] Check NGINX can deliver cached files
+- [ ] Check scheduler works
+- [ ] Check scheduled posts appear
+- [ ] Check template editor
+- [ ] build JS using esbuild
+- [ ] tune performance of express-mustache in production
+- [ ] tune performance of express-mustache in development
+- [ ] Write browser based integration tests for core functionality
+- [ ] work out how to re-enable broken link check for logged in users
+- [ ] Test overdue subscription re-start
+- [ ] disable call to stripe for every pageview on /account
+- [ ] Add spell checking test
+- [ ] Create blog > Dropbox > Create blog > Dropbox failed to set up properly
+- [ ] prevent GET request to log in page from setting `connect.sid` cookie
 
 ---
 
