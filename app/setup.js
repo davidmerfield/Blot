@@ -5,19 +5,23 @@ const redis = require("redis").createClient();
 const buildDocumentation = require("./documentation/build");
 const templates = require("./templates");
 const async = require("async");
+const clfdate = require("helper/clfdate");
+
+const log = (...arguments) =>
+  console.log.apply(null, [clfdate(), "Setup:", ...arguments]);
 
 function main(callback) {
   async.series(
     [
       async function () {
-        console.log("Creating required directories");
+        log("Creating required directories");
         await fs.ensureDir(root + "/blogs");
         await fs.ensureDir(root + "/tmp");
         await fs.ensureDir(root + "/data");
         await fs.ensureDir(root + "/logs");
         await fs.ensureDir(root + "/db");
         await fs.ensureDir(root + "/static");
-        console.log("Created required directories");
+        log("Created required directories");
       },
       function (callback) {
         // Blot's SSL certificate system requires the existence
@@ -27,7 +31,7 @@ function main(callback) {
         // to the apex domain, but we need to generate a cert to do this.
         // Typically, domain keys like domain:example.com store a blog's ID
         // but since the homepage is not a blog, we just use a placeholder 'X'
-        console.log("Creating SSL key for redis");
+        log("Creating SSL key for redis");
         redis.msetnx(
           ["domain:" + config.host, "X", "domain:www." + config.host, "X"],
           function (err) {
@@ -40,18 +44,18 @@ function main(callback) {
               console.error(err);
             }
 
-            console.log("Created SSL key for redis");
+            log("Created SSL key for redis");
             callback();
           }
         );
       },
       function (callback) {
-        console.log("Building templates");
+        log("Building templates");
         templates({ watch: config.environment === "development" }, function (
           err
         ) {
           if (err) throw err;
-          console.log("Built templates");
+          log("Built templates");
           callback();
           // Build templates and watch directory
           if (config.environment === "development") {
@@ -66,12 +70,12 @@ function main(callback) {
         });
       },
       function (callback) {
-        console.log("Building documentation site");
+        log("Building documentation site");
         buildDocumentation(
           { watch: config.environment === "development" },
           function (err) {
             if (err) throw err;
-            console.log("Built documentation site");
+            log("Built documentation site");
             callback();
           }
         );

@@ -6,6 +6,7 @@ var VIEW_DIRECTORY = join(root, "app/views/dashboard");
 var config = require("config");
 const { static } = require("express");
 var express = require("express");
+const message = require("./message");
 
 // This is the express application used by a
 // customer to control the settings and view
@@ -86,7 +87,7 @@ dashboard.use(function (req, res, next) {
   next(new Error("NOUSER"));
 });
 
-dashboard.use(require("./message"));
+dashboard.use(message.middleware);
 
 dashboard.use(trace("loading user"));
 dashboard.use(require("./load-user"));
@@ -185,7 +186,7 @@ dashboard.use("/:handle", require("./settings"));
 dashboard.use(require("./redirect-to-other-blog"));
 
 // need to handle dashboard errors better...
-dashboard.use(require("./settings/errorHandler"));
+dashboard.use(message.errorHandler);
 
 dashboard.use(function (req, res, next) {
   const err = new Error("Page not found");

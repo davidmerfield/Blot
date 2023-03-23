@@ -1,8 +1,9 @@
 const { join } = require("path");
 const pathNormalizer = require("helper/pathNormalizer");
 const normalize = (path) => pathNormalizer(path).toLowerCase();
+const type = require("helper/type");
 
-module.exports = function (req, res, next) {
+function middleware(req, res, next) {
   // Expose a valid message to the view
   if (req.session.message) {
     const currentURL = req.baseUrl ? join(req.baseUrl, req.path) : req.path;
@@ -60,4 +61,27 @@ module.exports = function (req, res, next) {
   };
 
   next();
-};
+}
+
+function errorHandler(err, req, res, next) {
+  if (!req.body) {
+    return next(err);
+  }
+
+  var redirect = req.body.redirect || req.path;
+  var message = "Error";
+
+  // this should not be an object but I made
+  // some bad decisions in the past. eventually
+  // fix blog.set...
+  if (err.message) {
+    message = err.message;
+  }
+
+  if (type(err, "object"))
+    for (var i in err) if (type(err[i], "string")) message = err[i];
+
+  res.message(redirect, new Error(message));
+}
+
+module.exports = { middleware, errorHandler };
