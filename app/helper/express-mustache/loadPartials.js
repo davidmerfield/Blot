@@ -27,7 +27,5 @@ module.exports = async function loadPartials(root, options, ext, cache) {
     partials[name] = res;
   }
 
-  console.log("loaded partials", partials);
-
   return partials;
 };

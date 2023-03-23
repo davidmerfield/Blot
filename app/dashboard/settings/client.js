@@ -225,7 +225,7 @@ client_routes.use("/:client", function (req, res, next) {
   if (req.params.client !== req.blog.client) {
     return res.redirect(res.locals.base + "/client/" + req.blog.client);
   }
-
+  res.locals.partials = {};
   res.locals.dashboardBase = res.locals.base;
   res.locals.base = req.baseUrl;
 
