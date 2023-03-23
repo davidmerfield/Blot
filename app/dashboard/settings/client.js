@@ -3,12 +3,13 @@ const _ = require("lodash");
 const moment = require("moment");
 const express = require("express");
 const client_routes = express.Router();
-const { parse, join } = require("path");
+const Path = require("path");
 const Blog = require("models/blog");
 const load = require("./load");
 const Sync = require("sync");
 const Fix = require("sync/fix");
 const Rebuild = require("sync/rebuild");
+const parse = require('dashboard/parse');
 
 const { promisify } = require("util");
 const getStatuses = promisify(Blog.getStatuses);
@@ -32,7 +33,7 @@ client_routes
     });
   })
 
-  .post(function (req, res, next) {
+  .post(parse, function (req, res, next) {
     var redirect = req.baseUrl + "/" + req.body.client;
 
     if (!req.body.client) {
@@ -77,9 +78,9 @@ client_routes.route("/activity").get(load.clients, async function (req, res) {
 
           if (matchedVerb) {
             const path = item.message.slice((matchedVerb + " ").length);
-            item.path = parse(path);
+            item.path = Path.parse(path);
             item.verb = verbs[matchedVerb];
-            item.url = join(
+            item.url = Path.join(
               res.locals.base,
               "folder",
               encodeURIComponent(path.slice(1))
@@ -193,7 +194,7 @@ client_routes
     }
   })
 
-  .post(function (req, res, next) {
+  .post(parse, function (req, res, next) {
     var redirect;
 
     if (!req.body.client) {

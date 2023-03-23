@@ -10,7 +10,7 @@ module.exports = function Is(doThis) {
     var inputs = args.slice(0, -1);
     var result = doThis.apply(this, inputs);
 
-    expect(expected).toBe(
+    expect(expected).toEqual(
       result,
       `
 ----------------------------------------------------------
