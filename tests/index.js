@@ -104,7 +104,7 @@ global.test = {
     var port = 8919;
 
     // Create a webserver for testing remote files
-    beforeEach(function (done) {
+    beforeAll(function (done) {
       server = Express();
 
       // Load in routes in suite
@@ -124,7 +124,7 @@ global.test = {
       });
     });
 
-    afterEach(function (done) {
+    afterAll(function (done) {
       server.close(done);
       setTimeout(done, 1500);
     });

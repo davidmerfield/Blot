@@ -8,12 +8,6 @@ describe("Blot's website'", function () {
 
   global.test.server(function (server, test) {
     server.use(trace.init);
-    // server.use("/dashboard", (req, res, next) => {
-    //   req.session = {};
-    //   req.session.uid = test.user.uid;
-    //   console.log('req.session!', req.session);
-    //   next();
-    // });
     server.use("/dashboard", dashboard);
     server.use(documentation);
   });
