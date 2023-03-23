@@ -3,7 +3,7 @@ var settings = express.Router();
 var load = require("./load");
 var save = require("./save");
 var trace = require("helper/trace");
-
+var parse = require("dashboard/parse");
 var Template = require("models/template");
 
 settings.use(function (req, res, next) {
@@ -72,10 +72,7 @@ settings
     res.locals.breadcrumbs.add("404 log", "404s");
     res.render("settings/404s", { title: "404s" });
   })
-  .post(
-    require("body-parser").urlencoded({ extended: false }),
-    require("./save/404")
-  );
+  .post(parse, require("./save/404"));
 
 settings.get("/services/redirects", load.redirects);
 
@@ -95,7 +92,7 @@ settings
   .get(function (req, res) {
     res.render("template", { title: "Template" });
   })
-  .post(require("./save/template"));
+  .post( parse, require("./save/template"));
 
 settings
   .route("/template/new")
@@ -103,7 +100,7 @@ settings
     res.locals.breadcrumbs.add("New", "new");
     res.render("template/new", { title: "New template" });
   })
-  .post(require("./save/newTemplate"));
+  .post( parse, require("./save/newTemplate"));
 
 settings
   .route("/template/archive")
@@ -130,7 +127,7 @@ settings
   .post(function (req, res, next) {
     req.body = {
       name: req.template.name,
-      redirect: res.locals.base + '/template',
+      redirect: res.locals.base + "/template",
       cloneFrom: req.template.id,
     };
     next();
@@ -147,8 +144,8 @@ settings.get("/:section/:view", function (req, res) {
   res.locals.breadcrumbs.add(uppercaseName, req.params.view);
   res.locals.subpage = "services/" + req.params.view;
   res.locals.host = process.env.BLOT_HOST;
-  res.locals.layout = 'partials/wrapper-subpage.html';
-  
+  res.locals.layout = "partials/wrapper-subpage.html";
+
   res.render("settings/" + req.params.view);
 });
 
@@ -162,8 +159,8 @@ settings.get("/:view", function (req, res) {
   }
 
   res.locals.subpage = req.params.view;
-res.locals.layout = 'partials/wrapper-subpage.html';
-    res.render("settings/" + req.params.view, { host: process.env.BLOT_HOST });
+  res.locals.layout = "partials/wrapper-subpage.html";
+  res.render("settings/" + req.params.view, { host: process.env.BLOT_HOST });
 });
 
 module.exports = settings;

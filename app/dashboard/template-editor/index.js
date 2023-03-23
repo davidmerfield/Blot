@@ -1,7 +1,7 @@
 const Express = require("express");
 const TemplateEditor = new Express.Router();
 const config = require("config");
-const bodyParser = require("body-parser").urlencoded({ extended: false });
+const parse = require('dashboard/parse');
 const formJSON = require("helper/formJSON");
 const Template = require("models/template");
 
@@ -48,7 +48,7 @@ TemplateEditor.route("/:templateSlug/settings")
   .all(require("./load/layout-inputs"))
   .all(require("./load/dates"))
   .post(
-    bodyParser,
+    parse,
     require("./save/previewPath"),
     function (req, res, next) {
       let body = formJSON(req.body, Template.metadataModel);
@@ -102,7 +102,7 @@ TemplateEditor.route("/:templateSlug/local-editing")
     res.locals.title = `Local editing - ${req.template.name}`;
     res.render("template-editor/local-editing");
   })
-  .post(bodyParser, function (req, res, next) {
+  .post(parse, function (req, res, next) {
     const localEditing = !req.template.localEditing;
 
     Template.setMetadata(req.template.id, { localEditing }, function (err) {
@@ -134,7 +134,7 @@ TemplateEditor.route("/:templateSlug/rename")
     res.locals.title = `Rename - ${req.template.name}`;
     res.render("template-editor/rename");
   })
-  .post(bodyParser, function (req, res, next) {
+  .post(parse, function (req, res, next) {
     Template.setMetadata(req.template.id, { name: req.body.name }, function (
       err
     ) {
@@ -154,7 +154,7 @@ TemplateEditor.route("/:templateSlug/share")
     res.locals.shareURL = `${config.protocol}${config.host}/settings/template/share/${res.locals.template.shareID}`;
     res.render("template-editor/share");
   })
-  .post(bodyParser, function (req, res, next) {
+  .post(parse, function (req, res, next) {
     if (req.template.shareID) {
       Template.dropShareID(req.template.shareID, function (err) {
         if (err) return next(err);
