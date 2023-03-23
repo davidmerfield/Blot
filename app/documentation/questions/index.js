@@ -572,7 +572,6 @@ function highlight(html) {
 
       $(this).html(highlighted).addClass("hljs").addClass(lang);
     } catch (e) {
-      console.log(e);
     }
   });
 

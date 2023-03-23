@@ -10,7 +10,7 @@ const querystring = require("querystring");
 module.exports = function (req, res, next) {
   const query = querystring.stringify({ ...req.query, redirected: true });
   const redirect =
-    req.protocol + "://" + req.hostname + req.originalUrl + "?" + query;
+    req.protocol + "://" + req.hostname + req.baseUrl + req.path + "?" + query;
   const redirected = req.query.redirected;
 
   if (!redirected) {
