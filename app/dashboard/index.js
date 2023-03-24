@@ -37,10 +37,10 @@ const { plan } = config.stripe;
 dashboard.locals.price = "$" + plan.split("_").pop();
 dashboard.locals.interval = plan.startsWith("monthly") ? "month" : "year";
 
+const cacheID = Date.now();
+
 dashboard.locals.cdn = () => (text, render) =>
-  `${config.cdn.origin}/documentation${render(
-    text
-  )}?cacheID=${Date.now()}&extension=${require("path").extname(text)}`;
+  `${config.cdn.origin}/documentation/${cacheID}${render(text)}`;
 
 // For when we want to cache templates
 if (config.environment !== "development") {

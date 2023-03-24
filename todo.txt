@@ -1,5 +1,6 @@
 Improvements to server
 - [ ] test maintenance and redirect
+- [ ] log in route should clear 'logged_in_to_blot' cookie if not logged in
 - [ ] fix issue with favicon on site
 - [ ] fix issue with missing font files (Iawriter...) on docs
 - [ ] fix server reload script

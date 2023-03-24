@@ -34,10 +34,9 @@ documentation.locals.ip = config.ip;
 documentation.locals.date = require("./dates.js");
 documentation.locals.price = "$" + plan.split("_").pop();
 documentation.locals.interval = plan.startsWith("monthly") ? "month" : "year";
+const cacheID = Date.now();
 documentation.locals.cdn = () => (text, render) =>
-  `${config.cdn.origin}/documentation${render(
-    text
-  )}?cacheID=${Date.now()}&extension=${require("path").extname(text)}`;
+  `${config.cdn.origin}/documentation/${cacheID}${render(text)}`;
 
 documentation.get(["/how/format/*"], function (req, res, next) {
   res.locals["show-on-this-page"] = true;

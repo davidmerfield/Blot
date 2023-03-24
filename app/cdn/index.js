@@ -38,12 +38,11 @@ cdn
   )
   
   .use(
-    "/documentation",
+    "/documentation/:cacheid/",
     Express.static(documentation_static_files, {
-      immutable: true,
-      maxAge: "31536000",
-      lastModified: false,
-      etag: false,
+      index: false, // Without 'index: false' this will server the index.html files inside
+      redirect: false, // Without 'redirect: false' this will redirect URLs to existent directories
+      maxAge: 86400000,
       setHeaders: function (res) {
         res.setHeader("Access-Control-Allow-Origin", "*");
       },
