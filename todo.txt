@@ -1,21 +1,13 @@
 Improvements to server
 - [ ] move development cdn onto its own host to better simular cross-domain issues
-- [ ] test maintenance and redirect
-- [ ] fix git source lookup script
-- [ ] how can we test the 'reload-server' script?
-- [ ] how can we test the 'scheduler' functions? we ran into error where it was running twice
-- [ ] Check scheduler works
-- [ ] Check scheduled posts appear
-- [ ] Check template editor
-- [ ] tune performance of express-mustache in production
-- [ ] tune performance of express-mustache in development
-- [ ] Write browser based integration tests for core functionality
-- [ ] work out how to re-enable broken link check for logged in users
+- [ ] test maintenance and redirector on dashboard
+- [ ] tune performance of express-mustache in production and development
+- [ ] add optional HTML/JS/CSS minification to express-disk-cache
 - [ ] Test overdue subscription re-start
-- [ ] disable call to stripe for every pageview on /account
-- [ ] Add spell checking test
+- [ ] Disable call to stripe for every pageview on /account
 - [ ] Create blog > Dropbox > Create blog > Dropbox failed to set up properly
-- [ ] prevent GET request to log in page from setting `connect.sid` cookie
+- [ ] Prevent GET request to log in page from setting `connect.sid` cookie
+  - [ ] or otherwise work out how to try and cache everything at nginx
   - [ ] log in route should clear 'logged_in_to_blot' cookie if not logged in
 
 ---
@@ -46,6 +38,13 @@ Add support for new formats via pandoc:
 Add support for other image formats, by converting them into jpg/webp
 
 ---
+
+Improve CI testing
+- [ ] Add spell checking test
+- [ ] Write browser based integration tests for core functionality
+- [ ] how can we test the 'reload-server' script?
+- [ ] work out how to re-enable broken link check for logged in users
+- [ ] how can we test the 'scheduler' functions? we ran into error where it was running twice
 
 Fix [Christopher's bugs with thumbnails](https://mail.google.com/mail/u/0/#inbox/QgrcJHrnvrNzJHZMWcVFzMHvZTnPZfPxfqg)
 
