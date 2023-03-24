@@ -33,7 +33,14 @@ module.exports = function makeSlug(string) {
     .replace(/&nbsp;/g, " ")
     .replace(/&thinsp;/g, " ")
     .replace(/&mdash;/g, "-")
+
+    // maps don't to dont, won't to wont
+    // shouldn't to shouldnt
+    .replace(/n['’]t/g, "nt")
+    
+    // maps apple's to apples
     .replace(/['’]s/g, "s")
+
     .replace(/→/g, "to")
     .replace(/←/g, "from")
     .replace(/\./g, "-")
