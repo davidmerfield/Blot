@@ -1,6 +1,10 @@
 Improvements to server
 - [ ] fix issue with favicon on site
 - [ ] fix issue with missing font files (Iawriter...) on docs
+- [ ] fix server reload script
+- [ ] fix git source lookup script
+- [ ] how can we test the 'reload-server' script?
+- [ ] how can we test the 'scheduler' functions? we ran into error where it was running twice
 - [ ] Check NGINX can deliver cached files
 - [ ] Check scheduler works
 - [ ] Check scheduled posts appear

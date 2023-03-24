@@ -12,6 +12,7 @@ if (cluster.isMaster) {
     NUMBER_OF_CORES > 4 ? Math.round(NUMBER_OF_CORES / 2) : 2;
 
   if (process.env.FAST === "true") NUMBER_OF_WORKERS = 1;
+
   const publishScheduledEntries = require("./scheduler/publish-scheduled-entries");
 
   console.log(
@@ -29,7 +30,9 @@ if (cluster.isMaster) {
 
   const email = require("helper/email");
 
-  cluster.on("listening", () => {
+  // It's important that this only runs once and 'listening'
+  // will fire when each worker comes online
+  cluster.once("listening", () => {
     const scheduler = require("./scheduler");
     const setup = require("./setup");
 
