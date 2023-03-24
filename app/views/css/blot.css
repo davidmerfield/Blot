@@ -203,6 +203,9 @@ table {
   overflow-x: auto;
 }
 
+
+    table .light {margin: 0 10px 0 12px;color:#777}
+    
 div.tex table {
   table-layout: auto;
   margin-bottom: 1.5em;
@@ -354,9 +357,15 @@ background .window {
   text-decoration: underline;
 }
 
+h2 + .clients {margin-top: 0}
+.clients.files .light {margin-left: 1.9rem}
+
+
 .clients li a .a {
   color: var(--accent-color);
 }
+
+.clients li a img[src*='.svg'] {width: 20px;height: 20px;margin-right: 0.8em}
 
 .clients img {
   width: 24px;
@@ -617,8 +626,25 @@ ul.qa-questions li {
 }
 
 
-
-
+   background.video .textli {
+              color: white;
+              font-size: 14px;
+              position: relative;
+              margin-top: 6rem
+          }
+          .video .textli span {display: block;opacity: 0.5}
+          background.video .textli svg {
+            width: 1.5em;
+            position: absolute;left: -2em
+          }
+          .video .demo-video {position: absolute;top:0;left: 0;right:0;bottom: 0}
+          background.video .textli svg .st1 {fill:white;}
+          background.video .no-border {
+            border-bottom: none;
+            padding-bottom: 0
+          }
+          background.video:hover {background-color: #004a99}
+          background.video {position: relative;margin: calc(var(--spacing)*2) 0}
 .grow-on-hover {
   transform: scale(1);
   transition: transform 0.1s;

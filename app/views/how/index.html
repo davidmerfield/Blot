@@ -2,27 +2,8 @@
 
 <p>Blot turns a folder into a website. Files in the folder be­come posts on your website. What's the point of turning a folder into a website? So you can blog with your favorite text-editor. There's no interface – just files.</p>
 
-
-        <style type="text/css">
-          .textli {
-              color: white;
-              font-size: 14px;
-              position: relative;
-              margin-top: 6rem
-          }
-          .textli svg {
-            width: 1.5em;
-            position: absolute;left: -2em
-          }
-          .textli svg .st1 {fill:white;}
-          .no-border {
-            border-bottom: none;
-            padding-bottom: 0
-          }
-          background.video:hover {background-color: #004a99}
-        </style>
-<background class="video" style="position: relative;margin: calc(var(--spacing)*2) 0">
-      <a class="textli" >{{> playsvg}}<strong>Watch the video</strong><span style="display: block;opacity: 0.5">Introduction &thinsp;&middot;&thinsp; 09:39</span></a>
+<background class="video">
+  <a class="textli">{{> playsvg}}<strong>Watch the video</strong><span>Introduction &thinsp;&middot;&thinsp; 09:39</span></a>
     <pre class="folder" title="Your blog"><code>Posts
   Apple.txt
   Blackcurrant.docx
@@ -31,59 +12,20 @@
   Elderberry.webloc
   Fig.html
 </code></pre>
-    <a class="demo-video" href="{{#cdn}}/videos/publishing-with-blot.mp4{{/cdn}}" style="position: absolute;top:0;left: 0;right:0;bottom: 0"></a>
-
+  <a class="demo-video" href="{{#cdn}}/videos/publishing-with-blot.mp4{{/cdn}}"></a>
 </background>
 
 <style type="text/css">
-  .vidlink {opacity: 0;transition: opacity 0.15s;background: rgba(0,0,0,0.5);border-radius: 12px}
-  .vidlink svg {opacity: 0;transition: opacity 0.15s;}
-  .vidlink:hover {opacity: 1.0;}
-  .vidlink:hover  svg {opacity: 1.0}
-  .vidlink svg {    width: 1rem;
-    vertical-align: baseline;
-    position: relative;
-    top: 2px;
-    left: 7px;
-}
-</style>
-
-
-<style type="text/css">
-
-.light {opacity: 0.5;}
-
-.flex-table {max-width: 637px;}
-.flex-table row {display: flex;flex-wrap:wrap;    }
-.flex-table row > :first-child {min-width:190px;flex-shrink:0;padding-right: 1.4em;margin-bottom: 0}
-.flex-table row > :last-child {flex-shrink: 1;
-    flex-basis: 100px;
-    min-width: 256px;
-    flex-grow: 1;
-    margin-left: 1.7em;}
-
-.flex-table hr {    border: none;    
-    border-bottom: 1px solid #eceff1;margin: 0}
-
-h2 + ul.clients {margin-top: 0}
-ul.clients.files .light {margin-left: 1.9rem}
-</style>
-
-<style type="text/css">
-  img[src*='.svg'] {width: 20px;height: 20px;margin-right: 0.8em}
 </style>
 <h2 class="no-border">Sync your folder to Blot</h2>
 <ul class="clients" >
-
   <li><a href="/how/sync/dropbox">
     <img src="/images/sync/dropbox.svg">
     <span class="a">Dropbox</span><br><span class="light">Use a folder in your Dropbox</span></a></li>
-
   <li><a href="/how/sync/git">
     <img src="/images/sync/git.svg">
     <span class="a">Git</span><br><span class="light">Use a git repository</span></a></li>
 
-    
 <li><a href="/how/sync/google-drive">
 
     <img src="/images/sync/google-drive.svg">
