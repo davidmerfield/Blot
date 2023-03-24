@@ -9,7 +9,7 @@ const root = require("helper/rootDir");
 const OUTPUT = join(root, "/app/documentation/data/views");
 const INPUT = join(root, "/app/views");
 
-async function main(options, callback = ()=>{}) {
+async function main(options, callback = () => {}) {
   await fs.ensureDir(OUTPUT);
 
   // we should create a tmp dir during the build, then replace OUTPUT
@@ -105,6 +105,18 @@ async function handle({ path, destination }, callback) {
     search.add(path, output);
 
     await fs.outputFile(join(destination, path), output);
+  } else if (path.endsWith(".js")) {
+    const { build } = require("esbuild");
+
+    await build({
+      entryPoints: [join(INPUT, "js/documentation.js")],
+      bundle: true,
+      minify: true,
+      // sourcemap: true,
+      target: ["chrome58", "firefox57", "safari11", "edge16"],
+      outfile: join(destination, "js/documentation.min.js"),
+    });
+    await fs.copy(join(INPUT, path), join(destination, path));
   } else {
     await fs.copy(join(INPUT, path), join(destination, path));
   }

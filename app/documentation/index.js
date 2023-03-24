@@ -35,8 +35,11 @@ documentation.locals.date = require("./dates.js");
 documentation.locals.price = "$" + plan.split("_").pop();
 documentation.locals.interval = plan.startsWith("monthly") ? "month" : "year";
 const cacheID = Date.now();
+
 documentation.locals.cdn = () => (text, render) =>
-  `${config.cdn.origin}/documentation/${cacheID}${render(text)}`;
+  `${config.cdn.origin}/documentation/${
+    config.cache ? cacheID : Date.now()
+  }${render(text)}`;
 
 documentation.get(["/how/format/*"], function (req, res, next) {
   res.locals["show-on-this-page"] = true;

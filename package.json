@@ -58,6 +58,7 @@
     "debug": "^3.1.0",
     "dropbox": "^10.5.0",
     "elasticlunr": "^0.9.5",
+    "esbuild": "^0.17.12",
     "eventsource": "^2.0.2",
     "express": "^4.18.2",
     "express-disk-cache": "^1.0.4",

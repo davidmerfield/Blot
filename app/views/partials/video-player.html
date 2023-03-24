@@ -13,12 +13,15 @@
 
 <script src="/js/plyr.js"></script>
 <script type="text/javascript">
-  var player = new Plyr("#player", {
+  
+
+var player = new Plyr("#player", {
     duration: 579,
     controls: ['play-large', 'play', 'progress', 'duration', 'current-time', 'mute', 'volume', 'fullscreen']
   });
+
   document
-    .querySelectorAll('[href="/videos/publishing-with-blot.mp4"')
+    .querySelectorAll('a.demo-video')
     .forEach(function(el) {
       el.onclick = function(e) {
         document.querySelector("overlay").className += "show";

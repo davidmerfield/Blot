@@ -1,11 +1,9 @@
 Improvements to server
 - [ ] move development cdn onto its own host to better simular cross-domain issues
-- [ ] video link on homepage does not work
 - [ ] test maintenance and redirect
 - [ ] log in route should clear 'logged_in_to_blot' cookie if not logged in
 - [ ] fix issue with favicon on site
 - [ ] fix issue with missing font files (Iawriter...) on docs
-- [ ] fix server reload script
 - [ ] fix git source lookup script
 - [ ] how can we test the 'reload-server' script?
 - [ ] how can we test the 'scheduler' functions? we ran into error where it was running twice

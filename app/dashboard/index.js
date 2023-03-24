@@ -40,7 +40,9 @@ dashboard.locals.interval = plan.startsWith("monthly") ? "month" : "year";
 const cacheID = Date.now();
 
 dashboard.locals.cdn = () => (text, render) =>
-  `${config.cdn.origin}/documentation/${cacheID}${render(text)}`;
+  `${config.cdn.origin}/documentation/${
+    config.cache ? cacheID : Date.now()
+  }${render(text)}`;
 
 // For when we want to cache templates
 if (config.environment !== "development") {
