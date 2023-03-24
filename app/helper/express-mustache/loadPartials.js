@@ -2,12 +2,20 @@ const fs = require("fs-extra");
 const load = require("./load");
 const { join } = require("path");
 
+let CACHED;
+
 module.exports = async function loadPartials(root, options, ext, cache) {
   let partials = {};
   const dir = join(root, "partials");
 
   try {
-    (await fs.readdir(dir))
+    const items = cache
+      ? CACHED || (await fs.readdir(dir))
+      : await fs.readdir(dir);
+
+    if (!CACHED) CACHED = items;
+
+    items
       .filter((i) => i.endsWith(ext))
       .forEach(
         (i) => (partials[i.slice(0, i.lastIndexOf("."))] = join(dir, i))
