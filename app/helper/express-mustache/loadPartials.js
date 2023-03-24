@@ -13,7 +13,7 @@ module.exports = async function loadPartials(root, options, ext, cache) {
       ? CACHED[dir] || (await fs.readdir(dir))
       : await fs.readdir(dir);
 
-    if (!CACHED[dir]) CACHED[dir] = items;
+    if (cache && !CACHED[dir]) CACHED[dir] = items;
 
     items
       .filter((i) => i.endsWith(ext))

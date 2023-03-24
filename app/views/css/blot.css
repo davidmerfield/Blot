@@ -205,7 +205,7 @@ table {
 
 
     table .light {margin: 0 10px 0 12px;color:#777}
-    
+    table pre {margin-top: 0;margin-bottom: 0}
 div.tex table {
   table-layout: auto;
   margin-bottom: 1.5em;

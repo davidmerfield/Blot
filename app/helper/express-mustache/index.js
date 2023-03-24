@@ -33,7 +33,7 @@ const render = async function (filePath, options, callback) {
 
   try {
     const layout = options.layout || options.settings.layout;
-    const partials = await loadPartials(root, options, ext, root, cache);
+    const partials = await loadPartials(root, options, ext, cache);
 
     partials.body = layout
       ? await load(filePath, ext, root, cache)

@@ -1,0 +1,26 @@
+<ul class="clients">
+  {{^selected.dropbox}}
+  <li>
+    <a href="/how/sync/dropbox">
+      <img src="/images/sync/dropbox.svg" />
+      <span class="a">Dropbox</span><br />Use a folder in your Dropbox</a
+    >
+  </li>
+  {{/selected.dropbox}}
+  {{^selected.git}}
+  <li>
+    <a href="/how/sync/git">
+      <img src="/images/sync/git.svg" />
+      <span class="a">Git</span><br />Use a git repository
+    </a>
+  </li>
+  {{/selected.git}}
+  {{^selected.google-drive}}
+  <li>
+    <a href="/how/sync/google-drive">
+      <img src="/images/sync/google-drive.svg" />
+      <span class="a">Google Drive</span><br />Use a folder in your Drive</a
+    >
+  </li>
+  {{/selected.google-drive}}
+</ul>
