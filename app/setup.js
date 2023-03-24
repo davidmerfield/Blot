@@ -21,6 +21,7 @@ function main(callback) {
         await fs.ensureDir(root + "/logs");
         await fs.ensureDir(root + "/db");
         await fs.ensureDir(root + "/static");
+        await fs.ensureDir(root + "/app/clients/git/data");
         log("Created required directories");
       },
       function (callback) {
