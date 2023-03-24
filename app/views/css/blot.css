@@ -955,12 +955,6 @@ ul.who li {
   display: none;
 }
 
-.toc-list {padding-left: 0}
-a.toc-link {text-decoration: none;}
-li.toc-list-item {padding: 6px 0;font-size: 15px;line-height: 1.2}
-.toc-link::before {content: none}
-.is-active-link {font-weight: 400}
-
 .main-page p a{
   color:var(--accent-color);
   text-decoration: underline;
