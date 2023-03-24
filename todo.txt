@@ -1,17 +1,14 @@
 Improvements to server
 - [ ] move development cdn onto its own host to better simular cross-domain issues
 - [ ] test maintenance and redirect
-- [ ] log in route should clear 'logged_in_to_blot' cookie if not logged in
 - [ ] fix issue with favicon on site
 - [ ] fix issue with missing font files (Iawriter...) on docs
 - [ ] fix git source lookup script
 - [ ] how can we test the 'reload-server' script?
 - [ ] how can we test the 'scheduler' functions? we ran into error where it was running twice
-- [ ] Check NGINX can deliver cached files
 - [ ] Check scheduler works
 - [ ] Check scheduled posts appear
 - [ ] Check template editor
-- [ ] build JS using esbuild
 - [ ] tune performance of express-mustache in production
 - [ ] tune performance of express-mustache in development
 - [ ] Write browser based integration tests for core functionality
@@ -21,6 +18,7 @@ Improvements to server
 - [ ] Add spell checking test
 - [ ] Create blog > Dropbox > Create blog > Dropbox failed to set up properly
 - [ ] prevent GET request to log in page from setting `connect.sid` cookie
+  - [ ] log in route should clear 'logged_in_to_blot' cookie if not logged in
 
 ---
 
