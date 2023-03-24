@@ -1,10 +1,12 @@
 const { join } = require("path");
 const fs = require("fs-extra");
-const { execSync } = require("child_process");
 const rootDir = require("helper/rootDir");
 const moment = require("moment");
+var Git = require("simple-git");
 
 module.exports = function determineSource(req, res, next) {
+  let validPath;
+  let git;
   try {
     const path = require("url").parse(req.originalUrl).pathname;
 
@@ -24,24 +26,29 @@ module.exports = function determineSource(req, res, next) {
       ];
     }
 
-    const validPath = paths
-      .filter((i) => fs.existsSync(join(rootDir, i)))
-      .pop();
+    validPath = paths.filter((i) => fs.existsSync(join(rootDir, i))).pop();
 
     if (!validPath) {
       return next();
     }
 
-    const date = execSync(
-      `git log -1 --pretty="format:%ci" ${join(rootDir, validPath)}`
-    ).toString();
-
-    res.locals.sourceFile = validPath;
-    res.locals.sourceFileUpdated = moment(date).fromNow();
-
-    next();
+    git = Git(rootDir).silent(true);
   } catch (e) {
     console.log("Error looking up source file:", e);
-    next();
+    return next();
   }
+
+  git.raw(
+    ["log", "-1", '--pretty="format:%ci"', `${join(rootDir, validPath)}`],
+    function (err, date) {
+      if (err) {
+        console.log("Error looking up source file:", e);
+        return next();
+      }
+
+      res.locals.sourceFile = validPath;
+      res.locals.sourceFileUpdated = moment(date).fromNow();
+      next();
+    }
+  );
 };
