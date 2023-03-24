@@ -1,7 +1,6 @@
 Improvements to server
 - [ ] move development cdn onto its own host to better simular cross-domain issues
 - [ ] test maintenance and redirect
-- [ ] fix issue with favicon on site
 - [ ] fix issue with missing font files (Iawriter...) on docs
 - [ ] fix git source lookup script
 - [ ] how can we test the 'reload-server' script?
