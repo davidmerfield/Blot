@@ -17,6 +17,9 @@ const VIEW_DIRECTORY = join(root, "app/documentation/data/views");
 documentation.set("view engine", "html");
 documentation.set("views", VIEW_DIRECTORY);
 documentation.engine("html", hogan);
+documentation.disable("x-powered-by");
+
+documentation.set('etag', false); // turn off etags for responses
 
 if (config.cache === false) {
   // During development we want views to reload as we edit

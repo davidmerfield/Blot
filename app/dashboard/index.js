@@ -18,8 +18,7 @@ for (const path of ["/css", "/images", "/scripts"]) {
   dashboard.use(path, static(join(VIEW_DIRECTORY, path), { maxAge: 86400000 }));
 }
 
-// Hide the header which says the app
-// is built with Express
+// Hide the header added by Express
 dashboard.disable("x-powered-by");
 
 // Without trust proxy is not set, express

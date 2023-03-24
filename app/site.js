@@ -4,6 +4,11 @@ var documentation = require("./documentation");
 var cdn = require("./cdn");
 var site = Express();
 
+// Hide the header added by Express
+site.disable("x-powered-by");
+
+site.set('etag', false); // turn off etags for responses
+
 // The dashboard
 // -------
 site.use("/dashboard", dashboard);
