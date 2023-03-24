@@ -110,6 +110,10 @@ module.exports = function loadDone(req, res, next) {
       return { day: commits[0].time, commits };
     });
 
+    res.locals.recent_commits = commits.slice(0, 5).map((commit) => {
+      return { ...commit, fromNow: moment(commit.date).fromNow() };
+    });
+
     next();
   });
 };

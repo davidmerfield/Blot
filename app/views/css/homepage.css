@@ -1,0 +1,243 @@
+.side {
+  max-width: 780px;
+  box-sizing: border-box;
+  margin: 0 1.5rem;
+  background: #fafafa;
+  border-radius: 18px;
+  padding: 18px 36px;
+  display: flex;
+  margin-bottom: 3rem;
+}
+
+.side .left {
+  padding-right: 2rem;
+}
+
+.side .right {
+  padding-left: 2rem;
+}
+
+.side .left,
+.side .right {
+  flex-basis: 50%;
+  box-sizing: border-box;
+}
+
+.sides-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.homepage h2,
+.homepage h1,
+.homepage p {
+  margin: 0;
+  padding: 0;
+  line-height: 1.45;
+}
+.homepage h2 {
+  font-weight: 600;
+  border: none;
+  font-size: var(--text-size);
+}
+.homepage p {
+  margin-bottom: 1.45em;
+}
+.homepage .module {
+  background: #f8f8f8;
+  border-radius: 16px;
+  padding: 24px;
+  margin: 0 0 32px 0;
+  box-sizing: border-box;
+  break-inside: avoid;
+  border-radius: 16px;
+}
+.homepage b {
+  font-weight: 600;
+}
+.homepage .btn {
+  display: block;
+  width: 180px;
+  margin: 0;
+  color: #fff;
+  font-size: 17px;
+  font-weight: 400;
+  background-color: var(--light-accent-color);
+  border-radius: 24px;
+  line-height: 48px;
+  text-decoration: none;
+  text-align: center;
+  height: 48px;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  transition: background-color 0.2s ease-out;
+}
+.homepage .btn svg {
+  width: 1.2em;
+  height: 1.2em;
+  margin-right: 1em;
+}
+.homepage .arrow-link {
+  color: inherit;
+  display: block;
+  padding: 12px;
+  margin: -12px;
+  margin-bottom: 12px;
+  border-radius: 16px;
+  background-color: transparent;
+  position: relative;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  transition: background-color 0.08s ease;
+}
+.homepage .arrow-link:after {
+  border-bottom: 1px solid var(--light-border-color);
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 12px;
+  right: 12px;
+}
+.homepage .arrow-link > :first-child:not(a) {
+  display: block;
+}
+.homepage .arrow-link:before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 12px;
+  width: 6px;
+  height: 6px;
+  margin: auto 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+  border: solid;
+  border-width: 1px 1px 0 0;
+  border-color: var(--text-color);
+}
+
+.homepage h1 {
+  font-size: 24px;
+  line-height: 36px;
+  font-weight: 400;
+  margin: 1.5rem 0;
+}
+
+.homepage .arrow-link :nth-child(2) {
+  opacity: 0.5;
+}
+.homepage .arrow-link:hover {
+  opacity: 0.75;
+  background: white;
+  border-color: var(--light-border-color);
+}
+.homepage .arrow-link:hover:after {
+  display: none;
+}
+.homepage .arrow-link:active {
+  opacity: 0.5;
+}
+
+.homepage .fl {
+  display: flex;
+  flex-wrap: wrap;
+}
+.homepage .fl a {
+  flex-basis: 50%;
+  flex-grow: 0;
+  flex-shrink: 0;
+  border: 1px solid var(--light-border-color);
+  margin: 0 0;
+  padding: 12px;
+  box-sizing: border-box;
+  text-decoration: none;
+  color: var(--accent-color);
+  border: none;
+}
+.homepage .fl a img[src*=".svg"] {
+  width: 24px;
+  height: 24px;
+  margin-right: 8px;
+}
+.homepage .fl a {
+  display: flex;
+}
+.homepage .arrow-link nobr:first-child {
+  display: inline;
+}
+
+.questions-list {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+.questions-list li {
+  padding: 0 0 8px 0;
+}
+.questions-list .a {
+  color: var(--accent-color);
+}
+
+.tmplw {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding-left: 12px;
+}
+.tmplw a.arrow-link {
+  flex-basis: 100%;
+  box-sizing: border-box;
+  padding: 0 0 0 0;
+  color: inherit;
+  margin-top: 1.45em;
+  display: flex;
+}
+.tmplw a img {
+  max-width: 25%;
+  aspect-ratio: 1 / 1;
+  height: auto;
+  border: 1px solid var(--light-border-color);
+  border-radius: 3px;
+}
+.tmplw .arrow-link :nth-child(2) {
+  opacity: 1;
+}
+.tmplw small {
+  font-weight: 600;
+  display: none;
+}
+.tmplw strong {
+  display: block;
+}
+.tmplw span {
+  padding-left: 2rem;
+}
+
+.homepage ul.top-level {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.homepage ul.top-level a {
+  padding-left: 1rem;
+}
+.homepage ul.top-level a:hover {
+  border:none;
+  margin-bottom: 1px;
+  border-radius: 4px
+}  
+
+.homepage p a:not(.textli) {
+      color: var(--accent-color);
+    text-decoration: underline;
+}
+
+ol.recent-commits {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}

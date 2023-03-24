@@ -9,6 +9,7 @@ Improvements to server
 - [ ] Prevent GET request to log in page from setting `connect.sid` cookie
   - [ ] or otherwise work out how to try and cache everything at nginx
   - [ ] log in route should clear 'logged_in_to_blot' cookie if not logged in
+- [ ] Use [Lory](http://loryjs.github.io/lory/) to add a slider to the homepage
 
 ---
 

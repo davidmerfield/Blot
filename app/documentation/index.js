@@ -19,7 +19,7 @@ documentation.set("views", VIEW_DIRECTORY);
 documentation.engine("html", hogan);
 documentation.disable("x-powered-by");
 
-documentation.set('etag', false); // turn off etags for responses
+documentation.set("etag", false); // turn off etags for responses
 
 if (config.cache === false) {
   // During development we want views to reload as we edit
@@ -79,6 +79,7 @@ for (const path of directories) {
     })
   );
 }
+
 documentation.use(require("./questions/related"));
 
 documentation.get("/contact", (req, res, next) => {
@@ -102,17 +103,20 @@ documentation.use(
 
 documentation.use(require("./selected"));
 
-documentation.get("/", require("./featured"));
-
-documentation.get("/", function (req, res, next) {
-  res.locals.layout = "partials/layout-index";
-  res.locals.title = "Blot – A blogging platform with no interface.";
-  res.locals.description =
-    "Turns a folder into a blog automatically. Use your favorite text-editor to write. Text and Markdown files, Word Documents, images, bookmarks and HTML in your folder become blog posts.";
-  // otherwise the <title> of the page is 'Blot - Blot'
-  res.locals.hide_title_suffix = true;
-  next();
-});
+documentation.get(
+  "/",
+  require("./tools/git-commits"),
+  require("./featured"),
+  function (req, res, next) {
+    res.locals.layout = "partials/layout-index";
+    res.locals.title = "Blot – A blogging platform with no interface.";
+    res.locals.description =
+      "Turns a folder into a blog automatically. Use your favorite text-editor to write. Text and Markdown files, Word Documents, images, bookmarks and HTML in your folder become blog posts.";
+    // otherwise the <title> of the page is 'Blot - Blot'
+    res.locals.hide_title_suffix = true;
+    next();
+  }
+);
 
 documentation.use("/fonts", require("./fonts"));
 
