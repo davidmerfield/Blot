@@ -8,6 +8,14 @@ describe("Blot's website'", function () {
 
   global.test.server(function (server, test) {
     server.use(trace.init);
+    // This lets us pretend the test is running over HTTPS
+    // otherwise we do not recieve the cookie set by
+    // the dashboard when we POST to log in further down this page
+    server.use("/dashboard", (req, res, next) => {
+      req.headers["X-Forwarded-Proto"] = "https";
+      req.headers["x-forwarded-proto"] = "https";
+      next();
+    });
     server.use("/dashboard", dashboard);
     server.use(documentation);
   });
@@ -25,34 +33,35 @@ describe("Blot's website'", function () {
   );
 
   // todo enable when we can access the cookie over an insecure connection
-  xit(
+  it(
     "does not have any broken links for logged-in users",
     function (done) {
       var request = require("request");
       var test = this;
 
-      console.log("origin:", this.origin);
+      request.post(
+        this.origin + "/dashboard/log-in",
+        { form: { email: test.user.email, password: test.user.fakePassword } },
+        function (err, res) {
+          if (err) return done.fail(err);
 
-      // request.post(
-      //   this.origin + "/log-in",
-      //   { form: { email: test.user.email, password: test.user.fakePassword } },
-      //   function (err, res) {
-      //     if (err) return done.fail(err);
+          var cookie = res.headers["set-cookie"];
+          var headers = { cookie: cookie };
 
-      //     var cookie = res.headers["set-cookie"];
-      //     var headers = { cookie: cookie };
+          if (!cookie) {
+            return done.fail("No cookie");
+          }
 
-      //     if (!cookie) {
-      //       return done.fail("No cookie");
-      //     }
-
-      broken(test.origin + "/dashboard", function (err, results) {
-        if (err) return done.fail(err);
-        expect(results).toEqual({});
-        done();
-      });
-      //   }
-      // );
+          broken(test.origin + "/dashboard", { headers }, function (
+            err,
+            results
+          ) {
+            if (err) return done.fail(err);
+            expect(results).toEqual({});
+            done();
+          });
+        }
+      );
     },
     5 * 60 * 1000
   );
