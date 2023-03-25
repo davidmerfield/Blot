@@ -5,7 +5,7 @@ if (!config.cache_directory)
 
 var fs = require("fs-extra");
 var async = require("async");
-var flush = require("express-disk-cache")(config.cache_directory).flush;
+var flush = require("helper/express-disk-cache")(config.cache_directory).flush;
 var localPath = require("helper/localPath");
 var HOSTS = config.cache_directory;
 var BackupDomain = require("./util/backupDomain");

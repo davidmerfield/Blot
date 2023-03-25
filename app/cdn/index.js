@@ -1,7 +1,7 @@
 const Express = require("express");
 const cdn = Express.Router();
 const config = require("config");
-const cache = require("express-disk-cache")(config.cache_directory);
+const cache = require("helper/express-disk-cache")(config.cache_directory);
 const root = require("helper/rootDir");
 const { join } = require("path");
 

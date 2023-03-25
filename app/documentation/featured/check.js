@@ -1,6 +1,6 @@
 var filter = require("./filter");
 var config = require("config");
-var Cache = require("express-disk-cache");
+var Cache = require("helper/express-disk-cache");
 var cache = new Cache(config.cache_directory);
 var filter = require("./filter");
 var fs = require("fs-extra");
