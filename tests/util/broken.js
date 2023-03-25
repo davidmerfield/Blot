@@ -63,9 +63,10 @@ function main(url, options, callback) {
     request(uri, function (err, res, body) {
       if (err) return callback(err);
 
+      log("GOT", url, res.statusCode);
+
       // We use 400 sometimes on the dashboard
       if (res.statusCode !== 200 && res.statusCode !== 400) {
-        log("GET", url, "returned STATUS", res.statusCode);
         addFailure(base, url, res.statusCode);
       }
 
@@ -103,7 +104,7 @@ function main(url, options, callback) {
       }
 
       if (parse(url).host !== parse(base).host) {
-        log("skipping URL without matching host", url);
+        log("skipping", url);
         skipped[url] = true;
         return;
       }
