@@ -1,6 +1,8 @@
 Improvements to server
 - [ ] move development cdn onto its own host to better simular cross-domain issues
 - [ ] test maintenance and redirector on dashboard
+- [ ] make questions section cache-able (using disk-cache)
+- [ ] restrict post to /dashboard route so we can tune nginx logic?
 - [ ] tune performance of express-mustache in production and development
 - [ ] add optional HTML/JS/CSS minification to express-disk-cache
 - [ ] Test overdue subscription re-start
