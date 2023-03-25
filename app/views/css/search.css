@@ -1,32 +1,38 @@
+#search-field {
+  width: 100%;
+  border-radius: var(--border-radius);
+  margin: 0;
+  height: 32px;
+  box-shadow: none;
+  border: 1px solid var(--dark-border-color);
+  padding: 0 16px;
+}
 
-  #search-field {
-    width: 100%;
-    border-radius: 4px;
-    height: 36px;
-    margin: 0;
-    font-size: 14px;
-     border: 1px solid rgba(0,0,0,0.01);
-    box-shadow: none;
-    background: #F4F4F6;
-    border: 2px solid  #F4F4F6;
-    padding: 0 16px;
-  }
+#search-field:focus {
+  background: var(--background-color);
+  border-color: var(--accent-color);
+  outline: 2px solid var(--accent-color);
+}
 
-  #search-field:focus {
-    background: #fff;
-    border-color: var(--accent-color);
-  }
+.has-results #search-field {
+  border-radius: var(--large-border-radius) var(--large-border-radius) 0 0;
+  border-bottom: 1px solid var(--border-color);
+}
 
-  .has-results #search-field {
-    border-radius: 14px 14px 0 0;
-    border-bottom: 1px solid rgba(0,0,0,0.1)
-  }
-
-  #search-results {background:#fff;position: absolute;top:100%;left:0;right:0;
-    min-height: 40px;margin-top: 14px;z-index: 2;display: none;}
+#search-results {
+  background: var(--background-color);
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  min-height: 40px;
+  margin-top: 14px;
+  z-index: 2;
+  display: none;
+}
 
 #search-results a {
-  border:1px solid rgba(0,0,0,0.1);
+  border: 1px solid rgba(0, 0, 0, 0.1);
   font-size: 16px;
   display: block;
   color: var(--accent-color);
@@ -35,41 +41,50 @@
   line-height: 1.25;
 }
 
-#search-results a:hover {border-color: var(--accent-color)}
-#search-results a small {color:rgba(0,0,0,0.4);}
-
+#search-results a:hover {
+  border-color: var(--accent-color);
+}
+#search-results a small {
+  color: rgba(0, 0, 0, 0.4);
+}
 
 #search-results:before {
-/*  content: " ";
-*/  width: 1em;
+  /*  content: " ";
+*/
+  width: 1em;
   height: 1em;
   font-size: 0.8em;
   border-radius: 100%;
   position: absolute;
   left: 16px;
   top: 50%;
-  margin-top:-0.5em;  
-    background: rgba(0,0,0,0.25);
+  margin-top: -0.5em;
+  background: rgba(0, 0, 0, 0.25);
   -webkit-animation: bounce 1.4s infinite ease-in-out both;
   animation: bounce 1.4s infinite ease-in-out both;
 }
 
-
 @-webkit-keyframes bounce {
-  0%, 40%, 100% { 
+  0%,
+  40%,
+  100% {
     -webkit-transform: scale(0.8);
     transform: scale(0.8);
-  } 70% { 
+  }
+  70% {
     -webkit-transform: scale(0.3);
     transform: scale(0.3);
   }
 }
 
 @keyframes bounce {
-  0%, 40%, 100% { 
+  0%,
+  40%,
+  100% {
     -webkit-transform: scale(0.8);
     transform: scale(0.8);
-  } 70% { 
+  }
+  70% {
     -webkit-transform: scale(0.3);
     transform: scale(0.3);
   }

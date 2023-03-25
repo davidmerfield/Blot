@@ -1,20 +1,20 @@
 <div class="sides-container">
-  <div class="side">
-    <div class="left">
+  <div class="side left">
       <h1>Blot turns a folder into a website.</h1>
       <p>
         <a class="textli demo-video" href="{{#cdn}}/videos/publishing-with-blot.mp4{{/cdn}}">{{> playsvg}}<strong>Watch the video</strong><span style="display: block;opacity: 0.5">Introduction &thinsp;&middot;&thinsp; 09:39</span></a>
       </p>
-    </div>
-    <div class="right">
-      <ul class="top-level">
+
+  </div>
+  <div class="side right">
+          <ul class="top-level">
         {{> links}}
       </ul>
-    </div>
-  </div>
+
+</div>
 </div>
 
-<div style="max-width: 540px;margin:0 auto">
+<div class="module-container">
    
     {{#featured.length}}
 
@@ -92,6 +92,7 @@
     </div>  
 
 </div>
+    {{#related.length}}
 
     <div class="module">
       <a href="/questions" class="arrow-link">
@@ -109,7 +110,10 @@
     </li>
     {{/related}}
   </ul>
-  </div>      
+  </div>     
+       {{/related.length}}
+
+      {{#recent_commits.length}}
   <div class="module">
     <a href="/about/news" class="arrow-link">
       <b>News</b>
@@ -124,6 +128,7 @@
       {{/recent_commits}}
     </ol>
   </div>
+      {{/recent_commits.length}}
 
   <div class="module">
     <a href="/about" class="arrow-link">

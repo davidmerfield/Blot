@@ -1,32 +1,41 @@
-.side {
-  max-width: 780px;
-  box-sizing: border-box;
-  margin: 0 1.5rem;
-  background: #fafafa;
-  border-radius: 18px;
-  padding: 18px 36px;
-  display: flex;
-  margin-bottom: 3rem;
-}
-
-.side .left {
-  padding-right: 2rem;
-}
-
-.side .right {
-  padding-left: 2rem;
-}
-
-.side .left,
-.side .right {
-  flex-basis: 50%;
-  box-sizing: border-box;
+.module-container {
+  max-width: 540px;margin:0 auto
 }
 
 .sides-container {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  max-width: 900px;  
+  margin: 0 auto;
+}
+
+.side {
+  box-sizing: border-box;
+  margin: 0 1.5rem;
+  flex-grow: 1;
+  background: var(--module-background-color);
+  border-radius: var(--large-border-radius);
+  padding: 18px 36px;
+  margin-bottom: 3rem;
+}
+
+.side.left {
+  padding-right: 2rem;
+}
+
+.side.right {
+  padding-left: 2rem;
+}
+
+.side.left,
+.side.right {
+  box-sizing: border-box;
+}
+
+.side.left {
+    flex-basis: 66.66%;
+}
+.side.right {
+    flex-basis: 33.333%;
 }
 
 .homepage h2,
@@ -45,13 +54,12 @@
   margin-bottom: 1.45em;
 }
 .homepage .module {
-  background: #f8f8f8;
-  border-radius: 16px;
+  background: var(--module-background-color);
+  border-radius: var(--large-border-radius);
   padding: 24px;
   margin: 0 0 32px 0;
   box-sizing: border-box;
   break-inside: avoid;
-  border-radius: 16px;
 }
 .homepage b {
   font-weight: 600;
@@ -219,6 +227,7 @@
 
 .homepage ul.top-level {
   margin-top: 1rem;
+  width: 100%;
   margin-bottom: 1rem;
 }
 

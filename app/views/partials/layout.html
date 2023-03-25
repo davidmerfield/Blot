@@ -1,94 +1,27 @@
 {{> head}}
 <body>
-<input type="checkbox" name="toggle" id="toggle">
-
- <style type="text/css">
-	.doc-wrapper{min-height: 100vh}
-	.doc-left {grid-column-start: 4;grid-column-end: 9;margin-top: 0rem;padding-top: 3rem}
-	.doc-right {grid-column-start: 9;grid-column-end: 12;margin-top: 6.25rem;}
-
-
-
-  .main-container {
-    padding: calc(var(--spacing)) calc(var(--spacing)*4);
-    flex-grow: 1;
-  }
-
-  .main-page {
-/*        flex-shrink:0;
-*//*        width: 600px;
-  */  max-width: 600px;
-  flex-basis: 600px
-
-  }.main-page.full {max-width: 100%;width:auto;flex-basis:auto;}
-
-  @media screen and (max-width: 1000px) {
-	    .main-container {padding-left: 1.5rem; padding-right: 1.5rem}
-}
-	@media screen and (max-width: 800px) {
-/*		.doc-left {padding: 0;grid-column-start: 1;grid-column-end: 12;grid-row: 1}
-			.doc-right {grid-row:2;grid-column-start: 1;grid-column-end: 12;margin-top: 1.5rem;padding: 1rem 1.5rem}*/
-			.grid {padding: 0 0}
-		.sidebar {border:none;}
-	}
-
-
-
-
-
-  .sidebar-container {
-  
-    border-radius: 10;
-    background-color: #fafafa;
-    bottom: 0;
-    top: 0;
-    width: 320px;
-
-  }
-
-  .layout-wrapper {
-    min-height: 100vh;
-    display: flex;
-    justify-content: space-between;
-  }
-</style>
-
-<div class="layout-wrapper"> 
-  <div class="sidebar-container">
-    {{> sidebar}}
-  </div>
-  <div class="main-container"> 
-    <div style="display: flex;margin:0 0 calc(var(--spacing)*2) 0;align-items: baseline;"> 
-      {{> search}}
-      {{> header-buttons}}
+  <input type="checkbox" name="toggle" id="toggle">
+  <div class="layout-wrapper"> 
+    <div class="sidebar-container">
+      {{> sidebar}}
     </div>
-    <div style="display: flex;justify-content: space-between;flex-wrap: wrap;">
-    <div class="main-page {{#fullWidth}}full{{/fullWidth}}">
-    {{> breadcrumbs}}
-{{> body}}
-
-{{#sourceFile}}
-
-  <p class="meta-links">
-    <a href="https://github.com/davidmerfield/Blot/commits/master{{{sourceFile}}}">
-      Last updated {{sourceFileUpdated}}
-    </a>
-    <a href="https://github.com/davidmerfield/Blot/tree/master{{{sourceFile}}}">
-    Edit this page
-    </a> 
-    </p>
-
-{{/sourceFile}}
+    <div class="main-container"> 
+      <div style="display: flex;margin:0 0 calc(var(--spacing)*2) 0;align-items: baseline;"> 
+        {{> search}}
+        {{> header-buttons}}
+      </div>
+      <div style="display: flex;justify-content: space-between;flex-wrap: wrap;">
+        <div class="main-page {{#fullWidth}}full{{/fullWidth}}">
+          {{> breadcrumbs}}
+          {{> body}}
+          {{> source_file}}
+        </div>
+        {{^fullWidth}}
+        {{> internal-sidebar}}
+        {{/fullWidth}}
+      </div>
     </div>
-    {{^fullWidth}}
-    {{> internal-sidebar}}
-    {{/fullWidth}}
-  </div>
   </div>   
-</div>
-</div>
-
-</div>
-{{> footer}}
+  {{> footer}}
 </body>
 </html>

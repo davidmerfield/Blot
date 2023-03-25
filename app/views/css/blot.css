@@ -1,16 +1,24 @@
 html {
-  --background-color: white;
+  --background-color: #fff;
+  --module-background-color: #f8f8f8; /* #f8f8f8 #f4f3f1 */
   --text-color: #333230;
   --medium-text-color: #444;
   --light-text-color: #767676;
   --accent-color: #0070e8; /* used for links */
   --light-accent-color: #0079fc; /* used for button background */
   --dark-accent-color: #005bbd; /* used for button hover background*/
-  --dark-border-color: rgba(0, 0, 0, 0.1);
+
+  --border-color: rgba(0, 0, 0, 0.1);
+  --dark-border-color: rgba(0, 0, 0, 0.3);
   --light-border-color: rgba(0, 0, 0, 0.05);
+
+  --large-border-radius: 10px;
+  --border-radius: 5px;
+  
   --small-font-size: 14px;
   --font-size: 18px;
   --large-font-size: 24px;
+  
   --spacing: 1rem;
 }
 
@@ -22,28 +30,28 @@ body {
 
 body {
   background: var(--background-color);
-color: var(--text-color);
-    font: var(--font-size)/1.5 ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;
-    font-weight: 400;
-    -webkit-text-size-adjust: 100%;
-    -ms-text-size-adjust: 100%;
-    -webkit-overflow-scrolling: touch;
-    scroll-behavior: smooth;
-    font-kerning: normal;
-    -webkit-font-kerning: normal;
-    -ms-font-kerning: normal;
-    -moz-font-kerning: normal;
-    -o-font-kerning: normal;
-    font-variant-ligatures: contextual common-ligatures;
-    -webkit-font-variant-ligatures: contextual common-ligatures;
-    -ms-font-variant-ligatures: contextual common-ligatures;
-    -moz-font-variant-ligatures: contextual common-ligatures;
-    -o-font-variant-ligatures: contextual common-ligatures;
-    font-feature-settings: 'kern' 1, 'liga' 1, 'calt' 1;  
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-rendering: geometricPrecision;
-}}
+  color: var(--text-color);
+  font: var(--font-size)/1.5 ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;
+  font-weight: 400;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+  font-kerning: normal;
+  -webkit-font-kerning: normal;
+  -ms-font-kerning: normal;
+  -moz-font-kerning: normal;
+  -o-font-kerning: normal;
+  font-variant-ligatures: contextual common-ligatures;
+  -webkit-font-variant-ligatures: contextual common-ligatures;
+  -ms-font-variant-ligatures: contextual common-ligatures;
+  -moz-font-variant-ligatures: contextual common-ligatures;
+  -o-font-variant-ligatures: contextual common-ligatures;
+  font-feature-settings: 'kern' 1, 'liga' 1, 'calt' 1;  
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: geometricPrecision;
+}
 
 p a,
 li a,
