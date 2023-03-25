@@ -46,7 +46,6 @@ Improve CI testing
 - [ ] Add spell checking test
 - [ ] Write browser based integration tests for core functionality
 - [ ] how can we test the 'reload-server' script?
-- [ ] work out how to re-enable broken link check for logged in users
 - [ ] how can we test the 'scheduler' functions? we ran into error where it was running twice
 
 Fix [Christopher's bugs with thumbnails](https://mail.google.com/mail/u/0/#inbox/QgrcJHrnvrNzJHZMWcVFzMHvZTnPZfPxfqg)
