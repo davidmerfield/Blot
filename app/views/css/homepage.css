@@ -1,7 +1,11 @@
 .module-container {
-  max-width: 540px;margin:0 auto
+  margin:0 auto;
+  max-width: 800px
 }
 
+.homepage .module:first-of-type {
+  max-width: 600px
+}
 .sides-container {
   display: flex;
   max-width: 900px;  
@@ -18,8 +22,8 @@
   margin-bottom: 3rem;
 }
 
-.side.left {
-  padding-right: 2rem;
+.homepage .left {
+  padding: 11px;
 }
 
 .side.right {
@@ -57,7 +61,8 @@
   background: var(--module-background-color);
   border-radius: var(--large-border-radius);
   padding: 24px;
-  margin: 0 0 32px 0;
+  max-width: 540px;;
+  margin: 0 auto 32px;
   box-sizing: border-box;
   break-inside: avoid;
 }
@@ -99,6 +104,10 @@
   border: 1px solid transparent;
   transition: background-color 0.08s ease;
 }
+.homepage .top-level a {
+  position: relative;
+}
+
 .homepage .arrow-link:after {
   border-bottom: 1px solid var(--light-border-color);
   content: "";
@@ -110,7 +119,8 @@
 .homepage .arrow-link > :first-child:not(a) {
   display: block;
 }
-.homepage .arrow-link:before {
+.homepage .arrow-link:before,
+.homepage .top-level a:before {
   content: "";
   display: block;
   position: absolute;
@@ -129,9 +139,9 @@
 }
 
 .homepage h1 {
-  font-size: 24px;
-  line-height: 36px;
-  font-weight: 400;
+  font-size: 32px;
+  line-height: 40px;
+  font-weight: 700;
   margin: 1.5rem 0;
 }
 
@@ -234,13 +244,17 @@
 .homepage ul.top-level a {
   padding-left: 1rem;
 }
+.homepage ul.top-level > li:last-child a {
+  border-bottom: none;
+} 
+
 .homepage ul.top-level a:hover {
   border:none;
   margin-bottom: 1px;
   border-radius: 4px
 }  
 
-.homepage p a:not(.textli) {
+.homepage p a {
       color: var(--accent-color);
     text-decoration: underline;
 }
@@ -249,4 +263,16 @@ ol.recent-commits {
   list-style-type: none;
   margin: 0;
   padding: 0;
+}
+
+.homepage p a.demo-video {text-decoration: none;position: relative;display: block;padding-left: 1.5em}
+.homepage p a.demo-video:hover {text-decoration: underline;}
+
+.homepage .demo-video svg {
+  width: 1em;
+  height: 1em;
+  position: absolute;
+  top: 50%;
+  margin-top: -0.5em;
+  left: 0;
 }

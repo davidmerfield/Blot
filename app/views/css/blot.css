@@ -910,7 +910,7 @@ ul.who li {
 .footer {
   font-size: var(--small-font-size);
   display: flex;
-  background: #fafafa;
+  background: var(--module-background-color);
   padding: calc(var(--spacing)*8) 0;
   flex-wrap: wrap;
   justify-content: center;
