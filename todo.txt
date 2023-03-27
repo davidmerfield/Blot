@@ -1,3 +1,5 @@
+Fix issue with template with invalid metadata (cat log for error), it seems the name and error properties were not set
+
 Improvements to server
 - [ ] move development cdn onto its own host to better simular cross-domain issues
 - [ ] test maintenance and redirector on dashboard
