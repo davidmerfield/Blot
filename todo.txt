@@ -1,3 +1,5 @@
+Improve reference template on mobile and follow up [with questioner](https://blot.im/questions/1529)
+
 Fix issue with template with invalid metadata (cat log for error), it seems the name and error properties were not set
 
 Improvements to server
