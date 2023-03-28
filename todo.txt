@@ -1,3 +1,18 @@
+Disable font-ligatures for code snippets
+
+Font files do not seem to be cached on Blot's questions section?
+
+Improve express disk cache
+- [ ] remove brochure/build logic
+- [ ] add way to transform HTML with current 'tools' to express-mustache
+- [ ] perhaps tune NGINX open file cache to off for dev server?
+- [ ] can more of the documentation become markdown?
+- [ ] can we turn the documentation design into a blot digital garden template?
+
+- [ ] add PNG lossless compression for brochure
+- [ ] add JPG lossless compression for brochure
+- [ ] add SVG lossless compression for brochure
+
 Improve reference template on mobile and follow up [with questioner](https://blot.im/questions/1529) https://ahilan.blot.im/frog-by-adam-handling
 
 Fix issue with template with invalid metadata (cat log for error), it seems the name and error properties were not set
