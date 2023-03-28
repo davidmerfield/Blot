@@ -2,8 +2,8 @@ const config = require("config");
 const Express = require("express");
 const documentation = new Express();
 const hogan = require("helper/express-mustache");
-const Cache = require("express-disk-cache");
-const cache = new Cache(config.cache_directory);
+const Cache = require("helper/express-disk-cache");
+const cache = new Cache(config.cache_directory, { minify: true });
 const fs = require("fs-extra");
 const redirector = require("./redirector");
 const trace = require("helper/trace");
@@ -25,10 +25,11 @@ if (config.cache === false) {
   // During development we want views to reload as we edit
   documentation.disable("view cache");
 } else {
-  // This will store responses to disk for NGINX to serve
   documentation.enable("view cache");
-  documentation.use(cache);
 }
+
+// This will store responses to disk for NGINX to serve
+documentation.use(cache);
 
 const { plan } = config.stripe;
 
