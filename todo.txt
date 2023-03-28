@@ -1,4 +1,4 @@
-Improve reference template on mobile and follow up [with questioner](https://blot.im/questions/1529)
+Improve reference template on mobile and follow up [with questioner](https://blot.im/questions/1529) https://ahilan.blot.im/frog-by-adam-handling
 
 Fix issue with template with invalid metadata (cat log for error), it seems the name and error properties were not set
 
