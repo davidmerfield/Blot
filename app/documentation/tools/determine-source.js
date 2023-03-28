@@ -39,12 +39,16 @@ module.exports = function determineSource(req, res, next) {
   }
 
   git.raw(
-    ["log", "-1", '--pretty="format:%ci"', `${join(rootDir, validPath)}`],
+    ["log", "-1", "--pretty=%ci", `${join(rootDir, validPath)}`],
     function (err, date) {
       if (err) {
-        console.log("Error looking up source file:", e);
+        console.log("Error looking up source file:", err);
         return next();
       }
+
+      if (!date) return next();
+
+      date = new Date(date);
 
       res.locals.sourceFile = validPath;
       res.locals.sourceFileUpdated = moment(date).fromNow();

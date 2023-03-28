@@ -57,43 +57,32 @@ let cacheID = Date.now();
 documentation.locals.cdn = () => (text, render) =>
   `${config.cdn.origin}/documentation/${cacheID}${render(text)}`;
 
-const chokidar = require("chokidar");
-const fetch = require("node-fetch");
+if (config.environment === "development") {
+  const chokidar = require("chokidar");
+  const watcher = chokidar.watch(VIEW_DIRECTORY, { cwd: VIEW_DIRECTORY });
+  const insecureRequest = require("./tools/insecure-request");
 
-const https = require("https");
+  watcher.on("change", async function (path) {
+    cache.flush(config.host);
+    cacheID = Date.now();
 
-const httpsAgent = new https.Agent({
-  rejectUnauthorized: false,
-});
+    insecureRequest("/cdn/documentation/" + cacheID + "/style.min.css");
+    insecureRequest("/cdn/documentation/" + cacheID + "/documentation.min.js");
 
-const watcher = chokidar.watch(VIEW_DIRECTORY, { cwd: VIEW_DIRECTORY });
+    let urlPath;
 
-watcher.on("change", async function (path) {
-  console.log("CHANGE", path);
-  cache.flush(config.host);
-  cacheID = Date.now();
-  let urlPath;
+    if (path.endsWith(".html")) {
+      urlPath = "/" + path.slice(0, -".html".length);
+      if (urlPath.endsWith("index"))
+        urlPath = urlPath.slice(0, -"index".length);
+    }
 
-  if (path.endsWith(".html")) {
-    urlPath = "/" + path.slice(0, -".html".length);
-    if (urlPath.endsWith("index")) urlPath = urlPath.slice(0, -"index".length);
-  } else if (path.endsWith(".css")) {
-    urlPath = "/cdn/documentation/" + cacheID + "/style.min.css";
-  } else if (path.endsWith(".js")) {
-    urlPath = "/cdn/documentation/" + cacheID + "/documentation.min.js";
-  }
+    if (!urlPath) return;
 
-  if (urlPath) {
     const url = `https://${config.host}${urlPath}`;
-
-    await fetch(url, {
-      method: "GET",
-      agent: httpsAgent,
-    });
-
-    console.log("FETCHED", url);
-  }
-});
+    insecureRequest(url);
+  });
+}
 
 documentation.get(["/how/format/*"], function (req, res, next) {
   res.locals["show-on-this-page"] = true;

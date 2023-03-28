@@ -40,7 +40,7 @@ if (cluster.isMaster) {
 
     setup(function (err) {
       if (err) throw err;
-      console.log("Finished setting up");
+      console.log(clfdate(), "Finished setting up");
 
       // Launch scheduler for background tasks, like backups, emails
       scheduler();
