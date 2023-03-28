@@ -26,6 +26,7 @@ module.exports = function (cache_directory, options) {
   fs.ensureDirSync(tmp_directory);
 
   return function disk_cache(req, res, next) {
+
     var called_end = false;
     var stream, final_path, tmp_path, tmp_name, protocol;
     var content_type, cache_control, has_max_age, cache_age;

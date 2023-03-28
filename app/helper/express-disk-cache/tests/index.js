@@ -30,7 +30,9 @@ describe("express-disk-cache", function () {
   });
 
   it("works", async function () {
-    const { app, listen, fetch, readFile } = this;
+    const { app, listen, fetch, readFile, configure } = this;
+
+    configure();
 
     app.get("/", (req, res) => res.send("Hello, world!"));
 
@@ -38,10 +40,65 @@ describe("express-disk-cache", function () {
 
     expect(await fetch("/")).toEqual(`Hello, world!`);
 
-    await new Promise((resolve) => setTimeout(resolve, 100));
+    await delay();
 
     expect(await readFile("/localhost/http/temporary/index.html")).toEqual(
       "Hello, world!"
+    );
+  });
+
+  it("minifies HTML", async function () {
+    const { app, listen, fetch, readFile, configure } = this;
+
+    configure({ minify: true });
+
+    app.get("/", (req, res) => res.send("<h1  >Hello, world!</h1>"));
+
+    await listen();
+
+    expect(await fetch("/")).toEqual(`<h1  >Hello, world!</h1>`);
+
+    await delay();
+
+    expect(await readFile("/localhost/http/temporary/index.html")).toEqual(
+      "<h1>Hello, world!</h1>"
+    );
+  });
+
+  it("minifies CSS", async function () {
+    const { app, listen, fetch, readFile, configure } = this;
+
+    configure({ minify: true });
+
+    app.get("/file.css", (req, res) => res.send(".hey  {color:#000000}"));
+
+    await listen();
+
+    expect(await fetch("/file.css")).toEqual(`.hey  {color:#000000}`);
+
+    await delay();
+
+    expect(await readFile("/localhost/http/temporary/file.css")).toEqual(
+      ".hey {color:#000000}"
+    );
+  });
+
+
+  it("minifies JS", async function () {
+    const { app, listen, fetch, readFile, configure } = this;
+
+    configure({ minify: true });
+
+    app.get("/script.js", (req, res) => res.send(" \n alert( 'Hey' + 1 ) \n"));
+
+    await listen();
+
+    expect(await fetch("/script.js")).toEqual(" \n alert( 'Hey' + 1 ) \n");
+
+    await delay();
+
+    expect(await readFile("/localhost/http/temporary/script.js")).toEqual(
+      "alert( 'Hey' + 1 )"
     );
   });
 
@@ -51,28 +108,39 @@ describe("express-disk-cache", function () {
     const port = 7766;
     const express = require("express");
     const cache = require("../index");
+
     const app = express();
-    const cache_directory = __dirname + "/data";
 
-    app.use(cache(cache_directory));
+    this.cache_directory = __dirname + "/data";
 
-    this.app = app;
-    this.cache_directory = cache_directory;
-    this.readFile = (path) => fs.readFile(join(cache_directory, path), "utf-8");
+    this.minify = false;
 
-    let server;
-
-    this.listen = async () => {
-      server = await app.listen(port);
+    this.configure = ({
+      directory = this.cache_directory,
+      minify = this.minify,
+    } = {}) => {
+      app.use(cache(directory, { minify }));
     };
 
-    this.close = async () => (server ? await server.close() : null);
+    this.readFile = (path) =>
+      fs.readFile(join(this.cache_directory, path), "utf-8");
+
+    this.listen = async () => {
+      this.server = await app.listen(port);
+    };
+
+    this.app = app;
+
+    this.close = async () => (this.server ? await this.server.close() : null);
 
     this.fetch = async (path) => {
       const res = await fetch(`http://localhost:${port}${path}`);
       return await res.text();
     };
   });
+
+  const delay = async (ms = 100) =>
+    new Promise((resolve) => setTimeout(resolve, ms));
 
   afterEach(async function () {
     await this.close();
