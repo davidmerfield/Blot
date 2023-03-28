@@ -11,6 +11,44 @@ describe("express-mustache", function () {
     expect(await fetch("/")).toEqual(`Hello, world!`);
   });
 
+  it("lets you manipulate html", async function () {
+    const { app, listen, fetch, outputFile } = this;
+
+    await outputFile("/index.html", "<h1>Hello</h1>");
+
+    const addID = ($) => {
+      $("h1").each((i, node) => {
+        $(node).attr("id", $(node).text().toLowerCase());
+      });
+      return $;
+    };
+
+    const addAnchor = ($) => {
+      $("h1").each((i, node) =>
+        $(node).html(`<a href="#${$(node).attr("id")}"></a>${$(node).html()}`)
+      );
+      return $;
+    };
+
+    const noFollow = ($) => {
+      $("a").each((i, node) => $(node).attr("rel", "nofollow"));
+      return $;
+    };
+
+    app.set("transformers", [addID, addAnchor]);
+
+    app.get("/", (req, res) => {
+      res.locals.transformers = [noFollow];
+      res.render("index");
+    });
+
+    await listen();
+
+    expect(await fetch("/")).toEqual(
+      `<h1 id="hello"><a href="#hello" rel="nofollow"></a>Hello</h1>`
+    );
+  });
+
   it("renders a variable", async function () {
     const { app, listen, fetch, outputFile } = this;
 
@@ -28,7 +66,7 @@ describe("express-mustache", function () {
     const { app, listen, fetch, outputFile } = this;
 
     await outputFile("/index.html", "Hello");
-    app.enable('view cache');
+    app.enable("view cache");
     app.get("/", (req, res) => res.render("index"));
     await listen();
     expect(await fetch("/")).toEqual(`Hello`);
@@ -40,7 +78,7 @@ describe("express-mustache", function () {
     const { app, listen, fetch, outputFile } = this;
 
     await outputFile("/index.html", "Hello");
-    app.disable('view cache');
+    app.disable("view cache");
     app.get("/", (req, res) => res.render("index"));
     await listen();
     expect(await fetch("/")).toEqual(`Hello`);
@@ -120,7 +158,7 @@ describe("express-mustache", function () {
 
     app.set("view engine", "html");
     app.set("views", views);
-    app.disable('view cache');
+    app.disable("view cache");
     app.engine("html", em);
 
     this.app = app;

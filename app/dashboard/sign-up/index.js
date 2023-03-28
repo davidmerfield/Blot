@@ -16,7 +16,7 @@ var signup = Express.Router();
 var csrf = require("csurf")();
 
 signup.use(function (req, res, next) {
-  if (req.user) return res.redirect("/");
+  if (req.session && req.session.uid) return res.redirect("/dashboard");
 
   res.header("Cache-Control", "no-cache");
   res.locals.layout = "partials/layout-form";
@@ -46,11 +46,12 @@ alreadyPaid.get(csrf, function (req, res) {
 });
 
 alreadyPaid.post(parse, csrf, validateEmail, function (req, res, next) {
-
   // First we make sure that the access token passed is valid.
   User.checkAccessToken(req.params.token, function (err) {
     if (err) {
-      return next(new Error("Your sign up link is not valid. Please ask for another."));
+      return next(
+        new Error("Your sign up link is not valid. Please ask for another.")
+      );
     }
 
     req.session.subscription = {};
@@ -176,7 +177,18 @@ passwordForm.post(parse, csrf, function (req, res, next) {
       delete req.session.email;
       delete req.session.subscription;
 
+      // if you change this also change log-in
+      res.cookie("signed_into_blot", "true", {
+        domain: "",
+        path: "/",
+        secure: true,
+        httpOnly: false,
+        maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
+        sameSite: "Lax",
+      });
+
       req.session.uid = user.uid;
+
       Email.CREATED_BLOG(user.uid);
       res.redirect("/account/create-blog");
     });

@@ -1,6 +1,7 @@
 const mustache = require("mustache");
 const load = require("./load");
 const loadPartials = require("./loadPartials");
+const cheerio = require("cheerio");
 
 const CACHE = {};
 
@@ -42,7 +43,20 @@ const render = async function (filePath, options, callback) {
     const templatePath = layout ? layout : filePath;
     const template = await load(templatePath, ext, root, cache);
 
-    const result = mustache.render(template, options, partials);
+    let result = mustache.render(template, options, partials);
+
+    const transformers = [
+      ...(options.settings.transformers || []),
+      ...(options.transformers || []),
+    ].filter((i) => typeof i === "function");
+
+    if (transformers.length) {
+      const $ = cheerio.load(result, { decodeEntities: false });
+      for (const transformer of transformers) {
+        transformer($);
+      }
+      result = $.html();
+    }
 
     return callback(null, result);
   } catch (err) {

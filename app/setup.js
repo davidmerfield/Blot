@@ -2,7 +2,6 @@ const config = require("config");
 const root = require("helper/rootDir");
 const fs = require("fs-extra");
 const redis = require("redis").createClient();
-const buildDocumentation = require("./documentation/build");
 const templates = require("./templates");
 const async = require("async");
 const clfdate = require("helper/clfdate");
@@ -69,17 +68,6 @@ function main(callback) {
             });
           }
         });
-      },
-      function (callback) {
-        log("Building documentation site");
-        buildDocumentation(
-          { watch: config.environment === "development" },
-          function (err) {
-            if (err) throw err;
-            log("Built documentation site");
-            callback();
-          }
-        );
       },
     ],
     callback

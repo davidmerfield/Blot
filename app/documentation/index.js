@@ -10,7 +10,7 @@ const trace = require("helper/trace");
 
 const root = require("helper/rootDir");
 const { join } = require("path");
-const VIEW_DIRECTORY = join(root, "app/documentation/data/views");
+const VIEW_DIRECTORY = join(root, "app/views");
 
 // Register the engine we will use to
 // render the views.
@@ -18,6 +18,19 @@ documentation.set("view engine", "html");
 documentation.set("views", VIEW_DIRECTORY);
 documentation.engine("html", hogan);
 documentation.disable("x-powered-by");
+
+// .on("add", function (path) {
+// })
+// .on("ready", function () {
+//   walked = true;
+// });
+
+documentation.set("transformers", [
+  require("./tools/typeset"),
+  require("./tools/anchor-links"),
+  require("./tools/tex"),
+  require("./tools/finder").html_parser,
+]);
 
 documentation.set("etag", false); // turn off etags for responses
 
@@ -38,12 +51,42 @@ documentation.locals.ip = config.ip;
 documentation.locals.date = require("./dates.js");
 documentation.locals.price = "$" + plan.split("_").pop();
 documentation.locals.interval = plan.startsWith("monthly") ? "month" : "year";
-const cacheID = Date.now();
+
+let cacheID = Date.now();
 
 documentation.locals.cdn = () => (text, render) =>
-  `${config.cdn.origin}/documentation/${
-    config.cache ? cacheID : Date.now()
-  }${render(text)}`;
+  `${config.cdn.origin}/documentation/${cacheID}${render(text)}`;
+
+if (config.environment === "development") {
+  const chokidar = require("chokidar");
+  const watcher = chokidar.watch(VIEW_DIRECTORY, { cwd: VIEW_DIRECTORY });
+  const insecureRequest = require("./tools/insecure-request");
+
+  watcher.on("change", async function (path) {
+    cache.flush(config.host);
+    cacheID = Date.now();
+
+    insecureRequest(
+      `https://${config.host}/cdn/documentation/${cacheID}/style.min.css`
+    );
+    insecureRequest(
+      `https://${config.host}/cdn/documentation/${cacheID}/documentation.min.js`
+    );
+
+    let urlPath;
+
+    if (path.endsWith(".html")) {
+      urlPath = "/" + path.slice(0, -".html".length);
+      if (urlPath.endsWith("index"))
+        urlPath = urlPath.slice(0, -"index".length);
+    }
+
+    if (!urlPath) return;
+
+    const url = `https://${config.host}${urlPath}`;
+    insecureRequest(url);
+  });
+}
 
 documentation.get(["/how/format/*"], function (req, res, next) {
   res.locals["show-on-this-page"] = true;
@@ -144,11 +187,9 @@ documentation.use(function (req, res, next) {
   const view = trimLeadingAndTrailingSlash(req.path) || "index";
 
   if (require("path").extname(view)) {
-    console.log("skipping render of", view);
     return next();
   }
 
-  console.log("rendering", view);
   res.render(view);
 });
 

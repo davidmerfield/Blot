@@ -1,10 +1,8 @@
-var cheerio = require("cheerio");
 var katex = require("katex");
 var OPEN_TAG = "\\(";
 var CLOSE_TAG = "\\)";
 
-module.exports = (input) => {
-  var $ = cheerio.load(input, { decodeEntities: false });
+module.exports = ($) => {
   var hadTex = false;
 
   $(":root").each(function () {
@@ -66,6 +64,4 @@ module.exports = (input) => {
         }
       });
   }
-
-  return $.html();
 };

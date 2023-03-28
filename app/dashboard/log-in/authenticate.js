@@ -1,5 +1,6 @@
 module.exports = function authenticate(req, res, user) {
   
+  // if you change this also change sign-up
   res.cookie("signed_into_blot", 'true', {
     domain: "",
     path: "/",
@@ -10,5 +11,4 @@ module.exports = function authenticate(req, res, user) {
   });
 
   req.session.uid = user.uid;
-  req.session.blogID = user.lastSession;
 };
