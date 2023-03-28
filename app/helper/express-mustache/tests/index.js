@@ -11,7 +11,7 @@ describe("express-mustache", function () {
     expect(await fetch("/")).toEqual(`Hello, world!`);
   });
 
-  fit("lets you manipulate html", async function () {
+  it("lets you manipulate html", async function () {
     const { app, listen, fetch, outputFile } = this;
 
     await outputFile("/index.html", "<h1>Hello</h1>");
