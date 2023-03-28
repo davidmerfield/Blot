@@ -51,11 +51,13 @@ const render = async function (filePath, options, callback) {
     ].filter((i) => typeof i === "function");
 
     if (transformers.length) {
+      console.time('transforming');
       const $ = cheerio.load(result, { decodeEntities: false });
       for (const transformer of transformers) {
         transformer($);
       }
       result = $.html();
+      console.timeEnd('transforming');
     }
 
     return callback(null, result);

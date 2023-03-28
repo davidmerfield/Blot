@@ -53,6 +53,7 @@ cdn
     const code = await fs.readFile(join(tmp, "documentation.min.js"), "utf-8");
 
     res.setHeader("Content-Type", "text/javascript");
+    res.setHeader("Cache-Control", "public, max-age=604800");
     res.send(code);
   })
 
@@ -69,6 +70,7 @@ cdn
     const mergedCSS = cssContents.join("\n\n");
 
     res.setHeader("Content-Type", "text/css");
+    res.setHeader("Cache-Control", "public, max-age=604800");
     res.send(mergedCSS);
   })
 
