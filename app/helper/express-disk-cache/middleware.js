@@ -16,7 +16,7 @@ var NO_CACHE_REGEX = /(?:^|,)\s*?no-cache\s*?(?:,|$)/;
 var CACHE_CONTROL = "Cache-Control";
 var CONTENT_TYPE = "Content-Type";
 
-module.exports = function (cache_directory) {
+module.exports = function (cache_directory, options) {
   var tmp_directory;
 
   if (!cache_directory) throw new Error("Pass a cache directory");
@@ -33,7 +33,7 @@ module.exports = function (cache_directory) {
     var _end = res.end;
 
     res.write = function (chunk, encoding) {
-      debug("write called", chunk, encoding);
+      // debug("write called", chunk, encoding);
 
       // Trigger the onHeaders function below
       // if we have not set any headers ourselves
@@ -57,7 +57,7 @@ module.exports = function (cache_directory) {
     };
 
     res.end = function (chunk, encoding) {
-      debug("end called", chunk, encoding);
+      // debug("end called", chunk, encoding);
 
       // This flag is used to prevent a 'double write'
       // if response.end is invoked with a chunk of data
@@ -90,26 +90,25 @@ module.exports = function (cache_directory) {
     // We can only determine whether the response
     // is cacheable when the headers are sent.
     on_headers(res, function onResponseHeaders() {
-
-        debug("on headers called");
+      // debug("on headers called");
       // Don't cache requests with sessions. This prevents
       // sensitive data from appearing in the site's cache.
       if (req.session && req.session.uid) {
-        debug("has session");
+        // debug("has session");
         return;
       }
 
       // Check if the response has the no-cache header set
       // Don't cache the response if so!
       if (no_cache(req, res)) {
-        debug("no cache");
+        // debug("no cache");
         return;
       }
 
       // Only cache GET requests. We probably don't want to cache
       // POST or HEAD requests, ever.
       if (req.method !== "GET") {
-        debug("Non-GET request");
+        // debug("Non-GET request");
         return;
       }
 
@@ -117,7 +116,7 @@ module.exports = function (cache_directory) {
       // Doing so would neccessitate storing the correct status
       // code for the cache to send which needlessly complicates it.
       if (res.statusCode !== 200) {
-        debug("BAD status " + req.originalUrl + " " + res.statusCode);
+        // debug("BAD status " + req.originalUrl + " " + res.statusCode);
         return;
       }
 
@@ -129,7 +128,7 @@ module.exports = function (cache_directory) {
       // to cofigure NGINX around this, using say REGEX. But unsure for now.
       // TODO remove check for EXTENSION query string to avoid this nonsense
       if (Object.keys(req.query).length && req.query.extension === undefined) {
-        debug("Has query string");
+        // debug("Has query string");
         return;
       }
 
@@ -157,7 +156,7 @@ module.exports = function (cache_directory) {
       // all the data has been written to the response.
       // Now we can move the temporary file to its final location.
       stream.on("finish", function onStreamEnd() {
-        debug("stream has finished");
+        // debug("stream has finished");
 
         stream.close();
 
@@ -192,30 +191,31 @@ module.exports = function (cache_directory) {
           final_path = join(final_path, "index.html");
         }
 
-        debug("transforming");
+        // debug("transforming");
 
-        transform(tmp_path, content_type, function (err) {
+        transform(
+          { ...options, path: tmp_path, content_type: content_type },
+          function (err) {
+            // debug("moving", final_path);
 
-        debug("moving", final_path);
+            // Now we have all the time in the world to move the temporary file
+            // containing the full, successfully-sent response to this request.
+            fs.move(tmp_path, final_path, { overwrite: true }, function (err) {
+              // debug('complete!', final_path);
 
-          // Now we have all the time in the world to move the temporary file
-          // containing the full, successfully-sent response to this request.
-          fs.move(tmp_path, final_path, { overwrite: true }, function (err) {
+              if (!err) return; // We moved the file successfully
 
-              debug('complete!', final_path);
-
-            if (!err) return; // We moved the file successfully
-
-            // We encountered some file system error moving the temp
-            // file to its final location in the cache directory.
-            // Remove the temporary output and go on with our lives.
-            if (err) debug(err);
-            fs.remove(tmp_path, function (err) {
-              // Nothing else we can really do here
+              // We encountered some file system error moving the temp
+              // file to its final location in the cache directory.
+              // Remove the temporary output and go on with our lives.
               if (err) debug(err);
+              fs.remove(tmp_path, function (err) {
+                // Nothing else we can really do here
+                if (err) debug(err);
+              });
             });
-          });
-        });
+          }
+        );
       });
     });
     next();

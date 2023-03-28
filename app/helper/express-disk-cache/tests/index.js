@@ -1,6 +1,34 @@
 const fs = require("fs-extra");
 
 describe("express-disk-cache", function () {
+  it("will error if you do not pass a cache directory", async function () {
+    expect(function () {
+      const cache = require("../index");
+      cache();
+    }).toThrow();
+  });
+
+  it("will can flush the cache directory", async function (done) {
+    const Cache = require("../index");
+    const cache = Cache(__dirname + "/data");
+
+    await fs.outputFile(
+      __dirname + "/data/example.com/test.html",
+      "Hello",
+      "utf-8"
+    );
+
+    // Hides dotfiles (and system files)
+    const readdir = async (dir) =>
+      (await fs.readdir(dir)).filter((i) => !i.startsWith("."));
+
+    cache.flush("example.com", async function (err) {
+      expect(await readdir(__dirname + "/data/")).toEqual(["example.com"]);
+      expect(await readdir(__dirname + "/data/example.com")).toEqual([]);
+      done();
+    });
+  });
+
   it("works", async function () {
     const { app, listen, fetch, readFile } = this;
 
@@ -10,9 +38,11 @@ describe("express-disk-cache", function () {
 
     expect(await fetch("/")).toEqual(`Hello, world!`);
 
-    await new Promise(resolve => setTimeout(resolve, 100));
+    await new Promise((resolve) => setTimeout(resolve, 100));
 
-    expect(await readFile("/localhost/http/temporary/index.html")).toEqual("Hello, world!");
+    expect(await readFile("/localhost/http/temporary/index.html")).toEqual(
+      "Hello, world!"
+    );
   });
 
   beforeEach(async function () {
@@ -28,8 +58,7 @@ describe("express-disk-cache", function () {
 
     this.app = app;
     this.cache_directory = cache_directory;
-    this.readFile = (path) =>
-      fs.readFile(join(cache_directory, path), "utf-8");
+    this.readFile = (path) => fs.readFile(join(cache_directory, path), "utf-8");
 
     let server;
 
@@ -37,7 +66,7 @@ describe("express-disk-cache", function () {
       server = await app.listen(port);
     };
 
-    this.close = async () => await server.close();
+    this.close = async () => (server ? await server.close() : null);
 
     this.fetch = async (path) => {
       const res = await fetch(`http://localhost:${port}${path}`);
