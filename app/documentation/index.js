@@ -66,8 +66,12 @@ if (config.environment === "development") {
     cache.flush(config.host);
     cacheID = Date.now();
 
-    insecureRequest("/cdn/documentation/" + cacheID + "/style.min.css");
-    insecureRequest("/cdn/documentation/" + cacheID + "/documentation.min.js");
+    insecureRequest(
+      `https://${config.host}/cdn/documentation/${cacheID}/style.min.css`
+    );
+    insecureRequest(
+      `https://${config.host}/cdn/documentation/${cacheID}/documentation.min.js`
+    );
 
     let urlPath;
 
@@ -183,11 +187,9 @@ documentation.use(function (req, res, next) {
   const view = trimLeadingAndTrailingSlash(req.path) || "index";
 
   if (require("path").extname(view)) {
-    console.log("skipping render of", view);
     return next();
   }
 
-  console.log("rendering", view);
   res.render(view);
 });
 
