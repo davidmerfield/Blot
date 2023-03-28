@@ -4,14 +4,14 @@ module.exports = function ({ path, mimeType, minify = false }, callback) {
   callback();
 };
 
-function minifyHTML (path) {
+async function minifyHTML (path) {
 
 }
 
-function minifyJS (path) {
+async function minifyJS (path) {
 
 }
 
-function minifyCSS (path) {
+async function minifyCSS (path) {
   
 }
