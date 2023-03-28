@@ -70,9 +70,9 @@ async function minifyJS(path) {
 }
 
 async function minifyCSS(path) {
-  const { minify } = new MinifyCSS();
+  const minimize = new MinifyCSS();
   const input = await fs.readFile(path, "utf-8");
-  const output = minify(input).styles;
+  const output = minimize.minify(input).styles;
   await fs.outputFile(path, output);
   return path;
 }

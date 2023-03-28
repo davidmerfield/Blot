@@ -10,7 +10,7 @@ const trace = require("helper/trace");
 
 const root = require("helper/rootDir");
 const { join } = require("path");
-const VIEW_DIRECTORY = join(root, "app/documentation/data/views");
+const VIEW_DIRECTORY = join(root, "app/views");
 
 // Register the engine we will use to
 // render the views.
@@ -18,6 +18,33 @@ documentation.set("view engine", "html");
 documentation.set("views", VIEW_DIRECTORY);
 documentation.engine("html", hogan);
 documentation.disable("x-powered-by");
+
+
+  // await fs.ensureDir(OUTPUT_TMP);
+
+  // const chokidar = require("chokidar");
+
+  // const watcher = chokidar.watch(INPUT, { cwd: INPUT });
+
+  
+  // watcher
+  //   .on("add", function (path) {
+  //     queue.push({ path, destination: walked ? OUTPUT : OUTPUT_TMP });
+  //   })
+  //   .on("change", function (path) {
+  //     queue.push({ path, destination: walked ? OUTPUT : OUTPUT_TMP });
+  //   })
+  //   .on("ready", function () {
+  //     walked = true;
+  //   });
+
+//
+documentation.set("transformers", [
+  require("./tools/typeset"),
+  require("./tools/anchor-links"),
+  require("./tools/tex"),
+  require("./tools/finder").html_parser
+]);
 
 documentation.set("etag", false); // turn off etags for responses
 
