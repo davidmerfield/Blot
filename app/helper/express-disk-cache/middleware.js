@@ -16,7 +16,7 @@ var NO_CACHE_REGEX = /(?:^|,)\s*?no-cache\s*?(?:,|$)/;
 var CACHE_CONTROL = "Cache-Control";
 var CONTENT_TYPE = "Content-Type";
 
-module.exports = function (cache_directory, options) {
+module.exports = function (cache_directory, options = {}) {
   var tmp_directory;
 
   if (!cache_directory) throw new Error("Pass a cache directory");
