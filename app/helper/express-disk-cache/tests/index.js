@@ -63,7 +63,7 @@ describe("express-disk-cache", function () {
 
     expect(
       gunzipSync(
-        await readFile("/localhost/http/temporary/index.html.gz", null)
+        await readFile("/localhost/http/temporary/index.htmlgzip", null)
       ).toString()
     ).toEqual("<h1>Hello, world!</h1>");
   });
