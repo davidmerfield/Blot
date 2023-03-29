@@ -47,6 +47,27 @@ describe("express-disk-cache", function () {
     );
   });
 
+  it("gzips HTML", async function () {
+    const { app, listen, fetch, readFile, configure } = this;
+
+    configure({ gzip: true });
+
+    app.get("/", (req, res) => res.send("<h1>Hello, world!</h1>"));
+
+    await listen();
+
+    expect(await fetch("/")).toEqual(`<h1>Hello, world!</h1>`);
+
+    await delay();
+    const { gunzipSync } = require("zlib");
+
+    expect(
+      gunzipSync(
+        await readFile("/localhost/http/temporary/index.html.gz", null)
+      ).toString()
+    ).toEqual("<h1>Hello, world!</h1>");
+  });
+
   it("minifies HTML", async function () {
     const { app, listen, fetch, readFile, configure } = this;
 
@@ -83,7 +104,6 @@ describe("express-disk-cache", function () {
     );
   });
 
-
   it("minifies JS", async function () {
     const { app, listen, fetch, readFile, configure } = this;
 
@@ -114,16 +134,18 @@ describe("express-disk-cache", function () {
     this.cache_directory = __dirname + "/data";
 
     this.minify = false;
+    this.gzip = false;
 
     this.configure = ({
       directory = this.cache_directory,
       minify = this.minify,
+      gzip = this.gzip,
     } = {}) => {
-      app.use(cache(directory, { minify }));
+      app.use(cache(directory, { minify, gzip }));
     };
 
-    this.readFile = (path) =>
-      fs.readFile(join(this.cache_directory, path), "utf-8");
+    this.readFile = (path, encoding = "utf-8") =>
+      fs.readFile(join(this.cache_directory, path), encoding);
 
     this.listen = async () => {
       this.server = await app.listen(port);

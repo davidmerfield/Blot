@@ -5,7 +5,7 @@ var join = require("path").join;
 var uuid = require("uuid/v1");
 var fs = require("fs-extra");
 var debug = console.log;
-
+var compress = require("./compress");
 var transform = require("./transform");
 
 // Regex to check the Cache-Control header to
@@ -26,7 +26,6 @@ module.exports = function (cache_directory, options) {
   fs.ensureDirSync(tmp_directory);
 
   return function disk_cache(req, res, next) {
-
     var called_end = false;
     var stream, final_path, tmp_path, tmp_name, protocol;
     var content_type, cache_control, has_max_age, cache_age;
@@ -204,12 +203,17 @@ module.exports = function (cache_directory, options) {
             fs.move(tmp_path, final_path, { overwrite: true }, function (err) {
               // debug('complete!', final_path);
 
+              if (content_type.startsWith("text/") && options.gzip) {
+                compress(final_path);
+              } 
+
               if (!err) return; // We moved the file successfully
 
               // We encountered some file system error moving the temp
               // file to its final location in the cache directory.
               // Remove the temporary output and go on with our lives.
               if (err) debug(err);
+
               fs.remove(tmp_path, function (err) {
                 // Nothing else we can really do here
                 if (err) debug(err);

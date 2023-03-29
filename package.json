@@ -91,6 +91,7 @@
     "mustache": "^2.3.0",
     "node-fetch": "^2.6.7",
     "node-schedule": "^0.1.16",
+    "node-zopfli": "^2.1.4",
     "pg": "^8.5.1",
     "pretty": "^2.0.0",
     "proper-lockfile": "^4.1.2",
