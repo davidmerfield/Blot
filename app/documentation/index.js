@@ -63,7 +63,7 @@ if (config.environment === "development") {
   const insecureRequest = require("./tools/insecure-request");
 
   watcher.on("change", async function (path) {
-    cache.flush(config.host);
+    cache.flush(config.host, (err) => console.log(err));
     cacheID = Date.now();
 
     insecureRequest(

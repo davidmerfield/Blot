@@ -41,46 +41,51 @@ function filter(sites, callback) {
 }
 
 function verify(domain, callback) {
-  if (config.environment === "development") {
-    return callback(null, { id: "SITE:blog" }, new Date().getFullYear());
-  }
+  console.log('Checking', domain);
+  
+  var options = {
+    uri: "https://" + domain + "/verify/domain-setup",
+    timeout: 1000,
+    maxRedirects: 5,
+  };
 
-  Blog.get({ domain: domain }, function (err, blog) {
+  request(options, function (err, res, body) {
     if (err) return callback(err);
 
-    if (!blog) return callback(new Error("No blog with domain " + domain));
+    if (!body || body.indexOf(" ") > -1 || body.length > 100)
+      return callback(new Error("domain disconnected"));
 
-    if (!blog.template) {
-      return callback(new Error("No template for blog"));
+    if (config.environment === "development") {
+      return callback(null, { id: "SITE:blog" }, new Date().getFullYear());
     }
 
-    User.getById(blog.owner, function (err, user) {
-      let joined = new Date().getFullYear();
+    Blog.get({ domain: domain }, function (err, blog) {
+      if (err) return callback(err);
 
-      if (user && user.subscription && user.subscription.created) {
-        joined = new Date(user.subscription.created * 1000).getFullYear();
+      if (!blog) return callback(new Error("No blog with domain " + domain));
+
+      if (!blog.template) {
+        return callback(new Error("No template for blog"));
       }
 
-      Template.getMetadata(blog.template, function (err, template) {
-        if (err) return callback(err);
+      User.getById(blog.owner, function (err, user) {
+        let joined = new Date().getFullYear();
 
-        if (!template) {
-          return callback(new Error("No template:" + blog.template));
+        if (user && user.subscription && user.subscription.created) {
+          joined = new Date(user.subscription.created * 1000).getFullYear();
         }
 
-        if (!template.id) {
-          console.log("no template id", blog, template);
-          return callback(new Error("No template:" + blog.template));
-        }
-
-        var options = {
-          uri: "http://" + domain + "/verify/domain-setup",
-          timeout: 1000,
-          maxRedirects: 5,
-        };
-
-        request(options, function (err, res, body) {
+        Template.getMetadata(blog.template, function (err, template) {
           if (err) return callback(err);
+
+          if (!template) {
+            return callback(new Error("No template:" + blog.template));
+          }
+
+          if (!template.id) {
+            console.log("no template id", blog, template);
+            return callback(new Error("No template:" + blog.template));
+          }
 
           if (body !== blog.handle)
             return callback(

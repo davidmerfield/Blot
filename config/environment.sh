@@ -44,6 +44,10 @@ export PUPPETEER_EXECUTABLE_PATH=
 export BLOT_ADMIN_UID=
 export BLOT_ADMIN_EMAIL=
 
+# Required by node-zopfli library to work on AWS
+# TODO: remove the need for this!
+export LD_LIBRARY_PATH=/usr/local/lib64
+
 #############################################
 #               S E C R E T S               #
 #############################################

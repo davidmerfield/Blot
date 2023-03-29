@@ -7,8 +7,12 @@ const httpsAgent = new https.Agent({
 });
 
 module.exports = async function (url) {
-  await fetch(url, {
-    method: "GET",
-    agent: httpsAgent,
-  });
+  try {
+    await fetch(url, {
+      method: "GET",
+      agent: httpsAgent,
+    });
+  } catch (e) {
+    console.log(e);
+  }
 };
