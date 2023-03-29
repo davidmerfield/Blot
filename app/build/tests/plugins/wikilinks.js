@@ -188,6 +188,28 @@ describe("wikilinks plugin", function () {
     this.buildAndCheck({ path, contents }, { html }, done);
   });
 
+  it("preserves piped link text", function (done) {
+    const path = "/hello.md";
+    const content = "[[wikilink|Hey]]";
+
+    const linkPath = "/wikilink.md";
+    const linkContent = "Link: foo\n\nWikilink";
+
+    // We know that Blot has worked out which file to link to
+    // because the href is set to foo!
+    const html = '<p><a href="/foo" title="wikilink">Hey</a></p>';
+
+    const files = [
+      { path: linkPath, content: linkContent },
+      { path, content },
+    ];
+
+    const entry = { path, html };
+
+    this.syncAndCheck(files, entry, done);
+  });
+
+
   // the linked file is added after the linking file
   it("turns wikilinks into links in reverse order", function (done) {
     const path = "/hello.md";

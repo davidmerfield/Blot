@@ -4,6 +4,7 @@ const byPath = require("./byPath");
 const byURL = require("./byURL");
 const byTitle = require("./byTitle");
 const { decode } = require("he");
+const makeSlug = require("helper/makeSlug");
 
 function render($, callback, { blogID, path }) {
   const wikilinks = $("a[title='wikilink']");
@@ -23,6 +24,11 @@ function render($, callback, { blogID, path }) {
       // for us, hopefully safely
       const href = decode($(node).attr("href"));
 
+      // Rougly compare the href and text contents of the link
+      // if they don't match the user did something like this:
+      // [[target|Title here]]
+      const piped = makeSlug($(node).html()) !== makeSlug(href);
+
       const lookups = [
         byPath.bind(null, blogID, path, href),
         byURL.bind(null, blogID, href),
@@ -32,9 +38,10 @@ function render($, callback, { blogID, path }) {
       tryEach(lookups, function (err, entry) {
         if (entry) {
           const link = entry.url;
-          const linkText = $(node).attr("data-text") || entry.title;
 
-          $(node).attr("href", link).html(linkText).removeAttr("data-text");
+          $(node).attr("href", link);
+
+          if (!piped) $(node).html(entry.title);
 
           dependencies.push(entry.path);
         } else {
