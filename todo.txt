@@ -1,21 +1,20 @@
-Disable font-ligatures for code snippets
-
-Font files do not seem to be cached on Blot's questions section?
-
-Improve express disk cache
-- [ ] remove brochure/build logic
-- [ ] add way to transform HTML with current 'tools' to express-mustache
-- [ ] perhaps tune NGINX open file cache to off for dev server?
-- [ ] can more of the documentation become markdown?
-- [ ] can we turn the documentation design into a blot digital garden template?
-
-- [ ] add PNG lossless compression for brochure
-- [ ] add JPG lossless compression for brochure
-- [ ] add SVG lossless compression for brochure
+Finish Ethan's template
 
 Improve reference template on mobile and follow up [with questioner](https://blot.im/questions/1529) https://ahilan.blot.im/frog-by-adam-handling
 
+Fix [Christopher's bugs with thumbnails](https://mail.google.com/mail/u/0/#inbox/QgrcJHrnvrNzJHZMWcVFzMHvZTnPZfPxfqg)
+
+---
+
 Fix issue with template with invalid metadata (cat log for error), it seems the name and error properties were not set
+- [ ] run fix on all existing templates
+
+Improve express disk cache
+- [ ] can more of the documentation become markdown?
+- [ ] can we turn the documentation design into a blot digital garden template?
+- [ ] add PNG lossless compression for brochure
+- [ ] add JPG lossless compression for brochure
+- [ ] add SVG lossless compression for brochure
 
 Improvements to server
 - [ ] move development cdn onto its own host to better simular cross-domain issues
@@ -66,8 +65,6 @@ Improve CI testing
 - [ ] Write browser based integration tests for core functionality
 - [ ] how can we test the 'reload-server' script?
 - [ ] how can we test the 'scheduler' functions? we ran into error where it was running twice
-
-Fix [Christopher's bugs with thumbnails](https://mail.google.com/mail/u/0/#inbox/QgrcJHrnvrNzJHZMWcVFzMHvZTnPZfPxfqg)
 
 Fix Git client bugs
 - Fix bug which occurs when you change your username while using the Git client (caused by the broken repo url) and tell [Koen](https://mail.google.com/mail/u/0/#inbox/1670f516115ef9bd) and [Andre](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqfMMxJXpbTZLvGzVmZlFPNfk) and [Josh](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqnkxhvtmPpdMMkRPjzpktrxG) and [Ryan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGCGthpSTxskRFFVjtrGnhnSvh) and [David](https://mail.google.com/mail/u/0/#inbox/FMfcgzGllVjvNfvdDVmnmlRvrFsNnQSD)
