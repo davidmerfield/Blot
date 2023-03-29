@@ -1,7 +1,10 @@
 const Express = require("express");
 const cdn = Express.Router();
 const config = require("config");
-const cache = require("helper/express-disk-cache")(config.cache_directory);
+const cache = require("helper/express-disk-cache")(config.cache_directory, {
+  minify: true,
+  gzip: true,
+});
 const root = require("helper/rootDir");
 const fs = require("fs-extra");
 const { join } = require("path");
@@ -25,7 +28,7 @@ var static_files_directory = join(root, "/app/blog/static");
 //
 // Cloudfront will store this response to server future requests
 
-if (config.cache) cdn.use(cache);
+cdn.use(cache);
 
 cdn
 

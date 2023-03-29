@@ -14,5 +14,5 @@ module.exports = async function compress(path) {
         blocksplittingmax: 15,
       })
     )
-    .pipe(fs.createWriteStream(path + ".gz"));
+    .pipe(fs.createWriteStream(path + "gzip"));
 };

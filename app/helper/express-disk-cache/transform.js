@@ -8,6 +8,8 @@ module.exports = async function (options, callback) {
 
   if (!minify) return callback();
 
+  try {
+
   if (content_type.includes("text/html")) {
     await minifyHTML(path);
   } else if (content_type.includes("text/css")) {
@@ -16,6 +18,10 @@ module.exports = async function (options, callback) {
     await minifyJS(path);
   } else {
     console.log("No processor for", content_type);
+  }
+
+  } catch (e) {
+    // failed to minify but whatever
   }
 
   callback();
