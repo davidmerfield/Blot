@@ -203,9 +203,16 @@ module.exports = function (cache_directory, options) {
             fs.move(tmp_path, final_path, { overwrite: true }, function (err) {
               // debug('complete!', final_path);
 
-              if (content_type.startsWith("text/") && options.gzip) {
+              // This will create another file with the suffix 'gzip', e.g.
+              // index.htmlgzip which contains the gzipped contents of the
+              // original HTML file. It can be served by NGINX, we add a 
+              // special mime type handler for the gzip-suffixed files
+              if (
+                (options.gzip && content_type.startsWith("text/")) ||
+                content_type.includes("/javascript")
+              ) {
                 compress(final_path);
-              } 
+              }
 
               if (!err) return; // We moved the file successfully
 
