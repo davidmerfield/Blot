@@ -139,10 +139,19 @@ ul.task-list { list-style-type: none; }
   .post {
     width: 50%
   }
+
+
+  
+}
+
+@media screen and (max-width: 600px) {
+  .entry {
+    padding: 0 1rem;
+    box-sizing: border-box;
+  }
 }
 
 @media screen and (max-width: 500px) {
-
 
   .post {
     width: 100%
@@ -369,6 +378,7 @@ form input:focus,
 
 .entry {
   line-height: 1.5;
+  word-wrap: break-word;
   -webkit-font-smoothing: antialiased;
   color: {{text_color}};
 }
