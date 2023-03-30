@@ -1,7 +1,5 @@
 Fix bug with [Rob's wordpress import](https://mail.google.com/mail/u/0/#inbox/FMfcgzGslkdwbKMKfKrxRDvLWhmJsHQb)
 
-Improve reference template on mobile and follow up [with questioner](https://blot.im/questions/1529) https://ahilan.blot.im/frog-by-adam-handling
-
 Fix [Christopher's bugs with thumbnails](https://mail.google.com/mail/u/0/#inbox/QgrcJHrnvrNzJHZMWcVFzMHvZTnPZfPxfqg)
 
 ---
