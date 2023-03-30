@@ -206,6 +206,7 @@ dashboard.use(function (err, req, res, next) {
       if (referrer.host === config.host) from = referrer.path;
     } catch (e) {}
 
+    res.clearCookie("signed_into_blot", { domain: "", path: "/" });
     return res.redirect(
       "/log-in?then=" + req.originalUrl + (from ? "&from=" + from : "")
     );
