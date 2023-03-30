@@ -1056,3 +1056,5 @@ Consider adding a {{titleLink}} property to each entry, which extracts a link fr
 
 Consider adding 'default metadata' option to dashboard
 - Tell [Mike](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLscxQPSzQtKbhpHpJgbNlgCQZ)
+
+Consider switching to same-site lax and remove all redirects?

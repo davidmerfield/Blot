@@ -158,7 +158,7 @@ function send(locals, messageFile, to, callback) {
       return callback(e);
     }
 
-    if (config.environment === "development") {
+    if (config.environment === "development" && process.env.EMAIL !== "true") {
       var previewPath = tempDir + Date.now() + ".html";
       fs.outputFileSync(previewPath, email.html, "utf-8");
       console.log(clfdate(), "Email: unsent in development environment:", {

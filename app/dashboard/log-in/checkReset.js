@@ -34,10 +34,10 @@ function sendPasswordResetEmail(uid, callback) {
     url = format({
       protocol: "https",
       host: config.host,
-      pathname: "/log-in",
+      pathname: "/dashboard/log-in",
       query: {
         token: token,
-        then: "/account/password/set",
+        then: "/dashboard/account/password/set",
       },
     });
 

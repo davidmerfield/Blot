@@ -68,12 +68,15 @@ form
 form
   .route("/")
 
-  .get(blockCrawlers, checkToken, redirect, function (req, res) {
+  .get(blockCrawlers, redirect, checkToken, function (req, res) {
+    // if we've been sent from the 'log out' page this will be true
     res.locals.out = req.query.out;
     res.render("log-in");
   })
 
-  .post(parse, checkEmail, checkReset, checkPassword, errorHandler)
+  .post(parse, checkEmail, checkReset, checkPassword)
+
+  .all(errorHandler)
 
   .all(function (err, req, res, next) {
     if (req.body && req.body.reset !== undefined)

@@ -15,7 +15,8 @@ module.exports = function (req, res, next) {
 
   if (!redirected) {
     res.locals.cookie_redirect = redirect;
+    res.render("log-in");
+  } else {
+    next()
   }
-
-  return next();
 };
