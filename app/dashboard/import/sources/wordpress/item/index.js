@@ -1,7 +1,6 @@
 var async = require("async");
 var helper = require("dashboard/import/helper");
 var extract_entry = require("./extract_entry");
-var convert_to_markdown = require("./convert_to_markdown");
 var tidy = require("./tidy");
 
 module.exports = function (item, output_directory, callback) {
@@ -21,7 +20,7 @@ module.exports = function (item, output_directory, callback) {
       helper.determine_path(output_directory),
       helper.download_pdfs,
       helper.download_images,
-      convert_to_markdown,
+      helper.convert_to_markdown,
       helper.insert_metadata,
       helper.write,
     ],
