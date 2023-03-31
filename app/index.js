@@ -17,7 +17,7 @@ if (cluster.isMaster) {
 
   console.log(
     clfdate(),
-    `Starting pid=${process.pid} environment=${config.environment} cache=${config.cache} workers=${NUMBER_OF_WORKERS}`
+    `Starting pid=${process.pid} environment=${config.environment} workers=${NUMBER_OF_WORKERS}`
   );
 
   // Write the master process PID so we can signal it
