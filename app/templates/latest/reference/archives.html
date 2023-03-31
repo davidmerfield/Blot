@@ -1,7 +1,5 @@
 {{> header}}
 
-<hr>
-
 {{^archives.length}}
 <div class="centered">
   <p>No posts yet.</p>
@@ -10,44 +8,9 @@
 
 {{#archives.length}}
 <div class="archives">
-  <h1 style="margin-left:1.3rem">Archives</h1>
-  <hr>
+  <h1>Archives</h1>
   <div style="display:flex;flex-wrap:wrap;padding:0 1.3rem">
-    <div style="flex-basis:50%">
-
-      <style type="text/css">
-      table {
-        width: 100%;
-      }
-
-      table a {
-        text-decoration: none;
-        color: inherit;
-      }
-
-      table {
-        border-collapse: collapse
-      }
-
-      tr:hover {
-        background: #eee
-      }
-
-      td,
-      th {
-        padding: 0.35rem 0.7rem;
-      }
-
-      th {
-        font-size: 12px;
-        text-align: left;
-        color: #aaa;
-        font-weight: normal;
-        text-transform: uppercase;
-      }
-
-      </style>
-      <table>
+      <table class="hyper">
         <thead>
           <th></th>
           <th>Date</th>
@@ -62,7 +25,6 @@
         {{/months}}
         {{/archives}}
       </table>
-    </div>
 
   </div>
   {{/archives.length}}
