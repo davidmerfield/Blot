@@ -62,7 +62,18 @@ if (config.environment === "development") {
   const watcher = chokidar.watch(VIEW_DIRECTORY, { cwd: VIEW_DIRECTORY });
   const insecureRequest = require("./tools/insecure-request");
 
-  watcher.on("change", async function (path) {
+  // Flags to prevent locking up the server by doing this too many times
+  let flushing = false;
+  let again = false;
+
+  watcher.on("change", async function flush(path) {
+    if (flushing) {
+      again = true;
+      return;
+    }
+
+    flushing = true;
+
     cache.flush(config.host, (err) => console.log(err));
     cacheID = Date.now();
 
@@ -81,10 +92,18 @@ if (config.environment === "development") {
         urlPath = urlPath.slice(0, -"index".length);
     }
 
-    if (!urlPath) return;
+    if (urlPath) {
+      const url = `https://${config.host}${urlPath}`;
 
-    const url = `https://${config.host}${urlPath}`;
-    insecureRequest(url);
+      insecureRequest(url);
+    }
+    
+    flushing = false;
+
+    if (again) {
+      again = false;
+      flush();
+    }
   });
 }
 

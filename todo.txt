@@ -5,27 +5,7 @@ Work out why node server keeps starting (health check? can we streamline?)
 Fix issue with template with invalid metadata (cat log for error), it seems the name and error properties were not set
 - [ ] run fix on all existing templates
 
-Improve express disk cache
-- [ ] can more of the documentation become markdown?
-- [ ] can we turn the documentation design into a blot digital garden template?
-- [ ] add PNG lossless compression for brochure
-- [ ] add JPG lossless compression for brochure
-- [ ] add SVG lossless compression for brochure
-
-Improvements to server
-- [ ] move development cdn onto its own host to better simular cross-domain issues
-- [ ] test maintenance and redirector on dashboard
-- [ ] make questions section cache-able (using disk-cache)
-- [ ] restrict post to /dashboard route so we can tune nginx logic?
-- [ ] tune performance of express-mustache in production and development
-- [ ] add optional HTML/JS/CSS minification to express-disk-cache
-- [ ] Test overdue subscription re-start
-- [ ] Disable call to stripe for every pageview on /account
-- [ ] Create blog > Dropbox > Create blog > Dropbox failed to set up properly
-- [ ] Prevent GET request to log in page from setting `connect.sid` cookie
-  - [ ] or otherwise work out how to try and cache everything at nginx
-  - [ ] log in route should clear 'logged_in_to_blot' cookie if not logged in
-- [ ] Use [Lory](http://loryjs.github.io/lory/) to add a slider to the homepage
+Make questions section cache-able (using disk-cache)
 
 ---
 
@@ -41,18 +21,20 @@ Work on templates
   - [Jan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChmLnfMTdtNkpLxHTlPJNHlCT) 
   - [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrRRZTKntrWKJvfDXrRFTzljs)
 
-Release a new film showing some of Blot’s more recent features
-- Finish setting up Office
-- Ensure each template is good enough for the new film
-- Finish the test folders for each template 
-- Finish video in brochure/readme.txt
-
 Add support for new formats via pandoc:
 - rtf
 - jupyter notebooks
 - orgmode 
 
-Add support for other image formats, by converting them into jpg/webp
+Improve image posts
+- Add opt-in EXIF extraction for photos and enable in the photos template
+- Add support for other image formats, by converting them into jpg/webp
+
+Release a new film showing some of Blot’s more recent features
+- Finish setting up Office
+- Ensure each template is good enough for the new film
+- Finish the test folders for each template 
+- Finish video in brochure/readme.txt
 
 ---
 
@@ -169,6 +151,27 @@ Investigate bug with template views whose names include hashtags and follow up w
 Migrate search indexes for blogs to postgres
 
 Migrate to k8s cluster on Linode
+
+Improve express disk cache
+- [ ] can more of the documentation become markdown?
+- [ ] can we turn the documentation design into a blot digital garden template?
+- [ ] add PNG lossless compression for brochure
+- [ ] add JPG lossless compression for brochure
+- [ ] add SVG lossless compression for brochure
+
+Improvements to server
+- [ ] move development cdn onto its own host to better simular cross-domain issues
+- [ ] test maintenance and redirector on dashboard
+- [ ] restrict post to /dashboard route so we can tune nginx logic?
+- [ ] tune performance of express-mustache in production and development
+- [ ] add optional HTML/JS/CSS minification to express-disk-cache
+- [ ] Test overdue subscription re-start
+- [ ] Disable call to stripe for every pageview on /account
+- [ ] Create blog > Dropbox > Create blog > Dropbox failed to set up properly
+- [ ] Prevent GET request to log in page from setting `connect.sid` cookie
+  - [ ] or otherwise work out how to try and cache everything at nginx
+  - [ ] log in route should clear 'logged_in_to_blot' cookie if not logged in
+- [ ] Use [Lory](http://loryjs.github.io/lory/) to add a slider to the homepage
 
 Improvements to sync/reset scripts:
 - [ ] Fix should produce a report which I get email
