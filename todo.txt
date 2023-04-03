@@ -1,4 +1,4 @@
-Fix issue with reference template image captions and tell questioner and ahilan
+Improve reference template https://mail.google.com/mail/u/0/#inbox/FMfcgzGsltHKsjgpBnKwWMqdhhFwqJfq
 
 Fix issue with ghost locally edited template files- https://blot.im/questions/1586
 
