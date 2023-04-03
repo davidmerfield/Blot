@@ -10,6 +10,9 @@ var setView = require("./setView");
 var MAX_SIZE = 2.5 * 1000 * 1000; // 2.5mb
 var PACKAGE = "package.json";
 var savePackage = require("./package").save;
+var client = require("models/client");
+var key = require("./key");
+var dropView = require("./dropView");
 
 module.exports = function readFromFolder(blogID, dir, callback) {
   var id = makeID(blogID, basename(dir));
@@ -33,61 +36,75 @@ module.exports = function readFromFolder(blogID, dir, callback) {
             errors["package.json"] = err.message;
           }
 
-          async.eachSeries(
-            contents,
-            function (name, next) {
-              // Skip Dotfile or Package.json
-              if (name[0] === "." || name === PACKAGE) return next();
+          removeDeletedViews(id, contents, function (removeErrors) {
+            if (removeErrors) {
+              // todo handle these
+            }
 
-              fs.stat(dir + "/" + name, function (err, stat) {
-                // Skip folders, or files which are too large
-                if (err || !stat || stat.size > MAX_SIZE || stat.isDirectory())
-                  return next();
+            async.eachSeries(
+              contents,
+              function (name, next) {
+                // Skip Dotfile or Package.json
+                if (name[0] === "." || name === PACKAGE) return next();
 
-                fs.readFile(dir + "/" + name, "utf-8", function (err, content) {
-                  if (err) return next();
+                fs.stat(dir + "/" + name, function (err, stat) {
+                  // Skip folders, or files which are too large
+                  if (
+                    err ||
+                    !stat ||
+                    stat.size > MAX_SIZE ||
+                    stat.isDirectory()
+                  )
+                    return next();
 
-                  // We look up this view file to merge any existing properties
-                  // Should this really be handled by setView? It looks like
-                  // setView already calls getView...
-                  getView(id, name, function (err, view) {
-                    // getView returns an error if the view does not exist
-                    // We want to be able to create new views using local editing
-                    // we so ignore this error, and create the view object as needed
-                    view = view || {};
-                    view.name = view.name || name;
+                  fs.readFile(dir + "/" + name, "utf-8", function (
+                    err,
+                    content
+                  ) {
+                    if (err) return next();
 
-                    // Views might not exist if there's an error
-                    // with the template's package.json file
-                    if (views && views[name])
-                      for (var i in views[name]) view[i] = views[name][i];
+                    // We look up this view file to merge any existing properties
+                    // Should this really be handled by setView? It looks like
+                    // setView already calls getView...
+                    getView(id, name, function (err, view) {
+                      // getView returns an error if the view does not exist
+                      // We want to be able to create new views using local editing
+                      // we so ignore this error, and create the view object as needed
+                      view = view || {};
+                      view.name = view.name || name;
 
-                    view.content = content;
-                    view.url = view.url || "/" + view.name;
+                      // Views might not exist if there's an error
+                      // with the template's package.json file
+                      if (views && views[name])
+                        for (var i in views[name]) view[i] = views[name][i];
 
-                    setView(id, view, function (err) {
-                      // we expose this error to the developer on
-                      // the preview subdomain
-                      if (err) {
-                        errors[view.name] = improveMustacheErrorMessage(
-                          err,
-                          content
-                        );
-                      }
+                      view.content = content;
+                      view.url = view.url || "/" + view.name;
 
-                      next();
+                      setView(id, view, function (err) {
+                        // we expose this error to the developer on
+                        // the preview subdomain
+                        if (err) {
+                          errors[view.name] = improveMustacheErrorMessage(
+                            err,
+                            content
+                          );
+                        }
+
+                        next();
+                      });
                     });
                   });
                 });
-              });
-            },
-            function (err) {
-              if (err) return callback(err);
-              setMetadata(id, { errors }, function () {
-                getMetadata(id, callback);
-              });
-            }
-          );
+              },
+              function (err) {
+                if (err) return callback(err);
+                setMetadata(id, { errors }, function () {
+                  getMetadata(id, callback);
+                });
+              }
+            );
+          });
         });
       });
     });
@@ -113,6 +130,26 @@ function loadPackage(id, dir, callback) {
       const error = new Error(improveJSONErrorMessage(err, contents));
       return callback(error);
     }
+  });
+}
+
+function removeDeletedViews(templateID, contents, callback) {
+  const viewsToRemove = [];
+
+  client.smembers(key.allViews(templateID), function (err, viewNames) {
+    if (err) return callback(err);
+    for (const viewName of viewNames) {
+      let found = contents.find((fileName) => fileName.startsWith(viewName));
+      if (!found) viewsToRemove.push(viewName);
+    }
+
+    async.eachSeries(
+      viewsToRemove,
+      function (viewName, next) {
+        dropView(templateID, viewName, next);
+      },
+      callback
+    );
   });
 }
 
