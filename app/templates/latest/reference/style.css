@@ -389,6 +389,8 @@ form input:focus,
   line-height: 1.6em;
 }
 
+.entry pre {white-space: pre-wrap;}
+
 .entry blockquote {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -720,7 +722,15 @@ input#toggle {
 
 
 
-    .entry-container .caption {max-width: 40em;display: none;margin:1rem auto 0;}
+    .entry-container .caption {margin:1rem auto 0;}
+    
+    [data-source$=".jpg" i] .caption,
+    [data-source$=".jpeg" i] .caption,
+    [data-source$=".png" i] .caption,
+    [data-source$=".gif" i] .caption {
+      display: none;
+    }
+
     .entry-container  .main {
       min-height: calc(100vh - 2rem);
       flex-grow: 1;
