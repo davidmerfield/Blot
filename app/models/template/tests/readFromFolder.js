@@ -118,6 +118,30 @@ describe("template", function () {
     });
   });
 
+  it("removes a view when you remove its file", function (done) {
+    const tmp = this.tmp;
+    const blogID = this.blog.id;
+
+    fs.outputFileSync(tmp + "/test.html", "Hello, world!");
+
+    readFromFolder(blogID, tmp, function (err, template) {
+      if (err) return done.fail(err);
+      get(template.id, "test.html", function (err, view) {
+        expect(view.content).toEqual("Hello, world!");
+
+        fs.removeSync(tmp + "/test.html");
+        readFromFolder(blogID, tmp, function (err) {
+          if (err) return done.fail(err);
+          get(template.id, "test.html", function (err, view) {
+            expect(err.message.includes("No view")).toBe(true);
+            expect(view).toEqual(undefined);
+            done();
+          });
+        });
+      });
+    });
+  });
+
   it("reads a view's content from a folder", function (done) {
     fs.outputFileSync(this.tmp + "/style.css", "body {color:pink}");
 
