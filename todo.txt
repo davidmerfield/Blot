@@ -1,7 +1,5 @@
 Improve reference template https://mail.google.com/mail/u/0/#inbox/FMfcgzGsltHKsjgpBnKwWMqdhhFwqJfq
 
-Fix issue with ghost locally edited template files- https://blot.im/questions/1586
-
 Finish Ethan's template https://mail.google.com/mail/u/0/#inbox/FMfcgzGrcPPGhMsLkpgWwpMBFBgpkvKg
 
 Fix issue with wordpress import https://mail.google.com/mail/u/0/#inbox/FMfcgzGslkdwbKMKfKrxRDvLWhmJsHQb
