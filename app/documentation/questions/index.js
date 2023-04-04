@@ -58,7 +58,6 @@ Questions.use(function (req, res, next) {
   res.locals["show-question-sidebar"] = true;
   res.locals["hide-on-this-page"] = true;
   // The rest of these pages should not be cached
-  res.header("Cache-Control", "no-cache");
   next();
 });
 
