@@ -2,7 +2,6 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@devhau/md-editor@1.0.4/dist/md-editor.min.css">
   
   <form method="POST" action="/questions/ask" id="new-question-form" class="qa-form" style="width: 100%;">
-    <input type="hidden" name="_csrf" value="{{csrf}}" />
     <div>
       <label><strong>Title</strong></label>
       <input type="text" required name="title" id="title" placeholder="e.g. What text-editors do you recommend for writing Markdown?"></input>

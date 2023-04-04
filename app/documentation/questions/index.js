@@ -4,6 +4,10 @@ const moment = require("moment");
 const config = require("config");
 const marked = require("marked");
 const async = require("async");
+const cache = require("helper/express-disk-cache")(config.cache_directory);
+const flush = () =>
+  cache.flush({ host: config.host, path: "/https/temporary/questions" });
+
 // Configure connection to Postgres
 const Pool = require("pg").Pool;
 const pool = new Pool({
@@ -22,11 +26,10 @@ const pool = new Pool({
 // QA Forum View Configuration
 const TOPICS_PER_PAGE = 20;
 
-Questions.use(require('dashboard/session'));
-
-Questions.use(require('dashboard/csrf'));
+Questions.use(["/ask", "/:id/edit", "/:id/new"], require("dashboard/session"));
 
 Questions.use(
+  ["/ask", "/:id/edit", "/:id/new"],
   Express.urlencoded({
     extended: true,
   })
@@ -55,7 +58,6 @@ Questions.use(function (req, res, next) {
   res.locals["show-question-sidebar"] = true;
   res.locals["hide-on-this-page"] = true;
   // The rest of these pages should not be cached
-  res.header("Cache-Control", "no-cache");
   next();
 });
 
@@ -266,12 +268,13 @@ OFFSET ${offset};`
 // Handle topic viewing and creation
 Questions.route("/ask")
   .get(function (req, res, next) {
-    if (!req.session || !req.session.uid) return res.redirect("/log-in?then=/questions/ask");
-    res.locals.csrf = req.csrfToken();
+    if (!req.session || !req.session.uid)
+      return res.redirect("/log-in?then=/questions/ask");
     res.render("questions/ask");
   })
   .post(function (req, res, next) {
-    if (!req.session || !req.session.uid) return res.redirect("/log-in?then=/questions/ask");
+    if (!req.session || !req.session.uid)
+      return res.redirect("/log-in?then=/questions/ask");
     const author = req.session.uid;
     const title = req.body.title;
     const tags = req.body.tags;
@@ -286,6 +289,7 @@ Questions.route("/ask")
         [author, title, body, tags],
         (error, topic) => {
           if (error) return next(error);
+          flush();
           const newTopic = topic.rows[0];
           res.redirect("/questions/" + newTopic.id);
         }
@@ -294,9 +298,10 @@ Questions.route("/ask")
   });
 
 // Handle new reply to topic
-Questions.route("/:id/new").post( function (req, res, next) {
+Questions.route("/:id/new").post(function (req, res, next) {
   const id = parseInt(req.params.id);
-  if (!req.session || !req.session.uid) return res.redirect(`/log-in?then=/questions/${id}/new`);
+  if (!req.session || !req.session.uid)
+    return res.redirect(`/log-in?then=/questions/${id}/new`);
   const author = req.session.uid;
   const body = req.body.body;
   if (body.trim().length === 0) res.redirect("/questions/" + id);
@@ -306,7 +311,10 @@ Questions.route("/:id/new").post( function (req, res, next) {
         "INSERT INTO items(id, author, body, parent_id) VALUES(DEFAULT, $1, $2, $3) RETURNING *",
         [author, body, id]
       )
-      .then(() => res.redirect("/questions/" + id))
+      .then(() => {
+        flush();
+        res.redirect("/questions/" + id);
+      })
       .catch(next);
   }
 });
@@ -314,7 +322,8 @@ Questions.route("/:id/new").post( function (req, res, next) {
 Questions.route("/:id/edit")
   .get(function (req, res, next) {
     const id = parseInt(req.params.id);
-    if (!req.session || !req.session.uid) return res.redirect(`/log-in?then=/questions/${id}/edit`);
+    if (!req.session || !req.session.uid)
+      return res.redirect(`/log-in?then=/questions/${id}/edit`);
     pool
       .query("SELECT * FROM items WHERE id = $1", [id])
       .then((topics) => {
@@ -334,14 +343,14 @@ Questions.route("/:id/edit")
         }
 
         res.locals.topic = topic;
-        res.locals.csrf = req.csrfToken();
         res.render("questions/edit");
       })
       .catch(next);
   })
   .post(function (req, res, next) {
     const id = parseInt(req.params.id);
-    if (!req.session || !req.session.uid) return res.redirect(`/log-in?then=/questions/${id}/edit`);
+    if (!req.session || !req.session.uid)
+      return res.redirect(`/log-in?then=/questions/${id}/edit`);
     const title = req.body.title || "";
     const body = req.body.body;
     const tags = req.body.tags || "";
@@ -365,13 +374,13 @@ Questions.route("/:id/edit")
         let redirect = "/questions/" + topic.id;
         if (topic.parent_id !== null)
           redirect = "/questions/" + topic.parent_id;
+        flush();
         res.redirect(redirect);
       })
       .catch(next);
   });
 
 Questions.route("/:id").get(function (req, res, next) {
-  res.locals.csrf = req.csrfToken();
   const id = parseInt(req.params.id);
   pool
     .query("SELECT * FROM items WHERE id = $1 AND is_topic = true", [id])
@@ -425,7 +434,6 @@ Questions.route("/tagged/:tag/edit")
     const total_affected = rows[0].total_affected;
 
     res.locals.tag = tag;
-    res.locals.csrf = req.csrfToken();
     res.locals.total_affected = total_affected;
     res.render("questions/edit-tag.html");
   })
@@ -453,6 +461,7 @@ Questions.route("/tagged/:tag/edit")
       },
       (err) => {
         if (err) return next(err);
+        flush();
         res.redirect(req.baseUrl + "/tagged/" + tag);
       }
     );
@@ -571,8 +580,7 @@ function highlight(html) {
       var highlighted = hljs.highlight(lang, code).value;
 
       $(this).html(highlighted).addClass("hljs").addClass(lang);
-    } catch (e) {
-    }
+    } catch (e) {}
   });
 
   return $.html();

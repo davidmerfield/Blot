@@ -52,7 +52,7 @@ function check(callback) {
         console.log(
           `${cache_directory} has ${items} items inside before flush..`
         );
-        cache.flush(config.host, function (err) {
+        cache.flush({ host: config.host }, function (err) {
           if (err) {
             console.log("Error flushing cache directory:", err);
             return callback(err);

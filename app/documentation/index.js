@@ -74,7 +74,7 @@ if (config.environment === "development") {
 
     flushing = true;
 
-    cache.flush(config.host, (err) => console.log(err));
+    cache.flush({ host: config.host }, (err) => console.log(err));
     cacheID = Date.now();
 
     insecureRequest(
@@ -97,7 +97,7 @@ if (config.environment === "development") {
 
       insecureRequest(url);
     }
-    
+
     flushing = false;
 
     if (again) {

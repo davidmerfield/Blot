@@ -22,7 +22,7 @@ var clfdate = require("helper/clfdate");
 
 function main() {
   // Empty any existing responses
-  cache.flush(config.host, function (err) {
+  cache.flush({ host: config.host }, function (err) {
     if (err) console.warn(err);
     setTimeout(function () {
       console.log(clfdate(), "Warming cache for documentation");
