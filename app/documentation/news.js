@@ -13,35 +13,30 @@ var TTL = 60 * 60 * 24; // 1 day in seconds
 const { join } = require("path");
 const root = require("helper/rootDir");
 
-news.get("/", gitCommits, loadToDo, function (req, res, next) {
-  next();
+news.get("/", gitCommits, loadToDo, function (req, res) {
+  res.locals.fullWidth = true;
+  res.render("about/news");
 });
 
 // The rest of these pages should not be cached
 news.use(function (req, res, next) {
   res.header("Cache-Control", "no-cache");
   res.locals.fullWidth = true;
+  res.locals.title = "Newsletter";
   next();
 });
 
-news.get("/sign-up", function (req, res, next) {
-  if (req.session && req.session.newsletter_email) {
-    res.locals.email = req.session.newsletter_email;
-    delete req.session.newsletter_email;
-  } else {
-    return res.redirect(req.baseUrl);
-  }
-
-  next();
+news.get("/sign-up", function (req, res) {
+  if (!req.query || !req.query.email) return res.redirect(req.baseUrl);
+  res.locals.email = req.query.email;
+  res.locals.title = 'Sign up';
+  res.render("about/news/sign-up");
 });
 
-news.get("/cancel", function (req, res, next) {
-  if (req.session && req.session.newsletter_email) {
-    res.locals.email = req.session.newsletter_email;
-    delete req.session.newsletter_email;
-  }
-
-  next();
+news.get("/cancel", function (req, res) {
+  res.locals.email = req.query.email;
+  res.locals.title = 'Cancel';
+  res.render("about/news/cancel");
 });
 
 function confirmationKey(guid) {
@@ -89,8 +84,7 @@ news.post("/cancel", parse, function (req, res, next) {
       Email.NEWSLETTER_CANCELLATION_CONFIRMATION(null, locals, function (err) {
         if (err) return next(err);
 
-        req.session.newsletter_email = email;
-        res.redirect("/about/news/cancel");
+        res.redirect("/about/news/cancel?email=" + email);
       });
     });
   });
@@ -109,12 +103,15 @@ news.get("/cancel/:guid", function (req, res, next) {
 
       res.locals.title = "Cancelled";
       res.locals.email = email;
-      next();
+
       if (removed) {
         Email.NEWSLETTER_CANCELLATION_CONFIRMED(null, locals, function () {
           // Email confirmation sent
         });
       }
+
+      res.locals.title = 'Cancelled';
+      res.render("about/news/cancelled");
     });
   });
 });
@@ -170,8 +167,7 @@ news.post("/sign-up", parse, function (req, res, next) {
     Email.NEWSLETTER_SUBSCRIPTION_CONFIRMATION(null, locals, function (err) {
       if (err) return next(err);
 
-      req.session.newsletter_email = email;
-      res.redirect("/about/news/sign-up");
+      res.redirect("/about/news/sign-up?email=" + email);
     });
   });
 });
