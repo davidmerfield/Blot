@@ -4,8 +4,6 @@ Finish Ethan's template https://mail.google.com/mail/u/0/#inbox/FMfcgzGrcPPGhMsL
 
 Fix issue with wordpress import https://mail.google.com/mail/u/0/#inbox/FMfcgzGslkdwbKMKfKrxRDvLWhmJsHQb
 
-Fix issue with newsletter sign up and sessions
-
 Fix issue with template with invalid metadata (cat log for error), it seems the name and error properties were not set
 - [ ] run fix on all existing templates
 
