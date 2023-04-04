@@ -12,9 +12,11 @@ var join = require("path").join;
 module.exports = function (cache_directory) {
   if (!cache_directory) throw new Error("Pass a cache directory");
 
-  return function flush(hostname, callback = () => {}) {
-    // If the directory doesn't exist, this creates the directory.
-    // If the directory does exist, this removes any files inside.
-    fs.emptyDir(join(cache_directory, hostname), callback);
+  return async function ({ host, path = "/" } = {}, callback = () => {}) {
+    if (!host) return callback(new Error("Pass a host"));
+
+    await fs.emptyDir(join(cache_directory, host, path));
+
+    callback();
   };
 };
