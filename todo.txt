@@ -2,12 +2,9 @@ Finish [Ethan's template](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrcPPGhM
 
 Improve reference template and tell [Ahilan](https://mail.google.com/mail/u/0/#inbox/FMfcgzGsltHKsjgpBnKwWMqdhhFwqJfq)
 
-Fix issue with template with invalid metadata (cat log for error), it seems the name and error properties were not set
-- [ ] run fix on all existing templates
-
-Work out why node server keeps starting (health check? can we streamline?)
-
 ---
+
+Work out why node server keeps running out of memory and re-starting
 
 Add support for Google Docs
 - `download` Should nicely handle the export of various Google Doc formats
@@ -62,6 +59,9 @@ Fix bug with undeleteable template files prefixed with dot and tell [Stuart](htt
 Fix bug with leading emoji and title case plugin and tell [questioner](https://blot.im/questions/874)
 
 Fix 'back' button in photo template and tell [Bibi](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrcPJTmPXxWvhbmFpvwdfVzhpn)
+
+Fix issue with template with invalid metadata (cat log for error), it seems the name and error properties were not set
+- [ ] run fix on all existing templates
 
 Fix duplicate GUID issue and tell [Jason](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrbvKsNQgVWVNKrVqMzRJdDvKk)
 
