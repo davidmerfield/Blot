@@ -1,0 +1,41 @@
+<h1>Ask a question</h1>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@devhau/md-editor@1.0.4/dist/md-editor.min.css">
+  
+  <form method="POST" action="/questions/ask" id="new-question-form" class="qa-form" style="width: 100%;">
+    <div>
+      <label><strong>Title</strong></label>
+      <input type="text" required name="title" id="title" placeholder="e.g. What text-editors do you recommend for writing Markdown?"></input>
+    </div>
+    <br>
+    <div>
+      <label><strong>Body</strong></label>
+      <textarea type="text" name="body" id="body"  placeholder="Include any information needed to answer your question"></textarea>
+    </div>
+    <div>
+            <script src="/js/tagify.js"></script>
+            <link href="/css/tagify.css" rel="stylesheet" type="text/css" />
+
+
+<style type="text/css">
+  .editor-toolbar:after, .editor-toolbar:before {margin:0;}
+  .CodeMirror .CodeMirror-placeholder{
+    opacity: 0.3333
+  }
+.editor-toolbar {border-radius: 0}
+.editor-toolbar{padding:0;}
+  .editor-statusbar {visibility: hidden;}
+.CodeMirror {
+      box-shadow: inset 0 1px 2px 0 rgb(0 0 0 / 8%);
+}
+
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@devhau/md-editor@1.0.4/dist/md-editor.min.js"></script>
+<script>
+var editor = new mdEditor({ element: document.getElementById("body") });
+</script>
+
+<input type="submit" value="Ask your question">     
+
+  </form>
+</div>
+

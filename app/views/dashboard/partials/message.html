@@ -1,0 +1,15 @@
+{{#message}}
+        {{^error}}
+        <a href="" class="mess success" style="margin-bottom:0rem">
+     <span class="link">Dismiss</span>
+     {{text}}
+    </a>
+        {{/error}}
+        {{/message}}
+
+        {{#message.error}}
+        <a href="" class="mess error" style="margin-bottom:0rem">
+     <span class="link">Dismiss</span>
+     {{message.text}}
+    </a>
+        {{/message.error}}

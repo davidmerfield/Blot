@@ -1,4 +1,4 @@
-var User = require("user");
+var User = require("models/user");
 var async = require("async");
 var moment = require("moment");
 var prettyPrice = require("helper/prettyPrice");

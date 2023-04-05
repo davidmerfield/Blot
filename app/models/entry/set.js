@@ -1,7 +1,7 @@
 var async = require("async");
 var ensure = require("helper/ensure");
 var model = require("./model");
-var redis = require("client");
+var redis = require("models/client");
 var guid = require("helper/guid");
 var clfdate = require("helper/clfdate");
 

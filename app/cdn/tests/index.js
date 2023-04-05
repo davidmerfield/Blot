@@ -6,7 +6,7 @@ describe("cdn", function () {
   global.test.blog();
 
   global.test.server(function (server) {
-    server.use("/", require("../index"));
+    server.use("/cdn", require("../index"));
   });
 
   it("exposes contents of static folder at CDN endpoint", function (done) {

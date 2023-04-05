@@ -5,7 +5,7 @@ if (!config.cache_directory)
 
 var fs = require("fs-extra");
 var async = require("async");
-var flush = require("express-disk-cache")(config.cache_directory).flush;
+var flush = require("helper/express-disk-cache")(config.cache_directory).flush;
 var localPath = require("helper/localPath");
 var HOSTS = config.cache_directory;
 var BackupDomain = require("./util/backupDomain");
@@ -55,18 +55,24 @@ module.exports = function (blogID, former, callback) {
     if (affectedHosts.length)
       debug("Emptying cache directories for:", affectedHosts);
 
-    async.each(affectedHosts, flush, function (err) {
-      if (err) return callback(err);
+    async.each(
+      affectedHosts,
+      (host, next) => {
+        flush({ host }, next);
+      },
+      function (err) {
+        if (err) return callback(err);
 
-      // The purpose of this module is to set up a number of symlinks between the blogs
-      // folder stored againsts its ID, e.g. blogs/XYZ and its host, e.g. /cache/example.com
-      // This is designed to allow NGINX to serve static content without a way to lookup the
-      // blog by ID, and will take load off the Node.js server
-      if (blogHosts.length)
-        debug("Setting up symlinks to blog folder for", blogHosts);
+        // The purpose of this module is to set up a number of symlinks between the blogs
+        // folder stored againsts its ID, e.g. blogs/XYZ and its host, e.g. /cache/example.com
+        // This is designed to allow NGINX to serve static content without a way to lookup the
+        // blog by ID, and will take load off the Node.js server
+        if (blogHosts.length)
+          debug("Setting up symlinks to blog folder for", blogHosts);
 
-      async.each(blogHosts, symlink.bind(null, blogID), callback);
-    });
+        async.each(blogHosts, symlink.bind(null, blogID), callback);
+      }
+    );
   });
 };
 

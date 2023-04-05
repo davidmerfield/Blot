@@ -1,0 +1,45 @@
+<h1>Posts</h1>
+
+<p>Files inside your folder become posts on your website. When you place a file that Blot can publish inside your folder, Blot will post it to your website.</p>
+
+<h2 class="no-border">Files which become posts</h2>
+{{> supported_file_list}}
+ 
+<h2>Prevent a file becoming a post</h2>
+<p> Files and folders whose name starts with an underscore are ignored. Ignored files don’t become blog posts themselves but they can be <a href="#files-in-your-folder-are-public">embedded in posts</a>. For example, none of these files become posts:</p>
+
+<table >
+  <tbody>
+    <tr>
+       <td>
+        <code class="file img">_Banana.jpg</a></code>
+      </td>
+    </tr>
+  <tr>
+      <td>
+        <code class="folder">_Fruits</code><span class="light">›</span><code class="file img">Banana.jpg</a></code>
+      </td>      
+    </tr>
+  </tbody>
+</table>
+
+
+<h2>Formatting posts</h2>
+
+<ul class="clients">
+  <li><a href="/how/posts/markdown"><span class="a">Markdown</span><br>  A lightweight plain text markup language.</a> </li>
+  <li><a href="/how/posts/tex"><span class="a">\(\TeX\)</span><br> A math typesetting library with powerful formatting features.</a> </li>
+  <li><a href="/how/posts/layout-tags"><span class="a">Layout</span><br> A custom Markdown extension which offers simple layout directives.</a> </li>
+  <li><a href="/how/posts/embedding"><span class="a">Embedding</span><br> Automatically generate embedded widgets from Youtube urls and other links.</a> </li>
+  <li><a href="/how/posts/citations"><span class="a">Citations</span><br>  For external citations and bibliographies.</a> </li>
+  <li><a href="/how/posts/wikilinks"><span class="a">Wikilinks</span><br>  For simple internal links between posts.</a> </li>
+</ul>
+
+
+<h2>Update a post</h2>
+
+<p>To edit a post, update its file. </p>
+
+<h2>Remove a post</h2>
+
+<p>To delete a post, delete its file.</p>

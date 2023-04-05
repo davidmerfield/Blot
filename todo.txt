@@ -1,3 +1,16 @@
+Finish [Ethan's template](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrcPPGhMsLkpgWwpMBFBgpkvKg) 
+
+Fix issue with wordpress import for [Rob](https://mail.google.com/mail/u/0/#inbox/FMfcgzGslkdwbKMKfKrxRDvLWhmJsHQb)
+
+Improve reference template and tell [Ahilan](https://mail.google.com/mail/u/0/#inbox/FMfcgzGsltHKsjgpBnKwWMqdhhFwqJfq)
+
+Fix issue with template with invalid metadata (cat log for error), it seems the name and error properties were not set
+- [ ] run fix on all existing templates
+
+Work out why node server keeps starting (health check? can we streamline?)
+
+---
+
 Add support for Google Docs
 - `download` Should nicely handle the export of various Google Doc formats
 
@@ -10,22 +23,28 @@ Work on templates
   - [Jan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChmLnfMTdtNkpLxHTlPJNHlCT) 
   - [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrRRZTKntrWKJvfDXrRFTzljs)
 
+Add support for new formats via pandoc:
+- rtf
+- jupyter notebooks
+- orgmode 
+
+Improve image posts
+- Add opt-in EXIF extraction for photos and enable in the photos template
+- Add support for other image formats, by converting them into jpg/webp
+
 Release a new film showing some of Blot’s more recent features
 - Finish setting up Office
 - Ensure each template is good enough for the new film
 - Finish the test folders for each template 
 - Finish video in brochure/readme.txt
 
-Add support for new formats via pandoc:
-- rtf
-- jupyter notebooks
-- orgmode 
-
-Add support for other image formats, by converting them into jpg/webp
-
 ---
 
-Fix [Christopher's bugs with thumbnails](https://mail.google.com/mail/u/0/#inbox/QgrcJHrnvrNzJHZMWcVFzMHvZTnPZfPxfqg)
+Improve CI testing
+- [ ] Add spell checking test
+- [ ] Write browser based integration tests for core functionality
+- [ ] how can we test the 'reload-server' script?
+- [ ] how can we test the 'scheduler' functions? we ran into error where it was running twice
 
 Fix Git client bugs
 - Fix bug which occurs when you change your username while using the Git client (caused by the broken repo url) and tell [Koen](https://mail.google.com/mail/u/0/#inbox/1670f516115ef9bd) and [Andre](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqfMMxJXpbTZLvGzVmZlFPNfk) and [Josh](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqnkxhvtmPpdMMkRPjzpktrxG) and [Ryan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGCGthpSTxskRFFVjtrGnhnSvh) and [David](https://mail.google.com/mail/u/0/#inbox/FMfcgzGllVjvNfvdDVmnmlRvrFsNnQSD)
@@ -70,10 +89,6 @@ Fix navigation link bug with blog tempalte and tell [Jason](https://mail.google.
 Investigate this [date metadata bug](https://blot.im/questions/936)
 
 Fix bug with chinese characters in template name and follow up with [Alex](https://mail.google.com/mail/u/0/#search/alex/FMfcgzGqRGTCSrMXTznCBvTWhQqvkgCL)
-
-Fix bug with duplicate entries and tell [Marco](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqQcrBrMBLSZGlZZtZPCnRfwXr)
-- [another ghost post](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqQmWhrKRqLgXMRjPbKMsBRbrV)
-- there is an entry without the 'news' tag, that [shows up under 'news'](https://timeline.marconoris.com/caminar-para-entender-caminar-para-recordar-en-frontera-en-eyeframing-on-mediation/7)
 
 Fix bug with this [question](https://blot.im/questions/648)
 
@@ -138,6 +153,27 @@ Investigate bug with template views whose names include hashtags and follow up w
 Migrate search indexes for blogs to postgres
 
 Migrate to k8s cluster on Linode
+
+Improve express disk cache
+- [ ] can more of the documentation become markdown?
+- [ ] can we turn the documentation design into a blot digital garden template?
+- [ ] add PNG lossless compression for brochure
+- [ ] add JPG lossless compression for brochure
+- [ ] add SVG lossless compression for brochure
+
+Improvements to server
+- [ ] move development cdn onto its own host to better simular cross-domain issues
+- [ ] test maintenance and redirector on dashboard
+- [ ] restrict post to /dashboard route so we can tune nginx logic?
+- [ ] tune performance of express-mustache in production and development
+- [ ] add optional HTML/JS/CSS minification to express-disk-cache
+- [ ] Test overdue subscription re-start
+- [ ] Disable call to stripe for every pageview on /account
+- [ ] Create blog > Dropbox > Create blog > Dropbox failed to set up properly
+- [ ] Prevent GET request to log in page from setting `connect.sid` cookie
+  - [ ] or otherwise work out how to try and cache everything at nginx
+  - [ ] log in route should clear 'logged_in_to_blot' cookie if not logged in
+- [ ] Use [Lory](http://loryjs.github.io/lory/) to add a slider to the homepage
 
 Improvements to sync/reset scripts:
 - [ ] Fix should produce a report which I get email
@@ -681,10 +717,15 @@ Finish template translation offers
 Improve the markdown converter:
 - Add plugin option to enable hard line breaks in Markdown parser? Tell [Wil](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsmhNWSxQsvMkWPRdQsxQxSvh)
 - Fix bug with nested Markdown and tell [Martin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqnhgBjBSKzvtclvqcFcMptMR):
+```
   - ![This is a picture of me testing **Sonikebana**, a nine channel sound piece for mobile loudspeakers that respond when moved. Photo (and artwork) by [Anna Chapman Parker](http://www.annachapman.co.uk)](http://example.com/images/_landingImage_01.jpg)
+```
 - Extend the Markdown converted to add support for Ulysses highlighting and iAWriter highlighting syntax, using the [example files provided by Marco](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsKFQGTxDTnxNddZQxjsLZJGb). Tell [Marco](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsKFQGTxDTnxNddZQxjsLZJGb)
-- Fix bug which injects <p> tags into the following: <div class="img-gallery"><img src="_Floralia.png" title="Floralia"><img src="_Flower.png" title="Flower"><img src="_Mechanical.png" title="Mechanical"><img src="_Curv.png" title="Curv"><img src="_Curvus.png" title="Curvus"><img src="_Futuristic.png" title="Futuristic">
-</div> and tell [Vanessa](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLswJQjKhnLpNZzfPhJZpVtcph)
+- Fix bug and tell [Vanessa](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLswJQjKhnLpNZzfPhJZpVtcph) which injects `<p>` tags into the following: 
+```
+<div class="img-gallery"><img src="_Floralia.png" title="Floralia"><img src="_Flower.png" title="Flower"><img src="_Mechanical.png" title="Mechanical"><img src="_Curv.png" title="Curv"><img src="_Curvus.png" title="Curvus"><img src="_Futuristic.png" title="Futuristic">
+</div>
+```
 
 Finish script to identify long-expired customers with blogs to safely delete and free up space. 
 - Sort by date expired
@@ -1014,3 +1055,5 @@ Consider adding a {{titleLink}} property to each entry, which extracts a link fr
 
 Consider adding 'default metadata' option to dashboard
 - Tell [Mike](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLscxQPSzQtKbhpHpJgbNlgCQZ)
+
+Consider switching to same-site lax and remove all redirects?

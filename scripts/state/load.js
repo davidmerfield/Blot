@@ -57,9 +57,18 @@ async function main(label, callback) {
 
     // Why stdio: inherit?
     // https://github.com/shelljs/shelljs/issues/770#issuecomment-329357465
-    cp.execSync(
-      "pg_ctl -s -l logs/post.log start -D " + DATA_DIRECTORY + "/db/postgres"
-    );
+    try {
+      cp.execSync(
+        "pg_ctl -s -l logs/post.log start -D " + DATA_DIRECTORY + "/db/postgres"
+      );
+    } catch (e) {
+      cp.execSync(
+        "pg_ctl -s -l logs/post.log stop -D " + DATA_DIRECTORY + "/db/postgres"
+      );
+      cp.execSync(
+        "pg_ctl -s -l logs/post.log start -D " + DATA_DIRECTORY + "/db/postgres"
+      );
+    }
 
     fs.emptyDirSync(BLOG_FOLDERS_DIRECTORY);
     fs.ensureDirSync(directory + "/blogs");

@@ -1,11 +1,8 @@
 # About
 
-Done up to page 3:
-https://www.flickr.com/photos/library_of_congress/albums/72157629495236312/page3
-
 Frances Benjamin Johnston (January 15, 1864 – May 16, 1952) was an early American photographer and photojournalist whose career lasted for almost half a century. She is most known for her portraits, images of southern architecture, and various photographic series featuring African Americans and Native Americans at the turn of the 20th century.
 
-![Portrait](_Frances Benjamin Johnston, three-quarter length portrait, holding and looking down at camera, facing slightly left)
+![Frances Benjamin Johnston, three-quarter length portrait, holding and looking down at camera, facing slightly left](_frances.jpg)
 
 May the beauty captured in these historical magic lantern slides inspire you with new gardening ideas. Or, make you wonder how these places look today. (Please post pictures of what you find in the comments!)
 
@@ -34,3 +31,6 @@ Learn more
 - Tennant, John A. “Lantern Slides.” Photo-Miniature: A Monthly Magazine of Photographic Information 1 (December 1899): 427-479. Online at: hdl.loc.gov/loc.gdc/scd0001.20101222001la.2
 
 - Watters, Sam. Gardens for a Beautiful America, 1895-1935: Photographs by Frances Benjamin Johnston, New York: Acanthus Press in collaboration with the Library of Congress, 2012. 377 p.
+
+Done up to page 3:
+https://www.flickr.com/photos/library_of_congress/albums/72157629495236312/page3

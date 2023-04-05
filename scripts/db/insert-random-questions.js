@@ -28,7 +28,7 @@ const urlFromFilename = function (path) {
     .toLowerCase();
 };
 
-const slugs = walk(require("helper/rootDir") + "/app/brochure/views")
+const slugs = walk(require("helper/rootDir") + "/app/views")
   .filter((path) => path.endsWith(".html"))
   .map(urlFromFilename)
   .filter((x, i, a) => a.indexOf(x) === i)

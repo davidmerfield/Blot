@@ -1,8 +1,8 @@
 module.exports = function (server) {
-  var Entry = require("entry");
+  var Entry = require("models/entry");
   var normalize = require("helper/urlNormalizer");
   var plugins = require("build/plugins");
-  var Entries = require("entries");
+  var Entries = require("models/entries");
 
   server.use(function (request, response, next) {
     var scheduled = !!request.query.scheduled;

@@ -13,7 +13,7 @@
 // }]
 
 var config = require("config");
-var Cache = require("express-disk-cache");
+var Cache = require("helper/express-disk-cache");
 var cache = new Cache(config.cache_directory);
 var async = require("async");
 var cheerio = require("cheerio");
@@ -22,13 +22,13 @@ var clfdate = require("helper/clfdate");
 
 function main() {
   // Empty any existing responses
-  cache.flush(config.host, function (err) {
+  cache.flush({ host: config.host }, function (err) {
     if (err) console.warn(err);
     setTimeout(function () {
-      console.log(clfdate(), "Warming cache for brochure site");
+      console.log(clfdate(), "Warming cache for documentation");
       warmCache(config.protocol + config.host, function (err) {
         if (err) console.warn(clfdate(), "Warming cache error:", err.message);
-        console.log(clfdate(), "Warmed cache for brochure site");
+        console.log(clfdate(), "Warmed cache for documentation");
       });
     }, 10 * 1000);
   });

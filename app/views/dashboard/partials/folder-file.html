@@ -1,0 +1,94 @@
+<div style="padding:11px">
+  <style type="text/css">
+table {
+  display: table;
+  width: 100%;
+  margin-bottom: 1rem
+}
+
+tr {
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.03)
+
+}
+
+tr:last-child{border:none;}
+tr.break {
+}
+
+tr.break td {
+  padding-bottom: 11px
+}
+
+tr.break+tr td {
+  padding-top: 11px
+}
+
+td {
+  vertical-align: top;
+  padding: 2px 0;  
+}
+
+td:first-child {
+  color: rgb(158, 154, 152);
+  padding-right: 20px;
+  min-width: 150px
+}
+
+td a {
+  color: #0070e8
+}
+
+td:nth-child(2) {
+  width: 100%;
+}
+</style>
+<div style="padding:0 20px">
+
+  <div style="display: flex;align-items: flex-end;">
+  {{#folder.stat}}
+
+  {{#entry}}
+      <img src="/images/file-post.svg" style="position:relative;top:-9px;flex-shrink:0;margin-right:20px" width="26">
+      {{/entry}}
+      {{^entry}}
+      <img src="/images/file-empty.svg" style="position:relative;top:-9px;flex-shrink:0;margin-right:20px" width="26">
+      {{/entry}}
+
+
+  <h1 style="line-height:48px;font-size: 32px;margin:0;font-weight: 400;flex-grow: 1">
+    {{name}}
+  </h1>
+
+<a href="{{{blog.url}}}{{{path}}}" target="_blank" class="s no-underline" >Download file</a>
+
+</div>
+
+<style type="text/css">
+a.s.no-underline {
+  line-height:28px;border-radius:4px;padding:11px 20px;font-weight:600;display:block;color:#0070e8;border: 1px solid rgba(0,0,0,0.1);}
+a.s.no-underline + a.s.no-underline {
+  background: blue
+}
+
+a.s.no-underline:after {
+  content: "↓";
+  background: rgba(0,0,0,0.05);
+  border-radius: 1em;
+  width: 1.5em;
+  height: 1.5em;
+  line-height: 1.5em;
+  text-align: center;
+  margin: 0.1rem 0 0 2rem;
+  float: right;
+}</style>
+  
+  <hr>
+  {{> folder-stat}}
+
+  {{> folder-entry}}
+
+
+  {{/folder.stat}}
+</div>
+</div>

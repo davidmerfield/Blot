@@ -1,4 +1,4 @@
-const client = require("client");
+const client = require("models/client");
 const key = require("./key");
 
 // store a case preserving name against

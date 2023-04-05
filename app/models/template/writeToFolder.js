@@ -59,7 +59,7 @@ function writePackage(blogID, client, dir, metadata, views, callback) {
 }
 
 function makeClient(blogID, callback) {
-  require("blog").get({ id: blogID }, function (err, blog) {
+  require("models/blog").get({ id: blogID }, function (err, blog) {
     var client = require("clients")[blog.client];
 
     // we create a fake client to write the template files directly

@@ -1,5 +1,5 @@
-const buildFromFolder = require("template").buildFromFolder;
-const Blog = require("blog");
+const buildFromFolder = require("models/template").buildFromFolder;
+const Blog = require("models/blog");
 const Update = require("./update");
 const Rename = require("./rename");
 const localPath = require("helper/localPath");

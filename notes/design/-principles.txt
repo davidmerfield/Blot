@@ -21,13 +21,13 @@ The *aesthetic* is one of my main motivations to work on Blot. I find a lot of t
 
 I find old books, especially Italian ones made by early printers, to be very beautiful. I like objects that can age and break and be repaired with dignity. I like medieval buildings and I don't think that ornament is always a crime. I like things which can be handed down, things that have been handed down. Old books taught me that beauty is a prophylactic for destruction.
 
-
+<!--
 <br>
 
 ![](https://upload.wikimedia.org/wikipedia/commons/1/16/Aristoteles_opera_aldus_1495.jpg)
 
 <small style="opacity:0.5;font-size:14px;px">Page-spread from the Aristoteles "Opera" printed by Aldus Manutius about 1495—1498. Copy of the Bayerische Staatsbibliothek.</small><br><Br>
-
+-->
 
 
 ## Typefaces I like
@@ -42,21 +42,18 @@ I find old books, especially Italian ones made by early printers, to be very bea
 
 - **SAAS aesthetic**: &puncsp; Three-column pricing pages, enquire for enterprise rates, live-chat popups: 'How can we help?', a team page filled with grinning teeth in matching swag at the biannual beach retreat.
 
-## Sites I like
-
-If you look closely, you can probably feel the influence of these sites on Blot:
+## Websites I admire
 
 - [**Pinboard**](https://pinboard.in/) of all the projects in the world, Pinboard exerts the greatest influence on Blot
+- [**GitHub**](https://github.com/) their repository page design is efficient and clear
 - [**Cargo**](https://cargocollective.com/) they do make the internet more beautiful
 - [**Are.na**](https://www.are.na/)
-- [**Urbit**](https://urbit.org/) I like how they used Input. I also like the way they communicate their project.
-- [**Matthew Butterick**](https://mbtype.com/bio.html)
-- [SB-PH](https://sb-ph.com/)
-- [Jake Dow-Smith](https://jakedowsmith.studio/)
+- [**Urbit**](https://urbit.org/) because I appreciate the layers of meaning to their communication
+- [**Matthew Butterick**](https://mbtype.com/bio.html) has 
 - [**gov.uk**](https://design-system.service.gov.uk/)
 - [**Mirror**](https://mirror.xyz/) I like [Jon-Kyle
 ](https://www.jon-kyle.com/)'s work (also involved with Cargo) and I like [Seth Thompson](https://seththompson.org/)'s work.
-- [**Overcase**](https://overcast.fm/)
+- [**Overcast**](https://overcast.fm/)
 
 ## Calming
 

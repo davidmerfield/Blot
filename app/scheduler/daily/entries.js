@@ -1,5 +1,5 @@
-var Blog = require("blog");
-var Entries = require("entries");
+var Blog = require("models/blog");
+var Entries = require("models/entries");
 var async = require("async");
 var config = require("config");
 var prettyNumber = require("helper/prettyNumber");

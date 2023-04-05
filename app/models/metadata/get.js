@@ -1,4 +1,4 @@
-const client = require("client");
+const client = require("models/client");
 const key = require("./key");
 
 // retrives the case preserved name for

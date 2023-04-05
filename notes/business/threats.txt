@@ -54,8 +54,3 @@ Someone could come along and produce a superior product to Blot.
 - Keep working hard on Blot's product
 
 
-![](https://iiif.wellcomecollection.org/image/V0049451/full/1338%2C/0/default.jpg)
-
-<small style="opacity:0.5;font-size:14px;px">The Monastery of St. Catherine beneath Mount Sinai. Behind its fortress walls is the oldest continually operating library. Coloured lithograph by Louis Haghe after David Roberts, 1849.
-Source: <a href="https://wellcomecollection.org/works/abda3s2r/items">Wellcome collection</a></small><br><Br>
-

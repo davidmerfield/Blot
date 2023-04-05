@@ -1,0 +1,51 @@
+<h1>Embedding</h1>
+
+<p>Links to certain sites are automatically transformed into embedded versions. You can disable this in <a href="/settings/services">settings</a>. At the moment, the following services are supported:
+
+<ul>
+  <li>Twitter</li>
+  <li>Youtube</li>
+  <li>Vimeo</li>
+  <li>Bandcamp</li>
+</ul>
+</p>
+
+<pre class="text with-chrome" title="Post.txt"><code><b># Embedding</b>
+
+A link like this: 
+
+https://youtu.be/jNQXAC9IVRw
+
+Will be converted to HTML like this:
+
+&lt;iframe src=&quot;https://www.youtube-nocookie.com/embed/jNQXAC9IVRw?rel=0&amp;amp;wmode=transparent&amp;amp;rel=0&amp;amp;autohide=1&amp;amp;showinfo=0&quot; frameborder=&quot;0&quot; allowfullscreen=&quot;&quot;&gt;&lt;/iframe&gt;
+
+</code>
+    </pre>
+
+<p>Note that you can always put any third party embed code as raw HTML directly into Markdown files.</p>
+
+<h2>Twitter</h2>
+<p>Links to tweets are rendered via Twitter's own <a rel="nofollow" href="https://publish.twitter.com/">widget generator</a>. Links to lists, profiles, hashtags and other pages are not embedded automatically.</p>
+
+<h2>Youtube</h2>
+<p>Links to Youtube videos are rendered via a privacy-enhanced URL. Youtube will not authenticate your visitors while they are staying on your blog. As a consequence, certain personalized features such as watch later, share, and save to playlist will not be available to them on the embedded videos. The viewed video will also not appear in user's Youtube history.</p>
+
+<h2>Vimeo</h2>
+<p>Links to Vimeo videos are rendered via the standard Vimeo embedded player.</p>
+
+<h2>Bandcamp</h2>
+<p>Links to Bandcamp tracks and albums are rendered via the standard Bandcamp embedded player. Audio does not auto-play.</p>
+
+<h2>Embed an image in a post</h2>
+
+<p>An image in your blog’s folder becomes its own blog post by default. However, you can <a href="#prevent">prevent a ﬁle becoming a blog post</a> if you start its name starts with an un­der­score. Then you can use <a href="/how/format">Markdown</a> to embed the image in a text file:</p>
+
+<pre class="text with-chrome" title="Post.txt"><code>Here’s how to embed an image in your folder. Note the image’s name starts with an underscore to prevent it becoming its own blog post:
+
+![Image title](/path/to/the/_image.jpg)
+
+Absolute paths are resolved with your blog’s folder as root. Relative paths are resolved from the location of this file. You can also embed an image that’s already on the internet:
+
+![Image title](https://url.of/the/image.jpg)
+</code></pre>

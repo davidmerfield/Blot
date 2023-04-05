@@ -1,4 +1,4 @@
-var client = require("client");
+var client = require("models/client");
 var prettySize = require("helper/prettySize");
 
 function main(callback) {

@@ -1,5 +1,5 @@
 var ensure = require("helper/ensure");
-var client = require("client");
+var client = require("models/client");
 var key = require("./key");
 
 module.exports = function getById(uid, callback) {

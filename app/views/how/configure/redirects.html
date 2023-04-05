@@ -1,0 +1,50 @@
+<h1>Redirects</h1>
+
+<p>You can <a href="/settings/urls/redirects">set up redirect rules</a> for missing or moved pages on your blog. Your blog’s <a href="/settings/services/404s">404 log</a> will help you discover broken links. </p>
+
+<p>You can specify individual redirects or use a <em>regular expression</em> to match multiple URLs. Here are a few example redirect rules:</p>
+
+<small>
+<table>
+  <thead>
+    <th>From</th>
+    <th>To</th>
+    <th>Explanation</th>
+  </thead>
+  <tr>
+    <td>
+      <code>/apples</code>
+    </td>
+    <td>
+      <code>/oranges</code>
+    </td>
+    <td>
+      Will redirect the URL <code>/apples</code> to the URL <code>/oranges</code>, assuming there is no blog post or file with the URL <code>/apples</code>.
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <code>\/post\/(.*)</code>
+    </td>
+    <td>
+      <code>/blog/$1</code>
+    </td>
+    <td>
+      Will redirect URLs starting with <code>/post</code> to URLs starting with <code>/blog</code>.
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <code>/example</code>
+    </td>
+    <td>
+      <code>http://example.com</code>
+    </td>
+    <td>
+      Will the URL <code>/example</code> on your site to the external site <code>example.com</code>.
+    </td>
+  </tr>  
+</table></small>
+
+<h2>Why isn't my redirect working?</h2>
+<p>Redirects are evaluated last. This means that a redirect will not resolve if it matches an existing blog post’s URL, or the path to a file in your folder.</p>
