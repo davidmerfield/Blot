@@ -3,33 +3,31 @@
 // https://www.are.na/steve-k/neon-plants-and-lava-lamps
 // https://www.are.na/michael-duong/urban-outfitters-tarkovsky
 
-if (require.main === module) {
-  var url = process.argv[2];
-  var output_directory = process.argv[3];
+const Posts = require("./posts");
+const parse = require("./parse");
+const fetch = require("node-fetch");
+const fs = require("fs-extra");
+const { join } = require("path");
 
-  if (!url) throw "No url";
-  if (!output_directory) throw "No output_directory";
+async function main({ slug, outputDirectory, status }) {
+  status("Fetching posts from Are.na channel " + slug);
+  const response = await fetch(`https://api.are.na/v2/channels/${slug}`);
+  const json = await response.json();
+  
+  const {
+    metadata: { description },
+    owner,
+  } = json;
 
-  var slug = parse_slug(url);
+  fs.outputFile(
+    join(outputDirectory, "_description.txt"),
+    `${description}
 
-  main(slug, output_directory, function (err) {
-    if (err) throw err;
+https://www.are.na/${owner.slug}/${slug}`
+  );
 
-    console.log("Done!");
-    process.exit();
-  });
-}
-
-function main(slug, output_directory, callback) {
-  fetch(slug, function (err, posts) {
-    fs.emptyDir(output_directory, function (err) {
-      parse(posts, callback);
-    });
-  });
-}
-
-function parse_slug(url) {
-  return require("url").parse(url).path.split("/").pop();
+  const posts = await Posts({ slug, status });
+  await parse({ outputDirectory, posts, status });
 }
 
 module.exports = main;

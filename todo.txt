@@ -1,7 +1,5 @@
 Finish [Ethan's template](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrcPPGhMsLkpgWwpMBFBgpkvKg) 
 
-Fix issue with wordpress import for [Rob](https://mail.google.com/mail/u/0/#inbox/FMfcgzGslkdwbKMKfKrxRDvLWhmJsHQb)
-
 Improve reference template and tell [Ahilan](https://mail.google.com/mail/u/0/#inbox/FMfcgzGsltHKsjgpBnKwWMqdhhFwqJfq)
 
 Fix issue with template with invalid metadata (cat log for error), it seems the name and error properties were not set
@@ -828,6 +826,8 @@ Improvements to Git client
 - Rate limit authentication route?
 
 Dropbox client
+- Handle file renames using Dropbox IDs to avoid the 'new entry' bug when you rename a file
+- Build posts incrementally while big syncs are taking place 
 - Revert lowercase for all files when disconnecting the client
 - add support for Dropbox Paper files using paperDocsDownload and tell [Emad](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMZJvMswZZXKvLfBRBVqfzksw)
 - Add integration test with a dropbox Webhook call. I want to not push some code which would prevent syncing customer folders.
