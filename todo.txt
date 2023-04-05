@@ -7,8 +7,6 @@ Improve reference template and tell [Ahilan](https://mail.google.com/mail/u/0/#i
 Fix issue with template with invalid metadata (cat log for error), it seems the name and error properties were not set
 - [ ] run fix on all existing templates
 
-Add client-side date rendering to questions section now it is cached
-
 Work out why node server keeps starting (health check? can we streamline?)
 
 ---
