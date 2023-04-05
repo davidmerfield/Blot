@@ -15,6 +15,7 @@ module.exports = function (output_directory) {
     var name = slug || entry.name;
 
     name = name.split("/").join("-");
+    name = name.slice(0, 150);
 
     if (entry.page) {
       relative_path_without_extension = join("Pages", name);
