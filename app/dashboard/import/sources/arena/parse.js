@@ -1,114 +1,95 @@
-var fs = require("fs-extra");
-var join = require("path").join;
-var helper = require("dashboard/importer/helper");
+const { join, extname } = require("path");
+const moment = require("moment");
+const fs = require("fs-extra");
+const download = require("download");
+const sharp = require("sharp");
 
-var determine_path = helper.determine_path;
-var download_images = helper.download_images;
-var write = helper.write;
-var insert_metadata = helper.insert_metadata;
-var to_markdown = helper.to_markdown;
-var for_each = helper.for_each;
+async function parse({ outputDirectory, posts, status }) {
+  let done = 0;
 
-function main(output_directory, posts, callback) {
-  var done = 0;
+  for (const item of posts) {
+    status(`Processing ${++done} of ${posts.length} ${item.title}`);
+    try {
+      if (item.class === "Image") {
+        await image(item, outputDirectory);
+      } else if (item.class === "Link") {
+        await link(item, outputDirectory);
+      } else {
+        console.log("Cannot process", item);
+      }
+    } catch (e) {}
+  }
+}
 
-  for_each(
-    posts,
-    function (post, next) {
-      // We'll only use image posts for now, would be nice to remove this in future...
-      if (!post.image) return next();
+async function link(item, outputDirectory) {
+  const createdDate = new Date(item.created_at);
+  const created = createdDate.valueOf();
+  const draft = item.visibility !== "public";
+  const title = item.source.title || item.title || "Untitled";
+  const url = item.source.url;
+  const name = `${sanitize(title)}.webloc`;
 
-      // Skip Gifs for now until the thumbnailer can make gif thumbnails
-      if (post.image.original.url.indexOf(".gif") > -1) return next();
+  const content = `<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>URL</key>
+  <string>${url}</string>
+</dict>
+</plist>
+`;
 
-      // Fix strange bug
-      if (post.title && post.title.indexOf("$rootlang") > -1) return next();
+  const path = getPath({ outputDirectory, draft, name, created });
+  await fs.outputFile(path, content, "utf-8");
+  await fs.utimes(path, createdDate, createdDate);
+}
 
-      var created, updated, path_without_extension;
-      var dateStamp, draft, page, metadata, summary;
-      var content, title, html, url;
+async function image(item, outputDirectory) {
+  const data = await download(item.image.original.url);
+  const title = item.title || item.generated_title || "Untitled";
 
-      content = "";
+  // TODO, take advantage of item.source to show where the
+  // image was downloaded from
+  const createdDate = new Date(item.created_at);
+  const created = createdDate.valueOf();
+  const draft = item.visibility !== "public";
 
-      if (post.image)
-        content += '<img src="' + post.image.original.url + '">\n\n';
+  const extension =
+    extname(item.image.filename) || "." + (await sharp(data).metadata).format;
 
-      content += (post.content_html || "") + (post.description_html || "");
+  const name = sanitize(title) + extension;
 
-      title = post.title || post.generated_title || "Untitled";
-      html = post.html;
-      url = post.url;
-      created = updated = dateStamp = new Date(post.created_at).valueOf();
-      draft = page = false;
+  const path = getPath({ outputDirectory, draft, name, created });
+  await fs.outputFile(path, data);
+  await fs.utimes(path, createdDate, createdDate);
+}
 
-      post = {
-        draft: false,
-        page: false,
+const sanitize = (title) => {
+  return (
+    title
+      .trim()
+      .slice(0, 150)
 
-        // We don't know any of these properties
-        // as far as I can tell.
-        name: "",
-        permalink: "",
-        summary: summary,
-        path: path_without_extension,
-        html: content,
-        title: title,
+      // remove common punction, basically everything except & _ and - /
+      // Should we be stripping all &encoded; characters?
+      .replace(/\%/g, "-percent")
+      .replace(/&amp;/g, "and")
+      .replace(/&nbsp;/g, " ")
+      .replace(/&thinsp;/g, " ")
+      .replace(/&mdash;/g, "-")
 
-        dateStamp: dateStamp,
-        created: created,
-        updated: updated,
-        tags: [],
-        metadata: metadata,
-
-        // Clean up the contents of the <content>
-        // tag. Evernote has quite a lot of cruft.
-        // Then convert into Markdown!
-        content: content,
-      };
-
-      post = determine_path(post);
-
-      download_images(post, function (err, post) {
-        if (err) throw err;
-
-        post.content = to_markdown(post.html);
-        // post = insert_metadata(post);
-
-        console.log(++done + "/" + posts.length, "...", post.path);
-
-        write(output_directory)(post, function (err) {
-          if (err) return callback(err);
-
-          next();
-        });
-      });
-    },
-    function () {
-      callback(null);
-    }
+      .replace(
+        /[\«\»\“\”\‘\–\’\`\~\!\@\#\$\%\^\&\*\(\)\+\=\\\|\]\}\{\[\'\"\;\:\?>\.<\,]/g,
+        ""
+      )
+      .replace(/-+/g, "-")
+  ); // collapse dashes
+};
+function getPath({ outputDirectory, draft, name, created }) {
+  return join(
+    outputDirectory,
+    (draft ? "[draft]" : "") + moment(created).format("YYYY-MM-DD") + " " + name
   );
 }
 
-if (require.main === module) {
-  var input_file = process.argv[2];
-  var output_directory = process.argv[3];
-
-  if (!input_file)
-    throw new Error("Please pass filename to read links to as first argument");
-  if (!output_directory)
-    throw new Error("Please pass output directory as second argument");
-
-  var posts = fs.readJsonSync(input_file);
-
-  fs.emptyDir(output_directory, function (err) {
-    if (err) throw err;
-
-    main(output_directory, posts, function (err) {
-      if (err) throw err;
-
-      console.log("Complete!");
-    });
-  });
-}
-
-module.exports = main;
+module.exports = parse;
