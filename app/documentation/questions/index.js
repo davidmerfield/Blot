@@ -152,9 +152,16 @@ Questions.get(["/", "/page/:page"], function (req, res, next) {
         topic.singular = topic.reply_count === "1";
         if (topic.tags)
           topic.tags = topic.tags.split(",").map((tag) => ({ tag, slug: tag }));
-        if (topic.last_reply_created_at)
+        if (topic.last_reply_created_at) {
           topic.answered = moment(topic.last_reply_created_at).fromNow();
-        if (topic.created_at) topic.asked = moment(topic.created_at).fromNow();
+          topic.answeredDateStamp = moment(
+            topic.last_reply_created_at
+          ).valueOf();
+        }
+        if (topic.created_at) {
+          topic.asked = moment(topic.created_at).fromNow();
+          topic.askedDateStamp = moment(topic.created_at).valueOf();
+        }
       });
 
       res.locals.title = page > 1 ? `Page ${page} - Questions` : "Questions";
@@ -403,6 +410,7 @@ Questions.route("/:id").get(function (req, res, next) {
               .split(",")
               .map((tag) => ({ tag, slug: tag }));
           topic.asked = moment(topic.created_at).fromNow();
+          topic.askedDateStamp = moment(topic.created_at).valueOf();
           res.locals.breadcrumbs[res.locals.breadcrumbs.length - 1].label =
             topic.title;
           replies.rows.forEach((el, index) => {
@@ -410,6 +418,9 @@ Questions.route("/:id").get(function (req, res, next) {
             replies.rows[index].answered = moment(
               replies.rows[index].created_at
             ).fromNow();
+            replies.rows[index].answeredDateStamp = moment(
+              replies.rows[index].created_at
+            ).valueOf();
           });
           res.locals.title = topic.title;
           res.locals.topics = replies.rows;
@@ -529,6 +540,7 @@ Questions.get(["/tagged/:tag", "/tagged/:tag/page/:page"], function (
         if (topic.tags)
           topic.tags = topic.tags.split(",").map((tag) => ({ tag, slug: tag }));
         topic.asked = moment(topic.created_at).fromNow();
+        topic.askedDateStamp = moment(topic.created_at).valueOf();
       });
 
       res.locals.tag = tag;

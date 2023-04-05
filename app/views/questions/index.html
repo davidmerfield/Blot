@@ -70,7 +70,7 @@
     <div style="flex-grow: 1"></div>
     <a style="flex-shrink: 0" href="/questions/{{id}}">
 
-  <span class="secondary-text smaller" >{{#answered}}{{answered}}{{/answered}}{{^answered}}{{asked}}{{/answered}},</span>
+  <span class="secondary-text smaller" ><span date-from-now="{{#answered}}{{answeredDateStamp}}{{/answered}}{{^answered}}{{askedDateStamp}}{{/answered}}">{{#answered}}{{answered}}{{/answered}}{{^answered}}{{asked}}{{/answered}}</span>,</span>
   <span class="secondary-text smaller">{{reply_count}} {{#singular}}reply{{/singular}}{{^singular}}replies{{/singular}}</span>
   </a>
   </div>
