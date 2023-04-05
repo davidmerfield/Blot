@@ -7,7 +7,7 @@ module.exports = function posts({ slug, status }) {
     var posts = [];
     var new_posts;
 
-    status(`Fetching page ${page} of channel`);
+    status(`Fetching page ${page + 1} of channel`);
     request(base(slug, page), function with_page(err, body, res) {
       if (err) return reject(err);
 
@@ -22,7 +22,7 @@ module.exports = function posts({ slug, status }) {
 
       page++;
 
-      status(`Fetching page ${page} of channel`);
+      status(`Fetching page ${page + 1} of channel`);
       request(base(slug, page), with_page);
     });
   });

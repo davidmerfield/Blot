@@ -6,6 +6,7 @@ const fs = require("fs-extra");
 const { join } = require("path");
 const URL = require("url");
 const fetch = require("node-fetch");
+const sanitize = require("./sanitize");
 
 Importer.route("/are.na")
   .get(function (req, res) {
@@ -27,7 +28,7 @@ Importer.route("/are.na")
 
       fs.outputFileSync(
         join(importDirectory, "identifier.txt"),
-        title,
+        sanitize(title),
         "utf-8"
       );
       res.message(req.baseUrl, "Began import");

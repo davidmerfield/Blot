@@ -13,7 +13,7 @@ async function main({ slug, outputDirectory, status }) {
   status("Fetching posts from Are.na channel " + slug);
   const response = await fetch(`https://api.are.na/v2/channels/${slug}`);
   const json = await response.json();
-
+  
   const {
     metadata: { description },
     owner,
@@ -21,9 +21,9 @@ async function main({ slug, outputDirectory, status }) {
 
   fs.outputFile(
     join(outputDirectory, "_description.txt"),
-    `Channel: https://www.are.na/${owner.slug}/${slug}
+    `${description}
 
-${description}`
+https://www.are.na/${owner.slug}/${slug}`
   );
 
   const posts = await Posts({ slug, status });

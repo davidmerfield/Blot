@@ -41,12 +41,21 @@ Import.get("/download/:importID", async function (req, res, next) {
   try {
     const resultZip = join(req.importDirectory, "result.zip");
 
+    let identifier = req.params.importID;
+
+    try {
+      identifier = await fs.readFile(
+        join(req.importDirectory, "identifier.txt"),
+        "utf-8"
+      );
+    } catch (e) {}
+
     if (!fs.existsSync(resultZip)) {
       return next(new Error("Result zip does not exist"));
     }
 
     // Adds a name for the output file
-    res.attachment(req.params.importID + ".zip");
+    res.attachment(identifier + ".zip");
     fs.createReadStream(resultZip).pipe(res);
   } catch (e) {
     return next(new Error("Failed to download import"));

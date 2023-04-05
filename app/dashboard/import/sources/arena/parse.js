@@ -3,6 +3,7 @@ const moment = require("moment");
 const fs = require("fs-extra");
 const download = require("download");
 const sharp = require("sharp");
+const sanitize = require("./sanitize");
 
 async function parse({ outputDirectory, posts, status }) {
   let done = 0;
@@ -64,27 +65,6 @@ async function image(item, outputDirectory) {
   await fs.utimes(path, createdDate, createdDate);
 }
 
-const sanitize = (title) => {
-  return (
-    title
-      .trim()
-      .slice(0, 150)
-
-      // remove common punction, basically everything except & _ and - /
-      // Should we be stripping all &encoded; characters?
-      .replace(/\%/g, "-percent")
-      .replace(/&amp;/g, "and")
-      .replace(/&nbsp;/g, " ")
-      .replace(/&thinsp;/g, " ")
-      .replace(/&mdash;/g, "-")
-
-      .replace(
-        /[\«\»\“\”\‘\–\’\`\~\!\@\#\$\%\^\&\*\(\)\+\=\\\|\]\}\{\[\'\"\;\:\?>\.<\,]/g,
-        ""
-      )
-      .replace(/-+/g, "-")
-  ); // collapse dashes
-};
 function getPath({ outputDirectory, draft, name, created }) {
   return join(
     outputDirectory,
