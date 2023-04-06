@@ -5,7 +5,7 @@ const Keys = require("./keys");
 
 const keysToDelete = [];
 
-Keys("blog:*:search*", handle, done);
+Keys("blog:*:search:*", handle, done);
 
 function handle(keys, next) {
   if (keysToDelete.length > 100 && process.argv[2] !== "-f") return done();
@@ -18,7 +18,7 @@ function handle(keys, next) {
     // but will appear in the list of keys
     .filter(function (key) {
       const blogID = key.split(":")[1];
-      return key.startsWith(`blog:${blogID}:search`);
+      return key.startsWith(`blog:${blogID}:search:`);
     })
     .forEach((key) => keysToDelete.push(key));
 
