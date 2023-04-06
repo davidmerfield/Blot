@@ -2,6 +2,8 @@ Finish [Ethan's template](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrcPPGhM
 
 Improve reference template and tell [Ahilan](https://mail.google.com/mail/u/0/#inbox/FMfcgzGsltHKsjgpBnKwWMqdhhFwqJfq)
 
+Work on [Vaughn](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrbvMBSwPCtrZBrdwRdmhpZLSD)'s site
+
 ---
 
 Work out why node server keeps running out of memory and re-starting
