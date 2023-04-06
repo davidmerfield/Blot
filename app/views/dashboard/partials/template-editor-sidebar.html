@@ -23,6 +23,10 @@ button {background: white;border: 2px solid #ddd;border-radius: 4px;font:inherit
 	{{#colors}} {{> template-editor-color}} {{/colors}}
 
 	
+		{{#fonts.length}}
+		{{#fonts}} {{> template-editor-font}} {{/fonts}} 
+	{{/fonts.length}}
+  
 {{#layouts.length}}
 		<h2>Layout</h2>
 		{{#layouts}}
@@ -42,10 +46,7 @@ button {background: white;border: 2px solid #ddd;border-radius: 4px;font:inherit
 		{{/layouts}}
 {{/layouts.length}}
 
-	{{#fonts.length}}
-		{{#fonts}} {{> template-editor-font}} {{/fonts}} 
-	{{/fonts.length}}
-  
+
   {{#show_date_options}}
 		<h2>Date format</h2>
 		<form
@@ -99,11 +100,5 @@ button {background: white;border: 2px solid #ddd;border-radius: 4px;font:inherit
 		</form>
 	{{/show_date_options}}
 
-	
-</div>
-<div style="margin:1rem;background: #fff">
-	<a style="text-decoration:none;border-bottom:1px solid #eee;display: block;padding: 5px 20px;color:#666;font-size: 14px" href="{{{base}}}/local-editing">Edit template locally</a>
-	<a style="text-decoration:none;border-bottom:1px solid #eee;display: block;padding: 5px 20px;color:#666;font-size: 14px" href="{{{base}}}/rename">Rename template</a>
-	<a style="text-decoration:none;border-bottom:1px solid #eee;display: block;padding: 5px 20px;color:#666;font-size: 14px" href="{{{base}}}/share">Share template</a>
-	<a style="text-decoration:none;border-bottom:1px solid #eee;display: block;padding: 5px 20px;color:#666;font-size: 14px" href="{{{base}}}/delete">Delete template</a>
+	{{> template-editor-footer}}
 </div>

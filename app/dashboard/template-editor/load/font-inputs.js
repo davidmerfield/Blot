@@ -38,5 +38,6 @@ module.exports = function (req, res, next) {
 function desnake(str) {
   str = str.split("_").join(" ");
   str = str[0].toUpperCase() + str.slice(1);
+  if (str === 'Body font') str = 'Font';
   return str;
 }
