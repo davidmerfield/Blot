@@ -26,13 +26,19 @@ function handle(keys, next) {
 }
 
 function done(err) {
-  if (err) throw err;
+  if (err) {
+    throw err;
+  }
+
   if (!keysToDelete.length) {
     console.log("No keys to delete");
-    process.exit();
+    return process.exit();
   }
-  if (process.argv[2] !== "-f")
+
+  if (process.argv[2] !== "-f") {
     console.log(JSON.stringify(keysToDelete, null, 2));
+  }
+
   yesno.ask("Delete " + keysToDelete.length + " keys? (y/n)", false, function (
     ok
   ) {
