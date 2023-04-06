@@ -1,14 +1,12 @@
 const client = require("redis").createClient();
-const multi = client.multi();
-const yesno = require("yesno");
 const Keys = require("./keys");
 
-const keysToDelete = [];
+let totalDeleted = 0;
 
 Keys("blog:*:search:*", handle, done);
 
 function handle(keys, next) {
-  if (keysToDelete.length > 100 && process.argv[2] !== "-f") return done();
+  const keysToDelete = [];
 
   keys
     // we need to perform this filtering because
@@ -22,7 +20,14 @@ function handle(keys, next) {
     })
     .forEach((key) => keysToDelete.push(key));
 
-  next();
+  if (!keysToDelete.length) return next();
+
+  client.del(keysToDelete, function (err, stat) {
+    if (err) throw err;
+    totalDeleted += stat;
+    console.log("Deleted " + stat + " keys");
+    next();
+  });
 }
 
 function done(err) {
@@ -30,24 +35,6 @@ function done(err) {
     throw err;
   }
 
-  if (!keysToDelete.length) {
-    console.log("No keys to delete");
-    return process.exit();
-  }
-
-  if (process.argv[2] !== "-f") {
-    console.log(JSON.stringify(keysToDelete, null, 2));
-  }
-
-  yesno.ask("Delete " + keysToDelete.length + " keys? (y/n)", false, function (
-    ok
-  ) {
-    if (!ok) return process.exit();
-    multi.del(keysToDelete);
-    multi.exec(function (err) {
-      if (err) throw err;
-      console.log("Deleted " + keysToDelete.length + " keys");
-      process.exit();
-    });
-  });
+  console.log("Deleted " + totalDeleted + " keys in total");
+  process.exit();
 }
