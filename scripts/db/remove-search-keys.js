@@ -8,7 +8,7 @@ const keysToDelete = [];
 Keys("blog:*:search*", handle, done);
 
 function handle(keys, next) {
-  if (keysToDelete.length > 100) return done();
+  if (keysToDelete.length > 100 && process.argv[2] !== "-f") return done();
 
   keys
     // we need to perform this filtering because
