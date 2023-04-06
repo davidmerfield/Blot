@@ -5,5 +5,6 @@ module.exports = {
   instance: require("./instance"),
   key: require("./key"),
   model: require("./model"),
+  search: require("./search"),
   set: require("./set"),
 };

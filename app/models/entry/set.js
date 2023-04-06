@@ -12,7 +12,6 @@ var setUrl = require("./_setUrl");
 // Queue items
 var rebuildDependencyGraph = require("./_rebuildDependencyGraph");
 var backlinksToUpdate = require("./_backlinksToUpdate");
-var updateSearchIndex = require("./_updateSearchIndex");
 var updateTagList = require("models/tags").set;
 var addToSchedule = require("./_addToSchedule");
 var notifyDrafts = require("./_notifyDrafts");
@@ -98,7 +97,6 @@ module.exports = function set(blogID, path, updates, callback) {
         if (err) return callback(err);
 
         queue = [
-          updateSearchIndex.bind(this, blogID, entry),
           updateTagList.bind(this, blogID, entry),
           assignToLists.bind(this, blogID, entry),
           rebuildDependencyGraph.bind(
