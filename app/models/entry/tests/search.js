@@ -1,5 +1,5 @@
 describe("entry.search", function () {
-  require("./setup");
+  require("./setup")();
 
   it("works", async function (done) {
     const path = "/post.txt";
