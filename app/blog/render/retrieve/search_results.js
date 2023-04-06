@@ -8,13 +8,5 @@ module.exports = function (req, callback) {
     return callback(null, []);
   }
 
-  Entry.search(blogID, req.query.q, function (err, ids) {
-    if (err) return callback(err);
-
-    for (var i in ids) ids[i] = parseFloat(ids[i]);
-
-    Entry.get(blogID, ids, function (entries) {
-      return callback(null, entries);
-    });
-  });
+  Entry.search(blogID, req.query.q, callback);
 };

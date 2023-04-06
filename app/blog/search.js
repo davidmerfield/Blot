@@ -3,21 +3,15 @@ module.exports = function (server) {
 
   server.get("/search", function (request, response, next) {
     if (request.query.q) {
-      Entry.search(request.blog.id, request.query.q, function (err, ids) {
-        if (err) return next(err);
-
-        for (var i in ids) ids[i] = ids[i];
-
-        Entry.get(request.blog.id, ids, then);
-      });
+      Entry.search(request.blog.id, request.query.q, then);
     } else {
-      then([]);
+      then(null, []);
     }
 
-    function then(entries) {
+    function then(err, entries) {
       response.addLocals({
         query: request.query.q,
-        entries: entries,
+        entries: entries || [],
       });
 
       // Don't cache search results until we

@@ -2,6 +2,7 @@ const fs = require("fs-extra");
 const build = require("build");
 const get = require("../get");
 const set = require("../set");
+const search = require("../search");
 const drop = require("../drop");
 
 global.test.blog();
@@ -11,6 +12,15 @@ beforeEach(function () {
     return new Promise((resolve) => {
       get(this.blog.id, path, (entry) => {
         resolve(entry);
+      });
+    });
+  };
+
+  this.search = async (query) => {
+    return new Promise((resolve, reject) => {
+      search(this.blog.id, query, (err, ids) => {
+        if (err) reject(err);
+        else resolve(ids);
       });
     });
   };
