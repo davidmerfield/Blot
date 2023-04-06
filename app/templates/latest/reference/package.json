@@ -5,6 +5,9 @@
     "background_color": "#fff",
     "text_color": "#000",
     "hide_dates": false,
+    "hide_search": false,
+    "sticky_navigation": true,
+    "infinite_scroll": true,    
     "date_display": "MMMM D, Y",    
     "body_font": {}
   },
