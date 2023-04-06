@@ -2,8 +2,6 @@ Finish [Ethan's template](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrcPPGhM
 
 Work on [Vaughn](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrbvMBSwPCtrZBrdwRdmhpZLSD)'s site
 
-Improve reference template and tell [Ahilan](https://mail.google.com/mail/u/0/#inbox/FMfcgzGsltHKsjgpBnKwWMqdhhFwqJfq)
-
 ---
 
 Determine if we can hack our way to determining the file upload date on Dropbox using their API?
