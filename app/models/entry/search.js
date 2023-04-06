@@ -24,6 +24,8 @@ module.exports = function (blogID, query, callback) {
     for (const page of chunked) {
       const entries = await get(blogID, page);
       for (const entry of entries) {
+        // we should lowercase and stem this
+        // we should also check other properties
         if (entry.html.includes(query)) results.push(entry);
       }
     }
