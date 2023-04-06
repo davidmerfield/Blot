@@ -1,13 +1,13 @@
 Finish [Ethan's template](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrcPPGhMsLkpgWwpMBFBgpkvKg) 
 
-Improve reference template and tell [Ahilan](https://mail.google.com/mail/u/0/#inbox/FMfcgzGsltHKsjgpBnKwWMqdhhFwqJfq)
-
 Work on [Vaughn](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrbvMBSwPCtrZBrdwRdmhpZLSD)'s site
+
+Improve reference template and tell [Ahilan](https://mail.google.com/mail/u/0/#inbox/FMfcgzGsltHKsjgpBnKwWMqdhhFwqJfq)
 
 ---
 
-Work out why node server keeps running out of memory and re-starting
-
+Determine if we can hack our way to determining the file upload date on Dropbox using their API?
+ 
 Add support for Google Docs
 - `download` Should nicely handle the export of various Google Doc formats
 
