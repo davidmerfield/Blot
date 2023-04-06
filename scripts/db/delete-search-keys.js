@@ -6,7 +6,7 @@ const Keys = require("./keys");
 const keysToDelete = [];
 
 Keys(
-  "blog:*:search",
+  "blog:*:search*",
   function (keys, next) {
     keys
       // we need to perform this filtering because
