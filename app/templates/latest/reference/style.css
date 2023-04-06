@@ -4,6 +4,7 @@ on the services page of the dashboard */
 
 {{{body_font.styles}}}
 
+
 html,
 body {
   width: 100%;
@@ -17,6 +18,10 @@ body {
   -webkit-font-smoothing: antialiased;
   color: {{text_color}};
   background: {{background_color}};
+}
+
+@media (prefers-color-scheme: dark) {
+
 }
 
 body.entry-container {display:flex;flex-direction:column;min-height:100%;}
@@ -401,7 +406,8 @@ form input:focus,
 }
 
 .entry p {
-  margin: 2rem 0
+  margin-top: 2rem;
+  margin-bottom:  2rem
 }
 
 .entry hr {
@@ -720,9 +726,20 @@ input#toggle {
   visibility: hidden;
 }
 
+    .entry-container .caption {margin-bottom: 2em;}
 
+   [data-source$=".txt" i] > *,
+   [data-source$=".md" i] > * { max-width: 45em;margin: 0 auto }
 
-    .entry-container .caption {margin:1rem auto 0;}
+   [data-source$=".md" i] img,
+  [data-source$=".txt" i] img {
+    margin: 1em 0;
+    max-width: 100%;
+    height: auto;
+    width: auto;
+    max-height: none;
+    }
+
     
     [data-source$=".jpg" i] .caption,
     [data-source$=".jpeg" i] .caption,
