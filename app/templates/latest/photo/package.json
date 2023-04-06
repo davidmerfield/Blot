@@ -36,7 +36,7 @@
     "grid_layout": "square",
     "grid_layout_options": [
       "square",
-      "ragged"
+      "bookshelf"
     ]
   },
   "views": {
