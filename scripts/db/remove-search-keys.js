@@ -31,7 +31,8 @@ function done(err) {
     console.log("No keys to delete");
     process.exit();
   }
-  console.log(JSON.stringify(keysToDelete, null, 2));
+  if (process.argv[2] !== "-f")
+    console.log(JSON.stringify(keysToDelete, null, 2));
   yesno.ask("Delete " + keysToDelete.length + " keys? (y/n)", false, function (
     ok
   ) {
