@@ -103,6 +103,7 @@
     "sharp": "^0.30.5",
     "simple-git": "^1.102.0",
     "stripe": "^2.9.0",
+    "text-to-svg": "^3.1.5",
     "transliteration": "^0.1.1",
     "turndown": "^7.1.1",
     "twemoji": "^1.2.0",

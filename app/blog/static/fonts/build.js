@@ -1,11 +1,11 @@
 const fs = require("fs-extra");
-const directory = __dirname + "/" + process.argv[2];
 const basename = require("path").basename;
 const extname = require("path").extname;
 const colors = require("colors");
 const relative = require("path").relative;
 const hash = require("helper/hash");
 const fontkit = require("fontkit");
+const MinifyCSS = require("clean-css");
 
 // Used to filter source font files and ordered
 // in the preferred way for the final rule.
@@ -56,14 +56,10 @@ const WEIGHTS = {
 
 // Creates a placeholder package.json for
 // the given webfont directory if none exists
-function generatePackage(directory) {
+async function generatePackage(directory) {
   let package = {};
 
-  try {
-    package = fs.readJsonSync(directory + "/package.json");
-  } catch (e) {
-    // package might not yet exist
-  }
+  package = await fs.readJson(directory + "/package.json");
 
   // Will map cooper-hewitt -> Cooper Hewitt
   package.name =
@@ -80,16 +76,16 @@ function generatePackage(directory) {
   package.line_width = package.line_width || 38;
   package.font_size = package.font_size || 16;
 
-  fs.outputJsonSync(directory + "/package.json", package, { spaces: 2 });
+  await fs.outputJson(directory + "/package.json", package, { spaces: 2 });
 }
 
 // This generates the style.css file that will
 // load all the web font files for each weight
 // and style. Typeset.css rules are also generated
 // based on the metrics of the webfont files.
-function generateStyle(directory) {
+async function generateStyle(directory) {
   const stylePath = directory + "/style.css";
-  const package = fs.readJsonSync(directory + "/package.json");
+  const package = await fs.readJson(directory + "/package.json");
   const family = parseFamily(directory);
   const name = package.name;
 
@@ -126,9 +122,6 @@ function generateStyle(directory) {
 
   result += typeset;
 
-  console.log();
-  console.log(package.name);
-
   for (let w = 100; w <= 900; w += 100) {
     let hasSmallCaps =
       Object.keys(family).filter((name) => {
@@ -162,7 +155,7 @@ function generateStyle(directory) {
   console.log(
     colors.dim("styles: ", relative(process.cwd(), directory + "/style.css"))
   );
-  fs.outputFileSync(stylePath, result);
+  await fs.outputFile(stylePath, result);
 }
 
 function generateTypeset(path, name, hasSmallCaps) {
@@ -189,6 +182,43 @@ function generateTypeset(path, name, hasSmallCaps) {
   }
 
   return typeset;
+}
+
+const TextToSVG = require("text-to-svg");
+
+function generateSVG(directory, text) {
+  const fontpath = fs.existsSync(`${directory}/regular.ttf`)
+    ? `${directory}/regular.ttf`
+    : fs.existsSync(`${directory}/regular.woff`)
+    ? `${directory}/regular.woff`
+    : fs.existsSync(`${directory}/book.woff`)
+    ? `${directory}/book.woff`
+    : null;
+  if (!fontpath) return;
+  const textToSVG = TextToSVG.loadSync(fontpath);
+  const svg = textToSVG.getSVG(text, { x: 0, y: 0, anchor: "left top" });
+
+  const $ = require("cheerio").load(svg);
+
+  const width = $("svg").attr("width");
+  const height = $("svg").attr("height");
+
+  const adjustment = (100 - height) * -0.5;
+
+  // $("svg").attr("x", `0px`);
+  // $("svg").attr("y", `0px`);
+  // $("svg").attr("xml:space", "preserve");
+  // $("svg").attr("style", `enable-background:new 0 0 ${width} ${height};`);
+  $("svg").attr("viewBox", `0 ${adjustment} ${width} 100`);
+  $("svg").attr("preserveAspectRatio", "xMinYMid meet");
+  // $("svg").removeAttr("width");
+  // $("svg").removeAttr("height");
+
+  const result = `<?xml version="1.0" encoding="UTF-8"?>\n` + $.html();
+
+  fs.outputFileSync(`${directory}/text.svg`, result, "utf8");
+
+  return result;
 }
 
 function printCandidates() {
@@ -348,11 +378,74 @@ function byWeight(family) {
   };
 }
 
-if (!process.argv[2]) {
-  printCandidates();
-  process.exit();
+async function main() {
+  let directories = fs
+    .readdirSync(__dirname)
+
+    // Ignore dot folders and folders whose name
+    // starts with a dash
+    .filter((i) => i[0] && i[0] !== "." && i[0] !== "-")
+    .filter((i) => fs.statSync(`${__dirname}/${i}`).isDirectory())
+    .filter((i) => {
+      return (
+        !fs.existsSync(`${__dirname}/${i}/package.json`) ||
+        (!fs.existsSync(`${__dirname}/${i}/style.css`) &&
+          SYSTEM_FONTS.indexOf(i) === -1)
+      );
+    });
+
+  for (const directory of directories) {
+    await generatePackage(`${__dirname}/${directory}`);
+    await generateStyle(`${__dirname}/${directory}`);
+  }
+
+  const fonts = fs
+    .readdirSync(__dirname)
+    .filter((i) => {
+      return (
+        fs.statSync(`${__dirname}/${i}`).isDirectory() &&
+        fs.existsSync(`${__dirname}/${i}/package.json`)
+      );
+    })
+    .map((id) => {
+      const package = fs.readJsonSync(`${__dirname}/${id}/package.json`);
+      const name = package.name;
+      const tags = package.tags || ['sans'];
+      const stack = package.stack || name;
+      const line_height = package.line_height || 1.4;
+      const line_width = package.line_width || 38;
+      const font_size = package.font_size || 1;
+
+      let styles = "";
+
+      const svg = generateSVG(`${__dirname}/${id}`, name);
+
+      try {
+        const minimize = new MinifyCSS({ level: 2 });
+        styles = minimize.minify(
+          fs.readFileSync(`${__dirname}/${id}/style.css`, "utf8")
+        ).styles;
+      } catch (e) {
+        // system fonts lack these styles
+      }
+
+      return {
+        name,
+        id,
+        svg,
+        stack,
+        tags,
+        line_height,
+        line_width,
+        font_size,
+        styles,
+      };
+    });
+
+  fs.outputJsonSync(__dirname + "/index.json", fonts, { spaces: 2 });
 }
 
-generatePackage(directory);
-generateStyle(directory);
-process.exit();
+if (require.main === module) {
+  main();
+  process.exit();
+}

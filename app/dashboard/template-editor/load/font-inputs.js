@@ -1,19 +1,24 @@
 const FONTS = require("blog/static/fonts");
 
 module.exports = function (req, res, next) {
- res.locals.fonts = Object.keys(req.template.locals)
+  res.locals.fonts = Object.keys(req.template.locals)
     .filter((key) => key.indexOf("_font") > -1)
     .map((key) => {
       return {
         key,
         options: FONTS.map((option) => {
           return {
+            tags: option.tags.map((i) => {
+              return { tag: i };
+            }),
             selected:
               req.template.locals[key].id &&
               option.id === req.template.locals[key].id
                 ? "selected"
                 : "",
             name: option.name,
+            svg: option.svg,
+            stack: option.stack,
             id: option.id,
           };
         }),
@@ -38,6 +43,6 @@ module.exports = function (req, res, next) {
 function desnake(str) {
   str = str.split("_").join(" ");
   str = str[0].toUpperCase() + str.slice(1);
-  if (str === 'Body font') str = 'Font';
+  if (str === "Body font") str = "Font";
   return str;
 }

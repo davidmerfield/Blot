@@ -1,7 +1,6 @@
-TODO
-----
+Whenever you add a font, run:
 
-GENERATE TYPESET.JS style rules for each font automatically
+node app/blog/static/fonts/build
 
 How to add a new web font
 -------------------------
@@ -31,6 +30,11 @@ goudy-old-style/package.json
 7. Commit and push
 
 
+
+TODO
+----
+
+GENERATE TYPESET.JS style rules for each font automatically
 
 Good sources for new webfonts
 -----------------------------
