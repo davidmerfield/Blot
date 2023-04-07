@@ -29,6 +29,9 @@
       "bottom"
     ],
     "page_size": 42,
+    "syntax_highlighter": {
+      "id": "stackoverflow-light"
+    },    
     "date_display": "MMMM D, Y",
     "body_font": {},
     "spacing": 2,

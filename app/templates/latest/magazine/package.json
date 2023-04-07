@@ -7,6 +7,9 @@
     "page_size": 20,
     "hide_dates": false,
     "date_display": "MMMM D, Y",
+    "syntax_highlighter": {
+      "id": "stackoverflow-light"
+    },    
     "body_font": {}
   },
   "isPublic": true,

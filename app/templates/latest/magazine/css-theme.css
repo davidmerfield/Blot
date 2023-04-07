@@ -1,6 +1,6 @@
 {{{coding_font.styles}}}
-
 {{{body_font.styles}}}
+{{{syntax_highlighter.styles}}}
 
 /* This template tag is replaced by CSS when this file is rendered */
 {{{appCSS}}}
@@ -11,7 +11,6 @@
 .cf {clear: both;}
 
 {{> css-tachyons}}
-{{> css-hljs}}
 {{> css-bigfoot}}
 {{> css-katex}}
 {{> css-video-container}}

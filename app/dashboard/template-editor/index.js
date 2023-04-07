@@ -1,7 +1,7 @@
 const Express = require("express");
 const TemplateEditor = new Express.Router();
 const config = require("config");
-const parse = require('dashboard/parse');
+const parse = require("dashboard/parse");
 const formJSON = require("helper/formJSON");
 const Template = require("models/template");
 
@@ -43,6 +43,7 @@ TemplateEditor.use("/:templateSlug/:section", function (req, res, next) {
 
 TemplateEditor.route("/:templateSlug/settings")
   .all(require("./load/font-inputs"))
+  .all(require("./load/syntax-highlighter"))
   .all(require("./load/color-scheme"))
   .all(require("./load/color-inputs"))
   .all(require("./load/layout-inputs"))
@@ -74,6 +75,7 @@ TemplateEditor.route("/:templateSlug/settings")
       next();
     },
     require("./save/layout-inputs"),
+    require("./save/syntax-highlighter"),
     require("./save/fonts"),
     require("./save/color-scheme"),
     function (req, res, next) {
