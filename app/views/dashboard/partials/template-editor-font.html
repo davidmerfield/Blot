@@ -19,6 +19,8 @@
 			.options label[for="showall{{key}}"],
 			[id="showsans{{key}}"]:checked ~
 			.options label[for="showsans{{key}}"],
+			[id="showother{{key}}"]:checked ~
+			.options label[for="showother{{key}}"],
 			[id="showmono{{key}}"]:checked ~
 			.options label[for="showmono{{key}}"],
 			[id="showserif{{key}}"]:checked ~
@@ -28,6 +30,8 @@
 			 .options button:not([data-tag="sans"]),
 			[id="showmono{{key}}"]:checked ~
 			 .options button:not([data-tag="mono"]),
+			[id="showother{{key}}"]:checked ~
+			 .options button:not([data-tag="other"]),
 			[id="showserif{{key}}"]:checked ~
 			 .options button:not([data-tag="serif"]) {display: none;}
 			 .options button {
@@ -57,13 +61,15 @@
 		<input type="radio" id="showsans{{key}}" name="filter{{key}}" style="display: none">
 		<input type="radio" id="showserif{{key}}" name="filter{{key}}" style="display: none">
 		<input type="radio" id="showmono{{key}}" name="filter{{key}}" style="display: none">
+		<input type="radio" id="showother{{key}}" name="filter{{key}}" style="display: none">
 		<input type="checkbox" id="showpicker{{key}}" name="showpicker{{key}}" style="display: none">
 		<div class="options">
 			<div class="filters">
 				<label for="showall{{key}}">All</label>
-				<label for="showsans{{key}}">Sans-serif</label>
+				<label for="showsans{{key}}">Sans</label>
 				<label for="showserif{{key}}">Serif</label>
 				<label for="showmono{{key}}">Monospace</label>
+				<label for="showother{{key}}">Other</label>
 			</div>
 		{{#options}}
 		<button {{#tags}}data-tag="{{tag}}"{{/tags}} type="submit" name="locals.{{key}}.id" value="{{{id}}}"> <!-- {{#selected}}background:yellow{{/selected}}-->
