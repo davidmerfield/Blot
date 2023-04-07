@@ -24,7 +24,10 @@ module.exports = function (req, res, next) {
         }),
         font_size: req.template.locals[key].font_size || 16,
         line_height: req.template.locals[key].line_height || 1.4,
-        value: req.template.locals[key],
+        value: {
+          ...(FONTS.find(({ id }) => id === req.template.locals[key].id) || {}),
+          ...req.template.locals[key],
+        },
         label: desnake(key),
       };
     });
