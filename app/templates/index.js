@@ -16,7 +16,9 @@ var TEMPLATES_OWNER = "SITE";
 
 var HIGHLIGHTER_THEMES = require("blog/static/syntax-highlighter");
 
-var DEFAULT_FONT = require("blog/static/fonts")
+const fonts = require("blog/static/fonts");
+
+var DEFAULT_FONT = fonts
   .filter((font) => font.name === "System sans-serif")
   .map((font) => {
     font.styles = Mustache.render(font.styles, {
@@ -26,7 +28,8 @@ var DEFAULT_FONT = require("blog/static/fonts")
     });
     return font;
   })[0];
-var DEFAULT_MONO_FONT = require("blog/static/fonts")
+  
+var DEFAULT_MONO_FONT = fonts
   .filter((font) => font.name === "System mono")
   .map((font) => {
     font.styles = Mustache.render(font.styles, {

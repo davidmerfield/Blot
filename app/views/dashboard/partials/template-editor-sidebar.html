@@ -87,6 +87,7 @@ button {background: white;border: 2px solid #ddd;border-radius: 4px;font:inherit
 						
 			<script type="text/javascript">
 				document.querySelectorAll('[type="checkbox"], select').forEach(function(node){
+						if (node.style.display === 'none') return;
 						let form;
 						let parent = node.parentNode;
 
