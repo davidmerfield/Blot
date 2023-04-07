@@ -7,7 +7,13 @@ Picture
 Magazine
 Scrapbook
 
+Digital garden
+Documentation
+
 ---
+
+Run templates through [lighthouse](https://web.dev/measure/) and [observatory](https://observatory.mozilla.org/)
+
 
 I would like 7 templates because 7 is a good number
 

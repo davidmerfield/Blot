@@ -3,22 +3,16 @@ Finish [Ethan's template](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrcPPGhM
 Work on [Vaughn](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrbvMBSwPCtrZBrdwRdmhpZLSD)'s site
 
 ---
-
-Improve Are.na importer so it handles descriptions + also other file types (e.g. PDF, text) and tell [Marco](https://mail.google.com/mail/u/0/#inbox/QgrcJHsBvDqvbgfkRJfBlwLBwlDHDncxVnl)
-
-Determine if we can hack our way to determining the file upload date on Dropbox using their API?
  
-Add support for Google Docs
-- `download` Should nicely handle the export of various Google Doc formats
-
 Work on templates
-- Add syntax highlighting option themes using [this demo as a starting point](https://highlightjs.org/static/demo/)
-- Run templates through [lighthouse](https://web.dev/measure/) and [observatory](https://observatory.mozilla.org/)
 - Tell these people about new templates, and to subscribe to newsletter:
   - [Chris](https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e)
   - [John](https://mail.google.com/mail/u/1/#all/1618ca0420779742)
   - [Jan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChmLnfMTdtNkpLxHTlPJNHlCT) 
   - [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrRRZTKntrWKJvfDXrRFTzljs)
+
+Add support for Google Docs
+- `download` Should nicely handle the export of various Google Doc formats
 
 Add support for new formats via pandoc:
 - rtf
@@ -28,6 +22,7 @@ Add support for new formats via pandoc:
 Improve image posts
 - Add opt-in EXIF extraction for photos and enable in the photos template
 - Add support for other image formats, by converting them into jpg/webp
+- Add support for large image tiling and zooming with photoswipe
 
 Release a new film showing some of Blot’s more recent features
 - Finish setting up Office
@@ -161,6 +156,8 @@ Improve express disk cache
 - [ ] add JPG lossless compression for brochure
 - [ ] add SVG lossless compression for brochure
 
+Improve Are.na importer so it handles descriptions + also other file types (e.g. PDF, text) and tell [Marco](https://mail.google.com/mail/u/0/#inbox/QgrcJHsBvDqvbgfkRJfBlwLBwlDHDncxVnl)
+
 Improvements to server
 - [ ] move development cdn onto its own host to better simular cross-domain issues
 - [ ] test maintenance and redirector on dashboard
@@ -205,6 +202,7 @@ Improve Google Drive client:
 - Work out if we can test this using Mocks
 
 Improvements to Dropbox client:
+- [ ] Determine if we can hack our way to determining the file upload date on Dropbox using their API?
 - [ ] Parallelize build/download a little more, so posts appear when many files are dropped into folder?
 - [ ] Efficiently handle Dropbox file renames with internal hash of fileIDs
 - [ ] surface errors during setup on dashboard
