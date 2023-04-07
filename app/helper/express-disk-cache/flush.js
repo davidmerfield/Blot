@@ -15,7 +15,9 @@ module.exports = function (cache_directory) {
   return async function ({ host, path = "/" } = {}, callback = () => {}) {
     if (!host) return callback(new Error("Pass a host"));
 
-    await fs.emptyDir(join(cache_directory, host, path));
+    try {
+      await fs.emptyDir(join(cache_directory, host, path));
+    } catch (e) {}
 
     callback();
   };
