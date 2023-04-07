@@ -4,7 +4,7 @@
 			form svg {height: 1.5em;display: block;}
 			[for="showpicker{{key}}"]:hover {background: #fff}
 [name="showpicker{{key}}"]:checked + .options {display: block;}
-			.options {display: none;margin:0.5em;border:1px solid #aaa;}
+			.options {display: none;margin:0.5em;border:1px solid #aaa;user-select: none;}
 				
 			.filters {
 				font-size:12px;
@@ -35,7 +35,8 @@
 			[id="showserif{{key}}"]:checked ~
 			 .options button:not([data-tag="serif"]) {display: none;}
 			 .options button {
-			 	width:100%;text-align:left;margin:0;border-radius:0;border:none;outline:none;background:#fafafa;border-top: 1px solid #ddd;padding:0.333em 0.5em;			 }
+			 	width: 100%;
+			 	text-align:left;margin:0;border-radius:0;border:none;outline:none;background:#fafafa;border-top: 1px solid #ddd;padding:0.333em 0.5em;			 }
  .options button:hover{background: #fff}
 			 		</style>
 
@@ -43,7 +44,7 @@
 
 		<input type="hidden" name="locals.{{key}}.id" value="{{{value.id}}}">
 
-		<label for="showpicker{{key}}" style="padding:0.333em 1em;cursor: pointer;border-bottom: 1px solid #ddd;display: block;width: 100%;margin:0">
+		<label for="showpicker{{key}}" style="padding:0.333em 1em;cursor: pointer;border-bottom: 1px solid #ddd;display: block;margin:0">
 			{{#value}}
 				{{#name}}
 					{{#svg}}
