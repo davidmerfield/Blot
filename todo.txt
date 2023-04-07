@@ -8,7 +8,6 @@ Improve Are.na importer so it handles descriptions + also other file types (e.g.
 
 Determine if we can hack our way to determining the file upload date on Dropbox using their API?
  
-
 Add support for Google Docs
 - `download` Should nicely handle the export of various Google Doc formats
 
