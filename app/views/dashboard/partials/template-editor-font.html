@@ -5,7 +5,9 @@
 			[for="showpicker{{key}}"]:hover {background: #fff}
 [name="showpicker{{key}}"]:checked + .options {display: block;}
 			.options {display: none;margin:0.5em;border:1px solid #aaa;user-select: none;}
-				
+			
+			label[for="showpicker{{key}}"] {padding:0.333em 1em;cursor: pointer;border-bottom: 1px solid #ddd;display: block;margin:0;user-select: none;}
+
 			.filters {
 				font-size:12px;
 				padding:0.15em 0.5em;user-select: none;
@@ -44,7 +46,7 @@
 
 		<input type="hidden" name="locals.{{key}}.id" value="{{{value.id}}}">
 
-		<label for="showpicker{{key}}" style="padding:0.333em 1em;cursor: pointer;border-bottom: 1px solid #ddd;display: block;margin:0">
+		<label for="showpicker{{key}}">
 			{{#value}}
 				{{#name}}
 					{{#svg}}

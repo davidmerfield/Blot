@@ -1,0 +1,173 @@
+@font-face {
+  font-family: 'Alegreya Sanssmall-caps';
+  font-style: normal;
+  font-weight: 100;
+  src: url('{{{config.cdn.origin}}}/fonts/alegreya-sans/small-caps-thin.ttf?version=edd2d3&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Alegreya Sans';
+  font-style: normal;
+  font-weight: 100;
+  src: url('{{{config.cdn.origin}}}/fonts/alegreya-sans/thin.ttf?version=afcda9&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Alegreya Sanssmall-caps';
+  font-style: italic;
+  font-weight: 100;
+  src: url('{{{config.cdn.origin}}}/fonts/alegreya-sans/small-caps-thin-italic.ttf?version=681171&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Alegreya Sans';
+  font-style: italic;
+  font-weight: 100;
+  src: url('{{{config.cdn.origin}}}/fonts/alegreya-sans/thin-italic.ttf?version=bf3cd2&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Alegreya Sans';
+  font-style: normal;
+  font-weight: 300;
+  src: url('{{{config.cdn.origin}}}/fonts/alegreya-sans/light.ttf?version=9d137a&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Alegreya Sanssmall-caps';
+  font-style: normal;
+  font-weight: 300;
+  src: url('{{{config.cdn.origin}}}/fonts/alegreya-sans/small-caps-light.ttf?version=52e530&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Alegreya Sans';
+  font-style: italic;
+  font-weight: 300;
+  src: url('{{{config.cdn.origin}}}/fonts/alegreya-sans/light-italic.ttf?version=31be24&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Alegreya Sanssmall-caps';
+  font-style: italic;
+  font-weight: 300;
+  src: url('{{{config.cdn.origin}}}/fonts/alegreya-sans/small-caps-light-italic.ttf?version=33a323&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Alegreya Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: url('{{{config.cdn.origin}}}/fonts/alegreya-sans/regular.ttf?version=778027&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Alegreya Sanssmall-caps';
+  font-style: normal;
+  font-weight: 400;
+  src: url('{{{config.cdn.origin}}}/fonts/alegreya-sans/small-caps-regular.ttf?version=20c1e2&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Alegreya Sans';
+  font-style: italic;
+  font-weight: 400;
+  src: url('{{{config.cdn.origin}}}/fonts/alegreya-sans/regular-italic.ttf?version=38a7c4&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Alegreya Sanssmall-caps';
+  font-style: italic;
+  font-weight: 400;
+  src: url('{{{config.cdn.origin}}}/fonts/alegreya-sans/small-caps-regular-italic.ttf?version=4a0b93&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Alegreya Sans';
+  font-style: normal;
+  font-weight: 500;
+  src: url('{{{config.cdn.origin}}}/fonts/alegreya-sans/medium.ttf?version=9b4d4b&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Alegreya Sanssmall-caps';
+  font-style: normal;
+  font-weight: 500;
+  src: url('{{{config.cdn.origin}}}/fonts/alegreya-sans/small-caps-medium.ttf?version=9e7372&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Alegreya Sans';
+  font-style: italic;
+  font-weight: 500;
+  src: url('{{{config.cdn.origin}}}/fonts/alegreya-sans/medium-italic.ttf?version=65f842&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Alegreya Sanssmall-caps';
+  font-style: italic;
+  font-weight: 500;
+  src: url('{{{config.cdn.origin}}}/fonts/alegreya-sans/small-caps-medium-italic.ttf?version=c387d1&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Alegreya Sans';
+  font-style: normal;
+  font-weight: 600;
+  src: url('{{{config.cdn.origin}}}/fonts/alegreya-sans/bold.ttf?version=d06270&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Alegreya Sanssmall-caps';
+  font-style: normal;
+  font-weight: 600;
+  src: url('{{{config.cdn.origin}}}/fonts/alegreya-sans/small-caps-bold.ttf?version=1e36c8&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Alegreya Sans';
+  font-style: italic;
+  font-weight: 600;
+  src: url('{{{config.cdn.origin}}}/fonts/alegreya-sans/bold-italic.ttf?version=6d50e1&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Alegreya Sanssmall-caps';
+  font-style: italic;
+  font-weight: 600;
+  src: url('{{{config.cdn.origin}}}/fonts/alegreya-sans/small-caps-bold-italic.ttf?version=7f7a66&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Alegreya Sans';
+  font-style: normal;
+  font-weight: 700;
+  src: url('{{{config.cdn.origin}}}/fonts/alegreya-sans/heavy.ttf?version=cd1416&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Alegreya Sanssmall-caps';
+  font-style: normal;
+  font-weight: 700;
+  src: url('{{{config.cdn.origin}}}/fonts/alegreya-sans/small-caps-heavy.ttf?version=1823e5&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Alegreya Sans';
+  font-style: italic;
+  font-weight: 700;
+  src: url('{{{config.cdn.origin}}}/fonts/alegreya-sans/heavy-italic.ttf?version=8aeb2b&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Alegreya Sanssmall-caps';
+  font-style: italic;
+  font-weight: 700;
+  src: url('{{{config.cdn.origin}}}/fonts/alegreya-sans/small-caps-heavy-italic.ttf?version=16ed4c&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Alegreya Sans';
+  font-style: normal;
+  font-weight: 900;
+  src: url('{{{config.cdn.origin}}}/fonts/alegreya-sans/black.ttf?version=963cc8&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Alegreya Sanssmall-caps';
+  font-style: normal;
+  font-weight: 900;
+  src: url('{{{config.cdn.origin}}}/fonts/alegreya-sans/small-caps-black.ttf?version=780ea2&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Alegreya Sans';
+  font-style: italic;
+  font-weight: 900;
+  src: url('{{{config.cdn.origin}}}/fonts/alegreya-sans/black-italic.ttf?version=00fe60&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Alegreya Sanssmall-caps';
+  font-style: italic;
+  font-weight: 900;
+  src: url('{{{config.cdn.origin}}}/fonts/alegreya-sans/small-caps-black-italic.ttf?version=61fa9c&extension=.ttf') format('truetype');
+}
+.pull-double {margin-left:-0.28em}
+.push-double{margin-right:0.28em}
+.pull-single{margin-left:-0.166em}
+.push-single{margin-right:0.166em}
+.push-double,.push-single{display:inline-block}

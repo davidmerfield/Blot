@@ -56,11 +56,14 @@ const WEIGHTS = {
 
 // Creates a placeholder package.json for
 // the given webfont directory if none exists
-async function generatePackage(directory) {
+function generatePackage(directory) {
   let package = {};
 
-  package = await fs.readJson(directory + "/package.json");
-
+  try{
+  package = fs.readJsonSync(directory + "/package.json");
+   
+} catch (e) {}
+ 
   // Will map cooper-hewitt -> Cooper Hewitt
   package.name =
     package.name ||
@@ -76,7 +79,7 @@ async function generatePackage(directory) {
   package.line_width = package.line_width || 38;
   package.font_size = package.font_size || 16;
 
-  await fs.outputJson(directory + "/package.json", package, { spaces: 2 });
+  fs.outputJsonSync(directory + "/package.json", package, { spaces: 2 });
 }
 
 // This generates the style.css file that will
@@ -84,8 +87,9 @@ async function generatePackage(directory) {
 // and style. Typeset.css rules are also generated
 // based on the metrics of the webfont files.
 async function generateStyle(directory) {
+  console.log("HERE", directory);
   const stylePath = directory + "/style.css";
-  const package = await fs.readJson(directory + "/package.json");
+  const package = fs.readJsonSync(directory + "/package.json");
   const family = parseFamily(directory);
   const name = package.name;
 
@@ -155,7 +159,7 @@ async function generateStyle(directory) {
   console.log(
     colors.dim("styles: ", relative(process.cwd(), directory + "/style.css"))
   );
-  await fs.outputFile(stylePath, result);
+  fs.outputFileSync(stylePath, result);
 }
 
 function generateTypeset(path, name, hasSmallCaps) {
@@ -395,8 +399,11 @@ async function main() {
     });
 
   for (const directory of directories) {
-    await generatePackage(`${__dirname}/${directory}`);
-    await generateStyle(`${__dirname}/${directory}`);
+    console.log("here", directory);
+    generatePackage(`${__dirname}/${directory}`);
+    console.log("there", directory);
+    generateStyle(`${__dirname}/${directory}`);
+    console.log("everywhere", directory);
   }
 
   const fonts = fs
@@ -410,7 +417,7 @@ async function main() {
     .map((id) => {
       const package = fs.readJsonSync(`${__dirname}/${id}/package.json`);
       const name = package.name;
-      const tags = package.tags || ['sans'];
+      const tags = package.tags || ["sans"];
       const stack = package.stack || name;
       const line_height = package.line_height || 1.4;
       const line_width = package.line_width || 38;

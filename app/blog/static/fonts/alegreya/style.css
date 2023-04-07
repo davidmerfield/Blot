@@ -1,0 +1,137 @@
+@font-face {
+  font-family: 'Alegreya';
+  font-style: normal;
+  font-weight: 400;
+  src: url('{{{config.cdn.origin}}}/fonts/alegreya/regular.ttf?version=81ab6d&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Alegreyasmall-caps';
+  font-style: normal;
+  font-weight: 400;
+  src: url('{{{config.cdn.origin}}}/fonts/alegreya/small-caps-regular.ttf?version=02ae91&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Alegreya';
+  font-style: italic;
+  font-weight: 400;
+  src: url('{{{config.cdn.origin}}}/fonts/alegreya/regular-italic.ttf?version=5e1d67&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Alegreyasmall-caps';
+  font-style: italic;
+  font-weight: 400;
+  src: url('{{{config.cdn.origin}}}/fonts/alegreya/small-caps-regular-italic.ttf?version=2e30a3&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Alegreya';
+  font-style: normal;
+  font-weight: 500;
+  src: url('{{{config.cdn.origin}}}/fonts/alegreya/medium.ttf?version=032701&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Alegreya';
+  font-style: normal;
+  font-weight: 500;
+  src: url('{{{config.cdn.origin}}}/fonts/alegreya/semi-bold.ttf?version=ba0fdb&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Alegreyasmall-caps';
+  font-style: normal;
+  font-weight: 500;
+  src: url('{{{config.cdn.origin}}}/fonts/alegreya/small-caps-medium.ttf?version=0d1c47&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Alegreya';
+  font-style: italic;
+  font-weight: 500;
+  src: url('{{{config.cdn.origin}}}/fonts/alegreya/medium-italic.ttf?version=7c9195&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Alegreya';
+  font-style: italic;
+  font-weight: 500;
+  src: url('{{{config.cdn.origin}}}/fonts/alegreya/semi-bold-italic.ttf?version=259b8e&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Alegreyasmall-caps';
+  font-style: italic;
+  font-weight: 500;
+  src: url('{{{config.cdn.origin}}}/fonts/alegreya/small-caps-medium-italic.ttf?version=c65ccc&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Alegreya';
+  font-style: normal;
+  font-weight: 600;
+  src: url('{{{config.cdn.origin}}}/fonts/alegreya/bold.ttf?version=394c3b&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Alegreyasmall-caps';
+  font-style: normal;
+  font-weight: 600;
+  src: url('{{{config.cdn.origin}}}/fonts/alegreya/small-caps-bold.ttf?version=a19456&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Alegreya';
+  font-style: italic;
+  font-weight: 600;
+  src: url('{{{config.cdn.origin}}}/fonts/alegreya/bold-italic.ttf?version=9c5ed3&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Alegreyasmall-caps';
+  font-style: italic;
+  font-weight: 600;
+  src: url('{{{config.cdn.origin}}}/fonts/alegreya/small-caps-bold-italic.ttf?version=5d04c7&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Alegreya';
+  font-style: normal;
+  font-weight: 700;
+  src: url('{{{config.cdn.origin}}}/fonts/alegreya/heavy.ttf?version=195070&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Alegreyasmall-caps';
+  font-style: normal;
+  font-weight: 700;
+  src: url('{{{config.cdn.origin}}}/fonts/alegreya/small-caps-heavy.ttf?version=19bbb8&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Alegreya';
+  font-style: italic;
+  font-weight: 700;
+  src: url('{{{config.cdn.origin}}}/fonts/alegreya/heavy-italic.ttf?version=f44343&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Alegreyasmall-caps';
+  font-style: italic;
+  font-weight: 700;
+  src: url('{{{config.cdn.origin}}}/fonts/alegreya/small-caps-heavy-italic.ttf?version=20998a&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Alegreya';
+  font-style: normal;
+  font-weight: 900;
+  src: url('{{{config.cdn.origin}}}/fonts/alegreya/black.ttf?version=49dfa5&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Alegreyasmall-caps';
+  font-style: normal;
+  font-weight: 900;
+  src: url('{{{config.cdn.origin}}}/fonts/alegreya/small-caps-black.ttf?version=d482a5&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Alegreya';
+  font-style: italic;
+  font-weight: 900;
+  src: url('{{{config.cdn.origin}}}/fonts/alegreya/black-italic.ttf?version=c4f8db&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Alegreyasmall-caps';
+  font-style: italic;
+  font-weight: 900;
+  src: url('{{{config.cdn.origin}}}/fonts/alegreya/small-caps-black-italic.ttf?version=445bed&extension=.ttf') format('truetype');
+}
+.pull-double {margin-left:-0.298em}
+.push-double{margin-right:0.298em}
+.pull-single{margin-left:-0.176em}
+.push-single{margin-right:0.176em}
+.push-double,.push-single{display:inline-block}

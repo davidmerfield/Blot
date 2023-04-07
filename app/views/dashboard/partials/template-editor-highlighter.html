@@ -7,3 +7,16 @@
     {{/options}}
   </select>
 </form>
+<script type="text/javascript">
+    
+  const input{{key}} = document.getElementById('locals.{{key}}.id');
+  const form{{key}} = document.getElementById('form{{key}}');
+
+
+  input{{key}}.addEventListener('change', (event) => {
+    form{{key}}.submit();
+  });
+
+ 
+  
+</script>

@@ -27,9 +27,6 @@ button {background: white;border: 2px solid #ddd;border-radius: 4px;font:inherit
 		{{#fonts}} {{> template-editor-font}} {{/fonts}} 
 	{{/fonts.length}}
 
-		{{#syntax_themes}}
-		{{> template-editor-highlighter}}
-		{{/syntax_themes}}
 
 {{#layouts.length}}
 		<h2>Layout</h2>
@@ -104,6 +101,10 @@ button {background: white;border: 2px solid #ddd;border-radius: 4px;font:inherit
 			</script>
 		</form>
 	{{/show_date_options}}
+
+		{{#syntax_themes}}
+		{{> template-editor-highlighter}}
+		{{/syntax_themes}}
 
 	{{> template-editor-footer}}
 </div>
