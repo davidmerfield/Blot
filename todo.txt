@@ -4,8 +4,11 @@ Work on [Vaughn](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrbvMBSwPCtrZBrdw
 
 ---
 
+Improve Are.na importer so it handles descriptions + also other file types (e.g. PDF, text) and tell [Marco](https://mail.google.com/mail/u/0/#inbox/QgrcJHsBvDqvbgfkRJfBlwLBwlDHDncxVnl)
+
 Determine if we can hack our way to determining the file upload date on Dropbox using their API?
  
+
 Add support for Google Docs
 - `download` Should nicely handle the export of various Google Doc formats
 

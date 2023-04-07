@@ -151,7 +151,7 @@ TemplateEditor.route("/:templateSlug/share")
 
   .get(function (req, res) {
     res.locals.title = `Share - ${req.template.name}`;
-    res.locals.shareURL = `${config.protocol}${config.host}/settings/template/share/${res.locals.template.shareID}`;
+    res.locals.shareURL = `${req.protocol}://${req.hostname}${res.locals.dashboardBase}/template/share/${res.locals.template.shareID}`;
     res.render("template-editor/share");
   })
   .post(parse, function (req, res, next) {
@@ -181,7 +181,7 @@ TemplateEditor.route("/:templateSlug/delete")
   .post(function (req, res, next) {
     Template.drop(req.blog.id, req.template.slug, function (err) {
       if (err) return next(err);
-      res.message("/settings/template", "Deleted template!");
+      res.message(res.locals.dashboardBase + "/template", "Deleted template!");
     });
   });
 
