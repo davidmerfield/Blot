@@ -1,0 +1,9 @@
+<h2>{{label}}</h2>
+<form method="post" id="form{{key}}">
+  <select id="locals.{{key}}.id" name="locals.{{key}}.id" style="width:280px;font-size:1rem;margin: 16px 16px 8px;">
+    <option value="---">---</option>
+    {{#options}}
+    <option {{selected}} value="{{{id}}}">{{{name}}}</option>
+    {{/options}}
+  </select>
+</form>

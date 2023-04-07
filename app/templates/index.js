@@ -14,6 +14,8 @@ var TEMPLATES_DIRECTORY = require("path").resolve(__dirname + "/latest");
 var PAST_TEMPLATES_DIRECTORY = require("path").resolve(__dirname + "/past");
 var TEMPLATES_OWNER = "SITE";
 
+var HIGHLIGHTER_THEMES = require("blog/static/syntax-highlighter");
+
 var DEFAULT_FONT = require("blog/static/fonts")
   .filter((font) => font.name === "System sans-serif")
   .map((font) => {
@@ -33,7 +35,7 @@ var DEFAULT_MONO_FONT = require("blog/static/fonts")
       },
     });
     return font;
-  })[0];  
+  })[0];
 
 if (require.main === module) {
   const watch = config.environment === "development";
@@ -134,6 +136,16 @@ function build(directory, callback) {
       _.cloneDeep(DEFAULT_FONT),
       template.locals.navigation_font
     );
+  }
+
+  if (template.locals.syntax_highlighter !== undefined) {
+    template.locals.syntax_highlighter = {
+      ...HIGHLIGHTER_THEMES.find(
+        ({ id }) =>
+          id ===
+          (template.locals.syntax_highlighter.id || "stackoverflow-light")
+      ),
+    };
   }
 
   if (template.locals.coding_font !== undefined) {
@@ -298,7 +310,7 @@ function watch(directory) {
 
   // When chokidar first crawls a directory to watch
   // it fires 'add' events for every file it finds.
-  // We watch until its crawled everything 'ready' 
+  // We watch until its crawled everything 'ready'
   // in order to actually listen to new changes.
   let ready = false;
 
@@ -308,7 +320,6 @@ function watch(directory) {
       ready = true;
     })
     .on("all", (event, path) => {
-
       if (!ready) return;
 
       if (!path) return;

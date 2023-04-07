@@ -1,9 +1,8 @@
 /* Inserts the styles required by various options
 on the services page of the dashboard */
 {{{appCSS}}}
-
 {{{body_font.styles}}}
-
+{{{syntax_highlighter.styles}}}
 
 html,
 body {

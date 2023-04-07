@@ -5,8 +5,11 @@
     "background_color": "#fff",
     "text_color": "#000",
     "hide_dates": false,
-    "date_display": "MMMM D, Y",    
-    "body_font": {}
+    "date_display": "MMMM D, Y",
+    "body_font": {},
+    "syntax_highlighter": {
+      "id": "stackoverflow-light"
+    }
   },
   "isPublic": true,
   "views": {

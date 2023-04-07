@@ -7,6 +7,9 @@
     "accent_color": "#0078D9",
     "hide_dates": false,
     "date_display": "MMMM D, Y",
+    "syntax_highlighter": {
+      "id": "stackoverflow-light"
+    },
     "body_font": {
       "font_size": 18
     },

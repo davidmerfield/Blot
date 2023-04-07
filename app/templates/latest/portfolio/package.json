@@ -8,6 +8,9 @@
     "body_font": {},
     "show_title": true,
     "sticky_navigation": true,
+    "syntax_highlighter": {
+      "id": "stackoverflow-light"
+    },
     "in_navigation": "popular_tags",
     "in_navigation_options": [
       "popular_tags",

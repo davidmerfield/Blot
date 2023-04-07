@@ -1,3 +1,6 @@
+const he = require("he");
+const hljs = require("highlight.js");
+
 function render($, callback) {
   $("pre code").each(function () {
     try {
@@ -21,9 +24,6 @@ function render($, callback) {
 
   return callback();
 }
-
-var he = require("he");
-var hljs = require("highlight.js");
 
 function highlight(code, lang) {
   // For some reason highlight
