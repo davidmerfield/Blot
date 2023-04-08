@@ -11,5 +11,11 @@ module.exports = function (req, res, next) {
     req.locals.syntax_highlighter[prop] =
       req.locals.syntax_highlighter[prop] || match[prop];
 
+  // we don't need these in the template
+  delete req.locals.syntax_highlighter.background;
+  delete req.locals.syntax_highlighter.tags;
+  delete req.locals.syntax_highlighter.name;
+  delete req.locals.syntax_highlighter.colors;
+
   next();
 };

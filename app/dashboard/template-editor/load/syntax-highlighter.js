@@ -6,7 +6,12 @@ module.exports = function (req, res, next) {
 
   res.locals.syntax_themes = {
     key: "syntax_highlighter",
-    value: req.template.locals.syntax_highlighter,
+    value: {
+      ...(Themes.find(
+        ({ id }) => id === req.template.locals.syntax_highlighter.id
+      ) || {}),
+      ...req.template.locals.syntax_highlighter,
+    },
     label: "Syntax Highlighter",
     options: Themes.map((option) => {
       return {
