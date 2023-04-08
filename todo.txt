@@ -1,3 +1,5 @@
+Fix bug with videos on Reference template and [Tell Marco](https://mail.google.com/mail/u/0/#inbox/FMfcgzGslbPSKMXkRbvrHKFTWhbJbPlg)
+
 Finish [Ethan's template](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrcPPGhMsLkpgWwpMBFBgpkvKg) 
 
 Work on [Vaughn](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrbvMBSwPCtrZBrdwRdmhpZLSD)'s site
