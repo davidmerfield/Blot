@@ -15,6 +15,14 @@ module.exports = function (req, res, next) {
           option.id === req.template.locals.syntax_highlighter.id
             ? "selected"
             : "",
+        background: option.background,
+        color: option.colors[0],
+        colors: option.colors.slice(1).map((i) => {
+          return { color: i };
+        }),
+        tags: option.tags.map((tag) => {
+          return { tag };
+        }),
         name: option.name,
         id: option.id,
       };
