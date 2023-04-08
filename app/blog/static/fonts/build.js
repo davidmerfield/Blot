@@ -211,7 +211,7 @@ function generateSVG(directory, text) {
   let adjustment = (100 - height) * -0.5;
 
   // I'm not sure why we need this
-  if (directory.endsWith('junicode')) adjustment = 0;
+  if (directory.endsWith("junicode")) adjustment = 0;
 
   // $("svg").attr("x", `0px`);
   // $("svg").attr("y", `0px`);
@@ -334,6 +334,61 @@ function parseFamily(directory) {
   return family;
 }
 
+const { execSync } = require("child_process");
+
+function convert(directory) {
+  const fonts = {};
+  fs.readdirSync(directory)
+    .filter((i) =>
+      [".otf", ".ttf", ".woff", ".woff2", ".eot"].includes(extname(i))
+    )
+    .forEach((filename) => {
+      let name = filename.slice(0, -extname(filename).length);
+      if (name.includes(".")) {
+        name = name.slice(0, -extname(name).length);
+      }
+      fonts[name] = fonts[name] || {};
+      fonts[name][extname(filename).slice(1)] = filename;
+    });
+  Object.keys(fonts).forEach((label) => {
+    const conversions = [];
+    const font = fonts[label];
+
+    if ((font.ttf || font.otf) && !font.woff) {
+      const from = directory + "/" + (font.ttf || font.otf);
+      const to = directory + "/" + label + ".woff";
+      conversions.push({ from, to });
+    }
+
+    if ((font.ttf || font.otf) && !font.eot) {
+      const from = directory + "/" + (font.ttf || font.otf);
+      const to = directory + "/" + label + ".eot";
+      conversions.push({ from, to });
+    }
+
+    if (!font.otf && font.ttf) {
+      const from = directory + "/" + font.ttf;
+      const to = directory + "/" + label + ".otf";
+      conversions.push({ from, to });
+    }
+
+    if (!font.ttf && font.otf) {
+      const from = directory + "/" + font.otf;
+      const to = directory + "/" + label + ".ttf";
+      conversions.push({ from, to });
+    }
+
+    if (conversions.length) {
+      try {
+        fs.removeSync(directory + "/styles.css");
+      } catch (e) {}
+    }
+    for (const { from, to } of conversions)
+      execSync(`fontforge -lang=ff -c 'Open($1);Generate($2)' ${from} ${to}`);
+  });
+  //
+}
+
 function generateSRC(extensions, directory, file) {
   const base = "/fonts/" + basename(directory);
   let contentHashes = {};
@@ -392,22 +447,20 @@ async function main() {
 
     // Ignore dot folders and folders whose name
     // starts with a dash
-    .filter((i) => i[0] && i[0] !== "." && i[0] !== "-" && i !== 'data')
-    .filter((i) => fs.statSync(`${__dirname}/${i}`).isDirectory())
-    .filter((i) => {
-      return (
-        !fs.existsSync(`${__dirname}/${i}/package.json`) ||
-        (!fs.existsSync(`${__dirname}/${i}/style.css`) &&
-          SYSTEM_FONTS.indexOf(i) === -1)
-      );
-    });
+    .filter((i) => i[0] && i[0] !== "." && i[0] !== "-" && i !== "data")
+    .filter((i) => fs.statSync(`${__dirname}/${i}`).isDirectory());
+  // .filter((i) => {
+  //   return (
+  //     !fs.existsSync(`${__dirname}/${i}/package.json`) ||
+  //     (!fs.existsSync(`${__dirname}/${i}/style.css`) &&
+  //       SYSTEM_FONTS.indexOf(i) === -1)
+  //   );
+  // });
 
   for (const directory of directories) {
-    console.log("here", directory);
+    convert(`${__dirname}/${directory}`);
     generatePackage(`${__dirname}/${directory}`);
-    console.log("there", directory);
     generateStyle(`${__dirname}/${directory}`);
-    console.log("everywhere", directory);
   }
 
   const fonts = fs

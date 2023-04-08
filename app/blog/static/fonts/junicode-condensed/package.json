@@ -1,6 +1,8 @@
 {
   "name": "Junicode Condensed",
-  "tags": ["serif"],      
+  "tags": [
+    "serif"
+  ],
   "stack": "'Junicode Condensed'",
   "line_height": 1.4,
   "line_width": 38,

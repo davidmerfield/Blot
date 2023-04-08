@@ -1,6 +1,8 @@
 {
   "name": "Cooper Hewitt",
-  "tags": ["sans"],    
+  "tags": [
+    "sans"
+  ],
   "stack": "Cooper Hewitt",
   "line_height": 1.6,
   "line_width": 39,

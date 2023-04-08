@@ -1,6 +1,8 @@
 {
   "name": "Junicode",
-  "tags": ["serif"],      
+  "tags": [
+    "serif"
+  ],
   "stack": "'Junicode'",
   "line_height": 1.4,
   "line_width": 38,
