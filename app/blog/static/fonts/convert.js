@@ -23,24 +23,34 @@ fs.readdirSync(__dirname)
         fonts[name][extname(filename).slice(1)] = filename;
       });
     Object.keys(fonts).forEach((label) => {
+      const conversions = [];
       const font = fonts[label];
-      const source = font.ttf || font.otf;
-      console.log(directory, label, font);
-      if (!font.woff) {
-        const from = directory + "/" + source;
+
+      if ((font.ttf || font.otf) && !font.woff) {
+        const from = directory + "/" + (font.ttf || font.otf);
         const to = directory + "/" + label + ".woff";
-        console.log(" FROM", from);
-        console.log(" TO", to);
-        // execSync(`fontforge -lang=ff -c 'Open($1);Generate($2)' ${from} ${to}`);
+        conversions.push({ from, to });
       }
 
-      if (!font.otf) {
-        const from = directory + "/" + source;
+      if (!font.otf && font.ttf) {
+        const from = directory + "/" + font.ttf;
         const to = directory + "/" + label + ".otf";
-        console.log(" FROM", from);
-        console.log(" TO", to);
-
+        conversions.push({ from, to });
       }
+
+      if (!font.ttf && font.otf) {
+        const from = directory + "/" + font.otf;
+        const to = directory + "/" + label + ".ttf";
+        conversions.push({ from, to });
+      }
+
+      if (conversions.length) {
+        try {
+          fs.removeSync(directory + "/styles.css");
+        } catch (e) {}
+      }
+      for (const { from, to } of conversions)
+        execSync(`fontforge -lang=ff -c 'Open($1);Generate($2)' ${from} ${to}`);
     });
     //
   });
