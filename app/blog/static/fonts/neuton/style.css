@@ -1,0 +1,41 @@
+@font-face {
+  font-family: 'Neuton';
+  font-style: normal;
+  font-weight: 200;
+  src: url('{{{config.cdn.origin}}}/fonts/neuton/200.ttf?version=b3dd4e&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Neuton';
+  font-style: normal;
+  font-weight: 300;
+  src: url('{{{config.cdn.origin}}}/fonts/neuton/300.ttf?version=b9db45&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Neuton';
+  font-style: normal;
+  font-weight: 400;
+  src: url('{{{config.cdn.origin}}}/fonts/neuton/400.ttf?version=d6ccf0&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Neuton';
+  font-style: italic;
+  font-weight: 400;
+  src: url('{{{config.cdn.origin}}}/fonts/neuton/400-italic.ttf?version=a48c29&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Neuton';
+  font-style: normal;
+  font-weight: 700;
+  src: url('{{{config.cdn.origin}}}/fonts/neuton/700.ttf?version=44f1e0&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Neuton';
+  font-style: normal;
+  font-weight: 800;
+  src: url('{{{config.cdn.origin}}}/fonts/neuton/800.ttf?version=094000&extension=.ttf') format('truetype');
+}
+.pull-double {margin-left:-0.24267578125em}
+.push-double{margin-right:0.24267578125em}
+.pull-single{margin-left:-0.14111328125em}
+.push-single{margin-right:0.14111328125em}
+.push-double,.push-single{display:inline-block}

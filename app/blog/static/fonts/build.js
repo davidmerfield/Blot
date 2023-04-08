@@ -59,11 +59,10 @@ const WEIGHTS = {
 function generatePackage(directory) {
   let package = {};
 
-  try{
-  package = fs.readJsonSync(directory + "/package.json");
-   
-} catch (e) {}
- 
+  try {
+    package = fs.readJsonSync(directory + "/package.json");
+  } catch (e) {}
+
   // Will map cooper-hewitt -> Cooper Hewitt
   package.name =
     package.name ||
@@ -78,6 +77,7 @@ function generatePackage(directory) {
   package.line_height = package.line_height || 1.4;
   package.line_width = package.line_width || 38;
   package.font_size = package.font_size || 16;
+  package.tags = package.tags || ["sans"];
 
   fs.outputJsonSync(directory + "/package.json", package, { spaces: 2 });
 }
@@ -87,7 +87,6 @@ function generatePackage(directory) {
 // and style. Typeset.css rules are also generated
 // based on the metrics of the webfont files.
 async function generateStyle(directory) {
-  console.log("HERE", directory);
   const stylePath = directory + "/style.css";
   const package = fs.readJsonSync(directory + "/package.json");
   const family = parseFamily(directory);
@@ -197,6 +196,8 @@ function generateSVG(directory, text) {
     ? `${directory}/regular.woff`
     : fs.existsSync(`${directory}/book.woff`)
     ? `${directory}/book.woff`
+    : fs.existsSync(`${directory}/400.ttf`)
+    ? `${directory}/400.ttf`
     : null;
   if (!fontpath) return;
   const textToSVG = TextToSVG.loadSync(fontpath);
@@ -207,7 +208,10 @@ function generateSVG(directory, text) {
   const width = $("svg").attr("width");
   const height = $("svg").attr("height");
 
-  const adjustment = (100 - height) * -0.5;
+  let adjustment = (100 - height) * -0.5;
+
+  // I'm not sure why we need this
+  if (directory.endsWith('junicode')) adjustment = 0;
 
   // $("svg").attr("x", `0px`);
   // $("svg").attr("y", `0px`);
@@ -388,7 +392,7 @@ async function main() {
 
     // Ignore dot folders and folders whose name
     // starts with a dash
-    .filter((i) => i[0] && i[0] !== "." && i[0] !== "-")
+    .filter((i) => i[0] && i[0] !== "." && i[0] !== "-" && i !== 'data')
     .filter((i) => fs.statSync(`${__dirname}/${i}`).isDirectory())
     .filter((i) => {
       return (

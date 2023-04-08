@@ -1,0 +1,41 @@
+@font-face {
+  font-family: 'Oswald';
+  font-style: normal;
+  font-weight: 200;
+  src: url('{{{config.cdn.origin}}}/fonts/oswald/200.ttf?version=bae2f0&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Oswald';
+  font-style: normal;
+  font-weight: 300;
+  src: url('{{{config.cdn.origin}}}/fonts/oswald/300.ttf?version=6ee38c&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Oswald';
+  font-style: normal;
+  font-weight: 400;
+  src: url('{{{config.cdn.origin}}}/fonts/oswald/400.ttf?version=a7ccbd&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Oswald';
+  font-style: normal;
+  font-weight: 500;
+  src: url('{{{config.cdn.origin}}}/fonts/oswald/500.ttf?version=14cf87&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Oswald';
+  font-style: normal;
+  font-weight: 600;
+  src: url('{{{config.cdn.origin}}}/fonts/oswald/600.ttf?version=6a5d13&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Oswald';
+  font-style: normal;
+  font-weight: 700;
+  src: url('{{{config.cdn.origin}}}/fonts/oswald/700.ttf?version=452bfe&extension=.ttf') format('truetype');
+}
+.pull-double {margin-left:-0.266em}
+.push-double{margin-right:0.266em}
+.pull-single{margin-left:-0.127em}
+.push-single{margin-right:0.127em}
+.push-double,.push-single{display:inline-block}

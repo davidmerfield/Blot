@@ -1,0 +1,23 @@
+@font-face {
+  font-family: 'D Din Expanded';
+  font-style: normal;
+  font-weight: 400;
+  src: url('{{{config.cdn.origin}}}/fonts/d-din-expanded/400.otf?version=5b5cdb&extension=.otf') format('opentype');
+}
+@font-face {
+  font-family: 'D Din Expanded';
+  font-style: italic;
+  font-weight: 400;
+  src: url('{{{config.cdn.origin}}}/fonts/d-din-expanded/400-italic.otf?version=346e05&extension=.otf') format('opentype');
+}
+@font-face {
+  font-family: 'D Din Expanded';
+  font-style: normal;
+  font-weight: 700;
+  src: url('{{{config.cdn.origin}}}/fonts/d-din-expanded/700.otf?version=831f46&extension=.otf') format('opentype');
+}
+.pull-double {margin-left:-0.337em}
+.push-double{margin-right:0.337em}
+.pull-single{margin-left:-0.177em}
+.push-single{margin-right:0.177em}
+.push-double,.push-single{display:inline-block}

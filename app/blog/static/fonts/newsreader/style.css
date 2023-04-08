@@ -1,0 +1,89 @@
+@font-face {
+  font-family: 'Newsreader';
+  font-style: normal;
+  font-weight: 200;
+  src: url('{{{config.cdn.origin}}}/fonts/newsreader/200.ttf?version=a42c30&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Newsreader';
+  font-style: italic;
+  font-weight: 200;
+  src: url('{{{config.cdn.origin}}}/fonts/newsreader/200-italic.ttf?version=44feb3&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Newsreader';
+  font-style: normal;
+  font-weight: 300;
+  src: url('{{{config.cdn.origin}}}/fonts/newsreader/300.ttf?version=1e0db9&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Newsreader';
+  font-style: italic;
+  font-weight: 300;
+  src: url('{{{config.cdn.origin}}}/fonts/newsreader/300-italic.ttf?version=f72dcd&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Newsreader';
+  font-style: normal;
+  font-weight: 400;
+  src: url('{{{config.cdn.origin}}}/fonts/newsreader/400.ttf?version=efab53&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Newsreader';
+  font-style: italic;
+  font-weight: 400;
+  src: url('{{{config.cdn.origin}}}/fonts/newsreader/400-italic.ttf?version=bca1b9&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Newsreader';
+  font-style: normal;
+  font-weight: 500;
+  src: url('{{{config.cdn.origin}}}/fonts/newsreader/500.ttf?version=4bdc77&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Newsreader';
+  font-style: italic;
+  font-weight: 500;
+  src: url('{{{config.cdn.origin}}}/fonts/newsreader/500-italic.ttf?version=4dc7f1&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Newsreader';
+  font-style: normal;
+  font-weight: 600;
+  src: url('{{{config.cdn.origin}}}/fonts/newsreader/600.ttf?version=06b54b&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Newsreader';
+  font-style: italic;
+  font-weight: 600;
+  src: url('{{{config.cdn.origin}}}/fonts/newsreader/600-italic.ttf?version=1e6a84&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Newsreader';
+  font-style: normal;
+  font-weight: 700;
+  src: url('{{{config.cdn.origin}}}/fonts/newsreader/700.ttf?version=c24937&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Newsreader';
+  font-style: italic;
+  font-weight: 700;
+  src: url('{{{config.cdn.origin}}}/fonts/newsreader/700-italic.ttf?version=2f6816&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Newsreader';
+  font-style: normal;
+  font-weight: 800;
+  src: url('{{{config.cdn.origin}}}/fonts/newsreader/800.ttf?version=a93407&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Newsreader';
+  font-style: italic;
+  font-weight: 800;
+  src: url('{{{config.cdn.origin}}}/fonts/newsreader/800-italic.ttf?version=449f5c&extension=.ttf') format('truetype');
+}
+.pull-double {margin-left:-0.3655em}
+.push-double{margin-right:0.3655em}
+.pull-single{margin-left:-0.207em}
+.push-single{margin-right:0.207em}
+.push-double,.push-single{display:inline-block}

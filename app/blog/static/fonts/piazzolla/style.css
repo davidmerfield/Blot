@@ -1,0 +1,113 @@
+@font-face {
+  font-family: 'Piazzolla';
+  font-style: normal;
+  font-weight: 100;
+  src: url('{{{config.cdn.origin}}}/fonts/piazzolla/100.ttf?version=10a144&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Piazzolla';
+  font-style: italic;
+  font-weight: 100;
+  src: url('{{{config.cdn.origin}}}/fonts/piazzolla/100-italic.ttf?version=fb91df&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Piazzolla';
+  font-style: normal;
+  font-weight: 200;
+  src: url('{{{config.cdn.origin}}}/fonts/piazzolla/200.ttf?version=efe274&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Piazzolla';
+  font-style: italic;
+  font-weight: 200;
+  src: url('{{{config.cdn.origin}}}/fonts/piazzolla/200-italic.ttf?version=20b928&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Piazzolla';
+  font-style: normal;
+  font-weight: 300;
+  src: url('{{{config.cdn.origin}}}/fonts/piazzolla/300.ttf?version=a9fcb6&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Piazzolla';
+  font-style: italic;
+  font-weight: 300;
+  src: url('{{{config.cdn.origin}}}/fonts/piazzolla/300-italic.ttf?version=a51ebb&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Piazzolla';
+  font-style: normal;
+  font-weight: 400;
+  src: url('{{{config.cdn.origin}}}/fonts/piazzolla/400.ttf?version=dc41e8&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Piazzolla';
+  font-style: italic;
+  font-weight: 400;
+  src: url('{{{config.cdn.origin}}}/fonts/piazzolla/400-italic.ttf?version=cb423b&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Piazzolla';
+  font-style: normal;
+  font-weight: 500;
+  src: url('{{{config.cdn.origin}}}/fonts/piazzolla/500.ttf?version=94bc2d&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Piazzolla';
+  font-style: italic;
+  font-weight: 500;
+  src: url('{{{config.cdn.origin}}}/fonts/piazzolla/500-italic.ttf?version=fb2bd7&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Piazzolla';
+  font-style: normal;
+  font-weight: 600;
+  src: url('{{{config.cdn.origin}}}/fonts/piazzolla/600.ttf?version=9dc174&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Piazzolla';
+  font-style: italic;
+  font-weight: 600;
+  src: url('{{{config.cdn.origin}}}/fonts/piazzolla/600-italic.ttf?version=234b9b&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Piazzolla';
+  font-style: normal;
+  font-weight: 700;
+  src: url('{{{config.cdn.origin}}}/fonts/piazzolla/700.ttf?version=742edd&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Piazzolla';
+  font-style: italic;
+  font-weight: 700;
+  src: url('{{{config.cdn.origin}}}/fonts/piazzolla/700-italic.ttf?version=c729d3&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Piazzolla';
+  font-style: normal;
+  font-weight: 800;
+  src: url('{{{config.cdn.origin}}}/fonts/piazzolla/800.ttf?version=9bdb92&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Piazzolla';
+  font-style: italic;
+  font-weight: 800;
+  src: url('{{{config.cdn.origin}}}/fonts/piazzolla/800-italic.ttf?version=72f408&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Piazzolla';
+  font-style: normal;
+  font-weight: 900;
+  src: url('{{{config.cdn.origin}}}/fonts/piazzolla/900.ttf?version=4d7588&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Piazzolla';
+  font-style: italic;
+  font-weight: 900;
+  src: url('{{{config.cdn.origin}}}/fonts/piazzolla/900-italic.ttf?version=f35d00&extension=.ttf') format('truetype');
+}
+.pull-double {margin-left:-0.399em}
+.push-double{margin-right:0.399em}
+.pull-single{margin-left:-0.242em}
+.push-single{margin-right:0.242em}
+.push-double,.push-single{display:inline-block}

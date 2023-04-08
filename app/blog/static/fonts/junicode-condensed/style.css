@@ -1,0 +1,29 @@
+@font-face {
+  font-family: 'Junicode Condensed';
+  font-style: normal;
+  font-weight: 400;
+  src: url('{{{config.cdn.origin}}}/fonts/junicode-condensed/400.ttf?version=317883&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Junicode Condensed';
+  font-style: italic;
+  font-weight: 400;
+  src: url('{{{config.cdn.origin}}}/fonts/junicode-condensed/400-italic.ttf?version=f515fc&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Junicode Condensed';
+  font-style: normal;
+  font-weight: 700;
+  src: url('{{{config.cdn.origin}}}/fonts/junicode-condensed/700.ttf?version=bbf7bb&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Junicode Condensed';
+  font-style: italic;
+  font-weight: 700;
+  src: url('{{{config.cdn.origin}}}/fonts/junicode-condensed/700-italic.ttf?version=3e51e6&extension=.ttf') format('truetype');
+}
+.pull-double {margin-left:-0.2958984375em}
+.push-double{margin-right:0.2958984375em}
+.pull-single{margin-left:-0.16455078125em}
+.push-single{margin-right:0.16455078125em}
+.push-double,.push-single{display:inline-block}

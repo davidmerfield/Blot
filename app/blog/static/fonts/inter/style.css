@@ -1,0 +1,59 @@
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 100;
+  src: url('{{{config.cdn.origin}}}/fonts/inter/100.ttf?version=2dce62&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 200;
+  src: url('{{{config.cdn.origin}}}/fonts/inter/200.ttf?version=0f3ac0&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 300;
+  src: url('{{{config.cdn.origin}}}/fonts/inter/300.ttf?version=d55f45&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  src: url('{{{config.cdn.origin}}}/fonts/inter/400.ttf?version=079af0&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  src: url('{{{config.cdn.origin}}}/fonts/inter/500.ttf?version=ed5338&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  src: url('{{{config.cdn.origin}}}/fonts/inter/600.ttf?version=07a48b&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  src: url('{{{config.cdn.origin}}}/fonts/inter/700.ttf?version=275bfe&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 800;
+  src: url('{{{config.cdn.origin}}}/fonts/inter/800.ttf?version=c9709f&extension=.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 900;
+  src: url('{{{config.cdn.origin}}}/fonts/inter/900.ttf?version=980c7e&extension=.ttf') format('truetype');
+}
+.pull-double {margin-left:-0.4034090909090909em}
+.push-double{margin-right:0.4034090909090909em}
+.pull-single{margin-left:-0.2215909090909091em}
+.push-single{margin-right:0.2215909090909091em}
+.push-double,.push-single{display:inline-block}

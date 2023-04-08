@@ -1,0 +1,17 @@
+@font-face {
+  font-family: 'D Din Condensed';
+  font-style: normal;
+  font-weight: 400;
+  src: url('{{{config.cdn.origin}}}/fonts/d-din-condensed/400.otf?version=2c8b34&extension=.otf') format('opentype');
+}
+@font-face {
+  font-family: 'D Din Condensed';
+  font-style: normal;
+  font-weight: 700;
+  src: url('{{{config.cdn.origin}}}/fonts/d-din-condensed/700.otf?version=193107&extension=.otf') format('opentype');
+}
+.pull-double {margin-left:-0.28em}
+.push-double{margin-right:0.28em}
+.pull-single{margin-left:-0.15em}
+.push-single{margin-right:0.15em}
+.push-double,.push-single{display:inline-block}
