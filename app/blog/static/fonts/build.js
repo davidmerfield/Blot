@@ -386,7 +386,8 @@ function convert(directory) {
     for (const { from, to } of conversions)
       execSync(`fontforge -lang=ff -c 'Open($1);Generate($2)' ${from} ${to}`);
   });
-  //
+
+  execSync(`find ${__dirname} -name '*.afm' -delete`);
 }
 
 function generateSRC(extensions, directory, file) {
