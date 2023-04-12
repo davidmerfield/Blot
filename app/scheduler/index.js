@@ -4,7 +4,7 @@ var backup = require("./backup");
 var dailyUpdate = require("./daily");
 var email = require("helper/email");
 var clfdate = require("helper/clfdate");
-var warmCache = require("./warmCache");
+var buildIndex = require("./buildIndex");
 var schedule = require("node-schedule").scheduleJob;
 var checkFeaturedSites = require("../documentation/featured/check");
 var config = require("config");
@@ -76,7 +76,7 @@ module.exports = function () {
   });
 
   // Warm the cache for the documentation site
-  warmCache(function (err) {
+  buildIndex(function (err) {
     if (err) throw err;
   });
 
