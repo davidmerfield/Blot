@@ -1,5 +1,7 @@
 Fix logging for question search
 
+Why do documentation pages not show up in production?
+
 Make it possible to rename locally edited template folder and tell [questioner](https://blot.im/questions/1610)
 
 Fix bug with videos on Reference template and [Tell Marco](https://mail.google.com/mail/u/0/#inbox/FMfcgzGslbPSKMXkRbvrHKFTWhbJbPlg)
