@@ -979,7 +979,7 @@ ul.who li {
   color: var(--light-text-color);
 }
 
-p.meta-links a {
+div.meta-links a {
   display: inline-block;
   color: inherit;
   position: relative;

@@ -158,6 +158,8 @@ documentation.get(
   }
 );
 
+documentation.use("/search", require("./search"));
+
 // Adds a handy 'edit this page' link
 documentation.use(
   ["/how", "/templates", "/about"],
