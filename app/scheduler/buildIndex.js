@@ -19,11 +19,8 @@ const cheerio = require("cheerio");
 const fetch = require("node-fetch");
 const clfdate = require("helper/clfdate");
 const { parse, resolve } = require("url");
-const delay = async (ms = 100) =>
-  new Promise((resolve) => setTimeout(resolve, ms));
 
 const https = require("https");
-
 const httpsAgent = new https.Agent({
   rejectUnauthorized: false,
 });
@@ -41,13 +38,10 @@ function main() {
   // Empty any existing responses
   cache.flush({ host }, async function (err) {
     if (err) console.warn(err);
-    // await delay(10 * 1000);
 
-    console.log(clfdate(), "Warming cache for documentation");
+    console.log(clfdate(), "Building search index for documentation");
     try {
       const pages = await checkPage(protocol + host);
-
-      console.log(pages);
 
       await pool.query(`DELETE FROM documentation;`);
 
@@ -64,27 +58,26 @@ function main() {
         );
       }
     } catch (err) {
-      return console.warn(clfdate(), "Warming cache error:", err.message);
+      return console.warn(
+        clfdate(),
+        "Building search index error:",
+        err.message
+      );
     }
 
-    console.log(clfdate(), "Warmed cache for documentation");
+    console.log(clfdate(), "Built search index for documentation");
   });
 }
 
 async function checkPage(base, checked = {}, pages = []) {
   checked[base] = true;
 
-  console.log(
-    "checking",
-    base
-    // Object.keys(checked),
-    // pages.map((i) => i.title)
-  );
-
   const response = await fetch(base, { agent: httpsAgent });
   const type = response.headers.get("content-type");
 
   checked[response.url] = true;
+
+  console.log(clfdate(), "Parsing", response.url);
 
   if (!type || !type.includes("text/html")) {
     return;
