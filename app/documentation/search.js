@@ -26,8 +26,8 @@ search.get("/", async (req, res) => {
     ),
     pool.query(
       `
-    SELECT title, id, parent_id, ts_rank(search, query) AS rank
-    FROM items, websearch_to_tsquery('english', $1) query
+    SELECT title, id, parent_id, (select title from items a where a.id = b.parent_id) as parent_title, ts_rank(search, query) AS rank
+    FROM items b, websearch_to_tsquery('english', $1) query
     WHERE query @@ search
     ORDER BY rank DESC
     LIMIT 5
@@ -39,8 +39,12 @@ search.get("/", async (req, res) => {
   res.json(
     result.rows
       .concat(
-        question.rows.map(({ title, id, parent_id }) => {
-          return { title, url: "/questions/" + (parent_id || id) };
+        question.rows.map(({ title, id, parent_id, parent_title }) => {
+          console.log('parent_title', parent_title);
+          return {
+            title: title || parent_title,
+            url: "/questions/" + (parent_id || id),
+          };
         })
       )
       .sort(function (a, b) {
