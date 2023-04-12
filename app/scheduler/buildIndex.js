@@ -47,6 +47,8 @@ function main() {
     try {
       const pages = await checkPage(protocol + host);
 
+      console.log(pages);
+
       await pool.query(`DELETE FROM documentation;`);
 
       for (const { url, content, title, tags } of pages) {
@@ -74,9 +76,9 @@ async function checkPage(base, checked = {}, pages = []) {
 
   console.log(
     "checking",
-    base,
-    Object.keys(checked),
-    pages.map((i) => i.title)
+    base
+    // Object.keys(checked),
+    // pages.map((i) => i.title)
   );
 
   const response = await fetch(base, { agent: httpsAgent });
@@ -92,16 +94,27 @@ async function checkPage(base, checked = {}, pages = []) {
   const $ = cheerio.load(body);
   const urls = parseURLs(response.url, $);
 
-  const content = $.text().split("\n").join(" ");
+  const content = $("p").text().split("\n").join(" ");
   const title = $("h1").first() ? $("h1").first().text() : $("title").text();
-  const tags = parse(response.url).pathname.split("/").join(", ");
 
-  pages.push({
-    url: parse(response.url).pathname,
-    content,
-    title,
-    tags,
-  });
+  if (!title) {
+    console.error("ERROR: failed to find title", response.url);
+  }
+
+  const tags = parse(response.url)
+    .pathname.split("/")
+    .filter((i) => !!i)
+    .join(", ");
+
+  const pathname = parse(response.url).pathname;
+
+  if (!pages.find((i) => i.url === pathname))
+    pages.push({
+      url: pathname,
+      content,
+      title,
+      tags,
+    });
 
   for (const url of urls) {
     if (checked[url]) continue;
