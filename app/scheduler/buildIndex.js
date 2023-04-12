@@ -71,6 +71,7 @@ function main() {
 
 async function checkPage(base, checked = {}, pages = []) {
   checked[base] = true;
+
   console.log(
     "checking",
     base,
@@ -81,20 +82,22 @@ async function checkPage(base, checked = {}, pages = []) {
   const response = await fetch(base, { agent: httpsAgent });
   const type = response.headers.get("content-type");
 
+  checked[response.url] = true;
+
   if (!type || !type.includes("text/html")) {
     return;
   }
 
   const body = await response.text();
   const $ = cheerio.load(body);
-  const urls = parseURLs(base, $);
+  const urls = parseURLs(response.url, $);
 
   const content = $.text().split("\n").join(" ");
-  const title = $("h1").text();
-  const tags = "";
+  const title = $("h1").first() ? $("h1").first().text() : $("title").text();
+  const tags = parse(response.url).pathname.split("/").join(", ");
 
   pages.push({
-    url: parse(base).pathname,
+    url: parse(response.url).pathname,
     content,
     title,
     tags,
@@ -118,7 +121,7 @@ function parseURLs(base, $) {
 
     if (link.includes("#")) link = link.slice(0, link.indexOf("#"));
 
-    if (link.startsWith("/questions")) return;
+    if (link.startsWith("/questions") || link.startsWith("/dashboard")) return;
 
     if (
       link.endsWith(".zip") ||

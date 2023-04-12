@@ -16,7 +16,7 @@ search.get("/", async (req, res) => {
   const [result, question] = await Promise.all([
     pool.query(
       `
-    SELECT title, url, ts_rank_cd(search, query) AS rank
+    SELECT title, url, ts_rank(search, query) AS rank
     FROM documentation, websearch_to_tsquery('english', $1) query
     WHERE query @@ search
     ORDER BY rank DESC
@@ -26,7 +26,7 @@ search.get("/", async (req, res) => {
     ),
     pool.query(
       `
-    SELECT title, id, parent_id, ts_rank_cd(search, query) AS rank
+    SELECT title, id, parent_id, ts_rank(search, query) AS rank
     FROM items, websearch_to_tsquery('english', $1) query
     WHERE query @@ search
     ORDER BY rank DESC
