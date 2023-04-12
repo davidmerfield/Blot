@@ -15,7 +15,12 @@ if (searchInput) {
 
   searchInput.addEventListener("keyup", async function () {
     const response = await fetch("/search?query=" + searchInput.value);
-    const results = await response.json();
+    const result = await response.json();
+    const results = result.results;
+    const query = result.query;
+
+    if (query !== searchInput.value) return;
+    
     if (results.length === 0) {
       return (searchResults.style.display = "none");
     }
