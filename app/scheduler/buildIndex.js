@@ -43,6 +43,10 @@ function main() {
     try {
       const pages = await checkPage(protocol + host);
 
+      if (require.main === module) {
+        console.log(clfdate(), "Building search index:", pages);
+      }
+
       await pool.query(`DELETE FROM documentation;`);
 
       for (const { url, content, title, tags } of pages) {
