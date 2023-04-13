@@ -127,10 +127,16 @@ function parseURLs(base, $) {
   $("[href],[src]").each(function () {
     let link = $(this).attr("href") || $(this).attr("src");
 
+    // Internal link
+    if (link.startsWith('#')) return;
+
+    // Nothing linked
     if (!link) return;
 
+    // Link to a fragment on another pagge
     if (link.includes("#")) link = link.slice(0, link.indexOf("#"));
 
+    // We don't index these links
     if (link.startsWith("/questions") || link.startsWith("/dashboard")) return;
 
     if (
