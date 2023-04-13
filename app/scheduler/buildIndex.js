@@ -119,7 +119,11 @@ async function checkPage(base, checked = {}, pages = []) {
 
   for (const url of urls) {
     if (checked[url]) continue;
-    await checkPage(url, checked, pages);
+    try {
+      await checkPage(url, checked, pages);
+    } catch (e) {
+      console.warn(clfdate(), "Error checking", url, e.message);
+    }
   }
 
   return pages;
