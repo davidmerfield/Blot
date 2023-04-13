@@ -81,11 +81,15 @@ async function checkPage(base, checked = {}, pages = []) {
 
   checked[response.url] = true;
 
-  console.log(clfdate(), "Parsing", response.url);
+  if (response.status !== 200) {
+    return;
+  }
 
   if (!type || !type.includes("text/html")) {
     return;
   }
+
+  console.log(clfdate(), "Parsing", response.url);
 
   const body = await response.text();
   const $ = cheerio.load(body);
@@ -128,7 +132,7 @@ function parseURLs(base, $) {
     let link = $(this).attr("href") || $(this).attr("src");
 
     // Internal link
-    if (link.startsWith('#')) return;
+    if (link.startsWith("#")) return;
 
     // Nothing linked
     if (!link) return;
