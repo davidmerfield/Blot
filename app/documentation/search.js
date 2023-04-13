@@ -18,14 +18,24 @@ search.use((req, res, next) => {
 search.get("/json", async (req, res) => {
   const query = req.query.query;
   const [documentation, questions] = await Query({ query });
-  res.json({ questions, documentation });
+  res.json({
+    questions: questions.rows,
+    documentation: documentation.rows,
+  });
 });
 
 search.get("/", async (req, res) => {
   const query = req.query.query;
   const [documentation, questions] = await Query({ query, limit: 20 });
-  res.locals.documentation = documentation;
-  res.locals.questions = questions;
+  res.locals.documentation = documentation.rows.map((row) => {
+    return {
+      ...row,
+      crumbs: row.url.split("/").map((x) => {
+        return { label: x };
+      }),
+    };
+  });
+  res.locals.questions = questions.rows;
   res.render("search");
 });
 
@@ -35,7 +45,7 @@ function Query({ query, limit = 5 }) {
       `
     SELECT title, url, ts_rank(search, query) AS rank
     FROM documentation, websearch_to_tsquery('english', $1) query
-    WHERE query @@ search
+    WHERE title ILIKE $1 || '%' OR query @@ search
     ORDER BY rank DESC
     LIMIT ${limit}
     `,

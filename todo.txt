@@ -1,6 +1,4 @@
 Improve search:
-- Fix logging for question search
-- Use only most recent response to request on front end
 - Why do documentation pages not show up in production?
 
 Make it possible to rename locally edited template folder and tell [questioner](https://blot.im/questions/1610)
@@ -40,6 +38,8 @@ Release a new film showing some of Blot’s more recent features
 - Finish video in brochure/readme.txt
 
 ---
+
+Add support for data files to templates and tell [Kev](https://mail.google.com/mail/u/0/#inbox/FMfcgzGsmDkVfCLPGfhtWdfmdPxJRHxH)
 
 Improve CI testing
 - [ ] Add spell checking test

@@ -22,13 +22,6 @@
         <span style="line-height:1.2;padding: 4px 0 4px 0;color:var(--text-color);font-size: 15px;display: block;" >Contact us</span>
       </a>
 
-  {{^hide-on-this-page}}
-  <div class="module">
-    <span style="margin: 0;font-size:14px;font-weight:500;color:#999;border:none">On this page</span>
-    <div class="toc"></div>
-  </div>
-  {{/hide-on-this-page}}
-
   {{#related.length}}
   <div class="module">
     <span style="margin: 0;font-size:14px;font-weight:500;color:#999;border:none">Related questions</span><br>
@@ -43,3 +36,10 @@
   {{#show-question-sidebar}}
   {{> question-sidebar}}
   {{/show-question-sidebar}}
+
+  {{^hide-on-this-page}}
+  <div class="module" style="position: sticky;top:1em">
+    <span style="margin: 0;font-size:14px;font-weight:500;color:#999;border:none">On this page</span>
+    <div class="toc"></div>
+  </div>
+  {{/hide-on-this-page}}  

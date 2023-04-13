@@ -28,10 +28,8 @@ if (searchInput) {
 
     const json = await response.json();
 
-    console.log(json);
-
-    const documentation = json.documentation.rows;
-    const questions = json.questions.rows;
+    const documentation = json.documentation;
+    const questions = json.questions;
 
     let html = "";
 
@@ -42,7 +40,10 @@ if (searchInput) {
         html += documentation
           .map(
             (item) =>
-              `<a href="${item.url}">${item.title}<br><small>${item.url}</small></a>`
+              `<a href="${item.url}">${item.title}<br><small>${item.url
+                .split("/")
+                .filter(i => !!i)
+                .join(" > ")}</small></a>`
           )
           .join("\n");
       }
