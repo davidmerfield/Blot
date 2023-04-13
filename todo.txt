@@ -1,6 +1,7 @@
-Fix logging for question search
-
-Why do documentation pages not show up in production?
+Improve search:
+- Fix logging for question search
+- Use only most recent response to request on front end
+- Why do documentation pages not show up in production?
 
 Make it possible to rename locally edited template folder and tell [questioner](https://blot.im/questions/1610)
 
