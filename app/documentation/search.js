@@ -10,18 +10,34 @@ const pool = new Pool({
   port: postgres.port,
 });
 
-search.get("/", async (req, res) => {
+search.use((req, res, next) => {
   res.header("Cache-Control", "no-cache");
+  next();
+});
 
+search.get("/json", async (req, res) => {
   const query = req.query.query;
-  const [result, question] = await Promise.all([
+  const [documentation, questions] = await Query({ query });
+  res.json({ questions, documentation });
+});
+
+search.get("/", async (req, res) => {
+  const query = req.query.query;
+  const [documentation, questions] = await Query({ query, limit: 20 });
+  res.locals.documentation = documentation;
+  res.locals.questions = questions;
+  res.render("search");
+});
+
+function Query({ query, limit = 5 }) {
+  return Promise.all([
     pool.query(
       `
     SELECT title, url, ts_rank(search, query) AS rank
     FROM documentation, websearch_to_tsquery('english', $1) query
     WHERE query @@ search
     ORDER BY rank DESC
-    LIMIT 5
+    LIMIT ${limit}
     `,
       [query]
     ),
@@ -35,24 +51,11 @@ search.get("/", async (req, res) => {
       FROM items b, websearch_to_tsquery('english', $1) query
       WHERE query @@ search
       ORDER BY url, rank DESC
-      LIMIT 20
+      LIMIT ${limit * 4}
     ) t ORDER BY rank DESC
-      LIMIT 5
-
-    `,
-      [req.query.query]
+      LIMIT ${limit}`,
+      [query]
     ),
-  ]);
-
-  const results = result.rows.concat(question.rows);
-
-  results.sort(function (a, b) {
-    if (parseFloat(a.rank) > parseFloat(b.rank)) return -1;
-    if (parseFloat(b.bank) > parseFloat(a.rank)) return 1;
-    return 0;
-  });
-
-  res.json({ results, query });
-});
-
+  ]); // body...
+}
 module.exports = search;

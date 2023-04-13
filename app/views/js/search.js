@@ -3,6 +3,8 @@ const clickCover = document.getElementById("click-cover");
 const searchResults = document.getElementById("search-results");
 
 if (searchInput) {
+  let lastResponse = 0;
+
   clickCover.addEventListener("click", async function () {
     clickCover.style.display = "none";
     searchResults.style.display = "none";
@@ -14,23 +16,49 @@ if (searchInput) {
   });
 
   searchInput.addEventListener("keyup", async function () {
-    const response = await fetch("/search?query=" + searchInput.value);
-    const result = await response.json();
-    const results = result.results;
-    const query = result.query;
+    const requestStart = Date.now();
+    const query = searchInput.value;
+    const response = await fetch("/search/json?query=" + query);
 
-    if (query !== searchInput.value) return;
-    
-    if (results.length === 0) {
-      return (searchResults.style.display = "none");
+    if (requestStart < lastResponse) {
+      return;
     }
+
+    lastResponse = requestStart;
+
+    const json = await response.json();
+
+    console.log(json);
+
+    const documentation = json.documentation.rows;
+    const questions = json.questions.rows;
+
+    let html = "";
+
+    if (documentation.length === 0 && questions.length === 0) {
+      html = "Nothing found";
+    } else {
+      if (documentation.length) {
+        html += documentation
+          .map(
+            (item) =>
+              `<a href="${item.url}">${item.title}<br><small>${item.url}</small></a>`
+          )
+          .join("\n");
+      }
+
+      if (questions.length) {
+        html +=
+          "<p><small>Questions:</small></p>" +
+          questions
+            .map((item) => `<a href="${item.url}">${item.title}</a>`)
+            .join("\n");
+      }
+      html += `<p><a href="/search?query=${query}">View all</a></p>`;
+    }
+
     clickCover.style.display = "block";
     searchResults.style.display = "block";
-    searchResults.innerHTML = results
-      .map(
-        (item) =>
-          `<a href="${item.url}">${item.title}<br><small>${item.url}</small></a>`
-      )
-      .join("\n");
+    searchResults.innerHTML = html;
   });
 }
