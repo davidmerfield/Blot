@@ -1,17 +1,22 @@
 {{^hidebreadcrumbs}}
 <style type="text/css">
-    .breadcrumbs{opacity: 0.75}
-  .breadcrumbs:hover{opacity: 1.0}
+  .breadcrumbs {opacity: 0.75;font-size: 16px}
+  .breadcrumbs:hover{opacity: 1.0;}
+
+  .breadcrumbs span {color:var(--light-text-color);margin:0 calc(var(--spacing)*0.25);}
+  .breadcrumbs span:first-child {display: none;}
+
+  .breadcrumbs a {color: var(--light-text-color);}
+  .breadcrumbs a:hover {color:var(--accent-color);text-decoration: underline;}
 </style>
-<div class="breadcrumbs" style="margin-top: 6px;margin-bottom: -16px;padding-bottom:4px;font-size: 18px;margin-right: var(--spacing);">
+<div class="breadcrumbs" style="margin-bottom: -16px;padding-bottom:4px;">
   {{#breadcrumbs}}
-    {{#first}}
-<!--     <a class="breadcrumbs_link" href="/">Home</a>
-  style="color:var(--accent-color)"
- -->    {{/first}}
     {{^first}}
     <a class="breadcrumbs_link"  href="{{{url}}}">{{label}}</a>
     {{/first}}
+    {{^last}}
+    <span>/</span>
+    {{/last}}
   {{/breadcrumbs}}
 </div>
 

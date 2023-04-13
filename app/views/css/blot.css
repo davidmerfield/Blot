@@ -4,6 +4,7 @@ html {
   --text-color: #333230;
   --medium-text-color: #444;
   --light-text-color: #767676;
+
   --accent-color: #0070e8; /* used for links */
   --light-accent-color: #0079fc; /* used for button background */
   --dark-accent-color: #005bbd; /* used for button hover background*/
@@ -33,24 +34,8 @@ body {
   color: var(--text-color);
   font: var(--font-size)/1.5 ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;
   font-weight: 400;
-  -webkit-text-size-adjust: 100%;
-  -ms-text-size-adjust: 100%;
-  -webkit-overflow-scrolling: touch;
-  scroll-behavior: smooth;
-  font-kerning: normal;
-  -webkit-font-kerning: normal;
-  -ms-font-kerning: normal;
-  -moz-font-kerning: normal;
-  -o-font-kerning: normal;
-  font-variant-ligatures: contextual common-ligatures;
-  -webkit-font-variant-ligatures: contextual common-ligatures;
-  -ms-font-variant-ligatures: contextual common-ligatures;
-  -moz-font-variant-ligatures: contextual common-ligatures;
-  -o-font-variant-ligatures: contextual common-ligatures;
-  font-feature-settings: 'kern' 1, 'liga' 1, 'calt' 1;  
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-rendering: geometricPrecision;
+  
 }
 
 p a,
@@ -89,7 +74,7 @@ mark {
 }
 
 h1 {
-  font-size: 36px;
+  font-size: 32px;
   display: block;
   font-weight: 700;
   line-height: 1.15;
@@ -117,6 +102,10 @@ h2 {
   font-weight: 600;
 }
 
+h2 + .clients li:first-child a {
+  border-top: none;
+
+}
 h2 a,
 h3 a {
   color: inherit;
@@ -271,7 +260,7 @@ background {
   display: flex;
   margin: 1rem 0 5rem;
   border-radius: 6px;
-  background: var(--dark-accent-color);
+  background: navajowhite;
   overflow: hidden;
   box-shadow: 0 0 1px rgb(0 40 255 / 50%);
   box-sizing: border-box;
@@ -312,12 +301,6 @@ background .text {
   }
 }
 
-@media screen and (max-width: 800px) {
-  background {
-    margin-left: -2rem;
-    margin-right: -2rem;
-  }
-}
 
 background .window {
   flex-grow: 1;
@@ -327,33 +310,31 @@ background .window {
 }
 
 .clients {
-  margin: 2em -0.7em;
   list-style-type: none;
   padding: 0;
-  display: flex;
-  flex-wrap: wrap;
+  margin: 0;
 }
 
 .clients li {
-  display: inline-block;
-  flex-basis: 50%;
+  display: block;
+  width: 100%;
+  padding: 0;
+  margin: 0;
   box-sizing: border-box;
-  padding: 0.7em;
-  min-width: 256px;
 }
 /*,
     var(--dark-border-color) 0px 2px 4px
 */.clients li a {
   cursor: pointer;
   user-select: none;
-  padding: calc(var(--spacing)*0.75) calc(var(--spacing));
-  border-radius: 10px;
-  margin-bottom: 1.4 em;
+  padding: calc(var(--spacing)*0.75) 0;
   display: block;
   color: inherit;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
   text-decoration: none;
-  box-shadow: var(--dark-border-color) 0px 0px 0px 1px;
-  background: white;
+}
+
+.clients li:first-child a {border-top: 1px solid rgba(0,0,0,0.1)
 }
 
 .clients li a:hover {

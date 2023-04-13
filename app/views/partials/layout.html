@@ -1,15 +1,12 @@
 {{> head}}
 <body>
-  <input type="checkbox" name="toggle" id="toggle">
+  {{> header}}
   <div class="layout-wrapper"> 
     <div class="sidebar-container">
       {{> sidebar}}
     </div>
     <div class="main-container"> 
-      <div style="display: flex;margin:0 0 calc(var(--spacing)*2) 0;align-items: baseline;"> 
-        {{> search}}
-        {{> header-buttons}}
-      </div>
+
       <div style="display: flex;justify-content: space-between;flex-wrap: wrap;">
         <div class="main-page {{#fullWidth}}full{{/fullWidth}}">
           {{> breadcrumbs}}
