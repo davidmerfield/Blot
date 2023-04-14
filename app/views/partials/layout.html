@@ -2,7 +2,8 @@
 <body>
   {{> header}}
   <div class="layout-wrapper"> 
-    <div class="sidebar-container">
+    
+    <div class="sidebar-container" style="background: #fafafa;border-radius: var(--border-radius);padding:var(--spacing);margin:0 calc(2*var(--spacing))">
       {{> sidebar}}
     </div>
     <div class="main-container"> 
@@ -12,10 +13,28 @@
           {{> breadcrumbs}}
           {{> body}}
           {{> source_file}}
+
+
+          {{#show-question-sidebar}}
+          {{> question-sidebar}}
+          {{/show-question-sidebar}}          
+
+  {{#related.length}}
+  <div class="module">
+    <span style="margin: 0;font-size:14px;font-weight:500;color:#999;border:none">Related questions</span>
+    <p>
+    {{#related}}
+    <a style="line-height:1.2;font-size: 15px;" href="/questions/{{id}}">{{title}}</a>
+    {{/related}}
+    <a href="/questions" style="color:var(--accent-color);font-size: 14px">More questions</a>
+  </p>
+  </div>
+  {{/related.length}}
+ <a href="/contact" class="module-link"><span style="font-size:14px;font-weight:500;color:#999;">Question or feedback?</span><br>
+        <span style="line-height:1.2;padding: 4px 0 4px 0;color:var(--text-color);font-size: 15px;display: block;" >Contact us</span>
+      </a>
         </div>
-        {{^fullWidth}}
-        {{> internal-sidebar}}
-        {{/fullWidth}}
+        
       </div>
     </div>
   </div>   

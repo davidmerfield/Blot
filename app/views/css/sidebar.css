@@ -3,8 +3,41 @@
     display: flex;
 }
 
-label[for="toggle"],
-a#homepage{
+
+a#homepage {
+padding: calc(var(--spacing)*0.5);
+  color: var(--text-color);
+  font-weight: 500;
+  font-size: 16px;
+  display: flex;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  align-items: center;
+  margin-right: var(--spacing);
+  border-radius: var(--border-radius);
+}
+
+a#homepage:hover {
+  background: #f0f0f0;
+
+}
+.header-buttons a {
+  padding: calc(var(--spacing)*0.5) calc(var(--spacing));
+  color: var(--background-color);
+  border-radius: var(--border-radius);
+  background: var(--dark-accent-color);
+  line-height: 1;
+  font-size: 16px;
+}
+
+
+a#homepage svg {
+width: 1.25em;
+margin-right: 0.5em
+}
+
+label[for="toggle"]{
+  display: none;
   color: var(--text-color);
 border:1px solid var(--light-border-color);
 border-radius: var(--border-radius);
@@ -12,13 +45,12 @@ cursor: pointer;
 padding: calc(var(--spacing)*0.5) calc(var(--spacing)*1);
 }
 
-label[for="toggle"] svg,
-a#homepage svg {
-width: 1em;
+label[for="toggle"] svg {
+  width: 1em;
 margin-right: 0.5em
 }
 .main-container {
-  padding: 0 2em;
+  padding: 0 2em 0 4em;
   flex-grow: 1;
 }
 
@@ -44,7 +76,8 @@ padding: 0 2em;}
   text-decoration: none;
   display: block;
   padding: 0.33em 0.5em;
-  border-bottom: 1px solid var(--light-border-color);
+  border-bottom: 1px solid rgba(0,0,0,.05);
+  color: #666;
 }
 
 .sidebar a:hover {
