@@ -1,6 +1,6 @@
 
 .linked-list ol {
-  margin: 1rem;
+  margin:0;
   font-size: 14px;
   padding: 0;
   overflow: visible!important;
@@ -58,3 +58,5 @@
   color: inherit;
   text-decoration: none;
 }
+
+.toc {overflow:visible!important;}

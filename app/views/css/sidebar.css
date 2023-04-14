@@ -1,6 +1,12 @@
+html {
+  --sidebar-width: 256px;
+}
+
+
 .layout-wrapper {
-  min-height: 100vh;
-  display: flex;
+  min-height: 101vh;
+  position: relative;
+  padding-left: calc(var(--sidebar-width) + var(--spacing)*4);
 }
 
 a#homepage {
@@ -44,12 +50,13 @@ label[for="toggle"] svg {
 }
 
 .sidebar-container {
-  flex-shrink: 0;
-  padding: 0 2em;
+  position: absolute;
+  left: calc(var(--spacing)*3);
+  width: var(--sidebar-width);
 }
 
 .sidebar-container nav {
-  width: 256px;
+  width: var(--sidebar-width);
 }
 
 .sidebar-container ul.sidebar {

@@ -1,5 +1,4 @@
 <nav>
-
    <ul class="sidebar">
      {{> sidebar-links}}
    </ul>
@@ -19,9 +18,9 @@
    {{/headers.length}}
 
    {{^hide-on-this-page}}
-  <div style="position: sticky;top:1em;padding:0.5em;margin:2em 0">
-    <span style="margin: 0;font-size:14px;font-weight:500;color:#999;border:none">On this page</span>
+   <div style="position: sticky;top:1em;padding:var(--spacing);margin:var(--spacing)">
+    <span style="margin: 0;font-size:14px;color:#999;border:none">On this page</span>
     <div class="toc linked-list"></div>
-  </div>
-  {{/hide-on-this-page}}  
+   </div>
+   {{/hide-on-this-page}}  
 </nav>

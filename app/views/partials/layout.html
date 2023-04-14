@@ -2,13 +2,10 @@
 <body>
   {{> header}}
   <div class="layout-wrapper"> 
-    
     <div class="sidebar-container">
       {{> sidebar}}
     </div>
     <div class="main-container"> 
-
-      <div style="display: flex;justify-content: space-between;flex-wrap: wrap;">
         <div class="main-page {{#fullWidth}}full{{/fullWidth}}">
           {{> body}}
           {{> source_file}}
@@ -35,7 +32,6 @@
         </div>
         
       </div>
-    </div>
   </div>   
   </div>
   {{> footer}}
