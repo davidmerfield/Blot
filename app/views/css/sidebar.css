@@ -37,11 +37,13 @@ a#homepage svg {
 .main-container {
   flex-grow: 1;
   min-width: 400px;
+  flex-basis: 637px;
   display: flex;
   justify-content: space-between;
-  padding: 0 calc(4*var(--spacing));
+  padding: 0 0 0 calc(4*var(--spacing));
 }
 
+.main-page {width: 100%;padding-right: calc(var(--spacing)*4)}
 
 @media screen and (max-width: 1200px) {
   .second-sidebar {display: none;}

@@ -12,7 +12,7 @@ const pool = new Pool({
 module.exports = async function related(req, res, next) {
   const path = require("url").parse(req.originalUrl).pathname;
 
-  if (["/questions", "/questions/ask"].indexOf(path) > -1) return next();
+  if (["/questions", "/questions/ask", "/contact"].indexOf(path) > -1) return next();
 
   const related_tag = path.split("/").pop();
   const statement = `
