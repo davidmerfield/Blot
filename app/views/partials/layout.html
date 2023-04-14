@@ -8,9 +8,8 @@
     <div class="main-container" style="display: flex;justify-content: space-between;"> 
       <div class="main-page {{#fullWidth}}full{{/fullWidth}}">
         {{> body}}
-        {{> source_file}}
 
-        {{#related.length}}
+      {{#related.length}}
         <div class="module">
           <span style="margin: 0;font-size:14px;font-weight:500;color:#999;border:none">Related questions</span>
           <p>
@@ -21,10 +20,11 @@
         </p>
         </div>
         {{/related.length}}
+        
+        {{> source_file}}
 
- <a href="/contact" class="module-link"><span style="font-size:14px;font-weight:500;color:#999;">Question or feedback?</span><br>
-        <span style="line-height:1.2;padding: 4px 0 4px 0;color:var(--text-color);font-size: 15px;display: block;" >Contact us</span>
-      </a>
+
+
         </div>
 
         <div style="flex-basis: 256px;flex-grow: 0;flex-shrink: 0;padding-top: calc(var(--spacing)*2.5)">

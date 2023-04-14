@@ -1,6 +1,5 @@
 <h1>{{^tag}}Questions {{/tag}}{{#tag}}Tagged '{{tag}}'{{/tag}}   
 </h1>
-        {{> search}}
 
 <style type="text/css">
   .filters {display: flex;}
@@ -21,9 +20,8 @@
   }
 </style>
 <div style="display: flex;font-size:16px;justify-content: space-between;align-items: baseline;">
-  {{#paginator.topics_count}}
-    <span class="total">{{paginator.topics_count}}&nbsp;questions</span>
-  {{/paginator.topics_count}}
+          {{> search}}
+
 
 
   <!-- 
