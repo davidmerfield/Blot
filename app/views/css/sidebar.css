@@ -6,7 +6,12 @@ html {
 .layout-wrapper {
   min-height: 101vh;
   position: relative;
-  padding-left: calc(var(--sidebar-width) + var(--spacing)*4);
+  display: flex;
+  padding: 0 var(--spacing);
+}
+
+.layout-wrapper > * {
+  margin: 0 var(--spacing);
 }
 
 a#homepage {
@@ -45,19 +50,17 @@ label[for="toggle"] svg {
   margin-right: 0.5em;
 }
 .main-container {
-  padding: 0 2em 0 4em;
   flex-grow: 1;
+  padding: 0 calc(4*var(--spacing));
 }
 
 .sidebar-container {
-  position: absolute;
-  left: calc(var(--spacing)*3);
-  width: var(--sidebar-width);
+  flex-basis: var(--sidebar-width);
+  flex-shrink: 0;
 }
 
-.sidebar-container nav {
-  width: var(--sidebar-width);
-}
+.sidebar-container:empty {display:none;}
+
 
 .sidebar-container ul.sidebar {
   font-size: 14px;

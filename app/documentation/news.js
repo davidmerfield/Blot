@@ -14,14 +14,14 @@ const { join } = require("path");
 const root = require("helper/rootDir");
 
 news.get("/", gitCommits, loadToDo, function (req, res) {
-  res.locals.fullWidth = true;
+  res.locals['hide-on-this-page'] = true;
   res.render("news");
 });
 
 // The rest of these pages should not be cached
 news.use(function (req, res, next) {
   res.header("Cache-Control", "no-cache");
-  res.locals.fullWidth = true;
+  res.locals['hide-on-this-page'] = true;
   res.locals.title = "Newsletter";
   next();
 });
