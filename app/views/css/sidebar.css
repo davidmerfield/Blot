@@ -7,8 +7,6 @@
 a#homepage {
 padding: calc(var(--spacing)*0.5);
   color: var(--text-color);
-  font-weight: 500;
-  font-size: 16px;
   display: flex;
   line-height: 1;
   letter-spacing: 0.02em;
@@ -75,20 +73,19 @@ padding: 0 2em;}
 .sidebar li a {
   text-decoration: none;
   display: block;
-  padding: 0.33em 0.5em;
-  border-bottom: 1px solid rgba(0,0,0,.05);
+  padding: calc(var(--spacing)*0.3333) var(--spacing);
   color: #666;
+  border-radius: var(--border-radius)
 }
 
 .sidebar a:hover {
-    background: #f2f8ff;
-    text-decoration: underline;
+    background: #eee;
 }
 
 .sidebar li a.selected,
 .sidebar li a.selected:hover,
 .sidebar li a:focus {
-  background: #edf6ff;
+  background: #f0f0f0;
 } 
 
 .sidebar > li > a {
