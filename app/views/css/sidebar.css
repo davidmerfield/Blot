@@ -1,5 +1,5 @@
 html {
-  --sidebar-width: 256px;
+  --sidebar-width: 240px;
 }
 
 .heading {
@@ -13,7 +13,6 @@ html {
 .layout-wrapper {
   min-height: 101vh;
   display: flex;
-  padding: 0 var(--spacing);
 }
 
 a#homepage {
@@ -48,7 +47,6 @@ label[for="toggle"] {
   flex-basis: 637px;
   display: flex;
   justify-content: space-between;
-  padding: 0 0 0 calc(4 * var(--spacing));
 }
 
 .main-page {
@@ -116,7 +114,7 @@ label[for="toggle"] svg {
   min-width: var(--sidebar-width);
   width: var(--sidebar-width);
   flex-shrink: 0;
-  margin: 0 calc(var(--spacing) * 2);
+  margin: 0 calc(var(--spacing) * 5);
   align-self: flex-start;
   flex-basis: var(--sidebar-width);
   box-sizing: border-box;
@@ -164,3 +162,4 @@ label[for="toggle"] svg {
 .sidebar > li > a {
   font-weight: 600;
 }
+
