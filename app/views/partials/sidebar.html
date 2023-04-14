@@ -1,6 +1,6 @@
-<nav >
+<nav>
 
-   <ul class="sidebar" style="background: #fafafa;border-radius: var(--border-radius);padding:var(--spacing);margin:0 calc(2*var(--spacing))">
+   <ul class="sidebar">
      {{> sidebar-links}}
    </ul>
    {{#headers.length}}
@@ -21,7 +21,7 @@
    {{^hide-on-this-page}}
   <div style="position: sticky;top:1em;padding:0.5em;margin:2em 0">
     <span style="margin: 0;font-size:14px;font-weight:500;color:#999;border:none">On this page</span>
-    <div class="toc"></div>
+    <div class="toc linked-list"></div>
   </div>
   {{/hide-on-this-page}}  
 </nav>

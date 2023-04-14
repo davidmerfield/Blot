@@ -2,11 +2,34 @@
   .breadcrumbs {opacity: 0.75;font-size: 16px}
   .breadcrumbs:hover{opacity: 1.0;}
 
-  .breadcrumbs span {color:var(--light-text-color);margin:0 calc(var(--spacing)*0.25);}
-  .breadcrumbs span:first-child {display: none;}
 
-  .breadcrumbs a {color: var(--light-text-color);}
-  .breadcrumbs a:hover {color:var(--accent-color);text-decoration: underline;}
+  .breadcrumbs a {color: var(--light-text-color);margin-left: 31.655px;
+position: relative;  padding: calc(var(--spacing) * 0.25);
+  border-radius: var(--border-radius);
+}
+
+  .breadcrumbs a:hover {background: #eee}
+
+  .breadcrumbs a:first-child {margin-left: 0}
+  .breadcrumbs a:first-child:before {display: none;}
+
+  .breadcrumbs a:before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    bottom: 0px;
+    left: -22px;
+    width: 6px;
+    height: 6px;
+    margin: auto 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+    border: solid;
+    border-width: 1px 1px 0 0;
+    border-color: #5b6879;
+}
 </style>
 <div class="breadcrumbs" style="margin-bottom: -16px;padding-bottom:4px;display: flex;align-items: center;">
   {{#breadcrumbs}}
@@ -18,9 +41,6 @@
     {{^first}}
     <a class="breadcrumbs_link"  href="{{{url}}}">{{label}}</a>
     {{/first}}
-    {{^last}}
-    <span>/</span>
-    {{/last}}
   {{/breadcrumbs}}
 </div>
 
