@@ -5,38 +5,40 @@
     <div class="sidebar-container">
       {{> sidebar}}
     </div>
-    <div class="main-container" style="display: flex;"> 
-        <div class="main-page {{#fullWidth}}full{{/fullWidth}}">
-          {{> body}}
-          {{> source_file}}
+    <div class="main-container" style="display: flex;justify-content: space-between;"> 
+      <div class="main-page {{#fullWidth}}full{{/fullWidth}}">
+        {{> body}}
+        {{> source_file}}
 
+        {{#related.length}}
+        <div class="module">
+          <span style="margin: 0;font-size:14px;font-weight:500;color:#999;border:none">Related questions</span>
+          <p>
+          {{#related}}
+          <a style="line-height:1.2;font-size: 15px;" href="/questions/{{id}}">{{title}}</a>
+          {{/related}}
+          <a href="/questions" style="color:var(--accent-color);font-size: 14px">More questions</a>
+        </p>
+        </div>
+        {{/related.length}}
 
-          {{#show-question-sidebar}}
-          {{> question-sidebar}}
-          {{/show-question-sidebar}}          
-
-  {{#related.length}}
-  <div class="module">
-    <span style="margin: 0;font-size:14px;font-weight:500;color:#999;border:none">Related questions</span>
-    <p>
-    {{#related}}
-    <a style="line-height:1.2;font-size: 15px;" href="/questions/{{id}}">{{title}}</a>
-    {{/related}}
-    <a href="/questions" style="color:var(--accent-color);font-size: 14px">More questions</a>
-  </p>
-  </div>
-  {{/related.length}}
  <a href="/contact" class="module-link"><span style="font-size:14px;font-weight:500;color:#999;">Question or feedback?</span><br>
         <span style="line-height:1.2;padding: 4px 0 4px 0;color:var(--text-color);font-size: 15px;display: block;" >Contact us</span>
       </a>
         </div>
-        <div>
-             {{^hide-on-this-page}}
-   <div style="position:sticky;top:1em;padding:var(--spacing);margin:var(--spacing);opacity: 0.7;">
-    <span style="margin: 0;font-size:14px;color:#999;border:none">On this page</span>
-    <div class="toc linked-list"></div>
-   </div>
-   {{/hide-on-this-page}}  
+
+        <div style="flex-basis: 256px;flex-grow: 0;flex-shrink: 0;padding-top: calc(var(--spacing)*2.5)">
+
+         {{#show-question-sidebar}}
+          {{> question-sidebar}}
+        {{/show-question-sidebar}}          
+
+        {{^hide-on-this-page}}
+        <div style="position:sticky;top:1em;padding:var(--spacing);margin:var(--spacing);opacity: 0.7;">
+        <span style="margin: 0;font-size:14px;color:#999;border:none">On this page</span>
+        <div class="toc linked-list"></div>
+        </div>
+        {{/hide-on-this-page}}  
  </div>
       </div>
   </div>   

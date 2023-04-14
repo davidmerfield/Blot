@@ -15,7 +15,7 @@ const root = require("helper/rootDir");
 
 news.get("/", gitCommits, loadToDo, function (req, res) {
   res.locals.fullWidth = true;
-  res.render("about/news");
+  res.render("news");
 });
 
 // The rest of these pages should not be cached
@@ -30,13 +30,13 @@ news.get("/sign-up", function (req, res) {
   if (!req.query || !req.query.email) return res.redirect(req.baseUrl);
   res.locals.email = req.query.email;
   res.locals.title = 'Sign up';
-  res.render("about/news/sign-up");
+  res.render("news/sign-up");
 });
 
 news.get("/cancel", function (req, res) {
   res.locals.email = req.query.email;
   res.locals.title = 'Cancel';
-  res.render("about/news/cancel");
+  res.render("news/cancel");
 });
 
 function confirmationKey(guid) {
@@ -48,11 +48,11 @@ function cancellationKey(guid) {
 }
 
 function confirmationLink(guid) {
-  return "https://" + config.host + "/about/news/confirm/" + guid;
+  return "https://" + config.host + "/news/confirm/" + guid;
 }
 
 function cancellationLink(guid) {
-  return "https://" + config.host + "/about/news/cancel/" + guid;
+  return "https://" + config.host + "/news/cancel/" + guid;
 }
 
 // Removes guid from visible breadcrumbs
@@ -84,7 +84,7 @@ news.post("/cancel", parse, function (req, res, next) {
       Email.NEWSLETTER_CANCELLATION_CONFIRMATION(null, locals, function (err) {
         if (err) return next(err);
 
-        res.redirect("/about/news/cancel?email=" + email);
+        res.redirect("/news/cancel?email=" + email);
       });
     });
   });
@@ -111,7 +111,7 @@ news.get("/cancel/:guid", function (req, res, next) {
       }
 
       res.locals.title = 'Cancelled';
-      res.render("about/news/cancelled");
+      res.render("news/cancelled");
     });
   });
 });
@@ -167,7 +167,7 @@ news.post("/sign-up", parse, function (req, res, next) {
     Email.NEWSLETTER_SUBSCRIPTION_CONFIRMATION(null, locals, function (err) {
       if (err) return next(err);
 
-      res.redirect("/about/news/sign-up?email=" + email);
+      res.redirect("/news/sign-up?email=" + email);
     });
   });
 });

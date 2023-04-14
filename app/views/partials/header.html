@@ -5,7 +5,7 @@
           {{> breadcrumbs}}
 
      
-     
+
   <style type="text/css">
     #header-links a {
       color: #000;
@@ -23,8 +23,9 @@
         document.querySelectorAll('.signed-out').forEach(function(node){
           node.style.display = 'none';
         })
-        document.getElementById('signed-in').style.display = 'block';
-      } 
+      } else {
+        document.getElementById('signed-in').style.display = 'none';
+      }
     </script></div>
        
 

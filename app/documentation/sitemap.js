@@ -8,7 +8,7 @@ module.exports = function (req, res) {
     "/",
     "/about",
     "/about/source-code",
-    "/about/news",
+    "/news",
     "/about/status",
     "/about/notes",
     "/how",

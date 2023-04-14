@@ -193,7 +193,7 @@ documentation.use("/about/notes", require("./notes"));
 
 documentation.use("/templates", require("./templates"));
 
-documentation.use("/about/news", require("./news"));
+documentation.use("/news", require("./news"));
 
 documentation.use("/questions", require("./questions"));
 

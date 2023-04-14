@@ -116,6 +116,7 @@ h2 + p {
   margin-top: 0;
 }
 
+h2,
 p,
 .window,
 ul,
@@ -259,10 +260,10 @@ th:last-child {
 background {
   display: flex;
   margin: 1rem 0 5rem;
-  border-radius: 6px;
-  background: navajowhite;
+  /*border-radius: 6px;*/
+  background: #f5f3ef;
   overflow: hidden;
-  box-shadow: 0 0 1px rgb(0 40 255 / 50%);
+  box-shadow: 0 0 1px rgb(0 0 0 / 50%);
   box-sizing: border-box;
   align-items: center;
   justify-content: center;
@@ -283,9 +284,9 @@ background .window {
         box-shadow: inset 0 1px 0 #f5f4f5, 0 -1px 0 rgb(0 0 0 / 11%), 0 1px 0 rgb(0 0 0 / 26%), -1px 0 0 rgb(0 0 0 / 13%), 1px 0 0 rgb(0 0 0 / 13%);
 }
 
-background .text {
-  max-width: 600px;
-  margin: 0 auto;
+background .window.text {
+  max-width: none;
+  margin: 2em;
 }
 
 @media screen and (max-width: 800px) {
