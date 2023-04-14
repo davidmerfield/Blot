@@ -189,7 +189,7 @@ documentation.get("/sitemap.xml", require("./sitemap"));
 
 documentation.use("/templates/developers", require("./developers"));
 
-documentation.use("/about/notes", require("./notes"));
+documentation.use("/about", require("./about"));
 
 documentation.use("/templates", require("./templates"));
 

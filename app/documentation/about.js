@@ -18,7 +18,7 @@ if (config.environment === "development")
     .on("all", () => (TOC = buildTOC(NOTES_DIRECTORY)));
 
 notes.use(function (req, res, next) {
-  res.locals.base = "/about/notes";
+  res.locals.base = "/about";
   next();
 });
 
@@ -29,7 +29,7 @@ notes.param("section", function (req, res, next) {
     return section;
   });
 
-  res.locals.section = "/about/notes/" + req.params.section;
+  res.locals.section = "/about/" + req.params.section;
   next();
 });
 
@@ -91,6 +91,6 @@ notes.get(["/", "/:section/:article", "/:section"], function (req, res, next) {
   // For some reason we couldn't find the file
   if (!res.locals.body) return next();
 
-  res.render("about/notes/template");
+  res.render("about/template");
 });
 module.exports = notes;

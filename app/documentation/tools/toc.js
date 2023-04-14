@@ -65,13 +65,13 @@ const buildTOC = (NOTES_DIRECTORY) =>
               subtitle: extractSubtitle(contents),
               id: withoutExtension(article),
               slug:
-                "/about/notes/" +
+                "/about/" +
                 withoutExtension(section) +
                 "/" +
                 removeLeadingDash(withoutExtension(article)),
             };
           }),
-        slug: "/about/notes/" + path.parse("/" + section).name,
+        slug: "/about/" + path.parse("/" + section).name,
       };
     });
 
