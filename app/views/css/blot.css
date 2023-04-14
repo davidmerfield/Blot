@@ -8,6 +8,7 @@ html {
   --accent-color: #0070e8; /* used for links */
   --light-accent-color: #0079fc; /* used for button background */
   --dark-accent-color: #005bbd; /* used for button hover background*/
+  --accent-background-color: #e5f1ff;
 
   --border-color: rgba(0, 0, 0, 0.1);
   --dark-border-color: rgba(0, 0, 0, 0.3);
@@ -340,7 +341,7 @@ background .window {
 
 .clients li a:hover {
   text-decoration: none;
-  background: #eee;
+  background: var(--accent-background-color);
 }
 
 .clients li a:hover strong {
@@ -950,6 +951,10 @@ ul.who li {
   text-decoration: underline;
 }
 
+.main-page p a:hover {
+  color: var(--dark-accent-color);
+  background: var(--accent-background-color);
+}
 .meta-links {
   border-top: 1px solid var(--light-border-color);
   margin-top: calc(var(--spacing)*6);

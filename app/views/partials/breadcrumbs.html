@@ -1,14 +1,13 @@
 <style type="text/css">
   .breadcrumbs {font-size: 16px; color: var(--light-text-color)}
-  .breadcrumbs:hover {color:#000;}
 
 
-  .breadcrumbs a {color: inherit;margin-left: 31.655px;
-position: relative;  padding: calc(var(--spacing) * 0.25);
+  .breadcrumbs a {color: inherit;margin-left: calc(var(--spacing)*1.5);
+position: relative;  padding: calc(var(--spacing) * 0.15) calc(var(--spacing) * 0.5);
   border-radius: var(--border-radius);
 }
 
-  .breadcrumbs a:hover {background: #eee}
+  .breadcrumbs a:hover {background: var(--accent-background-color);color:var(--dark-accent-color);}
 
   .breadcrumbs a:first-child {margin-left: 0}
   .breadcrumbs a:first-child:before {display: none;}
@@ -19,7 +18,7 @@ position: relative;  padding: calc(var(--spacing) * 0.25);
     position: absolute;
     top: 0;
     bottom: 0px;
-    left: -22px;
+    left: calc(var(--spacing)*-0.75 - 0.25em);
     width: 6px;
     height: 6px;
     margin: auto 0;
@@ -31,11 +30,11 @@ position: relative;  padding: calc(var(--spacing) * 0.25);
     border-color: #5b6879;
 }
 </style>
-<div class="breadcrumbs" style="display: flex;align-items: center;">
+<div class="breadcrumbs" style="display: flex;align-items: center;padding: 4px 0">
   {{#breadcrumbs}}
   {{#first}}
    <a href="/" id="homepage">
-<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" style="enable-background:new 0 0 36 30" viewBox="0 0 36 30"><path fill="none" stroke="#000" stroke-miterlimit="10" stroke-width="1.75" d="M35.1 13.3s-2.3-2.4-6.7-2.4H7.6c-4.4 0-6.7 2.4-6.7 2.4" class="st0"/><path d="m15.1 2.8 2.1 1.6.5.4H33c.7 0 1.2.6 1.2 1.2v21c0 .7-.6 1.2-1.2 1.2H3c-.7 0-1.2-.6-1.2-1.2V4c0-.7.6-1.2 1.2-1.2h12.1m.7-1.8H3C1.3 1 0 2.4 0 4v23c0 1.6 1.3 3 3 3h30c1.7 0 3-1.4 3-3V6c0-1.6-1.3-3-3-3H18.3l-2.5-2z"/></svg>
+<svg width=24 height=20 xmlns="http://www.w3.org/2000/svg" xml:space="preserve" style="enable-background:new 0 0 36 30" viewBox="0 0 36 30"><path fill="none" stroke="#000" stroke-miterlimit="10" stroke-width="1.75" d="M35.1 13.3s-2.3-2.4-6.7-2.4H7.6c-4.4 0-6.7 2.4-6.7 2.4" class="st0"/><path d="m15.1 2.8 2.1 1.6.5.4H33c.7 0 1.2.6 1.2 1.2v21c0 .7-.6 1.2-1.2 1.2H3c-.7 0-1.2-.6-1.2-1.2V4c0-.7.6-1.2 1.2-1.2h12.1m.7-1.8H3C1.3 1 0 2.4 0 4v23c0 1.6 1.3 3 3 3h30c1.7 0 3-1.4 3-3V6c0-1.6-1.3-3-3-3H18.3l-2.5-2z"/></svg>
 </a>
 {{/first}}
     {{^first}}

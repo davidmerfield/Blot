@@ -1,35 +1,25 @@
 {{> head}}
 <body>
   {{> header}}
-  <div class="layout-wrapper"> 
-    <div class="sidebar-container">
+  <div class="layout-wrapper {{^hide-on-this-page}}has-second-sidebar{{/hide-on-this-page}}"> 
       {{> sidebar}}
-    </div>
-    <div class="main-container" style="display: flex;justify-content: space-between;"> 
+    <div class="main-container"> 
       <div class="main-page {{#fullWidth}}full{{/fullWidth}}">
         {{> body}}
-
-      {{#related.length}}
+        {{#related.length}}
         <div class="module">
           <span style="margin: 0;font-size:14px;font-weight:500;color:#999;border:none">Related questions</span>
           {{#related}}
           <p>
           <a style="line-height:1.2;font-size: 15px;" href="/questions/{{id}}">{{title}}</a>
-        </p>
+          </p>
           {{/related}}
           <a href="/questions" style="color:var(--accent-color);font-size: 14px">More questions</a>
-        </p>
         </div>
         {{/related.length}}
-
         {{> source_file}}
-
-
-
-        </div>
-
       </div>
-<div class="sidebar-container">
+<div class="second-sidebar">
 
          {{#show-question-sidebar}}
           {{> question-sidebar}}
@@ -41,8 +31,11 @@
         <div class="toc linked-list"></div>
         </div>
         {{/hide-on-this-page}}  
- </div>      
-  </div>   
+      </div>       
+    </div>
+
+    </div>   
+
   </div>
   {{> footer}}
 </body>

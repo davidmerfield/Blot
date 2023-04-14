@@ -12,7 +12,9 @@
       margin: 0 var(--spacing);
     }
 
-    .link {color:#000;margin:0 0 0 calc(1*var(--spacing));font-size: 12px;border:1px solid #ddd;border-radius: 3px;padding: 0.5em 1em;font-weight: 600}
+    .link, label[for="toggle"] {color:#000;margin:0 0 0 calc(1*var(--spacing));font-size: 12px;border:1px solid #ddd;border-radius: 3px;padding: 0.5em 1em;font-weight: 600}
+
+
   </style>
   <div style="display: flex;">
     <a class="link" id="signed-in" href="/dashboard">Your dashboard</a>
@@ -26,12 +28,13 @@
       } else {
         document.getElementById('signed-in').style.display = 'none';
       }
-    </script></div>
-       
-
-        <label for="toggle">
+    </script>
+<label for="toggle">
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52.938 30.809"><path stroke="#000" d="M6.016 5.5h40.927c.28 0 .516-.236.516-.537 0-.28-.236-.537-.516-.537H6.016c-.301 0-.537.258-.537.537 0 .3.236.537.537.537Zm0 10.441h40.927c.28 0 .516-.236.516-.537 0-.279-.236-.537-.516-.537H6.016c-.301 0-.537.258-.537.537 0 .301.236.537.537.537Zm0 10.442h40.927c.28 0 .516-.258.516-.537 0-.301-.236-.537-.516-.537H6.016c-.301 0-.537.236-.537.537 0 .279.236.537.537.537Z"/></svg> Menu
 </label>
+          </div>
+       
+
         
       </div>
 
