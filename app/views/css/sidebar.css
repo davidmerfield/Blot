@@ -2,13 +2,19 @@ html {
   --sidebar-width: 256px;
 }
 
+.heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: calc(var(--spacing) * 2) calc(var(--spacing) * 3)
+    calc(var(--spacing) * 3);
+}
 
 .layout-wrapper {
   min-height: 101vh;
   display: flex;
   padding: 0 var(--spacing);
 }
-
 
 a#homepage {
   color: var(--text-color);
@@ -17,7 +23,6 @@ a#homepage {
   letter-spacing: 0.02em;
   align-items: center;
 }
-
 
 .header-buttons a {
   padding: calc(var(--spacing) * 0.5) calc(var(--spacing));
@@ -32,7 +37,10 @@ a#homepage svg {
   width: 1.5em;
 }
 
-    label[for="toggle"] {display: none;cursor: pointer;}
+label[for="toggle"] {
+  display: none;
+  cursor: pointer;
+}
 
 .main-container {
   flex-grow: 1;
@@ -40,45 +48,65 @@ a#homepage svg {
   flex-basis: 637px;
   display: flex;
   justify-content: space-between;
-  padding: 0 0 0 calc(4*var(--spacing));
+  padding: 0 0 0 calc(4 * var(--spacing));
 }
 
-.main-page {width: 100%;padding-right: calc(var(--spacing)*4)}
+.main-page {
+  width: 100%;
+  padding-right: calc(var(--spacing) * 4);
+}
 
 @media screen and (max-width: 1200px) {
-  .second-sidebar {display: none;}
+  .second-sidebar {
+    display: none;
+  }
 }
 
 @media screen and (max-width: 1000px) {
   label[for="toggle"] {
     display: block;
   }
-  .breadcrumbs a:not(:first-child) {display: none;}
-  .sidebar {display: none;}
-  :checked ~ .layout-wrapper .sidebar {display: block}
+  .breadcrumbs a:not(:first-child) {
+    display: none;
+  }
+  .sidebar {
+    display: none;
+  }
+  :checked ~ .layout-wrapper .sidebar {
+    display: block;
+  }
 
-  .main-container {padding: 0 var(--spacing)}
+  .main-container {
+    padding: 0 calc(2 * var(--spacing));
+  }
 
-  :checked ~ .layout-wrapper .main-container {display: none;}
+  :checked ~ .layout-wrapper .main-container {
+    display: none;
+  }
 }
 
-
+@media screen and (max-width: 600px) {
+  .main-container,
+  .heading {
+    padding-left: calc(1 * var(--spacing));
+    padding-right: calc(1 * var(--spacing));
+  }
+}
 
 label[for="toggle"] svg {
   width: 1em;
   margin-right: 0.5em;
 }
 
-
 .second-sidebar {
-  flex-shrink: 0;  flex-basis: var(--sidebar-width);
+  flex-shrink: 0;
+  flex-basis: var(--sidebar-width);
   max-width: var(--sidebar-width);
 }
 
-.second-sidebar:empty{display: none;}
-
-
-
+.second-sidebar:empty {
+  display: none;
+}
 
 .sidebar {
   font-size: 14px;
@@ -88,8 +116,7 @@ label[for="toggle"] svg {
   min-width: var(--sidebar-width);
   width: var(--sidebar-width);
   flex-shrink: 0;
-  padding: calc(var(--spacing)*0.5);
-  margin: 0 calc(var(--spacing)*2);
+  margin: 0 calc(var(--spacing) * 2);
   align-self: flex-start;
   flex-basis: var(--sidebar-width);
   box-sizing: border-box;
@@ -111,7 +138,6 @@ label[for="toggle"] svg {
   padding: 0;
 }
 
-
 .sidebar ul {
   margin-bottom: 1em;
 }
@@ -122,13 +148,10 @@ label[for="toggle"] svg {
 .sidebar li a {
   text-decoration: none;
   display: block;
-  padding: calc(var(--spacing) * 0.25) calc(var(--spacing)*0.666);
-  margin:4px 0;
+  padding: calc(var(--spacing) * 0.25) calc(var(--spacing));
   color: #666;
   border-radius: var(--border-radius);
 }
-
- 
 
 .sidebar li a.selected,
 .sidebar a:hover,
