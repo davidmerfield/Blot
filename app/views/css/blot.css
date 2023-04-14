@@ -339,7 +339,7 @@ background .window {
 
 .clients li a:hover {
   text-decoration: none;
-  box-shadow: var(--accent-color) 0px 0px 0px 1px;
+  background: #eee;
 }
 
 .clients li a:hover strong {
