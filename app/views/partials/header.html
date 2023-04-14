@@ -1,9 +1,10 @@
 <input type="checkbox" name="toggle" id="toggle" style="display: none;">
 
-<div style="height:32px;display: flex;justify-content:space-between;align-items: center;padding:var(--spacing) calc(var(--spacing)*3);margin: var(--spacing);"> 
+<div style="display: flex;justify-content:space-between;align-items: center;padding:calc(var(--spacing)*2) calc(var(--spacing)*3) calc(var(--spacing)*3);"> 
 
           {{> breadcrumbs}}
 
+     
      
   <style type="text/css">
     #header-links a {
@@ -11,7 +12,7 @@
       margin: 0 var(--spacing);
     }
 
-    .link {color:#000;margin:0 var(--spacing);font-size: 12px;border:1px solid #ddd;border-radius: 3px;padding: 0.5em 1em;font-weight: 600}
+    .link {color:#000;margin:0 0 0 calc(2*var(--spacing));font-size: 12px;border:1px solid #ddd;border-radius: 3px;padding: 0.5em 1em;font-weight: 600}
   </style>
   <div style="display: flex;">
     <a class="link" id="signed-in" href="/dashboard">Your dashboard</a>
