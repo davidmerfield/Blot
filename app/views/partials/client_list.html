@@ -7,14 +7,6 @@
     >
   </li>
   {{/selected.dropbox}}
-  {{^selected.git}}
-  <li>
-    <a href="/how/sync/git">
-      <img src="/images/sync/git.svg" />
-      <span class="a">Git</span><br />Use a git repository
-    </a>
-  </li>
-  {{/selected.git}}
   {{^selected.google-drive}}
   <li>
     <a href="/how/sync/google-drive">
@@ -23,4 +15,12 @@
     >
   </li>
   {{/selected.google-drive}}
+  {{^selected.git}}
+  <li>
+    <a href="/how/sync/git">
+      <img src="/images/sync/git.svg" />
+      <span class="a">Git</span><br />Use a git repository
+    </a>
+  </li>
+  {{/selected.git}}
 </ul>
