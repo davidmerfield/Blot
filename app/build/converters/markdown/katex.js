@@ -37,7 +37,7 @@ function renderTex(str) {
 
   // Null or empty string, return delimiters
   // This is to guard against '$$$$' being in a post
-  if (!str) return delimiter + delimiter;
+  if (!str) return '';
 
   // If the Katex is on its own line, render it
   // in the larger 'display style'.
