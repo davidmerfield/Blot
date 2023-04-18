@@ -1,0 +1,1 @@
+**So what does all this mean?** Well, it means that obfuscated passwords, like `P@$$w0rd123` are just as crap as their non-obfuscated counterpart, like `Password123` when it comes to real-world password cracking.
