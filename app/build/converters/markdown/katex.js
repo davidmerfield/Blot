@@ -35,6 +35,9 @@ function renderTex(str) {
   // in case of rendering error
   var _str = str;
 
+  // This is to guard against '$$' being in a post
+  if (!str) return str;
+
   // If the Katex is on its own line, render it
   // in the larger 'display style'.
   var display = str.replace(" ", "").charAt(0) == "\n";
