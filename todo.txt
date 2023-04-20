@@ -1,6 +1,3 @@
-It seemed like the server was crashing when I was editing vaughn's template
-- [fix bug](https://mail.google.com/mail/u/0/#inbox/FMfcgzGsmDsZcshCLRHNhSjtRczKFRxJ)
-
 Fix [demo video issue](https://mail.google.com/mail/u/0/#inbox/FMfcgzGsmDsZvbQwRgRLgJVDXHDJshxK)
 
 It also seems like server crashes when a massive google drive folder is synced, with a directory containing 6772 items
