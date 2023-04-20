@@ -35,6 +35,12 @@ const pool = new Pool({
 });
 
 function main() {
+
+  if (process.env.FAST) {
+    console.log(clfdate(), "Skipping building search index");    
+    return;
+  }
+
   // Empty any existing responses
   cache.flush({ host }, async function (err) {
     if (err) console.warn(err);

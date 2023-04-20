@@ -1,0 +1,7 @@
+An odd number of dollar sign pairs:
+
+$$ one
+$$ two
+$$ three
+$$ four
+$$ five

@@ -1,7 +1,7 @@
 const Themes = require("blog/static/syntax-highlighter");
 
 module.exports = function (req, res, next) {
-  if (!req.locals.syntax_highlighter) return next;
+  if (!req.locals.syntax_highlighter) return next();
 
   let match = Themes.find(({ id }) => req.locals.syntax_highlighter.id === id);
 
