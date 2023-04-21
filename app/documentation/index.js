@@ -107,6 +107,10 @@ if (config.environment === "development") {
   });
 }
 
+documentation.use("/how", (req, res, next) => {
+  res.locals.layout = "how/layout";
+  next();
+});
 documentation.get(["/how/format/*"], function (req, res, next) {
   res.locals["show-on-this-page"] = true;
   next();
