@@ -25,17 +25,20 @@ search.get("/json", async (req, res) => {
 });
 
 search.get("/", async (req, res) => {
-  const query = req.query.query;
-  const [documentation, questions] = await Query({ query, limit: 20 });
-  res.locals.documentation = documentation.rows.map((row) => {
-    return {
-      ...row,
-      crumbs: row.url.split("/").map((x) => {
-        return { label: x };
-      }),
-    };
-  });
-  res.locals.questions = questions.rows;
+  try {
+    const query = req.query.query;
+    const [documentation, questions] = await Query({ query, limit: 20 });
+    res.locals.documentation = documentation.rows.map((row) => {
+      return {
+        ...row,
+        crumbs: row.url.split("/").map((x) => {
+          return { label: x };
+        }),
+      };
+    });
+    res.locals.questions = questions.rows;
+  } catch (e) {}
+
   res.render("search");
 });
 

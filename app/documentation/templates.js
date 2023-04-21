@@ -13,6 +13,11 @@ const folderForTemplate = {
   reference: "frances",
 };
 
+templates.use((req, res, next)=>{
+  res.locals.layout = 'templates/layout';
+  next();
+});
+
 templates.get('/', (req, res, next)=>{
   res.locals.fullWidth = true;
   next();

@@ -26,6 +26,11 @@ const pool = new Pool({
 // QA Forum View Configuration
 const TOPICS_PER_PAGE = 20;
 
+Questions.use((req, res, next)=>{
+  res.locals.layout = 'questions/layout';
+  next();
+});
+
 Questions.use(["/ask", "/:id/edit", "/:id/new"], require("dashboard/session"));
 
 Questions.use(
