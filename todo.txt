@@ -1,5 +1,7 @@
 Add search bar to template editor
 
+Prevent double submission on template editor at insertion and front-end levels
+
 Fix dates on Magazine template
 
 Fix [demo video issue](https://mail.google.com/mail/u/0/#inbox/FMfcgzGsmDsZvbQwRgRLgJVDXHDJshxK)
