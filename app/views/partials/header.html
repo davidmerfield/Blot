@@ -1,13 +1,28 @@
-<div class="header"  style="max-width: 1024px;margin:0 auto;display: flex; justify-content: space-between;align-items: center;padding:0">
+<div class="header"  style="max-width: 1024px;margin:0 auto;display: flex; box-sizing: border-box; justify-content: space-between;align-items: center;padding:0 1em">
   <a href="/" class="lig" style="" >
   <style type="text/css">
-    svg#logo {fill:black;width: 24px;height: 24px;vertical-align: sub;margin-right: 6px}
-    svg#logo .st0{fill:none;stroke:black;stroke-width:1.75;stroke-miterlimit:10;}
+
+    svg#logo {fill:var(--text-color);width: 24px;height: 24px;vertical-align: sub;margin-right: 6px;transition: fill .32s cubic-bezier(.4,0,.6,1)}
+    svg#logo .st0{fill:none;stroke:var(--text-color);transition: stroke .32s cubic-bezier(.4,0,.6,1);stroke-width:1.75;stroke-miterlimit:10;}
+    
+    a:hover svg#logo {fill:black;}
+    a:hover svg#logo .st0{stroke: black}
+
     a:hover #logo {fill: var(--accent-color);}
     a:hover #logo .st0 {stroke: var(--accent-color);}
-    .link-action {font-size: 12px;border-radius: 2em;border:1px solid var(--text-color);color:var(--text-color);padding:0.25em 2em;margin-left: 0.5em}
+
+    .link-action {font-size: 12px;border-radius: 2em;border:1px solid var(--text-color);color:var(--text-color);padding:0.2em 1.25em;font-weight: 400;
+      transition: color,border-color,background .32s cubic-bezier(.4,0,.6,1);}
+
+    .link-action:hover {border-color: #000;color:#000;}
+
     .link-action.main {border-color: var(--accent-color);background: var(--accent-color);color:var(--background-color);}
-    .link {font-size: 12px;color: var(--text-color);padding:1em;letter-spacing: -0.01em}
+    .link-action.main:hover {
+      border-color: var(--light-accent-color);
+      background: var(--light-accent-color)
+    }
+    .link {font-size: 12px;color: var(--text-color);padding:1em;letter-spacing: -0.01em;transition: color .32s cubic-bezier(.4,0,.6,1);}
+    .link:hover {color:#000;}
   </style>
   <svg version="1.1" id="logo" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
      viewBox="0 0 36 30" style="enable-background:new 0 0 36 30;width: 1em;height: 1em;font-size: 18px" xml:space="preserve">
@@ -24,13 +39,13 @@
   <a href="/examples" class="link">Examples</a>
   <a href="/tools" class="link">Tools</a>
   <a href="/moving" class="link">Moving To Blot</a>
-  <a href="/templates/developers" class="link">Developers</a>
+  <!-- <a href="/templates/developers" class="link">Developers</a> -->
   <a href="/about" class="link">About</a>
 <!--   <a href="/news" class="link">News</a>
  -->  <a href="/questions" class="link">Questions</a>
   <a href="/support" class="link">Support</a>
   <a href="/search" style="padding:0 0.5em;    display: flex;
-    justify-content: center;"><svg style="width:16px;" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 50.166 49.887" direction="ltr" xmlns:v="https://vecta.io/nano"><path stroke-width="2" stroke="var(--light-text-color)" d="M20.689 36.137c3.846 0 7.369-1.396 10.098-3.695l12.418 12.482c.193.172.473.344.795.344.795 0 1.225-.602 1.225-1.225a1.11 1.11 0 0 0-.344-.795L32.463 30.809c2.471-2.771 3.996-6.445 3.996-10.42 0-8.658-7.111-15.77-15.77-15.77S4.941 11.73 4.941 20.389s7.09 15.748 15.748 15.748zm0-1.053c-8.078 0-14.695-6.617-14.695-14.695S12.611 5.672 20.689 5.672s14.717 6.639 14.717 14.717-6.639 14.695-14.717 14.695z"/></svg></a>
+    justify-content: center;"><svg style="width:16px;" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 50.166 49.887" direction="ltr" xmlns:v="https://vecta.io/nano"><path stroke-width="2" stroke="var(--text-color)" d="M20.689 36.137c3.846 0 7.369-1.396 10.098-3.695l12.418 12.482c.193.172.473.344.795.344.795 0 1.225-.602 1.225-1.225a1.11 1.11 0 0 0-.344-.795L32.463 30.809c2.471-2.771 3.996-6.445 3.996-10.42 0-8.658-7.111-15.77-15.77-15.77S4.941 11.73 4.941 20.389s7.09 15.748 15.748 15.748zm0-1.053c-8.078 0-14.695-6.617-14.695-14.695S12.611 5.672 20.689 5.672s14.717 6.639 14.717 14.717-6.639 14.695-14.717 14.695z"/></svg></a>
   <a class="link-action" href="/log-in">Log in</a>
   <a class="link-action main" href="/sign-up">Sign up</a>  
 </div>    
