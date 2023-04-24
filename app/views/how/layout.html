@@ -1,26 +1,20 @@
 {{> head}}
 <body>
-  <input type="checkbox" name="toggle" id="toggle">
   {{> header}}
-  <div class="layout-wrapper"> 
-    <div class="sidebar-container">
+  <div style="display: flex;justify-content: space-between;padding:1em 2em">
+    <div>
       {{> sidebar}}
     </div>
-    <div class="main-container"> 
-      
-      <div style="display: flex;justify-content: space-between;flex-wrap: wrap;">
-        <div class="main-page {{#fullWidth}}full{{/fullWidth}}">
+    <div>
           {{> breadcrumbs}}
           {{> body}}
           {{> source_file}}
-        </div>
-        {{^fullWidth}}
-        {{> internal-sidebar}}
-        {{/fullWidth}}
-      </div>
     </div>
-  </div>   
+    <div>
+        {{> internal-sidebar}}
+    </div>
   </div>
+</div>
   {{> footer}}
 </body>
 </html>
