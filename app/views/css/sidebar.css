@@ -17,15 +17,7 @@
 
   }.main-page.full {max-width: 100%;width:auto;flex-basis:auto;}
 
-  @media screen and (max-width: 1000px) {
-      .main-container {padding-left: 1.5rem; padding-right: 1.5rem}
-}
-  @media screen and (max-width: 800px) {
-/*    .doc-left {padding: 0;grid-column-start: 1;grid-column-end: 12;grid-row: 1}
-      .doc-right {grid-row:2;grid-column-start: 1;grid-column-end: 12;margin-top: 1.5rem;padding: 1rem 1.5rem}*/
-      .grid {padding: 0 0}
-    .sidebar {border:none;}
-  }
+
 
 
 
@@ -50,7 +42,6 @@
   label[for="toggle"] {
       height: 30px;
     line-height: 30px;
-    border: 1px solid var(--dark-border-color);
     border-radius: 3px;
     margin-left: 0.8rem;
   display: none;
@@ -62,34 +53,21 @@ input[name="toggle"] {
   display: none;
 }
 
-@media screen and (max-width: 1000px) {
-  .sidebar-container {
-    display: none;
-  }
-
-
-
+@media screen and (max-width: 1024px) {
+  
   label[for="toggle"] {
     display: block;
     float: right;
 
   }
+
   label[for="toggle"] svg {
     width: 30px;
     height: 30px;
   }
 
-  #toggle:checked ~ div .sidebar-container {
-    display: block;position: absolute;top:0;left: 0;right: 0;
-    bottom: 0;width: 100%;z-index: 10 }
-
-  #toggle:not(:checked) ~ div #hider {
-    display: none;
-  }
-    
-  #toggle:checked ~ div #shower {
-    display: none;
-  }
+  .header a[href="/search"],
+  .link {display: none;}
 }
 
 .sidebar li {
