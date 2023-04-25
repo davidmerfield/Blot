@@ -43,7 +43,7 @@
       height: 30px;
     line-height: 30px;
     border-radius: 3px;
-    margin-left: 0.8rem;
+    margin: 0.8rem 0 0.8rem 0.8rem;
   display: none;
   cursor: pointer;
 
@@ -53,21 +53,54 @@ input[name="toggle"] {
   display: none;
 }
 
+  label[for="toggle"] svg {
+    font-size: 33px;
+    width: 1em;
+    height: 1em;
+  }
+
+.link-container {
+  display: flex;justify-content: space-between;align-items: center;flex-grow: 1;margin:0 1.05em
+}
+
 @media screen and (max-width: 1024px) {
   
   label[for="toggle"] {
     display: block;
-    float: right;
-
   }
 
-  label[for="toggle"] svg {
-    width: 30px;
-    height: 30px;
-  }
+  .header [href="/"] svg {font-size: 22px}
 
   .header a[href="/search"],
-  .link {display: none;}
+  .header .link-container {display: none;}
+
+  input[id="toggle"]:checked ~ .header .link-container {
+    display: block;
+    position: fixed;
+    top:0;
+    right: 0;
+    bottom: 0;
+    padding: 8vw;
+    left: 0;
+    z-index: 1;
+    margin: 0;
+    background: var(--background-color);
+  }
+
+  .header a[href="/search"] {padding: 1em}
+  .header a[href="/search"]:before {content: "Search";}
+  .header a[href="/search"] svg {display: none;}
+
+ input[id="toggle"]:checked ~ .header .link-container a {
+  font-size: 24px;
+  display: block;
+  padding-bottom: 0
+ }  
+
+ /* Closes the menu */
+ .link-container label {position: absolute;
+  top: 0;right: 1em}
+
 }
 
 .sidebar li {
