@@ -24,7 +24,6 @@ const internal = {
   "/pricing": "/about",
   "/404s": "/how/configure/redirects",
   "/howto": "/how",
-  "/support": "/contact",
   "/templates/diary": "/templates/blog",
   "/templates/essay": "/templates/portfolio",
   "/templates/picture": "/templates/photo",
