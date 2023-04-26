@@ -1,19 +1,43 @@
 {{> head}}
 <body>
   {{> header}}
+  {{#selected.questionsIndex}}
+  <div style="border-bottom: 1px solid #eee">
+  <div style="max-width: 1000px;margin: 1rem auto;"> 
+<div style="display: flex;font-size:16px;justify-content: space-between;align-items: baseline;">
+  <h1 style="margin-right: 1em">Questions</h1>
+  {{> search}}
 
-      
-        <div style="display: flex;justify-content: center;margin:1em auto;min-height: 100vh;width: 1000px">
-          <div style="margin: 0 3em 0 0">
-            {{> breadcrumbs}}
-            {{> body}}
-            {{> source_file}}
-          </div>
-          <div style="margin: 6em 0 0 3em">
-            {{> question-sidebar}}
-          </div>
-        </div>
-        
+<!--   {{#paginator.topics_count}}
+    <span class="total">{{paginator.topics_count}}&nbsp;questions</span>
+  {{/paginator.topics_count}}
+ -->
+
+  <!-- 
+<div class="filters">
+  <a class="{{selected.questionsIndex}}" href="/questions">Active</a>
+  <a class="{{selected.newest}}" href="/questions/newest">Newest</a>
+  <a class="{{selected.unanswered}}" href="/questions/unanswered">Unanswered</a>
+  <a class="{{selected.popular}}" href="/questions/popular">Most replied</a>
+</div> -->
+
+
+  <a class="bordered-button" style="margin:0 0 0 2em;float:right;line-height:30px;border-radius:4px;white-space: nowrap;color:white;background:var(--accent-color)" href="/questions/ask">Ask question</a>
+</div>  </div>
+  </div>
+  {{/selected.questionsIndex}}
+  <div style="max-width: 1000px;margin: 1rem auto;"> 
+    <div style="display: flex; justify-content: space-between;">
+      <div>
+        {{> breadcrumbs}}
+        {{> body}}
+      </div>
+      <div style="margin-top: 6em">
+        {{> question-sidebar}}
+      </div>
+    </div>
+  </div>
+  </div>
   {{> footer}}
 </body>
 </html>

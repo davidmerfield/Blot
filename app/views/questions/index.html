@@ -1,5 +1,6 @@
-<h1>{{^tag}}Questions {{/tag}}{{#tag}}Tagged '{{tag}}'{{/tag}}   
-</h1>
+{{#tag}}<h1>Tagged '{{tag}}'
+</h1>{{/tag}}   
+
 
 <style type="text/css">
   .filters {display: flex;}
@@ -19,23 +20,7 @@
 
   }
 </style>
-<div style="display: flex;font-size:16px;justify-content: space-between;align-items: baseline;">
-  {{#paginator.topics_count}}
-    <span class="total">{{paginator.topics_count}}&nbsp;questions</span>
-  {{/paginator.topics_count}}
 
-
-  <!-- 
-<div class="filters">
-  <a class="{{selected.questionsIndex}}" href="/questions">Active</a>
-  <a class="{{selected.newest}}" href="/questions/newest">Newest</a>
-  <a class="{{selected.unanswered}}" href="/questions/unanswered">Unanswered</a>
-  <a class="{{selected.popular}}" href="/questions/popular">Most replied</a>
-</div> -->
-
-
-  <a class="bordered-button" style="margin:2px 0;float:right;line-height:30px;border-radius:4px;white-space: nowrap;color:white;background:var(--accent-color)" href="/questions/ask">Ask question</a>
-</div>
   <!-- <form action="/questions" style="margin-top:0rem;margin-bottom:0.5rem;display: flex;align-items: flex-end;">
     <p style="margin: 0;flex-basis: 50%">
   <input type="text" style="font-size:15px;border-radius:16px 0 0 16px;width: 100%;padding-top: 6px;padding-bottom: 6px;padding-left: 16px" type="search" id="search" name="search" value="{{search_query}}" placeholder="Search all questions" required="">
