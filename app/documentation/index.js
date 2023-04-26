@@ -172,6 +172,8 @@ documentation.use(
 
 documentation.use(require("./selected"));
 
+documentation.use("/examples", require("./featured"));
+
 documentation.get(
   "/",
   require("./tools/git-commits"),

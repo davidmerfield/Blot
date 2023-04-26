@@ -1,5 +1,5 @@
 var ul = document.querySelector("ul.who");
-var MAX_FEATURED = 25;
+var MAX_FEATURED = 54;
 
 if (ul) {
   for (var i = ul.children.length; i >= 2; i--) {

@@ -1,14 +1,19 @@
 {{> head}}
 <body>
-  {{> header}}
-
-      
-        <div style="max-width: 637px;margin:2em auto">
-          {{> breadcrumbs}}
-          {{> body}}
-          {{> source_file}}
-        </div>
-        
+  {{> header}}      
+  <div style="max-width: 637px;margin:2em auto;min-height: 100vh">
+    {{> breadcrumbs}}
+    {{> body}}
+    {{> source_file}}
+  </div> 
+  <style type="text/css">
+    h1 {    text-align: center;
+    font-size: 48px;
+    line-height: 1.08349;
+    font-weight: 600;
+    letter-spacing: -0.003em;
+    margin-top: 1em;}
+  </style>
   {{> footer}}
 </body>
 </html>
