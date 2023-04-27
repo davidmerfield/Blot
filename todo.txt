@@ -1,12 +1,12 @@
 Finish [Ethan's template](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrcPPGhMsLkpgWwpMBFBgpkvKg) 
 
+Prevent double submission on template editor at insertion and front-end levels
+
 ---
 
 Fix [demo video issue](https://mail.google.com/mail/u/0/#inbox/FMfcgzGsmDsZvbQwRgRLgJVDXHDJshxK)
 
 Add search bar to template editor
-
-Prevent double submission on template editor at insertion and front-end levels
 
 Fix dates on Magazine template
 
