@@ -255,6 +255,7 @@ Add support for Obsidian media embedding
 - [ ] Tell [Levo](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrcrrDnssHhbwmzzNFnSbMJqKh)
 - [ ]Follow up with Marco about:
   `![La Escocesa 2006-2010](files/_laescocesaold.png) ![[files/_laescocesaold.png]]`
+- [ ] Tell [Matthew](https://mail.google.com/mail/u/0/#inbox/FMfcgzGsmNTdHRCzndwFkJLDSgnzHvrV)
 
 ---
 
