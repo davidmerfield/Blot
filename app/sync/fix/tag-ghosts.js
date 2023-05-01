@@ -10,7 +10,13 @@ module.exports = function main(blog, callback) {
       tags,
       function (tag, next) {
         Tags.get(blog.id, tag.slug, function (err, entryIDs) {
-          if (!entryIDs.length) report.push(["EMPTY TAG", tag]);
+          if (!entryIDs.length) {
+            report.push(["EMPTY TAG", tag]);
+            const multi = client.multi();
+            multi.srem(Tags.key.all(blog.id), tag.slug);
+            multi.del(Tags.key.tag(blog.id, tag.slug));
+            return multi.exec(next);
+          }
 
           async.each(
             entryIDs,
@@ -18,12 +24,13 @@ module.exports = function main(blog, callback) {
               Entry.get(blog.id, entryID, function (entry) {
                 if (!entry) {
                   report.push(["MISSING", entryID]);
-                  var multi = client.multi();
+                  const multi = client.multi();
                   multi.srem(tagKey, entryID);
                   return multi.exec(next);
                 }
 
                 if (entry.id === entryID) return next();
+
                 report.push(["MISMATCH", entryID, entry.id]);
                 var multi = client.multi();
                 var entryKeyForIncorrectID = Tags.key.entry(blog.id, entryID);

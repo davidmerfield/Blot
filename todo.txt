@@ -2,6 +2,8 @@ Finish [Ethan's template](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrcPPGhM
 
 ---
 
+Make 'close' button on entry permalink page of reference template work like the photo template and tell [Marco](https://mail.google.com/mail/u/0/#inbox/FMfcgzGsmNSSSRKHnlgCBllnqJCcPhxD)
+
 Prevent double submission on template editor at insertion and front-end levels
 
 Fix [demo video issue](https://mail.google.com/mail/u/0/#inbox/FMfcgzGsmDsZvbQwRgRLgJVDXHDJshxK)
