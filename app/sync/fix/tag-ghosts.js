@@ -10,6 +10,8 @@ module.exports = function main(blog, callback) {
       tags,
       function (tag, next) {
         Tags.get(blog.id, tag.slug, function (err, entryIDs) {
+          if (!entryIDs.length) report.push(["EMPTY TAG", tag]);
+
           async.each(
             entryIDs,
             function (entryID, next) {
@@ -17,7 +19,7 @@ module.exports = function main(blog, callback) {
                 if (!entry) {
                   report.push(["MISSING", entryID]);
                   var multi = client.multi();
-                  multi.srem(tagKey, entryID);       
+                  multi.srem(tagKey, entryID);
                   return multi.exec(next);
                 }
 
