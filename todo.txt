@@ -1,6 +1,12 @@
+Restrict access to '/git' and tell [Will](https://mail.google.com/mail/u/0/#inbox/FMfcgzGsmWxxghJjqKTWFBLGLfRnMChP)
+
 Finish [Ethan's template](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrcPPGhMsLkpgWwpMBFBgpkvKg) 
 
 Add [fonts to Lisa's animation generator](https://mail.google.com/mail/u/0/#inbox/KtbxLthRVHtzzRDQMrBkHgLDBMklzDPmBV)
+
+Preserve file name for SEO purposes when uploading to image cache CDN and tell [Jean](https://mail.google.com/mail/u/0/#inbox/FMfcgzGsmNWvwwvzVGZnPFKnHnkbBWxD)
+
+Resolve issue with [Stephen's large blog](https://mail.google.com/mail/u/0/#inbox/QgrcJHsBsbkNkMkkkMmLWBxRfnGnWPVwLHl)
 
 ---
 
