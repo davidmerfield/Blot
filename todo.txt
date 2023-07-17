@@ -1,8 +1,15 @@
 Restrict access to '/git' and tell [Will](https://mail.google.com/mail/u/0/#inbox/FMfcgzGsmWxxghJjqKTWFBLGLfRnMChP)
-
-Improve search for non-latin scripts and tell [questioner](https://blot.im/questions/1800)
+- Τell [Peter](https://mail.google.com/mail/u/0/#inbox/FMfcgzGsmhgmmKBWCNlcjRwnKBrDrSvc)
+- Tell [John](https://mail.google.com/mail/u/0/#inbox/FMfcgzGsmqwcLCsHVNsplKMdqSlDJMXv)
+- Tell [Petr](https://mail.google.com/mail/u/0/#inbox/FMfcgzGsnLGRWFLkKBTXqJFSkvjFrqKh)
+- Tell [Rob](https://mail.google.com/mail/u/0/#inbox/FMfcgzGtvsZCkVHvFVhSGPdgFJqCGMxJ)
+- Tell [Michael](https://mail.google.com/mail/u/0/#inbox/FMfcgzGtwCvdpWLvKJwHXXnxZSZtWxNv)
 
 Finish [Ethan's template](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrcPPGhMsLkpgWwpMBFBgpkvKg) 
+
+---
+
+Improve search for non-latin scripts and tell [questioner](https://blot.im/questions/1800)
 
 Add [fonts to Lisa's animation generator](https://mail.google.com/mail/u/0/#inbox/KtbxLthRVHtzzRDQMrBkHgLDBMklzDPmBV)
 
@@ -11,6 +18,8 @@ Preserve file name for SEO purposes when uploading to image cache CDN and tell [
 Resolve issue with [Stephen's large blog](https://mail.google.com/mail/u/0/#inbox/QgrcJHsBsbkNkMkkkMmLWBxRfnGnWPVwLHl)
 
 Add lazy loading option to image settings and tell [questioner](https://blot.im/questions/1806)
+
+Check if `npm run local` still works and tell [Chris](https://mail.google.com/mail/u/0/#inbox/FMfcgzGtwCwmNmtQxZhpztHbklWGCZdJ)
 
 ---
 
