@@ -259,7 +259,8 @@ Improvements to Dropbox client:
 
 --
 
-Add support for Indian payments and follow up with Indian customers like [Varun](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrcjKRbHhGvtKJKXfGdwDzjTML)
+Add support for Indian payments and follow up with Indian customers
+ - [Pradeep](https://mail.google.com/mail/u/0/#inbox/FMfcgzGsmrDMJmZwNZcXxGqRsWfbvPsq) wants to join
 
 Add support for Obsidian media embedding
 - ```![[_image.png]]```
