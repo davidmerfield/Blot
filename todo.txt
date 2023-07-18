@@ -9,6 +9,8 @@ Finish [Ethan's template](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrcPPGhM
 
 ---
 
+Fix bug with tags containing accents and tell [Sergey](https://mail.google.com/mail/u/0/#inbox/FMfcgzGtvsWtLFXfTVwJdFfnglPSBrXw)
+
 Improve search for non-latin scripts and tell [questioner](https://blot.im/questions/1800)
 
 Add [fonts to Lisa's animation generator](https://mail.google.com/mail/u/0/#inbox/KtbxLthRVHtzzRDQMrBkHgLDBMklzDPmBV)
@@ -556,7 +558,7 @@ Add [line numbers](https://github.com/wcoder/highlightjs-line-numbers.js/) to hi
 
 Convert [Vitepress](https://vitepress.vuejs.org/) to Blot and tell [Nicolas](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmtNldkFnLGgZVNfqLcvBjVxWW)
 
-Expose log files on blog's dashboard and tell [Sönke](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLtsxjSMlVmNRFGJJxkpsVFNvg) and [questioner](https://blot.im/questions/136) and [John](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmvBnVvqHdJXLgDhrtChCqdMQX)
+Expose log files on blog's dashboard and tell [Roman](https://mail.google.com/mail/u/0/#inbox/FMfcgzGtwDDXlpTvjNdJwmjXTCzGTqbW), [Sönke](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLtsxjSMlVmNRFGJJxkpsVFNvg) and [questioner](https://blot.im/questions/136) and [John](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmvBnVvqHdJXLgDhrtChCqdMQX)
 
 Improvements to brochure:
 - Write build scripts which can be run to produce results checked into git
