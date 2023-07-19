@@ -1,9 +1,3 @@
-Add [fonts to Lisa's animation generator](https://mail.google.com/mail/u/0/#inbox/KtbxLthRVHtzzRDQMrBkHgLDBMklzDPmBV)
-
----
-
-Fix bug with tags containing accents and tell [Sergey](https://mail.google.com/mail/u/0/#inbox/FMfcgzGtvsWtLFXfTVwJdFfnglPSBrXw) and [Nathalia](https://mail.google.com/mail/u/0/#inbox/FMfcgzGsmrFVLPCSlvRxSvGVvBMwpHXw) and [questioner](https://blot.im/questions/1849)
-
 Improve search for non-latin scripts and tell [questioner](https://blot.im/questions/1800)
 
 Preserve file name for SEO purposes when uploading to image cache CDN and tell [Jean](https://mail.google.com/mail/u/0/#inbox/FMfcgzGsmNWvwwvzVGZnPFKnHnkbBWxD)
