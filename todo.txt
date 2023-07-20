@@ -1,14 +1,18 @@
-Improve search for non-latin scripts and tell [questioner](https://blot.im/questions/1800)
-
-Preserve file name for SEO purposes when uploading to image cache CDN and tell [Jean](https://mail.google.com/mail/u/0/#inbox/FMfcgzGsmNWvwwvzVGZnPFKnHnkbBWxD)
-
-Resolve issue with [Stephen's large blog](https://mail.google.com/mail/u/0/#inbox/QgrcJHsBsbkNkMkkkMmLWBxRfnGnWPVwLHl)
-
-Add lazy loading option to image settings and tell [questioner](https://blot.im/questions/1806)
-
-Check if `npm run local` still works and tell [Chris](https://mail.google.com/mail/u/0/#inbox/FMfcgzGtwCwmNmtQxZhpztHbklWGCZdJ)
+Fix dates on Magazine template
+Make the magazine template respect the date settings and follow up [with questioner](https://blot.im/questions/773)
+Fix display of featured post on mobile for magazine template and tell [Ben](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmvTzfVVTRQpBGKPzTjkhVsbKl)
 
 ---
+
+Resize disk
+
+Fix log rotation issue
+
+Add support for Google Docs
+- `download` Should nicely handle the export of various Google Doc formats
+- Tell [Kirk](https://mail.google.com/mail/u/0/#inbox/FMfcgzGsmNQBhrWVsZTXCJWtpQQZDFTm)
+
+Finish accounting for Q2
 
 Make 'close' button on entry permalink page of reference template work like the photo template and tell [Marco](https://mail.google.com/mail/u/0/#inbox/FMfcgzGsmNSSSRKHnlgCBllnqJCcPhxD)
 
@@ -18,17 +22,20 @@ Fix [demo video issue](https://mail.google.com/mail/u/0/#inbox/FMfcgzGsmDsZvbQwR
 
 Add search bar to template editor
 
-Fix dates on Magazine template
-
 ---
 
-It also seems like server crashes when a massive google drive folder is synced, with a directory containing 6772 items
+Improve search for non-latin scripts and tell [questioner](https://blot.im/questions/1800)
+
+Preserve file name for SEO purposes when uploading to image cache CDN and tell [Jean](https://mail.google.com/mail/u/0/#inbox/FMfcgzGsmNWvwwvzVGZnPFKnHnkbBWxD)
+
+Resolve issue with [Stephen's large blog](https://mail.google.com/mail/u/0/#inbox/QgrcJHsBsbkNkMkkkMmLWBxRfnGnWPVwLHl)
+- It also seems like server crashes when a massive google drive folder is synced, with a directory containing 6772 items
+
+Add lazy loading option to image settings and tell [questioner](https://blot.im/questions/1806)
 
 Make it possible to rename locally edited template folder and tell [questioner](https://blot.im/questions/1610)
 
 Fix bug with videos on Reference template and [Tell Marco](https://mail.google.com/mail/u/0/#inbox/FMfcgzGslbPSKMXkRbvrHKFTWhbJbPlg)
-
-Work on [Vaughn](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrbvMBSwPCtrZBrdwRdmhpZLSD)'s site
 
 ---
  
@@ -38,10 +45,6 @@ Work on templates
   - [John](https://mail.google.com/mail/u/1/#all/1618ca0420779742)
   - [Jan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChmLnfMTdtNkpLxHTlPJNHlCT) 
   - [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrRRZTKntrWKJvfDXrRFTzljs)
-
-Add support for Google Docs
-- `download` Should nicely handle the export of various Google Doc formats
-- Tell [Kirk](https://mail.google.com/mail/u/0/#inbox/FMfcgzGsmNQBhrWVsZTXCJWtpQQZDFTm)
 
 Add support for new formats via pandoc:
 - rtf
@@ -356,8 +359,6 @@ Explain that the git client uses the master branch and repos from github will us
 
 Inject title metadata into h1 tag for all the text-based default templates and tell [questioners](https://blot.im/questions/795)
 
-Make the magazine template respect the date settings and follow up [with questioner](https://blot.im/questions/773)
-
 Send out cancellation confirmation emails with option to give feedback
 - auto-refund people who immediately close their account after signing up
 
@@ -380,8 +381,6 @@ Add tag to iterate over all images in a folder and tell [Laurel](https://mail.go
 Fix bug with Work out why Pandoc cannot handle 'linked' images (instead of conventionally embedded images). For instructiosn on reproducing bug, see [SG's email](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLhcqMVrZbNlKTcVmxVHwRmJC) and follow up when resolved.
 
 Fix bug with tags that contain slashes and tell [Jack](https://mail.google.com/mail/u/0/#inbox/FMfcgzGpFgzpsCkCMGqnClfqMkWZqNNz)
-
-Fix display of featured post on mobile for magazine template and tell [Ben](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmvTzfVVTRQpBGKPzTjkhVsbKl)
 
 ---
 
