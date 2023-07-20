@@ -1,16 +1,14 @@
-Fix dates on Magazine template
-Make the magazine template respect the date settings and follow up [with questioner](https://blot.im/questions/773)
-Fix display of featured post on mobile for magazine template and tell [Ben](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmvTzfVVTRQpBGKPzTjkhVsbKl)
-
----
-
-Resize disk
+Finish accounting for Q2
 
 Add support for Google Docs
 - `download` Should nicely handle the export of various Google Doc formats
 - Tell [Kirk](https://mail.google.com/mail/u/0/#inbox/FMfcgzGsmNQBhrWVsZTXCJWtpQQZDFTm)
 
-Finish accounting for Q2
+---
+
+Check in on log rotation for nginx.log and nginx.error.log
+
+Resize disk
 
 Make 'close' button on entry permalink page of reference template work like the photo template and tell [Marco](https://mail.google.com/mail/u/0/#inbox/FMfcgzGsmNSSSRKHnlgCBllnqJCcPhxD)
 
