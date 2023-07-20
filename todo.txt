@@ -6,8 +6,6 @@ Fix display of featured post on mobile for magazine template and tell [Ben](http
 
 Resize disk
 
-Fix log rotation issue
-
 Add support for Google Docs
 - `download` Should nicely handle the export of various Google Doc formats
 - Tell [Kirk](https://mail.google.com/mail/u/0/#inbox/FMfcgzGsmNQBhrWVsZTXCJWtpQQZDFTm)
