@@ -1,4 +1,4 @@
-Finish accounting for Q2
+Reinstate status page
 
 Add support for Google Docs
 - `download` Should nicely handle the export of various Google Doc formats
