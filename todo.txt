@@ -1,10 +1,6 @@
-Finish accounting for Q2
-
 Add support for Google Docs
 - `download` Should nicely handle the export of various Google Doc formats
 - Tell [Kirk](https://mail.google.com/mail/u/0/#inbox/FMfcgzGsmNQBhrWVsZTXCJWtpQQZDFTm)
-
----
 
 Check in on log rotation for nginx.log and nginx.error.log
 
