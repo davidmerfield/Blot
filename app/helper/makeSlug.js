@@ -47,6 +47,9 @@ module.exports = function makeSlug(string) {
     // o'clock
     .replace(/o['’]c/g, "oc")
 
+    // you're
+    .replace(/u['’]r/g, "ur")
+
     // we'll
     .replace(/e['’]l/g, "el")
 

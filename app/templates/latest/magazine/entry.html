@@ -10,7 +10,7 @@
     {{^page}}
       <div class="w-20 bl pt5 nt5 fr pl3 lh-copy  b--black-10">
  
-	{{#date}}<a href="{{{url}}}" class="db black-30 f5 pr4 no-underline"><span  date-from-now="{{dateStamp}}">{{#formatDate}}MMM D, YYYY{{/formatDate}}</span></a>{{/date}}
+	{{#date}}<a href="{{{url}}}" class="db black-30 f5 pr4 no-underline"><span  date-from-now="{{dateStamp}}">{{date}}</span></a>{{/date}}
     <span class="db black-50 f5">{{#tags}}<a href="/tagged/{{slug}}" class="no-underline">{{tag}}</a>{{^last}}, {{/last}}{{/tags}}</span>    
   		</div> 
 {{/page}}

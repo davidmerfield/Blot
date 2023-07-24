@@ -36,7 +36,14 @@ async function sync(blogID) {
   let pathsToUpdate = [];
 
   for (const { file } of changes) {
-    const { id, parents, name, trashed } = file;
+    const { id, parents, trashed } = file;
+
+    // we append '.gdoc' to the name of the file
+    // if it is a google doc 
+    const name = file.mimeType === "application/vnd.google-apps.document"
+      ? file.name + '.gdoc'
+      : file.name;
+
     const storedPathForId = await db.get(id);
     const storedPathForParentId = await db.get(parents && parents[0]);
 

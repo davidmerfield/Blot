@@ -141,7 +141,16 @@ const readdir = async (drive, dirId) => {
         "nextPageToken, files/id, files/name, files/md5Checksum, files/mimeType",
     };
     res = await drive.files.list(params);
-    items = items.concat(res.data.files);
+
+    // we append the extension '.gdoc' to the name of the file
+    // if it is a google doc
+    items = items.concat(res.data.files.map((f) => {
+      if (f.mimeType === "application/vnd.google-apps.document") {
+        f.name += ".gdoc";
+      }
+      return f;
+    }));
+
     nextPageToken = res.data.nextPageToken;
   } while (nextPageToken);
 
