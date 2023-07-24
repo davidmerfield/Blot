@@ -9,10 +9,6 @@ Work on templates
   - [Jan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChmLnfMTdtNkpLxHTlPJNHlCT) 
   - [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrRRZTKntrWKJvfDXrRFTzljs)
 
-Add support for new formats via pandoc:
-- jupyter notebooks
-- orgmode 
-
 Improve image posts
 - Add opt-in EXIF extraction for photos and enable in the photos template
 - Add support for other image formats, by converting them into jpg/webp
@@ -358,6 +354,10 @@ Follow conventional delimiters for [KateX](https://mail.google.com/mail/u/0/?zx=
 ---
 
 Support larger files on DB client and tell [Marco](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqQmWjKnmPrwKSXMdZNmlqmtss)
+
+Add support for new formats:
+- jupyter notebooks (via pandoc)
+
 
 ---
 
