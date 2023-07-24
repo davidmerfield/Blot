@@ -1,4 +1,4 @@
-Investigate the issue with `npm run local` and tell chris by the end of the day
+Fix the issue with the cached version of the demo video on the homepage
 
 ---
 
