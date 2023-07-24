@@ -6,6 +6,7 @@ let converters = [require("./html"), require("./img"), require("./webloc"), requ
 
 if (config.pandoc.bin) {
   converters.push(require("./docx"));
+  converters.push(require("./rtf"));
   converters.push(require("./odt"));
   converters.push(require("./markdown"));
 } else {

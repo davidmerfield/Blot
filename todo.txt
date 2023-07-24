@@ -10,7 +10,6 @@ Work on templates
   - [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrRRZTKntrWKJvfDXrRFTzljs)
 
 Add support for new formats via pandoc:
-- rtf
 - jupyter notebooks
 - orgmode 
 
@@ -467,7 +466,6 @@ Re-order blog engine routes such that pages/entries are evauluated first, making
 
 Write new converters to turn files into posts
 - Add AVIF image post support and tell [Simon](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlkFqWwhwwQgrrlwKtctkTgRXx)
-- Add RTF support using Pandoc or [rtf.js](https://github.com/tbluemel/rtf.js)
 - Add support for [Jupyter Notebook .ipynb](https://predictablynoisy.com/posts/2019/2019-11-11-ipynb_pandoc/#ipynb-to-html) using Pandoc and tell [Arnab](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmtNdkGQxbMVblqjvkHwSMTBbW)
 - Add support for .doc using [libreoffice](https://www.npmjs.com/package/libreoffice-convert) and tell [Kyle](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKkHZVgwCNwsdlhdzCggRtsRhN)
 - Video posts (.mp4) - add way to opt-in to these
