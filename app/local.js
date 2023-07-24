@@ -20,7 +20,7 @@ try {
   nodeVersion = child_process.execSync("node -v").toString().trim();
 } catch (e) {}
 
-try{
+try {
   redisPing = child_process.execSync("redis-cli ping").toString().trim();
 } catch (e) {}
 
