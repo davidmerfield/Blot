@@ -1,0 +1,17 @@
+This is the example org-mode file used for the Denver Emacs org-mode
+introduction talk. Everything in this talk should work without any custom
+settings or installation with a reasonably recent Emacs version.
+
+Let's start with a headline, this is kind of like Markdown's # character:
+
+* This is an example headline
+
+Text can be put into the headline. You can create another headline at the same
+level with another * character
+
+* Another headline
+Nesting headlines is as easy as adding another start
+
+** Nested headline
+
+** Another nested headline
