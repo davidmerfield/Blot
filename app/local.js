@@ -18,6 +18,9 @@ const REQUIRED_NODE_VERSION = "v16.14.0";
 
 try {
   nodeVersion = child_process.execSync("node -v").toString().trim();
+} catch (e) {}
+
+try{
   redisPing = child_process.execSync("redis-cli ping").toString().trim();
 } catch (e) {}
 
@@ -126,7 +129,6 @@ async.waterfall(
     // Built and watch template directory
     require("./templates")({ watch: true }, function (err) {
       if (err) throw err;
-      process.exit();
     });
 
     // Blot is composed of four sub applications.
