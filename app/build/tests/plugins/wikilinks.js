@@ -215,7 +215,7 @@ describe("wikilinks plugin", function () {
     const path = "/hello.md";
     const content = "[[wikilink]]";
 
-    const linkPath = "/wikilink.md";
+    const linkPath = "/Wikilink.md";
     const linkContent = "Link: foo\n\nWikilink";
 
     // We know that Blot has worked out which file to link to
@@ -421,7 +421,7 @@ describe("wikilinks plugin", function () {
     const content = "[[target-of-link]]";
 
     const linkPath = "/target-of-link.md";
-    const linkContent = "Link: foo\n\nWikilink";
+    const linkContent = "Link: foo\nTitle:Wikilink\nHello!";
 
     // We know that Blot has worked out which file to link to
     // because the href is set to foo!

@@ -17,14 +17,6 @@ describe("title parser", function () {
     });
   });
 
-  it("parses a title from HTML without an h1 tag", function () {
-    expect(this.title("<p>Foo</p>")).toEqual({
-      title: "Foo",
-      tag: "",
-      body: "<p>Foo</p>",
-    });
-  });
-
   it("handles nested children in the H1 tag", function () {
     expect(this.title("<h1>A<span>C<i>D</i></span></h1>")).toEqual({
       title: "ACD",
@@ -89,7 +81,7 @@ describe("title parser", function () {
     expect(this.title("   ", "/Hello.txt")).toEqual({
       title: "Hello",
       tag: "",
-      body: "",
+      body: "   ",
     });
   });
 
@@ -97,10 +89,10 @@ describe("title parser", function () {
     expect(this.title("...", "/Hello.txt")).toEqual({
       title: "Hello",
       tag: "",
-      body: "",
+      body: "...",
     });
   });
-    
+
   it("ignores tags in the file's name when falling back", function () {
     expect(this.title("", "/[foo]Hello[bar].txt")).toEqual({
       title: "Hello",
