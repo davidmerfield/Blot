@@ -213,7 +213,7 @@ describe("wikilinks plugin", function () {
   // the linked file is added after the linking file
   it("turns wikilinks into links in reverse order", function (done) {
     const path = "/hello.md";
-    const content = "[[wikilink]]";
+    const content = "[[Wikilink]]";
 
     const linkPath = "/Wikilink.md";
     const linkContent = "Link: foo\n\nWikilink";
