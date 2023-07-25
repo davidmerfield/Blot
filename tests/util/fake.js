@@ -52,7 +52,7 @@ fake.file = function (options) {
 
   var res = "";
 
-  res += "# " + options.title || fake.lorem.word() + "\n\n";
+  res += "# " + (options.title || fake.lorem.word()) + "\n\n";
 
   res += fake.lorem.paragraphs();
 
