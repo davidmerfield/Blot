@@ -85,6 +85,22 @@ describe("title parser", function () {
     });
   });
 
+  it("falls back to the file's name for files with only whitespace", function () {
+    expect(this.title("   ", "/Hello.txt")).toEqual({
+      title: "Hello",
+      tag: "",
+      body: "",
+    });
+  });
+
+  it("falls back to the file's name for files with only punctuation", function () {
+    expect(this.title("...", "/Hello.txt")).toEqual({
+      title: "Hello",
+      tag: "",
+      body: "",
+    });
+  });
+    
   it("ignores tags in the file's name when falling back", function () {
     expect(this.title("", "/[foo]Hello[bar].txt")).toEqual({
       title: "Hello",
