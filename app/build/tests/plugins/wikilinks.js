@@ -213,9 +213,9 @@ describe("wikilinks plugin", function () {
   // the linked file is added after the linking file
   it("turns wikilinks into links in reverse order", function (done) {
     const path = "/hello.md";
-    const content = "[[wikilink]]";
+    const content = "[[Wikilink]]";
 
-    const linkPath = "/wikilink.md";
+    const linkPath = "/Wikilink.md";
     const linkContent = "Link: foo\n\nWikilink";
 
     // We know that Blot has worked out which file to link to
@@ -421,7 +421,7 @@ describe("wikilinks plugin", function () {
     const content = "[[target-of-link]]";
 
     const linkPath = "/target-of-link.md";
-    const linkContent = "Link: foo\n\nWikilink";
+    const linkContent = "Link: foo\nTitle:Wikilink\nHello!";
 
     // We know that Blot has worked out which file to link to
     // because the href is set to foo!

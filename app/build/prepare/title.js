@@ -42,18 +42,26 @@ function extractTitle($, path) {
       $(titleNode).remove();
       tag = $.html($(titleNode));
     }
+
+    // Otherwise we look for a title in the path to the file
+  } else if (titlify(path)) {
+    title = titlify(path);
+
+    // Or we look for a title in the first sentence
   } else if ($.root().children().first()) {
     title = tidy(firstSentence($.root().children().first().text()));
+
+    // And if all else fails, we go with 'Untitled'
+  } else {
+    title = "Untitled";
   }
 
   var body = $.html();
 
-  title = title || titlify(path);
-
   return {
-    title: title,
-    tag: tag,
-    body: body,
+    title,
+    tag,
+    body,
   };
 }
 
