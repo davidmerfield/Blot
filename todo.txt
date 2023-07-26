@@ -1,5 +1,8 @@
 Fix the issue with the cached version of the demo video on the homepage
 
+Add support for textbundle files and tell [questioner](https://blot.im/questions/1385)
+- this will help me understand how best to accomplish multi-file posts
+
 ---
 
 Work on templates
