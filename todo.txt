@@ -2,6 +2,9 @@ Fix the issue with the cached version of the demo video on the homepage
 
 Get the new CDN hostname working and test with a few sites
 
+Switch BlotCDN.com from cloudfront to Bunny
+  - test it on a different domain first before switching
+
 Plan the AWS changes
 - new instance for redis
 
