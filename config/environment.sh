@@ -94,3 +94,6 @@ export BLOT_TWITTER_ACCESS_TOKEN_SECRET=
 # Google Drive client for folder syncing
 export BLOT_GOOGLEDRIVE_ID=
 export BLOT_GOOGLEDRIVE_SECRET=
+
+# Bunny CDN
+export BUNNY_API_KEY=
