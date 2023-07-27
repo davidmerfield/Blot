@@ -1,7 +1,12 @@
 Fix the issue with the cached version of the demo video on the homepage
 
-Add support for textbundle files and tell [questioner](https://blot.im/questions/1385)
-- this will help me understand how best to accomplish multi-file posts
+Get the new CDN hostname working and test with a few sites
+
+Switch BlotCDN.com from cloudfront to Bunny
+  - test it on a different domain first before switching
+
+Plan the AWS changes
+- new instance for redis
 
 ---
 
@@ -16,6 +21,9 @@ Improve image posts
 - Add opt-in EXIF extraction for photos and enable in the photos template
 - Add support for other image formats, by converting them into jpg/webp
 - Add support for large image tiling and zooming with photoswipe
+
+Add support for textbundle files and tell [questioner](https://blot.im/questions/1385)
+- this will help me understand how best to accomplish multi-file posts
 
 Release a new film showing some of Blot’s more recent features
 - Finish setting up Office
