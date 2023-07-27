@@ -140,4 +140,9 @@ module.exports = {
     access_token: process.env.BLOT_TWITTER_ACCESS_TOKEN_KEY,
     access_token_secret: process.env.BLOT_TWITTER_ACCESS_TOKEN_SECRET,
   },
+
+  bunny: {
+    secret: process.env.BLOT_BUNNY_SECRET,
+    pullzone_id: process.env.BLOT_BUNNY_PULLZONE_ID,
+  },
 };

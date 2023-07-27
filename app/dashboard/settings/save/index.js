@@ -5,4 +5,5 @@ module.exports = {
   removeTmpFiles: require("./removeTmpFiles"),
   parse: require("./parse"),
   redirects: require("./redirects"),
+  cdn: require("./cdn"),
 };

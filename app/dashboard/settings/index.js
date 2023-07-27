@@ -28,6 +28,8 @@ settings
     trace("formated form"),
     save.avatar,
     trace("saved avatar"),
+    save.cdn,
+    trace("saved cdn"),
     save.removeTmpFiles,
     trace("removed any tmp files"),
     save.finish
