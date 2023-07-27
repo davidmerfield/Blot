@@ -67,6 +67,25 @@
 
       </div>
       {{/plugins}}
+      <div class="plugin {{#blog.flags.cdn}}checked{{/blog.flags.cdn}}">
+
+        <label style="margin:0">
+          <span style="margin-right:0.5rem;display:block;float:left;position:relative;top:1px">
+            <input name='flags.cdn' type='hidden' value='' >
+            <input name='flags.cdn' type="checkbox" {{#blog.flags.cdn}}checked{{/blog.flags.cdn}}/>
+          </span>
+          <span style="display:block;float:left">Use CDN
+          </span>
+          <span class="clear"></span>
+        </label>
+
+
+        <div class="pluginOptions" style="clear:both;margin:0;padding-left:2em">
+          Please update your domain's DNS records so they point to `fast.blot.im`
+        </div>
+
+      </div>
+    
     </span>
   </div>
   {{/categories.Services}}
@@ -127,6 +146,8 @@
     </span>
   </div>
   {{/categories.Images}}
+
+
 
   <a class="line" href="{{{base}}}/services/import">
     <span class="label">Import</span>
