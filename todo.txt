@@ -1,6 +1,10 @@
 Fix the issue with the cached version of the demo video on the homepage
 
+Fix auto titles of 'screenshot at 12:22pm' and make sure the date parser can handle them
+
 Get the new CDN hostname working and test with a few sites
+
+Set up DMARC on blot.im 
 
 Switch BlotCDN.com from cloudfront to Bunny
   - test it on a different domain first before switching

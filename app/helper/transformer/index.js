@@ -16,7 +16,7 @@ var caseSensitivePath = require("../caseSensitivePath");
 // TODO:
 // Fix bug with transformer to handle ESOCKETIMEDOUT error...
 
-// Maps https://blotcdn.com/blog_xyz/_image_cache/abc.jpg to
+// Maps https://cdn.blot.im/blog_xyz/_image_cache/abc.jpg to
 // /_image_cache/abc.jpg to enable us to look up the file quickly
 // on disk without making an HTTP request
 function resolveCDNPath(src) {

@@ -7,7 +7,7 @@ const BLOT_PORT = process.env.BLOT_PORT || "8080";
 let BLOT_CDN;
 
 if (process.env.NODE_ENV === "production") {
-  BLOT_CDN = BLOT_PROTOCOL + "://blotcdn.com";
+  BLOT_CDN = BLOT_PROTOCOL + "://cdn.blot.im";
 } else if (BLOT_HOST === "localhost") {
   BLOT_CDN = BLOT_PROTOCOL + "://" + BLOT_HOST + ":" + BLOT_PORT + "/cdn";
 } else {
