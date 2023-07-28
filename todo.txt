@@ -1,18 +1,14 @@
-Fix the issue with the cached version of the demo video on the homepage
-
 Write automated script to remove overdue blogs from disk and db
 
 Fix auto titles of 'screenshot at 12:22pm' and make sure the date parser can handle them
 
-Get the new CDN hostname working and test with a few sites
+Write script to change 'blotcdn.com' to 'cdn.blot.im' in the redis db. Make it possible to do this on a blog-by-blog basis.
+- Template keys will also need to be changed.
+- Transformer cache keys will also need to be changed
 
 Expose the option to purchase the removal of subscription fee for a blog on the dashboard for $440
 
 Set up DMARC on blot.im 
-
-Write script to change 'blotcdn.com' to 'cdn.blot.im' in the redis db. Make it possible to do this on a blog-by-blog basis.
-
-Template keys will also need to be changed.
 
 Plan the AWS changes
 - new instance for redis
