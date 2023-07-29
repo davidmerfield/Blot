@@ -15,13 +15,15 @@ get(process.argv[2], function (err, user, blog) {
   keys(
     searchParam,
     function (keys, next) {
-      console.log("Found " + keys.length + " keys associated with this blog");
+      if (!keys.length) return next();
+
+    //   console.log("Found " + keys.length + " keys associated with this blog");
 
       // For each key in series
       async.eachSeries(
         keys,
         function (key, next) {
-          console.log("Checking key", key);
+        //   console.log("Checking key", key);
           client.type(key, function (err, type) {
             if (err) return next(err);
 
@@ -54,7 +56,7 @@ get(process.argv[2], function (err, user, blog) {
                   }
                 });
 
-                next()
+                next();
               });
             } else {
               console.log("key", key, "is unsupported type: ", type);
