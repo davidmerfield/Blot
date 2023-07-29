@@ -1,6 +1,10 @@
-Fix any broken links in CDN logs
-
-Get node serving as few static files as possible
+CDN:
+- Write script to change 'blotcdn.com' to 'cdn.blot.im' in the redis db. Make it possible to do this on a blog-by-blog basis.
+  - Template keys will also need to be changed.
+  - Transformer cache keys will also need to be changed
+- Fix any broken links in CDN logs
+- Remove cdn logic from node.js
+- Get node serving as few static files as possible
 - can we use content by redis to look up the blog_id and check blog static files directory?
 
 Move redis into its own instance
@@ -8,6 +12,10 @@ Move redis into its own instance
   - make sure server can mostly function if redis connection fails
   - check old implementation for switching into read-only mode for redis
   - write new backup script for redis instance
+  - review best practices for ec2 instance:
+    - https://redis.com/blog/5-tips-for-running-redis-over-aws/
+    - https://stackoverflow.com/questions/11765502/best-ec2-setup-for-redis-server
+      - I've confirmed the xgd2 instance is HVM by checking the AMI associated with it
   - document redis instance setup and config:
     ```sudo dnf install -y redis6
 sudo systemctl start redis6
@@ -30,21 +38,9 @@ Backup script:
   Check in on backup bucket on S3 for removal of old backups
 
 
-
-Remove cdn logic from node.js
-
 Fix auto titles of 'screenshot at 12:22pm' and make sure the date parser can handle them
 
-Write script to change 'blotcdn.com' to 'cdn.blot.im' in the redis db. Make it possible to do this on a blog-by-blog basis.
-- Template keys will also need to be changed.
-- Transformer cache keys will also need to be changed
-
-Expose the option to purchase the removal of subscription fee for a blog on the dashboard for $440
-
-Set up DMARC on blot.im 
-
-Plan the AWS changes
-- new instance for redis
+Consider exposing the option to purchase the removal of subscription fee for a blog on the dashboard for $440
 
 ---
 

@@ -26,8 +26,9 @@ get(process.argv[2], function (err, user, blog) {
               if (err) return next(err);
 
               if (value.indexOf(OLD_ORIGIN) > -1) {
-                console.log("Found key with old origin", key);
+                console.log("Found string key with old origin", key);
                 console.log(value);
+                next();
                 //   value = value.replace(OLD_ORIGIN, NEW_ORIGIN);
                 //   client.set(key, value, next);
               } else {
@@ -41,10 +42,11 @@ get(process.argv[2], function (err, user, blog) {
               Object.keys(value).forEach(function (hashKey) {
                 const hashValue = value[hashKey];
                 if (hashValue.indexOf(OLD_ORIGIN) > -1) {
-                  console.log("Found key with old origin", key);
+                  console.log("Found hash key with old origin", key, hashKey);
                   console.log(hashValue);
                   //   value[hashKey] = hashValue.replace(OLD_ORIGIN, NEW_ORIGIN);
                   //   client.hset(key, hashKey, value[hashKey], next);
+                  next();
                 } else {
                   next();
                 }
