@@ -19,7 +19,7 @@ const remoteRedisURL = "redis://" + process.argv[2] + ":6379";
 
 console.log("remoteRedisURL", remoteRedisURL);
 
-var clientB = redis.createClient(remoteRedisURL);
+var clientB = redis.createClient({url: remoteRedisURL});
 
 clientB.on("error", function (err) {
   console.log("Redis Error:");
