@@ -1,4 +1,5 @@
 var config = require("config");
+const { ConsoleReporter } = require("jasmine");
 var redis = require("redis");
 
 var clientA = redis.createClient(config.redis.port);
@@ -10,8 +11,10 @@ clientA.on("error", function (err) {
   if (err.stack) console.log(err.stack);
 });
 
+console.time('clientA.ping');
 clientA.ping(function (err, reply) {
   if (err) throw err;
+  console.timeEnd('clientA.ping');
   console.log("A: " + reply);
 });
 
@@ -28,7 +31,9 @@ clientB.on("error", function (err) {
   if (err.stack) console.log(err.stack);
 });
 
+console.time('clientB.ping');
 clientB.ping(function (err, reply) {
   if (err) throw err;
+  console.timeEnd('clientB.ping');
   console.log("B: " + reply);
 });
