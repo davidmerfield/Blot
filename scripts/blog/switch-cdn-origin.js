@@ -17,13 +17,13 @@ get(process.argv[2], function (err, user, blog) {
     function (keys, next) {
       if (!keys.length) return next();
 
-    //   console.log("Found " + keys.length + " keys associated with this blog");
+      //   console.log("Found " + keys.length + " keys associated with this blog");
 
       // For each key in series
       async.eachSeries(
         keys,
         function (key, next) {
-        //   console.log("Checking key", key);
+          //   console.log("Checking key", key);
           client.type(key, function (err, type) {
             if (err) return next(err);
 
@@ -34,9 +34,8 @@ get(process.argv[2], function (err, user, blog) {
                 if (value.indexOf(OLD_ORIGIN) > -1) {
                   console.log("Found string key with old origin", key);
                   console.log(value);
-                //   next();
-                    value = value.replace(OLD_ORIGIN, NEW_ORIGIN);
-                    client.set(key, value, next);
+                  value = value.split(OLD_ORIGIN).join(NEW_ORIGIN);
+                  client.set(key, value, next);
                 } else {
                   next();
                 }
