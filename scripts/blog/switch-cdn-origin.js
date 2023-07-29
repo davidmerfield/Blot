@@ -34,9 +34,9 @@ get(process.argv[2], function (err, user, blog) {
                 if (value.indexOf(OLD_ORIGIN) > -1) {
                   console.log("Found string key with old origin", key);
                   console.log(value);
-                  next();
-                  //   value = value.replace(OLD_ORIGIN, NEW_ORIGIN);
-                  //   client.set(key, value, next);
+                //   next();
+                    value = value.replace(OLD_ORIGIN, NEW_ORIGIN);
+                    client.set(key, value, next);
                 } else {
                   next();
                 }
