@@ -73,7 +73,16 @@ module.exports = function (req, res, next) {
 
     // Redirect HTTP to HTTPS. Preview subdomains are not currently
     // available over HTTPS but when they are, remove this.
-    if (blog.forceSSL && req.protocol === "http" && !previewTemplate)
+    if (
+      blog.forceSSL &&
+      req.protocol === "http" &&
+      !previewTemplate &&
+
+      // handle cloudflare properly
+      Object.keys(req.headers).find((key) =>
+        key.toLowerCase().startsWith("cf-")
+      )
+    )
       redirect = "https://" + host + req.originalUrl;
 
     // Should we be using 302 temporary for this?

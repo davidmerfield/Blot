@@ -131,6 +131,8 @@ module.exports = function (req, res, _next) {
             if (
               viewType.indexOf("text/") > -1 &&
               req.protocol === "http" &&
+              // This is a hack to prevent Cloudflare from caching
+              !Object.keys(req.headers).find((key) => key.toLowerCase().startsWith('cf-')) && 
               output.indexOf(config.cdn.origin) > -1
             )
               output = output

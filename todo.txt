@@ -7,6 +7,8 @@ CDN:
 - Get node serving as few static files as possible
 - can we use content by redis to look up the blog_id and check blog static files directory?
 
+Work out if we can read the headers to determine if CLoudflare is connecting to us over HTTP with flexible ssl settings for the domain and don't rewrite the protocol of cdn URLS
+
 Move redis into its own instance
   - consolidate al refactor all createClient calls into a single function whose URL can change
   - make sure server can mostly function if redis connection fails
