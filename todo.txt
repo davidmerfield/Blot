@@ -1,5 +1,15 @@
 Write automated script to remove overdue blogs from disk and db
 
+Fix any broken links in CDN logs
+
+Get node serving as few static files as possible
+
+Check in on backup bucket on S3 for removal of old backups
+
+Get rid of postgres
+
+Remove cdn logic from node.js
+
 Fix auto titles of 'screenshot at 12:22pm' and make sure the date parser can handle them
 
 Write script to change 'blotcdn.com' to 'cdn.blot.im' in the redis db. Make it possible to do this on a blog-by-blog basis.
