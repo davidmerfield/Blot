@@ -1,12 +1,35 @@
-Write automated script to remove overdue blogs from disk and db
-
 Fix any broken links in CDN logs
 
 Get node serving as few static files as possible
+- can we use content by redis to look up the blog_id and check blog static files directory?
 
-Check in on backup bucket on S3 for removal of old backups
+Move redis into its own instance
+  - consolidate al refactor all createClient calls into a single function whose URL can change
+  - make sure server can mostly function if redis connection fails
+  - check old implementation for switching into read-only mode for redis
+  - write new backup script for redis instance
+  - document redis instance setup and config:
+    ```sudo dnf install -y redis6
+sudo systemctl start redis6
+sudo systemctl enable redis6
+sudo systemctl is-enabled redis6
+redis6-server --version
+redis6-cli ping
+```
+  then changed in redis.conf
+    ```
+    bind $EC2_PRIVATE_IP 127.0.0.1
+    ```
+    https://serverfault.com/a/1129059
+  - purchase reserved instance for 3-year convertible, no upfront
+  - get rid of postgres by moving questions into redis
 
-Get rid of postgres
+Write automated script to remove overdue blogs from disk and db
+
+Backup script:
+  Check in on backup bucket on S3 for removal of old backups
+
+
 
 Remove cdn logic from node.js
 
