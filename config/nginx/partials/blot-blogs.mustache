@@ -55,7 +55,7 @@ location @blog_folder {
 
 location @blot {
   add_header 'Blot-Cache' 'false' always;
-  include /var/www/blot/config/nginx/reverse-proxy.conf;
+  {{> reverse-proxy.mustache}}
 }
 
 # This is used to prevent people from accessing the git repositories in user folders
@@ -63,5 +63,5 @@ location @blot {
 # as 404s. This needs to be in both blot-blog.conf and blot-site.conf because it seems
 # all requests hit the blot-site.conf cache layer first?
 location ^~ /.git {
-  include /var/www/blot/config/nginx/reverse-proxy.conf;
+  {{> reverse-proxy.mustache}}
 }

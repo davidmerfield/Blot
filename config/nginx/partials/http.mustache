@@ -10,7 +10,7 @@ server_tokens off;
 # for text files served by NGINX
 charset utf-8;
 
-include /var/www/blot/config/nginx/static-file.conf;
+{{> static-file.mustache}}
 
 upstream blot_node {
     server 127.0.0.1:8080;

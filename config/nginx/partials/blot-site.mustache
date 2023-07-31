@@ -66,7 +66,7 @@ location ~ /cdn(.*)$ {
 # as 404s. This needs to be in both blot-blog.conf and blot-site.conf because it seems
 # all requests hit the blot-site.conf cache layer first?
 location ^~ /.git {
-  include /var/www/blot/config/nginx/reverse-proxy.conf;
+  {{> reverse-proxy.mustache}}
 }
 
 # location @permanent_cache_gzip {
@@ -95,7 +95,7 @@ location @permanent_cache {
 location = /status {
   client_max_body_size 1M;  
   proxy_read_timeout 24h;
-  include /var/www/blot/config/nginx/reverse-proxy.conf;  
+  {{> reverse-proxy.mustache}}  
 }
 
 # Allow uploads of files up to 250mb for the importer
@@ -104,7 +104,7 @@ location = /status {
 location /dashboard/ {
   client_max_body_size 250M;
   set $because_dashboard '-because-dashboard';  
-  include /var/www/blot/config/nginx/reverse-proxy.conf;  
+  {{> reverse-proxy.mustache}}  
 }
 
 # We want the people using the git client to be able to 
@@ -118,7 +118,7 @@ location /clients/git/end/ {
   limit_rate_after 100M;
   # sets max download speed to 100 Kbps
   limit_rate 5M; 
-  include /var/www/blot/config/nginx/reverse-proxy.conf;  
+  {{> reverse-proxy.mustache}}  
 }
 
 location / {
@@ -144,5 +144,5 @@ location @temporary_cache {
 location @blot {
   client_max_body_size 1M;
   gzip on;
-  include /var/www/blot/config/nginx/reverse-proxy.conf;
+  {{> reverse-proxy.mustache}}
 }
