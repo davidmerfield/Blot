@@ -1,10 +1,5 @@
 changes to current server
-1. make server resilient to redis dropping out
-2. switch server to using redis URL as config
-  - update lua resty auto ssl config so it points to new redis as well
-3. change redis bind settings to identify aspects of service connecting differently
-
-make redis use an environment variable for its host
+3. change redis bind settings to identify aspects of service connecting differently?
 
 render nginx config using same environment variable
 
@@ -15,25 +10,15 @@ deployment process for new server
 
 Write automated script to remove overdue blogs from disk and db
 
-monorepo 
-  r6g.2xlarge $152.4970 monthly
+Planned infrastructure:
 
-reverse proxy with instance store ssd for proxy cache:
-	c6gd.large $26.7910 monthly
-  can we stack many of these servers?
+  redis server: -2 vcpu + 32gb ram + 100 gb instance disk
+    x2gd.large $50.0050 monthly
 
-node server 4cpu
-	a1.xlarge $37 monthly
-  a1.large $18 monthly
-  t4g.medium $12.19 monthly
+  nginx + node server: 8gb ram + 4vcpu
+    a1.xlarge $37.0110 monthly
 
-redis server: -2 vcpu + 32gb ram + 100 gb instance disk
-  x2gd.large $50.0050 monthly
-
-nginx + node server: 8gb ram + 4vcpu
-  a1.xlarge $37.0110 monthly
-
-  c6gd.xlarge $53.5820 monthly  + 240GB instance disk
+Eventually we could think about moving the reverse proxy onto its own server, but then we need to share a disk? Or we could use a networked file system from the node.js server to the nginx server?
 
 Write script to remove unused and unaccessed static files from within blog folders
 
