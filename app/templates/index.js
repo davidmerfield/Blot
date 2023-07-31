@@ -28,7 +28,7 @@ var DEFAULT_FONT = fonts
     });
     return font;
   })[0];
-  
+
 var DEFAULT_MONO_FONT = fonts
   .filter((font) => font.name === "System mono")
   .map((font) => {
@@ -49,7 +49,8 @@ if (require.main === module) {
 
   // Rebuilds templates when we load new states
   // using scripts/state/info.js
-  let client = require("redis").createClient();
+  let redis = require("models/redis");
+  let client = new redis();
   client.subscribe("templates:rebuild");
   client.on("message", function () {
     main({}, function () {});

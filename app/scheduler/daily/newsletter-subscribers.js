@@ -8,11 +8,11 @@ if (require.main === module) {
 }
 
 function main(callback) {
-  require("redis")
-    .createClient()
-    .smembers("newsletter:list", function (err, subscribers) {
-      callback(null, { newsletter_subscribers: subscribers.length });
-    });
+  var redis = require("models/redis");
+  var client = new redis();
+  client.smembers("newsletter:list", function (err, subscribers) {
+    callback(null, { newsletter_subscribers: subscribers.length });
+  });
 }
 
 module.exports = main;

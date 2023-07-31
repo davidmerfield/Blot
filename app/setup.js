@@ -1,7 +1,10 @@
 const config = require("config");
 const root = require("helper/rootDir");
 const fs = require("fs-extra");
-const redis = require("redis").createClient();
+
+const redis = require("models/redis");
+const client = new redis();
+
 const templates = require("./templates");
 const async = require("async");
 const clfdate = require("helper/clfdate");
@@ -32,7 +35,7 @@ function main(callback) {
         // Typically, domain keys like domain:example.com store a blog's ID
         // but since the homepage is not a blog, we just use a placeholder 'X'
         log("Creating SSL key for redis");
-        redis.msetnx(
+        client.msetnx(
           ["domain:" + config.host, "X", "domain:www." + config.host, "X"],
           function (err) {
             if (err) {
@@ -51,23 +54,25 @@ function main(callback) {
       },
       function (callback) {
         log("Building templates");
-        templates({ watch: config.environment === "development" }, function (
-          err
-        ) {
-          if (err) throw err;
-          log("Built templates");
-          callback();
-          // Build templates and watch directory
-          if (config.environment === "development") {
-            // Rebuilds templates when we load new states
-            // using scripts/state/info.js
-            const client = require("redis").createClient();
-            client.subscribe("templates:rebuild");
-            client.on("message", function () {
-              templates({}, function () {});
-            });
+        templates(
+          { watch: config.environment === "development" },
+          function (err) {
+            if (err) throw err;
+            log("Built templates");
+            callback();
+            // Build templates and watch directory
+            if (config.environment === "development") {
+              // Rebuilds templates when we load new states
+              // using scripts/state/info.js
+              const templateClient = new redis();
+
+              templateClient.subscribe("templates:rebuild");
+              templateClient.on("message", function () {
+                templates({}, function () {});
+              });
+            }
           }
-        });
+        );
       },
     ],
     callback

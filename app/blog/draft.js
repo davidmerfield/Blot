@@ -2,7 +2,7 @@ module.exports = function route(server) {
   var Entry = require("models/entry");
   var Entries = require("models/entries");
   var drafts = require("sync/update/drafts");
-  var redis = require("redis");
+  var redis = require("models/redis");
 
   // (node:73631) TimeoutOverflowWarning: 1.7976931348623157e+308 does not fit into a 32-bit signed integer.
   // Timer duration was truncated to 2147483647.
@@ -10,7 +10,7 @@ module.exports = function route(server) {
 
   server.get(drafts.streamRoute, function (req, res, next) {
     var blogID = req.blog.id;
-    var client = redis.createClient();
+    var client = new redis();
     var path = drafts.getPath(req.url, drafts.streamRoute);
 
     req.socket.setTimeout(MAX_TIMEOUT);
@@ -41,9 +41,7 @@ module.exports = function route(server) {
           res.write("\n");
           res.write("data: " + JSON.stringify(bodyHTML.trim()) + "\n\n");
           res.flushHeaders();
-        } catch (e) {
-          
-        }
+        } catch (e) {}
       });
     });
 
@@ -92,26 +90,26 @@ module.exports = function route(server) {
       // THE LINE TO SHOW OR NOT TO SHOW?
       // PERHAPS PASS {drafts: show}? or something?
 
-      Entries.adjacentTo(blogID, entry.id, function (
-        nextEntry,
-        previousEntry,
-        index
-      ) {
-        entry.next = nextEntry;
-        entry.index = index;
-        entry.previous = previousEntry;
-        entry.adjacent = !!(nextEntry || previousEntry);
+      Entries.adjacentTo(
+        blogID,
+        entry.id,
+        function (nextEntry, previousEntry, index) {
+          entry.next = nextEntry;
+          entry.index = index;
+          entry.previous = previousEntry;
+          entry.adjacent = !!(nextEntry || previousEntry);
 
-        response.addLocals({
-          pageTitle: entry.title + " - " + blog.title,
-          pageDescription: entry.summary,
-          entry: entry,
-        });
+          response.addLocals({
+            pageTitle: entry.title + " - " + blog.title,
+            pageDescription: entry.summary,
+            entry: entry,
+          });
 
-        response.renderView("entry.html", next, function (err, output) {
-          drafts.injectScript(output, filePath, callback);
-        });
-      });
+          response.renderView("entry.html", next, function (err, output) {
+            drafts.injectScript(output, filePath, callback);
+          });
+        }
+      );
     });
   }
 };
