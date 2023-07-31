@@ -4,6 +4,10 @@ changes to current server
   - update lua resty auto ssl config so it points to new redis as well
 3. change redis bind settings to identify aspects of service connecting differently
 
+make redis use an environment variable for its host
+
+render nginx config using same environment variable
+
 deployment process for new server
 1. write a script for the remote server
 2. write a script to run here

@@ -46,7 +46,7 @@ module.exports = {
 
   port: BLOT_PORT,
 
-  redis: { port: 6379, host: "127.0.0.1" },
+  redis: { port: 6379, host: process.env.BLOT_REDIS_HOST  },
 
   postgres: {
     user: process.env.BLOT_POSTGRES_USER,
