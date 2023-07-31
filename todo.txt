@@ -1,3 +1,53 @@
+changes to current server
+1. make server resilient to redis dropping out
+2. switch server to using redis URL as config
+  - update lua resty auto ssl config so it points to new redis as well
+3. change redis bind settings to identify aspects of service connecting differently
+
+deployment process for new server
+1. write a script for the remote server
+2. write a script to run here
+3. write script to run on existing server which bgsaves, then duplicates dump.rdb so we can rsync to new server
+
+Write automated script to remove overdue blogs from disk and db
+
+monorepo 
+  r6g.2xlarge $152.4970 monthly
+
+reverse proxy with instance store ssd for proxy cache:
+	c6gd.large $26.7910 monthly
+  can we stack many of these servers?
+
+node server 4cpu
+	a1.xlarge $37 monthly
+  a1.large $18 monthly
+  t4g.medium $12.19 monthly
+
+redis server: -2 vcpu + 32gb ram + 100 gb instance disk
+  x2gd.large $50.0050 monthly
+
+nginx + node server: 8gb ram + 4vcpu
+  a1.xlarge $37.0110 monthly
+
+  c6gd.xlarge $53.5820 monthly  + 240GB instance disk
+
+Write script to remove unused and unaccessed static files from within blog folders
+
+Cheapest:
+  r6g.xlarge 
+    2 nginx workers
+    2 node workers
+    1 redis process  
+    attached EBS cold sc1 for data
+    attached EBS SSD for root
+  
+
+Use a mono instance r6g.xlarge with:
+  - single attached EBS SSD as root
+
+instance stores are much faster than attached ebs ssds:
+  https://gist.github.com/ktheory/3c3616fca42a3716346b
+
 CDN:
 - Write script to change 'blotcdn.com' to 'cdn.blot.im' in the redis db. Make it possible to do this on a blog-by-blog basis.
   - Template keys will also need to be changed.
@@ -9,9 +59,12 @@ CDN:
 
 Work out if we can read the headers to determine if CLoudflare is connecting to us over HTTP with flexible ssl settings for the domain and don't rewrite the protocol of cdn URLS
 
-Move redis into its own instance
-  - consolidate al refactor all createClient calls into a single function whose URL can change
-  - make sure server can mostly function if redis connection fails
+Investigate if we can rewrite git client so we don't need to store double the data - right now we have 48GB duped
+
+Move redis into its own instance?
+  - since redis is currently on same server, we should have been communicating with unix sockets, not tcp
+  - test if systemctl will auto reboot it by doing `kill -9 <pid>` if not, follow this guide:
+    https://ma.ttias.be/auto-restart-crashed-service-systemd/
   - check old implementation for switching into read-only mode for redis
   - write new backup script for redis instance
   - review best practices for ec2 instance:
@@ -33,8 +86,6 @@ redis6-cli ping
     https://serverfault.com/a/1129059
   - purchase reserved instance for 3-year convertible, no upfront
   - get rid of postgres by moving questions into redis
-
-Write automated script to remove overdue blogs from disk and db
 
 Backup script:
   Check in on backup bucket on S3 for removal of old backups
