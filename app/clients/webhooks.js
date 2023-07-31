@@ -1,5 +1,5 @@
 const config = require("config");
-const redis = require("redis");
+const redis = require("models/redis");
 const client = require("models/client");
 const express = require("express");
 const CHANNEL = "webhook-forwarder";
@@ -15,7 +15,7 @@ const bodyParser = require("body-parser");
 const server = express();
 
 server.get("/connect", function (req, res) {
-  const client = redis.createClient();
+  const client = new redis();
 
   if (req.header("Authorization") !== config.webhooks.secret) {
     return res.status(403).send("Unauthorized");

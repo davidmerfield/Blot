@@ -1,10 +1,10 @@
 var Express = require("express");
 var status = Express.Router();
-var redis = require("redis");
+var redis = require("models/redis");
 
 status.get("/", function (req, res) {
   var blogID = req.blog.id;
-  var client = redis.createClient();
+  var client = new redis();
 
   req.socket.setTimeout(2147483647);
 

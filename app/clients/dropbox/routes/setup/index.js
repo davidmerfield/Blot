@@ -1,5 +1,5 @@
 const sync = require("sync");
-const redis = require("redis");
+const redis = require("models/redis");
 
 const promisify = require("util").promisify;
 const database = require("clients/dropbox/database");
@@ -13,7 +13,7 @@ function setup(account, session, callback) {
   sync(account.blog.id, async function (err, folder, done) {
     if (err) return callback(err);
 
-    const client = redis.createClient();
+    const client = new redis();
     const signal = { aborted: false };
     const cleanup = () => {
       console.log("Cleaning up Dropbox setup");
