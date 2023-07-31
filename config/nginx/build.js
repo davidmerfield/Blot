@@ -12,7 +12,13 @@ fs.readdirSync(__dirname + "/partials").forEach((file) => {
 
 const result = mustache.render(
   template,
-  { development: config.environment === "development", host: config.host },
+  {
+    blot_directory: config.blot_directory,
+    development: config.environment === "development",
+    host: config.host,
+    node_port: config.port,
+    redis: config.redis,
+  },
   partials
 );
 

@@ -25,7 +25,7 @@ init_by_lua_block {
 
   local redis = require "resty.redis"
 
-  local redis_options = { host = "127.0.0.1", port = 6379 , prefix = "ssl" }
+  local redis_options = { host = "{{redis.host}}", port = 6379 , prefix = "ssl" }
 
   local function get_redis_instance(redis_options)
 

@@ -11,16 +11,12 @@ http {
     server {
         listen 443 ssl http2;
 
-        set $blot_host {{host}};
-        set $blot_directory /var/www/blot;
-        set $cache_directory /cache;
-
-        # You can't use a variable in the server_name directive apparently
         server_name {{host}};
 
         {{^development}}
         {{> auto-ssl.mustache}}}
         {{/development}}
+
         {{#development}}
         ssl_certificate  /etc/blot/blot.development.crt;
         ssl_certificate_key /etc/blot/blot.development.key;
@@ -39,12 +35,10 @@ http {
         listen 80 default_server;
         listen 443 ssl http2 default_server;
 
-        set $blot_directory /var/www/blot;
-        set $cache_directory /cache;
-
         {{^development}}
         {{> auto-ssl.mustache}}}
         {{/development}}
+
         {{#development}}
         ssl_certificate  /etc/blot/blot.development.crt;
         ssl_certificate_key /etc/blot/blot.development.key;

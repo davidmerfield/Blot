@@ -11,20 +11,20 @@ error_page 502 /error-proxy-502.html;
 # send the text '502 Bad Gateway' to the client
 location = /error-proxy-502.html {
   client_max_body_size 1M;
-  root  $blot_directory/app/views;
+  root  {{{blot_directory}}}/app/views;
 }
 
 # The caching folders include the protocol in the path, so that redirects
 # from HTTP to HTTP can be handled at the Node.js application. 
 # Use $request_uri if you want the query string also
 # use $uri if you don't want the query string
-set $permanent_cache $cache_directory/$host/$scheme/permanent$request_uri;
+set $permanent_cache {{{cache_directory}}}/$host/$scheme/permanent$request_uri;
 
-set $temporary_cache $cache_directory/$host/$scheme/temporary$request_uri;
-set $temporary_cache_index $cache_directory/$host/$scheme/temporary$request_uri/index.html;
+set $temporary_cache {{{cache_directory}}}/$host/$scheme/temporary$request_uri;
+set $temporary_cache_index {{{cache_directory}}}/$host/$scheme/temporary$request_uri/index.html;
 
-set $static $cache_directory/$host/static$request_uri;
-set $blog_folder $cache_directory/$host/folder$request_uri;
+set $static {{{cache_directory}}}/$host/static$request_uri;
+set $blog_folder {{{cache_directory}}}/$host/folder$request_uri;
 
 location / {
   add_header 'Blot-Cache' 'true-cache-permanent' always;
