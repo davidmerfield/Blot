@@ -16,6 +16,9 @@ export BLOT_CACHE_DIRECTORY=
 # Remove these eventually
 export BLOT_PROTOCOL=https
 
+# Redis configuration
+export BLOT_REDIS_HOST=127.0.0.1
+
 # Postgres configuration
 export BLOT_POSTGRES_USER=postgres
 export BLOT_POSTGRES_HOST=localhost
