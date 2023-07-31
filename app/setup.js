@@ -54,25 +54,24 @@ function main(callback) {
       },
       function (callback) {
         log("Building templates");
-        templates(
-          { watch: config.environment === "development" },
-          function (err) {
-            if (err) throw err;
-            log("Built templates");
-            callback();
-            // Build templates and watch directory
-            if (config.environment === "development") {
-              // Rebuilds templates when we load new states
-              // using scripts/state/info.js
-              const templateClient = new redis();
+        templates({ watch: config.environment === "development" }, function (
+          err
+        ) {
+          if (err) throw err;
+          log("Built templates");
+          callback();
+          // Build templates and watch directory
+          if (config.environment === "development") {
+            // Rebuilds templates when we load new states
+            // using scripts/state/info.js
+            const templateClient = new redis();
 
-              templateClient.subscribe("templates:rebuild");
-              templateClient.on("message", function () {
-                templates({}, function () {});
-              });
-            }
+            templateClient.subscribe("templates:rebuild");
+            templateClient.on("message", function () {
+              templates({}, function () {});
+            });
           }
-        );
+        });
       },
     ],
     callback
