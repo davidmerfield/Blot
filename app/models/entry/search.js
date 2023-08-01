@@ -13,7 +13,7 @@ module.exports = function (blogID, query, callback) {
 
   const results = [];
 
-  query = query.trim().toLowerCase();
+  const terms = query.split(/\s+/).map((term) => transliterate(term).toLowerCase());
 
   // this will not search pages or deleted entries
   const key = "blog:" + blogID + ":entries";
@@ -35,7 +35,7 @@ module.exports = function (blogID, query, callback) {
           .join(" ")
           .toLowerCase();
 
-        for (const term of terms) {
+        for(const term of terms) {
           if (
             text.indexOf(term) > -1 ||
             text.indexOf(transliterate(term)) > -1
