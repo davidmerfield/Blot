@@ -90,8 +90,6 @@ module.exports = function (req, res, next) {
     )
       redirect = "https://" + host + req.originalUrl;
 
-    console.log('HERE', redirect, fromCloudflare, req.protocol);
-
     // Should we be using 302 temporary for this?
     if (redirect) return res.status(301).redirect(redirect);
 
