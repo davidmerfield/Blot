@@ -1,12 +1,13 @@
 describe("entry.search", function () {
   require("./setup")();
 
-  it("works", async function (done) {
+  it("works with a single entry", async function (done) {
     const path = "/post.txt";
-    const contents = `Custom: Metadata
+    const contents = `Custom: Metadata hello!
     Tags: apple, pear, orange
     
     Hello, world!`;
+
     const check = (results) => {
       expect(results.length).toEqual(1);
       expect(results[0].id).toEqual(path);
@@ -34,7 +35,55 @@ describe("entry.search", function () {
     
     // Tags
     check(await this.search("apple"));
-    
+
     done();
   });
+
+  it("works with two entries", async function (done) {
+    const path1 = "/post.txt";
+    const contents1 = `Custom: Metadata hello!
+    Tags: apple, pear, orange
+    
+    Hello, you!`;
+
+    const path2 = "/post2.txt";
+    const contents2 = `Custom: Metadata hello!
+    Tags: apple, pear, orange
+    
+    Hello, me!`;
+
+    const check = (results) => {
+      expect(results.length).toEqual(2);
+      expect(results[0].id).toEqual(path1);
+      expect(results[1].id).toEqual(path2);
+    };  
+
+    await this.set(path1, contents1);
+    await this.set(path2, contents2);
+
+    // Exact match
+    check(await this.search("Hello"));
+
+    // Lowercase 
+    check(await this.search("hello"));
+
+    // With extra whitespace
+    check(await this.search("  hello  "));
+
+    // With multiple terms
+    check(await this.search("hello world"));
+
+    // File name
+    check(await this.search("post.txt"));
+
+    // Custom metadata values
+    check(await this.search("metadata"));
+    
+    // Tags
+    check(await this.search("apple"));
+
+    done();
+    
+  });
+
 });
