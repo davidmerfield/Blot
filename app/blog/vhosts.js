@@ -5,6 +5,15 @@ module.exports = function (req, res, next) {
   var identifier, handle, redirect, previewTemplate, err;
   var host = req.get("host");
 
+  // We have a special case for Cloudflare
+  // because some of their SSL settings insist on fetching
+  // from the origin server (in this case Blot) over HTTP
+  // which causes a redirect loop when we try to redirect
+  // to HTTPS. This is a workaround.
+  var fromCloudflare = !Object.keys(req.headers)
+    .map((key) => key.trim().toLowerCase())
+    .find((key) => key.startsWith("cf-")) !== undefined;
+
   // Not sure why this happens but it do
   if (!host) {
     err = new Error("No blog");
@@ -77,11 +86,7 @@ module.exports = function (req, res, next) {
       blog.forceSSL &&
       req.protocol === "http" &&
       !previewTemplate &&
-
-      // handle cloudflare properly
-      Object.keys(req.headers).find((key) =>
-        key.toLowerCase().startsWith("cf-")
-      )
+      fromCloudflare === false
     )
       redirect = "https://" + host + req.originalUrl;
 
