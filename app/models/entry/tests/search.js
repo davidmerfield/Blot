@@ -11,14 +11,14 @@ describe("entry.search", function () {
     const check = (results) => {
       expect(results.length).toEqual(1);
       expect(results[0].id).toEqual(path);
-    };  
+    };
 
     await this.set(path, contents);
 
     // Exact match
     check(await this.search("Hello"));
 
-    // Lowercase 
+    // Lowercase
     check(await this.search("hello"));
 
     // With extra whitespace
@@ -32,7 +32,7 @@ describe("entry.search", function () {
 
     // Custom metadata values
     check(await this.search("metadata"));
-    
+
     // Tags
     check(await this.search("apple"));
 
@@ -71,7 +71,48 @@ describe("entry.search", function () {
     check(await this.search("hello"));
 
     done();
-    
   });
 
+  it("supports non-latin characters", async function (done) {
+    const path = "/post.txt";
+    const contents = `Custom: Metadata hello!
+    Tags: apple, pear, orange
+    
+    你好，世界！`;
+
+    const check = (results) => {
+      expect(results.length).toEqual(1);
+      expect(results[0].id).toEqual(path);
+    };
+
+    await this.set(path, contents);
+
+    // Exact match
+    check(await this.search("你好"));
+
+    // Lowercase
+    check(await this.search("你好"));
+
+    done();
+  });
+
+  it("ignores entries with Search: no metadata", async function (done) {
+    const path = "/post.txt";
+    const contents = `Search: no
+    Custom: Metadata hello!
+    Tags: apple, pear, orange
+    
+    Hello, world!`;
+
+    const check = (results) => {
+      expect(results.length).toEqual(0);
+    };
+
+    await this.set(path, contents);
+
+    // Exact match
+    check(await this.search("Hello"));
+
+    done();
+  });
 });

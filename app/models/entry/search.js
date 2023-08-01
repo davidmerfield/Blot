@@ -13,7 +13,7 @@ module.exports = function (blogID, query, callback) {
 
   const results = [];
 
-  const terms = query.split(/\s+/).map((term) => transliterate(term).toLowerCase());
+  const terms = query.split(/\s+/).map((term) => term.trim().toLowerCase());
 
   // this will not search pages or deleted entries
   const key = "blog:" + blogID + ":entries";
@@ -24,6 +24,12 @@ module.exports = function (blogID, query, callback) {
     for (const page of chunked) {
       const entries = await get(blogID, page);
       for (const entry of entries) {
+
+        // skip entries that have search disabled
+        if (entry.metadata.search && entry.metadata.search === "no") {
+          continue;
+        }
+
         const text = [
           entry.title,
           entry.permalink,
