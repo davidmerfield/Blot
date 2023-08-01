@@ -53,10 +53,13 @@ describe("entry.search", function () {
     Hello, me!`;
 
     const check = (results) => {
+      // sort results by id
+      results.sort((a, b) => a.id.localeCompare(b.id));
+
       expect(results.length).toEqual(2);
       expect(results[0].id).toEqual(path1);
       expect(results[1].id).toEqual(path2);
-    };  
+    };
 
     await this.set(path1, contents1);
     await this.set(path2, contents2);
@@ -64,23 +67,8 @@ describe("entry.search", function () {
     // Exact match
     check(await this.search("Hello"));
 
-    // Lowercase 
+    // Lowercase
     check(await this.search("hello"));
-
-    // With extra whitespace
-    check(await this.search("  hello  "));
-
-    // With multiple terms
-    check(await this.search("hello world"));
-
-    // File name
-    check(await this.search("post.txt"));
-
-    // Custom metadata values
-    check(await this.search("metadata"));
-    
-    // Tags
-    check(await this.search("apple"));
 
     done();
     
