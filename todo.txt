@@ -1,5 +1,3 @@
-changes to current server
-3. change redis bind settings to identify aspects of service connecting differently?
 
 render nginx config using same environment variable
 
