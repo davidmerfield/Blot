@@ -10,7 +10,7 @@ module.exports = function (req, res, next) {
   // from the origin server (in this case Blot) over HTTP
   // which causes a redirect loop when we try to redirect
   // to HTTPS. This is a workaround.
-  var fromCloudflare = Object.keys(req.headers)
+  var fromCloudflare = Object.keys(req.headers || {})
     .map((key) => key.trim().toLowerCase())
     .find((key) => key.startsWith("cf-")) !== undefined;
 
