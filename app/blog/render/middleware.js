@@ -45,7 +45,7 @@ module.exports = function (req, res, _next) {
     // from the origin server (in this case Blot) over HTTP
     // which causes mixed-content warnings.
     var fromCloudflare =
-      Object.keys(req.headers)
+      Object.keys(req.headers || {})
         .map((key) => key.trim().toLowerCase())
         .find((key) => key.startsWith("cf-")) !== undefined;
 
