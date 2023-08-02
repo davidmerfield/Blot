@@ -72,7 +72,10 @@ function main(blog, callback) {
 
                 Object.keys(value).forEach(function (hashKey) {
                   const hashValue = value[hashKey];
-                  if (hashValue.indexOf(OLD_ORIGIN) > -1) {
+                  if (
+                    typeof hashValue === 'string' &&
+                    hashValue.indexOf(OLD_ORIGIN) > -1
+                  ) {
                     console.log("Modifying", key, hashKey);
                     value = value.split(OLD_ORIGIN).join(NEW_ORIGIN);
                     multi.hset(key, hashKey, value[hashKey]);
@@ -90,7 +93,7 @@ function main(blog, callback) {
         (err) => {
           if (err) return next(err);
 
-            multi.exec(next);
+          multi.exec(next);
         }
       );
     },
