@@ -1,33 +1,48 @@
-var writeToFolder = require("modules/template").writeToFolder;
-var _ = require("lodash");
-var eachTemplate = require("../each/template");
-var Template = require("models/template");
-var async = require("async");
-var shouldWrite = {};
+const { writeToFolder } = require("models/template");
+const eachTemplate = require("../each/template");
+const Template = require("models/template");
+const async = require("async");
+const yesno = require("yesno");
+const _ = require("lodash");
+const fonts = require("blog/static/fonts/index.json");
+
+const shouldWrite = {};
 
 eachTemplate(
   function (user, blog, template, next) {
-    var oldcontent = (" " + view.content).slice(1);
+    if (JSON.stringify(template).toLowerCase().indexOf("woff2") === -1)
+      return next();
 
-    if (view.content.indexOf("{{name}}") > -1)
-      view.content = view.content.split("{{name}}").join("{{title}}");
+    const locals = template.locals;
+    const localsCopy = _.cloneDeep(locals);
 
-    if (view.content.indexOf("{{{name}}}") > -1)
-      view.content = view.content.split("{{{name}}}").join("{{{title}}}");
+    // walk through each property of the template
+    // and check if its a string containing woff2
+    // if it is, ask the user if they want to change it
+    const fontKeys = Object.keys(locals).filter((key) => key.endsWith("_font"));
 
-    if (oldcontent === view.content) return callback();
+    fontKeys.forEach((key) => {
+      const currentFont = locals[key];
 
-    process.stdout.write("\n");
+      if (currentFont.styles.indexOf("woff2") === -1) return;
 
-    yesno.ask("Apply changes to " + view.name + "?", true, function (ok) {
-      if (!ok) view.content = oldcontent;
+      const latestFont = fonts.find((f) => f.name === currentFont.name);
 
+      if (!latestFont) {
+        console.error("Cannot update font", currentFont.name);
+      } else {
+        console.log("Updating font", currentFont.name);
+        currentFont.styles = latestFont.styles;
+      }
+    });
+
+    if (_.isEqual(localsCopy, locals)) return next();
+
+    yesno.ask("Apply changes to " + template.id + "?", true, function (ok) {
       if (template.localEditing) shouldWrite[template.id] = blog.id;
 
-      console.log("Changed", template.id, view.name);
-      Template.setView(template.id, view, next);
-
-      callback();
+      console.log("Changed", template.id);
+      Template.setMetadata(template.id, { locals }, next);
     });
   },
   function () {
@@ -39,11 +54,14 @@ eachTemplate(
         console.log("Writing", templateID);
         writeToFolder(blogID, templateID, function (err) {
           if (err) console.log(err);
-
           next();
         });
       },
-      callback
+      function(err) {
+        if (err) console.error(err);
+        console.log("Done!");
+        process.exit();
+      }
     );
   }
 );
