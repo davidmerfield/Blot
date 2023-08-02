@@ -1,3 +1,6 @@
+
+Write and send out summer newsletter
+
 Fix broken references to missing woff2 font files in people's templates
 
 render nginx config using same environment variable
@@ -81,6 +84,8 @@ Backup script:
   Check in on backup bucket on S3 for removal of old backups
 
 Fix auto titles of 'screenshot at 12:22pm' and make sure the date parser can handle them
+
+Fix title generator so h2 titles within the file dont become the title of the post – this is helpful for obsidian
 
 Consider exposing the option to purchase the removal of subscription fee for a blog on the dashboard for $440
 
