@@ -58,7 +58,7 @@ function main(blog, callback) {
                 if (err) return next(err);
 
                 if (value.indexOf(OLD_ORIGIN) > -1) {
-                  console.log("Modifying", key);
+                  console.log("Modifying STRING", key);
                   value = value.split(OLD_ORIGIN).join(NEW_ORIGIN);
                   multi.set(key, value);
                 }
@@ -71,11 +71,11 @@ function main(blog, callback) {
 
                 Object.keys(value).forEach(function (hashKey) {
                   try {
-                    const hashValue = value[hashKey];
+                    let hashValue = value[hashKey];
                     if (hashValue.indexOf(OLD_ORIGIN) > -1) {
-                      console.log("Modifying", key, hashKey);
-                      value = value.split(OLD_ORIGIN).join(NEW_ORIGIN);
-                      multi.hset(key, hashKey, value[hashKey]);
+                      console.log("Modifying HASH", key, hashKey);
+                      hashValue = hashValue.split(OLD_ORIGIN).join(NEW_ORIGIN);
+                      multi.hset(key, hashKey, hashValue);
                     }
                   } catch (e) {
                     console.log("error handling", key, hashKey, value[hashKey]);
