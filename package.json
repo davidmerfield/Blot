@@ -87,7 +87,7 @@
     "moment": "^2.29.4",
     "moment-timezone": "^0.5.35",
     "multiparty": "^4.2.3",
-    "mustache": "^2.3.0",
+    "mustache": "^4.2.0",
     "node-fetch": "^2.6.7",
     "node-schedule": "^0.1.16",
     "node-zopfli": "^2.1.4",
