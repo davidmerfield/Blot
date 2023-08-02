@@ -3,11 +3,14 @@ const each = require("../each/blog");
 const OLD_ORIGIN = "https://blotcdn.com/";
 const NEW_ORIGIN = "https://cdn.blot.im/";
 
+const flushCache = require("models/blog/flushCache");
+
 const keys = require("../db/keys");
 const get = require("../get/blog");
 const client = require("client");
 
 const async = require("async");
+const { cache } = require("../../config");
 
 if (process.argv[2]) {
   get(process.argv[2], function (err, user, blog) {
@@ -36,6 +39,7 @@ function main(blog, callback) {
   if (!blog.id) return callback(new Error("Please pass a blog"));
 
   const searchParam = "*" + blog.id + "*";
+  const multi = client.multi();
 
   console.log("searching '" + searchParam + "'");
 
@@ -43,8 +47,6 @@ function main(blog, callback) {
     searchParam,
     function (keys, next) {
       if (!keys.length) return next();
-
-      const multi = client.multi();
 
       // For each key in series
       async.eachSeries(
@@ -86,18 +88,26 @@ function main(blog, callback) {
                 next();
               });
             } else {
-              //   console.log("key", key, "is unsupported type: ", type);
               next();
             }
           });
         },
-        (err) => {
-          if (err) return next(err);
-
-          multi.exec(next);
-        }
+        next
       );
     },
-    callback
+    (err) => {
+      if (err) return callback(err);
+
+      if (!multi.queue.length) {
+        console.log("No changes for", blog.id);
+        return callback();
+      }
+
+      multi.exec(function (err) {
+        if (err) return callback(err);
+        console.log("Flushing cache for", blog.id);
+        flushCache(blog.id, callback);
+      });
+    }
   );
 }

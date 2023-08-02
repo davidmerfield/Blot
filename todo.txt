@@ -1,4 +1,3 @@
-
 Write and send out summer newsletter
 
 Fix broken references to missing woff2 font files in people's templates
@@ -38,6 +37,11 @@ instance stores are much faster than attached ebs ssds:
 
 CDN:
 - Fix any broken links in CDN logs
+  404:
+    the documentation fonts are not loading (Katex etc.)
+    https://cdn.blot.im/robots.txt
+    https://cdn.blot.im/sitemap.xml
+    https://cdn.blot.im/
 - Refactor documentation so that CSS / videos are hashed rather than URL changes each time
 - Refactor nginx config so cdn.blot.im is its own server block which eventually passes proxy to node
   - it should check static dir, fonts dir, then documentation dir then proxy pass
@@ -49,6 +53,8 @@ CDN:
 - disable cloudflare distribution
 - monitor bunny logs for uncached paths
 - write script to clean old files from permacache disk
+- consider switching to more expensive CDN type (i.e. not volume)
+- consider expanding the replication of the perma_cache across more regions
 
 Write script to remove unused and unaccessed static files from within blog folders
 
