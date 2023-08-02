@@ -22,7 +22,6 @@ if (process.argv[2]) {
   each(
     (user, blog, next) => {
       if (!blog) return next();
-      if (blog.isDisabled) return next();
       main(blog, next);
     },
     (err) => {
