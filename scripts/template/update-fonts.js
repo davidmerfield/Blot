@@ -1,3 +1,6 @@
+// If we change any of the fonts, e.g. their CSS styles or their font stack,
+// we need to update the template metadata to reflect that.
+
 const { writeToFolder } = require("models/template");
 const eachTemplate = require("../each/template");
 const Template = require("models/template");
@@ -12,9 +15,6 @@ eachTemplate(
     const locals = template.locals;
     const localsCopy = _.cloneDeep(locals);
 
-    // walk through each property of the template
-    // and check if its a string containing woff2
-    // if it is, ask the user if they want to change it
     const fontKeys = Object.keys(locals).filter((key) => key.endsWith("_font"));
 
     fontKeys.forEach((key) => {
