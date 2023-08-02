@@ -1,3 +1,4 @@
+Fix broken references to missing woff2 font files in people's templates
 
 render nginx config using same environment variable
 
@@ -18,8 +19,6 @@ Planned infrastructure:
 
 Eventually we could think about moving the reverse proxy onto its own server, but then we need to share a disk? Or we could use a networked file system from the node.js server to the nginx server?
 
-Write script to remove unused and unaccessed static files from within blog folders
-
 Cheapest:
   r6g.xlarge 
     2 nginx workers
@@ -28,7 +27,6 @@ Cheapest:
     attached EBS cold sc1 for data
     attached EBS SSD for root
   
-
 Use a mono instance r6g.xlarge with:
   - single attached EBS SSD as root
 
@@ -36,15 +34,20 @@ instance stores are much faster than attached ebs ssds:
   https://gist.github.com/ktheory/3c3616fca42a3716346b
 
 CDN:
-- Write script to change 'blotcdn.com' to 'cdn.blot.im' in the redis db. Make it possible to do this on a blog-by-blog basis.
-  - Template keys will also need to be changed.
-  - Transformer cache keys will also need to be changed
 - Fix any broken links in CDN logs
+- Refactor documentation so that CSS / videos are hashed rather than URL changes each time
+- Refactor nginx config so cdn.blot.im is its own server block which eventually passes proxy to node
+  - it should check static dir, fonts dir, then documentation dir then proxy pass
 - Remove cdn logic from node.js
 - Get node serving as few static files as possible
-- can we use content by redis to look up the blog_id and check blog static files directory?
+- can we use symlinks to serve files from blog directories?
+- monitor cloudflare for the URLs which are still pointing to BLOTCDN.com
+- create redirect from blotcdn.com to cdn.blot.im using cloudflare 'bulk redirects'
+- disable cloudflare distribution
+- monitor bunny logs for uncached paths
+- write script to clean old files from permacache disk
 
-Work out if we can read the headers to determine if CLoudflare is connecting to us over HTTP with flexible ssl settings for the domain and don't rewrite the protocol of cdn URLS
+Write script to remove unused and unaccessed static files from within blog folders
 
 Investigate if we can rewrite git client so we don't need to store double the data - right now we have 48GB duped
 
@@ -76,7 +79,6 @@ redis6-cli ping
 
 Backup script:
   Check in on backup bucket on S3 for removal of old backups
-
 
 Fix auto titles of 'screenshot at 12:22pm' and make sure the date parser can handle them
 
