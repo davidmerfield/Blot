@@ -12,7 +12,7 @@ const client = require("client");
 const async = require("async");
 const { cache } = require("../../config");
 
-if (process.argv[2]) {
+if (process.argv[2] && process.argv[2] !== "-s" && process.argv[2] !== "-r") {
   get(process.argv[2], function (err, user, blog) {
     if (err) throw err;
     main(blog, function (err) {
