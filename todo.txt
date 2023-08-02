@@ -56,16 +56,14 @@ CDN:
 - consider switching to more expensive CDN type (i.e. not volume)
 - consider expanding the replication of the perma_cache across more regions
 
-Write script to remove unused and unaccessed static files from within blog folders
-
-Investigate if we can rewrite git client so we don't need to store double the data - right now we have 48GB duped
-
 Move redis into its own instance?
   - since redis is currently on same server, we should have been communicating with unix sockets, not tcp
   - test if systemctl will auto reboot it by doing `kill -9 <pid>` if not, follow this guide:
     https://ma.ttias.be/auto-restart-crashed-service-systemd/
   - check old implementation for switching into read-only mode for redis
   - write new backup script for redis instance
+    - make it run hourly
+  - test backup procedure on this instance before we switch production to it
   - review best practices for ec2 instance:
     - https://redis.com/blog/5-tips-for-running-redis-over-aws/
     - https://stackoverflow.com/questions/11765502/best-ec2-setup-for-redis-server
@@ -88,6 +86,10 @@ redis6-cli ping
 
 Backup script:
   Check in on backup bucket on S3 for removal of old backups
+
+Write script to remove unused and unaccessed static files from within blog folders
+
+Investigate if we can rewrite git client so we don't need to store double the data - right now we have 48GB duped
 
 Fix auto titles of 'screenshot at 12:22pm' and make sure the date parser can handle them
 
