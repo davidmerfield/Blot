@@ -1,4 +1,5 @@
-var client = require("redis").createClient();
+var redis = require("models/redis");
+var client = new redis();
 var async = require("async");
 
 function main(string, callback) {

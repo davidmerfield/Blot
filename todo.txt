@@ -1,17 +1,86 @@
+
+render nginx config using same environment variable
+
+deployment process for new server
+1. write a script for the remote server
+2. write a script to run here
+3. write script to run on existing server which bgsaves, then duplicates dump.rdb so we can rsync to new server
+
 Write automated script to remove overdue blogs from disk and db
+
+Planned infrastructure:
+
+  redis server: -2 vcpu + 32gb ram + 100 gb instance disk
+    x2gd.large $50.0050 monthly
+
+  nginx + node server: 8gb ram + 4vcpu
+    a1.xlarge $37.0110 monthly
+
+Eventually we could think about moving the reverse proxy onto its own server, but then we need to share a disk? Or we could use a networked file system from the node.js server to the nginx server?
+
+Write script to remove unused and unaccessed static files from within blog folders
+
+Cheapest:
+  r6g.xlarge 
+    2 nginx workers
+    2 node workers
+    1 redis process  
+    attached EBS cold sc1 for data
+    attached EBS SSD for root
+  
+
+Use a mono instance r6g.xlarge with:
+  - single attached EBS SSD as root
+
+instance stores are much faster than attached ebs ssds:
+  https://gist.github.com/ktheory/3c3616fca42a3716346b
+
+CDN:
+- Write script to change 'blotcdn.com' to 'cdn.blot.im' in the redis db. Make it possible to do this on a blog-by-blog basis.
+  - Template keys will also need to be changed.
+  - Transformer cache keys will also need to be changed
+- Fix any broken links in CDN logs
+- Remove cdn logic from node.js
+- Get node serving as few static files as possible
+- can we use content by redis to look up the blog_id and check blog static files directory?
+
+Work out if we can read the headers to determine if CLoudflare is connecting to us over HTTP with flexible ssl settings for the domain and don't rewrite the protocol of cdn URLS
+
+Investigate if we can rewrite git client so we don't need to store double the data - right now we have 48GB duped
+
+Move redis into its own instance?
+  - since redis is currently on same server, we should have been communicating with unix sockets, not tcp
+  - test if systemctl will auto reboot it by doing `kill -9 <pid>` if not, follow this guide:
+    https://ma.ttias.be/auto-restart-crashed-service-systemd/
+  - check old implementation for switching into read-only mode for redis
+  - write new backup script for redis instance
+  - review best practices for ec2 instance:
+    - https://redis.com/blog/5-tips-for-running-redis-over-aws/
+    - https://stackoverflow.com/questions/11765502/best-ec2-setup-for-redis-server
+      - I've confirmed the xgd2 instance is HVM by checking the AMI associated with it
+  - document redis instance setup and config:
+    ```sudo dnf install -y redis6
+sudo systemctl start redis6
+sudo systemctl enable redis6
+sudo systemctl is-enabled redis6
+redis6-server --version
+redis6-cli ping
+```
+  then changed in redis.conf
+    ```
+    bind $EC2_PRIVATE_IP 127.0.0.1
+    ```
+    https://serverfault.com/a/1129059
+  - purchase reserved instance for 3-year convertible, no upfront
+  - get rid of postgres by moving questions into redis
+
+Backup script:
+  Check in on backup bucket on S3 for removal of old backups
+
 
 Fix auto titles of 'screenshot at 12:22pm' and make sure the date parser can handle them
 
-Write script to change 'blotcdn.com' to 'cdn.blot.im' in the redis db. Make it possible to do this on a blog-by-blog basis.
-- Template keys will also need to be changed.
-- Transformer cache keys will also need to be changed
-
-Expose the option to purchase the removal of subscription fee for a blog on the dashboard for $440
-
-Set up DMARC on blot.im 
-
-Plan the AWS changes
-- new instance for redis
+Consider exposing the option to purchase the removal of subscription fee for a blog on the dashboard for $440
 
 ---
 
@@ -66,8 +135,6 @@ Investigate Google Drive client
 - [ ] do the google docs edit events we are missing on `drive.changes.watch` appear on `drive.changes.list`?
 
 Wikilinks should have a class property of 'wikilink' rather than a title attribute and tell [questioner](https://blot.im/questions/39)
-
-Improve search for non-latin scripts and tell [questioner](https://blot.im/questions/1800)
 
 Preserve file name for SEO purposes when uploading to image cache CDN and tell [Jean](https://mail.google.com/mail/u/0/#inbox/FMfcgzGsmNWvwwvzVGZnPFKnHnkbBWxD)
 
@@ -357,7 +424,6 @@ Tell [Jarrod](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrbRSDCZqMwzjDdqdGCk
 
 Add way to set the slug-part of a URL for a post and tell [George](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsdBjKHPdsRXJBGSbxpQQCbCN) and follow up for [post in Questions](https://blot.im/questions/23) and tell [Jarrod](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqQcpsRhzFwxVGFJLLTRsFFGKj)
 
-Add custom metadata to turn off/on search indexing on specific post or page and tell [Hani](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNqCSdngxBKHqctWBTgmFBbkB) and [questioner](https://blot.im/questions/890)
 
 ---
 
@@ -844,10 +910,6 @@ Metadata parser
 - Add support for setting the index of an item in the menu to metadata and tell [Silvio](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJfNfLljXGvbjpNwDBFWXDWR)
 
 Implement hidden link section on Menu page under profile settings. Default links not on the menu would appear there, making it easy to restore them in future. Tell [Josh](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgVTbfgnTVvCjfMGzWDjvjfML)
-
-Switch to full text search options using Postgres
-- Tell [Tim](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVMjZKgvPxSjvsHjPRzGsDHQX)
-- Tell [Toshiyuki](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmtNcZRSNsGpkKLvjpkDBJzmpm)
 
 Add new variable for last-build-time for a blog, and use this for <lastBuildDate> in the sites' RSS feeds. Tell [Shawn](https://twitter.com/soypunk)
 
