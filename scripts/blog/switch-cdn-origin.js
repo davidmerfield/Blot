@@ -1,7 +1,7 @@
 const each = require("../each/blog");
 
-const OLD_ORIGIN = "https://blotcdn.com";
-const NEW_ORIGIN = "https://cdn.blot.im";
+const OLD_ORIGIN = "https://blotcdn.com/";
+const NEW_ORIGIN = "https://cdn.blot.im/";
 
 const keys = require("../db/keys");
 const get = require("../get/blog");
