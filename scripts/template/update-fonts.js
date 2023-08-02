@@ -2,7 +2,6 @@ const { writeToFolder } = require("models/template");
 const eachTemplate = require("../each/template");
 const Template = require("models/template");
 const async = require("async");
-const yesno = require("yesno");
 const _ = require("lodash");
 const fonts = require("blog/static/fonts/index.json");
 
@@ -10,9 +9,6 @@ const shouldWrite = {};
 
 eachTemplate(
   function (user, blog, template, next) {
-    if (JSON.stringify(template).toLowerCase().indexOf("woff2") === -1)
-      return next();
-
     const locals = template.locals;
     const localsCopy = _.cloneDeep(locals);
 
@@ -23,27 +19,29 @@ eachTemplate(
 
     fontKeys.forEach((key) => {
       const currentFont = locals[key];
-
-      if (currentFont.styles.indexOf("woff2") === -1) return;
-
-      const latestFont = fonts.find((f) => f.name === currentFont.name);
+      const latestFont = fonts.find((f) => f.id === currentFont.id);
 
       if (!latestFont) {
-        console.error("Cannot update font", currentFont.name);
-      } else {
-        console.log("Updating font", currentFont.name);
+        console.warn(template.id, "'" + currentFont.name + "' cannot be updated");
+      } else if (
+        !_.isEqual(currentFont.styles, latestFont.styles) ||
+        !_.isEqual(currentFont.stack, latestFont.stack)
+      ) {
+        console.log(template.id, "'" + currentFont.name + "' will be updated")
         currentFont.styles = latestFont.styles;
+        currentFont.stack = latestFont.stack;
+      } else {
+        console.log(template.id, "'" + currentFont.name + "' is up to date")
       }
     });
 
     if (_.isEqual(localsCopy, locals)) return next();
 
-    yesno.ask("Apply changes to " + template.id + "?", true, function (ok) {
-      if (template.localEditing) shouldWrite[template.id] = blog.id;
+    if (template.localEditing) shouldWrite[template.id] = blog.id;
 
-      console.log("Changed", template.id);
-      Template.setMetadata(template.id, { locals }, next);
-    });
+    console.log("Saving changes to", template.id);
+    console.log();
+    Template.setMetadata(template.id, { locals }, next);
   },
   function () {
     console.log();
@@ -57,7 +55,7 @@ eachTemplate(
           next();
         });
       },
-      function(err) {
+      function (err) {
         if (err) console.error(err);
         console.log("Done!");
         process.exit();
