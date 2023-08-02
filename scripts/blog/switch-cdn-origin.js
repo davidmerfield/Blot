@@ -8,7 +8,6 @@ const get = require("../get/blog");
 const client = require("client");
 
 const async = require("async");
-const e = require("express");
 
 if (process.argv[2]) {
   get(process.argv[2], function (err, user, blog) {
@@ -35,6 +34,8 @@ if (process.argv[2]) {
 }
 
 function main(blog, callback) {
+  if (!blog.id) return callback(new Error("Please pass a blog"));
+
   const searchParam = "*" + blog.id + "*";
 
   console.log("searching '" + searchParam + "'");
@@ -44,13 +45,12 @@ function main(blog, callback) {
     function (keys, next) {
       if (!keys.length) return next();
 
-      //   console.log("Found " + keys.length + " keys associated with this blog");
+      const multi = client.multi();
 
       // For each key in series
       async.eachSeries(
         keys,
         function (key, next) {
-          //   console.log("Checking key", key);
           client.type(key, function (err, type) {
             if (err) return next(err);
 
@@ -60,35 +60,26 @@ function main(blog, callback) {
 
                 if (value.indexOf(OLD_ORIGIN) > -1) {
                   console.log("Modifying", key);
-                  console.log(value);
                   value = value.split(OLD_ORIGIN).join(NEW_ORIGIN);
-                  client.set(key, value, next);
-                } else {
-                  next();
+                  multi.set(key, value);
                 }
+
+                next();
               });
             } else if (type === "hash") {
               client.hgetall(key, function (err, value) {
                 if (err) return next(err);
 
-                const multi = client.multi();
-                let changes = false;
-
                 Object.keys(value).forEach(function (hashKey) {
                   const hashValue = value[hashKey];
                   if (hashValue.indexOf(OLD_ORIGIN) > -1) {
                     console.log("Modifying", key, hashKey);
-                    value[hashKey] = hashValue.replace(OLD_ORIGIN, NEW_ORIGIN);
-                    changes = true;
+                    value = value.split(OLD_ORIGIN).join(NEW_ORIGIN);
                     multi.hset(key, hashKey, value[hashKey]);
                   }
                 });
 
-                if (changes) {
-                  multi.exec(next);
-                } else {
-                  next();
-                }
+                next();
               });
             } else {
               //   console.log("key", key, "is unsupported type: ", type);
@@ -96,7 +87,11 @@ function main(blog, callback) {
             }
           });
         },
-        next
+        (err) => {
+          if (err) return next(err);
+
+            multi.exec(next);
+        }
       );
     },
     callback
