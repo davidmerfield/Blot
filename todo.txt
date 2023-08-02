@@ -1,6 +1,6 @@
 Write and send out summer newsletter
 
-Fix broken references to missing woff2 font files in people's templates
+Check CDN logs that my fix for broken references to missing woff2 font files in people's templates worked (there should not be new ones under 4xx requests)
 
 render nginx config using same environment variable
 
