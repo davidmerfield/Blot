@@ -1,16 +1,43 @@
+const each = require("../each/blog");
+
 const OLD_ORIGIN = "https://blotcdn.com";
-const NEW_ORIGIN = "//cdn.blot.im";
+const NEW_ORIGIN = "https://cdn.blot.im";
 
 const keys = require("../db/keys");
 const get = require("../get/blog");
 const client = require("client");
 
 const async = require("async");
+const e = require("express");
 
-get(process.argv[2], function (err, user, blog) {
-  if (err) throw err;
+if (process.argv[2]) {
+  get(process.argv[2], function (err, user, blog) {
+    if (err) throw err;
+    main(blog, function (err) {
+      if (err) throw err;
+      console.log("Processed!");
+      process.exit();
+    });
+  });
+} else {
+  each(
+    (user, blog, next) => {
+      if (!blog) return next();
+      if (blog.isDisabled) return next();
+      main(blog, next);
+    },
+    (err) => {
+      if (err) throw err;
+      console.log("All blogs processed!");
+      process.exit();
+    }
+  );
+}
 
+function main(blog, callback) {
   const searchParam = "*" + blog.id + "*";
+
+  console.log("searching '" + searchParam + "'");
 
   keys(
     searchParam,
@@ -32,7 +59,7 @@ get(process.argv[2], function (err, user, blog) {
                 if (err) return next(err);
 
                 if (value.indexOf(OLD_ORIGIN) > -1) {
-                  console.log("Found string key with old origin", key);
+                  console.log("Modifying", key);
                   console.log(value);
                   value = value.split(OLD_ORIGIN).join(NEW_ORIGIN);
                   client.set(key, value, next);
@@ -44,21 +71,27 @@ get(process.argv[2], function (err, user, blog) {
               client.hgetall(key, function (err, value) {
                 if (err) return next(err);
 
+                const multi = client.multi();
+                let changes = false;
+
                 Object.keys(value).forEach(function (hashKey) {
                   const hashValue = value[hashKey];
                   if (hashValue.indexOf(OLD_ORIGIN) > -1) {
-                    console.log("Found hash key with old origin", key, hashKey);
-                    console.log(hashValue);
-                    //   value[hashKey] = hashValue.replace(OLD_ORIGIN, NEW_ORIGIN);
-                    //   client.hset(key, hashKey, value[hashKey], next);
-                  } else {
+                    console.log("Modifying", key, hashKey);
+                    value[hashKey] = hashValue.replace(OLD_ORIGIN, NEW_ORIGIN);
+                    changes = true;
+                    multi.hset(key, hashKey, value[hashKey]);
                   }
                 });
 
-                next();
+                if (changes) {
+                  multi.exec(next);
+                } else {
+                  next();
+                }
               });
             } else {
-              console.log("key", key, "is unsupported type: ", type);
+              //   console.log("key", key, "is unsupported type: ", type);
               next();
             }
           });
@@ -66,11 +99,6 @@ get(process.argv[2], function (err, user, blog) {
         next
       );
     },
-    function (err) {
-      if (err) throw err;
-
-      console.log("Done!");
-      process.exit();
-    }
+    callback
   );
-});
+}
