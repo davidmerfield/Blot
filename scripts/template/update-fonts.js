@@ -7,6 +7,7 @@ const Template = require("models/template");
 const async = require("async");
 const _ = require("lodash");
 const fonts = require("blog/static/fonts/index.json");
+const flushCache = require("models/blog/flushCache");
 
 const shouldWrite = {};
 
@@ -22,16 +23,19 @@ eachTemplate(
       const latestFont = fonts.find((f) => f.id === currentFont.id);
 
       if (!latestFont) {
-        console.warn(template.id, "'" + currentFont.name + "' cannot be updated");
+        console.warn(
+          template.id,
+          "'" + currentFont.name + "' cannot be updated"
+        );
       } else if (
         !_.isEqual(currentFont.styles, latestFont.styles) ||
         !_.isEqual(currentFont.stack, latestFont.stack)
       ) {
-        console.log(template.id, "'" + currentFont.name + "' will be updated")
+        console.log(template.id, "'" + currentFont.name + "' will be updated");
         currentFont.styles = latestFont.styles;
         currentFont.stack = latestFont.stack;
       } else {
-        console.log(template.id, "'" + currentFont.name + "' is up to date")
+        console.log(template.id, "'" + currentFont.name + "' is up to date");
       }
     });
 
@@ -41,7 +45,10 @@ eachTemplate(
 
     console.log("Saving changes to", template.id);
     console.log();
-    Template.setMetadata(template.id, { locals }, next);
+    Template.setMetadata(template.id, { locals }, function (err) {
+      if (err) return next(err);
+      flushCache(blog.id, next);
+    });
   },
   function () {
     console.log();
