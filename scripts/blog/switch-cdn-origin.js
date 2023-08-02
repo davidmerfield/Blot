@@ -31,6 +31,10 @@ if (process.argv[2]) {
       if (err) throw err;
       console.log("All blogs processed!");
       process.exit();
+    },
+    {
+      s: process.argv[2] === "-s" ? process.argv[3] : "",
+      r: process.argv[2] === "-r",
     }
   );
 }
