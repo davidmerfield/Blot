@@ -3,7 +3,6 @@ const each = require("../each/blog");
 const OLD_ORIGIN = "https://blotcdn.com/";
 const NEW_ORIGIN = "https://cdn.blot.im/";
 
-const flushCache = require("models/blog/flushCache");
 
 const keys = require("../db/keys");
 const get = require("../get/blog");
@@ -12,38 +11,16 @@ const client = require("client");
 const async = require("async");
 const { cache } = require("../../config");
 
-if (process.argv[2] && process.argv[2] !== "-s" && process.argv[2] !== "-r") {
-  get(process.argv[2], function (err, user, blog) {
-    if (err) throw err;
-    main(blog, function (err) {
-      if (err) throw err;
-      console.log("Processed!");
-      process.exit();
-    });
-  });
-} else {
-  each(
-    (user, blog, next) => {
-      if (!blog) return next();
-      main(blog, next);
-    },
-    (err) => {
-      if (err) throw err;
-      console.log("All blogs processed!");
-      process.exit();
-    },
-    {
-      s: process.argv[2] === "-s" ? process.argv[3] : "",
-      r: process.argv[2] === "-r",
-    }
-  );
-}
+main(function (err) {
+  if (err) throw err;
 
-function main(blog, callback) {
-  if (!blog.id) return callback(new Error("Please pass a blog"));
+  console.log("Done!");
+  process.exit();
+});
 
-  const searchParam = "*" + blog.id + "*";
-  const multi = client.multi();
+function main(callback) {
+
+  const searchParam = "*blog:blog_*";
 
   console.log("searching '" + searchParam + "'");
 
@@ -51,6 +28,8 @@ function main(blog, callback) {
     searchParam,
     function (keys, next) {
       if (!keys.length) return next();
+
+      const multi = client.multi();
 
       // For each key in series
       async.eachSeries(
@@ -96,22 +75,15 @@ function main(blog, callback) {
             }
           });
         },
-        next
+        (err) => {
+          if (!multi.queue.length) {
+            return next();
+          }
+    
+          multi.exec(next);
+        }
       );
     },
-    (err) => {
-      if (err) return callback(err);
-
-      if (!multi.queue.length) {
-        console.log("No changes for", blog.id);
-        return callback();
-      }
-
-      multi.exec(function (err) {
-        if (err) return callback(err);
-        console.log("Flushing cache for", blog.id);
-        flushCache(blog.id, callback);
-      });
-    }
+    callback
   );
 }

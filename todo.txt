@@ -1,39 +1,13 @@
+Resolve sergey's tag bug
+
+Fix post navigation on Portfolio template and tell [Questioner](https://blot.im/questions/1894)
+
+Adjust CDN script to move more quickly in one pass targeting keys with blog:blog_ first, 
+- then make it more general
+
 Write and send out summer newsletter
 
-Check CDN logs that my fix for broken references to missing woff2 font files in people's templates worked (there should not be new ones under 4xx requests)
-
-render nginx config using same environment variable
-
-deployment process for new server
-1. write a script for the remote server
-2. write a script to run here
-3. write script to run on existing server which bgsaves, then duplicates dump.rdb so we can rsync to new server
-
-Write automated script to remove overdue blogs from disk and db
-
-Planned infrastructure:
-
-  redis server: -2 vcpu + 32gb ram + 100 gb instance disk
-    x2gd.large $50.0050 monthly
-
-  nginx + node server: 8gb ram + 4vcpu
-    a1.xlarge $37.0110 monthly
-
-Eventually we could think about moving the reverse proxy onto its own server, but then we need to share a disk? Or we could use a networked file system from the node.js server to the nginx server?
-
-Cheapest:
-  r6g.xlarge 
-    2 nginx workers
-    2 node workers
-    1 redis process  
-    attached EBS cold sc1 for data
-    attached EBS SSD for root
-  
-Use a mono instance r6g.xlarge with:
-  - single attached EBS SSD as root
-
-instance stores are much faster than attached ebs ssds:
-  https://gist.github.com/ktheory/3c3616fca42a3716346b
+Render nginx config using same environment variable
 
 CDN:
 - Fix any broken links in CDN logs
@@ -55,8 +29,14 @@ CDN:
 - write script to clean old files from permacache disk
 - consider switching to more expensive CDN type (i.e. not volume)
 - consider expanding the replication of the perma_cache across more regions
+- Check CDN logs that my fix for broken references to missing woff2 font files in people's templates worked (there should not be new ones under 4xx requests)
 
 Move redis into its own instance?
+deployment process for new server
+1. write a script for the remote server
+2. write a script to run here
+3. write script to run on existing server which bgsaves, then duplicates dump.rdb so we can rsync to new server
+
   - since redis is currently on same server, we should have been communicating with unix sockets, not tcp
   - test if systemctl will auto reboot it by doing `kill -9 <pid>` if not, follow this guide:
     https://ma.ttias.be/auto-restart-crashed-service-systemd/
@@ -86,6 +66,32 @@ redis6-cli ping
 
 Backup script:
   Check in on backup bucket on S3 for removal of old backups
+
+Planned infrastructure:
+
+  redis server: -2 vcpu + 32gb ram + 100 gb instance disk
+    x2gd.large $50.0050 monthly
+
+  nginx + node server: 8gb ram + 4vcpu
+    a1.xlarge $37.0110 monthly
+
+Write automated script to remove overdue blogs from disk and db
+
+Eventually we could think about moving the reverse proxy onto its own server, but then we need to share a disk? Or we could use a networked file system from the node.js server to the nginx server?
+
+Cheapest:
+  r6g.xlarge 
+    2 nginx workers
+    2 node workers
+    1 redis process  
+    attached EBS cold sc1 for data
+    attached EBS SSD for root
+  
+Use a mono instance r6g.xlarge with:
+  - single attached EBS SSD as root
+
+instance stores are much faster than attached ebs ssds:
+  https://gist.github.com/ktheory/3c3616fca42a3716346b
 
 Write script to remove unused and unaccessed static files from within blog folders
 
