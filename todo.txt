@@ -1,9 +1,4 @@
-Resolve sergey's tag bug
-
 Fix post navigation on Portfolio template and tell [Questioner](https://blot.im/questions/1894)
-
-Adjust CDN script to move more quickly in one pass targeting keys with blog:blog_ first, 
-- then make it more general
 
 Write and send out summer newsletter
 
