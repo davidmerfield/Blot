@@ -1,6 +1,5 @@
 var User = require("models/user");
 var async = require("async");
-var backup = require("./backup");
 var dailyUpdate = require("./daily");
 var email = require("helper/email");
 var clfdate = require("helper/clfdate");
@@ -143,19 +142,6 @@ module.exports = function () {
       } else {
         email.SYNC_REPORT(null, { report: JSON.stringify(report) });
         console.log(clfdate(), "Fix sync: checked all folders");
-      }
-    });
-  });
-
-  console.log(clfdate(), "Scheduled daily backups");
-  schedule({ hour: 11, minute: 0 }, function () {
-    // Start the backup daemon
-    console.log(clfdate(), "Backup: Starting backup");
-    backup(function (err) {
-      if (err) {
-        console.log(clfdate(), "Backup: Error:" + err);
-      } else {
-        console.log(clfdate(), "Backup: Successfully backed up");
       }
     });
   });
