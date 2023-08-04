@@ -35,8 +35,8 @@ clientB.ping(function (err, reply) {
   if (err) throw err;
   console.timeEnd("remoteRedis.ping");
   console.log("remoteRedis: " + reply);
-  clientB.info(function (err, reply) {  
+  clientB.info(function (err, reply) {
     if (err) throw err;
-    console.log('remoteRedis:', reply);
+    console.log("remoteRedis:", reply);
   });
 });
