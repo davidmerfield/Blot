@@ -6,6 +6,8 @@ Work on moving ec2 instance
 
 Render nginx config using same environment variable
 
+add openresty server which connects to redis and has the certs required to boot
+
 Finish redis migration:
 - clean up documentation of process to set up instance
 - lock down redis server by removing ssh access
