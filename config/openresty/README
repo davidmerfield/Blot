@@ -69,3 +69,4 @@ sudo nano /usr/local/openresty/nginx/conf/nginx.conf
 ```
 include /home/ec2-user/openresty/openresty.conf;
 ```
+
