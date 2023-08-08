@@ -3,11 +3,12 @@ Fix post navigation on Portfolio template and tell [Questioner](https://blot.im/
 Write and send out summer newsletter
 
 Work on moving ec2 instance
+- use sc1 for main blogs storage
 
 Render nginx config using same environment variable
 
 add openresty server which connects to redis and has the certs required to boot
-
+*
 Finish redis migration:
 - clean up documentation of process to set up instance
 - lock down redis server by removing ssh access

@@ -1,0 +1,71 @@
+I followed this guide to install openresty:
+
+https://blog.openresty.com/en/centos8-or-install/
+
+You basically need to place the following, which is modified from the example in the guide:
+
+```
+[openresty]
+name=Official OpenResty Open Source Repository for CentOS
+baseurl=https://openresty.org/package/centos/9/$basearch
+skip_if_unavailable=False
+gpgcheck=1
+repo_gpgcheck=0
+gpgkey=https://openresty.org/package/pubkey2.gpg
+enabled=1
+enabled_metadata=1
+```
+
+N.B. The changes I made are on line 10 (hard coding version 9) and line 14 (using pubkey2 rather than pubkey). Place the file at the path:
+
+/etc/yum.repos.d/openresty.repo
+
+Then 
+
+sudo dnf check-update
+sudo dnf -y install openresty
+sudo systemctl start openresty
+sudo systemctl enable openresty
+
+## Get openresty to start on reboot and on failure
+
+Modify the systemctl service using systemctl edit:
+  https://askubuntu.com/questions/659267/how-do-i-override-or-configure-systemd-services
+
+Paste the following:
+
+```
+[Service]
+  Restart=  
+  Restart=always
+```
+
+## Lua rocks
+
+sudo dnf -y install make
+sudo dnf -y install gcc
+
+wget http://luarocks.org/releases/luarocks-2.0.13.tar.gz
+tar -xzvf luarocks-2.0.13.tar.gz
+cd luarocks-2.0.13/
+./configure --prefix=/usr/local/openresty/luajit \
+    --with-lua=/usr/local/openresty/luajit/ \
+    --lua-suffix=jit \
+    --with-lua-include=/usr/local/openresty/luajit/include/luajit-2.1
+make
+sudo make install
+
+# Auto-ssl
+
+sudo /usr/local/openresty/luajit/bin/luarocks install lua-resty-auto-ssl
+sudo mkdir /etc/resty-auto-ssl
+sudo chown ec2-user /etc/resty-auto-ssl
+
+# Point to our config
+
+sudo mv /usr/local/openresty/nginx/conf/nginx.conf /usr/local/openresty/nginx/conf/nginx.conf.bak
+sudo nano /usr/local/openresty/nginx/conf/nginx.conf
+
+```
+include /home/ec2-user/openresty/openresty.conf;
+```
