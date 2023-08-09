@@ -19,7 +19,12 @@ server.set("etag", false); // turn off etags for responses
 server.disable("x-powered-by");
 
 // Trusts secure requests terminated by NGINX, as far as I know
-server.set("trust proxy", ["loopback", "54.191.179.131", "172.30.0.145", "172.30.0.108"]);
+server.set("trust proxy", [
+  "loopback",
+  "54.191.179.131",
+  "172.30.0.145",
+  "172.30.0.108",
+]);
 
 // Prevent <iframes> embedding pages served by Blot
 server.use(helmet.frameguard("allow-from", config.host));
