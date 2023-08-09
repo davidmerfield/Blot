@@ -42,3 +42,8 @@ redis6-cli ping
   I then locked down outbound traffic
 
   - purchased reserved instance for 3-year convertible, no upfront
+
+# look into transparent huge pages
+
+does this help performance?
+

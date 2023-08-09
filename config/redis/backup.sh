@@ -1,4 +1,10 @@
+
 # Backs up redis to S3
+
+
+# can we copy the dump to the 118gb disk?
+# we can do this with fewer resources using rsync?
+# https://unix.stackexchange.com/questions/117680/make-disk-disk-copy-slower
 
 redis-cli bgsave
 
@@ -15,4 +21,6 @@ aws s3 ls s3://{{redis_backup_bucket}}/ | awk '{print $4}' | sort -r | tail -n +
 
 # remove the dump file
 rm /var/lib/redis/dump.rdb
+
+
 
