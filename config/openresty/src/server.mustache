@@ -14,7 +14,7 @@ http {
         server_name {{host}};
 
         {{^development}}
-        {{> auto-ssl.mustache}}}
+        {{> auto-ssl.mustache}}
         {{/development}}
 
         {{#development}}
@@ -36,7 +36,7 @@ http {
         listen 443 ssl http2 default_server;
 
         {{^development}}
-        {{> auto-ssl.mustache}}}
+        {{> auto-ssl.mustache}}
         {{/development}}
 
         {{#development}}

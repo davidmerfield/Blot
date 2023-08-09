@@ -19,8 +19,8 @@ ssl_certificate_by_lua_block {
 # number of subdomains for previewing templates. The paths to these files are
 # hardcoded in the source for kshcherban/acme-nginx. I wrote more about this
 # process in notes/wildcard-ssl
-ssl_certificate /etc/ssl/private/letsencrypt-domain.pem;
-ssl_certificate_key /etc/ssl/private/letsencrypt-domain.key;
+ssl_certificate {{{ssl_certificate}}};
+ssl_certificate_key {{{ssl_certificate_key}}};
 
 # Endpoint used for performing domain verification with Let's Encrypt.
 location /.well-known/acme-challenge/ {

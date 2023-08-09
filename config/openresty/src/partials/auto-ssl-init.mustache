@@ -25,11 +25,7 @@ init_by_lua_block {
 
   local redis = require "resty.redis"
 
-<<<<<<< HEAD:config/nginx/partials/auto-ssl-init.mustache
   local redis_options = { host = "{{redis.host}}", port = 6379 , prefix = "ssl" }
-=======
-  local redis_options = { host = "172.30.0.138", port = 6379 , prefix = "ssl" }
->>>>>>> master:config/nginx/auto-ssl-init.conf
 
   local function get_redis_instance(redis_options)
 
