@@ -48,8 +48,6 @@ function truncate(target) {
 
   maxWidth =  trueWidth - ellipsisWidth;
 
-  console.log('text',text, maxWidth)
-
   if (target.clientWidth === 0) {
     return;
   }
@@ -82,6 +80,10 @@ function getTextWidth(fontStyle) {
   const context = canvas.getContext("2d");
   context.font = fontStyle;
   return function measure(text) {
+    // For some reason, if you don't trim the text
+    // chrome crashes when you measure the width
+    // of '✺ ' I don't know why
+    text = text.trim();
     const {
       width
     } = context.measureText(text);
