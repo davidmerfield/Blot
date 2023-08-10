@@ -1,3 +1,11 @@
+Determine which IP we need in 'trust proxy' and refactor it into config
+
+Look into EBS multi-attach for node and openresty 
+- can we store static content and cache content in high performance EBS and blog folder in HDD for cheap?
+- can we then use non-instance store e.g. a1? and then even t2 for node instances?
+
+Fix the /health endpoint for the openresty server
+
 Fix post navigation on Portfolio template and tell [Questioner](https://blot.im/questions/1894)
 
 Fix bug with RTF file and metadata and tell [Neptune](https://mail.google.com/mail/u/0/#sent/QgrcJHsbhNpDQjkxzJjwtCsXBNHKRTZhncb)
