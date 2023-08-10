@@ -7,13 +7,18 @@ var colors = require("colors/safe");
 
 fs.ensureDirSync(directory);
 
-if (require.main === module && !process.argv[2]) list(process.exit);
-else {
+if (require.main === module && !process.argv[2]) {
+  list(process.exit);
+} else {
+
+  
   var old_stdout_write = process.stdout.write;
   var old_stderr_write = process.stderr.write;
 
-  process.stdout.write = function () {};
-  process.stderr.write = function () {};
+
+  // process.stdout.write = function () {};
+  // process.stderr.write = function () {};
+
 
   require("./load")(process.argv[2], function (err) {
     if (err) throw err;

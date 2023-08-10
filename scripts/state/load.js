@@ -15,6 +15,7 @@ var ACTIVE_DATABASE_DUMP = ROOT + "/db/dump.rdb";
 if (!ROOT) throw new Error("Please set environment variable BLOT_DIRECTORY");
 
 async function main(label, callback) {
+
   var directory = __dirname + "/data/" + label;
 
   console.log(directory, "exists?", fs.existsSync(directory));
@@ -87,6 +88,8 @@ async function main(label, callback) {
 }
 
 function loadDB(directory, callback) {
+
+
   var dump = directory + "/dump.rdb";
   var client = redis.createClient();
   var multi = client.multi();
@@ -106,14 +109,11 @@ function loadDB(directory, callback) {
   function then() {
     fs.copySync(dump, ACTIVE_DATABASE_DUMP);
 
-    exec(
-      "redis-server " + ROOT + "/config/redis.conf",
-      { silent: true },
-      function (err) {
-        if (err) return callback(err);
-        callback(null);
-      }
-    );
+    exec("redis-server --daemonize yes --dir " + ROOT + "/db", { silent: true }, function (err) {
+      if (err) return callback(err);
+
+      callback(null);
+    });
   }
 }
 
