@@ -1,3 +1,7 @@
+Write newsletter
+
+---
+
 Determine which IP we need in 'trust proxy' and refactor it into config
 
 Look into EBS multi-attach for node and openresty 
