@@ -96,7 +96,7 @@
     "puppeteer": "^19.7.5",
     "pushover": "^1.3.6",
     "rate-limit-redis": "^2.0.0",
-    "redis": "^3.1.2",
+    "redis": "^4.6.7",
     "request": "^2.72.0",
     "sharp": "^0.30.5",
     "simple-git": "^1.102.0",
