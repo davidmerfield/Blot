@@ -1,27 +1,4 @@
-Write newsletter
-
----
-
-Determine which IP we need in 'trust proxy' and refactor it into config
-
-Look into EBS multi-attach for node and openresty 
-- can we store static content and cache content in high performance EBS and blog folder in HDD for cheap?
-- can we then use non-instance store e.g. a1? and then even t2 for node instances?
-
-Fix the /health endpoint for the openresty server
-
-Fix post navigation on Portfolio template and tell [Questioner](https://blot.im/questions/1894)
-
-Fix bug with RTF file and metadata and tell [Neptune](https://mail.google.com/mail/u/0/#sent/QgrcJHsbhNpDQjkxzJjwtCsXBNHKRTZhncb)
-
 Write and send out summer newsletter
-
-Work on moving ec2 instance
-- use sc1 for main blogs storage
-
-Render nginx config using same environment variable
-
-add openresty server which connects to redis and has the certs required to boot
 
 Finish redis migration:
 - clean up documentation of process to set up instance
@@ -34,7 +11,15 @@ Finish redis migration:
 - get rid of postgres by moving questions into redis
 - write cron script to save redis-server disk usage and free memory stats in the db then monitor this from scheduler
 
-CDN:
+Openresty server:
+- add openresty server which connects to redis and has the certs required to boot
+- Determine which IP we need in 'trust proxy' and refactor it into config
+- Fix the /health endpoint for the openresty server
+- Work on moving ec2 instance
+- use sc1 for main blogs storage?
+- Render nginx config using same environment variable
+
+CDN server:
 - Fix any broken links in CDN logs
   404:
     the documentation fonts are not loading (Katex etc.)
@@ -55,6 +40,15 @@ CDN:
 - consider switching to more expensive CDN type (i.e. not volume)
 - consider expanding the replication of the perma_cache across more regions
 - Check CDN logs that my fix for broken references to missing woff2 font files in people's templates worked (there should not be new ones under 4xx requests)
+
+
+---
+
+Fix post navigation on Portfolio template and tell [Questioner](https://blot.im/questions/1894)
+
+Fix bug with RTF file and metadata and tell [Neptune](https://mail.google.com/mail/u/0/#sent/QgrcJHsbhNpDQjkxzJjwtCsXBNHKRTZhncb)
+
+---
 
 Backup script:
   Check in on backup bucket on S3 for removal of old backups
