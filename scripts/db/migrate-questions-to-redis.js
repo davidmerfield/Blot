@@ -1,6 +1,8 @@
 const config = require("config");
-
+const client = require("models/client");
 const questions = require("models/questions");
+
+const keys = require("models/questions/keys");
 
 const Pool = require("pg").Pool;
 
@@ -13,7 +15,7 @@ const pool = new Pool({
 });
 
 async function main() {
-  const { rows } = await pool.query(`SELECT * from items`);
+  const { rows } = await pool.query(`SELECT * from items ORDER BY id ASC`);
 
   for (const row of rows) {
     console.log(`Migrating ${row.id}...`, row);
@@ -22,10 +24,14 @@ async function main() {
       title: row.title,
       body: row.body,
       author: row.author,
-      tags: row.tags.split(","),
+      tags: row.tags ? row.tags.split(",") : [],
       created_at: row.created_at.valueOf(),
     });
   }
+
+  // store the last id
+  console.log("setting next id to", rows[rows.length - 1].id, "...");
+  client.set(keys.id, rows[rows.length - 1].id);
 
   process.exit();
 }
