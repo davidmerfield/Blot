@@ -5,7 +5,7 @@ describe("questions.create", function () {
     const create = require("../create");
 
     expect(await create({ title: "How?", body: "Yes" })).toEqual(
-      jasmine.any(Number)
+      jasmine.any(String)
     );
   });
 });
