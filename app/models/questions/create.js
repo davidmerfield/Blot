@@ -26,6 +26,7 @@ module.exports = function ({
       };
 
       const multi = client.multi();
+      
       multi.hmset(keys.question(id), {
         id,
         parent_id,
@@ -35,7 +36,12 @@ module.exports = function ({
         created_at,
       });
 
+      // This is a reply
       if (parent_id) {
+        multi.zadd(keys.replies(parent_id), created_at, id);
+
+        // This is a new question
+      } else {
         tags.forEach((tag) => {
           multi.zadd(keys.list.tag(tag), created_at, id);
         });

@@ -3,12 +3,32 @@ const keys = require("./keys");
 
 module.exports = (id) => {
   return new Promise((resolve, reject) => {
-    client.hgetall(keys.question(id), (err, question) => {
-      if (err) {
-        return reject(err);
-      }
+    client
+      .batch()
+      .zrevrange(keys.replies(id), 0, -1)
+      .hgetall(keys.question(id))
+      .exec((err, [reply_ids, question]) => {
+        if (err) {
+          return reject(err);
+        }
 
-      resolve(question);
-    });
+        const batch = client.batch();
+
+        reply_ids.forEach((reply_id) => {
+          batch.hgetall(keys.question(reply_id));
+        });
+
+        batch.exec((err, replies) => {
+          if (err) {
+            return reject(err);
+          }
+
+          question.tags = JSON.parse(question.tags);
+          question.created_at = new Date(parseInt(question.created_at, 10));
+          question.replies = replies;
+
+          resolve(question);
+        });
+      });
   });
 };
