@@ -1,6 +1,7 @@
 const PAGE_SIZE = 10;
 const client = require("models/client");
 const keys = require("./keys");
+const moment = require("moment");
 
 module.exports = ({ page = 1, tag = "" } = {}) => {
   return new Promise((resolve, reject) => {
@@ -24,6 +25,11 @@ module.exports = ({ page = 1, tag = "" } = {}) => {
         if (err) {
           reject(err);
         }
+
+        questions = questions.map((question) => {
+          question.time = moment.unix(question.last_reply_at).fromNow();
+          return question;
+        });
 
         resolve(questions);
       });

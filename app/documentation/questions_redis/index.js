@@ -1,55 +1,23 @@
 const Express = require("express");
+const urlencoded = Express.urlencoded({
+  extended: true,
+});
+
 const Questions = new Express.Router();
 const moment = require("moment");
 const config = require("config");
 const marked = require("marked");
 const async = require("async");
 const cache = require("helper/express-disk-cache")(config.cache_directory);
-const flush = () =>
-  cache.flush({ host: config.host, path: "/https/temporary/questions" });
-
-// Configure connection to Postgres
-const Pool = require("pg").Pool;
-const pool = new Pool({
-  user: config.postgres.user,
-  host: config.postgres.host,
-  database: config.postgres.database,
-  password: config.postgres.password,
-  port: config.postgres.port,
-});
-
-/// IF YOU EVER RATE LIMIT THIS MAKE SURE TO
-// Neccessary to repeat to set the correct IP for the
-// rate-limiter, because this app sits behind nginx
-// documentation.set("trust proxy", "loopback");
-
-// QA Forum View Configuration
-const TOPICS_PER_PAGE = 20;
+const flushOptions = { host: config.host, path: "/https/temporary/questions" };
+const flush = () => cache.flush(flushOptions);
+const questions = require("models/questions");
 
 Questions.use(["/ask", "/:id/edit", "/:id/new"], require("dashboard/session"));
-
-Questions.use(
-  ["/ask", "/:id/edit", "/:id/new"],
-  Express.urlencoded({
-    extended: true,
-  })
-);
+Questions.use(["/ask", "/:id/edit", "/:id/new"], urlencoded);
 
 Questions.use(async (req, res, next) => {
-  const { rows } = await pool.query(
-    `SELECT taglist.tag,
-       (SELECT Count(*)
-        FROM   items
-        WHERE  items.tags LIKE '%'
-                               || taglist.tag
-                               || '%') AS total,
-    COUNT(*) OVER() AS tags_count                               
-FROM   (SELECT DISTINCT Unnest(String_to_array(tags, ',')) AS tag
-        FROM   items) taglist
-ORDER BY total DESC
-LIMIT ${10}`
-  );
-  res.locals.popular_tags = rows;
+  res.locals.popular_tags = await questions.tags();
   next();
 });
 
@@ -61,13 +29,6 @@ Questions.use(function (req, res, next) {
   next();
 });
 
-// Removes everything forbidden by XML 1.0 specifications,
-// plus the unicode replacement character U+FFFD
-function removeXMLInvalidChars(string) {
-  var regex = /((?:[\0-\x08\x0B\f\x0E-\x1F\uFFFD\uFFFE\uFFFF]|[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?:[^\uD800-\uDBFF]|^)[\uDC00-\uDFFF]))/g;
-  return string.replace(regex, "");
-}
-
 Questions.get("/feed.rss", async function (req, res, next) {
   const { rows } = await pool.query(
     `SELECT * FROM items 
@@ -78,10 +39,10 @@ Questions.get("/feed.rss", async function (req, res, next) {
 
   res.locals.url = config.protocol + config.host;
   res.locals.title = "Questions";
-  res.locals.topics = rows;
+  res.locals.topics = await questions.list({ created_at: true });
 
   // We preview one line of the topic body on the question index page
-  rows.forEach(function (topic) {
+  res.locals.topics.forEach(function (topic) {
     topic.body = removeXMLInvalidChars(render(topic.body));
     topic.url = res.locals.url + "/questions/" + topic.id;
     topic.author = "Anonymous";
@@ -106,7 +67,7 @@ Questions.get("/feed.rss", async function (req, res, next) {
 
 // Handle topic listing
 // Topics are sorted by datetime of last reply, then by topic creation date
-Questions.get(["/", "/page/:page"], function (req, res, next) {
+Questions.get(["/", "/page/:page"], async function (req, res, next) {
   // Pagination data
   if (req.params.page === "1") return res.redirect(req.baseUrl);
 
@@ -115,161 +76,57 @@ Questions.get(["/", "/page/:page"], function (req, res, next) {
   if (!Number.isInteger(page)) {
     return next();
   }
-  const offset = (page - 1) * TOPICS_PER_PAGE;
 
-  // Search data
-  const search_query = req.query.search; // raw query from form
-  let search_arr = ["%"]; // array for Postgres; initial value is needed for empty search query case
-  if (search_query) {
-    // populate with words from query    add '%' prefix and postfix for Postgres pattern matching
-    search_arr = search_query.split(" ").map((el) => "%" + el + "%");
-  }
+  res.locals.topics = await questions.list({ page });
 
-  const search_arr_str = JSON.stringify(search_arr).replace(/"/g, "'"); // stringify and replace double quotes with single quotes for Postgres
+  // We preview one line of the topic body on the question index page
+  res.locals.topics.forEach(function (topic) {
+    topic.body = render(topic.body);
+    topic.singular = topic.reply_count === "1";
+    if (topic.tags)
+      topic.tags = topic.tags.split(",").map((tag) => ({ tag, slug: tag }));
+    if (topic.last_reply_created_at) {
+      topic.answered = moment(topic.last_reply_created_at).fromNow();
+      topic.answeredDateStamp = moment(topic.last_reply_created_at).valueOf();
+    }
+    if (topic.created_at) {
+      topic.asked = moment(topic.created_at).fromNow();
+      topic.askedDateStamp = moment(topic.created_at).valueOf();
+    }
+  });
 
-  pool
-    .query(
-      `SELECT i.*, last_reply_created_at, COUNT(r.parent_id) AS reply_count, COUNT(r.parent_id) > 0 AS has_replies, COUNT(*) OVER() AS topics_count
-                FROM items i
-                LEFT JOIN items r ON r.parent_id = i.id
-                    LEFT JOIN (
-                        SELECT parent_id, MAX(created_at) last_reply_created_at 
-                        FROM items GROUP BY parent_id
-                        ) r2 
-                    ON r2.parent_id = i.id
-                WHERE i.is_topic = true AND (i.body ILIKE any (array[${search_arr_str}]) OR i.title ILIKE any (array[${search_arr_str}]))
-                GROUP BY i.id, last_reply_created_at
-                ORDER BY has_replies, last_reply_created_at DESC
-                LIMIT ${TOPICS_PER_PAGE}
-                OFFSET ${offset}`
-    )
-    .then((topics) => {
-      if (topics.rows.length === 0) return next();
-
-      // We preview one line of the topic body on the question index page
-      topics.rows.forEach(function (topic) {
-        topic.body = render(topic.body);
-        topic.singular = topic.reply_count === "1";
-        if (topic.tags)
-          topic.tags = topic.tags.split(",").map((tag) => ({ tag, slug: tag }));
-        if (topic.last_reply_created_at) {
-          topic.answered = moment(topic.last_reply_created_at).fromNow();
-          topic.answeredDateStamp = moment(
-            topic.last_reply_created_at
-          ).valueOf();
-        }
-        if (topic.created_at) {
-          topic.asked = moment(topic.created_at).fromNow();
-          topic.askedDateStamp = moment(topic.created_at).valueOf();
-        }
-      });
-
-      res.locals.title = page > 1 ? `Page ${page} - Questions` : "Questions";
-      res.locals.topics = topics.rows;
-      res.locals.paginator = Paginator(
-        page,
-        TOPICS_PER_PAGE,
-        topics.rows[0].topics_count,
-        "/questions"
-      );
-      res.locals.search_query = search_query;
-      res.render("questions");
-    })
-    .catch(next);
+  res.locals.title = page > 1 ? `Page ${page} - Questions` : "Questions";
+  res.locals.topics = topics.rows;
+  res.locals.paginator = Paginator(
+    page,
+    TOPICS_PER_PAGE,
+    topics.rows[0].topics_count,
+    "/questions"
+  );
+  res.locals.search_query = search_query;
+  res.render("questions");
 });
 
-function Paginator(page, itemsPerPage, totalItems, base) {
-  // Data for pagination
-  let pages_count = Math.ceil(totalItems / itemsPerPage);
-
-  // Paginator object for the view
-  let paginator = {};
-
-  // total pages
-  let next_page = false;
-  let previous_page = false;
-
-  if (page < pages_count) next_page = page + 1; // next page value only if current page is not last
-  if (page > 1) previous_page = page - 1; // next page value only if current page is not last
-
-  if (pages_count > 1) {
-    // create paginator only if there are more than 1 pages
-    paginator = {
-      pages: [], // array of pages [{page: 1, current: true}, {...}, ... ]
-      next_page: next_page, // next page int
-      previous_page: previous_page, // next page int
-      topics_count: totalItems, // total number of topics
-    };
-
-    // Produces pagination links like this:
-    // 1 ... 56 57 [58] 59 60 ... 90
-
-    const number_of_links_each_side_of_current_page = 2;
-
-    for (let i = 1; i <= pages_count; i++) {
-      // filling pages array
-      if (
-        i === 1 ||
-        i === page ||
-        i === pages_count ||
-        (i < number_of_links_each_side_of_current_page * 2 + 1 &&
-          page < number_of_links_each_side_of_current_page * 2 + 1) ||
-        Math.abs(page - i) < number_of_links_each_side_of_current_page + 1
-      ) {
-        paginator.pages.push({ page: i, current: i === page, base });
-      } else if (
-        Math.abs(page - i) === number_of_links_each_side_of_current_page + 1 ||
-        (i === number_of_links_each_side_of_current_page * 2 + 1 &&
-          page < number_of_links_each_side_of_current_page * 2 + 1)
-      ) {
-        paginator.pages.push({ elipsis: true });
-      }
-    }
-  }
-
-  console.log("Paginator", paginator);
-  return paginator;
-}
-
-Questions.route(["/tags", "/tags/page/:page"]).get(function (req, res, next) {
-  const TAGS_PER_PAGE = 15;
+Questions.route(["/tags", "/tags/page/:page"]).get(async function (
+  req,
+  res,
+  next
+) {
   const page = req.params.page ? parseInt(req.params.page) : 1;
 
   if (page && !Number.isInteger(page)) {
     return next();
   }
 
-  const offset = (page - 1) * TAGS_PER_PAGE;
-
-  pool
-    .query(
-      `SELECT taglist.tag,
-       (SELECT Count(*)
-        FROM   items
-        WHERE  items.tags LIKE '%'
-                               || taglist.tag
-                               || '%') AS total,
-    COUNT(*) OVER() AS tags_count                               
-FROM   (SELECT DISTINCT Unnest(String_to_array(tags, ',')) AS tag
-        FROM   items) taglist
-ORDER  BY total DESC
-LIMIT ${TAGS_PER_PAGE}
-OFFSET ${offset};`
-    )
-    .then(({ rows }) => {
-      if (!rows.length) return res.render("questions/tags");
-
-      res.locals.title = page > 1 ? `Page ${page} - Tags` : "Tags";
-      res.locals.paginator = Paginator(
-        page,
-        TAGS_PER_PAGE,
-        rows[0].tags_count,
-        "/questions/tags"
-      );
-      res.locals.tags = rows;
-      res.render("questions/tags");
-    })
-    .catch(next);
+  res.locals.title = page > 1 ? `Page ${page} - Tags` : "Tags";
+  res.locals.paginator = Paginator(
+    page,
+    TAGS_PER_PAGE,
+    rows[0].tags_count,
+    "/questions/tags"
+  );
+  res.locals.tags = await questions.tags({ page });
+  res.render("questions/tags");
 });
 
 // Handle topic viewing and creation
@@ -436,9 +293,7 @@ Questions.route("/tagged/:tag/edit")
 
   .get(async function (req, res, next) {
     const tag = req.params.tag;
-    const {
-      rows,
-    } = await pool.query(
+    const { rows } = await pool.query(
       `SELECT count(*) AS total_affected FROM items WHERE tags ILIKE '%' || $1 || '%'`,
       [tag]
     );
@@ -451,9 +306,7 @@ Questions.route("/tagged/:tag/edit")
   .post(async function (req, res, next) {
     const previousTag = req.body.previousTag;
     const tag = req.body.tag;
-    const {
-      rows,
-    } = await pool.query(
+    const { rows } = await pool.query(
       `SELECT tags, id FROM items WHERE tags ILIKE '%' || $1 || '%'`,
       [previousTag]
     );
@@ -478,46 +331,44 @@ Questions.route("/tagged/:tag/edit")
     );
   });
 
-Questions.get(["/tagged/:tag", "/tagged/:tag/page/:page"], function (
-  req,
-  res,
-  next
-) {
-  // Pagination data
-  if (req.params.page === "1")
-    return res.redirect(req.baseUrl + `/tagged/${req.params.tag}`);
+Questions.get(
+  ["/tagged/:tag", "/tagged/:tag/page/:page"],
+  function (req, res, next) {
+    // Pagination data
+    if (req.params.page === "1")
+      return res.redirect(req.baseUrl + `/tagged/${req.params.tag}`);
 
-  const page = req.params.page ? parseInt(req.params.page) : 1;
-  const tag = req.params.tag;
+    const page = req.params.page ? parseInt(req.params.page) : 1;
+    const tag = req.params.tag;
 
-  if (!Number.isInteger(page)) {
-    return next();
-  }
+    if (!Number.isInteger(page)) {
+      return next();
+    }
 
-  if (!tag) {
-    return next();
-  }
+    if (!tag) {
+      return next();
+    }
 
-  res.locals.breadcrumbs = res.locals.breadcrumbs.filter(
-    (x, i) => i !== res.locals.breadcrumbs.length - 2
-  );
+    res.locals.breadcrumbs = res.locals.breadcrumbs.filter(
+      (x, i) => i !== res.locals.breadcrumbs.length - 2
+    );
 
-  res.locals.breadcrumbs[res.locals.breadcrumbs.length - 1].label =
-    "Tagged '" + tag + "'";
+    res.locals.breadcrumbs[res.locals.breadcrumbs.length - 1].label =
+      "Tagged '" + tag + "'";
 
-  const offset = (page - 1) * TOPICS_PER_PAGE;
+    const offset = (page - 1) * TOPICS_PER_PAGE;
 
-  // Search data
-  const search_query = req.query.search; // raw query from form
-  let search_arr = ["%"]; // array for Postgres; initial value is needed for empty search query case
-  // populate with words from query    add '%' prefix and postfix for Postgres pattern matching
-  search_arr = tag.split(" ").map((el) => "%" + el + "%");
+    // Search data
+    const search_query = req.query.search; // raw query from form
+    let search_arr = ["%"]; // array for Postgres; initial value is needed for empty search query case
+    // populate with words from query    add '%' prefix and postfix for Postgres pattern matching
+    search_arr = tag.split(" ").map((el) => "%" + el + "%");
 
-  const search_arr_str = JSON.stringify(search_arr).replace(/"/g, "'"); // stringify and replace double quotes with single quotes for Postgres
+    const search_arr_str = JSON.stringify(search_arr).replace(/"/g, "'"); // stringify and replace double quotes with single quotes for Postgres
 
-  pool
-    .query(
-      `SELECT i.*, last_reply_created_at, COUNT(r.parent_id) AS reply_count, COUNT(r.parent_id) > 0 AS has_replies, COUNT(*) OVER() AS topics_count
+    pool
+      .query(
+        `SELECT i.*, last_reply_created_at, COUNT(r.parent_id) AS reply_count, COUNT(r.parent_id) > 0 AS has_replies, COUNT(*) OVER() AS topics_count
                 FROM items i
                 LEFT JOIN items r ON r.parent_id = i.id
                     LEFT JOIN (
@@ -530,37 +381,102 @@ Questions.get(["/tagged/:tag", "/tagged/:tag/page/:page"], function (
                 ORDER BY has_replies, last_reply_created_at DESC
                 LIMIT ${TOPICS_PER_PAGE}
                 OFFSET ${offset}`
-    )
-    .then((topics) => {
-      if (topics.rows.length === 0) return next();
+      )
+      .then((topics) => {
+        if (topics.rows.length === 0) return next();
 
-      // We preview one line of the topic body on the question index page
-      topics.rows.forEach(function (topic) {
-        topic.body = render(topic.body);
-        if (topic.tags)
-          topic.tags = topic.tags.split(",").map((tag) => ({ tag, slug: tag }));
-        topic.asked = moment(topic.created_at).fromNow();
-        topic.askedDateStamp = moment(topic.created_at).valueOf();
-      });
+        // We preview one line of the topic body on the question index page
+        topics.rows.forEach(function (topic) {
+          topic.body = render(topic.body);
+          if (topic.tags)
+            topic.tags = topic.tags
+              .split(",")
+              .map((tag) => ({ tag, slug: tag }));
+          topic.asked = moment(topic.created_at).fromNow();
+          topic.askedDateStamp = moment(topic.created_at).valueOf();
+        });
 
-      res.locals.tag = tag;
-      res.locals.title = page > 1 ? `Page ${page} - Questions` : "Questions";
-      res.locals.topics = topics.rows;
-      res.locals.paginator = Paginator(
-        page,
-        TOPICS_PER_PAGE,
-        topics.rows[0].topics_count,
-        "/questions/tagged/" + tag
-      );
-      res.locals.search_query = search_query;
-      res.render("questions");
-    })
-    .catch(next);
-});
+        res.locals.tag = tag;
+        res.locals.title = page > 1 ? `Page ${page} - Questions` : "Questions";
+        res.locals.topics = topics.rows;
+        res.locals.paginator = Paginator(
+          page,
+          TOPICS_PER_PAGE,
+          topics.rows[0].topics_count,
+          "/questions/tagged/" + tag
+        );
+        res.locals.search_query = search_query;
+        res.render("questions");
+      })
+      .catch(next);
+  }
+);
+
+function Paginator(page, itemsPerPage, totalItems, base) {
+  // Data for pagination
+  let pages_count = Math.ceil(totalItems / itemsPerPage);
+
+  // Paginator object for the view
+  let paginator = {};
+
+  // total pages
+  let next_page = false;
+  let previous_page = false;
+
+  if (page < pages_count) next_page = page + 1; // next page value only if current page is not last
+  if (page > 1) previous_page = page - 1; // next page value only if current page is not last
+
+  if (pages_count > 1) {
+    // create paginator only if there are more than 1 pages
+    paginator = {
+      pages: [], // array of pages [{page: 1, current: true}, {...}, ... ]
+      next_page: next_page, // next page int
+      previous_page: previous_page, // next page int
+      topics_count: totalItems, // total number of topics
+    };
+
+    // Produces pagination links like this:
+    // 1 ... 56 57 [58] 59 60 ... 90
+
+    const number_of_links_each_side_of_current_page = 2;
+
+    for (let i = 1; i <= pages_count; i++) {
+      // filling pages array
+      if (
+        i === 1 ||
+        i === page ||
+        i === pages_count ||
+        (i < number_of_links_each_side_of_current_page * 2 + 1 &&
+          page < number_of_links_each_side_of_current_page * 2 + 1) ||
+        Math.abs(page - i) < number_of_links_each_side_of_current_page + 1
+      ) {
+        paginator.pages.push({ page: i, current: i === page, base });
+      } else if (
+        Math.abs(page - i) === number_of_links_each_side_of_current_page + 1 ||
+        (i === number_of_links_each_side_of_current_page * 2 + 1 &&
+          page < number_of_links_each_side_of_current_page * 2 + 1)
+      ) {
+        paginator.pages.push({ elipsis: true });
+      }
+    }
+  }
+
+  console.log("Paginator", paginator);
+  return paginator;
+}
 
 const he = require("he");
 const hljs = require("highlight.js");
 const cheerio = require("cheerio");
+const { urlencoded } = require("body-parser");
+
+// Removes everything forbidden by XML 1.0 specifications,
+// plus the unicode replacement character U+FFFD
+function removeXMLInvalidChars(string) {
+  var regex =
+    /((?:[\0-\x08\x0B\f\x0E-\x1F\uFFFD\uFFFE\uFFFF]|[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?:[^\uD800-\uDBFF]|^)[\uDC00-\uDFFF]))/g;
+  return string.replace(regex, "");
+}
 
 function render(input) {
   let html = input;

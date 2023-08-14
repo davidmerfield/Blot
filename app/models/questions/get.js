@@ -1,5 +1,6 @@
 const client = require("models/client");
 const keys = require("./keys");
+const moment = require("moment");
 
 module.exports = (id) => {
   return new Promise((resolve, reject) => {
@@ -26,6 +27,7 @@ module.exports = (id) => {
           question.tags = JSON.parse(question.tags);
           question.created_at = new Date(parseInt(question.created_at, 10));
           question.replies = replies;
+          question.time = moment.unix(question.last_reply_at).fromNow();
 
           resolve(question);
         });
