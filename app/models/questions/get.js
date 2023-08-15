@@ -13,6 +13,8 @@ module.exports = (id) => {
           return reject(err);
         }
 
+        if (!question) return resolve(null);
+
         const batch = client.batch();
 
         reply_ids.forEach((reply_id) => {
@@ -25,9 +27,8 @@ module.exports = (id) => {
           }
 
           question.tags = JSON.parse(question.tags);
-          question.created_at = new Date(parseInt(question.created_at, 10));
           question.replies = replies;
-          question.time = moment.unix(question.last_reply_at).fromNow();
+          question.time = moment.unix(question.last_reply_created_at).fromNow();
 
           resolve(question);
         });

@@ -27,7 +27,8 @@ module.exports = ({ page = 1, tag = "" } = {}) => {
         }
 
         questions = questions.map((question) => {
-          question.time = moment.unix(question.last_reply_at).fromNow();
+          question.tags = JSON.parse(question.tags);
+          question.time = moment.unix(question.last_reply_created_at).fromNow();
           return question;
         });
 

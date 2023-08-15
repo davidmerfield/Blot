@@ -15,7 +15,8 @@ module.exports = function ({
 
       id = id.toString();
 
-      const created_at = Date.now();
+      // unix timestamp converted to string
+      const created_at = Date.now().toString();
       const reply_count = 0;
       const question = {
         id,
