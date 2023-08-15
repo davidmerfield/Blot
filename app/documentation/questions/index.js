@@ -32,7 +32,9 @@ server.use(function (req, res, next) {
 server.get("/feed.rss", async function (req, res) {
   res.locals.url = config.protocol + config.host;
   res.locals.title = "server";
-  res.locals.topics = await Questions.list({ created_at: true });
+  const { questions } = await Questions.list({ created_at: true });
+
+  res.locals.topics = questions;
 
   // We preview one line of the topic body on the question index page
   res.locals.topics.forEach(function (topic) {
@@ -101,17 +103,16 @@ server
       return next();
     }
 
-    const TOTAL_TOPICS = 100;
-    const TAGS_PER_PAGE = 10;
+    const {tags, stats} = await Questions.tags({ page });
 
     res.locals.title = page > 1 ? `Page ${page} - Tags` : "Tags";
+    res.locals.tags = tags;
     res.locals.paginator = Paginator(
       page,
-      TAGS_PER_PAGE,
-      TOTAL_TOPICS,
+      stats.page_size,
+      stats.total,
       "/questions/tags"
     );
-    res.locals.tags = await Questions.tags({ page });
     res.render("questions/tags");
   });
 

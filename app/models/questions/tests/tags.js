@@ -1,9 +1,11 @@
+const { stripTags } = require("blessed");
+
 describe("questions.tags", function () {
   require("./setup")();
 
   const create = require("../create");
   const get = require("../get");
-  const tags = require("../tags");
+  const Tags = require("../tags");
 
   it("returns a list of the most popular tags", async function () {
     const first_question = await create({
@@ -24,12 +26,18 @@ describe("questions.tags", function () {
       tags: ["tag3"],
     });
 
-    const popular_tags = await tags();
+    const { tags, stats } = await Tags();
 
-    expect(popular_tags).toEqual([
+    expect(tags).toEqual([
       { tag: "tag3", count: 3 },
       { tag: "tag2", count: 2 },
       { tag: "tag1", count: 1 },
     ]);
+
+    expect(stats).toEqual({
+      total: 3,
+      page_size: 10,
+      page: 1,
+    });
   });
 });

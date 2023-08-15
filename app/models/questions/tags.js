@@ -31,7 +31,10 @@ module.exports = ({ page = 1 } = {}) => {
           page * PAGE_SIZE
         );
 
-        resolve(pageOfTags);
+        resolve({
+          tags: pageOfTags,
+          stats: { page, page_size: PAGE_SIZE, total: sortedTags.length },
+        });
       });
     });
   });
