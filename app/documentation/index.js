@@ -143,7 +143,7 @@ for (const path of directories) {
   );
 }
 
-documentation.use(require("./questions_redis/related"));
+documentation.use(require("./questions/related"));
 
 documentation.get("/contact", (req, res, next) => {
   res.locals.fullWidth = true;
@@ -195,7 +195,7 @@ documentation.use("/templates", require("./templates"));
 
 documentation.use("/about/news", require("./news"));
 
-documentation.use("/questions", require("./questions_redis"));
+documentation.use("/questions", require("./questions"));
 
 function trimLeadingAndTrailingSlash(str) {
   if (!str) return str;

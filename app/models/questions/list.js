@@ -32,9 +32,12 @@ module.exports = ({ page = 1, tag = "" } = {}) => {
 
           questions = questions.map((question) => {
             question.tags = JSON.parse(question.tags);
-            question.time = moment
-              .unix(question.last_reply_created_at)
-              .fromNow();
+
+            const date = new Date(parseInt(question.last_reply_created_at));
+
+            question.time = moment(date).fromNow();
+
+            
             return question;
           });
 

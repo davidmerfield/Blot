@@ -13,6 +13,13 @@ describe("questions.get", function () {
     expect(question.body).toEqual("Yes");
   });
 
+  it("adds a human readable date under question.time", async function () {
+    const { id } = await create({ title: "How?", body: "Yes" });
+    const question = await get(id);
+
+    expect(question.time).toEqual('a few seconds ago');
+  });
+
   it("gets a question with replies", async function () {
     const { id } = await create({ title: "How?", body: "Yes" });
     const reply = await create({ body: "Answer", parent_id: id });

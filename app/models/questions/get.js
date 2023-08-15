@@ -28,7 +28,10 @@ module.exports = (id) => {
 
           question.tags = JSON.parse(question.tags);
           question.replies = replies;
-          question.time = moment.unix(question.last_reply_created_at).fromNow();
+
+          const date = new Date(parseInt(question.last_reply_created_at));
+
+          question.time = moment(date).fromNow();
 
           resolve(question);
         });

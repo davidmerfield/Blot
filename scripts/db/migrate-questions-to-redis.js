@@ -19,7 +19,8 @@ async function main() {
 
   for (const row of rows) {
     console.log(`Migrating ${row.id}...`, row);
-    await questions.update(row.id, {
+    await questions.create({
+      id: row.id,
       parent_id: row.parent_id,
       title: row.title,
       body: row.body,
