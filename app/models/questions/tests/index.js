@@ -9,6 +9,7 @@ describe("questions", function () {
     expect(questions.update).toEqual(jasmine.any(Function));
     expect(questions.list).toEqual(jasmine.any(Function));
     expect(questions.search).toEqual(jasmine.any(Function));
+    expect(questions.tags).toEqual(jasmine.any(Function));
     expect(questions.drop).toEqual(jasmine.any(Function));
   });
 });

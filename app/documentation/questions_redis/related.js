@@ -1,4 +1,3 @@
-const moment = require("moment");
 const list = require("models/questions").list;
 
 module.exports = async function related(req, res, next) {

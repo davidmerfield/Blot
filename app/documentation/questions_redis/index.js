@@ -6,13 +6,12 @@ const urlencoded = Express.urlencoded({
 const Questions = new Express.Router();
 const moment = require("moment");
 const config = require("config");
-const marked = require("marked");
 const async = require("async");
 const cache = require("helper/express-disk-cache")(config.cache_directory);
 const flushOptions = { host: config.host, path: "/https/temporary/questions" };
 const flush = () => cache.flush(flushOptions);
 const questions = require("models/questions");
-const render = require('./render');
+const render = require("./render");
 const Paginator = require("./paginator");
 
 Questions.use(["/ask", "/:id/edit", "/:id/new"], require("dashboard/session"));
@@ -31,21 +30,14 @@ Questions.use(function (req, res, next) {
   next();
 });
 
-Questions.get("/feed.rss", async function (req, res, next) {
-  const { rows } = await pool.query(
-    `SELECT * FROM items 
-      WHERE is_topic = true 
-      ORDER BY created_at DESC 
-      LIMIT ${TOPICS_PER_PAGE}`
-  );
-
+Questions.get("/feed.rss", async function (req, res) {
   res.locals.url = config.protocol + config.host;
   res.locals.title = "Questions";
   res.locals.topics = await questions.list({ created_at: true });
 
   // We preview one line of the topic body on the question index page
   res.locals.topics.forEach(function (topic) {
-    topic.body = removeXMLInvalidChars(render(topic.body));
+    topic.body = render(topic.body);
     topic.url = res.locals.url + "/questions/" + topic.id;
     topic.author = "Anonymous";
     topic.date = moment
@@ -70,27 +62,28 @@ Questions.get("/feed.rss", async function (req, res, next) {
 // Handle topic listing
 // Topics are sorted by datetime of last reply, then by topic creation date
 Questions.get(["/", "/page/:page"], async function (req, res, next) {
-  // Pagination data
-  if (req.params.page === "1") return res.redirect(req.baseUrl);
-
+  
   const page = req.params.page ? parseInt(req.params.page) : 1;
 
   if (!Number.isInteger(page)) {
     return next();
   }
 
+  const TOPICS_PER_PAGE = 10;
+  const TOTAL_TOPICS = 100;
+  
   res.locals.topics = await questions.list({ page });
 
   // We preview one line of the topic body on the question index page
   res.locals.topics.forEach(function (topic) {
     topic.body = render(topic.body);
     topic.singular = topic.reply_count === "1";
-    if (topic.tags)
-      topic.tags = topic.tags.split(",").map((tag) => ({ tag, slug: tag }));
+
     if (topic.last_reply_created_at) {
       topic.answered = moment(topic.last_reply_created_at).fromNow();
       topic.answeredDateStamp = moment(topic.last_reply_created_at).valueOf();
     }
+
     if (topic.created_at) {
       topic.asked = moment(topic.created_at).fromNow();
       topic.askedDateStamp = moment(topic.created_at).valueOf();
@@ -98,14 +91,13 @@ Questions.get(["/", "/page/:page"], async function (req, res, next) {
   });
 
   res.locals.title = page > 1 ? `Page ${page} - Questions` : "Questions";
-  res.locals.topics = topics.rows;
   res.locals.paginator = Paginator(
     page,
     TOPICS_PER_PAGE,
-    topics.rows[0].topics_count,
+    TOTAL_TOPICS,
     "/questions"
   );
-  res.locals.search_query = search_query;
+
   res.render("questions");
 });
 
@@ -120,11 +112,14 @@ Questions.route(["/tags", "/tags/page/:page"]).get(async function (
     return next();
   }
 
+  const TOTAL_TOPICS = 100;
+  const TAGS_PER_PAGE = 10;
+
   res.locals.title = page > 1 ? `Page ${page} - Tags` : "Tags";
   res.locals.paginator = Paginator(
     page,
     TAGS_PER_PAGE,
-    rows[0].tags_count,
+    TOTAL_TOPICS,
     "/questions/tags"
   );
   res.locals.tags = await questions.tags({ page });
@@ -133,7 +128,7 @@ Questions.route(["/tags", "/tags/page/:page"]).get(async function (
 
 // Handle topic viewing and creation
 Questions.route("/ask")
-  .get(function (req, res, next) {
+  .get(function (req, res) {
     if (!req.session || !req.session.uid)
       return res.redirect("/log-in?then=/questions/ask");
     res.render("questions/ask");
@@ -150,16 +145,9 @@ Questions.route("/ask")
     if (title.trim().length === 0 || body.trim().length === 0)
       return next(new Error("Title and body must be set"));
     else {
-      pool.query(
-        "INSERT INTO items(id, author, title, body, tags, is_topic) VALUES(DEFAULT, $1, $2, $3, $4, true) RETURNING *",
-        [author, title, body, tags],
-        (error, topic) => {
-          if (error) return next(error);
-          flush();
-          const newTopic = topic.rows[0];
-          res.redirect("/questions/" + newTopic.id);
-        }
-      );
+      // insert
+      //  [author, title, body, tags]
+      // res.redirect("/questions/" + newTopic.id);
     }
   });
 
@@ -172,16 +160,6 @@ Questions.route("/:id/new").post(function (req, res, next) {
   const body = req.body.body;
   if (body.trim().length === 0) res.redirect("/questions/" + id);
   else {
-    pool
-      .query(
-        "INSERT INTO items(id, author, body, parent_id) VALUES(DEFAULT, $1, $2, $3) RETURNING *",
-        [author, body, id]
-      )
-      .then(() => {
-        flush();
-        res.redirect("/questions/" + id);
-      })
-      .catch(next);
   }
 });
 
@@ -413,13 +391,5 @@ Questions.get(
       .catch(next);
   }
 );
-
-// Removes everything forbidden by XML 1.0 specifications,
-// plus the unicode replacement character U+FFFD
-function removeXMLInvalidChars(string) {
-    var regex =
-      /((?:[\0-\x08\x0B\f\x0E-\x1F\uFFFD\uFFFE\uFFFF]|[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?:[^\uD800-\uDBFF]|^)[\uDC00-\uDFFF]))/g;
-    return string.replace(regex, "");
-  }
 
 module.exports = Questions;
