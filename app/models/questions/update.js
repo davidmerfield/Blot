@@ -2,75 +2,85 @@ const client = require("models/client");
 const keys = require("./keys");
 const get = require("./get");
 
-module.exports = (id, updates) => {
-  return new Promise(async (resolve, reject) => {
-    const existing = await get(id);
-    const multi = client.multi();
-    const created_at = existing.created_at || updates.created_at || Date.now();
+module.exports = async (id, updates) => {
+  const existing = await get(id);
 
-    if (!updates.created_at) updates.created_at = created_at;
+  if (!existing) throw new Error("Question with ID " + id + " does not exist");
 
-    for (const key in updates) {
-      let value = updates[key];
+  const multi = client.multi();
+  const created_at =
+    existing.created_at || updates.created_at || Date.now().toString();
+  const removedTags = [];
 
-      if (typeof value === "object" || Array.isArray(value)) {
-        value = JSON.stringify(value);
-      } else if (typeof value === "boolean") {
-        value = value ? "true" : "false";
-      } else if (typeof value === "number") {
-        value = value.toString();
-      }
+  for (const key in updates) {
+    let value = updates[key];
 
-      multi.hset(keys.question(id), key, value);
+    if (typeof value === "object" || Array.isArray(value)) {
+      value = JSON.stringify(value);
+    } else if (typeof value === "boolean") {
+      value = value ? "true" : "false";
+    } else if (typeof value === "number") {
+      value = value.toString();
     }
 
-    // we need to update any tags
-    if (updates.tags) {
-      for (const tag of updates.tags) {
-        multi.sadd(keys.tags, tag);
-        multi.zadd(keys.list.tag(tag), created_at, id);
-      }
+    multi.hset(keys.question(id), key, value);
+  }
 
-      for (const tag of existing.tags) {
-        if (!updates.tags.includes(tag)) {
-          console.log("removing tag", tag, "from", id);
-          multi.zrem(keys.list.tag(tag), id);
-        }
-      }
+  // we need to update any tags
+  if (updates.tags) {
+    for (const tag of updates.tags) {
+      multi.sadd(keys.tags, tag);
+      multi.zadd(keys.list.tag(tag), created_at, id);
     }
 
-    multi.exec((err, replies) => {
+    for (const tag of existing.tags) {
+      if (!updates.tags.includes(tag)) {
+        multi.zrem(keys.list.tag(tag), id);
+        removedTags.push(tag);
+      }
+    }
+  }
+
+  const tagsToRemove = await identifyTagsToRemove(removedTags);
+
+  for (const tag of tagsToRemove) {
+    multi.srem(keys.tags, tag);
+  }
+
+  return new Promise((resolve, reject) => {
+    multi.exec((err) => {
+      if (err) {
+        reject(err);
+      }
+      // get the latest version of the question
+      // and return it
+      get(id).then(resolve).catch(reject);
+    });
+  });
+};
+
+// clean up any tags that are no longer used
+function identifyTagsToRemove(removedTags) {
+  const batch = client.batch();
+  const tagsToRemove = [];
+
+  for (const tag of removedTags) {
+    batch.zcard(keys.list.tag(tag));
+  }
+
+  return new Promise((resolve, reject) => {
+    batch.exec(async (err, replies) => {
       if (err) {
         reject(err);
       }
 
-      // clean up any tags that are no longer used
-      const batch = client.batch();
-
-      for (const tag of existing.tags) {
-        batch.zcard(keys.list.tag(tag));
+      for (let i = 0; i < replies.length; i++) {
+        if (replies[i] <= 1) {
+          tagsToRemove.push(removedTags[i]);
+        }
       }
 
-      batch.exec(async (err, replies) => {
-        if (err) {
-          reject(err);
-        }
-
-        let tagMulti = client.multi();
-
-        for (let i = 0; i < replies.length; i++) {
-          if (replies[i] === 0) {
-            tagMulti.srem(keys.tags, existing.tags[i]);
-          }
-        }
-
-        tagMulti.exec(async (err, replies) => {
-          if (err) {
-            reject(err);
-          }
-          resolve(await get(id));
-        });
-      });
+      resolve(tagsToRemove);
     });
   });
-};
+}

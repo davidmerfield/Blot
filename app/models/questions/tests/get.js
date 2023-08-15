@@ -5,8 +5,7 @@ describe("questions.get", function () {
   const get = require("../get");
 
   it("gets a question", async function () {
-
-    const id = await create({ title: "How?", body: "Yes" });
+    const { id } = await create({ title: "How?", body: "Yes" });
     const question = await get(id);
 
     expect(question.id).toEqual(id);
@@ -15,12 +14,11 @@ describe("questions.get", function () {
   });
 
   it("gets a question with replies", async function () {
-
-    const id = await create({ title: "How?", body: "Yes" });
-    const reply_id = await create({ body: "Answer", parent_id: id });
+    const { id } = await create({ title: "How?", body: "Yes" });
+    const reply = await create({ body: "Answer", parent_id: id });
 
     const question = await get(id);
 
-    expect(question.replies[0].id).toEqual(reply_id);
+    expect(question.replies[0].id).toEqual(reply.id);
   });
 });

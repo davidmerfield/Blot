@@ -3,15 +3,37 @@ describe("questions.create", function () {
   const create = require("../create");
 
   it("creates a question", async function () {
+    const question = await create({ title: "How?", body: "Yes" });
 
-    expect(await create({ title: "How?", body: "Yes" })).toEqual(
-      jasmine.any(String)
-    );
+    expect(question.id).toEqual(jasmine.any(String));
+    expect(question.title).toEqual("How?");
+    expect(question.body).toEqual("Yes");
+    expect(question.tags).toEqual([]);
+  });
+
+  it("respects the ID you supply it as long as it is not new", async function () {
+    const question = await create({
+      id: "123",
+      title: "How?",
+      body: "Yes",
     });
 
-    it("creates a question with tags", async function () {
-        expect(
-            await create({ title: "How?", body: "Yes", tags: ["tag1", "tag2"] })
-        ).toEqual(jasmine.any(String));
+    expect(question.id).toEqual("123");
+    expect(question.title).toEqual("How?");
+    expect(question.body).toEqual("Yes");
+    expect(question.tags).toEqual([]);
+  });
+
+  it("saves tags if you supply them", async function () {
+    const question = await create({
+      title: "How?",
+      body: "Yes",
+      tags: ["a", "b"],
     });
+
+    expect(question.id).toEqual(jasmine.any(String));
+    expect(question.title).toEqual("How?");
+    expect(question.body).toEqual("Yes");
+    expect(question.tags).toEqual(["a", "b"]);
+  });
 });

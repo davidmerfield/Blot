@@ -10,30 +10,36 @@ module.exports = ({ page = 1, tag = "" } = {}) => {
 
     const key = tag ? keys.list.tag(tag) : keys.list.date;
 
-    client.zrevrange(key, startIndex, endIndex, (err, question_ids) => {
-      if (err) {
-        reject(err);
-      }
-
-      const batch = client.batch();
-
-      question_ids.forEach((id) => {
-        batch.hgetall(keys.question(id));
-      });
-
-      batch.exec((err, questions) => {
+    client
+      .batch()
+      .zcard(key)
+      .zrevrange(key, startIndex, endIndex)
+      .exec((err, [total, question_ids]) => {
         if (err) {
           reject(err);
         }
 
-        questions = questions.map((question) => {
-          question.tags = JSON.parse(question.tags);
-          question.time = moment.unix(question.last_reply_created_at).fromNow();
-          return question;
+        const batch = client.batch();
+
+        question_ids.forEach((id) => {
+          batch.hgetall(keys.question(id));
         });
 
-        resolve(questions);
+        batch.exec((err, questions) => {
+          if (err) {
+            reject(err);
+          }
+
+          questions = questions.map((question) => {
+            question.tags = JSON.parse(question.tags);
+            question.time = moment
+              .unix(question.last_reply_created_at)
+              .fromNow();
+            return question;
+          });
+
+          resolve({ questions, stats: { total, page_size: PAGE_SIZE, page } });
+        });
       });
-    });
   });
 };
