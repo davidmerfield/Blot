@@ -21,7 +21,7 @@ async function main() {
     console.log(`Migrating ${row.id}...`, row);
     await questions.create({
       id: row.id,
-      parent_id: row.parent_id,
+      parent: row.parent_id,
       title: row.title,
       body: row.body,
       author: row.author,

@@ -3,25 +3,25 @@ const urlencoded = Express.urlencoded({
   extended: true,
 });
 
-const server = new Express.Router();
+const Questions = new Express.Router();
 const moment = require("moment");
 const config = require("config");
 const cache = require("helper/express-disk-cache")(config.cache_directory);
 const flushOptions = { host: config.host, path: "/https/temporary/questions" };
 const flush = () => cache.flush(flushOptions);
-const Questions = require("models/questions");
+const {tags, create, update, list} = require("models/questions");
 const render = require("./render");
 const Paginator = require("./paginator");
 
-server.use(["/ask", "/:id/edit", "/:id/new"], require("dashboard/session"));
-server.use(["/ask", "/:id/edit", "/:id/new"], urlencoded);
+Questions.use(["/ask", "/:id/edit", "/:id/new"], require("dashboard/session"));
+Questions.use(["/ask", "/:id/edit", "/:id/new"], urlencoded);
 
-server.use(async (req, res, next) => {
-  res.locals.popular_tags = await Questions.tags();
+Questions.use(async (req, res, next) => {
+  res.locals.popular_tags = await tags();
   next();
 });
 
-server.use(function (req, res, next) {
+Questions.use(function (req, res, next) {
   res.locals.base = "/questions";
   res.locals["show-question-sidebar"] = true;
   res.locals["hide-on-this-page"] = true;
@@ -29,10 +29,10 @@ server.use(function (req, res, next) {
   next();
 });
 
-server.get("/feed.rss", async function (req, res) {
+Questions.get("/feed.rss", async function (req, res) {
   res.locals.url = config.protocol + config.host;
-  res.locals.title = "server";
-  const { questions } = await Questions.list({ created_at: true });
+  res.locals.title = "Questions";
+  const { questions } = await list({ created_at: true });
 
   res.locals.topics = questions;
 
@@ -62,14 +62,14 @@ server.get("/feed.rss", async function (req, res) {
 
 // Handle topic listing
 // Topics are sorted by datetime of last reply, then by topic creation date
-server.get(["/", "/page/:page"], async function (req, res, next) {
+Questions.get(["/", "/page/:page"], async function (req, res, next) {
   const page = req.params.page ? parseInt(req.params.page) : 1;
 
   if (!Number.isInteger(page)) {
     return next();
   }
 
-  const { questions, stats } = await Questions.list({ page });
+  const { questions, stats } = await list({ page });
 
   res.locals.topics = questions;
 
@@ -83,7 +83,7 @@ server.get(["/", "/page/:page"], async function (req, res, next) {
     });
   });
 
-  res.locals.title = page > 1 ? `Page ${page} - server` : "server";
+  res.locals.title = page > 1 ? `Page ${page} - Questions` : "Questions";
   res.locals.paginator = Paginator(
     page,
     stats.page_size,
@@ -94,7 +94,7 @@ server.get(["/", "/page/:page"], async function (req, res, next) {
   res.render("questions");
 });
 
-server
+Questions
   .route(["/tags", "/tags/page/:page"])
   .get(async function (req, res, next) {
     const page = req.params.page ? parseInt(req.params.page) : 1;
@@ -103,7 +103,7 @@ server
       return next();
     }
 
-    const {tags, stats} = await Questions.tags({ page });
+    const {tags, stats} = await tags({ page });
 
     res.locals.title = page > 1 ? `Page ${page} - Tags` : "Tags";
     res.locals.tags = tags;
@@ -117,7 +117,7 @@ server
   });
 
 // Handle topic viewing and creation
-server
+Questions
   .route("/ask")
   .get(function (req, res) {
     if (!req.session || !req.session.uid)
@@ -136,14 +136,14 @@ server
     if (title.trim().length === 0 || body.trim().length === 0)
       return next(new Error("Title and body must be set"));
     else {
-      const { id } = await Questions.create({ author, title, body, tags });
+      const { id } = await create({ author, title, body, tags });
       flush();
       res.redirect("/questions/" + id);
     }
   });
 
 // Handle new reply to topic
-server.route("/:id/new").post(async (req, res) => {
+Questions.route("/:id/new").post(async (req, res) => {
   const id = parseInt(req.params.id);
   if (!req.session || !req.session.uid)
     return res.redirect(`/log-in?then=/questions/${id}/new`);
@@ -151,20 +151,20 @@ server.route("/:id/new").post(async (req, res) => {
   const body = req.body.body;
   if (body.trim().length === 0) res.redirect("/questions/" + id);
   else {
-    await Questions.create({ author, body, parent_id: id });
+    await create({ author, body, parent_id: id });
     flush();
     res.redirect("/questions/" + id);
   }
 });
 
-server
+Questions
   .route("/:id/edit")
   .get(async (req, res) => {
     const id = parseInt(req.params.id);
     if (!req.session || !req.session.uid)
       return res.redirect(`/log-in?then=/questions`);
 
-    res.locals.topic = await Questions.get(id);
+    res.locals.topic = await get(id);
     res.render("questions/edit");
   })
   .post(async (req, res) => {
@@ -180,7 +180,7 @@ server
       .map((tag) => tag.trim())
       .filter((tag) => tag.length > 0);
 
-    const question = await Questions.update(id, { title, body, tags });
+    const question = await update(id, { title, body, tags });
     flush();
 
     res.redirect(
@@ -188,9 +188,9 @@ server
     );
   });
 
-server.route("/:id").get(async (req, res, next) => {
+Questions.route("/:id").get(async (req, res, next) => {
   const id = parseInt(req.params.id);
-  const topic = await Questions.get(id);
+  const topic = await get(id);
 
   if (!topic) return next();
 
@@ -217,7 +217,7 @@ server.route("/:id").get(async (req, res, next) => {
   res.render("questions/topic");
 });
 
-server.get(
+Questions.get(
   ["/tagged/:tag", "/tagged/:tag/page/:page"],
   async (req, res, next) => {
     // Pagination data
@@ -243,7 +243,7 @@ server.get(
     res.locals.breadcrumbs[res.locals.breadcrumbs.length - 1].label =
       "Tagged '" + tag + "'";
 
-    const { questions, stats } = await Questions.list({ tag, page });
+    const { questions, stats } = await list({ tag, page });
 
     const topics = questions;
 
@@ -258,7 +258,7 @@ server.get(
     });
 
     res.locals.tag = tag;
-    res.locals.title = page > 1 ? `Page ${page} - server` : "server";
+    res.locals.title = page > 1 ? `Page ${page} - Questions` : "Questions";
     res.locals.topics = topics;
     res.locals.paginator = Paginator(
       page,
@@ -270,4 +270,4 @@ server.get(
   }
 );
 
-module.exports = server;
+module.exports = Questions;
