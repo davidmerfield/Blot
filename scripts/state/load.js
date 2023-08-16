@@ -24,26 +24,6 @@ async function main(label, callback) {
   if (!fs.existsSync(directory))
     return callback(new Error("No state " + label));
 
-  if (!fs.existsSync(DATA_DIRECTORY + "/db/postgres")) {
-    fs.ensureDirSync(DATA_DIRECTORY + "/db/postgres");
-    cp.execSync("initdb -D " + DATA_DIRECTORY + "/db/postgres");
-  }
-
-  try {
-    await cp.exec(
-      "pg_ctl -s -l logs/post.log  stop -D " + DATA_DIRECTORY + "/db/postgres",
-      {
-        stdio: "inherit",
-      }
-    );
-  } catch (e) {
-    console.log("here!", e.message);
-    if (e.message.includes("Is server running?")) {
-      console.log("postgres not running right now.");
-    } else {
-      throw e;
-    }
-  }
 
   loadDB(directory, function (err) {
     if (err) return callback(err);
@@ -51,25 +31,6 @@ async function main(label, callback) {
     fs.emptyDirSync(DATA_DIRECTORY);
     fs.ensureDirSync(directory + "/data");
     fs.copySync(directory + "/data", DATA_DIRECTORY);
-
-    if (!fs.existsSync(DATA_DIRECTORY + "/db/postgres")) {
-      cp.execSync("initdb -D " + DATA_DIRECTORY + "/db/postgres");
-    }
-
-    // Why stdio: inherit?
-    // https://github.com/shelljs/shelljs/issues/770#issuecomment-329357465
-    try {
-      cp.execSync(
-        "pg_ctl -s -l logs/post.log start -D " + DATA_DIRECTORY + "/db/postgres"
-      );
-    } catch (e) {
-      cp.execSync(
-        "pg_ctl -s -l logs/post.log stop -D " + DATA_DIRECTORY + "/db/postgres"
-      );
-      cp.execSync(
-        "pg_ctl -s -l logs/post.log start -D " + DATA_DIRECTORY + "/db/postgres"
-      );
-    }
 
     fs.emptyDirSync(BLOG_FOLDERS_DIRECTORY);
     fs.ensureDirSync(directory + "/blogs");

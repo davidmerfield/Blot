@@ -105,15 +105,7 @@ function saveDB(directory, callback) {
 
     fs.copySync(ACTIVE_DATABASE_DUMP, directory + "/dump.rdb");
     callback();
-    // require("child_process").exec(
-    //   `pg_dump ${config.postgres.database} > ${directory}/postgres.sql`,
-    //   function (err, stdout, stderr) {
-    //     if (err) throw err;
-    //     console.log(stderr);
-    //     console.log(stdout);
-    //     callback();
-    //   }
-    // );
+    
   });
 }
 

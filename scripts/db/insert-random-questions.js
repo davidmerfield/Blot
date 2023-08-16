@@ -67,15 +67,7 @@ const randomQuestionBody = () => {
 
 const randomQuestion = () =>
   randomQuestionStart() + " " + randomQuestionBody() + "?";
-// Configure connection to Postgres
-const Pool = require("pg").Pool;
-const pool = new Pool({
-  user: config.postgres.user,
-  host: config.postgres.host,
-  database: config.postgres.database,
-  password: config.postgres.password,
-  port: config.postgres.port,
-});
+
 
 const totalQuestions = 1000;
 const questions = [];
@@ -102,20 +94,11 @@ async.eachSeries(
   questions,
   ({ author, title, body, tags, replies }, next) => {
     console.log("Adding", title);
-    pool.query(
-      "INSERT INTO items(id, author, title, body, tags, is_topic) VALUES(DEFAULT, $1, $2, $3, $4, true) RETURNING *",
-      [author, title, body, tags],
-      (err, { rows }) => {
-        if (err) return next(err);
-        const { id } = rows[0];
+    
         async.eachSeries(
           replies,
           ({ author, body }, next) => {
-            pool.query(
-              "INSERT INTO items(id, author, body, parent_id) VALUES(DEFAULT, $1, $2, $3) RETURNING *",
-              [author, body, id],
-              next
-            );
+            
           },
           next
         );

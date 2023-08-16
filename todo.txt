@@ -8,7 +8,6 @@ Finish redis migration:
   - make sure I can do this from my phone
 - write backup script which takes advantage of instance storage and is run on a cron job for hourly backups
 - write backup script to send files to s3
-- get rid of postgres by moving questions into redis
 - write cron script to save redis-server disk usage and free memory stats in the db then monitor this from scheduler
 
 Openresty server:
@@ -274,8 +273,6 @@ Date parser bugs
 Investigate bug with template views whose names include hashtags and follow up with [Jay](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqPzMvLDJBfbNfLzpkKDzmZSNt)
 
 ---
-
-Migrate search indexes for blogs to postgres
 
 Migrate to k8s cluster on Linode
 
@@ -684,7 +681,6 @@ Template engine plan
 
 Improve server-side scheduled tasks:
 - Write task to identify and delete long overdue customers
-- Back up q&a section postgres database
 
 Fetch dimensions of images even if optimize and cache is disable, so that image zoom can work. Tell [Joshua](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsmhMtGvPcwxlSHSSTFVpJVbd)
 
