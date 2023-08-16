@@ -22,16 +22,17 @@ describe("questions.list", function () {
     const second = await create({ title: "How?", body: "Yes" });
     const third = await create({ title: "How?", body: "Yes" });
 
-    await create({ title: "How?", body: "Yes", parent: first.id });
-    await create({ title: "How?", body: "Yes", parent: third.id });
-    await create({ title: "How?", body: "Yes", parent: second.id });
+    await create({ body: "reply", parent: third.id });
+    await create({ body: "reply", parent: first.id });
+    await create({ body: "reply", parent: first.id });
 
     const { questions } = await list();
 
     expect(questions.length).toBe(3);
-    expect(questions[0].id).toBe(second.id);
+
+    expect(questions[0].id).toBe(first.id);
     expect(questions[1].id).toBe(third.id);
-    expect(questions[2].id).toBe(first.id);
+    expect(questions[2].id).toBe(second.id);
   });
 
   it("when you list questions by tag, the most recent question appears first", async function () {

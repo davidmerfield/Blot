@@ -19,6 +19,8 @@ module.exports = ({
       ? keys.by_created
       : keys.by_last_reply;
 
+    console.log('using key', key);
+
     client
       .batch()
       .zcard(key)

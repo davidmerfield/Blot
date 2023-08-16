@@ -40,8 +40,8 @@ module.exports = async function ({
 
   // Handle replies
   if (parent) {
-    multi.zadd(keys.children(parent), created_at, id);
-    multi.zadd(keys.by_last_reply, created_at, parent);
+    multi.zadd(keys.children(parent), parseInt(created_at), id);
+    multi.zadd(keys.by_last_reply, parseInt(created_at), parent);
     multi.zincrby(keys.by_number_of_replies, 1, parent);
 
     // Handle questions
@@ -49,12 +49,12 @@ module.exports = async function ({
 
     tags.forEach((tag) => {
       multi.sadd(keys.all_tags, tag);
-      multi.zadd(keys.by_tag(tag), created_at, id);
+      multi.zadd(keys.by_tag(tag),  parseInt(created_at), id);
     });
 
     multi.sadd(keys.all_questions, id);
-    multi.zadd(keys.by_last_reply, created_at, id);
-    multi.zadd(keys.by_created, created_at, id);
+    multi.zadd(keys.by_last_reply,  parseInt(created_at), id);
+    multi.zadd(keys.by_created,  parseInt(created_at), id);
     multi.zadd(keys.by_number_of_replies, 0, id);
   }
 
