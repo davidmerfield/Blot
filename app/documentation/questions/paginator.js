@@ -47,6 +47,5 @@ module.exports = function Paginator(page, itemsPerPage, totalItems, base) {
     }
   }
 
-  console.log("Paginator", paginator);
   return paginator;
 };
