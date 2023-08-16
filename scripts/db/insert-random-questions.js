@@ -93,7 +93,7 @@ while (questions.length < totalQuestions) {
 (async () => {
   for (const question of questions) {
     console.log("Adding", question.title);
-    await create({
+    const { id } = await create({
       title: question.title,
       author: question.author,
       body: question.body,
@@ -103,7 +103,7 @@ while (questions.length < totalQuestions) {
     for (const reply of question.replies) {
       await create({
         body: reply.body,
-        parent: question.id,
+        parent: id,
       });
     }
   }
