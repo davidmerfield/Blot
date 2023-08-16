@@ -12,6 +12,7 @@
 //   status: the HTTP status code returned for the broken link
 // }]
 
+const pg = require("pg");
 const { host, protocol, cache_directory } = require("config");
 const Cache = require("helper/express-disk-cache");
 const cache = new Cache(cache_directory);
