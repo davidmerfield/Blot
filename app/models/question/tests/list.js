@@ -17,6 +17,36 @@ describe("questions.list", function () {
     expect(questions[2].id).toBe(first.id);
   });
 
+  it("lists questions by most recent reply", async function () {
+    const first = await create({ title: "How?", body: "Yes" });
+    const second = await create({ title: "How?", body: "Yes" });
+    const third = await create({ title: "How?", body: "Yes" });
+
+    await create({ title: "How?", body: "Yes", parent: first.id });
+    await create({ title: "How?", body: "Yes", parent: third.id });
+    await create({ title: "How?", body: "Yes", parent: second.id });
+
+    const { questions } = await list();
+
+    expect(questions.length).toBe(3);
+    expect(questions[0].id).toBe(second.id);
+    expect(questions[1].id).toBe(third.id);
+    expect(questions[2].id).toBe(first.id);
+  });
+  
+  it("when you list questions by tag, the most recent question appears first", async function () {
+    const first = await create({ title: "How?", body: "Yes", tags: ["foo"] });
+    const second = await create({ title: "How?", body: "Yes", tags: ["foo"] });
+    const third = await create({ title: "How?", body: "Yes", tags: ["foo"] });
+
+    const { questions } = await list({ tag: "foo" });
+
+    expect(questions.length).toBe(3);
+    expect(questions[0].id).toBe(third.id);
+    expect(questions[1].id).toBe(second.id);
+    expect(questions[2].id).toBe(first.id);
+  });
+
   it("paginates questions with a default page size of 10", async function () {
     for (let i = 0; i < 15; i++) {
       await create({ title: "How?", body: "Yes" });

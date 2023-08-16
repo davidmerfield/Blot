@@ -24,6 +24,16 @@ describe("questions.create", function () {
     expect(question.tags).toEqual([]);
   });
 
+  it("will error if you create an entry using an existing ID", async function () {
+    await create({ id: "123", title: "How?", body: "Yes" });
+    try {
+      await create({ id: "123", title: "How?", body: "Yes" });
+      fail("Should have thrown");
+    } catch (e) {
+      expect(e.message).toEqual("Item with ID 123 already exists");
+    }
+  });
+
   it("saves tags if you supply them", async function () {
     const question = await create({
       title: "How?",

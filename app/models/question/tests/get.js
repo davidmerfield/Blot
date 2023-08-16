@@ -22,10 +22,24 @@ describe("questions.get", function () {
 
   it("gets a question with replies", async function () {
     const { id } = await create({ title: "How?", body: "Yes" });
-    const reply = await create({ body: "Answer", parent_id: id });
+    const reply = await create({ body: "Answer", parent: id });
+
+    const question = await get(id);
+    console.log('id', id);
+    console.log('reply', reply);
+    console.log('question', question);
+
+    expect(question.replies[0].id).toEqual(reply.id);
+  });
+
+  it("gets replies in chronological order", async function () {
+    const { id } = await create({ title: "How?", body: "Yes" });
+    const reply1 = await create({ body: "Answer", parent: id });
+    const reply2 = await create({ body: "Answer", parent: id });
 
     const question = await get(id);
 
-    expect(question.replies[0].id).toEqual(reply.id);
+    expect(question.replies[0].id).toEqual(reply1.id);
+    expect(question.replies[1].id).toEqual(reply2.id);
   });
 });

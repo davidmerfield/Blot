@@ -23,19 +23,19 @@ module.exports = async (id, updates) => {
       value = value.toString();
     }
 
-    multi.hset(keys.question(id), key, value);
+    multi.hset(keys.item(id), key, value);
   }
 
   // we need to update any tags
   if (updates.tags) {
     for (const tag of updates.tags) {
-      multi.sadd(keys.tags, tag);
-      multi.zadd(keys.list.tag(tag), created_at, id);
+      multi.sadd(keys.all_tags, tag);
+      multi.zadd(keys.by_tag(tag), created_at, id);
     }
 
     for (const tag of existing.tags) {
       if (!updates.tags.includes(tag)) {
-        multi.zrem(keys.list.tag(tag), id);
+        multi.zrem(keys.by_tag(tag), id);
         removedTags.push(tag);
       }
     }
@@ -44,7 +44,7 @@ module.exports = async (id, updates) => {
   const tagsToRemove = await identifyTagsToRemove(removedTags);
 
   for (const tag of tagsToRemove) {
-    multi.srem(keys.tags, tag);
+    multi.srem(keys.all_tags, tag);
   }
 
   return new Promise((resolve, reject) => {
@@ -65,7 +65,7 @@ function identifyTagsToRemove(removedTags) {
   const tagsToRemove = [];
 
   for (const tag of removedTags) {
-    batch.zcard(keys.list.tag(tag));
+    batch.zcard(keys.by_tag(tag));
   }
 
   return new Promise((resolve, reject) => {

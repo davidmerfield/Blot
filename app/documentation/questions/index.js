@@ -188,9 +188,11 @@ server
     );
   });
 
-server.route("/:id").get(async (req, res) => {
+server.route("/:id").get(async (req, res, next) => {
   const id = parseInt(req.params.id);
   const topic = await Questions.get(id);
+
+  if (!topic) return next();
 
   topic.body = render(topic.body);
 

@@ -7,11 +7,11 @@ const PAGE_SIZE = 10;
 
 module.exports = ({ page = 1 } = {}) => {
   return new Promise((resolve, reject) => {
-    client.smembers(keys.tags, (err, tags) => {
+    client.smembers(keys.all_tags, (err, tags) => {
       const batch = client.batch();
 
       for (const tag of tags) {
-        batch.zcard(keys.list.tag(tag));
+        batch.zcard(keys.by_tag(tag));
       }
 
       batch.exec((err, counts) => {
