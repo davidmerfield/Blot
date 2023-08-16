@@ -70,8 +70,8 @@
     <div style="flex-grow: 1"></div>
     <a style="flex-shrink: 0" href="/questions/{{id}}">
 
-  <span class="secondary-text smaller" ><span date-from-now="{{#answered}}{{answeredDateStamp}}{{/answered}}{{^answered}}{{askedDateStamp}}{{/answered}}">{{#answered}}{{answered}}{{/answered}}{{^answered}}{{asked}}{{/answered}}</span>,</span>
-  <span class="secondary-text smaller">{{reply_count}} {{#singular}}reply{{/singular}}{{^singular}}replies{{/singular}}</span>
+  <span class="secondary-text smaller" ><span date-from-now="{{last_reply_created_at}}">{{time}}</span>,</span>
+  <span class="secondary-text smaller">{{number_of_replies}} {{#singular}}reply{{/singular}}{{^singular}}replies{{/singular}}</span>
   </a>
   </div>
 </div>

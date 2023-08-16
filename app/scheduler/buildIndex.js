@@ -12,7 +12,8 @@
 //   status: the HTTP status code returned for the broken link
 // }]
 
-const { host, protocol, postgres, cache_directory } = require("config");
+const pg = require("pg");
+const { host, protocol, cache_directory } = require("config");
 const Cache = require("helper/express-disk-cache");
 const cache = new Cache(cache_directory);
 const cheerio = require("cheerio");
@@ -25,14 +26,6 @@ const httpsAgent = new https.Agent({
   rejectUnauthorized: false,
 });
 
-const Pool = require("pg").Pool;
-const pool = new Pool({
-  user: postgres.user,
-  host: postgres.host,
-  database: postgres.database,
-  password: postgres.password,
-  port: postgres.port,
-});
 
 function main() {
 
@@ -53,19 +46,17 @@ function main() {
         console.log(clfdate(), "Building search index:", pages);
       }
 
-      await pool.query(`DELETE FROM documentation;`);
-
       for (const { url, content, title, tags } of pages) {
-        await pool.query(
-          `INSERT INTO documentation(url, content, title, tags)
-          VALUES($1, $2, $3, $4)
-          ON CONFLICT (url)
-          DO UPDATE SET
-            content = EXCLUDED.content,
-            title = EXCLUDED.title,
-            tags = EXCLUDED.tags`,
-          [url, content, title, tags]
-        );
+        // await pool.query(
+        //   `INSERT INTO documentation(url, content, title, tags)
+        //   VALUES($1, $2, $3, $4)
+        //   ON CONFLICT (url)
+        //   DO UPDATE SET
+        //     content = EXCLUDED.content,
+        //     title = EXCLUDED.title,
+        //     tags = EXCLUDED.tags`,
+        //   [url, content, title, tags]
+        // );
       }
     } catch (err) {
       return console.warn(
