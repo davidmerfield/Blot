@@ -33,7 +33,7 @@ describe("questions.list", function () {
     expect(questions[1].id).toBe(third.id);
     expect(questions[2].id).toBe(first.id);
   });
-  
+
   it("when you list questions by tag, the most recent question appears first", async function () {
     const first = await create({ title: "How?", body: "Yes", tags: ["foo"] });
     const second = await create({ title: "How?", body: "Yes", tags: ["foo"] });
@@ -72,6 +72,21 @@ describe("questions.list", function () {
     expect(questions.length).toBe(2);
     expect(questions[0].id).toBe(third.id);
     expect(questions[1].id).toBe(first.id);
+  });
+
+  it("lets you list questions by created date, regardless of last reply time", async function () {
+    const first = await create({ title: "How?", body: "Yes" });
+    const second = await create({ title: "How?", body: "Yes" });
+    const third = await create({ title: "How?", body: "Yes" });
+
+    await create({ title: "How?", body: "Yes", parent: first.id });
+
+    const { questions } = await list({ by_created: true });
+
+    expect(questions.length).toBe(3);
+    expect(questions[0].id).toBe(third.id);
+    expect(questions[1].id).toBe(second.id);
+    expect(questions[2].id).toBe(first.id);
   });
 
   it("returns the number of replies for each question", async function () {

@@ -20,6 +20,7 @@ module.exports = {
 
   // sorted sets which we use as indexes
   by_last_reply: prefix + 'by_last_reply',
+  by_created: prefix + 'by_created',
   by_tag: (tag) => prefix + `by_tag:${tag}`,
   by_number_of_replies: prefix + 'by_number_of_replies'
 };

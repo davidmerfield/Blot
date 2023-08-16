@@ -33,7 +33,7 @@ Questions.use(function (req, res, next) {
 Questions.get("/feed.rss", async function (req, res) {
   res.locals.url = config.protocol + config.host;
   res.locals.title = "Questions";
-  const { questions } = await list({ created_at: true });
+  const { questions } = await list({ by_created: true });
 
   res.locals.topics = questions;
 
@@ -77,7 +77,7 @@ Questions.get(["/", "/page/:page"], async function (req, res, next) {
   // We preview one line of the topic body on the question index page
   res.locals.topics.forEach(function (topic) {
     topic.body = render(topic.body);
-    topic.singular = topic.reply_count === "1";
+    topic.singular = topic.number_of_replies === 1;
 
     topic.tags = topic.tags.map((tag) => {
       return { tag, slug: tag };

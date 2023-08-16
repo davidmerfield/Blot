@@ -3,12 +3,21 @@ const client = require("models/client");
 const keys = require("./keys");
 const moment = require("moment");
 
-module.exports = ({ page = 1, tag = "", page_size = PAGE_SIZE } = {}) => {
+module.exports = ({
+  page = 1,
+  tag = "",
+  page_size = PAGE_SIZE,
+  by_created = false,
+} = {}) => {
   return new Promise((resolve, reject) => {
     const startIndex = (page - 1) * page_size;
     const endIndex = startIndex + page_size - 1;
 
-    const key = tag ? keys.by_tag(tag) : keys.by_last_reply;
+    const key = tag
+      ? keys.by_tag(tag)
+      : by_created
+      ? keys.by_created
+      : keys.by_last_reply;
 
     client
       .batch()

@@ -54,6 +54,7 @@ module.exports = async function ({
 
     multi.sadd(keys.all_questions, id);
     multi.zadd(keys.by_last_reply, created_at, id);
+    multi.zadd(keys.by_created, created_at, id);
     multi.zadd(keys.by_number_of_replies, 0, id);
   }
 
