@@ -1,7 +1,7 @@
-const config = require("config");
 const faker = require("faker");
 const async = require("async");
 const fs = require("fs-extra");
+const { create } = require("models/question");
 
 const walk = (dir) => {
   var results = [];
@@ -68,7 +68,6 @@ const randomQuestionBody = () => {
 const randomQuestion = () =>
   randomQuestionStart() + " " + randomQuestionBody() + "?";
 
-
 const totalQuestions = 1000;
 const questions = [];
 
@@ -84,30 +83,31 @@ while (questions.length < totalQuestions) {
   questions.push({
     author: faker.name.findName(),
     title: randomQuestion(),
-    tags: randomSlug() + "," + randomSlug() + "," + randomSlug(),
+    tags: [randomSlug(), randomSlug(), randomSlug()],
     body: faker.lorem.paragraphs(),
     replies,
   });
 }
 
-async.eachSeries(
-  questions,
-  ({ author, title, body, tags, replies }, next) => {
-    console.log("Adding", title);
-    
-        async.eachSeries(
-          replies,
-          ({ author, body }, next) => {
-            
-          },
-          next
-        );
-      }
-    );
-  },
-  (err) => {
-    if (err) throw err;
-    console.log("All questions added");
-    process.exit();
+// iefe to use await
+(async () => {
+  for (const question of questions) {
+    console.log("Adding", question.title);
+    await create({
+      title: question.title,
+      author: question.author,
+      body: question.body,
+      tags: question.tags,
+    });
+
+    for (const reply of question.replies) {
+      await create({
+        body: reply.body,
+        parent: question.id,
+      });
+    }
   }
-);
+
+  console.log("All questions added");
+  process.exit();
+})();
