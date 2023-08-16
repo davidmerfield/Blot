@@ -37,11 +37,12 @@ module.exports = ({ page = 1, tag = "", page_size = PAGE_SIZE } = {}) => {
             .map((question, index) => {
               const last_reply_created_at = results[index * 3 + 1];
               const number_of_replies = results[index * 3 + 2];
+
               const date = new Date(parseInt(last_reply_created_at));
 
               question.time = moment(date).fromNow();
-              question.number_of_replies = number_of_replies;
-              
+              question.number_of_replies = parseInt(number_of_replies);
+
               try {
                 question.tags = JSON.parse(question.tags);
               } catch (err) {

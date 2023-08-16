@@ -73,4 +73,25 @@ describe("questions.list", function () {
     expect(questions[0].id).toBe(third.id);
     expect(questions[1].id).toBe(first.id);
   });
+
+  it("returns the number of replies for each question", async function () {
+    const first = await create({ title: "How?", body: "Yes" });
+    const second = await create({ title: "How?", body: "Yes" });
+    const third = await create({ title: "How?", body: "Yes" });
+
+    await create({ title: "How?", body: "Yes", parent: first.id });
+    await create({ title: "How?", body: "Yes", parent: first.id });
+    await create({ title: "How?", body: "Yes", parent: second.id });
+
+    const { questions } = await list();
+
+    expect(questions.length).toBe(3);
+    expect(questions[0].id).toBe(second.id);
+    expect(questions[1].id).toBe(first.id);
+    expect(questions[2].id).toBe(third.id);
+
+    expect(questions[0].number_of_replies).toBe(1);
+    expect(questions[1].number_of_replies).toBe(2);
+    expect(questions[2].number_of_replies).toBe(0);
+  });
 });

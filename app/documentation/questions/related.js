@@ -1,4 +1,4 @@
-const list = require("models/questions").list;
+const { list } = require("models/question");
 
 module.exports = async function related(req, res, next) {
   const path = require("url").parse(req.originalUrl).pathname;

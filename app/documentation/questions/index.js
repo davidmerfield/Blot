@@ -9,7 +9,7 @@ const config = require("config");
 const cache = require("helper/express-disk-cache")(config.cache_directory);
 const flushOptions = { host: config.host, path: "/https/temporary/questions" };
 const flush = () => cache.flush(flushOptions);
-const {tags, create, update, list} = require("models/questions");
+const { tags, create, update, list, get } = require("models/question");
 const render = require("./render");
 const Paginator = require("./paginator");
 
@@ -17,7 +17,8 @@ Questions.use(["/ask", "/:id/edit", "/:id/new"], require("dashboard/session"));
 Questions.use(["/ask", "/:id/edit", "/:id/new"], urlencoded);
 
 Questions.use(async (req, res, next) => {
-  res.locals.popular_tags = await tags();
+  const result = await tags();
+  res.locals.popular_tags = result.tags;
   next();
 });
 
@@ -94,31 +95,32 @@ Questions.get(["/", "/page/:page"], async function (req, res, next) {
   res.render("questions");
 });
 
-Questions
-  .route(["/tags", "/tags/page/:page"])
-  .get(async function (req, res, next) {
-    const page = req.params.page ? parseInt(req.params.page) : 1;
+Questions.route(["/tags", "/tags/page/:page"]).get(async function (
+  req,
+  res,
+  next
+) {
+  const page = req.params.page ? parseInt(req.params.page) : 1;
 
-    if (page && !Number.isInteger(page)) {
-      return next();
-    }
+  if (page && !Number.isInteger(page)) {
+    return next();
+  }
 
-    const {tags, stats} = await tags({ page });
+  const result = await tags({ page });
 
-    res.locals.title = page > 1 ? `Page ${page} - Tags` : "Tags";
-    res.locals.tags = tags;
-    res.locals.paginator = Paginator(
-      page,
-      stats.page_size,
-      stats.total,
-      "/questions/tags"
-    );
-    res.render("questions/tags");
-  });
+  res.locals.title = page > 1 ? `Page ${page} - Tags` : "Tags";
+  res.locals.tags = result.tags;
+  res.locals.paginator = Paginator(
+    page,
+    result.stats.page_size,
+    result.stats.total,
+    "/questions/tags"
+  );
+  res.render("questions/tags");
+});
 
 // Handle topic viewing and creation
-Questions
-  .route("/ask")
+Questions.route("/ask")
   .get(function (req, res) {
     if (!req.session || !req.session.uid)
       return res.redirect("/log-in?then=/questions/ask");
@@ -144,21 +146,19 @@ Questions
 
 // Handle new reply to topic
 Questions.route("/:id/new").post(async (req, res) => {
-  const id = parseInt(req.params.id);
   if (!req.session || !req.session.uid)
-    return res.redirect(`/log-in?then=/questions/${id}/new`);
+    return res.redirect(`/log-in?then=/questions/${req.params.id}/new`);
   const author = req.session.uid;
   const body = req.body.body;
-  if (body.trim().length === 0) res.redirect("/questions/" + id);
+  if (body.trim().length === 0) res.redirect("/questions/" + req.params.id);
   else {
-    await create({ author, body, parent_id: id });
+    await create({ author, body, parent: req.params.id });
     flush();
-    res.redirect("/questions/" + id);
+    res.redirect("/questions/" + req.params.id);
   }
 });
 
-Questions
-  .route("/:id/edit")
+Questions.route("/:id/edit")
   .get(async (req, res) => {
     const id = parseInt(req.params.id);
     if (!req.session || !req.session.uid)
@@ -183,9 +183,7 @@ Questions
     const question = await update(id, { title, body, tags });
     flush();
 
-    res.redirect(
-      "/questions/" + (question.parent_id !== "0" ? question.parent_id : id)
-    );
+    res.redirect("/questions/" + (question.parent ? question.parent : id));
   });
 
 Questions.route("/:id").get(async (req, res, next) => {
@@ -193,6 +191,8 @@ Questions.route("/:id").get(async (req, res, next) => {
   const topic = await get(id);
 
   if (!topic) return next();
+
+  if (topic.parent) return res.redirect(`/questions/${topic.parent}`);
 
   topic.body = render(topic.body);
 

@@ -42,7 +42,7 @@ module.exports = async function ({
   if (parent) {
     multi.zadd(keys.children(parent), created_at, id);
     multi.zadd(keys.by_last_reply, created_at, parent);
-    multi.zincrby(keys.by_reply_count, 1, parent);
+    multi.zincrby(keys.by_number_of_replies, 1, parent);
 
     // Handle questions
   } else {

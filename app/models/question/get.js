@@ -34,7 +34,7 @@ module.exports = (id) => {
           }
 
           question.replies = replies;
-          question.number_of_replies = replies.length.toString();
+          question.number_of_replies = replies.length;
 
           const date = new Date(parseInt(last_reply_created_at));
 
