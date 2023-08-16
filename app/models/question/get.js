@@ -33,11 +33,16 @@ module.exports = (id) => {
             question.tags = [];
           }
 
-          question.replies = replies;
-          question.number_of_replies = replies.length;
+          question.replies = replies.map((reply) => {
+            const date = new Date(parseInt(reply.created_at));
+            reply.time = moment(date).fromNow();
+            return reply;
+          });
 
           const date = new Date(parseInt(last_reply_created_at));
 
+          question.number_of_replies = replies.length;
+          question.last_reply_created_at = last_reply_created_at;
           question.time = moment(date).fromNow();
 
           resolve(question);

@@ -43,7 +43,7 @@ Questions.get("/feed.rss", async function (req, res) {
     topic.url = res.locals.url + "/questions/" + topic.id;
     topic.author = "Anonymous";
     topic.date = moment
-      .utc(topic.created_at)
+      (new Date(parseInt(topic.created_at)))
       .format("ddd, DD MMM YYYY HH:mm:ss ZZ");
   });
 
@@ -70,7 +70,7 @@ Questions.get(["/", "/page/:page"], async function (req, res, next) {
     return next();
   }
 
-  const { questions, stats } = await list({ page });
+  const { questions, stats } = await list({ page, page_size: 20 });
 
   res.locals.topics = questions;
 
@@ -195,10 +195,7 @@ Questions.route("/:id").get(async (req, res, next) => {
   if (topic.parent) return res.redirect(`/questions/${topic.parent}`);
 
   topic.body = render(topic.body);
-
   topic.reply_count = topic.replies.length;
-  topic.asked = moment(topic.created_at).fromNow();
-  topic.askedDateStamp = moment(topic.created_at).valueOf();
 
   res.locals.breadcrumbs[res.locals.breadcrumbs.length - 1].label = topic.title;
   topic.tags = topic.tags.map((tag) => {

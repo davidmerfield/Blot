@@ -19,7 +19,6 @@ module.exports = ({
       ? keys.by_created
       : keys.by_last_reply;
 
-    console.log('using key', key);
 
     client
       .batch()
@@ -50,7 +49,7 @@ module.exports = ({
               const number_of_replies = results[index * 3 + 2];
 
               const date = new Date(parseInt(last_reply_created_at));
-
+              question.last_reply_created_at = last_reply_created_at;
               question.time = moment(date).fromNow();
               question.number_of_replies = parseInt(number_of_replies);
 
