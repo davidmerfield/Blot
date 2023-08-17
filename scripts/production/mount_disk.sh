@@ -4,7 +4,7 @@
 set -e
 set -x 
 
-DEVICE_NAME=nvme0n1
+DEVICE_NAME=xvdf
 
 # Ensure we have mounted the file system
 mkfs -t xfs /dev/$DEVICE_NAME || true
