@@ -1,14 +1,19 @@
 Write and send out summer newsletter
 
 Finish redis migration:
-- clean up documentation of process to set up instance
-- lock down redis server by removing ssh access
-- expose endpoint on blot server which pings redis for every response then monitor this with our status page
-- document process for us to get in to redis server when things go wrong
-  - make sure I can do this from my phone
-- write backup script which takes advantage of instance storage and is run on a cron job for hourly backups
-- write backup script to send files to s3
 - write cron script to save redis-server disk usage and free memory stats in the db then monitor this from scheduler
+- expose endpoint on blot server which pings redis for every response then monitor this with our status page
+
+- check that hourly backups are working
+- check that daily backups are on s3
+
+- launch staging redis server from backup on s3
+- clean up documentation of process to set up instance
+
+- lock down redis server by removing ssh access on port 22
+
+- document process for us to get in to redis server when things go wrong
+  - make sure I can do this quickly from my phone on prompt
 
 Openresty server:
 - add openresty server which connects to redis and has the certs required to boot

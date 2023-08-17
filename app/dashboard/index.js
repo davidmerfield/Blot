@@ -107,6 +107,8 @@ dashboard.use(trace("checked redirects"));
 
 dashboard.use(require("./breadcrumbs"));
 
+dashboard.use('/stats', require('./stats'));
+
 // This needs to be before ':handle'
 dashboard.use("/account", require("./account"));
 

@@ -1,0 +1,42 @@
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/metrics-graphics/2.9.0/metricsgraphics.min.css"
+/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/metrics-graphics/2.9.0/metricsgraphics.min.js"></script>
+
+<h1>Stats</h1>
+
+<div class="chart"></div>
+
+<script>
+  // fetch json from /dashboard/stats/node/mean-response-time.json
+  const data = fetch("/dashboard/stats/node/mean-response-time.json")
+    .then((response) => response.json())
+    .then((data) => {
+        data = data.map((item) => {
+          return {
+            date: new Date(item.date),
+            value: item.value * 5000,
+          };
+        });
+      console.log(data);
+
+      MG.data_graphic({
+        data,
+        chart_type: "line",
+        interpolate: "step",
+        top: 100,
+        width: 1000,
+        height: 400,
+        right: 90,
+        bottom: 90,
+        left: 100,
+        target: document.querySelector(".chart"),
+        y_label: "response time ms",
+        yAxis: {
+          extendedTicks: true,
+        },
+      });
+    });
+</script>
