@@ -1,27 +1,45 @@
+Simplest route to get i3 shut down:
+- set up redis staging server
+- launch new server on a1.xlarge
+- launch new node server on a1.large, run tests but ensure it's against redis staging server
+- switch proxypass over to new node server
+- get openresty server proxying to node server
+
 Write and send out summer newsletter
+
 
 Finish redis migration:
 - write cron script to save redis-server disk usage and free memory stats in the db then monitor this from scheduler
 - expose endpoint on blot server which pings redis for every response then monitor this with our status page
-
 - check that hourly backups are working
 - check that daily backups are on s3
-
+- ensure redis logs are rotated
 - launch staging redis server from backup on s3
 - clean up documentation of process to set up instance
-
 - lock down redis server by removing ssh access on port 22
-
 - document process for us to get in to redis server when things go wrong
   - make sure I can do this quickly from my phone on prompt
 
 Openresty server:
+- It seems that A1 instances do not support Amazon Linux 2023 but do support AL2
+- Can we delegate caching to this server rather than node?
+- We could still choose an instance with an attached SSD
 - add openresty server which connects to redis and has the certs required to boot
 - Determine which IP we need in 'trust proxy' and refactor it into config
 - Fix the /health endpoint for the openresty server
-- Work on moving ec2 instance
-- use sc1 for main blogs storage?
 - Render nginx config using same environment variable
+
+Node server:
+- Work on moving ec2 instance
+- Eventually we could have a fleet of instances which handled entry building, and a fleet for web serving
+- All managed by openresty
+- use sc1 for main blogs storage?
+
+---
+
+Test reboot for all servers
+
+Eventually configure cloud watch reboot sequence then test it
 
 CDN server:
 - Fix any broken links in CDN logs

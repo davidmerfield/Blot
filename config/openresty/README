@@ -1,3 +1,11 @@
+
+# Can we implement cache purging with LUA?
+
+https://scene-si.org/2016/11/02/purging-cached-items-from-nginx-with-lua/
+
+
+# Setting up the instance
+
 I followed this guide to install openresty:
 
 https://blog.openresty.com/en/centos8-or-install/
@@ -81,6 +89,10 @@ sudo python3 setup.py install
 scp -v -i ~/Projects/projects.pem ~/Projects/projects.pem ec2-user@35.161.112.126:/home/ec2-user/projects.pem
 
 # fetch existing ssl certs
+
+sudo scp -v -i projects.pem ec2-user@54.191.179.131:/etc/ssl/private/letsencrypt-domain.pem /etc/ssl/private/letsencrypt-domain.pem
+sudo scp -v -i projects.pem ec2-user@54.191.179.131:/etc/ssl/private/letsencrypt-domain.key /etc/ssl/private/letsencrypt-domain.key
+
 
 
 

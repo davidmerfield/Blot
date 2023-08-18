@@ -49,10 +49,6 @@ does this help performance?
 
 i also installed cron:
 
-sudo yum install cronie
-sudo systemctl start crond
-sudo systemctl enable crond
-sudo chkconfig crond on
 
 
 
@@ -97,3 +93,41 @@ sudo start blot
 edit nginx config
 
 ./scripts/production/reload_nginx_configuration.sh
+
+
+
+
+{
+  "MaxCount": 1,
+  "MinCount": 1,
+  "ImageId": "ami-xxx",
+  "InstanceType": "x2gd.medium",
+  "KeyName": "projects",
+  "EbsOptimized": true,
+  "NetworkInterfaces": [
+    {
+      "SubnetId": "subnet-xxx",
+      "AssociatePublicIpAddress": true,
+      "DeviceIndex": 0,
+      "Groups": [
+        "sg-xxx"
+      ]
+    }
+  ],
+  "TagSpecifications": [
+    {
+      "ResourceType": "instance",
+      "Tags": [
+        {
+          "Key": "Name",
+          "Value": "Staging redis"
+        }
+      ]
+    }
+  ],
+  "PrivateDnsNameOptions": {
+    "HostnameType": "ip-name",
+    "EnableResourceNameDnsARecord": false,
+    "EnableResourceNameDnsAAAARecord": false
+  }
+}
