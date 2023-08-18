@@ -1,3 +1,13 @@
+TODO:
+
+mounting the backup disk does not work on reboot / shutdown / restart apparently
+
+
+
+
+
+
+
 
 Move redis into its own instance?
 deployment process for new server
