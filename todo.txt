@@ -7,8 +7,8 @@ Simplest route to get i3 shut down:
 
 Write and send out summer newsletter
 
-
 Finish redis migration:
+- Assign redis a fixed public IP after reviewing security group but ensure that port 6379 is not open to the world, only to the node server
 - write cron script to save redis-server disk usage and free memory stats in the db then monitor this from scheduler
 - expose endpoint on blot server which pings redis for every response then monitor this with our status page
 - check that hourly backups are working
@@ -30,6 +30,9 @@ Openresty server:
 - Render nginx config using same environment variable
 
 Node server:
+- Ensure all important data is not stored on root volume
+- https://aws.amazon.com/blogs/aws/new-amazon-ebs-snapshots-archive/
+- Use incremental snapshots + snapshot archiving for backups of all data.
 - Work on moving ec2 instance
 - Eventually we could have a fleet of instances which handled entry building, and a fleet for web serving
 - All managed by openresty
