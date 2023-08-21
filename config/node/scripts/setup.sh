@@ -10,7 +10,7 @@ BLOT_REPO=https://github.com/davidmerfield/Blot
 NVM_URL=https://raw.githubusercontent.com/creationix/nvm/v0.32.1/install.sh
 
 # TODO: update pandoc on Blot to 3.1.6.1
-PANDOC_URL=https://github.com/jgm/pandoc/releases/download/3.1.6.1/pandoc-3.1.6.1-linux-arm64.tar.gz
+PANDOC_URL=https://github.com/jgm/pandoc/releases/download/3.1.1/pandoc-3.1.1-linux-arm64.tar.gz
 
 NODE_VERSION=16.14.0
 
