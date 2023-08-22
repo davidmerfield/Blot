@@ -31,6 +31,7 @@ ssh -i $SSH_KEY ec2-user@$PUBLIC_IP "chmod +x ~/scripts/*"
 
 echo "Running setup script on remote server..."
 ssh -i $SSH_KEY ec2-user@$PUBLIC_IP "sudo ~/scripts/setup.sh"
+ssh -i $SSH_KEY ec2-user@$PUBLIC_IP "~/scripts/setup-ec2-user.sh"
 
 echo "Set up complete. To connect to the node server, run:"
 echo "ssh -i $SSH_KEY ec2-user@$PUBLIC_IP"
