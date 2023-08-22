@@ -1,3 +1,5 @@
+Fix bug with `<mark>` tag in docx post and [tell questioner](https://blot.im/questions/1934)
+
 Simplest route to get i3 shut down:
 - set up redis staging server
 - launch new server on a1.xlarge
