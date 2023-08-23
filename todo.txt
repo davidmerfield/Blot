@@ -1,3 +1,5 @@
+Get to bottom of issues with questions/tests/list and re-enable disable test suite
+
 Finish new server setup:
 - Fix bug with `<mark>` tag in docx post and [tell questioner](https://blot.im/questions/1934)
 - The password check on the delete blog page does not print the error message if the password is incorrect? Or just for admin
