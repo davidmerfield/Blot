@@ -1,5 +1,7 @@
 Fix bug with `<mark>` tag in docx post and [tell questioner](https://blot.im/questions/1934)
 
+The password check on the delete blog page does not print the error message if the password is incorrect?
+
 Simplest route to get i3 shut down:
 - set up redis staging server
 - launch new server on a1.xlarge
