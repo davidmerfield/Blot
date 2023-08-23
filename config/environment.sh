@@ -33,9 +33,6 @@ export BLOT_START=$BLOT_DIRECTORY/scripts/production/start_blot.sh
 export BLOT_MAIN=$BLOT_DIRECTORY/app
 export BLOT_LOG=$BLOT_DIRECTORY/logs/app.log
 
-# Used to take screenshots with Pupeteer
-export PUPPETEER_EXECUTABLE_PATH=
-
 # Admin information
 export BLOT_ADMIN_UID=
 export BLOT_ADMIN_EMAIL=
@@ -43,6 +40,9 @@ export BLOT_ADMIN_EMAIL=
 # Required by node-zopfli library to work on AWS
 # TODO: remove the need for this!
 export LD_LIBRARY_PATH=/usr/local/lib64
+
+# For taking screenshots
+export PUPPETEER_PRODUCT=firefox
 
 #############################################
 #               S E C R E T S               #

@@ -35,6 +35,8 @@ Openresty server:
 - Fix the /health endpoint for the openresty server
 - Render nginx config using same environment variable
 
+Think about using EFS infrequent access one zone for blog data? Can we do this on top of sc1 cold storage?
+
 ---
 
 Test reboot for all servers
