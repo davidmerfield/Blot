@@ -2,6 +2,8 @@
 Description=Node server
 
 [Service]
+PermissionsStartOnly=true
+ExecStartPre=/bin/mount /dev/nvme1n1 /var/www/blot
 ExecStart=/var/www/blot/scripts/production/start_blot.sh
 RestartSec=10
 Restart=always

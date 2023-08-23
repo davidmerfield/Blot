@@ -7,31 +7,12 @@ https://scene-si.org/2016/11/02/purging-cached-items-from-nginx-with-lua/
 # Setting up the instance
 
 I followed this guide to install openresty:
+https://serverfault.com/questions/908471/how-to-install-openresty-on-amazon-linux
 
-https://blog.openresty.com/en/centos8-or-install/
+sudo yum-config-manager --add-repo https://openresty.org/package/amazon/openresty.repo
 
-You basically need to place the following, which is modified from the example in the guide:
-
-```
-[openresty]
-name=Official OpenResty Open Source Repository for CentOS
-baseurl=https://openresty.org/package/centos/9/$basearch
-skip_if_unavailable=False
-gpgcheck=1
-repo_gpgcheck=0
-gpgkey=https://openresty.org/package/pubkey2.gpg
-enabled=1
-enabled_metadata=1
-```
-
-N.B. The changes I made are on line 10 (hard coding version 9) and line 14 (using pubkey2 rather than pubkey). Place the file at the path:
-
-/etc/yum.repos.d/openresty.repo
-
-Then 
-
-sudo dnf check-update
-sudo dnf -y install openresty
+sudo yum check-update
+sudo yum -y install openresty
 sudo systemctl start openresty
 sudo systemctl enable openresty
 
@@ -50,8 +31,8 @@ Paste the following:
 
 ## Lua rocks
 
-sudo dnf -y install make
-sudo dnf -y install gcc
+sudo yum -y install make
+sudo yum -y install gcc
 
 wget http://luarocks.org/releases/luarocks-2.0.13.tar.gz
 tar -xzvf luarocks-2.0.13.tar.gz
@@ -82,6 +63,9 @@ include /home/ec2-user/openresty/openresty.conf;
 
 sudo yum install -y pyOpenSSL python-crypto python-setuptools
 sudo yum groupinstall -y "Development tools"
+git clone https://github.com/kshcherban/acme-nginx
+cd acme-nginx
+
 sudo python3 setup.py install
 
 # copy ssh key across
