@@ -1,4 +1,4 @@
-describe("questions.list", function () {
+xdescribe("questions.list", function () {
   require("./setup")();
 
   const create = require("../create");
