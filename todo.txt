@@ -2,13 +2,9 @@ Get to bottom of issues with questions/tests/list and re-enable disable test sui
 
 Resolve screenshot issues on production server
 
-Fix bug with `<mark>` tag in docx post and [tell questioner](https://blot.im/questions/1934)
-
 The password check on the delete blog page does not print the error message if the password is incorrect? Or just for admin
 
 Fix post navigation on Portfolio template and tell [Questioner](https://blot.im/questions/1894)
-
-Fix bug with RTF file and metadata and tell [Neptune](https://mail.google.com/mail/u/0/#sent/QgrcJHsbhNpDQjkxzJjwtCsXBNHKRTZhncb)
 
 ---
 
