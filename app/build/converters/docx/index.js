@@ -117,6 +117,13 @@ function read(blog, path, options, callback) {
 
           $("header").replaceWith(titleTag);
 
+          // remove all <mark>tags but move their content to the parent
+          // there's strange behaviour with google docs export
+          // https://github.com/jgm/pandoc/issues/8923
+          $("mark").each(function () {
+            $(this).replaceWith($(this).html());
+          });
+
           // find titles
           // this is possibly? span id="h.ulrsxjddh07w" class="anchor">
           $("p").each(function () {
