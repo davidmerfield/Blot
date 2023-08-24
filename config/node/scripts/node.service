@@ -3,7 +3,9 @@ Description=Node server
 
 [Service]
 PermissionsStartOnly=true
-ExecStartPre=/bin/mount /dev/nvme1n1 /var/www/blot
+# the minus sign means that if this command fails, the service will still start
+# the command fails when the volume is already mounted
+ExecStartPre=-/bin/mount /dev/nvme1n1 /var/www/blot
 ExecStart=/var/www/blot/scripts/production/start_blot.sh
 RestartSec=10
 Restart=always

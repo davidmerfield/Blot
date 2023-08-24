@@ -2,6 +2,7 @@
 # command to sync folders 
 rsync -azvv --exclude "/node_modules" --exclude "/logs" --exclude "/tmp" -e "ssh -i projects.pem" ec2-user@54.191.179.131:/var/www/blot/ /var/www/blot
 
+- It seems that A1 instances do not support Amazon Linux 2023 but do support AL2
 
 
 Node server

@@ -75,8 +75,39 @@ chown -R ec2-user:ec2-user $BLOT_DIRECTORY
 
 # Create a systemd service for the blot application using the file ./node.service
 cp $SETUP_DIRECTORY/node.service /etc/systemd/system/node.service
+systemctl daemon-reload
+
+# list systemd services
+systemctl list-unit-files --type=service
 
 
+# change default font
+git clone https://github.com/sahibjotsaggu/San-Francisco-Pro-Fonts.git
+mkdir -p /usr/share/fonts/sanfrancisco
+cp -r San-Francisco-Pro-Fonts/* /usr/share/fonts/sanfrancisco
+fc-cache -f -v
+mkdir -p ~/.config/fontconfig
+
+# install the following to fonts.conf
+# <?xml version='1.0'?>
+# <!DOCTYPE fontconfig SYSTEM 'fonts.dtd'>
+# <fontconfig>
+# <alias>
+#     <family>sans-serif</family>
+#     <prefer><family>SF Pro Text</family></prefer>
+#   </alias>
+# </fontconfig>
+echo "<?xml version='1.0'?>
+<!DOCTYPE fontconfig SYSTEM 'fonts.dtd'>
+<fontconfig>
+<alias>
+    <family>sans-serif</family>
+    <prefer><family>SF Pro Text</family></prefer>
+  </alias>
+</fontconfig>" > ~/.config/fontconfig/fonts.conf
+
+# check that the alias is working
+fc-match sans-serif
 
 
 

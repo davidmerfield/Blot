@@ -1,8 +1,18 @@
 Get to bottom of issues with questions/tests/list and re-enable disable test suite
 
+Resolve screenshot issues on production server
+
+Fix bug with `<mark>` tag in docx post and [tell questioner](https://blot.im/questions/1934)
+
+The password check on the delete blog page does not print the error message if the password is incorrect? Or just for admin
+
+Fix post navigation on Portfolio template and tell [Questioner](https://blot.im/questions/1894)
+
+Fix bug with RTF file and metadata and tell [Neptune](https://mail.google.com/mail/u/0/#sent/QgrcJHsbhNpDQjkxzJjwtCsXBNHKRTZhncb)
+
+---
+
 Finish new server setup:
-- Fix bug with `<mark>` tag in docx post and [tell questioner](https://blot.im/questions/1934)
-- The password check on the delete blog page does not print the error message if the password is incorrect? Or just for admin
 - Ensure chron jobs are running on new server
   - tmp directory is being cleaned
   - logs are being rotated
@@ -10,6 +20,8 @@ Finish new server setup:
   - wildcard ssl certs are being renewed
 - Set up monit on new server
 - Ensure openresty service has restart=always
+- Check in on backup bucket on S3 for removal of old backups
+
 
 Finish redis server setup:
 - Assign redis a fixed public IP after reviewing security group but ensure that port 6379 is not open to the world, only to the node server
@@ -23,27 +35,8 @@ Finish redis server setup:
 - lock down redis server by removing ssh access on port 22 and use a bastion host instead
 - document process for us to get in to redis server when things go wrong
   - make sure I can do this quickly from my phone on prompt
+- Check in on backup bucket on S3 for removal of old backups
 
----
-
-Write and send out summer newsletter
-
-Openresty server:
-- It seems that A1 instances do not support Amazon Linux 2023 but do support AL2
-- Can we delegate caching to this server rather than node?
-- We could still choose an instance with an attached SSD
-- add openresty server which connects to redis and has the certs required to boot
-- Determine which IP we need in 'trust proxy' and refactor it into config
-- Fix the /health endpoint for the openresty server
-- Render nginx config using same environment variable
-
-Think about using EFS infrequent access one zone for blog data? Can we do this on top of sc1 cold storage?
-
----
-
-Test reboot for all servers
-
-Eventually configure cloud watch reboot sequence then test it
 
 CDN server:
 - Fix any broken links in CDN logs
@@ -70,14 +63,25 @@ CDN server:
 
 ---
 
-Fix post navigation on Portfolio template and tell [Questioner](https://blot.im/questions/1894)
+Write and send out summer newsletter
 
-Fix bug with RTF file and metadata and tell [Neptune](https://mail.google.com/mail/u/0/#sent/QgrcJHsbhNpDQjkxzJjwtCsXBNHKRTZhncb)
+Openresty server:
+- Can we delegate caching to this server rather than node?
+- We could still choose an instance with an attached SSD
+- add openresty server which connects to redis and has the certs required to boot
+- Determine which IP we need in 'trust proxy' and refactor it into config
+- Fix the /health endpoint for the openresty server
+- Render nginx config using same environment variable
+
+Think about using EFS infrequent access one zone for blog data? Can we do this on top of sc1 cold storage?
+
+Test reboot for all servers
+Eventually configure cloud watch reboot sequence then test it
+
 
 ---
 
 Backup script:
-  Check in on backup bucket on S3 for removal of old backups
 
 Planned infrastructure:
 
