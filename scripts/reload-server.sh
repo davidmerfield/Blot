@@ -12,7 +12,7 @@ pid=$(cat $BLOT_DIRECTORY/data/process.pid)
 logfile=$BLOT_DIRECTORY/logs/app.log
 
 echo "Re-installing dependencies"
-npm ci
+npm install
 echo "Re-installed dependencies"
 
 echo "Setting up server"

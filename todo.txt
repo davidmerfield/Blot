@@ -1,6 +1,6 @@
-Get to bottom of issues with questions/tests/list and re-enable disable test suite
-
 Resolve screenshot issues on production server
+
+Get to bottom of issues with questions/tests/list and re-enable disable test suite
 
 The password check on the delete blog page does not print the error message if the password is incorrect? Or just for admin
 
