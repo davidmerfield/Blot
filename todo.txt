@@ -1,38 +1,16 @@
 Resolve screenshot issues on production server
 
-Get to bottom of issues with questions/tests/list and re-enable disable test suite
-
-The password check on the delete blog page does not print the error message if the password is incorrect? Or just for admin
-
-Fix post navigation on Portfolio template and tell [Questioner](https://blot.im/questions/1894)
-
 ---
 
 Finish new server setup:
-- Ensure chron jobs are running on new server
-  - tmp directory is being cleaned
-  - logs are being rotated
-  - backups are being made
-  - wildcard ssl certs are being renewed
 - Set up monit on new server
-- Ensure openresty service has restart=always
-- Check in on backup bucket on S3 for removal of old backups
-
 
 Finish redis server setup:
-- Assign redis a fixed public IP after reviewing security group but ensure that port 6379 is not open to the world, only to the node server
 - write cron script to save redis-server disk usage and free memory stats in the db then monitor this from scheduler
 - expose endpoint on blot server which pings redis for every response then monitor this with our status page
-- check that hourly backups are working
-- check that daily backups are on s3
-- ensure redis logs are rotated
 - launch staging redis server from backup on s3
 - clean up documentation of process to set up instance
-- lock down redis server by removing ssh access on port 22 and use a bastion host instead
-- document process for us to get in to redis server when things go wrong
-  - make sure I can do this quickly from my phone on prompt
-- Check in on backup bucket on S3 for removal of old backups
-
+- install fail2ban on redis server? al2023 makes this hard
 
 CDN server:
 - Fix any broken links in CDN logs
@@ -56,6 +34,12 @@ CDN server:
 - consider expanding the replication of the perma_cache across more regions
 - Check CDN logs that my fix for broken references to missing woff2 font files in people's templates worked (there should not be new ones under 4xx requests)
 
+Clean up old unused volumes and snapshots, with care
+
+Checks for servers
+- Check in on backup bucket on S3 for removal of old backups
+- check that daily backups are on s3
+- Check that redis logs have been rotated - /etc/logrotate.d/redis6
 
 ---
 
@@ -114,6 +98,12 @@ Fix auto titles of 'screenshot at 12:22pm' and make sure the date parser can han
 Fix title generator so h2 titles within the file dont become the title of the post – this is helpful for obsidian
 
 Consider exposing the option to purchase the removal of subscription fee for a blog on the dashboard for $440
+
+Get to bottom of issues with questions/tests/list and re-enable disable test suite
+
+The password check on the delete blog page does not print the error message if the password is incorrect? Or just for admin
+
+Fix post navigation on Portfolio template and tell [Questioner](https://blot.im/questions/1894)
 
 ---
 

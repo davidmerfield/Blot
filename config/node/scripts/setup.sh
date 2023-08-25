@@ -113,3 +113,19 @@ fc-match sans-serif
 
 
 echo "Installing Blot..."
+
+
+#  add the following to '.bashrc'
+
+# export PS1='[BLOT:\u] \W > '
+
+# cd /var/www/blot
+
+# . /etc/blot/environment.sh
+
+
+# alias access="node /var/www/blot/scripts/access"
+# alias info="node /var/www/blot/scripts/info"
+# alias deploy="cd /var/www/blot && git pull origin master && /var/www/blot/scripts/reload-server.sh"
+# alias restart="cd /var/www/blot && git pull origin master && sudo systemctl stop node && sudo systemctl start node"
+

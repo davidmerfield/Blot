@@ -5,6 +5,7 @@ if (cluster.isMaster) {
   const async = require("async");
   const fs = require("fs-extra");
   const clfdate = require("helper/clfdate");
+  const notify = require("helper/systemd-notify");
 
   const NUMBER_OF_CORES = require("os").cpus().length;
 
@@ -39,8 +40,9 @@ if (cluster.isMaster) {
 
     email.SERVER_START();
 
-    setup(function (err) {
+    setup(async (err) => {
       if (err) throw err;
+
       console.log(clfdate(), "Finished setting up");
 
       // Launch scheduler for background tasks, like backups, emails
@@ -54,6 +56,16 @@ if (cluster.isMaster) {
           init();
         }
       }
+
+      notify({ ready: true, status: "Node server ready" });
+
+      setInterval(() => {
+        notify({
+          status: `Node server running ${
+            Object.keys(cluster.workers).length
+          } workers at ${new Date().toISOString()}}`,
+        });
+      }, 1000 * 10); // every 10 seconds
     });
   });
 

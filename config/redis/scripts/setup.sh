@@ -68,6 +68,11 @@ systemctl start crond
 systemctl enable crond
 chkconfig crond on
 
+# protect ssh brute force attacks with fail2ban
+yum -y install fail2ban
+systemctl enable fail2ban
+systemctl start fail2ban
+
 # install the backup scripts in cron
 echo  '0 * * * * /home/ec2-user/scripts/hourly-backup.sh' | crontab -
 echo  '0 0 * * * /home/ec2-user/scripts/daily-backup.sh' | crontab -
@@ -76,4 +81,6 @@ echo  '0 0 * * * /home/ec2-user/scripts/daily-backup.sh' | crontab -
 # to mount the instance store if it's not already
 /home/ec2-user/scripts/mount-instance-store.sh
 
+# change the ssh port from 22 to random port between 1024 and 65535
+# overwriting /etc/ssh/sshd_config
 
