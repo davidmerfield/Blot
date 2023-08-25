@@ -26,6 +26,25 @@ server.set("trust proxy", [
   "172.30.0.108",
 ]);
 
+// Check if the database is healthy
+server.get("/redis-health", function (req, res) {
+  let redis = require("models/redis");
+  let client = redis();
+
+  // do not cache response
+  res.set("Cache-Control", "no-store");
+
+  client.ping(function (err, reply) {
+    if (err) {
+      res.status(500).send("Failed to ping redis");
+    } else {
+      res.send("OK");
+    }
+
+    client.quit();
+  });
+});
+
 // Prevent <iframes> embedding pages served by Blot
 server.use(helmet.frameguard("allow-from", config.host));
 
@@ -93,8 +112,11 @@ server.use(blog);
 // Monit, which we use to monitor the server's health, requests
 // localhost/health to see if it should attempt to restart Blot.
 // If you remove this, change monit.rc too.
-server.use("/health", function (req, res) {
+server.get("/health", function (req, res) {
+  // do not cache response
+  res.set("Cache-Control", "no-store");
   res.send("OK");
 });
+
 
 module.exports = server;
