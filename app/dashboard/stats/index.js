@@ -13,7 +13,7 @@ Stats.use((req, res, next) => {
   next();
 });
 
-Stats.get("/node/mean-response-time.json", (req, res) => {
+Stats.get("/stats.json", (req, res) => {
   const logFile = blot_directory + "/logs/app.log";
   const data = [];
 
@@ -22,22 +22,21 @@ Stats.get("/node/mean-response-time.json", (req, res) => {
       try {
         const { date, responseTime } = parseLine(line);
 
-        if (date && !isNaN(responseTime)) data.push({ date, value: responseTime });
+        if (date && !isNaN(responseTime))
+          data.push({ date, value: responseTime });
 
         if (data.length > 1000) return false;
-
       } catch (e) {}
 
       return true;
     })
     .then(function () {
-      res.json(data);
+      res.json([{ data, label: "response time" }]);
     });
 });
 
 function parseLine(line) {
-
-    console.log('here', line);
+  console.log("here", line);
 
   // Last line of file is often empty
   if (!line) return true;

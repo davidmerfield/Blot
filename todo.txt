@@ -1,4 +1,24 @@
+CDN server:
+- Expose CDN endpoint and begin beta testing
+- Fix any broken links in CDN logs
+  404:
+    the documentation fonts are not loading (Katex etc.)
+    https://cdn.blot.im/robots.txt
+    https://cdn.blot.im/sitemap.xml
+    https://cdn.blot.im/
+- Refactor documentation so that CSS / videos are hashed rather than URL changes each time
+- Refactor nginx config so cdn.blot.im is its own server block which eventually passes proxy to node
+  - it should check static dir, fonts dir, then documentation dir then proxy pass
+- Remove cdn logic from node.js
+- Get node serving as few static files as possible
+- can we use symlinks to serve files from blog directories?
+- create redirect from blotcdn.com to cdn.blot.im using cloudflare 'bulk redirects'
+- consider expanding the replication of the perma_cache across more regions
+- consider switching to more expensive CDN type (i.e. not volume)
+
 Resolve screenshot issues on production server
+
+Write automated script to archive overdue blogs from disk and db
 
 ---
 
@@ -12,34 +32,14 @@ Finish redis server setup:
 - clean up documentation of process to set up instance
 - install fail2ban on redis server? al2023 makes this hard
 
-CDN server:
-- Fix any broken links in CDN logs
-  404:
-    the documentation fonts are not loading (Katex etc.)
-    https://cdn.blot.im/robots.txt
-    https://cdn.blot.im/sitemap.xml
-    https://cdn.blot.im/
-- Refactor documentation so that CSS / videos are hashed rather than URL changes each time
-- Refactor nginx config so cdn.blot.im is its own server block which eventually passes proxy to node
-  - it should check static dir, fonts dir, then documentation dir then proxy pass
-- Remove cdn logic from node.js
-- Get node serving as few static files as possible
-- can we use symlinks to serve files from blog directories?
-- monitor cloudflare for the URLs which are still pointing to BLOTCDN.com
-- create redirect from blotcdn.com to cdn.blot.im using cloudflare 'bulk redirects'
-- disable cloudflare distribution
-- monitor bunny logs for uncached paths
-- write script to clean old files from permacache disk
-- consider switching to more expensive CDN type (i.e. not volume)
-- consider expanding the replication of the perma_cache across more regions
-- Check CDN logs that my fix for broken references to missing woff2 font files in people's templates worked (there should not be new ones under 4xx requests)
-
 Clean up old unused volumes and snapshots, with care
 
 Checks for servers
 - Check in on backup bucket on S3 for removal of old backups
 - check that daily backups are on s3
 - Check that redis logs have been rotated - /etc/logrotate.d/redis6
+
+If everything is smooth, buy reserved instance
 
 ---
 
@@ -71,7 +71,6 @@ Planned infrastructure:
   nginx + node server: 8gb ram + 4vcpu
     a1.xlarge $37.0110 monthly
 
-Write automated script to remove overdue blogs from disk and db
 
 Eventually we could think about moving the reverse proxy onto its own server, but then we need to share a disk? Or we could use a networked file system from the node.js server to the nginx server?
 
@@ -888,6 +887,7 @@ Add support for paying with Bitcoin
 - Consider https://github.com/btcpayserver https://github.com/btcpayserver/node-btcpay
 - Tell [Chaz](https://mail.google.com/mail/u/1/#sent/165b726aa900158a) 
 - Tell [Anita](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsSWMtCTdmrbscFCFLggctmxH)
+- Tell [Arc](https://mail.google.com/mail/u/0/#inbox/FMfcgzGtwqJkLxGTKPXhZPSWVjJqQbjs)
 
 Add support for paths to static files with a trailing slash then tell [Sean](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGBwbZsfsWKHCGcbzXXSPhQWXx)
 
@@ -948,6 +948,8 @@ Improve 404 log page on Dashboard
 Add way to auto-refresh page during template development on preview subdomains. Tell [Ryan](https://mail.google.com/mail/u/1/#inbox/FMfcgxwBVDHXWxBGqwNlmsmgZjbnHXvg)
 
 Add support for nesting multiple layout tags e.g. "{<>} {||} Y" and tell [Marius](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVqNqbsQJjcrTXRcsFxHVPzDq)
+
+Look into accessibility issues with scrolling and code blocks and tell [Eli](https://mail.google.com/mail/u/0/#inbox/FMfcgzGtwqJjjrrGHDWjLPzfxGpnkZTh) if I make any changes
 
 Improvements to Git client
 - Add support for LFS and tell [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVMcpnxGHqnxJHNdbMBSrglzg)
