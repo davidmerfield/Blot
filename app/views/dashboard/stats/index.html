@@ -14,24 +14,29 @@
         const chartNode = document.createElement("div");
         document.getElementById("charts").appendChild(chartNode);
 
-        const data = chart.data.map((item) => {
-          return {
-            date: new Date(item.date),
-            value: item.value * 5000,
-          };
+        const data = chart.data.map((d) => {
+          if (Array.isArray(d[0])) {
+            return d.map((d) => ({ value: d[1], date: new Date(d[0]) }));
+          } else {
+            return { value: d[1], date: new Date(d[0]) };
+          }
         });
+        
+        console.log(data);
 
         MG.data_graphic({
           data,
-          chart_type: "line",
-          interpolate: "step",
+          chart_type: chart.type || "line",
           top: 100,
           width: 1000,
           height: 400,
           right: 90,
           bottom: 90,
           left: 100,
+          brush: 'xy',
+          area: true,
           target: chartNode,
+          legend: chart.legend,
           y_label: chart.label,
           yAxis: {
             extendedTicks: true,

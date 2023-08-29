@@ -3,6 +3,7 @@ const Stats = new express.Router();
 const { admin, blot_directory } = require("config");
 const lineReader = require("helper/lineReader");
 const moment = require("moment");
+const URL = require("url");
 
 // Ensure that only the admin can access this
 Stats.use((req, res, next) => {
@@ -13,30 +14,112 @@ Stats.use((req, res, next) => {
   next();
 });
 
-Stats.get("/stats.json", (req, res) => {
+Stats.get("/stats.json", async (req, res) => {
   const logFile = blot_directory + "/logs/app.log";
-  const data = [];
+  const data = await loadData(logFile);
 
-  lineReader
-    .eachLine(logFile, function (line) {
-      try {
-        const { date, responseTime } = parseLine(line);
+  // we want to calculate the average response time per minute
+  // so we need to group the data by minute then calculate the average
+  const groupedData = data.reduce((acc, request) => {
+    const key = request.date.format("YYYY-MM-DD-HH-mm");
 
-        if (date && !isNaN(responseTime))
-          data.push({ date, value: responseTime });
+    if (!acc[key]) {
+      console.log("here", key);
+      acc[key] = [];
+    }
 
-        if (data.length > 1000) return false;
-      } catch (e) {}
+    acc[key].push(request);
 
-      return true;
-    })
-    .then(function () {
-      res.json([{ data, label: "response time" }]);
-    });
+    return acc;
+  }, {});
+
+  const averageResponseTime = Object.keys(groupedData).map((key) => {
+    const values = groupedData[key];
+    const average =
+      values.reduce((acc, { responseTime }) => acc + responseTime, 0) /
+      values.length;
+
+    return [moment(key, "YYYY-MM-DD-HH-mm").valueOf(), average * 1000 ];
+  });
+
+  const fractionOf2XXRequests = Object.keys(groupedData).map((key) => {
+    const values = groupedData[key];
+    const total = values.length;
+    const fraction = values.reduce((acc, { status }) => {
+      if (status >= 200 && status < 300) return acc + 1;
+      return acc;
+    }, 0);
+
+    return [moment(key, "YYYY-MM-DD-HH-mm").valueOf(), fraction / total];
+  });
+
+  const fractionOf4XXRequests = Object.keys(groupedData).map((key) => {
+    const values = groupedData[key];
+    const total = values.length;
+    const fraction = values.reduce((acc, { status }) => {
+      if (status >= 400 && status < 500) return acc + 1;
+      return acc;
+    }, 0);
+
+    return [moment(key, "YYYY-MM-DD-HH-mm").valueOf(), fraction / total];
+  });
+
+  const fractionOf5XXRequests = Object.keys(groupedData).map((key) => {
+    const values = groupedData[key];
+    const total = values.length;
+    const fraction = values.reduce((acc, { status }) => {
+      if (status >= 500 && status < 600) return acc + 1;
+      return acc;
+    }, 0);
+
+    return [moment(key, "YYYY-MM-DD-HH-mm").valueOf(), fraction / total];
+  });
+
+  const numberOfRequestsPerMinute = Object.keys(groupedData).map((key) => {
+    const values = groupedData[key];
+
+    return [moment(key, "YYYY-MM-DD-HH-mm").valueOf(), values.length];
+  });
+
+  res.json([
+    { data: averageResponseTime, label: "average response time MS" },
+    { data: numberOfRequestsPerMinute, label: "number of requests" },
+    {
+      data: [
+        fractionOf4XXRequests,
+        fractionOf5XXRequests,
+      ],
+      legend: ['4XX', '5XX'],
+
+      label: "error rates",
+    },
+  ]);
 });
 
+function loadData(logFile) {
+  const data = [];
+  return new Promise((resolve, reject) => {
+    lineReader
+      .eachLine(logFile, function (line) {
+        try {
+          const parsed = parseLine(line);
+
+          if (parsed.date && !isNaN(parsed.responseTime)) {
+            data.push(parsed);
+          }
+
+          if (data.length > 5000) return false;
+        } catch (e) {}
+
+        return true;
+      })
+      .then(function () {
+        resolve(data);
+      });
+  });
+}
+
 function parseLine(line) {
-  console.log("here", line);
 
   // Last line of file is often empty
   if (!line) return true;
@@ -56,9 +139,14 @@ function parseLine(line) {
   if (!date.isValid()) return true;
 
   var components = line.slice(line.indexOf("]") + 2).split(" ");
-  var responseTime = parseFloat(components[2]);
 
-  return { date, responseTime };
+  var responseTime = parseFloat(components[2]);
+  var status = parseFloat(components[1]);
+  var workerPID = components[3].slice("PID=".length);
+  var url = components[4];
+  var host = URL.parse(components[4]).hostname;
+
+  return { date, responseTime, status, workerPID, url, host };
 }
 
 Stats.get("/", (req, res) => {
