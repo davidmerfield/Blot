@@ -149,6 +149,7 @@ Add search bar to template editor
 
 ---
 
+Tell [bukit](https://mail.google.com/mail/u/0/#inbox/FMfcgzGtwqMCsWCjhPcWpPszlZhtqNnM) when it's possible to change the URL of the /tagged/x pages in the template engine
 
 Investigate Google Drive client
 - [ ] Resolve whether to use drive.change.watch or drive.activity.query
