@@ -35,11 +35,20 @@ Stats.get("/stats.json", async (req, res) => {
     most_recent_files.map(file => fs.readJson(stats_directory + "/" + file))
   );
 
+  console.log("fetching files", most_recent_files);
+
   // The files are all arrays of objects for each minute, merge them into one array
+  // then sort the array of objects by their date property, most recent first
   const merged = data.reduce((acc, file) => acc.concat(file), []);
 
-  // then trim the array to the number of minutes we want
-  const trimmed = merged.slice(-1 * number_of_files);
+  merged.sort((a, b) => {
+    if (a.date > b.date) return -1;
+    if (a.date < b.date) return 1;
+    return 0;
+  });
+
+  // then trim the array to the number of minutes we want, most recent first
+  const trimmed = merged.slice(0, number_of_files);
 
   res.json(trimmed);
 });
