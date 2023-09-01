@@ -4,9 +4,44 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/metrics-graphics/2.9.0/metricsgraphics.min.js"></script>
 
+<header>
+  <select id="server">
+    <option value="node">Node</option>
+    <option value="nginx">Nginx</option>
+  </select>
+  <select id="range">
+    <option value="hour">Hour</option>
+    <option value="day">Day</option>
+    <option value="week">Week</option>
+  </select>
+</header>
+
 <div id="charts"></div>
+
 <script>
-  fetch(`/dashboard/stats/stats.json`)
+  // adjust the selects in the header so they match the query string if it exists
+  const server = location.search
+    ? location.search.split("server=")[1].split("&")[0]
+    : "node";
+  const range = location.search ? location.search.split("range=")[1] : "hour";
+
+  document.getElementById("server").value = server;
+  document.getElementById("range").value = range;
+
+  // when the selects are modified reload the page with the new query string
+  document.getElementById("server").addEventListener("change", () => {
+    location.search = `?server=${
+      document.getElementById("server").value
+    }&range=${document.getElementById("range").value}`;
+  });
+
+  document.getElementById("range").addEventListener("change", () => {
+    location.search = `?server=${
+      document.getElementById("server").value
+    }&range=${document.getElementById("range").value}`;
+  });
+
+  fetch(`/dashboard/stats/stats.json?server=${server}&range=${range}`)
     .then(response => response.json())
     .then(stats => {
       const charts = Object.keys(stats[0])

@@ -2,7 +2,6 @@ const express = require("express");
 const Stats = new express.Router();
 const { admin, blot_directory } = require("config");
 const fs = require("fs-extra");
-const stats_directory = blot_directory + "/tmp/stats/node";
 
 // Ensure that only the admin can access this
 Stats.use((req, res, next) => {
@@ -18,9 +17,10 @@ Stats.get("/stats.json", async (req, res) => {
   // the query string 'range' can equal either 'hour', 'day', or 'week'
   // and will return the most recent data from all the JSON files, merged into one object
   const range = req.query.range || "hour";
+  const server = req.query.server || "node";
+  const stats_directory = blot_directory + "/tmp/stats/" + server;
 
-  const number_of_files =
-    range === "hour" ? 1 * 60 : range === "day" ? 24 * 60 : 168 * 60;
+  const number_of_files = range === "hour" ? 1 : range === "day" ? 24 : 168;
 
   // Get the most recent files
   const files = await fs.readdir(stats_directory);
