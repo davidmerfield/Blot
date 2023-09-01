@@ -27,17 +27,21 @@ Stats.get("/stats.json", async (req, res) => {
   const most_recent_files = files
     .filter(file => file.indexOf(".json") > -1)
     .sort()
-    .slice(-number_of_files);
+    // we fetch an extra file to ensure we have enough data if the hour just rolled over
+    .slice(-1 * (number_of_files + 1));
 
   // Read the files
   const data = await Promise.all(
     most_recent_files.map(file => fs.readJson(stats_directory + "/" + file))
   );
 
-  // The files are all arrays of objects, merge them into one array
+  // The files are all arrays of objects for each minute, merge them into one array
   const merged = data.reduce((acc, file) => acc.concat(file), []);
 
-  res.json(merged);
+  // then trim the array to the number of minutes we want
+  const trimmed = merged.slice(-1 * number_of_files);
+
+  res.json(trimmed);
 });
 
 Stats.get("/", (req, res) => {
