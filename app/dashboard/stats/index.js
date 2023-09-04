@@ -47,8 +47,9 @@ Stats.get("/stats.json", async (req, res) => {
     return 0;
   });
 
-  // then trim the array to the number of minutes we want, most recent first
-  const trimmed = merged.slice(0, number_of_files * 60);
+  // then trim the array to the number of minutes we want, discarding the most recent
+  // minute since it may be incomplete, most recent first
+  const trimmed = merged.slice(1, number_of_files * 60 + 1);
 
   res.json(trimmed);
 });
