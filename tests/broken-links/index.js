@@ -1,6 +1,7 @@
 describe("Blot's website'", function () {
   var documentation = require("documentation");
   var dashboard = require("dashboard");
+  var cdn = require("cdn");
   var broken = require("../util/broken");
   var trace = require("helper/trace");
 
@@ -16,6 +17,7 @@ describe("Blot's website'", function () {
       req.headers["x-forwarded-proto"] = "https";
       next();
     });
+    server.use("/cdn", cdn);
     server.use("/dashboard", dashboard);
     server.use(documentation);
   });
@@ -52,14 +54,15 @@ describe("Blot's website'", function () {
             return done.fail("No cookie");
           }
 
-          broken(test.origin + "/dashboard", { headers }, function (
-            err,
-            results
-          ) {
-            if (err) return done.fail(err);
-            expect(results).toEqual({});
-            done();
-          });
+          broken(
+            test.origin + "/dashboard",
+            { headers },
+            function (err, results) {
+              if (err) return done.fail(err);
+              expect(results).toEqual({});
+              done();
+            }
+          );
         }
       );
     },
