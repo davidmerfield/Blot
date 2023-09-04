@@ -29,7 +29,7 @@ documentation.set("transformers", [
   require("./tools/typeset"),
   require("./tools/anchor-links"),
   require("./tools/tex"),
-  require("./tools/finder").html_parser,
+  require("./tools/finder").html_parser
 ]);
 
 documentation.set("etag", false); // turn off etags for responses
@@ -55,7 +55,7 @@ documentation.locals.interval = plan.startsWith("monthly") ? "month" : "year";
 let cacheID = Date.now();
 
 documentation.locals.cdn = () => (text, render) =>
-  `${config.cdn.origin}/documentation/${cacheID}${render(text)}`;
+  `${config.host}/cdn/documentation/${cacheID}${render(text)}`;
 
 if (config.environment === "development") {
   const chokidar = require("chokidar");
@@ -66,7 +66,7 @@ if (config.environment === "development") {
   let flushing = false;
   let again = false;
 
-  watcher.on("change", async function flush(path) {
+  watcher.on("change", async function flush (path) {
     if (flushing) {
       again = true;
       return;
@@ -74,7 +74,7 @@ if (config.environment === "development") {
 
     flushing = true;
 
-    cache.flush({ host: config.host }, (err) => console.log(err));
+    cache.flush({ host: config.host }, err => console.log(err));
     cacheID = Date.now();
 
     insecureRequest(
@@ -116,7 +116,7 @@ const files = [
   "/favicon-180x180.png",
   "/favicon-32x32.png",
   "/favicon-16x16.png",
-  "/favicon.ico",
+  "/favicon.ico"
 ];
 
 for (const path of files) {
@@ -125,7 +125,7 @@ for (const path of files) {
       lastModified: false, // do not send Last-Modified header
       maxAge: 86400000, // cache forever
       acceptRanges: false, // do not allow ranged requests
-      immutable: true, // the file will not change
+      immutable: true // the file will not change
     })
   );
 }
@@ -138,7 +138,7 @@ for (const path of directories) {
     Express.static(VIEW_DIRECTORY + path, {
       index: false, // Without 'index: false' this will server the index.html files inside
       redirect: false, // Without 'redirect: false' this will redirect URLs to existent directories
-      maxAge: 86400000,
+      maxAge: 86400000
     })
   );
 }
@@ -197,7 +197,7 @@ documentation.use("/about/news", require("./news"));
 
 documentation.use("/questions", require("./questions"));
 
-function trimLeadingAndTrailingSlash(str) {
+function trimLeadingAndTrailingSlash (str) {
   if (!str) return str;
   if (str[0] === "/") str = str.slice(1);
   if (str[str.length - 1] === "/") str = str.slice(0, -1);
