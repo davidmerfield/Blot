@@ -1,14 +1,7 @@
 CDN server:
-- Fix any broken links in CDN logs
-  404:
-    the documentation fonts are not loading (Katex etc.)
-    https://cdn.blot.im/robots.txt
-    https://cdn.blot.im/sitemap.xml
-    https://cdn.blot.im/
-- Refactor documentation so that CSS / videos are hashed rather than URL changes each time
-- Refactor nginx config so cdn.blot.im is its own server block which eventually passes proxy to node
-  - it should check static dir, fonts dir, then documentation dir then proxy pass
 - Remove cdn logic from node.js
+  - Refactor documentation so that CSS / videos are hashed rather than URL changes each time
+  - remove cdn mustache function 
 - Get node serving as few static files as possible
 
 Resolve screenshot issues on production server
