@@ -1,5 +1,4 @@
 CDN server:
-- Expose CDN endpoint and begin beta testing
 - Fix any broken links in CDN logs
   404:
     the documentation fonts are not loading (Katex etc.)
@@ -11,23 +10,18 @@ CDN server:
   - it should check static dir, fonts dir, then documentation dir then proxy pass
 - Remove cdn logic from node.js
 - Get node serving as few static files as possible
-- can we use symlinks to serve files from blog directories?
-- create redirect from blotcdn.com to cdn.blot.im using cloudflare 'bulk redirects'
-- consider expanding the replication of the perma_cache across more regions
-- consider switching to more expensive CDN type (i.e. not volume)
 
 Resolve screenshot issues on production server
 
-Write automated script to archive overdue blogs from disk and db
+Fix question search on docs
 
 ---
 
 Finish new server setup:
-- Set up monit on new server
+- Set up systemd status polling on new server
 
 Finish redis server setup:
 - write cron script to save redis-server disk usage and free memory stats in the db then monitor this from scheduler
-- expose endpoint on blot server which pings redis for every response then monitor this with our status page
 - launch staging redis server from backup on s3
 - clean up documentation of process to set up instance
 - install fail2ban on redis server? al2023 makes this hard
@@ -41,6 +35,10 @@ Checks for servers
 
 If everything is smooth, buy reserved instance
 
+Data use minimization:
+- Write automated script to archive overdue blogs from disk and db
+- Write script to remove unused and unaccessed static files from within blog folders
+
 ---
 
 Write and send out summer newsletter
@@ -52,43 +50,15 @@ Openresty server:
 - Determine which IP we need in 'trust proxy' and refactor it into config
 - Fix the /health endpoint for the openresty server
 - Render nginx config using same environment variable
+- Eventually we could think about moving the reverse proxy onto its own server, but then we need to share a disk? Or we could use a networked file system from the node.js server to the nginx server?
+- Can we turn these into our own CDN? c6gd.medium with 60GB SSD cache for $12/month each! They all connect to same redis
 
 Think about using EFS infrequent access one zone for blog data? Can we do this on top of sc1 cold storage?
 
 Test reboot for all servers
 Eventually configure cloud watch reboot sequence then test it
 
-
 ---
-
-Backup script:
-
-Planned infrastructure:
-
-  redis server: -2 vcpu + 32gb ram + 100 gb instance disk
-    x2gd.large $50.0050 monthly
-
-  nginx + node server: 8gb ram + 4vcpu
-    a1.xlarge $37.0110 monthly
-
-
-Eventually we could think about moving the reverse proxy onto its own server, but then we need to share a disk? Or we could use a networked file system from the node.js server to the nginx server?
-
-Cheapest:
-  r6g.xlarge 
-    2 nginx workers
-    2 node workers
-    1 redis process  
-    attached EBS cold sc1 for data
-    attached EBS SSD for root
-  
-Use a mono instance r6g.xlarge with:
-  - single attached EBS SSD as root
-
-instance stores are much faster than attached ebs ssds:
-  https://gist.github.com/ktheory/3c3616fca42a3716346b
-
-Write script to remove unused and unaccessed static files from within blog folders
 
 Investigate if we can rewrite git client so we don't need to store double the data - right now we have 48GB duped
 
@@ -105,6 +75,8 @@ The password check on the delete blog page does not print the error message if t
 Fix post navigation on Portfolio template and tell [Questioner](https://blot.im/questions/1894)
 
 ---
+
+Fix Vaughn's [navigation on mobile](https://mail.google.com/mail/u/0/#inbox/FMfcgzGtwWHnTQTWXnfkxZfbvkNXrsnH)
 
 Work on templates
 - Tell these people about new templates, and to subscribe to newsletter:
@@ -130,8 +102,6 @@ Release a new film showing some of Blot’s more recent features
 ---
 
 Work out why we get a 'Zombie process' notification email every morning at 9:05am
-
-Resize disk
 
 Make 'close' button on entry permalink page of reference template work like the photo template and tell [Marco](https://mail.google.com/mail/u/0/#inbox/FMfcgzGsmNSSSRKHnlgCBllnqJCcPhxD)
 
@@ -184,6 +154,11 @@ Improve CI testing
 - [ ] Write browser based integration tests for core functionality
 - [ ] how can we test the 'reload-server' script?
 - [ ] how can we test the 'scheduler' functions? we ran into error where it was running twice
+
+Methods to improve server performance
+- consider expanding the replication of the perma_cache across more regions
+- consider switching to more expensive CDN type (i.e. not volume)
+- switch to more expensive EBS for disk of server
 
 Fix Git client bugs
 - Fix bug which occurs when you change your username while using the Git client (caused by the broken repo url) and tell [Koen](https://mail.google.com/mail/u/0/#inbox/1670f516115ef9bd) and [Andre](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqfMMxJXpbTZLvGzVmZlFPNfk) and [Josh](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqnkxhvtmPpdMMkRPjzpktrxG) and [Ryan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGCGthpSTxskRFFVjtrGnhnSvh) and [David](https://mail.google.com/mail/u/0/#inbox/FMfcgzGllVjvNfvdDVmnmlRvrFsNnQSD)
