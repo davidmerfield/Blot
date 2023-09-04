@@ -145,6 +145,8 @@ for (const path of directories) {
 
 documentation.use(require("./questions/related"));
 
+documentation.use("/cdn", require("./static"));
+
 documentation.get("/contact", (req, res, next) => {
   res.locals.fullWidth = true;
   next();

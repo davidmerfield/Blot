@@ -1,1 +1,0 @@
-Add way to replace protocol of CDN links in HTTP responses in blog rendering middleware.
