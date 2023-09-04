@@ -7,6 +7,9 @@ var config = require("config");
 const { static } = require("express");
 var express = require("express");
 const message = require("./message");
+const hash = require("helper/hash");
+const fs = require("fs");
+const { blot_directory } = require("config");
 
 // This is the express application used by a
 // customer to control the settings and view
@@ -36,10 +39,20 @@ const { plan } = config.stripe;
 dashboard.locals.price = "$" + plan.split("_").pop();
 dashboard.locals.interval = plan.startsWith("monthly") ? "month" : "year";
 
-const cacheID = Date.now();
+dashboard.locals.cdn = () => (text, render) => {
+  const path = render(text);
+  const extension = path.split(".").pop();
 
-dashboard.locals.cdn = () => (text, render) =>
-  `/cdn/documentation/${config.cache ? cacheID : Date.now()}${render(text)}`;
+  const contents = fs.readFileSync(
+    join(blot_directory, "/static/documentation", path),
+    "utf8"
+  );
+
+  const query = `?hash=${hash(contents)}&ext=${extension}`;
+  const url = `${config.cdn.origin}/documentation${path}${query}`;
+
+  return url;
+};
 
 // For when we want to cache templates
 if (config.environment !== "development") {
