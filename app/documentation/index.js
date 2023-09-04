@@ -55,7 +55,7 @@ documentation.locals.interval = plan.startsWith("monthly") ? "month" : "year";
 let cacheID = Date.now();
 
 documentation.locals.cdn = () => (text, render) =>
-  `${config.host}/cdn/documentation/${cacheID}${render(text)}`;
+  `/cdn/documentation/${cacheID}${render(text)}`;
 
 if (config.environment === "development") {
   const chokidar = require("chokidar");
