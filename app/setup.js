@@ -115,11 +115,9 @@ function main (callback) {
       }
     ],
     function (err) {
+      if (err) return callback(err);
       log("Zipping blog folders");
-      zipBlogFolders(function (err) {
-        if (err) console.log(err);
-      });
-      callback(err);
+      zipBlogFolders(callback);
     }
   );
 }
