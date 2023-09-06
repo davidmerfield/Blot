@@ -95,7 +95,6 @@ function main (callback) {
         log("Zipping blog folders");
         zipBlogFolders(function (err) {
           if (err) console.log(err);
-          callback();
         });
 
         log("Building templates");
