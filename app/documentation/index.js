@@ -242,6 +242,16 @@ documentation.use((err, req, res, next) => {
 // Will redirect old broken links
 documentation.use(redirector);
 
+// Send app/views/style.min.css and /app/views/documentation.min.js
+// NGINX should handle this but for testing we need node to do it
+documentation.get("/style.min.css", function (req, res) {
+  res.sendFile(join(VIEW_DIRECTORY, "style.min.css"));
+});
+
+documentation.get("/documentation.min.js", function (req, res) {
+  res.sendFile(join(VIEW_DIRECTORY, "documentation.min.js"));
+});
+
 // Missing page
 documentation.use(function (req, res, next) {
   const err = new Error("Page not found");
