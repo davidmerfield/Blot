@@ -6,7 +6,8 @@ const Cache = require("helper/express-disk-cache");
 const cache = new Cache(config.cache_directory, { minify: true, gzip: true });
 const fs = require("fs-extra");
 const redirector = require("./redirector");
-const trace = require("helper/trace");
+const hash = require("helper/hash");
+const { blot_directory } = require("config");
 
 const root = require("helper/rootDir");
 const { join } = require("path");
@@ -54,8 +55,27 @@ documentation.locals.interval = plan.startsWith("monthly") ? "month" : "year";
 
 let cacheID = Date.now();
 
-documentation.locals.cdn = () => (text, render) =>
-  `/cdn/documentation/${cacheID}${render(text)}`;
+documentation.locals.cdn = () => (text, render) => {
+  const path = render(text);
+  const extension = path.split(".").pop();
+
+  let identifier = "cacheID=" + cacheID;
+
+  try {
+    const contents = fs.readFileSync(
+      join(blot_directory, "/app/views", path),
+      "utf8"
+    );
+    identifier = "hash=" + hash(contents);
+  } catch (e) {
+    // if the file doesn't exist, we'll use the cacheID
+  }
+
+  const query = `?${identifier}&ext=.${extension}`;
+  const url = `${path}${query}`;
+
+  return url;
+};
 
 if (config.environment === "development") {
   const chokidar = require("chokidar");

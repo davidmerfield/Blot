@@ -1,7 +1,6 @@
 describe("Blot's website'", function () {
   var documentation = require("documentation");
   var dashboard = require("dashboard");
-  var cdn = require("cdn");
   var broken = require("../util/broken");
   var trace = require("helper/trace");
 
@@ -17,8 +16,21 @@ describe("Blot's website'", function () {
       req.headers["x-forwarded-proto"] = "https";
       next();
     });
-    server.use("/cdn", cdn);
     server.use("/dashboard", dashboard);
+
+    // Send app/views/style.min.css and /app/views/documentation.min.js
+    // NGINX should handle this but for testing we need node to do it
+    server.get(
+      [
+        "/style.min.css",
+        "/documentation.min.js",
+        "/templates/data/:folder.zip"
+      ],
+      function (req, res) {
+        res.send("OK");
+      }
+    );
+
     server.use(documentation);
   });
 
