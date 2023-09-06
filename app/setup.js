@@ -9,6 +9,8 @@ const templates = require("./templates");
 const async = require("async");
 const clfdate = require("helper/clfdate");
 
+const zipBlogFolders = require("templates/folders/zip");
+
 const Cache = require("helper/express-disk-cache");
 const cache = new Cache(config.cache_directory, { minify: true, gzip: true });
 
@@ -89,6 +91,12 @@ function main (callback) {
               }
             });
         }
+
+        log("Zipping blog folders");
+        zipBlogFolders(function (err) {
+          if (err) console.log(err);
+          callback();
+        });
 
         log("Building templates");
         templates(
