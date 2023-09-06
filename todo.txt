@@ -1,17 +1,14 @@
-CDN server:
-- Remove cdn logic from node.js
-  - Refactor documentation so that CSS / videos are hashed rather than URL changes each time
-  - remove cdn mustache function 
-- Get node serving as few static files as possible
+Set up fail2ban on nginx logs
+
+Get systemd_status working on new server
 
 Resolve screenshot issues on production server
 
 Fix question search on docs
 
----
+Purge old docs CSS and JS from CDN storage cache
 
-Finish new server setup:
-- Set up systemd status polling on new server
+---
 
 Finish redis server setup:
 - write cron script to save redis-server disk usage and free memory stats in the db then monitor this from scheduler
