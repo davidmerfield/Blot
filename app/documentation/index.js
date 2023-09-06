@@ -252,7 +252,7 @@ documentation.get("/documentation.min.js", function (req, res) {
   res.sendFile(join(VIEW_DIRECTORY, "documentation.min.js"));
 });
 
-documentation.get("templates/data/:folder.zip", function (req, res) {
+documentation.get("/templates/data/:folder.zip", function (req, res) {
   res.sendFile(
     join(VIEW_DIRECTORY, "templates/data", req.params.folder + ".zip")
   );
