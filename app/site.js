@@ -1,7 +1,6 @@
 var Express = require("express");
 var dashboard = require("./dashboard");
 var documentation = require("./documentation");
-var cdn = require("./documentation/static");
 var site = Express();
 
 // Hide the header added by Express

@@ -39,17 +39,26 @@ const { plan } = config.stripe;
 dashboard.locals.price = "$" + plan.split("_").pop();
 dashboard.locals.interval = plan.startsWith("monthly") ? "month" : "year";
 
+const cacheID = Date.now();
+
 dashboard.locals.cdn = () => (text, render) => {
   const path = render(text);
   const extension = path.split(".").pop();
 
-  const contents = fs.readFileSync(
-    join(blot_directory, "/static/documentation", path),
-    "utf8"
-  );
+  let identifier = "cacheID=" + cacheID;
 
-  const query = `?hash=${hash(contents)}&ext=${extension}`;
-  const url = `${config.cdn.origin}/documentation${path}${query}`;
+  try {
+    const contents = fs.readFileSync(
+      join(blot_directory, "/app/views", path),
+      "utf8"
+    );
+    identifier = "hash=" + hash(contents);
+  } catch (e) {
+    // if the file doesn't exist, we'll use the cacheID
+  }
+
+  const query = `?${identifier}&ext=.${extension}`;
+  const url = `${path}${query}`;
 
   return url;
 };

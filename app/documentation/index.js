@@ -6,13 +6,11 @@ const Cache = require("helper/express-disk-cache");
 const cache = new Cache(config.cache_directory, { minify: true, gzip: true });
 const fs = require("fs-extra");
 const redirector = require("./redirector");
-const trace = require("helper/trace");
 const hash = require("helper/hash");
 const { blot_directory } = require("config");
 
 const root = require("helper/rootDir");
 const { join } = require("path");
-const { id } = require("typeset/src/hypher-patterns/en-us");
 const VIEW_DIRECTORY = join(root, "app/views");
 
 // Register the engine we will use to
@@ -65,19 +63,16 @@ documentation.locals.cdn = () => (text, render) => {
 
   try {
     const contents = fs.readFileSync(
-      join(blot_directory, "/static/documentation", path),
+      join(blot_directory, "/app/views", path),
       "utf8"
     );
-
-    const hash = hash(contents);
-
-    identifier = "hash=" + hash;
+    identifier = "hash=" + hash(contents);
   } catch (e) {
     // if the file doesn't exist, we'll use the cacheID
   }
 
-  const query = `?${identifier}&ext=${extension}`;
-  const url = `${config.cdn.origin}/documentation${path}${query}`;
+  const query = `?${identifier}&ext=.${extension}`;
+  const url = `${path}${query}`;
 
   return url;
 };
@@ -169,8 +164,6 @@ for (const path of directories) {
 }
 
 documentation.use(require("./questions/related"));
-
-documentation.use("/cdn", require("./static"));
 
 documentation.get("/contact", (req, res, next) => {
   res.locals.fullWidth = true;

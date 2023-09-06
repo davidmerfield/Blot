@@ -15,7 +15,10 @@ async function main () {
 
   const mergedCSS = cssContents.join("\n\n");
 
-  await fs.writeFile(join(cssDir, "style.min.css"), mergedCSS);
+  await fs.writeFile(
+    join(documentation_static_files, "style.min.css"),
+    mergedCSS
+  );
 
   await build({
     entryPoints: [join(documentation_static_files, "js/documentation.js")],
@@ -25,8 +28,10 @@ async function main () {
     target: ["chrome58", "firefox57", "safari11", "edge16"],
     outfile: join(documentation_static_files, "documentation.min.js")
   });
+}
 
-  const code = await fs.readFile(join(tmp, "documentation.min.js"), "utf-8");
+if (require.main === module) {
+  main();
 }
 
 module.exports = main;
