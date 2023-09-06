@@ -92,11 +92,6 @@ function main (callback) {
             });
         }
 
-        log("Zipping blog folders");
-        zipBlogFolders(function (err) {
-          if (err) console.log(err);
-        });
-
         log("Building templates");
         templates(
           { watch: config.environment === "development" },
@@ -119,7 +114,13 @@ function main (callback) {
         );
       }
     ],
-    callback
+    function (err) {
+      log("Zipping blog folders");
+      zipBlogFolders(function (err) {
+        if (err) console.log(err);
+      });
+      callback(err);
+    }
   );
 }
 
