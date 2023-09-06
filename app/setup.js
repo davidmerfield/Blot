@@ -31,6 +31,12 @@ function main (callback) {
         await fs.ensureDir(root + "/app/clients/git/data");
         log("Created required directories");
       },
+
+      async function (callback) {
+        log("Zipping blog folders");
+        zipBlogFolders(callback);
+      },
+
       function (callback) {
         // Blot's SSL certificate system requires the existence
         // of the domain key in redis. See config/nginx/auto-ssl.conf
@@ -114,11 +120,7 @@ function main (callback) {
         );
       }
     ],
-    function (err) {
-      if (err) return callback(err);
-      log("Zipping blog folders");
-      zipBlogFolders(callback);
-    }
+    callback
   );
 }
 
