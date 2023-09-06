@@ -252,6 +252,12 @@ documentation.get("/documentation.min.js", function (req, res) {
   res.sendFile(join(VIEW_DIRECTORY, "documentation.min.js"));
 });
 
+documentation.get("templates/data/:folder.zip", function (req, res) {
+  res.sendFile(
+    join(VIEW_DIRECTORY, "templates/data", req.params.folder + ".zip")
+  );
+});
+
 // Missing page
 documentation.use(function (req, res, next) {
   const err = new Error("Page not found");
