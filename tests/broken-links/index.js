@@ -17,6 +17,20 @@ describe("Blot's website'", function () {
       next();
     });
     server.use("/dashboard", dashboard);
+
+    // Send app/views/style.min.css and /app/views/documentation.min.js
+    // NGINX should handle this but for testing we need node to do it
+    server.get(
+      [
+        "/style.min.css",
+        "/documentation.min.js",
+        "/templates/data/:folder.zip"
+      ],
+      function (req, res) {
+        res.send("OK");
+      }
+    );
+
     server.use(documentation);
   });
 

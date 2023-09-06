@@ -9,8 +9,6 @@ const templates = require("./templates");
 const async = require("async");
 const clfdate = require("helper/clfdate");
 
-const zipBlogFolders = require("templates/folders/zip");
-
 const Cache = require("helper/express-disk-cache");
 const cache = new Cache(config.cache_directory, { minify: true, gzip: true });
 
@@ -30,11 +28,6 @@ function main (callback) {
         await fs.ensureDir(root + "/static");
         await fs.ensureDir(root + "/app/clients/git/data");
         log("Created required directories");
-      },
-
-      async function (callback) {
-        log("Zipping blog folders");
-        zipBlogFolders(callback);
       },
 
       function (callback) {
