@@ -12,29 +12,29 @@ function purge_host(host)
 
     for file_path in file_paths do
 
-        local file = io.open(file_path, "r")
+        local file = io.open(file_path, "rb")
         local first_line = file:read()
 
         file:close()
-
-        local is_key = first_line:sub(1, 6):find("KEY: ", 1, true) ~= nil
-        local uri = first_line:sub(7)
 
         -- parse the host from the uri, which looks like:
         -- http://127.0.0.1:8899/favicon.ico
         -- ensure we handle ports and cases where one domain starts with another, e.g.
         -- example.com and example.com.au
-        local host_matches = uri:sub(1, 8 + #host) == "http://" .. host .. ":" or
-                             uri:sub(1, 8 + #host) == "http://" .. host .. "/" or
-                             uri:sub(1, 9 + #host) == "https://" .. host .. ":" or
-                             uri:sub(1, 9 + #host) == "https://" .. host .. "/"
+        local host_matches = first_line:find("KEY: http://"..host..":", 1, true) or 
+                             first_line:find("KEY: http://"..host.."/", 1, true) or 
+                             first_line:find("KEY: https://"..host.."/", 1, true) or 
+                             first_line:find("KEY: https://"..host.."/", 1, true)         
         
-        if (is_key and host_matches) then
+        if (host_matches) then
 
             -- remove the file but dont error if it doesnt exist
             os.remove(file_path)
             
             table.insert(purged_files, file_path)
+        else 
+            table.insert(purged_files, 'SKIP ' .. file_path .. ' ' .. first_line)
+
         end
     end
 

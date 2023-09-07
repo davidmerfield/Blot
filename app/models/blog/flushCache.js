@@ -61,6 +61,7 @@ module.exports = function (blogID, former, callback) {
       affectedHosts,
       (host, next) => {
         try {
+          // it would be nice if we could pass multiple hosts
           fetch("http://" + config.reverse_proxy_host + "/purge?host=" + host, {
             method: "PURGE"
           });
