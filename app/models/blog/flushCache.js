@@ -60,12 +60,17 @@ module.exports = function (blogID, former, callback) {
     async.each(
       affectedHosts,
       (host, next) => {
-        try {
-          // it would be nice if we could pass multiple hosts
-          fetch("http://" + config.reverse_proxy_host + "/purge?host=" + host, {
-            method: "PURGE"
+        // it would be nice if we could pass multiple hosts
+        fetch("http://" + config.reverse_proxy_host + "/purge?host=" + host, {
+          method: "PURGE"
+        })
+          .then(res => {
+            console.log("flushed:" + host);
+          })
+          .catch(e => {
+            console.log("failed to flush: " + host);
           });
-        } catch (e) {}
+
         flush({ host }, next);
       },
       function (err) {
