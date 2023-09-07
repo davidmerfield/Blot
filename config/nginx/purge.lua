@@ -32,8 +32,6 @@ function purge_host(host)
             os.remove(file_path)
             
             table.insert(purged_files, file_path)
-        else 
-            table.insert(purged_files, 'SKIP ' .. file_path .. ' ' .. first_line)
 
         end
     end
@@ -50,9 +48,9 @@ if ngx ~= nil then
 
     local message = "Purged files for ".. ngx.var.arg_host .." from ".. ngx.var.lua_cache_directory .. " – ".. #purged_files .." files purged"
     
-    for _, file_name in ipairs(purged_files) do
-        message = message .. "\n" .. file_name
-    end
+    -- for _, file_name in ipairs(purged_files) do
+    --     message = message .. "\n" .. file_name
+    -- end
 
     ngx.say(message)
     ngx.exit(ngx.OK)
