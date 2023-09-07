@@ -12,6 +12,8 @@ var BackupDomain = require("./util/backupDomain");
 var debug = require("debug")("blot:blog:flushCache");
 var get = require("./get");
 
+const fetch = require("node-fetch");
+
 // This empties the cache for a blog by emptying the cache
 // for its Blot subdomain and its custom domain, if one is set
 module.exports = function (blogID, former, callback) {
@@ -58,6 +60,17 @@ module.exports = function (blogID, former, callback) {
     async.each(
       affectedHosts,
       (host, next) => {
+        // it would be nice if we could pass multiple hosts
+        fetch("http://" + config.reverse_proxy_host + "/purge?host=" + host, {
+          method: "PURGE"
+        })
+          .then(res => {
+            console.log("flushed:" + host);
+          })
+          .catch(e => {
+            console.log("failed to flush: " + host);
+          });
+
         flush({ host }, next);
       },
       function (err) {
@@ -76,13 +89,13 @@ module.exports = function (blogID, former, callback) {
   });
 };
 
-function symlink(blogID, host, callback) {
+function symlink (blogID, host, callback) {
   var blogFolder = localPath(blogID, "/").slice(0, -1);
   var staticFolder = config.blog_static_files_dir + "/" + blogID;
   var dirs = [HOSTS + "/" + host, blogFolder, staticFolder];
   var links = [
     { from: blogFolder, to: HOSTS + "/" + host + "/folder" },
-    { from: staticFolder, to: HOSTS + "/" + host + "/static" },
+    { from: staticFolder, to: HOSTS + "/" + host + "/static" }
   ];
 
   async.each(dirs, fs.ensureDir, function (err) {
