@@ -60,9 +60,11 @@ module.exports = function (blogID, former, callback) {
     async.each(
       affectedHosts,
       (host, next) => {
-        fetch("http://" + config.reverse_proxy_host + "/purge?host=" + host, {
-          method: "PURGE"
-        });
+        try {
+          fetch("http://" + config.reverse_proxy_host + "/purge?host=" + host, {
+            method: "PURGE"
+          });
+        } catch (e) {}
         flush({ host }, next);
       },
       function (err) {
