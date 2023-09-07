@@ -18,7 +18,7 @@ if ngx ~= nil then
     -- and y are the two characters before that
     local cache_file_path = cache_key_md5:sub(-1) .. "/" .. cache_key_md5:sub(-3,-2) .. "/" .. cache_key_md5
 
-    ngx.log(ngx.ERR, "ADDING cache_file_path: " .. cache_file_path)
+    -- ngx.log(ngx.ERR, "ADDING cache_file_path: " .. cache_file_path)
    
     local already_stored = proxy_cache_keys_by_host:get(cache_file_path)
 
