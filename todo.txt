@@ -18,6 +18,9 @@ Finish redis server setup:
 
 Clean up old unused volumes and snapshots, with care
 
+Write tests for openresty
+- https://github.com/leafo/gh-actions-openresty
+
 Checks for servers
 - Check in on backup bucket on S3 for removal of old backups
 - check that daily backups are on s3
