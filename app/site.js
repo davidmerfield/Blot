@@ -8,6 +8,10 @@ site.disable("x-powered-by");
 
 site.set("etag", false); // turn off etags for responses
 
+site.get("/health", (req, res) => {
+  res.send("OK");
+});
+
 // The dashboard
 // -------
 site.use("/dashboard", dashboard);
