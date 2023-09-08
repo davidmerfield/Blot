@@ -1,3 +1,7 @@
+Write status page check that checks CDN connection to Blot
+
+Save the docs in the proxy cache
+
 Set up fail2ban on nginx logs
 
 Get systemd_status working on new server

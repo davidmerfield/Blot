@@ -95,6 +95,7 @@ if (config.environment === "development") {
     flushing = true;
 
     cache.flush({ host: config.host }, err => console.log(err));
+
     cacheID = Date.now();
 
     insecureRequest(
@@ -165,7 +166,8 @@ for (const path of directories) {
     path,
     Express.static(VIEW_DIRECTORY + path, {
       index: false, // Without 'index: false' this will server the index.html files inside
-      redirect: false // Without 'redirect: false' this will redirect URLs to existent directories
+      redirect: false, // Without 'redirect: false' this will redirect URLs to existent directories
+      maxAge: 86400000 // cache forever
     })
   );
 }

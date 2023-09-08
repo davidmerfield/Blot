@@ -1,6 +1,6 @@
 const Express = require("express");
 const urlencoded = Express.urlencoded({
-  extended: true,
+  extended: true
 });
 
 const Questions = new Express.Router();
@@ -8,7 +8,21 @@ const moment = require("moment");
 const config = require("config");
 const cache = require("helper/express-disk-cache")(config.cache_directory);
 const flushOptions = { host: config.host, path: "/https/temporary/questions" };
-const flush = () => cache.flush(flushOptions);
+const fetch = require("node-fetch");
+
+const flush = () => {
+  cache.flush(flushOptions);
+  fetch("http://" + config.reverse_proxy_host + "/purge?host=" + config.host, {
+    method: "PURGE"
+  })
+    .then(res => {
+      console.log("flushed:" + config.host);
+    })
+    .catch(e => {
+      console.log("failed to flush: " + config.host);
+    });
+};
+
 const { tags, create, update, list, get } = require("models/question");
 const render = require("./render");
 const Paginator = require("./paginator");
@@ -42,9 +56,9 @@ Questions.get("/feed.rss", async function (req, res) {
     topic.body = render(topic.body);
     topic.url = res.locals.url + "/questions/" + topic.id;
     topic.author = "Anonymous";
-    topic.date = moment
-      (new Date(parseInt(topic.created_at)))
-      .format("ddd, DD MMM YYYY HH:mm:ss ZZ");
+    topic.date = moment(new Date(parseInt(topic.created_at))).format(
+      "ddd, DD MMM YYYY HH:mm:ss ZZ"
+    );
   });
 
   const template = await require("fs-extra").readFile(
@@ -79,7 +93,7 @@ Questions.get(["/", "/page/:page"], async function (req, res, next) {
     topic.body = render(topic.body);
     topic.singular = topic.number_of_replies === 1;
 
-    topic.tags = topic.tags.map((tag) => {
+    topic.tags = topic.tags.map(tag => {
       return { tag, slug: tag };
     });
   });
@@ -177,8 +191,8 @@ Questions.route("/:id/edit")
     const body = req.body.body;
     const tags = (req.body.tags || "")
       .split(",")
-      .map((tag) => tag.trim())
-      .filter((tag) => tag.length > 0);
+      .map(tag => tag.trim())
+      .filter(tag => tag.length > 0);
 
     const question = await update(id, { title, body, tags });
     flush();
@@ -198,12 +212,12 @@ Questions.route("/:id").get(async (req, res, next) => {
   topic.reply_count = topic.replies.length;
 
   res.locals.breadcrumbs[res.locals.breadcrumbs.length - 1].label = topic.title;
-  topic.tags = topic.tags.map((tag) => {
+  topic.tags = topic.tags.map(tag => {
     return { tag, slug: tag };
   });
 
   res.locals.title = topic.title;
-  res.locals.topics = topic.replies.map((reply) => {
+  res.locals.topics = topic.replies.map(reply => {
     reply.body = render(reply.body);
     reply.answered = moment(reply.created_at).fromNow();
     reply.answeredDateStamp = moment(reply.created_at).valueOf();
@@ -247,8 +261,7 @@ Questions.get(
     // We preview one line of the topic body on the question index page
     topics.forEach(function (topic) {
       topic.body = render(topic.body);
-      if (topic.tags)
-        topic.tags = topic.tags.map((tag) => ({ tag, slug: tag }));
+      if (topic.tags) topic.tags = topic.tags.map(tag => ({ tag, slug: tag }));
 
       topic.asked = moment(topic.created_at).fromNow();
       topic.askedDateStamp = moment(topic.created_at).valueOf();
