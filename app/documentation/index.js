@@ -150,6 +150,15 @@ for (const path of files) {
   );
 }
 
+// serve the VIEW_DIRECTORY as static files
+documentation.use(
+  Express.static(VIEW_DIRECTORY + "/css", {
+    index: false, // Without 'index: false' this will server the index.html files inside
+    redirect: false, // Without 'redirect: false' this will redirect URLs to existent directories
+    maxAge: 86400000
+  })
+);
+
 const directories = ["/fonts", "/css", "/images", "/js", "/videos"];
 
 for (const path of directories) {
@@ -157,8 +166,7 @@ for (const path of directories) {
     path,
     Express.static(VIEW_DIRECTORY + path, {
       index: false, // Without 'index: false' this will server the index.html files inside
-      redirect: false, // Without 'redirect: false' this will redirect URLs to existent directories
-      maxAge: 86400000
+      redirect: false // Without 'redirect: false' this will redirect URLs to existent directories
     })
   );
 }
