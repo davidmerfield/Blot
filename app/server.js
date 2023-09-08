@@ -26,7 +26,7 @@ server.set("trust proxy", [
   "172.30.0.108",
 
   // the latest reverse proxy IP is here...
-  "172.30.0.116"
+  "172.30.0.116",
 ]);
 
 // Check if the database is healthy
