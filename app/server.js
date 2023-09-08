@@ -19,15 +19,7 @@ server.set("etag", false); // turn off etags for responses
 server.disable("x-powered-by");
 
 // Trusts secure requests terminated by NGINX, as far as I know
-server.set("trust proxy", [
-  "loopback",
-  "54.191.179.131",
-  "172.30.0.145",
-  "172.30.0.108",
-
-  // the latest reverse proxy IP is here...
-  "172.30.0.116"
-]);
+server.set("trust proxy", ["loopback", config.reverse_proxy_host]);
 
 // Check if the database is healthy
 server.get("/redis-health", function (req, res) {
