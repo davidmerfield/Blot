@@ -57,21 +57,23 @@ module.exports = function (blogID, former, callback) {
     if (affectedHosts.length)
       debug("Emptying cache directories for:", affectedHosts);
 
-    fetch(
-      "http://" +
-        config.reverse_proxy_host +
-        "/purge?" +
-        affectedHosts.map(host => "host=" + host).join("&"),
-      {
-        method: "PURGE"
-      }
-    )
-      .then(res => {
-        console.log("flushed:" + affectedHosts.join(","));
-      })
-      .catch(e => {
-        console.log("failed to flush: " + affectedHosts.join(","));
-      });
+    if (affectedHosts.length) {
+      fetch(
+        "http://" +
+          config.reverse_proxy_host +
+          "/purge?" +
+          affectedHosts.map(host => "host=" + host).join("&"),
+        {
+          method: "PURGE"
+        }
+      )
+        .then(res => {
+          console.log("flushed:" + affectedHosts.join(","));
+        })
+        .catch(e => {
+          console.log("failed to flush: " + affectedHosts.join(","));
+        });
+    }
 
     async.each(
       affectedHosts,
