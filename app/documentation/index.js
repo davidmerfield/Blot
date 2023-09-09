@@ -155,7 +155,8 @@ for (const path of files) {
 documentation.use(
   Express.static(VIEW_DIRECTORY, {
     index: false, // Without 'index: false' this will server the index.html files inside
-    redirect: false // Without 'redirect: false' this will redirect URLs to existent directories
+    redirect: false, // Without 'redirect: false' this will redirect URLs to existent directories
+    maxAge: 86400000 // cache forever
   })
 );
 
