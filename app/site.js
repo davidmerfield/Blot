@@ -2,9 +2,13 @@ var Express = require("express");
 var dashboard = require("./dashboard");
 var documentation = require("./documentation");
 var site = Express();
+var config = require("config");
 
 // Hide the header added by Express
 site.disable("x-powered-by");
+
+// Trusts secure requests terminated by NGINX, as far as I know
+site.set("trust proxy", ["loopback", config.reverse_proxy_host]);
 
 site.set("etag", false); // turn off etags for responses
 

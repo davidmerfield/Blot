@@ -1,14 +1,44 @@
-Write status page check that checks CDN connection to Blot
+Architecture:
+- cdn.blot.im -> NODE via IP
+- blot.im -> REVERSE PROXY CACHE -> NODE 
+- exampleblog.com -> REVERSE PROXY CACHE -> NODE
 
-Save the docs in the proxy cache
 
-Set up fail2ban on nginx logs
+Migrate DNS back to route 53
+Make sure redis is available on elastic ip
+Set up latency based routing between two reverse proxy caches
 
-Get systemd_status working on new server
+Monitoring:
+- Write status page check that checks CDN connection to Blot
+  - should not be cached, should test connection
+- Move log aggregator into redis?
+- Set up fail2ban on nginx logs
+- Get systemd_status working on node and reverse proxy
 
-Resolve screenshot issues on production server
+Bugs:
+- It seems cache purging wasn't working for some routes... why?
+- blot.im/redis-health was not responsive to purge for blot.im
+- Fix all 'blot.im/cdn' links in people's cached images
+- Redirect blot.im/cdn to cdn.blot.im on reverse proxy
+- Fix template editor 'save'
+- Fix oauth redirect 
+- Resolve screenshot issues on production server
+- Fix question search on docs
 
-Fix question search on docs
+Performance:
+- Why are static routes getting 'max-age= 0' on the docs?
+
+Try to get a node server running on the reverse proxy capable of rendering pages from DB
+then we can use the reverse proxy to cache pages?
+
+Look into setting up another openresty 'edge' node in europe 
+then using latency based routing at DNS level to route traffic to the closest edge node
+
+When we 'write' to the static directory we should also upload the file to bunny storage so requests dont need to hit the server
+
+Can we store the wildcard cert in redis?
+- can NODE be responsible for renewing and updating the wildcard cert?
+- can NODE tell all the reverse proxy caches to update their certs?
 
 Purge old docs CSS and JS from CDN storage cache
 

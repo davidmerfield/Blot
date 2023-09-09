@@ -27,7 +27,8 @@ dashboard.disable("x-powered-by");
 // Without trust proxy is not set, express
 //  will incorrectly register the proxy’s IP address
 // as the client IP address unless trust proxy is configured.
-dashboard.set("trust proxy", "loopback");
+// Trusts secure requests terminated by NGINX, as far as I know
+dashboard.set("trust proxy", ["loopback", config.reverse_proxy_host]);
 
 // Register the engine we will use to
 // render the views.
