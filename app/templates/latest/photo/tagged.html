@@ -1,27 +1,17 @@
 {{> header}}
 
-<div class="index">
-  {{#entries}}
-  <a href="{{{url}}}">
-    {{#thumbnail.large}}
-    <span class="thumbnail" style="padding-bottom:{{ratio}}">
-      <img
-        src="{{{url}}}"
-        class="pre-loaded"
-        onload="this.className='loaded'"
-      />
-      <noscript>
-        <img src="{{{url}}}" />
-      </noscript>
-    </span>
-    {{/thumbnail.large}} {{^thumbnail.large}}
-    <span class="text">
-      <span class="title">{{title}}</span>
-      <span class="date">{{date}}</span>
-    </span>
-    {{/thumbnail.large}}
-  </a>
-  {{/entries}}
-</div>
+<h1>{{ tag }}</h1>
+
+{{#is.grid_layout.square}}
+{{> grid_square}}
+{{/is.grid_layout.square}}
+
+{{#is.grid_layout.bookshelf}}
+{{> grid_bookshelf}}
+{{/is.grid_layout.bookshelf}}
+
+{{#is.grid_layout.fitted}}
+{{> grid_fitted}}
+{{/is.grid_layout.fitted}}
 
 {{> footer}}

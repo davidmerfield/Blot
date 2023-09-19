@@ -52,13 +52,14 @@ body{
   flex-grow: 1;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  /* justify-content: center; */
 }
 
 .shift-margin {
   padding-left:{{spacing}}rem;
 }
 
+.caption {display:block;font-size: {{body_font.font_size}}px;margin: 0.5em 0 0.5em 0}
 /* Styles */
 
 html,
