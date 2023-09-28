@@ -1,3 +1,11 @@
+Investigate bug with dates and [tell Kev](https://mail.google.com/mail/u/0/#inbox/FMfcgzGtwzpNwPcpFXlwZbpmDpCFKksz)
+
+Cache busting does not seem to be working (added a new post to images.llllllll.com)
+- I'm seeing cache HIT but no results for 'PURGE' on the host
+- does cache flushing work after reloading openresty?
+- we could just wipe /var/www/cache on init
+- or we could reload all the cached files into memory
+
 Architecture:
 - cdn.blot.im -> NODE via IP
 - blot.im -> REVERSE PROXY CACHE -> NODE 
@@ -23,7 +31,7 @@ Bugs:
 - Fix template editor 'save'
 - Fix oauth redirect 
 - Resolve screenshot issues on production server
-- Fix question search on docs
+- Fix question search on docs and tell [Ben](https://mail.google.com/mail/u/0/#inbox/FMfcgzGtwzsqVrWZwSsTdLGMrqQHfWJJ)
 
 Performance:
 - Why are static routes getting 'max-age= 0' on the docs?
@@ -380,6 +388,7 @@ Add support for Indian payments and follow up with Indian customers
 Add support for Obsidian media embedding
 - ```![[_image.png]]```
 - https://help.obsidian.md/Linking+notes+and+files/Embedding+files
+- [ ] Tell [Kevin](https://mail.google.com/mail/u/0/#inbox/FMfcgzGtxSqKVMPjDzpgJtrmcRRZCcpp)
 - [Look into Wikipedia's blended wikilinks](https://en.wikipedia.org/wiki/Help:Wikitext#Blend_link)
 - [ ] Update response to question about adding `class="wikilink"` replacing it with `title="wikilink"`
 - [ ] Tell [John](https://mail.google.com/mail/u/0/#inbox/FMfcgzGkbDftzhXHGrmzXrjtcMbGrmxM) 
