@@ -10,7 +10,7 @@ const urls = fs
   .readFileSync(pathToLogFile, "utf8")
   .split("\n")
   // only items where status is 404
-  .filter(line => line.split("|")[1] === "404")
-  .map(line => line.split("|")[7]);
+  .filter((line) => line.split("|")[1] === "404")
+  .map((line) => line.split("|")[7]);
 
 fs.writeFileSync("urls.txt", urls.join("\n"));
