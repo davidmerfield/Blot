@@ -1,3 +1,5 @@
+Ensure the checks for free disk space are operational
+
 Investigate bug with dates and [tell Kev](https://mail.google.com/mail/u/0/#inbox/FMfcgzGtwzpNwPcpFXlwZbpmDpCFKksz)
 
 Cache busting does not seem to be working (added a new post to images.llllllll.com)
