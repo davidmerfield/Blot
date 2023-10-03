@@ -30,7 +30,6 @@ Bugs:
 - blot.im/redis-health was not responsive to purge for blot.im
 - Fix all 'blot.im/cdn' links in people's cached images
 - Redirect blot.im/cdn to cdn.blot.im on reverse proxy
-- Fix template editor 'save'
 - Fix oauth redirect 
 - Resolve screenshot issues on production server
 - Fix question search on docs and tell [Ben](https://mail.google.com/mail/u/0/#inbox/FMfcgzGtwzsqVrWZwSsTdLGMrqQHfWJJ)
