@@ -1,22 +1,11 @@
-Ensure the checks for free disk space are operational
-
-Investigate bug with dates and [tell Kev](https://mail.google.com/mail/u/0/#inbox/FMfcgzGtwzpNwPcpFXlwZbpmDpCFKksz)
-
-Cache busting does not seem to be working (added a new post to images.llllllll.com)
-- I'm seeing cache HIT but no results for 'PURGE' on the host
-- does cache flushing work after reloading openresty?
-- we could just wipe /var/www/cache on init
-- or we could reload all the cached files into memory
-
 Architecture:
 - cdn.blot.im -> NODE via IP
 - blot.im -> REVERSE PROXY CACHE -> NODE 
 - exampleblog.com -> REVERSE PROXY CACHE -> NODE
 
-
 Migrate DNS back to route 53
-Make sure redis is available on elastic ip
-Set up latency based routing between two reverse proxy caches
+- Make sure redis is available on elastic ip
+- Set up latency based routing between two reverse proxy caches
 
 Monitoring:
 - Write status page check that checks CDN connection to Blot
@@ -25,23 +14,20 @@ Monitoring:
 - Set up fail2ban on nginx logs
 - Get systemd_status working on node and reverse proxy
 
-Bugs:
-- It seems cache purging wasn't working for some routes... why?
-- blot.im/redis-health was not responsive to purge for blot.im
-- Fix all 'blot.im/cdn' links in people's cached images
-- Redirect blot.im/cdn to cdn.blot.im on reverse proxy
-- Fix oauth redirect 
-- Resolve screenshot issues on production server
-- Fix question search on docs and tell [Ben](https://mail.google.com/mail/u/0/#inbox/FMfcgzGtwzsqVrWZwSsTdLGMrqQHfWJJ)
+Resolve screenshot issues on production server
 
-Performance:
-- Why are static routes getting 'max-age= 0' on the docs?
+Fix question search on docs and tell [Ben](https://mail.google.com/mail/u/0/#inbox/FMfcgzGtwzsqVrWZwSsTdLGMrqQHfWJJ)
 
-Try to get a node server running on the reverse proxy capable of rendering pages from DB
-then we can use the reverse proxy to cache pages?
+Why are static routes getting 'max-age= 0' on the docs?
 
-Look into setting up another openresty 'edge' node in europe 
-then using latency based routing at DNS level to route traffic to the closest edge node
+Try to get a minimal node server running on the reverse proxy capable of rendering pages from DB
+- determine if this 'edge' node server suffers poor performance because of latency between it and DB?
+
+Then we can use the reverse proxy to cache pages?
+
+Look into setting up another openresty 'edge' node in europe
+
+Then using latency based routing at DNS level to route traffic to the closest edge node
 
 When we 'write' to the static directory we should also upload the file to bunny storage so requests dont need to hit the server
 
@@ -185,8 +171,6 @@ Fix bug with videos on Reference template and [Tell Marco](https://mail.google.c
 Check in on log rotation for nginx.log and nginx.error.log
  
 ---
-
-Add support for data files to templates and tell [Kev](https://mail.google.com/mail/u/0/#inbox/FMfcgzGsmDkVfCLPGfhtWdfmdPxJRHxH)
 
 Improve CI testing
 - [ ] Add spell checking test
