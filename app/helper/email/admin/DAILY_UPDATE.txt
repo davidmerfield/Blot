@@ -3,6 +3,7 @@ Daily update for {{date}}
 Memory available: {{memory_available}} ({{memory_usage}} used)
 
 Disk space available: {{disk_space_available}} ({{disk_space_usage}} used)
+Node root disk available: {{node_root_disk_available}} ({{node_root_disk_usage}} used)
 
 Redis memory available: {{redis_memory_available}} ({{redis_memory_usage}} used)
 
