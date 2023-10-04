@@ -5,9 +5,9 @@ ACME=/usr/local/bin/acme-nginx
 LOGFILE=/var/log/letsencrypt.log
 OPENRESTY=/usr/local/openresty/bin/openresty
 
+# What are we doing here? Resetting the environment variables?
 export AWS_ACCESS_KEY_ID=
 export AWS_SECRET_ACCESS_KEY=
-
 
 # Sources the environment variables required
 . /etc/blot/environment.sh
