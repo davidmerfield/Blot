@@ -1,3 +1,6 @@
+Check that hourly (eventually daily) backups of redis DB are uploaded to s3
+Check that snapshots of Blot's disk are being stored
+
 Architecture:
 - cdn.blot.im -> NODE via IP
 - blot.im -> REVERSE PROXY CACHE -> NODE 
