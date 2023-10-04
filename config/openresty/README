@@ -1,8 +1,6 @@
-
 # Can we implement cache purging with LUA?
 
 https://scene-si.org/2016/11/02/purging-cached-items-from-nginx-with-lua/
-
 
 # Setting up the instance
 
@@ -19,13 +17,13 @@ sudo systemctl enable openresty
 ## Get openresty to start on reboot and on failure
 
 Modify the systemctl service using systemctl edit:
-  https://askubuntu.com/questions/659267/how-do-i-override-or-configure-systemd-services
+https://askubuntu.com/questions/659267/how-do-i-override-or-configure-systemd-services
 
 Paste the following:
 
 ```
 [Service]
-  Restart=  
+  Restart=
   Restart=always
 ```
 
@@ -38,9 +36,9 @@ wget http://luarocks.org/releases/luarocks-2.0.13.tar.gz
 tar -xzvf luarocks-2.0.13.tar.gz
 cd luarocks-2.0.13/
 ./configure --prefix=/usr/local/openresty/luajit \
-    --with-lua=/usr/local/openresty/luajit/ \
-    --lua-suffix=jit \
-    --with-lua-include=/usr/local/openresty/luajit/include/luajit-2.1
+ --with-lua=/usr/local/openresty/luajit/ \
+ --lua-suffix=jit \
+ --with-lua-include=/usr/local/openresty/luajit/include/luajit-2.1
 make
 sudo make install
 
@@ -70,68 +68,34 @@ sudo python3 setup.py install
 
 # copy ssh key across
 
-scp -v -i ~/Projects/projects.pem ~/Projects/projects.pem ec2-user@35.161.112.126:/home/ec2-user/projects.pem
-
 # fetch existing ssl certs
 
-sudo scp -v -i projects.pem ec2-user@54.191.179.131:/etc/ssl/private/letsencrypt-domain.pem /etc/ssl/private/letsencrypt-domain.pem
-sudo scp -v -i projects.pem ec2-user@54.191.179.131:/etc/ssl/private/letsencrypt-domain.key /etc/ssl/private/letsencrypt-domain.key
+# Locally Stopping NGINX
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# Locally Stopping NGINX 
-
-sudo nginx -s stop 
+sudo nginx -s stop
 
 # Locally starting NGINX
 
 sudo nginx -c $BLOT_DIRECTORY/config/nginx/dev_server.conf
 
-
------
-
+---
 
 - Goal is to create a system for 10,000 sites, each of which is accessible on a blot subdomain and on their own custom domain.
 - Letsencrypt seems to be the way to go.
 - Test that redis-nginx-luaresty-letsencrypt combo on my personal sites.
 - Document the process
 
-
-----------
-
+---
 
 https://codeascraft.com/2017/01/31/how-etsy-manages-https-and-ssl-certificates-for-custom-domains-on-pattern/
 https://community.letsencrypt.org/t/dynamic-ssl-using-nginx/18372/4
 https://github.com/openresty/lua-nginx-module#ssl_certificate_by_lua_block
 https://github.com/Vestorly/nginx-dynamic-ssl
 
-
 - I had to make sure that openssl was more recent than before building openresty
-https://www.digitalocean.com/community/questions/how-to-get-already-installed-nginx-to-use-openssl-1-0-2-for-alpn
+  https://www.digitalocean.com/community/questions/how-to-get-already-installed-nginx-to-use-openssl-1-0-2-for-alpn
 
 - This will probably resolve the ssl cert renewal bug I've encountered. Possibly caused by permissions error for /var/www/blot/logs/renewal.log
-
 
 My plan at the moment is to make use of openresty, which seems to be a lua+nginx mixture.
 
@@ -197,9 +161,8 @@ https://github.com/GUI/lua-resty-auto-ssl/issues/94
 
 Don't worry too much about the lua shared dictionary size:
 
-> If you exceed the available memory with too many domains, things will continue to work, but the certificate data will have to be fetched  from the slower storage, rather than the in-memory cache. So for optimal performance, you really want to ensure you have enough memory allocated to this setting to handle the number of domains you expect.
-per: https://github.com/GUI/lua-resty-auto-ssl/issues/10#issuecomment-236388743
-
+> If you exceed the available memory with too many domains, things will continue to work, but the certificate data will have to be fetched from the slower storage, rather than the in-memory cache. So for optimal performance, you really want to ensure you have enough memory allocated to this setting to handle the number of domains you expect.
+> per: https://github.com/GUI/lua-resty-auto-ssl/issues/10#issuecomment-236388743
 
 Keep an eye on this renewal / locking bug:
 https://github.com/18F/api.data.gov/issues/325
@@ -223,4 +186,3 @@ sudo /usr/local/openresty/bin/openresty -s reload
 I fixed this issue by creating a symbolic link between the pid file that openresty seems to be incorrectly checking and the correct PID file:
 
 sudo ln -s /var/run/nginx.pid /usr/local/openresty/nginx/logs/nginx.pid
-
