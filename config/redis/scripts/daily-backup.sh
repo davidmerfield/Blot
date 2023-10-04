@@ -35,7 +35,7 @@ aws s3 cp /backups/$LATEST_BACKUP/dump.rdb s3://$BUCKET/$LATEST_BACKUP-uploaded-
 # We can do this by listing all the backups in S3, sorting them by name
 # and then removing all but the last 10. If there are less than 10 backups, this
 # will do nothing.
-aws s3 ls s3://blot-daily-backups/ | sort -r | tail -n +11 | awk '{print $4}' | xargs -I {} aws s3 rm s3://$BUCKET/{}
+aws s3 ls s3://$BUCKET/ | sort -r | tail -n +11 | awk '{print $4}' | xargs -I {} aws s3 rm s3://$BUCKET/{}
 
 # set redis key 'last_backup' to the current timestamp
 redis6-cli set blot:backups:daily $(date +%s)
