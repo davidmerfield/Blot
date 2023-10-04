@@ -5,11 +5,6 @@ if [ -z "$SSH_KEY" ]; then
   exit 1
 fi
 
-if [ -z "$PRIVATE_IP" ]; then
-  echo "PRIVATE_IP variable missing, pass the private ip address of the redis instance as an argument to this script"
-  exit 1
-fi
-
 if [ -z "$PUBLIC_IP" ]; then
   echo "PUBLIC_IP variable missing, pass the public ip address of the redis instance as an argument to this script"
   exit 1
@@ -40,7 +35,7 @@ scp -i $SSH_KEY -r $SCRIPTS_DIRECTORY ec2-user@$PUBLIC_IP:~/scripts
 ssh -i $SSH_KEY ec2-user@$PUBLIC_IP "chmod +x ~/scripts/*"
 
 # run the setup.sh script as root and stream 
-ssh -i $SSH_KEY ec2-user@$PUBLIC_IP "sudo PRIVATE_IP=$PRIVATE_IP ~/scripts/setup.sh"
+ssh -i $SSH_KEY ec2-user@$PUBLIC_IP "sudo ~/scripts/setup.sh"
 
 # run sudo aws configure with the environment variables 'AWS_KEY' and 'AWS_SECRET'
 # and the default region Oregon

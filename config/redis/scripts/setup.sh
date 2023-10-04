@@ -10,12 +10,6 @@ if [ ! -d "/home/ec2-user/scripts" ]; then
   exit 1
 fi
 
-# throw an error if the environment variable 'PRIVATE_IP' is not set
-if [ -z "$PRIVATE_IP" ]; then
-  echo "PRIVATE_IP variable missing, pass the private ip address of the redis instance as an argument to this script"
-  exit 1
-fi
-
 # The following are recommendations for improving the performance
 # of Redis on an AWS instance.
 # TODO: fully research each line and document it. Ensure each change
@@ -48,17 +42,16 @@ echo "ExecStartPre=/home/ec2-user/scripts/mount-instance-store.sh" >> /etc/syste
 
 systemctl daemon-reload
 
-# update redis configuration so it listens on the private ip
-# and accepts connections from the private ip. the configuration
-# file is stored in /etc/redis6/redis6.conf
-echo -e "config set bind $PRIVATE_IP\nconfig set protected-mode no\nconfig rewrite" | redis6-cli
+# update redis configuration so it listens on all interfaces
+# we lock down the instance using AWS security groups
+# the configuration file is stored in /etc/redis6/redis6.conf
+echo -e "config set bind 0.0.0.0\nconfig set protected-mode no\nconfig rewrite" | redis6-cli
 
 systemctl restart redis6
 
-# check that the redis server is listening on the private ip
-# and accepting connections from the private ip. return an error if not
-if [[ $(redis6-cli -h $PRIVATE_IP ping) != "PONG" ]]; then
-  echo "Redis is not listening on $PRIVATE_IP"
+# check that the redis server is listening
+if [[ $(redis6-cli ping) != "PONG" ]]; then
+  echo "Redis is not listening"
   exit 1
 fi
 
