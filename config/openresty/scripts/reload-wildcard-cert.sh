@@ -11,8 +11,8 @@ if [ -z "$REDIS_IP" ]; then
   exit 1
 fi
 
-redis6-cli -h $REDIS_IP get 'blot:openresty:ssl:key' > /etc/ssl/private/letsencrypt-domain.key
-redis6-cli -h $REDIS_IP get 'blot:openresty:ssl:pem' > /etc/ssl/private/letsencrypt-domain.pem
+redis-cli -h $REDIS_IP get 'blot:openresty:ssl:key' > /etc/ssl/private/letsencrypt-domain.key
+redis-cli -h $REDIS_IP get 'blot:openresty:ssl:pem' > /etc/ssl/private/letsencrypt-domain.pem
 
 # reload openresty
 openresty -s reload

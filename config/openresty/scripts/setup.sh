@@ -3,6 +3,8 @@
 # exit the script if any statement returns a non-true return value
 set -e
 
+yum -y update
+
 yum -y install yum-utils
 
 yum-config-manager --add-repo https://openresty.org/package/amazon/openresty.repo
@@ -48,11 +50,14 @@ mv /usr/local/openresty/nginx/conf/nginx.conf /usr/local/openresty/nginx/conf/ng
 # point nginx.conf to the openresty.conf file
 echo "include /home/ec2-user/openresty/openresty.conf;" >> /usr/local/openresty/nginx/conf/nginx.conf
 
+# install redis on amazon linux 2
+amazon-linux-extras install -y epel
+amazon-linux-extras install -y redis6
+
 # write the SSL keys required for openresty to start
 mkdir -p /etc/ssl/private
-
-redis6-cli -h $REDIS_IP get 'blot:openresty:ssl:key' > /etc/ssl/private/letsencrypt-domain.key
-redis6-cli -h $REDIS_IP get 'blot:openresty:ssl:pem' > /etc/ssl/private/letsencrypt-domain.pem
+redis-cli -h $REDIS_IP get 'blot:openresty:ssl:key' > /etc/ssl/private/letsencrypt-domain.key
+redis-cli -h $REDIS_IP get 'blot:openresty:ssl:pem' > /etc/ssl/private/letsencrypt-domain.pem
 
 # install cron
 yum install -y cronie
