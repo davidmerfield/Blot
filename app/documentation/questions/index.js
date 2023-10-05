@@ -10,17 +10,21 @@ const cache = require("helper/express-disk-cache")(config.cache_directory);
 const flushOptions = { host: config.host, path: "/https/temporary/questions" };
 const fetch = require("node-fetch");
 
+const proxy_hosts = config.reverse_proxies;
+
 const flush = () => {
   cache.flush(flushOptions);
-  fetch("http://" + config.reverse_proxy_host + "/purge?host=" + config.host, {
-    method: "PURGE"
-  })
-    .then(res => {
-      console.log("flushed:" + config.host);
+  proxy_hosts.forEach(host => {
+    fetch("http://" + host + "/purge?host=" + config.host, {
+      method: "PURGE"
     })
-    .catch(e => {
-      console.log("failed to flush: " + config.host);
-    });
+      .then(res => {
+        console.log("proxy: " + host + " flushed:" + config.host);
+      })
+      .catch(e => {
+        console.log("proxy: " + host + " failed to flush: " + config.host);
+      });
+  });
 };
 
 const { tags, create, update, list, get } = require("models/question");

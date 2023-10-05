@@ -19,7 +19,7 @@ module.exports = {
   // codebase expects either 'production' or 'development'
   environment,
   host: BLOT_HOST,
-  reverse_proxy_host: "172.30.0.116",
+  reverse_proxies: ["172.30.0.116"],
   protocol: BLOT_PROTOCOL + "://",
   pidfile: BLOT_DIRECTORY + "/data/process.pid",
 
@@ -28,7 +28,7 @@ module.exports = {
     // replace with "webhooks.blot.development" to test
     relay_host: environment === "development" && "webhooks.blot.im",
     development_host: "blot.development",
-    secret: process.env.BLOT_WEBHOOKS_SECRET,
+    secret: process.env.BLOT_WEBHOOKS_SECRET
   },
 
   maintenance: process.env.BLOT_MAINTENANCE === "true",
@@ -49,18 +49,18 @@ module.exports = {
 
   admin: {
     uid: process.env.BLOT_ADMIN_UID,
-    email: process.env.BLOT_ADMIN_EMAIL,
+    email: process.env.BLOT_ADMIN_EMAIL
   },
 
   dropbox: {
     app: {
       key: process.env.BLOT_DROPBOX_APP_KEY,
-      secret: process.env.BLOT_DROPBOX_APP_SECRET,
+      secret: process.env.BLOT_DROPBOX_APP_SECRET
     },
     full: {
       key: process.env.BLOT_DROPBOX_FULL_KEY,
-      secret: process.env.BLOT_DROPBOX_FULL_SECRET,
-    },
+      secret: process.env.BLOT_DROPBOX_FULL_SECRET
+    }
   },
 
   stripe: {
@@ -80,55 +80,55 @@ module.exports = {
       monthly_2: "yearly_20",
 
       yearly_44: "monthly_4",
-      monthly_4: "yearly_44",
-    },
+      monthly_4: "yearly_44"
+    }
   },
 
   pandoc: {
     bin: process.env.BLOT_PANDOC_PATH,
     maxmemory: "500M", // 500mb
-    timeout: 10000, // 10s
+    timeout: 10000 // 10s
   },
 
   cdn: {
-    origin: BLOT_CDN,
+    origin: BLOT_CDN
   },
 
   session: {
-    secret: process.env.BLOT_SESSION_SECRET,
+    secret: process.env.BLOT_SESSION_SECRET
   },
 
   youtube: {
-    secret: process.env.BLOT_YOUTUBE_SECRET,
+    secret: process.env.BLOT_YOUTUBE_SECRET
   },
 
   aws: {
     key: process.env.BLOT_AWS_KEY,
-    secret: process.env.BLOT_AWS_SECRET,
+    secret: process.env.BLOT_AWS_SECRET
   },
 
   mailgun: {
     key: process.env.BLOT_MAILGUN_KEY,
     domain: "blot.im",
-    from: "David Merfield <david@blot.im>",
+    from: "David Merfield <david@blot.im>"
   },
 
   backup: {
     bucket: "blot-daily-backups",
-    password: process.env.BLOT_BACKUP_SECRET,
+    password: process.env.BLOT_BACKUP_SECRET
   },
 
   google: {
     drive: {
       key: process.env.BLOT_GOOGLEDRIVE_ID,
-      secret: process.env.BLOT_GOOGLEDRIVE_SECRET,
-    },
+      secret: process.env.BLOT_GOOGLEDRIVE_SECRET
+    }
   },
 
   twitter: {
     consumer_key: process.env.BLOT_TWITTER_CONSUMER_KEY,
     consumer_secret: process.env.BLOT_TWITTER_CONSUMER_SECRET,
     access_token: process.env.BLOT_TWITTER_ACCESS_TOKEN_KEY,
-    access_token_secret: process.env.BLOT_TWITTER_ACCESS_TOKEN_SECRET,
-  },
+    access_token_secret: process.env.BLOT_TWITTER_ACCESS_TOKEN_SECRET
+  }
 };
