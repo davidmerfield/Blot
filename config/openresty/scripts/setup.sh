@@ -3,9 +3,14 @@
 # exit the script if any statement returns a non-true return value
 set -e
 
+# print the commands issued
+set -x
+
 yum -y update
 
 yum -y install yum-utils
+
+amazon-linux-extras install redis6
 
 yum-config-manager --add-repo https://openresty.org/package/amazon/openresty.repo
 
@@ -50,10 +55,6 @@ mv /usr/local/openresty/nginx/conf/nginx.conf /usr/local/openresty/nginx/conf/ng
 # point nginx.conf to the openresty.conf file
 echo "include /home/ec2-user/openresty/openresty.conf;" >> /usr/local/openresty/nginx/conf/nginx.conf
 
-# install redis on amazon linux 2
-amazon-linux-extras install -y epel
-amazon-linux-extras install -y redis6
-
 # write the SSL keys required for openresty to start
 mkdir -p /etc/ssl/private
 redis-cli -h $REDIS_IP get 'blot:openresty:ssl:key' > /etc/ssl/private/letsencrypt-domain.key
@@ -66,7 +67,7 @@ systemctl enable crond
 chkconfig crond on
 
 # every day at 1am, run the script to reload the wildcard certificate
-echo  '0 0 1 * * REDIS_IP=$($REDIS_IP) ./home/ec2-user/scripts/reload-wildcard-cert.sh' | crontab -
+echo  "0 0 1 * * REDIS_IP=$REDIS_IP ./home/ec2-user/scripts/reload-wildcard-cert.sh" | crontab -
 
 # Start openresty and enable it to start on boot
 systemctl start openresty

@@ -14,9 +14,7 @@ fi
 redis-cli -h $REDIS_IP get 'blot:openresty:ssl:key' > /etc/ssl/private/letsencrypt-domain.key
 redis-cli -h $REDIS_IP get 'blot:openresty:ssl:pem' > /etc/ssl/private/letsencrypt-domain.pem
 
-# reload openresty
-openresty -s reload
+# restart openresty
+systemctl restart openresty
 
-echo "Reloaded openresty"
-
-
+echo "Restarted openresty"
