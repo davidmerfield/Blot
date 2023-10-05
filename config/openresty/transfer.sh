@@ -12,23 +12,13 @@ if [ -z "$PUBLIC_IP" ]; then
   exit 1
 fi
 
-if [ -z "$NODE_PRIVATE_IP" ]; then
-  echo "NODE_PRIVATE_IP variable missing, pass the private ip address of the node instance as an argument to this script"
+if [ -z "$NODE_SERVER_IP" ]; then
+  echo "NODE_SERVER_IP variable missing, pass the ip address of the node instance as an argument to this script"
   exit 1
 fi
 
-if [ -z "$REDIS_PRIVATE_IP" ]; then
-  echo "REDIS_PRIVATE_IP variable missing, pass the private ip address of the redis instance as an argument to this script"
-  exit 1
-fi
-
-if [ -z "$OPENRESTY_SSL_KEY" ]; then
-  echo "OPENRESTY_SSL_KEY variable missing, pass the path to letsencrypt-domain.key as an argument to this script"
-  exit 1
-fi
-
-if [ -z "$OPENRESTY_SSL_PEM" ]; then
-  echo "OPENRESTY_SSL_PEM variable missing, pass the path to letsencrypt-domain.pem an argument to this script"
+if [ -z "$REDIS_IP" ]; then
+  echo "REDIS_IP variable missing, pass the ip address of the redis instance as an argument to this script"
   exit 1
 fi
 
@@ -50,14 +40,9 @@ ssh -i $SSH_KEY ec2-user@$PUBLIC_IP "rm -rf ~/scripts"
 scp -i $SSH_KEY -r $SCRIPTS_DIRECTORY ec2-user@$PUBLIC_IP:~/scripts
 ssh -i $SSH_KEY ec2-user@$PUBLIC_IP "chmod +x ~/scripts/*"
 
-# fetch the letsencrypt certificates from the other server
-echo "Uploading SSL keys to node server..."
-scp -i $SSH_KEY $OPENRESTY_SSL_PEM ec2-user@$PUBLIC_IP:~/letsencrypt-domain.pem
-scp -i $SSH_KEY $OPENRESTY_SSL_KEY ec2-user@$PUBLIC_IP:~/letsencrypt-domain.key
-
 # run the setup.sh script as root and stream 
 echo "Running setup script on remote server..."
-ssh -i $SSH_KEY ec2-user@$PUBLIC_IP "sudo PRIVATE_IP=$PRIVATE_IP ~/scripts/setup.sh"
+ssh -i $SSH_KEY ec2-user@$PUBLIC_IP "sudo REDIS_IP=$REDIS_IP ~/scripts/setup.sh"
 
 echo "Transfer complete. To connect to the openresty server, run:"
 echo "ssh -i $SSH_KEY ec2-user@$PUBLIC_IP"

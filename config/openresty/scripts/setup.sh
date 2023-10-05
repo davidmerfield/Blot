@@ -13,10 +13,6 @@ yum-config-manager --add-repo https://openresty.org/package/amazon/openresty.rep
 
 yum -y install openresty
 
-# Start openresty and enable it to start on boot
-systemctl start openresty
-systemctl enable openresty
-
 # copy the file /home/ec2-user/scripts/openresty.service to /etc/systemd/system/openresty.service
 # cp /home/ec2-user/scripts/openresty.service /etc/systemd/system/openresty.service
 
@@ -48,15 +44,15 @@ mkdir -p /etc/resty-auto-ssl
 chown ec2-user /etc/resty-auto-ssl
 
 mv /usr/local/openresty/nginx/conf/nginx.conf /usr/local/openresty/nginx/conf/nginx.conf.bak
-# write the following 'include /home/ec2-user/openresty/openresty.conf;' to the file /usr/local/openresty/nginx/conf/nginx.conf
+
+# point nginx.conf to the openresty.conf file
 echo "include /home/ec2-user/openresty/openresty.conf;" >> /usr/local/openresty/nginx/conf/nginx.conf
 
-# copy the SSL keys
+# write the SSL keys required for openresty to start
 mkdir -p /etc/ssl/private
-cp /home/ec2-user/letsencrypt-domain.key /etc/ssl/private/letsencrypt-domain.key
-cp /home/ec2-user/letsencrypt-domain.pem /etc/ssl/private/letsencrypt-domain.pem
 
-
+redis6-cli -h $REDIS_IP get 'blot:openresty:ssl:key' > /etc/ssl/private/letsencrypt-domain.key
+redis6-cli -h $REDIS_IP get 'blot:openresty:ssl:pem' > /etc/ssl/private/letsencrypt-domain.pem
 
 # install cron
 yum install -y cronie
@@ -64,12 +60,9 @@ systemctl start crond
 systemctl enable crond
 chkconfig crond on
 
-echo "Setting up cron job to renew certificates..."
+# every day at 1am, run the script to reload the wildcard certificate
+echo  '0 0 1 * * REDIS_IP=$($REDIS_IP) ./home/ec2-user/scripts/reload-wildcard-cert.sh' | crontab -
 
-yum install -y pyOpenSSL python-crypto python-setuptools
-yum groupinstall -y "Development tools"
-rm -rf acme-nginx
-git clone https://github.com/kshcherban/acme-nginx
-cd acme-nginx
-
-python3 setup.py install
+# Start openresty and enable it to start on boot
+systemctl start openresty
+systemctl enable openresty

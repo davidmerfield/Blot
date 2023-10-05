@@ -2,8 +2,8 @@ const mustache = require("mustache");
 const config = require("config");
 const fs = require("fs-extra");
 
-const NODE_PRIVATE_IP = process.env.NODE_PRIVATE_IP;
-const REDIS_PRIVATE_IP = process.env.REDIS_PRIVATE_IP;
+const NODE_SERVER_IP = process.env.NODE_SERVER_IP;
+const REDIS_IP = process.env.REDIS_IP;
 
 const OUTPUT = __dirname + "/data";
 const CONFIG_DIRECTORY = __dirname + "/conf";
@@ -14,9 +14,9 @@ const locals = {
   blot_directory: config.blot_directory,
   // development: config.environment === "development",
   host: "blot.im",
-  node_ip: NODE_PRIVATE_IP,
+  node_ip: NODE_SERVER_IP,
   node_port: config.port,
-  redis: { host: REDIS_PRIVATE_IP },
+  redis: { host: REDIS_IP },
   user: "ec2-user",
   config_directory: "/home/ec2-user/openresty",
   // if you change the cache directory, you must also update the
@@ -26,8 +26,8 @@ const locals = {
   ssl_certificate_key: "/etc/ssl/private/letsencrypt-domain.key"
 };
 
-if (!NODE_PRIVATE_IP) throw new Error("NODE_PRIVATE_IP not set");
-if (!REDIS_PRIVATE_IP) throw new Error("REDIS_PRIVATE_IP not set");
+if (!NODE_SERVER_IP) throw new Error("NODE_SERVER_IP not set");
+if (!REDIS_IP) throw new Error("REDIS_IP not set");
 
 fs.emptyDirSync(OUTPUT);
 

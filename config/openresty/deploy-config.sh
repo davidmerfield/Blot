@@ -12,13 +12,13 @@ if [ -z "$PUBLIC_IP" ]; then
   exit 1
 fi
 
-if [ -z "$NODE_PRIVATE_IP" ]; then
-  echo "NODE_PRIVATE_IP variable missing, pass the private ip address of the node instance as an argument to this script"
+if [ -z "$NODE_SERVER_IP" ]; then
+  echo "NODE_SERVER_IP variable missing, pass the ip address of the node instance as an argument to this script"
   exit 1
 fi
 
-if [ -z "$REDIS_PRIVATE_IP" ]; then
-  echo "REDIS_PRIVATE_IP variable missing, pass the private ip address of the redis instance as an argument to this script"
+if [ -z "$REDIS_IP" ]; then
+  echo "REDIS_IP variable missing, pass the ip address of the redis instance as an argument to this script"
   exit 1
 fi
 
