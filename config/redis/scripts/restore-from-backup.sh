@@ -6,6 +6,9 @@ if [ -z "$PRODUCTION_DUMP_FILE" ]; then
     PRODUCTION_DUMP_FILE=/var/lib/redis6/dump.rdb
 fi
 
+BUCKET_HOURLY=s3://blot-redis-backups/hourly
+BUCKET_DAILY=s3://blot-redis-backups/daily
+
 echo "PRODUCTION_DUMP_FILE: $PRODUCTION_DUMP_FILE"
 
 # if the variable 'DUMP_FILE' is not set
@@ -17,9 +20,11 @@ if [ -z "$DUMP_FILE" ]; then
     echo "Available backups locally:"
     ls /backups
 
-    # list all the dump files names in the s3 bucket 'blot-daily-backups'
-    echo "Available backups in s3://blot-daily-backups:"
-    aws s3 ls s3://blot-daily-backups/ | awk '{print $4}'
+    echo "Available hourly backups on s3"
+    aws s3 ls $BUCKET_HOURLY | awk '{print $4}'
+
+    echo "Available daily backups on s3"
+    aws s3 ls $BUCKET_DAILY | awk '{print $4}'
 
     echo "To load the most recent backup, run:"
     echo "sudo DUMP_FILE=XXX ./scripts/restore-from-backup.sh"
@@ -28,10 +33,14 @@ if [ -z "$DUMP_FILE" ]; then
 fi
 
 # check the directory '/backups' for the 'DUMP_FILE'
-# if it does not exist then download it from the s3 bucket 'blot-daily-backups'
 if [ ! -f "/backups/$DUMP_FILE" ]; then
-  echo "Downloading $DUMP_FILE from s3://blot-daily-backups/$DUMP_FILE"
-  aws s3 cp s3://blot-daily-backups/$DUMP_FILE /backups/$DUMP_FILE
+
+  echo "Downloading $DUMP_FILE from $BUCKET_DAILY/$DUMP_FILE"
+  aws s3 cp $BUCKET_DAILY/$DUMP_FILE /backups/$DUMP_FILE
+
+  echo "Downloading $DUMP_FILE from $BUCKET_HOURLY/$DUMP_FILE"
+  aws s3 cp $BUCKET_HOURLY/$DUMP_FILE /backups/$DUMP_FILE
+  
 fi
 
 echo "The file /backups/$DUMP_FILE exists"
