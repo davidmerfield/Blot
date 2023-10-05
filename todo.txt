@@ -1,14 +1,33 @@
-Check that hourly (eventually daily) backups of redis DB are uploaded to s3
-Check that snapshots of Blot's disk are being stored
+Test latency based routing on Blot subdomain – perhaps set up domain.blot.im? Only eventually modify blot.im records proper?
+
+DNS picks between the openresty servers based on latency
+
+Openresty US (edge cache and ssl termination) --|
+                                                ---> Blot  ---> Redis
+                                                ---> Redis
+Openresty EU (edge cache and ssl termination) --|
+
+Bunny CDN ---> Blot
+
+It seems that we must connect to redis on private IP – we haven't worked out the AWS security group rules to allow traffic from within the same region from one elastic IP to another?
+
+Resolve race condition with hourly and daily backups such that the directory for the backup exists before the dump file has been fully transferred. Should we use a tmp directory in /backups?
+
+Return daily backup schedule to once per day (right now it's running every hour during testing)
+
+Check that wildcard SSL renewal is working on the openresty servers...
+  Can we store the wildcard cert in redis?
+  - can NODE be responsible for renewing and updating the wildcard cert?
+  - can NODE tell all the reverse proxy caches to update their certs? how?
 
 Architecture:
 - cdn.blot.im -> NODE via IP
 - blot.im -> REVERSE PROXY CACHE -> NODE 
 - exampleblog.com -> REVERSE PROXY CACHE -> NODE
 
-Migrate DNS back to route 53
-- Make sure redis is available on elastic ip
-- Set up latency based routing between two reverse proxy caches
+Check in on redis backups on s3
+
+Try and get redis available on elastic ip to us-west-2 servers rather than private ip
 
 Monitoring:
 - Write status page check that checks CDN connection to Blot
@@ -26,17 +45,7 @@ Why are static routes getting 'max-age= 0' on the docs?
 Try to get a minimal node server running on the reverse proxy capable of rendering pages from DB
 - determine if this 'edge' node server suffers poor performance because of latency between it and DB?
 
-Then we can use the reverse proxy to cache pages?
-
-Look into setting up another openresty 'edge' node in europe
-
-Then using latency based routing at DNS level to route traffic to the closest edge node
-
-When we 'write' to the static directory we should also upload the file to bunny storage so requests dont need to hit the server
-
-Can we store the wildcard cert in redis?
-- can NODE be responsible for renewing and updating the wildcard cert?
-- can NODE tell all the reverse proxy caches to update their certs?
+When we 'write' to the static directory we should also upload the file to bunny storage so requests dont need to hit the server?
 
 Purge old docs CSS and JS from CDN storage cache
 
@@ -45,10 +54,6 @@ Purge old docs CSS and JS from CDN storage cache
 Finish redis server setup:
 - write cron script to save redis-server disk usage and free memory stats in the db then monitor this from scheduler
 - launch staging redis server from backup on s3
-- clean up documentation of process to set up instance
-- install fail2ban on redis server? al2023 makes this hard
-
-Clean up old unused volumes and snapshots, with care
 
 Write tests for openresty
 - https://github.com/leafo/gh-actions-openresty
