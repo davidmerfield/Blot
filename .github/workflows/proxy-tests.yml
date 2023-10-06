@@ -1,6 +1,10 @@
 name: proxy-tests
 
-on: [push, pull_request]
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
 
 jobs:
   test:
@@ -27,6 +31,19 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 16.14.0
+
+      - name: Load dependencies
+        uses: actions/cache@v2
+        id: cache-node-dependencies
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+
+      - name: Install Dependencies
+        if: steps.cache-node-dependencies.outputs.cache-hit != 'true'
+        env:
+          PUPETEER_PRODUCT: firefox
+        run: npm ci
 
       - name: build openresty config
         run: |
