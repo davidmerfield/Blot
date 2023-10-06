@@ -57,6 +57,7 @@ jobs:
           REDIS_IP: 127.0.0.1
           OPENRESTY_USER: runner
           DISABLE_HTTP2: true
+          OPENRESTY_CACHE_DIRECTORY: /home/runner/work/Blot/Blot/config/openresty/data/cache
           OPENRESTY_CONFIG_DIRECTORY: /home/runner/work/Blot/Blot/config/openresty/data
           SSL_CERTIFICATE: /home/runner/work/Blot/Blot/config/openresty/data/selfsigned.crt
           SSL_CERTIFICATE_KEY: /home/runner/work/Blot/Blot/config/openresty/data/selfsigned.key
@@ -73,4 +74,4 @@ jobs:
           which openresty
           openssl version
           openresty -v
-          openresty -c /home/runner/work/Blot/Blot/config/openresty/data/openresty.conf
+          sudo /usr/local/openresty/bin/openresty -c /home/runner/work/Blot/Blot/config/openresty/data/openresty.conf

@@ -23,7 +23,7 @@ const locals = {
     process.env.OPENRESTY_CONFIG_DIRECTORY || "/home/ec2-user/openresty",
   // if you change the cache directory, you must also update the
   // script mount-instance-store.sh
-  cache_directory: "/var/www/cache",
+  cache_directory: process.env.OPENRESTY_CACHE_DIRECTORY || "/var/www/cache",
   ssl_certificate:
     process.env.SSL_CERTIFICATE || "/etc/ssl/private/letsencrypt-domain.pem",
   ssl_certificate_key:
