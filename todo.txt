@@ -1,15 +1,9 @@
 Test latency based routing on Blot subdomain – perhaps set up domain.blot.im? Only eventually modify blot.im records proper?
 
-Try and get redis available on elastic ip to us-west-2 servers rather than private ip
+Fix bugs with openrestycache
 
-Try to get Node available on elastic IP rather than auto assigned public ip
-
-Monitoring:
-- Write status page check that checks CDN connection to Blot
-  - should not be cached, should test connection
-- Move log aggregator into redis?
-- Set up fail2ban on nginx logs
-- Get systemd_status working on node and reverse proxy
+Install fail2ban on proxies
+- we don't need to worry about banning CDN ips because those requests go straight to the origin server
 
 Resolve screenshot issues on production server
 
@@ -17,8 +11,14 @@ Fix question search on docs and tell [Ben](https://mail.google.com/mail/u/0/#inb
 
 Fix question posting 
 
-
 ---
+
+Monitoring:
+- Write status page check that checks CDN connection to Blot
+  - should not be cached, should test connection
+- Move log aggregator into redis?
+- Set up fail2ban on nginx logs
+- Get systemd_status working on node and reverse proxy
 
 Try to get a minimal node server running on the reverse proxy capable of rendering pages from DB
 - determine if this 'edge' node server suffers poor performance because of latency between it and DB?
