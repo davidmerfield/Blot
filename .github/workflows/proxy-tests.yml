@@ -16,7 +16,7 @@ jobs:
       - uses: leafo/gh-actions-openresty@v1
         with:
           openrestyVersion: "1.21.4.2"
-          configureFlags: "--with-pcre-jit --with-ipv6 --with-http_v2_module"
+          configureFlags: "--with-http_v2_module"
 
       # - name: run resty
       #   run: resty -e 'print("hi from lua")'
