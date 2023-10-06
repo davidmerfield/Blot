@@ -22,8 +22,10 @@ const locals = {
   // if you change the cache directory, you must also update the
   // script mount-instance-store.sh
   cache_directory: "/var/www/cache",
-  ssl_certificate: "/etc/ssl/private/letsencrypt-domain.pem",
-  ssl_certificate_key: "/etc/ssl/private/letsencrypt-domain.key"
+  ssl_certificate:
+    process.env.SSL_CERTIFICATE || "/etc/ssl/private/letsencrypt-domain.pem",
+  ssl_certificate_key:
+    process.env.SSL_CERTIFICATE_KEY || "/etc/ssl/private/letsencrypt-domain.key"
 };
 
 if (!NODE_SERVER_IP) throw new Error("NODE_SERVER_IP not set");

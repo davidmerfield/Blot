@@ -54,6 +54,8 @@ jobs:
           NODE_PATH: /home/runner/work/Blot/Blot/app
           NODE_SERVER_IP: 127.0.0.1
           REDIS_IP: 127.0.0.1
+          SSL_CERTIFICATE: /home/runner/work/Blot/Blot/config/openresty/data/selfsigned.crt
+          SSL_CERTIFICATE_KEY: /home/runner/work/Blot/Blot/config/openresty/data/selfsigned.key
         run: |
           node config/openresty/build-config.js
           cat config/openresty/data/openresty.conf
