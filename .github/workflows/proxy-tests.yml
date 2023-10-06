@@ -68,7 +68,4 @@ jobs:
 
       - name: run openresty
         run: |
-          which openresty
-          openssl version
-          openresty -v
-          openresty -c /home/runner/work/Blot/Blot/config/openresty/data/openresty.conf
+          sudo /usr/local/openresty/bin/openresty -c /home/runner/work/Blot/Blot/config/openresty/data/openresty.conf
