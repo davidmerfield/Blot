@@ -18,15 +18,13 @@ jobs:
           openrestyVersion: "1.21.4.2"
           configureFlags: "--with-pcre-jit --with-ipv6 --with-http_v2_module"
 
-      # - name: run resty
-      #   run: resty -e 'print("hi from lua")'
+      - uses: leafo/gh-actions-luarocks@v4
+        with:
+          withLuaPath: "/usr/local/openresty/luajit/"
 
-      # - name: run opm
-      #   run: opm --cwd install leafo/pgmoon
+      - name: install auto-ssl
+        run: luarocks install lua-resty-auto-ssl
 
-      # - uses: leafo/gh-actions-luarocks@v4
-      #   with:
-      #     withLuaPath: "/usr/local/openresty/luajit/"
       - name: Set up Redis
         uses: shogo82148/actions-setup-redis@v1
         with:
