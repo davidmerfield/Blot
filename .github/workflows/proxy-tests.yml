@@ -13,12 +13,21 @@ jobs:
         with:
           openrestyVersion: "1.19.9.1"
 
-      - name: run resty
-        run: resty -e 'print("hi from lua")'
+      # - name: run resty
+      #   run: resty -e 'print("hi from lua")'
 
-      - name: run opm
-        run: opm --cwd install leafo/pgmoon
+      # - name: run opm
+      #   run: opm --cwd install leafo/pgmoon
 
-      - uses: leafo/gh-actions-luarocks@v4
+      # - uses: leafo/gh-actions-luarocks@v4
+      #   with:
+      #     withLuaPath: "/usr/local/openresty/luajit/"
+
+      - name: Set up Node
+        uses: actions/setup-node@v2
         with:
-          withLuaPath: "/usr/local/openresty/luajit/"
+          node-version: 16.14.0
+
+      - name: build openresty config
+        run: |
+          node config/openresty/build-config.js
