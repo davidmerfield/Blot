@@ -1,16 +1,17 @@
 -- Delete nginx cached assets associated with a host using a PURGE request
 --
 
-function file_exists(filepath)
+local function file_exists(filepath)
     local f = io.open(filepath, "r")
     if f~=nil then io.close(f) return true else return false end
 end
 
-function purge(filepath)
+local function purge(filepath)
     if (file_exists(filepath)) then
             os.remove(filepath)
     end
 end
+
 
 if ngx ~= nil then
     -- local purged_files = purge_host(ngx.var.arg_host)
@@ -20,6 +21,12 @@ if ngx ~= nil then
 
     -- extract a list of hosts from ngx.var.args which looks something like: "host=127.0.0.1&host=example.com"
     local hosts = {}
+
+    -- prevent an error if the args are nil
+    if (ngx.var.args == nil) then
+        ngx.say("please pass a host to purge")
+        ngx.exit(ngx.OK)
+    end
 
     for host in string.gmatch(ngx.var.args, "host=([^&]+)") do
         table.insert(hosts, host)
@@ -40,7 +47,6 @@ if ngx ~= nil then
             -- message = message .. "\n purged: " .. cache_file_path
             cached_filename = proxy_cache_keys_by_host:lpop(host)            
         end
-
 
     end
 

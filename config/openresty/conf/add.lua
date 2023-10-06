@@ -16,14 +16,14 @@ if ngx ~= nil then
     -- $x/$y/$cache_key_md5
     -- where x is the last character of the cache_key_md5
     -- and y are the two characters before that
-    local cache_file_path = cache_key_md5:sub(-1) .. "/" .. cache_key_md5:sub(-3,-2) .. "/" .. cache_key_md5
-
-    -- ngx.log(ngx.ERR, "ADDING cache_file_path: " .. cache_file_path)
-   
+    local cache_file_path = cache_key_md5:sub(-1) .. "/" .. cache_key_md5:sub(-3,-2) .. "/" .. cache_key_md5   
     local already_stored = proxy_cache_keys_by_host:get(cache_file_path)
 
     if (already_stored == nil) then
+        ngx.log(ngx.NOTICE,host .. " " .. cache_file_path.. "adding to dictionary")
         proxy_cache_keys_by_host:rpush(host, cache_file_path)
         proxy_cache_keys_by_host:set(cache_file_path, true)
+    else 
+        ngx.log(ngx.NOTICE,host .. " " .. cache_file_path.. "already stored" )
     end
 end
