@@ -15,7 +15,7 @@ jobs:
 
       - uses: leafo/gh-actions-openresty@v1
         with:
-          openrestyVersion: "1.19.9.1"
+          openrestyVersion: "1.21.4.2"
 
       # - name: run resty
       #   run: resty -e 'print("hi from lua")'
