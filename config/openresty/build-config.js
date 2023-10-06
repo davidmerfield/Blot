@@ -18,7 +18,8 @@ const locals = {
   node_port: config.port,
   redis: { host: REDIS_IP },
   user: process.env.OPENRESTY_USER || "ec2-user",
-  config_directory: "/home/ec2-user/openresty",
+  config_directory:
+    process.env.OPENRESTY_CONFIG_DIRECTORY || "/home/ec2-user/openresty",
   // if you change the cache directory, you must also update the
   // script mount-instance-store.sh
   cache_directory: "/var/www/cache",

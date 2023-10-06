@@ -55,6 +55,7 @@ jobs:
           NODE_SERVER_IP: 127.0.0.1
           REDIS_IP: 127.0.0.1
           OPENRESTY_USER: nobody
+          OPENRESTY_CONFIG_DIRECTORY: /home/runner/work/Blot/Blot/config/openresty/data
           SSL_CERTIFICATE: /home/runner/work/Blot/Blot/config/openresty/data/selfsigned.crt
           SSL_CERTIFICATE_KEY: /home/runner/work/Blot/Blot/config/openresty/data/selfsigned.key
         run: |
