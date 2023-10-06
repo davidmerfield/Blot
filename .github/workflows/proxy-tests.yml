@@ -56,3 +56,12 @@ jobs:
           REDIS_IP: 127.0.0.1
         run: |
           node config/openresty/build-config.js
+          cat config/openresty/data/openresty.conf
+
+      - name: generate self-signed SSL certs
+        run: |
+          openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout config/openresty/data/selfsigned.key -out config/openresty/data/selfsigned.crt -subj "/C=US/ST=Oregon/L=Portland/O=Company Name/OU=Org/CN=localhost"
+
+      - name: run openresty
+        run: |
+          sudo openresty -c config/openresty/data/openresty.conf -p config/openresty/data
