@@ -64,4 +64,4 @@ jobs:
 
       - name: run openresty
         run: |
-          sudo $(which openresty) -c config/openresty/data/openresty.conf -p config/openresty/data
+          sudo $(which openresty) -c /home/runner/work/Blot/Blot/config/openresty/data/openresty.conf
