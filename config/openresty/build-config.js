@@ -14,16 +14,20 @@ const locals = {
   blot_directory: config.blot_directory,
   // development: config.environment === "development",
   host: "blot.im",
+  disable_http2: process.env.DISABLE_HTTP2,
   node_ip: NODE_SERVER_IP,
   node_port: config.port,
   redis: { host: REDIS_IP },
-  user: "ec2-user",
-  config_directory: "/home/ec2-user/openresty",
+  user: process.env.OPENRESTY_USER || "ec2-user",
+  config_directory:
+    process.env.OPENRESTY_CONFIG_DIRECTORY || "/home/ec2-user/openresty",
   // if you change the cache directory, you must also update the
   // script mount-instance-store.sh
-  cache_directory: "/var/www/cache",
-  ssl_certificate: "/etc/ssl/private/letsencrypt-domain.pem",
-  ssl_certificate_key: "/etc/ssl/private/letsencrypt-domain.key"
+  cache_directory: process.env.OPENRESTY_CACHE_DIRECTORY || "/var/www/cache",
+  ssl_certificate:
+    process.env.SSL_CERTIFICATE || "/etc/ssl/private/letsencrypt-domain.pem",
+  ssl_certificate_key:
+    process.env.SSL_CERTIFICATE_KEY || "/etc/ssl/private/letsencrypt-domain.key"
 };
 
 if (!NODE_SERVER_IP) throw new Error("NODE_SERVER_IP not set");
