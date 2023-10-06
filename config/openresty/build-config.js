@@ -14,6 +14,7 @@ const locals = {
   blot_directory: config.blot_directory,
   // development: config.environment === "development",
   host: "blot.im",
+  disable_http2: process.env.DISABLE_HTTP2,
   node_ip: NODE_SERVER_IP,
   node_port: config.port,
   redis: { host: REDIS_IP },
