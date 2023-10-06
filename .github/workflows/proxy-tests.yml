@@ -18,9 +18,8 @@ jobs:
           openrestyVersion: "1.21.4.2"
           configureFlags: "--with-pcre-jit --with-ipv6 --with-http_v2_module"
 
+      - uses: leafo/gh-actions-lua@v9
       - uses: leafo/gh-actions-luarocks@v4
-        with:
-          withLuaPath: "/usr/local/openresty/luajit/"
 
       - name: install auto-ssl
         run: luarocks install lua-resty-auto-ssl
@@ -72,4 +71,4 @@ jobs:
           which openresty
           openssl version
           openresty -v
-          sudo /usr/local/openresty/bin/openresty -c /home/runner/work/Blot/Blot/config/openresty/data/openresty.conf
+          openresty -c /home/runner/work/Blot/Blot/config/openresty/data/openresty.conf
