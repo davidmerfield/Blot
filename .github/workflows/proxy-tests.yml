@@ -18,11 +18,14 @@ jobs:
           openrestyVersion: "1.21.4.2"
           configureFlags: "--with-pcre-jit --with-ipv6 --with-http_v2_module"
 
-      - uses: leafo/gh-actions-lua@v9
       - uses: leafo/gh-actions-luarocks@v4
+        with:
+          withLuaPath: "/usr/local/openresty/luajit/"
 
       - name: install auto-ssl
-        run: luarocks install lua-resty-auto-ssl
+        run: |
+          which luarocks
+          sudo luarocks install lua-resty-auto-ssl
 
       - name: Set up Redis
         uses: shogo82148/actions-setup-redis@v1
