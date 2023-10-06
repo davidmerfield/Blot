@@ -46,5 +46,9 @@ jobs:
         run: npm ci
 
       - name: build openresty config
+        env:
+          NODE_PATH: /home/runner/work/Blot/Blot/app
+          NODE_SERVER_IP: 127.0.0.1
+          REDIS_IP: 127.0.0.1
         run: |
           node config/openresty/build-config.js
