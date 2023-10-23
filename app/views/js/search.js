@@ -39,7 +39,7 @@ if (searchInput) {
       if (documentation.length) {
         html += documentation
           .map(
-            (item) =>
+            item =>
               `<a href="${item.url}">${item.title}<br><small>${item.url
                 .split("/")
                 .filter(i => !!i)
@@ -52,7 +52,7 @@ if (searchInput) {
         html +=
           "<p><small>Questions:</small></p>" +
           questions
-            .map((item) => `<a href="${item.url}">${item.title}</a>`)
+            .map(item => `<a href="${item.url}">${item.title}</a>`)
             .join("\n");
       }
       html += `<p><a href="/search?query=${query}">View all</a></p>`;
