@@ -60,7 +60,7 @@ module.exports = ({
 
               return question;
             })
-            .filter(question => question.title);
+            .filter(question => question.title && !!question.title.trim());
 
           resolve({ questions, stats: { total, page_size, page } });
         });
