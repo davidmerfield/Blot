@@ -18,6 +18,7 @@ const locals = {
   node_ip: NODE_SERVER_IP,
   node_port: config.port,
   redis: { host: REDIS_IP },
+  reverse_proxy_ip: process.env.PUBLIC_IP,
   user: process.env.OPENRESTY_USER || "ec2-user",
   config_directory:
     process.env.OPENRESTY_CONFIG_DIRECTORY || "/home/ec2-user/openresty",
