@@ -7,7 +7,7 @@ module.exports = ({
   page = 1,
   tag = "",
   page_size = PAGE_SIZE,
-  by_created = false,
+  by_created = false
 } = {}) => {
   return new Promise((resolve, reject) => {
     const startIndex = (page - 1) * page_size;
@@ -18,7 +18,6 @@ module.exports = ({
       : by_created
       ? keys.by_created
       : keys.by_last_reply;
-
 
     client
       .batch()
@@ -31,7 +30,7 @@ module.exports = ({
 
         const batch = client.batch();
 
-        question_ids.forEach((id) => {
+        question_ids.forEach(id => {
           batch.hgetall(keys.item(id));
           batch.zscore(keys.by_last_reply, id);
           batch.zscore(keys.by_number_of_replies, id);
@@ -60,7 +59,8 @@ module.exports = ({
               }
 
               return question;
-            });
+            })
+            .filter(question => question.title);
 
           resolve({ questions, stats: { total, page_size, page } });
         });

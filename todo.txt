@@ -1,5 +1,3 @@
-Todo:
-
 One bad latex equation should not [tank the build process for the whole post](https://blot.im/questions/2037)
 
 Add support for proxying particular analytics files and tell [questioner](https://blot.im/questions/2025)
@@ -12,25 +10,19 @@ Extract tracking IDs from embed codes pasted onto Blot's dashboard
 
 Follow up with [Tim](https://mail.google.com/mail/u/0/#inbox/FMfcgzGtwCvckCnTJHxSFsQDZnkTPBzp) about activitypub
 
-Add a way to purge cache
-
 Investigate webp thumbnails
 
 Investigate videos instead of gifs for thumbnails
 
 Fix responsive thumbnail component on photo template (it loads large thumbnail every time)
 
-Copy back across changes to openrestycache
+Copy back across changes made within Blot to openrestycache
 
 Install fail2ban on proxies
 - we don't need to worry about banning CDN ips because those requests go straight to the origin server
 - this should reduce origin load
 
 Resolve screenshot issues on production server
-
-Fix question search on docs and tell [Ben](https://mail.google.com/mail/u/0/#inbox/FMfcgzGtwzsqVrWZwSsTdLGMrqQHfWJJ)
-
-Fix question posting 
 
 ---
 
