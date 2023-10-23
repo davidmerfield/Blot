@@ -4,6 +4,12 @@ describe("questions.search", function () {
   const create = require("../create");
   const search = require("../search");
 
+  it("returns no results when appropriate", async function () {
+    const results = await search({ query: "how" });
+
+    expect(results.length).toBe(0);
+  });
+
   it("returns results", async function () {
     await create({ title: "How", body: "Yes" });
     await create({ title: "Now", body: "Yes" });

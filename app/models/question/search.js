@@ -82,11 +82,6 @@ const load = ids => {
           return reject(err);
         }
 
-        // we want to return an array of questions, where each question
-        // has id, title, body, and replies where replies is an array
-        // containing the body of each reply
-
-        // to do this we filter the results based on their parent property
         const questions = results
           .filter(result => !result.parent)
           .map(result => {
