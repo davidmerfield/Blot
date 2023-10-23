@@ -19,6 +19,18 @@ describe("questions.search", function () {
     expect(results.length).toBe(1);
   });
 
+  it("paginates results", async function () {
+    for (let i = 0; i < 15; i++) {
+      await create({ title: "How", body: "Yes" });
+    }
+
+    const firstPage = await search({ query: "how", page: 1, page_size: 10 });
+    const secondPage = await search({ query: "how", page: 2, page_size: 10 });
+
+    expect(firstPage.length).toBe(10);
+    expect(secondPage.length).toBe(5);
+  });
+
   it("scores the title higher than the body", async function () {
     const one = await create({ title: "How", body: "Cow" });
     const two = await create({ title: "Now", body: "Cow" });
