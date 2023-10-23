@@ -7,7 +7,6 @@ const PAGE_SIZE = 20;
 // after the body, the body of the replies is considered
 const Score = (query, result) => {
   // trim, lowercase, and split the query into words
-
   const title = result.title.toLowerCase();
   const body = result.body.toLowerCase();
   const queryWords = query.trim().toLowerCase().split(" ");
@@ -40,7 +39,7 @@ const Score = (query, result) => {
     }, score);
   }, 0);
 
-  return titleScore * 2 + bodyScore + replyScore;
+  return titleScore * 3 + bodyScore + replyScore;
 };
 
 // sort the questions by score and paginate them
@@ -65,8 +64,6 @@ const load = ids => {
       if (err) {
         return reject(err);
       }
-
-      console.log("loaded children", results, "from", ids);
 
       const batch = client.batch();
 
@@ -125,8 +122,6 @@ module.exports = ({ query, page = 1, page_size = PAGE_SIZE } = {}) => {
       }
 
       const candidates = await load(ids);
-
-      console.log("loaded candidates", candidates, "from", ids);
 
       candidates.forEach(result => {
         const score = Score(query, result);
