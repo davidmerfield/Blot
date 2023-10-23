@@ -9,17 +9,31 @@ Search.use((req, res, next) => {
 
 Search.get("/json", async (req, res) => {
   const query = req.query.query;
-  const questions = await search({ query });
-  res.json({
-    questions: questions,
-    documentation: []
-  });
+
+  try {
+    const questions = await search({ query });
+    res.json({
+      questions: questions,
+      documentation: []
+    });
+  } catch (e) {
+    res.json({
+      questions: [],
+      documentation: []
+    });
+  }
 });
 
 Search.get("/", async (req, res) => {
   const query = req.query.query;
-  const questions = await search({ query });
-  res.locals.questions = questions;
+
+  try {
+    const questions = await search({ query });
+    res.locals.questions = questions;
+  } catch (e) {
+    res.locals.questions = [];
+  }
+
   res.render("search");
 });
 
