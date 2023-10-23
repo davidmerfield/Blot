@@ -5,12 +5,40 @@ describe("questions.search", function () {
   const search = require("../search");
 
   it("returns results", async function () {
-    const first = await create({ title: "How?", body: "Yes" });
-    const second = await create({ title: "How?", body: "Yes" });
-    const third = await create({ title: "How?", body: "Yes" });
+    await create({ title: "How", body: "Yes" });
+    await create({ title: "Now", body: "Yes" });
+    await create({ title: "Brown", body: "Yes" });
 
     const results = await search({ query: "how" });
 
+    // each result should have only the properties 'title' and 'id'
+    results.forEach(result => {
+      expect(Object.keys(result).sort()).toEqual(["id", "score", "title"]);
+    });
+
+    expect(results.length).toBe(1);
+  });
+
+  it("scores the title higher than the body", async function () {
+    const one = await create({ title: "How", body: "Cow" });
+    const two = await create({ title: "Now", body: "Cow" });
+    const three = await create({ title: "Cow", body: "Yes" });
+
+    const results = await search({ query: "cow" });
+
     expect(results.length).toBe(3);
+    expect(results[0].score).toBeGreaterThan(results[1].score);
+    expect(results[1].score).toBe(results[2].score);
+    expect(results[0].id).toBe(three.id);
+  });
+
+  it("checks replies", async function () {
+    const one = await create({ title: "One", body: "Hello" });
+    const reply = await create({ body: "Test", parent: one.id });
+
+    const results = await search({ query: "test" });
+
+    expect(results.length).toBe(1);
+    expect(results[0].id).toBe(one.id);
   });
 });

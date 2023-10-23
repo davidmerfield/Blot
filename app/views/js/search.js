@@ -52,7 +52,7 @@ if (searchInput) {
         html +=
           "<p><small>Questions:</small></p>" +
           questions
-            .map(item => `<a href="${item.url}">${item.title}</a>`)
+            .map(item => `<a href="/questions/${item.id}">${item.title}</a>`)
             .join("\n");
       }
       html += `<p><a href="/search?query=${query}">View all</a></p>`;
