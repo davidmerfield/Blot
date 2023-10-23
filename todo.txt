@@ -1,28 +1,23 @@
-One bad latex equation should not [tank the build process for the whole post](https://blot.im/questions/2037)
+Extract tracking IDs from embed codes pasted onto Blot's dashboard
+
+Openresty:
+- Write tests
+- Fix bug which seems to happen when cache fills up / gets old
+- Copy back across changes made within Blot to openrestycache
+- Resolve local caching bug
+- Install fail2ban on proxies
+  - we don't need to worry about banning CDN ips because those requests go straight to the origin server
+  - this should reduce origin load
+
+Resolve screenshot issues on production server
 
 Add support for proxying particular analytics files and tell [questioner](https://blot.im/questions/2025)
 
-Why the 404s for static files on erin's site? why isn't the proxy cache storing those?
-
-Fill in 4 empty questions? Why are they empty? I need an edit log
-
-Extract tracking IDs from embed codes pasted onto Blot's dashboard
+One bad latex equation should not [tank the build process for the whole post](https://blot.im/questions/2037)
 
 Follow up with [Tim](https://mail.google.com/mail/u/0/#inbox/FMfcgzGtwCvckCnTJHxSFsQDZnkTPBzp) about activitypub
 
-Investigate webp thumbnails
-
-Investigate videos instead of gifs for thumbnails
-
-Fix responsive thumbnail component on photo template (it loads large thumbnail every time)
-
-Copy back across changes made within Blot to openrestycache
-
-Install fail2ban on proxies
-- we don't need to worry about banning CDN ips because those requests go straight to the origin server
-- this should reduce origin load
-
-Resolve screenshot issues on production server
+Why the 404s for static files on erin's site? why isn't the proxy cache storing those?
 
 ---
 
@@ -64,7 +59,11 @@ Data use minimization:
 
 ---
 
-Write and send out summer newsletter
+Investigate webp thumbnails
+
+Investigate videos instead of gifs for thumbnails
+
+Fix responsive thumbnail component on photo template (it loads large thumbnail every time)
 
 Openresty server:
 - Can we delegate caching to this server rather than node?
