@@ -26,6 +26,8 @@ settings
     trace("saved redirects"),
     save.format,
     trace("formated form"),
+    save.analytics,
+    trace("saved analytics"),
     save.avatar,
     trace("saved avatar"),
     save.removeTmpFiles,
@@ -52,14 +54,14 @@ settings.get("/services", load.plugins, load.permalinkFormats, load.dates);
 
 settings.get("/services/date", load.timezones, load.dates);
 
-settings.get("/services/link-format", load.permalinkFormats, function (
-  req,
-  res,
-  next
-) {
-  res.locals.edit = !!req.query.edit;
-  next();
-});
+settings.get(
+  "/services/link-format",
+  load.permalinkFormats,
+  function (req, res, next) {
+    res.locals.edit = !!req.query.edit;
+    next();
+  }
+);
 
 settings.use("/services/*", function (req, res, next) {
   res.locals.breadcrumbs.add("Services", "services");
@@ -92,7 +94,7 @@ settings
   .get(function (req, res) {
     res.render("template", { title: "Template" });
   })
-  .post( parse, require("./save/template"));
+  .post(parse, require("./save/template"));
 
 settings
   .route("/template/new")
@@ -100,7 +102,7 @@ settings
     res.locals.breadcrumbs.add("New", "new");
     res.render("template/new", { title: "New template" });
   })
-  .post( parse, require("./save/newTemplate"));
+  .post(parse, require("./save/newTemplate"));
 
 settings
   .route("/template/archive")
@@ -128,7 +130,7 @@ settings
     req.body = {
       name: req.template.name,
       redirect: res.locals.base + "/template",
-      cloneFrom: req.template.id,
+      cloneFrom: req.template.id
     };
     next();
   }, require("./save/newTemplate"));
