@@ -74,3 +74,4 @@ signin
 sign
 terms
 updates
+template

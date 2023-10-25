@@ -130,8 +130,14 @@ dashboard.use(require("./breadcrumbs"));
 
 dashboard.use("/stats", require("./stats"));
 
-// This needs to be before ':handle'
+// These need to be before ':handle'
 dashboard.use("/account", require("./account"));
+
+dashboard.use(
+  "/share-template",
+  require("./load-blogs"),
+  require("./share-template")
+);
 
 // Redirect old URLS
 dashboard.use("/settings", require("./load-blogs"), function (req, res, next) {

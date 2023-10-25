@@ -137,12 +137,14 @@ TemplateEditor.route("/:templateSlug/rename")
     res.render("template-editor/rename");
   })
   .post(parse, function (req, res, next) {
-    Template.setMetadata(req.template.id, { name: req.body.name }, function (
-      err
-    ) {
-      if (err) return next(err);
-      res.message(res.locals.base + "/settings", "Renamed template!");
-    });
+    Template.setMetadata(
+      req.template.id,
+      { name: req.body.name },
+      function (err) {
+        if (err) return next(err);
+        res.message(res.locals.base + "/settings", "Renamed template!");
+      }
+    );
   });
 
 TemplateEditor.route("/:templateSlug/share")
@@ -153,7 +155,7 @@ TemplateEditor.route("/:templateSlug/share")
 
   .get(function (req, res) {
     res.locals.title = `Share - ${req.template.name}`;
-    res.locals.shareURL = `${req.protocol}://${req.hostname}${res.locals.dashboardBase}/template/share/${res.locals.template.shareID}`;
+    res.locals.shareURL = `${req.protocol}://${req.hostname}/dashboard/share-template/${res.locals.template.shareID}`;
     res.render("template-editor/share");
   })
   .post(parse, function (req, res, next) {
