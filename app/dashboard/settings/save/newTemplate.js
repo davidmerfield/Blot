@@ -76,7 +76,7 @@ module.exports = function (req, res, next) {
     res.message(
       redirect,
       req.body.shared
-        ? `Added template ${deduplicatedName} to your templates`
+        ? `Added template ${template.name} to your templates`
         : SUCCESS
     );
   });
