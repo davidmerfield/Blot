@@ -1,6 +1,7 @@
 module.exports = function (req, res, next) {
   // we failed to extract the updates from the request body
-  if (!req.updates || !req.updates.plugins.analytics) return next();
+  if (!req.updates || !req.updates.plugins || !req.updates.plugins.analytics)
+    return next();
 
   // the user does not want to enable analytics
   if (!req.updates.plugins.analytics.enabled) return next();
