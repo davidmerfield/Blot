@@ -26,6 +26,8 @@ settings
     trace("saved redirects"),
     save.format,
     trace("formated form"),
+    save.analytics,
+    trace("saved analytics"),
     save.avatar,
     trace("saved avatar"),
     save.removeTmpFiles,
