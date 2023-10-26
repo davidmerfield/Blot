@@ -112,29 +112,6 @@ settings
     res.render("template/archive", { title: "Archive" });
   });
 
-settings
-  .route("/template/share/:shareID")
-  .all(function (req, res, next) {
-    Template.getByShareID(req.params.shareID, function (err, template) {
-      if (err || !template) return next(err || new Error("No template"));
-      req.template = res.locals.template = template;
-      next();
-    });
-  })
-
-  .get(function (req, res) {
-    res.render("template/share");
-  })
-
-  .post(function (req, res, next) {
-    req.body = {
-      name: req.template.name,
-      redirect: res.locals.base + "/template",
-      cloneFrom: req.template.id
-    };
-    next();
-  }, require("./save/newTemplate"));
-
 settings.get("/:section/:view", function (req, res) {
   var uppercaseName = req.params.view;
 
