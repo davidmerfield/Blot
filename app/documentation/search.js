@@ -9,25 +9,31 @@ Search.use((req, res, next) => {
 
 Search.get("/json", async (req, res) => {
   const query = req.query.query;
-  // const [documentation, questions] = await search({ query });
-  res.json({
-    // questions: questions.rows,
-    // documentation: documentation.rows,
-  });
+
+  try {
+    const questions = await search({ query });
+    res.json({
+      questions: questions,
+      documentation: []
+    });
+  } catch (e) {
+    res.json({
+      questions: [],
+      documentation: []
+    });
+  }
 });
 
 Search.get("/", async (req, res) => {
   const query = req.query.query;
-  // const [documentation, questions] = await search({ query, limit: 20 });
-  // res.locals.documentation = documentation.rows.map((row) => {
-  //   return {
-  //     ...row,
-  //     crumbs: row.url.split("/").map((x) => {
-  //       return { label: x };
-  //     }),
-  //   };
-  // });
-  // res.locals.questions = questions.rows;
+
+  try {
+    const questions = await search({ query });
+    res.locals.questions = questions;
+  } catch (e) {
+    res.locals.questions = [];
+  }
+
   res.render("search");
 });
 

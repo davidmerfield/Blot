@@ -119,3 +119,83 @@ if ngx ~= nil then
         deduplicate_key_list_by_host(host, proxy_cache_keys_by_host)
     end
 end
+
+
+
+local redis = require "resty.redis"
+
+local redis_options = { host = "{{redis.host}}", port = 6379 , prefix = "ssl" }
+
+local function get_redis_instance(redis_options)
+
+  local instance = ngx.ctx.auto_ssl_redis_instance
+
+  if instance then
+    return instance
+  end
+
+  instance = redis:new()
+
+  local ok, err
+
+  if redis_options["socket"] then
+    ok, err = instance:connect(redis_options["socket"])
+  else
+    ok, err = instance:connect(redis_options["host"], redis_options["port"])
+  end
+
+  if not ok then
+    return false, err
+  end
+
+  if redis_options["auth"] then
+    ok, err = instance:auth(redis_options["auth"])
+    if not ok then
+      return false, err
+    end
+  end
+
+  ngx.ctx.auto_ssl_redis_instance = instance
+  return instance
+end
+
+auto_ssl = (require "resty.auto-ssl").new()
+
+auto_ssl:set("redis", redis_options)
+
+-- Certificates are stored in redis
+auto_ssl:set("storage_adapter", "resty.auto-ssl.storage_adapters.redis")
+
+-- This function determines whether the incoming domain
+-- should automatically issue a new SSL certificate.
+-- I need to set domain:blot.im to foo in the database so that
+-- the allow_domain function works as expected even though
+-- it's not technically a user's domain
+auto_ssl:set("allow_domain", function(domain)
+
+  local certstorage = auto_ssl.storage
+  
+  local fullchain_pem, privkey_pem = certstorage:get_cert(domain)
+
+  -- If we have this cert in the memory cache
+  -- then return it without checking redis to save time
+  if fullchain_pem then
+    return true
+  end
+
+  local redis_instance, instance_err = get_redis_instance(redis_options)
+
+  if instance_err then
+    return nil, instance_err
+  end
+
+  local res, err = redis_instance:get('domain:' .. domain)
+
+  if res == ngx.null then
+    return false
+  end
+
+  return true
+end)
+
+auto_ssl:init()
