@@ -27,48 +27,6 @@ jobs:
           which luarocks
           sudo /home/runner/work/Blot/Blot/.luarocks/bin/luarocks install lua-resty-auto-ssl
 
-      - name: Set up Redis
-        uses: shogo82148/actions-setup-redis@v1
-        with:
-          redis-version: 6.2.6
-
-      - name: Set up Node
-        uses: actions/setup-node@v2
-        with:
-          node-version: 16.14.0
-
-      - name: Load dependencies
-        uses: actions/cache@v2
-        id: cache-node-dependencies
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-${{ hashFiles('package-lock.json') }}
-
-      - name: Install Dependencies
-        if: steps.cache-node-dependencies.outputs.cache-hit != 'true'
-        env:
-          PUPETEER_PRODUCT: firefox
-        run: npm ci
-
-      - name: build openresty config
-        env:
-          NODE_PATH: /home/runner/work/Blot/Blot/app
-          NODE_SERVER_IP: 127.0.0.1
-          REDIS_IP: 127.0.0.1
-          OPENRESTY_USER: runner
-          DISABLE_HTTP2: true
-          OPENRESTY_CACHE_DIRECTORY: /home/runner/work/Blot/Blot/config/openresty/data/cache
-          OPENRESTY_CONFIG_DIRECTORY: /home/runner/work/Blot/Blot/config/openresty/data
-          SSL_CERTIFICATE: /home/runner/work/Blot/Blot/config/openresty/data/selfsigned.crt
-          SSL_CERTIFICATE_KEY: /home/runner/work/Blot/Blot/config/openresty/data/selfsigned.key
-        run: |
-          node config/openresty/build-config.js
-          cat config/openresty/data/openresty.conf
-
-      - name: generate self-signed SSL certs
-        run: |
-          openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout config/openresty/data/selfsigned.key -out config/openresty/data/selfsigned.crt -subj "/C=US/ST=Oregon/L=Portland/O=Company Name/OU=Org/CN=localhost"
-
       - name: run openresty
         run: |
-          sudo /usr/local/openresty/bin/openresty -c /home/runner/work/Blot/Blot/config/openresty/data/openresty.conf
+          sudo /usr/local/openresty/bin/openresty
