@@ -26,6 +26,8 @@ jobs:
         run: |
           which luarocks
           sudo /home/runner/work/Blot/Blot/.luarocks/bin/luarocks install lua-resty-auto-ssl
+          sudo /home/runner/work/Blot/Blot/.luarocks/bin/luarocks list
+          luarocks show lua-resty-auto-ssl
 
       - name: Set up Redis
         uses: shogo82148/actions-setup-redis@v1

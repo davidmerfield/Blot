@@ -159,8 +159,6 @@ local function get_redis_instance(redis_options)
   return instance
 end
 
-package.path = package.path .. ";/home/runner/work/Blot/Blot/.luarocks"
-
 auto_ssl = (require "resty.auto-ssl").new()
 
 auto_ssl:set("redis", redis_options)
