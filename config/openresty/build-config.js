@@ -17,6 +17,7 @@ const locals = {
   disable_http2: process.env.DISABLE_HTTP2,
   node_ip: NODE_SERVER_IP,
   node_port: config.port,
+  lua_package_path: process.env.LUA_PACKAGE_PATH,
   redis: { host: REDIS_IP },
   reverse_proxy_ip: process.env.PUBLIC_IP,
   user: process.env.OPENRESTY_USER || "ec2-user",
