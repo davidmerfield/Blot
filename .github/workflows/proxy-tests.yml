@@ -29,7 +29,7 @@ jobs:
 
       - name: generate self-signed SSL certs
         run: |
-          openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout config/openresty/data/selfsigned.key -out config/openresty/data/selfsigned.crt -subj "/C=US/ST=Oregon/L=Portland/O=Company Name/OU=Org/CN=localhost"
+          openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /home/runner/work/Blot/Blot/config/openresty/data/selfsigned.key -out /home/runner/work/Blot/Blot/config/openresty/data/selfsigned.crt -subj "/C=US/ST=Oregon/L=Portland/O=Company Name/OU=Org/CN=localhost"
 
       - name: Set up Redis
         uses: shogo82148/actions-setup-redis@v1
