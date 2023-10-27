@@ -1,54 +1,54 @@
-const mustache = require('mustache')
-const config = require('config')
-const fs = require('fs-extra')
+const mustache = require("mustache");
+const config = require("config");
+const fs = require("fs-extra");
 
-const NODE_SERVER_IP = process.env.NODE_SERVER_IP
-const REDIS_IP = process.env.REDIS_IP
+const NODE_SERVER_IP = process.env.NODE_SERVER_IP;
+const REDIS_IP = process.env.REDIS_IP;
 
-const OUTPUT = __dirname + '/data'
-const CONFIG_DIRECTORY = __dirname + '/conf'
+const OUTPUT = __dirname + "/data";
+const CONFIG_DIRECTORY = __dirname + "/conf-new";
 
-const template = fs.readFileSync(`${CONFIG_DIRECTORY}/server.conf`, 'utf8')
-const partials = {}
+const template = fs.readFileSync(`${CONFIG_DIRECTORY}/server.conf`, "utf8");
+const partials = {};
 const locals = {
   blot_directory: config.blot_directory,
   // development: config.environment === "development",
-  host: 'blot.im',
+  host: "blot.im",
   disable_http2: process.env.DISABLE_HTTP2,
   node_ip: NODE_SERVER_IP,
   node_port: config.port,
   redis: { host: REDIS_IP },
   reverse_proxy_ip: process.env.PUBLIC_IP,
-  user: process.env.OPENRESTY_USER || 'ec2-user',
+  user: process.env.OPENRESTY_USER || "ec2-user",
   config_directory:
-    process.env.OPENRESTY_CONFIG_DIRECTORY || '/home/ec2-user/openresty',
+    process.env.OPENRESTY_CONFIG_DIRECTORY || "/home/ec2-user/openresty",
   // if you change the cache directory, you must also update the
   // script mount-instance-store.sh
-  cache_directory: process.env.OPENRESTY_CACHE_DIRECTORY || '/var/www/cache',
+  cache_directory: process.env.OPENRESTY_CACHE_DIRECTORY || "/var/www/cache",
   ssl_certificate:
-    process.env.SSL_CERTIFICATE || '/etc/ssl/private/letsencrypt-domain.pem',
+    process.env.SSL_CERTIFICATE || "/etc/ssl/private/letsencrypt-domain.pem",
   ssl_certificate_key:
-    process.env.SSL_CERTIFICATE_KEY || '/etc/ssl/private/letsencrypt-domain.key'
-}
+    process.env.SSL_CERTIFICATE_KEY || "/etc/ssl/private/letsencrypt-domain.key"
+};
 
-if (!NODE_SERVER_IP) throw new Error('NODE_SERVER_IP not set')
-if (!REDIS_IP) throw new Error('REDIS_IP not set')
+if (!NODE_SERVER_IP) throw new Error("NODE_SERVER_IP not set");
+if (!REDIS_IP) throw new Error("REDIS_IP not set");
 
-fs.emptyDirSync(OUTPUT)
+fs.emptyDirSync(OUTPUT);
 
-fs.copySync(`${__dirname}/html`, `${__dirname}/data/html`)
+fs.copySync(`${__dirname}/html`, `${__dirname}/data/html`);
 
 fs.readdirSync(CONFIG_DIRECTORY).forEach(file => {
   // copy lua files to data directory so they are available to nginx
-  if (file.endsWith('.lua')) {
-    const lua = fs.readFileSync(`${CONFIG_DIRECTORY}/${file}`, 'utf8')
-    const result = mustache.render(lua, locals)
-    fs.outputFileSync(`${OUTPUT}/${file}`, result)
+  if (file.endsWith(".lua")) {
+    const lua = fs.readFileSync(`${CONFIG_DIRECTORY}/${file}`, "utf8");
+    const result = mustache.render(lua, locals);
+    fs.outputFileSync(`${OUTPUT}/${file}`, result);
   }
 
-  if (!file.endsWith('.conf')) return
-  partials[file] = fs.readFileSync(CONFIG_DIRECTORY + '/' + file, 'utf8')
-})
+  if (!file.endsWith(".conf")) return;
+  partials[file] = fs.readFileSync(CONFIG_DIRECTORY + "/" + file, "utf8");
+});
 
 const warning = `
 
@@ -65,8 +65,8 @@ const warning = `
 # !!!!!!!!!!!   WARNING                                   !!!!!!!!!!!
 # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-`
+`;
 
-const result = mustache.render(template, locals, partials)
+const result = mustache.render(template, locals, partials);
 
-fs.outputFileSync(__dirname + '/data/openresty.conf', warning + result)
+fs.outputFileSync(__dirname + "/data/openresty.conf", warning + result);

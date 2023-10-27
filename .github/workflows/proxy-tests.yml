@@ -27,11 +27,6 @@ jobs:
           which luarocks
           sudo /home/runner/work/Blot/Blot/.luarocks/bin/luarocks install lua-resty-auto-ssl
 
-      - name: generate self-signed SSL certs
-        run: |
-          mkdir -p /home/runner/work/Blot/Blot/config/openresty/data
-          openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /home/runner/work/Blot/Blot/config/openresty/data/selfsigned.key -out /home/runner/work/Blot/Blot/config/openresty/data/selfsigned.crt -subj "/C=US/ST=Oregon/L=Portland/O=Company Name/OU=Org/CN=localhost"
-
       - name: Set up Redis
         uses: shogo82148/actions-setup-redis@v1
         with:
@@ -70,9 +65,15 @@ jobs:
           node config/openresty/build-config.js
           cat config/openresty/data/openresty.conf
 
+      # run this after building config since building config will overwrite the data directory
+      - name: generate self-signed SSL certs
+        run: |
+          mkdir -p /home/runner/work/Blot/Blot/config/openresty/data
+          openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /home/runner/work/Blot/Blot/config/openresty/data/selfsigned.key -out /home/runner/work/Blot/Blot/config/openresty/data/selfsigned.crt -subj "/C=US/ST=Oregon/L=Portland/O=Company Name/OU=Org/CN=localhost"
+
       - name: run openresty
         run: |
-          sudo /usr/local/openresty/bin/openresty -c /home/runner/work/Blot/Blot/config/openresty/default.conf
+          sudo /usr/local/openresty/bin/openresty -c /home/runner/work/Blot/Blot/config/openresty/data/openresty.conf
 
       - name: check openresty is running on port 80
         run: |
