@@ -159,43 +159,45 @@ local function get_redis_instance(redis_options)
   return instance
 end
 
--- auto_ssl = (require "resty.auto-ssl").new()
+package.path = package.path .. ";/home/runner/work/Blot/Blot/.luarocks"
 
--- auto_ssl:set("redis", redis_options)
+auto_ssl = (require "resty.auto-ssl").new()
 
--- -- Certificates are stored in redis
--- auto_ssl:set("storage_adapter", "resty.auto-ssl.storage_adapters.redis")
+auto_ssl:set("redis", redis_options)
 
--- -- This function determines whether the incoming domain
--- -- should automatically issue a new SSL certificate.
--- -- I need to set domain:blot.im to foo in the database so that
--- -- the allow_domain function works as expected even though
--- -- it's not technically a user's domain
--- auto_ssl:set("allow_domain", function(domain)
+-- Certificates are stored in redis
+auto_ssl:set("storage_adapter", "resty.auto-ssl.storage_adapters.redis")
 
---   local certstorage = auto_ssl.storage
+-- This function determines whether the incoming domain
+-- should automatically issue a new SSL certificate.
+-- I need to set domain:blot.im to foo in the database so that
+-- the allow_domain function works as expected even though
+-- it's not technically a user's domain
+auto_ssl:set("allow_domain", function(domain)
+
+  local certstorage = auto_ssl.storage
   
---   local fullchain_pem, privkey_pem = certstorage:get_cert(domain)
+  local fullchain_pem, privkey_pem = certstorage:get_cert(domain)
 
---   -- If we have this cert in the memory cache
---   -- then return it without checking redis to save time
---   if fullchain_pem then
---     return true
---   end
+  -- If we have this cert in the memory cache
+  -- then return it without checking redis to save time
+  if fullchain_pem then
+    return true
+  end
 
---   local redis_instance, instance_err = get_redis_instance(redis_options)
+  local redis_instance, instance_err = get_redis_instance(redis_options)
 
---   if instance_err then
---     return nil, instance_err
---   end
+  if instance_err then
+    return nil, instance_err
+  end
 
---   local res, err = redis_instance:get('domain:' .. domain)
+  local res, err = redis_instance:get('domain:' .. domain)
 
---   if res == ngx.null then
---     return false
---   end
+  if res == ngx.null then
+    return false
+  end
 
---   return true
--- end)
+  return true
+end)
 
--- auto_ssl:init()
+auto_ssl:init()
