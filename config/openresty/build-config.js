@@ -6,7 +6,7 @@ const NODE_SERVER_IP = process.env.NODE_SERVER_IP;
 const REDIS_IP = process.env.REDIS_IP;
 
 const OUTPUT = __dirname + "/data";
-const CONFIG_DIRECTORY = __dirname + "/conf-new";
+const CONFIG_DIRECTORY = __dirname + "/conf";
 
 const template = fs.readFileSync(`${CONFIG_DIRECTORY}/server.conf`, "utf8");
 const partials = {};
