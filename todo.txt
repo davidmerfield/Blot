@@ -21,6 +21,12 @@ Why the 404s for static files on erin's site? why isn't the proxy cache storing 
 
 ---
 
+Document text editors
+https://coteditor.com/
+https://zettelkasten.de/the-archive/
+https://tot.rocks/
+https://desairem.com/wordpress/ufocus/
+
 Monitoring:
 - Write status page check that checks CDN connection to Blot
   - should not be cached, should test connection
