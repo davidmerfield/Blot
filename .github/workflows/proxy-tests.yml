@@ -30,3 +30,7 @@ jobs:
       - name: run openresty
         run: |
           sudo /usr/local/openresty/bin/openresty
+
+      - name check openresty is running
+        run: |
+          curl -I http://localhost:80
