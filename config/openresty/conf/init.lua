@@ -121,7 +121,6 @@ if ngx ~= nil then
 end
 
 
-
 local redis = require "resty.redis"
 
 local redis_options = { host = "{{redis.host}}", port = 6379 , prefix = "ssl" }
