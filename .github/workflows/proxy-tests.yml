@@ -29,7 +29,7 @@ jobs:
 
       - name: run openresty
         run: |
-          sudo /usr/local/openresty/bin/openresty
+          sudo /usr/local/openresty/bin/openresty -c /home/runner/work/Blot/Blot/config/openresty/default.conf
 
       - name: check openresty is running on port 80
         run: |
