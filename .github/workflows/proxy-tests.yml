@@ -31,7 +31,6 @@ jobs:
         run: |
           sudo /usr/local/openresty/bin/openresty
 
-      - name check openresty is running on port 80
+      - name: check openresty is running on port 80
         run: |
           curl localhost:80
-          
