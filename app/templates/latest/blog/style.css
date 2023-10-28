@@ -157,9 +157,9 @@ p, li {
   margin: 1.666em 0;
 }
 
-h1 {font-size: 1.5625em;line-height: 36px;font-weight: bold;margin-bottom: 24px}
+h1 {font-size: 1.5625em;line-height: 36px;font-weight: bold;margin-bottom: 24px;text-wrap:balance}
 
-h2, h3, h4, h5, h6 {font-size: 1.0625em;font-weight: bold;line-height: 24px;margin: 48px 0 24px}
+h2, h3, h4, h5, h6 {font-size: 1.0625em;font-weight: bold;line-height: 24px;margin: 48px 0 24px;text-wrap:balance}
 
 blockquote {
   padding: 0 0 0 12px;
