@@ -67,7 +67,7 @@ describe("cacher", function () {
     expect(lines[6]).toMatch(/^ETag: /);
     expect(lines[7]).toMatch(/^Date: /);
     expect(lines[8]).toBe("Connection: close");
-    expect(lines[10]).toBe("Hello Node!");
+    expect(lines[10]).toBe("Hello Node?");
 
     // if we retry the request, the header 'cache-hit' should be set
     const cachedResponse = await fetch(origin);
