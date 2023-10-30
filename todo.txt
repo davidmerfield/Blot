@@ -1,4 +1,7 @@
-Extract tracking IDs from embed codes pasted onto Blot's dashboard
+Look into whether I should be proxy keepaliving:
+https://stackoverflow.com/questions/46771389/why-does-nginx-proxy-pass-close-my-connection
+
+Are there other performance improvements I can make for connection between aws regions?
 
 Openresty:
 - Write tests
