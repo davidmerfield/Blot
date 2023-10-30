@@ -5,32 +5,25 @@ local cacher = {
     _LICENSE     = ""
   }
 
-local md5 = require "md5"
-
-local function cacher_add (self, ngx) 
+local function cacher_add (self, host, cache_key) 
     local shared_dictionary = self.shared_dictionary
+    local cache_key_hash = ngx.md5(cache_key)
 
-    local host = ngx.var.host
-    local request_uri = ngx.var.request_uri
-    local server_port = ngx.var.server_port
-    local scheme = ngx.var.scheme
-
-    local cache_key = scheme .. "://" .. host .. ":" .. server_port .. request_uri
-    local cache_key_md5 = md5.sumhexa(cache_key)
+    ngx.log(ngx.NOTICE, "cacher_add: " .. cache_key .. " " .. cache_key_hash)
 
     -- the cache file path is in the following format:
-    -- $x/$y/$cache_key_md5
-    -- where x is the last character of the cache_key_md5
+    -- $x/$y/$cache_key_hash
+    -- where x is the last character of the cache_key_hash
     -- and y are the two characters before that
-    local cache_file_path = cache_key_md5:sub(-1) .. "/" .. cache_key_md5:sub(-3,-2) .. "/" .. cache_key_md5   
+    local cache_file_path = cache_key_hash:sub(-1) .. "/" .. cache_key_hash:sub(-3,-2) .. "/" .. cache_key_hash   
     local already_stored = shared_dictionary:get(cache_file_path)
 
     if (already_stored == nil) then
-        ngx.log(ngx.NOTICE,host .. " " .. cache_file_path.. " adding to dictionary")
+        ngx.log(ngx.NOTICE, cache_file_path.. " adding to dictionary")
         shared_dictionary:rpush(host, cache_file_path)
         shared_dictionary:set(cache_file_path, true)
     else 
-        ngx.log(ngx.NOTICE,host .. " " .. cache_file_path.. " already stored" )
+        ngx.log(ngx.NOTICE, cache_file_path.. " already stored" )
     end
 end  
 
@@ -39,7 +32,7 @@ end
 -- the lua shared dict shared_dictionary so we can purge them later 
 
 -- I'm not sure why we need to deduplicate the keys?-- 
-local function deduplicate_key_list_by_host (ngx, host, shared_dict)
+local function deduplicate_key_list_by_host (host, shared_dict)
 
     ngx.log(ngx.NOTICE, "deduplicate_key_list_by_host: " .. host)
 
@@ -179,7 +172,7 @@ local function cacher_rehydrate (self, ngx)
      end
  
      for _, host in ipairs(hosts) do
-         deduplicate_key_list_by_host(ngx, host, shared_dictionary)
+         deduplicate_key_list_by_host(host, shared_dictionary)
      end
 
 end
@@ -205,6 +198,9 @@ local function cacher_purge (self, ngx)
     -- local purged_files = purge_host(ngx.var.arg_host)
     local shared_dictionary = self.shared_dictionary
 
+    ngx.log(ngx.NOTICE, "purging now")
+
+
     local message = "purging..."
 
     -- extract a list of hosts from ngx.var.args which looks something like: "host=127.0.0.1&host=example.com"
@@ -223,6 +219,8 @@ local function cacher_purge (self, ngx)
     for _, host in ipairs(hosts) do
         local cached_filename = shared_dictionary:lpop(host)
         local number_of_cache_keys = tostring(shared_dictionary:llen(host))
+
+        ngx.log(ngx.NOTICE, "purging host: " .. host .. " number_of_cache_keys: " .. number_of_cache_keys)
 
         message = message .. "\n host: " .. host .. " number_of_cache_keys: " .. number_of_cache_keys
 

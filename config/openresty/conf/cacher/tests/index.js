@@ -67,7 +67,7 @@ describe("cacher", function () {
     expect(lines[6]).toMatch(/^ETag: /);
     expect(lines[7]).toMatch(/^Date: /);
     expect(lines[8]).toBe("Connection: close");
-    expect(lines[10]).toBe("Hello Node?");
+    expect(lines[10]).toBe("Hello Node!");
 
     // if we retry the request, the header 'cache-hit' should be set
     const cachedResponse = await fetch(origin);
@@ -88,7 +88,7 @@ describe("cacher", function () {
     expect(cachedResponse.headers.get("Cache-Status")).toBe("HIT");
     expect(cachedText).toBe(text);
     // use a request to origin/purge with method PURGE and query host '127.0.0.1' to purge the cache
-    await fetch(origin + "purge?host=127.0.0.1", { method: "PURGE" });
+    await fetch(origin + "purge?host=127.0.0.1");
     const purgedResponse = await fetch(origin);
     const purgedText = await purgedResponse.text();
     expect(purgedResponse.status).toBe(200);
