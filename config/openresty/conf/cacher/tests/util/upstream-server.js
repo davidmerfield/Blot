@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const sharp = require("sharp");
+const compression = require("compression");
 
 app.get("/", (req, res) => {
   res.send("Hello Node!");
@@ -11,7 +12,15 @@ app.use("/timestamp", (req, res) => {
   res.send(`${Date.now()}`);
 });
 
-// images
+// we want to send a large response which can be gzipped by the proxy
+app.use("/gzip-by-openresty", (req, res) => {
+  res.send("abc ".repeat(1024));
+});
+
+app.use("/gzip-by-upstream", compression(), (req, res) => {
+  res.send("abc ".repeat(1024));
+});
+
 app.get("/:filename.png", (req, res) => {
   const { filename } = req.params;
 

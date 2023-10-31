@@ -242,10 +242,14 @@ function cacher.new()
     
     local function cacher_set(self, key, value)
         self[key] = value
+
+        -- if both cache_directory and shared_dictionary are set then we can rehydrate
+        if (self.cache_directory ~= nil and self.shared_dictionary ~= nil) then
+            cacher_rehydrate(self)
+        end
     end
 
     return {
-        rehydrate = cacher_rehydrate,
         purge = cacher_purge,
         set = cacher_set,
         add = cacher_add
