@@ -7,24 +7,8 @@ local cacher = {
 
 local function cacher_add (self, host, cache_key) 
     local shared_dictionary = self.shared_dictionary
-    local cache_key_hash = ngx.md5(cache_key)
-
-    ngx.log(ngx.NOTICE, "cacher_add: " .. cache_key .. " " .. cache_key_hash)
-
-    -- the cache file path is in the following format:
-    -- $x/$y/$cache_key_hash
-    -- where x is the last character of the cache_key_hash
-    -- and y are the two characters before that
-    local cache_file_path = cache_key_hash:sub(-1) .. "/" .. cache_key_hash:sub(-3,-2) .. "/" .. cache_key_hash   
-    local already_stored = shared_dictionary:get(cache_file_path)
-
-    if (already_stored == nil) then
-        ngx.log(ngx.NOTICE, cache_file_path.. " adding to dictionary")
-        shared_dictionary:rpush(host, cache_file_path)
-        shared_dictionary:set(cache_file_path, true)
-    else 
-        ngx.log(ngx.NOTICE, cache_file_path.. " already stored" )
-    end
+    ngx.log(ngx.NOTICE, "adding to dictionary " .. cache_key .. " host=" .. host)
+    shared_dictionary:rpush(host, cache_key)
 end  
 
 
@@ -71,9 +55,14 @@ local function extractHostFromCacheFile (ngx, cache_file_path)
     local file = io.open(cache_file_path, "r")
     local first_line = file:read()
 
-    -- keep reading the file until we get a line that starts with KEY
-    while (first_line ~= nil and string.match(first_line, "^KEY:") == nil) do
+    ngx.log(ngx.NOTICE, "first_line: " .. first_line)
+
+    local number_of_lines_read = 1
+
+    -- keep reading the file until we get a line that contains "KEY: ", up to a max of 10 lines
+    while (first_line ~= nil and number_of_lines_read < 10 and string.match(first_line, "KEY: ") == nil) do
         first_line = file:read()
+        ngx.log(ngx.NOTICE, "first_line: " .. first_line)
     end
 
     if (first_line == nil) then
@@ -81,18 +70,18 @@ local function extractHostFromCacheFile (ngx, cache_file_path)
         return nil
     end
 
-    local uri = string.match(first_line, "KEY: (.*)")
+    local key = string.match(first_line, "KEY: (.*)")
 
-    if (uri == nil) then
-        ngx.log(ngx.NOTICE, "uri is nil")
+    if (key == nil) then
+        ngx.log(ngx.NOTICE, "key is nil")
         return nil
     end
 
     -- the protocol is included in the uri so we need to remove it
-    local uri_without_protocol = string.match(uri, "://(.*)")
+    local uri_without_protocol = string.match(key, "://(.*)")
 
-    -- the host is the first part of the uri, up to question mark or slash if present
-    local host = string.match(uri_without_protocol, "([^/?]+)")
+    -- the host is the first part of the uri, up to question mark or slash or colon if there is one
+    local host = string.match(uri_without_protocol, "([^/?#:]+)")
 
     if (host == nil) then
         ngx.log(ngx.NOTICE, "host is nil")
@@ -103,43 +92,56 @@ local function extractHostFromCacheFile (ngx, cache_file_path)
 
     ngx.log(ngx.NOTICE, "found host from cache_file_path: " .. host)
 
-    return host
+    -- return both the key and the host
+
+    return {key=key, host=host}
 end
 
--- list all the items in the cache directory
+-- returns a list of file or directory names in the given directory
 local function readdirectory(directory)
     local i, t, popen = 0, {}, io.popen
-    local pfile = popen('find "'..directory..'" -maxdepth 1')
-    for line in pfile:lines() do
-        i = i + 1
-        -- the line starts with the directory so we need to remove that
-        local filename = string.match(line, directory .. "/(.*)")
-        -- skip the first line which is the directory itself
-        if (i > 1 and filename ~= nil) then
-            table.insert(t, filename)
+    local pfile = popen('ls -a "'..directory..'"')
+
+    -- we want to skip the lines that are . or ..
+    for filename in pfile:lines() do
+        if (filename ~= "." and filename ~= "..") then
+            i = i + 1
+            ngx.log(ngx.NOTICE, "found file: " .. filename)
+            t[i] = filename
         end
     end
+
     pfile:close()
     return t
 end
 
 
-local function cacher_rehydrate (self, ngx)
+local function cacher_rehydrate (self)
 
+    ngx.log(ngx.NOTICE, "rehydrating now")
+
+     -- we need to read the contents of the cache directory and store them in 
+     -- the lua shared dict shared_dictionary so we can purge them later
     local cache_directory = self.cache_directory
 
      -- local purged_files = purge_host(ngx.var.arg_host)
      local shared_dictionary = self.shared_dictionary
 
+     ngx.log(ngx.NOTICE, "rehydrating cache directory: " .. cache_directory )
+
      -- first we list all the top level directories in the cache directory
      local top_level_directories = readdirectory(cache_directory)
- 
+    
+        
      -- store a list of hosts
      local hosts = {}
  
+
      -- then for each directory we list all the files in that directory
      for _, top_level_directory in ipairs(top_level_directories) do
- 
+
+        ngx.log(ngx.NOTICE, "searching top level directory: " .. top_level_directory .. " in cache directory: " .. cache_directory .. "/")
+
          local top_level_directory_path = cache_directory .. "/" .. top_level_directory
          local second_level_directories = readdirectory(top_level_directory_path)
  
@@ -151,22 +153,23 @@ local function cacher_rehydrate (self, ngx)
  
              for _, file in ipairs(files) do
                  local cache_file_path = top_level_directory .. "/" .. second_level_directory .. "/" .. file
-                 local host = extractHostFromCacheFile(ngx, second_level_directory_path .. "/" .. file)
- 
+                 -- extractHostFromCacheFile returns a table with the key and the host
+                 local response = extractHostFromCacheFile(ngx, second_level_directory_path .. "/" .. file)
+                
+                    local host = response.host
+                    local key = response.key
+
                  if (host ~= nil) then
                      -- add the host to the list of hosts
-                 if (hosts[host] == nil) then
-                     ngx.log(ngx.NOTICE, "found host: " .. host)
-                     table.insert(hosts, host)
-                     hosts[host] = true
+                    if (hosts[host] == nil) then
+                        ngx.log(ngx.NOTICE, "found host: " .. host)
+                        table.insert(hosts, host)
+                        hosts[host] = true
+                    end
+    
+                    ngx.log(ngx.NOTICE, "found cache file path: " .. file)
+                    shared_dictionary:rpush(host, key)
                  end
- 
-                 ngx.log(ngx.NOTICE, "found cache file path: " .. cache_file_path)
-                 shared_dictionary:set(cache_file_path, true)
-                 shared_dictionary:rpush(host, cache_file_path)
-                 end
- 
-                 
              end
          end
      end
@@ -175,73 +178,57 @@ local function cacher_rehydrate (self, ngx)
          deduplicate_key_list_by_host(host, shared_dictionary)
      end
 
+     ngx.log(ngx.NOTICE, "rehydrating complete")
 end
-
-
-local function file_exists(filepath)
-    local f = io.open(filepath, "r")
-    if f~=nil then io.close(f) return true else return false end
-end
-
-local function remove_file(filepath)
-    if (file_exists(filepath)) then
-            os.remove(filepath)
-    end
-end
-
-
 
 local function cacher_purge (self, ngx)
 
     local cache_directory = self.cache_directory
-
-    -- local purged_files = purge_host(ngx.var.arg_host)
     local shared_dictionary = self.shared_dictionary
 
-    ngx.log(ngx.NOTICE, "purging now")
+    if (cache_directory == nil) then
+        ngx.say("please set cache_directory")
+        ngx.exit(ngx.OK)
+    end
 
-
-    local message = "purging..."
-
-    -- extract a list of hosts from ngx.var.args which looks something like: "host=127.0.0.1&host=example.com"
-    local hosts = {}
+    if (shared_dictionary == nil) then
+        ngx.say("please set shared_dictionary")
+        ngx.exit(ngx.OK)
+    end
 
     -- prevent an error if the args are nil
     if (ngx.var.args == nil) then
-        ngx.say("please pass a host to purge")
+        ngx.say("please pass host to purge as an argument")
         ngx.exit(ngx.OK)
     end
 
     for host in string.gmatch(ngx.var.args, "host=([^&]+)") do
-        table.insert(hosts, host)
-    end
-
-    for _, host in ipairs(hosts) do
-        local cached_filename = shared_dictionary:lpop(host)
-        local number_of_cache_keys = tostring(shared_dictionary:llen(host))
-
-        ngx.log(ngx.NOTICE, "purging host: " .. host .. " number_of_cache_keys: " .. number_of_cache_keys)
-
-        message = message .. "\n host: " .. host .. " number_of_cache_keys: " .. number_of_cache_keys
-
-        while cached_filename do
-            shared_dictionary:delete(cached_filename)
-            local cache_file_path = cache_directory .. "/" .. cached_filename
+        ngx.log(ngx.NOTICE, "purging host: " .. host)
+        local cache_key = shared_dictionary:lpop(host)
+        while cache_key do
+            -- the cache file path is in the following format: $x/$y/$cache_key_hash
+            -- where x is the last character of the cache_key_hash
+            -- and y are the two characters before x
+            local cache_key_hash = ngx.md5(cache_key)
+            local x = cache_key_hash:sub(-1)
+            local y = cache_key_hash:sub(-3,-2)
+            local cached_file_path = cache_directory .. "/" .. x .. "/" .. y .. "/" .. cache_key_hash
+            local f = io.open(cached_file_path, "r")
             
-            remove_file(cache_file_path)
+            if f ~= nil then
+                io.close(f) 
+                os.remove(cached_file_path)
+            end
 
-            -- message = message .. "\n purged: " .. cache_file_path
-            cached_filename = shared_dictionary:lpop(host)            
+            cache_key = shared_dictionary:lpop(host)            
         end
-
     end
 
-    ngx.say(message)
+    ngx.say("OK")
     ngx.exit(ngx.OK)
 end
 
 --- Create a new cacher instance.
-
 function cacher.new()
     
     local function cacher_set(self, key, value)
