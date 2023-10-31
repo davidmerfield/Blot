@@ -67,8 +67,30 @@ describe("cacher", function () {
 
     expect((await this.listCache()).length).toEqual(1);
 
-    await fetch(this.origin + "/purge?host=127.0.0.1");
+    const purgeResponse = await fetch(this.origin + "/purge?host=127.0.0.1");
+    const purgeText = await purgeResponse.text();
+    expect(purgeResponse.status).toBe(200);
+    expect(purgeText.trim()).toBe("127.0.0.1: 1");
 
     expect(await this.listCache({ watch: false })).toEqual([]);
+  });
+
+  it("purges a large number of cached requests", async function () {
+    const number_of_requests = 500;
+
+    for (let i = 0; i < number_of_requests; i++) {
+      const res = await fetch(this.origin + "/timestamp/" + i);
+      const text = await res.text();
+      expect(res.status).toBe(200);
+      expect(parseInt(text)).toBeGreaterThan(0);
+      expect(res.headers.get("Cache-Status")).toBe("MISS");
+    }
+
+    expect((await this.listCache()).length).toEqual(number_of_requests);
+
+    const purgeResponse = await fetch(this.origin + "/purge?host=127.0.0.1");
+    const purgeText = await purgeResponse.text();
+    expect(purgeResponse.status).toBe(200);
+    expect(purgeText.trim()).toBe("127.0.0.1: " + number_of_requests);
   });
 });

@@ -186,6 +186,8 @@ local function cacher_purge (self, ngx)
     local cache_directory = self.cache_directory
     local shared_dictionary = self.shared_dictionary
 
+    local message = ''
+
     if (cache_directory == nil) then
         ngx.say("please set cache_directory")
         ngx.exit(ngx.OK)
@@ -204,6 +206,7 @@ local function cacher_purge (self, ngx)
 
     for host in string.gmatch(ngx.var.args, "host=([^&]+)") do
         ngx.log(ngx.NOTICE, "purging host: " .. host)
+        local total_keys = shared_dictionary:llen(host)
         local cache_key = shared_dictionary:lpop(host)
         while cache_key do
             -- the cache file path is in the following format: $x/$y/$cache_key_hash
@@ -222,9 +225,15 @@ local function cacher_purge (self, ngx)
 
             cache_key = shared_dictionary:lpop(host)            
         end
+        message = message .. host .. ": " .. total_keys .. "\n"
     end
 
-    ngx.say("OK")
+    -- if message is empty then replace it with a message saying that no hosts were purged
+    if (message == '') then
+        message = "no hosts were purged"
+    end
+    
+    ngx.say(message)
     ngx.exit(ngx.OK)
 end
 
