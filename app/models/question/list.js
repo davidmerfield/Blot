@@ -30,6 +30,10 @@ module.exports = ({
 
         const batch = client.batch();
 
+        if (!question_ids.length) {
+          return resolve({ questions: [], stats: { total, page_size, page } });
+        }
+
         question_ids.forEach(id => {
           batch.hgetall(keys.item(id));
           batch.zscore(keys.by_last_reply, id);
