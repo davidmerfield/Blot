@@ -4,30 +4,36 @@ const fs = require("fs-extra");
 
 const redis = require("models/redis");
 const client = new redis();
-
+const { join } = require("path");
+const documentation = require("./documentation/build");
 const templates = require("./templates");
 const async = require("async");
 const clfdate = require("helper/clfdate");
 
-const Cache = require("helper/express-disk-cache");
-const cache = new Cache(config.cache_directory, { minify: true, gzip: true });
-
 const log = (...arguments) =>
   console.log.apply(null, [clfdate(), "Setup:", ...arguments]);
 
-function main(callback) {
+function main (callback) {
   async.series(
     [
       async function () {
         log("Creating required directories");
-        await fs.ensureDir(root + "/blogs");
-        await fs.ensureDir(root + "/tmp");
-        await fs.ensureDir(root + "/data");
-        await fs.ensureDir(root + "/data/openresty_cache");
-        await fs.ensureDir(root + "/logs");
-        await fs.ensureDir(root + "/db");
-        await fs.ensureDir(root + "/static");
-        await fs.ensureDir(root + "/app/clients/git/data");
+        const requiredDirectories = [
+          "/blogs",
+          "/tmp",
+          "/data",
+          "/data/openresty_cache",
+          "/logs",
+          "/db",
+          "/static",
+          "/app/clients/git/data"
+        ];
+
+        for (const directory of requiredDirectories) {
+          const path = join(root, directory);
+          await fs.ensureDir(path);
+        }
+
         log("Created required directories");
       },
 
@@ -57,97 +63,25 @@ function main(callback) {
           }
         );
       },
-      function (callback) {
-        log("Building CSS and JS");
-        buildCSSandJS();
-        if (config.environment === "development") {
-          const chokidar = require("chokidar");
-          const async = require("async");
-          const queue = async.queue(async function (arg, callback) {
-            log("Re-building CSS and JS");
-            await buildCSSandJS();
-            callback();
-          });
-
-          let ready = false;
-          chokidar
-            .watch(documentation_static_files)
-            .on("ready", function () {
-              ready = true;
-            })
-            .on("all", (event, path) => {
-              if (!ready) return;
-
-              // only rebuild if a css or js file changes
-              // and it's not the output file
-              if (
-                (path.endsWith(".css") || path.endsWith(".js")) &&
-                !path.includes("documentation.min.js") &&
-                !path.includes("style.min.css")
-              ) {
-                queue.push("build");
-              } else {
-                console.log("Ignoring change to", path);
-              }
-            });
-        }
-
-        log("Building templates");
-        templates({ watch: config.environment === "development" }, function (
-          err
-        ) {
-          if (err) throw err;
-          log("Built templates");
-          callback();
-          // Build templates and watch directory
-          if (config.environment === "development") {
-            // Rebuilds templates when we load new states
-            // using scripts/state/info.js
-            const templateClient = new redis();
-
-            templateClient.subscribe("templates:rebuild");
-            templateClient.on("message", function () {
-              templates({}, function () {});
-            });
-          }
-        });
+      async function () {
+        log("Building documentation");
+        await documentation({ watch: config.environment === "development" });
+        log("Built documentation");
       },
+      function (callback) {
+        log("Building templates");
+        templates(
+          { watch: config.environment === "development" },
+          function (err) {
+            if (err) throw err;
+            log("Built templates");
+            callback();
+          }
+        );
+      }
     ],
     callback
   );
-}
-
-const { blot_directory } = require("config");
-const { join } = require("path");
-const { build } = require("esbuild");
-
-const documentation_static_files = join(blot_directory, "/app/views");
-
-async function buildCSSandJS() {
-  // merge all css files together into one file
-  const cssDir = join(documentation_static_files, "css");
-  const cssFiles = (await fs.readdir(cssDir)).filter((i) => i.endsWith(".css"));
-  const cssContents = await Promise.all(
-    cssFiles.map((name) => fs.readFile(join(cssDir, name), "utf-8"))
-  );
-
-  const mergedCSS = cssContents.join("\n\n");
-
-  await fs.writeFile(
-    join(documentation_static_files, "style.min.css"),
-    mergedCSS
-  );
-
-  await build({
-    entryPoints: [join(documentation_static_files, "js/documentation.js")],
-    bundle: true,
-    minify: true,
-    // sourcemap: true,
-    target: ["chrome58", "firefox57", "safari11", "edge16"],
-    outfile: join(documentation_static_files, "documentation.min.js"),
-  });
-
-  cache.flush({ host: config.host }, (err) => console.log(err));
 }
 
 if (require.main === module) {

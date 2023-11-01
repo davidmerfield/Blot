@@ -16,7 +16,7 @@ await notify(opts);
 
 const { spawn } = require("child_process");
 
-function generateArgs(opts) {
+function generateArgs (opts) {
   const result = [];
 
   if ("ready" in opts && opts.ready === true) {
@@ -47,44 +47,47 @@ function generateArgs(opts) {
 
 module.exports = (opts = {}) =>
   new Promise((resolve, reject) => {
-    const args = generateArgs(opts);
-    const cmd = spawn("systemd-notify", args);
+    // for now do nothing
+    return resolve();
 
-    let stdout = "";
-    let stderr = "";
+    // const args = generateArgs(opts);
+    // const cmd = spawn("systemd-notify", args);
 
-    let hasCalledBack = false;
+    // let stdout = "";
+    // let stderr = "";
 
-    cmd.stdout.on("data", (d) => {
-      stdout += d;
-    });
-    cmd.stderr.on("data", (d) => {
-      stderr += d;
-    });
+    // let hasCalledBack = false;
 
-    cmd.on("error", (err) => {
-      if (hasCalledBack) {
-        return null;
-      }
+    // cmd.stdout.on("data", d => {
+    //   stdout += d;
+    // });
+    // cmd.stderr.on("data", d => {
+    //   stderr += d;
+    // });
 
-      hasCalledBack = true;
-      console.error(err);
-      return resolve();
-    });
+    // cmd.on("error", err => {
+    //   if (hasCalledBack) {
+    //     return null;
+    //   }
 
-    cmd.on("close", (code) => {
-      if (hasCalledBack) {
-        return null;
-      }
+    //   hasCalledBack = true;
+    //   console.error(err);
+    //   return resolve();
+    // });
 
-      hasCalledBack = true;
+    // cmd.on("close", code => {
+    //   if (hasCalledBack) {
+    //     return null;
+    //   }
 
-      if (code !== 0) {
-        const err = stderr.trim() || stdout.trim();
-        console.error(err);
-        return resolve();
-      }
+    //   hasCalledBack = true;
 
-      return resolve(cmd);
-    });
+    //   if (code !== 0) {
+    //     const err = stderr.trim() || stdout.trim();
+    //     console.error(err);
+    //     return resolve();
+    //   }
+
+    //   return resolve(cmd);
+    // });
   });

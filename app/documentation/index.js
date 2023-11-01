@@ -1,49 +1,28 @@
+const fs = require("fs-extra");
 const config = require("config");
+const mustache = require("helper/express-mustache");
+const redirector = require("./redirector");
+
+const hash = require("helper/hash");
+const { join } = require("path");
+const VIEW_DIRECTORY = __dirname + "/data";
+
 const Express = require("express");
 const documentation = new Express();
-const hogan = require("helper/express-mustache");
-const Cache = require("helper/express-disk-cache");
-const cache = new Cache(config.cache_directory, { minify: true, gzip: true });
-const fs = require("fs-extra");
-const redirector = require("./redirector");
-const hash = require("helper/hash");
-const { blot_directory } = require("config");
 
-const root = require("helper/rootDir");
-const { join } = require("path");
-const VIEW_DIRECTORY = join(root, "app/views");
-
-// Register the engine we will use to
-// render the views.
 documentation.set("view engine", "html");
 documentation.set("views", VIEW_DIRECTORY);
-documentation.engine("html", hogan);
+documentation.engine("html", mustache);
 documentation.disable("x-powered-by");
-
-// .on("add", function (path) {
-// })
-// .on("ready", function () {
-//   walked = true;
-// });
-
-documentation.set("transformers", [
-  require("./tools/typeset"),
-  require("./tools/anchor-links"),
-  require("./tools/tex"),
-  require("./tools/finder").html_parser
-]);
 
 documentation.set("etag", false); // turn off etags for responses
 
-if (config.cache === false) {
-  // During development we want views to reload as we edit
+// During development we want views to reload as we edit
+if (config.environment === "development") {
   documentation.disable("view cache");
 } else {
   documentation.enable("view cache");
 }
-
-// This will store responses to disk for NGINX to serve
-documentation.use(cache);
 
 const { plan } = config.stripe;
 
@@ -62,10 +41,7 @@ documentation.locals.cdn = () => (text, render) => {
   let identifier = "cacheID=" + cacheID;
 
   try {
-    const contents = fs.readFileSync(
-      join(blot_directory, "/app/views", path),
-      "utf8"
-    );
+    const contents = fs.readFileSync(join(VIEW_DIRECTORY, path), "utf8");
     identifier = "hash=" + hash(contents);
   } catch (e) {
     // if the file doesn't exist, we'll use the cacheID
@@ -76,57 +52,6 @@ documentation.locals.cdn = () => (text, render) => {
 
   return url;
 };
-
-if (config.environment === "development") {
-  const chokidar = require("chokidar");
-  const watcher = chokidar.watch(VIEW_DIRECTORY, { cwd: VIEW_DIRECTORY });
-  const insecureRequest = require("./tools/insecure-request");
-
-  // Flags to prevent locking up the server by doing this too many times
-  let flushing = false;
-  let again = false;
-
-  watcher.on("change", async function flush (path) {
-    if (flushing) {
-      again = true;
-      return;
-    }
-
-    flushing = true;
-
-    cache.flush({ host: config.host }, err => console.log(err));
-
-    cacheID = Date.now();
-
-    insecureRequest(
-      `https://${config.host}/cdn/documentation/${cacheID}/style.min.css`
-    );
-    insecureRequest(
-      `https://${config.host}/cdn/documentation/${cacheID}/documentation.min.js`
-    );
-
-    let urlPath;
-
-    if (path.endsWith(".html")) {
-      urlPath = "/" + path.slice(0, -".html".length);
-      if (urlPath.endsWith("index"))
-        urlPath = urlPath.slice(0, -"index".length);
-    }
-
-    if (urlPath) {
-      const url = `https://${config.host}${urlPath}`;
-
-      insecureRequest(url);
-    }
-
-    flushing = false;
-
-    if (again) {
-      again = false;
-      flush();
-    }
-  });
-}
 
 documentation.get(["/how/format/*"], function (req, res, next) {
   res.locals["show-on-this-page"] = true;
