@@ -15,18 +15,28 @@ const transformers = [
 ];
 
 async function handle (path) {
-  if (path.endsWith(".html")) {
-    await buildHTML(path);
-  } else if (path.endsWith(".css")) {
-    await buildCSS();
-  } else if (path.endsWith(".js")) {
-    await buildJS();
-  } else {
-    await fs.copy(
-      join(SOURCE_DIRECTORY, path),
-      join(DESTINATION_DIRECTORY, path)
-    );
-  }
+  try {
+    if (path.endsWith(".html")) {
+      await buildHTML(path);
+    } else if (path.endsWith(".css")) {
+      await fs.copy(
+        join(SOURCE_DIRECTORY, path),
+        join(DESTINATION_DIRECTORY, path)
+      );
+      await buildCSS();
+    } else if (path.endsWith(".js")) {
+      await fs.copy(
+        join(SOURCE_DIRECTORY, path),
+        join(DESTINATION_DIRECTORY, path)
+      );
+      await buildJS();
+    } else {
+      await fs.copy(
+        join(SOURCE_DIRECTORY, path),
+        join(DESTINATION_DIRECTORY, path)
+      );
+    }
+  } catch (e) {}
 }
 
 module.exports = async ({ watch = false } = {}) => {
