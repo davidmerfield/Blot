@@ -67,7 +67,7 @@ module.exports = configFile => {
       ...config,
       user: process.env.BLOT_OPENRESTY_TEST_USER || "David",
       group: process.env.BLOT_OPENRESTY_TEST_GROUP || "staff",
-      lua_directory: CACHER_DIRECTORY,
+      lua_directory: CACHER_DIRECTORY + "/conf",
       data_directory: DATA_DIRECTORY,
       cache_directory
     });
