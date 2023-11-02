@@ -41,7 +41,7 @@ if (cluster.isMaster) {
 
     email.SERVER_START();
 
-    setup(async err => {
+    setup(async (err) => {
       if (err) throw err;
 
       console.log(clfdate(), "Finished setting up");
@@ -64,13 +64,13 @@ if (cluster.isMaster) {
         notify({
           status: `Node server running ${
             Object.keys(cluster.workers).length
-          } workers at ${new Date().toISOString()}}`
+          } workers at ${new Date().toISOString()}}`,
         });
       }, 1000 * 10); // every 10 seconds
     });
   });
 
-  cluster.on("exit", worker => {
+  cluster.on("exit", (worker) => {
     if (worker.exitedAfterDisconnect === false) {
       console.log(clfdate(), "Worker died unexpectedly, starting a new one");
       cluster.fork();

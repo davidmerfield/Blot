@@ -12,7 +12,7 @@ const clfdate = require("helper/clfdate");
 const log = (...arguments) =>
   console.log.apply(null, [clfdate(), "Setup:", ...arguments]);
 
-function main (callback) {
+function main(callback) {
   async.series(
     [
       async function () {
@@ -67,18 +67,17 @@ function main (callback) {
         // before starting the server
         if (config.environment === "development" || require.main === module) {
           log("Building templates");
-          templates(
-            { watch: config.environment === "development" },
-            function (err) {
-              if (err) throw err;
-              log("Built templates");
-              callback();
-            }
-          );
+          templates({ watch: config.environment === "development" }, function (
+            err
+          ) {
+            if (err) throw err;
+            log("Built templates");
+            callback();
+          });
         } else {
           callback();
         }
-      }
+      },
     ],
     callback
   );
