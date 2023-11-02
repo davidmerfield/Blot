@@ -2,8 +2,6 @@ const config = require("config");
 const Express = require("express");
 const documentation = new Express();
 const hogan = require("helper/express-mustache");
-const Cache = require("helper/express-disk-cache");
-const cache = new Cache(config.cache_directory, { minify: true, gzip: true });
 const fs = require("fs-extra");
 const redirector = require("./redirector");
 const hash = require("helper/hash");
@@ -41,9 +39,6 @@ if (config.cache === false) {
 } else {
   documentation.enable("view cache");
 }
-
-// This will store responses to disk for NGINX to serve
-documentation.use(cache);
 
 const { plan } = config.stripe;
 
@@ -93,8 +88,6 @@ if (config.environment === "development") {
     }
 
     flushing = true;
-
-    cache.flush({ host: config.host }, err => console.log(err));
 
     cacheID = Date.now();
 

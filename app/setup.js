@@ -9,9 +9,6 @@ const templates = require("./templates");
 const async = require("async");
 const clfdate = require("helper/clfdate");
 
-const Cache = require("helper/express-disk-cache");
-const cache = new Cache(config.cache_directory, { minify: true, gzip: true });
-
 const log = (...arguments) =>
   console.log.apply(null, [clfdate(), "Setup:", ...arguments]);
 
@@ -147,8 +144,6 @@ async function buildCSSandJS () {
     target: ["chrome58", "firefox57", "safari11", "edge16"],
     outfile: join(documentation_static_files, "documentation.min.js")
   });
-
-  cache.flush({ host: config.host }, err => console.log(err));
 }
 
 if (require.main === module) {

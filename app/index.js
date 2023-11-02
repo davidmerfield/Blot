@@ -15,7 +15,6 @@ if (cluster.isMaster) {
   if (process.env.FAST === "true") NUMBER_OF_WORKERS = 1;
 
   const publishScheduledEntries = require("./scheduler/publish-scheduled-entries");
-  const buildIndex = require("./scheduler/buildIndex");
 
   console.log(
     clfdate(),
@@ -138,10 +137,6 @@ if (cluster.isMaster) {
         // todo: make it so that workers can ask the master
         // process to deal with publication scheduling...
         publishScheduledEntries();
-
-        // we also need to rebuild the search index for the documentation
-        // since they might have changed
-        buildIndex();
       }
     );
   });
