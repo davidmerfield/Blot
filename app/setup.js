@@ -21,10 +21,7 @@ function main (callback) {
         await fs.ensureDir(config.blog_static_files_dir);
         await fs.ensureDir(root + "/tmp");
         await fs.ensureDir(root + "/data");
-        await fs.ensureDir(root + "/data/openresty_cache");
         await fs.ensureDir(root + "/logs");
-        await fs.ensureDir(root + "/db");
-        await fs.ensureDir(root + "/app/clients/git/data");
         log("Created required directories");
       },
 
