@@ -46,27 +46,29 @@ module.exports = function (blogID, former, callback) {
     }
 
     // We make sure to empty cache directories when deleting a blog
-    if (affectedHosts.length)
+    if (affectedHosts.length) {
       debug("Emptying cache directories for:", affectedHosts);
-
-    for (const host of proxy_hosts) {
-      fetch(
-        "http://" +
-          host +
-          "/purge?" +
-          affectedHosts.map(host => "host=" + host).join("&"),
-        {
-          method: "PURGE"
-        }
-      )
-        .then(res => {
-          console.log("proxy: " + host + " flushed:" + affectedHosts.join(","));
-        })
-        .catch(e => {
-          console.log(
-            "proxy: " + host + " failed to flush: " + affectedHosts.join(",")
-          );
-        });
+      for (const host of proxy_hosts) {
+        fetch(
+          "http://" +
+            host +
+            "/purge?" +
+            affectedHosts.map(host => "host=" + host).join("&"),
+          {
+            method: "PURGE"
+          }
+        )
+          .then(res => {
+            console.log(
+              "proxy: " + host + " flushed:" + affectedHosts.join(",")
+            );
+          })
+          .catch(e => {
+            console.log(
+              "proxy: " + host + " failed to flush: " + affectedHosts.join(",")
+            );
+          });
+      }
     }
 
     callback();
