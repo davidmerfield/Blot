@@ -58,4 +58,4 @@ jobs:
           BLOT_OPENRESTY_TEST_USER: runner
           BLOT_OPENRESTY_TEST_GROUP: runner
         run: |
-          npm test config/openresty/conf/cacher
+          npm test config/openresty
