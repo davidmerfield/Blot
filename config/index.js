@@ -20,12 +20,7 @@ module.exports = {
   environment,
   host: BLOT_HOST,
   // the first is in oregon, the second in frankfurt
-  reverse_proxies: [
-    "54.191.179.131",
-    "18.193.210.110",
-    "172.30.0.247",
-    "172.31.47.231"
-  ],
+  reverse_proxies: ["172.30.0.247", "172.31.47.231"],
   protocol: BLOT_PROTOCOL + "://",
   pidfile: BLOT_DIRECTORY + "/data/process.pid",
 
