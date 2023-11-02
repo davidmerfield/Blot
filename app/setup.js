@@ -55,7 +55,7 @@ function main (callback) {
         // we only want to build the documentation in development
         // in production we run node app/setup.js to build the documentation
         // before starting the server
-        if (config.environment === "development" && require.main !== module) {
+        if (config.environment === "development" || require.main === module) {
           log("Building documentation");
           await documentation({ watch: config.environment === "development" });
           log("Built documentation");
@@ -65,7 +65,7 @@ function main (callback) {
         // we only want to build the templates in development
         // in production we run node app/setup.js to build the documentation
         // before starting the server
-        if (config.environment === "development" && require.main !== module) {
+        if (config.environment === "development" || require.main === module) {
           log("Building templates");
           templates(
             { watch: config.environment === "development" },
