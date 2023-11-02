@@ -81,3 +81,11 @@ jobs:
       - name: check openresty is running on port 80
         run: |
           curl localhost:80
+
+      - name: run openresty tests
+        env:
+          NODE_PATH: /home/runner/work/Blot/Blot/app
+          BLOT_OPENRESTY_TEST_USER: runner
+          BLOT_OPENRESTY_TEST_GROUP: runner
+        run: |
+          npm test config/openresty
