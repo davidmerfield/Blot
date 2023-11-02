@@ -75,6 +75,8 @@ function main (callback) {
               callback();
             }
           );
+        } else {
+          callback();
         }
       }
     ],
