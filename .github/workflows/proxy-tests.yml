@@ -56,7 +56,7 @@ jobs:
         env:
           NODE_PATH: /home/runner/work/Blot/Blot/app
           NODE_SERVER_IP: 127.0.0.1
-          LUA_PACKAGE_PATH: /home/runner/work/Blot/Blot/.luarocks/share/lua/5.1/?.lua
+          LUA_PACKAGE_PATH: /home/runner/work/Blot/Blot/.luarocks/share/lua/5.1/?.lua;/home/runner/work/Blot/Blot/config/openresty/conf/cacher
           REDIS_IP: 127.0.0.1
           OPENRESTY_USER: runner
           DISABLE_HTTP2: true
