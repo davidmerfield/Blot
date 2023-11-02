@@ -30,7 +30,6 @@ yum install -y libpng-devel
 # for pupeteer
 amazon-linux-extras install firefox
 
-
 # Install Blot
 # Install git and ntp
 # What is ntp required for?
@@ -139,5 +138,5 @@ echo "Installing Blot..."
 # alias access="node /var/www/blot/scripts/access"
 # alias info="node /var/www/blot/scripts/info"
 # alias deploy="cd /var/www/blot && git pull origin master && /var/www/blot/scripts/reload-server.sh"
-# alias restart="cd /var/www/blot && git pull origin master && sudo systemctl stop node && sudo systemctl start node"
+# alias restart="cd /var/www/blot && git pull origin master && /var/www/blot/scripts/restart-server.sh"
 

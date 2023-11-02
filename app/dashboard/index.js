@@ -2,7 +2,7 @@ var hogan = require("helper/express-mustache");
 var trace = require("helper/trace");
 const root = require("helper/rootDir");
 const { join } = require("path");
-var VIEW_DIRECTORY = join(root, "app/views/dashboard");
+var VIEW_DIRECTORY = join(root, "app/documentation/data/dashboard");
 var config = require("config");
 const { static } = require("express");
 var express = require("express");
@@ -15,11 +15,6 @@ const { blot_directory } = require("config");
 // customer to control the settings and view
 // the state of the blog's folder
 var dashboard = express();
-
-// Serve static files
-for (const path of ["/css", "/images", "/scripts"]) {
-  dashboard.use(path, static(join(VIEW_DIRECTORY, path), { maxAge: 86400000 }));
-}
 
 // Hide the header added by Express
 dashboard.disable("x-powered-by");

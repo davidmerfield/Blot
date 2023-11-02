@@ -1,7 +1,7 @@
 describe("localPath", function () {
   const localPath = require("../localPath");
   const BLOG_ID = "XYZ";
-  const BLOG_DIR = require("../_blogDir");
+  const BLOG_DIR = require("config").blog_folder_dir;
 
   it("resolves root of blog folder when passed an empty string", function () {
     expect(localPath(BLOG_ID, "")).toEqual(`${BLOG_DIR}/${BLOG_ID}/`);

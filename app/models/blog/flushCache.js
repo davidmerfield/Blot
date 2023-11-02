@@ -1,4 +1,3 @@
-var async = require("async");
 var BackupDomain = require("./util/backupDomain");
 var debug = require("debug")("blot:blog:flushCache");
 var get = require("./get");
@@ -50,32 +49,26 @@ module.exports = function (blogID, former, callback) {
     if (affectedHosts.length)
       debug("Emptying cache directories for:", affectedHosts);
 
-    async.each(
-      proxy_hosts,
-      (host, next) => {
-        fetch(
-          "http://" +
-            host +
-            "/purge?" +
-            affectedHosts.map(host => "host=" + host).join("&"),
-          {
-            method: "PURGE"
-          }
-        )
-          .then(res => {
-            console.log(
-              "proxy: " + host + " flushed:" + affectedHosts.join(",")
-            );
-            next();
-          })
-          .catch(e => {
-            console.log(
-              "proxy: " + host + " failed to flush: " + affectedHosts.join(",")
-            );
-            next();
-          });
-      },
-      callback
-    );
+    for (const host of proxy_hosts) {
+      fetch(
+        "http://" +
+          host +
+          "/purge?" +
+          affectedHosts.map(host => "host=" + host).join("&"),
+        {
+          method: "PURGE"
+        }
+      )
+        .then(res => {
+          console.log("proxy: " + host + " flushed:" + affectedHosts.join(","));
+        })
+        .catch(e => {
+          console.log(
+            "proxy: " + host + " failed to flush: " + affectedHosts.join(",")
+          );
+        });
+    }
+
+    callback();
   });
 };

@@ -145,8 +145,14 @@
 <style type="text/css">
 form label {padding-top: 0} hr {margin: 20px 0} 
 .shrinker {max-width:700px}
+form.setup {
+  padding:20px 0
+}
+form:not(.setup) {
+  padding: 11px 26px
+}
 </style>
-<form method='post' {{^setup}}style="padding: 11px 26px"{{/setup}} {{#setup}}style="padding:20px 0"{{/setup}} action='{{{base}}}' enctype='multipart/form-data'>
+<form method='post' class="{{#setup}}setup{{/setup}}" action='{{{base}}}' enctype='multipart/form-data'>
 
 
   <input type="hidden" name="_csrf" value="{{csrftoken}}">

@@ -136,7 +136,9 @@ flex-basis: 50%;">{{name}}</span>
     <input type="hidden" name="_csrf" value="{{csrftoken}}">
     <input type="hidden" name="redirect" value="{{{base}}}/template">
     <input type="hidden" name="template" value="{{id}}">
-    <button {{#checked}} disabled{{/checked}} type="submit"><span class="square">Use{{#checked}}d{{/checked}}</span></button>
+    {{#checked}} <button disabled type="submit"><span class="square">Used</span></button>{{/checked}}
+    {{^checked}} <button type="submit"><span class="square">Use</span></button>{{/checked}}
+    
   </form>
 
   <form method='post' style="display:inline" action="{{{base}}}/template/new">
