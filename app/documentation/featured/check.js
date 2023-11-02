@@ -1,8 +1,4 @@
 var filter = require("./filter");
-var config = require("config");
-var Cache = require("helper/express-disk-cache");
-var cache = new Cache(config.cache_directory);
-var filter = require("./filter");
 var fs = require("fs-extra");
 
 if (require.main === module) {
@@ -18,7 +14,7 @@ if (require.main === module) {
 // templates on the homepage. "sites" are a list of objects
 // with the following relevant properties:
 // { "link": "http://example.com", "host": "example.com" }
-function check(callback) {
+function check (callback) {
   var featured = fs.readJSONSync(__dirname + "/featured.json");
 
   filter(featured, function (err, filtered) {
@@ -36,38 +32,7 @@ function check(callback) {
       __dirname + "/featured-checked.json",
       featured,
       { spaces: 2 },
-      function (err) {
-        if (err) return callback(err);
-
-        const cache_directory = config.cache_directory + "/" + config.host;
-        let items;
-
-        try {
-          items = fs.readdirSync(cache_directory).length;
-        } catch (e) {
-          console.log("Error reading cache directory contents", e);
-        }
-
-        console.log("Flushing cache directory....");
-        console.log(
-          `${cache_directory} has ${items} items inside before flush..`
-        );
-        cache.flush({ host: config.host }, function (err) {
-          if (err) {
-            console.log("Error flushing cache directory:", err);
-            return callback(err);
-          }
-
-          try {
-            items = fs.readdirSync(cache_directory).length;
-          } catch (e) {
-            console.log("Error reading cache directory contents", e);
-          }
-
-          console.log(`${cache_directory} now has ${items} items inside`);
-          callback(null);
-        });
-      }
+      callback
     );
   });
 }

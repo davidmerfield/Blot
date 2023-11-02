@@ -1,3 +1,10 @@
+<<<<<<< HEAD
+=======
+const config = require("config");
+const Express = require("express");
+const documentation = new Express();
+const hogan = require("helper/express-mustache");
+>>>>>>> master
 const fs = require("fs-extra");
 const config = require("config");
 const mustache = require("helper/express-mustache");
@@ -53,6 +60,58 @@ documentation.locals.cdn = () => (text, render) => {
   return url;
 };
 
+<<<<<<< HEAD
+=======
+if (config.environment === "development") {
+  const chokidar = require("chokidar");
+  const watcher = chokidar.watch(VIEW_DIRECTORY, { cwd: VIEW_DIRECTORY });
+  const insecureRequest = require("./tools/insecure-request");
+
+  // Flags to prevent locking up the server by doing this too many times
+  let flushing = false;
+  let again = false;
+
+  watcher.on("change", async function flush (path) {
+    if (flushing) {
+      again = true;
+      return;
+    }
+
+    flushing = true;
+
+    cacheID = Date.now();
+
+    insecureRequest(
+      `https://${config.host}/cdn/documentation/${cacheID}/style.min.css`
+    );
+    insecureRequest(
+      `https://${config.host}/cdn/documentation/${cacheID}/documentation.min.js`
+    );
+
+    let urlPath;
+
+    if (path.endsWith(".html")) {
+      urlPath = "/" + path.slice(0, -".html".length);
+      if (urlPath.endsWith("index"))
+        urlPath = urlPath.slice(0, -"index".length);
+    }
+
+    if (urlPath) {
+      const url = `https://${config.host}${urlPath}`;
+
+      insecureRequest(url);
+    }
+
+    flushing = false;
+
+    if (again) {
+      again = false;
+      flush();
+    }
+  });
+}
+
+>>>>>>> master
 documentation.get(["/how/format/*"], function (req, res, next) {
   res.locals["show-on-this-page"] = true;
   next();

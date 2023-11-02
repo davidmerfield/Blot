@@ -6,14 +6,11 @@ const urlencoded = Express.urlencoded({
 const Questions = new Express.Router();
 const moment = require("moment");
 const config = require("config");
-const cache = require("helper/express-disk-cache")(config.cache_directory);
-const flushOptions = { host: config.host, path: "/https/temporary/questions" };
 const fetch = require("node-fetch");
 
 const proxy_hosts = config.reverse_proxies;
 
 const flush = () => {
-  cache.flush(flushOptions);
   proxy_hosts.forEach(host => {
     fetch("http://" + host + "/purge?host=" + config.host, {
       method: "PURGE"
