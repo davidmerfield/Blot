@@ -42,12 +42,11 @@ fs.copySync(`${__dirname}/html`, `${__dirname}/data/html`);
 fs.readdirSync(CONFIG_DIRECTORY).forEach(file => {
   // copy lua files to data directory so they are available to nginx
   if (file.endsWith(".lua")) {
-    const lua = fs.readFileSync(`${CONFIG_DIRECTORY}/${file}`, "utf8");
-    const result = mustache.render(lua, locals);
-    fs.outputFileSync(`${OUTPUT}/${file}`, result);
+    fs.copySync(CONFIG_DIRECTORY + "/" + file, OUTPUT + "/" + file);
   }
 
   if (!file.endsWith(".conf")) return;
+
   partials[file] = fs.readFileSync(CONFIG_DIRECTORY + "/" + file, "utf8");
 });
 
