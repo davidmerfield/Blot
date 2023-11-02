@@ -15,18 +15,18 @@ const cache = new Cache(config.cache_directory, { minify: true, gzip: true });
 const log = (...arguments) =>
   console.log.apply(null, [clfdate(), "Setup:", ...arguments]);
 
-function main(callback) {
+function main (callback) {
   async.series(
     [
       async function () {
         log("Creating required directories");
-        await fs.ensureDir(root + "/blogs");
+        await fs.ensureDir(config.blog_folder_dir);
+        await fs.ensureDir(config.blog_static_files_dir);
         await fs.ensureDir(root + "/tmp");
         await fs.ensureDir(root + "/data");
         await fs.ensureDir(root + "/data/openresty_cache");
         await fs.ensureDir(root + "/logs");
         await fs.ensureDir(root + "/db");
-        await fs.ensureDir(root + "/static");
         await fs.ensureDir(root + "/app/clients/git/data");
         log("Created required directories");
       },
@@ -93,25 +93,26 @@ function main(callback) {
         }
 
         log("Building templates");
-        templates({ watch: config.environment === "development" }, function (
-          err
-        ) {
-          if (err) throw err;
-          log("Built templates");
-          callback();
-          // Build templates and watch directory
-          if (config.environment === "development") {
-            // Rebuilds templates when we load new states
-            // using scripts/state/info.js
-            const templateClient = new redis();
+        templates(
+          { watch: config.environment === "development" },
+          function (err) {
+            if (err) throw err;
+            log("Built templates");
+            callback();
+            // Build templates and watch directory
+            if (config.environment === "development") {
+              // Rebuilds templates when we load new states
+              // using scripts/state/info.js
+              const templateClient = new redis();
 
-            templateClient.subscribe("templates:rebuild");
-            templateClient.on("message", function () {
-              templates({}, function () {});
-            });
+              templateClient.subscribe("templates:rebuild");
+              templateClient.on("message", function () {
+                templates({}, function () {});
+              });
+            }
           }
-        });
-      },
+        );
+      }
     ],
     callback
   );
@@ -123,12 +124,12 @@ const { build } = require("esbuild");
 
 const documentation_static_files = join(blot_directory, "/app/views");
 
-async function buildCSSandJS() {
+async function buildCSSandJS () {
   // merge all css files together into one file
   const cssDir = join(documentation_static_files, "css");
-  const cssFiles = (await fs.readdir(cssDir)).filter((i) => i.endsWith(".css"));
+  const cssFiles = (await fs.readdir(cssDir)).filter(i => i.endsWith(".css"));
   const cssContents = await Promise.all(
-    cssFiles.map((name) => fs.readFile(join(cssDir, name), "utf-8"))
+    cssFiles.map(name => fs.readFile(join(cssDir, name), "utf-8"))
   );
 
   const mergedCSS = cssContents.join("\n\n");
@@ -144,10 +145,10 @@ async function buildCSSandJS() {
     minify: true,
     // sourcemap: true,
     target: ["chrome58", "firefox57", "safari11", "edge16"],
-    outfile: join(documentation_static_files, "documentation.min.js"),
+    outfile: join(documentation_static_files, "documentation.min.js")
   });
 
-  cache.flush({ host: config.host }, (err) => console.log(err));
+  cache.flush({ host: config.host }, err => console.log(err));
 }
 
 if (require.main === module) {

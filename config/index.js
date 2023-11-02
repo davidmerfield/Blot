@@ -37,10 +37,10 @@ module.exports = {
   debug: process.env.BLOT_DEBUG === "true",
 
   blot_directory: BLOT_DIRECTORY,
-  blog_static_files_dir: BLOT_DIRECTORY + "/static",
-  blog_folder_dir: BLOT_DIRECTORY + "/blogs",
+  blog_static_files_dir: BLOT_DIRECTORY + "/data/static",
+  blog_folder_dir: BLOT_DIRECTORY + "/data/blogs",
   cache_directory:
-    process.env.BLOT_CACHE_DIRECTORY || BLOT_DIRECTORY + "/cache",
+    process.env.BLOT_CACHE_DIRECTORY || BLOT_DIRECTORY + "/data/cache",
 
   ip: process.env.BLOT_IP || "127.0.0.1",
 
