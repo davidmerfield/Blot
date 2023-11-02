@@ -39,7 +39,7 @@ if (cluster.isMaster) {
 
     email.SERVER_START();
 
-    setup(async err => {
+    setup(async (err) => {
       if (err) throw err;
 
       console.log(clfdate(), "Finished setting up");
@@ -68,7 +68,7 @@ if (cluster.isMaster) {
     });
   });
 
-  cluster.on("exit", worker => {
+  cluster.on("exit", (worker) => {
     if (worker.exitedAfterDisconnect === false) {
       console.log(clfdate(), "Worker died unexpectedly, starting a new one");
       cluster.fork();
