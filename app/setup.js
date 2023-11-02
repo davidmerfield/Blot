@@ -85,8 +85,10 @@ function main (callback) {
 }
 
 if (require.main === module) {
+  console.log("Setting up Blot...");
   main(function (err) {
     if (err) throw err;
+    console.log("Setup complete!");
     process.exit();
   });
 }
