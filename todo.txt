@@ -1,5 +1,15 @@
+Use private IPs over elastic IPs for inter-region communication
+- Switch node <> redis from elastic IP to private IP
+- Switch US proxy <> redis from elastic IP to private IP
+- Switch US proxy <> node from elastic IP to private IP
+- I goofed by using elastic ips for inter-region communication – I should have used private IPs – write about this
+
+
+Create a peered vpc to route traffic privately from EU to US
+https://us-west-2.console.aws.amazon.com/vpcconsole/home?region=us-west-2#CreatePeeringConnection:
 
 Are there other performance improvements I can make for connection between aws regions?
+
 
 Openresty:
 - Write tests
