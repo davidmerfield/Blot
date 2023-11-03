@@ -7,16 +7,9 @@ const cheerio = require("cheerio");
 const SOURCE_DIRECTORY = join(blot_directory, "/app/views");
 const DESTINATION_DIRECTORY = join(blot_directory, "/app/documentation/data");
 
-const transformers = [
-  require("../tools/typeset"),
-  require("../tools/anchor-links"),
-  require("../tools/tex"),
-  require("../tools/finder").html_parser
-];
-
 async function handle (path) {
   try {
-    if (path.endsWith(".html")) {
+    if (path.endsWith(".html") && !path.includes("dashboard/")) {
       await buildHTML(path);
     } else if (path.endsWith(".css")) {
       await fs.copy(
@@ -71,6 +64,13 @@ module.exports = async ({ watch = false } = {}) => {
 };
 
 async function buildHTML (path) {
+  const transformers = [
+    require("../tools/typeset"),
+    require("../tools/anchor-links"),
+    require("../tools/tex"),
+    require("../tools/finder").html_parser
+  ];
+
   const html = await fs.readFile(join(SOURCE_DIRECTORY, path), "utf-8");
 
   const $ = cheerio.load(html, { decodeEntities: false });

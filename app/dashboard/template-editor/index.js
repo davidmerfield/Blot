@@ -1,13 +1,16 @@
+const config = require("config");
 const Express = require("express");
 const TemplateEditor = new Express.Router();
-const config = require("config");
 const parse = require("dashboard/parse");
 const formJSON = require("helper/formJSON");
 const Template = require("models/template");
 
 TemplateEditor.param("viewSlug", require("./load/template-views"));
+
 TemplateEditor.param("viewSlug", require("./load/template-view"));
+
 TemplateEditor.param("templateSlug", require("./load/template"));
+
 TemplateEditor.param("templateSlug", function (req, res, next) {
   res.locals.dashboardBase = res.locals.base;
   res.locals.base = `${req.protocol}://${req.hostname}${req.baseUrl}/${req.params.templateSlug}`;
