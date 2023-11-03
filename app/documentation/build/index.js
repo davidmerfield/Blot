@@ -9,7 +9,7 @@ const DESTINATION_DIRECTORY = join(blot_directory, "/app/documentation/data");
 
 async function handle (path) {
   try {
-    if (path.endsWith(".html") && !path.includes("/dashboard/")) {
+    if (path.endsWith(".html") && !path.includes("dashboard/")) {
       await buildHTML(path);
     } else if (path.endsWith(".css")) {
       await fs.copy(
