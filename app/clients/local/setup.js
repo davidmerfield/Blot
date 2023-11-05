@@ -8,7 +8,7 @@ const Fix = require("sync/fix");
 
 let watchers = {};
 
-function setup(blogID, callback) {
+function setup (blogID, callback) {
   Blog.get({ id: blogID }, function (err, blog) {
     if (err || !blog) return callback();
     Fix(blog, function (err) {
@@ -22,7 +22,7 @@ function setup(blogID, callback) {
   });
 }
 
-function watch(blogID) {
+function watch (blogID) {
   // We want to queue up and process in order
   // events from the file system.
   const queue = async.queue(function (path, callback) {
@@ -35,17 +35,8 @@ function watch(blogID) {
         return callback();
       }
 
-      Sync(blogID, function (err, folder, done) {
-        if (err) {
-          console.log(err);
-          return callback();
-        }
-        folder.update(path, function (err) {
-          done(err, function (err) {
-            if (err) return callback(err);
-            callback();
-          });
-        });
+      Sync(blogID, function (err) {
+        console.log("ERR!", err);
       });
     });
   });
@@ -55,7 +46,7 @@ function watch(blogID) {
 
     // To stop this watcher, call watcher.close();
     const watcher = chokidar.watch(localPath(blogID, "/"), {
-      cwd: localPath(blogID, "/"),
+      cwd: localPath(blogID, "/")
     });
 
     watcher.on("all", (event, path) => {

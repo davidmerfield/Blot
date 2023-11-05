@@ -21,11 +21,13 @@ module.exports = {
 
   // This is invoked by the master process and will
   // watch the blog folder for any changes
-  init: require("./init"),
+  init_worker: require("./init"),
+
+  sync: require("./sync"),
 
   // We expose a special method to make it easier
   // for the test suite and script to build the
   // demonstration blogs to interact with this client.
   // No need to expose this for a conventional client.
-  setup: require("./setup"),
+  setup: require("./setup")
 };

@@ -6,6 +6,7 @@ if (cluster.isMaster) {
   const fs = require("fs-extra");
   const clfdate = require("helper/clfdate");
   const notify = require("helper/systemd-notify");
+  const child_process = require("child_process");
 
   const NUMBER_OF_CORES = require("os").cpus().length;
 
@@ -28,7 +29,10 @@ if (cluster.isMaster) {
 
   // Fork workers based on how many CPUs are available
   for (let i = 0; i < NUMBER_OF_WORKERS; i++) {
-    cluster.fork();
+    const worker = cluster.fork();
+    worker.on("message", msg => {
+      console.log("CHAT from CLUSTER worker: " + msg.chat);
+    });
   }
 
   const email = require("helper/email");
@@ -82,6 +86,14 @@ if (cluster.isMaster) {
       // process to deal with publication scheduling...
       publishScheduledEntries();
     }
+  });
+
+  const syncer = child_process.fork(__dirname + "/sync/forked");
+
+  syncer.send({ chat: "Hey" });
+
+  syncer.on("message", msg => {
+    if (msg.chat) console.log("CHAT from SYNCER: " + msg.chat);
   });
 
   // SIGUSR1 is used by node for debugging, so we use SIGUSR2 to
@@ -148,6 +160,17 @@ if (cluster.isMaster) {
   console.log(clfdate(), `Worker process running pid=${process.pid}`);
 
   const server = require("./server");
+
+  // Run any initialization that clients need
+  // Google Drive will renew any webhooks, e.g.
+  for (const { init_worker, display_name } of Object.values(
+    require("clients")
+  )) {
+    if (init_worker) {
+      console.log(clfdate(), display_name + " client:", "Initializing worker");
+      init_worker();
+    }
+  }
 
   // Open the server to handle requests
   server.listen(config.port, function () {
