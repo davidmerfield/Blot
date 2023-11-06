@@ -10,18 +10,15 @@ fs.ensureDirSync(directory);
 if (require.main === module && !process.argv[2]) {
   list(process.exit);
 } else {
-
-  
   var old_stdout_write = process.stdout.write;
   var old_stderr_write = process.stderr.write;
-
 
   process.stdout.write = function () {};
   process.stderr.write = function () {};
 
-
   require("./load")(process.argv[2], function (err) {
     if (err) throw err;
+
     require("./info")(function (err, res) {
       if (err) throw err;
 
@@ -34,7 +31,7 @@ if (require.main === module && !process.argv[2]) {
   });
 }
 
-function list(callback) {
+function list (callback) {
   console.log(colors.dim("Help:"));
   console.log(
     "node scripts/state <label>",

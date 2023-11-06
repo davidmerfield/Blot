@@ -1,6 +1,5 @@
 require("../only_locally");
 
-var client = require("redis").createClient();
 var config = require("config");
 var Blog = require("blog");
 var async = require("async");
@@ -22,6 +21,8 @@ var TMP_DIRECTORY = ROOT + "/tmp";
 // This function lists all the blogs for a particular
 // application state and then prints useful information
 module.exports = function (callback) {
+  var client = require("redis").createClient();
+
   Blog.getAllIDs(function (err, ids) {
     if (err) return callback(err);
 
@@ -41,7 +42,7 @@ module.exports = function (callback) {
           access(blog.handle, function (err, url) {
             if (err) return next(err);
 
-            setupFolder(blog, function (err, folder) {
+            setupFolder(client, blog, function (err, folder) {
               res += `
 ${colors.yellow(blog.title || blog.handle)}  - ${colors.dim(blog.id)}
 Dashboard: ${url}
@@ -65,11 +66,11 @@ ${folder ? "Folder: " + folder : ""}
   });
 };
 
-function setupFolder(blog, callback) {
+function setupFolder (client, blog, callback) {
   if (blog.client === "dropbox") {
     setupDropbox(blog, callback);
   } else if (blog.client === "local") {
-    setupLocal(blog, callback);
+    setupLocal(client, blog, callback);
   } else if (blog.client === "git") {
     setupGit(blog, callback);
   } else {
@@ -78,7 +79,7 @@ function setupFolder(blog, callback) {
   }
 }
 
-function setupDropbox(blog, callback) {
+function setupDropbox (blog, callback) {
   var folder;
 
   getFolder(blog.id, function (err, account) {
@@ -94,7 +95,7 @@ function setupDropbox(blog, callback) {
   });
 }
 
-function setupGit(blog, callback) {
+function setupGit (blog, callback) {
   User.getById(blog.owner, function (err, user) {
     getToken(blog.owner, function (err, token) {
       var folder = TMP_DIRECTORY + "/git-" + Date.now() + "-" + blog.handle;
@@ -113,7 +114,7 @@ function setupGit(blog, callback) {
   });
 }
 
-function setupLocal(blog, callback) {
+function setupLocal (client, blog, callback) {
   var folder = localPath(blog.id, "/");
 
   // This tells a running server to start watching this blog
