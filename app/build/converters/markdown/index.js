@@ -9,15 +9,16 @@ var katex = require("./katex");
 var convert = require("./convert");
 var metadata = require("./metadata");
 var extractBibAndCSL = require("./extractBibAndCSL");
+var linebreaks = require("./linebreaks");
 
-function is(path) {
+function is (path) {
   return (
     [".txt", ".text", ".md", ".markdown"].indexOf(extname(path).toLowerCase()) >
     -1
   );
 }
 
-function read(blog, path, options, callback) {
+function read (blog, path, options, callback) {
   ensure(blog, "object")
     .and(path, "string")
     .and(options, "object")
@@ -51,6 +52,12 @@ function read(blog, path, options, callback) {
       text = layout(text);
       time.end("layout");
 
+      if (blog.plugins.linebreaks.enabled) {
+        time("linebreaks");
+        text = linebreaks(text);
+        time.end("linebreaks");
+      }
+
       if (blog.plugins.katex.enabled) {
         time("katex");
         text = katex(text);
@@ -62,7 +69,7 @@ function read(blog, path, options, callback) {
 
         let options = {
           bib: bib,
-          csl: csl,
+          csl: csl
         };
 
         convert(blog, text, options, function (err, html) {
