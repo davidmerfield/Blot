@@ -4,7 +4,7 @@ var debug = require("debug")("blot:clients:git:sync");
 var Git = require("simple-git");
 var checkGitRepoExists = require("./checkGitRepoExists");
 
-module.exports = function sync(blogID, callback) {
+module.exports = function sync (blogID, callback) {
   // Attempt to acquire a lock on the blog's folder
   // to apply updates to it... These options are
   // redlock options to ensure we acquire a lock eventually...
@@ -14,7 +14,7 @@ module.exports = function sync(blogID, callback) {
     if (err) return callback(err);
 
     debug("beginning sync");
-    folder.log("Checking git repo exists");
+    folder.log("Checking git repo exists: " + folder.path);
     checkGitRepoExists(folder.path, function (err) {
       if (err) {
         folder.log("Git repo does not exist");
@@ -89,7 +89,7 @@ module.exports = function sync(blogID, callback) {
                   // Without this flag, files with foreign
                   // characters are not synced to Blot.
                   "-z",
-                  headBeforePull + ".." + headAfterPull,
+                  headBeforePull + ".." + headAfterPull
                 ],
                 function (err, res) {
                   if (err) return done(new Error(err), callback);
