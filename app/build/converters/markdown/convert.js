@@ -60,11 +60,8 @@ module.exports = function (blog, text, options, callback) {
     // we use our own highlighint library (hljs) later
     "--no-highlight",
 
-    // preserve line breaks
-    "--wrap=preserve",
-
     // such a dumb default feature... sorry john!
-    "--email-obfuscation=none"
+    "--email-obfuscation=none",
   ];
 
   if (options.bib) {
@@ -159,7 +156,7 @@ module.exports = function (blog, text, options, callback) {
   pandoc.stdin.end(text, "utf8");
 };
 
-function safely (method, input) {
+function safely(method, input) {
   try {
     input = method(input);
   } catch (e) {
