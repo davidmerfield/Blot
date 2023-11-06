@@ -17,6 +17,11 @@ each(
       blog.redirectSubdomain = false;
     }
 
+    if (blog.permalink.isCustom === undefined) {
+      blog.permalink.isCustom =
+        blog.permalink.custom !== undefined && blog.permalink.custom !== "";
+    }
+
     if (blog.new_dashboard) delete blog.new_dashboard;
     if (blog.new_markdown_renderer) delete blog.new_markdown_renderer;
     if (blog.dateDisplay) delete blog.dateDisplay;
