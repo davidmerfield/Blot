@@ -5,7 +5,7 @@ const defaultPlugins = require("build/plugins").defaultList;
 
 each(
   (user, blog, next) => {
-    if (!blog) return next();
+    if (!blog || blog.isDisabled) return next();
 
     if (!blog.flags) {
       blog.flags = {
