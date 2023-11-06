@@ -53,21 +53,28 @@ module.exports = function sync (blogID, callback) {
         folder.log("Syncing blog folder with git repo");
         git.fetch({ "--all": true }, function (err) {
           if (err) {
+            folder.log("Error fetching git repo: " + err.message);
             debug(err);
             return done(new Error(err), callback);
           }
 
           git.raw(["reset", "--hard", "origin/master"], function (err) {
             if (err) {
+              folder.log("Error resetting git repo: " + err.message);
               debug(err);
               return done(new Error(err), callback);
             }
 
             git.raw(["rev-parse", "HEAD"], function (err, headAfterPull) {
-              if (err) return done(new Error(err), callback);
+              if (err) {
+                folder.log("Error getting git commit hash: " + err.message);
+                return done(new Error(err), callback);
+              }
 
-              if (!headAfterPull)
+              if (!headAfterPull) {
+                folder.log("No commits on repository");
                 return done(new Error("No commits on repository"), callback);
+              }
 
               // Remove whitespace from stdout
               headAfterPull = headAfterPull.trim();
