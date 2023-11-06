@@ -1,6 +1,6 @@
 module.exports = {
   category: "Typography",
-  title: "Hard linebreaks",
+  title: "Preserve line breaks",
   isDefault: false,
-  description: "Preserve linebreaks in markdown files"
+  description: "Keep original line breaks in Markdown files"
 };
