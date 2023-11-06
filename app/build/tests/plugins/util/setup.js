@@ -2,7 +2,6 @@ module.exports = () => {
   const build = require("build");
   const fs = require("fs-extra");
 
-  // Set up a test blog before each test
   global.test.blog();
 
   // Expose methods for creating fake files, paths, etc.
