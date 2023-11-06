@@ -5,6 +5,9 @@ describe("linebreaks plugin", function () {
     this.blog.plugins.linebreaks = { enabled: true, options: {} };
   });
 
+  // I'm not sure why we need to reset this but it's neccessary
+  // we should be creating a new blog object for each test but
+  // this appears to not be the case
   afterEach(function () {
     this.blog.plugins.linebreaks = { enabled: false, options: {} };
   });
