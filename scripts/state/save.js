@@ -41,6 +41,8 @@ function main (label, description, callback) {
 
       if (description)
         fs.outputFileSync(directory + "/description.txt", description);
+
+      callback();
     });
   });
 }
