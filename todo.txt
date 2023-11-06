@@ -1,7 +1,3 @@
-Move blot data into /data directory
-- clean up tmpDir
-- move log directory into /data?
-
 Check that my [inter az bandwidth](https://us-east-1.console.aws.amazon.com/cost-management/home#/cost-explorer?chartStyle=STACK&costAggregate=unBlendedCost&endDate=2023-11-02&excludeForecasting=false&filter=%5B%7B%22dimension%22:%7B%22id%22:%22UsageTypeGroup%22,%22displayValue%22:%22Usage%20type%20group%22%7D,%22operator%22:%22INCLUDES%22,%22values%22:%5B%7B%22value%22:%22EC2:%20Data%20Transfer%20-%20Inter%20AZ%22,%22displayValue%22:%22EC2:%20Data%20Transfer%20-%20Inter%20AZ%22%7D%5D%7D%5D&futureRelativeRange=CUSTOM&granularity=Daily&groupBy=%5B%22Service%22%5D&historicalRelativeRange=CUSTOM&isDefault=true&reportName=New%20cost%20and%20usage%20report&showOnlyUncategorized=false&showOnlyUntagged=false&startDate=2023-10-01&usageAggregate=usageQuantity&useNormalizedUnits=false)
 - I goofed by using elastic ips for inter-region communication – I should have used private IPs – write about this
 
@@ -696,8 +692,6 @@ Improvements to simple local server (npm run local):
 -  Persist data somehow? import/export from local folder .blot?
 -  Fix 'Visit' link on dashboard
 -  Can we expand this to a simple self-hosting process ('npx blot-server')?
-
-Add options to [preserve linebreaks](https://stackoverflow.com/questions/26066621/preserve-line-breaks-in-pandoc-markdown-latex-conversion) in Markdown and tell [Matt](https://mail.google.com/mail/u/0/#inbox/FMfcgzGkXcwpJzKrBrGKDcZKBPSSdsfh)
 
 Template engine plan
 - create data/blogs/blogID/templates directory

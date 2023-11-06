@@ -30,14 +30,14 @@ module.exports = function (text) {
   return text;
 };
 
-function renderTex(str) {
+function renderTex (str) {
   // Cache the original string
   // in case of rendering error
   var _str = str;
 
   // Null or empty string, return delimiters
   // This is to guard against '$$$$' being in a post
-  if (!str) return '';
+  if (!str) return "";
 
   // If the Katex is on its own line, render it
   // in the larger 'display style'.
