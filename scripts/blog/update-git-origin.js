@@ -25,9 +25,10 @@ each(
       if (err) return next(new Error(err));
 
       if (basename(path) !== blog.id) {
-        return next(
+        console.log(
           new Error(`liverepo ${blog.id} is not in the correct folder: ${path}`)
         );
+        return next();
       }
 
       liveRepo.removeRemote("origin", function (err) {
