@@ -97,6 +97,9 @@ if (config.webhooks.server_host) {
   server.use(vhost(config.webhooks.server_host, require("./clients/webhooks")));
 }
 
+// CDN server
+server.use(vhost("cdn." + config.host, require("./cdn")));
+
 // The Blogs
 // ---------
 // Serves the customers's blogs. It should come first because it's the
