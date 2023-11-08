@@ -2,7 +2,6 @@
 set -e
 
 ACME=/usr/local/bin/acme-nginx
-LOGFILE=/var/log/letsencrypt.log
 OPENRESTY=/usr/local/openresty/bin/openresty
 
 # Sources the environment variables required
@@ -18,9 +17,19 @@ if [ -z "$BLOT_REDIS_HOST" ]; then
   exit 1
 fi
 
+HASH_OF_KEY_BEFORE=$(cat /etc/ssl/private/letsencrypt-domain.key | openssl md5 | cut -d' ' -f2)
+HASH_OF_PEM_BEFORE=$(cat /etc/ssl/private/letsencrypt-domain.pem | openssl md5 | cut -d' ' -f2)
+
+echo "[`date -u +%Y-%m-%dT%T.%3NZ`] Key and pem hashes before renewal: $HASH_OF_KEY_BEFORE $HASH_OF_PEM_BEFORE"
+
 echo "[`date -u +%Y-%m-%dT%T.%3NZ`] Beginning renewal of wildcard certificate" 
-$ACME --no-reload-nginx --dns-provider route53 -d "*.$BLOT_HOST" -d "$BLOT_HOST" 
+$ACME --debug --no-reload-nginx --dns-provider route53 -d "*.$BLOT_HOST" -d "$BLOT_HOST" 
 echo "[`date -u +%Y-%m-%dT%T.%3NZ`] Finished renewal of wildcard certificate" 
+
+HASH_OF_KEY_AFTER=$(cat /etc/ssl/private/letsencrypt-domain.key | openssl md5 | cut -d' ' -f2)
+HASH_OF_PEM_AFTER=$(cat /etc/ssl/private/letsencrypt-domain.pem | openssl md5 | cut -d' ' -f2)
+
+echo "[`date -u +%Y-%m-%dT%T.%3NZ`] Key and pem hashes after renewal: $HASH_OF_KEY_AFTER $HASH_OF_PEM_AFTER"
 
 # We need to store the key and pem in redis so that the openresty reload script can fetch them
 echo "[`date -u +%Y-%m-%dT%T.%3NZ`] Beginning storage of key and pem in redis"

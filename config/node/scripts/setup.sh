@@ -74,17 +74,13 @@ mkdir -p $BLOT_DIRECTORY
 chown -R ec2-user:ec2-user $BLOT_DIRECTORY
 
 echo "Setting up cron job to renew certificates..."
-
-yum install -y pyOpenSSL python-crypto python-setuptools
+yum install -y pyOpenSSL python-crypto python-setuptools libffi-devel python3-devel
 yum groupinstall -y "Development tools"
 rm -rf acme-nginx
 git clone https://github.com/kshcherban/acme-nginx
 cd acme-nginx
 
 python3 setup.py install
-
-
-
 
 # change default font
 git clone https://github.com/sahibjotsaggu/San-Francisco-Pro-Fonts.git
