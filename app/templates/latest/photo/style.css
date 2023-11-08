@@ -183,16 +183,28 @@ nav {
   {{/collapse_navigation_by_default}}
 }
 
-nav a {
-    margin-left: calc({{spacing}}rem/2);
+header a,
+header .tabular-numerals {
+    margin-left: calc({{spacing}}rem/4);
+    margin-right: calc({{spacing}}rem/4);
+}
+
+header > a:first-child {
+  margin-left: 0;
 }
 
 nav a[href="/search"] {display: none}
 
 nav .spacer {
     height: 22px;
-    border-right: 1px solid rgba(0, 0, 0, 0.1);
+    border-right: 1px solid rgba({{#rgb}}{{text_color}}{{/rgb}},0.1);
     margin: 0 calc({{spacing}}rem / 2);
+}
+
+nav a:not([href]) {
+  cursor: default;
+  color:  rgba({{#rgb}}{{text_color}}{{/rgb}},0.3);
+  text-decoration: none!important;
 }
 
 #toggle {
