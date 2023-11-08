@@ -8,7 +8,7 @@ const lockfile = require("proper-lockfile");
 const type = require("helper/type");
 const messenger = require("./messenger");
 
-function sync(blogID, callback) {
+function sync (blogID, callback) {
   if (!type(callback, "function")) {
     throw new TypeError(
       "Expected callback with type:Function as second argument"
@@ -39,19 +39,21 @@ function sync(blogID, callback) {
     try {
       log("Acquiring lock on folder");
       release = await lockfile.lock(localPath(blogID, "/"), {
+        stale: 20 * 1000, // 20 seconds, Duration in milliseconds in which the lock is considered stale
+        update: 5 * 1000, // 5 seconds, The interval in milliseconds in which the lockfile's mtime will be updated
         retries: {
           retries: 3,
           factor: 2,
           minTimeout: 100,
           maxTimeout: 200,
-          randomize: true,
+          randomize: true
         },
-        onCompromised: (err) => {
+        onCompromised: err => {
           // Log will be prefixed with sync_id and blog.id
           // to help us understand what went wrong...
           log("Lock on folder compromised");
           throw err;
-        },
+        }
       });
       log("Successfully acquired lock on folder");
     } catch (e) {
@@ -64,7 +66,7 @@ function sync(blogID, callback) {
       update: new Update(blog, log, status),
       rename: Rename(blog, log),
       status,
-      log,
+      log
     };
 
     const timeout = setTimeout(function () {
