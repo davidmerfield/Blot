@@ -1,10 +1,21 @@
-Kill nginx on 'node server'
+Add contents of crontab to transfer.sh in node 
 
+Check that the dashboard is computing stats
+
+Add more stringent checks to scripts which mount instance storage and external volumes
+
+Resolve install with acme-nginx (a dependency is missing) and check that wildcard certs are working
+
+Shut down old node server
+
+Check that backup of new ebs volume is working
+
+Get blot proxy communicating with node process via unix socket
 
 Check that my [inter az bandwidth](https://us-east-1.console.aws.amazon.com/cost-management/home#/cost-explorer?chartStyle=STACK&costAggregate=unBlendedCost&endDate=2023-11-02&excludeForecasting=false&filter=%5B%7B%22dimension%22:%7B%22id%22:%22UsageTypeGroup%22,%22displayValue%22:%22Usage%20type%20group%22%7D,%22operator%22:%22INCLUDES%22,%22values%22:%5B%7B%22value%22:%22EC2:%20Data%20Transfer%20-%20Inter%20AZ%22,%22displayValue%22:%22EC2:%20Data%20Transfer%20-%20Inter%20AZ%22%7D%5D%7D%5D&futureRelativeRange=CUSTOM&granularity=Daily&groupBy=%5B%22Service%22%5D&historicalRelativeRange=CUSTOM&isDefault=true&reportName=New%20cost%20and%20usage%20report&showOnlyUncategorized=false&showOnlyUntagged=false&startDate=2023-10-01&usageAggregate=usageQuantity&useNormalizedUnits=false)
 - I goofed by using elastic ips for inter-region communication – I should have used private IPs – write about this
 
-Get rid of openresty on node server?
+Resolve screenshot issues on production server
 
 Openresty:
 - Fix bug which seems to happen when cache fills up / gets old
@@ -12,13 +23,18 @@ Openresty:
   - we don't need to worry about banning CDN ips because those requests go straight to the origin server
   - this should reduce origin load
 
-Resolve screenshot issues on production server
 
 Add support for proxying particular analytics files and tell [questioner](https://blot.im/questions/2025)
 
 One bad latex equation should not [tank the build process for the whole post](https://blot.im/questions/2037)
 
 Follow up with [Tim](https://mail.google.com/mail/u/0/#inbox/FMfcgzGtwCvckCnTJHxSFsQDZnkTPBzp) about activitypub
+
+Purchase aws reserved instance
+
+Terminate proxy instance
+
+Release proxy IP
 
 ---
 

@@ -3,12 +3,14 @@
 # This should only be run once, when the instance is launched
 # It will only work when run as root
 
-SETUP_DIRECTORY="/home/ec2-user/setup"
+SCRIPTS_DIRECTORY=/home/ec2-user/node/scripts
 PANDOC_URL=https://github.com/jgm/pandoc/releases/download/3.1.1/pandoc-3.1.1-linux-arm64.tar.gz
+BLOT_DIRECTORY=/var/www/blot
+BLOT_REPO=https://github.com/davidmerfield/Blot
 
 
-if [ ! -d "/home/ec2-user/scripts" ]; then
-  echo "The directory /home/ec2-user/scripts does not exist"
+if [ ! -d "/home/ec2-user/node/scripts" ]; then
+  echo "The directory /home/ec2-user/node/scripts does not exist"
   exit 1
 fi
 
@@ -43,7 +45,7 @@ yum -y install autoconf autogen intltool libtool
 ## Pandoc installation
 ##########################################################
 
-cd $SETUP_DIRECTORY
+cd $SCRIPTS_DIRECTORY
 
 # Install Pandoc only if the binary is not already installed
 if ! command -v pandoc &> /dev/null
@@ -71,7 +73,6 @@ rm -rf $BLOT_DIRECTORY
 mkdir -p $BLOT_DIRECTORY
 chown -R ec2-user:ec2-user $BLOT_DIRECTORY
 
-
 echo "Setting up cron job to renew certificates..."
 
 yum install -y pyOpenSSL python-crypto python-setuptools
@@ -82,13 +83,6 @@ cd acme-nginx
 
 python3 setup.py install
 
-
-# Create a systemd service for the blot application using the file ./node.service
-cp $SETUP_DIRECTORY/node.service /etc/systemd/system/node.service
-systemctl daemon-reload
-
-# list systemd services
-systemctl list-unit-files --type=service
 
 
 
@@ -121,10 +115,33 @@ echo "<?xml version='1.0'?>
 fc-match sans-serif
 
 
-
-
 echo "Installing Blot..."
 
+mkdir -p $BLOT_DIRECTORY
+
+# We use a shallow clone to reduce required disk space
+git clone --depth 1 -b master --single-branch $BLOT_REPO $BLOT_DIRECTORY
+
+# copy the env file from existing node server
+mkdir -p /etc/blot
+scp -P $CURRENT_NODE_SSH_PORT -i $SCRIPTS_DIRECTORY/projects.pem ec2-user@$CURRENT_NODE_IP:/etc/blot/environment.sh /etc/blot/environment.sh
+chown -R ec2-user:ec2-user /etc/blot
+
+chown -R ec2-user:ec2-user $BLOT_DIRECTORY
+
+cp $SCRIPTS_DIRECTORY/mount-data-disk.service /etc/systemd/system/mount-data-disk.service
+
+# reload systemd
+systemctl daemon-reload
+
+# start and enable the mount-instance-store service
+systemctl start mount-data-disk
+systemctl enable mount-data-disk
+
+
+# Create a systemd service for the blot application using the file ./node.service
+cp $SCRIPTS_DIRECTORY/node.service /etc/systemd/system/node.service
+systemctl daemon-reload
 
 #  add the following to '.bashrc'
 

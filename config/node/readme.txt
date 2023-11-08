@@ -14,27 +14,3 @@ cron scripts for root:
 0 1 * * * find /var/www/blot/tmp -mtime +1 -delete
 
 
-Node server
-
-
-service:
-
-[Unit]
-Description=blot node server
-After=network.target nginx.service
-
-[Service]
-{{#env}}
-Environment={{key}}={{value}}
-{{/env}}
-Environment=NODE_ENV=production
-User=blot
-Group=blot
-ExecStart={{node.bin}} {{node.main}}
-Restart=always
-StandardOutput=syslog
-StandardError=syslog
-SyslogIdentifier=node-sample
-
-[Install]
-WantedBy=multi-user.target
