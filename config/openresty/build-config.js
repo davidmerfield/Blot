@@ -20,7 +20,11 @@ const locals = {
   lua_package_path: process.env.LUA_PACKAGE_PATH,
   redis: { host: REDIS_IP },
   reverse_proxy_ip: process.env.PUBLIC_IP,
-  server_label: process.env.PUBLIC_IP.startsWith("18.") ? "eu" : "us",
+  server_label: !process.env.PUBLIC_IP
+    ? ""
+    : process.env.PUBLIC_IP.startsWith("18.")
+    ? "eu"
+    : "us",
   user: process.env.OPENRESTY_USER || "ec2-user",
   config_directory:
     process.env.OPENRESTY_CONFIG_DIRECTORY || "/home/ec2-user/openresty",
