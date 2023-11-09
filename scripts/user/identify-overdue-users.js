@@ -9,9 +9,11 @@ each(
     ) {
       console.log(user.email, "has an unpaid subscription");
     }
+    next();
   },
   function (err) {
     if (err) throw err;
+    console.log("Done!");
     process.exit();
   }
 );
