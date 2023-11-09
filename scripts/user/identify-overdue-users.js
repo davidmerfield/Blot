@@ -1,7 +1,7 @@
 const each = require("../each/user");
 const child_process = require("child_process");
 const { blog_static_files_dir, blog_folder_dir } = require("config");
-
+const prettySize = require("helper/prettySize");
 let rolling_total = 0;
 
 each(
@@ -22,11 +22,11 @@ each(
       for (const blogID of user.blogs) {
         // console.log("blogID", blogID);
         const static_space_used = child_process
-          .execSync(`du -s ${blog_static_files_dir}/${blogID}`)
+          .execSync(`du -sb ${blog_static_files_dir}/${blogID}`)
           .toString();
         console.log("static space used:", static_space_used);
         const folder_space_used = child_process
-          .execSync(`du -s ${blog_folder_dir}/${blogID}`)
+          .execSync(`du -sb ${blog_folder_dir}/${blogID}`)
           .toString();
         const total_in_bytes =
           parseInt(static_space_used) + parseInt(folder_space_used);
@@ -42,7 +42,8 @@ each(
   function (err) {
     if (err) throw err;
     console.log("Done!");
-    console.log("Total space to be deleted:", rolling_total, "bytes");
+    // convert rolling_total bytes to human readable size
+    console.log("Total space to be deleted:", prettySize(rolling_total));
     process.exit();
   }
 );
