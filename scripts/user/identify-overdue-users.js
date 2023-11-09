@@ -16,27 +16,33 @@ each(
       // user.blogs is an array of blogIDs
       for (const blogID of user.blogs) {
         // console.log("blogID", blogID);
-        const static_space_used = child_process
-          .execSync(`du -sb ${blog_static_files_dir}/${blogID}`)
-          .toString();
-        const static_space_used_in_bytes = parseInt(
-          static_space_used.trim().split("\t")[0]
-        );
 
-        const folder_space_used = child_process
-          .execSync(`du -sb ${blog_folder_dir}/${blogID}`)
-          .toString();
+        try {
+          const static_space_used = child_process
+            .execSync(`du -sb ${blog_static_files_dir}/${blogID}`)
+            .toString();
 
-        const folder_space_used_in_bytes = parseInt(
-          folder_space_used.trim().split("\t")[0]
-        );
+          const folder_space_used = child_process
+            .execSync(`du -sb ${blog_folder_dir}/${blogID}`)
+            .toString();
 
-        const total_kilo_bytes =
-          (static_space_used_in_bytes + folder_space_used_in_bytes) / 1000;
+          const static_space_used_in_bytes = parseInt(
+            static_space_used.trim().split("\t")[0]
+          );
 
-        console.log("total", prettySize(total_kilo_bytes));
+          const folder_space_used_in_bytes = parseInt(
+            folder_space_used.trim().split("\t")[0]
+          );
 
-        rolling_total += total_kilo_bytes;
+          const total_kilo_bytes =
+            (static_space_used_in_bytes + folder_space_used_in_bytes) / 1000;
+
+          console.log("total", prettySize(total_kilo_bytes));
+
+          rolling_total += total_kilo_bytes;
+        } catch (e) {
+          console.log("error", e);
+        }
       }
     }
     next();
