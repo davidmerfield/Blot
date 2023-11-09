@@ -37,7 +37,11 @@ each(
           const total_kilo_bytes =
             (static_space_used_in_bytes + folder_space_used_in_bytes) / 1000;
 
-          console.log("total", prettySize(total_kilo_bytes));
+          console.log(
+            prettySize(total_kilo_bytes),
+            user.email,
+            user.blogs.join(",")
+          );
 
           rolling_total += total_kilo_bytes;
         } catch (e) {
