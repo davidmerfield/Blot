@@ -47,13 +47,12 @@ each(
           folder_space_used
         );
 
-        console.log(
-          "total",
-          prettySize(static_space_used_in_bytes + folder_space_used_in_bytes)
-        );
+        const total_kilo_bytes =
+          (static_space_used_in_bytes + folder_space_used_in_bytes) / 1000;
 
-        rolling_total +=
-          static_space_used_in_bytes + folder_space_used_in_bytes;
+        console.log("total", prettySize(total_kilo_bytes));
+
+        rolling_total += total_kilo_bytes;
       }
 
       //   console.log(user.subscription);
