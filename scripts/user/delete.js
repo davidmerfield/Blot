@@ -1,5 +1,5 @@
 var config = require("config");
-var Delete = require("dashboard/routes/account/delete");
+var Delete = require("dashboard/account/delete");
 var get = require("../get/user");
 var yesno = require("yesno");
 var colors = require("colors");
@@ -32,7 +32,7 @@ if (!process.argv[2]) {
   });
 }
 
-function main(user, callback) {
+function main (user, callback) {
   async.map(
     user.blogs,
     function (blogID, next) {
@@ -41,7 +41,7 @@ function main(user, callback) {
     function (err, blogs) {
       if (err) return callback(err);
       var message = [
-        "Do you want to delete account " + colors.red(user.email) + "?",
+        "Do you want to delete account " + colors.red(user.email) + "?"
       ];
 
       if (user.isDisabled) {
@@ -94,7 +94,7 @@ function main(user, callback) {
           async.reflectAll([
             Delete.exports.blogs,
             Delete.exports.subscription,
-            Delete.exports.user,
+            Delete.exports.user
           ]),
           req,
           res,
