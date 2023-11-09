@@ -46,10 +46,21 @@ server.use(helmet.frameguard("allow-from", config.host));
 // Log response time in development mode
 server.use(trace.init);
 
+let unrespondedRequests = 0;
+
+setInterval(function () {
+  console.log(
+    clfdate(),
+    "PID=" + process.pid,
+    "PENDING=" + unrespondedRequests
+  );
+}, 1000 * 5); // 5 seconds
+
 server.use(function (req, res, next) {
   var init = Date.now();
 
   try {
+    unrespondedRequests++;
     console.log(
       clfdate(),
       req.headers["x-request-id"] && req.headers["x-request-id"],
@@ -63,6 +74,7 @@ server.use(function (req, res, next) {
 
   res.on("finish", function () {
     try {
+      unrespondedRequests--;
       console.log(
         clfdate(),
         req.headers["x-request-id"] && req.headers["x-request-id"],
