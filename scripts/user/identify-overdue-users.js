@@ -13,9 +13,11 @@ each(
         "has an unpaid subscription with current period end:",
         new Date(user.subscription.current_period_end * 1000)
       );
+      console.log("user.blogs", user.blogs);
 
       // user.blogs is an array of blogIDs
       for (const blogID of user.blogs) {
+        console.log("blogID", blogID);
         const static_space_used = child_process
           .execSync(`du -sh ${blog_static_files_dir}/${blogID}`)
           .toString();
