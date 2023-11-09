@@ -24,15 +24,36 @@ each(
         const static_space_used = child_process
           .execSync(`du -sb ${blog_static_files_dir}/${blogID}`)
           .toString();
-        console.log("static space used:", static_space_used);
+        const static_space_used_in_bytes = parseInt(
+          static_space_used.trim().split("\t")[0]
+        );
+        console.log(
+          "static space used:",
+          static_space_used_in_bytes,
+          static_space_used
+        );
+
         const folder_space_used = child_process
           .execSync(`du -sb ${blog_folder_dir}/${blogID}`)
           .toString();
-        const total_in_bytes =
-          parseInt(static_space_used) + parseInt(folder_space_used);
-        console.log("folder space used:", folder_space_used);
 
-        rolling_total += total_in_bytes;
+        const folder_space_used_in_bytes = parseInt(
+          folder_space_used.trim().split("\t")[0]
+        );
+
+        console.log(
+          "folder space used:",
+          folder_space_used_in_bytes,
+          folder_space_used
+        );
+
+        console.log(
+          "total",
+          prettySize(static_space_used_in_bytes + folder_space_used_in_bytes)
+        );
+
+        rolling_total +=
+          static_space_used_in_bytes + folder_space_used_in_bytes;
       }
 
       //   console.log(user.subscription);
