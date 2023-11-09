@@ -5,9 +5,13 @@ each(
     if (
       user.subscription &&
       user.subscription.status &&
-      user.subscription.status === "unpaid"
+      user.subscription.status !== "active"
     ) {
-      console.log(user.email, "has an unpaid subscription");
+      console.log(
+        user.email,
+        "has an non-active subscription:",
+        user.subscription
+      );
     }
     next();
   },
