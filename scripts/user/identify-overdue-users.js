@@ -10,9 +10,9 @@ each(
       user.isDisabled ||
       (user.subscription && user.subscription.status === "unpaid")
     ) {
-      console.log(user.email);
       // new Date(user.subscription.current_period_end * 1000)
 
+      let user_total = 0;
       // user.blogs is an array of blogIDs
       for (const blogID of user.blogs) {
         // console.log("blogID", blogID);
@@ -37,17 +37,14 @@ each(
           const total_kilo_bytes =
             (static_space_used_in_bytes + folder_space_used_in_bytes) / 1000;
 
-          console.log(
-            prettySize(total_kilo_bytes),
-            user.email,
-            user.blogs.join(",")
-          );
-
           rolling_total += total_kilo_bytes;
+          user_total += total_kilo_bytes;
         } catch (e) {
           console.log("error", e);
         }
       }
+
+      console.log(prettySize(user_total), user.email, user.blogs.join(","));
     }
     next();
   },
