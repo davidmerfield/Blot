@@ -2,22 +2,13 @@ const each = require("../each/user");
 
 each(
   function (user, next) {
-    if (
-      user.subscription &&
-      user.subscription.status &&
-      user.subscription.status !== "active"
-    ) {
+    if (user.subscription && user.subscription.status === "unpaid") {
       console.log(
         user.email,
-        "has an non-active subscription:"
-        // user.subscription
-      );
-
-      // convert   current_period_end: 1713619122 into a date
-      console.log(
-        "Subscription ends on",
+        "has an unpaid subscription with current period end:",
         new Date(user.subscription.current_period_end * 1000)
       );
+      console.log(user.subscription);
     }
     next();
   },
