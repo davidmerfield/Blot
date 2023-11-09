@@ -47,8 +47,8 @@ async function main ({ reset = false }) {
     console.log("reset stats, now recomputing...");
   }
   await Promise.all([
-    handle({ logFileName: "app.log", aggregator: require("./node") }),
-    handle({ logFileName: "nginx.log", aggregator: require("./nginx") })
+    handle({ logFileName: "app.log", aggregator: require("./node") })
+    // handle({ logFileName: "nginx.log", aggregator: require("./nginx") })
   ]);
 }
 
