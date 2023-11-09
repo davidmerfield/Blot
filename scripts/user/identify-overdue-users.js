@@ -6,17 +6,12 @@ let rolling_total = 0;
 
 each(
   function (user, next) {
-    if (user.isDisabled) {
-      console.log(user.email, "is disabled");
-    }
-
-    if (user.subscription && user.subscription.status === "unpaid") {
-      console.log(
-        user.email,
-        "has an unpaid subscription with current period end:",
-        new Date(user.subscription.current_period_end * 1000)
-      );
-      console.log("user.blogs", user.blogs);
+    if (
+      user.isDisabled ||
+      (user.subscription && user.subscription.status === "unpaid")
+    ) {
+      console.log(user.email);
+      // new Date(user.subscription.current_period_end * 1000)
 
       // user.blogs is an array of blogIDs
       for (const blogID of user.blogs) {
@@ -27,11 +22,6 @@ each(
         const static_space_used_in_bytes = parseInt(
           static_space_used.trim().split("\t")[0]
         );
-        console.log(
-          "static space used:",
-          static_space_used_in_bytes,
-          static_space_used
-        );
 
         const folder_space_used = child_process
           .execSync(`du -sb ${blog_folder_dir}/${blogID}`)
@@ -41,12 +31,6 @@ each(
           folder_space_used.trim().split("\t")[0]
         );
 
-        console.log(
-          "folder space used:",
-          folder_space_used_in_bytes,
-          folder_space_used
-        );
-
         const total_kilo_bytes =
           (static_space_used_in_bytes + folder_space_used_in_bytes) / 1000;
 
@@ -54,8 +38,6 @@ each(
 
         rolling_total += total_kilo_bytes;
       }
-
-      //   console.log(user.subscription);
     }
     next();
   },
