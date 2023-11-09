@@ -14,7 +14,8 @@ each(
         new Date(user.subscription.current_period_end * 1000)
       );
 
-      for (const blogID in user.blogs) {
+      // user.blogs is an array of blogIDs
+      for (const blogID of user.blogs) {
         const static_space_used = child_process
           .execSync(`du -sh ${blog_static_files_dir}/${blogID}`)
           .toString();
