@@ -31,10 +31,7 @@ body {
 body {
   background: var(--background-color);
   color: var(--text-color);
-  font: var(--font-size) / 1.5 ui-sans-serif, system-ui, -apple-system,
-    BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans,
-    sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol,
-    Noto Color Emoji;
+  font: var(--font-size) / 1.5 font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", Segoe UI Symbol, "Noto Color Emoji";
   font-weight: 400;
   -webkit-text-size-adjust: 100%;
   -ms-text-size-adjust: 100%;
