@@ -1,5 +1,18 @@
-<div class="header" style="display: flex">
+<div
+  class="header"
+  style="display: flex; padding: 2rem; justify-content: space-between">
   <a href="/">{{> folder-icon}}<span>Blot</span></a>
-  {{> search}}
-  {{> header-buttons}}
+  <div>
+    <a id="signed-in" href="/dashboard">Open your dashboard</a>
+    <a class="signed-out" href="/log-in">Log in</a>
+    <a class="signed-out" href="/sign-up">Sign up</a>
+    <script type="text/javascript">
+      if (document.cookie.indexOf("signed_into_blot") > -1) {
+        document.querySelectorAll(".signed-out").forEach(function (node) {
+          node.style.display = "none";
+        });
+        document.getElementById("signed-in").style.display = "block";
+      }
+    </script>
+  </div>
 </div>

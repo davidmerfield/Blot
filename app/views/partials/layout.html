@@ -1,21 +1,22 @@
-{{> head}}
-<body>
-  {{> header}}
-<section style="display:flex">
-    <section style="flex-basis:200px;padding:2rem"> 
-      {{> sidebar}}
-    </section>
-    <section style="flex-grow:1;padding:2rem">
-      {{> breadcrumbs}}
-      {{> body}}
-      {{> source_file}}    
-
-
-      {{^fullWidth}}
-      {{> internal-sidebar}}
-      {{/fullWidth}}
+<!DOCTYPE html>
+<html lang="en">
+  {{> head}}
+  <body>
+    {{> header}}
+    <section style="display: flex">
+      <section style="flex-basis: 200px; padding: 2rem">
+        {{> sidebar}}
       </section>
-  </section>
-  {{> footer}}
-</body>
+      <section style="flex-grow: 1; padding: 2rem">
+        {{> breadcrumbs}}
+        {{> body}}
+        {{> source_file}}
+
+        {{^fullWidth}}
+        {{> internal-sidebar}}
+        {{/fullWidth}}
+      </section>
+    </section>
+    {{> footer}}
+  </body>
 </html>
