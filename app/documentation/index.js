@@ -128,7 +128,6 @@ documentation.get(
   require("./tools/git-commits"),
   require("./featured"),
   function (req, res, next) {
-    res.locals.layout = "partials/layout-index";
     res.locals.title = "Blot – A blogging platform with no interface.";
     res.locals.description =
       "Turns a folder into a blog automatically. Use your favorite text-editor to write. Text and Markdown files, Word Documents, images, bookmarks and HTML in your folder become blog posts.";
