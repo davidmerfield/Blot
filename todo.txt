@@ -1,16 +1,14 @@
-Add contents of crontab to transfer.sh in node 
-
-Fix the computing of stats on the dashboard
+Copy the cron tab into the new server
 
 Add more stringent checks to scripts which mount instance storage and external volumes
 
-Turn off EU proxy once traffic disappears
+Create a queue for purging cache, group requests together to prevent stampede
 
-Check that backup of new ebs volume has worked
-
-Get blot proxy communicating with node process via unix socket
+Prevent overzealous purging of cache for syncs in which the folder does not change
 
 I goofed by using elastic ips for inter-region communication – I should have used private IPs – write about this
+
+Get blot proxy communicating with node process via unix socket
 
 Resolve screenshot issues on production server by using pupeteer with firefox
 
@@ -26,9 +24,12 @@ One bad latex equation should not [tank the build process for the whole post](ht
 
 Follow up with [Tim](https://mail.google.com/mail/u/0/#inbox/FMfcgzGtwCvckCnTJHxSFsQDZnkTPBzp) about activitypub
 
-Release unused elastic IPs
-
 Investigate use of aws s3 sync for backing up ebs volume rather than snapshots
+
+The cloudflare redirect HTTP/HTTPS issue seems to have resurfaced - why?
+
+Understand why the server gets so slow when we switch from SSD ebs to HDD ebs
+- it would be ideal to use HDD for bulk of blog storage, and take advantage of the local SSD for high performance operations
 
 ---
 
@@ -43,36 +44,20 @@ Monitoring:
   - should not be cached, should test connection
 - Move log aggregator into redis?
 - Set up fail2ban on nginx logs
-- Get systemd_status working on node and reverse proxy
-
-Try to get a minimal node server running on the reverse proxy capable of rendering pages from DB
-- determine if this 'edge' node server suffers poor performance because of latency between it and DB?
-
-Check in on redis backups on s3
-
-Why are static routes getting 'max-age= 0' on the docs?
-
-When we 'write' to the static directory we should also upload the file to bunny storage so requests dont need to hit the server?
 
 Purge old docs CSS and JS from CDN storage cache
 
 Finish redis server setup:
 - write cron script to save redis-server disk usage and free memory stats in the db then monitor this from scheduler
 - launch staging redis server from backup on s3
-
-Write tests for openresty
-- https://github.com/leafo/gh-actions-openresty
-
-Checks for servers
-- Check in on backup bucket on S3 for removal of old backups
-- check that daily backups are on s3
 - Check that redis logs have been rotated - /etc/logrotate.d/redis6
-
-If everything is smooth, buy reserved instance
 
 Data use minimization:
 - Write automated script to archive overdue blogs from disk and db
 - Write script to remove unused and unaccessed static files from within blog folders
+  - we'll also need to purge the cache of the transformer module for the file
+
+When a post is deleted, we should remove everything except the created time?
 
 ---
 
@@ -92,13 +77,12 @@ Openresty server:
 - Eventually we could think about moving the reverse proxy onto its own server, but then we need to share a disk? Or we could use a networked file system from the node.js server to the nginx server?
 - Can we turn these into our own CDN? c6gd.medium with 60GB SSD cache for $12/month each! They all connect to same redis
 
-Think about using EFS infrequent access one zone for blog data? Can we do this on top of sc1 cold storage?
-
 Create material in docs with title 'Turn X into website' where X is:
 - Dropbox, Google Drive, etc.
 - Word Document, Google Doc, etc.
 
-Test reboot for all servers
+Test reboot for all servers 
+
 Eventually configure cloud watch reboot sequence then test it
 
 ---

@@ -13,11 +13,6 @@
 # Make sure we are using the right version of node
 nvm use $BLOT_NODE_VERSION
 
-# Install dependencies
-# npm install
-# Wipe the log
-# rm $BLOT_LOG
-
 echo "[`date -u +%Y-%m-%dT%T.%3NZ`] Starting Blot server" >> $BLOT_LOG
 
 # Start the node application
