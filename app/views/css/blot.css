@@ -55,3 +55,20 @@ body {
   -moz-osx-font-smoothing: grayscale;
   text-rendering: geometricPrecision;
 }
+
+.header a,
+.sidebar a {
+  font-size: var(--font-size);
+  color: var(--text-color);
+  text-decoration: none;
+}
+
+.header a:hover,
+.sidebar a:hover {
+  color: var(--accent-color);
+}
+
+h1 {
+  font-size: var(--large-font-size);
+  margin-top: 0;
+}
