@@ -9,13 +9,38 @@
   <ul>
     <li>
       <a
-        class="{{ selected.posts }}"
-        data-open="{{ selected.format }}"
-        href="/how/posts"
-        >Posts</a
+        class="{{ selected.sync }}"
+        data-open="{{ selected.sync }}"
+        href="/how/sync"
+        >Sync your folder</a
       >
       <ul>
         <li>
+          <a class="{{ selected.dropbox }}" href="/how/sync/dropbox">Dropbox</a>
+        </li>
+        <li><a class="{{ selected.git }}" href="/how/sync/git">Git</a></li>
+        <li>
+          <a class="{{ selected.google - drive }}" href="/how/sync/google-drive"
+            >Google Drive</a
+          >
+        </li>
+      </ul>
+    </li>
+
+    <li>
+      <a
+        class="{{ selected.posts }}"
+        data-open="{{ selected.posts }}"
+        href="/how/posts"
+        >Files and posts</a
+      >
+      <ul>
+        <li><a class="{{ selected.pages }}" href="/how/pages">Pages</a></li>
+        <li>
+          <a class="{{ selected.metadata }}" href="/how/metadata">Metadata</a>
+        </li>
+
+        <!-- <li>
           <a class="{{ selected.markdown }}" href="/how/posts/markdown"
             >Markdown</a
           >
@@ -37,30 +62,7 @@
           <a class="{{ selected.citations }}" href="/how/posts/citations"
             >Citations</a
           >
-        </li>
-      </ul>
-    </li>
-    <li><a class="{{ selected.pages }}" href="/how/pages">Pages</a></li>
-    <li>
-      <a class="{{ selected.metadata }}" href="/how/metadata">Metadata</a>
-    </li>
-    <li>
-      <a
-        class="{{ selected.sync }}"
-        data-open="{{ selected.sync }}"
-        href="/how/sync"
-        >Sync your folder</a
-      >
-      <ul>
-        <li>
-          <a class="{{ selected.dropbox }}" href="/how/sync/dropbox">Dropbox</a>
-        </li>
-        <li><a class="{{ selected.git }}" href="/how/sync/git">Git</a></li>
-        <li>
-          <a class="{{ selected.google - drive }}" href="/how/sync/google-drive"
-            >Google Drive</a
-          >
-        </li>
+        </li> -->
       </ul>
     </li>
 
@@ -112,7 +114,7 @@
         class="{{ selected.toolsIndex }}"
         data-open="{{ selected.tools }}"
         href="/how/tools"
-        >Useful tools</a
+        >Tools</a
       >
       <ul>
         <li>
