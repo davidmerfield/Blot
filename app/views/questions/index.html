@@ -1,6 +1,6 @@
 <h1>{{^tag}}Questions {{/tag}}{{#tag}}Tagged '{{ tag }}'{{/tag}}</h1>
 
-{{> search}}
+{{> questions-search}}
 
 <style type="text/css">
   .filters {
@@ -120,6 +120,7 @@
         >
         <span class="secondary-text smaller"
           >{{ number_of_replies }} {{#singular}}reply{{/singular
+
           }}{{^singular}}replies{{/singular}}</span
         >
       </a>

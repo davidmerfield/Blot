@@ -123,19 +123,14 @@ documentation.use(
 
 documentation.use(require("./selected"));
 
-documentation.get(
-  "/",
-  require("./tools/git-commits"),
-  require("./featured"),
-  function (req, res, next) {
-    res.locals.title = "Blot – A blogging platform with no interface.";
-    res.locals.description =
-      "Turns a folder into a blog automatically. Use your favorite text-editor to write. Text and Markdown files, Word Documents, images, bookmarks and HTML in your folder become blog posts.";
-    // otherwise the <title> of the page is 'Blot - Blot'
-    res.locals.hide_title_suffix = true;
-    next();
-  }
-);
+documentation.get("/", require("./featured"), function (req, res, next) {
+  res.locals.title = "Blot – A blogging platform with no interface.";
+  res.locals.description =
+    "Turns a folder into a blog automatically. Use your favorite text-editor to write. Text and Markdown files, Word Documents, images, bookmarks and HTML in your folder become blog posts.";
+  // otherwise the <title> of the page is 'Blot - Blot'
+  res.locals.hide_title_suffix = true;
+  next();
+});
 
 documentation.use("/fonts", require("./fonts"));
 
@@ -147,7 +142,7 @@ documentation.use("/about/notes", require("./notes"));
 
 documentation.use("/templates", require("./templates"));
 
-documentation.use("/about/news", require("./news"));
+documentation.use("/news", require("./news"));
 
 documentation.use("/questions", require("./questions"));
 

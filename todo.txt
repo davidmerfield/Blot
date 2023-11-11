@@ -10,12 +10,6 @@ Create material in docs with title 'Turn X into website' where X is:
 - Dropbox, Google Drive, etc.
 - Word Document, Google Doc, etc.
 
-Document text editors
-https://coteditor.com/
-https://zettelkasten.de/the-archive/
-https://tot.rocks/
-https://desairem.com/wordpress/ufocus/
-
 Monitoring:
 - Write status page check that checks CDN connection to Blot
   - should not be cached, should test connection

@@ -4,7 +4,7 @@
     class="{{ selected.howIndex }}"
     data-open="{{ selected.how }}"
     href="/how"
-    >How to use Blot</a
+    >Getting started</a
   >
   <ul>
     <li>
@@ -56,6 +56,11 @@
           <a class="{{ selected.dropbox }}" href="/how/sync/dropbox">Dropbox</a>
         </li>
         <li><a class="{{ selected.git }}" href="/how/sync/git">Git</a></li>
+        <li>
+          <a class="{{ selected.google - drive }}" href="/how/sync/google-drive"
+            >Google Drive</a
+          >
+        </li>
       </ul>
     </li>
 
@@ -64,9 +69,15 @@
         class="{{ selected.configure }}"
         data-open="{{ selected.configure }}"
         href="/how/configure"
-        >Configure your site</a
+        >Set up your site</a
       >
       <ul>
+        <li>
+          <a class="{{ selected.import }}" href="/how/configure/import"
+            >Moving to Blot</a
+          >
+        </li>
+
         <li>
           <a class="{{ selected.domain }}" href="/how/configure/domain"
             >Domain</a
@@ -96,8 +107,34 @@
         </li>
       </ul>
     </li>
+    <li>
+      <a
+        class="{{ selected.toolsIndex }}"
+        data-open="{{ selected.tools }}"
+        href="/how/tools"
+        >Useful tools</a
+      >
+      <ul>
+        <li>
+          <a
+            class="{{ selected.text - editors }}"
+            href="/how/tools/text-editors"
+            >Text editors</a
+          >
+        </li>
+        <li>
+          <a class="{{ selected.images }}" href="/how/tools/images">Images</a>
+        </li>
+        <li>
+          <a class="{{ selected.automation }}" href="/how/tools/automation"
+            >Automation</a
+          >
+        </li>
+      </ul>
+    </li>
   </ul>
 </li>
+
 <li>
   <a
     class="{{ selected.templatesIndex }}"
@@ -108,9 +145,11 @@
   <ul>
     <li><a class="{{ selected.blog }}" href="/templates/blog">Blog</a></li>
     <li>
+      <a class="{{ selected.photo }}" href="/templates/photo">Photography</a>
+    </li>
+    <li>
       <a class="{{ selected.magazine }}" href="/templates/magazine">Magazine</a>
     </li>
-    <li><a class="{{ selected.photo }}" href="/templates/photo">Photo</a></li>
     <li>
       <a class="{{ selected.portfolio }}" href="/templates/portfolio"
         >Portfolio</a
@@ -126,19 +165,12 @@
         class="{{ selected.developers }}"
         data-open="{{ selected.developers }}"
         href="/templates/developers"
-        ><span
-          style="
-            margin-top: 4px;
-            padding-top: 4px;
-            display: inline-block;
-            border-top: 1px solid var(--light-border-color);
-          "
-          >Developer guide</span
-        ></a
+        ><span>Developers</span></a
       >
     </li>
   </ul>
 </li>
+
 <li>
   <a
     class="{{ selected.questionsIndex }}"
@@ -150,7 +182,7 @@
     <li>
       <a class="{{ selected.ask }}" href="/questions/ask">Ask a question</a>
     </li>
-    <li><a class="{{ selected.tags }}" href="/questions/tags">Tags</a></li>
+    <!-- <li><a class="{{selected.tags}}" href="/questions/tags">Tags</a></li> -->
   </ul>
 </li>
 <li>
@@ -161,7 +193,6 @@
     >About</a
   >
   <ul>
-    <li><a class="{{ selected.news }}" href="/about/news">News</a></li>
     <li>
       <a class="{{ selected.source - code }}" href="/about/source-code"
         >Source code</a
@@ -174,51 +205,12 @@
         data-open="{{ selected.notes }}"
         >Notes</a
       >
-      <ul>
-        <li>
-          <a
-            class="{{ selected.businessIndex }}"
-            data-open="{{ selected.business }}"
-            href="/about/notes/business"
-            >Business</a
-          >
-        </li>
-        <li>
-          <a
-            class="{{ selected.designIndex }}"
-            data-open="{{ selected.design }}"
-            href="/about/notes/design"
-            >Design</a
-          >
-        </li>
-        <li>
-          <a
-            class="{{ selected.politicsIndex }}"
-            data-open="{{ selected.politics }}"
-            href="/about/notes/politics"
-            >Politics</a
-          >
-        </li>
-        <li>
-          <a
-            class="{{ selected.programmingIndex }}"
-            data-open="{{ selected.programming }}"
-            href="/about/notes/programming"
-            >Programming</a
-          >
-        </li>
-      </ul>
     </li>
-    <li><a class="{{ selected.status }}" href="/about/status">Status</a></li>
-  </ul>
-</li>
-
-<li>
-  <a class="{{ selected.contact }}" href="/contact">Contact us</a>
-  <ul>
-    <li><a class="{{ selected.terms }}" href="/terms">Terms of use</a></li>
     <li>
-      <a class="{{ selected.privacy }}" href="/privacy">Privacy policy</a>
+      <a class="{{ selected.status }}" href="/about/status">Status</a>
     </li>
   </ul>
 </li>
+<li><a class="{{ selected.news }}" href="/news">News</a></li>
+
+<li><a class="{{ selected.contact }}" href="/contact">Contact</a></li>

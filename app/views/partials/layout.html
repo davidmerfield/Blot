@@ -3,14 +3,26 @@
   {{> head}}
   <body>
     {{> header}}
-    <section style="display: flex">
+    <section style="display: flex; min-height: 100vh">
       <section style="flex-basis: 240px; padding: 2rem; flex-shrink: 0">
         {{> sidebar}}
       </section>
       <section style="flex-grow: 1; padding: 2rem">
         {{> breadcrumbs}}
         {{> body}}
-        {{> source_file}}
+
+        {{#sourceFile}}
+
+        <a
+          href="https://github.com/davidmerfield/Blot/commits/master{{{sourceFile}}}">
+          Last updated {{ sourceFileUpdated }}
+        </a>
+        <a
+          href="https://github.com/davidmerfield/Blot/tree/master{{{sourceFile}}}">
+          Edit this page
+        </a>
+
+        {{/sourceFile}}
 
         {{^fullWidth}}
         {{> internal-sidebar}}

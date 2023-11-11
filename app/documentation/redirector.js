@@ -7,7 +7,7 @@ const internal = {
   "/log-in": "/dashboard/log-in",
   "/sign-up": "/dashboard/sign-up",
   "/notes": "/about/notes",
-  "/news": "/about/news",
+  "/about/news": "/news",
   "/help": "/how",
   "/how/tags": "/how/metadata",
   "/about/contact": "/contct",
@@ -16,7 +16,7 @@ const internal = {
   "/about/notes/business/project-management": "/about/notes/business/technique",
   "/about/notes/design/aesthetic": "/about/notes/design/principles",
   "/about/notes/design/irritating-websites": "/about/notes/design/principles",
-  "/updates": "/about/news",
+  "/updates": "/news",
   "/developers/support": "/contact",
   "/source": "/about/source-code",
   "/metadata": "/how/metadata",
@@ -61,14 +61,14 @@ const internal = {
   "/how/drafts": "/how",
   "/formatting": "/how/posts",
   "/redirects": "/how/configure/redirects",
-  "/configuring": "/how/configure",
+  "/configuring": "/how/configure"
 };
 
 const external = {
-  "/typeset": "https://typeset.lllllllllllllllll.com/",
+  "/typeset": "https://typeset.lllllllllllllllll.com/"
 };
 
-Object.keys(internal).forEach((from) => {
+Object.keys(internal).forEach(from => {
   redirector.use(from, function (req, res) {
     let to = internal[from];
     let redirect = req.originalUrl.replace(from, to);
@@ -78,7 +78,7 @@ Object.keys(internal).forEach((from) => {
   });
 });
 
-Object.keys(external).forEach((from) => {
+Object.keys(external).forEach(from => {
   redirector.use(from, function (req, res) {
     // By default, res.redirect returns a 302 status
     // code (temporary) rather than 301 (permanent)

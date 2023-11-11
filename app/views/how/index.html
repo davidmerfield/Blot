@@ -1,9 +1,9 @@
 <h1>Getting started</h1>
 
-<p>Blot turns a folder into a website. Files in the folder be­come posts on your website. What's the point of turning a folder into a website? So you can blog with your favorite text-editor. There's no interface – just files.</p>
-
+<p>Blot turns a folder into a website. Files in the folder be­come posts on your website. </p>
 <p>
-  <a class="demo-video" href="/videos/publishing-with-blot.mp4?cache=false">Watch the demo (9:39)</span></a>
+  <a class="demo-video" href="/videos/publishing-with-blot.mp4?cache=false">{{> playsvg}} Watch the video</span></a><br>
+
 </p>
 
 <h2 class="no-border">Sync your folder to Blot</h2>
@@ -14,18 +14,20 @@
 
 <h2>Prevent a file becoming a post</h2>
 <p> Files and folders whose name starts with an underscore are ignored. Ignored files don’t become blog posts themselves but you can link to or <a href="#files-in-your-folder-are-public">embed them in posts</a>.</p>
-
-<background>
-  <pre class="folder" title="Your blog"><code>Drafts
-Pages
-Posts
-  Posted.txt
-  _Not_posted_due_to_filename.jpg
-_Resources
-  Not_posted_due_to_folder_name.png
-</code>
-    </pre>
-</background>
+<table >
+  <tbody>
+    <tr>
+       <td>
+        <code class="file img">_Banana.jpg</a></code>
+      </td>
+    </tr>
+  <tr>
+      <td>
+        <code class="folder">_Fruits</code><span class="light">›</span><code class="file img">Banana.jpg</a></code>
+      </td>      
+    </tr>
+  </tbody>
+</table>
 
 <h2>Drafts</h2>
 
