@@ -8,6 +8,7 @@ const internal = {
   "/sign-up": "/dashboard/sign-up",
   "/notes": "/about/notes",
   "/about/news": "/news",
+  "/about/source-code": "/about",
   "/help": "/how",
   "/how/tags": "/how/metadata",
   "/about/contact": "/contct",
