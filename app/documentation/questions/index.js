@@ -32,11 +32,11 @@ Questions.use(["/ask", "/:id/edit", "/:id/new"], require("dashboard/session"));
 Questions.use(["/ask", "/:id/edit", "/:id/new"], urlencoded);
 
 Questions.get("/search", async (req, res) => {
-  const query = req.query.query;
-
   try {
+    const query = req.query.query;
     const questions = await search({ query });
     res.locals.questions = questions;
+    res.locals.query = query;
   } catch (e) {
     res.locals.questions = [];
   }
