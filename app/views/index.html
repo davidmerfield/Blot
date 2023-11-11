@@ -1,35 +1,35 @@
 
 <h1>Blot turns a folder into a website.</h1>
 <p>
-  <a class="demo-video" href="/videos/publishing-with-blot.mp4?cache=false">{{> playsvg}} Watch the video</span></a><br>
-  <a class="demo-video" href="/how">Read the guide</span></a>
+  <a href="/videos/publishing-with-blot.mp4?cache=false">{{> playsvg}} Watch the video</span></a><br>
+  <a href="/how">Read the guide</span></a>
 </p>
 
 <h2>Examples</h2>
 
 {{#featured.length}}
 
-<ul class="who">
+<ul>
    
   {{#featured}}
     <li>
-      <span class="contents"> 
         <a target="_blank" rel="noopener" href="{{{link}}}">
         {{#favicon.coordinates}}
-          <span style="display:block;background:url('{{#cdn}}/images/featured.png{{/cdn}}');background-size: {{background_width}}px;
+          <span style="display:inline-block;background:url('{{#cdn}}/images/featured.png{{/cdn}}');background-size: {{background_width}}px;
   background-position:-{{x}}px -{{y}}px;width:{{width}}px;height:{{height}}px;border-radius: 100px"></span>
   {{/favicon.coordinates}}
       </a>
-        
        
-          <a target="_blank" rel="noopener" href="{{{link}}}"><span class="a" style="color:{{color}};">{{name}}</span></a> {{bio}}. {{name}} joined Blot in {{joined}} and uses {{#template.custom}}a custom{{/template.custom}}{{^template.custom}}the 
-            <a href="{{#template.custom}}/templates{{/template.custom}}{{^template.custom}}/templates/{{template.slug}}{{/template.custom}}"><span class="a" style="color:{{color}};">{{template.label}}</span></a>
-        {{/template.custom}} template</span>
+      <a target="_blank" rel="noopener" href="{{{link}}}" style="color:{{color}};">{{name}}</a> 
+      {{bio}}. {{firstName}} joined in {{joined}} and uses {{#template.custom}}a custom{{/template.custom}}{{^template.custom}}the 
+      <a href="{{#template.custom}}/templates{{/template.custom}}{{^template.custom}}/templates/{{template.slug}}{{/template.custom}}">
+        {{template.label}}
+      </a>
+        {{/template.custom}} template.
 
-      </span>
     </li>
   {{/featured}}  
 </ul>  
-</div>
-  {{/featured.length}}
+
+{{/featured.length}}
 

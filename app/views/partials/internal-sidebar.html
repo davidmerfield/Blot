@@ -1,39 +1,21 @@
-<div
-  class="otp"
-  style="
-    flex-shrink: 0;
-    flex-grow: 1;
-    max-width: 240px;
-    margin: calc(var(--spacing) * 2) 0 0 calc(var(--spacing) * 3);
-  ">
-  {{#related.length}}
-  <div class="module">
-    <span
-      style="
-        margin: 0;
-        font-size: 14px;
-        font-weight: 500;
-        color: #999;
-        border: none;
-      "
-      >Related questions</span
-    ><br />
-    {{#related}}
-    <a
-      style="line-height: 1.2; color: inherit; font-size: 15px"
-      href="/questions/{{ id }}"
-      >{{ title }}</a
-    >
-    {{/related}}
-    <a href="/questions" style="color: var(--accent-color); font-size: 14px"
-      >More questions</a
-    >
-  </div>
-  {{/related.length}}
+{{#related.length}}
+<h2>  Related questions</h2>
+  >
+  {{#related}}
+  <a
+    style="line-height: 1.2; color: inherit; font-size: 15px"
+    href="/questions/{{ id }}"
+    >{{ title }}</a
+  >
+  {{/related}}
+  <a href="/questions" style="color: var(--accent-color); font-size: 14px"
+    >More questions</a
+  >
+{{/related.length}}
 
-  {{#show-question-sidebar}}
-  {{> question-sidebar}}
-  {{/show-question-sidebar}}
+{{#show-question-sidebar}}
+{{> question-sidebar}}
+{{/show-question-sidebar}}
 
   {{^hide-on-this-page}}
   <div class="module" style="position: sticky; top: 1em">
