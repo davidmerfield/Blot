@@ -83,6 +83,12 @@ h2 a {
 }
 
 /* For rendering the finder windows */
+
+.window.folder {
+  max-width: 600px;
+  margin: 2rem 0 4rem;
+}
+
 @font-face {
   font-family: "IA Writer Duospace";
   font-weight: 400;

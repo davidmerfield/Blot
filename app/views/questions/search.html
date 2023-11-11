@@ -1,0 +1,12 @@
+<h1>{{^tag}}Questions {{/tag}}{{#tag}}Tagged '{{ tag }}'{{/tag}}</h1>
+
+{{> questions-search}}
+
+<p>
+  <a href="/questions/ask">Ask question</a>
+</p>
+
+{{#questions}}
+<a href="/questions/{{ id }}">{{ title }}</a
+><br />
+{{/questions}}

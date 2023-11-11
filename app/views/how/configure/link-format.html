@@ -2,7 +2,7 @@
 
 <h1>Link format</h1>
 
-<p>Each post is assigned a permanent link automatically. You can <a href="/settings/services/link-format">set the format</a> of these links on the dashboard. If you change the link of a blog post, its old link will redirect to its new link automatically.</p>
+<p>Each post is assigned a permanent link automatically. You can <a href="/settings/services/link-format">set the format</a> of these links on the dashboard. If you change the link of a post, its old link will redirect to its new link automatically.</p>
 
 <small><table>
   <thead>
@@ -17,8 +17,8 @@
       <td><code>{{slug}}</code></td>
     </tr>
     <tr>
-      <td>/blog/title-of-the-post</td>
-      <td><code>blog/{{slug}}</code></td>
+      <td>/site/title-of-the-post</td>
+      <td><code>site/{{slug}}</code></td>
     </tr>
     <tr>
       <td>/2017/10/3/title-of-the-post</td>
@@ -29,7 +29,7 @@
 
 <h2>Reference</h2>
 
-<p>All the properties of a blog post that you can combine in your link format.</p>
+<p>All the properties of a post that you can combine in your link format.</p>
 
 <small><table>
   <thead>
@@ -52,7 +52,7 @@
 
     <tr>
       <td><code>{{path}}</code></td>
-      <td>The file’s path in lowercase. A blog post's link cannot be identical to the path to its source file so combine this with other properties.</td>
+      <td>The file’s path in lowercase. A post's link cannot be identical to the path to its source file so combine this with other properties.</td>
     </tr>
 
     <tr>
@@ -104,7 +104,7 @@
 
     <tr>
       <td><code>{{menu}}</code></td>
-      <td><code>True</code> if the file is on your blog’s menu, <code>false</code> otherwise.</td>
+      <td><code>True</code> if the file is on your site’s menu, <code>false</code> otherwise.</td>
     </tr>
   </tbody>
 </table></small>

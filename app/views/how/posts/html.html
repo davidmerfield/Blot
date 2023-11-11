@@ -1,20 +1,28 @@
 <h1>HTML</h1>
 
-<p>Published as-is. <a href="/how/metadata">Metadata</a> can be parsed from a comment at the start of a file.</p>
+<p>
+  Published as-is. <a href="/how/metadata">Metadata</a> can be parsed from a
+  comment at the start of a file.
+</p>
 
-<background class="green"><pre class="folder" title="Your blog"><code>Apple.html
+<background class="green">
+  <pre class="folder" title="Your site"><code>Apple.html
 Banana.html
 Cherry.html
-</code></pre></background>
+</code></pre>
+</background>
 
 <h2>Prevent an HTML file becoming a post</h2>
-<p>You can make Blot <a href="/how/posts#prevent-a-file-becoming-a-post">ignore a file</a> if you start its name with an underscore..</p>
-
+<p>
+  You can make Blot
+  <a href="/how/posts#prevent-a-file-becoming-a-post">ignore a file</a> if you
+  start its name with an underscore..
+</p>
 
 <h2>Setting post metadata</h2>
 <p>You can use a comment at the start of an HTML file to specify metadata.</p>
 
-<div style="max-width:39em;">
+<div style="max-width: 39em">
   <pre class="code html" title="Post.html"><code><!--
 Date: {{#date}}MMMM Do, YYYY{{/date}}
 Link: /metadata

@@ -9,26 +9,6 @@
   <ul>
     <li>
       <a
-        class="{{ selected.sync }}"
-        data-open="{{ selected.sync }}"
-        href="/how/sync"
-        >Sync your folder</a
-      >
-      <ul>
-        <li>
-          <a class="{{ selected.dropbox }}" href="/how/sync/dropbox">Dropbox</a>
-        </li>
-        <li><a class="{{ selected.git }}" href="/how/sync/git">Git</a></li>
-        <li>
-          <a class="{{ selected.google - drive }}" href="/how/sync/google-drive"
-            >Google Drive</a
-          >
-        </li>
-      </ul>
-    </li>
-
-    <li>
-      <a
         class="{{ selected.posts }}"
         data-open="{{ selected.posts }}"
         href="/how/posts"
@@ -65,7 +45,25 @@
         </li> -->
       </ul>
     </li>
-
+    <li>
+      <a
+        class="{{ selected.sync }}"
+        data-open="{{ selected.sync }}"
+        href="/how/sync"
+        >Sync your folder</a
+      >
+      <ul>
+        <li>
+          <a class="{{ selected.dropbox }}" href="/how/sync/dropbox">Dropbox</a>
+        </li>
+        <li><a class="{{ selected.git }}" href="/how/sync/git">Git</a></li>
+        <li>
+          <a class="{{ selected.google - drive }}" href="/how/sync/google-drive"
+            >Google Drive</a
+          >
+        </li>
+      </ul>
+    </li>
     <li>
       <a
         class="{{ selected.configure }}"
@@ -172,7 +170,14 @@
     </li>
   </ul>
 </li>
-
+<li>
+  <a
+    class="{{ selected.examples }}"
+    data-open="{{ selected.examples }}"
+    href="/examples"
+    >Examples</a
+  >
+</li>
 <li>
   <a
     class="{{ selected.questionsIndex }}"

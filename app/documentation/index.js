@@ -113,8 +113,6 @@ documentation.get(
   }
 );
 
-documentation.use("/search", require("./search"));
-
 // Adds a handy 'edit this page' link
 documentation.use(
   ["/how", "/templates", "/about"],
@@ -123,7 +121,7 @@ documentation.use(
 
 documentation.use(require("./selected"));
 
-documentation.get("/", require("./featured"), function (req, res, next) {
+documentation.get("/", function (req, res, next) {
   res.locals.title = "Blot – A blogging platform with no interface.";
   res.locals.description =
     "Turns a folder into a blog automatically. Use your favorite text-editor to write. Text and Markdown files, Word Documents, images, bookmarks and HTML in your folder become blog posts.";
@@ -131,6 +129,8 @@ documentation.get("/", require("./featured"), function (req, res, next) {
   res.locals.hide_title_suffix = true;
   next();
 });
+
+documentation.use("/examples", require("./featured"));
 
 documentation.use("/fonts", require("./fonts"));
 
