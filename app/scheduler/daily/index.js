@@ -37,12 +37,12 @@ function main (callback) {
     ],
     function (fn, next) {
       fn(function (err, res) {
-        for (var i in res) view[i] = res[i];
+        if (res) for (var i in res) view[i] = res[i];
         next();
       });
     },
     function (err) {
-      console.log(view);
+      console.log(err, view);
       Email.DAILY_UPDATE("", view, callback);
     }
   );
