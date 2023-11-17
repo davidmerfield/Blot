@@ -36,8 +36,11 @@ function main (callback) {
       log("Finished daily update")
     ],
     function (fn, next) {
+      console.log("invoking function");
       fn(function (err, res) {
+        console.log("invoked function");
         if (res) for (var i in res) view[i] = res[i];
+        console.log("augmented view", view);
         next();
       });
     },
