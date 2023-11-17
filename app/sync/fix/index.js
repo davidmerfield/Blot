@@ -18,10 +18,10 @@ module.exports = function (blog, callback) {
 
   async.eachSeries(
     [
-      entryGhosts,
-      tagGhosts,
-      listGhosts,
-      menuGhosts,
+      // entryGhosts,
+      // tagGhosts,
+      // listGhosts,
+      // menuGhosts,
       function (blog, callback) {
         const cacheID = Date.now();
         Blog.set(blog.id, { cacheID }, callback);
