@@ -15,7 +15,7 @@ function main (callback) {
     };
   }
 
-  async.map(
+  async.mapSeries(
     [
       log("Starting daily update"),
       log("Checking free disk space"),
