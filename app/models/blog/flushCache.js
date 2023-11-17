@@ -17,6 +17,9 @@ module.exports = function (blogID, former, callback) {
     former = {};
   }
 
+  // temporarily do nothing
+  return callback();
+
   var blogHosts = [];
   var affectedHosts = [];
 
