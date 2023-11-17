@@ -32,8 +32,8 @@ function main (callback) {
       require("./entries"),
       log("Checking number of newsletter subscribers"),
       require("./newsletter-subscribers"),
-      log("Checking number of upcoming payments"),
-      require("./payments"),
+      // log("Checking number of upcoming payments"),
+      // require("./payments"),
       log("Checking number of upcoming renewals"),
       require("./renewals"),
       log("Finished daily update")
