@@ -1,6 +1,7 @@
 var Email = require("helper/email");
 var async = require("async");
 var clfdate = require("helper/clfdate");
+var callOnce = require("helper/callOnce");
 
 function main (callback) {
   var view = {};
@@ -37,12 +38,13 @@ function main (callback) {
     ],
     function (fn, next) {
       console.log("invoking function");
-      fn(function (err, res) {
+      function then (err, res) {
         console.log("invoked function");
         if (res) for (var i in res) view[i] = res[i];
         console.log("augmented view", view);
         next();
-      });
+      }
+      fn(callOnce(then));
     },
     function (err) {
       console.log(err, view);
