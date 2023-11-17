@@ -20,8 +20,8 @@ module.exports = function (blog, callback) {
     [
       // entryGhosts,
       // tagGhosts,
-      // listGhosts,
-      // menuGhosts,
+      listGhosts,
+      menuGhosts,
       function (blog, callback) {
         const cacheID = Date.now();
         Blog.set(blog.id, { cacheID }, callback);
