@@ -10,6 +10,9 @@ function main (callback) {
     async.eachSeries(
       blogIDs,
       function (blogID, next) {
+        // If we pass in a blog ID as an argument, only fix that blog
+        if (process.argv[2] && process.argv[2] !== blogID) return next();
+
         Sync(blogID, function (err, folder, done) {
           if (err) {
             console.error(err);
