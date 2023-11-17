@@ -80,7 +80,7 @@ function main (callback) {
         var components = line.slice(line.indexOf("]") + 2).split(" ");
         var statusCode = parseInt(components[1]);
         var responseTime = parseFloat(components[2]);
-        var pid = parseInt(components[3].slice("PID=".length));
+        var pid = parseInt(components[3] && components[3].slice("PID=".length));
 
         // This line is not a request response
         if (isNaN(pid) || isNaN(statusCode) || isNaN(responseTime)) return true;

@@ -1,8 +1,14 @@
+Fix bug with openrestycache which seems to happen when cache fills up / gets old
+- add some debugging routes
+  - debug number of files matching grep 'KEY: host...' with the length of cachekeybyhost
+  - when rehydrating cache, log the number of files which failed to parse a host from
+- add a hard purge route, which deletes all cache files matching text string
+
 Fix bug with screenshot issues on production server by using pupeteer with firefox
 
-Fix bug with openrestycache which seems to happen when cache fills up / gets old
-
 Fix cloudflare redirect HTTP/HTTPS issue seems to have resurfaced - why?
+
+Git client is extremely slow to set up large folders – we need a loading screen
 
 ---
 
