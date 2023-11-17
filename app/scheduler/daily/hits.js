@@ -1,36 +1,45 @@
 const fs = require("fs-extra");
-var moment = require("moment");
-var lineReader = require("helper/lineReader");
-const rootDir = require("helper/rootDir");
+const moment = require("moment");
+const lineReader = require("helper/lineReader");
 const prettyNumber = require("helper/prettyNumber");
-const logDirectory = rootDir + "/logs";
+const { blot_directory } = require("config");
+const is = require("../../blog/render/retrieve/is");
+const logDirectory = blot_directory + "/logs";
 
-function loadTmpLogFile(callback) {
-  const tmpLogFilePath = rootDir + "/tmp/" + new Date().valueOf() + ".log";
+const LOGFILE = "app.log";
+
+function loadTmpLogFile (callback) {
+  const tmpLogFilePath =
+    blot_directory + "/tmp/" + new Date().valueOf() + ".log";
+  const todaysLogfile = logDirectory + "/" + LOGFILE;
+
   const yesterdaysLog = fs
     .readdirSync(logDirectory)
-    .map((item) => {
+    .map(item => {
       return {
         name: item,
-        has_nginx: fs.existsSync(logDirectory + "/" + item + "/nginx.log"),
-        stat: fs.statSync(logDirectory + "/" + item),
+        has_app_logfiles: fs.existsSync(
+          logDirectory + "/" + item + "/" + LOGFILE
+        ),
+        stat: fs.statSync(logDirectory + "/" + item)
       };
     })
-    .filter((item) => item.has_nginx)
+    .filter(item => item.has_nginx)
     .sort((a, b) => {
       if (a.stat.mtime > b.stat.mtime) return 1;
       if (b.stat.mtime > a.stat.mtime) return -1;
       return 0;
     })
-    .map((item) => logDirectory + "/" + item.name + "/nginx.log")
+    .map(item => logDirectory + "/" + item.name + "/" + LOGFILE)
     .pop();
 
   if (yesterdaysLog) fs.copySync(yesterdaysLog, tmpLogFilePath);
 
   // open destination file for appending
   var w = fs.createWriteStream(tmpLogFilePath, { flags: "a" });
+
   // open source file for reading
-  var r = fs.createReadStream(logDirectory + "/nginx.log");
+  var r = fs.createReadStream(todaysLogfile);
 
   w.on("close", function () {
     callback(null, tmpLogFilePath);
@@ -38,7 +47,8 @@ function loadTmpLogFile(callback) {
 
   r.pipe(w);
 }
-function main(callback) {
+
+function main (callback) {
   loadTmpLogFile(function (err, tmpLogFilePath) {
     var hits = 0;
     var responseTimes = [];
@@ -64,19 +74,21 @@ function main(callback) {
 
         if (!date.isValid()) return true;
 
-        var components = line.slice(line.indexOf("]") + 2).split(" ");
-        var responseTime = parseFloat(components[2]);
+        // Ignore requests that are not from the last 24 hours
+        if (!date.isAfter(moment().subtract(1, "day"))) return false;
 
-        if (date.isAfter(moment().subtract(1, "day"))) {
-          if (!isNaN(responseTime)) {
-            hits++;
-            responseTimes.push(responseTime);
-          }
-          return true;
-        } else {
-          // older than a day
-          return false;
-        }
+        var components = line.slice(line.indexOf("]") + 2).split(" ");
+        var statusCode = parseInt(components[1]);
+        var responseTime = parseFloat(components[2]);
+        var pid = parseInt(components[3].slice("PID=".length));
+
+        // This line is not a request response
+        if (isNaN(pid) || isNaN(statusCode) || isNaN(responseTime)) return true;
+
+        hits++;
+        responseTimes.push(responseTime);
+
+        return true;
       })
       .then(function () {
         var averageResponseTime;
@@ -100,13 +112,13 @@ function main(callback) {
           ninety_ninth_percentile_response_time: prettyTime(
             responseTimes[Math.floor(responseTimes.length * 0.99)]
           ),
-          total_requests_served: prettyNumber(hits),
+          total_requests_served: prettyNumber(hits)
         });
       });
   });
 }
 
-function prettyTime(n) {
+function prettyTime (n) {
   if (!n) return "";
   n = n.toFixed(2);
   if (n.toString() === "0.00") n = 0.01;
