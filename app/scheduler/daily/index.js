@@ -9,9 +9,9 @@ function main (callback) {
   view.date = require("moment")().format("LL");
 
   function log (msg) {
-    return function (callback) {
+    return function (cb) {
       console.log(clfdate(), "Daily update:", msg);
-      callback(null, {});
+      cb(null, {});
     };
   }
 
@@ -45,16 +45,18 @@ function main (callback) {
           console.log("invoked function");
           if (res) for (var i in res) view[i] = res[i];
           console.log("augmented view", view);
-          console.log("calling next");
-          next();
+          if (view.renewals_today) {
+            return Email.DAILY_UPDATE("", view, callback);
+          } else {
+            console.log("calling next");
+            next();
+          }
         })
       );
     },
-    // why is this sometimes not invoked?
-    // because
     function (err) {
-      console.log(err, view);
-      Email.DAILY_UPDATE("", view, callback);
+      console.log("calling callback");
+      callback(err);
     }
   );
 }
