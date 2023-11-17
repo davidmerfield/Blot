@@ -4,6 +4,7 @@ const listGhosts = require("./list-ghosts");
 const menuGhosts = require("./menu-ghosts");
 const tagGhosts = require("./tag-ghosts");
 const async = require("async");
+const callOnce = require("helper/callOnce");
 
 module.exports = function (blog, callback) {
   if (!blog) {
@@ -18,7 +19,7 @@ module.exports = function (blog, callback) {
 
   async.eachSeries(
     [
-      // entryGhosts,
+      entryGhosts,
       tagGhosts,
       listGhosts,
       menuGhosts,
@@ -31,11 +32,14 @@ module.exports = function (blog, callback) {
       }
     ],
     function (fn, next) {
-      fn(blog, function (err, report) {
-        if (err) return next(err);
-        if (report && report.length) finalReport[fn.name] = report;
-        next();
-      });
+      fn(
+        blog,
+        callOnce(function (err, report) {
+          if (err) return next(err);
+          if (report && report.length) finalReport[fn.name] = report;
+          next();
+        })
+      );
     },
     function (err) {
       callback(err, finalReport);
