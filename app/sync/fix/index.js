@@ -19,12 +19,15 @@ module.exports = function (blog, callback) {
   async.eachSeries(
     [
       // entryGhosts,
-      // tagGhosts,
+      tagGhosts,
       listGhosts,
       menuGhosts,
       function (blog, callback) {
         const cacheID = Date.now();
-        Blog.set(blog.id, { cacheID }, callback);
+        Blog.set(blog.id, { cacheID }, function (err) {
+          if (err) return callback(err);
+          callback();
+        });
       }
     ],
     function (fn, next) {
