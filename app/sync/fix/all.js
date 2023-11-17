@@ -6,20 +6,20 @@ const async = require("async");
 function main (callback) {
   // const finalReport = [];
   Blog.getAllIDs(function (err, blogIDs) {
+    if (err || !blogIDs) return callback(err || new Error("No blog IDs"));
     async.eachSeries(
       blogIDs,
       function (blogID, next) {
-        Blog.get({ id: blogID }, function (err, blog) {
-          if (err || !blog) {
-            console.error(err || new Error("No blog"));
+        Sync(blogID, function (err, folder, done) {
+          if (err) {
+            console.error(err);
             return next();
           }
-          console.log("Syncing", blog.id, blog.handle);
-          Sync(blogID, function (err, folder, done) {
-            if (err) {
-              console.error(err);
-              return next();
+          Blog.get({ id: blogID }, function (err, blog) {
+            if (err || !blog) {
+              return done(err || new Error("No blog"), next);
             }
+
             Fix(blog, function (err, report) {
               // if (report && Object.keys(report).length) {
               //   report.blog = { id: blog.id, handle: blog.handle };
