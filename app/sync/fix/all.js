@@ -4,7 +4,7 @@ const Fix = require("sync/fix");
 const async = require("async");
 
 function main (callback) {
-  // const finalReport = [];
+  const finalReport = [];
   Blog.getAllIDs(function (err, blogIDs) {
     if (err || !blogIDs) return callback(err || new Error("No blog IDs"));
     async.eachSeries(
@@ -21,10 +21,10 @@ function main (callback) {
             }
 
             Fix(blog, function (err, report) {
-              // if (report && Object.keys(report).length) {
-              //   report.blog = { id: blog.id, handle: blog.handle };
-              //   // finalReport.push(report);
-              // }
+              if (report && Object.keys(report).length) {
+                report.blog = { id: blog.id, handle: blog.handle };
+                finalReport.push(report);
+              }
               done(null, next);
             });
           });
