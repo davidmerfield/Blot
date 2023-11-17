@@ -8,10 +8,12 @@ function main (callback) {
 
   view.date = require("moment")().format("LL");
 
-  const log = msg => callback => {
-    console.log(clfdate(), "Daily update:", msg);
-    callback(null, {});
-  };
+  function log (msg) {
+    return function (callback) {
+      console.log(clfdate(), "Daily update:", msg);
+      callback(null, {});
+    };
+  }
 
   async.map(
     [
@@ -38,14 +40,18 @@ function main (callback) {
     ],
     function (fn, next) {
       console.log("invoking function");
-      function then (err, res) {
-        console.log("invoked function");
-        if (res) for (var i in res) view[i] = res[i];
-        console.log("augmented view", view);
-        next();
-      }
-      fn(callOnce(then));
+      fn(
+        callOnce(function (err, res) {
+          console.log("invoked function");
+          if (res) for (var i in res) view[i] = res[i];
+          console.log("augmented view", view);
+          console.log("calling next");
+          next();
+        })
+      );
     },
+    // why is this sometimes not invoked?
+    // because
     function (err) {
       console.log(err, view);
       Email.DAILY_UPDATE("", view, callback);
