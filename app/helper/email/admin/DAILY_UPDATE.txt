@@ -3,6 +3,7 @@ Daily update for {{date}}
 Memory available: {{memory_available}} ({{memory_usage}} used)
 
 Disk space available: {{disk_space_available}} ({{disk_space_usage}} used)
+
 Node root disk available: {{node_root_disk_available}} ({{node_root_disk_usage}} used)
 
 Redis memory available: {{redis_memory_available}} ({{redis_memory_usage}} used)
@@ -20,8 +21,11 @@ Average response time: {{average_response_time}} ({{median_response_time}} media
 ***
 
 Number of blogs: {{total_active_blogs}}
+
 Number of subscribers: 
+
 Revenue: {{revenue_in_last_24_hours}} 24 hours, {{revenue_in_last_7_days}} 7 days, {{revenue_in_last_30_days}} last 30 days
+
 Expected revenue: {{#renewals_today}} {{revenue}} from {{total}} blog{{s}} in 24 hours, {{/renewals_today}}
 
 ***

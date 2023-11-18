@@ -2,7 +2,7 @@ var config = require("config");
 var stripe = require("stripe")(config.stripe.secret);
 var prettyPrice = require("helper/prettyPrice");
 
-function main(callback) {
+function main (callback) {
   var now = Date.now();
   var day = 1000 * 60 * 60 * 24;
   var yesterday = now - day;
@@ -15,7 +15,7 @@ function main(callback) {
   var revenue_in_last_7_days = 0;
   var revenue_in_last_24_hours = 0;
 
-  stripe.charges.list(options, function then(err, res) {
+  stripe.charges.list(options, function then (err, res) {
     if (err) return callback(err);
 
     charges = charges.concat(res.data);
@@ -42,7 +42,7 @@ function main(callback) {
     callback(null, {
       revenue_in_last_24_hours: prettyPrice(revenue_in_last_24_hours),
       revenue_in_last_7_days: prettyPrice(revenue_in_last_7_days),
-      revenue_in_last_30_days: prettyPrice(revenue_in_last_30_days),
+      revenue_in_last_30_days: prettyPrice(revenue_in_last_30_days)
     });
   });
 }
