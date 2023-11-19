@@ -1,0 +1,22 @@
+{{#folder.stat}}
+
+{{#entry}}
+<img src="/images/file-post.svg" width="26" />
+{{/entry}}
+
+{{^entry}}
+<img src="/images/file-empty.svg" width="26" />
+{{/entry}}
+
+<h1>
+  {{ name }}
+</h1>
+
+<a href="{{{blog.url}}}{{{path}}}" target="_blank">Download file</a>
+
+<hr />
+{{> stat}}
+
+{{> entry}}
+
+{{/folder.stat}}

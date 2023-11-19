@@ -1,124 +1,186 @@
-{{> sub_nav}}
+<div style="display: flex">
+  <style>
+    p {
+      font-size: 16px;
+      padding: 0.5rem 1rem;
+      margin: 0;
+      border-bottom: 1px solid;
+    }
+  </style>
+  <div>
+    <div style="border: 1px solid; margin: 0 2rem 0 0">
+      <p>
+        <a href="{{{base}}}/title">
+          Title
 
-<!-- 
-  <a href="{{blog.url}}" target="_blank" style="    padding: 4px 20px;
-    display: block;
-    border-bottom: 1px solid #eee;
-    background: #eeeeee57;
-    color: #b9b6b6;">{{blog.url}}</a> -->
-<div>
+          {{ blog.title }}
+          {{^blog.title}}
+          Add a title{{/blog.title}}
 
-  <form method='post' action='?_csrf={{csrftoken}}' enctype='multipart/form-data'>
-    <a class="line" href="{{{base}}}/title">
-      <span class="label">Title</span>
-      <span class="center" >
-        <span class="truncate" style="display: block">{{blog.title}}</span>
-        {{^blog.title}}
-        <span class="link">Add a title</span>{{/blog.title}}
-      </span>
+          {{#blog.title}}
+          Edit
+          {{/blog.title}}
+        </a>
+      </p>
+      <p>
+        <a href="{{{base}}}/domain">
+          Domain
+          {{ blog.pretty.url }}
+          Edit
+        </a>
+      </p>
 
-      {{#blog.title}}
-        <span class="right" >Edit</span>
-      {{/blog.title}}
-      
-    </a>
-    <a class="line" href="{{{base}}}/domain">
-      <span class="label">Domain</span>
-      <span class="center">{{blog.pretty.url}}</span>
-      <span class="right">Edit</span>
-    </a>
+      <p>
+        <a href="{{{base}}}/photo">
+          Photo
+          {{^blog.avatar}}
+          Choose a photo
+          {{/blog.avatar}}
 
-    <a class="line" href="{{{base}}}/template">
-      <span class="label">Template</span>
-      <span class="center">
-        {{#template.name}}
-        {{template.name}}
-        {{/template.name}}
+          {{#blog.avatar}}
+          <img src="{{ blog.avatar }}" width="48" />
+          Edit
+          {{/blog.avatar}}
+        </a>
+      </p>
 
-        {{^template.name}}
-        <i>You are not using a template</i>
-        {{/template.name}}
-      </span>
-      <span class="right">Edit</span>
-    </a>
+      <p>
+        <a href="{{{base}}}/links">
+          Links
 
-    <a class="line" href="{{{base}}}/photo">
-      <span class="label" style="float:left">Photo</span>  
-      {{^blog.avatar}}
-      <span class="link">Choose a photo</span>
-      {{/blog.avatar}}
+          {{#blog.menu}}
+          {{ label }}
+          {{/blog.menu}}
 
-      {{#blog.avatar}}
-      <span class="center" style="width: 48px;height:48px;display:inline-block; vertical-align: middle;">
-        <img style="max-width:48px;max-height:48px;vertical-align: baseline; display: inline;" src="{{blog.avatar}}" class="{{#blog.roundAvatar}}rounded{{/blog.roundAvatar}}" />
-      </span>
-      <span class="right" >Edit</span>    
-        {{/blog.avatar}}
+          {{^blog.menu.length}}
+          <i>Your menu is empty</i>
+          {{/blog.menu.length}}
+        </a>
+      </p>
+    </div>
+    <br />
+    <div style="border: 1px solid; margin: 0 2rem 0 0">
+      <p style="background: rgba(0, 0, 0, 0.1); padding: 0.1rem 1rem">
+        <small>Template</small>
+      </p>
+      <iframe
+        src="{{{ blog.pretty.url }}}"
+        style="width: 100%; height: 200px; border: none"></iframe>
+      <p>
+        <a href="{{{base}}}/template"> Edit template </a>
+      </p>
+    </div>
+    <br />
+    <div style="border: 1px solid; margin: 0 2rem 0 0">
+      <p style="background: rgba(0, 0, 0, 0.1); padding: 0.1rem 1rem">
+        <small>Settings</small>
+      </p>
 
-    </section>
-  </a>
+      <p>
+        <a class="line" href="{{{base}}}/date">
+          <span class="label">Date and time</span>
+          <span class="center">{{ currentTime }}</span>
+          <span class="right">Edit</span>
+        </a>
+      </p>
+      <p>
+        <a class="line" href="{{{base}}}/link-format">
+          <span class="label">Link format</span>
+          <span class="center">
+            {{#permalinkFormats}}
+            {{#checked}}{{ example }}{{/checked}}{{/permalinkFormats}}
+          </span>
+          <span class="right">Edit</span>
+        </a>
+      </p>
+      <p>
+        <a class="line" href="{{{base}}}/redirects">
+          <span class="label">Redirects</span>
+          <span class="link">Edit your redirect rules</span>
+        </a>
+      </p>
+      <p>
+        <a class="line" href="{{{base}}}/analytics">
+          <span class="label">Analytics</span>
+          <span class="link">Edit your analytics</span>
+        </a>
+      </p>
+      <p>
+        <a class="line" href="{{{base}}}/comments">
+          <span class="label">Comments</span>
+          <span class="link">Edit comments</span>
+        </a>
+      </p>
+      <p>
+        <a class="line" href="{{{base}}}/images">
+          <span class="label">Images</span>
+          <span class="link">Edit image settings</span>
+        </a>
+      </p>
+      <p>
+        <a class="line" href="{{{base}}}/typography">
+          <span class="label">Typography</span>
+          <span class="link">Edit your typography settings</span>
+        </a>
+      </p>
+      <p>
+        <a class="line" href="{{{base}}}/import">
+          <span class="label">Import</span>
+          <span class="link">Import from other platforms</span>
+        </a>
+      </p>
+      <p>
+        <a class="line" href="/dashboard/account/export">
+          <span class="label">Export</span>
+          <span class="center">
+            <span class="link">Download this site's data</span>
+          </span>
+        </a>
+      </p>
 
-  <a class="line" href="{{{base}}}/links">
-    <span class="label">Links</span>
-    <span class="center" style="overflow:hidden;position:relative;left:-2px">
-      <div style="height:1.5em;width:1000px;">
-        {{#blog.menu}}
-        <span class="tablet">{{label}}</span>
-        {{/blog.menu}}
-        
-        {{^blog.menu.length}}
-        <i>Your menu is empty</i>
-        {{/blog.menu.length}}
-      </div>
-      <div class="tablet-cover"></div>      
-    </span>
+      <p>
+        <a href="/dashboard/account/subscription/delete/blog/{{ blog.handle }}">
+          Delete Delete this blog
+        </a>
+      </p>
+    </div>
+  </div>
+  <div>
+    <div style="border: 1px solid; margin: 0 2rem 0 0">
+      <p style="background: rgba(0, 0, 0, 0.1); padding: 0.1rem 1rem">
+        <small>Visit site</small>
+      </p>
+    </div>
 
-  </a>
-
-  <a class="line" href="{{{base}}}/services">
-    <span class="label">
-      Services
-    </span>
-    <span class="link">
-      Analytics, comments, typography
-    </span>
-  </a>
- <a  style="border-bottom: none;" class="line" href="/dashboard/account/subscription/delete/blog/{{blog.handle}}">
-   <span class="label">
-      Delete
-    </span>
-    <span class="link">
-      Delete this blog
-    </span>
-  </a>
-  <!-- 
-    <a class="line" href="{{{base}}}/photo">
-      <span class="label">Photo</span>
-      <span class="center">
-
-        {{^blog.avatar}}
-        <span class="link">Choose a photo</span>
-        {{/blog.avatar}}
-
-        {{#blog.avatar}}
-          <img style="max-width:64px;max-height:64px;margin:4px 8px 0 0;    vertical-align: baseline;
-      display: inline;" src="{{blog.avatar}}" class="{{#blog.roundAvatar}}rounded{{/blog.roundAvatar}}" />
-              <span class="link">Change</span>    
-
-        {{/blog.avatar}}
-      </span>
-        {{#blog.avatar}}
-  {{/blog.avatar}}
-    </a> -->
-
-    <!-- 
-    <a class="line" href="{{{base}}}/urls" >
-      <span class="label">URLs</span>
-      <span class="center">{{#permalinkFormats}}{{#checked}}{{example}}{{/checked}}{{/permalinkFormats}}</span>
-      <span class="right">Change</span>
-    </a> -->
-
-  </form>
+    <br />
+    <div style="border: 1px solid; margin: 0 0 0">
+      {{> folder}}
+    </div>
+  </div>
 </div>
-<Br>
-{{> folder}}
+
+<script src="/js/jquery.js?{{ cacheID }}"></script>
+<script type="text/javascript">
+  $(".plugin > label input[type=checkbox]").click(function () {
+    $(this).parent().parent().parent().toggleClass("checked");
+  });
+  // Simple Analytics and Plausible don't require a tracking ID
+  $("#selectAnalytics").change(function () {
+    if (
+      $(this).val() !== "None" &&
+      ["SimpleAnalytics", "Plausible"].indexOf($(this).val()) === -1
+    ) {
+      // Cloudflare requires Token rather than Tracking ID
+      if ($(this).val() == "Cloudflare") {
+        $("#trackingIdInput span").text("Token:");
+      } else {
+        $("#trackingIdInput span").text("Tracking ID:");
+      }
+      $("#trackingIdInput").show();
+    } else {
+      $("#trackingIdInput").hide();
+    }
+  });
+  // Trigger change event for correct state on page load
+  $("#selectAnalytics").trigger("change");
+</script>

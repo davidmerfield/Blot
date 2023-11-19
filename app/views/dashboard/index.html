@@ -1,35 +1,45 @@
-<div style="min-height: 75vh;display: flex;flex-direction: column;">
+{{#blogs}}
+<p>
+  <a href="/dashboard/{{ handle }}">
+    {{#avatar}}
+    <img src="{{ avatar }}?handle={{ handle }}" width="32" />
+    {{/avatar}}
+    {{^avatar}}
+    <img src="/images/folder-empty.svg" class="fallback" width="32" />
+    {{/avatar}}
+    <b>{{ pretty.label }}</b>
+    {{ pretty.url }}
+  </a>
+</p>
+{{/blogs}}
 
-<div style="flex-grow: 1">  
-{{> dropdown}}
+<p>
+  <a href="/dashboard/account/create-blog"> New blog </a>
+</p>
 
-<br><br>
-</div>
+<br /><br />
+<hr />
 
-<div>
-<span style="display:block;padding:11px 20px;border-bottom: 1px solid rgba(0,0,0,0.05);font-weight: 600;color: #000">Your account</span>
-<a class="line" href="/dashboard/account/email">
-	<span class="label">Email</span>
-	<span class="center">{{user.email}}</span>
-  <span class="right">Edit</span>
-</a>
+<span>Your account</span>
+<p>
+  <a href="/dashboard/account/email">
+    Email
+    {{ user.email }}
+    Edit
+  </a>
+</p>
 
-{{#user.hasPassword}}
-<a class="line" href="/dashboard/account/password">
-	<span class="label">Password</span>
-	<span class="center"><span class="link">Change your password</span></span>
-</a>
-{{/user.hasPassword}} {{^user.hasPassword}}
-<a class="line" href="/dashboard/account/password/set">
-	<span class="label">Password</span>
-	<span class="center"><span class="link">Set your password</span></span>
-</a>
-{{/user.hasPassword}}
+<p>
+  <a
+    href="/dashboard/account/password{{^user.hasPassword}}/set{{/user.hasPassword}}">
+    Password
+    {{#user.hasPassword}}Change{{/user.hasPassword}}
+    {{^user.hasPassword}}Set{{/user.hasPassword}} your password
+  </a>
+</p>
 
-<a class="line" href="/dashboard/account/subscription" style="border-bottom: none;">
-	<span class="label">Subscription</span>
-
-	<span class="center"><span class="link">Manage your subscription</span></span>
-</a>
-</div>
-</div>
+<p>
+  <a href="/dashboard/account/subscription">
+    Subscription Manage your subscription
+  </a>
+</p>

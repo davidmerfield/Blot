@@ -1,4 +1,4 @@
-var hogan = require("helper/express-mustache");
+var mustache = require("helper/express-mustache");
 var trace = require("helper/trace");
 const root = require("helper/rootDir");
 const { join } = require("path");
@@ -29,7 +29,7 @@ dashboard.set("trust proxy", ["loopback", ...config.reverse_proxies]);
 // render the views.
 dashboard.set("view engine", "html");
 dashboard.set("views", VIEW_DIRECTORY);
-dashboard.engine("html", hogan);
+dashboard.engine("html", mustache);
 
 const { plan } = config.stripe;
 dashboard.locals.price = "$" + plan.split("_").pop();
@@ -144,13 +144,6 @@ dashboard.use("/settings", require("./load-blogs"), function (req, res, next) {
   }
 });
 
-dashboard.use("/account", function (req, res, next) {
-  // we don't want search engines indexing these pages
-  // since they're /logged-out, /disabled and
-  res.set("X-Robots-Tag", "noindex");
-  next();
-});
-
 // Send user's avatar
 dashboard.use("/_avatars/:avatar", require("./avatar"));
 
@@ -170,7 +163,7 @@ dashboard.use("/:handle", function (req, res, next) {
   // we use pretty.label instead of title for title-less blogs
   // this falls back to the domain of the blog if no title exists
   res.locals.base = `/dashboard/${req.params.handle}`;
-  res.locals.breadcrumbs.add("Your blogs", "/dashboard");
+  res.locals.breadcrumbs.add("Your sites", "/dashboard");
   res.locals.breadcrumbs.add(req.blog.pretty.label, `${req.params.handle}`);
   res.locals.title = req.blog.pretty.label;
   next();
@@ -184,8 +177,8 @@ dashboard.use("/:handle/template/edit", require("./template-editor"));
 dashboard.use("/:handle/status", require("./status"));
 
 dashboard.get("/", require("./load-blogs"), function (req, res) {
-  res.locals.title = "Your blogs";
-  res.locals.breadcrumbs.add("Your blogs", "/dashboard");
+  res.locals.title = "Your sites";
+  res.locals.breadcrumbs.add("Your sites", "/dashboard");
   res.render("index");
 });
 
@@ -203,7 +196,7 @@ dashboard.get(
 );
 
 dashboard.get("/:handle", require("./folder"));
-dashboard.use("/:handle/services/import", require("./import"));
+dashboard.use("/:handle/import", require("./import"));
 dashboard.use("/:handle", require("./settings"));
 
 // This will catch old links to the dashboard before

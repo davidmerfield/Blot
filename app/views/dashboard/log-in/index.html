@@ -1,9 +1,19 @@
-  <p style="margin:0;color:grey;/*background:rgba(0,0,0,0.02);*/border-bottom: 1px solid var(--light-border-color);padding-bottom: 16px;margin:-18px -36px 0;padding: 18px 36px;border-radius: 18px 18px 0 0"><strong style="display: block;color: #000;">Log in</strong>
-    {{^then}}Manage your blogs{{/then}}
-    {{#then}}
-      {{#then_description}}To {{then_description}}{{/then_description}}
-      {{^then_description}}To access your dashboard{{/then_description}}
-    {{/then}}</p>
+<p
+  style="
+    margin: 0;
+    color: grey; /*background:rgba(0,0,0,0.02);*/
+    border-bottom: 1px solid var(--light-border-color);
+    padding-bottom: 16px;
+    margin: -18px -36px 0;
+    padding: 18px 36px;
+    border-radius: 18px 18px 0 0;
+  ">
+  <strong style="display: block; color: #000">Log in</strong> {{^then}}Manage
+  your sites{{/then}}
+  {{#then}}
+  {{#then_description}}To {{ then_description }}{{/then_description}}
+  {{^then_description}}To access your dashboard{{/then_description}} {{/then}}
+</p>
 
 <style type="text/css">
   input[type="submit"].link {
@@ -18,69 +28,78 @@
     width: auto;
     text-decoration: underline;
     transition-property: color, border-color;
-    transition-duration: .1s;
+    transition-duration: 0.1s;
     transition-timing-function: ease-out;
   }
 
   input[type="submit"].link:active {
     margin: 0;
-    padding: 0
+    padding: 0;
   }
 </style>
 
+{{#BADTOKEN}}
+<p class="error">The link to set your password has expired</p>
+{{/BADTOKEN}}
 
+{{#BADEMAIL}}
+<p class="error">That email address does not match a Blot account.</p>
+{{/BADEMAIL}}
 
-  {{#BADTOKEN}}
-  <p class="error">The link to set your password has expired</p>
-  {{/BADTOKEN}}
+{{#NOEMAIL}}
+<p class="error">Please enter your email address.</p>
+{{/NOEMAIL}}
 
-  {{#BADEMAIL}}
-  <p class="error">That email address does not match a Blot account.</p>
-  {{/BADEMAIL}}
+{{#NOPASSWORD}}
+<p class="error">Please enter your password.</p>
+{{/NOPASSWORD}}
 
-  {{#NOEMAIL}}
-  <p class="error">Please enter your email address.</p>
-  {{/NOEMAIL}}
-
-  {{#NOPASSWORD}}
-  <p class="error">Please enter your password.</p>
-  {{/NOPASSWORD}}
-
-  {{#BADPASSWORD}}
-  <p class="error">That was not your password.</p>
-  {{/BADPASSWORD}}
-
-
-
-
+{{#BADPASSWORD}}
+<p class="error">That was not your password.</p>
+{{/BADPASSWORD}}
 
 <form method="POST">
-  <input type="hidden" name="_csrf" value="{{csrf}}" />
+  <input type="hidden" name="_csrf" value="{{ csrf }}" />
 
   <p>
     <label for="email">Your email address</label>
     {{#validemail}}
-    <input name="email" onchange="updateReset(this)" type="text" value="{{email}}" />
+    <input
+      name="email"
+      onchange="updateReset(this)"
+      type="text"
+      value="{{ email }}" />
     {{/validemail}}
     {{^validemail}}
-    <input name="email" onchange="updateReset(this)" type="text" value="{{email}}" autofocus />
+    <input
+      name="email"
+      onchange="updateReset(this)"
+      type="text"
+      value="{{ email }}"
+      autofocus />
     {{/validemail}}
   </p>
   <p>
-    <label for="password">Password <a style="color:inherit;float:right;" id="reset" href="/log-in/reset{{#email}}?email={{email}}{{/email}}">Reset your password</a></label>
-    {{#validemail}} 
+    <label for="password"
+      >Password
+      <a
+        style="color: inherit; float: right"
+        id="reset"
+        href="/log-in/reset{{#email}}?email={{ email }}{{/email}}"
+        >Reset your password</a
+      ></label
+    >
+    {{#validemail}}
     <input name="password" type="password" autofocus />
     {{/validemail}}
-    {{^validemail}} 
+    {{^validemail}}
     <input name="password" type="password" />
     {{/validemail}}
   </p>
   <input type="submit" value="Log in" style="margin-bottom: 8px" />
 </form>
 <script type="text/javascript">
-  
-function updateReset(node){
-  document.getElementById('reset').href='/log-in/reset?email=' + node.value
-}
+  function updateReset(node) {
+    document.getElementById("reset").href = "/log-in/reset?email=" + node.value;
+  }
 </script>
-

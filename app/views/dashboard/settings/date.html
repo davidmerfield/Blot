@@ -1,41 +1,33 @@
+<form method="post" action="{{{base}}}" enctype="multipart/form-data">
+  <input type="hidden" name="_csrf" value="{{ csrftoken }}" />
+  <input type="hidden" name="redirect" value="{{{base}}}/{{ subpage }}" />
 
-<style type="text/css">
-  form label {
-    text-transform: none;
-    letter-spacing: 0;
-    color: rgb(158, 154, 152);
-    font-size: 16px
-  }
+  <p>
+    <label>
+      In what order do you write your dates?<br />
+      <select style="color: #000; margin-top: 11px" name="dateFormat">
+        {{#dateFormats}}
+        <option value="{{ value }}" {{selected}}>{{ date }}</option>
+        {{/dateFormats}}
+      </select>
+    </label>
+  </p>
 
-  form .line {padding-top: 16px;padding-bottom: 16px}
-  p a {
-    color: #0070e8;
-    text-decoration: none
-  }
-
-  p a:hover {
-    text-decoration: underline;
-  }
-</style>
-
-<p>
-  <label>
-    In what order do you write your dates?<br />
-    <select style="color:#000;margin-top:11px" name="dateFormat">
-      {{#dateFormats}}
-      <option value="{{value}}" {{selected}}>{{date}}</option>
-      {{/dateFormats}}
-    </select>
-  </label>
-</p>
-
-<p>
-  <label>
-    Your timezone<br />
-    <select style="color:#000;margin-top:11px" name="timeZone" style="max-width:300px">
-      {{#timeZones}}
-      <option value="{{value}}" {{selected}}>{{time}} {{value}}</option>
-      {{/timeZones}}
-    </select>
-  </label>
-</p>
+  <p>
+    <label>
+      Your timezone<br />
+      <select
+        style="color: #000; margin-top: 11px"
+        name="timeZone"
+        style="max-width: 300px">
+        {{#timeZones}}
+        <option value="{{ value }}" {{selected}}>{{ time }} {{ value }}</option>
+        {{/timeZones}}
+      </select>
+    </label>
+  </p>
+  <div class="buttons">
+    <button type="submit">Save changes</button>
+    <a href="{{{base}}}">Cancel</a>
+  </div>
+</form>

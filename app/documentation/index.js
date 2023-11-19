@@ -1,7 +1,6 @@
 const config = require("config");
 const Express = require("express");
 const documentation = new Express();
-const hogan = require("helper/express-mustache");
 const fs = require("fs-extra");
 const mustache = require("helper/express-mustache");
 const redirector = require("./redirector");

@@ -15,7 +15,7 @@ var parse = require("dashboard/parse");
 
 CreateBlog.use(function (req, res, next) {
   res.locals.breadcrumbs.forEach(function (link) {
-    if (link.label === "Your account") link.label = "Your blogs";
+    if (link.label === "Your account") link.label = "Your sites";
   });
   next();
 });
@@ -42,7 +42,7 @@ CreateBlog.route("/pay")
     res.render("account/create-blog-pay", {
       title: "Create a blog",
       not_paid: true,
-      breadcrumb: "Create blog",
+      breadcrumb: "Create blog"
     });
   })
 
@@ -82,7 +82,7 @@ CreateBlog.route("/")
     res.render("account/create-blog", {
       title: "Create a blog",
       first_blog: req.user.blogs.length === 0,
-      breadcrumb: "Create a blog",
+      breadcrumb: "Create a blog"
     });
   })
 
@@ -97,7 +97,7 @@ CreateBlog.route("/")
     res.message(err);
   });
 
-function calculateFee(req, res, next) {
+function calculateFee (req, res, next) {
   // We dont need to do this for free users
   if (canSkip(req.user)) return next();
 
@@ -138,7 +138,7 @@ function calculateFee(req, res, next) {
   next();
 }
 
-function validateSubscription(req, res, next) {
+function validateSubscription (req, res, next) {
   var subscription = req.user.subscription;
 
   if (canSkip(req.user)) return next();
@@ -159,7 +159,7 @@ function validateSubscription(req, res, next) {
 
 var chars = "abcdefghijklmnopqrstuvwxyz".split("");
 
-function randomChars(len) {
+function randomChars (len) {
   var res = "";
 
   while (res.length < len)
@@ -168,7 +168,7 @@ function randomChars(len) {
   return res;
 }
 
-function handleFromTitle(title) {
+function handleFromTitle (title) {
   var handle = "";
 
   handle = title.toLowerCase().replace(/\W/g, "");
@@ -180,7 +180,7 @@ function handleFromTitle(title) {
   return handle;
 }
 
-function saveBlog(req, res, next) {
+function saveBlog (req, res, next) {
   var title, handle;
 
   if (req.body.no_title) {
@@ -196,10 +196,10 @@ function saveBlog(req, res, next) {
   var newBlog = {
     title: title,
     handle: handle,
-    timeZone: req.body.timeZone,
+    timeZone: req.body.timeZone
   };
 
-  Blog.create(req.user.uid, newBlog, function onCreate(err, blog) {
+  Blog.create(req.user.uid, newBlog, function onCreate (err, blog) {
     if (
       err &&
       err.handle &&
@@ -224,11 +224,11 @@ function saveBlog(req, res, next) {
   });
 }
 
-function canSkip(user) {
+function canSkip (user) {
   return !user.subscription.status && user.blogs.length === 0;
 }
 
-function updateSubscription(req, res, next) {
+function updateSubscription (req, res, next) {
   // We dont need to do this for free users
   if (canSkip(req.user)) {
     return next();
@@ -244,7 +244,7 @@ function updateSubscription(req, res, next) {
     req.user.subscription.id,
     {
       quantity: req.user.blogs.length + 1,
-      prorate: false,
+      prorate: false
     },
     function (err, subscription) {
       if (err) return next(err);
@@ -261,7 +261,7 @@ function updateSubscription(req, res, next) {
   );
 }
 
-function chargeForRemaining(req, res, next) {
+function chargeForRemaining (req, res, next) {
   // We dont need to do this for free users
   if (!req.user.subscription.status) {
     return next();
@@ -283,7 +283,7 @@ function chargeForRemaining(req, res, next) {
       amount: req.amount_due_now,
       currency: "usd",
       customer: req.user.subscription.customer,
-      description: "Charge for the remaining billing period",
+      description: "Charge for the remaining billing period"
     },
     function (err, charge) {
       if (err) return next(err);

@@ -1,0 +1,159 @@
+<form method="post" id="{{ key }}">
+  <input
+    class="name"
+    placeholder="e.g. background"
+    type="hidden"
+    value="{{ key }}" />
+  <input
+    class="value"
+    name="locals.{{ key }}"
+    placeholder="e.g. #FFFFFF"
+    type="hidden"
+    value="{{ value }}" />
+  <div
+    class="color-picker-{{ key }}"
+    style="cursor: pointer; display: flex; align-items: center">
+    <span
+      id="prev-{{ key }}"
+      style="outline: 1px solid rgba(0,0,0,0.2);outline-offset:-1px;margin:0 16px;width:2rem;height:1.25rem;background:{{
+        value
+      }};display: block;"></span>
+    <span style="margin: 5px 16px 5px 0; flex-grow: 1">{{ label }}</span>
+    <span class="pcr-color-preview">
+      <span class="pcr-current-color"></span>
+    </span>
+  </div>
+  <div class="clear"></div>
+</form>
+
+<script type="text/javascript" src="/js/pickr/es5.min.js"></script>
+
+<style type="text/css">
+  div[class^="color-picker-"]:hover {
+    background: #fff;
+  }
+
+  .pickr {
+    z-index: auto;
+  }
+  .pcr-app .pcr-selection .pcr-picker {
+    z-index: 1;
+  }
+
+  .pcr-app.visible {
+    transition: none;
+    visibility: visible;
+    opacity: 1;
+  }
+
+  .pcr-app[data-theme="monolith"] .pcr-selection .pcr-color-chooser,
+  .pcr-app[data-theme="monolith"] .pcr-selection .pcr-color-opacity {
+    height: 0.65em;
+    margin-top: 0.65em;
+  }
+
+  .pcr-app {
+    transition: none;
+    box-shadow: 0 1.5em 1.5em 0 rgba(0, 0, 0, 0.1),
+      0 1em 1em 0 rgba(0, 0, 0, 0.03);
+    border-radius: 0;
+  }
+  .pcr-app[data-theme="monolith"] {
+    width: 16rem;
+    padding: 1em;
+    margin-top: -8px;
+    box-shadow: 0 0 1px #000;
+  }
+
+  .pcr-app[data-theme="monolith"] .pcr-selection .pcr-color-preview {
+    display: none;
+  }
+
+  .pcr-app[data-theme="monolith"]
+    .pcr-selection
+    .pcr-color-palette
+    .pcr-palette,
+  .pcr-app[data-theme="monolith"] .pcr-selection .pcr-color-chooser .pcr-slider,
+  .pcr-app[data-theme="monolith"] .pcr-selection .pcr-color-opacity .pcr-slider,
+  .pcr-app[data-theme="monolith"]
+    .pcr-selection
+    .pcr-color-preview
+    .pcr-current-color {
+    border-radius: 0;
+    outline: 1px solid rgba(0, 0, 0, 0.1);
+    outline-offset: -1px;
+  }
+
+  .pcr-app[data-theme="monolith"]
+    .pcr-selection
+    .pcr-color-opacity
+    .pcr-slider {
+    outline: 1px solid rgba(0, 0, 0, 0.3);
+  }
+
+  .pcr-app .pcr-interaction .pcr-save {
+    background: #4285f4;
+    flex-grow: 1;
+  }
+
+  .pcr-app .pcr-swatches,
+  .pcr-app[data-theme="monolith"]
+    .pcr-selection
+    .pcr-color-preview
+    .pcr-last-color {
+    display: none;
+  }
+</style>
+<script>
+  	// Simple example, see optional options for more configuration.
+  	const pickr{{key}} = Pickr.create({
+      el: '.color-picker-{{key}}',
+      theme: 'monolith', // or 'monolith', or 'nano'
+      default: '{{value}}',
+      useAsButton: true,
+      position: 'bottom-end',
+      components: {
+
+          // Main components
+          preview: true,
+          opacity: true,
+          hue: true,
+
+          // Input / output Options
+          interaction: {
+              // hex: true,
+              // rgba: true,
+              // hsla: true,
+              // hsva: true,
+              // cmyk: true,
+              input: true,
+              // clear: true,
+              save: true
+          }
+      }
+  });
+
+  	pickr{{key}}.on('init', instance => {
+      console.log('init', instance);
+  }).on('save', (color, instance) => {
+  		document.querySelector('input[name="locals.{{key}}"]').value = color.toHEXA().toString();
+      document.querySelector('form[id="{{key}}"]').submit();
+  }).on('change', (color, instance) => {
+      document.getElementById('prev-{{key}}').style.background = color.toHEXA();
+  })
+  // .on('hide', instance => {
+  //     console.log('hide', instance);
+  // }).on('show', (color, instance) => {
+  //     console.log('show', color, instance);
+  // })
+  // .on('clear', instance => {
+  //     console.log('clear', instance);
+  // })
+  // .on('changestop', instance => {
+  //     console.log('changestop', instance);
+  // }).on('cancel', instance => {
+  //     console.log('cancel', instance);
+  // }).on('swatchselect', (color, instance) => {
+  //     console.log('swatchselect', color, instance);
+  // });
+</script>

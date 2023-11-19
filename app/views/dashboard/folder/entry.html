@@ -1,0 +1,49 @@
+{{^entry}} This file did not become a post because {{ ignored }}. You can still
+embed or link to this file from other posts. {{/entry}}
+
+{{#entry}}
+<p>Post</p>
+<table>
+  <tr>
+    <td>Title:</td>
+    <td>{{ title }} <a href="{{{blog.url}}}{{{url}}}">Visit post</a></td>
+  </tr>
+
+  {{^draft}}
+  {{^scheduled}}
+  <tr>
+    <td>URL:</td>
+    <td>{{{url}}}</td>
+  </tr>
+  {{/scheduled}}
+  {{/draft}}
+
+  <tr>
+    <td>Publish date:</td>
+    <td>
+      {{#scheduled}}
+      Scheduled for publication {{ toNow }} on {{ date }}
+      {{/scheduled}}
+      {{^scheduled}}
+      {{ date }}
+      {{/scheduled}}
+    </td>
+  </tr>
+
+  <tr>
+    <td>Draft:</td>
+    <td>{{#draft}}Yes{{/draft}} {{^draft}}No{{/draft}}</td>
+  </tr>
+
+  <tr>
+    <td>Tags:</td>
+    <td>
+      {{#tags}} {{ tag }}{{^last}},{{/last}}
+      {{/tags}}
+      {{^tags.length}}
+      <em>No tags</em>
+      {{/tags.length}}
+    </td>
+  </tr>
+</table>
+{{/entry}}

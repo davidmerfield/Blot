@@ -1,0 +1,43 @@
+{{#folder}}
+
+  {{#root}}
+  <a href="{{{base}}}/client/{{ client.name }}">
+    <span class="label">Folder</span>
+
+    {{^blog.client}}
+    <span class="link">Choose a way to sync your folder</span>
+    {{/blog.client}}
+
+    {{#blog.client}}
+    <span id="status" class="truncate status">{{ blog.status.message }} {{ blog.status.fromNow }}</span
+      >from {{ client.display_name }}
+   Edit
+    {{/blog.client}} </a
+  >
+  {{/root}}
+
+  <div class="live-updates">
+    {{#directory}}
+    {{> directory}}
+    {{/directory}}
+
+    {{#file}}
+    {{> file}}
+    {{/file}}
+  </div>
+</div>
+{{/folder}}
+
+<!-- 
+Some of the messages from the server are in title
+case, since the current layout shows the message
+as part of a sentence, we lowercase it.
+-->
+
+<script type="text/javascript">
+  var syncStatusURL = "{{{base}}}/status";
+</script>
+
+{{#footer}}
+<script type="text/javascript" src="/js/sync_status.js"></script>
+{{/footer}}
