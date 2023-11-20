@@ -1,3 +1,5 @@
+Work out why entry-ghosts has a memory leak for 'blog_eddd8e58dbc947c6b92b14248fe467f0'
+
 Fix bug with openrestycache which seems to happen when cache fills up / gets old
 - add some debugging routes
   - debug number of files matching grep 'KEY: host...' with the length of cachekeybyhost
@@ -9,6 +11,10 @@ Fix bug with screenshot issues on production server by using pupeteer with firef
 Fix cloudflare redirect HTTP/HTTPS issue seems to have resurfaced - why?
 
 Git client is extremely slow to set up large folders – we need a loading screen
+
+When a folder has lots of elements, trim the list of files on the dashboard, at least on the index page
+
+Monit is not actually able to restart node? I made a change but see if it works tomorrow
 
 ---
 
