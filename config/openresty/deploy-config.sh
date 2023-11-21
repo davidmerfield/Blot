@@ -26,7 +26,7 @@ fi
 # build the openresty config files
 echo "Building openresty config files..."
 BUILD_SCRIPT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/build-config.js"
-node $BUILD_SCRIPT
+OPENRESTY_LOG_DIRECTORY=/var/www/blot/data/logs node $BUILD_SCRIPT
 
 # upload all the built in the directory './data'  
 echo "Uploading openresty directory to ~/openresty on $PUBLIC_IP"
@@ -35,12 +35,10 @@ ssh -i $SSH_KEY ec2-user@$PUBLIC_IP "rm -rf ~/openresty"
 scp -i $SSH_KEY -r $DATA_DIRECTORY ec2-user@$PUBLIC_IP:~/openresty
 
 # run the setup.sh script as root and stream 
-echo "Testing openresty...."
-ssh -i $SSH_KEY ec2-user@$PUBLIC_IP "sudo openresty -t"
-echo "Test complete."
-
 echo "Reloading openresty...."
+ssh -i $SSH_KEY ec2-user@$PUBLIC_IP "sudo openresty -t"
 ssh -i $SSH_KEY ec2-user@$PUBLIC_IP "sudo openresty -s reload"
 echo "Reload complete."
 
+echo "Deploy complete. To connect to the openresty server, run:"
 echo "ssh -i $SSH_KEY ec2-user@$PUBLIC_IP"
