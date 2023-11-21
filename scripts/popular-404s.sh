@@ -22,3 +22,9 @@ cat logs/app.log | grep " PENDING=" | tail -n 2 | cut -d' ' -f 7- | sed -E 's/, 
 
 # most popular status codes
 cat ~/openresty/access.log | awk '{print $4}' |  sort | uniq -c | sort -nr
+
+# renewal errors
+cat ~/openresty/error.log | grep "ocsp stapling" | sed -E 's/.*ssl_certificate.lua:260: set_response_cert\(\): auto-ssl: failed to set ocsp stapling for ([^ ]+) .*/\1/' | sort | uniq
+
+# check that we are not issuing too many certificates
+find /etc/resty-auto-ssl/letsencrypt/certs/*blot.im
