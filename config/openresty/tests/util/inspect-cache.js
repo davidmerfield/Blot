@@ -40,7 +40,7 @@ const main = async (
 
   // go through each host in the directory and then request
   // origin?host=host and compare the response to the cache
-  for (const host of Object.keys(cache)) {
+  for (const host of Object.keys(cache).sort()) {
     const response = await fetch(`${origin}?host=${host}`);
     const data = await response.text();
     const cache_files = cache[host];
