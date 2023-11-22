@@ -211,7 +211,10 @@ local function cacher_rehydrate (self)
                     local host = response.host
                     local key = response.key
 
-                 if (host ~= nil) then
+                -- if the host was not parsed, log the file
+                if (host == nil) then
+                    ngx.log(ngx.NOTICE, "failed to parse host: " .. cache_file_path)
+                else
                      -- add the host to the list of hosts
                     if (hosts[host] == nil) then
                         ngx.log(ngx.NOTICE, "found host: " .. host)
