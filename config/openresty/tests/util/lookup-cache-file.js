@@ -7,7 +7,7 @@ const main = async cache_key_hash => {
   // and y are the two characters before x
   const cache_file_path = `${cache_directory}/${
     cache_key_hash[cache_key_hash.length - 1]
-  }/${cache_key_hash[cache_key_hash.length - 3]}/${cache_key_hash}`;
+  }/${cache_key_hash.slice(-3, -1)}/${cache_key_hash}`;
 
   const stream = fs.createReadStream(cache_file_path, { encoding: "utf8" });
   let data = "";
