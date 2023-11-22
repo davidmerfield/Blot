@@ -14,12 +14,15 @@ const main = async cache_key_hash => {
   for await (const chunk of stream) {
     data += chunk;
     if (data.length > 1024 * 1024) break;
-    if (data.includes("KEY: ")) break;
+    // if data includes a blank line, break
+    if (data.includes("\n\n")) break;
   }
   const host_line = data.split("\n").find(line => line.includes("KEY: "));
   const uri = host_line.split("KEY: ")[1];
 
-  console.log(uri);
+  console.log("URI", uri);
+  console.log("DATA");
+  console.log(data);
 
   // we fetch the uri and check the response headers for 'Blot-Cache' which will be HIT or MISS
   const response = await fetch(uri);
