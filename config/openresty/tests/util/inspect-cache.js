@@ -52,11 +52,7 @@ const main = async (
 
     if (cache_only.length || origin_only.length) {
       if (cache_only.length) {
-        console.log(
-          `host=${host} missing from shared dictionary: ${cache_only.join(
-            ", "
-          )}`
-        );
+        console.log(`${host} ${cache_only.join(", ")}`);
       }
       //   if (origin_only.length) {
       //     console.log(`Origin only: ${origin_only.join(", ")}`);
