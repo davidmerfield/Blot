@@ -6,7 +6,7 @@ describe("cacher", function () {
   setup("./inspect.conf");
 
   it(
-    "lists all cached requests",
+    "inspects stored requests",
     async function () {
       const number_of_requests = 100;
 
