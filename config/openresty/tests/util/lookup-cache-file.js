@@ -21,9 +21,10 @@ const main = async cache_key_hash => {
   const uri = host_line.split("KEY: ")[1];
 
   console.log("URI", uri);
-  console.log("DATA");
-  console.log(data);
-
+  const lines = data.split("\n");
+  // headers are the lines after the 'KEY' line up until a blank line
+  const headers = lines.slice(lines.indexOf(host_line) + 1, lines.indexOf(""));
+  console.log("HEADERS", headers);
   // we fetch the uri and check the response headers for 'Blot-Cache' which will be HIT or MISS
   const response = await fetch(uri);
   const cache_status = response.headers.get("Blot-Cache");
