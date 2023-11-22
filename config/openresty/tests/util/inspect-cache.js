@@ -3,7 +3,8 @@ const fs = require("fs-extra");
 
 const main = async (
   origin = "http://127.0.0.1/inspect",
-  cache_directory = "/var/www/cache"
+  cache_directory = "/var/www/cache",
+  only_host = null
 ) => {
   const top_level_directories = await fs.readdir(cache_directory);
   const cache = {};
@@ -32,6 +33,7 @@ const main = async (
         const parsed_url = require("url").parse(host_line.split("KEY: ")[1]);
         // we don't want the port
         const host = parsed_url.host.split(":")[0];
+        if (only_host && host !== only_host) continue;
         cache[host] = cache[host] || [];
         cache[host].push(file);
       }
@@ -64,7 +66,7 @@ const main = async (
 };
 
 if (require.main === module) {
-  main(...process.argv.slice(2))
+  main(undefined, undefined, process.argv[2])
     .then(console.log)
     .catch(console.error);
 }
