@@ -15,7 +15,7 @@ const main = async cache_key_hash => {
     data += chunk;
     if (data.length > 1024 * 1024) break;
     // if data includes a blank line, break
-    if (data.includes("\n\n")) break;
+    if (data.includes("\r\n")) break;
   }
   const host_line = data.split("\n").find(line => line.includes("KEY: "));
   const uri = host_line.split("KEY: ")[1];
@@ -23,7 +23,10 @@ const main = async cache_key_hash => {
   console.log("URI", uri);
   const lines = data.split("\n");
   // headers are the lines after the 'KEY' line up until a blank line
-  const headers = lines.slice(lines.indexOf(host_line) + 1, lines.indexOf(""));
+  const headers = lines.slice(
+    lines.indexOf(host_line) + 1,
+    lines.indexOf("\r")
+  );
   console.log("HEADERS", headers);
   // we fetch the uri and check the response headers for 'Blot-Cache' which will be HIT or MISS
   const response = await fetch(uri);
