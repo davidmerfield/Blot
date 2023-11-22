@@ -5,6 +5,8 @@ local cacher = {
     _LICENSE     = ""
   }
 
+require "resty.core.shdict"
+
 local function cacher_add (self, host, cache_key) 
     local shared_dictionary = self.shared_dictionary
     ngx.log(ngx.NOTICE, "adding to dictionary " .. cache_key .. " host=" .. host)
@@ -299,7 +301,7 @@ function cacher_monitor_free_space (self, ngx, monitor_interval)
         end
 
         -- if both cache_directory and shared_dictionary are set then we can rehydrate
-        if (self.cache_directory ~= nil and self.shared_dictionary ~= nil) then
+        if (self.shared_dictionary ~= nil) then
             local free_space = self.shared_dictionary:free_space()
             ngx.log(ngx.NOTICE, "free_space: " .. free_space)
         end
