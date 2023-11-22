@@ -11,6 +11,56 @@ local function cacher_add (self, host, cache_key)
     shared_dictionary:rpush(host, cache_key)
 end  
 
+local function cacher_inspect (self, ngx)
+    local cache_directory = self.cache_directory
+    local shared_dictionary = self.shared_dictionary
+
+    if (cache_directory == nil) then
+        ngx.say("please set cache_directory")
+        ngx.exit(ngx.OK)
+    end
+
+    if (shared_dictionary == nil) then
+        ngx.say("please set shared_dictionary")
+        ngx.exit(ngx.OK)
+    end
+
+    -- the host is passed in ?host=example.com
+    local host = ngx.var.arg_host
+
+    if (host == nil) then
+        ngx.say("please pass host to inspect as an argument")
+        ngx.exit(ngx.OK)
+    end
+
+    ngx.log(ngx.NOTICE, "inspecting host: " .. host)
+
+    local key_list = {};
+    local hash_list = {};
+    local total_keys = shared_dictionary:llen(host)
+
+    ngx.log(ngx.NOTICE, "found cache keys: " .. total_keys)
+
+    local cache_key = shared_dictionary:lpop(host)
+
+    while cache_key do
+        table.insert(key_list, cache_key)
+        local cache_key_hash = ngx.md5(cache_key)
+        table.insert(hash_list, cache_key_hash)
+        cache_key = shared_dictionary:lpop(host)
+    end
+
+    -- reinstate the keys in the list
+    for _, key in ipairs(key_list) do
+        shared_dictionary:rpush(host, key)
+    end
+
+    -- append the list of cache keys to the message seperated by newlines
+    local message = table.concat(hash_list, "\n")
+
+    ngx.say(message)
+    ngx.exit(ngx.OK)
+end
 
 -- this file will read the contents of the cache directory and store them in 
 -- the lua shared dict shared_dictionary so we can purge them later 
@@ -237,6 +287,25 @@ local function cacher_purge (self, ngx)
     ngx.exit(ngx.OK)
 end
 
+function cacher_monitor_free_space (self, ngx, monitor_interval)
+    
+    if (monitor_interval == nil) then
+        monitor_interval = 60
+    end
+
+    ngx.timer.every(monitor_interval, function (premature)
+        if premature then
+            return
+        end
+
+        -- if both cache_directory and shared_dictionary are set then we can rehydrate
+        if (self.cache_directory ~= nil and self.shared_dictionary ~= nil) then
+            local free_space = self.shared_dictionary:free_space()
+            ngx.log(ngx.NOTICE, "free_space: " .. free_space)
+        end
+    end, self)
+end
+
 --- Create a new cacher instance.
 function cacher.new()
     
@@ -252,7 +321,9 @@ function cacher.new()
     return {
         purge = cacher_purge,
         set = cacher_set,
-        add = cacher_add
+        add = cacher_add,
+        inspect = cacher_inspect,
+        monitor_free_space = cacher_monitor_free_space
     }
 end
 
