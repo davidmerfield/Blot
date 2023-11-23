@@ -18,15 +18,18 @@ const main = async cache_key_hash => {
     if (data.includes("\r\n")) break;
   }
   const host_line = data.split("\n").find(line => line.includes("KEY: "));
-  const uri = host_line.split("KEY: ")[1];
 
-  console.log("URI", uri);
+  console.log(host_line);
+
+  const uri = host_line.split(" ")[1];
   const lines = data.split("\n");
   // headers are the lines after the 'KEY' line up until a blank line
   const headers = lines.slice(
     lines.indexOf(host_line) + 1,
     lines.indexOf("\r")
   );
+  console.log("");
+  console.log("FILE STAT: ", fs.statSync(cache_file_path));
   console.log("HEADERS", headers);
   // we fetch the uri and check the response headers for 'Blot-Cache' which will be HIT or MISS
   const response = await fetch(uri);
