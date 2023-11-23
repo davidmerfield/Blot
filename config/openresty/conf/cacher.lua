@@ -98,8 +98,6 @@ local function deduplicate_key_list_by_host (host, shared_dict)
 end
 
 local function extractHostFromCacheFile (ngx, cache_file_path)
-    -- emit a warning with the cache_file_path
-    ngx.log(ngx.NOTICE, "extracting host from cache_file_path: " .. cache_file_path)
 
     -- we need to read the first line of the cache file to get the host
     -- the first line is in the format:
@@ -107,18 +105,14 @@ local function extractHostFromCacheFile (ngx, cache_file_path)
     local file = io.open(cache_file_path, "r")
     local first_line = file:read()
 
-    ngx.log(ngx.NOTICE, "first_line: " .. first_line)
-
     local number_of_lines_read = 1
 
     -- keep reading the file until we get a line that contains "KEY: ", up to a max of 10 lines
     while (first_line ~= nil and number_of_lines_read < 10 and string.match(first_line, "KEY: ") == nil) do
         first_line = file:read()
-        ngx.log(ngx.NOTICE, "first_line: " .. first_line)
     end
 
     if (first_line == nil) then
-        ngx.log(ngx.NOTICE, "uri is nil")
         return nil
     end
 
@@ -132,17 +126,18 @@ local function extractHostFromCacheFile (ngx, cache_file_path)
     -- the protocol is included in the uri so we need to remove it
     local uri_without_protocol = string.match(key, "://(.*)")
 
+    if (uri_without_protocol == nil) then
+        return nil
+    end
+    
     -- the host is the first part of the uri, up to question mark or slash or colon if there is one
     local host = string.match(uri_without_protocol, "([^/?#:]+)")
 
     if (host == nil) then
-        ngx.log(ngx.NOTICE, "host is nil")
         return nil
     end
     
     file:close()
-
-    ngx.log(ngx.NOTICE, "found host from cache_file_path: " .. host)
 
     -- return both the key and the host
 
@@ -170,70 +165,71 @@ end
 
 local function cacher_rehydrate (self)
 
-    ngx.log(ngx.NOTICE, "rehydrating now")
-
-     -- we need to read the contents of the cache directory and store them in 
-     -- the lua shared dict shared_dictionary so we can purge them later
+    -- we need to read the contents of the cache directory and store them in 
+    -- the lua shared dict shared_dictionary so we can purge them later
     local cache_directory = self.cache_directory
 
-     -- local purged_files = purge_host(ngx.var.arg_host)
-     local shared_dictionary = self.shared_dictionary
+    -- local purged_files = purge_host(ngx.var.arg_host)
+    local shared_dictionary = self.shared_dictionary
 
-     ngx.log(ngx.NOTICE, "rehydrating cache directory: " .. cache_directory )
+    local message = ''
 
-     -- first we list all the top level directories in the cache directory
-     local top_level_directories = readdirectory(cache_directory)
-    
-        
-     -- store a list of hosts
-     local hosts = {}
+    ngx.log(ngx.NOTICE, "rehydrate: " .. cache_directory )
+
+    -- first we list all the top level directories in the cache directory
+    local top_level_directories = readdirectory(cache_directory)
+
+    -- store a list of hosts
+    local hosts = {}
+
+    -- then for each directory we list all the files in that directory
+    for _, top_level_directory in ipairs(top_level_directories) do
+
+        local top_level_directory_path = cache_directory .. "/" .. top_level_directory
+        local second_level_directories = readdirectory(top_level_directory_path)
+  
+        for _, second_level_directory in ipairs(second_level_directories) do
+            local second_level_directory_path = top_level_directory_path .. "/" .. second_level_directory
+            local files = readdirectory(second_level_directory_path)
  
-
-     -- then for each directory we list all the files in that directory
-     for _, top_level_directory in ipairs(top_level_directories) do
-
-        ngx.log(ngx.NOTICE, "searching top level directory: " .. top_level_directory .. " in cache directory: " .. cache_directory .. "/")
-
-         local top_level_directory_path = cache_directory .. "/" .. top_level_directory
-         local second_level_directories = readdirectory(top_level_directory_path)
- 
-         ngx.log(ngx.NOTICE, "reading top level directory: " .. top_level_directory_path)
- 
-         for _, second_level_directory in ipairs(second_level_directories) do
-             local second_level_directory_path = top_level_directory_path .. "/" .. second_level_directory
-             local files = readdirectory(second_level_directory_path)
- 
-             for _, file in ipairs(files) do
-                 local cache_file_path = top_level_directory .. "/" .. second_level_directory .. "/" .. file
-                 -- extractHostFromCacheFile returns a table with the key and the host
-                 local response = extractHostFromCacheFile(ngx, second_level_directory_path .. "/" .. file)
+            for _, file in ipairs(files) do
+                local cache_file_path = top_level_directory .. "/" .. second_level_directory .. "/" .. file
+                local response = extractHostFromCacheFile(ngx, second_level_directory_path .. "/" .. file)
                 
+
+                -- if the host was not parsed, log the file
+                if (response == nil) then
+                    ngx.log(ngx.NOTICE, "rehydrate: failed to parse host: " .. cache_file_path)
+                    message = message .. cache_file_path .. "\n"
+                else
+
                     local host = response.host
                     local key = response.key
 
-                -- if the host was not parsed, log the file
-                if (host == nil) then
-                    ngx.log(ngx.NOTICE, "failed to parse host: " .. cache_file_path)
-                else
-                     -- add the host to the list of hosts
+                    -- add the host to the list of hosts
                     if (hosts[host] == nil) then
-                        ngx.log(ngx.NOTICE, "found host: " .. host)
                         table.insert(hosts, host)
                         hosts[host] = true
                     end
     
-                    ngx.log(ngx.NOTICE, "found cache file path: " .. file)
+                    ngx.log(ngx.NOTICE, "rehydrate: adding KEY=" .. key .. " HOST=" .. host .. " FILE=" .. file)
                     shared_dictionary:rpush(host, key)
-                 end
-             end
-         end
-     end
+                end
+            end
+        end
+    end
  
-     for _, host in ipairs(hosts) do
-         deduplicate_key_list_by_host(host, shared_dictionary)
-     end
+    for _, host in ipairs(hosts) do
+        deduplicate_key_list_by_host(host, shared_dictionary)
+    end
 
-     ngx.log(ngx.NOTICE, "rehydrating complete")
+    ngx.log(ngx.NOTICE, "rehydrate: complete")
+
+    if (message == '') then
+        message = "OK"
+    end
+
+    return message
 end
 
 local function cacher_purge (self, ngx)

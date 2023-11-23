@@ -66,6 +66,8 @@ module.exports = configFile => {
     const configInput = CACHER_DIRECTORY + "/tests/" + configFile;
     const configPath = DATA_DIRECTORY + "/" + basename(configFile);
 
+    this.cache_directory = cache_directory;
+
     const result = mustache.render(await fs.readFile(configInput, "utf8"), {
       ...config,
       user: process.env.BLOT_OPENRESTY_TEST_USER || "David",
