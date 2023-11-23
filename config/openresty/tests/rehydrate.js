@@ -18,6 +18,11 @@ describe("cacher", function () {
         expect(res.headers.get("Cache-Status")).toBe("MISS");
       }
 
+      const rehydrateResponse = await fetch(this.origin + "/rehydrate");
+      const rehydrateText = await rehydrateResponse.text();
+
+      expect(rehydrateText.trim()).toEqual("OK");
+
       const files = await this.listCache();
 
       expect(files.length).toBe(number_of_requests);
@@ -31,6 +36,7 @@ describe("cacher", function () {
         files.map(path => path.split("/").pop()).sort()
       );
 
+      // checks for mismatches
       expect(await this.inspectCache()).toEqual("");
     },
     1000 * 60 * 5
