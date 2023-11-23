@@ -5,7 +5,7 @@ const setup = require("./util/setup");
 describe("cacher", function () {
   setup("./rehydrate.conf");
 
-  fit("tells us when there's an invalid cache file", async function () {
+  it("tells us when there's an invalid cache file", async function () {
     const number_of_requests = 100;
 
     for (let i = 0; i < number_of_requests; i++) {
