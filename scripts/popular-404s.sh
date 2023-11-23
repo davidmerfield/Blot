@@ -21,7 +21,10 @@ cat logs/app.log | grep " PENDING=" | tail -n 2 | cut -d' ' -f 7- | sed -E 's/, 
 cat ~/openresty/access.log | awk '{print $4}' |  sort | uniq -c | sort -nr
 
 # renewal errors
-cat /var/www/blot/data/logs/error.log | grep "ocsp stapling" | sed -E 's/.*ssl_certificate.lua:260: set_response_cert\(\): auto-ssl: failed to set ocsp stapling for ([^ ]+) .*/\1/' | sort | uniq
+cat /var/www/blot/data/logs/error.log | grep "ocsp stapling" | sed -E 's/.*ssl_certificate.lua:260: set_response_cert\(\): auto-ssl: failed to set ocsp stapling for ([^ ]+) .*/\1/' | sort | uniq | tr '\n' ' '
 
 # check that we are not issuing too many certificates
 find /etc/resty-auto-ssl/letsencrypt/certs/*blot.im
+
+# free space
+cat data/logs/error.log | grep "free_space" |  cut -d' ' -f 1,2,9 | tr -d ',' | sort -u -t ' ' -k 3,3 | sort

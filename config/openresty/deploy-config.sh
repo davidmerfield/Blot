@@ -34,6 +34,13 @@ DATA_DIRECTORY="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/data"
 ssh -i $SSH_KEY ec2-user@$PUBLIC_IP "rm -rf ~/openresty"
 scp -i $SSH_KEY -r $DATA_DIRECTORY ec2-user@$PUBLIC_IP:~/openresty
 
+#upload the scripts to the openresty server
+echo "Uploading scripts to ~/scripts on $PUBLIC_IP"
+SCRIPTS_DIRECTORY="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/scripts"
+ssh -i $SSH_KEY ec2-user@$PUBLIC_IP "rm -rf ~/scripts"
+scp -i $SSH_KEY -r $SCRIPTS_DIRECTORY ec2-user@$PUBLIC_IP:~/scripts
+ssh -i $SSH_KEY ec2-user@$PUBLIC_IP "chmod +x ~/scripts/*"
+
 # run the setup.sh script as root and stream 
 echo "Reloading openresty...."
 ssh -i $SSH_KEY ec2-user@$PUBLIC_IP "sudo openresty -t"

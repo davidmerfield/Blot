@@ -328,6 +328,7 @@ function cacher.new()
         set = cacher_set,
         add = cacher_add,
         inspect = cacher_inspect,
+        rehydrate = cacher_rehydrate,
         monitor_free_space = cacher_monitor_free_space
     }
 end

@@ -1,68 +1,84 @@
 #!/bin/sh
 
-# This script will reset the SSL certificate for the domain passed
+# This script will reset the SSL certificate for the domain(s) passed
 
 # the log lines look like this:
 # 2023/11/21 15:00:40 [error] 7264#7264: failed to set ocsp stapling for www.theuntitled.site - continuing anyway - failed to get ocsp response: failed to validate OCSP response (http://r3.o.lencr.org): OCSP response not successful (6: unauthorized), context: ssl_certificate_by_lua*, client: 66.249.66.132, server: 0.0.0.0:443
 # extract the host from the line above
-LOGLINE=$1
-HOST=$(echo $LOGLINE | sed -E 's/.*failed to set ocsp stapling for ([^ ]+) .*/\1/')
-
-SSL_CERT_DIR=/etc/resty-auto-ssl/letsencrypt/certs
-
-set -e
-
-
-if [ -z "$HOST" ]; then
-  echo "Missing host argument"
-  exit 1
-fi
 
 if [ -z "$BLOT_REDIS_HOST" ]; then
   echo "BLOT_REDIS_HOST variable missing, source it"
   exit 1
 fi
 
-KEY="ssl:$HOST:latest"
+# if the user has passed a series of domains, use those for HOSTS, otherwise use the command below
+if [ -z "$1" ]; then
+    HOSTS=$(cat /var/www/blot/data/logs/error.log | grep "ocsp stapling" | sed -E 's/.*ssl_certificate.lua:260: set_response_cert\(\): auto-ssl: failed to set ocsp stapling for ([^ ]+) .*/\1/' | sort | uniq)
+else
+    # you should be able to pass in multiple space separated domains
+    HOSTS=$@
+fi
 
-# ask the user to confirm the key to delete before deleting it
-echo "About to delete $KEY from redis"
-echo "Press enter to continue or ctrl+c to cancel"
-read
+INVALID_HOSTS=""
 
-redis-cli -h $BLOT_REDIS_HOST del $KEY
+# Hosts will be newline separated, so we need to loop through them
+for HOST in $HOSTS
+do
+    
+    # first we request the domain to verify the SSL cert is invalid and needs to be purged
+    # we should get an SSL error
+    echo "Requesting $HOST to verify the SSL cert is invalid"
+    CURL_OUTPUT=$(curl -s -o /dev/null -w '%{http_code}\n' https://$HOST)
 
-echo "Deleted $KEY from redis"
+    # if CURL_OUTPUT is not 000, then the SSL cert is valid and we should not purge it
+    # if the domain is behind cloudflare, we will get a 526 error, so we should still purge if we get a 526
+    if [ "$CURL_OUTPUT" != "000" ] && [ "$CURL_OUTPUT" != "526" ]; then
+        echo "SSL cert for $HOST is valid, skipping"
+        continue
+    fi
+    
+    echo "SSL cert for $HOST is invalid, purging, curl=$CURL_OUTPUT"
 
-# DIRECTORY_TO_DELETE=$SSL_CERT_DIR/$HOST/
+    # store the host in a list of invalid hosts
+    INVALID_HOSTS="$INVALID_HOSTS $HOST"
 
-# # if the directory exists, remove its contents
-# if [ -d "$DIRECTORY_TO_DELETE" ]; then
+    KEY="ssl:$HOST:latest"
 
-#     # ask the user to confirm the files to delete before deleting them
-#     echo "About to delete the contents of $DIRECTORY_TO_DELETE"
-#     sudo find $DIRECTORY_TO_DELETE -type f 
+    # ask the user to confirm the key to delete before deleting it
+    echo "About to delete $KEY from redis"
+    echo "Press enter to continue or ctrl+c to cancel"
+    read
 
-#     echo "Press enter to continue or ctrl+c to cancel"
-#     read
+    redis-cli -h $BLOT_REDIS_HOST del $KEY
 
-#     sudo find $DIRECTORY_TO_DELETE -type f -exec rm {} \;
+    echo "Deleted $KEY from redis"
+    echo ""
+done
 
-#     echo "Deleted the contents of $DIRECTORY_TO_DELETE"
 
-#     # otherwise, echo "no directory to delete"
-# else
-#     echo "No directory to delete: $DIRECTORY_TO_DELETE"
-# fi
+echo "Restarting openresty"
 
-# restart openresty
 sudo systemctl restart openresty
 
 echo "Restarted openresty"
-
-echo "Checking cert on $HOST"
-
-# making a request to the domain to reissue the certificate, get status code only
-curl -s -o /dev/null -w "%{http_code}" https://$HOST
 echo ""
-echo "Done!"
+
+# now we loop over the INVALID_HOSTS and check that the SSL cert is now valid
+for HOST in $INVALID_HOSTS
+do
+    echo "https://$HOST checking"
+
+    # making a request to the domain to reissue the certificate, get status code only
+    CURL_OUTPUT=$(curl -s -o /dev/null -w "%{http_code}" https://$HOST)
+
+    # CURL_OUTPUT should not be 000, if it is, the SSL cert is still invalid
+    # or a 526 error if the domain is behind cloudflare
+    if [ "$CURL_OUTPUT" == "000" ] || [ "$CURL_OUTPUT" == "526" ]; then
+        echo "INVALID CERTIFICATE FOR https://$HOST"
+        # otherwise, echo "SSL cert for $HOST is valid"
+    else
+        echo "https://$HOST is valid"
+    fi
+
+    echo ""
+done
