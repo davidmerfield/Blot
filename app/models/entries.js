@@ -172,15 +172,15 @@ module.exports = (function () {
     redis.zrevrange(listKey(blogID, "all"), 0, -1, function (error, ids) {
       if (error) throw error;
 
-      Entry.get(blogID, ids, function (entries) {
-        async.eachSeries(
-          entries,
-          function (entry, next) {
+      async.eachSeries(
+        ids,
+        function (id, next) {
+          Entry.get(blogID, id, function (entry) {
             dothis(entry, next);
-          },
-          callback
-        );
-      });
+          });
+        },
+        callback
+      );
     });
   }
 

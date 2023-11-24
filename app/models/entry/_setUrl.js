@@ -11,7 +11,7 @@ var Key = require("./key").url;
 var model = require("./model");
 var Blog = require("models/blog");
 var get = require("./get");
-const debug = require("debug")("blot:entry:set:url");
+var debug = require("debug")("blot:entry:set");
 
 //'/style.css', '/script.js', '/feed.rss', '/robots.txt', '/sitemap.xml'
 // are not possible because . is replaced with. ideally check for
@@ -185,6 +185,8 @@ function check (blogID, candidate, entryID, callback) {
 module.exports = function (blogID, entry, callback) {
   ensure(blogID, "string").and(entry, model).and(callback, "function");
 
+  debug("Setting url for", entry.path);
+
   if (entry.draft || entry.deleted) return callback(null, "");
 
   Blog.get({ id: blogID }, function (err, blog) {
@@ -196,6 +198,7 @@ module.exports = function (blogID, entry, callback) {
     async.eachSeries(
       Candidates(blog, entry),
       function (candidate, next) {
+        debug("Checking candidate", candidate);
         check(blogID, candidate, entry.id, function (err, taken) {
           if (err) return callback(err);
 
