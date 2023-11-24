@@ -172,14 +172,7 @@ module.exports = (function () {
     redis.zrevrange(listKey(blogID, "all"), 0, -1, function (error, ids) {
       if (error) throw error;
 
-      if (blogID === "blog_eddd8e58dbc947c6b92b14248fe467f0") {
-        console.log("got ids", ids);
-      }
-
       Entry.get(blogID, ids, function (entries) {
-        if (blogID === "blog_eddd8e58dbc947c6b92b14248fe467f0") {
-          console.log("got entries", entries);
-        }
         async.eachSeries(
           entries,
           function (entry, next) {

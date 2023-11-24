@@ -28,8 +28,16 @@ module.exports = function (blogID, entryIDs, callback) {
 
   ensure(entryIDs, "array");
 
+  if (blogID === "blog_eddd8e58dbc947c6b92b14248fe467f0") {
+    console.log("got ids", entryIDs);
+  }
+
   redis.mget(entryIDs, function (err, entries) {
     if (err) throw err;
+
+    if (blogID === "blog_eddd8e58dbc947c6b92b14248fe467f0") {
+      console.log("got entries", entries.length);
+    }
 
     entries = entries || [];
 
