@@ -61,10 +61,23 @@ function sync (blogID, callback) {
       return callback(new Error("Failed to acquire folder lock"));
     }
 
+    // we want to know if folder.update or folder.rename is called
+    let changes = false;
+    let _update = new Update(blog, log, status);
+    let _rename = Rename(blog, log);
+
     const folder = {
       path: localPath(blogID, "/"),
-      update: new Update(blog, log, status),
-      rename: Rename(blog, log),
+      rename: function () {
+        changes = true;
+        // pass the arguments given to folder.rename to _rename
+        _rename.apply(_rename, arguments);
+      },
+      update: function () {
+        changes = true;
+        // pass the arguments given to folder.update to _update
+        _update.apply(_update, arguments);
+      },
       status,
       log
     };
@@ -118,6 +131,15 @@ function sync (blogID, callback) {
             return callback(err);
           }
 
+          // We could do these next two things in parallel
+          // but it's a little bit of refactoring...
+          log("Releasing lock");
+          await release();
+          clearTimeout(timeout);
+          log("Finished sync");
+
+          if (!changes) return callback(syncError);
+
           const cacheID = Date.now();
 
           // Passing in cacheID manually busts the cache.
@@ -129,17 +151,7 @@ function sync (blogID, callback) {
             if (err) {
               log("Error updating cacheID of blog");
               log("Releasing lock");
-              await release();
-              clearTimeout(timeout);
-              return callback(err);
             }
-
-            // We could do these next two things in parallel
-            // but it's a little bit of refactoring...
-            log("Releasing lock");
-            await release();
-            clearTimeout(timeout);
-            log("Finished sync");
             callback(syncError);
           });
         });
