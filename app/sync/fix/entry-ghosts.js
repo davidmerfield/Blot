@@ -58,6 +58,7 @@ function main (blog, callback) {
   Entries.each(
     blog.id,
     function (_entry, next) {
+      console.log("here", _entry.deleted, _entry.path);
       if (_entry.deleted) return next();
 
       console.log("entry", _entry.path);
