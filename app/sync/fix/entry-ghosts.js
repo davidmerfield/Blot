@@ -54,6 +54,7 @@ function main (blog, callback) {
   var edit = [];
   var report = [];
 
+  console.log("blog", blog.id);
   Entries.each(
     blog.id,
     function (_entry, next) {
