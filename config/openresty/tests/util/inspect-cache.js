@@ -34,6 +34,7 @@ const main = async (
         // we don't want the port
         const host = parsed_url.host.split(":")[0];
         if (only_host && host !== only_host) continue;
+        if (!cache[host]) console.log(host);
         cache[host] = cache[host] || [];
         cache[host].push(file);
       }
