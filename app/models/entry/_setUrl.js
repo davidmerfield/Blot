@@ -11,6 +11,7 @@ var Key = require("./key").url;
 var model = require("./model");
 var Blog = require("models/blog");
 var get = require("./get");
+const debug = require("debug")("blot:entry:set:url");
 
 //'/style.css', '/script.js', '/feed.rss', '/robots.txt', '/sitemap.xml'
 // are not possible because . is replaced with. ideally check for
@@ -48,7 +49,7 @@ var UID_PERMUTATIONS = 500;
 //   path: '/a.jpg'
 // }));
 
-function Candidates(blog, entry) {
+function Candidates (blog, entry) {
   var candidates = [];
 
   // Don't use the permalink format for pages
@@ -61,6 +62,7 @@ function Candidates(blog, entry) {
     !entry.page
   ) {
     entry.permalink = Permalink(blog.timeZone, blog.permalink.format, entry);
+    debug("Permalink", entry.permalink);
   }
 
   // The user has specified a permalink in the
@@ -143,7 +145,7 @@ function Candidates(blog, entry) {
   return candidates;
 }
 
-function check(blogID, candidate, entryID, callback) {
+function check (blogID, candidate, entryID, callback) {
   var key = Key(blogID, candidate);
 
   redis.get(key, function (err, existingID) {
