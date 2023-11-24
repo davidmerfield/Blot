@@ -28,3 +28,6 @@ find /etc/resty-auto-ssl/letsencrypt/certs/*blot.im
 
 # free space
 cat data/logs/error.log | grep "free_space" |  cut -d' ' -f 1,2,9 | tr -d ',' | sort -u -t ' ' -k 3,3 | sort
+
+# list all the duplicate cache files for the index page of the blog
+HOST=www.theuntitled.site cat /var/www/blot/data/logs/error.log | grep "rehydrate" | grep -e "https://$HOST.com:443/," -e "https://$HOST.com:443/ "
