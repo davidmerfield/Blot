@@ -136,6 +136,8 @@ module.exports = configFile => {
         }
       };
 
+      await list(cache_directory);
+
       // wait for the cache to be populated
       while (files.length === 0 && watch) {
         await list(cache_directory);

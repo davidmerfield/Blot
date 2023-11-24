@@ -40,7 +40,6 @@
     "chokidar": "^3.5.3",
     "clean-css": "^4.2.1",
     "colors": "^1.3.2",
-    "compression": "^1.0.11",
     "connect-redis": "^5.2.0",
     "cookie-parser": "^1.4.6",
     "css": "^2.2.4",

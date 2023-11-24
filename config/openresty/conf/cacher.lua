@@ -9,8 +9,9 @@ require "resty.core.shdict"
 
 local function cacher_add (self, host, cache_key) 
     local shared_dictionary = self.shared_dictionary
-    ngx.log(ngx.NOTICE, "adding to dictionary " .. cache_key .. " host=" .. host)
-    shared_dictionary:rpush(host, cache_key)
+    local cache_key_hash = ngx.md5(cache_key)
+    ngx.log(ngx.NOTICE, "adding to dictionary " .. cache_key .. " host=" .. host .. " expected_hash=" .. cache_key_hash)
+    shared_dictionary:rpush(host, cache_key_hash)
 end  
 
 local function cacher_inspect (self, ngx)
@@ -37,24 +38,21 @@ local function cacher_inspect (self, ngx)
 
     ngx.log(ngx.NOTICE, "inspecting host: " .. host)
 
-    local key_list = {};
     local hash_list = {};
     local total_keys = shared_dictionary:llen(host)
 
     ngx.log(ngx.NOTICE, "found cache keys: " .. total_keys)
 
-    local cache_key = shared_dictionary:lpop(host)
+    local cache_key_hash = shared_dictionary:lpop(host)
 
-    while cache_key do
-        table.insert(key_list, cache_key)
-        local cache_key_hash = ngx.md5(cache_key)
+    while cache_key_hash do
         table.insert(hash_list, cache_key_hash)
-        cache_key = shared_dictionary:lpop(host)
+        cache_key_hash = shared_dictionary:lpop(host)
     end
 
     -- reinstate the keys in the list
-    for _, key in ipairs(key_list) do
-        shared_dictionary:rpush(host, key)
+    for _, hash in ipairs(hash_list) do
+        shared_dictionary:rpush(host, hash)
     end
 
     -- append the list of cache keys to the message seperated by newlines
@@ -75,25 +73,24 @@ local function deduplicate_key_list_by_host (host, shared_dict)
     local deduplicated_key_list = {}
 
     -- we lpop from the list until we get nil
-    local key = shared_dict:lpop(host)
+    local cache_key_hash = shared_dict:lpop(host)
 
-    while key do
+    while cache_key_hash do
 
-        if (deduplicated_key_list[key] == nil) then
-            ngx.log(ngx.NOTICE, "unique key: " .. key)
-            table.insert(deduplicated_key_list, key)
-            deduplicated_key_list[key] = true
+        if (deduplicated_key_list[cache_key_hash] == nil) then
+            table.insert(deduplicated_key_list, cache_key_hash)
+            deduplicated_key_list[cache_key_hash] = true
         else
-            ngx.log(ngx.NOTICE, "duplicate key: " .. key)
+            ngx.log(ngx.NOTICE, "duplicate hash " .. cache_key_hash)
         end
 
-        key = shared_dict:lpop(host)
+        cache_key_hash = shared_dict:lpop(host)
     end
 
     -- reinsert the keys into the list
-    for _, key in ipairs(deduplicated_key_list) do
-        ngx.log(ngx.NOTICE, "reinserting key: " .. key)
-        shared_dict:rpush(host, key)
+    for _, cache_key_hash in ipairs(deduplicated_key_list) do
+        ngx.log(ngx.NOTICE, "reinserting " .. cache_key_hash)
+        shared_dict:rpush(host, cache_key_hash)
     end
 end
 
@@ -139,9 +136,7 @@ local function extractHostFromCacheFile (ngx, cache_file_path)
     
     file:close()
 
-    -- return both the key and the host
-
-    return {key=key, host=host}
+    return host
 end
 
 -- returns a list of file or directory names in the given directory
@@ -192,28 +187,24 @@ local function cacher_rehydrate (self)
             local second_level_directory_path = top_level_directory_path .. "/" .. second_level_directory
             local files = readdirectory(second_level_directory_path)
  
-            for _, file in ipairs(files) do
-                local cache_file_path = top_level_directory .. "/" .. second_level_directory .. "/" .. file
-                local response = extractHostFromCacheFile(ngx, second_level_directory_path .. "/" .. file)
+            for _, cache_key_hash in ipairs(files) do
+                local cache_file_path = top_level_directory .. "/" .. second_level_directory .. "/" .. cache_key_hash
+                local host = extractHostFromCacheFile(ngx, second_level_directory_path .. "/" .. cache_key_hash)
                 
 
                 -- if the host was not parsed, log the file
-                if (response == nil) then
+                if (host == nil) then
                     ngx.log(ngx.NOTICE, "rehydrate: failed to parse host: " .. cache_file_path)
                     message = message .. cache_file_path .. "\n"
                 else
-
-                    local host = response.host
-                    local key = response.key
-
                     -- add the host to the list of hosts
                     if (hosts[host] == nil) then
                         table.insert(hosts, host)
                         hosts[host] = true
                     end
     
-                    ngx.log(ngx.NOTICE, "rehydrate: adding KEY=" .. key .. " HOST=" .. host .. " FILE=" .. file)
-                    shared_dictionary:rpush(host, key)
+                    ngx.log(ngx.NOTICE, "rehydrate: adding FILE=" .. cache_key_hash  .. " HOST=" .. host )
+                    shared_dictionary:rpush(host, cache_key_hash)
                 end
             end
         end
@@ -258,12 +249,11 @@ local function cacher_purge (self, ngx)
     for host in string.gmatch(ngx.var.args, "host=([^&]+)") do
         ngx.log(ngx.NOTICE, "purging host: " .. host)
         local total_keys = shared_dictionary:llen(host)
-        local cache_key = shared_dictionary:lpop(host)
-        while cache_key do
+        local cache_key_hash = shared_dictionary:lpop(host)
+        while cache_key_hash do
             -- the cache file path is in the following format: $x/$y/$cache_key_hash
             -- where x is the last character of the cache_key_hash
             -- and y are the two characters before x
-            local cache_key_hash = ngx.md5(cache_key)
             local x = cache_key_hash:sub(-1)
             local y = cache_key_hash:sub(-3,-2)
             local cached_file_path = cache_directory .. "/" .. x .. "/" .. y .. "/" .. cache_key_hash
@@ -274,7 +264,7 @@ local function cacher_purge (self, ngx)
                 os.remove(cached_file_path)
             end
 
-            cache_key = shared_dictionary:lpop(host)            
+            cache_key_hash = shared_dictionary:lpop(host)            
         end
         message = message .. host .. ": " .. total_keys .. "\n"
     end
