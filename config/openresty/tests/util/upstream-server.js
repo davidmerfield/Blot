@@ -1,7 +1,6 @@
 const express = require("express");
 const app = express();
 const sharp = require("sharp");
-const compression = require("compression");
 
 app.get("/", (req, res) => {
   res.send("Hello Node!");
@@ -12,7 +11,7 @@ app.use("/timestamp", (req, res) => {
   res.send(`${Date.now()}`);
 });
 
-app.use("/gzip", compression(), (req, res) => {
+app.use("/gzip", (req, res) => {
   res.send("abc ".repeat(1024));
 });
 
