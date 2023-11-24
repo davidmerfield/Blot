@@ -12,12 +12,7 @@ app.use("/timestamp", (req, res) => {
   res.send(`${Date.now()}`);
 });
 
-// we want to send a large response which can be gzipped by the proxy
-app.use("/gzip-by-openresty", (req, res) => {
-  res.send("abc ".repeat(1024));
-});
-
-app.use("/gzip-by-upstream", compression(), (req, res) => {
+app.use("/gzip", compression(), (req, res) => {
   res.send("abc ".repeat(1024));
 });
 

@@ -20,7 +20,7 @@ describe("cacher", function () {
     // we trim because the lines end with '\r'
     const lines = contents.split("\n").map(l => l.trim());
 
-    expect(lines.length).toBe(11);
+    expect(lines.length).toBe(12);
     expect(lines[1]).toBe("KEY: " + this.origin + "/");
     expect(lines[2]).toBe("HTTP/1.1 200 OK");
     expect(lines[3]).toBe("X-Powered-By: Express");
@@ -28,8 +28,10 @@ describe("cacher", function () {
     expect(lines[5]).toBe("Content-Length: 11");
     expect(lines[6]).toMatch(/^ETag: /);
     expect(lines[7]).toMatch(/^Date: /);
-    expect(lines[8]).toBe("Connection: close");
-    expect(lines[10]).toBe("Hello Node!");
+    expect(lines[8]).toBe("Connection: keep-alive");
+    expect(lines[9]).toBe("Keep-Alive: timeout=5");
+
+    expect(lines[11]).toBe("Hello Node!");
 
     // if we retry the request, the header 'cache-hit' should be set
     const cachedResponse = await fetch(this.origin);

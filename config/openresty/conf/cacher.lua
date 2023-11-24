@@ -9,7 +9,8 @@ require "resty.core.shdict"
 
 local function cacher_add (self, host, cache_key) 
     local shared_dictionary = self.shared_dictionary
-    ngx.log(ngx.NOTICE, "adding to dictionary " .. cache_key .. " host=" .. host)
+    local cache_key_hash = ngx.md5(cache_key)
+    ngx.log(ngx.NOTICE, "adding to dictionary " .. cache_key .. " host=" .. host .. " expected_hash=" .. cache_key_hash)
     shared_dictionary:rpush(host, cache_key)
 end  
 
