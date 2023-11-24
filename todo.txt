@@ -1,14 +1,15 @@
 Can I use proxy_store instead of openrestycache?
 
-Work out why entry-ghosts has a memory leak for 'blog_eddd8e58dbc947c6b92b14248fe467f0'
-
-Make sure monit can restart node
+Make sure monit can restart node (it cannot right now)
 
 Fix bug with screenshot issues on production server by using pupeteer with firefox
 
 Fix cloudflare redirect HTTP/HTTPS issue seems to have resurfaced - why?
 
 Check for SSL renewal errors
+
+Work out why rebuilding template from folder clears cache even if the template is not changed
+- stop this
 
 ---
 
