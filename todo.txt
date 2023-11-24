@@ -1,3 +1,5 @@
+Can I use proxy_store instead of openrestycache?
+
 Check for SSL renewal errors
 
 Work out why entry-ghosts has a memory leak for 'blog_eddd8e58dbc947c6b92b14248fe467f0'
