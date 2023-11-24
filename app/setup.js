@@ -21,7 +21,6 @@ function main (callback) {
         await fs.ensureDir(config.blog_static_files_dir);
         await fs.ensureDir(root + "/tmp");
         await fs.ensureDir(root + "/data");
-        await fs.ensureDir(root + "/logs");
         log("Created required directories");
       },
 

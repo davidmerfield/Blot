@@ -3,22 +3,22 @@ const { blot_directory } = require("config");
 
 async function handle ({ logFileName, aggregator }) {
   // the most recent logfile is stored
-  // in blot_directory + "/logs/app.log"
+  // in blot_directory + "/data/logs/app.log"
   // previous logfiles are stored in directories with the format
-  // blot_directory + "/logs/archive-YYYY-MM-DD-ec2-user/app.log"
+  // blot_directory + "/data/logs/archive-YYYY-MM-DD-ec2-user/app.log"
   // where YYYY-MM-DD is the date of the logfile
   // and ec2-user is the user that ran the blot process
 
   // we should first process the most recent logfile
   // then iterate over the archive directories in reverse chronological order
 
-  const logFiles = [blot_directory + "/logs/" + logFileName].concat(
+  const logFiles = [blot_directory + "/data/logs/" + logFileName].concat(
     fs
-      .readdirSync(blot_directory + "/logs")
+      .readdirSync(blot_directory + "/data/logs")
       .filter(file => file.indexOf("archive-") > -1)
       .sort()
       .reverse()
-      .map(file => blot_directory + "/logs/" + file + "/" + logFileName)
+      .map(file => blot_directory + "/data/logs/" + file + "/" + logFileName)
       .filter(file => fs.existsSync(file))
   );
 

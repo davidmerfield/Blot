@@ -4,7 +4,7 @@ const lineReader = require("helper/lineReader");
 const prettyNumber = require("helper/prettyNumber");
 const { blot_directory } = require("config");
 const is = require("../../blog/render/retrieve/is");
-const logDirectory = blot_directory + "/logs";
+const logDirectory = blot_directory + "/data/logs";
 
 const LOGFILE = "app.log";
 

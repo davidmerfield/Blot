@@ -5,8 +5,6 @@ local cacher = {
     _LICENSE     = ""
   }
 
-require "resty.core.shdict"
-
 local function cacher_add (self, host, cache_key) 
     local shared_dictionary = self.shared_dictionary
     local cache_key_hash = ngx.md5(cache_key)
@@ -292,7 +290,26 @@ function cacher_monitor_free_space (self, ngx, monitor_interval)
         -- if both cache_directory and shared_dictionary are set then we can rehydrate
         if (self.shared_dictionary ~= nil) then
             local free_space = self.shared_dictionary:free_space()
-            ngx.log(ngx.NOTICE, "free_space: " .. free_space)
+            
+            local capacity = self.shared_dictionary:capacity()
+
+            -- calculate the memory usage in megabytes, rounded down
+            local usage = math.floor((capacity - free_space) / 1024 / 1024)
+            local free_space_megabytes = math.floor(free_space / 1024 / 1024)
+            
+            -- retrieve the disk usage of the cache directory
+            local cache_directory = self.cache_directory
+            local handle = io.popen("du -sh " .. cache_directory)
+            local output = handle:read('*a')
+
+            if (output == nil) then
+                output = "n/a"
+            else 
+                output = string.match(output, "([^\t]+)")
+            end
+
+            handle:close()
+            ngx.log(ngx.NOTICE, "dictionary_usage=" .. usage .. "M disk_usage=" .. output .. " dictionary_free_space=" .. free_space_megabytes .. "M")
         end
     end, self)
 end
