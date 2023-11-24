@@ -5,6 +5,7 @@ const localPath = require("helper/localPath");
 const async = require("async");
 
 function resolvePath (blogID, path, callback) {
+  console.log("resolvePath", blogID, path);
   var candidates = [];
 
   candidates.push(path);
@@ -20,7 +21,10 @@ function resolvePath (blogID, path, callback) {
   if (path.toLowerCase() !== path) {
     var dirs = path.split("/");
 
+    console.log("dirs", dirs);
+
     for (var i = dirs.length - 1; i >= 0; i--) {
+      console.log("dirs[i]", dirs[i]);
       dirs[i] = dirs[i].toLowerCase();
       candidates.push(dirs.join("/"));
       candidates.push(dirs.join("/").trim());
@@ -55,6 +59,7 @@ function main (blog, callback) {
     function (_entry, next) {
       if (_entry.deleted) return next();
 
+      console.log("entry", _entry.path);
       resolvePath(blog.id, _entry.path, function (err, path) {
         if (path && path !== _entry.path) {
           edit.push({ entry: _entry, path: path });

@@ -1,22 +1,14 @@
 Can I use proxy_store instead of openrestycache?
 
-Check for SSL renewal errors
-
 Work out why entry-ghosts has a memory leak for 'blog_eddd8e58dbc947c6b92b14248fe467f0'
-
-Fix bug with openrestycache which seems to happen when cache fills up / gets old
-- does the port have something to do with it?
-- use the inspect tools and check logs for free space
-- add some debugging routes
-  - debug number of files matching grep 'KEY: host...' with the length of cachekeybyhost
-  - when rehydrating cache, log the number of files which failed to parse a host from
-- add a hard purge route, which deletes all cache files matching text string
 
 Make sure monit can restart node
 
 Fix bug with screenshot issues on production server by using pupeteer with firefox
 
 Fix cloudflare redirect HTTP/HTTPS issue seems to have resurfaced - why?
+
+Check for SSL renewal errors
 
 ---
 
