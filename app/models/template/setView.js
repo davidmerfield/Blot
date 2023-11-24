@@ -12,7 +12,7 @@ var getMetadata = require("./getMetadata");
 var Blog = require("models/blog");
 var parseTemplate = require("./parseTemplate");
 
-module.exports = function setView(templateID, updates, callback) {
+module.exports = function setView (templateID, updates, callback) {
   if (updates.partials !== undefined && type(updates.partials) !== "object") {
     updates.partials = {};
     console.log(templateID, updates, "Partials are wrong type");
@@ -57,6 +57,8 @@ module.exports = function setView(templateID, updates, callback) {
 
         view = view || {};
 
+        var changes;
+
         if (updates.url) {
           updates.url = urlNormalizer(updates.url || "");
 
@@ -67,7 +69,10 @@ module.exports = function setView(templateID, updates, callback) {
           }
         }
 
-        for (var i in updates) view[i] = updates[i];
+        for (var i in updates) {
+          if (updates[i] !== view[i]) changes = true;
+          view[i] = updates[i];
+        }
 
         view.locals = view.locals || {};
         view.retrieve = view.retrieve || {};
@@ -93,6 +98,8 @@ module.exports = function setView(templateID, updates, callback) {
 
         client.hmset(viewKey, view, function (err) {
           if (err) return callback(err);
+
+          if (!changes) return callback();
 
           Blog.set(metadata.owner, { cacheID: Date.now() }, function (err) {
             callback(err);
