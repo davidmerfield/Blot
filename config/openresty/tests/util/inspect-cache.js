@@ -34,12 +34,13 @@ const main = async (
         // we don't want the port
         const host = parsed_url.host.split(":")[0];
         if (only_host && host !== only_host) continue;
-        if (!cache[host]) console.log(host);
         cache[host] = cache[host] || [];
         cache[host].push(file);
       }
     }
   }
+
+  console.log(`Found ${Object.keys(cache).length} hosts in cache`);
 
   // go through each host in the directory and then request
   // origin?host=host and compare the response to the cache
