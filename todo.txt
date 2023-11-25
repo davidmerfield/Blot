@@ -1,14 +1,11 @@
-Can I use proxy_store instead of openrestycache?
-
 Fix bug with screenshot issues on production server by using pupeteer with firefox
 
-Move nginx cache directory into a subdirectory of /var/www/cache
-
-Move Blot tmp directory to /var/www/cache/tmp
-
-Move stats directory to /var/www/blot/data/stats
-
 Fix cloudflare redirect HTTP/HTTPS issue seems to have resurfaced - why?
+
+Work out why nginx is storing cache files even with bypass
+
+Move Blot tmp directory to /var/www/blot/data/tmp
+Move stats directory to /var/www/blot/data/stats
 
 Work out why rebuilding template from folder clears cache even if the template is not changed
 - stop this
@@ -21,6 +18,8 @@ Begin purging cached files when the cache shared dictionary is filling up
 Add WebDav support
 
 Check for SSL renewal errors
+
+Can I use proxy_store instead of openrestycache?
 
 Prevent Google Drive client from re crawling entire folder for every sync
 - i think we need to manually watch all google docs in the folder

@@ -10,7 +10,7 @@ const LOGFILE = "app.log";
 
 function loadTmpLogFile (callback) {
   const tmpLogFilePath =
-    blot_directory + "/tmp/" + new Date().valueOf() + ".log";
+    blot_directory + "/data/tmp/" + new Date().valueOf() + ".log";
   const todaysLogfile = logDirectory + "/" + LOGFILE;
 
   const yesterdaysLog = fs

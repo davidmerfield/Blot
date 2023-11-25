@@ -2,8 +2,7 @@ const moment = require("moment");
 const URL = require("url");
 const fs = require("fs-extra");
 const lineReader = require("helper/lineReader");
-const { blot_directory } = require("config");
-const STATS_DIRECTORY = blot_directory + "/tmp/stats/nginx";
+const STATS_DIRECTORY = require("./statsDirectory");
 const MAX_RECOMPUTED = 2; // hours
 
 let reComputed = 0;

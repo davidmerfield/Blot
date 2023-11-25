@@ -1,5 +1,6 @@
 const fs = require("fs-extra");
 const { blot_directory } = require("config");
+const STATS_DIRECTORY = require("./statsDirectory");
 
 async function handle ({ logFileName, aggregator }) {
   // the most recent logfile is stored
@@ -43,7 +44,7 @@ async function handle ({ logFileName, aggregator }) {
 async function main ({ reset = false }) {
   if (reset) {
     console.log("resetting stats");
-    await fs.emptyDir(blot_directory + "/tmp/stats");
+    await fs.emptyDir();
     console.log("reset stats, now recomputing...");
   }
   await Promise.all([
