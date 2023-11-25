@@ -88,19 +88,7 @@ server.use(blog);
 // Monit, which we use to monitor the server's health, requests
 // localhost/health to see if it should attempt to restart Blot.
 // If you remove this, change monit.rc too.
-let disable_health_check = false;
-
 server.use("/health", function (req, res) {
-  if (req.query.disable) {
-    disable_health_check = true;
-    return res.send("Disabling health check");
-  }
-
-  if (disable_health_check) {
-    // hang the server health check
-    return;
-  }
-
   res.send("OK");
 });
 
