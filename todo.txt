@@ -1,21 +1,22 @@
 Can I use proxy_store instead of openrestycache?
 
-Make sure monit can restart node (it cannot right now)
-
 Fix bug with screenshot issues on production server by using pupeteer with firefox
 
 Fix cloudflare redirect HTTP/HTTPS issue seems to have resurfaced - why?
 
-Check for SSL renewal errors
-
 Work out why rebuilding template from folder clears cache even if the template is not changed
 - stop this
 
----
-
 Add WebDav support
 
----
+Check for SSL renewal errors
+
+Prevent Google Drive client from re crawling entire folder for every sync
+- i think we need to manually watch all google docs in the folder
+
+Prevent unneeded cache purge when templates are rebuilt, either from folder or on disk in app/templates
+
+Make sure main server can hard restart without issue
 
 Create material in docs with title 'Turn X into website' where X is:
 - Dropbox, Google Drive, etc.
