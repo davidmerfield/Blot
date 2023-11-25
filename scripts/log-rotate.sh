@@ -44,7 +44,7 @@ else
 fi
 
 # Create a new directory for yesterday's logs
-ARCHIVED_LOG_DIRECTORY=$BLOT_DIRECTORY/logs/archive-$(date +%Y-%m-%d)-$USER
+ARCHIVED_LOG_DIRECTORY=$LOG_DIRECTORY/archive-$(date +%Y-%m-%d)-$USER
 mkdir $ARCHIVED_LOG_DIRECTORY
 
 # Find all the names of log files owned by this user.
