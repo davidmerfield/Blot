@@ -1,11 +1,10 @@
 Fix bug with screenshot issues on production server by using pupeteer with firefox
 
+Monitor Blot's root disk usage, everything should now be on the EBS volume
+
 Fix cloudflare redirect HTTP/HTTPS issue seems to have resurfaced - why?
 
 Work out why nginx is storing cache files even with bypass
-
-Move Blot tmp directory to /var/www/blot/data/tmp
-Move stats directory to /var/www/blot/data/stats
 
 Work out why rebuilding template from folder clears cache even if the template is not changed
 - stop this
