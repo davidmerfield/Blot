@@ -54,6 +54,10 @@ const main = async (
     }
   }
 
+  if (!hosts_to_purge.length) {
+    return console.log("no hosts to purge");
+  }
+
   console.log("hosts to purge", hosts_to_purge);
 
   // break the list of hosts into chunks of 5 and then purge them
