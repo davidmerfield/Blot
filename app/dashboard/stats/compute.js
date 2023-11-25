@@ -48,7 +48,7 @@ async function main ({ reset = false }) {
   }
   await Promise.all([
     handle({ logFileName: "app.log", aggregator: require("./node") })
-    // handle({ logFileName: "nginx.log", aggregator: require("./nginx") })
+    handle({ logFileName: "access.log", aggregator: require("./nginx-access") })
   ]);
 }
 
