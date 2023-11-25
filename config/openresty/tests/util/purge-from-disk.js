@@ -72,10 +72,12 @@ const main = async (
 
   for (const chunk of chunks) {
     const url = `${origin}?${chunk.map(host => `host=${host}`).join("&")}`;
-    console.log("would fetch", url);
-    // const response = await fetch(url);
-    // const data = await response.text();
-    // console.log(data);
+    console.log("fetching", url);
+    const response = await fetch(url);
+    const data = await response.text();
+    console.log("----- response ----");
+    console.log(data);
+    console.log();
   }
 };
 
