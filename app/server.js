@@ -89,6 +89,9 @@ server.use(function (req, res, next) {
 // only ever be served for request to the host
 server.use(vhost(config.host, site));
 
+// CDN server
+server.use(vhost("cdn." + config.host, require("./cdn")));
+
 // The Webhook forwarder
 // -------------
 // Forwards webhooks to development environment
