@@ -93,10 +93,11 @@ let disable_health_check = false;
 server.use("/health", function (req, res) {
   if (req.query.disable) {
     disable_health_check = true;
-    res.send("Disabling health check");
+    return res.send("Disabling health check");
   }
 
   if (disable_health_check) {
+    // hang the server health check
     return;
   }
 
