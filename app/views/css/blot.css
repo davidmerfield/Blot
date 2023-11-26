@@ -58,7 +58,6 @@ body {
 
 .header a,
 .sidebar a {
-  font-size: var(--font-size);
   color: var(--text-color);
   text-decoration: none;
 }

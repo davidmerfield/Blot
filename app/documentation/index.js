@@ -129,7 +129,7 @@ documentation.get("/", function (req, res, next) {
   next();
 });
 
-documentation.use("/examples", require("./featured"));
+documentation.get("/", require("./featured"));
 
 documentation.use("/fonts", require("./fonts"));
 

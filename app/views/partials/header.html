@@ -1,18 +1,38 @@
 <div
   class="header"
-  style="display: flex; padding: 2rem; justify-content: space-between">
-  <a href="/">Blot</a>
-  <div>
-    <a id="signed-in" href="/dashboard">Open your dashboard</a>
-    <a class="signed-out" href="/log-in">Log in</a>
-    <a class="signed-out" href="/sign-up">Sign up</a>
-    <script type="text/javascript">
-      if (document.cookie.indexOf("signed_into_blot") > -1) {
-        document.querySelectorAll(".signed-out").forEach(function (node) {
-          node.style.display = "none";
-        });
-        document.getElementById("signed-in").style.display = "block";
-      }
-    </script>
+  style="
+    padding: 1em 0;
+    font-size: 14px;
+    background-color: rgba(0, 0, 0, 0.05);
+  ">
+  <div
+    style="
+      max-width: 730px;
+      display: flex;
+      justify-content: space-between;
+      margin: 0 auto;
+    ">
+    <div>
+      <a href="/">Blot</a> |
+      <a href="/how">Documentation</a>
+      <a href="/questions">Questions</a>
+      <a href="/news">News</a>
+      <a href="/about">About</a>
+      <a href="/contact">Contact</a>
+    </div>
+
+    <div>
+      <a id="signed-in" href="/dashboard">Your sites</a>
+      <a class="signed-out" href="/log-in">Log in</a>
+      <a class="signed-out" href="/sign-up">Sign up</a>
+      <script type="text/javascript">
+        if (document.cookie.indexOf("signed_into_blot") > -1) {
+          document.querySelectorAll(".signed-out").forEach(function (node) {
+            node.style.display = "none";
+          });
+          document.getElementById("signed-in").style.display = "block";
+        }
+      </script>
+    </div>
   </div>
 </div>

@@ -70,6 +70,10 @@ if (config.environment !== "development") {
 dashboard.locals.cacheID = Date.now();
 dashboard.locals.layout = "partials/wrapper";
 
+dashboard.locals.partials = {
+  header: VIEW_DIRECTORY + "/../partials/header.html"
+};
+
 dashboard.use(trace("loading session information"));
 dashboard.use(require("./session"));
 dashboard.use(trace("loaded session information"));

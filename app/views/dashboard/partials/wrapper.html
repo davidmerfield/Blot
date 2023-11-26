@@ -1,30 +1,32 @@
 <!DOCTYPE html>
 <html>
   {{> head}}
-  <body style="padding: 2rem">
-    <div class="header">
-      {{#breadcrumbs}}
-      {{^last}}
-      <a href="{{{url}}}">{{ label }}</a> /
-      {{/last}}
-      {{#last}}
-      <a>{{ label }}</a>
-      {{/last}}
-      {{/breadcrumbs}}
-    </div>
-    <br />
-    {{> message}}
+  <body>
+    {{> header}}
+    <section style="padding: 2rem">
+      <div class="header">
+        {{#breadcrumbs}}
+        {{^last}}
+        <a href="{{{url}}}">{{ label }}</a> /
+        {{/last}}
+        {{#last}}
+        <a>{{ label }}</a>
+        {{/last}}
+        {{/breadcrumbs}}
+      </div>
+      <br />
+      {{> message}}
 
-    {{> body}}
+      {{> body}}
 
-    <form class="foot" action="/dashboard/account/log-out" method="post">
-      <button type="submit">Log out</button>
-    </form>
+      <form class="foot" action="/dashboard/account/log-out" method="post">
+        <button type="submit">Log out</button>
+      </form>
 
-    {{#links_for_footer}}
-    {{{html}}}
-    {{/links_for_footer}}
-
+      {{#links_for_footer}}
+      {{{html}}}
+      {{/links_for_footer}}
+    </section>
     <script type="text/javascript">
       document
         .querySelectorAll(".buttons a, .buttons input, .buttons button")
