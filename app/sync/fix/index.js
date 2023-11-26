@@ -18,19 +18,7 @@ module.exports = function (blog, callback) {
   const finalReport = {};
 
   async.eachSeries(
-    [
-      entryGhosts,
-      tagGhosts,
-      listGhosts,
-      menuGhosts,
-      function (blog, callback) {
-        const cacheID = Date.now();
-        Blog.set(blog.id, { cacheID }, function (err) {
-          if (err) return callback(err);
-          callback();
-        });
-      }
-    ],
+    [entryGhosts, tagGhosts, listGhosts, menuGhosts],
     function (fn, next) {
       fn(
         blog,
@@ -42,7 +30,16 @@ module.exports = function (blog, callback) {
       );
     },
     function (err) {
-      callback(err, finalReport);
+      // if final report is empty return immediately
+      if (!Object.keys(finalReport).length) {
+        return callback(err, finalReport);
+      }
+
+      // otherwise set cacheID to force cache invalidation
+      const cacheID = Date.now();
+      Blog.set(blog.id, { cacheID }, function (err) {
+        callback(err, finalReport);
+      });
     }
   );
 };

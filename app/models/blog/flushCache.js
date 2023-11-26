@@ -53,10 +53,7 @@ module.exports = function (blogID, former, callback) {
           "http://" +
             host +
             "/purge?" +
-            affectedHosts.map(host => "host=" + host).join("&"),
-          {
-            method: "PURGE"
-          }
+            affectedHosts.map(host => "host=" + host).join("&")
         )
           .then(res => {
             console.log(

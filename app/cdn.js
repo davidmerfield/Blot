@@ -1,15 +1,18 @@
 const express = require("express");
 const cdn = new express.Router();
 const { blot_directory } = require("config");
-const compression = require("compression");
 
 // Use express static and try to match the request to files in the following directories:
 // $blot_directory/data/static/$uri;
 // $blot_directory/app/blog/static/$uri;
-// we also want to use maximum gzip compression and set the max age to 1 year
 // we also want to add the header 'access-control-allow-origin' to all responses
 
-cdn.use(compression({ level: 9 }));
+// the health check
+cdn.get("/health", (req, res) => {
+  // don't cache response
+  res.set("Cache-Control", "no-store");
+  res.send("OK: " + new Date().toISOString());
+});
 
 cdn.use(
   express.static(blot_directory + "/data/static", {
@@ -28,5 +31,10 @@ cdn.use(
     }
   })
 );
+
+// return a 404 error otherwise
+cdn.use((req, res) => {
+  res.status(404).send("Not found");
+});
 
 module.exports = cdn;

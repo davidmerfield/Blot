@@ -10,6 +10,11 @@ const CONFIG_DIRECTORY = __dirname + "/conf";
 
 const template = fs.readFileSync(`${CONFIG_DIRECTORY}/server.conf`, "utf8");
 const partials = {};
+
+// remote config directory
+const config_directory =
+  process.env.OPENRESTY_CONFIG_DIRECTORY || "/home/ec2-user/openresty";
+
 const locals = {
   blot_directory: config.blot_directory,
   // development: config.environment === "development",
@@ -26,8 +31,8 @@ const locals = {
     ? "eu"
     : "us",
   user: process.env.OPENRESTY_USER || "ec2-user",
-  config_directory:
-    process.env.OPENRESTY_CONFIG_DIRECTORY || "/home/ec2-user/openresty",
+  log_directory: process.env.OPENRESTY_LOG_DIRECTORY || config_directory,
+  config_directory,
   // if you change the cache directory, you must also update the
   // script mount-instance-store.sh
   cache_directory: process.env.OPENRESTY_CACHE_DIRECTORY || "/var/www/cache",

@@ -4,7 +4,7 @@ const Entry = require("models/entry");
 const localPath = require("helper/localPath");
 const async = require("async");
 
-function resolvePath(blogID, path, callback) {
+function resolvePath (blogID, path, callback) {
   var candidates = [];
 
   candidates.push(path);
@@ -45,7 +45,7 @@ function resolvePath(blogID, path, callback) {
 // The purpose of this script was to resolve an issue with entries having
 // path properties that were not equal to the location of the file on disk
 // if the file system is case sensitive.
-function main(blog, callback) {
+function main (blog, callback) {
   var missing = [];
   var edit = [];
   var report = [];

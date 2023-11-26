@@ -6,58 +6,50 @@ const zlib = require("zlib");
 describe("cacher handles gzip", function () {
   setup("./gzip.conf");
 
-  it("caches a request gzipped by upstream", async function () {
-    const response = await fetch(this.origin + "/gzip-by-upstream");
+  // I think this test reproduces a bug on our server where we have multiple files
+  // seemingly with the same cache key but different md5 hash filenames
+  // https://github.com/openresty/srcache-nginx-module/issues/11
+  // nginx claims it will use the md5 hash of the key to determine the filename
+  // but it seems that if there is a gzipped and non-gzipped version of the file
+  // it will produce a different md5 hash
+  it("does not store multiple cache files when the accept-encoded header is different", async function () {
+    const response = await fetch(this.origin + "/gzip", {
+      headers: { "Accept-Encoding": "" }
+    });
 
-    // verify the response is gziped and has the size we expect
     expect(response.status).toBe(200);
-    expect(response.headers.get("Content-Encoding")).toBe("gzip");
+    expect(response.headers.get("Content-Encoding")).toBe(null);
     expect(response.headers.get("Cache-Status")).toBe("MISS");
 
-    const contents = await fs.readFile((await this.listCache())[0], "utf-8");
-    // we trim because the lines end with '\r'
-    const lines = contents.split("\n").map(l => l.trim());
+    const text = await response.text();
 
-    expect(lines.length).toBe(13);
-    expect(lines[1]).toBe("KEY: " + this.origin + "/gzip-by-upstream");
-    expect(lines[2]).toBe("HTTP/1.1 200 OK");
-    expect(lines[3]).toBe("X-Powered-By: Express");
-    expect(lines[4]).toBe("Content-Type: text/html; charset=utf-8");
-    expect(lines[5]).toMatch(/^ETag: /);
-    expect(lines[6]).toBe("Vary: Accept-Encoding");
-    expect(lines[7]).toBe("Content-Encoding: gzip");
-    expect(lines[8]).toMatch(/^Date: /);
-    expect(lines[9]).toBe("Connection: close");
-    expect(lines[10]).toBe("Transfer-Encoding: chunked");
+    expect((await this.listCache()).length).toEqual(1);
 
-    // the contents are compressed
-    expect(lines[12]).toContain("\x00");
-    expect(lines[12]).not.toBe("abc ".repeat(1024).trim());
-  });
+    const compressedResponse = await fetch(this.origin + "/gzip", {
+      headers: { "Accept-Encoding": "gzip" }
+    });
+    expect(compressedResponse.status).toBe(200);
+    expect(compressedResponse.headers.get("Content-Encoding")).toBe("gzip");
+    expect(compressedResponse.headers.get("Cache-Status")).toBe("HIT");
+    expect(await compressedResponse.text()).toBe(text);
 
-  it("caches a request gzipped by openresty", async function () {
-    const response = await fetch(this.origin + "/gzip-by-openresty");
+    expect((await this.listCache()).length).toEqual(1);
 
-    // verify the response is gziped and has the size we expect
-    expect(response.status).toBe(200);
-    expect(response.headers.get("Content-Encoding")).toBe("gzip");
-    expect(response.headers.get("Cache-Status")).toBe("MISS");
+    // try with the accept-encoding header set to internet explorer 6
+    const ie6Response = await fetch(this.origin + "/gzip", {
+      headers: { "Accept-Encoding": "gzip, deflate" }
+    });
+    expect(ie6Response.status).toBe(200);
+    expect(ie6Response.headers.get("Cache-Status")).toBe("HIT");
+    expect(await ie6Response.text()).toBe(text);
 
-    const contents = await fs.readFile((await this.listCache())[0], "utf-8");
-    // we trim because the lines end with '\r'
-    const lines = contents.split("\n").map(l => l.trim());
+    expect((await this.listCache()).length).toEqual(1);
 
-    expect(lines.length).toBe(11);
-    expect(lines[1]).toBe("KEY: " + this.origin + "/gzip-by-openresty");
-    expect(lines[2]).toBe("HTTP/1.1 200 OK");
-    expect(lines[3]).toBe("X-Powered-By: Express");
-    expect(lines[4]).toBe("Content-Type: text/html; charset=utf-8");
-    expect(lines[5]).toBe("Content-Length: 4096");
-    expect(lines[6]).toMatch(/^ETag: /);
-    expect(lines[7]).toMatch(/^Date: /);
-    expect(lines[8]).toBe("Connection: close");
+    const purgeResponse = await fetch(this.origin + "/purge?host=127.0.0.1");
+    const purgeText = await purgeResponse.text();
+    expect(purgeResponse.status).toBe(200);
+    expect(purgeText.trim()).toBe("127.0.0.1: 1");
 
-    // the contents are not compressed
-    expect(lines[10]).toBe("abc ".repeat(1024).trim());
+    expect(await this.listCache({ watch: false })).toEqual([]);
   });
 });

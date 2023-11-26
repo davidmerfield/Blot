@@ -30,7 +30,7 @@
 set -e
 
 BLOT_DIRECTORY=/var/www/blot
-LOG_DIRECTORY=$BLOT_DIRECTORY/logs
+LOG_DIRECTORY=$BLOT_DIRECTORY/data/logs
 USER=$(whoami)
 
 ## If the user is root, we want to log as nobody
@@ -44,7 +44,7 @@ else
 fi
 
 # Create a new directory for yesterday's logs
-ARCHIVED_LOG_DIRECTORY=$BLOT_DIRECTORY/logs/archive-$(date +%Y-%m-%d)-$USER
+ARCHIVED_LOG_DIRECTORY=$LOG_DIRECTORY/archive-$(date +%Y-%m-%d)-$USER
 mkdir $ARCHIVED_LOG_DIRECTORY
 
 # Find all the names of log files owned by this user.

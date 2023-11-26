@@ -4,6 +4,7 @@ const child_process = require("child_process");
 const mustache = require("mustache");
 const { basename, resolve } = require("path");
 const fs = require("fs-extra");
+const { cache_directory } = require("../../..");
 
 const CACHER_DIRECTORY = resolve(__dirname + "/../../");
 const DATA_DIRECTORY = CACHER_DIRECTORY + "/tests/data";
@@ -16,6 +17,8 @@ const config = {
     port: 8788
   }
 };
+
+const inspectCache = require("./inspect-cache");
 
 const startOpenresty = async (pathToConf, origin) => {
   try {
@@ -63,6 +66,8 @@ module.exports = configFile => {
     const configInput = CACHER_DIRECTORY + "/tests/" + configFile;
     const configPath = DATA_DIRECTORY + "/" + basename(configFile);
 
+    this.cache_directory = cache_directory;
+
     const result = mustache.render(await fs.readFile(configInput, "utf8"), {
       ...config,
       user: process.env.BLOT_OPENRESTY_TEST_USER || "David",
@@ -81,6 +86,9 @@ module.exports = configFile => {
     await startOpenresty(configPath, this.origin);
 
     this.server = await server({ port: config.node.port });
+
+    this.inspectCache = () =>
+      inspectCache(origin + "/inspect", cache_directory);
 
     this.restartOpenresty = async () => {
       // get the pid of the current openresty process
@@ -127,6 +135,8 @@ module.exports = configFile => {
           files.push(dir);
         }
       };
+
+      await list(cache_directory);
 
       // wait for the cache to be populated
       while (files.length === 0 && watch) {

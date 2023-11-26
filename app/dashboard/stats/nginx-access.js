@@ -2,7 +2,7 @@ const moment = require("moment");
 const URL = require("url");
 const fs = require("fs-extra");
 const lineReader = require("helper/lineReader");
-const STATS_DIRECTORY = require("./statsDirectory") + "/node";
+const STATS_DIRECTORY = require("./statsDirectory") + "/nginx";
 const MAX_RECOMPUTED = 2; // hours
 
 let reComputed = 0;
@@ -26,34 +26,25 @@ function aggregator ({ logFileName }) {
   let currentMinute;
   let currentMinuteData = [];
 
-  let currentMinuteCPU;
-  let currentMinuteMemory;
-
   let currentHour;
   let currentHourData = [];
 
   return function (line, last) {
     try {
-      // Handle the CPU and memory stats line separately
-      // which look like:
-      // [17/Aug/2023:00:12:00 +0000] [STATS] cpuuse=5.500% memuse=12.160%
-      if (line.indexOf("] [STATS] cpuuse=") > -1 && line.indexOf("memuse=")) {
-        currentMinuteCPU = parseFloat(
-          line.slice(
-            line.indexOf("cpuuse=") + "cpuuse=".length,
-            line.indexOf("memuse=")
-          )
-        );
-        currentMinuteMemory = parseFloat(
-          line.slice(line.indexOf("memuse=") + "memuse=".length)
-        );
-      }
-
       // Handle a regular access log line
       // which look like:
-      // [17/Aug/2023:00:01:15 +0000] eee62ff2faa671bfa089e63fd012f3f1 200 0.003 PID=16796 https://blot.im
-      const { date, responseTime, status, workerPID, url, host, requestID } =
-        parse(line);
+      // [31/Aug/2023:19:28:35 +0100] 45ab1ff645eb1cf89b09c65d95885c8a 200 0.162 788:2249003 https://blot.development/dashboard/stats/stats.json  cache=proxied-because-dashboard
+      const {
+        date,
+        responseTime,
+        status,
+        url,
+        host,
+        requestID,
+        requestBytes,
+        responseBytes,
+        cache
+      } = parse(line);
 
       if (!currentMinute) currentMinute = date.format("YYYY-MM-DD-HH-mm");
 
@@ -62,6 +53,18 @@ function aggregator ({ logFileName }) {
       if (date.format("YYYY-MM-DD-HH-mm") !== currentMinute) {
         currentMinute = date.format("YYYY-MM-DD-HH-mm");
         // we now need to calculate the averages for the previous minute
+
+        const requestsByHost = currentMinuteData.reduce((acc, { host }) => {
+          if (!acc[host]) acc[host] = 0;
+          acc[host] += 1;
+          return acc;
+        }, {});
+
+        const requestsByURL = currentMinuteData.reduce((acc, { url }) => {
+          if (!acc[url]) acc[url] = 0;
+          acc[url] += 1;
+          return acc;
+        }, {});
 
         // we calculate the median response time by sorting the response times
         // and then taking the middle value
@@ -77,8 +80,6 @@ function aggregator ({ logFileName }) {
 
         currentHourData.push({
           date: moment(currentMinute, "YYYY-MM-DD-HH-mm").valueOf(),
-          cpu: currentMinuteCPU,
-          memory: currentMinuteMemory,
 
           slowestRequests: currentMinuteData
             .slice()
@@ -97,13 +98,31 @@ function aggregator ({ logFileName }) {
               return acc + responseTime;
             }, 0) / currentMinuteData.length,
 
-          requests: currentMinuteData.length,
+          bytesSent: currentMinuteData.reduce((acc, { responseBytes }) => {
+            return acc + responseBytes;
+          }, 0),
 
-          byWorker: currentMinuteData.reduce((acc, { workerPID }) => {
-            if (!acc[workerPID]) acc[workerPID] = 0;
-            acc[workerPID] += 1;
+          bytesReceived: currentMinuteData.reduce((acc, { requestBytes }) => {
+            return acc + requestBytes;
+          }, 0),
+
+          byCache: currentMinuteData.reduce((acc, { cache }) => {
+            if (!acc[cache]) acc[cache] = 0;
+            acc[cache] += 1;
             return acc;
           }, {}),
+
+          requests: currentMinuteData.length,
+
+          popularHosts: Object.keys(requestsByHost)
+            .sort((a, b) => requestsByHost[b] - requestsByHost[a])
+            .slice(0, 10)
+            .map(host => ({ host, count: requestsByHost[host] })),
+
+          popularURLs: Object.keys(requestsByURL)
+            .sort((a, b) => requestsByURL[b] - requestsByURL[a])
+            .slice(0, 10)
+            .map(url => ({ url, count: requestsByURL[url] })),
 
           percent4XX:
             (currentMinuteData.reduce((acc, { status }) => {
@@ -123,10 +142,8 @@ function aggregator ({ logFileName }) {
         });
 
         currentMinuteData = [];
-        currentMinuteCPU = null;
-        currentMinuteMemory = null;
 
-        console.log(logFileName, ": computed minute", currentMinute);
+        console.log(logFileName, ": computed minute ", currentMinute);
 
         if (currentHour !== date.format("YYYY-MM-DD-HH")) {
           if (fs.existsSync(STATS_DIRECTORY + "/" + currentHour + ".json"))
@@ -150,10 +167,12 @@ function aggregator ({ logFileName }) {
           date,
           responseTime,
           status,
-          workerPID,
           url,
           host,
-          requestID
+          requestID,
+          requestBytes,
+          responseBytes,
+          cache
         });
       }
 
@@ -164,9 +183,7 @@ function aggregator ({ logFileName }) {
           currentHourData
         );
       }
-    } catch (e) {
-      // there are other lines in the log file that we don't care about
-    }
+    } catch (e) {}
 
     return true;
   };
@@ -180,7 +197,6 @@ module.exports = main;
 // date, requestID, responseTime, status, url, host, cache, requestBytes, responseBytes
 
 function parse (line) {
-  // Last line of file is often empty
   if (!line) throw new Error("Empty line");
 
   if (line.indexOf("[error]") > -1) throw new Error("Error line");
@@ -197,19 +213,35 @@ function parse (line) {
 
   var requestID = components[0];
 
-  var responseTime = parseFloat(components[2]);
-
-  if (isNaN(responseTime)) throw new Error("Invalid response time");
-
   var status = parseFloat(components[1]);
 
   if (isNaN(status)) throw new Error("Invalid status");
 
-  var workerPID = components[3].slice("PID=".length);
+  var responseTime = parseFloat(components[2]);
+
+  if (isNaN(responseTime)) throw new Error("Invalid response time");
+
+  var requestBytes = parseFloat(components[3].split(":")[0]);
+  var responseBytes = parseFloat(components[3].split(":")[1]);
+
+  if (isNaN(requestBytes)) throw new Error("Invalid request bytes");
+  if (isNaN(responseBytes)) throw new Error("Invalid response bytes");
 
   var url = components[4];
 
   var host = URL.parse(components[4]).hostname;
 
-  return { date, requestID, responseTime, status, workerPID, url, host };
+  var cache = components[5].slice("cache=".length);
+
+  return {
+    date,
+    requestID,
+    responseTime,
+    status,
+    url,
+    host,
+    cache,
+    requestBytes,
+    responseBytes
+  };
 }

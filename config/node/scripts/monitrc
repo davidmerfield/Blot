@@ -15,8 +15,13 @@ set logfile /var/www/blot/logs/monit.log
 # to restart its upstart service
 check process node with pidfile /var/www/blot/data/process.pid
     # we use systemctl to start and stop node
-    start program = "/bin/systemctl start node" with timeout 30 seconds
-    stop program  = "/bin/systemctl stop node"
+    # From docs:
+    # Finally, Monit uses the system call execv to execute a program or a script. 
+    # This means that you cannot write shell commands directly in the start, stop or exec statements. 
+    # To do this, you must do as above; start a shell and issue your commands there. For example:
+    # https://mmonit.com/wiki/Monit/FAQ#execution
+    start program = "/bin/bash -c '/usr/bin/systemctl start node'" with timeout 30 seconds
+    stop program  = "/bin/bash -c '/usr/bin/systemctl stop node'" with timeout 10 seconds
     if failed port 8080 protocol HTTP
         request /health
         with timeout 10 seconds

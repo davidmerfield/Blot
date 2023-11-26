@@ -4,13 +4,13 @@ const lineReader = require("helper/lineReader");
 const prettyNumber = require("helper/prettyNumber");
 const { blot_directory } = require("config");
 const is = require("../../blog/render/retrieve/is");
-const logDirectory = blot_directory + "/logs";
+const logDirectory = blot_directory + "/data/logs";
 
 const LOGFILE = "app.log";
 
 function loadTmpLogFile (callback) {
   const tmpLogFilePath =
-    blot_directory + "/tmp/" + new Date().valueOf() + ".log";
+    blot_directory + "/data/tmp/" + new Date().valueOf() + ".log";
   const todaysLogfile = logDirectory + "/" + LOGFILE;
 
   const yesterdaysLog = fs

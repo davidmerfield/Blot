@@ -1,6 +1,5 @@
 var renderView = require("./render/middleware");
 var express = require("express");
-var compression = require("compression");
 var Template = require("models/template");
 var Mustache = require("mustache");
 var fs = require("fs-extra");
@@ -11,11 +10,7 @@ var blog = express();
 
 // Custom domain & subdomain middleware
 // also handles the mapping of preview domains
-blog
-  .disable("x-powered-by")
-  .use(compression())
-  .use(require("./vhosts"))
-  .use(require("./add")());
+blog.disable("x-powered-by").use(require("./vhosts")).use(require("./add")());
 
 // Only time uncached responses
 // if (config.flags.time_response)
