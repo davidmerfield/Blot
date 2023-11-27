@@ -1,18 +1,15 @@
 var request = require("request");
 var config = require("config");
 
-function main(product_id, callback) {
-  require("../generate-access-token")(function(err, token) {
+function main (product_id, callback) {
+  require("../generate-access-token")(function (err, token) {
     request.post(
       {
         uri: "https://api.sandbox.paypal.com/v1/billing/plans",
         headers: {
           "Content-Type": "application/json",
           "Accept-Language": "en_US",
-          Authorization: "Bearer " + token,
-
-          // Optional and if passed, helps identify idempotent requests
-          "PayPal-Request-Id": "BLOT-PLAN-" + Date.now()
+          "Authorization": "Bearer " + token
         },
         body: JSON.stringify({
           product_id: product_id,
@@ -27,9 +24,10 @@ function main(product_id, callback) {
               },
               tenure_type: "REGULAR",
               sequence: 1,
+              total_cycles: 0,
               pricing_scheme: {
                 fixed_price: {
-                  value: "3",
+                  value: "4",
                   currency_code: "USD"
                 }
               }
@@ -41,7 +39,7 @@ function main(product_id, callback) {
           }
         })
       },
-      function(err, res, data) {
+      function (err, res, data) {
         if (err) return callback(err);
         callback(null, JSON.parse(data));
       }
@@ -52,7 +50,7 @@ function main(product_id, callback) {
 module.exports = main;
 
 if (require.main === module)
-  main(process.argv[2], function(err, res) {
+  main(process.argv[2], function (err, res) {
     if (err) throw err;
     console.log(res);
   });
