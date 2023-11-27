@@ -1,6 +1,16 @@
+Check for SSL renewal errors
+
+Make sure main server can hard restart without issue
+
+Store path -> md5 hash on sync
+- Use to auto version links to files in your folder 
+
 Fix bug with screenshot issues on production server by using pupeteer with firefox
 
-Monitor Blot's root disk usage, everything should now be on the EBS volume
+Monitor Blot's root disk usage
+- everything should now be on the EBS volume
+
+Monitor Redis's root disk usage
 
 Fix cloudflare redirect HTTP/HTTPS issue seems to have resurfaced - why?
 
@@ -14,18 +24,12 @@ Begin purging cached files when the cache shared dictionary is filling up
 - Eventually, we should try and purge the least recently used hosts with the largest number of keys in the dictionary
 - But picking at random works for now
 
-Add WebDav support
-
-Check for SSL renewal errors
-
 Can I use proxy_store instead of openrestycache?
 
 Prevent Google Drive client from re crawling entire folder for every sync
 - i think we need to manually watch all google docs in the folder
 
 Prevent unneeded cache purge when templates are rebuilt, either from folder or on disk in app/templates
-
-Make sure main server can hard restart without issue
 
 Create material in docs with title 'Turn X into website' where X is:
 - Dropbox, Google Drive, etc.
@@ -37,13 +41,15 @@ https://zettelkasten.de/the-archive/
 https://tot.rocks/
 https://desairem.com/wordpress/ufocus/
 
+Add WebDav support
+
+Can we add a 'folder rules' section to create ignore globs, multi post globs, etc.
+
 Git client is extremely slow to set up large folders – we need a loading screen
 
 When a folder has lots of elements, trim the list of files on the dashboard, at least on the index page
 
 Monitoring:
-- Write status page check that checks CDN connection to Blot
-  - should not be cached, should test connection
 - Move log aggregator into redis?
 - Set up fail2ban on nginx logs
 
