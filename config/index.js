@@ -96,7 +96,10 @@ module.exports = {
     client_id: process.env.BLOT_PAYPAL_CLIENT_ID,
     secret: process.env.BLOT_PAYPAL_SECRET,
     plan: process.env.BLOT_PAYPAL_PLAN_ID,
-    webhook_id: process.env.BLOT_PAYPAL_WEBHOOK_ID
+    webhook_id: process.env.BLOT_PAYPAL_WEBHOOK_ID,
+    api_base: `https://api.${
+      environment === "development" ? "sandbox." : ""
+    }paypal.com`
   },
 
   cdn: {

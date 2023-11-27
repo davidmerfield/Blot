@@ -24,6 +24,8 @@ signup.use(function (req, res, next) {
   return next();
 });
 
+signup.use("/paypal", require("./paypal"));
+
 var paymentForm = signup.route("/");
 var alreadyPaid = signup.route("/paid/:token");
 var passwordForm = signup.route("/create-account");

@@ -103,7 +103,7 @@
 
 <script src="https://www.paypal.com/sdk/js?client-id={{
     paypal_client_id
-  }}&vault=true&intent=subscription"></script>
+  }}&vault=true&intent=subscription&disable-funding=card"></script>
 
 <div id="paypal-button-container"></div>
 
@@ -115,9 +115,10 @@
           plan_id: "{{paypal_plan}}" // Creates the subscription
         });
       },
-
       onApprove: function (data, actions) {
-        alert("You have successfully subscribed to " + data.subscriptionID); // Optional message given to subscriber
+        // redirect to /sign-up/paypal/redirect?subscription_id=${data.subscriptionID}
+        window.location.href =
+          "/sign-up/paypal?subscription_id=" + data.subscriptionID;
       }
     })
     .render("#paypal-button-container"); // Renders the PayPal button
