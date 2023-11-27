@@ -55,14 +55,14 @@ console.log("- persistent dashboard sessions  " + !!config.session.secret);
 // compression. See ../config/nginx for more. Blot does the rest.
 const email = "example@example.com";
 
-function establishTestUser(callback) {
+function establishTestUser (callback) {
   User.getByEmail(email, function (err, user) {
     if (user) return callback(null, user);
-    User.create(email, "", {}, callback);
+    User.create(email, "", {}, {}, callback);
   });
 }
 
-function establishTestBlog(user, callback) {
+function establishTestBlog (user, callback) {
   if (user.blogs.length > 0) return callback(null, user);
 
   Blog.create(user.uid, { handle: "example" }, function (err, blog) {
@@ -72,14 +72,14 @@ function establishTestBlog(user, callback) {
   });
 }
 
-function configureBlogs(user, callback) {
+function configureBlogs (user, callback) {
   let port = parseInt(config.port);
   async.eachSeries(
     user.blogs,
     (blogID, next) => {
       Blog.get({ id: blogID }, (err, blog) => {
         if (err) return next(err);
-        Blog.set(blogID, { forceSSL: false, client: "local" }, (err) => {
+        Blog.set(blogID, { forceSSL: false, client: "local" }, err => {
           if (err) return next(err);
 
           var blogServer = Express();
@@ -115,7 +115,7 @@ function configureBlogs(user, callback) {
         });
       });
     },
-    (err) => {
+    err => {
       callback(err, user);
     }
   );

@@ -21,32 +21,32 @@ const localClient = require("clients/local");
 const DIR = require("helper/rootDir") + "/app/templates/folders";
 const format = require("url").format;
 const localPath = require("helper/localPath");
-const zip = require('./zip');
+const zip = require("./zip");
 
 const updates = {
   bjorn: {
     title: "Björn Allard",
-    template: 'SITE:portfolio',
+    template: "SITE:portfolio"
   },
   david: {
     title: "David",
-    template: 'SITE:blog',
+    template: "SITE:blog"
   },
   frances: {
     title: "Frances Benjamin Johnston",
-    template: 'SITE:reference',
+    template: "SITE:reference"
   },
   interviews: {
     title: "Interviews",
-    template: 'SITE:magazine',    
+    template: "SITE:magazine"
   },
   william: {
     title: "William Copeland McCalla",
-    template: 'SITE:photo',
-  },
+    template: "SITE:photo"
+  }
 };
 
-function main(options, callback) {
+function main (options, callback) {
   if (callback === undefined && typeof options === "function") {
     callback = options;
     options = {};
@@ -79,7 +79,7 @@ function main(options, callback) {
   });
 }
 
-function setupUser(_callback) {
+function setupUser (_callback) {
   const callback = (err, user) => {
     if (err) return _callback(err);
 
@@ -92,8 +92,8 @@ function setupUser(_callback) {
         host: config.host,
         pathname: "/log-in",
         query: {
-          token: token,
-        },
+          token: token
+        }
       });
 
       _callback(null, user, url);
@@ -105,11 +105,11 @@ function setupUser(_callback) {
 
     if (user) return callback(null, user);
 
-    User.create(config.admin.email, config.session.secret, {}, callback);
+    User.create(config.admin.email, config.session.secret, {}, {}, callback);
   });
 }
 
-function setupBlogs(user, folders, callback) {
+function setupBlogs (user, folders, callback) {
   var blogs = {};
 
   async.eachSeries(
@@ -169,7 +169,7 @@ function setupBlogs(user, folders, callback) {
   );
 }
 
-function loadFoldersToBuild(foldersDirectory, callback) {
+function loadFoldersToBuild (foldersDirectory, callback) {
   fs.readdir(foldersDirectory, function (err, folders) {
     if (err) return callback(err);
 
@@ -199,10 +199,10 @@ if (require.main === module) {
 
   main(options, function (err) {
     if (err) throw err;
-    zip(function(err){
+    zip(function (err) {
       if (err) throw err;
       process.exit();
-    })
+    });
   });
 }
 
