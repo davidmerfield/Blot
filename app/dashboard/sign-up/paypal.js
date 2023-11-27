@@ -26,11 +26,7 @@ paypal.get("/", async (req, res, next) => {
 
   const json = await response.json();
 
-  console.log("response from paypal:", json);
-
-  console.log("setting session.subscription", json);
-  req.session.subscription = json;
-  console.log("setting session.email", json.subscriber.email_address);
+  req.session.paypal = json;
   req.session.email = json.subscriber.email_address;
 
   res.redirect("/sign-up/create-account");

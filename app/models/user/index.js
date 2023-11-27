@@ -9,11 +9,12 @@ module.exports = {
   getByCustomerId: require("./getByCustomerId"),
   getByEmail: require("./getByEmail"),
   getById: require("./getById"),
+  getByPayPalSubscriptionId: require("./getByPayPalSubscriptionId"),
   hashPassword: require("./hashPassword"),
   key: require("./key"),
   model: require("./model"),
   remove: require("./remove"),
   scheduleSubscriptionEmail: require("./scheduleSubscriptionEmail"),
   set: require("./set"),
-  validate: require("./validate"),
+  validate: require("./validate")
 };

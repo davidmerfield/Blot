@@ -5,10 +5,17 @@ var validate = require("./validate");
 var generateId = require("./generateId");
 var scheduleSubscriptionEmail = require("./scheduleSubscriptionEmail");
 
-module.exports = function create(email, passwordHash, subscription, callback) {
+module.exports = function create (
+  email,
+  passwordHash,
+  subscription,
+  paypal,
+  callback
+) {
   ensure(email, "string")
     .and(passwordHash, "string")
     .and(subscription, "object")
+    .and(paypal, "object")
     .and(callback, "function");
 
   var multi, userString;
@@ -21,7 +28,8 @@ module.exports = function create(email, passwordHash, subscription, callback) {
     lastSession: "",
     email: email,
     subscription: subscription,
-    passwordHash: passwordHash,
+    paypal: paypal,
+    passwordHash: passwordHash
   };
 
   validate({ uid: uid }, user, function (err, user) {

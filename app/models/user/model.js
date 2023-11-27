@@ -6,7 +6,7 @@ var MODEL = {
   lastSession: "string",
   passwordHash: "string",
   subscription: "object",
-  subscription_paypal: "object"
+  paypal: "object"
 };
 
 module.exports = MODEL;
