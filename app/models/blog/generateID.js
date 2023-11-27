@@ -8,10 +8,8 @@ var PREFIX = "blog_";
 // the id does contain dashes, which we remove. We add
 // the prefix 'blog_' to make reading logs easier.
 
-module.exports = function() {
-  var id = uuid()
-    .split("-")
-    .join("");
+module.exports = function () {
+  var id = uuid().split("-").join("");
 
   return PREFIX + id;
 };

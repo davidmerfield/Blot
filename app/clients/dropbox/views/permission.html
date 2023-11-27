@@ -1,14 +1,15 @@
 {{#account}}
 
+<form method='post' class="account" style="padding-top:0;margin-top:0">
 
-<div class="line" style="border-bottom: none">
+<div class="line" style="border-bottom: none;flex-direction: column;">
 {{^full_access}}
-    <p>You have granted <b>App folder</b> access to Blot for <b>{{blog.title}}</b>. This means Blot can only access a single folder in your Dropbox. If you grant <b>full folder access</b> to Blot, you will be freed of two restrictions that Dropbox places on App folders:</p>
+    <p>You have granted <b>App folder</b> access to Blot for <b>{{blog.title}}</b>. This means you allow Blot to access a single folder in your Dropbox. If you give Blot <b>full access to your Dropbox</b>, you will be able to:</p>
   <ul>
-  <li>You will be able to move your blog’s folder.</li>
-  <li>You will be able to share your blog’s folder with other people who use Dropbox.</li> 
+  <li>Move your blog’s folder.</li>
+  <li>Share your blog’s folder with other people who use Dropbox.</li> 
   </ul>
-  <p>If you grant <b>full folder access</b> to Blot, I promise only to access the folder for <b>{{blog.title}}</b>. However, the tokens that Dropbox gives to Blot could be used to view or modify every file and folder in your Dropbox. Please consider the consequences of a hypothetical security breach carefully.</p>
+  <p>Unfortunately, Dropbox makes it impossible to move or share an <b>App folder</b> without granting full access to your Dropbox. You can avoid this by creating a second Dropbox account, granting full access to your second account on this page and then sharing your blog's folder from your second to your main Dropbox account.</p>
 {{/full_access}}
 {{#full_access}}
 
@@ -17,12 +18,9 @@
   <li>Move <b>{{blog.title}}</b>'s folder </li>
   <li>Share <b>{{blog.title}}</b>'s folder with other people who use Dropbox.</li> 
   </ul>
-  <p>Please switch to <b>App folder</b> access if you do not need the two features. The tokens that Dropbox has given to Blot could be used to view or modify every file and folder in your Dropbox. Please consider the consequences of a hypothetical security breach carefully.</p>
-
 {{/full_access}}
 </div>
 
-<form method='post' class="account" style="padding-top:0;margin-top:0">
 
   <input type="hidden" name="_csrf" value="{{csrftoken}}">
   <div class="buttons">

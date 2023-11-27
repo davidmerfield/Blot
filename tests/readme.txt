@@ -17,16 +17,16 @@ There are two optional arguments:
 Writing new tests
 -----------------
 
-New unit tests should be stored adjacent to the code to which they apply, inside a folder called 'tests'. 
-New integration tests should be added to this folder.
+New unit and integration tests should be stored adjacent to the code to which they apply, inside a folder called 'tests'. 
 
+New long running tests (like the ones which check the code for unused dependencies, and broken links on the website should be stored here) and a corresponding separate action in .github/workflows
 
 To do
 -----
 
-- Reproduce the same results from the same <random number seed> used on Blot's continuous integration server (currently courtesy of Travis). Right now, for some reason, this does not happen and it makes debugging tests which sometimes fail on Travis a little annoying.
+- Reproduce the same results from the same <random number seed> used on Blot's continuous integration server (currently courtesy of Github Actions). Right now, for some reason, this does not happen and it makes debugging tests which sometimes fail on Github Actions a little annoying.
 
-- Self-host Blot's continuous integration server. But Travis is fine for now.
+- Self-host Blot's continuous integration server. But Github Actions is fine for now.
 
 
 Pitfalls

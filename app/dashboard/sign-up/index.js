@@ -1,0 +1,209 @@
+// Error Messages
+var BAD_CHARGE =
+  "We were unable to charge your card. Please fill out the form and try again, it should work.";
+var NO_EMAIL = "Please enter an email address";
+var IN_USE = "That email address is already used by another Blot account.";
+var DECLINED = "Your card was declined, please try again.";
+var NO_CUSTOMER = "No Customer";
+
+var Express = require("express");
+var config = require("config");
+var stripe = require("stripe")(config.stripe.secret);
+var parse = require("body-parser").urlencoded({ extended: false });
+var User = require("models/user");
+var Email = require("helper/email");
+var signup = Express.Router();
+var csrf = require("csurf")();
+
+signup.use(function (req, res, next) {
+  if (req.session && req.session.uid) return res.redirect("/dashboard");
+
+  res.header("Cache-Control", "no-cache");
+  res.locals.layout = "partials/layout-form";
+
+  return next();
+});
+
+var paymentForm = signup.route("/");
+var alreadyPaid = signup.route("/paid/:token");
+var passwordForm = signup.route("/create-account");
+
+if (config.maintenance) {
+  paymentForm.use("/sign-up", function (req, res) {
+    res.redirect("/maintenance");
+  });
+}
+
+// For users who paid by PayPal or institutional customers
+// who paid on Stripe I have a tool to skip the form using
+// a generated access token.
+alreadyPaid.get(csrf, function (req, res) {
+  res.locals.title = "Sign up";
+  res.locals.menu = { "sign-up": "selected" };
+  res.locals.error = req.query.error;
+  res.locals.csrf = req.csrfToken();
+  res.render("sign-up/paid");
+});
+
+alreadyPaid.post(parse, csrf, validateEmail, function (req, res, next) {
+  // First we make sure that the access token passed is valid.
+  User.checkAccessToken(req.params.token, function (err) {
+    if (err) {
+      return next(
+        new Error("Your sign up link is not valid. Please ask for another.")
+      );
+    }
+
+    req.session.subscription = {};
+    req.session.email = req.email;
+    res.redirect(req.baseUrl + passwordForm.path);
+  });
+});
+
+function validateEmail(req, res, next) {
+  var email = req.body && req.body.email;
+
+  // Normalize the email here before storing it
+  // in the browser's session
+  email = email.trim().toLowerCase();
+
+  if (!email) return next(new Error(NO_EMAIL));
+
+  User.getByEmail(email, function (err, existingUser) {
+    if (err) return next(err);
+
+    if (existingUser) return next(new Error(IN_USE));
+
+    req.email = email;
+    next();
+  });
+}
+
+paymentForm.get(csrf, function (req, res) {
+  if (req.session && req.session.email && req.session.subscription)
+    return res.redirect(req.baseUrl + passwordForm.path);
+
+  res.locals.title = "Sign up";
+  res.locals.menu = { "sign-up": "selected" };
+  res.locals.error = req.query.error;
+  res.locals.stripe_key = config.stripe.key;
+  res.locals.csrf = req.csrfToken();
+  res.render("sign-up");
+});
+
+paymentForm.post(parse, csrf, validateEmail, function (req, res, next) {
+  // Card is a stripe token generated on the client
+  const card = req.body && req.body.stripeToken;
+
+  if (!card) return next(new Error(BAD_CHARGE));
+  const email = req.email;
+  const info = {
+    card,
+    email,
+    plan: config.stripe.plan,
+    description: "Blot subscription",
+  };
+
+  stripe.customers.create(info, function (err, customer) {
+    if (err && err.type === "StripeCardError") {
+      return next(new Error(DECLINED));
+    }
+
+    if (err) {
+      return next(new Error(BAD_CHARGE));
+    }
+
+    if (!customer) {
+      return next(new Error(NO_CUSTOMER));
+    }
+
+    // Store the user's email and charge ID
+    // so that when the user returns from
+    // Dropbox we know they have a blot account
+    req.session.email = email;
+    req.session.subscription = customer.subscription;
+
+    res.redirect(req.baseUrl + passwordForm.path);
+  });
+});
+
+passwordForm.all(function (req, res, next) {
+  if (!req.session || !req.session.email || !req.session.subscription)
+    return res.redirect(req.baseUrl + paymentForm.path);
+
+  res.locals.breadcrumbs = [{ label: "Blot" }, { label: "Sign up" }];
+
+  next();
+});
+
+passwordForm.get(csrf, function (req, res) {
+  res.locals.title = "Sign up";
+  res.locals.email = req.session.email;
+  res.locals.subscription = !!req.session.subscription;
+  res.locals.error = req.query.error;
+  res.locals.change_email = req.query.change_email;
+  res.locals.csrf = req.csrfToken();
+  res.render("sign-up/password");
+});
+
+passwordForm.post(parse, csrf, function (req, res, next) {
+  var subscription = req.session.subscription;
+  var email = req.body.email;
+  var password = req.body.password;
+
+  if (!email) return next(new Error("Please choose an email address"));
+
+  if (!password) return next(new Error("Please choose a password"));
+
+  User.hashPassword(password, function (err, passwordHash) {
+    if (err) return next(err);
+
+    User.create(email, passwordHash, subscription, function (err, user) {
+      if (err) return next(err);
+
+      // The user has changed their email since signing up
+      // TODO: add logging
+      if (req.session.email !== user.email) {
+        stripe.customers.update(
+          subscription.customer,
+          { email: user.email },
+          function () {
+            // TODO: handle this error but it's not
+            // all that important
+          }
+        );
+      }
+
+      delete req.session.email;
+      delete req.session.subscription;
+
+      // if you change this also change log-in
+      res.cookie("signed_into_blot", "true", {
+        domain: "",
+        path: "/",
+        secure: true,
+        httpOnly: false,
+        maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
+        sameSite: "Lax",
+      });
+
+      req.session.uid = user.uid;
+
+      Email.CREATED_BLOG(user.uid);
+      res.redirect("/account/create-blog");
+    });
+  });
+});
+
+// This is error handling middleware
+// specific to the sign up page
+signup.use(function (err, req, res, next) {
+  if (err && err.message)
+    return res.redirect(
+      req.baseUrl + req.path + "?error=" + encodeURIComponent(err.message)
+    );
+
+  next();
+});
+
+module.exports = signup;

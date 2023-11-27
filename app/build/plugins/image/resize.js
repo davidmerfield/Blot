@@ -1,8 +1,7 @@
-var debug = require("debug")("entry:build:plugins:images");
+var debug = require("debug")("blot:entry:build:plugins:images");
 var sharp = require("sharp");
-var helper = require("helper");
-var ensure = helper.ensure;
-var tempDir = helper.tempDir();
+var ensure = require("helper/ensure");
+var tempDir = require("helper/tempDir")();
 var fs = require("fs-extra");
 var uuid = require("uuid/v4");
 var extname = require("path").extname;
@@ -22,7 +21,7 @@ var RESIZE_EXTENSION_WHITELIST = [".jpg", ".jpeg", ".png"];
 // or that still needs to be fixed. I should investigate.
 sharp.cache(false);
 
-module.exports = function(path, callback) {
+module.exports = function (path, callback) {
   ensure(path, "string").and(callback, "function");
 
   var output = tempDir + uuid();
@@ -49,15 +48,15 @@ module.exports = function(path, callback) {
     return callback(e);
   }
 
-  image.toFile(output, function(err, info) {
+  image.toFile(output, function (err, info) {
     if (err || !info) return callback(err || "No info");
 
     // Remove the unresized file
-    fs.remove(path, function(err) {
+    fs.remove(path, function (err) {
       if (err) return callback(err);
 
       // Move the resized file
-      fs.move(output, path, function(err) {
+      fs.move(output, path, function (err) {
         if (err) return callback(err);
 
         return callback(null, info);

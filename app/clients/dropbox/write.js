@@ -1,45 +1,47 @@
 var join = require("path").join;
-var database = require("./database");
-var debug = require("debug")("clients:dropbox:write");
+var debug = require("debug")("blot:clients:dropbox:write");
 var createClient = require("./util/createClient");
 var fs = require("fs-extra");
-var localPath = require("helper").localPath;
+var localPath = require("helper/localPath");
 var retry = require("./util/retry");
+const { promisify } = require("util");
+const upload = promisify(require("clients/dropbox/util/upload"));
+const addMetadata = promisify(require("models/metadata").add);
+const { basename } = require("path");
 
 // Write should only ever be called inside the function returned
 // from Sync for a given blog, since it modifies the blog folder.
 function write(blogID, path, contents, callback) {
-  var pathInDropbox, client, pathOnBlot;
+  var pathInDropbox, pathOnBlot;
 
   debug("Blog:", blogID, "Writing", path);
 
-  database.get(blogID, function(err, account) {
+  createClient(blogID, async function (err, client, account) {
     if (err || !account) return callback(err || new Error("No account"));
 
-    client = createClient(account.access_token);
+    // We assume that the account's folder has not changed
+    // to be perfectly correct, we could check this before
+    // each write but it would double the requests needed
     pathInDropbox = join(account.folder || "/", path);
 
     // We must lowercase this since localPath no longer
     // does and files for the Dropbox client are stored
-    // in the folder with a lowercase path. 
-    pathOnBlot = localPath(blogID, path).toLowerCase();
+    // in the folder with a lowercase path.
+    pathOnBlot = localPath(blogID, path.toLowerCase());
 
-    client
-      .filesUpload({
-        contents: contents,
-        autorename: false,
-        mode: { ".tag": "overwrite" },
-        path: pathInDropbox
-      })
-      .then(function() {
-        return fs.outputFile(pathOnBlot, contents);
-      })
-      .then(function() {
-        callback(null);
-      })
-      .catch(function(err) {
-        callback(err);
-      });
+    // Store the casey name of this path if needed
+    // The Dropbox client will persist this file at lowercase
+    if (basename(path).toLowerCase() !== basename(path))
+      await addMetadata(blogID, path, basename(path));
+
+    try {
+      await fs.outputFile(pathOnBlot, contents);
+      await upload(client, pathOnBlot, pathInDropbox);
+    } catch (e) {
+      return callback(e);
+    }
+
+    callback();
   });
 }
 

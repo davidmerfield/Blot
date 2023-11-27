@@ -1,8 +1,9 @@
 var async = require("async");
-var client = require("client");
+var client = require("models/client");
 var config = require("config");
 var fs = require("fs-extra");
 var get = require("./get");
+var set = require("./set");
 var key = require("./key");
 var BackupDomain = require("./util/backupDomain");
 var flushCache = require("./flushCache");
@@ -11,23 +12,29 @@ var START_CURSOR = "0";
 var SCAN_SIZE = 1000;
 
 function remove(blogID, callback) {
-  get({ id: blogID }, function(err, blog) {
+  get({ id: blogID }, function (err, blog) {
     if (err || !blog) return callback(err || new Error("No blog"));
 
-    flushCache(blogID, function(err) {
+    // We need to enable the blog to disconnect the client
+    // since we need to acquire a sync lock...
+    set(blog.id, { isDisabled: false }, function (err) {
       if (err) return callback(err);
 
-      // The order of these tasks is important right now.
-      // For example, if you wipe the blog's folder before disconnecting
-      // the client, you might run into an error. It would be nice to
-      // be able to run them in parallel though
-      var tasks = [disconnectClient, updateUser, wipeFolders, deleteKeys].map(
-        function(task) {
-          return task.bind(null, blog);
-        }
-      );
+      flushCache(blogID, function (err) {
+        if (err) return callback(err);
 
-      async.series(tasks, callback);
+        // The order of these tasks is important right now.
+        // For example, if you wipe the blog's folder before disconnecting
+        // the client, you might run into an error. It would be nice to
+        // be able to run them in parallel though
+        var tasks = [disconnectClient, updateUser, wipeFolders, deleteKeys].map(
+          function (task) {
+            return task.bind(null, blog);
+          }
+        );
+
+        async.series(tasks, callback);
+      });
     });
   });
 }
@@ -42,7 +49,7 @@ function wipeFolders(blog, callback) {
   async.parallel(
     [
       safelyRemove.bind(null, blogFolder, config.blog_folder_dir),
-      safelyRemove.bind(null, staticFolder, config.blog_static_files_dir)
+      safelyRemove.bind(null, staticFolder, config.blog_static_files_dir),
     ],
     callback
   );
@@ -52,13 +59,13 @@ function wipeFolders(blog, callback) {
   // so we do a few more steps to ensure we're only ever deleting
   // a folder inside the particular directory and nothing else
   function safelyRemove(folder, root, callback) {
-    fs.realpath(folder, function(err, realpathToFolder) {
+    fs.realpath(folder, function (err, realpathToFolder) {
       // This folder does not exist, so no need to do anything
       if (err && err.code === "ENOENT") return callback();
 
       if (err) return callback(err);
 
-      fs.realpath(root, function(err, realpathToRoot) {
+      fs.realpath(root, function (err, realpathToRoot) {
         if (err) return callback(err);
 
         if (realpathToFolder.indexOf(realpathToRoot + "/") !== 0)
@@ -89,7 +96,7 @@ function deleteKeys(blog, callback) {
 
   async.each(
     patterns,
-    function(pattern, next) {
+    function (pattern, next) {
       var args = [START_CURSOR, "MATCH", pattern, "COUNT", SCAN_SIZE];
 
       client.scan(args, function then(err, res) {
@@ -107,7 +114,7 @@ function deleteKeys(blog, callback) {
         next();
       });
     },
-    function() {
+    function () {
       multi.del(remove);
       multi.srem(key.ids, blog.id);
       multi.exec(callback);
@@ -124,8 +131,8 @@ function disconnectClient(blog, callback) {
 }
 
 function updateUser(blog, callback) {
-  var User = require("user");
-  User.getById(blog.owner, function(err, user) {
+  var User = require("models/user");
+  User.getById(blog.owner, function (err, user) {
     if (err) return callback(err);
 
     // If the user has already been deleted then
@@ -138,7 +145,7 @@ function updateUser(blog, callback) {
 
     var blogs = user.blogs.slice();
 
-    blogs = blogs.filter(function(otherBlogID) {
+    blogs = blogs.filter(function (otherBlogID) {
       return otherBlogID !== blog.id;
     });
 

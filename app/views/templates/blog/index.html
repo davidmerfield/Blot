@@ -1,0 +1,103 @@
+<h1>Blog template</h1>
+
+<a class="bordered-button" href="{{{preview}}}" target="_blank">Preview this template</a>
+<a class="bordered-button" href="/sign-up">Use template</a>
+
+<style type="text/css">
+
+	.in-use, .in-use li {padding: 0;margin:0;list-style-type: none}
+	.in-use a {display: flex;align-items: center;text-decoration: none;color: inherit;margin-bottom: 0.5rem;padding-bottom:0.5rem;border-bottom: 1px solid rgba(0,0,0,0.1)}
+	.in-use .image {margin-right: 0.75em;transform: scale(0.8);}
+.in-use li:last-child a {border-bottom: none;}
+
+		a.bordered-button {font-size:14px;margin-top:0;padding:0 2em;line-height:2em;color: var(--accent-color);margin-right:1em}
+
+	a	.browser {margin-top:6px;border: 1px solid var(--light-border-color);border-radius: 6px;display: block;padding: 0.25rem 0.25rem 0;box-shadow: 0 0 10px rgba(0,0,0,0.03);transition: transform .1s ease;transform: scale(1)}
+
+	a	.browser.mobile {
+		padding: 0.8rem;
+		border-radius: 12px;
+	}
+	a	.browser.mobile img {outline: 1px solid rgba(0,0,0,0.05)}
+
+  a .browser:not(.mobile):before {content: "ooo";display: block;border-bottom: 1px solid var(--light-border-color);color: var(--dark-border-color);font-size: 14px;line-height: 12px;margin:0 -0.25rem;padding:0 0.5rem 0.3rem;}
+
+		.devices {position: relative;width: 100%;}
+		.devices img {max-width: 100%}
+	.devices .desktop {
+		border: 1px solid rgba(0,0,0,0.1);
+		border-radius: 18px;
+	}
+
+	.screenshot img {cursor: zoom-in;}
+	.devices .mobile {position: absolute;
+		bottom: 0;right: 0;
+		width: 400px;height: 400px}
+
+		.sc {margin: 2rem 0}
+</style>
+
+<div style="display: flex">
+<p class="sc" style="flex-basis: 75%">	<a style="text-decoration: none;cursor: zoom-in;" href="{{{preview}}}/"
+		>
+		<span class="browser"><img src="{{#cdn}}/images/templates/blog/0-medium.png{{/cdn}}"
+	/></span></a>
+</p>
+<p class="sc" style="flex-basis: 25%;margin-left: 2rem">		<a style="text-decoration: none;cursor: zoom-in;" href="{{{preview}}}/"
+		>
+		<span class="browser mobile"><img src="{{#cdn}}/images/templates/blog/0.mobile-medium.png{{/cdn}}"
+	/></span></a>
+</p></div>
+
+<p>The <em>Blog</em> template is designed to handle a diversity of published material: short posts, long essays, images, links all flow together. The index page features your most recently published posts in full. {{#featured.length}}These people use the <em>Blog</em> template:{{/featured.length}}</p>
+
+ <ul class="in-use">
+    {{#featured}}
+      <li>
+        	<a target="_blank" rel="noopener" href="{{{link}}}">
+          {{#favicon.coordinates}}
+            <span class="image" style="display:block;background:url('{{#cdn}}/images/featured.png{{/cdn}}');background-size: {{background_width}}px;
+    background-position:-{{x}}px -{{y}}px;width:{{width}}px;height:{{height}}px;border-radius: 100px"></span>
+    {{/favicon.coordinates}}
+            <span><span style="color:{{color}};text-decoration: underline;">{{name}}</span> {{bio}}.</span>
+        </a>
+      </li>
+    {{/featured}}  
+  </ul>  
+
+<!-- 
+<div style="display: flex">
+	<p class="sc">		<a style="text-decoration: none;cursor: zoom-in;" href="{{{preview}}}/search?q=polar+bears"
+		>
+		<span class="browser"><img src="{{#cdn}}/images/templates/blog/1-medium.png{{/cdn}}"
+	/></span></a>
+</p>
+<p class="sc" style="flex-basis: 33%">		<a style="text-decoration: none;cursor: zoom-in;" href="{{{preview}}}/search?q=polar+bears"
+		>
+		<span class="browser"><img src="{{#cdn}}/images/templates/blog/1.mobile-medium.png{{/cdn}}"
+	/></span></a>
+</p>
+
+</div> -->
+
+<h2>Customize this template</h2>
+
+<p>You can adjust the colors and fonts of the <em>Blog</em> template using Blot's template editor: there's no coding required.</p>
+
+<p> The source code of the <em>Blog</em> template is dedicated to the public domain, so you can make and distribute modifications to it as you please.</p>
+	<p>
+	<a class="bordered-button" style="border:1px solid;display: inline-block;" id="text_element" href="https://github.com/davidmerfield/Blot/tree/master/app/templates/latest/blog">View the source code</a>
+</p>
+
+<h2>About the folder</h2>
+<div style="display: flex">  
+  <div style="flex-basis: 66%">
+	  <p>
+	    The <a href="{{{preview}}}">preview</a> for the <em>Blog</em> template contains material used in the demo video for Blot. You can get a full copy of the source folder used to generate this site.
+	  </p>
+  	<a class="bordered-button" style="border:1px solid;display: inline-block;" id="text_element" href="{{#cdn}}/templates/data/{{folder}}.zip{{/cdn}}">Download folder (.zip)</a>
+	</div>
+	<div style="flex-basis: 33%">
+	{{> folder-viewer}}
+	</div>
+</div>

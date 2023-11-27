@@ -1,11 +1,10 @@
-var Entries = require("entries");
-var helper = require("helper");
-var arrayify = helper.arrayify;
+var Entries = require("models/entries");
+var arrayify = require("helper/arrayify");
 var moment = require("moment");
 require("moment-timezone");
 
-module.exports = function(req, callback) {
-  Entries.getAll(req.blog.id, function(allEntries) {
+module.exports = function (req, callback) {
+  Entries.getAll(req.blog.id, function (allEntries) {
     var years = {};
 
     for (var x in allEntries) {
@@ -19,12 +18,12 @@ module.exports = function(req, callback) {
       // Init an empty data structure
       years[year] = years[year] || {
         year: year,
-        months: {}
+        months: {},
       };
 
       years[year].months[month] = years[year].months[month] || {
         month: month,
-        entries: []
+        entries: [],
       };
 
       years[year].months[month].entries.push(entry);
@@ -37,7 +36,7 @@ module.exports = function(req, callback) {
       years[i].months = arrayify(years[i].months);
     }
 
-    years = arrayify(years).sort(function(a, b) {
+    years = arrayify(years).sort(function (a, b) {
       return parseInt(b.year) - parseInt(a.year);
     });
 

@@ -3,10 +3,10 @@ var dirname = require("path").dirname;
 var exec = require("child_process").exec;
 
 var REMOTE_ROOT = require("./root");
-var LOCAL_ROOT = require("helper").rootDir;
+var LOCAL_ROOT = require("helper/rootDir");
 
 if (require.main === module) {
-  download(process.argv[2], process.argv[3], function(err) {
+  download(process.argv[2], process.argv[3], function (err) {
     if (err) throw err;
     process.exit();
   });
@@ -28,7 +28,7 @@ function download(remotePath, localPath, callback) {
 
   rsync.stdout.pipe(process.stdout);
 
-  rsync.on("close", function(err) {
+  rsync.on("close", function (err) {
     if (err) return callback(err);
 
     callback();

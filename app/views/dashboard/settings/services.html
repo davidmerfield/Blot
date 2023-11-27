@@ -1,0 +1,165 @@
+<style type="text/css">form {max-width:none}
+.shrinker {max-width:none}
+</style>
+<div style="margin:-11px -26px">
+
+  <a class="line" href="{{{base}}}/services/date">
+    <span class="label">Date and time</span>
+    <span class="center">{{currentTime}}</span>
+    <span class="right" >Edit</span>    
+  </a>
+  
+  <a class="line" href="{{{base}}}/services/link-format">
+    <span class="label">Link format</span>
+    <span class="center">
+      {{#permalinkFormats}}
+      {{#checked}}{{example}}{{/checked}}{{/permalinkFormats}}
+    </span>
+    <span class="right" >Edit</span>
+  </a>
+
+
+  <a class="line" href="{{{base}}}/services/redirects">
+    <span class="label">Redirects</span>
+    <span class="link">Edit your redirect rules</span>
+  </a>
+  <style type="text/css">
+    .plugin label,
+    .plugin p {
+      margin: 0
+    }
+
+    .plugin label {
+      padding: 0;
+      cursor: pointer;
+    }
+
+    .plugin {
+      margin-bottom: 6px;
+
+      padding-bottom: 6px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.03)
+    }
+
+    .plugin:last-child {border-bottom: none;padding-bottom: 0}
+  </style>
+  
+  {{#categories.Services}}
+  <div class="line">
+    <span class="label">External services</span>
+    <span class="center">
+      {{#plugins}}
+      <div class="plugin {{checked}}">
+
+        <label style="margin:0">
+          <span style="margin-right:0.5rem;display:block;float:left;position:relative;top:1px">
+            <input name='plugins.{{id}}.enabled' type='hidden' value='off' >
+            <input name='plugins.{{id}}.enabled' type="checkbox" {{checked}}/>
+          </span>
+          <span style="display:block;float:left">        {{{description}}}
+          </span>
+          <span class="clear"></span>
+        </label>
+
+        <div class="pluginOptions" style="clear:both;margin:0;padding-left:2em">
+          {{{formHTML}}}
+        </div>
+
+      </div>
+      {{/plugins}}
+    </span>
+  </div>
+  {{/categories.Services}}
+
+  {{#categories.Typography}}
+  <div class="line">
+    <span class="label">Typography</span>
+
+    <span class="center">
+      {{#plugins}}
+      <div class="plugin {{checked}}">
+
+        <label>
+          <span style="margin-right:0.5rem;display:block;float:left;position:relative;top:1px">
+            <input name='plugins.{{id}}.enabled' type='hidden' value='off' >
+            <input name='plugins.{{id}}.enabled' type="checkbox" {{checked}}/>
+          </span>
+          <span style="display:block;float:left">        {{{description}}}
+          </span>
+          <span class="clear"></span>
+        </label>
+
+        <div class="pluginOptions" style="clear:both;margin:0;padding-left:2em">
+          {{{formHTML}}}
+        </div>
+
+      </div>
+      {{/plugins}}
+    </span>
+  </div>
+  {{/categories.Typography}}
+
+  {{#categories.Images}}
+  <div class="line">
+    <span class="label">Images</span>
+
+    <span class="center">
+
+      {{#plugins}}
+      <div class="plugin {{checked}}">
+
+        <label>
+          <span style="margin-right:0.5rem;display:block;float:left;position:relative;top:1px">
+            <input name='plugins.{{id}}.enabled' type='hidden' value='off' >
+            <input name='plugins.{{id}}.enabled' type="checkbox" {{checked}}/>
+          </span>
+          <span style="display:block;float:left">        {{{description}}}
+          </span>
+          <span class="clear"></span>
+        </label>
+
+        <div class="pluginOptions" style="clear:both;margin:0;padding-left:2em">
+          {{{formHTML}}}
+        </div>
+
+      </div>
+      {{/plugins}}
+    </span>
+  </div>
+  {{/categories.Images}}
+
+  <a class="line" href="{{{base}}}/services/import">
+    <span class="label">Import</span>
+    <span class="link">Import from other platforms</span>
+  </a>
+
+  <a class="line" href="/dashboard/account/export">
+    <span class="label">Export</span>
+    <span class="center">
+      <span class="link">Download the data associated with your account</span>
+    </span> 
+  </a>
+
+  <br class="clear">
+  <br class="clear">
+
+  <script src="/js/jquery.js?{{cacheID}}"></script>
+  <script type="text/javascript">
+    $('.plugin > label input[type=checkbox]').click(function() {
+      $(this).parent().parent().parent().toggleClass('checked')
+    });
+  // Simple Analytics and Plausible don't require a tracking ID
+  $('#selectAnalytics').change(function() {
+    if ($(this).val() !== 'None' && ['SimpleAnalytics', 'Plausible'].indexOf($(this).val()) === -1) {
+      // Cloudflare requires Token rather than Tracking ID
+      if ($(this).val() == 'Cloudflare') { $('#trackingIdInput span').text("Token:"); }
+      else { $('#trackingIdInput span').text("Tracking ID:"); }
+      $('#trackingIdInput').show();
+    } else {
+      $('#trackingIdInput').hide();
+    }
+  });
+  // Trigger change event for correct state on page load
+  $('#selectAnalytics').trigger("change");
+  </script>
+</div>

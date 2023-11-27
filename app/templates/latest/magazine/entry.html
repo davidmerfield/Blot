@@ -7,14 +7,13 @@
 
   <div style="min-height:6rem;flex-direction:row;align-items:center" class="flex mt3 pt3 mb5 ">
     <div class="w-100">
+    {{^page}}
       <div class="w-20 bl pt5 nt5 fr pl3 lh-copy  b--black-10">
  
-    {{^page}}
-	{{#date}}<a href="{{url}}" class="db black-30 f5 pr4 no-underline"><span  date-from-now="{{dateStamp}}">{{#formatDate}}MMM D, YYYY{{/formatDate}}</span></a>{{/date}}
-    <span class="db black-50 f5">{{#tags}}<a href="/tagged/{{slug}}" class="no-underline">{{tag}}</a>{{^last}}, {{/last}}{{/tags}}</span>
-{{/page}}
-    
+	{{#date}}<a href="{{{url}}}" class="db black-30 f5 pr4 no-underline"><span  date-from-now="{{dateStamp}}">{{date}}</span></a>{{/date}}
+    <span class="db black-50 f5">{{#tags}}<a href="/tagged/{{slug}}" class="no-underline">{{tag}}</a>{{^last}}, {{/last}}{{/tags}}</span>    
   		</div> 
+{{/page}}
       <div class="w-80 pr4" >{{{titleTag}}}</div>
     </div>
       
@@ -23,38 +22,35 @@
   <div class="entry pv0  w-80 b--black-10" >
     
 
-<div class="measure-wide lh-copy f5 black-90" style="position:relative">
-  {{{body}}}
-</div>
+    <div class="measure-wide lh-copy f5 black-90" style="position:relative">
+    {{{body}}}
+    </div>
 
 </div>
 
 {{/entry}}
 
-{{#recent_entries}}{{/recent_entries}}
-
-
-{{^page}}  
+{{^entry.page}}  
 
 <div class="bt b--black-10 mv4"></div>
 
 {{> pluginHTML}}
+
 
 <div class="cf mt6"></div>
 
 <div class="w-50 fl pr4">
 
 <span class="db f6 bt b--black-10 black-50 pv3">Up next</span>
-  
-{{#entry}}
 
+{{#entry}}  
 {{#previous}}
 <a href="{{{url}}}" class="db pb3 lh-title  dim no-underline">
 <span class="db">
   {{#previous.thumbnail.medium}}
   <span class="db" style="outline: 1px solid rgba(0,0,0,.12);
     outline-offset: -1px;max-height:14rem;overflow:hidden">
-    <img style="width:100%" src="{{url}}">
+    <img style="width:100%" src="{{{url}}}">
    </span>
   </span>
   {{/previous.thumbnail.medium}}
@@ -74,7 +70,7 @@
   {{#next.thumbnail.medium}}
   <span class="db" style="outline: 1px solid rgba(0,0,0,.12);
     outline-offset: -1px;max-height:14rem;overflow:hidden">
-    <img style="width:100%" src="{{url}}">
+    <img style="width:100%" src="{{{url}}}">
    </span>
   </span>
   {{/next.thumbnail.medium}}
@@ -87,7 +83,6 @@
   {{/next.thumbnail.medium}}  
 </a>
 {{/next}}
-
 {{/entry}}
 </div>
   
@@ -100,15 +95,15 @@
       <span class=" db" style="height:0;padding-bottom:100%;overflow:hidden">
        </span>
     </span>
-    <span class="fl w-80 db black-80 flex" style="height:2.5em;display: flex;
+    <span class="fl w-80 db black-80 flex" style="display: flex;
   flex-direction: column;
-  justify-content: center;overflow:hidden;"><span >{{title}}</span></span>
+  justify-content: center;"><span >{{title}}</span></span>
       
     <span class="cf"></span>
   </a>
 {{/recent_entries}}
 </div>
-{{/page}}
+{{/entry.page}}
 
 
 <div class="cf"></div>

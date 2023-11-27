@@ -1,4 +1,4 @@
-var Template = require("template");
+var Template = require("models/template");
 
 var ERROR = require("./error");
 var loadView = require("./load");
@@ -6,10 +6,9 @@ var renderLocals = require("./locals");
 var finalRender = require("./main");
 var retrieve = require("./retrieve");
 
-var helper = require("helper");
-var ensure = helper.ensure;
-var extend = helper.extend;
-var callOnce = helper.callOnce;
+var ensure = require("helper/ensure");
+var extend = require("helper/extend");
+var callOnce = require("helper/callOnce");
 var config = require("config");
 var CACHE = config.cache;
 
@@ -25,7 +24,7 @@ var cacheDuration = "public, max-age=31536000";
 var JS = "application/javascript";
 var STYLE = "text/css";
 
-module.exports = function(req, res, _next) {
+module.exports = function (req, res, _next) {
   res.renderView = render;
 
   return _next();
@@ -41,10 +40,29 @@ module.exports = function(req, res, _next) {
     var blogID = blog.id;
     var templateID = req.template.id;
 
+    // We have a special case for Cloudflare
+    // because some of their SSL settings insist on fetching
+    // from the origin server (in this case Blot) over HTTP
+    // which causes mixed-content warnings.
+    var fromCloudflare =
+      Object.keys(req.headers || {})
+        .map((key) => key.trim().toLowerCase())
+        .find((key) => key.startsWith("cf-")) !== undefined;
+
     if (callback) callback = callOnce(callback);
 
-    Template.getFullView(blogID, templateID, name, function(err, response) {
-      if (err || !response) return next(ERROR.NO_VIEW());
+    Template.getFullView(blogID, templateID, name, function (err, response) {
+      if (err) {
+        return next(err);
+      }
+
+      if (!response) {
+        err = new Error(
+          `The view '${name}' does not exist under templateID=${templateID}`
+        );
+        err.code = "NO_VIEW";
+        return next(err);
+      }
 
       var viewLocals = response[0];
       var viewPartials = response[1];
@@ -59,17 +77,17 @@ module.exports = function(req, res, _next) {
 
       extend(res.locals.partials).and(viewPartials);
 
-      retrieve(req, missingLocals, function(err, foundLocals) {
+      retrieve(req, missingLocals, function (err, foundLocals) {
         extend(res.locals).and(foundLocals);
 
         // LOAD ANY LOCALS OR PARTIALS
         // WHICH ARE REFERENCED IN LOCALS
-        loadView(req, res, function(err, req, res) {
+        loadView(req, res, function (err, req, res) {
           if (err) return next(ERROR.BAD_LOCALS());
 
           // VIEW IS ALMOST FINISHED
           // ALL PARTRIAL
-          renderLocals(req, res, function(err, req, res) {
+          renderLocals(req, res, function (err, req, res) {
             if (err) return next(ERROR.BAD_LOCALS());
 
             var output;
@@ -95,9 +113,26 @@ module.exports = function(req, res, _next) {
               return callback(null, output);
             }
 
+            // We need to persist the page shown on the preview inside the
+            // template editor. To do this, we send the page viewed to the
+            // parent window (i.e. the page which embeds the preview in an
+            // iframe). If we can work out how to do this in a cross origin
+            // fashion with injecting a script, then remove this.
+            if (req.preview && viewType === "text/html") {
+              output = output
+                .split("</body>")
+                .join(
+                  "<script>window.onload = function() {window.top.postMessage('iframe:' +  window.location.pathname, '*');};</script></body>"
+                );
+            }
+
             // Only cache JavaScript and CSS if the request is not to a preview
             // subdomain and Blot's caching is turned on.
-            if (CACHE && !req.preview && (viewType === STYLE || viewType === JS)) {
+            if (
+              CACHE &&
+              !req.preview &&
+              (viewType === STYLE || viewType === JS)
+            ) {
               res.header(CACHE_CONTROL, cacheDuration);
             }
 
@@ -105,6 +140,7 @@ module.exports = function(req, res, _next) {
             if (
               viewType.indexOf("text/") > -1 &&
               req.protocol === "http" &&
+              fromCloudflare === false &&
               output.indexOf(config.cdn.origin) > -1
             )
               output = output
@@ -123,6 +159,14 @@ module.exports = function(req, res, _next) {
               if (viewType === JS && !req.preview)
                 output = UglifyJS.minify(output, { fromString: true }).code;
             } catch (e) {}
+
+            if (res.headerSent) {
+              console.log(
+                "headerSent about to trip for",
+                req.headers["x-request-id"] && req.headers["x-request-id"],
+                req.protocol + "://" + req.hostname + req.originalUrl
+              );
+            }
 
             res.header(CONTENT_TYPE, viewType);
             res.send(output);

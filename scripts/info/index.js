@@ -19,6 +19,7 @@ var colors = require("colors/safe");
 var access = require("../access");
 var identifier = process.argv[2];
 var moment = require("moment");
+var prettyPrice = require("helper/prettyPrice");
 
 if (!identifier) throw "Please pass an identifier for a user, blog or entry.";
 
@@ -29,23 +30,23 @@ function callback(err) {
 }
 
 // Parse a URL to an entry
-getEntry(identifier, function(err, user, blog, entry) {
+getEntry(identifier, function (err, user, blog, entry) {
   if (entry) {
     return showEntry(entry, blog, user, callback);
   }
 
   // Parse a URL to a blog
-  getBlog(identifier, function(err, user, blog) {
+  getBlog(identifier, function (err, user, blog) {
     if (blog) {
       return showBlog(blog, user, callback);
     }
 
-    User.getById(identifier, function(err, user) {
+    User.getById(identifier, function (err, user) {
       if (user) {
         return showUser(user, callback);
       }
 
-      User.getByEmail(identifier, function(err, user) {
+      User.getByEmail(identifier, function (err, user) {
         if (user) {
           return showUser(user, callback);
         }
@@ -89,7 +90,7 @@ function showBlog(blog, user, callback) {
     "." +
     config.host;
   console.log();
-  console.log(colors.dim("Found " + blog.id));
+  console.log(colors.dim("Found " + blog.id + " client=" + blog.client));
   console.log("Site:", colors.green(origin));
   showUser(user, callback);
 }
@@ -105,7 +106,7 @@ function showUser(user, callback) {
     subscriptionMessage =
       user.subscription.quantity +
       " x " +
-      require("helper").prettyPrice(user.subscription.plan.amount) +
+      prettyPrice(user.subscription.plan.amount) +
       "/" +
       user.subscription.plan.interval;
   }
@@ -127,10 +128,9 @@ function showUser(user, callback) {
 
   console.log("Subscription: " + subscriptionMessage);
   console.log("Blogs: " + user.blogs);
-  access(user.uid, function(err, url) {
+  access(user.uid, function (err, url) {
     console.log("Dashboard:", colors.yellow(url));
     console.log();
     callback();
   });
-
 }

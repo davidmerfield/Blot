@@ -9,13 +9,13 @@ module.exports = function setup(options) {
   // Sets up a temporary tmp folder, cleans it up after
   global.test.tmp();
 
-  beforeEach(function() {
+  beforeEach(function () {
     // This simulates me using the transformer to perform
     // some task that I don't want to repeat needlessly.
     // In reality, it might be the function which turns
     // an image into thumbnails, or the function which
-    this.transform = function(path, done) {
-      fs.stat(path, function(err, stat) {
+    this.transform = function (path, done) {
+      fs.stat(path, function (err, stat) {
         if (err) return done(err);
 
         done(null, { size: stat.size });
@@ -33,20 +33,20 @@ module.exports = function setup(options) {
   });
 
   // Clean up the transformer used in each test
-  afterEach(function(done) {
+  afterEach(function (done) {
     this.transformer.flush(done);
   });
 
-  global.test.server(function(server) {
-    // Only server an image at this route if 
+  global.test.server(function (server) {
+    // Only server an image at this route if
     // the request passes the correct query
-    server.get("/foo.html", function(req, res) {
+    server.get("/foo.html", function (req, res) {
       res.send("Hello, World!");
     });
   });
 
   // Create a webserver for testing remote files
-  beforeAll(function() {
+  beforeAll(function () {
     this.url = this.origin + "/foo.html";
   });
 };

@@ -1,0 +1,27 @@
+- lorem ipsum in text file? Disrespect ('nonsense') shown to contents of the file. It should be treated as important.
+- mention other ways to sync folder when introducing dropbox
+- red lines underneath text
+- annoying drag-and-drop sound
+- black desktop background? Green screen background?
+- full HD recording (quicktime?)
+- audio sounds shit
+- use safari instead of chrome
+- mention markdown
+- show search engine! Feed! Archive page
+- clear all safari history/cookies
+- sidebar 'Favorites' items should be simpler
+		- Dropbox
+		- My blog
+		- Photos
+		- Reference
+- make a meaningful change to the file to demonstrate updating posts
+- image should be meaningful and beautiful
+- should demonstrate interactivity with .html post file
+- don't talk about waiting for Dropbox to sync so much
+- the test blog (david.blot.im) should be kept-as-is for eternity after making the video, as should any blogs featured in the video.
+- use drafts folder instead of draft prefix
+- show tags, as well as custom URL and publish date
+- replace permalink metadata with URL: apple
+- don't say thank you for watching
+- don't mention the cost
+- bit mumbly

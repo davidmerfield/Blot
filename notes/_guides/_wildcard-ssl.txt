@@ -1,0 +1,80 @@
+# Wildcard SSL
+
+It's been harder than I'd like to admit to get HTTPS/SSL working on preview subdomains. Why do we want preview subdomains? Well, I would like to offer customers the ability to preview different templates on their site. Right now, this is possible using the following subdomain format:
+
+preview.$template.$handle.blot.im
+
+That subdomain will show the template with ID $template for the user with handle $handle. All the links should work, and images should work too. 
+
+What strategy could we have taken?
+- Sessions
+- Query Strings
+
+Anyway, I think the right way to do this is to get wildcard HTTPS working across all Blot subdomains.
+
+What are possible strategies to do this
+
+https://github.com/kshcherban/acme-nginx
+
+wget https://github.com/kshcherban/acme-nginx/releases/download/v0.2.0/acme-nginx
+chmod +x acme-nginx
+
+This worked! Created an AWS Role:
+
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "route53:ListHostedZones",
+                "route53:GetChange"
+            ],
+            "Resource": [
+                "*"
+            ]
+        },
+        {
+            "Effect" : "Allow",
+            "Action" : [
+                "route53:ChangeResourceRecordSets"
+            ],
+            "Resource" : [
+                "arn:aws:route53:::hostedzone/$YOUR_HOSTED_ZONE_ID"
+            ]
+        }
+    ]
+}
+
+Then created an IAM user with the role, then used its AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY
+
+sudo AWS_ACCESS_KEY_ID=ABC AWS_SECRET_ACCESS_KEY=XYZ ./acme-nginx --no-reload-nginx --dns-provider route53 -d "*.blot.im"
+
+2020-03-09 22:34:05,213 - INFO - trying to create account key /etc/ssl/private/letsencrypt-account.key
+2020-03-09 22:34:05,458 - INFO - trying to register acmev2 account
+2020-03-09 22:34:05,967 - INFO - already registered
+2020-03-09 22:34:05,967 - INFO - trying to create domain key
+2020-03-09 22:34:06,018 - INFO - Found credentials in environment variables.
+2020-03-09 22:34:06,129 - INFO - acmev2 dns challenge
+2020-03-09 22:34:06,129 - INFO - preparing new order
+2020-03-09 22:34:06,627 - INFO - order created
+2020-03-09 22:34:06,852 - INFO - verifying domain blot.im
+2020-03-09 22:34:06,854 - INFO - creating TXT dns record _acme-challenge.blot.im IN TXT $ABC
+2020-03-09 22:35:09,218 - INFO - asking acme server to verify challenge
+2020-03-09 22:35:10,575 - INFO - waiting for blot.im challenge verification
+2020-03-09 22:35:16,468 - INFO - blot.im verified!
+2020-03-09 22:35:16,468 - INFO - delete dns record
+2020-03-09 22:35:17,088 - INFO - signing certificate
+2020-03-09 22:35:18,006 - INFO - certificate signed!
+2020-03-09 22:35:18,006 - INFO - downloading certificate
+2020-03-09 22:35:18,355 - INFO - writing result file in /etc/ssl/private/letsencrypt-domain.pem
+
+It works! Amazing.
+
+I then installed it as the fallback certificate
+
+I added the following task using sudo crontab -e:
+
+00 9 1 * * ./scripts/production/renew-wildcard-ssl.sh >> /var/log/letsencrypt.log 2>&1
+
+And exported the neccessary env variables AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY in /etc/blot/environment.sh

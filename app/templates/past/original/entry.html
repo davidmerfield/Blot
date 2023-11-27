@@ -8,14 +8,14 @@
         <h4>Recent entries</h4>
         <section class="recentEntries">
           {{#recentEntries}}
-            <a href="{{url}}">{{title}}</a>
+            <a href="{{{url}}}">{{title}}</a>
           {{/recentEntries}}
         </section>
       </section>
       <section class="main">
         {{#entry}}
           <section class="entry">
-            {{#date}}<a class="h4" href="{{url}}">{{date}}</a>{{/date}}
+            {{#date}}<a class="h4" href="{{{url}}}">{{date}}</a>{{/date}}
             {{#tags}} <a class="h4" href="/tagged/{{slug}}">{{name}}</a>{{/tags}}
             {{{html}}}
           </section>
@@ -24,14 +24,14 @@
           <hr class="full">  
           <section class="adjacent">
             {{#previous}}
-              <a class="halfWidth left" href="{{url}}">
+              <a class="halfWidth left" href="{{{url}}}">
                 <h5>Previous post</h5>
                 <span class="title">{{title}}</span>
                 <span class="summary">{{summary}}</span>
               </a>    
             {{/previous}}  
             {{#next}}
-              <a class="left halfWidth" href="{{url}}">
+              <a class="left halfWidth" href="{{{url}}}">
                 <h5>Next post</h5>
                 <span class="title">{{title}}</span>
                 <span class="summary">{{summary}}</span>

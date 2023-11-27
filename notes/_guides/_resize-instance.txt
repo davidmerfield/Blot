@@ -1,0 +1,87 @@
+# Resizing an AWS instance
+
+AWS now seems to allow the in-place resize of volumes attached to its modern instances (which Blot uses). I have been following the guide to [resizing a volume on AWS](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-modify-volume.html?icmpid=docs_ec2_console)
+
+I also read the page on the [limitations to modifying volumes](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/limitations.html) and none seem to apply to my case. One thing to be aware of is the delay between subsequent modifications.
+
+> In general, use the following steps when modifying a volume:
+
+  1. Issue the modification command. For more information, see Modifying an EBS Volume from the Console and Modifying an EBS Volume from the Command Line.
+
+  2. Monitor the progress of the modification. For more information, see Monitoring the Progress of Volume Modifications.
+
+  3. If the size of the volume was modified, extend the volume's file system to take advantage of the increased storage capacity. For more information, see Extending a Linux File System after Resizing the Volume .
+
+These are the steps I followed specifically:
+
+1. Before re-sizing the instance, create a snapshot of the running instance on the AWS dashboard. This might take a while, since Blot's volumes are decently large. If something goes wrong, you can create a new volume from a snapshot and then attach it to Blot's instance.
+
+2. I then resized the volume attached to the Blot instance on the web console. I verified that the instance and volume types could be resized in place (as the server ran) safely. I waited for the modification to complete then sshed into the instance.
+
+3. I used 'df -h' and 'lsblk' to verify that while the volume had increased in size, the partition that was mounted was still at the previous capacity.
+
+4. To resize the partition, I used these two commands:
+
+sudo growpart /dev/xvda 1
+sudo resize2fs /dev/xvda1
+
+5. I then verified the success of these commands using 'df -h', the partition
+
+
+
+Notes
+-----
+
+I wasn't aware of these commands before performing the resize. According to the manual, growpart extend a partition in a partition table to fill available space. I probably should have used '--dry-run'.
+
+
+PREVIOUS GUIDES:
+----------------
+
+1. Go to Blot's running instance and create a new amazon machine image (Actions > Image > Create image)
+   This will be used to launch a new instance with the same disk?
+
+2. Create new instance with larger disk.
+  Set up nginx with letsencrypt
+  verify it works with staging domain (blot.is?)
+  Ensure it has keys and can transfer files from old instance with scp
+
+3. Switch to maintenance state on old instance
+nano config/flags.json
+sudo stop blot && sudo start blot
+
+4. Backup db on Blot
+node scripts/backup.js
+
+5. On the new instance sync blog folders:
+rsync -avL --progress -e "ssh -i /var/www/blot/config/secrets/projects.pem" ec2-user@blot.im:/var/www/blot/blogs/* /var/www/blot/blogs
+
+6.On the new instance, sudo copy acros redis dump:
+sudo stop redis
+scp -i /var/www/blot/config/secrets/projects.pem ec2-user@blot.im:/var/www/blot/db/dump.rdb /var/www/blot/db/dump.rdb
+sudo start redis
+
+7. Verify it is up to date
+
+8. Switch elastic IP from old db to new DB
+
+Another guide:
+--------------
+
+http://www.techknowjoe.com/article/upgrade-your-ec2-instance-minimal-downtime
+
+# Upgrade process for EC2
+
+1. create snapshot of disk of old instance
+2. associate this with new instance
+3. get new instance up and running and verified
+   - ensure ssh files are there as needed
+   - ensure permissions are set correctly
+   - ensure config.json is set correctly
+
+4. switch old instance to maintenance mode
+5. bgSAVE old instance
+6. copy old instance (now read only in maintenance) dump file to new instance disk
+6. reload new instance DB with new dump file
+7. switch elastic IP to new instance
+8. blot should now be running in NEW MODE

@@ -1,21 +1,20 @@
-var helper = require("../../app/helper");
-var send = helper.email.send;
+var send = require("helper/email").send;
 var letter = process.argv[2];
 var fs = require("fs");
-var client = require("../../app/models/client");
+var client = require("models/client");
 var async = require("async");
 
 if (!letter) {
   console.log("Select an email to send:");
   fs.readdirSync(__dirname + "/../../app/helper/email/newsletters").forEach(
-    function(letter) {
+    function (letter) {
       console.log("node scripts/email/newsletter", letter);
     }
   );
   process.exit();
 }
 
-main(letter, function(err) {
+main(letter, function (err) {
   if (err) throw err;
 
   console.log("All emails delivered!");
@@ -28,20 +27,22 @@ function main(letter, callback) {
   if (!fs.statSync(emailPath).isFile())
     return callback(new Error("Not a file"));
 
-  getAllSubscribers(function(err, emails) {
+  getAllSubscribers(function (err, emails) {
     if (err) return callback(err);
 
-    console.log('Sending ' + letter + ' out to ' + emails.length + ' subscribers');
+    console.log(
+      "Sending " + letter + " out to " + emails.length + " subscribers"
+    );
 
-    async.filter(emails, alreadySent, function(err, emails) {
+    async.filter(emails, alreadySent, function (err, emails) {
       if (err) return callback(err);
 
       async.eachSeries(
         emails,
-        function(email, next) {
+        function (email, next) {
           console.log("Sending", email);
 
-          send({ email: email }, emailPath, email, function(err) {
+          send({ email: email }, emailPath, email, function (err) {
             if (err) return next(err);
 
             console.log(". Email sent to", email);
@@ -59,7 +60,10 @@ function getAllSubscribers(callback) {
 }
 
 function alreadySent(email, done) {
-  client.sismember("newsletter:letter:" + letter, email, function(err, member) {
+  client.sismember("newsletter:letter:" + letter, email, function (
+    err,
+    member
+  ) {
     if (member === 1) console.log("Email already sent to", email);
     done(err, member === 0);
   });

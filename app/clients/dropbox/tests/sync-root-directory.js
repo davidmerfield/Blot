@@ -1,4 +1,4 @@
-describe("dropbox client", function() {
+describe("dropbox client", function () {
   // Create test user and tmp directory
   require("./setup")({ root: true });
 
@@ -6,7 +6,7 @@ describe("dropbox client", function() {
   var write = require("../write");
   var sync = require("../sync");
 
-  xit("syncs changes to the root folder of a Dropbox", function(done) {
+  xit("syncs changes to the root folder of a Dropbox", function (done) {
     var blogDirectory = this.blogDirectory;
     var blog = this.blog;
 
@@ -14,10 +14,10 @@ describe("dropbox client", function() {
     var contents = this.fake.file();
     var contentsInBlogDirectory;
 
-    write(blog.id, path, contents, function(err) {
+    write(blog.id, path, contents, function (err) {
       if (err) return done.fail(err);
 
-      sync(blog, function(err) {
+      sync(blog, function (err) {
         if (err) return done.fail(err);
 
         try {
@@ -27,7 +27,7 @@ describe("dropbox client", function() {
         } catch (e) {
           var message = [
             "Error " + e.message + " " + e.code,
-            "Contents of blog folder: " + fs.readdirSync(blogDirectory)
+            "Contents of blog folder: " + fs.readdirSync(blogDirectory),
           ].join("\n");
           return done.fail(new Error(message));
         }

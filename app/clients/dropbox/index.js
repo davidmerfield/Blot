@@ -1,10 +1,11 @@
 module.exports = {
   display_name: "Dropbox",
   description:
-    "A service that makes all of a user’s files available from any computer or phone.",
+    "A file storage and synchronization service",
   disconnect: require("./disconnect"),
+  resync: require('./sync/reset-to-blot'),
   remove: require("./remove"),
   write: require("./write"),
   site_routes: require("./routes").site,
-  dashboard_routes: require("./routes").dashboard
+  dashboard_routes: require("./routes").dashboard,
 };

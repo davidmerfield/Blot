@@ -2,13 +2,7 @@
 
 <div class="entries">
   <h1>{{tag}}</h1>
-  {{#entries}}
-  <a href="{{url}}">
-      {{#thumbnail.medium}}
-      <img src="{{url}}">
-      {{/thumbnail.medium}}
- </a>
-  {{/entries}}
+  {{> fitted-grid}}
 </div>
 
 {{> footer}}

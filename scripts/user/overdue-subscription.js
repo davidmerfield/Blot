@@ -14,21 +14,17 @@ var customer = {
   email: email,
   plan: config.stripe.plan,
   trial_end: Math.round(Date.now() / 1000) + 1000,
-  description: "Blot subscription"
+  description: "Blot subscription",
 };
 
 var password = "x";
 
 var blog = {
-  handle:
-    "overdue" +
-    uuid()
-      .split("-")
-      .join("")
+  handle: "overdue" + uuid().split("-").join(""),
 };
 
 if (require.main === module)
-  main(function(err, email, invoice) {
+  main(function (err, email, invoice) {
     if (err) {
       console.log(err);
       throw err;
@@ -36,7 +32,7 @@ if (require.main === module)
 
     if (!invoice) throw new Error("No invoice returned");
 
-    access(email, function(err, url) {
+    access(email, function (err, url) {
       if (err) throw err;
       console.log(
         "Unpaid invoice found for " + email + "! Please log in and pay it:"
@@ -48,17 +44,17 @@ if (require.main === module)
   });
 
 function main(callback) {
-  stripe.customers.create(customer, function(err, customer) {
+  stripe.customers.create(customer, function (err, customer) {
     if (err) return callback(err);
 
     debug("Created stripe customer");
 
     console.log(password);
-    User.hashPassword(password, function(err, passwordHash) {
+    User.hashPassword(password, function (err, passwordHash) {
       if (err) return callback(err);
       console.log(passwordHash);
 
-      User.create(email, passwordHash, customer.subscription, function(
+      User.create(email, passwordHash, customer.subscription, function (
         err,
         user
       ) {
@@ -66,7 +62,7 @@ function main(callback) {
 
         debug("Created user on Blot", blog, user.uid);
 
-        Blog.create(user.uid, blog, function(err, blog) {
+        Blog.create(user.uid, blog, function (err, blog) {
           if (err) return callback(err);
 
           debug("Created blog", blog);
@@ -74,9 +70,9 @@ function main(callback) {
           stripe.customers.update(
             customer.id,
             {
-              card: "tok_chargeCustomerFail"
+              card: "tok_chargeCustomerFail",
             },
-            function(err) {
+            function (err) {
               if (err) return callback(err);
 
               debug("Updated stripe subscription to bad card");
@@ -86,9 +82,9 @@ function main(callback) {
                 customer.subscription.id,
                 {
                   trial_end: Math.round(Date.now() / 1000) + 3,
-                  prorate: false
+                  prorate: false,
                 },
-                function(err, subscription) {
+                function (err, subscription) {
                   if (err) return callback(err);
 
                   debug("Ended stripe subscription trial");
@@ -98,7 +94,7 @@ function main(callback) {
                     function onList(err, res) {
                       if (err) return callback(err);
 
-                      var invoices = res.data.filter(function(invoice) {
+                      var invoices = res.data.filter(function (invoice) {
                         return !invoice.paid;
                       });
 
@@ -106,7 +102,7 @@ function main(callback) {
                         console.log(
                           "No unpaid invoices yet, waiting 5s and trying again..."
                         );
-                        return setTimeout(function() {
+                        return setTimeout(function () {
                           stripe.invoices.list(
                             { customer: customer.id },
                             onList
@@ -116,12 +112,12 @@ function main(callback) {
 
                       async.each(
                         invoices,
-                        function(invoice, nextInvoice) {
+                        function (invoice, nextInvoice) {
                           if (invoice.paid) return nextInvoice();
                           stripe.invoices.pay(invoice.id, nextInvoice);
                         },
-                        function() {
-                          fetchSubscription(email, function(err) {
+                        function () {
+                          fetchSubscription(user, function (err) {
                             if (err) return callback(err);
                             callback(null, email, invoices);
                           });

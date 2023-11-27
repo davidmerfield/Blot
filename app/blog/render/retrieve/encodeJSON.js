@@ -2,9 +2,9 @@
 // default escaping does not encode newlines, which causes
 // problems.
 
-module.exports = function(req, callback) {
-  return callback(null, function() {
-    return function(text, render) {
+module.exports = function (req, callback) {
+  return callback(null, function () {
+    return function (text, render) {
       var encoded_text = "";
 
       text = render(text);

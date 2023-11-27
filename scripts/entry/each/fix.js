@@ -1,16 +1,29 @@
-var helper = require('../../app/helper');
-var ensure = helper.ensure;
-var type = helper.type;
+var ensure = require("helper/ensure");
 
-var isHidden = require('../../app/models/entry/build/prepare/isHidden');
-
-module.exports = function(blog, entry, callback) {
-
+module.exports = function (blog, entry, callback) {
   var changes = [];
 
-  ensure(blog, 'object')
-    .and(entry, 'object')
-    .and(callback, 'function');
+  ensure(blog, "object").and(entry, "object").and(callback, "function");
+
+  if (!entry.pathDisplay) {
+    entry.pathDisplay = entry.path;
+    changes.push("pathDisplay");
+  }
+
+  if (!entry.dependencies) {
+    entry.dependencies = [];
+    changes.push("dependencies");
+  }
+
+  if (!entry.backlinks) {
+    entry.backlinks = [];
+    changes.push("backlinks");
+  }
+
+  if (!entry.internalLinks) {
+    entry.internalLinks = [];
+    changes.push("internalLinks");
+  }
 
   return callback(entry, changes);
 };

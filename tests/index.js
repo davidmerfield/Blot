@@ -9,15 +9,13 @@ var config = {
   spec_dir: "",
   spec_files: [
     "tests/**/*.js",
-    "app/**/tests/*.js",
+    "app/**/tests/**/*.js",
     "app/**/tests.js",
-    "scripts/**/tests.js",
-    "scripts/**/tests/*.js",
-    "!**/node_modules/**" // excludes tests inside node_modules directories
+    "!app/documentation/build/finder", // excludes tests inside node_modules directories
   ],
   helpers: [],
   stopSpecOnExpectationFailure: false,
-  random: true
+  random: true,
 };
 
 // Pass in a custom test glob for running only specific tests
@@ -31,7 +29,11 @@ if (process.argv[2]) {
     // We have passed directory of tests to run
   } else {
     config.spec_dir = process.argv[2];
-    config.spec_files = ["**/tests/**/*.js", "**/tests.js"];
+    config.spec_files = [
+      "**/tests/**/*.js",
+      "**/tests.js",
+      "!**/node_modules/**",
+    ];
   }
 } else {
   console.log(
@@ -54,41 +56,62 @@ jasmine.seed(seed);
 jasmine.loadConfig(config);
 
 jasmine.addReporter({
-  specStarted: function(result) {
-    console.log();
-    console.log(colors.dim(".. " + result.fullName));
+  specStarted: function (result) {
+    console.time(colors.dim(" " + result.fullName));
   },
-  specDone: function(result) {
-    console.log(colors.dim(". " + result.fullName));
-    console.log();
-  }
+  specDone: function (result) {
+    console.timeEnd(colors.dim(" " + result.fullName));
+  },
+});
+
+var startTimes = {};
+var durations = {};
+
+jasmine.addReporter({
+  specStarted: function (result) {
+    startTimes[result.fullName] = Date.now();
+  },
+  specDone: function (result) {
+    durations[result.fullName] = Date.now() - startTimes[result.fullName];
+  },
+  jasmineDone: function () {
+    console.log("Slowest specs:");
+    Object.keys(durations)
+      .sort(function (a, b) {
+        return durations[b] - durations[a];
+      })
+      .map((fullName) => durations[fullName] + "ms " + colors.dim(fullName))
+      .slice(0, 10)
+      .forEach((line) => console.log(line));
+  },
 });
 
 global.test = {
   CheckEntry: require("./util/checkEntry"),
+  SyncAndCheck: require("./util/syncAndCheck"),
 
   compareDir: require("./util/compareDir"),
 
   fake: require("./util/fake"),
 
-  user: function() {
+  user: function () {
     beforeEach(require("./util/createUser"));
     afterEach(require("./util/removeUser"));
   },
 
-  server: function(fn) {
+  server: function (fn) {
     var server;
     var port = 8919;
 
     // Create a webserver for testing remote files
-    beforeAll(function(done) {
+    beforeAll(function (done) {
       server = Express();
 
       // Load in routes in suite
-      fn(server);
+      fn(server, this);
 
       this.origin = "http://localhost:" + port;
-      server = server.listen(port, function() {
+      server = server.listen(port, function () {
         // I was getting unexpected results without
         // this arbritary delay. Basically, the dynamic
         // routes in my server were not working, but the
@@ -101,24 +124,24 @@ global.test = {
       });
     });
 
-    afterAll(function(done) {
+    afterAll(function (done) {
       server.close(done);
       setTimeout(done, 1500);
     });
   },
 
-  blogs: function(total) {
+  blogs: function (total) {
     beforeEach(require("./util/createUser"));
     afterEach(require("./util/removeUser"));
 
-    beforeEach(function(done) {
+    beforeEach(function (done) {
       var context = this;
       context.blogs = [];
       async.times(
         total,
-        function(blog, next) {
+        function (blog, next) {
           var result = { user: context.user };
-          require("./util/createBlog").call(result, function() {
+          require("./util/createBlog").call(result, function () {
             context.blogs.push(result.blog);
             next();
           });
@@ -127,11 +150,11 @@ global.test = {
       );
     });
 
-    afterEach(function(done) {
+    afterEach(function (done) {
       var context = this;
       async.each(
         this.blogs,
-        function(blog, next) {
+        function (blog, next) {
           require("./util/removeBlog").call(
             { user: context.user, blog: blog },
             next
@@ -142,7 +165,7 @@ global.test = {
     });
   },
 
-  blog: function() {
+  blog: function () {
     beforeEach(require("./util/createUser"));
     afterEach(require("./util/removeUser"));
 
@@ -150,10 +173,10 @@ global.test = {
     afterEach(require("./util/removeBlog"));
   },
 
-  tmp: function() {
+  tmp: function () {
     beforeEach(require("./util/createTmpDir"));
     afterEach(require("./util/removeTmpDir"));
-  }
+  },
 };
 
 jasmine.execute();

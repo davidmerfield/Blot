@@ -1,19 +1,20 @@
-describe("template", function() {
+describe("template", function () {
   require("./setup")({ createTemplate: true });
 
   var setView = require("../index").setView;
   var getView = require("../index").getView;
+  var Blog = require("models/blog");
 
-  it("sets a view", function(done) {
+  it("sets a view", function (done) {
     var test = this;
     var view = {
-      name: test.fake.random.word() + '.txt',
-      content: test.fake.random.word()
+      name: test.fake.random.word() + ".txt",
+      content: test.fake.random.word(),
     };
 
-    setView(test.template.id, view, function(err) {
+    setView(test.template.id, view, function (err) {
       if (err) return done.fail(err);
-      getView(test.template.id, view.name, function(err, savedView) {
+      getView(test.template.id, view.name, function (err, savedView) {
         if (err) return done.fail(err);
         expect(savedView.name).toEqual(view.name);
         expect(savedView.content).toEqual(view.content);
@@ -22,27 +23,27 @@ describe("template", function() {
     });
   });
 
-  it("sets changes to an existing view", function(done) {
+  it("sets changes to an existing view", function (done) {
     var test = this;
     var view = {
       name: test.fake.random.word(),
-      content: test.fake.random.word()
+      content: test.fake.random.word(),
     };
 
-    setView(test.template.id, view, function(err) {
+    setView(test.template.id, view, function (err) {
       if (err) return done.fail(err);
 
-      getView(test.template.id, view.name, function(err, savedView) {
+      getView(test.template.id, view.name, function (err, savedView) {
         if (err) return done.fail(err);
         expect(savedView.name).toEqual(view.name);
         expect(savedView.content).toEqual(view.content);
 
         view.content = test.fake.random.word();
 
-        setView(test.template.id, view, function(err) {
+        setView(test.template.id, view, function (err) {
           if (err) return done.fail(err);
 
-          getView(test.template.id, view.name, function(err, savedView) {
+          getView(test.template.id, view.name, function (err, savedView) {
             if (err) return done.fail(err);
             expect(savedView.content).toEqual(view.content);
             done();
@@ -52,35 +53,50 @@ describe("template", function() {
     });
   });
 
-  it("won't set a view with invalid mustache content", function(done) {
+  it("won't set a view with invalid mustache content", function (done) {
     var test = this;
     var view = {
       name: test.fake.random.word(),
-      content: "{{#x}}" // without the closing {{/x}} mustache will err.
+      content: "{{#x}}", // without the closing {{/x}} mustache will err.
     };
 
-    setView(test.template.id, view, function(err) {
+    setView(test.template.id, view, function (err) {
       expect(err instanceof Error).toBe(true);
       done();
     });
   });
 
-  it("won't set a view against a template that does not exist", function(done) {
+  it("won't set a view against a template that does not exist", function (done) {
     var test = this;
     var view = { name: test.fake.random.word() };
 
-    setView(test.fake.random.word(), view, function(err) {
+    setView(test.fake.random.word(), view, function (err) {
       expect(err instanceof Error).toBe(true);
       done();
     });
   });
 
   // In future this should return an error to the callback, lol
-  it("won't set a view with a name that is not a string", function() {
+  it("won't set a view with a name that is not a string", function () {
     var test = this;
 
-    expect(function() {
-      setView(test.template.id, { name: null }, function() {});
+    expect(function () {
+      setView(test.template.id, { name: null }, function () {});
     }).toThrow();
+  });
+
+  it("updates the cache ID of the blog which owns a template after setting a view", function (done) {
+    var test = this;
+    var initialCacheID = test.blog.cacheID;
+    var view = { name: test.fake.random.word() };
+
+    setView(test.template.id, view, function (err) {
+      if (err) return done.fail(err);
+      Blog.get({ id: test.template.owner }, function (err, blog) {
+        if (err) return done.fail(err);
+        expect(blog.cacheID).not.toEqual(initialCacheID);
+        done();
+      });
+    });
   });
 });

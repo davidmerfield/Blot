@@ -13,8 +13,8 @@ if (!process.argv[2]) {
 console.log("Getting info from:", process.argv[2]);
 var path;
 
-get(process.argv[2], function(err, user, blog, entry) {
-  if (err) throw err;
+get(process.argv[2], function (err, user, blog, entry) {
+  if (err && err.message !== "No entry") throw err;
 
   if (entry) {
     path = entry.path;
@@ -23,15 +23,15 @@ get(process.argv[2], function(err, user, blog, entry) {
   }
 
   console.log("Starting sync for", blog.handle);
-  sync(blog.id, function(err, folder, done) {
+  sync(blog.id, function (err, folder, done) {
     if (err) throw err;
 
-    wipeCaches(process.argv[2], function(err) {
+    wipeCaches(process.argv[2], function (err) {
       if (err) console.log(err);
 
-      folder.update(path, function(err) {
+      folder.update(path, function (err) {
         if (err) throw err;
-        done(null, function(err) {
+        done(null, function (err) {
           if (err) throw err;
           console.log("Rebuilt:", process.argv[2]);
           process.exit();

@@ -1,0 +1,110 @@
+<style type="text/css">
+button {background: white;border: 2px solid #ddd;border-radius: 4px;font:inherit;font-size: 14px;line-height: 1.45;margin: 6px 3px 0 0;cursor: pointer;}
+	button.selected {border:2px solid #0075ff;border-radius: 4px}</style>
+
+
+	<div class="inputs">
+		
+	{{#color_schemes.length}}
+	<h2>Color scheme</h2>
+	<form method="post" style="padding: 0 1rem">
+	{{#color_schemes}}
+	<button type="submit" class="{{selected}}" name="locals.color_scheme" value="{{key}}">{{label}}</button> 
+	{{/color_schemes}}
+	</form>
+	{{/color_schemes.length}}
+
+{{#colors.length}}
+	{{^color_schemes.length}}
+		<h2>Colors</h2>
+	{{/color_schemes.length}}
+	{{/colors.length}}
+
+	{{#colors}} {{> template-editor-color}} {{/colors}}
+
+	
+		{{#fonts.length}}
+		{{#fonts}} {{> template-editor-font}} {{/fonts}} 
+	{{/fonts.length}}
+
+
+{{#layouts.length}}
+		<h2>Layout</h2>
+		{{#layouts}}
+
+		{{#isBoolean}}
+		{{> template-editor-boolean}}
+		{{/isBoolean}}
+
+		{{#isSelect}}
+		{{> template-editor-select}}
+		{{/isSelect}}
+
+		{{#isRange}}
+		{{> template-editor-range}} 
+		{{/isRange}}
+
+		{{/layouts}}
+{{/layouts.length}}
+
+
+  {{#show_date_options}}
+		<h2>Date format</h2>
+		<form
+			id="dateSettings"
+			method="post"
+		>
+			{{^hide_dates}}
+			{{#displayFormats.length}}
+			<label style="padding:0 1rem">
+				<select style="width:257px;font-size:1rem;margin: 16px 0 8px;" id="date_display" name="locals.date_display">
+					{{#displayFormats}}
+					<option value="{{value}}" {{selected}}>{{date}}</option>
+					{{/displayFormats}}
+				</select>
+			</label>
+			{{/displayFormats.length}}
+			{{/hide_dates}}
+			
+
+{{#show_hide_dates}}
+			<label style="padding:5px 1rem;border-bottom: 1px solid #eee;display: block;">
+				<input type="hidden" value="off" name="locals.hide_dates" />
+				{{#hide_dates}}
+				<input checked id="hide_dates" type="checkbox" name="locals.hide_dates"
+				/>
+				{{/hide_dates}}
+				{{^hide_dates}}
+				<input  id="hide_dates" type="checkbox" name="locals.hide_dates"
+				/>
+				{{/hide_dates}}
+				 Hide dates
+			</label>
+			{{/show_hide_dates}}
+						
+			<script type="text/javascript">
+				document.querySelectorAll('[type="checkbox"], select').forEach(function(node){
+						if (node.style.display === 'none') return;
+						let form;
+						let parent = node.parentNode;
+
+						while (parent && !form) {
+							if (parent.tagName.toLowerCase() === 'form')
+								form = parent;
+							parent = parent.parentNode;
+						}
+
+						node.addEventListener("change", () => {
+							form.submit();
+						});
+				});
+			</script>
+		</form>
+	{{/show_date_options}}
+
+		{{#syntax_themes}}
+		{{> template-editor-highlighter}}
+		{{/syntax_themes}}
+
+	{{> template-editor-footer}}
+</div>

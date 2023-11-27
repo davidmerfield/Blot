@@ -1,0 +1,411 @@
+- name: blog
+  keys: 
+    - name: title
+      type: string
+      description: Your site’s title, set on the title page of your dashboard.
+      example: <h1>{{blog.title}}</h1>
+
+    - name: avatar
+      type: string
+      description: The URL to your profile picture, or avatar, uploaded on the Photo page of your dashboard
+      example: <img src="{{{blog.avatar}}}" />
+    
+    - name: menu
+      type: array
+      description: "A list of links on your site's menu, added on the Links page of your site's dashboard and pages. Each item in the list has the following properties:"
+      example: |
+        {{#blog.menu}}
+        <a href="{{url}}">{{label}}</a>
+        {{/blog.menu}}
+      properties:
+        - name: id
+          type: string
+          description: Unique identiﬁer for this link
+        - name: label
+          type: string
+          description: Text label for this link
+        - name: url
+          type: string
+          description: URL for this link
+        - name: metadata
+          type: object
+          description: The metadata set for the page which generated this link.
+        - name: active
+          type: boolean
+          description: true if you are currently looking at this link
+        - name: first
+          type: boolean
+          description: true if this link is the first in your menu
+        - name: penultimate
+          type: boolean
+          description: true if this link is the penultimate link in your menu
+        - name: last
+          type: boolean
+          description: true if this link is the last in your menu
+
+    - name: cacheID
+      type: number
+      description: A datestamp for when your site was last updated
+
+    - name: timezone
+      type: string
+      description: Your site’s timezone in the [tz database format](https://en.wikipedia.org/wiki/Tz_database)
+
+    - name: blogURL
+      type: string
+      description: URL to your site’s homepage
+
+    - name: siteURL
+      type: string
+      description: Same as [blogURL](#blog.blogURL)
+
+    - name: feedURL
+      type: string
+      description: Path to your site’s RSS feed
+
+    - name: cssURL
+      type: string
+      description: Path to your site’s stylesheet. It contains a query string for cache-invalidation.
+
+    - name: scriptURL
+      type: string
+      description: Path to your site’s JavaScript file. It contains a query string for cache-invalidation.
+
+    - name: sitemapURL
+      type: string
+      description: Path to your site’s sitemap
+
+    - name: roundAvatar
+      type: boolean
+      description: true if you’ve indicated your avatar is round, false if not
+
+
+
+
+- name: entry
+  keys:
+
+    - name: id
+      type: string
+      description: Alias for the [path](#entry.path) property, which uniquely identiﬁes the post.
+ 
+    - name: guid
+      type: string
+      description: Globally unique alpha-numeric identiﬁer for the post.
+
+    - name: html
+      type: string
+      description: The full HTML of the blog post.
+
+    - name: path
+      type: string
+      description: The file’s path, with the blog’s folder as root.
+
+    - name: title
+      type: string
+      description: The blog post’s title.
+
+    - name: url
+      type: string
+      description: The URL to the post
+
+    - name: tags
+      type: array
+      description: "List of tags for the entry. Each item in the list has the following properties:"
+      example: |
+        {{#entry.tags}}
+        <a href="{{slug}}">{{tag}}</a>
+        {{/entry.tags}}
+      properties:
+        - name: tag
+          type: string
+          description: Text for the tag
+
+        - name: name
+          type: string
+          description: Alias for tag
+
+        - name: slug
+          type: string
+          description: URL-friendly version of the tag
+
+        - name: first
+          type: boolean
+          description: true if this tag is the first in this entry's list of tags
+
+        - name: last
+          type: boolean
+          description: true if this link is the last in this entry's list of tags
+          
+    - name: absoluteURL
+      type: string
+      description: The full-qualified URL to the post
+
+    - name: date
+      type: string
+      description: The blog post’s publish date, as a human-readable string
+
+    - name: dateStamp
+      type: number
+      description: The blog post’s publish date, as a unix timestamp.
+
+    - name: backlinks
+      type: array
+      description: "A list of all the entries on your site which link to this entry. Each item in the list is an [entry](#entry)."
+      example: |
+        {{#backlinks}}
+        <a href="{{url}}">{{title}}</a>
+        {{/backlinks}} 
+
+    - name: formatDate
+      type: function
+      description: Used to format the entry's publish date as you like, using any of the supported [date tokens](#date-tokens).
+      example: |
+        {{#formatDate}}
+        MMMM DDDo, YYYY 
+        {{/formatDate}}
+
+    - name: formatUpdated
+      type: function
+      description: Used to format the entry's updated date as you like, using any of the supported [date tokens](#date-tokens).
+      example: |
+        {{#formatUpdated}}
+        MMMM DDDo, YYYY 
+        {{/formatUpdated}}
+
+    - name: formatCreated
+      type: function
+      description: Used to format the entry's created date as you like, using any of the supported [date tokens](#date-tokens).
+      example: |
+        {{#formatCreated}}
+        MMMM DDDo, YYYY 
+        {{/formatCreated}}
+
+    - name: thumbnail
+      type: object
+      description: "object containing the thumbnails for the entry, if they exist. Blot will not increase the size of smaller images. The JSON added to each entry looks something like this"
+      properties:
+        - name: small
+          type: object
+          description: which has a width and height under 160px.
+
+        - name: medium
+          type: object
+          description: the default, which has a width under 640px.
+
+        - name: large
+          type: object
+          description: which has a width and height under 1060px.
+
+        - name: square
+          type: object
+          description: which has a width and height of 160px.
+      example: |
+        {{#thumbnail.medium}}
+          <img src="{{#cdn}}{{url}}
+               width="{{width}}" 
+               height="{{height}}"/>
+        {{/thumbnail.medium}}  
+
+    - name: metadata
+      type: object
+      description:  object containing the metadata for the entry, if they exist.
+
+    - name: name
+      type: string
+      description: The file’s name, preserving the case where possible.
+
+    - name: size
+      type: number
+      description: The file’s size in bytes.
+
+    - name: created
+      type: number
+      description: The file’s creation date, as a Unix timestamp.
+
+    - name: updated
+      type: number
+      description: The file’s last-modiﬁed date, as a Unix timestamp.
+
+    - name: summary
+      type: string
+      description: The text of the ﬁrst paragraph of the entry.
+
+    - name: titleTag
+      type: string
+      description: "If the post’s title was generated from a heading in the blog post, this property contains that heading’s HTML. For example:  `<h1>Your post's <em>nice</em> title</h1>`"
+
+    - name: body
+      type: string
+      description: The HTML of the blog post, excluding the [titleTag](#entry.titleTag). This property is useful if you want to manipulate the HTML of the titles of your blog posts.
+
+    - name: teaser
+      type: string
+      description: The HTML of the title and the ﬁrst few items in the entry. You can specify the end of the teaser by inserting the special tag {{more}} into your blog post's ﬁle. Everything before more will be included in the teaser.
+
+    - name: teaserBody
+      type: string
+      description: The HTML of the ﬁrst few items in the entry, excluding the title. Equivalent to teaser without the titleTag.
+
+    - name: more
+      type: boolean
+      description: A boolean value indicating if the post’s teaser property is different to its html property. This is useful for determining whether or not to show 'read more' links.
+
+    - name: slug
+      type: string
+      description: The value of the metadata property permalink. Same as URL.
+
+    - name: permalink
+      type: string
+      description: The value of the metadata property permalink. Same as URL.
+    
+    - name: index
+      type: number
+      description: The index of the entry in the list of all of your entries. For example, the ﬁrst entry published has an {{index}} of 1 and the 10th entry published has an {{index}} of 10.
+
+    - name: menu
+      type: boolean
+      description:  “true” if the entry is a page on the menu, “false” if not
+
+    - name: page
+      type: boolean
+      description:  “true” if the entry is a page, “false” if not
+
+    - name: deleted
+      type: boolean
+      description: “true” if the entry is deleted, “false” if not
+
+    - name: draft
+      type: boolean
+      description: “true” if the entry is a draft, “false” if not
+
+    - name: scheduled
+      type: boolean
+      description: “true” if the entry is scheduled for future publication, “false” if not
+
+
+
+- name: Lists of entries
+  keys:
+    - name: recent_entries
+      type: array
+      description: A list of the 30 most recent entries on your site. Each item in the list is of type [entry](#entry).
+      example: |
+        {{#recent_entries}}
+        <a href="{{url}}">{{title}}</a>
+        {{/recent_entries}}
+    - name: all_entries
+      type: array
+      description: A list of all the entries on your site. Each item in the list is of type [entry](#entry).
+      example: |
+        {{#all_entries}}
+        <a href="{{url}}">{{title}}</a>
+        {{/all_entries}} 
+    - name: archives
+      type: array
+      description: A list of all the entries on your site, structured by date. Each item in the entries property of each month is of type [entry](#entry).
+      properties:
+        - name: year
+          type: string
+          description: The year
+        - name: months
+          type: array
+          description: A list of months in this year
+
+      example: |
+        {{#archives}}
+          <h2>{{year}}</h2>
+          {{#months}}
+            <h3>{{month}}</h3>
+            {{#entries}}
+            <a href="{{url}}">{{title}}</a>
+            {{/entries}}
+          {{/months}}
+        {{/archives}}
+
+- name: Lists of tags
+  keys:
+    - name: all_tags
+      type: array
+      description: A list of all the tags used on your site, sorted alphabetically by tag text.
+      example: |
+        {{#all_tags}}
+        <a href="/tagged/{{slug}}">{{tag}}</a><br>
+        {{/all_tags}}
+      properties:
+      - name: tag
+        type: string
+        description: The tag text
+      - name: slug
+        type: string
+        description: The tag text, in a URL-friendly form
+      - name: entries
+        type: array
+        description: A list of every [entry](#entry) with this tag in reverse-chronological order.
+      - name: total
+        type: number
+        description: The number of entries with this tag.
+
+    - name: popular_tags
+      type: array
+      description: A list of all the tags used on your site, sorted by the number of entries with each tag.
+      example: |
+        {{#popular_tags}}
+        <a href="/tagged/{{slug}}">{{tag}}</a><br>
+        {{/popular_tags}}
+      properties:
+      - name: tag
+        type: string
+        description: The tag text
+      - name: slug
+        type: string
+        description: The tag text, in a URL-friendly form
+      - name: entries
+        type: array
+        description: A list of every [entry](#entry) with this tag in reverse-chronological order.
+      - name: total
+        type: number
+        description: The number of entries with this tag.
+
+
+
+- name: Utilities
+  keys:
+
+    - name: absoluteURLs
+      type: function
+      description: The same contents, with any relative URLs fully resolved. This is useful to create an RSS feed, since many clients struggle with relative URLs. For example
+      example: |
+        {{#absoluteURLs}}
+        {{{html}}}
+        {{/absoluteURLs
+
+    - name: encodeJSON
+      type: function
+      description: The same contents, encoded appropriately for JSON. This is useful to create a JSON feed. You can use it like this
+      example: |
+        {{#encodeJSON}}
+        {{{html}}}
+        {{/encodeJSON}}
+
+    - name: encodeURIComponent
+      type: function
+      description: This is useful for forming urls from entry properties
+      example: |
+        ?text={{#encodeURIComponent}}
+        {{title}}
+        {{/encodeURIComponent}}
+
+    - name: encodeXML
+      type: function
+      description: The same contents, encoded appropriately for XML. This is useful to create a RSS feed. You can use it like this
+      example: |
+        {{#encodeXML}}
+        {{{html}}}
+        {{/encodeXML}}                
+
+    - name: rgb
+      type: function
+      description: Extracts the r, g, and b values for a passed color. Returns these values joined by a comma.
+      example: |
+        color:rgba({{#rgb}}#FF00FF{{/rgb}},0.5);

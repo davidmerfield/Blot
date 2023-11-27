@@ -1,0 +1,64 @@
+{{=[[ ]]=}}
+
+<h1>Development environment</h1>
+
+<h2>A simple guide to setting up a simplified version of Blot on your own machine.</h2>
+
+<p>You don't need to do this to develop your own template – most people don't. However, running the server locally will mean you can work on your template with less latency than using the template editor.</p>
+
+<h2>System requirements</h2>
+
+<ul>
+  <li>operating system: <b>Linux or macOS</b>. The server definitely works on macOS Sierra 10.12.6 and Amazon Linux 2.</li>
+  <li>a few gigabytes or so of free disk space</li>
+  <li>a gigabyte or so of available memory</li>
+</ul>
+
+<h2>Tools required</h2>
+
+<ul>
+  <li><a href="https://git-scm.com/">git</a></li>
+  <li><a href="https://github.com/nvm-sh/nvm">nvm</a></li>
+  <li><a href="https://redis.io/">redis</a></li>
+</ul>
+
+<h2>1. Node</h2>
+
+<p>Use <a href="https://github.com/nvm-sh/nvm">nvm</a> to install node <code>v16.14.0</code> and npm 8.3.1. You can verify that you have installed and selected the correct verion:</p>
+
+<pre><code>$ node -v
+v16.14.0
+$ npm -v
+8.3.1</code></pre>
+
+
+<h2>2. Redis</h2>
+
+<p>Launch a local <a href="https://redis.io/">redis</a> server:</p>
+
+<pre><code>$ redis-server</code></pre>
+
+<p>You can verify the redis server is running:</p>
+
+<pre><code>$ redis-cli ping
+PONG</code></pre>
+
+<h2 id="2-clone-blots-source-code-to-your-machine"><a href="#2-clone-blots-source-code-to-your-machine">3. Get the source code</a></h2>
+
+<p>Use <a href="https://git-scm.com/">git</a> to clone a copy of Blot's source code to your machine.</p>
+
+<pre><code>$ git clone https://github.com/davidmerfield/Blot</code></pre>
+
+<h2>4. Install Blot’s dependencies</h2>
+
+<pre><code>$ npm ci</code></pre>
+
+<h2>5. Run the server</a></h2>
+
+<pre><code>$ npm run local</code></pre>
+
+<p>You should then see your blog here:</p>
+
+<pre><code>http://localhost:8081</code></pre><p>and the dashboard to conﬁgure the settings for that blog here:</p><pre><code>http://localhost:8080</code></pre>
+
+[[={{ }}=]]

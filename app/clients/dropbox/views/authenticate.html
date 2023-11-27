@@ -1,11 +1,16 @@
 <div class="inset">
-  <p style="margin:42px 0 20px">Blot will create a new folder for <b style="font-weight:500">{{blog.title}}</b> inside your Dropbox. You can revoke Blot’s access to this folder at any point. Blot will not be able to access any other part of your Dropbox.</p><br />
+  <p>Connect your folder to <strong>Dropbox</strong></p>
+  
+  <ul>
+    <li>Blot will create a new folder in your Dropbox.</li>
+    <li>You can revoke Blot’s access to this folder at any time.</li>
+  </ul>
 
   <form  action="{{{base}}}/disconnect" method="post">
     <input type="hidden" name="_csrf" value="{{csrftoken}}">
-      <div class="buttons">
+    <div class="buttons">
       <a href="{{{base}}}/redirect">Connect to Dropbox</a>
       <input type="submit" value="Cancel">
-</div>
+    </div>
   </form>
 </div>

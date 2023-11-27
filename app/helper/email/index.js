@@ -1,19 +1,31 @@
-var config = require("config");
-var fs = require("fs-extra");
-var ensure = require("../ensure");
-var extend = require("../extend");
-var tempDir = require("../tempDir")();
-var assert = require("assert");
-var logg = require("../logg");
-var log = new logg("Email");
-var Mustache = require("mustache");
-var marked = require("marked");
+const fs = require("fs-extra");
+const async = require("async");
+const config = require("config");
+const ensure = require("helper/ensure");
+const extend = require("helper/extend");
+const tempDir = require("helper/tempDir")();
+const Mustache = require("mustache");
+const marked = require("marked");
+const clfdate = require("helper/clfdate");
+const Mailgun = require("mailgun-js");
+let mailgun;
 
-var Mailgun = require("mailgun-js");
-var mailgun = new Mailgun({
-  apiKey: config.mailgun.key,
-  domain: config.mailgun.domain
-});
+if (config && config.mailgun && config.mailgun.key) {
+  mailgun = new Mailgun({
+    apiKey: config.mailgun.key,
+    domain: config.mailgun.domain,
+  });
+} else {
+  mailgun = {
+    messages: function () {
+      return {
+        send: function (email, callback) {
+          callback(null);
+        },
+      };
+    },
+  };
+}
 
 var adminDir = __dirname + "/admin/";
 var userDir = __dirname + "/user/";
@@ -30,13 +42,15 @@ var FROM = config.mailgun.from;
 var MESSAGES = [
   "ALREADY_CANCELLED",
   "BAD_REQUEST",
+  "BILLING_INTERVAL",
   "CANCELLED",
   "CLOSED",
+  "CREATED_BLOG",
   "DAILY_UPDATE",
   "DELETED",
   "DISABLED",
-  "FAILED_PAYMENT",
   "LONG_DELAY",
+  "LONG_SYNC",
   "NETWORK_ERROR",
   "NEWSLETTER_SUBSCRIPTION_CONFIRMED",
   "NEWSLETTER_SUBSCRIPTION_CONFIRMATION",
@@ -47,68 +61,72 @@ var MESSAGES = [
   "OVERDUE_CLOSURE",
   "RATE_LIMIT",
   "RESTART",
+  "RECOVERED",
   "REVOKED",
   "SET_PASSWORD",
-  "SUBSCRIPTION_INCREASE",
+  "SERVER_START",
   "SUBSCRIPTION_DECREASE",
   "SYNC_DOWN",
   "SYNC_EXCEPTION",
+  "SYNC_REPORT",
   "UPCOMING_RENEWAL",
   "UPCOMING_EXPIRY",
   "UPDATE_BILLING",
-  "WARNING_LOW_DISK_SPACE"
+  "WARNING_LOW_DISK_SPACE",
+  "WORKER_ERROR",
+  "ZOMBIE_PROCESS",
 ];
 
-var NO_MESSAGE = "No messages found for";
-var NO_ADDRESS = "No email passed, or uid passed for";
-
 var globals = {
-  site: "https://" + config.host
+  site: "https://" + config.host,
 };
 
 var EMAIL_MODEL = {
   to: "string",
   from: "string",
   subject: "string",
-  html: "string"
+  html: "string",
 };
+
+function loadUser(uid, callback) {
+  if (!uid) return callback(null, {});
+
+  const User = require("models/user");
+
+  User.getById(uid, function (err, user) {
+    if (err || !user) {
+      return callback(err || new Error("No user with uid " + uid));
+    }
+
+    user = User.extend(user);
+
+    callback(null, user);
+  });
+}
 
 function init(method) {
   ensure(method, "string");
+  return function build(uid = "", locals = {}, callback = function () {}) {
+    loadUser(uid, function (err, user) {
+      if (err) return callback(err);
 
-  var adminMessage = adminDir + method + ".txt";
-  var userMessage = userDir + method + ".txt";
+      extend(locals).and(globals).and(user);
 
-  var emailAdmin = fs.existsSync(adminMessage);
-  var emailUser = fs.existsSync(userMessage);
+      const adminMessage = adminDir + method + ".txt";
+      const userMessage = userDir + method + ".txt";
 
-  return function build(uid, locals, callback) {
-    uid = uid || "";
-    locals = locals || {};
-    callback = callback || function() {};
+      let emails = [];
 
-    if (!uid) return then();
+      if (fs.existsSync(adminMessage)) {
+        emails.push(send.bind(this, locals, adminMessage, ADMIN));
+      }
 
-    require("user").getById(uid, function(err, user) {
-      if (err || !user) return log(err || "No user with uid " + uid);
+      if (fs.existsSync(userMessage)) {
+        emails.push(send.bind(this, locals, userMessage, locals.email));
+      }
 
-      extend(locals)
-        .and(globals)
-        .and(require("user").extend(user));
-
-      then();
+      async.parallel(emails, callback);
     });
-
-    function then() {
-      if (emailAdmin) send(locals, adminMessage, ADMIN, callback);
-
-      if (emailUser && locals.email)
-        send(locals, userMessage, locals.email, callback);
-
-      if (emailUser && !locals.email) log(NO_ADDRESS, method);
-
-      if (!emailAdmin && !emailUser) log(NO_MESSAGE, method);
-    }
   };
 }
 
@@ -118,8 +136,8 @@ function send(locals, messageFile, to, callback) {
     .and(to, "string")
     .and(callback, "function");
 
-  fs.readFile(messageFile, "utf-8", function(err, text) {
-    if (err) throw err;
+  fs.readFile(messageFile, "utf-8", function (err, text) {
+    if (err) return callback(err);
 
     var lines = text.split("\n");
     var subject = Mustache.render(lines[0] || "", locals);
@@ -131,29 +149,42 @@ function send(locals, messageFile, to, callback) {
       html: html,
       subject: subject,
       from: locals.from || FROM,
-      to: to
+      to: to,
     };
 
-    ensure(email, EMAIL_MODEL);
-
-    if (config.environment === "development") {
-      var previewPath = tempDir + Date.now() + ".html";
-      fs.outputFileSync(previewPath, email.html, "utf-8");
-      console.log("Preview:", previewPath);
+    try {
+      ensure(email, EMAIL_MODEL);
+    } catch (e) {
+      return callback(e);
     }
 
-    if (config.environment === "development" && to !== config.admin.email) {
-      console.log("Email not sent in development environment:", email);
+    if (config.environment === "development" && process.env.EMAIL !== "true") {
+      var previewPath = tempDir + Date.now() + ".html";
+      fs.outputFileSync(previewPath, email.html, "utf-8");
+      console.log(clfdate(), "Email: unsent in development environment:", {
+        ...email,
+        preview: previewPath,
+      });
       return callback();
     }
 
-    mailgun.messages().send(email, function(err, body) {
+    mailgun.messages().send(email, function (err, body) {
       if (err) {
-        console.log("Error: Mailgun failed to send transactional email:", err);
-        return log(err);
+        console.log(
+          clfdate(),
+          "Email: error: Mailgun failed to send transactional email:",
+          err
+        );
+        return callback(err);
       }
 
-      log("Sent to", email.to, '"' + email.subject + '"', "(" + body.id + ")");
+      console.log(
+        clfdate(),
+        "Email: sent to",
+        email.to,
+        '"' + email.subject + '"',
+        "(" + body.id + ")"
+      );
       callback();
     });
   });
@@ -163,14 +194,7 @@ var exports = {};
 
 for (var i in MESSAGES) {
   var method = MESSAGES[i];
-
   exports[method] = init(method);
-
-  assert(
-    fs.existsSync(adminDir + method + ".txt") ||
-      fs.existsSync(userDir + method + ".txt"),
-    "There is no message file for " + method
-  );
 }
 
 exports.send = send;

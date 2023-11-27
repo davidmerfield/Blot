@@ -4,10 +4,10 @@ var mime = require("mime-types");
 
 if (require.main === module) {
   main(
-    function(view, callback) {
+    function (view, callback) {
       callback();
     },
-    function(err) {
+    function (err) {
       if (err) return console.error(err);
 
       console.log("Fixed all templates!");
@@ -19,7 +19,7 @@ if (require.main === module) {
 // we shouldn't need to write this change to the user's folder
 // make sure this works with local templates
 function main(doThis, callback) {
-  eachView(function(user, blog, template, view, next) {
+  eachView(function (user, blog, template, view, next) {
     if (!view || !view.content || !view.type) return next();
 
     var oldName, extension, altExtension;
@@ -48,9 +48,9 @@ function main(doThis, callback) {
 
     if (view.name === oldName || !view.name || !oldName) return next();
 
-    console.log(oldName, '>>', view.name);
+    console.log(oldName, ">>", view.name);
 
-    Template.setView(template.id, view, function(err) {
+    Template.setView(template.id, view, function (err) {
       if (err) return next(err);
       Template.dropView(template.id, oldName, next);
     });

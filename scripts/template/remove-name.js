@@ -4,7 +4,7 @@ var colors = require("colors");
 var jsdiff = require("diff");
 
 fixEachView(
-  function(view, callback) {
+  function (view, callback) {
     if (view.name === "public") return callback();
 
     var oldcontent = (" " + view.content).slice(1);
@@ -19,7 +19,7 @@ fixEachView(
 
     var diff = jsdiff.diffWords(oldcontent, view.content);
 
-    diff.forEach(function(part) {
+    diff.forEach(function (part) {
       // green for additions, red for deletions
       // grey for common parts
       var color = part.added ? "green" : part.removed ? "red" : "grey";
@@ -28,13 +28,13 @@ fixEachView(
 
     process.stdout.write("\n");
 
-    yesno.ask("Apply changes to " + view.name + "?", true, function(ok) {
+    yesno.ask("Apply changes to " + view.name + "?", true, function (ok) {
       if (!ok) view.content = oldcontent;
 
       callback();
     });
   },
-  function(err) {
+  function (err) {
     if (err) throw err;
     console.log("Fixed all views!");
     process.exit();

@@ -1,0 +1,39 @@
+# Dashboard
+
+Since Blot has no interface, the dashboard is this secondary feature.
+
+## Questions
+
+These are some of the questions a new user might want answers to:
+
+- How do I add comments to my site?
+- How do I change the way my site looks?
+
+## Responsibilities
+
+The fundamental architecture of the dashboard goes a long way to making it clear or confusing. 
+
+- Visit your blog
+- Show the folder for the blog
+  - posts
+  - pages
+  - files
+- Notifications? Error messages?
+- Access to documentation
+- Access to support
+- Settings for the blog
+  - title
+  - menu links
+  - photo
+  - domain and username
+  - URL and redirects
+  - template
+  - date format
+  - timezone
+- Settings for the account
+  - Name
+  - Email
+  - Billing method update
+  - Cancel subscription
+  - Delete account
+- Log out

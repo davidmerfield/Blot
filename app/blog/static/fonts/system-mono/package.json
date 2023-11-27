@@ -1,0 +1,10 @@
+{
+  "name": "System mono",
+  "tags": [
+    "mono"
+  ],
+  "stack": "Consolas, monaco, monospace",
+  "line_height": 1.6,
+  "line_width": 39,
+  "font_size": 16
+}

@@ -1,28 +1,41 @@
-var redis = require('redis').createClient();
+const keys = require("../db/keys");
+const yesno = require("yesno");
+const client = require("client");
 
-countKeys('*');
-countKeys('sess:*');
+const KEYS_TO_DELETE = [];
+keys(
+  "sess:*",
+  function (sessionKeys, next) {
+    sessionKeys.forEach((key) => {
+      if (key.indexOf("sess:") !== 0) throw new Error("Unexpected key: " + key);
+      KEYS_TO_DELETE.push(key);
+    });
+    next();
+  },
+  function (err) {
+    if (err) throw err;
 
-redis.keys('sess:*', function (error, sessionKeys) {
+    if (KEYS_TO_DELETE.length === 0) {
+      console.log("No keys to delete");
+      return process.exit();
+    }
 
-  sessionKeys.forEach(function(sessionKey) {
+    console.log(KEYS_TO_DELETE);
+    yesno.ask(`Delete ${KEYS_TO_DELETE.length} keys? (y/N)`, false, function (
+      ok
+    ) {
+      if (!ok) {
+        console.log("No keys deleted.");
+        return process.exit();
+      }
 
-    console.log('Deleting: ' + sessionKey);
+      console.log(`Deleting ${KEYS_TO_DELETE.length} keys...`);
+      client.del(KEYS_TO_DELETE, function (err, stat) {
+        if (err) throw err;
+        console.log(`Deleted  ${stat} keys`);
 
-    redis.del(sessionKey);
-  });
-
-  countKeys('*');
-  countKeys('sess:*');
-});
-
-function count (key) {
-  redis.keys(key, function (error, keys) {
-    console.log(key + ' keys number: ' + keys.length);
-  });
-}
-
-function countKeys () {
-  count('*');
-  console.log('-------');
-}
+        process.exit();
+      });
+    });
+  }
+);

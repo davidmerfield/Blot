@@ -1,0 +1,37 @@
+# How to add a new web font
+
+Let's say we want to add the font 'Goudy Old Style' to Blot.
+
+First, we make sure we can legally distribute the font files for commercial purposes. Then we follow these steps:
+
+1. Create a new directory 'goudy-old-style' inside this folder.
+2. Move the webfont files inside that folder. You must add .woff and .ttf files, but .eot are desirable too.
+3. Make sure the web font files are named in the following format: weight[-style].extension. For example:
+
+black-italic.eot
+bold.ttf
+oblique.ttf
+
+4. Run the script required to build the CSS styles required to load the font:
+
+node app/static/blog/fonts/build goudy-old-style
+
+5. Verify the resulting styles and metadata in:
+
+goudy-old-style/package.json
+
+6. Restart the server process, and test the font with one of Blot's default templates.
+
+7. Commit and push
+
+
+
+Good sources for new webfonts
+============================-
+
+Font Squirrel
+https://fontlibrary.org/en
+https://www.are.na/laurel-schwulst/open-source-web-fonts
+
+Use Modify:
+https://github.com/raphaelbastide/usemodify/issues/1

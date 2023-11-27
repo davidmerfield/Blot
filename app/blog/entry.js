@@ -1,11 +1,10 @@
-module.exports = function(server) {
-  var Entry = require("entry"),
-    normalize = require("helper").urlNormalizer,
-    plugins = require("../build/plugins");
+module.exports = function (server) {
+  var Entry = require("models/entry");
+  var normalize = require("helper/urlNormalizer");
+  var plugins = require("build/plugins");
+  var Entries = require("models/entries");
 
-  var Entries = require("entries");
-
-  server.use(function(request, response, next) {
+  server.use(function (request, response, next) {
     var scheduled = !!request.query.scheduled;
     var blog = request.blog;
 
@@ -24,8 +23,20 @@ module.exports = function(server) {
     url = decodeURIComponent(url);
     url = url.toLowerCase();
 
-    Entry.getByUrl(blog.id, url, function(entry) {
+    Entry.getByUrl(blog.id, url, function (entry) {
       if (!entry || entry.deleted || entry.draft) return next();
+
+      // If comments are enabled in settings, they are shown on all blog posts and pages
+      // Disable comments in cases:
+      // 1. Blog post metadata DOES have  'Comments: No'
+      // 2. Page metadata DOES NOT have   'Comments: Yes'
+      if (
+        entry.metadata.comments === "No" ||
+        (entry.metadata.comments !== "Yes" && entry.page)
+      ) {
+        delete blog.plugins.commento;
+        delete blog.plugins.disqus;
+      }
 
       // Redirect this entry to the file from which it was generated
       // I use this when debugging user blogs.
@@ -42,10 +53,15 @@ module.exports = function(server) {
       // any of the template views but will do that in future.
       if (normalize(entry.url) !== normalize(url) && url === "/") return next();
 
-      Entries.adjacentTo(blog.id, entry.id, function(nextEntry, previousEntry) {
+      Entries.adjacentTo(blog.id, entry.id, function (
+        nextEntry,
+        previousEntry,
+        index
+      ) {
         entry.next = nextEntry;
         entry.previous = previousEntry;
         entry.adjacent = !!(nextEntry || previousEntry);
+        entry.index = index;
 
         // Ensure the user is always viewing
         // the entry at its latest and greatest URL
@@ -60,20 +76,20 @@ module.exports = function(server) {
           return response.status(301).redirect(redirect);
         }
 
-        plugins.load("entryHTML", blog.plugins, function(err, pluginHTML) {
-          // Dont show plugin HTML on a page or a draft.
+        plugins.load("entryHTML", blog.plugins, function (err, pluginHTML) {
+          // Dont show plugin HTML on a draft.
           // Don't show plugin HTML on a preview subdomain.
           // This is to prevent Disqus getting stuck on one URL.
-          if (entry.menu || entry.draft || request.preview) {
+          if (entry.draft || request.preview) {
             pluginHTML = "";
           }
 
           response.addPartials({
-            pluginHTML: pluginHTML
+            pluginHTML: pluginHTML,
           });
 
           response.addLocals({
-            entry: entry
+            entry: entry,
           });
 
           response.renderView("entry.html", next);

@@ -1,12 +1,11 @@
 var key = require("./key");
 var _ = require("lodash");
-var helper = require("helper");
-var ensure = helper.ensure;
+var ensure = require("helper/ensure");
 var TYPE = require("./scheme").TYPE;
 var validate = require("./validate");
 var get = require("./get");
 var serial = require("./serial");
-var client = require("client");
+var client = require("models/client");
 var config = require("config");
 var BackupDomain = require("./util/backupDomain");
 var flushCache = require("./flushCache");
@@ -21,17 +20,17 @@ function Changes(latest, former) {
   return changes;
 }
 
-module.exports = function(blogID, blog, callback) {
+module.exports = function (blogID, blog, callback) {
   ensure(blogID, "string").and(callback, "function");
 
   var multi = client.multi();
   var formerBackupDomain, changes, backupDomain;
   var changesList = [];
 
-  validate(blogID, blog, function(errors, latest) {
+  validate(blogID, blog, function (errors, latest) {
     if (errors) return callback(errors);
 
-    get({ id: blogID }, function(err, former) {
+    get({ id: blogID }, function (err, former) {
       former = former || {};
 
       if (err) return callback(err);
@@ -103,8 +102,8 @@ module.exports = function(blogID, blog, callback) {
       // to bust the cache, e.g. in ./flushCache
       if (changes.template || changes.plugins || changes.cacheID) {
         latest.cacheID = Date.now();
-        latest.cssURL = "/style.css?" + latest.cacheID;
-        latest.scriptURL = "/script.js?" + latest.cacheID;
+        latest.cssURL = `/style.css?cache=${latest.cacheID}&amp;extension=.css`;
+        latest.scriptURL = `/script.js?cache=${latest.cacheID}&amp;extension=.js`;
         changes.cacheID = true;
         changes.cssURL = true;
         changes.scriptURL = true;
@@ -123,12 +122,12 @@ module.exports = function(blogID, blog, callback) {
 
       multi.hmset(key.info(blogID), serial(latest));
 
-      multi.exec(function(err) {
+      multi.exec(function (err) {
         // We didn't manage to apply any changes
         // to this blog, so empty the list of changes
         if (err) return callback(err, []);
 
-        flushCache(blogID, former, function(err) {
+        flushCache(blogID, former, function (err) {
           callback(err, changesList);
         });
       });

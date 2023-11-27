@@ -1,4 +1,4 @@
-describe("webhook", function() {
+describe("webhook", function () {
   var Webhook = require("./index");
   var server = require("../server");
 
@@ -6,26 +6,26 @@ describe("webhook", function() {
   beforeEach(server.start);
   afterEach(server.close);
 
-  xit("challenges", function(done) {
+  xit("challenges", function (done) {
     var webhook = new Webhook(
       process.env.BLOT_DROPBOX_APP_SECRET,
       "http://localhost:" + this.server.port + "/clients/dropbox/webhook"
     );
 
-    webhook.challenge("xyz", function(err) {
+    webhook.challenge("xyz", function (err) {
       if (err) done.fail(err);
 
       done();
     });
   });
 
-  xit("notifies", function(done) {
+  xit("notifies", function (done) {
     var webhook = new Webhook(
       process.env.BLOT_DROPBOX_APP_SECRET,
       "http://localhost:" + this.server.port + "/clients/dropbox/webhook"
     );
 
-    webhook.notify(process.env.BLOT_DROPBOX_TEST_ACCOUNT_ID, function(err) {
+    webhook.notify(process.env.BLOT_DROPBOX_TEST_ACCOUNT_ID, function (err) {
       if (err) done.fail(err);
 
       done();

@@ -1,102 +1,152 @@
-describe("build", function() {
-  var sync = require("../index");
-  var fs = require("fs-extra");
-
+describe("build", function () {
   // Set up a test blog before each test
   global.test.blog();
 
   // Expose methods for creating fake files, paths, etc.
-  beforeEach(function() {
+  beforeEach(function () {
     this.fake = global.test.fake;
   });
 
-  beforeEach(function() {
+  beforeEach(function () {
     this.checkEntry = global.test.CheckEntry(this.blog.id);
+    this.syncAndCheck = global.test.SyncAndCheck(this.blog.id);
   });
 
+  it("hides date with timestamp from title if its in the file name", function (done) {
+    const path = "/2018-10-02-02-35 Hello.png";
+    const content = this.fake.file();
 
-  it("hides date with timestamp from title if its in the file name", function(testDone) {
-    var path = "/2018-10-02-02-35 Hello.png";
-    var content = this.fake.file();
-    var checkEntry = this.checkEntry;
+    const file = { path, content };
+    const entry = { path, title: "Hello" };
 
-    sync(this.blog.id, function(err, folder, done) {
-      if (err) testDone.fail(err);
-
-      fs.outputFileSync(folder.path + path, content, "utf-8");
-      folder.update(path, function(err) {
-        if (err) testDone.fail(err);
-
-        checkEntry({ path: path, title: "Hello" }, function(err) {
-          if (err) testDone.fail(err);
-
-          done(null, testDone);
-        });
-      });
-    });
+    this.syncAndCheck(file, entry, done);
   });
 
+  it("can publish an entry inside a folder with leading and trailing whitespace", function (done) {
+    const path = "/ 2018 / Hello.txt";
+    const content = "# Hello";
 
-  it("hides date from title if its in the file name", function(testDone) {
-    var path = "/2018/06-04 Hello.jpg";
-    var content = this.fake.file();
-    var checkEntry = this.checkEntry;
+    const file = { path, content };
+    const entry = { path, title: "Hello" };
 
-    sync(this.blog.id, function(err, folder, done) {
-      if (err) testDone.fail(err);
-
-      fs.outputFileSync(folder.path + path, content, "utf-8");
-      folder.update(path, function(err) {
-        if (err) testDone.fail(err);
-
-        checkEntry({ path: path, title: "Hello" }, function(err) {
-          if (err) testDone.fail(err);
-
-          done(null, testDone);
-        });
-      });
-    });
+    this.syncAndCheck(file, entry, done);
   });
 
-  it("preserves case in title generated from file name passed as option", function(testDone) {
-    var path = "/[tag] hello.jpg";
-    var content = this.fake.file();
-    var checkEntry = this.checkEntry;
-
-    sync(this.blog.id, function(err, folder, done) {
-      if (err) testDone.fail(err);
-
-      fs.outputFileSync(folder.path + path, content, "utf-8");
-      folder.update(path, { name: "[Tag] Hello.jpg" }, function(err) {
-        if (err) testDone.fail(err);
-
-        checkEntry({ path: path, title: "Hello" }, function(err) {
-          if (err) testDone.fail(err);
-
-          done(null, testDone);
-        });
-      });
-    });
+  it("ignores files in templates folder", function (done) {
+    this.syncAndCheck(
+      [
+        { path: "/Templates/foo.txt", content: this.fake.file() },
+        { path: "/templates/bar.txt", content: this.fake.file() }
+      ],
+      [
+        { path: "/Templates/foo.txt", ignored: true },
+        { path: "/templates/bar.txt", ignored: true }
+      ],
+      done
+    );
   });
 
-  it("hides tags from title if its in the file name", function(testDone) {
-    var path = "/[Tag] Hello.jpg";
-    var content = this.fake.file();
-    var checkEntry = this.checkEntry;
+  it("ignores files and files inside folders which start with an underscore", function (done) {
+    this.syncAndCheck(
+      [
+        { path: "/Posts/_foo.txt", content: this.fake.file() },
+        { path: "/_Pages/bar.txt", content: this.fake.file() },
+        { path: "/Mean/_bar/Ba/t.txt", content: this.fake.file() }
+      ],
+      [
+        { path: "/Posts/_foo.txt", ignored: true },
+        { path: "/_Pages/bar.txt", ignored: true },
+        { path: "/Mean/_bar/Ba/t.txt", ignored: true }
+      ],
+      done
+    );
+  });
 
-    sync(this.blog.id, function(err, folder, done) {
-      if (err) testDone.fail(err);
+  it("ignores dot files and files inside dot folders", function (done) {
+    this.syncAndCheck(
+      [
+        { path: "/.foo.txt", content: this.fake.file() },
+        { path: "/.pages/bar.txt", content: this.fake.file() },
+        { path: "/mean/.bar/Ba/t.txt", content: this.fake.file() }
+      ],
+      [
+        { path: "/.foo.txt", ignored: true },
+        { path: "/.pages/bar.txt", ignored: true },
+        { path: "/mean/.bar/Ba/t.txt", ignored: true }
+      ],
+      done
+    );
+  });
 
-      fs.outputFileSync(folder.path + path, content, "utf-8");
-      folder.update(path, function(err) {
-        if (err) testDone.fail(err);
+  it("hides date from title if its in the file name", function (done) {
+    const path = "/2018/06-04 Hello.jpg";
+    const content = this.fake.file();
 
-        checkEntry({ path: path, title: "Hello" }, function(err) {
-          if (err) testDone.fail(err);
+    const file = { path, content };
+    const entry = { path, title: "Hello" };
 
-          done(null, testDone);
-        });
-      });
-    });
+    this.syncAndCheck(file, entry, done);
+  });
+
+  it("uses link metadata", function (done) {
+    const path = "/hey.txt";
+    const content = "Link: example.com/\n\nHey!";
+
+    const file = { path, content };
+    const entry = { path, url: "/example.com" };
+
+    this.syncAndCheck(file, entry, done);
+  });
+
+  it("ignores link metadata if it contains a full URL", function (done) {
+    const path = "/hey.txt";
+    const content = "Link: http://example.com/\n\nHey!";
+
+    const file = { path, content };
+    const entry = { path, url: "/hey" };
+
+    this.syncAndCheck(file, entry, done);
+  });
+
+  it("hides tags from title if its in the file name", function (done) {
+    const path = "/[Tag] Hello.jpg";
+    const content = this.fake.file();
+
+    const file = { path, content };
+    const entry = { path, title: "Hello" };
+
+    this.syncAndCheck(file, entry, done);
+  });
+
+  it("preserves case in title generated from file name passed as option", function (done) {
+    const path = "/[tag] hello.jpg";
+    const content = this.fake.file();
+    const options = { name: "[Tag] Hello.jpg" };
+
+    const file = { path, content, options };
+    const entry = { path, title: "Hello" };
+
+    this.syncAndCheck(file, entry, done);
+  });
+
+  it("rebuilds dependent entries", async function (done) {
+    var path = "/post.txt";
+    var content = "![](/image.png)";
+
+    var imagePath = "/image.png";
+    var imageContent = await this.fake.image();
+
+    const files = [
+      { path, content },
+      { path: imagePath, content: imageContent }
+    ];
+
+    const entry = {
+      path,
+      html: result =>
+        result.indexOf("cdn.") > -1 && result.indexOf(this.blog.id) > -1
+    };
+
+    this.syncAndCheck(files, entry, done);
   });
 });

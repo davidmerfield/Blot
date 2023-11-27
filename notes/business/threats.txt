@@ -1,0 +1,56 @@
+# Threats
+
+## A survey of potential crises to Blot's business
+
+## Payment processing
+
+We use Stripe to process almost every single payment. If Stripe closed Blot's account, or if Stripe itself closed, we would be without revenue immediately.
+
+*Solutions*: 
+- Spread payments across different payment processors. We could run a percentage of our payments through Stripe's competitor Braintree. 
+- Support other mediated payment methods: e.g. PayPal.
+- Support payment methods without an intermediary: e.g. cryptocurrencies.
+
+## Hosting 
+
+We use AWS to host the site. If AWS decides something runs afoul of their intricate terms of use, we would be in trouble. What would happen? Well Blot is easy to deploy on a linux server. I would probably move to another provider, say Linode. What would break? Sites with A records pointing to Amazon's IP address would no longer resolve. Sites with CNAME records pointing to our hostname (blot.im) would continue to work.
+
+I don't make backups of the data on the system outside AWS. I should really do this, even if it's only weekly. AWS makes it fairly expensive to move the quanity of data Blot stores, which is one thing I resent about their service (it seems *strategic* to me).
+
+*Solutions*:
+- Control my own hardware
+- Run my own hardware in my own building
+
+## Cultural issues
+
+We have a policy which means that we allow anything legal on our platform. I suspect that one day, someone will post something that pisses of someone else who's prominent enough to trigger a pile on against our platform.
+
+*Solutions*:
+- Have plans in place for a massive reduction in revenue at any point (i.e. cash reserve)
+
+## Service provider issues
+
+## Legal issues
+
+We could get sued by a well-resourced customer, or someone who reads a customer's site.
+
+*Solutions*:
+- Have enough money in place to hire a lawyer that's better than our opponent
+
+
+## Personnel issues
+
+Blot's bus factor is still 1 – if I get hit by a bus the show stops. Since the source code is public, it would be possible for those who liked Blot to keep it going on a different server, but coordinating the switch might be tough.
+
+*Solutions*: 
+- Hire a full-time employee who is capable of running the site without me, write succession protocol
+
+
+## Competitors
+
+Someone could come along and produce a superior product to Blot.
+
+*Solutions*: 
+- Keep working hard on Blot's product
+
+

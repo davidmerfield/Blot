@@ -1,0 +1,71 @@
+<style type="text/css">
+input[type="submit"].link {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  padding: 0;
+  display: inline;
+  margin: 0;
+  color: var(--accent-color);
+  text-decoration: underline;
+  transition-property: color, border-color;
+  transition-duration: .1s;
+  transition-timing-function: ease-out;
+}
+
+input[type="submit"].link:hover {
+  border-bottom-color: #111
+}
+
+</style>
+
+
+
+
+
+  <p style="margin:0;color:grey;/*background:rgba(0,0,0,0.02);*/border-bottom: 1px solid var(--light-border-color);padding-bottom: 16px;margin:-18px -36px 0;padding: 18px 36px;border-radius: 18px 18px 0 0""><strong style="display: block;color: #000;">Reset your password</strong>Forgot password</p>
+
+
+{{^sent}}
+{{#BADEMAIL}}
+<p class="error">That email address does not match a Blot account.</p>
+{{/BADEMAIL}}
+
+{{#NOEMAIL}}
+<p class="error">Please enter your email address to reset your password.</p>
+{{/NOEMAIL}}
+
+<p style="margin-top: 24px;margin-bottom: 24px">{{^error}}If you cannot remember the email address for your account please <a href="/support">contact support</a>.{{/error}}</p>
+
+<form method="POST">
+
+  <input type="hidden" name="_csrf" value="{{csrf}}" />
+
+  <p>
+    <label for="email">Your email address</label>
+    <input name="email" value="{{email}}" type="text" autofocus />
+  </p>
+
+  <input type="submit" name="reset"  value="Reset your password" />
+  <a href="/log-in" style="background: #e0e0e0;
+    border-radius: 4px;
+    -webkit-appearance: none;
+    padding: 0.75em 1em;
+    color: black;
+    margin: 0 0 1em 0;
+    width: 100%;
+    border: none;
+    cursor: pointer;
+    font: inherit;
+    font-size: 16px;
+    font-weight: 600;
+    display: block;
+    text-align: center;
+    box-sizing: border-box;">Cancel</a>
+</form>
+{{/sent}}
+
+{{#sent}}
+<p>A link to {{#hasPassword}}re{{/hasPassword}}set your password was sent to <b>{{email}}</b>. Please <a href="/contact">contact us</a> if you have any questions.</p>
+{{/sent}}

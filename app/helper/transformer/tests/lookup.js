@@ -1,12 +1,12 @@
-describe("transformer", function() {
+describe("transformer", function () {
   var fs = require("fs-extra");
   var STATIC_DIRECTORY = require("config").blog_static_files_dir;
 
   // Creates test environment
   require("./setup")({});
 
-  it("transforms a file in the blog's directory", function(done) {
-    this.transformer.lookup(this.path, this.transform, function(err, result) {
+  it("transforms a file in the blog's directory", function (done) {
+    this.transformer.lookup(this.path, this.transform, function (err, result) {
       if (err) return done.fail(err);
 
       expect(result).toEqual(jasmine.any(Object));
@@ -15,10 +15,10 @@ describe("transformer", function() {
     });
   });
 
-  it("transforms a file with incorrect case in the blog's directory", function(done) {
+  it("transforms a file with incorrect case in the blog's directory", function (done) {
     this.path = this.path.toUpperCase();
 
-    this.transformer.lookup(this.path, this.transform, function(err, result) {
+    this.transformer.lookup(this.path, this.transform, function (err, result) {
       if (err) return done.fail(err);
 
       expect(result).toEqual(jasmine.any(Object));
@@ -27,12 +27,12 @@ describe("transformer", function() {
     });
   });
 
-  it("transforms a file whose path has been URI encoded", function(done) {
+  it("transforms a file whose path has been URI encoded", function (done) {
     this.path = "/Hello world.txt";
     fs.moveSync(this.localPath, this.blogDirectory + this.path);
     this.path = encodeURI(this.path);
 
-    this.transformer.lookup(this.path, this.transform, function(err, result) {
+    this.transformer.lookup(this.path, this.transform, function (err, result) {
       if (err) return done.fail(err);
 
       expect(result).toEqual(jasmine.any(Object));
@@ -41,12 +41,12 @@ describe("transformer", function() {
     });
   });
 
-  it("transforms a file whose path with incorrect case contains an accent and URI encoded characters", function(done) {
+  it("transforms a file whose path with incorrect case contains an accent and URI encoded characters", function (done) {
     this.path = "/Hållœ wòrld.txt";
     fs.moveSync(this.localPath, this.blogDirectory + this.path);
     this.path = encodeURI(this.path);
 
-    this.transformer.lookup(this.path.toLowerCase(), this.transform, function(
+    this.transformer.lookup(this.path.toLowerCase(), this.transform, function (
       err,
       result
     ) {
@@ -58,12 +58,12 @@ describe("transformer", function() {
     });
   });
 
-  it("will not transform a file that does not exist", function(done) {
+  it("will not transform a file that does not exist", function (done) {
     var spy = jasmine.createSpy().and.callFake(this.transform);
 
     fs.removeSync(this.blogDirectory + "/" + this.path);
 
-    this.transformer.lookup(this.path, spy, function(err, result) {
+    this.transformer.lookup(this.path, spy, function (err, result) {
       expect(err instanceof Error).toBe(true);
       expect(err.code).toEqual("ENOENT");
       expect(spy).not.toHaveBeenCalled();
@@ -71,14 +71,14 @@ describe("transformer", function() {
       done();
     });
   });
-  it("transforms a file in the blog's static directory", function(done) {
+  it("transforms a file in the blog's static directory", function (done) {
     var fullPath = this.blogDirectory + "/" + this.path;
     var path = "/" + Date.now() + "-" + this.path;
     var newFullPath = STATIC_DIRECTORY + "/" + this.blog.id + path;
 
     fs.copySync(fullPath, newFullPath);
 
-    this.transformer.lookup(path, this.transform, function(err, result) {
+    this.transformer.lookup(path, this.transform, function (err, result) {
       if (err) return done.fail(err);
 
       expect(result).toEqual(jasmine.any(Object));
@@ -87,18 +87,18 @@ describe("transformer", function() {
     });
   });
 
-  it("transforms the same file once", function(done) {
+  it("transforms the same file once", function (done) {
     var test = this;
     var firstTransform = jasmine.createSpy().and.callFake(test.transform);
     var secondTransform = jasmine.createSpy().and.callFake(test.transform);
 
-    test.transformer.lookup(test.path, firstTransform, function(
+    test.transformer.lookup(test.path, firstTransform, function (
       err,
       firstResult
     ) {
       if (err) return done.fail(err);
 
-      test.transformer.lookup(test.path, secondTransform, function(
+      test.transformer.lookup(test.path, secondTransform, function (
         err,
         secondResult
       ) {
@@ -113,12 +113,12 @@ describe("transformer", function() {
     });
   });
 
-  it("re-transforms the file if its contents changes", function(done) {
+  it("re-transforms the file if its contents changes", function (done) {
     var test = this;
     var spy = jasmine.createSpy().and.callFake(test.transform);
     var path = test.blogDirectory + "/" + test.path;
 
-    test.transformer.lookup(test.path, test.transform, function(
+    test.transformer.lookup(test.path, test.transform, function (
       err,
       firstResult
     ) {
@@ -127,7 +127,7 @@ describe("transformer", function() {
       // Modify the file
       fs.outputFileSync(path, Date.now().toString());
 
-      test.transformer.lookup(test.path, spy, function(err, secondResult) {
+      test.transformer.lookup(test.path, spy, function (err, secondResult) {
         if (err) return done.fail(err);
 
         expect(spy).toHaveBeenCalled();
@@ -138,8 +138,8 @@ describe("transformer", function() {
     });
   });
 
-  it("transforms a url", function(done) {
-    this.transformer.lookup(this.url, this.transform, function(err, result) {
+  it("transforms a url", function (done) {
+    this.transformer.lookup(this.url, this.transform, function (err, result) {
       if (err) return done.fail(err);
 
       expect(result).toEqual(jasmine.any(Object));
@@ -147,5 +147,4 @@ describe("transformer", function() {
       done();
     });
   });
-
 });

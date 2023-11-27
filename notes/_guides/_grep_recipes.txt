@@ -1,0 +1,11 @@
+# Find 404s on the brochure site
+tail logs/nginx.log -n $TOTAL_REQUESTS | grep //blot.im | grep " 404 " | grep -oE "[^ ]+$" | sort | uniq
+
+# Find 5XX errors across the server
+tail logs/nginx.log -n $TOTAL_REQUESTS | grep -e " 500 " -e " 501 " -e " 502 " -e " 503 " -e " 504 "
+
+# Find what happened before the node.js master process rebooted
+tail logs/app.log -n $TOTAL_REQUESTS | grep "Starting Blot server" -B 10
+
+# Find what happened before a node.js worker process died
+tail logs/app.log -n $TOTAL_REQUESTS | grep "Starting Blot server" -B 10

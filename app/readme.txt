@@ -76,7 +76,7 @@ currently I fork a new process when doing the sync. It adds 700ms to start up th
 
 perhaps I should just use domains...
 
-I should be running a 'sync' server seperately which is up all the time and handles fetching changes and rebuilding blogs. passing a blog handle / or uid? will cause it to fetch any changes to the user's folder, store those new changes locally.
+I should be running a 'sync' server separately which is up all the time and handles fetching changes and rebuilding blogs. passing a blog handle / or uid? will cause it to fetch any changes to the user's folder, store those new changes locally.
 
 'the main' server handles reader traffic.
 

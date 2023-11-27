@@ -1,10 +1,17 @@
 {
   "name": "Magazine",
   "locals": {
-    "accent_color": "90,90,90",
-    "background_color": "white",
-    "sidebar_color": "white",
-    "page_size": 20
+    "accent_color": "#0078D9",
+    "background_color": "#fff",
+    "text_color": "#000",
+    "page_size": 20,
+    "hide_dates": false,
+    "date_display": "MMMM D, Y",
+    "relative_dates": false,
+    "syntax_highlighter": {
+      "id": "stackoverflow-light"
+    },    
+    "body_font": {}
   },
   "isPublic": true,
   "views": {

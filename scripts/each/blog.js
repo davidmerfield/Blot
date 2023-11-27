@@ -1,30 +1,29 @@
-var User = require('../../app/models/user');
-var Blog = require('../../app/models/blog');
-var helper = require('../../app/helper');
-var ForEach = helper.forEach;
-var type = helper.type;
-var ensure = helper.ensure;
+var User = require("models/user");
+var Blog = require("models/blog");
+var async = require("async");
+var type = require("helper/type");
+var ensure = require("helper/ensure");
 
 module.exports = function (doThis, allDone, options) {
-
   options = options || {};
 
-  ensure(doThis, 'function')
-    .and(allDone, 'function')
-    .and(options, 'object');
+  ensure(doThis, "function").and(allDone, "function").and(options, "object");
 
-  Blog.getAllIDs(function(err, blogIDs){
+  Blog.getAllIDs(function (err, blogIDs) {
+    if (err || !blogIDs) throw err || "No";
 
-    if (err || !blogIDs) throw err || 'No';
+    if (options.r) {
+      console.log("Reversing the order of the blogs...");
+      blogIDs = blogIDs.reverse();
+    }
 
     if (options.s) {
       options.s = parseInt(options.s);
-      console.log('Starting this script with blog which has ID', options.s);
+      console.log("Starting this script with blog which has ID", options.s);
       blogIDs = blogIDs.slice(options.s - 1);
     }
 
     if (options.e) {
-
       var end = parseInt(options.e);
       var start = 0;
 
@@ -35,51 +34,55 @@ module.exports = function (doThis, allDone, options) {
       }
 
       if (end) {
-        console.log('Ending this script at user with ID', options.e);
+        console.log("Ending this script at user with ID", options.e);
         blogIDs = blogIDs.slice(0, end);
       } else {
-        console.log('Warning: The end option was less than the start...');
+        console.log("Warning: The end option was less than the start...");
       }
     }
 
     if (options.o) {
-
-
-      if (type(options.o, 'array')) {
-        blogIDs = options.o.map(function(id){return id + '';});
+      if (type(options.o, "array")) {
+        blogIDs = options.o.map(function (id) {
+          return id + "";
+        });
       } else {
-        blogIDs = [options.o + ''];
+        blogIDs = [options.o + ""];
       }
 
-      console.log('Starting this for blogs with ID', blogIDs.length > 1 ? blogIDs : blogIDs[0]);
+      console.log(
+        "Starting this for blogs with ID",
+        blogIDs.length > 1 ? blogIDs : blogIDs[0]
+      );
     }
 
-    var forEach = ForEach;
+    var forEach = async.eachSeries;
 
     if (options.p) {
-      forEach = forEach.parallel;
+      forEach = async.each;
     }
 
-    if (options.m && type(options.m, 'number')) {
-      forEach = forEach.multi(options.m);
-    }
+    forEach(
+      blogIDs,
+      function (blogID, nextBlog) {
+        Blog.get({ id: blogID }, function (err, blog) {
+          if (err || !blog) {
+            return nextBlog();
+          }
 
-    forEach(blogIDs, function(blogID, nextBlog){
+          User.getById(blog.owner, function (err, user) {
+            if (err) throw err;
 
-      Blog.get({id: blogID}, function(err, blog){
+            if (!user) {
+              console.error(new Error("No user with uid " + blog.owner));
+              return nextBlog();
+            }
 
-        if (err || !blog) {
-          return nextBlog();
-        }
-
-        User.getById(blog.owner, function(err, user){
-
-          if (err) throw err;
-          if (!user) throw new Error('No user with uid ' + blog.owner);
-
-          doThis(user, blog, nextBlog);
+            doThis(user, blog, nextBlog);
+          });
         });
-      });
-    }, allDone);
+      },
+      allDone
+    );
   });
 };

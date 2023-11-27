@@ -1,33 +1,47 @@
-var Entry = require("entry");
-var Tags = require("tags");
+const Entry = require("models/entry");
+const Tags = require("models/tags");
+const type = require("helper/type");
+const _ = require("lodash");
+const async = require("async");
 
-module.exports = function(req, callback) {
+module.exports = function (req, callback) {
   var blog = req.blog;
   var blogID = blog.id;
 
-  var tagSlug = req.query.name || "";
+  var tags = req.query.name || req.query.tag || "";
 
-  Tags.get(blogID, tagSlug, function(err, entryIDs) {
-    // {skinny: true},
+  if (type(tags, "array")) {
+  } else if (type(tags, "string")) {
+    tags = [tags];
+  } else {
+    return callback(new Error("Unexpected type of tag"));
+  }
 
-    Entry.get(blogID, entryIDs, function(entries) {
-      entries.sort(function(a, b) {
-        return b.dateStamp - a.dateStamp;
+  async.mapSeries(
+    tags,
+    function (tag, next) {
+      Tags.get(blogID, tag, next);
+    },
+    function (err, allEntryIDs) {
+      let entryIDs = _.intersection.apply(null, allEntryIDs);
+
+      Entry.get(blogID, entryIDs, function (entries) {
+        entries.sort(function (a, b) {
+          return b.dateStamp - a.dateStamp;
+        });
+
+        const tag = tags.join(" + ");
+        const tagged = {};
+
+        tagged[tag] = true;
+        tagged[tag.toLowerCase()] = true;
+
+        return callback(null, {
+          tag,
+          tagged,
+          entries: entries,
+        });
       });
-
-      var tagName = tagSlug;
-
-      // We try and work out the pre slug name
-      // for the current tag
-      if (entries.length)
-        for (var i in entries[0].tags)
-          if (entries[0].tags[i].slug === tagSlug)
-            tagName = entries[0].tags[i].name;
-
-      return callback(null, {
-        tag: tagName,
-        entries: entries
-      });
-    });
-  });
+    }
+  );
 };

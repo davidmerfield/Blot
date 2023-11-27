@@ -1,7 +1,7 @@
 # Copy this file to /etc/blot/environment.sh and fill it in
 
 # Flags
-export BLOT_PRODUCTION=true
+export NODE_ENV=production
 export BLOT_CACHE=true
 export BLOT_MAINTENANCE=false
 export BLOT_DEBUG=false
@@ -10,15 +10,20 @@ export BLOT_DEBUG=false
 export BLOT_HOST=
 export BLOT_IP=
 export BLOT_DIRECTORY=
+export NODE_PATH=$(cd $BLOT_DIRECTORY/app; pwd)  # same as BLOT_DIRECTORY/app, but must be absolute
 export BLOT_CACHE_DIRECTORY=
 
 # Remove these eventually
 export BLOT_PROTOCOL=https
-export BLOT_ENVIRONMENT=production
+
+# Redis configuration
+export BLOT_REDIS_HOST=127.0.0.1
 
 # Name of linux user who runs the blot server
 export BLOT_USER=
-export BLOT_NODE_VERSION=4.4.2
+
+# Use latest stable version which passes tests
+export BLOT_NODE_VERSION=16.14.0
 
 # result of which pandoc
 export BLOT_PANDOC_PATH=
@@ -32,12 +37,20 @@ export BLOT_LOG=$BLOT_DIRECTORY/logs/app.log
 export BLOT_ADMIN_UID=
 export BLOT_ADMIN_EMAIL=
 
+# Required by node-zopfli library to work on AWS
+# TODO: remove the need for this!
+export LD_LIBRARY_PATH=/usr/local/lib64
+
+# For taking screenshots
+export PUPPETEER_PRODUCT=firefox
+
 #############################################
 #               S E C R E T S               #
 #############################################
 
 export BLOT_SESSION_SECRET=
 export BLOT_BACKUP_SECRET=
+export BLOT_WEBHOOKS_SECRET=
 
 # Stripe for payment processing
 export BLOT_STRIPE_KEY=
@@ -66,6 +79,10 @@ export BLOT_YOUTUBE_SECRET=
 export BLOT_AWS_KEY=
 export BLOT_AWS_SECRET=
 
+# AWS for controlling route 53 for wildcard SSL certficate
+export AWS_ACCESS_KEY_ID=
+export AWS_SECRET_ACCESS_KEY=
+
 # Mailgun for sending emails to customers
 export BLOT_MAILGUN_KEY=
 
@@ -74,3 +91,7 @@ export BLOT_TWITTER_CONSUMER_KEY=
 export BLOT_TWITTER_CONSUMER_SECRET=
 export BLOT_TWITTER_ACCESS_TOKEN_KEY=
 export BLOT_TWITTER_ACCESS_TOKEN_SECRET=
+
+# Google Drive client for folder syncing
+export BLOT_GOOGLEDRIVE_ID=
+export BLOT_GOOGLEDRIVE_SECRET=

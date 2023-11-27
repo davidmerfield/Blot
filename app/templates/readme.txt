@@ -1,5 +1,42 @@
 # Templates to create
 
+
+Diary
+Essay
+Picture
+Magazine
+Scrapbook
+
+Digital garden
+Documentation
+
+---
+
+Run templates through [lighthouse](https://web.dev/measure/) and [observatory](https://observatory.mozilla.org/)
+
+
+I would like 7 templates because 7 is a good number
+
+What is missing?
+
+Blog
+Portfolio
+Photo
+Magazine
+Reference
+
+- Documentation
+- CV / Personal
+
+Useful fiddles:
+
+Pure css gradually collapsing nav:
+  useful for tag lists on archives page?
+  https://codepen.io/kylegach/pen/RRkpEL
+
+Pure css collapsing hamburger nav:
+  https://jsfiddle.net/ejg2sfoc/5/
+
 Template selection
 - archive - optimized for an archive of photos, links, quotes
   index shows big grid of posts
@@ -51,7 +88,7 @@ Template selection
 - all themes must support a 'landing page' modification nicely
 - feed, archive, essays, portfolio, magazine must be optimized for code
 - all themes must be colorblind, with goal to add a color customization layer
-- Don't think about Blot developers in any way, produce seperate simple templates for them
+- Don't think about Blot developers in any way, produce separate simple templates for them
 
 # Adding a new template
 
@@ -305,11 +342,11 @@ remaining_entries:
 {{#pagination}}
 
   {{#next}}
-    <a href="{{url}}">Next page</a>
+    <a href="{{{url}}}">Next page</a>
   {{/next}}
 
   {{#previous}}
-    <a href="{{url}}">Previous page</a>
+    <a href="{{{url}}}">Previous page</a>
   {{/previous}}
 
 {{/pagination}}

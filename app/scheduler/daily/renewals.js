@@ -1,7 +1,8 @@
-var User = require("user");
+var User = require("models/user");
 var async = require("async");
-var helper = require("helper");
 var moment = require("moment");
+var prettyPrice = require("helper/prettyPrice");
+var prettyNumber = require("helper/prettyNumber");
 
 function removeStripeFee(amount) {
   return Math.floor(amount - (amount * 0.029 + 30));
@@ -17,7 +18,7 @@ function main(callback) {
   var result = {
     renewals_today: renewals_today,
     renewals_next_30_days: renewals_next_30_days,
-    renewals_next_7_days: renewals_next_7_days
+    renewals_next_7_days: renewals_next_7_days,
   };
 
   var now = Date.now();
@@ -26,15 +27,15 @@ function main(callback) {
   var next_month = now + day * 30;
   var next_week = now + day * 7;
 
-  User.getAllIds(function(err, uids) {
-    async.map(uids, User.getById, function(err, users) {
-      users.forEach(function(user) {
+  User.getAllIds(function (err, uids) {
+    async.map(uids, User.getById, function (err, users) {
+      users.forEach(function (user) {
         if (user.isDisabled) return;
 
         if (!user.subscription.status) return;
 
         if (user.subscription.status !== "active") return;
-          
+
         if (user.subscription.cancel_at_period_end) return;
 
         var next_payment = user.subscription.current_period_end * 1000;
@@ -52,8 +53,8 @@ function main(callback) {
 
         var renewal = {
           email: user.email,
-          revenue: helper.prettyPrice(revenue),
-          next_payment: moment(next_payment).fromNow()
+          revenue: prettyPrice(revenue),
+          next_payment: moment(next_payment).fromNow(),
         };
 
         if (next_payment < tomorrow) {
@@ -83,8 +84,8 @@ function main(callback) {
           result[i].s = "s";
         }
 
-        result[i].total = helper.prettyNumber(result[i].total);
-        result[i].revenue = helper.prettyPrice(result[i].revenue);
+        result[i].total = prettyNumber(result[i].total);
+        result[i].revenue = prettyPrice(result[i].revenue);
       }
 
       callback(null, result);

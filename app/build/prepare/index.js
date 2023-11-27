@@ -1,20 +1,19 @@
-var debug = require('debug')('blot:build:prepare');
+var debug = require("debug")("blot:build:prepare");
 var _ = require("lodash");
-var helper = require('helper');
-var falsy = helper.falsy;
-var time = helper.time;
+var falsy = require("helper/falsy");
 var cheerio = require("cheerio");
 
 var decode = require("he").decode;
 
-var normalize = helper.urlNormalizer;
-var pathNormalizer = helper.pathNormalizer;
-var type = helper.type;
+var normalize = require("helper/urlNormalizer");
+var pathNormalizer = require("helper/pathNormalizer");
+var type = require("helper/type");
 
-var makeSlug = helper.makeSlug;
-var ensure = helper.ensure;
-var Model = require("entry").model;
+var makeSlug = require("helper/makeSlug");
+var ensure = require("helper/ensure");
+var Model = require("models/entry").model;
 
+var internalLinks = require("./internalLinks");
 var isHidden = require("./isHidden");
 var Summary = require("./summary");
 var Teaser = require("./teaser");
@@ -28,7 +27,7 @@ var overwrite = [
   "body",
   "summary",
   "teaser",
-  "teaserBody"
+  "teaserBody",
 ];
 
 function canOverwrite(key) {
@@ -41,7 +40,6 @@ function canOverwrite(key) {
 // scheduled: scheduled, // this is handled by set
 
 function Prepare(entry) {
-  
   ensure(entry, "object")
     .and(entry.path, "string")
     .and(entry.size, "number")
@@ -56,7 +54,7 @@ function Prepare(entry) {
   debug(entry.path, "Generating cheerio");
   var $ = cheerio.load(entry.html, {
     decodeEntities: false,
-    withDomLvl1: false // this may cause issues?
+    withDomLvl1: false, // this may cause issues?
   });
   debug(entry.path, "Generated  cheerio");
 
@@ -65,18 +63,19 @@ function Prepare(entry) {
   // var body = teaser + remainder;
   // var html = titleTag + body;
 
-  // We sometimes fall back to generating a title from the path to the 
+  // We sometimes fall back to generating a title from the path to the
   // file. We need to know the full path to determine if part of the
   // file's name, from which the title may be generated, includes some
-  // part of the date, e.g. /2018/10-10 Hello.jpg. We want to make sure 
+  // part of the date, e.g. /2018/10-10 Hello.jpg. We want to make sure
   // the title is 'Hello' and not '10-10 Hello'. But we can't just use
   // the plain path because some clients, like Dropbox, send the case
   // sensitive name with the update. So we form a temporary variable,
   // pathWithCaseSensitiveName to use to generate a title...
-  var pathWithCaseSensitiveName = '';
+  var pathWithCaseSensitiveName = "";
 
   if (entry.path && entry.name) {
-    pathWithCaseSensitiveName = require('path').dirname(entry.path) + '/' + entry.name;
+    pathWithCaseSensitiveName =
+      require("path").dirname(entry.path) + "/" + entry.name;
   }
 
   debug(entry.path, "Generating title from", pathWithCaseSensitiveName);
@@ -91,8 +90,12 @@ function Prepare(entry) {
   // a bug which surfaces when the file contains title metadata
   var title = entry.title;
   if (type(entry.metadata.title, Model.title)) title = entry.metadata.title;
-  entry.summary = Summary($, title || '');
+  entry.summary = Summary($, title || "");
   debug(entry.path, "Generated  summary");
+
+  debug(entry.path, "Generating internal links");
+  entry.internalLinks = internalLinks($);
+  debug(entry.path, "Generated internal links");
 
   debug(entry.path, "Generating teasers");
   entry.teaser = Teaser(entry.html) || entry.html;
@@ -109,9 +112,9 @@ function Prepare(entry) {
 
   if (entry.metadata.tags) tags = entry.metadata.tags.split(",");
 
-  tags = Tags(entry.path, tags);
+  tags = Tags(entry.pathDisplay || entry.path, tags);
   tags = _(tags)
-    .map(function(tag) {
+    .map(function (tag) {
       return tag.trim();
     })
     .compact(tags)
@@ -155,10 +158,24 @@ function Prepare(entry) {
   // Add the permalink automatically if the metadata
   // declared a page with no permalink set. We can't
   // do this earlier, since we don't know the slug then
-  entry.permalink =
-    entry.metadata.permalink || entry.metadata.slug || entry.metadata.url || "";
-  entry.permalink = normalize(entry.permalink);
+  let permalinkCandidates = [
+    entry.metadata.permalink,
+    entry.metadata.slug,
+    entry.metadata.link,
+    entry.metadata.url,
+  ];
 
+  permalinkCandidates = permalinkCandidates
+    .filter(
+      (candidate) =>
+        candidate &&
+        type(candidate, "string") &&
+        candidate.indexOf("://") === -1
+    )
+    .map(normalize)
+    .filter((candidate) => candidate !== "");
+
+  entry.permalink = permalinkCandidates.shift() || "";
   debug(entry.path, "Generated  permalink");
 
   debug(entry.path, "Generating meta-overwrite");
@@ -184,8 +201,8 @@ function truthy(str) {
 
 function isPage(path) {
   return (
-    pathNormalizer(path).indexOf("/page/") > -1 ||
-    pathNormalizer(path).indexOf("/pages/") > -1
+    pathNormalizer(path).toLowerCase().startsWith("/page/") ||
+    pathNormalizer(path).toLowerCase().startsWith("/pages/")
   );
 }
 

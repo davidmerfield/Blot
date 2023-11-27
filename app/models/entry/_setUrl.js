@@ -1,29 +1,22 @@
-var helper = require('helper');
-var async = require('async');
-var ensure = helper.ensure;
-var _ = require('lodash');
-var urlNormalizer = helper.urlNormalizer;
-var UID = helper.makeUid;
-var makeSlug = helper.makeSlug;
-var withoutExtension = helper.withoutExtension;
-var redis = require('client');
-var Permalink = require('../../build/prepare/permalink');
-var Key = require('./key').url;
-var model = require('./model');
-var Blog = require('blog');
-var get = require('./get');
+var async = require("async");
+var ensure = require("helper/ensure");
+var _ = require("lodash");
+var urlNormalizer = require("helper/urlNormalizer");
+var UID = require("helper/makeUid");
+var makeSlug = require("helper/makeSlug");
+var withoutExtension = require("helper/withoutExtension");
+var redis = require("models/client");
+var Permalink = require("build/prepare/permalink");
+var Key = require("./key").url;
+var model = require("./model");
+var Blog = require("models/blog");
+var get = require("./get");
+var debug = require("debug")("blot:entry:set");
 
 //'/style.css', '/script.js', '/feed.rss', '/robots.txt', '/sitemap.xml'
 // are not possible because . is replaced with. ideally check for
 // all template views here...
-var banned = [
-  '/archives',
-  '/archive',
-  '/search',
-  '/tagged',
-  '/public',
-  ''
-];
+var banned = ["/archives", "/search", "/tagged", "/public", ""];
 
 var MIN_SUMMARY_SLUG_WORDS = 3;
 var MAX_SUMMARY_SLUG_WORDS = 10;
@@ -57,25 +50,30 @@ var UID_PERMUTATIONS = 500;
 // }));
 
 function Candidates (blog, entry) {
-
   var candidates = [];
 
   // Don't use the permalink format for pages
   // or posts with user specified permalinks.
-  if (!entry.metadata.permalink && !entry.metadata.slug && !entry.metadata.url && !entry.page) {
+  if (
+    !entry.metadata.permalink &&
+    !entry.metadata.slug &&
+    !entry.metadata.link &&
+    !entry.metadata.url &&
+    !entry.page
+  ) {
     entry.permalink = Permalink(blog.timeZone, blog.permalink.format, entry);
+    debug("Permalink", entry.permalink);
   }
 
   // The user has specified a permalink in the
   // entry's metadata. We should use this if we can.
   if (entry.permalink) {
-
     candidates.push(entry.permalink);
 
     // If the permalink is unavailable, try appending a number
     // e.g. if 'apple', try 'apple-2', 'apple-3' ... 'apple-99'
     for (var i = 2; i < PERMALINK_PERMUTATIONS; i++)
-      candidates.push(entry.permalink + '-' + i);
+      candidates.push(entry.permalink + "-" + i);
   }
 
   // This is generated from the entry's title
@@ -83,18 +81,22 @@ function Candidates (blog, entry) {
     candidates.push(entry.slug);
   }
 
-  if (entry.name)
-    candidates.push(makeSlug(withoutExtension(entry.name)));
+  if (entry.name) candidates.push(makeSlug(withoutExtension(entry.name)));
 
   if (entry.path)
-    candidates.push(makeSlug(withoutExtension(entry.path.split('/').join('-'))));
+    candidates.push(
+      makeSlug(withoutExtension(entry.path.split("/").join("-")))
+    );
 
   if (entry.summary) {
+    var words = entry.summary.split(" ");
 
-    var words = entry.summary.split(' ');
-
-    for (var y = MIN_SUMMARY_SLUG_WORDS; y < words.length && y < MAX_SUMMARY_SLUG_WORDS; y++) {
-      candidates.push(makeSlug(words.slice(0, y).join('-')));
+    for (
+      var y = MIN_SUMMARY_SLUG_WORDS;
+      y < words.length && y < MAX_SUMMARY_SLUG_WORDS;
+      y++
+    ) {
+      candidates.push(makeSlug(words.slice(0, y).join("-")));
     }
   }
 
@@ -104,11 +106,9 @@ function Candidates (blog, entry) {
   // If so, we should insert the entry's previous URL
   // if it exists to ensure that the entry retains
   // a randomly generated URL consistently.
-  if (entry.url)
-    candidates.push(entry.url);
+  if (entry.url) candidates.push(entry.url);
 
-  for (var j = 0; j < UID_PERMUTATIONS; j++)
-    candidates.push(UID(UID_LENGTH));
+  for (var j = 0; j < UID_PERMUTATIONS; j++) candidates.push(UID(UID_LENGTH));
 
   // Trim, lowercase, strip trailing /, add leading /
   // ensure valid url pathname. Always returns a string
@@ -118,19 +118,17 @@ function Candidates (blog, entry) {
   // We store the decoded version. Not sure if this is a good idea
   // or not but it works for now. Pandoc *en*codes by default.
   // Perhaps I could store both?
-  candidates = candidates.map(function(url){
-
+  candidates = candidates.map(function (url) {
     try {
       url = decodeURI(url);
     } catch (e) {
-      console.log('Error: Could not decodeURIComponent for:', url, e.message);
+      console.log("Error: Could not decodeURIComponent for:", url, e.message);
     }
 
     return url;
   });
 
-  candidates = candidates.filter(function(candidate){
-
+  candidates = candidates.filter(function (candidate) {
     if (!candidate) return false;
 
     // WE DONT EVER ADD ENTRY.PATH so images are always accessible
@@ -148,11 +146,9 @@ function Candidates (blog, entry) {
 }
 
 function check (blogID, candidate, entryID, callback) {
-
   var key = Key(blogID, candidate);
 
-  redis.get(key, function(err, existingID){
-
+  redis.get(key, function (err, existingID) {
     if (err) return callback(err);
 
     // This url is available and unused
@@ -162,8 +158,7 @@ function check (blogID, candidate, entryID, callback) {
     if (existingID === entryID) return callback();
 
     // This url points to a different entry
-    get(blogID, existingID, function(existingEntry){
-
+    get(blogID, existingID, function (existingEntry) {
       // For some reason (bug) the url key was
       // set but the entry does not exist. Claim the url.
       if (!existingEntry) return callback();
@@ -188,44 +183,42 @@ function check (blogID, candidate, entryID, callback) {
 // this needs to return an error if something went wrong
 // and the finalized, stored url to the entry...
 module.exports = function (blogID, entry, callback) {
+  ensure(blogID, "string").and(entry, model).and(callback, "function");
 
-  ensure(blogID, 'string')
-    .and(entry, model)
-    .and(callback, 'function');
+  debug("Setting url for", entry.path);
 
-  if (entry.draft || entry.deleted)
-    return callback(null, '');
+  if (entry.draft || entry.deleted) return callback(null, "");
 
-  Blog.get({id: blogID}, function(err, blog){
-
+  Blog.get({ id: blogID }, function (err, blog) {
     if (err) return callback(err);
 
     // does This cause a memory leak? we sometimes
     // exist before calling all the next functions
     // if we find a successful candidate.
-    async.eachSeries(Candidates(blog, entry), function(candidate, next){
-
-      check(blogID, candidate, entry.id, function(err, taken){
-
-        if (err) return callback(err);
-
-        if (taken) return next();
-
-        var key = Key(blogID, candidate);
-
-        redis.set(key, entry.id, function(err){
-
+    async.eachSeries(
+      Candidates(blog, entry),
+      function (candidate, next) {
+        debug("Checking candidate", candidate);
+        check(blogID, candidate, entry.id, function (err, taken) {
           if (err) return callback(err);
 
-          return callback(null, candidate);
-        });
-      });
-    }, function(){
+          if (taken) return next();
 
-      // if we exhaust the list of candidates, what should happen?
-      // just return an error for now... TODO in future, just keep
-      // generating UIDS... but whatever for now.
-      callback(new Error('Could not find a permalink for ' + entry.path));
-    });
+          var key = Key(blogID, candidate);
+
+          redis.set(key, entry.id, function (err) {
+            if (err) return callback(err);
+
+            return callback(null, candidate);
+          });
+        });
+      },
+      function () {
+        // if we exhaust the list of candidates, what should happen?
+        // just return an error for now... TODO in future, just keep
+        // generating UIDS... but whatever for now.
+        callback(new Error("Could not find a permalink for " + entry.path));
+      }
+    );
   });
 };

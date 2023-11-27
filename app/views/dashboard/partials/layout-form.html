@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>{{title}}{{^hide_title_suffix}} - Blot{{/hide_title_suffix}}</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="description" content="{{description}}" />
+
+    {{#cookie_redirect}}
+    <meta http-equiv="refresh" content="0;URL='{{{cookie_redirect}}}'" />
+    <script type="text/javascript">
+      window.location = "{{{cookie_redirect}}}";
+    </script>
+    {{/cookie_redirect}}
+
+    <link rel="icon" sizes="180x180" href="/favicon-180x180.png" />
+    <link rel="apple-touch-icon" href="/favicon-180x180.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{#cdn}}/style.min.css{{/cdn}}"
+    />
+  </head>
+<body>
+    <a href="/" class="grow-on-hover huge hdr-btn" style="position: absolute;top:2rem;right:2rem">
+      <svg id="hider" style="width: 1.5rem; height: 1.5rem;">
+        <line x1="0" y1="0" x2="100%" y2="100%" stroke="#333"></line>
+        <line x1="0" y1="100%" x2="100%" y2="0%" stroke="#333"></line>
+      </svg>
+    </a>
+    <style type="text/css">
+      
+
+.mess {
+  display: block;
+  text-decoration: none;
+  padding: 10px 20px;
+  margin: -1px 0;
+}
+
+.mess.error {
+  background: #ffe7c7;
+  color: #962500;
+}
+
+.mess.error:hover {
+  background: #ffefda
+}
+
+.mess.success {
+  background: #61d4004f;
+  color: #095f00;
+}
+    </style>
+
+          <div style="max-width:435px;margin: 0 auto;display: flex;flex-direction: column;justify-content: center;min-height: 100vh">
+
+
+  {{#out}}
+   <p style="margin:2rem 0" class="mess success" >
+     You have been logged out
+    </p>
+  {{/out}}
+
+<div class="form-container" style="padding-top: 16px;color:;position: relative;">
+        {{> body}}
+        </div>
+      </div>
+</body>
+</html>

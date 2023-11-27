@@ -1,0 +1,45 @@
+Goal is to add a build queue which will cycle across all blogs with files to build. I wanted to use another library like [bee](https://github.com/bee-queue/bee-queue), [kue](https://github.com/Automattic/kue) or [bull](https://github.com/OptimalBits/bull) but I couldn't find one which would fairly distribute tasks across users/blogs/tenants.
+
+For example, lets say there are three blogs: Alice, Bob and Chris. Alice syncs three files, immediately after Bob then syncs two files and Chris syncs one file. The fair build queue would process the files in this order:
+
+| Order | Blog  | Task     |
+| ----- | ----- | -------- |
+| 1     | Alice | 1st file |
+| 2     | Bob   | 1st file |
+| 3     | Chris | 1st file |
+| 4     | Alice | 2nd file |
+| 5     | Bob   | 2nd file |
+| 6     | Alice | 3rd file |
+
+The queue also needs to be reliable:
+
+- the master process and any worker processes handling queue tasks can die
+- each task is processed at least once
+
+#### Example usage
+
+The api is copied from _bull_, though, which I liked.
+
+```js
+var Queue = require("queue");
+var queue = new Queue("build");
+
+var task = { can: "be arbitrary object" };
+
+queue.add(blogID, task);
+
+queue.process(function (blogID, task, done) {
+  // the function passed to process is invoked
+  // one at a time even if multiple items are queued
+  // call done to loop on to next task
+  done();
+});
+
+queue.add(blogID, { path: "hello.txt" }, function (err) {
+  // you can pass a callback for confirmation the task was added
+});
+
+queue.drain(function (blogID) {
+  // called when all the tasks for a blog have been processed
+});
+```

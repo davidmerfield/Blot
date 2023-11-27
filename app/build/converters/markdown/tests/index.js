@@ -1,55 +1,51 @@
-describe("markdown converter", function() {
+const fs = require("fs-extra");
+const markdown = require("build/converters/markdown/index");
 
-  var fs = require('fs-extra');
-  var markdown = require('../index');
-  var helper = require('helper');
-
+describe("markdown converter", function () {
   global.test.blog();
+  const dir = __dirname + "/examples";
 
-  // require('child_process').exec('pandoc -v', function(err, res){
-  //   if (err) throw err;
-  //   console.log('-----------');
-  //   console.log('PANDOC VERSION:', res);
-  //   console.log('-----------');
-  // });
+  fs.readdirSync(dir)
+    .filter((file) => file.slice(-4) === ".txt")
+    .forEach((file) => {
+      it("handles " + file.slice(0, -4).split("-").join(" "), function (done) {
+        // Copy the .bib and csl files to the root of the blog folder
+        fs.copySync(dir + "/files", this.blogDirectory);
+        fs.copySync(dir, this.blogDirectory);
 
-  function from (path) {
+        const path = "/" + file;
+        markdown.read(this.blog, path, {}, function (err, html) {
+          if (err) return done.fail(err);
 
-    return function (callback) {      
-      fs.copyFileSync(__dirname + path, helper.localPath(this.blog.id, path));
-      var options = {};
+          let expected;
 
-      markdown.read(this.blog, path, options, function(err, html, stat){
+          try {
+            html = html.replace(
+              /"#?footnote-[A-Z\d]{1,6}"/gm,
+              '"#footnote-ID_REMOVED"'
+            );
+            html = html.replace(/"#?ref-[A-Z\d]{1,6}"/gm, '"#ref-ID_REMOVED"');
 
-        expect(err).toBe(null);
-        expect(stat).toEqual(jasmine.any(Object));
+            expected = fs.readFileSync(dir + path + ".html", "utf8");
+            expected = expected.replace(
+              /"#?footnote-[A-Z\d]{1,6}"/gm,
+              '"#footnote-ID_REMOVED"'
+            );
+            expected = expected.replace(
+              /"#?ref-[A-Z\d]{1,6}"/gm,
+              '"#ref-ID_REMOVED"'
+            );
+          } catch (e) {
+            console.log(e);
+            fs.outputFileSync(dir + path + ".expected.html", html);
+          }
 
-        fs.readFile(__dirname + path +'.html', 'utf-8', function(err, expected){
+          if (html !== expected)
+            fs.outputFileSync(dir + path + ".expected.html", html);
 
-          expect(err).toBe(null);
-
-          if (html !== expected) fs.outputFileSync(__dirname + path + '.expected.html', html);
-
-          expect(html).toEqual(expected);
-
-          callback();
+          expect(expected).toEqual(html);
+          done();
         });
       });
-    };
-  }
-
-  it("handles amerpsands in code blocks", from('/ampersand-in-code.txt'));
-  it("handles amerpsands in image srcs", from('/ampersand-in-image.txt'));
-  it("handles amerpsands in text", from('/ampersand-in-text.txt'));
-  it("handles return characters", from('/return-character.txt'));
-  it("converts basic markdown", from('/basic-post.txt'));
-  it("converts a list", from('/list.txt'));
-  it("handles pre-formatted indentation", from('/pre-formatted-indents.txt'));
-
-  // These are disabled because Travis uses an old version of Pandoc
-  // I need to update Travis' pandoc.
-  xit("does not obfuscate an email address", from('/email-addresses.txt'));
-  xit("parses metadata", from('/metadata.txt'));
-  xit("autolinks bare uris", from('/bare-uri.txt'));
-
+    });
 });

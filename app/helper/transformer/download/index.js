@@ -1,12 +1,12 @@
-var ensure = require("../../ensure");
+var ensure = require("helper/ensure");
 
 var request = require("request");
 var fs = require("fs");
 var writeStream = fs.createWriteStream;
-var UID = require("../../makeUid");
-var callOnce = require("../../callOnce");
-var tempDir = require("../../tempDir")();
-var nameFrom = require("../../nameFrom");
+var UID = require("helper/makeUid");
+var callOnce = require("helper/callOnce");
+var tempDir = require("helper/tempDir")();
+var nameFrom = require("helper/nameFrom");
 var tidy = require("./tidy");
 var invalid = require("./invalid");
 
@@ -18,18 +18,16 @@ var CACHE_CONTROL = "cache-control";
 var MAX_REDIRECTS = 5; // prevent event emitter leak...
 var TIMEOUT = 5000; // 5s
 
-var debug = function() {}; // console.log ||
+var debug = function () {}; // console.log ||
 
-module.exports = function(url, headers, callback) {
+module.exports = function (url, headers, callback) {
   // Verify the url has a host, and protocol
   if (invalid(url)) return callback(new Error("Invalid URL " + url));
 
   // Sometimes these are null for new urls...
   headers = headers || {};
 
-  ensure(url, "string")
-    .and(headers, "object")
-    .and(callback, "function");
+  ensure(url, "string").and(headers, "object").and(callback, "function");
 
   // The expire date is greater than now!
   // We don't need to download anything.
@@ -45,7 +43,7 @@ module.exports = function(url, headers, callback) {
     headers: { "user-agent": "node-request" },
     maxRedirects: MAX_REDIRECTS,
     timeout: TIMEOUT,
-    url: url
+    url: url,
   };
 
   if (headers && headers.etag) options.headers[IF_NONE_MATCH] = headers.etag;
@@ -118,7 +116,7 @@ module.exports = function(url, headers, callback) {
     // download was stopped, there is no local file.
     // do nothing don't care if this errors
     try {
-      fs.unlink(path, function(err) {
+      fs.unlink(path, function (err) {
         if (err) debug(err);
       });
     } catch (e) {}

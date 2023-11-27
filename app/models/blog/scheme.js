@@ -3,36 +3,40 @@ var LINK = { id: "string", metadata: "object", label: "string", url: "string" };
 
 var PERMALINK = { format: "string", custom: "string", isCustom: "boolean" };
 
+var STATUS = { syncID: "string", message: "string", datestamp: "number" };
+
+var FLAGS = {
+  google_drive_beta: "boolean",
+};
+
 // KEY, TYPE, WRITE?, PUBLIC?
 var DECLARATION = {
   id: ["string", false, false],
   owner: ["string", false, false],
   handle: ["string", true, true],
   client: ["string", true, false],
+  status: [STATUS, true, true],
   title: ["string", true, true],
   avatar: ["string", true, true],
   template: ["string", true, false],
   domain: ["string", true, true],
+  forceSSL: ["boolean", true, false],
+  redirectSubdomain: ["boolean", true, false],
+  isDisabled: ["boolean", true, false],
   timeZone: ["string", true, true],
   plugins: ["object", true, true],
   permalink: [PERMALINK, true, true],
   menu: [[LINK], true, true],
-
-  // these need to be removed, what the hell was I thinking?
-  cssURL: ["string", false, true],
-  scriptURL: ["string", false, true],
-  dateDisplay: ["string", true, true],
-  hideDates: ["boolean", true, true],
-  cacheID: ["number", false, true],
-  roundAvatar: ["boolean", true, true],
   dateFormat: ["string", true, true],
+  cacheID: ["number", false, true],
 
   // Flags
-  forceSSL:     ['boolean', true,   false],
-  isDisabled:   ['boolean', true,   false],
-  new_dashboard: ['boolean', true,  false],
-  new_markdown_renderer: ['boolean', true,  false],
-  redirectSubdomain: ['boolean', true,   false]
+  flags: [FLAGS, true, false],
+
+  // Eventually deprecate these (by incorporation into template engine)
+  cssURL: ["string", false, true],
+  scriptURL: ["string", false, true],
+  roundAvatar: ["boolean", true, true],
 };
 
 var MODEL = { TYPE: {}, PUBLIC: [], WRITEABLE: [] };

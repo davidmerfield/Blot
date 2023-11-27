@@ -1,44 +1,51 @@
-var helper = require("../../app/helper");
-var send = helper.email.send;
+var send = require("helper/email").send;
 var yesno = require("yesno");
 var async = require("async");
 var fs = require("fs-extra");
-var colors = require('colors/safe');
+var colors = require("colors/safe");
 
-module.exports = function(emailFile, users, callback) {
+module.exports = function (emailFile, users, callback) {
   if (!users.length)
     return callback(new Error("No users in list of users to send email to."));
 
   var unique = {};
 
-  users = users.filter(function(user){
+  users = users.filter(function (user) {
     if (unique[user.email]) return false;
     unique[user.email] = true;
     return true;
   });
 
-  console.log(colors.dim("-------------------\n") + fs.readFileSync(emailFile, "utf-8") + colors.dim('\n-------------------\n'));
-  
-  yesno.ask("Send email to " + colors.green(users.length + " users") + "? (y/n)", false, function(ok) {
-    if (!ok) {
-      console.log("Emails were not sent.");
-      return process.exit();
-    }
+  console.log(
+    colors.dim("-------------------\n") +
+      fs.readFileSync(emailFile, "utf-8") +
+      colors.dim("\n-------------------\n")
+  );
 
-    async.eachSeries(
-      users,
-      function(user, next) {
-        send(user, emailFile, user.email, function(err) {
-          if (err) console.log("Error sending message to", user.email);
-          next();
-        });
-      },
-      function(err) {
-        if (err) return callback(err);
-
-        console.log("Emails sent");
-        callback();
+  yesno.ask(
+    "Send email to " + colors.green(users.length + " users") + "? (y/n)",
+    false,
+    function (ok) {
+      if (!ok) {
+        console.log("Emails were not sent.");
+        return process.exit();
       }
-    );
-  });
+
+      async.eachSeries(
+        users,
+        function (user, next) {
+          send(user, emailFile, user.email, function (err) {
+            if (err) console.log("Error sending message to", user.email);
+            next();
+          });
+        },
+        function (err) {
+          if (err) return callback(err);
+
+          console.log("Emails sent");
+          callback();
+        }
+      );
+    }
+  );
 };

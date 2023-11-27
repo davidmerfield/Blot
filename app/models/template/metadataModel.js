@@ -4,9 +4,12 @@ module.exports = {
   slug: "string",
   owner: "string",
   cloneFrom: "string",
+  shareID: "string",
+  errors: "object",
+  previewPath: "string",
   isPublic: "boolean",
   description: "string",
   localEditing: "boolean",
   thumb: "string",
-  locals: "object"
+  locals: "object",
 };

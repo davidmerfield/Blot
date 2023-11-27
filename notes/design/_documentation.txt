@@ -1,0 +1,7 @@
+# Documentation
+
+How do design documentation?
+
+## References
+
+[Stripe](http://stripe.com) - Stole from their excellent support & documentation section when writing Blot's documentation.

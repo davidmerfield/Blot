@@ -1,13 +1,12 @@
-var debug = require("debug")("clients:dropbox:database");
-var helper = require("helper");
-var redis = require("client");
-var Blog = require("blog");
+var debug = require("debug")("blot:clients:dropbox:database");
+var redis = require("models/client");
+var Blog = require("models/blog");
 var async = require("async");
-var ensure = helper.ensure;
+var ensure = require("helper/ensure");
 var Model;
 
 function get(blogID, callback) {
-  redis.hgetall(accountKey(blogID), function(err, account) {
+  redis.hgetall(accountKey(blogID), function (err, account) {
     if (err) return callback(err, null);
 
     if (!account) return callback(null, null);
@@ -29,15 +28,15 @@ function listBlogs(account_id, callback) {
 
   debug("Getting blogs conencted to Dropbox account", account_id);
 
-  redis.SMEMBERS(blogsKey(account_id), function(err, members) {
+  redis.SMEMBERS(blogsKey(account_id), function (err, members) {
     if (err) return callback(err);
 
     debug("Found these blog IDs", members);
 
     async.each(
       members,
-      function(id, next) {
-        Blog.get({ id: id }, function(err, blog) {
+      function (id, next) {
+        Blog.get({ id: id }, function (err, blog) {
           if (blog && blog.client === "dropbox") {
             blogs.push(blog);
           } else {
@@ -49,7 +48,7 @@ function listBlogs(account_id, callback) {
           next();
         });
       },
-      function(err) {
+      function (err) {
         callback(err, blogs);
       }
     );
@@ -61,7 +60,7 @@ function set(blogID, changes, callback) {
 
   debug("Setting dropbox account info for blog", blogID);
 
-  get(blogID, function(err, account) {
+  get(blogID, function (err, account) {
     if (err) return callback(err);
 
     // When saving account for the first time,
@@ -100,7 +99,7 @@ function set(blogID, changes, callback) {
 function drop(blogID, callback) {
   var multi = redis.multi();
 
-  get(blogID, function(err, account) {
+  get(blogID, function (err, account) {
     // Deregister this blog from the set containing
     // the blog IDs associated with a particular dropbox.
     if (account && account.account_id)
@@ -137,6 +136,9 @@ Model = {
   // Used to authenticate Dropbox API requests
   access_token: "string",
 
+  // Used to generate new access tokens
+  refresh_token: "string",
+
   // HTTP status code of an error from the
   // Dropbox API. Will be 0 if sync succeeded
   error_code: "number",
@@ -167,12 +169,12 @@ Model = {
   // changes which occur after a certain point
   // in time. When the user sets up Dropbox,
   // this is an empty string.
-  cursor: "string"
+  cursor: "string",
 };
 
 module.exports = {
-  set: set,
-  drop: drop,
-  get: get,
-  listBlogs: listBlogs
+  set,
+  drop,
+  get,
+  listBlogs,
 };

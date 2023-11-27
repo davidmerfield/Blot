@@ -1,0 +1,24 @@
+<style type="text/css">.label {flex-basis:30%}</style>
+<script type="text/javascript">
+  var syncStatusURL = "{{{dashboardBase}}}/status";
+</script>
+
+<a class="line" href="{{{dashboardBase}}}/client/switch">
+  <span class="label">Synced with</span>
+  <span class="center">{{client.display_name}}</span>
+  <span class="right">Edit</span>
+</a>
+
+<a class="line" href="{{{dashboardBase}}}/client/activity">
+  <span class="label">Activity</span>
+  <span class="center">  
+  {{#blog.status}}
+    <span id="status" style="display:block" class="{{state}} truncate status">{{message}} {{fromNow}}</span>
+  {{/blog.status}}
+  </span>
+  <span class="right">View recent activity</span>
+</a>
+
+{{#footer}}
+<script type="text/javascript" src="/js/sync_status.js"></script>
+{{/footer}}

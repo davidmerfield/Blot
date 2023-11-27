@@ -1,14 +1,14 @@
-var Git = require("simple-git");
-var debug = require("debug")("clients:git:checkGitRepoExists");
-var fs = require('fs-extra');
+const Git = require("simple-git");
+const debug = require("debug")("blot:clients:git:checkGitRepoExists");
+const fs = require("fs-extra");
+const { basename } = require("path");
 
 module.exports = function (blogDirectory, callback) {
-
   var git;
 
   // Throws an error if folder does not exist
   try {
-    git = Git(blogDirectory).silent(true);    
+    git = Git(blogDirectory).silent(true);
   } catch (err) {
     return callback(err);
   }
@@ -20,9 +20,7 @@ module.exports = function (blogDirectory, callback) {
   // that Git.checkIsRepo() ALWAYS returns true even if there is no
   // repo in the user's blog's folder. So we use this git command which
   // tells us the top level of the current git repository:
-
-  git.revparse(['--show-toplevel'], function(err, pathToGitRepository){
-
+  git.revparse(["--show-toplevel"], function (err, pathToGitRepository) {
     if (err) {
       return callback(new Error(err));
     }
@@ -30,17 +28,23 @@ module.exports = function (blogDirectory, callback) {
     // Has a space at the start, in my testing at least
     pathToGitRepository = pathToGitRepository.trim();
 
-    debug('Comparing path to git repository and blog folder:');
-    
-    if (pathToGitRepository !== blogDirectory) {
-      
-      var message = ['Git repo does not exist in blog folder for ' + blogDirectory,
-        '- Path to git: ' + pathToGitRepository,
-        '- Blog folder: ' + blogDirectory + ' exists? ' + fs.existsSync(blogDirectory),
-        'Match? ' + pathToGitRepository === blogDirectory, 
+    debug("Comparing path to git repository and blog folder:");
+
+    if (
+      !basename(pathToGitRepository).startsWith("blog_") ||
+      basename(pathToGitRepository) !== basename(blogDirectory)
+    ) {
+      var message = [
+        "Git repo does not exist in blog folder for " + blogDirectory,
+        "- Path to git: " + pathToGitRepository,
+        "- Blog folder: " +
+          blogDirectory +
+          " exists? " +
+          fs.existsSync(blogDirectory),
+        "Match? " + pathToGitRepository === blogDirectory
       ];
 
-      return callback(new Error(message.join('\n')));
+      return callback(new Error(message.join("\n")));
     }
 
     callback(null);

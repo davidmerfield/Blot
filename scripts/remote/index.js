@@ -3,5 +3,5 @@ module.exports = {
   exec: require("./exec"),
   fetchdir: require("./fetchdir"),
   host: require("./host"),
-  root: require("./root")
+  root: require("./root"),
 };

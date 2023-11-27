@@ -1,5 +1,5 @@
 var _ = require("lodash");
-var ensure = require("helper").ensure;
+var ensure = require("helper/ensure");
 
 module.exports = function serialize(sourceObj, model) {
   ensure(sourceObj, model);

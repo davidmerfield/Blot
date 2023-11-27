@@ -1,18 +1,18 @@
 var getById = require("./getById");
-var email = require("helper").email;
+var email = require("helper/email");
 var debug = require("debug")("blot:user:scheduleSubscriptionEmail");
 var schedule = require("node-schedule").scheduleJob;
 
 // The number of days before a subscription is renewed or
 // expired to send an email notification to the customer.
-var DAYS_WARNING = 7;
+var DAYS_WARNING = 8;
 
-module.exports = function(uid, callback) {
+module.exports = function (uid, callback) {
   var notificationDate;
 
   // Fetch the latest version of the user's subcription from the
   // database to determine when we should notify them of a renewal.
-  getById(uid, function(err, user) {
+  getById(uid, function (err, user) {
     if (err) return callback(err);
 
     // This user does not have a subscription through Stripe
@@ -41,17 +41,18 @@ module.exports = function(uid, callback) {
       return callback();
     }
 
-    schedule(notificationDate, function() {
+    schedule(notificationDate, function () {
       // We fetch the latest state of the user's subscription
       // from the database in case the user's subscription
       // has changed since the time the server started.
-      getById(uid, function(err, user) {
-        debug(user.id, user.email, "Time to notify the user!");
-
+      getById(uid, function (err, user) {
         // No callback now, that was called long ago
         if (!user || !user.subscription) {
+          debug(uid, "There is no user!");
           return;
         }
+
+        debug(user.id, user.email, "Time to notify the user!");
 
         if (user.subscription.cancel_at_period_end) {
           debug(

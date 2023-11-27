@@ -1,0 +1,13 @@
+Node worker errored
+
+Log in to server:
+
+$ ssh blot
+
+Surface errors:
+
+$ errors
+
+Find all such instances in the last seven days:
+
+$ grep -rnw './logs/' --include=app.log -e 'died unexpectedly' -B 10

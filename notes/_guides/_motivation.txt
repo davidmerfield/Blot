@@ -1,0 +1,22 @@
+# Motivation
+
+I added an email which arrives at 6am each day, and shows me the new posts across Blot, revenue from the last 24 hours and statistics about the health of the server.
+
+
+## Tracking users
+
+Here is the final state of that file before I abandoned it
+
+```
+[X] [X] [X] [X] [X]    [X] [X] [X] [X] [X]    [X] [X] [X] [X][X]
+[X] [X] [X] [X] [X]    [X] [X] [X] [X] [X]    [X] [X] [X] [X][X]
+[X] [X] [X] [X] [X]    [X] [X] [X] [X] [X]    [X] [X] [X] [X][X]
+[X] [X] [X] [X] [X]    [X] [X] [X] [X] [X]    [X] [X] [X] [X][X]
+[X] [X] [X] [X] [X]    [X] [X] [X] [X] [X]    [X] [X] [X] [X][X]
+
+[X] [X] [X] [X] [X]    [X] [X] [X] [X] [X]    [ ] [ ] [ ] [ ][ ]
+[X] [X] [X] [X] [X]    [X] [X] [X] [X] [X]    [ ] [ ] [ ] [ ][ ]
+[X] [X] [X] [X] [X]    [X] [X] [X] [X] [X]    [ ] [ ] [ ] [ ][ ]
+[X] [X] [X] [X] [X]    [X] [X] [X] [X] [X]    [ ] [ ] [ ] [ ][ ]
+[X] [X] [X] [X] [X]    [X] [X] [X] [X] [X]    [ ] [ ] [ ] [ ][ ]
+```

@@ -1,21 +1,16 @@
-var client = require('client');
-var helper = require('helper');
-var ensure = helper.ensure;
-var key = require('./key');
-var util = require('./util');
+var client = require("models/client");
+var ensure = require("helper/ensure");
+var key = require("./key");
+var util = require("./util");
 var map = util.map;
 var notRegex = util.notRegex;
 
-module.exports = function(blogID, from, callback, input) {
-
-  ensure(blogID, 'string')
-    .and(from, 'string')
-    .and(callback, 'function');
+module.exports = function (blogID, from, callback, input) {
+  ensure(blogID, "string").and(from, "string").and(callback, "function");
 
   var fromKey = key.redirect(blogID, from);
 
-  client.get(fromKey, function(err, to){
-
+  client.get(fromKey, function (err, to) {
     if (notRegex(to) || !input) {
       return callback(null, to);
     }

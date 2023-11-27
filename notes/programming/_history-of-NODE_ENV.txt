@@ -1,0 +1,13 @@
+# A history of NODE_ENV
+
+Did this convention arise in the community? It [doesn't really seem to be part of the official documentation](https://www.google.com/search?q=site%3Anodejs.org+NODE_ENV%3Dproduction&oq=site%3Anodejs.org+NODE_ENV%3Dproduction&aqs=chrome..69i57j69i58.4664j0j7&sourceid=chrome&ie=UTF-8). I'd be curious to see a history of ```NODE_ENV```. 
+
+I did a little digging and [my suspicion that it started with TJ and Express seems to be correct](https://twitter.com/tjholowaychuk/status/723289949286465537).
+
+Here's the fateful commit:
+https://github.com/expressjs/express/commit/03b56d8140dc5c2b574d410bfeb63517a0430451
+
+It seems to be controversial:
+
+https://github.com/ReactTraining/history/issues/776
+

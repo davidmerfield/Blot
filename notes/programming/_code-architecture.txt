@@ -1,0 +1,38 @@
+# Strategy for making Blot more modular
+
+## Clients
+  provide a method to write a file to a path
+  provide a method to remove a file to a path
+
+  expose some routes which express can mount to /clients/{{name}}
+  which configure the client for the blog. for git, this will
+  involve initiating a repository, adding the right hooks
+  and
+
+## Converters
+  map a file(s) to HTML
+    expose a method to check if can convert path
+    expose a method to convert path to HTML
+
+## Plugins
+  transform HTML based on blog preference
+
+---
+
+each blog has a sync property?
+
+how to deal with multiple blogs in same dropbox?
+
+Blot.add(blogID, path, callback);
+Blot.drop(blogID, path, callback);
+
+  blot handles renames behind the scenes
+
+Client.write(blogID, path, contents, callback);
+Client.remove(blogID, path, callback);
+
+clients should only need to keep the folder in
+
+  blogs/{{ID}}/folder/
+
+in sync with the user's blog folder and nothing more

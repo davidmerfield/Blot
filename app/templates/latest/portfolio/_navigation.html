@@ -1,28 +1,35 @@
-<div class="navigation-container">
+<div class="navigation-container align-{{navigation_alignment}}">
 
   <input type="checkbox" name="toggle" id="toggle">
 
   <div class="navigation">
 
-    <a href="/" class="index light">{{title}}</a>
-
-    <br><br>
-
-    <div class="clip-7">
-
-      {{#recentEntries}}
-      {{#title}}
-      <a href="{{url}}" class="{{active}}">{{title}}</a>
-      {{/title}}
-      {{/recentEntries}}
-
-    </div>
-
+    <a href="/" class="index-link">{{title}}</a>
+    
     <br>
 
-    {{#menu}}
-    <a href="{{{url}}}" class="menu light {{active}}">{{label}}</a>
-    {{/menu}}
+    <div class="shrink">
+      {{#is.in_navigation.recent_posts}}
+        {{#recentEntries}}
+          {{#title}}
+          <a href="{{{url}}}" class="{{active}}">{{title}}</a>
+          {{/title}}
+        {{/recentEntries}}
+      {{/is.in_navigation.recent_posts}}
+      {{#is.in_navigation.popular_tags}}
+        {{#popular_tags}}
+          <a href="/tagged/{{slug}}" class="{{active}}">{{name}}</a>
+        {{/popular_tags}}
+      {{/is.in_navigation.popular_tags}}
+    </div>
+   
+    <br>
+    
+    <div class="menu">
+      {{#menu}}
+      <a href="{{{url}}}" class="light ">{{label}}</a>
+      {{/menu}}
+    </div>
 
   </div>
 

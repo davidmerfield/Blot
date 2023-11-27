@@ -1,20 +1,20 @@
-describe("image", function() {
+describe("image", function () {
   global.test.blog();
 
   var image = require("./index");
   var cheerio = require("cheerio");
   var fs = require("fs-extra");
-  var localPath = require("helper").localPath;
+  var localPath = require("helper/localPath");
   var config = require("config");
   var join = require("path").join;
   var crypto = require("crypto");
 
-  afterEach(function() {
+  afterEach(function () {
     if (!this.result) return;
     verifyCachedImagesExist(extractCachedImagePaths(this.blog, this.result));
   });
 
-  it("returns a different cached image when source image is modified", function(done) {
+  it("returns a different cached image when source image is modified", function (done) {
     var test = this;
     var image = "/tests-image.png";
     var modifiedImage = "/tests-image-modified.png";
@@ -22,12 +22,12 @@ describe("image", function() {
 
     fs.copySync(__dirname + image, localPath(test.blog.id, image));
 
-    render(test.blog, html, function(err, firstResult) {
+    render(test.blog, html, function (err, firstResult) {
       expect(err).toBe(null);
 
       fs.copySync(__dirname + modifiedImage, localPath(test.blog.id, image));
 
-      render(test.blog, html, function(err, secondResult) {
+      render(test.blog, html, function (err, secondResult) {
         expect(err).toBe(null);
 
         expect(firstResult).toContain("/_image_cache/");
@@ -40,14 +40,14 @@ describe("image", function() {
     });
   });
 
-  it("will fetch dimensions of GIFs but will not resize them", function(done) {
+  it("will fetch dimensions of GIFs but will not resize them", function (done) {
     var test = this;
     var image = "/tests-image.gif";
     var html = '<img src="' + image + '">';
 
     fs.copySync(__dirname + image, localPath(test.blog.id, image));
 
-    render(test.blog, html, function(err, result) {
+    render(test.blog, html, function (err, result) {
       if (err) return done.fail(err);
 
       expect(result).toContain("/_image_cache/");
@@ -74,15 +74,15 @@ describe("image", function() {
     });
   });
 
-  it("returns the same cached image when re-run", function(done) {
+  it("returns the same cached image when re-run", function (done) {
     var test = this;
     var path = "/tests-image.png";
     var html = '<img src="' + path + '">';
     var blog = test.blog;
     fs.copySync(__dirname + path, localPath(test.blog.id, path));
 
-    render(blog, html, function(err, firstResult) {
-      render(blog, html, function(err, secondResult) {
+    render(blog, html, function (err, firstResult) {
+      render(blog, html, function (err, secondResult) {
         expect(firstResult).toContain("/_image_cache/");
         expect(secondResult).toContain("/_image_cache/");
         expect(firstResult).toEqual(secondResult);
@@ -92,22 +92,22 @@ describe("image", function() {
     });
   });
 
-  it("downsizes large images", function(done) {
+  it("downsizes large images", function (done) {
     var test = this;
     var large = "/tests-large-image.jpg";
     var html = '<img src="' + large + '">';
 
     fs.copySync(__dirname + large, localPath(test.blog.id, large));
 
-    require("sharp")(__dirname + large).metadata(function(err, originalInfo) {
+    require("sharp")(__dirname + large).metadata(function (err, originalInfo) {
       if (err) return done.fail(err);
 
-      render(test.blog, html, function(err, result) {
+      render(test.blog, html, function (err, result) {
         if (err) return done.fail(err);
 
         var image = extractCachedImagePaths(test.blog, result)[0];
 
-        require("sharp")(image).metadata(function(err, cachedInfo) {
+        require("sharp")(image).metadata(function (err, cachedInfo) {
           if (err) return done.fail(err);
 
           // Ensure cached image is smaller than 3000 x 3000 pixels
@@ -126,14 +126,14 @@ describe("image", function() {
     });
   });
 
-  it("caches an image", function(done) {
+  it("caches an image", function (done) {
     var test = this;
     var path = "/tests-image.png";
     var html = '<img src="' + path + '">';
 
     fs.copySync(__dirname + path, localPath(test.blog.id, path));
 
-    render(test.blog, html, function(err, result) {
+    render(test.blog, html, function (err, result) {
       expect(result).toContain(".png");
       expect(result).toContain("/_image_cache/");
       test.result = result;
@@ -141,14 +141,14 @@ describe("image", function() {
     });
   });
 
-  it("caches an image case-insensitively", function(done) {
+  it("caches an image case-insensitively", function (done) {
     var test = this;
     var path = "/tests-image.png";
     var html = '<img src="/nested/' + path.toUpperCase() + '">';
 
     fs.copySync(__dirname + path, localPath(test.blog.id, "/nested" + path));
 
-    render(test.blog, html, function(err, result) {
+    render(test.blog, html, function (err, result) {
       expect(result).toContain(".png");
       expect(result).toContain("/_image_cache/");
       test.result = result;
@@ -160,7 +160,7 @@ describe("image", function() {
     var paths = [];
     var $ = cheerio.load(html);
 
-    $("img").each(function() {
+    $("img").each(function () {
       var src = $(this).attr("src");
       var path;
 
@@ -178,7 +178,7 @@ describe("image", function() {
   }
 
   function verifyCachedImagesExist(imagePaths) {
-    imagePaths.forEach(function(path) {
+    imagePaths.forEach(function (path) {
       try {
         // Does the cached image exist on disk?
         var stat = fs.statSync(path);
@@ -196,7 +196,7 @@ describe("image", function() {
 
     image.render(
       $,
-      function() {
+      function () {
         callback(null, $.html());
       },
       options

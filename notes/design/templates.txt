@@ -1,0 +1,41 @@
+# Templates
+
+I find the process of designing templates especially difficult. I was trying to design a themes for all blogs and all material. I think the major things which complicate designs. Some sites have many posts (thousands) and are updated frequently. Some sites have few posts (ten) and are updated infrequently. The quantity of posts has a big effect on the design of the archive page in particular.
+
+Some sites post mostly text, some mostly images, some a mix. This affects the design of the index page. For example, should you show a stream of posts in full on the index page? Or just a list of links to view the full post? Or perhaps a truncated preview of the post?
+
+## Variables to consider
+- Titles: long, short, no title at all
+- Thumbnails: wide, tall, no thumbnail at all
+- Text: 
+- Tags: 
+
+## Don't crop thumbnails
+
+It's very tempting to crop thumbnails used on index pages to make the design easier to fit into a grid. Don't do this. There is a reason the original image had its given aspect ratio. Respect this aspect ratio. Is cropping thumbnails justifiable? In my mind it seems like this might fall into the category of trying to make the material fit the form, than the other way around. But perhaps that isn't a bad thing? If I want to see a list of articles, perhaps formatting the thumbnail in a particular way is justified.
+
+## Don't truncate titles
+
+If the title of a blog post is long, it was made so intentionally. It is not up to designer of the template to dictate the length of the title. Respect the title's length.
+
+## Don't truncate subtitles
+
+## Don't distract from the text
+
+## Don't cover the text with any dialog or 
+
+
+Ultimately I must bear in mind a respect for content. I am trying to design a frame for this content to hang on and it is important to avoid the tempation of designing for the frame, instead of the stuff inside (I have no ownership of that so it's hard to be proud of it).
+
+
+---
+
+I've also been struggling with lifting things wholesale from a particular spot. I have been looking at Techcrunch.com far too regularly when making the design for the upcoming magazine theme, for example. This is bad. I'm not obsessed with producing original work, I'm probably happier than most to lift things from a variety of sources.
+
+I would like to produce a few grid based themes for sites which post mostly photos. Some of cargo's grid ideas are worth exploring.
+
+[New York Times](http://nytimes.com) - Their type treatment of Georgia was ripped and used to design the default theme.
+
+[Subtraction](http://subtraction.com) - The original Blot template was massively influenced by Khoi Vinh's blog.
+
+[Cargo Collective](https://cargocollective.com/) - I think they do some really interesting, thoughtful work. Stolen from their selection of themes to help make Blot's.

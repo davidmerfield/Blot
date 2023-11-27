@@ -1,24 +1,24 @@
 var auth = require("http-auth");
-var Blog = require("blog");
-var User = require("user");
+var Blog = require("models/blog");
+var User = require("models/user");
 var database = require("./database");
 
 module.exports = auth.connect(
   // Beware that req as fourth argument might not be reliable:
   // https://github.com/http-auth/http-auth/pull/67#issuecomment-244306701
-  auth.basic({ realm: "Git" }, function(email, token, callback, req) {
-    User.getByEmail(email, function(err, user) {
+  auth.basic({ realm: "Git" }, function (email, token, callback, req) {
+    User.getByEmail(email, function (err, user) {
       // There is no user with this email address
       if (err || !user) {
         return callback(false);
       }
 
-      database.checkToken(user.uid, token, function(err, valid) {
+      database.checkToken(user.uid, token, function (err, valid) {
         // The token is bad
         if (err || !valid) return callback(false);
 
         // User is attempting to push or pull another user's repo
-        Blog.get({ handle: req.params.gitHandle }, function(err, blog) {
+        Blog.get({ handle: req.params.gitHandle }, function (err, blog) {
           // There is no blog with this handle
           if (err || !blog) {
             return callback(false);

@@ -1,20 +1,19 @@
 var key = require("./key");
-var client = require("client");
+var client = require("models/client");
 var getMetadata = require("./getMetadata");
 var serialize = require("./util/serialize");
 var metadataModel = require("./metadataModel");
-var ensure = require("helper").ensure;
+var ensure = require("helper/ensure");
+var Blog = require("models/blog");
 
-module.exports = function setMetadata(id, updates, callback) {
+module.exports = function setMetadata (id, updates, callback) {
   try {
-    ensure(id, "string")
-      .and(updates, "object")
-      .and(callback, "function");
+    ensure(id, "string").and(updates, "object").and(callback, "function");
   } catch (e) {
     return callback(e);
   }
 
-  getMetadata(id, function(err, metadata) {
+  getMetadata(id, function (err, metadata) {
     var changes;
 
     metadata = metadata || {};
@@ -32,13 +31,17 @@ module.exports = function setMetadata(id, updates, callback) {
       client.srem(key.publicTemplates(), id);
     }
 
-    client.sadd(key.blogTemplates(metadata.owner), id, function(err) {
-      if (err) throw err;
+    client.sadd(key.blogTemplates(metadata.owner), id, function (err) {
+      if (err) return callback(err);
 
-      client.hmset(key.metadata(id), metadata, function(err) {
-        if (err) throw err;
+      client.hmset(key.metadata(id), metadata, function (err) {
+        if (err) return callback(err);
 
-        return callback(err, changes);
+        if (!changes) return callback(null, changes);
+
+        Blog.set(metadata.owner, { cacheID: Date.now() }, function (err) {
+          callback(err, changes);
+        });
       });
     });
   });

@@ -1,46 +1,40 @@
-// could I create an entry class which would be easy to detect?
-// and an entry list class?
-
-// this also needs to do entry.next
-// entry.previous
-var debug = require("debug")("blot:render:load:entry");
-var helper = require("helper");
-var type = helper.type;
-var Entry = require("../../../models/entry/instance");
+var async = require("async");
+var type = require("helper/type");
+var Entry = require("models/entry/instance");
 var list = require("./list");
 
-// THIS FUNCTION LOOKS FOR ENTRIES IN A VIEW"S LOCAL NEED
-
-module.exports = function(locals, doThis) {
-  function modify(entry) {
-    doThis(entry);
+module.exports = function (locals, iterator, callback) {
+  function modify(entry, next) {
+    const queue = [iterator.bind(null, entry)];
 
     // Also augment adjacent entries...
-    if (entry.next instanceof Entry) {
-      doThis(entry.next);
-    }
+    if (entry.next instanceof Entry)
+      queue.push(iterator.bind(null, entry.next));
 
-    if (entry.previous instanceof Entry) {
-      doThis(entry.previous);
-    }
+    if (entry.previous instanceof Entry)
+      queue.push(iterator.bind(null, entry.previous));
+
+    async.parallel(queue, next);
   }
 
-  check(locals, 0);
+  let entries = [];
 
-  function check(obj, depth) {
+  extractEntriesFromView(locals);
+
+  async.each(entries, modify, callback);
+
+  function extractEntriesFromView(obj, depth = 0) {
     for (var key in obj) {
       var local = obj[key];
 
       // Partials never contain an entry
-      if (key === "partials" && !depth) {
+      if (key === "partials" && depth === 0) {
         continue;
       }
 
       // This is an entry, modify it now and proceed!
       if (local instanceof Entry) {
-        modify(local);
-
-        // we don't need to go further down the tree
+        entries.push(local);
         continue;
       }
 
@@ -55,16 +49,14 @@ module.exports = function(locals, doThis) {
       // entry then the rest is too. This could be dumb.
       if (type(local, "array") && local[0] instanceof Entry) {
         for (var entry in local) {
-          modify(local[entry]);
+          entries.push(local[entry]);
         }
-
-        // we don't need to go further down the tree...
         continue;
       }
 
       // Proceed down the tree!
       if (type(local, "object") || type(local, "array")) {
-        check(local, ++depth);
+        extractEntriesFromView(local, ++depth);
       }
     }
   }

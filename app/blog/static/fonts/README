@@ -1,0 +1,89 @@
+How to add a new web font
+-------------------------
+
+Whenever you add a font to this directory, run:
+
+node app/blog/static/fonts/build
+
+If you download font files from Google Fonts you can:
+
+1. place font directory inside app/blog/static/fonts/data
+2. use this tool: node app/blog/static/fonts/parse
+3. copy the result to app/blog/static/fonts
+
+
+TODO
+----
+
+- GENERATE TYPESET.JS style rules for each font automatically
+- Handle variable fonts
+- Can we compress fonts further?
+
+Good sources for new webfonts
+-----------------------------
+
+Font Squirrel
+
+https://fontlibrary.org/en
+
+https://www.are.na/laurel-schwulst/open-source-web-fonts
+
+https://www.fontshare.com/?text-type=excerpts
+
+https://github.com/raphaelbastide/usemodify/issues/1
+
+
+Fonts to consider adding
+------------------------
+- [ ] Abel
+- [ ] Alte Haas Grotesk
+- [ ] Authentic Sans
+- [ ] Avara
+- [ ] Averia Serif Libre
+- [ ] Bagnard
+- [ ] ANRT Baskervville
+- [ ] Chivo
+- [ ] Crimson Text 
+- [ ] Darker Grotesque
+- [ ] DINosaur
+- [ ] DM Sans
+- [ ] Eb Garamond
+- [ ] Euler AMS
+- [ ] Faune
+- [ ] Fjalla One
+- [ ] Fondamento
+- [ ] Golos Text
+- [ ] Halibut Serif 
+- [ ] Happy Times at the IKOB
+- [ ] Helmet Neue
+- [ ] iA Writer Quattro
+- [ ] Interstate
+- [ ] Inria fonts
+- [ ] JetBrains Mono
+- [ ] Le Murmure
+- [ ] Lincoln Mitre
+- [ ] Libertinus
+- [ ] Literata
+- [ ] Lunchtype
+- [ ] Messapia
+- [ ] Michroma
+- [ ] Mister Pixel
+- [ ] Montserrat
+- [ ] Nanum Myeongjo
+- [ ] Nunito
+- [ ] Optician Sans
+- [ ] Ortica
+- [ ] Pilowlava
+- [ ] Pinyon Script
+- [ ] Quicksand
+- [ ] Roboto
+- [ ] Rosario
+- [ ] Recursive
+- [ ] Routed Gothic
+- [ ] Rubik
+- [ ] Terminal Grotesque
+- [ ] TeX Gyre
+- [ ] Typewriter Condensed
+- [ ] Vollkorn
+- [ ] Wremena
+- [ ] Young Serif

@@ -1,0 +1,19 @@
+<form method="post" id="{{key}}">
+<label class="bool" style="padding:5px 1rem;border-bottom: 1px solid #eee;display: block;">
+  <input type="hidden" value="off" name="locals.{{key}}" />
+  <input type="checkbox" name="locals.{{key}}"
+  {{#value}}checked{{/value}}/> {{label}}
+</label>
+</form>
+<style type="text/css">
+  label.bool {cursor: pointer;}
+  label.bool:hover {background: #fff}
+</style>
+<script type="text/javascript">
+  document.querySelectorAll('form[id="{{key}}"] input').forEach(function(node){
+
+    node.addEventListener('change', (event) => {
+       document.getElementById('{{key}}').submit();
+    });
+  })
+</script>

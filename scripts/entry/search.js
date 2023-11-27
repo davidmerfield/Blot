@@ -1,4 +1,4 @@
-var Entries = require("../../app/models/entries");
+var Entries = require("models/entries");
 var get = require("../blog/get");
 var handle = process.argv[2];
 var query = process.argv[3];
@@ -15,19 +15,22 @@ if (!handle || !query) {
   return process.exit();
 }
 
-get(handle, function(user, blog) {
-  Entries.each(blog.id, function(entry, nextEntry) {
+get(handle, function (user, blog) {
+  Entries.each(
+    blog.id,
+    function (entry, nextEntry) {
+      if (entry.deleted) return nextEntry();
 
-    if (entry.deleted) return nextEntry();
-    
-    if (entry.path.toLowerCase().indexOf(query.trim().toLowerCase()) === 0) {
-      console.log(entry.path);
+      if (entry.path.toLowerCase().indexOf(query.trim().toLowerCase()) === 0) {
+        console.log(entry.path);
+      }
+
+      nextEntry();
+    },
+    function () {
+      console.log();
+      console.log("Search complete!");
+      process.exit();
     }
-
-    nextEntry();
-  }, function(){
-    console.log();
-    console.log('Search complete!');
-    process.exit();
-  });
+  );
 });

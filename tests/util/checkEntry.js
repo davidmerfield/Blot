@@ -1,5 +1,6 @@
 var assert = require("assert");
 var colors = require("colors");
+var type = require("helper/type");
 
 function pad(len) {
   var str = "";
@@ -9,8 +10,11 @@ function pad(len) {
 
 // Check if an entry with the passed properties exists in DB
 module.exports = function CheckEntry(blogID) {
-  return function(entry, callback) {
-    require("../../app/models/entry").get(blogID, entry.path, function(result) {
+  return function (entry, callback) {
+    require("models/entry").get(blogID, entry.path, function (result) {
+      if (!result && entry.ignored === true) {
+        return callback(null, result);
+      }
       if (!result) {
         return callback(new Error("No entry exists with path: " + entry.path));
       }
@@ -19,15 +23,26 @@ module.exports = function CheckEntry(blogID) {
 
       for (var i in entry) {
         try {
-          assert.deepEqual(
-            entry[i],
-            result[i],
-            i +
-              colors.dim(" [expected] ") +
-              entry[i] +
-              colors.dim("\n" + pad(i.length + 1) + "[returned] ") +
-              result[i]
-          );
+          if (type(entry[i], "function")) {
+            assert.deepEqual(
+              entry[i](result[i]),
+              true,
+              i +
+                colors.dim(" [failed check] ") +
+                colors.dim("\n" + pad(i.length + 1) + "[returned] ") +
+                result[i]
+            );
+          } else {
+            assert.deepEqual(
+              entry[i],
+              result[i],
+              i +
+                colors.dim(" [expected] ") +
+                entry[i] +
+                colors.dim("\n" + pad(i.length + 1) + "[returned] ") +
+                result[i]
+            );
+          }
         } catch (e) {
           message.push(e.message);
         }

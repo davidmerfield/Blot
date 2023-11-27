@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="391" height="391" viewBox="-70.5 -70.5 391 391" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<defs>
+	<pattern id="grid" patternUnits="userSpaceOnUse" width="50" height="50">
+		<rect x="0" y="0" width="50" height="1" fill="#000" opacity="1.0"/>
+		<rect x="0" y="0" width="1" height="50" fill="#000" opacity="1.0"/>
+	</pattern>
+</defs>
+<rect fill="#fff" stroke="#000" x="-70" y="-70" width="390" height="390"/>
+<rect fill="url(#grid)" stroke-width="2" stroke="#000" x="0" y="0" width="250" height="250"/>
+<text x="0" y="0" text-anchor="middle" font-size="16"  font-family="Granada,Times New Roman,serif">
+<tspan x="125" y="-40" font-weight="bold" font-size="1.2em">x</tspan>
+<tspan x="0" y="-10">0</tspan>
+<tspan x="50" y="-10">50</tspan>
+<tspan x="100" y="-10">100</tspan>
+<tspan x="150" y="-10">150</tspan>
+<tspan x="200" y="-10">200</tspan>
+<tspan x="250" y="-10">250</tspan>
+</text>
+<text x="0" y="0" text-anchor="middle" font-size="16" font-family="Granada,Times New Roman,serif">
+<tspan x="-50" y="125" font-weight="bold" font-size="1.2em">y</tspan>
+<tspan x="-20" y="0" dy="6">0</tspan>
+<tspan x="-20" y="50" dy="6">50</tspan>
+<tspan x="-20" y="100" dy="6">100</tspan>
+<tspan x="-20" y="150" dy="6">150</tspan>
+<tspan x="-20" y="200" dy="6">200</tspan>
+<tspan x="-20" y="250" dy="6">250</tspan>
+</text>
+<g opacity="0.8">
+	<rect x="25" y="25" width="200" height="200" fill="lime" stroke-width="4" stroke="pink" />
+	<circle cx="125" cy="125" r="75" fill="orange" />
+	<polyline points="50,150 50,200 200,200 200,100" stroke="red" stroke-width="4" fill="none" />
+	<line x1="50" y1="50" x2="200" y2="200" stroke="blue" stroke-width="4" />
+</g>
+</svg>

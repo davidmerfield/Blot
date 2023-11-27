@@ -1,0 +1,20 @@
+# Deployment
+
+There are a few things you can reboot, which are ordered here from least to most effort:
+- relaunch the node.js worker processes which serve requests
+- relaunch the node.js master process which manages worker processes
+- relaunch the operating system on which Blot runs (AWS console -> EC2 -> Reboot instance)
+- reprovision the hardware on which Blot's VPS runs (AWS console -> EC2 -> Stop instance -> Start instance)
+
+To deploy if the changes do no affect anything in `app/scheduler` or in `app/index.js`:
+merely fetch the code, update any dependencies and relaunch the node.js worker processes:
+
+$ git pull
+$ npm ci
+$ node scripts/reboot
+
+To deploy new code if the changes affect `app/scheduler` or `app/index.js`:
+
+$ git pull
+$ npm ci
+$ sudo stop blot && sudo start blot

@@ -1,28 +1,6 @@
 {{{appCSS}}}
 
 
-/* Small caps */
-.small-caps {}
-
-/* Double quote (") marks */
-.pull-double{margin-left:-.45em}
-.push-double{margin-right:.45em}
-
-/* Single quote (') marks */
-.pull-single{margin-left:-.20em}
-.push-single{margin-right:.20em}
-
-/* Optical margin alignment for particular letters */
-.pull-T, .pull-V, .pull-W, .pull-Y {margin-left: -0.1em}
-.push-T, .push-V, .push-W, .push-Y {margin-right: 0.1em}
-
-.pull-O, .pull-C, .pull-o, .pull-c {margin-left: -0.06em}
-.push-O, .push-C, .push-o, .push-c {margin-right: 0.06em}
-
-.pull-A {margin-left: -0.04em}
-.push-A {margin-right: 0.04em}
-
-
 html, body, div, section, span, h1, h2, h3, h4, h5, h6, p, a, ul, ol, li {
   margin: 0;
   padding: 0;

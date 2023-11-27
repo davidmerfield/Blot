@@ -1,5 +1,8 @@
+const Express = require("express");
+const redirector = new Express.Router();
+
 var config = require("config");
-var type = require("helper").type;
+var type = require("helper/type");
 
 var INDEX = "/";
 var AUTH = "/auth";
@@ -14,10 +17,11 @@ var CONFIGURING = "/configuring";
 var FORMATTING = "/formatting";
 var PRIVACY = "/privacy";
 var MAINTENANCE = "/maintenance";
-var ACCOUNT = "/account";
-var DELETE_ACCOUNT = "/account/delete";
-var PAY_SUBSCRIPTION = "/account/pay-subscription";
-var LOGOUT = "/account/log-out";
+var ACCOUNT = "/dashboard/account";
+var DELETE_ACCOUNT = "/dashboard/account/subscription/delete";
+var PAY_SUBSCRIPTION = "/dashboard/account/pay-subscription";
+var PASSWORD = "/dashboard/account/password";
+var LOGOUT = "/dashboard/account/log-out";
 
 var STATIC = [
   CONTACT,
@@ -27,10 +31,24 @@ var STATIC = [
   TERMS,
   PRIVACY,
   UPDATES,
-  DEVELOPERS
+  DEVELOPERS,
 ];
 
-module.exports = function(req, res, next) {
+var internal = {
+  "/settings/template/archived": "/settings/template/archive",
+};
+
+Object.keys(internal).forEach((from) => {
+  redirector.use(from, function (req, res) {
+    let to = internal[from];
+    let redirect = req.originalUrl.replace(from, to);
+    // By default, res.redirect returns a 302 status
+    // code (temporary) rather than 301 (permanent)
+    res.redirect(301, redirect);
+  });
+});
+
+redirector.use(function (req, res, next) {
   var user = req.user;
 
   // Allows requests to static files...
@@ -44,7 +62,7 @@ module.exports = function(req, res, next) {
     var paths = path;
     var match = false;
 
-    paths.forEach(function(path) {
+    paths.forEach(function (path) {
       if (req.originalUrl.indexOf(path) === 0) match = true;
     });
 
@@ -63,8 +81,8 @@ module.exports = function(req, res, next) {
   // so add it. It probably should be though.
   // We need the auth route to make the switch
   // dropbox feature work for accounts without blogs.
-  if (!req.blog && pathIsNot([ACCOUNT, AUTH])) {
-    return res.redirect(ACCOUNT);
+  if (!req.blog && pathIsNot([ACCOUNT, AUTH, INDEX])) {
+    return res.redirect(INDEX);
   }
 
   // Don't expose any features which modify the database
@@ -78,9 +96,14 @@ module.exports = function(req, res, next) {
   }
 
   // Only allow the user to pay
-  if (user.needsToPay && pathIsNot([PAY_SUBSCRIPTION, LOGOUT, DELETE_ACCOUNT])) {
+  if (
+    user.needsToPay &&
+    pathIsNot([PAY_SUBSCRIPTION, LOGOUT, PASSWORD, CONTACT, DELETE_ACCOUNT])
+  ) {
     return res.redirect(PAY_SUBSCRIPTION);
   }
 
   return next();
-};
+});
+
+module.exports = redirector;

@@ -1,5 +1,5 @@
-module.exports = function(server) {
-  var Entries = require("entries");
+module.exports = function (server) {
+  var Entries = require("models/entries");
 
   server.get("/page/:page_number", renderPage);
   server.get("/", renderPage);
@@ -25,7 +25,7 @@ module.exports = function(server) {
       pageSize = 5;
     }
 
-    Entries.getPage(blog.id, pageNo, pageSize, function(entries, pagination) {
+    Entries.getPage(blog.id, pageNo, pageSize, function (entries, pagination) {
       var pageTitle = blog.title;
 
       if (pageNo > 1) {
@@ -37,7 +37,7 @@ module.exports = function(server) {
       res.addLocals({
         pageTitle: pageTitle,
         entries: entries,
-        pagination: pagination
+        pagination: pagination,
       });
 
       res.renderView("entries.html", next);

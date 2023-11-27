@@ -1,0 +1,45 @@
+{{#folder}}
+
+  <div style="overflow:hidden;display:flex;flex-direction:column; box-shadow: rgba(15,15,15,.1) 0 0 0 1px, rgba(15,15,15,.1) 0 2px 4px;
+    background: #fff;
+    border-radius: 6px;">
+{{#root}}<a class="line" href="{{{base}}}/client/{{client.name}}">
+<span class="label">Folder</span>
+{{^blog.client}}
+      <span class="link">Choose a way to sync your folder</span>
+    {{/blog.client}}
+    {{#blog.client}}
+    <span class="center" style="display: flex;"><span id="status" style="display: block;" class="truncate status">{{blog.status.message}} {{blog.status.fromNow}}</span><span style="white-space: nowrap">&nbsp;from {{client.display_name}}</span></span>
+    <span class="right">Edit</span>
+    {{/blog.client}}
+    </a>{{/root}}
+
+<div class="folder-box live-updates" style="min-height: 25vh;">
+
+{{#directory}}
+{{> folder-directory}}
+{{/directory}}
+
+{{#file}}
+{{> folder-file}}
+{{/file}}
+
+</div>
+
+</div>
+{{/folder}}
+
+<!-- 
+Some of the messages from the server are in title
+case, since the current layout shows the message
+as part of a sentence, we lowercase it.
+-->
+
+<script type="text/javascript">
+  var syncStatusURL = "{{{base}}}/status";
+</script>
+
+{{#footer}}
+<script type="text/javascript" src="/js/sync_status.js"></script>
+{{/footer}}
+

@@ -1,0 +1,37 @@
+<div
+	style="display:flex;align-items: center;background: #f8f8f8;height:2rem;padding: 0.25rem 1rem;"
+>
+	<div style="flex-grow:1;flex-basis:50%;">
+		<strong style="">{{view.name}}</strong>
+		<a class="smallLink" href="{{{base}}}/source-code/{{view.name}}/rename">Rename file</a>
+		<a class="smallLink" href="{{{base}}}/source-code/{{view.name}}/delete">Delete file</a>
+	</div>
+	
+	<form
+		style="flex-basis: 50%;margin:0 0 0 1rem;height:1.6666rem;flex-grow:1;display: flex"
+		class="save"
+		action="{{{base}}}/source-code/{{view.name}}/edit"
+	>
+		<input type="hidden" name="content" value="{{content}}" />
+		<button
+			id="save"
+			class="button disabled small"
+			type="submit"
+			value="Save"
+			disabled
+		>Save changes
+		</button>
+	</form>
+
+
+	<!-- 
+	<a
+		href="{{{base}}}/source-code/{{view.name}}/preview"
+		class="box-button"
+		style="flex-grow:1;flex-basis:33%;padding:0.25rem 1rem"
+		>Preview</a
+	> -->
+</div>
+
+<div class="error" style="display: none;">
+</div>

@@ -1,4 +1,4 @@
-A user subscription has been canceled, their account is now disabled
+User subscription has been canceled, their account is now disabled
 
 {{name}} with UID {{uid}} and handle {{handle}} has had their subscription canceled.
 

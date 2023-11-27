@@ -1,0 +1,32 @@
+Autumn newsletter
+
+*You received this email because you subscribed to [Blot’s newsletter](https://blot.im/news). You can [unsubscribe](https://blot.im/news/cancel) if you like. Please don’t hesitate to reply directly to this email if you have any thoughts or questions.*
+
+**New features**
+- Added [Typeset](https://github.com/davidmerfield/Typeset) metrics to all the typefaces available on the font picker.
+- Added an option on the dashboard to [switch from monthly to annual billing](https://blot.im/account/subscription/billing-interval) or vice versa.
+- Added a number of template engine features, including a way to cache files sourced directly from your blog folder. You can also now dynamically list the contents of a folder or subfolder given a path.
+
+**Changes**
+- Updated the [dashboard](http://blot.im/), as is tradition. 
+- Updated various dependencies on the application server, as is tradition.
+- Improved the appearance of code blocks on the [Magazine template](https://blot.im/templates/magazine).
+- Added to the [_Notes_](https://blot.im/notes/business) section of Blot’s website.
+
+**Bugs fixed**
+- Fixed inconsistent indentation when you edit your template’s source code on the web template editor.
+- If you change your email address after submitting your first payment, before you create your account, your receipt is now sent to the correct email address.
+
+**Mistakes**
+
+There were four downtime incidents this season, the first on June 28th for around 30 minutes, the second on July 26th for around 10 minutes, the third on August 2nd for around an hour and the fourth on September 20th for around 10 minutes. All of the incidents occurred when Blot’s application server ran out of memory. I’m working on continuing to expand the memory available to the application server. Sorry about this.
+
+**Plans for this season**
+
+I will continue to improve Blot’s infrastructure to handle the increasing number of new customers. I will work on improving the templates. I would also like to release a new film showing some of Blot’s more recent features – the current [video on Blot’s homepage](http://blot.im/) is now many years out of date. 
+
+As usual, the [list of bugs](https://blot.im/news) I have to fix grows longer. 
+
+If you have any thoughts or questions about any of this, please don’t hesitate to reply directly to this email.
+
+Sincerely, David

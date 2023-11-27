@@ -1,23 +1,24 @@
 var fs = require("fs");
-var helper = require("helper");
-var ensure = helper.ensure;
-var LocalPath = helper.localPath;
-var time = helper.time;
+var ensure = require("helper/ensure");
+var LocalPath = require("helper/localPath");
+var time = require("helper/time");
 var extname = require("path").extname;
 
 var layout = require("./layout");
 var katex = require("./katex");
 var convert = require("./convert");
 var metadata = require("./metadata");
+var extractBibAndCSL = require("./extractBibAndCSL");
+var linebreaks = require("./linebreaks");
 
-function is(path) {
+function is (path) {
   return (
     [".txt", ".text", ".md", ".markdown"].indexOf(extname(path).toLowerCase()) >
     -1
   );
 }
 
-function read(blog, path, options, callback) {
+function read (blog, path, options, callback) {
   ensure(blog, "object")
     .and(path, "string")
     .and(options, "object")
@@ -27,14 +28,14 @@ function read(blog, path, options, callback) {
 
   time("stat");
 
-  fs.stat(localPath, function(err, stat) {
+  fs.stat(localPath, function (err, stat) {
     time.end("stat");
 
     if (err) return callback(err);
 
     time("readFile");
 
-    fs.readFile(localPath, "utf-8", function(err, text) {
+    fs.readFile(localPath, "utf-8", function (err, text) {
       time.end("readFile");
 
       if (err) return callback(err);
@@ -51,16 +52,31 @@ function read(blog, path, options, callback) {
       text = layout(text);
       time.end("layout");
 
+      if (blog.plugins.linebreaks.enabled) {
+        time("linebreaks");
+        text = linebreaks(text);
+        time.end("linebreaks");
+      }
+
       if (blog.plugins.katex.enabled) {
         time("katex");
         text = katex(text);
         time.end("katex");
       }
 
-      convert(text, function(err, html) {
+      extractBibAndCSL(blog, path, text, function (err, bib, csl) {
         if (err) return callback(err);
 
-        callback(null, html, stat);
+        let options = {
+          bib: bib,
+          csl: csl
+        };
+
+        convert(blog, text, options, function (err, html) {
+          if (err) return callback(err);
+
+          callback(null, html, stat);
+        });
       });
     });
   });

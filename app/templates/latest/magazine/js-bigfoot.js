@@ -1,9 +1,8 @@
 {{=<% %>=}}
 
-
 (function() {
   (function($) {
-    return $.bigfoot = function(options) {
+    $.bigfoot = function(options) {
       var addBreakpoint, baseFontSize, bigfoot, buttonHover, calculatePixelDimension, cleanFootnoteLinks, clickButton, createPopover, defaults, deleteEmptyOrHR, escapeKeypress, footnoteInit, getSetting, makeDefaultCallbacks, popoverStates, positionTooltip, removeBackLinks, removeBreakpoint, removePopovers, replaceWithReferenceAttributes, repositionFeet, roomCalc, settings, touchClick, unhoverFeet, updateSetting, viewportDetails;
       bigfoot = void 0;
       defaults = {
@@ -636,6 +635,9 @@
       };
       return bigfoot;
     };
+
+    $.bigfoot();
+
   })(jQuery);
 
 }).call(this);

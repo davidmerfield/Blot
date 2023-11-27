@@ -1,4 +1,4 @@
-describe("dropbox client", function() {
+describe("dropbox client", function () {
   // Create test user and tmp directory
   require("./setup")();
 
@@ -6,7 +6,7 @@ describe("dropbox client", function() {
   var write = require("../write");
   var sync = require("../sync");
 
-  xit("syncs changes when the blog folder is moved", function(done) {
+  xit("syncs changes when the blog folder is moved", function (done) {
     var blogDirectory = this.blogDirectory;
     var folder = this.folder;
     var newFolder =
@@ -19,23 +19,23 @@ describe("dropbox client", function() {
     var secondPath = this.fake.path(".txt");
     var secondContents = this.fake.file();
 
-    write(blog.id, path, contents, function(err) {
+    write(blog.id, path, contents, function (err) {
       if (err) return done.fail(err);
 
-      sync(blog, function(err) {
+      sync(blog, function (err) {
         if (err) return done.fail(err);
 
         client
           .filesMove({
             from_path: folder,
             to_path: newFolder,
-            autorename: false
+            autorename: false,
           })
-          .then(function() {
-            write(blog.id, secondPath, secondContents, function(err) {
+          .then(function () {
+            write(blog.id, secondPath, secondContents, function (err) {
               if (err) return done.fail(err);
 
-              sync(blog, function(err) {
+              sync(blog, function (err) {
                 if (err) return done.fail(err);
 
                 expect(
@@ -49,7 +49,7 @@ describe("dropbox client", function() {
               });
             });
           })
-          .catch(function(err) {
+          .catch(function (err) {
             done.fail(err);
           });
       });

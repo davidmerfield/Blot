@@ -4,7 +4,7 @@ var lineReader = require("./util/linereader");
 function main(options, callback) {
   var responseTimes = [];
   lineReader
-    .eachLine(__dirname + "/../../logs/nginx.log", function(line, last) {
+    .eachLine(__dirname + "/../../logs/nginx.log", function (line, last) {
       // Last line of file is often empty
       if (!line) return true;
 
@@ -46,20 +46,19 @@ function main(options, callback) {
         return false;
       }
     })
-    .then(function() {
-
-      responseTimes.sort(function(a, b) {
+    .then(function () {
+      responseTimes.sort(function (a, b) {
         return a.responseTime > b.responseTime
           ? -1
           : b.responseTime > a.responseTime
-            ? 1
-            : 0;
+          ? 1
+          : 0;
       });
 
       responseTimes = responseTimes.slice(0, 100);
 
       callback(null, {
-        responseTimes
+        responseTimes,
       });
     });
 }
@@ -80,9 +79,15 @@ if (require.main === module) {
     throw new Error("Only use day or month for range");
   }
 
-  main({ range: range, number: number }, function(err, res) {
-    console.log('URIs with the slowest request_time in the previous ' + number + " " + range + ":");
-    res.responseTimes.reverse().forEach(function(item, i) {
+  main({ range: range, number: number }, function (err, res) {
+    console.log(
+      "URIs with the slowest request_time in the previous " +
+        number +
+        " " +
+        range +
+        ":"
+    );
+    res.responseTimes.reverse().forEach(function (item, i) {
       console.log(item.responseTime.toFixed(3) + "s " + item.uri);
     });
 

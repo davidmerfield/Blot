@@ -1,0 +1,3 @@
+- [ ] Task
+- [x] Completed task
+- [ ] Other task

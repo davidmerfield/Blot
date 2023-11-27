@@ -1,80 +1,96 @@
-var config = require("config");
-var mime = require("mime-types");
-var async = require("async");
-var debug = require("debug")("blot:blog:assets");
+const config = require("config");
+const mime = require("mime-types");
+const async = require("async");
+const debug = require("debug")("blot:blog:assets");
+const { join, basename, dirname } = require("path");
+const LARGEST_POSSIBLE_MAXAGE = 86400000;
 
-var LARGEST_POSSIBLE_MAXAGE = 86400000;
+const BANNED_ROUTES = ["/.git"];
 
-module.exports = function(req, res, next) {
-  var paths,
-    roots,
-    candidates = [];
-
+module.exports = function (req, res, next) {
   // Not sure if or how this can happen
   if (!req.path) return next();
 
+  if (BANNED_ROUTES.find((route) => req.path.toLowerCase().startsWith(route))) {
+    return next(new Error("Invalid path"));
+  }
+
   // We check to see if the requests path
   // matches a file in the following directories
-  roots = [
+  const roots = [
     // Blog directory /blogs/$id
     { root: config.blog_folder_dir + "/" + req.blog.id },
 
     // Static directory /static/$id
     {
       root: config.blog_static_files_dir + "/" + req.blog.id,
-      maxAge: LARGEST_POSSIBLE_MAXAGE
+      maxAge: LARGEST_POSSIBLE_MAXAGE,
     },
 
     // Global static directory
     {
       root: __dirname + "/static",
-      maxAge: LARGEST_POSSIBLE_MAXAGE
-    }
+      maxAge: LARGEST_POSSIBLE_MAXAGE,
+    },
   ];
 
   // decodeURIComponent maps something like
   // "/Hello%20World.txt" to "/Hello World.txt"
   // Express does not do this for us.
-  paths = [
+  const paths = [
     // First we try the actual path
     decodeURIComponent(req.path),
 
     // Then the lowercase path
     decodeURIComponent(req.path).toLowerCase(),
 
-    // Finally the path plus an index file
-    withoutTrailingSlash(decodeURIComponent(req.path)) + "/index.html"
+    // The path plus an index file
+    withoutTrailingSlash(decodeURIComponent(req.path)) + "/index.html",
+
+    // The path plus .html
+    withoutTrailingSlash(decodeURIComponent(req.path)) + ".html",
+
+    // The path with leading underscore and with trailing .html
+    addLeadingUnderscore(decodeURIComponent(req.path)) + ".html",
   ];
 
-  roots.forEach(function(options) {
-    paths.forEach(function(path) {
-      var headers = {
-        "Content-Type": getContentType(path)
-      };
+  let candidates = [];
 
-      if (!options.maxAge) {
-        headers["Cache-Control"] = "no-cache";
-      }
-
+  roots.forEach(function (options) {
+    paths.forEach(function (path) {
       candidates.push({
-        options: {
-          root: options.root,
-          maxAge: options.maxAge || 0,
-          headers: headers
-        },
-        path: path
+        options: options,
+        path: path,
       });
     });
   });
 
-  candidates = candidates.map(function(candidate) {
-    return function(next) {
+  candidates = candidates.map(function (candidate) {
+    return function (next) {
       debug("Attempting", candidate);
-      res.sendFile(candidate.path, candidate.options, next);
+      var headers = {
+        "Content-Type": getContentType(candidate.path),
+      };
+
+      var options = {
+        root: candidate.options.root,
+        maxAge: candidate.options.maxAge || 0,
+        headers: headers,
+      };
+
+      if (!options.maxAge && !req.query.cache && !req.query.extension) {
+        headers["Cache-Control"] = "no-cache";
+      }
+
+      if (req.query.cache && req.query.extension) {
+        options.maxAge = LARGEST_POSSIBLE_MAXAGE;
+      }
+
+      res.sendFile(candidate.path, options, next);
     };
   });
 
-  async.tryEach(candidates, function(err) {
+  async.tryEach(candidates, function (err) {
     // Is this still neccessary?
     if (res.headersSent) return;
 
@@ -82,6 +98,11 @@ module.exports = function(req, res, next) {
     if (err) return next();
   });
 };
+
+function addLeadingUnderscore(path) {
+  path = withoutTrailingSlash(decodeURIComponent(path));
+  return join(dirname(path), "_" + basename(path));
+}
 
 function withoutTrailingSlash(path) {
   if (!path || !path.length) return path;

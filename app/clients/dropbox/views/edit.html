@@ -1,0 +1,12 @@
+<form method='post' class="account" >
+
+<p>You have connected the Dropbox account for <b>{{account.email}}</b> to <b>{{blog.title}}</b>. You can change the Dropbox account if you like. Blot will transfer the contents of your folder to the new account.</p>
+  
+
+  <input type="hidden" name="_csrf" value="{{csrftoken}}">
+  
+   <div class="buttons">
+      <a href="{{{base}}}/redirect{{#account.full_access}}?full_access=true{{/account.full_access}}">Select a different Dropbox account</a>
+      <a href="{{{base}}}">Cancel</a>
+    </div>
+</form>

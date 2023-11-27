@@ -1,15 +1,12 @@
-module.exports = function(done){
+module.exports = function (done) {
+  var User = require("models/user");
+  var uid = this.user.uid;
 
-    var User = require('../../app/models/user');
-    var uid = this.user.uid;
-    
+  User.remove(uid, function (err) {
+    if (err) {
+      return done(err);
+    }
 
-    User.remove(uid, function(err){
-
-      if (err) {
-        return done(err);
-      }
-    
-      done();
-    });
+    done();
+  });
 };

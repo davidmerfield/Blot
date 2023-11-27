@@ -1,0 +1,6 @@
+# Product
+
+[Jekyll](http://jekyllrb.com) - A spiritual ancestor to Blot. A beautiful piece of software.
+
+
+[Second Crack](http://www.marco.org/secondcrack) The project which runs Marco Ament's blog, shares a lot of the design principles of Blot. I didn't see this until after opening Blot to the public and I wish I'd seen it sooner.

@@ -1,6 +1,5 @@
 var Mustache = require("mustache");
-var helper = require("helper");
-var ensure = helper.ensure;
+var ensure = require("helper/ensure");
 
 var ERROR = require("./error");
 var OVERFLOW = "Maximum call stack size exceeded";
@@ -8,9 +7,7 @@ var OVERFLOW = "Maximum call stack size exceeded";
 // This function basically wraps mustache
 // and gives me some nice error messages...
 module.exports = function render(content, locals, partials) {
-  ensure(content, "string")
-    .and(locals, "object")
-    .and(partials, "object");
+  ensure(content, "string").and(locals, "object").and(partials, "object");
 
   var output;
 

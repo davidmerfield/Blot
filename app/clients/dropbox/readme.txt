@@ -3,6 +3,8 @@ Dropbox client
 
 This client synchronizes a folder in a Dropbox folder with a folder on Blot's server. It does this using Dropbox's webhook api and subsequent calls to filesListFolder, which accepts a cursor indicating the state of the folder at the last fetch. 
 
+The webhooks are now tunnelled through webhooks.blot.im using the server in clients/webhooks.js
+
 Dependencies
 ------------
 
@@ -97,9 +99,8 @@ Errors from Dropbox
 
 // Ensure that any error that makes it here
 // is actually an instance of an error.
-var helper = require("helper");
-var ensure = helper.ensure;
-var email = helper.email;
+var ensure = require("helper/ensure");
+var email = require("helper/email");
 
 module.exports = function(uid, log, options) {
   ensure(uid, "string")

@@ -1,0 +1,26 @@
+<style type="text/css">
+	form .line {
+		padding-top: 16px;
+		padding-bottom: 16px;
+		border-bottom: none;
+	}
+
+	p a {
+		color: #0070e8;
+		text-decoration: none;
+	}
+
+	p a:hover {
+		text-decoration: underline;
+	}
+</style>
+
+<!-- <h1 style="margin: 1rem 0 0.5rem; font-size: 22px; font-weight: 700;">Title</h1>
+<h2 style="margin: 0 0 1rem; font-size: 14px;">
+	This title identifies your site to your visitors. It's used on your template
+	and RSS feed.
+</h2>
+<hr /> -->
+<label for="title" style="margin-top: 1rem">Title</label>
+<input type="hidden" name="redirect" value="{{{base}}}/title" />
+<input type="text" name="title" value="{{blog.title}}" autofocus />

@@ -1,0 +1,46 @@
+# Update the version of pandoc used by Blot
+
+## In development environment
+
+1. Download [the latest mac build](https://github.com/jgm/pandoc/releases) of pandoc move the executable to the location of:
+
+$ echo $BLOT_PANDOC_PATH
+
+Something approximating:
+
+$ cp ~/Dowloads/pandoc/bin/pandoc /usr/local/bin/pandoc
+
+2. Run the build tests locally and work through any changes:
+
+$ npm test app/build
+
+## In test environment
+
+Update the version of pandoc used by GitHub actions by editing:
+
+.github/workflows/tests.yml
+
+Changing PANDOC_VERSION:
+
+pandoc-version: [3.1.1]
+
+Commit to a new branch, push and then make sure the CI tests pass in a new PR for this change.
+
+## In production
+
+On the server, curl the linux executable and unzip it then move it into place:
+
+First check the variables are set:
+
+$ echo $BLOT_PANDOC_PATH
+
+Then move to home directory, download and unzip pandoc, then install it
+
+$ cd ~
+$ wget https://github.com/jgm/pandoc/releases/download/3.1.1/pandoc-3.1.1-linux-amd64.tar.gz
+
+$ tar xvzf pandoc-3.1.1-linux-amd64.tar.gz
+
+$ cp pandoc-3.1.1-linux-amd64.tar.gz/bin/pandoc $BLOT_PANDOC_PATH
+
+Then restart Blot!

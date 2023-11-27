@@ -1,19 +1,16 @@
-var helper = require("helper");
-var ensure = helper.ensure;
+var ensure = require("helper/ensure");
 var validate = require("./validate");
-var client = require("client");
-
+var client = require("models/client");
+var updateBillingEmail = require("./updateBillingEmail");
 var key = require("./key");
 var getById = require("./getById");
 
 module.exports = function save(uid, updates, callback) {
-  ensure(uid, "string")
-    .and(updates, "object")
-    .and(callback, "function");
+  ensure(uid, "string").and(updates, "object").and(callback, "function");
 
   var multi, userString, former;
 
-  getById(uid, function(err, user) {
+  getById(uid, function (err, user) {
     if (err) return callback(err);
 
     if (!user) return callback(new Error("No user"));
@@ -22,7 +19,7 @@ module.exports = function save(uid, updates, callback) {
     // compare any changes further down
     former = JSON.parse(JSON.stringify(user));
 
-    validate(user, updates, function(err, user, changes) {
+    validate(user, updates, function (err, user, changes) {
       if (err) return callback(err);
 
       try {
@@ -37,13 +34,16 @@ module.exports = function save(uid, updates, callback) {
 
       // Should this be setNX? We don't want to clobber
       // emails which are set between validation and here.
-      if (user.email)
-        multi.set(key.email(user.email), uid);
-      
+      if (user.email) multi.set(key.email(user.email), uid);
+
       // If the user changes their email, remove the old
       // email pointing to the User's ID.
-      if (former.email && former.email !== user.email)
+      if (former.email && former.email !== user.email) {
         multi.del(key.email(former.email));
+        updateBillingEmail(user, function (err) {
+          console.log("Error updating email for customer on Stripe:", err);
+        });
+      }
 
       multi.set(key.user(uid), userString);
 
@@ -51,7 +51,7 @@ module.exports = function save(uid, updates, callback) {
       if (user.subscription && user.subscription.customer)
         multi.set(key.customer(user.subscription.customer), uid);
 
-      multi.exec(function(err) {
+      multi.exec(function (err) {
         if (err) return callback(err);
 
         callback(null, changes);

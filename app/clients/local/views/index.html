@@ -1,11 +1,5 @@
-<p>Your folder: {{dir}}</p>
-{{^dir}}
-<form method="POST" action="{{{base}}}/set">
-<label>Name of a folder inside your home directory:</label>
-<input name="folder" type="text" value="">
-<input type="submit">
-</form>
-{{/dir}}
-<form method="POST" action="{{{base}}}/disconnect">
-<input type="submit" value="Disconnect">
-</form>
+{{> status-line}}
+
+{{> disconnect-line}}
+
+<br><br>

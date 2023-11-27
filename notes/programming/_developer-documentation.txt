@@ -1,0 +1,14 @@
+# Developer documentation
+
+References:
+- https://developers.cloudflare.com/workers/
+- https://sharp.pixelplumbing.com/api-constructor
+- https://palletsprojects.com/p/flask/
+- https://numpy.org/devdocs/user/quickstart.html
+- https://docs.typo3.org/m/typo3/docs-how-to-document/master/en-us/WritingContent/Index.html
+- https://www.utwente.nl/en/bms/ist/minimalism/displaywriter.pdf
+- https://docs.racket-lang.org/pie/index.html#%28form._%28%28lib._pie%2Fmain..rkt%29._.Atom%29%29
+- https://documentation.divio.com/
+- https://documentation.divio.com/adoption/#adoption
+- https://www.php.net/echo
+- https://ghost.org/docs/introduction/

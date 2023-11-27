@@ -5,23 +5,23 @@ var colors = require("colors");
 var jsdiff = require("diff");
 
 fixEachView(
-  function(view, callback) {
+  function (view, callback) {
     var totalChanges = 0;
 
-    var after = view.content.replace(containsTagWithName, function(v) {
+    var after = view.content.replace(containsTagWithName, function (v) {
       totalChanges++;
       var result = v.split("{{name}}").join("{{tag}}");
       var diff = jsdiff.diffWords(v, result);
 
-      diff.forEach(function(part) {
+      diff.forEach(function (part) {
         // green for additions, red for deletions
         // grey for common parts
         var color = part.added ? "green" : part.removed ? "red" : "grey";
         process.stdout.write(part.value[color]);
       });
 
-      process.stdout.write('\n');
-      
+      process.stdout.write("\n");
+
       return result;
     });
 
@@ -30,7 +30,7 @@ fixEachView(
     yesno.ask(
       "Apply " + totalChanges + " changes to " + view.name + "?",
       true,
-      function(ok) {
+      function (ok) {
         if (ok) view.content = after;
 
         if (view.content.indexOf("{{name}}") > -1)
@@ -40,7 +40,7 @@ fixEachView(
       }
     );
   },
-  function(err) {
+  function (err) {
     if (err) throw err;
     console.log("Fixed all views!");
     process.exit();

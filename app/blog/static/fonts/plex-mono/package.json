@@ -1,0 +1,10 @@
+{
+  "name": "Plex Mono",
+  "tags": [
+    "mono"
+  ],
+  "stack": "'Plex Mono'",
+  "line_height": 1.625,
+  "line_width": 39,
+  "font_size": 16
+}

@@ -14,13 +14,6 @@
 blockquote.twitter-tweet {padding: 2em;}
 blockquote.twitter-tweet p {margin: 0}
 
-/* SUBSTITUTION */
-.pull-double {margin-left:-.45em}
-.push-double {margin-right:.45em}
-
-.pull-single {margin-left:-0.2em}
-.push-single {margin-left:0.2em}
-
 /* IMAGE SIZE */
 img {max-width: 100%;height: auto;}
 

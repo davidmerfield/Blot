@@ -1,0 +1,55 @@
+{{#account}}
+
+{{> status-line}}
+
+<div class="live-updates">
+
+{{#error}}
+<a href="{{{base}}}/redirect" class="mess error">
+Blot cannot connect to your <b>Google Drive</b>. Please re-connect to give Blot access so you can sync your folder.<br><br>
+<span class="button">Re-connect to Google Drive</span>
+</a>
+{{/error}}
+
+  {{#folderId}}
+  <div class="line">
+    <span class="label">Location</span>
+    <span class="center">{{> location}}
+ </span>
+
+
+</div>
+
+
+  {{/folderId}}
+
+   <div class="line">
+    <span class="label">Account on Google Drive</span>
+    <span class="center">{{email}}</span>
+  </div>
+
+  {{> disconnect-line}}
+
+
+</div>
+<br><br>
+{{/account}}
+
+{{^account}}
+<div class="inset">
+  <p>Connect your folder to <strong>Google Drive</strong></p>
+  
+  <ul>
+    <li>Blot will create a new folder in your Drive.</li>
+    <li>You can revoke Blot’s access to your Drive at any time.</li>
+  </ul>
+
+  <form  action="{{{base}}}/disconnect" method="post">
+    <input type="hidden" name="_csrf" value="{{csrftoken}}">
+    <div class="buttons">
+      <a href="{{{base}}}/redirect">Connect to Google Drive</a>
+      <input type="submit" value="Cancel">
+    </div>
+  </form>
+</div>
+{{/account}}

@@ -4,8 +4,7 @@ var format = require("util").format;
 // Docs
 // https://github.com/gliviu/dir-compare
 
-module.exports = function(path1, path2, options, callback) {
-
+module.exports = function (path1, path2, options, callback) {
   // Required
   options.compareSize = true;
   options.compareContent = true;
@@ -15,20 +14,20 @@ module.exports = function(path1, path2, options, callback) {
 
   dircompare
     .compare(path1, path2, options)
-    .then(function(res) {
+    .then(function (res) {
       if (!res.differences) return callback();
 
       var message = [
-        path1 + "<>" + path2 + " has " + res.differences + " differences"
+        path1 + "<>" + path2 + " has " + res.differences + " differences",
       ];
 
-      res.diffSet.forEach(function(entry) {
+      res.diffSet.forEach(function (entry) {
         if (entry.state === "equal") return;
 
         var state = {
           left: "->",
           right: "<-",
-          distinct: "<>"
+          distinct: "<>",
         }[entry.state];
 
         var name1 = entry.name1 ? entry.name1 : "";

@@ -1,0 +1,11 @@
+# Fuck ups
+
+- Don't use git to deploy code. One time I ran "git reset ==hard origin/master". Don't do this. It removed a load of files. Thankfully not dump.rdb, or config.json. But it did remove all my ssl certs.
+- Forgot to create flags.json
+- Forgot to move dhparams to config/secrets
+
+
+I goofed by using elastic ips for inter-region communication – I should have used private IPs 
+
+By using elastic IPs, I was charged data transfer ingress and egress fees, for my internal traffic, which was extremely expensive.
+

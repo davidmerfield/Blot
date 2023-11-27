@@ -1,0 +1,70 @@
+# Principles
+
+## On the aesthetic and design philosophy which lead to Blot
+
+In lots of ways, Blot is hidden. Most of the time, people who use Blot do so without looking at it. They simply edit the folder. Some things however, are visible. The templates, which I am not yet proud of, are an example of this.
+
+The *aesthetic* is one of my main motivations to work on Blot. I find a lot of the internet deeply ugly. My interests in type design lead me to study the work of the early printers, and I find their books to be intensely beautiful. It upsets me that though we are decades into the internet, it remains generally ugly.
+
+<!--
+<br> 
+
+<div style="display:flex">
+<img style="max-width:50%;height:auto" src="/about/notes/first-website.png">
+<div style="max-width:50%;padding:1.2rem 1.5rem">
+<img style="max-width:100%;height:auto" src="/about/notes/first-printed-book.jpg">
+</div>
+</div>
+
+<small style="opacity:0.5;font-size:14px;px">A screenshot of the <a href="http://info.cern.ch/hypertext/WWW/TheProject.html">first website</a>, taken on MacOS on August 3rd, 2022. Next to it a leaf from the 42-line bible, the first book made on the printing press, printed in Mainz by Gutenberg in the 1450s. Image courtesy of <a href="https://www.peterharrington.co.uk/blog/a-leaf-of-the-first-printed-book-the-gutenberg-bible/">Peter Harrington</a></small><br><Br>
+-->
+
+I find old books, especially Italian ones made by early printers, to be very beautiful. I like objects that can age and break and be repaired with dignity. I like medieval buildings and I don't think that ornament is always a crime. I like things which can be handed down, things that have been handed down. Old books taught me that beauty is a prophylactic for destruction.
+
+<!--
+<br>
+
+![](https://upload.wikimedia.org/wikipedia/commons/1/16/Aristoteles_opera_aldus_1495.jpg)
+
+<small style="opacity:0.5;font-size:14px;px">Page-spread from the Aristoteles "Opera" printed by Aldus Manutius about 1495—1498. Copy of the Bayerische Staatsbibliothek.</small><br><Br>
+-->
+
+
+## Typefaces I like
+
+- [**Inter**](https://rsms.me/inter/) by Rasmus Andersson is used by us on the brochure website and dashboard. 
+- [**Charter**]() which I like used on [OpenAI](https://openai.com/blog/multimodal-neurons/)'s blog posts.
+
+
+## Things I dislike
+
+- **Emojis**: &puncsp; I dislike emojis partly because they look childish but mostly because their design is controlled by a corporation. See the [pistol emoji](https://emojipedia.org/pistol/) for reference: on some platforms it appears as a gun, on others a water pistol. I love text.
+
+- **SAAS aesthetic**: &puncsp; Three-column pricing pages, enquire for enterprise rates, live-chat popups: 'How can we help?', a team page filled with grinning teeth in matching swag at the biannual beach retreat.
+
+## Websites I admire
+
+- [**Pinboard**](https://pinboard.in/) of all the projects in the world, Pinboard exerts the greatest influence on Blot
+- [**GitHub**](https://github.com/) their repository page design is efficient and clear
+- [**Cargo**](https://cargocollective.com/) they do make the internet more beautiful
+- [**Are.na**](https://www.are.na/)
+- [**Urbit**](https://urbit.org/) because I appreciate the layers of meaning to their communication
+- [**Matthew Butterick**](https://mbtype.com/bio.html) has 
+- [**gov.uk**](https://design-system.service.gov.uk/)
+- [**Mirror**](https://mirror.xyz/) I like [Jon-Kyle
+](https://www.jon-kyle.com/)'s work (also involved with Cargo) and I like [Seth Thompson](https://seththompson.org/)'s work.
+- [**Overcast**](https://overcast.fm/)
+
+## Calming
+
+A lot of software makes me less calm. I want Blot to make more more calm, or at least not less calm.
+
+## Black or white backgrounds
+
+Almost every website has a white or light background. So, Blot has a light background. It feels familiar. However, I do sometimes wonder about inverting the color scheme.
+
+I like how [David Rudnick](https://davidrudnick.org/) justified the black backgrounds of his work. To paraphrase – the way computer screens work is they emit light, and that digital artifacts are light, in lots of ways.
+
+I also spend most of my day in a text editor with a dark background, and find it comfortable on the eyes.
+
+All of Blot's themes can be toggled to from white to black with a single click on the template editor. Perhaps one day I will switch everything from white by default to black by default.

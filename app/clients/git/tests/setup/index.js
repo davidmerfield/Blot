@@ -1,8 +1,8 @@
 module.exports = function setup(options) {
   options = options || {};
 
-  var dataDir = require("../../dataDir");
-  var disconnect = require("../../disconnect");
+  var dataDir = require("clients/git/dataDir");
+  var disconnect = require("clients/git/disconnect");
   var fs = require("fs-extra");
   var Express = require("express");
 
@@ -12,8 +12,8 @@ module.exports = function setup(options) {
     start: function attempt(done) {
       var port = 10000 + Math.round(Math.random() * 10000);
       this.server = Express()
-        .use("/clients/git", require("../../routes").site)
-        .listen(port, function(err) {
+        .use("/clients/git", require("clients/git/routes").site)
+        .listen(port, function (err) {
           if (err && err.code === "EADDRINUSE") return attempt(done);
           if (err && err.code === "EACCESS") return attempt(done);
           if (err) return done(err);
@@ -21,9 +21,9 @@ module.exports = function setup(options) {
         });
       this.server.port = port;
     },
-    close: function(done) {
+    close: function (done) {
       this.server.close(done);
-    }
+    },
   };
 
   global.test.blog();
@@ -39,12 +39,12 @@ module.exports = function setup(options) {
   afterEach(server.close);
 
   // Expose methods for creating fake files, paths, etc.
-  beforeEach(function() {
+  beforeEach(function () {
     this.fake = global.test.fake;
   });
 
   // Clean a bare repo in app/clients/git/data if needed
-  afterEach(function(done) {
+  afterEach(function (done) {
     // Each test creates a new bare repo in app/clients/git/data
     // Be careful cleaning this folder because it might contain
     // production data if the tests are accidentally run in prod.
@@ -54,15 +54,15 @@ module.exports = function setup(options) {
     fs.remove(dataDir + "/" + this.blog.handle + ".git", done);
   });
 
-  afterEach(function(done) {
+  afterEach(function (done) {
     disconnect(this.blog.id, done);
   });
 
   if (options.setClientToGit !== false)
-    beforeEach(function(done) {
+    beforeEach(function (done) {
       var context = this;
 
-      setClientToGit(this.user, this.blog, this.server.port, function(
+      setClientToGit(this.user, this.blog, this.server.port, function (
         err,
         repoUrl
       ) {
@@ -74,12 +74,12 @@ module.exports = function setup(options) {
     });
 
   if (options.clone !== false)
-    beforeEach(function(done) {
+    beforeEach(function (done) {
       var context = this;
 
       require("simple-git")(this.tmp)
         .silent(true)
-        .clone(this.repoUrl, function(err) {
+        .clone(this.repoUrl, function (err) {
           if (err) return done(new Error(err));
           context.repoDirectory = context.tmp + "/" + context.blog.handle;
           context.git = require("simple-git")(context.repoDirectory).silent(

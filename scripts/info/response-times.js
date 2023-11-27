@@ -1,10 +1,8 @@
 var moment = require("moment");
-var helper = require("helper");
-var lineReader = helper.lineReader;
-var numberWithCommas = helper.prettyNumber;
+var lineReader = require("helper/lineReader");
+var numberWithCommas = require("helper/prettyNumber");
 
 if (require.main === module) {
-
   var range = process.argv[2] || "hours";
   var number = parseInt(process.argv[3]);
 
@@ -18,7 +16,7 @@ if (require.main === module) {
     throw new Error("Only use day or month for range");
   }
 
-  main({ range: range, number: number }, function(err, res) {
+  main({ range: range, number: number }, function (err, res) {
     console.log(
       res.averageResponseTime.toFixed(3) +
         "s average response time across " +
@@ -46,14 +44,16 @@ if (require.main === module) {
     );
 
     console.log();
-    console.log('Pass a unit (hours/day/month) as first argument and a size (e.g. 24) as second argument to view information for different periods.');
+    console.log(
+      "Pass a unit (hours/day/month) as first argument and a size (e.g. 24) as second argument to view information for different periods."
+    );
   });
 }
 function main(options, callback) {
   var hits = 0;
   var responseTimes = [];
   lineReader
-    .eachLine(__dirname + "/../../logs/nginx.log", function(line, last) {
+    .eachLine(__dirname + "/../../logs/nginx.log", function (line, last) {
       // Last line of file is often empty
       if (!line) return true;
 
@@ -65,8 +65,8 @@ function main(options, callback) {
         return true;
       }
 
-      if (line[0] !== '[') return true;
-      
+      if (line[0] !== "[") return true;
+
       var date = moment(
         line.slice(1, line.indexOf("]")),
         "DD/MMM/YYYY:HH:mm:ss Z"
@@ -96,13 +96,13 @@ function main(options, callback) {
         return false;
       }
     })
-    .then(function() {
+    .then(function () {
       var averageResponseTime;
       var sum = 0;
 
       responseTimes.sort();
 
-      responseTimes.forEach(function(responseTime) {
+      responseTimes.forEach(function (responseTime) {
         sum += responseTime;
       });
 
@@ -118,7 +118,7 @@ function main(options, callback) {
           responseTimes[Math.floor(responseTimes.length * 0.75)],
         ninetyNineResponseTime:
           responseTimes[Math.floor(responseTimes.length * 0.99)],
-        hits: hits
+        hits: hits,
       });
     });
 }

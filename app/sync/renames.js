@@ -1,31 +1,32 @@
-var Entries = require("entries");
+var Entries = require("models/entries");
 var async = require("async");
-var Entry = require("entry");
+var Entry = require("models/entry");
+var clfdate = require("helper/clfdate");
 
-module.exports = function(blogID, update, callback) {
-  var RENAME_PERIOD = 1000 * 60; // 1 minute
+module.exports = function (blogID, callback) {
+  var RENAME_PERIOD = 1000 * 30; // 30 seconds
   var after = Date.now() - RENAME_PERIOD;
 
   var renames = {};
 
-  Entries.getCreated(blogID, after, function(err, createdEntries) {
+  Entries.getCreated(blogID, after, function (err, createdEntries) {
     if (err) return callback(err);
 
-    Entries.getDeleted(blogID, after, function(err, deletedEntries) {
+    Entries.getDeleted(blogID, after, function (err, deletedEntries) {
       if (err) return callback(err);
 
-      createdEntries.forEach(function(createdEntry) {
+      createdEntries.forEach(function (createdEntry) {
         var deletedEntriesOfSameSize;
         var deletedEntriesOfSameTitle;
         var deletedEntry;
 
-        deletedEntriesOfSameSize = deletedEntries.filter(function(
+        deletedEntriesOfSameSize = deletedEntries.filter(function (
           deletedEntry
         ) {
           return deletedEntry.size === createdEntry.size;
         });
 
-        deletedEntriesOfSameTitle = deletedEntries.filter(function(
+        deletedEntriesOfSameTitle = deletedEntries.filter(function (
           deletedEntry
         ) {
           return deletedEntry.title === createdEntry.title;
@@ -39,25 +40,25 @@ module.exports = function(blogID, update, callback) {
           return;
         }
 
-        deletedEntries = deletedEntries.filter(function(entry) {
+        deletedEntries = deletedEntries.filter(function (entry) {
           return deletedEntry.path !== entry.path;
         });
 
         renames[createdEntry.path] = {
           createdEntry: createdEntry,
-          deletedEntry: deletedEntry
+          deletedEntry: deletedEntry,
         };
       });
 
       async.eachOfSeries(
         renames,
-        function(rename, deletedPath, next) {
+        function (rename, deletedPath, next) {
           var createdEntry = rename.createdEntry;
           var deletedEntry = rename.deletedEntry;
           var updates = {
             url: deletedEntry.url,
             created: deletedEntry.created,
-            guid: deletedEntry.guid
+            guid: deletedEntry.guid,
           };
 
           // If the deleted entry did not have a path specified
@@ -76,12 +77,16 @@ module.exports = function(blogID, update, callback) {
           }
 
           console.log(
-            "Blog:",
-            blogID,
-            "Entry rename detected:",
-            "\n (deleted)",
-            deletedEntry.path,
-            "\n (created)",
+            clfdate(),
+            blogID.slice(0, 12),
+            "rename",
+            deletedEntry.path
+          );
+
+          console.log(
+            clfdate(),
+            blogID.slice(0, 12),
+            "----->",
             createdEntry.path
           );
 

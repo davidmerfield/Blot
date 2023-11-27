@@ -1,4 +1,5 @@
-var client = require("redis").createClient();
+var redis = require("models/redis");
+var client = new redis();
 
 module.exports = function redisKeys(pattern, callback) {
   var keys = [];

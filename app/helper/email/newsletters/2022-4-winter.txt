@@ -1,0 +1,48 @@
+Winter newsletter
+
+*You received this email because you subscribed to [Blot’s newsletter](https://blot.im/about/news). You can [unsubscribe](https://blot.im/about/news/cancel) if you like. Please reply directly to this email if you have any thoughts or questions.*
+
+**New features**
+- Blot now extracts thumbnails from videos in your posts. This makes a big difference if you post videos and use a template like [Reference](https://blot.im/templates/reference), [Photo](https://blot.im/templates/photo) or [Portfolio](https://blot.im/templates/portfolio), with thumbnails on their index pages.
+- Link posts, [generated from bookmark files](https://blot.im/how/posts/bookmarks), now include a screenshot of the linked site. This feature is turned on for new blogs. If you have an existing blog, you’ll need to enable ‘Add a screenshot to posts from bookmarks’ on [the services page](https://blot.im/settings/services) of your dashboard.
+- We added a new ‘random entry’ feature. If you add a link to */random* to [your site’s menu](https://blot.im/settings/links), you’ll be redirected to a random post each time you click.
+- You can now download the source folders for the test sites used to [preview the templates](https://blot.im/templates).
+- We added features required by educational institutions to create and manage a large number of student accounts.
+- The [folder settings page](https://blot.im/settings/client) of your dashboard now includes a log of the changes you make to your folder.
+
+**Changes**
+- We adjusted the format of the URLs on your blog’s dashboard so they include the username of the blog you are editing.
+- You can now connect multiple blogs to the same [Google Drive](https://blot.im/how/sync/google-drive) account.
+- We improved the appearance of [equations set with TeX](https://blot.im/how/posts/tex) by updating the typefaces and KaTeX compiler to their latest versions.
+- We updated Blot's dependencies to patch known security vulnerabilities and made tweaks to the dashboard and documentation, per tradition.
+
+**Bugs fixed**
+- We generally improved the reliability of the [Dropbox client](https://blot.im/how/sync/dropbox).
+- We fixed a bug with the [Google Drive client](https://blot.im/how/sync/google-drive) which occurred when you moved a file from within your blog folder into another folder in your Google Drive.
+- Emojis now appear correctly in text files served by Blot.
+- We fixed an issue with Blot’s [Commento integration](https://blot.im/how/configure/comments) caused by trailing slashes.
+- You can now adjust the colors on the [Blog template](https://blot.im/templates/blog).
+- The [Magazine template](https://blot.im/templates/magazine)’s pagination now works as expected on smaller screens.
+
+**Questions**
+
+Here are a few highlights from [Questions](https://blot.im/questions), a section of Blot’s site where you can ask and answer questions:
+
+- [Does Blot use Blot?](https://blot.im/questions/525)
+- [Setting up GitHub with Blot and Obsidian](https://blot.im/questions/642)
+- [Getting the first item in an entries array](https://blot.im/questions/577)
+- [How to have page URLs which mirror folder structure?](https://blot.im/questions/578)
+
+**Mistakes**
+
+I was overwhelmed by my inbox a few times recently, which led to unacceptable delays in responding to some of your questions and bug reports. I plan to hire someone to help with this.
+
+Also, I mistakenly allowed the wildcard certificate, which is used to secure traffic to Blot’s template previews, to expire. This certificate now renews itself automatically and is now monitored externally.
+
+**Plans for this season**
+
+We have begun work on an iCloud client. In the past, you might have received a message from me saying ‘We’d love to support iCloud but Apple doesn’t offer the necessary APIs’. However, [Jon](https://jon.bo/) came up with a clever plan and we’re going to make it work.
+
+If you have any thoughts or questions about any of this, please don’t hesitate to reply directly to this email.
+
+Sincerely, David

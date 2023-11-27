@@ -3,5 +3,5 @@ module.exports = {
   key: require("./key"),
   list: require("./list"),
   set: require("./set"),
-  unignore: require("./unignore")
+  unignore: require("./unignore"),
 };

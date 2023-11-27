@@ -1,0 +1,20 @@
+<nav>
+
+   <ul class="sidebar">
+     {{> sidebar-links}}
+   </ul>
+   {{#headers.length}}
+   {{#show-on-this-page}}
+   <section class="on-this-page">
+      On this page
+      <ul>
+         {{#headers}}
+         <li class="{{#first}}selected{{/first}}">
+            <a href="#{{id}}" class="scroll" style="border-bottom: none;">{{text}}</a>
+         </li>
+         {{/headers}}
+      </ul>
+   </section>
+   {{/show-on-this-page}}
+   {{/headers.length}}
+</nav>

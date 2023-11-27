@@ -1,8 +1,8 @@
 var clone = require("./clone");
-var ensure = require("helper").ensure;
-var helper = require("helper");
+var ensure = require("helper/ensure");
+var makeSlug = require("helper/makeSlug");
 var makeID = require("./util/makeID");
-var client = require("client");
+var client = require("models/client");
 var key = require("./key");
 var metadataModel = require("./metadataModel");
 var setMetadata = require("./setMetadata");
@@ -15,7 +15,6 @@ module.exports = function create(owner, name, metadata, callback) {
   // or the string 'SITE' which represents
   // a BLOT template not editable by any blog
   // ensure a blogID is always a number, never 'SITE'
-
   ensure(owner, "string")
     .and(metadata, "object")
     .and(name, "string")
@@ -26,24 +25,27 @@ module.exports = function create(owner, name, metadata, callback) {
 
   // The slug cannot contain a slash, or it messes
   // up the routing middleware.
-  var slug = helper.makeSlug(name.split("/").join("-"));
+  metadata.slug = metadata.slug || makeSlug(name).slice(0, 30);
+  metadata.slug = metadata.slug.split("/").join("-");
 
   // Each template has an ID which is namespaced under its owner
-  var id = makeID(owner, slug);
+  metadata.id = makeID(owner, name);
 
   // Defaults
-  metadata.id = id;
   metadata.name = name;
   metadata.owner = owner;
-  metadata.slug = slug;
   metadata.locals = metadata.locals || {};
   metadata.description = metadata.description || "";
   metadata.thumb = metadata.thumb || "";
   metadata.localEditing = metadata.localEditing === true;
+  metadata.previewPath = "/";
+  metadata.shareID = "";
 
   ensure(metadata, metadataModel);
 
-  client.exists(key.metadata(id), function(err, stat) {
+  let id = metadata.id;
+
+  client.exists(key.metadata(id), function (err, stat) {
     if (err) throw err;
 
     // Don't overwrite an existing template
@@ -53,7 +55,7 @@ module.exports = function create(owner, name, metadata, callback) {
       return callback(err);
     }
 
-    client.sadd(key.blogTemplates(owner), id, function(err) {
+    client.sadd(key.blogTemplates(owner), id, function (err) {
       if (err) throw err;
 
       if (metadata.isPublic) {
@@ -65,7 +67,7 @@ module.exports = function create(owner, name, metadata, callback) {
       function then(err) {
         if (err) throw err;
 
-        setMetadata(id, metadata, function(err) {
+        setMetadata(id, metadata, function (err) {
           if (err) throw err;
 
           if (metadata.cloneFrom) {

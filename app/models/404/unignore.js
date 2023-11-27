@@ -1,17 +1,13 @@
-var client = require('client');
-var helper = require('helper');
-var ensure = helper.ensure;
-var key = require('./key');
+var client = require("models/client");
+var ensure = require("helper/ensure");
+var key = require("./key");
 
 module.exports = function (blogID, url, callback) {
-
-  ensure(blogID, 'string')
-    .and(url, 'string')
-    .and(callback, 'function');
+  ensure(blogID, "string").and(url, "string").and(callback, "function");
 
   var ignoreKey = key.ignore(blogID);
 
-  ensure(ignoreKey, 'string');
+  ensure(ignoreKey, "string");
 
   return client.SREM(ignoreKey, url, callback);
 };

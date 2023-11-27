@@ -1,8 +1,7 @@
-var Blog = require("../blog");
-var helper = require("helper");
-var ensure = helper.ensure;
-var debug = require("debug")("entry:assign");
-var redis = require("client");
+var Blog = require("models/blog");
+var ensure = require("helper/ensure");
+var debug = require("debug")("blot:entry:assign");
+var redis = require("models/client");
 
 var model = require("./model");
 
@@ -21,13 +20,11 @@ var lists = [
   "drafts",
   "scheduled",
   "pages",
-  "deleted"
+  "deleted",
 ];
 
-module.exports = function(blogID, entry, callback) {
-  ensure(blogID, "string")
-    .and(entry, model)
-    .and(callback, "function");
+module.exports = function (blogID, entry, callback) {
+  ensure(blogID, "string").and(entry, model).and(callback, "function");
 
   var multi = redis.multi();
 
@@ -42,9 +39,7 @@ module.exports = function(blogID, entry, callback) {
     // version of the entry's path.
     var value = entry.id;
 
-    ensure(list, "string")
-      .and(score, "number")
-      .and(value, "string");
+    ensure(list, "string").and(score, "number").and(value, "string");
 
     // Blot uses redis' sorted sets to
     // create lists of entries.
@@ -112,7 +107,7 @@ module.exports = function(blogID, entry, callback) {
     drop(SCHEDULED);
   }
 
-  multi.exec(function(err) {
+  multi.exec(function (err) {
     if (err) return callback(err);
 
     if (entry.menu) {
@@ -124,18 +119,16 @@ module.exports = function(blogID, entry, callback) {
 };
 
 function addToMenu(blogID, entry, callback) {
-  ensure(blogID, "string")
-    .and(entry, "object")
-    .and(callback, "function");
+  ensure(blogID, "string").and(entry, "object").and(callback, "function");
 
   var newLink = {
     label: entry.title,
     url: entry.url,
     metadata: entry.metadata,
-    id: entry.id
+    id: entry.id,
   };
 
-  Blog.get({ id: blogID }, function(err, blog) {
+  Blog.get({ id: blogID }, function (err, blog) {
     var menu = blog.menu;
 
     if (!menu || !menu.length) {
@@ -156,15 +149,13 @@ function addToMenu(blogID, entry, callback) {
 
 // Removes the entry from the list of links in the header
 function dropFromMenu(blogID, entry, callback) {
-  ensure(blogID, "string")
-    .and(entry, "object")
-    .and(callback, "function");
+  ensure(blogID, "string").and(entry, "object").and(callback, "function");
 
   var debugEntry = debug.bind(this, "Blog:", blogID, "Entry:", entry.path);
 
   debugEntry("removing from menu");
 
-  Blog.get({ id: blogID }, function(err, blog) {
+  Blog.get({ id: blogID }, function (err, blog) {
     if (!blog || !blog.menu || !blog.menu.length) {
       debugEntry("this blog does not have a menu");
       return callback();
@@ -173,7 +164,7 @@ function dropFromMenu(blogID, entry, callback) {
     // clone the menu
     var menu = blog.menu.slice();
 
-    menu = menu.filter(function(item) {
+    menu = menu.filter(function (item) {
       return item.id !== entry.id;
     });
 
@@ -183,7 +174,7 @@ function dropFromMenu(blogID, entry, callback) {
       debugEntry("Warning! Did not find this on the menu");
     }
 
-    Blog.set(blogID, { menu: menu }, function(errors) {
+    Blog.set(blogID, { menu: menu }, function (errors) {
       if (errors && errors.menu) {
         debugEntry("error saving menu:", errors);
         return callback(errors.menu);

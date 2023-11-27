@@ -17,21 +17,27 @@
   <wp:wxr_version>1.2</wp:wxr_version>
   <wp:base_site_url>{{{blogURL}}}</wp:base_site_url>
   <wp:base_blog_url>{{{blogURL}}}</wp:base_blog_url>
-
+  <wp:author>
+    <wp:author_id>1</wp:author_id>
+    <wp:author_login><![CDATA[{{{handle}}}]]></wp:author_login>
+    <wp:author_display_name><![CDATA[{{{title}}}]]></wp:author_display_name>
+  </wp:author>
   {{#allEntries}}
   <item> 
     <title><![CDATA[ {{{title}}} ]]></title>
     <link>{{{absoluteURL}}}</link>
     <pubDate>{{#formatDate}}ddd, DD MMM YYYY HH:mm:ss ZZ{{/formatDate}}</pubDate>
-    <dc:creator><![CDATA[ {{{title}}} ]]></dc:creator>
+    <wp:post_date>{{#formatDate}}YYYY-MM-DD HH:mm:ss{{/formatDate}}</wp:post_date>
+    <dc:creator><![CDATA[ {{{blog.title}}}]]></dc:creator>
     <guid isPermaLink="true">{{{absoluteURL}}}</guid>
     <description></description>    
-    <content:encoded><![CDATA[ {{#absoluteURLs}} {{{body}}} {{/absoluteURLs}} ]]></content:encoded>
-  <wp:post_name><![CDATA[{{{slug}}}]]></wp:post_name>
+    <content:encoded><![CDATA[ {{#encodeXML}} {{{body}}} {{/encodeXML}} ]]></content:encoded>
+    <wp:post_name><![CDATA[{{name}}]]></wp:post_name>
     <wp:post_type><![CDATA[post]]></wp:post_type>
-  <wp:status><![CDATA[publish]]></wp:status>
+    <wp:status><![CDATA[publish]]></wp:status>
     {{#tags}}
-    <category domain="category" nicename="{{slug}}"><![CDATA[{{tag}}]]></category>
+    <category domain="category" nicename="{{tag}}"><![CDATA[{{tag}}]]></category>
+    <category domain="post_tag" nicename="{{tag}}"><![CDATA[{{tag}}]]></category>
     {{/tags}}
   </item>
   {{/allEntries}}

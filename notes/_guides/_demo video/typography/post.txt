@@ -1,0 +1,32 @@
+# Typography
+
+{>|} ![Gutenberg Bible Leaf (Book of Sirach), 1454-1455](_bible.jpg) 
+
+Typography is the art and technique of arranging type to make written language legible, readable, and appealing when displayed. The arrangement of type involves selecting typefaces, point sizes, line lengths, line-spacing (leading), and letter-spacing (tracking), and adjusting the space between pairs of letters (kerning[1]). The term typography is also applied to the style, arrangement, and appearance of the letters, numbers, and symbols created by the process. Type design is a closely related craft, sometimes considered part of typography; most typographers do not design typefaces, and some type designers do not consider themselves typographers.[2][3] Typography also may be used as an ornamental and decorative device, unrelated to communication of information.
+
+Typography is the work of typesetters (also known as compositors), typographers, graphic designers, art directors, manga artists, comic book artists, graffiti artists, and, now, anyone who arranges words, letters, numbers, and symbols for publication, display, or distribution, from clerical workers and newsletter writers to anyone self-publishing materials. Until the Digital Age, typography was a specialized occupation. Digitization opened up typography to new generations of previously unrelated designers and lay users. As the capability to create typography has become ubiquitous, the application of principles and best practices developed over generations of skilled workers and professionals has diminished[citation needed]. So at a time when scientific techniques can support the proven traditions (e.g., greater legibility with the use of serifs, upper and lower case, contrast, etc.) through understanding the limitations of human vision, typography as often encountered may fail to achieve its principal objective: effective communication.
+
+## Etymology
+
+The word "typography" in English comes from the Greek roots τύπος typos = "impression" and -γραφία -graphia = "writing".
+
+## Legibility
+
+Some commonly agreed findings of legibility research include:[citation needed]
+
+- Text set in lower case is more legible than text set all in upper case (capitals, all-caps), presumably because lower case letter structures and word shapes are more distinctive.
+- Extenders (ascenders, descenders, and other projecting parts) increase salience (prominence).
+- Regular upright type (roman type) is found to be more legible than italic type.
+- Contrast, without dazzling brightness, also has been found to be important, with black on yellow/cream being most effective along with white on blue.
+- Positive images (e.g., black on white) make handheld material easier to read than negative or reversed (e.g., white on black). Even this commonly accepted practice has some exceptions, however (for example, in some cases of disability and designing the most effective signs for drivers).
+- The upper portions of letters (ascenders) play a stronger part in the recognition process than the lower portions.
+
+## Type metal
+
+|Alloy type|Tin(%)|Antimony(%)|Lead(%)|Comments|
+|--- |--- |--- |--- |--- |
+|Slugcasting alloy|3|11|86|Ludlow/Intertype/Linotype composition for limited use and for making stereos|
+|Eutectic alloy|4|12|84|Often used on slug casters and for Monotype/Elrod spacing material|
+|Stereotype alloy|7|15|78|More durable intended for long print runs and curved printing plates|
+|Monotype alloy|10|16|74|Most durable machine set intended to be remelted, sometimes hand set|
+|Foundry type alloy|18|28|54|Traditional loose hand set type, may contain some copper|

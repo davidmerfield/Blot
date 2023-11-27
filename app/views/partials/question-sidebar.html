@@ -1,0 +1,11 @@
+  <div style="padding:16px;background:#fafafa;border-radius: 10px;margin:16px 0">
+    <h2 style="margin: 0;font-size:14px;font-weight:500;color:#999;border:none">Tags</h2>
+    {{#popular_tags}}
+    <a style="line-height:1.2;padding: 4px 0 4px 0;color:inherit;font-size: 15px;display: block;" href="/questions/tagged/{{tag}}"><span style="color:var(--accent-color);padding:2px 6px;border-radius: 4px;background: #eaf4ff;margin-right: 8px;font-size: 14px;">{{tag}}</span> <span style="color:#aaa">{{count}} questions</span></a>
+    {{/popular_tags}}
+    <a style="margin: 14px 0 0;font-size:14px;font-weight:500;color:#999;border:none" href="/questions/tags">More tags &rarr;</a>
+  </div>
+
+    <a href="/questions/feed.rss" class="module-link"><span style="font-size:14px;font-weight:500;color:#999;">Subscribe for changes</span><br>
+        <span style="line-height:1.2;padding: 4px 0 4px 0;color:var(--text-color);font-size: 15px;display: block;" >RSS Feed of latest questions</span>
+      </a>

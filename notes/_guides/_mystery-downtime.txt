@@ -1,0 +1,29 @@
+# Solving the mysterious downtime issue?
+
+I ran into an issue in which the server would go down briefly but regularly. I found in the log for my process monitor (monit) that the issue was with NGINX. The error messages in monit were quite general but it was clear that my node server was operating normally throughout, and it seems like the server had many GB of memory available during the issue. 
+
+I kept checking my nginx.log file during these incidents, which I was alerted to by my status page:
+
+https://status.blot.im/
+
+I couldn't see anything obvious in the logs – they just went quiet. No obvious error messages, even after switching my error logging settings in NGINX from 'warn' to 'info'.
+
+I then checked upstart and monits logfile and noticed this line:
+
+2021/04/13 06:05:56 [alert] 4826#0: shared memory zone "auto_ssl" was locked by 4831
+
+This was an interesting error: NGINX by itself really should be rock solid but I'm not actually using vanilla NGINX, but a version called openresty to take advantage of the excellent [auto-ssl](https://github.com/auto-ssl/lua-resty-auto-ssl) tool for generating and renewing all the SSL certificates for customer sites.
+
+I googled the error message and came across this:
+
+https://github.com/auto-ssl/lua-resty-auto-ssl/issues/43
+
+Everybody in that thread described the issue I was experiencing. It seems like the issue was fixed in a newer version of openresty, so I updated it using yum. 
+
+To update openresty I followed the instructions for Amazon Linux here:
+
+https://openresty.org/en/linux-packages.html#amazon-linux
+
+I then tried updating the auto-ssl module as well, but didn't have much luck. I couldn't find the luarocks binary and when I did it couldn't find the installed auto-ssl 'rock'. I re-installed luarocks and then re-installed the auto-ssl rock, but even then luarocks couldn't find the auto-ssl rock. Anyway, after restarting openresty everything seemed to work.
+
+It's 2:47 PM, Tuesday, April 13, 2021, Coordinated Universal Time (UTC). Let's see if this fixes the issue.

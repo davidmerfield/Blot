@@ -2,9 +2,9 @@ var http = require("http");
 var URL = require("url");
 var crypto = require("crypto");
 
-module.exports = function(secret, baseUrl) {
+module.exports = function (secret, baseUrl) {
   return {
-    challenge: function(syn, callback) {
+    challenge: function (syn, callback) {
       var challengeUrl;
 
       challengeUrl = URL.parse(baseUrl, { parseQueryString: true });
@@ -20,10 +20,10 @@ module.exports = function(secret, baseUrl) {
           );
 
         res.setEncoding("utf8");
-        res.on("data", function(chunk) {
+        res.on("data", function (chunk) {
           ack += chunk;
         });
-        res.on("end", function() {
+        res.on("end", function () {
           if (ack === syn) {
             callback(null);
           } else {
@@ -32,7 +32,7 @@ module.exports = function(secret, baseUrl) {
         });
       });
     },
-    notify: function(accountID, callback) {
+    notify: function (accountID, callback) {
       var body = JSON.stringify({ list_folder: { accounts: [accountID] } });
       var signature = crypto.createHmac("SHA256", secret);
 
@@ -48,11 +48,11 @@ module.exports = function(secret, baseUrl) {
         method: "POST",
         headers: {
           "X-Dropbox-Signature": signature,
-          "Content-type": "application/json"
-        }
+          "Content-type": "application/json",
+        },
       };
 
-      var req = http.request(options, function(res) {
+      var req = http.request(options, function (res) {
         if (res.statusCode === 200) {
           callback(null);
         } else {
@@ -62,6 +62,6 @@ module.exports = function(secret, baseUrl) {
 
       req.write(body);
       req.end();
-    }
+    },
   };
 };

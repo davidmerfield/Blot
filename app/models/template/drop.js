@@ -1,38 +1,36 @@
-var getAllViews = require('./getAllViews');
-var ensure = require('helper').ensure;
-var client = require('client');
-var key = require('./key');
-var makeID = require('./util/makeID');
+var getAllViews = require("./getAllViews");
+var ensure = require("helper/ensure");
+var client = require("models/client");
+var key = require("./key");
+var makeID = require("./util/makeID");
+var Blog = require("models/blog");
 
 module.exports = function drop(owner, templateName, callback) {
   var templateID = makeID(owner, templateName);
+  var multi = client.multi();
 
-  ensure(owner, "string")
-    .and(templateID, "string")
-    .and(callback, "function");
+  ensure(owner, "string").and(templateID, "string").and(callback, "function");
 
-  getAllViews(templateID, function(err, views) {
-    if (err || !views) return callback(err || "No views");
+  getAllViews(templateID, function (err, views, metadata) {
+    if (err) return callback(err);
 
-    client.srem(key.blogTemplates(owner), templateID, function(err) {
-      if (err) throw err;
+    multi.srem(key.blogTemplates(owner), templateID);
+    multi.srem(key.publicTemplates(), templateID);
+    multi.del(key.metadata(templateID));
+    multi.del(key.allViews(templateID));
 
-      client.srem(key.publicTemplates(), templateID, function(err) {
-        if (err) throw err;
+    if (metadata.shareID) {
+      multi.del(key.share(metadata.shareID));
+    }
 
-        client.del(key.metadata(templateID));
-        client.del(key.allViews(templateID));
+    for (var i in views) {
+      multi.del(key.view(templateID, views[i].name));
+      multi.del(key.url(templateID, views[i].url));
+    }
 
-        // console.log('DEL: ' + metadataKey(templateID));
-        // console.log('DEL: ' + key.allViews(templateID));
-        // console.log('DEL: ' + partialsKey(templateID));
-
-        for (var i in views) {
-          // console.log('DEL: ' + key.view(templateID, views[i].name));
-          client.del(key.view(templateID, views[i].name));
-        }
-
-        callback(null, "Deleted " + templateID);
+    multi.exec(function (err) {
+      Blog.set(metadata.owner, { cacheID: Date.now() }, function (err) {
+        callback(err, "Deleted " + templateID);
       });
     });
   });

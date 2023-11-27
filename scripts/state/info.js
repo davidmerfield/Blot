@@ -1,4 +1,4 @@
-require('../only_locally');
+require("../only_locally");
 
 var config = require("config");
 var Blog = require("blog");
@@ -9,11 +9,10 @@ var os = require("os");
 var User = require("user");
 var colors = require("colors/safe");
 var exec = require("child_process").exec;
-
 var access = require("../access");
-var getFolder = require("../../app/clients/dropbox/database").get;
-var getToken = require("../../app/clients/git/database").getToken;
-var clients = require("../../app/clients");
+var getFolder = require("clients/dropbox/database").get;
+var getToken = require("clients/git/database").getToken;
+var localPath = require("helper/localPath");
 
 var ROOT = process.env.BLOT_DIRECTORY;
 var BLOG_FOLDERS_DIRECTORY = ROOT + "/blogs";
@@ -21,45 +20,57 @@ var TMP_DIRECTORY = ROOT + "/tmp";
 
 // This function lists all the blogs for a particular
 // application state and then prints useful information
-module.exports = function(callback) {
-  Blog.getAllIDs(function(err, ids) {
+module.exports = function (callback) {
+  var client = require("redis").createClient();
+
+  Blog.getAllIDs(function (err, ids) {
     if (err) return callback(err);
 
+    let res = "";
+
     if (ids && ids.length > 10) {
-      console.log("Too many blogs to log in");
-      return callback();
+      res += colors.red("Too many blogs to log in");
+      return callback(null, res);
     }
 
     async.eachSeries(
       ids,
-      function(id, next) {
-        Blog.get({ id: id }, function(err, blog) {
+      function (id, next) {
+        Blog.get({ id: id }, function (err, blog) {
           if (err) return next(err);
 
-          access(blog.handle, function(err, url) {
+          access(blog.handle, function (err, url) {
             if (err) return next(err);
 
-            setupFolder(blog, function(err, folder) {
-              console.log();
-              console.log(colors.yellow(blog.title || blog.handle), "-", colors.dim(blog.id));
-              console.log("Dashboard:", url);
-              console.log("Blog:", "http://" + blog.handle + "." + config.host);
-              if (folder) console.log("Folder:", folder);
+            setupFolder(client, blog, function (err, folder) {
+              res += `
+${colors.yellow(blog.title || blog.handle)}  - ${colors.dim(blog.id)}
+Dashboard: ${url}
+Blog: http://${blog.handle}.${config.host}
+${folder ? "Folder: " + folder : ""}
+`;
               next();
             });
           });
         });
       },
-      callback
+      function (err) {
+        if (err) return callback(err, res);
+        // Signal to the process in app/templates/index to rebuild
+        // any templates since they might be out of date in this state
+        client.publish("templates:rebuild", "Go!", function (err) {
+          callback(err, res);
+        });
+      }
     );
   });
 };
 
-function setupFolder(blog, callback) {
+function setupFolder (client, blog, callback) {
   if (blog.client === "dropbox") {
     setupDropbox(blog, callback);
   } else if (blog.client === "local") {
-    setupLocal(blog, callback);
+    setupLocal(client, blog, callback);
   } else if (blog.client === "git") {
     setupGit(blog, callback);
   } else {
@@ -68,10 +79,10 @@ function setupFolder(blog, callback) {
   }
 }
 
-function setupDropbox(blog, callback) {
+function setupDropbox (blog, callback) {
   var folder;
 
-  getFolder(blog.id, function(err, account) {
+  getFolder(blog.id, function (err, account) {
     if (account.full_access && account.folder && account.folder !== "/") {
       folder = join(os.homedir(), "Dropbox", account.folder);
     } else {
@@ -84,9 +95,9 @@ function setupDropbox(blog, callback) {
   });
 }
 
-function setupGit(blog, callback) {
-  User.getById(blog.owner, function(err, user) {
-    getToken(blog.owner, function(err, token) {
+function setupGit (blog, callback) {
+  User.getById(blog.owner, function (err, user) {
+    getToken(blog.owner, function (err, token) {
       var folder = TMP_DIRECTORY + "/git-" + Date.now() + "-" + blog.handle;
       var email = encodeURIComponent(user.email);
       var protocol = "https://" + email + ":" + token + "@";
@@ -95,7 +106,7 @@ function setupGit(blog, callback) {
       var git = "git clone " + endpoint + " " + folder;
 
       fs.emptyDirSync(TMP_DIRECTORY);
-      exec(git, { silent: true }, function(err) {
+      exec(git, { silent: true }, function (err) {
         if (err) return callback(err);
         callback(null, folder);
       });
@@ -103,17 +114,16 @@ function setupGit(blog, callback) {
   });
 }
 
-function setupLocal(blog, callback) {
+function setupLocal (client, blog, callback) {
+  var folder = localPath(blog.id, "/");
 
-  var folder = TMP_DIRECTORY + "/local-" + Date.now() + "-" + blog.handle;
-
-  fs.emptyDirSync(TMP_DIRECTORY);
-  fs.copySync(BLOG_FOLDERS_DIRECTORY + "/" + blog.id, folder);
-  fs.ensureDirSync(folder);
-
-  clients.local.setup(blog.id, folder, function(err) {
-    
-    if (err) return callback(err);
-    callback(null, folder);
-  });
+  // This tells a running server to start watching this blog
+  // folder locally without needing to restart it.
+  client.publish(
+    "clients:local:new-folder",
+    JSON.stringify({ blogID: blog.id }),
+    function (err) {
+      callback(null, folder);
+    }
+  );
 }

@@ -1,8 +1,8 @@
-var Blog = require("blog");
-var Entries = require("entries");
+var Blog = require("models/blog");
+var Entries = require("models/entries");
 var async = require("async");
 var config = require("config");
-var prettyNumber = require("helper").prettyNumber;
+var prettyNumber = require("helper/prettyNumber");
 
 function main(callback) {
   var new_entries = [];
@@ -10,17 +10,17 @@ function main(callback) {
   var now = Date.now();
   var day = 1000 * 60 * 60 * 24;
   var yesterday = now - day;
-  Blog.getAllIDs(function(err, blogIDs) {
+  Blog.getAllIDs(function (err, blogIDs) {
     async.each(
       blogIDs,
-      function(blogID, next) {
-        Blog.get({ id: blogID }, function(err, blog) {
+      function (blogID, next) {
+        Blog.get({ id: blogID }, function (err, blog) {
           if (err) return next(err);
-          Entries.getTotal(blog.id, function(err, total) {
+          Entries.getTotal(blog.id, function (err, total) {
             if (err) return next(err);
             total_entries += total;
-            Entries.getRecent(blog.id, function(entries) {
-              entries.forEach(function(entry) {
+            Entries.getRecent(blog.id, function (entries) {
+              entries.forEach(function (entry) {
                 if (entry.created < yesterday) return;
                 if (entry.title)
                   new_entries.push({
@@ -31,7 +31,7 @@ function main(callback) {
                         "." +
                         config.host +
                         entry.url
-                    )
+                    ),
                   });
               });
               next();
@@ -39,10 +39,10 @@ function main(callback) {
           });
         });
       },
-      function(err) {
+      function (err) {
         callback(err, {
           new_entries: new_entries,
-          total_entries: prettyNumber(total_entries)
+          total_entries: prettyNumber(total_entries),
         });
       }
     );

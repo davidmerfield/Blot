@@ -1,5 +1,5 @@
-var debug = require("debug")("blot:build:main");
-var Metadata = require("metadata");
+var debug = require("debug")("blot:build");
+var Metadata = require("models/metadata");
 var basename = require("path").basename;
 var isDraft = require("../sync/update/drafts").isDraft;
 var Build = require("./single");
@@ -9,41 +9,36 @@ var DateStamp = require("./prepare/dateStamp");
 var moment = require("moment");
 var converters = require("./converters");
 var exitHook = require("async-exit-hook");
+var clfdate = require("helper/clfdate");
 
-// setTimeout(function(){
-//   throw new Error('EXCEPTION!');
-// }, Math.random() * 20 * 1000);
-
-exitHook(function() {
+exitHook(function () {
+  console.log(clfdate(), `Build: process pid=${process.pid} exiting...`);
   debug("Shutting down worker:", process.pid);
 });
 
-debug("Worker", process.pid, "started");
+console.log(clfdate(), `Build: process pid=${process.pid} launched`);
 
 // This file cannot become a blog post because it is not
 // a type that Blot can process properly.
 function isWrongType(path) {
   var isWrong = true;
 
-  converters.forEach(function(converter) {
+  converters.forEach(function (converter) {
     if (converter.is(path)) isWrong = false;
   });
 
   return isWrong;
 }
 
-process.on("message", function(message) {
-  build(message.blog, message.path, message.options, function(
-    err,
-    entry
-  ) {
+process.on("message", function (message) {
+  build(message.blog, message.path, message.options, function (err, entry) {
     if (err) {
       try {
         err = JSON.stringify(err, Object.getOwnPropertyNames(err));
       } catch (e) {}
     }
-    debug(message.id, "Sending back", err, entry);
-    process.send({ err: err, entry: entry, id: message.id });
+    debug(message.jobId, "Sending back", err, entry);
+    process.send({ err, entry, jobId: message.jobId });
   });
 });
 
@@ -56,17 +51,17 @@ function build(blog, path, options, callback) {
     return callback(err);
   }
 
-  Metadata.get(blog.id, path, function(err, name) {
+  Metadata.getPath(blog.id, path, function (err, storedPathDisplay) {
     if (err) return callback(err);
 
-    if (name) options.name = name;
+    const storedName = basename(storedPathDisplay);
 
     debug("Blog:", blog.id, path, " checking if draft");
-    isDraft(blog.id, path, function(err, is_draft) {
+    isDraft(blog.id, path, function (err, is_draft) {
       if (err) return callback(err);
 
       debug("Blog:", blog.id, path, " attempting to build html");
-      Build(blog, path, options, function(
+      Build(blog, path, options, function (
         err,
         html,
         metadata,
@@ -76,7 +71,7 @@ function build(blog, path, options, callback) {
         if (err) return callback(err);
 
         debug("Blog:", blog.id, path, " extracting thumbnail");
-        Thumbnail(blog, path, metadata, html, function(err, thumbnail) {
+        Thumbnail(blog, path, metadata, html, function (err, thumbnail) {
           // Could be lots of reasons (404?)
           if (err || !thumbnail) thumbnail = {};
 
@@ -90,8 +85,9 @@ function build(blog, path, options, callback) {
           try {
             entry = {
               html: html,
-              name: options.name || basename(path),
+              name: options.name || storedName || basename(path),
               path: path,
+              pathDisplay: options.pathDisplay || storedPathDisplay || path,
               id: path,
               thumbnail: thumbnail,
               draft: is_draft,
@@ -99,7 +95,7 @@ function build(blog, path, options, callback) {
               size: stat.size,
               dependencies: dependencies,
               dateStamp: DateStamp(blog, path, metadata),
-              updated: moment.utc(stat.mtime).valueOf()
+              updated: moment.utc(stat.mtime).valueOf(),
             };
 
             if (entry.dateStamp === undefined) delete entry.dateStamp;
@@ -111,7 +107,7 @@ function build(blog, path, options, callback) {
               " preparing additional properties for",
               entry.name
             );
-            entry = Prepare(entry);
+            entry = Prepare(entry, options);
             debug("Blog:", blog.id, path, " additional properties computed.");
           } catch (e) {
             return callback(e);

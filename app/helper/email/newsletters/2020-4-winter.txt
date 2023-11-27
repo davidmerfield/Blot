@@ -1,0 +1,41 @@
+Winter newsletter
+
+*You received this email because you subscribed to [Blot’s newsletter](https://blot.im/news). You can [unsubscribe](https://blot.im/news/cancel) if you like. Please reply directly to this email if you have any thoughts or questions.*
+
+I’m pleased to share that [Rakhim](https://rakhim.org/) began working part-time on Blot a few months ago. Rakhim’s contributions have been exemplary. I’m looking forward to working together this year.
+
+**New features**
+- Added a [status page](https://status.blot.im/) to report on any downtime.
+- Added [*Comment* metadata](https://blot.im/how/metadata#metadata-reference) which you can use to disable comments on a particular post or enable comments on a page.
+- Added the [Moving template](http://preview-of-moving-on-interviews.blot.im/) to the [archived templates](https://blot.im/settings/template/archived) page.
+- Added [Bandcamp embeds](https://blot.im/how/guides/embedding#bandcamp) which will turn a plain-text link to a Bandcamp page into an audio player.
+- Added [Plausible](https://plausible.io/) to the selection of analytics services on your dashboard.
+
+**Changes**
+- Added redirects and tag information to [the export file](https://blot.im/account/export) for your blog.
+- Draft posts no longer appear in your blog’s analytics.
+- Changed the name of the [metadata used to set the URL](https://blot.im/how/metadata#metadata-reference) of a blog post. Now you can use *Link* in addition to *Permalink*. 
+- Added a guide to [embedding widgets](https://blot.im/how/guides/embedding) and improved the guide to [typesetting mathematics with TeX](https://blot.im/how/guides/tex).
+- Added support for the new Google Analytics tracking code format.
+- Updated the [dashboard](http://blot.im/), as is tradition.
+- Updated various dependencies on the application server to patch any known security vulnerabilities, as is tradition.
+
+**Bugs fixed**
+- Fixed a bug with images whose name contains an apostrophe, e.g. *pat's_cat.jpg*. Previously these files could not become blog posts and thumbnails could not be generated from them.
+- Word Documents created using [Office on the web](https://en.wikipedia.org/wiki/Microsoft_Office#Office_on_the_web) now become blog posts.
+- [External citation files](https://blot.im/how/guides/citations) finally work as expected.
+- The rate limiter for the log-in page now works properly.
+
+**Mistakes**
+
+There were two major downtime incidents this season, the first on October 24th and the second on November 3rd, both under 25 minutes in length. These occurred when Blot’s application server ran out of memory. I will continue to scale the infrastructure.
+
+**Plans for this season**
+- Improve the quality of the templates.
+- Continue to work on the performance and reliability of the service.
+- Replace the [demo video](http://blot.im/) on the homepage of Blot, since it is a few years old at this point. 
+- Release the Google Drive client.
+
+If you have any thoughts or questions about any of this, please don’t hesitate to reply directly to this email.
+
+Sincerely, David

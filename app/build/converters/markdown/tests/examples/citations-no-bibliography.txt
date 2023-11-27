@@ -1,0 +1,3 @@
+@item1
+
+This has a citation but doesn't point to a bibliography in the metadata.

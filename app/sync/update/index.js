@@ -1,63 +1,78 @@
 var fs = require("fs-extra");
-var helper = require("helper");
-var localPath = helper.localPath;
-
+var localPath = require("helper/localPath");
+var clfdate = require("helper/clfdate");
+var hashFile = require("helper/hashFile");
 var drop = require("./drop");
 var set = require("./set");
 var mkdir = require("./mkdir");
+var flushCache = require("models/blog/flushCache");
+var pathNormalizer = require("helper/pathNormalizer");
 
-module.exports = function(blog) {
-  function update (path, options, callback) {
+module.exports = function (blog, log, status) {
+  return function update(path, options, callback) {
     if (callback === undefined && typeof options === "function") {
       callback = options;
       options = {};
     }
 
-    // Blot likes leading slashes, the git client
-    // for instance does not have them but we
-    // are not so strict above these things...
-    if (path[0] !== "/") path = "/" + path;
+    path = pathNormalizer(path);
 
-    function done (err) {
-      // we never let this error escape out
-      if (err) {
-        console.error("Blog", blog.id, "Caught error updating", path, err);
+    status("Syncing " + path);
+
+    hashFile(localPath(blog.id, path), function (err, hashBefore) {
+      function done(err) {
+        // we never let this error escape out
+        if (err) {
+          console.error(clfdate(), blog.id, path, err);
+        }
+        hashFile(localPath(blog.id, path), function (err, hashAfter) {
+          if (hashBefore !== hashAfter) {
+            status("Re-syncing " + path);
+            return update(path, options, callback);
+          }
+
+          // the cache is flushed at the end of a sync too
+          // but if we don't do it after updating each files
+          // long syncs can produce weird cache behaviour
+          flushCache(blog.id, function () {
+            callback(null, { error: err || null });
+          });
+        });
       }
-      callback(null, { error: err || null });
-    }
 
-    fs.stat(localPath(blog.id, path), function(err, stat) {
-      if (err && err.code === "ENOENT") {
-        // A file might be updated then deleted during a single sync
-        // so if we add it to one list we must remove it from the other
-        update.deleted.push(path);
-        update.modified = update.modified.filter(function(x){return x !== path;});
-
-        drop(blog.id, path, options, done);
-      } else if (stat && stat.isDirectory()) {
-        mkdir(blog.id, path, options, done);
-      } else if (stat && stat.isFile()) {
-        // A file might be updated then deleted during a single sync
-        // so if we add it to one list we must remove it from the other
-        update.deleted = update.deleted.filter(function(x){return x !== path;});
-        update.modified.push(path);
-        set(blog, path, options, done);
-      } else {
-        done(
-          new Error(
-            [
-              "Not sure what to do with" + path,
-              "Stat: " + stat,
-              "Error: " + err
-            ].join("\n")
-          )
-        );
-      }
+      fs.stat(localPath(blog.id, path), function (err, stat) {
+        if (err && err.code === "ENOENT") {
+          log(path, "Dropping from database");
+          drop(blog.id, path, options, function (err) {
+            if (err) {
+              log(path, "Error dropping from database", err);
+            } else {
+              log(path, "Dropping from database succeeded");
+            }
+            done(err);
+          });
+        } else if (stat && stat.isDirectory()) {
+          log(path, "Adding folder to database");
+          mkdir(blog.id, path, options, function (err) {
+            if (err) {
+              log(path, "Error adding folder", err);
+            } else {
+              log(path, "Adding folder to database succeeded");
+            }
+            done(err);
+          });
+        } else {
+          log(path, "Saving file in database");
+          set(blog, path, options, function (err) {
+            if (err) {
+              log(path, "Error saving file in database", err);
+            } else {
+              log(path, "Saving file in database succeeded");
+            }
+            done(err);
+          });
+        }
+      });
     });
-  }
-
-  update.deleted = [];
-  update.modified = [];
-  
-  return update;
+  };
 };

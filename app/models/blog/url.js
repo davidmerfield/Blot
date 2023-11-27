@@ -1,8 +1,4 @@
 module.exports = {
-  css: function(cacheID) {
-    return "/style.css?c=" + cacheID;
-  },
-  js: function(cacheID) {
-    return "/script.js?c=" + cacheID;
-  }
+  css: (cacheID) => `/style.css?cache=${cacheID}&amp;extension=.css`,
+  js: (cacheID) => `/script.js?cache=${cacheID}&amp;extension=.js`,
 };

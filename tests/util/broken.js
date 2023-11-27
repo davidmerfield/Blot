@@ -11,42 +11,69 @@
 //   base: the page on which the broken link was found
 //   status: the HTTP status code returned for the broken link
 // }]
-
-var async = require("async");
-var cheerio = require("cheerio");
-var request = require("request");
+const async = require("async");
+const cheerio = require("cheerio");
+const request = require("request");
+const { resolve, parse } = require("url");
+const clfdate = require("helper/clfdate");
+const log = (...arguments) =>
+  console.log.apply(null, [clfdate(), "Broken:", ...arguments]);
 
 function main(url, options, callback) {
-  var checked = {};
-  var results = {};
+  const checked = {};
+  const results = {};
+  const failures = {};
+  const skipped = {};
 
   if (callback === undefined && typeof options === "function") {
     callback = options;
     options = {};
   }
 
-  checkPage(null, url, function(err) {
+  checkPage(null, url, function (err) {
     if (err) return callback(err);
     callback(null, results);
   });
 
+  function addFailure(base, url, statusCode) {
+    const basePath = parse(base).pathname;
+    const pathname = parse(url).pathname;
+    failures[pathname] = statusCode;
+    results[basePath] = results[basePath] || [];
+    results[basePath].push([parse(url).pathname, statusCode]);
+  }
+
   // add some items to the queue
   function checkPage(base, url, callback) {
-    var uri = { url: url, headers: options.headers || {} };
+    const pathname = parse(url).pathname;
 
-    request(uri, function(err, res, body) {
+    if (failures[pathname]) {
+      addFailure(base, url, failures[pathname]);
+      return callback();
+    }
+
+    if (checked[pathname]) return callback();
+
+    checked[pathname] = true;
+
+    const uri = { url: url, headers: options.headers || {} };
+
+    log("GET", url);
+
+    request(uri, function (err, res, body) {
       if (err) return callback(err);
 
-      if (res.statusCode !== 200) {
-        var basePath = require("url").parse(base).pathname;
-        results[basePath] = results[basePath] || [];
-        results[basePath].push({
-          url: require("url").parse(url).pathname,
-          status: res.statusCode
-        });
+      log("GOT", url, res.statusCode);
+
+      // We use 400 sometimes on the dashboard
+      if (res.statusCode !== 200 && res.statusCode !== 400) {
+        addFailure(base, url, res.statusCode);
       }
 
-      if (res.headers["content-type"].indexOf("text/html") === -1) {
+      if (
+        res.headers["content-type"] &&
+        res.headers["content-type"].indexOf("text/html") === -1
+      ) {
         return callback();
       }
 
@@ -55,8 +82,8 @@ function main(url, options, callback) {
   }
 
   function parseURLs(base, body, callback) {
-    var URLs = [];
-    var $;
+    let URLs = [];
+    let $;
 
     try {
       $ = cheerio.load(body);
@@ -64,23 +91,35 @@ function main(url, options, callback) {
       return callback(e);
     }
 
-    $("[href],[src]").each(function() {
-      var url = $(this).attr("href") || $(this).attr("src");
-      url = require("url").resolve(base, url);
+    $("[href], [src]").each(function () {
+      let url = $(this).attr("href") || $(this).attr("src");
 
-      if (require("url").parse(url).host !== require("url").parse(base).host)
+      if (!url) return;
+
+      url = resolve(base, url);
+
+      if (skipped[url]) {
+        // dont log this every time
         return;
+      }
+
+      if (parse(url).host !== parse(base).host) {
+        log("skipping", url);
+        skipped[url] = true;
+        return;
+      }
+
+      // if (!parse(url).pathname.startsWith(parse(base).pathname)) {
+      //   log("Broken: skipping URL without matching path", url);
+      //   return;
+      // }
 
       URLs.push(url);
     });
 
-    async.each(
+    async.eachSeries(
       URLs,
-      function(url, next) {
-        if (checked[url]) return next();
-
-        checked[url] = true;
-
+      function (url, next) {
         checkPage(base, url, next);
       },
       callback

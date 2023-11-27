@@ -1,0 +1,78 @@
+<h1>Wikilinks</h1>
+
+<p>You can use wikilinks to create internal links between your posts. You can enable or disable wikilinks on the <a href="/settings/services">services page of your dashboard</a> under <em>Typography</em>.</p>
+
+<pre class="text with-chrome" title="Post.md"><code>This is a wikilink to a file called *Other post.md* in the same directory: 
+
+[[Other post]]
+
+The wikilink above is equivalent to this Markdown:
+
+[Other post](/other-post)
+</code></pre>
+
+
+<h2>Why use Wikilinks?</h2>
+
+<p>You don't need to know the URL of the linked post to create a wikilink, just the filename. Also, some note-taking applications, like <a href="https://obsidian.md/">Obsidian</a>, create and update wikilinks automatically.</p>
+
+<h2>How are Wikilinks resolved?</h2>
+
+<p>At the moment, Blot looks up the linked post in the following order:</p>
+<ol>
+<li><strong>By file path</strong>  When looking by file path, Blot first checks the contents of the wikilink as if it were a relative path, then an absolute path, and finally searches the directory containing your post by filename.
+</li>
+<li><strong>By URL</strong> Works for posts and pages, is case-insensitive.</li>
+<li><strong>By title</strong> Works for posts and pages, is case-insensitive.</li>
+</ol>
+
+<h2>Examples</h2>
+
+<p>Consider the following folder structure</p>
+<background class="green" style="margin:0"><pre class="folder" title="Your blog"><code>Introduction.docx
+Fruits
+  Apple.md  
+  Pear.txt
+  Tasty
+    Mango.md
+</code></pre></background>
+
+<p>These are all valid Wikilinks for the files in the folder above:</p>
+
+<table>
+  
+  <tr>
+    <td><code class="file txt">Introduction.docx</code></td>
+    <td><pre><code>[[Fruits/Apple]]
+[[./Fruits/Pear]]
+[[/Fruits/Tasty/Mango.md]]</code></pre></td>
+  </tr>
+
+  <tr>
+    <td><code class="file md">Apple.md</code></td>
+    <td><pre><code>[[Pear]]
+[[./Tasty/Mango]]
+[[/Introduction.docx]]</code></pre></td>
+  </tr>
+
+  <tr>
+    <td><code class="file md">Mango.md</code></td>
+    <td><pre><code>[[Fruits/Apple]]
+[[../Apple]]
+</code></pre></td>
+  </tr>
+
+</table>
+
+
+<h2>Changing the link text</h2>
+
+By default, the linked post's title will become the link's text. You can specify your own text using the following syntax:
+
+<pre><code>
+[[Post.txt|Your link text here]]
+</code></pre>
+
+<h2>Tip for Obsidian</h2>
+
+<p>For those who use <a href="https://obsidian.md/">Obsidian</a> to manage their notes, I recommend setting the <em>New link format</em> to <em>relative path to file</em>. Blot will work with the <em>New link format</em> set to <em>absolute path in vault</em> as long as your Obsidian Vault is not inside a subdirectory of your blog folder on Blot.</p>

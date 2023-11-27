@@ -1,65 +1,82 @@
-/* LAYOUT */
+/* Fixes a bug with the image zoom plugin on this template */
+p, div, section {position: static;} 
 
-/* Ensure consistency in the layout.css for users with the image zoom plugin
-   and those without. What a nightmare! */
+/* LAYOUT */
 
 .container {position: relative;}
 
 .margin {
+  position: absolute;
   box-sizing: border-box;
-  width: 33%;
-  overflow: auto;
+  width: 29.3333%;
 }
 
+.margin p {font-style: italic;}
 
-
-
-.margin > :first-child,
-.inside > :first-child {margin-top:0}
-
-.margin h1, .margin h2, .margin h3 {margin-top:0}
-.margin p,
-.inside p {font-size:0.875rem;line-height:1.425}
-
-.margin p img {margin-top: 5px}
-
-.left.margin,
-.left.inside {
-  float: left;
-  padding-right: 2rem;
-  /* margin-top: 3rem; */
-  max-width: 35%;
-}
-
-.right.inside {
-  max-width:35%;
-  float:right;
-  padding-left:2rem;
+.left.margin {
+  left: -29.3333%;
+  padding-right: 30px;
+  text-align: right;
 }
 
 .right.margin {
-  position: absolute;
-  right: -35.58%;
-  width: 35.58%;
-  padding-left: 3rem;
+  right: -29.3333%;
+  padding-left: 30px;
 }
 
 .wide {
-  width: 142%;
-  overflow: auto; /* collapse internal margins */
+  width: 158.6666667%;
+  margin-left: -29.3333333%;
+  overflow: auto; /* collapses internal margins */
 }
 
-.wide.left, .wide.right {
-  width: 129.3333333%;
-  float: none;
-  margin: 0 -29.3333333% 0 0;
+.wide.left, .wide.right {width: 129.3333333%;float: none;}
+.wide.left {margin: 0 0 0 -29.3333333%}
+.wide.right {margin: 0 -29.3333333% 0 0}
+
+.margin p, .column p {margin-top: 2px}
+.margin h1, .margin h2, .margin h3 {margin-top:0}
+
+.column {
+  box-sizing: border-box;
+  float: left;
 }
 
-.column {box-sizing: border-box;float: left;}
+.column.two {
+  width: 50%;
+  padding-right: 12px;
+}
 
-.column.two {width: 50%;padding-right: 11px;}
+.column.three {width: 33.333333%;padding: 0 16px 0 0;}
+.column.three + .column.three {padding: 0 8px}
+.column.three + .column.three + .column.three {padding: 0 0 0 16px}
 
-.column.three {width: 33%;padding-right: 22px;}
+.column.four {width: 25%;padding-right: 18px;}
+.column.four + .column.four {padding: 0 12px 0 6px;}
+.column.four + .column.four + .column.four {padding: 0 6px 0 12px;}
+.column.four + .column.four + .column.four + .column.four {padding: 0 0 0 18px;}
 
-.column.two + .column.two {padding: 0 0 0 11px;}
 
+
+.column.two + .column.two {
+  padding: 0 0 0 12px;
+}
+
+@media screen and (max-width: 1060px) {
+
+  .margin,
+  .margin.right,
+  .margin.left {position: relative;display: block;top: auto;left: auto;right: auto;bottom: auto;}
+
+  .margin.right {float: right;}
+  .margin.left {text-align: left;float: left;}
+
+  .wide, .wide.left, .wide.right {width: 100%;margin: 0}
+}
+
+
+@media screen and (max-width: 600px) {
+  .margin {width: 40%;}
+  .margin.right {padding-left: 16px;}
+  .margin.left {padding-right: 16px;}
+}

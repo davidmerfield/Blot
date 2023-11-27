@@ -1,16 +1,13 @@
-var Blog = require('../../app/models/blog');
+var Blog = require("models/blog");
 
-module.exports = function(done){
-  
+module.exports = function (done) {
   var id = this.blog.id;
 
-  
-  Blog.remove(id, function(err){
-
+  Blog.remove(id, function (err) {
     if (err) {
       return done(err);
     }
-
+    
     done();
   });
 };

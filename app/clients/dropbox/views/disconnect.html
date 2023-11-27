@@ -1,18 +1,12 @@
-{{#account}}
 
+<form method='post' class="account" >
 
-<div class="line" style="border-bottom: none">
-<p>If you <b>disconnect from Dropbox</b>, Blot will revoke its access to the Dropbox folder for <b>{{blog.title}}</b>. Once you disconnect from Dropbox, you can switch to another client seamlessly. The files in your folder on Blot will be copied across.</p>
-</div>
-
-<form method='post' class="account" style="padding-top:0;margin-top:0">
+  <p>If you disconnect your folder from <strong>Dropbox</strong>, your blog will remain as it is now until you reconnect your folder to another service or tool.</p>
 
   <input type="hidden" name="_csrf" value="{{csrftoken}}">
+  
   <div class="buttons">
     <input class="button" type="submit" value="Disconnect from Dropbox" />
     <a href="{{{base}}}">Cancel</a>
   </div>
 </form>
-
-{{/account}}
-

@@ -1,0 +1,365 @@
+Tags: Engineers
+
+# Robert Cailliau
+
+{<>} ![Robert Cailliau in 1995. Image: CERN](_Robert_Cailliau_OnDesk2.jpg)
+
+The name [Robert Cailliau](https://en.wikipedia.org/wiki/Robert_Cailliau "w:Robert Cailliau") may not ring a bell to the general public, but his invention is the reason why you are reading this: Dr. Cailliau together with his colleague [Sir Tim Berners-Lee](https://en.wikipedia.org/wiki/Tim_Berners-Lee "w:Tim Berners-Lee") invented the [World Wide Web](https://en.wikipedia.org/wiki/World_Wide_Web "w:World Wide Web"), making the internet accessible so it could grow from an academic tool to a mass communication medium. Last January Dr. Cailliau retired from [CERN](https://en.wikipedia.org/wiki/CERN "w:CERN"), the European particle physics lab where the WWW emerged.
+
+Wikinews offered the engineer a virtual beer from his native country [Belgium](/wiki/Belgium "Belgium"), and conducted an e-mail interview with him (which started about three weeks ago) about the history and the future of the web and his life and work.
+
+**At the start of this interview, we would like to offer you a fresh pint on a terrace, but since this is an e-mail interview, we will limit ourselves to a virtual beer, which you can enjoy [here](https://en.wikipedia.org/wiki/nl:Afbeelding:Stella_Artois.JPG "w:nl:Afbeelding:Stella Artois.JPG").**
+
+Yes, I myself once (at the 2nd international WWW Conference, [Chicago](/wiki/Chicago "Chicago")) said that there is no such thing as a virtual beer: people will still want to sit together. Anyway, here we go.
+
+History of the WWW
+------------------
+
+**Wikinews: Why did the WWW emerge at a particle physics lab such as CERN? What need did it serve the scientific community at its origin? Was the making of the WWW a case of the right time and the right place/circumstances for someone with the right IT knowledge?**
+
+Robert Cailliau: There were quite a number of hypertext systems around: the Microcosm, Hyper-G, Gopher, even Xanadu. Everyone was experimenting. There were even two independent attempts inside CERN (Tim's and mine)! CERN is an infrastructure used by physicists from all kinds of universities who after their experiments at CERN go back to their institutes. A single experiment brings together many physicists from universities scattered over the globe. Obviously they stay in contact: they have been users of networks and computers for a long time.
+
+It's therefore not so surprising that we looked for a system that would allow such a group to consult documents without having to know where the author was or which of the different computers, operating systems, usernames or passwords was needed. There was a need for an automated library.
+
+The two attempts at CERN were personal initiatives. When I learned that Tim wanted to use the internet and had made progress towards an implementation, I immediately teamed up with him. But it remained for quite a time a project that was looked at with some apprehension by CERN management.
+
+It was partially the result of the right people in the right place, partially chance, but partially driven by a real need. And everything happened under the benevolent eyes of Mike Sendall, Tim's boss.
+
+**In the beginning, what challenges did you face inside and outside CERN in the development of this cutting-edge technology?**
+
+A lot of incomprehension, later also some jealousy. And at the start it was difficult to convince the managers that it would grow into a useful tool.
+
+There were a number of factors against us. First, the period of home-grown IT solutions was over. The trend was to buy off-the-shelf software.
+
+Secondly, the entire future of high-energy physics was precarious: there were troubles around the [SSC](https://en.wikipedia.org/wiki/Superconducting_Super_Collider "w:Superconducting Super Collider") (_Superconducting Super Collider, red._) in the [U.S.](/wiki/U.S. "U.S.") and from the plans of the [LHC](https://en.wikipedia.org/wiki/Large_Hadron_Collider "w:Large Hadron Collider") (_Large Hadron Collider, red._) it was clear that something had to give. The SSC was finally scrapped in 1993, but during the entire period the physicists were worrying about other things than hypertexts.
+
+Thirdly, there was always the problem of justifying a project in pure computing within an institute whose mandate is very clearly the science of pure physics.
+
+Outside CERN there was a desert of hopelessly confused networking. Universities wanted TCP/IP but the telecoms of the European countries were still governmental monopolies, and they resisted this because they were used to different payment schemes.
+
+I remember a funny exchange between a person from [Deutsche Telekom](https://en.wikipedia.org/wiki/Deutsche_Telekom "w:Deutsche Telekom") and a group of academics at a conference: they complained about the costs and the slow links. The telecom person replied: "What do you want? We give you the best [X-25](https://en.wikipedia.org/wiki/X.25 "w:X.25") lines and then you run [TCP/IP](https://en.wikipedia.org/wiki/Internet_protocol_suite "w:Internet protocol suite") on top of that!" But we had no choice: TCP/IP was the only protocol usable with all universities of the world.
+
+
+
+At another occasion I asked a representative of [France Telecom](https://en.wikipedia.org/wiki/France_Telecom "w:France Telecom") for his e-mail address. He gave me an X-400 address and I asked for an internet address. He raised his eyebrows and said: "Monsieur, vous ne pensez quand-même pas que France Telecom va soutenir l'internet?" ("Sir, I hope you do not expect that France Telecom will support the internet?"). And all that happened when the web was already a success, though indeed only in the academic world. [File:Premier serveur Web.jpeg](/w/index.php?title=Special:Upload&wpDestFile=Premier_serveur_Web.jpeg "File:Premier serveur Web.jpeg")
+
+[![](//upload.wikimedia.org/wikipedia/commons/thumb/c/c8/ImageNA.svg/300px-ImageNA.svg.png)](/wiki/File:ImageNA.svg)
+
+The first web server.  
+
+**Wikinews**: Early browsers were web editors at the same time right? What browser do you use today? Does it have tabbed browsing? How does it compare to the early browsers you've worked with?
+
+**Robert Cailliau**: It is true that the browser of the [NeXT](https://en.wikipedia.org/wiki/NeXT "w:NeXT") was also the editor, though it was restricted to the pages on the local server.
+
+The current complexity of [XHTML](https://en.wikipedia.org/wiki/XHTML "w:XHTML"), [Ajax](https://en.wikipedia.org/wiki/Ajax_(programming) "w:Ajax (programming)"), [CSS](https://en.wikipedia.org/wiki/Cascading_Style_Sheets "w:Cascading Style Sheets") etc. precludes I think the efficient combination of the functions of editing and browsing in a single application.
+
+Something I do miss are the "next-previous" functions of the NeXT browser. Current browsers only permit you to follow a link and then to run back and forth over the path you took ("back" and "forward"). The NeXT browser had the additional function of following the next link of the previous page ("next"). That allowed me to make a page which was a list of pages to be looked at and then to walk that "path" with a click per page. It was a simple way to establish a path and save it, totally independently from the target pages and the servers. A kind of "digest".
+
+I know, it's possible to do this with [Javascript](https://en.wikipedia.org/wiki/Javascript "w:Javascript"), but it is not easy and you can't pass such a page in a simple way to just anyone.
+
+We also had [vector graphics](https://en.wikipedia.org/wiki/vector_graphics "w:vector graphics"). I'm afraid that SVG has failed, at least I do not see any sites that use it extensively.
+
+Style sheets were also incorporated, not very advanced, but the idea was there. CSS did break through.
+
+Today I use mainly [Safari](https://en.wikipedia.org/wiki/Safari_(web_browser) "w:Safari (web browser)") because it uses CSS best and above all for the typography. Even [Firefox](https://en.wikipedia.org/wiki/Mozilla_Firefox "w:Mozilla Firefox") can learn from Safari's typography. Why is it that so few programs handle text well? Why is typography so lousy on the screen?
+
+[Tabbed browsing](https://en.wikipedia.org/wiki/Tabbed_browsing "w:Tabbed browsing") is a concession to those who can't cope with a multitude of separate windows. Don't really need it. The first browsers always opened a linked page in a new window. But Windows does not use windows: it prefers full-screen. Mosaic was one of the first browsers that used a single window. Why do it simple when it's possible to complicate things?
+
+**Wikinews**: Search engines have made the mass of data now on the WWW easily searchable. How initially did you foresee the data being indexed?
+
+**Robert Cailliau**: Not at all! Or by hand. We had the "Virtual Library" or VL, the idea of indexing and classifying pages about a subject by voluntary work of a specialist in that subject. A kind of [Wikipedia](/wiki/Wikipedia "Wikipedia"), but with only the links: the content was distributed outside the VL. The VL had a certain success, but demanded a lot of work. The appearance of search engines made the VL unimportant.
+
+The web broke up into servers. The original "atom" of the web was the page, now it is the server. Servers link very rarely to other servers and then almost always warn you: "You will now leave our site!". In that kind of structure you need a search engine otherwise you can't find anything. But search engines do not let you find your way in the web: they give you a reference, not a path to follow to get there.
+
+The first search engine was built by the "Centre Universitaire d'Informatique" of the [University of Geneva](https://en.wikipedia.org/wiki/University_of_Geneva "w:University of Geneva").
+
+I predicted that search engines would not cope in the long term. Maybe the existence of [Google](/wiki/Google "Google") is only an indication that there is still only little available on the web.
+
+[![](//upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Cailliau_Abramatic_Berners-Lee_10_years_WWW_consortium.png/300px-Cailliau_Abramatic_Berners-Lee_10_years_WWW_consortium.png)](/wiki/File:Cailliau_Abramatic_Berners-Lee_10_years_WWW_consortium.png)
+
+Robert Cailliau, Jean-François Abramatic and Tim Berners-Lee at the 10th anniversary of the WWW Consortium.  
+Image: Robert Cailliau.
+
+**Wikinews**: You were at the inception of the WWW together with Tim Berners-Lee; what aspects are you responsible for exactly? You've convinced CERN to release the basic code library into the [public domain](https://en.wikipedia.org/wiki/public_domain "w:public domain")?
+
+**Robert Cailliau**: In 1990 I had already left programming for ten years and was doing management. I'm also 8 years older than Tim, who himself was no longer a young programmer. It was evident that I could not compete with twenty year old Unix hackers and soon I stopped meddling with the writing of [C code](https://en.wikipedia.org/wiki/C_(programming_language) "w:C (programming language)"). Anyway I know only one programming language worse than C and that is Javascript.
+
+I did influence the shapes of the web and the directions of development, but I mainly occupied myself with obtaining the resources necessary to keep the project going. I had a (meager) budget and so I got computers, offices, and above all people: young programmers who can spend a year working at CERN in the framework of its Technical Student Programme. To get all that done I had to plead often with the management.
+
+I also understood that CERN, as a lab for physics, would never devote a division to the web. Therefore I began to contact true informatics institutes such as [INRIA](https://en.wikipedia.org/wiki/Institut_national_de_recherche_en_informatique_et_en_automatique "w:Institut national de recherche en informatique et en automatique") (_Institut national de recherche en informatique et en automatique, red._) and [FhG](https://en.wikipedia.org/wiki/Fraunhofer_Society "w:Fraunhofer Society") (_Fraunhofer Society, red._) , as well as contacting the European Commission. In this I was fortunately supported by Mike Sendall. Mike, who was seen as neutral by CERN management, has done more than anyone else to help the development of the web inside CERN.
+
+On the technical side it was not always the best of understanding between me and the team. For example, I was convinced that we needed to build-in a programming language, but the developers, Tim first, were very much opposed. It had to remain completely declarative. Maybe, but the net result is that the programming-vacuum filled itself with the most horrible kluge in the history of computing: Javascript.
+
+I also remember a big resistance against PostScript, but what do we see now? [PDF](https://en.wikipedia.org/wiki/Portable_Document_Format "w:Portable Document Format") everywhere. Fortunately PDF is an open standard and it's fairly elegant, but it could have turned out much worse. SVG did not make it.
+
+[![Cquote1.svg](//upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Cquote1.svg/10px-Cquote1.svg.png)](/wiki/Wikinews_interviews_World_Wide_Web_co-inventor_Robert_Cailliau "Wikinews interviews World Wide Web co-inventor Robert Cailliau")
+
+**Tim, who had a longer experience with the internet world, convinced me that the web could only survive if all the code was freely available for everyone, \[...\] put into the public domain. \[...\] The document was signed on 30 April 1993 that gave the WWW technology to the world.**
+
+[![Cquote2.svg](//upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Cquote2.svg/10px-Cquote2.svg.png)](/wiki/Wikinews_interviews_World_Wide_Web_co-inventor_Robert_Cailliau "Wikinews interviews World Wide Web co-inventor Robert Cailliau")
+
+—Robert Cailliau
+
+Tim, who had a longer experience with the internet world, convinced me that the web could only survive if all the code was freely available for everyone who wanted to tinker with it. In 1992-1993 I then worked patiently for some 6 months with CERN's Legal Service to draft a document that put the source code into the public domain. This also implied working to convince the management, up to the Directors, of the need to do so. The result was the document signed on 30 April 1993 that gave the WWW technology to the world.
+
+During the same period I also perceived that the web as a technology had very many aspects. Tim drew what he called the "metro": a diagram of the relationships between the existing systems (FTP, SMTP, HTTP, ...) in the form of a stylised map resembling that of the [London Underground](https://en.wikipedia.org/wiki/London_Underground "w:London Underground"). That made me think that we needed to deal with a lot more hard computer science than our small team of four or five could intellectually handle. Therefore I began to toy with the idea of an international conference on WWW technologies. Tim was not convinced, but I went ahead.
+
+NCSA (the [National Center for Supercomputer Applications](https://en.wikipedia.org/wiki/National_Center_for_Supercomputing_Applications "w:National Center for Supercomputing Applications") in the U.S.) had just released [Mosaic](https://en.wikipedia.org/wiki/Mosaic_(web_browser) "w:Mosaic (web browser)"), first for the [X-Window](https://en.wikipedia.org/wiki/X_Window_System "w:X Window System")/[Unix](https://en.wikipedia.org/wiki/Unix "w:Unix") systems, then for [Mac](https://en.wikipedia.org/wiki/Macintosh "w:Macintosh") and [PC](https://en.wikipedia.org/wiki/Personal_computer "w:Personal computer"). Their group not only had a lot more people, but their leader, Joseph Hardin, was a sociologist of my age. I suspected that he was thinking along the same lines, and I was right: when I launched the call for papers for the first WWW conference in December 1993, I did so just one day before NCSA would have done the same thing. It was a Friday and on Saturday Hardin phoned me at home to discuss the matter. Fortunately our relations were good and he was also very fair by teaming up with my conference in the end. But our team at the time was very weak: NCSA had a big success with Mosaic and they could easily have used their weight to wipe us off the map.
+
+It was also a time to understand how underdeveloped our idea of Europe here is. We know that we have to live together on this assembly of peninsulas, but when we have to pull in the same direction then that is politically rather difficult.
+
+Finally for two years I worked quite hard contributing to the setting up of the [Web Consortium](https://en.wikipedia.org/wiki/World_Wide_Web_Consortium "w:World Wide Web Consortium"). Even afterwards that took much effort and a lot of my time.
+
+**Wikinews**: There are some fun anecdotes about the beginning of the World Wide Web. We've just offered you a virtual beer, but the idea of the WWW started with a beer too, in this case with a (real) beer with Tim Berners-Lee, right? And there is a reason that the original WWW-logo is green, right? Why is it not called world-wide web, with a hyphen? Are there other anecdotes you want to share with our readers?
+
+**Robert Cailliau**: The list is without end.
+
+At the second conference, held by NCSA in Chicago, someone asked if it was not better to use the web for conferences instead of travelling to far places. Implusively I answered, in front of 1500 programmers in the audience, that there was no such thing as a virtual beer and therefore we preferred to meet in the flesh. That was 1994.
+
+In 1990, months before there was a shred of code, Tim and I wanted to find a good name for the project. Sometimes, after a hard day's work in warm offices we drank a beer on the CERN cafeteria terrace before going home. On one such occasion Tim came up with "World-Wide Web". I would have preferred something shorter, but to find a catching name is not easy. I agreed to use WWW for the new document that was to go to management and "find a better name later". WWW stayed: it summarised well what it was.
+
+Because I'm a [synaesthete](https://en.wikipedia.org/wiki/Synesthesia "w:Synesthesia") I see characters in colours and I perceive a W as green. I liked that. So it remained WWW. And there was indeed a logo that we used a lot in the beginning. It was made from three Ws: white, light green and darker green.
+
+[![](//upload.wikimedia.org/wikinews/en/thumb/a/a0/Pin_WWW_logo_Robert_cailliau.jpg/300px-Pin_WWW_logo_Robert_cailliau.jpg)](/w/index.php?title=File:Pin_WWW_logo_Robert_cailliau.jpg&filetimestamp=20070816114909&)
+
+Close-up of a pin handed out at the first conference
+
+And yes, the hyphen was there for a long time too. But it confused people who were not so grammatical, and Tim finally cut the knot by stating that he had the right to decide how it was written since he had invented it: without the hyphen.
+
+Some anecdotes were less funny: at one time I could have made Alexander Totic of NCSA come to CERN to join us. That was almost arranged when it appeared that Alex had a [Serbian](/wiki/Serbia "Serbia") passport and CERN at the time did not admit Serbs.
+
+The most recent and very positive anecdote is from October 2006: I gave the opening keynote at an Australian conference on e-learning and the internet in education. I started out by saying I knew nothing about education but would give my keynote anyway. In a later talk Jean Johnson presented NotSchool (http://www.notschool.net) and mentioned that the project "Web for Schools" of the [European Commission](https://en.wikipedia.org/wiki/European_Commission "w:European Commission") had been very important for her work.
+
+Later I asked her whether she meant the project that ended in a conference in [Dublin](https://en.wikipedia.org/wiki/Dublin "w:Dublin") in 1995. She said yes and asked if I had been there. I then had to admit that I had started that project myself and addressed the audience at the closing session of the Dublin conference and therefore maybe I did know a little about internet in education. It was heartwarming to know that even smaller initiatives had been quite important.
+
+**Wikinews**: While Tim Berners-Lee wasn't enthusiastic about it, you called for the first International WWW conference. How did those conferences shape the WWW?
+
+**Robert Cailliau**: The conferences still run, the 2007 one was in [Banff](https://en.wikipedia.org/wiki/Banff,_Alberta "w:Banff, Alberta"). They are an occasion to meet and work very hard for a few days at the exchange of ideas. The papers of the presentations are published in well-known academic journals. That incites people to prepare well and present to colleagues. Many web technologies started at one of the conferences (proxies, VRML, ...) Working groups are established there. Because many want to go but can do so only when funded by their institute or company, it often means they have to present a paper. Vague ideas are then consolidated and cast into programming code, which otherwise might not happen.
+
+In addition the Conference Committee soon convinced the Web Consortium to hold one of its annual meetings in conjunction with the conference. I am no longer involved with this, but at least during the years 1996 to 2004 this synergy was present and a track of the conference was devoted to the work of the Consortium. Therefore Tim was also present every year.
+
+I always saw the Consortium as the "church" with Tim as the "pope". In the Consortium there is a set of rules for arriving at decisions after which everyone has to abide by them. There are industrial and sometimes political stakes.
+
+The Conferences however, as long as I was member of the Committee, I saw as the "state" of "laymen"; you had freedom of expression and could propose the most wild schemes. Between church and state I prefer a complete separation.
+
+That did not mean of course that we did not collaborate closely between Consortium and Conference Committee: there always was a delegate of the Consortium member of the Committee although that was not a requirement. We wanted both to be successful.
+
+**Wikinews**: Related to that, I have been told the WWW was initially to run on [micropayments](https://en.wikipedia.org/wiki/micropayments "w:micropayments"). Who had that idea, and why do you believe it never came about?
+
+**Robert Cailliau**: It never was in the original goals to use micropayments. However, for keynote speaker of the first conference (May 1994) I had invited David Schaum, an expert in digital money. I was therefore already then convinced of the need for digital money: payment with guaranteed value but not traceable origin. We still do not have anything like that. To me a much more important reason to introduce digital money than untraceability is a free market for information.
+
+The ideas of digital payments were targeting sales of goods and payment of subscriptions. To me it is more important to break the vicious triangle of author-reader-advertiser.
+
+In the beginning I was often completely misunderstood. There were even newspaper articles that led to hate-mail through incomprehension.
+
+The principle of an information market with micropayments is simple and it is not new (the French [Minitel](https://en.wikipedia.org/wiki/Minitel "w:Minitel") has had it since the early 80s).
+
+There are currently three ways to put info on the web:
+
+1.  for free (but who pays my time?)
+2.  by subscription with a name and password valid for a certain length of time
+3.  by soliciting advertisers to put their ads on the site
+
+Manner 1 can only if I have other sources of income.
+
+Manner 2 is used often but puts off people because of the high level of the subscription. That bars the reader from using many different sites, e.g. to browse many newspapers. The sum of the subscriptions is too high.
+
+For example: I sometimes want to look up a word in the [Oxford English Dictionary](https://en.wikipedia.org/wiki/Oxford_English_Dictionary "w:Oxford English Dictionary"), but not so often that I find it worth my while to pay for the subscription. Therefore I can't use it at all.
+
+Manner 3 is the most used even if that is not pleasant for the user. For example, [Via Michelin](https://en.wikipedia.org/wiki/ViaMichelin "w:ViaMichelin"), an excellent service, has recently become very irritating because it carries so much advertising, in addition animated as well so that it is difficult to concentrate on what I want to do there for all the moving stuff. Adverts, especially the animated variety, is a pest on useful sites.
+
+With micropayments and digital money I would be able to pay Oxford a tiny sum for each time I consult the dictionary, but without having to pay a full subscription.
+
+A good implementation of micropayments must also provide comfort: I should not have to log in or agree, my computer automatically pays behind the scenes. We are talking here of sums of less than a eurocent.
+
+And I could of course set limits by telling the browser to warn me if I spend more than 10 Euros a day or when a site charges more than a cent for a page, etc.
+
+In this way I could read the news in several papers without having to pay a complete subscription to each and having to log in. If they want, sites can of course also distinguish between a paying entrance after which there are no more adverts and things work faster, and an entrance that is free but full of adverts.
+
+In short, there is then a true market for information, directly between the seller and the customer. Nothing is obligatory, but a lot more is possible. With the Euro it is now perhaps time to try an experiment with micropayments.
+
+**Wikinews**: The web was invented in Europe, but it grew exponentially and to some extent the invention has exploded in your face; at any point did you feel that the WWW had been hijacked by the United States?
+
+**Robert Cailliau**: The web was hijacked by those who put something in it. They are the people who did not make long ideological or so-called "intellectual" reasonings but who put content there. The approach differs greatly between our European parochial little cultures. For example on the whole French companies are pretty bad on the web: there is a lot of aesthetical ado but you can't find the information you are looking for. The [Swiss](/wiki/Switzerland "Switzerland") sites, even those written in French, are much more direct and informative.
+
+The Dutch do better than the Belgians. There is a large difference between the private sector and government agencies. The sites of the French government are a model of completeness, user friendliness and usefulness, almost completely the opposite of the sites of the private companies of the same country.
+
+I did not make a study of this phenomenon but it seems there are two large influences: approach to life (Protestant/pragmatic/experimental/Germanic versus catholic/intellectual/cartesian/Latin ?) and language.
+
+It's obvious that there is more available in English, say, than in Basque. But that should not surprise anyone. OK, so we have a language problem in Europe. That leads to one of my favourite subjects: language as a technology, but that's for another interview.
+
+**Wikinews**: How much has the web evolved since the 1970s? What factors are hindering further evolution?
+
+**Robert Cailliau**: You probably mean the 90s unless you want to talk internet instead of web. Looking back and from the many conversations with web and internet pioneers, I think not much has changed fundamentally.
+
+There was a first explosion of internet services in the 70s (e-mail, chat, file transfer, remote login, ...) then a pause with nothing much until the web involved the public at large from 1995. Two grand phases then: academic development followed by explosion in the public sphere.
+
+We must remember two incompatible communication models: telephony (no guaranteed contact but guaranteed bandwidth) and internet (guaranteed contact but no guaranteed bandwidth). Circuit switching and packet switching. Fashion dictates that we should now do everything via TCP/IP. That's fine als long as there is no need for continuous contact (e-mail, web, download) but it is never good enough when that need is present (audio, video, TV). Not to mention tele-surgery. Would you like to be on the operating table knowing that the surgeon on the other side has just TCP/IP between his hand and the scalpel? Probably not.
+
+There are applications that need a guaranteed bandwidth and that's not achievable with classic TCP/IP. Of course, the mathematician and the network geek will tell you that there is no difference if you make the bandwidth high enough. True, but I fear that you can also always find an application that's bandwidth hungry enough that those limits need to be put higher again. Maybe we find a combination whereby the web is used to initiated a circuit so that the best of both approaches can be had.
+
+**Wikinews**: What part or period of the history of the World Wide Web did you enjoy most? Which were the most exciting times?
+
+**Robert Cailliau**: Enjoy? Only afterwards, except the first conference. There was a euphoric atmosphere that I have seldom experienced. And because I started it myself, it was extremely satisfying.
+
+The most exciting period was from end 1991 to end 1994. It was the early period where we sensed very clearly where we wanted to go but had to instill that vision in others. It lasted until the end of WWW at CERN in December 1994. I cannot relate the whole story here, it is told in detail in the book "How the Web was Born".
+
+**Wikinews**: If you could go back into time and change one thing about the start of the WWW, what would it be?
+
+**Robert Cailliau**: [Isambard Kingdom Brunel](https://en.wikipedia.org/wiki/Isambard_Kingdom_Brunel "w:Isambard Kingdom Brunel"), one of the greatest engineers of all times, wrote in 1844 at the height of the railway mania:
+
+[![Cquote1.svg](//upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Cquote1.svg/20px-Cquote1.svg.png)](/wiki/Wikinews_interviews_World_Wide_Web_co-inventor_Robert_Cailliau "Wikinews interviews World Wide Web co-inventor Robert Cailliau")
+
+Here the whole world is railway mad. I am really sick of hearing proposals made. I wish it were at an end. I prefer engineering very much to projecting, of which I keep as clear as I can...
+
+The dreadful scramble in which I am obliged to get through my business is by no means a good sample of the way in which work ought to be done... I wish I could suggest a plan that would greatly diminish the number of projects; it would suit my interests and those of my clients perfectly if all railway work were stopped for several years to come.
+
+[![Cquote2.svg](//upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Cquote2.svg/20px-Cquote2.svg.png)](/wiki/Wikinews_interviews_World_Wide_Web_co-inventor_Robert_Cailliau "Wikinews interviews World Wide Web co-inventor Robert Cailliau")
+
+I thought often of that reflection: we advanced far too fast with far too many developers who ran away in far too many different directions without much thinking. I don't want to be Cartesian here, but it would have been better if we had more time to build on our ideas before letting the beast loose.
+
+[![Cquote1.svg](//upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Cquote1.svg/10px-Cquote1.svg.png)](/wiki/Wikinews_interviews_World_Wide_Web_co-inventor_Robert_Cailliau "Wikinews interviews World Wide Web co-inventor Robert Cailliau")
+
+**We advanced far too fast with far too many developers who ran away in far too many different directions without much thinking. ... Especially the geeks in the U.S. often behaved like cowboys: shoot first, think later.**
+
+[![Cquote2.svg](//upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Cquote2.svg/10px-Cquote2.svg.png)](/wiki/Wikinews_interviews_World_Wide_Web_co-inventor_Robert_Cailliau "Wikinews interviews World Wide Web co-inventor Robert Cailliau")
+
+—Robert Cailliau
+
+Especially the geeks in the U.S. often behaved like cowboys: shoot first, think later. Features were implemented that looked attractive on first sight but turned out to be incompatible with other ones. For example the famous frames, that we still have not got rid of. People failed to understand the advantage of separating content from presentation, which we had on the NeXT in some sense. Especially graphic artists refused this and that put us back by about five years.
+
+If a careful study were made it might well show that we lost much more time and effort managing excesses than we would have spent in a more considerate and paced development. I often had the impression I was running like mad to escape from drowning in a tsunami.
+
+Future of the WWW
+-----------------
+
+**Wikinews**: I've read that scientists at CERN are currently working on [grid computing](https://en.wikipedia.org/wiki/grid_computing "w:grid computing"), mainly to process the huge amounts of data from the [Large Hadron Collider](https://en.wikipedia.org/wiki/Large_Hadron_Collider "w:Large Hadron Collider") project. Do you think grid computing will be the next generation web? Are there restrictions that limit the use of grid computing, for example working over large distances?
+
+**Robert Cailliau**: About grid computing I have not much to say. The first intention of the [ARPANET](https://en.wikipedia.org/wiki/ARPANET "w:ARPANET") and later the intenet was the use of computing resources at a distance. Grid computing is an extrapolation of that idea. I don't know if the average user will use grid computing. Most probably not. It seems to me that personal computing stands to grid computing like serial computing stands to parallel computing. There are useful applications of parallel computing, but I don't think my second processor is busy while I'm typing this. Grid computing can be used behind the scenes in certain services, but I find it hard to see what the web surfer will use it for. Google knows what to do with it, I'm sure. So I'll shut up about it.
+
+**Wikinews**: You've said before that you don't care a lot about the concept of [web 2.0](https://en.wikipedia.org/wiki/web_2.0 "w:web 2.0"), because it was something you envisioned from the beginning, and it was something bound to happen: correct? If not, what is your vision for The Web? What would be a real web Renaissance?
+
+[![Cquote1.svg](//upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Cquote1.svg/10px-Cquote1.svg.png)](/wiki/Wikinews_interviews_World_Wide_Web_co-inventor_Robert_Cailliau "Wikinews interviews World Wide Web co-inventor Robert Cailliau")
+
+**Freely contributing to web content was one of the original goals: the web should be as easy to write as it is to read. Another function we lost due to too fast development.**
+
+[![Cquote2.svg](//upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Cquote2.svg/10px-Cquote2.svg.png)](/wiki/Wikinews_interviews_World_Wide_Web_co-inventor_Robert_Cailliau "Wikinews interviews World Wide Web co-inventor Robert Cailliau")
+
+—Robert Cailliau
+
+**Robert Cailliau**: Web 2.0 is something that indeed "exists", but it is not a technology. It is a social phenomenon that requires the simultaneous deployment of a number of technologies to build the so-called 2.0 websites. Delivering web content via blogs and the like is a "new" happening in which the individual participates, often in very original ways. Freely contributing to web content was one of the original goals: the web should be as easy to write as it is to read. Another function we lost due to too fast development.
+
+I'm much more worried about data. All my data are on my home computer and I regularly back them up. I have nothing important on a server: no e-mail, no photos, videos or whatever. But I'm an exception: most people never back up their machines and actually cannot handle a computer. They use the machine as a terminal to the internet.
+
+Services such as gmail, [YouTube](/wiki/YouTube "YouTube"), and in fact every site having some kind of "My-..." where one leaves a bit of oneself, bring us back to the archaic model of computing: central mainframes and storage, used through terminals on which no local applications run.
+
+This trend started to worry me with e-mail first. Because of spam most [ISPs](https://en.wikipedia.org/wiki/Internet_service_provider "w:Internet service provider") stopped relaying mail and I began to have some trouble sending e-mail while on travel. To send mail you have to know the local smtp server. But which hotel receptionist can tell you that? They stare blankly at you, incapable of understanding that you do not use web mail, i.e. that you do not have your messages on a server.
+
+Money is virtual, it is a number on a computer in a bank somewhere. We trust the bank: nobody has gold coins in a sock under the mattress.
+
+But we have been working on the banking establishment for a few centuries. The last time we had a great crash (depression of 1929) not only a large number of people died of hunger, but it helped bring about the most totalitarian state we ever witnessed (the Third Reich). Since those days we have learned a lot, painfully and with lots of mishaps.
+
+Therefore now we think that we can trust the banks and the economists with our money. The breakthrough came from government controls and international conventions.
+
+With our data it is now as it was with money about two centuries ago: everything is in the hands of uncontrolled private companies, without any legal framework, to say nothing of international agreements.
+
+But my data are a part of myself. I want to know how my data are managed, by whom, where, and with what guarantees. Money I may lose but then I grow my potatoes in my garden.
+
+You speak of a web-Renaissance. That would be a brilliant light that would let us see that in the information-driven era we need to build new social structures, new forms of creating trust and we need more transparency in the processes of society.
+
+**Wikinews**: The principle behind wikis such as Wikipedia provides similar functionalities to early web browsers that were web editors at the same time. To which extent is this analogy correct?
+
+**Robert Cailliau**: The one great difference, maybe, is that wikis run on servers, but I can of course put a wiki on my home computer or laptop. It's not really [wysiwyg](https://en.wikipedia.org/wiki/WYSIWYG "w:WYSIWYG") but that is not so important.
+
+**Wikinews**: Do you see wikis as a viable long-term model, or do you expect something else to emerge? On the subjects of wikis, do you refer to Wikipedia?
+
+**Robert Cailliau**: I use the Wikipedia often. I also contribute here and there. A very great work, looked at with a lot of jealousy. In almost all comments about the Wikipedia I perceive in the background some jealousy and intolerance.
+
+There seems to be a strong reaction from those who derive their prestige from "secret" knowledge and consequently find it rather scandalous that everything is now not only lying around to be read but also often debunks their prejudices.
+
+"The Wikipedia is full of errors": maybe, but printed books too and they do not get corrected. It is also totally unrealistic to compare the Wikipedia with a work like the [Britannica](https://en.wikipedia.org/wiki/Encyclop%C3%A6dia_Britannica "w:Encyclopædia Britannica") (for which you need a subscription because we have no micropayments). One should compare the Wikipedia with what people have in their homes (often NOTHING!) or in their heads. If the Wikipedia is as good as the Brittanica, then hats off!
+
+Are wikis viable in the longer term? I think so. They give authors a frame to work in. Whatever comes later, that frame is important.
+
+**Wikinews**: You've edited your own article on Wikipedia, did you find it easy to work with? You probably don't have a lot of experience with it, but what is your impression of the [MediaWiki](https://en.wikipedia.org/wiki/MediaWiki "w:MediaWiki") software that Wikipedia runs on?
+
+**Robert Cailliau**: I find it very good. Precisely because I do not use it often it is important that it is sufficiently simple and intuitive that I do not need a manual. The wiki software fulfills this criterion and is therefore very good: the frame is important.!
+
+**Wikinews**: Will it be possible to agree on common standards, with the software companies trying to push their own standards? Are there major obstacles for XML?
+
+**Robert Cailliau**: We can apparently agree on common standards: OS X is full of XML and even Microsoft now uses XML for its Office products.
+
+Proprietary standards are not bad in themselves. They let one try out new things or be efficient in some ways. I do not object to them on one condition: that there is a way to export all data in an XML form, with all the details I could control through the application transmitted to the XML in recognisable form.
+
+The W3 Consortium succeeded in spreading the WWW standards and did even more: several commercial standards converged under its influence. That is the good news.
+
+**Wikinews**: Lawmakers are lagging behind when it comes to computer- and information-technology. On your site, you say: In a society based on technology it is simply dangerous to make policy on the basis of language constructs only. What is the alternative to language-based policy?
+
+**Robert Cailliau**: A few years ago I had to speak about www at the [European Parliament](https://en.wikipedia.org/wiki/European_Parliament "w:European Parliament") in [Brussels](https://en.wikipedia.org/wiki/Brussels "w:Brussels"). I was shocked that there was no way to use anything else than spoken language. No screen, no projector, no whiteboard. How can one say anything sensible about climate change without showing maps, graphs, videos? But perhaps we should first work on the scientific literacy of our politicians. Maybe that won't be necessary if the next form of government grows from web 2.0. I just discovered Newropeans (http://www.newropeans.org). Who knows. The old technology of the spoken language alone certainly no longer works.
+
+**Wikinews**: There were recently reports in the Belgian media about the rise of reported internet crime. Does that illustrate your call for international regulations of internet behaviour? If someone poses problematic behaviour on the internet, how should he or she be dealt with?
+
+**Robert Cailliau**: What do we use in common law? The police searches for the offender and works through a number of procedures. There are rules for establishing complicity. On the net it is only different because time and space break down there.
+
+Problematic behaviour, as you euphemistically call it, can be exhibited from anywhere and it usually goes very fast. We therefore need a world-wide law. There are however at least three large legal frameworks in conflict here: the European, the US and the Chinese systems. Making those work together is a problem that I do not see solved in time.
+
+What upsets me too is the idea that it is the responsibility of the ISP or service to act. Recently [MySpace](/wiki/MySpace "MySpace") removed a number of users that were known as sex offenders. They must have used some register. Who decided that? Who transmitted the register? The reaction of [Scotland Yard](https://en.wikipedia.org/wiki/Scotland_Yard "w:Scotland Yard") was right: it's not because these people had committed an offence that they should be excluded forever, certainly not when they had served their sentences. Or we should first change the law. But we see more and more cases in which commercial companies take the law in their own hands.
+
+[![Cquote1.svg](//upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Cquote1.svg/10px-Cquote1.svg.png)](/wiki/Wikinews_interviews_World_Wide_Web_co-inventor_Robert_Cailliau "Wikinews interviews World Wide Web co-inventor Robert Cailliau")
+
+**We see more and more cases in which commercial companies take the law in their own hands. And that makes me worried about what the commercial sector will do in the vacuum that the governments just let be.**
+
+[![Cquote2.svg](//upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Cquote2.svg/10px-Cquote2.svg.png)](/wiki/Wikinews_interviews_World_Wide_Web_co-inventor_Robert_Cailliau "Wikinews interviews World Wide Web co-inventor Robert Cailliau")
+
+—Robert Cailliau
+
+And that makes me worried about what the commercial sector will do in the vacuum that the governments just let be. Much more than about what governments would do. That in turn is related to my worries over leaving my data in the hands of sites rather than having full control myself.
+
+Let's not forget that the sex offenders maybe did nothing wrong in MySpace. The terms of MySpace are very simple: they have the right to do what they want and to exclude you when they want without reason. In addition they transfer all your data to the U.S., although they are honest enough to warn you that the protection of private data in the U.S. "may be different". No, I prefer to stay away from social sites in these circumstances.
+
+Finally, do these sex offenders have a telephone? That is allowed? And they can use the post office? And the road system with their cars? Yeah, let's just keep on messing about.
+
+What we need to clarify is where the rights and duties are. As guide we still have [Montesquieue](https://en.wikipedia.org/wiki/Charles_de_Secondat,_baron_de_Montesquieu "w:Charles de Secondat, baron de Montesquieu"). Furthermore I have been pleading for years now for an "internet driving licence". Last week I heard something similar said in the [British House of Commons](https://en.wikipedia.org/wiki/British_House_of_Commons "w:British House of Commons").
+
+**Wikinews**: Wikipedia says the [semantic web](https://en.wikipedia.org/wiki/semantic_web "w:semantic web") "derives from W3C director Sir Tim Berners-Lee's vision of the Web as a universal medium for data, information, and knowledge exchange," yet you're not a fan of the semantic web, right? Is that because the semantic web will have as a result that "our daily lives will be handled by machines talking to machines"? Or, are you in favour of a spread of protocols for different types of transactions and data?
+
+**Robert Cailliau**: A difficult question. I would like to have a good semantic web. But I think that the possibilities for abuse and misleading are greater with a semantic web (Tim agreed with that when I submitted the problem to him, but he is a steady believer in the goodness of humanity).
+
+It's a theme that runs through this interview: whom can you trust and how do you make the rules that will keep "problematic behaviour" within bounds? Only a world-wide convention can help and we are far away from it.
+
+[![Cquote1.svg](//upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Cquote1.svg/10px-Cquote1.svg.png)](/wiki/Wikinews_interviews_World_Wide_Web_co-inventor_Robert_Cailliau "Wikinews interviews World Wide Web co-inventor Robert Cailliau")
+
+**It's also a little early to use intelligent machinery. ... You have no idea how "half witted" machines can be. ... Maybe here too we should think and experiment first before we let the beast loose!**
+
+[![Cquote2.svg](//upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Cquote2.svg/10px-Cquote2.svg.png)](/wiki/Wikinews_interviews_World_Wide_Web_co-inventor_Robert_Cailliau "Wikinews interviews World Wide Web co-inventor Robert Cailliau")
+
+—Robert Cailliau
+
+It's also a little early to use intelligent machinery. Before we reach artificial intelligence we need to cross the desert of the half-witted machines. And you have no idea how "half witted" machines can be.
+
+My attitude towards the semantic web is also liked to the remark that we went too fast: maybe here too we should think and experiment first before we let the beast loose!
+
+**Wikinews**: Can you predict the future of the internet? Are you optimistic, or will it be "[The Matrix](https://en.wikipedia.org/wiki/The_Matrix "w:The Matrix"), but worse"?
+
+**Robert Cailliau**: Matrix but worse. Flight from reality is an unavoidable side effect of our brain structures. Since thousands of years people prefer to listen to fairy tales than face the boring realities. Still I think Web 2.0 is a good trend: blogs, Wikipedia, rings, all these achievements come from simple people sitting behind their home computers who share with others what they experience, and above all learn from others! This learning outside school is the biggest strength of the web and most hopegiving.
+
+Final question
+--------------
+
+**Wikinews**: You've worked at CERN for 33 years: miss it? How do you spend your days now? Do you spend a lot of time on the internet? In which projects are you still involved?
+
+**Robert Cailliau**: I had at least four different careers at CERN. While I spent 33 years there, it was as if I changed companies four times. What remained was the environment of colleagues who are modest. A journalist wrote about CERN:
+
+[![Cquote1.svg](//upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Cquote1.svg/20px-Cquote1.svg.png)](/wiki/Wikinews_interviews_World_Wide_Web_co-inventor_Robert_Cailliau "Wikinews interviews World Wide Web co-inventor Robert Cailliau")
+
+Amazing! Here are people who change their minds in the face of evidence!
+
+[![Cquote2.svg](//upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Cquote2.svg/20px-Cquote2.svg.png)](/wiki/Wikinews_interviews_World_Wide_Web_co-inventor_Robert_Cailliau "Wikinews interviews World Wide Web co-inventor Robert Cailliau")
+
+That attitude, also that of the [Enlightenment](https://en.wikipedia.org/wiki/Age_of_Enlightenment "w:Age of Enlightenment"), I would not miss for anything. It is much more satisfying to find out for yourself what really goes on than to deliver yourself to dogmas of someone else. Fortunately I have enough friends with similar attitudes both inside and outside CERN.
+
+Do I spend a lot of time on the net? Well, "being on the net" is not an occupation. What I do is exchange ideas, read, learn, contribute (NotSchool among others) and look around. I have always done that. A good part of these activities now happen through the net, but that is just as much or as little relevant as saying that for many things I use electricity.
+
+I devote time to a number of private projects that have been waiting for a long time and to the problems of education in scientific literacy.
+
+R.

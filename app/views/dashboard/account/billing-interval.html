@@ -1,0 +1,33 @@
+<form method="POST" class="account">
+
+  <input type="hidden" name="_csrf" value="{{csrftoken}}">
+
+
+{{#monthly}}
+  <p style="margin-top: 11px">At the moment you are billed once a month. If you <b>switch to annual billing</b> your next bill will be due in one year's time and:
+<ul>
+  <li>You will pay <b>{{new_amount}} per year</b> instead of {{user.pretty.price}} per month.</li>
+  <li>Your account will be <b>charged {{proration}}</b> today. {{#balance.credit}}Your account has a credit of {{balance.amount}} which will be applied toward this charge.{{/balance.credit}}</li>
+</ul>
+
+ </p> 
+{{/monthly}}
+
+{{^monthly}}
+  <p style="margin-top: 11px">At the moment you are billed once a year. If you <b>switch to monthly billing</b> your next bill will be due in one month's time and:
+  <ul>
+  <li>You will pay <b>{{new_amount}} per month</b> instead of {{user.pretty.price}} per year.</li>
+  <li>You will have <b>{{credit}} credited</b> to your account. This credit will apply automatically to your future monthly bills.</li>
+</ul>
+</p>
+
+{{/monthly}}
+
+  <div class="buttons">
+    <button type="submit" onclick="this.form.submit();this.disabled=true">Switch to {{#monthly}}annual{{/monthly}} {{^monthly}}monthly{{/monthly}} billing</button>
+    <a href="/dashboard/account/subscription">Do not switch</a>
+  </div>
+  <br>
+<br>
+
+</form>

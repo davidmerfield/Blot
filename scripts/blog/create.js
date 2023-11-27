@@ -2,11 +2,11 @@ var colors = require("colors/safe");
 var yesno = require("yesno");
 var Blog = require("blog");
 var User = require("user");
-var validate = require("../../app/models/blog/validate/handle");
-var access = require('../access');
+var validate = require("models/blog/validate/handle");
+var access = require("../access");
 
 if (require.main === module) {
-  main(process.argv[2], process.argv[3], function(err) {
+  main(process.argv[2], process.argv[3], function (err) {
     if (err) {
       console.error(colors.red("Error:", err.message));
       return process.exit(1);
@@ -27,10 +27,10 @@ function main(email, handle, callback) {
     return callback(new Error("Pass handle for new blog as second argument"));
   }
 
-  validate("", handle, function(err, handle) {
+  validate("", handle, function (err, handle) {
     if (err) return callback(err);
 
-    User.getByEmail(email, function(err, user) {
+    User.getByEmail(email, function (err, user) {
       if (err || !user) {
         return callback(
           new Error("No user with email " + colors.underline(email))
@@ -48,15 +48,17 @@ function main(email, handle, callback) {
         colors.bold(handle) +
         "? (y/N)";
 
-      yesno.ask(message, false, function(ok) {
+      yesno.ask(message, false, function (ok) {
         if (!ok) return callback(new Error("User was not created"));
-        Blog.create(user.uid, { handle: handle }, function(err) {
+        Blog.create(user.uid, { handle: handle }, function (err) {
           if (err) return callback(err);
 
-          access(handle, function(err, url) {
+          access(handle, function (err, url) {
             if (err) return callback(err);
 
-            console.log(colors.green("Added new blog", handle, "to", email, ":"));
+            console.log(
+              colors.green("Added new blog", handle, "to", email, ":")
+            );
             console.log(url);
             callback(null);
           });

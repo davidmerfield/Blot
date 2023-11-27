@@ -9,11 +9,12 @@
   <item> 
     <title><![CDATA[ {{{title}}} ]]></title>
     <link>{{{absoluteURL}}}</link>
+    <!-- Use the following in future to prevent new RSS-post notifications when the permalink for a post changes: <guid isPermaLink="false">{{guid}}</guid> -->
     <guid>{{{absoluteURL}}}</guid>
     {{! RSS feeds need a RFC 822 date}}
     <pubDate>{{#formatDate}}ddd, DD MMM YYYY HH:mm:ss ZZ{{/formatDate}}</pubDate>
-    <dc:creator><![CDATA[ {{{title}}} ]]></dc:creator>
-    <description><![CDATA[ {{#absoluteURLs}} {{{body}}} {{/absoluteURLs}} ]]></description>
+    <dc:creator><![CDATA[ {{{blog.title}}} ]]></dc:creator>
+    <description><![CDATA[ {{#encodeXML}} {{{body}}} {{/encodeXML}} ]]></description>
   </item>
   {{/recentEntries}}
 </channel>

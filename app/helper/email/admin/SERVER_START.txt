@@ -1,0 +1,5 @@
+Node server started
+
+Log in to server and grep:
+
+cat logs/app.log | grep "Starting pid" -B 100

@@ -1,23 +1,25 @@
 var debug = require("debug")("blot:build:single");
 var Metadata = require("./metadata");
 var Dependencies = require("./dependencies");
-var helper = require("helper");
 var Plugins = require("./plugins").convert;
-var ensure = helper.ensure;
+var ensure = require("helper/ensure");
 var async = require("async");
 var converters = require("./converters");
 
-module.exports = function(blog, path, options, callback) {
-  ensure(blog, "object")
-    .and(path, "string")
-    .and(callback, "function");
+module.exports = function (blog, path, options, callback) {
+  ensure(blog, "object").and(path, "string").and(callback, "function");
+
+  // Used for testing
+  if (options.kill) {
+    throw new Error("KILL THIS PROCESS PLEASE");
+  }
 
   async.each(
     converters,
-    function(converter, next) {
+    function (converter, next) {
       if (!converter.is(path)) return next();
 
-      converter.read(blog, path, options, function(err, html, stat) {
+      converter.read(blog, path, options, function (err, html, stat) {
         if (err) {
           debug("Blog:", blog.id, path, "conversion error", err);
           return callback(err);
@@ -56,18 +58,19 @@ module.exports = function(blog, path, options, callback) {
 
         // We pass the contents to the plugins for
         // this blog. The resulting HTML is now ready.
-        Plugins(blog, path, html, function(err, html) {
+        Plugins(blog, path, html, function (err, html, newDependencies) {
           debug("Blog:", blog.id, path, "finished plugins");
 
           if (err) return callback(err);
 
           html = fixMustache(html);
+          dependencies = dependencies.concat(newDependencies);
 
           return callback(null, html, metadata, stat, dependencies);
         });
       });
     },
-    function(err) {
+    function (err) {
       callback(err || cannotConvert(path));
     }
   );

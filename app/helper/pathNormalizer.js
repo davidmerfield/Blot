@@ -1,55 +1,34 @@
-var ensure = require('./ensure');
-var Is = require('./is');
+const ensure = require("helper/ensure");
 
-function pathNormalizer (path) {
+module.exports = function pathNormalizer(path) {
+  ensure(path, "string");
 
-  ensure(path, 'string');
-
-  if (!path) return '';
-
-  path = path.trim().toLowerCase();
-
-  path = path.split('//').join('/');
-
-  // Remove trailing slash
-  if (path.slice(-1) === '/') path = path.slice(0, -1);
+  if (!path) return "";
 
   // Add leading slash
-  if (path[0] !== '/') path = '/' + path;
+  if (!path.startsWith("/")) path = "/" + path;
+
+  // Add trailing temporary slash
+  if (!path.endsWith("/")) path = path + "/";
+
+  // trim leading or trailing whitespace
+  // after adding leading and trailing slash
+  // to preserve folders or files with leading
+  // or trailing whitespace
+  path = path.trim();
+
+  // remove double slashes
+  path = path.split("//").join("/");
+
+  // Remove trailing slash
+  if (path.endsWith("/") && path !== "/") path = path.slice(0, -1);
+
+  // Unicode normalize
+  // otherwise we get a weird category of bug
+  // where Dropbox uses some variant of unicode
+  // and we use another, for example
+  // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/normalize
+  path = path.normalize();
 
   return path;
-}
-
-var is = Is(pathNormalizer);
-
-// Sanity
-is('/', '/');
-is('/foo', '/foo');
-is('/foo/bar', '/foo/bar');
-
-// Trim leading or trailing whitespace
-is(' / ', '/');
-
-// Preserve internal whitespace
-is('/a b c', '/a b c');
-
-// Remove trailing slash
-is('/foo/', '/foo');
-
-// Add leading slash
-is('foo', '/foo');
-
-// Lowercase
-is('/BaR', '/bar');
-
-// Replace double slashes with single slashes
-is('//foo//bar//', '/foo/bar');
-
-// Preserve non alphanum characters
-is('/←→', '/←→');
-is('使/用/百/度/馈/', '/使/用/百/度/馈');
-
-// Preserve url encoding
-is('/%20a%20b', '/%20a%20b');
-
-module.exports = pathNormalizer;
+};

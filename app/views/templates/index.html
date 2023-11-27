@@ -1,0 +1,89 @@
+ 
+<h1>Templates</h1>
+
+<!-- <p>Choose a template to suit your material. They can be customized or used without modification. If you have any questions, please don't hesitate to <a href="/contact">contact us</a></p> -->
+
+<style type="text/css">
+  
+  .templates a .browser {margin-top:6px;border: 1px solid var(--light-border-color);border-radius: 6px;display: block;padding: 0.25rem 0.25rem 0;box-shadow: 0 0 10px rgba(0,0,0,0.03);transition: transform .1s ease;transform: scale(1);max-height: 200px;overflow: hidden; width: fit-content;}
+
+  .templates a .browser:before {content: "ooo";display: block;border-bottom: 1px solid var(--light-border-color);color: var(--dark-border-color);font-size: 10px;line-height: 5px;margin:0 -0.25rem;padding:0 0.25rem 0.25rem;}
+  ul.templates li a {text-decoration: none;min-height: auto}
+  ul.templates li {padding: 0;margin: 0;padding-right: 1rem;margin-bottom: 2rem}
+
+    ul.templates li:nth-child(3n-1) {padding-right: 0.5rem;padding-left: 0.5rem}
+    ul.templates li:nth-child(3n) {padding-left: 1rem;padding-right: 0}
+
+  ul.templates {display: flex;flex-wrap: wrap;margin: 2.5rem 0 0;padding: 0}
+  ul.templates li img {margin: 6px 0 0 0;vertical-align: bottom;}
+  ul.templates li strong {color: black;text-decoration: none;font-weight: 600;}
+  ul.templates li a:hover strong {background: none;color: var(--accent-color);outline: none;border:none;}
+</style>
+ 
+<ul class="templates">
+  <li>
+    <a href="/templates/blog">
+      <strong>Blog</strong>
+      <span class="browser"><img src="{{#cdn}}/images/templates/blog/0.square-small.png{{/cdn}}"></span>
+    </a>
+  </li>
+  
+  <li>
+    <a href="/templates/magazine">
+      <strong>Magazine</strong>
+      <span class="browser"><img src="{{#cdn}}/images/templates/magazine/0.square-small.png{{/cdn}}"></span>
+      <small>For long portfolios</small>
+    </a>
+  </li>
+
+  <li>
+    <a href="/templates/photo">
+      <strong>Photo</strong>
+      <span class="browser"><img src="{{#cdn}}/images/templates/photo/0.square-small.png{{/cdn}}"></span>
+    </a>
+  </li>
+
+  <li>
+    <a href="/templates/portfolio">
+      <strong>Portfolio</strong>
+      <span class="browser"><img src="{{#cdn}}/images/templates/portfolio/0.square-small.png{{/cdn}}"></span>
+      <small>For portfolios and code</small>
+    </a>
+  </li>
+
+    <li>
+    <a href="/templates/reference">
+      <strong>Reference</strong>
+      <span class="browser"><img src="{{#cdn}}/images/templates/reference/0.square-small.png{{/cdn}}"></span>
+      <small>For photos and links</small>
+    </a>
+  </li>
+
+  <!--  <li>
+    <a href="/templates/developers">
+      <strong>Developer guide</strong>
+      <span class="browser" style="display: block;color:var(--light-text-color);font-size: 14px"><span style="height: 70px;text-align: center;padding:48px 25px;display: block;">Create your own template</span></span>
+      
+    </a>
+  </li> -->
+  
+</ul>
+
+<h2>Customizing a template</h2>
+
+<p>You make modifications to your template's colors and fonts using Blot's template editor – no coding required.</p>
+
+
+<h2>Develop your own template</h2>
+
+<p>You can fork any of the included templates and make modifications to their source code, or develop your own template from scratch.</p>
+
+<ul class="document-list with-subtitle with-border" style="border:none">
+  <li>
+    <a style="padding:0.5rem 0 0" href="/templates/developers"><span><code class="file txt"></code></span>
+    <span><strong style="font-weight: normal;color:var(--accent-color);text-decoration: underline;">Read the Developer guide</strong>
+    </span>
+    </a>
+  </li>
+  </ul>
+

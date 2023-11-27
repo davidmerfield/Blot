@@ -9,7 +9,7 @@ var MESSAGES = {
   UNCLOSED: "Your template has an unclosed tag",
   BAD_PARTIALS: "Your template partials were badly called",
   BAD_LOCALS: "Your template variables were badly called",
-  INFINITE: "Your template has infinitely nested partials"
+  INFINITE: "Your template has infinitely nested partials",
 };
 
 function newErr(message) {

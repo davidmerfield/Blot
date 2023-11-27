@@ -1,0 +1,50 @@
+Add new redirect URIs here:
+https://console.cloud.google.com/apis/credentials?project=quickstart-1585441405190
+
+---
+
+Questions
+- is there an overhead to creating the oauth2 client each time? can we safely reuse it?
+- is it possible to restrict Blot's access to a single folder in the google drive?
+  - it doesn't seem like it is
+
+I believe we will need this API for drive changes:
+https://developers.google.com/drive/activity/v2
+
+Since the changes.list api doesn't return rename events, it seems.
+
+The webhooks are now tunnelled through webhooks.blot.im using clients/webhooks.js
+
+Test server
+```
+http://localhost:8822/clients/googledrive/authenticate
+```
+
+Resources:
+
+[Verify domain ownership](https://search.google.com/search-console/settings?resource_id=sc-domain%3Ablot.im)
+
+[Domain verification for API use](https://console.cloud.google.com/apis/credentials/domainverification?organizationId=683828060430&project=quickstart-1585441405190)
+
+[Console for redirect URIs](https://console.cloud.google.com/apis/credentials/oauthclient/32772360147-pnntpgr8pjnlem4m6s1perkju3ghce3b.apps.googleusercontent.com?project=quickstart-1585441405190&pli=1)
+
+[Console for managing API permissions](https://console.developers.google.com/apis/credentials/oauthclient/32772360147-pnntpgr8pjnlem4m6s1perkju3ghce3b.apps.googleusercontent.com?project=quickstart-1585441405190)
+
+[Downloading files google drive](https://stackoverflow.com/questions/62476413/google-drive-api-downloading-file-nodejs)
+
+[Downloading files google drive](https://developers.google.com/drive/api/v3/manage-downloads)
+
+[Link to remove connection during testing](https://myaccount.google.com/permissions?pli=1)
+
+Documentation:
+
+[nodejs-client authentication-and-authorization](https://github.com/googleapis/google-api-nodejs-client#authentication-and-authorization)
+
+[quickstart](https://developers.google.com/drive/api/v3/quickstart/nodejs)
+
+Actions to test:
+- Mass rename -> mass move
+- Mass move -> mass rename
+- Delete -> Restore -> Delete
+- Move file from outside folder into folder
+- Move file from inside folder out of folder

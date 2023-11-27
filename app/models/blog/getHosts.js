@@ -1,6 +1,5 @@
-var client = require("client");
-var helper = require("helper");
-var ensure = helper.ensure;
+var client = require("models/client");
+var ensure = require("helper/ensure");
 var key = require("./key");
 var getAllIDs = require("./getAllIDs");
 
@@ -11,7 +10,7 @@ var HOST = require("config").host;
 module.exports = function getHosts(callback) {
   ensure(callback, "function");
 
-  getAllIDs(function(err, ids) {
+  getAllIDs(function (err, ids) {
     if (err) throw err;
 
     var multi = client.multi();
@@ -23,12 +22,12 @@ module.exports = function getHosts(callback) {
     // We could easily do some work to make this quicker
     // However, it's only going to be invoked when a user
     // changes their username / custom domain.
-    multi.exec(function(err, res) {
+    multi.exec(function (err, res) {
       if (err) throw err;
 
       var hosts = [];
 
-      res.forEach(function(keys, i) {
+      res.forEach(function (keys, i) {
         if (keys && keys[0]) hosts.push([keys[0], ids[i]]);
         if (keys && keys[1]) hosts.push([keys[1] + "." + HOST, ids[i]]);
       });

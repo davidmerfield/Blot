@@ -6,7 +6,7 @@ module.exports = {
     var mount = "/clients/dropbox";
     this.server = Express()
       .use(mount, require("../../index").site_routes)
-      .listen(port, function(err) {
+      .listen(port, function (err) {
         if (err && err.code === "EADDRINUSE") return attempt(done);
         if (err && err.code === "EACCESS") return attempt(done);
         if (err) return done(err);
@@ -15,7 +15,7 @@ module.exports = {
     this.server.port = port;
     this.server.baseUrl = "http://localhost:" + port + mount;
   },
-  close: function(done) {
+  close: function (done) {
     this.server.close(done);
-  }
+  },
 };

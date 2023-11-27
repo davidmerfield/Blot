@@ -1,28 +1,77 @@
-var helper = require("helper");
-var ensure = helper.ensure;
+const debug = require("debug")("blot:build:metadata");
+const ensure = require("helper/ensure");
+const YAML = require("yaml");
+
+const alphaNumericRegEx = /^([a-zA-Z0-9\-_ ]+)$/;
 
 function Metadata(html) {
   ensure(html, "string");
 
-  var metadata = {};
+  // We try and normalize all the different ways to end a line
+  // here. This is how Windows does newlines, we normalize it
+  // to the unix way.
+  html = html.replace(/\r\n/gm, "\n");
 
-  var linesToRemove = [];
-  var lines = html.trim().split(/\n/);
+  // Somehow some text-editors/OSs have a single return character
+  // to signify a newline. Although it doesn't seem technically correct
+  // we handle this edge case here.
+  html = html.replace(/\r/gm, "\n");
+
+  let metadata = {};
+
+  // YAML-style fenced front-matter!
+  if (
+    html.trim().startsWith("---") &&
+    html.lastIndexOf("---") !== html.indexOf("---")
+  ) {
+    let frontmatter = html.trim().split("---")[1];
+
+    try {
+      // todo: investigate these options
+      // and understand them
+      let mixedCaseMetadata = YAML.parse(frontmatter);
+
+      // Map { Permalink } to { permalink }
+      // Blot uses lowercase metadata keys
+      Object.keys(mixedCaseMetadata).forEach((mixedCaseKey) => {
+        let key = mixedCaseKey.toLowerCase();
+        let value = mixedCaseMetadata[mixedCaseKey];
+        metadata[key] = value;
+      });
+
+      // Remove the metadata from the returned HTML
+      html = html.trim().split("---").slice(2).join("---");
+
+      return { html, metadata };
+    } catch (e) {
+      // we need to surface this error with the YAML
+      return { html, metadata };
+    }
+  }
+
+  let linesToRemove = [];
+  let lines = html.trim().split(/\n/);
+
+  debug(lines.length, "lines found");
 
   // THIS SHOULD ALSO WORK FOR HTML:
   // i.e. <p>Page: yes</p>
-  for (var i = 0; i < lines.length; i++) {
-    var line, key, value, firstColon, firstCharacter;
+  for (let i = 0; i < lines.length; i++) {
+    let line, key, value, firstColon, firstCharacter;
 
     line = lines[i];
 
     // if we encounter an empty line, stop looking for metadata.
-    if (!line || !line.trim()) break;
+    if (!line || !line.trim()) {
+      debug("Line", i, "found an empty line, breaking");
+      break;
+    }
 
     firstColon = line.indexOf(":");
     firstCharacter = line.trim().charAt(0);
 
     if (i === 0 && firstColon === -1 && line.trim() === "<!--") {
+      debug("Line", i, "found an HTML comment open tag");
       continue;
     }
 
@@ -36,6 +85,7 @@ function Metadata(html) {
       // this line is probably an HTML tag
       (firstCharacter === "<" && line.slice(0, 4) !== "<!--")
     ) {
+      debug("Line", i, "found a line without metadata, breaking");
       break;
     }
 
@@ -46,15 +96,23 @@ function Metadata(html) {
         line.slice(firstColon - 5, firstColon) === "https") &&
       line.slice(firstColon + 1, firstColon + 3) === "//"
     ) {
+      debug("Line", i, "found a line with a URL, breaking");
       break;
     }
 
     // The key is lowercased and trimmed
-    key = line
-      .slice(0, firstColon)
-      .trim()
-      .toLowerCase();
+    key = line.slice(0, firstColon).trim().toLowerCase();
+
+    // The key contains non-alphanumeric characters, so reject it
+    if (alphaNumericRegEx.test(key) === false) break;
+
+    // The key contains more than two spaces, so reject it
+    if (key.split(" ").length > 2) break;
+
     value = line.slice(firstColon + 1).trim();
+
+    debug("Line", i, "Found metadata from:", JSON.stringify(line));
+    debug("Line", i, "Key", key, "value", value);
 
     // Extract metadata from within comments
 
@@ -67,10 +125,11 @@ function Metadata(html) {
     }
 
     metadata[key] = value;
+    debug("Line", i, "will be removed");
     linesToRemove.push(i);
   }
 
-  var linesRemoved = linesToRemove.length;
+  let linesRemoved = linesToRemove.length;
 
   // Remove lines with valid metadata
   while (linesToRemove.length) {
@@ -100,7 +159,7 @@ function Metadata(html) {
 
   return {
     html: html,
-    metadata: metadata
+    metadata: metadata,
   };
 }
 

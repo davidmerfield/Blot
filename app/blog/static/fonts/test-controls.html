@@ -1,0 +1,174 @@
+<html>
+	<head>
+		<style type="text/css">
+			html,
+			body {
+				margin: 0;
+				padding: 0;
+			}
+
+			body {
+				background: #000;
+				padding: 6px;
+				color: #aaa;
+
+				font-family: -apple-system, BlinkMacSystemFont, "avenir next", avenir,
+					"helvetica neue", helvetica, ubuntu, roboto, noto, "segoe ui", arial,
+					sans-serif;
+			}
+			input[type="range"] {
+				width: 100%;
+				display: block;
+				margin: 1rem 0;
+				-webkit-appearance: none;
+				background-color: #aaa;
+			}
+
+			input[type="range"]:focus,
+			input[type="range"]:focus::-webkit-slider-thumb {
+				outline: none;
+				background-color: white;
+			}
+
+			input[type="range"]::-webkit-slider-runnable-track {
+				height: 1px;
+				-webkit-appearance: none;
+			}
+
+			input[type="range"]::-webkit-slider-thumb {
+				width: 1px;
+				-webkit-appearance: none;
+				height: 14px;
+				border-radius: 100%;
+				position: relative;
+				top: -6px;
+				cursor: ew-resize;
+				background: #aaa;
+			}
+
+			label {
+				display: block;
+			}
+		</style>
+	</head>
+	<body>
+		<label
+			>Font:
+			<select name="font">
+				{{#fonts}}
+				<option value="{{id}}">{{name}}</option>
+				{{/fonts}}
+			</select>
+		</label>
+		<label
+			>Document:
+			<select name="document">
+				{{#documents}}
+				<option value="{{name}}">{{name}}</option>
+				{{/documents}}
+			</select>
+		</label>
+		<form method="post" onsubmit="submitFormAjax(event);return false;">
+			<label
+				>Line height: <span id="line_height_display">{{line_height}}</span>
+				<input
+					type="range"
+					name="line_height"
+					min="0.5"
+					max="3"
+					step="0.005"
+					value="{{line_height}}"
+				/>
+			</label>
+			<label
+				>Line width: <span id="line_width_display">{{line_width}}em</span>
+				<input
+					type="range"
+					name="line_width"
+					min="10"
+					max="50"
+					step="0.1"
+					value="{{line_width}}"
+				/>
+			</label>
+			<label
+				>Font size: <span id="font_size_display">{{font_size}}em</span>
+
+				<input
+					type="range"
+					name="font_size"
+					min="0.7"
+					max="2"
+					step="0.005"
+					value="1"
+				/>
+			</label>
+		</form>
+
+		<script type="text/javascript">
+			let article = opener.document.querySelector("body");
+
+			document.querySelector("select[name='document']").addEventListener("input", (event) => {
+					opener.location = '/{{id}}/' + event.target.value;
+				});
+			
+			document.querySelector("select[name='document'] option[value='{{document.name}}']").setAttribute('selected','selected')
+
+			document.querySelector("select[name='font']").addEventListener("input", (event) => {
+					opener.location = '/' + event.target.value + '/{{document.name}}';
+				});
+
+			document.querySelector("select[name='font'] option[value='{{id}}']").setAttribute('selected','selected')
+
+
+			document.querySelectorAll("input").forEach((el) => {
+				el.addEventListener("change", (event) => {
+					submitFormAjax();
+				});
+			});
+
+			document
+				.querySelector('input[name="line_width"]')
+				.addEventListener("input", (event) => {
+					article.style.width = event.target.value + "em";
+					document.getElementById("line_width_display").innerHTML =
+						event.target.value + "em";
+				});
+
+			document
+				.querySelector('input[name="line_height"]')
+				.addEventListener("input", (event) => {
+					article.style.lineHeight = event.target.value;
+					document.getElementById("line_height_display").innerHTML =
+						event.target.value;
+				});
+
+			document
+				.querySelector('input[name="font_size"]')
+				.addEventListener("input", (event) => {
+					article.style.fontSize = event.target.value + "rem";
+					document.getElementById("font_size_display").innerHTML =
+						event.target.value + "rem";
+				});
+
+			function submitFormAjax(e) {
+				if (e) e.preventDefault();
+
+				var xhr = new XMLHttpRequest();
+				xhr.open("POST", window.location.pathname, true);
+
+				//Send the proper header information along with the request
+				xhr.setRequestHeader(
+					"Content-Type",
+					"application/x-www-form-urlencoded"
+				);
+
+				xhr.send(
+					new URLSearchParams(
+						new FormData(document.querySelector("form"))
+					).toString()
+				);
+			}
+		</script>
+	</body>
+</html>

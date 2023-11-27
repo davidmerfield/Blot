@@ -1,0 +1,27 @@
+<html>
+	<head>
+		<title>{{name}}</title>
+		<style type="text/css">
+			{{{styles}}}
+
+			body {
+				margin-left: auto;
+				margin-right: auto;
+				font-family: {{{stack}}};
+				font-size: {{font_size}}em;
+				width: {{line_width}}em;
+				line-height: {{line_height}};
+			}
+		</style>
+	</head>
+	<body>
+		{{{document.contents}}}
+		<script type="text/javascript">
+			window.open(
+				window.location + "/controls",
+				null,
+				"height=700,width=200,status=no,toolbar=no,menubar=no,location=no,resizeable=no"
+			);
+		</script>
+	</body>
+</html>

@@ -1,3 +1,0 @@
-A user tried and failed to make a Blot payment
-
-Something went wrong charging a user. Check stripe's log for this event

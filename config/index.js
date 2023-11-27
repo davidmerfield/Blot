@@ -1,21 +1,53 @@
+const BLOT_DIRECTORY =
+  process.env.BLOT_DIRECTORY || require('path').resolve(__dirname + '/../')
+const BLOT_HOST = process.env.BLOT_HOST || 'localhost'
+const BLOT_PROTOCOL = process.env.BLOT_PROTOCOL || 'http'
+const BLOT_PORT = process.env.BLOT_PORT || '8080'
+
+let BLOT_CDN
+
+if (process.env.NODE_ENV === 'production') {
+  BLOT_CDN = BLOT_PROTOCOL + '://cdn.blot.im'
+} else {
+  BLOT_CDN = BLOT_PROTOCOL + '://cdn.' + BLOT_HOST
+}
+
+const environment =
+  process.env.NODE_ENV === 'production' ? 'production' : 'development'
+
 module.exports = {
-  environment: process.env.BLOT_ENVIRONMENT,
-  host: process.env.BLOT_HOST,
-  protocol: process.env.BLOT_PROTOCOL + "://",
+  // codebase expects either 'production' or 'development'
+  environment,
+  host: BLOT_HOST,
+  // the first is in oregon, the second in frankfurt
+  reverse_proxies: environment === 'production' ? ['127.0.0.1'] : [],
+  protocol: BLOT_PROTOCOL + '://',
+  pidfile: BLOT_DIRECTORY + '/data/process.pid',
 
-  maintenance: process.env.BLOT_MAINTENANCE === "true",
-  cache: process.env.BLOT_CACHE === "true",
-  debug: process.env.BLOT_DEBUG === "true",
+  webhooks: {
+    server_host: 'webhooks.' + BLOT_HOST,
+    // replace with "webhooks.blot.development" to test
+    relay_host: environment === 'development' && 'webhooks.blot.im',
+    development_host: 'blot.development',
+    secret: process.env.BLOT_WEBHOOKS_SECRET
+  },
 
-  blog_static_files_dir: process.env.BLOT_DIRECTORY + "/static",
-  blog_folder_dir: process.env.BLOT_DIRECTORY + "/blogs",
-  cache_directory: process.env.BLOT_CACHE_DIRECTORY,
+  maintenance: process.env.BLOT_MAINTENANCE === 'true',
+  cache: process.env.BLOT_CACHE === 'true',
+  debug: process.env.BLOT_DEBUG === 'true',
 
-  ip: process.env.BLOT_IP || "127.0.0.1",
+  blot_directory: BLOT_DIRECTORY,
+  blog_static_files_dir: BLOT_DIRECTORY + '/data/static',
+  blog_folder_dir: BLOT_DIRECTORY + '/data/blogs',
+  cache_directory:
+    process.env.BLOT_CACHE_DIRECTORY || BLOT_DIRECTORY + '/data/cache',
 
-  port: 8080,
+  ip: process.env.BLOT_IP || '127.0.0.1',
 
-  redis: { port: 6379 },
+  port: BLOT_PORT,
+  clients_port: 8888,
+
+  redis: { port: 6379, host: process.env.BLOT_REDIS_HOST },
 
   admin: {
     uid: process.env.BLOT_ADMIN_UID,
@@ -36,7 +68,22 @@ module.exports = {
   stripe: {
     key: process.env.BLOT_STRIPE_KEY,
     secret: process.env.BLOT_STRIPE_SECRET,
-    plan: "monthly_3"
+    // Ensure that each monthly plan has a corresponding
+    // annual plan, and vice versa, and that these IDs
+    // correspond to plans on Stripe in both live and
+    // test modes when you change Blot's price.
+    plan: 'monthly_4',
+
+    plan_map: {
+      yearly_30: 'monthly_3',
+      monthly_3: 'yearly_30',
+
+      yearly_20: 'monthly_2',
+      monthly_2: 'yearly_20',
+
+      yearly_44: 'monthly_4',
+      monthly_4: 'yearly_44'
+    }
   },
 
   paypal: {
@@ -45,15 +92,14 @@ module.exports = {
     plan: process.env.BLOT_PAYPAL_PLAN_ID
   },
 
-  pandoc_path: process.env.BLOT_PANDOC_PATH,
+  pandoc: {
+    bin: process.env.BLOT_PANDOC_PATH,
+    maxmemory: '500M', // 500mb
+    timeout: 10000 // 10s
+  },
 
   cdn: {
-    bucket: "blot-blogs",
-    host: "blotcdn.com",
-    origin:
-      process.env.BLOT_ENVIRONMENT === "production"
-        ? process.env.BLOT_PROTOCOL + "://blotcdn.com"
-        : process.env.BLOT_PROTOCOL + "://" + process.env.BLOT_HOST + "/cdn"
+    origin: BLOT_CDN
   },
 
   session: {
@@ -71,21 +117,20 @@ module.exports = {
 
   mailgun: {
     key: process.env.BLOT_MAILGUN_KEY,
-    domain: "blot.im",
-    from: "David Merfield <david@blot.im>"
-  },
-
-  s3: {
-    buckets: {
-      dump: "blot-dump",
-      blogs: "blot-blogs",
-      backups: "blot-backups"
-    }
+    domain: 'blot.im',
+    from: 'David Merfield <david@blot.im>'
   },
 
   backup: {
-    bucket: "blot-backups",
+    bucket: 'blot-daily-backups',
     password: process.env.BLOT_BACKUP_SECRET
+  },
+
+  google: {
+    drive: {
+      key: process.env.BLOT_GOOGLEDRIVE_ID,
+      secret: process.env.BLOT_GOOGLEDRIVE_SECRET
+    }
   },
 
   twitter: {
@@ -94,4 +139,4 @@ module.exports = {
     access_token: process.env.BLOT_TWITTER_ACCESS_TOKEN_KEY,
     access_token_secret: process.env.BLOT_TWITTER_ACCESS_TOKEN_SECRET
   }
-};
+}

@@ -100,18 +100,6 @@ hr.full {padding: 0;border-bottom: 0}
 /* IMAGE CAPTION */
 .caption {display: block;}
 
-/*
-TYPOGRAPHIC SUBSTITUTION
-
-This handles hanging punctuation.*/
-
-.pull-double {margin-left:-.45em}
-.push-double {margin-right:.45em}
-
-.pull-single {margin-left:-0.25em}
-.push-single {margin-left:0.25em}
-
-
 /* IMAGE SIZE */
 img {max-width: 100%;height: auto;}
 

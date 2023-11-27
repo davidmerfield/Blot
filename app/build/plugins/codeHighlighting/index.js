@@ -1,12 +1,10 @@
-function render ($, callback) {
+const he = require("he");
+const hljs = require("highlight.js");
 
-  $('pre code').each(function(){
-
+function render($, callback) {
+  $("pre code").each(function () {
     try {
-
-      var lang = $(this)
-                    .parent().attr('class')
-                    .split(' ')[0];
+      var lang = $(this).parent().attr("class").split(" ")[0];
 
       if (!lang) return;
 
@@ -14,28 +12,20 @@ function render ($, callback) {
 
       var highlighted = highlight(code, lang);
 
-      $(this).html(highlighted)
-             .addClass('hljs')
-             .addClass(lang);
+      $(this).html(highlighted).addClass("hljs").addClass(lang);
 
       $(this).parent().removeClass(lang);
 
       // hmmm...
-      if (!$(this).parent().attr('class').trim())
-        $(this).parent().attr('class', null);
-
+      if (!$(this).parent().attr("class").trim())
+        $(this).parent().attr("class", null);
     } catch (e) {}
-
   });
 
   return callback();
 }
 
-var he = require('he');
-var hljs = require('highlight.js');
-
-function highlight (code, lang) {
-
+function highlight(code, lang) {
   // For some reason highlight
   // doesn't play nicely with already-decoded
   // apostrophes like ' &#84; etc...
@@ -45,8 +35,8 @@ function highlight (code, lang) {
 }
 
 module.exports = {
-  category: 'Typography',
-  title: 'Code',
+  category: "Typography",
+  title: "Code",
   render: render,
-  description: 'Add syntax highlighting to code'
+  description: "Add syntax highlighting to code",
 };

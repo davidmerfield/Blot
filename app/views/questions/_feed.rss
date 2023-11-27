@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+<channel>
+  <title><![CDATA[ Questions - Blot]]></title>
+  <link>{{{url}}}/questions</link>
+  <atom:link href="{{{url}}}/questions/feed.rss" rel="self" type="application/rss+xml"/>
+  <description><![CDATA[ The feed of new questions about Blot ]]></description>
+  {{#topics}}
+  <item> 
+    <title><![CDATA[ {{{title}}} ]]></title>
+    <link>{{{url}}}</link>
+    <guid isPermaLink="false">{{id}}</guid>
+    <pubDate>{{date}}</pubDate>
+    <dc:creator><![CDATA[ {{author}} ]]></dc:creator>
+    <description><![CDATA[ {{{body}}} ]]></description>
+  </item>
+  {{/topics}}
+</channel>
+</rss>

@@ -1,0 +1,113 @@
+
+
+
+
+  <p style="margin:0;color:grey;/*background:rgba(0,0,0,0.02);*//*border-bottom: 1px solid var(--light-border-color);*/padding-bottom: 16px;margin:-17px -25px 0;padding: 16px 24px;border-radius: 6px 6px 0 0"><strong style="display: block;color: #000;">Sign up</strong><span style="font-size:14px">Create a blog</span></p>
+
+
+{{#error}}
+<p id="error" class="error">{{error}}</p>
+{{/error}}
+{{^error}}
+<p id="error" class="error" style="display: none"></p>
+{{/error}}
+
+<p style="margin: 24px 0 -8px">A blog costs <strong>{{price}} per {{interval}}</strong> and includes hosting and support. You can cancel at any point. You must agree to the <a href="/terms" style="color: inherit;text-decoration: underline;">terms of use</a>.</p>
+
+<noscript>
+  <p class="error"><mark>Enable JavaScript to purchase an account.</mark> Payments are processed by Stripe without touching Blot's servers. This requires JavaScript.</p>
+</noscript>
+
+<form method="POST" style="margin-top: 2em;">
+  <p>
+    <label for="email">Your email address</label>
+    <input type="text" class="email" name="email" autofocus />
+  </p>
+
+  <p style="margin-bottom: 0">
+    <label for="number">Card number
+      <em>Blot does not store your card details. Stripe processes your payment.</em>
+    </label>
+    <input type="text" data-stripe="number" name="number" />
+  </p>
+
+  <div style="display: flex; margin: 1em 0 1em 0;">
+    <div>
+      <label for="month">Expiration date</label>
+      <div style="display: flex;">
+        <input name="exp-month" maxlength="2" placeholder="MM" type="text" data-stripe="exp-month" />
+        <input name="exp-year" maxlength="4" placeholder="YYYY" type="text" size="4" data-stripe="exp-year" />
+      </div>
+    </div>
+
+    <div>
+      <label for="cvc">CVC
+        <em>The CVC is the 3- or 4-digit code on your card, separate from the 16-digit number.</em>
+      </label>
+      <input type="text" size="4" data-stripe="cvc" id="cvc" name="cvc" />
+    </div>
+  </div>
+
+  <p style="margin:0">
+    <label>Amount due today</label>
+  </p>
+    <hr style="margin:2px 0;border:none;border-top:1px solid rgba(0, 0, 0, .25)">
+    <p style="margin-top:4px">{{price}}</p>
+  <input type="submit" value="Sign up" onclick="this.classList.add('working')"/>
+  <input type="hidden" name="_csrf" value="{{csrf}}" />
+  <input type="hidden" class="stripeToken" name="stripeToken" />
+</form>
+
+<script type="text/javascript" src="/js/jquery.js"></script>
+<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+<script type="text/javascript">
+// This identifies your website in the createToken call below
+if (typeof Stripe !== 'undefined') Stripe.setPublishableKey('{{stripe_key}}');
+$('form').submit(function(event) {
+  var $form = $(this);
+  // Disable the submit button
+  // to prevent repeated clicks
+  $form
+    .find('[type="submit"]')
+    .prop('disabled', true);
+
+  $('#error').hide();
+
+  // Validate the email address
+  var email = $('[name="email"]').val() || '';
+  var emailRegex = /[^\s@]+@[^\s@]+\.[^\s@]+/;
+  var email = email.replace(' ', '');
+  if (email === '' || !emailRegex.test(email)) {
+    $('#error')
+      .text('Please enter your email address.')
+      .show();
+    $('[type="submit"]')
+      .removeClass('working')
+      .prop('disabled', false)
+    $('[name="email"]').focus()      
+    return false;
+  } else {
+    $('[name="email"]').val(email)
+  }
+  Stripe.card.createToken($form, function(status, response) {
+    if (response.error) {
+      $('#error')
+        .text(response.error.message)
+        .show();
+      $('[type="submit"]')
+        .removeClass('working')
+        .prop('disabled', false);
+    } else {
+      var token = response.id;
+      // response also contains card,
+      // which has additional card details
+      // Insert the token into the form so
+      // it gets submitted to the server
+      $form.find('.stripeToken').val(token);
+      $form.get(0).submit();
+    }
+  });
+  // Prevent the form from submitting with the default action
+  return false;
+});
+</script>

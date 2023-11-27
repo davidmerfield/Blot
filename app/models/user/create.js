@@ -1,7 +1,6 @@
-var helper = require("helper");
-var ensure = helper.ensure;
+var ensure = require("helper/ensure");
 var key = require("./key");
-var client = require("client");
+var client = require("models/client");
 var validate = require("./validate");
 var generateId = require("./generateId");
 var scheduleSubscriptionEmail = require("./scheduleSubscriptionEmail");
@@ -22,10 +21,10 @@ module.exports = function create(email, passwordHash, subscription, callback) {
     lastSession: "",
     email: email,
     subscription: subscription,
-    passwordHash: passwordHash
+    passwordHash: passwordHash,
   };
 
-  validate({ uid: uid }, user, function(err, user) {
+  validate({ uid: uid }, user, function (err, user) {
     if (err) return callback(err);
 
     try {
@@ -46,7 +45,7 @@ module.exports = function create(email, passwordHash, subscription, callback) {
     if (user.subscription && user.subscription.customer)
       multi.set(key.customer(user.subscription.customer), uid);
 
-    multi.exec(function(err) {
+    multi.exec(function (err) {
       // Retry if generated ID was in use
       if (err && err.code === "SETNX")
         return create(email, passwordHash, subscription, callback);
@@ -57,7 +56,7 @@ module.exports = function create(email, passwordHash, subscription, callback) {
       if (err) return callback(err);
 
       // Schedule a notifcation email for their subscription renewal
-      scheduleSubscriptionEmail(user.uid, function(err) {
+      scheduleSubscriptionEmail(user.uid, function (err) {
         if (err) console.log(err);
       });
 

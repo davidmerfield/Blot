@@ -1,4 +1,4 @@
-describe("Blog.create", function() {
+describe("Blog.create", function () {
   var create = require("../create");
   var remove = require("../remove");
   var getAllIDs = require("../getAllIDs");
@@ -15,10 +15,10 @@ describe("Blog.create", function() {
     }
   });
 
-  it("creates a blog", function(done) {
+  it("creates a blog", function (done) {
     var test = this;
 
-    create(test.user.uid, { handle: "example" }, function(err, blog) {
+    create(test.user.uid, { handle: "example" }, function (err, blog) {
       if (err) return done.fail(err);
 
       test.blog = blog; // will be cleaned up at the end of this test
@@ -28,15 +28,15 @@ describe("Blog.create", function() {
     });
   });
 
-  it("adds created blog to list of all blogs", function(done) {
+  it("adds created blog to list of all blogs", function (done) {
     var test = this;
 
-    create(test.user.uid, { handle: "example" }, function(err, blog) {
+    create(test.user.uid, { handle: "example" }, function (err, blog) {
       if (err) return done.fail(err);
 
       test.blog = blog; // will be cleaned up at the end of this test
 
-      getAllIDs(function(err, ids) {
+      getAllIDs(function (err, ids) {
         expect(ids).toContain(blog.id);
         done();
       });

@@ -1,0 +1,73 @@
+<!DOCTYPE html><html lang=en><head><meta charset=utf-8><title>Your domain is almost set up
+</title></head><body>
+  <style type="text/css">
+  
+  html, body {height: 100%}
+  
+  body {
+  color: #000;
+  line-height: 1.4;
+  margin: 0 auto;
+  max-width: 30em;
+  display: flex;
+  flex-direction: column;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica,
+    "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
+  font-size: 18px;
+  font-weight: 400;
+  justify-content:center;
+  color: #111;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  }
+
+  h1 {font-weight: 600;font-size: inherit;}
+
+  h1, p {margin: 0.7em 0;}
+
+  a {
+  	color: var(--accent-color);
+  }
+  .outline-button {border:1px solid;border-radius: 4px;padding: 4px 8px 5px;text-decoration: none;font-weight: 400;display: inline-block}
+  .outline-button:after {content: " →";}
+
+  .tasklist {
+  	list-style-type: none;
+  	padding: 0;
+  }
+
+  .tasklist li {position: relative;padding-left: 2em;margin:0.7em 0;}
+
+  .tasklist li:after {
+  	content: " ";
+  	line-height: 1;
+  	text-align: center;
+  	font-size: 1.1em;
+  	border-radius: 100%;width: 1em;height: 1em;border:1px solid;
+  	position: absolute;
+  	top: 0.15em;
+  	left: 0
+  }
+
+  .tasklist .complete:after {
+  	content: "✓"
+  }
+
+  </style>
+
+  <h1>Your domain is almost set up</h1>
+  <ol class="tasklist">
+  <li class="complete"> You have successfully pointed your domain to Blot’s server. The DNS records you created are working.</li>
+  <li class="incomplete"> You still need to <a href="https://blot.im/settings/domain">enter your domain</a> on the dashboard. Blot must know which site to show here. Please update the domain settings page on your site’s dashboard.
+  </li>
+</ol>
+
+  <p>
+    <a class="outline-button" href="https://blot.im/settings/domain">Update your domain settings</a>
+  </p>
+
+  <p>Please do not hesitate to <a href="https://blot.im/support">contact support</a> if you have any questions about this or anything else.</p>
+
+</body>
+
+</html>
