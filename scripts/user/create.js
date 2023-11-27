@@ -3,16 +3,16 @@ var format = require("url").format;
 var config = require("config");
 
 if (require.main === module) {
-  
   var email = process.argv[2];
   var subscription = {};
+  var paypal = {};
   var password = process.argv[3];
 
   if (password) {
     User.hashPassword(password, function (err, passwordHash) {
       if (err) throw err;
 
-      User.create(email, passwordHash, subscription, function (err) {
+      User.create(email, passwordHash, subscription, paypal, function (err) {
         if (err) throw err;
 
         console.log("Created user", email);
@@ -28,7 +28,7 @@ if (require.main === module) {
       var url = format({
         protocol: "https",
         host: config.host,
-        pathname: `/sign-up/paid/${token}`,
+        pathname: `/sign-up/paid/${token}`
       });
 
       console.log(
@@ -36,13 +36,15 @@ if (require.main === module) {
           .add(expires, "seconds")
           .fromNow()}`
       );
-      console.log('It can be clicked multiple times but can only be used once.')
+      console.log(
+        "It can be clicked multiple times but can only be used once."
+      );
 
       console.log();
       console.log("To automate the creation of 20 accounts:");
       console.log(
-    "seq 20 | xargs -I{} node scripts/user/create.js | grep https://"
-  );
+        "seq 20 | xargs -I{} node scripts/user/create.js | grep https://"
+      );
 
       console.log();
       console.log("Use this link to create an account:");
