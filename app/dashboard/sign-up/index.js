@@ -60,7 +60,7 @@ alreadyPaid.post(parse, csrf, validateEmail, function (req, res, next) {
   });
 });
 
-function validateEmail(req, res, next) {
+function validateEmail (req, res, next) {
   var email = req.body && req.body.email;
 
   // Normalize the email here before storing it
@@ -87,6 +87,8 @@ paymentForm.get(csrf, function (req, res) {
   res.locals.menu = { "sign-up": "selected" };
   res.locals.error = req.query.error;
   res.locals.stripe_key = config.stripe.key;
+  res.locals.paypal_plan = config.paypal.plan;
+  res.locals.paypal_client_id = config.paypal.client_id;
   res.locals.csrf = req.csrfToken();
   res.render("sign-up");
 });
@@ -101,7 +103,7 @@ paymentForm.post(parse, csrf, validateEmail, function (req, res, next) {
     card,
     email,
     plan: config.stripe.plan,
-    description: "Blot subscription",
+    description: "Blot subscription"
   };
 
   stripe.customers.create(info, function (err, customer) {
@@ -184,7 +186,7 @@ passwordForm.post(parse, csrf, function (req, res, next) {
         secure: true,
         httpOnly: false,
         maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
-        sameSite: "Lax",
+        sameSite: "Lax"
       });
 
       req.session.uid = user.uid;
