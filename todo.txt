@@ -1,28 +1,71 @@
-Check for SSL renewal errors
+Server tasks:
+- Begin purging cached files when the cache shared dictionary is filling up
+  - use get_keys(100) and purge 100 hosts at a time, then check free_space() 
+  - Eventually, we should try and purge the least recently used hosts with the largest number of keys in the dictionary
+  - But picking at random works for now
+- Add script to cron to check for SSL renewal errors
+- Fix bug with screenshot issues on production server by using pupeteer with firefox
+- Monitor the root disk usage of both servers
+  - everything should now be on the EBS volume for node server
+- Refactor server config so previews are not cached in any way
+- write cron script to save redis-server disk usage and free memory stats in the db then monitor this from stats
+- create an API to process data streams, auto aggregate and store on disk
+- final polish on stats dashboard
+- test the launch staging redis server from backup on s3
+- Check that redis logs have been rotated - /etc/logrotate.d/redis6
+
+Improvements to templates:
+- Tell these people about new templates, and to subscribe to newsletter:
+  - [Chris](https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e)
+  - [John](https://mail.google.com/mail/u/1/#all/1618ca0420779742)
+  - [Jan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChmLnfMTdtNkpLxHTlPJNHlCT) 
+  - [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrRRZTKntrWKJvfDXrRFTzljs)
+
+Improvements to website:
+- Create material in docs with title 'Turn X into website' where X is:
+  - Dropbox, Google Drive, etc.
+  - Word Document, Google Doc, etc.
+- Document text editors
+  https://coteditor.com/
+  https://zettelkasten.de/the-archive/
+  https://tot.rocks/
+  https://desairem.com/wordpress/ufocus/
+- Add guide to useful text editors like [this one recommended by Andrew](https://itunes.apple.com/us/app/write-best-note-taking-app/id848311469)
+  - do this as a marketing strategy, e.g. target 'blog with microsoft word', 'blog with google docs', 'blog with ia writer' etc... contact the people who make text editors and ask them to link to us?
+- Personalize the documentation for logged in customers
+- Add [contributor](https://api.github.com/repos/davidmerfield/blot/contributors) / [language](https://api.github.com/repos/davidmerfield/blot/languages) and repo information to source code page using GitHub API.
+
+Redo demo video
+- Finish setting up Office
+- Ensure each template is good enough for the new film
+- Finish the test folders for each template 
+- Finish video in brochure/readme.txt
+
+Write newsletter
+
+---
+
+Purge old docs CSS and JS from CDN storage cache
 
 Make sure main server can hard restart without issue
 
-Store path -> md5 hash on sync
-- Use to auto version links to files in your folder 
+Data use minimization:
+- Write automated script to archive overdue blogs from disk and db
+- Write script to remove unused and unaccessed static files from within blog folders
+  - we'll also need to purge the cache of the transformer module for the file
 
-Fix bug with screenshot issues on production server by using pupeteer with firefox
+Set up fail2ban on nginx logs
 
-Monitor Blot's root disk usage
-- everything should now be on the EBS volume
+When a post is deleted, we should remove everything except the created time?
 
-Monitor Redis's root disk usage
+Create a queue for purging cache, group requests together to prevent stampede
 
-Fix cloudflare redirect HTTP/HTTPS issue seems to have resurfaced - why?
+Prevent overzealous purging of cache for syncs in which the folder does not change
 
-Work out why nginx is storing cache files even with bypass
+Add WebDav support
 
 Work out why rebuilding template from folder clears cache even if the template is not changed
 - stop this
-
-Begin purging cached files when the cache shared dictionary is filling up
-- use get_keys(100) and purge 100 hosts at a time, then check free_space() 
-- Eventually, we should try and purge the least recently used hosts with the largest number of keys in the dictionary
-- But picking at random works for now
 
 Can I use proxy_store instead of openrestycache?
 
@@ -31,47 +74,16 @@ Prevent Google Drive client from re crawling entire folder for every sync
 
 Prevent unneeded cache purge when templates are rebuilt, either from folder or on disk in app/templates
 
-Create material in docs with title 'Turn X into website' where X is:
-- Dropbox, Google Drive, etc.
-- Word Document, Google Doc, etc.
-
-Document text editors
-https://coteditor.com/
-https://zettelkasten.de/the-archive/
-https://tot.rocks/
-https://desairem.com/wordpress/ufocus/
-
-Add WebDav support
-
 Can we add a 'folder rules' section to create ignore globs, multi post globs, etc.
 
 Git client is extremely slow to set up large folders – we need a loading screen
 
 When a folder has lots of elements, trim the list of files on the dashboard, at least on the index page
 
-Monitoring:
-- Move log aggregator into redis?
-- Set up fail2ban on nginx logs
+Fix cloudflare redirect HTTP/HTTPS issue seems to have resurfaced - why?
 
-Purge old docs CSS and JS from CDN storage cache
-
-Finish redis server setup:
-- write cron script to save redis-server disk usage and free memory stats in the db then monitor this from scheduler
-- launch staging redis server from backup on s3
-- Check that redis logs have been rotated - /etc/logrotate.d/redis6
-
-Data use minimization:
-- Write automated script to archive overdue blogs from disk and db
-- Write script to remove unused and unaccessed static files from within blog folders
-  - we'll also need to purge the cache of the transformer module for the file
-
-When a post is deleted, we should remove everything except the created time?
-
-Create a queue for purging cache, group requests together to prevent stampede
-
-Prevent overzealous purging of cache for syncs in which the folder does not change
-
----
+Store path -> md5 hash on sync
+- Use to auto version links to files in your folder 
 
 Investigate webp thumbnails
 
@@ -99,13 +111,6 @@ Fix post navigation on Portfolio template and tell [Questioner](https://blot.im/
 
 ---
 
-Work on templates
-- Tell these people about new templates, and to subscribe to newsletter:
-  - [Chris](https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e)
-  - [John](https://mail.google.com/mail/u/1/#all/1618ca0420779742)
-  - [Jan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChmLnfMTdtNkpLxHTlPJNHlCT) 
-  - [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrRRZTKntrWKJvfDXrRFTzljs)
-
 Improve image posts
 - Add opt-in EXIF extraction for photos and enable in the photos template
 - Add support for other image formats, by converting them into jpg/webp
@@ -113,12 +118,6 @@ Improve image posts
 
 Add support for textbundle files and tell [questioner](https://blot.im/questions/1385)
 - this will help me understand how best to accomplish multi-file posts
-
-Release a new film showing some of Blot’s more recent features
-- Finish setting up Office
-- Ensure each template is good enough for the new film
-- Finish the test folders for each template 
-- Finish video in brochure/readme.txt
 
 ---
 
@@ -309,14 +308,11 @@ Investigate bug with template views whose names include hashtags and follow up w
 
 ---
 
-Migrate to k8s cluster on Linode
-
-Improve express disk cache
-- [ ] can more of the documentation become markdown?
-- [ ] can we turn the documentation design into a blot digital garden template?
-- [ ] add PNG lossless compression for brochure
-- [ ] add JPG lossless compression for brochure
-- [ ] add SVG lossless compression for brochure
+Add support for paying with crypto, BTC ETH
+- Consider https://github.com/btcpayserver https://github.com/btcpayserver/node-btcpay
+- Tell [Chaz](https://mail.google.com/mail/u/1/#sent/165b726aa900158a) 
+- Tell [Anita](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsSWMtCTdmrbscFCFLggctmxH)
+- Tell [Arc](https://mail.google.com/mail/u/0/#inbox/FMfcgzGtwqJkLxGTKPXhZPSWVjJqQbjs)
 
 Improve Are.na importer so it handles descriptions + also other file types (e.g. PDF, text) and tell [Marco](https://mail.google.com/mail/u/0/#inbox/QgrcJHsBvDqvbgfkRJfBlwLBwlDHDncxVnl)
 
@@ -677,18 +673,7 @@ Convert [Vitepress](https://vitepress.vuejs.org/) to Blot and tell [Nicolas](htt
 
 Expose log files on blog's dashboard and tell [Roman](https://mail.google.com/mail/u/0/#inbox/FMfcgzGtwDDXlpTvjNdJwmjXTCzGTqbW), [Sönke](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLtsxjSMlVmNRFGJJxkpsVFNvg) and [questioner](https://blot.im/questions/136) and [John](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmvBnVvqHdJXLgDhrtChCqdMQX)
 
-Improvements to brochure:
-- Write build scripts which can be run to produce results checked into git
-   - inline css in blot.css
-   - inline css in katex.css?
-   - base 64 encode and inline small images on homepage
-   - Optimize all images in image directory
-   - compute content hashes then Use blotcdn for video and other large static files
-- Add end-to-end tests for brochure site to test sign up flow (use Playwright? Phantom? Chrome headless)
-- Add guide to useful text editors like [this one recommended by Andrew](https://itunes.apple.com/us/app/write-best-note-taking-app/id848311469)
-  - do this as a marketing strategy, e.g. target 'blog with microsoft word', 'blog with google docs', 'blog with ia writer' etc... contact the people who make text editors and ask them to link to us?
-- Personalize the documentation for logged in customers
-- Add [contributor](https://api.github.com/repos/davidmerfield/blot/contributors) / [language](https://api.github.com/repos/davidmerfield/blot/languages) and repo information to source code page using GitHub API.
+Add end-to-end tests for brochure site to test sign up flow (use Playwright? Phantom? Chrome headless)
 
 Improve wikilinks lookup algorithm:
 - [ ] Add support for 'shortest path where possible' on Obsidian
@@ -898,12 +883,6 @@ Ignore files inside 'assets' inside .textbundle directories to improve support f
 Rebuild all the thumbnails and cached images for every blog
 
 ---
-
-Add support for paying with Bitcoin 
-- Consider https://github.com/btcpayserver https://github.com/btcpayserver/node-btcpay
-- Tell [Chaz](https://mail.google.com/mail/u/1/#sent/165b726aa900158a) 
-- Tell [Anita](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsSWMtCTdmrbscFCFLggctmxH)
-- Tell [Arc](https://mail.google.com/mail/u/0/#inbox/FMfcgzGtwqJkLxGTKPXhZPSWVjJqQbjs)
 
 Add support for paths to static files with a trailing slash then tell [Sean](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGBwbZsfsWKHCGcbzXXSPhQWXx)
 
