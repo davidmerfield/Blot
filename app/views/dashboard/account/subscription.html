@@ -17,7 +17,7 @@
     
     {{#user.isSubscribed}} 
 
-    {{#user.subscription.quantity}}
+    {{#user.subscriptionQuantity}}
 
     <div class="line"
       ><span class="label">Next bill</span
@@ -38,7 +38,7 @@
     
     
 
-    {{/user.subscription.quantity}} 
+    {{/user.subscriptionQuantity}} 
 
     {{/user.isSubscribed}}
 
@@ -70,13 +70,14 @@
       <span class="right">Switch to {{#monthly}}annual{{/monthly}}{{^monthly}}monthly{{/monthly}} billing</span>
     </a>
 
-
+    {{#user.subscription.status}}
     <a class="line" href="/dashboard/account/subscription/payment-method"
       ><span class="label">Payment method</span
       ><span class="center"
         ><span class="link">Update payment method</span></span
       ></a
     >
+    {{/user.subscription.status}}
 
     <a class="line" href="/dashboard/account/subscription/cancel"
       ><span class="label">Cancel</span

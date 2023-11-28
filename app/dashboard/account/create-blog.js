@@ -36,7 +36,10 @@ CreateBlog.route("/pay")
     }
 
     // PayPal
-    if (req.user.paypal && req.user.paypal.quantity <= req.user.blogs.length) {
+    if (
+      req.user.paypal &&
+      parseInt(req.user.paypal.quantity) <= req.user.blogs.length
+    ) {
       return next();
     }
 
@@ -57,10 +60,17 @@ CreateBlog.route("/pay")
 
   .post(
     parse,
+
+    // Stripe customers
     chargeForRemainingStripe,
     updateSubscriptionStripe,
+
+    // PayPal customers
     updateSubscriptionPayPal,
+    chargeForRemainingPayPal,
+
     function (req, res) {
+      console.log("REDIRECTING HERE INSTEAD...");
       res.redirect(req.baseUrl);
     }
   );
@@ -176,7 +186,7 @@ function calculateFeePayPal (req, res, next) {
     identifier => config.paypal.plans[identifier] === req.user.paypal.plan_id
   );
 
-  var amount = plan_identifier.includes("monthly") ? 4 : 44;
+  var amount = plan_identifier.includes("monthly") ? 400 : 4400;
   var quantity = parseInt(req.user.paypal.quantity);
 
   var startDateString = req.user.paypal.billing_info.last_payment.time;
@@ -208,12 +218,12 @@ function calculateFeePayPal (req, res, next) {
 }
 
 function validateSubscription (req, res, next) {
-  var subscription = req.user.subscription;
-
   if (canSkip(req.user)) return next();
 
   const activeStripeSubscription =
-    !subscription || !subscription.status || subscription.status !== "active";
+    !req.user.subscription ||
+    !req.user.subscription.status ||
+    req.user.subscription.status !== "active";
 
   const activePayPalSubscription =
     !req.user.paypal ||
@@ -310,7 +320,7 @@ function updateSubscriptionStripe (req, res, next) {
   }
 
   // This user doesnt use Stripe
-  if (!req.user.subscription.customer) {
+  if (!req.user.subscription.status) {
     return next();
   }
 
@@ -341,63 +351,62 @@ function updateSubscriptionStripe (req, res, next) {
   );
 }
 
-const { paypal } = require("config");
 const fetch = require("node-fetch");
 
-function updateSubscriptionPayPal (req, res, next) {
-  /*
-  curl -v -X POST https://api-m.sandbox.paypal.com/v1/subscriptions/I-BW452GLLEP1G/revise 
--H "PayPal-Auth-Assertion: AUTH-ASSERTION" / 
--H "Content-Type: application/json" \
--H "Authorization: Basic ACCESS-TOKEN" \
--d '{
-  "plan_id": "P-5ML4271244454362WXNWU5NQ",
-  "quantity": "10"
-}'
-  */
-
+async function updateSubscriptionPayPal (req, res, next) {
   // We dont need to do this for free users
-  if (!paypal.status) {
+  if (!req.user.paypal.status) {
     return next();
   }
 
   // This is their first blog, so don't charge the user twice
   if (req.user.blogs.length === 0 && req.user.paypal.quantity === "1") {
+    console.log("it the first blog");
     return next();
   }
 
-  // Issue the request to PayPal
-  fetch(
-    `${paypal.api_base}/v1/billing/subscriptions/${req.user.paypal.id}/revise`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "PayPal-Auth-Assertion": "AUTH-ASSERTION",
-        "Authorization": `Basic ${Buffer.from(
-          `${paypal.client_id}:${paypal.secret}`
-        ).toString("base64")}`
-      },
-      body: JSON.stringify({
-        plan_id: req.user.paypal.plan_id,
-        quantity: req.user.blogs.length + 1
-      })
-    }
-  )
-    .then(res => res.json())
-    .then(json => {
-      if (json.error) {
-        return next(new Error(json.error.message));
+  const new_quantity = (parseInt(req.user.paypal.quantity) + 1).toString();
+
+  try {
+    const response = await fetch(
+      `${config.paypal.api_base}/v1/billing/subscriptions/${req.user.paypal.id}/revise`,
+      {
+        method: "POST",
+        headers: {
+          "Authorization": `Basic ${Buffer.from(
+            `${config.paypal.client_id}:${config.paypal.secret}`
+          ).toString("base64")}`,
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body: JSON.stringify({
+          plan_id: req.user.paypal.plan_id,
+          quantity: new_quantity
+        })
       }
+    );
 
-      User.set(req.user.uid, { paypal: json }, function (err) {
-        if (err) return next(err);
+    const json = await response.json();
 
-        Email.CREATED_BLOG(req.user.uid);
-        next();
-      });
-    })
-    .catch(next);
+    if (
+      json.quantity !== new_quantity ||
+      json.plan_id !== req.user.paypal.plan_id
+    ) {
+      throw new Error("Could not update subscription");
+    }
+  } catch (e) {
+    console.log("error", e);
+    return next(e);
+  }
+
+  const updated_paypal = { ...req.user.paypal, quantity: new_quantity };
+
+  User.set(req.user.uid, { paypal: updated_paypal }, function (err) {
+    if (err) return next(err);
+
+    Email.CREATED_BLOG(req.user.uid);
+    next();
+  });
 }
 
 async function chargeForRemainingPayPal (req, res, next) {
