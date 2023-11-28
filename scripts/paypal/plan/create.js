@@ -14,12 +14,12 @@ function main (product_id, callback) {
         body: JSON.stringify({
           product_id: product_id,
           name: "Blog",
-          description: "A subscription to host a blog",
+          description: "Annual subscription to host a blog",
           quantity_supported: true,
           billing_cycles: [
             {
               frequency: {
-                interval_unit: "MONTH",
+                interval_unit: "YEAR",
                 interval_count: 1
               },
               tenure_type: "REGULAR",
@@ -27,7 +27,7 @@ function main (product_id, callback) {
               total_cycles: 0,
               pricing_scheme: {
                 fixed_price: {
-                  value: "4",
+                  value: "44",
                   currency_code: "USD"
                 }
               }
