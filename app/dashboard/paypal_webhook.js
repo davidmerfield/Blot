@@ -41,7 +41,7 @@ paypal.post("/", parser.json(), (req, res) => {
 const updateSubscription = (subscriptionID, callback) => {
   console.log(prefix(), "UPDATING SUBSCRIPTION", subscriptionID);
 
-  User.getByPaypalID(subscriptionID, async (err, user) => {
+  User.getByPayPalSubscriptionId(subscriptionID, async (err, user) => {
     if (err) return callback(err);
     if (!user) return callback(new Error("No user found for paypal ID"));
     const response = await fetch(

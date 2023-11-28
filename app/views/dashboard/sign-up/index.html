@@ -123,7 +123,7 @@
 
       <script src="https://www.paypal.com/sdk/js?client-id={{
           paypal_client_id
-        }}&vault=true&intent=subscription&disable-funding=card">
+        }}&vault=true&intent=subscription">
     </script>
 
 
@@ -164,7 +164,7 @@
           onApprove: function (data, actions) {
             // redirect to /sign-up/paypal/redirect?subscription_id=${data.subscriptionID}
             window.location.href =
-              "/sign-up/paypal?subscription_id=" + data.subscriptionID;
+              "/sign-up/paypal?subscriptionID=" + data.subscriptionID;
           }
         })
         .render("#paypal-button-container"); // Renders the PayPal button
