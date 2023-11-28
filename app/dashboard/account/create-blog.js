@@ -70,7 +70,6 @@ CreateBlog.route("/pay")
     chargeForRemainingPayPal,
 
     function (req, res) {
-      console.log("REDIRECTING HERE INSTEAD...");
       res.redirect(req.baseUrl);
     }
   );
@@ -376,23 +375,28 @@ async function updateSubscriptionPayPal (req, res, next) {
           "Authorization": `Basic ${Buffer.from(
             `${config.paypal.client_id}:${config.paypal.secret}`
           ).toString("base64")}`,
-          "Content-Type": "application/json",
-          "Accept": "application/json"
+          "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          plan_id: req.user.paypal.plan_id,
           quantity: new_quantity
         })
       }
     );
 
+    if (!response.ok) {
+      throw new Error("Could not update subscription: response not ok");
+    }
+
+    if (response.status !== 200) {
+      throw new Error("Could not update subscription: bad status");
+    }
+
     const json = await response.json();
 
-    if (
-      json.quantity !== new_quantity ||
-      json.plan_id !== req.user.paypal.plan_id
-    ) {
-      throw new Error("Could not update subscription");
+    console.log("got reponse", json);
+
+    if (json.quantity !== new_quantity) {
+      throw new Error("Could not update subscription: bad response");
     }
   } catch (e) {
     console.log("error", e);
@@ -404,6 +408,7 @@ async function updateSubscriptionPayPal (req, res, next) {
   User.set(req.user.uid, { paypal: updated_paypal }, function (err) {
     if (err) return next(err);
 
+    console.log("updated subscription quantity to", new_quantity);
     Email.CREATED_BLOG(req.user.uid);
     next();
   });
