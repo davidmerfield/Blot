@@ -246,24 +246,7 @@ local function cacher_purge (self, ngx)
 
     for host in string.gmatch(ngx.var.args, "host=([^&]+)") do
         ngx.log(ngx.NOTICE, "purging host: " .. host)
-        local total_keys = shared_dictionary:llen(host)
-        local cache_key_hash = shared_dictionary:lpop(host)
-        while cache_key_hash do
-            -- the cache file path is in the following format: $x/$y/$cache_key_hash
-            -- where x is the last character of the cache_key_hash
-            -- and y are the two characters before x
-            local x = cache_key_hash:sub(-1)
-            local y = cache_key_hash:sub(-3,-2)
-            local cached_file_path = cache_directory .. "/" .. x .. "/" .. y .. "/" .. cache_key_hash
-            local f = io.open(cached_file_path, "r")
-            
-            if f ~= nil then
-                io.close(f) 
-                os.remove(cached_file_path)
-            end
-
-            cache_key_hash = shared_dictionary:lpop(host)            
-        end
+        local total_keys = purge_host(host, shared_dictionary, cache_directory)
         message = message .. host .. ": " .. total_keys .. "\n"
     end
 
@@ -274,6 +257,40 @@ local function cacher_purge (self, ngx)
     
     ngx.say(message)
     ngx.exit(ngx.OK)
+end
+
+function purge_host (host, shared_dictionary, cache_directory)
+    local total_keys = shared_dictionary:llen(host)
+    local cache_key_hash = shared_dictionary:lpop(host)
+    while cache_key_hash do
+        -- the cache file path is in the following format: $x/$y/$cache_key_hash
+        -- where x is the last character of the cache_key_hash
+        -- and y are the two characters before x
+        local x = cache_key_hash:sub(-1)
+        local y = cache_key_hash:sub(-3,-2)
+        local cached_file_path = cache_directory .. "/" .. x .. "/" .. y .. "/" .. cache_key_hash
+        local f = io.open(cached_file_path, "r")
+        
+        if f ~= nil then
+            io.close(f) 
+            os.remove(cached_file_path)
+        end
+
+        cache_key_hash = shared_dictionary:lpop(host)            
+    end
+
+    return total_keys
+end
+
+function purge_random_hosts (self) 
+    local shared_dictionary = self.shared_dictionary
+    -- I believe this returns 1000 random keys
+    -- unfortunately it will return the most recently added keys
+    -- in future, try and work out a way to get the least recently added keys
+    local hosts = shared_dictionary:get_keys(500)
+    for _, host in ipairs(hosts) do
+        purge_host(host, shared_dictionary, self.cache_directory)
+    end
 end
 
 function cacher_monitor_free_space (self, ngx, monitor_interval)
@@ -310,6 +327,13 @@ function cacher_monitor_free_space (self, ngx, monitor_interval)
 
             handle:close()
             ngx.log(ngx.NOTICE, "dictionary_usage=" .. usage .. "M disk_usage=" .. output .. " dictionary_free_space=" .. free_space_megabytes .. "M")
+            
+            -- if the free space is less than 100MB then purge some hosts
+            if (free_space_megabytes < 5) then
+                ngx.log(ngx.NOTICE, "dictionary_free_space=" .. free_space_megabytes .. "M is less than 5M, purging random hosts")
+                purge_random_hosts(self)
+                ngx.log(ngx.NOTICE, "purge complete")
+            end
         end
     end, self)
 end
