@@ -62,6 +62,25 @@ Add WebDav support
 Work out why rebuilding template from folder clears cache even if the template is not changed
 - stop this
 
+Improve paypal integration:
+- [ ] Create new router for paypal subscription settings
+- [ ] Test subscription with real paypal account
+  - [ ] Test new blog creation
+  - [ ] Test new blog deletion
+  - [ ] Test switch to annual billing
+  - [ ] Test account deletion
+- [ ] Add subscription pause
+- [ ] Make it possible to add paypal as a payment method for existing stripe users
+- [ ] Verify signature integrity of paypal webhooks
+- [ ] Use PayPal buttons api to modify subscription properties
+- [ ] Get account page working
+  - [ ] Add way to cancel subscription from dashboard
+  - [ ] Add way to delete account from dashboard
+- [ ] Get create new blog working
+  - [ ] Add way to modify subscription quantity for paypal users
+- [ ] Update scheduleEmailNotification for paypal customers
+
+
 Can I use proxy_store instead of openrestycache?
 
 Prevent Google Drive client from re crawling entire folder for every sync
