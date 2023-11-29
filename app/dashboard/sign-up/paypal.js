@@ -31,8 +31,6 @@ paypal.get("/", async (req, res, next) => {
 
     const json = await response.json();
 
-    console.log(JSON.stringify(json, null, 2));
-
     req.session.paypal = json;
     req.session.email = json.subscriber.email_address;
 

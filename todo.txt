@@ -1,5 +1,3 @@
-Fix indentation in docs examples
-
 Check emails (account creation and deletion with new paypal integration)
 
 Server tasks:
