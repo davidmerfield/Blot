@@ -272,15 +272,10 @@ Subscription.route("/restart")
     });
   })
 
-  .post(
-    parse,
-    restartStripeSubscription,
-    restartPayPalSubscription,
-    function (req, res) {
-      email.RESTART(req.user.uid);
-      res.message(req.baseUrl, "Restarted your subscription");
-    }
-  );
+  .post(parse, restartStripeSubscription, function (req, res) {
+    email.RESTART(req.user.uid);
+    res.message(req.baseUrl, "Restarted your subscription");
+  });
 
 Subscription.route("/restart/pay")
 
@@ -456,39 +451,6 @@ function restartStripeSubscription (req, res, next) {
       User.set(req.user.uid, { subscription: subscription }, next);
     }
   );
-}
-
-async function restartPayPalSubscription (req, res, next) {
-  if (!req.user.paypal.status) {
-    return next();
-  }
-
-  try {
-    const response = await fetch(
-      `${config.paypal.api_base}/v1/billing/subscriptions/${req.user.paypal.id}/activate`,
-      {
-        method: "POST",
-        headers: {
-          "Authorization": `Basic ${Buffer.from(
-            `${config.paypal.client_id}:${config.paypal.secret}`
-          ).toString("base64")}`,
-          "Content-Type": "application/json"
-        }
-      }
-    );
-
-    // if successful, we should get a 204 response
-    // otherwise throw an error
-    if (response.status !== 204) {
-      throw new Error("PayPal subscription activation failed");
-    }
-
-    await updateSubscription(req.user.paypal.id);
-  } catch (e) {
-    return next(e);
-  }
-
-  next();
 }
 
 module.exports = Subscription;

@@ -24,17 +24,14 @@ paypal.post("/", parser.json(), async (req, res) => {
     console.log(prefix(), req.body.event_type, req.body.resource.id);
 
     try {
+      console.log(prefix(), "Updating subscriptionID=", req.body.resource.id);
       await updateSubscription(req.body.resource.id);
-      console.log(prefix(), "UPDATED SUBSCRIPTION");
+      console.log(prefix(), "Updated subscription successfully");
     } catch (err) {
       console.log(prefix(), err);
     }
   } else {
-    console.log(
-      prefix(),
-      "UNHANDLED PAYPAL WEBHOOK EVENT",
-      req.body.event_type
-    );
+    console.log(prefix(), "Unhandled event type", req.body.event_type);
   }
 
   res.status(200).send("OK");
@@ -42,11 +39,13 @@ paypal.post("/", parser.json(), async (req, res) => {
 
 const updateSubscription = async subscriptionID => {
   return new Promise((resolve, reject) => {
-    console.log(prefix(), "UPDATING SUBSCRIPTION", subscriptionID);
     User.getByPayPalSubscriptionId(subscriptionID, async (err, user) => {
       if (err) return reject(err);
+
       if (!user)
-        return reject(new Error("No user found with that subscription ID"));
+        return reject(
+          new Error("No user associated with subscription ID " + subscriptionID)
+        );
 
       const response = await fetch(
         `${config.paypal.api_base}/v1/billing/subscriptions/${subscriptionID}`,
@@ -63,7 +62,6 @@ const updateSubscription = async subscriptionID => {
 
       const paypal = await response.json();
 
-      console.log(prefix(), "Saving user", user.uid, "with paypal", paypal);
       User.set(user.uid, { paypal }, err => {
         if (err) return reject(err);
         resolve();
