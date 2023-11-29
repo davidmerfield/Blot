@@ -4,13 +4,10 @@ Server tasks:
   - Eventually, we should try and purge the least recently used hosts with the largest number of keys in the dictionary
   - But picking at random works for now
 - Fix bug with screenshot issues on production server by using pupeteer with firefox
-- Monitor the root disk usage of both servers
-  - everything should now be on the EBS volume for node server
-- write cron script to save redis-server disk usage and free memory stats in the db then monitor this from stats
-- create an API to process data streams, auto aggregate and store on disk
-- final polish on stats dashboard
-- test the launch staging redis server from backup on s3
-- Check that redis logs have been rotated - /etc/logrotate.d/redis6
+- Final polish on stats dashboard
+  - Add monitor the root disk usage of both servers to stats
+  - write cron script to save redis-server disk usage and free memory stats in the db then monitor this from stats
+  - create an API to process data streams, auto aggregate and store on disk
 
 Improvements to templates:
 - Tell these people about new templates, and to subscribe to newsletter:
