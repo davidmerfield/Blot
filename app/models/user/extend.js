@@ -52,8 +52,6 @@ module.exports = function extend (user) {
   }
 
   if (user.paypal && user.paypal.status) {
-    console.log(JSON.stringify(user.paypal, null, 2));
-
     if (user.paypal.status === "ACTIVE") user.isSubscribed = true;
 
     if (user.paypal.status === "CANCELLED") user.willCancel = true;
