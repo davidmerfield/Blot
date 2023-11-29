@@ -1,5 +1,3 @@
-Check emails (account creation and deletion with new paypal integration)
-
 Server tasks:
 - Begin purging cached files when the cache shared dictionary is filling up
   - use get_keys(100) and purge 100 hosts at a time, then check free_space() 
