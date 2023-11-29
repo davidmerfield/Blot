@@ -162,6 +162,9 @@
             });
           },
           onApprove: function (data, actions) {
+            // replace the contents of the form with a loading message
+            const form = document.querySelector("form");
+            form.innerHTML = "<p>Loading your payment...</p>";
             // redirect to /sign-up/paypal/redirect?subscription_id=${data.subscriptionID}
             window.location.href =
               "/sign-up/paypal?subscriptionID=" + data.subscriptionID;

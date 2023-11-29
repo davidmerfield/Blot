@@ -62,6 +62,7 @@
 
     <div class="clear"></div>
 
+    {{^user.paypal.status}}
     <a class="line" href="/dashboard/account/subscription/billing-interval"
       ><span class="label">Billing interval</span
       ><span class="center"
@@ -69,6 +70,7 @@
       >
       <span class="right">Switch to {{#monthly}}annual{{/monthly}}{{^monthly}}monthly{{/monthly}} billing</span>
     </a>
+    {{/user.paypal.status}}
 
     {{#user.subscription.status}}
     <a class="line" href="/dashboard/account/subscription/payment-method"
@@ -79,12 +81,15 @@
     >
     {{/user.subscription.status}}
 
+    {{^user.paypal.status}}
     <a class="line" href="/dashboard/account/subscription/cancel"
       ><span class="label">Cancel</span
       ><span class="center"
         ><span class="link">Cancel your subscription</span></span
       ></a
     >
+    {{/user.paypal.status}}
+
 
     {{/user.isSubscribed}}
     <a class="line" href="/dashboard/account/subscription/delete" style="border-bottom: none">

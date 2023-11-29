@@ -344,39 +344,6 @@ function requireSubscription (req, res, next) {
 const { updateSubscription } = require("dashboard/paypal_webhook");
 
 async function cancelPaypalSubscription (req, res, next) {
-  // We dont need to do this for free users
-  if (!req.user.paypal.status) {
-    return next();
-  }
-
-  try {
-    const response = await fetch(
-      `${config.paypal.api_base}/v1/billing/subscriptions/${req.user.paypal.id}/cancel`,
-      {
-        method: "POST",
-        headers: {
-          "Authorization": `Basic ${Buffer.from(
-            `${config.paypal.client_id}:${config.paypal.secret}`
-          ).toString("base64")}`,
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          reason: "Blot user cancelled subscription"
-        })
-      }
-    );
-
-    // if successful, we should get a 204 response
-    // otherwise throw an error
-    if (response.status !== 204) {
-      throw new Error("PayPal subscription cancellation failed");
-    }
-
-    await updateSubscription(req.user.paypal.id);
-  } catch (e) {
-    return next(e);
-  }
-
   next();
 }
 
