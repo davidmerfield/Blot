@@ -7,8 +7,10 @@ each(
 
     user.paypal = {};
 
+    console.log("Adding paypal property to", user.email);
     User.set(user.uid, { paypal: {} }, function (err) {
       if (err) throw err;
+      console.log("Added paypal property to", user.email);
       next();
     });
   },
