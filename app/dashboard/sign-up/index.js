@@ -82,7 +82,11 @@ function validateEmail (req, res, next) {
 }
 
 paymentForm.get(csrf, function (req, res) {
-  if (req.session && req.session.email && req.session.subscription)
+  if (
+    req.session &&
+    req.session.email &&
+    (req.session.subscription || req.session.paypal)
+  )
     return res.redirect(req.baseUrl + passwordForm.path);
 
   res.locals.title = "Sign up";

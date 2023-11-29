@@ -5,6 +5,8 @@
     If you <b>delete your account</b>, your subscription will end and you will
     not be charged again. {{#blogs.length}}Your blog{{ user.s }} and t{{/blogs.length
 
+
+
     }}{{^blogs.length}}T{{/blogs.length}}he data associated with your account
     will be <b>permanently removed</b>.
   </p>
@@ -18,12 +20,12 @@
     >
     instead.
   </p>
+  {{/user.subscription.status}}
 
   <label
     >Please enter your password:
     <input autofocus type="password" name="password" />
   </label>
-  {{/user.subscription.status}}
 
   <div class="buttons">
     <button
