@@ -1,9 +1,10 @@
+var config = require("config");
+var stripe = require("stripe")(config.stripe.secret);
 var Express = require("express");
 var Account = new Express.Router();
 var logout = require("./util/logout");
+const prettyPrice = require("helper/prettyPrice");
 const type = require("helper/type");
-const stripe = require("./stripe");
-const paypal = require("./paypal");
 
 Account.use(function (req, res, next) {
   res.locals.breadcrumbs.add("Your account", "/account");
@@ -11,8 +12,34 @@ Account.use(function (req, res, next) {
   next();
 });
 
-Account.use(stripe.load);
-Account.use(paypal.load);
+Account.use(function (req, res, next) {
+  if (!req.user.subscription || !req.user.subscription.customer) return next();
+
+  stripe.customers.retrieve(req.user.subscription.customer, function (
+    err,
+    customer
+  ) {
+    // If we're offline or Stripe is down don't take the settings
+    // page
+    if (err && err.type === "StripeConnectionError") return next();
+
+    if (err) return next(err);
+
+    if (customer.balance !== 0 && Math.sign(customer.balance) === -1) {
+      res.locals.balance = {
+        credit: true,
+        amount: prettyPrice(Math.abs(customer.balance)),
+      };
+    } else if (customer.balance !== 0 && Math.sign(customer.balance) === 1) {
+      res.locals.balance = {
+        debit: true,
+        amount: prettyPrice(Math.abs(customer.balance)),
+      };
+    }
+
+    next();
+  });
+});
 
 Account.route("/").get(function (req, res) {
   res.redirect("/dashboard");
@@ -70,8 +97,10 @@ Account.use(function (err, req, res, next) {
 
     res.message(redirect, new Error(message));
   } else {
-    next(err);
+    next(err); 
   }
 });
+
+// require("./pay-subscription")(server);
 
 module.exports = Account;

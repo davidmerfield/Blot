@@ -5,6 +5,7 @@ var _ = require("lodash");
 var prettyPrice = require("helper/prettyPrice");
 var config = require("config");
 var request = require("request");
+var config = require("config");
 var stripe = require("stripe")(config.stripe.secret);
 var User = require("models/user");
 var Email = require("helper/email");
@@ -26,27 +27,14 @@ CreateBlog.route("/pay")
   .all(function (req, res, next) {
     // Only allow users who have blogs for all they've paid
     // to see the pay page!
-
-    // Stripe
-    if (
-      req.user.subscription &&
-      req.user.subscription.quantity <= req.user.blogs.length
-    ) {
-      return next();
-    }
-
-    // PayPal
-    if (
-      req.user.paypal &&
-      parseInt(req.user.paypal.quantity) <= req.user.blogs.length
-    ) {
+    if (req.user.subscription.quantity <= req.user.blogs.length) {
       return next();
     }
 
     res.redirect(req.baseUrl);
   })
 
-  .all(calculateFeeStripe, calculateFeePayPal)
+  .all(calculateFee)
 
   .get(function (req, res) {
     res.locals.breadcrumbs = res.locals.breadcrumbs.slice(0, -1);
@@ -54,25 +42,13 @@ CreateBlog.route("/pay")
     res.render("account/create-blog-pay", {
       title: "Create a blog",
       not_paid: true,
-      breadcrumb: "Create blog"
+      breadcrumb: "Create blog",
     });
   })
 
-  .post(
-    parse,
-
-    // Stripe customers
-    chargeForRemainingStripe,
-    updateSubscriptionStripe,
-
-    // PayPal customers
-    updateSubscriptionPayPal,
-    chargeForRemainingPayPal,
-
-    function (req, res) {
-      res.redirect(req.baseUrl);
-    }
-  );
+  .post(parse, chargeForRemaining, updateSubscription, function (req, res) {
+    res.redirect(req.baseUrl);
+  });
 
 CreateBlog.route("/")
 
@@ -81,11 +57,7 @@ CreateBlog.route("/")
   .all(function (req, res, next) {
     // For institutional accounts, we need to allow them to create
     // at least one blog.
-    if (
-      !req.user.subscription.status &&
-      !req.user.paypal.status &&
-      req.user.blogs.length === 0
-    ) {
+    if (_.isEmpty(req.user.subscription) && req.user.blogs.length === 0) {
       return next();
     }
 
@@ -102,10 +74,6 @@ CreateBlog.route("/")
       return next();
     }
 
-    if (req.user.paypal && req.user.paypal.quantity > req.user.blogs.length) {
-      return next();
-    }
-
     res.redirect(req.baseUrl + "/pay");
   })
 
@@ -114,7 +82,7 @@ CreateBlog.route("/")
     res.render("account/create-blog", {
       title: "Create a blog",
       first_blog: req.user.blogs.length === 0,
-      breadcrumb: "Create a blog"
+      breadcrumb: "Create a blog",
     });
   })
 
@@ -129,17 +97,9 @@ CreateBlog.route("/")
     res.message(err);
   });
 
-function calculateFeeStripe (req, res, next) {
+function calculateFee(req, res, next) {
   // We dont need to do this for free users
   if (canSkip(req.user)) return next();
-
-  // Does not use Stripe
-  if (!req.user.subscription.status) return next();
-
-  var subscription = req.user.subscription;
-  var end = subscription.current_period_end;
-  var start = subscription.current_period_start;
-  var individual = subscription.plan.amount;
 
   // This happens when the latest subscription is not available from
   // Stripe. Basically the end date for the subscription is in the
@@ -147,6 +107,11 @@ function calculateFeeStripe (req, res, next) {
   if (end * 1000 < Date.now()) {
     return next(new Error("Your subscription is out of date"));
   }
+
+  var subscription = req.user.subscription;
+  var end = subscription.current_period_end;
+  var start = subscription.current_period_start;
+  var individual = subscription.plan.amount;
 
   var remaining = end * 1000 - Date.now();
   var length = (end - start) * 1000;
@@ -173,63 +138,16 @@ function calculateFeeStripe (req, res, next) {
   next();
 }
 
-function calculateFeePayPal (req, res, next) {
-  // We dont need to do this for free users
+function validateSubscription(req, res, next) {
+  var subscription = req.user.subscription;
+
   if (canSkip(req.user)) return next();
 
-  // Does not use PayPal
-  if (!req.user.paypal.status) return next();
-
-  // plan_identifier is either monthly_4 or yearly_44
-  const plan_identifier = Object.keys(config.paypal.plans).find(
-    identifier => config.paypal.plans[identifier] === req.user.paypal.plan_id
-  );
-
-  var amount = plan_identifier.includes("monthly") ? 400 : 4400;
-  var quantity = parseInt(req.user.paypal.quantity);
-
-  var startDateString = req.user.paypal.billing_info.last_payment.time;
-  var endDateString = req.user.paypal.billing_info.next_billing_time;
-
-  var start = new Date(startDateString).getTime();
-  var end = new Date(endDateString).getTime();
-
-  var remaining = end - Date.now();
-  var length = end - start;
-  var ratioToGo = remaining / length;
-  var now = Math.round(ratioToGo * amount);
-  var later = amount * quantity + amount;
-
-  // This is used by the charge function so if you change it, also
-  // change the charge function
-  req.amount_due_now = now;
-
-  res.locals.monthly = plan_identifier.includes("monthly");
-  res.locals.interval = plan_identifier.includes("monthly") ? "month" : "year";
-  res.locals.price = prettyPrice(amount);
-  res.locals.now = prettyPrice(now);
-  res.locals.later = prettyPrice(later);
-  res.locals.individual = prettyPrice(amount);
-  res.locals.first_blog =
-    req.user.blogs.length === 0 && req.user.paypal.quantity === "1";
-
-  next();
-}
-
-function validateSubscription (req, res, next) {
-  if (canSkip(req.user)) return next();
-
-  const activeStripeSubscription =
-    !req.user.subscription ||
-    !req.user.subscription.status ||
-    req.user.subscription.status !== "active";
-
-  const activePayPalSubscription =
-    !req.user.paypal ||
-    !req.user.paypal.status ||
-    req.user.paypal.status !== "ACTIVE";
-
-  if (!activeStripeSubscription && !activePayPalSubscription) {
+  if (
+    !subscription ||
+    !subscription.status ||
+    subscription.status !== "active"
+  ) {
     res.message(
       "/dashboard/account/subscription/create",
       new Error("You need an active subscription to create a new blog")
@@ -241,7 +159,7 @@ function validateSubscription (req, res, next) {
 
 var chars = "abcdefghijklmnopqrstuvwxyz".split("");
 
-function randomChars (len) {
+function randomChars(len) {
   var res = "";
 
   while (res.length < len)
@@ -250,7 +168,7 @@ function randomChars (len) {
   return res;
 }
 
-function handleFromTitle (title) {
+function handleFromTitle(title) {
   var handle = "";
 
   handle = title.toLowerCase().replace(/\W/g, "");
@@ -262,7 +180,7 @@ function handleFromTitle (title) {
   return handle;
 }
 
-function saveBlog (req, res, next) {
+function saveBlog(req, res, next) {
   var title, handle;
 
   if (req.body.no_title) {
@@ -278,10 +196,10 @@ function saveBlog (req, res, next) {
   var newBlog = {
     title: title,
     handle: handle,
-    timeZone: req.body.timeZone
+    timeZone: req.body.timeZone,
   };
 
-  Blog.create(req.user.uid, newBlog, function onCreate (err, blog) {
+  Blog.create(req.user.uid, newBlog, function onCreate(err, blog) {
     if (
       err &&
       err.handle &&
@@ -306,20 +224,13 @@ function saveBlog (req, res, next) {
   });
 }
 
-function canSkip (user) {
-  return (
-    !user.subscription.status && !user.paypal.status && user.blogs.length === 0
-  );
+function canSkip(user) {
+  return !user.subscription.status && user.blogs.length === 0;
 }
 
-function updateSubscriptionStripe (req, res, next) {
+function updateSubscription(req, res, next) {
   // We dont need to do this for free users
   if (canSkip(req.user)) {
-    return next();
-  }
-
-  // This user doesnt use Stripe
-  if (!req.user.subscription.status) {
     return next();
   }
 
@@ -333,7 +244,7 @@ function updateSubscriptionStripe (req, res, next) {
     req.user.subscription.id,
     {
       quantity: req.user.blogs.length + 1,
-      prorate: false
+      prorate: false,
     },
     function (err, subscription) {
       if (err) return next(err);
@@ -350,142 +261,7 @@ function updateSubscriptionStripe (req, res, next) {
   );
 }
 
-const fetch = require("node-fetch");
-
-async function updateSubscriptionPayPal (req, res, next) {
-  // We dont need to do this for free users
-  if (!req.user.paypal.status) {
-    return next();
-  }
-
-  // This is their first blog, so don't charge the user twice
-  if (req.user.blogs.length === 0 && req.user.paypal.quantity === "1") {
-    console.log("it the first blog");
-    return next();
-  }
-
-  const new_quantity = (parseInt(req.user.paypal.quantity) + 1).toString();
-
-  try {
-    const response = await fetch(
-      `${config.paypal.api_base}/v1/billing/subscriptions/${req.user.paypal.id}/revise`,
-      {
-        method: "POST",
-        headers: {
-          "Authorization": `Basic ${Buffer.from(
-            `${config.paypal.client_id}:${config.paypal.secret}`
-          ).toString("base64")}`,
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          quantity: new_quantity
-        })
-      }
-    );
-
-    if (!response.ok) {
-      throw new Error("Could not update subscription: response not ok");
-    }
-
-    if (response.status !== 200) {
-      throw new Error("Could not update subscription: bad status");
-    }
-
-    const json = await response.json();
-
-    console.log("got reponse", json);
-
-    if (json.quantity !== new_quantity) {
-      throw new Error("Could not update subscription: bad response");
-    }
-  } catch (e) {
-    console.log("error", e);
-    return next(e);
-  }
-
-  const updated_paypal = { ...req.user.paypal, quantity: new_quantity };
-
-  User.set(req.user.uid, { paypal: updated_paypal }, function (err) {
-    if (err) return next(err);
-
-    console.log("updated subscription quantity to", new_quantity);
-    Email.CREATED_BLOG(req.user.uid);
-    next();
-  });
-}
-
-async function chargeForRemainingPayPal (req, res, next) {
-  // https://developer.paypal.com/docs/api/subscriptions/v1/#subscriptions_patch
-  // https://developer.paypal.com/docs/api/subscriptions/v1/#subscriptions_capture
-  if (!req.user.paypal.status) {
-    return next();
-  }
-
-  const plan_identifier = Object.keys(config.paypal.plans).find(
-    identifier => config.paypal.plans[identifier] === req.user.paypal.plan_id
-  );
-
-  const is_monthly = plan_identifier.includes("monthly");
-
-  if (is_monthly) {
-    return next();
-  }
-
-  // we want to patch the subscription to increase their balance due by req.amount_due_now
-  // then we want to capture the payment
-
-  const response = await fetch(
-    `${config.paypal.api_base}/v1/billing/subscriptions/${req.user.paypal.id}`,
-    {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-        "PayPal-Auth-Assertion": "AUTH-ASSERTION",
-        "Authorization": `Basic ${Buffer.from(
-          `${config.paypal.client_id}:${config.paypal.secret}`
-        ).toString("base64")}`
-      },
-      body: JSON.stringify([
-        {
-          op: "replace",
-          path: "/billing_info/outstanding_balance",
-          value: req.amount_due_now
-        }
-      ])
-    }
-  );
-
-  const json = await response.json();
-
-  console.log("UPDATE BALANCE JSON", json);
-
-  const charge_response = await fetch(
-    `${config.paypal.api_base}/v1/billing/subscriptions/${req.user.paypal.id}/capture`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "PayPal-Auth-Assertion": "AUTH-ASSERTION",
-        "Authorization": `Basic ${Buffer.from(
-          `${config.paypal.client_id}:${config.paypal.secret}`
-        ).toString("base64")}`
-      },
-      body: JSON.stringify({
-        note: "Charging to create new site",
-        capture_type: "OUTSTANDING_BALANCE",
-        amount: { currency_code: "USD", value: req.amount_due_now }
-      })
-    }
-  );
-
-  const charge_json = await charge_response.json();
-
-  console.log("CHARGE JSON", charge_json);
-
-  return next();
-}
-
-function chargeForRemainingStripe (req, res, next) {
+function chargeForRemaining(req, res, next) {
   // We dont need to do this for free users
   if (!req.user.subscription.status) {
     return next();
@@ -507,7 +283,7 @@ function chargeForRemainingStripe (req, res, next) {
       amount: req.amount_due_now,
       currency: "usd",
       customer: req.user.subscription.customer,
-      description: "Charge for the remaining billing period"
+      description: "Charge for the remaining billing period",
     },
     function (err, charge) {
       if (err) return next(err);

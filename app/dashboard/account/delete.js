@@ -5,7 +5,7 @@ var Email = require("helper/email");
 var checkPassword = require("./util/checkPassword");
 var logout = require("./util/logout");
 var async = require("async");
-var fetch = require("node-fetch");
+
 var Blog = require("models/blog");
 var pretty = require("helper/prettyPrice");
 
@@ -43,14 +43,13 @@ Delete.route("/blog/:handle")
       Blog.remove(req.blogToDelete.id, next);
     },
     calculateSubscriptionChange,
-    decreaseSubscriptionStripe,
-    decreaseSubscriptionPayPal,
+    decreaseSubscription,
     function (req, res) {
       res.message(req.baseUrl, "Deleted " + req.blogToDelete.title);
     }
   );
 
-function loadBlogToDelete (req, res, next) {
+function loadBlogToDelete(req, res, next) {
   Blog.get({ handle: req.params.handle }, function (err, blog) {
     if (err) {
       return next(err);
@@ -67,40 +66,15 @@ function loadBlogToDelete (req, res, next) {
   });
 }
 
-function calculateSubscriptionChange (req, res, next) {
-  // The user does not have a subscription
+function calculateSubscriptionChange(req, res, next) {
+  var subscription = req.user.subscription;
+
+  // The user does not have an active subscription
   // so proceed to the next middleware
-  if (!req.user.subscription.status && !req.user.paypal.status) {
+  if (!subscription || !subscription.status || subscription.status !== "active")
     return next();
-  }
 
-  if (
-    req.user.subscription.status &&
-    req.user.subscription.status !== "active"
-  ) {
-    return next();
-  }
-
-  if (req.user.paypal.status && req.user.paypal.status !== "ACTIVE") {
-    return next();
-  }
-
-  var currentQuantity = req.user.subscription.status
-    ? req.user.subscription.quantity
-    : parseInt(req.user.paypal.quantity);
-
-  var amount;
-
-  if (req.user.subscription.status) {
-    amount = req.user.subscription.plan.amount;
-  } else {
-    const plan_identifier = Object.keys(config.paypal.plans).find(
-      identifier => config.paypal.plans[identifier] === req.user.paypal.plan_id
-    );
-
-    amount = plan_identifier.includes("monthly") ? 400 : 4400;
-  }
-
+  var currentQuantity = req.user.subscription.quantity;
   var newQuantity = req.user.blogs.length - 1;
 
   // Quantity cannot go below 1
@@ -114,7 +88,9 @@ function calculateSubscriptionChange (req, res, next) {
   // reasons. Handle this case here.
   if (newQuantity >= currentQuantity) return next();
 
-  res.locals.reduction = pretty((currentQuantity - newQuantity) * amount);
+  res.locals.reduction = pretty(
+    (currentQuantity - newQuantity) * req.user.subscription.plan.amount
+  );
   req.newQuantity = newQuantity;
 
   return next();
@@ -125,7 +101,7 @@ Delete.route("/")
   .get(function (req, res) {
     res.render("account/delete", {
       title: "Delete your account",
-      breadcrumb: "Delete"
+      breadcrumb: "Delete",
     });
   })
 
@@ -142,88 +118,44 @@ Delete.route("/")
     }
   );
 
-function emailUser (req, res, next) {
+function emailUser(req, res, next) {
   Email.DELETED("", req.user, next);
 }
-function deleteBlogs (req, res, next) {
+function deleteBlogs(req, res, next) {
   async.each(req.user.blogs, Blog.remove, next);
 }
 
-function deleteUser (req, res, next) {
+function deleteUser(req, res, next) {
   User.remove(req.user.uid, next);
 }
 
-function decreaseSubscriptionStripe (req, res, next) {
+function decreaseSubscription(req, res, next) {
+  var subscription = req.user.subscription;
   var quantity = req.newQuantity;
 
-  if (!quantity || !req.user.subscription.status) return next();
+  if (!quantity || !subscription) return next();
 
   stripe.customers.updateSubscription(
     subscription.customer,
     subscription.id,
-    { quantity, prorate: false },
+    { quantity: quantity, prorate: false },
     function (err, subscription) {
       if (err) return next(err);
 
       if (!subscription) return next(new Error("No subscription"));
 
-      User.set(req.user.uid, { subscription }, function (err) {
+      User.set(req.user.uid, { subscription: subscription }, function (err) {
         if (err) return next(err);
 
         Email.SUBSCRIPTION_DECREASE(req.user.uid);
+
         next();
       });
     }
   );
 }
 
-async function decreaseSubscriptionPayPal (req, res, next) {
-  var new_quantity = req.newQuantity;
-
-  if (!new_quantity || !req.user.paypal.status) return next();
-
-  const response = await fetch(
-    `${config.paypal.api_base}/v1/billing/subscriptions/${req.user.paypal.id}/revise`,
-    {
-      method: "POST",
-      headers: {
-        "Authorization": `Basic ${Buffer.from(
-          `${config.paypal.client_id}:${config.paypal.secret}`
-        ).toString("base64")}`,
-        "Content-Type": "application/json",
-        "Accept": "application/json"
-      },
-      body: JSON.stringify({
-        plan_id: req.user.paypal.plan_id,
-        quantity: new_quantity
-      })
-    }
-  );
-
-  const json = await response.json();
-
-  if (
-    json.quantity !== new_quantity ||
-    json.plan_id !== req.user.paypal.plan_id
-  ) {
-    throw new Error("Could not update subscription");
-  }
-
-  const new_paypal = {
-    ...req.user.paypal,
-    quantity: new_quantity
-  };
-
-  User.set(req.user.uid, { paypal: new_paypal }, function (err) {
-    if (err) return next(err);
-
-    Email.SUBSCRIPTION_DECREASE(req.user.uid);
-
-    next();
-  });
-}
-
-function deleteSubscription (req, res, next) {
+function deleteSubscription(req, res, next) {
   if (!req.user.subscription || !req.user.subscription.customer) {
     return next();
   }
@@ -245,7 +177,7 @@ if (Delete.exports !== undefined)
 Delete.exports = {
   blogs: deleteBlogs,
   user: deleteUser,
-  subscription: deleteSubscription
+  subscription: deleteSubscription,
 };
 
 module.exports = Delete;
