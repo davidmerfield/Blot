@@ -49,14 +49,14 @@
     >
     {{/user.isFreeForLife}}
 
-    {{#user.cancel_at_period_end}}
+    {{#user.willCancel}}
     <a class="line" href="/dashboard/account/subscription/restart"
       ><span class="label">Restart</span
       ><span class="center"
         ><span class="link">Restart your subscription</span></span
       ></a
     >
-    {{/user.cancel_at_period_end}}
+    {{/user.willCancel}}
 
     {{#user.isSubscribed}}
 

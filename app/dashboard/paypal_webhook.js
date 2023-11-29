@@ -16,17 +16,19 @@ const SUBSCRIPTION_EVENTS = [
 
 const prefix = () => `${clfdate()} PayPal Webhook:`;
 
-paypal.post("/", parser.json(), (req, res) => {
+paypal.post("/", parser.json(), async (req, res) => {
   // if the webhook is for a subscription-related event
   // update the subscription
   if (SUBSCRIPTION_EVENTS.includes(req.body.event_type)) {
     // pass the subscription ID to the updateSubscription function
     console.log(prefix(), req.body.event_type, req.body.resource.id);
 
-    updateSubscription(req.body.resource.id, err => {
-      if (err) return console.log(prefix(), err);
+    try {
+      await updateSubscription(req.body.resource.id);
       console.log(prefix(), "UPDATED SUBSCRIPTION");
-    });
+    } catch (err) {
+      console.log(prefix(), err);
+    }
   } else {
     console.log(
       prefix(),
@@ -38,30 +40,38 @@ paypal.post("/", parser.json(), (req, res) => {
   res.status(200).send("OK");
 });
 
-const updateSubscription = (subscriptionID, callback) => {
-  console.log(prefix(), "UPDATING SUBSCRIPTION", subscriptionID);
+const updateSubscription = async subscriptionID => {
+  return new Promise((resolve, reject) => {
+    console.log(prefix(), "UPDATING SUBSCRIPTION", subscriptionID);
+    User.getByPayPalSubscriptionId(subscriptionID, async (err, user) => {
+      if (err) return reject(err);
+      if (!user)
+        return reject(new Error("No user found with that subscription ID"));
 
-  User.getByPayPalSubscriptionId(subscriptionID, async (err, user) => {
-    if (err) return callback(err);
-    if (!user) return callback(new Error("No user found for paypal ID"));
-    const response = await fetch(
-      `${config.paypal.api_base}/v1/billing/subscriptions/${subscriptionID}`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          "Accept-Language": "en_US",
-          "Authorization": `Basic ${Buffer.from(
-            `${config.paypal.client_id}:${config.paypal.secret}`
-          ).toString("base64")}`
+      const response = await fetch(
+        `${config.paypal.api_base}/v1/billing/subscriptions/${subscriptionID}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "Accept-Language": "en_US",
+            "Authorization": `Basic ${Buffer.from(
+              `${config.paypal.client_id}:${config.paypal.secret}`
+            ).toString("base64")}`
+          }
         }
-      }
-    );
+      );
 
-    const paypal = await response.json();
+      const paypal = await response.json();
 
-    console.log(prefix(), "Saving user", user.uid, "with paypal", paypal);
-    User.set(user.uid, { paypal }, callback);
+      console.log(prefix(), "Saving user", user.uid, "with paypal", paypal);
+      User.set(user.uid, { paypal }, err => {
+        if (err) return reject(err);
+        resolve();
+      });
+    });
   });
 };
+
+paypal.updateSubscription = updateSubscription;
 
 module.exports = paypal;

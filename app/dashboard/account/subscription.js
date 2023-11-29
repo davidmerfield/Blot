@@ -12,10 +12,7 @@ const PLAN_MAP = config.stripe.plan_map;
 Subscription.route("/").get(function (req, res) {
   res.render("account/subscription", {
     title: "Your account",
-    monthly:
-      req.user.subscription &&
-      req.user.subscription.plan &&
-      req.user.subscription.plan.interval === "month",
+    monthly: req.user.isMonthly
   });
 });
 
@@ -37,7 +34,7 @@ Subscription.route("/payment-method")
     res.render("account/payment-method", {
       stripe_key: config.stripe.key,
       breadcrumb: "Edit payment method",
-      title: "Edit payment information",
+      title: "Edit payment information"
     });
   })
 
@@ -89,7 +86,7 @@ Subscription.route("/payment-method")
         email: req.user.email,
         plan: req.user.subscription.plan.id,
         quantity: 0,
-        description: "Blot subscription",
+        description: "Blot subscription"
       },
       function (err, customer) {
         if (err) return next(err);
@@ -119,17 +116,19 @@ Subscription.route("/payment-method")
   .post(function (req, res, next) {
     if (!req.latestSubscription) return next(new Error("No subscription"));
 
-    User.set(req.user.uid, { subscription: req.latestSubscription }, function (
-      err
-    ) {
-      if (err) return next(err);
+    User.set(
+      req.user.uid,
+      { subscription: req.latestSubscription },
+      function (err) {
+        if (err) return next(err);
 
-      email.UPDATE_BILLING(req.user.uid);
-      res.message(
-        req.baseUrl,
-        "Your payment information was updated successfully!"
-      );
-    });
+        email.UPDATE_BILLING(req.user.uid);
+        res.message(
+          req.baseUrl,
+          "Your payment information was updated successfully!"
+        );
+      }
+    );
   });
 Subscription.route("/cancel")
 
@@ -137,14 +136,19 @@ Subscription.route("/cancel")
 
   .get(function (req, res) {
     res.render("account/cancel", {
-      title: "Cancel your subscription",
+      title: "Cancel your subscription"
     });
   })
 
-  .post(parse, cancelStripeSubscription, function (req, res) {
-    email.CANCELLED(req.user.uid);
-    res.message(req.baseUrl, "Your subscription has been cancelled");
-  });
+  .post(
+    parse,
+    cancelStripeSubscription,
+    cancelPaypalSubscription,
+    function (req, res) {
+      email.CANCELLED(req.user.uid);
+      res.message(req.baseUrl, "Your subscription has been cancelled");
+    }
+  );
 
 Subscription.route("/billing-interval")
 
@@ -194,7 +198,7 @@ Subscription.route("/billing-interval")
       proration: proration,
       credit: credit,
       monthly: monthly,
-      new_amount: new_amount,
+      new_amount: new_amount
     });
   })
 
@@ -206,7 +210,7 @@ Subscription.route("/billing-interval")
         quantity: req.user.subscription.quantity,
         cancel_at_period_end: false,
         proration_behavior: "create_prorations",
-        plan: req.new_plan_id,
+        plan: req.new_plan_id
       },
       function (err, subscription) {
         if (err) {
@@ -246,7 +250,7 @@ Subscription.route("/create")
     res.locals.stripe_key = config.stripe.key;
     res.render("account/create-subscription", {
       title: "Create subscription",
-      breadcrumb: "Create subscription",
+      breadcrumb: "Create subscription"
     });
   })
 
@@ -264,14 +268,19 @@ Subscription.route("/restart")
   .get(function (req, res) {
     res.render("account/restart", {
       title: "Restart your subscription",
-      breadcrumb: "Restart",
+      breadcrumb: "Restart"
     });
   })
 
-  .post(parse, restartStripeSubscription, function (req, res) {
-    email.RESTART(req.user.uid);
-    res.message(req.baseUrl, "Restarted your subscription");
-  });
+  .post(
+    parse,
+    restartStripeSubscription,
+    restartPayPalSubscription,
+    function (req, res) {
+      email.RESTART(req.user.uid);
+      res.message(req.baseUrl, "Restarted your subscription");
+    }
+  );
 
 Subscription.route("/restart/pay")
 
@@ -281,7 +290,7 @@ Subscription.route("/restart/pay")
     res.render("account/restart-pay", {
       title: "Restart your subscription",
       stripe_key: config.stripe.key,
-      breadcrumb: "Restart",
+      breadcrumb: "Restart"
     });
   })
 
@@ -290,7 +299,7 @@ Subscription.route("/restart/pay")
     res.message(req.baseUrl, "Restarted your subscription");
   });
 
-function determineNewPlan(req, res, next) {
+function determineNewPlan (req, res, next) {
   let new_plan_id = PLAN_MAP[req.user.subscription.plan.id];
 
   if (!new_plan_id) return next(new Error("You cannot switch your plan"));
@@ -300,7 +309,7 @@ function determineNewPlan(req, res, next) {
   return next();
 }
 
-function requireCancelledSubscription(req, res, next) {
+function requireCancelledSubscription (req, res, next) {
   // Make sure the user has a subscription
   // otherwise they have nothing to cancel
   if (!req.user.isSubscribed) {
@@ -310,7 +319,7 @@ function requireCancelledSubscription(req, res, next) {
   }
 }
 
-function requireLackOfSubscription(req, res, next) {
+function requireLackOfSubscription (req, res, next) {
   // Make sure the user does not have a subscription
   // otherwise they might create multiple
   if (!req.user.subscription || !req.user.subscription.customer) {
@@ -320,7 +329,7 @@ function requireLackOfSubscription(req, res, next) {
   }
 }
 
-function requireSubscription(req, res, next) {
+function requireSubscription (req, res, next) {
   // Make sure the user has a subscription
   // otherwise they have nothing to cancel
   if (req.user.isSubscribed) {
@@ -332,7 +341,48 @@ function requireSubscription(req, res, next) {
   }
 }
 
-function cancelStripeSubscription(req, res, next) {
+const { updateSubscription } = require("dashboard/paypal_webhook");
+
+async function cancelPaypalSubscription (req, res, next) {
+  // We dont need to do this for free users
+  if (!req.user.paypal.status) {
+    return next();
+  }
+
+  try {
+    const response = await fetch(
+      `${config.paypal.api_base}/v1/billing/subscriptions/${req.user.paypal.id}/cancel`,
+      {
+        method: "POST",
+        headers: {
+          "Authorization": `Basic ${Buffer.from(
+            `${config.paypal.client_id}:${config.paypal.secret}`
+          ).toString("base64")}`,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          reason: "Blot user cancelled subscription"
+        })
+      }
+    );
+
+    // if successful, we should get a 204 response
+    // otherwise throw an error
+    if (response.status !== 204) {
+      throw new Error("PayPal subscription cancellation failed");
+    }
+
+    await updateSubscription(req.user.paypal.id);
+  } catch (e) {
+    return next(e);
+  }
+
+  next();
+}
+
+function cancelStripeSubscription (req, res, next) {
+  if (!req.user.subscription.customer) return next();
+
   stripe.customers.cancelSubscription(
     req.user.subscription.customer,
     req.user.subscription.id,
@@ -350,11 +400,11 @@ function cancelStripeSubscription(req, res, next) {
 // If the customer's subscription has expired it will
 // not be possible for them to restart it. Instead
 // we create a new one for them.
-function recreateStripeSubscription(req, res, next) {
+function recreateStripeSubscription (req, res, next) {
   stripe.customers.update(
     req.user.subscription.customer,
     {
-      card: req.body.stripeToken,
+      card: req.body.stripeToken
     },
     function (err) {
       if (err) return next(err);
@@ -363,7 +413,7 @@ function recreateStripeSubscription(req, res, next) {
         req.user.subscription.customer,
         {
           plan: req.user.subscription.plan.id,
-          quantity: req.user.subscription.quantity || 1,
+          quantity: req.user.subscription.quantity || 1
         },
         function (err, subscription) {
           if (err || !subscription) {
@@ -380,14 +430,14 @@ function recreateStripeSubscription(req, res, next) {
 // If I created a blog for the customer manually they will
 // not have a stripe subscription. In order to create new
 // blogs they will need one.
-function createStripeSubscription(req, res, next) {
+function createStripeSubscription (req, res, next) {
   stripe.customers.create(
     {
       card: req.body.stripeToken,
       email: req.user.email,
       plan: config.stripe.plan,
       quantity: req.user.blogs.length,
-      description: "Blot subscription",
+      description: "Blot subscription"
     },
     function (err, customer) {
       if (err) return next(err);
@@ -397,7 +447,9 @@ function createStripeSubscription(req, res, next) {
   );
 }
 
-function retrieveSubscription(req, res, next) {
+function retrieveSubscription (req, res, next) {
+  if (!req.user.subscription.customer) return next();
+
   stripe.customers.retrieveSubscription(
     req.user.subscription.customer,
     req.user.subscription.id,
@@ -419,7 +471,8 @@ function retrieveSubscription(req, res, next) {
   );
 }
 
-function restartStripeSubscription(req, res, next) {
+function restartStripeSubscription (req, res, next) {
+  if (!req.user.subscription.customer) return next();
   stripe.customers.updateSubscription(
     req.user.subscription.customer,
     req.user.subscription.id,
@@ -436,6 +489,39 @@ function restartStripeSubscription(req, res, next) {
       User.set(req.user.uid, { subscription: subscription }, next);
     }
   );
+}
+
+async function restartPayPalSubscription (req, res, next) {
+  if (!req.user.paypal.status) {
+    return next();
+  }
+
+  try {
+    const response = await fetch(
+      `${config.paypal.api_base}/v1/billing/subscriptions/${req.user.paypal.id}/activate`,
+      {
+        method: "POST",
+        headers: {
+          "Authorization": `Basic ${Buffer.from(
+            `${config.paypal.client_id}:${config.paypal.secret}`
+          ).toString("base64")}`,
+          "Content-Type": "application/json"
+        }
+      }
+    );
+
+    // if successful, we should get a 204 response
+    // otherwise throw an error
+    if (response.status !== 204) {
+      throw new Error("PayPal subscription activation failed");
+    }
+
+    await updateSubscription(req.user.paypal.id);
+  } catch (e) {
+    return next(e);
+  }
+
+  next();
 }
 
 module.exports = Subscription;
