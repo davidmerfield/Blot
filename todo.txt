@@ -1,3 +1,7 @@
+Fix indentation in docs examples
+
+Check emails (account creation and deletion with new paypal integration)
+
 Server tasks:
 - Begin purging cached files when the cache shared dictionary is filling up
   - use get_keys(100) and purge 100 hosts at a time, then check free_space() 
@@ -63,6 +67,8 @@ Work out why rebuilding template from folder clears cache even if the template i
 - stop this
 
 Improve paypal integration:
+- [ ] Get create new blog working
+  - [ ] Add way to modify subscription quantity for paypal users
 - [ ] Create new router for paypal subscription settings
 - [ ] Test subscription with real paypal account
   - [ ] Test new blog creation
@@ -76,8 +82,6 @@ Improve paypal integration:
 - [ ] Get account page working
   - [ ] Add way to cancel subscription from dashboard
   - [ ] Add way to delete account from dashboard
-- [ ] Get create new blog working
-  - [ ] Add way to modify subscription quantity for paypal users
 - [ ] Update scheduleEmailNotification for paypal customers
 
 
