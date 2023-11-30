@@ -87,7 +87,7 @@ module.exports = configFile => {
 
     this.server = await server({ port: config.node.port });
 
-    this.inspectCache = ({ verbose = true, host = null } = {}) =>
+    this.inspectCache = ({ verbose = false, host = null } = {}) =>
       inspectCache(origin + "/inspect", cache_directory, host, verbose);
 
     this.restartOpenresty = async () => {
