@@ -88,7 +88,7 @@ describe("cacher", function () {
       );
 
       // checks for mismatches
-      expect(await this.inspectCache()).toEqual("");
+      expect(await this.inspectCache()).toEqual("Cache is consistent");
     },
     1000 * 60 * 5
   );
