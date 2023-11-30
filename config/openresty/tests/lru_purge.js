@@ -21,7 +21,7 @@ describe("cacher", function () {
       }
 
       // check that none of the files on disk are untracked by openresty shared dict
-      expect(await this.inspectCache()).toEqual("");
+      expect(await this.inspectCache()).toEqual("Cache is consistent");
     },
     2 * 60 * 1000 // 2 minutes
   );
