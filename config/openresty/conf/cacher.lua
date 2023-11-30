@@ -298,7 +298,7 @@ end
 function purge_lru_hosts (self) 
     -- returns all the keys in the dictionary, the least recently used at the very end of the list
     local hosts = self.shared_dictionary:get_keys(0)
-    local maximum_hosts_to_purge = 100
+    local maximum_hosts_to_purge = 500
 
     -- we want to create a list of hosts that we can purge from the end of the list of hosts
     local number_of_hosts_purged = 0
