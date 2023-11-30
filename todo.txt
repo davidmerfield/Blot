@@ -1,8 +1,4 @@
 Server tasks:
-- Begin purging cached files when the cache shared dictionary is filling up
-  - use get_keys(100) and purge 100 hosts at a time, then check free_space() 
-  - Eventually, we should try and purge the least recently used hosts with the largest number of keys in the dictionary
-  - But picking at random works for now
 - Fix bug with screenshot issues on production server by using pupeteer with firefox
 - Final polish on stats dashboard
   - Add monitor the root disk usage of both servers to stats
