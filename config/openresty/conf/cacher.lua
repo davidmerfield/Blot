@@ -10,6 +10,19 @@ local function cacher_add (self, host, cache_key)
     local cache_key_hash = ngx.md5(cache_key)
     ngx.log(ngx.NOTICE, "adding to dictionary " .. cache_key_hash .. " host=" .. host .. " expected_hash=" .. cache_key_hash)
     shared_dictionary:rpush(host, cache_key_hash)
+
+    local minimum_free_space = self.minimum_free_space
+
+    -- if minimum_free_space is not nil then we need to check if we need to purge the lru hosts
+    if (minimum_free_space ~= nil) then
+        local free_space = shared_dictionary:free_space()
+        
+        if (free_space < minimum_free_space) then
+            ngx.log(ngx.NOTICE, "dictionary_free_space=" .. free_space .. " is less than " .. minimum_free_space .. ", purging lru hosts")
+            purge_lru_hosts(self)
+            ngx.log(ngx.NOTICE, "purge of lru hosts complete")
+        end
+    end
 end  
 
 local function cacher_inspect (self, ngx)
@@ -282,15 +295,23 @@ function purge_host (host, shared_dictionary, cache_directory)
     return total_keys
 end
 
-function purge_random_hosts (self) 
-    local shared_dictionary = self.shared_dictionary
-    -- I believe this returns 1000 random keys
-    -- unfortunately it will return the most recently added keys
-    -- in future, try and work out a way to get the least recently added keys
-    local hosts = shared_dictionary:get_keys(500)
-    for _, host in ipairs(hosts) do
-        purge_host(host, shared_dictionary, self.cache_directory)
-    end
+function purge_lru_hosts (self) 
+    -- returns all the keys in the dictionary, the least recently used at the very end of the list
+    local hosts = self.shared_dictionary:get_keys(0)
+    local maximum_hosts_to_purge = 100
+
+    -- we want to create a list of hosts that we can purge from the end of the list of hosts
+    local number_of_hosts_purged = 0
+
+    -- we want to purge the least recently used hosts first
+    for i = #hosts, 1, -1 do
+        local host = hosts[i]
+        purge_host(host, self.shared_dictionary, self.cache_directory)
+        number_of_hosts_purged = number_of_hosts_purged + 1
+        if (number_of_hosts_purged >= maximum_hosts_to_purge) then
+            break
+        end
+    end    
 end
 
 function cacher_monitor_free_space (self, ngx, monitor_interval)
@@ -312,7 +333,7 @@ function cacher_monitor_free_space (self, ngx, monitor_interval)
 
             -- calculate the memory usage in megabytes, rounded down
             local usage = math.floor((capacity - free_space) / 1024 / 1024)
-            local free_space_megabytes = math.floor(free_space / 1024 / 1024)
+            local free_space_mb = math.floor(free_space / 1024 / 1024)
             
             -- retrieve the disk usage of the cache directory
             local cache_directory = self.cache_directory
@@ -326,14 +347,9 @@ function cacher_monitor_free_space (self, ngx, monitor_interval)
             end
 
             handle:close()
-            ngx.log(ngx.NOTICE, "dictionary_usage=" .. usage .. "M disk_usage=" .. output .. " dictionary_free_space=" .. free_space_megabytes .. "M")
+            ngx.log(ngx.NOTICE, "dictionary_usage=" .. usage .. "M disk_usage=" .. output .. " dictionary_free_space=" .. free_space_mb .. "M")
             
-            -- if the free space is less than 100MB then purge some hosts
-            if (free_space_megabytes < 5) then
-                ngx.log(ngx.NOTICE, "dictionary_free_space=" .. free_space_megabytes .. "M is less than 5M, purging random hosts")
-                purge_random_hosts(self)
-                ngx.log(ngx.NOTICE, "purge complete")
-            end
+            
         end
     end, self)
 end
