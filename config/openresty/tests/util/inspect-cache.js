@@ -4,7 +4,8 @@ const fs = require("fs-extra");
 const main = async (
   origin = "http://127.0.0.1/inspect",
   cache_directory = "/var/www/cache",
-  only_host = null
+  only_host = null,
+  verbose = false
 ) => {
   const top_level_directories = await fs.readdir(cache_directory);
   const cache = {};
@@ -66,6 +67,13 @@ const main = async (
 
   if (message.length === 0) {
     message = "Cache is consistent";
+  }
+
+  if (verbose) {
+    return {
+      message,
+      cache
+    };
   }
 
   return message;
