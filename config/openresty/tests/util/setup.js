@@ -87,8 +87,8 @@ module.exports = configFile => {
 
     this.server = await server({ port: config.node.port });
 
-    this.inspectCache = () =>
-      inspectCache(origin + "/inspect", cache_directory);
+    this.inspectCache = ({ verbose = false, host = null } = {}) =>
+      inspectCache(origin + "/inspect", cache_directory, host, verbose);
 
     this.restartOpenresty = async () => {
       // get the pid of the current openresty process
