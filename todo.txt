@@ -1031,6 +1031,38 @@ Research state of static site generators
 - https://www.11ty.io/docs/
 - https://www.staticgen.com/
 
+- If Apple releases an API, tell people who are interested in using the iCloud client
+  - [ ] [David](https://mail.google.com/mail/u/0/#inbox/FMfcgzGtwWCBwRJKJFcZXtkhBkcCcJGV)
+  - [ ] [Andrew](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJfNnhCDNsffJSjnQHnxdSfh)
+  - [ ] [Cristina](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmtFHHXQKNQKppXpHGpkvLjQSD)
+  - [ ] [John](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlkPcphtxgswTQccZLfQGwfWhN)
+  - [ ] [David](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJfNfSZgQqjNWLWVHZjwXQrS)
+  - [ ] [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJfNTrdmqJwwzCPLrhcQRNWW)
+  - [ ] [Dave](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJfNfLmTVjNGcXZVRWdlrLzp)
+  - [ ] [Shawn](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJfNfRRjzkzpvQjPTCQtqpDx)
+  - [ ] [Andrew](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJgWDpnsGBCXsCwkxRZnXMph)
+  - [ ] [Chris](https://mail.google.com/mail/u/0/#inbox/FMfcgxwC1hJjqgsvKxxVgFdbXvxNTHTsz)
+  - [ ] [Leo](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqQSRJwdnCqhZNBPtRxpWlbWXv)
+  - [ ] [Kerim](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChSJkptkQxlqTjsDCtdTgMWXv)
+  - [ ] [Nat](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqQSTbjBLgXjSTDVCTblLhvbKr)
+  - [ ] [Wilt](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChcgKzMGXdrHMVhrjsjJnnBzk)
+  - [ ] [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqfMPDQnSTBSsWXdtfkVdJzdD)
+  - [ ] [Arlo](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJWrZRLJddkZSdrMVxrNkTZLKn)
+  - [ ] [Anders](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKkRFxsDShhsHGNcdRqwHFMmJM)
+  - [ ] [Victor](https://mail.google.com/mail/u/0/#inbox/FMfcgzGkbDVrLFlwcgwDddsVPJBVKSvW)
+  - [ ] [Ken](https://mail.google.com/mail/u/0/#inbox/FMfcgzGpGdmpXpTBPzTgnrSHLMjcMGKq)
+  - [ ] [Sebastien](https://mail.google.com/mail/u/0/#inbox/FMfcgzGpGwtWnjjFvGfHLnHfRzgrcjGW)
+  - [ ] [Austin](https://mail.google.com/mail/u/0/#inbox/FMfcgzGsltKdZxhmCMXvhJjpWxkVDpTq)
+  - [ ] [Kirk](https://mail.google.com/mail/u/0/#inbox/FMfcgzGsmDsZvbQwRgRLgJVDXHDJshxK)
+  - [ ] [Ray](https://mail.google.com/mail/u/0/#inbox/FMfcgzGsmNMjKsNbfdTbXCPWGkzpxkTk)
+  - [ ] [Jan](https://mail.google.com/mail/u/0/#inbox/FMfcgzGsmXBHFvkklRwGzBwfVwfvxSGb)
+  - [ ] [Pete](https://mail.google.com/mail/u/0/#inbox/FMfcgzGtwzjcGlzctBZfjZCnJpbZrqrQ)
+  - [ ] [Noa](https://mail.google.com/mail/u/0/#inbox/FMfcgzGtxSsdCkFmHPJSZCnvgSpBFqKm)
+  - [ ] [Michael](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwHLjnsCXDFckPMjJMrfDrptdD)
+  - [ ] [Eric](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwHLjmmqsDpLvWDTRJMDzLMVrN)
+  - [ ] [Lex](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwHLjmmpknrnmxgWWBktzlgcxF)
+  - [ ] [Aron](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwHVKqlCcMrbtjnZDKNqBdhVbd)
+
 Investigate [support for xattr](https://github.com/LinusU/fs-xattr) to read image metadata on Blot? Or source for dragged images? 
 
 Set NODE_ENV [environment variable to production](https://expressjs.com/en/advanced/best-practice-performance.html#set-node_env-to-production)
