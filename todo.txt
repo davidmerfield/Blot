@@ -1,5 +1,3 @@
-Fix delete blog URL 
-
 Final polish on stats dashboard
 - Add monitor the root disk usage of both servers to stats
 - write cron script to save redis-server disk usage and free memory stats in the db then monitor this from stats
