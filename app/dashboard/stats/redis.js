@@ -8,7 +8,7 @@ async function main () {
 
   let hour;
   let hourData = [];
-  let hourPath = STATS_DIRECTORY + "/" + hour + ".json";
+  let hourPath;
 
   for (let i = 0; i < stats.length; i++) {
     const stat = stats[i];
@@ -21,7 +21,10 @@ async function main () {
     const minutePath = STATS_DIRECTORY + "/" + minute + ".json";
 
     // initialize the current minute and hour
-    if (!hour) hour = date.format("YYYY-MM-DD-HH");
+    if (!hour) {
+      hour = date.format("YYYY-MM-DD-HH");
+      hourPath = STATS_DIRECTORY + "/" + hour + ".json";
+    }
 
     // write this minute
     await fs.outputJSON(minutePath, minuteData);
@@ -48,6 +51,7 @@ async function main () {
       }
 
       hour = date.format("YYYY-MM-DD-HH");
+      hourPath = STATS_DIRECTORY + "/" + hour + ".json";
       hourData = [];
     }
   }
