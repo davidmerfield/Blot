@@ -14,6 +14,7 @@ async function main () {
     const stat = stats[i];
     const date = moment(stat.timestamp * 1000);
     const minute = date.format("YYYY-MM-DD-HH-mm");
+    console.log(minute);
     const minuteData = {
       ...stat,
       date: moment(minute, "YYYY-MM-DD-HH-mm").valueOf()
