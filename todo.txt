@@ -2,12 +2,12 @@ Move monitoring and auto purging to master process
 
 Fix delete blog URL 
 
-Server tasks:
-- Fix bug with screenshot issues on production server by using pupeteer with firefox
-- Final polish on stats dashboard
-  - Add monitor the root disk usage of both servers to stats
-  - write cron script to save redis-server disk usage and free memory stats in the db then monitor this from stats
-  - create an API to process data streams, auto aggregate and store on disk
+Fix bug with screenshot issues on production server by using pupeteer with firefox
+
+Final polish on stats dashboard
+- Add monitor the root disk usage of both servers to stats
+- write cron script to save redis-server disk usage and free memory stats in the db then monitor this from stats
+- create an API to process data streams, auto aggregate and store on disk
 
 Improvements to templates:
 - Improments to portfolio template:
