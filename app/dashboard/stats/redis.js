@@ -2,6 +2,7 @@ const moment = require("moment");
 const fs = require("fs-extra");
 const STATS_DIRECTORY = require("./statsDirectory") + "/redis";
 const client = require("models/client");
+const { parse } = require("marked/src/Parser");
 
 async function main () {
   const stats = await getAllStats();
@@ -14,9 +15,16 @@ async function main () {
     const stat = stats[i];
     const date = moment(stat.timestamp * 1000);
     const minute = date.format("YYYY-MM-DD-HH-mm");
-    console.log(minute);
     const minuteData = {
-      ...stat,
+      backup_disk_free: parseInt(stat.backup_disk_free),
+      backup_disk_used: parseInt(stat.backup_disk_used),
+      connected_clients: parseInt(stat.connected_clients),
+      cpu_load: parseFloat(stat.cpu_load.slice(0, -1)),
+      peak_memory: parseInt(stat.peak_memory),
+      root_disk_free: parseInt(stat.root_disk_free),
+      root_disk_used: parseInt(stat.root_disk_used),
+      system_memory: parseInt(stat.system_memory),
+      used_memory: parseInt(stat.used_memory),
       date: moment(minute, "YYYY-MM-DD-HH-mm").valueOf()
     };
 
