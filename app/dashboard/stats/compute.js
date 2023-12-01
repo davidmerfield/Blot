@@ -1,6 +1,5 @@
 const fs = require("fs-extra");
 const { blot_directory } = require("config");
-const STATS_DIRECTORY = require("./statsDirectory");
 
 async function handle ({ logFileName, aggregator }) {
   // the most recent logfile is stored

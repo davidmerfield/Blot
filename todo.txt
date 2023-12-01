@@ -1,8 +1,3 @@
-Final polish on stats dashboard
-- Add monitor the root disk usage of both servers to stats
-- write cron script to save redis-server disk usage and free memory stats in the db then monitor this from stats
-- create an API to process data streams, auto aggregate and store on disk
-
 Improvements to templates:
 - Improments to portfolio template:
   - add full control for navigation font and logo font
@@ -37,6 +32,10 @@ Redo demo video
 Write newsletter
 
 ---
+
+Final polish on stats dashboard
+- Add monitor the root disk usage of both servers to stats
+- Tie in daily update stats to stats dashboard
 
 Purge old docs CSS and JS from CDN storage cache
 

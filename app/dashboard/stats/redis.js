@@ -2,9 +2,9 @@ const moment = require("moment");
 const fs = require("fs-extra");
 const STATS_DIRECTORY = require("./statsDirectory") + "/redis";
 const client = require("models/client");
-const { parse } = require("marked/src/Parser");
 
 async function main () {
+  console.log("computing redis stats");
   const stats = await getAllStats();
 
   let hour;
@@ -60,6 +60,7 @@ async function main () {
       hourData = [];
     }
   }
+  console.log("done computing redis stats");
 }
 
 async function getAllStats () {
