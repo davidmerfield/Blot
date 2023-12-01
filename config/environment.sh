@@ -42,7 +42,8 @@ export BLOT_ADMIN_EMAIL=
 export LD_LIBRARY_PATH=/usr/local/lib64
 
 # For taking screenshots
-export PUPPETEER_PRODUCT=firefox
+export PUPPETEER_PRODUCT=
+export PUPPETEER_EXECUTABLE_PATH=
 
 #############################################
 #               S E C R E T S               #
