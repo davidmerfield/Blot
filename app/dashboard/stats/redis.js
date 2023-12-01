@@ -11,15 +11,14 @@ async function main () {
   let hourPath = STATS_DIRECTORY + "/" + hour + ".json";
 
   for (let i = 0; i < stats.length; i++) {
+    const stat = stats[i];
+    const date = moment(stat.timestamp * 1000);
     const minute = date.format("YYYY-MM-DD-HH-mm");
     const minuteData = {
       ...stat,
       date: moment(minute, "YYYY-MM-DD-HH-mm").valueOf()
     };
     const minutePath = STATS_DIRECTORY + "/" + minute + ".json";
-
-    const stat = stats[i];
-    const date = moment(stat.timestamp * 1000);
 
     // initialize the current minute and hour
     if (!hour) hour = date.format("YYYY-MM-DD-HH");
