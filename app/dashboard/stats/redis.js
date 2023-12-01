@@ -47,6 +47,7 @@ async function main () {
         await fs.outputJSON(hourPath, hourData);
       }
 
+      hour = date.format("YYYY-MM-DD-HH");
       hourData = [];
     }
   }
