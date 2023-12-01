@@ -28,8 +28,8 @@ async function main () {
 
     hourData.push(minuteData);
 
-    // we are in a new hour
-    if (hour !== date.format("YYYY-MM-DD-HH")) {
+    // we are in a new hour or at the end of the stats
+    if (hour !== date.format("YYYY-MM-DD-HH") || i === stats.length - 1) {
       // write the last hour if and only if we have gathered more minutes than those already written
       const existingHourLength =
         ((await fs.exists(hourPath)) && (await fs.readJSON(hourPath)).length) ||
@@ -59,7 +59,16 @@ async function getAllStats () {
     const key = "blot:stats";
     client.lrange(key, 0, -1, (err, data) => {
       if (err) reject(err);
-      resolve(data.map(JSON.parse).reverse());
+      resolve(
+        data
+          .map(JSON.parse)
+          .sort((a, b) => {
+            if (a.timestamp < b.timestamp) return -1;
+            if (a.timestamp > b.timestamp) return 1;
+            return 0;
+          })
+          .reverse()
+      );
     });
   });
 }
