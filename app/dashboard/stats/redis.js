@@ -1,7 +1,7 @@
 const moment = require("moment");
 const fs = require("fs-extra");
 const STATS_DIRECTORY = require("./statsDirectory") + "/redis";
-const client = require("client");
+const client = require("models/client");
 
 async function main () {
   const stats = await getAllStats();
