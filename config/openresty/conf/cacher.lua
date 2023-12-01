@@ -8,21 +8,8 @@ local cacher = {
 local function cacher_add (self, host, cache_key) 
     local shared_dictionary = self.shared_dictionary
     local cache_key_hash = ngx.md5(cache_key)
-    ngx.log(ngx.NOTICE, "adding to dictionary " .. cache_key_hash .. " host=" .. host .. " expected_hash=" .. cache_key_hash)
+    ngx.log(ngx.NOTICE, "add hash=" .. cache_key_hash .. " host=" .. host .. " key=" .. cache_key)
     shared_dictionary:rpush(host, cache_key_hash)
-
-    local minimum_free_space = self.minimum_free_space
-
-    -- if minimum_free_space is not nil then we need to check if we need to purge the lru hosts
-    if (minimum_free_space ~= nil) then
-        local free_space = shared_dictionary:free_space()
-        
-        if (free_space < minimum_free_space) then
-            ngx.log(ngx.NOTICE, "dictionary_free_space=" .. free_space .. " is less than " .. minimum_free_space .. ", purging lru hosts")
-            purge_lru_hosts(self)
-            ngx.log(ngx.NOTICE, "purge of lru hosts complete")
-        end
-    end
 end  
 
 local function cacher_inspect (self, ngx)
@@ -349,7 +336,21 @@ function cacher_monitor_free_space (self, ngx, monitor_interval)
             handle:close()
             ngx.log(ngx.NOTICE, "dictionary_usage=" .. usage .. "M disk_usage=" .. output .. " dictionary_free_space=" .. free_space_mb .. "M")
             
-            
+            local minimum_free_space = self.minimum_free_space
+
+            -- if minimum_free_space is not nil then we need to check if we need to purge the lru hosts
+            if (minimum_free_space ~= nil) then
+                local free_space = self.shared_dictionary:free_space()
+                
+                if (free_space < minimum_free_space) then
+                    ngx.log(ngx.NOTICE, "dictionary_free_space=" .. free_space .. " is less than " .. minimum_free_space .. ", purging lru hosts")
+                    purge_lru_hosts(self)
+                    ngx.log(ngx.NOTICE, "purge of lru hosts complete")
+                    -- otherwise, log that we have sufficient free space
+                else
+                    ngx.log(ngx.NOTICE, "dictionary_free_space=" .. free_space .. " is greater than " .. minimum_free_space .. ", no need to purge lru hosts")
+                end
+            end
         end
     end, self)
 end
