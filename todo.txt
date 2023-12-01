@@ -1,8 +1,6 @@
-Move monitoring and auto purging to master process
-
 Fix delete blog URL 
 
-Fix bug with screenshot issues on production server by using pupeteer with firefox
+Move monitoring and auto purging to master process
 
 Final polish on stats dashboard
 - Add monitor the root disk usage of both servers to stats
@@ -20,6 +18,7 @@ Improvements to templates:
   - [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrRRZTKntrWKJvfDXrRFTzljs)
 
 Improvements to website:
+- Fix broken link checker
 - Create material in docs with title 'Turn X into website' where X is:
   - Dropbox, Google Drive, etc.
   - Word Document, Google Doc, etc.
