@@ -17,7 +17,7 @@
     
     {{#user.isSubscribed}} 
 
-    {{#user.subscriptionQuantity}}
+    {{#user.pretty.amount}}
 
     <div class="line"
       ><span class="label">Next bill</span
@@ -38,7 +38,7 @@
     
     
 
-    {{/user.subscriptionQuantity}} 
+    {{/user.pretty.amount}} 
 
     {{/user.isSubscribed}}
 
