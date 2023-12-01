@@ -65,7 +65,9 @@ async function getAllStats () {
 }
 
 if (require.main === module) {
-  main().catch(console.log);
+  main()
+    .catch(console.log)
+    .then(() => process.exit());
 }
 
 module.exports = main;
