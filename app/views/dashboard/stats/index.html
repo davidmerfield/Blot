@@ -45,6 +45,7 @@
   fetch(`/dashboard/stats/stats.json?server=${server}&range=${range}`)
     .then(response => response.json())
     .then(stats => {
+      console.log(stats);
       const charts = Object.keys(stats[0])
         .filter(
           label => label !== "date" && typeof stats[0][label] === "number"
