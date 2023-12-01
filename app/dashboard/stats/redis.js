@@ -18,16 +18,12 @@ async function main () {
       ...stat,
       date: moment(minute, "YYYY-MM-DD-HH-mm").valueOf()
     };
-    const minutePath = STATS_DIRECTORY + "/" + minute + ".json";
 
     // initialize the current minute and hour
     if (!hour) {
       hour = date.format("YYYY-MM-DD-HH");
       hourPath = STATS_DIRECTORY + "/" + hour + ".json";
     }
-
-    // write this minute
-    await fs.outputJSON(minutePath, minuteData);
 
     hourData.push(minuteData);
 
