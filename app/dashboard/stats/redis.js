@@ -32,13 +32,22 @@ async function main () {
     // we are in a new hour
     if (hour !== date.format("YYYY-MM-DD-HH")) {
       // write the last hour if and only if we have gathered more minutes than those already written
-      const existingHour =
+      const existingHourLength =
         ((await fs.exists(hourPath)) && (await fs.readJSON(hourPath)).length) ||
         0;
 
-      if (hourData.length > existingHour) {
+      console.log(
+        "existingHourLength",
+        existingHourLength,
+        "hourData.length",
+        hourData.length
+      );
+
+      if (hourData.length > existingHourLength) {
+        console.log("writing hour", hourPath);
         await fs.outputJSON(hourPath, hourData);
       }
+
       hourData = [];
     }
   }
@@ -55,11 +64,7 @@ async function getAllStats () {
 }
 
 if (require.main === module) {
-  getAllStats()
-    .then(stats => {
-      console.log(stats);
-    })
-    .catch(console.log);
+  main().catch(console.log);
 }
 
 module.exports = main;
