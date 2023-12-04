@@ -47,18 +47,17 @@ const properties_to_return_most_recent = [
 ];
 
 function main (callback) {
-  const files = fs
-    .readdirSync(stats_directory + "/node")
-    .filter(file => file.endsWith(".json"))
-    .sort()
-    .slice(-24)
-    .reverse();
-
   const response = {};
 
   for (let x = 0; x < stats_subdirectories.length; x++) {
     const subdirectory = stats_subdirectories[x];
     const aggregate = (response[subdirectory] = {});
+    const files = fs
+      .readdirSync(stats_directory + "/" + subdirectory)
+      .filter(file => file.endsWith(".json"))
+      .sort()
+      .slice(-24)
+      .reverse();
 
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
