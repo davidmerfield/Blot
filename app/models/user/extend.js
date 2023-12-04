@@ -18,6 +18,7 @@ module.exports = function extend (user) {
 
   if (subscription) {
     if (subscription.plan) {
+      user.totalFee = subscription.plan.amount * subscription.quantity;
       user.pretty.amount = subscription.quantity;
       user.pretty.s = subscription.quantity === 1 ? "" : "s";
       user.pretty.amount_in_words = amountInWords(subscription.quantity);
@@ -66,6 +67,7 @@ module.exports = function extend (user) {
     const quantity = parseInt(user.paypal.quantity);
 
     user.isMonthly = plan_identifier.includes("monthly");
+    user.totalFee = amount * quantity;
     user.pretty.interval = user.isMonthly ? "month" : "year";
     user.pretty.amount = quantity;
     user.pretty.s = quantity === 1 ? "" : "s";

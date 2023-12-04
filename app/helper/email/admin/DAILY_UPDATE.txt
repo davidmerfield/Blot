@@ -1,52 +1,16 @@
 Daily update for {{date}}
 
-Memory available: {{memory_available}} ({{memory_usage}} used)
+Posts: {{new_entries.length}} posts published yesterday ({{total_entries}} total)
 
-Disk space available: {{disk_space_available}} ({{disk_space_usage}} used)
-
-Node root disk available: {{node_root_disk_available}} ({{node_root_disk_usage}} used)
-
-Redis memory available: {{redis_memory_available}} ({{redis_memory_usage}} used)
-
-***
-
-New entries: {{new_entries.length}}
-
-Total entries : {{total_entries}}
-
-Requests served: {{total_requests_served}}
-
-Average response time: {{average_response_time}} ({{median_response_time}} median response time)
-
-***
-
-Number of blogs: {{total_active_blogs}}
-
-Number of subscribers: 
-
-Revenue: {{revenue_in_last_24_hours}} 24 hours, {{revenue_in_last_7_days}} 7 days, {{revenue_in_last_30_days}} last 30 days
-
-Expected revenue: {{#renewals_today}} {{revenue}} from {{total}} blog{{s}} in 24 hours, {{/renewals_today}}
-
-***
-{{#renewals_next_7_days}}
-Expected revenue from renewals in the next 7 days: {{revenue}} from {{total}} blog{{s}}
-
-{{/renewals_next_7_days}}
-{{#renewals_next_30_days}}
-Expected revenue from renewals in the next 30 days: {{revenue}}  from {{total}} blog{{s}}
-
-{{/renewals_next_30_days}}
-
-Annual recurring revenue: {{annual_recurring_revenue}} ({{monthly_recurring_revenue}} per month, {{revenue_billed_monthly}} of which is billed monthly)
-
-{{#new_entries.length}}
+Sites: {{total_active_blogs}} ({{total_customers}} customers, {{total_customers_paypal}} through PayPal)
 
 Newsletter subscribers: {{newsletter_subscribers}}
 
-***
+Revenue: {{annual_recurring_revenue}} ({{paypal_percentage}} through PayPal)
 
-New entries:
+{{#new_entries.length}}
+
+***
 
 {{#new_entries}}
 - [{{title}}]({{{link}}})

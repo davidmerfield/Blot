@@ -2,6 +2,7 @@ Improvements to templates:
 - Library
   - mobile
   - make links open immediately
+  - fix archives page
   - rename from reference
   - move tags into top menu
   - add tag filtering (nested tags)
@@ -27,6 +28,9 @@ Improvements to templates:
 
 - General:
   - Add paginateable entries list
+  - Add 'Template folder'
+  - Add downloadable sites
+    - which use the 'tempalte folder'
   - Clean up package.json
     - Replace "Entries tagged " with "{{tag}}"
   - Add static file uploader

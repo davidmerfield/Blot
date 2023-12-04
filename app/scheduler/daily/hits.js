@@ -1,128 +1,81 @@
 const fs = require("fs-extra");
-const moment = require("moment");
-const lineReader = require("helper/lineReader");
 const prettyNumber = require("helper/prettyNumber");
 const { blot_directory } = require("config");
-const is = require("../../blog/render/retrieve/is");
-const logDirectory = blot_directory + "/data/logs";
 
-const LOGFILE = "app.log";
+const stats_directory = blot_directory + "/data/stats";
 
-function loadTmpLogFile (callback) {
-  const tmpLogFilePath =
-    blot_directory + "/data/tmp/" + new Date().valueOf() + ".log";
-  const todaysLogfile = logDirectory + "/" + LOGFILE;
+// stats are stored in JSON arrays in files with the format '2023-11-29-20.json'
+// where 20 is the hour of the day in UTC. we want to read all the files for the
+// last 24 hours and average some of the values, and sum others.
+// each file contains an array of 60 objects with the following properties,
+// representing a minute of data:
+// "date":1701237480000,
+// "cpu":39.25,
+// "memory":40.735,
+// "slowestRequests":[],
+// "slowestResponseTime":5.325,
+// "medianResponseTime":0.029,
+// "meanResponseTime":0.2983464566929135,
+// "requests":254,
+// "percent4XX":1.968503937007874,
+// "percent5XX":0.7874015748031495
 
-  const yesterdaysLog = fs
-    .readdirSync(logDirectory)
-    .map(item => {
-      return {
-        name: item,
-        has_app_logfiles: fs.existsSync(
-          logDirectory + "/" + item + "/" + LOGFILE
-        ),
-        stat: fs.statSync(logDirectory + "/" + item)
-      };
-    })
-    .filter(item => item.has_nginx)
-    .sort((a, b) => {
-      if (a.stat.mtime > b.stat.mtime) return 1;
-      if (b.stat.mtime > a.stat.mtime) return -1;
-      return 0;
-    })
-    .map(item => logDirectory + "/" + item.name + "/" + LOGFILE)
-    .pop();
+const properties_to_sum = ["requests"];
 
-  if (yesterdaysLog) fs.copySync(yesterdaysLog, tmpLogFilePath);
-
-  // open destination file for appending
-  var w = fs.createWriteStream(tmpLogFilePath, { flags: "a" });
-
-  // open source file for reading
-  var r = fs.createReadStream(todaysLogfile);
-
-  w.on("close", function () {
-    callback(null, tmpLogFilePath);
-  });
-
-  r.pipe(w);
-}
+const properties_to_average = [
+  "medianResponseTime",
+  "meanResponseTime",
+  "memory",
+  "cpu",
+  "percent4XX",
+  "percent5XX"
+];
 
 function main (callback) {
-  loadTmpLogFile(function (err, tmpLogFilePath) {
-    var hits = 0;
-    var responseTimes = [];
-    lineReader
-      .eachLine(tmpLogFilePath, function (line) {
-        // Last line of file is often empty
-        if (!line) return true;
+  const files = fs
+    .readdirSync(stats_directory + "/node")
+    .sort()
+    .slice(-24);
 
-        if (line.indexOf("[error]") > -1) {
-          return true;
-        }
+  console.log("reading", files);
 
-        if (line.indexOf("[warn]") > -1) {
-          return true;
-        }
+  const response = {};
 
-        if (line[0] !== "[") return true;
+  for (let i = 0; i < files.length; i++) {
+    const file = files[i];
+    const stats = JSON.parse(
+      fs.readFileSync(stats_directory + "/node/" + file, "utf8")
+    );
 
-        var date = moment(
-          line.slice(1, line.indexOf("]")),
-          "DD/MMM/YYYY:HH:mm:ss Z"
-        );
+    for (let j = 0; j < stats.length; j++) {
+      const stat = stats[j];
 
-        if (!date.isValid()) return true;
+      for (let k = 0; k < properties_to_sum.length; k++) {
+        const property = properties_to_sum[k];
+        if (!response[property]) response[property] = 0;
+        response[property] += stat[property];
+      }
 
-        // Ignore requests that are not from the last 24 hours
-        if (!date.isAfter(moment().subtract(1, "day"))) return false;
+      for (let k = 0; k < properties_to_average.length; k++) {
+        const property = properties_to_average[k];
+        if (!response[property]) response[property] = [];
+        response[property].push(stat[property]);
+      }
+    }
+  }
 
-        var components = line.slice(line.indexOf("]") + 2).split(" ");
-        var statusCode = parseInt(components[1]);
-        var responseTime = parseFloat(components[2]);
-        var pid = parseInt(components[3] && components[3].slice("PID=".length));
+  // average the properties that need to be averaged
+  for (let i = 0; i < properties_to_average.length; i++) {
+    const property = properties_to_average[i];
+    const average =
+      response[property].reduce((a, b) => a + b) / response[property].length;
 
-        // This line is not a request response
-        if (isNaN(pid) || isNaN(statusCode) || isNaN(responseTime)) return true;
+    response[property] = average;
+  }
 
-        hits++;
-        responseTimes.push(responseTime);
+  response.requests = prettyNumber(response.requests);
 
-        return true;
-      })
-      .then(function () {
-        var averageResponseTime;
-        var sum = 0;
-
-        responseTimes.sort();
-
-        responseTimes.forEach(function (responseTime) {
-          sum += responseTime;
-        });
-
-        averageResponseTime = sum / responseTimes.length;
-
-        fs.removeSync(tmpLogFilePath);
-
-        callback(null, {
-          average_response_time: prettyTime(averageResponseTime),
-          median_response_time: prettyTime(
-            responseTimes[Math.floor(responseTimes.length * 0.5)]
-          ),
-          ninety_ninth_percentile_response_time: prettyTime(
-            responseTimes[Math.floor(responseTimes.length * 0.99)]
-          ),
-          total_requests_served: prettyNumber(hits)
-        });
-      });
-  });
-}
-
-function prettyTime (n) {
-  if (!n) return "";
-  n = n.toFixed(2);
-  if (n.toString() === "0.00") n = 0.01;
-  return n + "s";
+  return callback(null, response);
 }
 
 module.exports = main;
