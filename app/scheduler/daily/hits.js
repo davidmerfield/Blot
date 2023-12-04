@@ -1,5 +1,6 @@
 const fs = require("fs-extra");
 const prettyNumber = require("helper/prettyNumber");
+const prettySize = require("helper/prettySize");
 const { blot_directory } = require("config");
 
 const stats_directory = blot_directory + "/data/stats";
@@ -21,6 +22,19 @@ const stats_directory = blot_directory + "/data/stats";
 // "percent5XX":0.7874015748031495
 
 const stats_subdirectories = fs.readdirSync(stats_directory);
+
+const properties_to_apply_prettyNumber = ["requests"];
+const properties_to_apply_makePercentage = ["memory", "cpu", "cpu_load"];
+const properties_to_apply_prettySize = [
+  "bytesSent",
+  "bytesReceived",
+  "root_disk_used",
+  "root_disk_free",
+  "backup_disk_free",
+  "backup_disk_used",
+  "system_memory",
+  "used_memory"
+];
 
 const properties_to_sum = ["requests", "bytesSent", "bytesReceived"];
 
@@ -105,6 +119,25 @@ function main (callback) {
         aggregate[property].length;
 
       aggregate[property] = average;
+    }
+
+    // apply the formatting for the properties that need it
+    for (let i = 0; i < properties_to_apply_prettyNumber.length; i++) {
+      const property = properties_to_apply_prettyNumber[i];
+      if (aggregate[property] === undefined) continue;
+      aggregate[property] = prettyNumber(aggregate[property]);
+    }
+
+    for (let i = 0; i < properties_to_apply_makePercentage.length; i++) {
+      const property = properties_to_apply_makePercentage[i];
+      if (aggregate[property] === undefined) continue;
+      aggregate[property] = aggregate[property].toFixed(2) + "%";
+    }
+
+    for (let i = 0; i < properties_to_apply_prettySize.length; i++) {
+      const property = properties_to_apply_prettySize[i];
+      if (aggregate[property] === undefined) continue;
+      aggregate[property] = prettySize(aggregate[property]);
     }
   }
 
