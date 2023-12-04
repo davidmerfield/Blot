@@ -46,8 +46,7 @@ function main (callback) {
         total_active_blogs_paypal,
         paypal_percentage:
           (
-            ((annual_recurring_revenue - paypal_annual_recurring_revenue) /
-              annual_recurring_revenue) *
+            (paypal_annual_recurring_revenue / annual_recurring_revenue) *
             100
           ).toFixed(1) + "%",
         monthly_percentage:
