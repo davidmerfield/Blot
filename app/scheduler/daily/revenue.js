@@ -50,9 +50,11 @@ function main (callback) {
               annual_recurring_revenue) *
             100
           ).toFixed(1) + "%",
-        revenue_billed_monthly: prettyPrice(
-          Math.floor(revenue_billed_monthly / 100) * 100
-        ),
+        monthly_percentage:
+          (
+            ((revenue_billed_monthly * 12) / annual_recurring_revenue) *
+            100
+          ).toFixed(1) + "%",
         annual_recurring_revenue: prettyPrice(
           Math.floor(annual_recurring_revenue / 100) * 100
         ),
