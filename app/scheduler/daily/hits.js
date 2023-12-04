@@ -24,7 +24,19 @@ const stats_directory = blot_directory + "/data/stats";
 const stats_subdirectories = fs.readdirSync(stats_directory);
 
 const properties_to_apply_prettyNumber = ["requests"];
-const properties_to_apply_makePercentage = ["memory", "cpu", "cpu_load"];
+const properties_to_round_integer = ["connected_clients"];
+const properties_to_round_three_decimal_places = [
+  "medianResponseTime",
+  "meanResponseTime"
+];
+
+const properties_to_apply_makePercentage = [
+  "memory",
+  "cpu",
+  "cpu_load",
+  "percent4XX",
+  "percent5XX"
+];
 const properties_to_apply_prettySize = [
   "bytesSent",
   "bytesReceived",
@@ -134,9 +146,32 @@ function main (callback) {
       aggregate[property] = aggregate[property].toFixed(2) + "%";
     }
 
+    for (let i = 0; i < properties_to_round_integer.length; i++) {
+      const property = properties_to_round_integer[i];
+      if (aggregate[property] === undefined) continue;
+      aggregate[property] = Math.round(aggregate[property]);
+    }
+
+    for (let i = 0; i < properties_to_round_three_decimal_places.length; i++) {
+      const property = properties_to_round_three_decimal_places[i];
+      if (aggregate[property] === undefined) continue;
+      aggregate[property] = aggregate[property].toFixed(3);
+    }
+
     for (let i = 0; i < properties_to_apply_prettySize.length; i++) {
       const property = properties_to_apply_prettySize[i];
       if (aggregate[property] === undefined) continue;
+
+      // convert to KB
+      if (
+        property === "bytesSent" ||
+        property === "bytesReceived" ||
+        property === "used_memory" ||
+        property === "system_memory"
+      ) {
+        aggregate[property] *= 1 / 1024;
+      }
+
       aggregate[property] = prettySize(aggregate[property]);
     }
   }
