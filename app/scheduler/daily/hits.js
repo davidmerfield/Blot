@@ -107,8 +107,6 @@ function main (callback) {
 
       aggregate[property] = average;
     }
-
-    response.requests = prettyNumber(response.requests);
   }
 
   return callback(null, response);
