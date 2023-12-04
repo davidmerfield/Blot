@@ -18,12 +18,6 @@ function main (callback) {
   async.mapSeries(
     [
       log("Starting daily update"),
-      log("Checking free disk space"),
-      require("./disk-space"),
-      log("Checking free memory"),
-      require("./memory"),
-      log("Checking redis"),
-      require("./redis"),
       log("Checking number of hits"),
       require("./hits"),
       log("Checking number of users"),
