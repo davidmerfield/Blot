@@ -10,6 +10,7 @@ function main (callback) {
   var now = Date.now();
   var day = 1000 * 60 * 60 * 24;
   var yesterday = now - day;
+  var total_new_entries = 0;
 
   Blog.getAllIDs(function (err, blogIDs) {
     async.each(
@@ -54,6 +55,8 @@ function main (callback) {
                   newest_entry_created,
                   entries: new_entries_for_blog
                 });
+
+                total_new_entries += new_entries_for_blog.length;
               }
 
               next();
@@ -69,6 +72,7 @@ function main (callback) {
 
         callback(err, {
           blogs_with_new_entries,
+          total_new_entries,
           total_entries: prettyNumber(total_entries)
         });
       }
