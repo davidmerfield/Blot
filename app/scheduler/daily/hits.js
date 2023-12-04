@@ -100,6 +100,7 @@ function main (callback) {
     // average the properties that need to be averaged
     for (let i = 0; i < properties_to_average.length; i++) {
       const property = properties_to_average[i];
+      if (!aggregate[property]) continue;
       const average =
         aggregate[property].reduce((a, b) => a + b) /
         aggregate[property].length;
