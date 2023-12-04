@@ -20,7 +20,9 @@ const stats_directory = blot_directory + "/data/stats";
 // "percent4XX":1.968503937007874,
 // "percent5XX":0.7874015748031495
 
-const properties_to_sum = ["requests"];
+const stats_subdirectories = fs.readdirSync(stats_directory);
+
+const properties_to_sum = ["requests", "bytesSent", "bytesReceived"];
 
 const properties_to_average = [
   "medianResponseTime",
@@ -28,52 +30,85 @@ const properties_to_average = [
   "memory",
   "cpu",
   "percent4XX",
-  "percent5XX"
+  "percent5XX",
+
+  // redis
+  "connected_clients",
+  "cpu_load"
+];
+
+const properties_to_return_most_recent = [
+  "root_disk_used",
+  "root_disk_free",
+  "backup_disk_free",
+  "backup_disk_used",
+  "system_memory",
+  "used_memory"
 ];
 
 function main (callback) {
   const files = fs
     .readdirSync(stats_directory + "/node")
+    .filter(file => file.endsWith(".json"))
     .sort()
-    .slice(-24);
-
-  console.log("reading", files);
+    .slice(-24)
+    .reverse();
 
   const response = {};
 
-  for (let i = 0; i < files.length; i++) {
-    const file = files[i];
-    const stats = JSON.parse(
-      fs.readFileSync(stats_directory + "/node/" + file, "utf8")
-    );
+  for (let x = 0; x < stats_subdirectories.length; x++) {
+    const subdirectory = stats_subdirectories[x];
+    const aggregate = (response[subdirectory] = {});
 
-    for (let j = 0; j < stats.length; j++) {
-      const stat = stats[j];
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      const stats = JSON.parse(
+        fs.readFileSync(
+          stats_directory + "/" + subdirectory + "/" + file,
+          "utf8"
+        )
+      ).reverse();
 
-      for (let k = 0; k < properties_to_sum.length; k++) {
-        const property = properties_to_sum[k];
-        if (!response[property]) response[property] = 0;
-        response[property] += stat[property];
-      }
+      for (let j = 0; j < stats.length; j++) {
+        const stat = stats[j];
 
-      for (let k = 0; k < properties_to_average.length; k++) {
-        const property = properties_to_average[k];
-        if (!response[property]) response[property] = [];
-        response[property].push(stat[property]);
+        for (let k = 0; k < properties_to_sum.length; k++) {
+          const property = properties_to_sum[k];
+          if (stat[property] === undefined) continue;
+
+          if (!aggregate[property]) aggregate[property] = 0;
+          aggregate[property] += stat[property];
+        }
+
+        for (let k = 0; k < properties_to_average.length; k++) {
+          const property = properties_to_average[k];
+          if (stat[property] === undefined) continue;
+
+          if (!aggregate[property]) aggregate[property] = [];
+          aggregate[property].push(stat[property]);
+        }
+
+        for (let k = 0; k < properties_to_return_most_recent.length; k++) {
+          const property = properties_to_return_most_recent[k];
+          if (stat[property] === undefined) continue;
+          if (aggregate[property] === undefined)
+            aggregate[property] = stat[property];
+        }
       }
     }
+
+    // average the properties that need to be averaged
+    for (let i = 0; i < properties_to_average.length; i++) {
+      const property = properties_to_average[i];
+      const average =
+        aggregate[property].reduce((a, b) => a + b) /
+        aggregate[property].length;
+
+      aggregate[property] = average;
+    }
+
+    response.requests = prettyNumber(response.requests);
   }
-
-  // average the properties that need to be averaged
-  for (let i = 0; i < properties_to_average.length; i++) {
-    const property = properties_to_average[i];
-    const average =
-      response[property].reduce((a, b) => a + b) / response[property].length;
-
-    response[property] = average;
-  }
-
-  response.requests = prettyNumber(response.requests);
 
   return callback(null, response);
 }
