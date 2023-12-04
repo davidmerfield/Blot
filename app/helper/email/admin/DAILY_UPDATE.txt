@@ -12,8 +12,6 @@ Newsletter subscribers: {{newsletter_subscribers}}
 
 Revenue: {{annual_recurring_revenue}}, {{monthly_percentage}} paid monthly ({{paypal_percentage}} through PayPal)
 
-{{#new_entries.length}}
-
 ***
 
 {{#blogs_with_new_entries}}
