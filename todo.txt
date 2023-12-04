@@ -1,12 +1,44 @@
 Improvements to templates:
-- Improments to portfolio template:
+- Library
+  - mobile
+  - make links open immediately
+  - rename from reference
+  - move tags into top menu
+  - add tag filtering (nested tags)
+- Portfolio
+  - mobile
   - add full control for navigation font and logo font
+  - add infinite scroll
+  - add filler nodes for google images grid so you don't get inconsistent sizes
+  - add control over navigation width
+  - Improve typography of text posts
+  - improve navigation between posts
   - fix boolean options missing (e.g. hide titles)
-- Tell these people about new templates, and to subscribe to newsletter:
-  - [Chris](https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e)
-  - [John](https://mail.google.com/mail/u/1/#all/1618ca0420779742)
-  - [Jan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChmLnfMTdtNkpLxHTlPJNHlCT) 
-  - [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrRRZTKntrWKJvfDXrRFTzljs)
+- Magazine
+  - mobile
+  - rewrite in plain HTML
+- Blog
+  - mobile
+  - center main text
+  - add index page options
+- Image
+  - mobile
+  - rename from photo
+
+- General:
+  - Add paginateable entries list
+  - Clean up package.json
+    - Replace "Entries tagged " with "{{tag}}"
+  - Add static file uploader
+  - Make templates folder based
+    - data/templates/blog_id/template_name
+  - Make it possible to change template slug
+  - Add webfont uploader
+  - Tell these people about new templates, and to subscribe to newsletter:
+    - [Chris](https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e)
+    - [John](https://mail.google.com/mail/u/1/#all/1618ca0420779742)
+    - [Jan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChmLnfMTdtNkpLxHTlPJNHlCT) 
+    - [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrRRZTKntrWKJvfDXrRFTzljs)
 
 Improvements to website:
 - Fix broken link checker
