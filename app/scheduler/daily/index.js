@@ -29,24 +29,15 @@ function main (callback) {
       log("Finished daily update")
     ],
     function (fn, next) {
-      console.log("invoking function");
       fn(
         callOnce(function (err, res) {
-          console.log("invoked function");
           if (res) for (var i in res) view[i] = res[i];
-          console.log("augmented view", view);
-          if (view.renewals_today) {
-            return Email.DAILY_UPDATE("", view, callback);
-          } else {
-            console.log("calling next");
-            next();
-          }
+          next();
         })
       );
     },
-    function (err) {
-      console.log("calling callback");
-      callback(err);
+    function () {
+      Email.DAILY_UPDATE("", view, callback);
     }
   );
 }
