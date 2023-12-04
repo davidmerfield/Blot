@@ -4,11 +4,9 @@ Posts: {{new_entries.length}} posts published yesterday ({{total_entries}} total
 
 Requests: {{nginx.requests}} requests ({{node.requests}} by node) {{nginx.bytesSent}} sent, {{nginx.bytesReceived}} received
 
-Median response time: {{nginx.medianResponseTime}}s, {{node.medianResponseTime}}s by node
+Response time: {{nginx.medianResponseTime}}s, {{node.medianResponseTime}}s by node
 
 Sites: {{total_active_blogs}} ({{total_customers}} customers, {{total_customers_paypal}} through PayPal)
-
-CPU load: {{node.cpu}}% for node, {{redis.cpu_load}}% for Redis
 
 Newsletter subscribers: {{newsletter_subscribers}}
 
