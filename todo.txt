@@ -27,6 +27,7 @@ Improvements to templates:
   - rename from photo
 
 - General:
+  - Don't reload page on template editor to preserve scroll position
   - Add paginateable entries list
   - Add 'Template folder'
   - Add downloadable sites
