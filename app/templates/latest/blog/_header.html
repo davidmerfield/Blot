@@ -1,14 +1,17 @@
-<div class="header alignment-{{navigation_alignment}} position-{{navigation_position}}">
+<div class="navigation alignment-{{navigation_alignment}} position-{{navigation_position}}">
+  <div class="container">
     <a id="logo" href="/">
-      <!-- {{#avatar}}
-      <img class="avatar {{#roundAvatar}}rounded{{/roundAvatar}}" src="{{avatar}}" alt="{{title}}"/>
-      {{/avatar}} -->
+      {{^hide_avatar}}
+      {{#avatar}}
+      <img class="avatar" src="{{avatar}}" alt="{{title}}" />
+      {{/avatar}}
+      {{/hide_avatar}}
       {{title}}
     </a>
-
     <div class="nav">
       {{#menu}}
       <a href="{{{url}}}" title="{{label}}">{{label}}</a>
       {{/menu}}
     </div>
+  </div>
 </div>
