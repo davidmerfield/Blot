@@ -10,19 +10,22 @@
       <form action='/search'>
         <input placeholder="Search..." value="{{#query}}{{query}}{{/query}}" name="q" id="search" type="text" />
       </form>
-      <br>
       {{#popular_tags.length}}
+      <hr class="minimal">
+      <p class="small">Tags</p>
       <div class="tags">
         <div>
           {{#popular_tags}}
-          <a href="/tagged/{{slug}}" {{#active}}style="font-weight:600" {{/active}} title="{{tag}}">{{tag}}</a>
+          <a href="/tagged/{{slug}}" {{#active}}style="font-weight:600" {{/active}}
+            title="{{tag}}">{{tag}}</a>{{^last}}, {{/last}}
           {{/popular_tags}}
         </div>
       </div>
-      <hr><br>
       {{/popular_tags.length}}
 
+      <hr class="minimal">
       <div>
+        <br>
         {{#allEntries}}
         <a class="full-line" href="{{{url}}}"><em>{{title}}</em> &nbsp;<span class="small">{{date}}</span></a>
         {{/allEntries}}
