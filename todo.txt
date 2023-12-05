@@ -30,14 +30,18 @@ Improvements to templates:
   - Add paginateable entries list
   - Add 'Template folder'
   - Add downloadable sites
-    - which use the 'tempalte folder'
+    - which use the 'template folder'
+    - e.g. obsidian
   - Clean up package.json
     - Replace "Entries tagged " with "{{tag}}"
   - Add static file uploader
   - Make templates folder based
     - data/templates/blog_id/template_name
-  - Make it possible to change template slug
+  - Assign guid template IDs
+  - Make template slug seperate from the template ID, simply for human readability
   - Add webfont uploader
+  - Move footnotes into their own property
+    - update templates of sites with footnotes, replacing "{{{html}}}" with "{{{html}}} {{{footnotes}}}" 
   - Generate favicons of different sizes from uploaded image
   - Tell these people about new templates, and to subscribe to newsletter:
     - [Chris](https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e)
