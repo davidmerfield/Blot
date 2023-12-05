@@ -8,6 +8,7 @@ Improvements to templates:
   - add tag filtering (nested tags)
 - Portfolio
   - mobile
+  - spacing issue on firefox
   - add full control for navigation font and logo font
   - add infinite scroll
   - add filler nodes for google images grid so you don't get inconsistent sizes
@@ -18,10 +19,6 @@ Improvements to templates:
 - Magazine
   - mobile
   - rewrite in plain HTML
-- Blog
-  - mobile
-  - center main text
-  - add index page options
 - Image
   - mobile
   - rename from photo
@@ -39,6 +36,7 @@ Improvements to templates:
   - Make templates folder based
     - data/templates/blog_id/template_name
   - Assign guid template IDs
+  - Make it possible to rename template directories and tell [Darren](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwHxvsmgwbnxLbDMNDplTLltlc)
   - Make template slug seperate from the template ID, simply for human readability
   - Add webfont uploader
   - Move footnotes into their own property
