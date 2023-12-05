@@ -38,6 +38,7 @@ Improvements to templates:
     - data/templates/blog_id/template_name
   - Make it possible to change template slug
   - Add webfont uploader
+  - Generate favicons of different sizes from uploaded image
   - Tell these people about new templates, and to subscribe to newsletter:
     - [Chris](https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e)
     - [John](https://mail.google.com/mail/u/1/#all/1618ca0420779742)
