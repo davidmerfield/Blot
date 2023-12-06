@@ -122,11 +122,7 @@
             method: "post",
             body: new URLSearchParams(new FormData(form{{key}})) // for application/x-www-form-urlencoded
         }).then(function (response) {
-            // save the scroll offset of the preview iframe
-            let scroll = document.getElementById("preview").contentWindow.document.body.scrollTop;
             document.getElementById("preview").src += "";
-            // restore the scroll offset of the preview iframe
-            document.getElementById("preview").contentWindow.document.body.scrollTop = scroll;
         })
 
         // close pickr after save
