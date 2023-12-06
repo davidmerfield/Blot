@@ -295,9 +295,10 @@ table {
   border-collapse: collapse;
   border-spacing: 0;
   font-size: 90%;
+  border-top: 1px solid rgba({{#rgb}}{{text_color}}{{/rgb}}, 0.1);
 }
 
-tr {border-bottom: 1px solid {{text_color}};}
+tr {border-bottom: 1px solid rgba({{#rgb}}{{text_color}}{{/rgb}}, 0.1)}
 
 th {
   text-align: left;
