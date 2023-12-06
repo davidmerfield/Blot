@@ -11,6 +11,17 @@ var templateDir = require("path").resolve(__dirname + "/../../app/templates");
 // users, or for existing users who were not using the template.
 
 if (require.main === module) {
+  if (!process.argv[2]) {
+    console.log(`Error: please specify a template name to archive.
+  
+${fs
+  .readdirSync(templateDir + "/latest")
+  .filter(name => !name.includes("."))
+  .map(name => `node scripts/template/archive ${name}`)
+  .join("\n")}`);
+    process.exit();
+  }
+
   main(process.argv[2], function (err) {
     if (err) throw err;
 
@@ -18,7 +29,7 @@ if (require.main === module) {
   });
 }
 
-function main(name, callback) {
+function main (name, callback) {
   var templateID = "SITE:" + name;
 
   if (!fs.existsSync(templateDir + "/" + name))
@@ -54,7 +65,7 @@ function main(name, callback) {
           {
             isPublic: false,
             name: name,
-            cloneFrom: blog.template,
+            cloneFrom: blog.template
           },
           function (err) {
             if (err) return next(err);
@@ -72,24 +83,26 @@ function main(name, callback) {
                   if (err || !template)
                     return next(err || new Error("no template"));
 
-                  Blog.set(blog.id, { template: newTemplateID }, function (
-                    err
-                  ) {
-                    if (err) return next(err);
+                  Blog.set(
+                    blog.id,
+                    { template: newTemplateID },
+                    function (err) {
+                      if (err) return next(err);
 
-                    console.log(
-                      blog.id,
-                      blog.handle,
-                      "used",
-                      templateID,
-                      "so I created a clone",
-                      template.id,
-                      "\nhttp://" + blog.handle + "." + process.env.BLOT_HOST
-                    );
+                      console.log(
+                        blog.id,
+                        blog.handle,
+                        "used",
+                        templateID,
+                        "so I created a clone",
+                        template.id,
+                        "\nhttp://" + blog.handle + "." + process.env.BLOT_HOST
+                      );
 
-                    total++;
-                    next();
-                  });
+                      total++;
+                      next();
+                    }
+                  );
                 });
               }
             );

@@ -301,6 +301,23 @@ function purge_lru_hosts (self)
     end    
 end
 
+function cacher_check_free_space (self, ngx) 
+    local minimum_free_space = self.minimum_free_space
+
+    -- if minimum_free_space is not nil then we need to check if we need to purge the lru hosts
+    if (minimum_free_space ~= nil) then
+        local free_space = self.shared_dictionary:free_space()
+        
+        if (free_space < minimum_free_space) then
+            ngx.log(ngx.NOTICE, "dictionary_free_space=" .. free_space .. " is less than " .. minimum_free_space .. ", purging lru hosts")
+            purge_lru_hosts(self)
+            ngx.log(ngx.NOTICE, "purge of lru hosts complete")
+        else
+            ngx.log(ngx.NOTICE, "dictionary_free_space=" .. free_space .. " is greater than " .. minimum_free_space .. ", no need to purge lru hosts")
+        end
+    end
+end
+
 function cacher_monitor_free_space (self, ngx, monitor_interval)
     
     if (monitor_interval == nil) then
@@ -336,21 +353,7 @@ function cacher_monitor_free_space (self, ngx, monitor_interval)
             handle:close()
             ngx.log(ngx.NOTICE, "dictionary_usage=" .. usage .. "M disk_usage=" .. output .. " dictionary_free_space=" .. free_space_mb .. "M")
             
-            local minimum_free_space = self.minimum_free_space
-
-            -- if minimum_free_space is not nil then we need to check if we need to purge the lru hosts
-            if (minimum_free_space ~= nil) then
-                local free_space = self.shared_dictionary:free_space()
-                
-                if (free_space < minimum_free_space) then
-                    ngx.log(ngx.NOTICE, "dictionary_free_space=" .. free_space .. " is less than " .. minimum_free_space .. ", purging lru hosts")
-                    purge_lru_hosts(self)
-                    ngx.log(ngx.NOTICE, "purge of lru hosts complete")
-                    -- otherwise, log that we have sufficient free space
-                else
-                    ngx.log(ngx.NOTICE, "dictionary_free_space=" .. free_space .. " is greater than " .. minimum_free_space .. ", no need to purge lru hosts")
-                end
-            end
+            cacher_check_free_space(self, ngx)
         end
     end, self)
 end
@@ -373,7 +376,8 @@ function cacher.new()
         add = cacher_add,
         inspect = cacher_inspect,
         rehydrate = cacher_rehydrate,
-        monitor_free_space = cacher_monitor_free_space
+        monitor_free_space = cacher_monitor_free_space,
+        check_free_space = cacher_check_free_space
     }
 end
 
