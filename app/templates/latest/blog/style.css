@@ -25,11 +25,24 @@ html {
   
 }
 
+:root {
+  --sidebar-width: 0px;
+  {{#is.navigation_location.left}}
+  --sidebar-width: 300px;
+  {{/is.navigation_location.left}}
+  {{#is.navigation_location.right}}
+  --sidebar-width: 300px;
+  {{/is.navigation_location.right}}
+}
+
 body {
   color: {{text_color}};
   background: {{background_color}};
   word-wrap: break-word;
   margin: 0;
+  position: relative;
+  min-height: 100vh;
+  padding: 0
 }
 
 .clear {width: 100%;clear: both;float: none;display: block;height: 0}
@@ -80,11 +93,57 @@ div {
 }
 
 
-.navigation.alignment-center {justify-content: center;}
-.navigation.alignment-left {justify-content: flex-start;}
-.navigation.alignment-right {justify-content: flex-end;}
+.navigation.alignment-center .container {justify-content: center;}
+.navigation.alignment-left  .container {justify-content: flex-start;}
+.navigation.alignment-right .container {justify-content: flex-end;}
 
-.navigation a {margin-right: 1rem;color: {{text_color}};text-decoration: none}
+.navigation-location-left {
+  padding-left: var(--sidebar-width);
+}
+
+.naviation-location-right {
+  padding-right: var(--sidebar-width);
+}
+.navigation-location-left .container,
+.navigation-location-right .container {
+  padding-top: 2em}
+
+
+.navigation-location-left .navigation,
+.navigation-location-right .navigation {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: var(--sidebar-width);
+  padding: 2em;
+}
+
+.navigation-location-left .navigation {
+  left: 0;
+}
+
+.navigation-location-right .navigation {
+  right: 0;
+}
+
+.navigation-location-left .navigation .container,
+.navigation-location-right .navigation .container {
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.navigation-location-left .navigation #logo,
+.navigation-location-right .navigation #logo {
+  margin-bottom: 1.4em;
+}
+
+.navigation-location-left .navigation .links,
+.navigation-location-right .navigation .links {
+  flex-direction: column;
+  display: flex;
+}
+  
+.navigation a {margin-right: 1em;color: {{text_color}};text-decoration: none}
 .navigation .links a {color: rgba({{#rgb}}{{text_color}}{{/rgb}}, 0.5);}
 .navigation a:last-child {margin-right: 0}
 .navigation a {opacity: 0.6666;transition: opacity,color 0.2s ease}
@@ -138,12 +197,13 @@ padding-right: 1em;
 
 
 .wide {
-    width: calc(100vw - var(--scrollbar-width) - 2em);
-    margin-left: calc((100vw - var(--scrollbar-width) - {{max_width}}px) * -0.5);
+    width: calc(100vw - var(--scrollbar-width) - var(--sidebar-width) - 2em);
+    margin-left: calc((100vw - var(--scrollbar-width) - var(--sidebar-width) - {{max_width}}px) * -0.5);
     margin-right: 0;
 }
 
 .wide img {display: block;margin-left: auto;margin-right: auto;}
+
 @media screen and (max-width: 1146px) {
   .wide {
     margin-left: -2em;
@@ -151,8 +211,8 @@ padding-right: 1em;
 }
 
 .wide.left, .wide.right {
-  width: 150%;
-  margin-left: 0;
+  width: calc(100vw - var(--scrollbar-width) - var(--sidebar-width) - 2em);
+  margin-left: calc((100vw - var(--scrollbar-width) - var(--sidebar-width) - {{max_width}}px) * -0.5);
   margin-right: -25%;
   float: none;
   overflow: auto; /* collapse internal margins */
@@ -315,12 +375,12 @@ td {
 
 ul, ol {
   margin-left: 0;
-  padding-left: 1.25rem;
+  padding-left: 1.25em;
   list-style-position: outside;
-  margin-bottom: 1.6667rem;
+  margin-bottom: 1.6667em;
 }
 
-li {padding-left: 0.75rem}
+li {padding-left: 0.75em}
 
 ul {list-style: circle;}
 ul.task-list { list-style-type: none; }
@@ -369,10 +429,11 @@ iframe {width: 100%;}
 #logo {
   color: {{text_color}};
   flex-shrink: 0;
+  margin-right: 2em;
 }
 
 
-#logo img {max-width: 48px;max-height: 48px;margin-right: 1rem}
+#logo img {max-width: 48px;max-height: 48px;margin-right: 1em}
 #logo:hover {opacity: 0.8}
 
 #logo img.rounded {width: 52px;border-radius: 50%;top: -2px;left: -64px}
@@ -462,7 +523,7 @@ input#search:focus {
 .footnotes > ol li::marker {
      color: {{text_color}};
 }
- .footnote-back {text-decoration: none;margin-left: 0.5rem}
+ .footnote-back {text-decoration: none;margin-left: 0.5em}
  .footnote-back:before {
     content: "["
 }

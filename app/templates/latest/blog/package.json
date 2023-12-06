@@ -28,6 +28,12 @@
       "title_and_summary",
       "post_in_full"
     ],
+    "navigation_location": "top",
+    "navigation_location_options": [
+      "top",
+      "left",
+      "right"
+    ],
     "navigation_alignment": "justified",
     "navigation_alignment_options": [
       "justified",
