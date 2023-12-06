@@ -21,7 +21,9 @@ const stats_directory = blot_directory + "/data/stats";
 // "percent4XX":1.968503937007874,
 // "percent5XX":0.7874015748031495
 
-const stats_subdirectories = fs.readdirSync(stats_directory);
+const stats_subdirectories = fs.existsSync(stats_directory)
+  ? fs.readdirSync(stats_directory)
+  : [];
 
 const properties_to_apply_prettyNumber = ["requests"];
 const properties_to_round_integer = ["connected_clients"];
