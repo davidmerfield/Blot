@@ -19,7 +19,7 @@ const clfdate = require("helper/clfdate");
 const log = (...arguments) =>
   console.log.apply(null, [clfdate(), "Broken:", ...arguments]);
 
-function main(url, options, callback) {
+function main (url, options, callback) {
   const checked = {};
   const results = {};
   const failures = {};
@@ -35,16 +35,16 @@ function main(url, options, callback) {
     callback(null, results);
   });
 
-  function addFailure(base, url, statusCode) {
-    const basePath = parse(base).pathname;
-    const pathname = parse(url).pathname;
+  function addFailure (base, url, statusCode) {
+    const basePath = base ? parse(base).pathname : "undefined";
+    const pathname = url ? parse(url).pathname : "undefined";
     failures[pathname] = statusCode;
     results[basePath] = results[basePath] || [];
     results[basePath].push([parse(url).pathname, statusCode]);
   }
 
   // add some items to the queue
-  function checkPage(base, url, callback) {
+  function checkPage (base, url, callback) {
     const pathname = parse(url).pathname;
 
     if (failures[pathname]) {
@@ -81,7 +81,7 @@ function main(url, options, callback) {
     });
   }
 
-  function parseURLs(base, body, callback) {
+  function parseURLs (base, body, callback) {
     let URLs = [];
     let $;
 
