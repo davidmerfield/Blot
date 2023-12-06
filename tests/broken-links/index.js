@@ -22,6 +22,9 @@ describe("Blot's website'", function () {
     // NGINX should handle this but for testing we need node to do it
     server.get(
       [
+        "/favicon-180x180.png",
+        "/favicon-32x32.png",
+        "/favicon-16x16.png",
         "/style.min.css",
         "/documentation.min.js",
         "/templates/data/:folder.zip"
