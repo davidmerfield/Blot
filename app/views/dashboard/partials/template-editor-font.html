@@ -191,13 +191,30 @@
   	input{{key}}font_size.value = event.target.value;
 	});
 
-	document.querySelectorAll('form[id="form{{key}}"] input, form[id="form{{key}}"] select')
+	
+
+	document.querySelectorAll('form[id="form{{key}}"] input, form[id="form{{key}}"] select, form[id="form{{key}}"] button')
 		.forEach(function(node){
 			if (node.style.display === 'none') return;
-		node.addEventListener('change', (event) => {
-	 		form{{key}}.submit();
+			
+			const submitForm = (event) => {
+				fetch(window.location.href, {
+            		method: "post",
+            		body: new URLSearchParams(new FormData(form{{key}})) // for application/x-www-form-urlencoded
+        		}).then(function (response) {
+            		document.getElementById("preview").src += "";
+        		})
+			}
+
+			// if a button, handle click
+			if (node.tagName === 'BUTTON') {
+				node.addEventListener('click', submitForm)
+				return;
+			} else {
+				node.addEventListener('change', submitForm)
+				return;
+			}
 		})
-	})
 
 </script>
 	</div>
