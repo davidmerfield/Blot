@@ -69,7 +69,21 @@ TemplateEditor.route("/:templateSlug/settings")
           newLocals[local] = newLocals[local] === "on";
       }
 
-      for (let key in newLocals) locals[key] = newLocals[key];
+      for (let key in newLocals) {
+        // if locals[key] is an object, merge the newLocals[key] object into it
+        // otherwise simply assign newLocals[key] to locals[key]
+        // this makes it possible to update a single property of an object without
+        // overwriting the entire object
+        if (typeof locals[key] === "object") {
+          for (let prop in newLocals[key]) {
+            console.log("setting", key, prop, newLocals[key][prop]);
+            locals[key][prop] = newLocals[key][prop];
+          }
+        } else {
+          locals[key] = newLocals[key];
+        }
+      }
+
       for (let key in newPartials) partials[key] = newPartials[key];
 
       req.locals = locals;

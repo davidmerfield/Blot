@@ -72,6 +72,67 @@ div[class^="color-picker-"]:hover {
 .pcr-app[data-theme=monolith] .pcr-selection .pcr-color-preview .pcr-last-color {
 	display: none;
 }
+
+
+
+/* FONTS */
+form[id^="font_picker"] svg {height: 1.5em;display: block;}
+
+.options {display: none;margin:0.5em;border:1px solid #aaa;user-select: none;}
+
+input[id^="show_picker"]:checked ~ .options {display: block;}
+
+label[for^="show_picker"] {padding:0.333em 1em;cursor: pointer;position:relative;border-bottom: 1px solid #ddd;display: block;margin:0;user-select: none;}
+
+label[for^="show_picker"]:hover {background: #fff}
+
+label[for^="show_picker"]:after{
+	content: "";
+	width: 1em;
+	height: 1em;
+	position: absolute;
+	top:50%;
+	margin-top: -0.5em;
+	right:1em;
+	background:  url('data:image/svg+xml;utf8,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22utf-8%22%3F%3E%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2043.764%2030.594%22%3E%3Cpath%20stroke%3D%22%23000%22%20d%3D%22M21.871%2024.621c.236%200%20.408-.172.602-.365L38.092%206.875c.107-.129.193-.215.193-.365%200-.301-.236-.537-.537-.537a.644.644%200%200%200-.387.129l-15.468%2017.23L6.359%206.102c-.064-.086-.236-.13-.365-.13a.528.528%200%200%200-.515.538c0%20.15.107.258.214.386L21.27%2024.3c.193.172.343.322.601.322Z%22%2F%3E%3C%2Fsvg%3E') no-repeat 1rem center;
+	background-size: 1em;
+}
+
+.filters {
+	font-size:12px;
+	padding:0.15em 0.5em;user-select: none;
+}
+
+.filters label {
+	border-radius: 10px;padding: 0.15em 0.5em;
+	cursor: pointer;
+	color:#666;
+}
+
+input[id^="show_all"]:checked ~ .options label[for^="show_all"],
+input[id^="show_sans"]:checked ~ .options label[for^="show_sans"],
+input[id^="show_serif"]:checked ~ .options label[for^="show_serif"],
+input[id^="show_other"]:checked ~ .options label[for^="show_other"],
+input[id^="show_mono"]:checked ~ .options label[for^="show_mono"]
+{background: #e0e0e0;}
+
+input[id^="show_sans"]:checked ~ .options button:not([data-tag="sans"]),
+input[id^="show_mono"]:checked ~ .options button:not([data-tag="mono"]),
+input[id^="show_serif"]:checked ~ .options button:not([data-tag="serif"]),
+input[id^="show_other"]:checked ~ .options button:not([data-tag="other"])
+{display: none;}
+
+.options button {
+	width: 100%;
+	text-align:left;
+	margin:0;
+	border-radius:0;
+	border:none;outline:none;
+	background:#fafafa;border-top: 1px solid #ddd;padding:0.333em 0.5em;
+}
+
+.options button:hover{background: #fff}
+
 </style>
 
 
@@ -229,4 +290,53 @@ Array.from(document.querySelectorAll('form.color-picker')).forEach(form => {
     });
 });
 
+
+
+
+
+// FONT PICKER
+
+Array.from(document.querySelectorAll('form[id^="font_picker"]')).forEach(function(form){
+			
+			form.querySelectorAll('input, select, button').forEach(function(node){
+				if (node.style.display === 'none') return;
+				
+				const submitForm = (event) => {
+		
+					// construct the body based on the single input or button that was clicked
+					const body = new URLSearchParams();
+					
+					body.append(node.name, node.value);
+					
+					console.log(body.toString());
+		
+					fetch(window.location.href, { method: "post", body }).then(function (response) {
+						document.getElementById("preview").src += "";
+					});
+		
+					// if this was a button, we need to close the picker
+					// and replace the innerHTML of show_picker with the new font
+					if (node.tagName === 'BUTTON') {
+						node.parentNode.parentNode.querySelector('input[id^="show_picker"]').checked = false;
+						node.parentNode.parentNode.querySelector('label[for^="show_picker"]').innerHTML = node.innerHTML;
+					}
+		
+					event.preventDefault();
+					return false;
+				}
+		
+				// if a button, handle click
+				if (node.tagName === 'BUTTON') {
+					node.addEventListener('click', submitForm)
+					return;
+				} else {
+					node.addEventListener('change', submitForm)
+					return;
+				}
+			})
+		
+		});
+		
+			
+		
 </script>
