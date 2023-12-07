@@ -5,20 +5,33 @@ const config = require("config");
 module.exports = function (req, res, next) {
   for (let key in req.locals) {
     if (key.indexOf("_font") === -1) continue;
+
     let match = FONTS.slice().filter(({ id }) => req.locals[key].id === id)[0];
 
     if (match) {
-      match.styles = Mustache.render(match.styles, {
+      // always keep these in sync with the font model
+      req.locals[key].stack = match.stack;
+      req.locals[key].name = match.name;
+      req.locals[key].styles = Mustache.render(match.styles, {
         config: {
-          cdn: { origin: config.cdn.origin },
-        },
+          cdn: { origin: config.cdn.origin }
+        }
       });
-      for (let prop in match)
-        req.locals[key][prop] = req.locals[key][prop] || match[prop];
 
-      // we don't need these in the template
-      delete req.locals[key].svg;
-      delete req.locals[key].tags;
+      // merge the new font object into the existing one
+      for (let prop in match) {
+        if (
+          prop === "styles" ||
+          prop === "name" ||
+          prop === "stack" ||
+          prop === "id" ||
+          prop === "svg" ||
+          prop === "tags"
+        )
+          continue;
+
+        req.locals[key][prop] = req.locals[key][prop] || match[prop];
+      }
     }
   }
 
