@@ -115,8 +115,8 @@ font-size: 12px;
 			<div
 				style="width: 20rem;flex-shrink:0;display: flex;flex-direction: column;background: #f2f2f2;;"
 			>
-				<div style="flex-grow: 1;max-height: 100vh;overflow: scroll;">
-					<div style="display: flex;align-items: baseline;overflow: hidden;">
+				<div style="flex-grow: 1;max-height: 100vh;overflow: hidden;">
+					<div style="display: flex;align-items: baseline;">
 						<a
 							class="box-button"
 							style="background: #000;font-size:14px;color: #aaa;flex-basis: 50%"
@@ -151,10 +151,12 @@ font-size: 12px;
 						>
 					</div>
 
+					<div style="max-height: calc(100vh - 121px);overflow-y: auto;overflow-x: hidden;">
 					{{> template-editor-sidebar}}
 				</div>
+				</div>
 			</div>
-{{> body}}
+			{{> body}}
 		</div>
 	</body>
 </html>

@@ -1,10 +1,10 @@
 var Express = require("express");
 var status = Express.Router();
-var redis = require("redis");
+var redis = require("models/redis");
 
 status.get("/", function (req, res) {
   var blogID = req.blog.id;
-  var client = redis.createClient();
+  var client = new redis();
 
   req.socket.setTimeout(2147483647);
 
@@ -16,8 +16,12 @@ status.get("/", function (req, res) {
     // by the compression middleware a few lines down.
     "X-Accel-Buffering": "no",
     "Content-Type": "text/event-stream",
-    "Cache-Control": "no-cache",
     "Connection": "keep-alive",
+
+    // the proxy cache ignores the Cache-Control header so we prevent its caching
+    // with the header X-Accel-Expires: 0
+    "Cache-Control": "no-cache",
+    "X-Accel-Expires": "0"
   });
 
   res.write("\n");
@@ -35,9 +39,12 @@ status.get("/", function (req, res) {
     console.log("Redis Error: " + err);
   });
 
+  // If the user closes the page, we stop sending events
   req.on("close", function () {
+    console.log("Closing connection.");
     client.unsubscribe();
     client.quit();
+    res.end();
   });
 });
 

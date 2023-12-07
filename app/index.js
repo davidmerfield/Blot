@@ -5,13 +5,16 @@ if (cluster.isMaster) {
   const async = require("async");
   const fs = require("fs-extra");
   const clfdate = require("helper/clfdate");
+  const notify = require("helper/systemd-notify");
 
   const NUMBER_OF_CORES = require("os").cpus().length;
 
-  let NUMBER_OF_WORKERS =
-    NUMBER_OF_CORES > 4 ? Math.round(NUMBER_OF_CORES / 2) : 2;
-
-  if (process.env.FAST === "true") NUMBER_OF_WORKERS = 1;
+  const NUMBER_OF_WORKERS =
+    process.env.FAST === "true"
+      ? 1
+      : NUMBER_OF_CORES > 4
+      ? Math.round(NUMBER_OF_CORES / 2)
+      : 2;
 
   const publishScheduledEntries = require("./scheduler/publish-scheduled-entries");
 
@@ -38,8 +41,9 @@ if (cluster.isMaster) {
 
     email.SERVER_START();
 
-    setup(function (err) {
+    setup(async err => {
       if (err) throw err;
+
       console.log(clfdate(), "Finished setting up");
 
       // Launch scheduler for background tasks, like backups, emails
@@ -53,10 +57,20 @@ if (cluster.isMaster) {
           init();
         }
       }
+
+      notify({ ready: true, status: "Node server ready" });
+
+      setInterval(() => {
+        notify({
+          status: `Node server running ${
+            Object.keys(cluster.workers).length
+          } workers at ${new Date().toISOString()}}`
+        });
+      }, 1000 * 10); // every 10 seconds
     });
   });
 
-  cluster.on("exit", (worker) => {
+  cluster.on("exit", worker => {
     if (worker.exitedAfterDisconnect === false) {
       console.log(clfdate(), "Worker died unexpectedly, starting a new one");
       cluster.fork();

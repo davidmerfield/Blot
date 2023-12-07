@@ -1,58 +1,41 @@
-TODO
-----
-
-GENERATE TYPESET.JS style rules for each font automatically
-
 How to add a new web font
 -------------------------
 
-Let's say we want to add the font 'Goudy Old Style' to Blot.
+Whenever you add a font to this directory, run:
 
-First, we make sure we can legally distribute the font files for commercial purposes. Then we follow these steps:
+node app/blog/static/fonts/build
 
-1. Create a new directory 'goudy-old-style' inside this folder.
-2. Move the webfont files inside that folder. You must add .woff and .ttf files, but .eot are desirable too.
-3. Make sure the web font files are named in the following format: weight[-style].extension. For example:
+If you download font files from Google Fonts you can:
 
-black-italic.eot
-bold.ttf
-oblique.ttf
-
-4. Run the script required to build the CSS styles required to load the font:
-
-node app/static/blog/fonts/build goudy-old-style
-
-5. Verify the resulting styles and metadata in:
-
-goudy-old-style/package.json
-
-6. Restart the server process, and test the font with one of Blot's default templates.
-
-7. Commit and push
+1. place font directory inside app/blog/static/fonts/data
+2. use this tool: node app/blog/static/fonts/parse
+3. copy the result to app/blog/static/fonts
 
 
+TODO
+----
+
+- GENERATE TYPESET.JS style rules for each font automatically
+- Handle variable fonts
+- Can we compress fonts further?
 
 Good sources for new webfonts
 -----------------------------
 
 Font Squirrel
+
 https://fontlibrary.org/en
+
 https://www.are.na/laurel-schwulst/open-source-web-fonts
 
-Use Modify:
-https://github.com/raphaelbastide/usemodify/issues/1
+https://www.fontshare.com/?text-type=excerpts
 
+https://github.com/raphaelbastide/usemodify/issues/1
 
 
 Fonts to consider adding
 ------------------------
-
-https://fonts.google.com/specimen/Nanum+Myeongjo
-
-https://edwardtufte.github.io/et-book/
-
 - [ ] Abel
-- [ ] Alegreya
 - [ ] Alte Haas Grotesk
 - [ ] Authentic Sans
 - [ ] Avara
@@ -60,14 +43,11 @@ https://edwardtufte.github.io/et-book/
 - [ ] Bagnard
 - [ ] ANRT Baskervville
 - [ ] Chivo
-- [ ] Cormorant
-- [ ] Computer Modern (entire family)
 - [ ] Crimson Text 
 - [ ] Darker Grotesque
 - [ ] DINosaur
 - [ ] DM Sans
 - [ ] Eb Garamond
-- [ ] ET Book 
 - [ ] Euler AMS
 - [ ] Faune
 - [ ] Fjalla One
@@ -77,13 +57,9 @@ https://edwardtufte.github.io/et-book/
 - [ ] Happy Times at the IKOB
 - [ ] Helmet Neue
 - [ ] iA Writer Quattro
-- [ ] Infini GF 
-- [ ] Inter 
 - [ ] Interstate
 - [ ] Inria fonts
 - [ ] JetBrains Mono
-- [ ] Junicode
-- [ ] Karla
 - [ ] Le Murmure
 - [ ] Lincoln Mitre
 - [ ] Libertinus
@@ -93,30 +69,21 @@ https://edwardtufte.github.io/et-book/
 - [ ] Michroma
 - [ ] Mister Pixel
 - [ ] Montserrat
-- [ ] Neuton
+- [ ] Nanum Myeongjo
 - [ ] Nunito
 - [ ] Optician Sans
 - [ ] Ortica
-- [ ] Oswald
 - [ ] Pilowlava
 - [ ] Pinyon Script
-- [ ] Plex
 - [ ] Quicksand
 - [ ] Roboto
 - [ ] Rosario
 - [ ] Recursive
 - [ ] Routed Gothic
 - [ ] Rubik
-- [ ] Space Grotesk/Mono
-- [ ] Spectral
-- [ ] Syne
 - [ ] Terminal Grotesque
 - [ ] TeX Gyre
 - [ ] Typewriter Condensed
-- [ ] UnifrakturMaguntia
-- [ ] Violet Sans
-- [ ] VCR OSD Mono
 - [ ] Vollkorn
-- [ ] Work Sans
 - [ ] Wremena
 - [ ] Young Serif

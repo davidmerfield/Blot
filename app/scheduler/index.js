@@ -1,10 +1,8 @@
 var User = require("models/user");
 var async = require("async");
-var backup = require("./backup");
 var dailyUpdate = require("./daily");
 var email = require("helper/email");
 var clfdate = require("helper/clfdate");
-var warmCache = require("./warmCache");
 var schedule = require("node-schedule").scheduleJob;
 var checkFeaturedSites = require("../documentation/featured/check");
 var config = require("config");
@@ -24,19 +22,19 @@ module.exports = function () {
     });
 
     // Print most memory-intensive processes
-    exec("ps -eo pmem,pcpu,comm,args | sort -k 1 -nr | head -10", function (
-      err,
-      stdout
-    ) {
-      if (err || !stdout) return;
+    exec(
+      "ps -eo pmem,pcpu,comm,args | sort -k 1 -nr | head -10",
+      function (err, stdout) {
+        if (err || !stdout) return;
 
-      if (config.environment === "development") {
-        // this is annoying in development
-      } else {
-        console.log(clfdate(), "[STATS]", "top");
-        console.log(stdout);
+        if (config.environment === "development") {
+          // this is annoying in development
+        } else {
+          console.log(clfdate(), "[STATS]", "top");
+          console.log(stdout);
+        }
       }
-    });
+    );
 
     // Print cpu and memory information
     fs.readFile("/proc/meminfo", "utf-8", function (err, contents) {
@@ -48,7 +46,7 @@ module.exports = function () {
       contents
         .trim()
         .split("\n")
-        .forEach((line) => {
+        .forEach(line => {
           stats[line.split(":")[0].trim()] = parseInt(
             line.split(":")[1].trim()
           );
@@ -58,7 +56,7 @@ module.exports = function () {
       let totalCPUs = os.cpus().length;
       let totalmem = stats.MemTotal;
       let freemem = stats.MemAvailable;
-      let pretty = (num) => (100 * num).toFixed(3) + "%";
+      let pretty = num => (100 * num).toFixed(3) + "%";
 
       console.log(
         clfdate(),
@@ -73,11 +71,6 @@ module.exports = function () {
   publishScheduledEntries(function (err) {
     if (err) throw err;
     console.log(clfdate(), "Scheduled entries for future publication");
-  });
-
-  // Warm the cache for the documentation site
-  warmCache(function (err) {
-    if (err) throw err;
   });
 
   // Warn users about impending subscriptions
@@ -143,19 +136,6 @@ module.exports = function () {
       } else {
         email.SYNC_REPORT(null, { report: JSON.stringify(report) });
         console.log(clfdate(), "Fix sync: checked all folders");
-      }
-    });
-  });
-
-  console.log(clfdate(), "Scheduled daily backups");
-  schedule({ hour: 11, minute: 0 }, function () {
-    // Start the backup daemon
-    console.log(clfdate(), "Backup: Starting backup");
-    backup(function (err) {
-      if (err) {
-        console.log(clfdate(), "Backup: Error:" + err);
-      } else {
-        console.log(clfdate(), "Backup: Successfully backed up");
       }
     });
   });

@@ -4,9 +4,10 @@
 set -e
 set -x 
 
-DEVICE_NAME=nvme0n1
+DEVICE_NAME=xvdf
 
 # Ensure we have mounted the file system
 mkfs -t xfs /dev/$DEVICE_NAME || true
+mkdir -p $BLOT_CACHE_DIRECTORY
 mount /dev/$DEVICE_NAME $BLOT_CACHE_DIRECTORY || true
 chown -R $BLOT_USER:$BLOT_USER $BLOT_CACHE_DIRECTORY || true

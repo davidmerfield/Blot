@@ -37,6 +37,27 @@ module.exports = function makeSlug(string) {
     // maps don't to dont, won't to wont
     // shouldn't to shouldnt
     .replace(/n['’]t/g, "nt")
+
+    // maps i'm to im
+    .replace(/i['’]m/g, "im")
+
+    // maps she'd and he'd
+    .replace(/e['’]d/g, "ed")
+
+    // o'clock
+    .replace(/o['’]c/g, "oc")
+
+    // you're
+    .replace(/u['’]r/g, "ur")
+
+    // we'll
+    .replace(/e['’]l/g, "el")
+
+    // maps it's
+    .replace(/t['’]s/g, "ts")
+
+    // maps they've
+    .replace(/y['’]v/g, "yv")
     
     // maps apple's to apples
     .replace(/['’]s/g, "s")

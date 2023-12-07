@@ -14,26 +14,33 @@ var TEMPLATES_DIRECTORY = require("path").resolve(__dirname + "/latest");
 var PAST_TEMPLATES_DIRECTORY = require("path").resolve(__dirname + "/past");
 var TEMPLATES_OWNER = "SITE";
 
-var DEFAULT_FONT = require("blog/static/fonts")
-  .filter((font) => font.name === "System sans-serif")
-  .map((font) => {
+const redis = require("models/redis");
+
+var HIGHLIGHTER_THEMES = require("blog/static/syntax-highlighter");
+
+const fonts = require("blog/static/fonts");
+
+var DEFAULT_FONT = fonts
+  .filter(font => font.name === "System sans-serif")
+  .map(font => {
     font.styles = Mustache.render(font.styles, {
       config: {
-        cdn: { origin: config.cdn.origin },
-      },
+        cdn: { origin: config.cdn.origin }
+      }
     });
     return font;
   })[0];
-var DEFAULT_MONO_FONT = require("blog/static/fonts")
-  .filter((font) => font.name === "System mono")
-  .map((font) => {
+
+var DEFAULT_MONO_FONT = fonts
+  .filter(font => font.name === "System mono")
+  .map(font => {
     font.styles = Mustache.render(font.styles, {
       config: {
-        cdn: { origin: config.cdn.origin },
-      },
+        cdn: { origin: config.cdn.origin }
+      }
     });
     return font;
-  })[0];  
+  })[0];
 
 if (require.main === module) {
   const watch = config.environment === "development";
@@ -44,14 +51,15 @@ if (require.main === module) {
 
   // Rebuilds templates when we load new states
   // using scripts/state/info.js
-  let client = require("redis").createClient();
+  let redis = require("models/redis");
+  let client = new redis();
   client.subscribe("templates:rebuild");
   client.on("message", function () {
     main({}, function () {});
   });
 }
 
-function main(options, callback) {
+function main (options, callback) {
   buildAll(TEMPLATES_DIRECTORY, options, function (err) {
     if (err) return callback(err);
 
@@ -66,6 +74,17 @@ function main(options, callback) {
           debug("Watching templates directory for changes");
           watch(TEMPLATES_DIRECTORY);
           watch(PAST_TEMPLATES_DIRECTORY);
+
+          // Rebuilds templates when we load new states
+          // using scripts/state/info.js
+          const templateClient = new redis();
+
+          templateClient.subscribe("templates:rebuild");
+
+          templateClient.on("message", function () {
+            main({}, function () {});
+          });
+
           callback(null);
         } else {
           callback(null);
@@ -76,7 +95,7 @@ function main(options, callback) {
 }
 
 // Builds any templates inside the directory
-function buildAll(directory, options, callback) {
+function buildAll (directory, options, callback) {
   var dirs = templateDirectories(directory);
 
   async.map(dirs, async.reflect(build), function (err, results) {
@@ -96,7 +115,7 @@ function buildAll(directory, options, callback) {
 }
 
 // Path to a directory containing template files
-function build(directory, callback) {
+function build (directory, callback) {
   debug("..", require("path").basename(directory), directory);
 
   var templatePackage, isPublic;
@@ -118,7 +137,7 @@ function build(directory, callback) {
   template = {
     isPublic: isPublic,
     description: description,
-    locals: templatePackage.locals,
+    locals: templatePackage.locals
   };
 
   // Set the default font for each template
@@ -134,6 +153,16 @@ function build(directory, callback) {
       _.cloneDeep(DEFAULT_FONT),
       template.locals.navigation_font
     );
+  }
+
+  if (template.locals.syntax_highlighter !== undefined) {
+    template.locals.syntax_highlighter = {
+      ...HIGHLIGHTER_THEMES.find(
+        ({ id }) =>
+          id ===
+          (template.locals.syntax_highlighter.id || "stackoverflow-light")
+      )
+    };
   }
 
   if (template.locals.coding_font !== undefined) {
@@ -162,7 +191,7 @@ function build(directory, callback) {
   });
 }
 
-function mirror(id, callback) {
+function mirror (id, callback) {
   Blog.getAllIDs(function (err, ids) {
     if (err) return callback(err);
     async.eachSeries(
@@ -178,7 +207,7 @@ function mirror(id, callback) {
                 isPublic: false,
                 cloneFrom: id,
                 name: "Mirror of " + id.slice(id.indexOf(":") + 1),
-                slug: "mirror-of-" + id.slice(id.indexOf(":") + 1),
+                slug: "mirror-of-" + id.slice(id.indexOf(":") + 1)
               };
 
               for (const local in template.locals)
@@ -194,7 +223,7 @@ function mirror(id, callback) {
   });
 }
 
-function buildViews(directory, id, views, callback) {
+function buildViews (directory, id, views, callback) {
   var viewpaths;
 
   viewpaths = fs.readdirSync(directory).map(function (n) {
@@ -224,7 +253,7 @@ function buildViews(directory, id, views, callback) {
       var view = {
         name: viewName,
         content: viewContent,
-        url: "/" + viewName,
+        url: "/" + viewName
       };
 
       if (views && views[view.name]) {
@@ -233,7 +262,7 @@ function buildViews(directory, id, views, callback) {
         view = newView;
       }
 
-      Template.setView(id, view, function onSet(err) {
+      Template.setView(id, view, function onSet (err) {
         if (err) {
           view.content = err.toString();
           Template.setView(id, view, function () {});
@@ -248,7 +277,7 @@ function buildViews(directory, id, views, callback) {
   );
 }
 
-function checkForExtinctTemplates(directory, callback) {
+function checkForExtinctTemplates (directory, callback) {
   var names = fs.readdirSync(directory).map(function (name) {
     return name.toLowerCase();
   });
@@ -281,7 +310,7 @@ function checkForExtinctTemplates(directory, callback) {
   });
 }
 
-function watch(directory) {
+function watch (directory) {
   // Stop the process from exiting automatically
   process.stdin.resume();
   debug("Watching", directory, "for changes...");
@@ -298,7 +327,7 @@ function watch(directory) {
 
   // When chokidar first crawls a directory to watch
   // it fires 'add' events for every file it finds.
-  // We watch until its crawled everything 'ready' 
+  // We watch until its crawled everything 'ready'
   // in order to actually listen to new changes.
   let ready = false;
 
@@ -308,7 +337,6 @@ function watch(directory) {
       ready = true;
     })
     .on("all", (event, path) => {
-
       if (!ready) return;
 
       if (!path) return;
@@ -323,7 +351,7 @@ function watch(directory) {
 
 // Generate list of template names based on the names of
 // directories inside $directory (e.g. ['console', ...])
-function templateDirectories(directory) {
+function templateDirectories (directory) {
   return fs
     .readdirSync(directory)
     .filter(function (name) {
@@ -338,7 +366,7 @@ function templateDirectories(directory) {
     });
 }
 
-function emptyCacheForBlogsUsing(templateID, callback) {
+function emptyCacheForBlogsUsing (templateID, callback) {
   Blog.getAllIDs(function (err, ids) {
     if (err) return callback(err);
     async.eachSeries(

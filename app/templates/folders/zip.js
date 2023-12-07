@@ -1,16 +1,15 @@
 const async = require("async");
 const fs = require("fs-extra");
 const archiver = require("archiver");
+const { blot_directory } = require("config");
 
-const VIEW_DIRECTORY =
-  require("helper/rootDir") + "/app/views/templates";
-
+const VIEW_DIRECTORY = blot_directory + "/app/documentation/data/templates";
 const FOLDER_DIRECTORY = __dirname;
 
-const main = (callback) => {
+const main = callback => {
   const folders = fs
     .readdirSync(FOLDER_DIRECTORY)
-    .filter((i) => i.indexOf(".") === -1);
+    .filter(i => i.indexOf(".") === -1);
 
   fs.ensureDirSync(VIEW_DIRECTORY + "/data");
 
@@ -24,7 +23,7 @@ const main = (callback) => {
       const output = fs.createWriteStream(outputPath);
 
       const archive = archiver("zip", {
-        zlib: { level: 9 }, // Sets the compression level.
+        zlib: { level: 9 } // Sets the compression level.
       });
 
       output.on("close", function () {
@@ -52,6 +51,7 @@ const main = (callback) => {
       // append files from a sub-directory, putting its contents at the root of archive
       archive.directory(FOLDER_DIRECTORY + "/" + folder + "/", false);
 
+      console.log("zipping", folder);
       archive.finalize();
     },
     callback

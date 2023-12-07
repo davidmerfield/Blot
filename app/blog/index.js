@@ -1,8 +1,5 @@
 var renderView = require("./render/middleware");
 var express = require("express");
-var config = require("config");
-var compression = require("compression");
-var cache = require("helper/express-disk-cache")(config.cache_directory);
 var Template = require("models/template");
 var Mustache = require("mustache");
 var fs = require("fs-extra");
@@ -13,13 +10,7 @@ var blog = express();
 
 // Custom domain & subdomain middleware
 // also handles the mapping of preview domains
-blog
-  .disable("x-powered-by")
-  .use(compression())
-  .use(require("./vhosts"))
-  .use(require("./add")());
-
-if (config.cache) blog.use(cache);
+blog.disable("x-powered-by").use(require("./vhosts")).use(require("./add")());
 
 // Only time uncached responses
 // if (config.flags.time_response)
@@ -53,14 +44,14 @@ blog.use(function (req, res, next) {
         "utf-8"
       );
 
-      const errors = Object.keys(metadata.errors).map((view) => {
+      const errors = Object.keys(metadata.errors).map(view => {
         return { view, error: metadata.errors[view] };
       });
 
       const html = Mustache.render(template, {
         errors,
         name: metadata.name,
-        path: metadata.localEditing ? "Templates/" + metadata.slug + '/' : '',
+        path: metadata.localEditing ? "Templates/" + metadata.slug + "/" : ""
       });
 
       return res.status(500).send(html);
@@ -68,7 +59,7 @@ blog.use(function (req, res, next) {
 
     req.template = {
       locals: metadata.locals,
-      id: req.blog.template,
+      id: req.blog.template
     };
 
     return next();

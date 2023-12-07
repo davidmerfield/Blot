@@ -1,5 +1,8 @@
 {
   "name": "Plex Sans",
+  "tags": [
+    "sans"
+  ],
   "stack": "'Plex Sans'",
   "line_height": 1.6,
   "line_width": 39,

@@ -1,9 +1,5 @@
 describe("wikilinks plugin", function () {
-  const build = require("build");
-  const fs = require("fs-extra");
-
-  // Set up a test blog before each test
-  global.test.blog();
+  require("./util/setup")();
 
   it("will convert wikilinks if plugin is enabled", function (done) {
     const contents = "A [[wikilink]]";
@@ -68,7 +64,7 @@ describe("wikilinks plugin", function () {
 
     const files = [
       { path: "/Target’s.md", content: "Link: target\n# Hey" },
-      { path, content: "[[Target’s]]" },
+      { path, content: "[[Target’s]]" }
     ];
 
     const entry = { path, html };
@@ -81,27 +77,26 @@ describe("wikilinks plugin", function () {
 
     const files = [
       { path: "/target.md", content: "Link: target\n# Title" },
-      { path, content: "[[title]]" },
+      { path, content: "[[title]]" }
     ];
 
     const entry = {
       path,
-      html: '<p><a href="/target" title="wikilink">Title</a></p>',
+      html: '<p><a href="/target" title="wikilink">Title</a></p>'
     };
 
     this.syncAndCheck(files, entry, done);
   });
 
   xit("will support media embedding", async function (done) {
-
     await this.blog.write({
       path: "/_Image.png",
-      content: await global.test.fake.pngBuffer(),
+      content: await global.test.fake.pngBuffer()
     });
 
     await this.blog.write({
       path: "/Post.txt",
-      content: "![[_Image.png]]",
+      content: "![[_Image.png]]"
     });
 
     await this.blog.rebuild();
@@ -115,12 +110,12 @@ describe("wikilinks plugin", function () {
 
     const files = [
       { path: "/target.md", content: "Link: target\n# Title" },
-      { path, content: "[[Target]]" },
+      { path, content: "[[Target]]" }
     ];
 
     const entry = {
       path,
-      html: '<p><a href="/target" title="wikilink">Title</a></p>',
+      html: '<p><a href="/target" title="wikilink">Title</a></p>'
     };
 
     this.syncAndCheck(files, entry, done);
@@ -136,7 +131,7 @@ describe("wikilinks plugin", function () {
       "[[/Subdirectory/tArget!file]]",
       "[[/Subdirectory/Target_file]]",
       "[[/Subdirectory/Target file]]",
-      "[[/Subdirectory/Target-file]]",
+      "[[/Subdirectory/Target-file]]"
     ];
     const content = tests.join("\n");
 
@@ -148,13 +143,13 @@ describe("wikilinks plugin", function () {
     const html =
       "<p>" +
       Array.from(Array(tests.length))
-        .map((i) => '<a href="/target" title="wikilink">Target</a>')
+        .map(i => '<a href="/target" title="wikilink">Target</a>')
         .join(" ") +
       "</p>";
 
     const files = [
       { path: linkPath, content: linkContent },
-      { path, content },
+      { path, content }
     ];
 
     const entry = { path, html };
@@ -170,7 +165,7 @@ describe("wikilinks plugin", function () {
 
     const files = [
       { path: "/Target's.md", content: "Link: target\n# Hey" },
-      { path, content: "[[Target's]]" },
+      { path, content: "[[Target's]]" }
     ];
 
     const entry = { path, html };
@@ -201,7 +196,7 @@ describe("wikilinks plugin", function () {
 
     const files = [
       { path: linkPath, content: linkContent },
-      { path, content },
+      { path, content }
     ];
 
     const entry = { path, html };
@@ -209,13 +204,12 @@ describe("wikilinks plugin", function () {
     this.syncAndCheck(files, entry, done);
   });
 
-
   // the linked file is added after the linking file
   it("turns wikilinks into links in reverse order", function (done) {
     const path = "/hello.md";
-    const content = "[[wikilink]]";
+    const content = "[[Wikilink]]";
 
-    const linkPath = "/wikilink.md";
+    const linkPath = "/Wikilink.md";
     const linkContent = "Link: foo\n\nWikilink";
 
     // We know that Blot has worked out which file to link to
@@ -224,7 +218,7 @@ describe("wikilinks plugin", function () {
 
     const files = [
       { path, content },
-      { path: linkPath, content: linkContent },
+      { path: linkPath, content: linkContent }
     ];
 
     const entry = { path, html };
@@ -254,7 +248,7 @@ describe("wikilinks plugin", function () {
       // Absolute path with bad case and extension and without leading slash
       "[[sUb/child/taRget.txt]]",
       // Absolute path with extra slashes and without leading slash
-      "[[Sub//child//Target.txt/]]",
+      "[[Sub//child//Target.txt/]]"
     ];
 
     const content = tests.join("\n");
@@ -267,13 +261,13 @@ describe("wikilinks plugin", function () {
     const html =
       "<p>" +
       Array.from(Array(tests.length))
-        .map((i) => '<a href="/not-target" title="wikilink">Not Target</a>')
+        .map(i => '<a href="/not-target" title="wikilink">Not Target</a>')
         .join(" ") +
       "</p>";
 
     const files = [
       { path: linkPath, content: linkContent },
-      { path, content },
+      { path, content }
     ];
 
     const entry = { path, html };
@@ -299,7 +293,7 @@ describe("wikilinks plugin", function () {
       // Relative path without bad case and dot-slash
       "[[Child/target]]",
       // Relative path without bad case and dot-slash but extension
-      "[[Child/target.md]]",
+      "[[Child/target.md]]"
     ];
     const content = tests.join("\n");
 
@@ -311,13 +305,13 @@ describe("wikilinks plugin", function () {
     const html =
       "<p>" +
       Array.from(Array(tests.length))
-        .map((i) => '<a href="/target" title="wikilink">Target</a>')
+        .map(i => '<a href="/target" title="wikilink">Target</a>')
         .join(" ") +
       "</p>";
 
     const files = [
       { path: linkPath, content: linkContent },
-      { path, content },
+      { path, content }
     ];
 
     const entry = { path, html };
@@ -343,7 +337,7 @@ describe("wikilinks plugin", function () {
       // Relative path with bad case and without dot-slash
       "[[target]]",
       // Relative path without bad case and dot-slash but extension
-      "[[target.md]]",
+      "[[target.md]]"
     ];
     const content = tests.join("\n");
 
@@ -355,13 +349,13 @@ describe("wikilinks plugin", function () {
     const html =
       "<p>" +
       Array.from(Array(tests.length))
-        .map((i) => '<a href="/target" title="wikilink">Target</a>')
+        .map(i => '<a href="/target" title="wikilink">Target</a>')
         .join(" ") +
       "</p>";
 
     const files = [
       { path: linkPath, content: linkContent },
-      { path, content },
+      { path, content }
     ];
 
     const entry = { path, html };
@@ -387,7 +381,7 @@ describe("wikilinks plugin", function () {
       // Relative path with bad case and without dot-slash
       "[[../../Sub/target]]",
       // Relative path without bad case and dot-slash but extension
-      "[[../../Sub/target.md]]",
+      "[[../../Sub/target.md]]"
     ];
     const content = tests.join("\n");
 
@@ -399,13 +393,13 @@ describe("wikilinks plugin", function () {
     const html =
       "<p>" +
       Array.from(Array(tests.length))
-        .map((i) => '<a href="/target" title="wikilink">Target</a>')
+        .map(i => '<a href="/target" title="wikilink">Target</a>')
         .join(" ") +
       "</p>";
 
     const files = [
       { path: linkPath, content: linkContent },
-      { path, content },
+      { path, content }
     ];
 
     const entry = { path, html };
@@ -421,7 +415,7 @@ describe("wikilinks plugin", function () {
     const content = "[[target-of-link]]";
 
     const linkPath = "/target-of-link.md";
-    const linkContent = "Link: foo\n\nWikilink";
+    const linkContent = "Link: foo\nTitle:Wikilink\nHello!";
 
     // We know that Blot has worked out which file to link to
     // because the href is set to foo!
@@ -429,26 +423,11 @@ describe("wikilinks plugin", function () {
 
     const files = [
       { path, content },
-      { path: linkPath, content: linkContent },
+      { path: linkPath, content: linkContent }
     ];
 
     const entry = { path, html, dependencies: ["/target-of-link.md"] };
 
     this.syncAndCheck(files, entry, done);
-  });
-
-  // Expose methods for creating fake files, paths, etc.
-  beforeEach(function () {
-    this.checkEntry = global.test.CheckEntry(this.blog.id);
-    this.syncAndCheck = global.test.SyncAndCheck(this.blog.id);
-    this.fake = global.test.fake;
-    this.buildAndCheck = ({ path, contents }, expectedEntry, cb) => {
-      fs.outputFileSync(this.blogDirectory + path, contents);
-      build(this.blog, path, {}, function (err, entry) {
-        for (let key in expectedEntry)
-          expect(expectedEntry[key]).toEqual(entry[key]);
-        cb();
-      });
-    };
   });
 });

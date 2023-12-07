@@ -41,21 +41,21 @@ dashboard.get("/", function (req, res) {
     res.render(__dirname + "/views/index.html", {
       title: "Git",
       token: token,
-      host: process.env.BLOT_HOST,
+      host: process.env.BLOT_HOST
     });
   });
 });
 
 dashboard.get("/reset-password", function (req, res) {
   res.render(__dirname + "/views/reset-password.html", {
-    title: "Git",
+    title: "Git"
   });
 });
 
 dashboard.get("/disconnect", function (req, res) {
-  res.locals.breadcrumbs.add('Disconnect', 'disconnect');
+  res.locals.breadcrumbs.add("Disconnect", "disconnect");
   res.render(__dirname + "/views/disconnect.html", {
-    title: "Git",
+    title: "Git"
   });
 });
 
@@ -82,16 +82,16 @@ site.use("/end/:gitHandle.git", authenticate);
 // accepted a push but before we've sent the response.
 var activeSyncs = {};
 
-function started(blogID) {
+function started (blogID) {
   if (activeSyncs[blogID] === undefined) activeSyncs[blogID] = 0;
   activeSyncs[blogID]++;
 }
 
-function finished(blogID) {
+function finished (blogID) {
   activeSyncs[blogID]--;
 }
 
-function finishedAllSyncs(blogID) {
+function finishedAllSyncs (blogID) {
   return activeSyncs[blogID] === 0;
 }
 
@@ -115,6 +115,11 @@ repos.on("push", function (push) {
   // seems to be purely a problem for automated use of the git client, humans
   // are unlikely to fire off multiple pushes immediately after the other.
   push.response.on("finish", function () {
+    // I'm not sure what happens to lead to this being invoked
+    // without a request or blog but it do sometimes.
+    if (!push || !push.request || !push.request.blog)
+      return debug("No blog found for push", push);
+
     // Used for testing purposes only
     started(push.request.blog.id);
 

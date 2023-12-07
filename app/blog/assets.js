@@ -5,9 +5,15 @@ const debug = require("debug")("blot:blog:assets");
 const { join, basename, dirname } = require("path");
 const LARGEST_POSSIBLE_MAXAGE = 86400000;
 
+const BANNED_ROUTES = ["/.git"];
+
 module.exports = function (req, res, next) {
   // Not sure if or how this can happen
   if (!req.path) return next();
+
+  if (BANNED_ROUTES.find((route) => req.path.toLowerCase().startsWith(route))) {
+    return next(new Error("Invalid path"));
+  }
 
   // We check to see if the requests path
   // matches a file in the following directories

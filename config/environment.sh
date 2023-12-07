@@ -16,12 +16,8 @@ export BLOT_CACHE_DIRECTORY=
 # Remove these eventually
 export BLOT_PROTOCOL=https
 
-# Postgres configuration
-export BLOT_POSTGRES_USER=postgres
-export BLOT_POSTGRES_HOST=localhost
-export BLOT_POSTGRES_DB=blot
-export BLOT_POSTGRES_PASSWORD=
-export BLOT_POSTGRES_PORT=5432
+# Redis configuration
+export BLOT_REDIS_HOST=127.0.0.1
 
 # Name of linux user who runs the blot server
 export BLOT_USER=
@@ -37,9 +33,6 @@ export BLOT_START=$BLOT_DIRECTORY/scripts/production/start_blot.sh
 export BLOT_MAIN=$BLOT_DIRECTORY/app
 export BLOT_LOG=$BLOT_DIRECTORY/logs/app.log
 
-# Used to take screenshots with Pupeteer
-export PUPPETEER_EXECUTABLE_PATH=
-
 # Admin information
 export BLOT_ADMIN_UID=
 export BLOT_ADMIN_EMAIL=
@@ -47,6 +40,10 @@ export BLOT_ADMIN_EMAIL=
 # Required by node-zopfli library to work on AWS
 # TODO: remove the need for this!
 export LD_LIBRARY_PATH=/usr/local/lib64
+
+# For taking screenshots
+export PUPPETEER_PRODUCT=
+export PUPPETEER_EXECUTABLE_PATH=
 
 #############################################
 #               S E C R E T S               #
@@ -59,6 +56,11 @@ export BLOT_WEBHOOKS_SECRET=
 # Stripe for payment processing
 export BLOT_STRIPE_KEY=
 export BLOT_STRIPE_SECRET=
+
+# Paypal for payment processing
+export BLOT_PAYPAL_CLIENT_ID=
+export BLOT_PAYPAL_SECRET=
+export BLOT_PAYPAL_PLAN_ID=
 
 # Dropbox for folder syncing
 export BLOT_DROPBOX_APP_KEY=

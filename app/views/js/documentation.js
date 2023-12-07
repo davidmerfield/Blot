@@ -1,4 +1,3 @@
-require('./elasticlunr.js');
 require('./search.js');
 require('./instant.page.js');
 require('./tocbot.js');

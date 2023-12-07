@@ -4,7 +4,8 @@
 const async = require("async");
 const debug = require("debug")("blot:clients:local:setup");
 const setup = require("./setup");
-const client = require("redis").createClient();
+const redis = require("models/redis");
+const client = new redis();
 const clfdate = require("helper/clfdate");
 const Blog = require("models/blog");
 const prefix = () => clfdate() + " Local folder client:";

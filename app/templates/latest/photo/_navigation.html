@@ -6,7 +6,13 @@
           <span class="hamburger-inner"></span>
     </span>
   </label>
+
+
   <nav>
+    {{^is.navigation_alignment.justified}}
+    <span class="spacer"></span>
+    {{/is.navigation_alignment.justified}}
+
     {{#menu}}
     <a href="{{{url}}}" class="{{active}}">{{label}}</a>
     {{/menu}}
@@ -21,8 +27,8 @@
     {{#entry}}
     {{^page}}
     <span class="spacer"></span>
-    <a href="{{{next.url}}}">&larr; </a>
-    <a href="{{{previous.url}}}"> &rarr;</a>
+    <a {{#next}}href="{{{next.url}}}"{{/next}}>&larr; </a>
+    <a {{#previous}}href="{{{previous.url}}}"{{/previous}}> &rarr;</a>
     <span class="spacer"></span>
     <a href="/">✕ Close</a>
     {{/page}}

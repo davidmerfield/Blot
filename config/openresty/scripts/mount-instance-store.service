@@ -1,0 +1,10 @@
+[Unit]
+Description=Mount instance store
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/home/ec2-user/scripts/mount-instance-store.sh
+
+[Install]
+WantedBy=multi-user.target

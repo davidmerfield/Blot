@@ -1,13 +1,16 @@
+const config = require("config");
 const Express = require("express");
 const TemplateEditor = new Express.Router();
-const config = require("config");
-const parse = require('dashboard/parse');
+const parse = require("dashboard/parse");
 const formJSON = require("helper/formJSON");
 const Template = require("models/template");
 
 TemplateEditor.param("viewSlug", require("./load/template-views"));
+
 TemplateEditor.param("viewSlug", require("./load/template-view"));
+
 TemplateEditor.param("templateSlug", require("./load/template"));
+
 TemplateEditor.param("templateSlug", function (req, res, next) {
   res.locals.dashboardBase = res.locals.base;
   res.locals.base = `${req.protocol}://${req.hostname}${req.baseUrl}/${req.params.templateSlug}`;
@@ -43,6 +46,7 @@ TemplateEditor.use("/:templateSlug/:section", function (req, res, next) {
 
 TemplateEditor.route("/:templateSlug/settings")
   .all(require("./load/font-inputs"))
+  .all(require("./load/syntax-highlighter"))
   .all(require("./load/color-scheme"))
   .all(require("./load/color-inputs"))
   .all(require("./load/layout-inputs"))
@@ -74,6 +78,7 @@ TemplateEditor.route("/:templateSlug/settings")
       next();
     },
     require("./save/layout-inputs"),
+    require("./save/syntax-highlighter"),
     require("./save/fonts"),
     require("./save/color-scheme"),
     function (req, res, next) {
@@ -135,12 +140,14 @@ TemplateEditor.route("/:templateSlug/rename")
     res.render("template-editor/rename");
   })
   .post(parse, function (req, res, next) {
-    Template.setMetadata(req.template.id, { name: req.body.name }, function (
-      err
-    ) {
-      if (err) return next(err);
-      res.message(res.locals.base + "/settings", "Renamed template!");
-    });
+    Template.setMetadata(
+      req.template.id,
+      { name: req.body.name },
+      function (err) {
+        if (err) return next(err);
+        res.message(res.locals.base + "/settings", "Renamed template!");
+      }
+    );
   });
 
 TemplateEditor.route("/:templateSlug/share")
@@ -151,7 +158,7 @@ TemplateEditor.route("/:templateSlug/share")
 
   .get(function (req, res) {
     res.locals.title = `Share - ${req.template.name}`;
-    res.locals.shareURL = `${config.protocol}${config.host}/settings/template/share/${res.locals.template.shareID}`;
+    res.locals.shareURL = `${req.protocol}://${req.hostname}/dashboard/share-template/${res.locals.template.shareID}`;
     res.render("template-editor/share");
   })
   .post(parse, function (req, res, next) {
@@ -181,7 +188,7 @@ TemplateEditor.route("/:templateSlug/delete")
   .post(function (req, res, next) {
     Template.drop(req.blog.id, req.template.slug, function (err) {
       if (err) return next(err);
-      res.message("/settings/template", "Deleted template!");
+      res.message(res.locals.dashboardBase + "/template", "Deleted template!");
     });
   });
 

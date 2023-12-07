@@ -31,7 +31,7 @@ describe("update", function () {
       items.push({
         oldPath: this.fake.path(".txt"),
         newPath: this.fake.path(".txt"),
-        content: this.fake.file(),
+        content: this.fake.file({title: i + '-' + Date.now()}),
       });
 
     sync(ctx.blog.id, function (err, folder, done) {

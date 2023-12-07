@@ -8,7 +8,7 @@ const lockfile = require("proper-lockfile");
 const type = require("helper/type");
 const messenger = require("./messenger");
 
-function sync(blogID, callback) {
+function sync (blogID, callback) {
   if (!type(callback, "function")) {
     throw new TypeError(
       "Expected callback with type:Function as second argument"
@@ -39,19 +39,21 @@ function sync(blogID, callback) {
     try {
       log("Acquiring lock on folder");
       release = await lockfile.lock(localPath(blogID, "/"), {
+        stale: 20 * 1000, // 20 seconds, Duration in milliseconds in which the lock is considered stale
+        update: 5 * 1000, // 5 seconds, The interval in milliseconds in which the lockfile's mtime will be updated
         retries: {
           retries: 3,
           factor: 2,
           minTimeout: 100,
           maxTimeout: 200,
-          randomize: true,
+          randomize: true
         },
-        onCompromised: (err) => {
+        onCompromised: err => {
           // Log will be prefixed with sync_id and blog.id
           // to help us understand what went wrong...
           log("Lock on folder compromised");
           throw err;
-        },
+        }
       });
       log("Successfully acquired lock on folder");
     } catch (e) {
@@ -59,12 +61,25 @@ function sync(blogID, callback) {
       return callback(new Error("Failed to acquire folder lock"));
     }
 
+    // we want to know if folder.update or folder.rename is called
+    let changes = false;
+    let _update = new Update(blog, log, status);
+    let _rename = Rename(blog, log);
+
     const folder = {
       path: localPath(blogID, "/"),
-      update: new Update(blog, log, status),
-      rename: Rename(blog, log),
+      rename: function () {
+        changes = true;
+        // pass the arguments given to folder.rename to _rename
+        _rename.apply(_rename, arguments);
+      },
+      update: function () {
+        changes = true;
+        // pass the arguments given to folder.update to _update
+        _update.apply(_update, arguments);
+      },
       status,
-      log,
+      log
     };
 
     const timeout = setTimeout(function () {
@@ -116,6 +131,15 @@ function sync(blogID, callback) {
             return callback(err);
           }
 
+          // We could do these next two things in parallel
+          // but it's a little bit of refactoring...
+          log("Releasing lock");
+          await release();
+          clearTimeout(timeout);
+          log("Finished sync");
+
+          if (!changes) return callback(syncError);
+
           const cacheID = Date.now();
 
           // Passing in cacheID manually busts the cache.
@@ -127,17 +151,7 @@ function sync(blogID, callback) {
             if (err) {
               log("Error updating cacheID of blog");
               log("Releasing lock");
-              await release();
-              clearTimeout(timeout);
-              return callback(err);
             }
-
-            // We could do these next two things in parallel
-            // but it's a little bit of refactoring...
-            log("Releasing lock");
-            await release();
-            clearTimeout(timeout);
-            log("Finished sync");
             callback(syncError);
           });
         });

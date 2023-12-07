@@ -9,7 +9,10 @@
     "sticky_navigation": true,
     "infinite_scroll": true,    
     "date_display": "MMMM D, Y",    
-    "body_font": {}
+    "body_font": {},
+    "syntax_highlighter": {
+      "id": "stackoverflow-light"
+    }
   },
   "isPublic": true,
   "views": {

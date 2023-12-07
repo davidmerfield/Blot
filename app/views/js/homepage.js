@@ -25,18 +25,18 @@ var relativeDate = (function(undefined){
       MONTH = YEAR / 12;
 
   var formats = [
-    [ 0.7 * MINUTE, 'just now' ],
-    [ 1.5 * MINUTE, 'a minute ago' ],
+    [ 0.7 * MINUTE, 'A few seconds ago' ],
+    [ 1.5 * MINUTE, '1 minute ago' ],
     [ 60 * MINUTE, 'minutes ago', MINUTE ],
-    [ 1.5 * HOUR, 'an hour ago' ],
+    [ 1.5 * HOUR, '1 hour ago' ],
     [ DAY, 'hours ago', HOUR ],
-    [ 2 * DAY, 'yesterday' ],
+    [ 2 * DAY, '1 day ago' ],
     [ 7 * DAY, 'days ago', DAY ],
-    [ 1.5 * WEEK, 'a week ago'],
+    [ 1.5 * WEEK, '1 week ago'],
     [ MONTH, 'weeks ago', WEEK ],
-    [ 1.5 * MONTH, 'a month ago' ],
+    [ 1.5 * MONTH, '1 month ago' ],
     [ YEAR, 'months ago', MONTH ],
-    [ 1.5 * YEAR, 'a year ago' ],
+    [ 1.5 * YEAR, '1 year ago' ],
     [ Number.MAX_VALUE, 'years ago', YEAR ]
   ];
 

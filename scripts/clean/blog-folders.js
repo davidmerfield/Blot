@@ -1,10 +1,14 @@
 var Blog = require("blog");
 var fs = require("fs-extra");
-var BLOGS_DIRECTORY = require("helper/rootDir") + "/blogs";
+var BLOGS_DIRECTORY = require("config").blog_folder_dir;
+var STATIC_DIRECTORY = require("config").blog_static_files_dir;
+
 var tmp = require("helper/tempDir")();
 var async = require("async");
 var yesno = require("yesno");
 var colors = require("colors/safe");
+const { blog_folder_dir } = require("../../config");
+const stat = require("../../app/dashboard/folder/stat");
 
 if (require.main === module)
   main(function (err) {
@@ -15,38 +19,52 @@ if (require.main === module)
 function main(callback) {
   Blog.getAllIDs(function (err, ids) {
     if (err) return callback(err);
-    fs.readdir(BLOGS_DIRECTORY, function (err, items) {
-      if (err) return callback(err);
 
-      var missingFolders = ids.filter(function (id) {
-        return items.indexOf(id) === -1;
-      });
+    const blogs_directory_contents = fs.readdirSync(BLOGS_DIRECTORY);
+    const static_directory_contents = fs.readdirSync(STATIC_DIRECTORY);
 
-      var strayFolders = items.filter(function (item) {
-        return ids.indexOf(item) === -1;
-      });
+    const strayFolders = [];
 
-      console.log("Missing folders:", missingFolders.length);
-      console.log("Stray items:", strayFolders.length);
-      async.eachSeries(
-        strayFolders,
-        function (strayFolderName, next) {
-          var from = BLOGS_DIRECTORY + "/" + strayFolderName;
-          var to = tmp + strayFolderName;
-          yesno.ask(
-            "Move " +
-              strayFolderName +
-              "?" +
-              colors.dim("\nFrom: " + from + "\n. To: " + to),
-            true,
-            function (ok) {
-              if (!ok) return next();
-              fs.move(from, to, next);
-            }
-          );
-        },
-        callback
-      );
+    blogs_directory_contents.forEach((folder) => {
+      if (folder.endsWith(".lock")) return;
+
+      if (!ids.includes(folder))
+        strayFolders.push({
+          from: BLOGS_DIRECTORY + "/" + folder,
+          to: tmp + folder,
+        });
     });
+
+    static_directory_contents.forEach((folder) => {
+      if (folder.endsWith(".lock")) return;
+
+      if (!ids.includes(folder))
+        strayFolders.push({
+          from: STATIC_DIRECTORY + "/" + folder,
+          to: tmp + folder,
+        });
+    });
+
+    console.log(
+      `There are ${strayFolders.length} folders without a corresponding blog in the db`
+    );
+
+    console.log(strayFolders);
+
+    async.eachSeries(
+      strayFolders,
+      function ({ from, to }, next) {
+        yesno.ask(
+          "Move?" + colors.dim("\nFrom: " + from + "\n. To: " + to),
+          true,
+          function (ok) {
+            if (!ok) return next();
+            console.log("Moving");
+            fs.move(from, to, next);
+          }
+        );
+      },
+      callback
+    );
   });
 }

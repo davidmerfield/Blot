@@ -15,7 +15,7 @@
     <div style="flex-grow: 1"></div>
     <a href="/questions/{{id}}/edit">
 
-  <span class="secondary-text smaller" >Asked <span date-from-now="{{askedDateStamp}}">{{asked}}</span> &#8226; </span> 
+  <span class="secondary-text smaller" >Asked <span date-from-now="{{last_reply_created_at}}">{{time}}</span> &#8226; </span> 
     <span class="secondary-text smaller" >Improve this question</span>
 
   </a>
@@ -32,7 +32,7 @@
 {{#topics}}
 <div class="qa-item-container">
     {{{body}}}
-    <span class="secondary-text smaller">Answered <span date-from-now="{{answeredDateStamp}}">{{answered}}</span> · </span> 
+    <span class="secondary-text smaller">Answered <span date-from-now="{{created_at}}">{{time}}</span> · </span> 
     <a class="secondary-text smaller" href="/questions/{{id}}/edit">Improve this answer</a>
 </div>
 {{/topics}}

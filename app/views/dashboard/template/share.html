@@ -1,12 +1,21 @@
 <form method="POST">
+  <p>
+    Would you like to add
+    {{#template}}
+    <b>{{ name }}</b>
+    {{/template}} to your list of templates?
+  </p>
 
-  <p>Would you like to add
-  {{#template}}
-  <b>{{name}}</b>
-  {{/template}} to your list of templates?</p>
+  <!-- allow the user to select one or more of their blogs using checkboxes -->
+  <label for="blogs">Select a blog</label>
+  <select name="blog" id="blog">
+    {{#blogs}}
+    <option value="{{ id }}">{{ title }}</option>
+    {{/blogs}}
+  </select>
 
- <div class="buttons">
+  <div class="buttons">
     <button type="submit">Add template</button>
-    <a href="{{{base}}}">Cancel</a>
+    <a href="/dashboard">Cancel</a>
   </div>
 </form>

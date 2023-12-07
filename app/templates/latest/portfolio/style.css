@@ -6,6 +6,7 @@ on the services page of the dashboard */
 to load which font is selected as the main body font */
 {{{body_font.styles}}}
 {{{coding_font.styles}}}
+{{{syntax_highlighter.styles}}}
 
 html {
   {{#body_font}}

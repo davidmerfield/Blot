@@ -1,9 +1,17 @@
 <iframe
-	style="border:none;flex-grow:1;flex-basis:50%;    box-shadow:  0 -1px 1px #000;height:100vh;background:{{template.locals.background_color}}"
+	style="border:none;flex-grow:1;flex-basis:50%;    box-shadow:  0 -1px 1px #000;height:96vh;margin:2vh;background:{{template.locals.background_color}}"
 	src="{{{preview}}}"
 ></iframe>
 <script type="text/javascript">
 var content = document.querySelector("iframe");
+
+var doc = document.querySelector('iframe').contentWindow.document;
+
+// we can use this to steam changes to CSS properties to the iframe
+var scriptObj = doc.createElement("script");
+scriptObj.type = "text/javascript";
+scriptObj.innerHTML = 'console.log("test");';
+doc.body.appendChild(scriptObj);
 
 // Listen to messages sent from the iframe which contains
 // the preview of the template. We inject the script

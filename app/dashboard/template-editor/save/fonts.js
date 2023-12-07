@@ -15,6 +15,10 @@ module.exports = function (req, res, next) {
       });
       for (let prop in match)
         req.locals[key][prop] = req.locals[key][prop] || match[prop];
+
+      // we don't need these in the template
+      delete req.locals[key].svg;
+      delete req.locals[key].tags;
     }
   }
 

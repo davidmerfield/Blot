@@ -2,21 +2,19 @@ var hogan = require("helper/express-mustache");
 var trace = require("helper/trace");
 const root = require("helper/rootDir");
 const { join } = require("path");
-var VIEW_DIRECTORY = join(root, "app/views/dashboard");
+var VIEW_DIRECTORY = join(root, "app/documentation/data/dashboard");
 var config = require("config");
 const { static } = require("express");
 var express = require("express");
 const message = require("./message");
+const hash = require("helper/hash");
+const fs = require("fs");
+const { blot_directory } = require("config");
 
 // This is the express application used by a
 // customer to control the settings and view
 // the state of the blog's folder
 var dashboard = express();
-
-// Serve static files
-for (const path of ["/css", "/images", "/scripts"]) {
-  dashboard.use(path, static(join(VIEW_DIRECTORY, path), { maxAge: 86400000 }));
-}
 
 // Hide the header added by Express
 dashboard.disable("x-powered-by");
@@ -24,7 +22,8 @@ dashboard.disable("x-powered-by");
 // Without trust proxy is not set, express
 //  will incorrectly register the proxy’s IP address
 // as the client IP address unless trust proxy is configured.
-dashboard.set("trust proxy", "loopback");
+// Trusts secure requests terminated by NGINX, as far as I know
+dashboard.set("trust proxy", ["loopback", ...config.reverse_proxies]);
 
 // Register the engine we will use to
 // render the views.
@@ -38,10 +37,27 @@ dashboard.locals.interval = plan.startsWith("monthly") ? "month" : "year";
 
 const cacheID = Date.now();
 
-dashboard.locals.cdn = () => (text, render) =>
-  `${config.cdn.origin}/documentation/${
-    config.cache ? cacheID : Date.now()
-  }${render(text)}`;
+dashboard.locals.cdn = () => (text, render) => {
+  const path = render(text);
+  const extension = path.split(".").pop();
+
+  let identifier = "cacheID=" + cacheID;
+
+  try {
+    const contents = fs.readFileSync(
+      join(blot_directory, "/app/views", path),
+      "utf8"
+    );
+    identifier = "hash=" + hash(contents);
+  } catch (e) {
+    // if the file doesn't exist, we'll use the cacheID
+  }
+
+  const query = `?${identifier}&ext=.${extension}`;
+  const url = `${path}${query}`;
+
+  return url;
+};
 
 // For when we want to cache templates
 if (config.environment !== "development") {
@@ -107,8 +123,16 @@ dashboard.use(trace("checked redirects"));
 
 dashboard.use(require("./breadcrumbs"));
 
-// This needs to be before ':handle'
+dashboard.use("/stats", require("./stats"));
+
+// These need to be before ':handle'
 dashboard.use("/account", require("./account"));
+
+dashboard.use(
+  "/share-template",
+  require("./load-blogs"),
+  require("./share-template")
+);
 
 // Redirect old URLS
 dashboard.use("/settings", require("./load-blogs"), function (req, res, next) {
@@ -216,7 +240,7 @@ dashboard.use(function (err, req, res, next) {
 
   if (config.environment === "development") {
     res.locals.error = {
-      stack: err.stack,
+      stack: err.stack
     };
   }
 

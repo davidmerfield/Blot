@@ -1,5 +1,8 @@
 {
   "name": "Fira Sans",
+  "tags": [
+    "sans"
+  ],
   "stack": "'Fira Sans'",
   "line_height": 1.615,
   "line_width": 39,

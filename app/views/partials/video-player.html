@@ -6,7 +6,10 @@
   <a href="/" class="close"><svg xmlns="http://www.w3.org/2000/svg" width="49.328" height="52.4" direction="ltr" xmlns:v="https://vecta.io/nano"><path stroke="#fff" fill="#fff" d="M24.664 47.029c11.451 0 20.818-9.367 20.818-20.84 0-11.451-9.367-20.818-20.818-20.818S3.846 14.738 3.846 26.189c0 11.473 9.367 20.84 20.818 20.84zm0-1.053c-10.893 0-19.766-8.873-19.766-19.787 0-10.893 8.873-19.766 19.766-19.766 10.914 0 19.766 8.873 19.766 19.766 0 10.914-8.852 19.787-19.766 19.787zm-7.82-11.344c.215 0 .322-.043.516-.236l7.305-7.326 7.326 7.326c.193.193.322.236.494.236.344 0 .623-.236.623-.559 0-.172-.064-.322-.215-.473l-7.369-7.369 7.369-7.369c.15-.172.215-.301.215-.494 0-.322-.279-.559-.623-.559-.172 0-.322.064-.494.258l-7.326 7.305-7.305-7.305c-.193-.193-.301-.258-.516-.258-.344 0-.602.236-.602.559a.66.66 0 0 0 .193.494l7.391 7.369-7.391 7.369c-.15.15-.193.301-.193.473 0 .322.258.559.602.559z"/></svg></a>
 
   <video id="player" playsinline controls>
-    <source src="{{#cdn}}/videos/publishing-with-blot.mp4{{/cdn}}" type="video/mp4" />
+    <!-- this query string is added so that express-disk-cache does not try to store
+          the partially streamed file on disk in the cache directory. Instead, nginx
+        will deliver it directly -->
+    <source src="/videos/publishing-with-blot.mp4?cache=false" type="video/mp4" />
   </video>
 </overlay>
 

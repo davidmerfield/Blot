@@ -2,47 +2,27 @@ const config = require("config");
 const Express = require("express");
 const documentation = new Express();
 const hogan = require("helper/express-mustache");
-const Cache = require("helper/express-disk-cache");
-const cache = new Cache(config.cache_directory, { minify: true, gzip: true });
 const fs = require("fs-extra");
+const mustache = require("helper/express-mustache");
 const redirector = require("./redirector");
-const trace = require("helper/trace");
 
-const root = require("helper/rootDir");
+const hash = require("helper/hash");
 const { join } = require("path");
-const VIEW_DIRECTORY = join(root, "app/views");
+const VIEW_DIRECTORY = __dirname + "/data";
 
-// Register the engine we will use to
-// render the views.
 documentation.set("view engine", "html");
 documentation.set("views", VIEW_DIRECTORY);
-documentation.engine("html", hogan);
+documentation.engine("html", mustache);
 documentation.disable("x-powered-by");
-
-// .on("add", function (path) {
-// })
-// .on("ready", function () {
-//   walked = true;
-// });
-
-documentation.set("transformers", [
-  require("./tools/typeset"),
-  require("./tools/anchor-links"),
-  require("./tools/tex"),
-  require("./tools/finder").html_parser,
-]);
 
 documentation.set("etag", false); // turn off etags for responses
 
-if (config.cache === false) {
-  // During development we want views to reload as we edit
+// During development we want views to reload as we edit
+if (config.environment === "development") {
   documentation.disable("view cache");
 } else {
   documentation.enable("view cache");
 }
-
-// This will store responses to disk for NGINX to serve
-documentation.use(cache);
 
 const { plan } = config.stripe;
 
@@ -54,58 +34,24 @@ documentation.locals.interval = plan.startsWith("monthly") ? "month" : "year";
 
 let cacheID = Date.now();
 
-documentation.locals.cdn = () => (text, render) =>
-  `${config.cdn.origin}/documentation/${cacheID}${render(text)}`;
+documentation.locals.cdn = () => (text, render) => {
+  const path = render(text);
+  const extension = path.split(".").pop();
 
-if (config.environment === "development") {
-  const chokidar = require("chokidar");
-  const watcher = chokidar.watch(VIEW_DIRECTORY, { cwd: VIEW_DIRECTORY });
-  const insecureRequest = require("./tools/insecure-request");
+  let identifier = "cacheID=" + cacheID;
 
-  // Flags to prevent locking up the server by doing this too many times
-  let flushing = false;
-  let again = false;
+  try {
+    const contents = fs.readFileSync(join(VIEW_DIRECTORY, path), "utf8");
+    identifier = "hash=" + hash(contents);
+  } catch (e) {
+    // if the file doesn't exist, we'll use the cacheID
+  }
 
-  watcher.on("change", async function flush(path) {
-    if (flushing) {
-      again = true;
-      return;
-    }
+  const query = `?${identifier}&ext=.${extension}`;
+  const url = `${path}${query}`;
 
-    flushing = true;
-
-    cache.flush({ host: config.host }, (err) => console.log(err));
-    cacheID = Date.now();
-
-    insecureRequest(
-      `https://${config.host}/cdn/documentation/${cacheID}/style.min.css`
-    );
-    insecureRequest(
-      `https://${config.host}/cdn/documentation/${cacheID}/documentation.min.js`
-    );
-
-    let urlPath;
-
-    if (path.endsWith(".html")) {
-      urlPath = "/" + path.slice(0, -".html".length);
-      if (urlPath.endsWith("index"))
-        urlPath = urlPath.slice(0, -"index".length);
-    }
-
-    if (urlPath) {
-      const url = `https://${config.host}${urlPath}`;
-
-      insecureRequest(url);
-    }
-
-    flushing = false;
-
-    if (again) {
-      again = false;
-      flush();
-    }
-  });
-}
+  return url;
+};
 
 documentation.get(["/how/format/*"], function (req, res, next) {
   res.locals["show-on-this-page"] = true;
@@ -116,7 +62,7 @@ const files = [
   "/favicon-180x180.png",
   "/favicon-32x32.png",
   "/favicon-16x16.png",
-  "/favicon.ico",
+  "/favicon.ico"
 ];
 
 for (const path of files) {
@@ -125,10 +71,19 @@ for (const path of files) {
       lastModified: false, // do not send Last-Modified header
       maxAge: 86400000, // cache forever
       acceptRanges: false, // do not allow ranged requests
-      immutable: true, // the file will not change
+      immutable: true // the file will not change
     })
   );
 }
+
+// serve the VIEW_DIRECTORY as static files
+documentation.use(
+  Express.static(VIEW_DIRECTORY, {
+    index: false, // Without 'index: false' this will server the index.html files inside
+    redirect: false, // Without 'redirect: false' this will redirect URLs to existent directories
+    maxAge: 86400000 // cache forever
+  })
+);
 
 const directories = ["/fonts", "/css", "/images", "/js", "/videos"];
 
@@ -138,7 +93,7 @@ for (const path of directories) {
     Express.static(VIEW_DIRECTORY + path, {
       index: false, // Without 'index: false' this will server the index.html files inside
       redirect: false, // Without 'redirect: false' this will redirect URLs to existent directories
-      maxAge: 86400000,
+      maxAge: 86400000 // cache forever
     })
   );
 }
@@ -157,6 +112,8 @@ documentation.get(
     next();
   }
 );
+
+documentation.use("/search", require("./search"));
 
 // Adds a handy 'edit this page' link
 documentation.use(
@@ -195,7 +152,7 @@ documentation.use("/about/news", require("./news"));
 
 documentation.use("/questions", require("./questions"));
 
-function trimLeadingAndTrailingSlash(str) {
+function trimLeadingAndTrailingSlash (str) {
   if (!str) return str;
   if (str[0] === "/") str = str.slice(1);
   if (str[str.length - 1] === "/") str = str.slice(0, -1);

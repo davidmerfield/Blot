@@ -40,6 +40,15 @@ module.exports = function (req, res, _next) {
     var blogID = blog.id;
     var templateID = req.template.id;
 
+    // We have a special case for Cloudflare
+    // because some of their SSL settings insist on fetching
+    // from the origin server (in this case Blot) over HTTP
+    // which causes mixed-content warnings.
+    var fromCloudflare =
+      Object.keys(req.headers || {})
+        .map((key) => key.trim().toLowerCase())
+        .find((key) => key.startsWith("cf-")) !== undefined;
+
     if (callback) callback = callOnce(callback);
 
     Template.getFullView(blogID, templateID, name, function (err, response) {
@@ -131,6 +140,7 @@ module.exports = function (req, res, _next) {
             if (
               viewType.indexOf("text/") > -1 &&
               req.protocol === "http" &&
+              fromCloudflare === false &&
               output.indexOf(config.cdn.origin) > -1
             )
               output = output

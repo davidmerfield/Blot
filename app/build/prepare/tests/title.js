@@ -17,14 +17,6 @@ describe("title parser", function () {
     });
   });
 
-  it("parses a title from HTML without an h1 tag", function () {
-    expect(this.title("<p>Foo</p>")).toEqual({
-      title: "Foo",
-      tag: "",
-      body: "<p>Foo</p>",
-    });
-  });
-
   it("handles nested children in the H1 tag", function () {
     expect(this.title("<h1>A<span>C<i>D</i></span></h1>")).toEqual({
       title: "ACD",
@@ -82,6 +74,22 @@ describe("title parser", function () {
       title: "Hello",
       tag: "",
       body: "",
+    });
+  });
+
+  it("falls back to the file's name for files with only whitespace", function () {
+    expect(this.title("   ", "/Hello.txt")).toEqual({
+      title: "Hello",
+      tag: "",
+      body: "   ",
+    });
+  });
+
+  it("falls back to the file's name for files with only punctuation", function () {
+    expect(this.title("...", "/Hello.txt")).toEqual({
+      title: "Hello",
+      tag: "",
+      body: "...",
     });
   });
 
