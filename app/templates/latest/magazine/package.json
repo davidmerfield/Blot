@@ -21,9 +21,6 @@
     "tags.html": {
       "url": "/tags"
     },
-    "js-barbra.js": {
-      "url": "/js-barba.js"
-    },
     "archives.html": {
       "url": "/archives",
       "partials": {
