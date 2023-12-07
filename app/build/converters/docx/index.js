@@ -13,15 +13,15 @@ var Pandoc = config.pandoc.bin;
 var hash = require("helper/hash");
 var tempDir = require("helper/tempDir");
 
-function is(path) {
+function is (path) {
   return [".docx"].indexOf(extname(path).toLowerCase()) > -1;
 }
 
-function TempDir() {
+function TempDir () {
   return tempDir() + makeUid(20);
 }
 
-function read(blog, path, options, callback) {
+function read (blog, path, options, callback) {
   ensure(blog, "object")
     .and(path, "string")
     .and(options, "object")
@@ -57,148 +57,156 @@ function read(blog, path, options, callback) {
         // memory in corner cases
         "+RTS",
         "-M" + config.pandoc.maxmemory,
-        " -RTS",
+        " -RTS"
       ].join(" ");
 
       var startTime = Date.now();
-      exec(Pandoc + " " + args, { timeout: config.pandoc.timeout }, function (
-        err,
-        stdout,
-        stderr
-      ) {
-        if (err) {
-          return callback(
-            new Error(
-              "Pandoc exited in " +
-                (Date.now() - startTime) +
-                "ms (timeout=" + config.pandoc.timeout + "ms) with: " +
-                err +
-                " and message " +
-                stderr
-            )
-          );
-        }
-
-        fs.readFile(outPath, "utf-8", function (err, html) {
-          var $ = cheerio.load(html, { decodeEntities: false });
-
-          // all p that contain possible metadata are checked until one is encountered that does not
-          // p that are entirely bold are turned into h tags
-          // first p that is entirely bold is h1, next are all h2
-
-          var metadata = {};
-
-          $("p").each(function (i) {
-            if ($(this).children().length) return false;
-
-            if (i === 0 && $(this).prev().length) {
-              return false;
-            }
-
-            var text = $(this).text();
-
-            if (text.indexOf(":") === -1) return false;
-
-            var key = text.slice(0, text.indexOf(":"));
-
-            // Key has space
-            if (/\s/.test(key.trim())) return false;
-
-            var parsed = Metadata(text);
-
-            if (parsed.html === text) return false;
-
-            extend(metadata).and(parsed.metadata);
-
-            $(this).remove();
-          });
-
-          var titleTag = $("header h1");
-
-          $("header").replaceWith(titleTag);
-
-          // remove all <mark>tags but move their content to the parent
-          // there's strange behaviour with google docs export
-          // https://github.com/jgm/pandoc/issues/8923
-          $("mark").each(function () {
-            $(this).replaceWith($(this).html());
-          });
-
-          // find titles
-          // this is possibly? span id="h.ulrsxjddh07w" class="anchor">
-          $("p").each(function () {
-            var text = $(this).text();
-            var strong = $(this).find("strong");
-            var strongText = strong.text();
-            var children = $(this).children();
-            var hasH1 = $("body h1").length;
-
-            if (
-              children.length === 1 &&
-              text &&
-              strongText &&
-              text === strongText
-            ) {
-              var title = $("<h1>");
-
-              if (hasH1) title = $("<h2>");
-
-              title.html(strong.html());
-
-              $(this).replaceWith(title);
-            }
-          });
-
-          $("a").each(function () {
-            var text = $(this).text();
-            var em = $(this).find("em");
-            var emText = em.text();
-            var children = $(this).children();
-
-            if (children.length === 1 && text && emText && text === emText)
-              $(this).html(em.html());
-          });
-
-          $("li").each(function () {
-            var text = $(this).text();
-            var blockquote = $(this).find("blockquote");
-            var blockquoteText = blockquote.text();
-            var children = $(this).children();
-
-            if (
-              children.length === 1 &&
-              text &&
-              blockquoteText &&
-              text === blockquoteText
-            )
-              $(this).html(blockquote.html());
-          });
-
-          // fix image links etc...
-
-          $("img").each(function () {
-            var src = $(this).attr("src");
-
-            if (src.indexOf(blogDir) === 0)
-              $(this).attr("src", src.slice(blogDir.length));
-          });
-
-          html = $("body").html().trim();
-
-          var metadataString = "<!--";
-
-          for (var i in metadata)
-            metadataString += "\n" + i + ": " + metadata[i];
-
-          if (metadataString !== "<!--") {
-            metadataString += "\n-->\n";
-            html = metadataString + html;
+      exec(
+        Pandoc + " " + args,
+        { timeout: config.pandoc.timeout },
+        function (err, stdout, stderr) {
+          if (err) {
+            return callback(
+              new Error(
+                "Pandoc exited in " +
+                  (Date.now() - startTime) +
+                  "ms (timeout=" +
+                  config.pandoc.timeout +
+                  "ms) with: " +
+                  err +
+                  " and message " +
+                  stderr
+              )
+            );
           }
 
-          callback(null, html, stat);
-          fs.remove(outPath, function (err) {});
-        });
-      });
+          fs.readFile(outPath, "utf-8", function (err, html) {
+            var $ = cheerio.load(html, { decodeEntities: false });
+
+            // all p that contain possible metadata are checked until one is encountered that does not
+            // p that are entirely bold are turned into h tags
+            // first p that is entirely bold is h1, next are all h2
+
+            var metadata = {};
+
+            $("p").each(function (i) {
+              if ($(this).children().length) return false;
+
+              if (i === 0 && $(this).prev().length) {
+                return false;
+              }
+
+              var text = $(this).text();
+
+              if (text.indexOf(":") === -1) return false;
+
+              var key = text.slice(0, text.indexOf(":"));
+
+              // Key has space
+              if (/\s/.test(key.trim())) return false;
+
+              var parsed = Metadata(text);
+
+              if (parsed.html === text) return false;
+
+              extend(metadata).and(parsed.metadata);
+
+              $(this).remove();
+            });
+
+            var titleTag = $("header h1");
+
+            $("header").replaceWith(titleTag);
+
+            // remove all <mark>tags but move their content to the parent
+            // there's strange behaviour with google docs export
+            // https://github.com/jgm/pandoc/issues/8923
+            $("mark").each(function () {
+              $(this).replaceWith($(this).html());
+            });
+
+            // find titles
+            // this is possibly? span id="h.ulrsxjddh07w" class="anchor">
+            $("p").each(function () {
+              var text = $(this).text();
+              var strong = $(this).find("strong");
+              var strongText = strong.text();
+              var children = $(this).children();
+              var hasH1 = $("body h1").length;
+
+              if (
+                children.length === 1 &&
+                text &&
+                strongText &&
+                text === strongText
+              ) {
+                var title = $("<h1>");
+
+                if (hasH1) title = $("<h2>");
+
+                title.html(strong.html());
+
+                $(this).replaceWith(title);
+              }
+            });
+
+            $("a").each(function () {
+              var text = $(this).text();
+              var em = $(this).find("em");
+              var emText = em.text();
+              var children = $(this).children();
+
+              if (children.length === 1 && text && emText && text === emText)
+                $(this).html(em.html());
+            });
+
+            $("li").each(function () {
+              var text = $(this).text();
+              var blockquote = $(this).find("blockquote");
+              var blockquoteText = blockquote.text();
+              var children = $(this).children();
+
+              if (
+                children.length === 1 &&
+                text &&
+                blockquoteText &&
+                text === blockquoteText
+              )
+                $(this).html(blockquote.html());
+            });
+
+            // fix image links etc...
+
+            $("img").each(function () {
+              var src = $(this).attr("src");
+
+              if (src.indexOf(blogDir) === 0)
+                $(this).attr("src", src.slice(blogDir.length));
+
+              // remove the alt attribute if it equals 'Image'
+              if ($(this).attr("alt") === "Image") $(this).removeAttr("alt");
+
+              // strip the style attribute
+              $(this).removeAttr("style");
+            });
+
+            html = $("body").html().trim();
+
+            var metadataString = "<!--";
+
+            for (var i in metadata)
+              metadataString += "\n" + i + ": " + metadata[i];
+
+            if (metadataString !== "<!--") {
+              metadataString += "\n-->\n";
+              html = metadataString + html;
+            }
+
+            callback(null, html, stat);
+            fs.remove(outPath, function (err) {});
+          });
+        }
+      );
     });
   });
 }
