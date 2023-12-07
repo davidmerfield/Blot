@@ -76,7 +76,6 @@ TemplateEditor.route("/:templateSlug/settings")
         // overwriting the entire object
         if (typeof locals[key] === "object") {
           for (let prop in newLocals[key]) {
-            console.log("setting", key, prop, newLocals[key][prop]);
             locals[key][prop] = newLocals[key][prop];
           }
         } else {
