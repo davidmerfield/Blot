@@ -10,17 +10,17 @@ on the services page of the dashboard
 /* Will be replaced with the @font-face rules required
 to load whichever fonts are selected. Duplicates should
 be caught my the CSS minifier */
-{{{body_font.styles}}}
+{{{font.styles}}}
 {{{navigation_font.styles}}}
-{{{coding_font.styles}}}
+{{{syntax_highlighter_font.styles}}}
 {{{syntax_highlighter.styles}}}
 
 html {
-  {{#body_font}}
+  {{#font}}
   font-family: {{{stack}}};
   font-size: {{{font_size}}}px;
   line-height: {{{line_height}}};
-  {{/body_font}}
+  {{/font}}
   text-rendering: optimizeLegibility;
   
 }
@@ -75,12 +75,12 @@ div {
   line-height: {{{line_height}}};
   {{/navigation_font}}
   padding: 2em 0;
-  {{#header_background_color}}
-  background: {{header_background_color}};
-  {{/header_background_color}}
-  {{^header_background_color}}
+  {{#navigation_background_color}}
+  background: {{navigation_background_color}};
+  {{/navigation_background_color}}
+  {{^navigation_background_color}}
   background: {{background_color}};
-  {{/header_background_color}}
+  {{/navigation_background_color}}
   box-sizing: border-box;
   z-index: 100;
 }
@@ -314,7 +314,7 @@ hr {width: 100%;opacity:0.1;margin: 24px auto -1px;border: none;border-bottom: 3
 /* CODE */
 
 code {
-  font-family: {{{coding_font.stack}}};
+  font-family: {{{syntax_highlighter_font.stack}}};
   margin: 0;
   font-size: 0.85em;
   background: rgba(0,0,0,.03);
