@@ -90,9 +90,9 @@ TemplateEditor.route("/:templateSlug/settings")
 
       next();
     },
+    require("./save/fonts"),
     require("./save/layout-inputs"),
     require("./save/syntax-highlighter"),
-    require("./save/fonts"),
     function (req, res, next) {
       Template.update(
         req.blog.id,

@@ -4,7 +4,7 @@ const config = require("config");
 
 module.exports = function (req, res, next) {
   for (let key in req.locals) {
-    if (key.indexOf("_font") === -1) continue;
+    if (!key.includes("_font") && key !== "font") continue;
 
     let match = FONTS.slice().filter(({ id }) => req.locals[key].id === id)[0];
 
