@@ -1,57 +1,57 @@
-		<h2>{{label}}</h2>
-		<style type="text/css">
+<h2>{{label}}</h2>
+<style type="text/css">
 			
-			form svg {height: 1.5em;display: block;}
-			[for="showpicker{{key}}"]:hover {background: #fff}
+form svg {height: 1.5em;display: block;}
+[for="showpicker{{key}}"]:hover {background: #fff}
 [name="showpicker{{key}}"]:checked + .options {display: block;}
-			.options {display: none;margin:0.5em;border:1px solid #aaa;user-select: none;}
-			
-			label[for="showpicker{{key}}"] {padding:0.333em 1em;cursor: pointer;position:relative;border-bottom: 1px solid #ddd;display: block;margin:0;user-select: none;}
+.options {display: none;margin:0.5em;border:1px solid #aaa;user-select: none;}
 
-			label[for="showpicker{{key}}"]:after{
-				content: "";
-				width: 1em;
-				height: 1em;
-				position: absolute;
-				top:50%;
-				margin-top: -0.5em;
-				right:1em;
-				background:  url('data:image/svg+xml;utf8,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22utf-8%22%3F%3E%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2043.764%2030.594%22%3E%3Cpath%20stroke%3D%22%23000%22%20d%3D%22M21.871%2024.621c.236%200%20.408-.172.602-.365L38.092%206.875c.107-.129.193-.215.193-.365%200-.301-.236-.537-.537-.537a.644.644%200%200%200-.387.129l-15.468%2017.23L6.359%206.102c-.064-.086-.236-.13-.365-.13a.528.528%200%200%200-.515.538c0%20.15.107.258.214.386L21.27%2024.3c.193.172.343.322.601.322Z%22%2F%3E%3C%2Fsvg%3E') no-repeat 1rem center;
-				background-size: 1em;
-			}
+label[for="showpicker{{key}}"] {padding:0.333em 1em;cursor: pointer;position:relative;border-bottom: 1px solid #ddd;display: block;margin:0;user-select: none;}
 
-			.filters {
-				font-size:12px;
-				padding:0.15em 0.5em;user-select: none;
-			}
-			.filters label {
-				border-radius: 10px;padding: 0.15em 0.5em;
-				cursor: pointer;
-				color:#666;
-			}
-			[id="showall{{key}}"]:checked ~
-			.options label[for="showall{{key}}"],
-			[id="showsans{{key}}"]:checked ~
-			.options label[for="showsans{{key}}"],
-			[id="showother{{key}}"]:checked ~
-			.options label[for="showother{{key}}"],
-			[id="showmono{{key}}"]:checked ~
-			.options label[for="showmono{{key}}"],
-			[id="showserif{{key}}"]:checked ~
-			.options label[for="showserif{{key}}"] {background: #e0e0e0;}
+label[for="showpicker{{key}}"]:after{
+	content: "";
+	width: 1em;
+	height: 1em;
+	position: absolute;
+	top:50%;
+	margin-top: -0.5em;
+	right:1em;
+	background:  url('data:image/svg+xml;utf8,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22utf-8%22%3F%3E%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2043.764%2030.594%22%3E%3Cpath%20stroke%3D%22%23000%22%20d%3D%22M21.871%2024.621c.236%200%20.408-.172.602-.365L38.092%206.875c.107-.129.193-.215.193-.365%200-.301-.236-.537-.537-.537a.644.644%200%200%200-.387.129l-15.468%2017.23L6.359%206.102c-.064-.086-.236-.13-.365-.13a.528.528%200%200%200-.515.538c0%20.15.107.258.214.386L21.27%2024.3c.193.172.343.322.601.322Z%22%2F%3E%3C%2Fsvg%3E') no-repeat 1rem center;
+	background-size: 1em;
+}
 
-			[id="showsans{{key}}"]:checked ~
-			 .options button:not([data-tag="sans"]),
-			[id="showmono{{key}}"]:checked ~
-			 .options button:not([data-tag="mono"]),
-			[id="showother{{key}}"]:checked ~
-			 .options button:not([data-tag="other"]),
-			[id="showserif{{key}}"]:checked ~
-			 .options button:not([data-tag="serif"]) {display: none;}
-			 .options button {
-			 	width: 100%;
-			 	text-align:left;margin:0;border-radius:0;border:none;outline:none;background:#fafafa;border-top: 1px solid #ddd;padding:0.333em 0.5em;			 }
- .options button:hover{background: #fff}
+.filters {
+	font-size:12px;
+	padding:0.15em 0.5em;user-select: none;
+}
+.filters label {
+	border-radius: 10px;padding: 0.15em 0.5em;
+	cursor: pointer;
+	color:#666;
+}
+[id="showall{{key}}"]:checked ~
+.options label[for="showall{{key}}"],
+[id="showsans{{key}}"]:checked ~
+.options label[for="showsans{{key}}"],
+[id="showother{{key}}"]:checked ~
+.options label[for="showother{{key}}"],
+[id="showmono{{key}}"]:checked ~
+.options label[for="showmono{{key}}"],
+[id="showserif{{key}}"]:checked ~
+.options label[for="showserif{{key}}"] {background: #e0e0e0;}
+
+[id="showsans{{key}}"]:checked ~
+	.options button:not([data-tag="sans"]),
+[id="showmono{{key}}"]:checked ~
+	.options button:not([data-tag="mono"]),
+[id="showother{{key}}"]:checked ~
+	.options button:not([data-tag="other"]),
+[id="showserif{{key}}"]:checked ~
+	.options button:not([data-tag="serif"]) {display: none;}
+	.options button {
+	width: 100%;
+	text-align:left;margin:0;border-radius:0;border:none;outline:none;background:#fafafa;border-top: 1px solid #ddd;padding:0.333em 0.5em;			 }
+.options button:hover{background: #fff}
 			 		</style>
 
 <form method="post" id="form{{key}}">
@@ -184,4 +184,4 @@
 		})
 
 </script>
-	</div>
+</div>
