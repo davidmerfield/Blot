@@ -1,5 +1,5 @@
 {
-  "name": "Photo",
+  "name": "Image",
   "isPublic": true,
   "locals": {
     "background_color": "#fff",
