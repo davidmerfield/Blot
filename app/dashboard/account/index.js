@@ -5,6 +5,7 @@ var Account = new Express.Router();
 var logout = require("./util/logout");
 const prettyPrice = require("helper/prettyPrice");
 const type = require("helper/type");
+const Email = require("helper/email");
 
 Account.use(function (req, res, next) {
   res.locals.breadcrumbs.add("Your account", "/account");
@@ -85,6 +86,7 @@ Account.get("/delete-blog-paypal/update", async (req, res, next) => {
   if (!req.user.paypal.id) return next();
 
   await updateSubscription(req.user.paypal.id);
+  Email.SUBSCRIPTION_DECREASE(req.user.uid);
 
   res.message("/dashboard", "Reduced your PayPal subscription");
 });
