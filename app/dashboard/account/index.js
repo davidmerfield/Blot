@@ -72,7 +72,7 @@ Account.use("/create-blog", require("./create-blog"));
 Account.use("/subscription", require("./subscription"));
 Account.use("/pay-subscription", require("./pay-subscription"));
 
-var updateSubscription = require("dashboard/paypal_webhook").updateSubscription;
+const { updateSubscription } = require("dashboard/paypal_webhook");
 
 Account.get("/delete-blog-paypal", function (req, res) {
   res.locals.paypal_client_id = config.paypal.client_id;
