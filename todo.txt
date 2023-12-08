@@ -73,6 +73,10 @@ Write newsletter
 
 ---
 
+Investigate why [changes made to app/scheduler/daily/revenue.js increased the number of active blogs](https://github.com/davidmerfield/Blot/blob/494900a5dda1d916569c925adfbb6e68606c99bd/app/scheduler/daily/revenue.js#L21-L29) in my email
+
+Ensure that overdue PayPal subscription webhooks map to notification emails
+
 Final polish on stats dashboard
 - Add monitor the root disk usage of both servers to stats
 - Tie in daily update stats to stats dashboard
