@@ -37,7 +37,7 @@
         {{#backlinks.length}}
         <hr class="minimal">
         <div class="left-label">
-          <h5>Links to this post</h5>
+          <h5>Links here</h5>
           {{#backlinks}}
           <a class="rounded-link" href="{{{url}}}">
             <span class="title">{{title}}</span>
@@ -50,7 +50,7 @@
         {{#next}}
         <hr class="minimal">
         <div class="left-label">
-          <h5>Up next</h5>
+          <h5>Next</h5>
           <a class="rounded-link" href="{{{url}}}">
             <span class="title">{{title}}</span>
             <span class="summary">{{summary}}</span>
@@ -59,7 +59,9 @@
         {{/next}}
 
         {{#previous}}
+        {{^next}}
         <hr class="minimal">
+        {{/next}}
         <div class="left-label">
           <h5>Previously</h5>
           <a class="rounded-link" href="{{{url}}}">

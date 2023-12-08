@@ -534,8 +534,10 @@ hr.minimal, .footnotes hr {border-bottom:1px solid;margin-top: 0;}
 
 .rounded-link {
   border:1px solid rgba({{#rgb}}{{text_color}}{{/rgb}}, 0.1);
-  text-decoration: none;color:inherit;display: block;margin-bottom: 1rem;padding-bottom: 1rem;
+  text-decoration: none;color:inherit;display: block;padding-bottom: 1rem;
 border-radius: 4px;padding:0.75em 1.25em;font-size:0.9em}
-.rounded-link .title {display: block;margin-bottom: 0.5rem;color:{{accent_color}};text-decoration:underline}
-.rounded-link .summary {opacity: 0.8;max-height: 2.8em;overflow: hidden;display: block;}
-
+.rounded-link + .rounded-link {margin-top: 1em}
+.rounded-link .title {display: block;color:{{accent_color}};text-decoration:underline}
+.rounded-link .summary {opacity: 0.8;max-height: 2.8em;overflow: hidden;display: block;margin-top: 0.5em;}
+.rounded-link .summary:empty {display: none}
+.rounded-link:hover {border-color: {{accent_color}};opacity: 1}
