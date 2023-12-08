@@ -36,6 +36,12 @@
       "left",
       "right",
       "center"
+    ],
+    "site_alignment": "center",
+    "site_alignment_options": [
+      "center",
+      "left",
+      "right"
     ]
   },
   "isPublic": true,

@@ -1,28 +1,10 @@
-/* 
-
-Inserts the styles required by various options
-on the services page of the dashboard 
-
-*/
-
+/* Inserts the CSS required by various settings on the services page of the dashboard */
 {{{appCSS}}}
 
-/* Will be replaced with the @font-face rules required
-to load whichever fonts are selected. Duplicates should
-be caught my the CSS minifier */
+/* Inserts the @font-face rules required to load whichever fonts are selected. */
 {{{font.styles}}}
 {{{syntax_highlighter_font.styles}}}
 {{{syntax_highlighter.styles}}}
-
-html {
-  {{#font}}
-  font-family: {{{stack}}};
-  font-size: {{{font_size}}}px;
-  line-height: {{{line_height}}};
-  {{/font}}
-  text-rendering: optimizeLegibility;
-  
-}
 
 :root {
   --sidebar-width: 0px;
@@ -32,6 +14,15 @@ html {
   {{#is.navigation_location.right}}
   --sidebar-width: 300px;
   {{/is.navigation_location.right}}
+}
+
+html {
+  {{#font}}
+  font-family: {{{stack}}};
+  font-size: {{{font_size}}}px;
+  line-height: {{{line_height}}};
+  {{/font}}
+  text-rendering: optimizeLegibility;
 }
 
 body {
@@ -44,28 +35,8 @@ body {
   padding: 0
 }
 
-.clear {width: 100%;clear: both;float: none;display: block;height: 0}
 
-.small,
-.caption {font-size: .8125rem;color: {{text_color}};font-weight: 500;opacity:0.5}
-
-.caption {
-  display: block;
-  margin: 1rem auto 1.6666rem;
-  max-width: {{max_width}}px;
-  font-style: normal;
-}
-
-.right {float: right;}
-.left {float: left;}
-
-div {
-  margin: 0 auto;
-  overflow: visible;
-  position: relative;
-}
-
-/* The navigation */
+/* :: Navigation */
 
 .navigation {
   padding: 2em 0;
@@ -85,7 +56,6 @@ div {
   align-items:baseline;
   justify-content: space-between;
 }
-
 
 .navigation.alignment-center .container {justify-content: center;}
 .navigation.alignment-left  .container {justify-content: flex-start;}
@@ -155,19 +125,41 @@ div {
   order: 1;
 }
 
-
-
-.main {max-width: {{max_width}}px;margin: 0 auto;margin-top: 2em}
-.container {box-sizing:border-box;max-width: {{max_width}}px;  padding-left: 1em;
-padding-right: 1em;
+#logo {
+  color: {{text_color}};
+  flex-shrink: 0;
+  margin-right: 2em;
 }
 
-/*.container, .container * {
-  outline:1px solid red
-}*/
+
+#logo:hover {opacity: 0.8}
+
+
+/*  :: General layout */
+
+.main {max-width: {{max_width}}px;margin: 0 auto;margin-top: 2em}
+
+.container {
+  box-sizing:border-box;
+  max-width: {{max_width}}px;  
+  padding-left: 1em;
+  padding-right: 1em;
+  {{#is.site_alignment.center}}
+  margin:0 auto;
+  {{/is.site_alignment.center}}
+  {{#is.site_alignment.left}}
+  margin:0 auto 0 2em;
+  {{/is.site_alignment.left}}
+  {{#is.site_alignment.right}}
+  margin:0 2em 0 auto;
+  {{/is.site_alignment.right}}
+}
+
 .entry {margin: 0 0 192px}
 
-/* LAYOUT */
+/* :: Post and page layout */
+
+.clear {width: 100%;clear: both;float: none;display: block;height: 0}
 
 .margin {
   position: absolute;
@@ -242,7 +234,10 @@ padding-right: 1em;
 .column h1,
 .column h2 {margin-bottom: -12px}
 
-/* TEXT */
+.right {float: right;}
+.left {float: left;}
+
+/* :: Typography */
 
 p, li {
   position: relative;
@@ -259,11 +254,14 @@ blockquote {
   opacity: 0.666;
 }
 
-/*
-p .small-caps,
-li .small-caps {
-  font-family: "Georgia Pro SC";
-}*/
+.small, .caption {font-size: .8125rem;color: {{text_color}};font-weight: 500;opacity:0.5}
+
+.caption {
+  display: block;
+  margin: 1rem auto 1.6666rem;
+  max-width: {{max_width}}px;
+  font-style: normal;
+}
 
 big {color: {{text_color}};font-size: 2em;line-height: 48px;display: block;}
 
@@ -296,8 +294,7 @@ a:focus {
 }
 
 a.tag {
-  padding-left: 1.33em;
-  margin-left: 1em;
+  margin-left: 1.33em;
   text-decoration: none;
 }
 
@@ -323,17 +320,11 @@ p code {
   display: inline-block;
 }
 
-/*
-p code:before,
-p code:after {
-  letter-spacing: -0.2em;
-  content: "\00a0";
-}*/
-
 pre code {
   display: block;
    white-space: pre-wrap;
 }
+
 pre code {
   display: block;padding: 12px 18px;
   margin: 0 0 0 0;
@@ -377,6 +368,7 @@ ul, ol {
 li {padding-left: 0.75em}
 
 ul {list-style: circle;}
+
 ul.task-list { list-style-type: none; }
 
 ul ul, ol ul, ol ol, ul ol {margin-bottom: 0}
@@ -398,7 +390,6 @@ img {vertical-align: middle;max-width: 100%;height: auto;}
 
 .image_container {display: block}
 
-
 .wide .image_container {margin: 0 auto}
 .wide p {margin-top: 0}
 
@@ -410,35 +401,11 @@ iframe {width: 100%;}
    descendants, prevents multi margins */
 .entry > iframe {margin: 24px 0!important;}
 
-/* TWEETS */
-
-.entry .twitter-tweet {margin-left:-16px!important}
-
 /* MATH */
 .has-katex {text-align: center;}
 .katex  {font-size: 1.05em;}
 
 
-
-#logo {
-  color: {{text_color}};
-  flex-shrink: 0;
-  margin-right: 2em;
-}
-
-
-#logo img {max-width: 48px;max-height: 48px;margin-right: 1em}
-#logo:hover {opacity: 0.8}
-
-#logo img.rounded {width: 52px;border-radius: 50%;top: -2px;left: -64px}
-#logo img:active {margin-top: 1px}
-
-/* Nav links are underlined which affects their optical lineheight */
-
-
-
-a.feed:hover,
-a.search:hover {opacity: 1}
 
 input#search {
   {{#navigation_font}}
@@ -557,48 +524,18 @@ a.full-line em {
  scroll-margin-top: 8rem;
 }
 
-hr.minimal,
-.footnotes hr {border-bottom:1px solid;margin-top: 0;}
+hr.minimal, .footnotes hr {border-bottom:1px solid;margin-top: 0;}
 
-.footnotes > ol:before,
+/* Used underneath the entry */
+.left-label {padding-left: 140px;padding-top: 1rem;font-size:0.875em}
+.left-label .tag {margin:0 1rem 0 0 }.footnotes > ol:before,
 .left-label h5 {font-size: 0.875em;font-weight: 600;color:rgba({{#rgb}}{{text_color}}{{/rgb}}, 0.5);margin-bottom: 24px;}
-
 .left-label h5 {margin-top: 1em;position: absolute;top: 0;left: 0}
-.rounded-link {border-bottom:1px solid rgba(0,0,0,0.1);text-decoration: none;color:inherit;display: block;margin-bottom: 1rem;padding-bottom: 1rem}
-.rounded-link:last-child {border-bottom: none;}
+
+.rounded-link {
+  border:1px solid rgba({{#rgb}}{{text_color}}{{/rgb}}, 0.1);
+  text-decoration: none;color:inherit;display: block;margin-bottom: 1rem;padding-bottom: 1rem;
+border-radius: 4px;padding:0.75em 1.25em;font-size:0.9em}
 .rounded-link .title {display: block;margin-bottom: 0.5rem;color:{{accent_color}};text-decoration:underline}
 .rounded-link .summary {opacity: 0.8;max-height: 2.8em;overflow: hidden;display: block;}
-.left-label {
-padding-left: 140px;padding-top: 1rem;font-size:0.875em
-}
-.left-label .tag {
-margin:0 1rem 0 0
-}
-@media screen and (max-width: 1200px) {
 
-
-}
-
-@media screen and (max-width: 840px) {
-
-  .main, .margin {width: 100%;}
-  .wide {width: 100vw;margin-left: -2em;margin-right: -2em}
-  .wide.right {margin-left: 0;margin-right: 0;width:100%;}
-  .margin {left: auto;position: relative;padding-left: 0}
-
-}
-
-@media screen and (max-width: 730px) {
-  
-  .links .right {clear: both;float: none;margin-top: 3px}
-  a.search {margin-left: 0}
-
-  .footnotes>ol{padding-left: 0;padding-top: 1rem}
-  .left-label {padding-left: 0;padding-top: 3rem}
-}
-
-@media screen and (max-width: 400px) {
-  .entry .twitter-tweet {margin-left: 0!important}
-
-  .wide {width: 100vw;margin-left: -1rem;margin-right: -1rem}
-}
