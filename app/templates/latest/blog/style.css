@@ -159,6 +159,25 @@ body {
 
 /* :: Post and page layout */
 
+
+/* Used underneath the entry */
+.left-label {padding-left: 140px;padding-top: 1rem;font-size:0.875em}
+.left-label .tag {margin:0 1rem 0 0 }.footnotes > ol:before,
+.left-label h5 {font-size: 0.875em;font-weight: 600;color:rgba({{#rgb}}{{text_color}}{{/rgb}}, 0.5);margin-bottom: 24px;}
+.left-label h5 {margin-top: 1em;position: absolute;top: 0;left: 0}
+
+/* Used for backlinks and next/previou links */
+.rounded-link {
+  border:1px solid rgba({{#rgb}}{{text_color}}{{/rgb}}, 0.1);
+  text-decoration: none;color:inherit;display: block;padding-bottom: 1rem;
+border-radius: 4px;padding:0.75em 1.25em;font-size:0.9em}
+.rounded-link + .rounded-link {margin-top: 1em}
+.rounded-link .title {display: block;color:{{accent_color}};text-decoration:underline}
+.rounded-link .summary {opacity: 0.8;max-height: 2.8em;overflow: hidden;display: block;margin-top: 0.5em;}
+.rounded-link .summary:empty {display: none}
+.rounded-link:hover {border-color: {{accent_color}};opacity: 1}
+
+
 .clear {width: 100%;clear: both;float: none;display: block;height: 0}
 
 .margin {
@@ -406,43 +425,6 @@ iframe {width: 100%;}
 .katex  {font-size: 1.05em;}
 
 
-
-input#search {
-  {{#navigation_font}}
-  font-size: {{{font_size}}}px;
-  font-family: {{{stack}}};
-  {{/navigation_font}}
-  padding: .5em 1em;
-  border-radius: 0.5em;
-  width: {{max_width}}px;
-  color: {{accent_color}};
-  box-sizing: border-box;
-  background: {{background_color}};
-  margin: 0;
-  border: 0.12em solid rgba({{#rgb}}{{text_color}}{{/rgb}}, 0.25);
-}
-
-input#search:focus {
-  outline: none;
-  border-color: {{accent_color}};  
-}
-
-::-webkit-input-placeholder {
-   color: rgba({{#rgb}}{{text_color}}{{/rgb}}, 0.5);
-}
-
-:-moz-placeholder { /* Firefox 18- */
-  color: rgba({{#rgb}}{{text_color}}{{/rgb}}, 0.5);
-}
-
-::-moz-placeholder {  /* Firefox 19+ */
-  color: rgba({{#rgb}}{{text_color}}{{/rgb}}, 0.5);
-}
-
-:-ms-input-placeholder {
-  color: rgba({{#rgb}}{{text_color}}{{/rgb}}, 0.5);
-}
-
 .date {margin-top: 10px;text-decoration: none;}
 .date:empty {display: none;}
 
@@ -506,7 +488,54 @@ input#search:focus {
      content: "]" 
 }
 
-/* */
+
+/* The fixed header interferes with the correct scroll offset for footnotes*/
+.entry [id] {
+ scroll-margin-top: 8rem;
+}
+
+hr.minimal, .footnotes hr {border-bottom:1px solid;margin-top: 0;}
+
+/* :: Search */
+
+form[action="/search"] input {
+  {{#navigation_font}}
+  font-size: {{{font_size}}}px;
+  font-family: {{{stack}}};
+  {{/navigation_font}}
+  padding: .5em 1em;
+  border-radius: 0.5em;
+  width: {{max_width}}px;
+  color: {{accent_color}};
+  box-sizing: border-box;
+  background: {{background_color}};
+  margin: 0;
+  border: 0.12em solid rgba({{#rgb}}{{text_color}}{{/rgb}}, 0.25);
+}
+
+form[action="/search"] input:focus {
+  outline: none;
+  border-color: {{accent_color}};  
+}
+
+::-webkit-input-placeholder {
+   color: rgba({{#rgb}}{{text_color}}{{/rgb}}, 0.5);
+}
+
+:-moz-placeholder { /* Firefox 18- */
+  color: rgba({{#rgb}}{{text_color}}{{/rgb}}, 0.5);
+}
+
+::-moz-placeholder {  /* Firefox 19+ */
+  color: rgba({{#rgb}}{{text_color}}{{/rgb}}, 0.5);
+}
+
+:-ms-input-placeholder {
+  color: rgba({{#rgb}}{{text_color}}{{/rgb}}, 0.5);
+}
+
+/* search results */
+
 a.full-line {
   display: block;
   color: inherit;
@@ -518,26 +547,3 @@ a.full-line em {
   font-style: normal;
   text-decoration: underline;
 }
-
-/* The fixed header interferes with the correct scroll offset for footnotes*/
-.entry [id] {
- scroll-margin-top: 8rem;
-}
-
-hr.minimal, .footnotes hr {border-bottom:1px solid;margin-top: 0;}
-
-/* Used underneath the entry */
-.left-label {padding-left: 140px;padding-top: 1rem;font-size:0.875em}
-.left-label .tag {margin:0 1rem 0 0 }.footnotes > ol:before,
-.left-label h5 {font-size: 0.875em;font-weight: 600;color:rgba({{#rgb}}{{text_color}}{{/rgb}}, 0.5);margin-bottom: 24px;}
-.left-label h5 {margin-top: 1em;position: absolute;top: 0;left: 0}
-
-.rounded-link {
-  border:1px solid rgba({{#rgb}}{{text_color}}{{/rgb}}, 0.1);
-  text-decoration: none;color:inherit;display: block;padding-bottom: 1rem;
-border-radius: 4px;padding:0.75em 1.25em;font-size:0.9em}
-.rounded-link + .rounded-link {margin-top: 1em}
-.rounded-link .title {display: block;color:{{accent_color}};text-decoration:underline}
-.rounded-link .summary {opacity: 0.8;max-height: 2.8em;overflow: hidden;display: block;margin-top: 0.5em;}
-.rounded-link .summary:empty {display: none}
-.rounded-link:hover {border-color: {{accent_color}};opacity: 1}
