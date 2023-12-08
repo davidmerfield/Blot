@@ -42,7 +42,10 @@ Delete.route("/")
     calculateSubscriptionChange,
     decreaseSubscription,
     function (req, res) {
-      if (req.user.paypal.status) {
+      // In order to decrease the quantity of a PayPal
+      // subscription we need to redirect the user to
+      // PayPal to confirm the change.
+      if (req.user.paypal.status && req.user.blogs.length > 0) {
         return res.message(
           "/account/delete-blog-paypal",
           "Deleted " + req.blog.title
