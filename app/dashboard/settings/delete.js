@@ -42,6 +42,12 @@ Delete.route("/")
     calculateSubscriptionChange,
     decreaseSubscription,
     function (req, res) {
+      if (req.user.paypal.status) {
+        return res.message(
+          "/account/delete-blog-paypal",
+          "Deleted " + req.blog.title
+        );
+      }
       res.message("/dashboard", "Deleted " + req.blog.title);
     }
   );

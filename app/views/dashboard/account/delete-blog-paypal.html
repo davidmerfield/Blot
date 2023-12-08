@@ -1,0 +1,39 @@
+<form method="post" class="account"> 
+    <input type="hidden" name="_csrf" value="{{csrftoken}}">
+    <input type="hidden" name="timeZone" value="">  
+    <div style="max-width:440px">
+  
+      {{#user.paypal.status}}
+      <p>Reduce the quantity of your subscription on PayPal:
+      </p>
+  
+        <br>
+  
+        <div id="paypal-button-container"></div>
+    
+      <script src="https://www.paypal.com/sdk/js?client-id={{paypal_client_id}}&vault=true&intent=subscription&disable-funding=card"></script>
+    
+    
+      <script>
+    
+        paypal
+          .Buttons({
+            createSubscription: function (data, actions) {
+              return actions.subscription.revise("{{{user.paypal.id}}}", {
+                plan_id: "{{{user.paypal.plan_id}}}",
+                quantity: "{{new_quantity}}"
+              });
+            },
+            onApprove: function (data, actions) {
+              // replace the contents of the form with a loading message
+              const form = document.querySelector("form");
+              form.innerHTML = "<p>Loading...</p>";
+              window.location.href = "/dashboard/account/delete-blog-paypal/update";
+            }
+          })
+          .render("#paypal-button-container"); // Renders the PayPal button
+      </script>
+  
+      {{/user.paypal.status}}
+  </div></div>
+  </form>

@@ -12,12 +12,22 @@ var Email = require("helper/email");
 var BAD_CHARGE = "Could not charge your card.";
 var ERR = "Could not change your subscription.";
 var parse = require("dashboard/parse");
+var updateSubscription = require("dashboard/paypal_webhook").updateSubscription;
 
 CreateBlog.use(function (req, res, next) {
   res.locals.breadcrumbs.forEach(function (link) {
     if (link.label === "Your account") link.label = "Your blogs";
   });
   next();
+});
+
+CreateBlog.route("/paypal").get(async (req, res, next) => {
+  // fetch the latest subscription from PayPal
+  if (!req.user.paypal.id) return next();
+
+  await updateSubscription(req.user.paypal.id);
+
+  res.redirect("/dashboard/account/create-blog");
 });
 
 CreateBlog.route("/pay")
@@ -27,7 +37,10 @@ CreateBlog.route("/pay")
   .all(function (req, res, next) {
     // Only allow users who have blogs for all they've paid
     // to see the pay page!
-    if (req.user.subscription.quantity <= req.user.blogs.length) {
+    if (
+      req.user.subscription.quantity <= req.user.blogs.length ||
+      parseInt(req.user.paypal.quantity) <= req.user.blogs.length
+    ) {
       return next();
     }
 
@@ -43,6 +56,8 @@ CreateBlog.route("/pay")
       title: "Create a blog",
       not_paid: true,
       breadcrumb: "Create blog",
+      paypal_client_id: config.paypal.client_id,
+      new_quantity: req.user.blogs.length + 1
     });
   })
 
@@ -74,6 +89,10 @@ CreateBlog.route("/")
       return next();
     }
 
+    if (req.user.paypal && req.user.paypal.quantity > req.user.blogs.length) {
+      return next();
+    }
+
     res.redirect(req.baseUrl + "/pay");
   })
 
@@ -82,7 +101,7 @@ CreateBlog.route("/")
     res.render("account/create-blog", {
       title: "Create a blog",
       first_blog: req.user.blogs.length === 0,
-      breadcrumb: "Create a blog",
+      breadcrumb: "Create a blog"
     });
   })
 
@@ -97,9 +116,12 @@ CreateBlog.route("/")
     res.message(err);
   });
 
-function calculateFee(req, res, next) {
+function calculateFee (req, res, next) {
   // We dont need to do this for free users
   if (canSkip(req.user)) return next();
+
+  // Skip for PayPal users
+  if (!req.user.subscription.status) return next();
 
   // This happens when the latest subscription is not available from
   // Stripe. Basically the end date for the subscription is in the
@@ -138,28 +160,26 @@ function calculateFee(req, res, next) {
   next();
 }
 
-function validateSubscription(req, res, next) {
-  var subscription = req.user.subscription;
-
+function validateSubscription (req, res, next) {
   if (canSkip(req.user)) return next();
 
-  if (
-    !subscription ||
-    !subscription.status ||
-    subscription.status !== "active"
-  ) {
-    res.message(
-      "/dashboard/account/subscription/create",
-      new Error("You need an active subscription to create a new blog")
-    );
-  } else {
-    next();
+  if (req.user.paypal && req.user.paypal.status === "ACTIVE") {
+    return next();
   }
+
+  if (req.user.subscription && req.user.subscription.status === "active") {
+    return next();
+  }
+
+  res.message(
+    "/dashboard/account/subscription/create",
+    new Error("You need an active subscription to create a new blog")
+  );
 }
 
 var chars = "abcdefghijklmnopqrstuvwxyz".split("");
 
-function randomChars(len) {
+function randomChars (len) {
   var res = "";
 
   while (res.length < len)
@@ -168,7 +188,7 @@ function randomChars(len) {
   return res;
 }
 
-function handleFromTitle(title) {
+function handleFromTitle (title) {
   var handle = "";
 
   handle = title.toLowerCase().replace(/\W/g, "");
@@ -180,7 +200,7 @@ function handleFromTitle(title) {
   return handle;
 }
 
-function saveBlog(req, res, next) {
+function saveBlog (req, res, next) {
   var title, handle;
 
   if (req.body.no_title) {
@@ -196,10 +216,10 @@ function saveBlog(req, res, next) {
   var newBlog = {
     title: title,
     handle: handle,
-    timeZone: req.body.timeZone,
+    timeZone: req.body.timeZone
   };
 
-  Blog.create(req.user.uid, newBlog, function onCreate(err, blog) {
+  Blog.create(req.user.uid, newBlog, function onCreate (err, blog) {
     if (
       err &&
       err.handle &&
@@ -224,11 +244,13 @@ function saveBlog(req, res, next) {
   });
 }
 
-function canSkip(user) {
-  return !user.subscription.status && user.blogs.length === 0;
+function canSkip (user) {
+  return (
+    !user.subscription.status && !user.paypal.status && user.blogs.length === 0
+  );
 }
 
-function updateSubscription(req, res, next) {
+function updateSubscription (req, res, next) {
   // We dont need to do this for free users
   if (canSkip(req.user)) {
     return next();
@@ -244,7 +266,7 @@ function updateSubscription(req, res, next) {
     req.user.subscription.id,
     {
       quantity: req.user.blogs.length + 1,
-      prorate: false,
+      prorate: false
     },
     function (err, subscription) {
       if (err) return next(err);
@@ -261,7 +283,7 @@ function updateSubscription(req, res, next) {
   );
 }
 
-function chargeForRemaining(req, res, next) {
+function chargeForRemaining (req, res, next) {
   // We dont need to do this for free users
   if (!req.user.subscription.status) {
     return next();
@@ -283,7 +305,7 @@ function chargeForRemaining(req, res, next) {
       amount: req.amount_due_now,
       currency: "usd",
       customer: req.user.subscription.customer,
-      description: "Charge for the remaining billing period",
+      description: "Charge for the remaining billing period"
     },
     function (err, charge) {
       if (err) return next(err);
