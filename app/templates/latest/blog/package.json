@@ -8,7 +8,6 @@
     "navigation_background_color": "#F7F7F7",
     "accent_color": "#0078D9",
     "hide_dates": false,
-    "hide_avatars": true,
     "date_display": "MMMM D, Y",
     "font": {
       "font_size": 19
@@ -31,9 +30,6 @@
       "left",
       "right"
     ],
-    "navigation_font": {
-      "font_size": 18
-    },
     "navigation_alignment": "justified",
     "navigation_alignment_options": [
       "justified",

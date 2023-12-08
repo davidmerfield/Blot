@@ -11,7 +11,6 @@ on the services page of the dashboard
 to load whichever fonts are selected. Duplicates should
 be caught my the CSS minifier */
 {{{font.styles}}}
-{{{navigation_font.styles}}}
 {{{syntax_highlighter_font.styles}}}
 {{{syntax_highlighter.styles}}}
 
@@ -69,11 +68,6 @@ div {
 /* The navigation */
 
 .navigation {
-  {{#navigation_font}}
-  font-family: {{{stack}}};
-  font-size: {{{font_size}}}px;
-  line-height: {{{line_height}}};
-  {{/navigation_font}}
   padding: 2em 0;
   {{#navigation_background_color}}
   background: {{navigation_background_color}};
