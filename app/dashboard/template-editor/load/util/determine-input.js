@@ -1,18 +1,13 @@
 const desnake = require("./desnake");
 
-const MAP = {
-  page_size: {
-    label: "Posts per page",
-    min: 1,
-    max: 60
-  }
-};
+module.exports = (key, locals, map) => {
+  const label =
+    map && map[key] && map[key].label ? map[key].label : desnake(key);
 
-module.exports = (key, locals) => {
   if (typeof locals[key] === "boolean") {
     return {
       key,
-      label: desnake(key),
+      label,
       value: locals[key],
       isBoolean: true
     };
@@ -21,12 +16,12 @@ module.exports = (key, locals) => {
   if (locals[key + "_range"] !== undefined) {
     const range = locals[key + "_range"];
 
-    const min = (range && range[0]) || (MAP[key] && MAP[key].min) || 1;
-    const max = (range && range[1]) || (MAP[key] && MAP[key].max) || 60;
+    const min = (range && range[0]) || (map[key] && map[key].min) || 1;
+    const max = (range && range[1]) || (map[key] && map[key].max) || 60;
 
     return {
       key,
-      label: desnake(key),
+      label,
       value: locals[key],
       isRange: true,
       min,
@@ -48,7 +43,7 @@ module.exports = (key, locals) => {
 
     return {
       key,
-      label: desnake(key),
+      label,
       value: locals[key],
       isSelect: true,
       options

@@ -1,5 +1,13 @@
 const determine_input = require("./util/determine-input");
 
+const MAP = {
+  page_size: {
+    label: "Posts per page",
+    min: 1,
+    max: 60
+  }
+};
+
 module.exports = function (req, res, next) {
   res.locals.index_page = Object.keys(req.template.locals)
 
@@ -34,7 +42,7 @@ module.exports = function (req, res, next) {
           req.template.locals[key + "_options"] &&
           req.template.locals[key + "_options"].constructor === Array)
     )
-    .map(key => determine_input(key, req.template.locals))
+    .map(key => determine_input(key, req.template.locals, MAP))
     .filter(i => i);
 
   return next();
