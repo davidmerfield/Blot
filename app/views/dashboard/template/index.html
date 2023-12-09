@@ -14,6 +14,13 @@
   bottom: 0
 }
 
+.line.theme {
+  transition: background 0.5s ease-in-out;
+}
+.line.theme.success {
+  background-color: ;
+}
+
 .line.theme:last-of-type {
   border-bottom: none;
 }
@@ -221,3 +228,16 @@
 
 {{/blog.template}}
 </div>
+<script>
+  // if there is a template name in the div class="mess success" then find the template row and highlight it
+  var success_message = document.querySelector('.mess.success');
+  var template_name = success_message && success_message.innerHTML && success_message.querySelector('b').innerHTML;
+
+  if (template_name) {
+    var template_row = document.querySelector('.line.theme[data-name="' + template_name + '"]');
+    if (template_row) {
+      template_row.classList.add('success');
+      template_row.classList.add('mess');
+    }
+  }
+</script>
