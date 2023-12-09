@@ -3,8 +3,8 @@
   <div style="overflow:hidden;display:flex;flex-direction:column; box-shadow: rgba(15,15,15,.1) 0 0 0 1px, rgba(15,15,15,.1) 0 2px 4px;
     background: #fff;
     border-radius: 6px;">
-{{#root}}<a class="line" href="{{{base}}}/client/{{client.name}}">
-<span class="label">Folder</span>
+{{#root}}<a class="line" href="{{{base}}}/client/{{client.name}}" style="background-color: rgba(0,0,0,0.02);">
+<span class="label">Your folder</span>
 {{^blog.client}}
       <span class="link">Choose a way to sync your folder</span>
     {{/blog.client}}
@@ -14,7 +14,7 @@
     {{/blog.client}}
     </a>{{/root}}
 
-<div class="folder-box live-updates" style="min-height: 25vh;">
+<div class="folder-box live-updates" style="min-height:45vh;">
 
 {{#directory}}
 {{> folder-directory}}

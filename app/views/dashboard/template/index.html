@@ -14,6 +14,10 @@
   bottom: 0
 }
 
+.line.theme:last-of-type {
+  border-bottom: none;
+}
+
 .preview-button,
 .line form button {
   margin: -12px 0;
@@ -84,7 +88,7 @@
 
 
 {{^blog.template}}
-<div class="lisne" style="border-bottom:none">
+<div style="border-bottom:none">
   <span class="box orange fr" style="line-height:2.5;background:#f2f2f2;padding:0 1.33em;border:#aaa;margin:0 0">Your template is disabled. </span>
 
   <form method='post' style="display:inline">
@@ -99,7 +103,7 @@
 {{/blog.template}}
 
 {{#blog.template}}
-<div class="linse">
+<div style="border-top: 1px solid rgba(0,0,0,0.05)">
 
   <style type="text/css">
   form label {
@@ -118,8 +122,6 @@
     text-decoration: underline;
   }
   </style>
-  <!-- <p style="margin:15px 0"><b>{{blog.title}}</b> uses the <b style="font-weight:500">{{#templates}} {{#checked}}{{name}}{{/checked}}{{/templates}}</b> theme. </p>
- -->
 
   </span>
 
@@ -128,18 +130,25 @@
 <div class="line">
   <span class="label">Current template</span>
   <div class="center">
-    {{#templates}}
+    {{#currentTemplate}}
     {{#checked}}
     <div class="line theme {{checked}}">
 
       <span style="flex-grow:1">{{^localEditing}}{{name}}{{/localEditing}} {{#localEditing}}
-        /Templates/{{slug}}
+        Templates/{{slug}}
         {{/localEditing}}</span>
-  
+        
+        {{^localEditing}}
       <a class="preview-cover" href="{{editURL}}"></a>
+      {{/localEditing}}
+      {{#localEditing}}
+      <a class="preview-cover" href="{{previewURL}}"></a>
+      {{/localEditing}}
     </div>    
     {{#isMine}}
+    {{^localEditing}}}
     <a class="line" style="color:#0070e8" href="{{editURL}}">Edit template</a>
+    {{/localEditing}}
     {{/isMine}}
     {{^isMine}}
     <form method='post' action="{{{base}}}/template/new">
@@ -166,44 +175,39 @@
     
     
     {{/checked}}
-    {{/templates}}
+    {{/currentTemplate}}
     </div> 
 </div>
 
+{{#templatesInYourFolder.length}}
 <div class="line">
   <span class="label">Templates in your folder</span>
-  <div class="center">
-    {{#templates}}
-    {{#isMine}}
-    {{#localEditing}}
+  <div class="center" class="templates-in-your-folder">
+    {{#templatesInYourFolder}}
     {{> template-row}}
-    {{/localEditing}}
-    {{/isMine}}
-    {{/templates}}
+    {{/templatesInYourFolder}}
   </div>  
 </div>
+{{/templatesInYourFolder.length}}
 
+{{#yourTemplates.length}}
 <div class="line">
   <span class="label">Your templates</span>
   <div class="center">
-    {{#templates}}
-    {{#isMine}}
-    {{^localEditing}}
+    {{#yourTemplates}}
     {{> template-row}}
-    {{/localEditing}}
-    {{/isMine}}
-    {{/templates}}
+    {{/yourTemplates}}
   </div>  
 </div>
+{{/yourTemplates.length}}
+
 
 <div class="line">
   <span class="label">Templates</span>
   <div class="center">
-    {{#templates}}
-    {{^isMine}}
+    {{#blotTemplates}}
     {{> template-row}}
-    {{/isMine}}
-    {{/templates}}
+    {{/blotTemplates}}
     <a class="line" style="color:#0070e8" href="{{{base}}}/template/archive">View all templates</a>
     </div>
 </div>

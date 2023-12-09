@@ -7,7 +7,7 @@ var localPath = require("helper/localPath");
 var fs = require("fs-extra");
 var generatePackage = require("./package").generate;
 
-function writeToFolder(blogID, templateID, callback) {
+function writeToFolder (blogID, templateID, callback) {
   isOwner(blogID, templateID, function (err, owner) {
     if (err) return callback(err);
 
@@ -53,12 +53,12 @@ function writeToFolder(blogID, templateID, callback) {
   });
 }
 
-function writePackage(blogID, client, dir, metadata, views, callback) {
+function writePackage (blogID, client, dir, metadata, views, callback) {
   var Package = generatePackage(blogID, metadata, views);
   client.write(blogID, dir + "/package.json", Package, callback);
 }
 
-function makeClient(blogID, callback) {
+function makeClient (blogID, callback) {
   require("models/blog").get({ id: blogID }, function (err, blog) {
     var client = require("clients")[blog.client];
 
@@ -71,7 +71,7 @@ function makeClient(blogID, callback) {
         },
         write: function (blogID, path, content, callback) {
           fs.outputFile(localPath(blogID, path), content, callback);
-        },
+        }
       });
     }
 
@@ -79,7 +79,7 @@ function makeClient(blogID, callback) {
   });
 }
 
-function write(blogID, client, dir, view, callback) {
+function write (blogID, client, dir, view, callback) {
   callback = callOnce(callback);
 
   var path = joinpath(dir, view.name);
@@ -88,11 +88,11 @@ function write(blogID, client, dir, view, callback) {
   client.write(blogID, path, content, callback);
 }
 
-function badPermission(blogID, templateID) {
+function badPermission (blogID, templateID) {
   return new Error("No permission for " + blogID + " to write " + templateID);
 }
 
-function noTemplate(blogID, templateID) {
+function noTemplate (blogID, templateID) {
   return new Error("No template for " + blogID + " and " + templateID);
 }
 

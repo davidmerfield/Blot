@@ -31,8 +31,10 @@ TemplateEditor.use((req, res, next) => {
 });
 
 TemplateEditor.use("/:templateSlug", function (req, res, next) {
-  if (req.template.localEditing && req.path !== "/local-editing")
-    return res.redirect(res.locals.base + "/local-editing");
+  // if the user has transferred the template to their folder
+  // don't allow them to edit it on the dashboard
+  if (req.template.localEditing)
+    return res.redirect("/dashboard/" + req.blog.handle + "/template");
 
   res.locals.title = req.template.name;
   next();
@@ -90,9 +92,9 @@ TemplateEditor.route("/:templateSlug/settings")
 
       next();
     },
-    require("./save/fonts"),
     require("./save/layout-inputs"),
     require("./save/syntax-highlighter"),
+    require("./save/fonts"),
     function (req, res, next) {
       Template.update(
         req.blog.id,
@@ -124,12 +126,17 @@ TemplateEditor.route("/:templateSlug/local-editing")
     res.render("template-editor/local-editing");
   })
   .post(parse, function (req, res, next) {
-    const localEditing = !req.template.localEditing;
+    Template.setMetadata(
+      req.template.id,
+      { localEditing: true },
+      function (err) {
+        if (err) return next(err);
 
-    Template.setMetadata(req.template.id, { localEditing }, function (err) {
-      if (err) return next(err);
+        res.message(
+          "/dashboard/" + req.blog.handle + "/template",
+          "Transferred template to your folder"
+        );
 
-      if (localEditing) {
         Template.writeToFolder(req.blog.id, req.template.id, function () {
           // could we do something with this error? Could we wait to render the page?
           // it would be useful to have a progress bar here to prevent
@@ -137,12 +144,7 @@ TemplateEditor.route("/:templateSlug/local-editing")
           // we should also do something with the error
         });
       }
-
-      res.message(
-        res.locals.base + "/local-editing",
-        "You can now edit the template locally!"
-      );
-    });
+    );
   });
 
 TemplateEditor.route("/:templateSlug/rename")
