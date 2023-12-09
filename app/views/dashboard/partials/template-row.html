@@ -4,12 +4,17 @@
   
     <span style="display:block;margin-bottom:0.5em;flex-grow: 1;
   
-  flex-basis: 50%;">{{name}}</span>
+  flex-basis: 50%;">{{^localEditing}}{{name}}{{/localEditing}} {{#localEditing}}
+    /Templates/{{slug}}
+    {{/localEditing}}</span>
     
   
   
     {{#isMine}}
+    {{^localEditing}}
     <a href="{{editURL}}" style="margin-right:0;padding-right:11px;margin-left:0" class="preview-button" ><span class="square">Edit</span></a>
+    {{/localEditing}}
+    
     {{/isMine}}
   
   

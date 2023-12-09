@@ -132,7 +132,9 @@
     {{#checked}}
     <div class="line theme {{checked}}">
 
-      <span style="flex-grow:1">{{name}}</span>
+      <span style="flex-grow:1">{{^localEditing}}{{name}}{{/localEditing}} {{#localEditing}}
+        /Templates/{{slug}}
+        {{/localEditing}}</span>
   
       <a class="preview-cover" href="{{editURL}}"></a>
     </div>    
@@ -166,6 +168,19 @@
     {{/checked}}
     {{/templates}}
     </div> 
+</div>
+
+<div class="line">
+  <span class="label">Templates in your folder</span>
+  <div class="center">
+    {{#templates}}
+    {{#isMine}}
+    {{#localEditing}}
+    {{> template-row}}
+    {{/localEditing}}
+    {{/isMine}}
+    {{/templates}}
+  </div>  
 </div>
 
 <div class="line">
