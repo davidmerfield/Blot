@@ -128,17 +128,19 @@
 </div>
 
 <div class="line">
-  <span class="label">Current template</span>
+  <span class="label">Your template</span>
   <div class="center">
     {{#currentTemplate}}
     {{#checked}}
     <div class="line theme {{checked}}">
 
-      <span style="flex-grow:1">{{^localEditing}}{{name}}{{/localEditing}} {{#localEditing}}
-        Templates/{{slug}}
-        {{/localEditing}}</span>
+      <span style="flex-grow:1">
+        {{^localEditing}}{{name}}{{/localEditing}}
+        {{#localEditing}}Templates/{{slug}}
+        {{/localEditing}}
+      </span>
         
-        {{^localEditing}}
+      {{^localEditing}}
       <a class="preview-cover" href="{{editURL}}"></a>
       {{/localEditing}}
       {{#localEditing}}
@@ -146,7 +148,7 @@
       {{/localEditing}}
     </div>    
     {{#isMine}}
-    {{^localEditing}}}
+    {{^localEditing}}
     <a class="line" style="color:#0070e8" href="{{editURL}}">Edit template</a>
     {{/localEditing}}
     {{/isMine}}
@@ -192,7 +194,7 @@
 
 {{#yourTemplates.length}}
 <div class="line">
-  <span class="label">Your templates</span>
+  <span class="label">Templates on the dashboard</span>
   <div class="center">
     {{#yourTemplates}}
     {{> template-row}}

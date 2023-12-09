@@ -12,11 +12,7 @@ module.exports = function (req, res, next) {
       "Installed template"
     );
 
-    const otherLocalTemplates = res.locals.templatesInYourFolder.filter(
-      t => t.id !== template
-    );
-
-    otherLocalTemplates.forEach(async t => {
+    res.locals.templatesInYourFolder.forEach(async t => {
       // read the package.json file
       const pathsToPackage = [
         `/templates/${t.slug}/package.json`,
@@ -39,10 +35,12 @@ module.exports = function (req, res, next) {
         localPath(req.blog.id, pathToPackageJson)
       );
 
-      if (packageJson.enabled !== true) return;
+      if (t.id === template && packageJson.enabled === true) return;
+
+      if (t.id !== template && packageJson.enabled !== true) return;
 
       const updatedPackageJSON = JSON.stringify(
-        { ...packageJson, enabled: false },
+        { ...packageJson, enabled: t.id === template },
         null,
         2
       );

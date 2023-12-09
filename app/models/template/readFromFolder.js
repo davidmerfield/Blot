@@ -15,111 +15,105 @@ var key = require("./key");
 var dropView = require("./dropView");
 const blog = require("../../../scripts/get/blog");
 const Blog = require("models/blog");
+const create = require("./create");
+
+async function createLocalTemplate (blogID, dir) {
+  return new Promise(async function (resolve, reject) {
+    create(blogID, dir, { slug: dir }, function (err, template) {
+      if (err) return reject(err);
+      resolve(template);
+    });
+  });
+}
 
 module.exports = function readFromFolder (blogID, dir, callback) {
   var id = makeID(blogID, basename(dir));
 
-  isOwner(blogID, id, function (err, isOwner) {
-    if (err) return callback(err);
+  getMetadata(id, async function (err, template) {
+    if (err || !template)
+      template = await createLocalTemplate(blogID, basename(dir));
 
-    if (!isOwner) return callback(badPermission(blogID, id));
+    fs.readdir(dir, function (err, contents) {
+      if (err) return callback(err);
 
-    getMetadata(id, function (err, template) {
-      if (!template || template.localEditing !== true)
-        return callback(new Error("Not local"));
+      loadPackage(id, dir, function (err, views, enabled) {
+        const errors = {};
 
-      fs.readdir(dir, function (err, contents) {
-        if (err) return callback(err);
+        if (err) {
+          errors["package.json"] = err.message;
+        }
 
-        loadPackage(id, dir, function (err, views, enabled) {
-          const errors = {};
-
-          if (err) {
-            errors["package.json"] = err.message;
+        removeDeletedViews(id, contents, function (removeErrors) {
+          if (removeErrors) {
+            // todo handle these
           }
 
-          removeDeletedViews(id, contents, function (removeErrors) {
-            if (removeErrors) {
-              // todo handle these
-            }
+          async.eachSeries(
+            contents,
+            function (name, next) {
+              // Skip Dotfile or Package.json
+              if (name[0] === "." || name === PACKAGE) return next();
 
-            async.eachSeries(
-              contents,
-              function (name, next) {
-                // Skip Dotfile or Package.json
-                if (name[0] === "." || name === PACKAGE) return next();
+              fs.stat(dir + "/" + name, function (err, stat) {
+                // Skip folders, or files which are too large
+                if (err || !stat || stat.size > MAX_SIZE || stat.isDirectory())
+                  return next();
 
-                fs.stat(dir + "/" + name, function (err, stat) {
-                  // Skip folders, or files which are too large
-                  if (
-                    err ||
-                    !stat ||
-                    stat.size > MAX_SIZE ||
-                    stat.isDirectory()
-                  )
-                    return next();
+                fs.readFile(dir + "/" + name, "utf-8", function (err, content) {
+                  if (err) return next();
 
-                  fs.readFile(
-                    dir + "/" + name,
-                    "utf-8",
-                    function (err, content) {
-                      if (err) return next();
+                  // We look up this view file to merge any existing properties
+                  // Should this really be handled by setView? It looks like
+                  // setView already calls getView...
+                  getView(id, name, function (err, view) {
+                    // getView returns an error if the view does not exist
+                    // We want to be able to create new views using local editing
+                    // we so ignore this error, and create the view object as needed
+                    view = view || {};
+                    view.name = view.name || name;
 
-                      // We look up this view file to merge any existing properties
-                      // Should this really be handled by setView? It looks like
-                      // setView already calls getView...
-                      getView(id, name, function (err, view) {
-                        // getView returns an error if the view does not exist
-                        // We want to be able to create new views using local editing
-                        // we so ignore this error, and create the view object as needed
-                        view = view || {};
-                        view.name = view.name || name;
+                    // Views might not exist if there's an error
+                    // with the template's package.json file
+                    if (views && views[name])
+                      for (var i in views[name]) view[i] = views[name][i];
 
-                        // Views might not exist if there's an error
-                        // with the template's package.json file
-                        if (views && views[name])
-                          for (var i in views[name]) view[i] = views[name][i];
+                    view.content = content;
+                    view.url = view.url || "/" + view.name;
 
-                        view.content = content;
-                        view.url = view.url || "/" + view.name;
+                    setView(id, view, function (err) {
+                      // we expose this error to the developer on
+                      // the preview subdomain
+                      if (err) {
+                        errors[view.name] = improveMustacheErrorMessage(
+                          err,
+                          content
+                        );
+                      }
 
-                        setView(id, view, function (err) {
-                          // we expose this error to the developer on
-                          // the preview subdomain
-                          if (err) {
-                            errors[view.name] = improveMustacheErrorMessage(
-                              err,
-                              content
-                            );
-                          }
-
-                          next();
-                        });
-                      });
-                    }
-                  );
-                });
-              },
-              function (err) {
-                if (err) return callback(err);
-                setMetadata(id, { errors }, function () {
-                  console.log("ENABLED IS", enabled);
-                  if (enabled === true) {
-                    Blog.set(blogID, { template: id }, function (err) {
-                      if (err) return callback(err);
-                      getMetadata(id, function (err, template) {
-                        callback(err, template);
-                      });
+                      next();
                     });
-                  } else {
+                  });
+                });
+              });
+            },
+            function (err) {
+              if (err) return callback(err);
+              setMetadata(id, { errors }, function () {
+                if (enabled === true) {
+                  Blog.set(blogID, { template: id }, function (err) {
+                    if (err) return callback(err);
                     getMetadata(id, function (err, template) {
                       callback(err, template);
                     });
-                  }
-                });
-              }
-            );
-          });
+                  });
+                } else {
+                  getMetadata(id, function (err, template) {
+                    callback(err, template);
+                  });
+                }
+              });
+            }
+          );
         });
       });
     });
@@ -139,6 +133,7 @@ function loadPackage (id, dir, callback) {
 
     try {
       const metadata = JSON.parse(contents);
+      metadata.localEditing = true;
       savePackage(id, metadata, function (err, views) {
         callback(err, views, metadata.enabled);
       });
