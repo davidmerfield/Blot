@@ -94,8 +94,8 @@ module.exports = function (req, res, next) {
       res.message(
         redirect,
         req.body.shared
-          ? `Added template ${template.name} to your templates`
-          : SUCCESS
+          ? `Added template ${newTemplate.name} to your templates`
+          : `Duplicated template ${newTemplate.name}`
       );
     }
   );

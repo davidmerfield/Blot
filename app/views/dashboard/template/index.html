@@ -151,6 +151,9 @@
     {{^localEditing}}
     <a class="line" style="color:#0070e8" href="{{editURL}}">Edit template</a>
     {{/localEditing}}
+    {{#localEditing}}
+    <div class="line"><span style="opacity:.5">To edit this template, edit the files in</span>&nbsp;Templates/{{slug}}.</div>
+    {{/localEditing}}
     {{/isMine}}
     {{^isMine}}
     <form method='post' action="{{{base}}}/template/new">
