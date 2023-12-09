@@ -5,6 +5,7 @@ var isOwner = require("./isOwner");
 var getAllViews = require("./getAllViews");
 var localPath = require("helper/localPath");
 var fs = require("fs-extra");
+const { template } = require("lodash");
 var generatePackage = require("./package").generate;
 
 function writeToFolder (blogID, templateID, callback) {
@@ -18,7 +19,7 @@ function writeToFolder (blogID, templateID, callback) {
 
       if (!views || !metadata) return callback(noTemplate(blogID, templateID));
 
-      makeClient(blogID, function (err, client) {
+      makeClient(blogID, function (err, client, blogTemplate) {
         if (err) {
           return callback(err);
         }
@@ -31,6 +32,8 @@ function writeToFolder (blogID, templateID, callback) {
           if (err) {
             return callback(err);
           }
+
+          metadata.enabled = blogTemplate === templateID;
 
           writePackage(blogID, client, dir, metadata, views, function (err) {
             if (err) {
@@ -75,7 +78,7 @@ function makeClient (blogID, callback) {
       });
     }
 
-    return callback(null, client);
+    return callback(null, client, blog.template);
   });
 }
 

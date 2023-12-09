@@ -13,6 +13,10 @@ module.exports = {
       Package.locals = metadata.locals;
     }
 
+    if (metadata.enabled) {
+      Package.enabled = metadata.enabled;
+    }
+
     for (var name in views) {
       var view = views[name];
       var metadataToAddToPackage = {};
