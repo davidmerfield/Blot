@@ -134,7 +134,7 @@ TemplateEditor.route("/:templateSlug/local-editing")
 
         res.message(
           "/dashboard/" + req.blog.handle + "/template",
-          "Transferred template " + req.template.name + " to your folder"
+          "Transferred template <b>" + req.template.name + "</b> to your folder"
         );
 
         Template.writeToFolder(req.blog.id, req.template.id, function () {
@@ -214,7 +214,7 @@ TemplateEditor.route("/:templateSlug/delete")
       if (err) return next(err);
       res.message(
         res.locals.dashboardBase + "/template",
-        "Deleted template " + req.template.name
+        "Deleted template <b>" + req.template.name + "</b>"
       );
     });
   });
