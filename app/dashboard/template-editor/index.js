@@ -47,9 +47,9 @@ TemplateEditor.use("/:templateSlug/:section", function (req, res, next) {
 TemplateEditor.route("/:templateSlug/settings")
   .all(require("./load/font-inputs"))
   .all(require("./load/syntax-highlighter"))
-  .all(require("./load/color-scheme"))
   .all(require("./load/color-inputs"))
-  .all(require("./load/layout-inputs"))
+  .all(require("./load/index-inputs"))
+  .all(require("./load/navigation-inputs"))
   .all(require("./load/dates"))
   .post(
     parse,
@@ -69,7 +69,20 @@ TemplateEditor.route("/:templateSlug/settings")
           newLocals[local] = newLocals[local] === "on";
       }
 
-      for (let key in newLocals) locals[key] = newLocals[key];
+      for (let key in newLocals) {
+        // if locals[key] is an object, merge the newLocals[key] object into it
+        // otherwise simply assign newLocals[key] to locals[key]
+        // this makes it possible to update a single property of an object without
+        // overwriting the entire object
+        if (typeof locals[key] === "object") {
+          for (let prop in newLocals[key]) {
+            locals[key][prop] = newLocals[key][prop];
+          }
+        } else {
+          locals[key] = newLocals[key];
+        }
+      }
+
       for (let key in newPartials) partials[key] = newPartials[key];
 
       req.locals = locals;
@@ -77,10 +90,9 @@ TemplateEditor.route("/:templateSlug/settings")
 
       next();
     },
+    require("./save/fonts"),
     require("./save/layout-inputs"),
     require("./save/syntax-highlighter"),
-    require("./save/fonts"),
-    require("./save/color-scheme"),
     function (req, res, next) {
       Template.update(
         req.blog.id,
@@ -99,8 +111,12 @@ TemplateEditor.route("/:templateSlug/settings")
 
 TemplateEditor.route("/:templateSlug/local-editing")
   .all(require("./load/font-inputs"))
+  .all(require("./load/syntax-highlighter"))
   .all(require("./load/color-inputs"))
-  .all(require("./load/layout-inputs"))
+  .all(require("./load/index-inputs"))
+  .all(require("./load/navigation-inputs"))
+  .all(require("./load/dates"))
+
   .all(require("./load/dates"))
   .get(function (req, res) {
     res.locals.enabled = req.template.localEditing;
@@ -131,8 +147,10 @@ TemplateEditor.route("/:templateSlug/local-editing")
 
 TemplateEditor.route("/:templateSlug/rename")
   .all(require("./load/font-inputs"))
+  .all(require("./load/syntax-highlighter"))
   .all(require("./load/color-inputs"))
-  .all(require("./load/layout-inputs"))
+  .all(require("./load/index-inputs"))
+  .all(require("./load/navigation-inputs"))
   .all(require("./load/dates"))
 
   .get(function (req, res) {
@@ -152,8 +170,10 @@ TemplateEditor.route("/:templateSlug/rename")
 
 TemplateEditor.route("/:templateSlug/share")
   .all(require("./load/font-inputs"))
+  .all(require("./load/syntax-highlighter"))
   .all(require("./load/color-inputs"))
-  .all(require("./load/layout-inputs"))
+  .all(require("./load/index-inputs"))
+  .all(require("./load/navigation-inputs"))
   .all(require("./load/dates"))
 
   .get(function (req, res) {
@@ -177,8 +197,10 @@ TemplateEditor.route("/:templateSlug/share")
 
 TemplateEditor.route("/:templateSlug/delete")
   .all(require("./load/font-inputs"))
+  .all(require("./load/syntax-highlighter"))
   .all(require("./load/color-inputs"))
-  .all(require("./load/layout-inputs"))
+  .all(require("./load/index-inputs"))
+  .all(require("./load/navigation-inputs"))
   .all(require("./load/dates"))
 
   .get(function (req, res, next) {

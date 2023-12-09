@@ -11,7 +11,7 @@ module.exports = function (done) {
       return done(err);
     }
 
-    User.create(fakeEmail, passwordHash, {}, function (err, user) {
+    User.create(fakeEmail, passwordHash, {}, {}, function (err, user) {
       if (err) {
         return done(err);
       }

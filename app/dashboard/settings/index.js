@@ -16,6 +16,8 @@ settings.use(function (req, res, next) {
   next();
 });
 
+settings.use("/delete", require("./delete"));
+
 settings
   .route("/")
   .post(

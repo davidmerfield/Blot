@@ -1,4 +1,4 @@
-const Tail = require("../../app/helper/tail");
+const Tail = require("helper/tail");
 const access = new Tail("logs/nginx.log", { nLines: 1000 });
 const moment = require("moment");
 
@@ -9,7 +9,7 @@ var transactionsData = {
   title: "NGINX",
   style: { line: "red" },
   x: [],
-  y: [],
+  y: []
 };
 
 access.on("line", function (data) {

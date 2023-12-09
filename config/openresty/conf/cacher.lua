@@ -8,7 +8,7 @@ local cacher = {
 local function cacher_add (self, host, cache_key) 
     local shared_dictionary = self.shared_dictionary
     local cache_key_hash = ngx.md5(cache_key)
-    ngx.log(ngx.NOTICE, "adding to dictionary " .. cache_key_hash .. " host=" .. host .. " expected_hash=" .. cache_key_hash)
+    ngx.log(ngx.NOTICE, "add hash=" .. cache_key_hash .. " host=" .. host .. " key=" .. cache_key)
     shared_dictionary:rpush(host, cache_key_hash)
 end  
 
@@ -246,24 +246,7 @@ local function cacher_purge (self, ngx)
 
     for host in string.gmatch(ngx.var.args, "host=([^&]+)") do
         ngx.log(ngx.NOTICE, "purging host: " .. host)
-        local total_keys = shared_dictionary:llen(host)
-        local cache_key_hash = shared_dictionary:lpop(host)
-        while cache_key_hash do
-            -- the cache file path is in the following format: $x/$y/$cache_key_hash
-            -- where x is the last character of the cache_key_hash
-            -- and y are the two characters before x
-            local x = cache_key_hash:sub(-1)
-            local y = cache_key_hash:sub(-3,-2)
-            local cached_file_path = cache_directory .. "/" .. x .. "/" .. y .. "/" .. cache_key_hash
-            local f = io.open(cached_file_path, "r")
-            
-            if f ~= nil then
-                io.close(f) 
-                os.remove(cached_file_path)
-            end
-
-            cache_key_hash = shared_dictionary:lpop(host)            
-        end
+        local total_keys = purge_host(host, shared_dictionary, cache_directory)
         message = message .. host .. ": " .. total_keys .. "\n"
     end
 
@@ -274,6 +257,65 @@ local function cacher_purge (self, ngx)
     
     ngx.say(message)
     ngx.exit(ngx.OK)
+end
+
+function purge_host (host, shared_dictionary, cache_directory)
+    local total_keys = shared_dictionary:llen(host)
+    local cache_key_hash = shared_dictionary:lpop(host)
+    while cache_key_hash do
+        -- the cache file path is in the following format: $x/$y/$cache_key_hash
+        -- where x is the last character of the cache_key_hash
+        -- and y are the two characters before x
+        local x = cache_key_hash:sub(-1)
+        local y = cache_key_hash:sub(-3,-2)
+        local cached_file_path = cache_directory .. "/" .. x .. "/" .. y .. "/" .. cache_key_hash
+        local f = io.open(cached_file_path, "r")
+        
+        if f ~= nil then
+            io.close(f) 
+            os.remove(cached_file_path)
+        end
+
+        cache_key_hash = shared_dictionary:lpop(host)            
+    end
+
+    return total_keys
+end
+
+function purge_lru_hosts (self) 
+    -- returns all the keys in the dictionary, the least recently used at the very end of the list
+    local hosts = self.shared_dictionary:get_keys(0)
+    local maximum_hosts_to_purge = 500
+
+    -- we want to create a list of hosts that we can purge from the end of the list of hosts
+    local number_of_hosts_purged = 0
+
+    -- we want to purge the least recently used hosts first
+    for i = #hosts, 1, -1 do
+        local host = hosts[i]
+        purge_host(host, self.shared_dictionary, self.cache_directory)
+        number_of_hosts_purged = number_of_hosts_purged + 1
+        if (number_of_hosts_purged >= maximum_hosts_to_purge) then
+            break
+        end
+    end    
+end
+
+function cacher_check_free_space (self, ngx) 
+    local minimum_free_space = self.minimum_free_space
+
+    -- if minimum_free_space is not nil then we need to check if we need to purge the lru hosts
+    if (minimum_free_space ~= nil) then
+        local free_space = self.shared_dictionary:free_space()
+        
+        if (free_space < minimum_free_space) then
+            ngx.log(ngx.NOTICE, "dictionary_free_space=" .. free_space .. " is less than " .. minimum_free_space .. ", purging lru hosts")
+            purge_lru_hosts(self)
+            ngx.log(ngx.NOTICE, "purge of lru hosts complete")
+        else
+            ngx.log(ngx.NOTICE, "dictionary_free_space=" .. free_space .. " is greater than " .. minimum_free_space .. ", no need to purge lru hosts")
+        end
+    end
 end
 
 function cacher_monitor_free_space (self, ngx, monitor_interval)
@@ -295,7 +337,7 @@ function cacher_monitor_free_space (self, ngx, monitor_interval)
 
             -- calculate the memory usage in megabytes, rounded down
             local usage = math.floor((capacity - free_space) / 1024 / 1024)
-            local free_space_megabytes = math.floor(free_space / 1024 / 1024)
+            local free_space_mb = math.floor(free_space / 1024 / 1024)
             
             -- retrieve the disk usage of the cache directory
             local cache_directory = self.cache_directory
@@ -309,7 +351,9 @@ function cacher_monitor_free_space (self, ngx, monitor_interval)
             end
 
             handle:close()
-            ngx.log(ngx.NOTICE, "dictionary_usage=" .. usage .. "M disk_usage=" .. output .. " dictionary_free_space=" .. free_space_megabytes .. "M")
+            ngx.log(ngx.NOTICE, "dictionary_usage=" .. usage .. "M disk_usage=" .. output .. " dictionary_free_space=" .. free_space_mb .. "M")
+            
+            cacher_check_free_space(self, ngx)
         end
     end, self)
 end
@@ -332,7 +376,8 @@ function cacher.new()
         add = cacher_add,
         inspect = cacher_inspect,
         rehydrate = cacher_rehydrate,
-        monitor_free_space = cacher_monitor_free_space
+        monitor_free_space = cacher_monitor_free_space,
+        check_free_space = cacher_check_free_space
     }
 end
 

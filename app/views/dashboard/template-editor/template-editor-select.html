@@ -1,6 +1,13 @@
-<form method="post" style="padding:5px 16px;font-size: 14px">
-  {{label}}:<br>
+<form method="post" class="select" style="padding:5px 16px 12px;font-size: 14px;display:flex;align-items: baseline;">
+  <span style="flex-shrink: 0;flex-basis: 70px;">
+    {{label}}:
+  </span>
+  <span>
   {{#options}}
   <button type="submit" name="locals.{{key}}" class="{{selected}}" value="{{value}}">{{label}}</button>
   {{/options}}
+  </span>
 </form>
+<style>
+  form.select:hover {background: #fff;}
+</style>

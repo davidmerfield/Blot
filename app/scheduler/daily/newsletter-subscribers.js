@@ -1,13 +1,4 @@
-if (require.main === module) {
-  main(function (err, res) {
-    if (err) throw err;
-
-    console.log(res.newsletter_subscribers + " subscribed to the newsletter");
-    process.exit();
-  });
-}
-
-function main(callback) {
+function main (callback) {
   var redis = require("models/redis");
   var client = new redis();
   client.smembers("newsletter:list", function (err, subscribers) {
@@ -16,3 +7,5 @@ function main(callback) {
 }
 
 module.exports = main;
+
+if (require.main === module) require("./cli")(main);

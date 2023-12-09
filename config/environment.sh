@@ -42,7 +42,8 @@ export BLOT_ADMIN_EMAIL=
 export LD_LIBRARY_PATH=/usr/local/lib64
 
 # For taking screenshots
-export PUPPETEER_PRODUCT=firefox
+export PUPPETEER_PRODUCT=
+export PUPPETEER_EXECUTABLE_PATH=
 
 #############################################
 #               S E C R E T S               #
@@ -55,6 +56,11 @@ export BLOT_WEBHOOKS_SECRET=
 # Stripe for payment processing
 export BLOT_STRIPE_KEY=
 export BLOT_STRIPE_SECRET=
+
+# Paypal for payment processing
+export BLOT_PAYPAL_CLIENT_ID=
+export BLOT_PAYPAL_SECRET=
+export BLOT_PAYPAL_PLAN_ID=
 
 # Dropbox for folder syncing
 export BLOT_DROPBOX_APP_KEY=

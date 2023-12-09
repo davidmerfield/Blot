@@ -148,6 +148,13 @@ function build (directory, callback) {
     );
   }
 
+  if (template.locals.font !== undefined) {
+    template.locals.font = _.merge(
+      _.cloneDeep(DEFAULT_FONT),
+      template.locals.font
+    );
+  }
+
   if (template.locals.navigation_font !== undefined) {
     template.locals.navigation_font = _.merge(
       _.cloneDeep(DEFAULT_FONT),
@@ -171,6 +178,14 @@ function build (directory, callback) {
       template.locals.coding_font
     );
   }
+
+  if (template.locals.syntax_highlighter_font !== undefined) {
+    template.locals.syntax_highlighter_font = _.merge(
+      _.cloneDeep(DEFAULT_MONO_FONT),
+      template.locals.syntax_highlighter_font
+    );
+  }
+
   Template.drop(TEMPLATES_OWNER, basename(directory), function () {
     Template.create(TEMPLATES_OWNER, name, template, function (err) {
       if (err) return callback(err);

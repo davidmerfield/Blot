@@ -1,22 +1,131 @@
-Fix bug with screenshot issues on production server by using pupeteer with firefox
+Improvements to templates:
+- Library
+  - mobile
+  - make links open immediately
+  - fix archives page
+  - rename from reference
+  - move tags into top menu
+  - add tag filtering (nested tags)
+- Portfolio
+  - mobile
+  - spacing issue on firefox
+  - add full control for navigation font and logo font
+  - add infinite scroll
+  - add filler nodes for google images grid so you don't get inconsistent sizes
+  - add control over navigation width
+  - Improve typography of text posts
+  - improve navigation between posts
+  - fix boolean options missing (e.g. hide titles)
+- Magazine
+  - mobile
+  - rewrite in plain HTML
+- Image
+  - mobile
+  - rename from photo
 
-Monitor Blot's root disk usage, everything should now be on the EBS volume
+- General:
+  - Don't reload page on template editor to preserve scroll position
+  - Add paginateable entries list
+  - Add 'Template folder'
+  - Add downloadable sites
+    - which use the 'template folder'
+    - e.g. obsidian
+  - Clean up package.json
+    - Replace "Entries tagged " with "{{tag}}"
+  - Add static file uploader
+  - Make templates folder based
+    - data/templates/blog_id/template_name
+  - Assign guid template IDs
+  - Make it possible to rename template directories and tell [Darren](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwHxvsmgwbnxLbDMNDplTLltlc)
+  - Make template slug seperate from the template ID, simply for human readability
+  - Add webfont uploader
+  - Move footnotes into their own property
+    - update templates of sites with footnotes, replacing "{{{html}}}" with "{{{html}}} {{{footnotes}}}" 
+  - Generate favicons of different sizes from uploaded image
+  - Tell these people about new templates, and to subscribe to newsletter:
+    - [Chris](https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e)
+    - [John](https://mail.google.com/mail/u/1/#all/1618ca0420779742)
+    - [Jan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChmLnfMTdtNkpLxHTlPJNHlCT) 
+    - [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrRRZTKntrWKJvfDXrRFTzljs)
 
-Fix cloudflare redirect HTTP/HTTPS issue seems to have resurfaced - why?
+Improvements to website:
+- Fix broken link checker
+- Create material in docs with title 'Turn X into website' where X is:
+  - Dropbox, Google Drive, etc.
+  - Word Document, Google Doc, etc.
+- Document text editors
+  https://coteditor.com/
+  https://zettelkasten.de/the-archive/
+  https://tot.rocks/
+  https://desairem.com/wordpress/ufocus/
+- Add guide to useful text editors like [this one recommended by Andrew](https://itunes.apple.com/us/app/write-best-note-taking-app/id848311469)
+  - do this as a marketing strategy, e.g. target 'blog with microsoft word', 'blog with google docs', 'blog with ia writer' etc... contact the people who make text editors and ask them to link to us?
+- Personalize the documentation for logged in customers
+- Add [contributor](https://api.github.com/repos/davidmerfield/blot/contributors) / [language](https://api.github.com/repos/davidmerfield/blot/languages) and repo information to source code page using GitHub API.
 
-Work out why nginx is storing cache files even with bypass
+Redo demo video
+- Finish setting up Office
+- Ensure each template is good enough for the new film
+- Finish the test folders for each template 
+- Finish video in brochure/readme.txt
+
+Write newsletter
+
+---
+
+Can we support google docs even from Dropbox? if the doc is public?
+
+Investigate why [changes made to app/scheduler/daily/revenue.js increased the number of active blogs](https://github.com/davidmerfield/Blot/blob/494900a5dda1d916569c925adfbb6e68606c99bd/app/scheduler/daily/revenue.js#L21-L29) in my email
+
+Ensure that overdue PayPal subscription webhooks map to notification emails
+
+Final polish on stats dashboard
+- Add monitor the root disk usage of both servers to stats
+- Tie in daily update stats to stats dashboard
+
+Purge old docs CSS and JS from CDN storage cache
+
+Make sure main server can hard restart without issue
+
+Experiment with ways to map folder structure to template navigation
+- follow up with Misho
+
+Data use minimization:
+- Write automated script to archive overdue blogs from disk and db
+- Write script to remove unused and unaccessed static files from within blog folders
+  - we'll also need to purge the cache of the transformer module for the file
+
+Set up fail2ban on nginx logs
+
+When a post is deleted, we should remove everything except the created time?
+
+Create a queue for purging cache, group requests together to prevent stampede
+
+Prevent overzealous purging of cache for syncs in which the folder does not change
+
+Add WebDav support
 
 Work out why rebuilding template from folder clears cache even if the template is not changed
 - stop this
 
-Begin purging cached files when the cache shared dictionary is filling up
-- use get_keys(100) and purge 100 hosts at a time, then check free_space() 
-- Eventually, we should try and purge the least recently used hosts with the largest number of keys in the dictionary
-- But picking at random works for now
+Improve paypal integration:
+- [ ] Get create new blog working
+  - [ ] Add way to modify subscription quantity for paypal users
+- [ ] Create new router for paypal subscription settings
+- [ ] Test subscription with real paypal account
+  - [ ] Test new blog creation
+  - [ ] Test new blog deletion
+  - [ ] Test switch to annual billing
+  - [ ] Test account deletion
+- [ ] Add subscription pause
+- [ ] Make it possible to add paypal as a payment method for existing stripe users
+- [ ] Verify signature integrity of paypal webhooks
+- [ ] Use PayPal buttons api to modify subscription properties
+- [ ] Get account page working
+  - [ ] Add way to cancel subscription from dashboard
+  - [ ] Add way to delete account from dashboard
+- [ ] Update scheduleEmailNotification for paypal customers
 
-Add WebDav support
-
-Check for SSL renewal errors
 
 Can I use proxy_store instead of openrestycache?
 
@@ -25,47 +134,16 @@ Prevent Google Drive client from re crawling entire folder for every sync
 
 Prevent unneeded cache purge when templates are rebuilt, either from folder or on disk in app/templates
 
-Make sure main server can hard restart without issue
-
-Create material in docs with title 'Turn X into website' where X is:
-- Dropbox, Google Drive, etc.
-- Word Document, Google Doc, etc.
-
-Document text editors
-https://coteditor.com/
-https://zettelkasten.de/the-archive/
-https://tot.rocks/
-https://desairem.com/wordpress/ufocus/
+Can we add a 'folder rules' section to create ignore globs, multi post globs, etc.
 
 Git client is extremely slow to set up large folders – we need a loading screen
 
 When a folder has lots of elements, trim the list of files on the dashboard, at least on the index page
 
-Monitoring:
-- Write status page check that checks CDN connection to Blot
-  - should not be cached, should test connection
-- Move log aggregator into redis?
-- Set up fail2ban on nginx logs
+Fix cloudflare redirect HTTP/HTTPS issue seems to have resurfaced - why?
 
-Purge old docs CSS and JS from CDN storage cache
-
-Finish redis server setup:
-- write cron script to save redis-server disk usage and free memory stats in the db then monitor this from scheduler
-- launch staging redis server from backup on s3
-- Check that redis logs have been rotated - /etc/logrotate.d/redis6
-
-Data use minimization:
-- Write automated script to archive overdue blogs from disk and db
-- Write script to remove unused and unaccessed static files from within blog folders
-  - we'll also need to purge the cache of the transformer module for the file
-
-When a post is deleted, we should remove everything except the created time?
-
-Create a queue for purging cache, group requests together to prevent stampede
-
-Prevent overzealous purging of cache for syncs in which the folder does not change
-
----
+Store path -> md5 hash on sync
+- Use to auto version links to files in your folder 
 
 Investigate webp thumbnails
 
@@ -76,6 +154,8 @@ Fix responsive thumbnail component on photo template (it loads large thumbnail e
 Eventually configure cloud watch reboot sequence then test it
 
 ---
+
+Can we manually 'inject' files into the cache? e.g. popular blog folder files?
 
 Investigate if we can rewrite git client so we don't need to store double the data - right now we have 48GB duped
 
@@ -93,13 +173,6 @@ Fix post navigation on Portfolio template and tell [Questioner](https://blot.im/
 
 ---
 
-Work on templates
-- Tell these people about new templates, and to subscribe to newsletter:
-  - [Chris](https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e)
-  - [John](https://mail.google.com/mail/u/1/#all/1618ca0420779742)
-  - [Jan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChmLnfMTdtNkpLxHTlPJNHlCT) 
-  - [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrRRZTKntrWKJvfDXrRFTzljs)
-
 Improve image posts
 - Add opt-in EXIF extraction for photos and enable in the photos template
 - Add support for other image formats, by converting them into jpg/webp
@@ -107,12 +180,6 @@ Improve image posts
 
 Add support for textbundle files and tell [questioner](https://blot.im/questions/1385)
 - this will help me understand how best to accomplish multi-file posts
-
-Release a new film showing some of Blot’s more recent features
-- Finish setting up Office
-- Ensure each template is good enough for the new film
-- Finish the test folders for each template 
-- Finish video in brochure/readme.txt
 
 ---
 
@@ -303,14 +370,11 @@ Investigate bug with template views whose names include hashtags and follow up w
 
 ---
 
-Migrate to k8s cluster on Linode
-
-Improve express disk cache
-- [ ] can more of the documentation become markdown?
-- [ ] can we turn the documentation design into a blot digital garden template?
-- [ ] add PNG lossless compression for brochure
-- [ ] add JPG lossless compression for brochure
-- [ ] add SVG lossless compression for brochure
+Add support for paying with crypto, BTC ETH
+- Consider https://github.com/btcpayserver https://github.com/btcpayserver/node-btcpay
+- Tell [Chaz](https://mail.google.com/mail/u/1/#sent/165b726aa900158a) 
+- Tell [Anita](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsSWMtCTdmrbscFCFLggctmxH)
+- Tell [Arc](https://mail.google.com/mail/u/0/#inbox/FMfcgzGtwqJkLxGTKPXhZPSWVjJqQbjs)
 
 Improve Are.na importer so it handles descriptions + also other file types (e.g. PDF, text) and tell [Marco](https://mail.google.com/mail/u/0/#inbox/QgrcJHsBvDqvbgfkRJfBlwLBwlDHDncxVnl)
 
@@ -671,18 +735,7 @@ Convert [Vitepress](https://vitepress.vuejs.org/) to Blot and tell [Nicolas](htt
 
 Expose log files on blog's dashboard and tell [Roman](https://mail.google.com/mail/u/0/#inbox/FMfcgzGtwDDXlpTvjNdJwmjXTCzGTqbW), [Sönke](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLtsxjSMlVmNRFGJJxkpsVFNvg) and [questioner](https://blot.im/questions/136) and [John](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmvBnVvqHdJXLgDhrtChCqdMQX)
 
-Improvements to brochure:
-- Write build scripts which can be run to produce results checked into git
-   - inline css in blot.css
-   - inline css in katex.css?
-   - base 64 encode and inline small images on homepage
-   - Optimize all images in image directory
-   - compute content hashes then Use blotcdn for video and other large static files
-- Add end-to-end tests for brochure site to test sign up flow (use Playwright? Phantom? Chrome headless)
-- Add guide to useful text editors like [this one recommended by Andrew](https://itunes.apple.com/us/app/write-best-note-taking-app/id848311469)
-  - do this as a marketing strategy, e.g. target 'blog with microsoft word', 'blog with google docs', 'blog with ia writer' etc... contact the people who make text editors and ask them to link to us?
-- Personalize the documentation for logged in customers
-- Add [contributor](https://api.github.com/repos/davidmerfield/blot/contributors) / [language](https://api.github.com/repos/davidmerfield/blot/languages) and repo information to source code page using GitHub API.
+Add end-to-end tests for brochure site to test sign up flow (use Playwright? Phantom? Chrome headless)
 
 Improve wikilinks lookup algorithm:
 - [ ] Add support for 'shortest path where possible' on Obsidian
@@ -893,12 +946,6 @@ Rebuild all the thumbnails and cached images for every blog
 
 ---
 
-Add support for paying with Bitcoin 
-- Consider https://github.com/btcpayserver https://github.com/btcpayserver/node-btcpay
-- Tell [Chaz](https://mail.google.com/mail/u/1/#sent/165b726aa900158a) 
-- Tell [Anita](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsSWMtCTdmrbscFCFLggctmxH)
-- Tell [Arc](https://mail.google.com/mail/u/0/#inbox/FMfcgzGtwqJkLxGTKPXhZPSWVjJqQbjs)
-
 Add support for paths to static files with a trailing slash then tell [Sean](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGBwbZsfsWKHCGcbzXXSPhQWXx)
 
 Add copy button to code snippets in \<pre\> tags and tell [Atif](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGCGxBVcrtzqmXGBtpLTBBjrQf)
@@ -1031,6 +1078,38 @@ Add notification emails for monit events
 Research state of static site generators
 - https://www.11ty.io/docs/
 - https://www.staticgen.com/
+
+- If Apple releases an API, tell people who are interested in using the iCloud client
+  - [ ] [David](https://mail.google.com/mail/u/0/#inbox/FMfcgzGtwWCBwRJKJFcZXtkhBkcCcJGV)
+  - [ ] [Andrew](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJfNnhCDNsffJSjnQHnxdSfh)
+  - [ ] [Cristina](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmtFHHXQKNQKppXpHGpkvLjQSD)
+  - [ ] [John](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlkPcphtxgswTQccZLfQGwfWhN)
+  - [ ] [David](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJfNfSZgQqjNWLWVHZjwXQrS)
+  - [ ] [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJfNTrdmqJwwzCPLrhcQRNWW)
+  - [ ] [Dave](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJfNfLmTVjNGcXZVRWdlrLzp)
+  - [ ] [Shawn](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJfNfRRjzkzpvQjPTCQtqpDx)
+  - [ ] [Andrew](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJgWDpnsGBCXsCwkxRZnXMph)
+  - [ ] [Chris](https://mail.google.com/mail/u/0/#inbox/FMfcgxwC1hJjqgsvKxxVgFdbXvxNTHTsz)
+  - [ ] [Leo](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqQSRJwdnCqhZNBPtRxpWlbWXv)
+  - [ ] [Kerim](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChSJkptkQxlqTjsDCtdTgMWXv)
+  - [ ] [Nat](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqQSTbjBLgXjSTDVCTblLhvbKr)
+  - [ ] [Wilt](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChcgKzMGXdrHMVhrjsjJnnBzk)
+  - [ ] [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqfMPDQnSTBSsWXdtfkVdJzdD)
+  - [ ] [Arlo](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJWrZRLJddkZSdrMVxrNkTZLKn)
+  - [ ] [Anders](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKkRFxsDShhsHGNcdRqwHFMmJM)
+  - [ ] [Victor](https://mail.google.com/mail/u/0/#inbox/FMfcgzGkbDVrLFlwcgwDddsVPJBVKSvW)
+  - [ ] [Ken](https://mail.google.com/mail/u/0/#inbox/FMfcgzGpGdmpXpTBPzTgnrSHLMjcMGKq)
+  - [ ] [Sebastien](https://mail.google.com/mail/u/0/#inbox/FMfcgzGpGwtWnjjFvGfHLnHfRzgrcjGW)
+  - [ ] [Austin](https://mail.google.com/mail/u/0/#inbox/FMfcgzGsltKdZxhmCMXvhJjpWxkVDpTq)
+  - [ ] [Kirk](https://mail.google.com/mail/u/0/#inbox/FMfcgzGsmDsZvbQwRgRLgJVDXHDJshxK)
+  - [ ] [Ray](https://mail.google.com/mail/u/0/#inbox/FMfcgzGsmNMjKsNbfdTbXCPWGkzpxkTk)
+  - [ ] [Jan](https://mail.google.com/mail/u/0/#inbox/FMfcgzGsmXBHFvkklRwGzBwfVwfvxSGb)
+  - [ ] [Pete](https://mail.google.com/mail/u/0/#inbox/FMfcgzGtwzjcGlzctBZfjZCnJpbZrqrQ)
+  - [ ] [Noa](https://mail.google.com/mail/u/0/#inbox/FMfcgzGtxSsdCkFmHPJSZCnvgSpBFqKm)
+  - [ ] [Michael](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwHLjnsCXDFckPMjJMrfDrptdD)
+  - [ ] [Eric](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwHLjmmqsDpLvWDTRJMDzLMVrN)
+  - [ ] [Lex](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwHLjmmpknrnmxgWWBktzlgcxF)
+  - [ ] [Aron](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwHVKqlCcMrbtjnZDKNqBdhVbd)
 
 Investigate [support for xattr](https://github.com/LinusU/fs-xattr) to read image metadata on Blot? Or source for dragged images? 
 

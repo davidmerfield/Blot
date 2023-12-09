@@ -1,22 +1,42 @@
 <form class="account" method="POST">
+  <input type="hidden" name="_csrf" value="{{ csrftoken }}" />
 
-  <input type="hidden" name="_csrf" value="{{csrftoken}}">
+  <p>
+    If you <b>delete your account</b>, your subscription will end and you will
+    not be charged again. {{#blogs.length}}Your blog{{ user.s }} and t{{/blogs.length
 
-  <p>If you <b>delete your account</b>, your subscription will end and you will not be charged again. {{#blogs.length}}Your blog{{user.s}} and t{{/blogs.length}}{{^blogs.length}}T{{/blogs.length}}he data associated with your account will be <b>permanently removed</b>.</p>
 
-  <p>If you would like to continue using Blot until the end of your billing period, consider <a href="/dashboard/account/subscription/cancel">cancelling your subscription</a> instead.</p>
 
-    <label >Please enter your password:
-    <input autofocus type="password" name="password"/>
+    }}{{^blogs.length}}T{{/blogs.length}}he data associated with your account
+    will be <b>permanently removed</b>.
+  </p>
+
+  {{#user.subscription.status}}
+  <p>
+    If you would like to continue using Blot until the end of your billing
+    period, consider
+    <a href="/dashboard/account/subscription/cancel"
+      >cancelling your subscription</a
+    >
+    instead.
+  </p>
+  {{/user.subscription.status}}
+
+  <label
+    >Please enter your password:
+    <input autofocus type="password" name="password" />
   </label>
 
-
   <div class="buttons">
-    <button type="submit" class="red" onclick="this.form.submit();this.disabled=true">Delete your account</button>
+    <button
+      type="submit"
+      class="red"
+      onclick="this.form.submit();this.disabled=true">
+      Delete your account
+    </button>
     <a href="/dashboard/account/subscription">Do not delete</a>
   </div>
 
-  <br>
-<br>
-
+  <br />
+  <br />
 </form>

@@ -1,69 +1,67 @@
-var User = require("models/user");
-var async = require("async");
-var prettyPrice = require("helper/prettyPrice");
-var prettyNumber = require("helper/prettyNumber");
+const User = require("models/user");
+const extend = require("models/user/extend");
+const async = require("async");
+const prettyPrice = require("helper/prettyPrice");
+const prettyNumber = require("helper/prettyNumber");
 
-function removeStripeFee(amount) {
-  return Math.floor(amount - (amount * 0.029 + 30));
-}
-
-function main(callback) {
-  // Minus Stripe fees
-  var annual_recurring_revenue_after_stripe = 0;
+function main (callback) {
   var annual_recurring_revenue = 0;
+  var paypal_annual_recurring_revenue = 0;
   var revenue_billed_monthly = 0;
-  var revenue_billed_monthly_after_stripe = 0;
   var total_active_blogs = 0;
-  var total_subscriptions = 0;
+  var total_active_blogs_paypal = 0;
+  var total_customers = 0;
+  var total_customers_paypal = 0;
+
   User.getAllIds(function (err, uids) {
     async.map(uids, User.getById, function (err, users) {
       users.forEach(function (user) {
+        user = extend(user);
+
         if (user.isDisabled) return;
 
-        if (!user.subscription.status) return;
+        if (!user.isSubscribed) return;
 
-        if (user.subscription.status !== "active") return;
+        total_customers++;
+        total_active_blogs += user.pretty.amount;
 
-        if (user.subscription.cancel_at_period_end) return;
+        if (user.isMonthly === false) {
+          annual_recurring_revenue += user.totalFee;
+        } else {
+          revenue_billed_monthly += user.totalFee;
+          annual_recurring_revenue += user.totalFee * 12;
+        }
 
-        if (user.subscription.current_period_end * 1000 < Date.now()) return;
-
-        total_subscriptions++;
-        total_active_blogs += user.subscription.quantity;
-
-        if (user.subscription.plan.interval === "year") {
-          annual_recurring_revenue +=
-            user.subscription.quantity * user.subscription.plan.amount;
-          annual_recurring_revenue_after_stripe += removeStripeFee(
-            user.subscription.quantity * user.subscription.plan.amount
-          );
-        } else if (user.subscription.plan.interval === "month") {
-          revenue_billed_monthly += removeStripeFee(
-            user.subscription.quantity * user.subscription.plan.amount
-          );
-          annual_recurring_revenue_after_stripe +=
-            removeStripeFee(
-              user.subscription.quantity * user.subscription.plan.amount
-            ) * 12;
-          annual_recurring_revenue +=
-            removeStripeFee(
-              user.subscription.quantity * user.subscription.plan.amount
-            ) * 12;
+        if (user.paypal.status) {
+          total_customers_paypal++;
+          total_active_blogs_paypal += user.pretty.amount;
+          paypal_annual_recurring_revenue += user.isMonthly
+            ? user.totalFee * 12
+            : user.totalFee;
         }
       });
 
       callback(null, {
-        revenue_billed_monthly: prettyPrice(
-          Math.floor(revenue_billed_monthly / 100) * 100
-        ),
+        total_customers_paypal,
+        total_active_blogs_paypal,
+        paypal_percentage:
+          (
+            (paypal_annual_recurring_revenue / annual_recurring_revenue) *
+            100
+          ).toFixed(1) + "%",
+        monthly_percentage:
+          (
+            ((revenue_billed_monthly * 12) / annual_recurring_revenue) *
+            100
+          ).toFixed(1) + "%",
         annual_recurring_revenue: prettyPrice(
           Math.floor(annual_recurring_revenue / 100) * 100
         ),
         monthly_recurring_revenue: prettyPrice(
           Math.floor(Math.floor(annual_recurring_revenue / 12) / 100) * 100
         ),
-        total_subscriptions: total_subscriptions,
-        total_active_blogs: prettyNumber(total_active_blogs),
+        total_customers,
+        total_active_blogs: prettyNumber(total_active_blogs)
       });
     });
   });

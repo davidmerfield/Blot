@@ -8,6 +8,7 @@
   <select id="server">
     <option value="node">Node</option>
     <option value="nginx">Nginx</option>
+    <option value="redis">Redis</option>
   </select>
   <select id="range">
     <option value="hour">Hour</option>
@@ -44,6 +45,7 @@
   fetch(`/dashboard/stats/stats.json?server=${server}&range=${range}`)
     .then(response => response.json())
     .then(stats => {
+      console.log(stats);
       const charts = Object.keys(stats[0])
         .filter(
           label => label !== "date" && typeof stats[0][label] === "number"

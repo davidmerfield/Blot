@@ -26,6 +26,8 @@ site.use("/clients", require("clients/routes"));
 // The stripe webhook handler
 site.use("/stripe-webhook", require("./dashboard/stripe_webhook"));
 
+site.use("/paypal-webhook", require("./dashboard/paypal_webhook"));
+
 // The documentation
 // ------------
 // The least important application. It serves the documentation

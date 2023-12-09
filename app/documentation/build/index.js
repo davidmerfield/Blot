@@ -73,6 +73,22 @@ async function buildHTML (path) {
 
   const html = await fs.readFile(join(SOURCE_DIRECTORY, path), "utf-8");
 
+  // we want to remove any indentation before the partial tag {{> body}}
+
+  if (html.includes("{{> body}}")) {
+    const lines = html.split("\n");
+    const result = lines
+      .map(i => {
+        if (!i.includes("{{> body}}")) return i;
+        if (i.trim().startsWith("{{> body}}")) return i.trim();
+      })
+      .join("\n");
+
+    await fs.outputFile(join(DESTINATION_DIRECTORY, path), result);
+
+    return;
+  }
+
   const $ = cheerio.load(html, { decodeEntities: false });
 
   for (const transformer of transformers) {

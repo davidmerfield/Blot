@@ -1,6 +1,7 @@
 const fs = require("fs-extra");
 const { blot_directory } = require("config");
-const STATS_DIRECTORY = require("./statsDirectory");
+
+const redis_stats = require("./redis");
 
 async function handle ({ logFileName, aggregator }) {
   // the most recent logfile is stored
@@ -47,9 +48,15 @@ async function main ({ reset = false }) {
     await fs.emptyDir();
     console.log("reset stats, now recomputing...");
   }
+
+  await redis_stats();
+
   await Promise.all([
     handle({ logFileName: "app.log", aggregator: require("./node") }),
-    handle({ logFileName: "access.log", aggregator: require("./nginx-access") })
+    handle({
+      logFileName: "access.log",
+      aggregator: require("./nginx-access")
+    })
   ]);
 }
 
@@ -61,5 +68,7 @@ if (require.main === module) {
     if (!process.argv[2]) {
       console.log("please specify --reset to reset stats");
     }
+    console.log("done");
+    process.exit();
   })();
 }

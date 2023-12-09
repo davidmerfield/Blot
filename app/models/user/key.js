@@ -16,4 +16,8 @@ module.exports = {
   customer: function (customer) {
     return "customer:" + customer;
   },
+
+  paypal: function (subscriptionId) {
+    return "paypal:" + subscriptionId;
+  }
 };

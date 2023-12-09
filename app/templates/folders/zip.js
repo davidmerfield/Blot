@@ -1,9 +1,9 @@
 const async = require("async");
 const fs = require("fs-extra");
 const archiver = require("archiver");
+const { blot_directory } = require("config");
 
-const VIEW_DIRECTORY = require("helper/rootDir") + "/app/views/templates";
-
+const VIEW_DIRECTORY = blot_directory + "/app/documentation/data/templates";
 const FOLDER_DIRECTORY = __dirname;
 
 const main = callback => {

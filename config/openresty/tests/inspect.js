@@ -31,7 +31,7 @@ describe("cacher", function () {
         files.map(path => path.split("/").pop()).sort()
       );
 
-      expect(await this.inspectCache()).toEqual("");
+      expect(await this.inspectCache()).toEqual("Cache is consistent");
     },
     1000 * 60 * 5
   );

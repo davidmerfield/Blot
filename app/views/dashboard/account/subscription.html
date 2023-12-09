@@ -17,7 +17,7 @@
     
     {{#user.isSubscribed}} 
 
-    {{#user.subscription.quantity}}
+    {{#user.pretty.amount}}
 
     <div class="line"
       ><span class="label">Next bill</span
@@ -38,7 +38,7 @@
     
     
 
-    {{/user.subscription.quantity}} 
+    {{/user.pretty.amount}} 
 
     {{/user.isSubscribed}}
 
@@ -49,19 +49,20 @@
     >
     {{/user.isFreeForLife}}
 
-    {{#user.cancel_at_period_end}}
+    {{#user.willCancel}}
     <a class="line" href="/dashboard/account/subscription/restart"
       ><span class="label">Restart</span
       ><span class="center"
         ><span class="link">Restart your subscription</span></span
       ></a
     >
-    {{/user.cancel_at_period_end}}
+    {{/user.willCancel}}
 
     {{#user.isSubscribed}}
 
     <div class="clear"></div>
 
+    {{^user.paypal.status}}
     <a class="line" href="/dashboard/account/subscription/billing-interval"
       ><span class="label">Billing interval</span
       ><span class="center"
@@ -69,21 +70,26 @@
       >
       <span class="right">Switch to {{#monthly}}annual{{/monthly}}{{^monthly}}monthly{{/monthly}} billing</span>
     </a>
+    {{/user.paypal.status}}
 
-
+    {{#user.subscription.status}}
     <a class="line" href="/dashboard/account/subscription/payment-method"
       ><span class="label">Payment method</span
       ><span class="center"
         ><span class="link">Update payment method</span></span
       ></a
     >
+    {{/user.subscription.status}}
 
+    {{^user.paypal.status}}
     <a class="line" href="/dashboard/account/subscription/cancel"
       ><span class="label">Cancel</span
       ><span class="center"
         ><span class="link">Cancel your subscription</span></span
       ></a
     >
+    {{/user.paypal.status}}
+
 
     {{/user.isSubscribed}}
     <a class="line" href="/dashboard/account/subscription/delete" style="border-bottom: none">

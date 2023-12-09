@@ -92,6 +92,18 @@ module.exports = {
     timeout: 10000 // 10s
   },
 
+  paypal: {
+    client_id: process.env.BLOT_PAYPAL_CLIENT_ID,
+    secret: process.env.BLOT_PAYPAL_SECRET,
+    plans: {
+      monthly_4: process.env.BLOT_PAYPAL_MONTHLY_4,
+      yearly_44: process.env.BLOT_PAYPAL_YEARLY_44
+    },
+    api_base: `https://api.${
+      environment === "development" ? "sandbox." : ""
+    }paypal.com`
+  },
+
   cdn: {
     origin: BLOT_CDN
   },

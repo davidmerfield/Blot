@@ -4,10 +4,12 @@ const fs = require("fs-extra");
 const main = async (
   origin = "http://127.0.0.1/inspect",
   cache_directory = "/var/www/cache",
-  only_host = null
+  only_host = null,
+  verbose = false
 ) => {
   const top_level_directories = await fs.readdir(cache_directory);
   const cache = {};
+  let message = "";
 
   // for each top level directory, read its contents
   for (const directory of top_level_directories) {
@@ -40,8 +42,6 @@ const main = async (
     }
   }
 
-  console.log(`Found ${Object.keys(cache).length} hosts in cache`);
-
   // go through each host in the directory and then request
   // origin?host=host and compare the response to the cache
   for (const host of Object.keys(cache).sort()) {
@@ -55,8 +55,9 @@ const main = async (
     const origin_only = origin_files.filter(file => !cache_files_set.has(file));
 
     if (cache_only.length || origin_only.length) {
+      // these are files which exist on disk but are not tracked by the lua shared dict
       if (cache_only.length) {
-        console.log(`${host} ${cache_only.join(", ")}`);
+        message += `${host} ${cache_only.join(", ")}` + "\n";
       }
       //   if (origin_only.length) {
       //     console.log(`Origin only: ${origin_only.join(", ")}`);
@@ -64,7 +65,18 @@ const main = async (
     }
   }
 
-  return "";
+  if (message.length === 0) {
+    message = "Cache is consistent";
+  }
+
+  if (verbose) {
+    return {
+      message,
+      cache
+    };
+  }
+
+  return message;
 };
 
 if (require.main === module) {

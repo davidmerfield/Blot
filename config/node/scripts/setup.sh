@@ -134,6 +134,11 @@ systemctl daemon-reload
 systemctl start mount-data-disk
 systemctl enable mount-data-disk
 
+# TODO:
+# edit /etc/systemd/journald.conf
+# uncomment and change the following line
+# SystemMaxUse=1G
+
 
 # Create a systemd service for the blot application using the file ./node.service
 cp $SCRIPTS_DIRECTORY/node.service /etc/systemd/system/node.service

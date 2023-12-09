@@ -12,12 +12,23 @@ var Email = require("helper/email");
 var BAD_CHARGE = "Could not charge your card.";
 var ERR = "Could not change your subscription.";
 var parse = require("dashboard/parse");
+var updatePayPalSubscription =
+  require("dashboard/paypal_webhook").updateSubscription;
 
 CreateBlog.use(function (req, res, next) {
   res.locals.breadcrumbs.forEach(function (link) {
     if (link.label === "Your account") link.label = "Your sites";
   });
   next();
+});
+
+CreateBlog.route("/paypal").get(async (req, res, next) => {
+  // fetch the latest subscription from PayPal
+  if (!req.user.paypal.id) return next();
+
+  await updatePayPalSubscription(req.user.paypal.id);
+  Email.CREATED_BLOG(req.user.uid);
+  res.redirect("/dashboard/account/create-blog");
 });
 
 CreateBlog.route("/pay")
@@ -27,7 +38,10 @@ CreateBlog.route("/pay")
   .all(function (req, res, next) {
     // Only allow users who have blogs for all they've paid
     // to see the pay page!
-    if (req.user.subscription.quantity <= req.user.blogs.length) {
+    if (
+      req.user.subscription.quantity <= req.user.blogs.length ||
+      parseInt(req.user.paypal.quantity) <= req.user.blogs.length
+    ) {
       return next();
     }
 
@@ -40,9 +54,11 @@ CreateBlog.route("/pay")
     res.locals.breadcrumbs = res.locals.breadcrumbs.slice(0, -1);
     res.locals.breadcrumbs[res.locals.breadcrumbs.length - 1].last = true;
     res.render("account/create-blog-pay", {
-      title: "Create a blog",
+      title: "Create a site",
       not_paid: true,
-      breadcrumb: "Create blog"
+      breadcrumb: "Create site",
+      paypal_client_id: config.paypal.client_id,
+      new_quantity: req.user.blogs.length + 1
     });
   })
 
@@ -74,6 +90,10 @@ CreateBlog.route("/")
       return next();
     }
 
+    if (req.user.paypal && req.user.paypal.quantity > req.user.blogs.length) {
+      return next();
+    }
+
     res.redirect(req.baseUrl + "/pay");
   })
 
@@ -100,6 +120,9 @@ CreateBlog.route("/")
 function calculateFee (req, res, next) {
   // We dont need to do this for free users
   if (canSkip(req.user)) return next();
+
+  // Skip for PayPal users
+  if (!req.user.subscription.status) return next();
 
   // This happens when the latest subscription is not available from
   // Stripe. Basically the end date for the subscription is in the
@@ -139,22 +162,20 @@ function calculateFee (req, res, next) {
 }
 
 function validateSubscription (req, res, next) {
-  var subscription = req.user.subscription;
-
   if (canSkip(req.user)) return next();
 
-  if (
-    !subscription ||
-    !subscription.status ||
-    subscription.status !== "active"
-  ) {
-    res.message(
-      "/dashboard/account/subscription/create",
-      new Error("You need an active subscription to create a new blog")
-    );
-  } else {
-    next();
+  if (req.user.paypal && req.user.paypal.status === "ACTIVE") {
+    return next();
   }
+
+  if (req.user.subscription && req.user.subscription.status === "active") {
+    return next();
+  }
+
+  res.message(
+    "/dashboard/account/subscription/create",
+    new Error("You need an active subscription to create a new blog")
+  );
 }
 
 var chars = "abcdefghijklmnopqrstuvwxyz".split("");
@@ -225,7 +246,9 @@ function saveBlog (req, res, next) {
 }
 
 function canSkip (user) {
-  return !user.subscription.status && user.blogs.length === 0;
+  return (
+    !user.subscription.status && !user.paypal.status && user.blogs.length === 0
+  );
 }
 
 function updateSubscription (req, res, next) {
