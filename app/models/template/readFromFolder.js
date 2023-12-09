@@ -13,8 +13,10 @@ var savePackage = require("./package").save;
 var client = require("models/client");
 var key = require("./key");
 var dropView = require("./dropView");
+const blog = require("../../../scripts/get/blog");
+const Blog = require("models/blog");
 
-module.exports = function readFromFolder(blogID, dir, callback) {
+module.exports = function readFromFolder (blogID, dir, callback) {
   var id = makeID(blogID, basename(dir));
 
   isOwner(blogID, id, function (err, isOwner) {
@@ -29,7 +31,7 @@ module.exports = function readFromFolder(blogID, dir, callback) {
       fs.readdir(dir, function (err, contents) {
         if (err) return callback(err);
 
-        loadPackage(id, dir, function (err, views) {
+        loadPackage(id, dir, function (err, views, enabled) {
           const errors = {};
 
           if (err) {
@@ -57,50 +59,63 @@ module.exports = function readFromFolder(blogID, dir, callback) {
                   )
                     return next();
 
-                  fs.readFile(dir + "/" + name, "utf-8", function (
-                    err,
-                    content
-                  ) {
-                    if (err) return next();
+                  fs.readFile(
+                    dir + "/" + name,
+                    "utf-8",
+                    function (err, content) {
+                      if (err) return next();
 
-                    // We look up this view file to merge any existing properties
-                    // Should this really be handled by setView? It looks like
-                    // setView already calls getView...
-                    getView(id, name, function (err, view) {
-                      // getView returns an error if the view does not exist
-                      // We want to be able to create new views using local editing
-                      // we so ignore this error, and create the view object as needed
-                      view = view || {};
-                      view.name = view.name || name;
+                      // We look up this view file to merge any existing properties
+                      // Should this really be handled by setView? It looks like
+                      // setView already calls getView...
+                      getView(id, name, function (err, view) {
+                        // getView returns an error if the view does not exist
+                        // We want to be able to create new views using local editing
+                        // we so ignore this error, and create the view object as needed
+                        view = view || {};
+                        view.name = view.name || name;
 
-                      // Views might not exist if there's an error
-                      // with the template's package.json file
-                      if (views && views[name])
-                        for (var i in views[name]) view[i] = views[name][i];
+                        // Views might not exist if there's an error
+                        // with the template's package.json file
+                        if (views && views[name])
+                          for (var i in views[name]) view[i] = views[name][i];
 
-                      view.content = content;
-                      view.url = view.url || "/" + view.name;
+                        view.content = content;
+                        view.url = view.url || "/" + view.name;
 
-                      setView(id, view, function (err) {
-                        // we expose this error to the developer on
-                        // the preview subdomain
-                        if (err) {
-                          errors[view.name] = improveMustacheErrorMessage(
-                            err,
-                            content
-                          );
-                        }
+                        setView(id, view, function (err) {
+                          // we expose this error to the developer on
+                          // the preview subdomain
+                          if (err) {
+                            errors[view.name] = improveMustacheErrorMessage(
+                              err,
+                              content
+                            );
+                          }
 
-                        next();
+                          next();
+                        });
                       });
-                    });
-                  });
+                    }
+                  );
                 });
               },
               function (err) {
                 if (err) return callback(err);
                 setMetadata(id, { errors }, function () {
-                  getMetadata(id, callback);
+                  console.log("ENABLED IS", enabled);
+                  if (enabled === true) {
+                    Blog.set(blogID, { template: id }, function (err) {
+                      if (err) return callback(err);
+                      getMetadata(id, function (err, template) {
+                        callback(err, template);
+                      });
+                    });
+                  } else {
+                    getMetadata(id, function (err, template) {
+                      callback(err, template);
+                    });
+                  }
                 });
               }
             );
@@ -111,7 +126,7 @@ module.exports = function readFromFolder(blogID, dir, callback) {
   });
 };
 
-function loadPackage(id, dir, callback) {
+function loadPackage (id, dir, callback) {
   fs.readFile(dir + "/" + PACKAGE, "utf-8", function (err, contents) {
     // Package.json is optional
     if (err && err.code === "ENOENT") {
@@ -124,8 +139,9 @@ function loadPackage(id, dir, callback) {
 
     try {
       const metadata = JSON.parse(contents);
-
-      savePackage(id, metadata, callback);
+      savePackage(id, metadata, function (err, views) {
+        callback(err, views, metadata.enabled);
+      });
     } catch (err) {
       const error = new Error(improveJSONErrorMessage(err, contents));
       return callback(error);
@@ -133,13 +149,13 @@ function loadPackage(id, dir, callback) {
   });
 }
 
-function removeDeletedViews(templateID, contents, callback) {
+function removeDeletedViews (templateID, contents, callback) {
   const viewsToRemove = [];
 
   client.smembers(key.allViews(templateID), function (err, viewNames) {
     if (err) return callback(err);
     for (const viewName of viewNames) {
-      let found = contents.find((fileName) => fileName.startsWith(viewName));
+      let found = contents.find(fileName => fileName.startsWith(viewName));
       if (!found) viewsToRemove.push(viewName);
     }
 
@@ -154,7 +170,7 @@ function removeDeletedViews(templateID, contents, callback) {
 }
 
 // Maps 'at position 505' to
-function improveJSONErrorMessage(err, contents) {
+function improveJSONErrorMessage (err, contents) {
   try {
     const regex = /at position (\d+)$/gm;
     const found = [...err.message.matchAll(regex)][0];
@@ -171,7 +187,7 @@ function improveJSONErrorMessage(err, contents) {
 
 // Maps 'Unclosed section "entriess" at 1446' to
 // `Unclosed section "entriess" on line 12`
-function improveMustacheErrorMessage(err, contents) {
+function improveMustacheErrorMessage (err, contents) {
   try {
     const regex = /at (\d+)$/gm;
     const found = [...err.message.matchAll(regex)][0];
@@ -186,6 +202,6 @@ function improveMustacheErrorMessage(err, contents) {
   }
 }
 
-function badPermission(blogID, templateID) {
+function badPermission (blogID, templateID) {
   return new Error("No permission for " + blogID + " to write " + templateID);
 }

@@ -24,7 +24,7 @@ describe("template", function () {
 
   it("reads template properties from package.json", function (done) {
     fs.outputJsonSync(this.tmp + "/package.json", {
-      locals: { foo: "bar" },
+      locals: { foo: "bar" }
     });
 
     readFromFolder(this.blog.id, this.tmp, function (err, template) {
@@ -58,7 +58,7 @@ describe("template", function () {
     fs.outputFileSync(this.tmp + "/style.css", "body {color:pink}");
     fs.outputJsonSync(this.tmp + "/package.json", {
       locals: { foo: "bar" },
-      views: { "style.css": { url: "/test", locals: { baz: "bat" } } },
+      views: { "style.css": { url: "/test", locals: { baz: "bat" } } }
     });
 
     readFromFolder(this.blog.id, this.tmp, function (err, template) {

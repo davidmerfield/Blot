@@ -1,14 +1,23 @@
 {{> sub_nav}}
 
-<!-- 
-  <a href="{{blog.url}}" target="_blank" style="    padding: 4px 20px;
-    display: block;
-    border-bottom: 1px solid #eee;
-    background: #eeeeee57;
-    color: #b9b6b6;">{{blog.url}}</a> -->
-<div>
-
-  <form method='post' action='?_csrf={{csrftoken}}' enctype='multipart/form-data'>
+<style type="text/css">
+  .collapse-on-narrow-screens {
+    width:50%;
+      }
+  .collapse-on-narrow-screens + .collapse-on-narrow-screens {
+    padding: 0 0 0 3em
+  }
+  @media (max-width: 900px) {
+    .collapse-on-narrow-screens {
+      width: 100%;
+    }
+    .collapse-on-narrow-screens + .collapse-on-narrow-screens {
+      padding: 2em 0 0 0;
+    }
+  }
+</style>
+<div style="display: flex;flex-wrap: wrap;">
+  <form class="collapse-on-narrow-screens" method='post' action='?_csrf={{csrftoken}}' enctype='multipart/form-data'>
     <a class="line" href="{{{base}}}/title">
       <span class="label">Title</span>
       <span class="center" >
@@ -119,6 +128,8 @@
     </a> -->
 
   </form>
+
+  <div class="collapse-on-narrow-screens">
+    {{> folder}}
+  </div>
 </div>
-<Br>
-{{> folder}}

@@ -9,7 +9,7 @@
       <span class="link">Choose a way to sync your folder</span>
     {{/blog.client}}
     {{#blog.client}}
-    <span class="center" style="display: flex;"><span id="status" style="display: block;" class="truncate status">{{blog.status.message}} {{blog.status.fromNow}}</span><span style="white-space: nowrap">&nbsp;from {{client.display_name}}</span></span>
+    <span class="center" style="display: flex;">{{client.display_name}}</span>
     <span class="right">Edit</span>
     {{/blog.client}}
     </a>{{/root}}
@@ -25,6 +25,13 @@
 {{/file}}
 
 </div>
+
+{{#blog.client}}
+<a class="line" href="{{{base}}}/client/{{client.name}}/activity" style="border-top: 1px solid rgba(0,0,0,0.05)">
+    <span class="center" style="display: flex;"><span id="status" style="display: block;" class="truncate status">{{blog.status.message}} {{blog.status.fromNow}}</span></span>
+    <span class="right">View activity</span>
+    </a>
+    {{/blog.client}}
 
 </div>
 {{/folder}}
