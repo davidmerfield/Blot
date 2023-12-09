@@ -1,4 +1,7 @@
 <style type="text/css">
+
+.label {margin-top:11px}
+
 .line {
   position: relative;
 }
@@ -11,6 +14,17 @@
   bottom: 0
 }
 
+.line.theme {
+  transition: background 0.5s ease-in-out;
+}
+.line.theme.success {
+  background-color: ;
+}
+
+.line.theme:last-of-type {
+  border-bottom: none;
+}
+
 .preview-button,
 .line form button {
   margin: -12px 0;
@@ -18,6 +32,17 @@
   color: #0070e8;
   display: inline-block;
 }
+
+.line form button.row {
+    color:#0070e8;
+    border-bottom: 1px solid rgba(0,0,0,0.05);padding:11px 20px;display:block;text-align:left;width:100%;
+    margin: 0;
+}
+
+.line form button.row :hover {
+    background: rgba(0, 0, 0, 0.02);
+    outline: none;
+  }
 
 .preview-button {
   margin-right: -0;
@@ -61,18 +86,16 @@
 .butty:hover {
   background: rgba(0, 0, 0, .05)
 }
+
+.center {flex-grow: 1}
 </style>
 <div >
 
 
-<div style="padding:11px 20px 0;border-top: 1px solid rgba(0,0,0,0.05)">
-<p>Your site can use any of the following templates. You can also <a href="/templates/developers">develop your own</a> template from scratch.</p>
-<hr>
-</div>
 
 
 {{^blog.template}}
-<div class="lisne" style="border-bottom:none">
+<div style="border-bottom:none">
   <span class="box orange fr" style="line-height:2.5;background:#f2f2f2;padding:0 1.33em;border:#aaa;margin:0 0">Your template is disabled. </span>
 
   <form method='post' style="display:inline">
@@ -87,7 +110,7 @@
 {{/blog.template}}
 
 {{#blog.template}}
-<div class="linse">
+<div style="border-top: 1px solid rgba(0,0,0,0.05)">
 
   <style type="text/css">
   form label {
@@ -106,66 +129,115 @@
     text-decoration: underline;
   }
   </style>
-  <!-- <p style="margin:15px 0"><b>{{blog.title}}</b> uses the <b style="font-weight:500">{{#templates}} {{#checked}}{{name}}{{/checked}}{{/templates}}</b> theme. </p>
- -->
 
   </span>
 
 </div>
 
-{{#templates}}
-<div class="line theme {{checked}}">
+<div class="line">
+  <span class="label">Your template</span>
+  <div class="center">
+    {{#currentTemplate}}
+    {{#checked}}
+    <div class="line theme {{checked}}">
 
-  <a target="_blank" class="preview-cover" href="{{previewURL}}"></a>
+      <span style="flex-grow:1">
+        {{^localEditing}}{{name}}{{/localEditing}}
+        {{#localEditing}}Templates/{{slug}}
+        {{/localEditing}}
+      </span>
+        
+      {{^localEditing}}
+      <a class="preview-cover" href="{{editURL}}"></a>
+      {{/localEditing}}
+      {{#localEditing}}
+      <a class="preview-cover" href="{{previewURL}}"></a>
+      {{/localEditing}}
+    </div>    
+    {{#isMine}}
+    {{^localEditing}}
+    <a class="line" style="color:#0070e8" href="{{editURL}}">Edit template</a>
+    {{/localEditing}}
+    {{#localEditing}}
+    <div class="line"><span style="opacity:.5">To edit this template, edit the files in</span>&nbsp;Templates/{{slug}}</div>
+    {{/localEditing}}
+    {{/isMine}}
+    {{^isMine}}
+    <form method='post' action="{{{base}}}/template/new">
+      <input type="hidden" name="openEditor" value="true">
+      <input type="hidden" name="name" value="{{^isMine}}Copy of {{/isMine}}{{name}}" />
+      <input type="hidden" name="cloneFrom" value="{{id}}" />
+      <button class="row" type="submit" >Edit template</button>
+    </form>
+    {{/isMine}}
 
-  <span style="display:block;margin-bottom:0.5em;flex-grow: 1;
-
-flex-basis: 50%;">{{name}}</span>
-  
-
-
-  {{#isMine}}
-  <a href="{{editURL}}" style="margin-right:0;padding-right:11px;margin-left:0" class="preview-button" ><span class="square">Edit</span></a>
-  {{/isMine}}
+    <form method='post' action="{{{base}}}/template/new">
+      <input type="hidden" name="redirect" value="{{{base}}}/template">
+      <input type="hidden" name="name" value="{{^isMine}}Copy of {{/isMine}}{{name}}" />
+      <input type="hidden" name="cloneFrom" value="{{id}}" />
+      <button class="row" type="submit" >Duplicate template</button>
+    </form>
 
 
-
-  <!--   <span class="icon file"></span>
- -->
-  <form method='post' style="display:inline">
-    <input type="hidden" name="_csrf" value="{{csrftoken}}">
-    <input type="hidden" name="redirect" value="{{{base}}}/template">
-    <input type="hidden" name="template" value="{{id}}">
-    {{#checked}} <button disabled type="submit"><span class="square">Used</span></button>{{/checked}}
-    {{^checked}} <button type="submit"><span class="square">Use</span></button>{{/checked}}
+    <form method='post' >
+      <input type="hidden" name="redirect" value="{{{base}}}/template">
+      <input name="template" value="" type="hidden" />
+      <button class="row" type="submit" style="border-bottom: none;">Disable template</button>
+    </form>
     
-  </form>
-
-  <form method='post' style="display:inline" action="{{{base}}}/template/new">
-    <input type="hidden" name="redirect" value="{{{base}}}/template">
-    <input type="hidden" name="name" value="{{^isMine}}Copy of {{/isMine}}{{name}}" />
-    <input type="hidden" name="cloneFrom" value="{{id}}" />
-    <button type="submit"><span class="square">Fork</span></button>
-  </form>
-
-
-  <a href="{{previewURL}}" class="preview-button" target="_blank" ><span class="square">Preview</span></a>
-
+    
+    {{/checked}}
+    {{/currentTemplate}}
+    </div> 
 </div>
-<div class="clear"></div>
 
-{{/templates}}
+{{#templatesInYourFolder.length}}
+<div class="line">
+  <span class="label">Templates in your folder</span>
+  <div class="center" class="templates-in-your-folder">
+    {{#templatesInYourFolder}}
+    {{> template-row}}
+    {{/templatesInYourFolder}}
+  </div>  
+</div>
+{{/templatesInYourFolder.length}}
 
-  <a class="line" style="color:#0070e8" href="{{{base}}}/template/archive">
-  Template archive</a>
+{{#yourTemplates.length}}
+<div class="line">
+  <span class="label">Templates on the dashboard</span>
+  <div class="center">
+    {{#yourTemplates}}
+    {{> template-row}}
+    {{/yourTemplates}}
+  </div>  
+</div>
+{{/yourTemplates.length}}
 
-<form method='post'>
-  <input type="hidden" name="redirect" value="{{{base}}}/template">
-  <input name="template" value="" type="hidden" />
-  <button type="submit" style="color:#0070e8;border-bottom: 1px solid rgba(0,0,0,0.05);padding:11px 20px;display:block;text-align:left;width:100%">Disable your template</button>
-</form>
+
+<div class="line">
+  <span class="label">Templates</span>
+  <div class="center">
+    {{#blotTemplates}}
+    {{> template-row}}
+    {{/blotTemplates}}
+    <a class="line" style="color:#0070e8" href="{{{base}}}/template/archive">View all templates</a>
+    </div>
+</div>
 
 
 
 {{/blog.template}}
 </div>
+<script>
+  // if there is a template name in the div class="mess success" then find the template row and highlight it
+  var success_message = document.querySelector('.mess.success');
+  var template_name = success_message && success_message.innerHTML && success_message.querySelector('b').innerHTML;
+
+  if (template_name) {
+    var template_row = document.querySelector('.line.theme[data-name="' + template_name + '"]');
+    if (template_row) {
+      template_row.classList.add('success');
+      template_row.classList.add('mess');
+    }
+  }
+</script>

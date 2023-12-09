@@ -70,7 +70,14 @@ module.exports = function (req, res, next) {
       return 0;
     });
 
-    res.locals.templates = templates;
+    res.locals.currentTemplate = templates.find(template => template.checked);
+    res.locals.yourTemplates = templates.filter(
+      template => template.isMine && !template.localEditing
+    );
+    res.locals.templatesInYourFolder = templates.filter(
+      template => template.isMine && template.localEditing
+    );
+    res.locals.blotTemplates = templates.filter(template => !template.isMine);
 
     next();
   });
