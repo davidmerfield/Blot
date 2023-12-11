@@ -5,7 +5,6 @@ var setMetadata = require("./setMetadata");
 var getView = require("./getView");
 var async = require("async");
 var makeID = require("./util/makeID");
-var isOwner = require("./isOwner");
 var setView = require("./setView");
 var MAX_SIZE = 2.5 * 1000 * 1000; // 2.5mb
 var PACKAGE = "package.json";
@@ -13,105 +12,118 @@ var savePackage = require("./package").save;
 var client = require("models/client");
 var key = require("./key");
 var dropView = require("./dropView");
+const blog = require("../../../scripts/get/blog");
+const Blog = require("models/blog");
+const create = require("./create");
 
-module.exports = function readFromFolder(blogID, dir, callback) {
-  var id = makeID(blogID, basename(dir));
+async function createLocalTemplate (blogID, dir) {
+  return new Promise(async function (resolve, reject) {
+    create(blogID, dir, { slug: dir }, function (err, template) {
+      if (err) return reject(err);
+      resolve(template);
+    });
+  });
+}
 
-  isOwner(blogID, id, function (err, isOwner) {
+module.exports = function readFromFolder (blogID, dir, callback) {
+  // check the directory exists
+  fs.readdir(dir, function (err, contents) {
     if (err) return callback(err);
 
-    if (!isOwner) return callback(badPermission(blogID, id));
+    if (!contents || !contents.length)
+      return callback(new Error("No files found in " + dir));
 
-    getMetadata(id, function (err, template) {
-      if (!template || template.localEditing !== true)
-        return callback(new Error("Not local"));
+    var id = makeID(blogID, basename(dir));
 
-      fs.readdir(dir, function (err, contents) {
-        if (err) return callback(err);
+    getMetadata(id, async function (err, template) {
+      if (err || !template)
+        template = await createLocalTemplate(blogID, basename(dir));
 
-        loadPackage(id, dir, function (err, views) {
-          const errors = {};
+      loadPackage(id, dir, function (err, views, enabled) {
+        const errors = {};
 
-          if (err) {
-            errors["package.json"] = err.message;
+        if (err) {
+          errors["package.json"] = err.message;
+        }
+
+        removeDeletedViews(id, contents, function (removeErrors) {
+          if (removeErrors) {
+            // todo handle these
           }
 
-          removeDeletedViews(id, contents, function (removeErrors) {
-            if (removeErrors) {
-              // todo handle these
-            }
+          async.eachSeries(
+            contents,
+            function (name, next) {
+              // Skip Dotfile or Package.json
+              if (name[0] === "." || name === PACKAGE) return next();
 
-            async.eachSeries(
-              contents,
-              function (name, next) {
-                // Skip Dotfile or Package.json
-                if (name[0] === "." || name === PACKAGE) return next();
+              fs.stat(dir + "/" + name, function (err, stat) {
+                // Skip folders, or files which are too large
+                if (err || !stat || stat.size > MAX_SIZE || stat.isDirectory())
+                  return next();
 
-                fs.stat(dir + "/" + name, function (err, stat) {
-                  // Skip folders, or files which are too large
-                  if (
-                    err ||
-                    !stat ||
-                    stat.size > MAX_SIZE ||
-                    stat.isDirectory()
-                  )
-                    return next();
+                fs.readFile(dir + "/" + name, "utf-8", function (err, content) {
+                  if (err) return next();
 
-                  fs.readFile(dir + "/" + name, "utf-8", function (
-                    err,
-                    content
-                  ) {
-                    if (err) return next();
+                  // We look up this view file to merge any existing properties
+                  // Should this really be handled by setView? It looks like
+                  // setView already calls getView...
+                  getView(id, name, function (err, view) {
+                    // getView returns an error if the view does not exist
+                    // We want to be able to create new views using local editing
+                    // we so ignore this error, and create the view object as needed
+                    view = view || {};
+                    view.name = view.name || name;
 
-                    // We look up this view file to merge any existing properties
-                    // Should this really be handled by setView? It looks like
-                    // setView already calls getView...
-                    getView(id, name, function (err, view) {
-                      // getView returns an error if the view does not exist
-                      // We want to be able to create new views using local editing
-                      // we so ignore this error, and create the view object as needed
-                      view = view || {};
-                      view.name = view.name || name;
+                    // Views might not exist if there's an error
+                    // with the template's package.json file
+                    if (views && views[name])
+                      for (var i in views[name]) view[i] = views[name][i];
 
-                      // Views might not exist if there's an error
-                      // with the template's package.json file
-                      if (views && views[name])
-                        for (var i in views[name]) view[i] = views[name][i];
+                    view.content = content;
+                    view.url = view.url || "/" + view.name;
 
-                      view.content = content;
-                      view.url = view.url || "/" + view.name;
+                    setView(id, view, function (err) {
+                      // we expose this error to the developer on
+                      // the preview subdomain
+                      if (err) {
+                        errors[view.name] = improveMustacheErrorMessage(
+                          err,
+                          content
+                        );
+                      }
 
-                      setView(id, view, function (err) {
-                        // we expose this error to the developer on
-                        // the preview subdomain
-                        if (err) {
-                          errors[view.name] = improveMustacheErrorMessage(
-                            err,
-                            content
-                          );
-                        }
-
-                        next();
-                      });
+                      next();
                     });
                   });
                 });
-              },
-              function (err) {
-                if (err) return callback(err);
-                setMetadata(id, { errors }, function () {
-                  getMetadata(id, callback);
-                });
-              }
-            );
-          });
+              });
+            },
+            function (err) {
+              if (err) return callback(err);
+              setMetadata(id, { errors }, function () {
+                if (enabled === true) {
+                  Blog.set(blogID, { template: id }, function (err) {
+                    if (err) return callback(err);
+                    getMetadata(id, function (err, template) {
+                      callback(err, template);
+                    });
+                  });
+                } else {
+                  getMetadata(id, function (err, template) {
+                    callback(err, template);
+                  });
+                }
+              });
+            }
+          );
         });
       });
     });
   });
 };
 
-function loadPackage(id, dir, callback) {
+function loadPackage (id, dir, callback) {
   fs.readFile(dir + "/" + PACKAGE, "utf-8", function (err, contents) {
     // Package.json is optional
     if (err && err.code === "ENOENT") {
@@ -124,8 +136,10 @@ function loadPackage(id, dir, callback) {
 
     try {
       const metadata = JSON.parse(contents);
-
-      savePackage(id, metadata, callback);
+      metadata.localEditing = true;
+      savePackage(id, metadata, function (err, views) {
+        callback(err, views, metadata.enabled);
+      });
     } catch (err) {
       const error = new Error(improveJSONErrorMessage(err, contents));
       return callback(error);
@@ -133,13 +147,13 @@ function loadPackage(id, dir, callback) {
   });
 }
 
-function removeDeletedViews(templateID, contents, callback) {
+function removeDeletedViews (templateID, contents, callback) {
   const viewsToRemove = [];
 
   client.smembers(key.allViews(templateID), function (err, viewNames) {
     if (err) return callback(err);
     for (const viewName of viewNames) {
-      let found = contents.find((fileName) => fileName.startsWith(viewName));
+      let found = contents.find(fileName => fileName.startsWith(viewName));
       if (!found) viewsToRemove.push(viewName);
     }
 
@@ -154,7 +168,7 @@ function removeDeletedViews(templateID, contents, callback) {
 }
 
 // Maps 'at position 505' to
-function improveJSONErrorMessage(err, contents) {
+function improveJSONErrorMessage (err, contents) {
   try {
     const regex = /at position (\d+)$/gm;
     const found = [...err.message.matchAll(regex)][0];
@@ -171,7 +185,7 @@ function improveJSONErrorMessage(err, contents) {
 
 // Maps 'Unclosed section "entriess" at 1446' to
 // `Unclosed section "entriess" on line 12`
-function improveMustacheErrorMessage(err, contents) {
+function improveMustacheErrorMessage (err, contents) {
   try {
     const regex = /at (\d+)$/gm;
     const found = [...err.message.matchAll(regex)][0];
@@ -186,6 +200,6 @@ function improveMustacheErrorMessage(err, contents) {
   }
 }
 
-function badPermission(blogID, templateID) {
+function badPermission (blogID, templateID) {
   return new Error("No permission for " + blogID + " to write " + templateID);
 }

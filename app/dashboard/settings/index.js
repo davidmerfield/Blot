@@ -102,6 +102,10 @@ settings
   .post(parse, require("./save/newTemplate"));
 
 settings
+  .route("/template/install")
+  .post(parse, require("./load/templates"), require("./save/installTemplate"));
+
+settings
   .route("/template/archive")
   .all(load.pastTemplates)
   .get(function (req, res) {

@@ -253,7 +253,19 @@ Array.from(document.querySelectorAll('form[id^="font_picker"]')).forEach(functio
 						node.parentNode.parentNode.querySelector('input[id^="show_picker"]').checked = false;
 						node.parentNode.parentNode.querySelector('label[for^="show_picker"]').innerHTML = node.innerHTML;
 					}
-		
+					
+					
+					// scroll the sidebar to the h2 before the form containing the input that was changed
+					// there are multiple forms in the sidebar, so we need to find the correct one
+					// and multiple h2s, so we need to find the correct one
+					const previousSibling = form.previousElementSibling;
+
+					if (previousSibling && previousSibling.tagName === 'H2') {
+						previousSibling.scrollIntoView();
+					} else  {
+						form.scrollIntoView();	
+					}
+
 					event.preventDefault();
 					return false;
 				}
