@@ -118,6 +118,11 @@ documentation.use(
   require("./tools/determine-source")
 );
 
+documentation.use("/how", (req, res, next) => {
+  res.locals.layout = "partials/layout-with-sidebar";
+  next();
+});
+
 documentation.use(require("./selected"));
 
 documentation.get("/", function (req, res, next) {
@@ -129,7 +134,7 @@ documentation.get("/", function (req, res, next) {
   next();
 });
 
-documentation.get("/", require("./featured"));
+documentation.get("/examples", require("./featured"));
 
 documentation.use("/fonts", require("./fonts"));
 

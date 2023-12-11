@@ -1,7 +1,7 @@
 <div
   class="header"
   style="
-    padding: 1em 2em;
+    padding: 1em 2rem;
     font-size: 14px;
     background-color: rgba(0, 0, 0, 0.05);
   ">
@@ -10,20 +10,24 @@
       display: flex;
       width: 100%;
       justify-content: space-between;
+      align-items: stretch;
       margin: 0 auto;
     ">
-      <a href="/">Blot</a> 
-      <div class="menu-links">
+          <a href="/" style="justify-content: center;">Blot</a> 
 
-      <a href="/how">Documentation</a>
-      <a href="/examples">Examples</a>
-      <a href="/questions">Questions</a>
-      <a href="/news">News</a>
-      <a href="/about">About</a>
-      <a href="/contact">Contact</a>
-    </div>
+      <div class="menu-links" style="width:33.333%">
 
-    <div>
+        <a href="/how">Documentation</a>
+        <a href="/examples">Examples</a>
+        <a href="/questions">Questions</a>
+        <!-- <a href="/news">News</a> -->
+        <a href="/about">About</a>
+        <a href="/contact">Support</a>
+      </div>
+      
+      
+
+    <div style="width: 33.333%;display: flex;justify-content: flex-end;">
       <a id="signed-in" href="/dashboard">Your sites</a>
       <a class="signed-out" href="/log-in">Log in</a>
       <a class="signed-out" href="/sign-up">Sign up</a>
@@ -40,10 +44,13 @@
 </div>
 
 <style type="text/css">
+  .header a {
+  color: black}
+  
   #signed-in {
     display: none;
   }
-  
+
   .menu-links a {
     margin: 0 0.4em;
   }
