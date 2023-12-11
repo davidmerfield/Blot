@@ -1,3 +1,6 @@
+Write script to fetch old templates from backup which had vestigial local files
+- Tell [Sebastien](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJJSSSdcZrZHNFChHzWnctljz)
+
 Improvements to folders
 - Make sure folders are zipped when site builds, and delivered through CDN
 - Make sure blot resyncs folders with their associated sites when pulled
