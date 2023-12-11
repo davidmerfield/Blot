@@ -5,7 +5,6 @@ var setMetadata = require("./setMetadata");
 var getView = require("./getView");
 var async = require("async");
 var makeID = require("./util/makeID");
-var isOwner = require("./isOwner");
 var setView = require("./setView");
 var MAX_SIZE = 2.5 * 1000 * 1000; // 2.5mb
 var PACKAGE = "package.json";
@@ -27,14 +26,18 @@ async function createLocalTemplate (blogID, dir) {
 }
 
 module.exports = function readFromFolder (blogID, dir, callback) {
-  var id = makeID(blogID, basename(dir));
+  // check the directory exists
+  fs.readdir(dir, function (err, contents) {
+    if (err) return callback(err);
 
-  getMetadata(id, async function (err, template) {
-    if (err || !template)
-      template = await createLocalTemplate(blogID, basename(dir));
+    if (!contents || !contents.length)
+      return callback(new Error("No files found in " + dir));
 
-    fs.readdir(dir, function (err, contents) {
-      if (err) return callback(err);
+    var id = makeID(blogID, basename(dir));
+
+    getMetadata(id, async function (err, template) {
+      if (err || !template)
+        template = await createLocalTemplate(blogID, basename(dir));
 
       loadPackage(id, dir, function (err, views, enabled) {
         const errors = {};

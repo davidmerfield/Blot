@@ -35,6 +35,7 @@ module.exports = function (blogID, callback) {
                 // we need to expose this error
                 // on the design page!
               }
+
               templatesInFolder.push(template);
               next();
             });

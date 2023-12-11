@@ -1,3 +1,14 @@
+Create one-off sites using new template folder:
+- link blog
+- dickens magazine
+- personal profile
+- fake twitter
+- obsidian garden
+- try to design a site around each font on Blot
+
+Add aws cost usage and forecast to daily update email
+- https://docs.aws.amazon.com/cli/latest/reference/ce/get-cost-and-usage.html
+
 Improvements to templates:
 - Library
   - mobile
