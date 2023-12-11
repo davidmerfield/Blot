@@ -1,6 +1,7 @@
-Make sure folders are zipped when site builds, and delivered through CDN
-
-Make sure blot resyncs folders with their associated sites when pulled
+Improvements to folders
+- Make sure folders are zipped when site builds, and delivered through CDN
+- Make sure blot resyncs folders with their associated sites when pulled
+- Compute a hash of the folder contents and only resync or re-zip as needed
 
 Improvements to templates:
 - Library
