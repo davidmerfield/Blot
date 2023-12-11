@@ -1,0 +1,25 @@
+<h1>Cancel newsletter subscription</h1>
+{{^email}}
+<p>
+  You can immediately cancel your subscription to Blot's quarterly newsletter.
+  You will not receive any future newsletters.
+</p>
+
+<div class="form-container" style="max-width: 24em">
+  <form action="/news/cancel" method="POST">
+    <p>
+      <label for="email">Your email</label>
+      <input type="text" required id="email" name="email" />
+    </p>
+    <input type="submit" value="Cancel newsletter subscription" />
+  </form>
+</div>
+{{/email}}
+
+{{#email}}
+<p>
+  A confirmation email has been sent to <b>{{ email }}</b
+  >. Please click the link inside to cancel your subscription to Blot's
+  newsletter.
+</p>
+{{/email}}

@@ -1,0 +1,294 @@
+<h1>News</h1>
+<!-- <h2>Blot remains an active project.</h2> -->
+<style type="text/css">
+  h2 {
+    font-size: 18px;
+  }
+  label {
+    font-size: 14px;
+    color: #666;
+  }
+
+  /* turn into tooltip */
+  label em {
+    display: none;
+  }
+
+  hr {
+    border: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  ol {
+    list-style-type: none;
+  }
+
+  ol {
+    padding: 0.5rem;
+    margin-top: 2.8rem;
+  }
+
+  ol li {
+    margin-bottom: 1em;
+    position: relative;
+  }
+
+  ol ol {
+    margin: 1rem 0 2.8rem;
+    padding: 0;
+    border-left: 1px solid var(--light-border-color);
+  }
+
+  ol ol li:last-child:before,
+  ol ol li:first-child:before {
+    content: "";
+    width: 1px;
+    position: absolute;
+    left: -1px;
+    background: white;
+  }
+
+  ol ol li:first-child:before {
+    top: 0;
+    height: 7px;
+  }
+
+  ol ol li:last-child:before {
+    top: 8px;
+    bottom: 0;
+  }
+
+  ol ol li:first-child:last-child:before {
+    top: 0;
+    bottom: 0;
+    height: auto;
+  }
+
+  ol ol li:after {
+    content: "";
+    width: 5px;
+    position: absolute;
+    top: 8px;
+    left: -4px;
+    height: 5px;
+    background: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 100%;
+    font-size: 0.5em;
+  }
+  ol li a {
+    display: block;
+    padding-left: 1rem;
+    border: none;
+    color: inherit;
+    text-decoration: none;
+  }
+
+  ol li p {
+    margin: 0;
+  }
+
+  ol li a:hover {
+    box-shadow: none;
+    text-decoration: none;
+  }
+
+  ol li a:active,
+  ol li a:focus {
+    background: none;
+    box-shadow: none;
+  }
+
+  ol li a:hover small {
+    text-decoration: underline;
+    color: var(--accent-color);
+  }
+  ol li small {
+    color: #989694;
+  }
+
+  content hr {
+    border: none;
+    border-bottom: 1px solid #eee;
+    margin: 2em 0;
+  }
+
+  ol li a:hover {
+    background: none;
+  }
+
+  flex {
+    display: flex;
+  }
+
+  details ul,
+  details ol {
+    padding-left: 1.5em;
+    margin-left: 0;
+  }
+  details {
+    margin: 1em 0;
+    display: block;
+    position: relative;
+    color: inherit;
+  }
+
+  details summary {
+    list-style: none;
+    list-style-type: none;
+
+    display: list-item;
+    touch-action: manipulation;
+    box-sizing: border-box;
+    outline: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+    z-index: 1;
+    top: 0;
+
+    padding-right: 2rem;
+    cursor: pointer;
+    background-size: 16px auto;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    transition: color 0.2s;
+  }
+
+  details[open] summary::before {
+    transform: rotate(180deg);
+  }
+
+  details > summary::-webkit-details-marker {
+    display: none;
+  }
+
+  details summary:before {
+    content: "";
+    transform-box: fill-box;
+    position: absolute;
+    top: 12px;
+    margin-top: -4px;
+    left: 0;
+    width: 10px;
+    height: 6px;
+    transform: rotate(90deg);
+    transition: transform 0.2s ease-out;
+    transform-origin: 50% center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-image: url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" width="612" height="612"><path d="M604.501 440.509L325.398 134.956c-5.331-5.357-12.423-7.627-19.386-7.27-6.989-.357-14.056 1.913-19.387 7.27L7.499 440.509c-9.999 10.024-9.999 26.298 0 36.323s26.223 10.024 36.222 0l262.293-287.164L568.28 476.832c9.999 10.024 26.222 10.024 36.221 0 9.999-10.023 9.999-26.298 0-36.323z"/></svg>');
+  }
+</style>
+
+<p>
+  Subscribe to receive a summary of our work and our plans at the start of each
+  season. View <a href="/news/archive">previous newsletters</a>
+</p>
+<form
+  action="/news/sign-up"
+  method="POST"
+  style="margin-top: 1.45rem; display: flex; align-items: flex-end">
+  <p style="margin: 0; flex-basis: 75%">
+    <label for="email">Your email address</label>
+    <input type="text" required id="email" name="email" />
+  </p>
+  <input
+    style="
+      flex-basis: 25%;
+      width: auto;
+      margin: 0;
+      border-radius: 0 4px 4px 0;
+      padding: 0 1em;
+      line-height: 42px;
+      margin-bottom: 2px;
+    "
+    type="submit"
+    value="Subscribe" />
+</form>
+
+<br />
+<br />
+<hr />
+<flex>
+  <style type="text/css">
+    .todo hr {
+      border: none;
+      border-bottom: 1px solid var(--light-border-color);
+      margin: 2rem 0;
+      padding: 0;
+    }
+    .todo > * {
+      padding-left: 1rem;
+      position: relative;
+    }
+
+    .todo li {
+      position: relative;
+      padding-left: 1.5rem;
+    }
+    .todo ul,
+    .todo ol {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .todo summary + ul {
+      margin-top: 1rem;
+    }
+
+    .todo > p:before,
+    .todo li:before {
+      content: "";
+      width: 6px;
+      position: absolute;
+      top: 5px;
+      left: 0;
+      border-radius: 100%;
+      height: 6px;
+      background: #fff;
+      border: 1px solid rgba(0, 0, 0, 0.3);
+      font-size: 0.5em;
+    }
+  </style>
+
+  <section
+    style="
+      width: 60%;
+      flex-grow: 1;
+      padding-right: 3rem;
+      box-sizing: border-box;
+    ">
+    <h2 style="border-bottom: 0; margin-bottom: 0; padding-bottom: 0">To do</h2>
+    <div class="todo" style="font-size: 16px">{{{todo}}}</div>
+  </section>
+
+  <section style="flex-basis: 40%; box-sizing: border-box">
+    <ol>
+      {{#days}}
+      <li>
+        <strong>Done {{ day }}</strong>
+        <ol style="font-size: 16px">
+          {{#commits}}
+          <li>
+            <a
+              rel="nofollow"
+              href="https://github.com/davidmerfield/Blot/commit/{{ hash }}">
+              {{ message }}
+            </a>
+          </li>
+          {{/commits}}
+        </ol>
+      </li>
+      {{/days}}
+    </ol>
+    <h2 style="margin-bottom: 1.5em">
+      Done (<a
+        rel="nofollow"
+        href="https://github.com/davidmerfield/Blot/commits/master.atom"
+        ><small>RSS</small></a
+      >)
+    </h2>
+  </section>
+</flex>
