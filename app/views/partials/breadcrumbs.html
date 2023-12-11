@@ -1,39 +1,13 @@
 {{^hidebreadcrumbs}}
-<style type="text/css">
-    .breadcrumbs{opacity: 0.75}
-  .breadcrumbs:hover{opacity: 1.0}
-</style>
-<div class="breadcrumbs" style="margin-top: 6px;margin-bottom: -16px;padding-bottom:4px;font-size: 18px;margin-right: var(--spacing);">
+<div>
   {{#breadcrumbs}}
-    {{#first}}
-<!--     <a class="breadcrumbs_link" href="/">Home</a>
-  style="color:var(--accent-color)"
- -->    {{/first}}
-    {{^first}}
-    <a class="breadcrumbs_link"  href="{{{url}}}">{{label}}</a>
-    {{/first}}
+  {{#first}}
+
+  {{/first}}
+  {{^first}}
+  <a href="{{{url}}}">{{ label }}</a> {{^last}} / {{/last}}
+  {{/first}}
   {{/breadcrumbs}}
 </div>
-
-<style type="text/css" id="breaker">
-  @media screen and (max-width: 600px) {
-    .breadcrumbs_link {
-      display: none
-    }
-    .breadcrumbs_link:last-child {display: block;}
-  }
-</style>
-<script type="text/javascript">
-  document.getElementById('breaker').innerHTML = '';
-const breakpoint = document.querySelector('.breadcrumbs').getBoundingClientRect().right + 34 + 48;
-console.log('here', breakpoint);
-document.getElementById('breaker').innerHTML = `
-  @media screen and (max-width: ${breakpoint}px) {
-    .breadcrumbs_link {
-      display: none
-    }
-    .header-buttons {max-width:34px}
-    .breadcrumbs_link:last-child {display: block;}
-  }`
-</script>
+<br />
 {{/hidebreadcrumbs}}

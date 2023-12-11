@@ -1,0 +1,105 @@
+
+<br><br>
+
+<h2>Examples</h2>
+
+{{#featured.length}}
+
+<ul style="list-style-type: none">
+  {{#featured}}
+  <li>
+    <a target="_blank" rel="noopener" href="{{{link}}}">
+      {{#favicon.coordinates}}
+      <span
+        style="display:inline-block;background:url('{{#cdn}}/images/featured.png{{/cdn}}');background-size: {{
+          background_width
+        }}px;
+  background-position:-{{ x }}px -{{ y }}px;width:{{ width }}px;height:{{
+          height
+        }}px;border-radius: 100px;transform:scale(0.66)"></span>
+      {{/favicon.coordinates}}
+    </a>
+
+    <a
+      target="_blank"
+      rel="noopener"
+      href="{{{link}}}"
+      style="color:{{ color }};"
+      >{{ name }}</a
+    >
+    {{ bio }}. {{ firstName }} joined in {{ joined }}.
+  </li>
+  {{/featured}}
+</ul>
+
+{{/featured.length}}
+
+<h2>Templates</h2>
+
+<ul class="templates">
+  <li>
+    <a href="/templates/blog">
+      <strong>Blog</strong><br />
+      <img
+        src="{{#cdn}}/images/templates/blog/0.square-small.png{{/cdn}}"
+        width="100" />
+    </a>
+  </li>
+
+  <li>
+    <a href="/templates/magazine">
+      <strong>Magazine</strong><br />
+      <img
+        width="100"
+        src="{{#cdn}}/images/templates/magazine/0.square-small.png{{/cdn}}" />
+    </a>
+  </li>
+
+  <li>
+    <a href="/templates/photo">
+      <strong>Photo</strong><br />
+      <img
+        width="100"
+        src="{{#cdn}}/images/templates/photo/0.square-small.png{{/cdn}}" />
+    </a>
+  </li>
+
+  <li>
+    <a href="/templates/portfolio">
+      <strong>Portfolio</strong><br />
+      <img
+        width="100"
+        src="{{#cdn}}/images/templates/portfolio/0.square-small.png{{/cdn}}" />
+    </a>
+  </li>
+
+  <li>
+    <a href="/templates/reference">
+      <strong>Reference</strong><br />
+      <img
+        width="100"
+        src="{{#cdn}}/images/templates/reference/0.square-small.png{{/cdn}}" />
+    </a>
+  </li>
+</ul>
+
+<h2>Customizing a template</h2>
+
+<p>
+  You make modifications to your template's colors and fonts using Blot's
+  template editor – no coding required.
+</p>
+
+<h2>Develop your own template</h2>
+
+<p>
+  You can fork any of the included templates and make modifications to their
+  source code, or develop your own template from scratch.
+</p>
+
+<p>
+  <a href="/templates/developers"
+    ><span><code class="file txt"></code></span>
+    <span><strong>Read the Developer guide</strong> </span>
+  </a>
+</p>

@@ -1,45 +1,35 @@
- <div class="otp" style="flex-shrink:0;flex-grow:1;max-width:240px;margin: calc(var(--spacing)*2) 0 0 calc(var(--spacing)*3)">
-   
-  <style type="text/css">
-    a.module-link {
-      display:block;margin: 0;border:none;background:var(--module-background-color);padding:16px;border-radius: 10px;margin:16px 0
-    }
-    a.module-link:hover {
-      background-color: rgba(0,0,0,0.03)
-    }
+{{#related.length}}
+<h2>  Related questions</h2>
+  >
+  {{#related}}
+  <a
+    style="line-height: 1.2; color: inherit; font-size: 15px"
+    href="/questions/{{ id }}"
+    >{{ title }}</a
+  >
+  {{/related}}
+  <a href="/questions" style="color: var(--accent-color); font-size: 14px"
+    >More questions</a
+  >
+{{/related.length}}
 
-    li.toc-list-item {padding: 0}
-    .module {
-      padding:16px;background:var(--module-background-color);border-radius: var(--large-border-radius);margin:16px 0
-    }
- .module a {padding: 4px 6px;margin:0 -6px;display: block;border-radius: 4px}
-     .module a:hover  {
-            background-color: rgba(0,0,0,.03);
-
-     }
-  </style>
-    <a href="/contact" class="module-link"><span style="font-size:14px;font-weight:500;color:#999;">Question or feedback?</span><br>
-        <span style="line-height:1.2;padding: 4px 0 4px 0;color:var(--text-color);font-size: 15px;display: block;" >Contact us</span>
-      </a>
-
-  {{#related.length}}
-  <div class="module">
-    <span style="margin: 0;font-size:14px;font-weight:500;color:#999;border:none">Related questions</span><br>
-    {{#related}}
-    <a style="line-height:1.2;color:inherit;font-size: 15px;" href="/questions/{{id}}">{{title}}</a>
-    {{/related}}
-    <a href="/questions" style="color:var(--accent-color);font-size: 14px">More questions</a>
-  </div>
-  {{/related.length}}
-
-
-  {{#show-question-sidebar}}
-  {{> question-sidebar}}
-  {{/show-question-sidebar}}
+{{#show-question-sidebar}}
+{{> question-sidebar}}
+{{/show-question-sidebar}}
 
   {{^hide-on-this-page}}
-  <div class="module" style="position: sticky;top:1em">
-    <span style="margin: 0;font-size:14px;font-weight:500;color:#999;border:none">On this page</span>
+  <div class="module" style="position: sticky; top: 1em">
+    <span
+      style="
+        margin: 0;
+        font-size: 14px;
+        font-weight: 500;
+        color: #999;
+        border: none;
+      "
+      >On this page</span
+    >
     <div class="toc"></div>
   </div>
-  {{/hide-on-this-page}}  
+  {{/hide-on-this-page}}
+</div>
