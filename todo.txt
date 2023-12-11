@@ -1,13 +1,6 @@
-Create one-off sites using new template folder:
-- link blog
-- dickens magazine
-- personal profile
-- fake twitter
-- obsidian garden
-- try to design a site around each font on Blot
+Make sure folders are zipped when site builds, and delivered through CDN
 
-Add aws cost usage and forecast to daily update email
-- https://docs.aws.amazon.com/cli/latest/reference/ce/get-cost-and-usage.html
+Make sure blot resyncs folders with their associated sites when pulled
 
 Improvements to templates:
 - Library
@@ -35,14 +28,8 @@ Improvements to templates:
   - rename from photo
 
 - General:
-  - Don't reload page on template editor to preserve scroll position
   - Add paginateable entries list
-  - Add 'Template folder'
   - Add downloadable sites
-    - which use the 'template folder'
-    - e.g. obsidian
-  - Clean up package.json
-    - Replace "Entries tagged " with "{{tag}}"
   - Add static file uploader
   - Make templates folder based
     - data/templates/blog_id/template_name
@@ -83,6 +70,9 @@ Redo demo video
 Write newsletter
 
 ---
+
+Add aws cost usage and forecast to daily update email
+- https://docs.aws.amazon.com/cli/latest/reference/ce/get-cost-and-usage.html
 
 Can we support google docs even from Dropbox? if the doc is public?
 
