@@ -24,12 +24,26 @@ const flush = () => {
   });
 };
 
-const { tags, create, update, list, get } = require("models/question");
+const { tags, create, update, list, get, search } = require("models/question");
 const render = require("./render");
 const Paginator = require("./paginator");
 
 Questions.use(["/ask", "/:id/edit", "/:id/new"], require("dashboard/session"));
 Questions.use(["/ask", "/:id/edit", "/:id/new"], urlencoded);
+
+Questions.get("/search", async (req, res) => {
+  try {
+    const query = req.query.query;
+    const questions = await search({ query });
+    res.locals.questions = questions;
+    res.locals.query = query;
+  } catch (e) {
+    res.locals.questions = [];
+  }
+  // don't cache
+  res.set("Cache-control", "private");
+  res.render("questions/search");
+});
 
 Questions.use(async (req, res, next) => {
   const result = await tags();

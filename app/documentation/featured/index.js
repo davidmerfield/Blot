@@ -4,17 +4,20 @@
 // still point to Blot. This filtering should not block
 // the server's boot. This filtering is also rescheduled
 // once per day to ensure sites are fresh.
-const fs = require("fs-extra");
+const fs = require('fs-extra')
+let cached = []
 
-module.exports = function (req, res, next) {
-  fs.readJSON(__dirname + "/featured-checked.json", function (err, featured) {
-    if (err) {
-      console.log("Warning: Please check the list of featured sites:");
-      console.log("node app/documentation/featured/check");
-      featured = [];
-    }
+const load = async () => {
+  if (cached) return cached
 
-    res.locals.featured = featured;
-    next();
-  });
-};
+  try {
+    cached = await fs.readJSON(__dirname + '/featured-checked.json')
+  } catch (e) {}
+
+  return cached
+}
+
+module.exports = async function (req, res, next) {
+  res.locals.featured = await load()
+  next()
+}

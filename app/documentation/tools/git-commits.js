@@ -22,7 +22,7 @@ const commitMessageMap = {
   "Removes": "Removed",
   "Tweaks": "Tweaked",
   "Updates to": "Updated",
-  "Updates": "Updated",
+  "Updates": "Updated"
 };
 
 const commitMessageMapRegEx = new RegExp(
@@ -30,7 +30,7 @@ const commitMessageMapRegEx = new RegExp(
   "g"
 );
 
-module.exports = function loadDone(req, res, next) {
+module.exports = function loadDone (req, res, next) {
   exec("git log -300", { cwd: rootDir }, function (err, output) {
     if (err) return next(err);
 
@@ -56,6 +56,9 @@ module.exports = function loadDone(req, res, next) {
         if (message.indexOf("(#") > -1)
           message = message.slice(0, message.indexOf("(#"));
 
+        if (message.indexOf("*") > -1)
+          message = message.slice(0, message.indexOf("*"));
+
         // Prevent duplicate messages appearing on news page
         if (messageMap[message]) return;
         else messageMap[message] = true;
@@ -76,7 +79,7 @@ module.exports = function loadDone(req, res, next) {
               item.indexOf("Author")
             )
             .trim(),
-          message: message.trim(),
+          message: message.trim()
         });
       }
     });
@@ -86,7 +89,7 @@ module.exports = function loadDone(req, res, next) {
     const yesterday = moment().subtract(1, "days").format(dateFormat);
     let days = [];
 
-    commits.forEach((commit) => {
+    commits.forEach(commit => {
       commit.time = moment(commit.date).format(dateFormat);
 
       if (commit.time === today) commit.time = "today";
@@ -106,11 +109,11 @@ module.exports = function loadDone(req, res, next) {
       }
     });
 
-    res.locals.days = days.map((commits) => {
+    res.locals.days = days.map(commits => {
       return { day: commits[0].time, commits };
     });
 
-    res.locals.recent_commits = commits.slice(0, 5).map((commit) => {
+    res.locals.recent_commits = commits.slice(0, 5).map(commit => {
       return { ...commit, fromNow: moment(commit.date).fromNow() };
     });
 

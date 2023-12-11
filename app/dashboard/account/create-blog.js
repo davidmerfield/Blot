@@ -17,7 +17,7 @@ var updatePayPalSubscription =
 
 CreateBlog.use(function (req, res, next) {
   res.locals.breadcrumbs.forEach(function (link) {
-    if (link.label === "Your account") link.label = "Your blogs";
+    if (link.label === "Your account") link.label = "Your sites";
   });
   next();
 });
@@ -54,9 +54,9 @@ CreateBlog.route("/pay")
     res.locals.breadcrumbs = res.locals.breadcrumbs.slice(0, -1);
     res.locals.breadcrumbs[res.locals.breadcrumbs.length - 1].last = true;
     res.render("account/create-blog-pay", {
-      title: "Create a blog",
+      title: "Create a site",
       not_paid: true,
-      breadcrumb: "Create blog",
+      breadcrumb: "Create site",
       paypal_client_id: config.paypal.client_id,
       new_quantity: req.user.blogs.length + 1
     });

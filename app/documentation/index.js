@@ -1,7 +1,6 @@
 const config = require("config");
 const Express = require("express");
 const documentation = new Express();
-const hogan = require("helper/express-mustache");
 const fs = require("fs-extra");
 const mustache = require("helper/express-mustache");
 const redirector = require("./redirector");
@@ -113,8 +112,6 @@ documentation.get(
   }
 );
 
-documentation.use("/search", require("./search"));
-
 // Adds a handy 'edit this page' link
 documentation.use(
   ["/how", "/templates", "/about"],
@@ -123,20 +120,16 @@ documentation.use(
 
 documentation.use(require("./selected"));
 
-documentation.get(
-  "/",
-  require("./tools/git-commits"),
-  require("./featured"),
-  function (req, res, next) {
-    res.locals.layout = "partials/layout-index";
-    res.locals.title = "Blot – A blogging platform with no interface.";
-    res.locals.description =
-      "Turns a folder into a blog automatically. Use your favorite text-editor to write. Text and Markdown files, Word Documents, images, bookmarks and HTML in your folder become blog posts.";
-    // otherwise the <title> of the page is 'Blot - Blot'
-    res.locals.hide_title_suffix = true;
-    next();
-  }
-);
+documentation.get("/", function (req, res, next) {
+  res.locals.title = "Blot – A blogging platform with no interface.";
+  res.locals.description =
+    "Turns a folder into a blog automatically. Use your favorite text-editor to write. Text and Markdown files, Word Documents, images, bookmarks and HTML in your folder become blog posts.";
+  // otherwise the <title> of the page is 'Blot - Blot'
+  res.locals.hide_title_suffix = true;
+  next();
+});
+
+documentation.get("/", require("./featured"));
 
 documentation.use("/fonts", require("./fonts"));
 
@@ -148,7 +141,7 @@ documentation.use("/about/notes", require("./notes"));
 
 documentation.use("/templates", require("./templates"));
 
-documentation.use("/about/news", require("./news"));
+documentation.use("/news", require("./news"));
 
 documentation.use("/questions", require("./questions"));
 

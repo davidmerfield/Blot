@@ -44,41 +44,36 @@ settings
     load.menu,
     trace("menu loaded"),
     load.client,
+
     trace("client loaded"),
+    load.plugins,
+    load.permalinkFormats,
+    load.dates,
     function (req, res) {
       res.render("settings", { title: req.blog.pretty.label });
     }
   );
 
+settings.get(["/analytics", "/images", "/typography"], load.plugins);
+
 settings.get("/links", load.menu);
 
-settings.get("/services", load.plugins, load.permalinkFormats, load.dates);
+settings.get("/date", load.timezones, load.dates);
 
-settings.get("/services/date", load.timezones, load.dates);
-
-settings.get(
-  "/services/link-format",
-  load.permalinkFormats,
-  function (req, res, next) {
-    res.locals.edit = !!req.query.edit;
-    next();
-  }
-);
-
-settings.use("/services/*", function (req, res, next) {
-  res.locals.breadcrumbs.add("Services", "services");
+settings.get("/link-format", load.permalinkFormats, function (req, res, next) {
+  res.locals.edit = !!req.query.edit;
   next();
 });
 
 settings
-  .route("/services/404s")
+  .route("/404s")
   .get(load.fourOhFour, function (req, res) {
     res.locals.breadcrumbs.add("404 log", "404s");
     res.render("settings/404s", { title: "404s" });
   })
   .post(parse, require("./save/404"));
 
-settings.get("/services/redirects", load.redirects);
+settings.get("/redirects", load.redirects);
 
 // Load the list of templates for this user
 
@@ -118,22 +113,6 @@ settings
     res.render("template/archive", { title: "Archive" });
   });
 
-settings.get("/:section/:view", function (req, res) {
-  var uppercaseName = req.params.view;
-
-  uppercaseName = uppercaseName[0].toUpperCase() + uppercaseName.slice(1);
-  uppercaseName = uppercaseName.split("-").join(" ");
-
-  if (uppercaseName === "Date") uppercaseName = "Date and time";
-
-  res.locals.breadcrumbs.add(uppercaseName, req.params.view);
-  res.locals.subpage = "services/" + req.params.view;
-  res.locals.host = process.env.BLOT_HOST;
-  res.locals.layout = "partials/wrapper-subpage.html";
-
-  res.render("settings/" + req.params.view);
-});
-
 settings.get("/:view", function (req, res) {
   var uppercaseName = req.params.view;
 
@@ -144,7 +123,6 @@ settings.get("/:view", function (req, res) {
   }
 
   res.locals.subpage = req.params.view;
-  res.locals.layout = "partials/wrapper-subpage.html";
   res.render("settings/" + req.params.view, { host: process.env.BLOT_HOST });
 });
 

@@ -95,7 +95,16 @@ async function buildHTML (path) {
     transformer($);
   }
 
-  const result = $.html();
+  let result = $.html();
+
+  // remove the indent from the line which contains the body partial
+  // this prevents issues with code snippets
+  if (result.includes("{{> body}}")) {
+    const lines = result.split("\n");
+    const index = lines.findIndex(line => line.includes("{{> body}}"));
+    lines[index] = lines[index].trim();
+    result = lines.join("\n");
+  }
 
   await fs.outputFile(join(DESTINATION_DIRECTORY, path), result);
 }
