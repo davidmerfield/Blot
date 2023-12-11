@@ -1,19 +1,20 @@
 <div
   class="header"
   style="
-    padding: 1em 0;
+    padding: 1em 2em;
     font-size: 14px;
     background-color: rgba(0, 0, 0, 0.05);
   ">
   <div
     style="
-      max-width: 730px;
       display: flex;
+      width: 100%;
       justify-content: space-between;
       margin: 0 auto;
     ">
-    <div>
-      <a href="/">Blot</a> |
+      <a href="/">Blot</a> 
+      <div class="menu-links">
+
       <a href="/how">Documentation</a>
       <a href="/examples">Examples</a>
       <a href="/questions">Questions</a>
@@ -37,3 +38,13 @@
     </div>
   </div>
 </div>
+
+<style type="text/css">
+  #signed-in {
+    display: none;
+  }
+  
+  .menu-links a {
+    margin: 0 0.4em;
+  }
+</style>
