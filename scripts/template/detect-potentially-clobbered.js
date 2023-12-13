@@ -28,7 +28,6 @@ const main = (blog, template, callback) => {
 
   console.log("turning on local editing for template...");
   console.log(template);
-  return callback();
 
   Template.setMetadata(template.id, { localEditing: true }, function (err) {
     if (err) return callback(err);
