@@ -87,7 +87,7 @@ const main = (blog, template, callback) => {
 
               console.log("adding template", newName, metadata);
 
-              console.log("would set views", views);
+              // console.log("would set views", views);
 
               callback();
 
