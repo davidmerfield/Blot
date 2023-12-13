@@ -38,26 +38,42 @@ const main = (blog, template, callback) => {
 
     const allViewsKey = "template:" + template.id + ":all_views";
 
-    // get all the view names
-    backupClient.smembers(allViewsKey, function (err, viewNames) {
+    backupClient.get("blog:" + blog.id + ":info", (err, oldVersionOfBlog) => {
       if (err) return callback(err);
-      async.eachSeries(
-        viewNames,
-        function (viewName, next) {
-          const viewKey = "template:" + template.id + ":view:" + viewName;
-          backupClient.hgetall(viewKey, (err, view) => {
-            if (err || !view)
-              return next(err || new Error("no view: " + viewName));
-            console.log(template.id, "found view to restore", viewName);
-            next();
-          });
-        },
-        err => {
-          if (err) return callback(err);
-          console.log(template.id, "metadata to restore:", data);
-          callback();
-        }
-      );
+
+      try {
+        oldVersionOfBlog = JSON.parse(oldVersionOfBlog);
+      } catch (e) {
+        return callback(e);
+      }
+
+      if (oldVersionOfBlog.template === template.id) {
+        console.log(template.id, "was the active template");
+      } else {
+        console.log(template.id, "was not the active template");
+      }
+
+      // get all the view names
+      backupClient.smembers(allViewsKey, function (err, viewNames) {
+        if (err) return callback(err);
+        async.eachSeries(
+          viewNames,
+          function (viewName, next) {
+            const viewKey = "template:" + template.id + ":view:" + viewName;
+            backupClient.hgetall(viewKey, (err, view) => {
+              if (err || !view)
+                return next(err || new Error("no view: " + viewName));
+              console.log(template.id, "found view to restore", viewName);
+              next();
+            });
+          },
+          err => {
+            if (err) return callback(err);
+            console.log(template.id, "metadata to restore:", data);
+            callback();
+          }
+        );
+      });
     });
   });
 };
