@@ -1,18 +1,19 @@
-var readFromFolder = require("modules/template").update;
+var buildFromFolder = require("models/template/buildFromFolder");
 var eachBlog = require("../each/blog");
 
 if (require.main === module) {
   main(function (err) {
     if (err) throw err;
-
     console.log("Re-read all templates inside blog folders!");
     process.exit();
   });
 }
 
-function main(callback) {
+function main (callback) {
   eachBlog(function (user, blog, next) {
-    readFromFolder(blog.id, function (err) {
+    if (err || !user || !blog || !blog.id) return next();
+    buildFromFolder(blog.id, function (err) {
+      if (err) console.log(err);
       next();
     });
   }, callback);
