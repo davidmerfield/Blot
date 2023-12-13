@@ -75,12 +75,13 @@ const main = async (blog, callback) => {
         err => {
           if (err) return callback(err);
 
+          // ensure we don't restore the same template twice
+          restore = [...new Set(restore)];
+
           async.eachSeries(
             restore,
             (id, next) => {
-              console.log("restoring", id);
-              next();
-              // restore(blog, id, next)
+              restore(blog, id, next);
             },
             callback
           );
