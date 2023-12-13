@@ -87,22 +87,24 @@ const main = (blog, template, callback) => {
 
               console.log("adding template", newName, metadata);
 
-              create(blog.id, newName, metadata, (err, newTemplate) => {
-                if (err) return callback(err);
+              console.log("would set views", views);
 
-                if (!newTemplate || !newTemplate.id) {
-                  return callback(new Error("no new template created"));
-                }
+              // create(blog.id, newName, metadata, (err, newTemplate) => {
+              //   if (err) return callback(err);
 
-                console.log("created template", newTemplate.id);
+              //   if (!newTemplate || !newTemplate.id) {
+              //     return callback(new Error("no new template created"));
+              //   }
 
-                setMultipleViews(newTemplate.id, views, err => {
-                  if (err) return callback(err);
+              //   console.log("created template", newTemplate.id);
 
-                  console.log("restored all views for", newTemplate.id);
-                  callback();
-                });
-              });
+              //   setMultipleViews(newTemplate.id, views, err => {
+              //     if (err) return callback(err);
+
+              //     console.log("restored all views for", newTemplate.id);
+              //     callback();
+              //   });
+              // });
             }
           );
         });
