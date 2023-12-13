@@ -27,6 +27,7 @@ if (require.main === module) {
   // handle a specific template
   if (process.argv[2]) {
     get(process.argv[2], function (err, user, blog, template) {
+      if (err) throw err;
       main(blog, template, function (err) {
         if (err) throw err;
         process.exit();
