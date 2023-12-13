@@ -26,52 +26,20 @@ const main = (blog, template, callback) => {
     return callback();
   }
 
-  const newTemplate = {
-    isPublic: false,
-    name: template.name + " (backup)",
-    slug: template.slug + "-backup",
-    cloneFrom: template.id
-  };
+  console.log("turning on local editing for template...");
+  Template.setMetadata(template.id, { localEditing: true }, function (err) {
+    if (err) return callback(err);
 
-  console.log("would create new template", newTemplate);
-
-  Template.create(
-    blog.id,
-    newTemplate.name,
-    newTemplate,
-    function (err, newTemplate) {
-      if (err) return next(err);
-
-      console.log("turning on local editing for template...");
-      Template.setMetadata(template.id, { localEditing: true }, function (err) {
+    console.log("reading old template from folder");
+    readFromFolder(
+      blog.id,
+      pathUpperExists ? pathUpper : pathLower,
+      function (err) {
         if (err) return callback(err);
-
-        console.log("reading old template from folder");
-        readFromFolder(
-          blog.id,
-          pathUpperExists ? pathUpper : pathLower,
-          function (err) {
-            if (err) return callback(err);
-
-            console.log("restored all views for", newTemplate.id);
-
-            if (blog.template !== template.id) {
-              console.log("template", template.id, "is not active");
-              return callback();
-            }
-
-            console.log("setting new template as active");
-            Blog.set(blog.id, { template: newTemplate.id }, function (err) {
-              if (err) return callback(err);
-
-              console.log("set new template as active");
-              callback();
-            });
-          }
-        );
-      });
-    }
-  );
+        callback();
+      }
+    );
+  });
 };
 
 if (require.main === module) {
