@@ -1,8 +1,10 @@
 const config = require("config");
 const redis = require("redis");
+const async = require("async");
 
 const each = require("../each/template");
 const get = require("../get/template");
+const { metadata } = require("../../app/models/template/key");
 
 const backupHost = process.env.BACKUP_REDIS_HOST;
 
@@ -33,7 +35,29 @@ const main = (blog, template, callback) => {
     }
 
     console.log("need to restore", template.id);
-    callback();
+
+    const allViewsKey = "template:" + template.id + ":all_views";
+
+    // get all the view names
+    backupClient.smembers(allViewsKey, function (err, viewNames) {
+      if (err) return callback(err);
+      async.eachSeries(
+        viewNames,
+        function (viewName, next) {
+          const viewKey = "template:" + template.id + ":view:" + viewName;
+          backupClient.hgetall(viewKey, (err, view) => {
+            if (err || !view)
+              return next(err || new Error("no view: " + viewName));
+            console.log(template.id, "found view to restore", viewName);
+          });
+        },
+        err => {
+          if (err) return callback(err);
+          console.log(template.id, "metadata to restore:", data);
+          callback();
+        }
+      );
+    });
   });
 };
 
