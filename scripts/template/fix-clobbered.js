@@ -56,7 +56,7 @@ const main = async (blog, callback) => {
           if (backupLocalEditing !== "false") return next();
 
           console.log("need to restore", id);
-          restore(id, next);
+          restore(blog, id, next);
         }
       );
     },
@@ -64,7 +64,7 @@ const main = async (blog, callback) => {
   );
 };
 
-const restore = (templateID, callback) => {
+const restore = (blog, templateID, callback) => {
   // found locally-edited template
   backupClient.hgetall("template:" + templateID + ":info", (err, data) => {
     if (err) return callback(err);
