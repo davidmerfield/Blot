@@ -82,6 +82,10 @@ const main = (blog, template, callback) => {
               delete metadata.slug;
 
               create(blog.id, newName, metadata, (err, newTemplate) => {
+                if (err && err.code === "EEXISTS") {
+                  console.log("Already restored", newName);
+                }
+
                 if (err) return callback(err);
 
                 if (!newTemplate || !newTemplate.id) {
