@@ -52,7 +52,7 @@ const main = (blog, template, callback) => {
       (err, oldTemplateID) => {
         if (err) return callback(err);
 
-        const views = [];
+        const views = {};
 
         // get all the view names
         backupClient.smembers(allViewsKey, function (err, viewNames) {
@@ -65,7 +65,7 @@ const main = (blog, template, callback) => {
                 if (err || !view)
                   return next(err || new Error("no view: " + viewName));
                 view = deserialize(view, viewModel);
-                views.push(view);
+                views[viewName] = view;
                 next();
               });
             },
