@@ -3,11 +3,11 @@ const Template = require("models/template");
 
 const main = (owner, name, callback) => {
   console.log("dropping template", owner, "from", name);
-  //   Template.drop(owner, name, function (err) {
-  //     if (err) return callback(err);
-  //     console.log("dropped template", templateID);
-  //     callback();
-  //   });
+  Template.drop(owner, name, function (err) {
+    if (err) return callback(err);
+    console.log("dropped template");
+    callback();
+  });
 };
 
 if (require.main === module) {
