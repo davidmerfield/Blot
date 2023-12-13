@@ -53,8 +53,10 @@ const main = async (blog, callback) => {
         "localEditing",
         (err, backupLocalEditing) => {
           if (err) return next(err);
-          console.log("backupLocalEditing", backupLocalEditing);
-          next();
+          if (backupLocalEditing !== "false") return next();
+
+          console.log("need to restore", id);
+          restore(id, next);
         }
       );
     },
@@ -62,24 +64,24 @@ const main = async (blog, callback) => {
   );
 };
 
-const restore = (template, callback) => {
+const restore = (templateID, callback) => {
   // found locally-edited template
-  backupClient.hgetall("template:" + template.id + ":info", (err, data) => {
+  backupClient.hgetall("template:" + templateID + ":info", (err, data) => {
     if (err) return callback(err);
 
     if (!data) {
-      console.log(template.id, "is not present in backup");
+      console.log(templateID, "is not present in backup");
       return callback();
     }
 
     if (data.localEditing !== "false") {
-      console.log(template.id, "was previouly edited locally as well");
+      console.log(templateID, "was previouly edited locally as well");
       return callback();
     }
 
-    console.log("need to restore", template.id);
+    console.log("need to restore", templateID);
 
-    const allViewsKey = "template:" + template.id + ":all_views";
+    const allViewsKey = "template:" + templateID + ":all_views";
 
     backupClient.hget(
       "blog:" + blog.id + ":info",
@@ -95,7 +97,7 @@ const restore = (template, callback) => {
           async.eachSeries(
             viewNames,
             function (viewName, next) {
-              const viewKey = "template:" + template.id + ":view:" + viewName;
+              const viewKey = "template:" + templateID + ":view:" + viewName;
               backupClient.hgetall(viewKey, (err, view) => {
                 if (err || !view)
                   return next(err || new Error("no view: " + viewName));
@@ -135,12 +137,12 @@ const restore = (template, callback) => {
 
                   console.log("restored all views for", newTemplate.id);
 
-                  if (template.id !== oldTemplateID) {
+                  if (templateID !== oldTemplateID) {
                     console.log(
                       "old template",
                       oldTemplateID,
                       "does not match",
-                      template.id
+                      templateID
                     );
                     return callback();
                   }
