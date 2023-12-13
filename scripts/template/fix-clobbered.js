@@ -17,7 +17,6 @@ const Blog = require("models/blog");
 const viewModel = require("models/template/viewModel");
 const metadataModel = require("models/template/metadataModel");
 const deserialize = require("models/template/util/deserialize");
-const { client } = require("../../app/dashboard/settings/load");
 
 const backupHost = process.env.BACKUP_REDIS_HOST;
 
