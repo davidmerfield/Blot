@@ -143,7 +143,12 @@ const restore = (blog, templateID, callback) => {
               delete metadata.localEditing;
               delete metadata.slug;
 
-              console.log("attempting to create", makeID(blog.id, newName));
+              console.log(
+                "attempting to restore",
+                templateID,
+                ">>>",
+                makeID(blog.id, newName)
+              );
 
               create(blog.id, newName, metadata, (err, newTemplate) => {
                 if (err && err.code === "EEXISTS") {
