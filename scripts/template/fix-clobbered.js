@@ -49,6 +49,7 @@ const main = (blog, template, callback) => {
             if (err || !view)
               return next(err || new Error("no view: " + viewName));
             console.log(template.id, "found view to restore", viewName);
+            next();
           });
         },
         err => {
