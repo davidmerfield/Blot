@@ -42,7 +42,7 @@ const main = async (blog, callback) => {
     });
   }
 
-  let restore = [];
+  let templateIDsToRestore = [];
 
   backupClient.smembers("template:owned_by:" + blog.id, (err, oldIds) => {
     if (err) return callback(err);
@@ -51,7 +51,7 @@ const main = async (blog, callback) => {
 
       const missing = oldIds.filter(id => !newIds.includes(id));
 
-      missing.forEach(id => restore.push(id));
+      missing.forEach(id => templateIDsToRestore.push(id));
 
       async.eachSeries(
         templateDirs,
@@ -67,7 +67,7 @@ const main = async (blog, callback) => {
               if (backupLocalEditing !== "false") return next();
 
               console.log("need to restore", id);
-              restore.push(id);
+              templateIDsToRestore.push(id);
               next();
             }
           );
@@ -76,10 +76,10 @@ const main = async (blog, callback) => {
           if (err) return callback(err);
 
           // ensure we don't restore the same template twice
-          restore = [...new Set(restore)];
+          templateIDsToRestore = [...new Set(templateIDsToRestore)];
 
           async.eachSeries(
-            restore,
+            templateIDsToRestore,
             (id, next) => {
               restore(blog, id, next);
             },
