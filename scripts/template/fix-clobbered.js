@@ -2,12 +2,16 @@ const config = require("config");
 const redis = require("redis");
 const async = require("async");
 
-const each = require("../each/template");
-const get = require("../get/template");
+const basename = require("path").basename;
+const makeID = require("models/template/util/makeID");
+const each = require("../each/blog");
+const get = require("../get/blog");
 
-const { create, setMetadata } = require("models/template");
+const { create } = require("models/template");
 const setMultipleViews = require("models/template/setMultipleViews");
 
+const localPath = require("helper/localPath");
+const fs = require("fs-extra");
 const Blog = require("models/blog");
 
 const viewModel = require("models/template/viewModel");
@@ -23,11 +27,34 @@ if (!backupHost) {
   throw new Error("BACKUP_REDIS_HOST env variable not set");
 }
 
-const main = (blog, template, callback) => {
-  if (template.localEditing !== true) {
-    console.log(template.id, "is not edited locally");
-    return callback();
+const main = async (blog, callback) => {
+  const templateDirs = [];
+
+  if (fs.existsSync(localPath(blog.id, "/Templates"))) {
+    fs.readdirSync(localPath(blog.id, "/Templates")).forEach(file => {
+      templateDirs.push(localPath(blog.id, "/Templates/" + file));
+    });
   }
+
+  if (fs.existsSync(localPath(blog.id, "/templates"))) {
+    fs.readdirSync(localPath(blog.id, "/templates")).forEach(file => {
+      templateDirs.push(localPath(blog.id, "/templates/" + file));
+    });
+  }
+
+  async.eachSeries(
+    templateDirs,
+    (dir, next) => {
+      if (!fs.statSync(dir).isDirectory()) return next();
+      const id = makeID(blog.id, basename(dir));
+      console.log("found id", id);
+      next();
+    },
+    callback
+  );
+};
+
+const restore = (template, callback) => {
   // found locally-edited template
   backupClient.hgetall("template:" + template.id + ":info", (err, data) => {
     if (err) return callback(err);
@@ -131,18 +158,18 @@ const main = (blog, template, callback) => {
 };
 
 if (require.main === module) {
-  // handle a specific template
+  // handle a specific blog
   if (process.argv[2]) {
-    get(process.argv[2], function (err, user, blog, template) {
+    get(process.argv[2], function (err, user, blog) {
       if (err) throw err;
-      main(blog, template, function (err) {
+      main(blog, function (err) {
         if (err) throw err;
         process.exit();
       });
     });
   } else {
     each(
-      (user, blog, template, next) => main(blog, template, next),
+      (user, blog, next) => main(blog, next),
       err => {
         if (err) throw err;
         process.exit();
