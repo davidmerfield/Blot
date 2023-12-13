@@ -144,15 +144,6 @@ const restore = (blog, templateID, callback) => {
               delete metadata.localEditing;
               delete metadata.slug;
 
-              console.log(
-                "would restore",
-                templateID,
-                ">>>",
-                makeID(blog.id, newName)
-              );
-
-              return callback();
-
               create(blog.id, newName, metadata, (err, newTemplate) => {
                 if (err && err.code === "EEXISTS") {
                   console.log("Already restored", newName);
