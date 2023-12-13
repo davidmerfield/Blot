@@ -1,6 +1,9 @@
 const fs = require("fs-extra");
 const localPath = require("helper/localPath");
 
+const Template = require("models/template");
+const Blog = require("models/blog");
+
 const each = require("../each/template");
 const get = require("../get/template");
 
