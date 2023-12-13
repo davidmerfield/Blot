@@ -135,7 +135,8 @@ const restore = (blog, templateID, callback) => {
               if (err) return callback(err);
               const metadata = deserialize(data, metadataModel);
 
-              const newName = templateID.split(":").slice(1).join(":");
+              const newName =
+                templateID.split(":").slice(1).join(":") + "-restored";
 
               delete metadata.id;
               delete metadata.name;
