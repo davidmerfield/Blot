@@ -7,10 +7,11 @@ const get = require("../get/template");
 
 const { create, setMultipleViews, setMetadata } = require("models/template");
 
+const Blog = require("models/blog");
+
 const viewModel = require("models/template/viewModel");
 const metadataModel = require("models/template/metadataModel");
 const deserialize = require("models/template/util/deserialize");
-const { del } = require("request");
 
 const backupHost = process.env.BACKUP_REDIS_HOST;
 
@@ -50,12 +51,6 @@ const main = (blog, template, callback) => {
       (err, oldTemplateID) => {
         if (err) return callback(err);
 
-        if (oldTemplateID === template.id) {
-          console.log(template.id, "was the active template");
-        } else {
-          console.log(template.id, "was not the active template");
-        }
-
         const views = [];
 
         // get all the view names
@@ -85,28 +80,42 @@ const main = (blog, template, callback) => {
               delete metadata.localEditing;
               delete metadata.slug;
 
-              console.log("adding template", newName, metadata);
+              create(blog.id, newName, metadata, (err, newTemplate) => {
+                if (err) return callback(err);
 
-              // console.log("would set views", views);
+                if (!newTemplate || !newTemplate.id) {
+                  return callback(new Error("no new template created"));
+                }
 
-              callback();
+                console.log("created template", newTemplate.id);
 
-              // create(blog.id, newName, metadata, (err, newTemplate) => {
-              //   if (err) return callback(err);
+                setMultipleViews(newTemplate.id, views, err => {
+                  if (err) return callback(err);
 
-              //   if (!newTemplate || !newTemplate.id) {
-              //     return callback(new Error("no new template created"));
-              //   }
+                  console.log("restored all views for", newTemplate.id);
 
-              //   console.log("created template", newTemplate.id);
+                  if (template.id !== oldTemplateID) {
+                    console.log(
+                      "old template",
+                      oldTemplateID,
+                      "does not match",
+                      template.id
+                    );
+                    return callback();
+                  }
 
-              //   setMultipleViews(newTemplate.id, views, err => {
-              //     if (err) return callback(err);
-
-              //     console.log("restored all views for", newTemplate.id);
-              //     callback();
-              //   });
-              // });
+                  console.log("setting new template as active");
+                  Blog.set(
+                    blog.id,
+                    { template: newTemplate.id },
+                    function (err) {
+                      if (err) return callback(err);
+                      console.log("set new template as active");
+                      callback();
+                    }
+                  );
+                });
+              });
             }
           );
         });
