@@ -84,6 +84,7 @@ const main = (blog, template, callback) => {
               create(blog.id, newName, metadata, (err, newTemplate) => {
                 if (err && err.code === "EEXISTS") {
                   console.log("Already restored", newName);
+                  return callback();
                 }
 
                 if (err) return callback(err);
