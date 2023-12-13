@@ -68,6 +68,7 @@ const main = async (blog, callback) => {
 
               console.log("need to restore", id);
               restore.push(id);
+              next();
             }
           );
         },
