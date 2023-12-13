@@ -77,7 +77,7 @@ const main = (blog, template, callback) => {
             err => {
               if (err) return callback(err);
               const metadata = deserialize(data, metadataModel);
-              console.log(template.id, "metadata to restore:", data);
+              console.log(template.id, "metadata to restore:", metadata);
               callback();
             }
           );
