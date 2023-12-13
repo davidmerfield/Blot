@@ -4,6 +4,8 @@ const localPath = require("helper/localPath");
 const each = require("../each/template");
 const get = require("../get/template");
 
+const readFromFolder = require("models/template/readFromFolder");
+
 const main = (blog, template, callback) => {
   if (template.localEditing !== false) {
     console.log(template.id, "is already set to edit locally");
@@ -13,19 +15,61 @@ const main = (blog, template, callback) => {
   const pathUpper = localPath(blog.id, "/Templates/" + template.slug);
   const pathLower = localPath(blog.id, "/templates/" + template.slug);
 
-  console.log("local path:", pathUpper);
-  console.log("local path:", pathLower);
+  const pathUpperExists = fs.existsSync(pathUpper);
+  const pathLowerExists = fs.existsSync(pathLower);
 
-  if (fs.existsSync(pathUpper) || fs.existsSync(pathLower)) {
-    console.log(template.id, "has a folder waiting to clobber");
-  } else {
-    console.log(template.id, "does not have a folder waiting to clobber");
+  if (!pathUpperExists && !pathLowerExists) {
+    console.log(template.id, "does not have a folder");
     return callback();
   }
 
-  // we need to duplicate the template and if it's the blog's active template,
-  // we need to set the new template as the active one
-  callback();
+  const newTemplate = {
+    isPublic: false,
+    name: template.name + " (backup)",
+    slug: template.slug + "-backup",
+    cloneFrom: template.id
+  };
+
+  console.log("would create new template", newTemplate);
+  return callback();
+
+  Template.create(
+    req.blog.id,
+    newTemplate.name,
+    newTemplate,
+    function (err, newTemplate) {
+      if (err) return next(err);
+
+      console.log("turning on local editing for template...");
+      Template.setMetadata(template.id, { localEditing: true }, function (err) {
+        if (err) return callback(err);
+
+        console.log("reading old template from folder");
+        readFromFolder(
+          blog.id,
+          pathUpperExists ? pathUpper : pathLower,
+          function (err) {
+            if (err) return callback(err);
+
+            console.log("restored all views for", newTemplate.id);
+
+            if (blog.template !== template.id) {
+              console.log("template", template.id, "is not active");
+              return callback();
+            }
+
+            console.log("setting new template as active");
+            Blog.set(blog.id, { template: newTemplate.id }, function (err) {
+              if (err) return callback(err);
+
+              console.log("set new template as active");
+              callback();
+            });
+          }
+        );
+      });
+    }
+  );
 };
 
 if (require.main === module) {
