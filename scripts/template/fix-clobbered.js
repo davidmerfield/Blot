@@ -6,6 +6,10 @@ const each = require("../each/template");
 const get = require("../get/template");
 const { metadata } = require("../../app/models/template/key");
 
+const viewModel = require("models/template/viewModel");
+const metadataModel = require("models/template/metadataModel");
+const deserialize = require("models/template/util/deserialize");
+
 const backupHost = process.env.BACKUP_REDIS_HOST;
 
 const url = `redis://${backupHost}:${config.redis.port}`;
@@ -60,12 +64,19 @@ const main = (blog, template, callback) => {
               backupClient.hgetall(viewKey, (err, view) => {
                 if (err || !view)
                   return next(err || new Error("no view: " + viewName));
-                console.log(template.id, "found view to restore", viewName);
+                view = deserialize(view, viewModel);
+                console.log(
+                  template.id,
+                  "found view to restore",
+                  viewName,
+                  view
+                );
                 next();
               });
             },
             err => {
               if (err) return callback(err);
+              const metadata = deserialize(data, metadataModel);
               console.log(template.id, "metadata to restore:", data);
               callback();
             }

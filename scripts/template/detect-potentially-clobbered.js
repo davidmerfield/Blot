@@ -20,8 +20,11 @@ const main = (blog, template, callback) => {
     console.log(template.id, "has a folder waiting to clobber");
   } else {
     console.log(template.id, "does not have a folder waiting to clobber");
+    return callback();
   }
 
+  // we need to duplicate the template and if it's the blog's active template,
+  // we need to set the new template as the active one
   callback();
 };
 
