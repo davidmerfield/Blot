@@ -48,7 +48,15 @@ const main = async (blog, callback) => {
       if (!fs.statSync(dir).isDirectory()) return next();
       const id = makeID(blog.id, basename(dir));
       console.log("found id", id);
-      next();
+      backupClient.hget(
+        "template:" + template.id + ":info",
+        "localEditing",
+        (err, backupLocalEditing) => {
+          if (err) return next(err);
+          console.log("backupLocalEditing", backupLocalEditing);
+          next();
+        }
+      );
     },
     callback
   );
