@@ -4,11 +4,13 @@ const async = require("async");
 
 const each = require("../each/template");
 const get = require("../get/template");
-const { metadata } = require("../../app/models/template/key");
+
+const { create, setMultipleViews, setMetadata } = require("models/template");
 
 const viewModel = require("models/template/viewModel");
 const metadataModel = require("models/template/metadataModel");
 const deserialize = require("models/template/util/deserialize");
+const { del } = require("request");
 
 const backupHost = process.env.BACKUP_REDIS_HOST;
 
@@ -54,6 +56,8 @@ const main = (blog, template, callback) => {
           console.log(template.id, "was not the active template");
         }
 
+        const views = [];
+
         // get all the view names
         backupClient.smembers(allViewsKey, function (err, viewNames) {
           if (err) return callback(err);
@@ -65,20 +69,40 @@ const main = (blog, template, callback) => {
                 if (err || !view)
                   return next(err || new Error("no view: " + viewName));
                 view = deserialize(view, viewModel);
-                console.log(
-                  template.id,
-                  "found view to restore",
-                  viewName,
-                  view
-                );
+                views.push(view);
                 next();
               });
             },
             err => {
               if (err) return callback(err);
               const metadata = deserialize(data, metadataModel);
-              console.log(template.id, "metadata to restore:", metadata);
-              callback();
+
+              const newName = metadata.name + " (restored)";
+
+              delete metadata.id;
+              delete metadata.name;
+              delete metadata.cloneFrom;
+              delete metadata.localEditing;
+              delete metadata.slug;
+
+              console.log("adding template", newName, metadata);
+
+              create(blog.id, newName, metadata, (err, newTemplate) => {
+                if (err) return callback(err);
+
+                if (!newTemplate || !newTemplate.id) {
+                  return callback(new Error("no new template created"));
+                }
+
+                console.log("created template", newTemplate.id);
+
+                setMultipleViews(newTemplate.id, views, err => {
+                  if (err) return callback(err);
+
+                  console.log("restored all views for", newTemplate.id);
+                  callback();
+                });
+              });
             }
           );
         });
