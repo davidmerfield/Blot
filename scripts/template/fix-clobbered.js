@@ -22,6 +22,11 @@ const main = (blog, template, callback) => {
   backupClient.hgetall("template:" + template.id + ":info", (err, data) => {
     if (err) return callback(err);
 
+    if (!data) {
+      console.log(template.id, "is not present in backup");
+      return callback();
+    }
+
     if (data.localEditing !== "false") {
       console.log(template.id, "was previouly edited locally as well");
       return callback();
