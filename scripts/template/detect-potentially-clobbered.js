@@ -36,7 +36,7 @@ const main = (blog, template, callback) => {
   console.log("would create new template", newTemplate);
 
   Template.create(
-    req.blog.id,
+    blog.id,
     newTemplate.name,
     newTemplate,
     function (err, newTemplate) {
