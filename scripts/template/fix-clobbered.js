@@ -89,6 +89,8 @@ const main = (blog, template, callback) => {
 
               console.log("would set views", views);
 
+              callback();
+
               // create(blog.id, newName, metadata, (err, newTemplate) => {
               //   if (err) return callback(err);
 
