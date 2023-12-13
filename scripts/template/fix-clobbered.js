@@ -21,7 +21,7 @@ const main = (blog, template, callback) => {
   // found locally-edited template
   backupClient.hgetall("template:" + template.id + ":info", (err, data) => {
     if (err) return callback(err);
-    console.log("data", data);
+
     if (data.localEditing !== "false") {
       console.log(template.id, "was previouly edited locally as well");
       return callback();
