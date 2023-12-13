@@ -135,7 +135,7 @@ const restore = (blog, templateID, callback) => {
               if (err) return callback(err);
               const metadata = deserialize(data, metadataModel);
 
-              const newName = metadata.name + " (restored)";
+              const newName = templateID.split(":").slice(1).join(":");
 
               delete metadata.id;
               delete metadata.name;
@@ -144,11 +144,13 @@ const restore = (blog, templateID, callback) => {
               delete metadata.slug;
 
               console.log(
-                "attempting to restore",
+                "would restore",
                 templateID,
                 ">>>",
                 makeID(blog.id, newName)
               );
+
+              return callback();
 
               create(blog.id, newName, metadata, (err, newTemplate) => {
                 if (err && err.code === "EEXISTS") {
