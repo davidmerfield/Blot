@@ -11,7 +11,7 @@ if (require.main === module) {
 
 function main (callback) {
   eachBlog(function (user, blog, next) {
-    if (err || !user || !blog || !blog.id) return next();
+    if (!user || !blog || !blog.id) return next();
     buildFromFolder(blog.id, function (err) {
       if (err) console.log(err);
       next();
