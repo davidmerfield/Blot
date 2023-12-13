@@ -49,7 +49,7 @@ const main = async (blog, callback) => {
       const id = makeID(blog.id, basename(dir));
       console.log("found id", id);
       backupClient.hget(
-        "template:" + template.id + ":info",
+        "template:" + id + ":info",
         "localEditing",
         (err, backupLocalEditing) => {
           if (err) return next(err);
