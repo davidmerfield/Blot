@@ -5,7 +5,8 @@ const async = require("async");
 const each = require("../each/template");
 const get = require("../get/template");
 
-const { create, setMultipleViews, setMetadata } = require("models/template");
+const { create, setMetadata } = require("models/template");
+const setMultipleViews = require("models/template/setMultipleViews");
 
 const Blog = require("models/blog");
 
