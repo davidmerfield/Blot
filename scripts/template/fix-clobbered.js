@@ -1,7 +1,7 @@
 const config = require("config");
 const redis = require("redis");
 const async = require("async");
-
+const client = require("models/client");
 const basename = require("path").basename;
 const makeID = require("models/template/util/makeID");
 const each = require("../each/blog");
