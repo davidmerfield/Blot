@@ -37,6 +37,10 @@ const main = (blog, template, callback) => {
       blog.id,
       pathUpperExists ? pathUpper : pathLower,
       function (err) {
+        if (err && err.message.startsWith("No files found in")) {
+          return callback();
+        }
+
         if (err) return callback(err);
         callback();
       }
