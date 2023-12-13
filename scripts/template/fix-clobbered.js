@@ -17,6 +17,7 @@ const Blog = require("models/blog");
 const viewModel = require("models/template/viewModel");
 const metadataModel = require("models/template/metadataModel");
 const deserialize = require("models/template/util/deserialize");
+const { client } = require("../../app/dashboard/settings/load");
 
 const backupHost = process.env.BACKUP_REDIS_HOST;
 
@@ -42,26 +43,51 @@ const main = async (blog, callback) => {
     });
   }
 
-  async.eachSeries(
-    templateDirs,
-    (dir, next) => {
-      if (!fs.statSync(dir).isDirectory()) return next();
-      const id = makeID(blog.id, basename(dir));
-      console.log("found id", id);
-      backupClient.hget(
-        "template:" + id + ":info",
-        "localEditing",
-        (err, backupLocalEditing) => {
-          if (err) return next(err);
-          if (backupLocalEditing !== "false") return next();
+  let restore = [];
 
-          console.log("need to restore", id);
-          restore(blog, id, next);
+  backupClient.smembers("template:owned_by:" + blog.id, (err, oldIds) => {
+    if (err) return callback(err);
+    client.smembers("template:owned_by:" + blog.id, (err, newIds) => {
+      if (err) return callback(err);
+
+      const missing = oldIds.filter(id => !newIds.includes(id));
+
+      missing.forEach(id => restore.push(id));
+
+      async.eachSeries(
+        templateDirs,
+        (dir, next) => {
+          if (!fs.statSync(dir).isDirectory()) return next();
+          const id = makeID(blog.id, basename(dir));
+          console.log("found id", id);
+          backupClient.hget(
+            "template:" + id + ":info",
+            "localEditing",
+            (err, backupLocalEditing) => {
+              if (err) return next(err);
+              if (backupLocalEditing !== "false") return next();
+
+              console.log("need to restore", id);
+              restore.push(id);
+            }
+          );
+        },
+        err => {
+          if (err) return callback(err);
+
+          async.eachSeries(
+            restore,
+            (id, next) => {
+              console.log("restoring", id);
+              next();
+              // restore(blog, id, next)
+            },
+            callback
+          );
         }
       );
-    },
-    callback
-  );
+    });
+  });
 };
 
 const restore = (blog, templateID, callback) => {
@@ -78,8 +104,6 @@ const restore = (blog, templateID, callback) => {
       console.log(templateID, "was previouly edited locally as well");
       return callback();
     }
-
-    console.log("need to restore", templateID);
 
     const allViewsKey = "template:" + templateID + ":all_views";
 
