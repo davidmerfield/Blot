@@ -14,11 +14,20 @@ if (!backupHost) {
 }
 
 const main = (blog, template, callback) => {
-  if (template.localEditing !== true) return callback();
+  if (template.localEditing !== true) {
+    console.log(template.id, "is not edited locally");
+    return callback();
+  }
   // found locally-edited template
   backupClient.hgetall("template:" + template.id + ":info", (err, data) => {
     if (err) return callback(err);
     console.log("data", data);
+    if (data.localEditing !== "false") {
+      console.log(template.id, "was previouly edited locally as well");
+      return callback();
+    }
+
+    console.log("need to restore", template.id);
     callback();
   });
 };
