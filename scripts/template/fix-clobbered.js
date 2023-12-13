@@ -4,8 +4,14 @@ const redis = require("redis");
 const each = require("../each/template");
 const get = require("../get/template");
 
-const url = `redis://${process.env.BACKUP_REDIS_HOST}:${config.redis.port}`;
+const backupHost = process.env.BACKUP_REDIS_HOST;
+
+const url = `redis://${backupHost}:${config.redis.port}`;
 const backupClient = redis.createClient({ url });
+
+if (!backupHost) {
+  throw new Error("BACKUP_REDIS_HOST env variable not set");
+}
 
 const main = (blog, template, callback) => {
   if (template.localEditing !== true) return callback();
