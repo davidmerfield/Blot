@@ -1,5 +1,9 @@
 <style>
-  .header a svg {width:1.5em}
+  .header a svg {width:1.5em;fill: black;
+    transition: fill 0.2s ease-in-out, stroke 0.2s ease-in-out;
+  stroke: black;}
+  .header a:hover {color: #0070e8;}
+  .header a:hover svg {fill: #0070e8;stroke: #0070e8;}
 </style>
 
 <div
@@ -13,12 +17,11 @@
     style="
       display: flex;
       width: 100%;
-      max-width: 800px;
       justify-content: space-between;
       align-items: stretch;
       margin: 0 auto;
     ">
-          <a href="/" style="justify-content: center;">{{> logo}}</a> 
+          <a href="/" style="justify-content: center;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 30"><path d="M35.1 13.3s-2.3-2.4-6.7-2.4H7.6c-4.4 0-6.7 2.4-6.7 2.4" fill="none" stroke-width="1.75" stroke-miterlimit="10"/><path stroke-width="0" d="M15.1 2.8l2.1 1.6.5.4H33c.7 0 1.2.6 1.2 1.2v21c0 .7-.6 1.2-1.2 1.2H3c-.7 0-1.2-.6-1.2-1.2V4c0-.7.6-1.2 1.2-1.2h12.1m.7-1.8H3a3.01 3.01 0 0 0-3 3v23a3.01 3.01 0 0 0 3 3h30a3.01 3.01 0 0 0 3-3V6a3.01 3.01 0 0 0-3-3H18.3l-2.5-2z"/></svg></a> 
 
      
       

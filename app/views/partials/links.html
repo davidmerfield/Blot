@@ -15,10 +15,6 @@
         >Files and posts</a
       >
       <ul>
-        <li><a class="{{ selected.pages }}" href="/how/pages">Pages</a></li>
-        <li>
-          <a class="{{ selected.metadata }}" href="/how/metadata">Metadata</a>
-        </li>
 
         <!-- <li>
           <a class="{{ selected.markdown }}" href="/how/posts/markdown"
@@ -45,6 +41,11 @@
         </li> -->
       </ul>
     </li>
+    <li><a class="{{ selected.pages }}" href="/how/pages">Pages</a></li>
+    <li>
+      <a class="{{ selected.metadata }}" href="/how/metadata">Metadata</a>
+    </li>
+
     <li>
       <a
         class="{{ selected.sync }}"
@@ -65,6 +66,11 @@
       </ul>
     </li>
     <li>
+      <a class="{{ selected.import }}" href="/how/configure/import"
+        >Moving to Blot</a
+      >
+    </li>
+    <li>
       <a
         class="{{ selected.configure }}"
         data-open="{{ selected.configure }}"
@@ -72,11 +78,7 @@
         >Set up your site</a
       >
       <ul>
-        <li>
-          <a class="{{ selected.import }}" href="/how/configure/import"
-            >Moving to Blot</a
-          >
-        </li>
+        
 
         <li>
           <a class="{{ selected.domain }}" href="/how/configure/domain"

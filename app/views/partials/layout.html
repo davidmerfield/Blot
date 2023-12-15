@@ -3,8 +3,9 @@
   {{> head}}
   <body>
     {{> header}}
+    <div style="display: flex;">
     {{> docs-header}}
-  <section style="padding: 2em 2em;max-width:800px;margin:0 auto">
+    <section style="padding: 2em 2em;">
       {{> breadcrumbs}}
       {{> body}}
 
@@ -25,5 +26,6 @@
       {{/sourceFile}}
     </section>
     {{> footer}}
+  </div>
   </body>
 </html>
