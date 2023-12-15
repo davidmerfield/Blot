@@ -372,7 +372,7 @@ h2 + .clients {margin-top: 0}
   margin-right: 0.75em
 }
 
-.clients li a img[src*='.svg'] {width: 20px;height: 20px;}
+.clients li a img[src*='.svg'] {width: 20px;height: 20px;margin:0 4px 0 0;position:relative;top:3px}
 
 .clients img {
   width: 24px;
