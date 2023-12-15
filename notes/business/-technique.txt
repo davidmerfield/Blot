@@ -1,7 +1,5 @@
 # Technique
 
-## A survey of the tools and methods we use to operate Blot
-
 I haven't found the need to use much *software* to manage the daily operation of Blot. We like email because it is quieter and less hurried than messaging applications. We like working with plain text to manage our tasks and organize our plans because they are easy to track and share.
 
 ## Task tracking

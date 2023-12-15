@@ -1,13 +1,25 @@
 {{^hidebreadcrumbs}}
-<div>
+<div id="breadcrumbs">
   {{#breadcrumbs}}
   {{#first}}
 
   {{/first}}
   {{^first}}
-  <a href="{{{url}}}">{{ label }}</a> {{^last}} / {{/last}}
+  <a href="{{{url}}}">{{ label }}</a> {{^last}} <span style="color:var(--border-color)">/</span> {{/last}}
   {{/first}}
   {{/breadcrumbs}}
 </div>
 <br />
 {{/hidebreadcrumbs}}
+
+<style>
+  #breadcrumbs a {
+  color: var(--light-text-color);
+  font-size: 16px;
+
+  text-decoration: none;
+  }
+  #breadcrumbs a:hover {
+  color: var(--text-color);
+  }
+</style>

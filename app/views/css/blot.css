@@ -1,16 +1,17 @@
 html {
-  --background-color: #fff;
-  --module-background-color: #f8f8f8; /* #f8f8f8 #f4f3f1 */
-  --text-color: #333230;
-  --medium-text-color: #444;
-  --light-text-color: #767676;
-  --accent-color: #0070e8; /* used for links */
-  --light-accent-color: #0079fc; /* used for button background */
-  --dark-accent-color: #005bbd; /* used for button hover background*/
+  --background-color: #100F0F;
 
-  --border-color: rgba(0, 0, 0, 0.1);
-  --dark-border-color: rgba(0, 0, 0, 0.3);
-  --light-border-color: rgba(0, 0, 0, 0.05);
+  --text-color: #CECDC3;
+  --medium-text-color: #878580;
+  --light-text-color: #575653;
+
+  --accent-color: #4385BE; /* used for links */
+  --light-accent-color: #4385BE; /* used for button background */
+  --dark-accent-color:#205EA6; /* used for button hover background*/
+
+  --border-color: #403E3C;
+  --dark-border-color: #575653;
+  --light-border-color: #343331;
 
   --large-border-radius: 10px;
   --border-radius: 5px;
@@ -135,6 +136,10 @@ ul,
 ol,
 .clients {
   max-width: 637px;
+}
+
+.window.folder {
+  max-width: 400px;
 }
 
 ul.templates {
@@ -329,38 +334,28 @@ background .window {
 }
 
 .clients {
-  margin: 2em -0.7em;
+  margin: 2em 0;
   list-style-type: none;
   padding: 0;
-  display: flex;
-  flex-wrap: wrap;
 }
 
 .clients li {
-  display: inline-block;
-  flex-basis: 50%;
-  box-sizing: border-box;
-  padding: 0.7em;
-  min-width: 256px;
-}
-/*,
-    var(--dark-border-color) 0px 2px 4px
-*/.clients li a {
-  cursor: pointer;
-  user-select: none;
-  padding: calc(var(--spacing)*0.75) calc(var(--spacing));
-  border-radius: 10px;
-  margin-bottom: 1.4 em;
   display: block;
+  box-sizing: border-box;
+  padding: 0;
+}
+
+.clients li a {
+  cursor: pointer;
+  border-bottom: 1px solid var(--light-border-color);
+  padding: calc(var(--spacing)*0.25) 0;
   color: inherit;
+  display: block;
   text-decoration: none;
-  box-shadow: var(--dark-border-color) 0px 0px 0px 1px;
-  background: white;
 }
 
 .clients li a:hover {
   text-decoration: none;
-  box-shadow: var(--accent-color) 0px 0px 0px 1px;
 }
 
 .clients li a:hover strong {
@@ -375,16 +370,11 @@ h2 + .clients {margin-top: 0}
   color: var(--accent-color);
 }
 
-.clients li a img[src*='.svg'] {width: 20px;height: 20px;margin-right: 0.8em}
+.clients li a img[src*='.svg'] {width: 20px;height: 20px;}
 
 .clients img {
   width: 24px;
   height: 24px;
-  float: left;
-  margin-right: 1em;
-  margin-top: 0.2em;
-  margin-left: 0.2em;
-  margin-bottom: 2em;
 }
 
 overlay {

@@ -4,8 +4,8 @@
     class="{{ selected.howIndex }}"
     data-open="{{ selected.how }}"
     href="/how"
-    >Getting started</a
-  ></li>
+    >Documentation</a
+  ><ul>
 
     <li>
       <a
@@ -134,3 +134,44 @@
         </li>
       </ul>
     </li>
+
+    </ul> 
+    </li> 
+
+    <li>
+      <a href="/examples" class="{{ selected.examplesIndex }}"
+        >Examples</a>
+    </li>
+
+    <li>
+      <a href="/questions" class="{{ selected.questionsIndex }}"
+        >Questions</a>
+</li> 
+  
+      <li>
+        <a href="/about" class="{{ selected.aboutIndex }}"     data-open="{{ selected.about }}"
+
+          >About</a>
+          <ul>
+            <li>
+              <a href="/about/status" class="{{ selected.status }}"
+                >Status</a>
+            </li>
+            <li>
+              <a href="/about/notes" class="{{ selected.notes }}"
+                >Notes</a>
+            </li>
+
+          </ul>
+      </li>
+
+      <li>
+        <a href="/news" class="{{ selected.news }}"
+          >News</a>
+      </li>
+  
+      <li>
+        <a href="/support" class="{{ selected.support }}"
+          >Support</a>
+      </li>
+    </ul>

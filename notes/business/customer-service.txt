@@ -1,7 +1,5 @@
 # Customer service
 
-## How we help solve our customers' problems
-
 Before working on Blot, I hadn't had a customer-facing job. Here are a few of things I have learned over the years. It's worth mentioning that Blot's customers have been polite and good-natured, even in situations when a lapse in politeness would have been reasonable.
 
 ## Tracking requests

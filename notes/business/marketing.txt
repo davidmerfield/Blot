@@ -1,7 +1,5 @@
 # Marketing
 
-## How our customers find Blot
-
 I dislike marketing. I have not tried to convince anyone, ever, to use Blot. I announced [the launch of Blot](https://news.ycombinator.com/item?id=8183498) on a forum for programmers. The people who saw that forum post have since spread the news by word-of-mouth. Every customer on Blot's books today is connected to those people who saw the launch announcement. 
 
 ## Advertising
