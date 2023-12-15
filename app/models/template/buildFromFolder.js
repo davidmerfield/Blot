@@ -56,12 +56,6 @@ module.exports = function (blogID, callback) {
         async.eachSeries(
           localTemplatesToRemove,
           function (template, next) {
-            console.log(
-              "DROPPING LOCAL TEMPLATE",
-              template.slug,
-              "from",
-              blogID
-            );
             drop(blogID, template.slug, function (err) {
               if (err) return next(err);
               next();
