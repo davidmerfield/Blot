@@ -5,12 +5,12 @@
     {{> header}}
     {{> docs-header}}
 
-    {{> breadcrumbs}}
-    <section style="display: flex; min-height: 100vh">
-      <section style="flex-basis: 240px; padding: 2rem; flex-shrink: 0">
+    <section style="display: flex; min-height: 100vh;max-width: 800px;margin:0 auto">
+      <section style="flex-basis: 240px; padding: 2rem 0; flex-shrink: 0">
         {{> sidebar}}
       </section>
       <section style="flex-grow: 1; padding: 2rem">
+        {{> breadcrumbs}}
         {{> body}}
 
         {{#sourceFile}}
