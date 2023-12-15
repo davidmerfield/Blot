@@ -97,6 +97,7 @@ h1 {
   font-weight: 700;
   line-height: 1.15;
   padding: 0 0 1rem;
+  margin-top: 0;
 }
 
 h1:first-child {
@@ -368,6 +369,7 @@ h2 + .clients {margin-top: 0}
 
 .clients li a .a {
   color: var(--accent-color);
+  margin-right: 0.75em
 }
 
 .clients li a img[src*='.svg'] {width: 20px;height: 20px;}
