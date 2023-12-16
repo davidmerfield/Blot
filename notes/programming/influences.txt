@@ -4,3 +4,4 @@
 - Evan Czaplicki
 - Devine Lu Linvega
 - Drew DeVault
+- Rasmus Andersson

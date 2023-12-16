@@ -59,7 +59,6 @@ const internal = {
   "/how/posts/text-and-markdown": "/how/posts/markdown",
   "/how/posts/domain": "/how/configure/domain",
   "/how/posts/comments": "/how/configure/comments",
-  "/how/drafts": "/how",
   "/formatting": "/how/posts",
   "/redirects": "/how/configure/redirects",
   "/configuring": "/how/configure"

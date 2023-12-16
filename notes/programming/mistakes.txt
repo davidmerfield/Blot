@@ -1,6 +1,6 @@
 # Mistakes and regrets
 
-## Or some choice wisdom acquired through the years of programming Blot
+Some of the poor decisions made through the years of programming Blot
 
 ## Use a CDN
 

@@ -1,6 +1,5 @@
 # Open source
 
-## A partly moral and partly cynical decision to make Blot's source code public
 
 Open source feels good. It suggests a modest attitude to money that seems dignified. Although these aesthetic considerations are most important, open source is also appealing to a technical audience, who are often sceptical of proprietary closed-source software. So it makes business sense for me to make [Blot's source code](/about/source-code) available freely under the most permissive license possible. 
 

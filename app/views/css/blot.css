@@ -429,7 +429,7 @@ figure {
   padding: 18px 36px;
   border-radius: 18px;
   background: #fafafa;
-  border: 1px solid rgba(0, 0, 0, 0.05);
+  border: 1px solid var(--light-border-color);
 }
 
 form div:focus-within > label,
@@ -458,7 +458,7 @@ ul.who {
 }
 
 ul.who li {
-  /*border-top: 1px solid rgba(0, 0, 0, 0.05);*/
+  /*border-top: 1px solid var(--light-border-color);*/
   padding: 0.25rem;
 }
 
@@ -705,7 +705,7 @@ h1.inline {
   position: relative;
   padding: 0.4rem 0;
   /*transition: color 0.2s ease-out ;*/
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  border-bottom: 1px solid var(--light-border-color);
 }
 
 .top-level li:last-child a {
@@ -827,7 +827,7 @@ ul.who li {
   padding: 5px 0;
 }
 .document-list > li > a {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  border-bottom: 1px solid var(--light-border-color);
   margin-bottom: 5px;
 }
 
@@ -873,7 +873,7 @@ ul.who li {
 }
 
 .document-list.with-border {
-  border: 1px solid rgba(0, 0, 0, 0.05);
+  border: 1px solid var(--light-border-color);
   border-radius: 18px;
   margin: 0;
   padding: 0;
@@ -949,7 +949,7 @@ ul.who li {
   font-weight: 600;
   color: #666;
   margin-bottom: 3px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  border-bottom: 1px solid var(--light-border-color);
 }
 
 @media (max-width: 800px) {

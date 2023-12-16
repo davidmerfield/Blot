@@ -1,7 +1,5 @@
 # Technique
 
-## The tools and methods we use to write Blot's source code
-
 ## Web server
 - [nginx]() handles all inbound traffic and then passes of anything it can't handle to our application server. 
 - [Node.js](https://nodejs.org/) runs out application server is written in JavaScript and run with . I made this decision because I was vaguely familiar with JavaScript when I first started working on Blot. [express]() is the framework we use.
