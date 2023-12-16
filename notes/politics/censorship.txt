@@ -6,7 +6,7 @@ However, I have chosen not to excercise this power. I believe that establishing 
 
 ## So you accept that free speech can lead to harm?
 
-Yes, I think that being serious about the principle of free speech means accepting that people can say harmful things. I believe that the harm resulting from censorship is greater than the harm resulting from free speech. 
+Yes, I think that being serious about the principle of free speech means accepting that people can say harmful things. I believe that the harm caused by censorship is greater than the harm caused by people speaking freely.
 
 ## You're a private organization, why care about free speech?
 
@@ -15,6 +15,10 @@ Because I think the principle of free speech is a good principle. The framers of
 ## Will you allow extremists to host websites on Blot? 
 
 Yes, as long as they follow the law. For as long as it is legal in the United States to say extreme things it will be possible to say extreme things on Blot.
+
+## So what's your 'content policy'?
+
+Our 'content policy' is the law. We will host it if it's legal. I'm not interested in establishing a pseudo-legal system to litigate what is 'hate' and what isn't.
 
 ## What if a government pressures you because of something someone has posted?
 

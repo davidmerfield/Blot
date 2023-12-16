@@ -1,9 +1,9 @@
 # History
 
 
-**2012** &nbsp;&nbsp;&nbsp; Blot begins as an idea.
+**2013** &nbsp;&nbsp;&nbsp; Blot begins as an idea.
 
-**2013** &nbsp;&nbsp;&nbsp; Blot [opens to the public](https://news.ycombinator.com/item?id=8183498) and receives its first customer.
+**2014** &nbsp;&nbsp;&nbsp; Blot launches [on Hacker News](https://news.ycombinator.com/item?id=8183498) and receives its first customer.
 
 **2017** &nbsp;&nbsp;&nbsp; Blot becomes my full-time occupation.
 

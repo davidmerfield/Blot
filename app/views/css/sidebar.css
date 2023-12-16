@@ -17,6 +17,11 @@
   font-size: var(--font-size);
 }
 
+/* Sub level links */ 
+.sidebar  li li a {
+  color: var(--medium-text-color);
+}
+
 .sidebar li {
   display: block;
 }

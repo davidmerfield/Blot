@@ -1,9 +1,12 @@
 <div>
-  <h2>Tags</h2>
+  <h2><a href="/questions/tags">Tags</a></h2>
   {{#popular_tags}}
   <a href="/questions/tagged/{{ tag }}">{{ tag }} {{ count }} questions</a>
   {{/popular_tags}}
+  <br>
   <a href="/questions/tags">More tags &rarr;</a>
 </div>
 
-<a href="/questions/feed.rss"> RSS Feed of latest questions</a>
+<p>
+  <a href="/questions/feed.rss"> RSS Feed of latest questions</a>
+</p>

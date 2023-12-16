@@ -66,6 +66,7 @@ input[type="password"] {
   color: var(--text-color);
   position: relative;
   border: 1px solid var(--border-color);
+  border-radius: 4px;
   box-sizing: border-box;
   background: var(--background-color);
   box-shadow: inset 0 1px 2px 0 rgba(0, 0, 0, 0.075);
@@ -143,4 +144,9 @@ input:focus:-ms-input-placeholder {
 input:focus:-moz-placeholder {
   /* Firefox 18- */
   color: #c5c4c4;
+}
+
+input#email {
+border-top-right-radius: 0;
+border-bottom-right-radius: 0;
 }

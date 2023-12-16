@@ -1,13 +1,18 @@
-<h1>{{^tag}}Questions {{/tag}}{{#tag}}Tagged '{{ tag }}'{{/tag}}</h1>
+<h1>{{^tag}}Questions {{/tag}}{{#tag}}{{ prettyTag }}{{/tag}}</h1>
 
-{{> questions-search}}
+<div style="display: flex;align-items: baseline;margin:0 0 1em">
+  {{> questions-search}}
+    <a class="bordered-button"  href="/questions/ask">Ask a question</a>
+</div>
 
-<p>
-  <a class="bordered-button" href="/questions/ask">Ask question</a>
-</p>
-  
-<br />
+<!-- 
+<p class="filters">
+  <a class="{{selected.questionsIndex}}" href="/questions">Recent</a>
+  <a class="{{selected.popular}}" href="/questions/popular">Most discussion</a>
+</p> -->
 
+<div style="display: flex;" class="questions">
+<div style="flex-basis:66%" >
   {{#topics}}
     <h2>
       <a href="/questions/{{ id }}">{{ title }}</a>
@@ -16,28 +21,62 @@
     <div class="question-preview">
       {{{body}}}
     </div>
+     
+      <a class="minor" href="/questions/{{ id }}"><span date-from-now="{{ last_reply_created_at }}">{{ time }}</span>, {{ number_of_replies }} {{#singular}}reply{{/singular}}{{^singular}}replies{{/singular}}</a>
+ 
+      {{#tags}}
+      <a
+        href="/questions/tagged/{{ slug }}"
+        >{{ tag }}</a>&puncsp;
+      {{/tags}}
       
-        {{#tags}}
-        <a
-          href="/questions/tagged/{{ slug }}"
-          >
-          {{ tag }}
-        </a>
-        {{/tags}}
-      
-      <a href="/questions/{{ id }}" date-from-now="{{ last_reply_created_at }}">{{ time }}</a
-        {{ number_of_replies }} {{#singular}}reply{{/singular}}{{^singular}}replies{{/singular}}
-      </a>
-      <hr>
-  {{/topics}}
+      {{/topics}}
 
 {{> questions-paginator}}
+</div>
+<div style="flex-basis:33%;margin-left:2em">
+  {{> questions-sidebar}}
+</div>
+</div>
 
 <style>
+
+  .filters {
+    margin: 2em 0 0
+    }
+  
+    .filters a {
+    border-radius: 1em;
+    background-color: var(--light-background-color);
+    padding: 6px 18px;
+    text-decoration: none;
+    margin-right: 0.5em;
+    color: var(--medium-text-color)
+  }
+
+  .filters a.selected {
+    background-color: var(--text-color);
+    color: var(--background-color)
+  }
+
   .question-preview {
   max-height: 3.8rem;overflow: hidden;margin:0
     }
     .question-preview > :first-child {
       margin-top: 0;
     }
+    .questions a[href^="/questions/tagged"],
+    .questions a[href^="/questions/tags"],
+    .questions a[href^="/questions/feed.rss"],
+    .questions  a.minor {
+      color: var(--medium-text-color);
+      font-size: var(--small-font-size);
+    }
+
+    .questions a[href^="/questions/tagged"] {
+    background: var(--light-background-color);
+      border-radius: 4px;
+      padding: 4px 12px;
+    }
+
 </style>

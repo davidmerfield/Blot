@@ -1,5 +1,6 @@
 html {
   --background-color: #100F0F;
+  --light-background-color: #1C1B1A;
 
   --text-color: #CECDC3;
   --medium-text-color: #878580;
@@ -16,6 +17,8 @@ html {
   --large-border-radius: 10px;
   --border-radius: 5px;
   
+  --font-family: ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;
+
   --small-font-size: 14px;
   --font-size: 18px;
   --large-font-size: 24px;
@@ -34,7 +37,7 @@ body {
 body {
   background: var(--background-color);
   color: var(--text-color);
-  font: var(--font-size)/1.5 ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;
+  font: var(--font-size)/1.5 var(--font-family);
   font-weight: 400;
   -webkit-text-size-adjust: 100%;
   -ms-text-size-adjust: 100%;
@@ -68,13 +71,6 @@ strong {
   font-weight: 600;
 }
 
-.grid {
-  display: grid;
-  grid-template-columns: repeat(12, [col-start] 1fr);
-  grid-auto-rows: auto;
-  column-gap: 64px;
-}
-
 small {
   font-size: 15px;
 }
@@ -98,6 +94,7 @@ h1 {
   line-height: 1.15;
   padding: 0 0 1rem;
   margin-top: 0;
+  margin-bottom: 2rem;
 }
 
 h1:first-child {
@@ -105,15 +102,7 @@ h1:first-child {
   line-height: 1;
 }
 
-h1 + h2 {
-  padding: 0;
-  margin: -0.5rem 0 1.5rem;
-  font-size: 24px;
-  color: #666;
-  font-weight: 400;
-  border: none;
-}
-h2 {
+h2, h3 {
   font-size: 16px;
   margin: 2.8rem 0 0.35rem;
   border-bottom: 1px solid var(--border-color);
@@ -140,69 +129,11 @@ ol,
 }
 
 .light {color: var(--light-text-color)}
+
 .window.folder {
   max-width: 400px;
 }
 
-ul.templates {
-  display: flex;
-  max-width: 100%;
-  flex-wrap: wrap;
-  padding: 0;
-  margin: 2em -0.5em;
-}
-
-ul.templates small {
-  display: none;
-}
-
-ul.templates li {
-  list-style-type: none;
-  width: 33%;
-  padding: 1rem;
-  box-sizing: border-box;
-  flex-basis: calc(33.33% - 20px);
-}
-
-@media screen and (max-width: 1000px) {
-  ul.templates li {
-    flex-basis: calc(50% - 20px);
-    margin-right: 20px;
-  }
-}
-  
-@media screen and (max-width: 700px) {
-  ul.templates li {
-    flex-basis: 100%;
-    margin-right: 20px;
-  }
-}
-
-ul.templates li a {
-  border: none;
-  min-height: 180px;
-  display: block;
-}
-
-ul.templates li a:hover {
-  box-shadow: none;
-  outline: none;
-  background: none;
-}
-
-ul.templates li strong {
-  display: inline-block;
-  text-decoration: underline;
-  color: var(--accent-color);
-  font-weight: 400;
-}
-
-ul.templates img {
-  margin-left: -0.5em;
-  margin-top: 0.5em;
-}
-
-ul.templates img,
 p img {
   width: 100%;
   height: auto;
@@ -223,24 +154,7 @@ table {
 
     table .light {margin: 0 10px 0 12px;color:#777}
     table pre {margin-top: 0;margin-bottom: 0}
-div.tex table {
-  table-layout: auto;
-  margin-bottom: 1.5em;
-}
-
-div.tex p {
-  margin-bottom: 3em;
-}
-
-div.tex table.reference td:nth-child(odd),
-div.tex table.symbol td {
-  font-family: KaTeX_Main, KaTeX_AMS;
-}
-
-div.tex table td.not-symbol {
-  font-family: inherit !important;
-}
-
+    
 strike {
   text-decoration-color: var(--accent-color);
   opacity: 0.5;
@@ -449,35 +363,6 @@ a.bordered-button {
   border-radius: 4px;
 }
 
-ul.who {
-  margin: 1rem 0 0;
-  max-width: none;
-  text-align: center;
-  list-style: none;
-  padding: 0;
-}
-
-ul.who li {
-  /*border-top: 1px solid var(--light-border-color);*/
-  padding: 0.25rem;
-}
-
-ul.who li a {
-  color: inherit;
-  text-decoration: none;
-}
-
-ul.who .a {
-  text-decoration: underline;
-}
-
-ul.who .imag {
-  float: left;
-  width: 46px;
-  height: 46px;
-  display: block;
-}
-
 .secondary-text {
   color: #989694;
 }
@@ -486,113 +371,6 @@ ul.who .imag {
   font-size: var(--small-font-size);
 }
 
-/* Questions (Q&A) */
-.qa-section-header {
-  max-width: 637px;
-  display: flex;
-  justify-content: space-between;
-  justify-content: space-between;
-  align-items: baseline;
-}
-
-.qa-question-link {
-  clear: both;
-  padding: calc(var(--spacing)*0.5) 0 calc(var(--spacing)*2);
-  border-top: 1px solid var(--light-border-color);
-}
-
-
-.qa-question-link h2 {
-  margin: 0;
-  padding: 0;
-  border: none;
-  color: var(--accent-color);
-}
-.qa-question-link h2 a {
-  display: block;
-}
-.qa-question-header {
-  display: flex;
-  justify-content: space-between;
-}
-
-.question-preview {
-  height: 1.5rem;
-  overflow: hidden;
-  white-space: nowrap;
-  position: relative;
-  text-overflow: ellipsis;
-}
-
-.question-preview a {color:inherit;text-decoration: none;}
-
-.question-preview > :first-child {
-  margin: 0;
-  padding: 0;
-}
-
-ul.qa-questions {
-  margin: 0;
-  list-style-type: none;
-}
-ul.qa-questions li {
-  margin: 0.7em 0;
-}
-.qa-questions li a:hover strong {
-  text-decoration: none;
-}
-.qa-question-container {
-  margin-bottom: 2em;
-}
-.qa-item-container {
-  margin-bottom: 2em;
-}
-.reply-container {
-  padding-left: 2rem;
-  border-top: 1px solid var(--light-border-color);
-}
-.qa-item-container pre {
-  white-space: pre-wrap;
-  padding: calc(var(--spacing)*0.5);
-  border-radius: 4px;
-  background: #f6f6f6;
-  word-break: break-all;
-}
-.qa-item-container :nth-last-child(2) {
-  margin-bottom: 0.15em;
-}
-.qa-form ::placeholder,
-.qa-form :focus::placeholder {
-  color: #a09d9c;
-}
-.qa-form input,
-.qa-form textarea {
-  width: 100%;
-}
-.qa-form textarea {
-  margin: 2px 0;
-  font-size: 17px;
-  padding: 10px;
-  font-family: inherit;
-  z-index: 1;
-  position: relative;
-  border: 1px solid #cccbca;
-  border-top-color: rgba(0, 0, 0, 0.25);
-  border-bottom-color: rgba(0, 0, 0, 0.15);
-  box-sizing: border-box;
-  background: 0 0;
-  box-shadow: inset 0 1px 2px 0 rgb(0 0 0 / 8%);
-  transition: border-color ease-in-out 0.1s, box-shadow ease-in-out 0.1s,
-    -webkit-box-shadow ease-in-out 0.1s;
-  resize: vertical;
-  min-height: 300px;
-  height: 100px;
-}
-.qa-form .qa-form-actionarea {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
 
 .paginator {
   margin-top: 3em;
@@ -682,12 +460,6 @@ h1.inline {
   margin: 1em 0;
   padding: 0;
   line-height: 1.45;
-}
-
-@media screen and (max-width: 800px) {
-  .grid {
-    padding: 0;
-  }
 }
 
 .top-level {
@@ -1126,4 +898,22 @@ div.meta-links a {
 .qa-item-container .hljs-punctuation,
 .qa-item-container .hljs-tag {
   /* purposely ignored */
+}
+
+div.tex table {
+  table-layout: auto;
+  margin-bottom: 1.5em;
+}
+
+div.tex p {
+  margin-bottom: 3em;
+}
+
+div.tex table.reference td:nth-child(odd),
+div.tex table.symbol td {
+  font-family: KaTeX_Main, KaTeX_AMS;
+}
+
+div.tex table td.not-symbol {
+  font-family: inherit !important;
 }

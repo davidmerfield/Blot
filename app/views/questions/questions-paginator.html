@@ -1,13 +1,13 @@
 {{#paginator}}
-<div class="paginator">
+<div class="paginator filters">
   {{#previous_page}}
-  <a href="{{{base}}}/page/{{ previous_page }}">Previous</a>
+  <a href="{{{base}}}/page-{{ previous_page }}">Previous</a>
   {{/previous_page}}
 
   {{#pages}}
 
   {{^elipsis}}
-  <a class="{{ current }}" href="{{{base}}}/page/{{ page }}">{{ page }}</a>
+  <a class="{{ current }}" href="{{{base}}}/page-{{ page }}">{{ page }}</a>
   {{/elipsis}}
 
   {{#elipsis}}
@@ -17,7 +17,7 @@
   {{/pages}}
 
   {{#next_page}}
-  <a href="{{{base}}}/page/{{ next_page }}">Next</a>
+  <a href="{{{base}}}/page-{{ next_page }}">Next</a>
   {{/next_page}}
 </div>
 
