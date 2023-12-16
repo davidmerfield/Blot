@@ -70,9 +70,11 @@ Redo demo video
 - Finish the test folders for each template 
 - Finish video in brochure/readme.txt
 
-Write newsletter
+Increase price to $5 per site per month for new customers. This will not affect existing customers in any way, who will always pay the same price.
 
 Switch domain to blot.site
+
+Write newsletter
 
 ---
 

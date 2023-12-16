@@ -2,11 +2,9 @@
 
 {{> questions-search}}
 
-<p>
-  <a href="/questions/ask">Ask question</a>
-</p>
+<div class="questions">
 
 {{#questions}}
-<a href="/questions/{{ id }}">{{ title }}</a
-><br />
+{{> question-row}}
 {{/questions}}
+</div>

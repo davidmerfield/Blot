@@ -14,23 +14,8 @@
 <div style="display: flex;" class="questions">
 <div style="flex-basis:66%" >
   {{#topics}}
-    <h2>
-      <a href="/questions/{{ id }}">{{ title }}</a>
-    </h2>
-
-    <div class="question-preview">
-      {{{body}}}
-    </div>
-     
-      <a class="minor" href="/questions/{{ id }}"><span date-from-now="{{ last_reply_created_at }}">{{ time }}</span>, {{ number_of_replies }} {{#singular}}reply{{/singular}}{{^singular}}replies{{/singular}}</a>
- 
-      {{#tags}}
-      <a
-        href="/questions/tagged/{{ slug }}"
-        >{{ tag }}</a>&puncsp;
-      {{/tags}}
-      
-      {{/topics}}
+    {{> question-row}}  
+  {{/topics}}
 
 {{> questions-paginator}}
 </div>

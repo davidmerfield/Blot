@@ -10,6 +10,8 @@ html {
   --light-accent-color: #4385BE; /* used for button background */
   --dark-accent-color:#205EA6; /* used for button hover background*/
 
+  --secondary-accent-color: #66800B;
+  
   --border-color: #403E3C;
   --dark-border-color: #575653;
   --light-border-color: #343331;
