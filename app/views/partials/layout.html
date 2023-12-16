@@ -8,19 +8,19 @@
         {{> sidebar}}
         </section>
 
-    <section style="padding: 2em 2em 0 4em;flex-grow:1">
+    <section style="padding: 2em 2em 6em 4em;flex-grow:1">
+      <section style="min-height: 80vh;padding-bottom:8em">
       {{> breadcrumbs}}
       {{> body}}
-
+    </section>
       {{#sourceFile}}
-
       <p>
-        <a
+        <a style="font-size: 16px;color:var(--light-text-color);text-decoration: none;"
           href="https://github.com/davidmerfield/Blot/tree/master{{{sourceFile}}}">
           Improve this page </a
         ><br />
 
-        <a
+        <a style="font-size: 16px;color:var(--light-text-color);text-decoration: none;"
           href="https://github.com/davidmerfield/Blot/commits/master{{{sourceFile}}}">
           Last updated {{ sourceFileUpdated }}
         </a>

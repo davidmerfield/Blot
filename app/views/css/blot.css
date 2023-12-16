@@ -116,7 +116,7 @@ h1 + h2 {
 h2 {
   font-size: 16px;
   margin: 2.8rem 0 0.35rem;
-  border-bottom: 1px solid #eceff1;
+  border-bottom: 1px solid var(--border-color);
   padding: 0.5rem 0 0.3375em;
   font-weight: 600;
 }
@@ -139,6 +139,7 @@ ol,
   max-width: 637px;
 }
 
+.light {color: var(--light-text-color)}
 .window.folder {
   max-width: 400px;
 }
@@ -240,11 +241,16 @@ div.tex table td.not-symbol {
   font-family: inherit !important;
 }
 
+strike {
+  text-decoration-color: var(--accent-color);
+  opacity: 0.5;
+}
+
 th,
 td {
   padding: 8px 0;
   text-align: left;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid var(--light-border-color);
 }
 
 th {
@@ -355,6 +361,14 @@ background .window {
   text-decoration: none;
 }
 
+.clients li:first-child a {
+  border-top: 1px solid var(--light-border-color);
+}
+
+h2 + .clients li:first-child a {
+  border-top: none; 
+}
+
 .clients li a:hover {
   text-decoration: none;
 }
@@ -364,7 +378,6 @@ background .window {
 }
 
 h2 + .clients {margin-top: 0}
-.clients.files .light {margin-left: 1.9rem}
 
 
 .clients li a .a {
@@ -429,11 +442,11 @@ a.bordered-button {
   color: var(--accent-color);
   text-decoration: none;
   margin-top: 18px;
-  font-weight: 600;
-  line-height: 36px;
+  font-weight: 400;
+  line-height: 38px;
   padding: 0 2rem;
   display: inline-block;
-  border-radius: 18px;
+  border-radius: 4px;
 }
 
 ul.who {

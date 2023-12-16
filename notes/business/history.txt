@@ -1,35 +1,12 @@
 # History
 
-A timeline of Blot's history.
 
-## 2012
+**2012** &nbsp;&nbsp;&nbsp; Blot begins as an idea.
 
-Blot begins as an idea.
+**2013** &nbsp;&nbsp;&nbsp; Blot opens to the public and receives its first customer.
 
-## 2013
+**2017** &nbsp;&nbsp;&nbsp; Blot becomes my full-time occupation.
 
-Blot opens to the public and receives its first customer.
+**2018** &nbsp;&nbsp;&nbsp; Blot receives its first volunteer contributor to the source code.
 
-## 2014
-
-## 2015
-
-## 2016
-
-## 2017
-
-Blot becomes my full-time occupation.
-
-## 2018
-
-Blot receives its first volunteer contributor to the source code.
-
-## 2019
-
-## 2020
-
-Blot hires its first part-time contributor.
-
-## 2021
-
-## 2022
+**2020** &nbsp;&nbsp;&nbsp; Blot hires its first part-time contributor.
