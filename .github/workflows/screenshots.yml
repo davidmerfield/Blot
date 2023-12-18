@@ -114,9 +114,6 @@ jobs:
           export BLOT_CACHE_DIRECTORY=$(pwd)/cache
           node app/index.js &
           node app/templates/folders/index.js
-          echo "working out what frances.blot.development is being redirected to"
-          curl -I http://frances.blot.development
-          echo "worked out what frances.blot.development is being redirected to"
           node app/templates/screenshots.js
 
       - name: Commit changes and create pull request
