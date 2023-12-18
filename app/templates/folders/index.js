@@ -141,7 +141,7 @@ function setupBlogs (user, folders, callback) {
       async.eachOfSeries(
         blogs,
         function ({ path, blog }, id, next) {
-          const update = updates[blog.handle];
+          const update = updates[blog.handle] || {};
 
           update.client = "local";
 
