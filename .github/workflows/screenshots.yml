@@ -23,28 +23,20 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Cache Homebrew packages
-        uses: actions/cache@v2
-        with:
-          path: /usr/local/Homebrew
-          key: ${{ runner.os }}-brew-${{ hashFiles('Brewfile.lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-brew-
-
-      - name: Install dnsmasq
-        run: brew install dnsmasq
-
-      - name: Configure dnsmasq
+      - name: Start dnsmasq container
         run: |
-          echo 'address=/.blot.development/127.0.0.1' | sudo tee -a /usr/local/etc/dnsmasq.conf
+          docker run -d \
+            --name dnsmasq \
+            -p 53:53/tcp -p 53:53/udp \
+            --cap-add=NET_ADMIN \
+            --restart unless-stopped \
+            andyshinn/dnsmasq:2.85 \
+            --address=/.blot.development/127.0.0.1
 
-      - name: Start dnsmasq
-        run: sudo brew services start dnsmasq
-
-      - name: test dnsmasq and exit if it is not working
+      - name: test dnsmasq is mapping *.blot.development to loopback
         run: |
           dig +short blot.development @
-          dig +short foo.blot.development @
+          dig +short www.blot.development @
 
       - name: Cache Pandoc installation
         uses: actions/cache@v2
