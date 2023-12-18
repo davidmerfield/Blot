@@ -29,6 +29,8 @@ const templateOptions = {
   }
 };
 
+// you don't need to do this for folders with
+// a template in the Templates folder
 const foldersOptions = {
   bjorn: {
     template: "portfolio"
