@@ -3,14 +3,18 @@ var localPath = require("helper/localPath");
 var fs = require("fs-extra");
 var readFromFolder = require("./readFromFolder");
 var async = require("async");
+var getTemplateList = require("./getTemplateList");
+var drop = require("./drop");
 
 module.exports = function (blogID, callback) {
   ensure(blogID, "string").and(callback, "function");
 
   var templateDirs = [
     localPath(blogID, "/templates"),
-    localPath(blogID, "/Templates"),
+    localPath(blogID, "/Templates")
   ];
+
+  const templatesInFolder = [];
 
   async.eachSeries(
     templateDirs,
@@ -32,6 +36,7 @@ module.exports = function (blogID, callback) {
                 // on the design page!
               }
 
+              templatesInFolder.push(template);
               next();
             });
           },
@@ -39,6 +44,29 @@ module.exports = function (blogID, callback) {
         );
       });
     },
-    callback
+    function (err) {
+      getTemplateList(blogID, function (err, templates) {
+        const localTemplatesToRemove = templates.filter(
+          template =>
+            template.localEditing === true &&
+            template.owner === blogID &&
+            !templatesInFolder.includes(template.slug)
+        );
+
+        async.eachSeries(
+          localTemplatesToRemove,
+          function (template, next) {
+            drop(blogID, template.slug, function (err) {
+              if (err) return next(err);
+              next();
+            });
+          },
+          function (err) {
+            if (err) return callback(err);
+            callback(null);
+          }
+        );
+      });
+    }
   );
 };

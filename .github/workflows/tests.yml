@@ -5,6 +5,12 @@ on:
     branches: [master]
   pull_request:
     branches: [master]
+    paths:
+      - "app/**"
+      - "config/**"
+      - "tests/**"
+      - "package.json"
+      - "package-lock.json"
 
 jobs:
   test:

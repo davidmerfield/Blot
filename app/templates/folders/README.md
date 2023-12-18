@@ -49,6 +49,10 @@ This will be useful food for thought when we allow people
 to edit their blog's settings from the folder, e.g.
 a .blot directory containing config...
 
+## Ideas
+
+- design a site around each font available on Blot (80 ish fonts)
+
 ## Future test material
 
 [Photochrom Travel Views](https://www.flickr.com/photos/library_of_congress/albums/72157612249760312)
