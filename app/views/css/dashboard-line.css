@@ -1,0 +1,106 @@
+
+.line,
+.line a {
+  text-decoration: none;
+}
+
+.line {
+  display: flex;
+  padding: 10px 20px;
+  border-bottom: 1px solid var(--light-border-color);
+}
+
+
+a.line:hover,
+div.line a.link:hover,
+.dropdown a:hover,
+.line form button:hover {
+  background: var(--background-color)
+}
+
+a.line:active,
+div.line a.link:active,
+.dropdown a:active,
+.line form button:active {
+  background: var(--background-color)
+}
+
+a:hover .link,
+a.line:hover .right,
+div.line a.link:hover {
+  text-decoration: underline;
+}
+
+.link,
+.right {
+  color: var(--accent-color);
+}
+
+.right {
+
+  flex-shrink: 0;
+  padding-left: 16px;
+}
+
+
+.label {
+  color: var(--light-text-color);
+  display: inline-block;
+  flex-basis: 25%;
+  font-size: 14px;
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+
+@media (min-width:800px) {
+  .label {flex-basis: 20%}
+}
+
+.center,
+div.line a.link {}
+
+.center {
+  flex-grow: 0;
+}
+
+div.center {}
+
+.center b {
+  color: var(--text-color);
+  font-weight: 500
+}
+
+.center {
+  color: var(--medium-text-color);
+}
+
+.tablet {
+  border-radius: 18px;
+  padding: 0 9px;
+  line-height: 1.4;
+  border: 1px solid var(--border-color);
+  margin: 0 3px 0 0;
+  display: inline-block;
+  font-size: 15px;
+}
+
+.tablet:empty {display: none;}
+
+
+
+
+.line form {
+  padding: 0
+}
+
+.line form button {
+  background: none;
+}
+
+.line form button:hover .link {
+  text-decoration: underline;
+}
+
+.line form button:focus {
+  outline: none;
+}

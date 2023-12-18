@@ -4,9 +4,12 @@ a:hover .on-hover {text-decoration: underline;}
 .menu button:hover .title {text-decoration: underline;}
 </style>
 
-<div class="dropdown">
+<div class="dropdown" style="padding: 2em">
   {{#blogs}}
-    <a href="/dashboard/{{handle}}">
+    <a href="/dashboard/{{handle}}" style="border: 1px solid var(--border-color);
+    display: block;
+    border-radius: 4px;
+    padding: 12px;max-width: 400px;">
       <span class="photo-holder">
         {{#avatar}}<img src="{{avatar}}?handle={{handle}}">{{/avatar}}
         {{^avatar}}<img src="/images/folder-empty.svg" class="fallback" width="32">
@@ -20,9 +23,12 @@ a:hover .on-hover {text-decoration: underline;}
       </button>
     </a>
     {{/blogs}}
-    
-    <a href="/dashboard/account/create-blog">
-      <span class="photo-holder plus" style="text-align:center;text-indent: 1px">+</span><span class="on-hover">New blog</span></span>
+    <br>
+    <a href="/dashboard/account/create-blog" style="border: 1px solid var(--border-color);
+    display: block;
+    border-radius: 4px;
+    padding: 12px;max-width: 400px;">
+      <span class="photo-holder plus" style="text-align:center;text-indent: 1px">+</span><span class="on-hover">New site</span></span>
     </a>
     
 

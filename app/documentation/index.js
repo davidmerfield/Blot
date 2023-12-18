@@ -129,17 +129,17 @@ documentation.get("/", function (req, res, next) {
   next();
 });
 
-documentation.get("/examples", require("./featured"));
+documentation.get("/examples", require("./featured"), require("./templates"));
 
-documentation.use("/fonts", require("./fonts"));
+documentation.use("/examples/templates", require("./templates"));
+
+documentation.use("/examples/templates/fonts", require("./fonts"));
+
+documentation.use("/developers", require("./developers"));
 
 documentation.get("/sitemap.xml", require("./sitemap"));
 
-documentation.use("/templates/developers", require("./developers"));
-
 documentation.use("/about/notes", require("./notes"));
-
-documentation.use("/templates", require("./templates"));
 
 documentation.use("/news", require("./news"));
 

@@ -6,8 +6,10 @@
 - Donald Knuth
 - Aldo Manuzio
 - William Morris
+- Paolo Sorrentino
 - Urbit
 - gov.uk 
+- David Rudnick
 - Cargo Collective
 - Petrus Christus
 - Steph Ango

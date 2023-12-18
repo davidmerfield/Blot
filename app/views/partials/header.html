@@ -26,7 +26,7 @@
       
 
     <div style="width: 33.333%;display: flex;justify-content: flex-end;" class="cta">
-      <a id="signed-in" href="/dashboard">Your sites</a>
+      <a class="signed-in" href="/dashboard">Your sites</a>
       <a class="signed-out" href="/log-in">Log in</a>
       <a class="signed-out" href="/sign-up">Sign up</a>
       <script type="text/javascript">
@@ -34,7 +34,9 @@
           document.querySelectorAll(".signed-out").forEach(function (node) {
             node.style.display = "none";
           });
-          document.getElementById("signed-in").style.display = "block";
+          document.querySelectorAll(".signed-in").forEach(function(node){
+            node.style.display = "block";
+          })
         }
       </script>
     </div>
@@ -45,7 +47,7 @@
   .header a {
   color: black}
   
-  #signed-in {
+  .signed-in {
     display: none;
   }
 

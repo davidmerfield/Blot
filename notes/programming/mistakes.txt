@@ -1,4 +1,4 @@
-# Mistakes and regrets
+# Mistakes
 
 Some of the poor decisions made through the years of programming Blot
 

@@ -7,7 +7,7 @@ var parse = require("dashboard/parse");
 var Template = require("models/template");
 
 settings.use(function (req, res, next) {
-  res.locals.selected = { settings: "selected" };
+  res.locals.selected = { settings: "selected", dashboard: "selected" };
   next();
 });
 

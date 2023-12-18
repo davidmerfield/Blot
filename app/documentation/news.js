@@ -9,12 +9,48 @@ var config = require("config");
 var client = require("models/client");
 var gitCommits = require("./tools/git-commits");
 var listKey = "newsletter:list";
+var moment = require("moment");
 var TTL = 60 * 60 * 24; // 1 day in seconds
 const { join } = require("path");
 const root = require("helper/rootDir");
+const astro = require("helper/astro");
+
+// calculate the date of the next newsletter
+// we send a newsletter on the solstices and equinoxes
+// use moment to calculate the next one and return
+// the season e.g. "spring" and the time from now until
+// the next newsletter e.g. "in 3 days" or "in 1 month"
+const nextNewsletter = () => {
+  const now = moment();
+  const year = now.year();
+  const equinoxesAndSolstices = astro(year);
+  const { season, date } = equinoxesAndSolstices.find(({ season, date }) => {
+    return now.isBefore(date);
+  });
+
+  // instead of moment fromNow, we want to say either
+  // "in X months" where X is the number of months from now
+  // "in a few weeks"
+  // "in a few days"
+  // "tomorrow"
+  let modifiedFromNow;
+
+  if (now.isSame(date, "day")) {
+    modifiedFromNow = "tomorrow";
+  } else if (now.isSame(date, "week")) {
+    modifiedFromNow = "in a few days";
+  } else if (now.isSame(date, "month")) {
+    modifiedFromNow = "in a few weeks";
+  } else {
+    modifiedFromNow = date.fromNow();
+  }
+
+  return { season, fromNow: modifiedFromNow };
+};
 
 news.get("/", gitCommits, loadToDo, function (req, res) {
   res.locals.fullWidth = true;
+  res.locals.nextNewsletter = nextNewsletter();
   res.render("news");
 });
 

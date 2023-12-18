@@ -25,10 +25,10 @@
     />
   </head>
 <body>
-    <a href="/" class="grow-on-hover huge hdr-btn" style="position: absolute;top:2rem;right:2rem">
+    <a href="/" class="grow-on-hover huge hdr-btn" style="position: absolute;top:0;right:0;background:var(--background-color);padding:1.2rem 2em 1em 10rem">
       <svg id="hider" style="width: 1.5rem; height: 1.5rem;">
-        <line x1="0" y1="0" x2="100%" y2="100%" stroke="#333"></line>
-        <line x1="0" y1="100%" x2="100%" y2="0%" stroke="#333"></line>
+        <line x1="0" y1="0" x2="100%" y2="100%" stroke="var(--light-text-color)"></line>
+        <line x1="0" y1="100%" x2="100%" y2="0%" stroke="var(--light-text-color)"></line>
       </svg>
     </a>
     <style type="text/css">
@@ -42,8 +42,8 @@
 }
 
 .mess.error {
-  background: #ffe7c7;
-  color: #962500;
+  background: #ff5d4e;
+  color: #AF3029;
 }
 
 .mess.error:hover {
@@ -51,12 +51,12 @@
 }
 
 .mess.success {
-  background: #61d4004f;
-  color: #095f00;
+  background: #aac24b;
+  color: #66800B;
 }
     </style>
-
-          <div style="max-width:435px;margin: 0 auto;display: flex;flex-direction: column;justify-content: center;min-height: 100vh">
+  {{> header}}
+          <div style="max-width:465px;margin: 0 auto;display: flex;flex-direction: column;justify-content: center;min-height: 100vh">
 
 
   {{#out}}

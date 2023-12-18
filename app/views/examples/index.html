@@ -2,154 +2,94 @@
 
 <div style="display: flex;">
 
-{{#featured.length}}
-
-<ul style="flex-basis:50%;margin-right:2em;list-style-type: none;list-style-type: none;
+    <div style="flex-basis:50%;margin-right:2em;">
+      <h2>People who use Blot</h2>
+      {{#featured}}
+<ul id="featured" style="list-style-type: none;
 padding: 0;
 margin: 0;font-size:16px" class="clients">
-  {{#featured}}
-  <li>
-    <a target="_blank" rel="noopener" href="{{{link}}}">
-      {{#favicon.coordinates}}
+  {{#sites}}
+  <li data-hue="{{hue}}">
+    <a target="_blank" style="display:flex" rel="noopener" href="{{{link}}}">
       <span
-        style="display:inline-block;background:url('{{#cdn}}/images/featured.png{{/cdn}}');background-size: {{
-          background_width
-        }}px;
-  background-position:-{{ x }}px -{{ y }}px;width:{{ width }}px;height:{{
-          height
-        }}px;border-radius: 100px;float:left"></span>
-      {{/favicon.coordinates}}
+        style="display:block;flex-shrink:0;background:url('{{#cdn}}/images/featured.png{{/cdn}}');background-size: {{background_width}}px;
+  background-position:-{{x}}px -{{y}}px;width:{{width}}px;height:{{height}}px;border-radius: 100px;margin: 4px 1em 4px 0"></span>
 
-    <span       style="color:{{ color }};"
-    >{{ name }}</span
-    >
-    {{ bio }}<br>
-    <span style="font-size: var(--small-font-size);color:var(--light-text-color)">{{host}} Join {{ joined }}</span>
-    </a>
+  <span>
+
+      <span class="underline-on-hover" style="color:{{color}};">{{name}}</span>
+
+      {{bio}}<br>
+
+    <span style="font-size: var(--small-font-size);color:var(--light-text-color)">{{host}} &bull; Joined {{joined}}</span>
+  </span>
+</a>
   </li>
-  {{/featured}}
+  {{/sites}}
 </ul>
+{{/featured}}
+<!-- shuffle the order of <li> sites in #featured and limit number to 24 sites -->
+<script>
+  var featured = document.getElementById("featured");
+  var sites = featured.getElementsByTagName("li");
+  var sitesArray = Array.prototype.slice.call(sites);
+  
 
-{{/featured.length}}
+  // now we want to reorder the sites so that no two sites
+  // with similar hues are adjacent. the hue can be calculated
+  // from [data-hue], which is the h value in hsl
 
-<div style="flex-basis:50%;margin-left:2em">
-<h2>Templates</h2>
+  // first we sort by hue
+  sitesArray.sort(function(a, b) {
+    var aHue = a.getAttribute("data-hue");
+    var bHue = b.getAttribute("data-hue");
+    return aHue - bHue;
+  });  
 
-<ul class="clients">
-  <li>
-    <a href="/templates/blog">
-      <strong>Blog</strong><br />
-      <img
-        src="{{#cdn}}/images/templates/blog/0.square-small.png{{/cdn}}"
-        width="100" />
-    </a>
-  </li>
+  // then we create an array of pairs picking from start and end respectively
+  const pairs = [];
 
-  <li>
-    <a href="/templates/magazine">
-      <strong>Magazine</strong><br />
-      <img
-        width="100"
-        src="{{#cdn}}/images/templates/magazine/0.square-small.png{{/cdn}}" />
-    </a>
-  </li>
+  while (sitesArray.length) {
+    pairs.push(sitesArray.shift());
+    pairs.push(sitesArray.pop());
+  }
 
-  <li>
-    <a href="/templates/photo">
-      <strong>Photo</strong><br />
-      <img
-        width="100"
-        src="{{#cdn}}/images/templates/photo/0.square-small.png{{/cdn}}" />
-    </a>
-  </li>
+  // then we shuffle the pairs
+  pairs.sort(function() {
+    return 0.5 - Math.random();
+  });
+  
+  // then we flatten the pairs
+  sitesArray = pairs.reduce(function(a, b) {
+    return a.concat(b);
+  }, []);
 
-  <li>
-    <a href="/templates/portfolio">
-      <strong>Portfolio</strong><br />
-      <img
-        width="100"
-        src="{{#cdn}}/images/templates/portfolio/0.square-small.png{{/cdn}}" />
-    </a>
-  </li>
+  // trim the number of sites
+  sitesArray = sitesArray.slice(0, 18);
 
-  <li>
-    <a href="/templates/reference">
-      <strong>Reference</strong><br />
-      <img
-        width="100"
-        src="{{#cdn}}/images/templates/reference/0.square-small.png{{/cdn}}" />
-    </a>
-  </li>
-</ul>
-<h2>Example folders</h2>
-
-<ul class="clients">
-  <li>
-    <a href="/templates/blog">
-      <strong>Blog</strong><br />
-      <img
-        src="{{#cdn}}/images/templates/blog/0.square-small.png{{/cdn}}"
-        width="100" />
-    </a>
-  </li>
-
-  <li>
-    <a href="/templates/magazine">
-      <strong>Magazine</strong><br />
-      <img
-        width="100"
-        src="{{#cdn}}/images/templates/magazine/0.square-small.png{{/cdn}}" />
-    </a>
-  </li>
-
-  <li>
-    <a href="/templates/photo">
-      <strong>Photo</strong><br />
-      <img
-        width="100"
-        src="{{#cdn}}/images/templates/photo/0.square-small.png{{/cdn}}" />
-    </a>
-  </li>
-
-  <li>
-    <a href="/templates/portfolio">
-      <strong>Portfolio</strong><br />
-      <img
-        width="100"
-        src="{{#cdn}}/images/templates/portfolio/0.square-small.png{{/cdn}}" />
-    </a>
-  </li>
-
-  <li>
-    <a href="/templates/reference">
-      <strong>Reference</strong><br />
-      <img
-        width="100"
-        src="{{#cdn}}/images/templates/reference/0.square-small.png{{/cdn}}" />
-    </a>
-  </li>
-</ul>
-</div>
+  featured.innerHTML = "";
+  sitesArray.forEach(function(site) {
+    featured.appendChild(site);
+  });
+</script>
 </div>
 
+<div style="flex-basis:30%;margin-left:2em">
+  <h2><a href="/examples/templates">Templates</a></h2>
+  
+  <ul class="clients">
+    {{#allTemplates}}
+    {{> template-or-folder}}
+    {{/allTemplates}}
+  </ul>
+  
+  <h2><a href="/examples/folders">Folders</a></h2>
+  
+  <ul class="clients">
+    {{#allFolders}}
+    {{> template-or-folder}}
+    {{/allFolders}}
+  </ul>
+  </div>
 
-<h2>Customizing a template</h2>
-
-<p>
-  You make modifications to your template's colors and fonts using Blot's
-  template editor – no coding required.
-</p>
-
-<h2>Develop your own template</h2>
-
-<p>
-  You can fork any of the included templates and make modifications to their
-  source code, or develop your own template from scratch.
-</p>
-
-<p>
-  <a href="/templates/developers"
-    ><span><code class="file txt"></code></span>
-    <span><strong>Read the Developer guide</strong> </span>
-  </a>
-</p>
+</div>

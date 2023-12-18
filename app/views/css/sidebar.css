@@ -1,5 +1,3 @@
-
-
 .sidebar {
   font-size: var(--small-font-size);
   margin: 0;
@@ -20,6 +18,11 @@
 /* Sub level links */ 
 .sidebar  li li a {
   color: var(--medium-text-color);
+}
+
+.sidebar li.signed-in {
+  padding-bottom: calc(var(--spacing)*1.5);
+  display: none;
 }
 
 .sidebar li {

@@ -22,7 +22,7 @@ Our 'content policy' is *the law*. I'm not interested in establishing a pseudo-l
 
 ## What if a government pressures you because of something someone has posted?
 
-At some point, I suspect Blot will be blocked in one country or another. Plenty of tech companies with grandiose mission statements crumble under this sort of pressure. I think it's understandable, when the salaries of your employees depend on continued growth in those markets. Blot does not depend on those markets.
+At some point, I suspect Blot will be blocked in one country or another. Plenty of tech companies with grandiose mission statements crumble under this sort of pressure. I think it's understandable, the salaries of their employees and the returns of their shareholders depend on continued growth in those markets. 
 
 ## What if your customers pressure you?
 

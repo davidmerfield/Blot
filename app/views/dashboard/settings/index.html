@@ -16,8 +16,17 @@
     }
   }
 </style>
-<div style="display: flex;flex-wrap: wrap;">
-  <form class="collapse-on-narrow-screens" method='post' action='?_csrf={{csrftoken}}' enctype='multipart/form-data'>
+<div style="padding: 0 1.5em 1em;">
+  <a class="line" href="{{blog.pretty.url}}">
+    <span class="center"><span style="color:var(--secondary-accent-color)">https://{{blog.pretty.url}}</span></span>
+    <span class="right">Visit</span>
+  </a>
+<p style="margin-top: 0;"><a href="" </a></p>
+<p>Synced from <a href="/">Dropbox</a> {{blog.status}}</p>
+</div>
+</section>
+<div style="display: flex;max-width: 66vw;">
+  <form class="collapse-on-narrow-screens" method='post' action='?_csrf={{csrftoken}}' enctype='multipart/form-data' style="background-color: var(--light-background-color);border-radius: 4px;">
     <a class="line" href="{{{base}}}/title">
       <span class="label">Title</span>
       <span class="center" >
@@ -64,7 +73,6 @@
       <span class="right" >Edit</span>    
         {{/blog.avatar}}
 
-    </section>
   </a>
 
   <a class="line" href="{{{base}}}/links">

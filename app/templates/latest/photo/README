@@ -1,0 +1,62 @@
+Photo template
+==============
+
+[Preview this template]({{{preview}}}) [Use template](/sign-up) .in-use, .in-use li {padding: 0;margin:0;list-style-type: none} .in-use a {display: flex;align-items: center;text-decoration: none;color: inherit;margin-bottom: 0.5rem;padding-bottom:0.5rem;border-bottom: 1px solid rgba(0,0,0,0.1)} .in-use .image {margin-right: 0.75em;transform: scale(0.8);} .in-use li:last-child a {border-bottom: none;} a.bordered-button {font-size:14px;margin-top:0;padding:0 2em;line-height:2em;color: var(--accent-color);margin-right:1em} a .browser {margin-top:6px;border: 1px solid var(--light-border-color);border-radius: 6px;display: block;padding: 0.25rem 0.25rem 0;box-shadow: 0 0 10px rgba(0,0,0,0.03);transition: transform .1s ease;transform: scale(1)} a .browser.mobile { padding: 0.8rem; border-radius: 12px; } a .browser.mobile img {outline: 1px solid rgba(0,0,0,0.05)} a .browser:not(.mobile):before {content: "ooo";display: block;border-bottom: 1px solid var(--light-border-color);color: var(--dark-border-color);font-size: 14px;line-height: 12px;margin:0 -0.25rem;padding:0 0.5rem 0.3rem;} .devices {position: relative;width: 100%;} .devices img {max-width: 100%} .devices .desktop { border: 1px solid rgba(0,0,0,0.1); border-radius: 18px; } .screenshot img {cursor: zoom-in;} .devices .mobile {position: absolute; bottom: 0;right: 0; width: 400px;height: 400px} .sc {margin: 2rem 0}
+
+[![]({{#cdn}}/images/templates/photo/0-medium.png{{/cdn}})]({{{preview}}}/)
+
+[![]({{#cdn}}/images/templates/photo/0.mobile-medium.png{{/cdn}})]({{{preview}}}/search?q=polar+bears)
+
+The _Photo_ template is designed to display photos. Its navigation should get out of the way when you are looking at photos. The homepage shows a feed a of recently published photos. {{#featured.length}}These people use the _Photo_ template:{{/featured.length}}
+
+{{#featured}}*   [{{#favicon.coordinates}} {{/favicon.coordinates}} {{name}} {{bio}}.]({{{link}}})
+{{/featured}}
+
+Customize this template
+-----------------------
+
+You can adjust the colors and fonts of the _Photo_ template using Blot's template editor: there's no coding required.
+
+The source code of the _Photo_ template is dedicated to the public domain, so you can make and distribute modifications to it as you please.
+
+[View the source code](https://github.com/davidmerfield/Blot/tree/master/app/templates/latest/photo)
+
+About the folder
+----------------
+
+The [preview]({{{preview}}}) for the _Photo_ template contains the botanical photography of William Copeland McCalla. You can get a full copy of the source folder used to generate this site.
+
+[Download folder (.zip)]({{#cdn}}/templates/data/{{folder}}.zip{{/cdn}})
+
+{{> folder-viewer}}
+
+About
+-----
+
+Georgia Kareola’s [website](https://notapipe.today) is the source of the layout for this template. I like the menu’s grid and the typography of the subpages in particular.
+
+Gavin Atkinson’s [compilation of image user interfaces](https://www.are.na/gavin-atkinson-1489764520/image-ui) was a useful source of interesting techniques to navigate and index images.
+
+Hofstede’s [archives page](http://www.hofstede.com.au/) has a really pleasing hover effect, with the thumbnail for the hovered link displayed to the left.
+
+The good work of the people at [Are.na](https://are.na) and [Cargo Collective](https://cargocollective.com/) is a constant source of motivation.
+
+I tried to keep things as quiet as possible. When designing a theme, it’s easy to get lost in the ornamentation of the theme’s _chrome_, its menu bar, its search field. I tried to focus on the details. Here are a few things which I have done to this template which might not meet the eye:
+
+*   Thumbnails are never cropped. They are always displayed in the aspect ratio chosen by the photographer. To do otherwise seemes rude. Of course, this complicates the layout but that is my job. I think that layouts which do not respect the aspect ratio chosen by the photographer are lazy.
+    
+*   The pagination on the index page uses your system typeface’s [tabular numbers](https://www.fonts.com/content/learning/fontology/level-3/numbers/proportional-vs-tabular-figures) feature, where possible. This prevents the width of the page indicator changing.
+    
+*   The years in the footer indicate the range of published works. It sometimes looks a little silly if you have only published this year but just be patient!
+    
+*   When there is no pagination, we instead list the number of entries displayed on the page to maintain the balance of the navigation’s layout.
+    
+
+Technical details
+-----------------
+
+*   This template just hides all of Blot’s search functionality, since it’s not as useful for photos.
+    
+*   The thumbnail’s computed width and height is used to block out the layout of the index page before the images load. This means that nothing has to be recalculated as each image makes its way down the tubes. This prevents the layout ‘shifting’, something I think makes websites feel flimsy.
+    
+*   The fade-on-load feature for the grid of images uses a tiny amount of JavaScript and a css class.

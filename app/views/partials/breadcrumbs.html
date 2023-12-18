@@ -1,18 +1,14 @@
 {{^hidebreadcrumbs}}
 <div id="breadcrumbs">
   {{#breadcrumbs}}
-  {{#first}}
-
-  {{/first}}
-  {{^first}}
   <a href="{{{url}}}">{{ label }}</a> {{^last}} <span style="color:var(--border-color)">&puncsp;/&puncsp;</span> {{/last}}
-  {{/first}}
   {{/breadcrumbs}}
 </div>
 <br />
 {{/hidebreadcrumbs}}
 
 <style>
+
   #breadcrumbs a {
   color: var(--light-text-color);
   font-size: 16px;
@@ -22,4 +18,17 @@
   #breadcrumbs a:hover {
   color: var(--text-color);
   }
+
+
+  {{#user}}
+  #breadcrumbs a:first-child {
+  padding-left: 1em;}
+
+  #breadcrumbs a {
+    padding: 0.5em 0.2em;
+    display: inline-block;
+    font-size: var(--large-font-size);
+  }
+
+  {{/user}}
 </style>

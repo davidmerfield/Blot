@@ -11,7 +11,7 @@ html {
   --dark-accent-color:#205EA6; /* used for button hover background*/
 
   --secondary-accent-color: #66800B;
-  
+
   --border-color: #403E3C;
   --dark-border-color: #575653;
   --light-border-color: #343331;
@@ -340,7 +340,7 @@ overlay {
   box-sizing: border-box;
   padding: 18px 36px;
   border-radius: 18px;
-  background: #fafafa;
+  background: var(--light-background-color);
   border: 1px solid var(--light-border-color);
 }
 

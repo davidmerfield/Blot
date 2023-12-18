@@ -68,10 +68,16 @@ if (config.environment !== "development") {
 // eventually remove this when you merge
 // the assets into a single file
 dashboard.locals.cacheID = Date.now();
-dashboard.locals.layout = "partials/wrapper";
+dashboard.locals.layout = VIEW_DIRECTORY + "/../partials/layout.html";
+dashboard.locals.selected = {dashboard: "selected"};
 
 dashboard.locals.partials = {
-  header: VIEW_DIRECTORY + "/../partials/header.html"
+  header: VIEW_DIRECTORY + "/../partials/header.html",
+  head: VIEW_DIRECTORY + "/../partials/head.html",
+  breadcrumbs: VIEW_DIRECTORY + "/../partials/breadcrumbs.html",
+  sidebar: VIEW_DIRECTORY + "/../partials/sidebar.html",
+  links: VIEW_DIRECTORY + "/../partials/links.html",
+  footer: VIEW_DIRECTORY + "/../partials/footer.html"
 };
 
 dashboard.use(trace("loading session information"));
