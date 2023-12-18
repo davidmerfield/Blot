@@ -57,7 +57,7 @@ jobs:
           PUPETEER_PRODUCT: firefox
         run: npm ci
 
-      - name: Run tests
+      - name: Take screenshots
         env:
           BLOT_CACHE: false
           BLOT_DEBUG: false
