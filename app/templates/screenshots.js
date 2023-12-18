@@ -29,7 +29,23 @@ const templateOptions = {
   }
 };
 
-const foldersOptions = {};
+const foldersOptions = {
+  bjorn: {
+    template: "portfolio"
+  },
+  david: {
+    template: "blog"
+  },
+  frances: {
+    template: "reference"
+  },
+  interviews: {
+    template: "magazine"
+  },
+  william: {
+    template: "photo"
+  }
+};
 
 const templates = fs
   .readdirSync(TEMPLATES_DIRECTORY)
@@ -58,9 +74,19 @@ const folders = fs
       foldersOptions[folder] && foldersOptions[folder].pages
         ? foldersOptions[folder].pages
         : ["/"];
+    const template =
+      foldersOptions[folder] && foldersOptions[folder].template
+        ? foldersOptions[folder].template
+        : fs.existsSync(`${TEMPLATES_DIRECTORY}/${folder}/Templates`)
+        ? `my-${
+            fs
+              .readdirSync(`${TEMPLATES_DIRECTORY}/${folder}/Templates`)
+              .filter(i => !i.startsWith("."))[0]
+          }`
+        : "blog";
     return pages.map((page, index) => {
       return {
-        url: `${config.protocol}preview-of-blog-on-${folder}.${config.host}${page}`,
+        url: `${config.protocol}preview-of-${template}-on-${folder}.${config.host}${page}`,
         destination: `${IMAGE_DIRECTORY}/${folder}/${index}`
       };
     });
