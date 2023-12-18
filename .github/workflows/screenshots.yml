@@ -49,12 +49,14 @@ jobs:
       - name: Cache Pandoc installation
         uses: actions/cache@v2
         with:
-          path: pandoc
+          path: data/pandoc
           key: ${{ runner.os }}-pandoc-${{ matrix.pandoc-version }}
 
       - name: Set up Pandoc
         if: steps.pandoc.outputs.cache-hit != 'true'
         run: |
+          mkdir -p data/pandoc
+          cd data/pandoc
           wget https://github.com/jgm/pandoc/releases/download/${{ matrix.pandoc-version }}/pandoc-${{ matrix.pandoc-version }}-linux-amd64.tar.gz -O pandoc.tar.gz
           mkdir pandoc
           tar xvzf pandoc.tar.gz --strip-components 1 -C pandoc
@@ -139,5 +141,4 @@ jobs:
           commit-message: Update app/views directory
           title: Update app/views directory
           body: This pull request updates the app/views directory
-          branch: update-app-views
-          base: master
+          branch: update-screenshots
