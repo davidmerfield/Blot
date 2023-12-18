@@ -37,17 +37,8 @@ jobs:
           sudo killall -HUP mDNSResponder
           scutil --dns
 
-      - name: Test DNS resolution for blot.development
-        run: |
-          if dig +short x.blot.development @127.0.0.1 | grep -q '^127\.0\.0\.1$'; then
-            echo "DNS resolution successful"
-            exit 0
-          else
-            echo "DNS resolution failed"
-            exit 1
-          fi
-
       - name: Cache Pandoc installation
+        id: pandoc
         uses: actions/cache@v2
         with:
           path: data/pandoc
@@ -62,9 +53,7 @@ jobs:
           mkdir pandoc
           tar xvzf pandoc.tar.gz --strip-components 1 -C pandoc
           echo "$(pwd)/pandoc/bin" >> $GITHUB_PATH
-
-      - name: Source pandoc
-        run: echo "BLOT_PANDOC_PATH=$(which pandoc)" >> $GITHUB_ENV
+          echo "BLOT_PANDOC_PATH=$(which pandoc)" >> $GITHUB_ENV
 
       - name: Set up Node
         uses: actions/setup-node@v2
