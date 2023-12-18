@@ -74,11 +74,20 @@ const main = async () => {
 
   console.log("Taking screenshots");
   for (const screenshot of screenshots) {
-    await takeScreenshot(screenshot);
+    try {
+      await takeScreenshot(screenshot);
+    } catch (error) {
+      console.error(error);
+    }
   }
 };
 
 const takeScreenshot = async ({ url, destination }) => {
+  // throw error after 10 seconds
+  const timeout = setTimeout(() => {
+    throw new Error(`Screenshot of ${url} timed out`);
+  }, 10000);
+
   await fs.ensureDir(dirname(destination));
 
   const path = `${destination}.png`;
