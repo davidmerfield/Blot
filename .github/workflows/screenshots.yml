@@ -60,9 +60,6 @@ jobs:
       - name: Run tests
         env:
           BLOT_CACHE: false
-          BLOT_DIRECTORY: /home/runner/work/Blot/Blot
-          NODE_PATH: /home/runner/work/Blot/Blot/app
-          BLOT_CACHE_DIRECTORY: /home/runner/work/Blot/Blot/cache
           BLOT_DEBUG: false
           BLOT_MAINTENANCE: false
           BLOT_PRODUCTION: true
@@ -83,6 +80,9 @@ jobs:
           BLOT_TWITTER_CONSUMER_SECRET: ${{ secrets.BLOT_TWITTER_CONSUMER_SECRET }}
           BLOT_REDIS_HOST: 127.0.0.1
         run: |
+          export BLOT_DIRECTORY=$(pwd)
+          export NODE_PATH=$(pwd)/app
+          export BLOT_CACHE_DIRECTORY=$(pwd)/cache
           git config --global user.email "admin@example.com"
           git config --global user.name "Admin"
           node app/templates/folders/index.js
