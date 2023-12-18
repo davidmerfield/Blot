@@ -88,6 +88,7 @@ jobs:
           git config --global user.email "admin@example.com"
           git config --global user.name "Admin"
           node app/templates/folders/index.js
+          node app/index.js &
           node app/templates/screenshots.js
 
       - name: Create Pull Request
