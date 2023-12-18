@@ -4,12 +4,15 @@ const imageminPngquant = require("imagemin-pngquant");
 const dirname = require("path").dirname;
 const fs = require("fs-extra");
 
-const firefoxOptions = {
-  product: "firefox",
-  args: ["--font-render-hinting=none", "--force-color-profile=srgb"],
-};
+const firefoxOptions =
+  process.env.PUPETEER_PRODUCT === "firefox"
+    ? {
+        product: "firefox",
+        args: ["--font-render-hinting=none", "--force-color-profile=srgb"]
+      }
+    : {};
 
-async function main(site, path, options = {}) {
+async function main (site, path, options = {}) {
   // console.log('launching');
 
   const browser = await puppeteer.launch(firefoxOptions);
@@ -42,7 +45,7 @@ async function main(site, path, options = {}) {
   await page.setViewport({
     width: width,
     height: height,
-    deviceScaleFactor: 2,
+    deviceScaleFactor: 2
   });
 
   // console.log('going to site',site);
@@ -55,7 +58,7 @@ async function main(site, path, options = {}) {
   // console.log('closed browser');
 
   await imagemin([path], dirname(path), {
-    plugins: [imageminPngquant()],
+    plugins: [imageminPngquant()]
   });
 }
 
