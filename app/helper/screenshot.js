@@ -50,7 +50,10 @@ async function main (site, path, options = {}) {
 
   // console.log('going to site',site);
   await fs.ensureDir(dirname(path));
-  await page.goto(site);
+  // page.goto site and wait for all the images to load
+  // up to a maximum of 20 seconds
+  await page.goto(site, { waitUntil: "networkidle0", timeout: 20000 });
+
   // console.log('went to site');
   await page.screenshot({ path: path });
   // console.log('took screenshot');
