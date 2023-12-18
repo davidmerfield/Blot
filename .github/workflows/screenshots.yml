@@ -23,6 +23,16 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Install dnsmasq
+        run: brew install dnsmasq
+
+      - name: Configure dnsmasq
+        run: |
+          echo 'address=/.blot.development/127.0.0.1' | sudo tee -a /usr/local/etc/dnsmasq.conf
+
+      - name: Start dnsmasq
+        run: sudo brew services start dnsmasq
+
       - name: Set up Pandoc
         if: steps.pandoc.outputs.cache-hit != 'true'
         run: |
@@ -82,7 +92,6 @@ jobs:
           export NODE_PATH=$(pwd)/app
           export BLOT_CACHE_DIRECTORY=$(pwd)/cache
           sudo echo "127.0.0.1 blot.development" | sudo tee -a /etc/hosts
-          ls app/templates/folders | xargs -I {} sudo echo "127.0.0.1 {}.blot.development" | sudo tee -a /etc/hosts
           git config --global user.email "admin@example.com"
           git config --global user.name "Admin"
           node app/templates/folders/index.js
