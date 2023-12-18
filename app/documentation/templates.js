@@ -1,5 +1,6 @@
 const config = require("config");
 const fs = require("fs-extra");
+const marked = require("marked");
 
 const folderForTemplate = {
   blog: "david",
@@ -9,9 +10,12 @@ const folderForTemplate = {
   reference: "frances"
 };
 
-module.exports = (req, res, next) => {
+const templatesDirectory = __dirname + "/../templates/latest";
+const foldersDirectory = __dirname + "/../templates/folders";
+
+module.exports = async (req, res, next) => {
   res.locals.allTemplates = fs
-    .readdirSync(__dirname + "/../templates/latest")
+    .readdirSync(templatesDirectory)
     .filter(i => !i.startsWith(".") && !i.endsWith(".js") && !i.endsWith(".md"))
     .map(i => {
       return {
@@ -30,7 +34,7 @@ module.exports = (req, res, next) => {
     });
 
   res.locals.allFolders = fs
-    .readdirSync(__dirname + "/../templates/folders")
+    .readdirSync(foldersDirectory)
     .filter(i => !i.startsWith(".") && !i.endsWith(".js") && !i.endsWith(".md"))
     .map(i => {
       return {
@@ -47,6 +51,27 @@ module.exports = (req, res, next) => {
         folder: folderForTemplate[i]
       };
     });
+
+  if (req.params.template) {
+    res.locals.template = res.locals.allTemplates.find(
+      i => i.slug === req.params.template
+    );
+
+    try {
+      const markdown = await fs.readFile(
+        templatesDirectory + "/" + req.params.template + "/README",
+        "utf8"
+      );
+
+      res.locals.README = marked(markdown);
+    } catch (e) {}
+  }
+
+  if (req.params.folder) {
+    res.locals.folder = res.locals.allFolders.find(
+      i => i.slug === req.params.folder
+    );
+  }
 
   next();
 };

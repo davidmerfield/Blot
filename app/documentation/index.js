@@ -131,7 +131,24 @@ documentation.get("/", function (req, res, next) {
 
 documentation.get("/examples", require("./featured"), require("./templates"));
 
-documentation.use("/examples/templates", require("./templates"));
+documentation.get("/examples/templates", require("./templates"));
+documentation.get("/examples/folders", require("./templates"));
+
+documentation.get(
+  "/examples/templates/:template",
+  require("./templates"),
+  (req, res, next) => {
+    res.render("examples/templates/template");
+  }
+);
+
+documentation.use(
+  "/examples/folders/:folder",
+  require("./templates"),
+  (req, res, next) => {
+    res.render("examples/folders/folder");
+  }
+);
 
 documentation.use("/examples/templates/fonts", require("./fonts"));
 
