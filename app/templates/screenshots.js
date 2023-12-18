@@ -3,8 +3,7 @@
 
 const screenshot = require("helper/screenshot");
 const config = require("config");
-const sharp = require("sharp");
-const { dirname, basename, extname } = require("path");
+const { dirname } = require("path");
 const root = require("helper/rootDir");
 const fs = require("fs-extra");
 const TEMPLATES_DIRECTORY = root + "/app/templates/latest";
@@ -29,7 +28,25 @@ const templateOptions = {
   }
 };
 
-const foldersOptions = {};
+// you don't need to do this for folders with
+// a template in the Templates folder
+const foldersOptions = {
+  bjorn: {
+    template: "portfolio"
+  },
+  david: {
+    template: "blog"
+  },
+  frances: {
+    template: "reference"
+  },
+  interviews: {
+    template: "magazine"
+  },
+  william: {
+    template: "photo"
+  }
+};
 
 const templates = fs
   .readdirSync(TEMPLATES_DIRECTORY)
@@ -58,9 +75,19 @@ const folders = fs
       foldersOptions[folder] && foldersOptions[folder].pages
         ? foldersOptions[folder].pages
         : ["/"];
+    const template =
+      foldersOptions[folder] && foldersOptions[folder].template
+        ? foldersOptions[folder].template
+        : fs.existsSync(`${FOLDERS_DIRECTORY}/${folder}/Templates`)
+        ? `my-${
+            fs
+              .readdirSync(`${FOLDERS_DIRECTORY}/${folder}/Templates`)
+              .filter(i => !i.startsWith("."))[0]
+          }`
+        : "blog";
     return pages.map((page, index) => {
       return {
-        url: `${config.protocol}${folder}.${config.host}`,
+        url: `${config.protocol}preview-of-${template}-on-${folder}.${config.host}${page}`,
         destination: `${IMAGE_DIRECTORY}/${folder}/${index}`
       };
     });
@@ -69,12 +96,25 @@ const folders = fs
 const screenshots = templates.concat(folders).flat();
 
 const main = async () => {
+  console.log(screenshots);
+
   console.log("Emptying image directory", IMAGE_DIRECTORY);
   await fs.emptyDir(IMAGE_DIRECTORY);
 
   console.log("Taking screenshots");
   for (const screenshot of screenshots) {
-    await takeScreenshot(screenshot);
+    try {
+      // if the screenshot takes longer than 15 seconds, it's probably not going to work
+      // so we should just skip it
+      await Promise.race([
+        takeScreenshot(screenshot),
+        new Promise((resolve, reject) => {
+          setTimeout(() => reject("Timeout"), 15000);
+        })
+      ]);
+    } catch (error) {
+      console.error(error);
+    }
   }
 };
 
@@ -89,28 +129,15 @@ const takeScreenshot = async ({ url, destination }) => {
   const mobilePath = `${destination}.mobile.png`;
   console.log(`Taking mobile screenshot of ${url} to ${mobilePath}`);
   await screenshot(url, mobilePath, { mobile: true });
-
-  const resize = ({ path, label, width }) =>
-    sharp(path)
-      .resize({ width })
-      .toFile(
-        `${dirname(path)}/${basename(path, extname(path))}-${label}${extname(
-          path
-        )}`
-      );
-
-  await Promise.all(
-    [
-      { path, label: "small", width: 96 },
-      { path: mobilePath, label: "medium", width: 560 }
-    ].map(resize)
-  );
 };
 
 module.exports = main;
 
 if (require.main === module) {
   main()
-    .then(() => console.log("Done!"))
+    .then(() => {
+      console.log("Done!");
+      process.exit();
+    })
     .catch(console.error);
 }

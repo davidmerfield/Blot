@@ -140,6 +140,7 @@ function setupBlogs (user, folders, callback) {
       async.eachOfSeries(
         blogs,
         function ({ path, blog }, id, next) {
+          console.log("Building folder", path, "for blog", blog.handle);
           const update = updates[blog.handle] || {};
 
           Blog.set(id, update, async function (err) {
@@ -183,6 +184,7 @@ function setupBlogs (user, folders, callback) {
 
               await walk(localPath(blog.id, "/"));
 
+              console.log("Built folder", path, "for blog", blog.handle);
               done(null, next);
             });
           });
