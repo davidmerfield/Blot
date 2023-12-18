@@ -36,6 +36,16 @@ jobs:
           sudo killall -HUP mDNSResponder
           scutil --dns
 
+      - name: Test DNS resolution for blot.development
+        run: |
+          if dig +short x.blot.development @127.0.0.1 | grep -q '^127\.0\.0\.1$'; then
+            echo "DNS resolution successful"
+            exit 0
+          else
+            echo "DNS resolution failed"
+            exit 1
+          fi
+
       - name: Cache Pandoc installation
         uses: actions/cache@v2
         with:
