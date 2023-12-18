@@ -9,9 +9,8 @@ Portfolio
 Photo
 Magazine
 Reference
-
-- Documentation
-- CV / Personal
+Documentation
+CV / Personal
 
 Useful fiddles:
 
