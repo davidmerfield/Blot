@@ -89,7 +89,15 @@ renderFeatured();
   
   <ul class="clients">
     {{#allTemplates}}
-    {{> template-or-folder}}
+    <li>
+      <a href="/examples/templates/{{slug}}" style="display: flex;align-items: center;">
+        <img
+        src="{{#cdn}}/images/examples/{{slug}}/0-thumb.png{{/cdn}}"
+        style="width:48px;height:48px;border-radius: 4px;margin: 4px 0 6px;"
+          width="100" />
+          <span style="font-size: 24px;margin-left:0.7em">{{name}}</span>
+      </a>
+    </li>
     {{/allTemplates}}
   </ul>
   
@@ -97,7 +105,15 @@ renderFeatured();
   
   <ul class="clients">
     {{#allFolders}}
-    {{> template-or-folder}}
+    <li>
+      <a href="/examples/folders/{{slug}}" style="display: flex;align-items: center;">
+        <img
+          src="{{#cdn}}/images/examples/{{slug}}/0-thumb.png{{/cdn}}"
+          style="width:48px;height:48px;border-radius: 4px;margin: 4px 0 6px;"
+          width="100" />
+          <span style="font-size: 24px;margin-left:0.7em">{{name}}</span>
+      </a>
+    </li>
     {{/allFolders}}
   </ul>
   </div>
