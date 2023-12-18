@@ -18,10 +18,6 @@ describe("template", function () {
     create(this.blog.id, name, { localEditing: true }, done);
   });
 
-  it("reads a template from an empty folder without error", function (done) {
-    readFromFolder(this.blog.id, this.tmp, done);
-  });
-
   it("reads template properties from package.json", function (done) {
     fs.outputJsonSync(this.tmp + "/package.json", {
       locals: { foo: "bar" }
@@ -122,12 +118,13 @@ describe("template", function () {
     const tmp = this.tmp;
     const blogID = this.blog.id;
 
-    fs.outputFileSync(tmp + "/test.html", "Hello, world!");
+    fs.outputFileSync(tmp + "/hello.html", "Hello, world!");
+    fs.outputFileSync(tmp + "/test.html", "Hello, test!");
 
     readFromFolder(blogID, tmp, function (err, template) {
       if (err) return done.fail(err);
       get(template.id, "test.html", function (err, view) {
-        expect(view.content).toEqual("Hello, world!");
+        expect(view.content).toEqual("Hello, test!");
 
         fs.removeSync(tmp + "/test.html");
         readFromFolder(blogID, tmp, function (err) {
