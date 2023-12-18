@@ -2,9 +2,10 @@ name: Screenshots for templates
 
 on:
   push:
-    branches: [master]
-  pull_request:
-    branches: [master]
+    branches:
+      - master
+    paths:
+      - "app/templates/**"
 
 jobs:
   test:
@@ -23,16 +24,36 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Use dnsmasq to resolve blot.development
+        run: |
+          brew install kubernetes-cli dnsmasq
+          export LOCAL_CUSTOM_TLD="blot.development"
+          echo "address=/.${LOCAL_CUSTOM_TLD}/127.0.0.1" >> $(brew --prefix)/etc/dnsmasq.conf
+          sudo mkdir /etc/resolver/
+          cat <<EOF | sudo tee /etc/resolver/${LOCAL_CUSTOM_TLD}
+          nameserver 127.0.0.1
+          EOF
+          sudo brew services restart dnsmasq
+          sudo killall -HUP mDNSResponder
+          scutil --dns
+
+      - name: Cache Pandoc installation
+        id: pandoc
+        uses: actions/cache@v2
+        with:
+          path: data/pandoc
+          key: ${{ runner.os }}-pandoc-${{ matrix.pandoc-version }}
+
       - name: Set up Pandoc
         if: steps.pandoc.outputs.cache-hit != 'true'
         run: |
+          mkdir -p data/pandoc
+          cd data/pandoc
           wget https://github.com/jgm/pandoc/releases/download/${{ matrix.pandoc-version }}/pandoc-${{ matrix.pandoc-version }}-linux-amd64.tar.gz -O pandoc.tar.gz
           mkdir pandoc
           tar xvzf pandoc.tar.gz --strip-components 1 -C pandoc
           echo "$(pwd)/pandoc/bin" >> $GITHUB_PATH
-
-      - name: Source pandoc
-        run: echo "BLOT_PANDOC_PATH=$(which pandoc)" >> $GITHUB_ENV
+          echo "BLOT_PANDOC_PATH=$(which pandoc)" >> $GITHUB_ENV
 
       - name: Set up Node
         uses: actions/setup-node@v2
@@ -40,9 +61,9 @@ jobs:
           node-version: ${{ matrix.node-version }}
 
       - name: Set up Redis
-        uses: shogo82148/actions-setup-redis@v1
-        with:
-          redis-version: ${{ matrix.redis-version }}
+        run: |
+          brew install redis
+          brew services start redis
 
       - name: Load dependencies
         uses: actions/cache@v2
@@ -51,13 +72,29 @@ jobs:
           path: node_modules
           key: ${{ runner.os }}-${{ hashFiles('package-lock.json') }}
 
+      - name: Configure and start Nginx reverse proxy
+        run: |
+          brew install nginx
+          sudo tee /usr/local/etc/nginx/nginx.conf <<EOF
+          events { }
+          http {
+              server {
+                  listen 80;
+                  location / {
+                      proxy_pass http://localhost:8080;
+                      proxy_set_header Host \$host;
+                      proxy_set_header X-Real-IP \$remote_addr;
+                  }
+              }
+          }
+          EOF
+          sudo nginx
+
       - name: Install Dependencies
         if: steps.cache-node-dependencies.outputs.cache-hit != 'true'
-        env:
-          PUPETEER_PRODUCT: firefox
         run: npm ci
 
-      - name: Run tests
+      - name: Take screenshots
         env:
           BLOT_CACHE: false
           BLOT_DEBUG: false
@@ -76,24 +113,22 @@ jobs:
           BLOT_SESSION_SECRET: ${{ secrets.BLOT_SESSION_SECRET }}
           BLOT_TWITTER_ACCESS_TOKEN_KEY: ${{ secrets.BLOT_TWITTER_ACCESS_TOKEN_KEY }}
           BLOT_TWITTER_ACCESS_TOKEN_SECRET: ${{ secrets.BLOT_TWITTER_ACCESS_TOKEN_SECRET }}
-          BLOT_TWITTER_CONSUMER_KEY: ${{ secrets.BLOT_TWITTER_CONSUMER_KEY }}
-          BLOT_TWITTER_CONSUMER_SECRET: ${{ secrets.BLOT_TWITTER_CONSUMER_SECRET }}
+          BLOT_TWITTER_CONSUMER_KEY: ${{ secrets.BLOT_TWITTER_CONSUMER_KEY}}
+          BLOT_TWITTER_CONSUMER_SECRET: ${{ secrets.BLOT_TWITTER_CONSUMER_SECRET}}
           BLOT_REDIS_HOST: 127.0.0.1
         run: |
           export BLOT_DIRECTORY=$(pwd)
           export NODE_PATH=$(pwd)/app
           export BLOT_CACHE_DIRECTORY=$(pwd)/cache
-          sudo echo "127.0.0.1 blot.development" | sudo tee -a /etc/hosts
-          ls app/templates/folders | xargs -I {} sudo echo "127.0.0.1 {}.blot.development" | sudo tee -a /etc/hosts
-          git config --global user.email "admin@example.com"
-          git config --global user.name "Admin"
+          node app/index.js &
           node app/templates/folders/index.js
           node app/templates/screenshots.js
 
-      - name: Create Pull Request
+      - name: Commit changes and create pull request
         uses: peter-evans/create-pull-request@v3
         with:
-          branch: screenshots
-          delete-branch: true
-          title: Updates screenshots
-          body: Result of template screenshot script on master branch
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: Update app/views directory
+          title: Update app/views directory
+          body: This pull request updates the app/views directory
+          branch: update-screenshots

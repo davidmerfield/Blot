@@ -80,6 +80,8 @@ Resolve SSL renewal issues
 
 ---
 
+Investigate a bug with git client credentials triggered when you have two sites using git on one account, and delete one of the sites
+
 Investigate bug with org mode links and [follow up with Elliot](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwHzDppJbDBZhLLqFQXvMZRsNw)
 
 

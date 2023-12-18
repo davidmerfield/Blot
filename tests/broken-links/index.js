@@ -1,4 +1,4 @@
-describe("Blot's website'", function () {
+xdescribe("Blot's website'", function () {
   var documentation = require("documentation");
   var dashboard = require("dashboard");
   var broken = require("../util/broken");

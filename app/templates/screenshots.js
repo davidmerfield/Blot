@@ -38,7 +38,7 @@ const SCREENSHOTS = {
 async.eachOfSeries(
   SCREENSHOTS,
   function ({ handle, pages }, template, next) {
-    const baseURL = `https://preview-of-${template}-on-${handle}.${config.host}`;
+    const baseURL = `http://preview-of-${template}-on-${handle}.${config.host}`;
     async.eachSeries(
       pages,
       async function (page, next) {

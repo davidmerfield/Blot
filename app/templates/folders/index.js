@@ -10,18 +10,17 @@
 //    pointing to the source folder. Local client will
 //    watch source folder so changes should appear.
 
-const client = require("models/client");
+const join = require("path").join;
 const fs = require("fs-extra");
 const async = require("async");
 const config = require("config");
 const User = require("models/user");
 const Blog = require("models/blog");
 const basename = require("path").basename;
-const localClient = require("clients/local");
 const DIR = require("helper/rootDir") + "/app/templates/folders";
 const format = require("url").format;
 const localPath = require("helper/localPath");
-const zip = require("./zip");
+const sync = require("sync");
 
 const updates = {
   bjorn: {
@@ -141,26 +140,49 @@ function setupBlogs (user, folders, callback) {
       async.eachOfSeries(
         blogs,
         function ({ path, blog }, id, next) {
-          const update = updates[blog.handle];
+          const update = updates[blog.handle] || {};
 
-          update.client = "local";
-
-          Blog.set(id, update, function (err) {
+          Blog.set(id, update, async function (err) {
             if (err) return next(err);
-            fs.removeSync(localPath(id, "/").slice(0, -1));
-            fs.symlinkSync(path, localPath(id, "/").slice(0, -1));
-            client.publish(
-              "clients:local:new-folder",
-              JSON.stringify({ blogID: id }),
-              function (err) {
-                if (err) return next(err);
-                if (config.environment !== "development") {
-                  localClient.disconnect(id, next);
-                } else {
-                  next();
+
+            // replace the contents of the blog folder 'localPath(id, "/")'
+            // with the contents of the folder 'path', overwriting anything
+            // and removing anything that is not in 'path'
+            await fs.remove(localPath(blog.id, "/"));
+            await fs.copy(path, localPath(blog.id, "/"));
+
+            // resync the folder
+            sync(blog.id, async function (err, folder, done) {
+              if (err) return next(err);
+
+              // walk the contents of the folder and call folder.update
+              // in series for each file
+              // path must be relative to the root of the blog folder
+              const walk = async dir => {
+                const items = await fs.readdir(dir);
+                for (const name of items) {
+                  const path = join(dir, name);
+                  const stat = await fs.stat(path);
+                  if (stat.isDirectory()) {
+                    await walk(path);
+                  } else {
+                    await new Promise((resolve, reject) => {
+                      const relativePath = path.slice(
+                        localPath(blog.id, "/").length
+                      );
+                      folder.update(relativePath, {}, function (err) {
+                        if (err) return reject(err);
+                        resolve();
+                      });
+                    });
+                  }
                 }
-              }
-            );
+              };
+
+              await walk(localPath(blog.id, "/"));
+
+              done(null, next);
+            });
           });
         },
         callback
@@ -199,10 +221,7 @@ if (require.main === module) {
 
   main(options, function (err) {
     if (err) throw err;
-    zip(function (err) {
-      if (err) throw err;
-      process.exit();
-    });
+    process.exit();
   });
 }
 
