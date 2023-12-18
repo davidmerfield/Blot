@@ -1,8 +1,5 @@
 # Templates to create
 
-Run templates through [lighthouse](https://web.dev/measure/) and [observatory](https://observatory.mozilla.org/)
-
-I would like 7 templates because 7 is a good number
 
 Blog
 Portfolio
@@ -73,6 +70,8 @@ Template selection
 - feed, archive, essays, portfolio, magazine must be optimized for code
 - all themes must be colorblind, with goal to add a color customization layer
 - Don't think about Blot developers in any way, produce separate simple templates for them
+
+Run templates through [lighthouse](https://web.dev/measure/) and [observatory](https://observatory.mozilla.org/)
 
 # Adding a new template
 
