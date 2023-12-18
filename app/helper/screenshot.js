@@ -61,8 +61,7 @@ async function main (site, path, options = {}) {
   await page.screenshot({
     path: path,
     type: "png",
-    omitBackground: true,
-    quality: 100
+    omitBackground: true
   });
 
   // console.log('took screenshot');
