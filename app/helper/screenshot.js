@@ -55,7 +55,16 @@ async function main (site, path, options = {}) {
   await page.goto(site, { waitUntil: "networkidle0", timeout: 20000 });
 
   // console.log('went to site');
-  await page.screenshot({ path: path });
+  // it's important to capture the screenshot in max resolution
+  // and without compression so multiple iterations on the same
+  // page produce the same result when diffed
+  await page.screenshot({
+    path: path,
+    type: "png",
+    omitBackground: true,
+    quality: 100
+  });
+
   // console.log('took screenshot');
   await browser.close();
   // console.log('closed browser');
