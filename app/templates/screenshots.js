@@ -60,7 +60,7 @@ const folders = fs
         : ["/"];
     return pages.map((page, index) => {
       return {
-        url: `${config.protocol}${folder}.${config.host}${page}`,
+        url: `${config.protocol}preview-of-blog-on-${folder}.${config.host}${page}`,
         destination: `${IMAGE_DIRECTORY}/${folder}/${index}`
       };
     });
