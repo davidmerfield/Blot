@@ -72,7 +72,7 @@ module.exports = {
     // annual plan, and vice versa, and that these IDs
     // correspond to plans on Stripe in both live and
     // test modes when you change Blot's price.
-    plan: "monthly_4",
+    plan: "monthly_5",
 
     plan_map: {
       yearly_30: "monthly_3",
@@ -82,7 +82,10 @@ module.exports = {
       monthly_2: "yearly_20",
 
       yearly_44: "monthly_4",
-      monthly_4: "yearly_44"
+      monthly_4: "yearly_44",
+
+      yearly_55: "monthly_5",
+      monthly_5: "yearly_55"
     }
   },
 
@@ -95,10 +98,16 @@ module.exports = {
   paypal: {
     client_id: process.env.BLOT_PAYPAL_CLIENT_ID,
     secret: process.env.BLOT_PAYPAL_SECRET,
+
+    plan: process.env.BLOT_PAYPAL_MONTHLY_5,
+
     plans: {
       monthly_4: process.env.BLOT_PAYPAL_MONTHLY_4,
-      yearly_44: process.env.BLOT_PAYPAL_YEARLY_44
+      yearly_44: process.env.BLOT_PAYPAL_YEARLY_44,
+      monthly_5: process.env.BLOT_PAYPAL_MONTHLY_5,
+      yearly_55: process.env.BLOT_PAYPAL_YEARLY_55
     },
+
     api_base: `https://api.${
       environment === "development" ? "sandbox." : ""
     }paypal.com`
