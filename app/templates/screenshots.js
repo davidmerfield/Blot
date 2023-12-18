@@ -75,7 +75,14 @@ const main = async () => {
   console.log("Taking screenshots");
   for (const screenshot of screenshots) {
     try {
-      await takeScreenshot(screenshot);
+      // if the screenshot takes longer than 15 seconds, it's probably not going to work
+      // so we should just skip it
+      await Promise.race([
+        takeScreenshot(screenshot),
+        new Promise((resolve, reject) => {
+          setTimeout(() => reject("Timeout"), 15000);
+        })
+      ]);
     } catch (error) {
       console.error(error);
     }
@@ -83,11 +90,6 @@ const main = async () => {
 };
 
 const takeScreenshot = async ({ url, destination }) => {
-  // throw error after 10 seconds
-  const timeout = setTimeout(() => {
-    throw new Error(`Screenshot of ${url} timed out`);
-  }, 10000);
-
   await fs.ensureDir(dirname(destination));
 
   const path = `${destination}.png`;
