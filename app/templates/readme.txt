@@ -1,32 +1,16 @@
 # Templates to create
 
-
-Diary
-Essay
-Picture
-Magazine
-Scrapbook
-
-Digital garden
-Documentation
-
----
-
 Run templates through [lighthouse](https://web.dev/measure/) and [observatory](https://observatory.mozilla.org/)
 
-
 I would like 7 templates because 7 is a good number
-
-What is missing?
 
 Blog
 Portfolio
 Photo
 Magazine
 Reference
-
-- Documentation
-- CV / Personal
+Documentation
+CV / Personal
 
 Useful fiddles:
 
