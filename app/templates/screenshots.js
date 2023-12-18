@@ -79,10 +79,10 @@ const folders = fs
     const template =
       foldersOptions[folder] && foldersOptions[folder].template
         ? foldersOptions[folder].template
-        : fs.existsSync(`${TEMPLATES_DIRECTORY}/${folder}/Templates`)
+        : fs.existsSync(`${FOLDERS_DIRECTORY}/${folder}/Templates`)
         ? `my-${
             fs
-              .readdirSync(`${TEMPLATES_DIRECTORY}/${folder}/Templates`)
+              .readdirSync(`${FOLDERS_DIRECTORY}/${folder}/Templates`)
               .filter(i => !i.startsWith("."))[0]
           }`
         : "blog";
@@ -97,6 +97,9 @@ const folders = fs
 const screenshots = templates.concat(folders).flat();
 
 const main = async () => {
+  console.log(screenshots);
+
+  throw "";
   console.log("Emptying image directory", IMAGE_DIRECTORY);
   await fs.emptyDir(IMAGE_DIRECTORY);
 
