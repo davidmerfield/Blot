@@ -141,4 +141,3 @@ jobs:
           body: This pull request updates the app/views directory
           branch: update-app-views
           base: master
-          path: app/views
