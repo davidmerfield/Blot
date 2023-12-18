@@ -110,8 +110,8 @@ jobs:
           export BLOT_DIRECTORY=$(pwd)
           export NODE_PATH=$(pwd)/app
           export BLOT_CACHE_DIRECTORY=$(pwd)/cache
-          node app/templates/folders/index.js
           node app/index.js &
+          node app/templates/folders/index.js
           node app/templates/screenshots.js
 
       - name: Create Pull Request
