@@ -5,13 +5,7 @@
     border-radius: 6px;">
 {{#root}}<a class="line" href="{{{base}}}/client/{{client.name}}">
 <span class="label">Folder</span>
-{{^blog.client}}
-      <span class="link">Choose a way to sync your folder</span>
-    {{/blog.client}}
-    {{#blog.client}}
-    <span class="center" style="display: flex;"><span id="status" style="display: block;" class="truncate status">{{blog.status.message}} {{blog.status.fromNow}}</span><span style="white-space: nowrap">&nbsp;from {{client.display_name}}</span></span>
-    <span class="right">Edit</span>
-    {{/blog.client}}
+
     </a>{{/root}}
 
 <div class="folder-box live-updates" style="min-height: 25vh;">

@@ -1,25 +1,25 @@
-<h1>Examples</h1>
+<h1>Example sites</h1>
 
 <div style="display: flex;">
 
     <div style="flex-basis:50%;margin-right:2em;">
-      <h2>People who use Blot</h2>
+      <h2><a href="/examples" onclick="renderFeatured();return false;">People who use Blot</a></h2>
       {{#featured}}
 <ul id="featured" style="list-style-type: none;
 padding: 0;
 margin: 0;font-size:16px" class="clients">
   {{#sites}}
   <li data-hue="{{hue}}">
-    <a target="_blank" style="display:flex" rel="noopener" href="{{{link}}}">
+    <a target="_blank" style="display:flex;padding:8px 0" rel="noopener" href="{{{link}}}">
       <span
         style="display:block;flex-shrink:0;background:url('{{#cdn}}/images/featured.png{{/cdn}}');background-size: {{background_width}}px;
   background-position:-{{x}}px -{{y}}px;width:{{width}}px;height:{{height}}px;border-radius: 100px;margin: 4px 1em 4px 0"></span>
 
   <span>
 
-      <span class="underline-on-hover" style="color:{{color}};">{{name}}</span>
+      <span class="color-on-hover">{{name}}</span>
 
-      {{bio}}<br>
+      <span style="color:var(--light-text-color)">{{bio}}</span><br>
 
     <span style="font-size: var(--small-font-size);color:var(--light-text-color)">{{host}} &bull; Joined {{joined}}</span>
   </span>
@@ -28,14 +28,20 @@ margin: 0;font-size:16px" class="clients">
   {{/sites}}
 </ul>
 {{/featured}}
+<style>
+  li[data-hue] a span.color-on-hover {
+    color:var(--text-color)
+    }
+  li[data-hue] a:hover span.color-on-hover {
+    color: var(--accent-color)
+  }
+</style>
 <!-- shuffle the order of <li> sites in #featured and limit number to 24 sites -->
 <script>
   var featured = document.getElementById("featured");
   var sites = featured.getElementsByTagName("li");
   var sitesArray = Array.prototype.slice.call(sites);
-  
-
-  // now we want to reorder the sites so that no two sites
+    // now we want to reorder the sites so that no two sites
   // with similar hues are adjacent. the hue can be calculated
   // from [data-hue], which is the h value in hsl
 
@@ -54,6 +60,9 @@ margin: 0;font-size:16px" class="clients">
     pairs.push(sitesArray.pop());
   }
 
+  const renderFeatured = () => {
+  
+
   // then we shuffle the pairs
   pairs.sort(function() {
     return 0.5 - Math.random();
@@ -65,12 +74,13 @@ margin: 0;font-size:16px" class="clients">
   }, []);
 
   // trim the number of sites
-  sitesArray = sitesArray.slice(0, 18);
-
   featured.innerHTML = "";
-  sitesArray.forEach(function(site) {
+  [...sitesArray].slice(0, 13).forEach(function(site) {
     featured.appendChild(site);
   });
+}
+renderFeatured();
+
 </script>
 </div>
 

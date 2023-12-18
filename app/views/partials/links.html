@@ -15,7 +15,7 @@
     class="{{ selected.howIndex }}"
     data-open="{{ selected.how }}"
     href="/how"
-    >Documentation</a
+    >How to use Blot</a
   ><ul>
 
     <li>
@@ -54,7 +54,7 @@
     </li>
     <li>
       <a
-        class="{{ selected.sync }}"
+        class="{{ selected.syncIndex }}"
         data-open="{{ selected.sync }}"
         href="/how/sync"
         >Sync your folder</a
@@ -63,9 +63,9 @@
         <li>
           <a class="{{ selected.dropbox }}" href="/how/sync/dropbox">Dropbox</a>
         </li>
-        <li><a class="{{ selected.git }}" href="/how/sync/git">Git</a></li>
+        <li><a class="{{selected.git }}" href="/how/sync/git">Git</a></li>
         <li>
-          <a class="{{ selected.google - drive }}" href="/how/sync/google-drive"
+          <a class="{{selected.google-drive}}" href="/how/sync/google-drive"
             >Google Drive</a
           >
         </li>
@@ -129,7 +129,7 @@
 
     <li>
       <a href="/examples" class="{{ selected.examples }}"
-        >Examples</a>
+        >Example sites</a>
     </li>
 
     <li>

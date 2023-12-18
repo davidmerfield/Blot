@@ -22,8 +22,17 @@
     <span class="right">Visit</span>
   </a>
 <p style="margin-top: 0;"><a href="" </a></p>
-<p>Synced from <a href="/">Dropbox</a> {{blog.status}}</p>
-</div>
+  <a class="line" href="{{{base}}}/client/{{client.name}}">
+    <span class="label">Folder</span>
+    {{^blog.client}}
+          <span class="link">Choose a way to sync your folder</span>
+        {{/blog.client}}
+        {{#blog.client}}
+        <span class="center" style="display: flex;"><span id="status" style="display: block;" class="truncate status">{{blog.status.message}} {{blog.status.fromNow}}</span><span style="white-space: nowrap">&nbsp;from {{client.display_name}}</span></span>
+        <span class="right">Edit</span>
+        {{/blog.client}}
+        </a>
+      </div>
 </section>
 <div style="display: flex;max-width: 66vw;">
   <form class="collapse-on-narrow-screens" method='post' action='?_csrf={{csrftoken}}' enctype='multipart/form-data' style="background-color: var(--light-background-color);border-radius: 4px;">
