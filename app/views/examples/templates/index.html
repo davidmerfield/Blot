@@ -19,55 +19,22 @@
   ul.templates li strong {color: black;text-decoration: none;font-weight: 600;}
   ul.templates li a:hover strong {background: none;color: var(--accent-color);outline: none;border:none;}
 </style>
- 
-<ul class="templates">
-  <li>
-    <a href="/templates/blog">
-      <strong>Blog</strong>
-      <span class="browser"><img src="{{#cdn}}/images/templates/blog/0.square-small.png{{/cdn}}"></span>
-    </a>
-  </li>
-  
-  <li>
-    <a href="/templates/magazine">
-      <strong>Magazine</strong>
-      <span class="browser"><img src="{{#cdn}}/images/templates/magazine/0.square-small.png{{/cdn}}"></span>
-      <small>For long portfolios</small>
-    </a>
-  </li>
 
+<ul class="clients">
+  {{#allTemplates}}
   <li>
-    <a href="/templates/photo">
-      <strong>Photo</strong>
-      <span class="browser"><img src="{{#cdn}}/images/templates/photo/0.square-small.png{{/cdn}}"></span>
-    </a>
+    <a href="/examples/templates/{{slug}}" style="display: flex;align-items: center;justify-content: space-between">
+        <span style="font-size: 24px;">{{name}}</span>
+        <img
+        src="{{#cdn}}/images/examples/{{slug}}/0-thumb.png{{/cdn}}"
+        style="width:48px;height:48px;border-radius: 4px;margin: 4px 0 6px;"
+          width="100" />
+      </a>
   </li>
-
-  <li>
-    <a href="/templates/portfolio">
-      <strong>Portfolio</strong>
-      <span class="browser"><img src="{{#cdn}}/images/templates/portfolio/0.square-small.png{{/cdn}}"></span>
-      <small>For portfolios and code</small>
-    </a>
-  </li>
-
-    <li>
-    <a href="/templates/reference">
-      <strong>Reference</strong>
-      <span class="browser"><img src="{{#cdn}}/images/templates/reference/0.square-small.png{{/cdn}}"></span>
-      <small>For photos and links</small>
-    </a>
-  </li>
-
-  <!--  <li>
-    <a href="/templates/developers">
-      <strong>Developer guide</strong>
-      <span class="browser" style="display: block;color:var(--light-text-color);font-size: 14px"><span style="height: 70px;text-align: center;padding:48px 25px;display: block;">Create your own template</span></span>
-      
-    </a>
-  </li> -->
-  
+  {{/allTemplates}}
 </ul>
+
+  
 
 <h2>Customizing a template</h2>
 

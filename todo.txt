@@ -1,3 +1,6 @@
+Fix broken fonts in screenshots:
+- Remove font styles from manifesto/manifesto and re-insert them when template is readFromFolder
+
 Finish site and dashboard
 
 Improvements to folders
