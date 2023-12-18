@@ -23,23 +23,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - uses: docker-practice/actions-setup-docker@master
-        timeout-minutes: 12
-
       - name: Start dnsmasq container
         run: |
-          docker run -d \
-            --name dnsmasq \
-            -p 53:53/tcp -p 53:53/udp \
-            --cap-add=NET_ADMIN \
-            --restart unless-stopped \
-            andyshinn/dnsmasq:2.85 \
-            --address=/.blot.development/127.0.0.1
+          brew install dnsmasq
+          sudo brew services start dnsmasq
+          echo "address=/.blot.development/127.0.0.1" | sudo tee -a /usr/local/etc/dnsmasq.conf
+          sudo killall -HUP mDNSResponder
 
       - name: test dnsmasq is mapping *.blot.development to loopback
         run: |
-          dig +short blot.development @
-          dig +short www.blot.development @
+          dig +short blot.development @127.0.0.1
+          dig +short www.blot.development @127.0.0.1
 
       - name: Cache Pandoc installation
         uses: actions/cache@v2
@@ -65,8 +59,8 @@ jobs:
 
       - name: Set up Redis
         run: |
-          docker run -d -p 6379:6379 --name redis redis:${{ matrix.redis-version }}
-          docker ps -a
+          brew install redis
+          brew services start redis
 
       - name: Load dependencies
         uses: actions/cache@v2
@@ -98,8 +92,8 @@ jobs:
           BLOT_SESSION_SECRET: ${{ secrets.BLOT_SESSION_SECRET }}
           BLOT_TWITTER_ACCESS_TOKEN_KEY: ${{ secrets.BLOT_TWITTER_ACCESS_TOKEN_KEY }}
           BLOT_TWITTER_ACCESS_TOKEN_SECRET: ${{ secrets.BLOT_TWITTER_ACCESS_TOKEN_SECRET }}
-          BLOT_TWITTER_CONSUMER_KEY: ${{ secrets.BLOT_TWITTER_CONSUMER_KEY }}
-          BLOT_TWITTER_CONSUMER_SECRET: ${{ secrets.BLOT_TWITTER_CONSUMER_SECRET }}
+          BLOT_TWITTER_CONSUMER_KEY: ${{ secrets.BLOT_TWITTER_CONSUMER_KEY}}
+          BLOT_TWITTER_CONSUMER_SECRET: ${{ secrets.BLOT_TWITTER_CONSUMER_SECRET}}
           BLOT_REDIS_HOST: 127.0.0.1
         run: |
           export BLOT_DIRECTORY=$(pwd)
