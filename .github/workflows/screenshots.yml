@@ -63,8 +63,8 @@ jobs:
           BLOT_DEBUG: false
           BLOT_MAINTENANCE: false
           BLOT_PRODUCTION: true
-          BLOT_PROTOCOL: https
-          BLOT_ENVIRONMENT: production
+          BLOT_PROTOCOL: http
+          BLOT_ENVIRONMENT: development
           BLOT_HOST: blot.development
           BLOT_ADMIN_EMAIL: ${{ secrets.BLOT_ADMIN_EMAIL }}
           BLOT_DROPBOX_APP_SECRET: ${{ secrets.BLOT_DROPBOX_APP_SECRET }}
@@ -83,6 +83,8 @@ jobs:
           export BLOT_DIRECTORY=$(pwd)
           export NODE_PATH=$(pwd)/app
           export BLOT_CACHE_DIRECTORY=$(pwd)/cache
+          sudo echo "127.0.0.1 blot.development" | sudo tee -a /etc/hosts
+          ls app/templates/folders | xargs -I {} sudo echo "127.0.0.1 {}.blot.development" | sudo tee -a /etc/hosts
           git config --global user.email "admin@example.com"
           git config --global user.name "Admin"
           node app/templates/folders/index.js
