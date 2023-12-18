@@ -12,11 +12,11 @@ const VIEW_DIRECTORY = root + "/app/views/images/templates";
 const SCREENSHOTS = {
   blog: {
     handle: "david",
-    pages: ["/lake", "/archives"]
+    pages: ["/", "/archives"]
   },
   magazine: {
     handle: "interviews",
-    pages: ["/tagged/musicians", "/archives"]
+    pages: ["/", "/archives"]
   },
   photo: {
     handle: "william",
@@ -24,24 +24,28 @@ const SCREENSHOTS = {
   },
   portfolio: {
     handle: "bjorn",
-    pages: ["/page/2", "/lake-smalsjn-dalarna-sweden-16632501564-o"]
+    pages: ["/", "/archives"]
   },
   reference: {
     handle: "frances",
-    pages: [
-      "/",
-      "/marshfield-george-woodward-wickersham-house-cedarhurst-new-york-copy"
-    ]
+    pages: ["/", "/archives"]
+  },
+  manifesto: {
+    handle: "manifesto",
+    my: true,
+    pages: ["/"]
   }
 };
 
 async.eachOfSeries(
   SCREENSHOTS,
-  function ({ handle, pages }, template, next) {
-    const baseURL = `http://preview-of-${template}-on-${handle}.${config.host}`;
+  function ({ handle, pages, my }, template, next) {
+    const baseURL = `http://preview-of-${
+      my ? "my-" : ""
+    }${template}-on-${handle}.${config.host}`;
     async.eachSeries(
       pages,
-      async function (page, next) {
+      async function (page) {
         const url = baseURL + page;
         const dir = `${VIEW_DIRECTORY}/${template}`;
 
