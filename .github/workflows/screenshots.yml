@@ -23,8 +23,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Set up Docker
-        uses: docker/setup-docker@v1
+      - uses: docker-practice/actions-setup-docker@master
+        timeout-minutes: 12
 
       - name: Start dnsmasq container
         run: |
