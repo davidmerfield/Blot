@@ -122,6 +122,9 @@ module.exports = main;
 
 if (require.main === module) {
   main()
-    .then(() => console.log("Done!"))
+    .then(() => {
+      console.log("Done!");
+      process.exit();
+    })
     .catch(console.error);
 }
