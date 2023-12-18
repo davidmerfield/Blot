@@ -11,6 +11,7 @@ CV / Personal
 
 Useful fiddles:
 
+
 Pure css gradually collapsing nav:
   useful for tag lists on archives page?
   https://codepen.io/kylegach/pen/RRkpEL
