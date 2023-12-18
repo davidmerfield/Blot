@@ -1,0 +1,99 @@
+name: Screenshots for templates
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  test:
+    runs-on: macos-latest
+
+    strategy:
+      matrix:
+        # If you ever add more node versions you need to replace current caching node_modules with caching of ~/.npm
+        node-version: [16.14.0]
+        pandoc-version: [3.1.1]
+        redis-version: [6.2.6]
+
+    environment: Tests
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Pandoc
+        if: steps.pandoc.outputs.cache-hit != 'true'
+        run: |
+          wget https://github.com/jgm/pandoc/releases/download/${{ matrix.pandoc-version }}/pandoc-${{ matrix.pandoc-version }}-linux-amd64.tar.gz -O pandoc.tar.gz
+          mkdir pandoc
+          tar xvzf pandoc.tar.gz --strip-components 1 -C pandoc
+          echo "$(pwd)/pandoc/bin" >> $GITHUB_PATH
+
+      - name: Source pandoc
+        run: echo "BLOT_PANDOC_PATH=$(which pandoc)" >> $GITHUB_ENV
+
+      - name: Set up Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Set up Redis
+        uses: shogo82148/actions-setup-redis@v1
+        with:
+          redis-version: ${{ matrix.redis-version }}
+
+      - name: Load dependencies
+        uses: actions/cache@v2
+        id: cache-node-dependencies
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+
+      - name: Install Dependencies
+        if: steps.cache-node-dependencies.outputs.cache-hit != 'true'
+        env:
+          PUPETEER_PRODUCT: firefox
+        run: npm ci
+
+      - name: Run tests
+        env:
+          BLOT_CACHE: false
+          BLOT_DEBUG: false
+          BLOT_MAINTENANCE: false
+          BLOT_PRODUCTION: true
+          BLOT_PROTOCOL: http
+          BLOT_ENVIRONMENT: development
+          BLOT_HOST: blot.development
+          BLOT_ADMIN_EMAIL: ${{ secrets.BLOT_ADMIN_EMAIL }}
+          BLOT_DROPBOX_APP_SECRET: ${{ secrets.BLOT_DROPBOX_APP_SECRET }}
+          BLOT_DROPBOX_FULL_SECRET: ${{ secrets.BLOT_DROPBOX_FULL_SECRET }}
+          BLOT_DROPBOX_TEST_ACCOUNT_APP_TOKEN: ${{ secrets.BLOT_DROPBOX_TEST_ACCOUNT_APP_TOKEN }}
+          BLOT_DROPBOX_TEST_ACCOUNT_FULL_TOKEN: ${{ secrets.BLOT_DROPBOX_TEST_ACCOUNT_FULL_TOKEN }}
+          BLOT_DROPBOX_TEST_ACCOUNT_ID: ${{ secrets.BLOT_DROPBOX_TEST_ACCOUNT_ID }}
+          BLOT_MAILGUN_KEY: ${{ secrets.BLOT_MAILGUN_KEY }}
+          BLOT_SESSION_SECRET: ${{ secrets.BLOT_SESSION_SECRET }}
+          BLOT_TWITTER_ACCESS_TOKEN_KEY: ${{ secrets.BLOT_TWITTER_ACCESS_TOKEN_KEY }}
+          BLOT_TWITTER_ACCESS_TOKEN_SECRET: ${{ secrets.BLOT_TWITTER_ACCESS_TOKEN_SECRET }}
+          BLOT_TWITTER_CONSUMER_KEY: ${{ secrets.BLOT_TWITTER_CONSUMER_KEY }}
+          BLOT_TWITTER_CONSUMER_SECRET: ${{ secrets.BLOT_TWITTER_CONSUMER_SECRET }}
+          BLOT_REDIS_HOST: 127.0.0.1
+        run: |
+          export BLOT_DIRECTORY=$(pwd)
+          export NODE_PATH=$(pwd)/app
+          export BLOT_CACHE_DIRECTORY=$(pwd)/cache
+          sudo echo "127.0.0.1 blot.development" | sudo tee -a /etc/hosts
+          ls app/templates/folders | xargs -I {} sudo echo "127.0.0.1 {}.blot.development" | sudo tee -a /etc/hosts
+          git config --global user.email "admin@example.com"
+          git config --global user.name "Admin"
+          node app/templates/folders/index.js
+          node app/templates/screenshots.js
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v3
+        with:
+          branch: screenshots
+          delete-branch: true
+          title: Updates screenshots
+          body: Result of template screenshot script on master branch
