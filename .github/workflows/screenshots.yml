@@ -132,10 +132,13 @@ jobs:
           node app/templates/folders/index.js
           node app/templates/screenshots.js
 
-      - name: Create Pull Request
+      - name: Commit changes and create pull request
         uses: peter-evans/create-pull-request@v3
         with:
-          branch: screenshots
-          delete-branch: true
-          title: Updates screenshots
-          body: Result of template screenshot script on master branch
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: Update app/views directory
+          title: Update app/views directory
+          body: This pull request updates the app/views directory
+          branch: update-app-views
+          base: main
+          path: app/views
