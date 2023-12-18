@@ -6,6 +6,7 @@ const chokidar = require("chokidar");
 const cheerio = require("cheerio");
 const SOURCE_DIRECTORY = join(blot_directory, "/app/views");
 const DESTINATION_DIRECTORY = join(blot_directory, "/app/documentation/data");
+const zip = require("templates/folders/zip");
 
 async function handle (path) {
   try {
@@ -34,6 +35,9 @@ async function handle (path) {
 
 module.exports = async ({ watch = false } = {}) => {
   await fs.emptyDir(DESTINATION_DIRECTORY);
+
+  // zip the templates
+  await zip();
 
   // recursively read every file in the source directory
   const list = dir => {

@@ -85,4 +85,5 @@ jobs:
         run: |
           git config --global user.email "admin@example.com"
           git config --global user.name "Admin"
+          node app/templates/folders/index.js
           node app/templates/screenshots.js
