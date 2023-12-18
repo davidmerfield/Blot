@@ -80,6 +80,24 @@ jobs:
           path: node_modules
           key: ${{ runner.os }}-${{ hashFiles('package-lock.json') }}
 
+      - name: Configure and start Nginx reverse proxy
+        run: |
+          brew install nginx
+          sudo tee /usr/local/etc/nginx/nginx.conf <<EOF
+          events { }
+          http {
+              server {
+                  listen 80;
+                  location / {
+                      proxy_pass http://localhost:8080;
+                      proxy_set_header Host \$host;
+                      proxy_set_header X-Real-IP \$remote_addr;
+                  }
+              }
+          }
+          EOF
+          sudo nginx
+
       - name: Install Dependencies
         if: steps.cache-node-dependencies.outputs.cache-hit != 'true'
         run: npm ci
