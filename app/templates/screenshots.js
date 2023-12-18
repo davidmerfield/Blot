@@ -2,90 +2,115 @@
 // const imageminify = require("helper/imageminify");
 
 const screenshot = require("helper/screenshot");
-const async = require("async");
 const config = require("config");
 const sharp = require("sharp");
 const { dirname, basename, extname } = require("path");
 const root = require("helper/rootDir");
-const VIEW_DIRECTORY = root + "/app/views/images/templates";
+const fs = require("fs-extra");
+const TEMPLATES_DIRECTORY = root + "/app/templates/latest";
+const FOLDERS_DIRECTORY = root + "/app/templates/folders";
+const IMAGE_DIRECTORY = root + "/app/views/images/examples";
 
-const SCREENSHOTS = {
+const templateOptions = {
   blog: {
-    handle: "david",
-    pages: ["/", "/archives"]
+    handle: "david"
   },
   magazine: {
-    handle: "interviews",
-    pages: ["/", "/archives"]
+    handle: "interviews"
   },
   photo: {
-    handle: "william",
-    pages: ["/", "/archives"]
+    handle: "william"
   },
   portfolio: {
-    handle: "bjorn",
-    pages: ["/", "/archives"]
+    handle: "bjorn"
   },
   reference: {
-    handle: "frances",
-    pages: ["/", "/archives"]
-  },
-  manifesto: {
-    handle: "manifesto",
-    my: true,
-    pages: ["/"]
+    handle: "frances"
   }
 };
 
-async.eachOfSeries(
-  SCREENSHOTS,
-  function ({ handle, pages, my }, template, next) {
-    const baseURL = `http://preview-of-${
-      my ? "my-" : ""
-    }${template}-on-${handle}.${config.host}`;
-    async.eachSeries(
-      pages,
-      async function (page) {
-        const url = baseURL + page;
-        const dir = `${VIEW_DIRECTORY}/${template}`;
+const foldersOptions = {};
 
-        const path = `${dir}/${pages.indexOf(page)}.png`;
-        const mobilePath = `${dir}/${pages.indexOf(page)}.mobile.png`;
-        const squarePath = `${dir}/${pages.indexOf(page)}.square.png`;
+const templates = fs
+  .readdirSync(TEMPLATES_DIRECTORY)
+  .filter(i => !i.startsWith(".") && !i.endsWith(".md"))
+  .map(i => {
+    const handle = templateOptions[i] ? templateOptions[i].handle : "david";
+    const template = i;
+    const pages =
+      templateOptions[i] && templateOptions[i].pages
+        ? templateOptions[i].pages
+        : ["/"];
 
-        console.log("Capturing screenshots:", url, path);
-        await screenshot(url, path);
-        console.log("Capturing screenshots:", url, mobilePath);
-        await screenshot(url, mobilePath, { mobile: true });
-        console.log("Capturing screenshots:", url, squarePath);
-        await screenshot(url, squarePath, { width: 1060, height: 1060 });
-        console.log("Done with", url);
-        console.log();
+    return pages.map((page, index) => {
+      return {
+        url: `${config.protocol}preview-of-${template}-on-${handle}.${config.host}${page}`,
+        destination: `${IMAGE_DIRECTORY}/${template}/${index}`
+      };
+    });
+  });
 
-        const resize = ({ path, label, width }) =>
-          sharp(path)
-            .resize({ width })
-            .toFile(
-              `${dirname(path)}/${basename(
-                path,
-                extname(path)
-              )}-${label}${extname(path)}`
-            );
+const folders = fs
+  .readdirSync(FOLDERS_DIRECTORY)
+  .filter(i => !i.startsWith(".") && !i.endsWith(".md") && !i.endsWith(".js"))
+  .map(folder => {
+    const pages =
+      foldersOptions[folder] && foldersOptions[folder].pages
+        ? foldersOptions[folder].pages
+        : ["/"];
+    return pages.map((page, index) => {
+      return {
+        url: `${config.protocol}${folder}.${config.host}`,
+        destination: `${IMAGE_DIRECTORY}/${folder}/${index}`
+      };
+    });
+  });
 
-        await Promise.all(
-          [
-            { path: path, label: "medium", width: 1120 },
-            { path: squarePath, label: "small", width: 306 },
-            { path: mobilePath, label: "medium", width: 560 }
-          ].map(resize)
-        );
-      },
-      next
-    );
-  },
-  function (err) {
-    if (err) throw err;
-    console.log("Done!");
-    process.exit();
+const screenshots = templates.concat(folders).flat();
+
+const main = async () => {
+  console.log("Emptying image directory", IMAGE_DIRECTORY);
+  await fs.emptyDir(IMAGE_DIRECTORY);
+
+  console.log("Taking screenshots");
+  for (const screenshot of screenshots) {
+    await takeScreenshot(screenshot);
   }
-);
+};
+
+const takeScreenshot = async ({ url, destination }) => {
+  await fs.ensureDir(dirname(destination));
+
+  const path = `${destination}.png`;
+
+  console.log(`Taking screenshot of ${url} to ${path}`);
+  await screenshot(url, path, { width: 1060, height: 1060 });
+
+  const mobilePath = `${destination}.mobile.png`;
+  console.log(`Taking mobile screenshot of ${url} to ${mobilePath}`);
+  await screenshot(url, mobilePath, { mobile: true });
+
+  const resize = ({ path, label, width }) =>
+    sharp(path)
+      .resize({ width })
+      .toFile(
+        `${dirname(path)}/${basename(path, extname(path))}-${label}${extname(
+          path
+        )}`
+      );
+
+  await Promise.all(
+    [
+      { path, label: "small", width: 96 },
+      { path: mobilePath, label: "medium", width: 560 }
+    ].map(resize)
+  );
+};
+
+module.exports = main;
+
+if (require.main === module) {
+  main()
+    .then(() => console.log("Done!"))
+    .catch(console.error);
+}
