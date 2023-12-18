@@ -120,7 +120,7 @@ jobs:
         uses: peter-evans/create-pull-request@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          commit-message: Using latest in app/templates
-          title: Updates screenshots
+          commit-message: Using latest folders in app/templates
+          title: Update screenshots
           body: This pull request updates the screenshots of the folders and templates
           branch: update-screenshots

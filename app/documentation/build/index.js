@@ -1,11 +1,14 @@
-const { blot_directory } = require("config");
+const config = require("config");
 const { join } = require("path");
 const { build } = require("esbuild");
 const fs = require("fs-extra");
 const chokidar = require("chokidar");
 const cheerio = require("cheerio");
-const SOURCE_DIRECTORY = join(blot_directory, "/app/views");
-const DESTINATION_DIRECTORY = join(blot_directory, "/app/documentation/data");
+const SOURCE_DIRECTORY = join(config.blot_directory, "/app/views");
+const DESTINATION_DIRECTORY = join(
+  config.blot_directory,
+  "/app/documentation/data"
+);
 const zip = require("templates/folders/zip");
 
 async function handle (path) {
@@ -36,8 +39,8 @@ async function handle (path) {
 module.exports = async ({ watch = false } = {}) => {
   await fs.emptyDir(DESTINATION_DIRECTORY);
 
-  // zip the templates
-  await zip();
+  // zip the templates for production
+  if (config.environment === "production") await zip();
 
   // recursively read every file in the source directory
   const list = dir => {
