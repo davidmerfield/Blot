@@ -2,9 +2,8 @@ name: Screenshots for templates
 
 on:
   push:
-    branches: [master]
-  pull_request:
-    branches: [master]
+    branches:
+      - master
 
 jobs:
   test:
