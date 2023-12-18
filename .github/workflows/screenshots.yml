@@ -87,3 +87,11 @@ jobs:
           git config --global user.name "Admin"
           node app/templates/folders/index.js
           node app/templates/screenshots.js
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v3
+        with:
+          branch: screenshots
+          delete-branch: true
+          title: Updates screenshots
+          body: Result of template screenshot script on master branch
