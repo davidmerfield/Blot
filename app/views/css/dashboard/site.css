@@ -1200,6 +1200,7 @@ fieldset.wide {
   padding-right: 18%;
 }
 
+
 .plugin:nth-child(4n) {
   margin-right: 0;
 }
@@ -1211,6 +1212,24 @@ fieldset.wide {
 .plugin.checked .pluginOptions {
   display: block;
 }
+
+.plugin label,
+.plugin p {
+  margin: 0
+}
+
+.plugin label {
+  padding: 0;
+  cursor: pointer;
+}
+
+.plugin {
+  margin-bottom: 6px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.03)
+}
+
+.plugin:last-child {border-bottom: none;padding-bottom: 0}
 
 /* TABLES */
 
@@ -1826,10 +1845,10 @@ div.center {}
 }
 
 .tablet {
-  border-radius: 6px;
+  border-radius: 18px;
   padding: 0 9px;
   line-height: 1.4;
-  border: 1px solid;
+  border: 1px solid rgba(0, 0, 0, 0.2);
   margin: 0 3px 0 0;
   display: inline-block;
   font-size: 15px;

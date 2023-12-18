@@ -1,3 +1,9 @@
+Improvements to folders
+- Make sure folders are zipped when site builds, and delivered through CDN
+- Make sure blot resyncs folders with their associated sites when pulled
+- Compute a hash of the folder contents and only resync or re-zip as needed
+
+
 Improvements to templates:
 - Library
   - mobile
@@ -24,14 +30,8 @@ Improvements to templates:
   - rename from photo
 
 - General:
-  - Don't reload page on template editor to preserve scroll position
   - Add paginateable entries list
-  - Add 'Template folder'
   - Add downloadable sites
-    - which use the 'template folder'
-    - e.g. obsidian
-  - Clean up package.json
-    - Replace "Entries tagged " with "{{tag}}"
   - Add static file uploader
   - Make templates folder based
     - data/templates/blog_id/template_name
@@ -72,6 +72,20 @@ Redo demo video
 Write newsletter
 
 ---
+
+Investigate a bug with git client credentials triggered when you have two sites using git on one account, and delete one of the sites
+
+Investigate bug with org mode links and [follow up with Elliot](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwHzDppJbDBZhLLqFQXvMZRsNw)
+
+
+Add aws cost usage and forecast to daily update email
+- https://docs.aws.amazon.com/cli/latest/reference/ce/get-cost-and-usage.html
+
+Can we support google docs even from Dropbox? if the doc is public?
+
+Investigate why [changes made to app/scheduler/daily/revenue.js increased the number of active blogs](https://github.com/davidmerfield/Blot/blob/494900a5dda1d916569c925adfbb6e68606c99bd/app/scheduler/daily/revenue.js#L21-L29) in my email
+
+Ensure that overdue PayPal subscription webhooks map to notification emails
 
 Final polish on stats dashboard
 - Add monitor the root disk usage of both servers to stats

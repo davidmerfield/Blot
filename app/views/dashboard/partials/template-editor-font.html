@@ -1,93 +1,44 @@
-		<h2>{{label}}</h2>
-		<style type="text/css">
-			
-			form svg {height: 1.5em;display: block;}
-			[for="showpicker{{key}}"]:hover {background: #fff}
-[name="showpicker{{key}}"]:checked + .options {display: block;}
-			.options {display: none;margin:0.5em;border:1px solid #aaa;user-select: none;}
-			
-			label[for="showpicker{{key}}"] {padding:0.333em 1em;cursor: pointer;position:relative;border-bottom: 1px solid #ddd;display: block;margin:0;user-select: none;}
+<h2>{{label}}</h2>
 
-			label[for="showpicker{{key}}"]:after{
-				content: "";
-				width: 1em;
-				height: 1em;
-				position: absolute;
-				top:50%;
-				margin-top: -0.5em;
-				right:1em;
-				background:  url('data:image/svg+xml;utf8,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22utf-8%22%3F%3E%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2043.764%2030.594%22%3E%3Cpath%20stroke%3D%22%23000%22%20d%3D%22M21.871%2024.621c.236%200%20.408-.172.602-.365L38.092%206.875c.107-.129.193-.215.193-.365%200-.301-.236-.537-.537-.537a.644.644%200%200%200-.387.129l-15.468%2017.23L6.359%206.102c-.064-.086-.236-.13-.365-.13a.528.528%200%200%200-.515.538c0%20.15.107.258.214.386L21.27%2024.3c.193.172.343.322.601.322Z%22%2F%3E%3C%2Fsvg%3E') no-repeat 1rem center;
-				background-size: 1em;
-			}
+<form method="post" id="font_picker_{{key}}">
 
-			.filters {
-				font-size:12px;
-				padding:0.15em 0.5em;user-select: none;
-			}
-			.filters label {
-				border-radius: 10px;padding: 0.15em 0.5em;
-				cursor: pointer;
-				color:#666;
-			}
-			[id="showall{{key}}"]:checked ~
-			.options label[for="showall{{key}}"],
-			[id="showsans{{key}}"]:checked ~
-			.options label[for="showsans{{key}}"],
-			[id="showother{{key}}"]:checked ~
-			.options label[for="showother{{key}}"],
-			[id="showmono{{key}}"]:checked ~
-			.options label[for="showmono{{key}}"],
-			[id="showserif{{key}}"]:checked ~
-			.options label[for="showserif{{key}}"] {background: #e0e0e0;}
+	<!-- hidden inputs for controlling the font picker -->
+	<input type="hidden" name="locals.{{key}}.id" value="{{{value.id}}}">
+	<input type="radio" id="show_all_{{key}}" checked name="filter{{key}}" style="display: none">
+	<input type="radio" id="show_sans_{{key}}" name="filter{{key}}" style="display: none">
+	<input type="radio" id="show_serif_{{key}}" name="filter{{key}}" style="display: none">
+	<input type="radio" id="show_mono_{{key}}" name="filter{{key}}" style="display: none">
+	<input type="radio" id="show_other_{{key}}" name="filter{{key}}" style="display: none">
+	<input type="checkbox" id="show_picker_{{key}}" style="display: none">
+	
+	<label for="show_picker_{{key}}">
+		{{#value}}
+		{{#name}}
+			{{#svg}}
+			{{{svg}}}
+			{{/svg}}
+			{{^svg}}
+			<span style="font-family: {{stack}};">{{name}}</span>
+			{{/svg}}
+		{{/name}}
+		{{^name}}Select a font{{/name}}
+		{{/value}}
+	</label>		
 
-			[id="showsans{{key}}"]:checked ~
-			 .options button:not([data-tag="sans"]),
-			[id="showmono{{key}}"]:checked ~
-			 .options button:not([data-tag="mono"]),
-			[id="showother{{key}}"]:checked ~
-			 .options button:not([data-tag="other"]),
-			[id="showserif{{key}}"]:checked ~
-			 .options button:not([data-tag="serif"]) {display: none;}
-			 .options button {
-			 	width: 100%;
-			 	text-align:left;margin:0;border-radius:0;border:none;outline:none;background:#fafafa;border-top: 1px solid #ddd;padding:0.333em 0.5em;			 }
- .options button:hover{background: #fff}
-			 		</style>
-
-<form method="post" id="form{{key}}">
-
-		<input type="hidden" name="locals.{{key}}.id" value="{{{value.id}}}">
-
-		<label for="showpicker{{key}}">
-			{{#value}}
-				{{#name}}
-					{{#svg}}
-					{{{svg}}}
-					{{/svg}}
-					{{^svg}}
-					<span style="font-family: {{stack}};">{{name}}</span>
-					{{/svg}}
-				{{/name}}
-				{{^name}}Select a font{{/name}}
-				{{/value}}
-			</label>		
-
-		<input type="radio" id="showall{{key}}" checked name="filter{{key}}" style="display: none">
-		<input type="radio" id="showsans{{key}}" name="filter{{key}}" style="display: none">
-		<input type="radio" id="showserif{{key}}" name="filter{{key}}" style="display: none">
-		<input type="radio" id="showmono{{key}}" name="filter{{key}}" style="display: none">
-		<input type="radio" id="showother{{key}}" name="filter{{key}}" style="display: none">
-		<input type="checkbox" id="showpicker{{key}}" name="showpicker{{key}}" style="display: none">
-		<div class="options">
-			<div class="filters">
-				<label for="showall{{key}}">All</label>
-				<label for="showsans{{key}}">Sans</label>
-				<label for="showserif{{key}}">Serif</label>
-				<label for="showmono{{key}}">Monospace</label>
-				<label for="showother{{key}}">Other</label>
-			</div>
+	<div class="options">
+		<div class="filters">
+			<label for="show_all_{{key}}">All</label>
+			<label for="show_sans_{{key}}">Sans</label>
+			<label for="show_serif_{{key}}">Serif</label>
+			<label for="show_mono_{{key}}">Mono</label>
+			<label for="show_other_{{key}}">Other</label>
+		</div>
 		{{#options}}
-		<button {{#tags}}data-tag="{{tag}}"{{/tags}} type="submit" name="locals.{{key}}.id" value="{{{id}}}"> <!-- {{#selected}}background:yellow{{/selected}}-->
+		<button 
+			{{#tags}}data-tag="{{tag}}"{{/tags}}
+			type="submit" 
+			name="locals.{{key}}.id" 
+			value="{{{id}}}">
 			{{#svg}}
 			{{{svg}}}
 			{{/svg}}
@@ -98,106 +49,29 @@
 		{{/options}}
 	</div>
 
-
-<div style="display: flex;font-size: 14px;padding-bottom: 16px">
-	<div>
-	<div style="display: flex;align-items: center;">
-	<label for="locals.{{key}}.font_size" style="flex-basis:110px;flex-grow:0;padding:0 0 0 16px">Font size:</label><br>
-
-	<div style="flex-basis: 50%;;margin-right: 16px">
-	<input
-	 style="width:100%;margin:0"
-		type="range"
-		id="locals.{{key}}font_size"
-		name="locals.{{key}}.font_size"
-		value="{{font_size}}"
-		min="9"
-		max="96"
-	/>
-</div>
-
-	<input type="number" id="locals.{{key}}font_size.display" style="width:60px;font-variant-numeric: tabular-nums;flex-grow: 0;margin-right: 16px"			value="{{font_size}}"
-		min="9"
-		max="96"
-
->
-
-</div>
-	<div style="display: flex;align-items: center;">
-
-	<label for="locals.{{key}}.line_height" style="flex-basis:110px;flex-grow:0;padding:0 0 0 16px">Line height:</label><br>
-
-	<div style="flex-basis: 50%;margin-right: 16px">
-	<input
-	 style="width:100%;margin:0"
-		type="range"
-		id="locals.{{key}}line_height"
+<div style="display: flex;font-size: 11px;border-bottom:1px solid #ddd">
+	<div style="display: flex;padding: 8px 16px;border-right: 1px solid #ddd;">
+		<label for="locals.{{key}}.font_size" style="flex-grow:1;">Font size:</label>
+		<input type="number" 
+			id="locals.{{key}}.font_size" 
+			name="locals.{{key}}.font_size"
+			style="margin-left:8px;width:50px;font-variant-numeric: tabular-nums;flex-grow: 0;" 
+			value="{{font_size}}"
+			min="9"
+			max="96">
+	</div>
+	<div style="display: flex;padding: 8px 16px">
+		<label for="locals.{{key}}.line_height" style="flex-grow:1;">Line height:</label>
+		<input type="number" 
+		id="locals.{{key}}.line_height" 
 		name="locals.{{key}}.line_height"
+		style="margin-left:8px;width:60px;font-variant-numeric: tabular-nums;flex-grow: 0;" 
 		value="{{line_height}}"
 		min="0.9"
 		step="0.05"
-		max="2.4"
-	/>
-</div>
-	<input type="number" id="locals.{{key}}line_height.display" style="width:60px;font-variant-numeric: tabular-nums;flex-grow: 0;margin-right: 16px"		value="{{line_height}}"
-		min="0.9"
-		step="0.05"
-		max="2.4"
->
-</div>
-
-</div>
-</form>
-<script type="text/javascript">
-
-	const input{{key}} = document.getElementById('locals.{{key}}');
-	const form{{key}} = document.getElementById('form{{key}}');
-
-	const input{{key}}line_height = document.getElementById('locals.{{key}}line_height');
-	const result{{key}}line_height = document.getElementById('locals.{{key}}line_height.display');
-
-	input{{key}}line_height.addEventListener('change', (event) => {
-  	result{{key}}line_height.value = event.target.value;
-	});
-
-	result{{key}}line_height.addEventListener('change', (event) => {
-  	input{{key}}line_height.value = event.target.value;
-	});
-
-	input{{key}}line_height.addEventListener('input', (event) => {
-  	result{{key}}line_height.value = event.target.value;
-	});
-
-	result{{key}}line_height.addEventListener('input', (event) => {
-  	input{{key}}line_height.value = event.target.value;
-	});
-
-	const input{{key}}font_size = document.getElementById('locals.{{key}}font_size');
-	const result{{key}}font_size = document.getElementById('locals.{{key}}font_size.display');
-
-	input{{key}}font_size.addEventListener('change', (event) => {
-  	result{{key}}font_size.value = event.target.value;
-	});
-
-	input{{key}}font_size.addEventListener('input', (event) => {
-  	result{{key}}font_size.value = event.target.value;
-	});
-
-	result{{key}}font_size.addEventListener('change', (event) => {
-  	input{{key}}font_size.value = event.target.value;
-	});
-
-	result{{key}}font_size.addEventListener('input', (event) => {
-  	input{{key}}font_size.value = event.target.value;
-	});
-
-	document.querySelectorAll('form[id="form{{key}}"] input, form[id="form{{key}}"] select')
-		.forEach(function(node){
-			if (node.style.display === 'none') return;
-		node.addEventListener('change', (event) => {
-	 		form{{key}}.submit();
-		})
-	})
-
-</script>
+		max="2.4">
 	</div>
+
+
+</form>
+</div>

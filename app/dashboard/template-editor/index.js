@@ -31,8 +31,10 @@ TemplateEditor.use((req, res, next) => {
 });
 
 TemplateEditor.use("/:templateSlug", function (req, res, next) {
-  if (req.template.localEditing && req.path !== "/local-editing")
-    return res.redirect(res.locals.base + "/local-editing");
+  // if the user has transferred the template to their folder
+  // don't allow them to edit it on the dashboard
+  if (req.template.localEditing)
+    return res.redirect("/dashboard/" + req.blog.handle + "/template");
 
   res.locals.title = req.template.name;
   next();
@@ -47,9 +49,9 @@ TemplateEditor.use("/:templateSlug/:section", function (req, res, next) {
 TemplateEditor.route("/:templateSlug/settings")
   .all(require("./load/font-inputs"))
   .all(require("./load/syntax-highlighter"))
-  .all(require("./load/color-scheme"))
   .all(require("./load/color-inputs"))
-  .all(require("./load/layout-inputs"))
+  .all(require("./load/index-inputs"))
+  .all(require("./load/navigation-inputs"))
   .all(require("./load/dates"))
   .post(
     parse,
@@ -69,7 +71,20 @@ TemplateEditor.route("/:templateSlug/settings")
           newLocals[local] = newLocals[local] === "on";
       }
 
-      for (let key in newLocals) locals[key] = newLocals[key];
+      for (let key in newLocals) {
+        // if locals[key] is an object, merge the newLocals[key] object into it
+        // otherwise simply assign newLocals[key] to locals[key]
+        // this makes it possible to update a single property of an object without
+        // overwriting the entire object
+        if (typeof locals[key] === "object") {
+          for (let prop in newLocals[key]) {
+            locals[key][prop] = newLocals[key][prop];
+          }
+        } else {
+          locals[key] = newLocals[key];
+        }
+      }
+
       for (let key in newPartials) partials[key] = newPartials[key];
 
       req.locals = locals;
@@ -80,7 +95,6 @@ TemplateEditor.route("/:templateSlug/settings")
     require("./save/layout-inputs"),
     require("./save/syntax-highlighter"),
     require("./save/fonts"),
-    require("./save/color-scheme"),
     function (req, res, next) {
       Template.update(
         req.blog.id,
@@ -99,8 +113,12 @@ TemplateEditor.route("/:templateSlug/settings")
 
 TemplateEditor.route("/:templateSlug/local-editing")
   .all(require("./load/font-inputs"))
+  .all(require("./load/syntax-highlighter"))
   .all(require("./load/color-inputs"))
-  .all(require("./load/layout-inputs"))
+  .all(require("./load/index-inputs"))
+  .all(require("./load/navigation-inputs"))
+  .all(require("./load/dates"))
+
   .all(require("./load/dates"))
   .get(function (req, res) {
     res.locals.enabled = req.template.localEditing;
@@ -108,12 +126,17 @@ TemplateEditor.route("/:templateSlug/local-editing")
     res.render("template-editor/local-editing");
   })
   .post(parse, function (req, res, next) {
-    const localEditing = !req.template.localEditing;
+    Template.setMetadata(
+      req.template.id,
+      { localEditing: true },
+      function (err) {
+        if (err) return next(err);
 
-    Template.setMetadata(req.template.id, { localEditing }, function (err) {
-      if (err) return next(err);
+        res.message(
+          "/dashboard/" + req.blog.handle + "/template",
+          "Transferred template <b>" + req.template.name + "</b> to your folder"
+        );
 
-      if (localEditing) {
         Template.writeToFolder(req.blog.id, req.template.id, function () {
           // could we do something with this error? Could we wait to render the page?
           // it would be useful to have a progress bar here to prevent
@@ -121,18 +144,15 @@ TemplateEditor.route("/:templateSlug/local-editing")
           // we should also do something with the error
         });
       }
-
-      res.message(
-        res.locals.base + "/local-editing",
-        "You can now edit the template locally!"
-      );
-    });
+    );
   });
 
 TemplateEditor.route("/:templateSlug/rename")
   .all(require("./load/font-inputs"))
+  .all(require("./load/syntax-highlighter"))
   .all(require("./load/color-inputs"))
-  .all(require("./load/layout-inputs"))
+  .all(require("./load/index-inputs"))
+  .all(require("./load/navigation-inputs"))
   .all(require("./load/dates"))
 
   .get(function (req, res) {
@@ -152,8 +172,10 @@ TemplateEditor.route("/:templateSlug/rename")
 
 TemplateEditor.route("/:templateSlug/share")
   .all(require("./load/font-inputs"))
+  .all(require("./load/syntax-highlighter"))
   .all(require("./load/color-inputs"))
-  .all(require("./load/layout-inputs"))
+  .all(require("./load/index-inputs"))
+  .all(require("./load/navigation-inputs"))
   .all(require("./load/dates"))
 
   .get(function (req, res) {
@@ -177,8 +199,10 @@ TemplateEditor.route("/:templateSlug/share")
 
 TemplateEditor.route("/:templateSlug/delete")
   .all(require("./load/font-inputs"))
+  .all(require("./load/syntax-highlighter"))
   .all(require("./load/color-inputs"))
-  .all(require("./load/layout-inputs"))
+  .all(require("./load/index-inputs"))
+  .all(require("./load/navigation-inputs"))
   .all(require("./load/dates"))
 
   .get(function (req, res, next) {
@@ -188,7 +212,10 @@ TemplateEditor.route("/:templateSlug/delete")
   .post(function (req, res, next) {
     Template.drop(req.blog.id, req.template.slug, function (err) {
       if (err) return next(err);
-      res.message(res.locals.dashboardBase + "/template", "Deleted template!");
+      res.message(
+        res.locals.dashboardBase + "/template",
+        "Deleted template <b>" + req.template.name + "</b>"
+      );
     });
   });
 

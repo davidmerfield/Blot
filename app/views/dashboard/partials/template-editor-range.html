@@ -1,33 +1,41 @@
-<form id="locals.{{key}}.form" method="post" style="display: flex;align-items: center;">
-	<label for="locals.{{key}}" style="padding:5px 16px;font-size: 14px">{{label}}:</label>
+<form class="number-input" id="locals.{{key}}.form" method="post" style="display: flex;align-items: center;">
+	<label for="locals.{{key}}" style="flex-grow:1;padding:5px 16px;font-size: 14px">{{label}}:</label>
 
 	<input
-	 style="margin:5px 0"
-		type="range"
+		type="number"
 		id="locals.{{key}}"
 		name="locals.{{key}}"
 		value="{{value}}"
 		min="{{min}}"
 		max="{{max}}"
+		step="1"
+		style="width: 70px;
+		margin-right: 16px;"
 	/>
 
-	<span id="locals.{{key}}.display"></span>
 </form>
+
 <script type="text/javascript">
-		
-	const input{{key}} = document.getElementById('locals.{{key}}');
-	const result{{key}} = document.getElementById('locals.{{key}}.display');
-	const form{{key}} = document.getElementById('locals.{{key}}.form');
 
-	result{{key}}.innerHTML = input{{key}}.value;
-
-	input{{key}}.addEventListener('change', (event) => {
-  	result{{key}}.textContent = event.target.value;
-  	form{{key}}.submit();
-	});
-
-	input{{key}}.addEventListener('input', (event) => {
-  	result{{key}}.textContent = event.target.value;
-	});
+Array.from(document.querySelectorAll('form.number-input')).forEach(function(form){
 	
+	form.querySelectorAll('input').forEach(function(node){
+		node.addEventListener('change',  (event) => {
+
+			// construct the body based on the single input or button that was clicked
+			const body = new URLSearchParams();
+
+			body.append(node.name, node.value);
+
+			fetch(window.location.href, { method: "post", body }).then(function (response) {
+				document.getElementById("preview").src += "";
+			});
+
+			event.preventDefault();
+			return false;
+			})
+	})
+
+});
+
 </script>

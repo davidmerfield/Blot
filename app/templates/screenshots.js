@@ -12,33 +12,33 @@ const VIEW_DIRECTORY = root + "/app/views/images/templates";
 const SCREENSHOTS = {
   blog: {
     handle: "david",
-    pages: ["/", "/search?q=type"],
+    pages: ["/lake", "/archives"]
   },
   magazine: {
     handle: "interviews",
-    pages: ["/tagged/musicians", "/archives"],
+    pages: ["/tagged/musicians", "/archives"]
   },
   photo: {
     handle: "william",
-    pages: ["/", "/archives"],
+    pages: ["/", "/archives"]
   },
   portfolio: {
     handle: "bjorn",
-    pages: ["/page/2", "/lake-smalsjn-dalarna-sweden-16632501564-o"],
+    pages: ["/page/2", "/lake-smalsjn-dalarna-sweden-16632501564-o"]
   },
   reference: {
     handle: "frances",
     pages: [
       "/",
-      "/marshfield-george-woodward-wickersham-house-cedarhurst-new-york-copy",
-    ],
-  },
+      "/marshfield-george-woodward-wickersham-house-cedarhurst-new-york-copy"
+    ]
+  }
 };
 
 async.eachOfSeries(
   SCREENSHOTS,
   function ({ handle, pages }, template, next) {
-    const baseURL = `https://preview-of-${template}-on-${handle}.${config.host}`;
+    const baseURL = `http://preview-of-${template}-on-${handle}.${config.host}`;
     async.eachSeries(
       pages,
       async function (page, next) {
@@ -72,7 +72,7 @@ async.eachOfSeries(
           [
             { path: path, label: "medium", width: 1120 },
             { path: squarePath, label: "small", width: 306 },
-            { path: mobilePath, label: "medium", width: 560 },
+            { path: mobilePath, label: "medium", width: 560 }
           ].map(resize)
         );
       },

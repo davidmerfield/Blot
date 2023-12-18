@@ -1,4 +1,5 @@
 const Themes = require("blog/static/syntax-highlighter");
+const font = require("./util/font");
 
 module.exports = function (req, res, next) {
   if (!Object.keys(req.template.locals).includes("syntax_highlighter"))
@@ -10,10 +11,16 @@ module.exports = function (req, res, next) {
       ...(Themes.find(
         ({ id }) => id === req.template.locals.syntax_highlighter.id
       ) || {}),
-      ...req.template.locals.syntax_highlighter,
+      ...req.template.locals.syntax_highlighter
     },
+    font: req.template.locals.syntax_highlighter_font
+      ? font(
+          "syntax_highlighter_font",
+          req.template.locals.syntax_highlighter_font
+        )
+      : null,
     label: "Syntax Highlighter",
-    options: Themes.map((option) => {
+    options: Themes.map(option => {
       return {
         selected:
           req.template.locals.syntax_highlighter.id &&
@@ -22,16 +29,16 @@ module.exports = function (req, res, next) {
             : "",
         background: option.background,
         color: option.colors[0],
-        colors: option.colors.slice(1).map((i) => {
+        colors: option.colors.slice(1).map(i => {
           return { color: i };
         }),
-        tags: option.tags.map((tag) => {
+        tags: option.tags.map(tag => {
           return { tag };
         }),
         name: option.name,
-        id: option.id,
+        id: option.id
       };
-    }),
+    })
   };
   next();
 };
