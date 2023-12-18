@@ -1,3 +1,4 @@
+
 #!/bin/sh
 
 set -e
@@ -39,4 +40,8 @@ fi
 kill -s USR2 $pid
 echo "Waiting for 'Replaced all workers' to appear in logs/app.log"
 tail -f $logfile | sed '/Replaced all workers/ q'
-echo "Restarted the application servers!"
+echo "Restarted the application servers! Rebuilding the demo folders"
+
+node $BLOT_DIRECTORY/app/templates/folders/index.js
+
+echo "Rebuilt the folders"
