@@ -21,6 +21,7 @@ const DIR = require("helper/rootDir") + "/app/templates/folders";
 const format = require("url").format;
 const localPath = require("helper/localPath");
 const sync = require("sync");
+const fix = require("sync/fix");
 
 const updates = {
   bjorn: {
@@ -181,7 +182,11 @@ function setupBlogs (user, folders, callback) {
 
               await walk(localPath(blog.id, "/"));
 
-              done(null, next);
+              fix(blog, function (err) {
+                if (err) return done(err);
+
+                done(null, next);
+              });
             });
           });
         },
