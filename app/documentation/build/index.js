@@ -6,6 +6,7 @@ const chokidar = require("chokidar");
 const cheerio = require("cheerio");
 const SOURCE_DIRECTORY = join(blot_directory, "/app/views");
 const DESTINATION_DIRECTORY = join(blot_directory, "/app/documentation/data");
+const zip = require("templates/folders/zip");
 
 async function handle (path) {
   try {
@@ -34,6 +35,9 @@ async function handle (path) {
 
 module.exports = async ({ watch = false } = {}) => {
   await fs.emptyDir(DESTINATION_DIRECTORY);
+
+  // zip the templates
+  await zip();
 
   // recursively read every file in the source directory
   const list = dir => {
@@ -95,7 +99,16 @@ async function buildHTML (path) {
     transformer($);
   }
 
-  const result = $.html();
+  let result = $.html();
+
+  // remove the indent from the line which contains the body partial
+  // this prevents issues with code snippets
+  if (result.includes("{{> body}}")) {
+    const lines = result.split("\n");
+    const index = lines.findIndex(line => line.includes("{{> body}}"));
+    lines[index] = lines[index].trim();
+    result = lines.join("\n");
+  }
 
   await fs.outputFile(join(DESTINATION_DIRECTORY, path), result);
 }
