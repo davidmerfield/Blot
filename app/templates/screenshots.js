@@ -3,8 +3,7 @@
 
 const screenshot = require("helper/screenshot");
 const config = require("config");
-const sharp = require("sharp");
-const { dirname, basename, extname } = require("path");
+const { dirname } = require("path");
 const root = require("helper/rootDir");
 const fs = require("fs-extra");
 const TEMPLATES_DIRECTORY = root + "/app/templates/latest";
@@ -99,7 +98,6 @@ const screenshots = templates.concat(folders).flat();
 const main = async () => {
   console.log(screenshots);
 
-  throw "";
   console.log("Emptying image directory", IMAGE_DIRECTORY);
   await fs.emptyDir(IMAGE_DIRECTORY);
 
@@ -131,22 +129,6 @@ const takeScreenshot = async ({ url, destination }) => {
   const mobilePath = `${destination}.mobile.png`;
   console.log(`Taking mobile screenshot of ${url} to ${mobilePath}`);
   await screenshot(url, mobilePath, { mobile: true });
-
-  const resize = ({ path, label, width }) =>
-    sharp(path)
-      .resize({ width })
-      .toFile(
-        `${dirname(path)}/${basename(path, extname(path))}-${label}${extname(
-          path
-        )}`
-      );
-
-  await Promise.all(
-    [
-      { path, label: "small", width: 96 },
-      { path: mobilePath, label: "medium", width: 560 }
-    ].map(resize)
-  );
 };
 
 module.exports = main;

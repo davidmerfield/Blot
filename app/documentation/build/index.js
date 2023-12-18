@@ -13,7 +13,9 @@ const zip = require("templates/folders/zip");
 
 async function handle (path) {
   try {
-    if (path.endsWith(".html") && !path.includes("dashboard/")) {
+    if (path.includes("images/examples")) {
+      await generateThumbnail(path);
+    } else if (path.endsWith(".html") && !path.includes("dashboard/")) {
       await buildHTML(path);
     } else if (path.endsWith(".css")) {
       await fs.copy(
@@ -138,4 +140,34 @@ async function buildJS () {
     target: ["chrome58", "firefox57", "safari11", "edge16"],
     outfile: join(DESTINATION_DIRECTORY, "documentation.min.js")
   });
+}
+
+const sharp = require("sharp");
+const { dirname, basename, extname } = require("path");
+
+async function generateThumbnail (path) {
+  if (path.includes("-")) return;
+
+  // copy the file as-is too
+  await fs.copy(
+    join(SOURCE_DIRECTORY, path),
+    join(DESTINATION_DIRECTORY, path)
+  );
+
+  if (path.includes(".mobile.")) return;
+
+  // generate a thumbnail
+  await sharp(join(SOURCE_DIRECTORY, path))
+    .resize({ width: 96 })
+    .toFile(
+      join(
+        DESTINATION_DIRECTORY,
+        dirname(path),
+        basename(path, extname(path)) + "-thumb.png"
+      )
+    );
+}
+
+if (require.main === module) {
+  module.exports({ watch: true });
 }
