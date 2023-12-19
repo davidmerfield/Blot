@@ -4,6 +4,20 @@
 
 <div class="questions">
 
+{{#query}}
+<br><br>
+
+{{^questions.length}}
+<p style="color:var(--light-text-color);font-size:var(--small-font-size)">
+No questions found for '{{query}}'</p>
+{{/questions.length}}
+
+{{#questions.length}}
+<p style="color:var(--light-text-color);font-size:var(--small-font-size)">
+{{questions.length}} questions found</p>
+{{/questions.length}}
+{{/query}}
+
 {{#questions}}
 {{> question-row}}
 {{/questions}}

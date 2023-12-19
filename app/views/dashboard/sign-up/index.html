@@ -6,6 +6,7 @@
   .tabs {
     margin: 0 0 2em 0;
     display: flex;
+    border-bottom: 1px solid var(--light-border-color);
   }
   .tabs input {
     display: none;
@@ -15,13 +16,12 @@
     display: inline-block;
     box-sizing: border-box;
     font-size: var(--small-font-size);
-    padding: 0 0 1em;
-    border-bottom: 1px solid var(--light-border-color);
+    padding: 0 0 0.5em;
+    margin: 0 1.4em -1px 0;
+    border-bottom: 1px solid transparent;
     cursor: pointer;
     color: var(--medium-text-color);
-    flex-grow: 1
   }
-
   .tabs label:hover {
     color: var(--text-color);
   }

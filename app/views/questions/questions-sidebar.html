@@ -1,12 +1,8 @@
 <div>
-  <h2><a href="/questions/tags">Tags</a></h2>
+  <h2><a class="minor" href="/questions/tags">Tags</a></h2>
   {{#popular_tags}}
-  <a href="/questions/tagged/{{ tag }}" style="margin-bottom: 4px;display: inline-block;"><nobr>{{ tag }} {{ count }} questions</nobr></a>
+  <a class="minor" href="/questions/tagged/{{ tag }}" style="margin: 12px 0;display:block;"><nobr><span class="tag-chip">{{ tag }}</span> &nbsp; {{ count }} questions</nobr></a>
   {{/popular_tags}}
-  <br>
-  <a href="/questions/tags">View all tags &rarr;</a>
+  <a class="minor" href="/questions/tags">View all tags &rarr;</a><br><br>
+  <a class="minor" href="/questions/feed.rss"> RSS Feed of latest questions</a>
 </div>
-
-<p>
-  <a href="/questions/feed.rss"> RSS Feed of latest questions</a>
-</p>

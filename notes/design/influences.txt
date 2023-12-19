@@ -10,6 +10,7 @@
 - Urbit
 - Matthew Carter
 - gov.uk 
+- Bret Victor
 - David Rudnick
 - Cargo Collective
 - Petrus Christus

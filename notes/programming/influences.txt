@@ -1,7 +1,2 @@
 # Influences
 
-- Ryan Dahl
-- Evan Czaplicki
-- Devine Lu Linvega
-- Drew DeVault
-- Rasmus Andersson

@@ -1,10 +1,16 @@
 <h1>{{^tag}}Questions {{/tag}}{{#tag}}{{ prettyTag }}{{/tag}}</h1>
 
-<div style="display: flex;align-items: baseline;margin:0 0 1em">
-  {{> questions-search}}
+{{#tag}}
+<p style="color:var(--light-text-color);font-size:var(--small-font-size)">
+  {{paginator.topics_count}} questions tagged '{{prettyTag}}'
+  </p>
+{{/tag}}
+{{^tag}}
+<div style="display: flex;align-items: baseline;margin:0 0 1em;font-size:16px">
+    {{> questions-search}}
     <a class="bordered-button"  href="/questions/ask">Ask a question</a>
 </div>
-
+{{/tag}}
 <!-- 
 <p class="filters">
   <a class="{{selected.questionsIndex}}" href="/questions">Recent</a>
@@ -12,7 +18,7 @@
 </p> -->
 
 <div style="display: flex;" class="questions">
-<div style="flex-basis:66%" >
+<div style="flex-basis:66%;margin-top:1.25em" >
   {{#topics}}
     {{> question-row}}  
   {{/topics}}
@@ -23,45 +29,3 @@
   {{> questions-sidebar}}
 </div>
 </div>
-
-<style>
-
-  .filters {
-    margin: 2em 0 0
-    }
-  
-    .filters a {
-    border-radius: 1em;
-    background-color: var(--light-background-color);
-    padding: 6px 18px;
-    text-decoration: none;
-    margin-right: 0.5em;
-    color: var(--medium-text-color)
-  }
-
-  .filters a.selected {
-    background-color: var(--text-color);
-    color: var(--background-color)
-  }
-
-  .question-preview {
-  max-height: 3.8rem;overflow: hidden;margin:0
-    }
-    .question-preview > :first-child {
-      margin-top: 0;
-    }
-    .questions a[href^="/questions/tagged"],
-    .questions a[href^="/questions/tags"],
-    .questions a[href^="/questions/feed.rss"],
-    .questions  a.minor {
-      color: var(--medium-text-color);
-      font-size: var(--small-font-size);
-    }
-
-    .questions a[href^="/questions/tagged"] {
-    background: var(--light-background-color);
-      border-radius: 4px;
-      padding: 4px 12px;
-    }
-
-</style>

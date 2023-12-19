@@ -1,16 +1,24 @@
-<h2>
+<div class="question-row">
+
+
+  <h2>
     <a href="/questions/{{ id }}">{{ title }}</a>
   </h2>
 
   <div class="question-preview">
     {{{body}}}
   </div>
-   
-    <a class="minor" href="/questions/{{ id }}"><span date-from-now="{{ last_reply_created_at }}">{{ time }}</span>, {{ number_of_replies }} {{#singular}}reply{{/singular}}{{^singular}}replies{{/singular}}</a>
+  <a class="cover" href="/questions/{{ id }}"></a>
 
+  <div style="position: relative;z-index: 1;">
+    <a class="minor" href="/questions/{{ id }}"><span date-from-now="{{ last_reply_created_at }}">{{ time }}</span>, {{ number_of_replies }} {{#singular}}reply{{/singular}}{{^singular}}replies{{/singular}}</a>
+    &nbsp;
+    &nbsp;
     {{#tags}}
-    <a
-      href="/questions/tagged/{{ slug }}"
-      >{{ tag }}</a>&puncsp;
+    <a class="tag-chip" href="/questions/tagged/{{ slug }}">{{ tag }}</a>&puncsp;
     {{/tags}}
-    
+  </div>
+  
+
+
+  </div>

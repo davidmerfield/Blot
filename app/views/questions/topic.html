@@ -1,53 +1,42 @@
 {{#topic}}
 <h1>{{ title }}</h1>
 
-<div class="qa-item-container">
+<div class="question-container">
   {{{body}}}
-  <div style="display: flex; margin-bottom: 16px">
-    <div>
-      {{#tags}}
+    <div >
+      <br>
+      
+      <span class="minor">
+          <span date-from-now="{{ last_reply_created_at }}">{{ time }}</span>, {{ reply_count }} {{#singular}}reply{{/singular
+          }}{{^singular}}replies{{/singular}}
+          </span>&nbsp;
+       {{#tags}}
       <a
         href="/questions/tagged/{{ slug }}"
-        class="secondary-text smaller"
-        style="
-          color: var(--accent-color);
-          padding: 4px 6px;
-          border-radius: 4px;
-          background: #eaf4ff;
-          margin-right: 8px;
-        ">
+        class="tag-chip"
+>
         {{ tag }}
-      </a>
-      {{/tags}}
+      </a> &nbsp;
+      {{/tags}} 
+      <a href="/questions/{{ id }}/edit" class="minor">
+        
+        Improve this question
+       </a>
     </div>
-    <div style="flex-grow: 1"></div>
-    <a href="/questions/{{ id }}/edit">
-      <span class="secondary-text smaller"
-        >Asked
-        <span date-from-now="{{ last_reply_created_at }}">{{ time }}</span>
-        &#8226;
-      </span>
-      <span class="secondary-text smaller">Improve this question</span>
-    </a>
   </div>
 </div>
 
-<span class="secondary-text smaller"
-  >{{ reply_count }} {{#singular}}reply{{/singular
-  }}{{^singular}}replies{{/singular}}</span
->
-
 {{/topic}}
 
-<div class="reply-container">
+<div class="answers">
   {{#topics.length}}
   {{#topics}}
-  <div class="qa-item-container">
+  <div class="answer-container">
     {{{body}}}
-    <span class="secondary-text smaller"
+    <span class="minor"
       >Answered <span date-from-now="{{ created_at }}">{{ time }}</span> ·
     </span>
-    <a class="secondary-text smaller" href="/questions/{{ id }}/edit"
+    <a class="minor" href="/questions/{{ id }}/edit"
       >Improve this answer</a
     >
   </div>
@@ -63,15 +52,8 @@
     <form
       method="POST"
       action="/questions/{{ topic.id }}/new"
-      id="new-reply-form"
-      class="qa-form">
-      <div>
-        <textarea
-          type="text"
-          name="body"
-          id="body"
-          placeholder="Your reply..."></textarea>
-      </div>
+      >
+      {{> textarea}}
       <div class="qa-form-actionarea">
         <button id="post-reply-button" class="whitebutton">Add reply</button>
         <span class="secondary-text">Markdown allowed</span>
@@ -79,19 +61,4 @@
     </form>
   </div>
 
-  <script>
-    var buttonEl = document.getElementById("post-reply-button");
-    var bodyEl = document.getElementById("body");
-
-    function updateQuestionButtonState() {
-      if (bodyEl.value.trim() === "") {
-        buttonEl.setAttribute("disabled", "");
-      } else {
-        buttonEl.removeAttribute("disabled");
-      }
-    }
-
-    updateQuestionButtonState();
-    bodyEl.addEventListener("keyup", updateQuestionButtonState);
-  </script>
 </div>
