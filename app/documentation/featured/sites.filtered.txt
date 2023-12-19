@@ -1,0 +1,54 @@
+#e15f16 zacharykeeting.com Zachary Keeting, is an artist based in New Haven
+#898989 www.souloftheimage.com Kimberly Evans, is a photographer
+#da9a87 blog.andrewjanjigian.com Andrew Janjigian, is a photographer
+#dc1c8e hannautkin.com Hanna Utkin, is a filmmaker from New York City
+#7a8aa8 keywords.oxus.net Kerim Friedman, teaches anthropology
+#9c9a9b com.johnbeeler.com John Beeler, is a record label director
+#b59681 discombobulated.co.nz Jessica Nickelsen, is a writer from New Zealand
+#d790c0 blog.aurynn.com Aurynn Shaw, is an engineer from New Zealand
+#f2496a www.alexgibson.nyc Alexander Gibson, is an artist from New York City
+#a5a374 john.pavlusoffice.com John Pavlus, is a writer based in Portland, Oregon
+#a0aab9 iiiiiiiii.in Ishtaarth Dalmia, is a writer from Bengaluru
+#60b7dc www.failuretolerated.com Sean McCoy, is a game designer from Dallas, Texas
+#ab4548 mrfrisby.com Stuart Frisby, is a designer
+#696e66 vaughntan.org Vaughn Tan, is a professor based in London
+#c56d64 blog.pixelswithin.com Diana Lopez, is a designer and developer based in Southern California
+#e2c556 eli.li Eli Mellen, is a web developer
+#e13934 www.elisamirkil.com Elisa Mirkil, is a designer based in New York
+#d08573 paul.af Paul Esch-Laurent, is a software engineer
+#9e826d diary.craigwhite.nyc Craig White, is a visual artist from Harlem
+#ff690b shashwati.com Shashwati Talukdar, is a filmmaker
+#44679d mariusmasalar.me Marius Masalar, is a photographer from Toronto
+#4c919c www.ishshah.me Ish Shah, is a software engineer based in San Francisco
+#5177a4 www.chrbutler.com Chris Butler, is a designer based in Chapel Hill
+#576c50 benlog.net Ben Greenberg, is an investigative reporter based in Boston
+#94c5df inhab.it Wil Turner, is a writer
+#828282 www.skellis.net Simon Ellis, is an artist from New Zealand
+#485f27 jeremysarber.com Jeremy Sarber, is a chaplain
+#da6d8d ianamurray.work Iana Murray, is a journalist
+#475162 www.dustinsenos.com Dustin Senos, is a designer
+#83857f theocasciani.page Théo Casciani, is a writer from Marseille
+#629292 diklein.com David Klein, is a designer based in San Francisco
+#ff9060 www.emilycass.org Emily Cass, is an architect
+#dbb3c9 jessytuddenham.com Jessy Tuddenham, is a dancer from Utah
+#b97371 bnjmnmddn.com Benjamin Madden, is an academic
+#517c80 www.jsoliday.com J. Soliday, is an electronic musician
+#d0a66f tellyou.today Neale Stokes, is a librarian from Los Angeles
+#979797 thejollyteapot.com Nicolas Magand, is a blogger from Strasbourg
+#7a9951 brainsister.com Jessica Doyle, is a city planning researcher
+#945830 poetry.bencallahan.com Ben Callahan, is a poet based in Ohio
+#6b98d2 www.maxkeith.co Max Keith, is a trail runner from Chile
+#4a7587 www.aarondowd.com Aaron Dowd, is a podcaster
+#d28f00 www.thoughtsbyora.com Uzoamaka Adaora, is a writer living in Amsterdam
+#99abc4 spittingdog.net Dave Haysom, translates Chinese literature
+#bb341f windhausen.co Sönke Windhausen, is a student from Freiburg
+#b07246 anitaposch.com Anita Posch, is a writer from Austria
+#d28f00 reillybrennan.com Reilly Brennan, is a venture capital fund partner
+#d48a7d victoriaclarke.art Victoria Clarke, is an artist based in London
+#8c8c8c www.adamsandell.com Adam Sandell, is a doctor and lawyer
+#c40002 sidenote.ridwansanusi.com Ridwan Sanusi, is a designer
+#6e44b3 max.engineer Max Chernyak, is a software engineer from New York
+#f1bd00 oliviaastawood.com Olivia Wood, is a musician from Los Angeles
+#387db9 jonahfoss.com Jonah Foss, is a student at the University of Washington
+#21732d www.nitinpai.in Nitin Pai, directs the Takshashila Institution
+#81e4e5 dannymcclainstudio.com Danny McClain, is an artist based in Nashville, Tennessee

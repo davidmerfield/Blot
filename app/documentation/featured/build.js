@@ -147,6 +147,32 @@ async function generateSprite (sites) {
   // return relative path to views directory of the sprite
   const sprite = spriteDestination.replace(__dirname + "/../../views", "");
 
+  console.log("writing sites.filtered.txt");
+  await fs.outputFile(
+    __dirname + "/sites.filtered.txt",
+    (
+      await fs.readFile(__dirname + "/sites.txt", "utf-8")
+    )
+      .split("\n")
+      .filter(i => i)
+      .filter(line => sites.find(site => line.includes(site.host)))
+      .join("\n"),
+    "utf-8"
+  );
+
+  console.log("writing sites.missing.txt");
+  await fs.outputFile(
+    __dirname + "/sites.missing.txt",
+    (
+      await fs.readFile(__dirname + "/sites.txt", "utf-8")
+    )
+      .split("\n")
+      .filter(i => i)
+      .filter(line => !sites.find(site => line.includes(site.host)))
+      .join("\n"),
+    "utf-8"
+  );
+
   return {
     width: width / 2,
     height: height / 2,

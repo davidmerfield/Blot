@@ -3,7 +3,7 @@ const fetch = require("node-fetch");
 module.exports = async host => {
   try {
     const res = await fetch("https://" + host + "/verify/domain-setup", {
-      timeout: 2000
+      timeout: 3000
     });
 
     const body = await res.text();

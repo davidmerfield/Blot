@@ -15,7 +15,8 @@ html {
   --border-color: #403E3C;
   --dark-border-color: #575653;
   --light-border-color: #343331;
-
+  --inset-image-border-color: rgba(255,255,255,0.05);
+  
   --large-border-radius: 10px;
   --border-radius: 5px;
   

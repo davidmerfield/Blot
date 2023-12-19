@@ -3,27 +3,23 @@
 <div style="display: flex;">
 
     <div style="flex-basis:50%;margin-right:2em;">
-      <h2><a href="/examples" onclick="renderFeatured();return false;">People who use Blot</a></h2>
+      <h2 style="margin-bottom: 0;"><a href="/examples" onclick="renderFeatured();return false;">People who use Blot</a></h2>
       {{#featured}}
 <ul id="featured" style="list-style-type: none;
 padding: 0;
 margin: 0;font-size:16px" class="clients">
   {{#sites}}
   <li>
-    <a target="_blank" style="display:flex;padding:8px 0" rel="noopener" href="{{{link}}}">
+    <a target="_blank" style="display:flex;padding:8px 0 12px;align-items: center;" rel="noopener" href="{{{link}}}">
       <span
         style="display:block;flex-shrink:0;background: var(--light-background-color) url('{{#cdn}}{{sprite}}{{/cdn}}');background-size: {{width}}px;
-  background-position:-{{x}}px -{{y}}px;width:{{thumbnail_width}}px;height:{{thumbnail_width}}px;border-radius: 4em;margin: 4px 1em 4px 0;box-shadow: inset 0 0 0 1px rgba(255,255,255,0.05);
+  background-position:-{{x}}px -{{y}}px;width:{{thumbnail_width}}px;height:{{thumbnail_width}}px;border-radius: 4em;margin: 4px 1em 0 0;box-shadow: inset 0 0 0 1px var(--inset-image-border-color);
   transition: transform .1s ease;transform: scale(1);">
   </span>
 
   <span>
-
-      <span class="color-on-hover">{{name}}</span>
-
-      <span style="color:var(--light-text-color)">{{bio}}</span><br>
-
-    <span style="font-size: var(--small-font-size);color:var(--light-text-color)">{{host}} &bull; Joined {{joined}}</span>
+      <span class="color-on-hover">{{name}}</span> <span style="color:var(--light-text-color)">{{bio}}</span>
+      <span style="font-size: var(--small-font-size);color:var(--light-text-color);display:block">{{host_without_www}} &bull; Joined {{joined}}</span>
   </span>
 </a>
   </li>

@@ -8,5 +8,15 @@ const fs = require("fs-extra");
 
 module.exports = async function (req, res, next) {
   res.locals.featured = await fs.readJSON(__dirname + "/data/featured.json");
+
+  res.locals.featured.sites = res.locals.featured.sites
+    .filter(i => i.joined)
+    .map(i => {
+      return {
+        ...i,
+        host_without_www: i.host.replace(/^www\./, "")
+      };
+    });
+
   next();
 };
