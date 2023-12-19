@@ -1,27 +1,4 @@
-# Portfolio template
-
-The _Portfolio_ template is designed for portfolios and posts with code. It features a minimal index page.{{#featured.length}}These people use the _Portfolio_ template:{{/featured.length}}
-
-{{#featured}}\* [{{#favicon.coordinates}} {{/favicon.coordinates}} {{name}} {{bio}}.]({{{link}}})
-{{/featured}}
-
-## Customize this template
-
-You can adjust the colors and fonts of the _Portfolio_ template using Blot's template editor: there's no coding required.
-
-The source code of the _Portfolio_ template is dedicated to the public domain, so you can make and distribute modifications to it as you please.
-
-[View the source code](https://github.com/davidmerfield/Blot/tree/master/app/templates/latest/portfolio)
-
-## About the folder
-
-The [preview]({{{preview}}}) for the _Portfolio_ template contains some of the photography of Björn Allard. You can get a full copy of the source folder used to generate this site.
-
-[Download folder (.zip)]({{#cdn}}/templates/data/{{folder}}.zip{{/cdn}})
-
-{{> folder-viewer}}
-
-## About the template
+The _Portfolio_ template is designed for portfolios and posts with code. It features a minimal index page.
 
 We must pay respects to indexhibit.org, who are most directly responsible for the layout of this template. A few other references:
 

@@ -1,27 +1,4 @@
-# Reference template
-
-The _Reference_ template is designed for a database of photos and links. It features a grid of small thumbnails for your posts on its index page. It prominently features the tags used on your site. {{#featured.length}}These people use the _Reference_ template:{{/featured.length}}
-
-{{#featured}}\* [{{#favicon.coordinates}} {{/favicon.coordinates}} {{name}} {{bio}}.]({{{link}}})
-{{/featured}}
-
-## Customize this template
-
-You can adjust the colors and fonts of the _Reference_ template using Blot's template editor: there's no coding required.
-
-The source code of the _Reference_ template is dedicated to the public domain, so you can make and distribute modifications to it as you please.
-
-[View the source code](https://github.com/davidmerfield/Blot/tree/master/app/templates/latest/reference)
-
-## About the folder
-
-The [preview]({{{preview}}}) for the _Reference_ template contains the photography of Frances Benjamin Johnston. You can get a full copy of the source folder used to generate this site.
-
-[Download folder (.zip)]({{#cdn}}/templates/data/{{folder}}.zip{{/cdn}})
-
-{{> folder-viewer}}
-
-## About the template
+The _Reference_ template is designed for a database of photos and links. It features a grid of small thumbnails for your posts on its index page. It prominently features the tags used on your site.
 
 The layout of the grid itself was taken from [Are.na](https://www.are.na/) with a few tweaks to my taste. The global navigation is designed to get out of the way. It features prominent links to your pages and a list of the tags used on your reference.
 

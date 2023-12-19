@@ -100,9 +100,11 @@ module.exports = async (req, res, next) => {
         1
       );
 
-      res.locals.template.README = await fs.readFile(
-        templatesDirectory + "/" + req.params.template + "/README",
-        "utf8"
+      res.locals.template.README = marked(
+        await fs.readFile(
+          templatesDirectory + "/" + req.params.template + "/README",
+          "utf8"
+        )
       );
     } catch (e) {}
   }
