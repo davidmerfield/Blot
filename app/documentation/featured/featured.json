@@ -11,7 +11,7 @@
       "classname": "zacharykeeting-com",
       "coordinates": {
         "x": 384,
-        "y": 240,
+        "y": 288,
         "width": 48,
         "height": 48,
         "background_width": 432
@@ -30,7 +30,7 @@
       "classname": "www-souloftheimage-com",
       "coordinates": {
         "x": 384,
-        "y": 96,
+        "y": 144,
         "width": 48,
         "height": 48,
         "background_width": 432
@@ -66,8 +66,8 @@
       "name": "blog.andrewjanjigian.com.png",
       "classname": "blog-andrewjanjigian-com",
       "coordinates": {
-        "x": 48,
-        "y": 48,
+        "x": 96,
+        "y": 0,
         "width": 48,
         "height": 48,
         "background_width": 432
@@ -86,7 +86,7 @@
       "classname": "hannautkin-com",
       "coordinates": {
         "x": 192,
-        "y": 48,
+        "y": 96,
         "width": 48,
         "height": 48,
         "background_width": 432
@@ -105,7 +105,7 @@
       "classname": "keywords-oxus-net",
       "coordinates": {
         "x": 240,
-        "y": 48,
+        "y": 96,
         "width": 48,
         "height": 48,
         "background_width": 432
@@ -123,8 +123,8 @@
       "name": "com.johnbeeler.com.jpg",
       "classname": "com-johnbeeler-com",
       "coordinates": {
-        "x": 96,
-        "y": 96,
+        "x": 144,
+        "y": 0,
         "width": 48,
         "height": 48,
         "background_width": 432
@@ -151,7 +151,7 @@
       "name": "discombobulated.co.nz.jpg",
       "classname": "discombobulated-co-nz",
       "coordinates": {
-        "x": 48,
+        "x": 96,
         "y": 144,
         "width": 48,
         "height": 48,
@@ -180,7 +180,7 @@
       "classname": "blog-aurynn-com",
       "coordinates": {
         "x": 96,
-        "y": 0,
+        "y": 48,
         "width": 48,
         "height": 48,
         "background_width": 432
@@ -199,7 +199,7 @@
       "classname": "www-alexgibson-nyc",
       "coordinates": {
         "x": 336,
-        "y": 48,
+        "y": 96,
         "width": 48,
         "height": 48,
         "background_width": 432
@@ -226,8 +226,8 @@
       "name": "john.pavlusoffice.com.jpg",
       "classname": "john-pavlusoffice-com",
       "coordinates": {
-        "x": 192,
-        "y": 192,
+        "x": 240,
+        "y": 0,
         "width": 48,
         "height": 48,
         "background_width": 432
@@ -254,7 +254,7 @@
       "name": "iiiiiiiii.in.jpg",
       "classname": "iiiiiiiii-in",
       "coordinates": {
-        "x": 0,
+        "x": 48,
         "y": 192,
         "width": 48,
         "height": 48,
@@ -282,7 +282,7 @@
       "name": "www.failuretolerated.com.jpg",
       "classname": "www-failuretolerated-com",
       "coordinates": {
-        "x": 0,
+        "x": 48,
         "y": 336,
         "width": 48,
         "height": 48,
@@ -301,8 +301,8 @@
       "name": "mrfrisby.com.jpg",
       "classname": "mrfrisby-com",
       "coordinates": {
-        "x": 240,
-        "y": 192,
+        "x": 0,
+        "y": 240,
         "width": 48,
         "height": 48,
         "background_width": 432
@@ -329,7 +329,7 @@
       "name": "vaughntan.org.jpg",
       "classname": "vaughntan-org",
       "coordinates": {
-        "x": 144,
+        "x": 192,
         "y": 288,
         "width": 48,
         "height": 48,
@@ -348,8 +348,8 @@
       "name": "blog.pixelswithin.com.jpg",
       "classname": "blog-pixelswithin-com",
       "coordinates": {
-        "x": 96,
-        "y": 48,
+        "x": 0,
+        "y": 96,
         "width": 48,
         "height": 48,
         "background_width": 432
@@ -367,7 +367,7 @@
       "name": "eli.li.jpg",
       "classname": "eli-li",
       "coordinates": {
-        "x": 96,
+        "x": 144,
         "y": 144,
         "width": 48,
         "height": 48,
@@ -405,7 +405,7 @@
       "classname": "www-elisamirkil-com",
       "coordinates": {
         "x": 336,
-        "y": 240,
+        "y": 288,
         "width": 48,
         "height": 48,
         "background_width": 432
@@ -423,7 +423,7 @@
       "name": "paul.af.jpg",
       "classname": "paul-af",
       "coordinates": {
-        "x": 144,
+        "x": 192,
         "y": 240,
         "width": 48,
         "height": 48,
@@ -442,8 +442,8 @@
       "name": "diary.craigwhite.nyc.png",
       "classname": "diary-craigwhite-nyc",
       "coordinates": {
-        "x": 144,
-        "y": 96,
+        "x": 0,
+        "y": 144,
         "width": 48,
         "height": 48,
         "background_width": 432
@@ -462,7 +462,7 @@
       "classname": "shashwati-com",
       "coordinates": {
         "x": 288,
-        "y": 0,
+        "y": 48,
         "width": 48,
         "height": 48,
         "background_width": 432
@@ -481,7 +481,7 @@
       "classname": "mariusmasalar-me",
       "coordinates": {
         "x": 240,
-        "y": 96,
+        "y": 144,
         "width": 48,
         "height": 48,
         "background_width": 432
@@ -499,7 +499,7 @@
       "name": "www.ishshah.me.jpg",
       "classname": "www-ishshah-me",
       "coordinates": {
-        "x": 144,
+        "x": 192,
         "y": 336,
         "width": 48,
         "height": 48,
@@ -519,7 +519,7 @@
       "classname": "www-chrbutler-com",
       "coordinates": {
         "x": 336,
-        "y": 144,
+        "y": 192,
         "width": 48,
         "height": 48,
         "background_width": 432
@@ -601,7 +601,7 @@
       "name": "inhab.it.jpg",
       "classname": "inhab-it",
       "coordinates": {
-        "x": 48,
+        "x": 96,
         "y": 192,
         "width": 48,
         "height": 48,
@@ -630,7 +630,7 @@
       "classname": "www-skellis-net",
       "coordinates": {
         "x": 384,
-        "y": 0,
+        "y": 48,
         "width": 48,
         "height": 48,
         "background_width": 432
@@ -648,7 +648,7 @@
       "name": "jeremysarber.com.jpg",
       "classname": "jeremysarber-com",
       "coordinates": {
-        "x": 96,
+        "x": 144,
         "y": 192,
         "width": 48,
         "height": 48,
@@ -667,8 +667,8 @@
       "name": "ianamurray.work.png",
       "classname": "ianamurray-work",
       "coordinates": {
-        "x": 192,
-        "y": 144,
+        "x": 0,
+        "y": 192,
         "width": 48,
         "height": 48,
         "background_width": 432
@@ -696,7 +696,7 @@
       "classname": "www-dustinsenos-com",
       "coordinates": {
         "x": 336,
-        "y": 192,
+        "y": 240,
         "width": 48,
         "height": 48,
         "background_width": 432
@@ -714,7 +714,7 @@
       "name": "theocasciani.page.png",
       "classname": "theocasciani-page",
       "coordinates": {
-        "x": 96,
+        "x": 144,
         "y": 288,
         "width": 48,
         "height": 48,
@@ -733,7 +733,7 @@
       "name": "diklein.com.jpg",
       "classname": "diklein-com",
       "coordinates": {
-        "x": 0,
+        "x": 48,
         "y": 144,
         "width": 48,
         "height": 48,
@@ -761,8 +761,8 @@
       "name": "www.emilycass.org.jpg",
       "classname": "www-emilycass-org",
       "coordinates": {
-        "x": 336,
-        "y": 288,
+        "x": 0,
+        "y": 336,
         "width": 48,
         "height": 48,
         "background_width": 432
@@ -789,7 +789,7 @@
       "name": "jessytuddenham.com.jpg",
       "classname": "jessytuddenham-com",
       "coordinates": {
-        "x": 144,
+        "x": 192,
         "y": 192,
         "width": 48,
         "height": 48,
@@ -808,7 +808,7 @@
       "name": "bnjmnmddn.com.jpg",
       "classname": "bnjmnmddn-com",
       "coordinates": {
-        "x": 0,
+        "x": 48,
         "y": 96,
         "width": 48,
         "height": 48,
@@ -827,7 +827,7 @@
       "name": "www.jsoliday.com.jpg",
       "classname": "www-jsoliday-com",
       "coordinates": {
-        "x": 192,
+        "x": 240,
         "y": 336,
         "width": 48,
         "height": 48,
@@ -855,8 +855,8 @@
       "name": "tellyou.today.jpg",
       "classname": "tellyou-today",
       "coordinates": {
-        "x": 288,
-        "y": 240,
+        "x": 0,
+        "y": 288,
         "width": 48,
         "height": 48,
         "background_width": 432
@@ -893,7 +893,7 @@
       "classname": "xn--gntherwegs-9db-com",
       "coordinates": {
         "x": 384,
-        "y": 192,
+        "y": 240,
         "width": 48,
         "height": 48,
         "background_width": 432
@@ -911,7 +911,7 @@
       "name": "thejollyteapot.com.png",
       "classname": "thejollyteapot-com",
       "coordinates": {
-        "x": 48,
+        "x": 96,
         "y": 288,
         "width": 48,
         "height": 48,
@@ -939,7 +939,7 @@
       "name": "brainsister.com.jpg",
       "classname": "brainsister-com",
       "coordinates": {
-        "x": 48,
+        "x": 96,
         "y": 96,
         "width": 48,
         "height": 48,
@@ -958,7 +958,7 @@
       "name": "poetry.bencallahan.com.jpg",
       "classname": "poetry-bencallahan-com",
       "coordinates": {
-        "x": 192,
+        "x": 240,
         "y": 240,
         "width": 48,
         "height": 48,
@@ -977,7 +977,7 @@
       "name": "www.maxkeith.co.png",
       "classname": "www-maxkeith-co",
       "coordinates": {
-        "x": 240,
+        "x": 288,
         "y": 336,
         "width": 48,
         "height": 48,
@@ -996,8 +996,8 @@
       "name": "www.aarondowd.com.jpg",
       "classname": "www-aarondowd-com",
       "coordinates": {
-        "x": 288,
-        "y": 288,
+        "x": 336,
+        "y": 0,
         "width": 48,
         "height": 48,
         "background_width": 432
@@ -1016,7 +1016,7 @@
       "classname": "www-thoughtsbyora-com",
       "coordinates": {
         "x": 384,
-        "y": 144,
+        "y": 192,
         "width": 48,
         "height": 48,
         "background_width": 432
@@ -1035,7 +1035,7 @@
       "classname": "spittingdog-net",
       "coordinates": {
         "x": 288,
-        "y": 192,
+        "y": 240,
         "width": 48,
         "height": 48,
         "background_width": 432
@@ -1062,7 +1062,7 @@
       "name": "windhausen.co.jpg",
       "classname": "windhausen-co",
       "coordinates": {
-        "x": 240,
+        "x": 288,
         "y": 288,
         "width": 48,
         "height": 48,
@@ -1100,8 +1100,8 @@
       "name": "reillybrennan.com.png",
       "classname": "reillybrennan-com",
       "coordinates": {
-        "x": 240,
-        "y": 240,
+        "x": 288,
+        "y": 0,
         "width": 48,
         "height": 48,
         "background_width": 432
@@ -1119,7 +1119,7 @@
       "name": "victoriaclarke.art.png",
       "classname": "victoriaclarke-art",
       "coordinates": {
-        "x": 192,
+        "x": 240,
         "y": 288,
         "width": 48,
         "height": 48,
@@ -1139,7 +1139,7 @@
       "classname": "www-adamsandell-com",
       "coordinates": {
         "x": 336,
-        "y": 0,
+        "y": 48,
         "width": 48,
         "height": 48,
         "background_width": 432
@@ -1158,7 +1158,7 @@
       "classname": "sidenote-ridwansanusi-com",
       "coordinates": {
         "x": 288,
-        "y": 96,
+        "y": 144,
         "width": 48,
         "height": 48,
         "background_width": 432
@@ -1177,7 +1177,7 @@
       "classname": "max-engineer",
       "coordinates": {
         "x": 240,
-        "y": 144,
+        "y": 192,
         "width": 48,
         "height": 48,
         "background_width": 432
@@ -1195,7 +1195,7 @@
       "name": "oliviaastawood.com.png",
       "classname": "oliviaastawood-com",
       "coordinates": {
-        "x": 96,
+        "x": 144,
         "y": 240,
         "width": 48,
         "height": 48,
@@ -1215,7 +1215,7 @@
       "classname": "jonahfoss-com",
       "coordinates": {
         "x": 240,
-        "y": 0,
+        "y": 48,
         "width": 48,
         "height": 48,
         "background_width": 432
@@ -1233,7 +1233,7 @@
       "name": "www.nitinpai.in.jpg",
       "classname": "www-nitinpai-in",
       "coordinates": {
-        "x": 288,
+        "x": 336,
         "y": 336,
         "width": 48,
         "height": 48,
@@ -1253,7 +1253,7 @@
       "classname": "dannymcclainstudio-com",
       "coordinates": {
         "x": 144,
-        "y": 0,
+        "y": 48,
         "width": 48,
         "height": 48,
         "background_width": 432
