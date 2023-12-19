@@ -1,4 +1,5 @@
 html {
+
   --background-color: #100F0F;
   --light-background-color: #1C1B1A;
 
@@ -16,7 +17,7 @@ html {
   --dark-border-color: #575653;
   --light-border-color: #343331;
   --inset-image-border-color: rgba(255,255,255,0.05);
-  
+
   --large-border-radius: 10px;
   --border-radius: 5px;
   
@@ -29,6 +30,68 @@ html {
   --spacing: 1rem;
 
   --max-width: 840px;
+}
+
+/* light mode colors */ 
+@media (prefers-color-scheme: light) {
+  html {
+
+  --background-color: #FFFCF0;
+  --light-background-color: #E6E4D9;
+
+  --text-color: #100F0F;
+  --medium-text-color: #6F6E69;
+  --light-text-color: #B7B5AC;
+
+  --accent-color: #4385BE; /* used for links */
+  --light-accent-color: #4385BE; /* used for button background */
+  --dark-accent-color:#205EA6; /* used for button hover background*/
+
+  --secondary-accent-color: #66800B;
+
+  --border-color: #403E3C;
+  --dark-border-color: #575653;
+  --light-border-color: #343331;
+
+  --inset-image-border-color: rgba(0,0,0,0.05);
+  
+  }  
+}
+
+
+/* invert colors for print */
+@media print {
+  
+  body > section > section:first-child,
+  body > .header {
+    display: none;
+  }
+
+  body > section > section {
+    padding: 0!important;
+    margin: 0!important;
+  }
+
+  html {
+    
+    --background-color: #fff;
+    --light-background-color: #fff;
+
+    --text-color: #000;
+    --medium-text-color: #000;
+    --light-text-color: #000;
+
+    --accent-color: blue;
+    --light-accent-color: blue;
+    --dark-accent-color: blue;
+
+    --secondary-accent-color: blue;
+
+    --border-color: #000;
+    --dark-border-color: #000;
+    --light-border-color: #000;
+    --inset-image-border-color: rgba(0,0,0,0.05);
+  }
 }
 
 html,
