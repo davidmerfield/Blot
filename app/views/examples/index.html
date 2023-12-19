@@ -28,14 +28,7 @@ margin: 0;font-size:16px" class="clients">
   {{/sites}}
 </ul>
 {{/featured}}
-<style>
-  li[data-hue] a span.color-on-hover {
-    color:var(--text-color)
-    }
-  li[data-hue] a:hover span.color-on-hover {
-    color: var(--accent-color)
-  }
-</style>
+
 <!-- shuffle the order of <li> sites in #featured and limit number to 24 sites -->
 <script>
   var featured = document.getElementById("featured");
@@ -91,7 +84,7 @@ renderFeatured();
     {{#allTemplates}}
     <li>
       <a href="/examples/templates/{{slug}}" style="display: flex;align-items: center;justify-content: space-between">
-          <span style="font-size: 24px;">{{name}}</span>
+          <span class="color-on-hover" style="font-size: 24px;">{{name}}</span>
           <img
           src="{{#cdn}}/images/examples/{{slug}}/0-thumb.png{{/cdn}}"
           style="width:48px;height:48px;border-radius: 4px;margin: 4px 0 6px;"
@@ -107,7 +100,7 @@ renderFeatured();
     {{#allFolders}}
     <li>
       <a href="/examples/folders/{{slug}}" style="display: flex;align-items: center;justify-content: space-between;">
-          <span style="font-size: 24px;">{{name}}</span>
+          <span class="color-on-hover" style="font-size: 24px;">{{name}}</span>
           <img
           src="{{#cdn}}/images/examples/{{slug}}/0-thumb.png{{/cdn}}"
           style="width:48px;height:48px;border-radius: 4px;margin: 4px 0 6px;"
@@ -119,3 +112,13 @@ renderFeatured();
   </div>
 
 </div>
+<style>
+  span.color-on-hover,
+  li[data-hue] a span.color-on-hover {
+    color:var(--text-color)
+    }
+    a:hover span.color-on-hover,
+  li[data-hue] a:hover span.color-on-hover {
+    color: var(--accent-color)
+  }
+</style>
