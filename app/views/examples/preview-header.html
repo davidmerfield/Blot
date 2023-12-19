@@ -1,13 +1,17 @@
 <h1 style="padding:0">{{name}}</h1>
 
-<a class="bordered-button" href="{{{preview}}}" target="_blank">Visit preview site &puncsp;↗<br><span style="font-size: var(--small-font-size);color:var(--light-text-color)">blog..blot.im</span> 
+<a class="bordered-button" href="{{{preview}}}" target="_blank">Visit preview site &puncsp;↗<br><span style="font-size: var(--small-font-size);color:var(--light-text-color)">{{preview_host}}</span> 
 </a>
-<a class="bordered-button" href="/sign-up">Download folder &puncsp;↓<br><span style="font-size: var(--small-font-size);color:var(--light-text-color)">blog.zip 15.5mb</span> </a>
+<a class="bordered-button" href="{{#cdn}}{{{zip}}}{{/cdn}}">Download folder &puncsp;↓<br><span style="font-size: var(--small-font-size);color:var(--light-text-color)">{{zip_name}} {{zip_size}}</span> </a>
 
 <br><br>
 
 <style type="text/css">
-	a.bordered-button {margin-right:1.4em}
+a.bordered-button {
+  margin-right: 1.4em;
+  line-height: 1.1;
+  padding: 10px 16px;
+}
 
 	a .browser {border: 1px solid var(--light-border-color);border-radius: 6px;display: block;padding: 1rem 1rem 0;}
 

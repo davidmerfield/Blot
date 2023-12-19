@@ -1,7 +1,7 @@
 const config = require("config");
 const fs = require("fs-extra");
 const marked = require("marked");
-
+const prettySize = require("helper/prettySize");
 const templatesDirectory = __dirname + "/../templates/latest";
 const foldersDirectory = __dirname + "/../templates/folders";
 
@@ -70,14 +70,35 @@ module.exports = async (req, res, next) => {
         ...template
       };
 
-      res.locals.template.preview =
-        config.protocol +
+      const preview_host =
         "preview-of-" +
         req.params.template +
         "-on-" +
-        res.locals.template.folder +
+        template.demo_folder +
         "." +
         config.host;
+
+      res.locals.template.preview = config.protocol + preview_host;
+      res.locals.template.preview_host = preview_host;
+
+      const zip_name = template.demo_folder + ".zip";
+      const zip = "/folders/" + zip_name;
+      const pathToZip = config.blot_directory + "/app/documentation/data" + zip;
+
+      res.locals.template.zip = zip;
+      res.locals.template.zip_name = zip_name;
+
+      console.log(
+        "pathToZip",
+        pathToZip,
+        "zipExists",
+        fs.existsSync(pathToZip)
+      );
+
+      res.locals.template.zip_size = prettySize(
+        fs.statSync(pathToZip).size / 1000,
+        1
+      );
 
       res.locals.template.README = await fs.readFile(
         templatesDirectory + "/" + req.params.template + "/README",
@@ -87,7 +108,24 @@ module.exports = async (req, res, next) => {
   }
 
   if (req.params.folder) {
-    res.locals.folder = { ...folders.find(i => i.slug === req.params.folder) };
+    const folder = folders.find(i => i.slug === req.params.folder);
+
+    if (!folder) return next();
+
+    res.locals.folder = { ...folder };
+
+    // load zip information
+
+    const zip_name = req.params.folder + ".zip";
+    const zip = "/folders/" + zip_name;
+    const pathToZip = config.blot_directory + "/app/documentation/data" + zip;
+
+    res.locals.folder.zip = zip;
+    res.locals.folder.zip_name = zip_name;
+    res.locals.folder.zip_size = prettySize(
+      fs.statSync(pathToZip).size / 1000,
+      1
+    );
   }
 
   next();
