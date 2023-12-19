@@ -30,9 +30,9 @@ jobs:
           cd data/pandoc
           wget https://github.com/jgm/pandoc/releases/download/${{ matrix.pandoc-version }}/pandoc-${{ matrix.pandoc-version }}-macOS.zip -O pandoc.zip
           unzip pandoc.zip
-          echo "$(pwd)/pandoc/pandoc-3.1.1/bin" >> $GITHUB_PATH
-          echo "BLOT_PANDOC_PATH=$(which pandoc)" >> $GITHUB_ENV
-          pandoc --version
+          echo "BLOT_PANDOC_PATH=$(pwd)/pandoc/pandoc-3.1.1/bin/pandoc" >> $GITHUB_ENV
+          $BLOT_PANDOC_PATH --version
+          cd ../..
 
       - name: Use dnsmasq to resolve blot.development
         run: |
