@@ -30,6 +30,7 @@ jobs:
           cd data/pandoc
           wget https://github.com/jgm/pandoc/releases/download/${{ matrix.pandoc-version }}/pandoc-${{ matrix.pandoc-version }}-macOS.zip -O pandoc.zip
           unzip pandoc.zip
+          export BLOT_PANDOC_PATH=$(pwd)/pandoc/pandoc-3.1.1/bin/pandoc
           echo "BLOT_PANDOC_PATH=$(pwd)/pandoc/pandoc-3.1.1/bin/pandoc" >> $GITHUB_ENV
           $BLOT_PANDOC_PATH --version
           cd ../..
