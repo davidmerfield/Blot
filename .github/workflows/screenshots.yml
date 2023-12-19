@@ -5,6 +5,7 @@ on:
     branches:
       - master
     paths:
+      - ".github/workflows/screenshots.yml"
       - "app/templates/**"
 
 jobs:
@@ -13,7 +14,6 @@ jobs:
 
     strategy:
       matrix:
-        # If you ever add more node versions you need to replace current caching node_modules with caching of ~/.npm
         node-version: [16.14.0]
         pandoc-version: [3.1.1]
         redis-version: [6.2.6]
@@ -23,6 +23,17 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+
+      - name: Set up Pandoc on macos
+        run: |
+          mkdir -p data/pandoc
+          cd data/pandoc
+          wget https://github.com/jgm/pandoc/releases/download/${{ matrix.pandoc-version }}/pandoc-${{ matrix.pandoc-version }}-macOS.zip -O pandoc.zip
+          unzip pandoc.zip
+          export BLOT_PANDOC_PATH=$(pwd)/pandoc-3.1.1/bin/pandoc
+          echo "BLOT_PANDOC_PATH=$(pwd)/pandoc-3.1.1/bin/pandoc" >> $GITHUB_ENV
+          $BLOT_PANDOC_PATH --version
+          cd ../..
 
       - name: Use dnsmasq to resolve blot.development
         run: |
@@ -36,24 +47,6 @@ jobs:
           sudo brew services restart dnsmasq
           sudo killall -HUP mDNSResponder
           scutil --dns
-
-      - name: Cache Pandoc installation
-        id: pandoc
-        uses: actions/cache@v2
-        with:
-          path: data/pandoc
-          key: ${{ runner.os }}-pandoc-${{ matrix.pandoc-version }}
-
-      - name: Set up Pandoc
-        if: steps.pandoc.outputs.cache-hit != 'true'
-        run: |
-          mkdir -p data/pandoc
-          cd data/pandoc
-          wget https://github.com/jgm/pandoc/releases/download/${{ matrix.pandoc-version }}/pandoc-${{ matrix.pandoc-version }}-linux-amd64.tar.gz -O pandoc.tar.gz
-          mkdir pandoc
-          tar xvzf pandoc.tar.gz --strip-components 1 -C pandoc
-          echo "$(pwd)/pandoc/bin" >> $GITHUB_PATH
-          echo "BLOT_PANDOC_PATH=$(which pandoc)" >> $GITHUB_ENV
 
       - name: Set up Node
         uses: actions/setup-node@v2
