@@ -141,6 +141,7 @@ function setupBlogs (user, folders, callback) {
       async.eachOfSeries(
         blogs,
         function ({ path, blog }, id, next) {
+          console.log("Building folder", path, "for blog", blog.handle);
           const update = updates[blog.handle] || {};
 
           Blog.set(id, update, async function (err) {
@@ -150,7 +151,9 @@ function setupBlogs (user, folders, callback) {
             // with the contents of the folder 'path', overwriting anything
             // and removing anything that is not in 'path'
             await fs.remove(localPath(blog.id, "/"));
-            await fs.copy(path, localPath(blog.id, "/"));
+            await fs.copy(path, localPath(blog.id, "/"), {
+              preserveTimestamps: true
+            });
 
             // resync the folder
             sync(blog.id, async function (err, folder, done) {
@@ -185,6 +188,7 @@ function setupBlogs (user, folders, callback) {
               fix(blog, function (err) {
                 if (err) return done(err);
 
+                console.log("Built folder", path, "for blog", blog.handle);
                 done(null, next);
               });
             });

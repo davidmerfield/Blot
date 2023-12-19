@@ -36,7 +36,7 @@ async function main (site, path, options = {}) {
     options.height !== undefined
       ? options.height
       : options.mobile === true
-      ? 1218
+      ? 1018
       : 778;
 
   // console.log('using width', width, 'height', height);
@@ -50,9 +50,20 @@ async function main (site, path, options = {}) {
 
   // console.log('going to site',site);
   await fs.ensureDir(dirname(path));
-  await page.goto(site);
+  // page.goto site and wait for all the images to load
+  // up to a maximum of 20 seconds
+  await page.goto(site, { waitUntil: "networkidle0", timeout: 20000 });
+
   // console.log('went to site');
-  await page.screenshot({ path: path });
+  // it's important to capture the screenshot in max resolution
+  // and without compression so multiple iterations on the same
+  // page produce the same result when diffed
+  await page.screenshot({
+    path: path,
+    type: "png",
+    omitBackground: true
+  });
+
   // console.log('took screenshot');
   await browser.close();
   // console.log('closed browser');
