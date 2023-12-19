@@ -54,10 +54,10 @@
       action="/questions/{{ topic.id }}/new"
       >
       {{> textarea}}
-      <div class="qa-form-actionarea">
-        <button id="post-reply-button" class="whitebutton">Add reply</button>
-        <span class="secondary-text">Markdown allowed</span>
-      </div>
+      <input
+          type="submit"
+          value="Reply"
+          onclick="this.classList.add('working')" />
     </form>
   </div>
 

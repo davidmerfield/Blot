@@ -16,16 +16,17 @@
     <div>
       <br>
             <label><strong>Body</strong></label>
-
-      <textarea  type="text" name="body" id="body" >{{topic.body}}</textarea>
+            {{#topic}}
+{{> textarea}}
+{{/topic}}
     </div>
-    <input type="submit" value="Save changes">
+    <input type="submit" value="Save changes" onclick="this.classList.add('working')" />
   </form>
 </div>
 
 
 <script src="/js/tagify.js"></script>
-            <link href="/css/tagify.css" rel="stylesheet" type="text/css" />
+<link href="/css/tagify.css" rel="stylesheet" type="text/css" />
 <style type="text/css">
  tags {
     min-width: 100%;

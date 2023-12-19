@@ -9,13 +9,15 @@
       <label><strong>Body</strong></label>
       {{> textarea}}
 
-      {{^user}}
+      <!-- {{^user}}
       <label><strong>Email</strong></label>
       <input type="text" name="email" id="email" required="" placeholder="Your email address"></input>
-      {{/user}}
+      {{/user}} -->
         <br>
-<input type="submit" value="Ask your question">     
-
+        <input
+        type="submit"
+        value="Ask question"
+        onclick="this.classList.add('working')" />
 </form>
 
 

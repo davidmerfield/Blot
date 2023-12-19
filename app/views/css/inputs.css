@@ -24,8 +24,10 @@ input[type="submit"]:focus {
   outline: none;
 }
 
-input[type="submit"].working {
-  background: #ddd;
+input[type="submit"].working,
+input[type="submit"][disabled] {
+  cursor: wait;
+  background: var(--light-background-color);
   color: var(--light-text-color);
 }
 

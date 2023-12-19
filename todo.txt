@@ -95,6 +95,8 @@ Investigate bug with org mode links and [follow up with Elliot](https://mail.goo
 Add aws cost usage and forecast to daily update email
 - https://docs.aws.amazon.com/cli/latest/reference/ce/get-cost-and-usage.html
 
+Make it possible to ask a question without logging in
+
 Can we support google docs even from Dropbox? if the doc is public?
 
 Investigate why [changes made to app/scheduler/daily/revenue.js increased the number of active blogs](https://github.com/davidmerfield/Blot/blob/494900a5dda1d916569c925adfbb6e68606c99bd/app/scheduler/daily/revenue.js#L21-L29) in my email
