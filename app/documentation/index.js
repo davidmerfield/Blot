@@ -138,6 +138,7 @@ documentation.get(
   "/examples/templates/:template",
   require("./templates"),
   (req, res, next) => {
+    if (!res.locals.template) return next();
     res.render("examples/templates/template");
   }
 );
@@ -146,6 +147,7 @@ documentation.use(
   "/examples/folders/:folder",
   require("./templates"),
   (req, res, next) => {
+    if (!res.locals.folder) return next();
     res.render("examples/folders/folder");
   }
 );

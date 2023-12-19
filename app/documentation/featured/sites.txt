@@ -59,7 +59,7 @@
 #8f5160 xn--gntherwegs-9db.com Günther, is a Weimaraner
 #979797 thejollyteapot.com Nicolas Magand, is a blogger from Strasbourg
 #2e3d5c blog.scren.dk Sören Möller, is a professor of biostatistics from Denmark
-#7a9951 brainsister.com Jessica Doyle, is a city planning researcher
+#7a9951 brainsister.com Jessica Doyle, is a writer
 #945830 poetry.bencallahan.com Ben Callahan, is a poet based in Ohio
 #6b98d2 www.maxkeith.co Max Keith, is a trail runner from Chile
 #4a7587 www.aarondowd.com Aaron Dowd, is a podcaster
@@ -68,12 +68,12 @@
 #9e4b3d nomathontheweekend.co Liana J. Taylor, is an accountant from Philadelphia
 #bb341f windhausen.co Sönke Windhausen, is a student from Freiburg
 #b07246 anitaposch.com Anita Posch, is a writer from Austria
-#d28f00 reillybrennan.com Reilly Brennan, is a venture capital fund partner
+#d28f00 reillybrennan.com Reilly Brennan, is a venture capitalist
 #d48a7d victoriaclarke.art Victoria Clarke, is an artist based in London
 #8c8c8c www.adamsandell.com Adam Sandell, is a doctor and lawyer
 #c40002 sidenote.ridwansanusi.com Ridwan Sanusi, is a designer
 #6e44b3 max.engineer Max Chernyak, is a software engineer from New York
 #f1bd00 oliviaastawood.com Olivia Wood, is a musician from Los Angeles
-#387db9 jonahfoss.com Jonah Foss, is a student at the University of Washington
+#387db9 jonahfoss.com Jonah Foss, is a student 
 #21732d www.nitinpai.in Nitin Pai, directs the Takshashila Institution
 #81e4e5 dannymcclainstudio.com Danny McClain, is an artist based in Nashville, Tennessee

@@ -147,7 +147,6 @@ async function generateSprite (sites) {
   // return relative path to views directory of the sprite
   const sprite = spriteDestination.replace(__dirname + "/../../views", "");
 
-  console.log("writing sites.filtered.txt");
   await fs.outputFile(
     __dirname + "/sites.filtered.txt",
     (
@@ -160,7 +159,6 @@ async function generateSprite (sites) {
     "utf-8"
   );
 
-  console.log("writing sites.missing.txt");
   await fs.outputFile(
     __dirname + "/sites.missing.txt",
     (

@@ -54,38 +54,14 @@ renderFeatured();
 </div>
 
 <div style="flex-basis:50%;margin-left:2em">
+
   <h2><a href="/examples/templates">Templates</a></h2>
-  
-  <ul class="clients">
-    {{#allTemplates}}
-    <li>
-      <a href="/examples/templates/{{slug}}" style="display: flex;align-items: center;justify-content: space-between">
-          <span class="color-on-hover" style="font-size: 24px;">{{name}}</span>
-          <img
-          src="{{#cdn}}/images/examples/{{slug}}/0-thumb.png{{/cdn}}"
-          style="width:48px;height:48px;border-radius: 4px;margin: 4px 0 6px;"
-            width="100" />
-        </a>
-    </li>
-    {{/allTemplates}}
-  </ul>
+  {{> template-list}}
   
   <h2><a href="/examples/folders">Folders</a></h2>
   
-  <ul class="clients">
-    {{#allFolders}}
-    <li>
-      <a href="/examples/folders/{{slug}}" style="display: flex;align-items: center;justify-content: space-between;">
-          <span class="color-on-hover" style="font-size: 24px;">{{name}}</span>
-          <img
-          src="{{#cdn}}/images/examples/{{slug}}/0-thumb.png{{/cdn}}"
-          style="width:48px;height:48px;border-radius: 4px;margin: 4px 0 6px;"
-          width="100" />
-      </a>
-    </li>
-    {{/allFolders}}
-  </ul>
-  </div>
+  {{ > folder-list}}
+</div>
 
 </div>
 <style>

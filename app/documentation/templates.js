@@ -50,8 +50,6 @@ const templates = fs
 module.exports = async (req, res, next) => {
   res.locals.allTemplates = await Promise.all(templates);
 
-  console.log("allTemplates", res.locals.allTemplates);
-
   // only include folders that are not used as templates
   res.locals.allFolders = folders.filter(
     i =>
@@ -61,26 +59,30 @@ module.exports = async (req, res, next) => {
   );
 
   if (req.params.template) {
-    res.locals.template = {
-      ...templates.find(i => i.slug === req.params.template)
-    };
-
-    res.locals.template.preview =
-      config.protocol +
-      "preview-of-" +
-      req.params.template +
-      "-on-" +
-      res.locals.template.folder +
-      "." +
-      config.host;
-
     try {
-      const markdown = await fs.readFile(
+      const template = res.locals.allTemplates.find(
+        i => i.slug === req.params.template
+      );
+
+      if (!template) return next();
+
+      res.locals.template = {
+        ...template
+      };
+
+      res.locals.template.preview =
+        config.protocol +
+        "preview-of-" +
+        req.params.template +
+        "-on-" +
+        res.locals.template.folder +
+        "." +
+        config.host;
+
+      res.locals.template.README = await fs.readFile(
         templatesDirectory + "/" + req.params.template + "/README",
         "utf8"
       );
-
-      res.locals.README = marked(markdown);
     } catch (e) {}
   }
 
