@@ -114,9 +114,10 @@ module.exports = async (req, res, next) => {
 
     res.locals.folder = { ...folder };
 
-    // load zip information
+    res.locals.folder.preview_host = folder.slug + "." + config.host;
+    res.locals.folder.preview = config.protocol + res.locals.preview_host;
 
-    const zip_name = req.params.folder + ".zip";
+    const zip_name = folder.slug + ".zip";
     const zip = "/folders/" + zip_name;
     const pathToZip = config.blot_directory + "/app/documentation/data" + zip;
 
