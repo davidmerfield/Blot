@@ -24,6 +24,16 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Set up Pandoc on macos
+        run: |
+          mkdir -p data/pandoc
+          cd data/pandoc
+          wget https://github.com/jgm/pandoc/releases/download/${{ matrix.pandoc-version }}/pandoc-${{ matrix.pandoc-version }}-macOS.zip -O pandoc.zip
+          unzip pandoc.zip -d pandoc
+          echo "$(pwd)/pandoc/bin" >> $GITHUB_PATH
+          echo "BLOT_PANDOC_PATH=$(which pandoc)" >> $GITHUB_ENV
+          pandoc --version
+
       - name: Use dnsmasq to resolve blot.development
         run: |
           brew install kubernetes-cli dnsmasq
@@ -36,16 +46,6 @@ jobs:
           sudo brew services restart dnsmasq
           sudo killall -HUP mDNSResponder
           scutil --dns
-
-      - name: Set up Pandoc on macos
-        run: |
-          mkdir -p data/pandoc
-          cd data/pandoc
-          wget https://github.com/jgm/pandoc/releases/download/${{ matrix.pandoc-version }}/pandoc-${{ matrix.pandoc-version }}-macOS.zip -O pandoc.zip
-          unzip pandoc.zip -d pandoc
-          echo "$(pwd)/pandoc/bin" >> $GITHUB_PATH
-          echo "BLOT_PANDOC_PATH=$(which pandoc)" >> $GITHUB_ENV
-          pandoc --version
 
       - name: Set up Node
         uses: actions/setup-node@v2
