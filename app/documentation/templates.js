@@ -2,16 +2,19 @@ const config = require("config");
 const fs = require("fs-extra");
 const marked = require("marked");
 
-const folderForTemplate = {
-  blog: "david",
-  magazine: "interviews",
-  photo: "william",
-  portfolio: "bjorn",
-  reference: "frances"
-};
-
 const templatesDirectory = __dirname + "/../templates/latest";
 const foldersDirectory = __dirname + "/../templates/folders";
+
+const { getMetadata } = require("models/template");
+
+const getTemplate = slug =>
+  new Promise((resolve, reject) => {
+    getMetadata("SITE:" + slug, (err, template) => {
+      if (err) return reject(err);
+
+      resolve(template);
+    });
+  });
 
 const folders = fs
   .readdirSync(foldersDirectory)
@@ -19,28 +22,42 @@ const folders = fs
   .map(i => {
     return {
       name: i[0].toUpperCase() + i.slice(1),
-      slug: i,
-      folder: folderForTemplate[i]
+      slug: i
     };
   });
 
 const templates = fs
   .readdirSync(templatesDirectory)
   .filter(i => !i.startsWith(".") && !i.endsWith(".js") && !i.endsWith(".md"))
-  .map(i => {
-    return {
-      name: i[0].toUpperCase() + i.slice(1),
-      slug: i,
-      folder: folderForTemplate[i]
-    };
-  });
+  .map(
+    async i =>
+      new Promise((resolve, reject) => {
+        getTemplate(i)
+          .catch(reject)
+          .then(template => {
+            if (!template) return resolve();
+            console.log("template", template);
+            const demo_folder = template.locals.demo_folder;
+            resolve({
+              name: i[0].toUpperCase() + i.slice(1),
+              slug: i,
+              demo_folder
+            });
+          });
+      })
+  );
 
 module.exports = async (req, res, next) => {
-  res.locals.allTemplates = templates;
+  res.locals.allTemplates = await Promise.all(templates);
+
+  console.log("allTemplates", res.locals.allTemplates);
 
   // only include folders that are not used as templates
   res.locals.allFolders = folders.filter(
-    i => !Object.values(folderForTemplate).includes(i.slug)
+    i =>
+      !Object.values(res.locals.allTemplates)
+        .map(t => t.demo_folder)
+        .includes(i.slug)
   );
 
   if (req.params.template) {

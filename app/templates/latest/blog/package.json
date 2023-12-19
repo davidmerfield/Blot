@@ -19,7 +19,6 @@
     "navigation_font": {
       "font_size": 14
     },
-    
     "index_layout": "post_in_full",
     "index_layout_options": [
       "titles",
@@ -37,7 +36,8 @@
     "navigation_position_options": [
       "top",
       "bottom"
-    ]
+    ],
+    "demo_folder": "david"
   },
   "isPublic": true,
   "views": {

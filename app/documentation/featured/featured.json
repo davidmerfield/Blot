@@ -1,1263 +1,448 @@
-[
-  {
-    "link": "https://zacharykeeting.com",
-    "host": "zacharykeeting.com",
-    "color": "#e15f16",
-    "name": "Zachary Keeting",
-    "firstName": "Zachary",
-    "bio": " is an artist based in New Haven",
-    "favicon": {
-      "name": "zacharykeeting.com.jpg",
-      "classname": "zacharykeeting-com",
-      "coordinates": {
-        "x": 384,
-        "y": 288,
-        "width": 48,
-        "height": 48,
-        "background_width": 432
-      }
+{
+  "width": 384,
+  "height": 336,
+  "sprite": "/images/featured.jpg",
+  "sites": [
+    {
+      "link": "https://zacharykeeting.com",
+      "host": "zacharykeeting.com",
+      "name": "Zachary Keeting",
+      "bio": "is an artist",
+      "x": 0,
+      "y": 0
+    },
+    {
+      "link": "https://www.souloftheimage.com",
+      "host": "www.souloftheimage.com",
+      "name": "Kimberly Evans",
+      "bio": "is a photographer",
+      "x": 48,
+      "y": 0
+    },
+    {
+      "link": "https://blog.andrewjanjigian.com",
+      "host": "blog.andrewjanjigian.com",
+      "name": "Andrew Janjigian",
+      "bio": "is a photographer",
+      "x": 0,
+      "y": 48
+    },
+    {
+      "link": "https://hannautkin.com",
+      "host": "hannautkin.com",
+      "name": "Hanna Utkin",
+      "bio": "is a filmmaker",
+      "x": 48,
+      "y": 48
+    },
+    {
+      "link": "https://keywords.oxus.net",
+      "host": "keywords.oxus.net",
+      "name": "Kerim Friedman",
+      "bio": "teaches anthropology",
+      "x": 96,
+      "y": 0
+    },
+    {
+      "link": "https://com.johnbeeler.com",
+      "host": "com.johnbeeler.com",
+      "name": "John Beeler",
+      "bio": "is a record label director",
+      "x": 96,
+      "y": 48
+    },
+    {
+      "link": "https://discombobulated.co.nz",
+      "host": "discombobulated.co.nz",
+      "name": "Jessica Nickelsen",
+      "bio": "is a writer",
+      "x": 0,
+      "y": 96
+    },
+    {
+      "link": "https://blog.aurynn.com",
+      "host": "blog.aurynn.com",
+      "name": "Aurynn Shaw",
+      "bio": "is an engineer",
+      "x": 48,
+      "y": 96
+    },
+    {
+      "link": "https://www.alexgibson.nyc",
+      "host": "www.alexgibson.nyc",
+      "name": "Alexander Gibson",
+      "bio": "is an artist",
+      "x": 96,
+      "y": 96
+    },
+    {
+      "link": "https://john.pavlusoffice.com",
+      "host": "john.pavlusoffice.com",
+      "name": "John Pavlus",
+      "bio": "is a writer",
+      "x": 144,
+      "y": 0
+    },
+    {
+      "link": "https://iiiiiiiii.in",
+      "host": "iiiiiiiii.in",
+      "name": "Ishtaarth Dalmia",
+      "bio": "is a writer",
+      "x": 144,
+      "y": 48
+    },
+    {
+      "link": "https://www.failuretolerated.com",
+      "host": "www.failuretolerated.com",
+      "name": "Sean McCoy",
+      "bio": "is a game designer",
+      "x": 144,
+      "y": 96
+    },
+    {
+      "link": "https://mrfrisby.com",
+      "host": "mrfrisby.com",
+      "name": "Stuart Frisby",
+      "bio": "is a designer",
+      "x": 0,
+      "y": 144
+    },
+    {
+      "link": "https://vaughntan.org",
+      "host": "vaughntan.org",
+      "name": "Vaughn Tan",
+      "bio": "is a professor",
+      "x": 48,
+      "y": 144
+    },
+    {
+      "link": "https://blog.pixelswithin.com",
+      "host": "blog.pixelswithin.com",
+      "name": "Diana Lopez",
+      "bio": "is a designer and developer",
+      "x": 96,
+      "y": 144
+    },
+    {
+      "link": "https://eli.li",
+      "host": "eli.li",
+      "name": "Eli Mellen",
+      "bio": "is a web developer",
+      "x": 144,
+      "y": 144
+    },
+    {
+      "link": "https://www.elisamirkil.com",
+      "host": "www.elisamirkil.com",
+      "name": "Elisa Mirkil",
+      "bio": "is a designer",
+      "x": 192,
+      "y": 0
+    },
+    {
+      "link": "https://paul.af",
+      "host": "paul.af",
+      "name": "Paul Esch-Laurent",
+      "bio": "is a software engineer",
+      "x": 192,
+      "y": 48
+    },
+    {
+      "link": "https://diary.craigwhite.nyc",
+      "host": "diary.craigwhite.nyc",
+      "name": "Craig White",
+      "bio": "is a visual artist",
+      "x": 192,
+      "y": 96
+    },
+    {
+      "link": "https://shashwati.com",
+      "host": "shashwati.com",
+      "name": "Shashwati Talukdar",
+      "bio": "is a filmmaker",
+      "x": 192,
+      "y": 144
+    },
+    {
+      "link": "https://mariusmasalar.me",
+      "host": "mariusmasalar.me",
+      "name": "Marius Masalar",
+      "bio": "is a photographer",
+      "x": 0,
+      "y": 192
+    },
+    {
+      "link": "https://www.ishshah.me",
+      "host": "www.ishshah.me",
+      "name": "Ish Shah",
+      "bio": "is a software engineer",
+      "x": 48,
+      "y": 192
+    },
+    {
+      "link": "https://www.chrbutler.com",
+      "host": "www.chrbutler.com",
+      "name": "Chris Butler",
+      "bio": "is a designer",
+      "x": 96,
+      "y": 192
+    },
+    {
+      "link": "https://benlog.net",
+      "host": "benlog.net",
+      "name": "Ben Greenberg",
+      "bio": "is an investigative reporter",
+      "x": 144,
+      "y": 192
+    },
+    {
+      "link": "https://inhab.it",
+      "host": "inhab.it",
+      "name": "Wil Turner",
+      "bio": "is a writer",
+      "x": 192,
+      "y": 192
+    },
+    {
+      "link": "https://www.skellis.net",
+      "host": "www.skellis.net",
+      "name": "Simon Ellis",
+      "bio": "is an artist",
+      "x": 240,
+      "y": 0
+    },
+    {
+      "link": "https://jeremysarber.com",
+      "host": "jeremysarber.com",
+      "name": "Jeremy Sarber",
+      "bio": "is a chaplain",
+      "x": 240,
+      "y": 48
+    },
+    {
+      "link": "https://ianamurray.work",
+      "host": "ianamurray.work",
+      "name": "Iana Murray",
+      "bio": "is a journalist",
+      "x": 240,
+      "y": 96
+    },
+    {
+      "link": "https://www.dustinsenos.com",
+      "host": "www.dustinsenos.com",
+      "name": "Dustin Senos",
+      "bio": "is a designer",
+      "x": 240,
+      "y": 144
+    },
+    {
+      "link": "https://theocasciani.page",
+      "host": "theocasciani.page",
+      "name": "Théo Casciani",
+      "bio": "is a writer",
+      "x": 240,
+      "y": 192
+    },
+    {
+      "link": "https://diklein.com",
+      "host": "diklein.com",
+      "name": "David Klein",
+      "bio": "is a designer",
+      "x": 0,
+      "y": 240
+    },
+    {
+      "link": "https://www.emilycass.org",
+      "host": "www.emilycass.org",
+      "name": "Emily Cass",
+      "bio": "is an architect",
+      "x": 48,
+      "y": 240
+    },
+    {
+      "link": "https://jessytuddenham.com",
+      "host": "jessytuddenham.com",
+      "name": "Jessy Tuddenham",
+      "bio": "is a dancer",
+      "x": 96,
+      "y": 240
+    },
+    {
+      "link": "https://bnjmnmddn.com",
+      "host": "bnjmnmddn.com",
+      "name": "Benjamin Madden",
+      "bio": "is an academic",
+      "x": 144,
+      "y": 240
+    },
+    {
+      "link": "https://www.jsoliday.com",
+      "host": "www.jsoliday.com",
+      "name": "J. Soliday",
+      "bio": "is an electronic musician",
+      "x": 192,
+      "y": 240
+    },
+    {
+      "link": "https://tellyou.today",
+      "host": "tellyou.today",
+      "name": "Neale Stokes",
+      "bio": "is a librarian",
+      "x": 240,
+      "y": 240
+    },
+    {
+      "link": "https://xn--gntherwegs-9db.com",
+      "host": "güntherwegs.com",
+      "name": "Günther",
+      "bio": "is a Weimaraner",
+      "x": 288,
+      "y": 0
+    },
+    {
+      "link": "https://thejollyteapot.com",
+      "host": "thejollyteapot.com",
+      "name": "Nicolas Magand",
+      "bio": "is a blogger",
+      "x": 288,
+      "y": 48
+    },
+    {
+      "link": "https://brainsister.com",
+      "host": "brainsister.com",
+      "name": "Jessica Doyle",
+      "bio": "is a city planning researcher",
+      "x": 288,
+      "y": 96
+    },
+    {
+      "link": "https://poetry.bencallahan.com",
+      "host": "poetry.bencallahan.com",
+      "name": "Ben Callahan",
+      "bio": "is a poet",
+      "x": 288,
+      "y": 144
+    },
+    {
+      "link": "https://www.maxkeith.co",
+      "host": "www.maxkeith.co",
+      "name": "Max Keith",
+      "bio": "is a trail runner",
+      "x": 288,
+      "y": 192
+    },
+    {
+      "link": "https://www.aarondowd.com",
+      "host": "www.aarondowd.com",
+      "name": "Aaron Dowd",
+      "bio": "is a podcaster",
+      "x": 288,
+      "y": 240
+    },
+    {
+      "link": "https://www.thoughtsbyora.com",
+      "host": "www.thoughtsbyora.com",
+      "name": "Uzoamaka Adaora",
+      "bio": "is a writer living in Amsterdam",
+      "x": 0,
+      "y": 288
+    },
+    {
+      "link": "https://spittingdog.net",
+      "host": "spittingdog.net",
+      "name": "Dave Haysom",
+      "bio": "translates Chinese literature",
+      "x": 48,
+      "y": 288
+    },
+    {
+      "link": "https://windhausen.co",
+      "host": "windhausen.co",
+      "name": "Sönke Windhausen",
+      "bio": "is a student",
+      "x": 96,
+      "y": 288
+    },
+    {
+      "link": "https://anitaposch.com",
+      "host": "anitaposch.com",
+      "name": "Anita Posch",
+      "bio": "is a writer",
+      "x": 144,
+      "y": 288
+    },
+    {
+      "link": "https://reillybrennan.com",
+      "host": "reillybrennan.com",
+      "name": "Reilly Brennan",
+      "bio": "is a venture capital fund partner",
+      "x": 192,
+      "y": 288
+    },
+    {
+      "link": "https://victoriaclarke.art",
+      "host": "victoriaclarke.art",
+      "name": "Victoria Clarke",
+      "bio": "is an artist",
+      "x": 240,
+      "y": 288
+    },
+    {
+      "link": "https://www.adamsandell.com",
+      "host": "www.adamsandell.com",
+      "name": "Adam Sandell",
+      "bio": "is a doctor and lawyer",
+      "x": 288,
+      "y": 288
+    },
+    {
+      "link": "https://sidenote.ridwansanusi.com",
+      "host": "sidenote.ridwansanusi.com",
+      "name": "Ridwan Sanusi",
+      "bio": "is a designer",
+      "x": 336,
+      "y": 0
+    },
+    {
+      "link": "https://max.engineer",
+      "host": "max.engineer",
+      "name": "Max Chernyak",
+      "bio": "is a software engineer",
+      "x": 336,
+      "y": 48
+    },
+    {
+      "link": "https://oliviaastawood.com",
+      "host": "oliviaastawood.com",
+      "name": "Olivia Wood",
+      "bio": "is a musician",
+      "x": 336,
+      "y": 96
+    },
+    {
+      "link": "https://jonahfoss.com",
+      "host": "jonahfoss.com",
+      "name": "Jonah Foss",
+      "bio": "is a student at the University of Washington",
+      "x": 336,
+      "y": 144
+    },
+    {
+      "link": "https://www.nitinpai.in",
+      "host": "www.nitinpai.in",
+      "name": "Nitin Pai",
+      "bio": "directs the Takshashila Institution",
+      "x": 336,
+      "y": 192
+    },
+    {
+      "link": "https://dannymcclainstudio.com",
+      "host": "dannymcclainstudio.com",
+      "name": "Danny McClain",
+      "bio": "is an artist",
+      "x": 336,
+      "y": 240
     }
-  },
-  {
-    "link": "https://www.souloftheimage.com",
-    "host": "www.souloftheimage.com",
-    "color": "#898989",
-    "name": "Kimberly Evans",
-    "firstName": "Kimberly",
-    "bio": " is a photographer",
-    "favicon": {
-      "name": "www.souloftheimage.com.png",
-      "classname": "www-souloftheimage-com",
-      "coordinates": {
-        "x": 384,
-        "y": 144,
-        "width": 48,
-        "height": 48,
-        "background_width": 432
-      }
-    }
-  },
-  {
-    "link": "https://www.skincarriedaway.com",
-    "host": "www.skincarriedaway.com",
-    "color": "#c68256",
-    "name": "Tiffany Cecilia",
-    "firstName": "Tiffany",
-    "bio": " writes about skincare from San Francisco",
-    "favicon": "www.skincarriedaway.com.jpg"
-  },
-  {
-    "link": "https://www.tillmanjex.info",
-    "host": "www.tillmanjex.info",
-    "color": "#111111",
-    "name": "Tillman Jex",
-    "firstName": "Tillman",
-    "bio": " is a composer based in Berlin",
-    "favicon": "www.tillmanjex.info.jpg"
-  },
-  {
-    "link": "https://blog.andrewjanjigian.com",
-    "host": "blog.andrewjanjigian.com",
-    "color": "#da9a87",
-    "name": "Andrew Janjigian",
-    "firstName": "Andrew",
-    "bio": " is a photographer at Cook’s Illustrated",
-    "favicon": {
-      "name": "blog.andrewjanjigian.com.png",
-      "classname": "blog-andrewjanjigian-com",
-      "coordinates": {
-        "x": 96,
-        "y": 0,
-        "width": 48,
-        "height": 48,
-        "background_width": 432
-      }
-    }
-  },
-  {
-    "link": "https://hannautkin.com",
-    "host": "hannautkin.com",
-    "color": "#dc1c8e",
-    "name": "Hanna Utkin",
-    "firstName": "Hanna",
-    "bio": " is a filmmaker from New York City",
-    "favicon": {
-      "name": "hannautkin.com.png",
-      "classname": "hannautkin-com",
-      "coordinates": {
-        "x": 192,
-        "y": 96,
-        "width": 48,
-        "height": 48,
-        "background_width": 432
-      }
-    }
-  },
-  {
-    "link": "https://keywords.oxus.net",
-    "host": "keywords.oxus.net",
-    "color": "#7a8aa8",
-    "name": "Kerim Friedman",
-    "firstName": "Kerim",
-    "bio": " teaches anthropology in Taiwan",
-    "favicon": {
-      "name": "keywords.oxus.net.jpg",
-      "classname": "keywords-oxus-net",
-      "coordinates": {
-        "x": 240,
-        "y": 96,
-        "width": 48,
-        "height": 48,
-        "background_width": 432
-      }
-    }
-  },
-  {
-    "link": "https://com.johnbeeler.com",
-    "host": "com.johnbeeler.com",
-    "color": "#9c9a9b",
-    "name": "John Beeler",
-    "firstName": "John",
-    "bio": " is a record label director",
-    "favicon": {
-      "name": "com.johnbeeler.com.jpg",
-      "classname": "com-johnbeeler-com",
-      "coordinates": {
-        "x": 144,
-        "y": 0,
-        "width": 48,
-        "height": 48,
-        "background_width": 432
-      }
-    }
-  },
-  {
-    "link": "https://www.andrew-bishop.com",
-    "host": "www.andrew-bishop.com",
-    "color": "#87878a",
-    "name": "Andrew Bishop",
-    "firstName": "Andrew",
-    "bio": " is an artist and writer living in San Francisco",
-    "favicon": "www.andrew-bishop.com.jpg"
-  },
-  {
-    "link": "https://discombobulated.co.nz",
-    "host": "discombobulated.co.nz",
-    "color": "#b59681",
-    "name": "Jessica Nickelsen",
-    "firstName": "Jessica",
-    "bio": " is a writer from New Zealand",
-    "favicon": {
-      "name": "discombobulated.co.nz.jpg",
-      "classname": "discombobulated-co-nz",
-      "coordinates": {
-        "x": 96,
-        "y": 144,
-        "width": 48,
-        "height": 48,
-        "background_width": 432
-      }
-    }
-  },
-  {
-    "link": "https://www.rebeccatron.com",
-    "host": "www.rebeccatron.com",
-    "color": "#1b6cb5",
-    "name": "Rebecca Kukshtel",
-    "firstName": "Rebecca",
-    "bio": " is an engineer based in New York City",
-    "favicon": "www.rebeccatron.com.jpg"
-  },
-  {
-    "link": "https://blog.aurynn.com",
-    "host": "blog.aurynn.com",
-    "color": "#d790c0",
-    "name": "Aurynn Shaw",
-    "firstName": "Aurynn",
-    "bio": " is an engineer from New Zealand",
-    "favicon": {
-      "name": "blog.aurynn.com.jpg",
-      "classname": "blog-aurynn-com",
-      "coordinates": {
-        "x": 96,
-        "y": 48,
-        "width": 48,
-        "height": 48,
-        "background_width": 432
-      }
-    }
-  },
-  {
-    "link": "https://www.alexgibson.nyc",
-    "host": "www.alexgibson.nyc",
-    "color": "#f2496a",
-    "name": "Alexander Gibson",
-    "firstName": "Alexander",
-    "bio": " is an artist from New York City",
-    "favicon": {
-      "name": "www.alexgibson.nyc.png",
-      "classname": "www-alexgibson-nyc",
-      "coordinates": {
-        "x": 336,
-        "y": 96,
-        "width": 48,
-        "height": 48,
-        "background_width": 432
-      }
-    }
-  },
-  {
-    "link": "https://www.jacobyyoung.com/about",
-    "host": "www.jacobyyoung.com",
-    "color": "#111111",
-    "name": "Jacoby Young",
-    "firstName": "Jacoby",
-    "bio": " works at Kapālama Elementary School in Hawaii",
-    "favicon": "www.jacobyyoung.com.png"
-  },
-  {
-    "link": "https://john.pavlusoffice.com",
-    "host": "john.pavlusoffice.com",
-    "color": "#a5a374",
-    "name": "John Pavlus",
-    "firstName": "John",
-    "bio": " is a writer based in Portland, Oregon",
-    "favicon": {
-      "name": "john.pavlusoffice.com.jpg",
-      "classname": "john-pavlusoffice-com",
-      "coordinates": {
-        "x": 240,
-        "y": 0,
-        "width": 48,
-        "height": 48,
-        "background_width": 432
-      }
-    }
-  },
-  {
-    "link": "https://photos.rachelpietraszek.com",
-    "host": "photos.rachelpietraszek.com",
-    "color": "#702225",
-    "name": "Rachel Pietraszek",
-    "firstName": "Rachel",
-    "bio": " is a lawyer based in Toronto",
-    "favicon": "photos.rachelpietraszek.com.jpg"
-  },
-  {
-    "link": "https://iiiiiiiii.in",
-    "host": "iiiiiiiii.in",
-    "color": "#a0aab9",
-    "name": "Ishtaarth Dalmia",
-    "firstName": "Ishtaarth",
-    "bio": " is a writer from Bengaluru",
-    "favicon": {
-      "name": "iiiiiiiii.in.jpg",
-      "classname": "iiiiiiiii-in",
-      "coordinates": {
-        "x": 48,
-        "y": 192,
-        "width": 48,
-        "height": 48,
-        "background_width": 432
-      }
-    }
-  },
-  {
-    "link": "https://kiefer.design",
-    "host": "kiefer.design",
-    "color": "#516f82",
-    "name": "Kiefer Sutherland",
-    "firstName": "Kiefer",
-    "bio": " is a designer and art director",
-    "favicon": "kiefer.design.jpg"
-  },
-  {
-    "link": "https://www.failuretolerated.com",
-    "host": "www.failuretolerated.com",
-    "color": "#60b7dc",
-    "name": "Sean McCoy",
-    "firstName": "Sean",
-    "bio": " is a game designer from Dallas, Texas",
-    "favicon": {
-      "name": "www.failuretolerated.com.jpg",
-      "classname": "www-failuretolerated-com",
-      "coordinates": {
-        "x": 48,
-        "y": 336,
-        "width": 48,
-        "height": 48,
-        "background_width": 432
-      }
-    }
-  },
-  {
-    "link": "https://mrfrisby.com",
-    "host": "mrfrisby.com",
-    "color": "#ab4548",
-    "name": "Stuart Frisby",
-    "firstName": "Stuart",
-    "bio": " is a designer",
-    "favicon": {
-      "name": "mrfrisby.com.jpg",
-      "classname": "mrfrisby-com",
-      "coordinates": {
-        "x": 0,
-        "y": 240,
-        "width": 48,
-        "height": 48,
-        "background_width": 432
-      }
-    }
-  },
-  {
-    "link": "https://www.querlin.com",
-    "host": "www.querlin.com",
-    "color": "#757196",
-    "name": "Querlin Ricci",
-    "firstName": "Querlin",
-    "bio": " is a designer based in Atlanta",
-    "favicon": "www.querlin.com.jpg"
-  },
-  {
-    "link": "https://vaughntan.org",
-    "host": "vaughntan.org",
-    "color": "#696e66",
-    "name": "Vaughn Tan",
-    "firstName": "Vaughn",
-    "bio": " is a professor based in London",
-    "favicon": {
-      "name": "vaughntan.org.jpg",
-      "classname": "vaughntan-org",
-      "coordinates": {
-        "x": 192,
-        "y": 288,
-        "width": 48,
-        "height": 48,
-        "background_width": 432
-      }
-    }
-  },
-  {
-    "link": "https://blog.pixelswithin.com",
-    "host": "blog.pixelswithin.com",
-    "color": "#c56d64",
-    "name": "Diana Lopez",
-    "firstName": "Diana",
-    "bio": " is a designer and developer based in Southern California",
-    "favicon": {
-      "name": "blog.pixelswithin.com.jpg",
-      "classname": "blog-pixelswithin-com",
-      "coordinates": {
-        "x": 0,
-        "y": 96,
-        "width": 48,
-        "height": 48,
-        "background_width": 432
-      }
-    }
-  },
-  {
-    "link": "https://eli.li",
-    "host": "eli.li",
-    "color": "#e2c556",
-    "name": "Eli Mellen",
-    "firstName": "Eli",
-    "bio": " is a web developer",
-    "favicon": {
-      "name": "eli.li.jpg",
-      "classname": "eli-li",
-      "coordinates": {
-        "x": 144,
-        "y": 144,
-        "width": 48,
-        "height": 48,
-        "background_width": 432
-      }
-    }
-  },
-  {
-    "link": "https://rile.yt",
-    "host": "rile.yt",
-    "color": "#af8f8a",
-    "name": "Riley Tomasek",
-    "firstName": "Riley",
-    "bio": " is a software engineer based in New York City",
-    "favicon": "rile.yt.png"
-  },
-  {
-    "link": "https://juicenews.com",
-    "host": "juicenews.com",
-    "color": "#bf360c",
-    "name": "Jan van Iperen",
-    "firstName": "Jan",
-    "bio": " analyzes the juice industry",
-    "favicon": "juicenews.com.jpg"
-  },
-  {
-    "link": "https://www.elisamirkil.com",
-    "host": "www.elisamirkil.com",
-    "color": "#e13934",
-    "name": "Elisa Mirkil",
-    "firstName": "Elisa",
-    "bio": " is a designer based in New York",
-    "favicon": {
-      "name": "www.elisamirkil.com.png",
-      "classname": "www-elisamirkil-com",
-      "coordinates": {
-        "x": 336,
-        "y": 288,
-        "width": 48,
-        "height": 48,
-        "background_width": 432
-      }
-    }
-  },
-  {
-    "link": "https://paul.af",
-    "host": "paul.af",
-    "color": "#d08573",
-    "name": "Paul Esch-Laurent",
-    "firstName": "Paul",
-    "bio": " is a software engineer",
-    "favicon": {
-      "name": "paul.af.jpg",
-      "classname": "paul-af",
-      "coordinates": {
-        "x": 192,
-        "y": 240,
-        "width": 48,
-        "height": 48,
-        "background_width": 432
-      }
-    }
-  },
-  {
-    "link": "https://diary.craigwhite.nyc",
-    "host": "diary.craigwhite.nyc",
-    "color": "#9e826d",
-    "name": "Craig White",
-    "firstName": "Craig",
-    "bio": " is a visual artist from Harlem",
-    "favicon": {
-      "name": "diary.craigwhite.nyc.png",
-      "classname": "diary-craigwhite-nyc",
-      "coordinates": {
-        "x": 0,
-        "y": 144,
-        "width": 48,
-        "height": 48,
-        "background_width": 432
-      }
-    }
-  },
-  {
-    "link": "https://shashwati.com",
-    "host": "shashwati.com",
-    "color": "#ff690b",
-    "name": "Shashwati Talukdar",
-    "firstName": "Shashwati",
-    "bio": " is a filmmaker",
-    "favicon": {
-      "name": "shashwati.com.jpg",
-      "classname": "shashwati-com",
-      "coordinates": {
-        "x": 288,
-        "y": 48,
-        "width": 48,
-        "height": 48,
-        "background_width": 432
-      }
-    }
-  },
-  {
-    "link": "https://mariusmasalar.me",
-    "host": "mariusmasalar.me",
-    "color": "#44679d",
-    "name": "Marius Masalar",
-    "firstName": "Marius",
-    "bio": " is a photographer from Toronto",
-    "favicon": {
-      "name": "mariusmasalar.me.jpg",
-      "classname": "mariusmasalar-me",
-      "coordinates": {
-        "x": 240,
-        "y": 144,
-        "width": 48,
-        "height": 48,
-        "background_width": 432
-      }
-    }
-  },
-  {
-    "link": "https://www.ishshah.me",
-    "host": "www.ishshah.me",
-    "color": "#4c919c",
-    "name": "Ish Shah",
-    "firstName": "Ish",
-    "bio": " is a software engineer based in San Francisco",
-    "favicon": {
-      "name": "www.ishshah.me.jpg",
-      "classname": "www-ishshah-me",
-      "coordinates": {
-        "x": 192,
-        "y": 336,
-        "width": 48,
-        "height": 48,
-        "background_width": 432
-      }
-    }
-  },
-  {
-    "link": "https://www.chrbutler.com",
-    "host": "www.chrbutler.com",
-    "color": "#5177a4",
-    "name": "Chris Butler",
-    "firstName": "Chris",
-    "bio": " is a designer based in Chapel Hill",
-    "favicon": {
-      "name": "www.chrbutler.com.png",
-      "classname": "www-chrbutler-com",
-      "coordinates": {
-        "x": 336,
-        "y": 192,
-        "width": 48,
-        "height": 48,
-        "background_width": 432
-      }
-    }
-  },
-  {
-    "link": "https://tyler.vc",
-    "host": "tyler.vc",
-    "color": "#5f8293",
-    "name": "Tyler Menezes",
-    "firstName": "Tyler",
-    "bio": " is a programmer based in Seattle",
-    "favicon": "tyler.vc.jpg"
-  },
-  {
-    "link": "https://benlog.net",
-    "host": "benlog.net",
-    "color": "#576c50",
-    "name": "Ben Greenberg",
-    "firstName": "Ben",
-    "bio": " is an investigative reporter based in Boston",
-    "favicon": {
-      "name": "benlog.net.png",
-      "classname": "benlog-net",
-      "coordinates": {
-        "x": 0,
-        "y": 48,
-        "width": 48,
-        "height": 48,
-        "background_width": 432
-      }
-    }
-  },
-  {
-    "link": "https://www.crossingthethreshold.net",
-    "host": "www.crossingthethreshold.net",
-    "color": "#55423c",
-    "name": "David Johnson",
-    "firstName": "David",
-    "bio": " is a life coach in Maui, Hawaii",
-    "favicon": "www.crossingthethreshold.net.jpg"
-  },
-  {
-    "link": "https://afc.letterspace.org",
-    "host": "afc.letterspace.org",
-    "color": "#111111",
-    "name": "Robert van Vliet",
-    "firstName": "Robert",
-    "bio": " is a writer in Minneapolis",
-    "favicon": "afc.letterspace.org.jpg"
-  },
-  {
-    "link": "https://blog.tomwhite.io",
-    "host": "blog.tomwhite.io",
-    "color": "#8a9144",
-    "name": "Thomas White",
-    "firstName": "Thomas",
-    "bio": " is a biologist at the University of Sydney",
-    "favicon": "blog.tomwhite.io.jpg"
-  },
-  {
-    "link": "https://www.zinzy.website",
-    "host": "www.zinzy.website",
-    "color": "#4b5e53",
-    "name": "Zinzy Nev Geene",
-    "firstName": "Zinzy",
-    "bio": " is a designer based in Amsterdam",
-    "favicon": "www.zinzy.website.jpg"
-  },
-  {
-    "link": "https://inhab.it",
-    "host": "inhab.it",
-    "color": "#94c5df",
-    "name": "Wil Turner",
-    "firstName": "Wil",
-    "bio": " is a writer",
-    "favicon": {
-      "name": "inhab.it.jpg",
-      "classname": "inhab-it",
-      "coordinates": {
-        "x": 96,
-        "y": 192,
-        "width": 48,
-        "height": 48,
-        "background_width": 432
-      }
-    }
-  },
-  {
-    "link": "https://millicent-thomas.com",
-    "host": "millicent-thomas.com",
-    "color": "#1d1e23",
-    "name": "Millicent Thomas",
-    "firstName": "Millicent",
-    "bio": " is a journalist and programmer from Manchester",
-    "favicon": "millicent-thomas.com.jpg"
-  },
-  {
-    "link": "https://www.skellis.net",
-    "host": "www.skellis.net",
-    "color": "#828282",
-    "name": "Simon Ellis",
-    "firstName": "Simon",
-    "bio": " is an artist from New Zealand",
-    "favicon": {
-      "name": "www.skellis.net.png",
-      "classname": "www-skellis-net",
-      "coordinates": {
-        "x": 384,
-        "y": 48,
-        "width": 48,
-        "height": 48,
-        "background_width": 432
-      }
-    }
-  },
-  {
-    "link": "https://jeremysarber.com",
-    "host": "jeremysarber.com",
-    "color": "#485f27",
-    "name": "Jeremy Sarber",
-    "firstName": "Jeremy",
-    "bio": " is a chaplain in Nappanee",
-    "favicon": {
-      "name": "jeremysarber.com.jpg",
-      "classname": "jeremysarber-com",
-      "coordinates": {
-        "x": 144,
-        "y": 192,
-        "width": 48,
-        "height": 48,
-        "background_width": 432
-      }
-    }
-  },
-  {
-    "link": "https://ianamurray.work",
-    "host": "ianamurray.work",
-    "color": "#da6d8d",
-    "name": "Iana Murray",
-    "firstName": "Iana",
-    "bio": " is a journalist",
-    "favicon": {
-      "name": "ianamurray.work.png",
-      "classname": "ianamurray-work",
-      "coordinates": {
-        "x": 0,
-        "y": 192,
-        "width": 48,
-        "height": 48,
-        "background_width": 432
-      }
-    }
-  },
-  {
-    "link": "https://diegosegura.me",
-    "host": "diegosegura.me",
-    "color": "#d1a15d",
-    "name": "Diego Segura",
-    "firstName": "Diego",
-    "bio": " is a designer based in New York City",
-    "favicon": "diegosegura.me.jpg"
-  },
-  {
-    "link": "https://www.dustinsenos.com",
-    "host": "www.dustinsenos.com",
-    "color": "#475162",
-    "name": "Dustin Senos",
-    "firstName": "Dustin",
-    "bio": " is a designer and engineer",
-    "favicon": {
-      "name": "www.dustinsenos.com.jpg",
-      "classname": "www-dustinsenos-com",
-      "coordinates": {
-        "x": 336,
-        "y": 240,
-        "width": 48,
-        "height": 48,
-        "background_width": 432
-      }
-    }
-  },
-  {
-    "link": "https://theocasciani.page",
-    "host": "theocasciani.page",
-    "color": "#83857f",
-    "name": "Théo Casciani",
-    "firstName": "Théo",
-    "bio": " is a writer living in Marseille",
-    "favicon": {
-      "name": "theocasciani.page.png",
-      "classname": "theocasciani-page",
-      "coordinates": {
-        "x": 144,
-        "y": 288,
-        "width": 48,
-        "height": 48,
-        "background_width": 432
-      }
-    }
-  },
-  {
-    "link": "https://diklein.com",
-    "host": "diklein.com",
-    "color": "#629292",
-    "name": "David Klein",
-    "firstName": "David",
-    "bio": " is a designer based in San Francisco",
-    "favicon": {
-      "name": "diklein.com.jpg",
-      "classname": "diklein-com",
-      "coordinates": {
-        "x": 48,
-        "y": 144,
-        "width": 48,
-        "height": 48,
-        "background_width": 432
-      }
-    }
-  },
-  {
-    "link": "https://rosiecampbell.me",
-    "host": "rosiecampbell.me",
-    "color": "#a4335c",
-    "name": "Rosie Campbell",
-    "firstName": "Rosie",
-    "bio": " is an artificial intelligence researcher",
-    "favicon": "rosiecampbell.me.jpg"
-  },
-  {
-    "link": "https://www.emilycass.org",
-    "host": "www.emilycass.org",
-    "color": "#ff9060",
-    "name": "Emily Cass",
-    "firstName": "Emily",
-    "bio": " is an architect",
-    "favicon": {
-      "name": "www.emilycass.org.jpg",
-      "classname": "www-emilycass-org",
-      "coordinates": {
-        "x": 0,
-        "y": 336,
-        "width": 48,
-        "height": 48,
-        "background_width": 432
-      }
-    }
-  },
-  {
-    "link": "https://abigailswallow.me",
-    "host": "abigailswallow.me",
-    "color": "#352f2f",
-    "name": "Abigail Swallow",
-    "firstName": "Abigail",
-    "bio": " is a student ",
-    "favicon": "abigailswallow.me.jpg"
-  },
-  {
-    "link": "https://jessytuddenham.com",
-    "host": "jessytuddenham.com",
-    "color": "#dbb3c9",
-    "name": "Jessy Tuddenham",
-    "firstName": "Jessy",
-    "bio": " is a dancer from Utah",
-    "favicon": {
-      "name": "jessytuddenham.com.jpg",
-      "classname": "jessytuddenham-com",
-      "coordinates": {
-        "x": 192,
-        "y": 192,
-        "width": 48,
-        "height": 48,
-        "background_width": 432
-      }
-    }
-  },
-  {
-    "link": "https://bnjmnmddn.com",
-    "host": "bnjmnmddn.com",
-    "color": "#b97371",
-    "name": "Benjamin Madden",
-    "firstName": "Benjamin",
-    "bio": " teaches at the University of Adelaide",
-    "favicon": {
-      "name": "bnjmnmddn.com.jpg",
-      "classname": "bnjmnmddn-com",
-      "coordinates": {
-        "x": 48,
-        "y": 96,
-        "width": 48,
-        "height": 48,
-        "background_width": 432
-      }
-    }
-  },
-  {
-    "link": "https://www.jsoliday.com",
-    "host": "www.jsoliday.com",
-    "color": "#517c80",
-    "name": "J. Soliday",
-    "firstName": "J.",
-    "bio": " is an electronic musician",
-    "favicon": {
-      "name": "www.jsoliday.com.jpg",
-      "classname": "www-jsoliday-com",
-      "coordinates": {
-        "x": 240,
-        "y": 336,
-        "width": 48,
-        "height": 48,
-        "background_width": 432
-      }
-    }
-  },
-  {
-    "link": "https://www.minnowlikethefish.com",
-    "host": "www.minnowlikethefish.com",
-    "color": "#566014",
-    "name": "Minnow Park",
-    "firstName": "Minnow",
-    "bio": " is a business coach and writer based in New York",
-    "favicon": "www.minnowlikethefish.com.jpg"
-  },
-  {
-    "link": "https://tellyou.today",
-    "host": "tellyou.today",
-    "color": "#d0a66f",
-    "name": "Neale Stokes",
-    "firstName": "Neale",
-    "bio": " is a librarian in Los Angeles",
-    "favicon": {
-      "name": "tellyou.today.jpg",
-      "classname": "tellyou-today",
-      "coordinates": {
-        "x": 0,
-        "y": 288,
-        "width": 48,
-        "height": 48,
-        "background_width": 432
-      }
-    }
-  },
-  {
-    "link": "https://lara.onl",
-    "host": "lara.onl",
-    "color": "#2c2818",
-    "name": "Lara Dominguez",
-    "firstName": "Lara",
-    "bio": " is an artist and photographer",
-    "favicon": "lara.onl.jpg"
-  },
-  {
-    "link": "https://milkypekoe.art",
-    "host": "milkypekoe.art",
-    "color": "#73090b",
-    "name": "Trinh Bui",
-    "firstName": "Trinh",
-    "bio": " is a designer and artist",
-    "favicon": "milkypekoe.art.jpg"
-  },
-  {
-    "link": "https://xn--gntherwegs-9db.com",
-    "host": "xn--gntherwegs-9db.com",
-    "color": "#8f5160",
-    "name": "Günther",
-    "firstName": "Günther",
-    "bio": " is a Weimaraner",
-    "favicon": {
-      "name": "xn--gntherwegs-9db.com.jpg",
-      "classname": "xn--gntherwegs-9db-com",
-      "coordinates": {
-        "x": 384,
-        "y": 240,
-        "width": 48,
-        "height": 48,
-        "background_width": 432
-      }
-    }
-  },
-  {
-    "link": "https://thejollyteapot.com",
-    "host": "thejollyteapot.com",
-    "color": "#979797",
-    "name": "Nicolas Magand",
-    "firstName": "Nicolas",
-    "bio": " is a blogger from Strasbourg",
-    "favicon": {
-      "name": "thejollyteapot.com.png",
-      "classname": "thejollyteapot-com",
-      "coordinates": {
-        "x": 96,
-        "y": 288,
-        "width": 48,
-        "height": 48,
-        "background_width": 432
-      }
-    }
-  },
-  {
-    "link": "https://blog.scren.dk",
-    "host": "blog.scren.dk",
-    "color": "#2e3d5c",
-    "name": "Sören Möller",
-    "firstName": "Sören",
-    "bio": " is a professor of biostatistics from Denmark",
-    "favicon": "blog.scren.dk.jpg"
-  },
-  {
-    "link": "https://brainsister.com",
-    "host": "brainsister.com",
-    "color": "#7a9951",
-    "name": "Jessica Doyle",
-    "firstName": "Jessica",
-    "bio": " is a writer and city planning researcher",
-    "favicon": {
-      "name": "brainsister.com.jpg",
-      "classname": "brainsister-com",
-      "coordinates": {
-        "x": 96,
-        "y": 96,
-        "width": 48,
-        "height": 48,
-        "background_width": 432
-      }
-    }
-  },
-  {
-    "link": "https://poetry.bencallahan.com",
-    "host": "poetry.bencallahan.com",
-    "color": "#945830",
-    "name": "Ben Callahan",
-    "firstName": "Ben",
-    "bio": " is a poet based in Ohio",
-    "favicon": {
-      "name": "poetry.bencallahan.com.jpg",
-      "classname": "poetry-bencallahan-com",
-      "coordinates": {
-        "x": 240,
-        "y": 240,
-        "width": 48,
-        "height": 48,
-        "background_width": 432
-      }
-    }
-  },
-  {
-    "link": "https://www.maxkeith.co",
-    "host": "www.maxkeith.co",
-    "color": "#6b98d2",
-    "name": "Max Keith",
-    "firstName": "Max",
-    "bio": " is a trail runner from Chile",
-    "favicon": {
-      "name": "www.maxkeith.co.png",
-      "classname": "www-maxkeith-co",
-      "coordinates": {
-        "x": 288,
-        "y": 336,
-        "width": 48,
-        "height": 48,
-        "background_width": 432
-      }
-    }
-  },
-  {
-    "link": "https://www.aarondowd.com",
-    "host": "www.aarondowd.com",
-    "color": "#4a7587",
-    "name": "Aaron Dowd",
-    "firstName": "Aaron",
-    "bio": " is a podcaster",
-    "favicon": {
-      "name": "www.aarondowd.com.jpg",
-      "classname": "www-aarondowd-com",
-      "coordinates": {
-        "x": 336,
-        "y": 0,
-        "width": 48,
-        "height": 48,
-        "background_width": 432
-      }
-    }
-  },
-  {
-    "link": "https://www.thoughtsbyora.com",
-    "host": "www.thoughtsbyora.com",
-    "color": "#d28f00",
-    "name": "Uzoamaka Adaora",
-    "firstName": "Uzoamaka",
-    "bio": " is a writer living in Amsterdam",
-    "favicon": {
-      "name": "www.thoughtsbyora.com.jpg",
-      "classname": "www-thoughtsbyora-com",
-      "coordinates": {
-        "x": 384,
-        "y": 192,
-        "width": 48,
-        "height": 48,
-        "background_width": 432
-      }
-    }
-  },
-  {
-    "link": "https://spittingdog.net",
-    "host": "spittingdog.net",
-    "color": "#99abc4",
-    "name": "Dave Haysom",
-    "firstName": "Dave",
-    "bio": " translates Chinese literature",
-    "favicon": {
-      "name": "spittingdog.net.png",
-      "classname": "spittingdog-net",
-      "coordinates": {
-        "x": 288,
-        "y": 240,
-        "width": 48,
-        "height": 48,
-        "background_width": 432
-      }
-    }
-  },
-  {
-    "link": "https://nomathontheweekend.co",
-    "host": "nomathontheweekend.co",
-    "color": "#9e4b3d",
-    "name": "Liana J. Taylor",
-    "firstName": "Liana",
-    "bio": " is an accountant from Philadelphia",
-    "favicon": "nomathontheweekend.co.jpg"
-  },
-  {
-    "link": "https://windhausen.co",
-    "host": "windhausen.co",
-    "color": "#bb341f",
-    "name": "Sönke Windhausen",
-    "firstName": "Sönke",
-    "bio": " is a student in Freiburg",
-    "favicon": {
-      "name": "windhausen.co.jpg",
-      "classname": "windhausen-co",
-      "coordinates": {
-        "x": 288,
-        "y": 288,
-        "width": 48,
-        "height": 48,
-        "background_width": 432
-      }
-    }
-  },
-  {
-    "link": "https://anitaposch.com",
-    "host": "anitaposch.com",
-    "color": "#b07246",
-    "name": "Anita Posch",
-    "firstName": "Anita",
-    "bio": " is a writer from Austria",
-    "favicon": {
-      "name": "anitaposch.com.png",
-      "classname": "anitaposch-com",
-      "coordinates": {
-        "x": 0,
-        "y": 0,
-        "width": 48,
-        "height": 48,
-        "background_width": 432
-      }
-    }
-  },
-  {
-    "link": "https://reillybrennan.com",
-    "host": "reillybrennan.com",
-    "color": "#d28f00",
-    "name": "Reilly Brennan",
-    "firstName": "Reilly",
-    "bio": " is a venture capital fund partner",
-    "favicon": {
-      "name": "reillybrennan.com.png",
-      "classname": "reillybrennan-com",
-      "coordinates": {
-        "x": 288,
-        "y": 0,
-        "width": 48,
-        "height": 48,
-        "background_width": 432
-      }
-    }
-  },
-  {
-    "link": "https://victoriaclarke.art",
-    "host": "victoriaclarke.art",
-    "color": "#d48a7d",
-    "name": "Victoria Clarke",
-    "firstName": "Victoria",
-    "bio": " is an artist based in London",
-    "favicon": {
-      "name": "victoriaclarke.art.png",
-      "classname": "victoriaclarke-art",
-      "coordinates": {
-        "x": 240,
-        "y": 288,
-        "width": 48,
-        "height": 48,
-        "background_width": 432
-      }
-    }
-  },
-  {
-    "link": "https://www.adamsandell.com",
-    "host": "www.adamsandell.com",
-    "color": "#8c8c8c",
-    "name": "Adam Sandell",
-    "firstName": "Adam",
-    "bio": " is a doctor in British Columbia",
-    "favicon": {
-      "name": "www.adamsandell.com.png",
-      "classname": "www-adamsandell-com",
-      "coordinates": {
-        "x": 336,
-        "y": 48,
-        "width": 48,
-        "height": 48,
-        "background_width": 432
-      }
-    }
-  },
-  {
-    "link": "https://sidenote.ridwansanusi.com",
-    "host": "sidenote.ridwansanusi.com",
-    "color": "#c40002",
-    "name": "Ridwan Sanusi",
-    "firstName": "Ridwan",
-    "bio": " is a designer",
-    "favicon": {
-      "name": "sidenote.ridwansanusi.com.jpg",
-      "classname": "sidenote-ridwansanusi-com",
-      "coordinates": {
-        "x": 288,
-        "y": 144,
-        "width": 48,
-        "height": 48,
-        "background_width": 432
-      }
-    }
-  },
-  {
-    "link": "https://max.engineer",
-    "host": "max.engineer",
-    "color": "#6e44b3",
-    "name": "Max Chernyak",
-    "firstName": "Max",
-    "bio": " is a software engineer from New York",
-    "favicon": {
-      "name": "max.engineer.jpg",
-      "classname": "max-engineer",
-      "coordinates": {
-        "x": 240,
-        "y": 192,
-        "width": 48,
-        "height": 48,
-        "background_width": 432
-      }
-    }
-  },
-  {
-    "link": "https://oliviaastawood.com",
-    "host": "oliviaastawood.com",
-    "color": "#f1bd00",
-    "name": "Olivia Wood",
-    "firstName": "Olivia",
-    "bio": " is writer and musician from Los Angeles",
-    "favicon": {
-      "name": "oliviaastawood.com.png",
-      "classname": "oliviaastawood-com",
-      "coordinates": {
-        "x": 144,
-        "y": 240,
-        "width": 48,
-        "height": 48,
-        "background_width": 432
-      }
-    }
-  },
-  {
-    "link": "https://jonahfoss.com",
-    "host": "jonahfoss.com",
-    "color": "#387db9",
-    "name": "Jonah Foss",
-    "firstName": "Jonah",
-    "bio": " is a student at the University of Washington",
-    "favicon": {
-      "name": "jonahfoss.com.jpg",
-      "classname": "jonahfoss-com",
-      "coordinates": {
-        "x": 240,
-        "y": 48,
-        "width": 48,
-        "height": 48,
-        "background_width": 432
-      }
-    }
-  },
-  {
-    "link": "https://www.nitinpai.in",
-    "host": "www.nitinpai.in",
-    "color": "#21732d",
-    "name": "Nitin Pai",
-    "firstName": "Nitin",
-    "bio": " is the director of the Takshashila Institution in Bangalore",
-    "favicon": {
-      "name": "www.nitinpai.in.jpg",
-      "classname": "www-nitinpai-in",
-      "coordinates": {
-        "x": 336,
-        "y": 336,
-        "width": 48,
-        "height": 48,
-        "background_width": 432
-      }
-    }
-  },
-  {
-    "link": "https://dannymcclainstudio.com",
-    "host": "dannymcclainstudio.com",
-    "color": "#81e4e5",
-    "name": "Danny McClain",
-    "firstName": "Danny",
-    "bio": " is an artist based in Nashville, Tennessee",
-    "favicon": {
-      "name": "dannymcclainstudio.com.png",
-      "classname": "dannymcclainstudio-com",
-      "coordinates": {
-        "x": 144,
-        "y": 48,
-        "width": 48,
-        "height": 48,
-        "background_width": 432
-      }
-    }
-  }
-]
+  ],
+  "thumbnail_width": 48
+}
