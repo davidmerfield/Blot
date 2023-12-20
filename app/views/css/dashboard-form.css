@@ -59,7 +59,14 @@ form.dashboard-form fieldset {
   }
   
   form.dashboard-form select {
-    display: block;
+    display: block;display: block;
+  color: var(--text-color);
+  background: var(--light-background-color);
+  font-size: var(--font-size);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  padding: 8px;
+
   }
   
   form.dashboard-form input[type="checkbox"] {
@@ -99,7 +106,10 @@ form.dashboard-form fieldset {
   form.dashboard-form textarea {
     min-height: 6em;
   }
-  
+  form.dashboard-form input::placeholder,
+  form.dashboard-form textarea::placeholder {
+    color: var(--light-text-color);
+  }
   form.dashboard-form input[type="number"] {
     max-width: 60px;
   }
@@ -121,7 +131,6 @@ form.dashboard-form fieldset {
   form.dashboard-form input[type="text"]:focus,
   form.dashboard-form input[type="password"]:focus,
   form.dashboard-form textarea:focus {
-    background: var(--background-color);
   }
   
   
@@ -282,114 +291,3 @@ form.dashboard-form .button {
     margin: 0 0.1566em 0 0.33em;
   }
 
-
-form.dashboard-form .buttons {
-    display: flex;
-    margin: 2em 0 1em;
-    line-height: 39px;
-  }
-  
-  form.dashboard-form .buttons>* {
-    text-decoration: none;
-    border: none;
-    border-radius: 4px;
-    background: grey;
-        font-size: var(--font-size);
-      font-weight: 500;
-    padding: 0 20px;
-    position: relative;
-    display: flex;
-    box-sizing: border-box;
-  }
-  
-  form.dashboard-form .buttons>*:hover {
-    cursor: pointer;
-  }
-  
-  form.dashboard-form .buttons>*:focus,
-  form.dashboard-form .buttons>*:active {
-    outline: none;
-  }
-  
-  form.dashboard-form .buttons :first-child {
-    flex-grow: 0.6666;
-    flex-basis: 70%;
-    line-height: 39px;
-    margin-right: 2em;
-    box-sizing: border-box;
-      border-radius: 4px;
-      color: #fff;
-      border: none;
-      cursor: pointer;
-  background-color: #0079fc;
-      box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.12) 0px 1px 1px 0px, #0079fc 0px 0px 0px 1px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(60, 66, 87, 0.08) 0px 2px 5px 0px;
-    }
-  
-  form.dashboard-form .buttons :first-child:hover {
-  }
-  
-  form.dashboard-form .buttons :first-child:active {
-  }
-  
-  form.dashboard-form .buttons .red {
-    background: red;
-    box-shadow: none;
-  }
-  
-  form.dashboard-form .buttons .red:hover {
-    background: #ff2a2a
-  }
-  
-  form.dashboard-form .buttons .red:active {
-    background: #c70000
-  }
-  
-  
-  form.dashboard-form .buttons :last-child {
-    flex-grow: 0.3333;
-  text-align: left;
-        border-radius: 4px;
-      text-decoration: none;
-      color: var(--medium-text-color);
-      background-color: var(--light-border-color);
-      box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.12) 0px 1px 1px 0px, rgba(60, 66, 87, 0.16) 0px 0px 0px 1px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(60, 66, 87, 0.08) 0px 2px 5px 0px;
-  }
-  
-  
-  
-  form.dashboard-form .buttons :disabled, form.dashboard-form .buttons .disabled {
-    background-color: #d5d5d5;
-    color: #999;
-    box-shadow: none;
-  }
-  
-  
-  @keyframes pulse {
-    0% {
-      opacity: 0.333;
-    }
-  
-    100% {
-      opacity: 1;
-    }
-  }
-  
-  
-  form.dashboard-form .buttons :disabled:after, form.dashboard-form .buttons .disabled:after {
-    content: "";
-    animation: pulse 0.2s cubic-bezier(0.5, 0, 0.5, 1) alternate infinite;
-    width: 0.5rem;
-    height: 0.5rem;
-    margin: 0;
-    border-radius: 0.55rem;
-    background: #666;
-    position: absolute;
-    right: 2em;
-    top: 17px;
-  }
-  
-  
-  
-  form.account>form.dashboard-form .buttons {
-    width: 100%
-  }
