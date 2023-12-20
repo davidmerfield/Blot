@@ -27,4 +27,7 @@ echo "Starting the application servers..."
 
 sudo systemctl start node
 
+# purge cache
+curl 127.0.0.1/purge?host=$BLOT_HOST
+
 echo "Success"
