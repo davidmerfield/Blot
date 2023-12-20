@@ -1,5 +1,7 @@
+{{> form-header}}
+<input type="hidden" name="redirect" value="{{{base}}}/domain" />
+
 <p>Your site comes with a Blot subdomain. You can also <a href="/how/configure/domain">use your own domain</a>. Please don't hesitate to <a href="/support">contact support</a> if you have any questions.</p>
-<hr>
   <label>Your domain</label>
   <div class="messageWrapper">
     <input type="text" id="customDomain" name="domain" data-verify="{{{base}}}/verify-domain/{{blog.pretty.domain}}"
@@ -44,7 +46,9 @@
     <label for="handle">
       Your subdomain on Blot<br>
     </label>
-    <div style="position:relative;background:#fff;border-radius:4px">
+    <div style="position:relative;border-radius:4px">
       <span style="color:#ccc;position:absolute;right:11px;top:9px">&nbsp;.{{host}}</span>
       <input type="text" style="background:transparent" name="handle" value="{{blog.handle}}" style=""/>
     </div>
+
+    {{> form-footer}}

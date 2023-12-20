@@ -24,13 +24,13 @@ form.dashboard-form fieldset {
   
   form.dashboard-form div:focus-within > label,
   form.dashboard-form p:focus-within > label {
-    color: rgb(0, 122, 255);
+    color: var(--accent-color);
   }
   
   form.dashboard-form .fullRow section {
     position: relative;
     display: flex;
-    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-top: 1px solid var(--border-color);
   }
   
   form.dashboard-form .fullRow .button {
@@ -52,7 +52,7 @@ form.dashboard-form fieldset {
     margin: 0;
     font-size: 14px;
     position: relative;
-    color: #222;
+    color: var(--medium-text-color);
     margin-bottom: 4px;
     padding-top: 1rem;
     padding-bottom: .25rem;
@@ -90,12 +90,9 @@ form.dashboard-form fieldset {
       font-family: inherit;
       z-index: 1;
       position: relative;
-      border: 1px solid #cccbca;
-      border-top-color: rgba(0,0,0,.25);
-      border-bottom-color: rgba(0,0,0,.15);
+      border: 1px solid var(--border-color);
       box-sizing: border-box;
       background: 0 0;
-      box-shadow: inset 0 1px 2px 0 rgba(0,0,0,.075);
       transition: border-color ease-in-out .1s,box-shadow ease-in-out .1s,-webkit-box-shadow ease-in-out .1s;
   }
   
@@ -110,7 +107,7 @@ form.dashboard-form fieldset {
   form.dashboard-form input[type="text"]:hover,
   form.dashboard-form input[type="password"]:hover,
   form.dashboard-form textarea:hover {
-    border-color: #0079fc
+    border-color: var(--accent-color)
   }
   
   form.dashboard-form input[type="text"]:focus,
@@ -118,13 +115,13 @@ form.dashboard-form fieldset {
   form.dashboard-form textarea:focus {
     outline: none;
     z-index: 1;
-    border: 1px solid #0079fc;
+    border: 1px solid var(--accent-color);
   }
   
   form.dashboard-form input[type="text"]:focus,
   form.dashboard-form input[type="password"]:focus,
   form.dashboard-form textarea:focus {
-    background: #fff;
+    background: var(--background-color);
   }
   
   
@@ -288,7 +285,7 @@ form.dashboard-form .button {
 
 form.dashboard-form .buttons {
     display: flex;
-    margin-top: 2.5rem;
+    margin: 2em 0 1em;
     line-height: 39px;
   }
   
@@ -297,7 +294,7 @@ form.dashboard-form .buttons {
     border: none;
     border-radius: 4px;
     background: grey;
-        font-size: 14px;
+        font-size: var(--font-size);
       font-weight: 500;
     padding: 0 20px;
     position: relative;
@@ -316,7 +313,8 @@ form.dashboard-form .buttons {
   
   form.dashboard-form .buttons :first-child {
     flex-grow: 0.6666;
-    flex-basis: 80%;
+    flex-basis: 70%;
+    line-height: 39px;
     margin-right: 2em;
     box-sizing: border-box;
       border-radius: 4px;

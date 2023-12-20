@@ -50,8 +50,8 @@ div.line a.link:hover {
   flex-shrink: 0;
 }
 
-@media (min-width:800px) {
-  .label {flex-basis: 20%}
+.collapse-on-small-screens .label {
+flex-basis: 33.333%;
 }
 
 .center,

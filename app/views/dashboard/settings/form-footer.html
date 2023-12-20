@@ -1,0 +1,15 @@
+
+<div class="buttons">
+	<button type="submit" onclick="this.form.submit();this.disabled=true">
+		Save changes
+	</button>
+	<a href="{{{base}}}">Cancel</a>
+</div>
+</form>
+{{#links_for_footer}}
+{{{html}}}
+{{/links_for_footer}}
+<script type="text/javascript">document.querySelectorAll(".buttons a, .buttons input, .buttons button").forEach(function(a){a.addEventListener("click",function(a){a.target.classList.add("disabled")})})
+</script>
+
+<script type="text/javascript" src="/js/truncate.js"></script>
