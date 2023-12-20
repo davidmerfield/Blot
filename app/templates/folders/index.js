@@ -151,6 +151,7 @@ function setupBlogs (user, folders, callback) {
             // with the contents of the folder 'path', overwriting anything
             // and removing anything that is not in 'path'
             await fs.remove(localPath(blog.id, "/"));
+            console.log("copying", path, "to", localPath(blog.id, "/"));
             await fs.copy(path, localPath(blog.id, "/"), {
               preserveTimestamps: true
             });
