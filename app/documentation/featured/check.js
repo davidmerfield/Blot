@@ -57,16 +57,18 @@ const determineYearJoined = domain =>
         return reject(err || new Error("No blog with domain " + domain));
 
       User.getById(blog.owner, function (err, user) {
+        if (err || !user)
+          return reject(err || new Error("No user with id " + blog.owner));
+
         let joined = new Date().getFullYear();
 
         if (user && user.subscription && user.subscription.created) {
           joined = new Date(user.subscription.created * 1000).getFullYear();
-        }
-
-        if (user && user.paypal) {
+        } else if (user && user.paypal) {
           joined = new Date(user.paypal.start_time).getFullYear();
         }
 
+        console.log("joined", joined);
         resolve(joined);
       });
     });
