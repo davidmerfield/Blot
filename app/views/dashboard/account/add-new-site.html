@@ -1,7 +1,8 @@
 <form method="POST" class="dashboard-form">
   <input type="hidden" name="_csrf" value="{{csrftoken}}">
   <input type="hidden" name="timeZone" value="">  
-  <p style="margin:11px 0 11px;">Choose a title for your new blog. You can change this later.</p>
+  {{> message}}
+  <p style="margin:11px 0 11px;">Choose a title for your site</p>
 
     <div >
 <label for="title">Title</label>
@@ -9,7 +10,7 @@
 
   <div class="buttons">
     <button type="submit" onclick="this.form.submit();this.disabled=true">Save title</button>
-    <input type="submit" name="no_title" value="Skip for now"  />
+    <input type="submit" name="no_title"  value="Skip for now" style="margin:0;flex-basis:33.333%" />
   </div>
       </div>
 
@@ -32,7 +33,7 @@ $(this)
   .find('.button')
   .prop('disabled', true)
   .addClass('working')
-  .val('Creating your blog...');
+  .val('Creating your site...');
 
 $(this).submit();
 });

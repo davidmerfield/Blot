@@ -347,11 +347,11 @@ form.dashboard-form .buttons {
   
   form.dashboard-form .buttons :last-child {
     flex-grow: 0.3333;
-  
+  text-align: left;
         border-radius: 4px;
       text-decoration: none;
-      color: #666;
-      background-color: rgb(255, 255, 255);
+      color: var(--medium-text-color);
+      background-color: var(--light-border-color);
       box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.12) 0px 1px 1px 0px, rgba(60, 66, 87, 0.16) 0px 0px 0px 1px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(60, 66, 87, 0.08) 0px 2px 5px 0px;
   }
   
