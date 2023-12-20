@@ -29,4 +29,4 @@ Also, I don't like the look of those tables, with three or four choices, a featu
 Why not use a price ending in .99?
 ----------------------------------
 
-Why is the price $4 rather than $3.99 a month? I don't like the look of prices that end in .99. It always struck me as a cheap trick. The number is messier too. Why use five glyphs if we can get away with two? I know it works, but I know that it's working on me.
+Why is the price $5 rather than $4.99 a month? I don't like the look of prices that end in .99. It always struck me as a cheap trick. The number is messier too. Why use five glyphs if we can get away with two? I know it works, but I know that it's working on me.
