@@ -4,10 +4,10 @@
   <body>
     {{> header}}
     <section style="display: flex;">
-      <section  style="width: 20%; padding: 2em 2em 0 2em;">
+      <section  style="width: 20%; padding: 2em 4em 0 2em;">
         {{> sidebar}}
         </section>
-      <section style="padding: 2em 2em 6em 4em;flex-grow:1">
+      <section style="padding: 2em 2em 6em 2em;flex-grow:1">
         <section style="{{^user}}min-height: 80vh;padding-bottom:8em;{{/user}}{{#user}}background:var(--light-background-color);border-radius:4px;position:relative;top: -5em{{/user}}">
           {{> breadcrumbs}}
           {{> body}}
