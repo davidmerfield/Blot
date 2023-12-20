@@ -1,6 +1,7 @@
 {{^hidebreadcrumbs}}
 <div style="display: flex;
 align-items: baseline;
+flex-wrap: wrap;
 justify-content: space-between;">
 <div id="breadcrumbs">
   {{#breadcrumbs}}
@@ -9,7 +10,7 @@ justify-content: space-between;">
 </div>
 {{#user}}
 {{#blog}}
-<a style="color:var(--secondary-accent-color);font-weight:600;padding:0 1em 0 0" href="{{{url}}}" target="_blank">{{pretty.url}} &puncsp;↗</a>
+<a style="color:var(--secondary-accent-color);font-weight:600;padding:0 1.5em 0" href="{{{url}}}" target="_blank">{{pretty.url}} &puncsp;↗</a>
 {{/blog}}
 {{/user}}
 </div>
