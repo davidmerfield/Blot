@@ -142,9 +142,9 @@ function setupBlogs (user, folders, callback) {
         blogs,
         function ({ path, blog }, id, next) {
           console.log("Building folder", path, "for blog", blog.handle);
-          const update = updates[blog.handle] || { client: "" };
+          const update = updates[blog.handle] || {};
 
-          Blog.set(id, update, async function (err) {
+          Blog.set(id, { ...update, client: "" }, async function (err) {
             if (err) return next(err);
 
             // replace the contents of the blog folder 'localPath(id, "/")'
