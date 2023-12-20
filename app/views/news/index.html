@@ -180,40 +180,8 @@
     background-repeat: no-repeat;
     background-image: url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" width="612" height="612"><path fill="white" d="M604.501 440.509L325.398 134.956c-5.331-5.357-12.423-7.627-19.386-7.27-6.989-.357-14.056 1.913-19.387 7.27L7.499 440.509c-9.999 10.024-9.999 26.298 0 36.323s26.223 10.024 36.222 0l262.293-287.164L568.28 476.832c9.999 10.024 26.222 10.024 36.221 0 9.999-10.023 9.999-26.298 0-36.323z"/></svg>');
   }
-</style>
 
-<p>
-  Subscribe to receive a summary of our work and our plans each
-  season. We will send the {{nextNewsletter.season}} newsletter {{nextNewsletter.fromNow}}.
-</p>
-<form
-  action="/news/sign-up"
-  method="POST"
-  style="margin-top: 1.45rem; display: flex; align-items: flex-end;max-width: 500px;">
-  <p style="margin: 0; flex-basis: 75%">
-    <label for="email">Your email address</label>
-    <input type="text" required id="email" name="email" />
-  </p>
-  <input
-    style="
-      flex-basis: 25%;
-      width: auto;
-      margin: 0;
-      border-radius: 0 4px 4px 0;
-      padding: 0 1em;
-      line-height: 42px;
-      margin-bottom: 2px;
-    "
-    type="submit"
-    value="Subscribe" />
-</form>
-
-<br />
-<br />
-<hr />
-<flex>
-  <style type="text/css">
-    .todo hr {
+  .todo hr {
       border: none;
       border-bottom: 1px solid var(--light-border-color);
       margin: 2rem 0;
@@ -251,20 +219,50 @@
       border: 1px solid var(--dark-border-color);
       font-size: 0.5em;
     }
-  </style>
+</style>
+
+<p>
+  Subscribe to receive a summary of our work and our plans each
+  season. We will send the {{nextNewsletter.season}} newsletter {{nextNewsletter.fromNow}}.
+</p>
+<form
+  action="/news/sign-up"
+  method="POST"
+  style="margin-top: 1.45rem; display: flex; align-items: flex-end;max-width: 500px;">
+  <p style="margin: 0; flex-basis: 75%">
+    <label for="email">Your email address</label>
+    <input type="text" required id="email" name="email" />
+  </p>
+  <input
+    style="
+      flex-basis: 25%;
+      width: auto;
+      margin: 0;
+      border-radius: 0 4px 4px 0;
+      padding: 0 1em;
+      line-height: 42px;
+      margin-bottom: 2px;
+    "
+    type="submit"
+    value="Subscribe" />
+</form>
+
+<br />
+<br />
+<hr />
+<div class="collapse-on-small-screens">
+  
 
   <section
     style="
-      width: 60%;
+      flex-basis: 66.666%;
       flex-grow: 1;
-      padding-right: 3rem;
-      box-sizing: border-box;
     ">
     <h2 style="border-bottom: 0; margin-bottom: 0; padding-bottom: 0">To do</h2>
     <div class="todo" style="font-size: 16px">{{{todo}}}</div>
   </section>
 
-  <section style="flex-basis: 40%; box-sizing: border-box">
+  <section style="flex-basis: 33.333%; ">
     <ol>
       {{#days}}
       <li>

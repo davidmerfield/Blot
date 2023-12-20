@@ -5,3 +5,23 @@ What your entered:
 The tracking ID extracted:
 
 {{ trackingId }}
+
+<script src="/js/jquery.js?{{cacheID}}"></script>
+<script type="text/javascript">
+  $('.plugin > label input[type=checkbox]').click(function() {
+    $(this).parent().parent().parent().toggleClass('checked')
+  });
+// Simple Analytics and Plausible don't require a tracking ID
+$('#selectAnalytics').change(function() {
+  if ($(this).val() !== 'None' && ['SimpleAnalytics', 'Plausible'].indexOf($(this).val()) === -1) {
+    // Cloudflare requires Token rather than Tracking ID
+    if ($(this).val() == 'Cloudflare') { $('#trackingIdInput span').text("Token:"); }
+    else { $('#trackingIdInput span').text("Tracking ID:"); }
+    $('#trackingIdInput').show();
+  } else {
+    $('#trackingIdInput').hide();
+  }
+});
+// Trigger change event for correct state on page load
+$('#selectAnalytics').trigger("change");
+</script>

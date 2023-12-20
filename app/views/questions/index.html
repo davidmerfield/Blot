@@ -6,7 +6,7 @@
   </p>
 {{/tag}}
 {{^tag}}
-<div style="display: flex;align-items: baseline;margin:0 0 1em;font-size:16px">
+<div style="display: flex;align-items: baseline;margin:0 0 1em;font-size:16px;flex-wrap:wrap">
     {{> questions-search}}
     <a class="bordered-button"  href="/questions/ask">Ask a question</a>
 </div>
@@ -17,7 +17,8 @@
   <a class="{{selected.popular}}" href="/questions/popular">Most discussion</a>
 </p> -->
 
-<div style="display: flex;" class="questions">
+<div class="questions collapse-on-small-screens">
+
 <div style="flex-basis:66%;margin-top:1.25em" >
   {{#topics}}
     {{> question-row}}  
@@ -25,7 +26,7 @@
 
 {{> questions-paginator}}
 </div>
-<div style="flex-basis:33%;margin-left:2em">
+<div style="flex-basis:33%;">
   {{> questions-sidebar}}
 </div>
 </div>

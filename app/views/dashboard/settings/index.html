@@ -1,120 +1,122 @@
 {{> sub_nav}}
 
-<style type="text/css">
-  .collapse-on-narrow-screens {
-    width:50%;
-      }
-  .collapse-on-narrow-screens + .collapse-on-narrow-screens {
-    padding: 0 0 0 3em
-  }
-  @media (max-width: 900px) {
-    .collapse-on-narrow-screens {
-      width: 100%;
-    }
-    .collapse-on-narrow-screens + .collapse-on-narrow-screens {
-      padding: 2em 0 0 0;
-    }
-  }
-</style>
-<div style="padding: 0 1.5em 1em;">
-  <a class="line" href="{{blog.pretty.url}}">
+
+<div style="padding: 0 1.5em 0;margin: -1em -1.5em 0;">
+  <!-- <a class="line" href="{{blog.pretty.url}}">
     <span class="center"><span style="color:var(--secondary-accent-color)">https://{{blog.pretty.url}}</span></span>
     <span class="right">Visit</span>
+  </a> -->
+
+  <a class="line" href="{{{base}}}/domain" style="border-top:1px solid var(--light-border-color)">
+    <span class="label">Domain</span>
+    <span class="center">{{blog.pretty.url}}</span>
+    <span class="right">Edit</span>
   </a>
-<p style="margin-top: 0;"><a href="" </a></p>
-  <a class="line" href="{{{base}}}/client/{{client.name}}">
-    <span class="label">Folder</span>
-    {{^blog.client}}
-          <span class="link">Choose a way to sync your folder</span>
-        {{/blog.client}}
-        {{#blog.client}}
-        <span class="center" style="display: flex;"><span id="status" style="display: block;" class="truncate status">{{blog.status.message}} {{blog.status.fromNow}}</span><span style="white-space: nowrap">&nbsp;from {{client.display_name}}</span></span>
-        <span class="right">Edit</span>
-        {{/blog.client}}
-        </a>
+
+  <a class="line" href="{{{base}}}/title">
+    <span class="label">Title</span>
+    <span class="center" >
+      <span class="truncate" style="display: block">{{blog.title}}</span>
+      {{^blog.title}}
+      <span class="link">Add a title</span>{{/blog.title}}
+    </span>
+
+    {{#blog.title}}
+      <span class="right" >Edit</span>
+    {{/blog.title}}
+    
+  </a>
+ 
+
+<a class="line" href="{{{base}}}/links">
+  <span class="label">Links</span>
+  <span class="center" style="overflow:hidden;position:relative;left:-2px">
+    <div style="">
+      {{#blog.menu}}
+      <span class="tablet">{{label}}</span>
+      {{/blog.menu}}
+      
+      {{^blog.menu.length}}
+      <i>Your menu is empty</i>
+      {{/blog.menu.length}}
+    </div>
+    <div class="tablet-cover"></div>      
+  </span>
+
+</a>
+
+<a class="line" href="{{{base}}}/photo" style="border-bottom: none;"> 
+  <span class="label" style="float:left">Photo</span>  
+  {{^blog.avatar}}
+  <span class="link">Choose a photo</span>
+  {{/blog.avatar}}
+
+  {{#blog.avatar}}
+  <span class="center" style="width: 48px;height:48px;display:inline-block; vertical-align: middle;">
+    <img style="max-width:48px;max-height:48px;vertical-align: baseline; display: inline;" src="{{blog.avatar}}" class="{{#blog.roundAvatar}}rounded{{/blog.roundAvatar}}" />
+  </span>
+  <span class="right" >Edit</span>    
+    {{/blog.avatar}}
+
+</a>
+
+  
       </div>
 </section>
-<div style="display: flex;max-width: 66vw;">
-  <form class="collapse-on-narrow-screens" method='post' action='?_csrf={{csrftoken}}' enctype='multipart/form-data' style="background-color: var(--light-background-color);border-radius: 4px;">
-    <a class="line" href="{{{base}}}/title">
-      <span class="label">Title</span>
-      <span class="center" >
-        <span class="truncate" style="display: block">{{blog.title}}</span>
-        {{^blog.title}}
-        <span class="link">Add a title</span>{{/blog.title}}
-      </span>
 
-      {{#blog.title}}
-        <span class="right" >Edit</span>
-      {{/blog.title}}
+<div class="collapse-on-small-screens" style="margin-top: -2em;">
+  <form method='post' action='?_csrf={{csrftoken}}' enctype='multipart/form-data' style="background-color: var(--light-background-color);flex-basis:50%;border-radius: 4px;">
+
+    <a class="line" href="{{{base}}}/title">
+      <span class="label">Settings</span>
       
     </a>
-    <a class="line" href="{{{base}}}/domain">
-      <span class="label">Domain</span>
-      <span class="center">{{blog.pretty.url}}</span>
-      <span class="right">Edit</span>
-    </a>
+    
 
-    <a class="line" href="{{{base}}}/template">
-      <span class="label">Template</span>
-      <span class="center">
-        {{#template.name}}
-        {{template.name}}
-        {{/template.name}}
 
-        {{^template.name}}
-        <i>You are not using a template</i>
-        {{/template.name}}
-      </span>
-      <span class="right">Edit</span>
-    </a>
 
-    <a class="line" href="{{{base}}}/photo">
-      <span class="label" style="float:left">Photo</span>  
-      {{^blog.avatar}}
-      <span class="link">Choose a photo</span>
-      {{/blog.avatar}}
-
-      {{#blog.avatar}}
-      <span class="center" style="width: 48px;height:48px;display:inline-block; vertical-align: middle;">
-        <img style="max-width:48px;max-height:48px;vertical-align: baseline; display: inline;" src="{{blog.avatar}}" class="{{#blog.roundAvatar}}rounded{{/blog.roundAvatar}}" />
-      </span>
-      <span class="right" >Edit</span>    
-        {{/blog.avatar}}
-
+  <a class="line" href="{{{base}}}/services/date">
+    <span class="label">Date and time</span>
+    <span class="center">{{currentTime}}</span>
+    <span class="right" >Edit</span>    
+  </a>
+  
+  <a class="line" href="{{{base}}}/services/link-format">
+    <span class="label">Link format</span>
+    <span class="center">
+      {{#permalinkFormats}}
+      {{#checked}}{{example}}{{/checked}}{{/permalinkFormats}}
+    </span>
+    <span class="right" >Edit</span>
   </a>
 
-  <a class="line" href="{{{base}}}/links">
-    <span class="label">Links</span>
-    <span class="center" style="overflow:hidden;position:relative;left:-2px">
-      <div style="height:1.5em;width:1000px;">
-        {{#blog.menu}}
-        <span class="tablet">{{label}}</span>
-        {{/blog.menu}}
-        
-        {{^blog.menu.length}}
-        <i>Your menu is empty</i>
-        {{/blog.menu.length}}
-      </div>
-      <div class="tablet-cover"></div>      
-    </span>
+  <a class="line" href="{{{base}}}/services/redirects">
+    <span class="label">Redirects</span>
+    <span class="link">Edit your redirect rules</span>
+  </a>
+  
 
+
+
+  <a class="line" href="{{{base}}}/services/import">
+    <span class="label">Import</span>
+    <span class="link">Import from elsewhere</span>
   </a>
 
-  <a class="line" href="{{{base}}}/services">
-    <span class="label">
-      Services
-    </span>
-    <span class="link">
-      Import, analytics, comments
-    </span>
+
+  <a class="line" href="/dashboard/account/export">
+    <span class="label">Export</span>
+    <span class="center">
+      <span class="link">Export this site</span>
+    </span> 
   </a>
+
  <a  style="border-bottom: none;" class="line" href="{{{base}}}/delete">
    <span class="label">
       Delete
     </span>
     <span class="link">
-      Delete this blog
+      Delete this site
     </span>
   </a>
   <!-- 
@@ -146,7 +148,7 @@
 
   </form>
 
-  <div class="collapse-on-narrow-screens">
+  <div style="flex-basis: 50%;">
     {{> folder}}
   </div>
 </div>

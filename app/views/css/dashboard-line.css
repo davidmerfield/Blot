@@ -13,14 +13,12 @@
 
 a.line:hover,
 div.line a.link:hover,
-.dropdown a:hover,
 .line form button:hover {
   background: var(--background-color)
 }
 
 a.line:active,
 div.line a.link:active,
-.dropdown a:active,
 .line form button:active {
   background: var(--background-color)
 }
@@ -71,7 +69,7 @@ div.center {}
 }
 
 .center {
-  color: var(--medium-text-color);
+  color: var(--text-color);
 }
 
 .tablet {

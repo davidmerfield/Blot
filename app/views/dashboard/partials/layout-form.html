@@ -25,40 +25,28 @@
     />
   </head>
 <body>
-    <a href="/" class="grow-on-hover huge hdr-btn" style="position: absolute;
-    top: 0;
-    right: 0;
-    background: var(--background-color);
-    padding: 1.2rem 2em 2em 15rem;
-    z-index: 100;">
-      <svg id="hider" style="width: 1.5rem; height: 1.5rem;">
-        <line x1="0" y1="0" x2="100%" y2="100%" stroke="var(--light-text-color)"></line>
-        <line x1="0" y1="100%" x2="100%" y2="0%" stroke="var(--light-text-color)"></line>
+    <a href="/" class="close-button" style="">
+      <svg id="hider" style="width: 1em; height: 1em;">
+        <line x1="0" y1="0" x2="100%" y2="100%" stroke="currentColor"></line>
+        <line x1="0" y1="100%" x2="100%" y2="0%" stroke="currentColor"></line>
       </svg>
     </a>
     <style type="text/css">
       
+.close-button {
+  position: absolute;
+    top: 0;
+    right: 0;
+    background: var(--background-color);
+    padding: 1.2rem 2em 2em 16rem;
+    z-index: 100;
+    color: var(--text-color)
+  }
 
-.mess {
-  display: block;
-  text-decoration: none;
-  padding: 10px 20px;
-  margin: -1px 0;
-}
+  .close-button:hover {
+    color: var(--accent-color);
+  }
 
-.mess.error {
-  background: #ff5d4e;
-  color: #AF3029;
-}
-
-.mess.error:hover {
-  background: #ffefda
-}
-
-.mess.success {
-  background: #aac24b;
-  color: #66800B;
-}
     </style>
   {{> header}}
           

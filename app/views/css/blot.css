@@ -151,6 +151,36 @@ code {
   font-family: "IA Writer Duospace", Consolas, monaco, monospace;
 }
 
+.collapse-on-small-screens {
+  display: flex;
+}
+
+.collapse-on-small-screens > * {
+  margin-left: calc(var(--spacing)*2);
+  margin-right: calc(var(--spacing)*2);
+}
+
+.collapse-on-small-screens > :first-child {
+  margin-left: 0;
+}
+
+.collapse-on-small-screens > :last-child {
+  margin-right: 0;
+}
+
+@media screen and (max-width: 900px) {
+  .collapse-on-small-screens {
+    flex-direction: column;
+  }
+
+  .collapse-on-small-screens > * {
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 0;
+    padding-right: 0;
+  }
+  
+}
 a {
   text-decoration: none;
 }
