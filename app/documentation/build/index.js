@@ -127,7 +127,7 @@ async function buildCSS () {
 
   const mergedCSS = cssContents.join("\n\n");
 
-  await fs.writeFile(join(DESTINATION_DIRECTORY, "style.min.css"), mergedCSS);
+  await fs.writeFile(join(DESTINATION_DIRECTORY, "css.min.css"), mergedCSS);
 }
 
 async function buildJS () {

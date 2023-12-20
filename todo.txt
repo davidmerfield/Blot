@@ -1,6 +1,5 @@
 Finish site and dashboard
-
-Improvements to folders
+- The site CSS persists in the browser cache
 - Make sure folders are zipped when site builds, and delivered through CDN
 - Make sure blot resyncs folders with their associated sites when pulled
   - Compute a hash of the folder contents and only resync or re-zip as needed
