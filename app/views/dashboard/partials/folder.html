@@ -8,7 +8,7 @@
     <a class="line" href="{{{base}}}/client/{{client.name}}">
       <span class="label">Folder</span>
       {{^blog.client}}
-            <span class="link">Choose a way to sync your folder</span>
+            <span class="link">Choose a way to sync folder</span>
           {{/blog.client}}
           {{#blog.client}}
           <span class="center">{{client.display_name}}</span>
@@ -29,7 +29,7 @@
 
 </div>
 
-<a class="line" style="border-top:1px solid var(--border-color)"><span class="center" style="display: flex;"><span id="status" style="display: block;" class="truncate status">{{blog.status.message}} {{blog.status.fromNow}}</span><span style="white-space: nowrap"></a>
+<a class="line" style="font-size:16px;color:var(--light-text-color);border-top:1px solid var(--border-color)" href="{{{base}}}/client"><span class="center" style="display: flex;"><span id="status" style="display: block;" class="truncate status">{{blog.status.message}} {{blog.status.fromNow}}</span><span style="white-space: nowrap"></a>
 </div>
 {{/folder}}
 

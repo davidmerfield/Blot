@@ -1,29 +1,28 @@
 {{> form-header}}
 <input type="hidden" name="redirect" value="{{{base}}}/services" />
+
 {{#categories.Services}}
-<div class="line">
-  <span class="label">External services</span>
-  <span class="center">
-    {{#plugins}}
-    <div class="plugin {{checked}}">
-      <label style="margin:0">
-        <span style="margin-right:0.5rem;display:block;float:left;position:relative;top:1px">
-          <input name='plugins.{{id}}.enabled' type='hidden' value='off' >
-          <input name='plugins.{{id}}.enabled' type="checkbox" {{checked}}/>
-        </span>
-        <span style="display:block;float:left">        {{{description}}}
-        </span>
-        <span class="clear"></span>
-      </label>
-
-      <div class="pluginOptions" style="clear:both;margin:0;padding-left:2em">
-        {{{formHTML}}}
-      </div>
-
-    </div>
-    {{/plugins}}
-  </span>
-</div>
+{{> plugin-row}}
 {{/categories.Services}}
+
+<script src="/js/jquery.js?{{cacheID}}"></script>
+<script type="text/javascript">
+  $('.plugin > label input[type=checkbox]').click(function() {
+    $(this).parent().parent().parent().toggleClass('checked')
+  });
+// Simple Analytics and Plausible don't require a tracking ID
+$('#selectAnalytics').change(function() {
+  if ($(this).val() !== 'None' && ['SimpleAnalytics', 'Plausible'].indexOf($(this).val()) === -1) {
+    // Cloudflare requires Token rather than Tracking ID
+    if ($(this).val() == 'Cloudflare') { $('#trackingIdInput span').text("Token:"); }
+    else { $('#trackingIdInput span').text("Tracking ID:"); }
+    $('#trackingIdInput').show();
+  } else {
+    $('#trackingIdInput').hide();
+  }
+});
+// Trigger change event for correct state on page load
+$('#selectAnalytics').trigger("change");
+</script>
 
 {{> form-footer}}

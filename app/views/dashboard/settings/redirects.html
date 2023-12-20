@@ -50,8 +50,8 @@
 <br />
 <span style="float: right; margin-bottom: 1em; z-index: 1; position: relative">
   {{^edit}}
-  <a href="#!" id="addRedirect">Add redirect rule</a> &bull;
-  <a href="?edit=true">Bulk edit</a>
+  <a href="#!" class="minor" id="addRedirect">Add redirect rule</a> &bull;
+  <a href="?edit=true" class="minor">Bulk edit</a>
   {{/edit}}
 
   {{#edit}}
@@ -82,7 +82,7 @@
   {{^edit}}
   <section id="redirects" class="fullRow sortable" style="max-width: 100%">
     {{^redirects.length}}
-    <em id="emptyRedirects">You have not set any redirect rules</em>
+    <em id="emptyRedirects" style="font-size: var(--small-font-size);color:var(--light-text-color)">You have not set any redirect rules</em>
     {{/redirects.length}}
 
     {{#redirects}}

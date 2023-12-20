@@ -2,32 +2,8 @@
 <input type="hidden" name="redirect" value="{{{base}}}/images" />
 
 {{#categories.Images}}
-<div class="line">
-  <span class="label">Images</span>
+{{> plugin-row}}
 
-  <span class="center">
-
-    {{#plugins}}
-    <div class="plugin {{checked}}">
-
-      <label>
-        <span style="margin-right:0.5rem;display:block;float:left;position:relative;top:1px">
-          <input name='plugins.{{id}}.enabled' type='hidden' value='off' >
-          <input name='plugins.{{id}}.enabled' type="checkbox" {{checked}}/>
-        </span>
-        <span style="display:block;float:left">        {{{description}}}
-        </span>
-        <span class="clear"></span>
-      </label>
-
-      <div class="pluginOptions" style="clear:both;margin:0;padding-left:2em">
-        {{{formHTML}}}
-      </div>
-
-    </div>
-    {{/plugins}}
-  </span>
-</div>
 {{/categories.Images}}
 
 {{> form-footer}}
