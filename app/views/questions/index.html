@@ -1,85 +1,32 @@
-<h1>{{^tag}}Questions {{/tag}}{{#tag}}Tagged '{{tag}}'{{/tag}}   
-</h1>
+<h1>{{^tag}}Questions {{/tag}}{{#tag}}{{ prettyTag }}{{/tag}}</h1>
 
-<style type="text/css">
-  .filters {display: flex;}
-  .filters a {
-    display: block;
-    color: var(--light-text-color);
-    padding: calc(var(--spacing)*0.25) calc(var(--spacing)); 
-    border:1px solid var(--light-border-color);
-  }
-    .filters a:first-child {border-radius: 4px 0 0 4px}
-    .filters a:last-child {border-radius: 0 4px 4px 0}
-
-.filters a.selected {background:#eee;color:var(--accent-color);border: 1px solid var(--dark-border-color);}
-
-  .filters a:not(:last-child) {
-        border-right: none;
-
-  }
-</style>
-<div style="display: flex;font-size:16px;justify-content: space-between;align-items: baseline;">
-  {{#paginator.topics_count}}
-    <span class="total">{{paginator.topics_count}}&nbsp;questions</span>
-  {{/paginator.topics_count}}
-
-
-  <!-- 
-<div class="filters">
-  <a class="{{selected.questionsIndex}}" href="/questions">Active</a>
-  <a class="{{selected.newest}}" href="/questions/newest">Newest</a>
-  <a class="{{selected.unanswered}}" href="/questions/unanswered">Unanswered</a>
-  <a class="{{selected.popular}}" href="/questions/popular">Most replied</a>
-</div> -->
-
-
-  <a class="bordered-button" style="margin:2px 0;float:right;line-height:30px;border-radius:4px;white-space: nowrap;color:white;background:var(--accent-color)" href="/questions/ask">Ask question</a>
-</div>
-  <!-- <form action="/questions" style="margin-top:0rem;margin-bottom:0.5rem;display: flex;align-items: flex-end;">
-    <p style="margin: 0;flex-basis: 50%">
-  <input type="text" style="font-size:15px;border-radius:16px 0 0 16px;width: 100%;padding-top: 6px;padding-bottom: 6px;padding-left: 16px" type="search" id="search" name="search" value="{{search_query}}" placeholder="Search all questions" required="">
+{{#tag}}
+<p style="color:var(--light-text-color);font-size:var(--small-font-size)">
+  {{paginator.topics_count}} questions tagged '{{prettyTag}}'
   </p>
-  <input style="flex-basis: 15%;width: auto;margin:0;border-radius: 0 4px 4px 0;    padding: 0 1em;
-    line-height: 32px;
-    margin-bottom: 2px;border-radius: 0 16px 16px 0" type="submit" value="Search">
-  <div style="flex-grow: 1"></div> -->
-<!-- </form> -->
-<br>
+{{/tag}}
+{{^tag}}
+<div style="display: flex;align-items: baseline;margin:0 0 1em;font-size:16px;flex-wrap:wrap">
+    {{> questions-search}}
+    <a class="bordered-button"  href="/questions/ask">Ask a question</a>
+</div>
+{{/tag}}
+<!-- 
+<p class="filters">
+  <a class="{{selected.questionsIndex}}" href="/questions">Recent</a>
+  <a class="{{selected.popular}}" href="/questions/popular">Most discussion</a>
+</p> -->
 
-<div class="topics">
+<div class="questions collapse-on-small-screens">
+
+<div style="flex-basis:66%;margin-top:1.25em" >
   {{#topics}}
-  <div class="qa-question-link">
-  <h2 style="font-weight: 400;font-size: 18px;line-height: 1.25;margin-bottom: calc(var(--spacing)*0.25)">
-    <a href="/questions/{{id}}">{{title}}</a>
-  </h2>
-  <div class="question-preview" style="  font-size: 16px;  position: relative;margin-bottom: 6px;
-">
-    {{{body}}}
-    <a href="/questions/{{id}}" style="position: absolute;top:0;right:0;left:0;bottom:0"></a>
-  </div>
-  <div style="display: flex;">
-
-    <div>
-    {{#tags}}
-      <a href="/questions/tagged/{{slug}}" class="secondary-text smaller" style="color:var(--accent-color);padding:2px 6px;border-radius: 4px;background: #eaf4ff;margin-right: 8px;font-size: 14px;">
-        {{tag}}
-      </a>
-    {{/tags}}
-    </div>
-    <div style="flex-grow: 1"></div>
-    <a style="flex-shrink: 0" href="/questions/{{id}}">
-
-  <span class="secondary-text smaller" ><span date-from-now="{{last_reply_created_at}}">{{time}}</span>,</span>
-  <span class="secondary-text smaller">{{number_of_replies}} {{#singular}}reply{{/singular}}{{^singular}}replies{{/singular}}</span>
-  </a>
-  </div>
-</div>
+    {{> question-row}}  
   {{/topics}}
-</div>
-
 
 {{> questions-paginator}}
-
-
-
+</div>
+<div style="flex-basis:33%;">
+  {{> questions-sidebar}}
+</div>
+</div>

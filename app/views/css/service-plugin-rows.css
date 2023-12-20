@@ -1,0 +1,8 @@
+.plugin p {margin:0}
+.line.plugins .center {flex-grow: 1;}
+.line.plugins {border-bottom: none;}
+form.dashboard-form .plugin label {padding-top:0}
+.plugin {border-bottom: 1px solid var(--light-border-color);padding-bottom: 8px;margin-bottom:8px}
+.plugin:last-child {border-bottom: none;padding-bottom: 0;margin-bottom:0}
+.pluginOptions {display:none}
+.plugin.checked .pluginOptions {display:block}

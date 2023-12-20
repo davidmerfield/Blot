@@ -1,7 +1,6 @@
 <h1>Edit</h1>
 
-<div style="max-width: 637px;">
-  <form method="POST" class="qa-form">
+  <form method="POST" >
     {{#topic.title}}
     <div>
       <label><strong>Title</strong></label>
@@ -9,35 +8,37 @@
     </div>
     <br>
     <div>
+
+      <label><strong>Tags</strong></label>
+            <input type="text" name="tags" id="tags" value="{{topic.tags}}" placeholder="Tags..."></input>
+               </div>
+    {{/topic.title}}
+    <div>
+      <br>
+            <label><strong>Body</strong></label>
+            {{#topic}}
+{{> textarea}}
+{{/topic}}
+    </div>
+    <input type="submit" value="Save changes" onclick="this.classList.add('working')" />
+  </form>
+</div>
+
+
 <script src="/js/tagify.js"></script>
-            <link href="/css/tagify.css" rel="stylesheet" type="text/css" />
+<link href="/css/tagify.css" rel="stylesheet" type="text/css" />
 <style type="text/css">
  tags {
     min-width: 100%;
 }
 </style>
-
-      <label><strong>Tags</strong></label>
-            <input type="text" name="tags" id="tags" value="{{topic.tags}}" placeholder="Tags..."></input>
-            <script type="text/javascript">
-              // The DOM element you wish to replace with Tagify
+<script type="text/javascript">
+  // The DOM element you wish to replace with Tagify
 var input = document.querySelector('input[name=tags]');
 
 // initialize Tagify on the above input node reference
 new Tagify(input, {
-    originalInputValueFormat: valuesArr => valuesArr.map(item => item.value).join(',')
+originalInputValueFormat: valuesArr => valuesArr.map(item => item.value).join(',')
 
 })
-            </script>    </div>
-    {{/topic.title}}
-    <div>
-      <br>
-            <label><strong>Body</strong></label>
-
-      <textarea class="qa-textarea" type="text" name="body" id="body" >{{topic.body}}</textarea>
-    </div>
-    <input type="submit" value="Save changes">
-
-  </form>
-</div>
-
+</script>

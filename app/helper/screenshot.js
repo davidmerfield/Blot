@@ -30,13 +30,14 @@ async function main (site, path, options = {}) {
     options.width !== undefined
       ? options.width
       : options.mobile === true
-      ? 562
+      ? 400
       : 1260;
+
   const height =
     options.height !== undefined
       ? options.height
       : options.mobile === true
-      ? 1018
+      ? 650
       : 778;
 
   // console.log('using width', width, 'height', height);

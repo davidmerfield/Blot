@@ -1,3 +1,7 @@
+{{> form-header}}
+
+<input type="hidden" name="redirect" value="{{{base}}}/link-format" />
+
 <style type="text/css">
   #redirects section {padding: 8px 0;border:none}
   .lab[type="text"] {border-radius:0;margin-left:-1px}
@@ -37,4 +41,4 @@
 </label>
 {{/permalinkFormats}}
 
-<br>
+{{> form-footer}}

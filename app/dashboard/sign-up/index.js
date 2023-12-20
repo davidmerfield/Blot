@@ -93,7 +93,7 @@ paymentForm.get(csrf, function (req, res) {
   res.locals.menu = { "sign-up": "selected" };
   res.locals.error = req.query.error;
   res.locals.stripe_key = config.stripe.key;
-  res.locals.paypal_plan = config.paypal.plans.monthly_4;
+  res.locals.paypal_plan = config.paypal.plan;
   res.locals.paypal_client_id = config.paypal.client_id;
   res.locals.csrf = req.csrfToken();
   res.render("sign-up");
@@ -213,7 +213,7 @@ passwordForm.post(parse, csrf, function (req, res, next) {
         req.session.uid = user.uid;
 
         Email.CREATED_BLOG(user.uid);
-        res.redirect("/account/create-blog");
+        res.redirect("/account/add-new-site");
       }
     );
   });

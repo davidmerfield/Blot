@@ -1,28 +1,33 @@
-{{> head}}
-<body>
-  <input type="checkbox" name="toggle" id="toggle">
-  <div class="layout-wrapper"> 
-    <div class="sidebar-container">
-      {{> sidebar}}
-    </div>
-    <div class="main-container"> 
-      <div style="display: flex;margin:0 0 calc(var(--spacing)*2) 0;align-items: baseline;"> 
-        {{> search}}
-        {{> header-buttons}}
-      </div>
-      <div style="display: flex;justify-content: space-between;flex-wrap: wrap;">
-        <div class="main-page {{#fullWidth}}full{{/fullWidth}}">
+<!DOCTYPE html>
+<html lang="en">
+  {{> head}}
+  <body>
+    {{> header}}
+    <section style="display: flex;">
+      <section  style="width: 20%; padding: 2em 4em 0 2em;{{#user}}max-width: 150px;{{/user}}">
+        {{> sidebar}}
+        </section>
+      <section style="padding: 2em 2em 6em 2em;flex-grow:1">
+        
+      
+        <section class="{{#user}}dashboard-container{{/user}}" style="{{^user}}min-height: 80vh;padding-bottom:8em;{{/user}}">
           {{> breadcrumbs}}
           {{> body}}
-          {{> source_file}}
-        </div>
-        {{^fullWidth}}
-        {{> internal-sidebar}}
-        {{/fullWidth}}
-      </div>
-    </div>
-  </div>   
-  </div>
-  {{> footer}}
-</body>
+        </section>
+        {{> footer-page}}
+      </section>
+    </section>
+    <style>
+      .dashboard-container {
+          background:var(--light-background-color);border-radius:4px;position:relative;top: -5em;
+      }
+  
+      @media (max-width: 768px) {
+          .dashboard-container {
+              top: 0;
+          }
+      }
+  </style>
+    {{> footer}}
+  </body>
 </html>

@@ -1,8 +1,6 @@
 # Principles
 
-## The theory and assumptions which guide how we do business
-
-I will sell the service to the people who want to host their blog on Blot. I will not generate income in any other way. The amount the customer pays for the service will be higher than the average amount I spend to provide the service, returning a profit with pays for the labor of the people who work on Blot. 
+I will sell the service to the people who want to host their blog on Blot. I will not generate income in any other way. The amount the customer pays for the service will be higher than the average amount I spend to provide the service, returning a profit which pays for the labor of the people who work on Blot. 
 
 ## Charge money
 
@@ -30,7 +28,7 @@ I do not plan to raise investment in Blot. The main concern I'd have with bringi
 
 ## Set the price at what we'd pay
 
-I set the price of Blot at whatever I would be comfortable paying myself. When I started Blot, it cost $1 a month. I've improved Blot since then and now Blot costs $4 a month. I feel that's still a fair price since I provide web hosting and personal support. 
+I set the price of Blot at whatever I would be comfortable paying myself. When I started Blot, it cost $1 a month. I've improved Blot since then and now a site costs $5 a month. I feel that's still a fair price since I provide web hosting and personal support. 
 
 I know I could get away with charging more. I know this because I get regular emails from customers telling me this. However, I'm interested in having Blot in the hands of more people, even if it means generating less revenue. 
 

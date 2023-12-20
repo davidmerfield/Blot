@@ -11,6 +11,11 @@
   span.link[onclick]:active {
     opacity: 0.8
   }
+
+  .center .line:hover {
+  background-color: #232323;}
+
+  .copier {margin-top: 4px;}
   
 </style>
 <div class="line">
@@ -18,24 +23,29 @@
     Repository
   </div>
   <div class="center" style="flex-grow:1;">
-    <div style="border-radius: 4px;margin:11px 0;border:1px solid rgba(0,0,0,0.1)">
+    <div style="border-radius: 4px;margin:11px 0;border:1px solid var(--border-color);background:var(--medium-background-color)">
     <div class="line" >
   <span class="label">URL</span>
-  <span class="center" id="repo_url">https://{{host}}/clients/git/end/{{blog.handle}}.git</span>
-  <span class="link" onclick="copyToClipboard(this, 'repo_url')">Copy to clipboard</span>
+  <span class="center" >
+    <span id="repo_url">https://{{host}}/clients/git/end/{{blog.handle}}.git</span><br><button class="copier" onclick="copyToClipboard('repo_url')">Copy</button>
+  </span>
 </div>  
 
 <div class="line" >
   <span class="label">Username</span>
-  <span class="center"><span id="repo_username">{{user.email}}</span>  <span class="link" onclick="copyToClipboard(this, 'repo_username')">Copy to clipboard</span></span>
- 
+  <span class="center">
+    <span id="repo_username">{{user.email}}</span><br>
+    <button class="copier" onclick="copyToClipboard('repo_username')">Copy</button>
+
+  </span>
+
 </div>  
 
 <div class="line" >
   <span class="label">Password</span>
-  <span class="center" id="repo_password">{{token}}</span>
-  <span class="link" onclick="copyToClipboard(this, 'repo_password')">Copy to clipboard</span>
-  <a style="margin-left: 1rem" class="link" href="{{{base}}}/reset-password">Reset password</a>
+  <span class="center"><span id="repo_password">{{token}}</span><br>    <button class="copier" onclick="copyToClipboard('repo_password')">Copy</button>   <a style="margin-left: 1rem" class="link" href="{{{base}}}/reset-password">Reset password</a>
+
+  </span>
 </div>  
 
 <div class="line" >
@@ -47,35 +57,30 @@
 </div>
 
 {{> disconnect-line}}
-
 <script type="text/javascript">
-  
-  function copyToClipboard(node, elementId) {
+  function copyToClipboard(elementId) {
+    // Create an auxiliary hidden input
+    var aux = document.createElement("input");
+
+    // Get the text from the element passed into the input
+    aux.setAttribute("value", document.getElementById(elementId).innerHTML);
+
+    // Append the aux input to the body
+    document.body.appendChild(aux);
+
+    // Highlight the content
+    aux.select();
+
+    // Execute the copy command
+    document.execCommand("copy");
+
+    // Remove the input from the body
+    document.body.removeChild(aux);
+    document.querySelectorAll("[onclick]").forEach(n=>n.classList.remove("copied"));
+    document.querySelectorAll("[onclick]").forEach(n=>n.innerHTML = 'Copy');
 
 
-  // Create an auxiliary hidden input
-  var aux = document.createElement("input");
-
-  // Get the text from the element passed into the input
-  aux.setAttribute("value", document.getElementById(elementId).innerHTML);
-
-  // Append the aux input to the body
-  document.body.appendChild(aux);
-
-  // Highlight the content
-  aux.select();
-
-  // Execute the copy command
-  document.execCommand("copy");
-
-  // Remove the input from the body
-  document.body.removeChild(aux);
-
-  const cachedInnerHTML = node.innerHTML;
-  node.innerHTML = 'Copied';
-  setTimeout(function(){
-  node.innerHTML = cachedInnerHTML;    
-  }, 2000)
-  }  
+    document.querySelector("[onclick*='" + elementId + "']").innerHTML = 'Copied';
+    document.querySelector("[onclick*='" + elementId + "']").classList.add("copied");
+  }
 </script>
-

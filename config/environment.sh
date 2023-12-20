@@ -60,7 +60,10 @@ export BLOT_STRIPE_SECRET=
 # Paypal for payment processing
 export BLOT_PAYPAL_CLIENT_ID=
 export BLOT_PAYPAL_SECRET=
-export BLOT_PAYPAL_PLAN_ID=
+export BLOT_PAYPAL_MONTHLY_4=
+export BLOT_PAYPAL_YEARLY_44=
+export BLOT_PAYPAL_MONTHLY_5=
+export BLOT_PAYPAL_YEARLY_55=
 
 # Dropbox for folder syncing
 export BLOT_DROPBOX_APP_KEY=

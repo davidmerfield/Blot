@@ -19,11 +19,10 @@ form.use(require("./rateLimit"));
 // E.g. please log in to access the Services page
 var DASHBOARD_PAGE_DESCRIPTION = {
   "/questions/ask": "ask a question",
-  "/settings/services": "access services on your dashboard",
   "/settings/urls/redirects": "set up redirects on your dashboard",
-  "/settings/services/404s": "view 404s on your dashboard",
-  "/settings/services/permalinks": "set the link format on your dashboard",
-  "/settings/links": "edit the links on your dashboard",
+  "/settings/404s": "view 404s on your dashboard",
+  "/settings/permalinks": "set the link format on your dashboard",
+  "/settings/links": "edit the links on your dashboard"
 };
 
 form.use(function (req, res, next) {

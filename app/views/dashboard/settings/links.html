@@ -1,9 +1,13 @@
+{{> form-header}}
+
+<input type="hidden" name="redirect" value="{{{base}}}/links" />
+
 <p>
   The following links appear on your site. You can add new links to external
   sites. <a href="/how/pages">Pages</a> in your folder are added to these links
   automatically. Click-and-drag the handle on the links to re-order them.
 </p>
-<hr />
+<br>
 
 <!-- Neccessary to produce an empty menu -->
 <input type="hidden" name="hasMenu" value="true" />
@@ -147,10 +151,12 @@
     display: block;
     border: 1px solid rgba(0, 0, 0, 0.05);
     border-radius: 4px;
-    color: #0070e8;
+    color: var(--accent-color);
     padding-right: 40px;
   "
   ><span class="photo-holder plus" style="text-align: center; text-indent: 1px"
     >+</span
   ><span class="on-hover">Add new link</span></a
 >
+
+{{> form-footer}}

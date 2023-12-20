@@ -1,10 +1,8 @@
 <h1>Edit tag</h1>
 
-<div style="max-width: 637px;">
-  <form method="POST" class="qa-form">
-    <input type="hidden" name="previousTag" value="{{tag}}" />
-    <input type="text" name="tag"value="{{tag}}"></input>
-    <p>Will update {{total_affected}} questions.</p>
-    <input type="submit" value="Save">
-  </form>
-<div>
+<form method="POST">
+  <input type="hidden" name="previousTag" value="{{tag}}" />
+  <input type="text" name="tag"value="{{tag}}"></input>
+  <p>Will update {{total_affected}} questions.</p>
+  <input type="submit" value="Save">
+</form>

@@ -1,0 +1,32 @@
+# This website
+
+## How to create an effective brochure and documentation for a SAAS product
+
+## Copy
+
+I tried to avoid using adjectives in any of the copy.
+
+## Social proof
+
+Instead of a wall of logos of corporations that use Blot, I went with a wall of people who use Blot.
+
+## Sign up page
+
+Designing the sign up page for Blot.
+
+The goal of the sign-up form is to get new customers onto Blot. 
+
+
+Why doesn't Blot have pricing tiers?
+------------------------------------
+
+In general, I feel like there's an overwhelming amount of choice in the world. Some of this choice is good and warranted but I feel annoyed when I have to dig through a variety of offerings that have been clearly. I recognize this means I'm giving up revenue.
+
+Also, I don't like the look of those tables, with three or four choices, a feature list to compare against. Blot has one option, one price, one fewer decision to make.
+
+
+
+Why not use a price ending in .99?
+----------------------------------
+
+Why is the price $5 rather than $4.99 a month? I don't like the look of prices that end in .99. It always struck me as a cheap trick. The number is messier too. Why use five glyphs if we can get away with two? I know it works, but I know that it's working on me.

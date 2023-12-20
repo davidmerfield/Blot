@@ -124,7 +124,7 @@ const takeScreenshot = async ({ url, destination }) => {
   const path = `${destination}.png`;
 
   console.log(`Taking screenshot of ${url} to ${path}`);
-  await screenshot(url, path, { width: 1060, height: 1060 });
+  await screenshot(url, path, { width: 1060, height: 780 });
 
   const mobilePath = `${destination}.mobile.png`;
   console.log(`Taking mobile screenshot of ${url} to ${mobilePath}`);

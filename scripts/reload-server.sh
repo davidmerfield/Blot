@@ -42,6 +42,9 @@ echo "Waiting for 'Replaced all workers' to appear in logs/app.log"
 tail -f $logfile | sed '/Replaced all workers/ q'
 echo "Restarted the application servers! Rebuilding the demo folders"
 
+# purge cache
+curl 127.0.0.1/purge?host=$BLOT_HOST
+
 node $BLOT_DIRECTORY/app/templates/folders/index.js
 
 echo "Rebuilt the folders"

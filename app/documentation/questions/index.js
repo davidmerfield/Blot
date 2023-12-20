@@ -3,6 +3,13 @@ const urlencoded = Express.urlencoded({
   extended: true
 });
 
+const lookup = tag =>
+  map[tag] || (tag[0].toUpperCase() + tag.slice(1)).replace(/-/g, " ");
+
+const map = {
+  "json-feed": "JSON Feed"
+};
+
 const Questions = new Express.Router();
 const moment = require("moment");
 const config = require("config");
@@ -24,12 +31,31 @@ const flush = () => {
   });
 };
 
-const { tags, create, update, list, get } = require("models/question");
+const { tags, create, update, list, get, search } = require("models/question");
 const render = require("./render");
 const Paginator = require("./paginator");
 
 Questions.use(["/ask", "/:id/edit", "/:id/new"], require("dashboard/session"));
 Questions.use(["/ask", "/:id/edit", "/:id/new"], urlencoded);
+
+Questions.get("/search", async (req, res) => {
+  try {
+    const query = req.query.query;
+
+    if (query) {
+      res.locals.questions = await search({ query });
+      res.locals.query = query;
+    } else {
+      res.locals.questions = [];
+    }
+  } catch (e) {
+    res.locals.questions = [];
+  }
+
+  // don't cache
+  res.set("Cache-control", "private");
+  res.render("questions/search");
+});
 
 Questions.use(async (req, res, next) => {
   const result = await tags();
@@ -78,7 +104,7 @@ Questions.get("/feed.rss", async function (req, res) {
 
 // Handle topic listing
 // Topics are sorted by datetime of last reply, then by topic creation date
-Questions.get(["/", "/page/:page"], async function (req, res, next) {
+Questions.get(["/", "/page-:page"], async function (req, res, next) {
   const page = req.params.page ? parseInt(req.params.page) : 1;
 
   if (!Number.isInteger(page)) {
@@ -110,7 +136,7 @@ Questions.get(["/", "/page/:page"], async function (req, res, next) {
   res.render("questions");
 });
 
-Questions.route(["/tags", "/tags/page/:page"]).get(async function (
+Questions.route(["/tags", "/tags/page-:page"]).get(async function (
   req,
   res,
   next
@@ -230,7 +256,7 @@ Questions.route("/:id").get(async (req, res, next) => {
 });
 
 Questions.get(
-  ["/tagged/:tag", "/tagged/:tag/page/:page"],
+  ["/tagged/:tag", "/tagged/:tag/page-:page"],
   async (req, res, next) => {
     // Pagination data
 
@@ -251,9 +277,9 @@ Questions.get(
     res.locals.breadcrumbs = res.locals.breadcrumbs.filter(
       (x, i) => i !== res.locals.breadcrumbs.length - 2
     );
-
+    res.locals.prettyTag = lookup(tag);
     res.locals.breadcrumbs[res.locals.breadcrumbs.length - 1].label =
-      "Tagged '" + tag + "'";
+      lookup(tag);
 
     const { questions, stats } = await list({ tag, page });
 

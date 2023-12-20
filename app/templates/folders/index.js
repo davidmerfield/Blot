@@ -144,13 +144,14 @@ function setupBlogs (user, folders, callback) {
           console.log("Building folder", path, "for blog", blog.handle);
           const update = updates[blog.handle] || {};
 
-          Blog.set(id, update, async function (err) {
+          Blog.set(id, { ...update, client: "" }, async function (err) {
             if (err) return next(err);
 
             // replace the contents of the blog folder 'localPath(id, "/")'
             // with the contents of the folder 'path', overwriting anything
             // and removing anything that is not in 'path'
             await fs.remove(localPath(blog.id, "/"));
+            console.log("copying", path, "to", localPath(blog.id, "/"));
             await fs.copy(path, localPath(blog.id, "/"), {
               preserveTimestamps: true
             });

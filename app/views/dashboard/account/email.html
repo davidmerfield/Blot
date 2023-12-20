@@ -1,7 +1,9 @@
-<form class="account" method="post">
+<form class="dashboard-form" method="post">
 
   <input type="hidden" name="_csrf" value="{{csrftoken}}">
 
+  {{> message}}
+  
   <label>Your email address:</label>  
   <input class="noMargin" type="text" name="email" value="{{user.email}}" autofocus placeholder=""/>
 

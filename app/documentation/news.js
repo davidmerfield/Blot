@@ -9,13 +9,49 @@ var config = require("config");
 var client = require("models/client");
 var gitCommits = require("./tools/git-commits");
 var listKey = "newsletter:list";
+var moment = require("moment");
 var TTL = 60 * 60 * 24; // 1 day in seconds
 const { join } = require("path");
 const root = require("helper/rootDir");
+const astro = require("helper/astro");
+
+// calculate the date of the next newsletter
+// we send a newsletter on the solstices and equinoxes
+// use moment to calculate the next one and return
+// the season e.g. "spring" and the time from now until
+// the next newsletter e.g. "in 3 days" or "in 1 month"
+const nextNewsletter = () => {
+  const now = moment();
+  const year = now.year();
+  const equinoxesAndSolstices = astro(year);
+  const { season, date } = equinoxesAndSolstices.find(({ season, date }) => {
+    return now.isBefore(date);
+  });
+
+  // instead of moment fromNow, we want to say either
+  // "in X months" where X is the number of months from now
+  // "in a few weeks"
+  // "in a few days"
+  // "tomorrow"
+  let modifiedFromNow;
+
+  if (now.isSame(date, "day")) {
+    modifiedFromNow = "tomorrow";
+  } else if (now.isSame(date, "week")) {
+    modifiedFromNow = "in a few days";
+  } else if (now.isSame(date, "month")) {
+    modifiedFromNow = "in a few weeks";
+  } else {
+    modifiedFromNow = date.fromNow();
+  }
+
+  return { season, fromNow: modifiedFromNow };
+};
 
 news.get("/", gitCommits, loadToDo, function (req, res) {
   res.locals.fullWidth = true;
-  res.render("about/news");
+  res.locals.nextNewsletter = nextNewsletter();
+  res.render("news");
 });
 
 // The rest of these pages should not be cached
@@ -29,30 +65,30 @@ news.use(function (req, res, next) {
 news.get("/sign-up", function (req, res) {
   if (!req.query || !req.query.email) return res.redirect(req.baseUrl);
   res.locals.email = req.query.email;
-  res.locals.title = 'Sign up';
-  res.render("about/news/sign-up");
+  res.locals.title = "Sign up";
+  res.render("news/sign-up");
 });
 
 news.get("/cancel", function (req, res) {
   res.locals.email = req.query.email;
-  res.locals.title = 'Cancel';
-  res.render("about/news/cancel");
+  res.locals.title = "Cancel";
+  res.render("news/cancel");
 });
 
-function confirmationKey(guid) {
+function confirmationKey (guid) {
   return "newsletter:confirm:" + guid;
 }
 
-function cancellationKey(guid) {
+function cancellationKey (guid) {
   return "newsletter:cancel:" + guid;
 }
 
-function confirmationLink(guid) {
-  return "https://" + config.host + "/about/news/confirm/" + guid;
+function confirmationLink (guid) {
+  return "https://" + config.host + "/news/confirm/" + guid;
 }
 
-function cancellationLink(guid) {
-  return "https://" + config.host + "/about/news/cancel/" + guid;
+function cancellationLink (guid) {
+  return "https://" + config.host + "/news/cancel/" + guid;
 }
 
 // Removes guid from visible breadcrumbs
@@ -84,7 +120,7 @@ news.post("/cancel", parse, function (req, res, next) {
       Email.NEWSLETTER_CANCELLATION_CONFIRMATION(null, locals, function (err) {
         if (err) return next(err);
 
-        res.redirect("/about/news/cancel?email=" + email);
+        res.redirect("/news/cancel?email=" + email);
       });
     });
   });
@@ -110,8 +146,8 @@ news.get("/cancel/:guid", function (req, res, next) {
         });
       }
 
-      res.locals.title = 'Cancelled';
-      res.render("about/news/cancelled");
+      res.locals.title = "Cancelled";
+      res.render("news/cancelled");
     });
   });
 });
@@ -127,7 +163,7 @@ news.get("/confirm/:guid", function (req, res, next) {
 
       var locals = {
         email: email,
-        cancel: "https://" + config.host + "/news/cancel",
+        cancel: "https://" + config.host + "/news/cancel"
       };
 
       res.locals.title = "Confirmed";
@@ -167,12 +203,12 @@ news.post("/sign-up", parse, function (req, res, next) {
     Email.NEWSLETTER_SUBSCRIPTION_CONFIRMATION(null, locals, function (err) {
       if (err) return next(err);
 
-      res.redirect("/about/news/sign-up?email=" + email);
+      res.redirect("/news/sign-up?email=" + email);
     });
   });
 });
 
-function loadToDo(req, res, next) {
+function loadToDo (req, res, next) {
   fs.readFile(join(root, "todo.txt"), "utf-8", function (err, todo) {
     if (err) return next(err);
     res.locals.todo = marked(todo);

@@ -41,8 +41,7 @@ async function handle (path) {
 module.exports = async ({ watch = false } = {}) => {
   await fs.emptyDir(DESTINATION_DIRECTORY);
 
-  // zip the templates for production
-  if (config.environment === "production") await zip();
+  await zip();
 
   // recursively read every file in the source directory
   const list = dir => {
@@ -128,7 +127,7 @@ async function buildCSS () {
 
   const mergedCSS = cssContents.join("\n\n");
 
-  await fs.writeFile(join(DESTINATION_DIRECTORY, "style.min.css"), mergedCSS);
+  await fs.writeFile(join(DESTINATION_DIRECTORY, "css.min.css"), mergedCSS);
 }
 
 async function buildJS () {
@@ -158,7 +157,7 @@ async function generateThumbnail (path) {
 
   // generate a thumbnail
   await sharp(join(SOURCE_DIRECTORY, path))
-    .resize({ width: 96 })
+    .resize({ width: 130 })
     .toFile(
       join(
         DESTINATION_DIRECTORY,

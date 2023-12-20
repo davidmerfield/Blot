@@ -1,15 +1,16 @@
 {{#message}}
         {{^error}}
-        <a href="" class="mess success" style="margin-bottom:0rem">
-     <span class="link">Dismiss</span>
-     {{{text}}}
+        <a href="" class="success" style="margin-bottom:0rem;display: flex;justify-content: space-between;">
+     
+     <span>{{{text}}}</span>
+     <span style="text-decoration: underline;">Dismiss</span>
     </a>
         {{/error}}
         {{/message}}
 
         {{#message.error}}
-        <a href="" class="mess error" style="margin-bottom:0rem">
-     <span class="link">Dismiss</span>
-     {{message.text}}
+        <a href="" class="error" style="margin-bottom:0rem;display: flex;justify-content: space-between;">
+     <span>{{message.text}}</span>
+     <span >Dismiss</span>
     </a>
         {{/message.error}}

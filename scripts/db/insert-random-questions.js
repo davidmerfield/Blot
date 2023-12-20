@@ -3,7 +3,7 @@ const async = require("async");
 const fs = require("fs-extra");
 const { create } = require("models/question");
 
-const walk = (dir) => {
+const walk = dir => {
   var results = [];
   var list = fs.readdirSync(dir);
   list.forEach(function (file) {
@@ -29,7 +29,7 @@ const urlFromFilename = function (path) {
 };
 
 const slugs = walk(require("helper/rootDir") + "/app/views")
-  .filter((path) => path.endsWith(".html"))
+  .filter(path => path.endsWith(".html"))
   .map(urlFromFilename)
   .filter((x, i, a) => a.indexOf(x) === i)
   .sort();
@@ -54,7 +54,7 @@ const questionStarts = [
   "What is the way to",
   "Where can I",
   "Should I",
-  "Can I",
+  "Can I"
 ];
 const randomQuestionStart = () =>
   questionStarts[Math.floor(Math.random() * questionStarts.length)];
@@ -77,7 +77,7 @@ while (questions.length < totalQuestions) {
   while (replies.length < totalReplies) {
     replies.push({
       author: faker.name.findName(),
-      body: faker.lorem.paragraphs(),
+      body: faker.lorem.paragraphs()
     });
   }
   questions.push({
@@ -85,7 +85,7 @@ while (questions.length < totalQuestions) {
     title: randomQuestion(),
     tags: [randomSlug(), randomSlug(), randomSlug()],
     body: faker.lorem.paragraphs(),
-    replies,
+    replies
   });
 }
 
@@ -97,13 +97,13 @@ while (questions.length < totalQuestions) {
       title: question.title,
       author: question.author,
       body: question.body,
-      tags: question.tags,
+      tags: question.tags
     });
 
     for (const reply of question.replies) {
       await create({
         body: reply.body,
-        parent: id,
+        parent: id
       });
     }
   }

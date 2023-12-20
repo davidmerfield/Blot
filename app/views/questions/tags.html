@@ -1,25 +1,11 @@
 <h1>Tags</h1>
 
-<style type="text/css">
-  div.tags {
-    display: flex;
-    flex-wrap: wrap;
-  }
-
-  div.tags a {
-    flex-basis: 33%;
-    border:1px solid var(--light-border-color);
-      border-radius: 4px;
-    box-sizing: border-box;
-    padding: 11px 20px;
-    margin-bottom: 1rem
-  }
-</style>
-
-<div class="tags">
+<div class="questions">
   {{#tags}}
-  <a class="tag-link" href="/questions/tagged/{{{tag}}}">{{tag}}<span style="display: block;color:rgba(0,0,0,0.5)">{{count}} questions</span></a>
+  <h2>  <a href="/questions/tagged/{{{tag}}}"
+    > {{ tag }} {{ count }} questions</a></h2>
   {{/tags}}
+  
+  {{> questions-paginator}}
 </div>
 
-{{> questions-paginator}}

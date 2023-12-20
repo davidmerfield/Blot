@@ -17,28 +17,27 @@ var TITLES = {
   "who": "Who uses Blot?",
   "developers": "Developer guide",
   "json-feed": "JSON feed",
-  "posts-tagged": "A page with posts with a particular tag",
+  "posts-tagged": "A page with posts with a particular tag"
 };
 
 module.exports = function (req, res, next) {
   res.locals.breadcrumbs = require("url")
     .parse(req.url)
     .pathname.split("/")
+    .filter(slug => slug !== "")
     .map(function (slug, i, arr) {
-      if (!slug) return { label: "Blot", first: true, url: "/" };
       return {
         label: TITLES[slug] || titleFromSlug(slug),
-        url: arr.slice(0, i + 1).join("/"),
-        last: i === arr.length - 1,
+        url: "/" + arr.slice(0, i + 1).join("/"),
+        last: i === arr.length - 1
       };
     });
 
   if (req.url === "/") {
-    res.locals.breadcrumbs = res.locals.breadcrumbs.slice(0, 1);
-    res.locals.breadcrumbs[0].last = true;
+    res.locals.breadcrumbs = [];
   }
 
-  if (res.locals.breadcrumbs.length < 3) res.locals.hidebreadcrumbs = true;
+  if (res.locals.breadcrumbs.length < 2) res.locals.hidebreadcrumbs = true;
 
   res.locals.base = "";
   res.locals.selected = {};

@@ -4,7 +4,7 @@ const rootDir = require("helper/rootDir");
 const moment = require("moment");
 var Git = require("simple-git");
 
-module.exports = function determineSource(req, res, next) {
+module.exports = function determineSource (req, res, next) {
   let validPath;
   let git;
   try {
@@ -12,21 +12,21 @@ module.exports = function determineSource(req, res, next) {
 
     let paths;
 
-    if (path === "/about/news") {
+    if (path === "/news") {
       paths = ["/todo.txt"];
     } else if (path.startsWith("/about/notes")) {
       paths = [
         join(path.slice("/about".length) + ".txt"),
-        join(path.slice("/about".length), "README"),
+        join(path.slice("/about".length), "README")
       ];
     } else {
       paths = [
         join("/app/views", path + ".html"),
-        join("/app/views", path, "index.html"),
+        join("/app/views", path, "index.html")
       ];
     }
 
-    validPath = paths.filter((i) => fs.existsSync(join(rootDir, i))).pop();
+    validPath = paths.filter(i => fs.existsSync(join(rootDir, i))).pop();
 
     if (!validPath) {
       return next();
