@@ -9,8 +9,8 @@
         {{/message}}
 
         {{#message.error}}
-        <a href="" class="error" style="margin-bottom:0rem">
-     <span class="link">Dismiss</span>
-     {{message.text}}
+        <a href="" class="error" style="margin-bottom:0rem;display: flex;justify-content: space-between;">
+     <span>{{message.text}}</span>
+     <span >Dismiss</span>
     </a>
         {{/message.error}}
