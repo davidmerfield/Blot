@@ -1,15 +1,15 @@
-
+{{> form-header}}
+<input type="hidden" name="redirect" value="{{{base}}}/date" />
 <style type="text/css">
   form label {
     text-transform: none;
     letter-spacing: 0;
-    color: rgb(158, 154, 152);
     font-size: 16px
   }
 
   form .line {padding-top: 16px;padding-bottom: 16px}
   p a {
-    color: #0070e8;
+    color: var(--accent-color);
     text-decoration: none
   }
 
@@ -21,7 +21,7 @@
 <p>
   <label>
     In what order do you write your dates?<br />
-    <select style="color:#000;margin-top:11px" name="dateFormat">
+    <select style="margin-top:11px" name="dateFormat">
       {{#dateFormats}}
       <option value="{{value}}" {{selected}}>{{date}}</option>
       {{/dateFormats}}
@@ -32,10 +32,11 @@
 <p>
   <label>
     Your timezone<br />
-    <select style="color:#000;margin-top:11px" name="timeZone" style="max-width:300px">
+    <select style="margin-top:11px" name="timeZone" style="max-width:300px">
       {{#timeZones}}
       <option value="{{value}}" {{selected}}>{{time}} {{value}}</option>
       {{/timeZones}}
     </select>
   </label>
 </p>
+{{> form-footer}}

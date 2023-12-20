@@ -6,15 +6,17 @@
 // once per day to ensure sites are fresh.
 const fs = require("fs-extra");
 
-module.exports = function (req, res, next) {
-  fs.readJSON(__dirname + "/featured-checked.json", function (err, featured) {
-    if (err) {
-      console.log("Warning: Please check the list of featured sites:");
-      console.log("node app/documentation/featured/check");
-      featured = [];
-    }
+module.exports = async function (req, res, next) {
+  res.locals.featured = await fs.readJSON(__dirname + "/data/featured.json");
 
-    res.locals.featured = featured;
-    next();
-  });
+  res.locals.featured.sites = res.locals.featured.sites
+    .filter(i => i.joined)
+    .map(i => {
+      return {
+        ...i,
+        host_without_www: i.host.replace(/^www\./, "")
+      };
+    });
+
+  next();
 };

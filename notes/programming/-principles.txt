@@ -1,7 +1,5 @@
 # Principles
 
-## What I have learnt programming Blot
-
 When I started working on Blot, I did not know how to program. I foolishly did less study than I should. I wasted time inventing tools that others built better, before me, but I enjoyed almost all of it.
 
 The most important goal is reliability, then speed.

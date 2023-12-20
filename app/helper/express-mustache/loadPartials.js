@@ -4,22 +4,29 @@ const { join } = require("path");
 
 const CACHED = {};
 
-module.exports = async function loadPartials(root, options, ext, cache) {
+module.exports = async function loadPartials (root, options, ext, cache) {
   let partials = {};
-  const dir = join(root, "partials");
 
   try {
-    const items = cache
-      ? CACHED[dir] || (await fs.readdir(dir))
-      : await fs.readdir(dir);
+    // recursively list all files matching ext in root and its subdirectories
+    const list = async dir => {
+      const items = cache
+        ? CACHED[dir] || (await fs.readdir(dir))
+        : await fs.readdir(dir);
 
-    if (cache && !CACHED[dir]) CACHED[dir] = items;
+      if (cache && !CACHED[dir]) CACHED[dir] = items;
 
-    items
-      .filter((i) => i.endsWith(ext))
-      .forEach(
-        (i) => (partials[i.slice(0, i.lastIndexOf("."))] = join(dir, i))
-      );
+      for (const item of items) {
+        const path = join(dir, item);
+        const stat = cache ? await fs.stat(path) : await fs.lstat(path);
+        if (stat.isDirectory()) await list(path);
+        else if (stat.isFile() && item.endsWith(ext)) {
+          const nameWithoutExt = item.slice(0, -ext.length);
+          partials[nameWithoutExt] = path;
+        }
+      }
+    };
+    await list(root);
   } catch (e) {}
 
   if (options.partials) {

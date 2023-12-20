@@ -43,7 +43,8 @@
     "grid_layout_options": [
       "square",
       "bookshelf"
-    ]
+    ],
+    "demo_folder": "william"
   },
   "views": {
     "tagged.html": {

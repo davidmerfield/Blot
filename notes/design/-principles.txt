@@ -1,6 +1,5 @@
 # Principles
 
-## On the aesthetic and design philosophy which lead to Blot
 
 In lots of ways, Blot is hidden. Most of the time, people who use Blot do so without looking at it. They simply edit the folder. Some things however, are visible. The templates, which I am not yet proud of, are an example of this.
 
@@ -40,7 +39,7 @@ I find old books, especially Italian ones made by early printers, to be very bea
 
 - **Emojis**: &puncsp; I dislike emojis partly because they look childish but mostly because their design is controlled by a corporation. See the [pistol emoji](https://emojipedia.org/pistol/) for reference: on some platforms it appears as a gun, on others a water pistol. I love text.
 
-- **SAAS aesthetic**: &puncsp; Three-column pricing pages, enquire for enterprise rates, live-chat popups: 'How can we help?', a team page filled with grinning teeth in matching swag at the biannual beach retreat.
+- **SAAS aesthetic**: &puncsp; Three-column pricing pages, enquire for enterprise rates, live-chat popups: 'How can we help?', a team page filled with grinning teeth at the biannual beach retreat.
 
 ## Websites I admire
 
@@ -68,3 +67,30 @@ I like how [David Rudnick](https://davidrudnick.org/) justified the black backgr
 I also spend most of my day in a text editor with a dark background, and find it comfortable on the eyes.
 
 All of Blot's themes can be toggled to from white to black with a single click on the template editor. Perhaps one day I will switch everything from white by default to black by default.
+
+
+## Loads quickly
+
+Waiting for a page to load is not fun. The ideal website loads quickly, and it loads quickly from anywhere.
+
+## Has no advertising
+
+Advertising is at best a distraction. At worst it is invasive and manipulative. The ideal website has no advertising.
+
+## If there is text then the text is easy to read
+
+When you design a website, you should start with a paragraph of text and work outwards. There are a number of errors that are easily avoided if you just start with a single paragraph: select an appropriate typeface, then work out the measure and leading that suits the combination of text and the typeface. This can all be done according to your own eye.
+
+
+## While the page loads its layout should remain
+
+I dislike when the layout of the page shifts around as it loads. It upsets me when I try to click on a link, only for the page layout to shift under my finger as an image off the screen finally loads. The fix for this problem is easy: block out the space required by content loaded after your page has been rendered. You can almost always determine in advance the aspect ratio of advertising inserts or embedded media. For example, specify the width and height of images in your site's HTML markup. This means the browser doesn't need to adjust the layout of the page as it determines the dimensions of the loaded image. The solution is to work out the width and height of images on the server, and deliver the HTML to the browser with this information. You can use a different strategy for responsive images to achieve the same result: as the image loads, the layout remains the same.
+
+## When part of the page is obscured
+
+My screen is small enough as it is, I do not want it further reduced by sticky headers and footers. None of these improve the reading experience and only irritate me.
+
+## When the page tries to cajole me into stuff
+
+No, I probably don't want to subscribe to your newsletter. No, I don't want this, or that. I just want to read your webpage and get on with my life.
+

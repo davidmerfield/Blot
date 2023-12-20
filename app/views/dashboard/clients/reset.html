@@ -1,6 +1,8 @@
+<form method='post' class="dashboard-form">
+
 <style type="text/css">
 
-button[type="submit"] {max-width:475px;margin-bottom: 0;padding: 10px 0;border-top:1px solid rgba(0,0,0,0.05);text-align: left;display: block;width: 100%;color:#0070e8;padding: 11px 20px;}
+button[type="submit"] {font-size:inherit;border:none;max-width:475px;margin-bottom: 0;padding: 10px 0;border-top:1px solid var(--border-color);text-align: left;display: block;width: 100%;color:var(--accent-color);padding: 11px 20px;background:transparent}
 button[name="client"] b {
   display: block;
 }
@@ -10,7 +12,6 @@ button[type="submit"]:after {
 }
 button[type="submit"]:hover {background: rgba(0,0,0,0.03);cursor: pointer;}
 </style>
-<form method='post' class="account">
 
   <input type="hidden" name="_csrf" value="{{csrftoken}}">
 
@@ -30,7 +31,7 @@ button[type="submit"]:hover {background: rgba(0,0,0,0.03);cursor: pointer;}
 
 
 {{#client.canResync}}
-<form style="padding-top:0;padding-bottom: 0" method='post' class="account"  action="{{{base}}}/client/reset/resync">
+<form style="padding-top:0;padding-bottom: 0" method='post' class="dashboard-form"  action="{{{base}}}/client/reset/resync">
 
   <input type="hidden" name="_csrf" value="{{csrftoken}}">
   <button type="submit">Resync your folder from {{client.display_name}}</button>
@@ -38,31 +39,32 @@ button[type="submit"]:hover {background: rgba(0,0,0,0.03);cursor: pointer;}
 </form>
 {{/client.canResync}}
 
-<form style="padding-top:0;padding-bottom: 0" method='post' class="account"  action="{{{base}}}/client/reset/rebuild">
+<form style="padding-top:0;padding-bottom: 0" method='post' class="dashboard-form"  action="{{{base}}}/client/reset/rebuild">
 
   <input type="hidden" name="_csrf" value="{{csrftoken}}">
   <button type="submit">Rebuild all posts and pages</button>
 
 </form>
-<form style="padding-top:0;padding-bottom: 0" method='post' class="account"  action="{{{base}}}/client/reset/rebuild?thumbnails=true">
+<form style="padding-top:0;padding-bottom: 0" method='post' class="dashboard-form"  action="{{{base}}}/client/reset/rebuild?thumbnails=true">
 
   <input type="hidden" name="_csrf" value="{{csrftoken}}">
   <button type="submit">Regenerate all thumbnails</button>
 
 </form>
 
-<form style="padding-top:0;padding-bottom: 0" method='post' class="account"  action="{{{base}}}/client/reset/rebuild?imageCache=true">
+<form style="padding-top:0;padding-bottom: 0" method='post' class="dashboard-form"  action="{{{base}}}/client/reset/rebuild?imageCache=true">
 
   <input type="hidden" name="_csrf" value="{{csrftoken}}">
   <button type="submit">Remove and re-fetch cached images</button>
 
 </form>
 
-<form style="padding-top:0;padding-bottom: 0" method='post' action="{{{base}}}/client/reset/resync" class="account">
+<form style="padding-top:0;padding-bottom: 0" method='post' action="{{{base}}}/client/reset/resync" class="dashboard-form">
 
   <div class="buttons">
     <a href="{{{base}}}/client/{{blog.client}}">Cancel</a>
   </div>
+  <br>
 </form>
 
 

@@ -1,35 +1,33 @@
-<h1>Contact us</h1>
+<h1>Contact</h1>
 
-<p>Please email <a href="mailto:contact@blot.im">contact@blot.im</a> directly. Don't hesitate to ask if you have any questions. We're happy to help set up your site, discuss Blot and answer your questions.</p>
+<p>Please email us:</p>
 
-<style type="text/css">
-  button:focus {outline: none;}
-</style>
-<p><a class="bordered-button" style="text-decoration:none;border:1px solid;display: inline-block;border-radius: 18px 0 0 18px;" id="text_element" href="mailto:contact@blot.im">contact@blot.im</a><button id="copier" style="border:1px solid var(--light-accent-color);cursor:pointer;background:var(--light-accent-color);color:white;font:inherit;line-height:36px;padding:0 2rem;border-radius: 0 18px 18px 0" onclick="copyToClipboard('text_element')">
-    Copy
-</button></p>
+<p>
+  <a id="text_element" href="mailto:contact@blot.im">contact@blot.im</a> &nbsp; 
+  <button class="copier" onclick="copyToClipboard('text_element')">Copy</button>
+</p>
+
 
 <script type="text/javascript">
   function copyToClipboard(elementId) {
+    // Create an auxiliary hidden input
+    var aux = document.createElement("input");
 
-  // Create an auxiliary hidden input
-  var aux = document.createElement("input");
+    // Get the text from the element passed into the input
+    aux.setAttribute("value", document.getElementById(elementId).innerHTML);
 
-  // Get the text from the element passed into the input
-  aux.setAttribute("value", document.getElementById(elementId).innerHTML);
+    // Append the aux input to the body
+    document.body.appendChild(aux);
 
-  // Append the aux input to the body
-  document.body.appendChild(aux);
+    // Highlight the content
+    aux.select();
 
-  // Highlight the content
-  aux.select();
+    // Execute the copy command
+    document.execCommand("copy");
 
-  // Execute the copy command
-  document.execCommand("copy");
-
-  // Remove the input from the body
-  document.body.removeChild(aux);
-  document.querySelector('#copier').innerHTML = 'Copied'
+    // Remove the input from the body
+    document.body.removeChild(aux);
+    document.querySelector("[onclick*='" + elementId + "']").innerHTML = 'Copied';
+    document.querySelector("[onclick*='" + elementId + "']").classList.add("copied");
   }
-
 </script>

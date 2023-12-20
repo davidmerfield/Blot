@@ -47,7 +47,8 @@
     "navigation_width_range": [
       150,
       400
-    ]
+    ],
+    "demo_folder": "bjorn"
   },
   "isPublic": true,
   "views": {

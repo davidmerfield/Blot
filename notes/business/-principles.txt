@@ -1,8 +1,6 @@
 # Principles
 
-## The theory and assumptions which guide how we do business
-
-I will sell the service to the people who want to host their blog on Blot. I will not generate income in any other way. The amount the customer pays for the service will be higher than the average amount I spend to provide the service, returning a profit with pays for the labor of the people who work on Blot. 
+I will sell the service to the people who want to host their blog on Blot. I will not generate income in any other way. The amount the customer pays for the service will be higher than the average amount I spend to provide the service, returning a profit which pays for the labor of the people who work on Blot. 
 
 ## Charge money
 

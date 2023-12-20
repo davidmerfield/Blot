@@ -11,7 +11,8 @@
     "syntax_highlighter": {
       "id": "stackoverflow-light"
     },
-    "body_font": {}
+    "body_font": {},
+    "demo_folder": "interviews"
   },
   "isPublic": true,
   "views": {

@@ -1,0 +1,29 @@
+<h1>Fonts</h1>
+
+<p>You can pick any of these fonts using the web template editor on your dashboard. If you are comfortable editing the source code of your template, you can install any font you like.</p>
+
+<style type="text/css">
+    #font-list {max-width: 700px;}
+
+    #font-list > div {
+    border-top: 1px solid var(--light-border-color);}
+    
+    #font-list svg {
+    height:3em;
+}
+    #font-list svg path {
+        stroke: var(--text-color);
+        fill: var(--text-color);
+    }
+</style>
+<br><br>
+<div id="font-list">
+{{#fonts}}
+{{#svg}}
+<div style="margin-bottom:1em;padding-bottom:1em">
+    <div style="max-width: 600px;overflow: hidden;">{{{svg}}}</div>
+    <div style="margin-top:-0.5em; var(--small-font-size);color:var(--light-text-color)">{{name}}</div> 
+</div>
+{{/svg}}
+    {{/fonts}}
+</div>

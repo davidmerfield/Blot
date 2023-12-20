@@ -1,6 +1,6 @@
-# Mistakes and regrets  
+# Mistakes  
 
-## Some of the decisions I've changed my mind on as I've run Blot
+Some of the decisions I've changed my mind on as I've run Blot
 
 ## Charging annually rather than monthly
 

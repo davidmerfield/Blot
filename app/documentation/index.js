@@ -1,7 +1,6 @@
 const config = require("config");
 const Express = require("express");
 const documentation = new Express();
-const hogan = require("helper/express-mustache");
 const fs = require("fs-extra");
 const mustache = require("helper/express-mustache");
 const redirector = require("./redirector");
@@ -113,8 +112,6 @@ documentation.get(
   }
 );
 
-documentation.use("/search", require("./search"));
-
 // Adds a handy 'edit this page' link
 documentation.use(
   ["/how", "/templates", "/about"],
@@ -123,32 +120,47 @@ documentation.use(
 
 documentation.use(require("./selected"));
 
+documentation.get("/", function (req, res, next) {
+  res.locals.title = "Blot – Turn a folder into a website";
+  res.locals.description =
+    "A blogging platform with no interface. Turns a folder into a blog automatically. Use your favorite text-editor to write. Text and Markdown files, Word Documents, images, bookmarks and HTML in your folder become blog posts.";
+  // otherwise the <title> of the page is 'Blot - Blot'
+  res.locals.hide_title_suffix = true;
+  next();
+});
+
+documentation.get("/examples", require("./featured"), require("./templates"));
+
+documentation.get("/examples/templates", require("./templates"));
+documentation.get("/examples/folders", require("./templates"));
+
 documentation.get(
-  "/",
-  require("./tools/git-commits"),
-  require("./featured"),
-  function (req, res, next) {
-    res.locals.layout = "partials/layout-index";
-    res.locals.title = "Blot – A blogging platform with no interface.";
-    res.locals.description =
-      "Turns a folder into a blog automatically. Use your favorite text-editor to write. Text and Markdown files, Word Documents, images, bookmarks and HTML in your folder become blog posts.";
-    // otherwise the <title> of the page is 'Blot - Blot'
-    res.locals.hide_title_suffix = true;
-    next();
+  "/examples/templates/:template",
+  require("./templates"),
+  (req, res, next) => {
+    if (!res.locals.template) return next();
+    res.render("examples/templates/template");
   }
 );
 
-documentation.use("/fonts", require("./fonts"));
+documentation.use(
+  "/examples/folders/:folder",
+  require("./templates"),
+  (req, res, next) => {
+    if (!res.locals.folder) return next();
+    res.render("examples/folders/folder");
+  }
+);
+
+documentation.use("/examples/templates/fonts", require("./fonts"));
+
+documentation.use("/developers", require("./developers"));
 
 documentation.get("/sitemap.xml", require("./sitemap"));
 
-documentation.use("/templates/developers", require("./developers"));
-
 documentation.use("/about/notes", require("./notes"));
 
-documentation.use("/templates", require("./templates"));
-
-documentation.use("/about/news", require("./news"));
+documentation.use("/news", require("./news"));
 
 documentation.use("/questions", require("./questions"));
 

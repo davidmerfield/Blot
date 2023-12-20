@@ -10,6 +10,9 @@ blot.im
 blot.is
 blot.my
 
+blot.website
+blot.site
+
 getblot.com
 useblot.com
 tryblot.com

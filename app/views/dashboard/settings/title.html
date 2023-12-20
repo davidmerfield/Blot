@@ -1,3 +1,5 @@
+{{> form-header}}
+
 <style type="text/css">
 	form .line {
 		padding-top: 16px;
@@ -24,3 +26,5 @@
 <label for="title" style="margin-top: 1rem">Title</label>
 <input type="hidden" name="redirect" value="{{{base}}}/title" />
 <input type="text" name="title" value="{{blog.title}}" autofocus />
+
+{{> form-footer}}

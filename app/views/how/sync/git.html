@@ -1,44 +1,82 @@
 <h1>Git</h1>
 
-<p>You can synchronize your blog's folder to Blot with <a rel="nofollow" href="https://git-scm.com/">Git</a>, a version-control system for tracking changes in computer files and coordinating work on those files among multiple people. You can switch your blog seamlessly to another client at any point.</p>
+<p>
+  You can connect your site's folder to Blot with
+  <a rel="nofollow" href="https://git-scm.com/">Git</a>, a version-control
+  system for tracking changes in computer files and coordinating work on those
+  files among multiple people. You can switch your site seamlessly to another
+  client at any point.
+</p>
 
 <h2>Setting up Git</h2>
 
-<p>When you configure your blog with the git client on the dashboard, Blot will provide a repository URL to clone, along with a username and password.</p>
+<p>
+  When you configure your site with the git client on the dashboard, Blot will
+  provide a repository URL to clone, along with a username and password.
+</p>
 
-<small><pre><code>git clone https://blot.im/url-to-your-repository.git</code></pre></small>
+<small>
+  <pre><code>git clone https://blot.im/url-to-your-repository.git</code></pre>
+</small>
 
-<p>Your blog is generated from the master branch of your repository. To update your blog, commit your changes and push.</p>
+<p>
+  Your site is generated from the master branch of your repository. To update
+  your site, commit your changes and push.
+</p>
 
 <h2>Using your phone or tablet</h2>
 
-<p>There are a handful of Git clients for phones and tablets. I've heard from a number of customers who use <a href="https://workingcopyapp.com/">Working Copy</a>.</p>
+<p>
+  There are a handful of Git clients for phones and tablets. I've heard from a
+  number of customers who use
+  <a href="https://workingcopyapp.com/">Working Copy</a>.
+</p>
 
 <h2>Using an existing Git repository</h2>
 
-<p>You can use an existing Git repostory. Set its remote URL to Blot's repository endpoint:</p>
+<p>
+  You can use an existing Git repostory. Set its remote URL to Blot's repository
+  endpoint:
+</p>
 
-<small><pre><code>git remote set-url origin https://blot.im/url-to-yours.git</code></pre></small>
+<small>
+  <pre><code>git remote set-url origin https://blot.im/url-to-yours.git</code></pre>
+</small>
 
 <p>The next time you push, you will need to use the force flag:</p>
 
-<small><pre><code>git push --force</code></pre></small>
-
+<small>
+  <pre><code>git push --force</code></pre>
+</small>
 
 <h2>Sharing your folder on GitHub</h2>
 
-<p>Git supports multiple remote URLs. This means you can use the same repository on Blot and GitHub. If you have an existing repository on GitHub, you can add Blot's endpoint:</p>
+<p>
+  Git supports multiple remote URLs. This means you can use the same repository
+  on Blot and GitHub. If you have an existing repository on GitHub, you can add
+  Blot's endpoint:
+</p>
 
-<small><pre><code>git remote set-url --add --push origin https://blot.im/your-repo.git</code></pre></small>
+<small>
+  <pre><code>git remote set-url --add --push origin https://blot.im/your-repo.git</code></pre>
+</small>
 
-<p>Or if you have an existing repository on Blot, you can add GitHub's endpoint:</p>
+<p>
+  Or if you have an existing repository on Blot, you can add GitHub's endpoint:
+</p>
 
-<small><pre><code>git remote set-url --add --push origin https://github.com/your-repo.git</code></pre></small>
+<small>
+  <pre><code>git remote set-url --add --push origin https://github.com/your-repo.git</code></pre>
+</small>
 
-<p>The next time you push, you will need to use the force flag to ensure the changes go through on both Blot and GitHub:</p>
+<p>
+  The next time you push, you will need to use the force flag to ensure the
+  changes go through on both Blot and GitHub:
+</p>
 
-<small><pre><code>git push --force</code></pre></small>
-
+<small>
+  <pre><code>git push --force</code></pre>
+</small>
 
 <h2>Switching client</h2>
 

@@ -213,7 +213,7 @@ passwordForm.post(parse, csrf, function (req, res, next) {
         req.session.uid = user.uid;
 
         Email.CREATED_BLOG(user.uid);
-        res.redirect("/account/create-blog");
+        res.redirect("/account/add-new-site");
       }
     );
   });

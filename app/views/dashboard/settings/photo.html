@@ -1,3 +1,6 @@
+{{> form-header}}
+<input type="hidden" name="redirect" value="{{{base}}}/photo" />
+
 <p>Your photo is used on your site's template and to generate a favicon for your site.</p>
 
 
@@ -19,3 +22,5 @@
     <input type='file' id="avatarUpload" style="display:inline;margin:0;cursor: pointer;" name='avatar' />
     </label>
   </section>
+
+  {{> form-footer}}

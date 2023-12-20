@@ -1,51 +1,35 @@
-<h1>How to use Blot</h1>
+<h1>Getting started</h1>
 
-<p>Blot turns a folder into a website. Files in the folder be­come posts on your website. What's the point of turning a folder into a website? So you can blog with your favorite text-editor. There's no interface – just files.</p>
+<p>Blot turns a folder into a website. Files in the folder be­come posts on your website. </p>
 
-<p>
-  <a class="demo-video" href="/videos/publishing-with-blot.mp4?cache=false">Watch the demo (9:39)</span></a>
-</p>
-
-<h2 class="no-border">Sync your folder to Blot</h2>
-{{> client_list}}
-
-<h2 class="no-border">Files which become posts</h2>
+<h2><a href="/how/posts">Files and posts</a></h2>
 {{> supported_file_list}}
 
+<h2 >Sync your folder</h2>
+{{> client_list}}
+
 <h2>Prevent a file becoming a post</h2>
-<p> Files and folders whose name starts with an underscore are ignored. Ignored files don’t become blog posts themselves but they can be <a href="#files-in-your-folder-are-public">embedded in posts</a>.</p>
-
-<background>
-  <pre class="folder" title="Your blog"><code>Drafts
-Pages
-Posts
-  Posted.txt
-  _Not_posted_due_to_filename.jpg
-_Resources
-  Not_posted_due_to_folder_name.png
-</code>
-    </pre>
-</background>
-
-<h2>Drafts</h2>
-
-<p>Files in a folder called <em>Drafts</em> are not published. Instead, Blot creates a preview file which updates as you make changes to your draft. Preview files work on any computer connected to the internet and should be opened in your web browser. You can share the preview file with others.</p>
-
-<background><pre class="folder" title="Your blog"><code>Drafts
-  Anecdote.txt
-  Anecdote.txt.html
-  Unpublished.txt
-  Unpublished.txt.html
-Pages
-Posts
-
-</code></pre></background>
+<p> Files and folders whose name starts with an underscore do not become posts or pages. You can link to or <a href="#files-in-your-folder-are-public">embed them in posts</a>.</p>
+<table >
+  <tbody>
+    <tr>
+       <td>
+        <code class="file img">_Banana.jpg</a></code>
+      </td>
+    </tr>
+  <tr>
+      <td>
+        <code class="folder">_Fruits</code><span class="light">›</span><code class="file img">Banana.jpg</a></code>
+      </td>      
+    </tr>
+  </tbody>
+</table>
 
 <h2>Files in your folder are public</h2>
 
-<p>The files in your blog’s folder are public. This is useful if you want to embed an image, a video or an audio file in a blog post. You can also use this to share files with your readers. For example, given the folder below, your readers can download <em>Archive.zip</em> if they visit <em>/Files/Archive.zip</em> on your blog.</p>
+<p>The files in your site’s folder are public. This is useful if you want to embed an image, a video or an audio file in a post. You can also use this to share files with your readers. For example, given the folder below, your readers can download <em>Archive.zip</em> if they visit <em>/Files/Archive.zip</em> on your site.</p>
 
-<background><pre class="folder" title="Your blog"><code>Files
+<pre class="folder" title="Your site"><code>Files
   Archive.zip
   index.html
 Posts
@@ -54,6 +38,5 @@ Posts
 
 
 </code></pre>
-</background>
 
-{{> video-player}}
+
