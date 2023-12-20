@@ -62,6 +62,7 @@ async function build (callback) {
   sites = await Promise.all(
     sites.map(async site => {
       const isOnline = await verifySiteIsOnline(site.host);
+      if (!isOnline) console.log(site.host + " is offline");
       return isOnline ? site : null;
     })
   ).then(sites => sites.filter(i => i));

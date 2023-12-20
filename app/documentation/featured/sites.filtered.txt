@@ -43,7 +43,7 @@
 #99abc4 spittingdog.net Dave Haysom, translates Chinese literature
 #bb341f windhausen.co Sönke Windhausen, is a student from Freiburg
 #b07246 anitaposch.com Anita Posch, is a writer from Austria
-#d28f00 reillybrennan.com Reilly Brennan, is a venture capital fund partner
+#d28f00 reillybrennan.com Reilly Brennan, is a venture capitalist
 #d48a7d victoriaclarke.art Victoria Clarke, is an artist based in London
 #8c8c8c www.adamsandell.com Adam Sandell, is a doctor and lawyer
 #c40002 sidenote.ridwansanusi.com Ridwan Sanusi, is a designer

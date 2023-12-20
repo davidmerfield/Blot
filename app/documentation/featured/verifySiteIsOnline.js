@@ -1,6 +1,6 @@
 const fetch = require("node-fetch");
 
-module.exports = async host => {
+const check = async host => {
   try {
     const res = await fetch("https://" + host + "/verify/domain-setup", {
       timeout: 3000
@@ -15,4 +15,14 @@ module.exports = async host => {
   } catch (e) {
     return false;
   }
+};
+
+// export a function which calls check three times in case of failure and if all fail then it returns false
+module.exports = async host => {
+  for (let i = 0; i < 3; i++) {
+    const isOnline = await check(host);
+    if (isOnline) return true;
+  }
+
+  return false;
 };
