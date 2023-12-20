@@ -1,11 +1,10 @@
 .copier {
-    background-color: var(--background-color);
+    background-color: transparent;
     border: 1px solid var(--border-color);
     border-radius: 4px;
     color: var(--text-color);
     cursor: pointer;
     font-size: 16px;
-    margin-left: 8px;
     padding: 4px 8px;
   }
   .copier.copied {

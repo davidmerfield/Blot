@@ -1,4 +1,5 @@
-
+{{> form-header}}
+<input type="hidden" name="redirect" value="{{{base}}}/services" />
 {{#categories.Services}}
 <div class="line">
   <span class="label">External services</span>
@@ -24,3 +25,5 @@
   </span>
 </div>
 {{/categories.Services}}
+
+{{> form-footer}}

@@ -9,7 +9,6 @@ const sse = require("helper/sse")({ channel });
 
 Import.use((req, res, next) => {
   res.locals.importBase = res.locals.base + "/import";
-  res.locals.breadcrumbs.add("Services", "services");
   res.locals.breadcrumbs.add("Import", "import");
   next();
 });

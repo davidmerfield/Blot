@@ -28,9 +28,12 @@
 .preview-button,
 .line form button {
   margin: -12px 0;
+  cursor: pointer;
   padding: 11px 0;
   color: var(--accent-color);
   display: inline-block;
+  border: none;
+  font-size: inherit;
 }
 
 .line form button.row {
@@ -151,14 +154,6 @@
       </span>
         
       
-
-
-      {{^localEditing}}
-      <a class="preview-cover" href="{{editURL}}"></a>
-      {{/localEditing}}
-      {{#localEditing}}
-      <a class="preview-cover" href="{{previewURL}}"></a>
-      {{/localEditing}}
     </div>    
     {{#isMine}}
     {{^localEditing}}

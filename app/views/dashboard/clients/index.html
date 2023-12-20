@@ -1,4 +1,5 @@
-<style type="text/css">
+<form method='post' class="dashboard-form">
+  <style type="text/css">
 
 button[name="client"] {background:var(--light-background-color);max-width:475px;margin-bottom: 0;padding: 10px 0;border:none;border-top:1px solid var(--light-border-color);text-align: left;display: block;width: 100%;color:var(--accent-color);padding: 11px 20px;font-size:var(--font-size)}
 button[name="client"] b {
@@ -11,12 +12,9 @@ button[name="client"]:after {
 button[name="client"]:hover {background: rgba(0,0,0,0.03);cursor: pointer;}
 </style>
 
-<div style="padding: 11px 20px;margin:0 0;max-width: 500px">
   <p>How would you like to sync the folder for <b>{{blog.title}}</b>? </p>
-</div>
 
 {{#clients}}
-<form method='post' style="padding:0 20px;max-width: 500px">
 
   {{#setup}}
   <input type="hidden" name="setup" value="true">
@@ -28,10 +26,9 @@ button[name="client"]:hover {background: rgba(0,0,0,0.03);cursor: pointer;}
    {{display_name}}
   </button>
 
-</form>
 {{/clients}}
 
-<div class="buttons" style="padding: 0 20px">
+<div class="buttons">
   {{#setup}}
   <a href="{{{base}}}">Set up later</a>
   {{/setup}}
@@ -39,3 +36,4 @@ button[name="client"]:hover {background: rgba(0,0,0,0.03);cursor: pointer;}
   <a href="{{{base}}}">Cancel</a>
   {{/setup}}
 </div>
+</form>
