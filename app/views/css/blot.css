@@ -18,6 +18,12 @@ html {
   --light-border-color: #343331;
   --inset-image-border-color: rgba(255,255,255,0.05);
 
+  --error-text-color: #f76f6c;
+  --error-background-color: #400000;
+
+  --success-text-color: #5C9A39;
+  --success-background-color: #102b05;
+
   --large-border-radius: 10px;
   --border-radius: 5px;
   
@@ -386,17 +392,26 @@ overlay {
 }
 
 /* Paragraph tag containing form error messages */
-.error {
-  color: #a54846;
+.error, .success {
   display: block;
-  background: #feeded;
-  outline: 10px solid #feeded;
   margin-bottom: 2rem;
+  padding: 12px 18px;
 }
 
-.error:empty {
+.error:empty, .success:empty {
   display: none;
 }
+
+.error {
+  color: var(--error-text-color);
+  background: var(--error-background-color);
+}
+
+.success {
+  color: var(--success-text-color);
+  background: var(--success-background-color);
+}
+
 
 .form-container {
   margin: 0;

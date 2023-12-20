@@ -6,6 +6,7 @@
 - Donald Knuth
 - Aldo Manuzio
 - William Morris
+- Laurel Schwulst
 - Paolo Sorrentino
 - Urbit
 - Matthew Carter

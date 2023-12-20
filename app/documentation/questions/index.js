@@ -41,12 +41,17 @@ Questions.use(["/ask", "/:id/edit", "/:id/new"], urlencoded);
 Questions.get("/search", async (req, res) => {
   try {
     const query = req.query.query;
-    const questions = await search({ query });
-    res.locals.questions = questions;
-    res.locals.query = query;
+
+    if (query) {
+      res.locals.questions = await search({ query });
+      res.locals.query = query;
+    } else {
+      res.locals.questions = [];
+    }
   } catch (e) {
     res.locals.questions = [];
   }
+
   // don't cache
   res.set("Cache-control", "private");
   res.render("questions/search");
