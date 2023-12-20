@@ -54,7 +54,7 @@ settings
     }
   );
 
-settings.get(["/analytics", "/images", "/typography"], load.plugins);
+settings.get(["/services", "/images", "/typography"], load.plugins);
 
 settings.get("/links", load.menu);
 

@@ -8,13 +8,26 @@
         {{> sidebar}}
         </section>
       <section style="padding: 2em 2em 6em 2em;flex-grow:1">
-        <section style="{{^user}}min-height: 80vh;padding-bottom:8em;{{/user}}{{#user}}background:var(--light-background-color);border-radius:4px;position:relative;top: -5em{{/user}}">
+        
+      
+        <section class="{{#user}}dashboard-container{{/user}}" style="{{^user}}min-height: 80vh;padding-bottom:8em;{{/user}}">
           {{> breadcrumbs}}
           {{> body}}
         </section>
         {{> footer-page}}
       </section>
     </section>
+    <style>
+      .dashboard-container {
+          background:var(--light-background-color);border-radius:4px;position:relative;top: -5em;
+      }
+  
+      @media (max-width: 768px) {
+          .dashboard-container {
+              top: 0;
+          }
+      }
+  </style>
     {{> footer}}
   </body>
 </html>

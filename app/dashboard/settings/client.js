@@ -9,7 +9,7 @@ const load = require("./load");
 const Sync = require("sync");
 const Fix = require("sync/fix");
 const Rebuild = require("sync/rebuild");
-const parse = require('dashboard/parse');
+const parse = require("dashboard/parse");
 
 const { promisify } = require("util");
 const getStatuses = promisify(Blog.getStatuses);
@@ -29,7 +29,7 @@ client_routes
   .get(load.clients, function (req, res) {
     res.locals.breadcrumbs.add("Switch", "switch");
     res.render("clients/switch", {
-      title: "Switch to another client",
+      title: "Switch to another client"
     });
   })
 
@@ -58,7 +58,7 @@ const verbs = {
   Downloading: "downloaded",
   Syncing: "synced",
   Transferring: "transferred",
-  Removing: "removed",
+  Removing: "removed"
 };
 
 client_routes.route("/activity").get(load.clients, async function (req, res) {
@@ -71,8 +71,8 @@ client_routes.route("/activity").get(load.clients, async function (req, res) {
     .map((value, key) => ({
       syncID: key,
       messages: value
-        .map((item) => {
-          const matchedVerb = Object.keys(verbs).find((i) =>
+        .map(item => {
+          const matchedVerb = Object.keys(verbs).find(i =>
             item.message.startsWith(i + " /")
           );
 
@@ -91,16 +91,16 @@ client_routes.route("/activity").get(load.clients, async function (req, res) {
 
           return item;
         })
-        .filter(({ message }) => message !== "Syncing" && message !== "Synced"),
+        .filter(({ message }) => message !== "Syncing" && message !== "Synced")
     }))
-    .filter((i) => i.messages && i.messages.length)
+    .filter(i => i.messages && i.messages.length)
     .value();
 
   res.render("clients/activity", {
     title: "Activity",
     statuses,
     next,
-    previous,
+    previous
   });
 });
 
@@ -111,7 +111,7 @@ client_routes
   .get(load.client, function (req, res) {
     res.locals.breadcrumbs.add("Reset", "reset");
     res.render("clients/reset", {
-      title: "Reset your folder",
+      title: "Reset your folder"
     });
   });
 
@@ -225,7 +225,6 @@ client_routes.use("/:client", function (req, res, next) {
   if (req.params.client !== req.blog.client) {
     return res.redirect(res.locals.base + "/client/" + req.blog.client);
   }
-  res.locals.partials = {};
   res.locals.dashboardBase = res.locals.base;
   res.locals.base = req.baseUrl;
 

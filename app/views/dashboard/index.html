@@ -1,17 +1,24 @@
 <div style="min-height: 50vh;display: flex;flex-direction: column;">
 
+	<style>
+		a.blog-link {
+			border-color:var(--border-color);
+		}
+		a.blog-link:hover {
+			border-color:var(--accent-color);
+		}
+	</style>
 <div style="flex-grow: 1">  
 	
 		
 		<div style="padding: 0 2rem">
 		  {{#blogs}}
-			<a href="/dashboard/{{handle}}" class="bordered-button" style="display: flex;justify-content: space-between;border-color:var(--border-color);margin: 0 0 1em">
+			<a href="/dashboard/{{handle}}" class="bordered-button blog-link" style="display: flex;justify-content: space-between;margin: 0 0 1em">
 			  
 			  <span style="font-weight:400;line-height: 1.4;padding: 12px 0">
 				  <span class="title">{{pretty.label}}</span><br>
 				  <span style="color:var(--light-text-color);font-weight:400;height:1.4em;font-size:var(--small-font-size)">{{pretty.url}}</span>
 				</span>
-				<span>&rarr;</span>
 			  </button>
 			</a>
 			{{/blogs}}

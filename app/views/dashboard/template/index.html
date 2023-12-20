@@ -29,12 +29,13 @@
 .line form button {
   margin: -12px 0;
   padding: 11px 0;
-  color: #0070e8;
+  color: var(--accent-color);
   display: inline-block;
 }
 
 .line form button.row {
-    color:#0070e8;
+    color:var(--accent-color);
+    border:none;
     border-bottom: 1px solid rgba(0,0,0,0.05);padding:11px 20px;display:block;text-align:left;width:100%;
     margin: 0;
 }
@@ -71,12 +72,12 @@
 .preview-cover:hover+.preview-button .square,
 .preview-button:hover .square,
 .line form button:hover .square {
-  background: #0070e8;
+  background: var(--accent-color);
   color: white;
 }
 
 .butty {
-  color: #0070e8;
+  color: var(--accent-color);
   padding: 10px 20px;
   float: right;
   margin-right: -20px;
@@ -121,7 +122,7 @@
   }
 
   p a {
-    color: #0070e8;
+    color: var(--accent-color);
     text-decoration: none
   }
 
@@ -142,7 +143,7 @@
     <div class="line theme {{checked}}">
 
       <span style="flex-grow:1">
-        <img src="/images/examples/blog/0-thumb.png?hash=ec7e704a168fcb55606041c4809a6519&amp;ext=.png" style="width:195px;height:144px;border-radius: 4px;margin: 4px 0 0;" width="65" height="48"><br>
+        
         {{^localEditing}}{{name}}{{/localEditing}}
         {{#localEditing}}Templates/{{slug}}
         {{/localEditing}}
@@ -161,7 +162,7 @@
     </div>    
     {{#isMine}}
     {{^localEditing}}
-    <a class="line" style="color:#0070e8" href="{{editURL}}">Edit template</a>
+    <a class="line" style="color:var(--accent-color)" href="{{editURL}}">Edit template</a>
     {{/localEditing}}
     {{#localEditing}}
     <div class="line"><span style="opacity:.5">To edit this template, edit the files in</span>&nbsp;Templates/{{slug}}</div>
@@ -225,7 +226,7 @@
     {{#blotTemplates}}
     {{> template-row}}
     {{/blotTemplates}}
-    <a class="line" style="color:#0070e8" href="{{{base}}}/template/archive">View all templates</a>
+    <a class="line" style="color:var(--accent-color)" href="{{{base}}}/template/archive">View all templates</a>
     </div>
 </div>
 

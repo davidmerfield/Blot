@@ -1,4 +1,4 @@
-  {{> status-line}}
+{{> status-line}}
 
 {{#account}}
 
@@ -22,7 +22,27 @@
   <div class="line">
     <div class="label">Location on Dropbox</div>
     <div class="center">
-      {{> location}}
+      
+<span style="margin-top:0em;display:inline-block;">
+  <img src="/images/folder-empty.svg" style="position:relative;top:2px;flex-shrink:0;margin-right:6px" width="16">
+
+{{#dropboxBreadcrumbs}}
+   <span style="color:#000">{{name}} {{^last}}<span style="margin-left:0.3em"><svg width="12" height="10" style="transform:rotate(270deg)" viewBox="0 0 10 12" xmlns="http://www.w3.org/2000/svg"><path d="M5.998 6.244c-.255 0-.51-.098-.703-.292L1.048 1.705C.663 1.32.66.683 1.05.293 1.444-.1 2.073-.1 2.462.29L6 3.83 9.538.29c.384-.384 1.02-.388 1.412.003.393.393.39 1.023.002 1.412L6.705 5.952c-.192.192-.447.29-.702.29z" fill="#000"></path></svg>{{/last}}</span>
+  {{/dropboxBreadcrumbs}}
+
+  <span style="color:rgb(158, 154, 152);max-width:500px;display: block;margin-top: 10px">
+      {{#preparing}}
+      Please wait to make any changes to this folder until the set-up is complete.
+      {{/preparing}}
+      {{^preparing}}
+       {{#full_access}}
+       You can rename and move this folder anywhere within your Dropbox.
+       {{/full_access}}
+       {{^full_access}}
+       You can rename this folder but if you want to move or share it you must grant <a href="{{{base}}}/permission" class="link">full-folder permission</a> to Blot.
+       {{/full_access}}
+      {{/preparing}}
+      </span>
    </div>
   </div>
   {{/dropboxBreadcrumbs.length}}

@@ -1,4 +1,3 @@
-<a style="color:var(--secondary-accent-color);font-weight:600;position: absolute;top:0;padding:18px;right:0"href="{{{blog.url}}}" target="_blank">{{blog.pretty.url}} &puncsp;↗</a>
 
 <div style="padding: 0 1.5em 0;margin: -1em -1.5em 0;">
   <!-- <a class="line" href="{{blog.pretty.url}}">
@@ -63,7 +62,7 @@
 <a class="line" style="border-radius: 0 0 4px 4px;border-bottom: none" href="{{{base}}}/template">
   <span class="label">Template</span>
   <span class="center">
-    <img src="/images/examples/blog/0-thumb.png?hash=ec7e704a168fcb55606041c4809a6519&amp;ext=.png" style="width:65px;height:48px;border-radius: 4px;margin: 4px 0 0;" width="65" height="48">
+    {{template.name}}
   </span>
   <span class="right" >Edit</span>
 </a>  
@@ -90,13 +89,13 @@
 
 
 
-  <a class="line" href="{{{base}}}/services/date">
+  <a class="line" href="{{{base}}}/date">
     <span class="label">Date and time</span>
     <span class="center">{{currentTime}}</span>
     <span class="right" >Edit</span>    
   </a>
   
-  <a class="line" href="{{{base}}}/services/link-format">
+  <a class="line" href="{{{base}}}/link-format">
     <span class="label">Link format</span>
     <span class="center">
       {{#permalinkFormats}}
@@ -105,7 +104,7 @@
     <span class="right" >Edit</span>
   </a>
 
-  <a class="line" href="{{{base}}}/services/redirects">
+  <a class="line" href="{{{base}}}/redirects">
     <span class="label">Redirects</span>
     <span class="link">Edit your redirect rules</span>
   </a>
@@ -123,11 +122,11 @@
   </a>
 
 
-  <a class="line" href="{{{base}}}/images">
+  <a class="line" href="{{{base}}}/typography">
     <span class="label">Typography</span>
     <span class="link">Edit typography settings</span>
   </a>
-  <a class="line" href="{{{base}}}/services/import">
+  <a class="line" href="{{{base}}}/import">
     <span class="label">Import</span>
     <span class="link">Import from elsewhere</span>
   </a>

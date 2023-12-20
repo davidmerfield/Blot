@@ -69,7 +69,7 @@ if (config.environment !== "development") {
 // the assets into a single file
 dashboard.locals.cacheID = Date.now();
 dashboard.locals.layout = VIEW_DIRECTORY + "/../partials/layout.html";
-dashboard.locals.selected = {dashboard: "selected"};
+dashboard.locals.selected = { dashboard: "selected" };
 
 dashboard.locals.partials = {
   header: VIEW_DIRECTORY + "/../partials/header.html",
@@ -179,8 +179,6 @@ dashboard.use("/:handle", function (req, res, next) {
   next();
 });
 
-// Use this before modifying the render function
-// since it doesn't use the layout for the rest of the dashboard
 dashboard.use("/:handle/template/edit", require("./template-editor"));
 
 // Will deliver the sync status of the blog as SSEs

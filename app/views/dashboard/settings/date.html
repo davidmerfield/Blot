@@ -1,4 +1,5 @@
-
+{{> form-header}}
+<input type="hidden" name="redirect" value="{{{base}}}/date" />
 <style type="text/css">
   form label {
     text-transform: none;
@@ -9,7 +10,7 @@
 
   form .line {padding-top: 16px;padding-bottom: 16px}
   p a {
-    color: #0070e8;
+    color: var(--accent-color);
     text-decoration: none
   }
 
@@ -39,3 +40,4 @@
     </select>
   </label>
 </p>
+{{> form-footer}}

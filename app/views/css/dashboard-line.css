@@ -14,13 +14,13 @@
 a.line:hover,
 div.line a.link:hover,
 .line form button:hover {
-  background: var(--background-color)
+  background: var(--medium-background-color)
 }
 
 a.line:active,
 div.line a.link:active,
 .line form button:active {
-  background: var(--background-color)
+  background: var(--medium-background-color)
 }
 
 a:hover .link,
