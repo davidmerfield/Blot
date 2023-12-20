@@ -142,7 +142,7 @@ function setupBlogs (user, folders, callback) {
         blogs,
         function ({ path, blog }, id, next) {
           console.log("Building folder", path, "for blog", blog.handle);
-          const update = updates[blog.handle] || {};
+          const update = updates[blog.handle] || { client: "" };
 
           Blog.set(id, update, async function (err) {
             if (err) return next(err);
