@@ -37,7 +37,9 @@ async function filter (sites) {
       try {
         const joined = await determineYearJoined(site.host);
         site.joined = joined;
-      } catch (e) {}
+      } catch (e) {
+        console.log(e);
+      }
       return isOnline ? site : null;
     })
   ).then(sites => sites.filter(i => i));
@@ -46,14 +48,13 @@ async function filter (sites) {
 const determineYearJoined = domain =>
   new Promise((resolve, reject) => {
     // If we are in dev we cannot access production db info so return a random year
-    // in last 6 years
     if (config.environment === "development")
       return resolve(new Date().getFullYear() - Math.floor(Math.random() * 6));
 
+    console.log("domain", domain);
     Blog.get({ domain }, function (err, blog) {
-      if (err) return reject(err);
-
-      if (!blog) return reject(new Error("No blog with domain " + domain));
+      if (err || !blog)
+        return reject(err || new Error("No blog with domain " + domain));
 
       User.getById(blog.owner, function (err, user) {
         let joined = new Date().getFullYear();
