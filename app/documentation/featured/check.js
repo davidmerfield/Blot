@@ -34,8 +34,10 @@ async function filter (sites) {
   return await Promise.all(
     sites.map(async site => {
       const isOnline = await verifySiteIsOnline(site.host);
-      const joined = await determineYearJoined(site.host);
-      site.joined = joined;
+      try {
+        const joined = await determineYearJoined(site.host);
+        site.joined = joined;
+      } catch (e) {}
       return isOnline ? site : null;
     })
   ).then(sites => sites.filter(i => i));
