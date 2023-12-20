@@ -4,6 +4,7 @@ Finish site and dashboard
 - Make sure blot resyncs folders with their associated sites when pulled
   - Compute a hash of the folder contents and only resync or re-zip as needed
     - Think about mtimes, metadata as well as file contents
+- The top right button 'your sites' should remember the last page of the dashboard you were on so you can switch from docs to dashboard quickly
 
 Improvements to templates:
 - Library

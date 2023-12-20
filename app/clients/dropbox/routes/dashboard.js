@@ -12,7 +12,6 @@ const views = __dirname + "/../views/";
 const client = require("models/client");
 
 dashboard.use(function loadDropboxAccount (req, res, next) {
-  // res.locals.partials.location = views + "location";
   Database.get(req.blog.id, function (err, account) {
     if (err) return next(err);
 
