@@ -24,7 +24,8 @@ const nextNewsletter = () => {
   const now = moment();
   const year = now.year();
   const equinoxesAndSolstices = astro(year);
-  const { season, date } = equinoxesAndSolstices.find(({ season, date }) => {
+  const { season, date } = equinoxesAndSolstices.find(({ date }) => {
+    // add padding of a day
     return now.isBefore(date);
   });
 
@@ -50,7 +51,11 @@ const nextNewsletter = () => {
 
 news.get("/", gitCommits, loadToDo, function (req, res) {
   res.locals.fullWidth = true;
-  res.locals.nextNewsletter = nextNewsletter();
+  try {
+    res.locals.nextNewsletter = nextNewsletter();
+  } catch (e) {
+    console.log(e);
+  }
   res.render("news");
 });
 

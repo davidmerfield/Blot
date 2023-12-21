@@ -12,7 +12,7 @@ node scripts/state newsletter && node scripts/email/newsletter $(ls app/helper/e
 
 Find PRs using this search query:
 
-https://github.com/davidmerfield/Blot/pulls?q=sort%3Aupdated-asc+is%3Amerged+updated%3A%3E%3D2022-02-10+author%3A%40me+
+https://github.com/davidmerfield/Blot/pulls?q=sort%3Amerged-asc+is%3Amerged+merged%3A%3E%3D2023-10-03+author%3A%40me+
 
 Then look at the commits too just in case:
 

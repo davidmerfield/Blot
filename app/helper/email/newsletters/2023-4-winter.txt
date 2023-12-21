@@ -1,0 +1,32 @@
+Winter newsletter
+
+*You received this email because you subscribed to [Blot’s newsletter](https://blot.im/about/news). You can [unsubscribe](https://blot.im/about/news/cancel) if you like. Please reply directly to this email if you have any thoughts or questions.*
+
+**New features**
+- Added some [new fonts](https://blot.im/examples/templates/fonts) to the font picker on the web template editor
+- Added an option to preserve hard line breaks to the typography settings page of your site. By default, markdown collapses text before and after a single line break into one paragraph. 
+- You can now sign up with PayPal
+
+**Changes**
+- Made some improvements to the template editor
+- Local template editing is much more streamlined. It's now not possible to clobber a template you're editing on Blot's website with local template files.
+- Increased the price for future customers to $5 per month. This has not affected existing customers in any way: you will continue to pay the same fee as usual.
+- We updated Blot’s dependencies to patch known security vulnerabilities and made tweaks to the dashboard and documentation, per tradition.
+
+**Bugs fixed**
+- You can now search [all questions](https://blot.im/questions)
+- Screenshots generated for link posts now should have fonts loading correctly
+- Images embedded from word Documents
+
+**Questions**
+- 
+
+**Mistakes**
+
+
+**Plans for this season**
+
+
+If you have any thoughts or questions about any of this, please don’t hesitate to reply directly to this email.
+
+Sincerely, David
