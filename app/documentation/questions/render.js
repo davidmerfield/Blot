@@ -3,7 +3,7 @@ const hljs = require("highlight.js");
 const cheerio = require("cheerio");
 const marked = require("marked");
 
-module.exports = function render(input) {
+module.exports = function render (input) {
   let html = input;
 
   try {
@@ -15,7 +15,7 @@ module.exports = function render(input) {
   return html;
 };
 
-function highlight(html) {
+function highlight (html) {
   const $ = cheerio.load(html);
 
   $("pre code").each(function () {
@@ -36,12 +36,12 @@ function highlight(html) {
     } catch (e) {}
   });
 
-  return removeXMLInvalidChars($.html());
+  return { body: removeXMLInvalidChars($.html()), summary: $.text() };
 }
 
 // Removes everything forbidden by XML 1.0 specifications,
 // plus the unicode replacement character U+FFFD
-function removeXMLInvalidChars(string) {
+function removeXMLInvalidChars (string) {
   var regex =
     /((?:[\0-\x08\x0B\f\x0E-\x1F\uFFFD\uFFFE\uFFFF]|[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?:[^\uD800-\uDBFF]|^)[\uDC00-\uDFFF]))/g;
   return string.replace(regex, "");

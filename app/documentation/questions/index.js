@@ -80,7 +80,9 @@ Questions.get("/feed.rss", async function (req, res) {
 
   // We preview one line of the topic body on the question index page
   res.locals.topics.forEach(function (topic) {
-    topic.body = render(topic.body);
+    const { body, summary } = render(topic.body);
+    topic.summary = summary;
+    topic.body = body;
     topic.url = res.locals.url + "/questions/" + topic.id;
     topic.author = "Anonymous";
     topic.date = moment(new Date(parseInt(topic.created_at))).format(
@@ -117,7 +119,9 @@ Questions.get(["/", "/page-:page"], async function (req, res, next) {
 
   // We preview one line of the topic body on the question index page
   res.locals.topics.forEach(function (topic) {
-    topic.body = render(topic.body);
+    const { body, summary } = render(topic.body);
+    topic.body = body;
+    topic.summary = summary;
     topic.singular = topic.number_of_replies === 1;
 
     topic.tags = topic.tags.map(tag => {
@@ -235,7 +239,7 @@ Questions.route("/:id").get(async (req, res, next) => {
 
   if (topic.parent) return res.redirect(`/questions/${topic.parent}`);
 
-  topic.body = render(topic.body);
+  topic.body = render(topic.body).body;
   topic.reply_count = topic.replies.length;
 
   res.locals.breadcrumbs[res.locals.breadcrumbs.length - 1].label = topic.title;
@@ -245,7 +249,7 @@ Questions.route("/:id").get(async (req, res, next) => {
 
   res.locals.title = topic.title;
   res.locals.topics = topic.replies.map(reply => {
-    reply.body = render(reply.body);
+    reply.body = render(reply.body).body;
     reply.answered = moment(reply.created_at).fromNow();
     reply.answeredDateStamp = moment(reply.created_at).valueOf();
 
@@ -287,7 +291,10 @@ Questions.get(
 
     // We preview one line of the topic body on the question index page
     topics.forEach(function (topic) {
-      topic.body = render(topic.body);
+      const { body, summary } = render(topic.body);
+      topic.body = body;
+      topic.summary = summary;
+
       if (topic.tags) topic.tags = topic.tags.map(tag => ({ tag, slug: tag }));
 
       topic.asked = moment(topic.created_at).fromNow();

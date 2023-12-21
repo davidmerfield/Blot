@@ -5,12 +5,12 @@ Winter newsletter
 **New features**
 - Added some [new fonts](https://blot.im/examples/templates/fonts) to the font picker on the web template editor
 - Added an option to preserve hard line breaks to the typography settings page of your site. By default, markdown collapses text before and after a single line break into one paragraph. 
-- You can now sign up with PayPal
+- New customers can sign up with PayPal
 
 **Changes**
+- Increased the price for future customers to $5 per month. This has not affected existing customers in any way: you will continue to pay the same fee as usual.
 - Made some improvements to the template editor
 - Local template editing is much more streamlined. It's now not possible to clobber a template you're editing on Blot's website with local template files.
-- Increased the price for future customers to $5 per month. This has not affected existing customers in any way: you will continue to pay the same fee as usual.
 - We updated Blot’s dependencies to patch known security vulnerabilities and made tweaks to the dashboard and documentation, per tradition.
 
 **Bugs fixed**
@@ -19,13 +19,24 @@ Winter newsletter
 - Images embedded from word Documents
 
 **Questions**
-- 
+- [Useful Shortcuts.app recipes?](https://blot.im/questions/2124)
+- [What have you made with Blot?](https://blot.im/questions/1635)
+- [How to change month names?](https://blot.im/questions/2099)
+- [Can I get a sample file with all possible layouts?](https://blot.im/questions/1445)
+- [How to add the last modified date to my sitemap?](https://blot.im/questions/2147)
+- [Add a Table of Contents to each post?](https://blot.im/questions/104)
 
 **Mistakes**
 
+I've decided that I will wait for Apple to release an iCloud Drive API (as Dropbox, Google Drive, OneDrive, etc. already do).
+
+Since there is no iCloud Drive API, the workaround I had planned was to run a Mac server, connected to the internet and powered 24/7, signed into Blot's iCloud account. I'd use Apple Script to automate the creation of blog folders folders within iCloud Drive on the Mac server and then automate the sharing of those folders with your iCloud email addresses. The Mac server would then watch the blog folders for changes and then in turn, sync them with Blot's server.
+
+After thorough experimentation, I have concluded the workaround I was planning to use is unreliable – perhaps this seems obvious based on the description of the proposed system in the previous paragraph – but I tried hard to get this to work. 
 
 **Plans for this season**
 
+Improve the templates, the template engine and the template developer documentation. I'd also like to re-record the new demo video on Blot's homepage. 
 
 If you have any thoughts or questions about any of this, please don’t hesitate to reply directly to this email.
 
