@@ -23,7 +23,7 @@ const astro = require("helper/astro");
 const nextNewsletter = () => {
   const now = moment();
   const year = now.year();
-  const equinoxesAndSolstices = astro(year);
+  const equinoxesAndSolstices = [...astro(year), ...astro(year + 1)];
   const { season, date } = equinoxesAndSolstices.find(({ date }) => {
     // add padding of a day
     return now.isBefore(date);
