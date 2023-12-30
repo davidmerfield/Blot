@@ -1,3 +1,5 @@
+Resolve SSL renewal issues
+
 Finish site and dashboard
 - The site CSS persists in the browser cache
 - Make sure folders are zipped when site builds, and delivered through CDN
@@ -66,23 +68,14 @@ Improvements to website:
 - Add [contributor](https://api.github.com/repos/davidmerfield/blot/contributors) / [language](https://api.github.com/repos/davidmerfield/blot/languages) and repo information to source code page using GitHub API.
 
 Redo demo video
-- Finish setting up Office
-- Ensure each template is good enough for the new film
-- Finish the test folders for each template 
-- Finish video in brochure/readme.txt
 
-Increase price to $5 per site per month for new customers. This will not affect existing customers in any way, who will always pay the same price.
+---
 
-Switch domain to blot.site
+Consider switching domain to blot.site
+- announce in spring newsletter, aim to switch in summer
 - add support for different user subdomain in dev
 - set up mail
 - switch from mailgun to SES over new domain
-
-Write newsletter
-
-Resolve SSL renewal issues
-
----
 
 Integrate font styles rendering into template model:
 - Remove this behaviour from dashboard/template-editor/save/fonts into update package
