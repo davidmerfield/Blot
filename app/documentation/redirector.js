@@ -22,7 +22,6 @@ const internal = {
   "/source": "/about/source-code",
   "/metadata": "/how/metadata",
   "/publishing": "/how",
-  "/pricing": "/about",
   "/404s": "/how/configure/redirects",
   "/howto": "/how",
   "/support": "/contact",
