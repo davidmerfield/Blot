@@ -1,14 +1,6 @@
-
-
 Fix template archive page
 - Tell [Christian](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJJgzmnHTFhNJMhKlJCWFcCJC)
 - Tell [Sixian](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJRvfzgpVKQWSnpBTFxgFRQrR)
-
-Fix link to developer docs
-- Tell [Enrique](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJccLzTCrBgBtXJBlwbfpwjnG)
-- Tell [Carlos](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJchvVSczXHqvzTWFnJCMxCxB)
-- Tell [Boris](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJcfdbZhgzhxpvTfTzrZcJcZC)
-- Tell [Shawn](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJckGSfncqlFWBtFRHwfVTFDv)
 
 Work out why [Darren cannot open the template editor](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJSBJCRPJsLFddJCNzTnnQgjs)
 
