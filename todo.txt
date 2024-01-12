@@ -1,4 +1,48 @@
+
+
+Fix template archive page
+- Tell [Christian](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJJgzmnHTFhNJMhKlJCWFcCJC)
+- Tell [Sixian](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJRvfzgpVKQWSnpBTFxgFRQrR)
+
+Fix link to developer docs
+- Tell [Enrique](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJccLzTCrBgBtXJBlwbfpwjnG)
+- Tell [Carlos](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJchvVSczXHqvzTWFnJCMxCxB)
+- Tell [Boris](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJcfdbZhgzhxpvTfTzrZcJcZC)
+- Tell [Shawn](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJckGSfncqlFWBtFRHwfVTFDv)
+
+Work out why [Darren cannot open the template editor](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJSBJCRPJsLFddJCNzTnnQgjs)
+
+---
+
+Fix Google Drive sync bug
+
+Fix side navigation on Blog template and tell [Sava](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJcgnPdxPcSqPwmMnFSThFMQg)
+
+Fix live stream of folder sync status
+
+Increase disk size of /var/blot/data
+
+Fix light mode colors and tell [Gary](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJSCRWXMlsPRVBsnrcRcbMklc)
+
+Answer [peter's questions about the portfolio template](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJSDbPpcncdNCvCTBrVcbnJGV)
+
+Fix pretty.price for paypal users
+
+Identify accounts that pay but do not create a blog and add monitoring for this
+- There might not even be accounts Just subscriptions in stripe 
+- Investigate, then Block and autorefund these payments: they're card testers that Stripe's anti-fraud missed
+
 Resolve SSL renewal issues
+
+Add way to import directly
+- Add/fix micro.blog import to dashboard and tell [Gabriel](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJRvfgrRhXwqDNDlxbpXmRlbd]
+- And recurring import from elsewhere 
+
+Add upload to dashboard
+- Drag and drop 
+
+Add ‘open folder on drive’ link to Client settings page. Same for Dropbox
+ 
 
 Finish site and dashboard
 - The site CSS persists in the browser cache
@@ -32,6 +76,19 @@ Improvements to templates:
 - Image
   - mobile
   - rename from photo
+
+Re-attempt iCloud support
+- Be clear it's UNOFFICIAL
+- Fetch list of people to tell from old GH issue
+- Tell [Stew](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJSFktWWJrNvRtnSjQRbwzrJK)
+- Tell [VH](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJcdSvvFcRcjNXqvxsZDjkMQh)
+
+Add pause subscription
+- Enable hibernation of blogs 
+
+Add disclaimer to pricing page for old subscribers
+
+Add Generative tree for account page
 
 - General:
   - Add paginateable entries list

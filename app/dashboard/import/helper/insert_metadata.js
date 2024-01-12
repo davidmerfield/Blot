@@ -1,7 +1,7 @@
 var capitalize = require("helper/capitalize");
 const moment = require("moment");
 
-module.exports = function insert_metadata(post, callback) {
+module.exports = function insert_metadata (post, callback) {
   var lines = [];
   var content = post.content;
 
@@ -13,7 +13,7 @@ module.exports = function insert_metadata(post, callback) {
   if (post.tags && post.tags.length)
     lines.push("Tags: " + post.tags.join(", "));
 
-  if (post.permalink) lines.push("Permalink: " + post.permalink);
+  if (post.permalink) lines.push("Link: " + post.permalink);
 
   if (post.summary) lines.push("Summary: " + post.summary);
 

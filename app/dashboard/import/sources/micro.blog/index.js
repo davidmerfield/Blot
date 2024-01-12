@@ -1,5 +1,5 @@
 const fs = require("fs-extra");
-const helper = require("dashboard/importer/helper");
+const helper = require("dashboard/import/helper");
 const marked = require("marked");
 const yaml = require("yaml");
 const moment = require("moment");
@@ -20,14 +20,14 @@ if (fs.existsSync(output_directory)) {
 
 (async () => {
   const paths = walk(input_directory).filter(
-    (path) =>
+    path =>
       fs.statSync(path).isFile() &&
       basename(path)[0] !== "." &&
       basename(path).toLowerCase().endsWith(".md")
   );
 
   const posts = await Promise.all(
-    paths.map(async (path) => {
+    paths.map(async path => {
       const filename = basename(path);
       let file = (await fs.readFile(path, "utf-8")).trim();
 
@@ -50,9 +50,10 @@ if (fs.existsSync(output_directory)) {
       );
       post.id = filename.slice(0, filename.lastIndexOf("."));
 
-      post.dateStamp = post.created = post.updated = moment(
-        meta.date
-      ).valueOf();
+      post.dateStamp =
+        post.created =
+        post.updated =
+          moment(meta.date).valueOf();
       post.draft = post.page = false;
 
       const $ = cheerio.load(post.html);
@@ -87,6 +88,6 @@ if (fs.existsSync(output_directory)) {
   // Writes each post in the post array,
   // downloads any images, pdfs
   helper.process(output_directory, posts, {
-    preserve_output_directory: true,
+    preserve_output_directory: true
   });
 })();
