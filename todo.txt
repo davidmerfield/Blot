@@ -1,10 +1,8 @@
-Fix template archive page
-- Tell [Christian](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJJgzmnHTFhNJMhKlJCWFcCJC)
-- Tell [Sixian](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJRvfzgpVKQWSnpBTFxgFRQrR)
-
 Work out why [Darren cannot open the template editor](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJSBJCRPJsLFddJCNzTnnQgjs)
 
 ---
+
+Document image zoom disable feature ?zoom=false and tell [questioner](https://blot.im/questions/2236)
 
 Fix Google Drive sync bug
 
