@@ -20,14 +20,14 @@ module.exports = function (req, res) {
     "/dashboard/sign-up",
     "/dashboard/log-in",
     "/templates",
-    "/templates/developers",
+    "/developers",
     "/questions",
     "/contact",
     "/privacy",
-    "/terms",
-  ].map((i) => {
+    "/terms"
+  ].map(i => {
     return {
-      url: config.protocol + config.host + i,
+      url: config.protocol + config.host + i
     };
   });
   res.setHeader("Content-Type", "text/xml");

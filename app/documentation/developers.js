@@ -4,7 +4,7 @@ var makeSlug = require("helper/makeSlug");
 var marked = require("marked");
 
 developers.use(function (req, res, next) {
-  res.locals.base = "/templates/developers";
+  res.locals.base = "/developers";
   next();
 });
 
@@ -13,16 +13,16 @@ developers.get(["/reference"], function (req, res, next) {
 
   res.locals.docs = require("yaml").parse(
     require("fs-extra").readFileSync(
-      __dirname + "/../views/templates/developers/reference.yml",
+      __dirname + "/../views/developers/reference.yml",
       "utf-8"
     )
   );
 
   console.log(res.locals.docs);
-  
+
   // Render the descriptions as markdown
-  res.locals.docs.forEach((section) => {
-    section.keys.forEach((property) => {
+  res.locals.docs.forEach(section => {
+    section.keys.forEach(property => {
       const { description, properties } = property;
 
       if (description) {
@@ -30,7 +30,7 @@ developers.get(["/reference"], function (req, res, next) {
       }
 
       if (properties) {
-        property.properties = properties.map((property) => {
+        property.properties = properties.map(property => {
           property.description = marked(property.description);
           return property;
         });
@@ -38,12 +38,11 @@ developers.get(["/reference"], function (req, res, next) {
     });
   });
 
-  res.locals.headers = res.locals.docs.map((item) => {
+  res.locals.headers = res.locals.docs.map(item => {
     return { text: item.name, id: makeSlug(item.name) };
   });
 
-  res.locals.headers.push({text: 'Date tokens', id: 'date-tokens'});
-
+  res.locals.headers.push({ text: "Date tokens", id: "date-tokens" });
 
   // These interfere with the reference template
   // if we rename the reference template, you can
@@ -55,7 +54,7 @@ developers.get(["/reference"], function (req, res, next) {
 
 developers.get("/", function (req, res) {
   res.locals.title = "Developer guide";
-  res.render("templates/developers");
+  res.render("developers");
 });
 
 module.exports = developers;
