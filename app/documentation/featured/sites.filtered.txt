@@ -32,7 +32,6 @@
 #ff9060 www.emilycass.org Emily Cass, is an architect
 #dbb3c9 jessytuddenham.com Jessy Tuddenham, is a dancer from Utah
 #b97371 bnjmnmddn.com Benjamin Madden, is an academic
-#517c80 www.jsoliday.com J. Soliday, is an electronic musician
 #d0a66f tellyou.today Neale Stokes, is a librarian from Los Angeles
 #979797 thejollyteapot.com Nicolas Magand, is a blogger from Strasbourg
 #7a9951 brainsister.com Jessica Doyle, is a writer
@@ -51,4 +50,3 @@
 #f1bd00 oliviaastawood.com Olivia Wood, is a musician from Los Angeles
 #387db9 jonahfoss.com Jonah Foss, is a student 
 #21732d www.nitinpai.in Nitin Pai, directs the Takshashila Institution
-#81e4e5 dannymcclainstudio.com Danny McClain, is an artist based in Nashville, Tennessee

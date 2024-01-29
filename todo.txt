@@ -1,10 +1,22 @@
+Fix bug with metadata in google docs and [tell questioners](https://blot.im/questions/2234) and [James](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJccLNDctHnNfsQxpfTScTMXt)
+
+Fix bug with [formatting in google docs](https://blot.im/questions/2107)
+
 Work out why [Darren cannot open the template editor](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJSBJCRPJsLFddJCNzTnnQgjs)
+
+Fix Google Drive sync bug
+
+Fix bug with date settings on the template editor for [magazine template](https://blot.im/questions/2244)
 
 ---
 
-Document image zoom disable feature ?zoom=false and tell [questioner](https://blot.im/questions/2236)
+Add a 'Create template' button to dashboard and tell [Shawn](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJckGSfncqlFWBtFRHwfVTFDv)
 
-Fix Google Drive sync bug
+Fix bug with [date on magazine template](https://blot.im/questions/2244)
+
+Fix bug with [header position on the blog template](https://blot.im/questions/2211)
+
+Document image zoom disable feature ?zoom=false and tell [questioner](https://blot.im/questions/2236)
 
 Fix side navigation on Blog template and tell [Sava](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJcgnPdxPcSqPwmMnFSThFMQg)
 
