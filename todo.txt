@@ -1,4 +1,4 @@
-Fix bug with metadata in google docs and [tell questioners](https://blot.im/questions/2234) and [James](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJccLNDctHnNfsQxpfTScTMXt)
+Fix bug with metadata in google docs and [tell questioners](https://blot.im/questions/2234) and [James](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJccLNDctHnNfsQxpfTScTMXt) and [Mark](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJmFXMvLrXSJkJwVxFGqtppDr)
 
 Fix bug with [formatting in google docs](https://blot.im/questions/2107)
 
@@ -25,6 +25,8 @@ Fix live stream of folder sync status
 Increase disk size of /var/blot/data
 
 Fix light mode colors and tell [Gary](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJSCRWXMlsPRVBsnrcRcbMklc)
+
+Make {{active}} strip the domain from the link [before checking](https://github.com/davidmerfield/Blot/blob/master/app/blog/render/retrieve/active.js#L22)? Or automatically strip the domain from internal links on Blot's dashboard?
 
 Answer [peter's questions about the portfolio template](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJSDbPpcncdNCvCTBrVcbnJGV)
 
