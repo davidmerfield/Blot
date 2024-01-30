@@ -36,7 +36,6 @@ const templates = fs
           .catch(reject)
           .then(template => {
             if (!template) return resolve();
-            console.log("template", template);
             const demo_folder = template.locals.demo_folder;
             resolve({
               name: i[0].toUpperCase() + i.slice(1),
@@ -117,7 +116,8 @@ module.exports = async (req, res, next) => {
     res.locals.folder = { ...folder };
 
     res.locals.folder.preview_host = folder.slug + "." + config.host;
-    res.locals.folder.preview = config.protocol + res.locals.preview_host;
+    res.locals.folder.preview =
+      config.protocol + res.locals.folder.preview_host;
 
     const zip_name = folder.slug + ".zip";
     const zip = "/folders/" + zip_name;

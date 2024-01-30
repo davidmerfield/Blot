@@ -1,3 +1,5 @@
+Email [Kuo](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJmPktVQJdGKlTdfgBJRJnBjv) once question has been responded to
+
 Fix bug with metadata in google docs and [tell questioners](https://blot.im/questions/2234) and [James](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJccLNDctHnNfsQxpfTScTMXt) and [Mark](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJmFXMvLrXSJkJwVxFGqtppDr)
 
 Fix bug with [formatting in google docs](https://blot.im/questions/2107)
@@ -7,6 +9,8 @@ Work out why [Darren cannot open the template editor](https://mail.google.com/ma
 Fix Google Drive sync bug
 
 Fix bug with date settings on the template editor for [magazine template](https://blot.im/questions/2244)
+
+Preserve ICC color profiles and tell [Simon](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJchvfhDcWNkrZtNJqlLmLfsx)
 
 ---
 
