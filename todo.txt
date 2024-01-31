@@ -1,6 +1,6 @@
 Email [Kuo](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJmPktVQJdGKlTdfgBJRJnBjv) once question has been responded to
 
-Fix bug with metadata in google docs and [tell questioners](https://blot.im/questions/2234) and [James](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJccLNDctHnNfsQxpfTScTMXt) and [Mark](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJmFXMvLrXSJkJwVxFGqtppDr)
+Fix bug with metadata in google docs and [tell questioners](https://blot.im/questions/2234)  and [Duncan](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJmGgczcSZzRQBjlljtdWzDWT) and [James](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJccLNDctHnNfsQxpfTScTMXt) and [Mark](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJmFXMvLrXSJkJwVxFGqtppDr)
 
 Fix bug with [formatting in google docs](https://blot.im/questions/2107)
 
@@ -97,6 +97,8 @@ Add pause subscription
 Add disclaimer to pricing page for old subscribers
 
 Add Generative tree for account page
+
+Add support for INI files and tell [Frank](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJckFhJhMMwFLzrRTfcSmHbrV)
 
 - General:
   - Add paginateable entries list
