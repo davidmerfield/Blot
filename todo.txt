@@ -1,8 +1,17 @@
+Fix bug with header on blog template
+- Tell [X](https://mail.google.com/mail/u/0/#inbox/FMfcgzGxRdsZrJxmqrBbltJbZLcJrFsq)
+- Tell [Eric](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJvpdkxPvJtHRpdTfwrNDdgbb)
+- Tell [Richard](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJvpdbkqDzcmTMvpqHDgLdLrQ)
+
+Containerize blot and tell [Aurnik](https://mail.google.com/mail/u/0/#inbox/QgrcJHsNjqKGDkvkThlkNqcZCWVFDfckjCg)
+
 Email [Kuo](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJmPktVQJdGKlTdfgBJRJnBjv) once question has been responded to
 
-Fix bug with metadata in google docs and [tell questioners](https://blot.im/questions/2234)  and [Duncan](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJmGgczcSZzRQBjlljtdWzDWT) and [James](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJccLNDctHnNfsQxpfTScTMXt) and [Mark](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJmFXMvLrXSJkJwVxFGqtppDr)
+Fix bug with metadata in google docs and [tell questioners](https://blot.im/questions/2234)  and [Duncan](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJmGgczcSZzRQBjlljtdWzDWT) and [James](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJccLNDctHnNfsQxpfTScTMXt) and [Mark](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJmFXMvLrXSJkJwVxFGqtppDr) and [Gary](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJvqmvzgzWsxKhKXsCVSXpqzl)
 
 Fix bug with [formatting in google docs](https://blot.im/questions/2107)
+
+Fix bug with 'slug' metadata and tell [questioner](https://blot.im/questions/2286)
 
 Work out why [Darren cannot open the template editor](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJSBJCRPJsLFddJCNzTnnQgjs)
 
@@ -12,17 +21,33 @@ Fix bug with date settings on the template editor for [magazine template](https:
 
 Preserve ICC color profiles and tell [Simon](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJchvfhDcWNkrZtNJqlLmLfsx)
 
+Investigate possibility of using s3 to store blog data? It seems quite fast when we read/write to it? Possibly not much slower than ebs?
+
+Light mode/dark mode videos
+
+Windows video + windows finder.css
+
+Look into pandoc lua and pandoc server?
+
+Rewrite broken link tests
+
 ---
 
 Add a 'Create template' button to dashboard and tell [Shawn](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJckGSfncqlFWBtFRHwfVTFDv)
 
 Fix bug with [date on magazine template](https://blot.im/questions/2244)
 
+Search metadata is [being ignored for pages](https://blot.im/questions/2291)
+
 Fix bug with [header position on the blog template](https://blot.im/questions/2211)
 
 Document image zoom disable feature ?zoom=false and tell [questioner](https://blot.im/questions/2236)
 
+Fix issue with camelCase custom metadata and tell [questioner](https://blot.im/questions/2294)
+
 Fix side navigation on Blog template and tell [Sava](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJcgnPdxPcSqPwmMnFSThFMQg)
+
+Fix bug with next/previous on the blog template and [tell questioner](https://blot.im/questions/2305)
 
 Fix live stream of folder sync status
 
@@ -623,7 +648,7 @@ Follow conventional delimiters for [KateX](https://mail.google.com/mail/u/0/?zx=
 Support larger files on DB client and tell [Marco](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqQmWjKnmPrwKSXMdZNmlqmtss)
 
 Add support for new formats:
-- jupyter notebooks (via pandoc)
+- jupyter notebooks (via pandoc) and tell [questioner](https://blot.im/questions/2297)
 
 
 ---
@@ -741,6 +766,8 @@ Write new converters to turn files into posts
 - Audio posts (.mp3 for now?) and tell [Kevin](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLhcqVldHMCFpTWDmfrRHfwpg) - add way to opt-in
 
 Write new clients to sync blog folders 
+- [rsync]()
+  - Tell [Harry](https://mail.google.com/mail/u/0/#inbox/FMfcgzGxRdvrcfMwTVnvGrHKgvJmfwxM)
 - [SFTP](https://www.npmjs.com/package/ftpd) 
   - Tell [Coraline](https://mail.google.com/mail/u/0/#inbox/FMfcgzGllCmcFflWmXcCdVzTJztDTwXx)
   - Tell [Calvin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChclvkfHMWfnqGdWkQnzMdklW) 
