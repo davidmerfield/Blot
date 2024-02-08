@@ -68,6 +68,16 @@ async function read (blog, path, options, callback) {
       $(this).remove();
     });
 
+    // replace italic inlines with em
+    $('span[style*="font-style:italic"]').each(function (i, elem) {
+      $(this).replaceWith("<em>" + $(this).html() + "</em>");
+    });
+
+    // replace bold inlines with strong
+    $('span[style*="font-weight:700"]').each(function (i, elem) {
+      $(this).replaceWith("<strong>" + $(this).html() + "</strong>");
+    });
+
     // remove all inline style attributes
     $("[style]").removeAttr("style");
 
