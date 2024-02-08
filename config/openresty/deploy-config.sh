@@ -29,17 +29,17 @@ BUILD_SCRIPT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/build-config.js"
 OPENRESTY_LOG_DIRECTORY=/var/www/blot/data/logs node $BUILD_SCRIPT
 
 # upload all the built in the directory './data'  
-echo "Uploading openresty directory to ~/openresty on $PUBLIC_IP"
 DATA_DIRECTORY="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/data"
-ssh -i $SSH_KEY ec2-user@$PUBLIC_IP "rm -rf ~/openresty"
-scp -i $SSH_KEY -r $DATA_DIRECTORY ec2-user@$PUBLIC_IP:~/openresty
+echo "Uploading $DATA_DIRECTORY to ~/openresty on $PUBLIC_IP"
+ssh -i $SSH_KEY ec2-user@$PUBLIC_IP "rm -rf /home/ec2-user/openresty"
+scp -i $SSH_KEY -r $DATA_DIRECTORY ec2-user@$PUBLIC_IP:/home/ec2-user/openresty
 
 #upload the scripts to the openresty server
-echo "Uploading scripts to ~/scripts on $PUBLIC_IP"
 SCRIPTS_DIRECTORY="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/scripts"
-ssh -i $SSH_KEY ec2-user@$PUBLIC_IP "rm -rf ~/scripts"
-scp -i $SSH_KEY -r $SCRIPTS_DIRECTORY ec2-user@$PUBLIC_IP:~/scripts
-ssh -i $SSH_KEY ec2-user@$PUBLIC_IP "chmod +x ~/scripts/*"
+echo "Uploading $SCRIPTS_DIRECTORY to ~/scripts on $PUBLIC_IP"
+ssh -i $SSH_KEY ec2-user@$PUBLIC_IP "rm -rf /home/ec2-user/scripts"
+scp -i $SSH_KEY -r $SCRIPTS_DIRECTORY ec2-user@$PUBLIC_IP:/home/ec2-user/scripts
+ssh -i $SSH_KEY ec2-user@$PUBLIC_IP "chmod +x /home/ec2-user/scripts/*"
 
 # run the setup.sh script as root and stream 
 echo "Reloading openresty...."
