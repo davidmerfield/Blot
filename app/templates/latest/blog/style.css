@@ -161,7 +161,7 @@ body {
 
 
 /* Used underneath the entry */
-.left-label {padding-left: 140px;padding-top: 1rem;font-size:0.875em}
+.left-label {padding-left: 140px;padding-top: 1rem;font-size:0.875em;position: relative}
 .left-label .tag {margin:0 1rem 0 0 }.footnotes > ol:before,
 .left-label h5 {font-size: 0.875em;font-weight: 600;color:rgba({{#rgb}}{{text_color}}{{/rgb}}, 0.5);margin-bottom: 24px;}
 .left-label h5 {margin-top: 1em;position: absolute;top: 0;left: 0}
