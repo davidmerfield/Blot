@@ -1,15 +1,6 @@
-Fix bug with header on blog template
-- Tell [X](https://mail.google.com/mail/u/0/#inbox/FMfcgzGxRdsZrJxmqrBbltJbZLcJrFsq)
-- Tell [Eric](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJvpdkxPvJtHRpdTfwrNDdgbb)
-- Tell [Richard](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJvpdbkqDzcmTMvpqHDgLdLrQ)
-
 Containerize blot and tell [Aurnik](https://mail.google.com/mail/u/0/#inbox/QgrcJHsNjqKGDkvkThlkNqcZCWVFDfckjCg)
 
 Email [Kuo](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJmPktVQJdGKlTdfgBJRJnBjv) once question has been responded to
-
-Fix bug with metadata in google docs and [tell questioners](https://blot.im/questions/2234)  and [Duncan](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJmGgczcSZzRQBjlljtdWzDWT) and [James](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJccLNDctHnNfsQxpfTScTMXt) and [Mark](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJmFXMvLrXSJkJwVxFGqtppDr) and [Gary](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJvqmvzgzWsxKhKXsCVSXpqzl)
-
-Fix bug with [formatting in google docs](https://blot.im/questions/2107)
 
 Fix bug with 'slug' metadata and tell [questioner](https://blot.im/questions/2286)
 
