@@ -55,7 +55,33 @@ a .blot directory containing config...
 
 ## Future test material
 
+### Photographs
+
 [Photochrom Travel Views](https://www.flickr.com/photos/library_of_congress/albums/72157612249760312)
+
+[John Margolie's photos](https://www.loc.gov/pictures/related/?va=exact&st=gallery&q=Nightclubs--1970-1980.&fi=subject&sg=true&op=EQUAL)
+
+[Theodor Horydczak pictures](https://www.loc.gov/pictures/search/?va=exact&co=thc&sp=1&q=Horydczak%2C+Theodor%2C+approximately+1890-1971&fa=displayed%3Aanywhere&fi=author&sg=true&op=EQUAL)
+
+[Daguerreotypes](https://www.loc.gov/pictures/search/?q=Mathew+Brady+half+plate&sp=1&co=dag&st=grid)
+
+### Illustrations
+
+[Cyanotypes of algae](https://digitalcollections.nypl.org/collections/photographs-of-british-algae-cyanotype-impressions?format=html&id=photographs-of-british-algae-cyanotype-impressions&per_page=250&page=1#/?tab=navigation&scroll=112)
+
+[California views by Prang](https://www.loc.gov/pictures/search/?q=California+views+prang&fa=displayed%3Aanywhere&sp=1&co=pga)
+
+[Bird's eye views](https://www.loc.gov/pictures/search/?q=bird+view+of&fa=displayed%3Aanywhere&sp=3&co=pga&st=gallery)
+
+[zoopraxiscopes - Collection of optical illusion disks](https://www.loc.gov/pictures/related/?fi=subject&q=Optical%20illusions--1830-1840.&co=cph)
+
+[Postcards](https://digitalcollections.nypl.org/search/index?filters%5Bgenre%5D=Postcards&filters%5Brights%5D%5B%5D=pd&filters%5Btype_s%5D%5B%5D=http%3A%2F%2Furi.nypl.org%2Fvocabulary%2Frepository_terms%23Capture&keywords=#)
+
+[Botanical illustrations](https://digitalcollections.nypl.org/search/index?filters%5BnamePart_mtxt_s%5D%5B%5D=Miller%2C+Joseph%2C+1668+or+1669-1748&keywords=&layout=false#/?scroll=135)
+
+### Objects
+
+[Civil rights buttons](https://digitalcollections.nypl.org/search/index?filters%5Bgenre_mtxt_s%5D%5B%5D=Buttons+%28Information+artifacts%29&keywords=&layout=false#/?scroll=39)
 
 [Collection of MET cylindrical seals with modern impressions](https://www.metmuseum.org/art/collection/search#!?showOnly=withImage%7CopenAccess&q=cylinder%20seal%20and%20modern%20impression&offset=0&perPage=80&sortOrder=asc&searchField=All&pageSize=0)
 
