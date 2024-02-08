@@ -8,12 +8,14 @@ const fetch = require("node-fetch");
 const { join } = require("path");
 const config = require("config");
 const sharp = require("sharp");
-        
-function is(path) {
+const Metadata = require("build/metadata");
+const extend = require("helper/extend");
+
+function is (path) {
   return [".gdoc"].indexOf(extname(path).toLowerCase()) > -1;
 }
 
-async function read(blog, path, options, callback) {
+async function read (blog, path, options, callback) {
   ensure(blog, "object")
     .and(path, "string")
     .and(options, "object")
@@ -45,9 +47,30 @@ async function read(blog, path, options, callback) {
       $(this).replaceWith("<h2>" + $(this).html() + "</h2>");
     });
 
+    var metadata = {};
+
+    $("p").each(function (i) {
+      var text = $(this).text();
+
+      if (text.indexOf(":") === -1) return false;
+
+      var key = text.slice(0, text.indexOf(":"));
+
+      // Key has space
+      if (/\s/.test(key.trim())) return false;
+
+      var parsed = Metadata(text);
+
+      if (parsed.html === text) return false;
+
+      extend(metadata).and(parsed.metadata);
+
+      $(this).remove();
+    });
+
     // remove all inline style attributes
     $("[style]").removeAttr("style");
-    
+
     const images = [];
 
     $("img").each(function (i, elem) {
@@ -55,7 +78,6 @@ async function read(blog, path, options, callback) {
     });
 
     for (const elem of images) {
-
       const src = $(elem).attr("src");
 
       try {
@@ -66,15 +88,14 @@ async function read(blog, path, options, callback) {
         let ext;
 
         try {
-
-         ext = disposition
-          .split(";")
-          .find((i) => i.includes("filename"))
-          .split("=")
-          .pop()
-          .replace(/"/g, "")
-          .split(".")
-          .pop();
+          ext = disposition
+            .split(";")
+            .find(i => i.includes("filename"))
+            .split("=")
+            .pop()
+            .replace(/"/g, "")
+            .split(".")
+            .pop();
         } catch (err) {}
 
         if (!ext) {
@@ -86,13 +107,21 @@ async function read(blog, path, options, callback) {
         const filename = hash(src) + "." + ext;
         await fs.outputFile(join(assetDir, filename), buffer);
         $(elem).attr("src", "/_assets/" + hash(path) + "/" + filename);
-
       } catch (err) {
-  console.log(err)        
+        console.log(err);
       }
     }
 
-    const html = $("body").html();
+    let html = $("body").html();
+
+    var metadataString = "<!--";
+
+    for (var i in metadata) metadataString += "\n" + i + ": " + metadata[i];
+
+    if (metadataString !== "<!--") {
+      metadataString += "\n-->\n";
+      html = metadataString + html;
+    }
 
     callback(null, html, stat);
   } catch (err) {
