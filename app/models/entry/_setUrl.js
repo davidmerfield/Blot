@@ -183,7 +183,13 @@ function check (blogID, candidate, entryID, callback) {
 // this needs to return an error if something went wrong
 // and the finalized, stored url to the entry...
 module.exports = function (blogID, entry, callback) {
-  ensure(blogID, "string").and(entry, model).and(callback, "function");
+  ensure(blogID, "string").and(entry, "object").and(callback, "function");
+
+  try {
+    ensure(entry, model);
+  } catch (e) {
+    return callback(e);
+  }
 
   debug("Setting url for", entry.path);
 
