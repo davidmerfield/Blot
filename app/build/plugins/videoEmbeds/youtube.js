@@ -5,10 +5,10 @@ var cheerio = require("cheerio");
 
 var PLAYER_OPTIONS = "rel=0&wmode=transparent&rel=0&autohide=1&showinfo=0";
 
-// we prepend a zero-width char because of a weird fucking
-// bug on mobile safari where if the embed is the first child,
+// we prepend a zero-width char because of a bug on mobile safari
+// where if the embed is the first child,
 // the video player will not show.
-function template(id, ratio) {
+function template (id, ratio) {
   return (
     '<div style="width:0;height:0"> </div><div class="videoContainer" style="padding-bottom:' +
     ratio +
@@ -20,7 +20,7 @@ function template(id, ratio) {
   );
 }
 
-function apiURL(id) {
+function apiURL (id) {
   return (
     "https://www.googleapis.com/youtube/v3/videos?part=player&id=" +
     id +
@@ -29,11 +29,11 @@ function apiURL(id) {
   );
 }
 
-function fail() {
+function fail () {
   return new Error("Could not parse youtube video");
 }
 
-function extractID(href) {
+function extractID (href) {
   var url = Url.parse(href, true);
   var id;
   if (url.host === "youtu.be") {
@@ -72,7 +72,7 @@ module.exports = function (href, callback) {
   var options = {
     url: apiURL(id),
     json: true,
-    maxRedirects: 5,
+    maxRedirects: 5
   };
 
   request(options, function (error, response, body) {
