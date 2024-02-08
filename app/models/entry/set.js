@@ -139,7 +139,18 @@ module.exports = function set (blogID, path, updates, callback) {
                     "    - linked entry:",
                     linkedEntryPath
                   );
-                  set(blogID, linkedEntryPath, { backlinks }, next);
+                  set(blogID, linkedEntryPath, { backlinks }, function (err) {
+                    if (err) {
+                      console.log(
+                        clfdate(),
+                        blogID.slice(0, 12),
+                        "    - error updating linked entry:",
+                        linkedEntryPath
+                      );
+                      console.log(err);
+                    }
+                    next();
+                  });
                 },
                 function (err) {
                   if (err) return callback(err);
