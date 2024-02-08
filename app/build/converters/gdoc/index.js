@@ -9,6 +9,7 @@ const { join } = require("path");
 const config = require("config");
 const sharp = require("sharp");
 const Metadata = require("build/metadata");
+const extend = require("helper/extend");
 
 function is (path) {
   return [".gdoc"].indexOf(extname(path).toLowerCase()) > -1;
@@ -49,12 +50,6 @@ async function read (blog, path, options, callback) {
     var metadata = {};
 
     $("p").each(function (i) {
-      if ($(this).children().length) return false;
-
-      if (i === 0 && $(this).prev().length) {
-        return false;
-      }
-
       var text = $(this).text();
 
       if (text.indexOf(":") === -1) return false;
@@ -117,7 +112,7 @@ async function read (blog, path, options, callback) {
       }
     }
 
-    const html = $("body").html();
+    let html = $("body").html();
 
     var metadataString = "<!--";
 
