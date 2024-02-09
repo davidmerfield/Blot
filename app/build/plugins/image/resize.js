@@ -37,11 +37,8 @@ module.exports = function (path, callback) {
 
   try {
     debug("Resizing", path);
-    image = sharp(path);
-
-    // Disable deprecated feature
-    // .quality(100)
-    image
+    image = sharp(path)
+      .keepIccProfile()
       .rotate()
       .resize(3000, 3000, { withoutEnlargement: true, fit: "inside" });
   } catch (e) {
