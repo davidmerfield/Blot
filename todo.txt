@@ -4,17 +4,15 @@ Containerize blot and tell [Aurnik](https://mail.google.com/mail/u/0/#inbox/Qgrc
 
 Fix Google Drive sync bug
 
-Fix bug with 'slug' metadata and tell [questioner](https://blot.im/questions/2286)
-
 Fix bug with date settings on the template editor for [magazine template](https://blot.im/questions/2244)
-
-Preserve ICC color profiles and tell [Simon](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJchvfhDcWNkrZtNJqlLmLfsx)
 
 ---
 
 Add a 'Create template' button to dashboard and tell [Shawn](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJckGSfncqlFWBtFRHwfVTFDv)
 
 Fix bug with [date on magazine template](https://blot.im/questions/2244)
+
+Fix bug with 'slug' metadata and tell [questioner](https://blot.im/questions/2286)
 
 Search metadata is [being ignored for pages](https://blot.im/questions/2291)
 
@@ -32,11 +30,8 @@ Fix live stream of folder sync status
 
 Fix light mode colors and tell [Gary](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJSCRWXMlsPRVBsnrcRcbMklc)
 
-Make {{active}} strip the domain from the link [before checking](https://github.com/davidmerfield/Blot/blob/master/app/blog/render/retrieve/active.js#L22)? Or automatically strip the domain from internal links on Blot's dashboard?
 
 Answer [peter's questions about the portfolio template](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJSDbPpcncdNCvCTBrVcbnJGV)
-
-Fix pretty.price for paypal users
 
 Identify accounts that pay but do not create a blog and add monitoring for this
 - There might not even be accounts Just subscriptions in stripe 
@@ -226,6 +221,8 @@ Can I use proxy_store instead of openrestycache?
 
 Prevent Google Drive client from re crawling entire folder for every sync
 - i think we need to manually watch all google docs in the folder
+
+Make {{active}} strip the domain from the link [before checking](https://github.com/davidmerfield/Blot/blob/master/app/blog/render/retrieve/active.js#L22)? Or automatically strip the domain from internal links on Blot's dashboard?
 
 Prevent unneeded cache purge when templates are rebuilt, either from folder or on disk in app/templates
 
