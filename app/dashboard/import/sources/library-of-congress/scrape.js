@@ -51,12 +51,23 @@ const main = async label => {
     itemURLs.push(...urls);
   }
 
-  const uniqueItems = Array.from(new Set(itemURLs));
+  const ids = Array.from(
+    new Set(
+      itemURLs.map(url => {
+        const id = url.match(/\/item\/(\d+)/)[1];
+        console.log(id, url);
 
+        return id;
+      })
+    )
+  );
+
+  console.log(`Found ${ids.length} unique items`);
+
+  console.log(`Emptying ${folder}/Posts`);
   await fs.emptyDirSync(folder + "/Posts");
 
-  for (const itemURL of uniqueItems) {
-    const id = itemURL.match(/\/item\/(\d+)/)[1];
+  for (const id of ids) {
     const item = await fetchItem(id);
     await build(folder, item);
   }

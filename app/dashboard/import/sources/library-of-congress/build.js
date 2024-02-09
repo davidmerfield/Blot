@@ -4,14 +4,33 @@ const makeSlug = require("helper/makeSlug");
 const cache_directory = __dirname + "/data/cache";
 
 module.exports = async (folder, item) => {
-  const slug = makeSlug(item.title.split(" ").slice(0, 4).join(" "));
-  const itemFolder = `${folder}/Posts/${slug}`;
+  // remove any slashes from the slug
+  const words = item.title.split(" ").map(w => w.replace(/\//g, ""));
+
+  const wordsForSlug =
+    words.length < 4
+      ? words
+      : ["at", "in", "on", "of", "a"].includes(words.at(3))
+      ? words.slice(0, 3)
+      : words.slice(0, 4);
+
+  const slug = makeSlug(wordsForSlug.join(" "));
+
+  let itemFolder = `${folder}/Posts/${slug}`;
+  let suffix = 1;
+
+  while (fs.existsSync(itemFolder)) {
+    suffix++;
+    itemFolder = `${folder}/Posts/${slug}-${suffix}`;
+  }
 
   // create a folder for this item
   fs.emptyDirSync(itemFolder);
 
   // create a jpg preview
-  const previewPath = `${itemFolder}/image.jpg`;
+  const previewName = `_${wordsForSlug.join(" ")}.jpg`;
+  const previewPath = `${itemFolder}/${previewName}`;
+
   console.log("Creating preview...");
 
   const modifiedFileName = fs
@@ -22,7 +41,9 @@ module.exports = async (folder, item) => {
     .readdirSync(`${cache_directory}/${item.id}`)
     .find(i => i.startsWith("master."));
 
-  const path = `${itemFolder}/${modifiedFileName || masterFileName}`;
+  const path = `${cache_directory}/${item.id}/${
+    modifiedFileName || masterFileName
+  }`;
 
   // ensure the input image is no larger than 2500px in any dimension
   await sharp(path)
@@ -37,12 +58,13 @@ module.exports = async (folder, item) => {
     `Title: ${item.title}
 Date: ${item.date}
 Tags: ${item.tags.join(", ")}
-Source: ${item.source}
-Collection: ${item.collection}
+
+![${item.title}](${previewName})
+
+${item.summary}
+
 Medium: ${item.medium}
 
-![${item.title}](image.jpg)
-
-${item.summary}`
+Source: ${item.source}`
   );
 };

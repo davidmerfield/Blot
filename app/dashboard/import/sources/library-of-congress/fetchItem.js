@@ -24,7 +24,9 @@ module.exports = async id => {
 
   const json = await getMarcRecord(id);
 
-  const masterURL = $("a[href*='/master/']").attr("href");
+  const masterURL = $("#item p:nth-child(2) a[href*='/master/']")
+    .first()
+    .attr("href");
 
   if (
     !fs
