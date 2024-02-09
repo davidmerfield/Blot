@@ -1,12 +1,12 @@
-Work out why [Darren cannot open the template editor](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJSBJCRPJsLFddJCNzTnnQgjs)
-
 Containerize blot and tell [Aurnik](https://mail.google.com/mail/u/0/#inbox/QgrcJHsNjqKGDkvkThlkNqcZCWVFDfckjCg)
 
 Fix Google Drive sync bug
 
+---
+
 Fix bug with date settings on the template editor for [magazine template](https://blot.im/questions/2244)
 
----
+Work out why [Darren cannot open the template editor](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJSBJCRPJsLFddJCNzTnnQgjs)
 
 Add a 'Create template' button to dashboard and tell [Shawn](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJckGSfncqlFWBtFRHwfVTFDv)
 
@@ -24,12 +24,7 @@ Fix issue with camelCase custom metadata and tell [questioner](https://blot.im/q
 
 Fix side navigation on Blog template and tell [Sava](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJcgnPdxPcSqPwmMnFSThFMQg)
 
-Fix bug with next/previous on the blog template and [tell questioner](https://blot.im/questions/2305)
-
-Fix live stream of folder sync status
-
 Fix light mode colors and tell [Gary](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJSCRWXMlsPRVBsnrcRcbMklc)
-
 
 Answer [peter's questions about the portfolio template](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJSDbPpcncdNCvCTBrVcbnJGV)
 
@@ -37,11 +32,18 @@ Identify accounts that pay but do not create a blog and add monitoring for this
 - There might not even be accounts Just subscriptions in stripe 
 - Investigate, then Block and autorefund these payments: they're card testers that Stripe's anti-fraud missed
 
-Resolve SSL renewal issues
-
 Add way to import directly
 - Add/fix micro.blog import to dashboard and tell [Gabriel](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJRvfgrRhXwqDNDlxbpXmRlbd]
 - And recurring import from elsewhere 
+
+Finish site and dashboard
+- Fix live stream of folder sync status
+- The site CSS persists in the browser cache
+- Make sure folders are zipped when site builds, and delivered through CDN
+- Make sure blot resyncs folders with their associated sites when pulled
+  - Compute a hash of the folder contents and only resync or re-zip as needed
+    - Think about mtimes, metadata as well as file contents
+- The top right button 'your sites' should remember the last page of the dashboard you were on so you can switch from docs to dashboard quickly
 
 Add upload to dashboard
 - Drag and drop 
@@ -49,14 +51,6 @@ Add upload to dashboard
 Add ‘open folder on drive’ link to Client settings page. Same for Dropbox
 
 Investigate possibility of using s3 to store blog data? It seems quite fast when we read/write to it? Possibly not much slower than ebs?
-
-Finish site and dashboard
-- The site CSS persists in the browser cache
-- Make sure folders are zipped when site builds, and delivered through CDN
-- Make sure blot resyncs folders with their associated sites when pulled
-  - Compute a hash of the folder contents and only resync or re-zip as needed
-    - Think about mtimes, metadata as well as file contents
-- The top right button 'your sites' should remember the last page of the dashboard you were on so you can switch from docs to dashboard quickly
 
 Light mode/dark mode videos
 
