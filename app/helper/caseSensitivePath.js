@@ -1,7 +1,7 @@
 var fs = require("fs");
 var Path = require("path");
 
-function caseSensitivePath(cwd, path, callback) {
+function caseSensitivePath (cwd, path, callback) {
   // Will do many things, importantly it will
   // replace double slashes, e.g. /a/b//c -> /a/b/c
   path = Path.normalize(path);
@@ -21,7 +21,7 @@ function caseSensitivePath(cwd, path, callback) {
   var dirs = path.split("/");
   var name = dirs.shift();
 
-  fs.readdir(cwd, function guess(err, contents) {
+  fs.readdir(cwd, function guess (err, contents) {
     if (err) return callback(err);
     var exactMatch;
 
