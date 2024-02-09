@@ -17,46 +17,6 @@ const getItem = async itemID => {
   const json = await getMarcRecord(itemID);
   const $ = await getItemPage(itemID);
 
-  const masterURL = $("a[href*='/master/']").attr("href");
-
-  let title = json["242"]
-    ? json["242"][0][0].text
-    : json["245"]
-    ? json["245"][0][0].text
-    : "";
-
-  if (!title) {
-    console.log(source);
-    console.log(JSON.stringify(json, null, 2));
-    throw new Error("No title found");
-  } else if (title.startsWith("[") && title.endsWith("]")) {
-    title = title.slice(1, -1);
-  } else {
-    title = title.replace(/\s*[\(\[].*?[\)\]]/g, "");
-  }
-
-  const summary = json["520"] ? json["520"][0][0].text : "";
-  const medium = json["300"][0]
-    .map(i => i.text.replace(/[:;]/g, "").trim())
-    .join("; ");
-  const collection = json["985"][0][0].text.split("/")[1];
-  const date = json["260"][0]
-    .find(i => i.code === "c")
-    .text.replace(/[^0-9 ]/g, "");
-
-  const tags = json["650"].map(i => i[0].text.replace(/[$.]/g, ""));
-
-  const item = {
-    title,
-    tags,
-    summary,
-    medium,
-    masterURL,
-    collection,
-    source,
-    date
-  };
-
   console.log(item);
 
   return item;
@@ -73,19 +33,6 @@ const buildItem = async item => {
   fs.ensureDirSync(itemFolder);
 
   // download the master image
-
-  if (!fs.readdirSync(itemFolder).find(i => i.startsWith("master."))) {
-    console.log("Downloading master image...");
-
-    const masterPath = `${itemFolder}/master.${masterURL.split(".").at(-1)}`;
-
-    const master = await fetch(masterURL);
-    const masterBuffer = await master.buffer();
-    fs.outputFileSync(masterPath, masterBuffer);
-    console.log("Master image downloaded");
-  } else {
-    console.log("Master image already exists");
-  }
 
   // create a jpg preview
   const previewPath = `${itemFolder}/image.jpg`;

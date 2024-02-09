@@ -12,10 +12,11 @@
 // the loc item pages and marc records for each item, and then save those to
 // the cache directory for the collection
 
+const fs = require("fs-extra");
 const DATA_DIR = __dirname + "/data";
 const fetchItemURLs = require("./fetchItemURLs");
 const fetchItem = require("./fetchItem");
-const fetchMarcRecord = require("./fetchMarcRecord");
+const build = require("./build");
 
 const main = async label => {
   if (!label) {
@@ -23,13 +24,15 @@ const main = async label => {
     process.exit(1);
   }
 
-  if (!fs.existsSync(`${DATA_DIR}/${label}`)) {
-    console.log(`No data directory found for ${label}`);
+  const folder = `${DATA_DIR}/${label}`;
+
+  if (!fs.existsSync(folder)) {
+    console.log(`No data directory found for ${label} at ${folder}`);
     process.exit(1);
   }
 
-  const indexURLFile = `${DATA_DIR}/${label}/index-urls.txt`;
-  const itemURLFile = `${DATA_DIR}/${label}/urls.txt`;
+  const indexURLFile = `${folder}/index-urls.txt`;
+  const itemURLFile = `${folder}/urls.txt`;
 
   const itemURLs = [];
 
@@ -50,10 +53,12 @@ const main = async label => {
 
   const uniqueItems = Array.from(new Set(itemURLs));
 
+  await fs.emptyDirSync(folder + "/Posts");
+
   for (const itemURL of uniqueItems) {
     const id = itemURL.match(/\/item\/(\d+)/)[1];
-    await fetchItem(id);
-    await fetchMarcRecord(id);
+    const item = await fetchItem(id);
+    await build(folder, item);
   }
 };
 
