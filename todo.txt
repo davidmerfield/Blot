@@ -1,24 +1,14 @@
+Work out why [Darren cannot open the template editor](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJSBJCRPJsLFddJCNzTnnQgjs)
+
 Containerize blot and tell [Aurnik](https://mail.google.com/mail/u/0/#inbox/QgrcJHsNjqKGDkvkThlkNqcZCWVFDfckjCg)
 
 Fix Google Drive sync bug
 
 Fix bug with 'slug' metadata and tell [questioner](https://blot.im/questions/2286)
 
-Work out why [Darren cannot open the template editor](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJSBJCRPJsLFddJCNzTnnQgjs)
-
 Fix bug with date settings on the template editor for [magazine template](https://blot.im/questions/2244)
 
 Preserve ICC color profiles and tell [Simon](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJchvfhDcWNkrZtNJqlLmLfsx)
-
-Investigate possibility of using s3 to store blog data? It seems quite fast when we read/write to it? Possibly not much slower than ebs?
-
-Light mode/dark mode videos
-
-Windows video + windows finder.css
-
-Look into pandoc lua and pandoc server?
-
-Rewrite broken link tests
 
 ---
 
@@ -39,8 +29,6 @@ Fix side navigation on Blog template and tell [Sava](https://mail.google.com/mai
 Fix bug with next/previous on the blog template and [tell questioner](https://blot.im/questions/2305)
 
 Fix live stream of folder sync status
-
-Increase disk size of /var/blot/data
 
 Fix light mode colors and tell [Gary](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJSCRWXMlsPRVBsnrcRcbMklc)
 
@@ -64,7 +52,8 @@ Add upload to dashboard
 - Drag and drop 
 
 Add ‘open folder on drive’ link to Client settings page. Same for Dropbox
- 
+
+Investigate possibility of using s3 to store blog data? It seems quite fast when we read/write to it? Possibly not much slower than ebs?
 
 Finish site and dashboard
 - The site CSS persists in the browser cache
@@ -73,6 +62,14 @@ Finish site and dashboard
   - Compute a hash of the folder contents and only resync or re-zip as needed
     - Think about mtimes, metadata as well as file contents
 - The top right button 'your sites' should remember the last page of the dashboard you were on so you can switch from docs to dashboard quickly
+
+Light mode/dark mode videos
+
+Windows video + windows finder.css
+
+Look into pandoc lua and pandoc server?
+
+Rewrite broken link tests
 
 Improvements to templates:
 - Library

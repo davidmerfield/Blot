@@ -62,7 +62,7 @@ module.exports = function extend (user) {
       identifier => config.paypal.plans[identifier] === user.paypal.plan_id
     );
 
-    const amount = plan_identifier.includes("monthly") ? 400 : 4400;
+    const amount = parseInt(plan_identifier.split("_")[1]) * 100;
 
     const quantity = parseInt(user.paypal.quantity);
 
