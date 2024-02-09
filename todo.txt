@@ -1,12 +1,10 @@
 Containerize blot and tell [Aurnik](https://mail.google.com/mail/u/0/#inbox/QgrcJHsNjqKGDkvkThlkNqcZCWVFDfckjCg)
 
-Email [Kuo](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJmPktVQJdGKlTdfgBJRJnBjv) once question has been responded to
+Fix Google Drive sync bug
 
 Fix bug with 'slug' metadata and tell [questioner](https://blot.im/questions/2286)
 
 Work out why [Darren cannot open the template editor](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJSBJCRPJsLFddJCNzTnnQgjs)
-
-Fix Google Drive sync bug
 
 Fix bug with date settings on the template editor for [magazine template](https://blot.im/questions/2244)
 
