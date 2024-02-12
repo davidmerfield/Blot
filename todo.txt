@@ -1,3 +1,5 @@
+Fix heap integration and tell [Adnan](https://mail.google.com/mail/u/0/#inbox/FMfcgzGxRdzKghNGZWDSkkDBqKqQbwQg)
+
 Containerize blot and tell [Aurnik](https://mail.google.com/mail/u/0/#inbox/QgrcJHsNjqKGDkvkThlkNqcZCWVFDfckjCg)
 
 Fix Google Drive sync bug
