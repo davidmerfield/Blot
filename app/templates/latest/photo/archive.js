@@ -66,7 +66,6 @@ const list = HyperList.create(container, {
           </noscript>` : ''}
       </span>
       <span class="title">${articles[index].title}</span>
-      <span class="tags">${articles[index].tags.map(({tag, slug}) => `<a href="/tagged/${slug}">${tag}</a>`).join(' ')}</span>
       <span>${articles[index].date}</span>
     `;
     return el;

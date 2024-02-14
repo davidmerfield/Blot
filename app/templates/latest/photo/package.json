@@ -7,7 +7,7 @@
     "link_color": "#00008B",
     "hide_dates": false,
     "infinite_scroll": true,
-    "sticky_navigation": true,
+    "sticky_navigation": false,
     "collapse_navigation_by_default": false,
     "navigation_alignment": "justified",
     "navigation_alignment_options": [
@@ -16,7 +16,7 @@
       "right",
       "center"
     ],
-    "thumbnail_size": "small",
+    "thumbnail_size": "medium",
     "thumbnail_size_options": [
       "small",
       "medium",
