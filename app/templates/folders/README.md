@@ -67,6 +67,18 @@ a .blot directory containing config...
 
 ### Illustrations
 
+[Thought-forms](https://en.wikipedia.org/wiki/Thought-Forms)
+
+- https://archive.org/details/thoughtforms00leadgoog/page/n30/mode/2up?view=theater
+- https://archive.org/details/thoughtforms00leadgoog/page/n130/mode/2up?view=theater
+- https://www.gutenberg.org/files/16269/16269-h/16269-h.htm#THE_FORM_AND_ITS_EFFECT
+- https://en.wikipedia.org/wiki/Theosophy_and_visual_arts#Beckmann
+- https://upload.wikimedia.org/wikipedia/commons/c/cd/Colorchart.jpg
+
+[Works of Mondrian](https://commons.wikimedia.org/wiki/Category:Paintings_by_Piet_Mondrian)
+
+[Works of Ernst Haekel](https://en.wikipedia.org/wiki/Ernst_Haeckel)
+
 [Cyanotypes of algae](https://digitalcollections.nypl.org/collections/photographs-of-british-algae-cyanotype-impressions?format=html&id=photographs-of-british-algae-cyanotype-impressions&per_page=250&page=1#/?tab=navigation&scroll=112)
 
 [California views by Prang](https://www.loc.gov/pictures/search/?q=California+views+prang&fa=displayed%3Aanywhere&sp=1&co=pga)
