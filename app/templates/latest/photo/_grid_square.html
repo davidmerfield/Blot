@@ -147,23 +147,38 @@
           class="pre-loaded"
           onload="this.className='loaded'"
           alt="{{ title }}"
+          width="{{thumbnail.large.width}}"
+          height="{{thumbnail.large.height}}"
           srcset="
           {{{thumbnail.small.url}}}  {{thumbnail.small.width}}w,
           {{{thumbnail.medium.url}}}  {{thumbnail.medium.width}}w,
           {{{thumbnail.large.url}}}  {{thumbnail.large.width}}w
         "
           src="{{{thumbnail.large.url}}}"
-          sizes="calc(100vw / {{ thumbnails_per_row }})" />
+          {{#is.thumbnail_size}}
+          {{#small}}
+          sizes="(max-width: 540px) 33vw, (max-width: 800px) 25vw, (max-width: 1000px) 20vw, (max-width: 1200px) 16vw, 14vw"
+          {{/small}}
+          {{#medium}}
+          sizes="(max-width: 540px) 50vw, (max-width: 800px) 33.3333vw, (max-width: 1000px) 33.3333vw, 20vw"
+          {{/medium}}
+          {{#large}}
+          sizes="(max-width: 540px) 100vw, (max-width: 800px) 100vw, (max-width: 1000px) 50vw, (max-width: 1200px) 50vw"
+          {{/large}}
+          {{/is.thumbnail_size}}
+          />
         <noscript>
           <img
             alt="{{ title }}"
+            width="{{thumbnail.large.width}}"
+            height="{{thumbnail.large.height}}"  
             srcset="
           {{{thumbnail.small.url}}}  {{thumbnail.small.width}}w,
           {{{thumbnail.medium.url}}}  {{thumbnail.medium.width}}w,
           {{{thumbnail.large.url}}}  {{thumbnail.large.width}}w
         "
             src="{{{thumbnail.large.url}}}"
-            sizes="calc(100vw / {{ thumbnails_per_row }})" />
+             />
         </noscript>
         {{/thumbnail.medium}}
         {{^thumbnail.medium}}

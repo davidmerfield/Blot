@@ -26,7 +26,7 @@
       padding: 0 {{spacing}}rem;
       display: flex;
       width: 100%;
-      height: 36px;
+      height: 80px;
       margin: 0;
     }
 
@@ -34,11 +34,12 @@
     #hyperlist > a:hover .title {text-decoration: underline;}
     #hyperlist > a:active {opacity: 0.5}
     
-    #hyperlist > a .thumbnail {width: 2rem;height:36px;}
-    #hyperlist > a .title {flex-grow: 1;margin:0 {{spacing}}rem;}
+    #hyperlist > a .thumbnail {width: 80px;height:80px;}
+    #hyperlist > a .title {flex-grow: 1;margin:0 calc({{spacing}}rem*0.5);white-space: nowrap;overflow: hidden;text-overflow: ellipsis;}
+    #hyperlist > a .date {flex-shrink: 0;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;}
 
 #hyperlist > a .thumbnail img {
-  max-width: 2rem;max-height: 2rem;width:auto;height: auto;
+  max-width: 80px;max-height: 80px;width:auto;height: auto;
 }
 
 input[type=radio] {display: none;}
