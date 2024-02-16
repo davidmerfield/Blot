@@ -4,6 +4,18 @@ Containerize blot and tell [Aurnik](https://mail.google.com/mail/u/0/#inbox/Qgrc
 
 Fix Google Drive sync bug
 
+Reach out to these sites:
+- https://jeankapsa.com/about
+- https://www.jonathanch.in/
+- https://simonuvarov.com/
+- https://david.krentzlin.me/
+- https://www.declad.com/
+- https://lucadp.com/
+- https://oliviaolson.de/
+- https://alu.garden/
+- https://www.amirsharif.com/
+- https://www.monikahartmann.de/
+
 ---
 
 Fix bug with date settings on the template editor for [magazine template](https://blot.im/questions/2244)
