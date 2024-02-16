@@ -39,7 +39,7 @@ if (require.main === module) {
 
 // We want to be able to check if a candidate is already
 // featured, so transform the existing list into an array
-var featured = require("./featured").map(function (site) {
+var featured = require("./featured").sites.map(function (site) {
   return site.host;
 });
 
