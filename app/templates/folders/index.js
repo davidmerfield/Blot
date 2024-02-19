@@ -43,6 +43,10 @@ const updates = {
   william: {
     title: "William Copeland McCalla",
     template: "SITE:photo"
+  },
+  sergey: {
+    title: "Sergey Prokudin-Gorsky",
+    template: "SITE:portfolio"
   }
 };
 
