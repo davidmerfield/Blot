@@ -18,7 +18,15 @@ const prepositions = [
 
 module.exports = async (folder, item) => {
   // remove any slashes from the slug
-  const words = item.title.split(" ").map(w => w.replace(/\//g, ""));
+  const titleWithoutTextInParentheses = item.title.replace(/\(.*\)/g, "");
+
+  const markdownSafeTitle = item.title
+    .replace(/\(/g, "\\(")
+    .replace(/\)/g, "\\)");
+
+  const words = titleWithoutTextInParentheses
+    ? titleWithoutTextInParentheses.split(" ").map(w => w.replace(/\//g, ""))
+    : item.title.split(" ").map(w => w.replace(/\//g, ""));
 
   // select the words to use in the slug
   // if there is 1 word, use it
@@ -79,7 +87,7 @@ module.exports = async (folder, item) => {
 Date: ${item.date}
 Tags: ${item.tags.join(", ")}
 
-![${item.title}](${previewName})
+![${markdownSafeTitle}](${previewName})
 
 ${item.summary}
 

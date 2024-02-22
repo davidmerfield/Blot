@@ -1,5 +1,11 @@
 # Folders
 
+Add folders for:
+
+- Podcast!
+- Music site!
+- Video portfolio!
+
 Test material for static site generators. To release new versions of the folders for download:
 
 ```
@@ -90,6 +96,8 @@ a .blot directory containing config...
 [Postcards](https://digitalcollections.nypl.org/search/index?filters%5Bgenre%5D=Postcards&filters%5Brights%5D%5B%5D=pd&filters%5Btype_s%5D%5B%5D=http%3A%2F%2Furi.nypl.org%2Fvocabulary%2Frepository_terms%23Capture&keywords=#)
 
 [Botanical illustrations](https://digitalcollections.nypl.org/search/index?filters%5BnamePart_mtxt_s%5D%5B%5D=Miller%2C+Joseph%2C+1668+or+1669-1748&keywords=&layout=false#/?scroll=135)
+
+https://publicdomainreview.org/essay/the-substantiality-of-spirit/?utm_source=newsletter
 
 ### Objects
 
