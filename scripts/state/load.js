@@ -1,49 +1,33 @@
 require("../only_locally");
 
-var fs = require("fs-extra");
-var exec = require("child_process").exec;
-var redis = require("redis");
-var ROOT = process.env.BLOT_DIRECTORY;
+const fs = require("fs-extra");
+const { join } = require("path");
 
-var DATA_DIRECTORY = ROOT + "/data";
+const DATA_DIRECTORY = join(process.cwd(), "/data");
 
-if (!ROOT) throw new Error("Please set environment variable BLOT_DIRECTORY");
+if (!fs.existsSync(DATA_DIRECTORY)) {
+  throw new Error("No data directory found at " + DATA_DIRECTORY);
+}
+
+if (!fs.existsSync(join(__dirname, "data"))) {
+  throw new Error("No state directory found at " + join(__dirname, "data"));
+}
+
+if (!fs.existsSync(join(DATA_DIRECTORY, "tmp"))) {
+  throw new Error("No tmp directory found at " + join(DATA_DIRECTORY, "tmp"));
+}
 
 async function main (label, callback) {
   var directory = __dirname + "/data/" + label;
 
   if (!fs.existsSync(directory))
-    return callback(new Error("No state " + label));
+    return callback(new Error("No state '" + label + "' (" + directory + ")"));
 
-  var client = redis.createClient();
-  var multi = client.multi();
+  fs.emptyDirSync(DATA_DIRECTORY);
+  fs.ensureDirSync(directory + "/data");
+  fs.copySync(directory + "/data", DATA_DIRECTORY);
 
-  // If redis was already shut down, then
-  // we won't be able to execute the multi()
-  client.on("error", function (err) {
-    if (err.code === "ECONNREFUSED") {
-      then();
-    }
-  });
-
-  multi.config("SET", "appendonly", "no").config("SET", "save", "").shutdown();
-
-  multi.exec(then);
-
-  function then () {
-    fs.emptyDirSync(DATA_DIRECTORY);
-    fs.ensureDirSync(directory + "/data");
-    fs.copySync(directory + "/data", DATA_DIRECTORY);
-
-    exec(
-      "redis-server --daemonize yes --dir " + ROOT + "/data",
-      { silent: true },
-      function (err) {
-        if (err) return callback(err);
-        callback(null);
-      }
-    );
-  }
+  callback(null);
 }
 
 if (require.main === module) {

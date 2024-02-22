@@ -13,6 +13,7 @@ services:
     environment:
       - BLOT_REDIS_HOST=redis
     volumes:
+      - ./data:/usr/src/app/data
       - ./app:/usr/src/app/app
       - /usr/src/app/node_modules
 
@@ -20,6 +21,8 @@ services:
     image: "redis:alpine"
     ports:
       - "6379:6379"
+    volumes:
+      - "./data:/data"
 
   nginx:
     image: nginx:alpine
@@ -27,7 +30,7 @@ services:
       - "80:80"
       - "443:443" # Expose port 443 for HTTPS traffic
     volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./config/openresty/development_server.conf:/etc/nginx/nginx.conf:ro
       - /etc/blot/blot.development.crt:/etc/ssl/cert.pem:ro
       - /etc/blot/blot.development.key:/etc/ssl/key.pem:ro
     depends_on:
