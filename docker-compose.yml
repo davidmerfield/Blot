@@ -16,6 +16,7 @@ services:
     volumes:
       - ./data:/usr/src/app/data
       - ./app:/usr/src/app/app
+      - ./config:/usr/src/app/config
       - /usr/src/app/node_modules
     command: npx nodemon /usr/src/app/app/index.js
 
