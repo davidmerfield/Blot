@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  node-app:
+    image: blot
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      - redis
+    volumes:
+      - .:/app
+      - /app/node_modules
+    command: npm start
+
+  redis:
+    image: "redis:alpine"
+    ports:
+      - "6379:6379"
+
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - node-app
