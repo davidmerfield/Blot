@@ -18,8 +18,17 @@ server.set("etag", false); // turn off etags for responses
 // Removes a header otherwise added by Express. No wasted bytes
 server.disable("x-powered-by");
 
+console.log(
+  clfdate(),
+  "Starting server on port",
+  config.port,
+  "host",
+  config.host
+);
+
 // Trusts secure requests terminated by NGINX, as far as I know
-server.set("trust proxy", ["loopback", ...config.reverse_proxies]);
+console.log(clfdate(), "Trusting proxies", config.reverse_proxies);
+server.set("trust proxy", config.reverse_proxies);
 
 // Check if the database is healthy
 server.get("/redis-health", function (req, res) {
@@ -59,6 +68,15 @@ setInterval(function () {
 
 server.use(function (req, res, next) {
   var init = Date.now();
+
+  // log the IP of the proxy which sent the request
+  if (req.headers["x-forwarded-for"]) {
+    console.log(
+      clfdate(),
+      "PID=" + process.pid,
+      "FORWARDED_FOR=" + req.headers["x-forwarded-for"]
+    );
+  }
 
   try {
     if (req.headers["x-request-id"])

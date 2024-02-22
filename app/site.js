@@ -8,7 +8,7 @@ var config = require("config");
 site.disable("x-powered-by");
 
 // Trusts secure requests terminated by NGINX, as far as I know
-site.set("trust proxy", ["loopback", ...config.reverse_proxies]);
+site.set("trust proxy", config.reverse_proxies);
 
 site.set("etag", false); // turn off etags for responses
 

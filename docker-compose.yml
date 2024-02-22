@@ -12,6 +12,7 @@ services:
       - redis
     environment:
       - BLOT_REDIS_HOST=redis
+      - BLOT_HOST=blot.local
     volumes:
       - ./data:/usr/src/app/data
       - ./app:/usr/src/app/app
