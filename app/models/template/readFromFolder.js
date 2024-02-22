@@ -12,7 +12,6 @@ var savePackage = require("./package").save;
 var client = require("models/client");
 var key = require("./key");
 var dropView = require("./dropView");
-const blog = require("../../../scripts/get/blog");
 const Blog = require("models/blog");
 const create = require("./create");
 

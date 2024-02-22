@@ -43,13 +43,8 @@ RUN apk del .gyp
 
 # Copy the contents of ./app from your host to /usr/src/app in the container
 COPY ./app ./app
+COPY ./notes ./notes 
 COPY ./config ./config
-
-# Make the required directories
-RUN mkdir -p /usr/src/app/data/blogs
-RUN mkdir -p /usr/src/app/data/tmp
-RUN mkdir -p /usr/src/app/data/static
-RUN mkdir -p /usr/src/app/data/git
 
 # Your application probably listens on a certain port, so you'll use the EXPOSE instruction to have it mapped by the docker daemon.
 EXPOSE 8080

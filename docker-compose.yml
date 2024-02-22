@@ -8,14 +8,13 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8080:8080"
-    environment:
-      - REDIS_URL=redis://redis:6379
     depends_on:
       - redis
+    environment:
+      - BLOT_REDIS_HOST=redis
     volumes:
-      - .:/app
-      - /app/node_modules
-    command: npm start
+      - ./app:/usr/src/app/app
+      - /usr/src/app/node_modules
 
   redis:
     image: "redis:alpine"
@@ -26,7 +25,10 @@ services:
     image: nginx:alpine
     ports:
       - "80:80"
+      - "443:443" # Expose port 443 for HTTPS traffic
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - /etc/blot/blot.development.crt:/etc/ssl/cert.pem:ro
+      - /etc/blot/blot.development.key:/etc/ssl/key.pem:ro
     depends_on:
       - node-app
