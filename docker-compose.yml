@@ -16,6 +16,7 @@ services:
       - ./data:/usr/src/app/data
       - ./app:/usr/src/app/app
       - /usr/src/app/node_modules
+    command: npx nodemon /usr/src/app/app/index.js
 
   redis:
     image: "redis:alpine"
