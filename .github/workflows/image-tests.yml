@@ -17,8 +17,7 @@ jobs:
     services:
       redis:
         image: redis
-        ports:
-          - 6379:6379
+        command: ["redis-server", "--bind", "redis", "--port", "6379"]
 
     steps:
       - name: Check out repository
@@ -50,7 +49,7 @@ jobs:
       - name: Run tests in Docker container
         run: |
           docker run --rm \
-            -e BLOT_REDIS_HOST=localhost \
+            -e BLOT_REDIS_HOST=redis \
             my-node-app-builder npm test
 
       - name: Move cache
