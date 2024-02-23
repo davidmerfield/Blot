@@ -4,8 +4,8 @@
   "description": "A blogging platform",
   "main": "app/index.js",
   "engines": {
-    "node": "16.20.2",
-    "npm": "8.19.4"
+    "node": "16.14.0",
+    "npm": "8.3.1"
   },
   "jshintConfig": {
     "browser": false,
@@ -110,7 +110,6 @@
     "faker": "^4.1.0",
     "jasmine": "^3.3.1",
     "minimist": "^1.2.6",
-    "nodemon": "^3.0.3",
     "seedrandom": "^2.4.4",
     "spritesmith": "^3.4.0"
   }
