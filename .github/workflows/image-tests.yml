@@ -52,17 +52,17 @@ jobs:
 
       - name: Get Redis network name
         id: redis_network
-        run: echo "::set-output name=network_name::$(docker network ls --filter name=_default -q)"
+        run: echo "REDIS_NETWORK_NAME=$(docker network ls --filter name=_default -q)" >> $GITHUB_ENV
 
       - name: Run tests in Docker container
         run: |
           docker run --rm \
-            --network name=${{ job.services.redis.network }} \
+            --network name=$REDIS_NETWORK_NAME \
             -e BLOT_REDIS_HOST=redis \
             my-node-app-builder sh -c "\
               git config --global user.email 'you@example.com' && \
               git config --global user.name 'Your Name' && \
-              npm run setup && npm test"
+              node run app/setup && npm test"
 
       - name: Move cache
         run: |
