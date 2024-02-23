@@ -17,4 +17,8 @@ jobs:
         uses: actions/setup-node@v2
 
       - name: Check for unused dependencies
-        run: npx depcheck --ignores=nodemon,blessed-contrib,twit,text-to-svg --skip-missing
+        # This command will check for unused dependencies and exit with a non-zero status if any are found
+        # we use the --skip-missing flag to ignore missing dependencies
+        # we use the --ignores flag to ignore certain dependencies which depcheck
+        # fails to detect since they're using in forked processes
+        run: npx depcheck --ignores=nodemon,blessed-contrib,twit,fontkit,text-to-svg --skip-missing

@@ -5,91 +5,67 @@ on:
     branches: [master]
   pull_request:
     branches: [master]
-    paths:
-      - "app/**"
-      - "config/**"
-      - "tests/**"
-      - "package.json"
-      - "package-lock.json"
 
 jobs:
-  test:
+  build-and-test:
     runs-on: ubuntu-latest
-
     strategy:
       matrix:
-        # If you ever add more node versions you need to replace current caching node_modules with caching of ~/.npm
-        node-version: [16.14.0]
-        pandoc-version: [3.1.1]
-        redis-version: [6.2.6]
+        architecture: [linux/amd64, linux/arm64]
 
-    environment: Tests
+    # Define service containers for Redis
+    services:
+      redis:
+        image: redis:6
+        ports:
+          - 6379:6379
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+      - name: Check out repository
+        uses: actions/checkout@v3
 
-      - name: Set up Pandoc
-        if: steps.pandoc.outputs.cache-hit != 'true'
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Cache Docker layers
+        uses: actions/cache@v3
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-buildx-${{ github.sha }}-${{ matrix.architecture }}
+          restore-keys: |
+            ${{ runner.os }}-buildx-${{ matrix.architecture }}-
+
+      - name: Build Docker image
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          file: ./Dockerfile
+          target: builder
+          tags: my-node-app-builder:latest
+          load: true
+          platforms: ${{ matrix.architecture }}
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache-new
+
+      - name: Get Redis network name
+        id: redis_network
+        run: echo "::set-output name=network_name::$(docker network ls --filter name=_default -q)"
+
+      - name: Run tests in Docker container
         run: |
-          wget https://github.com/jgm/pandoc/releases/download/${{ matrix.pandoc-version }}/pandoc-${{ matrix.pandoc-version }}-linux-amd64.tar.gz -O pandoc.tar.gz
-          mkdir pandoc
-          tar xvzf pandoc.tar.gz --strip-components 1 -C pandoc
-          echo "$(pwd)/pandoc/bin" >> $GITHUB_PATH
+          docker run --rm \
+            --platform ${{ matrix.architecture }} \
+            --network name=${{ job.services.redis.network }} \
+            -e BLOT_REDIS_HOST=redis \
+            my-node-app-builder sh -c "\
+              git config --global user.email 'you@example.com' && \
+              git config --global user.name 'Your Name' && \
+              node app/setup && npm test"
 
-      - name: Source pandoc
-        run: echo "BLOT_PANDOC_PATH=$(which pandoc)" >> $GITHUB_ENV
-
-      - name: Set up Node
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{ matrix.node-version }}
-
-      - name: Set up Redis
-        uses: shogo82148/actions-setup-redis@v1
-        with:
-          redis-version: ${{ matrix.redis-version }}
-
-      - name: Load dependencies
-        uses: actions/cache@v2
-        id: cache-node-dependencies
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-${{ hashFiles('package-lock.json') }}
-
-      - name: Install Dependencies
-        if: steps.cache-node-dependencies.outputs.cache-hit != 'true'
-        env:
-          PUPETEER_PRODUCT: firefox
-        run: npm ci
-
-      - name: Run tests
-        env:
-          BLOT_CACHE: false
-          BLOT_DIRECTORY: /home/runner/work/Blot/Blot
-          NODE_PATH: /home/runner/work/Blot/Blot/app
-          BLOT_CACHE_DIRECTORY: /home/runner/work/Blot/Blot/cache
-          BLOT_DEBUG: false
-          BLOT_MAINTENANCE: false
-          BLOT_PRODUCTION: true
-          BLOT_PROTOCOL: https
-          BLOT_ENVIRONMENT: production
-          BLOT_HOST: blot.development
-          BLOT_ADMIN_EMAIL: ${{ secrets.BLOT_ADMIN_EMAIL }}
-          BLOT_DROPBOX_APP_SECRET: ${{ secrets.BLOT_DROPBOX_APP_SECRET }}
-          BLOT_DROPBOX_FULL_SECRET: ${{ secrets.BLOT_DROPBOX_FULL_SECRET }}
-          BLOT_DROPBOX_TEST_ACCOUNT_APP_TOKEN: ${{ secrets.BLOT_DROPBOX_TEST_ACCOUNT_APP_TOKEN }}
-          BLOT_DROPBOX_TEST_ACCOUNT_FULL_TOKEN: ${{ secrets.BLOT_DROPBOX_TEST_ACCOUNT_FULL_TOKEN }}
-          BLOT_DROPBOX_TEST_ACCOUNT_ID: ${{ secrets.BLOT_DROPBOX_TEST_ACCOUNT_ID }}
-          BLOT_MAILGUN_KEY: ${{ secrets.BLOT_MAILGUN_KEY }}
-          BLOT_SESSION_SECRET: ${{ secrets.BLOT_SESSION_SECRET }}
-          BLOT_TWITTER_ACCESS_TOKEN_KEY: ${{ secrets.BLOT_TWITTER_ACCESS_TOKEN_KEY }}
-          BLOT_TWITTER_ACCESS_TOKEN_SECRET: ${{ secrets.BLOT_TWITTER_ACCESS_TOKEN_SECRET }}
-          BLOT_TWITTER_CONSUMER_KEY: ${{ secrets.BLOT_TWITTER_CONSUMER_KEY }}
-          BLOT_TWITTER_CONSUMER_SECRET: ${{ secrets.BLOT_TWITTER_CONSUMER_SECRET }}
-          BLOT_REDIS_HOST: 127.0.0.1
+      - name: Move cache
         run: |
-          git config --global user.email "admin@example.com"
-          git config --global user.name "Admin"
-          node app/setup
-          npm test
+          rm -rf /tmp/.buildx-cache
+          mv /tmp/.buildx-cache-new /tmp/.buildx-cache
