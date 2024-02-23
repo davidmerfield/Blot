@@ -27,8 +27,7 @@ console.log(
 );
 
 // Trusts secure requests terminated by NGINX, as far as I know
-console.log(clfdate(), "Trusting proxies", config.reverse_proxies);
-server.set("trust proxy", config.reverse_proxies);
+server.set("trust proxy", true);
 
 // Check if the database is healthy
 server.get("/redis-health", function (req, res) {

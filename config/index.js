@@ -19,9 +19,8 @@ module.exports = {
   // codebase expects either 'production' or 'development'
   environment,
   host: BLOT_HOST,
-
-  reverse_proxies: ["loopback", "127.0.0.1", "192.168.65.1", "172.18.0.4/16"],
-
+  // the first is in oregon, the second in frankfurt
+  reverse_proxies: environment === "production" ? ["127.0.0.1"] : [],
   protocol: BLOT_PROTOCOL + "://",
   pidfile: BLOT_DIRECTORY + "/data/process.pid",
 
