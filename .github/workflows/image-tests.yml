@@ -16,12 +16,15 @@ jobs:
     # Define service containers for Redis
     services:
       redis:
-        image: redis
+        image: redis:6
         command: ["redis-server", "--bind", "redis", "--port", "6379"]
 
     steps:
       - name: Check out repository
         uses: actions/checkout@v3
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
