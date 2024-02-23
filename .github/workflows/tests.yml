@@ -13,7 +13,6 @@ jobs:
       matrix:
         architecture: [linux/amd64, linux/arm64]
 
-    # Define service containers for Redis
     services:
       redis:
         image: redis:6
@@ -30,13 +29,21 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
 
+      - name: Cache Node Modules
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-modules-
+
       - name: Cache Docker layers
         uses: actions/cache@v3
         with:
           path: /tmp/.buildx-cache
-          key: ${{ runner.os }}-buildx-${{ github.sha }}-${{ matrix.architecture }}
+          key: ${{ runner.os }}-docker-${{ hashFiles('**/Dockerfile', '**/package-lock.json') }}-${{ matrix.architecture }}
           restore-keys: |
-            ${{ runner.os }}-buildx-${{ matrix.architecture }}-
+            ${{ runner.os }}-docker-${{ matrix.architecture }}-
 
       - name: Build Docker image
         uses: docker/build-push-action@v3
@@ -47,8 +54,8 @@ jobs:
           tags: my-node-app-builder:latest
           load: true
           platforms: ${{ matrix.architecture }}
-          cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,dest=/tmp/.buildx-cache-new
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
       - name: Get Redis network name
         id: redis_network
@@ -64,8 +71,3 @@ jobs:
               git config --global user.email 'you@example.com' && \
               git config --global user.name 'Your Name' && \
               node app/setup && npm test"
-
-      - name: Move cache
-        run: |
-          rm -rf /tmp/.buildx-cache
-          mv /tmp/.buildx-cache-new /tmp/.buildx-cache
