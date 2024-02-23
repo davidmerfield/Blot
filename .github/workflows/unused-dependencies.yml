@@ -17,4 +17,4 @@ jobs:
         uses: actions/setup-node@v2
 
       - name: Check for unused dependencies
-        run: npx depcheck --ignores=nodemon,blessed-contrib,twit,fontkit,text-to-svg --skip-missing
+        run: npx depcheck --ignores=nodemon,blessed-contrib,twit,text-to-svg --skip-missing
