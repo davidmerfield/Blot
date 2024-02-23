@@ -52,7 +52,6 @@ jobs:
         run: |
           docker run --rm \
             -e BLOT_REDIS_HOST=redis \
-            --network="container:redis_6379_tcp" \
             my-node-app-builder npm test
 
       - name: Move cache
