@@ -1,4 +1,4 @@
-name: Check codebase for unused dependencies
+name: Unused dependency check
 
 on:
   push:
