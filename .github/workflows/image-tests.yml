@@ -50,9 +50,14 @@ jobs:
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
 
+      - name: Get Redis network name
+        id: redis_network
+        run: echo "::set-output name=network_name::$(docker network ls --filter name=_default -q)"
+
       - name: Run tests in Docker container
         run: |
           docker run --rm \
+            --network name=${{ job.services.redis.network }} \
             -e BLOT_REDIS_HOST=redis \
             my-node-app-builder npm test
 
