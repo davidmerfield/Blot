@@ -1,4 +1,4 @@
-# Stage 1: Build and test stage
+# Stage 1: Build and test stage with node 
 FROM node:16-alpine AS builder
 
 # Set the working directory in the Docker container
