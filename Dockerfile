@@ -31,11 +31,12 @@ RUN curl -L https://github.com/jgm/pandoc/releases/download/${PANDOC_VERSION}/pa
     && chmod +x /usr/local/bin/pandoc \
     && rm -r pandoc-${PANDOC_VERSION}
 
-# Install your application's dependencies including 'devDependencies' in the Docker container
-RUN npm install 
-
 # Set environment variables
 ENV NODE_PATH=/usr/src/app/app
+ENV npm_config_build_from_source=true
+
+# Install your application's dependencies including 'devDependencies' in the Docker container
+RUN npm install 
 
 # Copy the contents of your application into the container
 COPY . .
@@ -48,6 +49,7 @@ FROM node:16-alpine AS production
 # so we need to set them again
 ENV NODE_ENV=production
 ENV NODE_PATH=/usr/src/app/app
+ENV npm_config_build_from_source=true
 
 # Set the working directory in the Docker container
 WORKDIR /usr/src/app
