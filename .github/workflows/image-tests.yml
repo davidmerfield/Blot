@@ -16,10 +16,9 @@ jobs:
     # Define service containers for Redis
     services:
       redis:
-        image: redis:alpine
+        image: redis
         ports:
-          - 6379/tcp
-        options: --health-cmd "redis-cli ping" --health-interval 10s --health-timeout 5s --health-retries 5
+          - 6379:6379
 
     steps:
       - name: Check out repository
@@ -48,21 +47,10 @@ jobs:
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
 
-      - name: Find Redis network
-        id: redis_network
-        run: |
-          network_name=$(docker network ls --filter name=redis -q)
-          if [ -z "$network_name" ]; then
-            echo "Redis network not found"
-            exit 1
-          fi
-          echo "::set-output name=network_name::$network_name"
-
       - name: Run tests in Docker container
         run: |
           docker run --rm \
             -e BLOT_REDIS_HOST=redis \
-            --network ${{ steps.redis_network.outputs.network_name }} \
             my-node-app-builder npm test
 
       - name: Move cache
