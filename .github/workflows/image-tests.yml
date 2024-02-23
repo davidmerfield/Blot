@@ -57,6 +57,7 @@ jobs:
       - name: Run tests in Docker container
         run: |
           docker run --rm \
+            --platform ${{ matrix.architecture }} \
             --network name=${{ job.services.redis.network }} \
             -e BLOT_REDIS_HOST=redis \
             my-node-app-builder sh -c "\
