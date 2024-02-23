@@ -1,9 +1,5 @@
-# Use the alpine image as a base image with node v16
-FROM node:16-alpine
-
-# Set environment variables
-ENV NODE_PATH=/usr/src/app/app
-ENV NODE_ENV=production
+# Stage 1: Build and test stage
+FROM node:16-alpine AS builder
 
 # Set the working directory in the Docker container
 WORKDIR /usr/src/app
@@ -12,7 +8,7 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 
 # Install build dependencies for npm packages
-RUN apk add --no-cache --virtual .gyp \
+RUN apk add --no-cache --virtual .build-deps \
         python3 \
         make \
         g++ \
@@ -23,28 +19,50 @@ RUN apk add --no-cache --virtual .gyp \
         libpng-dev \
         git
 
-
-# Install dependencies for fetching and extracting Pandoc, and then download and install the Pandoc binary
-ENV PANDOC_VERSION=3.1.1
+# Install dependencies for fetching and extracting Pandoc
 RUN apk --no-cache add \
     curl \
-    tar \
-    && curl -L https://github.com/jgm/pandoc/releases/download/${PANDOC_VERSION}/pandoc-${PANDOC_VERSION}-linux-amd64.tar.gz | tar xvz \
+    tar
+
+# Download and install the Pandoc binary
+ENV PANDOC_VERSION=3.1.1
+RUN curl -L https://github.com/jgm/pandoc/releases/download/${PANDOC_VERSION}/pandoc-${PANDOC_VERSION}-linux-amd64.tar.gz | tar xvz \
     && mv pandoc-${PANDOC_VERSION}/bin/pandoc /usr/local/bin/pandoc \
     && chmod +x /usr/local/bin/pandoc \
-    && rm -r pandoc-${PANDOC_VERSION} \
-    && apk del curl tar
+    && rm -r pandoc-${PANDOC_VERSION}
 
-# Install your application's dependencies
-RUN npm install
+# Install your application's dependencies including 'devDependencies' in the Docker container
+RUN npm install 
 
-# Remove build dependencies to reduce image size
-RUN apk del .gyp
+# Set environment variables
+ENV NODE_PATH=/usr/src/app/app
 
-# Copy the contents of ./app from your host to /usr/src/app in the container
-COPY ./app ./app
-COPY ./notes ./notes 
-COPY ./config ./config
+# Copy the contents of your application into the container
+COPY . .
+
+# Stage 2: Production stage
+FROM node:16-alpine AS production
+
+# Set environment variables
+# these are not inherited from the builder stage
+# so we need to set them again
+ENV NODE_ENV=production
+ENV NODE_PATH=/usr/src/app/app
+
+# Set the working directory in the Docker container
+WORKDIR /usr/src/app
+
+# Copy the package.json and package-lock.json files
+COPY package*.json ./
+
+# Install only production dependencies
+RUN npm install --only=production
+
+# Copy build artifacts from the builder stage
+COPY --from=builder /usr/src/app/app ./app
+COPY --from=builder /usr/src/app/notes ./notes 
+COPY --from=builder /usr/src/app/config ./config
+# Note: We do not copy the tests directory or any development dependencies to the production image
 
 # Your application probably listens on a certain port, so you'll use the EXPOSE instruction to have it mapped by the docker daemon.
 EXPOSE 8080

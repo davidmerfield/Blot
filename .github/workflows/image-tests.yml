@@ -1,0 +1,61 @@
+name: Node.js Image tests
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        architecture: [linux/amd64, linux/arm64]
+
+    # Define service containers for Redis
+    services:
+      redis:
+        image: redis:alpine
+        ports:
+          - 6379/tcp
+        options: --health-cmd "redis-cli ping" --health-interval 10s --health-timeout 5s --health-retries 5
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Cache Docker layers
+        uses: actions/cache@v3
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-buildx-${{ github.sha }}-${{ matrix.architecture }}
+          restore-keys: |
+            ${{ runner.os }}-buildx-${{ matrix.architecture }}-
+
+      - name: Build Docker image
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          file: ./Dockerfile
+          target: builder
+          tags: my-node-app-builder:latest
+          load: true
+          platforms: ${{ matrix.architecture }}
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache-new
+
+      - name: Run tests in Docker container
+        run: |
+          docker run --rm \
+            --network host \
+            -e BLOT_REDIS_HOST=localhost \
+            my-node-app-builder npm test
+
+      - name: Move cache
+        run: |
+          rm -rf /tmp/.buildx-cache
+          mv /tmp/.buildx-cache-new /tmp/.buildx-cache
