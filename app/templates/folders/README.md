@@ -2,6 +2,7 @@
 
 Add folders for:
 
+- Link blog!
 - Podcast!
 - Music site!
 - Video portfolio!
