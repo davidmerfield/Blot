@@ -1,4 +1,4 @@
-name: Proxy configuration test
+name: Proxy tests
 
 on:
   push:
