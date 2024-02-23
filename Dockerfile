@@ -22,6 +22,9 @@ RUN apk add --no-cache --virtual .build-deps \
 # Install dependencies for fetching and extracting Pandoc
 RUN apk --no-cache add curl tar
 
+# Install Pandoc
+ARG PANDOC_VERSION
+
 # Download and install the Pandoc binary
 RUN curl -L https://github.com/jgm/pandoc/releases/download/${PANDOC_VERSION}/pandoc-${PANDOC_VERSION}-linux-amd64.tar.gz | tar xvz \
     && mv pandoc-${PANDOC_VERSION}/bin/pandoc /usr/local/bin/pandoc \
