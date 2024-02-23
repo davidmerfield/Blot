@@ -1,0 +1,26 @@
+name: Check codebase for unused dependencies
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node
+        uses: actions/setup-node@v2
+
+      - name: Check for unused dependencies
+        run: |
+          result=$(npx depcheck --ignores=nodemon,blessed-contrib,twit,fontkit,text-to-svg --skip-missing) || true
+          if [[ -n $result ]]; then
+            echo "There are unused dependencies in the project:"
+            echo "$result"
+            exit 1
+          fi
