@@ -51,8 +51,8 @@ jobs:
       - name: Run tests in Docker container
         run: |
           docker run --rm \
-            --network host \
-            -e BLOT_REDIS_HOST=localhost \
+            -e BLOT_REDIS_HOST=redis \
+            --network="container:redis_6379_tcp" \
             my-node-app-builder npm test
 
       - name: Move cache
