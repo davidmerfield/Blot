@@ -17,10 +17,4 @@ jobs:
         uses: actions/setup-node@v2
 
       - name: Check for unused dependencies
-        run: |
-          result=$(npx depcheck --ignores=nodemon,blessed-contrib,twit,fontkit,text-to-svg --skip-missing) || true
-          if [[ -n $result ]]; then
-            echo "There are unused dependencies in the project:"
-            echo "$result"
-            exit 1
-          fi
+        run: npx depcheck --ignores=nodemon,blessed-contrib,twit,fontkit,text-to-svg --skip-missing
