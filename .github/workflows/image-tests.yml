@@ -59,7 +59,7 @@ jobs:
           docker run --rm \
             --network name=${{ job.services.redis.network }} \
             -e BLOT_REDIS_HOST=redis \
-            my-node-app-builder npm test
+            my-node-app-builder sh -c "node app/setup && npm test"
 
       - name: Move cache
         run: |
