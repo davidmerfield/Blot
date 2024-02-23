@@ -62,7 +62,7 @@ jobs:
             my-node-app-builder sh -c "\
               git config --global user.email 'you@example.com' && \
               git config --global user.name 'Your Name' && \
-              node run app/setup && npm test"
+              node app/setup && npm test"
 
       - name: Move cache
         run: |
