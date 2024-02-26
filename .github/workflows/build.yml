@@ -33,7 +33,7 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
-          password: ${{ secrets.GHCR_PAT }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Generate package-lock digest
         run: echo "PACKAGE_LOCK_DIGEST=$(cat package-lock.json | sha256sum | cut -d ' ' -f1)" >> $GITHUB_ENV
