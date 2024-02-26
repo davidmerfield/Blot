@@ -1,0 +1,49 @@
+name: Build and Push Docker image
+
+on:
+  pull_request:
+    branches: [master]
+    paths:
+      - "package.json" # Trigger only when package.json changes
+      - "package-lock.json" # Trigger only when package-lock.json changes
+      - "Dockerfile" # Include Dockerfile in case there are changes
+  push:
+    branches: [master]
+    paths:
+      - "package.json" # Trigger only when package.json changes
+      - "package-lock.json" # Trigger only when package-lock.json changes
+      - "Dockerfile" # Include Dockerfile in case there are changes
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GHCR_PAT }}
+
+      - name: Generate package-lock digest
+        run: echo "PACKAGE_LOCK_DIGEST=$(cat package-lock.json | sha256sum | cut -d ' ' -f1)" >> $GITHUB_ENV
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: ghcr.io/${{ github.repository_owner }}/your-image-name:${{ env.PACKAGE_LOCK_DIGEST }}
+          platforms: linux/amd64, linux/arm64
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
