@@ -41,6 +41,7 @@ https://www.flickr.com/photos/alberta_archives/albums/72157643076560675
 ## Tools
 
 - [Download flickr sets](https://www.npmjs.com/package/flickr-set-get)
+  https://www.openculture.com/2016/05/1-8-million-free-works-of-art-from-world-class-museums-a-meta-list.html
 
 ## Generating the blogs
 
@@ -60,6 +61,12 @@ a .blot directory containing config...
 
 - design a site around each font available on Blot (80 ish fonts)
 
+Backs of oil paintings from the wellcome collection
+https://wellcomecollection.org/works/gf94jwmz/images?id=dx3n4cyc
+
+The works of Edward Muybridge
+https://wellcomecollection.org/search/images?locations.license=pdm&source.contributors.agent.label=%22Muybridge%2C+Eadweard%2C+1830-1904%22&page=11
+
 ## Future test material
 
 ### Photographs
@@ -72,6 +79,8 @@ a .blot directory containing config...
 
 [Daguerreotypes](https://www.loc.gov/pictures/search/?q=Mathew+Brady+half+plate&sp=1&co=dag&st=grid)
 
+[Macro photos](https://www.rawpixel.com/board/1231804/vintage-botanical-macro-photographs-high-resolution-designs?mode=shop)
+
 ### Illustrations
 
 [Thought-forms](https://en.wikipedia.org/wiki/Thought-Forms)
@@ -83,6 +92,10 @@ a .blot directory containing config...
 - https://upload.wikimedia.org/wikipedia/commons/c/cd/Colorchart.jpg
 
 [Works of Mondrian](https://commons.wikimedia.org/wiki/Category:Paintings_by_Piet_Mondrian)
+
+[British Fishes](https://www.rawpixel.com/board/415979/the-natural-history-british-fishes-free-public-domain-fish-paintings)
+
+[Fern drawings](https://www.rawpixel.com/board/1231857/fern-drawings-public-domain-botanical-paintings)
 
 [Works of Ernst Haekel](https://en.wikipedia.org/wiki/Ernst_Haeckel)
 
