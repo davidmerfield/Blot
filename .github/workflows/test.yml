@@ -1,0 +1,22 @@
+name: Test Docker Image
+
+on:
+  pull_request:
+    branches: [master]
+    paths-ignore:
+      - "Dockerfile" # Ignore changes to Dockerfile in this workflow
+  push:
+    branches: [master]
+    paths-ignore:
+      - "Dockerfile" # Ignore changes to Dockerfile in this workflow
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Run npm test inside the container
+        run: |
+          docker run --rm ghcr.io/${{ github.repository_owner }}/blot:latest npm test
