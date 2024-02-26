@@ -17,6 +17,7 @@ on:
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
+    environment: Docker
     steps:
       - name: Check out code
         uses: actions/checkout@v2
