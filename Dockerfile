@@ -2,7 +2,7 @@
 ARG PANDOC_VERSION=3.1.1
 
 # Stage 1: Build and test stage with node 
-FROM node:16-alpine AS builder
+FROM node:16-alpine
 
 # Set the working directory in the Docker container
 WORKDIR /usr/src/app
@@ -35,6 +35,7 @@ RUN curl -L https://github.com/jgm/pandoc/releases/download/${PANDOC_VERSION}/pa
 COPY package*.json ./
 
 # Set environment variables
+ENV NODE_ENV=production
 ENV NODE_PATH=/usr/src/app/app
 ENV npm_config_build_from_source=true
 
@@ -43,29 +44,6 @@ RUN npm ci
 
 # Copy the contents of your application into the container
 COPY . .
-
-# Stage 2: Production stage
-FROM node:16-alpine AS production
-
-# Set environment variables
-ENV NODE_ENV=production
-ENV NODE_PATH=/usr/src/app/app
-ENV npm_config_build_from_source=true
-
-# Set the working directory in the Docker container
-WORKDIR /usr/src/app
-
-# Copy the package.json and package-lock.json files
-COPY package*.json ./
-
-# Install only production dependencies
-RUN npm ci
-
-# Copy build artifacts from the builder stage
-COPY --from=builder /usr/src/app/app ./app
-COPY --from=builder /usr/src/app/notes ./notes 
-COPY --from=builder /usr/src/app/config ./config
-# Note: We do not copy the tests directory or any development dependencies to the production image
 
 EXPOSE 8080
 
