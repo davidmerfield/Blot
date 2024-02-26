@@ -39,8 +39,8 @@ ENV NODE_ENV=production
 ENV NODE_PATH=/usr/src/app/app
 ENV npm_config_build_from_source=true
 
-# Install your application's dependencies including 'devDependencies' in the Docker container
-RUN npm ci
+# Install your application's dependencies including dev dependencies 
+RUN npm ci 
 
 # Copy the contents of your application into the container
 COPY . .
