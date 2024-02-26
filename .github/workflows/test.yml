@@ -26,12 +26,15 @@ jobs:
         id: redis_network
         run: echo "::set-output name=network_name::$(docker network ls --filter name=_default -q)"
 
+      - name: Generate package-lock digest
+        run: echo "PACKAGE_LOCK_DIGEST=$(cat package-lock.json | sha256sum | cut -d ' ' -f1)" >> $GITHUB_ENV
+
       - name: Run npm test inside the container
         run: |
           docker run --rm \
             --network name=${{ job.services.redis.network }} \
             -e BLOT_REDIS_HOST=redis \
-            ghcr.io/${{ github.repository_owner }}/blot:latest  sh -c "\
+            ghcr.io/${{ github.repository_owner }}/blot:node-${{ env.PACKAGE_LOCK_DIGEST }}  sh -c "\
             git config --global user.email 'you@example.com' && \
             git config --global user.name 'Your Name' && \
             node app/setup && npm test"
