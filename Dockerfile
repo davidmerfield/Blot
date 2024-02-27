@@ -87,7 +87,7 @@ FROM source as test
 WORKDIR /usr/src/app
 
 # this copies all dependencies (prod+dev)
-COPY --from=dev ./node_modules ./node_modules
+COPY --from=dev /usr/src/app/node_modules ./node_modules
 
 # this copies the tests
 COPY ./tests ./tests

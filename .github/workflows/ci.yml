@@ -35,9 +35,11 @@ jobs:
           load: true
           tags: ghcr.io/${{ github.repository_owner }}/blot:test-${{ github.sha }}
           target: test
+
       - name: Test
         run: |
           docker run --rm ghcr.io/${{ github.repository_owner }}/blot:test-${{ github.sha }}
+
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
