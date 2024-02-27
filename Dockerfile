@@ -84,13 +84,15 @@ COPY ./notes ./notes
 # This stage is used for running tests in CI
 FROM source as test
 
+WORKDIR /usr/src/app
+
 # this copies all dependencies (prod+dev)
-COPY --from=dev /usr/src/app/node_modules /usr/src/app/node_modules
+COPY --from=dev ./node_modules ./node_modules
+
 # this copies the tests
-COPY --from=dev /usr/src/app/tests /usr/src/app/tests
+COPY ./tests ./tests
 
 # Run linters and tests
-
 # RUN eslint . 
 
 RUN npx depcheck --ignores=nodemon,blessed-contrib,twit,fontkit,text-to-svg --skip-missing
