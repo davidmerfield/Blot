@@ -6,6 +6,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      target: dev   # This line specifies which stage to build
     ports:
       - "8080:8080"
     depends_on:
@@ -16,8 +17,10 @@ services:
     volumes:
       - ./data:/usr/src/app/data
       - ./app:/usr/src/app/app
+      - ./tests:/usr/src/app/tests
+      - ./notes:/usr/src/app/notes
       - ./config:/usr/src/app/config
-      - /usr/src/app/node_modules
+      # use nodemon to start the app in development mode
     command: npx nodemon /usr/src/app/app/index.js
 
   redis:

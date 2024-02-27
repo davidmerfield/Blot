@@ -27,7 +27,8 @@
   "scripts": {
     "test": "node tests",
     "start": "node app",
-    "local": "NODE_PATH=app node app/local"
+    "dev": "nodemon app/index.js",
+    "local": "node app/local"
   },
   "version": "0.0.0",
   "dependencies": {
@@ -110,6 +111,7 @@
     "faker": "^4.1.0",
     "jasmine": "^3.3.1",
     "minimist": "^1.2.6",
+    "nodemon": "^3.1.0",
     "seedrandom": "^2.4.4",
     "spritesmith": "^3.4.0"
   }
