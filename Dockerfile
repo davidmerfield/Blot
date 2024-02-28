@@ -42,6 +42,9 @@ RUN npm config list \
 # Remove build dependencies
 RUN apk del .build-deps
 
+# Install git for good
+RUN apk add --no-cache git
+
 ## Stage 1 (production base)
 # This stage prepares the production environment
 FROM node:16.13.0-alpine as base
