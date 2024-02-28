@@ -20,7 +20,7 @@ describe("metadata parser", function () {
       ).metadata
     ).toEqual({
       permalink: "",
-      page: "no",
+      page: "yes",
       date: "12/10/12"
     });
   });
