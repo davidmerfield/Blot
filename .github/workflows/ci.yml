@@ -11,6 +11,11 @@ on:
 jobs:
   docker:
     runs-on: ubuntu-latest
+    services:
+      redis:
+        image: redis:6
+        ports:
+          - 6379:6379
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -38,9 +43,19 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
+      - name: Get Redis network name
+        id: redis_network
+        run: echo "::set-output name=network_name::$(docker network ls --filter name=_default -q)"
+
       - name: Test
         run: |
-          docker run --rm ghcr.io/${{ github.repository_owner }}/blot:test-${{ github.sha }}
+          docker run --rm \
+            --network name=${{ job.services.redis.network }} \
+            -e BLOT_REDIS_HOST=redis \
+            ghcr.io/${{ github.repository_owner }}/blot:test-${{ github.sha }} sh -c "\
+              git config --global user.email 'you@example.com' && \
+              git config --global user.name 'Your Name' && \
+              node app/setup && npm test"
 
       - name: Build and push
         uses: docker/build-push-action@v5
