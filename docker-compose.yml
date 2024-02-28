@@ -20,8 +20,7 @@ services:
       - ./tests:/usr/src/app/tests
       - ./notes:/usr/src/app/notes
       - ./config:/usr/src/app/config
-      # use nodemon to start the app in development mode
-    command: npx nodemon /usr/src/app/app/index.js
+    command: node /usr/src/app/app/index.js
 
   redis:
     image: "redis:alpine"
