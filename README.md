@@ -26,7 +26,7 @@ Add the required hosts blot.local (for the dashboard) and example.blot.local (fo
 Set up the development environment with docker:
 
 ```
-docker-compose up
+docker-compose up --build
 ```
 
 The dashboard will be available at [https://blot.local](https://blot.local) and the example site will be available at [https://example.blot.local](https://example.blot.local). You can edit the folder for the example blog inside the `data` directory:
