@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  node-app:
+    image: blot
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: dev   # This line specifies which stage to build
+    ports:
+      - "8080:8080"
+    depends_on:
+      - redis
+    environment:
+      - FAST=true
+      - BLOT_REDIS_HOST=redis
+      - BLOT_HOST=blot.local
+      - BLOT_SESSION_SECRET=secret
+    volumes:
+      - ./data:/usr/src/app/data
+      - ./app:/usr/src/app/app
+      - ./tests:/usr/src/app/tests
+      - ./notes:/usr/src/app/notes
+      - ./config:/usr/src/app/config
+    command: sh -c "node /usr/src/app/app/local.js && node /usr/src/app/app/index.js"
+
+  redis:
+    image: "redis:alpine"
+    ports:
+      - "6379:6379"
+    volumes:
+      - "./data:/data"
+
+  nginx:
+    build:
+      context: ./config/openresty
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - node-app

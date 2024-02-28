@@ -90,7 +90,7 @@ module.exports = {
   },
 
   pandoc: {
-    bin: process.env.BLOT_PANDOC_PATH,
+    bin: process.env.BLOT_PANDOC_PATH || "pandoc",
     maxmemory: "500M", // 500mb
     timeout: 10000 // 10s
   },
