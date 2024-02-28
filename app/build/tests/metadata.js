@@ -9,7 +9,7 @@ describe("metadata parser", function () {
     ).toEqual({
       permalink: "",
       page: "yes",
-      date: "12/10/12"
+      date: "12/10/12",
     });
   });
 
@@ -21,7 +21,7 @@ describe("metadata parser", function () {
     ).toEqual({
       permalink: "",
       page: "yes",
-      date: "12/10/12"
+      date: "12/10/12",
     });
   });
 
@@ -33,7 +33,7 @@ describe("metadata parser", function () {
     ).toEqual({
       permalink: "",
       page: "yes",
-      date: "12/10/12"
+      date: "12/10/12",
     });
   });
 
@@ -44,9 +44,11 @@ describe("metadata parser", function () {
       ).metadata
     ).toEqual({
       permalink: "hey",
-      page: "yes"
+      page: "yes",
     });
   });
+
+
 
   it("handles colons", function () {
     expect(
@@ -56,7 +58,7 @@ describe("metadata parser", function () {
         )
       ).metadata
     ).toEqual({
-      author: "me"
+      author: "me",
     });
   });
 
@@ -64,13 +66,13 @@ describe("metadata parser", function () {
     expect(
       Metadata(["Author:me", "Hey", "Date: 1"].join("\n")).metadata
     ).toEqual({
-      author: "me"
+      author: "me",
     });
   });
 
   it("handles spaces in the metadata key", function () {
     expect(Metadata(["Author name: Jason"].join("\n")).metadata).toEqual({
-      "author name": "Jason"
+      "author name": "Jason",
     });
   });
 
@@ -80,13 +82,13 @@ describe("metadata parser", function () {
 
   it("allows dashes in the metadata key", function () {
     expect(Metadata(["Is-Social: Yes"].join("\n")).metadata).toEqual({
-      "is-social": "Yes"
+      "is-social": "Yes",
     });
   });
 
   it("allows underscores in the metadata key", function () {
     expect(Metadata(["Is_Social: Yes"].join("\n")).metadata).toEqual({
-      is_social: "Yes"
+      is_social: "Yes",
     });
   });
 
@@ -97,7 +99,7 @@ describe("metadata parser", function () {
   it("handles pure metadata", function () {
     expect(Metadata(["only:metadata", "in:this"].join("\n")).metadata).toEqual({
       only: "metadata",
-      in: "this"
+      in: "this",
     });
   });
 
@@ -106,7 +108,7 @@ describe("metadata parser", function () {
       Metadata(
         [
           "# Since the title: is on the first line, no metada should be extracted",
-          "Date: 1"
+          "Date: 1",
         ].join("\n")
       ).metadata
     ).toEqual({});

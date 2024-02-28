@@ -68,15 +68,6 @@ setInterval(function () {
 server.use(function (req, res, next) {
   var init = Date.now();
 
-  // log the IP of the proxy which sent the request
-  if (req.headers["x-forwarded-for"]) {
-    console.log(
-      clfdate(),
-      "PID=" + process.pid,
-      "FORWARDED_FOR=" + req.headers["x-forwarded-for"]
-    );
-  }
-
   try {
     if (req.headers["x-request-id"])
       unrespondedRequests.push(req.headers["x-request-id"].slice(0, 8));

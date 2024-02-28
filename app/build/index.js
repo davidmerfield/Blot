@@ -20,7 +20,7 @@ module.exports = function (blog, path, options, callback) {
     jobId,
     path,
     options,
-    callback
+    callback,
   };
 
   worker.send({ blog, path, jobId, options }, function (err) {
@@ -35,10 +35,10 @@ module.exports = function (blog, path, options, callback) {
   });
 };
 
-function Worker () {
+function Worker() {
   console.log(prefix(), `master=${process.pid} launched`);
   const newWorker = child_process.fork(__dirname + "/main", {
-    detached: false
+    detached: false,
   });
 
   newWorker.on("message", function ({ err, jobId, entry }) {
@@ -46,10 +46,7 @@ function Worker () {
 
     console.log(
       prefix(),
-      `master=${process.pid} worker=${worker.pid} ${jobId.slice(
-        0,
-        12
-      )} completed error=${!!err}`
+      `master=${process.pid} worker=${worker.pid} ${jobId.slice(0, 12)} completed error=${!!err}`
     );
 
     if (job) {

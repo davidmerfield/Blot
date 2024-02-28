@@ -21,8 +21,6 @@ var TMP_DIRECTORY = ROOT + "/tmp";
 // This function lists all the blogs for a particular
 // application state and then prints useful information
 module.exports = function (callback) {
-  return callback(null, "This function is not implemented");
-
   var client = require("redis").createClient();
 
   Blog.getAllIDs(function (err, ids) {
