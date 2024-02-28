@@ -42,9 +42,6 @@ RUN npm config list \
 # Remove build dependencies
 RUN apk del .build-deps
 
-# Install git for good
-RUN apk add --no-cache git
-
 ## Stage 1 (production base)
 # This stage prepares the production environment
 FROM node:16.13.0-alpine as base
@@ -61,6 +58,9 @@ WORKDIR /usr/src/app
 # Copy the built application from the builder stage
 COPY --from=builder /usr/src/app .
 COPY --from=builder /usr/local/bin/pandoc /usr/local/bin/pandoc
+
+# Install git for good since the git client requires it
+RUN apk add --no-cache git
 
 ## Stage 2 (development)
 # This stage is for development purposes

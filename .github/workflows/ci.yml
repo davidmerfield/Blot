@@ -33,6 +33,10 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Get Redis network name
+        id: redis_network
+        run: echo "::set-output name=network_name::$(docker network ls --filter name=_default -q)"
+
       - name: Build and export to Docker
         uses: docker/build-push-action@v5
         with:
@@ -42,10 +46,6 @@ jobs:
           target: test
           cache-from: type=gha
           cache-to: type=gha,mode=max
-
-      - name: Get Redis network name
-        id: redis_network
-        run: echo "::set-output name=network_name::$(docker network ls --filter name=_default -q)"
 
       - name: Test
         run: |
