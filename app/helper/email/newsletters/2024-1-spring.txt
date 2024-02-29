@@ -1,0 +1,4 @@
+
+
+Bugs fixed:
+- Fixed Heap analytics integration after their breaking change
