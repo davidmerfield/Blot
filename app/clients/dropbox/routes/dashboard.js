@@ -171,8 +171,14 @@ dashboard.get("/authenticate", function (req, res) {
   // }
 
   const { code, full_access } = req.query;
+
+  const redirectHost =
+    config.environment === "development"
+      ? config.webhooks.relay_host
+      : config.host;
+
   let redirectUri =
-    req.protocol + "://" + req.get("host") + "/clients/dropbox/authenticate";
+    req.protocol + "://" + redirectHost + "/clients/dropbox/authenticate";
 
   if (full_access) {
     redirectUri += "?full_access=true";

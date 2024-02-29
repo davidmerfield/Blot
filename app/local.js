@@ -86,7 +86,6 @@ async.waterfall(
   ],
   function (err, user) {
     if (err) throw err;
-    console.log(user);
     process.exit();
   }
 );
