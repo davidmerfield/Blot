@@ -1,14 +1,3 @@
-<li class="signed-in" >
-  <a href="/dashboard" class="{{ selected.dashboard }}"
-    >Your sites</a>
-</li>
-<script type="text/javascript">
-  if (document.cookie.indexOf('signed_into_blot') > -1) {
-    document.querySelector('li.signed-in').style.display = 'block';
-    }
-</script>
-
-
 <li>
   <a
     style="border-top: none"
@@ -136,10 +125,15 @@
       <a href="/questions" class="{{ selected.questions }}"
         >Questions</a>
 </li> 
-<li>
+<li class="signed-out">
   <a href="/pricing" class="{{ selected.pricing }}"
     >Pricing</a>
 </li>
+<script type="text/javascript">
+  if (document.cookie.indexOf('signed_into_blot') > -1) {
+    document.querySelector('li.signed-out').style.display = 'none';
+    }
+</script>
 <!-- 
 <li>
   <a
