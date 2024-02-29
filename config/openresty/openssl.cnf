@@ -1,0 +1,25 @@
+[req]
+default_bits = 2048
+prompt = no
+default_md = sha256
+x509_extensions = v3_req
+distinguished_name = dn
+
+[dn]
+C = JP
+ST = Tokyo
+L = Tokyo
+O = MyDomain Inc.
+OU = Technology Group
+emailAddress = example@example.com
+CN = BLOT_HOST
+
+[v3_req]
+subjectAltName = @alt_names
+
+[SAN]
+subjectAltName = @alt_names
+
+[alt_names]
+DNS.1 = *.BLOT_HOST
+DNS.2 = BLOT_HOST

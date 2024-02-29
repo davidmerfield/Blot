@@ -28,7 +28,7 @@ module.exports = {
     server_host: "webhooks." + BLOT_HOST,
     // replace with "webhooks.blot.development" to test
     relay_host: environment === "development" && "webhooks.blot.im",
-    development_host: "blot.development",
+    development_host: "blot",
     secret: process.env.BLOT_WEBHOOKS_SECRET
   },
 

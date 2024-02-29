@@ -14,7 +14,7 @@ services:
     environment:
       - FAST=true
       - BLOT_REDIS_HOST=redis
-      - BLOT_HOST=blot.local
+      - BLOT_HOST=blot
       - BLOT_SESSION_SECRET=secret
     volumes:
       - ./data:/usr/src/app/data

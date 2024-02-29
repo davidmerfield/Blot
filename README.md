@@ -16,20 +16,49 @@ Clone this repository:
 git clone https://github.com/davidmerfield/blot
 ```
 
-Add the required hosts blot.local (for the dashboard) and example.blot.local (for the example site) to your `/etc/hosts` file:
+Blot requires a number of different hosts to work (one for the dashboard, one for the CDN and many for your sites). In order to get this working in a local development environment, I recommend using [dnsmasq](https://wiki.archlinux.org/index.php/dnsmasq) to resolve everthing under the non-existent `.blot` TLD to the local machine:
 
 ```
-127.0.0.1 blot.local
-127.0.0.1 example.blot.local
+brew install dnsmasq
 ```
 
-Set up the development environment with docker:
+Create config directory for dnsmasq
+
+```
+mkdir -pv $(brew --prefix)/etc/
+```
+
+Setup \*.blot in dnsmasq:
+
+```
+echo 'address=/.blot/127.0.0.1' >> $(brew --prefix)/etc/dnsmasq.conf
+```
+
+Autostart dnsmasq - now and after reboot:
+
+```
+sudo brew services start dnsmasq
+```
+
+Create resolver directory for macOS:
+
+```
+sudo mkdir -v /etc/resolver
+```
+
+Add your nameserver to resolvers:
+
+```
+sudo bash -c 'echo "nameserver 127.0.0.1" > /etc/resolver/blot'
+```
+
+Finally, you are ready to start the development environment with docker:
 
 ```
 docker-compose up --build
 ```
 
-The dashboard will be available at [https://blot.local](https://blot.local) and the example site will be available at [https://example.blot.local](https://example.blot.local). You can edit the folder for the example blog inside the `data` directory:
+The dashboard will be available at [https://blot](https://blot) and the example site will be available at [https://example.blot](https://example.blot). You can edit the folder for the example blog inside the `data` directory:
 
 ```
 ./data/blogs/blog_$ID
