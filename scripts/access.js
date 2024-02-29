@@ -38,7 +38,7 @@ function main (handle, callback) {
           var url = format({
             protocol: "https",
             host: config.host,
-            pathname: "/log-in",
+            pathname: "/dashboard/log-in",
             query: {
               token: token
             }

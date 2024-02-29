@@ -47,7 +47,7 @@ module.exports = {
   port: BLOT_PORT,
   clients_port: 8888,
 
-  redis: { port: 6379, host: process.env.BLOT_REDIS_HOST },
+  redis: { port: 6379, host: process.env.BLOT_REDIS_HOST || "127.0.0.1" },
 
   admin: {
     uid: process.env.BLOT_ADMIN_UID,
