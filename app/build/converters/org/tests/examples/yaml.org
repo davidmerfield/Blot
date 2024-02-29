@@ -1,0 +1,41 @@
+#+Title: Org and YAML
+
+#+BEGIN_SRC yaml
+
+Title: Test Post Using Orgmode
+Date: February 28th, 2024
+Tags: test, org-mode, blot
+
+#+END_SRC
+
+* Heading Level 1
+
+The source for this post is  org-mode with both org title syntax and a yaml source block. Blot hides the org source block, and then treats the yaml block like a code block. Looking at the page source it puts org-mode block syntax in a pre tag and hljs yaml class.  So, it's treating it like code and highlighting the background, if I understand  what "highlight JavaScript" is doing, which I don't.
+
+The sentences under heading 4 are all on separate lines but Blot puts them on one line, even if I use the markdown convention of double spaces at the end of the line, and it  doesn't do the link properly even if I use an org source block for markdown and use markdown syntax.  Again it treats it as pre hijs.
+
+** Heading Level 2
+
+*** Heading Level 3
++ Bullet 1
++ Bullet 2
+  + Sub-bullet a
+  + Sub-bullet b
+
+** Heading Level 2                                                :tag1:tag2:
+
+#+BEGIN_SRC markdown
+
+[[vcg3rd.net][Link To]]
+
+#+END_SRC
+
+**** Heading Level 4
+
+Test of *bold*
+Test of /italics/
+Test of footnotes [1]
+
+Footnotes:
+[1]  Footnote
+
