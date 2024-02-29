@@ -14,9 +14,9 @@ async function main (label, callback) {
   if (!fs.existsSync(directory))
     return callback(new Error("No state " + label));
 
-  exec("docker-compose stop node-app", { silent: true }, function (err) {
+  exec("docker-compose stop -t 1 node-app ", { silent: true }, function (err) {
     if (err) return callback(err);
-    exec("docker-compose stop redis", { silent: true }, function (err) {
+    exec("docker-compose stop -t 1 redis", { silent: true }, function (err) {
       if (err) return callback(err);
 
       fs.emptyDirSync(DATA_DIRECTORY);
