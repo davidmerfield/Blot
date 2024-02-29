@@ -1,22 +1,4 @@
-Fix heap integration and tell [Adnan](https://mail.google.com/mail/u/0/#inbox/FMfcgzGxRdzKghNGZWDSkkDBqKqQbwQg)
-
-Come up with OKRs for Blot
-
 Fix Google Drive sync bug
-
-Reach out to these sites:
-- https://jeankapsa.com/about
-- https://www.jonathanch.in/
-- https://simonuvarov.com/
-- https://david.krentzlin.me/
-- https://www.declad.com/
-- https://lucadp.com/
-- https://oliviaolson.de/
-- https://alu.garden/
-- https://www.amirsharif.com/
-- https://www.monikahartmann.de/
-
----
 
 Fix bug with date settings on the template editor for [magazine template](https://blot.im/questions/2244)
 
@@ -50,6 +32,18 @@ Add way to import directly
 - Add/fix micro.blog import to dashboard and tell [Gabriel](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJRvfgrRhXwqDNDlxbpXmRlbd]
 - And recurring import from elsewhere 
 
+Add new featured sites
+- https://jeankapsa.com/about
+- https://www.jonathanch.in/
+- https://simonuvarov.com/
+- https://david.krentzlin.me/
+- https://www.declad.com/
+- https://lucadp.com/
+- https://oliviaolson.de/
+- https://alu.garden/
+- https://www.amirsharif.com/
+- https://www.monikahartmann.de/
+
 Finish site and dashboard
 - Fix live stream of folder sync status
 - The site CSS persists in the browser cache
@@ -58,6 +52,8 @@ Finish site and dashboard
   - Compute a hash of the folder contents and only resync or re-zip as needed
     - Think about mtimes, metadata as well as file contents
 - The top right button 'your sites' should remember the last page of the dashboard you were on so you can switch from docs to dashboard quickly
+
+Come up with OKRs for Blot
 
 Add upload to dashboard
 - Drag and drop 
@@ -774,6 +770,8 @@ Write new clients to sync blog folders
   - Tell [Jason](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpVWzZTVxccmWLmnPBmDFjvV)
 - [Github](https://github.com)
   - Tell [John](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmvBnVvqHdJXLgDhrtChCqdMQX)  
+- [Jumpshare](https://jumpshare.com)
+  - Tell [Ömer](https://mail.google.com/mail/u/0/#search/omer/FMfcgzGxRnkSFxdSmGLmNQpXjXfBSChT)
 - pCloud 
   - Tell [Omaid](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDDjqhCxHhJqbGlGNZsfkWWQf)
   - Tell [Anders](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKkRFxsDShhsHGNcdRqwHFMmJM) 
