@@ -33,7 +33,7 @@ cdn.use(
 );
 
 cdn.use(
-  "/documentation",
+  "/documentation/v-:version",
   express.static(blot_directory + "/app/documentation/data", {
     maxAge: "1y",
     setHeaders: function (res, path) {
