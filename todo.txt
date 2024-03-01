@@ -1,10 +1,10 @@
 Fix Google Drive sync bug
+- [ ] Resolve whether to use drive.change.watch or drive.activity.query
+- [ ] This seems to re-download google docs every time
+- [ ] How do we properly get notifications about changes to the doc? do we need to set up notifications channels for every doc in the drive directory?
+- [ ] do the google docs edit events we are missing on `drive.changes.watch` appear on `drive.changes.list`?
 
-Fix bug with date settings on the template editor for [magazine template](https://blot.im/questions/2244)
-
-Work out why [Darren cannot open the template editor](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJSBJCRPJsLFddJCNzTnnQgjs)
-
-Add a 'Create template' button to dashboard and tell [Shawn](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJckGSfncqlFWBtFRHwfVTFDv)
+---
 
 Fix bug with [date on magazine template](https://blot.im/questions/2244)
 
@@ -22,340 +22,12 @@ Fix side navigation on Blog template and tell [Sava](https://mail.google.com/mai
 
 Fix light mode colors and tell [Gary](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJSCRWXMlsPRVBsnrcRcbMklc)
 
-Answer [peter's questions about the portfolio template](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJSDbPpcncdNCvCTBrVcbnJGV)
+Fix bug with date settings on the template editor for [magazine template](https://blot.im/questions/2244)
 
-Identify accounts that pay but do not create a blog and add monitoring for this
-- There might not even be accounts Just subscriptions in stripe 
-- Investigate, then Block and autorefund these payments: they're card testers that Stripe's anti-fraud missed
-
-Add way to import directly
-- Add/fix micro.blog import to dashboard and tell [Gabriel](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJRvfgrRhXwqDNDlxbpXmRlbd]
-- And recurring import from elsewhere 
-
-Add new featured sites
-- https://jeankapsa.com/about
-- https://www.jonathanch.in/
-- https://simonuvarov.com/
-- https://david.krentzlin.me/
-- https://www.declad.com/
-- https://lucadp.com/
-- https://oliviaolson.de/
-- https://alu.garden/
-- https://www.amirsharif.com/
-- https://www.monikahartmann.de/
-
-Finish site and dashboard
-- Fix live stream of folder sync status
-- The site CSS persists in the browser cache
-- Make sure folders are zipped when site builds, and delivered through CDN
-- Make sure blot resyncs folders with their associated sites when pulled
-  - Compute a hash of the folder contents and only resync or re-zip as needed
-    - Think about mtimes, metadata as well as file contents
-- The top right button 'your sites' should remember the last page of the dashboard you were on so you can switch from docs to dashboard quickly
-
-Come up with OKRs for Blot
-
-Add upload to dashboard
-- Drag and drop 
-
-Add ‘open folder on drive’ link to Client settings page. Same for Dropbox
-
-Investigate possibility of using s3 to store blog data? It seems quite fast when we read/write to it? Possibly not much slower than ebs?
-
-Light mode/dark mode videos
-
-Windows video + windows finder.css
-
-Look into pandoc lua and pandoc server?
-
-Rewrite broken link tests
-
-Improvements to templates:
-- Library
-  - mobile
-  - make links open immediately
-  - fix archives page
-  - rename from reference
-  - move tags into top menu
-  - add tag filtering (nested tags)
-- Portfolio
-  - mobile
-  - spacing issue on firefox
-  - add full control for navigation font and logo font
-  - add infinite scroll
-  - add filler nodes for google images grid so you don't get inconsistent sizes
-  - add control over navigation width
-  - Improve typography of text posts
-  - improve navigation between posts
-  - fix boolean options missing (e.g. hide titles)
-- Magazine
-  - mobile
-  - rewrite in plain HTML
-- Image
-  - mobile
-  - rename from photo
-
-Re-attempt iCloud support
-- Be clear it's UNOFFICIAL
-- Fetch list of people to tell from old GH issue
-- Tell [Stew](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJSFktWWJrNvRtnSjQRbwzrJK)
-- Tell [VH](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJcdSvvFcRcjNXqvxsZDjkMQh)
-
-Add pause subscription
-- Enable hibernation of blogs 
-
-Add disclaimer to pricing page for old subscribers
-
-Add Generative tree for account page
-
-Add support for INI files and tell [Frank](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJckFhJhMMwFLzrRTfcSmHbrV)
-
-- General:
-  - Add paginateable entries list
-  - Add downloadable sites
-  - Add static file uploader
-  - Make templates folder based
-    - data/templates/blog_id/template_name
-  - Assign guid template IDs
-  - Make it possible to rename template directories and tell [Darren](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwHxvsmgwbnxLbDMNDplTLltlc)
-  - Make template slug seperate from the template ID, simply for human readability
-  - Add webfont uploader
-  - Move footnotes into their own property
-    - update templates of sites with footnotes, replacing "{{{html}}}" with "{{{html}}} {{{footnotes}}}" 
-  - Generate favicons of different sizes from uploaded image
-  - Tell these people about new templates, and to subscribe to newsletter:
-    - [Chris](https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e)
-    - [John](https://mail.google.com/mail/u/1/#all/1618ca0420779742)
-    - [Jan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChmLnfMTdtNkpLxHTlPJNHlCT) 
-    - [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrRRZTKntrWKJvfDXrRFTzljs)
-
-Improvements to website:
-- Fix broken link checker
-- Create material in docs with title 'Turn X into website' where X is:
-  - Dropbox, Google Drive, etc.
-  - Word Document, Google Doc, etc.
-- Document text editors
-  https://coteditor.com/
-  https://zettelkasten.de/the-archive/
-  https://tot.rocks/
-  https://desairem.com/wordpress/ufocus/
-- Add guide to useful text editors like [this one recommended by Andrew](https://itunes.apple.com/us/app/write-best-note-taking-app/id848311469)
-  - do this as a marketing strategy, e.g. target 'blog with microsoft word', 'blog with google docs', 'blog with ia writer' etc... contact the people who make text editors and ask them to link to us?
-- Personalize the documentation for logged in customers
-- Add [contributor](https://api.github.com/repos/davidmerfield/blot/contributors) / [language](https://api.github.com/repos/davidmerfield/blot/languages) and repo information to source code page using GitHub API.
-
-Redo demo video
-
----
-
-Consider switching domain to blot.site
-- announce in spring newsletter, aim to switch in summer
-- add support for different user subdomain in dev
-- set up mail
-- switch from mailgun to SES over new domain
-
-Integrate font styles rendering into template model:
-- Remove this behaviour from dashboard/template-editor/save/fonts into update package
-- Remove font styles from manifesto/manifesto and re-insert them when template is readFromFolder
+Investigate why [Darren cannot open the template editor](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJSBJCRPJsLFddJCNzTnnQgjs)
 
 Investigate a bug with git client credentials triggered when you have two sites using git on one account, and delete one of the sites
 
-Investigate bug with org mode links and [follow up with Elliot](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwHzDppJbDBZhLLqFQXvMZRsNw)
-
-Add aws cost usage and forecast to daily update email
-- https://docs.aws.amazon.com/cli/latest/reference/ce/get-cost-and-usage.html
-
-Make it possible to ask a question without logging in
-
-Can we support google docs even from Dropbox? if the doc is public?
-
-Investigate why [changes made to app/scheduler/daily/revenue.js increased the number of active blogs](https://github.com/davidmerfield/Blot/blob/494900a5dda1d916569c925adfbb6e68606c99bd/app/scheduler/daily/revenue.js#L21-L29) in my email
-
-Ensure that overdue PayPal subscription webhooks map to notification emails
-
-Final polish on stats dashboard
-- Add monitor the root disk usage of both servers to stats
-- Tie in daily update stats to stats dashboard
-
-Purge old docs CSS and JS from CDN storage cache
-
-Make sure main server can hard restart without issue
-
-Experiment with ways to map folder structure to template navigation
-- follow up with Misho
-
-Data use minimization:
-- Write automated script to archive overdue blogs from disk and db
-- Write script to remove unused and unaccessed static files from within blog folders
-  - we'll also need to purge the cache of the transformer module for the file
-
-Set up fail2ban on nginx logs
-
-When a post is deleted, we should remove everything except the created time?
-
-Create a queue for purging cache, group requests together to prevent stampede
-
-Prevent overzealous purging of cache for syncs in which the folder does not change
-
-Add WebDav support
-
-Work out why rebuilding template from folder clears cache even if the template is not changed
-- stop this
-
-Improve paypal integration:
-- [ ] Get create new blog working
-  - [ ] Add way to modify subscription quantity for paypal users
-- [ ] Create new router for paypal subscription settings
-- [ ] Test subscription with real paypal account
-  - [ ] Test new blog creation
-  - [ ] Test new blog deletion
-  - [ ] Test switch to annual billing
-  - [ ] Test account deletion
-- [ ] Add subscription pause
-- [ ] Make it possible to add paypal as a payment method for existing stripe users
-- [ ] Verify signature integrity of paypal webhooks
-- [ ] Use PayPal buttons api to modify subscription properties
-- [ ] Get account page working
-  - [ ] Add way to cancel subscription from dashboard
-  - [ ] Add way to delete account from dashboard
-- [ ] Update scheduleEmailNotification for paypal customers
-
-
-Can I use proxy_store instead of openrestycache?
-
-Prevent Google Drive client from re crawling entire folder for every sync
-- i think we need to manually watch all google docs in the folder
-
-Make {{active}} strip the domain from the link [before checking](https://github.com/davidmerfield/Blot/blob/master/app/blog/render/retrieve/active.js#L22)? Or automatically strip the domain from internal links on Blot's dashboard?
-
-Prevent unneeded cache purge when templates are rebuilt, either from folder or on disk in app/templates
-
-Can we add a 'folder rules' section to create ignore globs, multi post globs, etc.
-
-Git client is extremely slow to set up large folders – we need a loading screen
-
-When a folder has lots of elements, trim the list of files on the dashboard, at least on the index page
-
-Fix cloudflare redirect HTTP/HTTPS issue seems to have resurfaced - why?
-
-Store path -> md5 hash on sync
-- Use to auto version links to files in your folder 
-
-Investigate webp thumbnails
-
-Investigate videos instead of gifs for thumbnails
-
-Fix responsive thumbnail component on photo template (it loads large thumbnail every time)
-
-Eventually configure cloud watch reboot sequence then test it
-
----
-
-Can we manually 'inject' files into the cache? e.g. popular blog folder files?
-
-Investigate if we can rewrite git client so we don't need to store double the data - right now we have 48GB duped
-
-Fix auto titles of 'screenshot at 12:22pm' and make sure the date parser can handle them
-
-Fix title generator so h2 titles within the file dont become the title of the post – this is helpful for obsidian
-
-Consider exposing the option to purchase the removal of subscription fee for a blog on the dashboard for $440
-
-Get to bottom of issues with questions/tests/list and re-enable disable test suite
-
-The password check on the delete blog page does not print the error message if the password is incorrect? Or just for admin
-
-Fix post navigation on Portfolio template and tell [Questioner](https://blot.im/questions/1894)
-
----
-
-Improve image posts
-- Add opt-in EXIF extraction for photos and enable in the photos template
-- Add support for other image formats, by converting them into jpg/webp
-- Add support for large image tiling and zooming with photoswipe
-
-Add support for textbundle files and tell [questioner](https://blot.im/questions/1385)
-- this will help me understand how best to accomplish multi-file posts
-
----
-
-Server improvements:
-- Copy the cron tab into the new server setup script
-- Add more stringent checks to scripts which mount instance storage and external volumes
-- Install fail2ban on proxy logs
-  - we don't need to worry about banning CDN ips because those requests go straight to the origin server
-  - this should reduce origin load
-- Get blot proxy communicating with node process via unix socket
-- Understand why the server gets so slow when we switch from SSD ebs to HDD ebs
-- it would be ideal to use HDD for bulk of blog storage, and take advantage of the local SSD for high performance operations
-  - Investigate use of aws s3 sync for backing up ebs volume rather than snapshots
-- Test reboot for all servers 
-
-Add support for proxying particular analytics files and tell [questioner](https://blot.im/questions/2025)
-
-One bad latex equation should not [tank the build process for the whole post](https://blot.im/questions/2037)
-
-Follow up with [Tim](https://mail.google.com/mail/u/0/#inbox/FMfcgzGtwCvckCnTJHxSFsQDZnkTPBzp) about activitypub
-
-Work out why we get a 'Zombie process' notification email every morning at 9:05am – now 8:05am it seems the process hangs
-
-Make 'close' button on entry permalink page of reference template work like the photo template and tell [Marco](https://mail.google.com/mail/u/0/#inbox/FMfcgzGsmNSSSRKHnlgCBllnqJCcPhxD)
-
-Investigate Google Drive client
-- [ ] Resolve whether to use drive.change.watch or drive.activity.query
-- [ ] This seems to re-download google docs every time
-- [ ] How do we properly get notifications about changes to the doc? do we need to set up notifications channels for every doc in the drive directory?
-- [ ] do the google docs edit events we are missing on `drive.changes.watch` appear on `drive.changes.list`?
-
-Wikilinks should have a class property of 'wikilink' rather than a title attribute and tell [questioner](https://blot.im/questions/39)
-
-Prevent double submission on template editor at insertion and front-end levels
-
-Add search bar to template editor
-
----
-
-Write some end-to-end tests which verify NGINX config
-- how do we handle SSL?
-
-Tell [bukit](https://mail.google.com/mail/u/0/#inbox/FMfcgzGtwqMCsWCjhPcWpPszlZhtqNnM) when it's possible to change the URL of the /tagged/x pages in the template engine
-
-Investigate Google Drive client
-- [ ] Resolve whether to use drive.change.watch or drive.activity.query
-- [ ] This seems to re-download google docs every time
-- [ ] How do we properly get notifications about changes to the doc? do we need to set up notifications channels for every doc in the drive directory?
-- [ ] do the google docs edit events we are missing on `drive.changes.watch` appear on `drive.changes.list`?
-
-Wikilinks should have a class property of 'wikilink' rather than a title attribute and tell [questioner](https://blot.im/questions/39)
-
-Preserve file name for SEO purposes when uploading to image cache CDN and tell [Jean](https://mail.google.com/mail/u/0/#inbox/FMfcgzGsmNWvwwvzVGZnPFKnHnkbBWxD)
-
-Add a property to entries which lets you list all the images in a post so [Jean](https://mail.google.com/mail/u/0/#inbox/FMfcgzGtwgpcHJMnwFNXtNHWHMlZFFlb)
- can add them to his sitemap
-
-Resolve issue with [Stephen's large blog](https://mail.google.com/mail/u/0/#inbox/QgrcJHsBsbkNkMkkkMmLWBxRfnGnWPVwLHl)
-- It also seems like server crashes when a massive google drive folder is synced, with a directory containing 6772 items
-
-Add lazy loading option to image settings and tell [questioner](https://blot.im/questions/1806)
-
-Make it possible to rename locally edited template folder and tell [questioner](https://blot.im/questions/1610)
-
-Fix bug with videos on Reference template and [Tell Marco](https://mail.google.com/mail/u/0/#inbox/FMfcgzGslbPSKMXkRbvrHKFTWhbJbPlg)
-
-Check in on log rotation for nginx.log and nginx.error.log
- 
----
-
-Improve CI testing
-- [ ] Add spell checking test
-- [ ] Write browser based integration tests for core functionality
-- [ ] how can we test the 'reload-server' script?
-- [ ] how can we test the 'scheduler' functions? we ran into error where it was running twice
-
-Methods to improve server performance
-- consider expanding the replication of the perma_cache across more regions
-- consider switching to more expensive CDN type (i.e. not volume)
-- switch to more expensive EBS for disk of server
 
 Fix Git client bugs
 - Fix bug which occurs when you change your username while using the Git client (caused by the broken repo url) and tell [Koen](https://mail.google.com/mail/u/0/#inbox/1670f516115ef9bd) and [Andre](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqfMMxJXpbTZLvGzVmZlFPNfk) and [Josh](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqnkxhvtmPpdMMkRPjzpktrxG) and [Ryan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGCGthpSTxskRFFVjtrGnhnSvh) and [David](https://mail.google.com/mail/u/0/#inbox/FMfcgzGllVjvNfvdDVmnmlRvrFsNnQSD)
@@ -463,6 +135,320 @@ Date parser bugs
 - Fix bug parsing ISO8601 date format and tell [Thomas](https://mail.google.com/mail/u/1/#inbox/1625012def221a8f)
 
 Investigate bug with template views whose names include hashtags and follow up with [Jay](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqPzMvLDJBfbNfLzpkKDzmZSNt)
+
+---
+
+Answer [peter's questions about the portfolio template](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJSDbPpcncdNCvCTBrVcbnJGV)
+
+Identify accounts that pay but do not create a blog and add monitoring for this
+- There might not even be accounts Just subscriptions in stripe 
+- Investigate, then Block and autorefund these payments: they're card testers that Stripe's anti-fraud missed
+
+Add way to import directly
+- Add/fix micro.blog import to dashboard and tell [Gabriel](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJRvfgrRhXwqDNDlxbpXmRlbd]
+- And recurring import from elsewhere 
+
+Add new featured sites
+- https://jeankapsa.com/about
+- https://www.jonathanch.in/
+- https://simonuvarov.com/
+- https://david.krentzlin.me/
+- https://www.declad.com/
+- https://lucadp.com/
+- https://oliviaolson.de/
+- https://alu.garden/
+- https://www.amirsharif.com/
+- https://www.monikahartmann.de/
+
+Finish site and dashboard
+- Fix live stream of folder sync status
+- The site CSS persists in the browser cache
+- Make sure folders are zipped when site builds, and delivered through CDN
+- Make sure blot resyncs folders with their associated sites when pulled
+  - Compute a hash of the folder contents and only resync or re-zip as needed
+    - Think about mtimes, metadata as well as file contents
+- The top right button 'your sites' should remember the last page of the dashboard you were on so you can switch from docs to dashboard quickly
+
+Come up with OKRs for Blot
+
+Investigate possibility of using s3 to store blog data? It seems quite fast when we read/write to it? Possibly not much slower than ebs?
+
+Light mode/dark mode videos
+
+Windows video + windows finder.css
+
+Rewrite broken link tests
+
+Improvements to templates:
+- Library
+  - mobile
+  - make links open immediately
+  - fix archives page
+  - rename from reference
+  - move tags into top menu
+  - add tag filtering (nested tags)
+- Portfolio
+  - mobile
+  - spacing issue on firefox
+  - add full control for navigation font and logo font
+  - add infinite scroll
+  - add filler nodes for google images grid so you don't get inconsistent sizes
+  - add control over navigation width
+  - Improve typography of text posts
+  - improve navigation between posts
+  - fix boolean options missing (e.g. hide titles)
+- Magazine
+  - mobile
+  - rewrite in plain HTML
+- Image
+  - mobile
+  - rename from photo
+
+Re-attempt iCloud support
+- Be clear it's UNOFFICIAL
+- Fetch list of people to tell from old GH issue
+- Tell [Stew](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJSFktWWJrNvRtnSjQRbwzrJK)
+- Tell [VH](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJcdSvvFcRcjNXqvxsZDjkMQh)
+
+Add pause subscription
+- Enable hibernation of blogs 
+
+Add disclaimer to pricing page for old subscribers
+
+Add Generative tree for account page
+
+Add support for INI files and tell [Frank](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJckFhJhMMwFLzrRTfcSmHbrV)
+
+- General:
+  - Add paginateable entries list
+  - Add downloadable sites
+  - Add static file uploader
+  - Make templates folder based
+    - data/templates/blog_id/template_name
+  - Assign guid template IDs
+  - Make it possible to rename template directories and tell [Darren](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwHxvsmgwbnxLbDMNDplTLltlc)
+  - Make template slug seperate from the template ID, simply for human readability
+  - Add webfont uploader
+  - Move footnotes into their own property
+    - update templates of sites with footnotes, replacing "{{{html}}}" with "{{{html}}} {{{footnotes}}}" 
+  - Generate favicons of different sizes from uploaded image
+  - Tell these people about new templates, and to subscribe to newsletter:
+    - [Chris](https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e)
+    - [John](https://mail.google.com/mail/u/1/#all/1618ca0420779742)
+    - [Jan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChmLnfMTdtNkpLxHTlPJNHlCT) 
+    - [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrRRZTKntrWKJvfDXrRFTzljs)
+
+Improvements to website:
+- Fix broken link checker
+- Create material in docs with title 'Turn X into website' where X is:
+  - Dropbox, Google Drive, etc.
+  - Word Document, Google Doc, etc.
+- Document text editors
+  https://coteditor.com/
+  https://zettelkasten.de/the-archive/
+  https://tot.rocks/
+  https://desairem.com/wordpress/ufocus/
+- Add guide to useful text editors like [this one recommended by Andrew](https://itunes.apple.com/us/app/write-best-note-taking-app/id848311469)
+  - do this as a marketing strategy, e.g. target 'blog with microsoft word', 'blog with google docs', 'blog with ia writer' etc... contact the people who make text editors and ask them to link to us?
+- Personalize the documentation for logged in customers
+- Add [contributor](https://api.github.com/repos/davidmerfield/blot/contributors) / [language](https://api.github.com/repos/davidmerfield/blot/languages) and repo information to source code page using GitHub API.
+Add a 'Create template' button to dashboard and tell [Shawn](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJckGSfncqlFWBtFRHwfVTFDv)
+- Add upload to dashboard
+  - Drag and drop 
+- Add ‘open folder on drive’ link to Client settings page. Same for Dropbox
+- Redo demo video
+
+---
+
+Consider switching domain to blot.site
+- add support for different user subdomain in dev?
+- set up mail
+- switch from mailgun to SES over new domain
+
+Integrate font styles rendering into template model:
+- Remove this behaviour from dashboard/template-editor/save/fonts into update package
+- Remove font styles from manifesto/manifesto and re-insert them when template is readFromFolder
+
+Investigate bug with org mode links and [follow up with Elliot](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwHzDppJbDBZhLLqFQXvMZRsNw)
+
+Add aws cost usage and forecast to daily update email
+- https://docs.aws.amazon.com/cli/latest/reference/ce/get-cost-and-usage.html
+
+Make it possible to ask a question without logging in
+
+Can we support google docs even from Dropbox? if the doc is public?
+
+Investigate why [changes made to app/scheduler/daily/revenue.js increased the number of active blogs](https://github.com/davidmerfield/Blot/blob/494900a5dda1d916569c925adfbb6e68606c99bd/app/scheduler/daily/revenue.js#L21-L29) in my email
+
+Ensure that overdue PayPal subscription webhooks map to notification emails
+
+Final polish on stats dashboard
+- Add monitor the root disk usage of both servers to stats
+- Tie in daily update stats to stats dashboard
+
+Purge old docs CSS and JS from CDN storage cache
+
+Make sure main server can hard restart without issue
+
+Experiment with ways to map folder structure to template navigation
+- follow up with Misho
+
+Data use minimization:
+- Write automated script to archive overdue blogs from disk and db
+- Write script to remove unused and unaccessed static files from within blog folders
+  - we'll also need to purge the cache of the transformer module for the file
+
+Set up fail2ban on nginx logs
+
+When a post is deleted, we should remove everything except the created time?
+
+Create a queue for purging cache, group requests together to prevent stampede
+
+Prevent overzealous purging of cache for syncs in which the folder does not change
+
+Add WebDav support
+
+Work out why rebuilding template from folder clears cache even if the template is not changed
+- stop this
+
+Improve paypal integration:
+- [ ] Get create new blog working
+  - [ ] Add way to modify subscription quantity for paypal users
+- [ ] Create new router for paypal subscription settings
+- [ ] Test subscription with real paypal account
+  - [ ] Test new blog creation
+  - [ ] Test new blog deletion
+  - [ ] Test switch to annual billing
+  - [ ] Test account deletion
+- [ ] Add subscription pause
+- [ ] Make it possible to add paypal as a payment method for existing stripe users
+- [ ] Verify signature integrity of paypal webhooks
+- [ ] Use PayPal buttons api to modify subscription properties
+- [ ] Get account page working
+  - [ ] Add way to cancel subscription from dashboard
+  - [ ] Add way to delete account from dashboard
+- [ ] Update scheduleEmailNotification for paypal customers
+
+Can I use proxy_store instead of openrestycache?
+
+Prevent Google Drive client from re crawling entire folder for every sync
+- i think we need to manually watch all google docs in the folder
+
+Make {{active}} strip the domain from the link [before checking](https://github.com/davidmerfield/Blot/blob/master/app/blog/render/retrieve/active.js#L22)? Or automatically strip the domain from internal links on Blot's dashboard?
+
+Prevent unneeded cache purge when templates are rebuilt, either from folder or on disk in app/templates
+
+Can we add a 'folder rules' section to create ignore globs, multi post globs, etc.
+
+Git client is extremely slow to set up large folders – we need a loading screen
+
+When a folder has lots of elements, trim the list of files on the dashboard, at least on the index page
+
+Fix cloudflare redirect HTTP/HTTPS issue seems to have resurfaced - why?
+
+Store path -> md5 hash on sync
+- Use to auto version links to files in your folder 
+
+Investigate webp thumbnails
+
+Investigate videos instead of gifs for thumbnails
+
+Fix responsive thumbnail component on photo template (it loads large thumbnail every time)
+
+Eventually configure cloud watch reboot sequence then test it
+
+---
+
+Can we manually 'inject' files into the cache? e.g. popular blog folder files?
+
+Investigate if we can rewrite git client so we don't need to store double the data - right now we have 48GB duped
+
+Fix auto titles of 'screenshot at 12:22pm' and make sure the date parser can handle them
+
+Fix title generator so h2 titles within the file dont become the title of the post – this is helpful for obsidian
+
+Consider exposing the option to purchase the removal of subscription fee for a blog on the dashboard for $440
+
+Get to bottom of issues with questions/tests/list and re-enable disable test suite
+
+The password check on the delete blog page does not print the error message if the password is incorrect? Or just for admin
+
+Fix post navigation on Portfolio template and tell [Questioner](https://blot.im/questions/1894)
+
+---
+
+Improve image posts
+- Add opt-in EXIF extraction for photos and enable in the photos template
+- Add support for other image formats, by converting them into jpg/webp
+- Add support for large image tiling and zooming with photoswipe
+
+Add support for textbundle files and tell [questioner](https://blot.im/questions/1385)
+- this will help me understand how best to accomplish multi-file posts
+
+---
+
+Server improvements:
+- Copy the cron tab into the new server setup script
+- Add more stringent checks to scripts which mount instance storage and external volumes
+- Install fail2ban on proxy logs
+  - we don't need to worry about banning CDN ips because those requests go straight to the origin server
+  - this should reduce origin load
+- Get blot proxy communicating with node process via unix socket
+- Understand why the server gets so slow when we switch from SSD ebs to HDD ebs
+- it would be ideal to use HDD for bulk of blog storage, and take advantage of the local SSD for high performance operations
+  - Investigate use of aws s3 sync for backing up ebs volume rather than snapshots
+- Test reboot for all servers 
+
+Add support for proxying particular analytics files and tell [questioner](https://blot.im/questions/2025)
+
+One bad latex equation should not [tank the build process for the whole post](https://blot.im/questions/2037)
+
+Follow up with [Tim](https://mail.google.com/mail/u/0/#inbox/FMfcgzGtwCvckCnTJHxSFsQDZnkTPBzp) about activitypub
+
+Work out why we get a 'Zombie process' notification email every morning at 9:05am – now 8:05am it seems the process hangs
+
+Make 'close' button on entry permalink page of reference template work like the photo template and tell [Marco](https://mail.google.com/mail/u/0/#inbox/FMfcgzGsmNSSSRKHnlgCBllnqJCcPhxD)
+
+Wikilinks should have a class property of 'wikilink' rather than a title attribute and tell [questioner](https://blot.im/questions/39)
+
+Prevent double submission on template editor at insertion and front-end levels
+
+Add search bar to template editor
+
+---
+
+Tell [bukit](https://mail.google.com/mail/u/0/#inbox/FMfcgzGtwqMCsWCjhPcWpPszlZhtqNnM) when it's possible to change the URL of the /tagged/x pages in the template engine
+
+Wikilinks should have a class property of 'wikilink' rather than a title attribute and tell [questioner](https://blot.im/questions/39)
+
+Preserve file name for SEO purposes when uploading to image cache CDN and tell [Jean](https://mail.google.com/mail/u/0/#inbox/FMfcgzGsmNWvwwvzVGZnPFKnHnkbBWxD)
+
+Add a property to entries which lets you list all the images in a post so [Jean](https://mail.google.com/mail/u/0/#inbox/FMfcgzGtwgpcHJMnwFNXtNHWHMlZFFlb)
+ can add them to his sitemap
+
+Resolve issue with [Stephen's large blog](https://mail.google.com/mail/u/0/#inbox/QgrcJHsBsbkNkMkkkMmLWBxRfnGnWPVwLHl)
+- It also seems like server crashes when a massive google drive folder is synced, with a directory containing 6772 items
+
+Add lazy loading option to image settings and tell [questioner](https://blot.im/questions/1806)
+
+Make it possible to rename locally edited template folder and tell [questioner](https://blot.im/questions/1610)
+
+Fix bug with videos on Reference template and [Tell Marco](https://mail.google.com/mail/u/0/#inbox/FMfcgzGslbPSKMXkRbvrHKFTWhbJbPlg)
+
+Check in on log rotation for nginx.log and nginx.error.log
+ 
+---
+
+Improve CI testing
+- [ ] Add spell checking test
+- [ ] Write browser based integration tests for core functionality
+- [ ] how can we test the 'reload-server' script?
+- [ ] how can we test the 'scheduler' functions? we ran into error where it was running twice
+
+Methods to improve server performance
+- consider expanding the replication of the perma_cache across more regions
+- consider switching to more expensive CDN type (i.e. not volume)
+- switch to more expensive EBS for disk of server
 
 ---
 

@@ -2,3 +2,6 @@
 
 Bugs fixed:
 - Fixed Heap analytics integration after their breaking change
+
+We are considering switching to blot.site as our primary domain
+- announce in spring newsletter, aim to switch in summer
