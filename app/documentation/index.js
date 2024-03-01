@@ -41,13 +41,13 @@ documentation.locals.cdn = () => (text, render) => {
 
   try {
     const contents = fs.readFileSync(join(VIEW_DIRECTORY, path), "utf8");
-    identifier = "hash=" + hash(contents);
+    identifier = "hash=" + hash(contents).slice(0, 8);
   } catch (e) {
     // if the file doesn't exist, we'll use the cacheID
   }
 
   const query = `?${identifier}&ext=.${extension}`;
-  const url = `${path}${query}`;
+  const url = config.cdn.origin + "/documentation" + `${path}${query}`;
 
   return url;
 };

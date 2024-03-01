@@ -9,7 +9,7 @@
       <span class="heading">{{name}}</span></a>
       <ul>
       {{#items}}
-      <li><a href="{{slug}}"><img src="/images/file-empty.svg" style="vertical-align: text-top;" width=16>&thinsp; {{name}}</a>
+      <li><a href="{{slug}}"><img src="{{#cdn}}/images/file-empty.svg{{/cdn}}" style="vertical-align: text-top;" width=16>&thinsp; {{name}}</a>
         {{/items}}
       </ul>
     </li>
@@ -21,7 +21,7 @@
 <ul class="document-list with-subtitle">
   {{#subsections}}
   <li><a href="{{slug}}">
-    <span><img src="/images/file-empty.svg" style="vertical-align: text-top;" width=16>&thinsp;&thinsp;&thinsp;</span>
+    <span><img src="{{#cdn}}/images/file-empty.svg{{/cdn}}" style="vertical-align: text-top;" width=16>&thinsp;&thinsp;&thinsp;</span>
     <span><strong>{{name}}</strong>
     </span></a>
   {{/subsections}}

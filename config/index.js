@@ -1,7 +1,7 @@
 const BLOT_DIRECTORY =
   process.env.BLOT_DIRECTORY || require("path").resolve(__dirname + "/../");
 const BLOT_HOST = process.env.BLOT_HOST || "localhost";
-const BLOT_PROTOCOL = process.env.BLOT_PROTOCOL || "http";
+const BLOT_PROTOCOL = process.env.BLOT_PROTOCOL || "https";
 const BLOT_PORT = process.env.BLOT_PORT || "8080";
 
 let BLOT_CDN;
