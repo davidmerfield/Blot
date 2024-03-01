@@ -248,13 +248,15 @@ Questions.route("/:id").get(async (req, res, next) => {
   });
 
   res.locals.title = topic.title;
-  res.locals.topics = topic.replies.map(reply => {
-    reply.body = render(reply.body).body;
-    reply.answered = moment(reply.created_at).fromNow();
-    reply.answeredDateStamp = moment(reply.created_at).valueOf();
+  res.locals.topics = topic.replies
+    .filter(reply => !!reply.body)
+    .map(reply => {
+      reply.body = render(reply.body).body;
+      reply.answered = moment(reply.created_at).fromNow();
+      reply.answeredDateStamp = moment(reply.created_at).valueOf();
+      return reply;
+    });
 
-    return reply;
-  });
   res.locals.topic = topic;
   res.render("questions/topic");
 });
