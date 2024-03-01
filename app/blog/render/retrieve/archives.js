@@ -27,16 +27,16 @@ module.exports = function (req, callback) {
         entries: []
       };
 
-      years[year].total++;
       years[year].months[month].entries.push(entry);
+      years[year].total++;
     }
 
     for (var i in years) {
       for (var j in years[i].months)
         years[i].months[j].s = years[i].months[j].entries.length > 1 ? "s" : "";
 
-      years[i].s = years[i].total > 1 ? "s" : "";
       years[i].months = arrayify(years[i].months);
+      years[i].s = years[i].total > 1 ? "s" : "";
     }
 
     years = arrayify(years).sort(function (a, b) {

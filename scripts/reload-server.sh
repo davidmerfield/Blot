@@ -18,7 +18,7 @@ if [[ $1 == "-fast" ]]; then
 fi
 
 pid=$(cat $BLOT_DIRECTORY/data/process.pid)
-logfile=$BLOT_DIRECTORY/logs/app.log
+logfile=$BLOT_DIRECTORY/data/logs/app.log
 
 if [[ -z "$pid" ]]; then
     echo "No pid found in $BLOT_DIRECTORY/data/process.pid" 1>&2
