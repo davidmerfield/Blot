@@ -1,5 +1,5 @@
 - name: blog
-  keys: 
+  keys:
     - name: title
       type: string
       description: Your site’s title, set on the title page of your dashboard.
@@ -9,7 +9,7 @@
       type: string
       description: The URL to your profile picture, or avatar, uploaded on the Photo page of your dashboard
       example: <img src="{{{blog.avatar}}}" />
-    
+
     - name: menu
       type: array
       description: "A list of links on your site's menu, added on the Links page of your site's dashboard and pages. Each item in the list has the following properties:"
@@ -79,16 +79,12 @@
       type: boolean
       description: true if you’ve indicated your avatar is round, false if not
 
-
-
-
 - name: entry
   keys:
-
     - name: id
       type: string
       description: Alias for the [path](#entry.path) property, which uniquely identiﬁes the post.
- 
+
     - name: guid
       type: string
       description: Globally unique alpha-numeric identiﬁer for the post.
@@ -136,7 +132,7 @@
         - name: last
           type: boolean
           description: true if this link is the last in this entry's list of tags
-          
+
     - name: absoluteURL
       type: string
       description: The full-qualified URL to the post
@@ -155,7 +151,7 @@
       example: |
         {{#backlinks}}
         <a href="{{url}}">{{title}}</a>
-        {{/backlinks}} 
+        {{/backlinks}}
 
     - name: formatDate
       type: function
@@ -205,11 +201,11 @@
           <img src="{{#cdn}}{{url}}
                width="{{width}}" 
                height="{{height}}"/>
-        {{/thumbnail.medium}}  
+        {{/thumbnail.medium}}
 
     - name: metadata
       type: object
-      description:  object containing the metadata for the entry, if they exist.
+      description: object containing the metadata for the entry, if they exist.
 
     - name: name
       type: string
@@ -258,18 +254,18 @@
     - name: permalink
       type: string
       description: The value of the metadata property permalink. Same as URL.
-    
+
     - name: index
       type: number
       description: The index of the entry in the list of all of your entries. For example, the ﬁrst entry published has an {{index}} of 1 and the 10th entry published has an {{index}} of 10.
 
     - name: menu
       type: boolean
-      description:  “true” if the entry is a page on the menu, “false” if not
+      description: “true” if the entry is a page on the menu, “false” if not
 
     - name: page
       type: boolean
-      description:  “true” if the entry is a page, “false” if not
+      description: “true” if the entry is a page, “false” if not
 
     - name: deleted
       type: boolean
@@ -282,8 +278,6 @@
     - name: scheduled
       type: boolean
       description: “true” if the entry is scheduled for future publication, “false” if not
-
-
 
 - name: Lists of entries
   keys:
@@ -300,7 +294,7 @@
       example: |
         {{#all_entries}}
         <a href="{{url}}">{{title}}</a>
-        {{/all_entries}} 
+        {{/all_entries}}
     - name: archives
       type: array
       description: A list of all the entries on your site, structured by date. Each item in the entries property of each month is of type [entry](#entry).
@@ -308,13 +302,19 @@
         - name: year
           type: string
           description: The year
+        - name: total
+          type: number
+          description: The number of entries in this year
+        - name: s
+          type: string
+          description: "'s' if the year has more than one entry. Use it for pluralization."
         - name: months
           type: array
           description: A list of months in this year
 
       example: |
         {{#archives}}
-          <h2>{{year}}</h2>
+          <h2>{{year}} ({{total}} post{{s}})</h2>
           {{#months}}
             <h3>{{month}}</h3>
             {{#entries}}
@@ -333,18 +333,18 @@
         <a href="/tagged/{{slug}}">{{tag}}</a><br>
         {{/all_tags}}
       properties:
-      - name: tag
-        type: string
-        description: The tag text
-      - name: slug
-        type: string
-        description: The tag text, in a URL-friendly form
-      - name: entries
-        type: array
-        description: A list of every [entry](#entry) with this tag in reverse-chronological order.
-      - name: total
-        type: number
-        description: The number of entries with this tag.
+        - name: tag
+          type: string
+          description: The tag text
+        - name: slug
+          type: string
+          description: The tag text, in a URL-friendly form
+        - name: entries
+          type: array
+          description: A list of every [entry](#entry) with this tag in reverse-chronological order.
+        - name: total
+          type: number
+          description: The number of entries with this tag.
 
     - name: popular_tags
       type: array
@@ -354,24 +354,21 @@
         <a href="/tagged/{{slug}}">{{tag}}</a><br>
         {{/popular_tags}}
       properties:
-      - name: tag
-        type: string
-        description: The tag text
-      - name: slug
-        type: string
-        description: The tag text, in a URL-friendly form
-      - name: entries
-        type: array
-        description: A list of every [entry](#entry) with this tag in reverse-chronological order.
-      - name: total
-        type: number
-        description: The number of entries with this tag.
-
-
+        - name: tag
+          type: string
+          description: The tag text
+        - name: slug
+          type: string
+          description: The tag text, in a URL-friendly form
+        - name: entries
+          type: array
+          description: A list of every [entry](#entry) with this tag in reverse-chronological order.
+        - name: total
+          type: number
+          description: The number of entries with this tag.
 
 - name: Utilities
   keys:
-
     - name: absoluteURLs
       type: function
       description: The same contents, with any relative URLs fully resolved. This is useful to create an RSS feed, since many clients struggle with relative URLs. For example
@@ -402,7 +399,7 @@
       example: |
         {{#encodeXML}}
         {{{html}}}
-        {{/encodeXML}}                
+        {{/encodeXML}}
 
     - name: rgb
       type: function
