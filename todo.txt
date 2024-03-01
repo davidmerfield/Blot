@@ -28,7 +28,6 @@ Investigate why [Darren cannot open the template editor](https://mail.google.com
 
 Investigate a bug with git client credentials triggered when you have two sites using git on one account, and delete one of the sites
 
-
 Fix Git client bugs
 - Fix bug which occurs when you change your username while using the Git client (caused by the broken repo url) and tell [Koen](https://mail.google.com/mail/u/0/#inbox/1670f516115ef9bd) and [Andre](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqfMMxJXpbTZLvGzVmZlFPNfk) and [Josh](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqnkxhvtmPpdMMkRPjzpktrxG) and [Ryan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGCGthpSTxskRFFVjtrGnhnSvh) and [David](https://mail.google.com/mail/u/0/#inbox/FMfcgzGllVjvNfvdDVmnmlRvrFsNnQSD)
 - Work out how to pipe custom error messages down
@@ -73,6 +72,8 @@ Fix bug with template editor and ensure POST error messages are passed to client
 - to trigger, submit a >5mb file on web template editor
 
 Fix navigation link bug with blog tempalte and tell [Jason](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrbcCBmkcVhfWTpZbmqndwXQrL)
+
+Work out whether changing title case setting triggers a rebuild of all posts and [tell questioner](https://blot.im/questions/2401)
 
 Investigate this [date metadata bug](https://blot.im/questions/936)
 
