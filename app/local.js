@@ -1,14 +1,11 @@
-const config = require("config");
-const async = require("async");
-const User = require("models/user");
-const Blog = require("models/blog");
-const buildTemplates = require("./templates");
-
 // I was getting a warning message from npm when I 'cntrl-c' out
 // of the server without this.
 process.on("SIGINT", () => {
   process.exit();
 });
+
+const server = require("./server");
+const config = require("config");
 
 console.log("Local server capabilities:");
 console.log("- twitter embeds " + !!config.twitter.consumer_secret);
@@ -17,6 +14,27 @@ console.log("- .docx conversion  " + !!config.pandoc.bin);
 console.log("- .odt conversion  " + !!config.pandoc.bin);
 console.log("- dropbox client " + !!config.dropbox.app.key);
 console.log("- persistent dashboard sessions  " + !!config.session.secret);
+
+server.listen(config.port, err => {
+  if (err) throw err;
+  console.log(`Local server running on port ${config.port}`);
+  async.waterfall(
+    [
+      buildTemplates.bind(null, { watch: false }),
+      establishTestUser,
+      establishTestBlog,
+      configureBlogs
+    ],
+    function (err, user) {
+      if (err) throw err;
+    }
+  );
+});
+
+const async = require("async");
+const User = require("models/user");
+const Blog = require("models/blog");
+const buildTemplates = require("./templates");
 
 // Welcome to Blot. This is the Express application which listens on port 8080.
 // NGINX listens on port 80 in front of Express app and proxies requests to
@@ -76,16 +94,3 @@ function configureBlogs (user, callback) {
     }
   );
 }
-
-async.waterfall(
-  [
-    buildTemplates.bind(null, { watch: false }),
-    establishTestUser,
-    establishTestBlog,
-    configureBlogs
-  ],
-  function (err, user) {
-    if (err) throw err;
-    process.exit();
-  }
-);
