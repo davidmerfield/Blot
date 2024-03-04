@@ -2,6 +2,11 @@ const esbuild = require("esbuild");
 const fs = require("fs");
 const path = require("path");
 
+if (!process.env.CONTAINER_PATH) {
+  console.error("CONTAINER_PATH environment variable is not set");
+  process.exit(1);
+}
+
 // Function to recursively get all the files in a directory
 function getFiles (dir, files_) {
   files_ = files_ || [];
@@ -50,25 +55,25 @@ function createAliasMap (directory, namespace) {
   return alias;
 }
 
-const alias = {
-  ...createAliasMap("./app", "")
-  // Add other aliases here if necessary
-};
-
 const nodeModules = new RegExp(/^(?:.*[\\\/])?node_modules(?:[\\\/].*)?$/);
 
 const dirnamePlugin = {
   name: "dirname",
 
   setup (build) {
-    build.onLoad({ filter: /.*/ }, ({ path: filePath }) => {
+    // Intercept all import paths inside './app'
+    build.onLoad({ filter: /app\/.*/ }, ({ path: filePath }) => {
+      // If the file is not in node_modules, read it and replace __dirname and __filename
       if (!filePath.match(nodeModules)) {
         let contents = fs.readFileSync(filePath, "utf8");
         const loader = path.extname(filePath).substring(1);
         const dirname = path.dirname(filePath);
-        contents = contents
-          .replace("__dirname", `"${dirname}"`)
-          .replace("__filename", `"${filePath}"`);
+        const dirnameInDockerContainer =
+          process.env.CONTAINER_PATH + dirname.slice(__dirname.length);
+        contents = contents.replace(
+          /__dirname/g,
+          `'${dirnameInDockerContainer}'`
+        );
         return {
           contents,
           loader
@@ -100,7 +105,7 @@ esbuild
       ...Object.keys(require("./package.json").dependencies)
     ], // This line marks `fsevents` as external
     resolveExtensions: [".js", ".json"],
-    alias,
+    alias: createAliasMap("./app", ""),
     plugins: [dirnamePlugin]
   })
   .then(() => {
