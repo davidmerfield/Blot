@@ -1,9 +1,12 @@
 # Principles
 
+In lots of ways, Blot is hidden. Most of the time, people who use Blot do so without looking at it. They simply edit the folder. 
 
-In lots of ways, Blot is hidden. Most of the time, people who use Blot do so without looking at it. They simply edit the folder. Some things however, are visible. The templates, which I am not yet proud of, are an example of this.
+Some things however, are visible. The templates, which I am not yet proud of, are an example of this.
 
-The *aesthetic* is one of my main motivations to work on Blot. I find a lot of the internet deeply ugly. My interests in type design lead me to study the work of the early printers, and I find their books to be intensely beautiful. It upsets me that though we are decades into the internet, it remains generally ugly.
+*Aesthetic* considerations  one of my main motivations to work on Blot. 
+
+I find almost all of the internet deeply ugly. My interests in type design lead me to study the work of the early printers, and I find their books to be intensely beautiful. It upsets me that though we are decades into the internet, it remains generally ugly.
 
 <!--
 <br> 
