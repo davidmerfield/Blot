@@ -52,7 +52,7 @@ Add your nameserver to resolvers:
 sudo bash -c 'echo "nameserver 127.0.0.1" > /etc/resolver/blot'
 ```
 
-Finally, you are ready to start the development environment with docker:
+Finally, you are ready to start the development environment which uses docker-compose. The first time you run this command it will take a while to download the images and build the containers but subsequent runs will be much faster:
 
 ```
 npm run dev

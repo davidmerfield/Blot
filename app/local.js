@@ -6,6 +6,7 @@ process.on("SIGINT", () => {
 
 const server = require("./server");
 const config = require("config");
+const buildDocumentation = require("documentation/build");
 
 console.log("Local server capabilities:");
 console.log("- twitter embeds " + !!config.twitter.consumer_secret);
@@ -25,8 +26,10 @@ server.listen(config.port, err => {
       establishTestBlog,
       configureBlogs
     ],
-    function (err, user) {
+    async function (err, user) {
       if (err) throw err;
+
+      await buildDocumentation({ watch: config.environment === "development" });
     }
   );
 });
