@@ -16,29 +16,22 @@
       >
       <ul>
 
-        <!-- <li>
-          <a class="{{ selected.markdown }}" href="/how/posts/markdown"
-            >Markdown</a
+        <li>
+          <a class="{{ selected.metadata }}" href="/how/posts/metadata"
+            >Metadata</a
           >
         </li>
         <li>
-          <a class="{{ selected.layout - tags }}" href="/how/posts/layout-tags"
-            >Layout</a
+          <a class="{{ selected.pages }}" href="/how/posts/pages"
+            >Pages</a
           >
         </li>
         <li>
-          <a class="{{ selected.tex }}" href="/how/posts/tex">\(\TeX\)</a>
-        </li>
-        <li>
-          <a class="{{ selected.embedding }}" href="/how/posts/embedding"
-            >Embedding</a
+          <a class="{{ selected.pages }}" href="/how/posts/drafts"
+            >Drafts</a
           >
         </li>
-        <li>
-          <a class="{{ selected.citations }}" href="/how/posts/citations"
-            >Citations</a
-          >
-        </li> -->
+        
       </ul>
     </li>
     <li>
@@ -60,18 +53,14 @@
         </li>
       </ul>
     </li>
-    <li><a class="{{ selected.pages }}" href="/how/pages">Pages</a></li>
-    <li><a class="{{ selected.drafts }}" href="/how/drafts">Drafts</a></li>
     <li>
       <a class="{{ selected.metadata }}" href="/how/metadata">Metadata</a>
     </li>
+    <li><a class="{{ selected.pages }}" href="/how/pages">Pages</a></li>
+    <li><a class="{{ selected.drafts }}" href="/how/drafts">Drafts</a></li>
 
    
-    <li>
-      <a class="{{ selected.import }}" href="/how/import"
-        >Moving to Blot</a
-      >
-    </li>
+    
     <li>
       <a
         class="{{ selected.configure }}"
@@ -81,7 +70,11 @@
       >
       <ul>
         
-
+        <li>
+          <a class="{{ selected.import }}" href="/how/configure/import"
+            >Moving to Blot</a
+          >
+        </li>
         <li>
           <a class="{{ selected.domain }}" href="/how/configure/domain"
             >Domain</a

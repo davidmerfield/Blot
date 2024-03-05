@@ -139,11 +139,11 @@
 
     - name: date
       type: string
-      description: The blog post’s publish date, as a human-readable string
+      description: The blog post’s publication date, as a human-readable string
 
     - name: dateStamp
       type: number
-      description: The blog post’s publish date, as a unix timestamp.
+      description: The blog post’s publication date, as a unix timestamp.
 
     - name: backlinks
       type: array
@@ -155,7 +155,7 @@
 
     - name: formatDate
       type: function
-      description: Used to format the entry's publish date as you like, using any of the supported [date tokens](#date-tokens).
+      description: Used to format the entry's publication date as you like, using any of the supported [date tokens](#date-tokens).
       example: |
         {{#formatDate}}
         MMMM DDDo, YYYY 
