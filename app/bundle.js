@@ -106,7 +106,7 @@ async function watch () {
       "sharp",
       "puppeteer",
       "./domprops.json",
-      ...Object.keys(require("./package.json").dependencies)
+      ...Object.keys(require("../package.json").dependencies)
     ],
     resolveExtensions: [".js", ".json"],
     alias: createAliasMap("./app", ""),
