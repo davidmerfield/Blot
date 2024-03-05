@@ -55,7 +55,7 @@ sudo bash -c 'echo "nameserver 127.0.0.1" > /etc/resolver/blot'
 Finally, you are ready to start the development environment with docker:
 
 ```
-docker-compose up --build
+npm run dev
 ```
 
 The dashboard will be available at [https://blot](https://blot) and the example site will be available at [https://example.blot](https://example.blot). You can edit the folder for the example blog inside the `data` directory:
