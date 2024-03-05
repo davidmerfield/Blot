@@ -37,7 +37,7 @@ services:
       - ./tests:/usr/src/app/tests
       - ./notes:/usr/src/app/notes
       - ./config:/usr/src/app/config
-    command: npx nodemon /usr/src/app/data/app.js
+    command: npx nodemon /usr/src/app/data/app.js --watch /usr/src/app/data/app.js
 
   redis:
     image: "redis:alpine"

@@ -82,16 +82,20 @@ const dirnamePlugin = {
     });
   }
 };
-esbuild
-  .build({
+
+async function watch () {
+  let ctx = await esbuild.context({
     entryPoints: ["./app/local.js"],
     bundle: true,
+    minify: true,
+    sourcemap: true,
     platform: "node",
     target: "node16", // Set this to your desired Node.js version
     outfile: "./data/app.js",
     define: {
       "process.env.NODE_APP": '"./app"'
     },
+    logLevel: "info",
     external: [
       "fsevents",
       "http-proxy",
@@ -103,15 +107,12 @@ esbuild
       "puppeteer",
       "./domprops.json",
       ...Object.keys(require("./package.json").dependencies)
-    ], // This line marks `fsevents` as external
+    ],
     resolveExtensions: [".js", ".json"],
     alias: createAliasMap("./app", ""),
     plugins: [dirnamePlugin]
-  })
-  .then(() => {
-    console.log("Build completed successfully!");
-  })
-  .catch(error => {
-    console.error("Build failed:", error.message);
-    process.exit(1);
   });
+  await ctx.watch();
+}
+
+watch();
