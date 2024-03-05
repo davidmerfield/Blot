@@ -32,7 +32,12 @@ const commitMessageMapRegEx = new RegExp(
 
 module.exports = function loadDone (req, res, next) {
   exec("git log -300", { cwd: rootDir }, function (err, output) {
-    if (err) return next(err);
+    if (err) {
+      console.log(err);
+      res.locals.recent_commits = [];
+      res.locals.days = [];
+      return next();
+    }
 
     output = output.split("\n\n");
 
