@@ -69,9 +69,10 @@ const dirnamePlugin = {
         const loader = path.extname(filePath).substring(1);
         const dirname = path.dirname(filePath);
         const dirnameInDockerContainer =
-          process.env.CONTAINER_PATH + dirname.slice(__dirname.length);
+          process.env.CONTAINER_PATH +
+          dirname.slice(path.dirname(__dirname).length);
         contents = contents.replace(
-          /__dirname/g,
+          /\_\_dirname/g,
           `'${dirnameInDockerContainer}'`
         );
         return {
