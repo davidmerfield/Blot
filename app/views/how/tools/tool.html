@@ -1,0 +1,29 @@
+<h1>{{title}}</h1>
+
+<div class="collapse-on-small-screens">
+    <div style="flex-basis: 66.666%;">{{{html}}}
+
+       
+  
+    </Div>
+    <div style="flex-basis: 33.333%;">
+        <h2>Website</h2>
+        <p><a href="{{{link}}}" target="_blank" rel="nofollow">{{link}}</a> &rarr;</p>
+        <h2>Category</h2>
+        <a href="/how/tools/{{category.slug}}">{{category.title}}</a>
+        <h2>Platforms</h2>
+        <ul>
+        {{#platforms}}
+        <li>{{{name}}}</li>
+        {{/platforms}}
+        </ul>
+        <h2>Related tools</h2>
+
+        <ul class="tool-list">
+            {{#related}}
+            <li><a href="/how/tools/{{slug}}">{{#icon}}<img src="/how/tools/{{{icon}}}" width="16">{{/icon}}<span class="a">{{title}}</span></a></li>
+            {{/related}}  
+          </ul>
+    </div>
+</div>
+

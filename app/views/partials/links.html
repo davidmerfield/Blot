@@ -9,7 +9,7 @@
 
     <li>
       <a
-        class="{{ selected.posts }}"
+        class="{{ selected.postsIndex }}"
         data-open="{{ selected.posts }}"
         href="/how/posts"
         >Files and posts</a
@@ -27,7 +27,7 @@
           >
         </li>
         <li>
-          <a class="{{ selected.pages }}" href="/how/posts/drafts"
+          <a class="{{ selected.drafts }}" href="/how/posts/drafts"
             >Drafts</a
           >
         </li>
@@ -53,17 +53,11 @@
         </li>
       </ul>
     </li>
-    <li>
-      <a class="{{ selected.metadata }}" href="/how/metadata">Metadata</a>
-    </li>
-    <li><a class="{{ selected.pages }}" href="/how/pages">Pages</a></li>
-    <li><a class="{{ selected.drafts }}" href="/how/drafts">Drafts</a></li>
-
-   
+    
     
     <li>
       <a
-        class="{{ selected.configure }}"
+        class="{{ selected.configureIndex }}"
         data-open="{{ selected.configure }}"
         href="/how/configure"
         >Set up your site</a
@@ -72,7 +66,7 @@
         
         <li>
           <a class="{{ selected.import }}" href="/how/configure/import"
-            >Moving to Blot</a
+            >Import</a
           >
         </li>
         <li>
@@ -104,7 +98,14 @@
         </li>
       </ul>
     </li>
-    
+    <li>
+      <a
+        class="{{ selected.tools }}"
+        href="/how/tools"
+        >Tools</a
+      >
+      
+    </li> 
 
     </ul> 
     </li> 
@@ -127,32 +128,7 @@
     document.querySelector('li.signed-out').style.display = 'none';
     }
 </script>
-<!-- 
-<li>
-  <a
-    class="{{ selected.toolsIndex }}"
-    data-open="{{ selected.tools }}"
-    href="/tools"
-    >Tools</a
-  >
-  <ul>
-    <li>
-      <a
-        class="{{ selected.text - editors }}"
-        href="/tools/text-editors"
-        >Text editors</a
-      >
-    </li>
-    <li>
-      <a class="{{ selected.images }}" href="/tools/images">Images</a>
-    </li>
-    <li>
-      <a class="{{ selected.automation }}" href="/tools/automation"
-        >Automation</a
-      >
-    </li>
-  </ul>
-</li> -->
+
   
       <li>
         <a href="/about" class="{{ selected.aboutIndex }}"     data-open="{{ selected.about }}"

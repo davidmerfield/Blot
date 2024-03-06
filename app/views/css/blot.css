@@ -876,3 +876,79 @@ div.tex table.symbol td {
 div.tex table td.not-symbol {
   font-family: inherit !important;
 }
+
+
+/* Horizontal menu of 'pills', links with backgrounds. The el is a ul */
+
+ul.pill-navigation {
+  max-width: none;
+  display: flex;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  margin-bottom: 1.5em;
+  flex-wrap: wrap;
+  font-size: var(--small-font-size);
+}
+
+.pill-navigation li {
+  margin: 0 0.5em 0.5em 0;
+  padding: 0;
+}
+
+.pill-navigation a {
+  display: block;
+  padding: 0.333em 1em;
+  border-radius: 1em;
+  text-decoration: none;
+  color: var(--light-text-color);
+  background: var(--light-background-color);
+  transition: background 0.1s, color 0.1s;
+}
+
+.pill-navigation a.selected {
+  background: var(--accent-color);
+  color: var(--light-background-color);
+}
+
+.pill-navigation a:hover {
+  background: var(--light-accent-color);
+  color: var(--light-background-color);
+}
+
+/* A list of bordered links */
+.tool-list {
+  list-style: none;
+  padding: 0;
+  margin: 2em 0;
+}
+
+.tool-list li {
+  margin: 0;
+  padding: 0;
+  margin-bottom: 0.5em;
+}
+
+.tool-list a {
+  display: block;
+  padding: 0.5em 1em;
+  border-radius: 0.5em;
+  text-decoration: none;
+  color: var(--medium-text-color);
+  border: 1px solid var(--light-border-color);
+  transition: background 0.1s, color 0.1s, border-color 0.1s;
+}
+
+/* an optional image in the link should have a width and height of 16px
+   and an appropriate margin */
+.tool-list a img {
+  width: 16px;
+  height: 16px;
+  margin-right: 0.8em;
+}
+
+.tool-list a:hover {
+  background: var(--light-background-color);
+  color: var(--light-accent-color);
+  border-color: var(--light-accent-color);
+}
