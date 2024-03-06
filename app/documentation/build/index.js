@@ -10,7 +10,7 @@ const DESTINATION_DIRECTORY = join(
   "/app/documentation/data"
 );
 const zip = require("templates/folders/zip");
-const tools = require("templates/folders/tools");
+const tools = require("./tools");
 
 async function handle (path) {
   try {
