@@ -10,6 +10,7 @@ const DESTINATION_DIRECTORY = join(
   "/app/documentation/data"
 );
 const zip = require("templates/folders/zip");
+const tools = require("templates/folders/tools");
 
 async function handle (path) {
   try {
@@ -58,6 +59,8 @@ module.exports = async ({ watch = false } = {}) => {
   );
 
   await Promise.all(paths.map(handle));
+
+  await tools();
 
   if (watch) {
     chokidar

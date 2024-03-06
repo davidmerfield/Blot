@@ -880,7 +880,8 @@ div.tex table td.not-symbol {
 
 /* Horizontal menu of 'pills', links with backgrounds. The el is a ul */
 
-.pill-navigation {
+ul.pill-navigation {
+  max-width: none;
   display: flex;
   list-style: none;
   padding: 0;
@@ -891,7 +892,7 @@ div.tex table td.not-symbol {
 }
 
 .pill-navigation li {
-  margin: 0 0.5em 0 0;
+  margin: 0 0.5em 0.5em 0;
   padding: 0;
 }
 

@@ -111,6 +111,8 @@ const main = async () => {
     result.tools = result.tools.concat(tools);
   }
 
+  // sort categories by the number of tools
+  result.categories.sort((a, b) => b.tools.length - a.tools.length);
   result.tools.sort((a, b) => b.updated - a.updated);
 
   await renderTemplate("index.html", result);
