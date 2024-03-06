@@ -1,0 +1,24 @@
+<h1>{{title}}</h1>
+
+<a class="bordered-button" href="{{{link}}}" target="_blank" rel="nofollow">Visit website</a>
+
+<div style="display: flex;">
+    <Div>{{{description}}}</Div>
+    <div>
+        <h2>Category</h2>
+        <a href="/how/tools/{{category.slug}}">{{category.title}}</a>
+        <h2>Platforms</h2>
+        <ul>
+        {{#platforms}}
+        <li><a href="{{{link}}}">{{{name}}}</a></li>
+        {{/platforms}}
+        </ul>
+        <h2>Questions</h2>
+        <ul>
+        {{#questions}}
+        <li><a href="{{{link}}}">{{{name}}}</a></li>
+        {{/questions}}
+        </ul>
+    </div>
+</div>
+
