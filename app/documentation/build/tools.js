@@ -133,7 +133,17 @@ const main = async () => {
 
   for (const tool of result.tools) {
     console.log(tool);
-    await renderTemplate("tool.html", tool, tool.slug + "/index.html");
+    await renderTemplate(
+      "tool.html",
+      {
+        ...tool,
+        category: result.categories.find(c => c.slug === tool.category),
+        related: result.categories
+          .find(c => c.slug === tool.category)
+          .tools.filter(t => t.slug !== tool.slug)
+      },
+      tool.slug + "/index.html"
+    );
   }
 
   return result;
@@ -156,18 +166,28 @@ const loadTool = async (category, tool) => {
   const updated = new Date(
     (await fs.stat(toolsDirectory + "/" + category + "/" + tool)).mtime
   );
-  const $ = cheerio.load(html);
-  // sometimes the HTML file has YAML frontmatter inside '---' fencing
 
   const metadata = parseYAML(html);
+
+  const $ = cheerio.load(html.replace(/---[\s\S]*?---/, ""));
+
+  // sometimes the HTML file has YAML frontmatter inside '---' fencing
 
   const slug = tool.replace(".html", "");
   const title =
     $("h1").text() ||
     (slug[0].toUpperCase() + slug.slice(1)).replace(/-/g, " ");
-  const description = $("p").text();
 
-  const result = { title, description, updated, slug, ...metadata };
+  $("h1").remove();
+
+  const result = {
+    title,
+    category,
+    html: $.html(),
+    updated,
+    slug,
+    ...metadata
+  };
 
   if (result.link) {
     result.icon = await fetchIcon(result.link, result.slug);

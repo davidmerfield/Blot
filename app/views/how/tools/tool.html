@@ -1,24 +1,29 @@
 <h1>{{title}}</h1>
 
-<a class="bordered-button" href="{{{link}}}" target="_blank" rel="nofollow">Visit website</a>
+<div class="collapse-on-small-screens">
+    <div style="flex-basis: 66.666%;">{{{html}}}
 
-<div style="display: flex;">
-    <Div>{{{description}}}</Div>
-    <div>
+       
+  
+    </Div>
+    <div style="flex-basis: 33.333%;">
+        <h2>Website</h2>
+        <p><a href="{{{link}}}" target="_blank" rel="nofollow">{{link}}</a> &rarr;</p>
         <h2>Category</h2>
         <a href="/how/tools/{{category.slug}}">{{category.title}}</a>
         <h2>Platforms</h2>
         <ul>
         {{#platforms}}
-        <li><a href="{{{link}}}">{{{name}}}</a></li>
+        <li>{{{name}}}</li>
         {{/platforms}}
         </ul>
-        <h2>Questions</h2>
-        <ul>
-        {{#questions}}
-        <li><a href="{{{link}}}">{{{name}}}</a></li>
-        {{/questions}}
-        </ul>
+        <h2>Related tools</h2>
+
+        <ul class="tool-list">
+            {{#related}}
+            <li><a href="/how/tools/{{slug}}">{{#icon}}<img src="/how/tools/{{{icon}}}" width="16">{{/icon}}<span class="a">{{title}}</span></a></li>
+            {{/related}}  
+          </ul>
     </div>
 </div>
 
