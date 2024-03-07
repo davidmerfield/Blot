@@ -31,11 +31,13 @@ const locals = {
     ? "eu"
     : "us",
   user: process.env.OPENRESTY_USER || "ec2-user",
-  log_directory: process.env.OPENRESTY_LOG_DIRECTORY || config_directory,
+  log_directory:
+    process.env.OPENRESTY_LOG_DIRECTORY || "/var/instance-ssd/logs",
   config_directory,
   // if you change the cache directory, you must also update the
   // script mount-instance-store.sh
-  cache_directory: process.env.OPENRESTY_CACHE_DIRECTORY || "/var/www/cache",
+  cache_directory:
+    process.env.OPENRESTY_CACHE_DIRECTORY || "/var/instance-ssd/cache",
   ssl_certificate:
     process.env.SSL_CERTIFICATE || "/etc/ssl/private/letsencrypt-domain.pem",
   ssl_certificate_key:

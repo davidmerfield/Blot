@@ -9,6 +9,14 @@ if [[ -z "$BLOT_DIRECTORY" ]]; then
     exit 1
 fi
 
+
+if [[ -z "$BLOT_LOG_DIRECTORY" ]]; then
+    echo "Missing env variables. Source them with:" 1>&2
+    echo ". /etc/blot/environment.sh" 1>&2
+    exit 1
+fi
+
+
 # if we pass the flag -fast to this script, it will skip the npm install step
 
 FAST=false
@@ -18,7 +26,7 @@ if [[ $1 == "-fast" ]]; then
 fi
 
 pid=$(cat $BLOT_DIRECTORY/data/process.pid)
-logfile=$BLOT_DIRECTORY/data/logs/app.log
+logfile=$BLOT_LOG_DIRECTORY/app.log
 
 if [[ -z "$pid" ]]; then
     echo "No pid found in $BLOT_DIRECTORY/data/process.pid" 1>&2

@@ -30,7 +30,7 @@
 set -e
 
 BLOT_DIRECTORY=/var/www/blot
-LOG_DIRECTORY=$BLOT_DIRECTORY/data/logs
+LOG_DIRECTORY=/var/instance-ssd/logs
 USER=$(whoami)
 
 ## If the user is root, we want to log as nobody
