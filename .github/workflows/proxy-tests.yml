@@ -78,6 +78,7 @@ jobs:
 
       - name: run openresty
         run: |
+          sudo mkdir -p /var/instance-ssd/logs
           sudo /usr/local/openresty/bin/openresty -c /home/runner/work/Blot/Blot/config/openresty/data/openresty.conf
 
       - name: check openresty is running on port 80
