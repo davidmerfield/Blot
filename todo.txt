@@ -1,3 +1,5 @@
+Add [textbundle support](http://textbundle.org/spec/)
+
 Fix Google Drive sync bug
 - [ ] Resolve whether to use drive.change.watch or drive.activity.query
 - [ ] This seems to re-download google docs every time
@@ -1160,7 +1162,6 @@ Restructure application folder
   - Move blog's folder contents from /blogs/{blogID} to data/blogs/{blogID}/folder
   - Move static files directory from /static/{blogID} to /data/blogs/{blogID}/static
   - Move db directory from /db to /data/db
-  - Move logs directory from /logs to /data/logs
   - Remove /tmp directory and instead use os.tmpDir
 
 Switch to streaming JSON parser. There are npm modules that offer asynchronous JSON APIs. See for example:
