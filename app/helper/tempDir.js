@@ -1,5 +1,5 @@
 var fs = require("fs-extra");
-var tempDir = require("path").resolve(__dirname + "/../../data/tmp/") + "/";
+var tempDir = require("config").tmp_directory + "/";
 
 // Ensure tmp dir exists
 fs.ensureDirSync(tempDir);

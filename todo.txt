@@ -5,18 +5,14 @@ Fix Google Drive sync bug
 - [ ] do the google docs edit events we are missing on `drive.changes.watch` appear on `drive.changes.list`?
 
 Infrastructure plan:
-- switch blog data directory to s3 
-  - could I mount in an s3 bucket as a docker volume?
-    - https://github.com/efrecon/docker-s3fs-client
-  - what about the git client?
-  - s3fs?
 - switch app deployment to ECS
+- work on reducing the storage class of EBS
 - create three processes:
   - blogs
   - dashboard
   - sync
-
----
+- Use restic or similar to make incremental off-site backups of data directory:
+  - restic -r b2:bucket-name:/path/to/repo forget --keep-daily 7 --keep-weekly 4 --keep-monthly 6 --keep-yearly 3 --prune
 
 Fix bug with [date on magazine template](https://blot.im/questions/2244)
 
