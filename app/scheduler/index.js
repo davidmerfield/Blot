@@ -17,8 +17,9 @@ const zombies = require("./zombies");
 // If any disk has less than 2GB of space, we should notify the admin
 const MINIMUM_DISK_SPACE_IN_K = 2 * 1024 * 1024;
 
-// If the data disk has less than 100GB of space, we should notify the admin
-const DATA_DISK_MINIMUM_DISK_SPACE_IN_K = 100 * 1024 * 1024;
+// If the data disk has less than 10GB of space, we should notify the admin
+const DATA_DISK_MINIMUM_DISK_SPACE_IN_K = 10 * 1024 * 1024;
+
 let NOTIFIED_LOW_DISK_SPACE = false;
 
 module.exports = function () {

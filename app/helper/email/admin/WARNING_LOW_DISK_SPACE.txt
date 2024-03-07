@@ -1,9 +1,9 @@
 Warning: Blot's disk is low on space
 
-The storage drive attached to Blot's server is running out of space. It is currently {{usage}} full with {{available}} remaining. 
+One of the disks attached to Blot's server is running low on space:
 
 {{#disks}}
-- **{{label}}** {{available_human}} available, {{used_human}} – {{mount}}
+- **{{label}}** {{available_human}} available, {{used_human}} used {{mount}}
 {{/disks}}
 
 Resolve this now:
