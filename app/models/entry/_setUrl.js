@@ -56,7 +56,6 @@ function Candidates (blog, entry) {
   // or posts with user specified permalinks.
   if (
     !entry.metadata.permalink &&
-    !entry.metadata.slug &&
     !entry.metadata.link &&
     !entry.metadata.url &&
     !entry.page
