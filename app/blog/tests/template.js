@@ -17,6 +17,22 @@ describe("template engine", function () {
     );
   });
 
+  it("renders a list of posts with a given tag", async function () {
+    await this.write("/[Foo]/first.txt", "Foo");
+    await this.write("/[Foo]/second.txt", "Bar");
+
+    await this.template({
+      "tagged.html":
+        "{{#tagged}}{{#entries}}<p><a href='{{{url}}}'>{{title}}</a></p>{{/entries}}{{/tagged}}"
+    });
+
+    const res = await this.fetch(`/tagged/foo`);
+
+    expect((await res.text()).trim()).toEqual(
+      "<p><a href='/second'>second</a></p><p><a href='/first'>first</a></p>"
+    );
+  });
+
   it("augments entry.next and entry.previous", async function () {
     await this.write("/first.txt", "Link: first\n\nFoo");
     await this.write("/second.txt", "Tags: foo\nLink: second\n\nSecond");
