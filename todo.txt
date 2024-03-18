@@ -18,10 +18,6 @@ Infrastructure plan:
 
 Fix bug with [date on magazine template](https://blot.im/questions/2244)
 
-Fix bug with 'slug' metadata and tell [questioner](https://blot.im/questions/2286)
-
-Search metadata is [being ignored for pages](https://blot.im/questions/2291) and [other question](https://blot.im/questions/2444)
-
 Fix bug with [header position on the blog template](https://blot.im/questions/2211)
 
 Document image zoom disable feature ?zoom=false and tell [questioner](https://blot.im/questions/2236)
