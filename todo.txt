@@ -20,7 +20,7 @@ Fix bug with [date on magazine template](https://blot.im/questions/2244)
 
 Fix bug with 'slug' metadata and tell [questioner](https://blot.im/questions/2286)
 
-Search metadata is [being ignored for pages](https://blot.im/questions/2291)
+Search metadata is [being ignored for pages](https://blot.im/questions/2291) and [other question](https://blot.im/questions/2444)
 
 Fix bug with [header position on the blog template](https://blot.im/questions/2211)
 
@@ -721,6 +721,7 @@ Improvements to dashboard:
 Move citations out of `{{{html}}}` and tell [questioner](https://blot.im/questions/298) and [Mikka](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlkPcprJZlTSFbTGlqSPJcfWJJ)
 
 Add [OneDrive](https://onedrive.com) client
+- Tell [Nenad](https://mail.google.com/mail/u/0/#inbox/FMfcgzGxSHlNTlFCKwNsPbZPxRgbbVkB)
 - Tell [John](https://mail.google.com/mail/u/0/#inbox/FMfcgzGkbDVrfBwGjnVDdtXkNxKpwjfq) 
 - Tell [Shantesh](https://mail.google.com/mail/u/0/#inbox/166df93b38231ec9)
 - Tell [Nathan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVgvsdfSnqBppQrXLTVjZBBzp)
