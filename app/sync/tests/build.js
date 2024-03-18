@@ -88,6 +88,33 @@ describe("build", function () {
     this.syncAndCheck(file, entry, done);
   });
 
+  it("incorporates slug metadata into a permalink format", function (done) {
+    const ctx = this;
+    require("models/blog").set(
+      ctx.blog.id,
+      { permalink: { format: "/post/{{slug}}" } },
+      () => {
+        const path = "/hey.txt";
+        const content = "Slug: foo\n\nHey!";
+
+        const file = { path, content };
+        const entry = { path, url: "/post/foo" };
+
+        ctx.syncAndCheck(file, entry, done);
+      }
+    );
+  });
+
+  it("uses slug metadata", function (done) {
+    const path = "/hey.txt";
+    const content = "Slug: foo\n\nHey!";
+
+    const file = { path, content };
+    const entry = { path, url: "/foo" };
+
+    this.syncAndCheck(file, entry, done);
+  });
+
   it("uses link metadata", function (done) {
     const path = "/hey.txt";
     const content = "Link: example.com/\n\nHey!";
