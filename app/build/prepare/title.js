@@ -60,7 +60,6 @@ function extractTitle ($, path, options = {}) {
   var body = $.html();
 
   if (options.titlecase) {
-    console.log("titlecasing title", title);
     title = titlecase(title);
   }
 
