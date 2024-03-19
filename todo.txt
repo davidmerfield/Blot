@@ -49,20 +49,16 @@ Fix bug for 'edit this page' link in production
 
 Fix bug with undeleteable template files prefixed with dot and tell [Stuart](https://mail.google.com/mail/u/0/?zx=j8rkxjpin0du#inbox/FMfcgzGqRZbhWzrwNrgrFLQBBDWBzhxL)
 
-Fix bug with leading emoji and title case plugin and tell [questioner](https://blot.im/questions/874)
-
 Fix 'back' button in photo template and tell [Bibi](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrcPJTmPXxWvhbmFpvwdfVzhpn)
 
 Fix bug with images zooming inside footnotes and tell [Nathan](https://mail.google.com/mail/u/0/#inbox/FMfcgzGtwWCBmtldhMfQRgZjHDpFvSGb)
 
-Fix issue with template with invalid metadata (cat log for error), it seems the name and error properties were not set
-- [ ] run fix on all existing templates
-
-Fix duplicate GUID issue and tell [Jason](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrbvKsNQgVWVNKrVqMzRJdDvKk)
-
 Fix bug with menu which occur when multiple pages are added at once Menu needs concurrency or atomic operations (so we can build posts in parallel)
 
-Fix bug with rename catcher which allows two posts to share a guid. It caused a bug with Disqus comments. To reproduce this bug: Rename an entry. Create new entry with old name. Both entries have same GUID.
+GUID bugs:
+- Fix duplicate GUID issue and tell [Jason](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrbvKsNQgVWVNKrVqMzRJdDvKk)
+- Fix bug with rename catcher which allows two posts to share a guid. It caused a bug with Disqus comments. To reproduce this bug: Rename an entry. Create new entry with old name. Both entries have same GUID.
+- Fix bug with two entries with the same guid, possibly related to an entry rename event (i.e. copying the guid across). Make sure that when a rename happens, the old entry is permanently deleted and its guid cannot be reused. I imagine that WRITE foo.txt MV foo.txt bar.txt WRITE bar.txt could trigger this bug.
 
 Fix bug with .emf files in Word Document and follow up with Todd. Can we convert EMFs? Can we pass a flag to pandoc to let them deal with it? Is this just caused by Tiff files? I need a Windows machine to test this.
 
@@ -71,8 +67,6 @@ Come up with a workaround for [Silas's Dropbox business issue](https://mail.goog
 Fix issue with favicon and [tell questioner](https://blot.im/questions/1202)
 
 Fix bug with bandcamp embeds in Word Documents and tell [Art](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrcXlgNHJbDLkmkkRmrCGqzHJB)
-
-Fix missing posts on [preview of reference template](https://preview-of-reference-on-frances.blot.im/)
 
 Fix bug with template editor and ensure POST error messages are passed to client properly through ajax
 - to trigger, submit a >5mb file on web template editor
@@ -89,8 +83,6 @@ Fix bug with this [question](https://blot.im/questions/648)
 
 Fix issue with git client mirroring on GitHub by follow steps in email and follow up with [n](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqPzKcnQKsQQNkzcRpvCWpWKTr)
 
-Fix bug with subdomains with numbers in them cause SSL certificate errors (e.g. foo2.blot.im)
-
 Fix bug with the typeset settings do not actually affect anything (you can only disable/enable)
 
 Fix bug with rename detector which caused old permalinks not to redirect to their latest version and tell [Shibel](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChSMBfbsZQQSGSjtghSHKKVzm)
@@ -105,8 +97,6 @@ Fix bug with particular emoji and tell [John](https://mail.google.com/mail/u/0/#
 
 Fix case-sensitivity issue for relative (and absolute?) paths to files in folder in production and tell [Marco](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNWHHtTmhpstcFdMfRRpzbnNw)
 
-Fix bug with footnote links in a teaser by switching #frag to {{permalink}}#frag
-
 Fix bug with [many twitter embeds and tell Nash](https://mail.google.com/mail/u/0/#inbox/FMfcgzGllMNfjvRBthVncQtPJQpmrksx)
 
 Fix bug with a once-scheduled post, based on the file's path or previous date metadata. The post remains scheduled even if the date is removed, and even if it is then rebuilt.
@@ -120,8 +110,6 @@ Fix bug with tokens inside blog posts and follow up with [Karoly](https://mail.g
 Fix bug with potentially TeX-related escaping issues and tell [Anthony](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJWhzZspbBhTCPBGjvnslgrZlb) and Roy
 
 Fix issue with variable passed to dateFormat function and tell [Leo](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqQJlfVpSBNBwDxcSlGGqHXQbh)
-
-Fix bug with two entries with the same guid, possibly related to an entry rename event (i.e. copying the guid across). Make sure that when a rename happens, the old entry is permanently deleted and its guid cannot be reused. I imagine that WRITE foo.txt MV foo.txt bar.txt WRITE bar.txt could trigger this bug.
 
 Fix bug with image zoomer on mobile devices and tell [Alessandro](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChSCwptjLtLGMjWxdkQNnNfTk)
 
