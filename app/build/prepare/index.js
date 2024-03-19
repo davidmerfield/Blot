@@ -40,7 +40,7 @@ function canOverwrite (key) {
 // url: 'string', // this is handled by set
 // scheduled: scheduled, // this is handled by set
 
-function Prepare (entry) {
+function Prepare (entry, options = {}) {
   ensure(entry, "object")
     .and(entry.path, "string")
     .and(entry.size, "number")
@@ -80,7 +80,9 @@ function Prepare (entry) {
   }
 
   debug(entry.path, "Generating title from", pathWithCaseSensitiveName);
-  var parsedTitle = Title($, pathWithCaseSensitiveName);
+  var parsedTitle = Title($, pathWithCaseSensitiveName, {
+    titlecase: options.titlecase
+  });
   entry.title = parsedTitle.title;
   entry.titleTag = parsedTitle.tag;
   entry.body = parsedTitle.body;

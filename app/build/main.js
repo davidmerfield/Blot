@@ -20,7 +20,7 @@ console.log(clfdate(), `Build: process pid=${process.pid} launched`);
 
 // This file cannot become a blog post because it is not
 // a type that Blot can process properly.
-function isWrongType(path) {
+function isWrongType (path) {
   var isWrong = true;
 
   converters.forEach(function (converter) {
@@ -42,7 +42,7 @@ process.on("message", function (message) {
   });
 });
 
-function build(blog, path, options, callback) {
+function build (blog, path, options, callback) {
   debug("Build:", process.pid, "processing", path);
 
   if (isWrongType(path)) {
@@ -61,61 +61,63 @@ function build(blog, path, options, callback) {
       if (err) return callback(err);
 
       debug("Blog:", blog.id, path, " attempting to build html");
-      Build(blog, path, options, function (
-        err,
-        html,
-        metadata,
-        stat,
-        dependencies
-      ) {
-        if (err) return callback(err);
+      Build(
+        blog,
+        path,
+        options,
+        function (err, html, metadata, stat, dependencies) {
+          if (err) return callback(err);
 
-        debug("Blog:", blog.id, path, " extracting thumbnail");
-        Thumbnail(blog, path, metadata, html, function (err, thumbnail) {
-          // Could be lots of reasons (404?)
-          if (err || !thumbnail) thumbnail = {};
+          debug("Blog:", blog.id, path, " extracting thumbnail");
+          Thumbnail(blog, path, metadata, html, function (err, thumbnail) {
+            // Could be lots of reasons (404?)
+            if (err || !thumbnail) thumbnail = {};
 
-          var entry;
+            var entry;
 
-          // Given the properties above
-          // that we've extracted from the
-          // local file, compute stuff like
-          // the teaser, isDraft etc..
+            // Given the properties above
+            // that we've extracted from the
+            // local file, compute stuff like
+            // the teaser, isDraft etc..
 
-          try {
-            entry = {
-              html: html,
-              name: options.name || storedName || basename(path),
-              path: path,
-              pathDisplay: options.pathDisplay || storedPathDisplay || path,
-              id: path,
-              thumbnail: thumbnail,
-              draft: is_draft,
-              metadata: metadata,
-              size: stat.size,
-              dependencies: dependencies,
-              dateStamp: DateStamp(blog, path, metadata),
-              updated: moment.utc(stat.mtime).valueOf(),
-            };
+            try {
+              entry = {
+                html: html,
+                name: options.name || storedName || basename(path),
+                path: path,
+                pathDisplay: options.pathDisplay || storedPathDisplay || path,
+                id: path,
+                thumbnail: thumbnail,
+                draft: is_draft,
+                metadata: metadata,
+                size: stat.size,
+                dependencies: dependencies,
+                dateStamp: DateStamp(blog, path, metadata),
+                updated: moment.utc(stat.mtime).valueOf()
+              };
 
-            if (entry.dateStamp === undefined) delete entry.dateStamp;
+              if (entry.dateStamp === undefined) delete entry.dateStamp;
 
-            debug(
-              "Blog:",
-              blog.id,
-              path,
-              " preparing additional properties for",
-              entry.name
-            );
-            entry = Prepare(entry, options);
-            debug("Blog:", blog.id, path, " additional properties computed.");
-          } catch (e) {
-            return callback(e);
-          }
+              debug(
+                "Blog:",
+                blog.id,
+                path,
+                " preparing additional properties for",
+                entry.name
+              );
+              entry = Prepare(entry, {
+                ...options,
+                titlecase: blog.plugins.titlecase.enabled
+              });
+              debug("Blog:", blog.id, path, " additional properties computed.");
+            } catch (e) {
+              return callback(e);
+            }
 
-          callback(null, entry);
-        });
-      });
+            callback(null, entry);
+          });
+        }
+      );
     });
   });
 }
