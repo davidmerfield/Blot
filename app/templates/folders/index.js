@@ -48,6 +48,10 @@ const updates = {
     title: "Thought-forms",
     template: "SITE:portfolio"
   },
+  piet: {
+    title: "Piet Mondrian",
+    template: "SITE:portfolio"
+  },
   sergey: {
     title: "Sergey Prokudin-Gorsky",
     template: "SITE:portfolio"
