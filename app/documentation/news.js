@@ -43,7 +43,7 @@ const nextNewsletter = () => {
   } else if (now.isSame(date, "month")) {
     modifiedFromNow = "in a few weeks";
   } else {
-    modifiedFromNow = date.fromNow();
+    modifiedFromNow = moment(date).fromNow();
   }
 
   return { season, fromNow: modifiedFromNow };
