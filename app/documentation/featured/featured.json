@@ -284,20 +284,12 @@
       "y": 240
     },
     {
-      "link": "https://xn--gntherwegs-9db.com",
-      "host": "güntherwegs.com",
-      "name": "Günther",
-      "bio": "is a Weimaraner",
-      "x": 240,
-      "y": 240
-    },
-    {
       "link": "https://thejollyteapot.com",
       "host": "thejollyteapot.com",
       "name": "Nicolas Magand",
       "bio": "is a blogger",
-      "x": 288,
-      "y": 0
+      "x": 240,
+      "y": 240
     },
     {
       "link": "https://brainsister.com",
@@ -305,7 +297,7 @@
       "name": "Jessica Doyle",
       "bio": "is a writer",
       "x": 288,
-      "y": 48
+      "y": 0
     },
     {
       "link": "https://poetry.bencallahan.com",
@@ -313,7 +305,7 @@
       "name": "Ben Callahan",
       "bio": "is a poet",
       "x": 288,
-      "y": 96
+      "y": 48
     },
     {
       "link": "https://www.maxkeith.co",
@@ -321,7 +313,7 @@
       "name": "Max Keith",
       "bio": "is a trail runner",
       "x": 288,
-      "y": 144
+      "y": 96
     },
     {
       "link": "https://www.aarondowd.com",
@@ -329,7 +321,7 @@
       "name": "Aaron Dowd",
       "bio": "is a podcaster",
       "x": 288,
-      "y": 192
+      "y": 144
     },
     {
       "link": "https://spittingdog.net",
@@ -337,22 +329,22 @@
       "name": "Dave Haysom",
       "bio": "translates Chinese literature",
       "x": 288,
-      "y": 240
+      "y": 192
     },
     {
       "link": "https://anitaposch.com",
       "host": "anitaposch.com",
       "name": "Anita Posch",
       "bio": "is a writer",
-      "x": 0,
-      "y": 288
+      "x": 288,
+      "y": 240
     },
     {
       "link": "https://reillybrennan.com",
       "host": "reillybrennan.com",
       "name": "Reilly Brennan",
       "bio": "is a venture capitalist",
-      "x": 48,
+      "x": 0,
       "y": 288
     },
     {
@@ -360,7 +352,7 @@
       "host": "victoriaclarke.art",
       "name": "Victoria Clarke",
       "bio": "is an artist",
-      "x": 96,
+      "x": 48,
       "y": 288
     },
     {
@@ -368,7 +360,7 @@
       "host": "www.adamsandell.com",
       "name": "Adam Sandell",
       "bio": "is a doctor and lawyer",
-      "x": 144,
+      "x": 96,
       "y": 288
     },
     {
@@ -376,7 +368,7 @@
       "host": "sidenote.ridwansanusi.com",
       "name": "Ridwan Sanusi",
       "bio": "is a designer",
-      "x": 192,
+      "x": 144,
       "y": 288
     },
     {
@@ -384,7 +376,7 @@
       "host": "max.engineer",
       "name": "Max Chernyak",
       "bio": "is a software engineer",
-      "x": 240,
+      "x": 192,
       "y": 288
     },
     {
@@ -392,7 +384,7 @@
       "host": "oliviaastawood.com",
       "name": "Olivia Wood",
       "bio": "is a musician",
-      "x": 288,
+      "x": 240,
       "y": 288
     },
     {
@@ -400,8 +392,8 @@
       "host": "jonahfoss.com",
       "name": "Jonah Foss",
       "bio": "is a student",
-      "x": 336,
-      "y": 0
+      "x": 288,
+      "y": 288
     },
     {
       "link": "https://www.nitinpai.in",
@@ -409,7 +401,7 @@
       "name": "Nitin Pai",
       "bio": "directs the Takshashila Institution",
       "x": 336,
-      "y": 48
+      "y": 0
     },
     {
       "link": "https://jeankapsa.com",
@@ -417,7 +409,7 @@
       "name": "Jean Kapsa",
       "bio": "is a pianist",
       "x": 336,
-      "y": 96
+      "y": 48
     },
     {
       "link": "https://www.declad.com",
@@ -425,7 +417,7 @@
       "name": "Lewis Martin",
       "bio": "is an architect",
       "x": 336,
-      "y": 144
+      "y": 96
     },
     {
       "link": "https://alu.garden",
@@ -433,7 +425,7 @@
       "name": "Annie Lu",
       "bio": "makes ceramics in Seattle",
       "x": 336,
-      "y": 192
+      "y": 144
     }
   ],
   "thumbnail_width": 48
