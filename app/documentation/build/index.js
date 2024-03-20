@@ -3,13 +3,14 @@ const { join } = require("path");
 const { build } = require("esbuild");
 const fs = require("fs-extra");
 const chokidar = require("chokidar");
-const cheerio = require("cheerio");
+const html = require("./html");
 const SOURCE_DIRECTORY = join(config.blot_directory, "/app/views");
 const DESTINATION_DIRECTORY = join(
   config.blot_directory,
   "/app/documentation/data"
 );
 const zip = require("templates/folders/zip");
+const tools = require("./tools");
 
 async function handle (path) {
   try {
@@ -59,6 +60,8 @@ module.exports = async ({ watch = false } = {}) => {
 
   await Promise.all(paths.map(handle));
 
+  await tools();
+
   if (watch) {
     chokidar
       .watch(SOURCE_DIRECTORY, {
@@ -72,47 +75,8 @@ module.exports = async ({ watch = false } = {}) => {
 };
 
 async function buildHTML (path) {
-  const transformers = [
-    require("../tools/typeset"),
-    require("../tools/anchor-links"),
-    require("../tools/tex"),
-    require("../tools/finder").html_parser
-  ];
-
-  const html = await fs.readFile(join(SOURCE_DIRECTORY, path), "utf-8");
-
-  // we want to remove any indentation before the partial tag {{> body}}
-
-  if (html.includes("{{> body}}")) {
-    const lines = html.split("\n");
-    const result = lines
-      .map(i => {
-        if (!i.includes("{{> body}}")) return i;
-        if (i.trim().startsWith("{{> body}}")) return i.trim();
-      })
-      .join("\n");
-
-    await fs.outputFile(join(DESTINATION_DIRECTORY, path), result);
-
-    return;
-  }
-
-  const $ = cheerio.load(html, { decodeEntities: false });
-
-  for (const transformer of transformers) {
-    transformer($);
-  }
-
-  let result = $.html();
-
-  // remove the indent from the line which contains the body partial
-  // this prevents issues with code snippets
-  if (result.includes("{{> body}}")) {
-    const lines = result.split("\n");
-    const index = lines.findIndex(line => line.includes("{{> body}}"));
-    lines[index] = lines[index].trim();
-    result = lines.join("\n");
-  }
+  const contents = await fs.readFile(join(SOURCE_DIRECTORY, path), "utf-8");
+  const result = await html(contents);
 
   await fs.outputFile(join(DESTINATION_DIRECTORY, path), result);
 }

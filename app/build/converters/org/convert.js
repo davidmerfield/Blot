@@ -1,8 +1,10 @@
-var spawn = require("child_process").spawn;
-var time = require("helper/time");
-var config = require("config");
-var Pandoc = config.pandoc.bin;
-var debug = require("debug")("blot:converters:rtf");
+const spawn = require("child_process").spawn;
+const time = require("helper/time");
+const config = require("config");
+const Pandoc = config.pandoc.bin;
+const debug = require("debug")("blot:converters:org");
+const cheerio = require("cheerio");
+const extractMetadata = require("build/metadata");
 
 module.exports = function (blog, text, options, callback) {
   var args = [
@@ -24,8 +26,7 @@ module.exports = function (blog, text, options, callback) {
     // we use our own highlighint library (hljs) later
     "--no-highlight",
 
-    // such a dumb default feature... sorry john!
-    "--email-obfuscation=none",
+    "--email-obfuscation=none"
   ];
 
   var startTime = Date.now();
@@ -67,8 +68,40 @@ module.exports = function (blog, text, options, callback) {
 
     if (err) return callback(err);
 
-    debug("Final:", result);
-    callback(null, result);
+    const $ = cheerio.load(result, { decodeEntities: false });
+
+    // if there is a pre tag with class="yaml"
+    // at the very start of the document then extract its contents,
+    // replace the pre tag with the following:
+    // ---
+    // $YAML
+    // ---
+
+    // if the first child is a pre tag with class="yaml"
+    const firstChild = $(":root").first();
+    const yaml =
+      firstChild && firstChild.is("pre.yaml") ? firstChild.text() : "";
+
+    if (yaml) {
+      firstChild.remove();
+    }
+
+    let text = (yaml ? ["---", yaml.trim(), "---"].join("\n") : "") + $.html();
+
+    const parsed = extractMetadata(text);
+
+    var metadata = "<!--";
+
+    for (var i in parsed.metadata)
+      metadata += "\n" + i + ": " + parsed.metadata[i];
+
+    if (metadata !== "<!--") {
+      metadata += "\n-->\n";
+      text = metadata + parsed.html;
+    }
+
+    debug("Final:", text);
+    callback(null, text);
   });
 
   debug("Pre-pandoc", text);

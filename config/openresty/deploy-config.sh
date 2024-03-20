@@ -26,7 +26,7 @@ fi
 # build the openresty config files
 echo "Building openresty config files..."
 BUILD_SCRIPT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/build-config.js"
-OPENRESTY_LOG_DIRECTORY=/var/www/blot/data/logs node $BUILD_SCRIPT
+node $BUILD_SCRIPT
 
 # upload all the built in the directory './data'  
 DATA_DIRECTORY="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/data"

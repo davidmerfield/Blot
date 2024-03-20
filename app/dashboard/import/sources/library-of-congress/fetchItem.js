@@ -68,9 +68,17 @@ module.exports = async id => {
     .map(i => i.text.replace(/[:;]/g, "").trim())
     .join("; ");
   const collection = json["985"][0][0].text.split("/")[1];
-  const date = json["260"][0]
+  let date = json["260"][0]
     .find(i => i.code === "c")
     .text.replace(/[^0-9 ]/g, "");
+
+  // if there are multiple years in the date, use the first one
+  if (
+    date.includes(" ") &&
+    date.split(" ").filter(i => i.length === 4).length > 1
+  ) {
+    date = date.split(" ").filter(i => i.length === 4)[0];
+  }
 
   const tags = json["650"].map(i => i[0].text.replace(/[$.]/g, ""));
 

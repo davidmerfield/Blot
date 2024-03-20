@@ -60,7 +60,7 @@ const main = async label => {
         return id;
       })
     )
-  );
+  ).sort();
 
   console.log(`Found ${ids.length} unique items`);
 

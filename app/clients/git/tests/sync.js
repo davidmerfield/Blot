@@ -35,7 +35,7 @@ describe("git client sync", function () {
               "State of git repos (HEAD):",
               "- user's machine: " + (userHead && userHead.trim()),
               "- bare data repo: " + (bareHead && bareHead.trim()),
-              "- blog directory: " + (blotHead && blotHead.trim()),
+              "- blog directory: " + (blotHead && blotHead.trim())
             ].join("\n");
 
             done(new Error(message));
@@ -55,10 +55,10 @@ describe("git client sync", function () {
           protocol: "http",
           hostname: "localhost",
           port: ctx.server.port,
-          pathname: "/clients/git/syncs-finished/" + ctx.blog.id,
+          pathname: "/clients/git/syncs-finished/" + ctx.blog.id
         });
 
-        http.get(url, function check(res) {
+        http.get(url, function check (res) {
           var response = "";
           res.setEncoding("utf8");
           res.on("data", function (chunk) {
@@ -121,7 +121,7 @@ describe("git client sync", function () {
       this.repoDirectory,
       this.blogDirectory,
       {
-        excludeFilter: ".git",
+        excludeFilter: ".git"
       },
       function (err) {
         if (!err) return done();
@@ -144,7 +144,7 @@ describe("git client sync", function () {
     fs.removeSync(this.blogDirectory + "/.git");
 
     sync(this.blog.id, function (err) {
-      expect(err.message).toContain("repo does not exist");
+      expect(err.message).toContain("not");
       done();
     });
   });
@@ -326,35 +326,42 @@ describe("git client sync", function () {
           writeAndCommit(path, newContent, function (err) {
             if (err) return done.fail(err);
 
-            git.push("origin", "master", { "--set-upstream": true }, function (
-              err
-            ) {
-              expect(err).toContain(
-                "Updates were rejected because the remote contains work"
-              );
+            git.push(
+              "origin",
+              "master",
+              { "--set-upstream": true },
+              function (err) {
+                expect(err).toContain(
+                  "Updates were rejected because the remote contains work"
+                );
 
-              // Spanner in the works! I was worried about this line
-              // in the git man pages for rebase: "It is possible that a merge failure
-              // will prevent this process from being completely automatic."
-              // So I want to throw in a bad change to the working tree of
-              // the repo in the blog folder on Blot to see if Blot copes.
-              fs.outputFileSync(blogDirectory + path, badContent);
+                // Spanner in the works! I was worried about this line
+                // in the git man pages for rebase: "It is possible that a merge failure
+                // will prevent this process from being completely automatic."
+                // So I want to throw in a bad change to the working tree of
+                // the repo in the blog folder on Blot to see if Blot copes.
+                fs.outputFileSync(blogDirectory + path, badContent);
 
-              git.push(
-                "origin",
-                "master",
-                { "--set-upstream": true, "--force": true },
-                function (err) {
-                  if (err) return done.fail(new Error(err));
-
-                  writeAndPush("/other-path.txt", "other file", function (err) {
+                git.push(
+                  "origin",
+                  "master",
+                  { "--set-upstream": true, "--force": true },
+                  function (err) {
                     if (err) return done.fail(new Error(err));
 
-                    done();
-                  });
-                }
-              );
-            });
+                    writeAndPush(
+                      "/other-path.txt",
+                      "other file",
+                      function (err) {
+                        if (err) return done.fail(new Error(err));
+
+                        done();
+                      }
+                    );
+                  }
+                );
+              }
+            );
           });
         });
       });

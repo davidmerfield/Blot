@@ -28,5 +28,5 @@ mkfs -t xfs $EPHEMERAL_DISK
 
 # If you change the cache directory, make sure to update
 # the build-config.js propert 'cache_directory'
-mkdir -p /var/www/cache
-mount $EPHEMERAL_DISK /var/www/cache
+mkdir -p /var/instance-ssd
+mount $EPHEMERAL_DISK /var/instance-ssd

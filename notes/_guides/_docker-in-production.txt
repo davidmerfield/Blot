@@ -1,0 +1,8 @@
+[BLOT:ec2-user] blot > sudo yum update -y
+[BLOT:ec2-user] blot > sudo amazon-linux-extras install docker
+[BLOT:ec2-user] blot > sudo systemctl enable docker
+[BLOT:ec2-user] blot > sudo systemctl start docker
+[BLOT:ec2-user] blot > sudo usermod -a -G docker ec2-user
+[BLOT:ec2-user] blot > exit
+[BLOT:ec2-user] blot > docker --version
+[BLOT:ec2-user] blot > docker run hello-world

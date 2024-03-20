@@ -35,21 +35,17 @@ let cacheID = Date.now();
 
 documentation.locals.cdn = () => (text, render) => {
   const path = render(text);
-  const extension = path.split(".").pop();
 
-  let identifier = "cacheID=" + cacheID;
+  let identifier = cacheID;
 
   try {
     const contents = fs.readFileSync(join(VIEW_DIRECTORY, path), "utf8");
-    identifier = "hash=" + hash(contents);
+    identifier = hash(contents).slice(0, 8);
   } catch (e) {
     // if the file doesn't exist, we'll use the cacheID
   }
 
-  const query = `?${identifier}&ext=.${extension}`;
-  const url = `${path}${query}`;
-
-  return url;
+  return `${config.cdn.origin}/documentation/v-${identifier}${path}`;
 };
 
 documentation.get(["/how/format/*"], function (req, res, next) {

@@ -3,16 +3,44 @@ const sharp = require("sharp");
 const makeSlug = require("helper/makeSlug");
 const cache_directory = __dirname + "/data/cache";
 
+const prepositions = [
+  "at",
+  "in",
+  "on",
+  "of",
+  "a",
+  "the",
+  "found",
+  "during",
+  "from",
+  "where"
+];
+
 module.exports = async (folder, item) => {
   // remove any slashes from the slug
-  const words = item.title.split(" ").map(w => w.replace(/\//g, ""));
+  const titleWithoutTextInParentheses = item.title.replace(/\(.*\)/g, "");
 
-  const wordsForSlug =
-    words.length < 4
-      ? words
-      : ["at", "in", "on", "of", "a"].includes(words.at(3))
-      ? words.slice(0, 3)
-      : words.slice(0, 4);
+  const markdownSafeTitle = item.title
+    .replace(/\(/g, "\\(")
+    .replace(/\)/g, "\\)");
+
+  const words = titleWithoutTextInParentheses
+    ? titleWithoutTextInParentheses.split(" ").map(w => w.replace(/\//g, ""))
+    : item.title.split(" ").map(w => w.replace(/\//g, ""));
+
+  // select the words to use in the slug
+  // if there is 1 word, use it
+  // if there are 2 words, use them
+  // if there are three words, use all of them
+  // if there are more than 3 words, use up to 4 words, as long as the last word is not a preposition
+  let wordsForSlug = words.slice(0, 5);
+
+  while (
+    wordsForSlug.length > 1 &&
+    prepositions.includes(wordsForSlug.at(-1))
+  ) {
+    wordsForSlug.pop();
+  }
 
   const slug = makeSlug(wordsForSlug.join(" "));
 
@@ -59,7 +87,7 @@ module.exports = async (folder, item) => {
 Date: ${item.date}
 Tags: ${item.tags.join(", ")}
 
-![${item.title}](${previewName})
+![${markdownSafeTitle}](${previewName})
 
 ${item.summary}
 

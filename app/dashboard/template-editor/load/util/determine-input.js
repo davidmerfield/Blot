@@ -13,7 +13,7 @@ module.exports = (key, locals, map) => {
     };
   }
 
-  if (locals[key + "_range"] !== undefined) {
+  if (locals[key + "_range"] !== undefined || key === "page_size") {
     const range = locals[key + "_range"];
 
     const min = (range && range[0]) || (map[key] && map[key].min) || 1;

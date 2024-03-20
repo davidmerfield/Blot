@@ -99,8 +99,13 @@ dashboard.get("/edit", function (req, res) {
 dashboard.get("/redirect", function (req, res) {
   var redirectUri, key, secret;
 
+  var redirectHost =
+    config.environment === "development"
+      ? config.webhooks.relay_host
+      : config.host;
+
   redirectUri =
-    req.protocol + "://" + req.get("host") + "/clients/dropbox/authenticate";
+    req.protocol + "://" + redirectHost + "/clients/dropbox/authenticate";
 
   // It's important that sameSite is set to false so the
   // cookie is exposed to us when OAUTH redirect occurs
@@ -166,8 +171,14 @@ dashboard.get("/authenticate", function (req, res) {
   // }
 
   const { code, full_access } = req.query;
+
+  const redirectHost =
+    config.environment === "development"
+      ? config.webhooks.relay_host
+      : config.host;
+
   let redirectUri =
-    req.protocol + "://" + req.get("host") + "/clients/dropbox/authenticate";
+    req.protocol + "://" + redirectHost + "/clients/dropbox/authenticate";
 
   if (full_access) {
     redirectUri += "?full_access=true";

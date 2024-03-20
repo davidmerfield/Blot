@@ -24,7 +24,6 @@
 #576c50 benlog.net Ben Greenberg, is an investigative reporter based in Boston
 #94c5df inhab.it Wil Turner, is a writer
 #828282 www.skellis.net Simon Ellis, is an artist from New Zealand
-#485f27 jeremysarber.com Jeremy Sarber, is a chaplain
 #da6d8d ianamurray.work Iana Murray, is a journalist
 #475162 www.dustinsenos.com Dustin Senos, is a designer
 #83857f theocasciani.page Théo Casciani, is a writer from Marseille
@@ -32,15 +31,14 @@
 #ff9060 www.emilycass.org Emily Cass, is an architect
 #dbb3c9 jessytuddenham.com Jessy Tuddenham, is a dancer from Utah
 #b97371 bnjmnmddn.com Benjamin Madden, is an academic
+#517c80 www.jsoliday.com J. Soliday, is an electronic musician
 #d0a66f tellyou.today Neale Stokes, is a librarian from Los Angeles
 #979797 thejollyteapot.com Nicolas Magand, is a blogger from Strasbourg
 #7a9951 brainsister.com Jessica Doyle, is a writer
 #945830 poetry.bencallahan.com Ben Callahan, is a poet based in Ohio
 #6b98d2 www.maxkeith.co Max Keith, is a trail runner from Chile
 #4a7587 www.aarondowd.com Aaron Dowd, is a podcaster
-#d28f00 www.thoughtsbyora.com Uzoamaka Adaora, is a writer living in Amsterdam
 #99abc4 spittingdog.net Dave Haysom, translates Chinese literature
-#bb341f windhausen.co Sönke Windhausen, is a student from Freiburg
 #b07246 anitaposch.com Anita Posch, is a writer from Austria
 #d28f00 reillybrennan.com Reilly Brennan, is a venture capitalist
 #d48a7d victoriaclarke.art Victoria Clarke, is an artist based in London
@@ -50,3 +48,6 @@
 #f1bd00 oliviaastawood.com Olivia Wood, is a musician from Los Angeles
 #387db9 jonahfoss.com Jonah Foss, is a student 
 #21732d www.nitinpai.in Nitin Pai, directs the Takshashila Institution
+#000000 jeankapsa.com Jean Kapsa, is a pianist from Paris
+#000000 www.declad.com Lewis Martin, is an architect
+#000000 alu.garden Annie Lu, makes ceramics in Seattle

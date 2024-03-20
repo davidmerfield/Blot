@@ -43,7 +43,7 @@ const nextNewsletter = () => {
   } else if (now.isSame(date, "month")) {
     modifiedFromNow = "in a few weeks";
   } else {
-    modifiedFromNow = date.fromNow();
+    modifiedFromNow = moment(date).fromNow();
   }
 
   return { season, fromNow: modifiedFromNow };
@@ -215,7 +215,11 @@ news.post("/sign-up", parse, function (req, res, next) {
 
 function loadToDo (req, res, next) {
   fs.readFile(join(root, "todo.txt"), "utf-8", function (err, todo) {
-    if (err) return next(err);
+    if (err) {
+      console.log(err);
+      res.locals.todo = "";
+      return next();
+    }
     res.locals.todo = marked(todo);
 
     var html = res.locals.todo;

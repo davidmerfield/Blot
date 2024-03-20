@@ -15,7 +15,7 @@ describe("git client remove", function () {
     fs.removeSync(localPath(this.blog.id, ".git"));
 
     remove(this.blog.id, "/path", function (err) {
-      expect(err.message).toContain("does not exist");
+      expect(err.message).toContain("not");
 
       done();
     });

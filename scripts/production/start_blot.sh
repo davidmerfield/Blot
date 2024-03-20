@@ -17,4 +17,4 @@ echo "[`date -u +%Y-%m-%dT%T.%3NZ`] Starting Blot server" >> $BLOT_LOG
 
 # Start the node application
 # and pipe the stdout and stderr to the log file using tee
-node $BLOT_MAIN 2>&1 | tee -a $BLOT_LOG 
+node $BLOT_MAIN >> $BLOT_LOG_DIRECTORY/app.log 2>&1

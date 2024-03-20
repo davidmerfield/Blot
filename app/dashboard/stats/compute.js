@@ -1,26 +1,26 @@
 const fs = require("fs-extra");
-const { blot_directory } = require("config");
+const { log_directory } = require("config");
 
 const redis_stats = require("./redis");
 
 async function handle ({ logFileName, aggregator }) {
   // the most recent logfile is stored
-  // in blot_directory + "/data/logs/app.log"
+  // in /var/instance-ssd/logs/app.log"
   // previous logfiles are stored in directories with the format
-  // blot_directory + "/data/logs/archive-YYYY-MM-DD-ec2-user/app.log"
+  // log_directory + "/archive-YYYY-MM-DD-ec2-user/app.log"
   // where YYYY-MM-DD is the date of the logfile
   // and ec2-user is the user that ran the blot process
 
   // we should first process the most recent logfile
   // then iterate over the archive directories in reverse chronological order
 
-  const logFiles = [blot_directory + "/data/logs/" + logFileName].concat(
+  const logFiles = [log_directory + "/" + logFileName].concat(
     fs
-      .readdirSync(blot_directory + "/data/logs")
+      .readdirSync(log_directory)
       .filter(file => file.indexOf("archive-") > -1)
       .sort()
       .reverse()
-      .map(file => blot_directory + "/data/logs/" + file + "/" + logFileName)
+      .map(file => log_directory + "/" + file + "/" + logFileName)
       .filter(file => fs.existsSync(file))
   );
 

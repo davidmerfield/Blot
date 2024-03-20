@@ -8,7 +8,7 @@ describe("entry.search", function () {
     
     Hello, world!`;
 
-    const check = (results) => {
+    const check = results => {
       expect(results.length).toEqual(1);
       expect(results[0].id).toEqual(path);
     };
@@ -52,7 +52,7 @@ describe("entry.search", function () {
     
     Hello, me!`;
 
-    const check = (results) => {
+    const check = results => {
       // sort results by id
       results.sort((a, b) => a.id.localeCompare(b.id));
 
@@ -80,7 +80,7 @@ describe("entry.search", function () {
     
     你好，世界！`;
 
-    const check = (results) => {
+    const check = results => {
       expect(results.length).toEqual(1);
       expect(results[0].id).toEqual(path);
     };
@@ -96,6 +96,21 @@ describe("entry.search", function () {
     done();
   });
 
+  it("ignores deleted entries", async function (done) {
+    const path = "/post.txt";
+    const contents = `Hello, world!`;
+
+    await this.set(path, contents);
+
+    expect((await this.search("Hello")).length).toEqual(1);
+
+    await this.remove(path);
+
+    expect((await this.search("Hello")).length).toEqual(0);
+
+    done();
+  });
+
   it("ignores entries with Search: no metadata", async function (done) {
     const path = "/post.txt";
     const contents = `Search: no
@@ -104,8 +119,29 @@ describe("entry.search", function () {
     
     Hello, world!`;
 
-    const check = (results) => {
+    const check = results => {
       expect(results.length).toEqual(0);
+    };
+
+    await this.set(path, contents);
+
+    // Exact match
+    check(await this.search("Hello"));
+
+    done();
+  });
+
+  it("includes pages with Search: yes metadata", async function (done) {
+    const path = "/Pages/About.txt";
+    const contents = `Search: yes
+    Custom: Metadata hello!
+    Tags: apple, pear, orange
+    
+    Hello, world!`;
+
+    const check = results => {
+      expect(results.length).toEqual(1);
+      expect(results[0].id).toEqual(path);
     };
 
     await this.set(path, contents);

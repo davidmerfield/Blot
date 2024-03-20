@@ -13,10 +13,10 @@ module.exports = function (blogID, query, callback) {
 
   const results = [];
 
-  const terms = query.split(/\s+/).map((term) => term.trim().toLowerCase());
+  const terms = query.split(/\s+/).map(term => term.trim().toLowerCase());
 
   // this will not search pages or deleted entries
-  const key = "blog:" + blogID + ":entries";
+  const key = "blog:" + blogID + ":all";
 
   client.zrevrange(key, 0, -1, async function (err, entryIDs) {
     const chunked = [...chunks(entryIDs, 100)];
@@ -24,6 +24,19 @@ module.exports = function (blogID, query, callback) {
     for (const page of chunked) {
       const entries = await get(blogID, page);
       for (const entry of entries) {
+        // skip deleted entries
+        if (entry.deleted) {
+          continue;
+        }
+
+        // skip pages that do not have search enabled
+        if (
+          entry.page &&
+          entry.metadata.search &&
+          entry.metadata.search.toLowerCase() !== "yes"
+        ) {
+          continue;
+        }
 
         // skip entries that have search disabled
         if (entry.metadata.search && entry.metadata.search === "no") {
@@ -36,12 +49,12 @@ module.exports = function (blogID, query, callback) {
           entry.tags.join(" "),
           entry.path,
           entry.html,
-          Object.values(entry.metadata).join(" "),
+          Object.values(entry.metadata).join(" ")
         ]
           .join(" ")
           .toLowerCase();
 
-        for(const term of terms) {
+        for (const term of terms) {
           if (
             text.indexOf(term) > -1 ||
             text.indexOf(transliterate(term)) > -1
@@ -57,7 +70,7 @@ module.exports = function (blogID, query, callback) {
   });
 };
 
-function* chunks(arr, n) {
+function* chunks (arr, n) {
   for (let i = 0; i < arr.length; i += n) {
     yield arr.slice(i, i + n);
   }

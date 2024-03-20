@@ -1,14 +1,3 @@
-<li class="signed-in" >
-  <a href="/dashboard" class="{{ selected.dashboard }}"
-    >Your sites</a>
-</li>
-<script type="text/javascript">
-  if (document.cookie.indexOf('signed_into_blot') > -1) {
-    document.querySelector('li.signed-in').style.display = 'block';
-    }
-</script>
-
-
 <li>
   <a
     style="border-top: none"
@@ -20,36 +9,29 @@
 
     <li>
       <a
-        class="{{ selected.posts }}"
+        class="{{ selected.postsIndex }}"
         data-open="{{ selected.posts }}"
         href="/how/posts"
         >Files and posts</a
       >
       <ul>
 
-        <!-- <li>
-          <a class="{{ selected.markdown }}" href="/how/posts/markdown"
-            >Markdown</a
+        <li>
+          <a class="{{ selected.metadata }}" href="/how/posts/metadata"
+            >Metadata</a
           >
         </li>
         <li>
-          <a class="{{ selected.layout - tags }}" href="/how/posts/layout-tags"
-            >Layout</a
+          <a class="{{ selected.pages }}" href="/how/posts/pages"
+            >Pages</a
           >
         </li>
         <li>
-          <a class="{{ selected.tex }}" href="/how/posts/tex">\(\TeX\)</a>
-        </li>
-        <li>
-          <a class="{{ selected.embedding }}" href="/how/posts/embedding"
-            >Embedding</a
+          <a class="{{ selected.drafts }}" href="/how/posts/drafts"
+            >Drafts</a
           >
         </li>
-        <li>
-          <a class="{{ selected.citations }}" href="/how/posts/citations"
-            >Citations</a
-          >
-        </li> -->
+        
       </ul>
     </li>
     <li>
@@ -71,28 +53,22 @@
         </li>
       </ul>
     </li>
-    <li><a class="{{ selected.pages }}" href="/how/pages">Pages</a></li>
-    <li><a class="{{ selected.drafts }}" href="/how/drafts">Drafts</a></li>
-    <li>
-      <a class="{{ selected.metadata }}" href="/how/metadata">Metadata</a>
-    </li>
-
-   
-    <li>
-      <a class="{{ selected.import }}" href="/how/import"
-        >Moving to Blot</a
-      >
-    </li>
+    
+    
     <li>
       <a
-        class="{{ selected.configure }}"
+        class="{{ selected.configureIndex }}"
         data-open="{{ selected.configure }}"
         href="/how/configure"
         >Set up your site</a
       >
       <ul>
         
-
+        <li>
+          <a class="{{ selected.import }}" href="/how/configure/import"
+            >Import</a
+          >
+        </li>
         <li>
           <a class="{{ selected.domain }}" href="/how/configure/domain"
             >Domain</a
@@ -122,7 +98,14 @@
         </li>
       </ul>
     </li>
-    
+    <li>
+      <a
+        class="{{ selected.tools }}"
+        href="/how/tools"
+        >Tools</a
+      >
+      
+    </li> 
 
     </ul> 
     </li> 
@@ -136,36 +119,16 @@
       <a href="/questions" class="{{ selected.questions }}"
         >Questions</a>
 </li> 
-<li>
+<li class="signed-out">
   <a href="/pricing" class="{{ selected.pricing }}"
     >Pricing</a>
 </li>
-<!-- 
-<li>
-  <a
-    class="{{ selected.toolsIndex }}"
-    data-open="{{ selected.tools }}"
-    href="/tools"
-    >Tools</a
-  >
-  <ul>
-    <li>
-      <a
-        class="{{ selected.text - editors }}"
-        href="/tools/text-editors"
-        >Text editors</a
-      >
-    </li>
-    <li>
-      <a class="{{ selected.images }}" href="/tools/images">Images</a>
-    </li>
-    <li>
-      <a class="{{ selected.automation }}" href="/tools/automation"
-        >Automation</a
-      >
-    </li>
-  </ul>
-</li> -->
+<script type="text/javascript">
+  if (document.cookie.indexOf('signed_into_blot') > -1) {
+    document.querySelector('li.signed-out').style.display = 'none';
+    }
+</script>
+
   
       <li>
         <a href="/about" class="{{ selected.aboutIndex }}"     data-open="{{ selected.about }}"

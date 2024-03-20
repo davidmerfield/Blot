@@ -11,9 +11,15 @@ if [ -z "$BLOT_REDIS_HOST" ]; then
   exit 1
 fi
 
+
+if [ -z "$BLOT_LOG_DIRECTORY" ]; then
+  echo "BLOT_LOG_DIRECTORY variable missing, source it"
+  exit 1
+fi
+
 # if the user has passed a series of domains, use those for HOSTS, otherwise use the command below
 if [ -z "$1" ]; then
-    HOSTS=$(cat /var/www/blot/data/logs/error.log | grep "ocsp stapling" | sed -E 's/.*ssl_certificate.lua:260: set_response_cert\(\): auto-ssl: failed to set ocsp stapling for ([^ ]+) .*/\1/' | sort | uniq)
+    HOSTS=$(cat $BLOT_LOG_DIRECTORY/error.log | grep "ocsp stapling" | sed -E 's/.*ssl_certificate.lua:260: set_response_cert\(\): auto-ssl: failed to set ocsp stapling for ([^ ]+) .*/\1/' | sort | uniq)
 else
     # you should be able to pass in multiple space separated domains
     HOSTS=$@

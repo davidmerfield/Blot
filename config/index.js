@@ -1,7 +1,7 @@
 const BLOT_DIRECTORY =
   process.env.BLOT_DIRECTORY || require("path").resolve(__dirname + "/../");
 const BLOT_HOST = process.env.BLOT_HOST || "localhost";
-const BLOT_PROTOCOL = process.env.BLOT_PROTOCOL || "http";
+const BLOT_PROTOCOL = process.env.BLOT_PROTOCOL || "https";
 const BLOT_PORT = process.env.BLOT_PORT || "8080";
 
 let BLOT_CDN;
@@ -28,7 +28,7 @@ module.exports = {
     server_host: "webhooks." + BLOT_HOST,
     // replace with "webhooks.blot.development" to test
     relay_host: environment === "development" && "webhooks.blot.im",
-    development_host: "blot.development",
+    development_host: "blot",
     secret: process.env.BLOT_WEBHOOKS_SECRET
   },
 
@@ -36,6 +36,9 @@ module.exports = {
   cache: process.env.BLOT_CACHE === "true",
   debug: process.env.BLOT_DEBUG === "true",
 
+  tmp_directory: process.env.BLOT_TMP_DIRECTORY || BLOT_DIRECTORY + "/data/tmp",
+  log_directory:
+    process.env.BLOT_LOG_DIRECTORY || BLOT_DIRECTORY + "/data/logs",
   blot_directory: BLOT_DIRECTORY,
   blog_static_files_dir: BLOT_DIRECTORY + "/data/static",
   blog_folder_dir: BLOT_DIRECTORY + "/data/blogs",
@@ -47,7 +50,7 @@ module.exports = {
   port: BLOT_PORT,
   clients_port: 8888,
 
-  redis: { port: 6379, host: process.env.BLOT_REDIS_HOST },
+  redis: { port: 6379, host: process.env.BLOT_REDIS_HOST || "127.0.0.1" },
 
   admin: {
     uid: process.env.BLOT_ADMIN_UID,
@@ -90,7 +93,7 @@ module.exports = {
   },
 
   pandoc: {
-    bin: process.env.BLOT_PANDOC_PATH,
+    bin: process.env.BLOT_PANDOC_PATH || "pandoc",
     maxmemory: "500M", // 500mb
     timeout: 10000 // 10s
   },

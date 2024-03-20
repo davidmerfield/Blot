@@ -32,6 +32,15 @@ cdn.use(
   })
 );
 
+cdn.use(
+  "/documentation/v-:version",
+  express.static(blot_directory + "/app/documentation/data", {
+    maxAge: "1y",
+    setHeaders: function (res, path) {
+      res.setHeader("Access-Control-Allow-Origin", "*");
+    }
+  })
+);
 // return a 404 error otherwise
 cdn.use((req, res) => {
   res.status(404).send("Not found");

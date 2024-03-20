@@ -7,11 +7,20 @@ var schedule = require("node-schedule").scheduleJob;
 var checkFeaturedSites = require("../documentation/featured/check");
 var config = require("config");
 var publishScheduledEntries = require("./publish-scheduled-entries");
+const freeDiskSpace = require("./free-disk-space");
 const os = require("os");
 const fs = require("fs-extra");
 const exec = require("child_process").exec;
 const fix = require("sync/fix/all");
 const zombies = require("./zombies");
+
+// If any disk has less than 2GB of space, we should notify the admin
+const MINIMUM_DISK_SPACE_IN_K = 2 * 1024 * 1024;
+
+// If the data disk has less than 10GB of space, we should notify the admin
+const DATA_DISK_MINIMUM_DISK_SPACE_IN_K = 10 * 1024 * 1024;
+
+let NOTIFIED_LOW_DISK_SPACE = false;
 
 module.exports = function () {
   // Log useful system information, once per minute
@@ -19,6 +28,41 @@ module.exports = function () {
     // Detect any zombie processes
     zombies(function (err) {
       if (err) throw err;
+    });
+
+    freeDiskSpace(function (err, disks) {
+      let shouldNotify = false;
+
+      if (err || !disks) {
+        console.error(clfdate(), "Error checking disk space", err);
+        return;
+      }
+
+      console.log(
+        clfdate(),
+        "[STATS]",
+        "Available disk space",
+        disks.map(disk => disk.label + "=" + disk.available_human).join(", ")
+      );
+
+      if (disks.some(disk => disk.available_k < MINIMUM_DISK_SPACE_IN_K)) {
+        shouldNotify = true;
+      }
+
+      if (
+        disks.find(disk => disk.label === "data") &&
+        disks.find(disk => disk.label === "data").available_k <
+          DATA_DISK_MINIMUM_DISK_SPACE_IN_K
+      ) {
+        shouldNotify = true;
+      }
+
+      if (shouldNotify && !NOTIFIED_LOW_DISK_SPACE) {
+        NOTIFIED_LOW_DISK_SPACE = true;
+        email.WARNING_LOW_DISK_SPACE(null, { disks }, function (err) {
+          if (err) console.log(clfdate(), err);
+        });
+      }
     });
 
     // Print most memory-intensive processes
@@ -112,14 +156,6 @@ module.exports = function () {
         usage,
         "Space available:",
         available
-      );
-
-      email.WARNING_LOW_DISK_SPACE(
-        null,
-        { usage: usage, available: available },
-        function (err) {
-          if (err) console.log(clfdate(), err);
-        }
       );
     });
   });

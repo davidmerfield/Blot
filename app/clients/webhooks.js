@@ -26,7 +26,7 @@ server.get("/connect", function (req, res) {
     "X-Accel-Buffering": "no",
     "Content-Type": "text/event-stream",
     "Cache-Control": "no-cache",
-    "Connection": "keep-alive",
+    "Connection": "keep-alive"
   });
 
   res.write("\n");
@@ -52,6 +52,15 @@ server.get("/connect", function (req, res) {
   });
 });
 
+server.get("/clients/dropbox/authenticate", (req, res) => {
+  const url =
+    config.protocol +
+    config.webhooks.development_host +
+    "/clients/dropbox/authenticate?" +
+    querystring.stringify(req.query);
+  res.redirect(url);
+});
+
 server.get("/clients/google-drive/authenticate", (req, res) => {
   const url =
     config.protocol +
@@ -71,7 +80,7 @@ server.use(
   bodyParser.raw({
     inflate: true,
     limit: "100kb",
-    type: "application/*",
+    type: "application/*"
   }),
   (req, res) => {
     res.send("OK");
@@ -92,7 +101,7 @@ server.use(
       url: req.url,
       headers,
       method: req.method,
-      body: req.body ? req.body.toString() : "",
+      body: req.body ? req.body.toString() : ""
     };
 
     const messageString = JSON.stringify(message);
@@ -102,7 +111,7 @@ server.use(
   }
 );
 
-function listen({ host }) {
+function listen ({ host }) {
   const url = "https://" + host + "/connect";
 
   // when testing this, replace REMOTE_HOST with 'webhooks.blot.development'
@@ -137,13 +146,13 @@ function listen({ host }) {
       const https = require("https");
 
       const agent = new https.Agent({
-        rejectUnauthorized: false,
+        rejectUnauthorized: false
       });
 
       const options = {
         headers: headers,
         method,
-        agent,
+        agent
       };
 
       if (method !== "HEAD" && method !== "GET") options.body = body;

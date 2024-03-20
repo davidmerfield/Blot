@@ -10,9 +10,10 @@ module.exports = function (req, res, next) {
   // from the origin server (in this case Blot) over HTTP
   // which causes a redirect loop when we try to redirect
   // to HTTPS. This is a workaround.
-  var fromCloudflare = Object.keys(req.headers || {})
-    .map((key) => key.trim().toLowerCase())
-    .find((key) => key.startsWith("cf-")) !== undefined;
+  var fromCloudflare =
+    Object.keys(req.headers || {})
+      .map(key => key.trim().toLowerCase())
+      .find(key => key.startsWith("cf-")) !== undefined;
 
   // Not sure why this happens but it do
   if (!host) {
@@ -40,7 +41,10 @@ module.exports = function (req, res, next) {
   if (handle) {
     identifier = { handle: handle };
   } else {
-    identifier = { domain: host };
+    // strip port if present, this is required by test suite
+    // and is a good idea in general
+    const domain = host.indexOf(":") > -1 ? host.split(":")[0] : host;
+    identifier = { domain };
   }
 
   Blog.get(identifier, function (err, blog) {
@@ -132,14 +136,14 @@ module.exports = function (req, res, next) {
   });
 };
 
-function isSubdomain(host) {
+function isSubdomain (host) {
   return (
     host.slice(-config.host.length) === config.host &&
     host.slice(0, -config.host.length).length > 1
   );
 }
 
-function extractHandle(host) {
+function extractHandle (host) {
   if (!isSubdomain(host, config.host)) return false;
 
   let handle = host
@@ -155,7 +159,7 @@ function extractHandle(host) {
   return handle;
 }
 
-function extractPreviewTemplate(host, blogID) {
+function extractPreviewTemplate (host, blogID) {
   if (!isSubdomain(host, config.host)) return false;
 
   var subdomains = host.slice(0, -config.host.length - 1).split(".");

@@ -43,6 +43,18 @@ const updates = {
   william: {
     title: "William Copeland McCalla",
     template: "SITE:photo"
+  },
+  forms: {
+    title: "Thought-forms",
+    template: "SITE:portfolio"
+  },
+  piet: {
+    title: "Piet Mondrian",
+    template: "SITE:portfolio"
+  },
+  sergey: {
+    title: "Sergey Prokudin-Gorsky",
+    template: "SITE:portfolio"
   }
 };
 
