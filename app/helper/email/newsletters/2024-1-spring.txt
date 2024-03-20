@@ -1,7 +1,33 @@
+Spring newsletter
 
+*You received this email because you subscribed to [Blot’s newsletter](https://blot.im/news). You can [unsubscribe](https://blot.im/news/cancel) if you like. Please reply directly to this email if you have any thoughts or questions.*
 
-Bugs fixed:
-- Fixed Heap analytics integration after their breaking change
+**New features**
+- Added [example folders](https://blot.im/examples/folders) to the documentation. These are complete sites, combining a template with posts and pages. My favorite is [Sergey](https://blot.im/examples/folders/sergey), a photography site which presents color photographs of the Russian empire from the early twentieth century. 
+- You can now specify [metadata](https://blot.im/how/posts/metadata) in [Google Docs](https://blot.im/how/posts/google-docs) and [org files](https://blot.im/how/posts/org).
 
-We are considering switching to blot.site as our primary domain
-- announce in spring newsletter, aim to switch in summer
+**Changes**
+- The thumbnail generator will no longer prioritize video embeds over embedded images within the same post.
+- *Slug* metadata is no longer an alias of *Link*, instead it is used as part of [your link format](https://blot.im/how/configure/link-format).  
+- You can now include pages in your site's search index using [*Search* metadata](https://blot.im/how/posts/metadata#search).
+- We updated Blot’s dependencies to patch known security vulnerabilities and made changes to the dashboard and documentation, per tradition.
+
+**Bugs fixed**
+- Fixed [Heap analytics](https://blot.im/how/configure/analytics) integration
+- Images whose filename contains punctuation can now become thumbnails
+- The setting to use titlecase for your titles now works properly for titles which start with an emoji. The titlecase setting also now affects titles derived from filenames.
+
+**Questions**
+- [Is there a way to embed one text file within another one?](https://blot.im/questions/2256)
+- [Email subscriptions?](https://blot.im/questions/1353)
+- [What have you made with Blot?](https://blot.im/questions/1635)
+
+**Mistakes**
+- There were no major incidents this season.
+
+**Plans for this season**
+- We are considering switching the domain we use for the documentation and dashboard from *blot.im* to *blot.site*. I prefer the way *blot.site* looks and there is a security benefit to using a different domain for user-generated content. This would not affect your existing Blot subdomains. I would appreciate your thoughts – there's a part of me that believes I should simply patiently save for to purchase *blot.com*.
+
+If you have any thoughts or questions about any of this, please don’t hesitate to reply directly to this email.
+
+Sincerely, David
