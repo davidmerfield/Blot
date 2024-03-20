@@ -1,4 +1,12 @@
-Add [textbundle support](http://textbundle.org/spec/)
+Polish folders
+
+Polish tools section of site
+
+Polish templates
+
+Polish dashboard
+
+---
 
 Fix Google Drive sync bug
 - [ ] Resolve whether to use drive.change.watch or drive.activity.query
@@ -16,13 +24,15 @@ Infrastructure plan:
 - Use restic or similar to make incremental off-site backups of data directory:
   - restic -r b2:bucket-name:/path/to/repo forget --keep-daily 7 --keep-weekly 4 --keep-monthly 6 --keep-yearly 3 --prune
 
+---
+
 Fix bug with [date on magazine template](https://blot.im/questions/2244)
 
 Fix bug with [header position on the blog template](https://blot.im/questions/2211)
 
-Document image zoom disable feature ?zoom=false and tell [questioner](https://blot.im/questions/2236)
-
 Fix issue with camelCase custom metadata and tell [questioner](https://blot.im/questions/2294)
+
+Investigate bug with org mode links and [follow up with Elliot](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwHzDppJbDBZhLLqFQXvMZRsNw)
 
 Fix side navigation on Blog template and tell [Sava](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJcgnPdxPcSqPwmMnFSThFMQg)
 
@@ -72,8 +82,6 @@ Fix bug with template editor and ensure POST error messages are passed to client
 - to trigger, submit a >5mb file on web template editor
 
 Fix navigation link bug with blog tempalte and tell [Jason](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrbcCBmkcVhfWTpZbmqndwXQrL)
-
-Work out whether changing title case setting triggers a rebuild of all posts and [tell questioner](https://blot.im/questions/2401)
 
 Investigate this [date metadata bug](https://blot.im/questions/936)
 
@@ -133,6 +141,11 @@ Investigate bug with template views whose names include hashtags and follow up w
 
 ---
 
+Add [textbundle support](http://textbundle.org/spec/) and tell [questioner](https://blot.im/questions/1385)
+- this will help me understand how best to accomplish multi-file posts
+
+Document image zoom disable feature ?zoom=false and tell [questioner](https://blot.im/questions/2236)
+
 Answer [peter's questions about the portfolio template](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJSDbPpcncdNCvCTBrVcbnJGV)
 
 Identify accounts that pay but do not create a blog and add monitoring for this
@@ -142,18 +155,6 @@ Identify accounts that pay but do not create a blog and add monitoring for this
 Add way to import directly
 - Add/fix micro.blog import to dashboard and tell [Gabriel](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJRvfgrRhXwqDNDlxbpXmRlbd]
 - And recurring import from elsewhere 
-
-Add new featured sites
-- https://jeankapsa.com/about
-- https://www.jonathanch.in/
-- https://simonuvarov.com/
-- https://david.krentzlin.me/
-- https://www.declad.com/
-- https://lucadp.com/
-- https://oliviaolson.de/
-- https://alu.garden/
-- https://www.amirsharif.com/
-- https://www.monikahartmann.de/
 
 Finish site and dashboard
 - Fix live stream of folder sync status
@@ -165,8 +166,7 @@ Finish site and dashboard
 - The top right button 'your sites' should remember the last page of the dashboard you were on so you can switch from docs to dashboard quickly
 
 Come up with OKRs for Blot
-
-Investigate possibility of using s3 to store blog data? It seems quite fast when we read/write to it? Possibly not much slower than ebs?
+- Churn rate
 
 Light mode/dark mode videos
 
@@ -264,7 +264,6 @@ Integrate font styles rendering into template model:
 - Remove this behaviour from dashboard/template-editor/save/fonts into update package
 - Remove font styles from manifesto/manifesto and re-insert them when template is readFromFolder
 
-Investigate bug with org mode links and [follow up with Elliot](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwHzDppJbDBZhLLqFQXvMZRsNw)
 
 Add aws cost usage and forecast to daily update email
 - https://docs.aws.amazon.com/cli/latest/reference/ce/get-cost-and-usage.html
@@ -339,10 +338,8 @@ Git client is extremely slow to set up large folders – we need a loading scre
 
 When a folder has lots of elements, trim the list of files on the dashboard, at least on the index page
 
-Fix cloudflare redirect HTTP/HTTPS issue seems to have resurfaced - why?
-
 Store path -> md5 hash on sync
-- Use to auto version links to files in your folder 
+- Use to auto version links to files in your folder so they can be cached
 
 Investigate webp thumbnails
 
@@ -354,15 +351,11 @@ Eventually configure cloud watch reboot sequence then test it
 
 ---
 
-Can we manually 'inject' files into the cache? e.g. popular blog folder files?
-
-Investigate if we can rewrite git client so we don't need to store double the data - right now we have 48GB duped
+Investigate if we can rewrite git client so we don't need to store double the data - right now we have 48GB duped.
 
 Fix auto titles of 'screenshot at 12:22pm' and make sure the date parser can handle them
 
 Fix title generator so h2 titles within the file dont become the title of the post – this is helpful for obsidian
-
-Consider exposing the option to purchase the removal of subscription fee for a blog on the dashboard for $440
 
 Get to bottom of issues with questions/tests/list and re-enable disable test suite
 
@@ -376,9 +369,6 @@ Improve image posts
 - Add opt-in EXIF extraction for photos and enable in the photos template
 - Add support for other image formats, by converting them into jpg/webp
 - Add support for large image tiling and zooming with photoswipe
-
-Add support for textbundle files and tell [questioner](https://blot.im/questions/1385)
-- this will help me understand how best to accomplish multi-file posts
 
 ---
 
@@ -429,8 +419,6 @@ Add lazy loading option to image settings and tell [questioner](https://blot.im/
 Make it possible to rename locally edited template folder and tell [questioner](https://blot.im/questions/1610)
 
 Fix bug with videos on Reference template and [Tell Marco](https://mail.google.com/mail/u/0/#inbox/FMfcgzGslbPSKMXkRbvrHKFTWhbJbPlg)
-
-Check in on log rotation for nginx.log and nginx.error.log
  
 ---
 
