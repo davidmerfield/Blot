@@ -128,7 +128,11 @@ header {
   flex-wrap: wrap;
   justify-content: space-between;
   position: relative;
-  padding: calc({{spacing}}rem/2) {{spacing}}rem;
+  padding: calc({{spacing}}rem/2) calc({{spacing}}rem);
+  {{^sticky_navigation}}
+  position: relative;
+  z-index: 1;
+  {{/sticky_navigation}}
   {{#sticky_navigation}}
   position: fixed;
   {{#is.navigation_position.top}}
@@ -147,7 +151,6 @@ header {
   {{#is.navigation_alignment.right}}
   right:0;
   {{/is.navigation_alignment.right}}
-
   z-index: 1;
   {{/sticky_navigation}}
 }
