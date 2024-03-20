@@ -271,7 +271,7 @@
       "link": "https://www.jsoliday.com",
       "host": "www.jsoliday.com",
       "name": "J. Soliday",
-      "bio": "is an electronic musician",
+      "bio": "is a musician",
       "x": 144,
       "y": 240
     },
@@ -423,9 +423,17 @@
       "link": "https://alu.garden",
       "host": "alu.garden",
       "name": "Annie Lu",
-      "bio": "makes ceramics in Seattle",
+      "bio": "makes ceramics",
       "x": 336,
       "y": 144
+    },
+    {
+      "link": "https://www.jonathanch.in",
+      "host": "www.jonathanch.in",
+      "name": "Jonathan Chin",
+      "bio": "is a photographer",
+      "x": 336,
+      "y": 192
     }
   ],
   "thumbnail_width": 48

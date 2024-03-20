@@ -66,6 +66,8 @@ const determineYearJoined = domain =>
           joined = new Date(user.subscription.created * 1000).getFullYear();
         } else if (user && user.paypal) {
           joined = new Date(user.paypal.start_time).getFullYear();
+        } else {
+          joined = new Date().getFullYear();
         }
 
         console.log("joined", joined);

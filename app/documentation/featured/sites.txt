@@ -51,10 +51,10 @@
 #352f2f abigailswallow.me Abigail Swallow, is a student 
 #dbb3c9 jessytuddenham.com Jessy Tuddenham, is a dancer from Utah
 #b97371 bnjmnmddn.com Benjamin Madden, is an academic
-#517c80 www.jsoliday.com J. Soliday, is an electronic musician
+#517c80 www.jsoliday.com J. Soliday, is a musician
 #566014 www.minnowlikethefish.com Minnow Park, is a business coach and writer based in New York
 #d0a66f tellyou.today Neale Stokes, is a librarian from Los Angeles
-#2c2818 lara.onl Lara Dominguez, is an artist and photographer
+#2c2818 lara.onl Lara Dominguez, is an artist
 #73090b milkypekoe.art Trinh Bui, is a designer and artist
 #979797 thejollyteapot.com Nicolas Magand, is a blogger from Strasbourg
 #2e3d5c blog.scren.dk Sören Möller, is a professor of biostatistics from Denmark
@@ -78,4 +78,5 @@
 #81e4e5 dannymcclainstudio.com Danny McClain, is an artist based in Nashville, Tennessee
 #000000 jeankapsa.com Jean Kapsa, is a pianist from Paris
 #000000 www.declad.com Lewis Martin, is an architect
-#000000 alu.garden Annie Lu, makes ceramics in Seattle
+#000000 alu.garden Annie Lu, makes ceramics
+#000000 www.jonathanch.in Jonathan Chin, is a photographer
