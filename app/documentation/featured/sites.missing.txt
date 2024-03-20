@@ -14,14 +14,16 @@
 #8a9144 blog.tomwhite.io Thomas White, is a biologist at the University of Sydney
 #4b5e53 www.zinzy.website Zinzy Nev Geene, is a designer based in Amsterdam
 #1d1e23 millicent-thomas.com Millicent Thomas, is a journalist and programmer from Manchester
+#485f27 jeremysarber.com Jeremy Sarber, is a chaplain
 #d1a15d diegosegura.me Diego Segura, is a designer based in New York City
 #a4335c rosiecampbell.me Rosie Campbell, is an artificial intelligence researcher
 #352f2f abigailswallow.me Abigail Swallow, is a student 
-#517c80 www.jsoliday.com J. Soliday, is an electronic musician
 #566014 www.minnowlikethefish.com Minnow Park, is a business coach and writer based in New York
 #2c2818 lara.onl Lara Dominguez, is an artist and photographer
 #73090b milkypekoe.art Trinh Bui, is a designer and artist
 #8f5160 xn--gntherwegs-9db.com Günther, is a Weimaraner
 #2e3d5c blog.scren.dk Sören Möller, is a professor of biostatistics from Denmark
+#d28f00 www.thoughtsbyora.com Uzoamaka Adaora, is a writer living in Amsterdam
 #9e4b3d nomathontheweekend.co Liana J. Taylor, is an accountant from Philadelphia
+#bb341f windhausen.co Sönke Windhausen, is a student from Freiburg
 #81e4e5 dannymcclainstudio.com Danny McClain, is an artist based in Nashville, Tennessee

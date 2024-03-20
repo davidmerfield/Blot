@@ -77,3 +77,6 @@
 #387db9 jonahfoss.com Jonah Foss, is a student 
 #21732d www.nitinpai.in Nitin Pai, directs the Takshashila Institution
 #81e4e5 dannymcclainstudio.com Danny McClain, is an artist based in Nashville, Tennessee
+#000000 jeankapsa.com Jean Kapsa, is a pianist from Paris
+#000000 www.declad.com Lewis Martin, is an architect
+#000000 alu.garden Annie Lu, makes ceramics in Seattle
