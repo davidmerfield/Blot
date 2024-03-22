@@ -55,14 +55,9 @@ module.exports = function (blogID, query, callback) {
           .join(" ")
           .toLowerCase();
 
-        for (const term of terms) {
-          if (
-            text.indexOf(term) > -1 ||
-            text.indexOf(transliterate(term)) > -1
-          ) {
-            results.push(entry);
-            break;
-          }
+        // if all the terms are found in the text, add the entry to the results
+        if (terms.every(term => text.includes(term))) {
+          results.push(entry);
         }
       }
     }
