@@ -29,17 +29,21 @@ module.exports = function (blogID, query, callback) {
           continue;
         }
 
+        // skip draft entries
+        if (entry.draft) {
+          continue;
+        }
+
         // skip pages that do not have search enabled
         if (
           entry.page &&
-          entry.metadata.search &&
-          entry.metadata.search.toLowerCase() !== "yes"
+          (!entry.metadata.search || isFalsy(entry.metadata.search))
         ) {
           continue;
         }
 
         // skip entries that have search disabled
-        if (entry.metadata.search && entry.metadata.search === "no") {
+        if (entry.metadata.search && isFalsy(entry.metadata.search)) {
           continue;
         }
 
@@ -54,14 +58,9 @@ module.exports = function (blogID, query, callback) {
           .join(" ")
           .toLowerCase();
 
-        for (const term of terms) {
-          if (
-            text.indexOf(term) > -1 ||
-            text.indexOf(transliterate(term)) > -1
-          ) {
-            results.push(entry);
-            break;
-          }
+        // if all the terms are found in the text, add the entry to the results
+        if (terms.every(term => text.includes(term))) {
+          results.push(entry);
         }
       }
     }
@@ -69,6 +68,11 @@ module.exports = function (blogID, query, callback) {
     callback(null, results);
   });
 };
+
+function isFalsy (value) {
+  value = value.toString().toLowerCase().trim();
+  return value === "false" || value === "no" || value === "0";
+}
 
 function* chunks (arr, n) {
   for (let i = 0; i < arr.length; i += n) {
