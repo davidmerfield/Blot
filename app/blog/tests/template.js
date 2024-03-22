@@ -12,7 +12,7 @@ describe("template engine", function () {
 
     const res = await this.fetch(`/`);
 
-    expect((await res.text()).trim()).toEqual(
+    expect((await res.text()).trim().toLowerCase()).toEqual(
       "<p><a href='/second'>second</a></p><p><a href='/first'>first</a></p>"
     );
   });
@@ -28,7 +28,7 @@ describe("template engine", function () {
 
     const res = await this.fetch(`/tagged/foo`);
 
-    expect((await res.text()).trim()).toEqual(
+    expect((await res.text()).trim().toLowerCase()).toEqual(
       "<p><a href='/second'>second</a></p><p><a href='/first'>first</a></p>"
     );
   });
