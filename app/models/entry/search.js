@@ -72,23 +72,13 @@ module.exports = function (blogID, query, callback) {
 };
 
 function isTruthy (value) {
-  return (
-    value === true ||
-    value === "true" ||
-    value === "yes" ||
-    value === "1" ||
-    value === 1
-  );
+  value = value.toString().toLowerCase().trim();
+  return value === "true" || value === "yes" || value === "1";
 }
 
 function isFalsy (value) {
-  return (
-    value === false ||
-    value === "false" ||
-    value === "no" ||
-    value === "0" ||
-    value === 0
-  );
+  value = value.toString().toLowerCase().trim();
+  return value === "false" || value === "no" || value === "0";
 }
 
 function* chunks (arr, n) {
