@@ -1,3 +1,8 @@
+Improvements to search engine:
+- Make search use 'AND' instead of 'OR' for multiple terms
+- Remove drafts and tell Paul
+- Make `search: true` work and tell Paul
+
 Polish folders
 
 Polish tools section of site
@@ -23,6 +28,7 @@ Infrastructure plan:
   - sync
 - Use restic or similar to make incremental off-site backups of data directory:
   - restic -r b2:bucket-name:/path/to/repo forget --keep-daily 7 --keep-weekly 4 --keep-monthly 6 --keep-yearly 3 --prune
+
 
 ---
 
