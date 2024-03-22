@@ -35,7 +35,10 @@ module.exports = function (blogID, query, callback) {
         }
 
         // skip pages that do not have search enabled
-        if (entry.page && isTruthy(entry.metadata.search)) {
+        if (
+          entry.page &&
+          (!entry.metadata.search || isFalsy(entry.metadata.search))
+        ) {
           continue;
         }
 
@@ -65,11 +68,6 @@ module.exports = function (blogID, query, callback) {
     callback(null, results);
   });
 };
-
-function isTruthy (value) {
-  value = value.toString().toLowerCase().trim();
-  return value === "true" || value === "yes" || value === "1";
-}
 
 function isFalsy (value) {
   value = value.toString().toLowerCase().trim();
