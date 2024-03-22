@@ -29,17 +29,18 @@ module.exports = function (blogID, query, callback) {
           continue;
         }
 
+        // skip draft entries
+        if (entry.draft) {
+          continue;
+        }
+
         // skip pages that do not have search enabled
-        if (
-          entry.page &&
-          entry.metadata.search &&
-          entry.metadata.search.toLowerCase() !== "yes"
-        ) {
+        if (entry.page && isTruthy(entry.metadata.search)) {
           continue;
         }
 
         // skip entries that have search disabled
-        if (entry.metadata.search && entry.metadata.search === "no") {
+        if (entry.metadata.search && isFalsy(entry.metadata.search)) {
           continue;
         }
 
@@ -69,6 +70,26 @@ module.exports = function (blogID, query, callback) {
     callback(null, results);
   });
 };
+
+function isTruthy (value) {
+  return (
+    value === true ||
+    value === "true" ||
+    value === "yes" ||
+    value === "1" ||
+    value === 1
+  );
+}
+
+function isFalsy (value) {
+  return (
+    value === false ||
+    value === "false" ||
+    value === "no" ||
+    value === "0" ||
+    value === 0
+  );
+}
 
 function* chunks (arr, n) {
   for (let i = 0; i < arr.length; i += n) {

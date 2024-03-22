@@ -1040,8 +1040,6 @@ Add a cool bookmarklet which [drafts a post a la this demo](https://www.youtube.
 
 Add broken link check for all email templates for logged in and logged out customers
 
-Make it possible to search entire page on web template editor and tell [Precious](https://mail.google.com/mail/u/0/#inbox/QgrcJHrtwLwTldzhrTKHMtnhwVqMXVzCTqv). At the moment, only the text on the viewport is searchable.
-
 Follow up with [Shibel](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpcJbSnrrjHZGqtgschtWwXs) about how to ignore arbritrary paths and keep clean URLS (no underscores). Sitewide .blotignore file?
 
 Adjust length of slug to use as few words as possible until collision and tell [Chet](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGBmtwFVcGnqXNNxPNqdbzlWhL)
@@ -1149,10 +1147,6 @@ Switch to streaming JSON parser. There are npm modules that offer asynchronous J
 
 Add notification emails for monit events
 - Include secure one-time link to reboot the AWS instance?
-
-Research state of static site generators
-- https://www.11ty.io/docs/
-- https://www.staticgen.com/
 
 - If Apple releases an API, tell people who are interested in using the iCloud client
   - [ ] [David](https://mail.google.com/mail/u/0/#inbox/FMfcgzGtwWCBwRJKJFcZXtkhBkcCcJGV)
