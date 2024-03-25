@@ -1,17 +1,18 @@
 # Open source
 
+Making Blot's source code public means Blot is more appealing to technical people. More importantly 'open-source' implies an insouciance towards money which I like.
 
-Open source feels good. It suggests a modest attitude to money that seems dignified. Although these aesthetic considerations are most important, open source is also appealing to a technical audience, who are often sceptical of proprietary closed-source software. So it makes business sense for me to make [Blot's source code](/about/source-code) available freely under the most permissive license possible. 
+It is not financially sensible for me to make [Blot's source code](/about/source-code) available freely under the most permissive license possible. However, I'm determined to not sell Blot, ever. Releasing the source code has the benefit of increasing the value of the hosted service to potential customers while reducing the value of Blot if I were to attempt to sell it in a moment of weakness.
 
 ## As a moral decision
 
-Intellectual property as a legal regime has its costs and its benefits. Ideas are obviously innately free but sometimes there are advantages to setting up legal structures to protect them. But generally I think the legal structures we've established to protect intellectual property are overgrown and tend to limit rather than encourage creation, so I will not participate.
+Intellectual property as a legal regime has its costs and its benefits. While ideas are inherently free, there can be advantages to establishing legal structures for their protection. However, I think the legal structures we've established to protect intellectual property are overextended. They often restrict rather than encourage creative endeavors.
 
 ## Working in public
 
-I also quite like the spectacle of working in public. I suspect it's reassuring to potential customers to see my  [git commits on the news page](https://blot.im/news), for them to know that Blot is  _alive_.
+I also like the spectacle of open-source. Work on Blot is done in public. I suspect it's reassuring to potential customers to see [my git commit messages](https://blot.im/news) neatly formatted on the news page, for them to know that Blot is alive.
 
 ## Terminology
 
-I like the ideals of the free software movement and I like Richard Stallman. However, I think the *free* part of Stallman's term *free software* is confusing. After starting too many explanations with *it's not free as in beer...* I've not to push against the current of popular usage. I'm also aware of the politics of the term 'open source', so I decide to side-step both and simply say _Blot's source code is dedicated to the public domain_. 
+I like the ideals of the free software movement and I like Richard Stallman. However, I think the *free* part of Stallman's term *free software* is confusing. I'm also aware of the politics of the term 'open source', so I avoid both and when I address this topic on Blot's website I say that _Blot's source code is dedicated to the public domain_. 
 

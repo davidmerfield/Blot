@@ -24,7 +24,7 @@ notes.use(function (req, res, next) {
 
 notes.param("section", function (req, res, next) {
   res.locals.selected[req.params.section] = "selected";
-  res.locals.toc = TOC.map((section) => {
+  res.locals.toc = TOC.map(section => {
     section.isSelected = req.params.section === section.id ? "selected" : false;
     return section;
   });
@@ -41,7 +41,7 @@ notes.param("article", function (req, res, next) {
 
 notes.get("/", function (req, res, next) {
   res.locals.showToc = true;
-  res.locals.toc = TOC.map((section) => {
+  res.locals.toc = TOC.map(section => {
     section.isSelected = false;
     return section;
   });
@@ -60,18 +60,19 @@ notes.get("/:section", function (req, res, next) {
   );
 
   res.locals.subsections = TOC.filter(
-    (section) => section.id === req.params.section
+    section => section.id === req.params.section
   )[0].items;
 
   next();
 });
 
 // Hack to allow us to place some articles higher than
-// others. This map allows us to retrieve 
+// others. This map allows us to retrieve
 // notes/business/-principles.txt from disk correctly
 const SORTING_MAP = {
   principles: "-principles",
-  technique: "-technique",
+  tools: "-tools",
+  technique: "-technique"
 };
 
 notes.get("/:section/:article", function (req, res, next) {

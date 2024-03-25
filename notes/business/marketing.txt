@@ -1,6 +1,6 @@
 # Marketing
 
-I dislike marketing. I have not tried to convince anyone, ever, to use Blot. I announced [the launch of Blot](https://news.ycombinator.com/item?id=8183498) on a forum for programmers. The people who saw that forum post have since spread the news by word-of-mouth. Every customer on Blot's books today is connected to those people who saw the launch announcement. 
+I dislike marketing. I have not tried to convince anyone, ever, to use Blot. I announced [the launch of Blot](https://news.ycombinator.com/item?id=8183498) on a forum for programmers. The people who saw that forum post have since spread the news by word-of-mouth. Every customer on Blot's books today is connected to the people who saw the launch announcement. 
 
 ## Advertising
 
@@ -12,7 +12,7 @@ Blot does not have a presence on any of the social media platforms.
 
 ## Discounts and promotions
 
-I do not offer discounts. Offering a discount seem unfair to customers who pay full price. 
+I do not offer discounts. Offering a discount seems unfair to customers who pay full price. 
 
 ## Trial accounts
 
