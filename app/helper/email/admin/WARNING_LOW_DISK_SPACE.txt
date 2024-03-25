@@ -12,6 +12,5 @@ Resolve this now:
 2. Then ssh into the server and [expand the file system](https://docs.aws.amazon.com/ebs/latest/userguide/recognize-expanded-volume-linux.html):
 
 ```
-sudo growpart /dev/nvme0n1 1
-sudo resize2fs /dev/nvme0n1
+sudo xfs_growfs /dev/nvme2n1
 ```
