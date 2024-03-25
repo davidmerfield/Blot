@@ -1,14 +1,12 @@
 # Mistakes
 
-Some of the poor decisions made through the years of programming Blot
+This page describes some of the poor decisions I have made.
 
-## Use a CDN
+## Not using a CDN
 
 I stopped using a CDN (AWS Cloudfront in front of an S3 bucket) recently, instead opting to use Blot's server and attached SSD harddrive to serve all the static files for each site. The purpose of this was to reduce the build latency for new posts and the number of moving parts in Blot's infrastructure. I'd also like to learn more about serving static files effectively at scale.
 
-A few weeks after this change: images are loading slowly when served by Blot. Even small ones. Really slowly.
-
-To verify slow load times I used curl. Here are a few numbers from Blot:
+A few weeks after this change I noticed that images were loading slowly when served by Blot. Even small ones. Really slowly. To verify slow load times I used curl. Here are a few numbers from Blot:
 
 ```
 curl -Lo /dev/null -skw "%{speed_download}\n" http://portfolio.blot.im/_image_cache/a4f12fbe-fceb-42be-8903-f742e3c3c10b.jpg
@@ -33,11 +31,11 @@ curl -Lo /dev/null -skw "%{speed_download}" https://farm9.staticflickr.com/8624/
 - 1097168.000
 ```
 
-Where to begin to diagnose this problem? It seems like there's a bottleneck. I needed to work out where the bottleneck is.
+Where to begin to diagnose this problem? It seems like there's a bottleneck. I needed to work out where the bottleneck is. First, I used fio to measure disk read/write:
 
-I used fio to measure disk read/write:
-
+```
 aggrb=8639KB/s, minb=8639KB/s, maxb=8639KB/s
+```
 
 I used iperf to measure network throughput out of AWS instance to my machine on a fast commercial internet connection. Here are a few results:
 
@@ -55,7 +53,6 @@ Finally I discovered that AWS offers a service called [enhanced networking](http
 I read more about [enhanced networking](https://www.reddit.com/r/aws/comments/4m2p1y/enhanced_networking_expected_instance_to_instance/
 ) on reddit. Then AWS's [guide to determining whether it is enabled](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/enhanced-networking-ena.html#enable-enhanced-networking-ena-AL
 ).
-
 
 I installed the aws cli and created a new user 'aws-cli' to manage the instances, I configured it for oregon (us-west-2). modinfo needed to be run as root.
 
@@ -77,5 +74,5 @@ I then used iperf to verify the differnce:
 west-coast linode -> oregon-ec2 instance: 251 Mbits/sec
 east-coast linode -> oregon-ec2 instance:  59 Mbits/sec
 
-Dammit, it is. Aparently latency affects bandwidth for TCP. Dammit.  Back to using a CDN... and I need to read the RFC for TCP. Oh well, at least I now have some concrete numbers for why people use CDNS. The [Bandwidth-delay product](https://en.wikipedia.org/wiki/Bandwidth-delay_product) seems to be the mathematics underpinning the problem I encountered:
+Aparently latency affects bandwidth for TCP. Ah. Back to using a CDN... and I need to read the RFC for TCP. Oh well, at least I now have some concrete numbers for why people use CDNS. The [Bandwidth-delay product](https://en.wikipedia.org/wiki/Bandwidth-delay_product) seems to be the mathematics underpinning the problem I encountered:
 

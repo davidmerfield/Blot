@@ -1,5 +1,0 @@
-# Environmental impact
-
-Blot's servers are [powered by renewable energy](https://www.aboutamazon.com/news/aws/data-center-oregon-renewable-energy) and are located in a [carbon-neutral data center](https://www.aboutamazon.eu/news/innovation/amazon-wind-and-solar-farms). The negative effects of Blot on our environment are neglible. 
-
-In the long-term I would like to own the hardware on which Blot runs, keep it in our own data center and supply it with an off-grid source of renewable energy. 

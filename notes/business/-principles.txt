@@ -1,30 +1,32 @@
 # Principles
 
-I will sell the service to the people who want to host their blog on Blot. I will not generate income in any other way. The amount the customer pays for the service will be higher than the average amount I spend to provide the service, returning a profit which pays for the labor of the people who work on Blot. 
+We sell a hosted service to people who want to use Blot. We do not make money any other way. The amount the customer pays for the service is more than it costs to provide the service. This profit pays for the labor of the people who work on Blot's source code, answer your correspondence and maintain the servers. 
 
-## Charge money
+## Why isn't Blot free? 
 
-I have no interest in providing a service for free and then monetising the people who use our service. That business model although obviously successful seemed dishonest to me. Instead we offer a straightforward proposition: we provide hosting and support for your blog, you pay us a modest fee.
+We have to pay for the servers which host your sites somehow. These servers cost money, they sit in a room which costs money and they require power and attention, which cost money. How come so much of the internet is free then? Well instead of paying to use these services, you use them for free and in turn you and your data are sold to others. Though this business model is obviously successful I believe it is deceptive and undignified and I will not participate.
+
+Instead, we offer a straightforward proposition: we provide hosting for your websites; you pay us a fee in return.
 
 ## Leave money on the table
 
-Blot is not optimized to generate maximally revenue in the short-term. I try to take a long-term view where I can. For example, I do lots of things which might hurt my short-term customer churn rate. I'm serious about making Blot a long-term business and view these sacrifices as investments.
+Blot is not optimized to generate as much revenue as possible in the next quarter. I try to take a long-term view where I can. For example, I do lots of things which might hurt my short-term customer churn-rate. I'm serious about making Blot a long-term business and view these sacrifices as investments.
 
 ## Allow customers to leave with ease
 
-A number of subscription businesses put up barries when customers want to cancel their subscription. I make it easy to quit Blot. This is not because I am a good person, although I am, it is because someone who quits Blot is still a person who knows about Blot. Someone who leaves Blot with a good taste in their mouth might recommend it to others, or even come back and use Blot again. Pissing them off when they leave prevents this.
+Many subscription businesses make it hard for customers to cancel their subscription. It is easy to leave Blot. This is not because I am a good person, it is because someone who wants to stop using our service can still recommend us to others, or might return in future. Adding irritating hurdles to a process that should be a single click might help in the short-term but hurts in the long-term.
 
-## Choose people rather than businesses as customers
+## Sell to individuals rather than organizations
 
-I have chosen to aim the product toward consumers, rather than business customers, to reduce the stress involved in running the project. I've also watched a number of services gradually drift in focus over the years as they realize that all the money is in selling to businesses.
+I have chosen to aim the product toward people, rather than business customers in order to reduce the stress involved in running the project. I've also watched a number of services gradually drift in focus over the years as they realize that more money is made in selling to businesses.
 
 ## Treat our customers equally
 
-There's something about tiered services which leaves a bad taste in my mouth. On Blot, everyone pays the same and everyone receives the same service.
+There's something about tiered services which I find tacky. On Blot, everyone pays the same and everyone receives the same service.
 
 ## Avoid investment and stay profitable
 
-I do not plan to raise investment in Blot. The main concern I'd have with bringing in investors would be the risk of compromising the aesthetic. It's vitally important that I love Blot and I know from experience that when one raises money one is forced into decisions that will make me love Blot less. Since I opened Blot to the public, it has been profitable and it remains profitable. I'm sure it makes business sense to raise money but I like how things are going.
+I do not plan to raise investment in Blot. The main concern I'd have with bringing in investors would be the risk of compromising the aesthetic. It's important that I love Blot and I know from experience that when you raise money you are forced to compromise. Since I opened Blot to the public, it has been profitable and it remains profitable. 
 
 ## Set the price at what we'd pay
 

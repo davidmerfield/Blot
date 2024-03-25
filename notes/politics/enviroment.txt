@@ -1,0 +1,5 @@
+# Environment
+
+Blot's servers are located in a [data center](https://www.aboutamazon.eu/news/innovation/amazon-wind-and-solar-farms) that is [powered by renewable energy](https://www.aboutamazon.com/news/aws/data-center-oregon-renewable-energy). The negative effects of Blot on our environment are neglible. 
+
+In the long-term I would like to own the hardware on which Blot runs, own the data center in which it runs and supply the data center with an off-grid source of renewable energy. 
