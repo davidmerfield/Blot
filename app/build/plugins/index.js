@@ -109,7 +109,7 @@ function convert (blog, path, contents, callback) {
     },
     function () {
       // Don't decode entities, preserve the original content
-      var $ = cheerio.load(contents, { decodeEntities: false });
+      var $ = cheerio.load(contents, { decodeEntities: false }, false);
 
       async.eachSeries(
         plugins,

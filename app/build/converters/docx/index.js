@@ -81,7 +81,7 @@ function read (blog, path, options, callback) {
           }
 
           fs.readFile(outPath, "utf-8", function (err, html) {
-            var $ = cheerio.load(html, { decodeEntities: false });
+            var $ = cheerio.load(html, { decodeEntities: false }, false);
 
             // all p that contain possible metadata are checked until one is encountered that does not
             // p that are entirely bold are turned into h tags

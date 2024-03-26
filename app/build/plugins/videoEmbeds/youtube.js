@@ -38,7 +38,7 @@ module.exports = async function (href, callback) {
 
       const body = await res.json();
 
-      var $ = cheerio.load(body.items[0].player.embedHtml);
+      var $ = cheerio.load(body.items[0].player.embedHtml, null, false);
 
       const width = $("iframe").attr("width");
       const height = $("iframe").attr("height");

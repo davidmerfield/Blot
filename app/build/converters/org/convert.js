@@ -74,7 +74,7 @@ module.exports = function (blog, text, options, callback) {
         decodeEntities: false,
         xmlMode: true
       },
-      true
+      false
     );
 
     // if there is a pre tag with class="yaml"

@@ -4,10 +4,14 @@ describe("internalLinks", function () {
 
   beforeEach(function () {
     this.internalLinks = function (html) {
-      var $ = cheerio.load(html, {
-        decodeEntities: false,
-        withDomLvl1: false, // this may cause issues?
-      });
+      var $ = cheerio.load(
+        html,
+        {
+          decodeEntities: false,
+          withDomLvl1: false // this may cause issues?
+        },
+        false
+      );
 
       return internalLinks($);
     };

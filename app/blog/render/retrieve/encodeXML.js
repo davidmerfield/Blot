@@ -8,8 +8,9 @@ var cheerio = require("cheerio");
 
 // Removes everything forbidden by XML 1.0 specifications,
 // plus the unicode replacement character U+FFFD
-function removeXMLInvalidChars(string) {
-  var regex = /((?:[\0-\x08\x0B\f\x0E-\x1F\uFFFD\uFFFE\uFFFF]|[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?:[^\uD800-\uDBFF]|^)[\uDC00-\uDFFF]))/g;
+function removeXMLInvalidChars (string) {
+  var regex =
+    /((?:[\0-\x08\x0B\f\x0E-\x1F\uFFFD\uFFFE\uFFFF]|[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?:[^\uD800-\uDBFF]|^)[\uDC00-\uDFFF]))/g;
   return string.replace(regex, "");
 }
 
@@ -22,7 +23,7 @@ module.exports = function (req, callback) {
       text = render(text);
 
       try {
-        $ = cheerio.load(text);
+        $ = cheerio.load(text, null, false);
         $ = absoluteURLs(req.protocol + "://" + req.get("host"), $);
         $("script").remove();
         xml = $.html();

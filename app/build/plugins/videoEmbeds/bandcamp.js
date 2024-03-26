@@ -19,7 +19,7 @@ module.exports = async function (href, callback) {
 
     const res = await fetch(href);
     const body = await res.text();
-    const $ = cheerio.load(body);
+    const $ = cheerio.load(body, null, false);
 
     const width = Number($('meta[property="og:video:width"]').attr("content"));
     const height = Number(

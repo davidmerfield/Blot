@@ -156,9 +156,9 @@ describe("image", function () {
     });
   });
 
-  function extractCachedImagePaths(blog, html) {
+  function extractCachedImagePaths (blog, html) {
     var paths = [];
-    var $ = cheerio.load(html);
+    var $ = cheerio.load(html, null, false);
 
     $("img").each(function () {
       var src = $(this).attr("src");
@@ -177,7 +177,7 @@ describe("image", function () {
     return paths;
   }
 
-  function verifyCachedImagesExist(imagePaths) {
+  function verifyCachedImagesExist (imagePaths) {
     imagePaths.forEach(function (path) {
       try {
         // Does the cached image exist on disk?
@@ -190,9 +190,9 @@ describe("image", function () {
   }
 
   // Wrapper around dumb API for this plugin
-  function render(blog, html, callback) {
+  function render (blog, html, callback) {
     var options = { blogID: blog.id };
-    var $ = cheerio.load(html);
+    var $ = cheerio.load(html, null, false);
 
     image.render(
       $,

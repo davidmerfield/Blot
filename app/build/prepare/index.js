@@ -53,10 +53,14 @@ function Prepare (entry, options = {}) {
   // in the next four blocks!
 
   debug(entry.path, "Generating cheerio");
-  var $ = cheerio.load(entry.html, {
-    decodeEntities: false,
-    withDomLvl1: false // this may cause issues?
-  });
+  var $ = cheerio.load(
+    entry.html,
+    {
+      decodeEntities: false,
+      withDomLvl1: false // this may cause issues?
+    },
+    false
+  );
   debug(entry.path, "Generated  cheerio");
 
   // store titleTag, teaser, remainder;
