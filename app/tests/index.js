@@ -48,7 +48,7 @@ describe("Blot configuration", function () {
   // working, so they are harder to test but it would be nice to
   // do this eventually.
   it("returns OK at the health endpoint", function (done) {
-    fetch("http://localhost:3000/health")
+    fetch("http://127.0.0.1:3000/health")
       .then(function (res) {
         expect(res.statusCode).toBe(200);
         return res.text();
