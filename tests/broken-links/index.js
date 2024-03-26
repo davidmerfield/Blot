@@ -53,7 +53,6 @@ xdescribe("Blot's website'", function () {
   it(
     "does not have any broken links for logged-in users",
     function (done) {
-      var request = require("request");
       var test = this;
 
       request.post(
