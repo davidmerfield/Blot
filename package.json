@@ -65,7 +65,7 @@
     "imagemin-giflossy": "^5.1.10",
     "imagemin-jpeg-recompress": "^6.0.0",
     "imagemin-mozjpeg": "^9.0.0",
-    "imagemin-pngquant": "^9.0.2",
+    "imagemin-pngquant": "^5.1.0",
     "imagemin-zopfli": "^7.0.0",
     "isomorphic-fetch": "^3.0.0",
     "katex": "^0.16.10",
