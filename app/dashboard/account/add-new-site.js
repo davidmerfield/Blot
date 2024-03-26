@@ -4,8 +4,7 @@ var Blog = require("models/blog");
 var _ = require("lodash");
 var prettyPrice = require("helper/prettyPrice");
 var config = require("config");
-var request = require("request");
-var config = require("config");
+var fetch = require("node-fetch");
 var stripe = require("stripe")(config.stripe.secret);
 var User = require("models/user");
 var Email = require("helper/email");
@@ -239,7 +238,11 @@ function saveBlog (req, res, next) {
     }
 
     // Begin SSL cert fetching process
-    request(Blog.extend(blog).url, function () {});
+    // in the background
+    fetch(Blog.extend(blog).url)
+      .then(function () {})
+      .catch(function () {});
+
     req.blog = blog;
     next();
   });
