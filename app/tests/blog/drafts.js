@@ -93,7 +93,7 @@ describe("drafts work", function () {
       next();
     });
     server.use(blogServer);
-    this.origin = "http://localhost:" + 8919;
+    this.origin = "http://127.0.0.1:" + 8919;
     this.server = server.listen(8919, done);
 
     this.writeDraft = (path, contents, callback) => {
