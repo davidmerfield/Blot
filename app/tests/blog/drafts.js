@@ -4,7 +4,7 @@ describe("drafts work", function () {
   const sync = require("sync");
   const blogServer = require("../../blog");
   const fs = require("fs-extra");
-  const request = require("request");
+  const fetch = require("node-fetch");
   const Express = require("express");
   const config = require("config");
   const guid = require("helper/guid");
@@ -16,21 +16,41 @@ describe("drafts work", function () {
     const firstContents = guid();
     const secondContents = guid();
 
-    this.writeDraft(path, firstContents, (err) => {
+    this.writeDraft(path, firstContents, err => {
       if (err) return done.fail(err);
 
-      request(this.origin + "/draft/stream" + path, { strictSSL: false })
-        .on("response", () => {
-          this.writeDraft(path, secondContents, (err) => {
-            if (err) return done.fail(err);
+      const { Readable } = require("stream");
+
+      fetch(this.origin + "/draft/stream" + path, {
+        agent: new fetch.Agent({ rejectUnauthorized: false })
+      })
+        .then(res => {
+          if (!res.ok) {
+            throw new Error(`HTTP error! status: ${res.status}`);
+          }
+          return new Promise((resolve, reject) => {
+            this.writeDraft(path, secondContents, err => {
+              if (err) {
+                reject(err);
+              } else {
+                resolve(res.body); // assuming writeDraft processes successfully, we pass on the response body stream
+              }
+            });
           });
         })
-        .on("data", (data) => {
-          data = data.toString().trim();
-          if (!data) return;
-          expect(data).toContain(secondContents);
-          console.log("calling done... HERE!");
-          done();
+        .then(body => {
+          // The response body is a stream. Create a readable stream to consume it.
+          const readableStream = new Readable().wrap(body);
+          readableStream.on("data", chunk => {
+            const data = chunk.toString().trim();
+            if (!data) return;
+            expect(data).toContain(secondContents);
+            console.log("calling done... HERE!");
+            done();
+          });
+        })
+        .catch(err => {
+          done.fail(err);
         });
     });
   });
@@ -40,16 +60,16 @@ describe("drafts work", function () {
 
     const view = {
       name: "entry.html",
-      content: `<html><head></head><body>{{{entry.html}}}</body></html>`,
+      content: `<html><head></head><body>{{{entry.html}}}</body></html>`
     };
 
-    Template.create(this.blog.id, templateName, {}, (err) => {
+    Template.create(this.blog.id, templateName, {}, err => {
       if (err) return done(err);
       Template.getTemplateList(this.blog.id, (err, templates) => {
         let templateId = templates.filter(
           ({ name }) => name === templateName
         )[0].id;
-        Template.setView(templateId, view, (err) => {
+        Template.setView(templateId, view, err => {
           if (err) return done(err);
           Blog.set(
             this.blog.id,
@@ -67,7 +87,7 @@ describe("drafts work", function () {
     server = Express();
     server.use((req, res, next) => {
       const _get = req.get;
-      req.get = (arg) => {
+      req.get = arg => {
         if (arg === "host") {
           return `${this.blog.handle}.${config.host}`;
         } else return _get(arg);

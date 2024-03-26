@@ -11,14 +11,14 @@ describe("Blot configuration", function () {
     }).not.toThrow();
   });
 
-  var request = require("request");
+  var fetch = require("node-fetch");
   var START_MESSAGE = "listening";
   var server;
   var stderr = "";
 
   beforeAll(function (done) {
     server = require("child_process").fork(__dirname + "/../../app", {
-      silent: true,
+      silent: true
     });
 
     // App should not emit anything on standard error
@@ -37,7 +37,6 @@ describe("Blot configuration", function () {
   }, LONG_TIMEOUT);
 
   afterAll(function (done) {
-    
     server.on("exit", function () {
       done();
     });
@@ -49,12 +48,15 @@ describe("Blot configuration", function () {
   // working, so they are harder to test but it would be nice to
   // do this eventually.
   it("returns OK at the health endpoint", function (done) {
-    request("http://localhost:8080/health", function (err, res, body) {
-      if (err) return done.fail(err);
-      expect(res.statusCode).toBe(200);
-      expect(body).toEqual("OK");
-      done();
-    });
+    fetch("http://localhost:3000/health")
+      .then(function (res) {
+        expect(res.statusCode).toBe(200);
+        return res.text();
+      })
+      .then(function (body) {
+        expect(body).toEqual("OK");
+        done();
+      });
   });
 
   it("can connect to redis", function (done) {

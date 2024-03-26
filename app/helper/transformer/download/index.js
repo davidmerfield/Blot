@@ -1,24 +1,23 @@
-var ensure = require("helper/ensure");
+const fetch = require("node-fetch");
+const fs = require("fs").promises;
+const { createWriteStream } = require("fs");
+const ensure = require("helper/ensure");
+const UID = require("helper/makeUid");
+const callOnce = require("helper/callOnce");
+const tempDir = require("helper/tempDir")();
+const nameFrom = require("helper/nameFrom");
+const tidy = require("./tidy");
+const invalid = require("./invalid");
 
-var request = require("request");
-var fs = require("fs");
-var writeStream = fs.createWriteStream;
-var UID = require("helper/makeUid");
-var callOnce = require("helper/callOnce");
-var tempDir = require("helper/tempDir")();
-var nameFrom = require("helper/nameFrom");
-var tidy = require("./tidy");
-var invalid = require("./invalid");
+const IF_NONE_MATCH = "If-None-Match";
+const IF_MODIFIED_SINCE = "If-Modified-Since";
+const LAST_MODIFIED = "last-modified";
+const CACHE_CONTROL = "cache-control";
 
-var IF_NONE_MATCH = "If-None-Match";
-var IF_MODIFIED_SINCE = "If-Modified-Since";
-var LAST_MODIFIED = "last-modified";
-var CACHE_CONTROL = "cache-control";
+const MAX_REDIRECTS = 5;
+const TIMEOUT = 5000; // 5s
 
-var MAX_REDIRECTS = 5; // prevent event emitter leak...
-var TIMEOUT = 5000; // 5s
-
-var debug = function () {}; // console.log ||
+const debug = function () {}; // console.log || noop for debugging
 
 module.exports = function (url, headers, callback) {
   // Verify the url has a host, and protocol
@@ -33,55 +32,47 @@ module.exports = function (url, headers, callback) {
   // We don't need to download anything.
   if (isFresh(headers)) return callback();
 
-  var file, download, path, options;
-
   callback = callOnce(callback);
 
-  path = tempDir + UID(6) + "-" + nameFrom(url);
+  const path = tempDir + UID(6) + "-" + nameFrom(url);
+  const file = createWriteStream(path);
 
-  options = {
-    headers: { "user-agent": "node-request" },
-    maxRedirects: MAX_REDIRECTS,
-    timeout: TIMEOUT,
-    url: url,
+  const options = {
+    headers: {
+      "User-Agent": "node-fetch",
+      ...(headers.etag && { [IF_NONE_MATCH]: headers.etag }),
+      ...(headers[LAST_MODIFIED] && {
+        [IF_MODIFIED_SINCE]: headers[LAST_MODIFIED]
+      })
+    },
+    redirect: "follow",
+    follow: MAX_REDIRECTS,
+    timeout: TIMEOUT
   };
 
-  if (headers && headers.etag) options.headers[IF_NONE_MATCH] = headers.etag;
-
-  if (headers && headers[LAST_MODIFIED])
-    options.headers[IF_MODIFIED_SINCE] = headers[LAST_MODIFIED];
-
-  debug("Downloading", url, "to", path, "with request headers:");
+  debug("Downloading", url, "to", path, "with fetch headers:");
   debug(print(options.headers));
 
-  file = writeStream(path);
+  fetch(url, options)
+    .then(res => {
+      debug("Received response:");
 
-  file.on("error", done).on("finish", file.close);
+      if (!res.ok) {
+        debug("  it has a bad status code:", res.status);
+        throw new Error(res.status);
+      }
 
-  download = request
-    .get(options)
-    .on("response", onResponse)
-    .on("error", done)
-    .on("end", done);
+      if (res.status === 304) {
+        debug("  it has 304 unchanged status");
+        file.end(); // close the file stream as we won't write anything to it
+        throw new Error("Not Modified");
+      }
 
-  download.pipe(file);
-
-  function onResponse(res) {
-    debug("Recieved response:");
-
-    if (!res || !res.statusCode) {
-      debug("  it is empty or without status code");
-      return callback(new Error("No response"));
-    }
-
-    if (res.headers) {
-      var cacheControl = res.headers[CACHE_CONTROL];
-      var lastModified = res.headers[LAST_MODIFIED];
-      var expires = res.headers.expires;
-
-      // etags sometimes have " inside a string
-      // dont remove these or it wont work...
-      var etag = res.headers.etag;
+      // Update response headers
+      const cacheControl = res.headers.get(CACHE_CONTROL);
+      const lastModified = res.headers.get(LAST_MODIFIED);
+      const expires = res.headers.get("expires");
+      const etag = res.headers.get("etag");
 
       headers[LAST_MODIFIED] = lastModified || headers[LAST_MODIFIED] || "";
       headers.etag = etag || headers.etag || "";
@@ -91,63 +82,38 @@ module.exports = function (url, headers, callback) {
         headers.expires ||
         "";
 
-      debug("  updated latest reponse headers for status", res.statusCode);
-    }
+      debug("  updated latest response headers for status", res.status);
+      res.body.pipe(file); // start piping the response body to the file
 
-    if (res.statusCode === 304) {
-      debug("  it has 304 unchanged status");
-      stop();
-      return done();
-    }
-
-    // can we make this play nicely with redirects?
-    if (res.statusCode < 200 || res.statusCode >= 300) {
-      debug("  it has a bad status code:", res.statusCode);
-      return done(new Error(res.statusCode));
-    }
-  }
-
-  function stop() {
-    debug("Aborting download and removing", path);
-
-    download.abort();
-
-    // we reset the path since the
-    // download was stopped, there is no local file.
-    // do nothing don't care if this errors
-    try {
-      fs.unlink(path, function (err) {
-        if (err) debug(err);
+      return new Promise((resolve, reject) => {
+        file.on("finish", resolve);
+        file.on("error", reject);
       });
-    } catch (e) {}
-
-    path = null;
-  }
-
-  function done(err) {
-    if (err) stop();
-
-    debug("Calling back with path", path, "and res headers:");
-    debug(print(headers));
-
-    return callback(err, path, headers);
-  }
+    })
+    .then(() => {
+      debug("Calling back with path", path, "and res headers:");
+      debug(print(headers));
+      callback(null, path, headers);
+    })
+    .catch(err => {
+      debug("Download error:", err);
+      file.close();
+      fs.unlink(path).catch(() => {});
+      callback(err);
+    });
 };
 
-function isFresh(existing) {
+function isFresh (existing) {
   return (
     existing &&
     existing.url &&
     existing.expires &&
-    existing.expires > Date.now()
+    new Date(existing.expires) > new Date()
   );
 }
 
-function print(obj) {
-  var res = "";
-  for (var i in obj) {
-    if (res) res += "\n";
-    res += "  " + i + ': "' + obj[i] + '"';
-  }
-  return res;
+function print (obj) {
+  return Object.entries(obj)
+    .map(([key, value]) => `  ${key}: "${value}"`)
+    .join("\n");
 }
