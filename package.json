@@ -103,7 +103,6 @@
   },
   "devDependencies": {
     "blessed": "^0.1.81",
-    "blessed-contrib": "^4.8.21",
     "dir-compare": "^4.0.0",
     "faker": "^4.1.0",
     "jasmine": "^3.3.1",
