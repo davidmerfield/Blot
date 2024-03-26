@@ -21,9 +21,7 @@ describe("drafts work", function () {
 
       const { Readable } = require("stream");
 
-      fetch(this.origin + "/draft/stream" + path, {
-        agent: new fetch.Agent({ rejectUnauthorized: false })
-      })
+      fetch(this.origin + "/draft/stream" + path)
         .then(res => {
           if (!res.ok) {
             throw new Error(`HTTP error! status: ${res.status}`);
