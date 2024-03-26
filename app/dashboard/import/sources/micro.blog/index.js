@@ -1,6 +1,6 @@
 const fs = require("fs-extra");
 const helper = require("dashboard/import/helper");
-const marked = require("marked");
+const { marked } = require("marked");
 const yaml = require("yaml");
 const moment = require("moment");
 const walk = helper.walk;
@@ -43,7 +43,7 @@ if (fs.existsSync(output_directory)) {
 
       post.permalink = meta.url;
       post.title = meta.title;
-      post.html = marked(body);
+      post.html = marked.parse(body);
       post.slug = meta.url.slice(
         meta.url.lastIndexOf("/") + 1,
         meta.url.lastIndexOf(".html")

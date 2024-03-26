@@ -1,5 +1,5 @@
+const { marked } = require("marked");
 var config = require("config");
-var marked = require("marked");
 var cheerio = require("cheerio");
 var fs = require("fs");
 var ensure = require("helper/ensure");
@@ -221,7 +221,7 @@ function loadPlugins (plugins) {
     // Plugins are used by default unless
     // explicitly blacklisted in config
     plugin.title = plugin.title || deCamelize(name);
-    plugin.description = marked(plugin.description || "");
+    plugin.description = marked.parse(plugin.description || "");
     plugin.id = name;
 
     // undefined -> true, defined to defined

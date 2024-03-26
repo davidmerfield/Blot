@@ -1,13 +1,13 @@
 const he = require("he");
 const hljs = require("highlight.js");
 const cheerio = require("cheerio");
-const marked = require("marked");
+const { marked } = require("marked");
 
 module.exports = function render (input) {
   let html = input;
 
   try {
-    html = highlight(marked(input));
+    html = highlight(marked.parse(input));
   } catch (e) {
     console.error(e);
   }

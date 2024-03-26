@@ -1,6 +1,6 @@
 var Express = require("express");
 var notes = new Express.Router();
-var marked = require("marked");
+const { marked } = require("marked");
 const fs = require("fs-extra");
 const rootDir = require("helper/rootDir");
 
@@ -45,14 +45,14 @@ notes.get("/", function (req, res, next) {
     section.isSelected = false;
     return section;
   });
-  res.locals.body = marked(
+  res.locals.body = marked.parse(
     fs.readFileSync(NOTES_DIRECTORY + "/README", "utf-8")
   );
   next();
 });
 
 notes.get("/:section", function (req, res, next) {
-  res.locals.body = marked(
+  res.locals.body = marked.parse(
     fs.readFileSync(
       NOTES_DIRECTORY + "/" + req.params.section + "/README",
       "utf-8"
@@ -78,7 +78,7 @@ const SORTING_MAP = {
 notes.get("/:section/:article", function (req, res, next) {
   try {
     let article = SORTING_MAP[req.params.article] || req.params.article;
-    res.locals.body = marked(
+    res.locals.body = marked.parse(
       fs.readFileSync(
         NOTES_DIRECTORY + "/" + req.params.section + "/" + article + ".txt",
         "utf-8"

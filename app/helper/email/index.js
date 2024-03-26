@@ -5,7 +5,7 @@ const ensure = require("helper/ensure");
 const extend = require("helper/extend");
 const tempDir = require("helper/tempDir")();
 const Mustache = require("mustache");
-const marked = require("marked");
+const { marked } = require("marked");
 const clfdate = require("helper/clfdate");
 const Mailgun = require("mailgun-js");
 let mailgun;
@@ -143,7 +143,7 @@ function send (locals, messageFile, to, callback) {
     var subject = Mustache.render(lines[0] || "", locals);
     var message = lines.slice(2).join("\n") || "";
 
-    var html = marked(Mustache.render(message, locals));
+    var html = marked.parse(Mustache.render(message, locals));
 
     var email = {
       html: html,

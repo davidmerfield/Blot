@@ -2,7 +2,7 @@ var Express = require("express");
 var news = new Express.Router();
 var fs = require("fs-extra");
 var Email = require("helper/email");
-var marked = require("marked");
+const { marked } = require("marked");
 var parse = require("body-parser").urlencoded({ extended: false });
 var uuid = require("uuid/v4");
 var config = require("config");
@@ -220,7 +220,7 @@ function loadToDo (req, res, next) {
       res.locals.todo = "";
       return next();
     }
-    res.locals.todo = marked(todo);
+    res.locals.todo = marked.parse(todo);
 
     var html = res.locals.todo;
     var $ = require("cheerio").load(html);
