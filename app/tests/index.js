@@ -44,19 +44,18 @@ describe("Blot configuration", function () {
     server.kill();
   });
 
-  // Stripe and Dropbox webhooks require HTTPS set up, or NGINX
-  // working, so they are harder to test but it would be nice to
-  // do this eventually.
-  it("returns OK at the health endpoint", function (done) {
-    fetch("http://127.0.0.1:3000/health")
-      .then(function (res) {
-        expect(res.statusCode).toBe(200);
-        return res.text();
-      })
-      .then(function (body) {
-        expect(body).toEqual("OK");
-        done();
-      });
+  it("returns OK at the health endpoint", async function () {
+    console.log("fetching health");
+
+    const res = await fetch("http://127.0.0.1:8080/health");
+
+    expect(res.status).toBe(200);
+
+    console.log("fetching health body");
+
+    const body = await res.text();
+
+    expect(body).toEqual("OK");
   });
 
   it("can connect to redis", function (done) {
