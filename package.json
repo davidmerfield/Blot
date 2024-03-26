@@ -87,7 +87,7 @@
     "rate-limit-redis": "^2.0.0",
     "redis": "^3.1.2",
     "sharp": "^0.32.6",
-    "simple-git": "^1.102.0",
+    "simple-git": "^3.23.0",
     "stripe": "^2.9.0",
     "text-to-svg": "^3.1.5",
     "transliteration": "^0.1.1",
