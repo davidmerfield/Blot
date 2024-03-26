@@ -68,7 +68,14 @@ module.exports = function (blog, text, options, callback) {
 
     if (err) return callback(err);
 
-    const $ = cheerio.load(result, { decodeEntities: false });
+    const $ = cheerio.load(
+      result,
+      {
+        decodeEntities: false,
+        xmlMode: true
+      },
+      true
+    );
 
     // if there is a pre tag with class="yaml"
     // at the very start of the document then extract its contents,
