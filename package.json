@@ -68,7 +68,7 @@
     "imagemin-pngquant": "^9.0.2",
     "imagemin-zopfli": "^7.0.0",
     "isomorphic-fetch": "^3.0.0",
-    "katex": "^0.16.3",
+    "katex": "^0.16.10",
     "lodash": "^4.17.21",
     "mailgun-js": "^0.20.0",
     "marked": "^0.8.0",
