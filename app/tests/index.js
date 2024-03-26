@@ -47,7 +47,7 @@ describe("Blot configuration", function () {
   it("returns OK at the health endpoint", async function () {
     console.log("fetching health");
 
-    const res = await fetch("http://127.0.0.1:8080/health");
+    const res = await fetch("http://localhost:8080/health");
 
     expect(res.status).toBe(200);
 
