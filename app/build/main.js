@@ -11,6 +11,7 @@ var moment = require("moment");
 var converters = require("./converters");
 var exitHook = require("async-exit-hook");
 var clfdate = require("helper/clfdate");
+var isMultiFilePost = require("./isMultiFilePost");
 
 exitHook(function () {
   console.log(clfdate(), `Build: process pid=${process.pid} exiting...`);
@@ -29,10 +30,6 @@ function isWrongType (path) {
   });
 
   return isWrong;
-}
-
-function isMultiFilePost (path) {
-  return !!path.split("/").find(i => i.startsWith("(") && i.endsWith(")"));
 }
 
 process.on("message", function (message) {

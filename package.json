@@ -27,7 +27,7 @@
   "scripts": {
     "test": "node tests",
     "start": "node app",
-    "dev": "CONTAINER_PATH=/usr/src/app node app/bundle.js & docker-compose up --build"
+    "dev": "CONTAINER_PATH=/usr/src/app node app & docker-compose up --build"
   },
   "version": "0.0.0",
   "dependencies": {
