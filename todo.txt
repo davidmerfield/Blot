@@ -239,6 +239,8 @@ Add support for INI files and tell [Frank](https://mail.google.com/mail/u/0/#inb
     - [Jan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChmLnfMTdtNkpLxHTlPJNHlCT) 
     - [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrRRZTKntrWKJvfDXrRFTzljs)
 
+Add {{#posts-without-:tag}} and [tell steve](https://mail.google.com/mail/u/0/#inbox/FMfcgzGxSRHnwcVVlqvwLFzwRQbsqsnK)
+
 Improvements to website:
 - Fix broken link checker
 - Create material in docs with title 'Turn X into website' where X is:

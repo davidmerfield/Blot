@@ -79,6 +79,12 @@ function read (blog, path, options, callback) {
           }
 
           fs.readFile(outPath, "utf-8", function (err, html) {
+            // remove everything between '<!--[if lt IE 9]>' and '<![endif]-->' including those comments
+            html = html.replace(
+              /<!--\[if lt IE 9\]>[\s\S]*<!\[endif\]-->/g,
+              ""
+            );
+
             var $ = cheerio.load(html, { decodeEntities: false }, false);
 
             // all p that contain possible metadata are checked until one is encountered that does not
@@ -110,6 +116,16 @@ function read (blog, path, options, callback) {
               extend(metadata).and(parsed.metadata);
 
               $(this).remove();
+            });
+
+            // remove <style>, <meta> and <title>
+            $("style").remove();
+            $("meta").remove();
+            $("title").remove();
+
+            // remove all comments
+            $("*").each(function () {
+              if (this.type === "comment") $(this).remove();
             });
 
             var titleTag = $("header h1");
@@ -175,7 +191,7 @@ function read (blog, path, options, callback) {
                 $(this).attr("src", src.slice(blogDir.length));
             });
 
-            html = $("body").html().trim();
+            html = ($.html() || "").trim();
 
             var metadataString = "<!--";
 
