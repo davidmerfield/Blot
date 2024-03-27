@@ -12,6 +12,20 @@ describe("build", function () {
     this.syncAndCheck = global.test.SyncAndCheck(this.blog.id);
   });
 
+  it("creates multi-file posts", function (done) {
+    const { syncAndCheck } = this;
+    const fileA = { path: "/(Hey)/1.txt", content: "Hey" };
+    const entryA = { path: "/(Hey)" };
+
+    const fileB = { path: "/(Hey)/2.txt", content: "You" };
+    const entryB = { path: "/(Hey)", html: '<p>Hey</p>\n<p>You</p>' };
+
+    syncAndCheck(fileA, entryA, function (err) {
+      if (err) return done.fail(err);
+      syncAndCheck(fileB, entryB, done);
+    });
+  });
+
   it("hides date with timestamp from title if its in the file name", function (done) {
     const path = "/2018-10-02-02-35 Hello.png";
     const content = this.fake.file();

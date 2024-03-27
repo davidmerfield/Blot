@@ -54,6 +54,25 @@ describe("build", function () {
     });
   });
 
+  it("builds multi-file posts", function (done) {
+    const path = "/(foo)/bar.txt";
+    const contents = "Hello";
+
+    const pathTwo = "/(foo)/baz.txt";
+    const contentsTwo = "World";
+
+    fs.outputFileSync(this.blogDirectory + path, contents);
+    fs.outputFileSync(this.blogDirectory + pathTwo, contentsTwo);
+
+    build(this.blog, path, {}, (err, entry) => {
+      if (err) return done.fail(err);
+
+      expect(entry.path).toEqual('/(foo)');      
+      expect(entry.html).toEqual('<p>Hello</p>\n<p>World</p>');      
+      done();
+    });
+  });
+
   it("extracts tags from a file path", function (done) {
     const path = "/[foo]/[bar]/[baz].txt";
     const contents = "Hello";

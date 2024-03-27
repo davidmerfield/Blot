@@ -2,7 +2,8 @@ var debug = require("debug")("blot:build");
 var Metadata = require("models/metadata");
 var basename = require("path").basename;
 var isDraft = require("../sync/update/drafts").isDraft;
-var Build = require("./single");
+var single = require("./single");
+var multiple = require("./multiple");
 var Prepare = require("./prepare");
 var Thumbnail = require("./thumbnail");
 var DateStamp = require("./prepare/dateStamp");
@@ -10,6 +11,7 @@ var moment = require("moment");
 var converters = require("./converters");
 var exitHook = require("async-exit-hook");
 var clfdate = require("helper/clfdate");
+var isMultiFilePost = require("./isMultiFilePost");
 
 exitHook(function () {
   console.log(clfdate(), `Build: process pid=${process.pid} exiting...`);
@@ -61,11 +63,20 @@ function build (blog, path, options, callback) {
       if (err) return callback(err);
 
       debug("Blog:", blog.id, path, " attempting to build html");
+
+      let Build;
+
+      if (isMultiFilePost(path)) {
+        Build = multiple;
+      } else {
+        Build = single;
+      }
+
       Build(
         blog,
         path,
         options,
-        function (err, html, metadata, stat, dependencies) {
+        function (err, html, metadata, stat, dependencies, newPath) {
           if (err) return callback(err);
 
           debug("Blog:", blog.id, path, " extracting thumbnail");
@@ -84,9 +95,9 @@ function build (blog, path, options, callback) {
               entry = {
                 html: html,
                 name: options.name || storedName || basename(path),
-                path: path,
+                path: newPath || path,
                 pathDisplay: options.pathDisplay || storedPathDisplay || path,
-                id: path,
+                id: newPath || path,
                 thumbnail: thumbnail,
                 draft: is_draft,
                 metadata: metadata,
