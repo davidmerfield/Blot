@@ -108,6 +108,6 @@
     "jasmine": "^3.3.1",
     "nodemon": "^3.1.0",
     "seedrandom": "^2.4.4",
-    "spritesmith": "^3.4.1"
+    "spritesmith": "^1.5.0"
   }
 }
