@@ -9,7 +9,9 @@ describe("video-embed plugin", function () {
         <a href="https://oliviachaney.bandcamp.com/album/circus-of-desire">https://oliviachaney.bandcamp.com/album/circus-of-desire</a>
         <a href="https://cloquet.bandcamp.com/track/new-drugs">https://cloquet.bandcamp.com/track/new-drugs</a>
         <a href="https://foo.com/87952436">https://foo.com/87952436</a>
-      `
+      `,
+      { decodeEntities: false },
+      false
     );
     videoEmbed.render($, function (err) {
       expect(err).toEqual(null);
