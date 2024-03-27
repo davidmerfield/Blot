@@ -123,11 +123,6 @@ function read (blog, path, options, callback) {
             $("meta").remove();
             $("title").remove();
 
-            // remove all comments
-            $("*").each(function () {
-              if (this.type === "comment") $(this).remove();
-            });
-
             var titleTag = $("header h1");
 
             $("header").replaceWith(titleTag);

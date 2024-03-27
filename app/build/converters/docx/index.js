@@ -81,6 +81,12 @@ function read (blog, path, options, callback) {
           }
 
           fs.readFile(outPath, "utf-8", function (err, html) {
+            // remove everything between '<!--[if lt IE 9]>' and '<![endif]-->' including those comments
+            html = html.replace(
+              /<!--\[if lt IE 9\]>[\s\S]*<!\[endif\]-->/g,
+              ""
+            );
+
             var $ = cheerio.load(html, { decodeEntities: false }, false);
 
             // all p that contain possible metadata are checked until one is encountered that does not
@@ -88,6 +94,11 @@ function read (blog, path, options, callback) {
             // first p that is entirely bold is h1, next are all h2
 
             var metadata = {};
+
+            // remove <style>, <meta> and <title>
+            $("style").remove();
+            $("meta").remove();
+            $("title").remove();
 
             $("p").each(function (i) {
               if ($(this).children().length) return false;
@@ -190,7 +201,7 @@ function read (blog, path, options, callback) {
               $(this).removeAttr("style");
             });
 
-            html = $("body").html().trim();
+            html = $.html().trim();
 
             var metadataString = "<!--";
 
