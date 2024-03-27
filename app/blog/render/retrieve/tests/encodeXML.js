@@ -9,7 +9,7 @@ describe("encodeXML", function () {
       protocol: "http",
       get: function () {
         return "example.com";
-      },
+      }
     };
   });
 
@@ -34,7 +34,7 @@ describe("encodeXML", function () {
 
     encodeXML(this.request, function (err, lambda) {
       result = mustache.render(template, { encodeXML: lambda });
-      expect(result).toEqual("&amp; foo &#xFF08;&#x4FBF;&#x5229;");
+      expect(result).toEqual("&amp; foo （便利");
       done();
     });
   });

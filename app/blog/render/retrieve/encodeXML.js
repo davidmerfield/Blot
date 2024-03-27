@@ -23,7 +23,13 @@ module.exports = function (req, callback) {
       text = render(text);
 
       try {
-        $ = cheerio.load(text, null, false);
+        $ = cheerio.load(
+          text,
+          {
+            decodeEntities: false
+          },
+          false
+        );
         $ = absoluteURLs(req.protocol + "://" + req.get("host"), $);
         $("script").remove();
         xml = $.html();
