@@ -1,0 +1,54 @@
+<textarea type="text" name="body" id="body" rows="4" cols="10" placeholder="">{{body}}</textarea>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@devhau/md-editor@1.0.4/dist/md-editor.min.css">
+
+<style type="text/css">
+  .editor-toolbar:after, .editor-toolbar:before {margin:0;}
+  .CodeMirror .CodeMirror-placeholder{
+    opacity: 0.3333
+  }
+  .editor-toolbar {
+border: 1px solid var(--border-color);
+margin: 0 0 -1px 0;
+opacity: 1;
+  }
+
+  .editor-toolbar a {color: var(--light-text-color)!important;}
+.editor-toolbar {border-radius: 0}
+.editor-toolbar{padding:0;}
+  .editor-statusbar {visibility: hidden;}
+.CodeMirror, .CodeMirror-scroll {
+      border-color: var(--border-color);
+      background: var(--background-color);
+      color: var(--text-color);
+      min-height: 200px!important;
+}
+
+
+.CodeMirror-cursor {
+    border-left: 1px solid var(--text-color);
+  }
+
+   .cm-s-paper .CodeMirror-selected {
+    background: var(--text-color)!important;
+    color: var(--background-color)!important;
+  }
+
+  .editor-toolbar i.separator {
+border-color: var(--light-border-color)}
+
+
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@devhau/md-editor@1.0.4/dist/md-editor.min.js"></script>
+<script src="/js/tagify.js"></script>
+<link href="/css/tagify.css" rel="stylesheet" type="text/css" />
+<script>
+var editor = new mdEditor({ element: document.getElementById("body"),
+insertTexts: {
+  link: ["[", "](https://)"],
+  image: ["![](https://", ")"],
+ }
+});
+
+editor.setSize(200, 200)
+</script>

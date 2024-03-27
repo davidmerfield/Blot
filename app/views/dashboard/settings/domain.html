@@ -1,0 +1,54 @@
+{{> form-header}}
+<input type="hidden" name="redirect" value="{{{base}}}/domain" />
+
+<p>Your site comes with a Blot subdomain. You can also <a href="/how/configure/domain">use your own domain</a>. Please don't hesitate to <a href="/support">contact us</a> if you have any questions.</p>
+  <label>Your domain</label>
+  <div class="messageWrapper">
+    <input type="text" id="customDomain" name="domain" data-verify="{{{base}}}/verify-domain/{{blog.pretty.domain}}"
+
+    {{! 
+
+      We use blog.pretty.domain instead of blog.domain so we can render punycode domains
+      like exāmple.com nicely. When saved, we convert back to ascii on the server.
+      
+    }}
+    value="{{blog.pretty.domain}}" 
+
+    placeholder="Enter your website’s hostname"/>
+    <span id="inputMessage" class="inputMessage"></span>
+  </div>
+
+  <span class="error" >{{errors.domain}}</span>
+
+  {{#blog.domain}}
+  <p class="mess error" style="box-sizing: content-box; border-radius:0;border:none;display:none;margin:20px -20px 0;padding: 8px 20px" id="warning">Your domain does not yet point to Blot. Please read the <a  href="/how/configure/domain">guide to using your own domain</a>. Don't hesitate to <a href="/support">contact support</a> if you have any questions.
+  </p>
+
+
+  {{#footer}}
+  <script src="/js/jquery.js?{{cacheID}}"></script>
+  <script type="text/javascript">
+    const verify = $('#customDomain').attr('data-verify');
+    if (verify) {
+     $.get(verify, function(data) {
+       if (data && data === 'true' || data === true) {
+         $('#inputMessage').html('').addClass('success');
+       } else {
+         $('#inputMessage').html('!').addClass('warning');
+         $('#warning').show();
+       }
+     });
+    }
+  </script>
+  {{/footer}}
+  {{/blog.domain}}
+    <br>
+    <label for="handle">
+      Your subdomain on Blot<br>
+    </label>
+    <div style="position:relative;border-radius:4px">
+      <span style="color:#ccc;position:absolute;right:11px;top:9px">&nbsp;.{{host}}</span>
+      <input type="text" style="background:transparent" name="handle" value="{{blog.handle}}" style=""/>
+    </div>
+
+    {{> form-footer}}

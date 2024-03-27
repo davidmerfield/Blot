@@ -1,0 +1,32 @@
+<h1>{{^tag}}Questions {{/tag}}{{#tag}}{{ prettyTag }}{{/tag}}</h1>
+
+{{#tag}}
+<p style="color:var(--light-text-color);font-size:var(--small-font-size)">
+  {{paginator.topics_count}} questions tagged '{{prettyTag}}'
+  </p>
+{{/tag}}
+{{^tag}}
+<div style="display: flex;align-items: baseline;margin:0 0 1em;font-size:16px;flex-wrap:wrap">
+    {{> questions-search}}
+    <a class="bordered-button"  href="/questions/ask">Ask a question</a>
+</div>
+{{/tag}}
+<!-- 
+<p class="filters">
+  <a class="{{selected.questionsIndex}}" href="/questions">Recent</a>
+  <a class="{{selected.popular}}" href="/questions/popular">Most discussion</a>
+</p> -->
+
+<div class="questions collapse-on-small-screens">
+
+<div style="flex-basis:66%;margin-top:1.25em" >
+  {{#topics}}
+    {{> question-row}}  
+  {{/topics}}
+
+{{> questions-paginator}}
+</div>
+<div style="flex-basis:33%;">
+  {{> questions-sidebar}}
+</div>
+</div>

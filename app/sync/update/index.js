@@ -6,6 +6,7 @@ var drop = require("./drop");
 var set = require("./set");
 var mkdir = require("./mkdir");
 var flushCache = require("models/blog/flushCache");
+var pathNormalizer = require("helper/pathNormalizer");
 
 module.exports = function (blog, log, status) {
   return function update(path, options, callback) {
@@ -14,21 +15,21 @@ module.exports = function (blog, log, status) {
       options = {};
     }
 
+    path = pathNormalizer(path);
+
     status("Syncing " + path);
 
-    // Blot likes leading slashes, the git client
-    // for instance does not have them but we
-    // are not so strict above these things...
-    if (path[0] !== "/") path = "/" + path;
-
-    hashFile(path, function (err, hashBefore) {
+    hashFile(localPath(blog.id, path), function (err, hashBefore) {
       function done(err) {
         // we never let this error escape out
         if (err) {
           console.error(clfdate(), blog.id, path, err);
         }
-        hashFile(path, function (err, hashAfter) {
-          if (hashBefore !== hashAfter) update(path, options, callback);
+        hashFile(localPath(blog.id, path), function (err, hashAfter) {
+          if (hashBefore !== hashAfter) {
+            status("Re-syncing " + path);
+            return update(path, options, callback);
+          }
 
           // the cache is flushed at the end of a sync too
           // but if we don't do it after updating each files

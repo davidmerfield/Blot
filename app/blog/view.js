@@ -1,5 +1,5 @@
 module.exports = function (server) {
-  var Template = require("template");
+  var Template = require("models/template");
 
   server.use(function (request, response, next) {
     var blog = request.blog,

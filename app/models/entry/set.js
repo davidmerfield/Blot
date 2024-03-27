@@ -1,10 +1,10 @@
 var async = require("async");
 var ensure = require("helper/ensure");
 var model = require("./model");
-var redis = require("client");
+var redis = require("models/client");
 var guid = require("helper/guid");
 var clfdate = require("helper/clfdate");
-
+var debug = require("debug")("blot:entry:set");
 var get = require("./get");
 var key = require("./key");
 var setUrl = require("./_setUrl");
@@ -12,7 +12,6 @@ var setUrl = require("./_setUrl");
 // Queue items
 var rebuildDependencyGraph = require("./_rebuildDependencyGraph");
 var backlinksToUpdate = require("./_backlinksToUpdate");
-var updateSearchIndex = require("./_updateSearchIndex");
 var updateTagList = require("models/tags").set;
 var addToSchedule = require("./_addToSchedule");
 var notifyDrafts = require("./_notifyDrafts");
@@ -22,7 +21,7 @@ var assignToLists = require("./_assign");
 // properties in the updates param and then overwrites those.
 // Also updates entry properties which affect data stored
 // elsewhere such as created date, permalink etc..
-module.exports = function set(blogID, path, updates, callback) {
+module.exports = function set (blogID, path, updates, callback) {
   ensure(blogID, "string")
     .and(path, "string")
     .and(updates, model)
@@ -30,6 +29,8 @@ module.exports = function set(blogID, path, updates, callback) {
 
   var entryKey = key.entry(blogID, path);
   var queue;
+
+  debug("set", blogID, path);
 
   // Get the entry stored against this ID
   get(blogID, path, function (entry) {
@@ -81,9 +82,13 @@ module.exports = function set(blogID, path, updates, callback) {
       entry.menu = entry.page = entry.draft = entry.scheduled = false;
     }
 
+    debug("set", blogID, path, "calling setUrl");
+
     setUrl(blogID, entry, function (err, url) {
       // Should be pretty serious (i.e. issue with DB)
       if (err) return callback(err);
+
+      debug("set", blogID, path, "setUrl returned", url);
 
       // URL will be an empty string for
       // drafts, scheduled entries and deleted entries
@@ -98,15 +103,9 @@ module.exports = function set(blogID, path, updates, callback) {
         if (err) return callback(err);
 
         queue = [
-          updateSearchIndex.bind(this, blogID, entry),
           updateTagList.bind(this, blogID, entry),
           assignToLists.bind(this, blogID, entry),
-          rebuildDependencyGraph.bind(
-            this,
-            blogID,
-            entry,
-            previousDependencies
-          ),
+          rebuildDependencyGraph.bind(this, blogID, entry, previousDependencies)
         ];
 
         if (entry.scheduled)
@@ -123,24 +122,42 @@ module.exports = function set(blogID, path, updates, callback) {
             previousPermalink,
             function (err, changes) {
               if (err) return callback(err);
+
+              if (changes.length)
+                console.log(
+                  clfdate(),
+                  blogID.slice(0, 12),
+                  "updating backlinks:",
+                  path
+                );
               async.eachOf(
                 changes,
                 function (backlinks, linkedEntryPath, next) {
                   console.log(
                     clfdate(),
-                    blogID,
-                    path,
-                    "updating backlinks list of linked entry",
+                    blogID.slice(0, 12),
+                    "    - linked entry:",
                     linkedEntryPath
                   );
-                  set(blogID, linkedEntryPath, { backlinks }, next);
+                  set(blogID, linkedEntryPath, { backlinks }, function (err) {
+                    if (err) {
+                      console.log(
+                        clfdate(),
+                        blogID.slice(0, 12),
+                        "    - error updating linked entry:",
+                        linkedEntryPath
+                      );
+                      console.log(err);
+                    }
+                    next();
+                  });
                 },
                 function (err) {
                   if (err) return callback(err);
                   if (entry.deleted) {
-                    console.log(clfdate(), blogID, path, "deleted");
+                    console.log(clfdate(), blogID.slice(0, 12), "delete", path);
                   } else {
-                    console.log(clfdate(), blogID, path, "updated");
+                    console.log(clfdate(), blogID.slice(0, 12), "update", path);
                   }
                   callback();
                 }

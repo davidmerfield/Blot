@@ -4,7 +4,8 @@
 const async = require("async");
 const debug = require("debug")("blot:clients:local:setup");
 const setup = require("./setup");
-const client = require("redis").createClient();
+const redis = require("models/redis");
+const client = new redis();
 const clfdate = require("helper/clfdate");
 const Blog = require("models/blog");
 const prefix = () => clfdate() + " Local folder client:";
@@ -25,26 +26,28 @@ module.exports = () => {
     });
   });
 
-  Blog.getAllIDs(function (err, blogIDs) {
-    if (err) console.error(err);
-    async.eachSeries(
-      blogIDs,
-      function (blogID, next) {
-        console.log(prefix(), "Blog:", blogID, "Setting up");
-        Blog.get({ id: blogID }, function (err, blog) {
-          if (err) return next(err);
-          if (!blog || blog.client !== "local") return next();
-
-          console.log(prefix(), "Synchronizing", blogID);
-          setup(blogID, function (err) {
+  setTimeout(function () {
+    Blog.getAllIDs(function (err, blogIDs) {
+      if (err) console.error(err);
+      async.eachSeries(
+        blogIDs,
+        function (blogID, next) {
+          console.log(prefix(), "Blog:", blogID, "Setting up");
+          Blog.get({ id: blogID }, function (err, blog) {
             if (err) return next(err);
-            next();
+            if (!blog || blog.client !== "local") return next();
+
+            console.log(prefix(), "Synchronizing", blogID);
+            setup(blogID, function (err) {
+              if (err) return next(err);
+              next();
+            });
           });
-        });
-      },
-      function (err) {
-        console.log(prefix(), "Checked all blogs");
-      }
-    );
-  });
+        },
+        function (err) {
+          console.log(prefix(), "Checked all blogs");
+        }
+      );
+    });
+  }, 5 * 1000); // 5s
 };

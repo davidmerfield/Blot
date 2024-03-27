@@ -1,0 +1,37 @@
+# Tools
+
+## Web server
+- [nginx](https://nginx.org/en/) as reverse proxy. Specifically, we use a distribution of nginx called [OpenResty]() which comes with a Lua interpreter. This means we can take advantage of the excellent [lua-resty-auto-ssl](https://github.com/auto-ssl/lua-resty-auto-ssl) to handle SSL certificate issuing and renewal through [Let's encrypt](https://letsencrypt.org/). The reverse proxy is exposed to the internet and handles SSL termination, static file delivery and caching. Anything else is passed to the application server.
+- [Node](https://nodejs.org/) runs our application server and uses the [Express](https://expressjs.com/) framework.
+
+## Database
+
+- [Redis](https://redis.io/) for all data that isn't efficient to store on disk. Redis runs on a seperate machine to the reverse proxy and application servers. It's backed up every hour to S3 and backups are retained for a week. Originally I selected redis as a database because I found the simplicity of a key-value store appealing. 
+
+## Content Delivery Network
+
+- [Bunny](https://bunny.net/) is faster and cheaper than [Cloudfront](https://aws.amazon.com/cloudfront/). I was burnt with a bad Cloudfront bill due to a configuration issue with the video on Blot's homepage and was annoyed enough to take my business elsewhere.
+
+## Version control
+
+- [git](https://git-scm.com/) was our first choice and so it remains. 
+
+## Testing
+- [GitHub actions](https://github.com/features/actions) runs our test suite.
+- [Jasmine](https://jasmine.github.io/) is the framework we used to create our test suite.
+
+## Excellent JavaScript libraries
+
+- [sharp](https://sharp.pixelplumbing.com)
+- [cheerio](https://cheerio.js.org/)
+- [mustache](https://mustache.github.io/)
+
+## Development environment
+
+- [macOS]() is the operating system on which I write Blot's source code.
+- [Docker]()
+- [Visual Studio Code]() is the text editor in which I write the code. I still aspire to learn how to use vim.
+- [GitHub CoPilot]()
+- [iTerm]() is where I run the code.
+- [JSHint]() and [Prettier]() lint the code I write.
+- All of this runs on a 12-inch [MacBook]() with an Intel 1.2 GHz m3 processor and 8 GB of RAM. I do not have an external monitor since it is important to be able to put my desk into a state with no visible technology.

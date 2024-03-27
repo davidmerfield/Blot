@@ -11,7 +11,7 @@ var config = {
     "tests/**/*.js",
     "app/**/tests/**/*.js",
     "app/**/tests.js",
-    "!**/node_modules/**", // excludes tests inside node_modules directories
+    "!app/documentation/build/finder", // excludes tests inside node_modules directories
   ],
   helpers: [],
   stopSpecOnExpectationFailure: false,
@@ -108,7 +108,7 @@ global.test = {
       server = Express();
 
       // Load in routes in suite
-      fn(server);
+      fn(server, this);
 
       this.origin = "http://localhost:" + port;
       server = server.listen(port, function () {

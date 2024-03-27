@@ -6,12 +6,16 @@ describe("candidates", function () {
   // in the order they appear in the post
   it("finds a thumbnail candidate", function () {
     var metadata = { thumbnail: "http://example.com/image-in-metadata.jpg" };
-    var html = '<img src="/first-image.jpg"><img src="/second-image.jpg">';
+    var html = `<img src="/first-image.jpg">
+      <div class="videoContainer" style="padding-bottom:56.25%"><iframe src="https://www.youtube.com/embed/YaT_5KoGh1Q?rel=0&wmode=transparent&rel=0&autohide=1&showinfo=0" frameborder="0" allowfullscreen></iframe></div>
+      <img src="/second-image.jpg">`;
 
     expect(candidates(metadata, html)).toEqual([
       "http://example.com/image-in-metadata.jpg",
       "/first-image.jpg",
-      "/second-image.jpg",
+      "https://i.ytimg.com/vi/YaT_5KoGh1Q/maxresdefault.jpg",
+      "http://img.youtube.com/vi/YaT_5KoGh1Q/mqdefault.jpg",
+      "/second-image.jpg"
     ]);
   });
 

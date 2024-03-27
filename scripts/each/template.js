@@ -14,19 +14,19 @@ module.exports = function (doThis, callback) {
           // Only manipulate templates owned by the blog
           if (template.owner !== blog.id) return nextTemplate();
 
-          console.log();
-          console.log(
-            blog.id + ".",
-            template.slug,
-            "(" + blog.handle + ")",
-            "http://preview.my." +
-              template.slug +
-              "." +
-              blog.handle +
-              "." +
-              config.host
-          );
-          console.log("----------------------------------------------------");
+          // console.log();
+          // console.log(
+          //   blog.id + ".",
+          //   template.slug,
+          //   "(" + blog.handle + ")",
+          //   "http://preview.my." +
+          //     template.slug +
+          //     "." +
+          //     blog.handle +
+          //     "." +
+          //     config.host
+          // );
+          // console.log("----------------------------------------------------");
 
           doThis(user, blog, template, nextTemplate);
         },

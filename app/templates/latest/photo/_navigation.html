@@ -6,23 +6,31 @@
           <span class="hamburger-inner"></span>
     </span>
   </label>
+
+
   <nav>
+    {{^is.navigation_alignment.justified}}
+    <span class="spacer"></span>
+    {{/is.navigation_alignment.justified}}
+
     {{#menu}}
     <a href="{{{url}}}" class="{{active}}">{{label}}</a>
     {{/menu}}
 
     {{#pagination}}
+    {{^infinite_scroll}}
     <span class="spacer"></span>
     <span class="tabular-numerals"><span id="current-page">{{current}}</span> of {{total}}</span>
     <a class="previous-page" {{#previous}}href="/page/{{previous}}"{{/previous}}>&larr; </a>
     <a class="next-page" {{#next}}href="/page/{{next}}"{{/next}}> &rarr;</a>
+    {{/infinite_scroll}}
     {{/pagination}}
 
     {{#entry}}
     {{^page}}
     <span class="spacer"></span>
-    <a href="{{{next.url}}}">&larr; </a>
-    <a href="{{{previous.url}}}"> &rarr;</a>
+    <a {{#next}}href="{{{next.url}}}"{{/next}}>&larr; </a>
+    <a {{#previous}}href="{{{previous.url}}}"{{/previous}}> &rarr;</a>
     <span class="spacer"></span>
     <a href="/">✕ Close</a>
     {{/page}}

@@ -1,5 +1,5 @@
 var async = require("async");
-var client = require("client");
+var client = require("models/client");
 var config = require("config");
 var fs = require("fs-extra");
 var get = require("./get");
@@ -131,7 +131,7 @@ function disconnectClient(blog, callback) {
 }
 
 function updateUser(blog, callback) {
-  var User = require("user");
+  var User = require("models/user");
   User.getById(blog.owner, function (err, user) {
     if (err) return callback(err);
 

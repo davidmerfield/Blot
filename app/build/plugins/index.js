@@ -1,5 +1,5 @@
+const { marked } = require("marked");
 var config = require("config");
-var marked = require("marked");
 var cheerio = require("cheerio");
 var fs = require("fs");
 var ensure = require("helper/ensure");
@@ -17,7 +17,26 @@ var TIMEOUT = 10 * 60 * 1000;
 // blog, can be used to render a string
 var defaultPlugins = {};
 
-var loaded = loadPlugins(__dirname);
+var loaded = loadPlugins({
+  analytics: require("./analytics"),
+  autoImage: require("./autoImage"),
+  codeHighlighting: require("./codeHighlighting"),
+  commento: require("./commento"),
+  disqus: require("./disqus"),
+  emoticons: require("./emoticons"),
+  externalLinks: require("./externalLinks"),
+  image: require("./image"),
+  imageCaption: require("./imageCaption"),
+  katex: require("./katex"),
+  linebreaks: require("./linebreaks"),
+  linkScreenshot: require("./linkScreenshot"),
+  titlecase: require("./titlecase"),
+  twitter: require("./twitter"),
+  typeset: require("./typeset"),
+  videoEmbeds: require("./videoEmbeds"),
+  wikilinks: require("./wikilinks"),
+  zoom: require("./zoom")
+});
 
 var list = loaded.list;
 var plugins = loaded.plugins;
@@ -25,7 +44,7 @@ var prerenderers = loaded.prerenderers;
 
 // Takes a string and based on the user's
 // plugins converts it into an HTML string
-function convert(blog, path, contents, callback) {
+function convert (blog, path, contents, callback) {
   ensure(contents, "string")
     .and(path, "string")
     .and(blog, "object")
@@ -43,7 +62,7 @@ function convert(blog, path, contents, callback) {
     domain: blog.domain,
     blogID: blog.id,
     path: path,
-    baseURL: "https://" + blog.handle + "." + config.host,
+    baseURL: "https://" + blog.handle + "." + config.host
   };
 
   async.eachSeries(
@@ -90,7 +109,7 @@ function convert(blog, path, contents, callback) {
     },
     function () {
       // Don't decode entities, preserve the original content
-      var $ = cheerio.load(contents, { decodeEntities: false });
+      var $ = cheerio.load(contents, { decodeEntities: false }, false);
 
       async.eachSeries(
         plugins,
@@ -143,7 +162,7 @@ function convert(blog, path, contents, callback) {
 // Load plugin templates,
 // this is currently async but uses
 // a callback for when I need it
-function load(file, blogPlugins, callback) {
+function load (file, blogPlugins, callback) {
   var response = "";
 
   for (var i in blogPlugins) {
@@ -161,7 +180,7 @@ function load(file, blogPlugins, callback) {
   return callback(null, response);
 }
 
-function Enabled(blogPlugins) {
+function Enabled (blogPlugins) {
   var enabled = {};
 
   for (var i in blogPlugins) if (blogPlugins[i].enabled) enabled[i] = true;
@@ -169,11 +188,11 @@ function Enabled(blogPlugins) {
   return enabled;
 }
 
-function isHTML(path) {
+function isHTML (path) {
   return path.slice(-5) === ".html" || path.slice(-4) === ".htm";
 }
 
-function read(name, file) {
+function read (name, file) {
   var path = __dirname + "/" + name + "/" + file;
 
   var contents = "";
@@ -187,19 +206,13 @@ function read(name, file) {
   return contents;
 }
 
-function loadPlugins(dir) {
+function loadPlugins (plugins) {
   var _list = {};
   var _plugins = [];
   var _prerenderers = [];
 
-  fs.readdirSync(dir).forEach(function (name) {
-    // Ignore this file (index.js) and sys files
-    if (name[0] === ".") return;
-    if (name.slice(-3) === ".js") return;
-    if (name.slice(-4) === ".txt") return;
-    if (name === "tests") return;
-    
-    var plugin = require("./" + name);
+  Object.keys(plugins).forEach(function (name) {
+    var plugin = plugins[name];
 
     if (plugin.disabled) return;
 
@@ -208,7 +221,7 @@ function loadPlugins(dir) {
     // Plugins are used by default unless
     // explicitly blacklisted in config
     plugin.title = plugin.title || deCamelize(name);
-    plugin.description = marked(plugin.description || "");
+    plugin.description = marked.parse(plugin.description || "");
     plugin.id = name;
 
     // undefined -> true, defined to defined
@@ -248,18 +261,18 @@ function loadPlugins(dir) {
     // default plugins for each user
     defaultPlugins[name] = {
       enabled: plugin.isDefault,
-      options: plugin.options || {},
+      options: plugin.options || {}
     };
   });
 
   return {
     plugins: _plugins,
     prerenderers: _prerenderers,
-    list: _list,
+    list: _list
   };
 }
 
-function Timeout(name, cb) {
+function Timeout (name, cb) {
   return setTimeout(function () {
     console.log(name + " timed out. Moving to next plugin.");
     cb();
@@ -270,5 +283,5 @@ module.exports = {
   convert: convert,
   load: load,
   list: list,
-  defaultList: defaultPlugins,
+  defaultList: defaultPlugins
 };

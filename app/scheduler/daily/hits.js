@@ -1,116 +1,184 @@
 const fs = require("fs-extra");
-var moment = require("moment");
-var lineReader = require("helper/lineReader");
-const rootDir = require("helper/rootDir");
 const prettyNumber = require("helper/prettyNumber");
-const logDirectory = rootDir + "/logs";
+const prettySize = require("helper/prettySize");
+const { blot_directory } = require("config");
 
-function loadTmpLogFile(callback) {
-  const tmpLogFilePath = rootDir + "/tmp/" + new Date().valueOf() + ".log";
-  const yesterdaysLog = fs
-    .readdirSync(logDirectory)
-    .map((item) => {
-      return {
-        name: item,
-        has_nginx: fs.existsSync(logDirectory + "/" + item + "/nginx.log"),
-        stat: fs.statSync(logDirectory + "/" + item),
-      };
-    })
-    .filter((item) => item.has_nginx)
-    .sort((a, b) => {
-      if (a.stat.mtime > b.stat.mtime) return 1;
-      if (b.stat.mtime > a.stat.mtime) return -1;
-      return 0;
-    })
-    .map((item) => logDirectory + "/" + item.name + "/nginx.log")
-    .pop();
+const stats_directory = blot_directory + "/data/stats";
 
-  if (yesterdaysLog) fs.copySync(yesterdaysLog, tmpLogFilePath);
+// stats are stored in JSON arrays in files with the format '2023-11-29-20.json'
+// where 20 is the hour of the day in UTC. we want to read all the files for the
+// last 24 hours and average some of the values, and sum others.
+// each file contains an array of 60 objects with the following properties,
+// representing a minute of data:
+// "date":1701237480000,
+// "cpu":39.25,
+// "memory":40.735,
+// "slowestRequests":[],
+// "slowestResponseTime":5.325,
+// "medianResponseTime":0.029,
+// "meanResponseTime":0.2983464566929135,
+// "requests":254,
+// "percent4XX":1.968503937007874,
+// "percent5XX":0.7874015748031495
 
-  // open destination file for appending
-  var w = fs.createWriteStream(tmpLogFilePath, { flags: "a" });
-  // open source file for reading
-  var r = fs.createReadStream(logDirectory + "/nginx.log");
+const stats_subdirectories = fs.existsSync(stats_directory)
+  ? fs.readdirSync(stats_directory)
+  : [];
 
-  w.on("close", function () {
-    callback(null, tmpLogFilePath);
-  });
+const properties_to_apply_prettyNumber = ["requests"];
+const properties_to_round_integer = ["connected_clients"];
+const properties_to_round_three_decimal_places = [
+  "medianResponseTime",
+  "meanResponseTime"
+];
 
-  r.pipe(w);
-}
-function main(callback) {
-  loadTmpLogFile(function (err, tmpLogFilePath) {
-    var hits = 0;
-    var responseTimes = [];
-    lineReader
-      .eachLine(tmpLogFilePath, function (line) {
-        // Last line of file is often empty
-        if (!line) return true;
+const properties_to_apply_makePercentage = [
+  "memory",
+  "cpu",
+  "cpu_load",
+  "percent4XX",
+  "percent5XX"
+];
+const properties_to_apply_prettySize = [
+  "bytesSent",
+  "bytesReceived",
+  "root_disk_used",
+  "root_disk_free",
+  "backup_disk_free",
+  "backup_disk_used",
+  "system_memory",
+  "used_memory"
+];
 
-        if (line.indexOf("[error]") > -1) {
-          return true;
+const properties_to_sum = ["requests", "bytesSent", "bytesReceived"];
+
+const properties_to_average = [
+  "medianResponseTime",
+  "meanResponseTime",
+  "memory",
+  "cpu",
+  "percent4XX",
+  "percent5XX",
+
+  // redis
+  "connected_clients",
+  "cpu_load"
+];
+
+const properties_to_return_most_recent = [
+  "root_disk_used",
+  "root_disk_free",
+  "backup_disk_free",
+  "backup_disk_used",
+  "system_memory",
+  "used_memory"
+];
+
+function main (callback) {
+  const response = {};
+
+  for (let x = 0; x < stats_subdirectories.length; x++) {
+    const subdirectory = stats_subdirectories[x];
+    const aggregate = (response[subdirectory] = {});
+    const files = fs
+      .readdirSync(stats_directory + "/" + subdirectory)
+      .filter(file => file.endsWith(".json"))
+      .sort()
+      .slice(-24)
+      .reverse();
+
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      const stats = JSON.parse(
+        fs.readFileSync(
+          stats_directory + "/" + subdirectory + "/" + file,
+          "utf8"
+        )
+      ).reverse();
+
+      for (let j = 0; j < stats.length; j++) {
+        const stat = stats[j];
+
+        for (let k = 0; k < properties_to_sum.length; k++) {
+          const property = properties_to_sum[k];
+          if (stat[property] === undefined) continue;
+
+          if (!aggregate[property]) aggregate[property] = 0;
+          aggregate[property] += stat[property];
         }
 
-        if (line.indexOf("[warn]") > -1) {
-          return true;
+        for (let k = 0; k < properties_to_average.length; k++) {
+          const property = properties_to_average[k];
+          if (stat[property] === undefined) continue;
+
+          if (!aggregate[property]) aggregate[property] = [];
+          aggregate[property].push(stat[property]);
         }
 
-        if (line[0] !== "[") return true;
-
-        var date = moment(
-          line.slice(1, line.indexOf("]")),
-          "DD/MMM/YYYY:HH:mm:ss Z"
-        );
-
-        if (!date.isValid()) return true;
-
-        var components = line.slice(line.indexOf("]") + 2).split(" ");
-        var responseTime = parseFloat(components[2]);
-
-        if (date.isAfter(moment().subtract(1, "day"))) {
-          if (!isNaN(responseTime)) {
-            hits++;
-            responseTimes.push(responseTime);
-          }
-          return true;
-        } else {
-          // older than a day
-          return false;
+        for (let k = 0; k < properties_to_return_most_recent.length; k++) {
+          const property = properties_to_return_most_recent[k];
+          if (stat[property] === undefined) continue;
+          if (aggregate[property] === undefined)
+            aggregate[property] = stat[property];
         }
-      })
-      .then(function () {
-        var averageResponseTime;
-        var sum = 0;
+      }
+    }
 
-        responseTimes.sort();
+    // average the properties that need to be averaged
+    for (let i = 0; i < properties_to_average.length; i++) {
+      const property = properties_to_average[i];
+      if (!aggregate[property]) continue;
+      const average =
+        aggregate[property].reduce((a, b) => a + b) /
+        aggregate[property].length;
 
-        responseTimes.forEach(function (responseTime) {
-          sum += responseTime;
-        });
+      aggregate[property] = average;
+    }
 
-        averageResponseTime = sum / responseTimes.length;
+    // apply the formatting for the properties that need it
+    for (let i = 0; i < properties_to_apply_prettyNumber.length; i++) {
+      const property = properties_to_apply_prettyNumber[i];
+      if (aggregate[property] === undefined) continue;
+      aggregate[property] = prettyNumber(aggregate[property]);
+    }
 
-        fs.removeSync(tmpLogFilePath);
+    for (let i = 0; i < properties_to_apply_makePercentage.length; i++) {
+      const property = properties_to_apply_makePercentage[i];
+      if (aggregate[property] === undefined) continue;
+      aggregate[property] = aggregate[property].toFixed(2) + "%";
+    }
 
-        callback(null, {
-          average_response_time: prettyTime(averageResponseTime),
-          median_response_time: prettyTime(
-            responseTimes[Math.floor(responseTimes.length * 0.5)]
-          ),
-          ninety_ninth_percentile_response_time: prettyTime(
-            responseTimes[Math.floor(responseTimes.length * 0.99)]
-          ),
-          total_requests_served: prettyNumber(hits),
-        });
-      });
-  });
-}
+    for (let i = 0; i < properties_to_round_integer.length; i++) {
+      const property = properties_to_round_integer[i];
+      if (aggregate[property] === undefined) continue;
+      aggregate[property] = Math.round(aggregate[property]);
+    }
 
-function prettyTime(n) {
-  if (!n) return "";
-  n = n.toFixed(2);
-  if (n.toString() === "0.00") n = 0.01;
-  return n + "s";
+    for (let i = 0; i < properties_to_round_three_decimal_places.length; i++) {
+      const property = properties_to_round_three_decimal_places[i];
+      if (aggregate[property] === undefined) continue;
+      aggregate[property] = aggregate[property].toFixed(3);
+    }
+
+    for (let i = 0; i < properties_to_apply_prettySize.length; i++) {
+      const property = properties_to_apply_prettySize[i];
+      if (aggregate[property] === undefined) continue;
+
+      // convert to KB
+      if (
+        property === "bytesSent" ||
+        property === "bytesReceived" ||
+        property === "used_memory" ||
+        property === "system_memory"
+      ) {
+        aggregate[property] *= 1 / 1024;
+      }
+
+      aggregate[property] = prettySize(aggregate[property]);
+    }
+  }
+
+  return callback(null, response);
 }
 
 module.exports = main;

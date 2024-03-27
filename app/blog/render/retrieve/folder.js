@@ -1,6 +1,6 @@
 const fs = require("fs-extra");
 const async = require("async");
-const Entry = require("entry");
+const Entry = require("models/entry");
 const Path = require("path");
 const localPath = require("helper/localPath");
 const alphanum = require("helper/alphanum");

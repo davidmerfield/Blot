@@ -1,1 +1,0 @@
-https://commons.wikimedia.org/wiki/Leonardo_da_Vinci

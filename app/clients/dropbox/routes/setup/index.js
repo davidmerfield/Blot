@@ -1,5 +1,5 @@
 const sync = require("sync");
-const redis = require("redis");
+const redis = require("models/redis");
 
 const promisify = require("util").promisify;
 const database = require("clients/dropbox/database");
@@ -7,23 +7,23 @@ const set = promisify(database.set);
 
 const getAccount = require("./getAccount");
 const createFolder = require("./createFolder");
-const syncContents = require("./syncContents");
+const resetFromBlot = require("../../sync/reset-from-blot");
 
 function setup(account, session, callback) {
   sync(account.blog.id, async function (err, folder, done) {
     if (err) return callback(err);
 
-    const client = redis.createClient();
+    const client = new redis();
     const signal = { aborted: false };
     const cleanup = () => {
-      console.log('Cleaning up Dropbox setup');
+      console.log("Cleaning up Dropbox setup");
       try {
         delete session.dropbox;
         session.save();
         client.unsubscribe();
         client.quit();
       } catch (e) {
-        console.log('Error cleaning up:', err);
+        console.log("Error cleaning up:", err);
       }
     };
 
@@ -37,18 +37,36 @@ function setup(account, session, callback) {
     });
 
     try {
-      folder.status("Loading your Dropbox account information");
+      folder.status("Loading Dropbox account");
       account = await getAccount(account);
       if (signal.aborted) return;
       session.save();
 
-      folder.status("Creating a folder in Dropbox for your blog");
+      folder.status("Creating folder in Dropbox");
       account = await createFolder(account, signal);
       if (signal.aborted) return;
       session.save();
 
-      folder.status("Transferring files in your folder to Dropbox");
-      account = await syncContents(account, folder, signal);
+      await set(account.blog.id, {
+        account_id: account.account_id,
+        email: account.email,
+        access_token: account.access_token,
+        refresh_token: account.refresh_token,
+        full_access: account.full_access,
+        folder: account.folder,
+        folder_id: account.folder_id,
+        error_code: 0,
+        last_sync: Date.now(),
+        cursor: "",
+      });
+
+      folder.status("Syncing your folder to Dropbox");
+      if (signal.aborted) return;
+
+      // upload folder contents to dropbox
+      // todo: pass in signal
+      await resetFromBlot(account.blog.id, folder.status);
+
       if (signal.aborted) return;
     } catch (err) {
       folder.status("Error: " + err.message);
@@ -56,18 +74,6 @@ function setup(account, session, callback) {
       return done(err, callback);
     }
 
-    await set(account.blog.id, {
-      account_id: account.account_id,
-      email: account.email,
-      access_token: account.access_token,
-      refresh_token: account.refresh_token,
-      error_code: 0,
-      last_sync: Date.now(),
-      full_access: account.full_access,
-      folder: account.folder,
-      folder_id: account.folder_id,
-      cursor: "",
-    });    
     cleanup();
     done(null, callback);
   });

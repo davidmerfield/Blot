@@ -36,12 +36,95 @@ describe("build", function () {
     this.syncAndCheck(file, entry, done);
   });
 
+  it("can publish an entry inside a folder with leading and trailing whitespace", function (done) {
+    const path = "/ 2018 / Hello.txt";
+    const content = "# Hello";
+
+    const file = { path, content };
+    const entry = { path, title: "Hello" };
+
+    this.syncAndCheck(file, entry, done);
+  });
+
+  it("ignores files in templates folder", function (done) {
+    this.syncAndCheck(
+      [
+        { path: "/Templates/foo.txt", content: this.fake.file() },
+        { path: "/templates/bar.txt", content: this.fake.file() }
+      ],
+      [
+        { path: "/Templates/foo.txt", ignored: true },
+        { path: "/templates/bar.txt", ignored: true }
+      ],
+      done
+    );
+  });
+
+  it("ignores files and files inside folders which start with an underscore", function (done) {
+    this.syncAndCheck(
+      [
+        { path: "/Posts/_foo.txt", content: this.fake.file() },
+        { path: "/_Pages/bar.txt", content: this.fake.file() },
+        { path: "/Mean/_bar/Ba/t.txt", content: this.fake.file() }
+      ],
+      [
+        { path: "/Posts/_foo.txt", ignored: true },
+        { path: "/_Pages/bar.txt", ignored: true },
+        { path: "/Mean/_bar/Ba/t.txt", ignored: true }
+      ],
+      done
+    );
+  });
+
+  it("ignores dot files and files inside dot folders", function (done) {
+    this.syncAndCheck(
+      [
+        { path: "/.foo.txt", content: this.fake.file() },
+        { path: "/.pages/bar.txt", content: this.fake.file() },
+        { path: "/mean/.bar/Ba/t.txt", content: this.fake.file() }
+      ],
+      [
+        { path: "/.foo.txt", ignored: true },
+        { path: "/.pages/bar.txt", ignored: true },
+        { path: "/mean/.bar/Ba/t.txt", ignored: true }
+      ],
+      done
+    );
+  });
+
   it("hides date from title if its in the file name", function (done) {
     const path = "/2018/06-04 Hello.jpg";
     const content = this.fake.file();
 
     const file = { path, content };
     const entry = { path, title: "Hello" };
+
+    this.syncAndCheck(file, entry, done);
+  });
+
+  it("incorporates slug metadata into a permalink format", function (done) {
+    const ctx = this;
+    require("models/blog").set(
+      ctx.blog.id,
+      { permalink: { format: "/post/{{slug}}" } },
+      () => {
+        const path = "/hey.txt";
+        const content = "Slug: foo\n\nHey!";
+
+        const file = { path, content };
+        const entry = { path, url: "/post/foo" };
+
+        ctx.syncAndCheck(file, entry, done);
+      }
+    );
+  });
+
+  it("uses slug metadata", function (done) {
+    const path = "/hey.txt";
+    const content = "Slug: foo\n\nHey!";
+
+    const file = { path, content };
+    const entry = { path, url: "/foo" };
 
     this.syncAndCheck(file, entry, done);
   });
@@ -76,27 +159,6 @@ describe("build", function () {
     this.syncAndCheck(file, entry, done);
   });
 
-  it("turns wikilinks into links", function (done) {
-    const path = "/hello.md";
-    const content = "[[wikilink]]";
-
-    const linkPath = "/wikilink.md";
-    const linkContent = "Link: foo\n\nWikilink";
-
-    // We know that Blot has worked out which file to link to
-    // because the href is set to foo!
-    const html = '<p><a href="/foo" class="wikilink">wikilink</a></p>';
-
-    const files = [
-      { path, content },
-      { path: linkPath, content: linkContent },
-    ];
-
-    const entry = { path, html };
-
-    this.syncAndCheck(files, entry, done);
-  });
-
   it("preserves case in title generated from file name passed as option", function (done) {
     const path = "/[tag] hello.jpg";
     const content = this.fake.file();
@@ -108,30 +170,6 @@ describe("build", function () {
     this.syncAndCheck(file, entry, done);
   });
 
-  // we switch the order when writing files to test
-  // the scenario in which the linked file is added
-  // after the file that does the linking
-  it("turns wikilinks into links using dependencies", function (done) {
-    const path = "/contains-wikilink.md";
-    const content = "[[target-of-link]]";
-
-    const linkPath = "/target-of-link.md";
-    const linkContent = "Link: foo\n\nWikilink";
-
-    // We know that Blot has worked out which file to link to
-    // because the href is set to foo!
-    const html = '<p><a href="/foo" class="wikilink">target-of-link</a></p>';
-
-    const files = [
-      { path, content },
-      { path: linkPath, content: linkContent },
-    ];
-
-    const entry = { path, html, dependencies: ["/target-of-link.md"] };
-
-    this.syncAndCheck(files, entry, done);
-  });
-
   it("rebuilds dependent entries", async function (done) {
     var path = "/post.txt";
     var content = "![](/image.png)";
@@ -141,12 +179,13 @@ describe("build", function () {
 
     const files = [
       { path, content },
-      { path: imagePath, content: imageContent },
+      { path: imagePath, content: imageContent }
     ];
 
     const entry = {
       path,
-      html: (result) => result.indexOf("/cdn/" + this.blog.id) > -1,
+      html: result =>
+        result.indexOf("cdn.") > -1 && result.indexOf(this.blog.id) > -1
     };
 
     this.syncAndCheck(files, entry, done);

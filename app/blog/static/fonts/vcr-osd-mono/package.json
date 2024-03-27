@@ -1,0 +1,10 @@
+{
+  "name": "VCR OSD Mono",
+  "stack": "'VCR OSD Mono'",
+  "line_height": 1.4,
+  "line_width": 38,
+  "font_size": 16,
+  "tags": [
+    "other"
+  ]
+}

@@ -6,6 +6,7 @@ on the services page of the dashboard */
 to load which font is selected as the main body font */
 {{{body_font.styles}}}
 {{{coding_font.styles}}}
+{{{syntax_highlighter.styles}}}
 
 html {
   {{#body_font}}
@@ -14,6 +15,7 @@ html {
   line-height: {{{line_height}}};
   {{/body_font}}
   text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
 }
 
 body {
@@ -293,6 +295,7 @@ label[for="toggle"] {
   color: {{text_link_color}}
 }
 
+.entry .caption {display: block;margin:1em 0;}
 .entry a:visited {
   color: {{text_link_visited_color}}
 }
@@ -340,21 +343,21 @@ label[for="toggle"] {
 }
 
 .post.photo .title {
-  font-size: calc({{body_font.font_size}}px * 0.875);
+  font-size: .875em;
   text-align: left;
   display: block;
   margin: calc({{spacing}}rem/4) 0 calc({{spacing}}rem/2);
 }
 
 .post.text .title {
-  font-size: 22px;
+  font-size: 1.375em;
   max-width: 15em;
   text-align: center;
   margin: 0.65rem 0 0.15rem;
 }
 
 .post.text .date {
-  font-size: 14px;
+  font-size: 0.875em;
 }
 
 /* When navigation is collapsed into toggle */
@@ -420,7 +423,6 @@ label[for="toggle"] {
   /*  flex-grow: 1;
 */
   margin: 0;
-  font-size: 22px
 }
 
 .entry hr {
@@ -430,7 +432,7 @@ label[for="toggle"] {
 }
 
 .entry h1 {
-  font-size: 32px;
+  font-size: 2em;
   margin: 0em 0 {{spacing}}rem;
 }
 
@@ -448,8 +450,8 @@ label[for="toggle"] {
   width: 100%;
 }
 
-.entry>* {
-  max-width: 40em
+.entry > * {
+  /*max-width: 40em*/
 }
 
 
@@ -466,7 +468,7 @@ blockquote {
 }
 
 .footnotes {
-  font-size: 18px
+  font-size: 1.125em
 }
 
 @media screen and (max-width: 800px) {

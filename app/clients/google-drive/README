@@ -1,22 +1,19 @@
-
-
-
 Add new redirect URIs here:
 https://console.cloud.google.com/apis/credentials?project=quickstart-1585441405190
 
+---
 
 Questions
 - is there an overhead to creating the oauth2 client each time? can we safely reuse it?
 - is it possible to restrict Blot's access to a single folder in the google drive?
   - it doesn't seem like it is
 
-
 I believe we will need this API for drive changes:
 https://developers.google.com/drive/activity/v2
 
 Since the changes.list api doesn't return rename events, it seems.
 
-The webhooks are now tunnelled through tunnel.blot.im using localhost.run
+The webhooks are now tunnelled through webhooks.blot.im using clients/webhooks.js
 
 Test server
 ```
@@ -45,13 +42,9 @@ Documentation:
 
 [quickstart](https://developers.google.com/drive/api/v3/quickstart/nodejs)
 
-[Tunnelling requirement for webhooks:](https://github.com/anderspitman/awesome-tunneling)
-
 Actions to test:
 - Mass rename -> mass move
 - Mass move -> mass rename
 - Delete -> Restore -> Delete
 - Move file from outside folder into folder
 - Move file from inside folder out of folder
-
-

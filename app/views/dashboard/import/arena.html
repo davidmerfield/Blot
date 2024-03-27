@@ -1,0 +1,24 @@
+<div style="padding: 11px 26px;">
+  <p style="max-width: 600px;">
+    The importer can turn an <a href="https://www.are.na/" rel="nofollow">Are.na channel</a> into an archive (.zip) containing
+    markdown files. The importer downloads images and stores them with the
+    markdown files.
+  </p>
+  <br />
+
+  <form method="POST">
+    <input type="hidden" name="_csrf" value="{{csrftoken}}" />
+
+    <label>Are.na channel URL:</label>
+    <input
+      type="text"
+      name="channel"
+      placeholder="https://www.are.na/alex-singh/assorted-design-references"
+    />
+
+    <div class="buttons">
+      <button type="submit">Start import</button>
+      <a href="{{{importBase}}}">Cancel</a>
+    </div>
+  </form>
+</div>

@@ -6,7 +6,6 @@
     { 
       "title": "{{title}}",
       "url": "{{{url}}}",
-      "tags": [ {{#tags}}{"tag": "{{tag}}", "slug": "{{slug}}"}, {{/tags}}],
       "thumbnail": "{{{thumbnail.small.url}}}",
       "date": "{{date}}"
     },
@@ -22,11 +21,11 @@ const container = document.getElementById('hyperlist');
 const list = HyperList.create(container, {
   // All items must be the exact same height currently. Although since there is
   // a generate method, in the future this should be configurable.
-  itemHeight: 36,
+  itemHeight: 80,
 
   width: "100vw",
 
-  height: window.innerHeight - 60,
+  height: window.innerHeight - 120,
 
   useFragment: false,
 
@@ -34,9 +33,9 @@ const list = HyperList.create(container, {
   total: articles.length,
 
   applyPatch: function applyPatch(element, fragment) {
-    console.log('Applying patch');
-    console.log('element', element);
-    console.log('fragment', fragment);
+    // console.log('Applying patch');
+    // console.log('element', element);
+    // console.log('fragment', fragment);
     fragment.forEach((node)=> {
       if (!node.innerHTML.trim()) return;
       
@@ -66,8 +65,7 @@ const list = HyperList.create(container, {
           </noscript>` : ''}
       </span>
       <span class="title">${articles[index].title}</span>
-      <span>${articles[index].date}</span>
-      <span>${articles[index].tags}</span>
+      <span class="date">${articles[index].date}</span>
     `;
     return el;
   },

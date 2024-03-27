@@ -1,7 +1,7 @@
 var Tags = require("models/tags");
 var Entry = require("models/entry");
 var async = require("async");
-var client = require("client");
+var client = require("models/client");
 
 module.exports = function main(blog, callback) {
   const report = [];
@@ -10,11 +10,27 @@ module.exports = function main(blog, callback) {
       tags,
       function (tag, next) {
         Tags.get(blog.id, tag.slug, function (err, entryIDs) {
+          if (!entryIDs.length) {
+            report.push(["EMPTY TAG", tag]);
+            const multi = client.multi();
+            multi.srem(Tags.key.all(blog.id), tag.slug);
+            multi.del(Tags.key.tag(blog.id, tag.slug));
+            return multi.exec(next);
+          }
+
           async.each(
             entryIDs,
             function (entryID, next) {
               Entry.get(blog.id, entryID, function (entry) {
+                if (!entry) {
+                  report.push(["MISSING", entryID]);
+                  const multi = client.multi();
+                  multi.srem(tagKey, entryID);
+                  return multi.exec(next);
+                }
+
                 if (entry.id === entryID) return next();
+
                 report.push(["MISMATCH", entryID, entry.id]);
                 var multi = client.multi();
                 var entryKeyForIncorrectID = Tags.key.entry(blog.id, entryID);

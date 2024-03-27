@@ -1,4 +1,4 @@
-var redis = require("client");
+var redis = require("models/client");
 var async = require("async");
 var ensure = require("helper/ensure");
 var Entry = require("./entry");
@@ -13,10 +13,10 @@ module.exports = (function () {
     "drafts",
     "scheduled",
     "pages",
-    "deleted",
+    "deleted"
   ];
 
-  function resave(blogID, callback) {
+  function resave (blogID, callback) {
     Blog.get({ id: blogID }, function (err, blog) {
       if (err || !blog) return callback(err || new Error("no blog"));
 
@@ -38,7 +38,7 @@ module.exports = (function () {
     });
   }
 
-  function adjacentTo(blogID, entryID, callback) {
+  function adjacentTo (blogID, entryID, callback) {
     ensure(blogID, "string").and(entryID, "string").and(callback, "function");
 
     // Get the index of the entry in the list of entries
@@ -51,44 +51,48 @@ module.exports = (function () {
 
       var lowerBound = rank > 0 ? rank - 1 : 0;
 
-      redis.zrange(listKey(blogID, "entries"), lowerBound, rank + 1, function (
-        error,
-        entryIDs
-      ) {
-        if (error) throw error;
+      redis.zrange(
+        listKey(blogID, "entries"),
+        lowerBound,
+        rank + 1,
+        function (error, entryIDs) {
+          if (error) throw error;
 
-        Entry.get(blogID, entryIDs, function (entries) {
-          // {skinny: true},
+          Entry.get(blogID, entryIDs, function (entries) {
+            // {skinny: true},
 
-          var next, previous;
+            var next, previous;
 
-          if (entries.length) {
-            previous = entries[0].id != entryID ? entries[0] : undefined;
-            next =
-              entries[entries.length - 1].id != entryID
-                ? entries[entries.length - 1]
-                : undefined;
-          }
+            if (entries.length) {
+              previous = entries[0].id != entryID ? entries[0] : undefined;
+              next =
+                entries[entries.length - 1].id != entryID
+                  ? entries[entries.length - 1]
+                  : undefined;
+            }
 
-          return callback(next, previous, ++rank);
-        });
-      });
+            return callback(next, previous, ++rank);
+          });
+        }
+      );
     });
   }
 
-  function getTotal(blogID, callback) {
+  function getTotal (blogID, callback) {
     var entriesKey = listKey(blogID, "entries");
 
     redis.zcard(entriesKey, callback);
   }
 
-  function getAllIDs(blogID, callback) {
+  // includes deleted entries
+  function getAllIDs (blogID, callback) {
     var allKey = listKey(blogID, "all");
 
     redis.zrevrange(allKey, 0, -1, callback);
   }
 
-  function getAll(blogID, options, callback) {
+  // includes deleted entries
+  function getAll (blogID, options, callback) {
     if (typeof options === "function" && !callback) {
       callback = options;
       options = {};
@@ -103,7 +107,7 @@ module.exports = (function () {
     return getRange(blogID, 0, -1, options, callback);
   }
 
-  function get(blogID, options, callback) {
+  function get (blogID, options, callback) {
     ensure(blogID, "string").and(callback, "function");
 
     if (!options.lists && options.list) options.lists = [options.list];
@@ -125,7 +129,7 @@ module.exports = (function () {
       getRange(blogID, 0, -1, options, onComplete(options.list));
     }
 
-    function onComplete(listName) {
+    function onComplete (listName) {
       return function (listOfEntries) {
         totalToFetch--;
 
@@ -138,7 +142,7 @@ module.exports = (function () {
     }
   }
 
-  function getListIDs(blogID, listName, options, callback) {
+  function getListIDs (blogID, listName, options, callback) {
     ensure(blogID, "string")
       .and(listName, "string")
       .and(options, "object")
@@ -161,25 +165,26 @@ module.exports = (function () {
     });
   }
 
-  function each(blogID, dothis, callback) {
+  // includes deleted entries
+  function each (blogID, dothis, callback) {
     ensure(blogID, "string").and(dothis, "function").and(callback, "function");
 
     redis.zrevrange(listKey(blogID, "all"), 0, -1, function (error, ids) {
       if (error) throw error;
 
-      Entry.get(blogID, ids, function (entries) {
-        async.eachSeries(
-          entries,
-          function (entry, next) {
+      async.eachSeries(
+        ids,
+        function (id, next) {
+          Entry.get(blogID, id, function (entry) {
             dothis(entry, next);
-          },
-          callback
-        );
-      });
+          });
+        },
+        callback
+      );
     });
   }
 
-  function getCreated(blogID, after, callback) {
+  function getCreated (blogID, after, callback) {
     ensure(blogID, "string").and(after, "number").and(callback, "function");
 
     var key = listKey(blogID, "created");
@@ -193,7 +198,7 @@ module.exports = (function () {
     });
   }
 
-  function getDeleted(blogID, after, callback) {
+  function getDeleted (blogID, after, callback) {
     ensure(blogID, "string").and(after, "number").and(callback, "function");
 
     var key = listKey(blogID, "deleted");
@@ -207,7 +212,7 @@ module.exports = (function () {
     });
   }
 
-  function getRange(blogID, start, end, options, callback) {
+  function getRange (blogID, start, end, options, callback) {
     ensure(blogID, "string")
       .and(start, "number")
       .and(end, "number")
@@ -217,8 +222,9 @@ module.exports = (function () {
     var listName = options.list || "entries";
     var key = listKey(blogID, listName);
 
-    redis.zrevrange(key, start, end, function (error, entryIDs) {
-      if (error) throw error;
+    redis.zrevrange(key, start, end, function (err, entryIDs) {
+      // todo add err as first parameter of callback
+      if (err) return callback([]);
 
       if (!options.full && !options.skinny) return callback(entryIDs);
 
@@ -229,7 +235,7 @@ module.exports = (function () {
     });
   }
 
-  function getPage(blogID, pageNo, pageSize, callback) {
+  function getPage (blogID, pageNo, pageSize, callback) {
     ensure(blogID, "string")
       .and(pageNo, "number")
       .and(pageSize, "number")
@@ -272,7 +278,7 @@ module.exports = (function () {
     });
   }
 
-  function lastUpdate(blogID, callback) {
+  function lastUpdate (blogID, callback) {
     getRange(blogID, 0, 1, { skinny: true }, function (entries) {
       if (entries && entries.length)
         return callback(null, entries[0].dateStamp);
@@ -281,7 +287,7 @@ module.exports = (function () {
     });
   }
 
-  function getRecent(blogID, callback) {
+  function getRecent (blogID, callback) {
     getRange(blogID, 0, 30, { skinny: true }, function (entries) {
       redis.zcard(listKey(blogID, "entries"), function (error, totalEntries) {
         // We need to add error handling
@@ -302,7 +308,7 @@ module.exports = (function () {
     });
   }
 
-  function listKey(blogID, list) {
+  function listKey (blogID, list) {
     ensure(blogID, "string").and(list, "string");
 
     if (lists.indexOf(list) === -1)
@@ -324,6 +330,6 @@ module.exports = (function () {
     getRecent: getRecent,
     lastUpdate: lastUpdate,
     getCreated: getCreated,
-    getDeleted: getDeleted,
+    getDeleted: getDeleted
   };
 })();

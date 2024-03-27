@@ -1,4 +1,4 @@
-var client = require("client");
+var client = require("models/client");
 var key = require("./key");
 var _ = require("lodash");
 var ensure = require("helper/ensure");
@@ -54,7 +54,6 @@ module.exports = function (blogID, entry, callback) {
     // Then we compute a list of tags which the entry
     // should NOT be present on (intersection of entry's
     // current tags and all the tags used on the blog)
-    var added = _.difference(tags, existing);
     var removed = _.difference(existing, tags);
     var names = [];
 
@@ -63,6 +62,11 @@ module.exports = function (blogID, entry, callback) {
     tags.forEach(function (tag, i) {
       names.push(key.name(blogID, tag));
       names.push(prettyTags[i]);
+
+      // For each of the entry's current tags
+      // store the entry's id against the tag's key
+      // Redis will autocreate a key of the right type
+      multi.sadd(key.tag(blogID, tag), entry.id);
     });
 
     // For each tagName in the list of tags which the
@@ -72,13 +76,6 @@ module.exports = function (blogID, entry, callback) {
     removed.forEach(function (tag) {
       multi.srem(key.tag(blogID, tag), entry.id);
       multi.srem(existingKey, tag);
-    });
-
-    // For each of the entry's current tags
-    // store the entry's id against the tag's key
-    // Redis will autocreate a key of the right type
-    added.forEach(function (tag) {
-      multi.sadd(key.tag(blogID, tag), entry.id);
     });
 
     // Finally add all the entry's tags to the

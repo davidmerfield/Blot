@@ -1,5 +1,5 @@
 var key = require("./key");
-var client = require("client");
+var client = require("models/client");
 var deserialize = require("./util/deserialize");
 var metadataModel = require("./metadataModel");
 
@@ -14,7 +14,7 @@ module.exports = function getMetadata(id, callback) {
       err.code = "ENOENT";
       return callback(err, null);
     }
-
+    
     callback(null, metadata);
   });
 };

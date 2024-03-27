@@ -1,8 +1,9 @@
 var createClient = require("./util/createClient");
 var database = require("./database");
-var Blog = require("blog");
+var Blog = require("models/blog");
 var debug = require("debug")("blot:clients:dropbox");
 var Sync = require("sync");
+var lowerCaseContents = require("sync/lowerCaseContents");
 
 // Dont write tests for this or you'll need to regenerate
 // an access token for Travis and it'll be annoying. Just
@@ -24,7 +25,7 @@ module.exports = function disconnect(blogID, callback) {
 
       // Turns lowercase files and folders in the blogs directory
       // into their real, display case for transition to other clients
-      await folder.lowerCaseContents({restore: true});
+      await lowerCaseContents(blogID, { restore: true });
 
       debug("resetting client setting");
       Blog.set(blogID, { client: "" }, function (err) {

@@ -1,5 +1,8 @@
 {
   "name": "Plex Serif",
+  "tags": [
+    "serif"
+  ],
   "stack": "'Plex Serif'",
   "line_height": 1.485,
   "line_width": 39,

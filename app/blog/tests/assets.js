@@ -4,6 +4,32 @@ describe("asset middleware", function () {
   var http = require("http");
   var config = require("config");
 
+  it("sends a file with .html extension in the blog folder", function (done) {
+    var path = this.fake.path(".html");
+    var pathWithoutExtension = path.slice(0, -".html".length);
+    var contents = this.fake.file();
+
+    fs.outputFileSync(this.blogDirectory + path, contents);
+    this.get(pathWithoutExtension, function (err, res) {
+      expect(err).toBeNull();
+      expect(res).toEqual(contents);
+      done();
+    });
+  });
+
+  it("sends a file with an underscore prefix and .html extension", function (done) {
+    var path = '/Foo/_File.html';
+    var pathWithoutUnderscore = '/Foo/File';
+    var contents = this.fake.file();
+
+    fs.outputFileSync(this.blogDirectory + path, contents);
+    this.get(pathWithoutUnderscore, function (err, res) {
+      expect(err).toBeNull();
+      expect(res).toEqual(contents);
+      done();
+    });
+  });  
+
   it("sends a file in the blog folder", function (done) {
     var path = this.fake.path(".txt");
     var contents = this.fake.file();

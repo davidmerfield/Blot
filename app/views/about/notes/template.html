@@ -1,0 +1,32 @@
+{{{body}}}
+
+{{#showToc}}
+<br>
+<ul class="document-list">
+  {{#toc}}
+  <li>
+    <a href="{{slug}}">
+      <span class="heading">{{name}}</span></a>
+      <ul>
+      {{#items}}
+      <li><a href="{{slug}}"><img src="{{#cdn}}/images/file-empty.svg{{/cdn}}" style="vertical-align: text-top;" width=16>&thinsp; {{name}}</a>
+        {{/items}}
+      </ul>
+    </li>
+  {{/toc}}
+</ul>
+{{/showToc}}
+  
+{{#subsections.length}}
+<ul class="document-list with-subtitle">
+  {{#subsections}}
+  <li><a href="{{slug}}">
+    <span><img src="{{#cdn}}/images/file-empty.svg{{/cdn}}" style="vertical-align: text-top;" width=16>&thinsp;&thinsp;&thinsp;</span>
+    <span><strong>{{name}}</strong>
+    </span></a>
+  {{/subsections}}
+</ul>
+{{/subsections.length}}
+
+</content>
+</main>

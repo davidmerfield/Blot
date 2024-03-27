@@ -1,21 +1,23 @@
-var config = require("config");
-var mime = require("mime-types");
-var async = require("async");
-var debug = require("debug")("blot:blog:assets");
+const config = require("config");
+const mime = require("mime-types");
+const async = require("async");
+const debug = require("debug")("blot:blog:assets");
+const { join, basename, dirname } = require("path");
+const LARGEST_POSSIBLE_MAXAGE = 86400000;
 
-var LARGEST_POSSIBLE_MAXAGE = 86400000;
+const BANNED_ROUTES = ["/.git"];
 
 module.exports = function (req, res, next) {
-  var paths,
-    roots,
-    candidates = [];
-
   // Not sure if or how this can happen
   if (!req.path) return next();
 
+  if (BANNED_ROUTES.find((route) => req.path.toLowerCase().startsWith(route))) {
+    return next(new Error("Invalid path"));
+  }
+
   // We check to see if the requests path
   // matches a file in the following directories
-  roots = [
+  const roots = [
     // Blog directory /blogs/$id
     { root: config.blog_folder_dir + "/" + req.blog.id },
 
@@ -35,16 +37,24 @@ module.exports = function (req, res, next) {
   // decodeURIComponent maps something like
   // "/Hello%20World.txt" to "/Hello World.txt"
   // Express does not do this for us.
-  paths = [
+  const paths = [
     // First we try the actual path
     decodeURIComponent(req.path),
 
     // Then the lowercase path
     decodeURIComponent(req.path).toLowerCase(),
 
-    // Finally the path plus an index file
+    // The path plus an index file
     withoutTrailingSlash(decodeURIComponent(req.path)) + "/index.html",
+
+    // The path plus .html
+    withoutTrailingSlash(decodeURIComponent(req.path)) + ".html",
+
+    // The path with leading underscore and with trailing .html
+    addLeadingUnderscore(decodeURIComponent(req.path)) + ".html",
   ];
+
+  let candidates = [];
 
   roots.forEach(function (options) {
     paths.forEach(function (path) {
@@ -88,6 +98,11 @@ module.exports = function (req, res, next) {
     if (err) return next();
   });
 };
+
+function addLeadingUnderscore(path) {
+  path = withoutTrailingSlash(decodeURIComponent(path));
+  return join(dirname(path), "_" + basename(path));
+}
 
 function withoutTrailingSlash(path) {
   if (!path || !path.length) return path;

@@ -1,0 +1,40 @@
+So wanted to accept payments through PayPal.
+
+signed up for a business account and verified my information. They wanted a scan of my ID and a copy of the first page of my last tax return. Then connected by bank account, the process was identical to setting up my personal account.
+
+My goal is to accept subscription payments through PayPal. It was a little tricky to find but this is the getting started page for subscriptions, as opposed to payments:
+
+https://developer.paypal.com/docs/subscriptions/integrate
+
+Created a sandbox app and retrieved its credentials:
+
+https://developer.paypal.com/developer/applications
+
+Then followed these instructions to generate an access token using the sandbox app:
+
+https://developer.paypal.com/docs/api/get-an-access-token-curl/
+
+I also used the guide here to install the JavaScript SDK:
+
+https://github.com/paypal/PayPal-node-SDK
+
+Wrote a script to do this: 
+
+node scripts/paypal/generate-access-token.js
+
+Used these tokens to create a product:
+
+node scripts/paypal/product/create.js
+
+Verify the product was created by listing your products:
+
+node scripts/paypal/product/list.js
+
+Used this product tokens to create a plan:
+
+node scripts/paypal/product/create.js
+
+Verify the product was created by listing your products:
+
+node scripts/paypal/product/list.js
+

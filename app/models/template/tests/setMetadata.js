@@ -3,7 +3,7 @@ describe("template", function () {
 
   var setMetadata = require("../index").setMetadata;
   var getMetadata = require("../index").getMetadata;
-  var Blog = require("blog");
+  var Blog = require("models/blog");
 
   it("sets a template's metadata", function (done) {
     var test = this;

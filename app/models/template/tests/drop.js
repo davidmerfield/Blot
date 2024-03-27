@@ -3,8 +3,8 @@ describe("template", function () {
 
   var drop = require("../index").drop;
   var getTemplateList = require("../index").getTemplateList;
-  var client = require("client");
-  var Blog = require("blog");
+  var client = require("models/client");
+  var Blog = require("models/blog");
 
   it("drops a template", function (done) {
     drop(this.blog.id, this.template.name, done);

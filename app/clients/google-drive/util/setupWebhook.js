@@ -50,7 +50,9 @@ module.exports = async (blogID) => {
       }),
       kind: "api#channel",
       address: `https://${
-        config.webhook_forwarding_host || config.host
+        config.environment === "development"
+          ? config.webhooks.relay_host
+          : config.host
       }/clients/google-drive/webhook`,
     },
   });

@@ -1,19 +1,19 @@
-var fs = require("fs-extra");
-var async = require("async");
-var config = require("config");
-var ensure = require("../ensure");
-var extend = require("../extend");
-var tempDir = require("../tempDir")();
-var Mustache = require("mustache");
-var marked = require("marked");
-
-var Mailgun = require("mailgun-js");
-var mailgun;
+const fs = require("fs-extra");
+const async = require("async");
+const config = require("config");
+const ensure = require("helper/ensure");
+const extend = require("helper/extend");
+const tempDir = require("helper/tempDir")();
+const Mustache = require("mustache");
+const { marked } = require("marked");
+const clfdate = require("helper/clfdate");
+const Mailgun = require("mailgun-js");
+let mailgun;
 
 if (config && config.mailgun && config.mailgun.key) {
   mailgun = new Mailgun({
     apiKey: config.mailgun.key,
-    domain: config.mailgun.domain,
+    domain: config.mailgun.domain
   });
 } else {
   mailgun = {
@@ -21,17 +21,17 @@ if (config && config.mailgun && config.mailgun.key) {
       return {
         send: function (email, callback) {
           callback(null);
-        },
+        }
       };
-    },
+    }
   };
 }
 
 var adminDir = __dirname + "/admin/";
 var userDir = __dirname + "/user/";
 
-var ADMIN = config.admin.email;
-var FROM = config.mailgun.from;
+var ADMIN = config.admin.email || "admin@" + config.host;
+var FROM = config.mailgun.from || "admin@" + config.host;
 
 // This module checks /user and /admin
 // for each message + .txt in the list
@@ -74,21 +74,21 @@ var MESSAGES = [
   "UPDATE_BILLING",
   "WARNING_LOW_DISK_SPACE",
   "WORKER_ERROR",
-  "ZOMBIE_PROCESS",
+  "ZOMBIE_PROCESS"
 ];
 
 var globals = {
-  site: "https://" + config.host,
+  site: "https://" + config.host
 };
 
 var EMAIL_MODEL = {
   to: "string",
   from: "string",
   subject: "string",
-  html: "string",
+  html: "string"
 };
 
-function loadUser(uid, callback) {
+function loadUser (uid, callback) {
   if (!uid) return callback(null, {});
 
   const User = require("models/user");
@@ -104,9 +104,9 @@ function loadUser(uid, callback) {
   });
 }
 
-function init(method) {
+function init (method) {
   ensure(method, "string");
-  return function build(uid = "", locals = {}, callback = function () {}) {
+  return function build (uid = "", locals = {}, callback = function () {}) {
     loadUser(uid, function (err, user) {
       if (err) return callback(err);
 
@@ -130,7 +130,7 @@ function init(method) {
   };
 }
 
-function send(locals, messageFile, to, callback) {
+function send (locals, messageFile, to, callback) {
   ensure(locals, "object")
     .and(messageFile, "string")
     .and(to, "string")
@@ -143,13 +143,13 @@ function send(locals, messageFile, to, callback) {
     var subject = Mustache.render(lines[0] || "", locals);
     var message = lines.slice(2).join("\n") || "";
 
-    var html = marked(Mustache.render(message, locals));
+    var html = marked.parse(Mustache.render(message, locals));
 
     var email = {
       html: html,
       subject: subject,
       from: locals.from || FROM,
-      to: to,
+      to: to
     };
 
     try {
@@ -158,25 +158,32 @@ function send(locals, messageFile, to, callback) {
       return callback(e);
     }
 
-    if (config.environment === "development") {
+    if (config.environment === "development" && process.env.EMAIL !== "true") {
       var previewPath = tempDir + Date.now() + ".html";
       fs.outputFileSync(previewPath, email.html, "utf-8");
-      console.log("Email not sent in development environment:", email);
-      console.log("Preview:", previewPath);
+      console.log(clfdate(), "Email: unsent in development environment:", {
+        ...email,
+        preview: previewPath
+      });
       return callback();
     }
 
     mailgun.messages().send(email, function (err, body) {
       if (err) {
-        console.log("Error: Mailgun failed to send transactional email:", err);
+        console.log(
+          clfdate(),
+          "Email: error: Mailgun failed to send transactional email:",
+          err
+        );
         return callback(err);
       }
 
       console.log(
-        "Sent to",
+        clfdate(),
+        "Email: sent to",
         email.to,
         '"' + email.subject + '"',
-        "(" + body.id + ")"
+        "(" + (body && body.id) + ")"
       );
       callback();
     });

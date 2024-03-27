@@ -1,0 +1,114 @@
+<style>
+  .header a svg {width:1.5em;fill: var(--text-color);
+   
+  stroke: var(--text-color)}
+  .header a:hover {color: var(--accent-color);}
+  .header a:hover svg {fill: var(--accent-color);stroke: var(--accent-color);}
+</style>
+
+<input type="checkbox" id="menu-toggle" style="display: none;">
+<div
+  class="header"
+  style="
+    padding: 1em 2em;
+  ">
+  <div
+    style="
+      display: flex;
+      width: 100%;
+      justify-content: space-between;
+      align-items: center;
+      margin: 0 auto;
+    ">
+          <a href="/" style="justify-content: center;display:flex"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 30"><path d="M35.1 13.3s-2.3-2.4-6.7-2.4H7.6c-4.4 0-6.7 2.4-6.7 2.4" fill="none" stroke-width="1.75" stroke-miterlimit="10"/><path stroke-width="0" d="M15.1 2.8l2.1 1.6.5.4H33c.7 0 1.2.6 1.2 1.2v21c0 .7-.6 1.2-1.2 1.2H3c-.7 0-1.2-.6-1.2-1.2V4c0-.7.6-1.2 1.2-1.2h12.1m.7-1.8H3a3.01 3.01 0 0 0-3 3v23a3.01 3.01 0 0 0 3 3h30a3.01 3.01 0 0 0 3-3V6a3.01 3.01 0 0 0-3-3H18.3l-2.5-2z"/></svg></a> 
+
+     
+      
+      
+
+    <div style="display: flex;justify-content: flex-end;" class="cta">
+      
+      <a class="signed-in" href="/dashboard">Your sites</a>
+      <a class="signed-out" href="/log-in">Log in</a>
+      <a class="signed-out" href="/sign-up">Sign up</a>
+      <a href="#!" id="toggle-container">
+        Menu <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="12" height="12"><path d="M1 2.75A.75.75 0 0 1 1.75 2h12.5a.75.75 0 0 1 0 1.5H1.75A.75.75 0 0 1 1 2.75Zm0 5A.75.75 0 0 1 1.75 7h12.5a.75.75 0 0 1 0 1.5H1.75A.75.75 0 0 1 1 7.75ZM1.75 12h12.5a.75.75 0 0 1 0 1.5H1.75a.75.75 0 0 1 0-1.5Z"></path></svg><label for="menu-toggle"></label></a>
+      <script type="text/javascript">
+        if (document.cookie.indexOf("signed_into_blot") > -1) {
+          document.querySelectorAll(".signed-out").forEach(function (node) {
+            node.style.display = "none";
+          });
+          document.querySelectorAll(".signed-in").forEach(function(node){
+            node.style.display = "block";
+          })
+        }
+      </script>
+    </div>
+  </div>
+</div>
+
+<style type="text/css">
+  
+  /* collapse and show menu */
+
+  #toggle-container {
+    display: none;
+    position: relative;
+  }
+
+  #toggle-container label {
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  @media (max-width: 768px) {
+    #toggle-container {
+      display: block;
+    }
+    #menu-toggle {
+      display: none;
+    }
+    #menu-toggle ~ section > section:first-child {
+    display: none;
+  }
+
+  #menu-toggle ~ section {
+  flex-direction: column;
+  
+}
+
+  }
+
+  #menu-toggle:checked ~ section > section:first-child {
+    display: block;
+  }
+
+
+
+
+
+
+
+
+  .signed-in {
+    display: none;
+  }
+
+  .menu-links a {
+    margin: 0 0.4em;
+  }
+
+  .cta a {
+    background: var(--light-background-color);
+    border-radius: 4px;
+    color: var(--text-color);
+    font-size: 16px;
+    line-height: 24px;
+    margin-left: 12px;
+    padding: 4px 12px
+  }
+</style>

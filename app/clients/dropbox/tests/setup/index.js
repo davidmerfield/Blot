@@ -1,7 +1,7 @@
 module.exports = function setup(options) {
   options = options || {};
   var database = require("clients/dropbox/database");
-  var Blog = require("blog");
+  var Blog = require("models/blog");
   var server = require("./server");
   var createFolder = require("./createFolder");
   var createClient = require("clients/dropbox/util/createClient");

@@ -1,0 +1,17 @@
+<form class="dashboard-form" method="post">
+
+  <input type="hidden" name="_csrf" value="{{csrftoken}}">
+
+  {{> message}}
+  
+  <label>Your email address:</label>  
+  <input class="noMargin" type="text" name="email" value="{{user.email}}" autofocus placeholder=""/>
+
+  <div class="buttons">
+    <button type="submit" onclick="this.form.submit();this.disabled=true">Save email address</button>
+    <a href="/dashboard">Cancel</a>
+  </div>
+
+  <br><br><br>
+  
+</form>

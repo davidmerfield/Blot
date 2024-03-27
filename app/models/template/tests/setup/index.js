@@ -1,7 +1,7 @@
 var create = require("models/template/index").create;
 var getTemplateList = require("models/template/index").getTemplateList;
 var setView = require("models/template/index").setView;
-var Blog = require("blog");
+var Blog = require("models/blog");
 
 module.exports = function setup(options) {
   options = options || {};

@@ -1,9 +1,5 @@
 #!/bin/sh
 
-# NOW IT SEEMS EC2-user can own the nginx log file?
-# What is going on? I ran ./scripts/production/nginx_ as ec2-user
-# and it worked and it seemed like the logfile is now owned by ec2-user?
-
 # ------------------
 
 # Why rotate log files?
@@ -34,16 +30,26 @@
 set -e
 
 BLOT_DIRECTORY=/var/www/blot
-LOG_DIRECTORY=$BLOT_DIRECTORY/logs
+LOG_DIRECTORY=/var/instance-ssd/logs
 USER=$(whoami)
 
+## If the user is root, we want to log as nobody
+## because nginx creates logfiles as nobody
+## since I have not configured it to run as a different user
+if [ "$USER" == "root" ] 
+then
+   LOG_USER=nobody
+else
+   LOG_USER=$USER
+fi
+
 # Create a new directory for yesterday's logs
-ARCHIVED_LOG_DIRECTORY=$BLOT_DIRECTORY/logs/archive-$(date +%Y-%m-%d)-$USER
+ARCHIVED_LOG_DIRECTORY=$LOG_DIRECTORY/archive-$(date +%Y-%m-%d)-$USER
 mkdir $ARCHIVED_LOG_DIRECTORY
 
 # Find all the names of log files owned by this user.
 # Remember we run this script multiple times as different users
-LOGFILE_NAMES=$(find $LOG_DIRECTORY -maxdepth 1 -user $USER -type f -exec basename {} \;)
+LOGFILE_NAMES=$(find $LOG_DIRECTORY -maxdepth 1 -user $LOG_USER -type f -exec basename {} \;)
 for logfile in $LOGFILE_NAMES
 do
 	cp $LOG_DIRECTORY/$logfile $ARCHIVED_LOG_DIRECTORY/$logfile

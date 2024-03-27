@@ -1,0 +1,10 @@
+[Unit]
+Description=Mount data disk
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/home/ec2-user/scripts/node/mount-data-disk.sh
+
+[Install]
+WantedBy=multi-user.target

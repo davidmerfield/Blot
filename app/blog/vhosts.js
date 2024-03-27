@@ -1,9 +1,19 @@
-var Blog = require("blog");
+var Blog = require("models/blog");
 var config = require("config");
 
 module.exports = function (req, res, next) {
   var identifier, handle, redirect, previewTemplate, err;
   var host = req.get("host");
+
+  // We have a special case for Cloudflare
+  // because some of their SSL settings insist on fetching
+  // from the origin server (in this case Blot) over HTTP
+  // which causes a redirect loop when we try to redirect
+  // to HTTPS. This is a workaround.
+  var fromCloudflare =
+    Object.keys(req.headers || {})
+      .map(key => key.trim().toLowerCase())
+      .find(key => key.startsWith("cf-")) !== undefined;
 
   // Not sure why this happens but it do
   if (!host) {
@@ -31,7 +41,10 @@ module.exports = function (req, res, next) {
   if (handle) {
     identifier = { handle: handle };
   } else {
-    identifier = { domain: host };
+    // strip port if present, this is required by test suite
+    // and is a good idea in general
+    const domain = host.indexOf(":") > -1 ? host.split(":")[0] : host;
+    identifier = { domain };
   }
 
   Blog.get(identifier, function (err, blog) {
@@ -73,7 +86,12 @@ module.exports = function (req, res, next) {
 
     // Redirect HTTP to HTTPS. Preview subdomains are not currently
     // available over HTTPS but when they are, remove this.
-    if (blog.forceSSL && req.protocol === "http" && !previewTemplate)
+    if (
+      blog.forceSSL &&
+      req.protocol === "http" &&
+      !previewTemplate &&
+      fromCloudflare === false
+    )
       redirect = "https://" + host + req.originalUrl;
 
     // Should we be using 302 temporary for this?
@@ -118,14 +136,14 @@ module.exports = function (req, res, next) {
   });
 };
 
-function isSubdomain(host) {
+function isSubdomain (host) {
   return (
     host.slice(-config.host.length) === config.host &&
     host.slice(0, -config.host.length).length > 1
   );
 }
 
-function extractHandle(host) {
+function extractHandle (host) {
   if (!isSubdomain(host, config.host)) return false;
 
   let handle = host
@@ -141,7 +159,7 @@ function extractHandle(host) {
   return handle;
 }
 
-function extractPreviewTemplate(host, blogID) {
+function extractPreviewTemplate (host, blogID) {
   if (!isSubdomain(host, config.host)) return false;
 
   var subdomains = host.slice(0, -config.host.length - 1).split(".");

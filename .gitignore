@@ -9,6 +9,7 @@
 
 ####### Blot #######
 
+.env
 *.rdb
 *.log
 
@@ -20,6 +21,7 @@ cache/*
 static/*
 tmp/*
 scripts/deploy/out/*
+config/nginx/server.conf
 
 # Eventually ignore all node_modules directories
 node_modules/*

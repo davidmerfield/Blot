@@ -1,48 +1,34 @@
 {
   "name": "Blog",
   "locals": {
+    "max_width": 700,
     "page_size": 6,
-    "text_color": "#232323",
+    "text_color": "#000000",
     "background_color": "#FFFFFF",
+    "navigation_background_color": "#F7F7F7",
     "accent_color": "#0078D9",
     "hide_dates": false,
     "date_display": "MMMM D, Y",
-    "body_font": {
+    "font": {
+      "font_size": 19
+    },
+    "syntax_highlighter": {
+      "id": "stackoverflow-light"
+    },
+    "syntax_highlighter_font": {
       "font_size": 18
-    },
-    "coding_font": {
-      "font_size": 16
-    },
-    "navigation_font": {
-      "font_size": 14
-    },
-    "color_schemes": {
-      "light": {
-        "text_color": "#232323",
-        "background_color": "#fff",
-        "accent_color": "#004984"
-      },
-      "dark": {
-        "text_color": "white",
-        "background_color": "black",
-        "accent_color": "orange"
-      },
-      "red": {
-        "text_color": "red",
-        "background_color": "pink",
-        "accent_color": "purple"
-      },
-      "blue": {
-        "text_color": "MidnightBlue",
-        "background_color": "LightCyan",
-        "accent_color": "Blue"
-      }
     },
     "index_layout": "post_in_full",
     "index_layout_options": [
       "titles",
       "title_and_summary",
       "post_in_full"
+    ],
+    "navigation_location": "top",
+    "navigation_location_options": [
+      "top",
+      "left",
+      "right"
     ],
     "navigation_alignment": "justified",
     "navigation_alignment_options": [
@@ -51,11 +37,18 @@
       "right",
       "center"
     ],
+    "site_alignment": "center",
+    "site_alignment_options": [
+      "center",
+      "left",
+      "right"
+    ],
     "navigation_position": "top",
     "navigation_position_options": [
       "top",
       "bottom"
-    ]
+    ],
+    "demo_folder": "david"
   },
   "isPublic": true,
   "views": {
@@ -75,7 +68,7 @@
     "entries.html": {
       "partials": {
         "title": "{{{title}}}",
-        "description": "The latest entries posted on {{{title}}}"
+        "description": "The latest on {{{title}}}"
       }
     },
     "error.html": {
@@ -93,7 +86,7 @@
     "search.html": {
       "partials": {
         "title": "Search - {{{title}}}",
-        "description": "Search all the entries posted on {{{title}}}"
+        "description": "Search {{{title}}}"
       }
     }
   }

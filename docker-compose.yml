@@ -1,0 +1,57 @@
+version: '3.8'
+
+services:
+  node-app:
+    image: blot
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: dev   # This line specifies which stage to build
+    ports:
+      - "8080:8080"
+    depends_on:
+      - redis
+    environment:
+      - FAST=true
+      - BLOT_REDIS_HOST=redis
+      - BLOT_HOST=blot
+      - BLOT_SESSION_SECRET=${BLOT_SESSION_SECRET}
+      - BLOT_STRIPE_KEY=${BLOT_STRIPE_KEY}
+      - BLOT_STRIPE_SECRET=${BLOT_STRIPE_SECRET}
+      - BLOT_STRIPE_PRODUCT=${BLOT_STRIPE_PRODUCT}
+      - BLOT_PAYPAL_CLIENT_ID=${BLOT_PAYPAL_CLIENT_ID}
+      - BLOT_PAYPAL_SECRET=${BLOT_PAYPAL_SECRET}
+      - BLOT_PAYPAL_MONTHLY_4=${BLOT_PAYPAL_MONTHLY_4}
+      - BLOT_PAYPAL_YEARLY_44=${BLOT_PAYPAL_YEARLY_44}
+      - BLOT_PAYPAL_MONTHLY_5=${BLOT_PAYPAL_MONTHLY_5}
+      - BLOT_PAYPAL_YEARLY_55=${BLOT_PAYPAL_YEARLY_55}
+      - BLOT_DROPBOX_APP_KEY=${BLOT_DROPBOX_APP_KEY}
+      - BLOT_DROPBOX_APP_SECRET=${BLOT_DROPBOX_APP_SECRET}
+      - BLOT_DROPBOX_FULL_KEY=${BLOT_DROPBOX_FULL_KEY}
+      - BLOT_DROPBOX_FULL_SECRET=${BLOT_DROPBOX_FULL_SECRET}
+      - BLOT_GOOGLEDRIVE_ID=${BLOT_GOOGLEDRIVE_ID}
+      - BLOT_GOOGLEDRIVE_SECRET=${BLOT_GOOGLEDRIVE_SECRET}
+    volumes:
+      - ./data:/usr/src/app/data
+      - ./app:/usr/src/app/app
+      - ./tests:/usr/src/app/tests
+      - ./notes:/usr/src/app/notes
+      - ./config:/usr/src/app/config
+    command: npx nodemon /usr/src/app/data/app.js --watch /usr/src/app/data/app.js
+
+  redis:
+    image: "redis:alpine"
+    ports:
+      - "6379:6379"
+    volumes:
+      - "./data:/data"
+
+  nginx:
+    build:
+      context: ./config/openresty
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - node-app

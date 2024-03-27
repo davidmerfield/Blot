@@ -1,6 +1,6 @@
-var Entries = require("entries");
+var Entries = require("models/entries");
 var async = require("async");
-var Entry = require("entry");
+var Entry = require("models/entry");
 var clfdate = require("helper/clfdate");
 
 module.exports = function (blogID, callback) {
@@ -78,11 +78,16 @@ module.exports = function (blogID, callback) {
 
           console.log(
             clfdate(),
-            blogID,
-            createdEntry.path,
-            "(created) <==",
-            deletedEntry.path,
-            "(deleted)"
+            blogID.slice(0, 12),
+            "rename",
+            deletedEntry.path
+          );
+
+          console.log(
+            clfdate(),
+            blogID.slice(0, 12),
+            "----->",
+            createdEntry.path
           );
 
           Entry.set(blogID, createdEntry.path, updates, next);

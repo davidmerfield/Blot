@@ -1,33 +1,86 @@
 {{> status-line}}
 
-{{#error}}
-<p class="box red" style="width:120%"> ... </p>
-{{/error}}
+<style type="text/css">
+  span.link[onclick] {
+    cursor: pointer;
+    margin-left: 1rem
+  }
+  span.link[onclick]:hover {
+    text-decoration: underline;
+  }
+  span.link[onclick]:active {
+    opacity: 0.8
+  }
 
-<div class="line" >
-  <span class="label">Repository URL</span>
-  <span class="center">https://{{host}}/clients/git/end/{{blog.handle}}.git</span>
+  .center .line:hover {
+  background-color: #232323;}
+
+  .copier {margin-top: 4px;}
+  
+</style>
+<div class="line">
+  <div class="label">
+    Repository
+  </div>
+  <div class="center" style="flex-grow:1;">
+    <div style="border-radius: 4px;margin:11px 0;border:1px solid var(--border-color);background:var(--medium-background-color)">
+    <div class="line" >
+  <span class="label">URL</span>
+  <span class="center" >
+    <span id="repo_url">https://{{host}}/clients/git/end/{{blog.handle}}.git</span><br><button class="copier" onclick="copyToClipboard('repo_url')">Copy</button>
+  </span>
 </div>  
 
 <div class="line" >
-  <span class="label">Repository username</span>
-  <span class="center">{{user.email}}</span>
+  <span class="label">Username</span>
+  <span class="center">
+    <span id="repo_username">{{user.email}}</span><br>
+    <button class="copier" onclick="copyToClipboard('repo_username')">Copy</button>
+
+  </span>
+
 </div>  
 
 <div class="line" >
-  <span class="label">Repository password</span>
-  <span class="center">{{token}}</span>
-  <span class="right"> <form method="post" action="{{{base}}}/refresh-token">
-    <input type="hidden" name="_csrf" value="{{csrftoken}}">
-    <input type="submit" style="margin-top:11px" value="Refresh token">
-  </form>
-</span>
+  <span class="label">Password</span>
+  <span class="center"><span id="repo_password">{{token}}</span><br>    <button class="copier" onclick="copyToClipboard('repo_password')">Copy</button>   <a style="margin-left: 1rem" class="link" href="{{{base}}}/reset-password">Reset password</a>
+
+  </span>
 </div>  
 
+<div class="line" >
+  <span class="label">Branch</span>
+  <span class="center">master</span>
+</div>  
+  </div>
+  </div>
+</div>
+
+{{> disconnect-line}}
+<script type="text/javascript">
+  function copyToClipboard(elementId) {
+    // Create an auxiliary hidden input
+    var aux = document.createElement("input");
+
+    // Get the text from the element passed into the input
+    aux.setAttribute("value", document.getElementById(elementId).innerHTML);
+
+    // Append the aux input to the body
+    document.body.appendChild(aux);
+
+    // Highlight the content
+    aux.select();
+
+    // Execute the copy command
+    document.execCommand("copy");
+
+    // Remove the input from the body
+    document.body.removeChild(aux);
+    document.querySelectorAll("[onclick]").forEach(n=>n.classList.remove("copied"));
+    document.querySelectorAll("[onclick]").forEach(n=>n.innerHTML = 'Copy');
 
 
-<a class="line" href="{{{base}}}/disconnect">
-  <span class="label">Disconnect</span>
-  <span class="link">Disconnect your folder from Git</span>
-</a>
-
+    document.querySelector("[onclick*='" + elementId + "']").innerHTML = 'Copied';
+    document.querySelector("[onclick*='" + elementId + "']").classList.add("copied");
+  }
+</script>

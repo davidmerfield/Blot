@@ -1,6 +1,6 @@
 const key = require("./key");
-const client = require("client");
-const Blog = require("blog");
+const client = require("models/client");
+const Blog = require("models/blog");
 const getMetadata = require("./getMetadata");
 const getView = require("./getView");
 

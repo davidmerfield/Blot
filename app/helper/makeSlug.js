@@ -1,12 +1,11 @@
-var ensure = require("./ensure");
-var MAX_LENGTH = 100;
+const ensure = require("helper/ensure");
+const MAX_LENGTH = 100;
 
 // This must always return a string but it can be empty
-function makeSlug(string) {
+module.exports = function makeSlug(string) {
   var words;
   var trimmed = "";
 
-  console.log
   ensure(string, "string");
 
   var slug = "";
@@ -34,12 +33,40 @@ function makeSlug(string) {
     .replace(/&nbsp;/g, " ")
     .replace(/&thinsp;/g, " ")
     .replace(/&mdash;/g, "-")
+
+    // maps don't to dont, won't to wont
+    // shouldn't to shouldnt
+    .replace(/n['’]t/g, "nt")
+
+    // maps i'm to im
+    .replace(/i['’]m/g, "im")
+
+    // maps she'd and he'd
+    .replace(/e['’]d/g, "ed")
+
+    // o'clock
+    .replace(/o['’]c/g, "oc")
+
+    // you're
+    .replace(/u['’]r/g, "ur")
+
+    // we'll
+    .replace(/e['’]l/g, "el")
+
+    // maps it's
+    .replace(/t['’]s/g, "ts")
+
+    // maps they've
+    .replace(/y['’]v/g, "yv")
+    
+    // maps apple's to apples
     .replace(/['’]s/g, "s")
+
     .replace(/→/g, "to")
     .replace(/←/g, "from")
     .replace(/\./g, "-")
     .replace(
-      /[\«\»\“\”\‘\–\’\`\~\!\@\#\$\%\^\&\*\(\)\+\=\\\|\]\}\{\[\'\"\;\:\?\>\.\<\,]/g,
+      /[\«\»\“\”\‘\–\’\`\~\!\@\#\$\%\^\&\*\(\)\+\=\\\|\]\}\{\[\'\"\;\:\?>\.<\,]/g,
       "-"
     )
     .replace(/[^[:alnum:]0-9_-\s]/g, "") // remove invalid chars
@@ -57,7 +84,7 @@ function makeSlug(string) {
 
   slug = trimmed;
 
-  // remove internal leading and trailing hyphens, e.g. 
+  // remove internal leading and trailing hyphens, e.g.
   // /-foo-/bar -> /foo/bar
   slug = slug
     .split("/")
@@ -73,7 +100,7 @@ function makeSlug(string) {
   slug = slug || "";
 
   return slug;
-}
+};
 
 function trimLeadingAndTrailing(str, characters) {
   while (str.length > 1 && characters.indexOf(str[0]) > -1) str = str.slice(1);
@@ -83,74 +110,3 @@ function trimLeadingAndTrailing(str, characters) {
 
   return str;
 }
-
-var Is = require("./_is");
-var is = Is(makeSlug);
-
-is("!@#$^*()=+[]{}\\|;:'\",?><", "");
-is("foo!@#$^*()=+[]{}\\|;:'\",?><bar", "foo-bar");
-
-is("", "");
-is("/", "/");
-is("/a/", "a");
-is("/a", "a");
-is("a/", "a");
-is("H", "h");
-is(
-  "HelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHello",
-  "hellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohello"
-);
-is("100% luck 15% skill", "100-percent-luck-15-percent-skill");
-is("Hello", "hello");
-is("Hello unicode: ", "hello-unicode-%EF%A3%BF");
-is("/Hello/there/", "hello/there");
-is("Hello/THIS/IS/SHIT", "hello/this/is/shit");
-is("Hello This Is Me", "hello-this-is-me");
-is("Hello?=l&=o", "hello");
-is("123", "123");
-is("1-2-3-4", "1-2-3-4");
-is("12 34", "12-34");
-is("f/ü/k", "f/%C3%BC/k");
-is("微博", "%E5%BE%AE%E5%8D%9A");
-
-is("/[design]/abc", "design/abc");
-
-is("/[design](foo)/apple bc", "design-foo/apple-bc");
-
-is(
-  "remove object replacement character: ￼",
-  "remove-object-replacement-character"
-);
-
-is(
-  "Review of “The Development of William Butler Yeats” by V. K. Narayana Menon",
-  "review-of-the-development-of-william-butler-yeats-by-v-k-narayana-menon"
-);
-is(
-  "Review of The Development of William Butler Yeats by V. K. Narayana Menon Review of The Development offff William Butler Yeats by V. K. Narayana Menon",
-  "review-of-the-development-of-william-butler-yeats-by-v-k-narayana-menon-review-of-the-development"
-);
-is(
-  "AppleScript/Automator Folder Action to Convert Excel to CSV",
-  "applescript/automator-folder-action-to-convert-excel-to-csv"
-);
-
-is("Peter Gregson – Bach recomposed: 6.6 Gigue","peter-gregson-bach-recomposed-6-6-gigue");
-is("Apple's Striking Short Film Ahead of International Day of People with Disabilities", "apples-striking-short-film-ahead-of-international-day-of-people-with-disabilities");
-is("'xsb' command line error.", "xsb-command-line-error");
-is("Foo & bar", "foo-bar");
-is("Foo's bar", "foos-bar");
-is("''s bar", "s-bar");
-is("'so' bar", "so-bar");
-is("Foo &amp; bar", "foo-and-bar");
-is("Foo&thinsp;bar", "foo-bar");
-is("China ← NYC → China", "china-from-nyc-to-china");
-is("China+()[] ← NYC! → China", "china-from-nyc-to-china");
-is("No more cd ../../", "no-more-cd");
-
-is(
-  "«&nbsp;French Tech Communauté&nbsp;»&nbsp;: quelle opportunité pour l’État&nbsp;?",
-  "french-tech-communaut%C3%A9-quelle-opportunit%C3%A9-pour-l-%C3%A9tat"
-);
-
-module.exports = makeSlug;

@@ -1,6 +1,6 @@
 var fs = require("fs-extra");
 var localPath = require("helper/localPath");
-var Blog = require("blog");
+var Blog = require("models/blog");
 var Git = require("simple-git");
 var debug = require("debug")("blot:clients:git:disconnect");
 var database = require("./database");
@@ -39,31 +39,7 @@ module.exports = function disconnect(blogID, callback) {
           // Remove the .git directory in the user's blog folder?
           // maybe don't do this... they might want it...
           // what if there was a repo in their folder beforehand?
-          // fs.remove(localPath(blogID, "/.git"), function(err) {
-          //   if (err) return callback(err);
-
-          // });
-
-          // check if blog folder contains git subfolder. this might
-          // not be the case if disconnect is called before create.
-          // if so, we need to finish early, only invoke this if liveRepo
-          // is a repo... otherwise it propagates up to blot repo!
-          fs.stat(liveRepoDirectory + "/.git", function (err) {
-            if (err && err.code === "ENOENT") {
-              debug("No git directory? Had the client been initialized?");
-              return callback(null);
-            }
-
-            if (err) return callback(err);
-
-            liveRepo.removeRemote("origin", function (err) {
-              if (err && err.indexOf("No such remote: origin" > -1)) err = null;
-
-              if (err) return callback(new Error(err));
-
-              callback(null);
-            });
-          });
+          fs.remove(localPath(blogID, "/.git"), callback);
         });
       });
     });

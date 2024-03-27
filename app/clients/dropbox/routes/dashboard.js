@@ -9,10 +9,9 @@ const join = require("path").join;
 const moment = require("moment");
 const { Dropbox } = require("dropbox");
 const views = __dirname + "/../views/";
-const client = require("client");
+const client = require("models/client");
 
-dashboard.use(function loadDropboxAccount(req, res, next) {
-  res.locals.partials.location = views + "location";
+dashboard.use(function loadDropboxAccount (req, res, next) {
   Database.get(req.blog.id, function (err, account) {
     if (err) return next(err);
 
@@ -57,7 +56,7 @@ dashboard.get("/", function (req, res) {
     ) {
       res.locals.blog.status = {
         message: "Setting up your folder on Dropbox",
-        state: "syncing",
+        state: "syncing"
       };
     }
   }
@@ -100,8 +99,13 @@ dashboard.get("/edit", function (req, res) {
 dashboard.get("/redirect", function (req, res) {
   var redirectUri, key, secret;
 
+  var redirectHost =
+    config.environment === "development"
+      ? config.webhooks.relay_host
+      : config.host;
+
   redirectUri =
-    req.protocol + "://" + req.get("host") + "/clients/dropbox/authenticate";
+    req.protocol + "://" + redirectHost + "/clients/dropbox/authenticate";
 
   // It's important that sameSite is set to false so the
   // cookie is exposed to us when OAUTH redirect occurs
@@ -111,7 +115,7 @@ dashboard.get("/redirect", function (req, res) {
     secure: true,
     httpOnly: true,
     maxAge: 15 * 60 * 1000, // 15 minutes
-    sameSite: 'Lax',
+    sameSite: "Lax"
   });
 
   if (req.query.full_access) {
@@ -126,7 +130,7 @@ dashboard.get("/redirect", function (req, res) {
   const dbconfig = {
     fetch,
     clientId: key,
-    clientSecret: secret,
+    clientSecret: secret
   };
 
   const dbx = new Dropbox(dbconfig);
@@ -142,7 +146,7 @@ dashboard.get("/redirect", function (req, res) {
       "none",
       false
     )
-    .then((authUrl) => {
+    .then(authUrl => {
       res.writeHead(302, { Location: authUrl });
       res.end();
     });
@@ -166,11 +170,15 @@ dashboard.get("/authenticate", function (req, res) {
   //   return res.redirect(req.baseUrl);
   // }
 
-  console.log('here tooo...');
-
   const { code, full_access } = req.query;
+
+  const redirectHost =
+    config.environment === "development"
+      ? config.webhooks.relay_host
+      : config.host;
+
   let redirectUri =
-    req.protocol + "://" + req.get("host") + "/clients/dropbox/authenticate";
+    req.protocol + "://" + redirectHost + "/clients/dropbox/authenticate";
 
   if (full_access) {
     redirectUri += "?full_access=true";
@@ -181,7 +189,7 @@ dashboard.get("/authenticate", function (req, res) {
     redirectUri,
     full_access: full_access === "true",
     preparing: true,
-    blog: req.blog,
+    blog: req.blog
   };
 
   // this the first time the user has visited this page

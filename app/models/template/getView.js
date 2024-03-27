@@ -1,5 +1,5 @@
 var key = require("./key");
-var client = require("client");
+var client = require("models/client");
 var deserialize = require("./util/deserialize");
 var viewModel = require("./viewModel");
 

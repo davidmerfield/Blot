@@ -39,8 +39,11 @@ site.get("/authenticate", cookieParser(), function (req, res, next) {
   res.send(`<html>
 <head>
 <meta http-equiv="refresh" content="0;URL='${redirect}'"/>
+<script type="text/javascript">window.location='${redirect}'</script>
 </head>
-<body><p>Continue to <a href="${redirect}">${redirect}</a>.</p></body>
+<body>
+<noscript><p>Continue to <a href="${redirect}">${redirect}</a>.</p></noscript>
+</body>
 </html>`);
 });
 
@@ -52,16 +55,16 @@ site.get("/authenticate", cookieParser(), function (req, res, next) {
 // accepted a push but before we've sent the response.
 var activeSyncs = {};
 
-function started(blogID) {
+function started (blogID) {
   if (activeSyncs[blogID] === undefined) activeSyncs[blogID] = 0;
   activeSyncs[blogID]++;
 }
 
-function finished(blogID) {
+function finished (blogID) {
   activeSyncs[blogID]--;
 }
 
-function finishedAllSyncs(blogID) {
+function finishedAllSyncs (blogID) {
   return activeSyncs[blogID] === 0;
 }
 
@@ -101,11 +104,15 @@ site.post("/webhook", function (req, res) {
   });
 
   req.on("end", function () {
-    if (signature !== verification.digest("hex")) return res.sendStatus(403);
+    if (signature !== verification.digest("hex")) {
+      return res.sendStatus(403);
+      console.log("invalid signature");
+    }
 
     try {
       accounts = JSON.parse(data).list_folder.accounts;
     } catch (e) {
+      console.log("invalid accounts");
       return res.sendStatus(504);
     }
 

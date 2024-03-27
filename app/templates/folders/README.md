@@ -1,5 +1,12 @@
 # Folders
 
+Add folders for:
+
+- Link blog!
+- Podcast!
+- Music site!
+- Video portfolio!
+
 Test material for static site generators. To release new versions of the folders for download:
 
 ```
@@ -34,6 +41,7 @@ https://www.flickr.com/photos/alberta_archives/albums/72157643076560675
 ## Tools
 
 - [Download flickr sets](https://www.npmjs.com/package/flickr-set-get)
+  https://www.openculture.com/2016/05/1-8-million-free-works-of-art-from-world-class-museums-a-meta-list.html
 
 ## Generating the blogs
 
@@ -49,9 +57,65 @@ This will be useful food for thought when we allow people
 to edit their blog's settings from the folder, e.g.
 a .blot directory containing config...
 
+## Ideas
+
+- design a site around each font available on Blot (80 ish fonts)
+
+Backs of oil paintings from the wellcome collection
+https://wellcomecollection.org/works/gf94jwmz/images?id=dx3n4cyc
+
+The works of Edward Muybridge
+https://wellcomecollection.org/search/images?locations.license=pdm&source.contributors.agent.label=%22Muybridge%2C+Eadweard%2C+1830-1904%22&page=11
+
 ## Future test material
 
+### Photographs
+
 [Photochrom Travel Views](https://www.flickr.com/photos/library_of_congress/albums/72157612249760312)
+
+[John Margolie's photos](https://www.loc.gov/pictures/related/?va=exact&st=gallery&q=Nightclubs--1970-1980.&fi=subject&sg=true&op=EQUAL)
+
+[Theodor Horydczak pictures](https://www.loc.gov/pictures/search/?va=exact&co=thc&sp=1&q=Horydczak%2C+Theodor%2C+approximately+1890-1971&fa=displayed%3Aanywhere&fi=author&sg=true&op=EQUAL)
+
+[Daguerreotypes](https://www.loc.gov/pictures/search/?q=Mathew+Brady+half+plate&sp=1&co=dag&st=grid)
+
+[Macro photos](https://www.rawpixel.com/board/1231804/vintage-botanical-macro-photographs-high-resolution-designs?mode=shop)
+
+### Illustrations
+
+[Thought-forms](https://en.wikipedia.org/wiki/Thought-Forms)
+
+- https://archive.org/details/thoughtforms00leadgoog/page/n30/mode/2up?view=theater
+- https://archive.org/details/thoughtforms00leadgoog/page/n130/mode/2up?view=theater
+- https://www.gutenberg.org/files/16269/16269-h/16269-h.htm#THE_FORM_AND_ITS_EFFECT
+- https://en.wikipedia.org/wiki/Theosophy_and_visual_arts#Beckmann
+- https://upload.wikimedia.org/wikipedia/commons/c/cd/Colorchart.jpg
+
+[Works of Mondrian](https://commons.wikimedia.org/wiki/Category:Paintings_by_Piet_Mondrian)
+
+[British Fishes](https://www.rawpixel.com/board/415979/the-natural-history-british-fishes-free-public-domain-fish-paintings)
+
+[Fern drawings](https://www.rawpixel.com/board/1231857/fern-drawings-public-domain-botanical-paintings)
+
+[Works of Ernst Haekel](https://en.wikipedia.org/wiki/Ernst_Haeckel)
+
+[Cyanotypes of algae](https://digitalcollections.nypl.org/collections/photographs-of-british-algae-cyanotype-impressions?format=html&id=photographs-of-british-algae-cyanotype-impressions&per_page=250&page=1#/?tab=navigation&scroll=112)
+
+[California views by Prang](https://www.loc.gov/pictures/search/?q=California+views+prang&fa=displayed%3Aanywhere&sp=1&co=pga)
+
+[Bird's eye views](https://www.loc.gov/pictures/search/?q=bird+view+of&fa=displayed%3Aanywhere&sp=3&co=pga&st=gallery)
+
+[zoopraxiscopes - Collection of optical illusion disks](https://www.loc.gov/pictures/related/?fi=subject&q=Optical%20illusions--1830-1840.&co=cph)
+
+[Postcards](https://digitalcollections.nypl.org/search/index?filters%5Bgenre%5D=Postcards&filters%5Brights%5D%5B%5D=pd&filters%5Btype_s%5D%5B%5D=http%3A%2F%2Furi.nypl.org%2Fvocabulary%2Frepository_terms%23Capture&keywords=#)
+
+[Botanical illustrations](https://digitalcollections.nypl.org/search/index?filters%5BnamePart_mtxt_s%5D%5B%5D=Miller%2C+Joseph%2C+1668+or+1669-1748&keywords=&layout=false#/?scroll=135)
+
+https://publicdomainreview.org/essay/the-substantiality-of-spirit/?utm_source=newsletter
+
+### Objects
+
+[Civil rights buttons](https://digitalcollections.nypl.org/search/index?filters%5Bgenre_mtxt_s%5D%5B%5D=Buttons+%28Information+artifacts%29&keywords=&layout=false#/?scroll=39)
 
 [Collection of MET cylindrical seals with modern impressions](https://www.metmuseum.org/art/collection/search#!?showOnly=withImage%7CopenAccess&q=cylinder%20seal%20and%20modern%20impression&offset=0&perPage=80&sortOrder=asc&searchField=All&pageSize=0)
 

@@ -1,11 +1,10 @@
 /* Inserts the styles required by various options
 on the services page of the dashboard */
 {{{appCSS}}}
-
 {{{body_font.styles}}}
+{{{syntax_highlighter.styles}}}
 
 /* Colors */
-
 hr {
   background-color: {{text_color}};
   opacity: 0.1;
@@ -53,13 +52,14 @@ body{
   flex-grow: 1;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  /* justify-content: center; */
 }
 
 .shift-margin {
   padding-left:{{spacing}}rem;
 }
 
+.caption {display:block;font-size: {{body_font.font_size}}px;margin: 0.5em 0 0.5em 0}
 /* Styles */
 
 html,
@@ -128,7 +128,11 @@ header {
   flex-wrap: wrap;
   justify-content: space-between;
   position: relative;
-  padding: calc({{spacing}}rem/2) {{spacing}}rem;
+  padding: calc({{spacing}}rem/2) calc({{spacing}}rem);
+  {{^sticky_navigation}}
+  position: relative;
+  z-index: 1;
+  {{/sticky_navigation}}
   {{#sticky_navigation}}
   position: fixed;
   {{#is.navigation_position.top}}
@@ -147,7 +151,6 @@ header {
   {{#is.navigation_alignment.right}}
   right:0;
   {{/is.navigation_alignment.right}}
-
   z-index: 1;
   {{/sticky_navigation}}
 }
@@ -183,16 +186,28 @@ nav {
   {{/collapse_navigation_by_default}}
 }
 
-nav a {
-    margin-left: calc({{spacing}}rem/2);
+header a,
+header .tabular-numerals {
+    margin-left: calc({{spacing}}rem/4);
+    margin-right: calc({{spacing}}rem/4);
+}
+
+header > a:first-child {
+  margin-left: 0;
 }
 
 nav a[href="/search"] {display: none}
 
 nav .spacer {
     height: 22px;
-    border-right: 1px solid rgba(0, 0, 0, 0.1);
+    border-right: 1px solid rgba({{#rgb}}{{text_color}}{{/rgb}},0.1);
     margin: 0 calc({{spacing}}rem / 2);
+}
+
+nav a:not([href]) {
+  cursor: default;
+  color:  rgba({{#rgb}}{{text_color}}{{/rgb}},0.3);
+  text-decoration: none!important;
 }
 
 #toggle {

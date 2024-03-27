@@ -4,30 +4,73 @@ const imageminPngquant = require("imagemin-pngquant");
 const dirname = require("path").dirname;
 const fs = require("fs-extra");
 
-async function main(site, path, options = {}) {
-  const browser = await puppeteer.launch();
+const firefoxOptions =
+  process.env.PUPETEER_PRODUCT === "firefox"
+    ? {
+        product: "firefox",
+        args: ["--font-render-hinting=none", "--force-color-profile=srgb"]
+      }
+    : {};
+
+async function main (site, path, options = {}) {
+  // console.log('launching');
+
+  const browser = await puppeteer.launch(firefoxOptions);
+
+  // console.log('launched');
   const page = await browser.newPage();
 
-  if (options.mobile) {
-    const iPhone = puppeteer.devices["iPhone X"];
-    await page.emulate(iPhone);
-  } else {
-    const width = options.width || 1260;
-    const height = options.height || 778;
+  await page.setUserAgent(
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36"
+  );
 
-    await page.setViewport({
-      width: width,
-      height: height,
-      deviceScaleFactor: 2,
-    });
-  }
+  // console.log('using options', options);
 
+  const width =
+    options.width !== undefined
+      ? options.width
+      : options.mobile === true
+      ? 400
+      : 1260;
+
+  const height =
+    options.height !== undefined
+      ? options.height
+      : options.mobile === true
+      ? 650
+      : 778;
+
+  // console.log('using width', width, 'height', height);
+
+  // console.log('setting viewport')
+  await page.setViewport({
+    width: width,
+    height: height,
+    deviceScaleFactor: 2
+  });
+
+  // console.log('going to site',site);
   await fs.ensureDir(dirname(path));
-  await page.goto(site);
-  await page.screenshot({ path: path });
+  // page.goto site and wait for all the images to load
+  // up to a maximum of 20 seconds
+  await page.goto(site, { waitUntil: "networkidle0", timeout: 20000 });
+
+  // console.log('went to site');
+  // it's important to capture the screenshot in max resolution
+  // and without compression so multiple iterations on the same
+  // page produce the same result when diffed
+  await page.screenshot({
+    path: path,
+    type: "png",
+    omitBackground: true
+  });
+
+  // console.log('took screenshot');
   await browser.close();
+  // console.log('closed browser');
+
   await imagemin([path], dirname(path), {
-    plugins: [imageminPngquant()],
+    plugins: [imageminPngquant()]
   });
 }
 

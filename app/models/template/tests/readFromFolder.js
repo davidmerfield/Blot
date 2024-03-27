@@ -18,13 +18,9 @@ describe("template", function () {
     create(this.blog.id, name, { localEditing: true }, done);
   });
 
-  it("reads a template from an empty folder without error", function (done) {
-    readFromFolder(this.blog.id, this.tmp, done);
-  });
-
   it("reads template properties from package.json", function (done) {
     fs.outputJsonSync(this.tmp + "/package.json", {
-      locals: { foo: "bar" },
+      locals: { foo: "bar" }
     });
 
     readFromFolder(this.blog.id, this.tmp, function (err, template) {
@@ -58,7 +54,7 @@ describe("template", function () {
     fs.outputFileSync(this.tmp + "/style.css", "body {color:pink}");
     fs.outputJsonSync(this.tmp + "/package.json", {
       locals: { foo: "bar" },
-      views: { "style.css": { url: "/test", locals: { baz: "bat" } } },
+      views: { "style.css": { url: "/test", locals: { baz: "bat" } } }
     });
 
     readFromFolder(this.blog.id, this.tmp, function (err, template) {
@@ -111,6 +107,31 @@ describe("template", function () {
             if (err) return done.fail(err);
 
             expect(name).toEqual("style.css");
+            done();
+          });
+        });
+      });
+    });
+  });
+
+  it("removes a view when you remove its file", function (done) {
+    const tmp = this.tmp;
+    const blogID = this.blog.id;
+
+    fs.outputFileSync(tmp + "/hello.html", "Hello, world!");
+    fs.outputFileSync(tmp + "/test.html", "Hello, test!");
+
+    readFromFolder(blogID, tmp, function (err, template) {
+      if (err) return done.fail(err);
+      get(template.id, "test.html", function (err, view) {
+        expect(view.content).toEqual("Hello, test!");
+
+        fs.removeSync(tmp + "/test.html");
+        readFromFolder(blogID, tmp, function (err) {
+          if (err) return done.fail(err);
+          get(template.id, "test.html", function (err, view) {
+            expect(err.message.includes("No view")).toBe(true);
+            expect(view).toEqual(undefined);
             done();
           });
         });

@@ -1,0 +1,45 @@
+{{^hidebreadcrumbs}}
+<div style="display: flex;
+align-items: baseline;
+flex-wrap: wrap;
+justify-content: space-between;">
+<div id="breadcrumbs">
+  {{#breadcrumbs}}
+  <a href="{{{url}}}">{{ label }}</a> {{^last}} <span style="color:var(--border-color)">&puncsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12" width="12" height="12"><path fill="currentColor" d="M4.7 10c-.2 0-.4-.1-.5-.2-.3-.3-.3-.8 0-1.1L6.9 6 4.2 3.3c-.3-.3-.3-.8 0-1.1.3-.3.8-.3 1.1 0l3.3 3.2c.3.3.3.8 0 1.1L5.3 9.7c-.2.2-.4.3-.6.3Z"></path></svg>&puncsp;</span> {{/last}}
+  {{/breadcrumbs}}
+</div>
+{{#user}}
+{{#blog}}
+<a style="color:var(--secondary-accent-color);font-weight:600;padding:0 1.5em 0" href="{{{url}}}" target="_blank">{{pretty.url}} &puncsp;↗</a>
+{{/blog}}
+{{/user}}
+</div>
+
+<br />
+{{/hidebreadcrumbs}}
+
+<style>
+
+  #breadcrumbs a {
+  color: var(--medium-text-color);
+  font-size: 16px;
+
+  text-decoration: none;
+  }
+  #breadcrumbs a:hover {
+  color: var(--text-color);
+  }
+
+
+  {{#user}}
+  #breadcrumbs a:first-child {
+  padding-left: 1em;}
+
+  #breadcrumbs a {
+    padding: 0.5em 0.2em;
+    display: inline-block;
+    font-size: var(--large-font-size);
+  }
+
+  {{/user}}
+</style>

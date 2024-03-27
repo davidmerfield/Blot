@@ -1,7 +1,7 @@
 const config = require("config");
 const database = require("./database");
 const google = require("googleapis").google;
-const Blog = require("blog");
+const Blog = require("models/blog");
 const establishSyncLock = require("./util/establishSyncLock");
 const debug = require("debug")("blot:clients:google-drive");
 
@@ -65,8 +65,8 @@ async function disconnect(blogID, callback) {
 
 	debug("resetting client setting");
 	Blog.set(blogID, { client: "" }, async function (err) {
-		if (err) return done(err, callback);
-		done(null, callback);
+		await done(err);
+		callback();
 	});
 }
 

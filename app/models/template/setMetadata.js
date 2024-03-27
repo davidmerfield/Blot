@@ -1,12 +1,12 @@
 var key = require("./key");
-var client = require("client");
+var client = require("models/client");
 var getMetadata = require("./getMetadata");
 var serialize = require("./util/serialize");
 var metadataModel = require("./metadataModel");
 var ensure = require("helper/ensure");
-var Blog = require("blog");
+var Blog = require("models/blog");
 
-module.exports = function setMetadata(id, updates, callback) {
+module.exports = function setMetadata (id, updates, callback) {
   try {
     ensure(id, "string").and(updates, "object").and(callback, "function");
   } catch (e) {
@@ -36,6 +36,8 @@ module.exports = function setMetadata(id, updates, callback) {
 
       client.hmset(key.metadata(id), metadata, function (err) {
         if (err) return callback(err);
+
+        if (!changes) return callback(null, changes);
 
         Blog.set(metadata.owner, { cacheID: Date.now() }, function (err) {
           callback(err, changes);

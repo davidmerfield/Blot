@@ -1,0 +1,42 @@
+<div class="line theme {{checked}}" data-name="{{name}}">
+
+  
+    <span style="display:block;margin-bottom:0.5em;flex-grow: 1;
+  
+  flex-basis: 50%;">{{^localEditing}}{{name}}{{/localEditing}} {{#localEditing}}
+    Templates/{{slug}}
+    {{/localEditing}}</span>
+    
+  
+  
+    {{#isMine}}
+    {{^localEditing}}
+    <a href="{{editURL}}" style="margin-right:0;padding-right:11px;margin-left:0" class="preview-button" ><span class="square">Edit</span></a>
+    {{/localEditing}}
+    
+    {{/isMine}}
+  
+  
+  
+    <!--   <span class="icon file"></span>
+   -->
+    <form method='post' style="display:inline" action="{{{base}}}/template/install">
+      <input type="hidden" name="_csrf" value="{{csrftoken}}">
+      <input type="hidden" name="template" value="{{id}}">
+      {{#checked}} <button disabled type="submit"><span class="square">Installed</span></button>{{/checked}}
+      {{^checked}} <button type="submit"><span class="square">Install</span></button>{{/checked}}
+      
+    </form>
+  
+    <form method='post' style="display:inline" action="{{{base}}}/template/new">
+      <input type="hidden" name="redirect" value="{{{base}}}/template">
+      <input type="hidden" name="name" value="{{^isMine}}Copy of {{/isMine}}{{name}}" />
+      <input type="hidden" name="cloneFrom" value="{{id}}" />
+      <button type="submit"><span class="square">Duplicate</span></button>
+    </form>
+  
+  
+    <a href="{{previewURL}}" class="preview-button" target="_blank" ><span class="square">Preview</span></a>
+  
+  </div>
+  

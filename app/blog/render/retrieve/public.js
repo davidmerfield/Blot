@@ -1,4 +1,4 @@
-var Metadata = require("metadata");
+var Metadata = require("models/metadata");
 var join = require("path").join;
 var basename = require("path").basename;
 var blog_folder_dir = require("config").blog_folder_dir;

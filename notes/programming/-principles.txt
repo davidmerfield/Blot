@@ -1,25 +1,18 @@
 # Principles
 
-## What I have learnt programming Blot
-
-When I started working on Blot, I did not know how to program. I foolishly did less study than I should. I wasted time inventing tools that others built better, before me, but I enjoyed almost all of it.
-
-The most important goal is reliability, then speed.
+When I started working on Blot, I did not know how to program. I did less research than I ought to have done. I wasted time creating tools that others had already made.
 
 ## Infrastructure
-- **A limited palette of boring technology** I'd avoid using tools that have been around for less than a decade in anything you plan to depend upon.
-- **Understand the environment in which your code runs** 
+- I avoid using tools that have been around for less than a decade.
+- I try to understand the environment in which Blot's code runs.
 
 ## Back-end
-- **Speed above everything**
-
-- **Avoid microservices** Perhaps there is way to make these work but I haven't achieved it yet.
-
-- **Keep track of your bottlenecks** Blot involves lots of i/o, like reading files from a disk or syncing a file over a network. Because of this, most of what really needs to be optimized is i/o. Nothing is especially computationally intensive. Shaving even one external HTTP request from a function will save infinitely more than endless language-level performance optimization.
+- Reliability is the most important attribute of your software. I dislike software that is not dependable. 
+- Speed is the second most important attribute. I dislike software that is slow. Blot involves lots of i/o, like reading files from a disk or syncing a file over a network. Because of this, most of what really needs to be optimized is i/o. Nothing is especially computationally intensive. Avoiding even one external HTTP request from a function saves much more time than endless language-level performance optimizations.
 
 ## Front-end
 
-- **Speed above everything**. I run almost everything send to the client through as many minifiers and compressors as is reasonable. I want to improve the speed of Blot. I also use a neat script called [instant.page](https://instant.page/) to begin fetching a page when the user hovers over a link.
+- **Speed above everything**. I run almost everything send to the client through as many build-time minifiers and compressors as is reasonable. I want to improve the speed of Blot. I also use a neat script called [instant.page](https://instant.page/) to begin fetching a page when the user hovers over a link.
 
 - **As little JavaScript as possible**. In general, I want to do as much computation as possible on the server, as little as possible on the client. This is because I control the server, but not the client.
 

@@ -3,7 +3,7 @@ module.exports = function (server) {
   var Redirects = require("models/redirects");
   var store404 = require("models/404").set;
   var config = require("config");
-  var VIEW_DIR = require("path").resolve(__dirname + "/../brochure/views");
+  var VIEW_DIR = require("path").resolve(__dirname + "/../views");
   var clfdate = require("helper/clfdate");
 
   // Redirects

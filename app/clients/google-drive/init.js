@@ -9,23 +9,11 @@ const database = require("./database");
 const setupWebhook = require("./util/setupWebhook");
 const TEN_MINUTES = 1000 * 60 * 10; // in ms
 
-const { webhook_forwarding_host } = require("config");
-const { spawn } = require("child_process");
-
 const prefix = () => clfdate() + " Google Drive client:";
 
 module.exports = () => {
   refreshWebhookChannels();
   setInterval(refreshWebhookChannels, TEN_MINUTES);
-
-  if (webhook_forwarding_host) {
-    console.log(prefix(), `Spawning tunnel from ${webhook_forwarding_host}`);
-    spawn("ssh", [
-      "-R",
-      webhook_forwarding_host + ":80:localhost:80",
-      "localhost.run",
-    ]);
-  }
 };
 
 const refreshWebhookChannels = async () => {

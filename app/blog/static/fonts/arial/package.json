@@ -1,5 +1,8 @@
 {
   "name": "Arial",
+  "tags": [
+    "sans"
+  ],
   "stack": "Arial,Helvetica Neue,Helvetica,sans-serif",
   "line_height": 1.615,
   "line_width": 38,

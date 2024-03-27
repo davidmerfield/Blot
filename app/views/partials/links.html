@@ -1,0 +1,161 @@
+<li>
+  <a
+    style="border-top: none"
+    class="{{ selected.howIndex }}"
+    data-open="{{ selected.how }}"
+    href="/how"
+    >How to use Blot</a
+  ><ul>
+
+    <li>
+      <a
+        class="{{ selected.postsIndex }}"
+        data-open="{{ selected.posts }}"
+        href="/how/posts"
+        >Files and posts</a
+      >
+      <ul>
+
+        <li>
+          <a class="{{ selected.metadata }}" href="/how/posts/metadata"
+            >Metadata</a
+          >
+        </li>
+        <li>
+          <a class="{{ selected.pages }}" href="/how/posts/pages"
+            >Pages</a
+          >
+        </li>
+        <li>
+          <a class="{{ selected.drafts }}" href="/how/posts/drafts"
+            >Drafts</a
+          >
+        </li>
+        
+      </ul>
+    </li>
+    <li>
+      <a
+        class="{{ selected.syncIndex }}"
+        data-open="{{ selected.sync }}"
+        href="/how/sync"
+        >Sync your folder</a
+      >
+      <ul>
+        <li>
+          <a class="{{ selected.dropbox }}" href="/how/sync/dropbox">Dropbox</a>
+        </li>
+        <li><a class="{{selected.git }}" href="/how/sync/git">Git</a></li>
+        <li>
+          <a class="{{selected.google-drive}}" href="/how/sync/google-drive"
+            >Google Drive</a
+          >
+        </li>
+      </ul>
+    </li>
+    
+    
+    <li>
+      <a
+        class="{{ selected.configureIndex }}"
+        data-open="{{ selected.configure }}"
+        href="/how/configure"
+        >Set up your site</a
+      >
+      <ul>
+        
+        <li>
+          <a class="{{ selected.import }}" href="/how/configure/import"
+            >Import</a
+          >
+        </li>
+        <li>
+          <a class="{{ selected.domain }}" href="/how/configure/domain"
+            >Domain</a
+          >
+        </li>
+        <li>
+          <a class="{{ selected.analytics }}" href="/how/configure/analytics"
+            >Analytics</a
+          >
+        </li>
+        <li>
+          <a class="{{ selected.comments }}" href="/how/configure/comments"
+            >Comments</a
+          >
+        </li>
+        <li>
+          <a class="{{ selected.redirects }}" href="/how/configure/redirects"
+            >Redirects</a
+          >
+        </li>
+        <li>
+          <a
+            class="{{ selected.link - format }}"
+            href="/how/configure/link-format"
+            >Link format</a
+          >
+        </li>
+      </ul>
+    </li>
+    <li>
+      <a
+        class="{{ selected.tools }}"
+        href="/how/tools"
+        >Tools</a
+      >
+      
+    </li> 
+
+    </ul> 
+    </li> 
+
+    <li>
+      <a href="/examples" class="{{ selected.examples }}"
+        >Example sites</a>
+    </li>
+    
+    <li>
+      <a href="/questions" class="{{ selected.questions }}"
+        >Questions</a>
+</li> 
+<li class="signed-out">
+  <a href="/pricing" class="{{ selected.pricing }}"
+    >Pricing</a>
+</li>
+<script type="text/javascript">
+  if (document.cookie.indexOf('signed_into_blot') > -1) {
+    document.querySelector('li.signed-out').style.display = 'none';
+    }
+</script>
+
+  
+      <li>
+        <a href="/about" class="{{ selected.aboutIndex }}"     data-open="{{ selected.about }}"
+
+          >About</a>
+          <ul>
+           
+            <li>
+              <a href="/about/notes" class="{{ selected.notes }}"
+                >Notes</a>
+            </li>
+
+            <li>
+              <a href="/about/status" class="{{ selected.status }}"
+                >Status</a>
+            </li>
+
+          </ul>
+      </li>
+
+      <li>
+        <a href="/news" class="{{ selected.news }}"
+          >News</a>
+      </li>
+  
+      <li>
+        <a href="/contact" class="{{ selected.contact }}"
+          >Contact</a>
+      </li>
+    </ul>

@@ -1,0 +1,200 @@
+{{> sign-up-header}}
+
+<form method="POST" style="flex-basis:50%;max-width: 360px;">
+  
+    
+    
+<noscript>
+  <p class="error">
+    <mark>Enable JavaScript to purchase an account.</mark> Payments are
+    processed by Stripe without touching Blot's servers. This requires
+    JavaScript.
+  </p>
+</noscript>
+
+  <div class="tabs">
+   <input type="radio" id="card-radio" name="payment_method" value="card" checked>
+    <label for="card-radio" style="cursor:pointer">Pay with card</label>
+    <input type="radio" id="paypal-radio" name="payment_method" value="paypal">
+    <label for="paypal-radio" style="cursor:pointer">Pay with PayPal</label>
+  </div>
+   
+<div id="card_method">
+
+  {{#error}}
+<p id="error" class="error">{{ error }}</p>
+{{/error}}
+{{^error}}
+<p id="error" class="error" style="display: none"></p>
+{{/error}}
+
+
+        <p>
+          <label for="email">Your email address</label>
+          <input type="text" class="email" name="email" autofocus />
+        </p>
+
+        <p style="margin-bottom: 0">
+          <label for="number"
+            >Card number
+            
+          </label>
+          <input type="text" data-stripe="number" name="number"  />
+        </p>
+
+        <div style="display: flex; margin: 1em 0 1em 0">
+          <div>
+            <label for="month">Expiration date</label>
+            <div style="display: flex">
+              <input
+                name="exp-month"
+                maxlength="2"
+                placeholder="MM"
+                type="text"
+                data-stripe="exp-month" />
+              <input
+                name="exp-year"
+                maxlength="4"
+                placeholder="YYYY"
+                type="text"
+                size="4"
+                data-stripe="exp-year" />
+            </div>
+          </div>
+
+          <div>
+            <label for="cvc"
+              >CVC
+              <em
+                >The CVC is the 3- or 4-digit code on your card, separate from the
+                16-digit number.</em
+              >
+            </label>
+            <input type="text" size="4" data-stripe="cvc" id="cvc" name="cvc" />
+          </div>
+        </div>
+
+        <p style="margin: 0">
+          <label>Total due today</label>
+        </p>
+        <hr
+          style="
+            margin: 2px 0;
+            border: none;
+            border-top: 1px solid var(--light-border-color)
+          " />
+        <p style="margin-top: 4px">{{ price }}.00</p>
+        <input
+          type="submit"
+          value="Subscribe"
+          onclick="this.classList.add('working')" />
+
+          <p style="font-size: 12px;color:var(--light-text-color);text-align: center;">Powered by <svg class="Footer-PoweredBy-Icon" focusable="false" width="33" height="15" role="img" aria-labelledby="stripe-title"><title id="stripe-title">Stripe</title><g fill-rule="evenodd"><path d="M32.956 7.925c0-2.313-1.12-4.138-3.261-4.138-2.15 0-3.451 1.825-3.451 4.12 0 2.719 1.535 4.092 3.74 4.092 1.075 0 1.888-.244 2.502-.587V9.605c-.614.307-1.319.497-2.213.497-.876 0-1.653-.307-1.753-1.373h4.418c0-.118.018-.588.018-.804zm-4.463-.859c0-1.02.624-1.445 1.193-1.445.55 0 1.138.424 1.138 1.445h-2.33zM22.756 3.787c-.885 0-1.454.415-1.77.704l-.118-.56H18.88v10.535l2.259-.48.009-2.556c.325.235.804.57 1.6.57 1.616 0 3.089-1.302 3.089-4.166-.01-2.62-1.5-4.047-3.08-4.047zm-.542 6.225c-.533 0-.85-.19-1.066-.425l-.009-3.352c.235-.262.56-.443 1.075-.443.822 0 1.391.922 1.391 2.105 0 1.211-.56 2.115-1.39 2.115zM18.04 2.766V.932l-2.268.479v1.843zM15.772 3.94h2.268v7.905h-2.268zM13.342 4.609l-.144-.669h-1.952v7.906h2.259V6.488c.533-.696 1.436-.57 1.716-.47V3.94c-.289-.108-1.346-.307-1.879.669zM8.825 1.98l-2.205.47-.009 7.236c0 1.337 1.003 2.322 2.34 2.322.741 0 1.283-.135 1.581-.298V9.876c-.289.117-1.716.533-1.716-.804V5.865h1.716V3.94H8.816l.009-1.96zM2.718 6.235c0-.352.289-.488.767-.488.687 0 1.554.208 2.241.578V4.202a5.958 5.958 0 0 0-2.24-.415c-1.835 0-3.054.957-3.054 2.557 0 2.493 3.433 2.096 3.433 3.17 0 .416-.361.552-.867.552-.75 0-1.708-.307-2.467-.723v2.15c.84.362 1.69.515 2.467.515 1.879 0 3.17-.93 3.17-2.548-.008-2.692-3.45-2.213-3.45-3.225z"></path></g></svg></span>
+        </div>
+        <input type="hidden" name="_csrf" value="{{ csrf }}" />
+        <input type="hidden" class="stripeToken" name="stripeToken" />
+        <div id="paypal_method" style="display: none">
+          <div id="paypal-button-container"></div>
+        </div>  
+      </form>
+
+      <script src="https://www.paypal.com/sdk/js?client-id={{
+          paypal_client_id
+        }}&vault=true&intent=subscription">
+    </script>
+
+
+    <script>
+        // show or hide the card or paypal method based on the radio button selected
+        const cardMethod = document.getElementById("card_method");
+      const paypalMethod = document.getElementById("paypal_method");
+      const cardRadio = document.getElementById("card-radio");
+      const paypalRadio = document.getElementById("paypal-radio");
+
+      // when the page loads, detect which radio button is selected and show the appropriate method
+      window.onload = function () {
+        if (cardRadio.checked) {
+          cardMethod.style.display = "block";
+          paypalMethod.style.display = "none";
+        } else if (paypalRadio.checked) {
+          cardMethod.style.display = "none";
+          paypalMethod.style.display = "block";
+        }
+      };
+
+      cardRadio.addEventListener("click", () => {
+        cardMethod.style.display = "block";
+        paypalMethod.style.display = "none";
+      });
+      paypalRadio.addEventListener("click", () => {
+        cardMethod.style.display = "none";
+        paypalMethod.style.display = "block";
+      });        
+
+      paypal
+        .Buttons({
+          createSubscription: function (data, actions) {
+            return actions.subscription.create({
+              plan_id: "{{paypal_plan}}" // Creates the subscription
+            });
+          },
+          onApprove: function (data, actions) {
+            // replace the contents of the form with a loading message
+            const form = document.querySelector("form");
+            form.innerHTML = "<p>Loading your payment...</p>";
+            // redirect to /sign-up/paypal/redirect?subscription_id=${data.subscriptionID}
+            window.location.href =
+              "/sign-up/paypal?subscriptionID=" + data.subscriptionID;
+          }
+        })
+        .render("#paypal-button-container"); // Renders the PayPal button
+    </script>
+
+    <script type="text/javascript" src="/js/jquery.js"></script>
+    <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+    <script type="text/javascript">
+      // This identifies your website in the createToken call below
+      if (typeof Stripe !== "undefined")
+        Stripe.setPublishableKey("{{stripe_key}}");
+      $("form").submit(function (event) {
+        var $form = $(this);
+        // Disable the submit button
+        // to prevent repeated clicks
+        $form.find('[type="submit"]').prop("disabled", true);
+
+        $("#error").hide();
+
+        // Validate the email address
+        var email = $('[name="email"]').val() || "";
+        var emailRegex = /[^\s@]+@[^\s@]+\.[^\s@]+/;
+        var email = email.replace(" ", "");
+        if (email === "" || !emailRegex.test(email)) {
+          $("#error").text("Please enter your email address.").show();
+          $('[type="submit"]').removeClass("working").prop("disabled", false);
+          $('[name="email"]').focus();
+          return false;
+        } else {
+          $('[name="email"]').val(email);
+        }
+        Stripe.card.createToken($form, function (status, response) {
+          if (response.error) {
+            $("#error").text(response.error.message).show();
+            $('[type="submit"]').removeClass("working").prop("disabled", false);
+          } else {
+            var token = response.id;
+            // response also contains card,
+            // which has additional card details
+            // Insert the token into the form so
+            // it gets submitted to the server
+            $form.find(".stripeToken").val(token);
+            $form.get(0).submit();
+          }
+        });
+        // Prevent the form from submitting with the default action
+        return false;
+      });
+    </script>
+  </div>
+</form>
+</div>
+</div>

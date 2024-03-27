@@ -1,0 +1,194 @@
+<h1>Example sites</h1>
+
+<div class="collapse-on-small-screens">
+
+    <div style="flex-basis:50%;">
+      <h2 style="margin-bottom: 0;"><a href="/examples" onclick="renderFeatured();return false;">People who use Blot <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><path d="M1.705 8.005a.75.75 0 0 1 .834.656 5.5 5.5 0 0 0 9.592 2.97l-1.204-1.204a.25.25 0 0 1 .177-.427h3.646a.25.25 0 0 1 .25.25v3.646a.25.25 0 0 1-.427.177l-1.38-1.38A7.002 7.002 0 0 1 1.05 8.84a.75.75 0 0 1 .656-.834ZM8 2.5a5.487 5.487 0 0 0-4.131 1.869l1.204 1.204A.25.25 0 0 1 4.896 6H1.25A.25.25 0 0 1 1 5.75V2.104a.25.25 0 0 1 .427-.177l1.38 1.38A7.002 7.002 0 0 1 14.95 7.16a.75.75 0 0 1-1.49.178A5.5 5.5 0 0 0 8 2.5Z"></path></svg></a></h2>
+      {{#featured}}
+<ul id="featured" style="list-style-type: none;
+padding: 0;
+margin: 0;font-size:16px" class="clients">
+  {{#sites}}
+  <li>
+    <a target="_blank" style="display:flex;padding:8px 0 12px;align-items: center;" rel="noopener" href="{{{link}}}">
+      <span
+        style="display:block;flex-shrink:0;background: var(--light-background-color) url('{{#cdn}}{{{sprite}}}{{/cdn}}');background-size: {{width}}px;
+  background-position:-{{x}}px -{{y}}px;width:{{thumbnail_width}}px;height:{{thumbnail_width}}px;border-radius: 4em;margin: 4px 1em 0 0;box-shadow: inset 0 0 0 1px var(--inset-image-border-color);
+  transition: transform .1s ease;transform: scale(1);">
+  </span>
+
+  <span>
+      <span class="color-on-hover">{{name}}</span> <span style="color:var(--light-text-color)">{{bio}}</span>
+      <span style="font-size: var(--small-font-size);color:var(--light-text-color);display:block">{{host_without_www}} &bull; Joined in {{joined}}</span>
+  </span>
+</a>
+  </li>
+  {{/sites}}
+</ul>
+{{/featured}}
+
+<!-- shuffle the order of <li> sites in #featured and limit number to 24 sites -->
+<script>
+  var featured = document.getElementById("featured");
+  var sites = featured.getElementsByTagName("li");
+  var sitesArray = Array.prototype.slice.call(sites);
+  var previousFirstSevenSites = [];
+
+  const renderFeatured = () => {
+  
+    let firstSevenSiteCandidates = [...sitesArray];
+    
+    let index = previousFirstSevenSites.length - 1;
+
+    while (firstSevenSiteCandidates.length > 7 && index >= 0) {
+      firstSevenSiteCandidates = firstSevenSiteCandidates.filter(function(site) {
+        return ! previousFirstSevenSites[index].includes(site);
+      });
+      index--;
+    }
+
+    firstSevenSiteCandidates.sort(function() {
+      return 0.5 - Math.random();
+    });
+
+    const firstSevenSites = firstSevenSiteCandidates.slice(0, 7);
+
+    let remainder = [...sitesArray].filter(function(site) {
+      return ! firstSevenSites.includes(site);
+    });
+
+    // shuffle the remainder of the sites
+    remainder.sort(function() {
+      return 0.5 - Math.random();
+    });
+
+    // trim the number of sites
+    remainder = remainder.slice(0, 6);
+
+    featured.innerHTML = "";
+
+    const result = [...firstSevenSites, ...remainder];
+
+    result.forEach(function(site) {
+      featured.appendChild(site);
+    });
+
+    // save the results for the next pass
+    previousFirstSevenSites.push(firstSevenSites);
+
+    // trim the history of previous results
+    if (previousFirstSevenSites.length > 5) {
+      previousFirstSevenSites.shift();
+    }
+  }
+
+renderFeatured();
+
+</script>
+</div>
+
+<div style="flex-basis:50%;">
+
+  <h2><a href="/examples/templates">Templates</a></h2>
+  {{> template-list}}
+  
+  <h2><a href="/examples/folders">Folders</a></h2>
+  
+  {{ > folder-list}}
+</div>
+
+</div>
+<style>
+  span.color-on-hover,
+  li[data-hue] a span.color-on-hover {
+    color:var(--text-color)
+    }
+    a:hover span.color-on-hover,
+  li[data-hue] a:hover span.color-on-hover {
+    color: var(--accent-color)
+  }
+  h2 a[href="/examples"] {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+  a[href="/examples"] svg {
+    fill: var(--light-text-color);
+    height: 12px;
+    width: 12px;
+    stroke: var(--light-text-color)
+  }
+
+  a[href="/examples"]:hover svg {
+    fill: var(--text-color);
+    stroke: var(--text-color)
+  }
+
+  /* fade in the children of id="featured" one after the other */
+  #featured li {
+    opacity: 0;
+    animation: fadeIn 0.5s ease-in-out forwards;
+  }
+
+  @keyframes fadeIn {
+    100% {
+      opacity: 1;
+    }
+  }
+
+  #featured li:nth-child(1) {
+    animation-delay: 0.05s;
+  }
+
+  #featured li:nth-child(2) {
+    animation-delay: 0.1s;
+  }
+
+  #featured li:nth-child(3) {
+    animation-delay: 0.15s;
+  }
+
+  #featured li:nth-child(4) {
+    animation-delay: 0.2s;
+  }
+
+  #featured li:nth-child(5) {
+    animation-delay: 0.25s;
+  }
+
+  #featured li:nth-child(6) {
+    animation-delay: 0.3s;
+  }
+
+  #featured li:nth-child(7) {
+    animation-delay: 0.35s;
+  }
+
+  #featured li:nth-child(8) {
+    animation-delay: 0.4s;
+  }
+
+  #featured li:nth-child(9) {
+    animation-delay: 0.45s;
+  }
+
+  #featured li:nth-child(10) {
+    animation-delay: 0.5s;
+  }
+
+  #featured li:nth-child(11) {
+    animation-delay: 0.55s;
+  }
+
+  #featured li:nth-child(12) {
+    animation-delay: 0.6s;
+  }
+
+  #featured li:nth-child(13) {
+    animation-delay: 0.65s;
+  }
+
+
+
+
+</style>

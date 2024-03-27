@@ -1,0 +1,38 @@
+Autumn newsletter
+
+*You received this email because you subscribed to [Blot’s newsletter](https://blot.im/about/news). You can [unsubscribe](https://blot.im/about/news/cancel) if you like. Please reply directly to this email if you have any thoughts or questions.*
+
+**New features**
+- You can publish [Google Docs](https://blot.im/how/posts/google-docs), [RTF](https://blot.im/how/posts) and [Org mode](https://blot.im/how/posts/org) files as blog posts.
+- HTML files in your folder are accessible at [cleaner URLs](https://blot.im/how/posts/html#pretty-urls-for-html-files-in-your-folder).
+- Blot’s template editor has a point-and-click menu for font and syntax highlighting options.
+- You can import an Are.na channel directly with [Blot’s importer](https://blot.im/dashboard/settings/services/import).
+
+**Changes**
+- Exact matches and queries in non-Latin alphabets now work more reliably in your site's search engine.
+- Title extraction algorithm: we have adjusted the priority order in the algorithm so that Blot now uses the file name before the first sentence.
+- We updated Blot’s dependencies to patch known security vulnerabilities and made tweaks to the dashboard and documentation, per tradition.
+
+**Bugs fixed**
+- Files that are removed from the folder of a locally edited template are also removed from the template itself.
+- You can use a series of dollar signs (e.g. $$$$) in your posts without crashing the KaTeX renderer.
+- Word Documents exported from Google Docs no longer have unexpected highlighted text.
+
+**Questions**
+- [What new templates would you like?](https://blot.im/questions/1386)
+- [A quick way to find the source file for a post on my site?](https://blot.im/questions/1935)
+- [What new file types would like Blot to support?](https://blot.im/questions/1385)
+- [Hide a post from the front page but show it in the archives?](https://blot.im/questions/1886)
+- [Number of RSS Subscribers?](https://blot.im/questions/1132)
+
+**Mistakes**
+
+Unfortunately, the server went down in June when I was on holiday without access to a computer. I was eventually able to SSH into Blot’s main server [from my phone](https://panic.com/prompt/) and provision the resources required to get the server online. I need to automate the provisioning of new disk space. Sorry about the downtime.
+
+**Plans for this season**
+
+I've been working on Blot's servers for the past few months with the goal of making your sites load more quickly. Once I conclude the changes to Blot's servers, I will finish the iCloud client, then add PayPal as a payment method.
+
+If you have any thoughts or questions about any of this, please don’t hesitate to reply directly to this email.
+
+Sincerely, David

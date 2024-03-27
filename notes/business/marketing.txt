@@ -1,26 +1,20 @@
 # Marketing
 
-## How our customers find Blot
-
-
-I dislike the hard sell. To date, I have not tried to convince anyone, ever, in person or online, to use Blot. I announced [the launch of Blot](https://news.ycombinator.com/item?id=8183498) on a forum for programmers. The initial customers which I recieved from that forum post have since spread the news by word-of-mouth. You can trace every customer today back to the people in that post. 
+I dislike marketing. I have not tried to convince anyone, ever, to use Blot. I announced [the launch of Blot](https://news.ycombinator.com/item?id=8183498) on a forum for programmers. The people who saw that forum post have since spread the news by word-of-mouth. Every customer on Blot's books today is connected to the people who saw the launch announcement. 
 
 ## Advertising
 
-I have not ever advertised Blot. There are relatively benign forms of advertising, like the bulletin board at your grocer's. However, I think the world would look better without advertising. Less ugly, much calmer. So I won't advertise.  
+I have not ever advertised Blot. The world is worsened by advertising. Advertising is ugly and manipulative and I will not participate. 
 
 ## Social Media
 
-Blot does not have a presence on any of the social media platforms.
+Blot does not have a presence on any of the social media platforms. 
 
 ## Discounts and promotions
 
-I do not offer discounts on Blot. I know that it makes business sense for me to run sales and offer promotions. However, offering a temporary discount seem unfair to customers who had paid full price. The price now is the lowest price it will ever be, and everybody who uses Blot pays it.
-
-## Desperate idea
-
-One of the desperate ideas I had in the past, was to cold-email a number of prominent people and demo them Blot. I decided against this since it seemed undignified.
+I do not offer discounts. Offering a discount seems unfair to customers who pay full price. 
 
 ## Trial accounts
 
-I also do not give out accounts for free to anyone, out of respect to my customers. If you want to use Blot, you must pay for your account. The main reason is because I don't want to make the code which deals with customer subscriptions any more complicated than it needs to be. I'm focussed on improving the core product, and I think that meta-features like the infrastructure around collecting payments should be of secondary importance. I'm always willing to refund people who sign up and then decide Blot is not for them.
+I also do not give out accounts for free to anyone, out of respect to my customers. 
+

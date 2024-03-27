@@ -7,7 +7,7 @@ var checkGitRepoExists = require("./checkGitRepoExists");
 // This should probably copy the file to a
 // temporary location so the removal can be
 // rolled back if we encounter an error
-module.exports = function remove(blogID, path, callback) {
+module.exports = function remove (blogID, path, callback) {
   var git;
   var blogDirectory = localPath(blogID, "/");
 
@@ -43,7 +43,7 @@ module.exports = function remove(blogID, path, callback) {
         // This doesn't feel *robust* but it seems to work.
         if (
           err &&
-          err.trim() ===
+          err.message.trim() ===
             "fatal: pathspec '" + path + "' did not match any files"
         ) {
           return callback(null);

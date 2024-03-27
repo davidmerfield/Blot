@@ -1,5 +1,5 @@
 module.exports = function (server) {
-  var Entries = require("entries");
+  var Entries = require("models/entries");
 
   server.get("/page/:page_number", renderPage);
   server.get("/", renderPage);

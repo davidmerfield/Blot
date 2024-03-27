@@ -13,6 +13,8 @@ module.exports = function (blog, text, options, callback) {
   var extensions =
     // replace url strings with a tags
     "+autolink_bare_uris" +
+    // wikilinks
+    "+wikilinks_title_after_pipe" +
     // Fucks up with using horizontal rules
     // without blank lines between them.
     "-simple_tables" +

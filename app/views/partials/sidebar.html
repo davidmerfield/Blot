@@ -1,0 +1,22 @@
+<nav>
+  <ul class="sidebar">
+    {{> links}}
+  </ul>
+</nav>
+<style type="text/css">
+  .sidebar {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+  .sidebar li {
+    list-style: none;
+  }
+  .sidebar ul {
+  }
+  [data-open="selected"] + ul {
+    display: block;
+  }
+</style>

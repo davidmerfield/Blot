@@ -1,0 +1,64 @@
+{{#topic}}
+<h1>{{ title }}</h1>
+
+<div class="question-container">
+  {{{body}}}
+    <div >
+      <br>
+      
+      <span class="minor">
+          <span date-from-now="{{ last_reply_created_at }}">{{ time }}</span>, {{ reply_count }} {{#singular}}reply{{/singular
+          }}{{^singular}}replies{{/singular}}
+          </span>&nbsp;
+       {{#tags}}
+      <a
+        href="/questions/tagged/{{ slug }}"
+        class="tag-chip"
+>
+        {{ tag }}
+      </a> &nbsp;
+      {{/tags}} 
+      <a href="/questions/{{ id }}/edit" class="minor">
+        
+        Improve this question
+       </a>
+    </div>
+  </div>
+</div>
+
+{{/topic}}
+
+<div class="answers">
+  {{#topics.length}}
+  {{#topics}}
+  <div class="answer-container">
+    {{{body}}}
+    <span class="minor"
+      >Answered <span date-from-now="{{ created_at }}">{{ time }}</span> ·
+    </span>
+    <a class="minor" href="/questions/{{ id }}/edit"
+      >Improve this answer</a
+    >
+  </div>
+  {{/topics}}
+  {{/topics.length}}
+
+  {{^topics.length}}
+  <h2>No replies yet</h2>
+  {{/topics.length}}
+
+  <br />
+  <div style="max-width: 637px">
+    <form
+      method="POST"
+      action="/questions/{{ topic.id }}/new"
+      >
+      {{> textarea}}
+      <input
+          type="submit"
+          value="Reply"
+          onclick="this.classList.add('working')" />
+    </form>
+  </div>
+
+</div>

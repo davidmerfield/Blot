@@ -1,0 +1,24 @@
+<h1>Ask a question</h1>
+
+  
+  <form method="POST" action="/questions/ask" style="max-width: 680px;">
+      <input type="hidden" name="csrf_token" value="{{csrf_token}}">
+      <label><strong>Title</strong></label><br>
+      <input type="text" style="width:100%" required name="title" id="title" placeholder="e.g. What text-editors do you recommend for writing Markdown?"></input>
+      <br><br>
+      <label><strong>Body</strong></label>
+      {{> textarea}}
+
+      <!-- {{^user}}
+      <label><strong>Email</strong></label>
+      <input type="text" name="email" id="email" required="" placeholder="Your email address"></input>
+      {{/user}} -->
+        <br>
+        <input
+        type="submit"
+        value="Ask question"
+        onclick="this.classList.add('working')" />
+</form>
+
+
+

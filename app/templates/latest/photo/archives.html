@@ -8,34 +8,38 @@
     #hyperlist {
       display: block;
       position: absolute;
-      top: calc(2 * ({{spacing}}rem + 1.4em));
+      top: calc(1 * ({{spacing}}rem + 1.4em));
       right: calc(-1 * {{spacing}}rem);
       left:  calc(-1 * {{spacing}}rem);
       width: 100vw;
     }
 
 
-
     #hyperlist a {
-      display: flex;
-      width: 100%;
-      height: 36px;
-      text-decoration: none;
+            text-decoration: none;
+            padding: 0 calc({{spacing}}*0.25rem);
       color: inherit;
-      margin: 0;
-      padding: 0 {{spacing}}rem;
       box-sizing:border-box;
     }
 
-    #hyperlist a:hover {opacity: 0.75}
-    #hyperlist a:hover .title {text-decoration: underline;}
-    #hyperlist a:active {opacity: 0.5}
-    
-    #hyperlist a .thumbnail {width: 2rem;height:36px;}
-    #hyperlist a .title {flex-grow: 1;margin:0 {{spacing}}rem;}
+    #hyperlist > a {
+      padding: 0 {{spacing}}rem;
+      display: flex;
+      width: 100%;
+      height: 80px;
+      margin: 0;
+    }
 
-#hyperlist a .thumbnail img {
-  max-width: 2rem;max-height: 2rem;width:auto;height: auto;
+    #hyperlist > a:hover {opacity: 0.75}
+    #hyperlist > a:hover .title {text-decoration: underline;}
+    #hyperlist > a:active {opacity: 0.5}
+    
+    #hyperlist > a .thumbnail {width: 80px;height:80px;}
+    #hyperlist > a .title {flex-grow: 1;margin:0 calc({{spacing}}rem*0.5);white-space: nowrap;overflow: hidden;text-overflow: ellipsis;}
+    #hyperlist > a .date {flex-shrink: 0;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;}
+
+#hyperlist > a .thumbnail img {
+  max-width: 80px;max-height: 80px;width:auto;height: auto;
 }
 
 input[type=radio] {display: none;}
@@ -51,6 +55,4 @@ width: 100vw">
   </div>
     <div id="hyperlist" class="container"></div>
     <script type="text/javascript" src="{{#asset}}/archive.js{{/asset}}"></script>
-}
-}
 {{> footer}}

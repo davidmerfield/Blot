@@ -13,6 +13,10 @@ module.exports = {
       Package.locals = metadata.locals;
     }
 
+    if (metadata.enabled) {
+      Package.enabled = metadata.enabled;
+    }
+
     for (var name in views) {
       var view = views[name];
       var metadataToAddToPackage = {};
@@ -54,6 +58,10 @@ module.exports = {
       changes.name = metadata.name;
     }
 
+    if (metadata.localEditing) {
+      changes.localEditing = metadata.localEditing;
+    }
+
     if (metadata.locals && type(metadata.locals, "object")) {
       changes.locals = metadata.locals;
     }
@@ -65,9 +73,9 @@ module.exports = {
     setMetadata(id, changes, function (err) {
       callback(err, views);
     });
-  },
+  }
 };
 
-function objectWithProperties(obj) {
+function objectWithProperties (obj) {
   return type(obj, "object") && Object.keys(obj).length;
 }

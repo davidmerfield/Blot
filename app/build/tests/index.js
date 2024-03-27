@@ -86,6 +86,34 @@ describe("build", function () {
     });
   });
 
+  it("creates a page in a lowercase pages folder", function (done) {
+    const path = "/pages/bar.txt";
+    const contents = "# Hello";
+
+    fs.outputFileSync(this.blogDirectory + path, contents);
+
+    build(this.blog, path, {}, (err, entry) => {
+      if (err) return done.fail(err);
+      expect(entry.title).toEqual("Hello");
+      expect(entry.page).toEqual(true);
+      done();
+    });
+  });
+
+  it("creates a page in an uppercase pages folder", function (done) {
+    const path = "/Pages/far.txt";
+    const contents = "# Hello";
+
+    fs.outputFileSync(this.blogDirectory + path, contents);
+
+    build(this.blog, path, {}, (err, entry) => {
+      if (err) return done.fail(err);
+      expect(entry.title).toEqual("Hello");
+      expect(entry.page).toEqual(true);
+      done();
+    });
+  });
+
   it("extracts tags with case from an optional path with case", function (done) {
     const path = "/[foo]/bar.txt";
     const pathDisplay = "/[Foo]/bar.txt";
@@ -189,7 +217,6 @@ describe("build", function () {
     });
   });
 
-
   it("will handle empty metadata", function (done) {
     var path = "/Hello.txt";
     var contents = "Menu: \n\nHey";
@@ -203,7 +230,6 @@ describe("build", function () {
       done();
     });
   });
-
 
   it("will not use as image to become a thumbnail if it is too small", function (done) {
     var path = "/Hello world.txt";

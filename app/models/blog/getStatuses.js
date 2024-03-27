@@ -1,5 +1,5 @@
 const key = require("./key");
-const client = require("client");
+const client = require("models/client");
 const ensure = require("helper/ensure");
 
 module.exports = function getStatuses(blogID, options, callback) {
@@ -14,7 +14,7 @@ module.exports = function getStatuses(blogID, options, callback) {
   options.page = options.page === undefined ? 1 : options.page;
 
   // Use a page size of 100 by default
-  options.pageSize = options.pageSize === undefined ? 100 : options.pageSize;
+  options.pageSize = options.pageSize === undefined ? 200 : options.pageSize;
 
   const unexpectedOptionParameters = Object.keys(options).filter(
     (i) => i !== "page" && i !== "pageSize"

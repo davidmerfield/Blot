@@ -1,7 +1,6 @@
 var debug = require("debug")("blot:build:prepare");
 var _ = require("lodash");
 var falsy = require("helper/falsy");
-var time = require("helper/time");
 var cheerio = require("cheerio");
 
 var decode = require("he").decode;
@@ -12,7 +11,7 @@ var type = require("helper/type");
 
 var makeSlug = require("helper/makeSlug");
 var ensure = require("helper/ensure");
-var Model = require("entry").model;
+var Model = require("models/entry").model;
 
 var internalLinks = require("./internalLinks");
 var isHidden = require("./isHidden");
@@ -26,12 +25,13 @@ var overwrite = [
   "title",
   "titleTag",
   "body",
+  "slug",
   "summary",
   "teaser",
-  "teaserBody",
+  "teaserBody"
 ];
 
-function canOverwrite(key) {
+function canOverwrite (key) {
   return overwrite.indexOf(key) > -1;
 }
 
@@ -40,7 +40,7 @@ function canOverwrite(key) {
 // url: 'string', // this is handled by set
 // scheduled: scheduled, // this is handled by set
 
-function Prepare(entry) {
+function Prepare (entry, options = {}) {
   ensure(entry, "object")
     .and(entry.path, "string")
     .and(entry.size, "number")
@@ -53,10 +53,14 @@ function Prepare(entry) {
   // in the next four blocks!
 
   debug(entry.path, "Generating cheerio");
-  var $ = cheerio.load(entry.html, {
-    decodeEntities: false,
-    withDomLvl1: false, // this may cause issues?
-  });
+  var $ = cheerio.load(
+    entry.html,
+    {
+      decodeEntities: false,
+      withDomLvl1: false // this may cause issues?
+    },
+    false
+  );
   debug(entry.path, "Generated  cheerio");
 
   // store titleTag, teaser, remainder;
@@ -80,7 +84,9 @@ function Prepare(entry) {
   }
 
   debug(entry.path, "Generating title from", pathWithCaseSensitiveName);
-  var parsedTitle = Title($, pathWithCaseSensitiveName);
+  var parsedTitle = Title($, pathWithCaseSensitiveName, {
+    titlecase: options.titlecase
+  });
   entry.title = parsedTitle.title;
   entry.titleTag = parsedTitle.tag;
   entry.body = parsedTitle.body;
@@ -97,7 +103,7 @@ function Prepare(entry) {
   debug(entry.path, "Generating internal links");
   entry.internalLinks = internalLinks($);
   debug(entry.path, "Generated internal links");
-  
+
   debug(entry.path, "Generating teasers");
   entry.teaser = Teaser(entry.html) || entry.html;
   entry.teaserBody = Teaser(entry.body) || entry.body;
@@ -161,20 +167,19 @@ function Prepare(entry) {
   // do this earlier, since we don't know the slug then
   let permalinkCandidates = [
     entry.metadata.permalink,
-    entry.metadata.slug,
     entry.metadata.link,
-    entry.metadata.url,
+    entry.metadata.url
   ];
 
   permalinkCandidates = permalinkCandidates
     .filter(
-      (candidate) =>
+      candidate =>
         candidate &&
         type(candidate, "string") &&
         candidate.indexOf("://") === -1
     )
     .map(normalize)
-    .filter((candidate) => candidate !== "");
+    .filter(candidate => candidate !== "");
 
   entry.permalink = permalinkCandidates.shift() || "";
   debug(entry.path, "Generated  permalink");
@@ -196,14 +201,14 @@ function Prepare(entry) {
   return entry;
 }
 
-function truthy(str) {
+function truthy (str) {
   return !falsy(str);
 }
 
-function isPage(path) {
+function isPage (path) {
   return (
-    pathNormalizer(path).indexOf("/page/") > -1 ||
-    pathNormalizer(path).indexOf("/pages/") > -1
+    pathNormalizer(path).toLowerCase().startsWith("/page/") ||
+    pathNormalizer(path).toLowerCase().startsWith("/pages/")
   );
 }
 

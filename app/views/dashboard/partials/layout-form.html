@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>{{title}}{{^hide_title_suffix}} - Blot{{/hide_title_suffix}}</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="description" content="{{description}}" />
+
+    {{#cookie_redirect}}
+    <meta http-equiv="refresh" content="0;URL='{{{cookie_redirect}}}'" />
+    <script type="text/javascript">
+      window.location = "{{{cookie_redirect}}}";
+    </script>
+    {{/cookie_redirect}}
+
+    <link rel="icon" sizes="180x180" href="/favicon-180x180.png" />
+    <link rel="apple-touch-icon" href="/favicon-180x180.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{#cdn}}/css.min.css{{/cdn}}"
+    />
+  </head>
+<body>
+    <a href="/" class="close-button" style="">
+      <svg id="hider" style="width: 1em; height: 1em;">
+        <line x1="0" y1="0" x2="100%" y2="100%" stroke="currentColor"></line>
+        <line x1="0" y1="100%" x2="100%" y2="0%" stroke="currentColor"></line>
+      </svg>
+    </a>
+    <style type="text/css">
+      
+.close-button {
+  position: absolute;
+    top: 0;
+    right: 0;
+    background: var(--background-color);
+    padding: 1.2rem 2em 2em 16rem;
+    z-index: 100;
+    color: var(--text-color)
+  }
+
+  .close-button:hover {
+    color: var(--accent-color);
+  }
+
+    </style>
+  {{> header}}
+          
+        {{> body}}
+       
+</body>
+</html>

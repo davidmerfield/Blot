@@ -1,61 +1,91 @@
 const async = require("async");
 const fs = require("fs-extra");
 const archiver = require("archiver");
+const config = require("config");
 
 const VIEW_DIRECTORY =
-  require("helper/rootDir") + "/app/brochure/views/templates";
-
+  config.blot_directory + "/app/documentation/data/folders";
 const FOLDER_DIRECTORY = __dirname;
 
-const main = (callback) => {
-  const folders = fs
-    .readdirSync(FOLDER_DIRECTORY)
-    .filter((i) => i.indexOf(".") === -1);
+const tmp = require("helper/tempDir")();
+const cache = {};
 
-  fs.ensureDirSync(VIEW_DIRECTORY + "/data");
+const main = () => {
+  return new Promise((resolve, reject) => {
+    const folders = fs
+      .readdirSync(FOLDER_DIRECTORY)
+      .filter(i => i.indexOf(".") === -1);
 
-  async.eachSeries(
-    folders,
-    (folder, next) => {
-      const outputPath = VIEW_DIRECTORY + "/data/" + folder + ".zip";
-
-      fs.removeSync(outputPath);
-
-      const output = fs.createWriteStream(outputPath);
-
-      const archive = archiver("zip", {
-        zlib: { level: 9 }, // Sets the compression level.
-      });
-
-      output.on("close", function () {
-        console.log(archive.pointer() + " total bytes for", folder);
-        next();
-      });
-
-      // good practice to catch warnings (ie stat failures and other non-blocking errors)
-      archive.on("warning", function (err) {
-        if (err.code === "ENOENT") {
-          // log warning
-        } else {
-          // throw error
-          throw err;
+    async.eachSeries(
+      folders,
+      (folder, next) => {
+        if (cache[folder]) {
+          return fs.copy(
+            cache[folder],
+            VIEW_DIRECTORY + "/" + folder + ".zip",
+            next
+          );
         }
-      });
 
-      // good practice to catch this error explicitly
-      archive.on("error", function (err) {
-        throw err;
-      });
+        const tmpPath = tmp + "folder-zips/" + folder + ".zip";
 
-      archive.pipe(output);
+        if (config.environment === "development") {
+          if (fs.existsSync(tmpPath)) {
+            console.log(
+              "Copying from tmpPath since we are in development environment"
+            );
+            return fs.copy(
+              tmpPath,
+              VIEW_DIRECTORY + "/" + folder + ".zip",
+              next
+            );
+          }
+        }
 
-      // append files from a sub-directory, putting its contents at the root of archive
-      archive.directory(FOLDER_DIRECTORY + "/" + folder + "/", false);
+        fs.removeSync(tmpPath);
 
-      archive.finalize();
-    },
-    callback
-  );
+        console.log("tmpPath", tmpPath);
+
+        fs.ensureDirSync(tmp + "folder-zips");
+
+        const output = fs.createWriteStream(tmpPath);
+
+        const archive = archiver("zip", {
+          zlib: { level: 9 } // Sets the compression level.
+        });
+
+        output.on("close", function () {
+          console.log(archive.pointer() + " total bytes for", folder);
+          cache[folder] = tmpPath;
+          const outputPath = VIEW_DIRECTORY + "/" + folder + ".zip";
+          fs.removeSync(outputPath);
+          fs.copy(tmpPath, outputPath, next);
+        });
+
+        // good practice to catch warnings (ie stat failures and other non-blocking errors)
+        archive.on("warning", function (err) {
+          if (err.code === "ENOENT") {
+            // log warning
+          } else {
+            // throw error
+            reject(err);
+          }
+        });
+
+        // good practice to catch this error explicitly
+        archive.on("error", function (err) {
+          reject(err);
+        });
+
+        archive.pipe(output);
+
+        archive.directory(FOLDER_DIRECTORY + "/" + folder + "/", false);
+
+        archive.finalize();
+      },
+      resolve
+    );
+  });
 };
 
 if (require.main === module) {

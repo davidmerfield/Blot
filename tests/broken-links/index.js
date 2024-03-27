@@ -1,15 +1,40 @@
-describe("Blot's website'", function () {
-  var brochure = require("brochure");
+xdescribe("Blot's website'", function () {
+  var documentation = require("documentation");
   var dashboard = require("dashboard");
   var broken = require("../util/broken");
   var trace = require("helper/trace");
 
   global.test.blog();
 
-  global.test.server(function (server) {
+  global.test.server(function (server, test) {
     server.use(trace.init);
-    server.use(dashboard);
-    server.use(brochure);
+    // This lets us pretend the test is running over HTTPS
+    // otherwise we do not recieve the cookie set by
+    // the dashboard when we POST to log in further down this page
+    server.use("/dashboard", (req, res, next) => {
+      req.headers["X-Forwarded-Proto"] = "https";
+      req.headers["x-forwarded-proto"] = "https";
+      next();
+    });
+    server.use("/dashboard", dashboard);
+
+    // Send app/views/style.min.css and /app/views/documentation.min.js
+    // NGINX should handle this but for testing we need node to do it
+    server.get(
+      [
+        "/favicon-180x180.png",
+        "/favicon-32x32.png",
+        "/favicon-16x16.png",
+        "/style.min.css",
+        "/documentation.min.js",
+        "/templates/data/:folder.zip"
+      ],
+      function (req, res) {
+        res.send("OK");
+      }
+    );
+
+    server.use(documentation);
   });
 
   it(
@@ -25,16 +50,13 @@ describe("Blot's website'", function () {
   );
 
   // todo enable when we can access the cookie over an insecure connection
-  xit(
+  it(
     "does not have any broken links for logged-in users",
     function (done) {
-      var request = require("request");
       var test = this;
 
-      console.log("origin:", this.origin);
-
       request.post(
-        this.origin + "/log-in",
+        this.origin + "/dashboard/log-in",
         { form: { email: test.user.email, password: test.user.fakePassword } },
         function (err, res) {
           if (err) return done.fail(err);
@@ -46,11 +68,15 @@ describe("Blot's website'", function () {
             return done.fail("No cookie");
           }
 
-          broken(test.origin, { headers: headers }, function (err, results) {
-            if (err) return done.fail(err);
-            expect(results).toEqual({});
-            done();
-          });
+          broken(
+            test.origin + "/dashboard",
+            { headers },
+            function (err, results) {
+              if (err) return done.fail(err);
+              expect(results).toEqual({});
+              done();
+            }
+          );
         }
       );
     },

@@ -1,51 +1,27 @@
 Daily update for {{date}}
 
-Memory available: {{memory_available}} ({{memory_usage}} used)
+Posts: {{total_new_entries}} published yesterday, {{total_entries}} total posts across all sites
 
-Disk space available: {{disk_space_available}} ({{disk_space_usage}} used)
+Requests: {{nginx.requests}} requests served, {{node.requests}} by node
 
-Redis memory available: {{redis_memory_available}} ({{redis_memory_usage}} used)
+Bandwidth: {{nginx.bytesSent}} of data sent, {{nginx.bytesReceived}} received
 
-***
+Response time: {{nginx.medianResponseTime}}s, {{node.medianResponseTime}}s by node
 
-New entries: {{new_entries.length}}
+Sites: {{total_active_blogs}} sites with active subscriptions, {{total_customers}} customers
 
-Total entries : {{total_entries}}
-
-Requests served: {{total_requests_served}}
-
-Average response time: {{average_response_time}} ({{median_response_time}} median response time)
-
-***
-
-Number of blogs: {{total_active_blogs}}
-Number of subscribers: 
-Revenue: {{revenue_in_last_24_hours}} 24 hours, {{revenue_in_last_7_days}} 7 days, {{revenue_in_last_30_days}} last 30 days
-Expected revenue: {{#renewals_today}} {{revenue}} from {{total}} blog{{s}} in 24 hours, {{/renewals_today}}
-
-***
-{{#renewals_next_7_days}}
-Expected revenue from renewals in the next 7 days: {{revenue}} from {{total}} blog{{s}}
-
-{{/renewals_next_7_days}}
-{{#renewals_next_30_days}}
-Expected revenue from renewals in the next 30 days: {{revenue}}  from {{total}} blog{{s}}
-
-{{/renewals_next_30_days}}
-
-Annual recurring revenue: {{annual_recurring_revenue}} ({{monthly_recurring_revenue}} per month, {{revenue_billed_monthly}} of which is billed monthly)
-
-{{#new_entries.length}}
+Recurring revenue: {{annual_recurring_revenue}} per year, {{monthly_percentage}} paid monthly, {{paypal_percentage}} paid with PayPal
 
 Newsletter subscribers: {{newsletter_subscribers}}
 
 ***
 
-New entries:
+{{#blogs_with_new_entries}}
+[{{label}}]({{{url}}})
 
-{{#new_entries}}
+{{#entries}}
 - [{{title}}]({{{link}}})
+{{/entries}}
 
-{{/new_entries}}
+{{/blogs_with_new_entries}}
 
-{{/new_entries.length}}

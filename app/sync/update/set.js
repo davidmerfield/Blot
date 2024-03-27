@@ -1,8 +1,7 @@
-var normalize = require("helper/pathNormalizer");
 var rebuildDependents = require("./rebuildDependents");
 var Ignore = require("./ignore");
-var Metadata = require("metadata");
-var Entry = require("entry");
+var Metadata = require("models/metadata");
+var Entry = require("models/entry");
 var Preview = require("./preview");
 var isPreview = require("./drafts").isPreview;
 var async = require("async");
@@ -10,22 +9,24 @@ var WRONG_TYPE = "WRONG_TYPE";
 var PUBLIC_FILE = "PUBLIC_FILE";
 var isHidden = require("build/prepare/isHidden");
 var build = require("build");
+var pathNormalizer = require("helper/pathNormalizer");
 
 function isPublic(path) {
+  const normalizedPath = pathNormalizer(path).toLowerCase();
   return (
     // blot specific rule not to turn files inside
     // a folder called public into blog posts
-    normalize(path).indexOf("/public/") === 0 ||
+    normalizedPath.startsWith("/public/") ||
     // blot specific rule to ignore files and folders
     // whose name begins with an underscore
-    normalize(path).indexOf("/_") > -1 ||
+    normalizedPath.includes("/_") ||
     // convention to ingore dotfiles or folders
-    normalize(path).indexOf("/.") > -1
+    normalizedPath.includes("/.")
   );
 }
 
 function isTemplate(path) {
-  return normalize(path).indexOf("/templates/") === 0;
+  return pathNormalizer(path).toLowerCase().startsWith("/templates/");
 }
 
 function buildAndSet(blog, path, options, callback) {
@@ -55,8 +56,7 @@ module.exports = function (blog, path, options, callback) {
     options = {};
   }
 
-  // Blot likes leading slashes
-  if (path[0] !== "/") path = "/" + path;
+  path = pathNormalizer(path);
 
   var queue = {};
 

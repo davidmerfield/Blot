@@ -1,9 +1,9 @@
 var getById = require("./getById");
 var ensure = require("helper/ensure");
-var client = require("client");
+var client = require("models/client");
 var key = require("./key");
 
-module.exports = function remove(uid, callback) {
+module.exports = function remove (uid, callback) {
   ensure(uid, "string").and(callback, "function");
 
   var multi = client.multi();
@@ -15,11 +15,15 @@ module.exports = function remove(uid, callback) {
       key.user(uid),
       key.email(user.email),
       "sync:lease:" + uid,
-      "sync:again:" + uid,
+      "sync:again:" + uid
     ];
 
     if (user.subscription.customer) {
       keys.push(key.customer(user.subscription.customer));
+    }
+
+    if (user.paypal.id) {
+      keys.push(key.paypal(user.paypal.id));
     }
 
     multi.srem(key.uids, uid);

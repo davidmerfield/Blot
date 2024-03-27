@@ -5,15 +5,22 @@ describe("user", function () {
     var email = "XXX@gmail.com";
     var passwordHash = "123";
     var subscription = {};
+    var paypal = {};
 
-    User.create(email, passwordHash, subscription, function (err, user) {
-      expect(err).toBe(null);
-      expect(user).toEqual(jasmine.any(Object));
-
-      User.remove(user.uid, function (err) {
+    User.create(
+      email,
+      passwordHash,
+      subscription,
+      paypal,
+      function (err, user) {
         expect(err).toBe(null);
-        done();
-      });
-    });
+        expect(user).toEqual(jasmine.any(Object));
+
+        User.remove(user.uid, function (err) {
+          expect(err).toBe(null);
+          done();
+        });
+      }
+    );
   });
 });

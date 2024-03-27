@@ -1,0 +1,104 @@
+
+<style type="text/css">
+  .connector {
+    position: relative;
+    margin-left: 1rem;
+    padding-left: 2rem;
+        color: rgb(158, 154, 152);
+
+  }
+  .connector:before {
+    width: 1px;
+    content: "";
+    border-left: 1px solid rgba(0,0,0,0.1);
+    position: absolute;
+    left: 0;
+    top: -1rem;
+    bottom: -1rem;
+  }
+
+  .connector:after {
+    content: "{{#entry}}↓{{/entry}}{{^entry}}✕{{/entry}}";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    margin-top: -0.75em;
+    background: #fff;
+    margin-left: -0.75em;
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 1em;
+    width: 1.5em;
+    height: 1.5em;
+    text-align: center;
+    line-height: 1.5em;
+  }
+</style>
+<p class="connector" style="display:none;max-width: 500px">
+
+
+{{#entry}}
+
+  Blot turned this file into a {{#page}}page{{/page}}{{^page}}post{{/page}} and published it on your site.</p>
+
+{{/entry}}
+
+{{^entry}}
+This file did not become a post because {{ignored}}. You can still embed or link to this file from other posts.
+<!-- 
+<h2>Embed this file</h2>
+<pre>![]({{stat.path}})</pre>
+
+<h2>Link to this file</h2>
+<pre>[{{stat.name}}]({{stat.path}})</pre>
+ -->
+{{/entry}}
+
+{{#entry}}
+
+ <div class="line" style="padding-left: 0;border-bottom: none;">
+  <div class="label" style="color:#000;font-size: 16px">
+    Post
+    
+    </div>
+    <div class="center" style="flex-grow: 1">
+
+  <table >
+
+
+<tr>
+  <td>Title:</td>
+  <td>{{title}} <a href="{{{blog.url}}}{{{url}}}">Visit post</a></td>
+</tr>
+
+{{^draft}}{{^scheduled}}
+<tr>
+  <td>URL:</td>
+  <td>{{{url}}}</td>
+</tr>
+{{/scheduled}}{{/draft}}
+
+<tr>
+  <td>Publication date:</td>
+  <td>{{#scheduled}}Scheduled for publication {{toNow}} on {{date}}{{/scheduled}}{{^scheduled}}{{date}}{{/scheduled}}</td>
+</tr>
+
+<tr>
+  <td>Draft:</td>
+  <td>{{#draft}}Yes{{/draft}}{{^draft}}No{{/draft}}</td>
+</tr>
+
+<tr > 
+  <td>Tags:</td>
+  <td>{{#tags}} {{tag}}{{^last}},{{/last}} {{/tags}}{{^tags.length}}<em>No tags</em>{{/tags.length}}</td>
+</tr>
+
+  </table>
+</div></div>
+<!-- <a href="{{{blog.url}}}{{{url}}}" target="_blank" class="s no-underline" >View on your site</a>
+ -->
+{{/entry}}
+<!-- 
+<details>
+  <summary>How do I prevent this file appearing as a post on my site?</summary>
+  You can prevent this file beco underscore.
+</details> -->

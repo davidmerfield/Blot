@@ -8,6 +8,9 @@
     "body_font": {},
     "show_title": true,
     "sticky_navigation": true,
+    "syntax_highlighter": {
+      "id": "stackoverflow-light"
+    },
     "in_navigation": "popular_tags",
     "in_navigation_options": [
       "popular_tags",
@@ -44,7 +47,8 @@
     "navigation_width_range": [
       150,
       400
-    ]
+    ],
+    "demo_folder": "bjorn"
   },
   "isPublic": true,
   "views": {
@@ -63,7 +67,7 @@
     },
     "tagged.html": {
       "partials": {
-        "title": "Entries tagged {{{tag}}} from {{{title}}}",
+        "title": "{{{tag}}} - {{{title}}}",
         "description": "All of the entries posted on {{{title}}} tagged {{{tag}}}"
       }
     },
@@ -83,12 +87,6 @@
       "partials": {
         "title": "{{{entry.title}}} - {{{title}}}",
         "description": "{{{entry.summary}}}"
-      }
-    },
-    "public.html": {
-      "partials": {
-        "title": "Index of {{{path}}}",
-        "description": "All the files and folders inside {{{path}}}"
       }
     }
   }

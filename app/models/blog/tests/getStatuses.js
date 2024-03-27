@@ -28,12 +28,12 @@ describe("Blog.getStatuses", function () {
 
     const { statuses } = await getStatuses(this.blog.id);
 
-    expect(statuses.length).toEqual(100);
+    expect(statuses.length).toEqual(200);
     expect(statuses[0].message).toEqual(messages.at(-1));
 
     const secondPage = await getStatuses(this.blog.id, { page: 2 });
 
-    expect(secondPage.statuses.length).toEqual(100);
+    expect(secondPage.statuses.length).toEqual(200);
 
     const shortPage = await getStatuses(this.blog.id, {
       page: 1,

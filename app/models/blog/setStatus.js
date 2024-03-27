@@ -1,10 +1,10 @@
 const key = require("./key");
-const client = require("client");
+const client = require("models/client");
 const ensure = require("helper/ensure");
 const { TYPE } = require("./scheme");
 
-// We'll store only one thousand status log items
-const STATUS_LOG_MAX_LENGTH = 1000;
+// We'll store only two thousand status log items
+const STATUS_LOG_MAX_LENGTH = 2000;
 
 module.exports = function (blogID, status, callback) {
   ensure(blogID, "string").and(status, "object");

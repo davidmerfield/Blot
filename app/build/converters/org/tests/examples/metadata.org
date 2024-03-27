@@ -1,0 +1,29 @@
+Title: Test Post Using Orgmode
+Date: February 28th, 2024
+Tags: test, org-mode, blot
+
+* Heading Level 1
+
+The source for this post is straight org-mode.  The sentences under heading 4 are all on separate lines but Blot puts them on one line, even if I use the markdown convention of double spaces at the end of the line. It also doesn't format the link correctly and adds org-tags as plain text.
+
+** Heading Level 2
+
+*** Heading Level 3
++ Bullet 1
++ Bullet 2
+  + Sub-bullet a
+  + Sub-bullet b
+
+** Heading Level 2                                                :tag1:tag2:
+
+[[vcg3rd.net][Link To]]
+
+**** Heading Level 4
+
+Test of *bold*
+Test of /italics/
+Test of footnotes [1]
+
+Footnotes:
+[1]  Footnote
+

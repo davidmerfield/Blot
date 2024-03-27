@@ -1,21 +1,21 @@
 <!DOCTYPE html>
 <html>
-  {{> head}}
-  <body>
-    {{> header}}
-    <div class="container">
-      <div class="main">
-        <h1>{{tag}}</h1>
-        <div class="archives">
-          {{#entries}}
-          <a href="{{{url}}}">{{title}}</a>
-          <span class="small">{{date}}</span>
-          <br />
-          {{/entries}}          
-        </div>
-        <p ><a class="small date" href="/archives">View the archives &rarr;</a></p>        
+{{> head}}
+
+<body class="navigation-location-{{navigation_location}}">
+  {{> header}}
+  <div class="container">
+    <div class="main">
+      <h1>{{tag}}</h1>
+      <div>
+        {{#entries}}
+        <a class="full-line" href="{{{url}}}"><em>{{title}}</em> &nbsp;<span class="small">{{date}}</span></a>
+        {{/entries}}
       </div>
+      <p><a class="small date" href="/archives">View the archives &rarr;</a></p>
     </div>
-    {{> footer}}
-  </body>
+  </div>
+  {{> footer}}
+</body>
+
 </html>

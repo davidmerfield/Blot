@@ -1,14 +1,21 @@
 var ensure = require("helper/ensure");
 var key = require("./key");
-var client = require("client");
+var client = require("models/client");
 var validate = require("./validate");
 var generateId = require("./generateId");
 var scheduleSubscriptionEmail = require("./scheduleSubscriptionEmail");
 
-module.exports = function create(email, passwordHash, subscription, callback) {
+module.exports = function create (
+  email,
+  passwordHash,
+  subscription,
+  paypal,
+  callback
+) {
   ensure(email, "string")
     .and(passwordHash, "string")
     .and(subscription, "object")
+    .and(paypal, "object")
     .and(callback, "function");
 
   var multi, userString;
@@ -21,7 +28,8 @@ module.exports = function create(email, passwordHash, subscription, callback) {
     lastSession: "",
     email: email,
     subscription: subscription,
-    passwordHash: passwordHash,
+    paypal: paypal,
+    passwordHash: passwordHash
   };
 
   validate({ uid: uid }, user, function (err, user) {
@@ -44,6 +52,10 @@ module.exports = function create(email, passwordHash, subscription, callback) {
     // some users might not have stripe subscriptions
     if (user.subscription && user.subscription.customer)
       multi.set(key.customer(user.subscription.customer), uid);
+
+    // some users might not have paypal subscriptions
+    if (user.paypal && user.paypal.id)
+      multi.set(key.paypal(user.paypal.id), uid);
 
     multi.exec(function (err) {
       // Retry if generated ID was in use

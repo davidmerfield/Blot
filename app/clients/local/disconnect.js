@@ -1,4 +1,4 @@
-var Blog = require("blog");
+var Blog = require("models/blog");
 var debug = require("debug")("blot:clients:local:disconnect");
 
 // Removes the record which tells Blot that a given blog

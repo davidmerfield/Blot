@@ -2,11 +2,9 @@
 
 {{> header}}
 
-<hr>
-
 {{#entry}}
 <div style="flex-grow:1">
-  <div class="entry" style="max-width:40rem;margin:0 auto">
+  <div class="entry"  data-source="{{path}}" style="max-width:40rem;margin:0 auto;padding:0 1rem">
     {{{html}}}
     {{> pluginHTML}}
   </div>
@@ -22,3 +20,7 @@
 </div>
 
 {{/entry.page}}
+
+<style type="text/css">
+  .caption {font-size:0.85em;display: block;}
+</style>

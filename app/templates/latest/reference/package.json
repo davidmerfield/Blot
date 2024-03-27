@@ -3,43 +3,41 @@
   "locals": {
     "page_size": 24,
     "background_color": "#fff",
-    "text_color": "rgb(88,88,88)",
+    "text_color": "#000",
     "hide_dates": false,
-    "date_display": "MMMM D, Y",    
-    "body_font": {}
+    "date_display": "MMMM D, Y",
+    "body_font": {},
+    "syntax_highlighter": {
+      "id": "stackoverflow-light"
+    },
+    "demo_folder": "frances"
   },
   "isPublic": true,
   "views": {
-    "public": {
-      "partials": {
-        "title": "Index of {{{path}}}",
-        "description": "All the files and folders inside {{{path}}}"
-      }
-    },
     "archives.html": {
       "url": "/archives",
       "partials": {
         "title": "Archives - {{{title}}}",
-        "description": "All the entries posted on {{{title}}}"
+        "description": "Everything posted on {{{title}}}"
       }
     },
     "tags.html": {
       "url": "/tags",
       "partials": {
         "title": "Tags - {{{title}}}",
-        "description": "All the tags on on {{{title}}}"
+        "description": "All the tags used on {{{title}}}"
       }
     },
     "tagged.html": {
       "partials": {
-        "title": "Entries tagged {{{tag}}} from {{{title}}}",
-        "description": "All of the entries posted on {{{title}}} tagged {{{tag}}}"
+        "title": "{{{tag}}} - {{{title}}}",
+        "description": "{{{tag}}} on {{{title}}}"
       }
     },
     "entries.html": {
       "partials": {
         "title": "{{{title}}}",
-        "description": "The latest entries posted on {{{title}}}"
+        "description": "The latest on {{{title}}}"
       }
     },
     "error.html": {
@@ -57,7 +55,7 @@
     "search.html": {
       "partials": {
         "title": "Search - {{{title}}}",
-        "description": "Search all the entries posted on {{{title}}}"
+        "description": "Search everything on {{{title}}}"
       }
     }
   }

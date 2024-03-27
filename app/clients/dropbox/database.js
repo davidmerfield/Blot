@@ -1,6 +1,6 @@
 var debug = require("debug")("blot:clients:dropbox:database");
-var redis = require("client");
-var Blog = require("blog");
+var redis = require("models/client");
+var Blog = require("models/blog");
 var async = require("async");
 var ensure = require("helper/ensure");
 var Model;

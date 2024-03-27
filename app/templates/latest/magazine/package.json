@@ -7,7 +7,12 @@
     "page_size": 20,
     "hide_dates": false,
     "date_display": "MMMM D, Y",
-    "body_font": {}
+    "relative_dates": false,
+    "syntax_highlighter": {
+      "id": "stackoverflow-light"
+    },
+    "body_font": {},
+    "demo_folder": "interviews"
   },
   "isPublic": true,
   "views": {
@@ -29,7 +34,7 @@
     },
     "tagged.html": {
       "partials": {
-        "title": "Entries tagged {{{tag}}} from {{{title}}}",
+        "title": "{{{tag}}} - {{{title}}}",
         "description": "All of the entries posted on {{{title}}} tagged {{{tag}}}"
       }
     },
@@ -49,12 +54,6 @@
       "partials": {
         "title": "{{{entry.title}}} - {{{title}}}",
         "description": "{{{entry.summary}}}"
-      }
-    },
-    "public.html": {
-      "partials": {
-        "title": "Index of {{{path}}}",
-        "description": "All the files and folders inside {{{path}}}"
       }
     },
     "search.html": {

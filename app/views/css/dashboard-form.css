@@ -1,0 +1,293 @@
+form.dashboard-form {
+padding: var(--spacing) calc(var(--spacing) * 2);
+
+}
+
+
+form.dashboard-form fieldset {
+    max-width: 400px;
+    border: none;
+  }
+  
+  form.dashboard-form fieldset.half {
+    padding: 0;
+    width: 50%;
+  }
+  
+  form.dashboard-form .fullRow {
+    width: 200%;
+  }
+  
+  form.dashboard-form label.halfWidth {
+    width: 45%;
+  }
+  
+  form.dashboard-form div:focus-within > label,
+  form.dashboard-form p:focus-within > label {
+    color: var(--accent-color);
+  }
+  
+  form.dashboard-form .fullRow section {
+    position: relative;
+    display: flex;
+    border-top: 1px solid var(--border-color);
+  }
+  
+  form.dashboard-form .fullRow .button {
+    position: absolute;
+    right: 0;
+    top: 2em;
+    line-height: 3;
+    margin-right: 0;
+  }
+  
+  form.dashboard-form .fullRow label {
+    width: 46%;
+    padding-right: 3%;
+    display: block;
+    float: left;
+  }
+  
+  form.dashboard-form label {
+    margin: 0;
+    font-size: 14px;
+    position: relative;
+    color: var(--medium-text-color);
+    margin-bottom: 4px;
+    padding-top: 1rem;
+    padding-bottom: .25rem;
+  }
+  
+  form.dashboard-form select {
+    display: block;display: block;
+  color: var(--text-color);
+  background: var(--light-background-color);
+  font-size: var(--font-size);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  padding: 8px;
+
+  }
+  
+  form.dashboard-form input[type="checkbox"] {
+    margin-right: 0.222em;
+    vertical-align: middle;
+  }
+  
+  input[type="file"] {
+    font-size: 11px;
+    display: block;
+    margin-top: 1em;
+  }
+  
+  form.dashboard-form label,
+  form.dashboard-form input[type="text"],
+  form.dashboard-form input[type="password"] {
+    width: 100%;
+    display: block;
+  }
+  
+  form.dashboard-form input[type="text"],
+  form.dashboard-form input[type="number"],
+  form.dashboard-form input[type="password"],
+  form.dashboard-form textarea {
+  margin: 2px 0;
+      font-size: 17px;
+      padding: 10px;
+      font-family: inherit;
+      z-index: 1;
+      position: relative;
+      border: 1px solid var(--border-color);
+      box-sizing: border-box;
+      background: 0 0;
+      transition: border-color ease-in-out .1s,box-shadow ease-in-out .1s,-webkit-box-shadow ease-in-out .1s;
+  }
+  
+  form.dashboard-form textarea {
+    min-height: 6em;
+  }
+  form.dashboard-form input::placeholder,
+  form.dashboard-form textarea::placeholder {
+    color: var(--light-text-color);
+  }
+  form.dashboard-form input[type="number"] {
+    max-width: 60px;
+  }
+  
+  form.dashboard-form input[type="text"]:hover,
+  form.dashboard-form input[type="password"]:hover,
+  form.dashboard-form textarea:hover {
+    border-color: var(--accent-color)
+  }
+  
+  form.dashboard-form input[type="text"]:focus,
+  form.dashboard-form input[type="password"]:focus,
+  form.dashboard-form textarea:focus {
+    outline: none;
+    z-index: 1;
+    border: 1px solid var(--accent-color);
+  }
+  
+  form.dashboard-form input[type="text"]:focus,
+  form.dashboard-form input[type="password"]:focus,
+  form.dashboard-form textarea:focus {
+  }
+  
+  
+  #avatar {
+    margin: 1em 0;
+    display: block;
+    float: left;
+  }
+  
+  #avatar img {
+    width: 88px;
+    height: auto;
+    vertical-align: middle;
+  }
+  
+  
+  
+  .imageUpload input[type="file"] {
+    margin-top: 0;
+  }
+  
+  .imageUpload span {
+    margin: 3px 0 9px;
+    display: block;
+  }
+  
+  .imageUpload .button.small {
+    margin: 12px 0 0;
+  }
+  
+  form.dashboard-form .box.green.success {
+    display: inline-block;
+    font-size: 14px;
+    background: rgba(226, 249, 227, 1);
+    padding: 0.33em 0.66em;
+  }
+  
+  form.dashboard-form .cvc {
+    width: 30%;
+    float: left;
+    margin: 0 0 0 0;
+  }
+  
+  form.dashboard-form .cvc input {
+    text-align: center;
+    width: 100%;
+  }
+  
+  form.dashboard-form .expiration {
+    width: 52.5%;
+    float: left;
+    margin: 0 17.5% 0 0;
+  }
+  
+  form.dashboard-form .expiration input {
+    text-align: center;
+    float: left;
+  }
+  
+  form.dashboard-form .expiration .month {
+    width: 46%;
+    border-radius: 4px 0 0 4px;
+  }
+  
+  form.dashboard-form .expiration .year {
+    width: 54%;
+    border-radius: 0 4px 4px 0;
+    margin-left: -1px;
+  }
+  
+  input[type="text"].halfWidth {
+    width: 33%;
+    display: inline-block;
+  }
+
+
+/* Buttons */
+
+form.dashboard-form .button {
+    color: black;
+    background: white;
+    border-radius: 4px;
+    margin-right: 1em;
+    display: inline-block;
+    padding: 0 1.33em;
+    line-height: 2.5;
+    border: 1px solid #9f9f9f;
+    border-bottom-color: #999;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1), inset 0 -2px 2px rgba(0, 0, 0, 0.04);
+    font-size: 15px;
+    cursor: pointer;
+    text-decoration: none;
+  }
+  
+  form.dashboard-form .button:active {
+    position: relative;
+    top: 1px;
+  }
+  
+  form.dashboard-form .button:focus {
+    outline: none;
+  }
+  
+  form.dashboard-form .button.secondary {
+    color: blue;
+    background: none;
+    border-color: blue;
+    box-shadow: none;
+  }
+  
+  form.dashboard-form .button.red {
+    background: red;
+    border-color: red;
+    color: white;
+    font-weight: 500;
+  
+  }
+  
+  form.dashboard-form .button.small {
+    font-size: 0.77em;
+  }
+  
+  form.dashboard-form .button.right {
+    margin-right: 0;
+  }
+  
+  form.dashboard-form .buttonhasIcon {
+    border: 1px solid #fff;
+    border-radius: 10em;
+    padding: 0.66em;
+    background: #f94141;
+  }
+  
+  form.dashboard-form .button.disabled,
+  form.dashboard-form .button:disabled,
+  form.dashboard-form .button.working {
+    cursor: default;
+    opacity: 1;
+    box-shadow: none;
+    border: none;
+    background-color: #d5d5d5;
+    color: #fff;
+  }
+  
+  form.dashboard-form .button.working {
+    background: #d5d5d5 url("/images/spinner_grey.gif?{{cacheID}}") center right 20px no-repeat;
+    background-size: 1.33em;
+    padding-right: 2em;
+    box-shadow: none;
+    border-right: 1em solid transparent;
+  }
+  
+  form.dashboard-form .buttonhasIcon img {
+    position: relative;
+    top: 3px;
+    width: 1em;
+    height: 1em;
+    margin: 0 0.1566em 0 0.33em;
+  }
+

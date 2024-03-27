@@ -1,6 +1,6 @@
 var drafts = require("../drafts");
 var previewPath = drafts.previewPath;
-var Blog = require("blog");
+var Blog = require("models/blog");
 
 module.exports = function (blogID, path, callback) {
   callback = callback || function () {};

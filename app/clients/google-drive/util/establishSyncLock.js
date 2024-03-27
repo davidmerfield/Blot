@@ -6,7 +6,15 @@ module.exports = function (blogID) {
     Sync(blogID, function check(err, folder, done) {
       if (err) return reject(err);
       folder.update = promisify(folder.update);
-      resolve({ folder, done });
+      // I don't quite understand this
+      const doneAsync = async function (err) {
+        if (err) {
+          await promisify(done.bind(null, err))();
+        } else {
+          await promisify(done.bind(null, null))();
+        }
+      };
+      resolve({ folder, done: doneAsync });
     });
   });
 };

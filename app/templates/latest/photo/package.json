@@ -7,7 +7,7 @@
     "link_color": "#00008B",
     "hide_dates": false,
     "infinite_scroll": true,
-    "sticky_navigation": true,
+    "sticky_navigation": false,
     "collapse_navigation_by_default": false,
     "navigation_alignment": "justified",
     "navigation_alignment_options": [
@@ -16,7 +16,7 @@
       "right",
       "center"
     ],
-    "thumbnail_size": "small",
+    "thumbnail_size": "medium",
     "thumbnail_size_options": [
       "small",
       "medium",
@@ -29,15 +29,22 @@
       "bottom"
     ],
     "page_size": 42,
+    "syntax_highlighter": {
+      "id": "stackoverflow-light"
+    },
     "date_display": "MMMM D, Y",
     "body_font": {},
     "spacing": 2,
-    "spacing_range": [0, 5],
+    "spacing_range": [
+      0,
+      5
+    ],
     "grid_layout": "square",
     "grid_layout_options": [
       "square",
-      "ragged"
-    ]
+      "bookshelf"
+    ],
+    "demo_folder": "william"
   },
   "views": {
     "tagged.html": {
@@ -63,12 +70,6 @@
       "partials": {
         "title": "{{{entry.title}}} - {{{title}}}",
         "description": "{{{entry.summary}}}"
-      }
-    },
-    "public.html": {
-      "partials": {
-        "title": "Index of {{{path}}}",
-        "description": "All the files and folders inside {{{path}}}"
       }
     }
   }

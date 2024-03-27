@@ -1,84 +1,76 @@
-const async = require("async");
-const ignore = "head, code, pre, script, style";
-
-// RegEx's inspired by this
-// https://stackoverflow.com/questions/478857/wikilinks-turn-the-text-a-into-an-internal-link
-
-// This will not work if the closing tag is separated from the opening tag
-// by another node, e.g.
-// [[hey <em>ehy</em> there]]
-// But that kind of strikes me as a weird wikilink
-
-function convertLinks(html) {
-  html = html.replace(/\[\[(.+?)\]\]/g, function (match, linkContents) {
-    let text = linkContents;
-    let href = linkContents;
-
-    // Handle wikilinks with custom text, e.g. [[../hello|Hey!]]
-    if (linkContents.indexOf("|") > -1) {
-      href = linkContents.slice(0, linkContents.indexOf("|"));
-      text = linkContents.slice(linkContents.indexOf("|") + 1);
-    }
-
-    return `<a href="${href}" class="wikilink">${text}</a>`;
-  });
-  return html;
-}
+const { tryEach, eachOf } = require("async");
+const { resolve, dirname } = require("path");
+const byPath = require("./byPath");
+const byURL = require("./byURL");
+const byTitle = require("./byTitle");
+const { decode } = require("he");
+const makeSlug = require("helper/makeSlug");
 
 function render($, callback, { blogID, path }) {
+  const wikilinks = $("a[title='wikilink']");
   let dependencies = [];
 
-  $(":root").each(function findTextNodes(i, node) {
-    if ($(node).is(ignore)) return;
-
-    $(node)
-      .contents()
-      .each((i, childNode) => {
-        if (childNode.nodeType === 3) {
-          $(childNode).replaceWith(convertLinks(childNode.data));
-        } else {
-          findTextNodes(i, childNode);
-        }
-      });
-  });
-
-  const wikilinks = $("a.wikilink");
-
-  async.eachOf(
+  eachOf(
     wikilinks,
     function (node, i, next) {
       // The cheerio object contains other
       // shit. We only want img tag elements
       if (!node || node.name !== "a") return next();
 
-      const href = $(node).attr("href");
-      const dirname = require("path").dirname(path);
+      // Pandoc encodes certain characters in the
+      // wikilink as HTML entities, e.g.
+      // "Hello's" to "Hello&#39;s"
+      // This library will decode HTML entities (HE)
+      // for us, hopefully safely
+      const href = decode($(node).attr("href"));
 
-      // We can't trust this href - it could belong to a file outside the blog
-      // folder for this blog with sufficient ../../../
-      const pathToLinkWithMD = require("path").resolve(dirname, href + ".md");
+      // Rougly compare the href and text contents of the link
+      // if they don't match the user did something like this:
+      // [[target|Title here]]
+      const piped = makeSlug($(node).html()) !== makeSlug(href);
 
-      // we could add other paths in future, or test
-      // against post titles, for example.
-      const paths = [pathToLinkWithMD];
+      const lookups = [
+        byPath.bind(null, blogID, path, href),
+        byURL.bind(null, blogID, href),
+        byTitle.bind(null, blogID, href),
+      ];
 
-      dependencies = dependencies.concat(paths);
+      tryEach(lookups, function (err, entry) {
+        if (entry) {
+          const link = entry.url;
 
-      require("models/entry").get(blogID, paths, (entries) => {
-        if (!entries || !entries.length) return next();
-        let entry = entries.shift();
-        $(node).attr("href", entry.url);
+          $(node).attr("href", link);
+
+          if (!piped) $(node).html(entry.title);
+
+          dependencies.push(entry.path);
+        } else {
+          // we failed to find a path, we should register paths to watch
+          // if pathOfPost is '/Posts/foo.txt' then dirOfPost is '/Posts'
+          const dirOfPost = dirname(path);
+
+          // if href is 'sub/Foo.txt' and dirOfPost is '/Posts' then
+          // resolvedHref is '/Posts/sub/Foo.txt'
+          const resolvedHref = resolve(dirOfPost, href);
+
+          const pathsToWatch = [
+            resolvedHref,
+            resolvedHref + ".md",
+            resolvedHref + ".txt",
+          ];
+
+          pathsToWatch.forEach((path) => dependencies.push(path));
+        }
         next();
       });
     },
-    function (err) {
+    function () {
       callback(null, dependencies);
     }
   );
 }
-
 module.exports = {
-  render: render,
+  render,
   category: "Typography",
   title: "Wikilinks",
   description: "Convert Wikilinks into links",

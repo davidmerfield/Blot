@@ -1,5 +1,5 @@
-const Entry = require("entry");
-const Tags = require("tags");
+const Entry = require("models/entry");
+const Tags = require("models/tags");
 const type = require("helper/type");
 const _ = require("lodash");
 const async = require("async");
@@ -8,7 +8,7 @@ module.exports = function (req, callback) {
   var blog = req.blog;
   var blogID = blog.id;
 
-  var tags = req.query.name || req.query.tag || "";
+  var tags = req.query.name || req.query.tag || req.params.tag || "";
 
   if (type(tags, "array")) {
   } else if (type(tags, "string")) {
@@ -39,7 +39,8 @@ module.exports = function (req, callback) {
         return callback(null, {
           tag,
           tagged,
-          entries: entries,
+          is: tagged, // alias
+          entries
         });
       });
     }
