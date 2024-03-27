@@ -1,6 +1,6 @@
 var url = require("url");
 
-module.exports = function setClientToGit(user, blog, port, callback) {
+module.exports = function setClientToGit (user, blog, port, callback) {
   var repoUrl;
 
   require("clients/git/create")(blog, function (err) {
@@ -12,9 +12,9 @@ module.exports = function setClientToGit(user, blog, port, callback) {
       repoUrl = url.format({
         auth: user.email + ":" + token,
         protocol: "http",
-        hostname: "localhost",
+        hostname: "127.0.0.1",
         port: port,
-        pathname: "/clients/git/end/" + blog.handle + ".git",
+        pathname: "/clients/git/end/" + blog.handle + ".git"
       });
 
       callback(null, repoUrl);

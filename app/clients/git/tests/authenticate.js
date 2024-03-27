@@ -4,7 +4,7 @@ describe("git client authenticate", function () {
   // a test server with the git client's routes exposed, then
   // cleans everything up when each test has finished.
   require("./setup")({
-    clone: false, // dont clone repo into tmp dir
+    clone: false // dont clone repo into tmp dir
   });
 
   var fs = require("fs-extra");
@@ -38,7 +38,7 @@ describe("git client authenticate", function () {
     Git(tmp)
       .silent(true)
       .clone(repoUrl, function (err) {
-        expect(err).toContain("401 Unauthorized");
+        expect(err.message).toContain("401 Unauthorized");
         expect(fs.readdirSync(tmp)).toEqual([]);
         done();
       });
@@ -55,7 +55,7 @@ describe("git client authenticate", function () {
     Git(tmp)
       .silent(true)
       .clone(repoUrl, function (err) {
-        expect(err).toContain("401 Unauthorized");
+        expect(err.message).toContain("401 Unauthorized");
         expect(fs.readdirSync(tmp)).toEqual([]);
         done();
       });
@@ -66,18 +66,19 @@ describe("git client authenticate", function () {
     var repoUrl = this.repoUrl;
 
     // Now the repoUrl, which contains the token, should be invalid
-    require("clients/git/database").refreshToken(this.blog.owner, function (
-      err
-    ) {
-      if (err) return done.fail(err);
+    require("clients/git/database").refreshToken(
+      this.blog.owner,
+      function (err) {
+        if (err) return done.fail(err);
 
-      Git(tmp)
-        .silent(true)
-        .clone(repoUrl, function (err) {
-          expect(err).toContain("401 Unauthorized");
-          expect(fs.readdirSync(tmp)).toEqual([]);
-          done();
-        });
-    });
+        Git(tmp)
+          .silent(true)
+          .clone(repoUrl, function (err) {
+            expect(err.message).toContain("401 Unauthorized");
+            expect(fs.readdirSync(tmp)).toEqual([]);
+            done();
+          });
+      }
+    );
   });
 });

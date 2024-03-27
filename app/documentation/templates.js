@@ -1,6 +1,6 @@
 const config = require("config");
 const fs = require("fs-extra");
-const marked = require("marked");
+const { marked } = require("marked");
 const prettySize = require("helper/prettySize");
 const templatesDirectory = __dirname + "/../templates/latest";
 const foldersDirectory = __dirname + "/../templates/folders";
@@ -99,7 +99,7 @@ module.exports = async (req, res, next) => {
         1
       );
 
-      res.locals.template.README = marked(
+      res.locals.template.README = marked.parse(
         await fs.readFile(
           templatesDirectory + "/" + req.params.template + "/README",
           "utf8"

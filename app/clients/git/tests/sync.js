@@ -53,7 +53,7 @@ describe("git client sync", function () {
         var http = require("http");
         var url = require("url").format({
           protocol: "http",
-          hostname: "localhost",
+          hostname: "127.0.0.1",
           port: ctx.server.port,
           pathname: "/clients/git/syncs-finished/" + ctx.blog.id
         });

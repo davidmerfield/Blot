@@ -1,7 +1,7 @@
 var Express = require("express");
 var developers = new Express.Router();
 var makeSlug = require("helper/makeSlug");
-var marked = require("marked");
+const { marked } = require("marked");
 
 developers.use(function (req, res, next) {
   res.locals.base = "/developers";
@@ -26,12 +26,12 @@ developers.get(["/reference"], function (req, res, next) {
       const { description, properties } = property;
 
       if (description) {
-        property.description = marked(description);
+        property.description = marked.parse(description);
       }
 
       if (properties) {
         property.properties = properties.map(property => {
-          property.description = marked(property.description);
+          property.description = marked.parse(property.description);
           return property;
         });
       }
