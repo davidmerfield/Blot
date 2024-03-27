@@ -22,13 +22,18 @@ module.exports = async contents => {
     return result;
   }
 
-  const $ = cheerio.load(contents, { decodeEntities: false });
+  const $ = cheerio.load(contents, { decodeEntities: false }, false);
 
   for (const transformer of transformers) {
     transformer($);
   }
 
   let result = $.html();
+
+  // replace all the escaped partial tags with the actual partial tags
+  if (result.includes("{{&gt; ")) {
+    result = result.replace(/{{&gt; /g, "{{> ");
+  }
 
   // remove the indent from the line which contains the body partial
   // this prevents issues with code snippets
