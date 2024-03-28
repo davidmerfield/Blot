@@ -1,0 +1,36 @@
+<h1>Support</h1>
+
+<p>Please email us:</p>
+
+<p>
+  <a id="text_element" href="mailto:contact@blot.im">contact@blot.im</a> &nbsp; 
+  <button class="copier" onclick="copyToClipboard('text_element')">Copy</button>
+</p>
+
+
+<script type="text/javascript">
+  function copyToClipboard(elementId) {
+    // Create an auxiliary hidden input
+    var aux = document.createElement("input");
+
+    // Get the text from the element passed into the input
+    aux.setAttribute("value", document.getElementById(elementId).innerHTML);
+
+    // Append the aux input to the body
+    document.body.appendChild(aux);
+
+    // Highlight the content
+    aux.select();
+
+    // Execute the copy command
+    document.execCommand("copy");
+
+    // Remove the input from the body
+    document.body.removeChild(aux);
+    document.querySelector("[onclick*='" + elementId + "']").innerHTML = 'Copied';
+    document.querySelector("[onclick*='" + elementId + "']").classList.add("copied");
+  }
+</script>
+
+<p>Browse questions: <a href="/questions">Questions</a></p>
+<p>Read the <a href="/how">documentation</a></p>
