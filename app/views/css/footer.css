@@ -1,13 +1,16 @@
 footer {
 display: flex;
 justify-content: space-between;
+flex-wrap: wrap;
+padding: var(--spacing) 0;
 }
 
 footer ul {
     list-style-type: none;
     margin: 0;
-    padding: var(--spacing);
+    padding: 0 var(--spacing);
     display: flex;
+    flex-wrap: wrap;
 }
 
 footer li {
