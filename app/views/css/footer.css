@@ -1,0 +1,29 @@
+footer {
+display: flex;
+justify-content: space-between;
+}
+
+footer ul {
+    list-style-type: none;
+    margin: 0;
+    padding: var(--spacing);
+    display: flex;
+}
+
+footer li {
+    margin: 0;
+    padding: 0
+}
+
+
+footer a {
+    text-decoration: none;
+    font-size: var(--small-font-size);
+    color: var(--light-text-color);
+    transition: color 0.3s;
+    padding: 0 calc(var(--spacing)*0.5);
+}
+
+footer a:hover {
+    color: var(--accent-color);
+}
