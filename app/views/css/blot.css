@@ -216,6 +216,10 @@ h1 {
   margin-bottom: 1rem;
 }
 
+h1.paragraph {
+  margin-top:4px;font-size:var(--font-size);font-weight:400;line-height: 1;
+}
+
 h1:first-child {
   margin-top: 0;
   line-height: 1;
