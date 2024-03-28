@@ -36,10 +36,6 @@ const updates = {
     title: "Frances Benjamin Johnston",
     template: "SITE:reference"
   },
-  interviews: {
-    title: "Interviews",
-    template: "SITE:magazine"
-  },
   william: {
     title: "William Copeland McCalla",
     template: "SITE:photo"

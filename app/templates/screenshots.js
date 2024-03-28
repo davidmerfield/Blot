@@ -15,7 +15,7 @@ const templateOptions = {
     handle: "david"
   },
   magazine: {
-    handle: "interviews"
+    handle: "plants"
   },
   photo: {
     handle: "william"
@@ -39,9 +39,6 @@ const foldersOptions = {
   },
   frances: {
     template: "reference"
-  },
-  interviews: {
-    template: "magazine"
   },
   william: {
     template: "photo"

@@ -26,9 +26,6 @@ Make sure you update the [Github Action](./github/workflows/release) if you add 
 [Blog](https://blot.im/templates/blog) - [video](./video)  
 An image, a text file, a word document, a bookmark used in Blot's demo video
 
-[Magazine](https://blot.im/templates/blog) - [interviews](./interviews)
-[Wikinews's interviews](https://en.wikinews.org/wiki/Category:Interviews)
-
 [Portfolio](https://blot.im/templates/blog) – [bjorn](./bjorn)
 https://www.flickr.com/photos/alberta_archives/albums/72157643076560675
 
