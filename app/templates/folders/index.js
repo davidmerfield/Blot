@@ -28,45 +28,45 @@ const updates = {
     title: "Björn Allard",
     template: "SITE:portfolio"
   },
-  code: {
-    title: "Code",
-    template: "SITE:blog"
+  botanist: {
+    title: "William Copeland McCalla",
+    template: "SITE:photo"
   },
   david: {
     title: "David",
     template: "SITE:blog"
   },
-  essay: {
-    title: "Essay",
-    template: "SITE:blog"
-  },
-  forms: {
-    title: "Thought-forms",
-    template: "SITE:portfolio"
-  },
   frances: {
     title: "Frances Benjamin Johnston",
     template: "SITE:reference"
+  },
+  illustrator: {
+    title: "Thought-forms",
+    template: "SITE:portfolio"
   },
   manifesto: {
     title: "Manifesto",
     template: "SITE:blog"
   },
-  piet: {
+  painter: {
     title: "Piet Mondrian",
+    template: "SITE:portfolio"
+  },
+  photographer: {
+    title: "Sergey Prokudin-Gorsky",
     template: "SITE:portfolio"
   },
   plants: {
     title: "Plants",
     template: "SITE:magazine"
   },
-  sergey: {
-    title: "Sergey Prokudin-Gorsky",
-    template: "SITE:portfolio"
+  programmer: {
+    title: "Programmer",
+    template: "SITE:blog"
   },
-  william: {
-    title: "William Copeland McCalla",
-    template: "SITE:photo"
+  writer: {
+    title: "Writer",
+    template: "SITE:blog"
   }
 };
 
