@@ -7,7 +7,7 @@ const { dirname } = require("path");
 const root = require("helper/rootDir");
 const fs = require("fs-extra");
 const TEMPLATES_DIRECTORY = root + "/app/templates/latest";
-const TEMPLATE_ARCHIVE_DIRECTORY = root + "/app/templates/past]";
+const TEMPLATE_ARCHIVE_DIRECTORY = root + "/app/templates/past";
 const FOLDERS_DIRECTORY = root + "/app/templates/folders";
 const IMAGE_DIRECTORY = root + "/app/views/images/examples";
 
