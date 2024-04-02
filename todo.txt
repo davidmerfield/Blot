@@ -29,6 +29,7 @@ Infrastructure plan:
 - Use restic or similar to make incremental off-site backups of data directory:
   - restic -r b2:bucket-name:/path/to/repo forget --keep-daily 7 --keep-weekly 4 --keep-monthly 6 --keep-yearly 3 --prune
 
+Make it possible to link between org mode files with: `[[file:another-test.org][another test]]` and tell [questioners](https://blot.im/questions/2163)
 
 ---
 
