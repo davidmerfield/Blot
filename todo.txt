@@ -3,6 +3,8 @@ Follow up with Stripe about the suspected card testing
 
 ---
 
+Work on Google Drive 
+
 Improvements to search engine:
 - Make search use 'AND' instead of 'OR' for multiple terms
 - Remove drafts and tell Paul
