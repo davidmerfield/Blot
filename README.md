@@ -10,11 +10,13 @@ The internet <> NGINX (reverse proxy) <> Blot (express.js node application) <> R
 
 ## Development setup
 
-Clone this repository:
+First, clone this repository:
 
 ```
 git clone https://github.com/davidmerfield/blot
 ```
+
+Then install [node version 16](https://nodejs.org/en/download/package-manager).
 
 Blot requires a number of different hosts to work (one for the dashboard, one for the CDN and many for your sites). In order to get this working in a local development environment, I recommend using [dnsmasq](https://wiki.archlinux.org/index.php/dnsmasq) to resolve everthing under the non-existent `.blot` TLD to the local machine:
 

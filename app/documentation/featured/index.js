@@ -7,7 +7,13 @@
 const fs = require("fs-extra");
 
 module.exports = async function (req, res, next) {
-  res.locals.featured = await fs.readJSON(__dirname + "/data/featured.json");
+
+  try {
+    res.locals.featured = await fs.readJSON(__dirname + "/data/featured.json");
+  } catch (e) {
+    console.error(e);
+    res.locals.featured = { sites: [] };
+  }
 
   res.locals.featured.sites = res.locals.featured.sites.map(i => {
     return {

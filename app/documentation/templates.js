@@ -33,7 +33,7 @@ const templates = fs
     async i =>
       new Promise((resolve, reject) => {
         getTemplate(i)
-          .catch(reject)
+          .catch(() => resolve())
           .then(template => {
             if (!template) return resolve();
             const demo_folder = template.locals.demo_folder;

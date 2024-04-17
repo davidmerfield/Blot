@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   node-app:
     image: blot
@@ -37,7 +35,7 @@ services:
       - ./tests:/usr/src/app/tests
       - ./notes:/usr/src/app/notes
       - ./config:/usr/src/app/config
-    command: npx nodemon /usr/src/app/data/app.js --watch /usr/src/app/data/app.js
+    command: npx nodemon /usr/src/app/app/local.js --watch /usr/src/app/app/documentation -e js,html,css --ignore "**/data/*"
 
   redis:
     image: "redis:alpine"
