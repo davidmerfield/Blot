@@ -1,7 +1,7 @@
 {{> sign-up-header}}
 
 <style> 
-#card-element {
+#cardNumber, #cardExpiry, #cardCvc, #postalCode {
   border: 1px solid var(--border-color);
   border-radius: 4px;
   padding: 12px 10px;
@@ -9,8 +9,6 @@
 </style>
 <form id="payment-form" method="POST" style="flex-basis:50%;max-width: 360px;">
   
-    
-    
 <noscript>
   <p class="error">
     <mark>Enable JavaScript to purchase an account.</mark> Payments are
@@ -42,13 +40,36 @@
         </p>
 
         <div>
-       <label for="card-element">
-          Debit or credit card
+        <label for="cardNumber">
+          Card Number
         </label>
-        <div id="card-element">
-    <!-- A Stripe Element will be inserted here. -->
-  </div>
-</div>
+        <div id="cardNumber" class="field"></div>
+      </div>
+
+        <div style="display:flex;margin-top:12px">
+          <div style="flex-basis: 110px;padding-right: 1em;">
+            <label for="cardExpiry">
+              Expiration
+            </label>
+            <div id="cardExpiry" class="field"></div>
+          </div>
+
+          <div style="flex-basis: 80px;padding-right: 1em;">
+            <label for="cardCvc">
+            CVC
+          </label>
+          <div id="cardCvc" class="field"></div>
+        </div>
+          
+        <div style="flex-basis: 100px;">
+          <label for="postalCode">
+            ZIP Code
+          </label>
+          <div id="postalCode" class="field"></div>
+        </div>
+      </div>
+
+        
         <p style="margin-bottom: 0;">
           <label>Total due today</label>
         </p>
@@ -127,68 +148,68 @@
 
 <script src="https://js.stripe.com/v3/"></script>
 <script>
-  // Load Stripe and create a new instance of Stripe Elements
-  var stripe = Stripe('{{stripe_key}}');
+ var stripe = Stripe('{{stripe_key}}');  // Use your actual publishable key
   var elements = stripe.elements();
 
-// Define styles for light and dark modes
-
-// Define styles for light and dark modes
-var style = {
-  base: {
-    fontSize: '16px',
-    color: "#32325d",
-    '::placeholder': {
-      color: '#aab7c4'
+  var style = {
+    base: {
+      fontSize: '16px',
+      color: "#32325d",
+      iconColor: "#666EE8",
+      '::placeholder': {
+        color: "#666"
+      },
     }
-  }
-};
-
-// Check if the user prefers a dark color scheme and adjust the style accordingly
-if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-  style.base.color = "#fff";
-  style.base['::placeholder'] = {
-    color: '#878580'
   };
-}
 
+  if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    style.base.color = "#fff";
+    style.base.iconColor = "#fff";
+    style.base['::placeholder'].color = "#575653";
+  }
 
-var card = elements.create('card', { style: style });
-  card.mount('#card-element');
+  // Create individual elements
+  var cardNumber = elements.create('cardNumber', { style: style, showIcon: true});
+  cardNumber.mount('#cardNumber');
 
-  // when the card element is focussed, change the border color of the card element
-  //  and the text color of the label to 'var(--dark-accent-color)'
-  card.on('focus', function () {
-    document.getElementById('card-element').style.borderColor = 'var(--light-accent-color)';
-    document.querySelector('label[for="card-element"]').style.color = 'var(--light-accent-color)';
-  });
+  var cardExpiry = elements.create('cardExpiry', { style: style });
+  cardExpiry.mount('#cardExpiry');
 
-  // when it's blurred, change it back to the default color
-  card.on('blur', function () {
-    document.getElementById('card-element').style.borderColor = 'var(--border-color)';
-    document.querySelector('label[for="card-element"]').style.color = '';
-  });
+  var cardCvc = elements.create('cardCvc', { style: style, placeholder: ''});
+  cardCvc.mount('#cardCvc');
 
-  card.addEventListener('change', ({error}) => {
-    const displayError = document.getElementById('error');
-    if (error) {
-      displayError.textContent = error.message;
-      displayError.style.display = 'block';
-    } else {
-      displayError.textContent = '';
-      displayError.style.display = 'none';
-    }
+  var postalCode = elements.create('postalCode', { style: style });
+  postalCode.mount('#postalCode');
+
+  function setFocusColor(elementId) {
+    document.getElementById(elementId).style.borderColor = 'var(--light-accent-color)';
+    document.querySelector('label[for="' + elementId + '"]').style.color = 'var(--light-accent-color)';
+  }
+
+  function resetFocusColor(elementId) {
+    document.getElementById(elementId).style.borderColor = 'var(--border-color)';
+    document.querySelector('label[for="' + elementId + '"]').style.color = '';
+  }
+
+  [cardNumber, cardExpiry, cardCvc, postalCode].forEach(function(element) {
+    element.on('focus', function () {
+      setFocusColor(element._parent.id);
+    });
+    element.on('blur', function () {
+      resetFocusColor(element._parent.id);
+    });
   });
 
   var form = document.getElementById('payment-form');
   form.addEventListener('submit', function(event) {
     event.preventDefault();
-    stripe.createToken(card).then(function(result) {
+    stripe.createToken(cardNumber).then(function(result) {
       if (result.error) {
         var errorElement = document.getElementById('error');
         errorElement.textContent = result.error.message;
         errorElement.style.display = 'block';
       } else {
+        // Assume function stripeTokenHandler exists to handle the received token
         stripeTokenHandler(result.token);
       }
     });
@@ -196,7 +217,7 @@ var card = elements.create('card', { style: style });
 
   function stripeTokenHandler(token) {
     var form = document.getElementById('payment-form');
-    var hiddenInput = document.querySelector('.stripeToken');
+    var hiddenInput = document.querySelector('input.stripeToken');
     hiddenInput.setAttribute('value', token.id);
     form.submit();
   }
