@@ -1,4 +1,7 @@
+Expose markdown build errors on the dashboard to prevent weird non-update situations where it looks like the sync is stuck
+
 Follow up with Stripe about the suspected card testing
+- Identify and close and refund all 
 - Consider migrating to v3 https://docs.stripe.com/payments/payment-intents/migration
 
 Fix bug with [bulk redirects page](https://blot.im/questions/2385)
