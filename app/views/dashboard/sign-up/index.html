@@ -193,6 +193,9 @@
 
   [cardNumber, cardExpiry, cardCvc, postalCode].forEach(function(element) {
     element.on('focus', function () {
+      // reset the error message and enable the submit button
+      document.getElementById('error').style.display = 'none';
+      document.querySelector('input[type="submit"]').classList.remove('working');
       setFocusColor(element._parent.id);
     });
     element.on('blur', function () {
@@ -208,6 +211,7 @@
         var errorElement = document.getElementById('error');
         errorElement.textContent = result.error.message;
         errorElement.style.display = 'block';
+        document.querySelector('input[type="submit"]').classList.remove('working');
       } else {
         // Assume function stripeTokenHandler exists to handle the received token
         stripeTokenHandler(result.token);
