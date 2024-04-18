@@ -1,6 +1,13 @@
 {{> sign-up-header}}
 
-<form method="POST" style="flex-basis:50%;max-width: 360px;">
+<style> 
+#card-element {
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  padding: 12px 10px;
+}
+</style>
+<form id="payment-form" method="POST" style="flex-basis:50%;max-width: 360px;">
   
     
     
@@ -34,47 +41,15 @@
           <input type="text" class="email" name="email" autofocus />
         </p>
 
-        <p style="margin-bottom: 0">
-          <label for="number"
-            >Card number
-            
-          </label>
-          <input type="text" data-stripe="number" name="number"  />
-        </p>
-
-        <div style="display: flex; margin: 1em 0 1em 0">
-          <div>
-            <label for="month">Expiration date</label>
-            <div style="display: flex">
-              <input
-                name="exp-month"
-                maxlength="2"
-                placeholder="MM"
-                type="text"
-                data-stripe="exp-month" />
-              <input
-                name="exp-year"
-                maxlength="4"
-                placeholder="YYYY"
-                type="text"
-                size="4"
-                data-stripe="exp-year" />
-            </div>
-          </div>
-
-          <div>
-            <label for="cvc"
-              >CVC
-              <em
-                >The CVC is the 3- or 4-digit code on your card, separate from the
-                16-digit number.</em
-              >
-            </label>
-            <input type="text" size="4" data-stripe="cvc" id="cvc" name="cvc" />
-          </div>
-        </div>
-
-        <p style="margin: 0">
+        <div>
+       <label for="card-element">
+          Debit or credit card
+        </label>
+        <div id="card-element">
+    <!-- A Stripe Element will be inserted here. -->
+  </div>
+</div>
+        <p style="margin-bottom: 0;">
           <label>Total due today</label>
         </p>
         <hr
@@ -150,50 +125,82 @@
         .render("#paypal-button-container"); // Renders the PayPal button
     </script>
 
-    <script type="text/javascript" src="/js/jquery.js"></script>
-    <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
-    <script type="text/javascript">
-      // This identifies your website in the createToken call below
-      if (typeof Stripe !== "undefined")
-        Stripe.setPublishableKey("{{stripe_key}}");
-      $("form").submit(function (event) {
-        var $form = $(this);
-        // Disable the submit button
-        // to prevent repeated clicks
-        $form.find('[type="submit"]').prop("disabled", true);
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+  // Load Stripe and create a new instance of Stripe Elements
+  var stripe = Stripe('{{stripe_key}}');
+  var elements = stripe.elements();
 
-        $("#error").hide();
+// Define styles for light and dark modes
 
-        // Validate the email address
-        var email = $('[name="email"]').val() || "";
-        var emailRegex = /[^\s@]+@[^\s@]+\.[^\s@]+/;
-        var email = email.replace(" ", "");
-        if (email === "" || !emailRegex.test(email)) {
-          $("#error").text("Please enter your email address.").show();
-          $('[type="submit"]').removeClass("working").prop("disabled", false);
-          $('[name="email"]').focus();
-          return false;
-        } else {
-          $('[name="email"]').val(email);
-        }
-        Stripe.card.createToken($form, function (status, response) {
-          if (response.error) {
-            $("#error").text(response.error.message).show();
-            $('[type="submit"]').removeClass("working").prop("disabled", false);
-          } else {
-            var token = response.id;
-            // response also contains card,
-            // which has additional card details
-            // Insert the token into the form so
-            // it gets submitted to the server
-            $form.find(".stripeToken").val(token);
-            $form.get(0).submit();
-          }
-        });
-        // Prevent the form from submitting with the default action
-        return false;
-      });
-    </script>
+// Define styles for light and dark modes
+var style = {
+  base: {
+    fontSize: '16px',
+    color: "#32325d",
+    '::placeholder': {
+      color: '#aab7c4'
+    }
+  }
+};
+
+// Check if the user prefers a dark color scheme and adjust the style accordingly
+if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+  style.base.color = "#fff";
+  style.base['::placeholder'] = {
+    color: '#878580'
+  };
+}
+
+
+var card = elements.create('card', { style: style });
+  card.mount('#card-element');
+
+  // when the card element is focussed, change the border color of the card element
+  //  and the text color of the label to 'var(--dark-accent-color)'
+  card.on('focus', function () {
+    document.getElementById('card-element').style.borderColor = 'var(--light-accent-color)';
+    document.querySelector('label[for="card-element"]').style.color = 'var(--light-accent-color)';
+  });
+
+  // when it's blurred, change it back to the default color
+  card.on('blur', function () {
+    document.getElementById('card-element').style.borderColor = 'var(--border-color)';
+    document.querySelector('label[for="card-element"]').style.color = '';
+  });
+
+  card.addEventListener('change', ({error}) => {
+    const displayError = document.getElementById('error');
+    if (error) {
+      displayError.textContent = error.message;
+      displayError.style.display = 'block';
+    } else {
+      displayError.textContent = '';
+      displayError.style.display = 'none';
+    }
+  });
+
+  var form = document.getElementById('payment-form');
+  form.addEventListener('submit', function(event) {
+    event.preventDefault();
+    stripe.createToken(card).then(function(result) {
+      if (result.error) {
+        var errorElement = document.getElementById('error');
+        errorElement.textContent = result.error.message;
+        errorElement.style.display = 'block';
+      } else {
+        stripeTokenHandler(result.token);
+      }
+    });
+  });
+
+  function stripeTokenHandler(token) {
+    var form = document.getElementById('payment-form');
+    var hiddenInput = document.querySelector('.stripeToken');
+    hiddenInput.setAttribute('value', token.id);
+    form.submit();
+  }
+</script>
   </div>
 </form>
 </div>
