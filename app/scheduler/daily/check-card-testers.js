@@ -5,7 +5,7 @@ const User = require('models/user');
 const Blog = require('models/blog');
 const config = require("config");
 const stripe = require("stripe")(config.stripe.secret);
-
+const yesno = require('yesno');
 
 const getByCustomerId = async (customerId) => {
     return new Promise((resolve, reject) => {
@@ -15,38 +15,6 @@ const getByCustomerId = async (customerId) => {
     });
 };
 
-const refundPaymentEndSubscriptionDeleteCustomer = async (customerId) => {
-    return new Promise((resolve, reject) => {
-        stripe.subscriptions.list({ customer: customerId }, async (err, subscriptions) => {
-            if (err) {
-                console.error(`Error fetching subscriptions for customer ${customerId}`, err);
-                return resolve();
-            }
-
-            for (const subscription of subscriptions.data) {
-                try {
-                    await stripe.refunds.create({ charge: subscription.latest_invoice.payment_intent.charges.data[0].id });
-                } catch (err) {
-                    console.error(`Error refunding payment for subscription ${subscription.id} for customer ${customerId}`, err);
-                }
-
-                try {
-                    await stripe.subscriptions.del(subscription.id);
-                } catch (err) {
-                    console.error(`Error deleting subscription ${subscription.id} for customer ${customerId}`, err);
-                }
-            }
-
-            try {
-                await stripe.customers.del(customerId);
-            } catch (err) {
-                console.error(`Error deleting customer ${customerId}`, err);
-            }
-
-            resolve();
-        });
-    });
-}
 
 
 module.exports = async function (startingAfter = null) {
@@ -62,16 +30,7 @@ module.exports = async function (startingAfter = null) {
         if (!user) {
             console.log();
             console.log(`No user found for customer ${customer.id} with email ${customer.email}`);
-            console.log(`https://dashboard.stripe.com/customers/${customer.id}`);
-
-            // list all the payments made by the customer
-            const invoices = await stripe.invoices.list({ customer: customer.id });
-            for (const invoice of invoices.data) {
-                if (invoice.status === 'paid') {
-                    console.log(invoice);
-                }
-            }
-            
+            console.log(`https://dashboard.stripe.com/customers/${customer.id}`);            
          }
     }
 
