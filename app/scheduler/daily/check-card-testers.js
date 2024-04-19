@@ -19,7 +19,8 @@ module.exports = async function (startingAfter = null) {
     
     console.log('listing 100 customers starting after', startingAfter || 'beginning');
 
-    const response = await stripe.customers.list({ limit: 100, starting_after: startingAfter });
+    const parameters = startingAfter ? { limit: 100, starting_after: startingAfter } : { limit: 100 };
+    const response = await stripe.customers.list(parameters);
 
     for (const customer of response.data) {
         const user = await getByCustomerID(customer.id);
