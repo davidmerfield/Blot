@@ -179,7 +179,7 @@ module.exports = function () {
 
 
   console.log(clfdate(), "Scheduled daily check of suspected fraudulent users");
-  schedule({ hour: 8, minute: 0 }, async function () {
+  schedule({ hour: 11, minute: 0 }, async function () {
     console.log(clfdate(), "Checking for potential fraudulent users");
 
     let customers;
