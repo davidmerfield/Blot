@@ -13,6 +13,13 @@ module.exports = async (customerID) => {
         console.log(`Refunding invoice ${invoice.id} for reasons of suspected fraud`);
         await stripe.charges.refund(invoice.charge, { reason: 'fraudulent' });
     }
+
+    // delete the customer
+    console.log(`Deleting customer ${customerID}`);
+    await stripe.customers.del(customerID);
+
+    console.log(`Deleted customer ${customerID}`);
+    return true;
 };
 
 if (require.main === module) {
