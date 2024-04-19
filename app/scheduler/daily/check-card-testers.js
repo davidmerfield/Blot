@@ -7,9 +7,9 @@ const config = require("config");
 const stripe = require("stripe")(config.stripe.secret);
 
 
-const getByCustomerID = async (customerId) => {
+const getByCustomerId = async (customerId) => {
     return new Promise((resolve, reject) => {
-        User.getByCustomerID(customerId, (err, user) => {
+        User.getByCustomerId(customerId, (err, user) => {
             resolve(user);
         });
     });
@@ -23,7 +23,7 @@ module.exports = async function (startingAfter = null) {
     const response = await stripe.customers.list(parameters);
 
     for (const customer of response.data) {
-        const user = await getByCustomerID(customer.id);
+        const user = await getByCustomerId(customer.id);
     
         if (!user) {
             console.log(`No user found for customer ${customer.id}`);
