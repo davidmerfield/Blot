@@ -60,7 +60,9 @@ module.exports = async function (startingAfter = null) {
         const user = await getByCustomerId(customer.id);
     
         if (!user) {
+            console.log();
             console.log(`No user found for customer ${customer.id} with email ${customer.email}`);
+            console.log(customer)
             console.log(`https://dashboard.stripe.com/customers/${customer.id}`);
             continue;
 
