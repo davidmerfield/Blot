@@ -13,6 +13,7 @@ const fs = require("fs-extra");
 const exec = require("child_process").exec;
 const fix = require("sync/fix/all");
 const zombies = require("./zombies");
+const checkCardTesters = require("./check-card-testers");
 
 // If any disk has less than 2GB of space, we should notify the admin
 const MINIMUM_DISK_SPACE_IN_K = 2 * 1024 * 1024;
@@ -174,6 +175,26 @@ module.exports = function () {
         console.log(clfdate(), "Fix sync: checked all folders");
       }
     });
+  });
+
+
+  console.log(clfdate(), "Scheduled daily check of suspected fraudulent users");
+  schedule({ hour: 8, minute: 0 }, async function () {
+    console.log(clfdate(), "Checking for potential fraudulent users");
+
+    let customers;
+    
+    try {
+      customers = await checkCardTesters();
+    } catch (err) {
+      console.log(clfdate(), "Error: Checking suspected fraudulent users", err);
+    }
+
+    if (!customers || customers.length === 0) {
+      console.log(clfdate(), "No suspected fraudulent users found");
+    } else {
+      email.SUSPECTED_FRAUD(null, { customers });
+    }
   });
 
   console.log(clfdate(), "Scheduled daily check of featured sites");
