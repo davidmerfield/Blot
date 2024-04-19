@@ -5,7 +5,6 @@ const User = require('models/user');
 const Blog = require('models/blog');
 const config = require("config");
 const stripe = require("stripe")(config.stripe.secret);
-const yesno = require('yesno');
 
 const getByCustomerId = async (customerId) => {
     return new Promise((resolve, reject) => {
