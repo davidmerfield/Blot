@@ -1,12 +1,6 @@
 Expose markdown build errors on the dashboard to prevent weird non-update situations where it looks like the sync is stuck
 
-Identify and close and refund all suspected card testing accounts
-
-Add a daily check for suspected card testing accounts
-
 Fix bug with [bulk redirects page](https://blot.im/questions/2385)
-
----
 
 Make video embeds work on Google Docs:
 - Tell [questioners](https://blot.im/questions/471)
@@ -15,6 +9,8 @@ Improvements to search engine:
 - Make search use 'AND' instead of 'OR' for multiple terms
 - Remove drafts and tell Paul
 - Make `search: true` work and tell Paul
+
+---
 
 Polish folders
 
