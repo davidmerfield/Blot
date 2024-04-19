@@ -15,6 +15,40 @@ const getByCustomerId = async (customerId) => {
     });
 };
 
+const refundPaymentEndSubscriptionDeleteCustomer = async (customerId) => {
+    return new Promise((resolve, reject) => {
+        stripe.subscriptions.list({ customer: customerId }, async (err, subscriptions) => {
+            if (err) {
+                console.error(`Error fetching subscriptions for customer ${customerId}`, err);
+                return resolve();
+            }
+
+            for (const subscription of subscriptions.data) {
+                try {
+                    await stripe.refunds.create({ charge: subscription.latest_invoice.payment_intent.charges.data[0].id });
+                } catch (err) {
+                    console.error(`Error refunding payment for subscription ${subscription.id} for customer ${customerId}`, err);
+                }
+
+                try {
+                    await stripe.subscriptions.del(subscription.id);
+                } catch (err) {
+                    console.error(`Error deleting subscription ${subscription.id} for customer ${customerId}`, err);
+                }
+            }
+
+            try {
+                await stripe.customers.del(customerId);
+            } catch (err) {
+                console.error(`Error deleting customer ${customerId}`, err);
+            }
+
+            resolve();
+        });
+    });
+}
+
+
 module.exports = async function (startingAfter = null) {
     
     console.log('listing 100 customers starting after', startingAfter || 'beginning');
@@ -27,14 +61,10 @@ module.exports = async function (startingAfter = null) {
     
         if (!user) {
             console.log(`No user found for customer ${customer.id} with email ${customer.email}`);
+            console.log(`https://dashboard.stripe.com/customers/${customer.id}`);
             continue;
 
          }
-
-         if (!user.blogs || user.blogs.length === 0) {
-            //  console.log(`User ${user.email} has no blog`);
-         }
-
     }
 
     if (!response.has_more) {
