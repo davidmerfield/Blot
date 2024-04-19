@@ -67,7 +67,9 @@ module.exports = async function (startingAfter = null) {
             // list all the payments made by the customer
             const invoices = await stripe.invoices.list({ customer: customer.id });
             for (const invoice of invoices.data) {
-                console.log(`- invoice `, invoice.id, invoice.amount_paid, invoice.status);
+                if (invoice.status === 'paid') {
+                    console.log(invoice);
+                }
             }
             
          }
