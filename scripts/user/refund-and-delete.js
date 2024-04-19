@@ -11,7 +11,7 @@ module.exports = async (customerID) => {
         }
 
         console.log(`Refunding invoice ${invoice.id} for reasons of suspected fraud`);
-        await stripe.charges.refund(invoice.charge, { reason: 'fradulent' });
+        await stripe.charges.refund(invoice.charge, { reason: 'fraudulent' });
     }
 };
 
