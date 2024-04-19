@@ -10,8 +10,17 @@ module.exports = async (customerID) => {
             continue;
         }
 
-        console.log(`Refunding invoice ${invoice.id} for reasons of suspected fraud`);
-        await stripe.charges.refund(invoice.charge, { reason: 'fraudulent' });
+        try {
+            console.log(`Refunding invoice ${invoice.id} for reasons of suspected fraud`);
+            await stripe.charges.refund(invoice.charge, { reason: 'fraudulent' });
+    
+        } catch (err) {
+            if (err.code === 'charge_already_refunded') {
+                console.log(`Charge ${invoice.charge} already refunded`);
+            } else {
+                throw err;
+            }
+        }
     }
 
     // delete the customer
