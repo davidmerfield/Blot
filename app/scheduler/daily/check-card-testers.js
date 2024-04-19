@@ -4,6 +4,7 @@
 const User = require('models/user');
 const Blog = require('models/blog');
 const config = require("config");
+const s = require('connect-redis');
 const stripe = require("stripe")(config.stripe.secret);
 
 const getByCustomerId = async (customerId) => {
@@ -16,6 +17,8 @@ const getByCustomerId = async (customerId) => {
 
 module.exports = async function (startingAfter = null) {
     
+    const suspectedUsers = [];
+
     console.log('listing 100 customers starting after', startingAfter || 'beginning');
 
     const parameters = startingAfter ? { limit: 100, starting_after: startingAfter } : { limit: 100 };
@@ -28,29 +31,36 @@ module.exports = async function (startingAfter = null) {
         const now = new Date();
         const diff = now - created;
         const days = diff / (1000 * 60 * 60 * 24);
+
         if (days > 7) {
             console.log('Checked the last 7 days of customers, finishing script');
-            return true;
+            return suspectedUsers
         }
 
         const user = await getByCustomerId(customer.id);
     
         if (!user) {
-            console.log();
-            console.log(`No user found for customer ${customer.id} with email ${customer.email}`);
-            console.log(`https://dashboard.stripe.com/customers/${customer.id}`);         
-            console.log('node scripts/user/refund-and-delete.js', customer.id);   
+            console.log(`No user found for customer ${customer.id}`);
+            suspectedUsers.push(customer);
+         } else {
+            console.log(`User found for customer ${customer.id}`);
          }
     }
 
     if (!response.has_more) {
         console.log("No more customers to fetch");
-        return true;
+        return suspectedUsers;
     }
 
     return module.exports(response.data[response.data.length - 1].id);
 }
 
 if (require.main === module) {
-    module.exports();
+    module.exports().then((suspectedUsers) => {
+        suspectedUsers.forEach((user) => {
+            console.log(`No user found for customer ${customer.id} with email ${customer.email}`);
+            console.log(`https://dashboard.stripe.com/customers/${customer.id}`);         
+            console.log('node scripts/user/refund-and-delete.js', customer.id);   
+        });
+    });
 }
