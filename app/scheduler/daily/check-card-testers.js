@@ -65,7 +65,7 @@ module.exports = async function (startingAfter = null) {
             console.log(`https://dashboard.stripe.com/customers/${customer.id}`);
 
             // list all the payments made by the customer
-            const payments = await stripe.paymentIntents.list({ customer: customer.id });
+            const payments = await stripe.payments.list({ customer: customer.id });
             for (const payment of payments.data) {
                 console.log(`- Payment ${payment.id} for $${(payment.amount / 100).toFixed(2)} made on ${new Date(payment.created * 1000).toLocaleDateString()}`);
             }
