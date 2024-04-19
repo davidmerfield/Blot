@@ -62,7 +62,7 @@ module.exports = async function (startingAfter = null) {
         if (!user) {
             console.log();
             console.log(`No user found for customer ${customer.id} with email ${customer.email}`);
-            console.log(customer)
+            console.log(customer.subscriptions.data);
             console.log(`https://dashboard.stripe.com/customers/${customer.id}`);
             continue;
 
