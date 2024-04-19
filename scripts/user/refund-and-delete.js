@@ -17,6 +17,8 @@ module.exports = async (customerID) => {
         } catch (err) {
             if (err.code === 'charge_already_refunded') {
                 console.log(`Charge ${invoice.charge} already refunded`);
+            } else if (err.code === 'charge_disputed') {
+                console.log(`Charge ${invoice.charge} is disputed`);
             } else {
                 throw err;
             }
