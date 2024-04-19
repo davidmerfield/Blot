@@ -26,13 +26,13 @@ module.exports = async function (startingAfter = null) {
         const user = await getByCustomerId(customer.id);
     
         if (!user) {
-            console.log(`No user found for customer ${customer.id}`);
+            console.log(`No user found for customer ${customer.id} with email ${customer.email}`);
             continue;
 
          }
 
          if (!user.blogs || user.blogs.length === 0) {
-             console.log(`User ${user.email} has no blog`);
+            //  console.log(`User ${user.email} has no blog`);
          }
 
     }
