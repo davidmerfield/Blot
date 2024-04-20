@@ -4,8 +4,10 @@
   <body>
     {{> header}}
     <section style="display: flex;max-width: 71rem;margin:0 auto">
-      
-      <section style="padding: 2em 0 6em 0;flex-grow:1">
+      <section  style="width: 20%; padding: 2em 4em 0 0;{{#user}}max-width: 150px;{{/user}}">
+        {{> sidebar}}
+        </section>
+      <section style="padding: 2em 0 6em 2em;flex-grow:1">
         
       
         <section class="{{#user}}dashboard-container{{/user}}" style="{{^user}}min-height: 80vh;padding-bottom:8em;{{/user}}">

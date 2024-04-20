@@ -1,49 +1,102 @@
 <style>
-  .header a svg {width:1.5em;fill: var(--text-color);
+  .header a svg {width:1.2em;fill: var(--text-color);
    
-  stroke: var(--text-color)}
+  stroke: var(--text-color);margin-right: 0.5em;}
+
   .header a:hover {color: var(--accent-color);}
   .header a:hover svg {fill: var(--accent-color);stroke: var(--accent-color);}
+
+  .header a {
+    color: var(--text-color);
+  }
+
+  .links a {
+    color: var(--light-text-color);
+    font-size: var(--medium-font-size);
+    padding-right: 1em;
+  }
+
+  .search-container input {
+    background: var(--light-background-color);
+    border: none;
+    border-radius: 4px;
+    color: var(--text-color);
+    font-size: var(--medium-font-size);
+    padding: 0.5em 1em;
+    width: 200px;
+    transition: width 0.1s;
+  }
+
+  .search-container input:focus {
+    outline: none;
+    width: 100%;
+  }
+
 </style>
 
 <input type="checkbox" id="menu-toggle" style="display: none;">
 <div
   class="header"
   style="
-    padding: 1em 2em;
+    padding: 0.5em 2em;
+    position: sticky;
+    top: 0;
+    background: #000
   ">
-  <div
-    style="
-      display: flex;
-      width: 100%;
-      justify-content: space-between;
-      align-items: center;
-      margin: 0 auto;
-    ">
-          <a href="/" style="justify-content: center;display:flex"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 30"><path d="M35.1 13.3s-2.3-2.4-6.7-2.4H7.6c-4.4 0-6.7 2.4-6.7 2.4" fill="none" stroke-width="1.75" stroke-miterlimit="10"/><path stroke-width="0" d="M15.1 2.8l2.1 1.6.5.4H33c.7 0 1.2.6 1.2 1.2v21c0 .7-.6 1.2-1.2 1.2H3c-.7 0-1.2-.6-1.2-1.2V4c0-.7.6-1.2 1.2-1.2h12.1m.7-1.8H3a3.01 3.01 0 0 0-3 3v23a3.01 3.01 0 0 0 3 3h30a3.01 3.01 0 0 0 3-3V6a3.01 3.01 0 0 0-3-3H18.3l-2.5-2z"/></svg></a> 
+  <div class="container" style="max-width: 71rem;margin:0 auto"
+>
+    <div class="top" style="
+    position: sticky;
+    top: 0;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 auto;
+">
 
+      <a href="/" style="justify-content: center;display:flex"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 30"><path d="M35.1 13.3s-2.3-2.4-6.7-2.4H7.6c-4.4 0-6.7 2.4-6.7 2.4" fill="none" stroke-width="1.75" stroke-miterlimit="10"/><path stroke-width="0" d="M15.1 2.8l2.1 1.6.5.4H33c.7 0 1.2.6 1.2 1.2v21c0 .7-.6 1.2-1.2 1.2H3c-.7 0-1.2-.6-1.2-1.2V4c0-.7.6-1.2 1.2-1.2h12.1m.7-1.8H3a3.01 3.01 0 0 0-3 3v23a3.01 3.01 0 0 0 3 3h30a3.01 3.01 0 0 0 3-3V6a3.01 3.01 0 0 0-3-3H18.3l-2.5-2z"/></svg> Blot</a> 
+
+      <div class="search-container" style="flex-grow: 1;justify-content: flex-end;display: flex;padding:0 2em">
+        <input type="text" placeholder="Search" />
+        <div class="search-results" style="position: absolute; background: var(--light-background-color); border: 1px solid var(--light-border-color); border-radius: 4px; display: none; padding: 1em; width: 200px; z-index: 1000;">
+          <p>Type to start searching</p>
+          </div>
+      </div>
+
+      <div style="display: flex;justify-content: flex-end;" class="cta">
+      
+        <a class="signed-in" href="/dashboard">Your sites</a>
+        <a class="signed-out" href="/log-in">Log in</a>
+        <a class="signed-out" href="/sign-up">Sign up</a>
+        <a href="#!" id="toggle-container">
+          Menu <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="12" height="12"><path d="M1 2.75A.75.75 0 0 1 1.75 2h12.5a.75.75 0 0 1 0 1.5H1.75A.75.75 0 0 1 1 2.75Zm0 5A.75.75 0 0 1 1.75 7h12.5a.75.75 0 0 1 0 1.5H1.75A.75.75 0 0 1 1 7.75ZM1.75 12h12.5a.75.75 0 0 1 0 1.5H1.75a.75.75 0 0 1 0-1.5Z"></path></svg><label for="menu-toggle"></label></a>
+        <script type="text/javascript">
+          if (document.cookie.indexOf("signed_into_blot") > -1) {
+            document.querySelectorAll(".signed-out").forEach(function (node) {
+              node.style.display = "none";
+            });
+            document.querySelectorAll(".signed-in").forEach(function(node){
+              node.style.display = "block";
+            })
+          }
+        </script>
+      </div>
+    </div>
      
       
       
-
-    <div style="display: flex;justify-content: flex-end;" class="cta">
-      
-      <a class="signed-in" href="/dashboard">Your sites</a>
-      <a class="signed-out" href="/log-in">Log in</a>
-      <a class="signed-out" href="/sign-up">Sign up</a>
-      <a href="#!" id="toggle-container">
-        Menu <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="12" height="12"><path d="M1 2.75A.75.75 0 0 1 1.75 2h12.5a.75.75 0 0 1 0 1.5H1.75A.75.75 0 0 1 1 2.75Zm0 5A.75.75 0 0 1 1.75 7h12.5a.75.75 0 0 1 0 1.5H1.75A.75.75 0 0 1 1 7.75ZM1.75 12h12.5a.75.75 0 0 1 0 1.5H1.75a.75.75 0 0 1 0-1.5Z"></path></svg><label for="menu-toggle"></label></a>
-      <script type="text/javascript">
-        if (document.cookie.indexOf("signed_into_blot") > -1) {
-          document.querySelectorAll(".signed-out").forEach(function (node) {
-            node.style.display = "none";
-          });
-          document.querySelectorAll(".signed-in").forEach(function(node){
-            node.style.display = "block";
-          })
-        }
-      </script>
+    <div class="links" style="padding-bottom: 0.5em;">
+      <a href="/">Home</a>
+      <a href="/how">How to use Blot</a>
+      <a href="/examples">Example sites</a>
+      <a href="/questions">Questions</a>
+      <a href="/pricing">Pricing</a>
+      <a href="/about">About</a>
+      <!-- <a href="/news">News</a> -->
+      <a href="/support">Support</a>
     </div>
+  
   </div>
 </div>
 
