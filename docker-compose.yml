@@ -34,6 +34,7 @@ services:
       - ./app:/usr/src/app/app
       - ./tests:/usr/src/app/tests
       - ./notes:/usr/src/app/notes
+      - ./scripts:/usr/src/app/scripts
       - ./config:/usr/src/app/config
     command: npx nodemon /usr/src/app/app/local.js --watch /usr/src/app/app -e js,html,css --ignore /usr/src/app/app/documentation/data --ignore /usr/src/app/app/documentation/output --ignore /usr/src/app/app/views
 
