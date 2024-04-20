@@ -7,6 +7,7 @@ process.on("SIGINT", () => {
 const server = require("./server");
 const config = require("config");
 const buildDocumentation = require("documentation/build");
+const { format } = require("url");
 
 console.log("Local server capabilities:");
 console.log("- twitter embeds " + !!config.twitter.consumer_secret);
@@ -75,9 +76,23 @@ function configureBlogs (user, callback) {
         Blog.set(blogID, { forceSSL: false, client: "local" }, err => {
           if (err) return next(err);
 
+
+        User.generateAccessToken({ uid: user.uid }, function (err, token) {
+          if (err) throw err;
+
+          // The full one-time log-in link to be sent to the user
+          var url = format({
+            protocol: "https",
+            host: config.host,
+            pathname: "/dashboard/log-in",
+            query: {
+              token: token
+            }
+          });
+
           console.log();
           console.log(`Visit your dashboard:`);
-          console.log(`https://${config.host}`);
+          console.log(url);
           console.log();
 
           console.log(`Visit your blog:`);
@@ -89,6 +104,7 @@ function configureBlogs (user, callback) {
           console.log();
 
           next();
+        });
         });
       });
     },
