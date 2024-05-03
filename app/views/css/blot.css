@@ -29,7 +29,7 @@ html {
   --font-family: ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;
 
   --small-font-size: 14px;
-  --font-size: 18px;
+  --font-size: 16px;
   --large-font-size: 24px;
   
   --spacing: 1rem;
@@ -928,4 +928,64 @@ ul.pill-navigation {
   background: var(--light-background-color);
   color: var(--light-accent-color);
   border-color: var(--light-accent-color);
+}
+
+
+
+.navigation {
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  height: calc(100vh - 6em);
+  justify-content: space-between;
+  top: 4em;
+}
+
+.navigation ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.navigation ul + ul {
+  font-size: var(--small-font-size);
+  opacity: 0.5;
+  line-height: 1;
+}
+
+.navigation a {
+  white-space: nowrap;
+  text-decoration: none;
+  display: block;
+  padding:0.25em 0.66em;
+  padding-right: 1.333em;
+  border-radius: var(--border-radius);
+  transition: background 0.2s;
+}
+
+.navigation a:hover {
+  background: #f0f4ff;
+} 
+
+.navigation a.selected {
+  background: #f0f4ff;
+}
+
+.navigation a svg,
+.sub-link svg {
+  fill: currentColor;
+  vertical-align: middle;
+  margin-right: 0.3em;
+  position: relative;
+  top:-0.05em
+}
+
+.sub-link.focus a{
+  border-radius: var(--border-radius);
+  background: var(--accent-color);
+  color: var(--background-color);
+  padding: 0.666em 1.333em;
+  font-weight: 600;
+  text-decoration: none;
+  font-size: var(--small-font-size);
 }
