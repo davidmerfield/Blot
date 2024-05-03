@@ -2,14 +2,14 @@
 
     <section style="flex-basis: 390px;flex-grow: 0;margin-right: 6em;">
         <p style="margin-top: 0;">Blot turns a folder into a website. Files become posts on your site. Drag-and-drop to publish.</p><p>There’s no interface, just files and folders, so you can use your favorite tools. Write your blog with vim or Microsoft Word. Publish your photos from Lightroom. Work on your site with others using Google Docs.</p>
-        <p>Blot is a lazy way to create a website. Our templates make it possible to create a beautiful website with a few clicks. A gentle way to learn a little more about the internet.  Blot's source code is dedicated to the public domain.</p>
+        <p>Blot's templates make it possible to create a beautiful website with a few clicks. A gentle way to learn a little more about the internet.  Blot's source code is dedicated to the public domain.</p>
         <!-- <p class="sub-link"><a href="/pricing"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0ZM1.5 8a6.5 6.5 0 1 0 13 0 6.5 6.5 0 0 0-13 0Zm4.879-2.773 4.264 2.559a.25.25 0 0 1 0 .428l-4.264 2.559A.25.25 0 0 1 6 10.559V5.442a.25.25 0 0 1 .379-.215Z"></path></svg>Watch the video</a></p> -->
         <!-- We're not a startup and we have no investors, only customers. We've been in business for a decade and we plan to stick around as long as possible.  -->
         <p> We hope you use Blot to make the internet a little more beautiful.</p>
     
         <p class="sub-link" style="margin-top: 2em"><a style="border-radius: 2em;text-decoration:none;padding: 0.5em 1em;background: var(--light-background-color);" href="/watch">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0ZM1.5 8a6.5 6.5 0 1 0 13 0 6.5 6.5 0 0 0-13 0Zm4.879-2.773 4.264 2.559a.25.25 0 0 1 0 .428l-4.264 2.559A.25.25 0 0 1 6 10.559V5.442a.25.25 0 0 1 .379-.215Z"></path></svg>
-            See the video</a></p>
+            Play the video</a></p>
 
         <p class="sub-link focus" style="margin-top: 1.8em;"><a href="/sign-up">
             Create a website   </a>
@@ -17,25 +17,84 @@
         
     </p></section>
 
-    <section style="flex-basis: 390px;background: #F4F3F1;flex-grow: 0;border-radius: 16px;overflow: hidden;">
-        <section style="transform: scale(0.66);margin-top: 0;">
-            <img src="/images/examples/frances/0.png" alt="Blot example" style="width: 100%;height: auto;box-shadow: 0 22px 64px rgba(0,0,0,.46),inset 0 1px 0 #f5f4f5,0 -1px 0 rgba(0,0,0,.11),0 1px 0 rgba(0,0,0,.26),-1px 0 0 rgba(0,0,0,.13),1px 0 0 rgba(0,0,0,.13);">
+    <section class="template-previews">
+        {{#allTemplates}}
+        <section class="template" id="{{slug}}">
+            <section class="browser">
+                <img     src="{{#cdn}}/images/examples/{{slug}}/0.png{{/cdn}}"
+                alt="Blot example">
+            </section>
+            <section class="folder-preview">    
+                <pre class="folder" title="Your site"><code>Pages
+                    About.txt
+                    Contact.docx  
+                    Home.txt
+                    Secret.txt
+                  Posts
+                  
+                  </code></pre>
+            </section>
         </section>
-        <section style="transform: scale(0.5);margin: -5em 2em;">
-            
-  <pre class="folder" title="Your site"><code>Pages
-    About.txt
-    Contact.docx  
-    Home.txt
-    Secret.txt
-  Posts
-  
-  </code></pre>
-        </section>
-        <section style="text-align: center;padding: 2em 0;color:#888">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" style="display: inline-block; vertical-align: text-bottom;"><path d="M9.78 12.78a.75.75 0 0 1-1.06 0L4.47 8.53a.75.75 0 0 1 0-1.06l4.25-4.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042L6.06 8l3.72 3.72a.75.75 0 0 1 0 1.06Z"></path></svg> &nbsp; <span>Blog</span> &nbsp; <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" style="display: inline-block; vertical-align: text-bottom;"><path d="M6.22 3.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042L9.94 8 6.22 4.28a.75.75 0 0 1 0-1.06Z"></path></svg>
-            <!--  -->
+        {{/allTemplates}}
+
+        <section class="template-tabs">
+            {{#allTemplates}}
+            <span class="tab" data-for="{{slug}}">
+                {{name}}
+            </span>
+            {{/allTemplates}}
         </section>
     </section>  
-        
+
 </section>
+<script>
+    document.querySelector('.template-tabs').addEventListener('click', function(e){
+        if(e.target.classList.contains('tab')){
+            const selected = e.target.getAttribute('data-for')
+            document.querySelectorAll('.template').forEach(function(node){
+                if(node.id === selected){
+                    node.style.display = 'block'
+                } else {
+                    node.style.display = 'none'
+                }
+            })
+            document.querySelectorAll('.tab').forEach(function(node){
+                if(node === e.target){
+                    node.classList.add('selected')
+                } else {
+                    node.classList.remove('selected')
+                }
+            })
+        }
+    })
+    document.querySelector('.tab').click()
+</script>
+<style>
+    .template-previews {
+        flex-basis: 390px;background: #F4F3F1;flex-grow: 0;border-radius: 16px;overflow: hidden;
+    }
+
+    .folder-preview {
+        transform: scale(0.5);margin: -6em 2em;
+    }
+
+    .template-previews .browser {
+        transform: scale(0.66);margin-top: 0;
+        }
+    
+    .template-previews .browser img {
+        width: 100%;height: auto;box-shadow: 0 22px 64px rgba(0,0,0,.46),inset 0 1px 0 #f5f4f5,0 -1px 0 rgba(0,0,0,.11),0 1px 0 rgba(0,0,0,.26),-1px 0 0 rgba(0,0,0,.13),1px 0 0 rgba(0,0,0,.13);border-radius: var(--border-radius);
+    }
+
+    .template-tabs {
+        text-align: center;padding: 2em 0;color:#888;font-size: 13px;
+    }
+
+    .tab {
+        display: inline-block;
+        padding: 0.5em
+    }
+    .tab.selected{
+        color:var(--text-color)
+    }
+</style>
