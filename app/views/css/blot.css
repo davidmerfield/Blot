@@ -1,18 +1,16 @@
 html {
 
-  --background-color: #100F0F;
-  --medium-background-color: #282726;
-  --light-background-color: #1C1B1A;
+  --background-color: #fff;
+  --medium-background-color: var(--background-color);
+  --light-background-color: var(--background-color);
 
-  --text-color: #CECDC3;
+  --text-color: #000;
   --medium-text-color: #878580;
   --light-text-color: #575653;
 
-  --accent-color: #4385BE; /* used for links */
-  --light-accent-color: #4385BE; /* used for button background */
-  --dark-accent-color:#205EA6; /* used for button hover background*/
-
-  --secondary-accent-color: #66800B;
+  --accent-color: #00f; /* used for links */
+  --light-accent-color: #00f; /* used for button background */
+  --dark-accent-color:#00f; /* used for button hover background*/
 
   --border-color: #403E3C;
   --dark-border-color: #575653;
@@ -39,31 +37,6 @@ html {
   --max-width: 840px;
 }
 
-/* light mode colors */ 
-@media (prefers-color-scheme: light) {
-  html {
-
-  --background-color: #FFFCF0;
-  --light-background-color: #E6E4D9;
-
-  --text-color: #100F0F;
-  --medium-text-color: #6F6E69;
-  --light-text-color: #B7B5AC;
-
-  --accent-color: #4385BE; /* used for links */
-  --light-accent-color: #4385BE; /* used for button background */
-  --dark-accent-color:#205EA6; /* used for button hover background*/
-
-  --secondary-accent-color: #66800B;
-
-  --border-color: #403E3C;
-  --dark-border-color: #575653;
-  --light-border-color: #B6B4AF;
-
-  --inset-image-border-color: rgba(0,0,0,0.05);
-  
-  }  
-}
 
 
 /* invert colors for print */
