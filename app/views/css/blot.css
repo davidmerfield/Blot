@@ -2,11 +2,11 @@ html {
 
   --background-color: #fff;
   --medium-background-color: var(--background-color);
-  --light-background-color: var(--background-color);
+  --light-background-color: #f0f4ff;
 
   --text-color: #000;
   --medium-text-color: #878580;
-  --light-text-color: #575653;
+  --light-text-color: #8094ca;
 
   --accent-color: #00f; /* used for links */
   --light-accent-color: #00f; /* used for button background */
