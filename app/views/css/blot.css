@@ -936,7 +936,6 @@ ul.pill-navigation {
   display: flex;
   flex-direction: column;
   position: sticky;
-  height: calc(100vh - 6em);
   justify-content: space-between;
   top: 4em;
 }

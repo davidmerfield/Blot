@@ -1,14 +1,14 @@
 {{#folder}}
 
   <div style="overflow:hidden;display:flex;flex-direction:column; 
-    background: var(--light-background-color);
+    border: 1px solid var(--border-color);
     border-radius: 6px;">
 {{#root}}
     
     <a class="line" href="{{{base}}}/client/{{client.name}}">
       <span class="label">Folder</span>
       {{^blog.client}}
-            <span class="link">Choose a way to sync folder</span>
+            <span class="link">Choose a way to sync this folder</span>
           {{/blog.client}}
           {{#blog.client}}
           <span class="center">{{client.display_name}}</span>

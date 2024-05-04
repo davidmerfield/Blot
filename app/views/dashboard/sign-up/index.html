@@ -8,6 +8,7 @@
   border: 1px solid var(--border-color);
   border-radius: 4px;
   padding: 12px 10px;
+  height: 16px;
 }
 
 .tabs {
@@ -53,13 +54,8 @@
 </style>
 <form id="payment-form" method="POST" style="flex-basis:50%;max-width: 360px;">
   
-  <p style="margin-top: 0;">
-    <strong style="font-weight: 600;">Sign up</strong>
-    <span style="color: var(--medium-text-color);">
-      &nbsp;&rarr;&nbsp; Create a website
-    </span>
-  </p>
-<br>
+  {{> sign-up-header}}
+  
     {{#subscription}}
     <p class="success">Thank you for subscribing</p>
     {{/subscription}}
@@ -220,21 +216,37 @@
       // reset the error message and enable the submit button
       document.getElementById('error').style.display = 'none';
       document.querySelector('input[type="submit"]').classList.remove('working');
-      setFocusColor(element._parent.id);
+      setFocusColor(card._parent.id);
     });
-    cardNumber.on('blur', function () {
-      resetFocusColor(element._parent.id);
+    card.on('blur', function () {
+      resetFocusColor(card._parent.id);
     });
 
-  var form = document.getElementById('payment-form');
-  form.addEventListener('submit', function(event) {
-    event.preventDefault();
-    stripe.createToken(cardNumber).then(function(result) {
-      if (result.error) {
-        var errorElement = document.getElementById('error');
-        errorElement.textContent = result.error.message;
+  function renderError(message){
+    var errorElement = document.getElementById('error');
+        errorElement.textContent = message;
         errorElement.style.display = 'block';
         document.querySelector('input[type="submit"]').classList.remove('working');
+
+  }
+
+  var form = document.getElementById('payment-form');
+
+  form.addEventListener('submit', function(event) {
+
+    event.preventDefault();
+
+    // if the email is not valid, prevent the form from submitting
+    if (!document.querySelector('.email').checkValidity()) {
+      return       renderError('Please enter a valid email address');
+
+    }
+
+    stripe.createToken(card).then(function(result) {
+
+      if (result.error) {
+        // Inform the user if there was an error
+        renderError(result.error.message);
       } else {
         // Assume function stripeTokenHandler exists to handle the received token
         stripeTokenHandler(result.token);

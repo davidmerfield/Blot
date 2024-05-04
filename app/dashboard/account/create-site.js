@@ -16,7 +16,7 @@ var updatePayPalSubscription =
 
 CreateBlog.use(function (req, res, next) {
   res.locals.breadcrumbs.forEach(function (link) {
-    if (link.label === "Your account") link.label = "Your sites";
+    if (link.label === "Your account") link.label = "Sites";
   });
   next();
 });
@@ -27,7 +27,7 @@ CreateBlog.route("/paypal").get(async (req, res, next) => {
 
   await updatePayPalSubscription(req.user.paypal.id);
   Email.CREATED_BLOG(req.user.uid);
-  res.redirect("/dashboard/account/add-new-site");
+  res.redirect("/dashboard/account/create-site");
 });
 
 CreateBlog.route("/pay")
@@ -52,7 +52,7 @@ CreateBlog.route("/pay")
   .get(function (req, res) {
     res.locals.breadcrumbs = res.locals.breadcrumbs.slice(0, -1);
     res.locals.breadcrumbs[res.locals.breadcrumbs.length - 1].last = true;
-    res.render("account/add-new-site-pay", {
+    res.render("account/create-site-pay", {
       title: "Create a site",
       not_paid: true,
       breadcrumb: "Create site",
@@ -98,7 +98,7 @@ CreateBlog.route("/")
 
   .get(function (req, res) {
     res.locals.blog = {};
-    res.render("account/add-new-site", {
+    res.render("account/create-site", {
       title: "Create a blog",
       first_blog: req.user.blogs.length === 0,
       breadcrumb: "Create a blog"
@@ -107,7 +107,7 @@ CreateBlog.route("/")
 
   .post(parse, saveBlog, function (req, res) {
     res.message(
-      `/dashboard/${req.blog.handle}/client?setup=true`,
+      `/dashboard/${req.blog.handle}`,
       "Saved your title"
     );
   })

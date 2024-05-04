@@ -1,11 +1,15 @@
 
-<div style="padding: 0 1.5em 0;margin: -1em -1.5em 0;">
-  <!-- <a class="line" href="{{blog.pretty.url}}">
-    <span class="center"><span style="color:var(--secondary-accent-color)">https://{{blog.pretty.url}}</span></span>
-    <span class="right">Visit</span>
-  </a> -->
 
-  
+
+<div class="collapse-on-small-screens" >
+
+  <div style="flex-basis: 50%;">
+    {{> folder}}
+  </div>
+
+  <div style="flex-basis: 50%;">
+
+    <div>
 
   <a class="line" href="{{{base}}}/title" style="border-top:1px solid var(--light-border-color)">
     <span class="label">Title</span>
@@ -67,85 +71,64 @@
   <span class="right" >Edit</span>
 </a>  
   
-      </div>
-</section>
-
-<div class="collapse-on-small-screens" style="margin-top: -2em;">
-
-  <div style="flex-basis: 50%;">
-    {{> folder}}
-  </div>
-
-  <div style="flex-basis: 50%;">
-
-
-
-    <div style="background-color: var(--light-background-color);border-radius: 4px;">
-        <a class="line" >
-      <span class="label">Settings</span>
-      
-    </a>
+    
+    <br>
+    
     
 
 
 
   <a class="line" href="{{{base}}}/date">
     <span class="label">Date and time</span>
-    <span class="center">{{currentTime}}</span>
-    <span class="right" >Edit</span>    
+    <span class="right" >&rarr;</span>    
   </a>
   
   <a class="line" href="{{{base}}}/link-format">
     <span class="label">Link format</span>
-    <span class="center">
-      {{#permalinkFormats}}
-      {{#checked}}{{example}}{{/checked}}{{/permalinkFormats}}
-    </span>
-    <span class="right" >Edit</span>
+    <
+    <span class="right" >&rarr;</span>
   </a>
 
   <a class="line" href="{{{base}}}/redirects">
     <span class="label">Redirects</span>
-    <span class="link">Edit your redirect rules</span>
+    <span class="right" >&rarr;</span>
   </a>
   
 
   <a class="line" href="{{{base}}}/services">
     <span class="label">Services</span>
-    <span class="link">Analytics, comments</span>
+    <span class="right" >&rarr;</span>
   </a>
 
 
   <a class="line" href="{{{base}}}/images">
     <span class="label">Images</span>
-    <span class="link">Edit image settings</span>
+    <span class="right" >&rarr;</span>
   </a>
 
 
   <a class="line" href="{{{base}}}/typography">
     <span class="label">Typography</span>
-    <span class="link">Edit typography settings</span>
+    <span class="right" >&rarr;</span>
   </a>
   <a class="line" href="{{{base}}}/import">
     <span class="label">Import</span>
-    <span class="link">Import from elsewhere</span>
+    <span class="right" >&rarr;</span>
   </a>
 
 
   <a class="line" href="/dashboard/account/export">
     <span class="label">Export</span>
-    <span class="center">
-      <span class="link">Export this site</span>
-    </span> 
+    <span class="right" >&rarr;</span>
+
   </a>
 
  <a  style="border-bottom: none;" class="line" href="{{{base}}}/delete">
    <span class="label">
       Delete
     </span>
-    <span class="link">
-      Delete this site
-    </span>
+    <span class="right" >&rarr;</span>
+
   </a>
   <!-- 
     <a class="line" href="{{{base}}}/photo">

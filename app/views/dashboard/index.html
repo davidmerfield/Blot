@@ -11,7 +11,7 @@
 <div style="flex-grow: 1">  
 	
 		
-		<div style="padding: 0 2rem">
+		<div style="padding: 0">
 		  {{#blogs}}
 			<a href="/dashboard/{{handle}}" class="bordered-button blog-link" style="display: flex;justify-content: space-between;margin: 0 0 1em">
 			  
@@ -23,8 +23,8 @@
 			</a>
 			{{/blogs}}
 
-			<a href="/dashboard/account/add-new-site" class="bordered-button">
-			  {{#blogs.length}}Add new{{/blogs.length}}{{^blogs.length}}Create first{{/blogs.length}} site</span>
+			<a href="/dashboard/account/create-site" class="bordered-button">
+			  Create a website</span>
 			</a>		<br><br>
 
 

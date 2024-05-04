@@ -13,13 +13,9 @@
 
     .authenticate-container form {
       border-radius: var(--border-radius);
-      padding: 0 4em;
+      max-width: 360px;
     }
   
-  
-    .authenticate-container {
-      max-width: 500px;
-      }
   
       .authenticate-container input[type="submit"].link {
       font: inherit;

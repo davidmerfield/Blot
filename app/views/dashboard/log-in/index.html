@@ -2,16 +2,12 @@
 
   <form method="POST">
 
-    {{#out}}
-   <p class="authentication-success">
-     You have been logged out
-    </p>
-  {{/out}}
+    
   
   <p style="margin-top: 0;margin-bottom: 2em;">
     <strong style="font-weight: 600;">Log in</strong>
     <span style="color: var(--medium-text-color);">
-      &thinsp;&nbsp;&rarr;&nbsp;&thinsp; {{^then}}Your sites{{/then}}
+      &thinsp;&nbsp;&rarr;&nbsp;&thinsp; {{^then}}Sites{{/then}}
     {{#then}}
       {{#then_description}}To {{then_description}}{{/then_description}}
       {{^then_description}}To access your dashboard{{/then_description}}
@@ -19,6 +15,11 @@
     </span>
   </p>
   
+  {{#out}}
+  <p class="authentication-success">
+    You have been logged out
+   </p>
+ {{/out}}
 
   {{#BADTOKEN}}
   <p class="error">The link to set your password has expired</p>

@@ -174,7 +174,7 @@ dashboard.use("/:handle", function (req, res, next) {
   // we use pretty.label instead of title for title-less blogs
   // this falls back to the domain of the blog if no title exists
   res.locals.base = `/dashboard/${req.params.handle}`;
-  res.locals.breadcrumbs.add("Your sites", "/dashboard");
+  res.locals.breadcrumbs.add("Sites", "/dashboard");
   res.locals.breadcrumbs.add(req.blog.pretty.label, `${req.params.handle}`);
   res.locals.title = req.blog.pretty.label;
   next();
@@ -186,8 +186,8 @@ dashboard.use("/:handle/template/edit", require("./template-editor"));
 dashboard.use("/:handle/status", require("./status"));
 
 dashboard.get("/", require("./load-blogs"), function (req, res) {
-  res.locals.title = "Your sites";
-  res.locals.breadcrumbs.add("Your sites", "/dashboard");
+  res.locals.title = "Sites";
+  res.locals.breadcrumbs.add("Sites", "/dashboard");
   res.render("index");
 });
 
