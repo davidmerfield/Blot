@@ -5,6 +5,7 @@ var save = require("./save");
 var trace = require("helper/trace");
 var parse = require("dashboard/parse");
 var Template = require("models/template");
+var config = require("config");
 
 settings.use(function (req, res, next) {
   res.locals.selected = { settings: "selected", dashboard: "selected" };
@@ -50,8 +51,11 @@ settings
     load.permalinkFormats,
     load.dates,
     function (req, res) {
-      res.render("settings", { title: req.blog.pretty.label });
-    }
+      res.render("settings", { 
+          title: req.blog.pretty.label, 
+          preview: `https://preview-of-my-${res.locals.template.slug}-on-${req.blog.handle}.${config.host}`
+       })
+      }
   );
 
 settings.get(["/services", "/images", "/typography"], load.plugins);
