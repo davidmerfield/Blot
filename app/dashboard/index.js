@@ -77,7 +77,8 @@ dashboard.locals.partials = {
   breadcrumbs: VIEW_DIRECTORY + "/../partials/breadcrumbs.html",
   sidebar: VIEW_DIRECTORY + "/../partials/sidebar.html",
   links: VIEW_DIRECTORY + "/../partials/links.html",
-  footer: VIEW_DIRECTORY + "/../partials/footer.html"
+  footer: VIEW_DIRECTORY + "/../partials/footer.html",
+  navigation: VIEW_DIRECTORY + "/../partials/navigation.html",
 };
 
 dashboard.use(trace("loading session information"));

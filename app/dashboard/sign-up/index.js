@@ -19,7 +19,6 @@ signup.use(function (req, res, next) {
   if (req.session && req.session.uid) return res.redirect("/dashboard");
 
   res.header("Cache-Control", "no-cache");
-  res.locals.layout = "partials/layout-form";
 
   return next();
 });

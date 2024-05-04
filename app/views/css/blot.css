@@ -5,16 +5,16 @@ html {
   --light-background-color: #f0f4ff;
 
   --text-color: #000;
-  --medium-text-color: #878580;
+  --medium-text-color: #909bb0;
   --light-text-color: #8094ca;
 
   --accent-color: #00f; /* used for links */
   --light-accent-color: #00f; /* used for button background */
   --dark-accent-color:#00f; /* used for button hover background*/
 
-  --border-color: #403E3C;
-  --dark-border-color: #575653;
-  --light-border-color: #222120;
+  --border-color: #DEDEF9;
+  --dark-border-color: #DEDEF9;
+  --light-border-color: #DEDEF9;
   --inset-image-border-color: rgba(255,255,255,0.05);
 
   --error-text-color: #f76f6c;
@@ -977,7 +977,7 @@ ul.pill-navigation {
   vertical-align: middle;
   margin-right: 0.3em;
   position: relative;
-  top:-0.05em
+  top:-0.06em
 }
 
 .sub-link.focus a{

@@ -15,7 +15,9 @@ justify-content: space-between;">
 {{/user}}
 </div>
 
+{{#breadcrumbs.length}}
 <br />
+{{/breadcrumbs.length}}
 {{/hidebreadcrumbs}}
 
 <style>
@@ -31,15 +33,4 @@ justify-content: space-between;">
   }
 
 
-  {{#user}}
-  #breadcrumbs a:first-child {
-  padding-left: 1em;}
-
-  #breadcrumbs a {
-    padding: 0.5em 0.2em;
-    display: inline-block;
-    font-size: var(--large-font-size);
-  }
-
-  {{/user}}
 </style>

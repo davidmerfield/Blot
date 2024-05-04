@@ -35,7 +35,6 @@ form.use(function (req, res, next) {
 
   res.header("Cache-Control", "no-cache");
   res.locals.title = "Log in";
-  res.locals.layout = "partials/layout-form";
   res.locals.from = req.query.from;
   res.locals.then = req.query.then;
   res.locals.then_description = DASHBOARD_PAGE_DESCRIPTION[req.query.then];

@@ -1,16 +1,14 @@
 <style>
-  .header a svg {width:1.5em;fill: var(--text-color);
-   
-  stroke: var(--text-color)}
+  .header a svg {vertical-align: middle;position: relative;top: -0.1em;fill:currentColor}
   .header a:hover {color: var(--accent-color);}
-  .header a:hover svg {fill: var(--accent-color);stroke: var(--accent-color);}
+  .header a:hover svg {fill: currentColor;}
 </style>
 
 <input type="checkbox" id="menu-toggle" style="display: none;">
 <div
   class="header"
   style="
-    padding: 1em 2em;
+    padding: 2em 2em 0;
   ">
   <div
     style="
@@ -20,20 +18,19 @@
       align-items: center;
       margin: 0 auto;
     ">
-          <a href="/">
+          <a id="home-link" href="/">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><path d="M0 2.75C0 1.784.784 1 1.75 1H5c.55 0 1.07.26 1.4.7l.9 1.2a.25.25 0 0 0 .2.1h6.75c.966 0 1.75.784 1.75 1.75v8.5A1.75 1.75 0 0 1 14.25 15H1.75A1.75 1.75 0 0 1 0 13.25Zm1.75-.25a.25.25 0 0 0-.25.25v10.5c0 .138.112.25.25.25h12.5a.25.25 0 0 0 .25-.25v-8.5a.25.25 0 0 0-.25-.25H7.5c-.55 0-1.07-.26-1.4-.7l-.9-1.2a.25.25 0 0 0-.2-.1Z"></path></svg>
            Blot </a> 
-
-     
-      
-      
 <div style="flex-grow: 1;"></div>
 
     <div style="display: flex;justify-content: flex-end;" class="cta">
-      
-      <a class="signed-in" href="/dashboard">Your sites</a>
+      {{^selected.dashboard}}
       <a class="signed-out" href="/log-in">Log in</a>
       <a class="signed-out" href="/sign-up">Sign up</a>
+      {{/selected.dashboard}}
+      {{#selected.dashboard}}
+      <a class="signed-out" href="/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><path d="M3.72 3.72a.75.75 0 0 1 1.06 0L8 6.94l3.22-3.22a.749.749 0 0 1 1.275.326.749.749 0 0 1-.215.734L9.06 8l3.22 3.22a.749.749 0 0 1-.326 1.275.749.749 0 0 1-.734-.215L8 9.06l-3.22 3.22a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042L6.94 8 3.72 4.78a.75.75 0 0 1 0-1.06Z"></path></svg></a>
+      {{/selected.dashboard}}
       <a href="#!" id="toggle-container">
         Menu <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="12" height="12"><path d="M1 2.75A.75.75 0 0 1 1.75 2h12.5a.75.75 0 0 1 0 1.5H1.75A.75.75 0 0 1 1 2.75Zm0 5A.75.75 0 0 1 1.75 7h12.5a.75.75 0 0 1 0 1.5H1.75A.75.75 0 0 1 1 7.75ZM1.75 12h12.5a.75.75 0 0 1 0 1.5H1.75a.75.75 0 0 1 0-1.5Z"></path></svg><label for="menu-toggle"></label></a>
       <script type="text/javascript">
@@ -54,7 +51,7 @@
   
   /* collapse and show menu */
 
-  #toggle-container, .header a[href="/"] {
+  #toggle-container, .header a#home-link {
     display: none;
     position: relative;
   }
@@ -69,7 +66,7 @@
   }
 
   @media (max-width: 768px) {
-    .header a[href="/"] {
+    .header a#home-link {
       justify-content: center;display:flex
         }
     #toggle-container {
