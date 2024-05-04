@@ -11,16 +11,32 @@
 <div style="flex-grow: 1">  
 	
 		
-		<div style="padding: 0">
+		<div style="padding: 0;">
 		  {{#blogs}}
-			<a href="/dashboard/{{handle}}" class="bordered-button blog-link" style="display: flex;justify-content: space-between;margin: 0 0 1em">
+		  <div style="position: relative;">
+		
+			<a href="/dashboard/{{handle}}" class="bordered-button blog-link" style="display: flex;justify-content: space-between;margin:0;border-radius: 0;border:none;padding-left: 90px;border-top: 1px solid #eee;">
 			  
 			  <span style="font-weight:400;line-height: 1.4;padding: 12px 0">
-				  <span class="title">{{pretty.label}}</span><br>
+				  <span class="title" style="text-decoration: underline;">{{pretty.label}}</span><br>
 				  <span style="color:var(--light-text-color);font-weight:400;height:1.4em;font-size:var(--small-font-size)">{{pretty.url}}</span>
 				</span>
 			  </button>
 			</a>
+			<div class="preview" style="height: 40px;width: 60px;overflow: hidden;
+			position: absolute;top:10px;left: 0;
+			margin:4px 0 10px;
+			box-shadow: 0 22px 64px rgba(0,0,0,.16),inset 0 1px 0 #f5f4f5,0 -1px 0 rgba(0,0,0,.11),0 1px 0 rgba(0,0,0,.26),-1px 0 0 rgba(0,0,0,.13),1px 0 0 rgba(0,0,0,.13);
+			border-radius: var(--border-radius);border-radius: var(--border-radius);">
+			  <iframe
+			  id="preview"
+			style="height:800px;width:1200px;background:var(--background-color);transform: scale(0.05);    transform-origin: top left;"
+			src="https://{{{blog.pretty.url}}}"
+			></iframe>
+			<a target="_blank" href="https://{{{blog.pretty.url}}}" style="position: absolute;top:0;left: 0;bottom: 0;right: 0;"></a>
+			</div>
+		</div>
+		
 			{{/blogs}}
 
 			<a href="/dashboard/account/create-site" class="bordered-button">
