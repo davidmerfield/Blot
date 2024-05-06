@@ -1,11 +1,11 @@
 {{#folder}}
 
-  <div style="overflow:hidden;display:flex;flex-direction:column; 
+  <div class="folder-top" style="display:flex;flex-direction:column; 
     border: 1px solid var(--border-color);
     border-radius: 6px;">
 {{#root}}
     
-    <a class="line" href="{{{base}}}/client/{{client.name}}">
+    <a class="line" style="border-radius: 4px 0 0 0;" href="{{{base}}}/client/{{client.name}}">
       <span class="label">Folder</span>
       {{^blog.client}}
             <span class="link">Choose a way to sync this folder</span>
@@ -17,7 +17,7 @@
           </a>
     {{/root}}
 
-<div class="folder-box live-updates" style="min-height: 235px;">
+<div class="folder-box live-updates" >
 
 {{#directory}}
 {{> folder-directory}}
@@ -30,7 +30,7 @@
 </div>
 
 {{#blog.client}}
-<a class="line" style="font-size:16px;color:var(--light-text-color);border-top:1px solid var(--border-color)" href="{{{base}}}/client"><span class="center" style="display: flex;"><span id="status" style="display: block;" class="truncate status">{{blog.status.message}} {{blog.status.fromNow}}</span><span style="white-space: nowrap"></a>
+<a class="line" style="font-size:14px;border-radius: 0 0 4px 4px;border-bottom:none;color:var(--light-text-color);border-top:1px solid var(--border-color)" href="{{{base}}}/client/activity"><span class="center" style="display: flex;"><span id="status" style="display: block;" class="truncate status">{{blog.status.message}} {{blog.status.fromNow}}</span><span style="white-space: nowrap"></a>
 {{/blog.client}}
 </div>
 {{/folder}}
@@ -49,3 +49,36 @@ as part of a sentence, we lowercase it.
 <script type="text/javascript" src="/js/sync_status.js"></script>
 {{/footer}}
 
+<style>
+  .folder-top {
+    position: relative;
+    overflow: visible;
+  }
+
+  .folder-top:before {
+    width: 0.8em;
+    z-index: 2;
+    height: 0.3em;
+    transform: rotate(45deg);
+    transform-origin: 0 0;
+    content: ' ';
+    background: var(--background-color);
+    border-bottom: 1px solid var(--border-color);
+    position: absolute;
+    top: -4px;
+    left: 25%;
+  }
+
+  .folder-top:after {
+    width: 75%;
+    z-index: 1;
+    height: 0.5em;
+    content: ' ';
+    background: white;
+    border-bottom: 1px solid var(--border-color);
+    position: absolute;
+    top: -1px;
+    right: -1px;
+  }
+
+</style>

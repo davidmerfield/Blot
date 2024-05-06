@@ -36,6 +36,7 @@
       border: none;
       cursor: pointer;
   background-color:var(--dark-accent-color);
+  font-weight: 600;
     }
 
     .buttons :first-child:hover {
@@ -68,7 +69,7 @@
         border-radius: 4px;
       text-decoration: none;
       color: var(--medium-text-color);
-      background-color: var(--light-border-color);
+      background-color: #ececec;
   }
   
   .buttons :last-child:hover {

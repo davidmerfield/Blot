@@ -8,7 +8,7 @@
         {{> navigation}}
         </section>
       <section style="padding: 2em 2em 6em 2em;flex-grow:1">
-        <section class="{{#user}}dashboard-container{{/user}}" style="{{^user}}min-height: 80vh;padding-bottom:8em;{{/user}}">
+        <section class="{{#user}}dashboard-container{{/user}}" style="min-height: 80vh;{{^user}}padding-bottom:8em;{{/user}}">
           {{> breadcrumbs}}
           {{> body}}
         </section>
@@ -17,14 +17,10 @@
     </section>
     <style>
       .dashboard-container {
-      }
-  
-      @media (max-width: 768px) {
-          .dashboard-container {
-              top: 0;
-          }
+        padding-top: 1.5em;
       }
   </style>
+
     {{> footer}}
   </body>
 </html>

@@ -1,11 +1,11 @@
 
 
 {{^contents.length}}
-  <small style="display: flex;height: 200px;
-    color: rgb(158, 154, 152);justify-content: center;">
+  <small style="display: flex;flex-grow: 1;min-height: 200px;
+    color: var(--light-text-color);justify-content: center;">
 
   {{#root}}
-  <span style="align-self: center;">Your folder is empty.</span>
+  <span style="align-self: center;">This folder is empty.</span>
   
   {{/root}}
   {{^root}}

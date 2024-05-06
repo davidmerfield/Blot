@@ -180,7 +180,7 @@ mark {
 }
 
 h1 {
-  font-size: 24px;
+  font-size: 20px;
   display: block;
   font-weight: 600;
   line-height: 1.15;
@@ -956,18 +956,24 @@ ul.pill-navigation {
   white-space: nowrap;
   text-decoration: none;
   display: block;
-  padding:0.25em 0.66em;
-  padding-right: 1.333em;
+  padding:0.3em 0.8em;
+  margin-bottom: 0.2em;
+  padding-right: 4.8em;
   border-radius: var(--border-radius);
-  transition: background 0.2s;
+  transition: background 0.2s, color 0.2s;
 }
 
 .navigation a:hover {
-  background: #f0f4ff;
+  background: #f0f4ff78;
 } 
+
+.navigation a:focus {
+  opacity: 0.5;
+}
 
 .navigation a.selected {
   background: #f0f4ff;
+  color: var(--accent-color)
 }
 
 .navigation a svg,

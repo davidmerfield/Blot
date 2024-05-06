@@ -7,15 +7,18 @@
 .line {
   display: flex;
   flex-wrap: wrap;
-  padding: 10px 20px;
+  padding: 0.5em 1em;
+  line-height: 1.3333;
   border-bottom: 1px solid var(--light-border-color);
+  background-color: var(--background-color);
+  transition: background-color 0.2s;
 }
 
 
 a.line:hover,
 div.line a.link:hover,
 .line form button:hover {
-  background: var(--accent-color)
+  background: #f0f4ff70;
 }
 
 a.line:active,
