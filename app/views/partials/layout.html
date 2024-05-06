@@ -3,19 +3,19 @@
   {{> head}}
   <body>
     {{> header}}
-    <section style="display: flex;max-width: 1000px;margin: 0 auto;padding: 2em 0">
-      <section  style="flex-grow:0;flex-shrink:0;padding: 0 2em;position: sticky;top:3rem;max-height:80vh;">
+    <section style="display: flex;max-width: 1060px;margin: 0 auto;padding: 2em 0">
+      <section  style="flex-grow:0;flex-shrink:0;padding-right: 3rem;position: sticky;top:3rem;max-height:80vh;width: 25%;box-sizing: border-box;">
         {{> navigation}}
         </section>
-      <section style="padding: 0 2em 4em 2em;flex-grow:1">
+      <section style="flex-grow:1;padding-left: 2rem;">
         <section style="min-height: 80vh;{{^user}}padding-bottom:8em;{{/user}}">
           {{> breadcrumbs}}
           {{#selected.how}}
           <section style="display: flex;">
-            <section style="flex-basis: 80%;">
+            <section style="flex-basis: 66.6666%;">
               {{> body}}
             </section>
-            <section>
+            <section style="flex-basis: 33.3333%;padding-left: 3rem;box-sizing: border-box;">
               {{> links}}
             </section>
           </section>

@@ -1,4 +1,7 @@
-<ul style="list-style: none;padding: 0 0 0 4rem;font-size: 15px;">
+<ul class="doc-nav" style="list-style: none;padding: 0 0 0 3rem;font-size: 15px;">
+  <li>
+    <a class="{{ selected.howIndex }}" href="/how">Getting started</a>
+  </li>
   <li>
     <a
       class="{{ selected.syncIndex }}"
@@ -131,3 +134,9 @@
     
 
     </ul> 
+    <style>
+      .doc-nav .selected {
+        text-decoration: none;
+        color: var(--text-color)
+      }
+    </style>
