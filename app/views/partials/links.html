@@ -1,4 +1,4 @@
-<ul class="doc-nav" style="list-style: none;padding: 0 0 0 3rem;font-size: 15px;">
+<ol class="path doc-nav" style="list-style: none;font-size: 15px;">
   <li>
     <a class="{{ selected.howIndex }}" href="/how">Getting started</a>
   </li>
@@ -21,64 +21,63 @@
       </li>
     </ul>
   </li>
-    <li>
-      <a href="">Sub-folders</a>
-      <ul>
-        <li>
-          <a class="{{ selected.pages }}" href="/how/posts/pages"
-            >Pages</a
-          >
-        </li>
-        <li>
-          <a class="{{ selected.drafts }}" href="/how/posts/drafts"
-            >Drafts</a
-          >
-        </li>
-        <li>
-          <a class="{{ selected.media }}" href="/how/posts/media"
-            >Tags</a
-          >
-        </li>  
-      </ul>
-    </li>
+    
     <li>
       <a
-        class="{{ selected.postsIndex }}"
-        data-open="{{ selected.posts }}"
-        href="/how/posts"
+        class="{{ selected.filesIndex }}"
+        data-open="{{ selected.files }}"
+        href="/how/files"
         >Files</a
       >
       <ul>
 
-       
-        
-          <li><a href="/how/posts/markdown">Markdown</a></li>
+          <li><a  class="{{ selected.markdown }}"  href="/how/files/markdown">Markdown</a></li>
           
-          <li><a href="/how/posts/images">Images</a></li>
+          <li ><a class="{{ selected.images }}" href="/how/files/images">Images</a></li>
      
-          <li><a href="/how/posts/word-documents">Word Docs</a></li>
+          <li><a  class="{{ selected.word-documents }}" href="/how/files/word-documents">Word Docs</a></li>
           
-          <li><a href="/how/posts/google-docs">Google Docs</a></li>
+          <li ><a class="{{ selected.google-docs }}" href="/how/files/google-docs">Google Docs</a></li>
           
-          <li><a href="/how/posts/bookmarks">Bookmarks</a></li>
+          <li ><a class="{{ selected.bookmarks }}" href="/how/files/bookmarks">Bookmarks</a></li>
      
-          <li><a href="/how/posts/html">HTML</a></li>
+          <li ><a class="{{ selected.html }}" href="/how/files/html">HTML</a></li>
      
-           <li><a href="/how/posts/org">Org Mode</a></li>
+           <li ><a class="{{ selected.org }}" href="/how/files/org">Org Mode</a></li>
         
          
       </ul>
     </li>
     <li>
-      <a class="{{ selected.metadata }}" href="/how/posts/metadata"
+      <a class="{{ selected.metadata }}" href="/how/metadata"
         >Metadata</a
       >
     </li>
-  
     <li>
-      <a href="">Formatting</a>
+      <a href="/how/sub-folders">Sub-folders</a>
       <ul>
-        <li><a href="/how/posts/tex">\(\TeX\)</a> </li>
+        <li>
+          <a class="{{ selected.pages }}" href="/how/sub-folders/pages"
+            >Pages</a
+          >
+        </li>
+        <li>
+          <a class="{{ selected.drafts }}" href="/how/sub-folders/drafts"
+            >Drafts</a
+          >
+        </li>
+        <li>
+          <a class="{{ selected.templates }}" href="/how/sub-folders/templates"
+            >Drafts</a
+          >
+        </li>
+        
+      </ul>
+    </li>
+    <li>
+      <a href="/how/formatting">Formatting</a>
+      <ul>
+        <li><a href="/how/posts/tex">Mathematics</a> </li>
         <li><a href="/how/posts/layout-tags">Layout</a> </li>
         <li><a href="/how/posts/embedding">Embedding</a> </li>
         <li><a href="/how/posts/citations">Citations</a> </li>
@@ -133,14 +132,15 @@
     </li>
     
 
-    </ul> 
+  </ol> 
+
     <style>
-      .doc-nav {margin-top: 2.5rem;border-left: 1px solid #f0f0f0;}
+      .doc-nav {margin-top: 2.5rem;}
 
       .doc-nav > li {
         padding: 4px 0;
-        border-bottom: 1px solid #f0f0f0;
       }
+
       .doc-nav .selected {
         text-decoration: none;
         color: var(--text-color)

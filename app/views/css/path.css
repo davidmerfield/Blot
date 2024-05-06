@@ -1,0 +1,48 @@
+ol.path {
+    margin: 1rem 0 2.8rem;
+    padding: 0;
+  }
+
+  ol.path > li {
+    position: relative;
+    border-left: 1px solid red;
+    padding-left: 1em;
+  }
+
+  ol.path li:last-child:before,
+  ol.path li:first-child:before {
+    content: "";
+    width: 1px;
+    position: absolute;
+    left: -1px;
+    background: var(--background-color);
+  }
+
+  ol.path li:first-child:before {
+    top: 0;
+    height: 10px;
+  }
+
+  ol.path li:last-child:before {
+    top: 8px;
+    bottom: 0;
+  }
+
+  ol.path li:first-child:last-child:before {
+    top: 0;
+    bottom: 0;
+    height: auto;
+  }
+
+  ol.path li:after {
+    content: "";
+    width: 5px;
+    position: absolute;
+    top: 9px;
+    left: -3px;
+    height: 5px;
+    background: var(--background-color);
+    border: 1px solid var(--light-border-color);
+    border-radius: 100%;
+    font-size: 0.5em;
+  }

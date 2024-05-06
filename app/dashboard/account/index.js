@@ -8,7 +8,7 @@ const type = require("helper/type");
 const Email = require("helper/email");
 
 Account.use(function (req, res, next) {
-  res.locals.breadcrumbs.add("Your account", "/account");
+  res.locals.breadcrumbs.add("Account", "/account");
   res.locals.account = true;
   next();
 });
