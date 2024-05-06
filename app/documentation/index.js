@@ -126,7 +126,6 @@ documentation.get("/", require("./templates"), function (req, res, next) {
 });
 
 documentation.get("/examples", require("./featured"), require("./templates"));
-
 documentation.get("/examples/templates", require("./templates"));
 documentation.get("/examples/folders", require("./templates"));
 

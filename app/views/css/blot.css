@@ -958,7 +958,7 @@ ul.pill-navigation {
   display: block;
   padding:0.3em 0.8em;
   margin-bottom: 0.2em;
-  padding-right: 4.8em;
+  padding-right: 2.4em;
   border-radius: var(--border-radius);
   transition: background 0.2s, color 0.2s;
 }

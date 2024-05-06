@@ -57,6 +57,8 @@ module.exports = async (req, res, next) => {
         .includes(i.slug)
   );
 
+  console.log('HERE', res.locals.allFolders)
+
   if (req.params.template) {
     try {
       const template = res.locals.allTemplates.find(

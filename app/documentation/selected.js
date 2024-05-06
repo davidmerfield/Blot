@@ -1,7 +1,7 @@
 var titleFromSlug = require("helper/titleFromSlug");
 
 var TITLES = {
-  "how": "How to use Blot",
+  "how": "Documentation",
   "terms": "Terms of use",
   "privacy": "Privacy policy",
   "posts": "Files and posts",

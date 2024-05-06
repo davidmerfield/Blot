@@ -3,15 +3,28 @@
   {{> head}}
   <body>
     {{> header}}
-    <section style="display: flex;">
-      <section  style="flex-grow:0;flex-shrink:0;padding: 1.5em 2em;position: sticky;top:4em;max-height:80vh;margin-right: 3vw;">
+    <section style="display: flex;max-width: 1000px;margin: 0 auto;padding: 2em 0">
+      <section  style="flex-grow:0;flex-shrink:0;padding: 0 2em;position: sticky;top:3rem;max-height:80vh;">
         {{> navigation}}
         </section>
-      <section style="padding: 2em 2em 6em 2em;flex-grow:1">
-        <section class="{{#user}}dashboard-container{{/user}}" style="min-height: 80vh;{{^user}}padding-bottom:8em;{{/user}}">
+      <section style="padding: 0 2em 4em 2em;flex-grow:1">
+        <section style="min-height: 80vh;{{^user}}padding-bottom:8em;{{/user}}">
           {{> breadcrumbs}}
+          {{#selected.how}}
+          <section style="display: flex;">
+            <section style="flex-basis: 80%;">
+              {{> body}}
+            </section>
+            <section>
+              {{> links}}
+            </section>
+          </section>
+          {{/selected.how}}
+          {{^selected.how}}
           {{> body}}
+          {{/selected.how}}
         </section>
+       
         {{> footer-page}}
       </section>
     </section>

@@ -1,26 +1,26 @@
-<li>
-  <a
-    style="border-top: none"
-    class="{{ selected.howIndex }}"
-    data-open="{{ selected.how }}"
-    href="/how"
-    >How to use Blot</a
-  ><ul>
-
+<ul style="list-style: none;padding: 0 0 0 4rem;font-size: 15px;">
+  <li>
+    <a
+      class="{{ selected.syncIndex }}"
+      data-open="{{ selected.sync }}"
+      href="/how/sync"
+      >Sync your folder</a
+    >
+    <ul>
+      <li>
+        <a class="{{ selected.dropbox }}" href="/how/sync/dropbox">Dropbox</a>
+      </li>
+      <li><a class="{{selected.git }}" href="/how/sync/git">Git</a></li>
+      <li>
+        <a class="{{selected.google-drive}}" href="/how/sync/google-drive"
+          >Google Drive</a
+        >
+      </li>
+    </ul>
+  </li>
     <li>
-      <a
-        class="{{ selected.postsIndex }}"
-        data-open="{{ selected.posts }}"
-        href="/how/posts"
-        >Files and posts</a
-      >
+      <a href="">Sub-folders</a>
       <ul>
-
-        <li>
-          <a class="{{ selected.metadata }}" href="/how/posts/metadata"
-            >Metadata</a
-          >
-        </li>
         <li>
           <a class="{{ selected.pages }}" href="/how/posts/pages"
             >Pages</a
@@ -31,28 +31,58 @@
             >Drafts</a
           >
         </li>
-        
+        <li>
+          <a class="{{ selected.media }}" href="/how/posts/media"
+            >Tags</a
+          >
+        </li>  
       </ul>
     </li>
     <li>
       <a
-        class="{{ selected.syncIndex }}"
-        data-open="{{ selected.sync }}"
-        href="/how/sync"
-        >Sync your folder</a
+        class="{{ selected.postsIndex }}"
+        data-open="{{ selected.posts }}"
+        href="/how/posts"
+        >Files</a
       >
       <ul>
-        <li>
-          <a class="{{ selected.dropbox }}" href="/how/sync/dropbox">Dropbox</a>
-        </li>
-        <li><a class="{{selected.git }}" href="/how/sync/git">Git</a></li>
-        <li>
-          <a class="{{selected.google-drive}}" href="/how/sync/google-drive"
-            >Google Drive</a
-          >
-        </li>
+
+       
+        
+          <li><a href="/how/posts/markdown">Markdown</a></li>
+          
+          <li><a href="/how/posts/images">Images</a></li>
+     
+          <li><a href="/how/posts/word-documents">Word Documents</a></li>
+          
+          <li><a href="/how/posts/google-docs">Google Docs</a></li>
+          
+          <li><a href="/how/posts/bookmarks">Bookmarks</a></li>
+     
+          <li><a href="/how/posts/html">HTML</a></li>
+     
+           <li><a href="/how/posts/org">Org Mode</a></li>
+        
+         
       </ul>
     </li>
+    <li>
+      <a class="{{ selected.metadata }}" href="/how/posts/metadata"
+        >Metadata</a
+      >
+    </li>
+  
+    <li>
+      <a href="">Formatting</a>
+      <ul>
+        <li><a href="/how/posts/tex">\(\TeX\)</a> </li>
+        <li><a href="/how/posts/layout-tags">Layout</a> </li>
+        <li><a href="/how/posts/embedding">Embedding</a> </li>
+        <li><a href="/how/posts/citations">Citations</a> </li>
+        <li><a href="/how/posts/wikilinks">Wikilinks</a> </li>
+      </ul>
+    </li>
+    
     
     
     <li>
@@ -98,64 +128,6 @@
         </li>
       </ul>
     </li>
-    <li>
-      <a
-        class="{{ selected.tools }}"
-        href="/tools"
-        >Tools</a
-      >
-      
-    </li> 
+    
 
     </ul> 
-    </li> 
-
-    <li>
-      <a href="/examples" class="{{ selected.examples }}"
-        >Example sites</a>
-    </li>
-    
-    <li>
-      <a href="/questions" class="{{ selected.questions }}"
-        >Questions</a>
-</li> 
-<li class="signed-out">
-  <a href="/pricing" class="{{ selected.pricing }}"
-    >Pricing</a>
-</li>
-<script type="text/javascript">
-  if (document.cookie.indexOf('signed_into_blot') > -1) {
-    document.querySelector('li.signed-out').style.display = 'none';
-    }
-</script>
-
-  
-      <li>
-        <a href="/about" class="{{ selected.aboutIndex }}"     data-open="{{ selected.about }}"
-
-          >About</a>
-          <ul>
-           
-            <li>
-              <a href="/about/notes" class="{{ selected.notes }}"
-                >Notes</a>
-            </li>
-
-            <li>
-              <a href="/about/status" class="{{ selected.status }}"
-                >Status</a>
-            </li>
-
-          </ul>
-      </li>
-
-      <li>
-        <a href="/news" class="{{ selected.news }}"
-          >News</a>
-      </li>
-  
-      <li>
-        <a href="/contact" class="{{ selected.contact }}"
-          >Contact</a>
-      </li>
-    </ul>
