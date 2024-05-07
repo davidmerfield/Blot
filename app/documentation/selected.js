@@ -8,6 +8,7 @@ var TITLES = {
   "sync": "Sync your folder",
   "configure": "Set up your site",
   "google-drive": "Google Drive",
+  "sub-folders": "Sub-folders",
   "google-docs": "Google Docs",
   "examples": "Example sites",
   "markdown": "Markdown",

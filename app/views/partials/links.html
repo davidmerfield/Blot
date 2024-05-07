@@ -1,103 +1,94 @@
-<ol class="path doc-nav" style="list-style: none;font-size: 15px;">
-  <li>
-    <a class="{{ selected.howIndex }}" href="/how">Getting started</a>
+<ol class="path doc-nav" style="list-style: none;margin-top: 43px;">
+  <li class="{{ selected.howIndex }}" >
+    <a href="/how">Getting started</a>
   </li>
-  <li>
+  <li class="{{ selected.syncIndex }}">
     <a
-      class="{{ selected.syncIndex }}"
-      data-open="{{ selected.sync }}"
+      
       href="/how/sync"
       >Sync your folder</a
     >
     <ul>
-      <li>
-        <a class="{{ selected.dropbox }}" href="/how/sync/dropbox">Dropbox</a>
+      <li class="{{ selected.dropbox }}" >
+        <a href="/how/sync/dropbox">Dropbox</a>
       </li>
-      <li><a class="{{selected.git }}" href="/how/sync/git">Git</a></li>
-      <li>
-        <a class="{{selected.google-drive}}" href="/how/sync/google-drive"
+      <li class="{{selected.git }}"><a  href="/how/sync/git">Git</a></li>
+      <li class="{{selected.google-drive}}">
+        <a  href="/how/sync/google-drive"
           >Google Drive</a
         >
       </li>
     </ul>
   </li>
     
-    <li>
+    <li         class="{{ selected.filesIndex }}"
+    >
       <a
-        class="{{ selected.filesIndex }}"
-        data-open="{{ selected.files }}"
         href="/how/files"
         >Files</a
       >
       <ul>
 
-          <li><a  class="{{ selected.markdown }}"  href="/how/files/markdown">Markdown</a></li>
+          <li class="{{ selected.markdown }}"><a    href="/how/files/markdown">Markdown</a></li>
           
-          <li ><a class="{{ selected.images }}" href="/how/files/images">Images</a></li>
+          <li class="{{ selected.images }}"><a  href="/how/files/images">Images</a></li>
      
-          <li><a  class="{{ selected.word-documents }}" href="/how/files/word-documents">Word Docs</a></li>
+          <li class="{{ selected.word-documents }}"><a   href="/how/files/word-documents">Word Docs</a></li>
           
-          <li ><a class="{{ selected.google-docs }}" href="/how/files/google-docs">Google Docs</a></li>
+          <li class="{{ selected.google-docs }}"><a  href="/how/files/google-docs">Google Docs</a></li>
           
-          <li ><a class="{{ selected.bookmarks }}" href="/how/files/bookmarks">Bookmarks</a></li>
+          <li class="{{ selected.bookmarks }}"><a  href="/how/files/bookmarks">Bookmarks</a></li>
      
-          <li ><a class="{{ selected.html }}" href="/how/files/html">HTML</a></li>
+          <li class="{{ selected.html }}"><a  href="/how/files/html">HTML</a></li>
      
-           <li ><a class="{{ selected.org }}" href="/how/files/org">Org Mode</a></li>
+           <li class="{{ selected.org }}"><a  href="/how/files/org">Org Mode</a></li>
         
          
       </ul>
     </li>
-    <li>
-      <a class="{{ selected.metadata }}" href="/how/metadata"
+    <li class="{{ selected.metadata }}">
+      <a  href="/how/metadata"
         >Metadata</a
       >
     </li>
-    <li>
-      <a href="/how/sub-folders">Sub-folders</a>
+    <li class="{{ selected.sub-foldersIndex }}">
+      <a  href="/how/sub-folders">Sub-folders</a>
       <ul>
-        <li>
-          <a class="{{ selected.pages }}" href="/how/sub-folders/pages"
+        <li class="{{ selected.pages }}">
+          <a  href="/how/sub-folders/pages"
             >Pages</a
           >
         </li>
-        <li>
-          <a class="{{ selected.drafts }}" href="/how/sub-folders/drafts"
+        <li class="{{ selected.drafts }}">
+          <a  href="/how/sub-folders/drafts"
             >Drafts</a
           >
-        </li>
-        <li>
-          <a class="{{ selected.templates }}" href="/how/sub-folders/templates"
-            >Drafts</a
-          >
-        </li>
-        
+        </li>        
       </ul>
     </li>
-    <li>
-      <a href="/how/formatting">Formatting</a>
+    <li class="{{selected.formattingIndex}}">
+      <a  href="/how/formatting">Formatting</a>
       <ul>
-        <li><a href="/how/posts/tex">Mathematics</a> </li>
-        <li><a href="/how/posts/layout-tags">Layout</a> </li>
-        <li><a href="/how/posts/embedding">Embedding</a> </li>
-        <li><a href="/how/posts/citations">Citations</a> </li>
-        <li><a href="/how/posts/wikilinks">Wikilinks</a> </li>
+        <li class="{{ selected.tex }}"><a  href="/how/formatting/tex">Mathematics</a> </li>
+        <li class="{{ selected.layout-tags }}"><a  href="/how/formatting/layout-tags">Layout</a> </li>
+        <li class="{{ selected.embedding }}"><a  href="/how/formatting/embedding">Embedding</a> </li>
+        <li class="{{ selected.citations }} "><a href="/how/formatting/citations">Citations</a> </li>
+        <li class="{{ selected.wikilinks }}"><a  href="/how/formatting/wikilinks">Wikilinks</a> </li>
       </ul>
     </li>
     
     
     
-    <li>
+    <li class="{{ selected.configureIndex }}">
       <a
-        class="{{ selected.configureIndex }}"
-        data-open="{{ selected.configure }}"
+        
         href="/how/configure"
         >Set up your site</a
       >
       <ul>
         
-        <li>
-          <a class="{{ selected.import }}" href="/how/configure/import"
+        <li class="{{ selected.import }}">
+          <a  href="/how/configure/import"
             >Import</a
           >
         </li>
@@ -130,7 +121,10 @@
         </li>
       </ul>
     </li>
-    
+    <li class="{{ selected.reference }}" >
+      <a href="/how/reference">Reference</a>
+    </li>
+  
 
   </ol> 
 
@@ -141,7 +135,8 @@
         padding: 4px 0;
       }
 
-      .doc-nav .selected {
+      .doc-nav .selected,
+      .doc-nav .selected > a {
         text-decoration: none;
         color: var(--text-color)
       }

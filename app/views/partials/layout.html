@@ -7,15 +7,15 @@
       <section  style="flex-grow:0;flex-shrink:0;padding-right: 3rem;position: sticky;top:3rem;max-height:80vh;width: 25%;box-sizing: border-box;">
         {{> navigation}}
         </section>
-      <section style="flex-grow:1;padding-left: 2rem;">
+      <section style="width:75%;padding-left: 2rem;">
         <section style="min-height: 80vh;{{^user}}padding-bottom:8em;{{/user}}">
           {{> breadcrumbs}}
           {{#selected.how}}
-          <section style="display: flex;">
-            <section style="flex-basis: 66.6666%;flex-grow: 0;">
+          <section style="display: flex;justify-content: space-between;">
+            <section style="width: 66.6666%;flex-grow: 0;">
               {{> body}}
             </section>
-            <section style="flex-basis: 33.3333%;flex-shrink0;padding-left: 3rem;box-sizing: border-box;">
+            <section style="width: 33.3333%;flex-shrink:0;padding-left: 4rem;box-sizing: border-box;">
               {{> links}}
             </section>
           </section>

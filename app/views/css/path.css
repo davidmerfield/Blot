@@ -5,12 +5,13 @@ ol.path {
 
   ol.path > li {
     position: relative;
-    border-left: 1px solid red;
-    padding-left: 1em;
+    border-left: 1px solid var(--border-color);
+
+    padding-left: 1.25em;
   }
 
-  ol.path li:last-child:before,
-  ol.path li:first-child:before {
+  ol.path > li:last-child:before,
+  ol.path > li:first-child:before {
     content: "";
     width: 1px;
     position: absolute;
@@ -18,31 +19,44 @@ ol.path {
     background: var(--background-color);
   }
 
-  ol.path li:first-child:before {
+  ol.path > li:first-child:before {
     top: 0;
     height: 10px;
   }
 
-  ol.path li:last-child:before {
+  ol.path > li:last-child:before {
     top: 8px;
     bottom: 0;
   }
 
-  ol.path li:first-child:last-child:before {
+  ol.path > li:first-child:last-child:before {
     top: 0;
     bottom: 0;
     height: auto;
   }
 
-  ol.path li:after {
+  ol.path > li:after {
     content: "";
-    width: 5px;
+    width: 7px;
+    height: 7px;
     position: absolute;
-    top: 9px;
-    left: -3px;
-    height: 5px;
+    top: 11px;
+    left: -5px;
     background: var(--background-color);
-    border: 1px solid var(--light-border-color);
+    border: 1px solid var(--border-color);
+    border-radius: 100%;
+    font-size: 0.5em;
+  }
+
+  ol.path > li.selected:after {
+    content: "";
+    width: 4px;
+    position: absolute;
+    top: 11px;
+    left: -5px;
+    height: 4px;
+    background: var(--background-color);
+    border: 3px solid var(--text-color);
     border-radius: 100%;
     font-size: 0.5em;
   }
