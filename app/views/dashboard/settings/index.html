@@ -40,7 +40,7 @@ window.addEventListener("message", receiveMessage, false);
 
   
 
-  <div style="flex-basis: 80%;">
+  <div style="flex-basis: 66.6666%;">
 
     <div style="border-radius: var(--border-radius);border: 1px solid var(--border-color);overflow: hidden;">
       
@@ -80,24 +80,7 @@ window.addEventListener("message", receiveMessage, false);
     <br>
 
     <div style="border-radius: var(--border-radius);border: 1px solid var(--border-color)">
-      <div class="line" style="border-radius: 0 0 4px 4px;overflow: hidden;" href="{{{base}}}/template">
-        <span class="label">Template</span>
-        <span class="center">
-          <div class="preview" style="height: 80px;width: 120px;overflow: hidden;
-          position: relative;
-          margin:4px 0 10px;
-          box-shadow: 0 22px 64px rgba(0,0,0,.16),inset 0 1px 0 #f5f4f5,0 -1px 0 rgba(0,0,0,.11),0 1px 0 rgba(0,0,0,.26),-1px 0 0 rgba(0,0,0,.13),1px 0 0 rgba(0,0,0,.13);
-          border-radius: var(--border-radius);border-radius: var(--border-radius);">
-            <iframe
-            id="preview"
-          style="height:800px;width:1200px;background:var(--background-color);transform: scale(0.1);    transform-origin: top left;"
-          src="{{{preview}}}"
-          ></iframe>
-          <a target="_blank" href="https://{{{blog.pretty.url}}}" style="position: absolute;top:0;left: 0;bottom: 0;right: 0;"></a>
-          </div>
-        </span>
-        <span class="right" >Edit</span>
-      </div>  
+     
       <a class="line" href="{{{base}}}/links">
         <span class="label">Links</span>
         <span class="center">
@@ -114,6 +97,36 @@ window.addEventListener("message", receiveMessage, false);
       
       </a>
       
+      <a class="line" href="{{{base}}}/photo" > 
+        <span class="label" style="float:left">Photo</span>  
+        {{^blog.avatar}}
+        <span class="link">Choose a photo</span>
+        {{/blog.avatar}}
+      
+        {{#blog.avatar}}
+        <span class="center" style="width: 48px;height:48px;display:inline-block; vertical-align: middle;">
+          <img style="max-width:48px;max-height:48px;vertical-align: baseline; display: inline;" src="{{blog.avatar}}" class="{{#blog.roundAvatar}}rounded{{/blog.roundAvatar}}" />
+        </span>
+        <span class="right" >Edit</span>    
+          {{/blog.avatar}}
+      
+      </a>
+
+      <a class="line" href="{{{base}}}/photo" > 
+        <span class="label" style="float:left">Photo</span>  
+        {{^blog.avatar}}
+        <span class="link">Choose a photo</span>
+        {{/blog.avatar}}
+      
+        {{#blog.avatar}}
+        <span class="center" style="width: 48px;height:48px;display:inline-block; vertical-align: middle;">
+          <img style="max-width:48px;max-height:48px;vertical-align: baseline; display: inline;" src="{{blog.avatar}}" class="{{#blog.roundAvatar}}rounded{{/blog.roundAvatar}}" />
+        </span>
+        <span class="right" >Edit</span>    
+          {{/blog.avatar}}
+      
+      </a>
+
       <a class="line" href="{{{base}}}/photo" > 
         <span class="label" style="float:left">Photo</span>  
         {{^blog.avatar}}
@@ -158,7 +171,35 @@ window.addEventListener("message", receiveMessage, false);
       <span class="right">Change</span>
     </a> -->
   </div>
-  </form>
 
   
+<div style="flex-basis: 33.3333%;margin-left: 0;">
+<div class="preview" style="height: 160px;width: 240px;overflow: hidden;
+position: relative;
+margin:0 0 0;
+box-shadow: 0 22px 64px rgba(0,0,0,.16),inset 0 1px 0 #f5f4f5,0 -1px 0 rgba(0,0,0,.11),0 1px 0 rgba(0,0,0,.26),-1px 0 0 rgba(0,0,0,.13),1px 0 0 rgba(0,0,0,.13);
+border-radius: var(--border-radius);border-radius: var(--border-radius);">
+  <iframe
+  id="preview"
+style="height:800px;width:1200px;background:var(--background-color);transform: scale(0.2);    transform-origin: top left;"
+src="{{{preview}}}"
+></iframe>
+<a target="_blank" href="https://{{{blog.pretty.url}}}" style="position: absolute;top:0;left: 0;bottom: 0;right: 0;"></a>
+</div>
+<br>
+<div style="border-radius: var(--border-radius);overflow: hidden;border: 1px solid var(--border-color)">
+<a href="" style="display:block;font-weight:600;padding:1rem;background-color: var(--accent-color);color:var(--background-color);font-size: 14px;">Visit site</a>
+<a href="" style="display:block;border-bottom: 1px solid var(--border-color);font-weight:600;padding:1rem;background-color: #eee;color:var(--accent-color);font-size: 14px;">Edit template</a>
+</div>
+<br>
+<div style="border-radius: var(--border-radius);overflow: hidden;border: 1px solid var(--border-color)">
+  <a href="" style="display:block;border-bottom: 1px solid var(--border-color);font-weight:600;padding:1rem;background-color: #eee;color:var(--accent-color);font-size: 14px;">Edit template</a>
+  <a href="" style="display:block;border-bottom: 1px solid var(--border-color);font-weight:600;padding:1rem;background-color: #eee;color:var(--accent-color);font-size: 14px;">Edit template</a>
+  <a href="" style="display:block;border-bottom: 1px solid var(--border-color);font-weight:600;padding:1rem;background-color: #eee;color:var(--accent-color);font-size: 14px;">Edit template</a>
+  <a href="" style="display:block;border-bottom: 1px solid var(--border-color);font-weight:600;padding:1rem;background-color: #eee;color:var(--accent-color);font-size: 14px;">Edit template</a>
+  <a href="" style="display:block;border-bottom: 1px solid var(--border-color);font-weight:600;padding:1rem;background-color: #eee;color:var(--accent-color);font-size: 14px;">Edit template</a>
+  <a href="" style="display:block;font-weight:600;padding:1rem;background-color: #eee;color:var(--accent-color);font-size: 14px;">View all templates</a>
+  </div>
+  
+</div>
 </div>
