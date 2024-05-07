@@ -83,6 +83,7 @@ settings.get("/redirects", load.redirects);
 
 settings.use("/template", load.templates, function (req, res, next) {
   res.locals.breadcrumbs.add("Template", "template");
+  res.locals.layout = "template/layout";
   next();
 });
 
