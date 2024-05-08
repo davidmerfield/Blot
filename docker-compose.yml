@@ -12,7 +12,7 @@ services:
     environment:
       - FAST=true
       - BLOT_REDIS_HOST=redis
-      - BLOT_HOST=blot
+      - BLOT_HOST=local.blot
       - BLOT_SESSION_SECRET=${BLOT_SESSION_SECRET}
       - BLOT_STRIPE_KEY=${BLOT_STRIPE_KEY}
       - BLOT_STRIPE_SECRET=${BLOT_STRIPE_SECRET}
@@ -53,5 +53,8 @@ services:
     ports:
       - "80:80"
       - "443:443"
+    volumes:
+      - ./data/blot-key.pem:/etc/ssl/private/nginx-selfsigned.key
+      - ./data/blot.pem:/etc/ssl/certs/nginx-selfsigned.crt
     depends_on:
       - node-app

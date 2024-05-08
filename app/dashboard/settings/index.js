@@ -51,9 +51,10 @@ settings
     load.permalinkFormats,
     load.dates,
     function (req, res) {
+      console.log('here', res.locals.template);
       res.render("settings", { 
           title: req.blog.pretty.label, 
-          preview: `https://preview-of-my-${res.locals.template.slug}-on-${req.blog.handle}.${config.host}`
+          preview: `https://preview-of-${res.locals.template.isMine ? 'my-' : ''}${res.locals.template.slug}-on-${req.blog.handle}.${config.host}`
        })
       }
   );

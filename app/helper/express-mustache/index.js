@@ -43,8 +43,6 @@ const render = async function (filePath, options, callback) {
     const templatePath = layout ? layout : filePath;
     const template = await load(templatePath, ext, root, cache);
 
-    console.log('rendering', templatePath, 'with', options);
-
     let result = mustache.render(template, options, partials);
 
     const transformers = [

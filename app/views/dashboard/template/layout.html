@@ -2,13 +2,56 @@
 <html lang="en">
   {{> head}}
   <body>
-    <div style="display: flex;">
+    <div style="display: flex;padding: 1rem">
     <div style="flex-grow: 1;">
         {{> breadcrumbs}}
-        <h1>HERE!</h1>
         <div style="display: flex;">
             <div>
                 {{> body}}
+
+            </div>
+            <div>
+                <h1>Options</h1>
+                <a class="line" style="border-radius: var(--border-radius) var(--border-radius) 0 0;" href="{{{base}}}/links">
+                    <span class="label">Navigation links</span>
+                    <span class="center" style="margin-top: 4px;">
+                        {{#blog.menu}}
+                        <span class="tablet">{{label}}</span>
+                        {{/blog.menu}}
+                        
+                        {{^blog.menu.length}}
+                        <i>Your menu is empty</i>
+                        {{/blog.menu.length}}
+                    </span>
+                      <span class="right" >Edit</span>
+                    </span>
+                  
+                  </a>
+                  
+                  <a class="line" href="{{{base}}}/photo"  style="border-bottom: none;border-radius: 0 0 var(--border-radius) var(--border-radius);"> 
+                    <span class="label" style="margin-bottom: 4px;">Photo</span>  
+                    {{^blog.avatar}}
+                    <span class="center" style="border: 1px dashed var(--border-color);width: 48px;height:48px;display:inline-block; vertical-align: middle;margin-right: 0.5rem;margin-bottom: 4px;">
+                    </span>
+                    <span class="link">Choose a photo</span>
+                    {{/blog.avatar}}
+                  
+                    {{#blog.avatar}}
+                    <span class="center" style="width: 48px;height:48px;display:inline-block; vertical-align: middle;">
+                      <img style="max-width:48px;max-height:48px;vertical-align: baseline; display: inline;" src="{{blog.avatar}}" class="{{#blog.roundAvatar}}rounded{{/blog.roundAvatar}}" />
+                    </span>
+                    <span class="right" >Edit</span>    
+                      {{/blog.avatar}}
+                  
+                  </a>
+            </div>
+        </div>
+        <div style="max-width: 300px;">
+
+        </div>
+        
+          <div style="display: flex;">
+            <div>
 
             </div>
             <div class="preview" style="height: 160px;width: 240px;overflow: hidden;
