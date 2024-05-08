@@ -1,18 +1,15 @@
 # Influences
 
-- Pinboard
-- Indexhibit
-- Are.na
 - Donald Knuth
-- Aldo Manuzio
+- Maciej Cegłowski
+- Jeffery Vaska
+- Charles Broskoski
 - William Morris
 - Laurel Schwulst
 - Paolo Sorrentino
-- Urbit
+- Curtis Yarvin
 - Matthew Carter
-- gov.uk 
 - Bret Victor
 - David Rudnick
-- Cargo Collective
-- Petrus Christus
+- Folkert Gorter
 - Steph Ango

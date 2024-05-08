@@ -116,7 +116,7 @@ documentation.use(
 
 documentation.use(require("./selected"));
 
-documentation.get("/", require("./templates"), function (req, res, next) {
+documentation.get("/", require("./templates"), require("./featured"), function (req, res, next) {
   res.locals.title = "Blot – Turn a folder into a website";
   res.locals.description =
     "A blogging platform with no interface. Turns a folder into a blog automatically. Use your favorite text-editor to write. Text and Markdown files, Word Documents, images, bookmarks and HTML in your folder become blog posts.";
@@ -125,29 +125,28 @@ documentation.get("/", require("./templates"), function (req, res, next) {
   next();
 });
 
-documentation.get("/examples", require("./featured"), require("./templates"));
-documentation.get("/examples/templates", require("./templates"));
-documentation.get("/examples/folders", require("./templates"));
+documentation.get("/templates", require("./templates"));
+documentation.get("/templates/folders", require("./templates"));
 
 documentation.get(
-  "/examples/templates/:template",
+  "/templates/:template",
   require("./templates"),
   (req, res, next) => {
     if (!res.locals.template) return next();
-    res.render("examples/templates/template");
+    res.render("templates/template");
   }
 );
 
 documentation.use(
-  "/examples/folders/:folder",
+  "/templates/folders/:folder",
   require("./templates"),
   (req, res, next) => {
     if (!res.locals.folder) return next();
-    res.render("examples/folders/folder");
+    res.render("templates/folders/folder");
   }
 );
 
-documentation.use("/examples/templates/fonts", require("./fonts"));
+documentation.use("/templates/fonts", require("./fonts"));
 
 documentation.use("/developers", require("./developers"));
 

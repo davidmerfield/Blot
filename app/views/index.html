@@ -2,8 +2,8 @@
 
     <section class="intro">
         <p style="margin-top: 0;">Blot turns a folder into a website. Files become posts on your site. Drag-and-drop to publish.</p><p>There’s no interface, just files, so you can use your favorite tools. Write your blog with Microsoft Word or Vim. Publish your photos from Lightroom. Work with others using Google Docs or git.</p>
-        <p>Blot's templates make it possible to create all sorts of sites with a few clicks. A gentle way to learn a little more about the internet.  Blot's source code is dedicated to the public domain.</p>
-        <p>For Blot, the purpose of life is, at least partly, to have joy. People often feel joy when they can concentrate on the creative side of life, so Blot is designed to make people who make websites happy.</p>
+        <!-- <p>Blot's templates make it possible to create all sorts of sites with a few clicks. A gentle way to learn a little more about the internet.  Blot's source code is dedicated to the public domain.</p> -->
+        <!-- <p>For Blot, the purpose of life is, at least partly, to have joy. People often feel joy when they can concentrate on the creative side of life, so Blot is designed to make people who make websites happy.</p> -->
         <!-- <p class="sub-link"><a href="/pricing"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0ZM1.5 8a6.5 6.5 0 1 0 13 0 6.5 6.5 0 0 0-13 0Zm4.879-2.773 4.264 2.559a.25.25 0 0 1 0 .428l-4.264 2.559A.25.25 0 0 1 6 10.559V5.442a.25.25 0 0 1 .379-.215Z"></path></svg>Watch the video</a></p> -->
         <!-- We're not a startup and we have no investors, only customers. We've been in business for a decade and we plan to stick around as long as possible.  -->
         <!-- <p>Blot is the publishing platform of choice for thousands of websites worldwide—used by artists and writers to organizations. We hope you use Blot to make the internet a little more beautiful, a little more personal.</p> -->
@@ -13,7 +13,7 @@
             
             <p ><a href="/watch">Watch the video demonstration</a></p>
             
-            <p ><a href="/examples" >See sites made with Blot</a></p>
+            <p ><a href="/templates" >See sites you can make with Blot</a></p>
             
             <p class="sub-link focus" style="margin-top: 40px;"><a href="/dashboard/sign-up">Create a website</a></p>
 
@@ -113,3 +113,101 @@
         color:var(--text-color)
     }
 </style>
+
+
+<h2>Example sites</h2>
+
+
+      {{#featured}}
+<ul id="featured" style="list-style-type: none;
+padding: 0;
+margin: 0;font-size:16px" class="clients">
+  {{#sites}}
+  <li style="position: relative;padding-left: 4em;">
+    <div class="preview" style="height: 40px;width: 60px;overflow: hidden;
+			position: absolute;top:10px;left: 1em;
+			margin:4px 0 10px;
+			box-shadow: inset 0 1px 0 #f5f4f5,0 -1px 0 rgba(0,0,0,.11),0 1px 0 rgba(0,0,0,.26),-1px 0 0 rgba(0,0,0,.13),1px 0 0 rgba(0,0,0,.13);
+			border-radius: var(--border-radius);border-radius: var(--border-radius);">
+			  <iframe
+			  id="preview"
+			style="height:800px;width:1200px;background:var(--background-color);transform: scale(0.05);    transform-origin: top left;"
+			src="{{{link}}}"
+			></iframe>
+			</div>
+      
+    <a target="_blank" style="margin-left:-4em;display:flex;padding:8px 0 12px 4em;align-items: center;" rel="noopener" href="{{{link}}}">
+      <span
+        style="display:block;flex-shrink:0;background: var(--light-background-color) url('{{#cdn}}{{{sprite}}}{{/cdn}}');background-size: {{width}}px;
+  background-position:-{{x}}px -{{y}}px;width:{{thumbnail_width}}px;height:{{thumbnail_width}}px;border-radius: 4em;margin: 4px 1em 0 0;box-shadow: inset 0 0 0 1px var(--inset-image-border-color);
+  transition: transform .1s ease;transform: scale(1);">
+  </span>
+
+  <span>
+      <span class="color-on-hover" style="color:var(--accent-color)">{{name}}</span>
+      <span style="font-size: var(--small-font-size);color:var(--light-text-color);display:block">{{bio}} who joined in {{joined}}</span>
+  </span>
+</a>
+  </li>
+  {{/sites}}
+</ul>
+{{/featured}}
+
+<!-- shuffle the order of <li> sites in #featured and limit number to 24 sites -->
+<script>
+  var featured = document.getElementById("featured");
+  var sites = featured.getElementsByTagName("li");
+  var sitesArray = Array.prototype.slice.call(sites);
+  var previousFirstSevenSites = [];
+
+  const renderFeatured = () => {
+  
+    let firstSevenSiteCandidates = [...sitesArray];
+    
+    let index = previousFirstSevenSites.length - 1;
+
+    while (firstSevenSiteCandidates.length > 7 && index >= 0) {
+      firstSevenSiteCandidates = firstSevenSiteCandidates.filter(function(site) {
+        return ! previousFirstSevenSites[index].includes(site);
+      });
+      index--;
+    }
+
+    firstSevenSiteCandidates.sort(function() {
+      return 0.5 - Math.random();
+    });
+
+    const firstSevenSites = firstSevenSiteCandidates.slice(0, 7);
+
+    let remainder = [...sitesArray].filter(function(site) {
+      return ! firstSevenSites.includes(site);
+    });
+
+    // shuffle the remainder of the sites
+    remainder.sort(function() {
+      return 0.5 - Math.random();
+    });
+
+    // trim the number of sites
+    remainder = remainder.slice(0, 6);
+
+    featured.innerHTML = "";
+
+    const result = [...firstSevenSites, ...remainder];
+
+    result.forEach(function(site) {
+      featured.appendChild(site);
+    });
+
+    // save the results for the next pass
+    previousFirstSevenSites.push(firstSevenSites);
+
+    // trim the history of previous results
+    if (previousFirstSevenSites.length > 5) {
+      previousFirstSevenSites.shift();
+    }
+  }
+
+renderFeatured();
+
+</script>

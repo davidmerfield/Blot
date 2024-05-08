@@ -123,10 +123,19 @@ settings.get("/:view", function (req, res) {
 
   uppercaseName = uppercaseName[0].toUpperCase() + uppercaseName.slice(1);
 
-  if (uppercaseName !== "Profile") {
-    res.locals.breadcrumbs.add(uppercaseName, req.params.view);
+  if (uppercaseName === "Services") {
+    uppercaseName = "External services";
+  } else if (uppercaseName === "Redirects") {
+    uppercaseName = "Redirect rules";
+  } else if (uppercaseName === "Publishing") {
+    uppercaseName = "Publishing settings";
+  } else if (uppercaseName === "Date") {
+    uppercaseName = "Date and time";
+  } else if (uppercaseName === "Link-format") {
+    uppercaseName = "Link format";
   }
 
+  res.locals.breadcrumbs.add(uppercaseName, req.params.view);
   res.locals.subpage = req.params.view;
   res.render("settings/" + req.params.view, { host: process.env.BLOT_HOST });
 });

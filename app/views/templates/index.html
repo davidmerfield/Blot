@@ -1,0 +1,127 @@
+<h1>Templates</h1>
+
+{{> questions-search}}
+<br>
+<ul class="pill-navigation">
+
+  <li><a href="/tools" >All templates</a></li>
+  <li><a >Blogs</a></li>
+  </ul>
+
+  
+<div style="display: flex;">
+
+  <div style="flex-basis: 66.666%;padding-right: 4rem;box-sizing: border-box;">
+    {{> template-list}}  
+    {{> folder-list}}
+  </div>
+  
+</div>
+
+<h2>Customizing a template</h2>
+
+<p>You make modifications to your template's colors and fonts using Blot's template editor – no coding required.</p>
+
+<p><a href="/examples/templates/fonts">View all fonts</a></p>
+
+<h2>Develop your own template</h2>
+
+<p>You can fork any of the included templates and make modifications to their source code, or develop your own template from scratch.</p>
+
+<p><a href="/developers">Developer guide</a></p>
+
+</div>
+<style>
+  span.color-on-hover,
+  li[data-hue] a span.color-on-hover {
+    color:var(--text-color)
+    }
+    a:hover span.color-on-hover,
+  li[data-hue] a:hover span.color-on-hover {
+    color: var(--accent-color)
+  }
+  h2 a[href="/examples"] {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+  h2 a[href="/examples"] svg {
+    fill: var(--light-text-color);
+    height: 12px;
+    width: 12px;
+    stroke: var(--light-text-color)
+  }
+
+  h2 a[href="/examples"]:hover svg {
+    fill: var(--text-color);
+    stroke: var(--text-color)
+  }
+
+  /* fade in the children of id="featured" one after the other */
+  #featured li {
+    opacity: 0;
+    animation: fadeIn 0.5s ease-in-out forwards;
+  }
+
+  @keyframes fadeIn {
+    100% {
+      opacity: 1;
+    }
+  }
+
+  #featured li:nth-child(1) {
+    animation-delay: 0.05s;
+  }
+
+  #featured li:nth-child(2) {
+    animation-delay: 0.1s;
+  }
+
+  #featured li:nth-child(3) {
+    animation-delay: 0.15s;
+  }
+
+  #featured li:nth-child(4) {
+    animation-delay: 0.2s;
+  }
+
+  #featured li:nth-child(5) {
+    animation-delay: 0.25s;
+  }
+
+  #featured li:nth-child(6) {
+    animation-delay: 0.3s;
+  }
+
+  #featured li:nth-child(7) {
+    animation-delay: 0.35s;
+  }
+
+  #featured li:nth-child(8) {
+    animation-delay: 0.4s;
+  }
+
+  #featured li:nth-child(9) {
+    animation-delay: 0.45s;
+  }
+
+  #featured li:nth-child(10) {
+    animation-delay: 0.5s;
+  }
+
+  #featured li:nth-child(11) {
+    animation-delay: 0.55s;
+  }
+
+  #featured li:nth-child(12) {
+    animation-delay: 0.6s;
+  }
+
+  #featured li:nth-child(13) {
+    animation-delay: 0.65s;
+  }
+
+
+
+
+</style>
