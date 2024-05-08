@@ -6,7 +6,6 @@ ol.path {
   ol.path > li {
     position: relative;
     border-left: 1px solid var(--border-color);
-
     padding-left: 1.25em;
   }
 
@@ -60,3 +59,32 @@ ol.path {
     border-radius: 100%;
     font-size: 0.5em;
   }
+
+  ol.path ul {
+    padding: 0;
+    list-style: none;
+  }
+
+    ol.path ul li {
+        position: relative;
+        padding-left: 1.25em;
+    }
+
+  ol.path ul li:before {
+    content: "";
+    width: 3px;
+    height: 3px;
+    background: var(--background-color);
+    position: absolute;
+    left: -1.45em;
+    top: 0.6em;
+    border: 1px solid var(--border-color);
+    border-radius: 3px;
+    bottom: 0;
+  }
+
+  ol.path ul li.selected:before {
+    border-color: var(--text-color);
+    background: var(--text-color);
+  }
+   

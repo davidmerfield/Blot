@@ -1,3 +1,4 @@
+const Template = require("models/template");
 var mustache = require("helper/express-mustache");
 var trace = require("helper/trace");
 const root = require("helper/rootDir");
@@ -125,6 +126,8 @@ dashboard.use(trace("loading blog"));
 dashboard.param("handle", require("./load-blog"));
 dashboard.use(trace("loaded blog"));
 
+
+
 // Performs some basic checks about the
 // state of the user's blog, user's subscription
 // and shuttles the user around as needed
@@ -185,7 +188,29 @@ dashboard.use("/:handle/template/edit", require("./template-editor"));
 // Will deliver the sync status of the blog as SSEs
 dashboard.use("/:handle/status", require("./status"));
 
-dashboard.get("/", require("./load-blogs"), function (req, res) {
+dashboard.get("/", require("./load-blogs"), async (req, res) => {
+
+  // call getMetadata for each blog's template in parallel
+  // of req.blogs
+  const templates = await Promise.all(req.blogs.map(blog => {
+    // Template.getMetadata(blog.template, (err, metadata) => {}))
+    return new Promise((resolve, reject) => {
+      Template.getMetadata(blog.template, (err, metadata) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(metadata);
+        }
+      });
+    });
+  }));
+  
+  // assign the metadata to the blog object
+  req.blogs.forEach((blog, index) => {
+    blog.template = templates[index];
+    blog.previewURL = `https://preview-of-${blog.template.owner === blog.id ? 'my-' : ''}${blog.template.slug}-on-${blog.handle}.${config.host}`;
+  });
+
   res.locals.title = "Sites";
   res.locals.breadcrumbs.add("Sites", "/dashboard");
   res.render("index");
