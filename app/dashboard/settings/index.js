@@ -58,7 +58,7 @@ settings
       }
   );
 
-settings.get(["/services", "/images", "/typography"], load.plugins);
+settings.get(["/services", "/publishing",], load.plugins);
 
 settings.get("/links", load.menu);
 

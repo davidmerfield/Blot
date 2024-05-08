@@ -3,6 +3,7 @@ const fs = require("fs-extra");
 const { marked } = require("marked");
 const prettySize = require("helper/prettySize");
 const templatesDirectory = __dirname + "/../templates/latest";
+const archivedTemplatesDirectory = __dirname + "/../templates/past";
 const foldersDirectory = __dirname + "/../templates/folders";
 
 const { getMetadata } = require("models/template");
@@ -27,7 +28,7 @@ const folders = fs
   });
 
 const templates = fs
-  .readdirSync(templatesDirectory)
+  .readdirSync(templatesDirectory).concat(fs.readdirSync(archivedTemplatesDirectory))
   .filter(i => !i.startsWith(".") && !i.endsWith(".js") && !i.endsWith(".md"))
   .map(
     async i =>

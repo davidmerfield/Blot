@@ -1,3 +1,36 @@
-<h1>HERE!</h1>
+<!DOCTYPE html>
+<html lang="en">
+  {{> head}}
+  <body>
+    <div style="display: flex;">
+    <div style="flex-grow: 1;">
+        {{> breadcrumbs}}
+        <h1>HERE!</h1>
+        <div style="display: flex;">
+            <div>
+                {{> body}}
 
-{{> body}}
+            </div>
+            <div class="preview" style="height: 160px;width: 240px;overflow: hidden;
+position: relative;
+margin:0 0 0;
+box-shadow: ,inset 0 1px 0 #f5f4f5,0 -1px 0 rgba(0,0,0,.11),0 1px 0 rgba(0,0,0,.26),-1px 0 0 rgba(0,0,0,.13),1px 0 0 rgba(0,0,0,.13);
+border-radius: var(--border-radius)  var(--border-radius) 0 0;">
+  <iframe
+  id="preview"
+style="height:800px;width:1200px;background:var(--background-color);transform: scale(0.2);    transform-origin: top left;"
+src="{{{preview}}}"
+></iframe>
+<a href="{{{base}}}/template" style="position: absolute;top:0;left: 0;bottom: 0;right: 0;"></a>
+</div>
+
+        </div>
+    </div>
+    
+    <a href="{{{base}}}">X esc</a>
+</div>
+
+
+    {{> footer}}
+  </body>
+</html>
