@@ -1,18 +1,20 @@
 {{#folder}}
 
+{{#root}}
   <div class="folder-top" style="display:flex;flex-direction:column; 
     border: 1px solid var(--border-color);
     border-radius: 6px;">
-    <div class="folder-corner"></div>
-{{#root}}
-    
+
+  <div class="folder-corner"></div>
+  
     <a class="line" style="border-radius: 4px 0 0 0;" href="{{{base}}}/client/{{client.name}}">
       <span class="label">Folder</span>
       {{^blog.client}}
             <span class="link">Choose a way to sync this folder</span>
           {{/blog.client}}
           {{#blog.client}}
-          <span class="center">      <img style="width: 16px;" src="{{#cdn}}/images/sync/dropbox.svg{{/cdn}}" />
+          <span class="center">
+            <img style="width: 16px;height:16px;position: relative;top:2px;margin-right: 3px;" src="{{#cdn}}/images/sync/{{blog.client}}.svg{{/cdn}}" />
             {{client.display_name}}</span>
           <span class="right">Edit</span>
           {{/blog.client}}
@@ -35,9 +37,11 @@
 {{/file}}
 
 </div>
+{{#root}}
 
 <a class="line" style="font-size:14px;border-radius: 0 0 4px 4px;border-bottom:none;color:var(--light-text-color);border-top:1px solid var(--border-color)" href="{{{base}}}/client"><span class="center" style="display: flex;"><span id="status" style="display: block;" class="truncate status">{{blog.status.message}} {{blog.status.fromNow}}</span><span class="right">View activity</span></a>
 </div>
+{{/root}}
 {{/folder}}
 
 <!-- 

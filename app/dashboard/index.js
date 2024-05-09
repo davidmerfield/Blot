@@ -225,7 +225,7 @@ dashboard.get(
   },
   require("./folder"),
   function (req, res) {
-    res.render("folder", { selected: { folder: "selected" } });
+    res.render("folder");
   }
 );
 

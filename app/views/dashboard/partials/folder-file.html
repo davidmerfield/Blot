@@ -1,72 +1,68 @@
-<div style="padding:11px">
+<div >
   <style type="text/css">
 table {
   display: table;
   width: 100%;
-  margin-bottom: 1rem
+  margin: 1rem 1.5rem
 }
 
-tr {
-  border: none;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.03)
 
-}
 
-tr:last-child{border:none;}
-tr.break {
-}
-
-tr.break td {
-  padding-bottom: 11px
-}
-
-tr.break+tr td {
-  padding-top: 11px
-}
 
 td {
   vertical-align: top;
-  padding: 2px 0;  
+  padding: 2px 0;
+  border-bottom: 1px solid #DEDEF969;
+}
+
+tr:last-child td {
+  border-bottom: none;
 }
 
 td:first-child {
-  color: rgb(158, 154, 152);
+  color: var(--light-text-color);
+  font-size: 14px;
   padding-right: 20px;
-  min-width: 150px
+  width: 100px;
 }
 
 td a {
   color: #0070e8
 }
 
-td:nth-child(2) {
-  width: 100%;
+.publishing-steps {
+  font-size: 14px;border-left: 1px solid var(--border-color);margin-left: 120px;padding: 1rem 1.5rem;color:var(--light-text-color)
 }
-</style>
-<div style="padding:0 20px">
 
-  <div style="display: flex;align-items: flex-end;">
+.publishing-steps svg {
+  fill: currentColor;
+  margin-right: 0.5rem;
+  position: relative;
+  left: -2rem;
+  vertical-align: middle;
+}
+
+</style>
+<div >
+
+  <div style="display: flex;align-items: flex-end;padding-top: 12px;">
   {{#folder.stat}}
 
-  {{#entry}}
-      <img src="/images/file-post.svg" style="position:relative;top:-9px;flex-shrink:0;margin-right:20px" width="26">
-      {{/entry}}
-      {{^entry}}
-      <img src="/images/file-empty.svg" style="position:relative;top:-9px;flex-shrink:0;margin-right:20px" width="26">
-      {{/entry}}
+      
+  <h1>
+    <svg style="vertical-align: middle;position:relative;top:-1px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="M3 3a2 2 0 0 1 2-2h9.982a2 2 0 0 1 1.414.586l4.018 4.018A2 2 0 0 1 21 7.018V21a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Zm2-.5a.5.5 0 0 0-.5.5v18a.5.5 0 0 0 .5.5h14a.5.5 0 0 0 .5-.5V8.5h-4a2 2 0 0 1-2-2v-4Zm10 0v4a.5.5 0 0 0 .5.5h4a.5.5 0 0 0-.146-.336l-4.018-4.018A.5.5 0 0 0 15 2.5Z"></path></svg>
 
-
-  <h1 style="line-height:48px;font-size: 32px;margin:0;font-weight: 400;flex-grow: 1">
     {{name}}
   </h1>
 
-<a href="{{{blog.url}}}{{{path}}}" target="_blank" class="s no-underline" >Download file</a>
 
 </div>
 
 <style type="text/css">
 a.s.no-underline {
-  line-height:28px;border-radius:4px;padding:11px 20px;font-weight:600;display:block;color:#0070e8;border: 1px solid rgba(0,0,0,0.1);}
+  line-height:28px;border-radius:4px;padding:11px 20px;font-weight:600;display:block;color:var(--accent-color);
+  background: #f0f4ff;
+}
 a.s.no-underline + a.s.no-underline {
   background: blue
 }
@@ -81,12 +77,49 @@ a.s.no-underline:after {
   text-align: center;
   margin: 0.1rem 0 0 2rem;
   float: right;
-}</style>
-  
-  <hr>
-  {{> folder-stat}}
+}
 
-  {{> folder-entry}}
+
+.folder-entry {
+  position: relative;
+  overflow: visible;
+}
+
+.folder-entry:after {
+  content: "";
+  width:2rem;
+  height:1px;
+  background: var(--border-color);
+  position: absolute;
+  top: 50%;
+  left: -2rem;
+}
+</style>
+
+      <div style="border:1px solid var(--border-color);border-radius: 4px;">
+        <!-- <a href="{{{blog.url}}}{{{path}}}" target="_blank" class="s no-underline" >Download file</a> -->
+        {{> folder-stat}}
+
+
+      </div>
+      <div class="publishing-steps">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12" width="12" height="12"><path d="M6 0a6 6 0 1 1 0 12A6 6 0 0 1 6 0Zm-.705 8.737L9.63 4.403 8.392 3.166 5.295 6.263l-1.7-1.702L2.356 5.8l2.938 2.938Z"></path></svg>
+        File type Blot can publish<br>
+
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12" width="12" height="12"><path d="M6 0a6 6 0 1 1 0 12A6 6 0 0 1 6 0Zm-.705 8.737L9.63 4.403 8.392 3.166 5.295 6.263l-1.7-1.702L2.356 5.8l2.938 2.938Z"></path></svg>
+        Not in a folder whose name starts with an underscore<br>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12" width="12" height="12"><path d="M6 0a6 6 0 1 1 0 12A6 6 0 0 1 6 0Zm-.705 8.737L9.63 4.403 8.392 3.166 5.295 6.263l-1.7-1.702L2.356 5.8l2.938 2.938Z"></path></svg> 
+        File name does not start with an underscore
+      </div>
+
+      <div style="border:1px solid var(--border-color);border-radius: 4px;">
+        <!-- <a href="{{{blog.url}}}{{{path}}}" target="_blank" class="s no-underline" >Visit post</a> -->
+        {{> folder-entry}}
+        
+      </div>
+
 
 
   {{/folder.stat}}
