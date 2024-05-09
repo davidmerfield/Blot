@@ -36,12 +36,22 @@
 
 {{#entry}}
 
+<h1 style="color:var(--accent-color)">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="M0 3.75C0 2.784.784 2 1.75 2h20.5c.966 0 1.75.784 1.75 1.75v16.5A1.75 1.75 0 0 1 22.25 22H1.75A1.75 1.75 0 0 1 0 20.25ZM22.5 7h-21v13.25c0 .138.112.25.25.25h20.5a.25.25 0 0 0 .25-.25Zm-10-3.5v2h10V3.75a.25.25 0 0 0-.25-.25ZM7 3.5v2h4v-2Zm-5.25 0a.25.25 0 0 0-.25.25V5.5h4v-2Z"></path></svg>
+  {{title}}
+</h1>
+
   <table >
 
 
 <tr>
   <td>Title:</td>
   <td>{{title}}</td>
+</tr>
+
+<tr>
+  <td>Page:</td>
+  <td>{{page}}</td>
 </tr>
 
 {{^draft}}{{^scheduled}}
@@ -77,6 +87,12 @@
     height: auto;vertical-align: middle;" height="{{thumbnail.small.height}}" width="{{thumbnail.small.width}}" src="{{thumbnail.small.url}}" /></td>
 </tr>
 
+
+<tr>
+  <td>Slug:</td>
+  <td>{{slug}}</td>
+</tr>
+
 <tr>
   <td>Search:</td>
   <td>{{#search}}Yes{{/search}}{{^search}}No{{/search}}</td>
@@ -102,5 +118,16 @@
   <td>{{#tags}} {{tag}}{{^last}},{{/last}} {{/tags}}{{^tags.length}}<em>No tags</em>{{/tags.length}}</td>
 </tr>
 
+<tr>
+  <td>Metadata:</td>
+  <td>
+    {{#metadata}} {{key}}: {{value}}{{^last}},{{/last}} {{/metadata}}{{^metadata.length}}<em>No metadata</em>{{/metadata.length}}
+  </td>
+</tr>
+
+<tr>
+  <td>GUID:</td>
+  <td><pre><code>{{guid}}</code></pre></td>
+</tr>
 </table>
 {{/entry}}
