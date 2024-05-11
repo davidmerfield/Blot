@@ -1,0 +1,91 @@
+
+<script>
+    var halfViewportWidth = window.innerWidth / 2;
+    document.documentElement.style.setProperty('--half-viewport-width', halfViewportWidth);
+    window.addEventListener('resize', function() {
+        var halfViewportWidth = window.innerWidth / 2;
+        document.documentElement.style.setProperty('--half-viewport-width', halfViewportWidth);
+    });
+</script>
+<style>
+    .iframe-container {
+    position: relative;
+    width: 100%; /* Container width - you can adjust this */
+    padding-top: 66.67%; /* Maintains aspect ratio (height/width * 100%) */
+    overflow: hidden; /* Keeps everything neat */
+    box-shadow: inset 0 1px 0 #f5f4f5,0 -1px 0 rgba(0,0,0,.11),0 1px 0 rgba(0,0,0,.26),-1px 0 0 rgba(0,0,0,.13),1px 0 0 rgba(0,0,0,.13);
+			border-radius: var(--border-radius);
+}
+
+.iframe-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    border:none;
+    background-color: var(--background-color);
+    transform-origin: 0 0; /* Ensures the iframe scales from the top left corner */
+    transform: scale(calc(var(--half-viewport-width) / 1200)); /* Adjust based on original width */
+    /* You might want to add max-width or similar to stop scaling beyond a point */
+}
+
+
+</style>
+<div class="iframe-container">
+	<iframe
+			  id="preview"
+              width="1200"
+              height="800"
+              scrolling="no"
+			src="{{{preview}}}"
+			></iframe>
+</div>
+
+            <a href="">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><path d="M3.75 0h8.5C13.216 0 14 .784 14 1.75v12.5A1.75 1.75 0 0 1 12.25 16h-8.5A1.75 1.75 0 0 1 2 14.25V1.75C2 .784 2.784 0 3.75 0ZM3.5 1.75v12.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25V1.75a.25.25 0 0 0-.25-.25h-8.5a.25.25 0 0 0-.25.25ZM8 13a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>
+            </a>
+            <a href="">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><path d="M0 2.75C0 1.784.784 1 1.75 1h12.5c.966 0 1.75.784 1.75 1.75v10.5A1.75 1.75 0 0 1 14.25 15H1.75A1.75 1.75 0 0 1 0 13.25ZM14.5 6h-13v7.25c0 .138.112.25.25.25h12.5a.25.25 0 0 0 .25-.25Zm-6-3.5v2h6V2.75a.25.25 0 0 0-.25-.25ZM5 2.5v2h2v-2Zm-3.25 0a.25.25 0 0 0-.25.25V4.5h2v-2Z"></path></svg>
+            </a>
+<script type="text/javascript">
+var content = document.querySelector("iframe");
+
+var doc = document.querySelector('iframe').contentWindow.document;
+
+// we can use this to steam changes to CSS properties to the iframe
+var scriptObj = doc.createElement("script");
+scriptObj.type = "text/javascript";
+scriptObj.innerHTML = 'console.log("test");';
+doc.body.appendChild(scriptObj);
+
+// Listen to messages sent from the iframe which contains
+// the preview of the template. We inject the script
+// which sends these messages before the </body> tag of 
+// all HTML pages rendered on preview subdomains.
+var receiveMessage = function receiveMessage(e) {
+    // Only react to messages from the preview subdomain
+    // The user can click on links and load external pages
+    if (e.origin !== "{{{previewOrigin}}}") return;
+
+    // Extract the path of the page they are viewing
+    let path = e.data.slice("iframe:".length);
+
+    // Save the path they have viewed on the server
+    var http = new XMLHttpRequest();
+    var url = "{{{base}}}/settings";
+    var params = "previewPath=" + path;
+    http.open("POST", url, true);
+    http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    http.send(params);
+};
+
+window.addEventListener("message", receiveMessage, false);
+</script>
+
+<h1>{{name}}</h1>
+<form method='post' action="{{{base}}}/template/new">
+    <input type="hidden" name="openEditor" value="true">
+    <input type="hidden" name="name" value="{{^isMine}}Copy of {{/isMine}}{{name}}" />
+    <input type="hidden" name="cloneFrom" value="{{id}}" />
+    <button class="row" type="submit" >Edit template</button>
+  </form>
+  

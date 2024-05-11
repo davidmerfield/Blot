@@ -40,20 +40,19 @@ settings
   .get(
     trace("loading folder"),
     require("../folder"),
-    load.template,
-    trace("template loaded"),
+
     load.menu,
     trace("menu loaded"),
-    load.client,
 
+    load.client,
     trace("client loaded"),
+
     load.plugins,
     load.permalinkFormats,
     load.dates,
     function (req, res) {
       res.render("settings", { 
           title: req.blog.pretty.label, 
-          preview: `https://preview-of-${res.locals.template.owner === req.blog.id ? 'my-' : ''}${res.locals.template.slug}-on-${req.blog.handle}.${config.host}`
        })
       }
   );
@@ -79,44 +78,9 @@ settings
 
 settings.get("/redirects", load.redirects);
 
-// Load the list of templates for this user
-
-settings.use("/template", load.templates, function (req, res, next) {
-  res.locals.breadcrumbs.add("Template", "template");
-  res.locals.layout = "template/layout";
-  next();
-});
-
 settings.get("/verify-domain/:domain", require("./verify-domain"));
 
 settings.use("/client", require("./client"));
-
-settings
-  .route("/template")
-  .get(function (req, res) {
-    res.render("template", { title: "Template" });
-  })
-  .post(parse, require("./save/template"));
-
-settings
-  .route("/template/new")
-  .get(function (req, res) {
-    res.locals.breadcrumbs.add("New", "new");
-    res.render("template/new", { title: "New template" });
-  })
-  .post(parse, require("./save/newTemplate"));
-
-settings
-  .route("/template/install")
-  .post(parse, require("./load/templates"), require("./save/installTemplate"));
-
-settings
-  .route("/template/archive")
-  .all(load.pastTemplates)
-  .get(function (req, res) {
-    res.locals.breadcrumbs.add("Archive", "archive");
-    res.render("template/archive", { title: "Archive" });
-  });
 
 settings.get("/:view", function (req, res) {
   var uppercaseName = req.params.view;

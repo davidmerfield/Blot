@@ -26,8 +26,16 @@ TemplateEditor.param("templateSlug", function (req, res, next) {
 });
 
 TemplateEditor.use((req, res, next) => {
-  res.locals.layout = "template-editor/layout";
+  res.locals.breadcrumbs.add("Template", "/template");
+  res.locals.layout = "template/layout";
   next();
+});
+
+// Load templates for the sidebar
+TemplateEditor.use(require('./templates'));
+
+TemplateEditor.get('/', (req, res) => {
+  res.redirect(req.baseUrl + req.path + '/' + res.locals.template.slug + '/settings')
 });
 
 TemplateEditor.use("/:templateSlug", function (req, res, next) {
@@ -108,7 +116,7 @@ TemplateEditor.route("/:templateSlug/settings")
     }
   )
   .get(function (req, res) {
-    res.render("template-editor/preview");
+    res.render("template/preview");
   });
 
 TemplateEditor.route("/:templateSlug/local-editing")
@@ -123,7 +131,7 @@ TemplateEditor.route("/:templateSlug/local-editing")
   .get(function (req, res) {
     res.locals.enabled = req.template.localEditing;
     res.locals.title = `Local editing - ${req.template.name}`;
-    res.render("template-editor/local-editing");
+    res.render("template/local-editing");
   })
   .post(parse, function (req, res, next) {
     Template.setMetadata(
@@ -157,7 +165,7 @@ TemplateEditor.route("/:templateSlug/rename")
 
   .get(function (req, res) {
     res.locals.title = `Rename - ${req.template.name}`;
-    res.render("template-editor/rename");
+    res.render("template/rename");
   })
   .post(parse, function (req, res, next) {
     Template.setMetadata(
@@ -181,7 +189,7 @@ TemplateEditor.route("/:templateSlug/share")
   .get(function (req, res) {
     res.locals.title = `Share - ${req.template.name}`;
     res.locals.shareURL = `${req.protocol}://${req.hostname}/dashboard/share-template/${res.locals.template.shareID}`;
-    res.render("template-editor/share");
+    res.render("template/share");
   })
   .post(parse, function (req, res, next) {
     if (req.template.shareID) {
@@ -207,7 +215,7 @@ TemplateEditor.route("/:templateSlug/delete")
 
   .get(function (req, res, next) {
     res.locals.title = `Delete - ${req.template.name}`;
-    res.render("template-editor/delete");
+    res.render("template/delete");
   })
   .post(function (req, res, next) {
     Template.drop(req.blog.id, req.template.slug, function (err) {

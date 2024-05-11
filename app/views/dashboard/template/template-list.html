@@ -1,0 +1,91 @@
+<style>
+  .template-row {
+    font-size: 14px;position: relative;
+  }
+
+  .template-row > a {
+    border-radius: var(--border-radius);
+    display: block;
+    margin:0.125rem 0.5rem;
+    min-height: 48px;
+    color: var(--accent-color);
+    padding:0.5rem 0 0.5rem 65px;line-height: 2;
+    box-sizing: border-box;
+  }
+
+  .selected > a {
+    color: var(--text-color);
+    background-color: var(--light-background-color);
+  }
+
+  .template-row .installed {
+    display: block;
+    font-size: 12px;
+    color: var(--accent-color)
+
+  }
+
+  .template-row .installed svg {
+    fill: currentColor;
+    width: 12px;
+    vertical-align: middle;
+  }
+</style>
+
+<div>
+
+
+
+{{#blog.template}}
+
+
+{{#templatesInYourFolder.length}}
+  <span class="label">Templates in your folder</span>
+    {{#templatesInYourFolder}}
+    {{> template-row}}
+    {{/templatesInYourFolder}}
+{{/templatesInYourFolder.length}}
+
+{{#yourTemplates.length}}
+
+<span style="font-size: 14px;color:var(--light-text-color);margin:12px 12px 0;display: block;">Templates</span><br>
+
+{{#yourTemplates}}
+{{> template-row}}
+{{/yourTemplates}}
+{{/yourTemplates.length}}
+
+
+<span>New template</span><br>
+
+{{#blotTemplates}}
+    {{> template-row}}
+    {{/blotTemplates}}
+
+
+
+{{/blog.template}}
+<hr>
+
+
+
+<form method='post' >
+  <input type="hidden" name="redirect" value="{{{base}}}/template">
+  <input name="template" value="" type="hidden" />
+  <button class="row" type="submit" style="border-bottom: none;">Disable template</button>
+</form>
+
+</div>
+<script>
+  // if there is a template name in the div class="mess success" then find the template row and highlight it
+  var success_message = document.querySelector('.mess.success');
+  var template_name = success_message && success_message.innerHTML && success_message.querySelector('b').innerHTML;
+
+  if (template_name) {
+    var template_row = document.querySelector('.line.theme[data-name="' + template_name + '"]');
+    if (template_row) {
+      template_row.classList.add('success');
+      template_row.classList.add('mess');
+    }
+  }
+</script>

@@ -37,7 +37,7 @@ share
 
       next();
     },
-    require("./settings/save/newTemplate")
+    require("./save/newTemplate")
   );
 
 module.exports = share;

@@ -145,7 +145,7 @@ dashboard.use("/account", require("./account"));
 dashboard.use(
   "/share-template",
   require("./load-blogs"),
-  require("./share-template")
+  require("./template/share-template")
 );
 
 // Redirect old URLS
@@ -183,7 +183,6 @@ dashboard.use("/:handle", function (req, res, next) {
   next();
 });
 
-dashboard.use("/:handle/template/edit", require("./template-editor"));
 
 // Will deliver the sync status of the blog as SSEs
 dashboard.use("/:handle/status", require("./status"));
@@ -230,6 +229,7 @@ dashboard.get(
 );
 
 dashboard.get("/:handle", require("./folder"));
+dashboard.use("/:handle/template", require("./template"));
 dashboard.use("/:handle/import", require("./import"));
 dashboard.use("/:handle", require("./settings"));
 

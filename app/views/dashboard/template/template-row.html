@@ -1,0 +1,26 @@
+<div class="template-row {{#selected}}selected{{/selected}}">
+
+<div class="preview" style="height: 30px;width: 45px;overflow: hidden;flex-shrink: 0;
+position: absolute;
+top: 0;
+left: 0;
+margin:0 0 0;
+border: 1px solid var(--border-color);
+border-radius: var(--border-radius);margin:0.5rem 1rem">
+  <iframe
+  id="preview"
+  scrolling="no"
+style="border:none;outline: none;box-shadow:none;height:800px;width:1200px;background:var(--background-color);transform: scale(0.0375);    transform-origin: top left;"
+src="{{{previewURL}}}"
+></iframe>
+<a href="{{{base}}}/template/{{template.slug}}/settings" style="position: absolute;top:0;left: 0;bottom: 0;right: 0;"></a>
+</div>
+<a href="{{{editURL}}}" data-name="{{name}}" >
+
+  
+  {{name}}    
+
+  </a>
+
+</div>
+  

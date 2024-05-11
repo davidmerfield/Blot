@@ -30,10 +30,12 @@ module.exports = function (req, res, next) {
 
       var mySubDomain = template.isMine ? "my-" : "";
 
+      template.selected = req.path.split('/')[1] === template.slug ? 'selected' : '';
+
       template.editURL =
         "/dashboard/" +
         blog.handle +
-        "/template/edit/" +
+        "/template/" +
         template.slug +
         "/settings";
 
@@ -70,14 +72,13 @@ module.exports = function (req, res, next) {
       return 0;
     });
 
-    res.locals.currentTemplate = templates.find(template => template.checked);
     res.locals.yourTemplates = templates.filter(
-      template => template.isMine && !template.localEditing
+      template => template.isMine
     );
-    res.locals.templatesInYourFolder = templates.filter(
-      template => template.isMine && template.localEditing
-    );
+
     res.locals.blotTemplates = templates.filter(template => !template.isMine);
+
+
 
     next();
   });

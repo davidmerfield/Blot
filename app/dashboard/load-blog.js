@@ -1,5 +1,7 @@
-const Blog = require("models/blog");
 const moment = require("moment");
+const config = require("config");
+const Blog = require("models/blog");
+const Template = require("models/template");
 
 module.exports = function (req, res, next, handle) {
   if (!req.session || !req.user || !req.user.blogs.length) return next();
@@ -29,9 +31,13 @@ module.exports = function (req, res, next, handle) {
       return next(e);
     }
 
-    req.blog = blog;
-    res.locals.blog = blog;
+    Template.getMetadata(blog.template, function (err, template) {
 
-    next();
+      res.locals.template = template;
+      res.locals.preview = template ? `https://preview-of-${template.owner === blog.id ? 'my-' : ''}${template.slug}-on-${blog.handle}.${config.host}` : null;
+      req.blog = blog;
+      res.locals.blog = blog;
+      next();
+    });
   });
 };
