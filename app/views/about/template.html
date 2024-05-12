@@ -1,8 +1,10 @@
-{{{body}}}
-
-{{#showToc}}
-<br>
-<ul class="document-list">
+<div style="display: flex;">
+  <div style="flex-basis: 66.6666%;">
+    {{{body}}}
+  </div>
+  <div style="flex-basis: 33.3333%;">
+  
+<ul >
   {{#toc}}
   <li>
     <a href="{{slug}}">
@@ -15,18 +17,5 @@
     </li>
   {{/toc}}
 </ul>
-{{/showToc}}
-  
-{{#subsections.length}}
-<ul class="document-list with-subtitle">
-  {{#subsections}}
-  <li><a href="{{slug}}">
-    <span><img src="{{#cdn}}/images/file-empty.svg{{/cdn}}" style="vertical-align: text-top;" width=16>&thinsp;&thinsp;&thinsp;</span>
-    <span><strong>{{name}}</strong>
-    </span></a>
-  {{/subsections}}
-</ul>
-{{/subsections.length}}
-
-</content>
-</main>
+  </div>
+</div>

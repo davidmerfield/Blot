@@ -1,10 +1,14 @@
 # Marketing
 
-I dislike marketing. I have not tried to convince anyone, ever, to use Blot. I announced [the launch of Blot](https://news.ycombinator.com/item?id=8183498) on a forum for programmers. The people who saw that forum post have since spread the news by word-of-mouth. Every customer on Blot's books today is connected to the people who saw the launch announcement. 
+I have not tried to convince anyone to use Blot, ever. 
 
 ## Advertising
 
-I have not ever advertised Blot. The world is worsened by advertising. Advertising is ugly and manipulative and I will not participate in any form.
+I have not ever advertised Blot. 
+
+## Press
+
+If you are a journalist, please do not write about Blot.
 
 ## Social Media
 
@@ -16,5 +20,4 @@ We do not offer discounts, out of respect to our customers.
 
 ## Trial accounts
 
-We do not give out accounts for free to anyone, out of respect to our customers. 
-
+We do not offer trial accounts because it will complicate our subscription code and I'd rather work on Blot itself.
