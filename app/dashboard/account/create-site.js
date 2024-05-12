@@ -16,7 +16,7 @@ var updatePayPalSubscription =
 
 CreateBlog.use(function (req, res, next) {
   res.locals.breadcrumbs.forEach(function (link) {
-    if (link.label === "Your account") link.label = "Sites";
+    if (link.label === "Account") link.label = "Sites";
   });
   next();
 });
@@ -51,7 +51,8 @@ CreateBlog.route("/pay")
 
   .get(function (req, res) {
     res.locals.breadcrumbs = res.locals.breadcrumbs.slice(0, -1);
-    res.locals.breadcrumbs[res.locals.breadcrumbs.length - 1].last = true;
+    res.locals.breadcrumbs[res.locals.breadcrumbs.length - 1] = {label: 'Sites', last: true};
+    
     res.render("account/create-site-pay", {
       title: "Create a site",
       not_paid: true,
@@ -67,9 +68,26 @@ CreateBlog.route("/pay")
 
 CreateBlog.route("/")
 
-  .all(validateSubscription)
+  .get(function (req, res) {
+    res.locals.blog = {};
 
-  .all(function (req, res, next) {
+    res.render("account/create-site", {
+      title: "Create a blog",
+      first_blog: req.user.blogs.length === 0,
+      breadcrumb: "Create a blog"
+    });
+  })
+
+  .post(parse, saveBlog, function (req, res) {
+    res.message(
+      `/dashboard/${req.blog.handle}`,
+      "Saved your title"
+    );
+  })
+
+  .post(validateSubscription)
+
+  .post(function (req, res, next) {
     // For institutional accounts, we need to allow them to create
     // at least one blog.
     if (_.isEmpty(req.user.subscription) && req.user.blogs.length === 0) {
@@ -94,22 +112,6 @@ CreateBlog.route("/")
     }
 
     res.redirect(req.baseUrl + "/pay");
-  })
-
-  .get(function (req, res) {
-    res.locals.blog = {};
-    res.render("account/create-site", {
-      title: "Create a blog",
-      first_blog: req.user.blogs.length === 0,
-      breadcrumb: "Create a blog"
-    });
-  })
-
-  .post(parse, saveBlog, function (req, res) {
-    res.message(
-      `/dashboard/${req.blog.handle}`,
-      "Saved your title"
-    );
   })
 
   .post(function (err, req, res, next) {
