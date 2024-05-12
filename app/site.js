@@ -18,7 +18,7 @@ site.get("/health", (req, res) => {
 
 // The dashboard
 // -------
-site.use("/dashboard", dashboard);
+site.use("/sites", dashboard);
 
 // The client requests handler
 site.use("/clients", require("clients/routes"));

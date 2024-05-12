@@ -151,7 +151,7 @@ dashboard.use(
 // Redirect old URLS
 dashboard.use("/settings", require("./load-blogs"), function (req, res, next) {
   try {
-    const redirect = `/dashboard/${req.blogs[0].handle}${req.path}`;
+    const redirect = `/sites/${req.blogs[0].handle}${req.path}`;
     res.redirect(redirect);
   } catch (e) {
     next();
@@ -176,8 +176,8 @@ dashboard.use(function (req, res, next) {
 dashboard.use("/:handle", function (req, res, next) {
   // we use pretty.label instead of title for title-less blogs
   // this falls back to the domain of the blog if no title exists
-  res.locals.base = `/dashboard/${req.params.handle}`;
-  res.locals.breadcrumbs.add("Sites", "/dashboard");
+  res.locals.base = `/sites/${req.params.handle}`;
+  res.locals.breadcrumbs.add("Sites", "/sites");
   res.locals.breadcrumbs.add(req.blog.pretty.label, `${req.params.handle}`);
   res.locals.title = req.blog.pretty.label;
   next();
@@ -211,7 +211,7 @@ dashboard.get("/", require("./load-blogs"), async (req, res) => {
   });
 
   res.locals.title = "Sites";
-  res.locals.breadcrumbs.add("Sites", "/dashboard");
+  res.locals.breadcrumbs.add("Sites", "/sites");
   res.render("index");
 });
 

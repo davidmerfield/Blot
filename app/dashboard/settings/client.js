@@ -240,7 +240,7 @@ for (var client_name in clients) {
 }
 
 client_routes.use("/:client", (req, res) => {
-  res.redirect(`/dashboard/${req.blog.handle}/client`);
+  res.redirect(`/sites/${req.blog.handle}/client`);
 });
 
 module.exports = client_routes;

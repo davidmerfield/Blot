@@ -53,7 +53,7 @@ developers.get(["/reference"], function (req, res, next) {
 });
 
 developers.get("/", function (req, res) {
-  res.locals.title = "Developer guide";
+  res.locals.title = "Developers";
   res.render("developers");
 });
 

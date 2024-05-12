@@ -1,11 +1,13 @@
 
 <h1>{{^category}}Tools{{/category}}{{#category}}{{title}}{{/category}}</h1>
 
-<p>Because Blot has no interface, you can use your favorite tools. Here we share some of our favorite tools and explain how you can use them with Blot to create your sites.</p>
+{{^category}}
+<p>Because Blot has no interface, you can work on your sites with your favorite tools. </p>
+{{/category}}
 
 <ul class="pill-navigation">
 
-<li><a href="/tools" {{^category}}class="selected"{{/category}}>All tools</a></li>
+<li><a href="/tools" class="{{^category}}selected{{/category}}">All</a></li>
 {{#categories}}
 <li><a href="/tools/{{slug}}" class="{{selected}}">{{title}}</a></li>
 {{/categories}}

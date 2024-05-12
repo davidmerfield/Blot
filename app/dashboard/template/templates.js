@@ -33,7 +33,7 @@ module.exports = function (req, res, next) {
       template.selected = req.path.split('/')[1] === template.slug ? 'selected' : '';
 
       template.editURL =
-        "/dashboard/" +
+        "/sites/" +
         blog.handle +
         "/template/" +
         template.slug +

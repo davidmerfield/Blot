@@ -30,7 +30,7 @@ share
         name: req.template.name,
         cloneFrom: req.template.id,
         shared: true,
-        redirect: `/dashboard/${req.blog.handle}/template`
+        redirect: `/sites/${req.blog.handle}/template`
       };
 
       console.log("req.body", req.body);

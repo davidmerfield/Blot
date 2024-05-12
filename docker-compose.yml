@@ -31,6 +31,7 @@ services:
       - BLOT_GOOGLEDRIVE_SECRET=${BLOT_GOOGLEDRIVE_SECRET}
     volumes:
       - ./data:/usr/src/app/data
+      - ./.git:/usr/src/app/.git
       - ./app:/usr/src/app/app
       - ./tests:/usr/src/app/tests
       - ./notes:/usr/src/app/notes

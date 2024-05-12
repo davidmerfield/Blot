@@ -43,7 +43,7 @@ Account.use(function (req, res, next) {
 });
 
 Account.route("/").get(function (req, res) {
-  res.redirect("/dashboard");
+  res.redirect("/sites");
 });
 
 Account.use("/:section", function (req, res, next) {
@@ -88,7 +88,7 @@ Account.get("/delete-blog-paypal/update", async (req, res, next) => {
   await updateSubscription(req.user.paypal.id);
   Email.SUBSCRIPTION_DECREASE(req.user.uid);
 
-  res.message("/dashboard", "Reduced your PayPal subscription");
+  res.message("/sites", "Reduced your PayPal subscription");
 });
 
 Account.post("/log-out", logout, function (req, res) {

@@ -116,7 +116,7 @@ documentation.use(
 
 documentation.use(require("./selected"));
 
-documentation.get("/", require("./templates"), require("./featured"), function (req, res, next) {
+documentation.get("/", require("./templates"), function (req, res, next) {
   res.locals.title = "Blot – Turn a folder into a website";
   res.locals.description =
     "A blogging platform with no interface. Turns a folder into a blog automatically. Use your favorite text-editor to write. Text and Markdown files, Word Documents, images, bookmarks and HTML in your folder become blog posts.";
@@ -125,7 +125,7 @@ documentation.get("/", require("./templates"), require("./featured"), function (
   next();
 });
 
-documentation.get("/templates", require("./templates"));
+documentation.get("/templates", require("./featured"), require("./templates"));
 documentation.get("/templates/folders", require("./templates"));
 
 documentation.get(
@@ -152,7 +152,7 @@ documentation.use("/developers", require("./developers"));
 
 documentation.get("/sitemap.xml", require("./sitemap"));
 
-documentation.use("/about/notes", require("./notes"));
+documentation.use("/about", require("./about.js"));
 
 documentation.use("/news", require("./news"));
 

@@ -42,7 +42,7 @@ TemplateEditor.use("/:templateSlug", function (req, res, next) {
   // if the user has transferred the template to their folder
   // don't allow them to edit it on the dashboard
   if (req.template.localEditing)
-    return res.redirect("/dashboard/" + req.blog.handle + "/template");
+    return res.redirect("/sites/" + req.blog.handle + "/template");
 
   res.locals.title = req.template.name;
   next();
@@ -141,7 +141,7 @@ TemplateEditor.route("/:templateSlug/local-editing")
         if (err) return next(err);
 
         res.message(
-          "/dashboard/" + req.blog.handle + "/template",
+          "/sites/" + req.blog.handle + "/template",
           "Transferred template <b>" + req.template.name + "</b> to your folder"
         );
 
@@ -188,7 +188,7 @@ TemplateEditor.route("/:templateSlug/share")
 
   .get(function (req, res) {
     res.locals.title = `Share - ${req.template.name}`;
-    res.locals.shareURL = `${req.protocol}://${req.hostname}/dashboard/share-template/${res.locals.template.shareID}`;
+    res.locals.shareURL = `${req.protocol}://${req.hostname}/sites/share-template/${res.locals.template.shareID}`;
     res.render("template/share");
   })
   .post(parse, function (req, res, next) {

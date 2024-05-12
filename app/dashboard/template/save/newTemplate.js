@@ -81,7 +81,7 @@ module.exports = function (req, res, next) {
         // we need to install this template, and then redirect to the editor
         return Blog.set(req.blog.id, { template: newTemplate.id }, function () {
           res.message(
-            "/dashboard/" +
+            "/sites/" +
               req.blog.handle +
               "/template/edit/" +
               newTemplate.slug +

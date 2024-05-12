@@ -51,7 +51,7 @@ module.exports = function (req, res, next) {
     // and successful changes were made
     if (changes && changes.length && _.isEmpty(errors)) {
       if (changes.indexOf("handle") > -1)
-        redirect = `/dashboard/${updates.handle}/domain`;
+        redirect = `/sites/${updates.handle}/domain`;
 
       return res.message(
         redirect,

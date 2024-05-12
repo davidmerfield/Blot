@@ -27,7 +27,7 @@ CreateBlog.route("/paypal").get(async (req, res, next) => {
 
   await updatePayPalSubscription(req.user.paypal.id);
   Email.CREATED_BLOG(req.user.uid);
-  res.redirect("/dashboard/account/create-site");
+  res.redirect("/sites/account/create-site");
 });
 
 CreateBlog.route("/pay")
@@ -80,7 +80,7 @@ CreateBlog.route("/")
 
   .post(parse, saveBlog, function (req, res) {
     res.message(
-      `/dashboard/${req.blog.handle}`,
+      `/sites/${req.blog.handle}`,
       "Saved your title"
     );
   })
@@ -174,7 +174,7 @@ function validateSubscription (req, res, next) {
   }
 
   res.message(
-    "/dashboard/account/subscription/create",
+    "/sites/account/subscription/create",
     new Error("You need an active subscription to create a new blog")
   );
 }

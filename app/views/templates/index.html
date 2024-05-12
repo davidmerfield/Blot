@@ -1,14 +1,108 @@
-<h1>Templates</h1>
+<h1>Example sites</h1>
 
-{{> questions-search}}
-<br>
 <ul class="pill-navigation">
 
-  <li><a href="/tools" >All templates</a></li>
-  <li><a >Blogs</a></li>
+  <li><a href="/tools" >All</a></li>
+  <li><a>People</a></li>
+  <li><a>Templates</a></li>
+  <li><a>Folders</a></li>
   </ul>
 
+
+
+      {{#featured}}
+<ul id="featured" style="list-style-type: none;
+padding: 0;
+margin: 0;font-size:16px" class="clients">
+  {{#sites}}
+  <li style="position: relative;padding-left: 4em;">
+    <div class="preview" style="height: 40px;width: 60px;overflow: hidden;
+			position: absolute;top:10px;left: 1em;
+			margin:4px 0 10px;
+			box-shadow: inset 0 1px 0 #f5f4f5,0 -1px 0 rgba(0,0,0,.11),0 1px 0 rgba(0,0,0,.26),-1px 0 0 rgba(0,0,0,.13),1px 0 0 rgba(0,0,0,.13);
+			border-radius: var(--border-radius);border-radius: var(--border-radius);">
+			  <iframe
+			  id="preview"
+			style="height:800px;width:1200px;background:var(--background-color);transform: scale(0.05);    transform-origin: top left;"
+			src="{{{link}}}"
+			></iframe>
+			</div>
+      
+    <a target="_blank" style="margin-left:-4em;display:flex;padding:8px 0 12px 4em;align-items: center;" rel="noopener" href="{{{link}}}">
+      <span
+        style="display:block;flex-shrink:0;background: var(--light-background-color) url('{{#cdn}}{{{sprite}}}{{/cdn}}');background-size: {{width}}px;
+  background-position:-{{x}}px -{{y}}px;width:{{thumbnail_width}}px;height:{{thumbnail_width}}px;border-radius: 4em;margin: 4px 1em 0 0;box-shadow: inset 0 0 0 1px var(--inset-image-border-color);
+  transition: transform .1s ease;transform: scale(1);">
+  </span>
+
+  <span>
+      <span class="color-on-hover" style="color:var(--accent-color)">{{name}}</span>
+      <span style="font-size: var(--small-font-size);color:var(--light-text-color);display:block">{{bio}} who joined in {{joined}}</span>
+  </span>
+</a>
+  </li>
+  {{/sites}}
+</ul>
+{{/featured}}
+
+<!-- shuffle the order of <li> sites in #featured and limit number to 24 sites -->
+<script>
+  var featured = document.getElementById("featured");
+  var sites = featured.getElementsByTagName("li");
+  var sitesArray = Array.prototype.slice.call(sites);
+  var previousFirstSevenSites = [];
+
+  const renderFeatured = () => {
   
+    let firstSevenSiteCandidates = [...sitesArray];
+    
+    let index = previousFirstSevenSites.length - 1;
+
+    while (firstSevenSiteCandidates.length > 7 && index >= 0) {
+      firstSevenSiteCandidates = firstSevenSiteCandidates.filter(function(site) {
+        return ! previousFirstSevenSites[index].includes(site);
+      });
+      index--;
+    }
+
+    firstSevenSiteCandidates.sort(function() {
+      return 0.5 - Math.random();
+    });
+
+    const firstSevenSites = firstSevenSiteCandidates.slice(0, 7);
+
+    let remainder = [...sitesArray].filter(function(site) {
+      return ! firstSevenSites.includes(site);
+    });
+
+    // shuffle the remainder of the sites
+    remainder.sort(function() {
+      return 0.5 - Math.random();
+    });
+
+    // trim the number of sites
+    remainder = remainder.slice(0, 6);
+
+    featured.innerHTML = "";
+
+    const result = [...firstSevenSites, ...remainder];
+
+    result.forEach(function(site) {
+      featured.appendChild(site);
+    });
+
+    // save the results for the next pass
+    previousFirstSevenSites.push(firstSevenSites);
+
+    // trim the history of previous results
+    if (previousFirstSevenSites.length > 5) {
+      previousFirstSevenSites.shift();
+    }
+  }
+
+renderFeatured();
+
+</script>
 <div style="display: flex;">
 
   <div style="flex-basis: 66.666%;padding-right: 4rem;box-sizing: border-box;">

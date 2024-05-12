@@ -6,11 +6,11 @@ It is not financially sensible for me to make [Blot's source code](/about/source
 
 ## As a moral decision
 
-Intellectual property as a legal regime has its costs and its benefits. While ideas are inherently free, there can be advantages to establishing legal structures for their protection. However, I think the legal structures we've established to protect intellectual property are overextended. They often restrict rather than encourage creative endeavors.
+Intellectual property as a legal regime has its costs and its benefits. While ideas are inherently free, there can be advantages to establishing legal structures for their protection. However, I think the legal structures we've established to protect intellectual property have metastasized into a system that restricts rather than encourages creative endeavors.
 
 ## Working in public
 
-I also like the spectacle of open-source. Work on Blot is done in public. I suspect it's reassuring to potential customers to see [my git commit messages](https://blot.im/news) neatly formatted on the news page, for them to know that Blot is alive.
+I also like the spectacle of open-source. Work on Blot is done in public. I suspect it's reassuring to potential customers to see [my git commit messages](/updates) neatly formatted on the news page, for them to know that Blot is alive.
 
 ## Terminology
 

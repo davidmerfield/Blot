@@ -11,7 +11,7 @@ module.exports = function (req, res, next) {
 
     Blog.set(req.blog.id, { template: templateID }, function () {
       res.message(
-        "/dashboard/" + req.blog.handle + "/template",
+        "/sites/" + req.blog.handle + "/template",
         "Installed template <b>" + template.name + "</b>"
       );
 

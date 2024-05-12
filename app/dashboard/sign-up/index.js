@@ -16,7 +16,7 @@ var signup = Express.Router();
 var csrf = require("csurf")();
 
 signup.use(function (req, res, next) {
-  if (req.session && req.session.uid) return res.redirect("/dashboard");
+  if (req.session && req.session.uid) return res.redirect("/sites");
 
   res.header("Cache-Control", "no-cache");
 
@@ -212,7 +212,7 @@ passwordForm.post(parse, csrf, function (req, res, next) {
         req.session.uid = user.uid;
 
         Email.CREATED_BLOG(user.uid);
-        res.redirect("/dashboard");
+        res.redirect("/sites");
       }
     );
   });

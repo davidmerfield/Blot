@@ -20,7 +20,7 @@ module.exports = function (req, res, next) {
     // users with isDisabled:true are removed you
     // can delete this check safely.
     if (user.isDisabled) {
-      return res.redirect("/dashboard/disabled");
+      return res.redirect("/sites/disabled");
     }
 
     // Lets append the user and

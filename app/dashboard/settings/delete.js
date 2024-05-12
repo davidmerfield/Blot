@@ -51,7 +51,7 @@ Delete.route("/")
           "Deleted " + req.blog.title
         );
       }
-      res.message("/dashboard", "Deleted " + req.blog.title);
+      res.message("/sites", "Deleted " + req.blog.title);
     }
   );
 
