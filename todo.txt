@@ -10,23 +10,16 @@ Improvements to search engine:
 - Remove drafts and tell Paul
 - Make `search: true` work and tell Paul
 
----
-
-Polish folders
-
-Polish tools section of site
-
-Polish templates
-
-Polish dashboard
-
----
 
 Fix Google Drive sync bug
 - [ ] Resolve whether to use drive.change.watch or drive.activity.query
 - [ ] This seems to re-download google docs every time
 - [ ] How do we properly get notifications about changes to the doc? do we need to set up notifications channels for every doc in the drive directory?
 - [ ] do the google docs edit events we are missing on `drive.changes.watch` appear on `drive.changes.list`?
+
+Make it possible to link between org mode files with: `[[file:another-test.org][another test]]` and tell [questioners](https://blot.im/questions/2163)
+
+---
 
 Infrastructure plan:
 - switch app deployment to ECS
@@ -38,7 +31,6 @@ Infrastructure plan:
 - Use restic or similar to make incremental off-site backups of data directory:
   - restic -r b2:bucket-name:/path/to/repo forget --keep-daily 7 --keep-weekly 4 --keep-monthly 6 --keep-yearly 3 --prune
 
-Make it possible to link between org mode files with: `[[file:another-test.org][another test]]` and tell [questioners](https://blot.im/questions/2163)
 
 ---
 
