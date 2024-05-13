@@ -1,5 +1,15 @@
 <div style="display: flex;">
+  <div class="question-sort-tabs">
+    <ul>
+      <li><a class="selected" href="/questions?sort=newest">Newest</a></li>
+      <li><a href="/questions?sort=unanswered">Unanswered</a></li>
+      <li><a href="/questions?sort=replies">Replies</a></li>
+    </ul>
+  </div>
+<ul class="pill-navigation" style="max-height: 2.3em;overflow: hidden;">
+  <li><a class="{{#selected.questionsIndex}}{{/selected.questionsIndex}}" href="/questions">All</a></li>
   {{#popular_tags}}
-  <a class="minor" href="/questions/tagged/{{ tag }}" style="margin: 12px 0;display:block;"><span class="tag-chip">{{ tag }}</span></a>
+  <li><a href="/questions/tagged/{{ tag }}">{{ tag }}</a></li>
   {{/popular_tags}}
+</ul>
 </div>
