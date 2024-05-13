@@ -1,5 +1,7 @@
 Expose markdown build errors on the dashboard to prevent weird non-update situations where it looks like the sync is stuck
 
+Continue work on test suite for template engine
+
 Fix bug with [bulk redirects page](https://blot.im/questions/2385)
 
 Make video embeds work on Google Docs:
@@ -31,7 +33,6 @@ Infrastructure plan:
 - Use restic or similar to make incremental off-site backups of data directory:
   - restic -r b2:bucket-name:/path/to/repo forget --keep-daily 7 --keep-weekly 4 --keep-monthly 6 --keep-yearly 3 --prune
 
-
 ---
 
 Fix bug with [date on magazine template](https://blot.im/questions/2244)
@@ -49,7 +50,6 @@ Fix light mode colors and tell [Gary](https://mail.google.com/mail/u/0/#inbox/FM
 Fix bug with date settings on the template editor for [magazine template](https://blot.im/questions/2244)
 
 Investigate why [Darren cannot open the template editor](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJSBJCRPJsLFddJCNzTnnQgjs)
-
 
 Fix Git client bugs
 - Investigate a bug with git client credentials triggered when you have two sites using git on one account, and delete one of the sites
