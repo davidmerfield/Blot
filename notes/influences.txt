@@ -1,5 +1,7 @@
 # Influences
 
+If you are on this list and alive I do not want to meet you.
+
 - Donald Knuth
 - Maciej Cegłowski
 - Jeffery Vaska
@@ -13,3 +15,7 @@
 - David Rudnick
 - Folkert Gorter
 - Steph Ango
+- git, Linus Torvalds
+- redis, Salvatore Sanfilippo
+- nginx, Igor Sysoev
+- pandoc, John MacFarlane

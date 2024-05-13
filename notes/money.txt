@@ -1,4 +1,5 @@
-# Principles
+Money
+====
 
 We sell a hosted service to people who want to use Blot. We do not make money any other way. The amount the customer pays for the service is more than it costs to provide the service. This profit pays for the labor of the people who work on Blot's source code, answer your correspondence and maintain the servers. 
 

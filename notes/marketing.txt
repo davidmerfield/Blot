@@ -1,16 +1,16 @@
 # Marketing
 
-I have not tried to convince anyone to use Blot, ever. 
+It's important to me that people find out about Blot from their friends. I have not tried to convince anyone to use Blot, ever.
 
 ## Advertising
 
-I have not ever advertised Blot. 
+We do not, never have and never will advertise Blot. 
 
 ## Press
 
 If you are a journalist, please do not write about Blot.
 
-## Social Media
+## Social media
 
 Blot is not on any of the social media platforms.
 
@@ -20,4 +20,4 @@ We do not offer discounts, out of respect to our customers.
 
 ## Trial accounts
 
-We do not offer trial accounts because it will complicate our subscription code and I'd rather work on Blot itself.
+We do not offer trial accounts.

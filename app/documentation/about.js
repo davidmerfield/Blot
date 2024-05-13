@@ -53,15 +53,17 @@ notes.get("/", function (req, res, next) {
 
 notes.get("/:section", function (req, res, next) {
   res.locals.body = marked.parse(
+    fs.existsSync(NOTES_DIRECTORY + "/" + req.params.section + '.txt') ?
+    fs.readFileSync(
+      NOTES_DIRECTORY + "/" + req.params.section + ".txt",
+      "utf-8"
+    ) :
     fs.readFileSync(
       NOTES_DIRECTORY + "/" + req.params.section + "/README",
       "utf-8"
     )
   );
 
-  res.locals.subsections = TOC.filter(
-    section => section.id === req.params.section
-  )[0].items;
 
   next();
 });

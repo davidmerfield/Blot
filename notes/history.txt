@@ -4,7 +4,7 @@
 
 **2014** &nbsp;&nbsp;&nbsp; Blot launches [on Hacker News](https://news.ycombinator.com/item?id=8183498) and receives its first customer.
 
-**2017** &nbsp;&nbsp;&nbsp; Blot becomes my full-time occupation.
+**2017** &nbsp;&nbsp;&nbsp; Blot supports its first full-time employee.
 
 **2018** &nbsp;&nbsp;&nbsp; Blot receives its first volunteer contributor to the source code.
 

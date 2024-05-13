@@ -222,11 +222,9 @@
   </section>
 
   <section style="flex-basis: 33.333%; ">
-    <ol >
+    <strong>Done</strong>
+    <ol class="path" style="font-size: 16px">
       {{#days}}
-      <li>
-        <strong>Done {{ day }}</strong>
-        <ol class="path" style="font-size: 16px">
           {{#commits}}
           <li>
             <a
@@ -236,8 +234,7 @@
             </a>
           </li>
           {{/commits}}
-        </ol>
-      </li>
+          <li style="font-size: 12px;opacity: 0.5;padding-left: 40px;padding-bottom: 40px;">{{day}}</li>
       {{/days}}
     </ol>
   </section>

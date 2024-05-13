@@ -1,6 +1,0 @@
-# Influences
-
-- git, Linus Torvalds
-- redis, Salvatore Sanfilippo
-- nginx, Igor Sysoev
-- pandoc, John MacFarlane

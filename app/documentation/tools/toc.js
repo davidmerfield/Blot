@@ -18,22 +18,6 @@ const extractName = (path, contents) => {
   }
 };
 
-const HASH_SUBTITLE_REGEX = /\# (.*)(\n*)\#\#(.*)/;
-const DASH_SUBTITLE_REGEX = /(.*)\n[=]+\n(\n*)(.*)\n[-]+\n/;
-
-const extractSubtitle = (contents) => {
-  const hashSubtitle = HASH_SUBTITLE_REGEX.exec(contents);
-  const dashSubtitle = DASH_SUBTITLE_REGEX.exec(contents);
-
-  if (hashSubtitle && hashSubtitle[3]) {
-    return hashSubtitle[3];
-  } else if (dashSubtitle && dashSubtitle[3]) {
-    return dashSubtitle[3];
-  } else {
-    return "";
-  }
-};
-
 const removeLeadingDash = (name) => (name[0] === "-" ? name.slice(1) : name);
 
 const withoutExtension = (name) => path.parse("/" + name).name;
@@ -49,7 +33,8 @@ const buildTOC = (NOTES_DIRECTORY) =>
       return {
         name: section[0].toUpperCase() + section.slice(1),
         id: section,
-        items: fs
+        items: fs.statSync(NOTES_DIRECTORY + '/' + section).isDirectory()
+          ? fs
           .readdirSync(NOTES_DIRECTORY + "/" + section)
           .filter(removeIgnorableItems)
           .map((article) => {
@@ -62,7 +47,6 @@ const buildTOC = (NOTES_DIRECTORY) =>
                 NOTES_DIRECTORY + "/" + section + "/" + article,
                 contents
               ),
-              subtitle: extractSubtitle(contents),
               id: withoutExtension(article),
               slug:
                 "/about/" +
@@ -70,7 +54,7 @@ const buildTOC = (NOTES_DIRECTORY) =>
                 "/" +
                 removeLeadingDash(withoutExtension(article)),
             };
-          }),
+          }) : [],
         slug: "/about/" + path.parse("/" + section).name,
       };
     });

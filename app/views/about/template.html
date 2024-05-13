@@ -2,20 +2,23 @@
   <div style="flex-basis: 66.6666%;">
     {{{body}}}
   </div>
-  <div style="flex-basis: 33.3333%;">
-  
-<ul >
-  {{#toc}}
+  <div style="flex-basis: 33.3333%;padding-left: 4rem;box-sizing: border-box;">
+    
+    
+    <ol class="path doc-nav" style="list-style: none;margin-top: 43px;">
+      <a href="/about">About</a>
+      
+      {{#toc}}
   <li>
     <a href="{{slug}}">
       <span class="heading">{{name}}</span></a>
       <ul>
       {{#items}}
-      <li><a href="{{slug}}"><img src="{{#cdn}}/images/file-empty.svg{{/cdn}}" style="vertical-align: text-top;" width=16>&thinsp; {{name}}</a>
+      <li><a href="{{slug}}">{{name}}</a>
         {{/items}}
       </ul>
     </li>
   {{/toc}}
-</ul>
+  </ol>
   </div>
 </div>
