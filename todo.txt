@@ -938,7 +938,10 @@ Improvements to template engine
 - Local editing
   - Fix bug with title and partials in local editing then tell [Luke](https://mail.google.com/mail/u/1/#inbox/164afa87ede57db7) and [Frank](https://mail.google.com/mail/u/1/#inbox/164ae2e3789b8d4c)
 - Add support for chronological template ordering and [follow up with questions](https://blot.im/questions/819) 
-- Add way to iterate over public and private pages to allow sitemap to work properly and tell [Rodrigo](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDsFffNqTnCTjHrNSrrLBtnnGW) and [questioner](https://blot.im/questions/222)
+- Add way to iterate over public and private pages to allow sitemap to work properly
+  - tell [Rodrigo](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDsFffNqTnCTjHrNSrrLBtnnGW) 
+  - [questioner](https://blot.im/questions/222)
+  - [Jack](https://mail.google.com/mail/u/0/#inbox/FMfcgzGxTFbfvLCqlhWckvZqTmNPPqSM)
 - Fix bug with template editor which resets content of a view. Follow up with [Nathan](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLhgJQTTQZvpsxJDBgnNQpJnJ) who has extensive steps to reproduce, and John
 - Allow the name/slug of a template to change and tell [Marcus](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChSCwzPxFLvSpLcjjRbCkVVbg) and [Pratik](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDDqldQjWRSnwmcMbcpRMHMxL) and [Brad](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGCkmWNjfwTqvrTgJLCSpDcDfk) when the name of a locally-edited template in your blog's folder updates
 - Allow ordering of posts by file name and tell [Jacopo](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNCrgCFZKKzdvTFVvWHCpQChM)
