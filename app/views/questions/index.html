@@ -6,20 +6,8 @@
   </p>
 {{/tag}}
 {{^tag}}
-<div style="display: flex;align-items: baseline;margin:12px 0 36px;font-size:16px;flex-wrap:wrap">
-    {{> questions-search}}
-    <a class="bordered-button"  href="/questions/ask">Ask question</a>
-</div>
-{{/tag}}
-
 {{> questions-toolbar}}
-
-
-<!-- 
-<p class="filters">
-  <a class="{{selected.questionsIndex}}" href="/questions">Recent</a>
-  <a class="{{selected.popular}}" href="/questions/popular">Most discussion</a>
-</p> -->
+{{/tag}}
 
 <div class="questions">
 

@@ -1,15 +1,14 @@
-<div style="display: flex;">
+<div style="display: flex;align-items: baseline;background: var(--background-color);z-index:10;margin:0 0 0;font-size:16px;flex-wrap:wrap;position: sticky;top:0;border-bottom: 1px solid #eeeeec;padding-bottom: 24px;">
   <div class="question-sort-tabs" style="margin-right: 1rem;">
     <ul>
-      <li><a class="selected" href="/questions?sort=newest">Newest</a></li>
+      <li><a class="selected" href="/questions?sort=newest">Recent</a></li>
       <li><a href="/questions?sort=unanswered">Unanswered</a></li>
       <li><a href="/questions?sort=replies">Replies</a></li>
     </ul>
   </div>
-<ul class="pill-navigation" style="max-height: 2.3em;overflow: hidden;">
-  <li><a class="{{#selected.questionsIndex}}{{/selected.questionsIndex}}" href="/questions">All</a></li>
-  {{#popular_tags}}
-  <li><a href="/questions/tagged/{{ tag }}">{{ tag }}</a></li>
-  {{/popular_tags}}
-</ul>
+    {{> questions-search}}
+    <a href="/questions/ask" style="font-size:14px;margin-top:24px;display:  inline-block;border-radius: var(--border-radius);background-color: var(--accent-color);color:var(--background-color);padding:0.5em 0.75em;font-weight: 600;">
+      <svg style="fill:currentColor;vertical-align: middle;position:relative;top:-0.1em" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><path d="M7.75 2a.75.75 0 0 1 .75.75V7h4.25a.75.75 0 0 1 0 1.5H8.5v4.25a.75.75 0 0 1-1.5 0V8.5H2.75a.75.75 0 0 1 0-1.5H7V2.75A.75.75 0 0 1 7.75 2Z"></path></svg>
+      Ask question
+    </a>
 </div>
