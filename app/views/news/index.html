@@ -212,16 +212,13 @@
   <section
     style="
       flex-basis: 66.666%;
-      flex-grow: 1;
-      border: 1px solid var(--border-color);
-      border-radius: var(--border-radius);
-      padding: 2rem 3rem;
+      padding: 2rem 0;
     ">
     <h2 style="border-bottom: 0; margin-bottom: 0;margin-top: 0; padding-bottom: 0;padding-left:1.25em">To do</h2>
     <div class="todo" style="font-size: 16px">{{{todo}}}</div>
   </section>
 
-  <section style="flex-basis: 33.333%; ">
+  <section style="flex-basis: 33.333%; flex-shrink: 0;">
     <h2 style="border-bottom: 0; margin-bottom: 0;margin-top: 1.5em; padding-bottom: 0;padding-left:1.5em">Done</h2>
     <ol class="path" style="font-size: 16px">
       {{#days}}
