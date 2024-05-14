@@ -6,7 +6,9 @@ ol.path {
   ol.path > li {
     position: relative;
     border-left: 1px solid var(--border-color);
-    padding-left: 1.25em;
+    line-height: 1.3;
+    padding: 6px 0 12px 0.666em;
+    margin: 0;
   }
 
   ol.path > li:last-child:before,
@@ -67,7 +69,7 @@ ol.path {
 
     ol.path ul li {
         position: relative;
-        padding-left: 1.25em;
+        padding-left: 0.75em;
     }
 
   ol.path ul li:before {
@@ -88,3 +90,13 @@ ol.path {
     background: var(--text-color);
   }
    
+  ol.path li.no-lab {
+    display: block;font-size: 12px;opacity: 0.5;padding-bottom: 40px;padding-left: 28px;
+    padding-top: 0;
+  }
+
+  ol.path li.no-lab:before,
+  ol.path li.no-lab:after
+   {
+    display: none;
+  }

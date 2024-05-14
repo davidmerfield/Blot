@@ -217,12 +217,12 @@
       border-radius: var(--border-radius);
       padding: 2rem 3rem;
     ">
-    <h2 style="border-bottom: 0; margin-bottom: 0;margin-top: 0; padding-bottom: 0">To do</h2>
+    <h2 style="border-bottom: 0; margin-bottom: 0;margin-top: 0; padding-bottom: 0;padding-left:1.25em">To do</h2>
     <div class="todo" style="font-size: 16px">{{{todo}}}</div>
   </section>
 
   <section style="flex-basis: 33.333%; ">
-    <strong>Done</strong>
+    <h2 style="border-bottom: 0; margin-bottom: 0;margin-top: 1.5em; padding-bottom: 0;padding-left:1.5em">Done</h2>
     <ol class="path" style="font-size: 16px">
       {{#days}}
           {{#commits}}
@@ -234,7 +234,7 @@
             </a>
           </li>
           {{/commits}}
-          <li style="font-size: 12px;opacity: 0.5;padding-left: 40px;padding-bottom: 40px;">{{day}}</li>
+          <li class="no-lab">{{day}}</li>
       {{/days}}
     </ol>
   </section>
