@@ -85,6 +85,11 @@ const load = async relativePath => {
 };
 
 const main = async () => {
+
+  console.log('running TOOLS!');
+
+  await fs.emptyDir(outputDirectory);
+
   const categories = (await fs.readdir(toolsDirectory)).filter(
     f => f.indexOf(".") === -1 && f !== "icons"
   );
@@ -132,7 +137,6 @@ const main = async () => {
   }
 
   for (const tool of result.tools) {
-    console.log(tool);
     await renderTemplate(
       "tool.html",
       {

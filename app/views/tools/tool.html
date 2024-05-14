@@ -3,10 +3,21 @@
 <div class="collapse-on-small-screens">
     <div style="flex-basis: 66.666%;">{{{html}}}
 
-       
+
+        <br>
+        <br>
+        <br>
+        <hr>
+        <h2>Related tools</h2>
+
+        <ul class="tool-list">
+            {{#related}}
+            <li><a href="/tools/{{slug}}">{{#icon}}<img src="/tools/{{{icon}}}" width="16">{{/icon}}<span class="a">{{title}}</span></a></li>
+            {{/related}}  
+          </ul>
   
     </Div>
-    <div style="flex-basis: 33.333%;">
+    <div style="flex-basis: 33.333%;flex-shrink: 0;">
         <h2>Website</h2>
         <p><a href="{{{link}}}" target="_blank" rel="nofollow">{{link}}</a> &rarr;</p>
         <h2>Category</h2>
@@ -17,13 +28,6 @@
         <li>{{{name}}}</li>
         {{/platforms}}
         </ul>
-        <h2>Related tools</h2>
-
-        <ul class="tool-list">
-            {{#related}}
-            <li><a href="/tools/{{slug}}">{{#icon}}<img src="/tools/{{{icon}}}" width="16">{{/icon}}<span class="a">{{title}}</span></a></li>
-            {{/related}}  
-          </ul>
     </div>
 </div>
 

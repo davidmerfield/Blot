@@ -14,7 +14,9 @@ const tools = require("./tools");
 
 async function handle (path) {
   try {
-    if (path.includes("images/examples")) {
+    if (path.includes("tools/")) {
+      await tools();
+    } else if (path.includes("images/examples")) {
       await generateThumbnail(path);
     } else if (path.endsWith(".html") && !path.includes("dashboard/")) {
       await buildHTML(path);

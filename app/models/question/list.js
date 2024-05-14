@@ -7,7 +7,7 @@ module.exports = ({
   page = 1,
   tag = "",
   page_size = PAGE_SIZE,
-  by_created = false
+  sort = 'by_last_reply'
 } = {}) => {
   return new Promise((resolve, reject) => {
     const startIndex = (page - 1) * page_size;
@@ -15,9 +15,12 @@ module.exports = ({
 
     const key = tag
       ? keys.by_tag(tag)
-      : by_created
+      : sort === 'by_created'
       ? keys.by_created
-      : keys.by_last_reply;
+      : sort === 'by_number_of_replies' 
+      ? keys.by_number_of_replies :
+      keys.by_last_reply;
+      
 
     client
       .batch()

@@ -31,7 +31,8 @@ const buildTOC = (NOTES_DIRECTORY) =>
     .filter(removeIgnorableItems)
     .map((section) => {
       return {
-        name: section[0].toUpperCase() + section.slice(1),
+        name: section.includes('.txt') ? section[0].toUpperCase() + section.slice(1, -4)
+          : section[0].toUpperCase() + section.slice(1),
         id: section,
         items: fs.statSync(NOTES_DIRECTORY + '/' + section).isDirectory()
           ? fs

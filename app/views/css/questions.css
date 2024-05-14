@@ -1,3 +1,8 @@
+a[href="/questions/tagged/password"] {
+  color: red;
+  background-color: purple;
+}
+
 .question-row {
     border: 1px solid transparent;
     padding: 1em 0;
@@ -95,14 +100,22 @@ padding-bottom: 0;
   border-radius: 4px;
   padding: 6px;
   margin: 0;
+  font-size: 14px;
   display: flex;
   list-style: none;
 }
 
 .question-sort-tabs ul li a {
-  margin: 0 2px;
+  margin: 0;
+  border: 1px solid transparent;
+  border-radius: 1em;
+  padding: 2px 4px;
+  text-decoration: none;
 }
 
 .question-sort-tabs ul li a.selected {
-  border: 1px solid var(--accent-color);
+  border: 1px solid #eeeeec;
+  border-radius: 4px;
+  padding: 2px 4px;
+  color: var(--text-color);
 }
