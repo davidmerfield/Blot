@@ -933,6 +933,7 @@ Improvements to template engine
 - Add way to iterate over public and private pages to allow sitemap to work properly
   - tell [Rodrigo](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDsFffNqTnCTjHrNSrrLBtnnGW) 
   - [questioner](https://blot.im/questions/222)
+  - Tell [Steve](https://mail.google.com/mail/u/0/#inbox/FMfcgzGxTNsdCppzndskLsxJpvgsdgjv)
   - [Jack](https://mail.google.com/mail/u/0/#inbox/FMfcgzGxTFbfvLCqlhWckvZqTmNPPqSM)
 - Fix bug with template editor which resets content of a view. Follow up with [Nathan](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLhgJQTTQZvpsxJDBgnNQpJnJ) who has extensive steps to reproduce, and John
 - Allow the name/slug of a template to change and tell [Marcus](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChSCwzPxFLvSpLcjjRbCkVVbg) and [Pratik](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDDqldQjWRSnwmcMbcpRMHMxL) and [Brad](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGCkmWNjfwTqvrTgJLCSpDcDfk) when the name of a locally-edited template in your blog's folder updates
