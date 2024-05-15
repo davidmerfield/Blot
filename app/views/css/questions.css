@@ -5,12 +5,16 @@ a[href="/questions/tagged/password"] {
 
 .question-row {
     border: 1px solid transparent;
-    padding: 1em 0;
+    padding: 0.5em 1em;
     margin: -1px 0;
     position: relative;
     border-bottom-color: #eeeeec;
+    transition: background-color 0.2s;
 }
 
+.question-row:hover {
+  background-color: #f0f4ff70;
+}
 .question-row a.cover {
     position: absolute;
     top: 0;

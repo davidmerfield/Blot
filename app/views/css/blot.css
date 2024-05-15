@@ -224,7 +224,7 @@ ol,
 h1,h2,h3,
 background,
 table {
-  max-width: 637px;
+  max-width: 512px;
 }
 
 .light {color: var(--light-text-color)}
