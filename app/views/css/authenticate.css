@@ -9,6 +9,10 @@
   /*fade the authentication container in */
     .authenticate-container {
       border-radius: var(--border-radius);
+      border: 1px solid #eeeeec;
+  padding: 24px;
+  max-width: 360px;
+  border-radius: 12px;
     }
 
     .authenticate-container form {

@@ -74,7 +74,7 @@ Questions.use(function (req, res, next) {
 Questions.get("/feed.rss", async function (req, res) {
   res.locals.url = config.protocol + config.host;
   res.locals.title = "Questions";
-  const { questions } = await list({ by_created: true });
+  const { questions } = await list({ sort: 'by_created' });
 
   res.locals.topics = questions;
 
@@ -135,6 +135,41 @@ Questions.get(["/", "/page-:page"], async function (req, res, next) {
     stats.page_size,
     stats.total,
     "/questions"
+  );
+
+  res.render("questions");
+});
+
+// Topics are sorted by datetime of last reply, then by topic creation date
+Questions.get(["/replies", "/replies/page-:page"], async function (req, res, next) {
+  const page = req.params.page ? parseInt(req.params.page) : 1;
+
+  if (!Number.isInteger(page)) {
+    return next();
+  }
+
+  const { questions, stats } = await list({ page, page_size: 20, sort: 'by_number_of_replies' });
+
+  res.locals.topics = questions;
+
+  // We preview one line of the topic body on the question index page
+  res.locals.topics.forEach(function (topic) {
+    const { body, summary } = render(topic.body);
+    topic.body = body;
+    topic.summary = summary;
+    topic.singular = topic.number_of_replies === 1;
+
+    topic.tags = topic.tags.map(tag => {
+      return { tag, slug: tag };
+    });
+  });
+
+  res.locals.title = page > 1 ? `Page ${page} - Questions` : "Questions";
+  res.locals.paginator = Paginator(
+    page,
+    stats.page_size,
+    stats.total,
+    "/questions/replies"
   );
 
   res.render("questions");

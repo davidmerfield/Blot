@@ -1,8 +1,8 @@
 <div style="display: flex;align-items: baseline;background: var(--background-color);z-index:10;margin:0 0 0;font-size:16px;flex-wrap:wrap;position: sticky;top:0;border-bottom: 1px solid #eeeeec;padding-bottom: 24px;">
   <div class="question-sort-tabs" style="margin-right: 1rem;">
     <ul>
-      <li><a class="selected" href="/questions?sort=newest">Recent</a></li>
-      <li><a href="/questions?sort=replies">Most replies</a></li>
+      <li><a class="{{selected.questionsIndex}}" href="/questions">Recent</a></li>
+      <li><a class="{{selected.replies}}" href="/questions/replies">Most replies</a></li>
     </ul>
   </div>
     {{> questions-search}}
