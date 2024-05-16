@@ -150,6 +150,8 @@ Questions.get(["/replies", "/replies/page-:page"], async function (req, res, nex
 
   const { questions, stats } = await list({ page, page_size: 20, sort: 'by_number_of_replies' });
 
+  res.locals.breadcrumbs = res.locals.breadcrumbs.slice(0, 1);
+  
   res.locals.topics = questions;
 
   // We preview one line of the topic body on the question index page

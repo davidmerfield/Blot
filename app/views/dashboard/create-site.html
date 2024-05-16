@@ -1,0 +1,97 @@
+<section class="stage-container">
+    <section class="stage" >
+        <form method="post"  action="/sites/example" enctype="multipart/form-data" >
+
+        <input type="hidden" name="_csrf" value="xfppHnvt-GIB_Rw7ADzP5UyQMsdwaEHTggVA">
+    
+    <label for="title">Title</label><br>
+    <input type="hidden" name="redirect" value="/sites/example/title">
+    <input type="text" style="width: 100%;" name="title" value="Untitled site" autofocus="">
+    
+    
+    <div class="buttons">
+        <button type="submit" onclick="this.form.submit();this.disabled=true">
+            Next
+        </button>
+        <a href="/sites">Cancel</a>
+    </div>
+    </form>
+</section>
+<section class="stage" >
+    <Label>Template</Label>
+</section>
+<section class="stage" >
+    <label>Folder</label>
+</section>
+
+</section>
+<br>
+<a href="/" style="color:var(--accent-color);text-decoration: underline;">Skip setup</a>
+
+<style>
+    .stage-container {
+        border:1px solid #eeeeec;border-radius: 12px;max-width: 600px;    }
+
+    .stage {
+        border-bottom: 1px solid #eeeeec;padding:24px 0;margin:0 48px 0 64px;
+        position: relative;
+    }
+    .stage:last-child {
+        border-bottom: none;
+    }
+
+    .stage:after {
+        width:2px;
+        bottom: 0;
+        position: absolute;
+        top: 0;
+        left: -36px;
+        content: " ";
+        background: #eeeeec;
+    }
+
+    .stage:first-child::after {
+        top: 28px;
+    }
+
+    .stage:last-child::after {
+        bottom: 24px;
+    }
+
+    .stage::before {
+        content: "1";
+        display: inline-block;
+        width: 24px;
+        height: 24px;
+        font-size: 14px;
+        color: var(--accent-color);
+        background: #eeeeec;
+        text-align: center;
+        line-height: 24px;
+        border-radius: 50%;
+        margin-right: 12px;
+        position: absolute;
+        left: -48px;
+        z-index: 1;
+        top: 26px;
+    }
+
+    .stage:nth-child(1)::before {
+        content: "1";
+    }
+
+    .stage:nth-child(2)::before {
+        content: "2";
+    }
+
+    .stage:nth-child(3)::before {
+        content: "3";
+    }
+
+    .stage:nth-child(4)::before {
+        content: "4";
+    }
+
+
+
+</style>

@@ -9,6 +9,28 @@ justify-content: space-between;margin-bottom: 1rem;">
   <a href="{{{url}}}">{{ label }}</a> {{^last}} <span style="color:var(--border-color)">&puncsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12" width="12" height="12"><path fill="currentColor" d="M4.7 10c-.2 0-.4-.1-.5-.2-.3-.3-.3-.8 0-1.1L6.9 6 4.2 3.3c-.3-.3-.3-.8 0-1.1.3-.3.8-.3 1.1 0l3.3 3.2c.3.3.3.8 0 1.1L5.3 9.7c-.2.2-.4.3-.6.3Z"></path></svg>&puncsp;</span> {{/last}}
   {{/breadcrumbs}}
 </div>
+<form action="/questions/search" style="
+    display: flex;
+    flex-grow: 1;
+    max-width: 400px;
+      margin-right: 1em;
+    ">
+        <input name="query" type="text" style="box-shadow: none;font-size:14px;
+        width:100%;margin:0;
+        padding: 8px 8px;
+        border-radius: 4px 0 0 4px" placeholder="Search" value="">
+        <input style="
+          flex-basis: 25%;
+          font-size:16px;
+          border-radius: 0 4px 4px 0;
+          font-size: 14px;
+          padding: 0 1em;
+          color:var(--accent-color);
+          background-color: var(--background-color);
+          border: 1px solid #eeeeec;
+          border-left: none;
+          margin: 0;" type="submit" value="Search">
+    </form>
 </div>
 
 {{/breadcrumbs.length}}

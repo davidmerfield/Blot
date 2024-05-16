@@ -36,9 +36,9 @@
 		</div>
 		{{/blogs}}
 
-		<a href="/sites/account/create-site" style="font-size:14px;margin-top:24px;display:  inline-block;border-radius: var(--border-radius);background-color: var(--accent-color);color:var(--background-color);padding:0.5em 0.75em;font-weight: 600;">
+		<a href="/sites/create-site" style="font-size:14px;margin-top:24px;display:  inline-block;border-radius: var(--border-radius);background-color: var(--accent-color);color:var(--background-color);padding:0.5em 0.75em;font-weight: 600;">
 			<svg style="fill:currentColor;vertical-align: middle;position:relative;top:-0.1em" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><path d="M7.75 2a.75.75 0 0 1 .75.75V7h4.25a.75.75 0 0 1 0 1.5H8.5v4.25a.75.75 0 0 1-1.5 0V8.5H2.75a.75.75 0 0 1 0-1.5H7V2.75A.75.75 0 0 1 7.75 2Z"></path></svg>
-			New site</span>
+			Create site</span>
 		</a>
 		<br><br><br>
 	</div>
@@ -47,31 +47,31 @@
 		<div style="padding:11px 0;border-bottom: 1px solid var(--border-color);display: flex;justify-content: space-between;align-items: baseline;">
 			<span style="display:block;font-weight: 400;color: var(--light-text-color);">Account</span>
 		</div>
-		<a class="line" href="/dashboard/account/email">
+		<a class="line" href="/sites/account/email">
 			<span class="label">Email address</span>
 			<span class="center">{{user.email}}</span>
 		<span class="right">Edit</span>
 		</a>
 
 		{{#user.hasPassword}}
-		<a class="line" href="/dashboard/account/password">
+		<a class="line" href="/sites/account/password">
 			<span class="label">Password</span>
 			<span class="center"><span class="link">Change password</span></span>
 		</a>
 		{{/user.hasPassword}} {{^user.hasPassword}}
-		<a class="line" href="/dashboard/account/password/set">
+		<a class="line" href="/sites/account/password/set">
 			<span class="label">Password</span>
 			<span class="center"><span class="link">Set password</span></span>
 		</a>
 		{{/user.hasPassword}}
 
-		<a class="line" href="/dashboard/account/subscription" style="border-bottom: none;">
+		<a class="line" href="/sites/account/subscription" style="border-bottom: none;">
 			<span class="label">Subscription</span>
 
 			<span class="center"><span class="link">Manage subscription</span></span>
 		</a>
 			
-		<form class="foot" action="/dashboard/account/log-out" method="post" style="border-top:1px solid var(--border-color);background:none;padding:0 20px 0;font-size: 14px;color: var(--light-text-color);">
+		<form class="foot" action="/sites/account/log-out" method="post" style="border-top:1px solid var(--border-color);background:none;padding:0 20px 0;font-size: 14px;color: var(--light-text-color);">
 
 
 		<button

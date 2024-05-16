@@ -1,18 +1,19 @@
 # Influences
 
-If you are on this list and alive I do not want to meet you.
-
-- Donald Knuth
-- Maciej Cegłowski
-- Jeffery Vaska
-- Charles Broskoski
-- William Morris
+- *Maciej Cegłowski* and [Pinboard](https://pinboard.in/). I respect the transparency, I respect a lot of the choices made in the design of pinboard, the service. The exhortation to only let people use your software if they are paying for it was central to the success of Blot.
+- *Jeffery Vaska* and [Indexhibit](https://www.indexhibit.org/)
+- *Charles Broskoski* and [Are.na](https://are.na). I like the anti-algorithm sentiment. I respect the building of a network of people. I believe in the mantra that goes first build a tool, then build a network.
+- *William Morris* I respect the utopianism combined with strong aesthetic preferences and rigorous craftsmanship. 
 - Laurel Schwulst
+- *Donald Knuth* because he was unhappy with the way his book looked so he revolutionized digital typesetting.
 - Paolo Sorrentino
 - Curtis Yarvin
+- *George Orwell* because of his clarity and willingness to bear arms.
+- Marco Arment specifically Overcast
+- Cody Wilson and Defense Distributed because I respect people whose activism involves construction new tools.
 - Matthew Carter
-- Bret Victor
-- David Rudnick
+- *Bret Victor* and his concept of direct manipulation contributed to some of the ways I think about Blot.
+- *David Rudnick* and his emphasis on attention-to-detail.
 - Folkert Gorter
 - Steph Ango
 - git, Linus Torvalds

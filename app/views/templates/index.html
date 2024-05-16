@@ -1,26 +1,22 @@
 <h1>Example sites</h1>
 
-<div style="display: flex;align-items: baseline;background: var(--background-color);z-index:10;margin:0 0 0;font-size:16px;flex-wrap:wrap;position: sticky;top:0;border-bottom: 1px solid #eeeeec;padding-bottom: 24px;">
-  <div class="question-sort-tabs" style="margin-right: 1rem;">
-    <ul>
-      <li><a class="selected" href="/questions?sort=newest">All</a></li>
-      <li><a href="/questions?sort=newest">People</a></li>
-      <li><a href="/questions?sort=replies">Templates</a></li>
-    </ul>
-  </div>
+<p>Blot turns a folder into a website. Files become posts on your site. Drag-and-drop to publish. There’s no interface, just files, so you can use your favorite tools.</p>
 
-  <div class="question-sort-tabs" style="margin-right: 1rem;">
-    <ul>
-      <li><a href="/questions?sort=newest">Blogs</a></li>
-      <li><a href="/questions?sort=newest">Portfolios</a></li>
-      <li><a href="/questions?sort=newest">Photography</a></li>
-      <li><a href="/questions?sort=replies">Personal sites</a></li>
-    </ul>
-  </div>
+<p>You make modifications to your template's colors and fonts using Blot's template editor – no coding required.</p>
 
-</div>
+<p><a href="/examples/templates/fonts">View all fonts</a></p>
+<!-- 
+<h2>Develop your own template</h2>
 
+<p>You can fork any of the included templates and make modifications to their source code, or develop your own template from scratch.</p>
 
+<p><a href="/developers">Developer guide</a></p> -->
+
+<div style="display: flex;">
+
+  <div style="flex-basis: 50%;">
+  
+    <h2>People</h2>
 
       {{#featured}}
 <ul id="featured" style="list-style-type: none;
@@ -56,6 +52,8 @@ margin: 0;font-size:16px" class="clients">
   {{/sites}}
 </ul>
 {{/featured}}
+
+  </div>
 
 <!-- shuffle the order of <li> sites in #featured and limit number to 24 sites -->
 <script>
@@ -115,27 +113,13 @@ margin: 0;font-size:16px" class="clients">
 renderFeatured();
 
 </script>
-<div style="display: flex;">
-
-  <div style="flex-basis: 66.666%;padding-right: 4rem;box-sizing: border-box;">
+  
+    <div style="flex-basis: 50%;padding-left: 4rem;box-sizing: border-box;">
+      <h2>Templates</h2>
     {{> template-list}}  
     {{> folder-list}}
-  </div>
   
 </div>
-
-<h2>Customizing a template</h2>
-
-<p>You make modifications to your template's colors and fonts using Blot's template editor – no coding required.</p>
-
-<p><a href="/examples/templates/fonts">View all fonts</a></p>
-
-<h2>Develop your own template</h2>
-
-<p>You can fork any of the included templates and make modifications to their source code, or develop your own template from scratch.</p>
-
-<p><a href="/developers">Developer guide</a></p>
-
 </div>
 <style>
   span.color-on-hover,

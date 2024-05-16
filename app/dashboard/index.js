@@ -173,6 +173,13 @@ dashboard.use(function (req, res, next) {
   next();
 });
 
+dashboard.get('/create-site', (req, res) => {
+  res.locals.breadcrumbs.add("Sites", "/sites");
+  res.locals.breadcrumbs.add("Create Site", "/sites/create-site");
+  res.render('create-site');
+});
+
+
 dashboard.use("/:handle", function (req, res, next) {
   // we use pretty.label instead of title for title-less blogs
   // this falls back to the domain of the blog if no title exists
@@ -186,6 +193,10 @@ dashboard.use("/:handle", function (req, res, next) {
 
 // Will deliver the sync status of the blog as SSEs
 dashboard.use("/:handle/status", require("./status"));
+
+
+
+
 
 dashboard.get("/", require("./load-blogs"), async (req, res) => {
 

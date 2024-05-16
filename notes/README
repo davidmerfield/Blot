@@ -1,4 +1,44 @@
-I remember quite clearly the first website I made. The website was about Antarctica and I was thirteen years old. For some reason, our Math teacher, Madame Krylova decided to take it upon herself to set aside algebra for a few weeks and teach us HTML instead. So we all learnt what `<P>` meant and got to work. At the end of the course, our websites were uploaded to the school server. I remember clearly the feeling when I got home and pulled up the site on our computer. 
+<section class="image-stack">
+
+<img style="border-radius: 12px;width:300px;height:auto" width="1200" height="800" src="https://www.barcelonaglobal.org/blog/wp-content/uploads/2020/11/BSC-Barcelona-Supercomputing-Center.png">
+<img style="border-radius: 12px;width:300px;height:auto" width="600" height="507" src="https://images.are.na/eyJidWNrZXQiOiJhcmVuYV9pbWFnZXMiLCJrZXkiOiIxMTczNjUwL29yaWdpbmFsXzY2NmJjYzllNTFjNjY5YmVjOTVjYTU1MmFlNzQ4NDE4LmpwZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6NjAwLCJoZWlnaHQiOjYwMCwiZml0IjoiaW5zaWRlIiwid2l0aG91dEVubGFyZ2VtZW50Ijp0cnVlfSwid2VicCI6eyJxdWFsaXR5Ijo2NX0sImZsYXR0ZW4iOnsiYmFja2dyb3VuZCI6eyJyIjoyMDMsImciOjIwMywiYiI6MjAzfX0sImpwZWciOnsicXVhbGl0eSI6NjV9LCJyb3RhdGUiOm51bGx9fQ==">
+<img style="border-radius: 12px;width:300px;height:auto"  width="600" height="418" src="https://images.are.na/eyJidWNrZXQiOiJhcmVuYV9pbWFnZXMiLCJrZXkiOiI5NDgyMDM3L29yaWdpbmFsXzcxYjE3MGY3ZjRmNTM0NzFlZjliNjNhODY4MjYzZTNhLmpwZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6NjAwLCJoZWlnaHQiOjYwMCwiZml0IjoiaW5zaWRlIiwid2l0aG91dEVubGFyZ2VtZW50Ijp0cnVlfSwid2VicCI6eyJxdWFsaXR5Ijo2NX0sImZsYXR0ZW4iOnsiYmFja2dyb3VuZCI6eyJyIjoyMDMsImciOjIwMywiYiI6MjAzfX0sImpwZWciOnsicXVhbGl0eSI6NjV9LCJyb3RhdGUiOm51bGx9fQ==">
+<img style="border-radius: 12px;height:300px;width:auto" width="467" height="600" src="https://images.are.na/eyJidWNrZXQiOiJhcmVuYV9pbWFnZXMiLCJrZXkiOiI2NTk2MTg5L29yaWdpbmFsX2JkODZiMTlhZDljMjYzYzZlZTQwM2JmNjc3MWRlM2UzLmpwZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6NjAwLCJoZWlnaHQiOjYwMCwiZml0IjoiaW5zaWRlIiwid2l0aG91dEVubGFyZ2VtZW50Ijp0cnVlfSwid2VicCI6eyJxdWFsaXR5Ijo2NX0sImZsYXR0ZW4iOnsiYmFja2dyb3VuZCI6eyJyIjoyMDMsImciOjIwMywiYiI6MjAzfX0sImpwZWciOnsicXVhbGl0eSI6NjV9LCJyb3RhdGUiOm51bGx9fQ==">
+</section>
+
+<style>
+  .image-stack  {
+    height: 360px;
+    position: relative;
+  }
+
+  .image-stack img {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  
+  .image-stack img:hover{
+    z-index: 1;
+  }
+
+  .image-stack img:nth-child(2) {
+    left: 100px;
+    transform: rotate(5deg);
+  }
+
+  .image-stack img:nth-child(3) {
+    left: 200px;
+    transform: rotate(-2deg);
+  }
+
+  .image-stack img:nth-child(4) {
+    left: 300px;
+    transform: rotate(8deg);
+  }
+  </style>
+
+I can remember the first website I made. The website was about Antarctica and I was thirteen years old. For some reason Madame Krylova, our Math teacher, set aside algebra for a few weeks and taught us HTML. So we all learnt what `<P>` meant and got to work. At the end of the course, our websites were uploaded to the school server. I remember clearly the feeling when I got home and pulled up the site on our computer. 
 
 I believe in the internet. I think it has the potential to be much more beautiful than it is today, much more human.
 
@@ -11,24 +51,14 @@ I believe in the internet. I think it has the potential to be much more beautifu
   without interfering with my writing process. So I made Blot.
 </p>
 
-
-
-<h2>Multiple sites</h2>
-
+<h2>Is Blot still maintained?</h2>
 <p>
-  You can manage multiple sites from the same account. 
+  Yes, and <a href="/news">there’s plenty to do</a>.
 </p>
-
-
 
 <h2>Language support</h2>
 <p>
   Blot is available in English.
-</p>
-
-<h2>Is Blot still maintained?</h2>
-<p>
-  Yes, and <a href="/news">there’s plenty to do</a>.
 </p>
 
 <h2>How long has Blot been around?</h2>
@@ -40,5 +70,5 @@ I believe in the internet. I think it has the potential to be much more beautifu
 <p>For the rest of my life.</p>
 
 <h2>Thank you</h2>
-<p>I'm grateful to every single person who has used Blot. You have all made it better, far beyond what I could have achieved alone. Many people deserve a mention: in particular, Paul, Rakhim, Julie, Josh, Nicolas, Anthony, Nash, Lisa, Jamie, Luke, Chris, Roy, Frank, Johannes, Frank, Jim, Jack, Shawn, Darren, Shibel, Max, Angie, Ray and Annaliese. Thank you.
+<p>I'm grateful to every single person who has used Blot. Each of you has made it better. Many people deserve a mention: in particular, Paul, Rakhim, Julie, Josh, Nicolas, Anthony, Nash, Lisa, Jamie, Luke, Chris, Roy, Frank, Johannes, Frank, Jim, Jack, Shawn, Darren, Shibel, Max, Angie, Ray and Annaliese. Thank you.
 </p>

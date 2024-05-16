@@ -1,6 +1,6 @@
 # Threats
 
-This page outlines the most significant potential threats to Blot. Igitur quī dēsīderat pācem, præparet bellum.
+Blot gets less fragile as time passes. 
 
 ## Payment processing
 
