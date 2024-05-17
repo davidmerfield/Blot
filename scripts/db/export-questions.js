@@ -8,6 +8,10 @@ const exportQuestions = require("models/question/export");
 
     await fs.writeJson("./data/questions.json", data, { spaces: 2 });
 
-  console.log("All questions exported ");
+  console.log("All questions exported. To download: ");
+  console.log("scp blot:/var/www/blot/data/questions.json .");
+  console.log("To import, run:");
+  console.log("node scripts/db/import-questions.js questions.json");
+  
   process.exit();
 })();
