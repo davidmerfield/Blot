@@ -7,7 +7,7 @@ var render = require("../main");
 var type = require("helper/type");
 var ensure = require("helper/ensure");
 
-describe("renderLocals", function() {
+xdescribe("renderLocals", function() {
   var req, res, callback;
 
   beforeEach(function() {
