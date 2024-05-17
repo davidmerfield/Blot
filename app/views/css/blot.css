@@ -134,12 +134,14 @@ font-size: var(--small-font-size);
 background-color: transparent;
 color:var(--medium-text-color)
 }
-p code, td code {
+p code, td code, li code {
 border: 1px solid var(--border-color);
-background-color: var(--light-background-color);
-font-size: 0.9em;
+border: 1px solid #eeeeec;
+  border-radius: 4px;
+  overflow-x: auto;
+  background: #fbfbfb;
+  font-size: 0.9em;
 padding: 1px 3px;
-border-radius: 3px;
 }
 .collapse-on-small-screens {
   display: flex;
@@ -224,7 +226,7 @@ ol,
 h1,h2,h3,
 background,
 table {
-  max-width: 512px;
+  max-width: 600px;
 }
 
 .light {color: var(--light-text-color)}
@@ -724,9 +726,7 @@ div.meta-links a {
  .hljs {
   /* var(--highlight-color) */
   color: #2f3337;
-  font-size: 16px;
   /* var(--highlight-bg) */
-  background: #f6f6f6;
 }
 
  .hljs-subst {
