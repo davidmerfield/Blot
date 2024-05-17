@@ -6,7 +6,7 @@ const exportQuestions = require("models/question/export");
 (async () => {
   const data = await exportQuestions();
 
-    await fs.writeJson("questions.json", data, { spaces: 2 });
+    await fs.writeJson("./data/questions.json", data, { spaces: 2 });
 
   console.log("All questions exported ");
   process.exit();
