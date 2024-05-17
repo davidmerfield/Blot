@@ -5,14 +5,6 @@ describe("exportQuestions", function () {
     const exportQuestions = require('../export'); // Adjust the path as needed
     const create = require("../create"); // Function to create questions/replies
   
-    beforeEach((done) => {
-      client.flushdb(done); // Clear the database before each test
-    });
-  
-    afterAll((done) => {
-      client.quit(done); // Close the Redis connection after all tests
-    });
-  
     it("exports questions correctly from Redis", async function (done) {
       // Insert mock data into Redis using create function
       const question1 = await create({ title: 'How?', body: 'Yes' });
@@ -75,9 +67,6 @@ describe("exportQuestions", function () {
                 done();
                     }
           });
-
-      client.flushdb(async () => {
-      });
     });
   
     it("handles questions without replies", async function (done) {
