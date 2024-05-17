@@ -6,17 +6,17 @@
     
     
     <ol class="path doc-nav" style="list-style: none;margin-top: 43px;">
-      <li class="selected">
+      <li class="{{selected.aboutIndex}}">
         <a href="/about">About</a>
       </li>
       
       {{#toc}}
-  <li>
+  <li class="{{#isSelected}}selected{{/isSelected}}">
     <a href="{{slug}}">
       <span class="heading">{{name}}</span></a>
       <ul>
       {{#items}}
-      <li><a href="{{slug}}">{{name}}</a>
+      <li class="{{active}}"><a href="{{slug}}">{{name}}</a>
         {{/items}}
       </ul>
     </li>
