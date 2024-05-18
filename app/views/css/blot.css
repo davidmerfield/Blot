@@ -934,10 +934,7 @@ ul.pill-navigation {
 
 .navigation {
   display: flex;
-  flex-direction: column;
-  position: sticky;
-  justify-content: space-between;
-  top: 4em;
+  justify-content: flex-end;
 }
 
 .navigation ul {
