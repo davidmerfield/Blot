@@ -7,7 +7,7 @@ ol.path {
     position: relative;
     border-left: 1px solid var(--border-color);
     line-height: 1.5;
-    padding: 6px 0 6px 1em;
+    padding: 4px 0 4px 1em;
     margin: 0;
   }
 
@@ -91,4 +91,9 @@ ol.path {
   ol.path li.no-lab:after
    {
     display: none;
+  }
+
+  .doc-nav .selected > a {
+    text-decoration: none;
+    color: var(--text-color);
   }

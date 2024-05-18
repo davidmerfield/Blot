@@ -16,7 +16,7 @@
       <span class="heading">{{name}}</span></a>
       <ul>
       {{#items}}
-      <li class="{{active}}"><a href="{{slug}}">{{name}}</a>
+      <li class="{{#isSelected}}selected{{/isSelected}}"><a href="{{slug}}">{{name}}</a>
         {{/items}}
       </ul>
     </li>

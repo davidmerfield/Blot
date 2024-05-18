@@ -35,7 +35,6 @@ notes.param("section", function (req, res, next) {
 
 notes.param("article", function (req, res, next) {
   res.locals.selected[req.params.article] = "selected";
-
   next();
 });
 
