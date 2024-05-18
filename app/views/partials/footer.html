@@ -3,8 +3,15 @@
   src="{{#cdn}}/documentation.min.js{{/cdn}}"></script>
 <footer style="max-width: 1060px;margin: 0 auto">
   <ul>
-    <li><a href="/developers">Developer guide</a></li>
-    <li><a href="/source-code">Source code</a></li>
+    {{#sourceFile}}
+
+ 
+    <li><a href="https://github.com/davidmerfield/Blot/tree/master{{{sourceFile}}}">
+    Edit this page
+    </a></li> 
+
+  {{/sourceFile}}
+
     <li><a href="/status">Status</a></li>
   </ul>
   <ul>

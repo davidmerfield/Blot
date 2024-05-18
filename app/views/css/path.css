@@ -92,7 +92,7 @@ ol.path {
    {
     display: none;
   }
-
+  .doc-nav  a {text-decoration: none;}
   .doc-nav .selected > a {
     text-decoration: none;
     color: var(--text-color);

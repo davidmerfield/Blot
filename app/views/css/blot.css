@@ -953,9 +953,9 @@ ul.pill-navigation {
   white-space: nowrap;
   text-decoration: none;
   display: block;
-  padding:0.3em 0.8em;
-  margin-bottom: 0.2em;
-  padding-right: 2.4em;
+  padding:0.3rem 0.8rem;
+  margin-bottom: 0.2rem;
+  padding-right: 2.4rem;
   border-radius: var(--border-radius);
   transition: background 0.2s, color 0.2s;
 }
@@ -969,17 +969,31 @@ ul.pill-navigation {
 }
 
 .navigation a.selected {
-  background: #f0f4ff;
-  color: var(--accent-color)
+  background: #e4eafb;
+  color: 
 }
 
 .navigation a svg,
 .sub-link svg {
   fill: currentColor;
   vertical-align: middle;
-  margin-right: 0.4em;
+  margin-right: 0.4rem;
   position: relative;
   top:-0.06em
+}
+
+.navigation li.minor.break {
+  border-top: 1px solid #eaedf2;margin-top: 12px;padding-top: 12px;
+}
+
+.navigation .minor svg {
+  width: 14px;
+  height: 14px;
+  position: relative;
+  top: -0.1em;
+  left: 0.05em;
+  margin-right: 0.5rem;
+  margin-left: 0.05rem;
 }
 
 .sub-link.focus a{
