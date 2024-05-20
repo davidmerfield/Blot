@@ -1,3 +1,5 @@
+Fix single line break handling in Word Documents and [tell Paul](https://mail.google.com/mail/u/0/#inbox/FMfcgzGxTNzPZwwxJPTDlBBBcnbpPcJJ)
+
 Expose markdown build errors on the dashboard to prevent weird non-update situations where it looks like the sync is stuck
 
 Continue work on test suite for template engine
