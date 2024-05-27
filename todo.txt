@@ -1,5 +1,13 @@
 Fix single line break handling in Word Documents and [tell Paul](https://mail.google.com/mail/u/0/#inbox/FMfcgzGxTNzPZwwxJPTDlBBBcnbpPcJJ)
 
+Rethink google drive client to use similar iCloud interface? i.e. share with sync@blot.im?
+
+Make it possible to publish webp, tiff and any other random formats supported by sharp
+
+Make the 404 page more useful (see Netlify site)
+
+Clamp the max length of blot usernames and custom domains
+
 Expose markdown build errors on the dashboard to prevent weird non-update situations where it looks like the sync is stuck
 
 Continue work on test suite for template engine
