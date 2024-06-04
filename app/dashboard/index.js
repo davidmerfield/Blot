@@ -194,28 +194,6 @@ dashboard.use("/:handle", function (req, res, next) {
 dashboard.use("/:handle/status", require("./status"));
 
 dashboard.get("/", require("./load-blogs"), async (req, res) => {
-
-  // call getMetadata for each blog's template in parallel
-  // of req.blogs
-  const templates = await Promise.all((req.blogs || []).map(blog => {
-    // Template.getMetadata(blog.template, (err, metadata) => {}))
-    return new Promise((resolve, reject) => {
-      Template.getMetadata(blog.template, (err, metadata) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(metadata);
-        }
-      });
-    });
-  }));
-  
-  // assign the metadata to the blog object
-  (req.blogs || []).forEach((blog, index) => {
-    blog.template = templates[index];
-    blog.previewURL = `https://preview-of-${blog.template.owner === blog.id ? 'my-' : ''}${blog.template.slug}-on-${blog.handle}.${config.host}`;
-  });
-
   res.locals.title = "Sites";
   res.locals.breadcrumbs.add("Sites", "/sites");
   res.render("index");

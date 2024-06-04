@@ -99,29 +99,11 @@ window.addEventListener("message", receiveMessage, false);
   </div>
 
   
- <div style="width: 33.3333%;margin-left: 0;">
+ <div style="width: 33.3333%;margin-left: 0;max-width: 240px;">
 
-
-<div class="preview" style="width:100%;height: 0;padding-bottom: 66.667%;overflow: hidden;
-position: relative;
-margin:0 0 0;
-border: 1px solid var(--border-color);
-border-radius: var(--border-radius)  var(--border-radius) 0 0;box-sizing: border-box;">
-  <iframe
-  id="preview"
-  scrolling="no"
-style="position: absolute;top:0;left:0;border:none;outline: none;box-shadow:none;height:800px;width:1200px;background:var(--background-color);transform: scale(0.2);    transform-origin: top left;"
-src="{{{preview}}}"
-></iframe>
-<a href="{{{base}}}/template/{{template.slug}}" style="position: absolute;top:0;left: 0;bottom: 0;right: 0;"></a>
-</div>  
-<script>
-  // adjust the scale of the iframe so it fits the width of its parent container
-  var iframe = document.getElementById("preview");
-  var parentWidth = iframe.parentElement.offsetWidth;
-  var scale = parentWidth / 1200;
-  iframe.style.transform = "scale(" + scale + ")";
-  </script>
+<div style="width: 100%;height:0;padding-bottom: 66.6666%;">
+  <div class="site-preview" data-url="{{{previewURL}}}" data-cache-id="{{blog.cacheID}}"></div>
+</div>
 
 <div style="margin-bottom: 2rem;border-radius: 0 0 var(--border-radius)  var(--border-radius);overflow: hidden;border: 1px solid var(--border-color);border-top: none;">
   <a href="{{{base}}}/template/{{template.slug}}" class="panel-link">Edit template 

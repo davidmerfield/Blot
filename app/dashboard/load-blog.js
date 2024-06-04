@@ -24,17 +24,15 @@ module.exports = function (req, res, next, handle) {
         blog.status.state = "syncing";
       }
 
-      // todo add error here...
-
       blog.updated = moment(blog.cacheID).fromNow();
     } catch (e) {
       return next(e);
     }
 
-    Template.getMetadata(blog.template, function (err, template) {
+    Template.getMetadata(blog.template, function (err, metadata) {
 
-      res.locals.template = template;
-      res.locals.preview = template ? `https://preview-of-${template.owner === blog.id ? 'my-' : ''}${template.slug}-on-${blog.handle}.${config.host}` : null;
+      res.locals.template = metadata;
+      res.locals.previewURL = `https://preview-of-${metadata.owner === blog.id ? 'my-' : ''}${metadata.slug}-on-${blog.handle}.${config.host}?screenshot=true`;
       req.blog = blog;
       res.locals.blog = blog;
       next();

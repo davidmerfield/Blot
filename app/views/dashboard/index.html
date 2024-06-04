@@ -17,8 +17,14 @@
 					<span class="truncate url">{{pretty.url}}</span>
 				</span>
 			</a>
-			<div class="preview">
-				<iframe src="{{{previewURL}}}"></iframe>
+			<div style="width: 60px;height:40px;    position: absolute;
+			height: 40px;
+			width: 60px;
+			top: 10px;
+			left: 1em;
+			margin: 4px 0 10px;
+		">
+				<div class="site-preview" data-url="{{{previewURL}}}" data-cache-id="{{cacheID}}"></div>
 			</div>
 		</div>
 		{{/blogs}}

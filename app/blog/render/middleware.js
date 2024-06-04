@@ -147,6 +147,60 @@ module.exports = function (req, res, _next) {
                 .split(config.cdn.origin)
                 .join(config.cdn.origin.split("https://").join("http://"));
 
+                // if the request is for the index page of a preview site,
+                // inject the script to generate a screenshot of the page
+                // on demand
+
+                const screenshotScripts = `
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script>
+function generateScreenshot(scale = 0.4) {
+  // Get the current viewport dimensions
+  const viewportWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+  const viewportHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+
+  html2canvas(document.body, {
+      width: viewportWidth,
+      height: viewportHeight,
+      windowWidth: viewportWidth,
+      windowHeight: viewportHeight,
+      x: 0,
+      y: 0
+  }).then(fullCanvas => {
+
+
+    const thumbnailCanvas = document.createElement('canvas');
+    const thumbnailContext = thumbnailCanvas.getContext('2d');
+    thumbnailCanvas.width = viewportWidth * scale;
+    thumbnailCanvas.height = viewportHeight * scale;
+    thumbnailContext.drawImage(fullCanvas, 0, 0, viewportWidth * scale, viewportHeight * scale);
+
+      const thumbnailDataUrl = thumbnailCanvas.toDataURL('image/png');
+
+      window.parent.postMessage({ type: 'screenshot', screenshot: thumbnailDataUrl }, '*');
+  });
+}
+
+
+window.addEventListener('message', (event) => {
+  if (event.data && event.data.type === 'requestScreenshot') {
+      generateScreenshot();
+  }
+});
+</script>`;
+
+    if (req.preview && viewType === "text/html" && req.query.screenshot) {
+
+      // replace all URLs with the CDN URL with the local URL
+      // so we have no cross-origin issues
+      output = output.split(config.cdn.origin + '/' + req.blog.id).join(req.protocol + '://' + req.hostname);
+    
+      output = output
+        .split("</body>")
+        .join(screenshotScripts + "</body>");
+    }
+
+
             // I believe this minification
             // bullshit locks up the server while it's
             // doing it's thing. How can we do this in
