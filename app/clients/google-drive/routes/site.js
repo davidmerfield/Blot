@@ -33,7 +33,7 @@ site.get("/authenticate", cookieParser(), function (req, res) {
   // This means we hit the public routes on Blot's site
   if (req.cookies.blogToAuthenticate) {
     const redirect =
-      "/dashboard/" +
+      "/sites/" +
       req.cookies.blogToAuthenticate +
       "/client/google-drive/authenticate?" +
       querystring.stringify(req.query);

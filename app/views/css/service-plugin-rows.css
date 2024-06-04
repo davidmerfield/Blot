@@ -6,3 +6,78 @@ form.dashboard-form .plugin label {padding-top:0}
 .plugin:last-child {border-bottom: none;padding-bottom: 0;margin-bottom:0}
 .pluginOptions {display:none}
 .plugin.checked .pluginOptions {display:block}
+
+
+.plugin {
+    margin:0;
+    padding:16px 12px 0;
+  }
+
+  .plugin:hover {
+    background-color: #fafafa;
+  }
+.plugin p {
+  font-size: 16px;
+  color: var(--text-color);
+}
+.plugin {
+  border-bottom: 1px solid #eeeeec;
+}
+form.dashboard-form label{
+  margin:0;padding:0
+}
+.plugin input[type="checkbox"] {
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0;
+  font: inherit;
+  width: 3.4em;
+  height: 2em;
+  border: none;
+  border-radius: 2em;
+  transform: translateY(-0.075em);
+  display: grid;
+  cursor: pointer;
+  place-content: center;
+  background-color: #bbb;
+  font-size: 12px;
+}
+
+.plugin input[type="checkbox"]::before {
+  content: "";
+  width: 1.5em;
+  height: 1.5em;
+  border-radius: 1.5em;
+  position: absolute;
+  top: 0.25em; 
+  right: 1.6em;
+  transition: 120ms width ease-in-out, 120ms transform ease-in-out, right 120ms ease-in-out;
+  box-shadow: inset 1em 1em var(--form-control-color);
+  /* Windows High Contrast Mode */
+  background-color: white;
+}
+
+.plugin  input[type="checkbox"]:checked {
+  background-color: blue;
+}
+
+.plugin  input[type="checkbox"]:checked::before {
+  left: auto;
+  right: 0.3em;
+}
+
+.plugin  input[type="checkbox"]:focus {
+  outline: none;
+}
+
+.plugin  input[type="checkbox"]:active::before {
+  width:1.8em;
+  right: 1.1em;
+}
+
+.plugin  input[type="checkbox"]:disabled {
+  --form-control-color: var(--form-control-disabled);
+
+  color: var(--form-control-disabled);
+  cursor: not-allowed;
+}

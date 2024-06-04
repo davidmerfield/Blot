@@ -17,11 +17,11 @@ var CONFIGURING = "/configuring";
 var FORMATTING = "/formatting";
 var PRIVACY = "/privacy";
 var MAINTENANCE = "/maintenance";
-var ACCOUNT = "/dashboard/account";
-var DELETE_ACCOUNT = "/dashboard/account/subscription/delete";
-var PAY_SUBSCRIPTION = "/dashboard/account/pay-subscription";
-var PASSWORD = "/dashboard/account/password";
-var LOGOUT = "/dashboard/account/log-out";
+var ACCOUNT = "/sites/account";
+var DELETE_ACCOUNT = "/sites/account/subscription/delete";
+var PAY_SUBSCRIPTION = "/sites/account/pay-subscription";
+var PASSWORD = "/sites/account/password";
+var LOGOUT = "/sites/account/log-out";
 
 var STATIC = [
   CONTACT,

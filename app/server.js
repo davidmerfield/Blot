@@ -64,7 +64,6 @@ setInterval(function () {
     unrespondedRequests.join(", ")
   );
 }, 1000 * 5); // 5 seconds
-
 server.use(function (req, res, next) {
   var init = Date.now();
 
@@ -94,6 +93,24 @@ server.use(function (req, res, next) {
         req.headers["x-request-id"] && req.headers["x-request-id"],
         res.statusCode,
         ((Date.now() - init) / 1000).toFixed(3),
+        "PID=" + process.pid,
+        req.protocol + "://" + req.hostname + req.originalUrl
+      );
+    } catch (e) {
+      console.error("Error: Failed to construct canonical log line:", e);
+    }
+  });
+
+  req.on("close", function () {
+    try {
+      if (req.headers["x-request-id"])
+        unrespondedRequests = unrespondedRequests.filter(
+          id => id !== req.headers["x-request-id"].slice(0, 8)
+        );
+      console.log(
+        clfdate(),
+        req.headers["x-request-id"] && req.headers["x-request-id"],
+        "Connection closed by client",
         "PID=" + process.pid,
         req.protocol + "://" + req.hostname + req.originalUrl
       );

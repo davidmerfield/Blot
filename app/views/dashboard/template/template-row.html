@@ -1,0 +1,19 @@
+<div class="template-row {{#selected}}selected{{/selected}}">
+
+  {{#isMine}}
+  <div class="preview">
+    <iframe scrolling="no" src="{{{previewURL}}}"></iframe>
+    <a href="{{{base}}}/template/{{template.slug}}"></a>
+  </div>
+  {{/isMine}}
+
+  {{^isMine}}
+  <img src="{{#cdn}}/images/examples/{{slug}}/0-thumb.png{{/cdn}}" alt="">
+  {{/isMine}}
+
+  <a href="{{{editURL}}}" data-name="{{name}}">{{name}}    
+  {{#checked}}<span class="checked-template">Installed</span>{{/checked}}
+  </a>
+
+</div>
+  

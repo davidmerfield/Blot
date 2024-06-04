@@ -1,10 +1,37 @@
-.question-row {
-    border: 1px solid transparent;
-    padding: 1em 0;
-    margin: -1px 0;
-    position: relative;
+a[href="/questions/tagged/password"] {
+  color: red;
+  background-color: purple;
 }
 
+.question-row {
+    border: 1px solid transparent;
+    padding: 0.5em 1em 0.75em;
+    margin: -1px 0;
+    position: relative;
+    border-bottom-color: #eeeeec;
+    transition: background-color 0.2s;
+}
+
+.question-row:hover {
+  background-color: #f0f4ff70;
+}
+
+
+.question-container .html,
+.answer-container .html {
+  background: none;
+}
+
+.question-container pre, .answer-container pre {
+  border: 1px solid #eeeeec;
+  border-radius: 4px;
+  overflow-x: auto;
+  background: #fbfbfb;
+  padding: 12px;
+  font-size: 15px;
+  color: var(--text-color);
+}
+}
 .question-row a.cover {
     position: absolute;
     top: 0;
@@ -18,7 +45,13 @@
 
 .question-row h2 {
 margin: 0;
-font-size:var(--font-size)}
+font-size:var(--font-size);
+border:none;
+font-weight: 600;
+color: var(--accent-color);
+font-size: 16px;
+padding-bottom: 0;
+}
 
 .question-row:hover h2 {
     color: var(--accent-color);
@@ -43,23 +76,26 @@ font-size:var(--font-size)}
   }
 
   .question-preview {
-  max-height: 3.4em;overflow: hidden;margin:0 0 4px;
+  max-height: 1.7em;overflow: hidden;
   font-size: 16px
     }
     .question-preview > :first-child {
-      margin-top: 4px;
+      margin-top: 0;
     }
     
     .minor,
     .tag-chip {
       color: var(--medium-text-color);
-      font-size: var(--small-font-size);
+      font-size:13px;
     }
 
     .tag-chip {
       background: var(--light-background-color);
-      border-radius: 4px;
-      padding: 4px 12px;
+      border-radius: 20px;
+      color: #5f5fff;
+      padding: 1px 11px;
+      margin: 6px 0 0;
+      display: inline-block;
     }
 
     .tag-chip:hover,
@@ -69,15 +105,40 @@ font-size:var(--font-size)}
 
     .question-container, 
     .answer-container {
-      border-bottom: 1px solid var(--light-border-color);
-        padding: 1em 0;
+      border-bottom: 1px solid #eeeeec;
+      padding: 36px 0 12px;
+      margin: 0;
     }
 
     .question-container {
     padding-top:0}
 
     .answers {
-    padding-left:calc(6*var(--spacing));)}
-    .answer-container {
-        margin-bottom: var(--spacing);
-    }
+    padding-left:calc(6*var(--spacing));
+  }
+    
+
+.question-sort-tabs ul {
+  border: 1px solid #eeeeec;
+  border-radius: 4px;
+  padding: 6px;
+  margin: 0;
+  font-size: 14px;
+  display: flex;
+  list-style: none;
+}
+
+.question-sort-tabs ul li a {
+  margin: 0;
+  border: 1px solid transparent;
+  border-radius: 1em;
+  padding: 2px 4px;
+  text-decoration: none;
+}
+
+.question-sort-tabs ul li a.selected {
+  border: 1px solid #eeeeec;
+  border-radius: 4px;
+  padding: 2px 4px;
+  color: var(--text-color);
+}

@@ -1,21 +1,11 @@
-<form method="POST">
-  <p>
-    Would you like to add
-    {{#template}}
-    <b>{{ name }}</b>
-    {{/template}} to your list of templates?
-  </p>
+<h1>Share</h1>
 
-  <!-- allow the user to select one or more of their blogs using checkboxes -->
-  <label for="blogs">Select a blog</label>
-  <select name="blog" id="blog">
-    {{#blogs}}
-    <option value="{{ id }}">{{ title }}</option>
-    {{/blogs}}
-  </select>
+<h2>Download as zip</h2>
+<p>Download a zip file containing the template's files:</p>
+<p><a href="{{{base}}}/download">Download (.zip)</a></p>
+<p>You can send this zip file to people who use Blot and they'll be able to install a copy of this template using the zip on the 'New template' page</p>
 
-  <div class="buttons">
-    <button type="submit">Add template</button>
-    <a href="/dashboard">Cancel</a>
-  </div>
-</form>
+<h2>Share URL:</h2>
+<p>Send this URL to people who use Blot and they'll be able to install a copy of this template on their site:</p>
+<p><a href="/templates/{{slug}}">{{url}}</a></p>
+

@@ -12,7 +12,10 @@
       "id": "stackoverflow-light"
     },
     "body_font": {},
-    "demo_folder": "plants"
+    "demo_folder": "plants",
+    "template_categories": [
+      "writing"
+    ]
   },
   "isPublic": true,
   "views": {

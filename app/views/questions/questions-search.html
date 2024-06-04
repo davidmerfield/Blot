@@ -1,14 +1,21 @@
 <form action="/questions/search"  style="
 display: flex;
-max-width: 600px;
-flex-basis: 450px;
-margin-right: 4em
+flex-grow: 1;
+  margin-right: 1em;
 ">
-    <input name="query" type="text" style="font-size:16px;width:100%;margin:0;border-radius: 4px 0 0 4px" name="" placeholder="Search all questions" value="{{query}}" />
+    <input name="query" type="text" style="box-shadow: none;font-size:14px;
+    width:100%;margin:0;
+    padding: 8px 8px;
+    border-radius: 4px 0 0 4px" name="" placeholder="Search" value="{{query}}" />
     <input style="
       flex-basis: 25%;
       font-size:16px;
       border-radius: 0 4px 4px 0;
+      font-size: 14px;
       padding: 0 1em;
+      color:var(--accent-color);
+      background-color: var(--background-color);
+      border: 1px solid #eeeeec;
+      border-left: none;
       margin: 0;" type="submit" value="Search">
 </form>

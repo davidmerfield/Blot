@@ -1,0 +1,6 @@
+Support message
+
+Sent from {{email}}
+
+{{message}}
+

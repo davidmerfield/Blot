@@ -1,0 +1,18 @@
+# Lessons
+
+## Get over yourself
+
+Let's say you have to design around something created by the people who use your software, e.g. a photo, a blog post, a page title.
+
+
+## Respect what your users have created
+
+Have they uploaded an image? For god's sake don't crop it to preserve the integrity of your gorgeous grid design. Preserve the integrity of your user's creation above all!
+
+## Don't think for too long
+
+Better to make a few prototypes than ruminate on a single one. Better to go with a single prototype and change your mind later. Better to act, immediately.
+
+## Learn to code
+
+You will become a more effective design if you understand how to code the software you're working on. 

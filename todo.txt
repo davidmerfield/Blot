@@ -1,3 +1,26 @@
+To finish:
+- Domain setup
+- New template page
+- Mobile media queries
+
+To polish:
+- Template editor links
+- Template editor deleted
+- External services page
+- Publishing settings page
+- Folder activity page
+- File viewer
+  - Fix file viewer live update
+  - Add truncate to file viewer
+
+Make it possible to embed audio like so `![Audio]({{{path}}})`
+
+Experiement with injecting script into preview sites which can postMessage to embedding page, sending html2canvas result which can be stored locally for faster loading?
+
+Make it possible to embed video like so `![Video](...)`
+
+Make it possible to embed PDF like so `![Video](...)`
+
 Fix single line break handling in Word Documents and [tell Paul](https://mail.google.com/mail/u/0/#inbox/FMfcgzGxTNzPZwwxJPTDlBBBcnbpPcJJ)
 
 Rethink google drive client to use similar iCloud interface? i.e. share with sync@blot.im?

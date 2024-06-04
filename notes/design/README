@@ -1,3 +1,94 @@
 Design
 ======
 
+In lots of ways, Blot is hidden. Most of the time, people who use Blot do so without looking at it. They simply edit the folder. 
+
+Some things however, are visible. The templates, which I am not yet proud of, are an example of this.
+
+*Aesthetic* considerations  one of my main motivations to work on Blot. 
+
+I find almost all of the internet deeply ugly. My interests in type design lead me to study the work of the early printers, and I find their books to be intensely beautiful. It upsets me that though we are decades into the internet, it remains generally ugly.
+
+
+I find old books, especially Italian ones made by early printers, to be very beautiful. I like objects that can age and break and be repaired with dignity. I like medieval buildings and I don't think that ornament is always a crime. I like things which can be handed down, things that have been handed down. Old books taught me that beauty is a prophylactic for destruction.
+
+<!--
+<br>
+
+![](https://upload.wikimedia.org/wikipedia/commons/1/16/Aristoteles_opera_aldus_1495.jpg)
+
+<small style="opacity:0.5;font-size:14px;px">Page-spread from the Aristoteles "Opera" printed by Aldus Manutius about 1495—1498. Copy of the Bayerische Staatsbibliothek.</small><br><Br>
+-->
+
+
+- **Emojis**: &puncsp; I dislike emojis partly because they look childish but mostly because their design is controlled by a corporation. See the [pistol emoji](https://emojipedia.org/pistol/) for reference: on some platforms it appears as a gun, on others a water pistol. I love text.
+
+- **SAAS aesthetic**: &puncsp; Three-column pricing pages, enquire for enterprise rates, live-chat popups: 'How can we help?', a team page filled with grinning teeth at the biannual beach retreat.
+
+## Calming
+
+A lot of software makes me less calm. I want Blot to make more more calm, or at least not less calm.
+
+## Black or white backgrounds
+
+Almost every website has a white or light background. So, Blot has a light background. It feels familiar. However, I do sometimes wonder about inverting the color scheme.
+
+I like how [David Rudnick](https://davidrudnick.org/) justified the black backgrounds of his work. To paraphrase – the way computer screens work is they emit light, and that digital artifacts are light, in lots of ways.
+
+I also spend most of my day in a text editor with a dark background, and find it comfortable on the eyes.
+
+All of Blot's themes can be toggled to from white to black with a single click on the template editor. Perhaps one day I will switch everything from white by default to black by default.
+
+
+## Loads quickly
+
+Waiting for a page to load is not fun. The ideal website loads quickly, and it loads quickly from anywhere.
+
+## Has no advertising
+
+Advertising is at best a distraction. At worst it is invasive and manipulative. The ideal website has no advertising.
+
+## If there is text then the text is easy to read
+
+When you design a website, you should start with a paragraph of text and work outwards. There are a number of errors that are easily avoided if you just start with a single paragraph: select an appropriate typeface, then work out the measure and leading that suits the combination of text and the typeface. This can all be done according to your own eye.
+
+
+## While the page loads its layout should remain
+
+I dislike when the layout of the page shifts around as it loads. It upsets me when I try to click on a link, only for the page layout to shift under my finger as an image off the screen finally loads. The fix for this problem is easy: block out the space required by content loaded after your page has been rendered. You can almost always determine in advance the aspect ratio of advertising inserts or embedded media. For example, specify the width and height of images in your site's HTML markup. This means the browser doesn't need to adjust the layout of the page as it determines the dimensions of the loaded image. The solution is to work out the width and height of images on the server, and deliver the HTML to the browser with this information. You can use a different strategy for responsive images to achieve the same result: as the image loads, the layout remains the same.
+
+## When part of the page is obscured
+
+My screen is small enough as it is, I do not want it further reduced by sticky headers and footers. None of these improve the reading experience and only irritate me.
+
+## When the page tries to cajole me into stuff
+
+No, I probably don't want to subscribe to your newsletter. No, I don't want this, or that. I just want to read your webpage and get on with my life.
+
+
+
+## Influences
+
+- *Maciej Cegłowski* and [Pinboard](https://pinboard.in/). I respect the transparency, I respect a lot of the choices made in the design of pinboard, the service. The exhortation to only let people use your software if they are paying for it was central to the success of Blot.
+- *Jeffery Vaska* and [Indexhibit](https://www.indexhibit.org/)
+- *Charles Broskoski* and [Are.na](https://are.na). I like the anti-algorithm sentiment. I respect the building of a network of people. I believe in the mantra that goes first build a tool, then build a network.
+- *William Morris* I respect the utopianism combined with strong aesthetic preferences and rigorous craftsmanship. 
+- Laurel Schwulst
+- Robin Sloan
+- Robin Rendle
+- Jake Dow-Smith
+- *Donald Knuth* because he was unhappy with the way his book looked so he revolutionized digital typesetting.
+- Paolo Sorrentino
+- Curtis Yarvin
+- *George Orwell* because of his clarity and willingness to bear arms.
+- Marco Arment specifically Overcast
+- Cody Wilson and Defense Distributed because I respect people whose activism involves construction new tools.
+- Matthew Carter
+- *Bret Victor* and his concept of direct manipulation contributed to some of the ways I think about Blot.
+- *David Rudnick* and his emphasis on attention-to-detail.
+- Folkert Gorter
+- Steph Ango
+- git, Linus Torvalds
+- redis, Salvatore Sanfilippo
+- nginx, Igor Sysoev
+- pandoc, John MacFarlane

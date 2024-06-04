@@ -30,7 +30,6 @@ blog.use(function (req, res, next) {
     if (err || !metadata) {
       var error = new Error("This template does not exist.");
       error.code = "NO_TEMPLATE";
-
       return next(error);
     }
 

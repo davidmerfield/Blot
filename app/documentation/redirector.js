@@ -2,10 +2,11 @@ const Express = require("express");
 const redirector = new Express.Router();
 
 const internal = {
-  "/account": "/dashboard/account",
-  "/settings": "/dashboard/settings",
-  "/log-in": "/dashboard/log-in",
-  "/sign-up": "/dashboard/sign-up",
+  "/dashboard": "/sites",
+  "/account": "/sites/account",
+  "/settings": "/sites/settings",
+  "/log-in": "/sites/log-in",
+  "/sign-up": "/sites/sign-up",
   "/notes": "/about/notes",
   "/about/news": "/news",
   "/about/source-code": "/about",

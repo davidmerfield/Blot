@@ -30,7 +30,7 @@ Delete.route("/")
     emailUser,
     logout,
     function (req, res) {
-      res.redirect("/dashboard/deleted");
+      res.redirect("/sites/deleted");
     }
   );
 

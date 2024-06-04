@@ -7,3 +7,13 @@
   <span class="label">Disconnect</span>
   <span class="link">Disconnect from {{client.display_name}}</span>
 </a>
+
+<a class="line" href="{{{dashboardBase}}}/client/activity">
+  <span class="label">Activity</span>
+  <span class="center">  
+  {{#blog.status}}
+    <span id="status" style="display:block" class="{{state}} truncate status">{{message}} {{fromNow}}</span>
+  {{/blog.status}}
+  </span>
+  <span class="right">View recent activity</span>
+</a>

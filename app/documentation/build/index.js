@@ -14,8 +14,15 @@ const tools = require("./tools");
 
 async function handle (path) {
   try {
+    
+    if (path.includes("tools/")) {
+      await tools();
+    } 
+    
     if (path.includes("images/examples")) {
+      console.log('generating thumbnail for', path);
       await generateThumbnail(path);
+      console.log('generated thumbnail for', path); 
     } else if (path.endsWith(".html") && !path.includes("dashboard/")) {
       await buildHTML(path);
     } else if (path.endsWith(".css")) {
@@ -36,7 +43,9 @@ async function handle (path) {
         join(DESTINATION_DIRECTORY, path)
       );
     }
-  } catch (e) {}
+  } catch (e) {
+    console.error(e);
+  }
 }
 
 module.exports = async ({ watch = false } = {}) => {
@@ -81,17 +90,25 @@ async function buildHTML (path) {
   await fs.outputFile(join(DESTINATION_DIRECTORY, path), result);
 }
 
+// use npm package 'clean-css' to minify css
+const CleanCSS = require("clean-css");
+
+
 async function buildCSS () {
   // merge all css files together into one file
   const cssDir = join(SOURCE_DIRECTORY, "css");
   const cssFiles = (await fs.readdir(cssDir)).filter(i => i.endsWith(".css"));
+
   const cssContents = await Promise.all(
     cssFiles.map(name => fs.readFile(join(cssDir, name), "utf-8"))
   );
 
   const mergedCSS = cssContents.join("\n\n");
+  
+  // minimize the css as aggressively as possible
+  const minifiedCSS = new CleanCSS({ level: 2 }).minify(mergedCSS).styles;
 
-  await fs.writeFile(join(DESTINATION_DIRECTORY, "css.min.css"), mergedCSS);
+  await fs.writeFile(join(DESTINATION_DIRECTORY, "css.min.css"), minifiedCSS);
 }
 
 async function buildJS () {
@@ -109,7 +126,6 @@ const sharp = require("sharp");
 const { dirname, basename, extname } = require("path");
 
 async function generateThumbnail (path) {
-  if (path.includes("-")) return;
 
   // copy the file as-is too
   await fs.copy(

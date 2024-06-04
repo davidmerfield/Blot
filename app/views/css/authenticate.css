@@ -1,0 +1,31 @@
+
+.authenticate-container {
+  max-width: 360px;
+  border-radius: 12px;
+}
+
+.authenticate-container form {
+  border-radius: var(--border-radius);
+  max-width: 360px;
+}
+
+.authenticate-container input[type="submit"].link {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  padding: 0;
+  display: inline;
+  border-radius: 0;
+  margin: 0;
+  width: auto;
+  text-decoration: underline;
+  transition-property: color, border-color;
+  transition-duration: .1s;
+  transition-timing-function: ease-out;
+}
+
+.authenticate-container input[type="submit"].link:active {
+  margin: 0;
+  padding: 0;
+}

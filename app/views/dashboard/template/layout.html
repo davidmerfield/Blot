@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  {{> head}}
+  <body style="background-color: #f6f7f9;">
+   		<div style="display: flex;">
+			
+			<div class="template-sidebar">
+
+				<div class="scroll-container">
+					<div style="margin:3.5rem 1rem 0 0;display: flex;padding: 0 0 8px 0;justify-content: space-between;border-bottom: 1px solid #eeeeec;align-items: baseline;">
+						<h2 style="font-size: 14px;margin:0;padding:0;border:none;font-weight: 600;">
+							<a href="{{{dashboardBase}}}/template" >
+							Templates</a></h2>
+
+					</div>
+					{{> template-list}}
+				</div>			
+			</div>
+
+			<div style="width: 75%;flex-grow: 0;flex-shrink: 0;box-sizing: border-box;padding:3rem 2rem 0 4rem;min-height: 101vh;">
+				<div style="display: flex;justify-content: space-between;margin-bottom:12px;border-bottom:1px solid #eeeeec;">
+					<div>
+						{{> breadcrumbs}}
+					</div>
+					<div style="display: flex;justify-content: space-between;align-items: center;align-self: baseline;">
+						<div style="padding:0;padding-bottom: 0;"></div>
+							<a href="/sites/{{blog.handle}}" class="close-button">
+								<span>
+									<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="M5.72 5.72a.75.75 0 0 1 1.06 0L12 10.94l5.22-5.22a.749.749 0 0 1 1.275.326.749.749 0 0 1-.215.734L13.06 12l5.22 5.22a.749.749 0 0 1-.326 1.275.749.749 0 0 1-.734-.215L12 13.06l-5.22 5.22a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042L10.94 12 5.72 6.78a.75.75 0 0 1 0-1.06Z"></path></svg>
+								</span>
+							</a>
+					</div>
+	
+				</div>
+
+
+				{{> message}}
+				{{> body}}
+			</div>
+		</div>
+    </div>
+  </body>
+</html>

@@ -97,13 +97,13 @@ module.exports = function loadDone (req, res, next) {
     commits.forEach(commit => {
       commit.time = moment(commit.date).format(dateFormat);
 
-      if (commit.time === today) commit.time = "today";
-      else if (commit.time === yesterday) commit.time = "yesterday";
+      if (commit.time === today) commit.time = "Today";
+      else if (commit.time === yesterday) commit.time = "Yesterday";
       else if (
         moment(commit.date).valueOf() > moment().subtract(6, "days").valueOf()
       )
         commit.time = moment(commit.date).fromNow();
-      else commit.time = "on " + commit.time;
+      else commit.time = commit.time;
 
       let currentday = days[days.length - 1];
 

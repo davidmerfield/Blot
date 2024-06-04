@@ -1,0 +1,210 @@
+{{#folder}}
+
+{{#root}}
+  <div class="folder-container">
+    <a class="line" href="{{{base}}}/client/{{client.name}}">
+      <span class="label">Folder</span>
+      {{^blog.client}}
+      <span class="link">Choose a way to sync folder</span>
+      {{/blog.client}}
+      {{#blog.client}}
+      <span class="center">
+        <img width="16" height="16" src="{{#cdn}}/images/sync/{{blog.client}}.svg{{/cdn}}" />
+        {{client.display_name}}
+      </span>
+      <span class="link" style="margin-left: 12px;">Edit</span>
+      {{/blog.client}}
+    </a>
+    <div class="folder-corner"></div>
+    <div class="folder-top"></div>
+    {{/root}}
+
+    <div class="folder-box {{#root}}root{{/root}} {{#directory}}directory{{/directory}} live-updates">
+    {{#directory}}
+    <table class="directory-list {{^contents.length}}empty{{/contents.length}}">
+        {{#contents.length}}
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Date modified</th>
+            <th>Size</th>
+          </tr>
+        </thead>
+        {{/contents.length}}
+        <tbody>
+      
+          {{^contents.length}}
+          <tr>
+            <td colspan="3" style="vertical-align: middle;">
+              <small style="display: flex;flex-grow: 1;
+              {{#directory}}{{^root}}
+              min-height: 300px;
+              {{/root}}{{/directory}}
+      
+              color: var(--light-text-color);justify-content: center;">  
+                <span style="align-self: center;">
+                  {{#root}}Folder is empty.{{/root}}
+                  {{^root}}There is nothing here.{{/root}}
+                </span>
+              </small>
+            </td>
+          </tr>
+          {{/contents.length}}
+      
+          {{#contents}}
+          <tr>
+            <td>
+              <a href="{{{base}}}/folder{{{path}}}" class="{{#directory}}directory{{/directory}} {{#entry}}entry{{/entry}}">
+      
+            {{#directory}}
+            <span class="icon-folder"></span>
+            {{/directory}}
+            {{^directory}}  
+            {{#entry}}    
+            <span class="icon-file-check"></span>
+            {{/entry}}
+            {{^entry}}
+            <span class="icon-file"></span>
+            {{/entry}}
+            {{/directory}}
+            <span class="truncate">{{name}}</span></a>
+            </td>
+            <td data-sort="{{unix}}">{{modified}}</td>
+            <td data-sort="{{#directory}}0{{/directory}}{{^directory}}{{bytes}}{{/directory}}">{{#directory}}--{{/directory}}{{^directory}}{{size}}{{/directory}}</td>
+          </tr>
+          {{/contents}}
+        </table>
+        <script>
+          const table = document.querySelector('.directory-list');
+      
+      
+          // Restore the width of each column from local storage
+          document.querySelectorAll('.directory-list th').forEach(function (th, index) {
+            var width = localStorage.getItem('column-width-' + index);
+            if (width) {
+              th.style.width = width;
+              var nextTh = th.nextElementSibling;
+              var nextWidth = localStorage.getItem('column-width-' + (index + 1));
+              if (nextWidth) {
+                nextTh.style.width = nextWidth;
+              }
+            }
+          });
+      
+          // on page load restore the sort order from local storage
+            var column = localStorage.getItem('sort-column');
+            var order = localStorage.getItem('sort-order');
+      
+            if (column && order) {
+              var header = table.querySelector('th:nth-child(' + (parseInt(column) + 1) + ')');
+              header.classList.add(order);
+              sortTable(header, order === 'reverse');
+            }
+      
+          function sortTable(header, reverse) {
+            var index = Array.from(header.parentNode.children).indexOf(header);
+            var rows = Array.from(table.querySelectorAll('tbody tr'));
+            var sorted = rows.sort(function (a, b) {
+              var aText = a.children[index].getAttribute('data-sort') ? parseInt(a.children[index].getAttribute('data-sort')) : a.children[index].textContent.toLocaleLowerCase().trim();
+              var bText = b.children[index].getAttribute('data-sort') ? parseInt(b.children[index].getAttribute('data-sort')) : b.children[index].textContent.toLocaleLowerCase().trim();
+      
+              if (reverse) {
+                return aText < bText ? 1 : -1;
+              } else {
+                return aText > bText ? 1 : -1;
+              }
+            });
+      
+            table.querySelectorAll('th').forEach(function (th) {
+              th.classList.remove('sorted', 'reverse');
+            });
+      
+            header.classList.add('sorted');
+            if (reverse) {
+              header.classList.add('reverse');
+            }
+      
+            rows.forEach(function (row) {
+              row.remove();
+            });
+      
+            sorted.forEach(function (row) {
+              table.querySelector('tbody').appendChild(row);
+            });
+          }
+      
+          // add sorting to the directory list
+          document.querySelectorAll('.directory-list th').forEach(function (header) {
+            header.addEventListener('mousedown', function (event) {
+              // ignore clicks on the resize handle
+              if (event.target.classList.contains('resize-handle')) {
+                return;
+              }
+      
+              var reverse = header.classList.contains('sorted') && !header.classList.contains('reverse');
+      
+              sortTable(header, reverse);
+      
+              // persist the column and sort order in local storage
+              var index = Array.from(header.parentNode.children).indexOf(header);
+              localStorage.setItem('sort-column', index);
+              localStorage.setItem('sort-order', reverse ? 'reverse' : 'sorted');
+            });
+          });
+      
+          // append the node '<span class="resize-handle">|</span>' to each th element
+          document.querySelectorAll('.directory-list th:not(:last-child)').forEach(function (th) {
+            var handle = document.createElement('span');
+            handle.className = 'resize-handle';
+            th.appendChild(handle);
+          });
+      
+          // Function to resize columns in the directory list
+          document.querySelectorAll('.directory-list th .resize-handle').forEach(function (handle) {
+            handle.addEventListener('mousedown', function (event) {
+              var th = handle.parentNode;
+              var nextTh = th.nextElementSibling;
+              var startX = event.clientX;
+              var startWidth = th.offsetWidth;
+              var tableWidth = th.parentNode.offsetWidth;
+      
+              document.addEventListener('mousemove', resizeColumn);
+              document.addEventListener('mouseup', stopResize);
+      
+              function resizeColumn(event) {
+                var width = startWidth + (event.clientX - startX);
+                var currentWidthPercentage = parseFloat(th.style.width.slice(0, -1));
+      
+                th.style.width = (width / tableWidth) * 100 + '%';
+                var widthDeltaInPercentage = (currentWidthPercentage - parseFloat(th.style.width.slice(0, -1)));
+                var currentNextWidthPercentage = parseFloat(nextTh.style.width.slice(0, -1));
+      
+                nextTh.style.width = (currentNextWidthPercentage + widthDeltaInPercentage) + '%';
+              }
+      
+              function stopResize() {
+                document.removeEventListener('mousemove', resizeColumn);
+                document.removeEventListener('mouseup', stopResize);
+      
+                // Persist the width of each column in local storage
+                var index = Array.from(th.parentNode.children).indexOf(th);
+                localStorage.setItem('column-width-' + index, (th.offsetWidth / tableWidth) * 100 + '%');
+                localStorage.setItem('column-width-' + (index + 1), (nextTh.offsetWidth / tableWidth) * 100 + '%');
+              }
+            });
+          });
+      
+      
+        </script>
+            {{/directory}}
+
+  </div>
+{{#root}}
+
+<a href="{{{base}}}/client" class="status-link">
+  <span class="sync-status" data-sync-status-url="{{{base}}}/status">{{blog.status.message}} {{blog.status.fromNow}}</span>
+</a>
+
+</div>
+{{/root}}
+{{/folder}}

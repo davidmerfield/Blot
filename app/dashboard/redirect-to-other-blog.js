@@ -8,7 +8,7 @@ module.exports = function (err, req, res, next) {
     if (!req.handle || !req.blogs.length) return next(err);
     let handle = req.handle;
     let handleToRedirect;
-    let pathWithoutHandle = req.path.slice(("/dashboard/" + handle).length);
+    let pathWithoutHandle = req.path.slice(("/sites/" + handle).length);
     let similarity;
 
     req.blogs.forEach((blog) => {
@@ -19,6 +19,6 @@ module.exports = function (err, req, res, next) {
       }
     });
 
-    res.redirect(`/dashboard/${handleToRedirect}${pathWithoutHandle}`);
+    res.redirect(`/sites/${handleToRedirect}${pathWithoutHandle}`);
   });
 };

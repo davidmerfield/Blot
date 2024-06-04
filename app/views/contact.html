@@ -1,33 +1,12 @@
 <h1>Contact</h1>
 
-<p>Please email us:</p>
-
-<p>
-  <a id="text_element" href="mailto:contact@blot.im">contact@blot.im</a> &nbsp; 
-  <button class="copier" onclick="copyToClipboard('text_element')">Copy</button>
+<div style="max-width: 600px;border:1px solid #eeeeec;border-radius: 12px;">
+  <p style="margin:0;padding:24px;border-bottom: 1px solid #eeeeec;">Send an email:<br>
+    <a id="text_element" href="mailto:contact@blot.im">contact@blot.im</a> &nbsp; 
+    <button class="copy" data-copy="contact@blot.im"> 
+      <span class="icon-copy"></span>
+      Copy</button>
 </p>
-
-
-<script type="text/javascript">
-  function copyToClipboard(elementId) {
-    // Create an auxiliary hidden input
-    var aux = document.createElement("input");
-
-    // Get the text from the element passed into the input
-    aux.setAttribute("value", document.getElementById(elementId).innerHTML);
-
-    // Append the aux input to the body
-    document.body.appendChild(aux);
-
-    // Highlight the content
-    aux.select();
-
-    // Execute the copy command
-    document.execCommand("copy");
-
-    // Remove the input from the body
-    document.body.removeChild(aux);
-    document.querySelector("[onclick*='" + elementId + "']").innerHTML = 'Copied';
-    document.querySelector("[onclick*='" + elementId + "']").classList.add("copied");
-  }
-</script>
+<p style="margin:0;padding:24px 24px 12px;">Write a message:</p>
+  {{> contact-form}}
+</div>

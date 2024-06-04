@@ -1,0 +1,94 @@
+<div id="template-list" style="font-size: 15px;">
+  {{#currentTemplate}}
+  {{> template-row}}
+  {{/currentTemplate}}
+
+  <div class="template-row">
+
+    <div class="preview" style="border:1px dashed #ccc;box-shadow: none;">
+      <a href="{{{dashboardBase}}}/template/new"></a>
+    </div>
+  
+  
+    <a href="{{{dashboardBase}}}/template/new" data-name="{{name}}">New template
+    </a>
+  
+  </div>
+  
+  
+  {{#templatesInYourFolder.length}}
+  <h2>In folder</h2>
+  <hr style="border:none;border-bottom: 1px solid #eeeeec;margin:0 0;">
+  {{/templatesInYourFolder.length}}
+
+  {{#templatesInYourFolder}}
+  {{> template-row}}
+  {{/templatesInYourFolder}}
+
+  {{#yourTemplates.length}}
+  {{/yourTemplates.length}}
+
+  {{#yourTemplates}}
+  {{> template-row}}
+  {{/yourTemplates}}
+
+  {{#blotTemplates.length}}
+  {{/blotTemplates.length}}
+  
+  {{#blotTemplates}}
+  {{> template-row}}
+  {{/blotTemplates}}
+
+  {{#pastTemplates}}
+  {{> template-row}}
+  {{/pastTemplates}}
+
+  <hr style="border:none;border-bottom: 1px solid #eeeeec;margin:0 0;">
+  <a href="{{{dashboardBase}}}/template/deleted">Deleted templates</a><br>
+  <a href="{{{dashboardBase}}}/template/disable">Disable template</a>
+</div>
+
+<script>
+
+ // we want to preserve the scroll offset whenever a link is clicked in the template list
+  // the parent container of the links on this page is:
+  // <div id="template-list" style="overflow-y: scroll;width: 100%;height: 100%;padding-right: 17px;">
+    var template_list = document.getElementById('template-list');
+
+    var scroll_offset = sessionStorage.getItem('scroll_offset');
+    if (scroll_offset) {
+      template_list.scrollTop = scroll_offset;
+    }
+
+
+// whenever the user scrolls the template list, save the scroll offset
+template_list.addEventListener('scroll', function() {
+  sessionStorage.setItem('scroll_offset', template_list.scrollTop);
+});
+
+
+// when the page loads, scroll to the last scroll offset
+window.addEventListener('DOMContentLoaded', function() {
+  
+  // whenever the <form action="{{{base}}}/install" is submitted, remove the scroll offset
+  var install_form = document.querySelector('form[action="{{{base}}}/install"]');
+  if (install_form) {
+    install_form.addEventListener('submit', function() {
+      sessionStorage.removeItem('scroll_offset');
+    });
+  }
+});
+
+		
+  // if there is a template name in the div class="mess success" then find the template row and highlight it
+  var success_message = document.querySelector('.mess.success');
+  var template_name = success_message && success_message.innerHTML && success_message.querySelector('b').innerHTML;
+
+  if (template_name) {
+    var template_row = document.querySelector('.line.theme[data-name="' + template_name + '"]');
+    if (template_row) {
+      template_row.classList.add('success');
+      template_row.classList.add('mess');
+    }
+  }
+</script>

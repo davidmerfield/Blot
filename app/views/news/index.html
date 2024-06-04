@@ -1,4 +1,4 @@
-<h1>News</h1>
+<h1>Updates</h1>
 <!-- <h2>Blot remains an active project.</h2> -->
 <style type="text/css">
   h2 {
@@ -33,52 +33,9 @@
     position: relative;
   }
 
-  ol ol {
-    margin: 1rem 0 2.8rem;
-    padding: 0;
-    border-left: 1px solid var(--light-border-color);
-  }
-
-  ol ol li:last-child:before,
-  ol ol li:first-child:before {
-    content: "";
-    width: 1px;
-    position: absolute;
-    left: -1px;
-    background: var(--background-color);
-  }
-
-  ol ol li:first-child:before {
-    top: 0;
-    height: 10px;
-  }
-
-  ol ol li:last-child:before {
-    top: 8px;
-    bottom: 0;
-  }
-
-  ol ol li:first-child:last-child:before {
-    top: 0;
-    bottom: 0;
-    height: auto;
-  }
-
-  ol ol li:after {
-    content: "";
-    width: 5px;
-    position: absolute;
-    top: 9px;
-    left: -4px;
-    height: 5px;
-    background: var(--background-color);
-    border: 1px solid var(--light-border-color);
-    border-radius: 100%;
-    font-size: 0.5em;
-  }
+ 
   ol li a {
     display: block;
-    padding-left: 1rem;
     border: none;
     color: inherit;
     text-decoration: none;
@@ -188,7 +145,7 @@
       padding: 0;
     }
     .todo > * {
-      padding-left: 1rem;
+      padding-left: 1.5rem;
       position: relative;
     }
 
@@ -221,14 +178,14 @@
     }
 </style>
 
-<p>
-  Subscribe to receive a summary of our work and our plans each
-  season. We will send the {{nextNewsletter.season}} newsletter {{nextNewsletter.fromNow}}.
+<p style="margin-bottom: 0;">
+  Every season we send a summary of what we have done and what we plan to do next. We will deliver the {{nextNewsletter.season}} update {{nextNewsletter.fromNow}}.
 </p>
+
 <form
   action="/news/sign-up"
   method="POST"
-  style="margin-top: 1.45rem; display: flex; align-items: flex-end;max-width: 500px;">
+  style="margin:0;display: flex; align-items: flex-end;max-width: 580px;border-bottom: 1px solid #eeeeec;padding: 2rem 0;">
   <p style="margin: 0; flex-basis: 75%">
     <label for="email">Your email address</label>
     <input type="text" required id="email" name="email" />
@@ -244,30 +201,28 @@
       margin-bottom: 2px;
     "
     type="submit"
-    value="Subscribe" />
+    value="Subscribe to updates" />
 </form>
 
 <br />
 <br />
-<hr />
+<br />
 <div class="collapse-on-small-screens">
   
 
   <section
     style="
       flex-basis: 66.666%;
-      flex-grow: 1;
+      padding: 0;
     ">
-    <h2 style="border-bottom: 0; margin-bottom: 0; padding-bottom: 0">To do</h2>
+    <h2 style="border-bottom: 0; margin-bottom: 0;margin-top: 0; padding-top: 0;padding-bottom: 0;">To do</h2>
     <div class="todo" style="font-size: 16px">{{{todo}}}</div>
   </section>
 
-  <section style="flex-basis: 33.333%; ">
-    <ol>
+  <section style="flex-basis: 33.333%; flex-shrink: 0;">
+    <h2 style="border-bottom: 0; margin-bottom: 0;margin-top: 0; padding-top: 0; padding-bottom: 0;">Done</h2>
+    <ol class="path" style="font-size: 16px">
       {{#days}}
-      <li>
-        <strong>Done {{ day }}</strong>
-        <ol style="font-size: 16px">
           {{#commits}}
           <li>
             <a
@@ -277,16 +232,8 @@
             </a>
           </li>
           {{/commits}}
-        </ol>
-      </li>
+          <li class="no-lab">{{day}}</li>
       {{/days}}
     </ol>
-    <h2 style="margin-bottom: 1.5em">
-      Done (<a
-        rel="nofollow"
-        href="https://github.com/davidmerfield/Blot/commits/master.atom"
-        ><small>RSS</small></a
-      >)
-    </h2>
   </section>
 </flex>

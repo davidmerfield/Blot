@@ -4,7 +4,7 @@ const documentation = new Express();
 const fs = require("fs-extra");
 const mustache = require("helper/express-mustache");
 const redirector = require("./redirector");
-
+const Email = require("helper/email");
 const hash = require("helper/hash");
 const { join } = require("path");
 const VIEW_DIRECTORY = __dirname + "/data";
@@ -110,14 +110,14 @@ documentation.get(
 
 // Adds a handy 'edit this page' link
 documentation.use(
-  ["/how", "/templates", "/about"],
+  ["/how", "/about"],
   require("./tools/determine-source")
 );
 
 documentation.use(require("./selected"));
 
-documentation.get("/", function (req, res, next) {
-  res.locals.title = "Blot – Turn a folder into a website";
+documentation.get("/", require("./templates.js"), function (req, res, next) {
+  res.locals.title = "Blot";
   res.locals.description =
     "A blogging platform with no interface. Turns a folder into a blog automatically. Use your favorite text-editor to write. Text and Markdown files, Word Documents, images, bookmarks and HTML in your folder become blog posts.";
   // otherwise the <title> of the page is 'Blot - Blot'
@@ -125,36 +125,45 @@ documentation.get("/", function (req, res, next) {
   next();
 });
 
-documentation.get("/examples", require("./featured"), require("./templates"));
+documentation.post(['/support', '/contact', '/feedback'],
+  Express.urlencoded({ extended: true }),
+ (req, res) => {
+  const { email, message } = req.body;
+  if (!message) return res.status(400).send('Message is required');
+  Email.SUPPORT(null, { email, message });
+  res.send('OK');
+});
 
-documentation.get("/examples/templates", require("./templates"));
-documentation.get("/examples/folders", require("./templates"));
+documentation.get("/examples", require("./featured"));
+
+documentation.get("/templates",  require("./templates.js"));
+documentation.get("/templates/folders", require("./templates.js"));
 
 documentation.get(
-  "/examples/templates/:template",
-  require("./templates"),
+  "/templates/:template",
+  require("./templates.js"),
   (req, res, next) => {
     if (!res.locals.template) return next();
-    res.render("examples/templates/template");
+    res.render("templates/template");
   }
 );
 
 documentation.use(
-  "/examples/folders/:folder",
-  require("./templates"),
+  "/templates/folders/:folder",
+  require("./templates.js"),
   (req, res, next) => {
     if (!res.locals.folder) return next();
-    res.render("examples/folders/folder");
+    res.render("templates/folders/folder");
   }
 );
 
-documentation.use("/examples/templates/fonts", require("./fonts"));
+documentation.use("/templates/fonts", require("./fonts"));
 
 documentation.use("/developers", require("./developers"));
 
 documentation.get("/sitemap.xml", require("./sitemap"));
 
-documentation.use("/about/notes", require("./notes"));
+documentation.use("/about", require("./about.js"));
 
 documentation.use("/news", require("./news"));
 

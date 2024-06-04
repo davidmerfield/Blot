@@ -1,71 +1,101 @@
-<li>
-  <a
-    style="border-top: none"
-    class="{{ selected.howIndex }}"
-    data-open="{{ selected.how }}"
-    href="/how"
-    >How to use Blot</a
-  ><ul>
-
-    <li>
+<ol class="path doc-nav" style="list-style: none;margin-top: 43px;">
+  <li class="{{ selected.howIndex }}" >
+    <a href="/how">Getting started</a>
+  </li>
+  <li class="{{ selected.syncIndex }}">
+    <a
+      
+      href="/how/sync"
+      >Sync folder</a
+    >
+    <ul>
+      <li class="{{ selected.dropbox }}" >
+        <a href="/how/sync/dropbox">Dropbox</a>
+      </li>
+      <li class="{{selected.git }}"><a  href="/how/sync/git">Git</a></li>
+      <li class="{{selected.google-drive}}">
+        <a  href="/how/sync/google-drive"
+          >Google Drive</a
+        >
+      </li>
+    </ul>
+  </li>
+    
+    <li         class="{{ selected.filesIndex }}"
+    >
       <a
-        class="{{ selected.postsIndex }}"
-        data-open="{{ selected.posts }}"
-        href="/how/posts"
-        >Files and posts</a
+        href="/how/files"
+        >Files</a
       >
       <ul>
 
-        <li>
-          <a class="{{ selected.metadata }}" href="/how/posts/metadata"
-            >Metadata</a
+          <li class="{{ selected.markdown }}"><a    href="/how/files/markdown">Markdown</a></li>
+          
+          <li class="{{ selected.images }}"><a  href="/how/files/images">Images</a></li>
+     
+          <li class="{{ selected.word-documents }}"><a   href="/how/files/word-documents">Word Docs</a></li>
+          
+          <li class="{{ selected.google-docs }}"><a  href="/how/files/google-docs">Google Docs</a></li>
+          
+          <li class="{{ selected.bookmarks }}"><a  href="/how/files/bookmarks">Bookmarks</a></li>
+     
+          <li class="{{ selected.html }}"><a  href="/how/files/html">HTML</a></li>
+     
+           <li class="{{ selected.org }}"><a  href="/how/files/org">Org Mode</a></li>
+        
+         
+      </ul>
+    </li>
+    <li class="{{ selected.metadata }}">
+      <a  href="/how/metadata"
+        >Metadata</a
+      >
+    </li>
+    <li class="{{ selected.sub-foldersIndex }}">
+      <a  href="/how/sub-folders">Sub-folders</a>
+      <ul>
+        <li class="{{ selected.drafts }}">
+          <a  href="/how/sub-folders/drafts"
+            >Drafts</a
           >
-        </li>
-        <li>
-          <a class="{{ selected.pages }}" href="/how/posts/pages"
+        </li>  
+        <li class="{{ selected.pages }}">
+          <a  href="/how/sub-folders/pages"
             >Pages</a
           >
         </li>
-        <li>
-          <a class="{{ selected.drafts }}" href="/how/posts/drafts"
-            >Drafts</a
+            
+        <li class="{{ selected.templates }}">
+          <a  href="/how/sub-folders/templates"
+            >Templates</a
           >
-        </li>
-        
+        </li>        
+  
       </ul>
     </li>
-    <li>
-      <a
-        class="{{ selected.syncIndex }}"
-        data-open="{{ selected.sync }}"
-        href="/how/sync"
-        >Sync your folder</a
-      >
+    <li class="{{selected.formattingIndex}}">
+      <a  href="/how/formatting">Formatting</a>
       <ul>
-        <li>
-          <a class="{{ selected.dropbox }}" href="/how/sync/dropbox">Dropbox</a>
-        </li>
-        <li><a class="{{selected.git }}" href="/how/sync/git">Git</a></li>
-        <li>
-          <a class="{{selected.google-drive}}" href="/how/sync/google-drive"
-            >Google Drive</a
-          >
-        </li>
+        <li class="{{ selected.tex }}"><a  href="/how/formatting/tex">Mathematics</a> </li>
+        <li class="{{ selected.layout-tags }}"><a  href="/how/formatting/layout-tags">Layout</a> </li>
+        <li class="{{ selected.embedding }}"><a  href="/how/formatting/embedding">Embedding</a> </li>
+        <li class="{{ selected.citations }} "><a href="/how/formatting/citations">Citations</a> </li>
+        <li class="{{ selected.wikilinks }}"><a  href="/how/formatting/wikilinks">Wikilinks</a> </li>
       </ul>
     </li>
     
     
-    <li>
+    
+    <li class="{{ selected.configureIndex }}">
       <a
-        class="{{ selected.configureIndex }}"
-        data-open="{{ selected.configure }}"
+        
         href="/how/configure"
-        >Set up your site</a
+        >Set up site</a
       >
       <ul>
         
-        <li>
-          <a class="{{ selected.import }}" href="/how/configure/import"
+        <li class="{{ selected.import }}">
+          <a  href="/how/configure/import"
             >Import</a
           >
         </li>
@@ -98,64 +128,9 @@
         </li>
       </ul>
     </li>
-    <li>
-      <a
-        class="{{ selected.tools }}"
-        href="/how/tools"
-        >Tools</a
-      >
-      
-    </li> 
-
-    </ul> 
-    </li> 
-
-    <li>
-      <a href="/examples" class="{{ selected.examples }}"
-        >Example sites</a>
+    <li class="{{ selected.reference }}" >
+      <a href="/how/reference">Reference</a>
     </li>
-    
-    <li>
-      <a href="/questions" class="{{ selected.questions }}"
-        >Questions</a>
-</li> 
-<li class="signed-out">
-  <a href="/pricing" class="{{ selected.pricing }}"
-    >Pricing</a>
-</li>
-<script type="text/javascript">
-  if (document.cookie.indexOf('signed_into_blot') > -1) {
-    document.querySelector('li.signed-out').style.display = 'none';
-    }
-</script>
-
   
-      <li>
-        <a href="/about" class="{{ selected.aboutIndex }}"     data-open="{{ selected.about }}"
 
-          >About</a>
-          <ul>
-           
-            <li>
-              <a href="/about/notes" class="{{ selected.notes }}"
-                >Notes</a>
-            </li>
-
-            <li>
-              <a href="/about/status" class="{{ selected.status }}"
-                >Status</a>
-            </li>
-
-          </ul>
-      </li>
-
-      <li>
-        <a href="/news" class="{{ selected.news }}"
-          >News</a>
-      </li>
-  
-      <li>
-        <a href="/contact" class="{{ selected.contact }}"
-          >Contact</a>
-      </li>
-    </ul>
+  </ol> 

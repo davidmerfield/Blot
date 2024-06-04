@@ -1,0 +1,44 @@
+Business
+====
+
+We sell a hosted service to people who want to use Blot. We do not make money any other way. The amount the customer pays for the service is more than it costs to provide the service. This profit pays for the labor of the people who work on Blot's source code, answer your correspondence and maintain the servers. 
+
+## Why isn't Blot free? 
+
+We have to pay for the servers which host your sites somehow. These servers cost money, they sit in a room which costs money and they require power and attention, which cost money. How come so much of the internet is free then? Well instead of paying to use these services, you use them for free and in turn you and your data are sold to others. Though this business model is obviously successful I believe it is deceptive and undignified and I will not participate.
+
+Instead, we offer a straightforward proposition: we provide hosting for your websites; you pay us a fee in return.
+
+## Will you sell Blot one day?
+
+My exit strategy is death. I've made strategic decisions, like dedicating the source code to the public domain, to reduce my temptation to ever sell Blot.
+
+## Leave money on the table
+
+Blot is not optimized to generate as much revenue as possible in the next quarter. I try to take a long-term view where I can. For example, I do lots of things which might hurt my short-term customer churn-rate. I'm serious about making Blot a long-term business and view these sacrifices as investments.
+
+## Allow customers to leave with ease
+
+Many subscription businesses make it hard for customers to cancel their subscription. It is easy to leave Blot. This is not because I am a good person, it is because someone who wants to stop using our service can still recommend us to others, or might return in future. Adding irritating hurdles to a process that should be a single click might help in the short-term but hurts in the long-term.
+
+## Sell to individuals rather than organizations
+
+I have chosen to aim the product toward people, rather than business customers in order to reduce the stress involved in running the project. I've also watched a number of services gradually drift in focus over the years as they realize that more money is made in selling to businesses.
+
+## Treat our customers equally
+
+There's something about tiered services which I find tacky, redolent of time poorly spent on an MBA. On Blot, everyone pays the same and everyone receives the same service.
+
+## Avoid investment and stay profitable
+
+I do not plan to raise investment in Blot. The main concern I'd have with bringing in investors would be the risk of compromising the aesthetic. It's important that I love Blot and I know from experience that when you raise money you are forced to compromise. Since I opened Blot to the public, it has been profitable and it remains profitable. 
+
+## Set the price at what we'd pay
+
+I set the price of Blot at whatever I would be comfortable paying myself. When I started Blot, it cost $1 a month. I've improved Blot since then and now a site costs $5 a month. I feel that's still a fair price since I provide web hosting and personal support. 
+
+I know I could charge more for Blot. However, I'm interested in having Blot in the hands of more people, even if it means generating less revenue. 
+
+## Work from home
+
+There is no reason for Blot to have an office. The Roman empire managed without office buildings and so can we.

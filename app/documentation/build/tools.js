@@ -5,8 +5,8 @@ const cheerio = require("cheerio");
 const mustache = require("mustache");
 
 const rootDirectory = config.blot_directory + "/app";
-const toolsDirectory = rootDirectory + "/views/how/tools";
-const outputDirectory = rootDirectory + "/documentation/data/how/tools";
+const toolsDirectory = rootDirectory + "/views/tools";
+const outputDirectory = rootDirectory + "/documentation/data/tools";
 const html = require("./html");
 
 const renderTemplate = async (name, data, destination) => {
@@ -85,6 +85,7 @@ const load = async relativePath => {
 };
 
 const main = async () => {
+
   const categories = (await fs.readdir(toolsDirectory)).filter(
     f => f.indexOf(".") === -1 && f !== "icons"
   );
@@ -132,7 +133,6 @@ const main = async () => {
   }
 
   for (const tool of result.tools) {
-    console.log(tool);
     await renderTemplate(
       "tool.html",
       {

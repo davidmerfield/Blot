@@ -10,17 +10,24 @@
   </div>
   <a class="cover" href="/questions/{{ id }}"></a>
 
-  {{#last_reply_created_at}}
-  <div style="position: relative;z-index: 1;">
-    <a class="minor" href="/questions/{{ id }}"><span date-from-now="{{ last_reply_created_at }}">{{ time }}</span>, {{ number_of_replies }} {{#singular}}reply{{/singular}}{{^singular}}replies{{/singular}}</a>
-    &nbsp;
-    &nbsp;
-    {{#tags}}
-    <a class="tag-chip" href="/questions/tagged/{{ slug }}">{{ tag }}</a>&puncsp;
-    {{/tags}}
-  </div>
-  {{/last_reply_created_at}}
+
+
   
+  <div style="margin:  0">
+    {{#last_reply_created_at}}
+    <a class="minor" href="/questions/{{ id }}">{{ number_of_replies }} {{#singular}}reply{{/singular}}{{^singular}}replies{{/singular}}, <span date-from-now="{{ last_reply_created_at }}">{{ time }}</span></a>
+    {{/last_reply_created_at}}
+    {{#tags.length}}
+    &nbsp;
+    &nbsp;
+    
+
+
+{{#tags}}
+  <a class="tag-chip" href="/questions/tagged/{{ slug }}">{{ tag }}</a>&puncsp;
+  {{/tags}}
+  {{/tags.length}}
+</div>
 
 
   </div>

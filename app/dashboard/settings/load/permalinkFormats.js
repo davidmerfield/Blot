@@ -3,7 +3,7 @@ var moment = require("moment");
 var FORMATS = [
   ["Title", "{{slug}}"],
   ["Date and title", "{{YYYY}}/{{MM}}/{{D}}/{{slug}}"],
-  ["Custom", ""],
+  ["Custom format", ""],
 ];
 
 var SAMPLE = function () {
@@ -32,7 +32,7 @@ module.exports = function (req, res, next) {
     var checked = "";
     var example;
 
-    if (req.blog.permalink.isCustom && arr[0] === "Custom") {
+    if (req.blog.permalink.isCustom && arr[0] === "Custom format") {
       checked = "checked";
     } else if (
       !req.blog.permalink.isCustom &&
@@ -49,7 +49,7 @@ module.exports = function (req, res, next) {
       name: arr[0],
       value: arr[1],
       checked: checked,
-      custom: arr[0] === "Custom" ? "custom" : "",
+      custom: arr[0] === "Custom format" ? "custom" : "",
       example: example,
     };
   });

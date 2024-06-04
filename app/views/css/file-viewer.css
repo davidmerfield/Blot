@@ -1,0 +1,295 @@
+
+  table.file-stat {
+    margin: 0;
+    max-width: none;width: 100%;font-size: 14px;
+    display: table;
+    width: 100%;
+  }
+  
+  
+  table.file-stat .file-thumbnail {
+    max-width: 72px;max-height: 72px;width: auto;margin:6px 0;
+        height: auto;vertical-align: middle;box-shadow: 0 0 1px rgba(0,0,0,0.5);
+  border: 0.3rem solid #ffffff;
+  }
+  
+  table.file-stat td {
+    vertical-align: top;
+    padding: 4px 0;
+    border-bottom: 1px solid #f4f4f5;
+  }
+  
+  table.file-stat tr:last-child td {
+    border-bottom: none;
+  }
+
+  table.file-stat tr {
+    transition: background-color 0.2s;
+    background-color: none;
+  }
+  table.file-stat tr:hover {
+    background-color: #f0f4ff70;
+  }
+
+  table.file-stat td:first-child {
+    color: var(--light-text-color);
+    font-size: 13px;
+    padding-right: 20px;
+    padding-top: 7px;
+    width: 120px;
+  }
+  
+  
+  .publishing-steps {
+    font-size: 14px;
+    margin: 0;
+    padding: 12px 60px;
+    color: var(--medium-text-color);
+    position: relative;
+    z-index: 2;
+  }
+/*   
+  .publishing-steps:before {
+    content: "";
+    width: 0;
+    z-index: 3;
+    left: 1.3em;
+    background-color: var(--background-color);
+    border: 1px solid var(--border-color);
+    border-top: none;
+    border-right: none;
+    border-bottom: none;
+    position: absolute;
+    top:-1px;
+    bottom: -1px;
+    z-index: 1;
+  }  */
+
+  .publishing-steps.no-entry:before {
+    bottom: auto;
+    height: 36px;
+  }
+
+  .publishing-steps b {
+    color: var(--text-color);
+    font-weight: 600;
+  }
+
+  .publishing-steps p {
+    position: relative;
+  }
+
+  .publishing-steps i {
+    position: absolute;
+    border-radius: 1em;
+    left: -2em;
+    top:.41em;
+    width: 1em;
+    height: 1em;z-index: 3;
+    font-size: 12px;
+    color: var(--text-color);
+    background-color: #fff;
+  }
+
+  .publishing-steps i span {
+    position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  font-size: 0.97em;
+  }
+
+  table.file-stat td {position: relative;}
+  table.file-stat td details {
+    font-size: 14px;
+    color: var(--medium-text-color);
+  }
+  table.file-stat td details summary {
+    position: absolute;
+    cursor: pointer;
+    user-select: none;
+    top: 0.4em;
+    font-size: 13px;
+    right: 0;
+    color: var(--light-text-color);
+
+  }
+
+  table.file-stat td details summary:hover {
+    color: var(--accent-color);
+  }
+
+  table.file-stat td details summary span {margin-right: 0.15em;}
+
+  table.file-stat td details > summary:first-of-type {
+    list-style-type: none;
+}
+
+
+table.file-stat td details ::-webkit-details-marker {
+  display:none;
+}
+
+a.template-button.file-helper {
+   background-color: transparent;
+   border:1px solid #eeeeec;
+  position: absolute;top:36px;right:36px;margin:0;
+  transition: background-color 0.2s;
+}
+
+a.template-button.file-helper:hover {
+  background-color: #f0f4ff70;
+}
+
+a.template-button.file-helper span {margin-left: 0.5em;}
+
+.file-info {
+  position:relative;z-index: 5;border:1px solid var(--border-color);padding-bottom: 12px;border-radius: var(--border-radius);padding:36px;
+}
+
+  
+.file-info h1,
+.entry-info h1 {
+  position: relative;
+  max-width: none;margin:0;padding:0;margin: 0 0 24px;
+}
+
+
+.file-info h1 span,
+.entry-info h1 span {
+  margin-right: 0.5em;
+}
+
+.entry-info h1 a {
+  color: var(--accent-color);
+  display: block;
+}
+
+.file-info:after,
+.file-info:before,
+.entry-info:after,
+.entry-info:before {
+  width: 0; 
+  height: 0; 
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top:6px solid var(--background-color);
+  position: absolute;
+  bottom: -5px;
+  left: 2.17rem;
+  content: "";
+  z-index: 4;
+}
+
+.file-info:before {
+  bottom: -6.5px;
+  border-top-color: var(--border-color);
+
+}
+
+.no-entry + .entry-info:before,
+.no-entry + .entry-info:after {
+  display: none;
+}
+
+
+.entry-info {
+  position:relative;z-index: 5;border-radius: var(--border-radius);padding:36px;border:1px solid var(--border-color);
+}
+
+.entry-info:after {
+  bottom: auto;
+  top: -5px;
+}
+
+.entry-info:before {
+  top: -6.5px;
+  border-top-color: var(--border-color);
+  bottom: auto;
+}
+
+
+.entry-info:after,
+.entry-info:before {
+  transform: rotate(180deg);
+}
+
+
+button.copy {
+  background-color: transparent;
+  border-radius: var(--border-radius);
+  color: var(--accent-color);
+  margin-left: 6px;
+  cursor: pointer;
+  border:none
+}
+
+button.copy:hover {
+  color: var(--accent-color)
+}
+
+/* otherwise, the button icon is not clickable */
+button.copy span {
+  pointer-events: none;
+}
+
+button.copy.copied {
+  color:darkgreen
+}
+
+.multilingual {
+              position: relative;
+              max-width: 600px;
+
+              margin: 18px 0;
+              border: 1px solid var(--border-color);
+              border-radius: var(--border-radius);
+              overflow: hidden;
+            }
+
+            .multilingual pre {
+              margin: 0;
+              padding: 9px;
+              overflow: hidden;
+              font-size: 13px;
+              color: var(--text-color);
+              display: none;
+            }
+
+            .lang-tabs {
+              list-style: none;
+              padding: 0;
+              background-color: #f6f7f9;
+              margin: 0;
+              display: flex;
+              font-size: 12px;
+              position: relative;
+              max-width: none;
+            }
+            
+            .lang-tabs li {
+              margin: 0;
+              padding: 0;
+            }
+
+            .lang-tabs a {
+              display: block;
+              padding: 4px 12px;
+              color: var(--accent-color);
+              text-decoration: none;
+            }
+
+            .lang-tabs a.active {
+              background-color: #e4eafb;
+            }
+
+            .multilingual button  {
+              position: absolute;
+              top:0;
+              right: 0;
+              background-color: var(--background-color);
+              padding: 12px;
+              overflow: visible;
+              box-shadow: -10px 0 10px var(--background-color);
+            }

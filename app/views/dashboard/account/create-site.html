@@ -1,0 +1,47 @@
+<form method="POST" class="dashboard-form">
+  <input type="hidden" name="_csrf" value="{{csrftoken}}">
+  <input type="hidden" name="timeZone" value="">  
+  {{> message}}
+
+    <div >
+<label for="title">Your site's title</label>
+<input type="text" autofocus name="title" value="Untitled site">
+
+  <div class="buttons">
+    <button type="submit" >Create a website</button>
+    <a href="/sites" style="line-height: 39px;" name="no_title">Cancel</a>
+  </div>
+      </div>
+
+  <br>
+
+</form>
+
+{{#footer}}
+
+<script src="/js/jquery.js?{{cacheID}}"></script>
+<script src="/js/tz_detect.js?{{cacheID}}"></script>
+<script type="text/javascript">
+
+$('form').submit(function(event) {
+
+var $form = $(this);
+
+// Disable the submit button to prevent repeated clicks
+$(this)
+  .find('.button')
+  .prop('disabled', true)
+  .addClass('working')
+  .val('Creating your site...');
+
+$(this).submit();
+});
+
+var timezone = jstz.determine();
+
+if (timezone) {
+$('input[name="timeZone"]').val(timezone.name());
+}
+
+</script>
+{{/footer}}

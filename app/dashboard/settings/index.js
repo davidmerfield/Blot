@@ -4,15 +4,10 @@ var load = require("./load");
 var save = require("./save");
 var trace = require("helper/trace");
 var parse = require("dashboard/parse");
-var Template = require("models/template");
+var config = require("config");
 
 settings.use(function (req, res, next) {
   res.locals.selected = { settings: "selected", dashboard: "selected" };
-  next();
-});
-
-settings.use(function (req, res, next) {
-  res.locals.setup = !!req.query.setup;
   next();
 });
 
@@ -37,26 +32,18 @@ settings
     save.finish
   )
   .get(
-    trace("loading folder"),
-    require("../folder"),
-    load.template,
-    trace("template loaded"),
-    load.menu,
-    trace("menu loaded"),
     load.client,
-
     trace("client loaded"),
-    load.plugins,
-    load.permalinkFormats,
-    load.dates,
     function (req, res) {
-      res.render("settings", { title: req.blog.pretty.label });
-    }
+      res.render("settings", { 
+          title: req.blog.pretty.label, 
+       })
+      }
   );
 
-settings.get(["/services", "/images", "/typography"], load.plugins);
+settings.get(["/services", "/publishing",], load.plugins);
 
-settings.get("/links", load.menu);
+settings.use("/export", require('./export'));
 
 settings.get("/date", load.timezones, load.dates);
 
@@ -66,62 +53,45 @@ settings.get("/link-format", load.permalinkFormats, function (req, res, next) {
 });
 
 settings
-  .route("/404s")
+  .route("/redirects/404s")
   .get(load.fourOhFour, function (req, res) {
+    res.locals.breadcrumbs.add("Redirects", "redirects");
     res.locals.breadcrumbs.add("404 log", "404s");
-    res.render("settings/404s", { title: "404s" });
+    res.render("settings/redirects/404s", { title: "404s" });
   })
   .post(parse, require("./save/404"));
 
+  settings.route("/redirects/bulk")
+    .get(load.redirects, function (req, res) {
+      res.locals.breadcrumbs.add("Redirects", "redirects");
+      res.locals.breadcrumbs.add("Bulk editor", "bulk");
+      res.render("settings/redirects/bulk", { title: "Bulk editor" });
+    })
+
+
 settings.get("/redirects", load.redirects);
 
-// Load the list of templates for this user
-
-settings.use("/template", load.templates, function (req, res, next) {
-  res.locals.breadcrumbs.add("Template", "template");
-  next();
-});
-
-settings.get("/verify-domain/:domain", require("./verify-domain"));
 
 settings.use("/client", require("./client"));
 
-settings
-  .route("/template")
-  .get(function (req, res) {
-    res.render("template", { title: "Template" });
-  })
-  .post(parse, require("./save/template"));
-
-settings
-  .route("/template/new")
-  .get(function (req, res) {
-    res.locals.breadcrumbs.add("New", "new");
-    res.render("template/new", { title: "New template" });
-  })
-  .post(parse, require("./save/newTemplate"));
-
-settings
-  .route("/template/install")
-  .post(parse, require("./load/templates"), require("./save/installTemplate"));
-
-settings
-  .route("/template/archive")
-  .all(load.pastTemplates)
-  .get(function (req, res) {
-    res.locals.breadcrumbs.add("Archive", "archive");
-    res.render("template/archive", { title: "Archive" });
-  });
+settings.use('/domain', require('./domain'));
 
 settings.get("/:view", function (req, res) {
   var uppercaseName = req.params.view;
 
   uppercaseName = uppercaseName[0].toUpperCase() + uppercaseName.slice(1);
 
-  if (uppercaseName !== "Profile") {
-    res.locals.breadcrumbs.add(uppercaseName, req.params.view);
+  if (uppercaseName === "Services") {
+    uppercaseName = "External services";
+  } else if (uppercaseName === "Publishing") {
+    uppercaseName = "Publishing settings";
+  } else if (uppercaseName === "Date") {
+    uppercaseName = "Date and time";
+  } else if (uppercaseName === "Link-format") {
+    uppercaseName = "Link format";
   }
 
+  res.locals.breadcrumbs.add(uppercaseName, req.params.view);
   res.locals.subpage = req.params.view;
   res.render("settings/" + req.params.view, { host: process.env.BLOT_HOST });
 });

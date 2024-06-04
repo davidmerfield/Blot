@@ -12,8 +12,9 @@ services:
     environment:
       - FAST=true
       - BLOT_REDIS_HOST=redis
-      - BLOT_HOST=blot
+      - BLOT_HOST=local.blot
       - BLOT_SESSION_SECRET=${BLOT_SESSION_SECRET}
+      - BLOT_WEBHOOKS_SECRET=${BLOT_WEBHOOKS_SECRET}
       - BLOT_STRIPE_KEY=${BLOT_STRIPE_KEY}
       - BLOT_STRIPE_SECRET=${BLOT_STRIPE_SECRET}
       - BLOT_STRIPE_PRODUCT=${BLOT_STRIPE_PRODUCT}
@@ -31,11 +32,17 @@ services:
       - BLOT_GOOGLEDRIVE_SECRET=${BLOT_GOOGLEDRIVE_SECRET}
     volumes:
       - ./data:/usr/src/app/data
+      - ./.git:/usr/src/app/.git
       - ./app:/usr/src/app/app
       - ./tests:/usr/src/app/tests
       - ./notes:/usr/src/app/notes
       - ./scripts:/usr/src/app/scripts
+      - ./todo.txt:/usr/src/app/todo.txt
       - ./config:/usr/src/app/config
+    # this is needed so the webhook relay can invoke the request 
+    # inside docker, resolving the host to the correct IP
+    extra_hosts:
+      - "${BLOT_HOST}:${HOST_IP}"
     command: npx nodemon /usr/src/app/app/local.js --watch /usr/src/app/app -e js,html,css --ignore /usr/src/app/app/documentation/data --ignore /usr/src/app/app/documentation/output --ignore /usr/src/app/app/views
 
   redis:
@@ -52,5 +59,8 @@ services:
     ports:
       - "80:80"
       - "443:443"
+    volumes:
+      - ./data/blot-key.pem:/etc/ssl/private/nginx-selfsigned.key
+      - ./data/blot.pem:/etc/ssl/certs/nginx-selfsigned.crt
     depends_on:
       - node-app

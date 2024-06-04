@@ -22,9 +22,6 @@ button[name="client"]:hover {background: rgba(0,0,0,0.03);cursor: pointer;}
 
 {{#clients}}
 
-  {{#setup}}
-  <input type="hidden" name="setup" value="true">
-  {{/setup}}
 
   <input type="hidden" name="_csrf" value="{{csrftoken}}">
 
@@ -35,11 +32,6 @@ button[name="client"]:hover {background: rgba(0,0,0,0.03);cursor: pointer;}
 {{/clients}}
 
 <div class="buttons">
-  {{#setup}}
-  <a href="{{{base}}}">Set up later</a>
-  {{/setup}}
-  {{^setup}}
   <a href="{{{base}}}">Cancel</a>
-  {{/setup}}
 </div>
 </form>

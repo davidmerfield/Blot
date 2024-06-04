@@ -190,7 +190,7 @@ client_routes
     if (req.blog.client) {
       res.redirect(req.baseUrl + "/" + req.blog.client);
     } else {
-      res.render("clients", { title: "Select a client", setup_client: true });
+      res.render("clients", { title: "Select a client" });
     }
   })
 
@@ -206,10 +206,6 @@ client_routes
     }
 
     redirect = req.baseUrl + "/" + req.body.client;
-
-    if (req.body.setup) {
-      redirect += "?setup=true";
-    }
 
     Blog.set(req.blog.id, { client: req.body.client }, function (err) {
       if (err) return next(err);
@@ -240,7 +236,7 @@ for (var client_name in clients) {
 }
 
 client_routes.use("/:client", (req, res) => {
-  res.redirect(`/dashboard/${req.blog.handle}/client`);
+  res.redirect(`/sites/${req.blog.handle}/client`);
 });
 
 module.exports = client_routes;

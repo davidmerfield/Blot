@@ -37,6 +37,7 @@ Delete.route("/")
     parse,
     checkPassword,
     function (req, res, next) {
+      console.log("Deleting blog", req.blog.id);
       Blog.remove(req.blog.id, next);
     },
     calculateSubscriptionChange,
@@ -51,7 +52,7 @@ Delete.route("/")
           "Deleted " + req.blog.title
         );
       }
-      res.message("/dashboard", "Deleted " + req.blog.title);
+      res.message("/sites", "Deleted " + req.blog.title);
     }
   );
 

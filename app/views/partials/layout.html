@@ -1,33 +1,34 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+<head>
   {{> head}}
-  <body>
-    {{> header}}
-    <section style="display: flex;">
-      <section  style="width: 20%; padding: 2em 4em 0 2em;{{#user}}max-width: 150px;{{/user}}">
-        {{> sidebar}}
-        </section>
-      <section style="padding: 2em 2em 6em 2em;flex-grow:1">
-        
-      
-        <section class="{{#user}}dashboard-container{{/user}}" style="{{^user}}min-height: 80vh;padding-bottom:8em;{{/user}}">
-          {{> breadcrumbs}}
-          {{> body}}
-        </section>
-        {{> footer-page}}
-      </section>
+</head>
+<body>
+  <input type="checkbox" id="menu-toggle">
+  <section class="site-container">
+    <section class="navbar">
+      {{> navigation}}
     </section>
-    <style>
-      .dashboard-container {
-          background:var(--light-background-color);border-radius:4px;position:relative;top: -5em;
-      }
-  
-      @media (max-width: 768px) {
-          .dashboard-container {
-              top: 0;
-          }
-      }
-  </style>
-    {{> footer}}
-  </body>
+    <section class="content">
+      <section class="main-section {{#user}}main-section-no-user{{/user}}">
+        {{> header}}
+        {{> breadcrumbs}}
+        {{#selected.how}}
+          <section class="main-section-how">
+            <section class="main-section-how-left">
+              {{> body}}
+            </section>
+            <section class="main-section-how-right">
+              {{> links}}
+            </section>
+          </section>
+        {{/selected.how}}
+        {{^selected.how}}
+          {{> body}}
+        {{/selected.how}}
+      </section>
+      {{> footer}}
+    </section>
+  </section>
+</body>
 </html>

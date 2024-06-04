@@ -48,7 +48,10 @@
       "top",
       "bottom"
     ],
-    "demo_folder": "david"
+    "demo_folder": "david",
+    "template_categories": [
+      "writing"
+    ]
   },
   "isPublic": true,
   "views": {

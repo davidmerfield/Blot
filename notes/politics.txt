@@ -1,0 +1,67 @@
+Politics
+========
+
+I don't believe that any software can be *outside* politics. With that said, I try to minimize Blot's political footprint.
+
+## Environment
+
+Blot's servers are located in a [data center](https://www.aboutamazon.eu/news/innovation/amazon-wind-and-solar-farms) that is [powered by renewable energy](https://www.aboutamazon.com/news/aws/data-center-oregon-renewable-energy). In the long-term I would like to own the hardware on which Blot runs, own the data center in which it runs and supply the data center with an off-grid source of renewable energy. 
+
+## Open source
+
+Intellectual property as a legal regime has its costs and its benefits. While ideas are inherently free, there can be advantages to establishing legal structures for their protection. However, I think the legal structures we've established to protect intellectual property have metastasized into a system that restricts rather than encourages creative endeavors.
+
+Making Blot's source code public means Blot is more appealing to technical people. More importantly 'open-source' implies an insouciance towards money which I like. It is not financially sensible for me to make [Blot's source code](/about/source-code) available freely under the most permissive license possible. However, I'm determined to not sell Blot, ever. Releasing the source code has the benefit of increasing the value of the hosted service to potential customers while reducing the value of Blot if I were to attempt to sell it in a moment of weakness. 
+
+
+I also like the spectacle of open-source. Work on Blot is done in public. I suspect it's reassuring to potential customers to see [my git commit messages](/updates) neatly formatted on the news page, for them to know that Blot is alive. I like the ideals of the free software movement and I like Richard Stallman. However, I think the *free* part of Stallman's term *free software* is confusing. I'm also aware of the politics of the term 'open source', so I avoid both and when I address this topic on Blot's website I say that _Blot's source code is dedicated to the public domain_. 
+
+# Censorship
+
+Blot has been running for a while now and there is plenty published on it that I dislike. Since I control Blot's servers, I have the power to remove this material. 
+
+However, I have chosen not to excercise this power. I believe that establishing a system of censorship on Blot will cause more harm.
+
+## So you accept that free speech can lead to harm?
+
+Yes, I think that being serious about the principle of free speech means accepting that people can say harmful things. I believe that the harm caused by censorship is greater than the harm caused by people speaking freely.
+
+## Will you allow extremists to host websites on Blot? 
+
+Yes, as long as they follow the law. For as long as it is legal in the United States to say extreme things it will be possible to say extreme things on Blot.
+
+## So what's your 'content policy'?
+
+Our 'content policy' is *the law*. I'm not interested in establishing a pseudo-legal system to litigate what is 'hate' and what isn't, what is 'explicit' and what isn't, what is 'misinformation' and what isn't. We will host it if it's legal for us to do so. If you believe we shouldn't host something, work to change the law. We will follow the law to the letter.
+
+## What if a government pressures you?
+
+At some point, I suspect Blot will be blocked in one country or another. Plenty of tech companies with grandiose mission statements crumble under this sort of pressure. I think it's understandable, the salaries of their employees and the returns of their shareholders depend on continued growth in those markets. 
+
+## What if your customers pressure you?
+
+I will send them a link to this page.
+
+## What if your advertisers pressure you?
+
+There are no advertisers. This is one reason why I won't depend on advertising to fund Blot. The large businesses that tend to buy advertising inevitably impose a regime of censorship in their own bland interests.
+
+## What if your investors pressure you?
+
+There are no investors.
+
+## What if your board pressures you?
+
+The board is me.
+
+## How do I know you won't change your mind about this in future?
+
+You can't know for sure but I've felt this way for the last decade.
+
+## Why do you even care about this?
+
+I want to provide a platform for the interesting and radical even if it means tolerating material that is against the grain. I believe that genius generally has enemies. Culturally, I believe we are living through a dark age and I plan to do what I can to lay the foundation for the rebirth that awaits. 
+
+## What if I still disagree with you?
+
+I do think that reasonable people can disagree about the principle of free speech. Blot's [source-code](/about/notes/politics/open-source) is dedicated to the public domain, you can host it yourself if you like.

@@ -6,15 +6,19 @@
 
 .line {
   display: flex;
-  padding: 10px 20px;
+  flex-wrap: wrap;
+  padding: 0.667em 1em;
+  line-height: 1.4;
   border-bottom: 1px solid var(--light-border-color);
+  background-color: var(--background-color);
+  transition: background-color 0.2s;
 }
 
 
 a.line:hover,
 div.line a.link:hover,
 .line form button:hover {
-  background: var(--medium-background-color)
+  background: #f0f4ff70;
 }
 
 a.line:active,
@@ -35,23 +39,24 @@ div.line a.link:hover {
 }
 
 .right {
-
+  text-decoration: underline;
   flex-shrink: 0;
-  padding-left: 16px;
+  padding-left: 12px;
 }
 
 
 .label {
   color: var(--light-text-color);
   display: inline-block;
-  flex-basis: 25%;
+  flex-basis: 100%;
   font-size: 14px;
   box-sizing: border-box;
   flex-shrink: 0;
+  margin-bottom: 2px;
 }
 
 .collapse-on-small-screens .label {
-flex-basis: 33.333%;
+flex-basis: 100%;
 }
 
 .center,

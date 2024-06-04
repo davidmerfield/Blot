@@ -17,23 +17,30 @@
   .format:hover{background: rgba(0,0,0,.02)}
 </style>
 
-<p>
-  Each post is assigned a URL according to the format below. You can override a post's URL in its <a href="/how/metadata">metadata</a>. If you change your URL format, Blot redirects the old URLs automatically.
-</p>
-
+<label style="padding-bottom: 6px;">
+  <svg style="fill:currentColor;width:14px;height:14px;position:relative;top:2px;margin-right:3px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg> 
+  
+  Link format</label>
 {{#permalinkFormats}}
-<hr style="margin:0;">
-<label class="format" style="line-height:inherit;margin:0;text-transform:none;font-size:16px;letter-spacing:0;padding:9px 0 9px 10px">
+<label class="format" style="border-top: 1px solid #eeeeec;line-height:inherit;margin:0;text-transform:none;font-size:16px;letter-spacing:0;padding:9px 0 9px 10px">
   <input style="margin:5px 10px 20px 0;float:left" type="radio" name="permalink.format" value="{{value}}" {{checked}}>
-  <b style="font-weight:500;display:block">{{name}}</b>
+  
+  <b style="font-weight:500;display:block;cursor: pointer;color:var(--text-color)">{{name}}</b>
 
-  {{#custom}}Read the <a href="/how/configure/link-format">guide to creating a custom URL format</a>.{{/custom}} 
+  {{#custom}}Read the <a style="color:var(--accent-color);text-decoration: underline;" href="/how/configure/link-format">guide to custom link formats</a>{{/custom}} 
 
-  {{^custom}}<code style="background:none;font-size:14px;color:rgb(153, 153, 153)">{{example}}</code>{{/custom}}
+  {{^custom}}<span style="background:none;font-size:14px;color:rgb(153, 153, 153)">{{example}}</span>{{/custom}}
 
   {{#custom}}
   <div style="margin: 4px 20px 4px 24px">
     <input type="text" style="margin:0" name="permalink.custom" value="{{blog.permalink.custom}}"/>
+  </div>
+
+  <div class="buttons" style="display: none;padding:0 24px">
+	  <button type="submit" onclick="this.form.submit();this.disabled=true">
+		Save changes
+  	</button>
+	  <a href="{{{base}}}">Cancel</a>
   </div>
   {{/custom}}
   
@@ -41,4 +48,120 @@
 </label>
 {{/permalinkFormats}}
 
-{{> form-footer}}
+<br><br>
+
+<details>
+  <summary>What is a link format?</summary>
+  <p>  Posts and page on this site are assigned a URL according to the format below.  </p>
+</details>
+<details>
+  <summary>What happens to my existing URLs if I change this format?</summary>
+  <p>If you change this format, Blot will update your existing posts and pages and then redirect the old URLs automatically.</p>
+</details>
+
+<details>
+  <summary>What if I only want to change a specific post or page?</summary>
+  <p>You can change a specific post or page's URL in its <a href="/how/metadata">metadata</a>.</p>
+</details>
+<noscript>
+
+<div class="buttons">
+	<button type="submit" onclick="this.form.submit();this.disabled=true">
+		Save changes
+	</button>
+	<a href="{{{base}}}">Cancel</a>
+</div>
+</noscript>
+
+</form>
+
+<script type="text/javascript">
+  // when the user changes any of the radio buttons, serialize the form and submit it
+  // this is necessary because the form is inside a <label> and the radio buttons are inside the <label>
+
+  function submitForm(form) {
+    var data = new FormData(form);
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', form.action, true);
+    xhr.send(data);
+  }
+
+  document.querySelectorAll('input[type="radio"]').forEach(function (radio) {
+    radio.addEventListener('change', function (event) {
+      submitForm(event.target.form);
+    });
+  });
+
+  // when the user selects the radio input for the custom permalink format, show the save button
+  document.querySelectorAll('input[name="permalink.format"]').forEach(function (radio) {
+    radio.addEventListener('change', function (event) {
+      if (event.target.value === '') {
+        document.querySelector('.buttons').style.display = 'flex';
+        document.querySelector('input[name="permalink.custom"]').style.display = 'block';
+      } else {
+        document.querySelector('.buttons').style.display = 'none';
+        // hide the text input under the custom permalink format radio input
+        document.querySelector('input[name="permalink.custom"]').style.display = 'none';
+      }
+    });
+  });
+  
+  // if the page loads with the radio input for the custom permalink format selected, show the save button
+  if (document.querySelector('input[name="permalink.format"]:checked').value === '') {
+    document.querySelector('.buttons').style.display = 'flex';
+  }   else {
+    document.querySelector('input[name="permalink.custom"]').style.display = 'none';
+
+  }
+
+
+</script>
+
+<style>
+  details {font-size: 14px;}
+
+  details {
+  margin-bottom: 6px;
+
+}
+details summary {
+  list-style: none;
+  cursor: pointer;
+  position: relative;
+  font-weight: 600;
+  padding-left: 1em;
+}
+
+details p {
+  margin-left: 16px;
+}
+
+details summary::before {
+  content: "";
+  background: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMiAxMiIgd2lkdGg9IjEyIiBoZWlnaHQ9IjEyIj48cGF0aCBkPSJNNC43IDEwYy0uMiAwLS40LS4xLS41LS4yLS4zLS4zLS4zLS44IDAtMS4xTDYuOSA2IDQuMiAzLjNjLS4zLS4zLS4zLS44IDAtMS4xLjMtLjMuOC0uMyAxLjEgMGwzLjMgMy4yYy4zLjMuMy44IDAgMS4xTDUuMyA5LjdjLS4yLjItLjQuMy0uNi4zWiI+PC9wYXRoPjwvc3ZnPg==") no-repeat;
+  background-size: 14px;
+  width: 14px;
+  height: 14px;
+  opacity: 0.5;
+  position: absolute;
+  left: -1px;
+  top: 5px;
+  transform: rotate(0deg);
+  transform-origin: center;
+  transition: transform 0.2s;
+}
+
+details[open] summary::before {
+  transform: rotate(90deg);
+}
+
+
+@keyframes open {
+  from {
+    height: 0;
+  }
+  to {
+    height: auto;
+  }
+}
+</style>

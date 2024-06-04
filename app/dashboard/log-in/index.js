@@ -29,13 +29,12 @@ form.use(function (req, res, next) {
   // Send logged-in users to the dashboard unless we're using
   // a one-time log-in link
   if (req.session && req.session.uid && !req.query.token) {
-    var then = req.query.then || (req.body && req.body.then) || "/dashboard";
+    var then = req.query.then || (req.body && req.body.then) || "/sites";
     return res.redirect(then);
   }
 
   res.header("Cache-Control", "no-cache");
   res.locals.title = "Log in";
-  res.locals.layout = "partials/layout-form";
   res.locals.from = req.query.from;
   res.locals.then = req.query.then;
   res.locals.then_description = DASHBOARD_PAGE_DESCRIPTION[req.query.then];

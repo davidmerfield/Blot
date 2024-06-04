@@ -11,7 +11,7 @@ var ensure = require("helper/ensure");
 module.exports = function getTemplateList(blogID, callback) {
   ensure(blogID, "string").and(callback, "function");
 
-  client.smembers(key.publicTemplates(), function (err, publicTemplates) {
+  client.smembers(key.blogTemplates('SITE'), function (err, publicTemplates) {
     client.smembers(key.blogTemplates(blogID), function (err, blogTemplates) {
       var templateIDs = publicTemplates.concat(blogTemplates);
       var response = [];

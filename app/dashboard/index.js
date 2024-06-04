@@ -1,3 +1,4 @@
+const Template = require("models/template");
 var mustache = require("helper/express-mustache");
 var trace = require("helper/trace");
 const root = require("helper/rootDir");
@@ -75,9 +76,9 @@ dashboard.locals.partials = {
   header: VIEW_DIRECTORY + "/../partials/header.html",
   head: VIEW_DIRECTORY + "/../partials/head.html",
   breadcrumbs: VIEW_DIRECTORY + "/../partials/breadcrumbs.html",
-  sidebar: VIEW_DIRECTORY + "/../partials/sidebar.html",
   links: VIEW_DIRECTORY + "/../partials/links.html",
-  footer: VIEW_DIRECTORY + "/../partials/footer.html"
+  footer: VIEW_DIRECTORY + "/../partials/footer.html",
+  navigation: VIEW_DIRECTORY + "/../partials/navigation.html",
 };
 
 dashboard.use(trace("loading session information"));
@@ -96,12 +97,10 @@ dashboard.use("/log-in", require("./log-in"));
 var logout = require("dashboard/account/util/logout");
 
 dashboard.get("/disabled", logout, (req, res) => {
-  res.locals.layout = "partials/layout-form";
   res.render("disabled");
 });
 
 dashboard.get("/deleted", logout, (req, res) => {
-  res.locals.layout = "partials/layout-form";
   res.render("deleted");
 });
 
@@ -138,16 +137,26 @@ dashboard.use("/stats", require("./stats"));
 // These need to be before ':handle'
 dashboard.use("/account", require("./account"));
 
+// allow the download of files directly
+dashboard.use("/:handle/folder-download/:path(*)", (req, res, rext)=>{
+  const local = require('helper/localPath')(req.blog.id, req.params.path);
+  const filename = require('path').basename(local);
+
+  // add the headers to download the file
+  res.setHeader('Content-disposition', 'attachment; filename=' + filename);
+  res.sendFile(local);
+});
+
 dashboard.use(
   "/share-template",
   require("./load-blogs"),
-  require("./share-template")
+  require("./template/share-template")
 );
 
 // Redirect old URLS
 dashboard.use("/settings", require("./load-blogs"), function (req, res, next) {
   try {
-    const redirect = `/dashboard/${req.blogs[0].handle}${req.path}`;
+    const redirect = `/sites/${req.blogs[0].handle}${req.path}`;
     res.redirect(redirect);
   } catch (e) {
     next();
@@ -156,6 +165,7 @@ dashboard.use("/settings", require("./load-blogs"), function (req, res, next) {
 
 // Send user's avatar
 dashboard.use("/_avatars/:avatar", require("./avatar"));
+
 
 dashboard.use(function (req, res, next) {
   res.locals.links_for_footer = [];
@@ -172,38 +182,54 @@ dashboard.use(function (req, res, next) {
 dashboard.use("/:handle", function (req, res, next) {
   // we use pretty.label instead of title for title-less blogs
   // this falls back to the domain of the blog if no title exists
-  res.locals.base = `/dashboard/${req.params.handle}`;
-  res.locals.breadcrumbs.add("Your sites", "/dashboard");
+  res.locals.base = `/sites/${req.params.handle}`;
+  res.locals.breadcrumbs.add("Sites", "/sites");
   res.locals.breadcrumbs.add(req.blog.pretty.label, `${req.params.handle}`);
   res.locals.title = req.blog.pretty.label;
   next();
 });
 
-dashboard.use("/:handle/template/edit", require("./template-editor"));
 
 // Will deliver the sync status of the blog as SSEs
 dashboard.use("/:handle/status", require("./status"));
 
-dashboard.get("/", require("./load-blogs"), function (req, res) {
-  res.locals.title = "Your sites";
-  res.locals.breadcrumbs.add("Your sites", "/dashboard");
+dashboard.get("/", require("./load-blogs"), async (req, res) => {
+
+  // call getMetadata for each blog's template in parallel
+  // of req.blogs
+  const templates = await Promise.all((req.blogs || []).map(blog => {
+    // Template.getMetadata(blog.template, (err, metadata) => {}))
+    return new Promise((resolve, reject) => {
+      Template.getMetadata(blog.template, (err, metadata) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(metadata);
+        }
+      });
+    });
+  }));
+  
+  // assign the metadata to the blog object
+  (req.blogs || []).forEach((blog, index) => {
+    blog.template = templates[index];
+    blog.previewURL = `https://preview-of-${blog.template.owner === blog.id ? 'my-' : ''}${blog.template.slug}-on-${blog.handle}.${config.host}`;
+  });
+
+  res.locals.title = "Sites";
+  res.locals.breadcrumbs.add("Sites", "/sites");
   res.render("index");
 });
 
 // Load the files and folders inside a blog's folder
-dashboard.get(
-  "/:handle/folder/:path(*)",
-  function (req, res, next) {
-    req.folderPath = "/" + req.params.path;
-    next();
-  },
-  require("./folder"),
-  function (req, res) {
-    res.render("folder", { selected: { folder: "selected" } });
-  }
-);
+dashboard.get(["/:handle", "/:handle/folder/:path(*)"], require("./folder"));
 
-dashboard.get("/:handle", require("./folder"));
+dashboard.get("/:handle/folder", (req, res) => {
+  // redirect to client settings page
+  res.redirect(`/sites/${req.params.handle}/client`);
+});
+
+dashboard.use("/:handle/template", require("./template"));
 dashboard.use("/:handle/import", require("./import"));
 dashboard.use("/:handle", require("./settings"));
 

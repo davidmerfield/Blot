@@ -16,10 +16,9 @@ var signup = Express.Router();
 var csrf = require("csurf")();
 
 signup.use(function (req, res, next) {
-  if (req.session && req.session.uid) return res.redirect("/dashboard");
+  if (req.session && req.session.uid) return res.redirect("/sites");
 
   res.header("Cache-Control", "no-cache");
-  res.locals.layout = "partials/layout-form";
 
   return next();
 });
@@ -29,6 +28,7 @@ signup.use("/paypal", require("./paypal"));
 var paymentForm = signup.route("/");
 var alreadyPaid = signup.route("/paid/:token");
 var passwordForm = signup.route("/create-account");
+var firstSite = signup.route("/first-site");
 
 if (config.maintenance) {
   paymentForm.use("/sign-up", function (req, res) {
@@ -143,7 +143,6 @@ passwordForm.all(function (req, res, next) {
   )
     return res.redirect(req.baseUrl + paymentForm.path);
 
-  res.locals.breadcrumbs = [{ label: "Blot" }, { label: "Sign up" }];
 
   next();
 });
@@ -213,7 +212,8 @@ passwordForm.post(parse, csrf, function (req, res, next) {
         req.session.uid = user.uid;
 
         Email.CREATED_BLOG(user.uid);
-        res.redirect("/account/add-new-site");
+        
+        res.redirect("/sites/account/create-site");
       }
     );
   });
@@ -229,5 +229,6 @@ signup.use(function (err, req, res, next) {
 
   next();
 });
+
 
 module.exports = signup;

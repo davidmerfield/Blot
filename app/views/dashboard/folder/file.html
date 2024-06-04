@@ -1,0 +1,419 @@
+{{#folder}}
+{{#stat}}
+<div class="folder-box {{#root}}root{{/root}} {{#directory}}directory{{/directory}} live-updates">
+
+<div class="file-info">
+
+  <h1><span class="icon-file{{#entry}}-check{{/entry}}"></span>{{name}}</h1>
+ 
+  <a href="{{{base}}}/folder-download{{{path}}}" target="_blank" class="template-button right-aligned file-helper">
+    Download file
+    <span class="icon-download"></span>
+  </a>
+
+  <table class="file-stat">
+    <tr>
+      <td>File path:</td>
+      <td>{{path}} <button class="copy"><span class="icon-copy"></span> Copy</button></td>
+    </tr>
+
+    <tr>
+      <td>File URL:</td>
+      <td>https://{{{blog.pretty.url}}}{{{path}}} <button class="copy"><span class="icon-copy"></span> Copy</button></td>
+    </tr>
+
+    <tr>
+      <td>Date modified:</td>
+      <td>{{modified}}</td>
+    </tr>
+
+    <tr>
+      <td>Date added:</td>
+      <td>{{created}}</td>
+    </tr>
+
+    <tr>
+      <td>Size:</td>
+      <td>{{size}}</td>
+    </tr>
+  </table>
+</div>
+
+<div class="publishing-steps {{^entry}}no-entry{{/entry}}" s>
+  {{#entry}}
+    
+
+       <!-- File is a post or page -->
+  <p>
+    <i><span class="icon-small-check"></span></i>
+    <b>File is a {{type}}</b>. To ignore this file, start the file name with an underscore or move it inside a folder that starts with an underscore.</p>
+  {{#scheduled}}
+  {{^draft}}
+  <!-- File is scheduled for future publication -->
+  <p>    <i><span class="icon-small-check"></span></i>
+    <b>Scheduled for future publication</b>. The publish date of this {{type}} is in the future. This {{type}} will be published to your site {{toNow}} on {{date}}.</p>
+ 
+  {{/draft}}
+  {{/scheduled}}
+  {{/entry}}
+  {{^entry}}
+  <!-- File is not a post or page -->
+  <p><i><span class="icon-small-no-entry"></span></i><b>File is not a post or page</b>.
+    {{#ignored}}
+    {{#tooLarge}}File is too large{{/tooLarge}}
+    {{#wrongType}}{{kind}} files are not a file type which can become a post or page.{{/wrongType}}
+    {{#underscorePath}}It's inside a folder whose name starts with an underscore. {{/underscorePath}}
+    {{#underscoreName}}It is ignored because its name starts with an underscore.{{/underscoreName}}
+    {{#templateFile}}It's inside the Templates folder.{{/templateFile}}
+    {{/ignored}}
+  </p>
+  </div>
+  <div style="font-size: 14px;border-top: 1px solid #eeeeec;padding: 24px 36px">
+  {{#extension.pdf}}
+  <!-- Embedding and linking PDF -->
+  <p>Embed this PDF in another post:</p>
+  <section class="multilingual">
+    <pre lang="markdown"><code>&lt;embed src="{{{path}}}" type="application/pdf"&gt;</code></pre>
+    <pre lang="html"><code>&lt;embed src="{{{path}}}" type="application/pdf"&gt;</code></pre>
+  </section>
+  <p>Link to this PDF from another post:</p>
+  <section class="multilingual">
+    <pre lang="markdown"><code>[Download PDF]({{{path}}})</code></pre>
+    <pre lang="html"><code>&lt;a href="{{{path}}}"&gt;Download PDF&lt;/a&gt;</code></pre>
+  </section>
+  {{/extension.pdf}}
+  {{#extension.category.image}}
+  <!-- Embedding and linking image -->
+  <p>How to embed this image:</p>
+  <section class="multilingual">
+    <pre lang="markdown"><code>![Image]({{{path}}})</code></pre>
+    <pre lang="html"><code>&lt;img src="{{{path}}}"&gt;</code></pre>
+  </section>
+  <p>How to link to this image:</p>
+  <section class="multilingual">
+    <pre lang="markdown"><code>[View image]({{{path}}})</code></pre>
+    <pre lang="html"><code>&lt;a href="{{{path}}}"&gt;View image&lt;/a&gt;</code></pre>
+  </section>
+  {{/extension.category.image}}
+  {{#extension.category.video}}
+  <!-- Embedding and linking video -->
+  <p>How to embed this video:</p>
+  <section class="multilingual">
+    <pre lang="markdown"><code>![Video]({{{path}}})</code></pre>
+    <pre lang="html"><code>&lt;video src="{{{path}}}"&gt;</code></pre>
+  </section>
+  <p>How to link to this video:</p>
+  <section class="multilingual">
+    <pre lang="markdown"><code>[View video]({{{path}}})</code></pre>
+    <pre lang="html"><code>&lt;a href="{{{path}}}"&gt;View video&lt;/a&gt;</code></pre>
+  </section>
+  {{/extension.category.video}}
+  {{#extension.category.audio}}
+  <!-- Embedding and linking audio -->
+  <p>How to embed this audio:</p>
+  <section class="multilingual">
+    <pre lang="markdown"><code>![Audio]({{{path}}})</code></pre>
+    <pre lang="html"><code>&lt;audio controls src="{{{path}}}"&gt;</code></pre>
+  </section>
+  <p>How to link to this audio:</p>
+  <section class="multilingual">
+    <pre lang="markdown"><code>[Listen to audio]({{{path}}})</code></pre>
+    <pre lang="html"><code>&lt;a href="{{{path}}}"&gt;Listen to audio&lt;/a&gt;</code></pre>
+  </section>
+  {{/extension.category.audio}}
+</div>
+  {{/entry}}
+</div>
+
+
+{{#entry}}
+<div class="entry-info">
+
+  <h1><a href="{{{blog.url}}}{{{url}}}" target="_blank"><span class="icon-website"></span>{{title}}</a></h1>
+
+  <a href="{{{blog.url}}}{{{url}}}" target="_blank" class="template-button right-aligned file-helper">
+    View {{type}}
+    <span class="icon-zoom"></span>
+  </a>
+
+  
+  
+  <table class="file-stat">
+
+    <!-- Title -->
+    <tr>
+     <td>{{Type}} title:</td>
+     <td>{{title}}
+       <details>
+         <summary><span class="icon-support"></span> Explain</summary>
+         <p>
+           {{#titleTag}}
+           The title of this post is generated from the text contents of the title tag inside the file. To change the title, edit the text inside the title tag.
+           {{/titleTag}}
+           {{^titleTag}}
+           The title of this post is generated from the file's name. To change the title, edit the file's name.
+           {{/titleTag}}
+         </p>
+       </details>
+     </td>
+   </tr>
+
+   <!-- Post or page link -->
+   <tr>
+    <td>{{Type}} link:</td>
+    <td>{{{url}}} <button class="copy"><span class="icon-copy"></span> Copy</button>
+      <details>
+        <summary><span class="icon-support"></span> Explain</summary>
+        <p>
+          {{#metadata.link}}
+          The link of this {{type}} is generated from Link metadata.
+          {{/metadata.link}}
+          {{#metadata.url}}
+          The link of this {{type}} is generated from URL metadata.
+          {{/metadata.url}}
+          {{^metadata.link}}{{^metadata.url}}
+          The link of this {{type}} is generated using your site's <a href="{{{base}}}/link-format">link format</a>.
+          {{/metadata.url}}{{/metadata.link}}
+        </p>
+      </details>
+    </td>
+  </tr>
+
+  
+   <!-- Post or page URL -->
+   <tr>
+     <td>{{Type}} URL:</td>
+     <td>https://{{blog.pretty.url}}{{url}} <button class="copy"><span class="icon-copy"></span> Copy</button>
+       <details>
+         <summary><span class="icon-support"></span> Explain</summary>
+         <p>The public, permanent URL of this {{type}}. Use it if you want to add a link to this {{type}} from elsewhere.</p>
+       </details>
+     </td>
+   </tr>
+
+   <!-- Date -->
+   <tr>
+     <td>Date:</td>
+     <td>{{date}}
+       <details>
+         <summary><span class="icon-support"></span> Explain</summary>
+         <p>The date of this post is generated from its metadata and text content.</p>
+       </details>
+     </td>
+   </tr>
+
+   <tr>
+     <td>Converter:</td>
+     <td>
+       {{#converter.markdown}}
+       <a href="/how/files/markdown">Markdown</a>
+       {{/converter.markdown}}
+       {{#converter.img}}
+       <a href="/how/files/images">Image</a>
+       {{/converter.img}}
+       {{#converter.docx}}
+       <a href="/how/files/word-document">Word document</a>
+       {{/converter.docx}}
+       {{#converter.html}}
+       <a href="/how/files/html">HTML</a>
+       {{/converter.html}}
+       {{#converter.gdoc}}
+       <a href="/how/files/google-docs">Google Docs</a>
+       {{/converter.gdoc}}
+       {{#converter.odt}}
+       <a href="/how/files/word-document">OpenDocument</a>
+       {{/converter.odt}}
+       {{#converter.org}}
+       <a href="/how/files/org">Org</a>
+       {{/converter.org}}
+       {{#converter.rtf}}
+       <a href="/how/files/markdown">Rich Text Format</a>
+       {{/converter.rtf}}
+       {{#converter.webloc}}
+       <a href="/how/files/bookmarks">Bookmarks</a>
+       {{/converter.webloc}}
+       
+       <details>
+         <summary><span class="icon-support"></span> Explain</summary>
+         <p>The converter used to generate this post was chosen based on the file type.</p>
+       </details>
+     </td>
+   </tr>
+
+   <!-- Thumbnail -->
+   <tr>
+     <td>Thumbnail:</td>
+     <td>
+       {{#thumbnail.small}}
+       <img class="file-thumbnail" height="{{height}}" width="{{width}}" src="{{{url}}}" />
+       {{/thumbnail.small}}
+       {{^thumbnail.small}}
+       --
+       {{/thumbnail.small}}
+       <details>
+         <summary><span class="icon-support"></span> Explain</summary>
+         <p>
+          {{#thumbnail.small}}
+          {{#converter.img}}
+          The thumbnail of this post was generated from the image file itself. To change the thumbnail, edit the image file.
+          {{/converter.img}}
+          {{^converter.img}}
+          The thumbnail of this post was generated from an image used in the post. To change the thumbnail, edit the image used in the post.
+          {{/converter.img}}
+          {{/thumbnail.small}}
+          {{^thumbnail.small}}
+          This post does not have a thumbnail. To add a thumbnail, add an image to the post. Or define thumbnail metadata like so:
+          <pre><code>Thumbnail: /path/to/image.jpg</code></pre>
+          {{/thumbnail.small}}
+         </p>
+       </details>
+     </td>
+   </tr>
+
+   <!-- Summary -->
+   <tr>
+     <td>Summary:</td>
+     <td>
+       {{#summary}}
+       <pre><code>{{summary}}</code></pre>
+       {{/summary}}
+       {{^summary}}--
+       {{/summary}}
+       <details>
+         <summary><span class="icon-support"></span> Explain</summary>
+         <p>The summary or excerpt of this post.</p>
+       </details>
+     </td>
+   </tr>
+
+   <!-- Slug -->
+   <tr>
+     <td>Slug:</td>
+     <td>{{slug}}
+       <details>
+         <summary><span class="icon-support"></span> Explain</summary>
+         <p>The slug or URL-friendly version of the title.</p>
+       </details>
+     </td>
+   </tr>
+
+   <!-- Tags -->
+   <tr>
+     <td>Tags:</td>
+     <td>
+       {{#tags}} {{tag}}{{^last}},{{/last}} {{/tags}}
+       {{^tags.length}}--{{/tags.length}}
+       <details>
+         <summary><span class="icon-support"></span> Explain</summary>
+         <p>The tags associated with this post.</p>
+       </details>
+     </td>
+   </tr>
+
+   <!-- Backlinks -->
+   <tr>
+     <td>Backlinks:</td>
+     <td>
+       {{#backlinks}} {{backlink}}{{^last}},{{/last}} {{/backlinks}}
+       {{^backlinks.length}}--{{/backlinks.length}}
+       <details>
+         <summary><span class="icon-support"></span> Explain</summary>
+         <p>The backlinks to this post.</p>
+       </details>
+     </td>
+   </tr>
+
+   <!-- Internal links -->
+   <tr>
+     <td>Internal links:</td>
+     <td>
+       {{#internalLinks}} {{internalLink}}{{^last}},{{/last}} {{/internalLinks}}
+       {{^internalLinks.length}}--{{/internalLinks.length}}
+       <details>
+         <summary><span class="icon-support"></span> Explain</summary>
+         <p>The internal links within this post.</p>
+       </details>
+     </td>
+   </tr>
+
+   <!-- Dependencies -->
+   <tr>
+     <td>Dependencies:</td>
+     <td>
+       {{#dependencies}} {{dependency}}{{^last}},{{/last}} {{/dependencies}}
+       {{^dependencies.length}}--{{/dependencies.length}}
+       <details>
+         <summary><span class="icon-support"></span> Explain</summary>
+         <p>The dependencies required for this post.</p>
+       </details>
+     </td>
+   </tr>
+
+   <!-- Metadata -->
+   <tr>
+     <td>Metadata:</td>
+     <td>
+       {{#metadata.length}}
+       <table style="border: 1px solid #eeeeec;margin: 6px 0;padding: 0;">
+         {{#metadata}}
+         <tr>
+           <td>{{key}}</td>
+           <td>{{value}}</td>
+         </tr>
+         {{/metadata}}
+       </table>
+       {{/metadata.length}}
+       {{^metadata.length}}--
+       {{/metadata.length}}
+       <details>
+         <summary><span class="icon-support"></span> Explain</summary>
+         <p>The metadata associated with this post.</p>
+       </details>
+     </td>
+   </tr>
+
+   <!-- Comments -->
+   <tr>
+     <td>Comments:</td>
+     <td>{{#comments}}Yes{{/comments}}{{^comments}}No{{/comments}}
+       <details>
+         <summary><span class="icon-support"></span> Explain</summary>
+         <p>Whether comments are enabled for this post.</p>
+       </details>
+     </td>
+   </tr>
+
+   <!-- Search -->
+   <tr>
+     <td>Search:</td>
+     <td>{{#search}}Yes{{/search}}{{^search}}No{{/search}}
+       <details>
+         <summary><span class="icon-support"></span> Explain</summary>
+         <p>Whether this post is included in site search results.</p>
+       </details>
+     </td>
+   </tr>
+
+   <!-- GUID -->
+   <tr>
+     <td>GUID:</td>
+     <td><pre><code>{{guid}}</code></pre>
+       <details>
+         <summary><span class="icon-support"></span> Explain</summary>
+         <p>The globally unique identifier for this post.</p>
+       </details>
+     </td>
+   </tr>
+ </table>
+      
+    </div>
+   
+</div>
+
+</div>
+</div>
+{{/entry}}
+{{/stat}}
+{{/folder}}
+
+</div>

@@ -19,7 +19,7 @@ module.exports = {
   permalink: { format: "{{slug}}", custom: "", isCustom: false },
   timeZone: "UTC",
   status: {
-    message: "Created blog",
+    message: "Created site",
     syncID: "",
     datestamp: Date.now(),
   },

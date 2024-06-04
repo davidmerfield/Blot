@@ -18,10 +18,13 @@ module.exports = function setMetadata (id, updates, callback) {
 
     metadata = metadata || {};
 
+      
     for (var i in updates) {
       if (metadata[i] !== updates[i]) changes = true;
       metadata[i] = updates[i];
     }
+
+    if (!metadata.owner) return callback(new Error("No owner: please specify an owner for this template"));
 
     metadata = serialize(metadata, metadataModel);
 
@@ -38,6 +41,10 @@ module.exports = function setMetadata (id, updates, callback) {
         if (err) return callback(err);
 
         if (!changes) return callback(null, changes);
+
+        if (metadata.isPublic || metadata.owner === "SITE") {
+          return callback(null, changes);
+        }
 
         Blog.set(metadata.owner, { cacheID: Date.now() }, function (err) {
           callback(err, changes);

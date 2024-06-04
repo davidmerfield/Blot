@@ -113,7 +113,7 @@ server.use(
 
 function listen ({ host }) {
   const url = "https://" + host + "/connect";
-
+  
   // when testing this, replace REMOTE_HOST with 'webhooks.blot.development'
   // and pass this as second argument to new EventSource();
   const options = { headers: { Authorization: config.webhooks.secret } };

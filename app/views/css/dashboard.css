@@ -1,3 +1,122 @@
+.sites-list-container {
+  min-height: calc(100vh - 9rem);
+  display: flex;
+  flex-direction: column;
+}
+
+.sites {
+  flex-grow: 1;
+  min-width: none;
+}
+
+.site {
+  position: relative;
+}
+
+a.blog-link {
+  background-color: var(--background-color);
+  transition: background-color 0.2s;
+  display: flex;
+  justify-content: space-between;
+  margin: 0;
+  border-radius: 0;
+  border: none;
+  padding-left: 90px;
+  border-top: 1px solid #eee;
+  padding-right: 1rem;
+  color: var(--accent-color);
+}
+
+a.blog-link .text-info {
+  font-weight: 400;
+  line-height: 1.4;
+  padding: 12px 0;
+  display: block;
+  width: 100%;
+}
+
+a.blog-link:hover {
+  background-color: #f0f4ff70;
+}
+
+a.blog-link .title {
+  display: block;
+}
+
+a.blog-link .url {
+  display: block;
+  color: var(--light-text-color);
+  font-weight: 400;
+  height: 1.4em;
+  font-size: var(--small-font-size);
+}
+
+a.blog-link + .preview {
+  height: 40px;
+  width: 60px;
+  overflow: hidden;
+  position: absolute;
+  top: 10px;
+  left: 1em;
+  margin: 4px 0 10px;
+  box-shadow: inset 0 1px 0 #f5f4f5, 0 -1px 0 rgba(0, 0, 0, .11), 0 1px 0 rgba(0, 0, 0, .26), -1px 0 0 rgba(0, 0, 0, .13), 1px 0 0 rgba(0, 0, 0, .13);
+  border-radius: var(--border-radius);
+  border-radius: var(--border-radius);
+}
+
+a.blog-link + .preview iframe {
+  height: 800px;
+  width: 1200px;
+  background: var(--background-color);
+  transform: scale(0.05);
+  transform-origin: top left;
+}
+
+button.logout {
+  cursor: pointer;
+  background: none;
+  font-size: 14px;
+  border: none;
+  padding: 8px 12px;
+  margin: 12px 0;
+  font-weight: 600;
+  color: rgb(153, 153, 153);
+  border-radius: var(--border-radius);
+  transition: background-color 0.2s, color 0.2s;
+}
+
+button.logout:hover {
+  background-color: #e4eafb;
+  color: var(--accent-color);
+}
+
+button.logout svg {
+  margin-left: 4px;
+  fill: currentColor;
+  position: relative;
+  top: 3px;
+  width: 14px;
+  height: 14px;
+}
+
+form.create-site-button {
+  position: absolute;
+  top: 1rem;
+  right: 4rem;
+}
+
+form.create-site-button button {
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  margin-top: 24px;
+  display: inline-block;
+  border-radius: var(--border-radius);
+  background-color: var(--accent-color);
+  color: var(--background-color);
+  padding: 0.5em 0.75em;
+  font-weight: 600;
+}
 
 
 .avatar {
@@ -269,12 +388,63 @@ span.file {
 }
 
 
+
 #menu section,
 #redirects section {
   padding: 0 0;
   border: none;
-  margin-bottom: 12px
+  margin-bottom: 12px;
+  border:1px solid #eeeeec;border-radius: var(--border-radius);
 }
+
+
+#redirects section:last-child[id^="new_"] {
+  border: 2px solid var(--accent-color)
+}
+#redirects .handle svg {
+  fill: currentColor
+}
+
+#redirects .handle {
+  padding: 6px 12px;
+  color: var(--light-text-color);
+  display: flex;
+  cursor: grab;
+  cursor: -moz-grab;
+  cursor: -webkit-grab;
+  align-items: center;
+  border-right: 1px solid #eeeeec;
+}
+
+#redirects .handle:active {
+  cursor: grabbing;
+  cursor: -moz-grabbing;
+  cursor: -webkit-grabbing;
+}
+
+
+#redirects .removeLink {
+  display: flex;
+  padding: 6px 12px;
+  align-items: center;
+  border-left: 1px solid #eeeeec;
+  color: red
+}
+
+#redirects .removeLink svg {
+  margin-right: 4px;
+}
+
+#redirects section input {
+  margin: 0;
+  box-shadow: none;
+  border: none;
+}
+
+#redirects section input:first-of-type {
+  border-right: 1px solid #eeeeec;
+}
+
 
 .pageLink {
 line-height: 48px;
@@ -642,10 +812,8 @@ a.content-line .file {
   background:#fff;border:1px solid #ddd;border-radius:4px
 }
 
-
+/* 
 .status {
-  position: relative;
-  margin-left: 1.25em;
 }
 
 .status:before {
@@ -675,7 +843,7 @@ a.content-line .file {
   background: #ff9800;
   -webkit-animation: bounce 1.4s infinite ease-in-out both;
   animation: bounce 1.4s infinite ease-in-out both;
-}
+} */
 
 
 @-webkit-keyframes bounce {

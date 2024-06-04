@@ -43,6 +43,6 @@ module.exports = async contents => {
     lines[index] = lines[index].trim();
     result = lines.join("\n");
   }
-
+  
   return result;
 };

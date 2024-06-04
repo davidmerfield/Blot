@@ -3,6 +3,7 @@ var status = Express.Router();
 var redis = require("models/redis");
 
 status.get("/", function (req, res) {
+
   var blogID = req.blog.id;
   var client = new redis();
 
@@ -29,6 +30,7 @@ status.get("/", function (req, res) {
   client.subscribe("sync:status:" + blogID);
 
   client.on("message", function (channel, message) {
+    console.log('received message', message);
     res.write("\n");
     res.write("data: " + message + "\n\n");
     res.flushHeaders();

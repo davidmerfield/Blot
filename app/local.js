@@ -84,7 +84,7 @@ function configureBlogs (user, callback) {
           var url = format({
             protocol: "https",
             host: config.host,
-            pathname: "/dashboard/log-in",
+            pathname: "/sites/log-in",
             query: {
               token: token
             }

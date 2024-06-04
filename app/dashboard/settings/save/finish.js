@@ -13,7 +13,6 @@ var dictionary = {
   roundAvatar: "Saved photo settings",
   avatar: "Saved changes to your photo",
   menu: "Saved changes to your links",
-  handle: "Saved changes to your subdomain on Blot",
   timeZone: "Saved changes to your time zone",
   dateFormat: "Saved changes to the order in which you write your dates",
 };
@@ -51,7 +50,7 @@ module.exports = function (req, res, next) {
     // and successful changes were made
     if (changes && changes.length && _.isEmpty(errors)) {
       if (changes.indexOf("handle") > -1)
-        redirect = `/dashboard/${updates.handle}/domain`;
+        redirect = `/sites/${updates.handle}/domain`;
 
       return res.message(
         redirect,
