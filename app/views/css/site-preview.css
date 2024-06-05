@@ -11,34 +11,6 @@
     border-radius: var(--border-radius);
 }
 
-.site-preview::before {
-    font-size: 12px;
-    width:1em;
-    height: 1em;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    content: '';
-    animation: pulsebg 1s infinite;
-    border-radius: 100%;
-}
-/* offset the animation of subsequent site previews */
-.site:nth-child(even) .site-preview:before {
-    animation-delay: 0.25s;
-}
-
-@keyframes pulsebg {
-    0% {
-        background-color: #f6f7f9;
-    }
-    50% {
-        background-color: #e4eafb;
-    }
-    100% {
-        background-color: #f6f7f9;
-    }
-}
 
 .site-preview iframe {
     visibility: hidden;

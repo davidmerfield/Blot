@@ -33,6 +33,7 @@ documentation.locals.interval = plan.startsWith("monthly") ? "month" : "year";
 
 let cacheID = Date.now();
 
+documentation.locals.cdnURL = config.cdn.origin;
 documentation.locals.cdn = () => (text, render) => {
   const path = render(text);
 

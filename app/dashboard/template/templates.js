@@ -39,7 +39,7 @@ module.exports = function (req, res, next) {
         "-on-" +
         blog.handle +
         "." +
-        config.host;
+        config.host + "?screenshot=true";
 
       if (template.owner === blogID) yourTemplates.push(template);
 

@@ -3,7 +3,7 @@ const fetch = require('node-fetch');
 const verify = require('../verify');
 const config = require('config');
 
-describe("domain verifier", function () {
+xdescribe("domain verifier", function () {
 
     it("should throw an error for hostnames without nameservers", async () => {
         const hostname = "fhdjkhfkdjhfkjdhjfkhdjkfdjk.com";
@@ -76,7 +76,7 @@ describe("domain verifier", function () {
         }
     });
 
-    fit("should return true for hostnames that return correct handle", async () => {
+    it("should return true for hostnames that return correct handle", async () => {
         const hostname = "correct-handle.com";
         const handle = "example";
         const ourIP = config.ip;

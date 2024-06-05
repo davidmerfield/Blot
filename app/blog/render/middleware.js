@@ -152,7 +152,7 @@ module.exports = function (req, res, _next) {
                 // on demand
 
                 const screenshotScripts = `
-                <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+                <script src="/html2canvas.min.js"></script>
 <script>
 function generateScreenshot(scale = 0.4) {
   // Get the current viewport dimensions
@@ -165,7 +165,9 @@ function generateScreenshot(scale = 0.4) {
       windowWidth: viewportWidth,
       windowHeight: viewportHeight,
       x: 0,
-      y: 0
+      y: 0,
+      logging: false,
+      useCORS: false,      
   }).then(fullCanvas => {
 
 
@@ -178,6 +180,8 @@ function generateScreenshot(scale = 0.4) {
       const thumbnailDataUrl = thumbnailCanvas.toDataURL('image/png');
 
       window.parent.postMessage({ type: 'screenshot', screenshot: thumbnailDataUrl }, '*');
+  }).catch(error => {
+    window.parent.postMessage({ type: 'screenshot', screenshot: '' }, '*');
   });
 }
 

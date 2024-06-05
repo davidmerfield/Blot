@@ -51,7 +51,7 @@ window.addEventListener("message", receiveMessage, false);
 
   
 
-  <div style="width: 66.6666%;display: flex;flex-direction: column;margin-right: 42px;">
+  <div style="width: 66.6666%;display: flex;flex-direction: column;margin-right: 42px;flex-grow:1">
 
     <div style="border-radius: var(--border-radius);border: 1px solid var(--border-color);overflow: hidden;margin-bottom: 2.4rem;">
       
@@ -101,11 +101,11 @@ window.addEventListener("message", receiveMessage, false);
   
  <div style="width: 33.3333%;margin-left: 0;max-width: 240px;">
 
-<div style="width: 100%;height:0;padding-bottom: 66.6666%;">
+<div style="width: 100%;height:0;padding-bottom: 66.6666%;position: relative;z-index: 2;padding-left:1px;padding-right: 1px;box-sizing: border-box;">
   <div class="site-preview" data-url="{{{previewURL}}}" data-cache-id="{{blog.cacheID}}"></div>
 </div>
 
-<div style="margin-bottom: 2rem;border-radius: 0 0 var(--border-radius)  var(--border-radius);overflow: hidden;border: 1px solid var(--border-color);border-top: none;">
+<div style="margin: -5px 0 2rem;position: relative;z-index: 1;border-radius: 0 0 var(--border-radius)  var(--border-radius);overflow: hidden;border: 1px solid var(--border-color);border-top: none;">
   <a href="{{{base}}}/template/{{template.slug}}" class="panel-link">Edit template 
     <svg style="float: right;fill:currentColor;position:relative;top:4px;right:-8px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><path d="M8.22 2.97a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042l2.97-2.97H3.75a.75.75 0 0 1 0-1.5h7.44L8.22 4.03a.75.75 0 0 1 0-1.06Z"></path></svg>    
   </a>
