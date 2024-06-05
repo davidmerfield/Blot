@@ -105,6 +105,9 @@ body {
   text-rendering: geometricPrecision;
 }
 
+.signed-in {
+  display: none;
+}
 .site-container {
   display: flex;
 }

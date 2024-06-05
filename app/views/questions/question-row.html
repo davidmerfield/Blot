@@ -13,9 +13,9 @@
 
 
   
-  <div style="margin:  0">
+  <div style="margin:  0;font-size: 12px;">
     {{#last_reply_created_at}}
-    <a class="minor" href="/questions/{{ id }}">{{ number_of_replies }} {{#singular}}reply{{/singular}}{{^singular}}replies{{/singular}}, <span date-from-now="{{ last_reply_created_at }}">{{ time }}</span></a>
+    <a style="color:var(--light-text-color)" class="minor" href="/questions/{{ id }}">{{ number_of_replies }} {{#singular}}reply{{/singular}}{{^singular}}replies{{/singular}}  <span style="margin-left: 12px;" date-from-now="{{ last_reply_created_at }}">{{ time }}</span></a>
     {{/last_reply_created_at}}
     {{#tags.length}}
     &nbsp;

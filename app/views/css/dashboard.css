@@ -80,7 +80,7 @@ button.logout svg {
 
 form.create-site-button {
   position: absolute;
-  top: 0;
+  top: 18px;
   right: 0;
 }
 
