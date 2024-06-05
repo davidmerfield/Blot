@@ -113,6 +113,7 @@ body {
   flex-grow: 0;
   flex-shrink: 0;
   width: 25%;
+  min-width: 240px;
   background: #f6f7f9;
   padding: 3rem 2rem;
   position: sticky;
@@ -135,6 +136,7 @@ body {
   min-height: 100vh;
   overflow: hidden;
   padding-bottom: 8em;
+  position: relative;
 }
 
 .main-section-no-user {

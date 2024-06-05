@@ -1,12 +1,9 @@
 <section class="header">
-  <section class="header-content">
-    <a id="home-link" href="/"> Blot </a> 
-    <section class="cta">
-      {{^selected.dashboard}}
-      <a class="signed-out" href="/log-in">Log in</a>
-      <a class="signed-out" href="/sign-up">Sign up</a>
-      {{/selected.dashboard}}
-      <a href="#!" id="toggle-container">Menu</a>
-    </section>
-  </section>
+  <label for="navbar-toggle"><svg style="fill:currentColor;position:relative;top:2px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><path d="M1 2.75A.75.75 0 0 1 1.75 2h12.5a.75.75 0 0 1 0 1.5H1.75A.75.75 0 0 1 1 2.75Zm0 5A.75.75 0 0 1 1.75 7h12.5a.75.75 0 0 1 0 1.5H1.75A.75.75 0 0 1 1 7.75ZM1.75 12h12.5a.75.75 0 0 1 0 1.5H1.75a.75.75 0 0 1 0-1.5Z"></path></svg></label>
+  <section class="spacer"></section>
+  {{^user}}
+  <a class="signed-out" href="/log-in">Log in</a>
+  <a class="signed-out" href="/sign-up">Sign up</a>
+  {{/user}}
 </section>
+

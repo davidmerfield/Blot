@@ -1,8 +1,3 @@
-To finish:
-- Domain setup
-- New template page
-- Mobile media queries
-
 To polish:
 - Template editor links
 - Template editor deleted

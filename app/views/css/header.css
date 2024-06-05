@@ -1,106 +1,37 @@
-/* Header styles */
 .header {
-    height: 2.9rem;
-    padding: 0 1rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+}
 
-  .header-content {
-    display: flex;
-    width: 100%;
-    justify-content: space-between;
-    align-items: center;
-    margin: 0 auto;
-  }
+.header .spacer {
+  flex-grow: 1;
+}
 
-  #home-link {
-    justify-content: center;
-    display: flex;
-  }
+.header a {
+  background: var(--light-background-color);
+  border-radius: 4px;
+  color: var(--accent-color);
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 24px;
+  margin-left: 12px;
+  cursor: pointer;
+  user-select: none;
+  padding: 0 12px;
+}
 
-  .cta {
-    display: flex;
-    justify-content: flex-end;
-  }
+.header label {
+  display: none;
+  margin: 0;
+  cursor: pointer;
+  color: var(--accent-color)
+}
 
-  .signed-out {
-    display: none;
-  }
+.header a:hover {
+  color: var(--accent-color);
+}
 
-  /* Menu styles */
-  #toggle-container,
-  .header a#home-link {
-    display: none;
-    position: relative;
-  }
-
-  #toggle-container label {
-    cursor: pointer;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-  }
-
-  @media (max-width: 768px) {
-    .header a#home-link {
-      justify-content: center;
-      display: flex;
-    }
-
-    #toggle-container {
-      display: block;
-    }
-
-    #menu-toggle {
-      display: none;
-    }
-
-    #menu-toggle ~ section > section:first-child {
-      display: none;
-    }
-
-    #menu-toggle ~ section {
-      flex-direction: column;
-    }
-  }
-
-  #menu-toggle {
-    display: none
-  }
-  #menu-toggle:checked ~ section > section:first-child {
-    display: block;
-  }
-
-  .menu-links a {
-    margin: 0 0.4em;
-  }
-
-  .cta a {
-    background: var(--light-background-color);
-    border-radius: 4px;
-    color: var(--accent-color);
-    font-weight: 600;
-    font-size: 13px;
-    line-height: 24px;
-    margin-left: 12px;
-    padding: 0 12px;
-  }
-
-  .header a svg {
-    vertical-align: middle;
-    position: relative;
-    top: -0.1em;
-    fill: currentColor;
-  }
-
-  .header a:hover {
-    color: var(--accent-color);
-  }
-
-  .header a:hover svg {
-    fill: currentColor;
-  }
+#navbar-toggle {
+  display: none;
+}
