@@ -9,7 +9,7 @@
 }
 
 .header a {
-  background: var(--light-background-color);
+  background-color: var(--light-background-color);
   border-radius: 4px;
   color: var(--accent-color);
   font-weight: 600;
@@ -19,7 +19,14 @@
   cursor: pointer;
   user-select: none;
   padding: 0 12px;
+  transition: background-color 0.2s;
 }
+
+.header a:hover {
+  background-color: #e4eafb;
+}
+
+
 
 .header label {
   display: none;

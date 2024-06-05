@@ -1,123 +1,23 @@
 <section style="display: flex;">
 
-    <section class="intro">
-        <!-- <p style="margin-top: 0;">The open source publishing platform of choice for thousands of websites worldwide.</p> -->
+    <section class="intro" style="max-width: 400px;">
 
         <p style="margin-top: 0;">Blot turns a folder into a website. Files become posts on your site. Drag-and-drop to publish.</p>
         
-        <p>There’s no interface, just files. You can use your favorite tools to work on your site.</p>
+        <p>There’s no interface, just files. So you can use your favorite tools to work on your site. Focus on creating.</p>
         
-        <p>Write your blog with Microsoft Word or Vim. Publish your photos from Lightroom. Work with others using Google Docs or git.</p>
-        <!-- <p>Blot's templates make it possible to create all sorts of sites with a few clicks. A gentle way to learn a little more about the internet.  Blot's source code is dedicated to the public domain.</p> -->
-        <!-- <p>For Blot, the purpose of life is, at least partly, to have joy. People often feel joy when they can concentrate on the creative side of life, so Blot is designed to make people who make websites happy.</p> -->
-        <!-- <p class="sub-link"><a href="/pricing"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0ZM1.5 8a6.5 6.5 0 1 0 13 0 6.5 6.5 0 0 0-13 0Zm4.879-2.773 4.264 2.559a.25.25 0 0 1 0 .428l-4.264 2.559A.25.25 0 0 1 6 10.559V5.442a.25.25 0 0 1 .379-.215Z"></path></svg>Watch the video</a></p> -->
-        <!-- We're not a startup and we have no investors, only customers. We've been in business for a decade and we plan to stick around as long as possible.  -->
-        <!-- <p>Blot is the publishing platform of choice for thousands of websites worldwide—used by artists and writers to organizations. We hope you use Blot to make the internet a little more beautiful, a little more personal.</p> -->
+        <p>Write your blog with your favorite text editor. Vim or Microsoft Word, both work with Blot. Publish your photos from Lightroom. Work on your site with others using Google Docs or git.</p>
     
         <div style="margin-top:30px">
-            <p><a href="/how"><svg style="margin:0 4px;vertical-align: middle;fill:currentColor;position:relative;left:-4px;top:-1px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><path d="M0 1.75A.75.75 0 0 1 .75 1h4.253c1.227 0 2.317.59 3 1.501A3.743 3.743 0 0 1 11.006 1h4.245a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75h-4.507a2.25 2.25 0 0 0-1.591.659l-.622.621a.75.75 0 0 1-1.06 0l-.622-.621A2.25 2.25 0 0 0 5.258 13H.75a.75.75 0 0 1-.75-.75Zm7.251 10.324.004-5.073-.002-2.253A2.25 2.25 0 0 0 5.003 2.5H1.5v9h3.757a3.75 3.75 0 0 1 1.994.574ZM8.755 4.75l-.004 7.322a3.752 3.752 0 0 1 1.992-.572H14.5v-9h-3.495a2.25 2.25 0 0 0-2.25 2.25Z"></path></svg>Learn how to use Blot</a></p> 
+            <p><a href="/how"><span class="icon-book" style="margin-right: 8px;"></span>Learn how to use Blot</a></p> 
             
-             <p ><a href="/watch"><svg style="margin:0 4px;vertical-align: middle;fill:currentColor;position:relative;left:-4px;top:-1px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0ZM1.5 8a6.5 6.5 0 1 0 13 0 6.5 6.5 0 0 0-13 0Zm4.879-2.773 4.264 2.559a.25.25 0 0 1 0 .428l-4.264 2.559A.25.25 0 0 1 6 10.559V5.442a.25.25 0 0 1 .379-.215Z"></path></svg>Watch demonstration (6:25)</a></p> 
+             <p><a href="/watch"><span class="icon-play" style="margin-right: 8px;"></span>Watch demonstration (6:25)</a></p> 
             
             
-            <a href="/sites/sign-up" style="font-size:14px;margin-top:24px;margin-right: 12px;display:  inline-block;border-radius: var(--border-radius);background-color: var(--accent-color);color:var(--background-color);padding:0.5em 0.75em;font-weight: 600;">
-                <svg style="fill:currentColor;vertical-align: middle;position:relative;top:-0.1em" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><path d="M7.75 2a.75.75 0 0 1 .75.75V7h4.25a.75.75 0 0 1 0 1.5H8.5v4.25a.75.75 0 0 1-1.5 0V8.5H2.75a.75.75 0 0 1 0-1.5H7V2.75A.75.75 0 0 1 7.75 2Z"></path></svg>
+            <a class="button-with-icon" href="/sites/sign-up" >
+                <span class="icon-plus"></span>
                 Create site
               </a>
         </div>
-        
-    </p></section>
-<!--
-    <section style="flex-basis: 390px;flex-grow:1;">
-    <section class="template-previews">
-        {{#allTemplates}}
-        <section class="template" id="{{slug}}">
-            <section class="browser">
-                <img     src="{{#cdn}}/images/examples/{{slug}}/0.png{{/cdn}}"
-                alt="Blot example">
-            </section>
-            <section class="folder-preview">    
-                <pre class="folder" title="Your site"><code>Pages
-                    About.txt
-                    Contact.docx  
-                    Home.txt
-                    Secret.txt
-                  Posts
-                  
-                  </code></pre>
-            </section>
-        </section>
-        {{/allTemplates}}
-
-        <section class="template-tabs" style="height: 1rem;overflow: hidden;">
-            {{#allTemplates}}
-            <span class="tab" data-for="{{slug}}">
-                {{name}}
-            </span>
-            {{/allTemplates}}
-        </section>
-    </section>  
-</section>-->
+    </section>
 </section>
-<script>
-    document.querySelector('.template-tabs').addEventListener('click', function(e){
-        if(e.target.classList.contains('tab')){
-            const selected = e.target.getAttribute('data-for')
-            document.querySelectorAll('.template').forEach(function(node){
-                if(node.id === selected){
-                    node.style.display = 'block'
-                } else {
-                    node.style.display = 'none'
-                }
-            })
-            document.querySelectorAll('.tab').forEach(function(node){
-                if(node === e.target){
-                    node.classList.add('selected')
-                } else {
-                    node.classList.remove('selected')
-                }
-            })
-        }
-    })
-    document.querySelector('.tab').click()
-</script>
-<style>
-
-    .intro {
-        flex-basis: 390px;flex-grow: 0;
-    }
-
-    .template-previews {
-        background: #F4F3F1;border-radius: 16px;overflow: hidden;
-    }
-
-    .folder-preview {
-        transform: scale(0.5);margin: -6em 2em;
-    }
-
-    .folder-preview .window.folder {
-        margin-left: auto;
-        margin-right: auto;
-    }
-
-    .template-previews .browser {
-        transform: scale(0.66);margin-top: 0;
-        }
-    
-    .template-previews .browser img {
-        width: 100%;height: auto;box-shadow: 0 22px 64px rgba(0,0,0,.46),inset 0 1px 0 #f5f4f5,0 -1px 0 rgba(0,0,0,.11),0 1px 0 rgba(0,0,0,.26),-1px 0 0 rgba(0,0,0,.13),1px 0 0 rgba(0,0,0,.13);border-radius: var(--border-radius);
-    }
-
-    .template-tabs {
-        text-align: center;padding: 2em 0;color:#888;font-size: 13px;
-    }
-
-    .tab {
-        display: inline-block;
-        padding: 0.5em
-    }
-    .tab.selected{
-        color:var(--text-color)
-    }
-</style>
-

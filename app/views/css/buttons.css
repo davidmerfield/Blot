@@ -1,3 +1,7 @@
+.button-with-icon {
+  font-size:14px;margin-top:24px;margin-right: 12px;display:  inline-block;border-radius: var(--border-radius);background-color: var(--accent-color);color:var(--background-color);padding:0.5em 0.75em;font-weight: 600;
+}
+
 
 .buttons {
     display: flex;

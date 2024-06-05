@@ -4,6 +4,7 @@ const { build } = require("esbuild");
 const fs = require("fs-extra");
 const chokidar = require("chokidar");
 const html = require("./html");
+const favicon = require("./favicon");
 const SOURCE_DIRECTORY = join(config.blot_directory, "/app/views");
 const DESTINATION_DIRECTORY = join(
   config.blot_directory,
@@ -52,6 +53,8 @@ module.exports = async ({ watch = false } = {}) => {
   await fs.emptyDir(DESTINATION_DIRECTORY);
 
   await zip();
+
+  await favicon(join(SOURCE_DIRECTORY, "images/logo.svg"), join(DESTINATION_DIRECTORY, "favicon.ico"));
 
   // recursively read every file in the source directory
   const list = dir => {
