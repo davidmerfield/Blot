@@ -1,13 +1,3 @@
-To polish:
-- Template editor links
-- Template editor deleted
-- External services page
-- Publishing settings page
-- Folder activity page
-- File viewer
-  - Fix file viewer live update
-  - Add truncate to file viewer
-
 Make it possible to embed audio like so `![Audio]({{{path}}})`
 
 Experiement with injecting script into preview sites which can postMessage to embedding page, sending html2canvas result which can be stored locally for faster loading?

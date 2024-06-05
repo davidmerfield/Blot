@@ -1066,6 +1066,9 @@ ul.pill-navigation {
 .navigation li.minor.break {
   border-top: 1px solid #eaedf2;margin-top: 12px;padding-top: 12px;
 }
+.navigation .minor a {
+  font-size: 14px
+}
 
 .navigation .minor a span {
   margin-right: 0.667rem;
