@@ -72,7 +72,7 @@ Domain.route('/')
         }
 
         try {
-            const isValid = await verify({ hostname, handle: req.blog.handle, ourIP: ip, ourHost: 'blot.im' });
+            const isValid = await verify({ hostname, handle: req.blog.handle, ourIP: ip, ourHost: host });
 
             if (isValid) {
                 // Clear the blog session
