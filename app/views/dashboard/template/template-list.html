@@ -10,7 +10,7 @@
     </div>
   
   
-    <a href="{{{dashboardBase}}}/template/new" data-name="{{name}}">New template
+    <a href="{{{dashboardBase}}}/template/new">New template
     </a>
   
   </div>
@@ -80,15 +80,4 @@ window.addEventListener('DOMContentLoaded', function() {
 });
 
 		
-  // if there is a template name in the div class="mess success" then find the template row and highlight it
-  var success_message = document.querySelector('.mess.success');
-  var template_name = success_message && success_message.innerHTML && success_message.querySelector('b').innerHTML;
-
-  if (template_name) {
-    var template_row = document.querySelector('.line.theme[data-name="' + template_name + '"]');
-    if (template_row) {
-      template_row.classList.add('success');
-      template_row.classList.add('mess');
-    }
-  }
 </script>

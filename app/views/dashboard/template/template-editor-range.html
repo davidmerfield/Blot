@@ -28,7 +28,7 @@ Array.from(document.querySelectorAll('form.number-input')).forEach(function(form
 			body.append(node.name, node.value);
 
 			fetch(window.location.href, { method: "post", body }).then(function (response) {
-				document.getElementById("preview").src += "";
+				document.getElementById("full_size_preview").src += "";
 			});
 
 			event.preventDefault();

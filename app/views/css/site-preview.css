@@ -22,7 +22,7 @@
     position: relative;
     height: auto;
     opacity: 0;
-    transition: opacity 1s;
+    transition: opacity 0.2s;
 }
 
 .site-preview img.fade-in {

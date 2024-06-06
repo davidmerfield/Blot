@@ -123,7 +123,7 @@ async function buildJS () {
     target: ["chrome58", "firefox57", "safari11", "edge16"],
     outfile: join(DESTINATION_DIRECTORY, "documentation.min.js")
   });
-
+  console.log('built documentation.min.js');
   await build({
     entryPoints: [join(SOURCE_DIRECTORY, "js/dashboard.js")],
     bundle: true,
@@ -132,7 +132,10 @@ async function buildJS () {
     target: ["chrome58", "firefox57", "safari11", "edge16"],
     outfile: join(DESTINATION_DIRECTORY, "dashboard.min.js")
   });
+  console.log('built dashboard.min.js');
 }
+
+
 
 const sharp = require("sharp");
 const { dirname, basename, extname } = require("path");

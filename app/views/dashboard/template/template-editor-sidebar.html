@@ -224,7 +224,7 @@ Array.from(document.querySelectorAll('form.color-picker')).forEach(form => {
             method: "post",
             body: new URLSearchParams(new FormData(form)) // for application/x-www-form-urlencoded
         }).then(function (response) {
-            document.getElementById("preview").src += "";
+            document.getElementById("full_size_preview").src += "";
         })
 
         // close pickr after save
@@ -255,8 +255,7 @@ Array.from(document.querySelectorAll('form[id^="font_picker"]')).forEach(functio
 					console.log(body.toString());
 		
 					fetch(window.location.href, { method: "post", body }).then(function (response) {
-						console.log('refreshing preview...', document.getElementById("preview"));
-						document.getElementById("preview").src += "";
+						document.getElementById("full_size_preview").src += "";
 					});
 		
 					// if this was a button, we need to close the picker
@@ -299,7 +298,7 @@ document.querySelectorAll('form.boolean').forEach(function(form){
         body.append(node.name, node.checked ? 'on' : 'off');
         
         fetch(window.location.href, { method: "post", body }).then(function (response) {
-          document.getElementById("preview").src += "";
+          document.getElementById("full_size_preview").src += "";
         });
 
         event.preventDefault();
@@ -319,7 +318,7 @@ document.querySelectorAll('form.select').forEach(function(form){
 		body.append(node.name, node.value);
 
 		fetch(window.location.href, { method: "post", body }).then(function (response) {
-		  document.getElementById("preview").src += "";
+		  document.getElementById("full_size_preview").src += "";
 		});
 
 		// set the class="selected" of the button that was clicked

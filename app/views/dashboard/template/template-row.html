@@ -1,13 +1,9 @@
 <div class="template-row {{#selected}}selected{{/selected}}">
-
   <div class="preview">
     <div class="site-preview" data-url="{{{previewURL}}}"  data-cache-id="{{blog.cacheID}}" data-fallback-image="{{#cdn}}/images/examples/{{slug}}/0-thumb.png{{/cdn}}"></div>
-    <a href="{{{base}}}/template/{{template.slug}}"></a>
   </div>
-
-  <a href="{{{editURL}}}" data-name="{{name}}">{{name}}    
+  <a href="{{{editURL}}}">{{name}}    
   {{#checked}}<span class="checked-template">Installed</span>{{/checked}}
   </a>
-
 </div>
   
