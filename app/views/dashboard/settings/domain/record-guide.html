@@ -1,78 +1,72 @@
 <div style="background-color: #f6f7f9;padding:24px 24px;border-bottom: 1px solid #eeeeec;font-size: 14px;">
-    <p style="margin: 0">
-            To point {{customDomain}} to Blot, please create the following DNS record on Cloudflare:
-        </p>
-
-        <table style="max-width: none;font-size: 14px;margin:24px 0 0">
-            <thead>
-                <tr style="font-size: 12px;">
-                    <th>Record type</th>
-                    <th>Host</th>
-                    <th>Value</th>
-        <th>TTL</th>
-                </tr>
-            </thead>
-
-            <tbody>
-                {{#subdomain}}
-                    <tr>
-                        <td>CNAME</td>
-                        <td>{{subdomain}} <button type="button" class="copy"><span class="icon-copy"></span> Copy</button></td>
-                        <td>blot.im <button type="button" class="copy"><span class="icon-copy"></span> Copy</button></td>
-          <td>Auto <button type="button" class="copy"><span class="icon-copy"></span> Copy</button></td>
-                    </tr>
-                {{/subdomain}}
-                {{^subdomain}}
-      {{^aliasUnsupported}}
-                    <tr>
-                        <td>ALIAS</td>
-                        <td>@ <button type="button" class="copy"><span class="icon-copy"></span> Copy</button></td>
-                        <td>blot.im <button type="button" class="copy"><span class="icon-copy"></span> Copy</button></td>
-          <td>Auto <button type="button" class="copy"><span class="icon-copy"></span> Copy</button></td>
-                    </tr>
-        {{/aliasUnsupported}}
-        {{#aliasUnsupported}}
-                    <tr>
-                        <td>A</td>
-                        <td>@ <button type="button" class="copy"><span class="icon-copy"></span> Copy</button></td>
-                        <td>{{ip}} <button type="button" class="copy"><span class="icon-copy"></span> Copy</button></td>
-          <td>Auto <button type="button" class="copy"><span class="icon-copy"></span> Copy</button></td>
-                    </tr>
-        {{/aliasUnsupported}}
-                {{/subdomain}}
-            </tbody>
-        </table>
-  <br>
-  <button type="submit" style="border:none;background:var(--background-color);border-radius: 5px;padding:9px 12px;color:var(--accent-color);font-weight: 600;font-size: 14px;cursor: pointer;">Check DNS records 
-    <svg style="margin-left:4px;position:relative;top:2px;width:14px;height:14px;fill:currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><path d="M1.705 8.005a.75.75 0 0 1 .834.656 5.5 5.5 0 0 0 9.592 2.97l-1.204-1.204a.25.25 0 0 1 .177-.427h3.646a.25.25 0 0 1 .25.25v3.646a.25.25 0 0 1-.427.177l-1.38-1.38A7.002 7.002 0 0 1 1.05 8.84a.75.75 0 0 1 .656-.834ZM8 2.5a5.487 5.487 0 0 0-4.131 1.869l1.204 1.204A.25.25 0 0 1 4.896 6H1.25A.25.25 0 0 1 1 5.75V2.104a.25.25 0 0 1 .427-.177l1.38 1.38A7.002 7.002 0 0 1 14.95 7.16a.75.75 0 0 1-1.49.178A5.5 5.5 0 0 0 8 2.5Z"></path></svg>
-</button>
-
-<p>Last checked {{lastChecked}}</p>
-<br><br>
-
-{{#nsAddresses.length}}
-<details>
-<summary>Where do I edit the DNS records for {{customDomain}}?</summary>
-<p>The nameservers for the apex domain are managed by:</p>
-<pre><code>{{#nsAddresses}}{{address}}{{/nsAddresses}}</code></pre>
-</details>
-{{/nsAddresses.length}}
-
-{{#addresses.length}}
-  <details>
-    <summary>Where does {{customDomain}} point right now?</summary>
-            <p>At the moment, {{customDomain}} resolves to:</p>
-            <pre><code>{{#addresses}}{{address}}{{/addresses}}</code></pre>
-
-  </details>
-        {{/addresses.length}}
-
-  <details>
-    <summary>What about SSL certificates and HTTPS?</summary>
-    <p>Blot will provision an SSL certificate for {{customDomain}} once the DNS records on Cloudflare point the domain to Blot. Your site will then be served over HTTPS.
-
+    {{^nameservers.length}}
+    <p>
+        We can't identify the nameservers which control {{customDomain}}. Do you own this domain? If not, please purchase it from a domain registrar.
     </p>
-  </details>
-  <p>Please <a href="/support">contact support</a> if needed, we will help you set this up.</p>
+    {{/nameservers.length}}
+    {{#nameservers.length}}
+
+
+    <p style="margin: 0">
+        {{#revalidation}} Domain does not point to Blot.{{/revalidation}} 
+        To point {{customDomain}} to Blot, please create this DNS record{{#dnsProvider}} on <a target="_blank" href="{{{URL}}}">{{name}}</a>{{/dnsProvider}}:
+    </p>
+    
+    {{#dnsProvider.is.cloudflare}}
+    {{> record-guide-cloudflare}}
+    {{/dnsProvider.is.cloudflare}}
+
+    {{^dnsProvider.is.cloudflare}}
+    {{> record-guide-other}}
+    {{/dnsProvider.is.cloudflare}}
+          
+    {{/nameservers.length}}
+    <br>
+    <button class="revalidate" type="submit">Revalidate domain
+        <span class="icon-refresh"></span>
+    </button>
+
+<script>
+    document.querySelector('button.revalidate').addEventListener('click', function() {
+        this.classList.add('working');
+    });    
+</script>
+
+<p style="display: block;font-size: 12px;color:var(--light-text-color);margin-top:12px;">Last checked {{lastChecked}}. Please <a href="/support">contact support</a> if needed, we will help you set this up.</p>
+
+
 </div>
     
+
+<style>
+    table.dns-records {
+        max-width: none; font-size: 14px; margin: 24px 0 0;
+    }
+
+    table.dns-records th {
+        font-size: 12px;
+    }
+
+    button.revalidate {
+        border:none;background:var(--background-color);border-radius: 5px;padding:9px 12px;color:var(--accent-color);font-weight: 600;font-size: 14px;cursor: pointer;    
+    }
+
+    button.revalidate span {
+        margin-left: 4px;
+    }
+        
+    button.revalidate.working {
+        background: var(--light-border-color);
+        color: var(--light-text-color);
+        cursor: not-allowed;
+    }
+
+    button.revalidate.working span {
+        animation: spin 1s infinite linear;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+</style>

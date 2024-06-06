@@ -13,6 +13,7 @@ services:
       - FAST=true
       - BLOT_REDIS_HOST=redis
       - BLOT_HOST=local.blot
+      - BLOT_IP=${BLOT_IP}
       - BLOT_SESSION_SECRET=${BLOT_SESSION_SECRET}
       - BLOT_WEBHOOKS_SECRET=${BLOT_WEBHOOKS_SECRET}
       - BLOT_STRIPE_KEY=${BLOT_STRIPE_KEY}

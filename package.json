@@ -108,6 +108,7 @@
     "dir-compare": "^4.0.0",
     "faker": "^4.1.0",
     "jasmine": "^3.3.1",
+    "nock": "^13.5.4",
     "nodemon": "^3.1.0",
     "seedrandom": "^2.4.4",
     "spritesmith": "^3.4.1"

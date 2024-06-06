@@ -1,4 +1,3 @@
-
 // There are a few ways to point a domain to a blog on Blot
 // You can create:
 // A record pointing to 'ip'
@@ -28,79 +27,81 @@
 
 const dns = require('dns').promises;
 const fetch = require('node-fetch');
+const { parse } = require('tldts');
 
-async function validate({hostname, handle, ourIP, ourHost}) {
+async function validate({ hostname, handle, ourIP, ourHost }) {
     
+    const parsed = parse(hostname);
+    const apexDomain = parsed.domain;
+
     const [cnameHost, aRecordIPs, nameservers] = await Promise.all([
-        // wrap dns.resolveCname in a promise which never throws, just returns null if it fails
         dns.resolveCname(hostname).then(cnames => cnames[0] || null).catch(() => null),
         dns.resolve4(hostname).catch(() => []),
-        dns.resolveNs(hostname).catch(() => [])
+        dns.resolveNs(apexDomain).catch(() => [])
     ]);
 
     if (nameservers.length === 0) {
-        let e = new Error('NO_NAMESERVERS');
-        e.nameservers = nameservers;
-        throw e;
+        const error = new Error('NO_NAMESERVERS');
+        error.nameservers = nameservers;
+        throw error;
     }
 
-    if (aRecordIPs.length === 1 && aRecordIPs[0] === ourIP) {
-        return true;
-    }
-
-    if (aRecordIPs.includes(ourIP) && aRecordIPs.length > 1) {
-        let e = new Error('MULTIPLE_ADDRESS_BUT_ONE_IS_CORRECT');
-        e.recordToRemove = aRecordIPs.filter(a => a !== ourIP);
-        e.nameservers = nameservers;
-        throw e;
-    }
-
-    if (cnameHost && cnameHost !== ourHost) {
-        let e = new Error('CNAME_RECORD_EXISTS_BUT_DOES_NOT_MATCH');
-        e.nameservers = nameservers;
-        throw e;
-    }
-
-    try {
-
-        console.log('HERE', 'hostname', hostname, 'handle', handle, 'ourIP', ourIP, 'ourHost', ourHost);
-        console.log('cnameHost', cnameHost, 'aRecordIPs', aRecordIPs, 'nameservers', nameservers);
-        const response = await fetch(`http://${hostname}/verify/domain-setup`);
-        console.log('here', text, handle);
-        const text = await response.text();
-
-        if (text === handle) {
+    if (cnameHost) {
+        if (cnameHost === ourHost) {
+            // CNAME matches our host, return success
             return true;
         } else {
-            let e = new Error('HANDLE_MISMATCH');
-            e.expected = handle;
-            e.received = text;
-            e.nameservers = nameservers;
-            throw e;
+            const error = new Error('CNAME_RECORD_EXISTS_BUT_DOES_NOT_MATCH');
+            error.nameservers = nameservers;
+            throw error;
         }
-    } catch (err) {
-        if (err.response) {
-            let e = new Error('HANDLE_VERIFICATION_FAILED');
-            e.status = err.response.status;
-            e.nameservers = nameservers;
-            throw e;
+    }
+
+    if (aRecordIPs.includes(ourIP)) {
+        if (aRecordIPs.length === 1) {
+            // A record matches our IP, return success
+            return true;
         } else {
-            let e = new Error('HANDLE_VERIFICATION_REQUEST_FAILED');
-            e.message = err.message;
-            e.nameservers = nameservers;
-            throw e;
+            const error = new Error('MULTIPLE_ADDRESS_BUT_ONE_IS_CORRECT');
+            error.recordToRemove = aRecordIPs.filter(ip => ip !== ourIP);
+            error.nameservers = nameservers;
+            throw error;
         }
     }
 
     if (aRecordIPs.length === 0) {
-        let e = new Error('NO_A_RECORD');
-        e.nameservers = nameservers;
-        throw e;
+        const error = new Error('NO_A_RECORD');
+        error.nameservers = nameservers;
+        throw error;
     }
 
-    let e = new Error('UNKNOWN_ERROR');
-    e.nameservers = nameservers;
-    throw e;
+    let text;
+
+    // Proceed with the verification using the resolved A record IP
+    try {
+        const response = await fetch(`http://${aRecordIPs[0]}/verify/domain-setup`, {
+            headers: { Host: hostname }
+        });
+
+        text = await response.text();
+
+    } catch (err) {
+        const error = new Error('HANDLE_VERIFICATION_REQUEST_FAILED');
+        error.message = err.message;
+        error.nameservers = nameservers;
+        throw error;
+    }
+
+    // Verify the response text matches the handle
+    if (text === handle) {
+        return true;
+    } else {
+        const error = new Error('HANDLE_MISMATCH');
+        error.expected = handle;
+        error.received = text;
+        error.nameservers = nameservers;
+        throw error;
+    }
 }
 
 module.exports = validate;
