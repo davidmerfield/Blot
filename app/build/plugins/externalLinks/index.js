@@ -36,5 +36,5 @@ module.exports = {
   render: render,
   isDefault: false,
   category: "external",
-  description: "Make external links open in a new tab",
+  description: "External links open in a new tab",
 };

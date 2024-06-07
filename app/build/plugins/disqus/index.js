@@ -1,5 +1,5 @@
 module.exports = {
-  description: "Embed Disqus comments",
+  description: "Disqus comments",
   category: "external",
   isDefault: false,
   options: {

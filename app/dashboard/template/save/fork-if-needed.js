@@ -1,21 +1,5 @@
-const Template = require("models/template");
+const createTemplate = require("./create-template");
 const Blog = require("models/blog");
-
-const createTemplate = (template) => {
-    return new Promise((resolve, reject) => {
-        Template.create(
-            template.owner,
-            template.name,
-            template,
-            function (error, newTemplate) {
-                if (error) {
-                    reject(error);
-                } else {
-                    resolve(newTemplate);
-                }
-            });
-    });
-}
 
 const updateBlog = (blogID, updates) => {
     return new Promise((resolve, reject) => {

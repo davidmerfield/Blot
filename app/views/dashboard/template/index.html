@@ -1,1 +1,22 @@
-Template list here!!!!!
+
+<div class="template-grid">
+
+    {{#yourTemplates}}
+    {{> template-grid-link}}
+    {{/yourTemplates}}
+    
+    {{#blotTemplates}}
+    {{> template-grid-link}}
+    {{/blotTemplates}}
+    </div>
+    
+    
+    <style>
+    
+        .template-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 20px;
+        }
+
+        </style>

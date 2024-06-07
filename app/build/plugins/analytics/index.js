@@ -1,5 +1,5 @@
 module.exports = {
-  description: "Embed your analytics tracking code",
+  description: "Analytics tracking code",
   isDefault: false,
   category: "external",
   options: {

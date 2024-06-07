@@ -19,9 +19,27 @@
 </div> -->
 
 <h2>Duplicate existing template</h2>
-{{> template-list}}
+
+<div class="template-grid">
+
+{{#yourTemplates}}
+{{> duplicate-form}}
+{{/yourTemplates}}
+
+{{#blotTemplates}}
+{{> duplicate-form}}
+{{/blotTemplates}}
+</div>
+
 
 <style>
+
+    .template-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        gap: 20px;
+    }
+
     #drop-area {
         max-width: 600px;
         border: 1px dashed #aaa;

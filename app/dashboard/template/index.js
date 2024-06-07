@@ -6,6 +6,7 @@ const formJSON = require("helper/formJSON");
 const Template = require("models/template");
 const Blog = require("models/blog");
 const archiver = require('archiver');
+const createTemplate = require("./save/create-template");
 
 TemplateEditor.param("viewSlug", require("./load/template-views"));
 
@@ -229,9 +230,16 @@ TemplateEditor.route("/:templateSlug/local-editing")
 
     res.render("template/duplicate");
   })
-  .post(parse, function (req, res, next) {
-    //
-    res.send('ok');
+  .post(parse, async (req, res, next) => {
+      const template = await createTemplate({
+        isPublic: false,
+        owner: req.blog.id,
+        name: req.template.name + ' copy',
+        slug: req.template.slug + '-copy',
+        cloneFrom: req.template.id,
+    });
+
+    res.message('/sites/' + req.blog.handle + '/template/' + template.slug, 'Duplicated template <b>' + template.name + '</b>');
   });
 
 TemplateEditor.route("/:templateSlug/rename")
