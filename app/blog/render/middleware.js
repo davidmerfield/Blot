@@ -226,8 +226,12 @@ window.addEventListener('message', (event) => {
               );
             }
 
-            res.header(CONTENT_TYPE, viewType);
-            res.send(output);
+            try {
+              res.header(CONTENT_TYPE, viewType);
+              res.send(output);
+            } catch (e) {
+              next(e);
+            }
           });
         });
       });

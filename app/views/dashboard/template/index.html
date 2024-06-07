@@ -1,6 +1,10 @@
 
 <div class="template-grid">
 
+    {{#currentTemplate}}
+    {{> template-grid-link}}
+    {{/currentTemplate}}
+  
     {{#yourTemplates}}
     {{> template-grid-link}}
     {{/yourTemplates}}

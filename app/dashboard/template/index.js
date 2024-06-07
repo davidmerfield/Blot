@@ -80,7 +80,7 @@ TemplateEditor.route("/:templateSlug/install")
     var updates = {template: templateID};
     Blog.set(req.blog.id, updates, function (err) {
       if (err) return next(err);
-      res.redirect("/sites/" + req.blog.handle + "/template/" + req.params.templateSlug);
+      res.message("/sites/" + req.blog.handle + "/template/" + req.params.templateSlug, "Installed template");
     });
   });
 
