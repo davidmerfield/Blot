@@ -209,6 +209,7 @@ dashboard.get("/:handle/folder", (req, res) => {
 
 dashboard.use("/:handle/template", require("./template"));
 dashboard.use("/:handle/import", require("./import"));
+dashboard.use("/:handle/setup", require("./setup"));
 dashboard.use("/:handle", require("./settings"));
 
 // This will catch old links to the dashboard before

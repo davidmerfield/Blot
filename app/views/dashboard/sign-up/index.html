@@ -235,6 +235,9 @@
 
   form.addEventListener('submit', function(event) {
 
+    // update the class on the submit button to show that it is working
+    document.querySelector('input[type="submit"]').classList.add('working');
+
     event.preventDefault();
 
     // if the email is not valid, prevent the form from submitting

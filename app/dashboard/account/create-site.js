@@ -14,6 +14,9 @@ var parse = require("dashboard/parse");
 var updatePayPalSubscription =
   require("dashboard/paypal_webhook").updateSubscription;
 
+const randomChars = require("./util/randomChars");
+const handleFromTitle = require("./util/handleFromTitle");
+
 CreateBlog.use(function (req, res, next) {
   res.locals.breadcrumbs.forEach(function (link) {
     if (link.label === "Account") link.label = "Sites";
@@ -63,7 +66,7 @@ CreateBlog.route("/inform")
   })
 
   .post(parse, chargeForRemaining, updateSubscription, saveBlog, (req, res) => {
-    res.redirect('/sites/' + req.blog.handle);
+    res.message('/sites/' + req.blog.handle, 'Created site');
   });
 
 CreateBlog.route("/")
@@ -71,10 +74,12 @@ CreateBlog.route("/")
   .get(function (req, res) {
     res.locals.blog = {};
 
+    // remove breadcrumbs
+    res.locals.breadcrumbs = [];
+
     res.render("account/create-site", {
-      title: "Create a blog",
+      title: "Create site",
       first_blog: req.user.blogs.length === 0,
-      breadcrumb: "Create a blog"
     });
   })
 
@@ -109,7 +114,7 @@ CreateBlog.route("/")
   })
 
   .post(saveBlog, (req, res) => {
-    res.redirect('/sites/' + req.blog.handle);
+    res.message('/sites/' + req.blog.handle, 'Created site');
   });
 
 function calculateFee (req, res, next) {
@@ -173,28 +178,7 @@ function validateSubscription (req, res, next) {
   );
 }
 
-var chars = "abcdefghijklmnopqrstuvwxyz".split("");
 
-function randomChars (len) {
-  var res = "";
-
-  while (res.length < len)
-    res += chars[Math.floor(Math.random() * chars.length)];
-
-  return res;
-}
-
-function handleFromTitle (title) {
-  var handle = "";
-
-  handle = title.toLowerCase().replace(/\W/g, "");
-
-  if (handle.length < 4) {
-    handle += randomChars(4 - handle.length);
-  }
-
-  return handle;
-}
 
 function saveBlog (req, res, next) {
   var title, handle;

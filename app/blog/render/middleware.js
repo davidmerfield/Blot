@@ -194,7 +194,7 @@ window.addEventListener('message', (event) => {
 </script>`;
 
     if (req.preview && viewType === "text/html" && req.query.screenshot) {
-
+      
       // replace all URLs with the CDN URL with the local URL
       // so we have no cross-origin issues
       output = output.split(config.cdn.origin + '/' + req.blog.id).join(req.protocol + '://' + req.hostname);

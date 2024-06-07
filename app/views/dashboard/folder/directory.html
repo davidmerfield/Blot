@@ -5,7 +5,7 @@
     <a class="line" href="{{{base}}}/client/{{client.name}}">
       <span class="label">Folder</span>
       {{^blog.client}}
-      <span class="link">Choose a way to sync folder</span>
+      <span class="link">Sync this folder</span>
       {{/blog.client}}
       {{#blog.client}}
       <span class="center">
@@ -37,13 +37,14 @@
           <tr>
             <td colspan="3" style="vertical-align: middle;">
               <small style="display: flex;flex-grow: 1;
+              font-size: 14px;
               {{#directory}}{{^root}}
               min-height: 300px;
               {{/root}}{{/directory}}
-      
+              text-align: center;
               color: var(--light-text-color);justify-content: center;">  
-                <span style="align-self: center;">
-                  {{#root}}Folder is empty.{{/root}}
+                <span style="align-self: center; text-align: center;display: block;">
+                  {{#root}}Folder is empty.<br> <a href="{{{base}}}/client">Sync this folder</a>{{/root}}
                   {{^root}}There is nothing here.{{/root}}
                 </span>
               </small>
@@ -200,11 +201,11 @@
 
   </div>
 {{#root}}
-
+{{#blog.client}}
 <a href="{{{base}}}/client" class="status-link">
   <span class="sync-status" data-sync-status-url="{{{base}}}/status">{{blog.status.message}} {{blog.status.fromNow}}</span>
 </a>
-
-</div>
+{{/blog.client}}
 {{/root}}
+</div>
 {{/folder}}

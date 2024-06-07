@@ -1,0 +1,15 @@
+{{> steps}}
+
+Template setup
+
+<form method="POST">
+    <input type="hidden" name="_csrf" value="{{ csrf }}" />
+    
+    <a href="{{{base}}}/setup/folder" class="button">
+        Previous
+    </a>
+
+    <button class="button" type="submit">Next</button>
+</form>
+
+{{> setup-footer}}

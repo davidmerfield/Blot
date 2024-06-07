@@ -1,7 +1,11 @@
-<form method='post' class="dashboard-form">
+<form method='post' class="dashboard-form" style="border:1px solid #eeeeec;border-radius: var(--border-radius);">
   <style type="text/css">
 
-button[name="client"] {background: none;max-width:475px;margin-bottom: 0;padding: 10px 0;border:none;border-top:1px solid var(--light-border-color);text-align: left;display: block;width: 100%;color:var(--accent-color);padding: 11px 20px;font-size:var(--font-size)}
+button[name="client"] {
+  background: none;max-width:475px;margin-bottom: 0;
+  padding: 10px 0;border:none;border-top:1px solid #eeeeec;
+  text-align: left;display: block;width: 100%;color:var(--accent-color);padding: 12px;font-size:var(--font-size)
+}
 button[name="client"] b {
   display: block;
 }
@@ -12,13 +16,14 @@ button[name="client"]:after {
 button[name="client"]:hover {background: rgba(0,0,0,0.03);cursor: pointer;}
 </style>
 
-  <p>Choose a way to sync folder</p>
+  <p>Sync this folder</p>
 
 {{#clients}}
 
   <input type="hidden" name="_csrf" value="{{csrftoken}}">
 
   <button type="submit" name="client" value="{{name}}">
+    <img width="16" height="16" src="{{#cdn}}/images/sync/{{name}}.svg{{/cdn}}" style="position: relative;top:1px;margin-right: 4px;" />
    {{display_name}}
   </button>
 

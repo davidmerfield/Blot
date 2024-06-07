@@ -1,27 +1,35 @@
-<form method="POST" class="dashboard-form">
+
+<form method="POST" class="dashboard-form" style="padding:0;max-width: 400px;">
   <input type="hidden" name="_csrf" value="{{csrftoken}}">
   <input type="hidden" name="timeZone" value="">  
   {{> message}}
 
-    <div >
-<label for="title">Your site's title</label>
-<input type="text" autofocus name="title" value="Untitled site">
+  <p style="margin-top: 0;">
+    <span style="color: var(--medium-text-color);">
+     Sign up &nbsp;&rarr;&nbsp;
+    </span>
+    <strong style="font-weight: 600;"> Create site</strong>
+  </p>
+
+
+  <p style="margin-top: 36px;">Welcome to Blot. Please enter a title for your first site. You can edit this later on the dashboard.</p>
+
+    <div  style="border-top:1px solid #eeeeec;padding-top:24px;margin-top: 24px;">
+<label for="title">Title</label>
+<input id="title_input" type="text" name="title" value="Untitled site">
 
   <div class="buttons">
-    <button type="submit" >Create a website</button>
-    <a href="/sites" style="line-height: 39px;" name="no_title">Cancel</a>
+    <button type="submit">Create site</button>
+    <button type="submit" name="no_title">Skip</a>
   </div>
-      </div>
-
-  <br>
-
+</div>
 </form>
 
-{{#footer}}
 
 <script src="/js/jquery.js?{{cacheID}}"></script>
 <script src="/js/tz_detect.js?{{cacheID}}"></script>
 <script type="text/javascript">
+
 
 $('form').submit(function(event) {
 
@@ -40,8 +48,17 @@ $(this).submit();
 var timezone = jstz.determine();
 
 if (timezone) {
-$('input[name="timeZone"]').val(timezone.name());
+
+  $('input[name="timeZone"]').val(timezone.name());
+
 }
 
+
+const titleInput = document.getElementById('title_input');
+
+console.log(titleInput);
+
+titleInput.focus();
+titleInput.select();
+
 </script>
-{{/footer}}
