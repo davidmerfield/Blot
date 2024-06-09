@@ -56,7 +56,7 @@ CreateBlog.route("/inform-paypal")
     res.locals.breadcrumbs = res.locals.breadcrumbs.slice(0, -1);
     res.locals.breadcrumbs[res.locals.breadcrumbs.length - 1] = {label: 'Create site', last: true};
     
-    res.render("account/create-site-paypal", {
+    res.render("dashboard/account/create-site-paypal", {
       title: "Create a site",
       not_paid: true,
       breadcrumb: "Create site",
@@ -81,7 +81,7 @@ CreateBlog.route("/")
       res.locals.breadcrumbs = [];
     }
 
-    res.render("account/create-site", {
+    res.render("dashboard/account/create-site", {
       title: "Create site",
       first_site,
     });

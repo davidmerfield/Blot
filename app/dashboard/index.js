@@ -1,66 +1,9 @@
-const Template = require("models/template");
-var mustache = require("helper/express-mustache");
 var trace = require("helper/trace");
-const root = require("helper/rootDir");
-const { join } = require("path");
-var VIEW_DIRECTORY = join(root, "app/documentation/data/dashboard");
 var config = require("config");
-const cdnURLHelper = require('documentation/tools/cdn-url-helper');
-const { static } = require("express");
 var express = require("express");
 const message = require("./util/message");
-const hash = require("helper/hash");
-const fs = require("fs");
-const { blot_directory } = require("config");
 
-// This is the express application used by a
-// customer to control the settings and view
-// the state of the blog's folder
-var dashboard = express();
-
-// Hide the header added by Express
-dashboard.disable("x-powered-by");
-
-// Without trust proxy is not set, express
-//  will incorrectly register the proxy’s IP address
-// as the client IP address unless trust proxy is configured.
-// Trusts secure requests terminated by NGINX, as far as I know
-dashboard.set("trust proxy", true);
-
-// Register the engine we will use to
-// render the views.
-dashboard.set("view engine", "html");
-dashboard.set("views", VIEW_DIRECTORY);
-dashboard.engine("html", mustache);
-
-const { plan } = config.stripe;
-dashboard.locals.price = "$" + plan.split("_").pop();
-dashboard.locals.interval = plan.startsWith("monthly") ? "month" : "year";
-
-const cacheID = Date.now();
-
-dashboard.locals.cdn = cdnURLHelper({cacheID, viewDirectory: join(root, "app/documentation/data")});
-
-// For when we want to cache templates
-if (config.environment !== "development") {
-  dashboard.enable("view cache");
-}
-
-// Cache ID is used for the static assets
-// eventually remove this when you merge
-// the assets into a single file
-dashboard.locals.cacheID = Date.now();
-dashboard.locals.layout = VIEW_DIRECTORY + "/../partials/layout.html";
-dashboard.locals.selected = { dashboard: "selected" };
-
-dashboard.locals.partials = {
-  header: VIEW_DIRECTORY + "/../partials/header.html",
-  head: VIEW_DIRECTORY + "/../partials/head.html",
-  breadcrumbs: VIEW_DIRECTORY + "/../partials/breadcrumbs.html",
-  links: VIEW_DIRECTORY + "/../partials/links.html",
-  footer: VIEW_DIRECTORY + "/../partials/footer.html",
-  navigation: VIEW_DIRECTORY + "/../partials/navigation.html",
-};
+var dashboard = express.Router();
 
 dashboard.use(trace("loading session information"));
 dashboard.use(require("./session"));
@@ -78,18 +21,22 @@ dashboard.use("/log-in", require("./log-in"));
 var logout = require("dashboard/account/util/logout");
 
 dashboard.get("/disabled", logout, (req, res) => {
-  res.render("disabled");
+  res.render("dashboard/disabled");
 });
 
 dashboard.get("/deleted", logout, (req, res) => {
-  res.render("deleted");
+  res.render("dashboard/deleted");
 });
 
 // Everything afterwards should be authenticated
 dashboard.use(function (req, res, next) {
+
+  res.locals.selected = { dashboard: "selected" };
+
   if (req.session && req.session.uid) {
     return next();
   }
+  
 
   next(new Error("NOUSER"));
 });
@@ -177,7 +124,7 @@ dashboard.use("/:handle/status", require("./status"));
 dashboard.get("/", require("./util/load-blogs"), async (req, res) => {
   res.locals.title = "Sites";
   res.locals.breadcrumbs.add("Sites", "/sites");
-  res.render("index");
+  res.render("dashboard");
 });
 
 // Load the files and folders inside a blog's folder

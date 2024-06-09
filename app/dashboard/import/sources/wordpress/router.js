@@ -16,7 +16,7 @@ const wordpress = require("./index");
 Importer.route("/wordpress")
   .get(function (req, res) {
     res.locals.breadcrumbs.add("Wordpress", "wordpress");
-    res.render("import/wordpress");
+    res.render("dashboard/import/wordpress");
   })
   .post(function (req, res) {
     const { importDirectory, outputDirectory, finish, status } = init({

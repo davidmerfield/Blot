@@ -9,7 +9,7 @@ Password.route("/")
   .all(requireExisting)
 
   .get(function (req, res) {
-    res.render("account/change-password", {
+    res.render("dashboard/account/change-password", {
       breadcrumb: "Password",
       title: "Change your password",
     });
@@ -22,7 +22,7 @@ Password.route("/set")
   .all(requireTokenOrLackOfPassword)
 
   .get(function (req, res) {
-    res.render("account/set-password", {
+    res.render("dashboard/account/set-password", {
       title: "Set your password",
     });
   })

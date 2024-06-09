@@ -7,7 +7,7 @@ const title = express.Router();
 title.route('/')
     .get((req, res) => {
         res.locals.breadcrumbs.add('Title');
-        res.render('settings/title');
+        res.render('dashboard/settings/title');
     })
     .post(parse, async (req, res) => {
         try {

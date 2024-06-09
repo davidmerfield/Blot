@@ -31,7 +31,7 @@ Import.param("importID", async (req, res, next) => {
 });
 
 Import.get("/", list, (req, res) => {
-  res.render("import");
+  res.render("dashboard/import");
 });
 
 Import.get("/status", sse);

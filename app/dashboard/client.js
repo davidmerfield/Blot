@@ -28,7 +28,7 @@ client_routes
 
   .get(load.clients, function (req, res) {
     res.locals.breadcrumbs.add("Switch", "switch");
-    res.render("clients/switch", {
+    res.render("dashboard/clients/switch", {
       title: "Switch to another client"
     });
   })
@@ -96,7 +96,7 @@ client_routes.route("/activity").get(load.clients, async function (req, res) {
     .filter(i => i.messages && i.messages.length)
     .value();
 
-  res.render("clients/activity", {
+  res.render("dashboard/clients/activity", {
     title: "Activity",
     statuses,
     next,
@@ -110,7 +110,7 @@ client_routes
 
   .get(load.client, function (req, res) {
     res.locals.breadcrumbs.add("Reset", "reset");
-    res.render("clients/reset", {
+    res.render("dashboard/clients/reset", {
       title: "Reset your folder"
     });
   });
@@ -191,7 +191,7 @@ client_routes
       return res.redirect(req.baseUrl + "/" + req.blog.client);
     } 
 
-    res.render("clients", { title: "Select a client" });
+    res.render("dashboard/clients", { title: "Select a client" });
   })
 
   .post(parse, function (req, res, next) {

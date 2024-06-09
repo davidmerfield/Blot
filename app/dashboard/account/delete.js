@@ -15,7 +15,7 @@ const parse = require("dashboard/util/parse");
 Delete.route("/")
 
   .get(function (req, res) {
-    res.render("account/delete", {
+    res.render("dashboard/account/delete", {
       title: "Delete your account",
       breadcrumb: "Delete"
     });

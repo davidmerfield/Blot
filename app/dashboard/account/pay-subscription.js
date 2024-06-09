@@ -21,7 +21,7 @@ PaySubscription.route("/")
   // the payment form on the dashboard.
   .get(listUnpaidInvoices)
   .get(function (req, res) {
-    res.render("account/pay-subscription", {
+    res.render("dashboard/account/pay-subscription", {
       stripe_key: config.stripe.key,
       title: "Restart subscription",
     });

@@ -26,13 +26,13 @@ SourceCode.route("/")
     // set the partial template 'yield' to 'template/source-code/edit'
     res.locals.layout = "template/layout";
     res.locals.yield = "template/source-code/edit";
-    res.render("template/source-code/layout");
+    res.render("dashboard/template/source-code/layout");
   });
 
 SourceCode.route("/create")
   .get(require("./load/template-views"))
   .get(function (req, res) {
-    res.render("template/source-code/create");
+    res.render("dashboard/template/source-code/create");
   })
   .post(parse, function (req, res, next) {
     const name = req.body.name;
@@ -82,7 +82,7 @@ SourceCode.route("/:viewSlug/configure")
       editorMode: editorMode("package.json"),
     };
 
-    res.render("template/source-code/edit");
+    res.render("dashboard/template/source-code/edit");
   })
   .post(parse, function (req, res, next) {
     Template.setView(req.template.id, view, next);
@@ -93,7 +93,7 @@ SourceCode.route("/:viewSlug/edit")
     res.locals.title = `${req.view.name} - ${req.template.name}`;
 
     res.locals.layout = "template/layout";
-    res.render("template/source-code/edit");    
+    res.render("dashboard/template/source-code/edit");    
   })
   .post(parse, function (req, res, next) {
     var view = formJSON(req.body, Template.viewModel);
@@ -144,7 +144,7 @@ SourceCode.route("/:viewSlug/rename")
     }
 
     res.locals.title = `Rename - ${req.view.name} - ${req.template.name}`;
-    res.render("template/source-code/rename");
+    res.render("dashboard/template/source-code/rename");
   })
   .post(parse, function (req, res, next) {
     if (req.params.viewSlug === "package.json") {
@@ -182,7 +182,7 @@ SourceCode.route("/:viewSlug/rename")
 SourceCode.route("/:viewSlug/delete")
   .get(function (req, res) {
     res.locals.title = `Delete - ${req.view.name} - ${req.template.name}`;
-    res.render("template/source-code/delete");
+    res.render("dashboard/template/source-code/delete");
   })
   .post(parse, function (req, res, next) {
     Template.dropView(req.template.id, req.view.name, function (err) {

@@ -6,7 +6,7 @@ var trace = require("helper/trace");
 const parse = require("dashboard/util/parse");
 
 settings.get("/", load.client, (req, res) => {
-  res.render("settings", { 
+  res.render("dashboard/settings", { 
       title: req.blog.pretty.label, 
    })
 });
@@ -32,28 +32,28 @@ settings
 
 settings.get("/services", load.plugins, (req, res)=>{
   res.locals.breadcrumbs.add("Services", "services");
-  res.render("settings/services");
+  res.render("dashboard/settings/services");
 });
 
 settings.get("/publishing", load.plugins, (req, res)=>{
   res.locals.breadcrumbs.add("Publishing", "publishing");
-  res.render("settings/publishing");
+  res.render("dashboard/settings/publishing");
 });
 
 settings.get("/date", load.timezones, load.dates, (req, res)=>{
   res.locals.breadcrumbs.add("Date and time", "date");
-  res.render("settings/date");
+  res.render("dashboard/settings/date");
 });
 
 settings.get("/link-format", load.permalinkFormats,  (req, res, next) => {
   res.locals.edit = !!req.query.edit;
   res.locals.breadcrumbs.add("Link format", "link-format");
-  res.render("settings/link-format");
+  res.render("dashboard/settings/link-format");
 });
 
 settings.get("/redirects", load.redirects, (req, res) => {
   res.locals.breadcrumbs.add("Redirects", "redirects");
-  res.render("settings/redirects");
+  res.render("dashboard/settings/redirects");
 });
 
 settings
@@ -61,7 +61,7 @@ settings
   .get(load.fourOhFour, function (req, res) {
     res.locals.breadcrumbs.add("Redirects", "redirects");
     res.locals.breadcrumbs.add("404 log", "404s");
-    res.render("settings/redirects/404s");
+    res.render("dashboard/settings/redirects/404s");
   })
   .post(parse, require("./save/404"));
 
@@ -69,7 +69,7 @@ settings.route("/redirects/bulk")
   .get(load.redirects, function (req, res) {
     res.locals.breadcrumbs.add("Redirects", "redirects");
     res.locals.breadcrumbs.add("Bulk editor", "bulk");
-    res.render("settings/redirects/bulk");
+    res.render("dashboard/settings/redirects/bulk");
   })
 
 module.exports = settings;

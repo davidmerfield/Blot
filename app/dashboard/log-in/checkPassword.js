@@ -12,7 +12,7 @@ module.exports = function checkPassword(req, res, next) {
   }
 
   if (password === undefined) {
-    return res.render("log-in/password");
+    return res.render("dashboard/log-in/password");
   }
 
   User.checkPassword(user.uid, password, function (err, match) {

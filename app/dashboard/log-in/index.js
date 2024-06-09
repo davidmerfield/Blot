@@ -53,14 +53,14 @@ form
     res.locals.csrf = req.csrfToken();
     res.locals.title = "Reset password";
     res.locals.email = req.query.email;
-    res.render("log-in/reset");
+    res.render("dashboard/log-in/reset");
   })
 
   .post(parse, csrf, checkEmail, checkReset, errorHandler)
 
   .post(function (err, req, res, next) {
     res.locals.csrf = req.csrfToken();
-    res.render("log-in/reset");
+    res.render("dashboard/log-in/reset");
   });
 
 form
@@ -69,7 +69,7 @@ form
   .get(blockCrawlers, redirect, checkToken, function (req, res) {
     // if we've been sent from the 'log out' page this will be true
     res.locals.out = req.query.out;
-    res.render("log-in");
+    res.render("dashboard/log-in");
   })
 
   .post(parse, checkEmail, checkReset, checkPassword)
@@ -79,7 +79,7 @@ form
   .all(function (err, req, res, next) {
     if (req.body && req.body.reset !== undefined)
       return res.redirect("/log-in/reset");
-    res.render("log-in");
+    res.render("dashboard/log-in");
   });
 
 module.exports = form;

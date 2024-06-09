@@ -21,9 +21,9 @@ async function middleware(req, res, next) {
     if (req.params.path) {
       
       if (res.locals.folder.directory) {
-        res.render("folder/directory");
+        res.render("dashboard/folder/directory");
       } else {
-        res.render("folder/file");
+        res.render("dashboard/folder/file");
       }
 
     } else {
@@ -34,7 +34,7 @@ async function middleware(req, res, next) {
 
     if (err && err.code === 'ENOENT' && req.params.path) {
       res.locals.folder = {directory: true, contents: []};
-      res.render("folder");
+      res.render("dashboard/folder");
     } else {
       next(err);
     }

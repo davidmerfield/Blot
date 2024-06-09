@@ -65,7 +65,7 @@ Stats.get("/stats.json", async (req, res) => {
 });
 
 Stats.get("/", (req, res) => {
-  res.render("stats");
+  res.render("dashboard/stats");
 });
 
 module.exports = Stats;

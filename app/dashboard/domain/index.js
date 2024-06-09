@@ -51,7 +51,7 @@ Domain.use((req, res, next) => {
 
 Domain.route('/')
     .get((req, res) => {
-        res.render('settings/domain');
+        res.render('dashboard/settings/domain');
     })
     .post(require('dashboard/util/parse'), async (req, res) => {
         const blogID = req.blog.id;
@@ -117,13 +117,13 @@ Domain.route('/')
 Domain.route('/custom')
     .get((req, res) => {
         res.locals.edit = { custom: true };
-        res.render('settings/domain');
+        res.render('dashboard/settings/domain');
     });
 
 Domain.route('/subdomain')
     .get((req, res) => {
         res.locals.edit = { subdomain: true };
-        res.render('settings/domain');
+        res.render('dashboard/settings/domain');
     });
 
 const updateDomain = (blogID, domain) => {

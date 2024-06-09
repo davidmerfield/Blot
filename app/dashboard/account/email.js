@@ -6,7 +6,7 @@ const parse = require("dashboard/util/parse");
 Email.route("/")
 
   .get(function (req, res) {
-    res.render("account/email", {
+    res.render("dashboard/account/email", {
       title: "Change your email",
       breadcrumb: "Email",
     });

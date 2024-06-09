@@ -8,7 +8,7 @@ const Template = require("models/template");
 
 Export.get("/", function (req, res) {
     res.locals.breadcrumbs.add("Export");
-    res.render("settings/export");
+    res.render("dashboard/settings/export");
 });
 
 Export.get("/download", async function (req, res) {

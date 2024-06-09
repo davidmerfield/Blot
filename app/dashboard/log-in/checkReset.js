@@ -20,7 +20,7 @@ module.exports = function checkReset(req, res, next) {
 
     res.locals.sent = true;
     res.locals.hasPassword = hasPassword;
-    res.render("log-in/reset");
+    res.render("dashboard/log-in/reset");
   });
 };
 

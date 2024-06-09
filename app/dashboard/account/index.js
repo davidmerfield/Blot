@@ -77,7 +77,7 @@ const { updateSubscription } = require("dashboard/paypal_webhook");
 Account.get("/delete-blog-paypal", function (req, res) {
   res.locals.paypal_client_id = config.paypal.client_id;
   res.locals.new_quantity = req.user.blogs.length;
-  res.render("account/delete-blog-paypal");
+  res.render("dashboard/account/delete-blog-paypal");
 });
 
 Account.get("/delete-blog-paypal/update", async (req, res, next) => {
@@ -98,7 +98,7 @@ Account.use(function (err, req, res, next) {
   if (req.method === "GET") {
     console.log(err, err.trace);
     res.status(500);
-    res.render("error", { error: err });
+    res.render("dashboard/error", { error: err });
   } else if (req.method === "POST") {
     var redirect = (req.body && req.body.redirect) || req.baseUrl + req.path;
     var message = "Error";

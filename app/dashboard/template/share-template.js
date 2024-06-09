@@ -14,7 +14,7 @@ share
   })
 
   .get(function (req, res) {
-    res.render("template/share");
+    res.render("dashboard/template/share");
   })
 
   .post(

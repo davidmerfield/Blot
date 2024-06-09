@@ -1,37 +1,12 @@
 const config = require("config");
 const Express = require("express");
-const documentation = new Express();
-const mustache = require("helper/express-mustache");
 const redirector = require("./redirector");
 const Email = require("helper/email");
-const cdnURLHelper = require('documentation/tools/cdn-url-helper');
 const { join } = require("path");
-const VIEW_DIRECTORY = __dirname + "/data";
 
-documentation.set("view engine", "html");
-documentation.set("views", VIEW_DIRECTORY);
-documentation.engine("html", mustache);
-documentation.disable("x-powered-by");
+const documentation = Express.Router();
 
-documentation.set("etag", false); // turn off etags for responses
-
-// During development we want views to reload as we edit
-if (config.environment === "development") {
-  documentation.disable("view cache");
-} else {
-  documentation.enable("view cache");
-}
-
-const { plan } = config.stripe;
-
-documentation.locals.layout = "partials/layout";
-documentation.locals.ip = config.ip;
-documentation.locals.date = require("./dates.js");
-documentation.locals.price = "$" + plan.split("_").pop();
-documentation.locals.interval = plan.startsWith("monthly") ? "month" : "year";
-
-documentation.locals.cdnURL = config.cdn.origin;
-documentation.locals.cdn = cdnURLHelper({cacheID: Date.now(), viewDirectory: VIEW_DIRECTORY});
+const VIEW_DIRECTORY = join(__dirname, "data");
 
 documentation.get(["/how/format/*"], function (req, res, next) {
   res.locals["show-on-this-page"] = true;

@@ -25,7 +25,7 @@ TemplateEditor.use((req, res, next) => {
 TemplateEditor.use(require('./templates'));
 
 TemplateEditor.get('/', (req, res) => {
-  res.render('template/index');
+  res.render('dashboard/template/index');
 });
 
 
@@ -33,7 +33,7 @@ TemplateEditor.route('/deleted')
   .get((req, res) => {
     res.locals.breadcrumbs.add('Deleted', 'deleted');
     res.locals.title = 'Deleted templates';
-    res.render('template/deleted');
+    res.render('dashboard/template/deleted');
   })
   .post(parse, (req, res, next) => {
     // either undelete a specific template
@@ -45,7 +45,7 @@ TemplateEditor.route('/disable')
   .get((req, res) => {
     res.locals.breadcrumbs.add('Disable', 'disable');
     res.locals.title = 'Disable template';
-    res.render('template/disable');
+    res.render('dashboard/template/disable');
   })
   .post(parse, (req, res, next) => {
     // either disable the current template
@@ -57,7 +57,7 @@ TemplateEditor.route('/new')
   .get((req, res) => {
     res.locals.breadcrumbs.add('New template', 'new');
     res.locals.title = 'New template';
-    res.render('template/new');
+    res.render('dashboard/template/new');
   })
   .post(parse, (req, res, next) => {
     Template.create(req.blog.id, req.body.name, (err, template) => {
@@ -147,7 +147,7 @@ TemplateEditor.route("/:templateSlug")
     }
   )
   .get(function (req, res) {
-    res.render("template/settings");
+    res.render("dashboard/template/settings");
   });
 
 TemplateEditor.route("/:templateSlug/local-editing")
@@ -162,7 +162,7 @@ TemplateEditor.route("/:templateSlug/local-editing")
   .get(function (req, res) {
     res.locals.enabled = req.template.localEditing;
     res.locals.title = `Local editing - ${req.template.name}`;
-    res.render("template/local-editing");
+    res.render("dashboard/template/local-editing");
   })
   .post(parse, function (req, res, next) {
     Template.setMetadata(
@@ -228,7 +228,7 @@ TemplateEditor.route("/:templateSlug/local-editing")
     res.locals.title = `Duplicate - ${req.template.name}`;
     res.locals.breadcrumbs.add("Duplicate", "duplicate");
 
-    res.render("template/duplicate");
+    res.render("dashboard/template/duplicate");
   })
   .post(parse, async (req, res, next) => {
       const template = await createTemplate({
@@ -246,7 +246,7 @@ TemplateEditor.route("/:templateSlug/rename")
   .get(function (req, res) {
     res.locals.title = `Rename - ${req.template.name}`;
     res.locals.breadcrumbs.add("Rename", "rename");
-    res.render("template/rename");
+    res.render("dashboard/template/rename");
   })
   .post(parse, function (req, res, next) {
     Template.setMetadata(
@@ -264,7 +264,7 @@ TemplateEditor.route("/:templateSlug/links")
 .get(require('dashboard/settings/load/menu') ,function (req, res) {
   res.locals.title = `Links - ${req.template.name}`;
   res.locals.breadcrumbs.add("Links", "links");
-  res.render("template/links");
+  res.render("dashboard/template/links");
 })
 .post(parse, function (req, res, next) {
   
@@ -276,7 +276,7 @@ TemplateEditor.route("/:templateSlug/photo")
 .get(function (req, res) {
   res.locals.title = `Photo - ${req.template.name}`;
   res.locals.breadcrumbs.add("Photo", "photo");
-  res.render("template/photo");
+  res.render("dashboard/template/photo");
 })
 .post(parse, function (req, res, next) {
   
@@ -291,7 +291,7 @@ TemplateEditor.route("/:templateSlug/share")
     res.locals.shareURL = `${req.protocol}://${req.hostname}/sites/share-template/${res.locals.template.shareID}`;
     res.locals.breadcrumbs.add("Share", "share");
 
-    res.render("template/share");
+    res.render("dashboard/template/share");
   })
   .post(parse, function (req, res, next) {
     if (req.template.shareID) {
@@ -319,7 +319,7 @@ TemplateEditor.route("/:templateSlug/delete")
     res.locals.title = `Delete - ${req.template.name}`;
     res.locals.breadcrumbs.add("Delete", "delete");
 
-    res.render("template/delete");
+    res.render("dashboard/template/delete");
   })
   .post(function (req, res, next) {
     Template.drop(req.blog.id, req.template.slug, function (err) {

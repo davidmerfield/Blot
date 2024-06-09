@@ -44,7 +44,7 @@ alreadyPaid.get(csrf, function (req, res) {
   res.locals.menu = { "sign-up": "selected" };
   res.locals.error = req.query.error;
   res.locals.csrf = req.csrfToken();
-  res.render("sign-up/paid");
+  res.render("dashboard/sign-up/paid");
 });
 
 alreadyPaid.post(parse, csrf, validateEmail, function (req, res, next) {
@@ -96,7 +96,7 @@ paymentForm.get(csrf, function (req, res) {
   res.locals.paypal_plan = config.paypal.plan;
   res.locals.paypal_client_id = config.paypal.client_id;
   res.locals.csrf = req.csrfToken();
-  res.render("sign-up");
+  res.render("dashboard/sign-up");
 });
 
 paymentForm.post(parse, csrf, validateEmail, function (req, res, next) {
@@ -154,7 +154,7 @@ passwordForm.get(csrf, function (req, res) {
   res.locals.error = req.query.error;
   res.locals.change_email = req.query.change_email;
   res.locals.csrf = req.csrfToken();
-  res.render("sign-up/password");
+  res.render("dashboard/sign-up/password");
 });
 
 passwordForm.post(parse, csrf, function (req, res, next) {

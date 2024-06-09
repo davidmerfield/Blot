@@ -23,7 +23,7 @@ Delete.route("/")
   .get(function (req, res) {
     res.locals.title = "Delete " + req.blog.pretty.label;
     res.locals.breadcrumbs.add("Delete", "delete");
-    res.render("settings/delete");
+    res.render("dashboard/settings/delete");
   })
 
   // Save any changes to the user's subscription

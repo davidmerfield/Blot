@@ -11,7 +11,7 @@ const sanitize = require("./sanitize");
 Importer.route("/are.na")
   .get(function (req, res) {
     res.locals.breadcrumbs.add("Are.na", "arena");
-    res.render("import/arena");
+    res.render("dashboard/import/arena");
   })
   .post(require("dashboard/util/parse"), async (req, res) => {
     const { importDirectory, outputDirectory, finish, status } = init({
