@@ -13,7 +13,7 @@ Account.use(function (req, res, next) {
   next();
 });
 
-Account.use(function (req, res, next) {
+Account.use(['/subscription', '/pay-subscription'], function (req, res, next) {
   if (!req.user.subscription || !req.user.subscription.customer) return next();
 
   stripe.customers.retrieve(

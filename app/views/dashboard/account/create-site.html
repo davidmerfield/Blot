@@ -1,9 +1,12 @@
 
 <form method="POST" class="dashboard-form" style="padding:0;max-width: 400px;">
   <input type="hidden" name="_csrf" value="{{csrftoken}}">
+  <input type="hidden" name="consent" value="true">
+
   <input type="hidden" name="timeZone" value="">  
   {{> message}}
 
+  {{#first_site}}
   <p style="margin-top: 0;">
     <span style="color: var(--medium-text-color);">
      Sign up &nbsp;&rarr;&nbsp;
@@ -13,52 +16,53 @@
 
 
   <p style="margin-top: 36px;">Welcome to Blot. Please enter a title for your first site. You can edit this later on the dashboard.</p>
+  {{/first_site}}
+
+
+  {{^first_site}}
+
+  <p>{{price}} per {{interval}} per site. You can add or delete sites at any point. You can create as many sites as you like.</p> 
+
+  {{^user.isMonthly}} 
+  {{#now}}
+  <p>If you create a new site, you will be charged {{now}} today.</p>
+
+    <hr style="margin:0 0 1rem">
+    <div style="display:flex;">
+      <span style="Color:#a09d9c">Amount due today:</span>
+      <span style="flex-grow:1;text-align:right">{{now}}</span>
+    </div>
+    {{/now}}
+  {{/user.isMonthly}}
+
+
+  {{/first_site}}
 
     <div  style="border-top:1px solid #eeeeec;padding-top:24px;margin-top: 24px;">
 <label for="title">Title</label>
 <input id="title_input" type="text" name="title" value="Untitled site">
 
   <div class="buttons">
-    <button type="submit">Create site</button>
+    <button type="submit" onclick="this.form.submit();this.disabled=true" >
+      Create site</button>
+      {{#first_site}}
     <button type="submit" name="no_title">Skip</a>
+    {{/first_site}}
+    {{^first_site}}
+    <a href="/sites">Cancel</a>
+    {{/first_site}}
   </div>
 </div>
 </form>
 
-
 <script src="/js/jquery.js?{{cacheID}}"></script>
 <script src="/js/tz_detect.js?{{cacheID}}"></script>
 <script type="text/javascript">
-
-
-$('form').submit(function(event) {
-
-var $form = $(this);
-
-// Disable the submit button to prevent repeated clicks
-$(this)
-  .find('.button')
-  .prop('disabled', true)
-  .addClass('working')
-  .val('Creating your site...');
-
-$(this).submit();
-});
-
 var timezone = jstz.determine();
-
 if (timezone) {
-
   $('input[name="timeZone"]').val(timezone.name());
-
 }
-
-
 const titleInput = document.getElementById('title_input');
-
-console.log(titleInput);
-
 titleInput.focus();
 titleInput.select();
-
 </script>

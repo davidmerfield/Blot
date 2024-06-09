@@ -1,7 +1,14 @@
 {{> form-header}}
 
-<label for="title">Title</label>
 <input type="hidden" name="redirect" value="{{{base}}}/title" />
 <input type="text" name="title" value="{{blog.title}}" autofocus />
+
+<script>
+    // select and focus on the input field
+    const input = document.querySelector('input[name="title"]');
+
+    input.focus();
+    input.select();
+</script>
 
 {{> form-footer}}

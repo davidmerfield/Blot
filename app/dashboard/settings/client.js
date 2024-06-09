@@ -188,10 +188,10 @@ client_routes
 
   .get(load.clients, function (req, res) {
     if (req.blog.client) {
-      res.redirect(req.baseUrl + "/" + req.blog.client);
-    } else {
-      res.render("clients", { title: "Select a client" });
-    }
+      return res.redirect(req.baseUrl + "/" + req.blog.client);
+    } 
+
+    res.render("clients", { title: "Select a client" });
   })
 
   .post(parse, function (req, res, next) {

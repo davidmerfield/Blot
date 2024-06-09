@@ -44,7 +44,7 @@
               text-align: center;
               color: var(--light-text-color);justify-content: center;">  
                 <span style="align-self: center; text-align: center;display: block;">
-                  {{#root}}Folder is empty.<br> <a href="{{{base}}}/client">Sync this folder</a>{{/root}}
+                  {{#root}}Folder is empty.<br>{{^blog.client}}<a href="{{{base}}}/client">Sync this folder</a>{{/blog.client}}{{/root}}
                   {{^root}}There is nothing here.{{/root}}
                 </span>
               </small>

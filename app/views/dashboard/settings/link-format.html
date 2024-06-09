@@ -2,6 +2,8 @@
 
 <input type="hidden" name="redirect" value="{{{base}}}/link-format" />
 
+<p>  Posts and page are assigned a URL according to this link format:</p>
+
 <style type="text/css">
   #redirects section {padding: 8px 0;border:none}
   .lab[type="text"] {border-radius:0;margin-left:-1px}
@@ -17,10 +19,7 @@
   .format:hover{background: rgba(0,0,0,.02)}
 </style>
 
-<label style="padding-bottom: 6px;">
-  <svg style="fill:currentColor;width:14px;height:14px;position:relative;top:2px;margin-right:3px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg> 
-  
-  Link format</label>
+
 {{#permalinkFormats}}
 <label class="format" style="border-top: 1px solid #eeeeec;line-height:inherit;margin:0;text-transform:none;font-size:16px;letter-spacing:0;padding:9px 0 9px 10px">
   <input style="margin:5px 10px 20px 0;float:left" type="radio" name="permalink.format" value="{{value}}" {{checked}}>
@@ -50,17 +49,14 @@
 
 <br><br>
 
+
 <details>
-  <summary>What is a link format?</summary>
-  <p>  Posts and page on this site are assigned a URL according to the format below.  </p>
-</details>
-<details>
-  <summary>What happens to my existing URLs if I change this format?</summary>
-  <p>If you change this format, Blot will update your existing posts and pages and then redirect the old URLs automatically.</p>
+  <summary>What happens to my existing URLs if I change the link format?</summary>
+  <p>If you change this format, Blot will update your existing posts and pages and then redirect the old URLs to the new URLs.</p>
 </details>
 
 <details>
-  <summary>What if I only want to change a specific post or page?</summary>
+  <summary>What if I only want to change a single URL?</summary>
   <p>You can change a specific post or page's URL in its <a href="/how/metadata">metadata</a>.</p>
 </details>
 <noscript>

@@ -33,7 +33,7 @@ CreateBlog.route("/paypal").get(async (req, res, next) => {
   res.redirect("/sites/account/create-site");
 });
 
-CreateBlog.route("/inform")
+CreateBlog.route("/inform-paypal")
 
   .all(validateSubscription)
 
@@ -56,7 +56,7 @@ CreateBlog.route("/inform")
     res.locals.breadcrumbs = res.locals.breadcrumbs.slice(0, -1);
     res.locals.breadcrumbs[res.locals.breadcrumbs.length - 1] = {label: 'Create site', last: true};
     
-    res.render("account/create-site-inform", {
+    res.render("account/create-site-paypal", {
       title: "Create a site",
       not_paid: true,
       breadcrumb: "Create site",
@@ -65,7 +65,7 @@ CreateBlog.route("/inform")
     });
   })
 
-  .post(parse, chargeForRemaining, updateSubscription, saveBlog, (req, res) => {
+  .post(parse, saveBlog, (req, res) => {
     res.message('/sites/' + req.blog.handle, 'Created site');
   });
 
@@ -74,12 +74,16 @@ CreateBlog.route("/")
   .get(function (req, res) {
     res.locals.blog = {};
 
-    // remove breadcrumbs
-    res.locals.breadcrumbs = [];
+    const first_site = req.user.blogs.length === 0;
+
+    // remove breadcrumbs for first site
+    if (first_site) {
+      res.locals.breadcrumbs = [];
+    }
 
     res.render("account/create-site", {
       title: "Create site",
-      first_blog: req.user.blogs.length === 0,
+      first_site,
     });
   })
 
@@ -110,11 +114,27 @@ CreateBlog.route("/")
       return next();
     }
 
-    res.redirect(req.baseUrl + "/inform");
+    if (req.body.consent === "true") {
+      return next();
+    } else {
+        
+      if (req.user.paypal && req.user.paypal.status) {
+        res.redirect(req.baseUrl + "/inform-paypal");
+      } else {
+        res.redirect(req.baseUrl);
+      } 
+  }
   })
 
-  .post(saveBlog, (req, res) => {
-    res.message('/sites/' + req.blog.handle, 'Created site');
+  .post(chargeForRemaining, updateSubscription, saveBlog, (req, res) => {
+
+    // For the first site, we immediately redirect to the client
+    // setup page so they can sync their folder
+    if (req.user.blogs.length === 0) {
+      res.redirect('/sites/' + req.blog.handle + '/client');
+    } else {
+      res.message('/sites/' + req.blog.handle, 'Created site');
+    }
   });
 
 function calculateFee (req, res, next) {
@@ -280,6 +300,8 @@ function chargeForRemaining (req, res, next) {
   if (req.user.blogs.length === 0 && req.user.subscription.quantity === 1) {
     return next();
   }
+
+  if (!req.amount_due_now) return next();
 
   // Stripe won't charge less than $0.50, we'll just take the hit
   if (req.amount_due_now <= 50) return next();

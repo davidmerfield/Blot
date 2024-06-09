@@ -31,8 +31,11 @@ module.exports = function (req, res, next, handle) {
 
     Template.getMetadata(blog.template, function (err, metadata) {
 
-      res.locals.template = metadata;
-      res.locals.previewURL = `https://preview-of-${metadata.owner === blog.id ? 'my-' : ''}${metadata.slug}-on-${blog.handle}.${config.host}?screenshot=true`;
+      if (metadata) {
+        res.locals.template = metadata;
+        res.locals.previewURL = `https://preview-of-${metadata.owner === blog.id ? 'my-' : ''}${metadata.slug}-on-${blog.handle}.${config.host}?screenshot=true`;  
+      }
+      
       req.blog = blog;
       res.locals.blog = blog;
       next();

@@ -1,18 +1,17 @@
-var Mustache = require("mustache");
-var _ = require("lodash");
-var pluginList = require("build/plugins").list;
-var arrayify = require("helper/arrayify");
-var capitalize = require("helper/capitalize");
-var deCamelize = require("helper/deCamelize");
+const Mustache = require("mustache");
+const pluginList = require("build/plugins").list;
+const arrayify = require("helper/arrayify");
+const capitalize = require("helper/capitalize");
+const deCamelize = require("helper/deCamelize");
+
+const pluginsToHide = ["emoticons", "wikilinks", "katex"];
 
 module.exports = function (req, res, next) {
-  var blog = req.blog;
+  const blog = req.blog;
 
-  var plugins = _.cloneDeep(pluginList);
+  let plugins = JSON.parse(JSON.stringify(pluginList));
 
-  for (var i in plugins) {
-    // should not be able to disable this plugin...
-    // MUST BE CLONED >.>
+  for (let i in plugins) {
     if (!plugins[i].optional) {
       delete plugins[i];
       continue;
@@ -23,8 +22,8 @@ module.exports = function (req, res, next) {
       continue;
     }
 
-    var formHTML = plugins[i].formHTML;
-    var options = blog.plugins[i].options;
+    let formHTML = plugins[i].formHTML;
+    let options = blog.plugins[i].options;
 
     if (plugins[i].formHTML)
       plugins[i].formHTML = Mustache.render(formHTML, options);
@@ -33,15 +32,15 @@ module.exports = function (req, res, next) {
       plugins[i].checked = "checked";
   }
 
-  var categories = {};
+  let categories = {};
 
-  var change = {
+  const change = {
     External: "Services",
   };
 
   plugins = arrayify(plugins, function (plugin) {
-    var name = capitalize(deCamelize(plugin.category || "general"));
-    var slug = name.split(" ").join("-").toLowerCase();
+    let name = capitalize(deCamelize(plugin.category || "general"));
+    let slug = name.split(" ").join("-").toLowerCase();
 
     if (change[name]) name = change[name];
 
@@ -56,22 +55,10 @@ module.exports = function (req, res, next) {
       plugin.clear = true;
     }
 
-    categories[name].plugins.push(plugin);
+    if (!pluginsToHide.includes(plugin.name)) {
+      categories[name].plugins.push(plugin);
+    }
   });
-
-  // categories = arrayify(categories);
-
-  // var _categories = categories.slice();
-  //     categories = [];
-
-  // for (var x in _categories) {
-  //   _categories[x].plugins[_categories[x].plugins.length -1].last = true;
-  //   if (_categories[x].slug === 'typography') {
-  //     categories.unshift(_categories[x]);
-  //   } else {
-  //     categories.push(_categories[x]);
-  //   }
-  // }
 
   res.locals.categories = categories;
 
