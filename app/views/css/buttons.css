@@ -45,7 +45,7 @@
   margin-right: 2em;
   box-sizing: border-box;
   border-radius: 4px;
-  color: #fff;
+  color: var(--background-color);
   border: none;
   cursor: pointer;
   background-color: var(--dark-accent-color);

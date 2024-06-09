@@ -1,11 +1,10 @@
 const config = require("config");
 const Express = require("express");
 const documentation = new Express();
-const fs = require("fs-extra");
 const mustache = require("helper/express-mustache");
 const redirector = require("./redirector");
 const Email = require("helper/email");
-const hash = require("helper/hash");
+const cdnURLHelper = require('documentation/tools/cdn-url-helper');
 const { join } = require("path");
 const VIEW_DIRECTORY = __dirname + "/data";
 
@@ -31,23 +30,8 @@ documentation.locals.date = require("./dates.js");
 documentation.locals.price = "$" + plan.split("_").pop();
 documentation.locals.interval = plan.startsWith("monthly") ? "month" : "year";
 
-let cacheID = Date.now();
-
 documentation.locals.cdnURL = config.cdn.origin;
-documentation.locals.cdn = () => (text, render) => {
-  const path = render(text);
-
-  let identifier = cacheID;
-
-  try {
-    const contents = fs.readFileSync(join(VIEW_DIRECTORY, path), "utf8");
-    identifier = hash(contents).slice(0, 8);
-  } catch (e) {
-    // if the file doesn't exist, we'll use the cacheID
-  }
-
-  return `${config.cdn.origin}/documentation/v-${identifier}${path}`;
-};
+documentation.locals.cdn = cdnURLHelper({cacheID: Date.now(), viewDirectory: VIEW_DIRECTORY});
 
 documentation.get(["/how/format/*"], function (req, res, next) {
   res.locals["show-on-this-page"] = true;

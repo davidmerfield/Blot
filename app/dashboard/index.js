@@ -5,6 +5,7 @@ const root = require("helper/rootDir");
 const { join } = require("path");
 var VIEW_DIRECTORY = join(root, "app/documentation/data/dashboard");
 var config = require("config");
+const cdnURLHelper = require('documentation/tools/cdn-url-helper');
 const { static } = require("express");
 var express = require("express");
 const message = require("./util/message");
@@ -38,27 +39,7 @@ dashboard.locals.interval = plan.startsWith("monthly") ? "month" : "year";
 
 const cacheID = Date.now();
 
-dashboard.locals.cdn = () => (text, render) => {
-  const path = render(text);
-  const extension = path.split(".").pop();
-
-  let identifier = "cacheID=" + cacheID;
-
-  try {
-    const contents = fs.readFileSync(
-      join(blot_directory, "/app/views", path),
-      "utf8"
-    );
-    identifier = "hash=" + hash(contents);
-  } catch (e) {
-    // if the file doesn't exist, we'll use the cacheID
-  }
-
-  const query = `?${identifier}&ext=.${extension}`;
-  const url = `${path}${query}`;
-
-  return url;
-};
+dashboard.locals.cdn = cdnURLHelper({cacheID, viewDirectory: join(root, "app/documentation/data")});
 
 // For when we want to cache templates
 if (config.environment !== "development") {

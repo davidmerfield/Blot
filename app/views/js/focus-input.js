@@ -4,4 +4,3 @@ if (inputToFocus) {
     inputToFocus.focus();
     inputToFocus.select();
 }
-

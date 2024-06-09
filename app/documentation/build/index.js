@@ -5,14 +5,16 @@ const fs = require("fs-extra");
 const chokidar = require("chokidar");
 const html = require("./html");
 const favicon = require("./favicon");
+const clfdate = require('helper/clfdate');
+
 const SOURCE_DIRECTORY = join(config.blot_directory, "/app/views");
 const DESTINATION_DIRECTORY = join(
   config.blot_directory,
   "/app/documentation/data"
 );
+
 const zip = require("templates/folders/zip");
 const tools = require("./tools");
-
 const generateThumbnail = require("./generate-thumbnail");
 
 const handle = (initial = false) => async (path) => {
@@ -22,7 +24,7 @@ const handle = (initial = false) => async (path) => {
       await tools();
     } 
     
-    if (path.includes("images/examples")) {
+    if (path.includes("images/examples") && path.endsWith(".png")) {
       await fs.copy(
         join(SOURCE_DIRECTORY, path),
         join(DESTINATION_DIRECTORY, path)
