@@ -8,7 +8,7 @@ const logout = require("dashboard/account/util/logout");
 
 
 dashboard.use(trace("loading session information"));
-dashboard.use(require("./session"));
+dashboard.use(require("dashboard/util/session"));
 dashboard.use(trace("loaded session information"));
 
 // For each GET request -> Appends a one-time CSRF-checking token
@@ -54,7 +54,7 @@ dashboard.use(trace("loaded blog"));
 // state of the user's blog, user's subscription
 // and shuttles the user around as needed
 dashboard.use(trace("checking redirects"));
-dashboard.use(require("./redirector"));
+dashboard.use(require("./util/redirector"));
 dashboard.use(trace("checked redirects"));
 
 dashboard.use(require("./util/breadcrumbs"));
@@ -104,6 +104,8 @@ dashboard.use("/:handle/export", require("./export"));
 dashboard.use("/:handle/domain", require("./domain"));
 dashboard.use("/:handle/client", require("./client"));
 dashboard.use("/:handle/title", require("./title"));
+dashboard.use("/:handle/date", require("./date"));
+
 dashboard.get("/:handle/status", sse);
 // allow the download of files directly
 dashboard.use("/:handle/folder-download/:path(*)", require('./folder/download'));

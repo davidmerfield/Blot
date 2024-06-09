@@ -1,6 +1,5 @@
 const config = require("config");
 const { join, dirname, basename, extname } = require("path");
-const { build } = require("esbuild");
 const fs = require("fs-extra");
 const chokidar = require("chokidar");
 const html = require("./html");
@@ -12,6 +11,9 @@ const DESTINATION_DIRECTORY = join(
   config.blot_directory,
   "/app/documentation/data"
 );
+
+const buildCSS = require("./css")({source: SOURCE_DIRECTORY, destination: DESTINATION_DIRECTORY});
+const buildJS = require("./js")({source: SOURCE_DIRECTORY, destination: DESTINATION_DIRECTORY});
 
 const zip = require("templates/folders/zip");
 const tools = require("./tools");
@@ -65,7 +67,10 @@ const handle = (initial = false) => async (path) => {
 module.exports = async ({ watch = false } = {}) => {
   console.time("build");
 
-  await fs.emptyDir(DESTINATION_DIRECTORY);
+  // we only reset the destination directory in production
+  if (config.environment !== "development") {
+    await fs.emptyDir(DESTINATION_DIRECTORY);
+  } 
 
   await zip();
 
@@ -117,55 +122,6 @@ async function buildHTML (path) {
 
   await fs.outputFile(join(DESTINATION_DIRECTORY, path), result);
 }
-
-// use npm package 'clean-css' to minify css
-const CleanCSS = require("clean-css");
-
-
-async function buildCSS () {
-  // merge all css files together into one file
-  const cssDir = join(SOURCE_DIRECTORY, "css");
-  const cssFiles = (await fs.readdir(cssDir)).filter(i => i.endsWith(".css"));
-
-  const cssContents = await Promise.all(
-    cssFiles.map(name => fs.readFile(join(cssDir, name), "utf-8"))
-  );
-
-  const mergedCSS = cssContents.join("\n\n");
-  
-  // minimize the css as aggressively as possible
-  const minifiedCSS = new CleanCSS({ level: 2 }).minify(mergedCSS).styles;
-
-  await fs.writeFile(join(DESTINATION_DIRECTORY, "css.min.css"), minifiedCSS);
-}
-
-async function buildJS () {
-  await build({
-    entryPoints: [join(SOURCE_DIRECTORY, "js/documentation.js")],
-    bundle: true,
-    minify: true,
-    // sourcemap: true,
-    target: ["chrome58", "firefox57", "safari11", "edge16"],
-    outfile: join(DESTINATION_DIRECTORY, "documentation.min.js")
-  });
-  
-  console.log('built documentation.min.js');
-  
-  await build({
-    entryPoints: [join(SOURCE_DIRECTORY, "js/dashboard.js")],
-    bundle: true,
-    minify: true,
-    // sourcemap: true,
-    target: ["chrome58", "firefox57", "safari11", "edge16"],
-    outfile: join(DESTINATION_DIRECTORY, "dashboard.min.js")
-  });
-  
-  console.log('built dashboard.min.js');
-}
-
-
-
-
 
 if (require.main === module) {
   module.exports({ watch: true });

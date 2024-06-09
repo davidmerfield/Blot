@@ -41,10 +41,6 @@ settings.get("/publishing", load.plugins, (req, res)=>{
   res.render("dashboard/settings/publishing");
 });
 
-settings.get("/date", load.timezones, load.dates, (req, res)=>{
-  res.locals.breadcrumbs.add("Date and time", "date");
-  res.render("dashboard/settings/date");
-});
 
 settings.get("/link-format", load.permalinkFormats,  (req, res, next) => {
   res.locals.edit = !!req.query.edit;

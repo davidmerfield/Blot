@@ -36,7 +36,7 @@ const { tags, create, update, list, get, search } = require("models/question");
 const render = require("./render");
 const Paginator = require("./paginator");
 
-Questions.use(["/ask", "/:id/edit", "/:id/new"], require("dashboard/session"));
+Questions.use(["/ask", "/:id/edit", "/:id/new"], require("dashboard/util/session"));
 Questions.use(["/ask", "/:id/edit", "/:id/new"], urlencoded);
 
 Questions.get("/search", async (req, res) => {

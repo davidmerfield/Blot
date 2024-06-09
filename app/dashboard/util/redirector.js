@@ -50,7 +50,7 @@ Object.keys(internal).forEach((from) => {
 });
 
 // Redirect old URLS
-redirector.use("/settings", require("./util/load-blogs"), function (req, res, next) {
+redirector.use("/settings", require("./load-blogs"), function (req, res, next) {
   try {
     const redirect = `/sites/${req.blogs[0].handle}${req.path}`;
     res.redirect(redirect);

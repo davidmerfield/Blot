@@ -13,7 +13,6 @@ var dictionary = {
   roundAvatar: "Saved photo settings",
   avatar: "Saved changes to your photo",
   menu: "Saved changes to your links",
-  timeZone: "Saved changes to your time zone",
   dateFormat: "Saved changes to the order in which you write your dates",
 };
 
@@ -30,7 +29,7 @@ module.exports = function (req, res, next) {
 
     // We now need to save every entry so that
     // changes to permalink format take effect.
-    if (changes.indexOf("timeZone") > -1 || changes.indexOf("permalink") > -1) {
+    if (changes.indexOf("permalink") > -1) {
       resaveEntries(req.blog.id, function () {});
     }
 
