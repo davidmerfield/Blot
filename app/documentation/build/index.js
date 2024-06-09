@@ -1,5 +1,5 @@
 const config = require("config");
-const { join } = require("path");
+const { join, dirname, basename, extname } = require("path");
 const { build } = require("esbuild");
 const fs = require("fs-extra");
 const chokidar = require("chokidar");
@@ -13,26 +13,37 @@ const DESTINATION_DIRECTORY = join(
 const zip = require("templates/folders/zip");
 const tools = require("./tools");
 
-async function handle (path) {
+const generateThumbnail = require("./generate-thumbnail");
+
+const handle = (initial = false) => async (path) => {
   try {
     
-    if (path.includes("tools/")) {
+    if (path.includes("tools/") && !initial) {
       await tools();
     } 
     
     if (path.includes("images/examples")) {
-      console.log('generating thumbnail for', path);
-      await generateThumbnail(path);
-      console.log('generated thumbnail for', path); 
+      await fs.copy(
+        join(SOURCE_DIRECTORY, path),
+        join(DESTINATION_DIRECTORY, path)
+      );
+      await generateThumbnail(
+        join(SOURCE_DIRECTORY, path),
+        join(
+          DESTINATION_DIRECTORY,
+          dirname(path),
+          basename(path, extname(path)) + "-thumb.png"
+        )
+      );
     } else if (path.endsWith(".html") && !path.includes("dashboard/")) {
       await buildHTML(path);
-    } else if (path.endsWith(".css")) {
+    } else if (path.endsWith(".css") && !initial) {
       await fs.copy(
         join(SOURCE_DIRECTORY, path),
         join(DESTINATION_DIRECTORY, path)
       );
       await buildCSS();
-    } else if (path.endsWith(".js")) {
+    } else if (path.endsWith(".js") && !initial) {
       await fs.copy(
         join(SOURCE_DIRECTORY, path),
         join(DESTINATION_DIRECTORY, path)
@@ -50,6 +61,8 @@ async function handle (path) {
 }
 
 module.exports = async ({ watch = false } = {}) => {
+  console.time("build");
+
   await fs.emptyDir(DESTINATION_DIRECTORY);
 
   await zip();
@@ -70,9 +83,19 @@ module.exports = async ({ watch = false } = {}) => {
     path.slice(SOURCE_DIRECTORY.length + 1)
   );
 
-  await Promise.all(paths.map(handle));
+  const initialHandler = handle(true);
+
+  await Promise.all(paths.map(initialHandler));
 
   await tools();
+
+  await buildCSS();
+
+  await buildJS();
+
+  console.timeEnd("build");
+
+  const handler = handle();
 
   if (watch) {
     chokidar
@@ -81,7 +104,7 @@ module.exports = async ({ watch = false } = {}) => {
         ignoreInitial: true
       })
       .on("all", async (event, path) => {
-        if (path) handle(path);
+        if (path) handler(path);
       });
   }
 };
@@ -123,7 +146,9 @@ async function buildJS () {
     target: ["chrome58", "firefox57", "safari11", "edge16"],
     outfile: join(DESTINATION_DIRECTORY, "documentation.min.js")
   });
+  
   console.log('built documentation.min.js');
+  
   await build({
     entryPoints: [join(SOURCE_DIRECTORY, "js/dashboard.js")],
     bundle: true,
@@ -132,35 +157,13 @@ async function buildJS () {
     target: ["chrome58", "firefox57", "safari11", "edge16"],
     outfile: join(DESTINATION_DIRECTORY, "dashboard.min.js")
   });
+  
   console.log('built dashboard.min.js');
 }
 
 
 
-const sharp = require("sharp");
-const { dirname, basename, extname } = require("path");
 
-async function generateThumbnail (path) {
-
-  // copy the file as-is too
-  await fs.copy(
-    join(SOURCE_DIRECTORY, path),
-    join(DESTINATION_DIRECTORY, path)
-  );
-
-  if (path.includes(".mobile.")) return;
-
-  // generate a thumbnail
-  await sharp(join(SOURCE_DIRECTORY, path))
-    .resize({ width: 130 })
-    .toFile(
-      join(
-        DESTINATION_DIRECTORY,
-        dirname(path),
-        basename(path, extname(path)) + "-thumb.png"
-      )
-    );
-}
 
 if (require.main === module) {
   module.exports({ watch: true });

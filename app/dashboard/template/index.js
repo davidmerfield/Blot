@@ -1,7 +1,7 @@
 const config = require("config");
 const Express = require("express");
 const TemplateEditor = new Express.Router();
-const parse = require("dashboard/parse");
+const parse = require("dashboard/util/parse");
 const formJSON = require("helper/formJSON");
 const Template = require("models/template");
 const Blog = require("models/blog");

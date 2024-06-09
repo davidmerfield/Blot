@@ -7,7 +7,7 @@ const fs = require('fs-extra');
 const Template = require("models/template");
 
 Export.get("/", function (req, res) {
-    res.locals.breadcrumbs.add("Export", "/export");
+    res.locals.breadcrumbs.add("Export");
     res.render("settings/export");
 });
 

@@ -1,14 +1,14 @@
-{{> form-header}}
+{{> message}}
 
-<input type="hidden" name="redirect" value="{{{base}}}/title" />
-<input type="text" name="title" value="{{blog.title}}" autofocus />
+<form class="dashboard-form" method="POST">
 
-<script>
-    // select and focus on the input field
-    const input = document.querySelector('input[name="title"]');
+    <input type="hidden" name="_csrf" value="{{csrftoken}}" />
+    <input type="text" name="title" value="{{blog.title}}" autofocus placeholder="Title" />
 
-    input.focus();
-    input.select();
-</script>
-
-{{> form-footer}}
+    <div class="buttons">
+        <button type="submit">
+            Save title
+        </button>
+        <a href="{{{base}}}">Cancel</a>
+    </div>
+</form>

@@ -1,11 +1,12 @@
 <style type="text/css">.label {flex-basis:30%}</style>
-<script type="text/javascript">
-  var syncStatusURL = "{{{dashboardBase}}}/status";
-</script>
+
 
 <a class="line" style="border-top:1px solid var(--light-border-color)" href="{{{dashboardBase}}}/client/switch">
-  <span class="label">Synced with</span>
-  <span class="center">{{client.display_name}}</span>
+  <span class="label">Syncs with</span>
+  <span class="center">
+    <img width="16" height="16" src="{{#cdn}}/images/sync/{{blog.client}}.svg{{/cdn}}" />
+    {{client.display_name}}
+  </span>
   <span class="right">Edit</span>
 </a>
 

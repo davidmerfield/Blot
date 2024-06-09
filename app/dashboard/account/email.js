@@ -1,7 +1,7 @@
 const Express = require("express");
 const Email = new Express.Router();
 const User = require("models/user");
-const parse = require("dashboard/parse");
+const parse = require("dashboard/util/parse");
 
 Email.route("/")
 

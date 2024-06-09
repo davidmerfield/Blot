@@ -10,7 +10,7 @@ var Blog = require("models/blog");
 var config = require("config");
 var stripe = require("stripe")(config.stripe.secret);
 
-const parse = require("dashboard/parse");
+const parse = require("dashboard/util/parse");
 
 Delete.route("/")
 

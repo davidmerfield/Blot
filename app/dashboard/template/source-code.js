@@ -1,4 +1,4 @@
-const parse = require('dashboard/parse');
+const parse = require("dashboard/util/parse");
 const Express = require("express");
 const SourceCode = new Express.Router();
 const Template = require("models/template");

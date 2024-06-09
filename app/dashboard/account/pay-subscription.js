@@ -5,7 +5,7 @@ var User = require("models/user");
 var prettyPrice = require("helper/prettyPrice");
 var Express = require("express");
 var PaySubscription = new Express.Router();
-var parse = require('dashboard/parse');
+const parse = require("dashboard/util/parse");
 
 PaySubscription.route("/")
 

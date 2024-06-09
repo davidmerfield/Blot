@@ -3,19 +3,16 @@ var settings = express.Router();
 var load = require("./load");
 var save = require("./save");
 var trace = require("helper/trace");
-var parse = require("dashboard/parse");
-var config = require("config");
+const parse = require("dashboard/util/parse");
 
-settings.use(function (req, res, next) {
-  res.locals.selected = { settings: "selected", dashboard: "selected" };
-  next();
+settings.get("/", load.client, (req, res) => {
+  res.render("settings", { 
+      title: req.blog.pretty.label, 
+   })
 });
 
-settings.use("/delete", require("./delete"));
-
 settings
-  .route("/")
-  .post(
+  .post("/",
     trace("parsing form"),
     save.parse,
     trace("parsed form"),
@@ -31,25 +28,32 @@ settings
     trace("removed any tmp files"),
     save.finish
   )
-  .get(
-    load.client,
-    trace("client loaded"),
-    function (req, res) {
-      res.render("settings", { 
-          title: req.blog.pretty.label, 
-       })
-      }
-  );
 
-settings.get(["/services", "/publishing",], load.plugins);
 
-settings.use("/export", require('./export'));
+settings.get("/services", load.plugins, (req, res)=>{
+  res.locals.breadcrumbs.add("Services", "services");
+  res.render("settings/services");
+});
 
-settings.get("/date", load.timezones, load.dates);
+settings.get("/publishing", load.plugins, (req, res)=>{
+  res.locals.breadcrumbs.add("Publishing", "publishing");
+  res.render("settings/publishing");
+});
 
-settings.get("/link-format", load.permalinkFormats, function (req, res, next) {
+settings.get("/date", load.timezones, load.dates, (req, res)=>{
+  res.locals.breadcrumbs.add("Date and time", "date");
+  res.render("settings/date");
+});
+
+settings.get("/link-format", load.permalinkFormats,  (req, res, next) => {
   res.locals.edit = !!req.query.edit;
-  next();
+  res.locals.breadcrumbs.add("Link format", "link-format");
+  res.render("settings/link-format");
+});
+
+settings.get("/redirects", load.redirects, (req, res) => {
+  res.locals.breadcrumbs.add("Redirects", "redirects");
+  res.render("settings/redirects");
 });
 
 settings
@@ -57,43 +61,15 @@ settings
   .get(load.fourOhFour, function (req, res) {
     res.locals.breadcrumbs.add("Redirects", "redirects");
     res.locals.breadcrumbs.add("404 log", "404s");
-    res.render("settings/redirects/404s", { title: "404s" });
+    res.render("settings/redirects/404s");
   })
   .post(parse, require("./save/404"));
 
-  settings.route("/redirects/bulk")
-    .get(load.redirects, function (req, res) {
-      res.locals.breadcrumbs.add("Redirects", "redirects");
-      res.locals.breadcrumbs.add("Bulk editor", "bulk");
-      res.render("settings/redirects/bulk", { title: "Bulk editor" });
-    })
-
-
-settings.get("/redirects", load.redirects);
-
-
-settings.use("/client", require("./client"));
-
-settings.use('/domain', require('./domain'));
-
-settings.get("/:view", function (req, res) {
-  var uppercaseName = req.params.view;
-
-  uppercaseName = uppercaseName[0].toUpperCase() + uppercaseName.slice(1);
-
-  if (uppercaseName === "Services") {
-    uppercaseName = "External services";
-  } else if (uppercaseName === "Publishing") {
-    uppercaseName = "Publishing settings";
-  } else if (uppercaseName === "Date") {
-    uppercaseName = "Date and time";
-  } else if (uppercaseName === "Link-format") {
-    uppercaseName = "Link format";
-  }
-
-  res.locals.breadcrumbs.add(uppercaseName, req.params.view);
-  res.locals.subpage = req.params.view;
-  res.render("settings/" + req.params.view, { host: process.env.BLOT_HOST });
-});
+settings.route("/redirects/bulk")
+  .get(load.redirects, function (req, res) {
+    res.locals.breadcrumbs.add("Redirects", "redirects");
+    res.locals.breadcrumbs.add("Bulk editor", "bulk");
+    res.render("settings/redirects/bulk");
+  })
 
 module.exports = settings;

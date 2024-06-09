@@ -5,11 +5,11 @@ const express = require("express");
 const client_routes = express.Router();
 const Path = require("path");
 const Blog = require("models/blog");
-const load = require("./load");
+const load = require("./settings/load");
 const Sync = require("sync");
 const Fix = require("sync/fix");
 const Rebuild = require("sync/rebuild");
-const parse = require("dashboard/parse");
+const parse = require("dashboard/util/parse");
 
 const { promisify } = require("util");
 const getStatuses = promisify(Blog.getStatuses);

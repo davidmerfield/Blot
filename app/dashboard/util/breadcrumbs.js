@@ -7,7 +7,7 @@ module.exports = function (req, res, next) {
 function Breadcrumbs() {
   var list = [];
 
-  list.add = function (label, slug) {
+  list.add = function (label, slug = label.toLowerCase()) {
     var base = "/";
 
     if (list.length) base = list[list.length - 1].url;

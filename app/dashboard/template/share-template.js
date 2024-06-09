@@ -1,7 +1,7 @@
 const express = require("express");
 const share = express.Router();
 const Template = require("models/template");
-const parse = require("dashboard/parse");
+const parse = require("dashboard/util/parse");
 
 share
   .route("/:shareID")

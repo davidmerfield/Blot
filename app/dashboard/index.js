@@ -7,7 +7,7 @@ var VIEW_DIRECTORY = join(root, "app/documentation/data/dashboard");
 var config = require("config");
 const { static } = require("express");
 var express = require("express");
-const message = require("./message");
+const message = require("./util/message");
 const hash = require("helper/hash");
 const fs = require("fs");
 const { blot_directory } = require("config");
@@ -88,7 +88,7 @@ dashboard.use(trace("loaded session information"));
 // Appends a one-time CSRF-checking token
 // for each GET request, and validates this token
 // for each POST request, using csurf.
-dashboard.use(require("./csrf"));
+dashboard.use(require("./util/csrf"));
 
 // These need to be accessible to unauthenticated users
 dashboard.use("/sign-up", require("./sign-up"));
@@ -116,11 +116,11 @@ dashboard.use(function (req, res, next) {
 dashboard.use(message.middleware);
 
 dashboard.use(trace("loading user"));
-dashboard.use(require("./load-user"));
+dashboard.use(require("./util/load-user"));
 dashboard.use(trace("loaded user"));
 
 dashboard.use(trace("loading blog"));
-dashboard.param("handle", require("./load-blog"));
+dashboard.param("handle", require("./util/load-blog"));
 dashboard.use(trace("loaded blog"));
 
 // Performs some basic checks about the
@@ -130,7 +130,7 @@ dashboard.use(trace("checking redirects"));
 dashboard.use(require("./redirector"));
 dashboard.use(trace("checked redirects"));
 
-dashboard.use(require("./breadcrumbs"));
+dashboard.use(require("./util/breadcrumbs"));
 
 dashboard.use("/stats", require("./stats"));
 
@@ -149,12 +149,12 @@ dashboard.use("/:handle/folder-download/:path(*)", (req, res, rext)=>{
 
 dashboard.use(
   "/share-template",
-  require("./load-blogs"),
+  require("./util/load-blogs"),
   require("./template/share-template")
 );
 
 // Redirect old URLS
-dashboard.use("/settings", require("./load-blogs"), function (req, res, next) {
+dashboard.use("/settings", require("./util/load-blogs"), function (req, res, next) {
   try {
     const redirect = `/sites/${req.blogs[0].handle}${req.path}`;
     res.redirect(redirect);
@@ -193,7 +193,7 @@ dashboard.use("/:handle", function (req, res, next) {
 // Will deliver the sync status of the blog as SSEs
 dashboard.use("/:handle/status", require("./status"));
 
-dashboard.get("/", require("./load-blogs"), async (req, res) => {
+dashboard.get("/", require("./util/load-blogs"), async (req, res) => {
   res.locals.title = "Sites";
   res.locals.breadcrumbs.add("Sites", "/sites");
   res.render("index");
@@ -208,13 +208,17 @@ dashboard.get("/:handle/folder", (req, res) => {
 });
 
 dashboard.use("/:handle/template", require("./template"));
+dashboard.use("/:handle/delete", require("./delete"));
 dashboard.use("/:handle/import", require("./import"));
-dashboard.use("/:handle/setup", require("./setup"));
+dashboard.use("/:handle/export", require("./export"));
+dashboard.use("/:handle/domain", require("./domain"));
+dashboard.use("/:handle/client", require("./client"));
+dashboard.use("/:handle/title", require("./title"));
 dashboard.use("/:handle", require("./settings"));
 
 // This will catch old links to the dashboard before
 // we encoded the blog's username in the URLs
-dashboard.use(require("./redirect-to-other-blog"));
+dashboard.use(require("./util/redirect-to-other-blog"));
 
 // need to handle dashboard errors better...
 dashboard.use(message.errorHandler);

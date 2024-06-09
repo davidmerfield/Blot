@@ -2,7 +2,7 @@ var Express = require("express");
 var Password = new Express.Router();
 var User = require("models/user");
 var checkPassword = require("./util/checkPassword");
-var parse = require("dashboard/parse");
+const parse = require("dashboard/util/parse");
 
 Password.route("/")
 

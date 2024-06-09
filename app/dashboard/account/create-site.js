@@ -10,7 +10,7 @@ var User = require("models/user");
 var Email = require("helper/email");
 var BAD_CHARGE = "Could not charge your card.";
 var ERR = "Could not change your subscription.";
-var parse = require("dashboard/parse");
+const parse = require("dashboard/util/parse");
 var updatePayPalSubscription =
   require("dashboard/paypal_webhook").updateSubscription;
 

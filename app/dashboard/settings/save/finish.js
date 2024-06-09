@@ -49,8 +49,6 @@ module.exports = function (req, res, next) {
     // Add success message if we're going to the settings page
     // and successful changes were made
     if (changes && changes.length && _.isEmpty(errors)) {
-      if (changes.indexOf("handle") > -1)
-        redirect = `/sites/${updates.handle}/domain`;
 
       return res.message(
         redirect,

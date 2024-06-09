@@ -4,7 +4,7 @@ const pretty = require("helper/prettyPrice");
 const Email = require("helper/email");
 
 const checkPassword = require("dashboard/account/util/checkPassword");
-const parse = require("dashboard/parse");
+const parse = require("dashboard/util/parse");
 
 const User = require("models/user");
 const Blog = require("models/blog");

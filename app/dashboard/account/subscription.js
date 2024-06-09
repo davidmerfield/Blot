@@ -6,7 +6,7 @@ var config = require("config");
 var stripe = require("stripe")(config.stripe.secret);
 var email = require("helper/email");
 var prettyPrice = require("helper/prettyPrice");
-var parse = require("dashboard/parse");
+const parse = require("dashboard/util/parse");
 const PLAN_MAP = config.stripe.plan_map;
 
 Subscription.route("/").get(function (req, res) {

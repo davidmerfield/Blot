@@ -1,26 +1,9 @@
 form.dashboard-form {
-padding: var(--spacing) calc(var(--spacing) * 2);
-
+  max-width: 540px;
 }
 
-
-form.dashboard-form fieldset {
-    max-width: 400px;
-    border: none;
-  }
   
-  form.dashboard-form fieldset.half {
-    padding: 0;
-    width: 50%;
-  }
   
-  form.dashboard-form .fullRow {
-    width: 200%;
-  }
-  
-  form.dashboard-form label.halfWidth {
-    width: 45%;
-  }
   
   form.dashboard-form div:focus-within > label,
   form.dashboard-form p:focus-within > label {
@@ -201,10 +184,6 @@ form.dashboard-form fieldset {
     margin-left: -1px;
   }
   
-  input[type="text"].halfWidth {
-    width: 33%;
-    display: inline-block;
-  }
 
 
 /* Buttons */

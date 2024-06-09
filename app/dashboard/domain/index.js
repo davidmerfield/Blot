@@ -53,10 +53,20 @@ Domain.route('/')
     .get((req, res) => {
         res.render('settings/domain');
     })
-    .post(require('dashboard/parse'), async (req, res) => {
+    .post(require('dashboard/util/parse'), async (req, res) => {
         const blogID = req.blog.id;
         const domainInput = req.body.domain;
         const { hostname } = parse(domainInput);
+
+        if (req.body.handle) {
+            try{
+                await updateHandle(blogID, req.body.handle);
+            } catch (e) {
+                res.message(res.locals.base + '/domain', e);
+            } finally {
+                return res.message('/sites/' + req.body.handle  + '/domain', 'Updated subdomain on Blot');
+            }
+        }
 
         if (!hostname) {
             await updateDomain(blogID, '');
@@ -119,6 +129,15 @@ Domain.route('/subdomain')
 const updateDomain = (blogID, domain) => {
     return new Promise((resolve, reject) => {
         Blog.set(blogID, { domain, forceSSL: false, redirectSubdomain: !!domain }, (errors, changes) => {
+            if (errors) return reject(errors);
+            resolve(changes);
+        });
+    });
+};
+
+const updateHandle = (blogID, handle) => {
+    return new Promise((resolve, reject) => {
+        Blog.set(blogID, { handle }, (errors, changes) => {
             if (errors) return reject(errors);
             resolve(changes);
         });
