@@ -5,12 +5,6 @@ var save = require("./save");
 var trace = require("helper/trace");
 const parse = require("dashboard/util/parse");
 
-settings.get("/", load.client, (req, res) => {
-  res.render("dashboard/settings", { 
-      title: req.blog.pretty.label, 
-   })
-});
-
 settings
   .post("/",
     trace("parsing form"),
@@ -30,6 +24,13 @@ settings
   )
 
 
+settings.get("/", load.client, (req, res) => {
+  res.render("dashboard/settings", { 
+      title: req.blog.pretty.label, 
+    })
+});
+
+  
 settings.get("/services", load.plugins, (req, res)=>{
   res.locals.breadcrumbs.add("Services", "services");
   res.render("dashboard/settings/services");

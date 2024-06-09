@@ -55,8 +55,6 @@ site.locals.cacheID = cacheID;
 site.locals.cdnURL = config.cdn.origin;
 site.locals.cdn = cdnURLHelper({cacheID, viewDirectory: VIEW_DIRECTORY});
 
-
-
 site.get("/health", (req, res) => {
   res.send("OK");
 });
@@ -69,9 +67,9 @@ site.use("/sites", dashboard);
 site.use("/clients", require("clients/routes"));
 
 // The stripe webhook handler
-site.use("/stripe-webhook", require("./dashboard/stripe_webhook"));
+site.use("/stripe-webhook", require("dashboard/webhooks/stripe_webhook"));
 
-site.use("/paypal-webhook", require("./dashboard/paypal_webhook"));
+site.use("/paypal-webhook", require("dashboard/webhooks/paypal_webhook"));
 
 // The documentation
 // ------------

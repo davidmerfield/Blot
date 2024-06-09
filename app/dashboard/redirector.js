@@ -1,29 +1,30 @@
 const Express = require("express");
+const config = require("config");
+const type = require("helper/type");
+
 const redirector = new Express.Router();
 
-var config = require("config");
-var type = require("helper/type");
 
-var INDEX = "/";
-var AUTH = "/auth";
-var CONTACT = "/contact";
-var TERMS = "/terms";
-var DEVELOPERS = "/developers";
-var UPDATES = "/updates";
-var HELP = "/help";
+const INDEX = "/";
+const AUTH = "/auth";
+const CONTACT = "/contact";
+const TERMS = "/terms";
+const DEVELOPERS = "/developers";
+const UPDATES = "/updates";
+const HELP = "/help";
 // these routes should eventually be nested under help
 // e.g. /help/formatting and /help/configuring...
-var CONFIGURING = "/configuring";
-var FORMATTING = "/formatting";
-var PRIVACY = "/privacy";
-var MAINTENANCE = "/maintenance";
-var ACCOUNT = "/sites/account";
-var DELETE_ACCOUNT = "/sites/account/subscription/delete";
-var PAY_SUBSCRIPTION = "/sites/account/pay-subscription";
-var PASSWORD = "/sites/account/password";
-var LOGOUT = "/sites/account/log-out";
+const CONFIGURING = "/configuring";
+const FORMATTING = "/formatting";
+const PRIVACY = "/privacy";
+const MAINTENANCE = "/maintenance";
+const ACCOUNT = "/sites/account";
+const DELETE_ACCOUNT = "/sites/account/subscription/delete";
+const PAY_SUBSCRIPTION = "/sites/account/pay-subscription";
+const PASSWORD = "/sites/account/password";
+const LOGOUT = "/sites/account/log-out";
 
-var STATIC = [
+const STATIC = [
   CONTACT,
   HELP,
   CONFIGURING,
@@ -34,22 +35,32 @@ var STATIC = [
   DEVELOPERS,
 ];
 
-var internal = {
+const internal = {
   "/settings/template/archived": "/settings/template/archive",
 };
 
 Object.keys(internal).forEach((from) => {
   redirector.use(from, function (req, res) {
-    let to = internal[from];
-    let redirect = req.originalUrl.replace(from, to);
+    const to = internal[from];
+    const redirect = req.originalUrl.replace(from, to);
     // By default, res.redirect returns a 302 status
     // code (temporary) rather than 301 (permanent)
     res.redirect(301, redirect);
   });
 });
 
+// Redirect old URLS
+redirector.use("/settings", require("./util/load-blogs"), function (req, res, next) {
+  try {
+    const redirect = `/sites/${req.blogs[0].handle}${req.path}`;
+    res.redirect(redirect);
+  } catch (e) {
+    next();
+  }
+});
+
 redirector.use(function (req, res, next) {
-  var user = req.user;
+  const user = req.user;
 
   // Allows requests to static files...
   if (req.path.indexOf(".") > -1) return next();
@@ -59,8 +70,8 @@ redirector.use(function (req, res, next) {
     // somethings we have a redirect query...
     if (type(path, "string")) return req.originalUrl.indexOf(path) === 0;
 
-    var paths = path;
-    var match = false;
+    const paths = path;
+    let match = false;
 
     paths.forEach(function (path) {
       if (req.originalUrl.indexOf(path) === 0) match = true;

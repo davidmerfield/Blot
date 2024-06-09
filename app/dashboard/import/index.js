@@ -4,8 +4,7 @@ const { join } = require("path");
 const tempDir = require("helper/tempDir")();
 const fs = require("fs-extra");
 const list = require("./list");
-const channel = require("./channel");
-const sse = require("helper/sse")({ channel });
+const sse = require("helper/sse")({ channel: (req) => `import:status:${req.blog.id}` });
 
 Import.use((req, res, next) => {
   res.locals.importBase = res.locals.base + "/import";

@@ -15,7 +15,7 @@ TemplateEditor.param("viewSlug", require("./load/template-view"));
 TemplateEditor.param("templateSlug", require("./load/template"));
 
 TemplateEditor.use((req, res, next) => {
-  res.locals.layout = "template/layout";
+  res.locals.layout = "dashboard/template/layout";
   res.locals.dashboardBase = res.locals.base;
   res.locals.breadcrumbs.add('Templates', 'template');
   next();
@@ -25,7 +25,7 @@ TemplateEditor.use((req, res, next) => {
 TemplateEditor.use(require('./templates'));
 
 TemplateEditor.get('/', (req, res) => {
-  res.render('dashboard/template/index');
+  res.render('dashboard/template/settings');
 });
 
 

@@ -12,7 +12,7 @@ var BAD_CHARGE = "Could not charge your card.";
 var ERR = "Could not change your subscription.";
 const parse = require("dashboard/util/parse");
 var updatePayPalSubscription =
-  require("dashboard/paypal_webhook").updateSubscription;
+  require("dashboard/webhooks/paypal_webhook").updateSubscription;
 
 const randomChars = require("./util/randomChars");
 const handleFromTitle = require("./util/handleFromTitle");

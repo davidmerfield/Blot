@@ -24,8 +24,8 @@ SourceCode.route("/")
     }
 
     // set the partial template 'yield' to 'template/source-code/edit'
-    res.locals.layout = "template/layout";
-    res.locals.yield = "template/source-code/edit";
+    res.locals.layout = "dashboard/template/layout";
+    res.locals.yield = "dashboard/template/source-code/edit";
     res.render("dashboard/template/source-code/layout");
   });
 
@@ -92,7 +92,7 @@ SourceCode.route("/:viewSlug/edit")
   .get(function (req, res) {
     res.locals.title = `${req.view.name} - ${req.template.name}`;
 
-    res.locals.layout = "template/layout";
+    res.locals.layout = "dashboard/template/layout";
     res.render("dashboard/template/source-code/edit");    
   })
   .post(parse, function (req, res, next) {

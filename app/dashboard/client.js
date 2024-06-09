@@ -34,7 +34,7 @@ client_routes
   })
 
   .post(parse, function (req, res, next) {
-    var redirect = req.baseUrl + "/" + req.body.client;
+    const redirect = req.baseUrl + "/" + req.body.client;
 
     if (!req.body.client) {
       return next(new Error("Please select a client"));
@@ -195,7 +195,7 @@ client_routes
   })
 
   .post(parse, function (req, res, next) {
-    var redirect;
+    let redirect;
 
     if (!req.body.client) {
       return next(new Error("Please select a client"));
@@ -227,8 +227,8 @@ client_routes.use("/:client", function (req, res, next) {
   next();
 });
 
-for (var client_name in clients) {
-  var client = clients[client_name];
+for (let client_name in clients) {
+  const client = clients[client_name];
 
   if (!client.dashboard_routes) continue;
 

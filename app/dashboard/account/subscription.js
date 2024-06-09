@@ -336,7 +336,7 @@ function requireSubscription (req, res, next) {
   }
 }
 
-const { updateSubscription } = require("dashboard/paypal_webhook");
+const { updateSubscription } = require("dashboard/webhooks/paypal_webhook");
 
 async function cancelPaypalSubscription (req, res, next) {
   next();

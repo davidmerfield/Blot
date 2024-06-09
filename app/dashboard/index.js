@@ -1,24 +1,23 @@
-var trace = require("helper/trace");
-var config = require("config");
-var express = require("express");
+const trace = require("helper/trace");
+const config = require("config");
+const express = require("express");
 const message = require("./util/message");
 
-var dashboard = express.Router();
+const dashboard = express.Router();
+const logout = require("dashboard/account/util/logout");
+
 
 dashboard.use(trace("loading session information"));
 dashboard.use(require("./session"));
 dashboard.use(trace("loaded session information"));
 
-// Appends a one-time CSRF-checking token
-// for each GET request, and validates this token
-// for each POST request, using csurf.
+// For each GET request -> Appends a one-time CSRF-checking token
+// for each POST request -> validates this token using csurf
 dashboard.use(require("./util/csrf"));
 
 // These need to be accessible to unauthenticated users
 dashboard.use("/sign-up", require("./sign-up"));
 dashboard.use("/log-in", require("./log-in"));
-
-var logout = require("dashboard/account/util/logout");
 
 dashboard.get("/disabled", logout, (req, res) => {
   res.render("dashboard/disabled");
@@ -65,46 +64,19 @@ dashboard.use("/stats", require("./stats"));
 // These need to be before ':handle'
 dashboard.use("/account", require("./account"));
 
-// allow the download of files directly
-dashboard.use("/:handle/folder-download/:path(*)", (req, res, rext)=>{
-  const local = require('helper/localPath')(req.blog.id, req.params.path);
-  const filename = require('path').basename(local);
-
-  // add the headers to download the file
-  res.setHeader('Content-disposition', 'attachment; filename=' + filename);
-  res.sendFile(local);
-});
-
 dashboard.use(
   "/share-template",
   require("./util/load-blogs"),
   require("./template/share-template")
 );
 
-// Redirect old URLS
-dashboard.use("/settings", require("./util/load-blogs"), function (req, res, next) {
-  try {
-    const redirect = `/sites/${req.blogs[0].handle}${req.path}`;
-    res.redirect(redirect);
-  } catch (e) {
-    next();
-  }
-});
 
-// Send user's avatar
-dashboard.use("/_avatars/:avatar", require("./avatar"));
+const sse = require("helper/sse")({ channel: (req) => `sync:status:${req.blog.id}` });
 
-
-dashboard.use(function (req, res, next) {
-  res.locals.links_for_footer = [];
-  res.locals.footer = function () {
-    return function (text) {
-      res.locals.links_for_footer.push({ html: text });
-      return "";
-    };
-  };
-
-  next();
+dashboard.get("/", require("./util/load-blogs"), async (req, res) => {
+  res.locals.title = "Sites";
+  res.locals.breadcrumbs.add("Sites", "/sites");
+  res.render("dashboard");
 });
 
 dashboard.use("/:handle", function (req, res, next) {
@@ -115,16 +87,6 @@ dashboard.use("/:handle", function (req, res, next) {
   res.locals.breadcrumbs.add(req.blog.pretty.label, `${req.params.handle}`);
   res.locals.title = req.blog.pretty.label;
   next();
-});
-
-
-// Will deliver the sync status of the blog as SSEs
-dashboard.use("/:handle/status", require("./status"));
-
-dashboard.get("/", require("./util/load-blogs"), async (req, res) => {
-  res.locals.title = "Sites";
-  res.locals.breadcrumbs.add("Sites", "/sites");
-  res.render("dashboard");
 });
 
 // Load the files and folders inside a blog's folder
@@ -142,7 +104,12 @@ dashboard.use("/:handle/export", require("./export"));
 dashboard.use("/:handle/domain", require("./domain"));
 dashboard.use("/:handle/client", require("./client"));
 dashboard.use("/:handle/title", require("./title"));
+dashboard.get("/:handle/status", sse);
+// allow the download of files directly
+dashboard.use("/:handle/folder-download/:path(*)", require('./folder/download'));
 dashboard.use("/:handle", require("./settings"));
+
+
 
 // This will catch old links to the dashboard before
 // we encoded the blog's username in the URLs

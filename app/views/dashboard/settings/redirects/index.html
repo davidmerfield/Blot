@@ -85,7 +85,6 @@
 
 
 
-{{#footer}}
 <script src="/js/sortable.js?{{ cacheID }}"></script>
 <script type="text/javascript">
   const sortable = new Sortable(document.querySelector(".sortable"), {
@@ -182,7 +181,6 @@
     createRedirect(create);
   }
 </script>
-{{/footer}}
 
 
 
@@ -222,8 +220,5 @@ Guide to redirects <span style="float: right">&rarr;</span>
 
 </form>
 
-{{#links_for_footer}}
-{{{html}}}
-{{/links_for_footer}}
 <script type="text/javascript">document.querySelectorAll(".buttons a, .buttons input, .buttons button").forEach(function(a){a.addEventListener("click",function(a){a.target.classList.add("disabled")})})
 </script>
