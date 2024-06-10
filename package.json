@@ -25,7 +25,7 @@
     "unused": true
   },
   "scripts": {
-    "test": "node tests",
+    "test": "docker-compose up --build node-app-test",
     "start": "node app",
     "dev": "docker-compose up --build"
   },
