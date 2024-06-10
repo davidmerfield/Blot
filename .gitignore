@@ -25,3 +25,4 @@ config/nginx/server.conf
 
 # Eventually ignore all node_modules directories
 node_modules/*
+config/openresty/node_modules/*
