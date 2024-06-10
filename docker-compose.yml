@@ -66,3 +66,45 @@ services:
       - ./data/blot.pem:/etc/ssl/certs/nginx-selfsigned.crt
     depends_on:
       - node-app
+
+  node-app-test:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: test
+    depends_on:
+      - redis
+    environment:
+      - NODE_ENV=test
+      - FAST=true
+      - DEBUG=${DEBUG}
+      - BLOT_REDIS_HOST=redis
+      - BLOT_HOST=local.blot
+      - BLOT_IP=${BLOT_IP}
+      - BLOT_SESSION_SECRET=${BLOT_SESSION_SECRET}
+      - BLOT_WEBHOOKS_SECRET=${BLOT_WEBHOOKS_SECRET}
+      - BLOT_STRIPE_KEY=${BLOT_STRIPE_KEY}
+      - BLOT_STRIPE_SECRET=${BLOT_STRIPE_SECRET}
+      - BLOT_STRIPE_PRODUCT=${BLOT_STRIPE_PRODUCT}
+      - BLOT_PAYPAL_CLIENT_ID=${BLOT_PAYPAL_CLIENT_ID}
+      - BLOT_PAYPAL_SECRET=${BLOT_PAYPAL_SECRET}
+      - BLOT_PAYPAL_MONTHLY_4=${BLOT_PAYPAL_MONTHLY_4}
+      - BLOT_PAYPAL_YEARLY_44=${BLOT_PAYPAL_YEARLY_44}
+      - BLOT_PAYPAL_MONTHLY_5=${BLOT_PAYPAL_MONTHLY_5}
+      - BLOT_PAYPAL_YEARLY_55=${BLOT_PAYPAL_YEARLY_55}
+      - BLOT_DROPBOX_APP_KEY=${BLOT_DROPBOX_APP_KEY}
+      - BLOT_DROPBOX_APP_SECRET=${BLOT_DROPBOX_APP_SECRET}
+      - BLOT_DROPBOX_FULL_KEY=${BLOT_DROPBOX_FULL_KEY}
+      - BLOT_DROPBOX_FULL_SECRET=${BLOT_DROPBOX_FULL_SECRET}
+      - BLOT_GOOGLEDRIVE_ID=${BLOT_GOOGLEDRIVE_ID}
+      - BLOT_GOOGLEDRIVE_SECRET=${BLOT_GOOGLEDRIVE_SECRET}
+    volumes:
+      - ./data:/usr/src/app/data
+      - ./.git:/usr/src/app/.git
+      - ./app:/usr/src/app/app
+      - ./tests:/usr/src/app/tests
+      - ./notes:/usr/src/app/notes
+      - ./scripts:/usr/src/app/scripts
+      - ./todo.txt:/usr/src/app/todo.txt
+      - ./config:/usr/src/app/config
+    command: npm test
