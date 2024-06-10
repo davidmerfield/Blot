@@ -136,7 +136,7 @@ module.exports = {
   mailgun: {
     key: process.env.BLOT_MAILGUN_KEY,
     domain: "blot.im",
-    from: "David Merfield <david@blot.im>"
+    from: "Blot <contact@blot.im>"
   },
 
   backup: {
