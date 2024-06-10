@@ -99,12 +99,8 @@ services:
       - BLOT_GOOGLEDRIVE_ID=${BLOT_GOOGLEDRIVE_ID}
       - BLOT_GOOGLEDRIVE_SECRET=${BLOT_GOOGLEDRIVE_SECRET}
     volumes:
-      - ./.git:/usr/src/app/.git
       - ./app:/usr/src/app/app
       - ./tests:/usr/src/app/tests
-      - ./notes:/usr/src/app/notes
-      - ./scripts:/usr/src/app/scripts
-      - ./todo.txt:/usr/src/app/todo.txt
       - ./config:/usr/src/app/config
     command: >
       sh -c "node tests $TEST_PATH"
