@@ -132,7 +132,6 @@ const main = async () => {
   }
 
   for (const tool of result.tools) {
-    console.log(tool);
     await renderTemplate(
       "tool.html",
       {

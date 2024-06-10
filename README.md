@@ -54,6 +54,21 @@ Add your nameserver to resolvers:
 sudo bash -c 'echo "nameserver 127.0.0.1" > /etc/resolver/blot'
 ```
 
+Now, Blot also requires a wildcard SSL certificate so all the template preview subdomains work. First install:
+
+```
+brew install mkcert
+brew install nss
+mkcert -install
+```
+
+Then create the certificates:
+
+```
+mkdir -p ./data
+mkcert -cert-file ./data/blot.pem -key-file ./data/blot-key.pem local.blot "*.local.blot"
+```
+
 Finally, you are ready to start the development environment which uses docker-compose. The first time you run this command it will take a while to download the images and build the containers but subsequent runs will be much faster:
 
 ```
