@@ -10,9 +10,7 @@ if (cluster.isMaster) {
   const NUMBER_OF_CORES = require("os").cpus().length;
 
   const NUMBER_OF_WORKERS =
-    process.env.FAST === "true"
-      ? 1
-      : NUMBER_OF_CORES > 4
+    NUMBER_OF_CORES > 4
       ? Math.round(NUMBER_OF_CORES / 2)
       : 2;
 
