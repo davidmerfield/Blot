@@ -95,14 +95,9 @@ COPY --from=dev /usr/src/app/node_modules ./node_modules
 # this copies the tests
 COPY ./tests ./tests
 
-# Run linters and tests
-# RUN eslint . 
-
-RUN npx depcheck --ignores=nodemon,blessed-contrib,twit,fontkit,text-to-svg --skip-missing
-
-CMD npm test
-
-# CMD ["npm", "run", "int-test"] could be used for integration tests
+# configure git 
+RUN git config --global user.email "you@example.com"
+RUN git config --global user.name "Your Name"
 
 ## Stage 5 (default, production)
 # The final production stage
