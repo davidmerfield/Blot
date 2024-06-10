@@ -77,7 +77,6 @@ services:
     environment:
       - NODE_ENV=test
       - TEST_PATH=${TEST_PATH}
-      - FAST=true
       - DEBUG=${DEBUG}
       - BLOT_REDIS_HOST=redis
       - BLOT_HOST=local.blot
