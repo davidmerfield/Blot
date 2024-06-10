@@ -63,7 +63,7 @@ setInterval(function () {
     "PENDING=" + unrespondedRequests.length,
     unrespondedRequests.join(", ")
   );
-}, 1000 * 5); // 5 seconds
+}, 1000 * 15); // 15 seconds
 server.use(function (req, res, next) {
   var init = Date.now();
 
