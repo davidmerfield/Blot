@@ -107,4 +107,6 @@ services:
       - ./scripts:/usr/src/app/scripts
       - ./todo.txt:/usr/src/app/todo.txt
       - ./config:/usr/src/app/config
-    command: node app/setup && node tests
+    command: >
+      sh -c "node app/setup &&
+             node tests"
