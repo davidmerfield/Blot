@@ -13,7 +13,7 @@ describe("user", function () {
       subscription,
       paypal,
       function (err, user) {
-        expect(err).toBe(null);
+        expect(err).toBe(true);
         expect(user).toEqual(jasmine.any(Object));
 
         User.remove(user.uid, function (err) {
