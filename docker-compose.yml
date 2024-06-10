@@ -54,15 +54,25 @@ services:
     volumes:
       - "./data:/data"
 
-  nginx:
-    build:
-      context: ./config/openresty
+  openresty:
+    build: 
+      context: config/openresty
       dockerfile: Dockerfile
     ports:
       - "80:80"
       - "443:443"
-    volumes:
-      - ./data/blot-key.pem:/etc/ssl/private/nginx-selfsigned.key
-      - ./data/blot.pem:/etc/ssl/certs/nginx-selfsigned.crt
+    cap_add:
+      - SYS_NICE
+    environment:
+      NODE_SERVER_IP: 127.0.0.1
+      LUA_PACKAGE_PATH: /app/.luarocks/share/lua/5.1/?.lua;/app/conf/?.lua
+      REDIS_IP: 127.0.0.1
+      OPENRESTY_USER: root
+      DISABLE_HTTP2: true
+      OPENRESTY_LOG_DIRECTORY: /app/data/logs
+      OPENRESTY_CACHE_DIRECTORY: /app/data/cache
+      OPENRESTY_CONFIG_DIRECTORY: /app/data
+      SSL_CERTIFICATE: /usr/local/openresty/nginx/selfsigned.crt
+      SSL_CERTIFICATE_KEY: /usr/local/openresty/nginx/selfsigned.key
     depends_on:
-      - node-app
+      - redis
