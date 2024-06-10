@@ -102,8 +102,6 @@ RUN git config --global user.name "Your Name"
 # Run linters and tests
 # RUN eslint . 
 
-RUN node app/setup
-
 # RUN npx depcheck --ignores=nodemon,blessed-contrib,twit,fontkit,text-to-svg --skip-missing
 
 # CMD npm test
