@@ -18,7 +18,7 @@ services:
       - TEST_PATH=${TEST_PATH}
       - DEBUG=${DEBUG}
       - BLOT_REDIS_HOST=test-redis
-      - BLOT_HOST=local.blot
+      - BLOT_HOST=localhost
       - BLOT_IP=${BLOT_IP}
       - BLOT_SESSION_SECRET=${BLOT_SESSION_SECRET}
       - BLOT_WEBHOOKS_SECRET=${BLOT_WEBHOOKS_SECRET}

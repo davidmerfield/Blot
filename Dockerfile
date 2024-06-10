@@ -89,6 +89,18 @@ FROM source as test
 
 WORKDIR /usr/src/app
 
+# Install necessary packages for Puppeteer
+RUN apk add --no-cache \
+      chromium \
+      nss \
+      freetype \
+      harfbuzz \
+      ca-certificates \
+      ttf-freefont
+
+# Set the Puppeteer executable path
+ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
+
 # this copies all dependencies (prod+dev)
 COPY --from=dev /usr/src/app/node_modules ./node_modules
 
