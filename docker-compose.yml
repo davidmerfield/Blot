@@ -67,18 +67,23 @@ services:
     depends_on:
       - node-app
 
+  redis-test:
+    image: "redis:alpine"
+    ports:
+      - "6379:6379"
+
   node-app-test:
     build:
       context: .
       dockerfile: Dockerfile
       target: test
     depends_on:
-      - redis
+      - redis-test
     environment:
       - NODE_ENV=test
       - TEST_PATH=${TEST_PATH}
       - DEBUG=${DEBUG}
-      - BLOT_REDIS_HOST=redis
+      - BLOT_REDIS_HOST=redis-test
       - BLOT_HOST=local.blot
       - BLOT_IP=${BLOT_IP}
       - BLOT_SESSION_SECRET=${BLOT_SESSION_SECRET}

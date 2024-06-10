@@ -10,8 +10,9 @@ describe("Blog.remove", function () {
   beforeEach(function (done) {
     var test = this;
     create(test.user.uid, { handle: "example" }, function (err, blog) {
+      if (err || !blog) return done.fail(err || new Error("No blog"));
       test.blog = blog;
-      done(err);
+      done();
     });
   });
 
