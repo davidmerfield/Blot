@@ -99,15 +99,6 @@ COPY ./tests ./tests
 RUN git config --global user.email "you@example.com"
 RUN git config --global user.name "Your Name"
 
-# Run linters and tests
-# RUN eslint . 
-
-# RUN npx depcheck --ignores=nodemon,blessed-contrib,twit,fontkit,text-to-svg --skip-missing
-
-# CMD npm test
-
-# CMD ["npm", "run", "int-test"] could be used for integration tests
-
 ## Stage 5 (default, production)
 # The final production stage
 FROM source as prod
