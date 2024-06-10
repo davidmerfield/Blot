@@ -83,4 +83,4 @@ function read (blog, path, options, callback) {
   });
 }
 
-module.exports = { read: read, is: is };
+module.exports = { read: read, is: is, id: "rtf"};
