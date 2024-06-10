@@ -108,5 +108,4 @@ services:
       - ./todo.txt:/usr/src/app/todo.txt
       - ./config:/usr/src/app/config
     command: >
-      sh -c "node app/setup &&
-             node tests $TEST_PATH"
+      sh -c "node tests $TEST_PATH"
