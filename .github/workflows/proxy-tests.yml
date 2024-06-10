@@ -91,4 +91,4 @@ jobs:
           BLOT_OPENRESTY_TEST_USER: runner
           BLOT_OPENRESTY_TEST_GROUP: runner
         run: |
-          npm test config/openresty
+          node tests config/openresty
