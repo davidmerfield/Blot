@@ -26,8 +26,7 @@
   },
   "scripts": {
     "test": "./tests/invoke.sh",
-    "start": "node app",
-    "dev": "docker-compose up --build"
+    "start": "docker-compose up --build"
   },
   "version": "0.0.0",
   "dependencies": {
