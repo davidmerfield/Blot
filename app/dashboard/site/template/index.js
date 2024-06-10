@@ -261,7 +261,7 @@ TemplateEditor.route("/:templateSlug/rename")
 
   
 TemplateEditor.route("/:templateSlug/links")
-.get(require('dashboard/settings/load/menu') ,function (req, res) {
+.get(require('dashboard/site/load/menu') ,function (req, res) {
   res.locals.title = `Links - ${req.template.name}`;
   res.locals.breadcrumbs.add("Links", "links");
   res.render("dashboard/template/links");

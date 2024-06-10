@@ -4,7 +4,7 @@ const Importer = express.Router();
 const fs = require("fs-extra");
 const { join } = require("path");
 
-const init = require("dashboard/import/init");
+const init = require("dashboard/site/import/init");
 
 const multiparty = require("multiparty");
 

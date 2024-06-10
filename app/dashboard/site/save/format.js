@@ -34,18 +34,6 @@ module.exports = function (req, res, next) {
     }
   }
 
-  // If the user has specified a custom permalink format
-  // then use it as the blog's permalink format.
-  if (
-    req.updates.permalink &&
-    !req.updates.permalink.format &&
-    req.updates.permalink.custom
-  ) {
-    req.updates.permalink.format = req.updates.permalink.custom;
-    req.updates.permalink.isCustom = true;
-  } else if (req.updates.permalink && req.updates.permalink.format) {
-    req.updates.permalink.isCustom = false;
-  }
 
   if (req.updates.plugins) {
     // this bullshit below is because I haven't properly declared

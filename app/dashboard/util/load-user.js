@@ -28,6 +28,10 @@ module.exports = function (req, res, next) {
     req.user = User.extend(user);
     res.locals.user = user;
 
+    if (user.needsToPay && req.path !== "/sites/subscription") {
+      return res.redirect("/sites/subscription");
+    }
+
     if (user.subscription && user.subscription.plan) {
       res.locals.price = prettyPrice(user.subscription.plan.amount);
       res.locals.interval = user.subscription.plan.interval;

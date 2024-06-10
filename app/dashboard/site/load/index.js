@@ -5,5 +5,4 @@ module.exports = {
   fourOhFour: require("./404"),
   redirects: require("./redirects"),
   plugins: require("./plugins"),
-  permalinkFormats: require("./permalinkFormats"),
 };

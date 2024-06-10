@@ -1,5 +1,5 @@
 const fs = require("fs-extra");
-const helper = require("dashboard/import/helper");
+const helper = require("dashboard/site/import/helper");
 const { marked } = require("marked");
 const yaml = require("yaml");
 const moment = require("moment");

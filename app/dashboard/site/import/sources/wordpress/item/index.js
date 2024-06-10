@@ -1,5 +1,5 @@
 var async = require("async");
-var helper = require("dashboard/import/helper");
+var helper = require("dashboard/site/import/helper");
 var extract_entry = require("./extract_entry");
 var tidy = require("./tidy");
 

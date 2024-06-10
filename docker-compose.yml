@@ -11,6 +11,7 @@ services:
       - redis
     environment:
       - FAST=true
+      - DEBUG=${DEBUG}
       - BLOT_REDIS_HOST=redis
       - BLOT_HOST=local.blot
       - BLOT_IP=${BLOT_IP}

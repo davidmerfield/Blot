@@ -1,11 +1,12 @@
 var express = require("express");
-var settings = express.Router();
+var site = express.Router();
 var load = require("./load");
 var save = require("./save");
 var trace = require("helper/trace");
 const parse = require("dashboard/util/parse");
+const sse = require("helper/sse")({ channel: (req) => `sync:status:${req.blog.id}` });
 
-settings
+site
   .post("/",
     trace("parsing form"),
     save.parse,
@@ -23,37 +24,51 @@ settings
     save.finish
   )
 
+// Load the files and folders inside a blog's folder
+site.get(["/", "/folder/:path(*)"], require("./folder"));
 
-settings.get("/", load.client, (req, res) => {
+site.get("/folder", (req, res) => {
+  // redirect to client settings page
+  res.redirect(`/sites/${req.params.handle}/client`);
+});
+
+site.use("/template", require("./template"));
+site.use("/delete", require("./delete"));
+site.use("/import", require("./import"));
+site.use("/export", require("./export"));
+site.use("/domain", require("./domain"));
+site.use("/client", require("./client"));
+site.use("/title", require("./title"));
+site.use("/date", require("./date"));
+site.use('/link-format', require('./link-format'));
+
+site.get("/status", sse);
+
+// allow the download of files directly
+site.use("/folder-download/:path(*)", require('./folder/download'));
+
+site.get("/", require('dashboard/site/load/client'), (req, res) => {
   res.render("dashboard/settings", { 
       title: req.blog.pretty.label, 
     })
 });
 
-  
-settings.get("/services", load.plugins, (req, res)=>{
+site.get("/services", load.plugins, (req, res)=>{
   res.locals.breadcrumbs.add("Services", "services");
   res.render("dashboard/settings/services");
 });
 
-settings.get("/publishing", load.plugins, (req, res)=>{
+site.get("/publishing", load.plugins, (req, res)=>{
   res.locals.breadcrumbs.add("Publishing", "publishing");
   res.render("dashboard/settings/publishing");
 });
 
-
-settings.get("/link-format", load.permalinkFormats,  (req, res, next) => {
-  res.locals.edit = !!req.query.edit;
-  res.locals.breadcrumbs.add("Link format", "link-format");
-  res.render("dashboard/settings/link-format");
-});
-
-settings.get("/redirects", load.redirects, (req, res) => {
+site.get("/redirects", load.redirects, (req, res) => {
   res.locals.breadcrumbs.add("Redirects", "redirects");
   res.render("dashboard/settings/redirects");
 });
 
-settings
+site
   .route("/redirects/404s")
   .get(load.fourOhFour, function (req, res) {
     res.locals.breadcrumbs.add("Redirects", "redirects");
@@ -62,11 +77,11 @@ settings
   })
   .post(parse, require("./save/404"));
 
-settings.route("/redirects/bulk")
+  site.route("/redirects/bulk")
   .get(load.redirects, function (req, res) {
     res.locals.breadcrumbs.add("Redirects", "redirects");
     res.locals.breadcrumbs.add("Bulk editor", "bulk");
     res.render("dashboard/settings/redirects/bulk");
   })
 
-module.exports = settings;
+module.exports = site;

@@ -1,4 +1,4 @@
-var insert_video_embeds = require("dashboard/import/helper")
+var insert_video_embeds = require("dashboard/site/import/helper")
   .insert_video_embeds;
 var debug = require("debug")("blot:importer:wordpress:tidy");
 var remove_inline_images = require("./remove_inline_images.js");

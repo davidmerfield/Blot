@@ -1,7 +1,7 @@
 const express = require("express");
 const Importer = express.Router();
 const arena = require("./index");
-const init = require("dashboard/import/init");
+const init = require("dashboard/site/import/init");
 const fs = require("fs-extra");
 const { join } = require("path");
 const URL = require("url");

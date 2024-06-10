@@ -59,6 +59,15 @@ site.get("/health", (req, res) => {
   res.send("OK");
 });
 
+// If the site is in maintenance mode, show the maintenance page
+// rather than render the dashboard or any routes manipulate state
+if (config.maintenance) {
+  site.use(["/sites", "/clients", "/stripe-webhook", "/paypal-webhook"], (req, res) => {
+    res.status(503);
+    res.send("Down for maintenance");
+  });
+}
+
 // The dashboard
 // -------
 site.use("/sites", dashboard);
