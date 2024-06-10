@@ -25,7 +25,7 @@
     "unused": true
   },
   "scripts": {
-    "test": "node tests",
+    "test": "./tests/invoke.sh",
     "start": "node app",
     "dev": "docker-compose up --build"
   },
@@ -90,7 +90,7 @@
     "simple-git": "^3.23.0",
     "stripe": "^2.9.0",
     "text-to-svg": "^3.1.5",
-    "tldts": "^6.1.24",
+    "tldts": "^6.1.25",
     "to-ico": "^1.1.5",
     "transliteration": "^0.1.1",
     "turndown": "^7.1.1",
@@ -105,6 +105,7 @@
   },
   "devDependencies": {
     "blessed": "^0.1.81",
+    "depcheck": "^1.4.7",
     "dir-compare": "^4.0.0",
     "faker": "^4.1.0",
     "jasmine": "^3.3.1",

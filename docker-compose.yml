@@ -1,3 +1,4 @@
+name: blot
 services:
   node-app:
     image: blot
