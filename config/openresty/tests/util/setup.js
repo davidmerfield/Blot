@@ -4,7 +4,6 @@ const child_process = require("child_process");
 const mustache = require("mustache");
 const { basename, resolve } = require("path");
 const fs = require("fs-extra");
-const { cache_directory } = require("../../..");
 
 const CACHER_DIRECTORY = resolve(__dirname + "/../../");
 const DATA_DIRECTORY = CACHER_DIRECTORY + "/tests/data";

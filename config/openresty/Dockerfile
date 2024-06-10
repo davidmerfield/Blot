@@ -62,4 +62,8 @@ RUN mkdir -p /app/data/logs /app/data/cache /app/data
 EXPOSE 80
 
 # Command to start the OpenResty server
-CMD openresty -c /app/data/openresty.conf && tail -f /dev/null
+CMD openresty -c /app/data/openresty.conf
+
+
+
+

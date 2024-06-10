@@ -58,6 +58,7 @@ services:
     build: 
       context: config/openresty
       dockerfile: Dockerfile
+      target: base
     ports:
       - "80:80"
       - "443:443"

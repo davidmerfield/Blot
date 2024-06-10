@@ -1,18 +1,17 @@
 {
   "name": "openresty",
   "version": "1.0.0",
-  "description": "https://scene-si.org/2016/11/02/purging-cached-items-from-nginx-with-lua/",
+  "description": "",
   "main": "build-config.js",
-  "directories": {
-    "test": "tests"
-  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node tests"
   },
-  "author": "",
-  "license": "ISC",
   "dependencies": {
+    "express": "^4.19.2",
     "fs-extra": "^11.2.0",
-    "mustache": "^4.2.0"
+    "jasmine": "^5.1.0",
+    "mustache": "^4.2.0",
+    "node-fetch": "^2.6.7",
+    "sharp": "^0.33.4"
   }
 }
