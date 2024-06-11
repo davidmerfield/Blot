@@ -2,24 +2,51 @@ describe("Blot's site'", function () {
     const site = require("site");
     const fetch = require("node-fetch");
     const build = require("documentation/build");
+    const templates = require('util').promisify(require("templates"));
 
     global.test.blog();
   
     global.test.server(site);
 
+    // we must build the views for the documentation
+    // and the dashboard before we launch the server
+    // we also build the templates into the cache
     beforeAll(async () => {
+      console.time("build");
       await build({watch: false});
+      console.timeEnd("build");
+      console.time("templates");
+      await templates({watch: false});
+      console.timeEnd("templates");
     });
 
-    xit("has no broken links", async function () {
-      require('./util/broken')(this.origin, function (err, results) {
-        if (err) return done.fail(err);
-        expect(results).toEqual({});
-        done();
-      });
-    });
-  
+    it("has no broken links", async function () {
+      const checkLinks = require('./util/broken');
+      const results = await checkLinks(this.origin);
     
+      // If there are no broken links, the results should be an empty object.
+      const brokenLinks = [];
+      for (const page in results) {
+        for (const link in results[page]) {
+          brokenLinks.push({
+            page,
+            link,
+            status: results[page][link],
+          });
+        }
+      }
+    
+      if (brokenLinks.length > 0) {
+        let errorMessage = "Broken links found:\n";
+        brokenLinks.forEach(({ page, link, status }) => {
+          errorMessage += `Page: ${page}\n   => ${link}\nStatus: ${status}\n\n`;
+        });
+        throw new Error(errorMessage);
+      }
+    
+      expect(results).toEqual({});
+    }, 60000);
+
     it("serves the log-in page", async function () {
         const res = await fetch(this.origin + "/sites/log-in");
         const text = await res.text();
