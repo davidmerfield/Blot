@@ -8,18 +8,9 @@ describe("Blot dashboard settings", function () {
         const password = this.user.fakePassword;
         
         const page = this.page;
-
-         // get any console errors
-        page.on('console', msg => console.log('PAGE LOG:', msg.text()));
-    
-        // Listen for failed requests
-        page.on('requestfailed', request => {
-            console.log(`Failed to load: ${request.url()} - ${request.failure().errorText}`);
-        });
         
         await page.goto(this.origin + '/sites/log-in?redirected=true');
 
-        console.log('entering email');
         await page.type('input[name=email]', email);
         await page.type('input[name=password]', password);
 
@@ -28,7 +19,6 @@ describe("Blot dashboard settings", function () {
             page.click('[type=submit]')
         ]);
 
-        // click on the first link to a site e.g. /sites/username
         await Promise.all([
             page.waitForNavigation({ waitUntil: 'load' }),
             page.click('a[href^="/sites/"]')
@@ -66,7 +56,6 @@ describe("Blot dashboard settings", function () {
 
         // the <title> of the page should be "New title - Blot"
         expect(await page.title()).toEqual('New title - Blot');
-        
     });
   });
   
