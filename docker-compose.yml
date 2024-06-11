@@ -33,7 +33,7 @@ services:
   redis:
     image: "redis:alpine"
     ports:
-      - "6379:6379"
+      - "6379:6379" # Expose Redis port 6379 to host so we can run scripts if needed
     volumes:
       - "./data:/data"
 
