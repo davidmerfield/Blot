@@ -1,4 +1,4 @@
-module.exports = function({login = false}){
+module.exports = function({login = false} = {}){
     const LONG_TIMEOUT = 60000;
     const site = require("site");
     const build = require("documentation/build");
