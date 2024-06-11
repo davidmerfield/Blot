@@ -1,0 +1,28 @@
+name: blot-tests
+services:
+  
+  test-redis:
+    image: "redis:alpine"
+    ports:
+      - "6379:6379"
+
+  tests:
+    build:
+      context: ../
+      dockerfile: Dockerfile
+      target: test
+    depends_on:
+      - test-redis
+    env_file:
+      - ../.env
+    environment:
+      - NODE_ENV=test
+      - TEST_PATH=${TEST_PATH}
+      - BLOT_REDIS_HOST=test-redis
+      - BLOT_HOST=local.blot
+    volumes:
+      - ../app:/usr/src/app/app
+      - ../tests:/usr/src/app/tests
+      - ../config:/usr/src/app/config
+    command: >
+      sh -c "node tests $TEST_PATH"
