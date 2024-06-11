@@ -28,7 +28,7 @@ describe("Blot's site'", function () {
       await checkLinks(this.origin);
     }, 60000);
 
-    fit("has no broken links for logged-in users", async function () {
+    it("has no broken links for logged-in users", async function () {
       const email = this.user.email;
       const password = this.user.fakePassword;
       
@@ -70,5 +70,5 @@ describe("Blot's site'", function () {
         expect(res.status).toEqual(200);
     });
     
-  }, 60000);
+  });
   

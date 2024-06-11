@@ -25,7 +25,7 @@ TemplateEditor.use((req, res, next) => {
 TemplateEditor.use(require('./templates'));
 
 TemplateEditor.get('/', (req, res) => {
-  res.render('dashboard/template/settings');
+  res.render('dashboard/template');
 });
 
 

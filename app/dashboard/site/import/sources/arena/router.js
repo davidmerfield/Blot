@@ -10,7 +10,7 @@ const sanitize = require("./sanitize");
 
 Importer.route("/are.na")
   .get(function (req, res) {
-    res.locals.breadcrumbs.add("Are.na", "arena");
+    res.locals.breadcrumbs.add("Are.na", "are.na");
     res.render("dashboard/import/arena");
   })
   .post(require("dashboard/util/parse"), async (req, res) => {
