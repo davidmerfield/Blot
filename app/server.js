@@ -2,8 +2,8 @@ var config = require("config");
 var Express = require("express");
 var helmet = require("helmet");
 var vhost = require("vhost");
-var blog = require("./blog");
-var site = require("./site");
+var blog = require("blog");
+var site = require("site");
 var clfdate = require("helper/clfdate");
 var trace = require("helper/trace");
 
