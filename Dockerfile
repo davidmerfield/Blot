@@ -104,6 +104,7 @@ COPY ./notes ./notes
 FROM source as test
 
 WORKDIR /usr/src/app
+ENV NODE_ENV=test
 
 # this copies all dependencies (prod+dev)
 COPY --from=dev /usr/src/app/node_modules ./node_modules
