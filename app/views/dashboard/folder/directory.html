@@ -2,7 +2,7 @@
 
 {{#root}}
   <div class="folder-container">
-    <a class="line" href="{{{base}}}/client/{{client.name}}">
+    <a class="line" href="{{{base}}}/client{{#blog.client}}/{{client.name}}{{/blog.client}}">
       <span class="label">Folder</span>
       {{^blog.client}}
       <span class="link">Sync this folder</span>

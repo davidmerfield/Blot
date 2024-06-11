@@ -25,4 +25,4 @@ services:
       - ../config:/usr/src/app/config
       - ../notes:/usr/src/app/notes
     command: >
-      sh -c "node tests $TEST_PATH"
+      sh -c "rm -rf /usr/src/app/data && mkdir /usr/src/app/data && node tests $TEST_PATH"

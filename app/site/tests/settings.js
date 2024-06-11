@@ -1,4 +1,7 @@
 describe("Blot dashboard settings", function () {
+
+    const fs = require('fs-extra');
+
     require('./util/setup')();
     
     global.test.blog();
@@ -56,6 +59,79 @@ describe("Blot dashboard settings", function () {
 
         // the <title> of the page should be "New title - Blot"
         expect(await page.title()).toEqual('New title - Blot');
+    });
+
+    it("lets you sync the folder using local folder", async function () {
+        const email = this.user.email;
+        const password = this.user.fakePassword;
+        
+        const page = this.page;
+        
+        await page.goto(this.origin + '/sites/log-in?redirected=true');
+
+        await page.type('input[name=email]', email);
+        await page.type('input[name=password]', password);
+
+        await Promise.all([
+            page.waitForNavigation({ waitUntil: 'load' }),
+            page.click('[type=submit]')
+        ]);
+
+        // go to the site overview page
+        await Promise.all([
+            page.waitForNavigation({ waitUntil: 'load' }),
+            page.click('a[href="/sites/' + this.blog.handle + '"]')
+        ]);
+
+        // go to the client settings page
+        await Promise.all([
+            page.waitForNavigation({ waitUntil: 'load' }),
+            page.click('a[href^="/sites/' + this.blog.handle + '/client"]')
+        ]);
+
+        // click on the button for the local folder client
+        // name="client"
+        await Promise.all([
+            page.waitForNavigation({ waitUntil: 'load' }),
+            page.click('button[name=client][value=local]')
+        ]);
+
+        // go to the site overview page
+        await Promise.all([
+            page.waitForNavigation({ waitUntil: 'load' }),
+            page.click('a[href="/sites/' + this.blog.handle + '"]')
+        ]);
+
+        // verify the client link now says 'Local Folder'
+        expect(await page.$eval('a[href^="/sites/' + this.blog.handle + '/client"] span.center', el => el.innerText.trim())).toEqual('Local folder');
+
+        // add some files to the blog's folder
+        const blogFolder = this.blogDirectory;
+
+        console.log('writing a test file to the blog folder:', blogFolder + '/test.txt');
+
+        await fs.outputFile(blogFolder + '/test.txt', 'test');
+
+        console.log('going to the folder page');
+
+        // go to the site overview page
+        await Promise.all([
+            page.waitForNavigation({ waitUntil: 'load' }),
+            page.click('a[href="/sites/' + this.blog.handle + '"]')
+        ]);
+
+        console.log('checking the folder page');
+
+        // refresh the folder page
+        await Promise.all([
+            page.waitForNavigation({ waitUntil: 'load' }),
+            page.click('a[href="/sites/' + this.blog.handle + '"]')
+        ]);
+
+        // verify that the new file is listed in the folder
+        expect(await page.$eval('table.directory-list', el => el.innerText.trim())).toContain('test.txt');
+
+        console.log('syncing the folder');
     });
   });
   
