@@ -2,58 +2,65 @@ const Express = require("express");
 const trace = require("helper/trace");
 
 module.exports = function (router) {
-    var server;
-    var port = 8919;
+  let server;
+  const port = 8919;
 
-    // verify that router is an express router
-    // or an instance of express
-    if (!router || !router.use) {
-      throw new Error("router must be an express router");
-    }
-
-    // Create a webserver for testing remote files
-    beforeAll(function (done) {
-      server = Express();
-
-      // This lets us pretend the test is running over HTTPS
-      // otherwise we do not recieve the cookie set by
-      // the dashboard when we POST to log in further down this page
-      server.use((req, res, next) => {
-        req.headers["X-Forwarded-Proto"] = "https";
-        req.headers["x-forwarded-proto"] = "https";
-        next();
-      });
-
-      server.use(trace.init);
-
-      // trust proxy for secure cookies
-      server.set("trust proxy", true);
-
-      // remove x-powered-by header
-      server.disable("x-powered-by");
-
-      // turn off etags for responses
-      server.set("etag", false);
-
-      server.use(router);
-      
-      this.origin = "http://localhost:" + port;
-
-      server = server.listen(port, function () {
-        // I was getting unexpected results without
-        // this arbritary delay. Basically, the dynamic
-        // routes in my server were not working, but the
-        // static folder was being served. This was serving
-        // raw template files at endpoints, breaking my
-        // broken link checking test. We would solve this
-        // by only calling back to done once the server is
-        // truly responding to requests properly...
-        setTimeout(done, 1500);
-      });
-    });
-
-    afterAll(function (done) {
-      server.close(done);
-      setTimeout(done, 1500);
-    });
+  // Verify that router is an express router or an instance of express
+  if (!router || !router.use) {
+    throw new Error("router must be an express router");
   }
+
+  // Create a webserver for testing remote files
+  beforeAll(function (done) {
+    const app = Express();
+
+    // This lets us pretend the test is running over HTTPS
+    app.use((req, res, next) => {
+      req.headers["X-Forwarded-Proto"] = req.headers["X-Forwarded-Proto"] || "https";
+      req.headers["x-forwarded-proto"] = req.headers["x-forwarded-proto"] || "https";
+      next();
+    });
+
+    app.use(trace.init);
+
+    // Trust proxy for secure cookies
+    app.set("trust proxy", true);
+
+    // Remove x-powered-by header
+    app.disable("x-powered-by");
+
+    // Turn off etags for responses
+    app.set("etag", false);
+
+    app.use(router);
+
+    this.origin = `http://localhost:${port}`;
+
+    // Start the server
+    server = app.listen(port, () => {
+      console.log(`Test server listening at ${this.origin}`);
+      done();
+    });
+
+    server.on('error', (err) => {
+      console.error("Error starting test server:", err);
+      done.fail(err);
+    });
+  });
+
+  afterAll(function (done) {
+    if (server) {
+      server.close((err) => {
+        if (err) {
+          console.error("Error stopping test server:", err);
+          done.fail(err);
+        } else {
+          console.log("Test server stopped");
+          done();
+        }
+      });
+    } else {
+      done();
+    }
+  });
+};
