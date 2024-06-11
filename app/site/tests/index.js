@@ -1,6 +1,3 @@
-const { red } = require("colors/safe");
-const redirect = require("../../dashboard/log-in/redirect");
-
 describe("Blot's site'", function () {
     const site = require("site");
     const fetch = require("node-fetch");
