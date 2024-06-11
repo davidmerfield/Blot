@@ -1,27 +1,23 @@
-var Express = require("express");
+const Express = require("express");
 const dashboard = require("dashboard");
 const documentation = require("documentation");
-var site = Express();
-var mustache = require("helper/express-mustache");
+const mustache = require("helper/express-mustache");
 const root = require("helper/rootDir");
-const { join } = require("path");
 const config = require("config");
+const { join } = require("path");
 
-var VIEW_DIRECTORY = join(root, "app/documentation/data");
-
-
-const cacheID = Date.now();
-
-const cdnURLHelper = require('documentation/tools/cdn-url-helper');
-
-site.locals.cdn = cdnURLHelper({cacheID, viewDirectory: VIEW_DIRECTORY});
-
-
+const VIEW_DIRECTORY = join(root, "app/documentation/data");
 
 // Cache ID is used for the static assets
 // eventually remove this when you merge
 // the assets into a single file
+const cacheID = Date.now();
 
+const cdnURLHelper = require('documentation/tools/cdn-url-helper');
+
+const site = Express();
+
+site.locals.cdn = cdnURLHelper({cacheID, viewDirectory: VIEW_DIRECTORY});
 
 // Hide the header added by Express
 site.disable("x-powered-by");
@@ -41,7 +37,6 @@ site.engine("html", mustache);
 if (config.environment !== "development") {
   site.enable("view cache");
 }
-
 
 const { plan } = config.stripe;
 
