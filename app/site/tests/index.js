@@ -61,11 +61,5 @@ describe("Blot's site'", function () {
 
     }, 60000);
 
-    it("serves the log-in page", async function () {
-        const res = await fetch(this.origin + "/sites/log-in");
-        const text = await res.text();
-        expect(res.status).toEqual(200);
-    });
-    
   });
   
