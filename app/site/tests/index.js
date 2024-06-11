@@ -35,11 +35,18 @@ describe("Blot's site'", function () {
           });
         }
       }
-    
+      
+      // sort the broken links by page
+      brokenLinks.sort((a, b) => {
+        if (a.page < b.page) return -1;
+        if (a.page > b.page) return 1;
+        return 0;
+      });
+
       if (brokenLinks.length > 0) {
         let errorMessage = "Broken links found:\n";
         brokenLinks.forEach(({ page, link, status }) => {
-          errorMessage += `Page: ${page}\n   => ${link}\nStatus: ${status}\n\n`;
+          errorMessage += `From: ${page}\n  To: ${link}\n      ${status}\n\n`;
         });
         throw new Error(errorMessage);
       }
