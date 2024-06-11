@@ -1,5 +1,7 @@
 const Express = require("express");
 const trace = require("helper/trace");
+const puppeteer = require('puppeteer');
+
 
 module.exports = function (router) {
   let server;
@@ -9,9 +11,24 @@ module.exports = function (router) {
   if (!router || !router.use) {
     throw new Error("router must be an express router");
   }
+  
+  // for each spec, create a new page
+  // and close it after the spec is done
+  beforeEach(async function () {
+    this.page = await this.browser.newPage();
+  });
+
+  afterEach(async function () {
+    await this.page.close();
+  });
 
   // Create a webserver for testing remote files
-  beforeAll(function (done) {
+  beforeAll(async function (done) {
+
+    this.browser = await puppeteer.launch({
+      headless: true,
+      args: ['--no-sandbox']
+    });
 
     // Expose the server origin for the tests
     // specs so they can use this.origin 
@@ -52,6 +69,9 @@ module.exports = function (router) {
   });
 
   afterAll(function (done) {
+
+    this.browser.close();
+    
     if (server) {
       server.close(() => {});
     } 
