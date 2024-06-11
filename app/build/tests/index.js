@@ -1,21 +1,23 @@
 describe("build", function () {
   var build = require("../index");
   var fs = require("fs-extra");
+  var express = require("express");
+  var app = express();
+
+  // Only serve a test image when query contains valid user and password
+  app.get("/small.jpg", function (req, res) {
+    if (req.query && req.query.user === "x" && req.query.pass === "y")
+      res.sendFile(__dirname + "/small.jpg");
+    else res.sendStatus(400);
+  });
+
+  app.get("/public.jpg", function (req, res) {
+    res.sendFile(__dirname + "/small.jpg");
+  });
 
   global.test.blog();
 
-  // Only serve a test image when query contains valid user and password
-  global.test.server(function (server) {
-    server.get("/small.jpg", function (req, res) {
-      if (req.query && req.query.user === "x" && req.query.pass === "y")
-        res.sendFile(__dirname + "/small.jpg");
-      else res.sendStatus(400);
-    });
-
-    server.get("/public.jpg", function (req, res) {
-      res.sendFile(__dirname + "/small.jpg");
-    });
-  });
+  global.test.server(app);
 
   beforeEach(function () {
     this.build = async (path, contents) => {
