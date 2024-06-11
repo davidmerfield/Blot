@@ -1,6 +1,7 @@
 var Jasmine = require("jasmine");
 var jasmine = new Jasmine();
 var colors = require("colors");
+var client = require("models/client");
 var seedrandom = require("seedrandom");
 var async = require("async");
 var seed;
@@ -150,4 +151,17 @@ global.test = {
   },
 };
 
-jasmine.execute();
+// get the number of keys in the database
+client.keys("*", function (err, keys) {
+  
+  if (err) {
+    throw err;
+  }
+  if (keys.length === 0) {
+    // if there are no keys, we need to run the tests
+    jasmine.execute();
+  } else {
+    // if there are keys, we need to throw an error
+    throw new Error("Database is not empty: " + keys.length + " keys found");
+  }
+});

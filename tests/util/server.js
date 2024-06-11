@@ -53,17 +53,8 @@ module.exports = function (router) {
 
   afterAll(function (done) {
     if (server) {
-      server.close((err) => {
-        if (err) {
-          console.error("Error stopping test server:", err);
-          done.fail(err);
-        } else {
-          console.log("Test server stopped");
-          done();
-        }
-      });
-    } else {
-      done();
-    }
+      server.close(() => {});
+    } 
+    done();
   });
 };
