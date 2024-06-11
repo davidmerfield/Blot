@@ -1,10 +1,8 @@
-const { red } = require("colors");
-
 describe("Blot's site'", function () {
     const site = require("site");
-    const fetch = require("node-fetch");
     const build = require("documentation/build");
     const templates = require('util').promisify(require("templates"));
+    const fetch = require("node-fetch");
     const checkLinks = require('./util/broken');
 
     global.test.blog();
@@ -18,7 +16,7 @@ describe("Blot's site'", function () {
       await build({watch: false});
       await templates({watch: false});
     });
-
+    
     it("has no broken links", async function () {
       await checkLinks(this.origin);
     }, 60000);

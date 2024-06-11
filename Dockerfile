@@ -62,6 +62,18 @@ COPY --from=builder /usr/local/bin/pandoc /usr/local/bin/pandoc
 # Install git for good since the git client requires it
 RUN apk add --no-cache git
 
+# Install necessary packages for Puppeteer
+RUN apk add --no-cache \
+      chromium \
+      nss \
+      freetype \
+      harfbuzz \
+      ca-certificates \
+      ttf-freefont
+
+# Set the Puppeteer executable path
+ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
+
 ## Stage 2 (development)
 # This stage is for development purposes
 FROM base as dev
