@@ -25,8 +25,11 @@ Export.get("/download", async function (req, res) {
 
     // Handle errors
     archive.on('error', function(err) {
-        console.log('here', err.message);
-      res.status(500).send({error: err.message});
+        if (res.headersSent) {
+            console.log('Error while sending zip file to the user', err);
+        } else {
+            res.status(500).send({error: err.message});
+        }
     });
 
     // Pipe the archive data to the response.
@@ -54,7 +57,11 @@ Export.get("/download", async function (req, res) {
         await recursiveZip(staticFolder, archive, 'static');
     } catch (err) {
         console.log('error', err);
-        return res.status(500).send({error: err.message});
+        if (res.headersSent) {
+            console.log('Error while sending zip file to the user', err);
+        } else {
+            res.status(500).send({error: err.message});
+        }
     }
 
     const templates = await getAllTemplates(req.blog.id);

@@ -1,3 +1,6 @@
+const { red } = require("colors/safe");
+const redirect = require("../../dashboard/log-in/redirect");
+
 describe("Blot's site'", function () {
     const site = require("site");
     const fetch = require("node-fetch");
@@ -25,37 +28,47 @@ describe("Blot's site'", function () {
       await checkLinks(this.origin);
     }, 60000);
 
+    fit("has no broken links for logged-in users", async function () {
+      const email = this.user.email;
+      const password = this.user.fakePassword;
+      
+      const params = new URLSearchParams();
+
+      params.append('email', email);
+      params.append('password', password);
+
+      const res = await fetch(this.origin + "/sites/log-in", {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: params.toString(),
+        redirect: 'manual'
+      });
+
+      const location = res.headers.get("location");
+      const cookies = res.headers.raw()['set-cookie'];
+
+      // the response status should be 302
+      // and redirect to the dashboard
+      expect(res.status).toEqual(302);
+      expect(cookies.join(';')).toMatch(/connect.sid/);
+      expect(location).toEqual(this.origin + "/sites");
+
+      // Use the cookie to access the dashboard
+      const cookieHeader = cookies.map(cookie => cookie.split(';')[0]).join('; ');
+    
+      await checkLinks(this.origin, {headers: {
+        'Cookie': cookieHeader,
+      }});
+
+    }, 60000);
+
     it("serves the log-in page", async function () {
         const res = await fetch(this.origin + "/sites/log-in");
         const text = await res.text();
         expect(res.status).toEqual(200);
     });
     
-    it("lets user log in", async function () {
-      const email = this.user.email;
-      const password = this.user.fakePassword;
-
-      const res = await fetch(this.origin + "/sites/log-in", {
-        method: "POST",
-        body: JSON.stringify({ email, password }),
-        headers: { "Content-Type": "application/json" }
-      });
-
-      const cookie = res.headers.get("set-cookie");
-
-      expect(cookie).toBeTruthy();
-
-      // load the dashboard using the cookie
-
-      const res2 = await fetch(this.origin + "/sites", {
-        headers: { cookie }
-      });
-
-      const text = await res2.text();
-
-      expect(res2.status).toEqual(200);
-
-    });
-
-  });
+  }, 60000);
   
