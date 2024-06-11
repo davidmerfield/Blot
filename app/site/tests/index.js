@@ -1,3 +1,5 @@
+const { red } = require("colors");
+
 describe("Blot's site'", function () {
     const site = require("site");
     const fetch = require("node-fetch");
@@ -13,12 +15,8 @@ describe("Blot's site'", function () {
     // and the dashboard before we launch the server
     // we also build the templates into the cache
     beforeAll(async () => {
-      console.time("build");
       await build({watch: false});
-      console.timeEnd("build");
-      console.time("templates");
       await templates({watch: false});
-      console.timeEnd("templates");
     });
 
     it("has no broken links", async function () {
@@ -54,7 +52,21 @@ describe("Blot's site'", function () {
 
       // Use the cookie to access the dashboard
       const cookieHeader = cookies.map(cookie => cookie.split(';')[0]).join('; ');
-    
+      
+      // Check that we are logged in by requesting /sites and checking the response
+      // for the user's email address
+      const dashboard = await fetch(this.origin + "/sites", {headers: {
+        'Cookie': cookieHeader,
+        redirect: 'manual'
+      }});
+
+      // the response status should be 200
+      expect(dashboard.status).toEqual(200);
+
+      const dashboardText = await dashboard.text();
+
+      expect(dashboardText).toMatch(email);
+
       await checkLinks(this.origin, {headers: {
         'Cookie': cookieHeader,
       }});
