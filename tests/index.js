@@ -82,6 +82,7 @@ jasmine.addReporter({
       .map((fullName) => durations[fullName] + "ms " + colors.dim(fullName))
       .slice(0, 10)
       .forEach((line) => console.log(line));
+
   },
 });
 
