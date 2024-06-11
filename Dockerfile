@@ -62,6 +62,10 @@ COPY --from=builder /usr/local/bin/pandoc /usr/local/bin/pandoc
 # Install git for good since the git client requires it
 RUN apk add --no-cache git
 
+# configure git 
+RUN git config --global user.email "you@example.com"
+RUN git config --global user.name "Your Name"
+
 # Install necessary packages for Puppeteer
 RUN apk add --no-cache \
       chromium \
@@ -106,10 +110,6 @@ COPY --from=dev /usr/src/app/node_modules ./node_modules
 
 # this copies the tests
 COPY ./tests ./tests
-
-# configure git 
-RUN git config --global user.email "you@example.com"
-RUN git config --global user.name "Your Name"
 
 ## Stage 5 (default, production)
 # The final production stage

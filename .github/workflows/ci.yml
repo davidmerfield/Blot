@@ -53,6 +53,8 @@ jobs:
           BLOT_STRIPE_KEY: ${{ secrets.BLOT_STRIPE_KEY }}
           BLOT_STRIPE_SECRET: ${{ secrets.BLOT_STRIPE_SECRET }}
           BLOT_STRIPE_PRODUCT: ${{ secrets.BLOT_STRIPE_PRODUCT }}
+        # the docker run environment is different from the docker-compose environment
+        # so we need to pass in these variables explicitly
         run: |
           docker run --rm \
             --network name=${{ job.services.redis.network }} \
