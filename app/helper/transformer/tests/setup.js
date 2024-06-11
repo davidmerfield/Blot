@@ -2,6 +2,12 @@ module.exports = function setup(options) {
   var Transformer = require("../index");
   var fs = require("fs-extra");
   var Express = require("express");
+  var server = Express();
+  // Only server an image at this route if
+  // the request passes the correct query
+  server.get("/foo.html", function (req, res) {
+    res.send("Hello, World!");
+  });
 
   // Create temporary blog before each test, clean up after
   global.test.blog();
@@ -37,13 +43,7 @@ module.exports = function setup(options) {
     this.transformer.flush(done);
   });
 
-  global.test.server(function (server) {
-    // Only server an image at this route if
-    // the request passes the correct query
-    server.get("/foo.html", function (req, res) {
-      res.send("Hello, World!");
-    });
-  });
+  global.test.server(server);
 
   // Create a webserver for testing remote files
   beforeAll(function () {
