@@ -63,7 +63,3 @@ EXPOSE 80
 
 # Command to start the OpenResty server
 CMD openresty -c /app/data/openresty.conf
-
-
-
-
