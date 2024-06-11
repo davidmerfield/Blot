@@ -55,9 +55,12 @@ notes.get("/", function (req, res, next) {
     return section;
   });
 
-  res.locals.body = marked.parse(
-    fs.readFileSync(NOTES_DIRECTORY + "/README", "utf-8")
-  );
+  try {
+    res.locals.body = marked.parse(
+      fs.readFileSync(NOTES_DIRECTORY + "/README", "utf-8")
+    );  
+  } catch (e) {}
+
   next();
 });
 
@@ -75,17 +78,19 @@ notes.get("/:section", function (req, res, next) {
     return section;
   });
 
-  res.locals.body = marked.parse(
-    fs.existsSync(NOTES_DIRECTORY + "/" + req.params.section + '.txt') ?
-    fs.readFileSync(
-      NOTES_DIRECTORY + "/" + req.params.section + ".txt",
-      "utf-8"
-    ) :
-    fs.readFileSync(
-      NOTES_DIRECTORY + "/" + req.params.section + "/README",
-      "utf-8"
-    )
-  );
+  try {
+    res.locals.body = marked.parse(
+      fs.existsSync(NOTES_DIRECTORY + "/" + req.params.section + '.txt') ?
+      fs.readFileSync(
+        NOTES_DIRECTORY + "/" + req.params.section + ".txt",
+        "utf-8"
+      ) :
+      fs.readFileSync(
+        NOTES_DIRECTORY + "/" + req.params.section + "/README",
+        "utf-8"
+      )
+    );  
+  } catch (e) {}
 
 
   next();
