@@ -3,6 +3,7 @@ describe("Blot's site'", function () {
     const fetch = require("node-fetch");
     const build = require("documentation/build");
     const templates = require('util').promisify(require("templates"));
+    const checkLinks = require('./util/broken');
 
     global.test.blog();
   
@@ -21,37 +22,7 @@ describe("Blot's site'", function () {
     });
 
     it("has no broken links", async function () {
-      const checkLinks = require('./util/broken');
-      const results = await checkLinks(this.origin);
-    
-      // If there are no broken links, the results should be an empty object.
-      const brokenLinks = [];
-      for (const page in results) {
-        for (const link in results[page]) {
-          brokenLinks.push({
-            page,
-            link,
-            status: results[page][link],
-          });
-        }
-      }
-      
-      // sort the broken links by page
-      brokenLinks.sort((a, b) => {
-        if (a.page < b.page) return -1;
-        if (a.page > b.page) return 1;
-        return 0;
-      });
-
-      if (brokenLinks.length > 0) {
-        let errorMessage = "Broken links found:\n";
-        brokenLinks.forEach(({ page, link, status }) => {
-          errorMessage += `From: ${page}\n  To: ${link}\n      ${status}\n\n`;
-        });
-        throw new Error(errorMessage);
-      }
-    
-      expect(results).toEqual({});
+      await checkLinks(this.origin);
     }, 60000);
 
     it("serves the log-in page", async function () {

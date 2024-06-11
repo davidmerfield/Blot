@@ -15,10 +15,38 @@ async function checkLinks(url, options = {}) {
 
   try {
     await checkPage(null, url, options, state);
-    return state.results;
   } catch (error) {
     throw error;
   }
+    
+      // If there are no broken links, the results should be an empty object.
+      const brokenLinks = [];
+      for (const page in state.results) {
+        for (const link in state.results[page]) {
+          brokenLinks.push({
+            page,
+            link,
+            status: state.results[page][link],
+          });
+        }
+      }
+      
+      // sort the broken links by page
+      brokenLinks.sort((a, b) => {
+        if (a.page < b.page) return -1;
+        if (a.page > b.page) return 1;
+        return 0;
+      });
+
+      if (brokenLinks.length > 0) {
+        let errorMessage = "Broken links found:\n";
+        brokenLinks.forEach(({ page, link, status }) => {
+          errorMessage += `From: ${page}\n  To: ${link}\n      ${status}\n\n`;
+        });
+        throw new Error(errorMessage);
+      }
+
+      return null;
 }
 
 function addFailure(base, url, statusCode, state) {
@@ -47,7 +75,7 @@ async function checkPage(base, url, options, state) {
 
   let res;
   try {
-    res = await fetch(uri.url, { headers: uri.headers });
+    res = await fetch(uri.url, { headers: uri.headers});
   } catch (err) {
     log("Error", err.message);
     addFailure(base, url, err.code || "Network Error", state);
