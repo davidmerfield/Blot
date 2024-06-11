@@ -12,13 +12,12 @@ describe("Blot sign up", function () {
     // we must build the views for the documentation
     // and the dashboard before we launch the server
     // we also build the templates into the cache
-    beforeAll(async (done) => {
+    beforeAll(async () => {
         await build({watch: false});
         await templates({watch: false});
-        done();
     }, LONG_TIMEOUT);
 
-    it("works", async function (done) {
+    it("works", async function () {
 
         const browser = await puppeteer.launch({
             headless: true,
@@ -59,15 +58,15 @@ describe("Blot sign up", function () {
         console.log('entering zip');
         await page.keyboard.type(card.zip, { delay: 50 })
 
-        console.log('submitting form');
-        await page.click('input[type=submit]');
+        console.log('submitting payment form');
+        await Promise.all([
+          page.waitForNavigation({ waitUntil: 'load' }),
+          page.click('[type=submit]'),
+        ]);
 
         // wait until the stripe token has been created
         await page.waitForSelector('#error', {hidden: true});
         
-        // wait for the page to load
-        await page.waitForNavigation();
-
         console.log('checking page url');
         expect(page.url()).toEqual(this.origin + '/sites/sign-up/create-account');
 
@@ -76,10 +75,32 @@ describe("Blot sign up", function () {
         await page.type('input[name=password]', 'password');
 
         // // submit the form
-        console.log('submitting form');
-        await page.click('input[type=submit]');
+        console.log('submitting password form');
+        await Promise.all([
+          page.waitForNavigation({ waitUntil: 'load' }),
+          page.click('[type=submit]'),
+        ]);
 
-        done();
+        // wait for the create site page to load
+        expect(page.url()).toEqual(this.origin + '/sites/account/create-site');
+
+        // enter a title for the site
+        console.log('entering site title');
+        await page.type('input[name=title]', 'Test Site');
+
+        console.log('submitting form to create site');
+        await Promise.all([
+          page.waitForNavigation({ waitUntil: 'load' }),
+          page.click('[type=submit]'),
+        ]);
+
+        // wait for the sites page to load
+        expect(page.url()).toEqual(this.origin + '/sites/testsite/client');
+
+        // close the browser
+        await browser.close();
+
+        
     }, LONG_TIMEOUT);
   });
   
