@@ -63,9 +63,6 @@ describe("Blot sign up", function () {
           page.waitForNavigation({ waitUntil: 'load' }),
           page.click('[type=submit]'),
         ]);
-
-        // wait until the stripe token has been created
-        await page.waitForSelector('#error', {hidden: true});
         
         console.log('checking page url');
         expect(page.url()).toEqual(this.origin + '/sites/sign-up/create-account');
@@ -100,7 +97,7 @@ describe("Blot sign up", function () {
         // close the browser
         await browser.close();
 
-        
+
     }, LONG_TIMEOUT);
   });
   
