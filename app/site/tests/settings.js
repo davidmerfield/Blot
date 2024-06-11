@@ -2,25 +2,10 @@ describe("Blot dashboard settings", function () {
 
     const fs = require('fs-extra');
 
-    require('./util/setup')();
+    require('./util/setup')({ login: true });
     
-    global.test.blog();
-
     it("lets you update the title of a site", async function () {
-        const email = this.user.email;
-        const password = this.user.fakePassword;
-        
         const page = this.page;
-        
-        await page.goto(this.origin + '/sites/log-in?redirected=true');
-
-        await page.type('input[name=email]', email);
-        await page.type('input[name=password]', password);
-
-        await Promise.all([
-            page.waitForNavigation({ waitUntil: 'load' }),
-            page.click('[type=submit]')
-        ]);
 
         await Promise.all([
             page.waitForNavigation({ waitUntil: 'load' }),
@@ -62,21 +47,9 @@ describe("Blot dashboard settings", function () {
     });
 
     it("lets you sync the folder using local folder", async function () {
-        const email = this.user.email;
-        const password = this.user.fakePassword;
-        
+
         const page = this.page;
-        
-        await page.goto(this.origin + '/sites/log-in?redirected=true');
-
-        await page.type('input[name=email]', email);
-        await page.type('input[name=password]', password);
-
-        await Promise.all([
-            page.waitForNavigation({ waitUntil: 'load' }),
-            page.click('[type=submit]')
-        ]);
-
+       
         // go to the site overview page
         await Promise.all([
             page.waitForNavigation({ waitUntil: 'load' }),
