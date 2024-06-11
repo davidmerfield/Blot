@@ -10,7 +10,7 @@ services:
     build:
       context: ../
       dockerfile: Dockerfile
-      target: test
+      target: dev
     depends_on:
       - test-redis
     env_file:
@@ -24,5 +24,6 @@ services:
       - ../app:/usr/src/app/app
       - ../tests:/usr/src/app/tests
       - ../config:/usr/src/app/config
+      - ../notes:/usr/src/app/notes
     command: >
       sh -c "node tests $TEST_PATH"
