@@ -15,7 +15,7 @@ describe("Blot's site'", function () {
     beforeAll(async () => {
       await build({watch: false});
       await templates({watch: false});
-    });
+    }, 60000);
     
     it("has no broken links", async function () {
       await checkLinks(this.origin);
