@@ -9,7 +9,7 @@
 
 ####### Blot #######
 
-.env
+*.env
 *.rdb
 *.log
 

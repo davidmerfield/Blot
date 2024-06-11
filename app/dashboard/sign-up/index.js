@@ -89,6 +89,11 @@ paymentForm.get(csrf, function (req, res) {
   )
     return res.redirect(req.baseUrl + passwordForm.path);
 
+  if (!config.stripe.key) {
+    console.error("Stripe key is not set");
+    next(new Error("Stripe key is not set"));
+  }
+
   res.locals.title = "Sign up";
   res.locals.menu = { "sign-up": "selected" };
   res.locals.error = req.query.error;

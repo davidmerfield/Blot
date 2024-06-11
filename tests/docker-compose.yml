@@ -13,7 +13,7 @@ services:
     depends_on:
       - test-redis
     env_file:
-      - ../.env
+      - test.env
     environment:
       - NODE_ENV=test
       - TEST_PATH=${TEST_PATH}
