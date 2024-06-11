@@ -4,13 +4,9 @@ const fs = require("fs-extra");
 const chokidar = require("chokidar");
 const html = require("./html");
 const favicon = require("./favicon");
-const clfdate = require('helper/clfdate');
 
-const SOURCE_DIRECTORY = join(config.blot_directory, "/app/views");
-const DESTINATION_DIRECTORY = join(
-  config.blot_directory,
-  "/app/documentation/data"
-);
+const SOURCE_DIRECTORY = join(__dirname, "../../views");
+const DESTINATION_DIRECTORY = join(__dirname, "../data");
 
 const buildCSS = require("./css")({source: SOURCE_DIRECTORY, destination: DESTINATION_DIRECTORY});
 const buildJS = require("./js")({source: SOURCE_DIRECTORY, destination: DESTINATION_DIRECTORY});
@@ -102,9 +98,9 @@ module.exports = async ({ watch = false } = {}) => {
 
   console.timeEnd("build");
 
-  const handler = handle();
-
   if (watch) {
+    const handler = handle();
+
     chokidar
       .watch(SOURCE_DIRECTORY, {
         cwd: SOURCE_DIRECTORY,
