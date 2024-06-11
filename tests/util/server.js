@@ -12,6 +12,11 @@ module.exports = function (router) {
 
   // Create a webserver for testing remote files
   beforeAll(function (done) {
+
+    // Expose the server origin for the tests
+    // specs so they can use this.origin 
+    this.origin = `http://localhost:${port}`;
+
     const app = Express();
 
     // This lets us pretend the test is running over HTTPS
@@ -33,8 +38,6 @@ module.exports = function (router) {
     app.set("etag", false);
 
     app.use(router);
-
-    this.origin = `http://localhost:${port}`;
 
     // Start the server
     server = app.listen(port, () => {
