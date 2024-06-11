@@ -1,0 +1,37 @@
+name: proxy
+services:
+  
+  redis:
+    image: "redis:alpine"
+    ports:
+      - "6379:6379"
+   
+  node-app:
+    build:
+      context: ./tests/util/upstream-server
+    ports:
+      - "8080:8080"
+
+  openresty:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+      target: base
+    ports:
+      - "80:80"
+      - "443:443"
+    cap_add:
+      - SYS_NICE
+    environment:
+      NODE_SERVER_IP: 127.0.0.1
+      LUA_PACKAGE_PATH: /app/.luarocks/share/lua/5.1/?.lua;/app/conf/?.lua
+      REDIS_IP: 127.0.0.1
+      OPENRESTY_USER: root
+      DISABLE_HTTP2: true
+      OPENRESTY_LOG_DIRECTORY: /app/data/logs
+      OPENRESTY_CACHE_DIRECTORY: /app/data/cache
+      OPENRESTY_CONFIG_DIRECTORY: /app/data
+      SSL_CERTIFICATE: /usr/local/openresty/nginx/selfsigned.crt
+      SSL_CERTIFICATE_KEY: /usr/local/openresty/nginx/selfsigned.key
+    depends_on:
+      - redis

@@ -1,7 +1,5 @@
-const fs = require("fs-extra");
 const fetch = require("node-fetch");
 const setup = require("./util/setup");
-const { host } = require("../..");
 
 describe("cacher", function () {
   setup("./lru_purge.conf");

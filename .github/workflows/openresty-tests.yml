@@ -1,0 +1,23 @@
+name: openresty
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+    paths:
+      - "config/openresty/**"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Build Docker image
+        run: docker build -t openresty-tests config/openresty
+
+      - name: Run tests in Docker
+        run: docker run --rm -p 80:80 openresty-tests
