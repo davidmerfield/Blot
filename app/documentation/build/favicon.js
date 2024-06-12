@@ -5,7 +5,7 @@ const path = require('path');
 
 module.exports = async function generateFavicon(sourcePath, destPath) {
   const faviconDimensions = [16, 24, 32, 64];
-  const pngDimensions = [16, 32, 180];
+  const pngDimensions = [180];
   const metadata = await sharp(sourcePath).metadata();
 
   // Create buffer for each size for ICO

@@ -132,18 +132,22 @@ const findSourceFileForRule = (selector) => {
   return null;
 };
 
-const processCSSRule = ($, filename, unusedCSSRules) => (rule) => {
+const processCSSRule = ($, filename, unusedCSSRules, selectorsToSkip) => (rule) => {
   if (rule.type === "media") {
-    rule.rules.forEach(processCSSRule($, filename, unusedCSSRules));
+    rule.rules.forEach(processCSSRule($, filename, unusedCSSRules, selectorsToSkip));
     return;
   }
 
   if (rule.type !== "rule") return;
 
+  
   rule.selectors.forEach(selector => {
-    if (["@font-face", "@import"].some(skip => selector.includes(skip))) return;
-    console.log('checking', selector);
-
+    if (selectorsToSkip.find(skip => selector.indexOf(skip) > -1)) {
+      console.log('skipping', selector);
+      return;
+    } else {
+      console.log('checking', selector);
+    }
     const normalizedSelector = removePseudoSelectors(selector);
     if ($(normalizedSelector).length > 0) return;
 
@@ -152,7 +156,7 @@ const processCSSRule = ($, filename, unusedCSSRules) => (rule) => {
   });
 };
 
-module.exports = async ({ origin, headers = {}, filesToSkip = [], cache = false }) => {
+module.exports = async ({ origin, headers = {}, selectorsToSkip = [], cache = false }) => {
   if (!origin) throw new Error("origin is required");
 
   console.log("Crawling HTML on site...", origin);
@@ -165,7 +169,7 @@ module.exports = async ({ origin, headers = {}, filesToSkip = [], cache = false 
   const unusedCSSRules = [];
 
   css.forEach(({ rules, filename }) => {
-    rules.forEach(processCSSRule($, filename, unusedCSSRules));
+    rules.forEach(processCSSRule($, filename, unusedCSSRules, selectorsToSkip));
   });
 
   if (unusedCSSRules.length > 0) {
@@ -199,6 +203,20 @@ if (require.main === module) {
   module.exports({
     origin: 'https://local.blot',
     cache: true,
-    filesToSkip: ['tex.css', 'finder-window.css', 'tagify.css']
+    selectorsToSkip: [
+      "@font-face", 
+      "@import", 
+
+      '.katex', // katex
+      
+      '.hljs-', // highlight.js
+      '.pcr-', // color picker
+      '.pickr', // color picker,
+      '.tagify', // tag input for questions section
+      
+      // code editor
+      '.CodeMirror', 
+      '.cm-',
+    ]
   });
 }

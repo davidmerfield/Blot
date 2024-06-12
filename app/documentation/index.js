@@ -78,8 +78,7 @@ documentation.use(require("./selected"));
 
 documentation.get("/", require("./templates.js"), function (req, res, next) {
   res.locals.title = "Blot";
-  res.locals.description =
-    "A blogging platform with no interface. Turns a folder into a blog automatically. Use your favorite text-editor to write. Text and Markdown files, Word Documents, images, bookmarks and HTML in your folder become blog posts.";
+  res.locals.description = "Turns a folder into a website";
   // otherwise the <title> of the page is 'Blot - Blot'
   res.locals.hide_title_suffix = true;
   next();

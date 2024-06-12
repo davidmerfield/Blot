@@ -451,18 +451,21 @@ background .window {
 }
 
 
-.clients li a .chevron {
+.clients li a .icon-small-chevron-right {
   float: right;
-  margin-left: 0.5em;
+  color: var(--light-text-color);
+  vertical-align: middle;
+  font-size: 12px;
+  margin: 6px;
   transition: transform 0.25s ease;
   transform: scale(1.0);
 }
 
-.clients li a:hover .chevron {
+.clients li a:hover .icon-small-chevron-right {
   transform: scale(1.3333);
 }
 
-.clients li a .chevron svg {
+.clients li a .icon-small-chevron-right svg {
   fill: var(--accent-color);
 
 }
