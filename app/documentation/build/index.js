@@ -4,6 +4,7 @@ const fs = require("fs-extra");
 const chokidar = require("chokidar");
 const html = require("./html");
 const favicon = require("./favicon");
+const recursiveReadDir = require("../../helper/recursiveReadDirSync");
 
 const SOURCE_DIRECTORY = join(__dirname, "../../views");
 const DESTINATION_DIRECTORY = join(__dirname, "../data");
@@ -72,17 +73,7 @@ module.exports = async ({ watch = false } = {}) => {
 
   await favicon(join(SOURCE_DIRECTORY, "images/logo.svg"), join(DESTINATION_DIRECTORY, "favicon.ico"));
 
-  // recursively read every file in the source directory
-  const list = dir => {
-    const files = fs.readdirSync(dir);
-    return files.reduce((acc, file) => {
-      const path = join(dir, file);
-      const isDirectory = fs.statSync(path).isDirectory();
-      return isDirectory ? [...acc, ...list(path)] : [...acc, path];
-    }, []);
-  };
-
-  const paths = list(SOURCE_DIRECTORY).map(path =>
+  const paths = recursiveReadDir(SOURCE_DIRECTORY).map(path =>
     path.slice(SOURCE_DIRECTORY.length + 1)
   );
 

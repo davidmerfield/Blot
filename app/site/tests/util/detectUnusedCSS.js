@@ -6,122 +6,150 @@ const fetch = require("node-fetch");
 const { parse, resolve } = require("url");
 const { join, extname } = require("path");
 const { blot_directory } = require('config');
+const recursiveReadDir = require("helper/recursiveReadDirSync");
 
 const TMP_CACHE = join(blot_directory, 'data/tmp/unused-css-cache.html');
-const CSS_DIR = join(blot_directory, 'app/views/css');
 
+const CSS_SOURCE_FILES = recursiveReadDir(join(blot_directory, 'app/views/css')).filter(i => i.endsWith(".css")).map(i => ({
+  path: i,
+  contents: fs.readFileSync(i, 'utf-8')
+}));
 
-const loadCSS = async (filesToSkip) => {
-    const CSS_DIR_CONTENTS = await fs.readdir(CSS_DIR);
+const fetchHTML = async (url, headers) => {
+  const response = await fetch(url, { headers });
+  if (![200, 400].includes(response.status)) {
+    throw new Error(`Bad status: ${response.status} on ${url}`);
+  }
 
-    const CSS_FILES = CSS_DIR_CONTENTS.filter((filename) => filename.endsWith(".css") && !filesToSkip.includes(filename));
+  const contentType = response.headers.get("content-type");
+  if (contentType && !contentType.includes("text/html")) return null;
 
-    const CSS = await Promise.all(CSS_FILES.map(async (filename) => {
-      const css = await fs.readFile(join(CSS_DIR, filename), "utf-8");
-      return css;
-    }));
-
-    const PARSED_CSS = CSS.map((css, i) => {
-      try {
-        const result = parseCSS.parse(css);
-        return { rules: result.stylesheet.rules, filename: CSS_FILES[i]};
-      } catch (e) {
-        throw new Error("Error parsing CSS: " + CSS_DIR + "/" + CSS_FILES[i]);
-      }
-    });
-
-    return PARSED_CSS;
+  return response.text();
 };
 
-const crawl = async ({ origin, headers, cache }) => {
+const loadCSSFiles = async (origin, headers) => {
+  const indexHTML = await fetchHTML(origin, headers);
+  if (!indexHTML) throw new Error("Unable to fetch index page");
 
-    if (cache && fs.existsSync(TMP_CACHE)) {
-        console.log('Using cached HTML');
-        return await fs.readFile(TMP_CACHE, 'utf-8');
+  const $ = cheerio.load(indexHTML);
+  const cssLinks = $("link[rel='stylesheet']");
+
+  const cssContents = await Promise.all(cssLinks.map(async (i, link) => {
+    const cssUrl = resolve(origin, $(link).attr('href'));
+    console.log('Fetching CSS:', cssUrl);
+    const cssContent = await fetch(cssUrl).then(res => res.text());
+    console.log('Fetched CSS:', cssUrl, cssContent.length, 'bytes');
+    return { css: cssContent, filename: cssUrl };
+  }).get());
+
+  return cssContents.map(({ css, filename }) => {
+    try {
+      const result = parseCSS.parse(css);
+      return { rules: result.stylesheet.rules, filename };
+    } catch (e) {
+      throw new Error(`Error parsing CSS from URL: ${filename}`);
     }
+  });
+};
 
-  let res = "";
-  let checked = {};
-
-  const checkPage = async (base, url) => {
+const processPage = async ({ origin, headers, visitedPages, htmlContent }) => {
+  const queue = [origin];
+  while (queue.length) {
+    const url = queue.shift();
     const { pathname } = parse(url);
 
-    if (checked[pathname]) return;
+    if (visitedPages[pathname]) continue;
+    visitedPages[pathname] = true;
 
-    checked[pathname] = true;
-
-    const parsedURL = parse(url);
-    const extension = extname(parsedURL.pathname);
-
-    if (extension) {
-      console.log(colors.yellow("SKIP", parsedURL.pathname));
-      return;
+    if (extname(pathname)) {
+      console.log(colors.yellow("SKIP", pathname));
+      continue;
     }
 
-    console.log(colors.dim(" GET " + parsedURL.pathname));
-
+    console.log(colors.dim(" GET " + pathname));
     try {
-      const response = await fetch(url, { headers: headers || {} });
+      const body = await fetchHTML(url, headers);
+      if (!body) continue;
+      
+      const $ = cheerio.load(body);
+      console.log(colors.green(` GOT ${pathname}`));
+      htmlContent.push($("body").html());
 
-      if (response.status !== 200 && response.status !== 400) {
-        console.log(colors.red(" " + response.status + " " + parsedURL.pathname));
-        throw new Error("Bad status: " + response.status + " on " + url);
-      }
-
-      const contentType = response.headers.get("content-type");
-      if (contentType && contentType.indexOf("text/html") === -1) {
-        return;
-      }
-
-      const body = await response.text();
-      let $;
-
-      try {
-        $ = cheerio.load(body);
-      } catch (e) {
-        throw new Error("Error loading HTML with cheerio: " + e.message);
-      }
-
-      console.log(colors.green(" GOT " + parsedURL.pathname));
-      res += $("body").html();
-
-      await parseURLs(url, $);
+      $("[href],[src]").each(function () {
+        const resourceUrl = $(this).attr("href") || $(this).attr("src");
+        if (resourceUrl) {
+          const fullUrl = resolve(url, resourceUrl);
+          if (parse(fullUrl).host === parse(url).host) {
+            queue.push(fullUrl);
+          }
+        }
+      });
     } catch (error) {
       console.error(colors.red("Error fetching URL: "), error);
       throw error;
     }
-  };
+  }
+};
 
-  const parseURLs = async (base, $) => {
-    let URLs = [];
+const crawlSite = async ({ origin, headers, cache }) => {
+  if (cache && await fs.exists(TMP_CACHE)) {
+    console.log('Using cached HTML');
+    return fs.readFile(TMP_CACHE, 'utf-8');
+  }
 
-    $("[href],[src]").each(function () {
-      let url = $(this).attr("href") || $(this).attr("src");
+  const visitedPages = {};
+  const htmlContent = [];
+  await processPage({ origin, headers, visitedPages, htmlContent });
 
-      if (!url) return;
-
-      url = resolve(base, url);
-
-      if (parse(url).host !== parse(base).host) return;
-
-      URLs.push(url);
-    });
-
-    for (const url of URLs) {
-      await checkPage(base, url);
-    }
-  };
-
-  console.log('Checking page', origin);
-  await checkPage(null, origin);
-
-  const result =  `<html><body>${res}</body></html>`;
-
+  const result = `<html><body>${htmlContent.join('')}</body></html>`;
   if (cache) {
     await fs.outputFile(TMP_CACHE, result);
   }
-
+  
   return result;
+};
+
+const removePseudoSelectors = (selector) => {
+  const pseudoSelectors = [
+    "focus-within", "focus", "before", "after", "hover", "active", "marker", "placeholder",
+    "-webkit-details-marker", "-webkit-input-placeholder", "-moz-placeholder", "-ms-input-placeholder",
+    "selection", "first-letter", "first-line", "-moz-selection"
+  ];
+
+  const regex = new RegExp(pseudoSelectors.map(pseudo => `:?::?${pseudo}`).join("|"), "g");
+  return selector.replace(regex, "");
+};
+
+const findSourceFileForRule = (selector) => {
+  for (const { path, contents } of CSS_SOURCE_FILES) {
+    const parsedCSS = parseCSS.parse(contents);
+    for (const rule of parsedCSS.stylesheet.rules) {
+      if (rule.type === "rule" && rule.selectors.includes(selector)) {
+        return path;
+      }
+    }
+  }
+  return null;
+};
+
+const processCSSRule = ($, filename, unusedCSSRules) => (rule) => {
+  if (rule.type === "media") {
+    rule.rules.forEach(processCSSRule($, filename, unusedCSSRules));
+    return;
+  }
+
+  if (rule.type !== "rule") return;
+
+  rule.selectors.forEach(selector => {
+    if (["@font-face", "@import"].some(skip => selector.includes(skip))) return;
+    console.log('checking', selector);
+
+    const normalizedSelector = removePseudoSelectors(selector);
+    if ($(normalizedSelector).length > 0) return;
+
+    const sourceFile = findSourceFileForRule(selector) || filename;
+    unusedCSSRules.push({ selector, rule, sourceFile });
+  });
 };
 
 module.exports = async ({ origin, headers = {}, filesToSkip = [], cache = false }) => {
@@ -129,85 +157,48 @@ module.exports = async ({ origin, headers = {}, filesToSkip = [], cache = false 
 
   console.log("Crawling HTML on site...", origin);
 
-  const css = await loadCSS(filesToSkip);
-
+  const css = await loadCSSFiles(origin, headers);
   console.log("Loaded CSS", css);
 
-    const HTML = await crawl({ origin, headers, cache });
+  const HTML = await crawlSite({ origin, headers, cache });
+  const $ = cheerio.load(HTML);
+  const unusedCSSRules = [];
 
-    const $ = cheerio.load(HTML);
-    const result = [];
+  css.forEach(({ rules, filename }) => {
+    rules.forEach(processCSSRule($, filename, unusedCSSRules));
+  });
 
-    css.forEach(( { rules, filename }) => {
-        rules.forEach(sortRule($, filename, result));
+  if (unusedCSSRules.length > 0) {
+    const fileMap = new Map();
+
+    unusedCSSRules.forEach(({ selector, rule, sourceFile }) => {
+      if (!fileMap.has(sourceFile)) {
+        fileMap.set(sourceFile, []);
+      }
+      fileMap.get(sourceFile).push({ selector, rule });
     });
-    if (result.length > 0) {
-        let errorMessage = 'Error: unused CSS rules detected\n';
 
-        const fileMap = new Map();
+    const errorMessage = Array.from(fileMap.entries()).reduce((message, [sourceFile, selectors]) => {
+      message += colors.dim(sourceFile) + "\n";
+      selectors.forEach(({ selector, rule }) => {
+        message += '  ' + colors.red(selector) + '\n';
+        message += colors.dim(`    ${sourceFile}:${rule.position.start.line}\n`);
+      });
+      return message;
+    }, 'Error: unused CSS rules detected\n');
 
-        result.forEach(({ selector, rule, filename }) => {
-            if (!fileMap.has(filename)) {
-                fileMap.set(filename, []);
-            }
-            fileMap.get(filename).push({ selector, rule });
-        });
+    throw new Error(errorMessage);
+  }
 
-        fileMap.forEach((selectors, filename) => {
-            errorMessage += colors.dim(CSS_DIR + "/") + filename + "\n";
-            selectors.forEach(({ selector, rule }) => {
-                errorMessage += '  ' + colors.red(selector) + '\n';
-                errorMessage += colors.dim("    " + CSS_DIR + "/" + filename + ':' + rule.position.start.line + "\n");
-            });
-        });
-
-        throw new Error(errorMessage);
-    }
-
-    console.log('No unused CSS rules detected');
+  console.log('No unused CSS rules detected');
 };
 
-const sortRule = ($, filename, result) => (rule) => {
-
-    // Recurse into the rules inside @media {} query blocks
-    if (rule.type === "media") return rule.rules.forEach((r) => sortRule($, filename, result)(r));
-
-    if (rule.type !== "rule") return;
-
-    rule.selectors.forEach((selector) => {
-
-        if (["@font-face", "@import"].find(skip => selector.indexOf(skip) > -1)) return;
-
-        console.log('checking', selector);
-
-        const pseudoSelectorsToRemove = [
-            "focus-within", "focus", "before", "after",
-            "hover", "active", "marker", "placeholder", "-webkit-details-marker", "-webkit-input-placeholder",
-            "-moz-placeholder", "-ms-input-placeholder", "selection", "first-letter", "first-line"];
-
-        const regex = new RegExp(pseudoSelectorsToRemove.map(remove => ":?:" + remove).join("|"), "g");
-
-        selector = selector.replace(regex, "");
-            
-        // the selector is present in the HTML
-        if ($(selector).length > 0) {
-            return;
-        }
-        
-        // we found a missing selector
-        result.push({ selector, rule, filename });
-    });
-}
-
-
 if (require.main === module) {
-    // when testing local.blot, we need to disable SSL checks
-    // to fix UNABLE_TO_VERIFY_LEAF_SIGNATURE error
-    process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+  process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
-   module.exports({ 
-    origin: 'https://local.blot', 
+  module.exports({
+    origin: 'https://local.blot',
     cache: true,
-    filesToSkip: ['tex.css', 'finder-window.css']
+    filesToSkip: ['tex.css', 'finder-window.css', 'tagify.css']
   });
 }

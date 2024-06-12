@@ -216,28 +216,6 @@ a.template-button.file-helper span {margin-left: 0.5em;}
 }
 
 
-button.copy {
-  background-color: transparent;
-  border-radius: var(--border-radius);
-  color: var(--accent-color);
-  margin-left: 6px;
-  cursor: pointer;
-  border:none
-}
-
-button.copy:hover {
-  color: var(--accent-color)
-}
-
-/* otherwise, the button icon is not clickable */
-button.copy span {
-  pointer-events: none;
-}
-
-button.copy.copied {
-  color:darkgreen
-}
-
 .multilingual {
               position: relative;
               max-width: 600px;
