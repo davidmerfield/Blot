@@ -21,7 +21,7 @@ describe("Blot's site'", function () {
       await build({watch: false});
       await templates({watch: false});
       await featured();
-      
+
       const totalQuestions = 30;
 
       const question = {
@@ -67,7 +67,17 @@ describe("Blot's site'", function () {
 
     }, 120000);
 
-    it("has no unused CSS on the dashboard", async function () {
+    fit("has no unused CSS on the dashboard", async function () {
+
+      // create test files so the dashboard features work when we run the test
+      await this.blog.write({ path: '/test.txt', content: "Title: Bye" });
+      await this.blog.write({ path: '/not.mp3', content: "Title: Bye" });
+      await this.blog.write({ path: '/Pages/About.md', content: "Title: Bye" });
+      await this.blog.rebuild();
+    
+      // this means the features of the links page all show up too
+      await this.blog.update({menu: [{ id: "123", metadata: {}, label: "Twitter", url: "https://twitter.com" }]})
+
       const email = this.user.email;
       const password = this.user.fakePassword;
       

@@ -1,3 +1,9 @@
+Refactor site build
+- needs to be a part of the docker stage:
+  - need to copy in git repo...!
+  - build entire documentation and dashboard views (featured, templates, etc.)
+  - how best to handle development mode?
+  
 Make it possible to embed audio like so `![Audio]({{{path}}})`
 
 Experiement with injecting script into preview sites which can postMessage to embedding page, sending html2canvas result which can be stored locally for faster loading?

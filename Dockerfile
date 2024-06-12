@@ -112,6 +112,11 @@ COPY --from=dev /usr/src/app/node_modules ./node_modules
 # this copies the tests
 COPY ./tests ./tests
 
+# copy in the git repository so the news page can be generated
+# inside the container, this is a bit of a hack and should be
+# replaced with a better solution in the future
+COPY .git .git
+
 ## Stage 5 (default, production)
 # The final production stage
 FROM source as prod
