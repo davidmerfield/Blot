@@ -23,5 +23,6 @@ services:
       - ../tests:/usr/src/app/tests
       - ../config:/usr/src/app/config
       - ../notes:/usr/src/app/notes
+      - ../.git:/usr/src/app/.git
     command: >
       sh -c "rm -rf /usr/src/app/data && mkdir /usr/src/app/data && node tests $TEST_PATH"
