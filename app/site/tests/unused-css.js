@@ -1,12 +1,12 @@
-const { auth } = require("googleapis/build/src/apis/abusiveexperiencereport");
-
 describe("Blot's site'", function () {
     const site = require("site");
     const build = require("documentation/build");
+    const config = require("config");
     const templates = require('util').promisify(require("templates"));
     const fetch = require("node-fetch");
     const detectUnusedCSS = require('./util/detectUnusedCSS');
     const { create } = require("models/question");
+    const { join } = require("path");
 
     global.test.blog();
   
@@ -53,7 +53,18 @@ describe("Blot's site'", function () {
 
     }, 60000);
 
-    it("has no unused CSS", async function () {
+    it("has no unused CSS on the public site", async function () {
+      
+      await detectUnusedCSS({
+        origin: this.origin, 
+        cssFilePaths: [
+          join(config.blot_directory,'app/documentation/data/documentation.min.css')
+        ],
+      });
+
+    }, 120000);
+
+    it("has no unused CSS on the dashboard", async function () {
       const email = this.user.email;
       const password = this.user.fakePassword;
       
@@ -95,12 +106,15 @@ describe("Blot's site'", function () {
 
       await detectUnusedCSS({
         origin: this.origin, 
+        cssFilePaths: [
+          join(config.blot_directory,'app/documentation/data/dashboard.min.css')
+        ],
         headers: {
          'Cookie': cookieHeader,
         }
         });
 
-    }, 60000);
+    }, 120000);
   });
   
   

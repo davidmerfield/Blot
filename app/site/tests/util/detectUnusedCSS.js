@@ -50,15 +50,6 @@ const CSS_SOURCE_FILES = recursiveReadDir(join(blot_directory, 'app/views/css'))
   contents: fs.readFileSync(i, 'utf-8')
 }));
 
-const BUILT_CSS_FILES = [
-  join(blot_directory, 'app/documentation/data/dashboard.min.css'),
-  join(blot_directory, 'app/documentation/data/documentation.min.css'),
-].map(i => ({
-  path: i,
-  filename: i.split('/').pop(),
-  contents: fs.readFileSync(i, 'utf-8')
-}));
-
 const fetchHTML = async (url, headers) => {
 
   if (URLPathsToSkip.some(regex => regex.test(url))) {
@@ -77,16 +68,18 @@ const fetchHTML = async (url, headers) => {
   return response.text();
 };
 
-const loadCSSFiles = async (origin, headers) => {
+const loadCSSFiles = async (cssFilePaths) => {
  
-  return BUILT_CSS_FILES.map(({ contents, filename }) => {
+  return cssFilePaths.map(path => {
     try {
+      const contents = fs.readFileSync(path, 'utf-8');
       const result = parseCSS.parse(contents);
-      return { rules: result.stylesheet.rules, filename };
+      return { rules: result.stylesheet.rules, filename: path.split('/').pop()};
     } catch (e) {
-      throw new Error(`Error parsing CSS from: ${filename}`);
+      throw new Error(`Error parsing CSS from: ${path}`);
     }
   });
+
 };
 
 const processPage = async ({ origin, headers, visitedPages, htmlContent }) => {
@@ -188,26 +181,16 @@ const processCSSRule = ($, filename, unusedCSSRules) => (rule) => {
   });
 };
 
-module.exports = async ({ origin, headers = {}, cache = false }) => {
+module.exports = async ({ origin, headers = {}, cache = false, cssFilePaths = [] }) => {
   if (!origin) throw new Error("origin is required");
+
+  if (!cssFilePaths.length) throw new Error("cssFilePaths is required");
 
   console.log("Crawling HTML on site...", origin);
 
-  const css = await loadCSSFiles(origin, headers);
-  console.log("Loaded CSS", css);
+  const css = await loadCSSFiles(cssFilePaths);
 
-  // if headers are provided, first we crawl the site without headers
-  // (to simulate a logged out user) and then we crawl the site with headers
-  // (to simulate a logged in user) and compare the two
-  const HTML = `<html><body>${
-    Object.keys(headers).length
-      ? (await Promise.all([
-          crawlSite({ origin, headers: {}, cache }),
-          crawlSite({ origin, headers, cache })
-        ])).join('')
-      : await crawlSite({ origin, headers, cache })
-  }</body></html>`;
-  
+  const HTML = `<html><body>${ await crawlSite({ origin, headers, cache }) }</body></html>`;
 
   const $ = cheerio.load(HTML);
   const unusedCSSRules = [];
@@ -248,5 +231,8 @@ if (require.main === module) {
   module.exports({
     origin: 'https://local.blot',
     cache: true,
+    cssFilePaths: [
+      join(blot_directory, 'app/documentation/data/documentation.min.css')
+    ]
   });
 }
