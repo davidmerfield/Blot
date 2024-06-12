@@ -36,10 +36,6 @@ form label {
   color: var(--medium-text-color);
 }
 
-/* turn into tooltip */
-label em {
-  display: none;
-}
 
 input[name="email"],
 input[name="password"] {

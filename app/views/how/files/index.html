@@ -5,35 +5,7 @@
 <h2>Supported file types</h2>
 {{> supported_file_list}}
  
-<h2>Prevent a file becoming a post</h2>
-<p> Files and folders whose name starts with an underscore are ignored. Ignored files don’t become posts but you can <a href="#files-in-your-folder-are-public">embed</a> them. For example, none of these files become posts:</p>
-
-<table >
-  <tbody>
-    <tr>
-      <td>
-        <span class="file-icon">_Apple.jpg</span>
-     </td>
-
-    </tr>
-  <tr>
-    <td>
-      <span class="folder-icon">_Fruit</span>
-      <span class="light">›</span>
-      <span class="file-icon">Banana.jpg</span>
-   </td>
-    </tr>
-    <tr>
-   <td>
-    <span class="folder-icon">Posts</span>
-    <span class="light">›</span>
-    <span class="folder-icon">_Fruit</span>
-    <span class="light">›</span>
-    <span class="file-icon">Cherry.jpg</span>
- </td>
-    </tr>
-  </tbody>
-</table>
+{{> ignore_file}}
 
 
 <h2>Formatting posts</h2>

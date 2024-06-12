@@ -142,11 +142,6 @@ body {
   position: relative;
 }
 
-.main-section-no-user {
-  min-height: 100vh;
-  overflow: hidden;
-}
-
 .main-section-how {
   display: flex;
   justify-content: space-between;
@@ -164,10 +159,6 @@ body {
   min-width: 0;
   padding-left: 5rem;
   box-sizing: border-box;
-}
-
-.dashboard-container {
-  padding-top: 1.5em;
 }
 
 p a,
@@ -242,9 +233,6 @@ a {
   text-decoration: none;
 }
 
-mark {
-  background-color: #fff0a8;
-}
 
 h1 {
   font-size: 20px;
@@ -254,10 +242,6 @@ h1 {
   padding: 0 0 0.66rem;
   margin-top: 0;
   margin-bottom: 1rem;
-}
-
-h1.paragraph {
-  margin-top:4px;font-size:var(--font-size);font-weight:400;line-height: 1;
 }
 
 h1:first-child {
@@ -446,10 +430,6 @@ background .window {
   text-decoration: none;
 }
 
-.clients li a svg {
-  fill: currentColor
-}
-
 
 .clients li a .icon-small-chevron-right {
   float: right;
@@ -463,11 +443,6 @@ background .window {
 
 .clients li a:hover .icon-small-chevron-right {
   transform: scale(1.3333);
-}
-
-.clients li a .icon-small-chevron-right svg {
-  fill: var(--accent-color);
-
 }
 
 
@@ -493,19 +468,6 @@ h2 + .clients {margin-top: 12px}
 .clients img {
   width: 24px;
   height: 24px;
-}
-
-overlay {
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: -1;
-  opacity: 0;
-  padding: 0;
-  background: #fffefc;
-  transition: opacity 0.25s;
 }
 
 /* Paragraph tag containing form error messages */
@@ -687,85 +649,11 @@ a.bordered-button {
 
 /* Footer */
 
-.footer {
-  font-size: var(--small-font-size);
-  display: flex;
-  background: var(--module-background-color);
-  padding: calc(var(--spacing)*8) 0;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.footer,
-.footer ul {
-  list-style: none;
-  margin: 0;
-}
-
-.footer ul {padding: 0;}
-
-.footer > li {
-  margin: 0 2rem;
-}
-
-.footer a {
-  color: #666;
-  text-decoration: none;
-  padding: 3px 0;
-  display: block;
-}
-
-.footer a:hover {
-  color: var(--accent-color);
-}
-.footer > li > a {
-  font-weight: 600;
-  color: #666;
-  margin-bottom: 3px;
-  border-bottom: 1px solid var(--light-border-color);
-}
-
-@media (max-width: 800px) {
-  .footer > li {
-    flex-basis: 50%;
-    margin: 1rem 18px;
-  }
-}
-
-@media (max-width: 500px) {
-  .footer > li {
-    flex-basis: 100%;
-    margin: 1rem 18px;
-  }
-}
-
-.footer ul ul {
-  display: none;
-}
-
 .main-page p a{
   color:var(--accent-color);
   text-decoration: underline;
 }
 
-.meta-links {
-  border-top: 1px solid var(--light-border-color);
-  margin-top: calc(var(--spacing)*6);
-  padding: calc(var(--spacing)/2) 0;
-  font-size: 14px;
-  display: flex;
-  justify-content: space-between;
-  flex-direction: row-reverse;
-  color: var(--light-text-color);
-}
-
-div.meta-links a {
-  display: inline-block;
-  color: inherit;
-  position: relative;
-  text-decoration: none;
-  color: var(--light-text-color);
-}
 
 /*!
   Theme: StackOverflow Light
@@ -1035,13 +923,6 @@ ul.pill-navigation {
   margin-right: 0.667em;
 }
 
-.sub-link svg {
-  fill: currentColor;
-  vertical-align: middle;
-  margin-right: 0.4rem;
-  position: relative;
-  top:-0.06em
-}
 
 .navigation li.minor.break {
   border-top: 1px solid #eaedf2;margin-top: 12px;padding-top: 12px;
@@ -1053,14 +934,4 @@ ul.pill-navigation {
 .navigation .minor a span {
   margin-right: 0.667rem;
   margin-left: 0.1rem;
-}
-
-.sub-link.focus a{
-  border-radius: var(--border-radius);
-  background: var(--accent-color);
-  color: var(--background-color);
-  padding: 0.666em 1.333em;
-  font-weight: 600;
-  text-decoration: none;
-  font-size: var(--small-font-size);
 }

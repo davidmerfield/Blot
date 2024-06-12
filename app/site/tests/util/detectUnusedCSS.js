@@ -112,6 +112,7 @@ const crawlSite = async ({ origin, headers, cache }) => {
 const removePseudoSelectors = (selector) => {
   const pseudoSelectors = [
     "focus-within", "focus", "before", "after", "hover", "active", "marker", "placeholder",
+    "checked", "disabled",
     "-webkit-details-marker", "-webkit-input-placeholder", "-moz-placeholder", "-ms-input-placeholder",
     "selection", "first-letter", "first-line", "-moz-selection"
   ];
@@ -183,13 +184,14 @@ module.exports = async ({ origin, headers = {}, selectorsToSkip = [], cache = fa
     });
 
     const errorMessage = Array.from(fileMap.entries()).reduce((message, [sourceFile, selectors]) => {
-      message += colors.dim(sourceFile) + "\n";
+      message += "\n" + colors.dim(sourceFile) + "\n";
       selectors.forEach(({ selector, rule }) => {
         message += '  ' + colors.red(selector) + '\n';
         message += colors.dim(`    ${sourceFile}:${rule.position.start.line}\n`);
       });
+      
       return message;
-    }, 'Error: unused CSS rules detected\n');
+    }, 'Error: unused CSS rules detected\n') + '\nAfter checking the following files:\n\n' + css.map(({ filename }) => colors.dim(filename)).join('\n') + '\n';    
 
     throw new Error(errorMessage);
   }
