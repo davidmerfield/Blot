@@ -8,6 +8,8 @@ describe("Blot's site'", function () {
     const { create } = require("models/question");
     const { join } = require("path");
 
+    const featured = require("documentation/featured/check");
+
     global.test.blog();
   
     global.test.server(site);
@@ -18,7 +20,8 @@ describe("Blot's site'", function () {
     beforeAll(async () => {
       await build({watch: false});
       await templates({watch: false});
-
+      await featured();
+      
       const totalQuestions = 30;
 
       const question = {
