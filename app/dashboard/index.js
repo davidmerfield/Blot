@@ -27,6 +27,11 @@ dashboard.get("/deleted", logout, (req, res) => {
 // Everything afterwards should be authenticated
 dashboard.use(require('dashboard/util/require-authentication'));
 
+dashboard.use((req, res, next)=>{
+  res.locals.selected = { dashboard: "selected" };
+  next();
+});
+
 dashboard.use(message.middleware);
 
 dashboard.use(trace("loading user"));

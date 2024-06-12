@@ -68,12 +68,12 @@ const randomQuestionBody = () => {
 const randomQuestion = () =>
   randomQuestionStart() + " " + randomQuestionBody() + "?";
 
-const totalQuestions = 1000;
+const totalQuestions = 30;
 const questions = [];
 
 while (questions.length < totalQuestions) {
   const replies = [];
-  const totalReplies = Math.ceil(Math.random() * 10);
+  const totalReplies = Math.ceil(Math.random() * 5);
   while (replies.length < totalReplies) {
     replies.push({
       author: faker.name.findName(),

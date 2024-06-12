@@ -38,42 +38,6 @@ html {
 }
 
 
-
-/* invert colors for print */
-@media print {
-  
-  body > section > section:first-child,
-  body > .header {
-    display: none;
-  }
-
-  body > section > section {
-    padding: 0!important;
-    margin: 0!important;
-  }
-
-  html {
-    
-    --background-color: #fff;
-    --light-background-color: #fff;
-
-    --text-color: #000;
-    --medium-text-color: #000;
-    --light-text-color: #000;
-
-    --accent-color: blue;
-    --light-accent-color: blue;
-    --dark-accent-color: blue;
-
-    --secondary-accent-color: blue;
-
-    --border-color: #000;
-    --dark-border-color: #000;
-    --light-border-color: #000;
-    --inset-image-border-color: rgba(0,0,0,0.05);
-  }
-}
-
 html,
 body {
   padding: 0;
@@ -375,11 +339,6 @@ background + h2,
         box-shadow: inset 0 1px 0 #f5f4f5, 0 -1px 0 rgb(0 0 0 / 11%), 0 1px 0 rgb(0 0 0 / 26%), -1px 0 0 rgb(0 0 0 / 13%), 1px 0 0 rgb(0 0 0 / 13%);
 }
 
-background .text {
-  max-width: 600px;
-  margin: 0 auto;
-}
-
 @media screen and (max-width: 800px) {
   .text pre {
     padding: 2.22rem 2.222rem;
@@ -470,28 +429,6 @@ h2 + .clients {margin-top: 12px}
   height: 24px;
 }
 
-/* Paragraph tag containing form error messages */
-.error, .success {
-  display: block;
-  margin-bottom: 2rem;
-  padding: 12px 18px;
-}
-
-.error:empty, .success:empty {
-  display: none;
-}
-
-.error {
-  color: var(--error-text-color);
-  background: var(--error-background-color);
-}
-
-.success {
-  color: var(--success-text-color);
-  background: var(--success-background-color);
-}
-
-
 .form-container {
   margin: 0;
   width: 100%;
@@ -517,14 +454,6 @@ a.bordered-button {
   padding: 0 2rem;
   display: inline-block;
   border-radius: 4px;
-}
-
-.secondary-text {
-  color: #989694;
-}
-
-.smaller {
-  font-size: var(--small-font-size);
 }
 
 
@@ -573,14 +502,6 @@ a.bordered-button {
 
 .document-list a:active {
   color: var(--light-text-color);
-}
-
-.document-list li ul {
-  padding-left: 0;
-}
-
-.document-list .heading {
-  font-weight: 600;
 }
 
 .document-list .icon {
@@ -645,13 +566,6 @@ a.bordered-button {
 .document-list.with-border > li:last-child > a {
   border-bottom: none;
   margin-bottom: none;
-}
-
-/* Footer */
-
-.main-page p a{
-  color:var(--accent-color);
-  text-decoration: underline;
 }
 
 
@@ -887,12 +801,6 @@ ul.pill-navigation {
   list-style: none;
   padding: 0;
   margin: 0;
-}
-
-.navigation ul + ul {
-  font-size: var(--small-font-size);
-  opacity: 0.5;
-  line-height: 1;
 }
 
 .navigation a {

@@ -844,3 +844,26 @@ a.content-line .file {
     transform: scale(0.3);
   }
 }
+
+
+/* Paragraph tag containing form error messages */
+.error, .success {
+  display: block;
+  margin-bottom: 2rem;
+  padding: 12px 18px;
+}
+
+.error:empty, .success:empty {
+  display: none;
+}
+
+.error {
+  color: var(--error-text-color);
+  background: var(--error-background-color);
+}
+
+.success {
+  color: var(--success-text-color);
+  background: var(--success-background-color);
+}
+

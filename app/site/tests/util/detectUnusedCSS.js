@@ -10,12 +10,52 @@ const recursiveReadDir = require("helper/recursiveReadDirSync");
 
 const TMP_CACHE = join(blot_directory, 'data/tmp/unused-css-cache.html');
 
+const URLPathsToSkip = [
+  // regex which matches /questions/:id/edit
+  /\/questions\/\d+\/edit/,
+  // regex which matches /questions/tagged/:tag
+  // where tag is a url slug
+  /\/questions\/tagged\/[a-z0-9-]+/,
+  ];
+
+const selectorsToSkip = [
+  "@font-face", 
+  "@import", 
+
+  '.working', // loading spinner for buttons on click
+  '.copied', // copy to clipboard button after copying
+
+  '.katex', // katex
+  
+  '.hljs-', // highlight.js
+  '.pcr-', // color picker
+  '.pickr', // color picker,
+  '.tagify', // tag input for questions section
+  
+  // code editor
+  '.CodeMirror', 
+  '.cm-',
+];
+
+const pseudoSelectors = [
+  "focus-within", "focus", "before", "after", "hover", "active", "marker", "placeholder",
+  "checked", "disabled", "empty",
+  "-webkit-details-marker", "-webkit-input-placeholder", "-moz-placeholder", "-ms-input-placeholder",
+  "selection", "first-letter", "first-line", "-moz-selection"
+];
+
 const CSS_SOURCE_FILES = recursiveReadDir(join(blot_directory, 'app/views/css')).filter(i => i.endsWith(".css")).map(i => ({
   path: i,
   contents: fs.readFileSync(i, 'utf-8')
 }));
 
 const fetchHTML = async (url, headers) => {
+
+  if (URLPathsToSkip.some(regex => regex.test(url))) {
+    console.log('Skipping URL:', url);
+    return null;
+  }
+
   const response = await fetch(url, { headers });
   if (![200, 400].includes(response.status)) {
     throw new Error(`Bad status: ${response.status} on ${url}`);
@@ -110,13 +150,6 @@ const crawlSite = async ({ origin, headers, cache }) => {
 };
 
 const removePseudoSelectors = (selector) => {
-  const pseudoSelectors = [
-    "focus-within", "focus", "before", "after", "hover", "active", "marker", "placeholder",
-    "checked", "disabled",
-    "-webkit-details-marker", "-webkit-input-placeholder", "-moz-placeholder", "-ms-input-placeholder",
-    "selection", "first-letter", "first-line", "-moz-selection"
-  ];
-
   const regex = new RegExp(pseudoSelectors.map(pseudo => `:?::?${pseudo}`).join("|"), "g");
   return selector.replace(regex, "");
 };
@@ -133,9 +166,9 @@ const findSourceFileForRule = (selector) => {
   return null;
 };
 
-const processCSSRule = ($, filename, unusedCSSRules, selectorsToSkip) => (rule) => {
+const processCSSRule = ($, filename, unusedCSSRules) => (rule) => {
   if (rule.type === "media") {
-    rule.rules.forEach(processCSSRule($, filename, unusedCSSRules, selectorsToSkip));
+    rule.rules.forEach(processCSSRule($, filename, unusedCSSRules));
     return;
   }
 
@@ -157,7 +190,7 @@ const processCSSRule = ($, filename, unusedCSSRules, selectorsToSkip) => (rule) 
   });
 };
 
-module.exports = async ({ origin, headers = {}, selectorsToSkip = [], cache = false }) => {
+module.exports = async ({ origin, headers = {}, cache = false }) => {
   if (!origin) throw new Error("origin is required");
 
   console.log("Crawling HTML on site...", origin);
@@ -205,20 +238,5 @@ if (require.main === module) {
   module.exports({
     origin: 'https://local.blot',
     cache: true,
-    selectorsToSkip: [
-      "@font-face", 
-      "@import", 
-
-      '.katex', // katex
-      
-      '.hljs-', // highlight.js
-      '.pcr-', // color picker
-      '.pickr', // color picker,
-      '.tagify', // tag input for questions section
-      
-      // code editor
-      '.CodeMirror', 
-      '.cm-',
-    ]
   });
 }
