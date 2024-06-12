@@ -30,11 +30,6 @@ ol.path {
     bottom: 0;
   }
 
-  ol.path > li:first-child:last-child:before {
-    top: 0;
-    bottom: 0;
-    height: auto;
-  }
 
   ol.path > li:after {
     content: "";

@@ -7,6 +7,7 @@ const { parse, resolve } = require("url");
 const { join, extname } = require("path");
 const { blot_directory } = require('config');
 const recursiveReadDir = require("helper/recursiveReadDirSync");
+const { file } = require("googleapis/build/src/apis/file");
 
 const TMP_CACHE = join(blot_directory, 'data/tmp/unused-css-cache.html');
 
@@ -49,6 +50,15 @@ const CSS_SOURCE_FILES = recursiveReadDir(join(blot_directory, 'app/views/css'))
   contents: fs.readFileSync(i, 'utf-8')
 }));
 
+const BUILT_CSS_FILES = [
+  join(blot_directory, 'app/documentation/data/dashboard.min.css'),
+  join(blot_directory, 'app/documentation/data/documentation.min.css'),
+].map(i => ({
+  path: i,
+  filename: i.split('/').pop(),
+  contents: fs.readFileSync(i, 'utf-8')
+}));
+
 const fetchHTML = async (url, headers) => {
 
   if (URLPathsToSkip.some(regex => regex.test(url))) {
@@ -68,26 +78,13 @@ const fetchHTML = async (url, headers) => {
 };
 
 const loadCSSFiles = async (origin, headers) => {
-  const indexHTML = await fetchHTML(origin, headers);
-  if (!indexHTML) throw new Error("Unable to fetch index page");
-
-  const $ = cheerio.load(indexHTML);
-  const cssLinks = $("link[rel='stylesheet']");
-
-  const cssContents = await Promise.all(cssLinks.map(async (i, link) => {
-    const cssUrl = resolve(origin, $(link).attr('href'));
-    console.log('Fetching CSS:', cssUrl);
-    const cssContent = await fetch(cssUrl).then(res => res.text());
-    console.log('Fetched CSS:', cssUrl, cssContent.length, 'bytes');
-    return { css: cssContent, filename: cssUrl };
-  }).get());
-
-  return cssContents.map(({ css, filename }) => {
+ 
+  return BUILT_CSS_FILES.map(({ contents, filename }) => {
     try {
-      const result = parseCSS.parse(css);
+      const result = parseCSS.parse(contents);
       return { rules: result.stylesheet.rules, filename };
     } catch (e) {
-      throw new Error(`Error parsing CSS from URL: ${filename}`);
+      throw new Error(`Error parsing CSS from: ${filename}`);
     }
   });
 };
@@ -141,7 +138,8 @@ const crawlSite = async ({ origin, headers, cache }) => {
   const htmlContent = [];
   await processPage({ origin, headers, visitedPages, htmlContent });
 
-  const result = `<html><body>${htmlContent.join('')}</body></html>`;
+  const result = htmlContent.join('');
+
   if (cache) {
     await fs.outputFile(TMP_CACHE, result);
   }
@@ -198,7 +196,19 @@ module.exports = async ({ origin, headers = {}, cache = false }) => {
   const css = await loadCSSFiles(origin, headers);
   console.log("Loaded CSS", css);
 
-  const HTML = await crawlSite({ origin, headers, cache });
+  // if headers are provided, first we crawl the site without headers
+  // (to simulate a logged out user) and then we crawl the site with headers
+  // (to simulate a logged in user) and compare the two
+  const HTML = `<html><body>${
+    Object.keys(headers).length
+      ? (await Promise.all([
+          crawlSite({ origin, headers: {}, cache }),
+          crawlSite({ origin, headers, cache })
+        ])).join('')
+      : await crawlSite({ origin, headers, cache })
+  }</body></html>`;
+  
+
   const $ = cheerio.load(HTML);
   const unusedCSSRules = [];
 

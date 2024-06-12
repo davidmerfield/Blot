@@ -70,10 +70,6 @@ padding-bottom: 0;
     color: var(--medium-text-color)
   }
 
-  .filters a.selected {
-    background-color: var(--text-color);
-    color: var(--background-color)
-  }
 
   .question-preview {
   max-height: 1.7em;overflow: hidden;

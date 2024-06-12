@@ -150,6 +150,42 @@ form.dashboard-form {
     background: rgba(226, 249, 227, 1);
     padding: 0.33em 0.66em;
   }
+
+
+
+input[name="number"] {
+  width: 100%;
+  display: block;
+}
+
+input[name="cvc"] {
+  display: block;
+}
+
+
+input[name="exp-year"],
+input[name="exp-month"],
+input[name="cvc"] {
+  text-align: center;
+}
+
+input[name="exp-month"] {
+  width: 60px;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+input[name="cvc"] {
+  width: 75px;
+}
+
+input[name="exp-year"] {
+  width: 75px;
+  margin-left: -1px;
+  margin-right: 2em;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
   
   form.dashboard-form .cvc {
     width: 30%;

@@ -19,32 +19,37 @@ describe("Blot's site'", function () {
       await build({watch: false});
       await templates({watch: false});
 
+      const totalQuestions = 30;
+
       const question = {
         title: "How do I use Blot's API?",
         author: "Blot",
-        body: "I want to use Blot's API to create a new post. How do I do that?",
+        body: "I want to use Blot's API to create a new post. \n```html\n<h1>hey</h1>\n```\n How do I do that?",
         tags: ["api"],
         replies: [
           {
-            body: "You can create a new post by sending a POST request to /api/posts with the post's title and body."
+            body: "You can create a new post by sending a POST \n```html\n<h1>hey</h1>\n```\n request to /api/posts with the post's title and body."
           }
         ]
       };
 
-      // inject some fake questions into the database
-      const { id } = await create({
-        title: question.title,
-        author: question.author,
-        body: question.body,
-        tags: question.tags
-      });
-  
-      for (const reply of question.replies) {
-        await create({
-          body: reply.body,
-          parent: id
+      for (let i = 0; i < totalQuestions; i++) {
+          // inject some fake questions into the database
+        const { id } = await create({
+          title: question.title,
+          author: question.author,
+          body: question.body,
+          tags: question.tags
         });
+    
+        for (const reply of question.replies) {
+          await create({
+            body: reply.body,
+            parent: id
+          });
+        }
       }
+      
 
     }, 60000);
 
@@ -91,7 +96,7 @@ describe("Blot's site'", function () {
       await detectUnusedCSS({
         origin: this.origin, 
         headers: {
-        'Cookie': cookieHeader,
+         'Cookie': cookieHeader,
         }
         });
 
