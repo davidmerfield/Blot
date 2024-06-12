@@ -321,29 +321,6 @@ table {
     table .light {margin: 0 6px 0 8px;color:var(--light-text-color)}
     table pre {margin-top: 0;margin-bottom: 0}
     
-    .folder-icon,
-    .file-icon {
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='58.373' height='44.408' direction='ltr' xmlns:v='https://vecta.io/nano'%3E%3Cpath stroke='%23B9B4B0' d='M11 41.078h36.352c3.609 0 5.543-1.955 5.543-5.521V12.848c0-3.545-1.934-5.5-5.521-5.5H26.018c-1.977 0-2.793-.236-4.018-1.375L20.926 4.92c-1.396-1.354-2.148-1.59-4.361-1.59h-6.359c-3.18 0-4.727 1.547-4.727 4.684v27.543c0 3.609 1.912 5.521 5.521 5.521zM6.531 8.143c0-2.578 1.246-3.803 3.803-3.803h6.08c1.869 0 2.643.236 3.932 1.482l1.096 1.031C22.688 8.057 23.633 8.4 25.867 8.4h21.441c2.879 0 4.533 1.525 4.533 4.512v2.771H6.531zm4.512 31.883c-2.965 0-4.512-1.547-4.512-4.512V16.736h45.311v18.777c0 2.965-1.654 4.512-4.533 4.512z'/%3E%3C/svg%3E"); 
-      background-repeat: no-repeat;
-      background-position: 0 center;
-      background-size: 24px;
-      padding-left: 30px;
-      display: inline-block;
-      color: var(--medium-text-color)
-    }
-    
-    .a .file-icon {
-      color: var(--accent-color);
-      background-image: url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='utf-8'%3F%3E%3C!-- Generator: Adobe Illustrator 22.0.1, SVG Export Plug-In . SVG Version: 6.00 Build 0) --%3E%3Csvg version='1.1' id='Layer_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 16 16' style='enable-background:new 0 0 16 16;' xml:space='preserve'%3E%3Cstyle type='text/css'%3E .st0%7Bdisplay:none;%7D .st1%7Bfill:none;stroke:%234385BE;stroke-width:1.15;stroke-miterlimit:10;%7D%0A%3C/style%3E%3Cg id='RNYwKZ.tif' class='st0'%3E%3Cimage style='display:inline;overflow:visible;' width='108' height='92' id='Layer_0_1_' xlink:href='6A93E3629DBE3604.png' transform='matrix(0.5 0 0 0.5 -4.9557 -9.8988)'%3E%3C/image%3E%3C/g%3E%3Cpolygon class='st1' points='13.5,15.4 2.5,15.4 2.5,0.6 7.8,0.6 13.5,5.3 '/%3E%3Cpolyline class='st1' points='7.8,0.6 7.8,5.9 12.9,5.9 '/%3E%3Cg id='lFqE9j.tif' class='st0'%3E%3Cimage style='display:inline;overflow:visible;' width='108' height='92' id='Layer_0_2_' xlink:href='6A93E3629DBE360B.png' transform='matrix(0.5 0 0 0.5 -4.9557 -9.8988)'%3E%3C/image%3E%3C/g%3E%3C/svg%3E%0A");
-    }
-
-    a:hover .a .file-icon {text-decoration: underline;}
-
-    .file-icon {
-      background-image: url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='utf-8'%3F%3E%3C!-- Generator: Adobe Illustrator 22.0.1, SVG Export Plug-In . SVG Version: 6.00 Build 0) --%3E%3Csvg version='1.1' id='Layer_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 16 16' style='enable-background:new 0 0 16 16;' xml:space='preserve'%3E%3Cstyle type='text/css'%3E .st0%7Bdisplay:none;%7D .st1%7Bfill:none;stroke:%239D9A98;stroke-width:1.15;stroke-miterlimit:10;%7D%0A%3C/style%3E%3Cg id='RNYwKZ.tif' class='st0'%3E%3Cimage style='display:inline;overflow:visible;' width='108' height='92' id='Layer_0_1_' xlink:href='6A93E3629DBE3604.png' transform='matrix(0.5 0 0 0.5 -4.9557 -9.8988)'%3E%3C/image%3E%3C/g%3E%3Cpolygon class='st1' points='13.5,15.4 2.5,15.4 2.5,0.6 7.8,0.6 13.5,5.3 '/%3E%3Cpolyline class='st1' points='7.8,0.6 7.8,5.9 12.9,5.9 '/%3E%3Cg id='lFqE9j.tif' class='st0'%3E%3Cimage style='display:inline;overflow:visible;' width='108' height='92' id='Layer_0_2_' xlink:href='6A93E3629DBE360B.png' transform='matrix(0.5 0 0 0.5 -4.9557 -9.8988)'%3E%3C/image%3E%3C/g%3E%3C/svg%3E%0A");
-      background-size: 16px;
-      padding-left: 24px;
-    }
     
 strike {
   text-decoration-color: var(--accent-color);
