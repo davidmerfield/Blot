@@ -98,6 +98,7 @@ WORKDIR /usr/src/app
 COPY ./app ./app
 COPY ./config ./config
 COPY ./notes ./notes
+COPY ./todo.txt ./todo.txt
 
 ## Stage 4 (testing)
 # This stage is used for running tests in CI
