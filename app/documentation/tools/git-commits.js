@@ -31,12 +31,17 @@ const commitMessageMapRegEx = new RegExp(
 );
 
 module.exports = function loadDone (req, res, next) {
+  console.log('News page: fetching git commits with CWD:', rootDir);
   exec("git log -300", { cwd: rootDir }, function (err, output) {
+
     if (err) {
+      console.log("News page: error fetching git commits");
       console.log(err);
       res.locals.recent_commits = [];
       res.locals.days = [];
       return next();
+    } else {
+      console.log("News page: fetched git commits");
     }
 
     output = output.split("\n\n");
