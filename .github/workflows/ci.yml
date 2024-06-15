@@ -18,19 +18,12 @@ jobs:
         ports:
           - 6379:6379
     steps:
-      # this step is needed to ensure the .git subdirectory is created
-      # https://github.com/actions/checkout/issues/335#issuecomment-763159788
-      # otherwise the news page will not be generated properly (it uses git)
-      - name: ensure .git subdirectory is created
-        run: >
-          sudo apt-get install -y software-properties-common \
-          && sudo apt-get update \
-          && sudo add-apt-repository -y ppa:git-core/ppa \
-          && sudo apt-get update \
-          && sudo apt-get install -y git
-
       - name: Checkout
         uses: actions/checkout@v4
+        # if we don't fetch the history
+        # the news page will not be generated properly (it uses git)
+        with:
+          fetch-depth: 300
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
