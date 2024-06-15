@@ -11,7 +11,7 @@ module.exports = ({cacheID, viewDirectory}) => () => (text, render) => {
     try {
       const contents = fs.readFileSync(join(viewDirectory, path), "utf8");
       identifier = hash(contents).slice(0, 8);
-      console.log('hashed', path, identifier);
+      // console.log('hashed', path, identifier);
     } catch (e) {
       console.log('failed to hash', path, e);
       // if the file doesn't exist, we'll use the cacheID

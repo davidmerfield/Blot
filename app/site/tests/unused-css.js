@@ -67,17 +67,21 @@ describe("Blot's site'", function () {
 
     }, 120000);
 
-    it("has no unused CSS on the dashboard", async function () {
+    fit("has no unused CSS on the dashboard", async function () {
 
       // create test files so the dashboard features work when we run the test
       await this.blog.write({ path: '/test.txt', content: "Title: Bye" });
       await this.blog.write({ path: '/not.mp3', content: "Title: Bye" });
+      await this.blog.write({ path: '/Ignored.pdf', content: "Title: Bye" });
       await this.blog.write({ path: '/Pages/About.md', content: "Title: Bye" });
+
       await this.blog.rebuild();
     
       // this means the features of the links page all show up too
       await this.blog.update({menu: [{ id: "123", metadata: {}, label: "Twitter", url: "https://twitter.com" }]})
-
+      
+      // in order to get the domain setup guide to render, we must go through the setup process
+      
       const email = this.user.email;
       const password = this.user.fakePassword;
       
@@ -116,6 +120,15 @@ describe("Blot's site'", function () {
 
       // the response status should be 200
       expect(dashboard.status).toEqual(200);
+
+      // // Check that we are logged in by requesting /sites and checking the response
+      // // for the user's email address
+      // const siteRes = await fetch(this.origin + "/sites/" + this.blog.handle, {headers: {
+      //   'Cookie': cookieHeader,
+      //   redirect: 'manual'
+      // }});
+      // const siteText = await siteRes.text();
+
 
       await detectUnusedCSS({
         origin: this.origin, 

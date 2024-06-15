@@ -37,7 +37,7 @@ date.get('/', (req, res, next) => {
   });
 
   const timeZones = zones.map(zone => {
-    const offset = moment.tz.zone(zone).offset(when);
+    const offset = moment.tz.zone(zone).utcOffset(when);
     return {
       time: moment.utc(when).tz(zone).format('h:mm a, MMMM Do'),
       value: zone,

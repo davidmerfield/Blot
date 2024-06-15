@@ -9,7 +9,7 @@ services:
     build:
       context: ../
       dockerfile: Dockerfile
-      target: test
+      target: dev
     depends_on:
       - test-redis
     env_file:
@@ -23,6 +23,7 @@ services:
       - ../tests:/usr/src/app/tests
       - ../config:/usr/src/app/config
       - ../notes:/usr/src/app/notes
+      - ../todo.txt:/usr/src/app/todo.txt
       - ../.git:/usr/src/app/.git
     command: >
       sh -c "rm -rf /usr/src/app/data && mkdir /usr/src/app/data && node tests $TEST_PATH"

@@ -482,82 +482,9 @@ line-height: 48px;
   flex-grow: 1
 }
 
-.bubble {
-  color: #aaa;
-  text-decoration: none;
-  padding: 4px 20px;
-  display: block;
-}
-
-.bubble:hover {
-  color: #444;
-  /*background: rgba(0,0,0,0.03)*/
-}
-
-.crumbs {
-  display: flex
-}
-
-.crumb {
-  padding: 11px 20px;
-  text-decoration: none;
-  color: rgb(158, 154, 152);
-  border-bottom: 1px solid rgb(237, 237, 237);
-}
-}
 
 
-.crumbs:hover .crumb:not(:hover) {
-  color: rgb(153, 153, 153);
-  font-weight: 400;
-}
 
-.last,
-.crumb:hover {
-  color: rgb(158, 154, 152);
-  /*font-weight:500;*/
-}
-
-.toggle {
-  display: block;
-  float: left;
-  width: 50%;
-  padding: 10px 20px;
-  color: rgb(153, 153, 153);
-  text-decoration: none;
-  background: #eae7e5;
-}
-
-.toggle.selected {
-  background: none;
-  color: #000;
-  font-weight: 500;
-}
-
-.side-bar {
-  flex-grow: 0;
-  flex-basis: 380px;
-  max-width: 380px;
-  margin-right: 20px;
-  min-width: 200px;
-}
-
-.left-side {
-  margin-left: 20px
-}
-
-@media only screen and (max-width: 1000px) {
-  .left-side {
-    position: absolute;
-    top: 0;
-    left: 0
-  }
-
-  .dropdown .opener {
-    float: none
-  }
-
-}
 
 .gap-small {
   flex-grow: 1;

@@ -91,10 +91,10 @@ const processPage = async ({ origin, headers, visitedPages, htmlContent }) => {
     if (visitedPages[pathname]) continue;
     visitedPages[pathname] = true;
 
-    if (extname(pathname)) {
-      console.log(colors.yellow("SKIP", pathname));
-      continue;
-    }
+    // if (extname(pathname)) {
+    //   console.log(colors.yellow("SKIP", pathname));
+    //   continue;
+    // }
 
     console.log(colors.dim(" GET " + pathname));
     try {
@@ -168,10 +168,10 @@ const processCSSRule = ($, filename, unusedCSSRules) => (rule) => {
   
   rule.selectors.forEach(selector => {
     if (selectorsToSkip.find(skip => selector.indexOf(skip) > -1)) {
-      console.log('skipping', selector);
+      // console.log('skipping', selector);
       return;
     } else {
-      console.log('checking', selector);
+      // console.log('checking', selector);
     }
     const normalizedSelector = removePseudoSelectors(selector);
     if ($(normalizedSelector).length > 0) return;
