@@ -111,11 +111,6 @@ form.dashboard-form {
     border: 1px solid var(--accent-color);
   }
   
-  form.dashboard-form input[type="text"]:focus,
-  form.dashboard-form input[type="password"]:focus,
-  form.dashboard-form textarea:focus {
-  }
-  
   
   #avatar {
     margin: 1em 0;
@@ -130,19 +125,6 @@ form.dashboard-form {
   }
   
   
-  
-  .imageUpload input[type="file"] {
-    margin-top: 0;
-  }
-  
-  .imageUpload span {
-    margin: 3px 0 9px;
-    display: block;
-  }
-  
-  .imageUpload .button.small {
-    margin: 12px 0 0;
-  }
   
   form.dashboard-form .box.green.success {
     display: inline-block;

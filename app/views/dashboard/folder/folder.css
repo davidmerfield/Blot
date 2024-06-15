@@ -113,14 +113,6 @@
 
 
 
-  .post-icon-holder {
-    position: absolute;top:0.94em;left:0.88em;border-radius: 100%;border:1px solid white;width:8px;height:8px;background-color: #fff;
-  
-}
-
-  .post-icon-holder > span[class^="icon-"] {
-    font-size:8px;position: absolute;top:0;left: 0;
-  }
 
 .directory-list {
   width: 100%;
@@ -269,18 +261,4 @@
 
 .directory-list th.sorted.reverse::after {
   background: url('data:image/svg+xml, <svg xmlns="http://www.w3.org/2000/svg" style="opacity:0.3" viewBox="0 0 12 12" width="12" height="12"><path d="M6 8.825c-.2 0-.4-.1-.5-.2l-3.3-3.3c-.3-.3-.3-.8 0-1.1.3-.3.8-.3 1.1 0l2.7 2.7 2.7-2.7c.3-.3.8-.3 1.1 0 .3.3.3.8 0 1.1l-3.2 3.2c-.2.2-.4.3-.6.3Z"></path></svg> ');
-}
-
-.folder-item {
-  color: var(--accent-color);
-  border-bottom: none;
-  line-height: 1;
-}
-
-.folder-item svg {
-margin-right: 8px;
-vertical-align: middle;
-position: relative;
-top: 2px;
-fill: currentColor
 }

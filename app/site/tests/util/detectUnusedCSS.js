@@ -4,10 +4,9 @@ const fs = require("fs-extra");
 const parseCSS = require("css");
 const fetch = require("node-fetch");
 const { parse, resolve } = require("url");
-const { join, extname } = require("path");
+const { join } = require("path");
 const { blot_directory } = require('config');
 const recursiveReadDir = require("helper/recursiveReadDirSync");
-const { file } = require("googleapis/build/src/apis/file");
 
 const TMP_CACHE = join(blot_directory, 'data/tmp/unused-css-cache.html');
 
@@ -49,6 +48,32 @@ const CSS_SOURCE_FILES = recursiveReadDir(join(blot_directory, 'app/views/css'))
   path: i,
   contents: fs.readFileSync(i, 'utf-8')
 }));
+
+const loadHTMLViews = async() => {
+  const htmlFiles = recursiveReadDir(join(blot_directory, 'app/views')).filter(i => i.endsWith(".html"));
+
+  const html = htmlFiles.map(file => {
+    let contents;
+    try {
+      contents = fs.readFileSync(file, 'utf-8');
+
+      // if the contents includes <html> then we know it's a full HTML file so we can skip
+      if (contents.includes('<html>')) {
+        return ''
+      }
+
+      // if the contents includes <head>
+      if (contents.includes('<head>')) {
+        return '';
+      }
+    } catch (e) {
+      throw new Error(`Error reading HTML file: ${file}`);
+    }
+    return contents;
+  }).join('');
+
+  return html;
+}
 
 const fetchHTML = async (url, headers) => {
 
@@ -189,8 +214,9 @@ module.exports = async ({ origin, headers = {}, cache = false, cssFilePaths = []
   console.log("Crawling HTML on site...", origin);
 
   const css = await loadCSSFiles(cssFilePaths);
-
-  const HTML = `<html><body>${ await crawlSite({ origin, headers, cache }) }</body></html>`;
+  const html = await loadHTMLViews();
+  
+  const HTML = `<html><body>${html} ${ await crawlSite({ origin, headers, cache }) } </body></html>`;
 
   const $ = cheerio.load(HTML);
   const unusedCSSRules = [];
