@@ -20,21 +20,27 @@ const modify = i => {
 }
 
 
-try {
- featured = JSON.parse(fs.readFileSync(__dirname + "/data/featured.json", "utf-8"));
- featured.sites = featured.sites.map(i => {
-    return {
-      ...i,
-      bio: modify(i.bio),
-      host_without_www: i.host.replace(/^www\./, "")
-    };
-  });
-} catch (e) {
-  console.error(e);
+const loadFeatured = async () => {
+  
+  if (featured.sites.length) return featured;
+
+  try {
+    const json = await fs.readFile(__dirname + "/data/featured.json", "utf-8");
+    featured = JSON.parse(json);
+    featured.sites = featured.sites.map(i => {
+        return {
+          ...i,
+          bio: modify(i.bio),
+          host_without_www: i.host.replace(/^www\./, "")
+        };
+      });
+    return featured;
+  } catch (e) {
+    console.error(e);
+  }
 }
 
-
 module.exports = async function (req, res, next) {
-  res.locals.featured = featured;
+  res.locals.featured = await loadFeatured();
   next();
 };
