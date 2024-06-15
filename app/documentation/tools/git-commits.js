@@ -41,7 +41,9 @@ module.exports = function loadDone (req, res, next) {
       res.locals.days = [];
       return next();
     } else {
-      console.log("News page: fetched git commits");
+      console.log("News page: fetched git commits with output:");
+      console.log(output);
+      console.log("News page: end of output");
     }
 
     output = output.split("\n\n");
