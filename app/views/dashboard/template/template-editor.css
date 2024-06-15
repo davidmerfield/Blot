@@ -1,17 +1,3 @@
-.box-button {
-    font-size: 14px;
-}
-
-.box-button {
-    background: rgba(0, 0, 0, 0.1);
-    color: inherit;
-    color: rgb(68, 68, 68);
-    text-decoration: none;
-}
-
-.box-button.tab {
-    border-bottom: 1px solid #ccc;
-}
 
 .tab.selected {
     border-bottom: none;
