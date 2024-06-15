@@ -127,6 +127,7 @@ module.exports = function loadDone (req, res, next) {
       return { ...commit, fromNow: moment(commit.date).fromNow() };
     });
 
+    console.log('News page: fetched git commits successfully.', res.locals.recent_commits.length, 'commits', res.locals.days.length, 'days')
     next();
   });
 };
