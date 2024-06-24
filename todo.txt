@@ -35,6 +35,9 @@ Fix bug with [bulk redirects page](https://blot.im/questions/2385)
 Make video embeds work on Google Docs:
 - Tell [questioners](https://blot.im/questions/471)
 
+Make code embeds work on Google Docs:
+- Tell [Jonathan](https://mail.google.com/mail/u/0/#inbox/FMfcgzGxTPFzrWBgxxWfbJzlbZzjKMxB)
+
 Improvements to search engine:
 - Make search use 'AND' instead of 'OR' for multiple terms
 - Remove drafts and tell Paul
