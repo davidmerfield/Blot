@@ -6,27 +6,14 @@
   </p>
 {{/tag}}
 {{^tag}}
-<div style="display: flex;align-items: baseline;margin:0 0 1em;font-size:16px;flex-wrap:wrap">
-    {{> questions-search}}
-    <a class="bordered-button"  href="/questions/ask">Ask a question</a>
-</div>
+{{> questions-toolbar}}
 {{/tag}}
-<!-- 
-<p class="filters">
-  <a class="{{selected.questionsIndex}}" href="/questions">Recent</a>
-  <a class="{{selected.popular}}" href="/questions/popular">Most discussion</a>
-</p> -->
 
-<div class="questions collapse-on-small-screens">
+<div class="questions">
 
-<div style="flex-basis:66%;margin-top:1.25em" >
   {{#topics}}
     {{> question-row}}  
   {{/topics}}
 
 {{> questions-paginator}}
-</div>
-<div style="flex-basis:33%;">
-  {{> questions-sidebar}}
-</div>
 </div>

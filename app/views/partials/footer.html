@@ -1,16 +1,18 @@
-<script
-  type="text/javascript"
-  src="{{#cdn}}/documentation.min.js{{/cdn}}"></script>
-<footer>
+<footer style="max-width: 1060px;margin: 0 auto">
   <ul>
-    <li><a href="/developers" >Developer guide</a></li>
-    <li><a href="/about/status">Status</a></li>
-    <li><a href="/about/notes">Notes</a></li>
-    <li><a href="/about/source-code">View source</a></li>
+    <li><a href="/feedback">Feedback</a></li>
+    {{#sourceFile}}
+    <li><a href="https://github.com/davidmerfield/Blot/tree/master{{{sourceFile}}}">Edit this page</a></li> 
+    {{/sourceFile}}
+    <li><a href="/status">Status</a></li>
   </ul>
   <ul>
     <li><a href="/contact" >Contact</a></li>
-    <li><a href="/privacy" >Privacy policy</a></li>
     <li><a href="/terms" >Terms of use</a></li>
+    <li><a href="/privacy" >Privacy policy</a></li>
   </ul>
 </footer>
+<script defer src="{{#cdn}}/documentation.min.js{{/cdn}}"></script>
+{{#user}}
+<script defer src="{{#cdn}}/dashboard.min.js{{/cdn}}"></script>
+{{/user}}

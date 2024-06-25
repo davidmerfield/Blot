@@ -8,12 +8,12 @@ const type = require("helper/type");
 const Email = require("helper/email");
 
 Account.use(function (req, res, next) {
-  res.locals.breadcrumbs.add("Your account", "/account");
+  res.locals.breadcrumbs.add("Account", "/account");
   res.locals.account = true;
   next();
 });
 
-Account.use(function (req, res, next) {
+Account.use(['/subscription', '/pay-subscription'], function (req, res, next) {
   if (!req.user.subscription || !req.user.subscription.customer) return next();
 
   stripe.customers.retrieve(
@@ -43,7 +43,7 @@ Account.use(function (req, res, next) {
 });
 
 Account.route("/").get(function (req, res) {
-  res.redirect("/dashboard");
+  res.redirect("/sites");
 });
 
 Account.use("/:section", function (req, res, next) {
@@ -67,18 +67,17 @@ Account.use("/:section/:subsection", function (req, res, next) {
 });
 
 Account.use("/password", require("./password"));
-Account.use("/export", require("./export"));
 Account.use("/email", require("./email"));
-Account.use("/add-new-site", require("./add-new-site"));
+Account.use("/create-site", require("./create-site"));
 Account.use("/subscription", require("./subscription"));
 Account.use("/pay-subscription", require("./pay-subscription"));
 
-const { updateSubscription } = require("dashboard/paypal_webhook");
+const { updateSubscription } = require("dashboard/webhooks/paypal_webhook");
 
 Account.get("/delete-blog-paypal", function (req, res) {
   res.locals.paypal_client_id = config.paypal.client_id;
   res.locals.new_quantity = req.user.blogs.length;
-  res.render("account/delete-blog-paypal");
+  res.render("dashboard/account/delete-blog-paypal");
 });
 
 Account.get("/delete-blog-paypal/update", async (req, res, next) => {
@@ -88,7 +87,7 @@ Account.get("/delete-blog-paypal/update", async (req, res, next) => {
   await updateSubscription(req.user.paypal.id);
   Email.SUBSCRIPTION_DECREASE(req.user.uid);
 
-  res.message("/dashboard", "Reduced your PayPal subscription");
+  res.message("/sites", "Reduced your PayPal subscription");
 });
 
 Account.post("/log-out", logout, function (req, res) {
@@ -99,7 +98,7 @@ Account.use(function (err, req, res, next) {
   if (req.method === "GET") {
     console.log(err, err.trace);
     res.status(500);
-    res.render("error", { error: err });
+    res.render("dashboard/error", { error: err });
   } else if (req.method === "POST") {
     var redirect = (req.body && req.body.redirect) || req.baseUrl + req.path;
     var message = "Error";

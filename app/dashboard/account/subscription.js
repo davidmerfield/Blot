@@ -6,11 +6,11 @@ var config = require("config");
 var stripe = require("stripe")(config.stripe.secret);
 var email = require("helper/email");
 var prettyPrice = require("helper/prettyPrice");
-var parse = require("dashboard/parse");
+const parse = require("dashboard/util/parse");
 const PLAN_MAP = config.stripe.plan_map;
 
 Subscription.route("/").get(function (req, res) {
-  res.render("account/subscription", {
+  res.render("dashboard/account/subscription", {
     title: "Your account",
     monthly: req.user.isMonthly
   });
@@ -31,7 +31,7 @@ Subscription.route("/payment-method")
   })
 
   .get(function (req, res) {
-    res.render("account/payment-method", {
+    res.render("dashboard/account/payment-method", {
       stripe_key: config.stripe.key,
       breadcrumb: "Edit payment method",
       title: "Edit payment information"
@@ -135,7 +135,7 @@ Subscription.route("/cancel")
   .all(requireSubscription)
 
   .get(function (req, res) {
-    res.render("account/cancel", {
+    res.render("dashboard/account/cancel", {
       title: "Cancel your subscription"
     });
   })
@@ -193,7 +193,7 @@ Subscription.route("/billing-interval")
       );
     }
 
-    res.render("account/billing-interval", {
+    res.render("dashboard/account/billing-interval", {
       title: "Switch your subscription interval",
       proration: proration,
       credit: credit,
@@ -248,7 +248,7 @@ Subscription.route("/create")
     res.locals.interval =
       config.stripe.plan.indexOf("monthly") === 0 ? "month" : "year";
     res.locals.stripe_key = config.stripe.key;
-    res.render("account/create-subscription", {
+    res.render("dashboard/account/create-subscription", {
       title: "Create subscription",
       breadcrumb: "Create subscription"
     });
@@ -266,7 +266,7 @@ Subscription.route("/restart")
   .all(requireCancelledSubscription)
 
   .get(function (req, res) {
-    res.render("account/restart", {
+    res.render("dashboard/account/restart", {
       title: "Restart your subscription",
       breadcrumb: "Restart"
     });
@@ -282,7 +282,7 @@ Subscription.route("/restart/pay")
   .all(requireCancelledSubscription)
 
   .get(function (req, res) {
-    res.render("account/restart-pay", {
+    res.render("dashboard/account/restart-pay", {
       title: "Restart your subscription",
       stripe_key: config.stripe.key,
       breadcrumb: "Restart"
@@ -336,7 +336,7 @@ function requireSubscription (req, res, next) {
   }
 }
 
-const { updateSubscription } = require("dashboard/paypal_webhook");
+const { updateSubscription } = require("dashboard/webhooks/paypal_webhook");
 
 async function cancelPaypalSubscription (req, res, next) {
   next();

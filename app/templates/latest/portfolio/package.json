@@ -48,7 +48,11 @@
       150,
       400
     ],
-    "demo_folder": "bjorn"
+    "demo_folder": "bjorn",
+    "template_categories": [
+      "photography",
+      "portfolios"
+    ]
   },
   "isPublic": true,
   "views": {

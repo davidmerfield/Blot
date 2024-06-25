@@ -29,3 +29,7 @@ module.exports = function () {
 
   return css;
 };
+
+if (require.main === module) {
+  fs.outputFileSync(__dirname + '/build.css', module.exports());
+}

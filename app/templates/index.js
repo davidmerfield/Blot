@@ -208,7 +208,8 @@ function build (directory, callback) {
           if (!isPublic || config.environment !== "development")
             return callback();
 
-          mirror(id, callback);
+          callback();
+          // mirror(id, callback);
         });
       });
     });

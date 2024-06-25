@@ -1,10 +1,12 @@
+#898989 www.souloftheimage.com Kimberly Evans, is a photographer
 #c68256 www.skincarriedaway.com Tiffany Cecilia, writes about skincare from San Francisco
 #111111 www.tillmanjex.info Tillman Jex, is a composer based in Berlin
+#dc1c8e hannautkin.com Hanna Utkin, is a filmmaker from New York City
 #87878a www.andrew-bishop.com Andrew Bishop, is an artist and writer living in San Francisco
 #1b6cb5 www.rebeccatron.com Rebecca Kukshtel, is an engineer based in New York City
 #111111 www.jacobyyoung.com/about Jacoby Young, works at Kapālama Elementary School in Hawaii
 #702225 photos.rachelpietraszek.com Rachel Pietraszek, is a lawyer based in Toronto
-#516f82 kiefer.design Kiefer Sutherland, is a designer and art director
+#516f82 kiefer.design Kiefer Sutherland, is a designer
 #757196 www.querlin.com Querlin Ricci, is a designer based in Atlanta
 #af8f8a rile.yt Riley Tomasek, is a software engineer based in New York City
 #bf360c juicenews.com Jan van Iperen, analyzes the juice industry
@@ -14,9 +16,8 @@
 #8a9144 blog.tomwhite.io Thomas White, is a biologist at the University of Sydney
 #4b5e53 www.zinzy.website Zinzy Nev Geene, is a designer based in Amsterdam
 #1d1e23 millicent-thomas.com Millicent Thomas, is a journalist and programmer from Manchester
-#485f27 jeremysarber.com Jeremy Sarber, is a chaplain
 #d1a15d diegosegura.me Diego Segura, is a designer based in New York City
-#a4335c rosiecampbell.me Rosie Campbell, is an artificial intelligence researcher
+#a4335c rosiecampbell.me Rosie Campbell, is an researcher
 #352f2f abigailswallow.me Abigail Swallow, is a student 
 #566014 www.minnowlikethefish.com Minnow Park, is a business coach and writer based in New York
 #2c2818 lara.onl Lara Dominguez, is an artist

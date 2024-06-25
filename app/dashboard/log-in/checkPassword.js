@@ -5,14 +5,14 @@ var authenticate = require("./authenticate");
 module.exports = function checkPassword(req, res, next) {
   var user = req.user;
   var password = req.body && req.body.password;
-  var then = req.query.then || req.body.then || "/dashboard";
+  var then = req.query.then || req.body.then || "/sites";
 
   if (password === "") {
     return next(new LogInError("NOPASSWORD"));
   }
 
   if (password === undefined) {
-    return res.render("log-in/password");
+    return res.render("dashboard/log-in/password");
   }
 
   User.checkPassword(user.uid, password, function (err, match) {

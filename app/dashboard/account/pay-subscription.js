@@ -5,7 +5,7 @@ var User = require("models/user");
 var prettyPrice = require("helper/prettyPrice");
 var Express = require("express");
 var PaySubscription = new Express.Router();
-var parse = require('dashboard/parse');
+const parse = require("dashboard/util/parse");
 
 PaySubscription.route("/")
 
@@ -21,7 +21,7 @@ PaySubscription.route("/")
   // the payment form on the dashboard.
   .get(listUnpaidInvoices)
   .get(function (req, res) {
-    res.render("account/pay-subscription", {
+    res.render("dashboard/account/pay-subscription", {
       stripe_key: config.stripe.key,
       title: "Restart subscription",
     });

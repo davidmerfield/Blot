@@ -62,6 +62,22 @@ COPY --from=builder /usr/local/bin/pandoc /usr/local/bin/pandoc
 # Install git for good since the git client requires it
 RUN apk add --no-cache git
 
+# configure git 
+RUN git config --global user.email "you@example.com"
+RUN git config --global user.name "Your Name"
+
+# Install necessary packages for Puppeteer
+RUN apk add --no-cache \
+      chromium \
+      nss \
+      freetype \
+      harfbuzz \
+      ca-certificates \
+      ttf-freefont
+
+# Set the Puppeteer executable path
+ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
+
 ## Stage 2 (development)
 # This stage is for development purposes
 FROM base as dev
@@ -82,12 +98,14 @@ WORKDIR /usr/src/app
 COPY ./app ./app
 COPY ./config ./config
 COPY ./notes ./notes
+COPY ./todo.txt ./todo.txt
 
 ## Stage 4 (testing)
 # This stage is used for running tests in CI
 FROM source as test
 
 WORKDIR /usr/src/app
+ENV NODE_ENV=test
 
 # this copies all dependencies (prod+dev)
 COPY --from=dev /usr/src/app/node_modules ./node_modules
@@ -95,9 +113,10 @@ COPY --from=dev /usr/src/app/node_modules ./node_modules
 # this copies the tests
 COPY ./tests ./tests
 
-# configure git 
-RUN git config --global user.email "you@example.com"
-RUN git config --global user.name "Your Name"
+# copy in the git repository so the news page can be generated
+# inside the container, this is a bit of a hack and should be
+# replaced with a better solution in the future
+COPY .git .git
 
 ## Stage 5 (default, production)
 # The final production stage

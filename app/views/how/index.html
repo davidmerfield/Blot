@@ -1,25 +1,34 @@
 <h1>Getting started</h1>
 
-<p>Blot turns a folder into a website. Files in the folder be­come posts and pages on your website. </p>
+<p style="margin-top: 0;">Blot turns a folder into a website. Files become posts on your site. Drag-and-drop to publish. There’s no interface, just files, so you can use your favorite tools. You can create all sorts of sites with Blot: blogs, photography sites, portfolios and much more. Fundamentally, they all work the same way.</p>
 
-<div style="max-width: 600px;" >
-  {{> video}}
-</div>
+<p ><a href="/watch"><span class="icon-play" style="margin-right: 8px;"></span>Watch demonstration (6:25)</a></p> 
 
-<h2><a href="/how/posts">Files and posts</a></h2>
-{{> supported_file_list}}
+<h2>Overview</h2>
+<ol class="steps">
+<li><a href="/sign-up">Sign up</a> and create a site.</li>
+<li> <a href="/how/sync">Sync the folder</a> for your site. Blot publishes <a href="/how/files">files</a> inside your folder.</li>
+<li>Select a <a href="/templates">template</a> to customize the look of your site.</li>
+</ol>
 
-<h2 >Sync your folder</h2>
+<h2 >Sync the folder</h2>
 {{> client_list}}
 
-<h2>Prevent a file becoming a post</h2>
-<p> Files and folders whose names start with an underscore do not become posts or pages. You can link to or <a href="#files-in-your-folder-are-public">embed them in posts</a>.</p>
+<h2>Sub-folders</h2>
+<p>You can organize your folder however you like. By default, files inside becomes posts. However, Blot treats files in the following folders differently:</p>
+{{> sub_folder_list}}
 
-<h2>Files in your folder are public</h2>
+<h2><a href="/how/posts">Files</a></h2>
+{{> supported_file_list}}
+
+{{> ignore_file}}
+
+<h2>Your folder is public</h2>
 
 <p>The files in your site’s folder are public. This is useful if you want to embed an image, a video or an audio file in a post. You can also use this to share files with your readers. For example, given the folder below, your readers can download <em>Archive.zip</em> if they visit <em>/Files/Archive.zip</em> on your site.</p>
 
-<pre class="folder" title="Your site"><code>Files
+<background>
+  <pre class="folder" title="Your site"><code>Files
   Archive.zip
   index.html
 Posts
@@ -28,5 +37,4 @@ Posts
 
 
 </code></pre>
-
-
+</background>

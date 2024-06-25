@@ -1,0 +1,49 @@
+
+    <p style="border: 1px solid;border-radius: 12px;padding: 24px;margin:48px 0 0;border-color: #eeeeec;">
+      <span style="/*! font-size:var(--large-font-size); */">{{price}}</span> 
+      <span style="font-size:var(--medium-font-size);/*! color:var(--medium-text-color) */">per {{interval}} per site</span>
+    </p>
+  
+      {{#user.paypal.status}}
+      <p>
+      If you wish to proceed, please authorize this change on PayPal. You will not be charged until your next bill.
+      </p>
+
+
+
+      <br>
+
+      <div id="paypal-button-container"></div>
+  
+      <script src="https://www.paypal.com/sdk/js?client-id={{paypal_client_id}}&vault=true&intent=subscription&disable-funding=card"></script>
+      <script>
+  
+      paypal
+        .Buttons({
+          createSubscription: function (data, actions) {
+            return actions.subscription.revise("{{{user.paypal.id}}}", {
+              plan_id: "{{{user.paypal.plan_id}}}",
+              quantity: "{{new_quantity}}"
+            });
+          },
+          onApprove: function (data, actions) {
+            // replace the contents of the form with a loading message
+            const form = document.querySelector("form");
+            form.innerHTML = "<p>Loading...</p>";
+            window.location.href = "/sites/account/create-site/paypal";
+          }
+        })
+        .render("#paypal-button-container"); // Renders the PayPal button
+      </script>
+
+    {{/user.paypal.status}}
+
+     
+
+
+  <div class="buttons" style="width:100%">
+    <button type="submit" >{{#user.isMonthly}}Create site{{/user.isMonthly}}{{^user.isMonthly}}Submit payment{{/user.isMonthly}}</button>
+    <a href="/sites">Cancel</a>
+  </div>
+</div></div>
+</form>

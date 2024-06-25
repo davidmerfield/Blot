@@ -1,80 +1,68 @@
-<div style="min-height: 50vh;display: flex;flex-direction: column;">
+<form class="create-site-button" action="/sites/account/create-site" method="POST">
+	<input type="hidden" name="timeZone" value="">
+	<input type="hidden" name="_csrf" value="{{csrftoken}}">
+	<input type="hidden" name="title" value="Untitled site">
+	<button>
+		<span class="icon-plus"></span>&thinsp; Create site
+	</button>
+</form>
 
-	<style>
-		a.blog-link {
-			border-color:var(--border-color);
-		}
-		a.blog-link:hover {
-			border-color:var(--accent-color);
-		}
-	</style>
-<div style="flex-grow: 1">  
-	
-		
-		<div style="padding: 0 2rem">
-		  {{#blogs}}
-			<a href="/dashboard/{{handle}}" class="bordered-button blog-link" style="display: flex;justify-content: space-between;margin: 0 0 1em">
-			  
-			  <span style="font-weight:400;line-height: 1.4;padding: 12px 0">
-				  <span class="title">{{pretty.label}}</span><br>
-				  <span style="color:var(--light-text-color);font-weight:400;height:1.4em;font-size:var(--small-font-size)">{{pretty.url}}</span>
+<div class="sites-list-container">
+	<div class="sites">
+		{{#blogs}}
+		<div class="site">
+			<a href="/sites/{{handle}}" class="blog-link">
+				<span class="text-info">
+					<span class="title truncate">{{pretty.label}}</span>
+					<span class="truncate url">{{pretty.url}}</span>
 				</span>
-			  </button>
 			</a>
-			{{/blogs}}
-
-			<a href="/dashboard/account/add-new-site" class="bordered-button">
-			  {{#blogs.length}}Add new{{/blogs.length}}{{^blogs.length}}Create first{{/blogs.length}} site</span>
-			</a>		<br><br>
-
-
+			<div style="width: 60px;height:40px;    position: absolute;
+			height: 40px;
+			width: 60px;
+			top: 10px;
+			left: 1em;
+			margin: 4px 0 10px;
+		">
+				<div class="site-preview" data-url="{{{previewURL}}}" data-cache-id="{{cacheID}}"></div>
+			</div>
 		</div>
-</div>
-</div>
-
-</section>
-
-<section style="background: var(--light-background-color);border-radius: 4px;">
-
-<div>
-	<div style="padding:11px 20px;border-bottom: 1px solid var(--border-color);display: flex;justify-content: space-between;align-items: baseline;">
-		<span style="display:block;font-weight: 400;color: var(--light-text-color);font-size:var(--large-font-size)">Your account</span>
-
-		<form class="foot" action="/dashboard/account/log-out" method="post" style="border:none;background:none;padding:0 20px 0;font-size: 14px;color: var(--light-text-color);">
-
-	
-			<button
-			  type="submit"
-			  style="cursor:pointer;background:none;font-size:14px;border:none;padding:0 0;margin:0;color:rgb(153, 153, 153);"
-			>
-			  Log out &thinsp;&rarr;
-			</button></div>
-		  </form>
+		{{/blogs}}
 	</div>
-<a class="line" href="/dashboard/account/email">
-	<span class="label">Email</span>
-	<span class="center">{{user.email}}</span>
-  <span class="right">Edit</span>
-</a>
 
-{{#user.hasPassword}}
-<a class="line" href="/dashboard/account/password">
-	<span class="label">Password</span>
-	<span class="center"><span class="link">Change your password</span></span>
-</a>
-{{/user.hasPassword}} {{^user.hasPassword}}
-<a class="line" href="/dashboard/account/password/set">
-	<span class="label">Password</span>
-	<span class="center"><span class="link">Set your password</span></span>
-</a>
-{{/user.hasPassword}}
+	<div>
+		<form class="foot" action="/sites/account/log-out" method="post" style="float:right;background:none;padding:0 0 0;font-size: 14px;color: var(--border-color);">
+			<button type="submit" class="logout">
+				Log out &rarr;
+			</button>
+		</form>
 
-<a class="line" href="/dashboard/account/subscription" style="border-bottom: none;">
-	<span class="label">Subscription</span>
+		<span style="padding:11px 0;display:block;font-weight: 400;color: var(--light-text-color);">Account</span>
+	</div>
 
-	<span class="center"><span class="link">Manage your subscription</span></span>
-</a>
+	<div style="border-radius: 4px;border:1px solid var(--border-color);overflow: hidden;">
+		<a class="line" href="/sites/account/email">
+			<span class="label">Email</span>
+			<span class="center">{{user.email}}</span>
+			<span class="right">Edit</span>
+		</a>
 
- 
+		{{#user.hasPassword}}
+		<a class="line" href="/sites/account/password">
+			<span class="label">Password</span>
+			<span class="center"><span class="link">Change password</span></span>
+		</a>
+		{{/user.hasPassword}}
+		{{^user.hasPassword}}
+		<a class="line" href="/sites/account/password/set">
+			<span class="label">Password</span>
+			<span class="center"><span class="link">Set password</span></span>
+		</a>
+		{{/user.hasPassword}}
+
+		<a class="line" href="/sites/account/subscription" style="border-bottom: none;">
+			<span class="label">Subscription</span>
+			<span class="center"><span class="link">Manage subscription</span></span>
+		</a>
+	</div>
 </div>
-</div></section>

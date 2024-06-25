@@ -1,0 +1,27 @@
+<div style="display: flex;">
+  <div style="flex-basis: 66.6666%;">
+    {{{body}}}
+  </div>
+  <div style="flex-basis: 33.3333%;padding-left: 4rem;box-sizing: border-box;">
+    
+    
+    <ol class="path doc-nav" style="list-style: none;margin-top: 43px;">
+      <li class="{{selected.aboutIndex}}">
+        <a href="/about">About</a>
+      </li>
+      
+      {{#toc}}
+  <li class="{{#isSelected}}selected{{/isSelected}}">
+    <a href="{{slug}}">
+      <span class="heading">{{name}}</span></a>
+      <ul>
+      {{#items}}
+      <li class="{{#isSelected}}selected{{/isSelected}}"><a href="{{slug}}">{{name}}</a>
+        {{/items}}
+      </ul>
+    </li>
+  {{/toc}}
+  </ol>
+  </div>
+</div>
+

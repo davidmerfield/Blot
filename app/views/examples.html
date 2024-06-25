@@ -1,0 +1,84 @@
+<h1>Example sites</h1>
+{{#featured}}
+<ul id="featured" class="clients">
+  {{#sites}}
+  <li>
+    <a target="_blank" rel="noopener" href="{{{link}}}">
+      <span class="pic" style="background-position:-{{x}}px -{{y}}px;"></span>
+      <span style="flex-grow: 1;"> 
+        <span class="color-on-hover" style="color:var(--accent-color)">{{name}}</span>
+        <span style="font-size: var(--small-font-size);color:var(--light-text-color);display:block">{{bio}} </span>
+      </span>
+      {{> chevron}}
+    </a>
+  </li>
+  {{/sites}}
+</ul>
+{{/featured}}
+
+<style>
+    #featured li a span.pic {
+      width:{{featured.thumbnail_width}}px;
+      height:{{featured.thumbnail_width}}px;
+      background: var(--light-background-color) url('{{#cdn}}{{{featured.sprite}}}{{/cdn}}');
+      background-size: {{featured.width}}px;
+    }
+</style>
+<!-- shuffle the order of <li> sites in #featured and limit number to 24 sites -->
+<script>
+  var featured = document.getElementById("featured");
+  var sites = featured.getElementsByTagName("li");
+  var sitesArray = Array.prototype.slice.call(sites);
+  var previousFirstSevenSites = [];
+
+  const renderFeatured = () => {
+  
+    let firstSevenSiteCandidates = [...sitesArray];
+    
+    let index = previousFirstSevenSites.length - 1;
+
+    while (firstSevenSiteCandidates.length > 7 && index >= 0) {
+      firstSevenSiteCandidates = firstSevenSiteCandidates.filter(function(site) {
+        return ! previousFirstSevenSites[index].includes(site);
+      });
+      index--;
+    }
+
+    firstSevenSiteCandidates.sort(function() {
+      return 0.5 - Math.random();
+    });
+
+    const firstSevenSites = firstSevenSiteCandidates.slice(0, 7);
+
+    let remainder = [...sitesArray].filter(function(site) {
+      return ! firstSevenSites.includes(site);
+    });
+
+    // shuffle the remainder of the sites
+    remainder.sort(function() {
+      return 0.5 - Math.random();
+    });
+
+    // trim the number of sites
+    remainder = remainder.slice(0, 6);
+
+    featured.innerHTML = "";
+
+    const result = [...firstSevenSites, ...remainder];
+
+    result.forEach(function(site) {
+      featured.appendChild(site);
+    });
+
+    // save the results for the next pass
+    previousFirstSevenSites.push(firstSevenSites);
+
+    // trim the history of previous results
+    if (previousFirstSevenSites.length > 5) {
+      previousFirstSevenSites.shift();
+    }
+  }
+
+renderFeatured();
+
+</script>

@@ -1,0 +1,50 @@
+<h1 style="padding:0">{{name}}</h1>
+
+<a class="bordered-button" href="{{{preview}}}" target="_blank">View preview &puncsp;<span class="icon-zoom"></span><br><span style="font-size: var(--small-font-size);color:var(--light-text-color)">{{preview_host}}</span> 
+</a>
+<a class="bordered-button" href="{{#cdn}}{{{zip}}}{{/cdn}}">Download folder &puncsp;<span class="icon-download"></span><br><span style="font-size: var(--small-font-size);color:var(--light-text-color)">{{zip_name}} {{zip_size}}</span> </a>
+
+<br><br>
+
+<style type="text/css">
+a.bordered-button {
+  margin-right: 1.4em;
+  line-height: 1.1;
+  padding: 10px 16px;
+}
+
+	a .browser {border: 1px solid var(--light-border-color);border-radius: 6px;display: block;padding: 1rem 1rem 0;}
+
+	a	.browser.mobile {
+		padding: 1rem;
+		border-radius: 12px;
+	}
+
+		.devices {position: relative;width: 100%;}
+		.devices img {max-width: 100%}
+	
+        .devices .desktop {
+		border: 1px solid var(--light-border-color);
+		border-radius: 18px;
+	}
+
+	
+    .devices .mobile {position: absolute;
+		bottom: 0;right: 0;
+		width: 400px;height: 400px}
+
+		.sc {margin: 2rem 0}
+</style>
+
+<div style="display: flex">
+<p class="sc" style="flex-basis: 75%">	<a style="text-decoration: none;cursor: zoom-in;" href="{{{preview}}}/"
+		>
+		<span class="browser"><img src="{{#cdn}}/images/examples/{{slug}}/0.png{{/cdn}}"
+	/></span></a>
+</p>
+<p class="sc" style="flex-basis: 25%;margin-left: 2rem">		<a style="text-decoration: none;cursor: zoom-in;" href="{{{preview}}}/"
+		>
+		<span class="browser mobile"><img src="{{#cdn}}/images/examples/{{slug}}/0.mobile.png{{/cdn}}"
+	/></span></a>
+</p></div>
+

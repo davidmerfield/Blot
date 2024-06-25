@@ -3,6 +3,7 @@ services:
 
   test-redis:
     image: "redis:alpine"
+    command: sh -c "rm -f /data/dump.rdb && redis-server"
       
   tests:
     build:
@@ -12,9 +13,8 @@ services:
     depends_on:
       - test-redis
     env_file:
-      - ../.env
+      - test.env
     environment:
-      - NODE_ENV=test
       - TEST_PATH=${TEST_PATH}
       - BLOT_REDIS_HOST=test-redis
       - BLOT_HOST=local.blot
@@ -23,5 +23,7 @@ services:
       - ../tests:/usr/src/app/tests
       - ../config:/usr/src/app/config
       - ../notes:/usr/src/app/notes
+      - ../todo.txt:/usr/src/app/todo.txt
+      - ../.git:/usr/src/app/.git
     command: >
-      sh -c "node tests $TEST_PATH"
+      sh -c "rm -rf /usr/src/app/data && mkdir /usr/src/app/data && node tests $TEST_PATH"

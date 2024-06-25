@@ -1,4 +1,4 @@
-xdescribe("questions.list", function () {
+describe("questions.list", function () {
   require("./setup")();
 
   const create = require("../create");
@@ -17,7 +17,7 @@ xdescribe("questions.list", function () {
     expect(questions[2].id).toBe(first.id);
   });
 
-  it("lists questions by most recent reply", async function () {
+  xit("lists questions by most recent reply", async function () {
     const first = await create({ title: "How?", body: "Yes" });
     const second = await create({ title: "How?", body: "Yes" });
     const third = await create({ title: "How?", body: "Yes" });
@@ -82,12 +82,30 @@ xdescribe("questions.list", function () {
 
     await create({ title: "How?", body: "Yes", parent: first.id });
 
-    const { questions } = await list({ by_created: true });
+    const { questions } = await list({ sort: 'by_created' });
 
     expect(questions.length).toBe(3);
     expect(questions[0].id).toBe(third.id);
     expect(questions[1].id).toBe(second.id);
     expect(questions[2].id).toBe(first.id);
+  });
+
+  it("lets you list questions by number of replies", async function () {
+    const first = await create({ title: "How?", body: "Yes" });
+    const second = await create({ title: "How?", body: "Yes" });
+    const third = await create({ title: "How?", body: "Yes" });
+
+    await create({ title: "How?", body: "Yes", parent: second.id });
+    await create({ title: "How?", body: "Yes", parent: second.id });
+
+    await create({ title: "How?", body: "Yes", parent: first.id });
+
+    const { questions } = await list({ sort: 'by_number_of_replies' });
+
+    expect(questions.length).toBe(3);
+    expect(questions[0].id).toBe(second.id);
+    expect(questions[1].id).toBe(first.id);
+    expect(questions[2].id).toBe(third.id);
   });
 
   it("returns the number of replies for each question", async function () {

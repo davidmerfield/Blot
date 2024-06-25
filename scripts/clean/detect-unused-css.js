@@ -5,12 +5,8 @@ const parseCSS = require("css");
 const async = require("async");
 const request = require("request");
 
-request.defaults({
-  strictSSL: false, // allow us to use our self-signed cert for testing
-  rejectUnauthorized: false,
-});
-
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0"; // Avoids DEPTH_ZERO_SELF_SIGNED_CERT error for self-signed certs
+// Avoids DEPTH_ZERO_SELF_SIGNED_CERT error for self-signed certs
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0"; 
 
 const shouldSkip = (selector) => {
   let shouldSkip = false;
@@ -36,16 +32,29 @@ const normalizeSelector = (selector) => {
 
 const CSS_DIR = require("path").resolve(
   "/",
-  __dirname + "/../../app/brochure/views/css"
+  __dirname + "/../../app/views/css"
 );
-
-const CSS_FILES = ["blot.css", "breadcrumbs.css", "inputs.css", "sidebar.css"];
+const filesToSkip = ['tex.css', 'finder-window.css'];
+const CSS_FILES = fs.readdirSync(CSS_DIR).filter((filename) => filename.endsWith(".css")).filter((filename) => !filesToSkip.includes(filename));
 
 const CSS = CSS_FILES.map((filename) =>
   fs.readFileSync(CSS_DIR + "/" + filename, "utf-8")
 );
 
-const PARSED_CSS = CSS.map((css) => parseCSS.parse(css));
+const PARSED_CSS = CSS.map((css, i) => {
+
+  try {
+    const result = parseCSS.parse(css);
+
+    return result;
+  
+  } catch (e) {
+    console.log(e);
+    console.log(colors.red("Error parsing CSS: " + CSS_DIR + "/" + CSS_FILES[i]));
+    process.exit(1);
+  }
+
+});
 
 console.log("Crawling HTML on site...");
 
@@ -91,7 +100,7 @@ function crawl(callback) {
   let res = "";
   let checked = {};
 
-  checkPage(null, "https://blot.development", function (err) {
+  checkPage(null, "https://local.blot", function (err) {
     if (err) return callback(err);
     callback(null, "<html><body>" + res + "</body></html");
   });

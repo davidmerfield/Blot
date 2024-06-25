@@ -9,10 +9,13 @@
       <label><strong>Body</strong></label>
       {{> textarea}}
 
-      <!-- {{^user}}
-      <label><strong>Email</strong></label>
-      <input type="text" name="email" id="email" required="" placeholder="Your email address"></input>
-      {{/user}} -->
+      {{^authenticated}}
+      <label>
+        Email address:
+        <input type="text" name="email" required placeholder="Your email address" />
+      </label>
+      {{/authenticated}}
+
         <br>
         <input
         type="submit"
@@ -20,5 +23,13 @@
         onclick="this.classList.add('working')" />
 </form>
 
+<script>
+  // extract title from url query  and set it as the title of the question
+  var urlParams = new URLSearchParams(window.location.search);
+  var title = urlParams.get('title');
 
+  if (title) {
+    document.getElementById('title').value = title;
+  }
 
+</script>

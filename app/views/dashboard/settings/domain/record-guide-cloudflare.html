@@ -1,0 +1,32 @@
+<table class="dns-records">
+    <thead>
+        <tr>
+            <th>Type</th>
+            <th>Name</th>
+            <th>Target</th>
+            <th>Proxy status</th>
+            <th>TTL</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>CNAME</td>
+            <td>
+                {{#subdomain}}
+                {{subdomain}}
+                {{/subdomain}}
+                {{^subdomain}}
+                @ 
+                {{/subdomain}}
+                <button type="button" class="copy"><span class="icon-copy"></span> Copy</button>
+            </td>
+            <td>
+                blot.im <button type="button" class="copy"><span class="icon-copy"></span> Copy</button>
+            </td>
+            <td>✓</td>
+            <td>
+                Auto <button type="button" class="copy"><span class="icon-copy"></span> Copy</button>
+            </td>
+        </tr>
+    </tbody>
+</table>

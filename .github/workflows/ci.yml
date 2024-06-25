@@ -11,6 +11,7 @@ on:
 jobs:
   docker:
     runs-on: ubuntu-latest
+    environment: Tests
     services:
       redis:
         image: redis:6
@@ -19,6 +20,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        # if we don't fetch the history
+        # the news page will not be generated properly (it uses git)
+        with:
+          fetch-depth: 300
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
@@ -48,10 +53,19 @@ jobs:
           cache-to: type=gha,mode=max
 
       - name: Test
+        env:
+          BLOT_STRIPE_KEY: ${{ secrets.BLOT_STRIPE_KEY }}
+          BLOT_STRIPE_SECRET: ${{ secrets.BLOT_STRIPE_SECRET }}
+          BLOT_STRIPE_PRODUCT: ${{ secrets.BLOT_STRIPE_PRODUCT }}
+        # the docker run environment is different from the docker-compose environment
+        # so we need to pass in these variables explicitly
         run: |
           docker run --rm \
             --network name=${{ job.services.redis.network }} \
             -e BLOT_REDIS_HOST=redis \
+            -e BLOT_STRIPE_KEY=$BLOT_STRIPE_KEY \
+            -e BLOT_STRIPE_SECRET=$BLOT_STRIPE_SECRET \
+            -e BLOT_STRIPE_PRODUCT=$BLOT_STRIPE_PRODUCT \
             ghcr.io/${{ github.repository_owner }}/blot:test-${{ github.sha }} sh -c "node tests && npx depcheck --ignores=depcheck,nodemon,blessed-contrib,twit,fontkit,text-to-svg --skip-missing"
 
       # this step should only run on pushes to master

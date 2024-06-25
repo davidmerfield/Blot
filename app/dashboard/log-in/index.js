@@ -29,13 +29,12 @@ form.use(function (req, res, next) {
   // Send logged-in users to the dashboard unless we're using
   // a one-time log-in link
   if (req.session && req.session.uid && !req.query.token) {
-    var then = req.query.then || (req.body && req.body.then) || "/dashboard";
+    var then = req.query.then || (req.body && req.body.then) || "/sites";
     return res.redirect(then);
   }
 
   res.header("Cache-Control", "no-cache");
   res.locals.title = "Log in";
-  res.locals.layout = "partials/layout-form";
   res.locals.from = req.query.from;
   res.locals.then = req.query.then;
   res.locals.then_description = DASHBOARD_PAGE_DESCRIPTION[req.query.then];
@@ -54,14 +53,14 @@ form
     res.locals.csrf = req.csrfToken();
     res.locals.title = "Reset password";
     res.locals.email = req.query.email;
-    res.render("log-in/reset");
+    res.render("dashboard/log-in/reset");
   })
 
   .post(parse, csrf, checkEmail, checkReset, errorHandler)
 
   .post(function (err, req, res, next) {
     res.locals.csrf = req.csrfToken();
-    res.render("log-in/reset");
+    res.render("dashboard/log-in/reset");
   });
 
 form
@@ -70,7 +69,7 @@ form
   .get(blockCrawlers, redirect, checkToken, function (req, res) {
     // if we've been sent from the 'log out' page this will be true
     res.locals.out = req.query.out;
-    res.render("log-in");
+    res.render("dashboard/log-in");
   })
 
   .post(parse, checkEmail, checkReset, checkPassword)
@@ -80,7 +79,7 @@ form
   .all(function (err, req, res, next) {
     if (req.body && req.body.reset !== undefined)
       return res.redirect("/log-in/reset");
-    res.render("log-in");
+    res.render("dashboard/log-in");
   });
 
 module.exports = form;

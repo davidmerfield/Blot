@@ -1,0 +1,88 @@
+
+.line,
+.line a {
+  text-decoration: none;
+}
+
+.line {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0.667em 1em;
+  line-height: 1.4;
+  border-bottom: 1px solid var(--light-border-color);
+  background-color: var(--background-color);
+  transition: background-color 0.2s;
+}
+
+
+a.line:hover {
+  background: #f0f4ff70;
+}
+
+a.line:active {
+  background: var(--medium-background-color)
+}
+
+a:hover .link,
+a.line:hover .right {
+  text-decoration: underline;
+}
+
+.link,
+.right {
+  color: var(--accent-color);
+}
+
+.right {
+  text-decoration: underline;
+  flex-shrink: 0;
+  padding-left: 12px;
+}
+
+
+.label {
+  color: var(--light-text-color);
+  display: inline-block;
+  flex-basis: 100%;
+  font-size: 14px;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  margin-bottom: 2px;
+}
+
+.collapse-on-small-screens .label {
+flex-basis: 100%;
+}
+
+.center,
+div.line a.link {}
+
+.center {
+  flex-grow: 0;
+}
+
+div.center {}
+
+.center b {
+  color: var(--text-color);
+  font-weight: 500
+}
+
+.center {
+  color: var(--text-color);
+}
+
+.tablet {
+  border-radius: 18px;
+  padding: 0 9px;
+  line-height: 1.4;
+  border: 1px solid var(--border-color);
+  margin: 0 3px 0 0;
+  display: inline-block;
+  font-size: 15px;
+}
+
+.tablet:empty {display: none;}
+
+
+

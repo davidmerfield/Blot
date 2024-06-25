@@ -1,0 +1,7 @@
+Question: {{title}}
+
+From: {{email}}
+
+{{body}}
+
+[Publish question to site]({{{questionURL}}})

@@ -1,0 +1,214 @@
+<h1>Metadata</h1>
+
+<p>The link and date of each post are generated from the contents and creation date of the file. You can override this and other metadata at the start of the file:</p>
+
+<pre class="text with-chrome" title="Post.txt"><code>Date: {{#date}}MMMM Do, YYYY{{/date}}
+Link: introduction
+
+Metadata is optional. It must be separated from the rest of the post by at least one blank line. You must leave a space after the colon between the metadata property (e.g. 'Date') and its value.</code></pre>
+
+<h2>Metadata reference</h2>
+<table style="max-width:39em;table-layout:auto">
+  <tbody>
+    <tr>
+      <td><h2>Link</h2></td>
+      <td>By default is a URL-friendly version of the post’s title. Specify a different link in the file’s metadata, or adjust the <a href="/how/configure/link-format">default link format</a>. The leading slash is optional. Do not include a protocol or the host of your site.
+        <pre class="metadata-example"><code>Link: /custom-link-url</code></pre>
+      </td>
+    </tr>
+  
+    <tr>
+      <td><h2>Date</h2></td>
+      <td>By default is the file’s creation date. Specify a different date in the file’s metadata with one of the <a href="#dates">supported formats</a>. You can also change a post's date <a href="#dates-path">using the file’s path</a>.
+        <pre class="metadata-example"><code>Date: {{#date}}MMMM Do, YYYY{{/date}}</code></pre>
+
+
+
+<p>The publication date for a post is copied from the file’s creation date. You can set your own date <a href="#set-the-publish-date-using-your-folder">using your folder</a> or in the file's metadata, like this:</p>
+<pre class="metadata-example"><code>Date: {{#date}}MMMM Do, YYYY{{/date}}</code></pre>
+
+
+{{#date}}MM/DD/YYYY{{/date}}   
+{{#date}}MMMM D, YYYY{{/date}}
+{{#date}}M.D.YYYY{{/date}}     
+{{#date}}YYYY-MM-DD 00:00{{/date}}
+
+<p>Blot supports many date formats. You can use dashes, slashes, dots and underscores to separate the numbers in the date</p>
+
+<p id="dates-path">You can specify a post’s date in its path. For example, all of these files become posts with the same date and time:</p>
+
+
+<table >
+  <tbody>
+    <tr>
+      <td>
+         <span class="icon-folder"></span> {{#date}}YYYY{{/date}}
+         <span class="light">›</span>
+         <span class="icon-folder"></span> {{#date}}MM{{/date}}
+        <span class="light">›</span>
+        <span class="icon-folder"></span> {{#date}}DD{{/date}}
+        <span class="light">›</span>
+        <span class="icon-file"></span> Portrait.jpg
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <span class="icon-folder"></span> {{#date}}YYYY{{/date}}
+        <span class="light">›</span>
+        <span class="icon-folder"></span> {{#date}}MM{{/date}}
+       <span class="light">›</span>
+       <span class="icon-file"></span> {{#date}}DD{{/date}}-Portrait.jpg
+     </td>
+    </tr>
+    <tr>
+      <td>
+        <span class="icon-folder"></span> {{#date}}YYYY{{/date}}
+        <span class="light">›</span>
+       <span class="icon-file"></span> {{#date}}MM-DD{{/date}}-Portrait.jpg
+     </td>
+    </tr>
+    <tr>
+      <td>
+       <span class="icon-file"></span> {{#date}}YYYY-MM-DD{{/date}}-Portrait.jpg
+     </td>
+        </tr>
+    
+  </tbody>
+</table>
+<p>Please note that a date specified inside a file in its metadata will override a date extracted from its path.</p>
+
+      </td>
+    </tr>
+    
+    <tr>
+      <td>Title</td>
+      <td>By default is the text of the first heading in the post or the file’s name.
+        You should generally only set this metadata when you want to show a different title for the post or page in your site's menu or on your archives page. It is best practice to either rename the source file or use a heading in the post itself.
+        <pre class="metadata-example"><code>Title: Your title here</code></pre>
+      </td>
+    </tr>
+
+    <tr>
+      <td>Comments</td>
+      <td>Determines whether comments are enabled on the post or the page. Can be <code>Yes</code> or <code>No</code>. By default is <code>Yes</code> for posts and <code>No</code> for pages. Has no effect if comments are disabled in the site settings.
+        <pre class="metadata-example"><code>Comments: No</code></pre>
+      </td>
+    </tr>
+    <tr>
+      <td>Summary</td>
+      <td>By default is the text of the first sentence of the first paragraph in the file. Some templates make use of this metadata, others do not.
+        <pre class="metadata-example"><code>Summary: A brief summary of the post</code></pre>
+
+      </td>
+    </tr>
+    <tr>
+        {{=[[ ]]=}}
+
+      <td><h2>Teaser</h2></td>
+      <td>By default is the first few paragraphs of the post. You can specify a teaser in the file’s metadata or insert the breakpoint <code>{{more}}</code> yourself. You can specify the end of the teaser using the <code>{{more}}</code> tag somewhere in the file.</td>
+
+        [[={{ }}=]]
+    </tr>
+    <tr>
+      <td>Search</td>
+      <td>Determines whether a post is included in your site’s search results. Can be <code>Yes</code> or <code>No</code>. By default is <code>Yes</code> for posts and <code>No</code> for pages.
+        <pre class="metadata-example"><code>Search: No</code></pre>
+      </td>
+    </tr>
+    </tr>
+    <tr>
+      <td>Tags</td>
+      <td>Use tags to connect posts with similar subjects. Specify tags in the file’s metadata or in its <a href="#set-tags-using-your-folder">path</a>. Here’s an example post with two tags in its metadata:</p>
+<pre class="metadata-example"><code>Tags: Getting started, Documentation</code></pre>
+
+<p>Tags are case-insensitive and may contain whitespace. Blot picks the case you used most recently when displaying the tag on your site.
+
+<p>You can add tags to a post in the file’s name or path. Include the tag, wrapped in brackets. For example, all of these files become posts tagged <em>Pictures</em> and <em>Sicily</em>.</p>
+
+<table style="table-layout: auto;">
+  <tbody>
+    <tr>
+      <td>
+        <span class="icon-folder"></span> [Pictures]
+        <span class="light">›</span>
+        <span class="icon-folder"></span> [Sicily]
+       <span class="light">›</span>
+       <span class="icon-file"></span> Palermo.jpg
+     </td>
+
+    </tr>
+    <tr>
+      <td>
+        <span class="icon-folder"></span> [Pictures]
+       <span class="light">›</span>
+       <span class="icon-file"></span> [Sicily] Palermo.jpg
+     </td>
+    </tr>
+    <tr>
+      <td>
+        <span class="icon-file"></span> [Pictures][Sicily] Palermo.jpg
+     </td>
+    </tr>
+
+  </tbody>
+</table>
+<p>If you specify tags in both the file’s metadata and its path, Blot will combine them.</p>
+      </td>
+    </tr>
+    <tr>
+      <td>Thumbnail</td>
+      <td>By default is the first image or video thumbnail in the post with both a height and width greater than 64 pixels. You can specify a URL, or a path to an image in your site’s folder.</td>
+    </tr>
+    <tr>
+      <td>Draft</td>
+      <td>Determines whether a file becomes a draft. Can be ’Yes’ or ’No’. By default is ’No’ unless the file is inside a folder called ’Drafts’.</td>
+    </tr>
+    <tr>
+      <td>Page</td>
+      <td>Determines whether a file becomes a page or a post. Can be ’Yes’ or ’No’. By default is ’No’ unless the file is inside a folder called ’Pages’.</td>
+    </tr>
+    <tr>
+      <td>Menu</td>
+      <td>Determines whether a file appears on your site’s menu. Can be ’Yes’ or ’No’. By default is ’Yes’ for pages and ’No’ for posts.</td>
+    </tr>
+    <tr>
+      <td>Slug</td>
+      <td>Used to generate the URL for a post or page as part of your site's <a href="/how/configure/link-format">link format</a> setting.
+       
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+<h2>Custom metadata</h2>
+<p>You can also <a href="/templates/developers/tutorials/custom-metadata">define your own metadata</a> for use in your template.</p>
+
+<h2>Metadata in HTML files</h2>
+<p>You can use a comment at the start of an HTML file to specify metadata.</p>
+
+<div style="max-width:39em;margin:3em 0 4em">
+  <pre class="code html" title="Post.html"><code><!--
+Date: {{#date}}MMMM Do, YYYY{{/date}}
+Link: /metadata
+-->
+
+The comment containing metadata in an HTML file
+<b>must</b> start on the file's first line.</code></pre>
+</div>
+
+
+
+<h2 id="yaml">Metadata in YAML front matter</h2>
+
+<p>You can also use <a rel="nofollow" href="https://yaml.org/">YAML front matter</a> to declare the metadata for your post:</p>
+  <pre class="text with-chrome" title="Post.txt"><code>---
+Date: {{#date}}MMMM Do, YYYY{{/date}}
+Link: Apple
+---
+
+Blot is able to extract the metadata from this post too.</code></pre>
+
+<h2>Schedule a post for publication in future</h2>
+
+<p>If you specify a date in the future, your post will be scheduled for publication at that future date. You can verify the date of publication if you click on the file on <a href="/settings">your dashboard</a>.</p>

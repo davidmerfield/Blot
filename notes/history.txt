@@ -1,0 +1,11 @@
+# History
+
+**2013** &nbsp;&nbsp;&nbsp; Blot begins as an idea.
+
+**2014** &nbsp;&nbsp;&nbsp; Blot [launches on Hacker News](https://news.ycombinator.com/item?id=8183498) and receives its first customer.
+
+**2017** &nbsp;&nbsp;&nbsp; Blot supports its first full-time maintainer.
+
+**2018** &nbsp;&nbsp;&nbsp; Blot receives its first volunteer contributor to the source code.
+
+**2020** &nbsp;&nbsp;&nbsp; Blot hires its first part-time contributor.

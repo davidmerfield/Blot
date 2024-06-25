@@ -1,39 +1,33 @@
-<form method='post' class="dashboard-form">
+<form method='post' class="dashboard-form" style="padding: 0;margin: 0;">
   <style type="text/css">
 
-button[name="client"] {background:var(--light-background-color);max-width:475px;margin-bottom: 0;padding: 10px 0;border:none;border-top:1px solid var(--light-border-color);text-align: left;display: block;width: 100%;color:var(--accent-color);padding: 11px 20px;font-size:var(--font-size)}
+button[name="client"] {
+  background: none;max-width:475px;margin-bottom: 0;
+  padding: 10px 0;border:none;border-top:1px solid #eeeeec;
+  text-align: left;display: block;width: 100%;color:var(--accent-color);padding: 12px;font-size:var(--font-size)
+}
 button[name="client"] b {
   display: block;
 }
-button[name="client"]:after {
-  content: "→";
-  float: right;
-}
-button[name="client"]:hover {background: rgba(0,0,0,0.03);cursor: pointer;}
+button[name="client"]:hover {background: #f0f4ff70;cursor: pointer;}
 </style>
 
-  <p>How would you like to sync the folder for <b>{{blog.title}}</b>? </p>
+  <p style="max-width: 400px;">Choose a way to sync the folder for this site. Blot turns files inside this folder into posts and pages.</p>
+
 
 {{#clients}}
-
-  {{#setup}}
-  <input type="hidden" name="setup" value="true">
-  {{/setup}}
 
   <input type="hidden" name="_csrf" value="{{csrftoken}}">
 
   <button type="submit" name="client" value="{{name}}">
+    <img width="16" height="16" src="{{#cdn}}/images/sync/{{name}}.svg{{/cdn}}" style="position: relative;top:1px;margin-right: 4px;" />
    {{display_name}}
   </button>
 
 {{/clients}}
 
 <div class="buttons">
-  {{#setup}}
-  <a href="{{{base}}}">Set up later</a>
-  {{/setup}}
-  {{^setup}}
   <a href="{{{base}}}">Cancel</a>
-  {{/setup}}
 </div>
+
 </form>

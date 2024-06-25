@@ -1,0 +1,10 @@
+
+.authenticate-container {
+  max-width: 360px;
+  border-radius: 12px;
+}
+
+.authenticate-container form {
+  border-radius: var(--border-radius);
+  max-width: 360px;
+}

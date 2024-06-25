@@ -29,7 +29,7 @@ site.get("/authenticate", cookieParser(), function (req, res, next) {
     return next(new Error("No blog to authenticate"));
   }
   let redirect =
-    "/dashboard/" +
+    "/sites/" +
     handle +
     "/client/dropbox/authenticate?code=" +
     req.query.code;

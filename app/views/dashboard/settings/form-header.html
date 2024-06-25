@@ -1,4 +1,6 @@
-<form method='post' class="dashboard-form" action='{{{base}}}' enctype='multipart/form-data' style="margin-top: -1em;padding-bottom:1em;border-top: 1px solid var(--light-border-color);">
-    {{> message}}
+{{> message}}
+
+
+<form method='post' class="dashboard-form" action='{{{base}}}' enctype='multipart/form-data' style="max-width: 540px;padding:0;margin:0">
 
     <input type="hidden" name="_csrf" value="{{csrftoken}}" />

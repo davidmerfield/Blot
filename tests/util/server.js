@@ -1,5 +1,7 @@
 const Express = require("express");
 const trace = require("helper/trace");
+const puppeteer = require('puppeteer');
+
 
 module.exports = function (router) {
   let server;
@@ -9,9 +11,36 @@ module.exports = function (router) {
   if (!router || !router.use) {
     throw new Error("router must be an express router");
   }
+  
+  // for each spec, create a new page
+  // and close it after the spec is done
+  beforeEach(async function () {
+    this.page = await this.browser.newPage();
+
+    // disable cache for each test
+    await this.page.setCacheEnabled(false);
+  });
+
+  afterEach(async function () {
+    // clear cookies after each test
+    // otherwise the next test will have the same cookies
+    // and we'll be logged in as the previous user
+    const cookies = await this.page.cookies();
+
+    for (let cookie of cookies) {
+      await this.page.deleteCookie(cookie);
+    }
+
+    await this.page.close();
+  });
 
   // Create a webserver for testing remote files
-  beforeAll(function (done) {
+  beforeAll(async function (done) {
+
+    this.browser = await puppeteer.launch({
+      headless: true,
+      args: ['--no-sandbox']
+    });
 
     // Expose the server origin for the tests
     // specs so they can use this.origin 
@@ -52,18 +81,12 @@ module.exports = function (router) {
   });
 
   afterAll(function (done) {
+
+    this.browser.close();
+    
     if (server) {
-      server.close((err) => {
-        if (err) {
-          console.error("Error stopping test server:", err);
-          done.fail(err);
-        } else {
-          console.log("Test server stopped");
-          done();
-        }
-      });
-    } else {
-      done();
-    }
+      server.close(() => {});
+    } 
+    done();
   });
 };

@@ -1,52 +1,12 @@
 const config = require("config");
 const Express = require("express");
-const documentation = new Express();
-const fs = require("fs-extra");
-const mustache = require("helper/express-mustache");
 const redirector = require("./redirector");
-
-const hash = require("helper/hash");
+const Email = require("helper/email");
 const { join } = require("path");
-const VIEW_DIRECTORY = __dirname + "/data";
 
-documentation.set("view engine", "html");
-documentation.set("views", VIEW_DIRECTORY);
-documentation.engine("html", mustache);
-documentation.disable("x-powered-by");
+const documentation = Express.Router();
 
-documentation.set("etag", false); // turn off etags for responses
-
-// During development we want views to reload as we edit
-if (config.environment === "development") {
-  documentation.disable("view cache");
-} else {
-  documentation.enable("view cache");
-}
-
-const { plan } = config.stripe;
-
-documentation.locals.layout = "partials/layout";
-documentation.locals.ip = config.ip;
-documentation.locals.date = require("./dates.js");
-documentation.locals.price = "$" + plan.split("_").pop();
-documentation.locals.interval = plan.startsWith("monthly") ? "month" : "year";
-
-let cacheID = Date.now();
-
-documentation.locals.cdn = () => (text, render) => {
-  const path = render(text);
-
-  let identifier = cacheID;
-
-  try {
-    const contents = fs.readFileSync(join(VIEW_DIRECTORY, path), "utf8");
-    identifier = hash(contents).slice(0, 8);
-  } catch (e) {
-    // if the file doesn't exist, we'll use the cacheID
-  }
-
-  return `${config.cdn.origin}/documentation/v-${identifier}${path}`;
-};
+const VIEW_DIRECTORY = join(__dirname, "data");
 
 documentation.get(["/how/format/*"], function (req, res, next) {
   res.locals["show-on-this-page"] = true;
@@ -110,51 +70,59 @@ documentation.get(
 
 // Adds a handy 'edit this page' link
 documentation.use(
-  ["/how", "/templates", "/about"],
+  ["/how", "/about"],
   require("./tools/determine-source")
 );
 
 documentation.use(require("./selected"));
 
-documentation.get("/", function (req, res, next) {
-  res.locals.title = "Blot – Turn a folder into a website";
-  res.locals.description =
-    "A blogging platform with no interface. Turns a folder into a blog automatically. Use your favorite text-editor to write. Text and Markdown files, Word Documents, images, bookmarks and HTML in your folder become blog posts.";
+documentation.get("/", require("./templates.js"), function (req, res, next) {
+  res.locals.title = "Blot";
+  res.locals.description = "Turns a folder into a website";
   // otherwise the <title> of the page is 'Blot - Blot'
   res.locals.hide_title_suffix = true;
   next();
 });
 
-documentation.get("/examples", require("./featured"), require("./templates"));
+documentation.post(['/support', '/contact', '/feedback'],
+  Express.urlencoded({ extended: true }),
+ (req, res) => {
+  const { email, message } = req.body;
+  if (!message) return res.status(400).send('Message is required');
+  Email.SUPPORT(null, { email, message });
+  res.send('OK');
+});
 
-documentation.get("/examples/templates", require("./templates"));
-documentation.get("/examples/folders", require("./templates"));
+documentation.get("/examples", require("./featured"));
+
+documentation.get("/templates",  require("./templates.js"));
+documentation.get("/templates/folders", require("./templates.js"));
 
 documentation.get(
-  "/examples/templates/:template",
-  require("./templates"),
+  "/templates/:template",
+  require("./templates.js"),
   (req, res, next) => {
     if (!res.locals.template) return next();
-    res.render("examples/templates/template");
+    res.render("templates/template");
   }
 );
 
 documentation.use(
-  "/examples/folders/:folder",
-  require("./templates"),
+  "/templates/folders/:folder",
+  require("./templates.js"),
   (req, res, next) => {
     if (!res.locals.folder) return next();
-    res.render("examples/folders/folder");
+    res.render("templates/folders/folder");
   }
 );
 
-documentation.use("/examples/templates/fonts", require("./fonts"));
+documentation.use("/templates/fonts", require("./fonts"));
 
 documentation.use("/developers", require("./developers"));
 
 documentation.get("/sitemap.xml", require("./sitemap"));
 
-documentation.use("/about/notes", require("./notes"));
+documentation.use("/about", require("./about.js"));
 
 documentation.use("/news", require("./news"));
 

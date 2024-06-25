@@ -16,10 +16,9 @@ var signup = Express.Router();
 var csrf = require("csurf")();
 
 signup.use(function (req, res, next) {
-  if (req.session && req.session.uid) return res.redirect("/dashboard");
+  if (req.session && req.session.uid) return res.redirect("/sites");
 
   res.header("Cache-Control", "no-cache");
-  res.locals.layout = "partials/layout-form";
 
   return next();
 });
@@ -29,6 +28,7 @@ signup.use("/paypal", require("./paypal"));
 var paymentForm = signup.route("/");
 var alreadyPaid = signup.route("/paid/:token");
 var passwordForm = signup.route("/create-account");
+var firstSite = signup.route("/first-site");
 
 if (config.maintenance) {
   paymentForm.use("/sign-up", function (req, res) {
@@ -44,7 +44,7 @@ alreadyPaid.get(csrf, function (req, res) {
   res.locals.menu = { "sign-up": "selected" };
   res.locals.error = req.query.error;
   res.locals.csrf = req.csrfToken();
-  res.render("sign-up/paid");
+  res.render("dashboard/sign-up/paid");
 });
 
 alreadyPaid.post(parse, csrf, validateEmail, function (req, res, next) {
@@ -89,6 +89,11 @@ paymentForm.get(csrf, function (req, res) {
   )
     return res.redirect(req.baseUrl + passwordForm.path);
 
+  if (!config.stripe.key) {
+    console.error("Stripe key is not set");
+    next(new Error("Stripe key is not set"));
+  }
+
   res.locals.title = "Sign up";
   res.locals.menu = { "sign-up": "selected" };
   res.locals.error = req.query.error;
@@ -96,7 +101,7 @@ paymentForm.get(csrf, function (req, res) {
   res.locals.paypal_plan = config.paypal.plan;
   res.locals.paypal_client_id = config.paypal.client_id;
   res.locals.csrf = req.csrfToken();
-  res.render("sign-up");
+  res.render("dashboard/sign-up");
 });
 
 paymentForm.post(parse, csrf, validateEmail, function (req, res, next) {
@@ -143,7 +148,6 @@ passwordForm.all(function (req, res, next) {
   )
     return res.redirect(req.baseUrl + paymentForm.path);
 
-  res.locals.breadcrumbs = [{ label: "Blot" }, { label: "Sign up" }];
 
   next();
 });
@@ -155,7 +159,7 @@ passwordForm.get(csrf, function (req, res) {
   res.locals.error = req.query.error;
   res.locals.change_email = req.query.change_email;
   res.locals.csrf = req.csrfToken();
-  res.render("sign-up/password");
+  res.render("dashboard/sign-up/password");
 });
 
 passwordForm.post(parse, csrf, function (req, res, next) {
@@ -213,7 +217,8 @@ passwordForm.post(parse, csrf, function (req, res, next) {
         req.session.uid = user.uid;
 
         Email.CREATED_BLOG(user.uid);
-        res.redirect("/account/add-new-site");
+        
+        res.redirect("/sites/account/create-site");
       }
     );
   });
@@ -229,5 +234,6 @@ signup.use(function (err, req, res, next) {
 
   next();
 });
+
 
 module.exports = signup;
