@@ -35,6 +35,22 @@ const selectorsToSkip = [
   // code editor
   '.CodeMirror', 
   '.cm-',
+
+  // sortable 
+  '.sortable',
+
+  // dynamic elements
+  '.directory-list',
+  '.multilingual',
+  '.lang-tabs',
+
+  // not sure, variants of dashboard
+  '.site-preview',
+  '.template-row',
+  '.installed',
+  '.no-entry',
+  '#redirects',
+  '.box.green.success'
 ];
 
 const pseudoSelectors = [
@@ -199,6 +215,10 @@ const processCSSRule = ($, filename, unusedCSSRules) => (rule) => {
       // console.log('checking', selector);
     }
     const normalizedSelector = removePseudoSelectors(selector);
+
+    // otherwise we have a selector like ::placeholder => ""
+    if (normalizedSelector === "") return;
+
     if ($(normalizedSelector).length > 0) return;
 
     const sourceFile = findSourceFileForRule(selector) || filename;

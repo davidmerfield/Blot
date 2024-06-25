@@ -4,7 +4,9 @@
 
     <input type="hidden" name="_csrf" value="{{csrftoken}}" />
 
-<p>  Posts and page are assigned a URL according to this link format:</p>
+<p>  Posts and page are assigned a URL according to this link format. If you change this format, Blot will update your existing posts and pages and then redirect the old URLs automatically. You can change a specific post or page's URL in its <a href="/how/metadata">metadata</a>.</p>
+
+<p style="margin-top: 36px;"><b>Link format</b></p>
 
 {{#permalinkFormats}}
 <label class="format" style="border-top: 1px solid #eeeeec;line-height:inherit;margin:0;text-transform:none;font-size:16px;letter-spacing:0;padding:9px 0 9px 10px">
@@ -33,18 +35,6 @@
 </label>
 {{/permalinkFormats}}
 
-<br><br>
-
-
-<details>
-  <summary>What happens to my existing URLs if I change the link format?</summary>
-  <p>If you change this format, Blot will update your existing posts and pages and then redirect the old URLs to the new URLs.</p>
-</details>
-
-<details>
-  <summary>What if I only want to change a single URL?</summary>
-  <p>You can change a specific post or page's URL in its <a href="/how/metadata">metadata</a>.</p>
-</details>
 <noscript>
 
 <div class="buttons">
@@ -56,6 +46,11 @@
 </noscript>
 
 </form>
+
+
+<div class="buttons">
+  <a href="{{{base}}}" class="button"><span class="icon-small-chevron-right"></span> Back to dashboard</a>
+</div>
 
 <script type="text/javascript">
   // when the user changes any of the radio buttons, serialize the form and submit it
@@ -125,7 +120,6 @@
 #redirects section {padding: 8px 0;border:none}
   .lab[type="text"] {border-radius:0;margin-left:-1px}
   .val[type="text"] {border-radius:0 4px 4px 0;margin-left:-1px}
-  #menu button {margin-left:12px;}
   .pageLink {display: none;}
   .isPage .pageLink {display: block;}
   .removeLink {

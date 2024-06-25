@@ -67,7 +67,7 @@ describe("Blot's site'", function () {
 
     }, 120000);
 
-    fit("has no unused CSS on the dashboard", async function () {
+    it("has no unused CSS on the dashboard", async function () {
 
       // create test files so the dashboard features work when we run the test
       await this.blog.write({ path: '/test.txt', content: "Title: Bye" });

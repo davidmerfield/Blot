@@ -1,3 +1,17 @@
+- [ ] Fix bug with forking / editing new templates
+- [ ] make cdn-url-helper more efficient, it gets called massive (make part of build process instead?)
+---
+- [ ] Template editor deleted
+- [ ] External services page
+- [ ] Publishing settings page
+- [ ] Folder activity page
+- [ ] File viewer
+  - [ ]  Fix file viewer live update
+  - [ ]  Add truncate to file viewer
+---
+Full QA check
+- [ ] Multiple browsers
+
 Refactor site build
 - needs to be a part of the docker stage:
   - need to copy in git repo...!

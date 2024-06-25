@@ -1,14 +1,16 @@
-<p>Sync folder with <strong>Dropbox</strong></p>
-
+<p>
+  <img style="width:16px" width="16" height="16" src="{{#cdn}}/images/sync/dropbox.svg{{/cdn}}" style="position: relative;top:1px;margin-right: 4px;" />
+  Dropbox
+</p>
 <ul>
-  <li>Blot will create a new folder in your Dropbox for this site.</li>
-  <li>You can revoke Blot’s access to this folder at any time.</li>
+  <li>Blot will create a new folder in Dropbox for this site.</li>
+  <li>Blot will only have access to this folder.</li>
 </ul>
 
-<form action="{{{base}}}/disconnect" method="post">
+<form class="dashboard-form" action="{{{base}}}/disconnect" method="post">
   <input type="hidden" name="_csrf" value="{{csrftoken}}">
   <div class="buttons">
-    <a href="{{{base}}}/redirect">Connect to Dropbox</a>
+    <a href="{{{base}}}/redirect">Connect Dropbox</a>
     <button type="submit">Cancel</button> 
   </div>
 </form>

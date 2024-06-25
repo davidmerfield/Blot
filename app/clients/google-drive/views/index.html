@@ -51,6 +51,8 @@ Blot cannot connect to your <b>Google Drive</b>. Please re-connect to give Blot 
 {{/account}}
 
 {{^account}}
+
+
 <div class="inset">
   <p>Sync folder using <strong>Google Drive</strong></p>
   
@@ -59,11 +61,11 @@ Blot cannot connect to your <b>Google Drive</b>. Please re-connect to give Blot 
     <li>You can revoke Blot’s access to your Drive at any time.</li>
   </ul>
 
-  <form  action="{{{base}}}/disconnect" method="post">
+  <form class="dashboard-form" action="{{{base}}}/disconnect" method="post">
     <input type="hidden" name="_csrf" value="{{csrftoken}}">
     <div class="buttons">
       <a href="{{{base}}}/redirect">Connect to Google Drive</a>
-      <input type="submit" value="Cancel">
+      <button type="submit">Cancel</button> 
     </div>
   </form>
 </div>

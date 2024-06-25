@@ -21,6 +21,8 @@
 .buttons > *:hover {
   cursor: pointer;
 }
+.buttons > * > span {position: relative;top:13px;margin-right:12px}
+.buttons > * > span.icon-small-chevron-right {transform: rotate(180deg);}
 
 .buttons > *:focus,
 .buttons > *:active {
@@ -62,6 +64,7 @@
   text-decoration: none;
   color: var(--medium-text-color);
   background-color: #ececec;
+  line-height: 39px;
 }
 
 

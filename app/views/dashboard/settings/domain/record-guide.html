@@ -9,7 +9,7 @@
 
     <p style="margin: 0">
         {{#revalidation}} Domain does not point to Blot.{{/revalidation}} 
-        To point {{customDomain}} to Blot, please create this DNS record{{#dnsProvider}} on <a target="_blank" href="{{{URL}}}">{{name}}</a>{{/dnsProvider}}:
+        Please create this DNS record{{#dnsProvider}} on <a target="_blank" href="{{{URL}}}">{{name}}</a>{{/dnsProvider}}:
     </p>
     
     {{#dnsProvider.is.cloudflare}}

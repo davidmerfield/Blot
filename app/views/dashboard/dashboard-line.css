@@ -15,21 +15,16 @@
 }
 
 
-a.line:hover,
-div.line a.link:hover,
-.line form button:hover {
+a.line:hover {
   background: #f0f4ff70;
 }
 
-a.line:active,
-div.line a.link:active,
-.line form button:active {
+a.line:active {
   background: var(--medium-background-color)
 }
 
 a:hover .link,
-a.line:hover .right,
-div.line a.link:hover {
+a.line:hover .right {
   text-decoration: underline;
 }
 
@@ -91,19 +86,3 @@ div.center {}
 
 
 
-
-.line form {
-  padding: 0
-}
-
-.line form button {
-  background: none;
-}
-
-.line form button:hover .link {
-  text-decoration: underline;
-}
-
-.line form button:focus {
-  outline: none;
-}

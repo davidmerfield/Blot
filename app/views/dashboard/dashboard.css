@@ -92,10 +92,6 @@ form.create-site-button button {
 
 
 
-.small.left.selected {
-  color: #000;
-}
-
 
 
 
@@ -112,9 +108,6 @@ span.file {
   top: 0.3em;
 }
 
-.folder.green {
-  background-image: url("/images/folder-green.svg");
-}
 
 span.file {
   background-image: url("/images/file.svg");
@@ -271,10 +264,6 @@ line-height: 48px;
   margin-right: -1px
 }
 
-#menu button,
-#redirects button {
-  margin-left: 12px;
-}
 
 .removeLink {
   text-decoration: none;
@@ -287,9 +276,6 @@ line-height: 48px;
 }
 
 
-.menu button:active {
-  opacity: 0.8
-}
 
 .photo-holder {
   width: 30px;
