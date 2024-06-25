@@ -22,11 +22,12 @@ module.exports = async function (req, res, next) {
 
             // Fetch template metadata
             Template.getMetadata(blog.template, (err, metadata) => {
-              if (err) return reject(err);
 
-              // Assign the metadata and construct the previewURL
-              blog.template = metadata;
-              blog.previewURL = `https://preview-of-${metadata.owner === blog.id ? 'my-' : ''}${metadata.slug}-on-${blog.handle}.${config.host}?screenshot=true`;
+              if (metadata) {
+                // Assign the metadata and construct the previewURL
+                blog.template = metadata;
+                blog.previewURL = `https://preview-of-${metadata.owner === blog.id ? 'my-' : ''}${metadata.slug}-on-${blog.handle}.${config.host}?screenshot=true`;
+              }
 
               resolve(blog);
             });
