@@ -59,6 +59,7 @@ module.exports = async function (req, res, next) {
 
     next();
   } catch (err) {
-    next(err);
+    console.error(err);
+    next();
   }
 };
