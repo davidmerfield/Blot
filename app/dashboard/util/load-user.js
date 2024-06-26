@@ -28,8 +28,8 @@ module.exports = function (req, res, next) {
     req.user = User.extend(user);
     res.locals.user = user;
 
-    if (user.needsToPay && req.path !== "/sites/subscription") {
-      return res.redirect("/sites/subscription");
+    if (user.needsToPay && req.path !== "/sites/account/subscription") {
+      return res.redirect("/sites/account/subscription");
     }
 
     if (user.subscription && user.subscription.plan) {
