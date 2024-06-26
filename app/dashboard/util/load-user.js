@@ -2,6 +2,7 @@ var prettyPrice = require("helper/prettyPrice");
 var User = require("models/user");
 
 var PAY = "/sites/account/pay-subscription";
+var DELETE = "/sites/account/subscription/delete";
 
 module.exports = function (req, res, next) {
   if (!req.session || !req.session.uid) return next();
@@ -30,8 +31,7 @@ module.exports = function (req, res, next) {
     req.user = User.extend(user);
     res.locals.user = user;
 
-    if (user.needsToPay && req.originalUrl !== PAY) {
-      console.log('NEEDS TO PAY', req.originalUrl)
+    if (user.needsToPay && req.originalUrl !== PAY && req.originalUrl !== DELETE) {
       return res.redirect(PAY);
     }
 
