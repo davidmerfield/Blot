@@ -1,3 +1,13 @@
+<style>
+
+  #card {
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 12px 10px;
+    height: 16px;
+  }
+  </style>
+
 
 <style type="text/css">
 a {color: rgb(54, 88, 153);text-decoration: none;}
@@ -13,26 +23,16 @@ a:hover {text-decoration: underline;}
 
 <p style="margin-top:0;padding:33px 20px 0;max-width:600px;margin-bottom:0">The subscription fee for <b>{{user.email}}</b> is overdue. Please pay your unpaid invoice if you would like to continue using Blot. If you do not want to continue using Blot, please <a href="/sites/account/subscription/delete"> delete your account</a>.<br><br>If you have any questions please <a href="/contact">contact support</a>.</p>
 
-<form method="POST" style="max-width: 500px;padding:11px 20px" id="payment-form">
+<form id="payment-form" method="POST" style="max-width: 500px;padding:11px 20px" id="payment-form">
 
   <input type="hidden" name="_csrf" value="{{csrftoken}}">
+  <input type="hidden" name="stripeToken" class="stripeToken" value="">
 
-
-    <label style="margin-top:1rem">
-      <span>Card number:</span>
-    </label>
-    <input autofocus type="text" size="20" data-stripe="number" name="number" />
-
-    <div class="expiration">
-      <label class="title">Expiration date:</label>
-      <input class="month" name="exp-month" placeholder="MM" type="text" size="2" data-stripe="exp-month" />
-      <input class="year" name="exp-year" placeholder="YYYY" type="text" size="4" data-stripe="exp-year" />
-    </div>
-
-    <div class="cvc">
-      <label>CVC:</label>
-      <input type="text" size="4" data-stripe="cvc" name="cvc" />
-    </div>
+  <p id="error"></p>
+  <label for="card">
+    Your card
+  </label>
+  <div id="card" class="field"></div>
 
     <div class="clear"></div>
 <div class="line" style="margin-top: 20px;padding-left: 0 ">
@@ -42,7 +42,7 @@ a:hover {text-decoration: underline;}
 
 
   <div class="buttons">
-    <button type="submit">Submit payment</button>
+    <input type="submit">Submit payment</button>
     <a href="/">Cancel</a>
   </div>
   <br>
@@ -50,33 +50,84 @@ a:hover {text-decoration: underline;}
 
 </form>
 
-<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
-<script type="text/javascript" src="/js/jquery.js?{{cacheID}}"></script>
+<script src="https://js.stripe.com/v3/"></script>
 <script type="text/javascript">
-// This identifies your website in the createToken call below
-Stripe.setPublishableKey('{{stripe_key}}');
-$('#payment-form').submit(function(event) {
-  var $form = $(this);
-  // Disable the submit button to prevent repeated clicks
-  $form.find('button').prop('disabled', true);
-  Stripe.card.createToken($form, function(status, response) {
-    var $form = $('#payment-form');
-    if (response.error) {
-      // Show the errors on the form
-      $('.mess').text(response.error.message).show();
-      $form.find('button').prop('disabled', false);
-    } else {
-      // response contains id and card, which contains additional card details
-      var token = response.id;
-      // Insert the token into the form so it gets submitted to the server
-      $form.append($('<input type="hidden" name="stripeToken" />').val(token));
-      // and submit
-      $form.get(0).submit();
+var stripe = Stripe('{{stripe_key}}');  // Use your actual publishable key
+  var elements = stripe.elements();
+
+  var style = {
+    base: {
+      fontSize: '16px',
+      color: "#000",
+      iconColor: "#909bb0",
+      '::placeholder': {
+        color: "#909bb0"
+      },
     }
+  };
+
+
+  // Create a single card input
+  var card = elements.create('card', {style: style});
+
+  card.mount('#card');
+
+  function setFocusColor(elementId) {
+    document.getElementById(elementId).style.borderColor = 'var(--accent-color)';
+    document.querySelector('label[for="' + elementId + '"]').style.color = 'var(--accent-color)';
+  }
+
+  function resetFocusColor(elementId) {
+    document.getElementById(elementId).style.borderColor = 'var(--border-color)';
+    document.querySelector('label[for="' + elementId + '"]').style.color = '';
+  }
+
+  card.on('focus', function () {
+      // reset the error message and enable the submit button
+      document.getElementById('error').style.display = 'none';
+      document.querySelector('button[type="submit"]').classList.remove('working');
+      setFocusColor(card._parent.id);
+    });
+    card.on('blur', function () {
+      resetFocusColor(card._parent.id);
+    });
+
+  function renderError(message){
+    var errorElement = document.getElementById('error');
+        errorElement.textContent = message;
+        errorElement.style.display = 'block';
+        document.querySelector('input[type="submit"]').classList.remove('working');
+
+  }
+
+  var form = document.getElementById('payment-form');
+
+  form.addEventListener('submit', function(event) {
+
+    // update the class on the submit button to show that it is working
+    document.querySelector('input[type="submit"]').classList.add('working');
+
+    event.preventDefault();
+
+    stripe.createToken(card).then(function(result) {
+
+      if (result.error) {
+        // Inform the user if there was an error
+        renderError(result.error.message);
+      } else {
+        // Assume function stripeTokenHandler exists to handle the received token
+        stripeTokenHandler(result.token);
+      }
+    });
   });
-  // Prevent the form from submitting with the default action
-  return false;
-});
+
+
+  function stripeTokenHandler(token) {
+    var form = document.getElementById('payment-form');
+    var hiddenInput = document.querySelector('input.stripeToken');
+    hiddenInput.setAttribute('value', token.id);
+    form.submit();
+  }
 
 </script>
 
