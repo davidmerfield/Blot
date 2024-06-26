@@ -30,8 +30,8 @@ module.exports = function (req, res, next) {
     req.user = User.extend(user);
     res.locals.user = user;
 
-    if (user.needsToPay && req.path !== PAY) {
-      console.log('NEEDS TO PAY', req.path)
+    if (user.needsToPay && req.originalUrl !== PAY) {
+      console.log('NEEDS TO PAY', req.originalUrl)
       return res.redirect(PAY);
     }
 
