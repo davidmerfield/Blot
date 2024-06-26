@@ -1,6 +1,8 @@
 var prettyPrice = require("helper/prettyPrice");
 var User = require("models/user");
 
+var PAY = "/sites/account/pay-subscription";
+
 module.exports = function (req, res, next) {
   if (!req.session || !req.session.uid) return next();
 
@@ -28,8 +30,9 @@ module.exports = function (req, res, next) {
     req.user = User.extend(user);
     res.locals.user = user;
 
-    if (user.needsToPay && req.path !== "/sites/account/pay-subscription") {
-      return res.redirect("/sites/account/pay-subscription");
+    if (user.needsToPay && req.path !== PAY) {
+      console.log('NEEDS TO PAY', req.path)
+      return res.redirect(PAY);
     }
 
     if (user.subscription && user.subscription.plan) {
