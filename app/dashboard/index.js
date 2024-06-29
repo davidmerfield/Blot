@@ -6,11 +6,24 @@ const message = require("dashboard/util/message");
 const dashboard = express.Router();
 const logout = require("dashboard/account/util/logout");
 
-dashboard.use(trace("loading session information"));
-dashboard.use(require("dashboard/util/session"));
-dashboard.use(trace("loaded session information"));
+const session = require("dashboard/util/session");
+const parse = require("dashboard/util/parse");
+const csrf = require("dashboard/util/csrf");
 
-dashboard.use(require("dashboard/util/csrf"));
+dashboard.use(session);
+dashboard.use(parse);
+dashboard.use(csrf);
+dashboard.use(message.middleware);
+
+dashboard.use((req, res, next) => {
+  if (req.method !== "GET") {
+    return next();
+  }
+
+  res.locals.csrfToken = req.csrfToken();
+  next();
+});
+
 
 // These need to be accessible to unauthenticated users
 dashboard.use("/sign-up", require("./sign-up"));
@@ -31,8 +44,6 @@ dashboard.use((req, res, next)=>{
   res.locals.selected = { dashboard: "selected" };
   next();
 });
-
-dashboard.use(message.middleware);
 
 dashboard.use(trace("loading user"));
 dashboard.use(require("dashboard/util/load-user"));

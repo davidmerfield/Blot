@@ -84,9 +84,18 @@ documentation.get("/", require("./templates.js"), function (req, res, next) {
   next();
 });
 
-documentation.post(['/support', '/contact', '/feedback'],
-  Express.urlencoded({ extended: true }),
- (req, res) => {
+const session = require('dashboard/util/session');
+const parse = require("dashboard/util/parse");
+const csrf = require("dashboard/util/csrf");
+
+documentation.get(['/support', '/contact', '/feedback', '/news', '/news/sign-up', '/news/cancel'], session, csrf, (req, res, next)=>{
+  res.locals.csrfToken = req.csrfToken();
+  next();
+});
+
+documentation.post(['/support', '/contact', '/feedback', '/news/sign-up', '/news/cancel'], session, parse, csrf);
+
+documentation.post(['/support', '/contact', '/feedback'], (req, res) => {
   const { email, message } = req.body;
   if (!message) return res.status(400).send('Message is required');
   Email.SUPPORT(null, { email, message });
