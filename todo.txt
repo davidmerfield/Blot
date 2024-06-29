@@ -1,3 +1,5 @@
+Update pandoc and tell [](https://mail.google.com/mail/u/0/#inbox/FMfcgzGxTFSjkTvfDRgNHZwSQqDzWKFB) that highlighting now works
+
 - [ ] Fix bug with forking / editing new templates
 - [ ] make cdn-url-helper more efficient, it gets called massive (make part of build process instead?)
 ---
