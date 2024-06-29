@@ -3,7 +3,6 @@ var news = new Express.Router();
 var fs = require("fs-extra");
 var Email = require("helper/email");
 const { marked } = require("marked");
-var parse = require("body-parser").urlencoded({ extended: false });
 var uuid = require("uuid/v4");
 var config = require("config");
 var client = require("models/client");
@@ -102,7 +101,7 @@ news.param("guid", function (req, res, next) {
   next();
 });
 
-news.post("/cancel", parse, function (req, res, next) {
+news.post("/cancel", function (req, res, next) {
   var cancel, email, locals;
   var guid = uuid();
 
@@ -188,7 +187,7 @@ news.get("/confirm/:guid", function (req, res, next) {
   });
 });
 
-news.post("/sign-up", parse, function (req, res, next) {
+news.post("/sign-up", function (req, res, next) {
   var confirm, email, locals;
   var guid = uuid();
 

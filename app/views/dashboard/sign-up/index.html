@@ -55,6 +55,8 @@
 </style>
 <form id="payment-form" method="POST" style="flex-basis:50%;max-width: 360px;">
   
+  <input type="hidden" name="_csrf" value="{{csrfToken}}" />
+
   {{> sign-up-header}}
   
     {{#subscription}}

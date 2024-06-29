@@ -7,6 +7,7 @@
 
 <div class="form-container" style="max-width: 24em">
   <form action="/news/cancel" method="POST">
+    <input type="hidden" name="_csrf" value="{{csrfToken}}" />
     <p>
       <label for="email">Your email</label>
       <input type="text" required id="email" name="email" />
