@@ -243,7 +243,10 @@ function saveBlog (req, res, next) {
       .then(function () {})
       .catch(function () {});
 
+    Email.CREATED_BLOG(req.user.uid);
+
     req.blog = blog;
+
     next();
   });
 }
@@ -259,6 +262,9 @@ function updateSubscription (req, res, next) {
   if (canSkip(req.user)) {
     return next();
   }
+
+  // skip for PayPal users
+  if (!req.user.subscription.status) return next();
 
   // This is their first blog, so don't charge the user twice
   if (req.user.blogs.length === 0 && req.user.subscription.quantity === 1) {
@@ -280,7 +286,6 @@ function updateSubscription (req, res, next) {
       User.set(req.user.uid, { subscription: subscription }, function (err) {
         if (err) return next(err);
 
-        Email.CREATED_BLOG(req.user.uid);
         next();
       });
     }
@@ -288,6 +293,7 @@ function updateSubscription (req, res, next) {
 }
 
 function chargeForRemaining (req, res, next) {
+  
   // We dont need to do this for free users
   if (!req.user.subscription.status) {
     return next();
