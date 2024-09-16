@@ -1,3 +1,7 @@
+Fix issue with PayPayl
+
+Fix issue with Google Drive
+
 Update pandoc and tell [](https://mail.google.com/mail/u/0/#inbox/FMfcgzGxTFSjkTvfDRgNHZwSQqDzWKFB) that highlighting now works
 
 - [ ] Fix bug with forking / editing new templates
