@@ -1,3 +1,5 @@
+Clamp length of password and email address in log in and sign up and reset forms
+
 Fix issue with PayPayl
 
 Fix issue with Google Drive

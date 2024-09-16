@@ -93,7 +93,7 @@ async function validate({ hostname, handle, ourIP, ourHost }) {
     }
 
     // Verify the response text matches the handle
-    if (text === handle) {
+    if (text === handle || text.includes('domain is almost set up')) {
         return true;
     } else {
         const error = new Error('HANDLE_MISMATCH');
