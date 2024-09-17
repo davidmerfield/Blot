@@ -66,7 +66,7 @@
       "url": "/archives",
       "partials": {
         "title": "Archives - {{{title}}}",
-        "description": "All the entries posted on {{{title}}}"
+        "description": "Everything posted on {{{title}}}"
       }
     },
     "tagged.html": {
