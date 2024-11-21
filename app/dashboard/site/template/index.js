@@ -66,13 +66,6 @@ TemplateEditor.route('/new')
     });
   });
 
-
-TemplateEditor.use("/:templateSlug/:section", function (req, res, next) {
-  res.locals.selected = {};
-  res.locals.selected[req.params.section] = "selected";
-  next();
-});
-
 TemplateEditor.route("/:templateSlug/install")
   .post(parse, function (req, res, next) {
     var templateID = req.body.template;
