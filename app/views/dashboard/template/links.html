@@ -74,6 +74,24 @@
 </section>
 
 <div class="clear"></div>
+
+
+<a
+  id="add"
+  href="#!"
+  style="
+    padding: 11px 20px;
+    display: block;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    border-radius: 4px;
+    color: var(--accent-color);
+    padding-right: 40px;
+  "
+  ><span class="photo-holder plus" style="text-align: center; text-indent: 1px"
+    >+</span
+  ><span class="on-hover">Add new link</span></a
+>
+
 <script src="/js/jquery.js?{{ cacheID }}"></script>
 <script src="/js/sortable.js?{{ cacheID }}"></script>
 <script type="text/javascript">
@@ -113,6 +131,7 @@
   });
 
   $("#add").click(function (e) {
+    
     var index = $("#menu section").length;
     var linkID = new Date().getTime();
     var newlink = $("#link_").clone().removeAttr("style");
@@ -145,21 +164,5 @@
     return false;
   });
 </script>
-
-<a
-  id="add"
-  href="#!"
-  style="
-    padding: 11px 20px;
-    display: block;
-    border: 1px solid rgba(0, 0, 0, 0.05);
-    border-radius: 4px;
-    color: var(--accent-color);
-    padding-right: 40px;
-  "
-  ><span class="photo-holder plus" style="text-align: center; text-indent: 1px"
-    >+</span
-  ><span class="on-hover">Add new link</span></a
->
 
 {{> form-footer}}
