@@ -268,6 +268,7 @@ Re-attempt iCloud support
 - Tell [Stew](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJSFktWWJrNvRtnSjQRbwzrJK)
 - Tell [VH](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJcdSvvFcRcjNXqvxsZDjkMQh)
 - Tell [Jacob](https://mail.google.com/mail/u/0/#inbox/FMfcgzQVwnfNnpqrWTHhgdRXwhgrTbzn)
+- Tell [Steve](https://mail.google.com/mail/u/1/#inbox/FMfcgzQXJkSHjtztvhNWNPXGdVkDhKDq)
 
 Add pause subscription
 - Enable hibernation of blogs 
@@ -1012,7 +1013,7 @@ com/mail/u/0/#inbox/1588e3df7489b554)
 - Fix bug with filtering paginated list of entries and tell [Roy](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVgrQJWNPHHvdxnMtWCGJkZdM) and [Josh](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVzrFNFzLzbWrssWzbrSvtpTm) and [Logan](https://twitter.com/LoganGreer)
 - Add a popular entry list
 - Add a related entry list and tell [Thomas](https://mail.google.com/mail/u/0/#inbox/156dbe97153fab61) and [questioner](https://blot.im/questions/1484)
-- Add way to list files at a path and tell [Matt](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqxRmLMrTjjpjftkSwddPJkTm)
+- Add way to list files at a path and tell [Matt](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqxRmLMrTjjpjftkSwddPJkTm) and [Scot](https://mail.google.com/mail/u/1/#inbox/FMfcgzQXJkVbjxQbLgTRTJrhGtjBblCP)
 
 Re-send receipt when the customer changes their email after initial payment, pre-account creation.
 - Once stripe allows programmatic receipt delivery
