@@ -25,6 +25,7 @@ module.exports = {
   },
   dateFormat: "M/D/YYYY",
   forceSSL: true,
+  redirectToSourceFile: true,
   redirectSubdomain: true,
   plugins: defaultPlugins,
   cacheID: 0,
