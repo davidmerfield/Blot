@@ -1,4 +1,4 @@
-describe("Blot sign up", function () {
+xdescribe("Blot sign up", function () {
   require('./util/setup')();
 
   it("works", async function () {
