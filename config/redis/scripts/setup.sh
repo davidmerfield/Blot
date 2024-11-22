@@ -80,3 +80,7 @@ echo  '0 0 1 * * echo "" > /home/ec2-user/backup.log' | crontab -
 # change the ssh port from 22 to random port between 1024 and 65535
 # overwriting /etc/ssh/sshd_config
 
+# limit the SystemMaxUse of the journal to 100M
+# overwriting /etc/systemd/journald.conf
+# and then restart the systemd-journald service
+
