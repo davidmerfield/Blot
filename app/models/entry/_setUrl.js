@@ -51,7 +51,8 @@ var UID_PERMUTATIONS = 500;
 
 function Candidates (blog, entry) {
   var candidates = [];
-
+  var format = blog.permalink.isCustom ? blog.permalink.custom : blog.permalink.format;
+  
   // Don't use the permalink format for pages
   // or posts with user specified permalinks.
   if (
@@ -60,7 +61,7 @@ function Candidates (blog, entry) {
     !entry.metadata.url &&
     !entry.page
   ) {
-    entry.permalink = Permalink(blog.timeZone, blog.permalink.format, entry);
+    entry.permalink = Permalink(blog.timeZone, format, entry);
     debug("Permalink", entry.permalink);
   }
 
