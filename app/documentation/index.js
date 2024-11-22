@@ -89,7 +89,7 @@ documentation.post(['/support', '/contact', '/feedback'],
  (req, res) => {
   const { email, message } = req.body;
   if (!message) return res.status(400).send('Message is required');
-  Email.SUPPORT(null, { email, message });
+  Email.SUPPORT(null, { email, message, replyTo: email });
   res.send('OK');
 });
 

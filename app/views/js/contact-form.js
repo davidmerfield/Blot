@@ -3,7 +3,7 @@ const contactForm = document.getElementById('contact-form');
 
 if (contactForm) {
     // when the email checkbox is checked, show the email input
-contactForm.querySelector('input[type="checkbox"][name="email"]').addEventListener('change', function(e) {
+contactForm.querySelector('input[type="checkbox"][name="emailToggle"]').addEventListener('change', function(e) {
   var emailInput = document.querySelector('input[type="email"]');
   emailInput.parentElement.style.display = e.target.checked ? 'block' : 'none';
   // focus the email input if it's shown
@@ -13,7 +13,7 @@ contactForm.querySelector('input[type="checkbox"][name="email"]').addEventListen
 });
 
 // if the input is checked on page load, show the email input
-if (contactForm.querySelector('input[type="checkbox"][name="email"]').checked) {
+if (contactForm.querySelector('input[type="checkbox"][name="emailToggle"]').checked) {
   contactForm.querySelector('input[type="email"]').parentElement.style.display = 'block';
 }
 

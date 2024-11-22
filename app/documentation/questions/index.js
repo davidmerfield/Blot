@@ -223,7 +223,7 @@ Questions.route("/ask")
       // to manually post the question
       if (!req.session || !req.session.uid) {
         const questionURL = config.protocol + config.host + "/sites/log-in?then=" + encodeURIComponent("/questions/ask?title=" + encodeURIComponent(title) + "&body=" + encodeURIComponent(body));
-        Email.QUESTION(null, { title, body, questionURL, email });
+        Email.QUESTION(null, { title, body, questionURL, email, replyTo: email });
         res.send("OK");
       } else {
         const { id } = await create({ author, title, body, tags });

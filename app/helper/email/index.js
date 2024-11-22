@@ -88,7 +88,8 @@ var EMAIL_MODEL = {
   to: "string",
   from: "string",
   subject: "string",
-  html: "string"
+  html: "string",
+  "h:Reply-To": "string"
 };
 
 function loadUser (uid, callback) {
@@ -152,7 +153,8 @@ function send (locals, messageFile, to, callback) {
       html: html,
       subject: subject,
       from: locals.from || FROM,
-      to: to
+      to: to,
+      'h:Reply-To': locals.replyTo || locals.from || FROM
     };
 
     try {
