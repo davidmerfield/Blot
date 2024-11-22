@@ -21,6 +21,7 @@ var DECLARATION = {
   template: ["string", true, false],
   domain: ["string", true, true],
   forceSSL: ["boolean", true, false],
+  redirectToSourceFile: ["boolean", true, false],
   redirectSubdomain: ["boolean", true, false],
   isDisabled: ["boolean", true, false],
   timeZone: ["string", true, true],
