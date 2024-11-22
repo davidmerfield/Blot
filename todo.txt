@@ -817,7 +817,9 @@ Write new clients to sync blog folders
   - Tell [JMN](https://mail.google.com/mail/u/0/#inbox/FMfcgzGpGwtXQsVFFTcnTJdBTNdkMmXv)
 - Dropmark
   - Tell [Rado](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDDjrKSQVTXqvgFRGrhMSFvrR)
-
+- Proton Drive
+  - Tell [Ted](https://mail.google.com/mail/u/1/#search/proton+drive/FMfcgzQVxlMmFdqvrMHgfsFRfRDHLFTh)
+  
 ---
 
 Improvements to backup system
