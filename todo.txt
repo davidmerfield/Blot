@@ -3,7 +3,7 @@ Fix issue with server restart:
 - sudo chown ec2-user:ec2-user /var/instance-ssd/logs/app.log
 - mkfs -t xfs -f /dev/XXXXXXXX
 
-
+Investigate performance of rich text editor in Safari on template editor and follow up with [Rachel](https://mail.google.com/mail/u/1/#inbox/FMfcgzQXKNFKbzhWFnsgQrBBfGqZNMhL)
 
 ---
 
