@@ -1,6 +1,13 @@
-Clamp length of password and email address in log in and sign up and reset forms
+Fix issue with server restart:
+- sudo chown ec2-user:ec2-user /var/instance-ssd/tmp
+- sudo chown ec2-user:ec2-user /var/instance-ssd/logs/app.log
+- mkfs -t xfs -f /dev/XXXXXXXX
 
-Fix issue with PayPayl
+
+
+---
+
+Clamp length of password and email address in log in and sign up and reset forms
 
 Fix issue with Google Drive
 
@@ -819,7 +826,7 @@ Write new clients to sync blog folders
   - Tell [Rado](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDDjrKSQVTXqvgFRGrhMSFvrR)
 - Proton Drive
   - Tell [Ted](https://mail.google.com/mail/u/1/#search/proton+drive/FMfcgzQVxlMmFdqvrMHgfsFRfRDHLFTh)
-  
+
 ---
 
 Improvements to backup system
