@@ -8,6 +8,7 @@ var extend = require("helper/extend");
 var deCamelize = require("helper/deCamelize");
 var time = require("helper/time");
 var async = require("async");
+const bluesky = require("./bluesky");
 
 // Wait 10 minutes to go to next plugin
 var TIMEOUT = 10 * 60 * 1000;
@@ -20,6 +21,7 @@ var defaultPlugins = {};
 var loaded = loadPlugins({
   analytics: require("./analytics"),
   autoImage: require("./autoImage"),
+  bluesky: require("./bluesky"),
   codeHighlighting: require("./codeHighlighting"),
   commento: require("./commento"),
   disqus: require("./disqus"),
