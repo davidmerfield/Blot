@@ -1,9 +1,9 @@
 var redis = require("models/client");
 var async = require("async");
 var ensure = require("helper/ensure");
-var Entry = require("./entry");
-var DateStamp = require("../build/prepare/dateStamp");
-var Blog = require("./blog");
+var Entry = require("../entry");
+var DateStamp = require("../../build/prepare/dateStamp");
+var Blog = require("../blog");
 
 module.exports = (function () {
   var lists = [
@@ -234,49 +234,84 @@ module.exports = (function () {
       });
     });
   }
-
-  function getPage (blogID, pageNo, pageSize, callback) {
+  function getPage(blogID, pageNo, pageSize, callback, options = {}) {
     ensure(blogID, "string")
       .and(pageNo, "number")
       .and(pageSize, "number")
       .and(callback, "function");
 
+    // Default sorting options
+    const { sortBy = "date", order = "asc" } = options;
+
     pageNo--; // zero indexed
 
     var start = pageNo * pageSize,
-      end = start + (pageSize - 1);
+        end = start + (pageSize - 1);
 
-    getRange(blogID, start, end, { full: true }, function (entries) {
-      redis.zcard(listKey(blogID, "entries"), function (error, totalEntries) {
-        if (error) throw error;
+    // Determine how to fetch the sorted list
+    if (sortBy === "id") {
+        // Sort by entry ID (alphabetically)
+        const sortOptions = [
+            listKey(blogID, "entries"), // Base key
+            "ALPHA",                  // Sort alphabetically
+            order === "desc" ? "DESC" : "ASC", // Sorting order
+            "LIMIT", start, pageSize  // Apply pagination directly
+        ];
 
-        var pagination = {};
+        redis.sort(sortOptions, function (error, sortedEntries) {
+            if (error) throw error;
 
-        totalEntries = parseInt(totalEntries);
+            redis.zcard(listKey(blogID, "entries"), function (error, totalEntries) {
+                if (error) throw error;
 
-        pagination.total = Math.ceil(totalEntries / pageSize);
-
-        // total entries is not 0 indexed, remove 1
-        if (totalEntries - 1 > end) pagination.next = pageNo + 2;
-
-        if (pageNo > 0) pagination.previous = pageNo;
-
-        if (!pagination.next && !pagination.previous) pagination = false;
-
-        // The first entry published should have an index of 1
-        // The fifth entry published should have an index of 5
-        // The most recently published entry should have an index
-        // equal to the number of total entries published.
-        let index = totalEntries - start;
-        entries.forEach(function (entry) {
-          entry.index = index;
-          index--;
+                handlePaginationAndCallback(sortedEntries, totalEntries, pageNo, pageSize, start, end, callback);
+            });
         });
+    } else {
+        // Default sorting by date (Redis scores)
+        const rangeFn = order === "asc" ? redis.zrange : redis.zrevrange;
 
-        return callback(entries, pagination);
-      });
+        rangeFn(listKey(blogID, "entries"), start, end, function (error, sortedEntries) {
+            if (error) throw error;
+
+            redis.zcard(listKey(blogID, "entries"), function (error, totalEntries) {
+                if (error) throw error;
+
+                handlePaginationAndCallback(sortedEntries, totalEntries, pageNo, pageSize, start, end, callback);
+            });
+        });
+    }
+}
+
+/**
+ * Handles pagination and invokes the callback with the appropriate data.
+ */
+function handlePaginationAndCallback(entries, totalEntries, pageNo, pageSize, start, end, callback) {
+    var pagination = {};
+
+    totalEntries = parseInt(totalEntries);
+
+    pagination.total = Math.ceil(totalEntries / pageSize);
+
+    // total entries is not 0 indexed, remove 1
+    if (totalEntries - 1 > end) pagination.next = pageNo + 2;
+
+    if (pageNo > 0) pagination.previous = pageNo;
+
+    if (!pagination.next && !pagination.previous) pagination = false;
+
+    // The first entry published should have an index of 1
+    // The fifth entry published should have an index of 5
+    // The most recently published entry should have an index
+    // equal to the number of total entries published.
+    let index = totalEntries - start;
+    entries.forEach(function (entry) {
+        entry.index = index;
+        index--;
     });
-  }
+
+    return callback(entries, pagination);
+}
 
   function lastUpdate (blogID, callback) {
     getRange(blogID, 0, 1, { skinny: true }, function (entries) {
