@@ -260,13 +260,12 @@ module.exports = (function () {
         pageSize, // Apply pagination directly
       ];
 
-      redis.sort(sortOptions, function (error, sortedEntries) {
+      redis.sort(sortOptions, function (error, entryIDs) {
         if (error) {
           console.error(error);
           return callback([]);
         }
 
-        console.log(sortedEntries);
 
         redis.zcard(listKey(blogID, "entries"), function (error, totalEntries) {
           if (error) {
@@ -274,7 +273,8 @@ module.exports = (function () {
             return callback([]);
           }
           handlePaginationAndCallback(
-            sortedEntries,
+            blogID,
+            entryIDs,
             totalEntries,
             pageNo,
             pageSize,
@@ -293,7 +293,7 @@ module.exports = (function () {
         listKey(blogID, "entries"),
         start,
         end,
-        function (error, sortedEntries) {
+        function (error, entryIDs) {
           if (error) {
             console.error(error);
             return callback([]);
@@ -306,10 +306,9 @@ module.exports = (function () {
                 return callback([]);
               }
 
-              console.log('sortedEntries', sortedEntries);
-
               handlePaginationAndCallback(
-                sortedEntries,
+                blogID,
+                entryIDs,
                 totalEntries,
                 pageNo,
                 pageSize,
@@ -328,7 +327,8 @@ module.exports = (function () {
    * Handles pagination and invokes the callback with the appropriate data.
    */
   function handlePaginationAndCallback(
-    entries,
+    blogID,
+    entryIDs,
     totalEntries,
     pageNo,
     pageSize,
@@ -336,32 +336,36 @@ module.exports = (function () {
     end,
     callback
   ) {
-    var pagination = {};
 
-    totalEntries = parseInt(totalEntries);
+    Entry.get(blogID, entryIDs, function (entries) {
+        
+      var pagination = {};
 
-    pagination.total = Math.ceil(totalEntries / pageSize);
-    pagination.current = pageNo + 1;
-    pagination.pageSize = pageSize;
+      totalEntries = parseInt(totalEntries);
 
-    // total entries is not 0 indexed, remove 1
-    if (totalEntries - 1 > end) pagination.next = pageNo + 2;
+      pagination.total = Math.ceil(totalEntries / pageSize);
+      pagination.current = pageNo + 1;
+      pagination.pageSize = pageSize;
 
-    if (pageNo > 0) pagination.previous = pageNo;
+      // total entries is not 0 indexed, remove 1
+      if (totalEntries - 1 > end) pagination.next = pageNo + 2;
 
-    if (!pagination.next && !pagination.previous) pagination = false;
+      if (pageNo > 0) pagination.previous = pageNo;
 
-    // The first entry published should have an index of 1
-    // The fifth entry published should have an index of 5
-    // The most recently published entry should have an index
-    // equal to the number of total entries published.
-    let index = totalEntries - start;
-    entries.forEach(function (entry) {
-      entry.index = index;
-      index--;
+      if (!pagination.next && !pagination.previous) pagination = false;
+
+      // The first entry published should have an index of 1
+      // The fifth entry published should have an index of 5
+      // The most recently published entry should have an index
+      // equal to the number of total entries published.
+      let index = totalEntries - start;
+      entries.forEach(function (entry) {
+        entry.index = index;
+        index--;
+      });
+
+      return callback(entries, pagination);
     });
-
-    return callback(entries, pagination);
   }
 
   function lastUpdate(blogID, callback) {

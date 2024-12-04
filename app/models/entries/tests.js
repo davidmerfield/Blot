@@ -68,14 +68,28 @@ describe("entries", function () {
         "/e.txt",
         now + 5000,
         "/f.txt"
-    );
+    );  
+
+    // spy on the Entry.get function
+    // to return the full fake entry
+    spyOn(Entry, "get").and.callFake((blogID, ids, callback) => {
+        // if array, return an array of fake entries
+        if (Array.isArray(ids)) {
+            const entries = ids.map((id) => ({ id }));
+            return callback(entries);
+            // return a single fake entry
+        } else {
+            return callback({ id: ids });
+        }
+    });
 
     const pageNo = 2;
     const pageSize = 2;
     const blogID = this.blog.id;
 
+    // get the second page of entries, 2 per page, sorted by date with newest first
     Entries.getPage(blogID, pageNo, pageSize, function (entries, pagination) {
-        expect(entries).toEqual(["/d.txt", "/c.txt"]);
+        expect(entries.map((entry) => entry.id)).toEqual(["/d.txt", "/c.txt"]);
         expect(pagination).toEqual({
             current: 2,
             next: 3,
@@ -84,10 +98,12 @@ describe("entries", function () {
             pageSize: 2,
         });
 
+        // get the first page of entries, 2 per page, sorted reverse alphabetically
         Entries.getPage(blogID, 1, pageSize, function (entries, pagination) {
-            expect(entries).toEqual(["/f.txt", "/e.txt"]);
+            expect(entries.map((entry) => entry.id)).toEqual(["/f.txt", "/e.txt"]);
+            // get the first page of entries, 2 per page, sorted alphabetically
             Entries.getPage(blogID, 1, pageSize, function (entries, pagination) {
-                expect(entries).toEqual(["/a.txt", "/b.txt"]);
+                expect(entries.map((entry) => entry.id)).toEqual(["/a.txt", "/b.txt"]);
                 done();
             }, { sortBy: "id", order: "asc" });
         }, { sortBy: "id", order: "desc" });
