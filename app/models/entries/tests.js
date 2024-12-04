@@ -50,7 +50,7 @@ describe("entries", function () {
     });
   });
 
-  fit("getPage should return a page of entries sorted by date", async function (done) {
+  it("getPage should return a page of entries sorted by date", async function (done) {
     const key = `blog:${this.blog.id}:entries`;
     const now = Date.now();
     // Add 6 mock entries in Redis
@@ -72,8 +72,9 @@ describe("entries", function () {
 
     const pageNo = 2;
     const pageSize = 2;
+    const blogID = this.blog.id;
 
-    Entries.getPage(this.blog.id, pageNo, pageSize, function (entries, pagination) {
+    Entries.getPage(blogID, pageNo, pageSize, function (entries, pagination) {
         expect(entries).toEqual(["/d.txt", "/c.txt"]);
         expect(pagination).toEqual({
             current: 2,
@@ -82,7 +83,14 @@ describe("entries", function () {
             total: 3, // 6 entries / 2 per page
             pageSize: 2,
         });
-        done();
+
+        Entries.getPage(blogID, 1, pageSize, function (entries, pagination) {
+            expect(entries).toEqual(["/f.txt", "/e.txt"]);
+            Entries.getPage(blogID, 1, pageSize, function (entries, pagination) {
+                expect(entries).toEqual(["/a.txt", "/b.txt"]);
+                done();
+            }, { sortBy: "id", order: "asc" });
+        }, { sortBy: "id", order: "desc" });
     });
 });
 
@@ -178,7 +186,6 @@ describe("entries", function () {
 
       // Mock Blog.get
       spyOn(Blog, "get").and.callFake((query, callback) => {
-        console.log("FAKE BLOG GET");
         callback(null, blog);
       });
 
@@ -188,14 +195,12 @@ describe("entries", function () {
 
       // Mock Entry.get to return the entries
       spyOn(Entry, "get").and.callFake((blogID, id, callback) => {
-        console.log("FAKE ENTRY GET");
         const result = entries.find((entry) => entry.id === id);
         callback(result);
       });
 
       // Mock Entry.set
       spyOn(Entry, "set").and.callFake((blogID, path, changes, callback) => {
-        console.log("FAKE ENTRY SET");
         expect(changes).toEqual(jasmine.any(Object));
         callback();
       });

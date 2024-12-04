@@ -287,7 +287,7 @@ module.exports = (function () {
     } else {
       // Default sorting by date (Redis scores)
       
-      const rangeFn = order === "asc" ? redis.zrange.bind(redis) : redis.zrevrange.bind(redis);
+      const rangeFn = order === "asc" ? redis.zrevrange.bind(redis) : redis.zrange.bind(redis);
 
       rangeFn(
         listKey(blogID, "entries"),
