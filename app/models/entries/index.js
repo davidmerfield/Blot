@@ -13,10 +13,10 @@ module.exports = (function () {
     "drafts",
     "scheduled",
     "pages",
-    "deleted"
+    "deleted",
   ];
 
-  function resave (blogID, callback) {
+  function resave(blogID, callback) {
     Blog.get({ id: blogID }, function (err, blog) {
       if (err || !blog) return callback(err || new Error("no blog"));
 
@@ -38,7 +38,7 @@ module.exports = (function () {
     });
   }
 
-  function adjacentTo (blogID, entryID, callback) {
+  function adjacentTo(blogID, entryID, callback) {
     ensure(blogID, "string").and(entryID, "string").and(callback, "function");
 
     // Get the index of the entry in the list of entries
@@ -78,21 +78,21 @@ module.exports = (function () {
     });
   }
 
-  function getTotal (blogID, callback) {
+  function getTotal(blogID, callback) {
     var entriesKey = listKey(blogID, "entries");
 
     redis.zcard(entriesKey, callback);
   }
 
   // includes deleted entries
-  function getAllIDs (blogID, callback) {
+  function getAllIDs(blogID, callback) {
     var allKey = listKey(blogID, "all");
 
     redis.zrevrange(allKey, 0, -1, callback);
   }
 
   // includes deleted entries
-  function getAll (blogID, options, callback) {
+  function getAll(blogID, options, callback) {
     if (typeof options === "function" && !callback) {
       callback = options;
       options = {};
@@ -107,7 +107,7 @@ module.exports = (function () {
     return getRange(blogID, 0, -1, options, callback);
   }
 
-  function get (blogID, options, callback) {
+  function get(blogID, options, callback) {
     ensure(blogID, "string").and(callback, "function");
 
     if (!options.lists && options.list) options.lists = [options.list];
@@ -129,7 +129,7 @@ module.exports = (function () {
       getRange(blogID, 0, -1, options, onComplete(options.list));
     }
 
-    function onComplete (listName) {
+    function onComplete(listName) {
       return function (listOfEntries) {
         totalToFetch--;
 
@@ -142,7 +142,7 @@ module.exports = (function () {
     }
   }
 
-  function getListIDs (blogID, listName, options, callback) {
+  function getListIDs(blogID, listName, options, callback) {
     ensure(blogID, "string")
       .and(listName, "string")
       .and(options, "object")
@@ -166,7 +166,7 @@ module.exports = (function () {
   }
 
   // includes deleted entries
-  function each (blogID, dothis, callback) {
+  function each(blogID, dothis, callback) {
     ensure(blogID, "string").and(dothis, "function").and(callback, "function");
 
     redis.zrevrange(listKey(blogID, "all"), 0, -1, function (error, ids) {
@@ -184,7 +184,7 @@ module.exports = (function () {
     });
   }
 
-  function getCreated (blogID, after, callback) {
+  function getCreated(blogID, after, callback) {
     ensure(blogID, "string").and(after, "number").and(callback, "function");
 
     var key = listKey(blogID, "created");
@@ -198,7 +198,7 @@ module.exports = (function () {
     });
   }
 
-  function getDeleted (blogID, after, callback) {
+  function getDeleted(blogID, after, callback) {
     ensure(blogID, "string").and(after, "number").and(callback, "function");
 
     var key = listKey(blogID, "deleted");
@@ -212,7 +212,7 @@ module.exports = (function () {
     });
   }
 
-  function getRange (blogID, start, end, options, callback) {
+  function getRange(blogID, start, end, options, callback) {
     ensure(blogID, "string")
       .and(start, "number")
       .and(end, "number")
@@ -245,53 +245,104 @@ module.exports = (function () {
 
     pageNo--; // zero indexed
 
-    var start = pageNo * pageSize,
-        end = start + (pageSize - 1);
+    var start = pageNo * pageSize;
+    var end = start + (pageSize - 1);
 
     // Determine how to fetch the sorted list
     if (sortBy === "id") {
-        // Sort by entry ID (alphabetically)
-        const sortOptions = [
-            listKey(blogID, "entries"), // Base key
-            "ALPHA",                  // Sort alphabetically
-            order === "desc" ? "DESC" : "ASC", // Sorting order
-            "LIMIT", start, pageSize  // Apply pagination directly
-        ];
+      // Sort by entry ID (alphabetically)
+      const sortOptions = [
+        listKey(blogID, "entries"), // Base key
+        "ALPHA", // Sort alphabetically
+        order === "desc" ? "DESC" : "ASC", // Sorting order
+        "LIMIT",
+        start,
+        pageSize, // Apply pagination directly
+      ];
 
-        redis.sort(sortOptions, function (error, sortedEntries) {
-            if (error) throw error;
+      redis.sort(sortOptions, function (error, sortedEntries) {
+        if (error) {
+          console.error(error);
+          return callback([]);
+        }
 
-            redis.zcard(listKey(blogID, "entries"), function (error, totalEntries) {
-                if (error) throw error;
+        console.log(sortedEntries);
 
-                handlePaginationAndCallback(sortedEntries, totalEntries, pageNo, pageSize, start, end, callback);
-            });
+        redis.zcard(listKey(blogID, "entries"), function (error, totalEntries) {
+          if (error) {
+            console.error(error);
+            return callback([]);
+          }
+          handlePaginationAndCallback(
+            sortedEntries,
+            totalEntries,
+            pageNo,
+            pageSize,
+            start,
+            end,
+            callback
+          );
         });
+      });
     } else {
-        // Default sorting by date (Redis scores)
-        const rangeFn = order === "asc" ? redis.zrange : redis.zrevrange;
+      // Default sorting by date (Redis scores)
+      
+      const rangeFn = order === "asc" ? redis.zrange.bind(redis) : redis.zrevrange.bind(redis);
 
-        rangeFn(listKey(blogID, "entries"), start, end, function (error, sortedEntries) {
-            if (error) throw error;
+      rangeFn(
+        listKey(blogID, "entries"),
+        start,
+        end,
+        function (error, sortedEntries) {
+          if (error) {
+            console.error(error);
+            return callback([]);
+          }
+          redis.zcard(
+            listKey(blogID, "entries"),
+            function (error, totalEntries) {
+              if (error) {
+                console.error(error);
+                return callback([]);
+              }
 
-            redis.zcard(listKey(blogID, "entries"), function (error, totalEntries) {
-                if (error) throw error;
+              console.log('sortedEntries', sortedEntries);
 
-                handlePaginationAndCallback(sortedEntries, totalEntries, pageNo, pageSize, start, end, callback);
-            });
-        });
+              handlePaginationAndCallback(
+                sortedEntries,
+                totalEntries,
+                pageNo,
+                pageSize,
+                start,
+                end,
+                callback
+              );
+            }
+          );
+        }
+      );
     }
-}
+  }
 
-/**
- * Handles pagination and invokes the callback with the appropriate data.
- */
-function handlePaginationAndCallback(entries, totalEntries, pageNo, pageSize, start, end, callback) {
+  /**
+   * Handles pagination and invokes the callback with the appropriate data.
+   */
+  function handlePaginationAndCallback(
+    entries,
+    totalEntries,
+    pageNo,
+    pageSize,
+    start,
+    end,
+    callback
+  ) {
     var pagination = {};
 
     totalEntries = parseInt(totalEntries);
 
     pagination.total = Math.ceil(totalEntries / pageSize);
+    pagination.current = pageNo + 1;
+    pagination.pageSize = pageSize;
 
     // total entries is not 0 indexed, remove 1
     if (totalEntries - 1 > end) pagination.next = pageNo + 2;
@@ -306,14 +357,14 @@ function handlePaginationAndCallback(entries, totalEntries, pageNo, pageSize, st
     // equal to the number of total entries published.
     let index = totalEntries - start;
     entries.forEach(function (entry) {
-        entry.index = index;
-        index--;
+      entry.index = index;
+      index--;
     });
 
     return callback(entries, pagination);
-}
+  }
 
-  function lastUpdate (blogID, callback) {
+  function lastUpdate(blogID, callback) {
     getRange(blogID, 0, 1, { skinny: true }, function (entries) {
       if (entries && entries.length)
         return callback(null, entries[0].dateStamp);
@@ -322,7 +373,7 @@ function handlePaginationAndCallback(entries, totalEntries, pageNo, pageSize, st
     });
   }
 
-  function getRecent (blogID, callback) {
+  function getRecent(blogID, callback) {
     getRange(blogID, 0, 30, { skinny: true }, function (entries) {
       redis.zcard(listKey(blogID, "entries"), function (error, totalEntries) {
         // We need to add error handling
@@ -343,7 +394,7 @@ function handlePaginationAndCallback(entries, totalEntries, pageNo, pageSize, st
     });
   }
 
-  function listKey (blogID, list) {
+  function listKey(blogID, list) {
     ensure(blogID, "string").and(list, "string");
 
     if (lists.indexOf(list) === -1)
@@ -365,6 +416,6 @@ function handlePaginationAndCallback(entries, totalEntries, pageNo, pageSize, st
     getRecent: getRecent,
     lastUpdate: lastUpdate,
     getCreated: getCreated,
-    getDeleted: getDeleted
+    getDeleted: getDeleted,
   };
 })();

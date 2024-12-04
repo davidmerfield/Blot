@@ -50,6 +50,42 @@ describe("entries", function () {
     });
   });
 
+  fit("getPage should return a page of entries sorted by date", async function (done) {
+    const key = `blog:${this.blog.id}:entries`;
+    const now = Date.now();
+    // Add 6 mock entries in Redis
+    await redis.zadd(
+        key,
+        now,
+        "/a.txt",
+        now + 1000,
+        "/b.txt",
+        now + 2000,
+        "/c.txt",
+        now + 3000,
+        "/d.txt",
+        now + 4000,
+        "/e.txt",
+        now + 5000,
+        "/f.txt"
+    );
+
+    const pageNo = 2;
+    const pageSize = 2;
+
+    Entries.getPage(this.blog.id, pageNo, pageSize, function (entries, pagination) {
+        expect(entries).toEqual(["/d.txt", "/c.txt"]);
+        expect(pagination).toEqual({
+            current: 2,
+            next: 3,
+            previous: 1,
+            total: 3, // 6 entries / 2 per page
+            pageSize: 2,
+        });
+        done();
+    });
+});
+
   it("getRecent should return the most recent entries with their indices", async function (done) {
     const key = `blog:${this.blog.id}:entries`;
 
