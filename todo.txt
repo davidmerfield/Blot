@@ -1,3 +1,20 @@
+Fix bug with Git client and Obsidian then tell levelsi
+  
+  1. create two files
+
+  source.txt  "[[Target]]"
+  target.txt
+
+  Add in one commit
+
+  2. rename target.txt to foo.txt
+  
+  update  in one commit
+
+Deleted blogs should be purged from Bunny and its perma cache
+
+Purge thumbnails and cached images which are no longer in use
+
 Fix issue with server restart:
 - sudo chown ec2-user:ec2-user /var/instance-ssd/tmp
 - sudo chown ec2-user:ec2-user /var/instance-ssd/logs/app.log
@@ -50,6 +67,7 @@ Fix single line break handling in Word Documents and [tell Paul](https://mail.go
 Rethink google drive client to use similar iCloud interface? i.e. share with sync@blot.im?
 
 Make it possible to publish webp, tiff and any other random formats supported by sharp
+- Tell [Haider](https://mail.google.com/mail/u/1/#inbox/FMfcgzQXKWnJfxpPSsHcZhLKztZQhdGZ)
 
 Make the 404 page more useful (see Netlify site)
 
