@@ -9,8 +9,9 @@ const cache = {};
 module.exports = ({ cacheID, viewDirectory }) => {
   return () => (text, render) => {
     const path = render(text);
+    const cacheKey = `${cacheID}-${path}`;
 
-    let identifier = cache[cacheID]; // Check if the result is already cached
+    let identifier = cache[cacheKey]; // Check if the result is already cached
 
     if (!identifier) {
       try {
@@ -19,7 +20,7 @@ module.exports = ({ cacheID, viewDirectory }) => {
         // console.log('hashed', path, identifier);
 
         // Cache the result for future use
-        cache[cacheID] = identifier;
+        cache[cacheKey] = identifier;
       } catch (e) {
         console.log("failed to hash", path, e);
         // if the file doesn't exist, we'll use the cacheID
