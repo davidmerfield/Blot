@@ -1,3 +1,15 @@
+Work on [Reilly's template](https://mail.google.com/mail/u/1/#inbox/FMfcgzQXKDgbGwfLdslPKHsmNzbtbbbc)
+
+Fix local template editing bug and tell [Darren](https://mail.google.com/mail/u/1/#inbox/FMfcgzQXJkXrrLBdCgVqnZppnbwHMgjx), [Ty](https://mail.google.com/mail/u/1/#inbox/FMfcgzQXKhGGvtTbGGhbxzHdWkFtnMhS) and [Haider](https://mail.google.com/mail/u/1/#inbox/FMfcgzQXKhGHGKDtgNPRrVlpwHThCJnL)
+
+Fix duplicate GUID issue caused by renames and tell [Paul](https://mail.google.com/mail/u/1/#inbox/FMfcgzQVxlQFSLBmzLfsBlQSTTcmqjGc)
+
+Fix bug with magic text in posts which breaks backend and tell [Victor](https://mail.google.com/mail/u/1/#inbox/FMfcgzQVxRMzjBtRWVwLWtlBcFGsSVCQ)
+
+Add layout fix to blog template and [tell Lewis](https://mail.google.com/mail/u/1/#inbox/FMfcgzQVzFWlSFWmjZrDMrMjPtmtWwQc)
+
+Fix bug with site export and [contact Ryan](https://mail.google.com/mail/u/1/#inbox/FMfcgzQXJtGgnQWMWxjBnHlvMSPFJjnJ)
+
 Fix bug with Git client and Obsidian then tell levelsi
   
   1. create two files
@@ -1445,3 +1457,5 @@ Consider adding 'default metadata' option to dashboard
 - Tell [Mike](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLscxQPSzQtKbhpHpJgbNlgCQZ)
 
 Consider switching to same-site lax and remove all redirects?
+
+Add way to buy domains via Blot and tell [Christine](https://mail.google.com/mail/u/1/#inbox/FMfcgzQXKWlxFbhmCbrwQxbKmJZCrVbX)
