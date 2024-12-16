@@ -202,6 +202,24 @@ label[for="toggle"] {
     display: block;
   }
 
+  .entry .nav:first-child {
+    order: 1;
+  }
+
+  .entry .nav:last-child {
+    order: 2;
+  }
+
+  .entry .nav {
+    flex-basis: 50%;
+    height: 1em;
+  }
+  
+  .entry {flex-wrap: wrap;}
+
+  .entry .contents {
+    order: 3;
+  }
 }
 
 
@@ -420,8 +438,7 @@ label[for="toggle"] {
 
 .entry .contents {
   padding: {{spacing}}rem;
-  /*  flex-grow: 1;
-*/
+  flex-grow: 1;
   margin: 0;
 }
 
