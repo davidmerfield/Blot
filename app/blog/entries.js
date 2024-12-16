@@ -7,7 +7,7 @@ module.exports = function (server) {
   function renderPage(req, res, next) {
     var blog = req.blog;
 
-    var pageNo, pageSize;
+    var pageNo, pageSize, sortBy, order;
 
     try {
       pageNo = parseInt(req.params.page_number) || 1;
@@ -23,6 +23,18 @@ module.exports = function (server) {
       pageSize = parseInt(pageSize) || 5;
     } catch (e) {
       pageSize = 5;
+    }
+
+    try {
+      sortBy = req.template.locals.sort_by || "date";
+    } catch (e) {
+      sortBy = "date";
+    }
+  
+    try {
+      order = req.template.locals.sort_order || "asc";
+    } catch (e) {
+      order = "asc";
     }
 
     Entries.getPage(blog.id, pageNo, pageSize, function (entries, pagination) {
@@ -41,6 +53,6 @@ module.exports = function (server) {
       });
 
       res.renderView("entries.html", next);
-    });
+    }, { sortBy, order });
   }
 };
