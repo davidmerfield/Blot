@@ -5,7 +5,7 @@ This repository contains the code for Blot’s Google Drive Client, designed to 
 There are two 'apps', one external which requests the user's email address through the OAUTH flow.
 The other is a 'service account' which has access to a Drive folder created by contact@blot.im
 
-The service account creates a new site folder inside the Sites folder and then shares it with the user's email.
+The service account creates a new site folder inside the Sites folder and then shares it with the user's email. I created 
 
 ## How It Works
 	1.	User Authentication:
@@ -17,3 +17,9 @@ The internal Google Drive Client uses the captured email to:
 	3.	Change Tracking and Syncing:
 	•	Monitor the shared folder for changes using the Google Drive API.
 	•	Sync updates, including file uploads, edits, and deletions, to Blot’s server.    
+
+---
+
+SHould we ask the user to share a folder with our email? This was it's a 'true' folder and doesn't show up in 'shared with me'.
+
+How is storage usage affected by 'service accounts'?
