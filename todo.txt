@@ -1,14 +1,12 @@
-Tell when Google Drive client is working again:
-- [Mark](https://mail.google.com/mail/u/1/#inbox/FMfcgzQXKhJXqjrbZTsFsvPhzwcdnBrP)
-- [Roequin](https://mail.google.com/mail/u/0/#inbox/FMfcgzQXJkbDbxzWNXFGqslFTghhTbCR)
-- [Michael](https://mail.google.com/mail/u/0/#inbox/FMfcgzQXKWgNZSFcmZtCcmGGLpFVcLCW)
-- [Jonathan](https://mail.google.com/mail/u/0/#inbox/FMfcgzQVxttZGBjqDfCRnvRTvxXmWqrM)
+Work on [Reilly's template](https://mail.google.com/mail/u/1/#inbox/FMfcgzQXKDgbGwfLdslPKHsmNzbtbbbc)
+- Fix bug with portfolio template on mobile
 
 Fix thumbnail generator to handle 304 responses properly. Right now, you can fetch image and then encounter 304 response. 
 
-Work on [Reilly's template](https://mail.google.com/mail/u/1/#inbox/FMfcgzQXKDgbGwfLdslPKHsmNzbtbbbc)
-
-Fix local template editing bug and tell [Darren](https://mail.google.com/mail/u/1/#inbox/FMfcgzQXJkXrrLBdCgVqnZppnbwHMgjx), [Ty](https://mail.google.com/mail/u/1/#inbox/FMfcgzQXKhGGvtTbGGhbxzHdWkFtnMhS) and [Haider](https://mail.google.com/mail/u/1/#inbox/FMfcgzQXKhGHGKDtgNPRrVlpwHThCJnL)
+Fix local template editing bug 
+- tell [Darren](https://mail.google.com/mail/u/1/#inbox/FMfcgzQXJkXrrLBdCgVqnZppnbwHMgjx)
+- [Ty](https://mail.google.com/mail/u/1/#inbox/FMfcgzQXKhGGvtTbGGhbxzHdWkFtnMhS)
+- [Haider](https://mail.google.com/mail/u/1/#inbox/FMfcgzQXKhGHGKDtgNPRrVlpwHThCJnL)
 
 Fix duplicate GUID issue caused by renames and tell [Paul](https://mail.google.com/mail/u/1/#inbox/FMfcgzQVxlQFSLBmzLfsBlQSTTcmqjGc)
 
