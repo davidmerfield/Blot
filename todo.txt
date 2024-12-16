@@ -42,6 +42,8 @@ Fix issue with server restart:
 
 Investigate performance of rich text editor in Safari on template editor and follow up with [Rachel](https://mail.google.com/mail/u/1/#inbox/FMfcgzQXKNFKbzhWFnsgQrBBfGqZNMhL)
 
+Add pagination to archives and tagged pages on default templates using a new tag
+
 ---
 
 Clamp length of password and email address in log in and sign up and reset forms
