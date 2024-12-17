@@ -212,9 +212,15 @@ label[for="toggle"] {
 
   .entry .nav {
     flex-basis: 50%;
-    height: 1em;
   }
-  
+
+  .nav > a {
+    display: none
+  }
+
+  .nav > * {padding: .5rem!important}
+  .nav:first-child {align-items: flex-start;}
+  .nav:last-child {align-items: flex-end;}
   .entry {flex-wrap: wrap;}
 
   .entry .contents {
