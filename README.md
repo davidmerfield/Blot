@@ -72,10 +72,10 @@ mkcert -cert-file ./data/blot.pem -key-file ./data/blot-key.pem local.blot "*.lo
 Finally, you are ready to start the development environment which uses docker-compose. The first time you run this command it will take a while to download the images and build the containers but subsequent runs will be much faster:
 
 ```
-npm run dev
+npm start
 ```
 
-The dashboard will be available at [https://blot](https://blot) and the example site will be available at [https://example.blot](https://example.blot). You can edit the folder for the example blog inside the `data` directory:
+The dashboard will be available at [https://local.blot](https://local.blot) and the example site will be available at [https://example.local.blot](https://example.local.blot). You can edit the folder for the example blog inside the `data` directory:
 
 ```
 ./data/blogs/blog_$ID
