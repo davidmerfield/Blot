@@ -208,43 +208,14 @@ function build (directory, callback) {
           if (!isPublic || config.environment !== "development")
             return callback();
 
-          callback();
-          // mirror(id, callback);
+          // in development, we want to reset any versions of the template
+          // otherwise it seems local changes are not reflected
+          removeOldVersionFromTestBlogs(id, function (err) {
+            callback();
+          });
         });
       });
     });
-  });
-}
-
-function mirror (id, callback) {
-  Blog.getAllIDs(function (err, ids) {
-    if (err) return callback(err);
-    async.eachSeries(
-      ids,
-      function (blogID, next) {
-        let mirrorID = blogID + ":mirror-of-" + id.slice(id.indexOf(":") + 1);
-        Template.getMetadata(mirrorID, function (err, oldMirror) {
-          Template.drop(
-            blogID,
-            "mirror-of-" + id.slice(id.indexOf(":") + 1),
-            function (err) {
-              var template = {
-                isPublic: false,
-                cloneFrom: id,
-                name: "Mirror of " + id.slice(id.indexOf(":") + 1),
-                slug: "mirror-of-" + id.slice(id.indexOf(":") + 1)
-              };
-
-              for (const local in template.locals)
-                template[local] = oldMirror.locals[local];
-
-              Template.create(blogID, template.name, template, next);
-            }
-          );
-        });
-      },
-      callback
-    );
   });
 }
 
@@ -411,6 +382,41 @@ function emptyCacheForBlogsUsing (templateID, callback) {
               blog.handle + " (" + blog.id + ")"
             );
             next();
+          });
+        });
+      },
+      callback
+    );
+  });
+}
+
+function removeOldVersionFromTestBlogs (templateID, callback) {
+
+  // If we're not in development, we don't want to remove the template from any blogs
+  if (config.environment !== "development") return callback();
+
+  Blog.getAllIDs(function (err, ids) {
+    if (err) return callback(err);
+    async.eachSeries(
+      ids,
+      function (blogID, next) {
+        Template.getTemplateList(blogID, function (err, templates) {
+
+          const TemplateToRemove = templates.find(function (template) {
+            return template.cloneFrom === templateID && template.owner === blogID;
+          });
+
+          if (!TemplateToRemove) {
+            console.log("No template to remove for", blogID, templateID);
+            return next();
+          }
+
+          console.log("Removing", TemplateToRemove.id);
+
+          Template.drop(blogID, TemplateToRemove.slug, function (err) {
+            if (err) return next(err);
+
+            next()
           });
         });
       },
