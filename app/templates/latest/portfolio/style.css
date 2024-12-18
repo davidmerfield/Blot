@@ -613,11 +613,13 @@ body.position-right .nav:last-of-type > a:first-of-type {
 
 .archives a .title {
   display: block;
-  height: calc(2 * {{body_font.line_height}}em);
+  max-height: calc(1 * {{body_font.line_height}}em);
   overflow: hidden
 
 }
-.archives a .date {display: block;}
+
+.archives a span.date {display: block;opacity: 0.5;}
+
 .archives a:hover {opacity: 0.8}
 
 .archives a:active {opacity: 0.7}
