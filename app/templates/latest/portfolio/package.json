@@ -26,7 +26,8 @@
     "navigation_position": "left",
     "navigation_position_options": [
       "left",
-      "right"
+      "right",
+      "top"
     ],
     "thumbnail_size": 230,
     "thumbnail_size_range": [
