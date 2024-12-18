@@ -86,6 +86,7 @@ body.position-left .navigation-container {
 
 .navigation .shrink {
   flex-shrink: 1;
+  margin: 1.5rem 0;
   overflow: hidden;
 }
 
@@ -116,12 +117,7 @@ body.position-left .navigation-container {
 .clip-5 > :nth-child(n+6) {
   display: none;
 }
-/* We never want to show these links on the 
-   portfolio theme since they don't make sense */
-.menu a[href="/feed.rss"],
-.menu a[href="/search"] {
-  display: none !important;
-}
+
 
 input[name="toggle"] {
   display: none;
@@ -157,6 +153,41 @@ label[for="toggle"] {
   }
 }
 
+body.position-top .posts {
+  margin-top: 4rem;
+}
+
+body.position-top .navigation-container {
+  width: 100%;
+    height: auto;
+    display: flex;
+    box-sizing: border-box;
+    z-index: 1;
+    background: {{background_color}};
+}
+
+body.position-top .navigation {
+  height: 2rem; /* height of index link */
+  max-width: 100%;
+    flex-grow: 1;
+}
+
+body.position-top label[for="toggle"] {
+    display: block;
+  }
+
+  body.position-top .navigation>*:not(.index-link) {
+    display: none;
+  }
+
+
+  body.position-top input[name="toggle"]:checked+.navigation {
+    min-height: 100vh;
+  }
+
+  body.position-top input[name="toggle"]:checked+.navigation>*:not(.index-link) {
+    display: block;
+  }
 
 @media screen and (max-width: 800px) {
 
@@ -202,6 +233,30 @@ label[for="toggle"] {
     display: block;
   }
 
+  .entry .nav:first-child {
+    order: 1;
+  }
+
+  .entry .nav:last-child {
+    order: 2;
+  }
+
+  .entry .nav {
+    flex-basis: 50%;
+  }
+
+  .nav > a {
+    display: none
+  }
+
+  .nav > * {padding: .5rem!important}
+  .nav:first-child {align-items: flex-start;}
+  .nav:last-child {align-items: flex-end;}
+  .entry {flex-wrap: wrap;}
+
+  .entry .contents {
+    order: 3;
+  }
 }
 
 
@@ -360,22 +415,6 @@ label[for="toggle"] {
   font-size: 0.875em;
 }
 
-/* When navigation is collapsed into toggle */
-@media screen and (max-width: 800px) {
-  .posts {
-    padding: 0 1.35rem;
-  }
-
-  .post {
-    margin: 1rem 0.65rem;
-  }
-}
-
-/*.posts::after {
-  content: '';
-  flex-grow: 999999999;
-}*/
-
 
 .post:hover {
   opacity: 0.93
@@ -416,14 +455,17 @@ label[for="toggle"] {
   margin-left: 0.5rem
 }
 
-.entry {display: flex;min-height: 100vh}
+.entry {display: flex;position:relative;z-index: 2;background-color: {{background_color}};} /* min-height: 100vh */
 
 .entry .contents {
   padding: {{spacing}}rem;
-  /*  flex-grow: 1;
-*/
+  flex-grow: 1;
   margin: 0;
+  min-height: 100vh;
+  box-sizing: border-box;
 }
+
+
 
 .entry hr {
   margin: 2.6em 0;
@@ -484,6 +526,16 @@ blockquote {
   width: auto;
 }
 
+.entry .contents > img {
+  margin: 0 auto;
+  display: block;
+}
+
+.entry .contents .caption {
+  text-align: center;
+  margin: 0.65em 0;
+}
+
 body.position-left .nav:first-of-type > a:first-of-type {
   visibility: hidden;
 }
@@ -513,6 +565,9 @@ body.position-right .nav:last-of-type > a:first-of-type {
 }
 }
 
+.nav.align-right .nav:first-child > a:first-child {visibility: hidden}
+.align-left .nav:first-child > a:first-child {visibility: hidden}
+
 .nav >* {
   display: block;
   padding: {{spacing}}rem;
@@ -540,6 +595,7 @@ body.position-right .nav:last-of-type > a:first-of-type {
 .archives a {
   padding: 1.3rem;
   width: 220px;
+  font-size: 0.8rem;
   box-sizing:border-box;
   display: flex;
   flex-direction:column;
@@ -555,7 +611,15 @@ body.position-right .nav:last-of-type > a:first-of-type {
   align-items:center;
 }
 
-.archives a .date {display: block;}
+.archives a .title {
+  display: block;
+  max-height: calc(1 * {{body_font.line_height}}em);
+  overflow: hidden
+
+}
+
+.archives a span.date {display: block;opacity: 0.5;}
+
 .archives a:hover {opacity: 0.8}
 
 .archives a:active {opacity: 0.7}

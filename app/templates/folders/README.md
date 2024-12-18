@@ -5,6 +5,7 @@ Add folders for:
 - Link blog!
 - Podcast!
 - Music site!
+  - music album archive with playable records
 - Video portfolio!
 
 Test material for static site generators. To release new versions of the folders for download:
