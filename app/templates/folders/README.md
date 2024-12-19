@@ -135,6 +135,33 @@ https://publicdomainreview.org/essay/the-substantiality-of-spirit/?utm_source=ne
 
 [Morris Huberland's pictures of New York](https://digitalcollections.nypl.org/collections/)morris-huberland#/?tab=about
 
+### MUSIC
+
+https://www.loc.gov/collections/national-jukebox/about-this-collection/genres/
+
+https://musopen.org/music/777-peer-gynt-suite-no-1-op-46/
+
+https://freemusicarchive.org/genre/Big_BandSwing/
+
+https://www.gutenberg.org/browse/categories/3
+
+https://www.openmusicarchive.org/browse_tag.php?tag=1928
+
+[Bessie Smith](https://archive.org/details/BessieSmithNivenJazzCollection_tracked)
+
+[ McKinney's Cotton Pickers - Vol. 1 (RCA) 1928 ](https://archive.org/details/08-mc-kinneys-cotton-pickers-vol-1-cherry/01-McKinney's+Cotton+Pickers+vol+1+-+Four+or+five+times.flac)
+
+[Tree Star Moon](https://soundcloud.com/tree-star-moon/sets/cc0-public-domain-music)
+
+https://archive.org/details/georgeblood?and%5B%5D=year%3A%5B1923+TO+1928%5D
+
+https://www.google.com/search?client=firefox-b-d&q=site%3Asoundcloud.com+CC0
+
+https://freepd.com/epic.php
+
+https://en.wikipedia.org/wiki/Test_card#Test_card_music
+
+
 ## Places to find test material
 
 Find a photographer here and create a portfolio of work:
