@@ -28,9 +28,9 @@ get(process.argv[2], function (err, user, blog) {
       .then(function (res) {
         console.log(res);
 
-        if (res.entries) {
+        if (res.result && res.result.entries) {
           console.log('----');
-          res.entries.forEach(function (entry) {
+          res.result.entries.forEach(function (entry) {
             console.log(entry.name, entry[".tag"]);
           });
         }
