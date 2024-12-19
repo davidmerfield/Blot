@@ -4,13 +4,14 @@ const imageminPngquant = require("imagemin-pngquant");
 const dirname = require("path").dirname;
 const fs = require("fs-extra");
 
-const firefoxOptions =
-  process.env.PUPETEER_PRODUCT === "firefox"
-    ? {
-        product: "firefox",
-        args: ["--font-render-hinting=none", "--force-color-profile=srgb"]
-      }
-    : {};
+const firefoxOptions = process.env.PUPPETEER_PRODUCT === "firefox" ? {
+  product: "firefox",
+  headless: "new", // Use the new headless mode for better performance and stability
+  args: ["--font-render-hinting=none", "--force-color-profile=srgb", "--no-sandbox", "--disable-setuid-sandbox"],
+} : {
+  headless: "new", // Ensure modern headless mode is used for Chromium too
+  args: ["--font-render-hinting=none", "--force-color-profile=srgb", "--no-sandbox", "--disable-setuid-sandbox"],
+};
 
 async function main (site, path, options = {}) {
   // console.log('launching');
