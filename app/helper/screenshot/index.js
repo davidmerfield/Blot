@@ -6,6 +6,7 @@ const fs = require("fs-extra");
 
 const firefoxOptions = process.env.PUPPETEER_PRODUCT === "firefox" ? {
   product: "firefox",
+  headless: "false", // Use the new headless mode for better performance and stability
   args: ["--font-render-hinting=none", "--force-color-profile=srgb", "--no-sandbox", "--disable-setuid-sandbox"],
 } : {
   headless: "new", // Ensure modern headless mode is used for Chromium too
