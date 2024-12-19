@@ -27,6 +27,13 @@ get(process.argv[2], function (err, user, blog) {
       })
       .then(function (res) {
         console.log(res);
+
+        if (res.entries) {
+          console.log('----');
+          res.entries.forEach(function (entry) {
+            console.log(entry.name, entry[".tag"]);
+          });
+        }
         process.exit();
       });
   });
