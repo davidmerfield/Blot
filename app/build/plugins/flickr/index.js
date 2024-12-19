@@ -1,0 +1,77 @@
+/* from flickr 
+
+oEmbed Endpoint
+
+The official oEmbed endpoint for Bluesky posts is 
+
+https://www.flickr.com/services/oembed/
+
+    url (required): flickr.com or flic.kr url to a post or gallery
+    format (optional): json
+*/
+
+const each = require("../eachEl");
+const Url = require("url");
+const fetch = require("node-fetch");
+
+function render($, callback) {
+  console.log("flickr plugin", "render", $.html());
+
+  each(
+    $,
+    "a",
+    function (el, next) {
+      var href, host, text, id;
+
+      try {
+        href = $(el).attr("href");
+        text = $(el).text();
+        host = Url.parse(href).host;
+      } catch (e) {
+        return next();
+      }
+
+      // Ensure we managed to extract everything from the url
+      if (!href || !text || !host) return next();
+
+      // Look for bare links
+      if (href !== text) return next();
+
+      // which point to a post on flickr
+      if (host !== "flickr.com" && host !== "flic.kr") return next();
+
+      var params = {
+        url: href,
+        format: "json"
+      };
+
+      var oembedUrl = "https://www.flickr.com/services/oembed/?" +
+        new URLSearchParams(params).toString();
+
+
+      fetch(oembedUrl)
+        .then((res) => res.json())
+        .then((data) => {
+          if (!data || !data.html) return next();
+
+          var html = data.html;
+
+          $(el).replaceWith(html);
+          next();
+        })
+        .catch(() => {
+          return next();
+        });
+    },
+    function () {
+      callback();
+    }
+  );
+}
+
+module.exports = {
+  render: render,
+  category: "external",
+  title: "Flickr",
+  description: "Embed Flickr posts and galleries",
+};
