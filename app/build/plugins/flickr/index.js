@@ -15,8 +15,6 @@ const Url = require("url");
 const fetch = require("node-fetch");
 
 function render($, callback) {
-  console.log("flickr plugin", "render", $.html());
-
   each(
     $,
     "a",
@@ -37,17 +35,23 @@ function render($, callback) {
       // Look for bare links
       if (href !== text) return next();
 
-      // which point to a post on flickr
-      if (host !== "flickr.com" && host !== "flic.kr") return next();
+      // which point to a post on flickr, include all flickr hosts including www. subdomain
+      if (
+        host !== "flickr.com" &&
+        host !== "flic.kr" &&
+        host !== "www.flickr.com" &&
+        host !== "www.flic.kr"
+      )
+        return next();
 
       var params = {
         url: href,
-        format: "json"
+        format: "json",
       };
 
-      var oembedUrl = "https://www.flickr.com/services/oembed/?" +
+      var oembedUrl =
+        "https://www.flickr.com/services/oembed/?" +
         new URLSearchParams(params).toString();
-
 
       fetch(oembedUrl)
         .then((res) => res.json())
