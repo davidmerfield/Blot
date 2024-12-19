@@ -36,13 +36,7 @@ function render($, callback) {
       if (href !== text) return next();
 
       // which point to a post on flickr, include all flickr hosts including www. subdomain
-      if (
-        host !== "flickr.com" &&
-        host !== "flic.kr" &&
-        host !== "www.flickr.com" &&
-        host !== "www.flic.kr"
-      )
-        return next();
+      if (!/^(www\.)?(flickr\.com|flic\.kr)$/.test(host)) return next();
 
       var params = {
         url: href,
@@ -56,8 +50,8 @@ function render($, callback) {
       fetch(oembedUrl)
         .then((res) => res.json())
         .then((data) => {
-          if (!data || !data.html) return next();
-
+          if (!data || typeof data.html !== "string") return next();
+          
           var html = data.html;
 
           $(el).replaceWith(html);
