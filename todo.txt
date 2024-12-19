@@ -1,9 +1,15 @@
+Add flickr oembed suport and tell [JEM](https://mail.google.com/mail/u/0/#inbox/FMfcgzQXKhPLNdfRcqCvwHVHDWfCKrJF)
+
 Fix local template editing bug 
 - tell [Darren](https://mail.google.com/mail/u/1/#inbox/FMfcgzQXJkXrrLBdCgVqnZppnbwHMgjx)
 - [Ty](https://mail.google.com/mail/u/1/#inbox/FMfcgzQXKhGGvtTbGGhbxzHdWkFtnMhS)
 - [Haider](https://mail.google.com/mail/u/1/#inbox/FMfcgzQXKhGHGKDtgNPRrVlpwHThCJnL)
 
 Work on [Reilly's template](https://mail.google.com/mail/u/1/#inbox/FMfcgzQXKDgbGwfLdslPKHsmNzbtbbbc)
+  - Improvements to base template
+    - Detail page view is now working correctly on mobile. One small bug I caught is that (on mobile) when you are on a detail page (ie https://preview-of-my-portfolio-on-carmagnum.blot.im/isuzu-unicab-3) the nav bar hamburger is visible but not clickable / actionable. 
+    - Is it possible to have the tag (ie the subfolder name) show up on the detail page as clickable too? Perhaps at end of the caption line.
+  - Custom changes
 
 Fix thumbnail generator to handle 304 responses properly. Right now, you can fetch image and then encounter 304 response. 
 
