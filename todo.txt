@@ -1,3 +1,5 @@
+Add flickr oembed suport and tell [JEM](https://mail.google.com/mail/u/0/#inbox/FMfcgzQXKhPLNdfRcqCvwHVHDWfCKrJF)
+
 Fix local template editing bug 
 - tell [Darren](https://mail.google.com/mail/u/1/#inbox/FMfcgzQXJkXrrLBdCgVqnZppnbwHMgjx)
 - [Ty](https://mail.google.com/mail/u/1/#inbox/FMfcgzQXKhGGvtTbGGhbxzHdWkFtnMhS)
