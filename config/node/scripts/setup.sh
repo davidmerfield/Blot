@@ -31,6 +31,7 @@ yum install -y libpng-devel
 
 # for pupeteer
 amazon-linux-extras install firefox
+yum install -y xorg-x11-server-Xvfb xorg-x11-utils
 
 # Install Blot
 # Install git and ntp
