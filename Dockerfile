@@ -66,17 +66,27 @@ RUN apk add --no-cache git
 RUN git config --global user.email "you@example.com"
 RUN git config --global user.name "Your Name"
 
-# Install necessary packages for Puppeteer
+# Install necessary dependencies for Puppeteer with Firefox
 RUN apk add --no-cache \
-      chromium \
+      firefox \
       nss \
       freetype \
       harfbuzz \
       ca-certificates \
-      ttf-freefont
+      ttf-freefont \
+      dbus-glib \
+      xorg-server \
+      xterm \
+      xvfb-run \
+      xvfb \
+      libxtst \
+      libxi \
+      fontconfig
 
-# Set the Puppeteer executable path
-ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
+# Set the Puppeteer environment variables for Firefox
+ENV PUPPETEER_PRODUCT=firefox
+ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/firefox
+
 
 ## Stage 2 (development)
 # This stage is for development purposes
