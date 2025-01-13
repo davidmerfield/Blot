@@ -1,26 +1,22 @@
 # Folders
 
-Add folders for:
+Test material for static site generators. 
 
-- Link blog!
-- Podcast!
-- Music site!
-  - music album archive with playable records
-- Video portfolio!
+## Local development guide
 
-Test material for static site generators. To release new versions of the folders for download:
+To create a new sub-folder e.g. 'marmalade' and then when the server is running elsewhere, run in a seperate window:
 
-```
-git tag 1.1 && git push origin 1.1
-```
+npm run folder marmalade
 
-The [Github Action](./github/workflows/release) will automatically zip the folder contents and make them downloadable here:
+## Publish new folders
 
-```
-https://github.com/davidmerfield/folders/releases/latest/download/$FOLDER.zip
-```
+To release new versions of the folders for download on master branch, just commit and push to master branch.
 
-Make sure you update the [Github Action](./github/workflows/release) if you add or remove a folder.
+## Using new folders
+
+Set the "demo_folder" property in the locals of a given template to the name of this folder to make it available on the website, e.g.
+
+"demo_folder": "marmalade",
 
 ## Folders for each template
 
@@ -41,14 +37,7 @@ https://www.flickr.com/photos/alberta_archives/albums/72157643076560675
 - [Download flickr sets](https://www.npmjs.com/package/flickr-set-get)
   https://www.openculture.com/2016/05/1-8-million-free-works-of-art-from-world-class-museums-a-meta-list.html
 
-## Generating the blogs
-
-You will eventually be able to build these folders into blogs using
-the script:
-
-```
-node scripts/build/folders
-```
+## To do
 
 How to store links in the menu? How to encode an avatar?
 This will be useful food for thought when we allow people
@@ -56,6 +45,14 @@ to edit their blog's settings from the folder, e.g.
 a .blot directory containing config...
 
 ## Ideas
+
+Add folders for:
+
+- Link blog!
+- Podcast!
+- Music site!
+  - music album archive with playable records
+- Video portfolio!
 
 - design a site around each font available on Blot (80 ish fonts)
 

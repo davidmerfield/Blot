@@ -23,6 +23,8 @@ const localPath = require("helper/localPath");
 const sync = require("sync");
 const fix = require("sync/fix");
 
+const FOLDER_ACCOUNT_EMAIL = config.admin.email || "example@example.com";
+
 const updates = {
   bjorn: {
     title: "Björn Allard",
@@ -124,12 +126,12 @@ function setupUser (_callback) {
     });
   };
 
-  User.getByEmail(config.admin.email, function (err, user) {
+  User.getByEmail(FOLDER_ACCOUNT_EMAIL, function (err, user) {
     if (err) return callback(err);
 
     if (user) return callback(null, user);
 
-    User.create(config.admin.email, config.session.secret, {}, {}, callback);
+    User.create(FOLDER_ACCOUNT_EMAIL, config.session.secret, {}, {}, callback);
   });
 }
 

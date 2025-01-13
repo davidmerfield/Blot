@@ -44,7 +44,7 @@ const loadTemplates = async () => {
   const templates = await Promise.all(templateFiles.map(async i => {
     const template = await getTemplate(i);
     if (!template) return null;
-    const demo_folder = template.locals.demo_folder;
+    const demo_folder = template.locals.demo_folder || "david";
     return {
       name: i[0].toUpperCase() + i.slice(1),
       slug: i,
