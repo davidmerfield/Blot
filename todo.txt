@@ -1,4 +1,15 @@
-Add flickr oembed suport and tell [JEM](https://mail.google.com/mail/u/0/#inbox/FMfcgzQXKhPLNdfRcqCvwHVHDWfCKrJF)
+Add way to redirect HTTP to HTTPS and [tell questioners](https://blot.im/questions/2853) and [Brandon](https://mail.google.com/mail/u/0/#inbox/FMfcgzQXKqllFHmczkBXxBZtQqKtwVCL)
+
+Fix Blot's mobile nav
+
+Expose exif data on Photo posts?  [https://github.com/lovell/sharp/issues/285](https://github.com/lovell/sharp/issues/285)
+See if you can add comments to image metadata and tell [Riley](https://mail.google.com/mail/u/1/#sent/164756616df069dd)
+, also tell [Mike](https://mail.google.com/mail/u/1/#inbox/16423ebe7b027d48)
+- questioner
+- https://github.com/sambecker/exif-photo-blog
+
+Surface Blot client sync errors on dashboard, add email notifications for errors
+- surface dropbox out of space error
 
 Fix local template editing bug 
 - tell [Darren](https://mail.google.com/mail/u/1/#inbox/FMfcgzQXJkXrrLBdCgVqnZppnbwHMgjx)
@@ -15,7 +26,6 @@ Fix thumbnail generator to handle 304 responses properly. Right now, you can fet
 
 Fix duplicate GUID issue caused by renames and tell [Paul](https://mail.google.com/mail/u/1/#inbox/FMfcgzQVxlQFSLBmzLfsBlQSTTcmqjGc)
 
-Add way to redirect HTTP to HTTPS and [tell questioners](https://blot.im/questions/2853)
 
 Fix bug with magic text in posts which breaks backend and tell [Victor](https://mail.google.com/mail/u/1/#inbox/FMfcgzQVxRMzjBtRWVwLWtlBcFGsSVCQ)
 
@@ -486,7 +496,6 @@ Fix post navigation on Portfolio template and tell [Questioner](https://blot.im/
 ---
 
 Improve image posts
-- Add opt-in EXIF extraction for photos and enable in the photos template
 - Add support for other image formats, by converting them into jpg/webp
 - Add support for large image tiling and zooming with photoswipe
 
@@ -1379,8 +1388,6 @@ Embed feature
 - Add support for native MP3 embeds in posts, just put a link to an MP3 or a path, e.g. /_assets/file.mp3 --> would become a nice embed then tell [Luke](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVWLlqqwbksXcScNdhcTjhjfq) and [Nash](http://twitter.com/nashp) and [Andy](https://mail.google.com/mail/u/0/#inbox/LXphbRLrghxkrJmtbtfXwZHrBHqGzzjDqLZVmfRCzrg) and [Charlie](mailto:hi@charlliegleason.com) and [Konstantin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrRQPphRrjCrWXPLzgHhxkzMN)
 - Add soundcloud embeds then tell [Jonas](https://mail.google.com/mail/u/1/#inbox/16404cc8d437cc23), Nashp, and [Anders](https://twitter.com/4nd3rs/status/1028250661589278720?s=12) and [Richard](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJbvQlJvtLVPDqRCHrGJkZTr)
 - Add are.na embeds and tell [Marco](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLswLkPbqqvMVWPSHvRqtqcKlZ)
-
-Expose exif data on Photo posts? See if you can add comments to image metadata and tell [Riley](https://mail.google.com/mail/u/1/#sent/164756616df069dd), also tell [Mike](https://mail.google.com/mail/u/1/#inbox/16423ebe7b027d48)
 
 ---
 
