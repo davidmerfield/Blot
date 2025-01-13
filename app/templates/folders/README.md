@@ -67,6 +67,18 @@ https://wellcomecollection.org/search/images?locations.license=pdm&source.contri
 
 ## Future test material
 
+[Objects on black](https://commons.wikimedia.org/w/index.php?search=Archaeodontosaurus&title=Special:MediaSearch&go=Go&type=image)
+
+[Collection of botany of museum of toulouse](https://commons.wikimedia.org/wiki/Category:Collection_of_botany_of_the_Mus%C3%A9um_de_Toulouse)
+
+[Pre-colombian art](https://commons.wikimedia.org/wiki/Category:Pre-Columbian_art_in_the_Walters_Art_Museum)
+
+[Objects photographed with black background from prehistory of the Muséum de Toulouse](https://commons.wikimedia.org/wiki/Category:Collection_of_prehistory_of_the_Mus%C3%A9um_de_Toulouse)
+
+[Focus stacking images of plants](https://commons.wikimedia.org/wiki/Category:Focus_stacking_images_of_plants)
+
+[Muséum de Toulouse collection of Lepidoptera](https://commons.wikimedia.org/wiki/Category:Mus%C3%A9um_de_Toulouse_collection_of_Lepidoptera)
+
 ### Photographs
 
 [Photochrom Travel Views](https://www.flickr.com/photos/library_of_congress/albums/72157612249760312)
@@ -163,6 +175,9 @@ https://en.wikipedia.org/wiki/Test_card#Test_card_music
 
 
 ## Places to find test material
+
+Public domain image archive:
+https://pdimagearchive.org/?utm_source=newsletter
 
 Find a photographer here and create a portfolio of work:
 https://commons.wikimedia.org/wiki/Category:Photographs_by_photographer
