@@ -31,6 +31,7 @@ const loadFolders = async () => {
     .map(i => ({
       name: i[0].toUpperCase() + i.slice(1),
       demo_folder: i,
+      source: `https://github.com/davidmerfield/Blot/tree/master/app/templates/folders/${i}`,
       slug: i
     }));
 };
@@ -49,7 +50,9 @@ const loadTemplates = async () => {
     return {
       name: i[0].toUpperCase() + i.slice(1),
       slug: i,
-      demo_folder
+      demo_folder,
+      source: `https://github.com/davidmerfield/Blot/tree/master/app/templates/${ latestTemplateFiles.includes(i) ? 'latest' : 'past'}/${i}`,
+
     };
   }));
 
