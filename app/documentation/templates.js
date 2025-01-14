@@ -8,14 +8,25 @@ const templatesDirectory = path.join(__dirname, "../templates/latest");
 const archivedTemplatesDirectory = path.join(__dirname, "../templates/past");
 const foldersDirectory = path.join(__dirname, "../templates/folders");
 const { getMetadata } = require("models/template");
-const { select } = require("async");
 
 const categories = [
-  "blog",
-  "portfolio",
-  "photo",
-  "reference",
-  "magazine",
+  {
+    name: "Blog",
+    slug: "blog",
+    templates: [
+      "blog",
+      "blank",
+      "isola",
+      "marfa"
+    ]
+  },
+  {
+    name: "Personal & CV",
+    slug: "personal",
+    templates: [
+      "portfolio",
+    ]
+  }
 ];
 
 // Helper function to get template metadata
@@ -76,18 +87,17 @@ const loadTemplates = async () => {
 module.exports = async (req, res, next) => {
   try {
 
-    res.locals.categories = categories.map(i => ({
-      name: i[0].toUpperCase() + i.slice(1),
-      selected: i === req.params.type ? "selected" : "",
-      slug: i
-    }));
+    res.locals.categories = categories.slice(0).map(category => {
+      category.selected = category.slug === req.params.type ? 'selected' : '';
+      return category;
+    });
 
     res.locals.allTemplates = await loadTemplates();
 
     if (req.params.type) {
       res.locals.category = req.params.type;
       res.locals.allTemplates = res.locals.allTemplates.filter(
-        t => t.slug === req.params.type
+        t => categories.find(c => c.slug === req.params.type).templates.includes(t.slug)
       );
     } 
 
