@@ -15,6 +15,9 @@ jobs:
     steps:
       - uses: actions/checkout@master
 
+      - name: Install PCRE library
+        run: sudo apt-get install -y libpcre3 libpcre3-dev
+
       - uses: leafo/gh-actions-openresty@v1
         with:
           openrestyVersion: "1.21.4.2"
