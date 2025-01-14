@@ -34,3 +34,58 @@
     color:darkgreen
   }
   
+
+
+  a.close-button {
+    color:var(--accent-color);
+    position: absolute;top:2rem;right:2rem;
+    transform: scale(1.0);    
+    transition: transform 0.2s;
+}
+
+a.close-button > span {
+    display: flex;flex-direction: column;
+    justify-content: center;align-items: center;width: 40px;height: 40px;
+    text-align: center;background: #e4eafb;
+    border-radius: 40px;
+    transition: background-color 0.2s;
+}
+
+a.close-button > span > svg {
+    fill: currentColor
+}
+
+a.close-button:hover {
+    transform: scale(1.1);
+}
+
+a.close-button:hover > span,
+.template-button:hover {
+    background-color: #e4eafb;
+}
+
+.template-button {
+    border:none;cursor: pointer; font-size:14px;
+    display:  inline-block;border-radius: var(--border-radius);
+    /* background-color: #e4eafb; */
+    transition: background-color 0.2s;
+    color:var(--accent-color);padding:0.333em 0.66em;font-weight: 600;margin:0 6px 0;
+}
+
+.template-button.red {
+    color: red
+}
+
+.template-button.right-aligned {
+    align-self: flex-end;
+}
+
+.template-button svg {
+    fill:currentColor;vertical-align: middle;position:relative;top:-0.1em;
+    margin-right: 4px;
+}
+
+.template-button.right-aligned svg {
+    margin-right: 0;
+    margin-left: 4px;
+}
