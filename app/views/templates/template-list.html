@@ -1,4 +1,13 @@
-<ul class="clients templates">
+
+<ul class="pill-navigation">
+
+    <li><a href="/templates" class="{{^category}}selected{{/category}}">All</a></li>
+    {{#categories}}
+    <li><a href="/templates/for-{{slug}}" class="{{selected}}">{{name}}</a></li>
+    {{/categories}}
+    </ul>
+
+    <ul class="clients templates">
     {{#allTemplates}}
     <li class="template-item">
       <a href="/templates/{{slug}}" class="template-link">
@@ -9,7 +18,7 @@
         <img
           src="{{#cdn}}/images/examples/{{slug}}/0-thumb.png{{/cdn}}"
           class="template-image"
-          width="65" height="48" />
+          width="80" height="59" />
       </a>
     </li>
     {{/allTemplates}}

@@ -8,6 +8,15 @@ const templatesDirectory = path.join(__dirname, "../templates/latest");
 const archivedTemplatesDirectory = path.join(__dirname, "../templates/past");
 const foldersDirectory = path.join(__dirname, "../templates/folders");
 const { getMetadata } = require("models/template");
+const { select } = require("async");
+
+const categories = [
+  "blog",
+  "portfolio",
+  "photo",
+  "reference",
+  "magazine",
+];
 
 // Helper function to get template metadata
 const getTemplate = async slug => {
@@ -66,7 +75,21 @@ const loadTemplates = async () => {
 // Middleware function
 module.exports = async (req, res, next) => {
   try {
+
+    res.locals.categories = categories.map(i => ({
+      name: i[0].toUpperCase() + i.slice(1),
+      selected: i === req.params.type ? "selected" : "",
+      slug: i
+    }));
+
     res.locals.allTemplates = await loadTemplates();
+
+    if (req.params.type) {
+      res.locals.category = req.params.type;
+      res.locals.allTemplates = res.locals.allTemplates.filter(
+        t => t.slug === req.params.type
+      );
+    } 
 
     if (req.params.template) {
       const template = res.locals.allTemplates.find(

@@ -3,14 +3,16 @@ const sharp = require("sharp");
 const hashFile = require("helper/hashFile");
 const { join } = require("path");
 const fs = require("fs-extra");
-
+const hashString = require("helper/hash");
 const TMP_DIRECTORY = config.tmp_directory;
 
 module.exports = async function generateThumbnail(from, to) {
     if (from.includes(".mobile.")) return;
 
+    const options = { width: 160 };
     const hash = await hashFile(from);
-    const cachedFilePath = join(TMP_DIRECTORY, `documentation-thumbs/${hash}.jpg`);
+    const optionsHash = hashString(Object.entries(options).map(([key, value]) => `${key}-${value}`).join("-"));
+    const cachedFilePath = join(TMP_DIRECTORY, `documentation-thumbs/${hash}-${optionsHash}.jpg`);
 
     try {
         await fs.copy(cachedFilePath, to);
@@ -21,7 +23,7 @@ module.exports = async function generateThumbnail(from, to) {
 
     try {
         await sharp(from)
-            .resize({ width: 130 })
+            .resize(options)
             .toFile(to);
 
         await fs.copy(to, cachedFilePath);
