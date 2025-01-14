@@ -61,7 +61,7 @@ jobs:
       - name: Configure and start Nginx reverse proxy
         run: |
           brew install nginx
-          sudo tee /usr/local/etc/nginx/nginx.conf <<EOF
+          sudo tee /opt/homebrew/etc/nginx/nginx.conf <<EOF
           events { }
           http {
               server {
