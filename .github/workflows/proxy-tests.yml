@@ -6,6 +6,7 @@ on:
   pull_request:
     branches: [master]
     paths:
+      - ".github/workflows/proxy-tests.yml"
       - "config/openresty/**"
 
 jobs:
