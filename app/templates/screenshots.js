@@ -18,11 +18,23 @@ const templateOptions = {
   magazine: {
     handle: "plants"
   },
+  grid: {
+    handle: "botanist"
+  },
   photo: {
     handle: "william"
   },
   portfolio: {
     handle: "bjorn"
+  },
+  'photo-old': {
+    handle: "photographer"
+  },
+  scroll: {
+    handle: "illustrator",
+  },
+  terminal: {
+    handle: "photographer"
   },
   reference: {
     handle: "frances"
@@ -31,7 +43,7 @@ const templateOptions = {
     handle: "david"
   },
   isola: {
-    handle: "david"
+    handle: "writer"
   },
   marfa: {
     handle: "david"
