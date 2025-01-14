@@ -28,10 +28,10 @@ const templateOptions = {
     handle: "frances"
   },
   blank: {
-    handle: "essay"
+    handle: "david"
   },
   isola: {
-    handle: "william"
+    handle: "david"
   },
   marfa: {
     handle: "david"
@@ -49,9 +49,6 @@ const foldersOptions = {
   },
   frances: {
     template: "reference"
-  },
-  william: {
-    template: "photo"
   }
 };
 
