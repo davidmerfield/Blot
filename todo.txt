@@ -1,5 +1,7 @@
 Add way to redirect HTTP to HTTPS and [tell questioners](https://blot.im/questions/2853) and [Brandon](https://mail.google.com/mail/u/0/#inbox/FMfcgzQXKqllFHmczkBXxBZtQqKtwVCL)
 
+Migrate static folder into s3
+
 Fix Blot's mobile nav
 
 Expose exif data on Photo posts?  [https://github.com/lovell/sharp/issues/285](https://github.com/lovell/sharp/issues/285)
@@ -26,6 +28,9 @@ Fix thumbnail generator to handle 304 responses properly. Right now, you can fet
 
 Fix duplicate GUID issue caused by renames and tell [Paul](https://mail.google.com/mail/u/1/#inbox/FMfcgzQVxlQFSLBmzLfsBlQSTTcmqjGc)
 
+Think about docker deploys
+
+Think about migrating to s3 for blog data storage
 
 Fix bug with magic text in posts which breaks backend and tell [Victor](https://mail.google.com/mail/u/1/#inbox/FMfcgzQVxRMzjBtRWVwLWtlBcFGsSVCQ)
 
