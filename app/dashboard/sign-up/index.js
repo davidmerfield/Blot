@@ -214,10 +214,7 @@ passwordForm.post(parse, csrf, function (req, res, next) {
           sameSite: "Lax"
         });
 
-        req.session.uid = user.uid;
-
-        Email.CREATED_BLOG(user.uid);
-        
+        req.session.uid = user.uid;        
         res.redirect("/sites/account/create-site");
       }
     );
