@@ -1,15 +1,13 @@
-var fs = require("fs");
-var extname = require("path").extname;
-var titlify = require("build/prepare/titlify");
-var ensure = require("helper/ensure");
-var LocalPath = require("helper/localPath");
-var dirname = require("path").dirname;
-var join = require("path").join;
+const fs = require("fs");
+const { extname, dirname, join, basename } = require("path");
+const titlify = require("build/prepare/titlify");
+const ensure = require("helper/ensure");
+const LocalPath = require("helper/localPath");
+
+const SUPPORTED_EXTENSIONS = [".png", ".jpg", ".jpeg", ".gif"];
 
 function is(path) {
-  return (
-    [".png", ".jpg", ".jpeg", ".gif"].indexOf(extname(path).toLowerCase()) > -1
-  );
+  return SUPPORTED_EXTENSIONS.includes(extname(path).toLowerCase());
 }
 
 function read(blog, path, options, callback) {
@@ -18,38 +16,20 @@ function read(blog, path, options, callback) {
     .and(options, "object")
     .and(callback, "function");
 
-  var localPath = LocalPath(blog.id, path);
+  const localPath = LocalPath(blog.id, path);
 
-  fs.stat(localPath, function (err, stat) {
+  fs.stat(localPath, (err, stat) => {
     if (err) return callback(err);
 
-    let pathForTitle = path;
+    const name = options.name || basename(path);
+    const pathForTitle = options.pathDisplay || join(dirname(path), name);
+    const title = titlify(pathForTitle);
+    const isRetina = path.toLowerCase().includes("@2x") ? 'data-2x="true"' : "";
 
-    // We want to preserve the correct case in the
-    // caption where possible.
-    if (options && options.pathDisplay) {
-      pathForTitle = options.pathDisplay;
-    } else if (options && options.name) {
-      pathForTitle = join(dirname(path), options.name);
-    }
-
-    var title = titlify(pathForTitle);
-    var isRetina =
-      path.toLowerCase().indexOf("@2x") > -1 ? 'data-2x="true"' : "";
-
-    var contents =
-      '<img src="' +
-      encodeURI(path) +
-      '" title="' +
-      title +
-      '" alt="' +
-      title +
-      '" ' +
-      isRetina +
-      "/>";
-
+    const contents = `<img src="${encodeURI(path)}" title="${title}" alt="${title}" ${isRetina}/>`;
+    
     callback(null, contents, stat);
   });
 }
 
-module.exports = { is: is, read: read, id: "img" };
+module.exports = { is, read, id: "img" };
