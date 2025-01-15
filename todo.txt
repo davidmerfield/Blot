@@ -1,14 +1,17 @@
-Work on [Reilly's template](https://mail.google.com/mail/u/1/#inbox/FMfcgzQXKDgbGwfLdslPKHsmNzbtbbbc)
-  - Improvements to base template
-    - Detail page view is now working correctly on mobile. One small bug I caught is that (on mobile) when you are on a detail page (ie https://preview-of-my-portfolio-on-carmagnum.blot.im/isuzu-unicab-3) the nav bar hamburger is visible but not clickable / actionable. 
-    - Is it possible to have the tag (ie the subfolder name) show up on the detail page as clickable too? Perhaps at end of the caption line.
-  - Custom changes
+Make it possible to publish webp, tiff and any other random formats supported by sharp
+- Tell [Haider](https://mail.google.com/mail/u/1/#inbox/FMfcgzQXKWnJfxpPSsHcZhLKztZQhdGZ)
 
 Expose exif data on Photo posts?  [https://github.com/lovell/sharp/issues/285](https://github.com/lovell/sharp/issues/285)
 See if you can add comments to image metadata and tell [Riley](https://mail.google.com/mail/u/1/#sent/164756616df069dd)
 , also tell [Mike](https://mail.google.com/mail/u/1/#inbox/16423ebe7b027d48)
 - questioner (search exif)
 - https://github.com/sambecker/exif-photo-blog
+
+Work on [Reilly's template](https://mail.google.com/mail/u/1/#inbox/FMfcgzQXKDgbGwfLdslPKHsmNzbtbbbc)
+  - Improvements to base template
+    - Detail page view is now working correctly on mobile. One small bug I caught is that (on mobile) when you are on a detail page (ie https://preview-of-my-portfolio-on-carmagnum.blot.im/isuzu-unicab-3) the nav bar hamburger is visible but not clickable / actionable. 
+    - Is it possible to have the tag (ie the subfolder name) show up on the detail page as clickable too? Perhaps at end of the caption line.
+  - Custom changes
 
 Surface Blot client sync errors on dashboard, add email notifications for errors
 - surface dropbox out of space error
@@ -103,9 +106,6 @@ Merge comment and disqus into single comments plugin
 Fix single line break handling in Word Documents and [tell Paul](https://mail.google.com/mail/u/0/#inbox/FMfcgzGxTNzPZwwxJPTDlBBBcnbpPcJJ)
 
 Rethink google drive client to use similar iCloud interface? i.e. share with sync@blot.im?
-
-Make it possible to publish webp, tiff and any other random formats supported by sharp
-- Tell [Haider](https://mail.google.com/mail/u/1/#inbox/FMfcgzQXKWnJfxpPSsHcZhLKztZQhdGZ)
 
 Make the 404 page more useful (see Netlify site)
 
@@ -472,8 +472,6 @@ When a folder has lots of elements, trim the list of files on the dashboard, at 
 Store path -> md5 hash on sync
 - Use to auto version links to files in your folder so they can be cached
 
-Investigate webp thumbnails
-
 Investigate videos instead of gifs for thumbnails
 
 Fix responsive thumbnail component on photo template (it loads large thumbnail every time)
@@ -497,7 +495,6 @@ Fix post navigation on Portfolio template and tell [Questioner](https://blot.im/
 ---
 
 Improve image posts
-- Add support for other image formats, by converting them into jpg/webp
 - Add support for large image tiling and zooming with photoswipe
 
 ---
