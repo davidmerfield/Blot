@@ -1,17 +1,14 @@
-Make it possible to publish webp, tiff and any other random formats supported by sharp
-- Tell [Haider](https://mail.google.com/mail/u/1/#inbox/FMfcgzQXKWnJfxpPSsHcZhLKztZQhdGZ)
+Work on [Reilly's template](https://mail.google.com/mail/u/1/#inbox/FMfcgzQXKDgbGwfLdslPKHsmNzbtbbbc)
+  - Improvements to base template
+    - Detail page view is now working correctly on mobile. One small bug I caught is that (on mobile) when you are on a detail page (ie https://preview-of-my-portfolio-on-carmagnum.blot.im/isuzu-unicab-3) the nav bar hamburger is visible but not clickable / actionable. 
+    - Is it possible to have the tag (ie the subfolder name) show up on the detail page as clickable too? Perhaps at end of the caption line.
+  - Custom changes
 
 Expose exif data on Photo posts?  [https://github.com/lovell/sharp/issues/285](https://github.com/lovell/sharp/issues/285)
 See if you can add comments to image metadata and tell [Riley](https://mail.google.com/mail/u/1/#sent/164756616df069dd)
 , also tell [Mike](https://mail.google.com/mail/u/1/#inbox/16423ebe7b027d48)
 - questioner (search exif)
 - https://github.com/sambecker/exif-photo-blog
-
-Work on [Reilly's template](https://mail.google.com/mail/u/1/#inbox/FMfcgzQXKDgbGwfLdslPKHsmNzbtbbbc)
-  - Improvements to base template
-    - Detail page view is now working correctly on mobile. One small bug I caught is that (on mobile) when you are on a detail page (ie https://preview-of-my-portfolio-on-carmagnum.blot.im/isuzu-unicab-3) the nav bar hamburger is visible but not clickable / actionable. 
-    - Is it possible to have the tag (ie the subfolder name) show up on the detail page as clickable too? Perhaps at end of the caption line.
-  - Custom changes
 
 Surface Blot client sync errors on dashboard, add email notifications for errors
 - surface dropbox out of space error
@@ -44,15 +41,21 @@ Fix bug with Git client and Obsidian then tell levelsi
   
   update  in one commit
 
-Deleted blogs should be purged from Bunny and its perma cache
-
-Purge thumbnails and cached images which are no longer in use
-
 ---
 
 Think about docker deploys
+- first migrate node.js application:
+  - set up docker on aws instance
+  - pull docker image from github image repo
+  - run node.js app on new port
+  - use docker to expose redis URL, local disk mounting, etc.
+  - set up deployment action on github
+  - add port to openresty config
+  - check application works on openresty port
+  - switch all traffic to new application
 
 Think about migrating to s3 for blog data storage
+- Purge thumbnails and cached images which are no longer in use
 
 Fix issue with server restart:
 - sudo chown ec2-user:ec2-user /var/instance-ssd/tmp
