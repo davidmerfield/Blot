@@ -12,6 +12,8 @@ const YAML = require("yaml");
 const EXTENSIONS_TO_CONVERT = [".tif", ".tiff", ".webp", ".avif"];
 const SUPPORTED_EXTENSIONS = [".png", ".jpg", ".jpeg", ".gif", ...EXTENSIONS_TO_CONVERT];
 
+
+
 function is(path) {
   return SUPPORTED_EXTENSIONS.includes(extname(path).toLowerCase());
 }
@@ -41,13 +43,52 @@ function read(blog, path, options, callback) {
     try {
       const metadataRaw = await image.metadata();
       if (metadataRaw.exif) {
-      metadata.exif = exifReader(metadataRaw.exif);
+        metadata.exif = exifReader(metadataRaw.exif);
+    
+        // Define the whitelist of allowed EXIF properties
+        const EXIF_PROPERTY_WHITELIST = [
+          'Image.Model',
+          'Image.Make',
+          'Photo.ExposureTime',
+          'Photo.FNumber',
+          'Photo.DateTimeOriginal',
+          'Photo.DateTimeDigitized',
+          'Photo.ShutterSpeedValue',
+          'Photo.ApertureValue'
+        ];
+    
+        // Recursive function to filter EXIF properties
+        const filterExifProperties = (obj, whitelist, parentKey = '') => {
+          const result = {};
+    
+          for (const key in obj) {
+            const fullKey = parentKey ? `${parentKey}.${key}` : key;
+    
+            // If the fullKey is in the whitelist, keep the property
+            if (whitelist.includes(fullKey)) {
+              result[key] = obj[key];
+            }
+    
+            // If the property is an object, recurse into it
+            if (typeof obj[key] === 'object' && !Array.isArray(obj[key])) {
+              const filteredChild = filterExifProperties(obj[key], whitelist, fullKey);
+              if (Object.keys(filteredChild).length > 0) {
+                result[key] = filteredChild; // Only include non-empty objects
+              }
+            }
+          }
+    
+          return result;
+        };
+    
+        // Filter the EXIF metadata based on the whitelist
+        metadata.exif = filterExifProperties(metadata.exif, EXIF_PROPERTY_WHITELIST);
       }
-    } catch (e) {
-      return callback(e);
+    } catch (error) {
+     return callback(error);
     }
 
-    const metadataString = Object.keys(metadata).length === 0 ? "" : `---\n${YAML.stringify(metadata)}\n---\n\n`;
+    const metadataString = Object.keys(metadata).length === 0 ? "" : `---\n${YAML.stringify(metadata)}---\n\n`;
 
     if (EXTENSIONS_TO_CONVERT.includes(extname(path).toLowerCase())) {
       const convertedPath = join("/_assets", hash(path), `${name}.png`);

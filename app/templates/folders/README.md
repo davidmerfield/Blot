@@ -88,6 +88,8 @@ https://wellcomecollection.org/search/images?locations.license=pdm&source.contri
 
 [Macro photos](https://www.rawpixel.com/board/1231804/vintage-botanical-macro-photographs-high-resolution-designs?mode=shop)
 
+[Hippolyte Baraduc's soul images](https://pdimagearchive.org/galleries/artists/hippolyte-baraduc/random/desc) and associated [book](https://publicdomainreview.org/collection/baraduc-soul/)
+
 ### Illustrations
 
 [Thought-forms](https://en.wikipedia.org/wiki/Thought-Forms)
@@ -123,6 +125,8 @@ https://publicdomainreview.org/essay/the-substantiality-of-spirit/?utm_source=ne
 ### Objects
 
 [Civil rights buttons](https://digitalcollections.nypl.org/search/index?filters%5Bgenre_mtxt_s%5D%5B%5D=Buttons+%28Information+artifacts%29&keywords=&layout=false#/?scroll=39)
+
+[Hippolyte Hodeau's leaves](https://pdimagearchive.org/galleries/artists/hippolyte-hodeau/random/desc)
 
 [Collection of MET cylindrical seals with modern impressions](https://www.metmuseum.org/art/collection/search#!?showOnly=withImage%7CopenAccess&q=cylinder%20seal%20and%20modern%20impression&offset=0&perPage=80&sortOrder=asc&searchField=All&pageSize=0)
 

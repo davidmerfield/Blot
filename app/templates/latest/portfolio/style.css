@@ -213,7 +213,7 @@ body.position-top label[for="toggle"] {
     height: auto;
     display: flex;
     box-sizing: border-box;
-    z-index: 1;
+    z-index: 3;
     background: {{background_color}};
   }
 
