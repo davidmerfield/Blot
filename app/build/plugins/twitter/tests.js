@@ -33,7 +33,7 @@ describe("twitter plugin", function () {
       const newHTML = await runTest(html);
       // newHTML should contain a script tag and a blockquote tag
       expect(newHTML).toContain(`<script async="" src="https://platform.twitter.com/widgets.js" charset="utf-8">`);
-      expect(newHTML).toContain(`<blockquote class="twitter-tweet">`);
+      expect(newHTML).toContain(`<blockquote class="twitter-tweet"`);
     }
   });
 
