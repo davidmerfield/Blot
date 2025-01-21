@@ -1,14 +1,4 @@
-Work on [Reilly's template](https://mail.google.com/mail/u/1/#inbox/FMfcgzQXKDgbGwfLdslPKHsmNzbtbbbc)
-  - Improvements to base template
-    - Detail page view is now working correctly on mobile. One small bug I caught is that (on mobile) when you are on a detail page (ie https://preview-of-my-portfolio-on-carmagnum.blot.im/isuzu-unicab-3) the nav bar hamburger is visible but not clickable / actionable. 
-    - Is it possible to have the tag (ie the subfolder name) show up on the detail page as clickable too? Perhaps at end of the caption line.
-  - Custom changes
-
-Expose exif data on Photo posts?  [https://github.com/lovell/sharp/issues/285](https://github.com/lovell/sharp/issues/285)
-See if you can add comments to image metadata and tell [Riley](https://mail.google.com/mail/u/1/#sent/164756616df069dd)
-, also tell [Mike](https://mail.google.com/mail/u/1/#inbox/16423ebe7b027d48)
-- questioner (search exif)
-- https://github.com/sambecker/exif-photo-blog
+Fix bug with pages not appearing in backlinks and [tell questioner](https://blot.im/questions/2913)
 
 Surface Blot client sync errors on dashboard, add email notifications for errors
 - surface dropbox out of space error
@@ -53,6 +43,16 @@ Think about docker deploys
   - add port to openresty config
   - check application works on openresty port
   - switch all traffic to new application
+  ---
+  - update note to LTS
+  - fix color profile support
+  - use custom libvips so we can convert HEIC files
+  - Expose exif data on Photo posts?  [https://github.com/lovell/sharp/issues/285](https://github.com/lovell/sharp/issues/285)
+    See if you can add comments to image metadata and tell [Riley](https://mail.google.com/mail/u/1/#sent/164756616df069dd)
+    , also tell [Mike](https://mail.google.com/mail/u/1/#inbox/16423ebe7b027d48)
+    - questioner (search exif)
+    - https://github.com/sambecker/exif-photo-blog
+
 
 Think about migrating to s3 for blog data storage
 - Purge thumbnails and cached images which are no longer in use
