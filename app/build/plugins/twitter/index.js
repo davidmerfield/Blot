@@ -9,6 +9,7 @@ var SCRIPT =
 
 // Disable this module if we have not set a Twitter key
 if (!config.twitter.consumer_key) {
+  console.warn("Twitter plugin disabled: no consumer key");
   return (module.exports = {});
 }
 
@@ -40,7 +41,9 @@ function render($, callback) {
       if (href !== text) return next();
 
       // which point to twitter.com
-      if (host !== "twitter.com") return next();
+      if (host !== "twitter.com" && host !== "www.twitter.com" && host !== "mobile.twitter.com" && host !== "x.com") {
+        return next();
+      }
 
       var params = {
         id: id,
