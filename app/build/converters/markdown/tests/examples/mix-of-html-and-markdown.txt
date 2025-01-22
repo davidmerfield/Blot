@@ -1,0 +1,29 @@
+# Faves
+
+<div class="squares">
+<a href="/podcasts">
+    <img src="/img/_icon-podcast2.svg" width="32px"></img>
+    <h3>Podcasts</h3>
+    <p>Tech, movies, comedy, politics</p>
+</a>
+<a href="/books">
+    <img src="/img/_icon-books2.svg" width="32px"></img>
+    <h3>Books</h3>
+    <p>Fiction and lots of non-fiction</p>
+</a>
+<a href="/photos">
+    <img src="/img/_icon-photos2.svg" width="32px"></img>
+    <h3>Photos</h3>
+    <p>Canon, Nikon, Fuji, iPhone(s)</p>
+</a>
+<a href="/cameras">
+    <img src="/img/_icon-camera2.svg" width="32px"></img>
+    <h3>Cameras</h3>
+    <p>Shoot, edit, edit, edit, share</p>
+</a>
+<a href="/apple-collection">
+    <img src="/img/_icon-apple.svg" width="32px"></img>
+    <h3>Apple Products</h3>
+    <p>Macs, monitors, mice, mobile</p>
+</a>
+</div>
