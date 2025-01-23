@@ -9,20 +9,6 @@ on:
       - ".github/workflows/proxy-tests.yml"
       - "config/openresty/**"
 
-env:
-  BASE_DIR: /home/runner/work/Blot/Blot
-  LUA_ROCKS_BIN: ${{ env.BASE_DIR }}/.luarocks/bin/luarocks
-  LUA_PACKAGE_PATH: ${{ env.BASE_DIR }}/.luarocks/share/lua/5.1/?.lua;${{ env.BASE_DIR }}/config/openresty/conf/?.lua
-  OPENRESTY_CACHE_DIR: ${{ env.BASE_DIR }}/config/openresty/data/latest/cache
-  OPENRESTY_CONFIG_DIR: ${{ env.BASE_DIR }}/config/openresty/data
-  SSL_CERT_PATH: ${{ env.BASE_DIR }}/config/openresty/data/latest/selfsigned.crt
-  SSL_KEY_PATH: ${{ env.BASE_DIR }}/config/openresty/data/latest/selfsigned.key
-  NODE_PATH: ${{ env.BASE_DIR }}/app
-  REDIS_IP: 127.0.0.1
-  NODE_SERVER_IP: 127.0.0.1
-  OPENRESTY_USER: runner
-  DISABLE_HTTP2: true
-
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -43,10 +29,13 @@ jobs:
           withLuaPath: "/usr/local/openresty/luajit/"
 
       - name: Install auto-ssl
+        env:
+          BASE_DIR: /home/runner/work/Blot/Blot
+          LUA_ROCKS_BIN: ${{ env.BASE_DIR }}/.luarocks/bin/luarocks
         run: |
           which luarocks
-          sudo ${{ env.LUA_ROCKS_BIN }} install lua-resty-auto-ssl
-          sudo ${{ env.LUA_ROCKS_BIN }} list
+          sudo $LUA_ROCKS_BIN install lua-resty-auto-ssl
+          sudo $LUA_ROCKS_BIN list
           luarocks show lua-resty-auto-ssl
 
       - name: Set up Redis
@@ -74,39 +63,49 @@ jobs:
 
       - name: Build OpenResty config
         env:
-          LUA_PACKAGE_PATH: ${{ env.LUA_PACKAGE_PATH }}
-          NODE_PATH: ${{ env.NODE_PATH }}
-          NODE_SERVER_IP: ${{ env.NODE_SERVER_IP }}
-          REDIS_IP: ${{ env.REDIS_IP }}
-          OPENRESTY_USER: ${{ env.OPENRESTY_USER }}
-          DISABLE_HTTP2: ${{ env.DISABLE_HTTP2 }}
-          OPENRESTY_CACHE_DIRECTORY: ${{ env.OPENRESTY_CACHE_DIR }}
-          OPENRESTY_CONFIG_DIRECTORY: ${{ env.OPENRESTY_CONFIG_DIR }}
-          SSL_CERTIFICATE: ${{ env.SSL_CERT_PATH }}
-          SSL_CERTIFICATE_KEY: ${{ env.SSL_KEY_PATH }}
+          BASE_DIR: /home/runner/work/Blot/Blot
+          LUA_PACKAGE_PATH: ${{ env.BASE_DIR }}/.luarocks/share/lua/5.1/?.lua;${{ env.BASE_DIR }}/config/openresty/conf/?.lua
+          NODE_PATH: ${{ env.BASE_DIR }}/app
+          NODE_SERVER_IP: 127.0.0.1
+          REDIS_IP: 127.0.0.1
+          OPENRESTY_USER: runner
+          DISABLE_HTTP2: true
+          OPENRESTY_CACHE_DIRECTORY: ${{ env.BASE_DIR }}/config/openresty/data/latest/cache
+          OPENRESTY_CONFIG_DIRECTORY: ${{ env.BASE_DIR }}/config/openresty/data
+          SSL_CERTIFICATE: ${{ env.BASE_DIR }}/config/openresty/data/latest/selfsigned.crt
+          SSL_CERTIFICATE_KEY: ${{ env.BASE_DIR }}/config/openresty/data/latest/selfsigned.key
         run: |
           node config/openresty/build-config.js --skip-confirmation
-          cat ${{ env.OPENRESTY_CONFIG_DIR }}/latest/openresty.conf
+          cat $OPENRESTY_CONFIG_DIRECTORY/latest/openresty.conf
 
       - name: Generate self-signed SSL certs
+        env:
+          BASE_DIR: /home/runner/work/Blot/Blot
+          OPENRESTY_CONFIG_DIRECTORY: ${{ env.BASE_DIR }}/config/openresty/data
+          SSL_CERT_PATH: ${{ env.OPENRESTY_CONFIG_DIRECTORY }}/latest/selfsigned.crt
+          SSL_KEY_PATH: ${{ env.OPENRESTY_CONFIG_DIRECTORY }}/latest/selfsigned.key
         run: |
-          mkdir -p ${{ env.OPENRESTY_CONFIG_DIR }}/latest
+          mkdir -p $OPENRESTY_CONFIG_DIRECTORY/latest
           openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
-            -keyout ${{ env.SSL_KEY_PATH }} \
-            -out ${{ env.SSL_CERT_PATH }} \
+            -keyout $SSL_KEY_PATH \
+            -out $SSL_CERT_PATH \
             -subj "/C=US/ST=Oregon/L=Portland/O=Company Name/OU=Org/CN=localhost"
 
       - name: Run OpenResty
+        env:
+          BASE_DIR: /home/runner/work/Blot/Blot
+          OPENRESTY_CONFIG_DIRECTORY: ${{ env.BASE_DIR }}/config/openresty/data
         run: |
           sudo mkdir -p /var/instance-ssd/logs
-          sudo /usr/local/openresty/bin/openresty -c ${{ env.OPENRESTY_CONFIG_DIR }}/latest/openresty.conf
+          sudo /usr/local/openresty/bin/openresty -c $OPENRESTY_CONFIG_DIRECTORY/latest/openresty.conf
 
       - name: Check OpenResty is running on port 80
         run: curl localhost:80
 
       - name: Run OpenResty tests
         env:
-          NODE_PATH: ${{ env.NODE_PATH }}
-          BLOT_OPENRESTY_TEST_USER: ${{ env.OPENRESTY_USER }}
-          BLOT_OPENRESTY_TEST_GROUP: ${{ env.OPENRESTY_USER }}
+          BASE_DIR: /home/runner/work/Blot/Blot
+          NODE_PATH: ${{ env.BASE_DIR }}/app
+          BLOT_OPENRESTY_TEST_USER: runner
+          BLOT_OPENRESTY_TEST_GROUP: runner
         run: node tests config/openresty
