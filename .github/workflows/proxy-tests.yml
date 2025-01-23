@@ -28,14 +28,11 @@ jobs:
         with:
           withLuaPath: "/usr/local/openresty/luajit/"
 
-      - name: Install auto-ssl
-        env:
-          BASE_DIR: /home/runner/work/Blot/Blot
-          LUA_ROCKS_BIN: ${{ env.BASE_DIR }}/.luarocks/bin/luarocks
+      - name: install auto-ssl
         run: |
           which luarocks
-          sudo $LUA_ROCKS_BIN install lua-resty-auto-ssl
-          sudo $LUA_ROCKS_BIN list
+          sudo /home/runner/work/Blot/Blot/.luarocks/bin/luarocks install lua-resty-auto-ssl
+          sudo /home/runner/work/Blot/Blot/.luarocks/bin/luarocks list
           luarocks show lua-resty-auto-ssl
 
       - name: Set up Redis
@@ -61,51 +58,41 @@ jobs:
           PUPETEER_PRODUCT: firefox
         run: npm ci
 
-      - name: Build OpenResty config
+      - name: build openresty config
         env:
-          BASE_DIR: /home/runner/work/Blot/Blot
-          LUA_PACKAGE_PATH: ${{ env.BASE_DIR }}/.luarocks/share/lua/5.1/?.lua;${{ env.BASE_DIR }}/config/openresty/conf/?.lua
-          NODE_PATH: ${{ env.BASE_DIR }}/app
+          NODE_PATH: /home/runner/work/Blot/Blot/app
           NODE_SERVER_IP: 127.0.0.1
+          LUA_PACKAGE_PATH: /home/runner/work/Blot/Blot/.luarocks/share/lua/5.1/?.lua;/home/runner/work/Blot/Blot/config/openresty/conf/?.lua
           REDIS_IP: 127.0.0.1
           OPENRESTY_USER: runner
           DISABLE_HTTP2: true
-          OPENRESTY_CACHE_DIRECTORY: ${{ env.BASE_DIR }}/config/openresty/data/latest/cache
-          OPENRESTY_CONFIG_DIRECTORY: ${{ env.BASE_DIR }}/config/openresty/data
-          SSL_CERTIFICATE: ${{ env.BASE_DIR }}/config/openresty/data/latest/selfsigned.crt
-          SSL_CERTIFICATE_KEY: ${{ env.BASE_DIR }}/config/openresty/data/latest/selfsigned.key
+          OPENRESTY_CACHE_DIRECTORY: /home/runner/work/Blot/Blot/config/openresty/data/latest/cache
+          OPENRESTY_CONFIG_DIRECTORY: /home/runner/work/Blot/Blot/config/openresty/data
+          SSL_CERTIFICATE: /home/runner/work/Blot/Blot/config/openresty/data/latest/selfsigned.crt
+          SSL_CERTIFICATE_KEY: /home/runner/work/Blot/Blot/config/openresty/data/latest/selfsigned.key
         run: |
           node config/openresty/build-config.js --skip-confirmation
-          cat $OPENRESTY_CONFIG_DIRECTORY/latest/openresty.conf
+          cat config/openresty/data/latest/openresty.conf
 
-      - name: Generate self-signed SSL certs
-        env:
-          BASE_DIR: /home/runner/work/Blot/Blot
-          OPENRESTY_CONFIG_DIRECTORY: ${{ env.BASE_DIR }}/config/openresty/data
-          SSL_CERT_PATH: ${{ env.OPENRESTY_CONFIG_DIRECTORY }}/latest/selfsigned.crt
-          SSL_KEY_PATH: ${{ env.OPENRESTY_CONFIG_DIRECTORY }}/latest/selfsigned.key
+      # run this after building config since building config will overwrite the data directory
+      - name: generate self-signed SSL certs
         run: |
-          mkdir -p $OPENRESTY_CONFIG_DIRECTORY/latest
-          openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
-            -keyout $SSL_KEY_PATH \
-            -out $SSL_CERT_PATH \
-            -subj "/C=US/ST=Oregon/L=Portland/O=Company Name/OU=Org/CN=localhost"
+          mkdir -p /home/runner/work/Blot/Blot/config/openresty/data/latest
+          openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /home/runner/work/Blot/Blot/config/openresty/data/latest/selfsigned.key -out /home/runner/work/Blot/Blot/config/openresty/data/latest/selfsigned.crt -subj "/C=US/ST=Oregon/L=Portland/O=Company Name/OU=Org/CN=localhost"
 
-      - name: Run OpenResty
-        env:
-          BASE_DIR: /home/runner/work/Blot/Blot
-          OPENRESTY_CONFIG_DIRECTORY: ${{ env.BASE_DIR }}/config/openresty/data
+      - name: run openresty
         run: |
           sudo mkdir -p /var/instance-ssd/logs
-          sudo /usr/local/openresty/bin/openresty -c $OPENRESTY_CONFIG_DIRECTORY/latest/openresty.conf
+          sudo /usr/local/openresty/bin/openresty -c /home/runner/work/Blot/Blot/config/openresty/data/latest/openresty.conf
 
-      - name: Check OpenResty is running on port 80
-        run: curl localhost:80
+      - name: check openresty is running on port 80
+        run: |
+          curl localhost:80
 
-      - name: Run OpenResty tests
+      - name: run openresty tests
         env:
-          BASE_DIR: /home/runner/work/Blot/Blot
-          NODE_PATH: ${{ env.BASE_DIR }}/app
+          NODE_PATH: /home/runner/work/Blot/Blot/app
           BLOT_OPENRESTY_TEST_USER: runner
           BLOT_OPENRESTY_TEST_GROUP: runner
-        run: node tests config/openresty
+        run: |
+          node tests config/openresty
