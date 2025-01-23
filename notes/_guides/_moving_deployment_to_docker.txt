@@ -18,12 +18,18 @@ now with the changes to openresty config, I have the node container communicatin
 
 ----
 
+done:
+ update node app container to accept env variable which includes a comma seperated list of reverse proxy IPs so it can purge the cache properly
+ get health check working on container
+
+
+---
+
+
 todo:
  run the setup script, the folder build script, and more on the container
    - how much of this can be done ahead of time?
  check that the notes directory, .git folder, exist so the about and news pages render
- update node app container to accept env variable which includes a comma seperated list of reverse proxy IPs so it can purge the cache properly
- get health check working on container
  disable monit before we shut down the server listening on 8080
  work out how we are going to handle logs? they will be stored in docker
    - will not logging to previous file break anything? stat gathering?
