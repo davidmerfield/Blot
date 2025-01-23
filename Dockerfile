@@ -22,7 +22,10 @@ RUN apk add --no-cache --virtual .build-deps \
         tar
 
 # Install Pandoc
-RUN curl -L https://github.com/jgm/pandoc/releases/download/${PANDOC_VERSION}/pandoc-${PANDOC_VERSION}-linux-amd64.tar.gz | tar xvz \
+ARG TARGETPLATFORM
+RUN ARCH=$(echo ${TARGETPLATFORM} | sed -nE 's/^linux\/(amd64|arm64)$/\1/p') \
+    && if [ -z "$ARCH" ]; then echo "Unsupported architecture: $TARGETPLATFORM" && exit 1; fi \
+    && curl -L https://github.com/jgm/pandoc/releases/download/${PANDOC_VERSION}/pandoc-${PANDOC_VERSION}-linux-${ARCH}.tar.gz | tar xvz \
     && mv pandoc-${PANDOC_VERSION}/bin/pandoc /usr/local/bin/pandoc \
     && chmod +x /usr/local/bin/pandoc \
     && rm -r pandoc-${PANDOC_VERSION}
