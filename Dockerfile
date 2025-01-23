@@ -123,7 +123,7 @@ COPY .git .git
 FROM source as prod
 
 # build the brochure static site and exit (i.e. dont watch for changes)
-RUN node ./app/documentation/build.js --no-watch
+RUN node ./app/documentation/build/index.js --no-watch
 
 HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=3 \
   CMD node -e "\
