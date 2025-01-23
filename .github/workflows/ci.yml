@@ -72,7 +72,7 @@ jobs:
       # Build production image, reusing cached layers from the 'test' target
       - name: Build production image
         uses: docker/build-push-action@v5
-        if: github.ref == 'refs/heads/master' && matrix.arch == 'amd64'
+        if: github.ref == 'refs/heads/master' && matrix.arch == 'arm64'
         with:
           context: .
           platforms: linux/amd64,linux/arm64
@@ -83,6 +83,6 @@ jobs:
           cache-to: type=gha,mode=max
 
       - name: Deploy
-        if: github.ref == 'refs/heads/master' && matrix.arch == 'amd64'
+        if: github.ref == 'refs/heads/master' && matrix.arch == 'arm64'
         run: |
           echo "Deploying to production"
