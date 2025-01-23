@@ -122,8 +122,14 @@ COPY .git .git
 # The final production stage
 FROM source as prod
 
-# Set healthcheck using curl to check the /health endpoint
 HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=3 \
-  CMD curl -f http://localhost:8080/health || exit 1
+  CMD node -e "\
+    const http = require('http'); \
+    const options = { hostname: 'localhost', port: 8080, path: '/health', timeout: 5000 }; \
+    const req = http.request(options, (res) => { \
+      if (res.statusCode === 200) process.exit(0); else process.exit(1); \
+    }); \
+    req.on('error', () => process.exit(1)); \
+    req.end();"
 
 CMD ["node", "./app/index.js"]
