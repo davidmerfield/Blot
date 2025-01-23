@@ -16,18 +16,16 @@ const moment = require("moment");
 const config = require("config");
 const fetch = require("node-fetch");
 
-const proxy_hosts = config.reverse_proxies;
+const reverse_proxy_urls = config.reverse_proxies;
 
 const flush = () => {
-  proxy_hosts.forEach(host => {
-    fetch("http://" + host + "/purge?host=" + config.host, {
-      method: "PURGE"
-    })
+  reverse_proxy_urls.forEach(reverse_proxy_url => {
+    fetch(reverse_proxy_url + "/purge?host=" + config.host)
       .then(res => {
-        console.log("proxy: " + host + " flushed:" + config.host);
+        console.log("proxy: " + reverse_proxy_url + " flushed:" + config.host);
       })
       .catch(e => {
-        console.log("proxy: " + host + " failed to flush: " + config.host);
+        console.log("proxy: " + reverse_proxy_url + " failed to flush: " + config.host);
       });
   });
 };
