@@ -1,5 +1,6 @@
 #!/bin/sh
 
+# this exits the script if any command fails
 set -e
 
 if [ -z "$SSH_KEY" ]; then
