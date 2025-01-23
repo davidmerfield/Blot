@@ -13,7 +13,7 @@ jobs:
     strategy:
       matrix:
         arch: [arm64, amd64]
-    runs-on: ${{ matrix.arch == 'amd64' && 'ubuntu-latest' || 'ubuntu-22.04-arm64' }}
+    runs-on: ${{ matrix.arch == 'amd64' && 'ubuntu-latest' || 'ubuntu-24.04-arm64' }}
     environment: Tests
     services:
       redis:
