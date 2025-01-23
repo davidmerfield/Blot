@@ -122,6 +122,9 @@ COPY .git .git
 # The final production stage
 FROM source as prod
 
+# build the brochure static site and exit (i.e. dont watch for changes)
+RUN node ./app/documentation/build.js --no-watch
+
 HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=3 \
   CMD node -e "\
     const http = require('http'); \
