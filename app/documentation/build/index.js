@@ -111,5 +111,5 @@ async function buildHTML (path) {
 }
 
 if (require.main === module) {
-  module.exports({ watch: true });
+  module.exports({ watch: process.argv.includes("--no-watch") ? false : true });
 }
