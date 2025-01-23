@@ -55,7 +55,8 @@ const locals = {
 
 // move the previous contents of the data directory to a backup
 // so we can compare the new contents with the old
-fs.moveSync(OUTPUT, PREVIOUS, { overwrite: true });
+if (fs.existsSync(OUTPUT))
+  fs.moveSync(OUTPUT, PREVIOUS, { overwrite: true });
 
 fs.emptyDirSync(OUTPUT);
 
