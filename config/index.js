@@ -4,23 +4,20 @@ const BLOT_HOST = process.env.BLOT_HOST || "localhost";
 const BLOT_PROTOCOL = process.env.BLOT_PROTOCOL || "https";
 const BLOT_PORT = process.env.BLOT_PORT || "8080";
 
-let BLOT_CDN;
-
-if (process.env.NODE_ENV === "production") {
-  BLOT_CDN = BLOT_PROTOCOL + "://cdn.blot.im";
-} else {
-  BLOT_CDN = BLOT_PROTOCOL + "://cdn." + BLOT_HOST;
-}
-
 const environment =
   process.env.NODE_ENV === "production" ? "production" : "development";
+
+const BLOT_CDN = BLOT_PROTOCOL + "://" + (process.env.NODE_ENV === "production" ? "cdn.blot.im" : "cdn." + BLOT_HOST);
+
+const reverse_proxies = process.env.BLOT_REVERSE_PROXY_URLS ? process.env.BLOT_REVERSE_PROXY_URLS.split(",") : environment === "production" ? ["http://127.0.0.1:80"] : [];
 
 module.exports = {
   // codebase expects either 'production' or 'development'
   environment,
   host: BLOT_HOST,
   // the first is in oregon, the second in frankfurt
-  reverse_proxies: environment === "production" ? ["127.0.0.1"] : [],
+  // we need this to purge the cache stored in each proxy
+  reverse_proxies,
   protocol: BLOT_PROTOCOL + "://",
   pidfile: BLOT_DIRECTORY + "/data/process.pid",
 
