@@ -1,11 +1,18 @@
 const mustache = require("mustache");
 const config = require("config");
 const fs = require("fs-extra");
+const child_process = require("child_process");
 
 const NODE_SERVER_IP = process.env.NODE_SERVER_IP;
 const REDIS_IP = process.env.REDIS_IP;
+const PUBLIC_IP = process.env.PUBLIC_IP;
 
-const OUTPUT = __dirname + "/data";
+if (!NODE_SERVER_IP) throw new Error("NODE_SERVER_IP not set");
+if (!REDIS_IP) throw new Error("REDIS_IP not set");
+if (!PUBLIC_IP) throw new Error("PUBLIC_IP not set");
+
+const OUTPUT = __dirname + "/data/latest";
+const PREVIOUS = OUTPUT + "-previous-" + Date.now();
 const CONFIG_DIRECTORY = __dirname + "/conf";
 
 const template = fs.readFileSync(`${CONFIG_DIRECTORY}/server.conf`, "utf8");
@@ -22,12 +29,17 @@ const locals = {
   disable_http2: process.env.DISABLE_HTTP2,
   node_ip: NODE_SERVER_IP,
   node_port: config.port,
+
+  // used by the node application container running inside docker
+  // to communicate with the openresty cache purge endpoint on localhost
+  openresty_instance_private_ip: process.env.OPENRESTY_INSTANCE_PRIVATE_IP,
+
   lua_package_path: process.env.LUA_PACKAGE_PATH,
   redis: { host: REDIS_IP },
-  reverse_proxy_ip: process.env.PUBLIC_IP,
-  server_label: !process.env.PUBLIC_IP
+  reverse_proxy_ip: PUBLIC_IP,
+  server_label: !PUBLIC_IP
     ? ""
-    : process.env.PUBLIC_IP.startsWith("18.")
+    : PUBLIC_IP.startsWith("18.")
     ? "eu"
     : "us",
   user: process.env.OPENRESTY_USER || "ec2-user",
@@ -44,12 +56,13 @@ const locals = {
     process.env.SSL_CERTIFICATE_KEY || "/etc/ssl/private/letsencrypt-domain.key"
 };
 
-if (!NODE_SERVER_IP) throw new Error("NODE_SERVER_IP not set");
-if (!REDIS_IP) throw new Error("REDIS_IP not set");
+// move the previous contents of the data directory to a backup
+// so we can compare the new contents with the old
+fs.moveSync(OUTPUT, PREVIOUS, { overwrite: true });
 
 fs.emptyDirSync(OUTPUT);
 
-fs.copySync(`${__dirname}/html`, `${__dirname}/data/html`);
+fs.copySync(`${__dirname}/html`, `${OUTPUT}/html`);
 
 fs.readdirSync(CONFIG_DIRECTORY).forEach(file => {
   // copy lua files to data directory so they are available to nginx
@@ -81,4 +94,41 @@ const warning = `
 
 const result = mustache.render(template, locals, partials);
 
-fs.outputFileSync(__dirname + "/data/openresty.conf", warning + result);
+fs.outputFileSync(OUTPUT + "/openresty.conf", warning + result);
+// compare the new contents with the old
+const diff = child_process.spawnSync("/opt/homebrew/bin/diff", ['--color', "-r", '-c', OUTPUT, PREVIOUS], { stdio: 'inherit' });
+
+if (diff.error) console.error(diff.error);
+
+// ask the user to confirm the changes
+// if y, exit with success
+// if n, restore the previous contents to the OUTPUT directory
+// and remove the PREVIOUS directory
+// if anything else, ask the user to confirm again
+
+const readline = require("readline");
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
+
+const question = () => {
+  rl.question("Do you want to keep these changes? [y/n] ", answer => {
+    if (answer === "y") {
+      console.log("Changes kept. Build complete");
+      rl.close();
+    } else if (answer === "n") {
+      console.log("Changes discarded");
+      fs.removeSync(OUTPUT);
+      fs.moveSync(PREVIOUS, OUTPUT);
+      fs.removeSync(PREVIOUS);
+      console.log("Done");
+      rl.close();
+    } else {
+      console.log("Please answer 'y' or 'n'");
+      question();
+    }
+  });
+};
+
