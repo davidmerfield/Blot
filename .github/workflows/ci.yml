@@ -12,7 +12,7 @@ jobs:
   docker:
     strategy:
       matrix:
-        arch: [amd64, arm64]
+        arch: [arm64, amd64]
     runs-on: ${{ matrix.arch == 'amd64' && 'ubuntu-latest' || 'ubuntu-22.04-arm64' }}
     environment: Tests
     services:
