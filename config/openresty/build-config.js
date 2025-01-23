@@ -93,6 +93,13 @@ const warning = `
 const result = mustache.render(template, locals, partials);
 
 fs.outputFileSync(OUTPUT + "/openresty.conf", warning + result);
+
+// used by the proxy-tests ci action on github
+if (process.argv.includes("--skip-confirmation")) {
+  console.log("Build complete");
+  return process.exit(0);
+}
+
 // compare the new contents with the old
 const diff = child_process.spawnSync("/opt/homebrew/bin/diff", ['--color', "-r", PREVIOUS, OUTPUT ], { stdio: 'inherit' });
 
