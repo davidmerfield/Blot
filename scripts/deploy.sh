@@ -138,4 +138,11 @@ else
   exit 1
 fi
 
+echo "Both blue and green containers are healthy."
+
+# prune the old images to save disk space
+echo "Pruning old images..."
+ssh_blot "docker image prune -f"
+echo "Pruned old images."
+
 echo "Blue-Green deployment completed successfully!"
