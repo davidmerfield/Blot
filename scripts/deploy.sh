@@ -32,7 +32,7 @@ DOCKER_RUN_COMMAND="docker run --pull=always -d \
   --env-file /etc/blot/secrets.env \
   -v /var/www/blot/data:/usr/src/app/data \
   --restart unless-stopped \
-  --memory=1.5g --cpus=1 \
+  --memory=2g --cpus=1 \
   ghcr.io/davidmerfield/blot:$GIT_COMMIT_HASH"
 
 # Configurable health check timeout
