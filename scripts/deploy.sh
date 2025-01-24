@@ -6,6 +6,15 @@ set -e
 # Get the most recent full git hash of the current master branch
 GIT_COMMIT_HASH=$(git rev-parse master)
 
+# Print the commit message and commit hash
+echo "Deploying commit: $GIT_COMMIT_HASH"
+echo "Commit message: $(git log -1 --pretty=%B)"
+
+# Check that a multi-architecture image is available for the commit hash
+# and echo the output, if none is found, the script will fail
+echo "Checking for multi-architecture image..."
+docker manifest inspect ghcr.io/davidmerfield/blot:$GIT_COMMIT_HASH
+
 # Define container names and ports
 BLUE_CONTAINER="blot-container-blue"
 GREEN_CONTAINER="blot-container-green"
@@ -71,7 +80,7 @@ deploy_container() {
 
   echo "Running the following command on the server:"
   echo "$run_command"
-  
+
   # Run the container via SSH
   ssh_blot "$run_command"
   check_health $container_name
