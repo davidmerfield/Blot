@@ -13,7 +13,7 @@ jobs:
   # │ 1) Build & Test    │
   # └────────────────────┘
   test:
-    name: Build Test Image & Run Tests
+    name: Tests
     runs-on: ubuntu-latest
 
     services:
@@ -113,9 +113,9 @@ jobs:
     name: Promote If Tests Succeed
     runs-on: ubuntu-latest
     needs: 
-      - build-prod
+      - build
       - test
-    if: ${{ needs.build-prod.result == 'success' && needs.test.result == 'success' }}
+    if: ${{ needs.build.result == 'success' && needs.test.result == 'success' }}
 
     steps:
       - name: Log in to GHCR
