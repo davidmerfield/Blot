@@ -1,5 +1,7 @@
 Fix bug with pages not appearing in backlinks and [tell questioner](https://blot.im/questions/2913)
 
+Fix missing 'views' property of templates in package.json after downloading a template through the web template editor.
+
 Surface Blot client sync errors on dashboard, add email notifications for errors
 - surface dropbox out of space error
 

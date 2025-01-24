@@ -9,23 +9,79 @@ on:
       - "master"
 
 jobs:
-  docker:
+  # ┌────────────────────┐
+  # │ 1) Build & Test    │
+  # └────────────────────┘
+  test:
+    name: Build Test Image & Run Tests
     runs-on: ubuntu-latest
-    environment: Tests
+
     services:
       redis:
         image: redis:6
         ports:
           - 6379:6379
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        # if we don't fetch the history
-        # the news page will not be generated properly (it uses git)
         with:
           fetch-depth: 300
 
-      - name: Set up QEMU
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build Test Image (amd64)
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          platforms: linux/amd64
+          load: true              # So we can docker run the image locally
+          cache-from: type=gha,scope=blot-docker-cache
+          cache-to: type=gha,mode=max,scope=blot-docker-cache
+          target: test
+          # Tagged purely for local usage in this job; no push.
+          tags: ghcr.io/${{ github.repository_owner }}/blot:test-${{ github.sha }}
+
+      - name: Run Tests
+        env:
+          BLOT_STRIPE_KEY: ${{ secrets.BLOT_STRIPE_KEY }}
+          BLOT_STRIPE_SECRET: ${{ secrets.BLOT_STRIPE_SECRET }}
+          BLOT_STRIPE_PRODUCT: ${{ secrets.BLOT_STRIPE_PRODUCT }}
+        run: |
+          docker run --rm \
+            --network name=${{ job.services.redis.network }} \
+            -e BLOT_REDIS_HOST=redis \
+            -e BLOT_STRIPE_KEY=$BLOT_STRIPE_KEY \
+            -e BLOT_STRIPE_SECRET=$BLOT_STRIPE_SECRET \
+            -e BLOT_STRIPE_PRODUCT=$BLOT_STRIPE_PRODUCT \
+            ghcr.io/${{ github.repository_owner }}/blot:test-${{ github.sha }} \
+            sh -c "node tests && npx depcheck --ignores=depcheck,nodemon,blessed-contrib,twit,fontkit,text-to-svg --skip-missing"
+
+  # ┌────────────────────────────────────┐
+  # │ 2) Build Production Images       │
+  # │    (in parallel with tests)      │
+  # └────────────────────────────────────┘
+  build:
+    name: Build Production Images (Ephemeral Tags)
+    runs-on: ubuntu-latest
+    # This job does NOT depend on "test", so it can run in parallel.
+    # However, it won't "promote/publish" until tests pass (see last job).
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 300
+
+      - name: Set up QEMU (for multi-arch)
         uses: docker/setup-qemu-action@v3
 
       - name: Set up Docker Buildx
@@ -38,47 +94,77 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Get Redis network name
-        id: redis_network
-        run: echo "::set-output name=network_name::$(docker network ls --filter name=_default -q)"
-
-      - name: Build and export to Docker
+      - name: Build amd64 Production Image
         uses: docker/build-push-action@v5
         with:
           context: .
-          load: true
-          tags: ghcr.io/${{ github.repository_owner }}/blot:test-${{ github.sha }}
-          target: test
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-
-      - name: Test
-        env:
-          BLOT_STRIPE_KEY: ${{ secrets.BLOT_STRIPE_KEY }}
-          BLOT_STRIPE_SECRET: ${{ secrets.BLOT_STRIPE_SECRET }}
-          BLOT_STRIPE_PRODUCT: ${{ secrets.BLOT_STRIPE_PRODUCT }}
-        # the docker run environment is different from the docker-compose environment
-        # so we need to pass in these variables explicitly
-        run: |
-          docker run --rm \
-            --network name=${{ job.services.redis.network }} \
-            -e BLOT_REDIS_HOST=redis \
-            -e BLOT_STRIPE_KEY=$BLOT_STRIPE_KEY \
-            -e BLOT_STRIPE_SECRET=$BLOT_STRIPE_SECRET \
-            -e BLOT_STRIPE_PRODUCT=$BLOT_STRIPE_PRODUCT \
-            ghcr.io/${{ github.repository_owner }}/blot:test-${{ github.sha }} sh -c "node tests && npx depcheck --ignores=depcheck,nodemon,blessed-contrib,twit,fontkit,text-to-svg --skip-missing"
-
-      # this step should only run on pushes to master
-      # otherwise, pull requests will produce a production image
-      - name: Build production image
-        uses: docker/build-push-action@v5
-        if: github.ref == 'refs/heads/master'
-        with:
-          context: .
-          platforms: linux/amd64,linux/arm64
+          platforms: linux/amd64
           push: true
-          tags: ghcr.io/${{ github.repository_owner }}/blot:latest
+          # “Ephemeral” tags that identify this build uniquely. 
+          # They won't be your final tags. We’ll promote them later.
+          tags: ghcr.io/${{ github.repository_owner }}/blot:temp-${{ github.sha }}-amd64
+          cache-from: type=gha,scope=blot-docker-cache
+          cache-to: type=gha,mode=max,scope=blot-docker-cache
           target: prod
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
 
+      - name: Build arm64 Production Image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          platforms: linux/arm64
+          push: true
+          # Another ephemeral tag for arm64
+          tags: ghcr.io/${{ github.repository_owner }}/blot:temp-${{ github.sha }}-arm64
+          cache-from: type=gha,scope=blot-docker-cache
+          cache-to: type=gha,mode=max,scope=blot-docker-cache
+          target: prod
+
+  # ┌────────────────────────────────────────────────────┐
+  # │ 3) Promote If Tests Pass (re-tag + push final)    │
+  # └────────────────────────────────────────────────────┘
+  promote:
+    name: Promote Images if Tests Succeed
+    runs-on: ubuntu-latest
+    # This job depends on BOTH the "test" and "build" jobs.
+    # It only runs if both have succeeded.
+    needs: 
+      - test
+      - build
+    if: ${{ needs.test.result == 'success' && needs.build.result == 'success' }}
+
+    steps:
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Pull ephemeral images
+        run: |
+          docker pull ghcr.io/${{ github.repository_owner }}/blot:temp-${{ github.sha }}-amd64
+          docker pull ghcr.io/${{ github.repository_owner }}/blot:temp-${{ github.sha }}-arm64
+
+      - name: Create and push multi-arch manifest
+        # Option A: Combine the two ephemeral images into a single multi-arch manifest
+        # with your “final” tags (both "latest" and the commit SHA).
+        run: |
+          # Tag references (use local references for your multi-arch assembly)
+          docker tag ghcr.io/${{ github.repository_owner }}/blot:temp-${{ github.sha }}-amd64 blot:${{ github.sha }}-amd64
+          docker tag ghcr.io/${{ github.repository_owner }}/blot:temp-${{ github.sha }}-arm64 blot:${{ github.sha }}-arm64
+
+          # Create multi-arch manifest
+          docker manifest create \
+            ghcr.io/${{ github.repository_owner }}/blot:${{ github.sha }} \
+            --amend blot:${{ github.sha }}-amd64 \
+            --amend blot:${{ github.sha }}-arm64
+
+          # (Optional) Tag an additional "latest" multi-arch
+          docker manifest create \
+            ghcr.io/${{ github.repository_owner }}/blot:latest \
+            --amend blot:${{ github.sha }}-amd64 \
+            --amend blot:${{ github.sha }}-arm64
+
+          # Push them all
+          docker manifest push ghcr.io/${{ github.repository_owner }}/blot:${{ github.sha }}
+          docker manifest push ghcr.io/${{ github.repository_owner }}/blot:latest
