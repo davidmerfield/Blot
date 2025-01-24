@@ -94,77 +94,47 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build amd64 Production Image
+      - name: Build multi-arch production image (temp)
         uses: docker/build-push-action@v5
         with:
           context: .
-          platforms: linux/amd64
+          platforms: linux/amd64,linux/arm64
           push: true
-          # “Ephemeral” tags that identify this build uniquely. 
-          # They won't be your final tags. We’ll promote them later.
-          tags: ghcr.io/${{ github.repository_owner }}/blot:temp-${{ github.sha }}-amd64
+          target: prod
+          # Ephemeral tag for this combined multi-arch build
+          tags: ghcr.io/${{ github.repository_owner }}/blot:temp-${{ github.sha }}
           cache-from: type=gha,scope=blot-docker-cache
           cache-to: type=gha,mode=max,scope=blot-docker-cache
-          target: prod
 
-      - name: Build arm64 Production Image
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          platforms: linux/arm64
-          push: true
-          # Another ephemeral tag for arm64
-          tags: ghcr.io/${{ github.repository_owner }}/blot:temp-${{ github.sha }}-arm64
-          cache-from: type=gha,scope=blot-docker-cache
-          cache-to: type=gha,mode=max,scope=blot-docker-cache
-          target: prod
-
-  # ┌────────────────────────────────────────────────────┐
-  # │ 3) Promote If Tests Pass (re-tag + push final)    │
-  # └────────────────────────────────────────────────────┘
+  # ┌──────────────────────────────────────────────────┐
+  # │ 3) Promote If Tests Pass (Re-tag + Push Final)  │
+  # └──────────────────────────────────────────────────┘
   promote:
-    name: Promote Images if Tests Succeed
+    name: Promote If Tests Succeed
     runs-on: ubuntu-latest
-    # This job depends on BOTH the "test" and "build" jobs.
-    # It only runs if both have succeeded.
     needs: 
+      - build-prod
       - test
-      - build
-    if: ${{ needs.test.result == 'success' && needs.build.result == 'success' }}
+    if: ${{ needs.build-prod.result == 'success' && needs.test.result == 'success' }}
 
     steps:
-      - name: Log in to GitHub Container Registry
+      - name: Log in to GHCR
         uses: docker/login-action@v1
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Pull ephemeral images
+      - name: Pull ephemeral multi-arch image
         run: |
-          docker pull ghcr.io/${{ github.repository_owner }}/blot:temp-${{ github.sha }}-amd64
-          docker pull ghcr.io/${{ github.repository_owner }}/blot:temp-${{ github.sha }}-arm64
+          docker pull ghcr.io/${{ github.repository_owner }}/blot:temp-${{ github.sha }}
 
-      - name: Create and push multi-arch manifest
-        # Option A: Combine the two ephemeral images into a single multi-arch manifest
-        # with your “final” tags (both "latest" and the commit SHA).
+      - name: Promote multi-arch to final
         run: |
-          # Tag references (use local references for your multi-arch assembly)
-          docker tag ghcr.io/${{ github.repository_owner }}/blot:temp-${{ github.sha }}-amd64 blot:${{ github.sha }}-amd64
-          docker tag ghcr.io/${{ github.repository_owner }}/blot:temp-${{ github.sha }}-arm64 blot:${{ github.sha }}-arm64
+          # Re-tag ephemeral multi-arch image to "latest" + commit SHA
+          docker tag ghcr.io/${{ github.repository_owner }}/blot:temp-${{ github.sha }} ghcr.io/${{ github.repository_owner }}/blot:${{ github.sha }}
+          docker tag ghcr.io/${{ github.repository_owner }}/blot:temp-${{ github.sha }} ghcr.io/${{ github.repository_owner }}/blot:latest
 
-          # Create multi-arch manifest
-          docker manifest create \
-            ghcr.io/${{ github.repository_owner }}/blot:${{ github.sha }} \
-            --amend blot:${{ github.sha }}-amd64 \
-            --amend blot:${{ github.sha }}-arm64
-
-          # (Optional) Tag an additional "latest" multi-arch
-          docker manifest create \
-            ghcr.io/${{ github.repository_owner }}/blot:latest \
-            --amend blot:${{ github.sha }}-amd64 \
-            --amend blot:${{ github.sha }}-arm64
-
-          # Push them all
-          docker manifest push ghcr.io/${{ github.repository_owner }}/blot:${{ github.sha }}
-          docker manifest push ghcr.io/${{ github.repository_owner }}/blot:latest
+          # Push final tags
+          docker push ghcr.io/${{ github.repository_owner }}/blot:${{ github.sha }}
+          docker push ghcr.io/${{ github.repository_owner }}/blot:latest
