@@ -82,7 +82,3 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-      - name: Deploy
-        if: github.ref == 'refs/heads/master'
-        run: |
-          echo "Deploying to production"
