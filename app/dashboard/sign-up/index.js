@@ -90,8 +90,8 @@ paymentForm.get(csrf, function (req, res, next) {
     return res.redirect(req.baseUrl + passwordForm.path);
 
   if (!config.stripe.key) {
-    console.error("Stripe key is not set");
-    return next(new Error("Stripe key is not set"));
+    console.error("Warning: Stripe key is not set");
+    return res.redirect('/');
   }
 
   res.locals.title = "Sign up";
