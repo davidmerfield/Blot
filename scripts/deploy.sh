@@ -11,9 +11,13 @@ echo "Deploying commit: $GIT_COMMIT_HASH"
 echo "Commit message: $(git log -1 --pretty=%B)"
 
 # Check that a multi-architecture image is available for the commit hash
-# and echo the output, if none is found, the script will fail
 echo "Checking for multi-architecture image..."
-docker manifest inspect ghcr.io/davidmerfield/blot:$GIT_COMMIT_HASH
+if ! docker manifest inspect ghcr.io/davidmerfield/blot:$GIT_COMMIT_HASH > /dev/null 2>&1; then
+  echo "Error: Multi-architecture image for commit $GIT_COMMIT_HASH does not exist."
+  exit 1
+else
+  echo "Multi-architecture image found."
+fi
 
 # Define container names and ports
 BLUE_CONTAINER="blot-container-blue"
@@ -31,9 +35,13 @@ DOCKER_RUN_COMMAND="docker run --pull=always -d \
   --memory=1g --cpus=1 \
   ghcr.io/davidmerfield/blot:$GIT_COMMIT_HASH"
 
+# Configurable health check timeout
+timeout=${HEALTH_CHECK_TIMEOUT:-30}  # Default to 30 seconds
+interval=2  # Interval between health checks
+
 # Function to run a command over SSH
 ssh_blot() {
-  ssh blot "$@"
+  ssh blot "$@" || { echo "SSH command failed: $@"; exit 1; }
 }
 
 # Function to remove a container if it exists
@@ -47,8 +55,6 @@ remove_container_if_exists() {
 check_health() {
   local container_name=$1
   echo "Waiting for $container_name to become healthy..."
-  timeout=30  # Maximum wait time in seconds
-  interval=2  # Interval between health checks
   elapsed=0
 
   while [[ $elapsed -lt $timeout ]]; do
@@ -57,13 +63,21 @@ check_health() {
       echo "$container_name is healthy."
       return 0
     fi
-    echo "Still waiting for $container_name to become healthy..."
+    echo "Still waiting for $container_name to become healthy (elapsed: $elapsed seconds)..."
     sleep $interval
     elapsed=$((elapsed + interval))
   done
 
   echo "Health check failed for $container_name after $timeout seconds."
   return 1
+}
+
+# Function to replace placeholders in the docker run command
+replace_placeholders() {
+  local template=$1
+  local container_name=$2
+  local container_port=$3
+  echo "$template" | sed "s/{{CONTAINER_NAME}}/$container_name/g" | sed "s/{{CONTAINER_PORT}}/$container_port/g"
 }
 
 # Function to deploy a container
@@ -73,10 +87,8 @@ deploy_container() {
   echo "Starting deployment for $container_name on port $container_port..."
   remove_container_if_exists $container_name
 
-  # Replace placeholders in the docker run command using sed
-  local run_command=$(echo "$DOCKER_RUN_COMMAND" | \
-    sed "s/{{CONTAINER_NAME}}/$container_name/g" | \
-    sed "s/{{CONTAINER_PORT}}/$container_port/g")
+  # Replace placeholders
+  local run_command=$(replace_placeholders "$DOCKER_RUN_COMMAND" "$container_name" "$container_port")
 
   echo "Running the following command on the server:"
   echo "$run_command"
@@ -94,9 +106,8 @@ if [[ $? -eq 0 ]]; then
   echo "$BLUE_CONTAINER is healthy. Proceeding to replace $GREEN_CONTAINER on port $GREEN_CONTAINER_PORT..."
   deploy_container $GREEN_CONTAINER $GREEN_CONTAINER_PORT
 
-  # Ensure the green container is healthy before declaring success
   if [[ $? -ne 0 ]]; then
-    echo "Deployment failed. $GREEN_CONTAINER did not become healthy. Rolling back to $BLUE_CONTAINER."
+    echo "Deployment failed. $GREEN_CONTAINER did not become healthy. Blue container is running."
     exit 1
   fi
 else
