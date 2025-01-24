@@ -80,10 +80,33 @@ replace_placeholders() {
   echo "$template" | sed "s/{{CONTAINER_NAME}}/$container_name/g" | sed "s/{{CONTAINER_PORT}}/$container_port/g"
 }
 
+# Function to get the currently running image hash for a container
+get_current_image_hash() {
+  local container_name=$1
+  ssh_blot "docker inspect --format='{{.Config.Image}}' $container_name 2>/dev/null | sed 's/.*://'" || echo ""
+}
+
+# Function to check if the container is already running with the desired hash
+is_already_deployed() {
+  local container_name=$1
+  local current_hash=$(get_current_image_hash $container_name)
+  if [[ $current_hash == "$GIT_COMMIT_HASH" ]]; then
+    echo "$container_name is already running with the desired hash ($GIT_COMMIT_HASH). Skipping deployment."
+    return 0
+  fi
+  return 1
+}
+
 # Function to deploy a container
 deploy_container() {
   local container_name=$1
   local container_port=$2
+
+  # Check if the container is already running with the desired hash
+  if is_already_deployed $container_name; then
+    return 0
+  fi
+
   echo "Starting deployment for $container_name on port $container_port..."
   remove_container_if_exists $container_name
 
