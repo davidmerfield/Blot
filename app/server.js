@@ -140,6 +140,7 @@ if (config.webhooks.server_host) {
   server.use(vhost(config.webhooks.server_host, require("./clients/webhooks")));
 }
 
+console.log(clfdate(), "Setting up CDN on", "cdn." + config.host);
 // CDN server
 server.use(vhost("cdn." + config.host, require("./cdn")));
 

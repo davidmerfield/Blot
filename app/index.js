@@ -7,12 +7,10 @@ if (cluster.isMaster) {
   const clfdate = require("helper/clfdate");
   const notify = require("helper/systemd-notify");
 
-  const NUMBER_OF_CORES = require("os").cpus().length;
-
-  const NUMBER_OF_WORKERS =
-    NUMBER_OF_CORES > 4
-      ? Math.round(NUMBER_OF_CORES / 2)
-      : 2;
+  // we used to fork multiple workers, but now we only fork one
+  // since we run multiple docker containers instead
+  // todo: remove this code
+  const NUMBER_OF_WORKERS = 1;
 
   const publishScheduledEntries = require("./scheduler/publish-scheduled-entries");
 
@@ -24,7 +22,6 @@ if (cluster.isMaster) {
   // Write the master process PID so we can signal it
   fs.outputFileSync(config.pidfile, process.pid.toString(), "utf-8");
 
-  // Fork workers based on how many CPUs are available
   for (let i = 0; i < NUMBER_OF_WORKERS; i++) {
     cluster.fork();
   }

@@ -25,7 +25,7 @@ const locals = {
   blot_directory: config.blot_directory,
   disable_http2: process.env.DISABLE_HTTP2,
   node_ip: NODE_SERVER_IP,
-  node_port: config.port,
+  node_port: "8088",
 
   // used in production by the node application container running inside docker
   // to communicate with the openresty cache purge endpoint on localhost
