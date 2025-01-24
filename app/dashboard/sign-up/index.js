@@ -81,7 +81,7 @@ function validateEmail (req, res, next) {
   });
 }
 
-paymentForm.get(csrf, function (req, res) {
+paymentForm.get(csrf, function (req, res, next) {
   if (
     req.session &&
     req.session.email &&
@@ -91,7 +91,7 @@ paymentForm.get(csrf, function (req, res) {
 
   if (!config.stripe.key) {
     console.error("Stripe key is not set");
-    next(new Error("Stripe key is not set"));
+    return next(new Error("Stripe key is not set"));
   }
 
   res.locals.title = "Sign up";
