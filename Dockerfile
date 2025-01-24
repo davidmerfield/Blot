@@ -105,6 +105,7 @@ FROM base AS source
 WORKDIR /usr/src/app
 
 COPY ./app ./app
+COPY ./scripts ./scripts
 COPY ./config ./config
 COPY ./notes ./notes
 COPY ./todo.txt ./todo.txt
