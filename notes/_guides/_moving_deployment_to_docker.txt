@@ -27,6 +27,9 @@ done:
 
 
 todo:
+ github actions:
+   resolve issue with pngquant for the arm64 build stage
+   resolve issue with screenshot in production? arm64 only issue?
  run the setup script, the folder build script, and more on the container
    - how much of this can be done ahead of time?
  check that the notes directory, .git folder, exist so the about and news pages render
