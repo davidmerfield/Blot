@@ -140,10 +140,7 @@ RUN node ./app/documentation/build/index.js --no-watch
 HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=3 \
   CMD curl --fail http://localhost:8080/health || exit 1
 
-# Use an environment variable for flexibility
-#ENV LOG_PATH=/app/data/logs/docker/app.log
-
 # Ensure the logfile directory exists with proper permissions
-#RUN mkdir -p /app/data/logs/docker && chmod -R 0755 /app/data/logs/docker
+RUN mkdir -p /usr/src/app/data/logs/docker/ && chmod -R 0755 /usr/src/app/data/logs/docker/
 
-CMD ["node", "./app/index.js"]
+CMD ["sh", "-c", "node /usr/src/app/app/index.js >> /usr/src/app/data/logs/docker/app.log 2>&1"]
