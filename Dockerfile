@@ -65,6 +65,9 @@ COPY --from=builder /usr/local/bin/pandoc /usr/local/bin/pandoc
 # Install git for good since the git client requires it
 RUN apk add --no-cache git
 
+# Install curl for good since the health check requires it
+RUN apk add --no-cache curl
+
 # configure git 
 RUN git config --global user.email "you@example.com"
 RUN git config --global user.name "Your Name"
@@ -73,7 +76,6 @@ RUN git config --global user.name "Your Name"
 # directory, and the root user running the git client
 # todo: work out how to fix this
 RUN git config --global --add safe.directory '*'
-
 
 # Install necessary packages for Puppeteer
 RUN apk add --no-cache \
@@ -136,13 +138,7 @@ FROM source AS prod
 RUN node ./app/documentation/build/index.js --no-watch
 
 HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=3 \
-  CMD node -e "\
-    const http = require('http'); \
-    const options = { hostname: 'localhost', port: 8080, path: '/health', timeout: 5000 }; \
-    const req = http.request(options, (res) => { \
-      if (res.statusCode === 200) process.exit(0); else process.exit(1); \
-    }); \
-    req.on('error', () => process.exit(1)); \
-    req.end();"
+  CMD curl --fail http://localhost:8080/health || exit 1
 
-CMD ["node", "./app/index.js"]
+# Redirect logs to a file
+CMD ["sh", "-c", "node ./app/index.js >> ./data/logs/app.log 2>&1"]
