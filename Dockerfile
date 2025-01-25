@@ -141,10 +141,9 @@ HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=3 \
   CMD curl --fail http://localhost:8080/health || exit 1
 
 # Use an environment variable for flexibility
-ENV LOG_PATH=/app/data/logs/docker/app.log
+#ENV LOG_PATH=/app/data/logs/docker/app.log
 
 # Ensure the logfile directory exists with proper permissions
-RUN mkdir -p /app/data/logs/docker && chmod -R 0755 /app/data/logs/docker
+#RUN mkdir -p /app/data/logs/docker && chmod -R 0755 /app/data/logs/docker
 
-# Redirect logs to a file
-CMD ["sh", "-c", "node /app/index.js >> $LOG_PATH 2>&1"]
+CMD ["node /app/index.js"]
