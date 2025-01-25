@@ -146,4 +146,4 @@ HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=3 \
 # Ensure the logfile directory exists with proper permissions
 #RUN mkdir -p /app/data/logs/docker && chmod -R 0755 /app/data/logs/docker
 
-CMD ["node /app/index.js"]
+CMD ["node", "./app/index.js"]
