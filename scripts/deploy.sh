@@ -3,6 +3,13 @@
 # Exit immediately if any command fails
 set -e
 
+# Exit with an error if we're not on the master branch
+if [[ $(git rev-parse --abbrev-ref HEAD) != "master" ]]; then
+  echo "Error: You must be on the master branch to deploy."
+  echo "Please switch to the master branch and try again."
+  exit 1
+fi
+
 # Get the most recent full git hash of the current master branch
 GIT_COMMIT_HASH=$(git rev-parse master)
 
