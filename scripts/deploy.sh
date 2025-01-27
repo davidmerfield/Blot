@@ -25,8 +25,16 @@ GREEN_CONTAINER="blot-container-green"
 BLUE_CONTAINER_PORT=8088
 GREEN_CONTAINER_PORT=8089
 
+# To determine the user ID and group ID of the user running the container
+# ssh into the server and run `id ec2-user` and you'll see something like:
+# uid=1000(ec2-user) gid=1000(ec2-user) groups=1000(ec2-user),4(adm),10(wheel),190(systemd-journal),991(docker)
+# This means the user ID is 1000 and the group ID is 1000 so the 
+# resulting user:group is 1000:1000
+BLOT_USER=1000:1000
+
 # Define the docker run command template with placeholders
 DOCKER_RUN_COMMAND="docker run --pull=always -d \
+  --user $BLOT_USER \
   --name {{CONTAINER_NAME}} \
   -p {{CONTAINER_PORT}}:8080 \
   --env-file /etc/blot/secrets.env \

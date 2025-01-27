@@ -141,6 +141,7 @@ HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=3 \
   CMD curl --fail http://localhost:8080/health || exit 1
 
 # Ensure the logfile directory exists with proper permissions
-RUN mkdir -p /usr/src/app/data/logs/docker/ && chmod -R 0755 /usr/src/app/data/logs/docker/
+RUN mkdir -p /usr/src/app/data/logs/docker && chmod -R 0755 /usr/src/app/data/logs/docker
 
-CMD ["sh", "-c", "node /usr/src/app/app/index.js >> /usr/src/app/data/logs/docker/app.log 2>&1"]
+# 1.5gb max memory is 75% of the 2gb limit for the container
+CMD ["sh", "-c", "node --max-old-space-size=1536 /usr/src/app/app/index.js >> /usr/src/app/data/logs/docker/app.log 2>&1"]
