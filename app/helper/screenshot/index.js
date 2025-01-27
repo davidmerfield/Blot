@@ -4,29 +4,28 @@ const imageminPngquant = require("imagemin-pngquant");
 const dirname = require("path").dirname;
 const fs = require("fs-extra");
 
-const firefoxOptions = process.env.PUPPETEER_PRODUCT === "firefox" ? {
-  product: "firefox",
-  headless: "false", // Use the new headless mode for better performance and stability
-  args: ["--font-render-hinting=none", "--force-color-profile=srgb", "--no-sandbox", "--disable-setuid-sandbox"],
-} : {
-  headless: "new", // Ensure modern headless mode is used for Chromium too
-  args: ["--font-render-hinting=none", "--force-color-profile=srgb", "--no-sandbox", "--disable-setuid-sandbox"],
-};
+async function main(site, path, options = {}) {
+  // Launch Puppeteer with Chromium and required arguments for Docker/Node Alpine
+  const browser = await puppeteer.launch({
+    headless: "new", // Use modern headless mode for Chromium
+    args: [
+      "--no-sandbox",
+      "--disable-setuid-sandbox",
+      "--disable-dev-shm-usage",
+      "--disable-gpu",
+      "--font-render-hinting=none",
+      "--force-color-profile=srgb"
+    ],
+  });
 
-async function main (site, path, options = {}) {
-  // console.log('launching');
-
-  const browser = await puppeteer.launch(firefoxOptions);
-
-  // console.log('launched');
   const page = await browser.newPage();
 
+  // Set a user agent for the page
   await page.setUserAgent(
-    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36"
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36"
   );
 
-  // console.log('using options', options);
-
+  // Determine viewport width and height from options or defaults
   const width =
     options.width !== undefined
       ? options.width
@@ -41,37 +40,33 @@ async function main (site, path, options = {}) {
       ? 650
       : 778;
 
-  // console.log('using width', width, 'height', height);
-
-  // console.log('setting viewport')
+  // Set the viewport size and device scale factor
   await page.setViewport({
     width: width,
     height: height,
-    deviceScaleFactor: 2
+    deviceScaleFactor: 2,
   });
 
-  // console.log('going to site',site);
+  // Ensure the directory for the output file exists
   await fs.ensureDir(dirname(path));
-  // page.goto site and wait for all the images to load
-  // up to a maximum of 20 seconds
+
+  // Navigate to the site and wait for network to be idle
   await page.goto(site, { waitUntil: "networkidle0", timeout: 20000 });
 
-  // console.log('went to site');
-  // it's important to capture the screenshot in max resolution
-  // and without compression so multiple iterations on the same
-  // page produce the same result when diffed
+  // Capture a screenshot at max resolution
   await page.screenshot({
     path: path,
     type: "png",
-    omitBackground: true
+    omitBackground: true,
   });
 
-  // console.log('took screenshot');
+  // Close the browser
   await browser.close();
-  // console.log('closed browser');
 
-  await imagemin([path], dirname(path), {
-    plugins: [imageminPngquant()]
+  // Compress the screenshot using imagemin
+  await imagemin([path], {
+    destination: dirname(path),
+    plugins: [imageminPngquant()],
   });
 }
 
