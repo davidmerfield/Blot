@@ -26,10 +26,7 @@ BLUE_CONTAINER_PORT=8088
 GREEN_CONTAINER_PORT=8089
 
 # To determine the user ID and group ID of the user running the container
-# ssh into the server and run `id ec2-user` and you'll see something like:
-# uid=1000(ec2-user) gid=1000(ec2-user) groups=1000(ec2-user),4(adm),10(wheel),190(systemd-journal),991(docker)
-# This means the user ID is 1000 and the group ID is 1000 so the 
-# resulting user:group is 1000:1000
+# run `id` on the host machine and replace the values below
 BLOT_USER=1000:1000
 
 # Define the docker run command template with placeholders
@@ -40,7 +37,7 @@ DOCKER_RUN_COMMAND="docker run --pull=always -d \
   --env-file /etc/blot/secrets.env \
   -v /var/www/blot/data:/usr/src/app/data \
   --restart unless-stopped \
-  --memory=2g --cpus=1 \
+  --memory=2g --cpus=1.5 \
   ghcr.io/davidmerfield/blot:$GIT_COMMIT_HASH"
 
 # Configurable health check timeout
@@ -109,6 +106,7 @@ is_already_deployed() {
 deploy_container() {
   local container_name=$1
   local container_port=$2
+  local previous_image_hash=$3
 
   # Check if the container is already running with the desired hash
   if is_already_deployed $container_name; then
@@ -125,30 +123,61 @@ deploy_container() {
   echo "$run_command"
 
   # Run the container via SSH
-  ssh_blot "$run_command"
+  if ! ssh_blot "$run_command"; then
+    echo "Failed to start $container_name. Attempting rollback..."
+    rollback_container $container_name $container_port $previous_image_hash
+    return 1
+  fi
+
+  # Check health of the new container
+  if ! check_health $container_name; then
+    echo "$container_name health check failed. Attempting rollback..."
+    rollback_container $container_name $container_port $previous_image_hash
+    return 1
+  fi
+
+  echo "$container_name successfully deployed and healthy."
+  return 0
+}
+
+# Function to rollback a container to the previous image
+rollback_container() {
+  local container_name=$1
+  local container_port=$2
+  local previous_image_hash=$3
+
+  echo "Rolling back $container_name to previous image: $previous_image_hash..."
+  remove_container_if_exists $container_name
+
+  local rollback_command=$(echo "$DOCKER_RUN_COMMAND" | sed "s/$GIT_COMMIT_HASH/$previous_image_hash/g")
+  rollback_command=$(replace_placeholders "$rollback_command" "$container_name" "$container_port")
+
+  echo "Running rollback command on the server:"
+  echo "$rollback_command"
+
+  ssh_blot "$rollback_command"
   check_health $container_name
 }
 
+# Get the currently running image hashes for rollback purposes
+blue_previous_image=$(get_current_image_hash $BLUE_CONTAINER)
+green_previous_image=$(get_current_image_hash $GREEN_CONTAINER)
+
 # Deploy the blue container
-deploy_container $BLUE_CONTAINER $BLUE_CONTAINER_PORT
+if ! deploy_container $BLUE_CONTAINER $BLUE_CONTAINER_PORT $blue_previous_image; then
+  echo "Deployment failed. $BLUE_CONTAINER rollback completed. Exiting."
+  exit 1
+fi
 
-# If blue is healthy, deploy the green container
-if [[ $? -eq 0 ]]; then
-  echo "$BLUE_CONTAINER is healthy. Proceeding to replace $GREEN_CONTAINER on port $GREEN_CONTAINER_PORT..."
-  deploy_container $GREEN_CONTAINER $GREEN_CONTAINER_PORT
-
-  if [[ $? -ne 0 ]]; then
-    echo "Deployment failed. $GREEN_CONTAINER did not become healthy. Blue container is running."
-    exit 1
-  fi
-else
-  echo "Deployment failed. $BLUE_CONTAINER did not become healthy."
+# Deploy the green container
+if ! deploy_container $GREEN_CONTAINER $GREEN_CONTAINER_PORT $green_previous_image; then
+  echo "Deployment failed. $GREEN_CONTAINER rollback completed. Exiting."
   exit 1
 fi
 
 echo "Both blue and green containers are healthy."
 
-# prune the old images to save disk space
+# Prune the old images to save disk space
 echo "Pruning old images..."
 ssh_blot "docker image prune -f"
 echo "Pruned old images."
