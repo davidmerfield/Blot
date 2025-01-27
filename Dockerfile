@@ -73,11 +73,6 @@ RUN apk add --no-cache curl
 # configure git 
 RUN git config --global user.email "you@example.com"
 RUN git config --global user.name "Your Name"
-# neccessary for the git client to work in the docker container
-# the issue is possibly related to the ownership of the git data
-# directory, and the root user running the git client
-# todo: work out how to fix this
-RUN git config --global --add safe.directory '*'
 
 # Install necessary packages for Puppeteer
 RUN apk add --no-cache \
