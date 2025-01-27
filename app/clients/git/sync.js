@@ -6,10 +6,16 @@ var checkGitRepoExists = require("./checkGitRepoExists");
 var dataDir = require("./dataDir");
 var Blog = require("models/blog");
 
-module.exports = function sync (blogID, callback) {
+module.exports = function sync (blogID, gitHandle, callback) {
+
+  // if the blog ID is not a string, return the callback with an error
+  if (typeof blogID !== "string") return callback(new Error("Blog ID must be a string"));
+
+  // if the git handle is not a non-empty string, return the callback with an error
+  if (typeof gitHandle !== "string" || !gitHandle) return callback(new Error("Git handle must be a non-empty string"));
+
   // Attempt to acquire a lock on the blog's folder
-  // to apply updates to it... These options are
-  // redlock options to ensure we acquire a lock eventually...
+  // to apply updates to it... 
   Sync(blogID, function (err, folder, done) {
     // Typically, this error means were unable to acquire a lock
     // on the folder, perhaps another process is syncing it...
@@ -47,14 +53,8 @@ module.exports = function sync (blogID, callback) {
         // Remove whitespace from stdout
         headBeforePull = headBeforePull.trim();
 
-        Blog.get({ id: blogID }, function (err, blog) {
-          if (err) {
-            folder.log("Error fetching blog: " + err.message);
-            debug(err);
-            return done(new Error(err), callback);
-          }
         // Update the remote to ensure it's in sync
-        var bareRepoDirectory = dataDir + "/" + blog.handle + ".git";
+        var bareRepoDirectory = dataDir + "/" + gitHandle + ".git";
         git.remote(["set-url", "origin", bareRepoDirectory], function (err) {
 
           if (err) {
@@ -163,7 +163,6 @@ module.exports = function sync (blogID, callback) {
               });
             });
           });
-        });
         });
       });
     });
