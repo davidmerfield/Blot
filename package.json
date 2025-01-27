@@ -4,8 +4,8 @@
   "description": "A blogging platform",
   "main": "app/index.js",
   "engines": {
-    "node": "16.14.0",
-    "npm": "8.3.1"
+    "node": ">=18.20.6",
+    "npm": ">=10.8.2"
   },
   "jshintConfig": {
     "browser": false,
