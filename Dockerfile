@@ -1,5 +1,7 @@
 ## Stage 0 (builder)
 # This stage installs all dependencies and builds the application if needed
+# n.b. if you update the node version for this stage, don't forget to change
+# the image of the 'base' stage to match as well
 FROM node:18.20-alpine AS builder
 
 ARG PANDOC_VERSION=3.1.1
@@ -47,7 +49,7 @@ RUN apk del .build-deps
 
 ## Stage 1 (production base)
 # This stage prepares the production environment
-FROM node:16.13.0-alpine AS base
+FROM node:18.20-alpine AS base
 
 EXPOSE 8080
 
