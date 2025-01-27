@@ -24,7 +24,7 @@ async function getBreadcrumbs(blogId, dir, cacheID) {
     throw err;
   }
 
-  console.log('breadcrumb cache is', cache);
+  // console.log('breadcrumb cache is', cache);
   
   return breadcrumbs;
 }
