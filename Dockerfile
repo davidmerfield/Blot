@@ -1,6 +1,6 @@
 ## Stage 0 (builder)
 # This stage installs all dependencies and builds the application if needed
-FROM node:16.13.0-alpine AS builder
+FROM node:18.20-alpine AS builder
 
 ARG PANDOC_VERSION=3.1.1
 
