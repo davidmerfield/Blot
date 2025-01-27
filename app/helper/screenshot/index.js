@@ -9,10 +9,12 @@ async function main(site, path, options = {}) {
   const browser = await puppeteer.launch({
     headless: "new", // Use modern headless mode for Chromium
     args: [
-      "--no-sandbox", // Required for running Puppeteer in many Docker environments
-      "--disable-setuid-sandbox", // Disable setuid sandbox for Docker
+      "--no-sandbox",
+      "--disable-setuid-sandbox",
+      "--disable-dev-shm-usage",
+      "--disable-gpu",
       "--font-render-hinting=none",
-      "--force-color-profile=srgb",
+      "--force-color-profile=srgb"
     ],
   });
 
