@@ -91,7 +91,7 @@ const loadFolder = async (blog, dir) => {
     folderCache[cacheKey] = folder;
   }
 
-  console.log('folder cache is', JSON.stringify(folderCache, null, 2));
+  // console.log('folder cache is', JSON.stringify(folderCache, null, 2));
 
   return folder;
 }
