@@ -18,6 +18,11 @@ describe("img converter", function () {
 
             img.read(test.blog, path, {}, function (err, result) {
                 if (err) return done.fail(err);
+                // output the result to disk as a reference
+                // if the test fails, the reference can be used to compare
+                if (result !== expected) {
+                    fs.writeFileSync(__dirname + path + ".html", result);
+                }
                 expect(result).toEqual(expected);
                 done();
             });
