@@ -71,7 +71,7 @@ function main (path, outputDirectory, callback) {
 function transform (input, to, options, callback) {
   var size = options.size;
 
-  var transform = input.clone().rotate();
+  var transform = input.clone().keepIccProfile().rotate();
 
   transform.on("error", callback);
 
