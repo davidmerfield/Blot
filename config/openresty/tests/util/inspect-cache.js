@@ -3,7 +3,7 @@ const fs = require("fs-extra");
 
 const main = async (
   origin = "http://127.0.0.1/inspect",
-  cache_directory = "/var/www/cache",
+  cache_directory = "/var/instance-ssd/cache",
   only_host = null,
   verbose = false
 ) => {

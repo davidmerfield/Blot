@@ -10,12 +10,12 @@ var Blog = require("models/blog");
 var config = require("config");
 var stripe = require("stripe")(config.stripe.secret);
 
-const parse = require("dashboard/parse");
+const parse = require("dashboard/util/parse");
 
 Delete.route("/")
 
   .get(function (req, res) {
-    res.render("account/delete", {
+    res.render("dashboard/account/delete", {
       title: "Delete your account",
       breadcrumb: "Delete"
     });
@@ -30,7 +30,7 @@ Delete.route("/")
     emailUser,
     logout,
     function (req, res) {
-      res.redirect("/dashboard/deleted");
+      res.redirect("/sites/deleted");
     }
   );
 

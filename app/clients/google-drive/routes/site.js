@@ -33,9 +33,7 @@ site.get("/authenticate", cookieParser(), function (req, res) {
   // This means we hit the public routes on Blot's site
   if (req.cookies.blogToAuthenticate) {
     const redirect =
-      config.protocol +
-      config.host +
-      "/dashboard/" +
+      "/sites/" +
       req.cookies.blogToAuthenticate +
       "/client/google-drive/authenticate?" +
       querystring.stringify(req.query);
@@ -91,7 +89,7 @@ site
       token: req.header("x-goog-channel-token"),
       expiration: moment(req.header("x-goog-channel-expiration"))
         .valueOf()
-        .toString(),
+        .toString()
     };
 
     const account = await database.getAccount(blogID);

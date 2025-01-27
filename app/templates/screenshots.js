@@ -7,6 +7,7 @@ const { dirname } = require("path");
 const root = require("helper/rootDir");
 const fs = require("fs-extra");
 const TEMPLATES_DIRECTORY = root + "/app/templates/latest";
+const TEMPLATE_ARCHIVE_DIRECTORY = root + "/app/templates/past";
 const FOLDERS_DIRECTORY = root + "/app/templates/folders";
 const IMAGE_DIRECTORY = root + "/app/views/images/examples";
 
@@ -15,7 +16,10 @@ const templateOptions = {
     handle: "david"
   },
   magazine: {
-    handle: "interviews"
+    handle: "plants"
+  },
+  grid: {
+    handle: "botanist"
   },
   photo: {
     handle: "william"
@@ -23,8 +27,26 @@ const templateOptions = {
   portfolio: {
     handle: "bjorn"
   },
+  'photo-old': {
+    handle: "photographer"
+  },
+  scroll: {
+    handle: "illustrator",
+  },
+  terminal: {
+    handle: "photographer"
+  },
   reference: {
     handle: "frances"
+  },
+  blank: {
+    handle: "david"
+  },
+  isola: {
+    handle: "writer"
+  },
+  marfa: {
+    handle: "david"
   }
 };
 
@@ -39,18 +61,17 @@ const foldersOptions = {
   },
   frances: {
     template: "reference"
-  },
-  interviews: {
-    template: "magazine"
-  },
-  william: {
-    template: "photo"
   }
 };
 
 const templates = fs
   .readdirSync(TEMPLATES_DIRECTORY)
   .filter(i => !i.startsWith(".") && !i.endsWith(".md"))
+  .concat(
+    fs
+      .readdirSync(TEMPLATE_ARCHIVE_DIRECTORY)
+      .filter(i => !i.startsWith(".") && !i.endsWith(".md"))
+  )
   .map(i => {
     const handle = templateOptions[i] ? templateOptions[i].handle : "david";
     const template = i;

@@ -2,7 +2,7 @@ var cheerio = require("cheerio");
 var makeUid = require("helper/makeUid");
 
 module.exports = function (html) {
-  var $ = cheerio.load(html, { decodeEntities: false });
+  var $ = cheerio.load(html, { decodeEntities: false }, false);
 
   var changes = false;
   var postfix = makeUid(3);

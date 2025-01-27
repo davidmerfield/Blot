@@ -16,5 +16,3 @@ All the code is in clients/webhooks.js
 Right now, all requests to webhook relay are serialized then broadcast using redis pub/sub. If there's a connected client, they recieve the serialzed request and its then up to the client to 're-create' it
 
 There's some custom logic for handling OAUTH redirects and webhook verification
-
-We used localhost.run to set up a tunnel over a custom domain but it ended up being too complicated

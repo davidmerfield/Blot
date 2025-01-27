@@ -2,8 +2,7 @@ require("../only_locally");
 
 var fs = require("fs-extra");
 var exec = require("child_process").exec;
-var redis = require("redis");
-var ROOT = process.env.BLOT_DIRECTORY;
+var ROOT = require("config").blot_directory;
 
 var DATA_DIRECTORY = ROOT + "/data";
 
@@ -15,35 +14,24 @@ async function main (label, callback) {
   if (!fs.existsSync(directory))
     return callback(new Error("No state " + label));
 
-  var client = redis.createClient();
-  var multi = client.multi();
+  exec("docker-compose stop -t 1 node-app ", { silent: true }, function (err) {
+    if (err) return callback(err);
+    exec("docker-compose stop -t 1 redis", { silent: true }, function (err) {
+      if (err) return callback(err);
 
-  // If redis was already shut down, then
-  // we won't be able to execute the multi()
-  client.on("error", function (err) {
-    if (err.code === "ECONNREFUSED") {
-      then();
-    }
-  });
+      fs.emptyDirSync(DATA_DIRECTORY);
+      fs.ensureDirSync(directory + "/data");
+      fs.copySync(directory + "/data", DATA_DIRECTORY);
 
-  multi.config("SET", "appendonly", "no").config("SET", "save", "").shutdown();
-
-  multi.exec(then);
-
-  function then () {
-    fs.emptyDirSync(DATA_DIRECTORY);
-    fs.ensureDirSync(directory + "/data");
-    fs.copySync(directory + "/data", DATA_DIRECTORY);
-
-    exec(
-      "redis-server --daemonize yes --dir " + ROOT + "/data",
-      { silent: true },
-      function (err) {
+      exec("docker-compose start redis", { silent: true }, function (err) {
         if (err) return callback(err);
-        callback(null);
-      }
-    );
-  }
+        exec("docker-compose start node-app", { silent: true }, function (err) {
+          if (err) return callback(err);
+          setTimeout(callback, 5000);
+        });
+      });
+    });
+  });
 }
 
 if (require.main === module) {

@@ -1,0 +1,51 @@
+name: blot
+services:
+  node-app:
+    image: blot
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: dev   # This line specifies which stage to build
+    ports:
+      - "8080:8080"
+    depends_on:
+      - redis
+    env_file:
+      - .env
+    environment:
+      - BLOT_REDIS_HOST=redis
+      - BLOT_HOST=local.blot
+    volumes:
+      - ./data:/usr/src/app/data
+      - ./.git:/usr/src/app/.git
+      - ./app:/usr/src/app/app
+      - ./tests:/usr/src/app/tests
+      - ./notes:/usr/src/app/notes
+      - ./scripts:/usr/src/app/scripts
+      - ./todo.txt:/usr/src/app/todo.txt
+      - ./config:/usr/src/app/config
+    # this is needed so the webhook relay can invoke the request 
+    # inside docker, resolving the host to the correct IP
+    extra_hosts:
+      - "${BLOT_HOST}:${HOST_IP}"
+    command: npx nodemon /usr/src/app/app/local.js --watch /usr/src/app/app -e js,html,css --ignore /usr/src/app/app/documentation/data --ignore /usr/src/app/app/documentation/output --ignore /usr/src/app/app/views  --ignore /usr/src/app/app/clients/*/views
+
+  redis:
+    image: "redis:alpine"
+    ports:
+      - "6379:6379" # Expose Redis port 6379 to host so we can run scripts if needed
+    volumes:
+      - "./data:/data"
+
+  nginx:
+    build:
+      context: ./config/openresty
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./data/blot-key.pem:/etc/ssl/private/nginx-selfsigned.key
+      - ./data/blot.pem:/etc/ssl/certs/nginx-selfsigned.crt
+    depends_on:
+      - node-app

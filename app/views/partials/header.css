@@ -1,0 +1,45 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+  min-height: 24px;
+}
+
+.header .spacer {
+  flex-grow: 1;
+}
+
+.header a {
+  background-color: var(--light-background-color);
+  border-radius: 4px;
+  color: var(--accent-color);
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 24px;
+  margin-left: 12px;
+  cursor: pointer;
+  user-select: none;
+  padding: 0 12px;
+  transition: background-color 0.2s;
+}
+
+.header a:hover {
+  background-color: #e4eafb;
+}
+
+
+
+.header label {
+  display: none;
+  margin: 0;
+  cursor: pointer;
+  color: var(--accent-color)
+}
+
+.header a:hover {
+  color: var(--accent-color);
+}
+
+#navbar-toggle {
+  display: none;
+}

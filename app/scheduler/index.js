@@ -7,11 +7,21 @@ var schedule = require("node-schedule").scheduleJob;
 var checkFeaturedSites = require("../documentation/featured/check");
 var config = require("config");
 var publishScheduledEntries = require("./publish-scheduled-entries");
+const freeDiskSpace = require("./free-disk-space");
 const os = require("os");
 const fs = require("fs-extra");
 const exec = require("child_process").exec;
 const fix = require("sync/fix/all");
 const zombies = require("./zombies");
+const checkCardTesters = require("./check-card-testers");
+
+// If any disk has less than 2GB of space, we should notify the admin
+const MINIMUM_DISK_SPACE_IN_K = 2 * 1024 * 1024;
+
+// If the data disk has less than 10GB of space, we should notify the admin
+const DATA_DISK_MINIMUM_DISK_SPACE_IN_K = 10 * 1024 * 1024;
+
+let NOTIFIED_LOW_DISK_SPACE = false;
 
 module.exports = function () {
   // Log useful system information, once per minute
@@ -19,6 +29,41 @@ module.exports = function () {
     // Detect any zombie processes
     zombies(function (err) {
       if (err) throw err;
+    });
+
+    freeDiskSpace(function (err, disks) {
+      let shouldNotify = false;
+
+      if (err || !disks) {
+        console.error(clfdate(), "Error checking disk space", err);
+        return;
+      }
+
+      console.log(
+        clfdate(),
+        "[STATS]",
+        "Available disk space",
+        disks.map(disk => disk.label + "=" + disk.available_human).join(", ")
+      );
+
+      if (disks.some(disk => disk.available_k < MINIMUM_DISK_SPACE_IN_K)) {
+        shouldNotify = true;
+      }
+
+      if (
+        disks.find(disk => disk.label === "data") &&
+        disks.find(disk => disk.label === "data").available_k <
+          DATA_DISK_MINIMUM_DISK_SPACE_IN_K
+      ) {
+        shouldNotify = true;
+      }
+
+      if (shouldNotify && !NOTIFIED_LOW_DISK_SPACE) {
+        NOTIFIED_LOW_DISK_SPACE = true;
+        email.WARNING_LOW_DISK_SPACE(null, { disks }, function (err) {
+          if (err) console.log(clfdate(), err);
+        });
+      }
     });
 
     // Print most memory-intensive processes
@@ -113,14 +158,6 @@ module.exports = function () {
         "Space available:",
         available
       );
-
-      email.WARNING_LOW_DISK_SPACE(
-        null,
-        { usage: usage, available: available },
-        function (err) {
-          if (err) console.log(clfdate(), err);
-        }
-      );
     });
   });
 
@@ -138,6 +175,26 @@ module.exports = function () {
         console.log(clfdate(), "Fix sync: checked all folders");
       }
     });
+  });
+
+
+  console.log(clfdate(), "Scheduled daily check of suspected fraudulent users");
+  schedule({ hour: 11, minute: 0 }, async function () {
+    console.log(clfdate(), "Checking for potential fraudulent users");
+
+    let customers;
+    
+    try {
+      customers = await checkCardTesters();
+    } catch (err) {
+      console.log(clfdate(), "Error: Checking suspected fraudulent users", err);
+    }
+
+    if (!customers || customers.length === 0) {
+      console.log(clfdate(), "No suspected fraudulent users found");
+    } else {
+      email.SUSPECTED_FRAUD(null, { customers });
+    }
   });
 
   console.log(clfdate(), "Scheduled daily check of featured sites");

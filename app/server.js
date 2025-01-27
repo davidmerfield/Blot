@@ -2,8 +2,8 @@ var config = require("config");
 var Express = require("express");
 var helmet = require("helmet");
 var vhost = require("vhost");
-var blog = require("./blog");
-var site = require("./site");
+var blog = require("blog");
+var site = require("site");
 var clfdate = require("helper/clfdate");
 var trace = require("helper/trace");
 
@@ -18,8 +18,16 @@ server.set("etag", false); // turn off etags for responses
 // Removes a header otherwise added by Express. No wasted bytes
 server.disable("x-powered-by");
 
+console.log(
+  clfdate(),
+  "Starting server on port",
+  config.port,
+  "host",
+  config.host
+);
+
 // Trusts secure requests terminated by NGINX, as far as I know
-server.set("trust proxy", ["loopback", ...config.reverse_proxies]);
+server.set("trust proxy", true);
 
 // Check if the database is healthy
 server.get("/redis-health", function (req, res) {
@@ -55,8 +63,7 @@ setInterval(function () {
     "PENDING=" + unrespondedRequests.length,
     unrespondedRequests.join(", ")
   );
-}, 1000 * 5); // 5 seconds
-
+}, 1000 * 15); // 15 seconds
 server.use(function (req, res, next) {
   var init = Date.now();
 
@@ -94,6 +101,24 @@ server.use(function (req, res, next) {
     }
   });
 
+  req.on("close", function () {
+    try {
+      if (req.headers["x-request-id"])
+        unrespondedRequests = unrespondedRequests.filter(
+          id => id !== req.headers["x-request-id"].slice(0, 8)
+        );
+      console.log(
+        clfdate(),
+        req.headers["x-request-id"] && req.headers["x-request-id"],
+        "Connection closed by client",
+        "PID=" + process.pid,
+        req.protocol + "://" + req.hostname + req.originalUrl
+      );
+    } catch (e) {
+      console.error("Error: Failed to construct canonical log line:", e);
+    }
+  });
+
   next();
 });
 
@@ -115,6 +140,7 @@ if (config.webhooks.server_host) {
   server.use(vhost(config.webhooks.server_host, require("./clients/webhooks")));
 }
 
+console.log(clfdate(), "Setting up CDN on", "cdn." + config.host);
 // CDN server
 server.use(vhost("cdn." + config.host, require("./cdn")));
 

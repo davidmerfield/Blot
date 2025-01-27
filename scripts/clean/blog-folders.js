@@ -7,8 +7,6 @@ var tmp = require("helper/tempDir")();
 var async = require("async");
 var yesno = require("yesno");
 var colors = require("colors/safe");
-const { blog_folder_dir } = require("../../config");
-const stat = require("../../app/dashboard/folder/stat");
 
 if (require.main === module)
   main(function (err) {

@@ -1,3 +1,10 @@
+Fix, I have confirmed that the uploader of the file, regardless of the owner of the folder into which it is uploaded, pays the storage 'cost' for the file. To demonstate this I used two google drive accounts (dmerfield@gmail.com and david@blot.im)
+
+I created a shared folder in dmerfield@gmail.com, then shared it with david@blot.im. I uploaded a file into it using david@blot.im's account. The storage usage for david@blot.im went up, but dmerfield@gmail.com's storage usage did not.
+
+---
+
+
 Add new redirect URIs here:
 https://console.cloud.google.com/apis/credentials?project=quickstart-1585441405190
 

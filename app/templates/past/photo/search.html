@@ -1,0 +1,57 @@
+{{> header}}
+
+{{> search_form}}
+
+<style type="text/css">
+    body, html {height: 100%;overflow: hidden;}
+
+    #hyperlist a {
+            text-decoration: none;
+            padding: 0 calc({{spacing}}*0.25rem);
+      color: inherit;
+      box-sizing:border-box;
+      display: block;
+    }
+
+    #hyperlist > a {
+      padding: 0 {{spacing}}rem;
+      display: flex;
+      width: 100%;
+      height: 80px;
+      margin: 0;
+    }
+
+    #hyperlist > a:hover {opacity: 0.75}
+    #hyperlist > a:hover .title {text-decoration: underline;}
+    #hyperlist > a:active {opacity: 0.5}
+    
+    #hyperlist > a .thumbnail {width: 80px;height:80px;}
+    #hyperlist > a .title {flex-grow: 1;margin:0 calc({{spacing}}rem*0.5);white-space: nowrap;overflow: hidden;text-overflow: ellipsis;}
+    #hyperlist > a .date {flex-shrink: 0;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;}
+
+#hyperlist > a .thumbnail img {
+  max-width: 80px;max-height: 80px;width:auto;height: auto;
+}
+
+input[type=radio] {display: none;}
+.filter {list-style-type: none;padding: 0;display: flex;}
+.filter label {cursor: pointer;padding:{{spacing_size}}px;margin:{{spacing_size}}px;background:#eee}
+</style>
+
+
+    <div id="hyperlist" class="container">
+        {{#entries}}
+        <a href="{{{url}}}">
+            <span class="thumbnail">
+          <img src="{{{thumbnail.small.url}}}" class="pre-loaded" onload="this.className+=' loaded';" />
+          <noscript>  
+          <img src="{{{thumbnail.small.url}}}">
+          </noscript>
+      </span>
+      <span class="title">{{title}}</span>
+      <span class="date">{{date}}</span>
+        </a>
+        {{/entries}}
+        </div>
+
+{{> footer}}

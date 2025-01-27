@@ -1,0 +1,37 @@
+#breadcrumbs-container {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-bottom: 28px;
+}
+
+#breadcrumbs {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+}
+
+#breadcrumbs a {
+  max-width: 300px;
+  overflow: hidden;
+  color: var(--medium-text-color);
+  font-size: 16px;
+  text-decoration: none;
+}
+
+#breadcrumbs span {
+  color: var(--border-color);
+  font-size: 0.75em;
+  margin: 0 0.4em;
+  position: relative;
+  top: 0.05em;
+}
+
+#breadcrumbs span:last-child {
+  display: none;
+}
+
+#breadcrumbs a:hover {
+  color: var(--accent-color);
+}

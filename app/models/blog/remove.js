@@ -127,7 +127,15 @@ function disconnectClient(blog, callback) {
 
   if (!blog.client || !clients[blog.client]) return callback(null);
 
-  clients[blog.client].disconnect(blog.id, callback);
+  clients[blog.client].disconnect(blog.id, function(err){
+
+    // we still want to continue even if there is an error
+    if (err) {
+      console.error('Error disconnecting client:', err);
+    }
+
+    callback(null);
+  });
 }
 
 function updateUser(blog, callback) {

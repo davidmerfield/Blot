@@ -1,6 +1,12 @@
 #!/bin/sh
 
-HOSTS=$(cat /var/www/blot/data/logs/access.log | cut -d ' ' -f 7 | cut -d / -f 3 | sort | uniq)
+
+if [ -z "$BLOT_LOG_DIRECTORY" ]; then
+  echo "BLOT_LOG_DIRECTORY variable missing, source it"
+  exit 1
+fi
+
+HOSTS=$(cat $BLOT_LOG_DIRECTORY/access.log | cut -d ' ' -f 7 | cut -d / -f 3 | sort | uniq)
 EXPIRING_HOSTS=""
 
 if [ -z "$BLOT_REDIS_HOST" ]; then

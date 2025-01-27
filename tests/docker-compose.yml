@@ -1,0 +1,30 @@
+name: blot-tests
+services:
+
+  test-redis:
+    image: "redis:alpine"
+    command: sh -c "rm -f /data/dump.rdb && redis-server"
+      
+  tests:
+    build:
+      context: ../
+      dockerfile: Dockerfile
+      target: dev
+    depends_on:
+      - test-redis
+    env_file:
+      - test.env
+    environment:
+      - TEST_PATH=${TEST_PATH}
+      - TEST_SEED=${TEST_SEED}
+      - BLOT_REDIS_HOST=test-redis
+      - BLOT_HOST=local.blot
+    volumes:
+      - ../app:/usr/src/app/app
+      - ../tests:/usr/src/app/tests
+      - ../config:/usr/src/app/config
+      - ../notes:/usr/src/app/notes
+      - ../todo.txt:/usr/src/app/todo.txt
+      - ../.git:/usr/src/app/.git
+    command: >
+      sh -c "rm -rf /usr/src/app/data && mkdir /usr/src/app/data && node -v && npm -v && node tests $TEST_PATH $TEST_SEED"

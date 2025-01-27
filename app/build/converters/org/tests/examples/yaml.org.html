@@ -1,0 +1,43 @@
+<!--
+title: Test Post Using Orgmode
+date: February 28th, 2024
+tags: test, org-mode, blot
+-->
+
+<h1 id="heading-level-1">Heading Level 1</h1>
+<p>The source for this post is org-mode with both org title syntax and a
+yaml source block. Blot hides the org source block, and then treats the
+yaml block like a code block. Looking at the page source it puts
+org-mode block syntax in a pre tag and hljs yaml class. So, it's
+treating it like code and highlighting the background, if I understand
+what "highlight JavaScript" is doing, which I don't.</p>
+<p>The sentences under heading 4 are all on separate lines but Blot puts
+them on one line, even if I use the markdown convention of double spaces
+at the end of the line, and it doesn't do the link properly even if I
+use an org source block for markdown and use markdown syntax. Again it
+treats it as pre hijs.</p>
+<h2 id="heading-level-2">Heading Level 2</h2>
+<h3 id="heading-level-3">Heading Level 3</h3>
+<ul>
+<li>Bullet 1</li>
+<li>Bullet 2
+<ul>
+<li>Sub-bullet a</li>
+<li>Sub-bullet b</li>
+</ul></li>
+</ul>
+<h2 id="heading-level-2-1">Heading Level 2 <span class="tag" data-tag-name="tag1"><span class="smallcaps">tag1</span></span> <span class="tag" data-tag-name="tag2"><span class="smallcaps">tag2</span></span></h2>
+<pre class="markdown"><code>
+[[vcg3rd.net][Link To]]
+
+</code></pre>
+<p>Heading Level 4</p>
+<p>Test of <strong>bold</strong> Test of <em>italics</em> Test of
+footnotes <a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
+<p>Footnotes:</p>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr/>
+<ol>
+<li id="fn1"><p>Footnote<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>

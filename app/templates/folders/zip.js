@@ -32,7 +32,7 @@ const main = () => {
         if (config.environment === "development") {
           if (fs.existsSync(tmpPath)) {
             console.log(
-              "Copying from tmpPath since we are in development environment"
+              folder, "Copying cached ZIP since we are in development environment"
             );
             return fs.copy(
               tmpPath,
@@ -43,8 +43,6 @@ const main = () => {
         }
 
         fs.removeSync(tmpPath);
-
-        console.log("tmpPath", tmpPath);
 
         fs.ensureDirSync(tmp + "folder-zips");
 
@@ -78,9 +76,7 @@ const main = () => {
         });
 
         archive.pipe(output);
-
         archive.directory(FOLDER_DIRECTORY + "/" + folder + "/", false);
-
         archive.finalize();
       },
       resolve

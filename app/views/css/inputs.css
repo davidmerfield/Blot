@@ -25,7 +25,7 @@ input[type="submit"]:focus {
 }
 
 input[type="submit"].working,
-input[type="submit"][disabled] {
+input[type="submit"]:disabled {
   cursor: wait;
   background: var(--light-background-color);
   color: var(--light-text-color);
@@ -36,10 +36,6 @@ form label {
   color: var(--medium-text-color);
 }
 
-/* turn into tooltip */
-label em {
-  display: none;
-}
 
 input[name="email"],
 input[name="password"] {
@@ -47,17 +43,7 @@ input[name="password"] {
   display: block;
 }
 
-input[name="number"] {
-  width: 100%;
-  display: block;
-}
-
-input[name="cvc"] {
-  display: block;
-}
-
 input[type="text"],
-input[type="search"],
 input[type="password"] {
   padding: 4px 3px;
   margin: 2px 0;
@@ -76,29 +62,6 @@ input[type="password"] {
     -webkit-box-shadow ease-in-out 0.1s;
 }
 
-input[name="exp-year"],
-input[name="exp-month"],
-input[name="cvc"] {
-  text-align: center;
-}
-
-input[name="exp-month"] {
-  width: 60px;
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-}
-
-input[name="cvc"] {
-  width: 75px;
-}
-
-input[name="exp-year"] {
-  width: 75px;
-  margin-left: -1px;
-  margin-right: 2em;
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
-}
 
 input[type="text"]:focus,
 input[type="password"]:focus {

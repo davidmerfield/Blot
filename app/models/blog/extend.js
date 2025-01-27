@@ -4,8 +4,6 @@ var url = require("./url");
 var protocol = "https";
 var punycode = require("helper/punycode");
 
-if (config.environment === "development") protocol = "http";
-
 module.exports = function extend(blog) {
   var pages = [];
 
@@ -39,7 +37,8 @@ module.exports = function extend(blog) {
 
   blog.feedURL = "/feed.rss";
   blog.url = protocol + "://" + blog.handle + "." + config.host;
-
+  
+  blog.previewURL = `https://preview-of-${blog.handle}.${config.host}`;
   blog.pretty.url = blog.handle + "." + config.host;
   blog.pretty.label = blog.title || blog.pretty.url;
 

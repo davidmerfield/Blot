@@ -52,7 +52,7 @@ function validate(stamp) {
 
 function adjustByBlogTimezone(timeZone, stamp) {
   var zone = moment.tz.zone(timeZone);
-  var offset = zone.offset(stamp);
+  var offset = zone.utcOffset(stamp);
 
   return moment.utc(stamp).add(offset, "minutes").valueOf();
 }

@@ -1,3 +1,4 @@
+
 var Blog = require("models/blog");
 var User = require("models/user");
 var format = require("url").format;
@@ -38,7 +39,7 @@ function main (handle, callback) {
           var url = format({
             protocol: "https",
             host: config.host,
-            pathname: "/log-in",
+            pathname: "/sites/log-in",
             query: {
               token: token
             }

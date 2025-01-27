@@ -8,7 +8,7 @@ var Entries = require("models/entries");
 var User = require("models/user");
 var colors = require("colors/safe");
 var async = require("async");
-var filter = require("./filter");
+var verifySiteIsOnline = require("./verifySiteIsOnline");
 
 if (require.main === module) {
   main(function (err, sites) {
@@ -39,7 +39,7 @@ if (require.main === module) {
 
 // We want to be able to check if a candidate is already
 // featured, so transform the existing list into an array
-var featured = require("./featured").map(function (site) {
+var featured = require("./featured").sites.map(function (site) {
   return site.host;
 });
 
@@ -66,28 +66,33 @@ function main (callback) {
           });
         });
       },
-      function (err, sites) {
+      async function (err, sites) {
         if (err) return callback(err);
 
         sites = sites.filter(function (site) {
           return site && site.host && featured.indexOf(site.host) === -1;
         });
 
+        const filteredSites = [];
+
         console.log(sites.length, "candidates");
 
-        filter(sites, function (err, sites) {
-          if (err) return callback(err);
+        for (var i = 0; i < sites.length; i++) {
+          var isOnline = await verifySiteIsOnline(sites[i].host);
+          if (isOnline) {
+            filteredSites.push(sites[i]);
+          }
+        }
 
-          console.log(sites.length, "candidates remain post-filter");
+        console.log(filteredSites.length, "candidates remain post-filter");
 
-          sites.sort(function (a, b) {
-            if (a.lastPublishedPost > b.lastPublishedPost) return 1;
-            if (b.lastPublishedPost > a.lastPublishedPost) return -1;
-            if (a.lastPublishedPost === b.lastPublishedPost) return 0;
-          });
-
-          callback(null, sites);
+        filteredSites.sort(function (a, b) {
+          if (a.lastPublishedPost > b.lastPublishedPost) return 1;
+          if (b.lastPublishedPost > a.lastPublishedPost) return -1;
+          if (a.lastPublishedPost === b.lastPublishedPost) return 0;
         });
+
+        callback(null, filteredSites);
       }
     );
   });

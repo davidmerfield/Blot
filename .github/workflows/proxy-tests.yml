@@ -1,4 +1,4 @@
-name: proxy-tests
+name: Proxy tests
 
 on:
   push:
@@ -6,6 +6,7 @@ on:
   pull_request:
     branches: [master]
     paths:
+      - ".github/workflows/proxy-tests.yml"
       - "config/openresty/**"
 
 jobs:
@@ -14,6 +15,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@master
+
+      - name: Install PCRE library
+        run: sudo apt-get install -y libpcre3 libpcre3-dev
 
       - uses: leafo/gh-actions-openresty@v1
         with:
@@ -62,23 +66,24 @@ jobs:
           REDIS_IP: 127.0.0.1
           OPENRESTY_USER: runner
           DISABLE_HTTP2: true
-          OPENRESTY_CACHE_DIRECTORY: /home/runner/work/Blot/Blot/config/openresty/data/cache
+          OPENRESTY_CACHE_DIRECTORY: /home/runner/work/Blot/Blot/config/openresty/data/latest/cache
           OPENRESTY_CONFIG_DIRECTORY: /home/runner/work/Blot/Blot/config/openresty/data
-          SSL_CERTIFICATE: /home/runner/work/Blot/Blot/config/openresty/data/selfsigned.crt
-          SSL_CERTIFICATE_KEY: /home/runner/work/Blot/Blot/config/openresty/data/selfsigned.key
+          SSL_CERTIFICATE: /home/runner/work/Blot/Blot/config/openresty/data/latest/selfsigned.crt
+          SSL_CERTIFICATE_KEY: /home/runner/work/Blot/Blot/config/openresty/data/latest/selfsigned.key
         run: |
-          node config/openresty/build-config.js
-          cat config/openresty/data/openresty.conf
+          node config/openresty/build-config.js --skip-confirmation
+          cat config/openresty/data/latest/openresty.conf
 
       # run this after building config since building config will overwrite the data directory
       - name: generate self-signed SSL certs
         run: |
-          mkdir -p /home/runner/work/Blot/Blot/config/openresty/data
-          openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /home/runner/work/Blot/Blot/config/openresty/data/selfsigned.key -out /home/runner/work/Blot/Blot/config/openresty/data/selfsigned.crt -subj "/C=US/ST=Oregon/L=Portland/O=Company Name/OU=Org/CN=localhost"
+          mkdir -p /home/runner/work/Blot/Blot/config/openresty/data/latest
+          openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /home/runner/work/Blot/Blot/config/openresty/data/latest/selfsigned.key -out /home/runner/work/Blot/Blot/config/openresty/data/latest/selfsigned.crt -subj "/C=US/ST=Oregon/L=Portland/O=Company Name/OU=Org/CN=localhost"
 
       - name: run openresty
         run: |
-          sudo /usr/local/openresty/bin/openresty -c /home/runner/work/Blot/Blot/config/openresty/data/openresty.conf
+          sudo mkdir -p /var/instance-ssd/logs
+          sudo /usr/local/openresty/bin/openresty -c /home/runner/work/Blot/Blot/config/openresty/data/latest/openresty.conf
 
       - name: check openresty is running on port 80
         run: |
@@ -90,4 +95,4 @@ jobs:
           BLOT_OPENRESTY_TEST_USER: runner
           BLOT_OPENRESTY_TEST_GROUP: runner
         run: |
-          npm test config/openresty
+          node tests config/openresty

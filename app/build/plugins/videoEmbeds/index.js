@@ -99,7 +99,7 @@ function render($, callback) {
 
 module.exports = {
   render: render,
-  category: "external",
+  category: "Typography",
   title: "Videos",
   description: "Embed videos from video/audio URLs",
 };

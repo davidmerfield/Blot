@@ -1,12 +1,73 @@
-{{> sign-up-header}}
+<section class="authenticate-container">
 
-<form method="POST" style="flex-basis:50%;max-width: 360px;">
+
+
+<style> 
+
+#card {
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  padding: 12px 10px;
+  height: 16px;
+}
+
+.tabs {
+        margin: 0 0 2em 0;
+        display: flex;
+        border-bottom: 1px solid var(--light-border-color);
+      }
+      .tabs input {
+        display: none;
+      }
+    
+      .tabs label {
+        display: inline-block;
+        box-sizing: border-box;
+        font-size: var(--small-font-size);
+        padding: 0 0 0.5em;
+        margin: 0 1.4em -1px 0;
+        border-bottom: 1px solid transparent;
+        cursor: pointer;
+        color: var(--medium-text-color);
+      }
+      .tabs label:hover {
+        color: var(--text-color);
+      }
+    
+      .tabs input:checked + label {
+        color: var(--text-color);
+        border-bottom-color: var(--text-color)
+      }
+    
+      svg.Footer-PoweredBy-Icon {
+        width: 33px;
+        height: 15px;
+        vertical-align: middle;
+        position: relative;
+        top: -0.5px
+      }
+    
+      svg.Footer-PoweredBy-Icon path {
+        fill: var(--light-text-color);
+      }
+    
+        
+</style>
+<form id="payment-form" method="POST" style="flex-basis:50%;max-width: 360px;">
   
-    
-    
+  {{> sign-up-header}}
+  
+    {{#subscription}}
+    <p class="success">Thank you for subscribing</p>
+    {{/subscription}}
+
+    {{^subscription}}
+      <p style="margin-top: 0;">$5 per month per site. You can cancel at any point. You must agree to the <a href="/terms">terms of use</a>.</p><br>
+    {{/subscription}}
+
 <noscript>
   <p class="error">
-    <mark>Enable JavaScript to purchase an account.</mark> Payments are
+    Enable JavaScript to purchase an account. Payments are
     processed by Stripe without touching Blot's servers. This requires
     JavaScript.
   </p>
@@ -14,7 +75,7 @@
 
   <div class="tabs">
    <input type="radio" id="card-radio" name="payment_method" value="card" checked>
-    <label for="card-radio" style="cursor:pointer">Pay with card</label>
+    <label for="card-radio" style="cursor:pointer">Pay by card</label>
     <input type="radio" id="paypal-radio" name="payment_method" value="paypal">
     <label for="paypal-radio" style="cursor:pointer">Pay with PayPal</label>
   </div>
@@ -34,47 +95,16 @@
           <input type="text" class="email" name="email" autofocus />
         </p>
 
-        <p style="margin-bottom: 0">
-          <label for="number"
-            >Card number
-            
-          </label>
-          <input type="text" data-stripe="number" name="number"  />
-        </p>
+        <div>
+        <label for="card">
+          Your card
+        </label>
+        <div id="card" class="field"></div>
+      </div>
 
-        <div style="display: flex; margin: 1em 0 1em 0">
-          <div>
-            <label for="month">Expiration date</label>
-            <div style="display: flex">
-              <input
-                name="exp-month"
-                maxlength="2"
-                placeholder="MM"
-                type="text"
-                data-stripe="exp-month" />
-              <input
-                name="exp-year"
-                maxlength="4"
-                placeholder="YYYY"
-                type="text"
-                size="4"
-                data-stripe="exp-year" />
-            </div>
-          </div>
 
-          <div>
-            <label for="cvc"
-              >CVC
-              <em
-                >The CVC is the 3- or 4-digit code on your card, separate from the
-                16-digit number.</em
-              >
-            </label>
-            <input type="text" size="4" data-stripe="cvc" id="cvc" name="cvc" />
-          </div>
-        </div>
-
-        <p style="margin: 0">
+        
+        <p style="margin-bottom: 0;">
           <label>Total due today</label>
         </p>
         <hr
@@ -89,11 +119,12 @@
           value="Subscribe"
           onclick="this.classList.add('working')" />
 
-          <p style="font-size: 12px;color:var(--light-text-color);text-align: center;">Powered by <svg class="Footer-PoweredBy-Icon" focusable="false" width="33" height="15" role="img" aria-labelledby="stripe-title"><title id="stripe-title">Stripe</title><g fill-rule="evenodd"><path d="M32.956 7.925c0-2.313-1.12-4.138-3.261-4.138-2.15 0-3.451 1.825-3.451 4.12 0 2.719 1.535 4.092 3.74 4.092 1.075 0 1.888-.244 2.502-.587V9.605c-.614.307-1.319.497-2.213.497-.876 0-1.653-.307-1.753-1.373h4.418c0-.118.018-.588.018-.804zm-4.463-.859c0-1.02.624-1.445 1.193-1.445.55 0 1.138.424 1.138 1.445h-2.33zM22.756 3.787c-.885 0-1.454.415-1.77.704l-.118-.56H18.88v10.535l2.259-.48.009-2.556c.325.235.804.57 1.6.57 1.616 0 3.089-1.302 3.089-4.166-.01-2.62-1.5-4.047-3.08-4.047zm-.542 6.225c-.533 0-.85-.19-1.066-.425l-.009-3.352c.235-.262.56-.443 1.075-.443.822 0 1.391.922 1.391 2.105 0 1.211-.56 2.115-1.39 2.115zM18.04 2.766V.932l-2.268.479v1.843zM15.772 3.94h2.268v7.905h-2.268zM13.342 4.609l-.144-.669h-1.952v7.906h2.259V6.488c.533-.696 1.436-.57 1.716-.47V3.94c-.289-.108-1.346-.307-1.879.669zM8.825 1.98l-2.205.47-.009 7.236c0 1.337 1.003 2.322 2.34 2.322.741 0 1.283-.135 1.581-.298V9.876c-.289.117-1.716.533-1.716-.804V5.865h1.716V3.94H8.816l.009-1.96zM2.718 6.235c0-.352.289-.488.767-.488.687 0 1.554.208 2.241.578V4.202a5.958 5.958 0 0 0-2.24-.415c-1.835 0-3.054.957-3.054 2.557 0 2.493 3.433 2.096 3.433 3.17 0 .416-.361.552-.867.552-.75 0-1.708-.307-2.467-.723v2.15c.84.362 1.69.515 2.467.515 1.879 0 3.17-.93 3.17-2.548-.008-2.692-3.45-2.213-3.45-3.225z"></path></g></svg></span>
+          <p style="font-size: 12px;color:var(--light-text-color);text-align: center;margin-top: 0;">Powered by <svg class="Footer-PoweredBy-Icon" focusable="false" width="33" height="15" role="img" aria-labelledby="stripe-title"><title id="stripe-title">Stripe</title><g fill-rule="evenodd"><path d="M32.956 7.925c0-2.313-1.12-4.138-3.261-4.138-2.15 0-3.451 1.825-3.451 4.12 0 2.719 1.535 4.092 3.74 4.092 1.075 0 1.888-.244 2.502-.587V9.605c-.614.307-1.319.497-2.213.497-.876 0-1.653-.307-1.753-1.373h4.418c0-.118.018-.588.018-.804zm-4.463-.859c0-1.02.624-1.445 1.193-1.445.55 0 1.138.424 1.138 1.445h-2.33zM22.756 3.787c-.885 0-1.454.415-1.77.704l-.118-.56H18.88v10.535l2.259-.48.009-2.556c.325.235.804.57 1.6.57 1.616 0 3.089-1.302 3.089-4.166-.01-2.62-1.5-4.047-3.08-4.047zm-.542 6.225c-.533 0-.85-.19-1.066-.425l-.009-3.352c.235-.262.56-.443 1.075-.443.822 0 1.391.922 1.391 2.105 0 1.211-.56 2.115-1.39 2.115zM18.04 2.766V.932l-2.268.479v1.843zM15.772 3.94h2.268v7.905h-2.268zM13.342 4.609l-.144-.669h-1.952v7.906h2.259V6.488c.533-.696 1.436-.57 1.716-.47V3.94c-.289-.108-1.346-.307-1.879.669zM8.825 1.98l-2.205.47-.009 7.236c0 1.337 1.003 2.322 2.34 2.322.741 0 1.283-.135 1.581-.298V9.876c-.289.117-1.716.533-1.716-.804V5.865h1.716V3.94H8.816l.009-1.96zM2.718 6.235c0-.352.289-.488.767-.488.687 0 1.554.208 2.241.578V4.202a5.958 5.958 0 0 0-2.24-.415c-1.835 0-3.054.957-3.054 2.557 0 2.493 3.433 2.096 3.433 3.17 0 .416-.361.552-.867.552-.75 0-1.708-.307-2.467-.723v2.15c.84.362 1.69.515 2.467.515 1.879 0 3.17-.93 3.17-2.548-.008-2.692-3.45-2.213-3.45-3.225z"></path></g></svg></span>
         </div>
         <input type="hidden" name="_csrf" value="{{ csrf }}" />
         <input type="hidden" class="stripeToken" name="stripeToken" />
         <div id="paypal_method" style="display: none">
+         
           <div id="paypal-button-container"></div>
         </div>  
       </form>
@@ -150,51 +181,90 @@
         .render("#paypal-button-container"); // Renders the PayPal button
     </script>
 
-    <script type="text/javascript" src="/js/jquery.js"></script>
-    <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
-    <script type="text/javascript">
-      // This identifies your website in the createToken call below
-      if (typeof Stripe !== "undefined")
-        Stripe.setPublishableKey("{{stripe_key}}");
-      $("form").submit(function (event) {
-        var $form = $(this);
-        // Disable the submit button
-        // to prevent repeated clicks
-        $form.find('[type="submit"]').prop("disabled", true);
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+ var stripe = Stripe('{{stripe_key}}');  // Use your actual publishable key
+  var elements = stripe.elements();
 
-        $("#error").hide();
+  var style = {
+    base: {
+      fontSize: '16px',
+      color: "#000",
+      iconColor: "#909bb0",
+      '::placeholder': {
+        color: "#909bb0"
+      },
+    }
+  };
 
-        // Validate the email address
-        var email = $('[name="email"]').val() || "";
-        var emailRegex = /[^\s@]+@[^\s@]+\.[^\s@]+/;
-        var email = email.replace(" ", "");
-        if (email === "" || !emailRegex.test(email)) {
-          $("#error").text("Please enter your email address.").show();
-          $('[type="submit"]').removeClass("working").prop("disabled", false);
-          $('[name="email"]').focus();
-          return false;
-        } else {
-          $('[name="email"]').val(email);
-        }
-        Stripe.card.createToken($form, function (status, response) {
-          if (response.error) {
-            $("#error").text(response.error.message).show();
-            $('[type="submit"]').removeClass("working").prop("disabled", false);
-          } else {
-            var token = response.id;
-            // response also contains card,
-            // which has additional card details
-            // Insert the token into the form so
-            // it gets submitted to the server
-            $form.find(".stripeToken").val(token);
-            $form.get(0).submit();
-          }
-        });
-        // Prevent the form from submitting with the default action
-        return false;
-      });
-    </script>
+
+  // Create a single card input
+  var card = elements.create('card', {style: style});
+
+  card.mount('#card');
+
+  function setFocusColor(elementId) {
+    document.getElementById(elementId).style.borderColor = 'var(--accent-color)';
+    document.querySelector('label[for="' + elementId + '"]').style.color = 'var(--accent-color)';
+  }
+
+  function resetFocusColor(elementId) {
+    document.getElementById(elementId).style.borderColor = 'var(--border-color)';
+    document.querySelector('label[for="' + elementId + '"]').style.color = '';
+  }
+
+  card.on('focus', function () {
+      // reset the error message and enable the submit button
+      document.getElementById('error').style.display = 'none';
+      document.querySelector('input[type="submit"]').classList.remove('working');
+      setFocusColor(card._parent.id);
+    });
+    card.on('blur', function () {
+      resetFocusColor(card._parent.id);
+    });
+
+  function renderError(message){
+    var errorElement = document.getElementById('error');
+        errorElement.textContent = message;
+        errorElement.style.display = 'block';
+        document.querySelector('input[type="submit"]').classList.remove('working');
+
+  }
+
+  var form = document.getElementById('payment-form');
+
+  form.addEventListener('submit', function(event) {
+
+    // update the class on the submit button to show that it is working
+    document.querySelector('input[type="submit"]').classList.add('working');
+
+    event.preventDefault();
+
+    // if the email is not valid, prevent the form from submitting
+    if (!document.querySelector('.email').checkValidity()) {
+      return       renderError('Please enter a valid email address');
+
+    }
+
+    stripe.createToken(card).then(function(result) {
+
+      if (result.error) {
+        // Inform the user if there was an error
+        renderError(result.error.message);
+      } else {
+        // Assume function stripeTokenHandler exists to handle the received token
+        stripeTokenHandler(result.token);
+      }
+    });
+  });
+
+  function stripeTokenHandler(token) {
+    var form = document.getElementById('payment-form');
+    var hiddenInput = document.querySelector('input.stripeToken');
+    hiddenInput.setAttribute('value', token.id);
+    form.submit();
+  }
+</script>
   </div>
 </form>
-</div>
-</div>
+</section>

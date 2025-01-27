@@ -18,15 +18,17 @@ module.exports = function (req, callback) {
       // Init an empty data structure
       years[year] = years[year] || {
         year: year,
-        months: {},
+        total: 0,
+        months: {}
       };
 
       years[year].months[month] = years[year].months[month] || {
         month: month,
-        entries: [],
+        entries: []
       };
 
       years[year].months[month].entries.push(entry);
+      years[year].total++;
     }
 
     for (var i in years) {
@@ -34,6 +36,7 @@ module.exports = function (req, callback) {
         years[i].months[j].s = years[i].months[j].entries.length > 1 ? "s" : "";
 
       years[i].months = arrayify(years[i].months);
+      years[i].s = years[i].total > 1 ? "s" : "";
     }
 
     years = arrayify(years).sort(function (a, b) {

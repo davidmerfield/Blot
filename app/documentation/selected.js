@@ -1,13 +1,18 @@
 var titleFromSlug = require("helper/titleFromSlug");
 
 var TITLES = {
-  "how": "How to use Blot",
+  "how": "Documentation",
   "terms": "Terms of use",
   "privacy": "Privacy policy",
-  "sync": "Sync your folder",
-  "configure": "Configure your site",
+  "posts": "Files and posts",
+  "sync": "Sync folder",
+  "org": "Org Mode",
+  "configure": "Set up site",
   "google-drive": "Google Drive",
-  "markdown": "Text and Markdown",
+  "sub-folders": "Sub-folders",
+  "google-docs": "Google Docs",
+  "examples": "Example sites",
+  "markdown": "Markdown",
   "word-documents": "Word Documents",
   "html": "HTML",
   "how-blot-works": "How Blot works",
@@ -15,7 +20,7 @@ var TITLES = {
   "urls": "URL format",
   "hard-stop-start-ec2-instance": "How to stop and start an EC2 instance",
   "who": "Who uses Blot?",
-  "developers": "Developer guide",
+  "developers": "Developers",
   "json-feed": "JSON feed",
   "posts-tagged": "A page with posts with a particular tag"
 };

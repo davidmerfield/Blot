@@ -1,0 +1,30 @@
+<table class="dns-records">
+    <thead>
+        <tr>
+            <th>Record type</th>
+            <th>Host</th>
+            <th>Value</th>
+            <th>TTL</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#subdomain}}
+        <tr>
+            <td>CNAME</td>
+            <td>{{subdomain}} <button type="button" class="copy"><span class="icon-copy"></span> Copy</button></td>
+            <td>blot.im <button type="button" class="copy"><span class="icon-copy"></span> Copy</button></td>
+            <td>Auto <button type="button" class="copy"><span class="icon-copy"></span> Copy</button></td>
+        </tr>
+        {{/subdomain}}
+        {{^subdomain}}
+        <tr>
+            <td>A</td>
+            <td>@ <button type="button" class="copy"><span class="icon-copy"></span> Copy</button></td>
+            <td>{{ip}} <button type="button" class="copy"><span class="icon-copy"></span> Copy</button></td>
+            <td>Auto <button type="button" class="copy"><span class="icon-copy"></span> Copy</button></td>
+        </tr>
+        {{/subdomain}}
+    </tbody>
+</table>
+
+

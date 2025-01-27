@@ -1,26 +1,23 @@
 const BLOT_DIRECTORY =
   process.env.BLOT_DIRECTORY || require("path").resolve(__dirname + "/../");
 const BLOT_HOST = process.env.BLOT_HOST || "localhost";
-const BLOT_PROTOCOL = process.env.BLOT_PROTOCOL || "http";
+const BLOT_PROTOCOL = process.env.BLOT_PROTOCOL || "https";
 const BLOT_PORT = process.env.BLOT_PORT || "8080";
-
-let BLOT_CDN;
-
-if (process.env.NODE_ENV === "production") {
-  BLOT_CDN = BLOT_PROTOCOL + "://cdn.blot.im";
-} else {
-  BLOT_CDN = BLOT_PROTOCOL + "://cdn." + BLOT_HOST;
-}
 
 const environment =
   process.env.NODE_ENV === "production" ? "production" : "development";
+
+const BLOT_CDN = BLOT_PROTOCOL + "://" + (process.env.NODE_ENV === "production" ? "cdn.blot.im" : "cdn." + BLOT_HOST);
+
+const reverse_proxies = process.env.BLOT_REVERSE_PROXY_URLS ? process.env.BLOT_REVERSE_PROXY_URLS.split(",") : environment === "production" ? ["http://127.0.0.1:80"] : [];
 
 module.exports = {
   // codebase expects either 'production' or 'development'
   environment,
   host: BLOT_HOST,
   // the first is in oregon, the second in frankfurt
-  reverse_proxies: environment === "production" ? ["127.0.0.1"] : [],
+  // we need this to purge the cache stored in each proxy
+  reverse_proxies,
   protocol: BLOT_PROTOCOL + "://",
   pidfile: BLOT_DIRECTORY + "/data/process.pid",
 
@@ -28,7 +25,7 @@ module.exports = {
     server_host: "webhooks." + BLOT_HOST,
     // replace with "webhooks.blot.development" to test
     relay_host: environment === "development" && "webhooks.blot.im",
-    development_host: "blot.development",
+    development_host: "local.blot",
     secret: process.env.BLOT_WEBHOOKS_SECRET
   },
 
@@ -36,6 +33,9 @@ module.exports = {
   cache: process.env.BLOT_CACHE === "true",
   debug: process.env.BLOT_DEBUG === "true",
 
+  tmp_directory: process.env.BLOT_TMP_DIRECTORY || BLOT_DIRECTORY + "/data/tmp",
+  log_directory:
+    process.env.BLOT_LOG_DIRECTORY || BLOT_DIRECTORY + "/data/logs",
   blot_directory: BLOT_DIRECTORY,
   blog_static_files_dir: BLOT_DIRECTORY + "/data/static",
   blog_folder_dir: BLOT_DIRECTORY + "/data/blogs",
@@ -47,7 +47,7 @@ module.exports = {
   port: BLOT_PORT,
   clients_port: 8888,
 
-  redis: { port: 6379, host: process.env.BLOT_REDIS_HOST },
+  redis: { port: 6379, host: process.env.BLOT_REDIS_HOST || "127.0.0.1" },
 
   admin: {
     uid: process.env.BLOT_ADMIN_UID,
@@ -90,7 +90,7 @@ module.exports = {
   },
 
   pandoc: {
-    bin: process.env.BLOT_PANDOC_PATH,
+    bin: process.env.BLOT_PANDOC_PATH || "pandoc",
     maxmemory: "500M", // 500mb
     timeout: 10000 // 10s
   },
@@ -133,7 +133,7 @@ module.exports = {
   mailgun: {
     key: process.env.BLOT_MAILGUN_KEY,
     domain: "blot.im",
-    from: "David Merfield <david@blot.im>"
+    from: "Blot <contact@blot.im>"
   },
 
   backup: {

@@ -20,7 +20,7 @@ module.exports = function checkReset(req, res, next) {
 
     res.locals.sent = true;
     res.locals.hasPassword = hasPassword;
-    res.render("log-in/reset");
+    res.render("dashboard/log-in/reset");
   });
 };
 
@@ -34,10 +34,10 @@ function sendPasswordResetEmail(uid, callback) {
     url = format({
       protocol: "https",
       host: config.host,
-      pathname: "/dashboard/log-in",
+      pathname: "/sites/log-in",
       query: {
         token: token,
-        then: "/dashboard/account/password/set",
+        then: "/sites/account/password/set",
       },
     });
 

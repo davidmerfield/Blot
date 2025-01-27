@@ -1,0 +1,9 @@
+# Tools
+
+Our design workflow builds upon our previous work. We suppress the impulse to start from scratch. Generally, when something complicated needs to be worked out, we make lots of protoypes. We explore different ideas on different branches of our git repo.
+
+- **Pen and paper**
+- **Browser developer tools** 
+- **Git**
+
+We do not use tools like Figma or Photoshop to prototype designs. They exist either on paper or as usable HTML. Nothing in between.

@@ -2,14 +2,14 @@ var Express = require("express");
 var Password = new Express.Router();
 var User = require("models/user");
 var checkPassword = require("./util/checkPassword");
-var parse = require("dashboard/parse");
+const parse = require("dashboard/util/parse");
 
 Password.route("/")
 
   .all(requireExisting)
 
   .get(function (req, res) {
-    res.render("account/change-password", {
+    res.render("dashboard/account/change-password", {
       breadcrumb: "Password",
       title: "Change your password",
     });
@@ -22,7 +22,7 @@ Password.route("/set")
   .all(requireTokenOrLackOfPassword)
 
   .get(function (req, res) {
-    res.render("account/set-password", {
+    res.render("dashboard/account/set-password", {
       title: "Set your password",
     });
   })
@@ -66,7 +66,7 @@ function save(req, res, next) {
 
     User.set(req.user.uid, { passwordHash: passwordHash }, function (err) {
       if (err) return next(err);
-      res.message("/dashboard", "Saved your new password");
+      res.message("/sites", "Saved your new password");
     });
   });
 }

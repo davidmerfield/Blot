@@ -2,7 +2,7 @@ var Express = require("express");
 var news = new Express.Router();
 var fs = require("fs-extra");
 var Email = require("helper/email");
-var marked = require("marked");
+const { marked } = require("marked");
 var parse = require("body-parser").urlencoded({ extended: false });
 var uuid = require("uuid/v4");
 var config = require("config");
@@ -43,7 +43,7 @@ const nextNewsletter = () => {
   } else if (now.isSame(date, "month")) {
     modifiedFromNow = "in a few weeks";
   } else {
-    modifiedFromNow = date.fromNow();
+    modifiedFromNow = moment(date).fromNow();
   }
 
   return { season, fromNow: modifiedFromNow };
@@ -215,8 +215,12 @@ news.post("/sign-up", parse, function (req, res, next) {
 
 function loadToDo (req, res, next) {
   fs.readFile(join(root, "todo.txt"), "utf-8", function (err, todo) {
-    if (err) return next(err);
-    res.locals.todo = marked(todo);
+    if (err) {
+      console.log(err);
+      res.locals.todo = "";
+      return next();
+    }
+    res.locals.todo = marked.parse(todo);
 
     var html = res.locals.todo;
     var $ = require("cheerio").load(html);

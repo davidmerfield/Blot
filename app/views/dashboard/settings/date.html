@@ -1,22 +1,9 @@
-{{> form-header}}
-<input type="hidden" name="redirect" value="{{{base}}}/date" />
-<style type="text/css">
-  form label {
-    text-transform: none;
-    letter-spacing: 0;
-    font-size: 16px
-  }
+{{> message}}
 
-  form .line {padding-top: 16px;padding-bottom: 16px}
-  p a {
-    color: var(--accent-color);
-    text-decoration: none
-  }
+<form class="dashboard-form" method="POST">
 
-  p a:hover {
-    text-decoration: underline;
-  }
-</style>
+    <input type="hidden" name="_csrf" value="{{csrftoken}}" />
+
 
 <p>
   <label>
@@ -39,4 +26,32 @@
     </select>
   </label>
 </p>
-{{> form-footer}}
+
+<div class="buttons">
+	<button type="submit">
+		Save changes
+	</button>
+	<a href="{{{base}}}">Cancel</a>
+</div>
+</form>
+
+
+
+<style type="text/css">
+  form label {
+    text-transform: none;
+    letter-spacing: 0;
+    font-size: 16px
+  }
+
+  form .line {padding-top: 16px;padding-bottom: 16px}
+  p a {
+    color: var(--accent-color);
+    text-decoration: none
+  }
+
+  p a:hover {
+    text-decoration: underline;
+  }
+</style>
+

@@ -4,10 +4,14 @@ describe("summary", function () {
 
   beforeEach(function () {
     this.summary = function (input) {
-      var $ = cheerio.load(input.html, {
-        decodeEntities: false,
-        withDomLvl1: false, // this may cause issues?
-      });
+      var $ = cheerio.load(
+        input.html,
+        {
+          decodeEntities: false,
+          withDomLvl1: false // this may cause issues?
+        },
+        false
+      );
 
       return summary($, input.title || "");
     };
@@ -17,7 +21,7 @@ describe("summary", function () {
     expect(
       this.summary({
         title: "",
-        html: "",
+        html: ""
       })
     ).toEqual("");
   });
@@ -25,7 +29,7 @@ describe("summary", function () {
   it("is the text of the first paragraph", function () {
     expect(
       this.summary({
-        html: "<p>H</p>",
+        html: "<p>H</p>"
       })
     ).toEqual("H");
   });
@@ -33,7 +37,7 @@ describe("summary", function () {
   it("contains text inside inline elements", function () {
     expect(
       this.summary({
-        html: "<p>H<b>ell</b>o</p>",
+        html: "<p>H<b>ell</b>o</p>"
       })
     ).toEqual("Hello");
   });
@@ -42,7 +46,7 @@ describe("summary", function () {
     expect(
       this.summary({
         html: "<p>Ad&nbsp;Fontes</p><p>Lucili</p>",
-        title: "Ad Fontes",
+        title: "Ad Fontes"
       })
     ).toEqual("Lucili");
   });
@@ -51,7 +55,7 @@ describe("summary", function () {
     expect(
       this.summary({
         html: "<p>Hello</p><p>World</p>",
-        title: "Hello",
+        title: "Hello"
       })
     ).toEqual("World");
   });
@@ -61,7 +65,7 @@ describe("summary", function () {
     expect(
       this.summary({
         html: "<p>Hello</p><p>World</p>",
-        title: "Hello",
+        title: "Hello"
       })
     ).toEqual("World");
   });
@@ -69,8 +73,7 @@ describe("summary", function () {
   it("will not contain or truncate long words", function () {
     expect(
       this.summary({
-        html:
-          "<p>Hello there helloooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo.</p>",
+        html: "<p>Hello there helloooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo.</p>"
       })
     ).toEqual("Hello there");
   });
@@ -78,7 +81,7 @@ describe("summary", function () {
   it("decodes HTML entities", function () {
     expect(
       this.summary({
-        html: "<p>Hello & &amp; foo</p><p>there</p>",
+        html: "<p>Hello & &amp; foo</p><p>there</p>"
       })
     ).toEqual("Hello & & foo there");
   });

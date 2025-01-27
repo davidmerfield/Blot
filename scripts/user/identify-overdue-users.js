@@ -2,29 +2,29 @@ const each = require("../each/user");
 const child_process = require("child_process");
 const { blog_static_files_dir, blog_folder_dir } = require("config");
 const prettySize = require("helper/prettySize");
+const yesno = require("yesno");
+
 let rolling_total = 0;
 
 each(
   function (user, next) {
     if (
-      user.isDisabled ||
-      (user.subscription && user.subscription.status === "unpaid")
-    ) {
-      // new Date(user.subscription.current_period_end * 1000)
+      user.isDisabled ||  (user.subscription && user.subscription.status === "unpaid")) {
 
       let user_total = 0;
-      // user.blogs is an array of blogIDs
       for (const blogID of user.blogs) {
-        // console.log("blogID", blogID);
 
         try {
-          const static_space_used = child_process
+          const static_space_used = fs.existsSync(`${blog_static_files_dir}/${blogID}`) ?
+            child_process
             .execSync(`du -sb ${blog_static_files_dir}/${blogID}`)
-            .toString();
+            .toString() : "0\t0";
 
-          const folder_space_used = child_process
+          const folder_space_used = fs.existsSync(`${blog_folder_dir}/${blogID}`) ?
+          
+          child_process
             .execSync(`du -sb ${blog_folder_dir}/${blogID}`)
-            .toString();
+            .toString() : "0\t0";
 
           const static_space_used_in_bytes = parseInt(
             static_space_used.trim().split("\t")[0]

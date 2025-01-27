@@ -120,4 +120,4 @@ function read(blog, path, options, callback) {
   });
 }
 
-module.exports = { is: is, read: read };
+module.exports = { is: is, read: read, id: "webloc"};

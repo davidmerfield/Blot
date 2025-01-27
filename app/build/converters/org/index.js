@@ -3,14 +3,15 @@ var ensure = require("helper/ensure");
 var LocalPath = require("helper/localPath");
 var time = require("helper/time");
 var extname = require("path").extname;
-
+var Metadata = require("build/metadata");
 var convert = require("./convert");
+const { lte } = require("lodash");
 
-function is(path) {
+function is (path) {
   return [".org"].indexOf(extname(path).toLowerCase()) > -1;
 }
 
-function read(blog, path, options, callback) {
+function read (blog, path, options, callback) {
   ensure(blog, "object")
     .and(path, "string")
     .and(options, "object")
@@ -27,13 +28,24 @@ function read(blog, path, options, callback) {
 
     time("readFile");
 
-    fs.readFile(localPath, "utf-8", function (err, text) {
+    fs.readFile(localPath, "utf-8", function (err, contents) {
       time.end("readFile");
 
       if (err) return callback(err);
 
-      convert(blog, text, options, function (err, html) {
+      const { html, metadata } = Metadata(contents);
+
+      convert(blog, html, options, function (err, html) {
         if (err) return callback(err);
+
+        let metadataString = "<!--";
+
+        for (var i in metadata) metadataString += "\n" + i + ": " + metadata[i];
+
+        if (metadataString !== "<!--") {
+          metadataString += "\n-->\n";
+          html = metadataString + html;
+        }
 
         callback(null, html, stat);
       });
@@ -41,4 +53,4 @@ function read(blog, path, options, callback) {
   });
 }
 
-module.exports = { read: read, is: is };
+module.exports = { read: read, is: is, id: "org"};

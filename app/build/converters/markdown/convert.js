@@ -11,6 +11,11 @@ var debug = require("debug")("blot:converters:markdown");
 
 module.exports = function (blog, text, options, callback) {
   var extensions =
+
+    // resolves issue with html tags in markdown
+    // producing extra <p> tags (see ./tests/examples/mix-of-html-and-markdown.txt)
+    "-native_divs" +
+
     // replace url strings with a tags
     "+autolink_bare_uris" +
     // wikilinks

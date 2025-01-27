@@ -1,0 +1,10 @@
+Suspected fradulent users
+
+Our script detected new Stripe customers without corresponding Blot accounts. This often correlates with card-testing activity.
+
+{{#customers}}
+No user found for customer {{id}} with email {{email}}
+https://dashboard.stripe.com/customers/{{id}}
+node scripts/user/refund-and-delete.js {{id}}
+
+{{/customers}}

@@ -8,11 +8,11 @@ var cheerio = require("cheerio");
 var extend = require("helper/extend");
 var convert = require("./convert");
 
-function is(path) {
+function is (path) {
   return [".rtf"].indexOf(extname(path).toLowerCase()) > -1;
 }
 
-function read(blog, path, options, callback) {
+function read (blog, path, options, callback) {
   ensure(blog, "object")
     .and(path, "string")
     .and(options, "object")
@@ -37,10 +37,9 @@ function read(blog, path, options, callback) {
       convert(blog, text, options, function (err, html) {
         if (err) return callback(err);
         var metadata = {};
-        var $ = cheerio.load(html, { decodeEntities: false });
+        var $ = cheerio.load(html, { decodeEntities: false }, false);
 
         $("p").each(function (i) {
-          
           if (i === 0 && $(this).prev().length) {
             return false;
           }
@@ -84,4 +83,4 @@ function read(blog, path, options, callback) {
   });
 }
 
-module.exports = { read: read, is: is };
+module.exports = { read: read, is: is, id: "rtf"};

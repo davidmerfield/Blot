@@ -2,6 +2,7 @@ const Express = require("express");
 const urlencoded = Express.urlencoded({
   extended: true
 });
+const Email = require("helper/email");
 
 const lookup = tag =>
   map[tag] || (tag[0].toUpperCase() + tag.slice(1)).replace(/-/g, " ");
@@ -15,18 +16,16 @@ const moment = require("moment");
 const config = require("config");
 const fetch = require("node-fetch");
 
-const proxy_hosts = config.reverse_proxies;
+const reverse_proxy_urls = config.reverse_proxies;
 
 const flush = () => {
-  proxy_hosts.forEach(host => {
-    fetch("http://" + host + "/purge?host=" + config.host, {
-      method: "PURGE"
-    })
+  reverse_proxy_urls.forEach(reverse_proxy_url => {
+    fetch(reverse_proxy_url + "/purge?host=" + config.host)
       .then(res => {
-        console.log("proxy: " + host + " flushed:" + config.host);
+        console.log("proxy: " + reverse_proxy_url + " flushed:" + config.host);
       })
       .catch(e => {
-        console.log("proxy: " + host + " failed to flush: " + config.host);
+        console.log("proxy: " + reverse_proxy_url + " failed to flush: " + config.host);
       });
   });
 };
@@ -35,7 +34,7 @@ const { tags, create, update, list, get, search } = require("models/question");
 const render = require("./render");
 const Paginator = require("./paginator");
 
-Questions.use(["/ask", "/:id/edit", "/:id/new"], require("dashboard/session"));
+Questions.use(["/ask", "/:id/edit", "/:id/new"], require("dashboard/util/session"));
 Questions.use(["/ask", "/:id/edit", "/:id/new"], urlencoded);
 
 Questions.get("/search", async (req, res) => {
@@ -74,7 +73,7 @@ Questions.use(function (req, res, next) {
 Questions.get("/feed.rss", async function (req, res) {
   res.locals.url = config.protocol + config.host;
   res.locals.title = "Questions";
-  const { questions } = await list({ by_created: true });
+  const { questions } = await list({ sort: 'by_created' });
 
   res.locals.topics = questions;
 
@@ -140,6 +139,43 @@ Questions.get(["/", "/page-:page"], async function (req, res, next) {
   res.render("questions");
 });
 
+// Topics are sorted by datetime of last reply, then by topic creation date
+Questions.get(["/replies", "/replies/page-:page"], async function (req, res, next) {
+  const page = req.params.page ? parseInt(req.params.page) : 1;
+
+  if (!Number.isInteger(page)) {
+    return next();
+  }
+
+  const { questions, stats } = await list({ page, page_size: 20, sort: 'by_number_of_replies' });
+
+  res.locals.breadcrumbs = res.locals.breadcrumbs.slice(0, 1);
+  
+  res.locals.topics = questions;
+
+  // We preview one line of the topic body on the question index page
+  res.locals.topics.forEach(function (topic) {
+    const { body, summary } = render(topic.body);
+    topic.body = body;
+    topic.summary = summary;
+    topic.singular = topic.number_of_replies === 1;
+
+    topic.tags = topic.tags.map(tag => {
+      return { tag, slug: tag };
+    });
+  });
+
+  res.locals.title = page > 1 ? `Page ${page} - Questions` : "Questions";
+  res.locals.paginator = Paginator(
+    page,
+    stats.page_size,
+    stats.total,
+    "/questions/replies"
+  );
+
+  res.render("questions");
+});
+
 Questions.route(["/tags", "/tags/page-:page"]).get(async function (
   req,
   res,
@@ -167,25 +203,31 @@ Questions.route(["/tags", "/tags/page-:page"]).get(async function (
 // Handle topic viewing and creation
 Questions.route("/ask")
   .get(function (req, res) {
-    if (!req.session || !req.session.uid)
-      return res.redirect("/log-in?then=/questions/ask");
+    res.locals.authenticated = req.session && req.session.uid;
     res.render("questions/ask");
   })
   .post(async (req, res, next) => {
-    if (!req.session || !req.session.uid)
-      return res.redirect("/log-in?then=/questions/ask");
     const author = req.session.uid;
     const title = req.body.title;
     const tags = req.body.tags;
     const body = req.body.body;
+    const email = req.body.email;
     // Disallow empty title or body.
     // TODO: show error message, do not lose form data
     if (title.trim().length === 0 || body.trim().length === 0)
       return next(new Error("Title and body must be set"));
     else {
-      const { id } = await create({ author, title, body, tags });
-      flush();
-      res.redirect("/questions/" + id);
+      // if the user is not logged in, send an email to the admin
+      // to manually post the question
+      if (!req.session || !req.session.uid) {
+        const questionURL = config.protocol + config.host + "/sites/log-in?then=" + encodeURIComponent("/questions/ask?title=" + encodeURIComponent(title) + "&body=" + encodeURIComponent(body));
+        Email.QUESTION(null, { title, body, questionURL, email, replyTo: email });
+        res.send("OK");
+      } else {
+        const { id } = await create({ author, title, body, tags });
+        flush();
+        res.redirect("/questions/" + id);  
+      }
     }
   });
 
@@ -248,13 +290,15 @@ Questions.route("/:id").get(async (req, res, next) => {
   });
 
   res.locals.title = topic.title;
-  res.locals.topics = topic.replies.map(reply => {
-    reply.body = render(reply.body).body;
-    reply.answered = moment(reply.created_at).fromNow();
-    reply.answeredDateStamp = moment(reply.created_at).valueOf();
+  res.locals.topics = topic.replies
+    .filter(reply => !!reply.body)
+    .map(reply => {
+      reply.body = render(reply.body).body;
+      reply.answered = moment(reply.created_at).fromNow();
+      reply.answeredDateStamp = moment(reply.created_at).valueOf();
+      return reply;
+    });
 
-    return reply;
-  });
   res.locals.topic = topic;
   res.render("questions/topic");
 });

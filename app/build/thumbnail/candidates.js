@@ -20,7 +20,7 @@ module.exports = function (metadata, html) {
     candidates.push(metadata.thumbnail);
   }
 
-  const $ = cheerio.load(html, { decodeEntities: false });
+  const $ = cheerio.load(html, { decodeEntities: false }, false);
 
   $("img, .videoContainer iframe").each(function () {
     try {

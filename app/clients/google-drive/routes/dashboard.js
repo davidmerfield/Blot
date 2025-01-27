@@ -83,8 +83,6 @@ dashboard.get("/redirect", function (req, res) {
     sameSite: "Lax" // otherwise we will not see it
   });
 
-  console.log("redirecting to", REDIRECT_URL);
-
   res.redirect(
     oauth2Client.generateAuthUrl({
       access_type: "offline",
@@ -242,7 +240,7 @@ const setUpBlogFolder = async function (blog) {
 
     let error = "Failed to set up account";
 
-    if ((e.message = "Permission to set up revoked")) {
+    if (e.message === "Permission to set up revoked") {
       error = null;
     }
 

@@ -2,24 +2,24 @@
   {{^selected.dropbox}}
   <li>
     <a href="/how/sync/dropbox">
-      <img src="/images/sync/dropbox.svg" />
-      <span class="a">Dropbox</span>Use a folder in your Dropbox</a
+      <img src="{{#cdn}}/images/sync/dropbox.svg{{/cdn}}" />
+      <span class="a">Dropbox</span>Use a folder in Dropbox. {{> chevron}}</a
     >
   </li>
   {{/selected.dropbox}}
   {{^selected.git}}
   <li>
     <a href="/how/sync/git">
-      <img src="/images/sync/git.svg" />
-      <span class="a">Git</span>Use a git repository
+      <img src="{{#cdn}}/images/sync/git.svg{{/cdn}}" />
+      <span class="a">Git</span>Use a git repository. {{> chevron}}
     </a>
   </li>
   {{/selected.git}}
   {{^selected.google-drive}}
   <li>
     <a href="/how/sync/google-drive">
-      <img src="/images/sync/google-drive.svg" />
-      <span class="a">Google Drive</span>Use a folder in your Drive</a
+      <img src="{{#cdn}}/images/sync/google-drive.svg{{/cdn}}" />
+      <span class="a">Google Drive</span>Use a folder in Drive. {{> chevron}}</a
     >
   </li>
   {{/selected.google-drive}}

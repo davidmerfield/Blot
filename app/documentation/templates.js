@@ -1,135 +1,146 @@
 const config = require("config");
 const fs = require("fs-extra");
-const marked = require("marked");
+const { marked } = require("marked");
 const prettySize = require("helper/prettySize");
-const templatesDirectory = __dirname + "/../templates/latest";
-const foldersDirectory = __dirname + "/../templates/folders";
+const path = require("path");
 
+const templatesDirectory = path.join(__dirname, "../templates/latest");
+const archivedTemplatesDirectory = path.join(__dirname, "../templates/past");
+const foldersDirectory = path.join(__dirname, "../templates/folders");
 const { getMetadata } = require("models/template");
 
-const getTemplate = slug =>
-  new Promise((resolve, reject) => {
-    getMetadata("SITE:" + slug, (err, template) => {
-      if (err) return reject(err);
+const categories = [
+  {
+    name: "Blog",
+    slug: "blog",
+    templates: [
+      "blog",
+      "blank",
+      "isola",
+      "marfa"
+    ]
+  },
+  {
+    name: "Personal & CV",
+    slug: "personal",
+    templates: [
+      "portfolio",
+    ]
+  }
+];
 
-      resolve(template);
+// Helper function to get template metadata
+const getTemplate = async slug => {
+  try {
+    return await new Promise((resolve, reject) => {
+      getMetadata("SITE:" + slug, (err, template) => {
+        if (err) return reject(err);
+        resolve(template);
+      });
     });
-  });
+  } catch (error) {
+    return null;
+  }
+};
 
-const folders = fs
-  .readdirSync(foldersDirectory)
-  .filter(i => !i.startsWith(".") && !i.endsWith(".js") && !i.endsWith(".md"))
-  .map(i => {
+// Load folders
+const loadFolders = async () => {
+  const folderNames = await fs.readdir(foldersDirectory);
+  return folderNames
+    .filter(i => !i.startsWith(".") && !i.endsWith(".js") && !i.endsWith(".md"))
+    .map(i => ({
+      name: i[0].toUpperCase() + i.slice(1),
+      demo_folder: i,
+      source: `https://github.com/davidmerfield/Blot/tree/master/app/templates/folders/${i}`,
+      slug: i
+    }));
+};
+
+// Load templates
+const loadTemplates = async () => {
+  const latestTemplateFiles = await fs.readdir(templatesDirectory);
+  const archivedTemplateFiles = await fs.readdir(archivedTemplatesDirectory);
+  const templateFiles = [...latestTemplateFiles, ...archivedTemplateFiles]
+    .filter(i => !i.startsWith(".") && !i.endsWith(".js") && !i.endsWith(".md") && !i.includes("wordpress-export"));
+
+  const templates = await Promise.all(templateFiles.map(async i => {
+    const template = await getTemplate(i);
+    if (!template) return null;
+    const demo_folder = template.locals.demo_folder || "david";
     return {
       name: i[0].toUpperCase() + i.slice(1),
-      slug: i
+      slug: i,
+      demo_folder,
+      source: `https://github.com/davidmerfield/Blot/tree/master/app/templates/${ latestTemplateFiles.includes(i) ? 'latest' : 'past'}/${i}`,
+
     };
-  });
+  }));
 
-const templates = fs
-  .readdirSync(templatesDirectory)
-  .filter(i => !i.startsWith(".") && !i.endsWith(".js") && !i.endsWith(".md"))
-  .map(
-    async i =>
-      new Promise((resolve, reject) => {
-        getTemplate(i)
-          .catch(reject)
-          .then(template => {
-            if (!template) return resolve();
-            const demo_folder = template.locals.demo_folder;
-            resolve({
-              name: i[0].toUpperCase() + i.slice(1),
-              slug: i,
-              demo_folder
-            });
-          });
-      })
+  const folders = (await loadFolders()).filter(
+    folder => !templates.some(template => template.demo_folder === folder.slug)
   );
 
+  return folders.concat(templates.filter(i => i));
+};
+
+// Middleware function
 module.exports = async (req, res, next) => {
-  res.locals.allTemplates = await Promise.all(templates);
+  try {
 
-  // only include folders that are not used as templates
-  res.locals.allFolders = folders.filter(
-    i =>
-      !Object.values(res.locals.allTemplates)
-        .map(t => t.demo_folder)
-        .includes(i.slug)
-  );
+    res.locals.categories = categories.slice(0).map(category => {
+      category.selected = category.slug === req.params.type ? 'selected' : '';
+      return category;
+    });
 
-  if (req.params.template) {
-    try {
+    res.locals.allTemplates = await loadTemplates();
+
+    if (req.params.type) {
+      res.locals.category = req.params.type;
+      res.locals.allTemplates = res.locals.allTemplates.filter(
+        t => categories.find(c => c.slug === req.params.type).templates.includes(t.slug)
+      );
+    } 
+
+    if (req.params.template) {
       const template = res.locals.allTemplates.find(
-        i => i.slug === req.params.template
+        t => t.slug === req.params.template
       );
 
-      if (!template) return next();
+      if (template) {
+        res.locals.template = { ...template };
 
-      res.locals.template = {
-        ...template
-      };
+        const preview_host = template.demo_folder === req.params.template ?
+        `${template.demo_folder}.${config.host}`
+         : 
+          `preview-of-${req.params.template}-on-${template.demo_folder}.${config.host}`;
+        res.locals.template.preview = `${config.protocol}${preview_host}`;
+        res.locals.template.preview_host = preview_host;
 
-      const preview_host =
-        "preview-of-" +
-        req.params.template +
-        "-on-" +
-        template.demo_folder +
-        "." +
-        config.host;
+        const zip_name = `${template.demo_folder}.zip`;
+        const zip = `/folders/${zip_name}`;
+        const pathToZip = path.join(config.blot_directory, "app/documentation/data", zip);
 
-      res.locals.template.preview = config.protocol + preview_host;
-      res.locals.template.preview_host = preview_host;
+        if (await fs.pathExists(pathToZip)) {
+          res.locals.template.zip = zip;
+          res.locals.template.zip_name = zip_name;
+          res.locals.template.zip_size = prettySize(
+            (await fs.stat(pathToZip)).size / 1000,
+            1
+          );
 
-      const zip_name = template.demo_folder + ".zip";
-      const zip = "/folders/" + zip_name;
-      const pathToZip = config.blot_directory + "/app/documentation/data" + zip;
+          const readmePath = path.join(templatesDirectory, req.params.template, "README");
+          if (await fs.pathExists(readmePath)) {
+            res.locals.template.README = marked.parse(
+              await fs.readFile(readmePath, "utf8")
+            );
+          }
+        }
+      }
+    }
 
-      res.locals.template.zip = zip;
-      res.locals.template.zip_name = zip_name;
 
-      console.log(
-        "pathToZip",
-        pathToZip,
-        "zipExists",
-        fs.existsSync(pathToZip)
-      );
-
-      res.locals.template.zip_size = prettySize(
-        fs.statSync(pathToZip).size / 1000,
-        1
-      );
-
-      res.locals.template.README = marked(
-        await fs.readFile(
-          templatesDirectory + "/" + req.params.template + "/README",
-          "utf8"
-        )
-      );
-    } catch (e) {}
+    next();
+  } catch (error) {
+    next(error);
   }
-
-  if (req.params.folder) {
-    const folder = folders.find(i => i.slug === req.params.folder);
-
-    if (!folder) return next();
-
-    res.locals.folder = { ...folder };
-
-    res.locals.folder.preview_host = folder.slug + "." + config.host;
-    res.locals.folder.preview =
-      config.protocol + res.locals.folder.preview_host;
-
-    const zip_name = folder.slug + ".zip";
-    const zip = "/folders/" + zip_name;
-    const pathToZip = config.blot_directory + "/app/documentation/data" + zip;
-
-    res.locals.folder.zip = zip;
-    res.locals.folder.zip_name = zip_name;
-    res.locals.folder.zip_size = prettySize(
-      fs.statSync(pathToZip).size / 1000,
-      1
-    );
-  }
-
-  next();
 };

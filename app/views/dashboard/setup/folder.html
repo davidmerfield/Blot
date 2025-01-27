@@ -1,0 +1,22 @@
+{{> steps}}
+
+
+<form method="POST">
+    <input type="hidden" name="_csrf" value="{{ csrf }}" />
+
+    {{#clients}}
+    <input type="hidden" name="_csrf" value="{{csrftoken}}">
+
+    <button type="submit" name="client" value="{{name}}">
+     {{display_name}}
+    </button>
+    {{/clients}}
+
+    <a href="{{{base}}}/setup" class="button">
+        Previous
+    </a>
+
+    <button class="button" type="submit">Next</button>
+</form>
+
+{{> setup-footer}}

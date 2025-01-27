@@ -5,7 +5,7 @@ var User = require("models/user");
 var prettyPrice = require("helper/prettyPrice");
 var Express = require("express");
 var PaySubscription = new Express.Router();
-var parse = require('dashboard/parse');
+const parse = require("dashboard/util/parse");
 
 PaySubscription.route("/")
 
@@ -21,7 +21,7 @@ PaySubscription.route("/")
   // the payment form on the dashboard.
   .get(listUnpaidInvoices)
   .get(function (req, res) {
-    res.render("account/pay-subscription", {
+    res.render("dashboard/account/pay-subscription", {
       stripe_key: config.stripe.key,
       title: "Restart subscription",
     });
@@ -33,7 +33,7 @@ PaySubscription.route("/")
   .post(payUnpaidInvoices)
   .post(updateSubscription)
   .post(function (req, res) {
-    res.message("/", "Payment recieved, thank you!");
+    res.message("/sites", "Payment recieved, thank you!");
   });
 
 function checkCustomer(req, res, next) {
@@ -41,11 +41,11 @@ function checkCustomer(req, res, next) {
   req.subscription = req.user.subscription && req.user.subscription.id;
 
   if (!req.customer) {
-    return res.message("/", "You are not a customer!");
+    return res.message("/sites", "You are not a customer!");
   }
 
   if (!req.subscription) {
-    return res.message("/", "You need to have a subscription!");
+    return res.message("/sites", "You need to have a subscription!");
   }
 
   next();
@@ -62,7 +62,7 @@ function listUnpaidInvoices(req, res, next) {
     });
 
     if (!res.locals.amountDue) {
-      return res.message("/", "Thank you, your account is in good standing!");
+      return res.message("/sites", "Thank you, your account is in good standing!");
     }
 
     res.locals.amountDue = prettyPrice(res.locals.amountDue);

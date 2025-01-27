@@ -47,11 +47,11 @@ const render = async function (filePath, options, callback) {
 
     const transformers = [
       ...(options.settings.transformers || []),
-      ...(options.transformers || []),
-    ].filter((i) => typeof i === "function");
+      ...(options.transformers || [])
+    ].filter(i => typeof i === "function");
 
     if (transformers.length) {
-      const $ = cheerio.load(result, { decodeEntities: false });
+      const $ = cheerio.load(result, { decodeEntities: false }, false);
       for (const transformer of transformers) {
         transformer($);
       }

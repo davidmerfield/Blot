@@ -1,61 +1,294 @@
-Work out why [Darren cannot open the template editor](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJSBJCRPJsLFddJCNzTnnQgjs)
+Fix missing 'views' property of templates in package.json after downloading a template through the web template editor.
 
-Containerize blot and tell [Aurnik](https://mail.google.com/mail/u/0/#inbox/QgrcJHsNjqKGDkvkThlkNqcZCWVFDfckjCg)
+Fix bug with pages not appearing in backlinks and [tell questioner](https://blot.im/questions/2913)
 
-Fix Google Drive sync bug
+Surface Blot client sync errors on dashboard, add email notifications for errors
+- surface dropbox out of space error
 
-Fix bug with 'slug' metadata and tell [questioner](https://blot.im/questions/2286)
+Fix local template editing bug 
+- tell [Darren](https://mail.google.com/mail/u/1/#inbox/FMfcgzQXJkXrrLBdCgVqnZppnbwHMgjx)
+- [Ty](https://mail.google.com/mail/u/1/#inbox/FMfcgzQXKhGGvtTbGGhbxzHdWkFtnMhS)
+- [Haider](https://mail.google.com/mail/u/1/#inbox/FMfcgzQXKhGHGKDtgNPRrVlpwHThCJnL)
 
-Fix bug with date settings on the template editor for [magazine template](https://blot.im/questions/2244)
+Fix thumbnail generator to handle 304 responses properly. Right now, you can fetch image and then encounter 304 response. 
 
-Preserve ICC color profiles and tell [Simon](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJchvfhDcWNkrZtNJqlLmLfsx)
+Fix duplicate GUID issue caused by renames and tell [Paul](https://mail.google.com/mail/u/1/#inbox/FMfcgzQVxlQFSLBmzLfsBlQSTTcmqjGc)
+
+Fix bug with magic text in posts which breaks backend and tell [Victor](https://mail.google.com/mail/u/1/#inbox/FMfcgzQVxRMzjBtRWVwLWtlBcFGsSVCQ)
+
+Add layout fix to blog template and [tell Lewis](https://mail.google.com/mail/u/1/#inbox/FMfcgzQVzFWlSFWmjZrDMrMjPtmtWwQc)
+
+Fix bug with site export and [contact Ryan](https://mail.google.com/mail/u/1/#inbox/FMfcgzQXJtGgnQWMWxjBnHlvMSPFJjnJ)
+
+Fix bug with Git client and Obsidian then tell levelsi
+  
+  1. create two files
+
+  source.txt  "[[Target]]"
+  target.txt
+
+  Add in one commit
+
+  2. rename target.txt to foo.txt
+  
+  update  in one commit
 
 ---
 
-Add a 'Create template' button to dashboard and tell [Shawn](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJckGSfncqlFWBtFRHwfVTFDv)
+Think about docker deploys
+- first migrate node.js application:
+  - set up docker on aws instance
+  - pull docker image from github image repo
+  - run node.js app on new port
+  - use docker to expose redis URL, local disk mounting, etc.
+  - set up deployment action on github
+  - add port to openresty config
+  - check application works on openresty port
+  - switch all traffic to new application
+  ---
+  - update note to LTS
+  - fix color profile support
+  - use custom libvips so we can convert HEIC files
+  - Expose exif data on Photo posts?  [https://github.com/lovell/sharp/issues/285](https://github.com/lovell/sharp/issues/285)
+    See if you can add comments to image metadata and tell [Riley](https://mail.google.com/mail/u/1/#sent/164756616df069dd)
+    , also tell [Mike](https://mail.google.com/mail/u/1/#inbox/16423ebe7b027d48)
+    - questioner (search exif)
+    - https://github.com/sambecker/exif-photo-blog
+
+
+Think about migrating to s3 for blog data storage
+- Purge thumbnails and cached images which are no longer in use
+
+Fix issue with server restart:
+- sudo chown ec2-user:ec2-user /var/instance-ssd/tmp
+- sudo chown ec2-user:ec2-user /var/instance-ssd/logs/app.log
+- mkfs -t xfs -f /dev/XXXXXXXX
+
+Investigate performance of rich text editor in Safari on template editor and follow up with [Rachel](https://mail.google.com/mail/u/1/#inbox/FMfcgzQXKNFKbzhWFnsgQrBBfGqZNMhL)
+
+Add pagination to archives and tagged pages on default templates using a new tag
+
+---
+
+Clamp length of password and email address in log in and sign up and reset forms
+
+Fix issue with Google Drive
+
+Update pandoc and tell [](https://mail.google.com/mail/u/0/#inbox/FMfcgzGxTFSjkTvfDRgNHZwSQqDzWKFB) that highlighting now works
+
+- [ ] Fix bug with forking / editing new templates
+- [ ] make cdn-url-helper more efficient, it gets called massive (make part of build process instead?)
+---
+- [ ] Template editor deleted
+- [ ] External services page
+- [ ] Publishing settings page
+- [ ] Folder activity page
+- [ ] File viewer
+  - [ ]  Fix file viewer live update
+  - [ ]  Add truncate to file viewer
+---
+Full QA check
+- [ ] Multiple browsers
+
+Refactor site build
+- needs to be a part of the docker stage:
+  - need to copy in git repo...!
+  - build entire documentation and dashboard views (featured, templates, etc.)
+  - how best to handle development mode?
+  
+Fix date selector for template and tell [Zach](https://mail.google.com/mail/u/0/#inbox/FMfcgzGxTFSjkTvfDRgNHZwSQqDzWKFB)
+
+Make it possible to embed audio like so `![Audio]({{{path}}})`
+
+Experiement with injecting script into preview sites which can postMessage to embedding page, sending html2canvas result which can be stored locally for faster loading?
+
+Make it possible to embed video like so `![Video](...)`
+
+Make it possible to embed PDF like so `![Video](...)`
+
+Merge comment and disqus into single comments plugin
+
+Fix single line break handling in Word Documents and [tell Paul](https://mail.google.com/mail/u/0/#inbox/FMfcgzGxTNzPZwwxJPTDlBBBcnbpPcJJ)
+
+Rethink google drive client to use similar iCloud interface? i.e. share with sync@blot.im?
+
+Make the 404 page more useful (see Netlify site)
+
+Clamp the max length of blot usernames and custom domains
+
+Expose markdown build errors on the dashboard to prevent weird non-update situations where it looks like the sync is stuck
+
+Continue work on test suite for template engine
+
+Fix bug with [bulk redirects page](https://blot.im/questions/2385)
+
+Make video embeds work on Google Docs:
+- Tell [questioners](https://blot.im/questions/471)
+
+Make code embeds work on Google Docs:
+- Tell [Jonathan](https://mail.google.com/mail/u/0/#inbox/FMfcgzGxTPFzrWBgxxWfbJzlbZzjKMxB)
+
+Improvements to search engine:
+- Make search use 'AND' instead of 'OR' for multiple terms
+- Remove drafts and tell Paul
+- Make `search: true` work and tell Paul
+
+
+Fix Google Drive sync bug
+- [ ] Resolve whether to use drive.change.watch or drive.activity.query
+- [ ] This seems to re-download google docs every time
+- [ ] How do we properly get notifications about changes to the doc? do we need to set up notifications channels for every doc in the drive directory?
+- [ ] do the google docs edit events we are missing on `drive.changes.watch` appear on `drive.changes.list`?
+
+Make it possible to link between org mode files with: `[[file:another-test.org][another test]]` and tell [questioners](https://blot.im/questions/2163)
+
+---
+
+Infrastructure plan:
+- switch app deployment to ECS
+- work on reducing the storage class of EBS
+- create three processes:
+  - blogs
+  - dashboard
+  - sync
+- Use restic or similar to make incremental off-site backups of data directory:
+  - restic -r b2:bucket-name:/path/to/repo forget --keep-daily 7 --keep-weekly 4 --keep-monthly 6 --keep-yearly 3 --prune
+
+---
 
 Fix bug with [date on magazine template](https://blot.im/questions/2244)
 
-Search metadata is [being ignored for pages](https://blot.im/questions/2291)
-
 Fix bug with [header position on the blog template](https://blot.im/questions/2211)
-
-Document image zoom disable feature ?zoom=false and tell [questioner](https://blot.im/questions/2236)
 
 Fix issue with camelCase custom metadata and tell [questioner](https://blot.im/questions/2294)
 
+Investigate bug with org mode links and [follow up with Elliot](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwHzDppJbDBZhLLqFQXvMZRsNw)
+
 Fix side navigation on Blog template and tell [Sava](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJcgnPdxPcSqPwmMnFSThFMQg)
-
-Fix bug with next/previous on the blog template and [tell questioner](https://blot.im/questions/2305)
-
-Fix live stream of folder sync status
 
 Fix light mode colors and tell [Gary](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJSCRWXMlsPRVBsnrcRcbMklc)
 
-Make {{active}} strip the domain from the link [before checking](https://github.com/davidmerfield/Blot/blob/master/app/blog/render/retrieve/active.js#L22)? Or automatically strip the domain from internal links on Blot's dashboard?
+Fix bug with date settings on the template editor for [magazine template](https://blot.im/questions/2244)
+
+Investigate why [Darren cannot open the template editor](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJSBJCRPJsLFddJCNzTnnQgjs)
+
+Fix Git client bugs
+- Investigate a bug with git client credentials triggered when you have two sites using git on one account, and delete one of the sites
+- Fix bug which occurs when you change your username while using the Git client (caused by the broken repo url) and tell [Koen](https://mail.google.com/mail/u/0/#inbox/1670f516115ef9bd) and [Andre](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqfMMxJXpbTZLvGzVmZlFPNfk) and [Josh](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqnkxhvtmPpdMMkRPjzpktrxG) and [Ryan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGCGthpSTxskRFFVjtrGnhnSvh) and [David](https://mail.google.com/mail/u/0/#inbox/FMfcgzGllVjvNfvdDVmnmlRvrFsNnQSD)
+- Work out how to pipe custom error messages down
+- Pipe custom message when you change a blog's handle (breaking repo url)
+- Tell [Koen](https://mail.google.com/mail/u/0/#inbox/1670f516115ef9bd) about the broken repo URL fix
+
+Fix bug so that script fix is able to remove tag items without posts
+- how to reproduce this bug?
+- it seems there is a phanton entry which no longer exists on a tag index
+- can we iterate over all tag keys during fix to detect this?
+
+Fix bug for 'edit this page' link in production
+
+Fix bug with undeleteable template files prefixed with dot and tell [Stuart](https://mail.google.com/mail/u/0/?zx=j8rkxjpin0du#inbox/FMfcgzGqRZbhWzrwNrgrFLQBBDWBzhxL)
+
+Fix 'back' button in photo template and tell [Bibi](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrcPJTmPXxWvhbmFpvwdfVzhpn)
+
+Fix bug with images zooming inside footnotes and tell [Nathan](https://mail.google.com/mail/u/0/#inbox/FMfcgzGtwWCBmtldhMfQRgZjHDpFvSGb)
+
+Fix bug with menu which occur when multiple pages are added at once Menu needs concurrency or atomic operations (so we can build posts in parallel)
+
+GUID bugs:
+- Fix duplicate GUID issue and tell [Jason](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrbvKsNQgVWVNKrVqMzRJdDvKk)
+- Fix bug with rename catcher which allows two posts to share a guid. It caused a bug with Disqus comments. To reproduce this bug: Rename an entry. Create new entry with old name. Both entries have same GUID.
+- Fix bug with two entries with the same guid, possibly related to an entry rename event (i.e. copying the guid across). Make sure that when a rename happens, the old entry is permanently deleted and its guid cannot be reused. I imagine that WRITE foo.txt MV foo.txt bar.txt WRITE bar.txt could trigger this bug.
+
+Fix bug with .emf files in Word Document and follow up with Todd. Can we convert EMFs? Can we pass a flag to pandoc to let them deal with it? Is this just caused by Tiff files? I need a Windows machine to test this.
+
+Come up with a workaround for [Silas's Dropbox business issue](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrbvJhdWCxjRHXRbXpjhZtwTst)
+
+Fix issue with favicon and [tell questioner](https://blot.im/questions/1202)
+
+Can we use [transformers.js](https://huggingface.co/docs/transformers.js/en/api/models#module_models.SiglipModel) for content similarity or auto captioning?
+
+Fix bug with bandcamp embeds in Word Documents and tell [Art](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrcXlgNHJbDLkmkkRmrCGqzHJB)
+
+Fix bug with template editor and ensure POST error messages are passed to client properly through ajax
+- to trigger, submit a >5mb file on web template editor
+
+Fix navigation link bug with blog tempalte and tell [Jason](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrbcCBmkcVhfWTpZbmqndwXQrL)
+
+Investigate this [date metadata bug](https://blot.im/questions/936)
+
+Fix bug with chinese characters in template name and follow up with [Alex](https://mail.google.com/mail/u/0/#search/alex/FMfcgzGqRGTCSrMXTznCBvTWhQqvkgCL)
+
+Fix bug with this [question](https://blot.im/questions/648)
+
+Fix issue with git client mirroring on GitHub by follow steps in email and follow up with [n](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqPzKcnQKsQQNkzcRpvCWpWKTr)
+
+Fix bug with the typeset settings do not actually affect anything (you can only disable/enable)
+
+Fix bug with rename detector which caused old permalinks not to redirect to their latest version and tell [Shibel](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChSMBfbsZQQSGSjtghSHKKVzm)
+- To reproduce, create file 'foo.txt' with title and permalink 'foo'
+- Then turn off server
+- Then rename file to 'bar.txt', and edit title to 'bar' at the same time
+- we expect /foo to redirect to /bar, but it doesn't
+
+Fix bug not exposing issue with invalid JSON in package.json for locally-edited template on dashboard and tell [Jason](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKjndBRlNNjZtlddcVVfFWVBbg)
+
+Fix bug with particular emoji and tell [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNqBKcPSQQHZtCFpKHrPDFkDq)
+
+Fix case-sensitivity issue for relative (and absolute?) paths to files in folder in production and tell [Marco](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNWHHtTmhpstcFdMfRRpzbnNw)
+
+Fix bug with [many twitter embeds and tell Nash](https://mail.google.com/mail/u/0/#inbox/FMfcgzGllMNfjvRBthVncQtPJQpmrksx)
+
+Fix bug with a once-scheduled post, based on the file's path or previous date metadata. The post remains scheduled even if the date is removed, and even if it is then rebuilt.
+
+Fix bugs with RSS feeds validation. Perhaps extend absoluteURLs helper function? Tell [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzMBqKpcLTtxTzcfvMCVckLMJJ)
+
+Fix bug with date metadata on [Vincent](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJXVMdhvCJPXwVVSKRTFHQTQzn)'s blog and follow up. I suspect it's to do with the ordering of date tokens.
+
+Fix bug with tokens inside blog posts and follow up with [Karoly](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJXfkFdhXCgBCTwGfBCzPhqwJF)
+
+Fix bug with potentially TeX-related escaping issues and tell [Anthony](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJWhzZspbBhTCPBGjvnslgrZlb) and Roy
+
+Fix issue with variable passed to dateFormat function and tell [Leo](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqQJlfVpSBNBwDxcSlGGqHXQbh)
+
+Fix bug with image zoomer on mobile devices and tell [Alessandro](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChSCwptjLtLGMjWxdkQNnNfTk)
+
+Fix bug with handling of queries and tell [this person](https://mail.google.com/mail/u/0/?zx=tqp989l7y4yi#inbox/15b575fbc8d80ad1).
+
+Fix post encoding bugs
+- Fix [Kevin](https://mail.google.com/mail/u/0/#inbox/1665be131ce98928)'s URL encoding bug. Each entry's url property is not encoded as a URI component on the server but it needs to be.
+- Fix encoding bug with greek URLs then tell [Rodericus](https://mail.google.com/mail/u/0/#search/rodericus/15bb13fafc1c34e5) know
+- Fix bug with template tags in blog post and tell [Shibel](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgCJQhBZwgzQVLkKHnwPKVkFC)
+
+Fix bugs with RSS feeds validation. Perhaps extend absoluteURLs helper function? Tell [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzMBqKpcLTtxTzcfvMCVckLMJJ)
+
+Fix bug with [Rodrigo's Word Document files](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVWRXqnjmjBDmcRXKcdxjcDfr)
+
+Fix bug with image minification which produces larger file than source file and tell [Jan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTkHlNvhcJLGVRCPvXvjbwsWR)
+
+Date parser bugs
+- Fix bug parsing ISO8601 date format and tell [Thomas](https://mail.google.com/mail/u/1/#inbox/1625012def221a8f)
+
+Investigate bug with template views whose names include hashtags and follow up with [Jay](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqPzMvLDJBfbNfLzpkKDzmZSNt)
+
+---
+
+Add [textbundle support](http://textbundle.org/spec/) and tell [questioner](https://blot.im/questions/1385)
+- this will help me understand how best to accomplish multi-file posts
+
+Document image zoom disable feature ?zoom=false and tell [questioner](https://blot.im/questions/2236)
 
 Answer [peter's questions about the portfolio template](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJSDbPpcncdNCvCTBrVcbnJGV)
-
-Fix pretty.price for paypal users
 
 Identify accounts that pay but do not create a blog and add monitoring for this
 - There might not even be accounts Just subscriptions in stripe 
 - Investigate, then Block and autorefund these payments: they're card testers that Stripe's anti-fraud missed
 
-Resolve SSL renewal issues
-
 Add way to import directly
 - Add/fix micro.blog import to dashboard and tell [Gabriel](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJRvfgrRhXwqDNDlxbpXmRlbd]
 - And recurring import from elsewhere 
 
-Add upload to dashboard
-- Drag and drop 
-
-Add ‘open folder on drive’ link to Client settings page. Same for Dropbox
-
-Investigate possibility of using s3 to store blog data? It seems quite fast when we read/write to it? Possibly not much slower than ebs?
-
 Finish site and dashboard
+- Fix live stream of folder sync status
 - The site CSS persists in the browser cache
 - Make sure folders are zipped when site builds, and delivered through CDN
 - Make sure blot resyncs folders with their associated sites when pulled
@@ -63,11 +296,12 @@ Finish site and dashboard
     - Think about mtimes, metadata as well as file contents
 - The top right button 'your sites' should remember the last page of the dashboard you were on so you can switch from docs to dashboard quickly
 
+Come up with OKRs for Blot
+- Churn rate
+
 Light mode/dark mode videos
 
 Windows video + windows finder.css
-
-Look into pandoc lua and pandoc server?
 
 Rewrite broken link tests
 
@@ -101,6 +335,9 @@ Re-attempt iCloud support
 - Fetch list of people to tell from old GH issue
 - Tell [Stew](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJSFktWWJrNvRtnSjQRbwzrJK)
 - Tell [VH](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJcdSvvFcRcjNXqvxsZDjkMQh)
+- Tell [Jacob](https://mail.google.com/mail/u/0/#inbox/FMfcgzQVwnfNnpqrWTHhgdRXwhgrTbzn)
+- Tell [Steve](https://mail.google.com/mail/u/1/#inbox/FMfcgzQXJkSHjtztvhNWNPXGdVkDhKDq)
+- Tell [Reg](https://mail.google.com/mail/u/0/#inbox/FMfcgzQXKhPKRfSsfGpXCdcxtFBhdKDt)
 
 Add pause subscription
 - Enable hibernation of blogs 
@@ -130,6 +367,8 @@ Add support for INI files and tell [Frank](https://mail.google.com/mail/u/0/#inb
     - [Jan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChmLnfMTdtNkpLxHTlPJNHlCT) 
     - [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrRRZTKntrWKJvfDXrRFTzljs)
 
+Add {{#posts-without-:tag}} and [tell steve](https://mail.google.com/mail/u/0/#inbox/FMfcgzGxSRHnwcVVlqvwLFzwRQbsqsnK)
+
 Improvements to website:
 - Fix broken link checker
 - Create material in docs with title 'Turn X into website' where X is:
@@ -144,14 +383,16 @@ Improvements to website:
   - do this as a marketing strategy, e.g. target 'blog with microsoft word', 'blog with google docs', 'blog with ia writer' etc... contact the people who make text editors and ask them to link to us?
 - Personalize the documentation for logged in customers
 - Add [contributor](https://api.github.com/repos/davidmerfield/blot/contributors) / [language](https://api.github.com/repos/davidmerfield/blot/languages) and repo information to source code page using GitHub API.
-
-Redo demo video
+Add a 'Create template' button to dashboard and tell [Shawn](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJckGSfncqlFWBtFRHwfVTFDv)
+- Add upload to dashboard
+  - Drag and drop 
+- Add ‘open folder on drive’ link to Client settings page. Same for Dropbox
+- Redo demo video
 
 ---
 
 Consider switching domain to blot.site
-- announce in spring newsletter, aim to switch in summer
-- add support for different user subdomain in dev
+- add support for different user subdomain in dev?
 - set up mail
 - switch from mailgun to SES over new domain
 
@@ -159,9 +400,6 @@ Integrate font styles rendering into template model:
 - Remove this behaviour from dashboard/template-editor/save/fonts into update package
 - Remove font styles from manifesto/manifesto and re-insert them when template is readFromFolder
 
-Investigate a bug with git client credentials triggered when you have two sites using git on one account, and delete one of the sites
-
-Investigate bug with org mode links and [follow up with Elliot](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwHzDppJbDBZhLLqFQXvMZRsNw)
 
 Add aws cost usage and forecast to daily update email
 - https://docs.aws.amazon.com/cli/latest/reference/ce/get-cost-and-usage.html
@@ -221,11 +459,12 @@ Improve paypal integration:
   - [ ] Add way to delete account from dashboard
 - [ ] Update scheduleEmailNotification for paypal customers
 
-
 Can I use proxy_store instead of openrestycache?
 
 Prevent Google Drive client from re crawling entire folder for every sync
 - i think we need to manually watch all google docs in the folder
+
+Make {{active}} strip the domain from the link [before checking](https://github.com/davidmerfield/Blot/blob/master/app/blog/render/retrieve/active.js#L22)? Or automatically strip the domain from internal links on Blot's dashboard?
 
 Prevent unneeded cache purge when templates are rebuilt, either from folder or on disk in app/templates
 
@@ -235,12 +474,8 @@ Git client is extremely slow to set up large folders – we need a loading scre
 
 When a folder has lots of elements, trim the list of files on the dashboard, at least on the index page
 
-Fix cloudflare redirect HTTP/HTTPS issue seems to have resurfaced - why?
-
 Store path -> md5 hash on sync
-- Use to auto version links to files in your folder 
-
-Investigate webp thumbnails
+- Use to auto version links to files in your folder so they can be cached
 
 Investigate videos instead of gifs for thumbnails
 
@@ -250,15 +485,11 @@ Eventually configure cloud watch reboot sequence then test it
 
 ---
 
-Can we manually 'inject' files into the cache? e.g. popular blog folder files?
-
-Investigate if we can rewrite git client so we don't need to store double the data - right now we have 48GB duped
+Investigate if we can rewrite git client so we don't need to store double the data - right now we have 48GB duped.
 
 Fix auto titles of 'screenshot at 12:22pm' and make sure the date parser can handle them
 
 Fix title generator so h2 titles within the file dont become the title of the post – this is helpful for obsidian
-
-Consider exposing the option to purchase the removal of subscription fee for a blog on the dashboard for $440
 
 Get to bottom of issues with questions/tests/list and re-enable disable test suite
 
@@ -269,12 +500,7 @@ Fix post navigation on Portfolio template and tell [Questioner](https://blot.im/
 ---
 
 Improve image posts
-- Add opt-in EXIF extraction for photos and enable in the photos template
-- Add support for other image formats, by converting them into jpg/webp
 - Add support for large image tiling and zooming with photoswipe
-
-Add support for textbundle files and tell [questioner](https://blot.im/questions/1385)
-- this will help me understand how best to accomplish multi-file posts
 
 ---
 
@@ -300,12 +526,6 @@ Work out why we get a 'Zombie process' notification email every morning at 9:05a
 
 Make 'close' button on entry permalink page of reference template work like the photo template and tell [Marco](https://mail.google.com/mail/u/0/#inbox/FMfcgzGsmNSSSRKHnlgCBllnqJCcPhxD)
 
-Investigate Google Drive client
-- [ ] Resolve whether to use drive.change.watch or drive.activity.query
-- [ ] This seems to re-download google docs every time
-- [ ] How do we properly get notifications about changes to the doc? do we need to set up notifications channels for every doc in the drive directory?
-- [ ] do the google docs edit events we are missing on `drive.changes.watch` appear on `drive.changes.list`?
-
 Wikilinks should have a class property of 'wikilink' rather than a title attribute and tell [questioner](https://blot.im/questions/39)
 
 Prevent double submission on template editor at insertion and front-end levels
@@ -314,16 +534,7 @@ Add search bar to template editor
 
 ---
 
-Write some end-to-end tests which verify NGINX config
-- how do we handle SSL?
-
 Tell [bukit](https://mail.google.com/mail/u/0/#inbox/FMfcgzGtwqMCsWCjhPcWpPszlZhtqNnM) when it's possible to change the URL of the /tagged/x pages in the template engine
-
-Investigate Google Drive client
-- [ ] Resolve whether to use drive.change.watch or drive.activity.query
-- [ ] This seems to re-download google docs every time
-- [ ] How do we properly get notifications about changes to the doc? do we need to set up notifications channels for every doc in the drive directory?
-- [ ] do the google docs edit events we are missing on `drive.changes.watch` appear on `drive.changes.list`?
 
 Wikilinks should have a class property of 'wikilink' rather than a title attribute and tell [questioner](https://blot.im/questions/39)
 
@@ -340,8 +551,6 @@ Add lazy loading option to image settings and tell [questioner](https://blot.im/
 Make it possible to rename locally edited template folder and tell [questioner](https://blot.im/questions/1610)
 
 Fix bug with videos on Reference template and [Tell Marco](https://mail.google.com/mail/u/0/#inbox/FMfcgzGslbPSKMXkRbvrHKFTWhbJbPlg)
-
-Check in on log rotation for nginx.log and nginx.error.log
  
 ---
 
@@ -356,113 +565,6 @@ Methods to improve server performance
 - consider switching to more expensive CDN type (i.e. not volume)
 - switch to more expensive EBS for disk of server
 
-Fix Git client bugs
-- Fix bug which occurs when you change your username while using the Git client (caused by the broken repo url) and tell [Koen](https://mail.google.com/mail/u/0/#inbox/1670f516115ef9bd) and [Andre](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqfMMxJXpbTZLvGzVmZlFPNfk) and [Josh](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqnkxhvtmPpdMMkRPjzpktrxG) and [Ryan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGCGthpSTxskRFFVjtrGnhnSvh) and [David](https://mail.google.com/mail/u/0/#inbox/FMfcgzGllVjvNfvdDVmnmlRvrFsNnQSD)
-- Work out how to pipe custom error messages down
-- Pipe custom message when you change a blog's handle (breaking repo url)
-- Tell [Koen](https://mail.google.com/mail/u/0/#inbox/1670f516115ef9bd) about the broken repo URL fix
-
-Fix bug so that script fix is able to remove tag items without posts
-- how to reproduce this bug?
-- it seems there is a phanton entry which no longer exists on a tag index
-- can we iterate over all tag keys during fix to detect this?
-
-Fix bug for 'edit this page' link in production
-
-Fix bug with undeleteable template files prefixed with dot and tell [Stuart](https://mail.google.com/mail/u/0/?zx=j8rkxjpin0du#inbox/FMfcgzGqRZbhWzrwNrgrFLQBBDWBzhxL)
-
-Fix bug with leading emoji and title case plugin and tell [questioner](https://blot.im/questions/874)
-
-Fix 'back' button in photo template and tell [Bibi](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrcPJTmPXxWvhbmFpvwdfVzhpn)
-
-Fix bug with images zooming inside footnotes and tell [Nathan](https://mail.google.com/mail/u/0/#inbox/FMfcgzGtwWCBmtldhMfQRgZjHDpFvSGb)
-
-Fix issue with template with invalid metadata (cat log for error), it seems the name and error properties were not set
-- [ ] run fix on all existing templates
-
-Fix duplicate GUID issue and tell [Jason](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrbvKsNQgVWVNKrVqMzRJdDvKk)
-
-Fix bug with menu which occur when multiple pages are added at once Menu needs concurrency or atomic operations (so we can build posts in parallel)
-
-Fix bug with rename catcher which allows two posts to share a guid. It caused a bug with Disqus comments. To reproduce this bug: Rename an entry. Create new entry with old name. Both entries have same GUID.
-
-Fix bug with .emf files in Word Document and follow up with Todd. Can we convert EMFs? Can we pass a flag to pandoc to let them deal with it? Is this just caused by Tiff files? I need a Windows machine to test this.
-
-Come up with a workaround for [Silas's Dropbox business issue](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrbvJhdWCxjRHXRbXpjhZtwTst)
-
-Fix issue with favicon and [tell questioner](https://blot.im/questions/1202)
-
-Fix bug with bandcamp embeds in Word Documents and tell [Art](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrcXlgNHJbDLkmkkRmrCGqzHJB)
-
-Fix missing posts on [preview of reference template](https://preview-of-reference-on-frances.blot.im/)
-
-Fix bug with template editor and ensure POST error messages are passed to client properly through ajax
-- to trigger, submit a >5mb file on web template editor
-
-Fix navigation link bug with blog tempalte and tell [Jason](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrbcCBmkcVhfWTpZbmqndwXQrL)
-
-Investigate this [date metadata bug](https://blot.im/questions/936)
-
-Fix bug with chinese characters in template name and follow up with [Alex](https://mail.google.com/mail/u/0/#search/alex/FMfcgzGqRGTCSrMXTznCBvTWhQqvkgCL)
-
-Fix bug with this [question](https://blot.im/questions/648)
-
-Fix issue with git client mirroring on GitHub by follow steps in email and follow up with [n](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqPzKcnQKsQQNkzcRpvCWpWKTr)
-
-Fix bug with subdomains with numbers in them cause SSL certificate errors (e.g. foo2.blot.im)
-
-Fix bug with the typeset settings do not actually affect anything (you can only disable/enable)
-
-Fix bug with rename detector which caused old permalinks not to redirect to their latest version and tell [Shibel](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChSMBfbsZQQSGSjtghSHKKVzm)
-- To reproduce, create file 'foo.txt' with title and permalink 'foo'
-- Then turn off server
-- Then rename file to 'bar.txt', and edit title to 'bar' at the same time
-- we expect /foo to redirect to /bar, but it doesn't
-
-Fix bug not exposing issue with invalid JSON in package.json for locally-edited template on dashboard and tell [Jason](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKjndBRlNNjZtlddcVVfFWVBbg)
-
-Fix bug with particular emoji and tell [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNqBKcPSQQHZtCFpKHrPDFkDq)
-
-Fix case-sensitivity issue for relative (and absolute?) paths to files in folder in production and tell [Marco](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNWHHtTmhpstcFdMfRRpzbnNw)
-
-Fix bug with footnote links in a teaser by switching #frag to {{permalink}}#frag
-
-Fix bug with [many twitter embeds and tell Nash](https://mail.google.com/mail/u/0/#inbox/FMfcgzGllMNfjvRBthVncQtPJQpmrksx)
-
-Fix bug with a once-scheduled post, based on the file's path or previous date metadata. The post remains scheduled even if the date is removed, and even if it is then rebuilt.
-
-Fix bugs with RSS feeds validation. Perhaps extend absoluteURLs helper function? Tell [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzMBqKpcLTtxTzcfvMCVckLMJJ)
-
-Fix bug with date metadata on [Vincent](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJXVMdhvCJPXwVVSKRTFHQTQzn)'s blog and follow up. I suspect it's to do with the ordering of date tokens.
-
-Fix bug with tokens inside blog posts and follow up with [Karoly](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJXfkFdhXCgBCTwGfBCzPhqwJF)
-
-Fix bug with potentially TeX-related escaping issues and tell [Anthony](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJWhzZspbBhTCPBGjvnslgrZlb) and Roy
-
-Fix issue with variable passed to dateFormat function and tell [Leo](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqQJlfVpSBNBwDxcSlGGqHXQbh)
-
-Fix bug with two entries with the same guid, possibly related to an entry rename event (i.e. copying the guid across). Make sure that when a rename happens, the old entry is permanently deleted and its guid cannot be reused. I imagine that WRITE foo.txt MV foo.txt bar.txt WRITE bar.txt could trigger this bug.
-
-Fix bug with image zoomer on mobile devices and tell [Alessandro](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChSCwptjLtLGMjWxdkQNnNfTk)
-
-Fix bug with handling of queries and tell [this person](https://mail.google.com/mail/u/0/?zx=tqp989l7y4yi#inbox/15b575fbc8d80ad1).
-
-Fix post encoding bugs
-- Fix [Kevin](https://mail.google.com/mail/u/0/#inbox/1665be131ce98928)'s URL encoding bug. Each entry's url property is not encoded as a URI component on the server but it needs to be.
-- Fix encoding bug with greek URLs then tell [Rodericus](https://mail.google.com/mail/u/0/#search/rodericus/15bb13fafc1c34e5) know
-- Fix bug with template tags in blog post and tell [Shibel](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgCJQhBZwgzQVLkKHnwPKVkFC)
-
-Fix bugs with RSS feeds validation. Perhaps extend absoluteURLs helper function? Tell [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzMBqKpcLTtxTzcfvMCVckLMJJ)
-
-Fix bug with [Rodrigo's Word Document files](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVWRXqnjmjBDmcRXKcdxjcDfr)
-
-Fix bug with image minification which produces larger file than source file and tell [Jan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTkHlNvhcJLGVRCPvXvjbwsWR)
-
-Date parser bugs
-- Fix bug parsing ISO8601 date format and tell [Thomas](https://mail.google.com/mail/u/1/#inbox/1625012def221a8f)
-
-Investigate bug with template views whose names include hashtags and follow up with [Jay](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqPzMvLDJBfbNfLzpkKDzmZSNt)
-
 ---
 
 Add support for paying with crypto, BTC ETH
@@ -470,6 +572,7 @@ Add support for paying with crypto, BTC ETH
 - Tell [Chaz](https://mail.google.com/mail/u/1/#sent/165b726aa900158a) 
 - Tell [Anita](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsSWMtCTdmrbscFCFLggctmxH)
 - Tell [Arc](https://mail.google.com/mail/u/0/#inbox/FMfcgzGtwqJkLxGTKPXhZPSWVjJqQbjs)
+- Tell [Dmitriy](https://mail.google.com/mail/u/0/#inbox/FMfcgzGxSlPTwlRkJxQfntCdmbjFsrZC)
 
 Improve Are.na importer so it handles descriptions + also other file types (e.g. PDF, text) and tell [Marco](https://mail.google.com/mail/u/0/#inbox/QgrcJHsBvDqvbgfkRJfBlwLBwlDHDncxVnl)
 
@@ -723,6 +826,7 @@ Improvements to dashboard:
 Move citations out of `{{{html}}}` and tell [questioner](https://blot.im/questions/298) and [Mikka](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlkPcprJZlTSFbTGlqSPJcfWJJ)
 
 Add [OneDrive](https://onedrive.com) client
+- Tell [Nenad](https://mail.google.com/mail/u/0/#inbox/FMfcgzGxSHlNTlFCKwNsPbZPxRgbbVkB)
 - Tell [John](https://mail.google.com/mail/u/0/#inbox/FMfcgzGkbDVrfBwGjnVDdtXkNxKpwjfq) 
 - Tell [Shantesh](https://mail.google.com/mail/u/0/#inbox/166df93b38231ec9)
 - Tell [Nathan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVgvsdfSnqBppQrXLTVjZBBzp)
@@ -769,6 +873,8 @@ Write new clients to sync blog folders
   - Tell [Jason](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpVWzZTVxccmWLmnPBmDFjvV)
 - [Github](https://github.com)
   - Tell [John](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmvBnVvqHdJXLgDhrtChCqdMQX)  
+- [Jumpshare](https://jumpshare.com)
+  - Tell [Ömer](https://mail.google.com/mail/u/0/#search/omer/FMfcgzGxRnkSFxdSmGLmNQpXjXfBSChT)
 - pCloud 
   - Tell [Omaid](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDDjqhCxHhJqbGlGNZsfkWWQf)
   - Tell [Anders](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKkRFxsDShhsHGNcdRqwHFMmJM) 
@@ -776,6 +882,8 @@ Write new clients to sync blog folders
   - Tell [JMN](https://mail.google.com/mail/u/0/#inbox/FMfcgzGpGwtXQsVFFTcnTJdBTNdkMmXv)
 - Dropmark
   - Tell [Rado](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDDjrKSQVTXqvgFRGrhMSFvrR)
+- Proton Drive
+  - Tell [Ted](https://mail.google.com/mail/u/1/#search/proton+drive/FMfcgzQVxlMmFdqvrMHgfsFRfRDHLFTh)
 
 ---
 
@@ -944,7 +1052,11 @@ Improvements to template engine
 - Local editing
   - Fix bug with title and partials in local editing then tell [Luke](https://mail.google.com/mail/u/1/#inbox/164afa87ede57db7) and [Frank](https://mail.google.com/mail/u/1/#inbox/164ae2e3789b8d4c)
 - Add support for chronological template ordering and [follow up with questions](https://blot.im/questions/819) 
-- Add way to iterate over public and private pages to allow sitemap to work properly and tell [Rodrigo](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDsFffNqTnCTjHrNSrrLBtnnGW) and [questioner](https://blot.im/questions/222)
+- Add way to iterate over public and private pages to allow sitemap to work properly
+  - tell [Rodrigo](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDsFffNqTnCTjHrNSrrLBtnnGW) 
+  - [questioner](https://blot.im/questions/222)
+  - Tell [Steve](https://mail.google.com/mail/u/0/#inbox/FMfcgzGxTNsdCppzndskLsxJpvgsdgjv)
+  - [Jack](https://mail.google.com/mail/u/0/#inbox/FMfcgzGxTFbfvLCqlhWckvZqTmNPPqSM)
 - Fix bug with template editor which resets content of a view. Follow up with [Nathan](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLhgJQTTQZvpsxJDBgnNQpJnJ) who has extensive steps to reproduce, and John
 - Allow the name/slug of a template to change and tell [Marcus](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChSCwzPxFLvSpLcjjRbCkVVbg) and [Pratik](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDDqldQjWRSnwmcMbcpRMHMxL) and [Brad](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGCkmWNjfwTqvrTgJLCSpDcDfk) when the name of a locally-edited template in your blog's folder updates
 - Allow ordering of posts by file name and tell [Jacopo](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNCrgCFZKKzdvTFVvWHCpQChM)
@@ -968,7 +1080,7 @@ com/mail/u/0/#inbox/1588e3df7489b554)
 - Fix bug with filtering paginated list of entries and tell [Roy](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVgrQJWNPHHvdxnMtWCGJkZdM) and [Josh](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVzrFNFzLzbWrssWzbrSvtpTm) and [Logan](https://twitter.com/LoganGreer)
 - Add a popular entry list
 - Add a related entry list and tell [Thomas](https://mail.google.com/mail/u/0/#inbox/156dbe97153fab61) and [questioner](https://blot.im/questions/1484)
-- Add way to list files at a path and tell [Matt](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqxRmLMrTjjpjftkSwddPJkTm)
+- Add way to list files at a path and tell [Matt](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqxRmLMrTjjpjftkSwddPJkTm) and [Daisy](https://mail.google.com/mail/u/1/#inbox/FMfcgzQXJkVbjxQbLgTRTJrhGtjBblCP)
 
 Re-send receipt when the customer changes their email after initial payment, pre-account creation.
 - Once stripe allows programmatic receipt delivery
@@ -1020,15 +1132,8 @@ Finish template translation offers
 Improve the markdown converter:
 - Add plugin option to enable hard line breaks in Markdown parser? Tell [Wil](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsmhNWSxQsvMkWPRdQsxQxSvh)
 - Fix bug with nested Markdown and tell [Martin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqnhgBjBSKzvtclvqcFcMptMR):
-```
-  - ![This is a picture of me testing **Sonikebana**, a nine channel sound piece for mobile loudspeakers that respond when moved. Photo (and artwork) by [Anna Chapman Parker](http://www.annachapman.co.uk)](http://example.com/images/_landingImage_01.jpg)
-```
 - Extend the Markdown converted to add support for Ulysses highlighting and iAWriter highlighting syntax, using the [example files provided by Marco](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsKFQGTxDTnxNddZQxjsLZJGb). Tell [Marco](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsKFQGTxDTnxNddZQxjsLZJGb)
-- Fix bug and tell [Vanessa](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLswJQjKhnLpNZzfPhJZpVtcph) which injects `<p>` tags into the following: 
-```
-<div class="img-gallery"><img src="_Floralia.png" title="Floralia"><img src="_Flower.png" title="Flower"><img src="_Mechanical.png" title="Mechanical"><img src="_Curv.png" title="Curv"><img src="_Curvus.png" title="Curvus"><img src="_Futuristic.png" title="Futuristic">
-</div>
-```
+- Fix bug and tell [Vanessa](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLswJQjKhnLpNZzfPhJZpVtcph) which injects `<p>` tags 
 
 Finish script to identify long-expired customers with blogs to safely delete and free up space. 
 - Sort by date expired
@@ -1060,8 +1165,6 @@ Add way to filter archives page by year or month and tell [Chad](https://mail.go
 Add a cool bookmarklet which [drafts a post a la this demo](https://www.youtube.com/watch?v=cu5uXXulnNk)
 
 Add broken link check for all email templates for logged in and logged out customers
-
-Make it possible to search entire page on web template editor and tell [Precious](https://mail.google.com/mail/u/0/#inbox/QgrcJHrtwLwTldzhrTKHMtnhwVqMXVzCTqv). At the moment, only the text on the viewport is searchable.
 
 Follow up with [Shibel](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpcJbSnrrjHZGqtgschtWwXs) about how to ignore arbritrary paths and keep clean URLS (no underscores). Sitewide .blotignore file?
 
@@ -1106,6 +1209,7 @@ Add support for nesting multiple layout tags e.g. "{<>} {||} Y" and tell [Marius
 Look into accessibility issues with scrolling and code blocks and tell [Eli](https://mail.google.com/mail/u/0/#inbox/FMfcgzGtwqJjjrrGHDWjLPzfxGpnkZTh) if I make any changes
 
 Improvements to Git client
+- Make it possible to connect github repo via their API and tell [reg](https://mail.google.com/mail/u/0/#inbox/FMfcgzQXKhPKRfSsfGpXCdcxtFBhdKDt)
 - Add support for LFS and tell [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVMcpnxGHqnxJHNdbMBSrglzg)
 - Remove git folder when switching to Dropbox client and tell [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDDqlwPCNcJrLDqprtcKWXFTn)
 - Backdate existing commits (perhaps set file ctime using info from git log?) This would sidestep the frustration experienced by [Gavin](https://mail.google.com/mail/u/0/#inbox/1669a8e621f9ef37) when he imported an existing repository.
@@ -1162,7 +1266,6 @@ Restructure application folder
   - Move blog's folder contents from /blogs/{blogID} to data/blogs/{blogID}/folder
   - Move static files directory from /static/{blogID} to /data/blogs/{blogID}/static
   - Move db directory from /db to /data/db
-  - Move logs directory from /logs to /data/logs
   - Remove /tmp directory and instead use os.tmpDir
 
 Switch to streaming JSON parser. There are npm modules that offer asynchronous JSON APIs. See for example:
@@ -1171,10 +1274,6 @@ Switch to streaming JSON parser. There are npm modules that offer asynchronous J
 
 Add notification emails for monit events
 - Include secure one-time link to reboot the AWS instance?
-
-Research state of static site generators
-- https://www.11ty.io/docs/
-- https://www.staticgen.com/
 
 - If Apple releases an API, tell people who are interested in using the iCloud client
   - [ ] [David](https://mail.google.com/mail/u/0/#inbox/FMfcgzGtwWCBwRJKJFcZXtkhBkcCcJGV)
@@ -1260,7 +1359,7 @@ Prune package.json
 
 Reconsider default slug length or add new short slug property and tell [Josh](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTjxhZStzKhchtwjXbWxDbdfh)
 
-Write self-hosting documentation then tell [Jake](https://mail.google.com/mail/u/1/#inbox/1659d67326849fb3) and [Berndl](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlkPcpPHkbRnKFRWNPGcGTPcJD) and [Joel](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmtXNqjrzcDZGVTgbvwFJjcDvd) and [Mohammed](https://twitter.com/mnafees_me/status/1051121206030753794?s=12) and [BP](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGCQVldJqdJZjktfKxNfgCdkTh) and [Rado](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDDjrKSQVTXqvgFRGrhMSFvrR) and [Nuno](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDDmKWgcNKgMKBNDXxWqGvqrP) and [Omaid](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDDjqhCxHhJqbGlGNZsfkWWQf) and [Brian](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrbRSCsGjRTXLGVxlwHjQKrchP) and [Jarod](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDWlwWMfqnWBqxBtznDJVqxfr) and [Francesco](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNWChQlWnBZtSxhFrpVlgMwXx) and [Aryan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJWjCrnXRvhtPtFGVjgkfZqPMQ) and [Todd](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLswHGkjtjmGLZtxXcpNSzKxvd) and [Anita](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLswPCKHSrzLMthNDncznmTnnJ) and [Kaushik](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLtsxhzZVLzpqpTCBmXcsFPPdJ?compose=CllgCJZZQKjZgksDMdQFkdwGNcPMGFpjKxNnbBKxBzVZvVCFMFsmGhbXxnhhxLvKPBzCHcPHKvB) and [Michael](https://mail.google.com/mail/u/0/#inbox/FMfcgzGkXSWvKNHtTgmFlrgkWvkgbksx?compose=CllgCKHQdVwQDCnfClqxMhSRnkDKmXhLckxZBrgkfDjdCrsDZLsRhGmgtgjZdlqmCjmGpKqQJvq) and [Frank](https://mail.google.com/mail/u/0/#inbox/FMfcgzGkZkZWrprNcThxMPQKzSTLbkDs) and [Zip](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmthffLmfRBswqGmsDKQWdJZFB)
+Write self-hosting documentation then tell [Jake](https://mail.google.com/mail/u/1/#inbox/1659d67326849fb3) and [Berndl](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlkPcpPHkbRnKFRWNPGcGTPcJD) and [Joel](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmtXNqjrzcDZGVTgbvwFJjcDvd) and [Mohammed](https://twitter.com/mnafees_me/status/1051121206030753794?s=12) and [BP](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGCQVldJqdJZjktfKxNfgCdkTh) and [Rado](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDDjrKSQVTXqvgFRGrhMSFvrR) and [Nuno](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDDmKWgcNKgMKBNDXxWqGvqrP) and [Omaid](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDDjqhCxHhJqbGlGNZsfkWWQf) and [Brian](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrbRSCsGjRTXLGVxlwHjQKrchP) and [Jarod](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDWlwWMfqnWBqxBtznDJVqxfr) and [Francesco](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNWChQlWnBZtSxhFrpVlgMwXx) and [Pranay](https://mail.google.com/mail/u/0/#inbox/FMfcgzGxRndfvjrJWCkLtTNNQPtNFHpq) and [Aryan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJWjCrnXRvhtPtFGVjgkfZqPMQ) and [Todd](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLswHGkjtjmGLZtxXcpNSzKxvd) and [Anita](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLswPCKHSrzLMthNDncznmTnnJ) and [Kaushik](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLtsxhzZVLzpqpTCBmXcsFPPdJ?compose=CllgCJZZQKjZgksDMdQFkdwGNcPMGFpjKxNnbBKxBzVZvVCFMFsmGhbXxnhhxLvKPBzCHcPHKvB) and [Michael](https://mail.google.com/mail/u/0/#inbox/FMfcgzGkXSWvKNHtTgmFlrgkWvkgbksx?compose=CllgCKHQdVwQDCnfClqxMhSRnkDKmXhLckxZBrgkfDjdCrsDZLsRhGmgtgjZdlqmCjmGpKqQJvq) and [Frank](https://mail.google.com/mail/u/0/#inbox/FMfcgzGkZkZWrprNcThxMPQKzSTLbkDs) and [Zip](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmthffLmfRBswqGmsDKQWdJZFB)
 - Tell Nick when it's possible to deploy a self-hosted [Blot on Vercel](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKjxHWSvgjKtCWrbhccKFPlkdD) and [Zia](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsSXWPRNNxDNcdhGHQXBkTtsx)
 
 Add option to sort posts by filename alphabetically and tell [Steve](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJXpTLwnKwSRTFKRqXKNgQkFDv)
@@ -1292,8 +1391,6 @@ Embed feature
 - Add support for native MP3 embeds in posts, just put a link to an MP3 or a path, e.g. /_assets/file.mp3 --> would become a nice embed then tell [Luke](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVWLlqqwbksXcScNdhcTjhjfq) and [Nash](http://twitter.com/nashp) and [Andy](https://mail.google.com/mail/u/0/#inbox/LXphbRLrghxkrJmtbtfXwZHrBHqGzzjDqLZVmfRCzrg) and [Charlie](mailto:hi@charlliegleason.com) and [Konstantin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrRQPphRrjCrWXPLzgHhxkzMN)
 - Add soundcloud embeds then tell [Jonas](https://mail.google.com/mail/u/1/#inbox/16404cc8d437cc23), Nashp, and [Anders](https://twitter.com/4nd3rs/status/1028250661589278720?s=12) and [Richard](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJbvQlJvtLVPDqRCHrGJkZTr)
 - Add are.na embeds and tell [Marco](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLswLkPbqqvMVWPSHvRqtqcKlZ)
-
-Expose exif data on Photo posts? See if you can add comments to image metadata and tell [Riley](https://mail.google.com/mail/u/1/#sent/164756616df069dd), also tell [Mike](https://mail.google.com/mail/u/1/#inbox/16423ebe7b027d48)
 
 ---
 
@@ -1387,3 +1484,5 @@ Consider adding 'default metadata' option to dashboard
 - Tell [Mike](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLscxQPSzQtKbhpHpJgbNlgCQZ)
 
 Consider switching to same-site lax and remove all redirects?
+
+Add way to buy domains via Blot and tell [Christine](https://mail.google.com/mail/u/1/#inbox/FMfcgzQXKWlxFbhmCbrwQxbKmJZCrVbX)

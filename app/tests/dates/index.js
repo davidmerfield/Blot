@@ -4,7 +4,7 @@ describe("date integration tests", function () {
   const fs = require("fs-extra");
   const Blog = require("models/blog");
   const Template = require("models/template");
-  const request = require("request");
+  const fetch = require("node-fetch");
   const Express = require("express");
   const config = require("config");
 
@@ -17,18 +17,18 @@ describe("date integration tests", function () {
     {
       timeZone: "UTC",
       dateMetadata: "1/2/2012",
-      result: "Mon, 02 Jan 2012 00:00:00 +0000",
+      result: "Mon, 02 Jan 2012 00:00:00 +0000"
     },
     {
       timeZone: "Asia/Calcutta",
       dateMetadata: "2020-03-29T19:29:00+0530",
-      result: "Sun, 29 Mar 2020 19:29:00 +0530",
+      result: "Sun, 29 Mar 2020 19:29:00 +0530"
     },
     {
       timeZone: "Asia/Calcutta",
       dateMetadata: "2020/03/29 19:29",
-      result: "Sun, 29 Mar 2020 19:29:00 +0530",
-    },
+      result: "Sun, 29 Mar 2020 19:29:00 +0530"
+    }
   ];
 
   tests.forEach(({ timeZone, dateMetadata, result }) => {
@@ -48,13 +48,13 @@ describe("date integration tests", function () {
     });
   });
 
-  function createTemplate(done) {
+  function createTemplate (done) {
     const test = this;
     const templateName = "example";
 
     const view = {
       name: "entries.html",
-      content: `{{#allEntries}}{{#formatDate}}${resultFormat}{{/formatDate}}{{/allEntries}}`,
+      content: `{{#allEntries}}{{#formatDate}}${resultFormat}{{/formatDate}}{{/allEntries}}`
     };
 
     Template.create(test.blog.id, templateName, {}, function (err) {
@@ -78,7 +78,7 @@ describe("date integration tests", function () {
     });
   }
 
-  function createEntryWithDate(test, date, callback) {
+  function createEntryWithDate (test, date, callback) {
     const path = "/test.txt";
     const contents = `Date: ${date}\n\n# Hello, world\n\nThis is a post.`;
     sync(test.blog.id, function (err, folder, done) {
@@ -91,11 +91,11 @@ describe("date integration tests", function () {
     });
   }
 
-  function checkDateOnBlog(test, callback) {
-    request(test.origin, function (err, res, body) {
-      expect(res.statusCode).toEqual(200);
-      callback(null, body.trim());
-    });
+  async function checkDateOnBlog (test, callback) {
+    const res = await fetch(test.origin);
+    expect(res.status).toEqual(200);
+    const body = await res.text();
+    callback(null, body.trim());
   }
 
   // Create a webserver for testing remote files

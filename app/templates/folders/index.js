@@ -23,10 +23,16 @@ const localPath = require("helper/localPath");
 const sync = require("sync");
 const fix = require("sync/fix");
 
+const FOLDER_ACCOUNT_EMAIL = config.admin.email || "example@example.com";
+
 const updates = {
   bjorn: {
     title: "Björn Allard",
     template: "SITE:portfolio"
+  },
+  botanist: {
+    title: "William Copeland McCalla",
+    template: "SITE:photo"
   },
   david: {
     title: "David",
@@ -36,13 +42,33 @@ const updates = {
     title: "Frances Benjamin Johnston",
     template: "SITE:reference"
   },
-  interviews: {
-    title: "Interviews",
+  illustrator: {
+    title: "Thought-forms",
+    template: "SITE:portfolio"
+  },
+  manifesto: {
+    title: "Manifesto",
+    template: "SITE:blog"
+  },
+  painter: {
+    title: "Piet Mondrian",
+    template: "SITE:portfolio"
+  },
+  photographer: {
+    title: "Sergey Prokudin-Gorsky",
+    template: "SITE:portfolio"
+  },
+  plants: {
+    title: "Plants",
     template: "SITE:magazine"
   },
-  william: {
-    title: "William Copeland McCalla",
-    template: "SITE:photo"
+  programmer: {
+    title: "Programmer",
+    template: "SITE:blog"
+  },
+  writer: {
+    title: "Writer",
+    template: "SITE:blog"
   }
 };
 
@@ -100,12 +126,12 @@ function setupUser (_callback) {
     });
   };
 
-  User.getByEmail(config.admin.email, function (err, user) {
+  User.getByEmail(FOLDER_ACCOUNT_EMAIL, function (err, user) {
     if (err) return callback(err);
 
     if (user) return callback(null, user);
 
-    User.create(config.admin.email, config.session.secret, {}, {}, callback);
+    User.create(FOLDER_ACCOUNT_EMAIL, config.session.secret, {}, {}, callback);
   });
 }
 

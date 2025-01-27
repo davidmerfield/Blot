@@ -1,9 +1,9 @@
 var Jasmine = require("jasmine");
 var jasmine = new Jasmine();
 var colors = require("colors");
+var client = require("models/client");
 var seedrandom = require("seedrandom");
 var async = require("async");
-var Express = require("express");
 var seed;
 var config = {
   spec_dir: "",
@@ -83,6 +83,7 @@ jasmine.addReporter({
       .map((fullName) => durations[fullName] + "ms " + colors.dim(fullName))
       .slice(0, 10)
       .forEach((line) => console.log(line));
+
   },
 });
 
@@ -99,36 +100,7 @@ global.test = {
     afterEach(require("./util/removeUser"));
   },
 
-  server: function (fn) {
-    var server;
-    var port = 8919;
-
-    // Create a webserver for testing remote files
-    beforeAll(function (done) {
-      server = Express();
-
-      // Load in routes in suite
-      fn(server, this);
-
-      this.origin = "http://localhost:" + port;
-      server = server.listen(port, function () {
-        // I was getting unexpected results without
-        // this arbritary delay. Basically, the dynamic
-        // routes in my server were not working, but the
-        // static folder was being served. This was serving
-        // raw template files at endpoints, breaking my
-        // broken link checking test. We would solve this
-        // by only calling back to done once the server is
-        // truly responding to requests properly...
-        setTimeout(done, 1500);
-      });
-    });
-
-    afterAll(function (done) {
-      server.close(done);
-      setTimeout(done, 1500);
-    });
-  },
+  server: require('./util/server'),
 
   blogs: function (total) {
     beforeEach(require("./util/createUser"));
@@ -179,4 +151,17 @@ global.test = {
   },
 };
 
-jasmine.execute();
+// get the number of keys in the database
+client.keys("*", function (err, keys) {
+  
+  if (err) {
+    throw err;
+  }
+  if (keys.length === 0) {
+    // if there are no keys, we need to run the tests
+    jasmine.execute();
+  } else {
+    // if there are keys, we need to throw an error
+    throw new Error("Database is not empty: " + keys.length + " keys found");
+  }
+});

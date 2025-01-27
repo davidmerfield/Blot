@@ -1,4 +1,3 @@
-var DropboxDatabase = require("clients/dropbox/database");
 var createClient = require("clients/dropbox/util/createClient");
 var get = require("../get/blog");
 
@@ -14,10 +13,8 @@ get(process.argv[2], function (err, user, blog) {
     blog.handle
   );
 
-  DropboxDatabase.get(blog.id, function (err, account) {
+  createClient(blog.id, function (err, client, account) {
     if (err) throw err;
-
-    var client = createClient(account.access_token);
 
     console.log('Listing path at "' + path + '"');
 
@@ -30,6 +27,13 @@ get(process.argv[2], function (err, user, blog) {
       })
       .then(function (res) {
         console.log(res);
+
+        if (res.result && res.result.entries) {
+          console.log('----');
+          res.result.entries.forEach(function (entry) {
+            console.log(entry.name, entry[".tag"]);
+          });
+        }
         process.exit();
       });
   });
