@@ -13,8 +13,6 @@ var csrf = require("csurf")();
 
 var form = new Express.Router();
 
-form.use(require("./rateLimit"));
-
 // Used to give context to the user when not logged in.
 // E.g. please log in to access the Services page
 var DASHBOARD_PAGE_DESCRIPTION = {
@@ -72,7 +70,7 @@ form
     res.render("dashboard/log-in");
   })
 
-  .post(parse, checkEmail, checkReset, checkPassword)
+  .post(require("./rateLimit"), parse, checkEmail, checkReset, checkPassword)
 
   .all(errorHandler)
 
