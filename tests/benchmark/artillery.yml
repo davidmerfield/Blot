@@ -1,32 +1,38 @@
 config:
-  target: "http://benchmark-server:8080" # Uses environment variables for host and port
+  target: "http://benchmark-server:8080"
   phases:
     - duration: 30
-      arrivalRate: 10 # 10 requests per second for 30 seconds
+      arrivalRate: 10
+  defaults:
+    headers:
+      Host: "david.localhost"
+      User-Agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3"
+      X-Forwarded-For: "217.1.186.106"
+      X-Forwarded-Proto: "https"
 
 scenarios:
-  - flow:
+  - name: "Blog search"
+    flow:
+      - get:
+          url: "/search?q=blog"
+
+  - name: "Blog homepage"
+    flow:
       - get:
           url: "/"
-          headers:
-            Host: "david.localhost" # Custom Host header
-            X-Forwarded-For: "217.1.186.106"
-            X-Forwarded-Proto: "https"
-      - get:
-          url: "/Hello.txt"
-          headers:
-            Host: "david.localhost" # Custom Host header
-            X-Forwarded-For: "217.1.186.106"
-            X-Forwarded-Proto: "https"
-      - get:
-          url: "/style.css"
-          headers:
-            Host: "david.localhost" # Custom Host header
-            X-Forwarded-For: "217.1.186.106"
-            X-Forwarded-Proto: "https"
-      - get:
-          url: "/script.js"
-          headers:
-            Host: "david.localhost" # Custom Host header
-            X-Forwarded-For: "217.1.186.106"
-            X-Forwarded-Proto: "https"
+          capture:
+            - selector: link[rel="stylesheet"][href^="/"]
+              as: "stylesheet"
+              attr: "href"
+            - selector: script[src^="/"]
+              as: "script"
+              attr: "src"
+      - parallel:
+          - get:
+              url: "{{ script }}"
+          - get:
+              url: "{{ stylesheet }}"
+          - get: 
+              url: "/robots.txt"
+          - get: 
+              url: "/feed.rss"
