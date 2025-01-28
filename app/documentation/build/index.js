@@ -61,7 +61,7 @@ const handle = (initial = false) => async (path) => {
   }
 }
 
-module.exports = async ({ watch = false } = {}) => {
+module.exports = async ({ watch = false, skipZip = false } = {}) => {
   console.time("build");
 
   // we only reset the destination directory in production
@@ -69,7 +69,7 @@ module.exports = async ({ watch = false } = {}) => {
     await fs.emptyDir(DESTINATION_DIRECTORY);
   } 
 
-  await zip();
+  if (!skipZip) await zip();
 
   await favicon(join(SOURCE_DIRECTORY, "images/logo.svg"), join(DESTINATION_DIRECTORY, "favicon.ico"));
 
@@ -111,5 +111,8 @@ async function buildHTML (path) {
 }
 
 if (require.main === module) {
-  module.exports({ watch: process.argv.includes("--no-watch") ? false : true });
+  module.exports({ 
+    watch: process.argv.includes("--no-watch") ? false : true,
+    skipZip: process.argv.includes("--skip-zip") ? true : false
+   });
 }

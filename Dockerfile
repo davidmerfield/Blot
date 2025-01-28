@@ -132,7 +132,7 @@ COPY .git .git
 FROM source AS prod
 
 # build the brochure static site and exit (i.e. dont watch for changes)
-RUN node ./app/documentation/build/index.js --no-watch
+RUN node ./app/documentation/build/index.js --no-watch --skip-zip
 
 # re-configure git (for some reason the config is lost)
 RUN git config --global user.email "you@example.com"
