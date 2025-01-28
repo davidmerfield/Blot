@@ -4,8 +4,20 @@ var helmet = require("helmet");
 var vhost = require("vhost");
 var blog = require("blog");
 var site = require("site");
-var clfdate = require("helper/clfdate");
 var trace = require("helper/trace");
+var clfdate = require("helper/clfdate");
+
+const { PerformanceObserver } = require('perf_hooks');
+
+const obs = new PerformanceObserver((list) => {
+  list.getEntries().forEach((entry) => {
+    // Each GC operation is reported here
+    // entry.kind can be 1 (major), 2 (minor), 4 (incremental), 8 (weakcb)
+    // entry.duration is how long the GC pause took, in milliseconds
+    console.log(`${clfdate()} [GC] kind=${entry.kind}, duration=${entry.duration}ms`);
+  });
+});
+obs.observe({ entryTypes: ['gc'], buffered: true });
 
 // Welcome to Blot. This is the Express application which listens on port 8080.
 // NGINX listens on port 80 in front of Express app and proxies requests to
