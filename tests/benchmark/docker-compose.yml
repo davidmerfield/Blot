@@ -1,0 +1,38 @@
+name: blot-benchmark
+services:
+
+  benchmark-redis:
+    image: "redis:alpine"
+    command: sh -c "rm -f /data/dump.rdb && redis-server"
+      
+  benchmark-server:
+    build:
+      context: ../../
+      dockerfile: Dockerfile
+      target: prod
+    depends_on:
+      - benchmark-redis
+    environment:
+      - BLOT_REDIS_HOST=benchmark-redis
+      - BLOT_HOST=localhost
+    command: >
+      sh -c "rm -rf /usr/src/app/data && mkdir /usr/src/app/data && node -v && npm -v && node app/setup.js && node app/templates/folders && node app/index.js"
+
+  benchmark-runner:
+    image: node:slim
+    depends_on:
+      - benchmark-server
+    volumes:
+      - ./:/usr/src/benchmark
+    working_dir: /usr/src/benchmark
+    environment:
+      - BLOT_HOST=benchmark-server
+    command: >
+      sh -c "
+        echo 'Waiting for benchmark server to start...' &&
+        ./wait-for-it.sh benchmark-server:8080 -t 120 &&
+        echo 'Server is ready. Running benchmark tests...' &&
+        node index.js &&
+        echo 'Benchmark completed. Exiting...' &&
+        exit 0
+      "

@@ -131,7 +131,7 @@ function setupUser (_callback) {
 
     if (user) return callback(null, user);
 
-    User.create(FOLDER_ACCOUNT_EMAIL, config.session.secret, {}, {}, callback);
+    User.create(FOLDER_ACCOUNT_EMAIL, config.session.secret || '', {}, {}, callback);
   });
 }
 
