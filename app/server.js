@@ -102,7 +102,7 @@ server.use(function (req, res, next) {
 
     console.log(
       clfdate(),
-      req.headers["x-request-id"] && req.headers["x-request-id"],
+      req.headers["x-request-id"] ? req.headers["x-request-id"] : "no-request-id",
       "PID=" + process.pid,
       req.protocol + "://" + req.hostname + req.originalUrl,
       req.method
