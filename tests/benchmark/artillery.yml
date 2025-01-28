@@ -10,19 +10,23 @@ scenarios:
           url: "/"
           headers:
             Host: "david.localhost" # Custom Host header
-            X-Forwarded-For: "https://david.localhost" # Custom X-Forwarded-For header
+            X-Forwarded-For: "217.1.186.106"
+            X-Forwarded-Proto: "https"
       - get:
-          url: "/static/style.css"
+          url: "/Hello.txt"
           headers:
             Host: "david.localhost" # Custom Host header
-            X-Forwarded-For: "https://david.localhost" # Custom X-Forwarded-For header
+            X-Forwarded-For: "217.1.186.106"
+            X-Forwarded-Proto: "https"
       - get:
-          url: "/"
+          url: "/style.css"
           headers:
             Host: "david.localhost" # Custom Host header
-            X-Forwarded-For: "https://david.localhost" # Custom X-Forwarded-For header
+            X-Forwarded-For: "217.1.186.106"
+            X-Forwarded-Proto: "https"
       - get:
-          url: "/static/script.js"
+          url: "/script.js"
           headers:
             Host: "david.localhost" # Custom Host header
-            X-Forwarded-For: "https://david.localhost" # Custom X-Forwarded-For header
+            X-Forwarded-For: "217.1.186.106"
+            X-Forwarded-Proto: "https"
