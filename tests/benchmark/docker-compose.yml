@@ -1,4 +1,3 @@
-name: blot-benchmark
 services:
 
   benchmark-redis:
