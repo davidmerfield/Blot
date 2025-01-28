@@ -37,12 +37,17 @@ GREEN_CONTAINER_PORT=8089
 BLOT_USER=1000:1000
 
 # Define the docker run command template with placeholders
+#  HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=3 \
+# CMD curl --fail http://localhost:8080/health || exit 1
 DOCKER_RUN_COMMAND="docker run --pull=always -d \
   --user $BLOT_USER \
   --name {{CONTAINER_NAME}} \
-  -p {{CONTAINER_PORT}}:8080 \
+  --network host \
+  --health-cmd 'curl --fail http://localhost:{{CONTAINER_PORT}}/health || exit 1' \
+  --health-interval=30s --health-timeout=5s --health-start-period=5s --health-retries=3 \
   --env-file /etc/blot/secrets.env \
   -e CONTAINER_NAME={{CONTAINER_NAME}} \
+  -e BLOT_PORT={{CONTAINER_PORT}} \
   -v /var/www/blot/data:/usr/src/app/data \
   --restart unless-stopped \
   --memory=2g --cpus=1.5 \
