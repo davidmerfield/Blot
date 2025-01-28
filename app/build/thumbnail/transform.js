@@ -23,7 +23,7 @@ sharp.cache(false);
 
 var thumbnails = require("./config").THUMBNAILS;
 
-function main(path, outputDirectory, callback) {
+function main (path, outputDirectory, callback) {
   var read, input, result;
 
   callback = callOnce(callback);
@@ -56,7 +56,7 @@ function main(path, outputDirectory, callback) {
         result[name] = {
           width: width,
           height: height,
-          name: fileName,
+          name: fileName
         };
 
         next();
@@ -68,24 +68,26 @@ function main(path, outputDirectory, callback) {
   );
 }
 
-function transform(input, to, options, callback) {
+function transform (input, to, options, callback) {
   var size = options.size;
 
-  var transform = input.clone().rotate();
+  var transform = input.clone().keepIccProfile().rotate();
 
   transform.on("error", callback);
+
+  transform.keepIccProfile();
 
   if (options.crop) {
     transform.resize(size, size, {
       withoutEnlargement: true,
       fit: "cover",
-      position: sharp.strategy.entropy,
+      position: sharp.strategy.entropy
     });
   } else {
     transform.resize(size, size, { withoutEnlargement: true, fit: "inside" });
   }
 
-  transform.toFile(to, function done(err, info) {
+  transform.toFile(to, function done (err, info) {
     if (err) return callback(err);
 
     callback(err, info.width, info.height);
