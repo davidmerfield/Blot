@@ -42,6 +42,7 @@ DOCKER_RUN_COMMAND="docker run --pull=always -d \
   --name {{CONTAINER_NAME}} \
   -p {{CONTAINER_PORT}}:8080 \
   --env-file /etc/blot/secrets.env \
+  -e CONTAINER_NAME={{CONTAINER_NAME}} \
   -v /var/www/blot/data:/usr/src/app/data \
   --restart unless-stopped \
   --memory=2g --cpus=1.5 \
