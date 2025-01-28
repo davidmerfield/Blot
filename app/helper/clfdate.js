@@ -1,7 +1,7 @@
 // map 'blot-container-blue' to 'b' for blue
 // map 'blot-container-green' to 'g' for green
 const CONTAINER_NAME = process.env.CONTAINER_NAME;
-const PREFIX = (typeof CONTAINER_NAME === 'string' && CONTAINER_NAME.length > 14) ? CONTAINER_NAME[14] : "";
+const PREFIX = (typeof CONTAINER_NAME === 'string' && CONTAINER_NAME.length > 15) ? CONTAINER_NAME[15] : "";
 
 var CLF_MONTH = [
   "Jan",
