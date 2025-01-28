@@ -14,9 +14,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # Step 2: Set up Docker
-      - name: Set up Docker
-        uses: docker/setup-buildx-action@v2
+      # Step 2: Install Docker Compose
+      - name: Install Docker Compose
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y docker-compose
 
       # Step 3: Run the benchmark
       - name: Run benchmark
