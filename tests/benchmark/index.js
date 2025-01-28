@@ -31,7 +31,7 @@ try {
 const artilleryPath = path.resolve(__dirname, 'node_modules/.bin/artillery');
 
 // Spawn Artillery to run the benchmark
-const artillery = spawn(artilleryPath, ['run', 'artillery.yml'], { stdio: 'inherit' });
+const artillery = spawn(artilleryPath, ['run', 'blog.yml'], { stdio: 'inherit' });
 
 // Handle errors when spawning Artillery
 artillery.on('error', (error) => {

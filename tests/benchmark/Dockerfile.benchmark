@@ -1,5 +1,5 @@
 # Use a lightweight Node.js image as the base
-FROM node:18
+FROM node:slim
 
 # Set the working directory inside the container
 WORKDIR /usr/src/benchmark
@@ -13,7 +13,8 @@ RUN npm install
 # Copy the rest of the benchmark folder into the container
 COPY ./index.js ./
 COPY ./wait-for-it.sh ./
-COPY ./artillery.yml ./
+COPY ./dashboard.yml ./
+COPY ./blog.yml ./
 
 # Make sure wait-for-it.sh is executable
 RUN chmod +x ./wait-for-it.sh

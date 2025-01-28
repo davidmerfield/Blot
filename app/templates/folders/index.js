@@ -24,6 +24,7 @@ const sync = require("sync");
 const fix = require("sync/fix");
 
 const FOLDER_ACCOUNT_EMAIL = config.admin.email || "example@example.com";
+const FOLDER_ACCOUNT_PASSWORD = config.session.secret || "password";
 
 const updates = {
   bjorn: {
@@ -131,7 +132,14 @@ function setupUser (_callback) {
 
     if (user) return callback(null, user);
 
-    User.create(FOLDER_ACCOUNT_EMAIL, config.session.secret || '', {}, {}, callback);
+    User.hashPassword(FOLDER_ACCOUNT_PASSWORD, function (err, hash) {
+      if (err) return callback(err);
+
+      if (!hash) return callback(new Error("Password hash not generated"));
+      
+      console.log("Creating user", FOLDER_ACCOUNT_EMAIL, "with password", FOLDER_ACCOUNT_PASSWORD);
+      User.create(FOLDER_ACCOUNT_EMAIL, hash, {}, {}, callback);
+    });
   });
 }
 

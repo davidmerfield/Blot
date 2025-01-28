@@ -3,6 +3,7 @@ config:
   phases:
     - duration: 30
       arrivalRate: 10
+      rampTo: 50
   defaults:
     headers:
       Host: "david.localhost"
@@ -14,8 +15,28 @@ scenarios:
   - name: "Blog search"
     flow:
       - get:
-          url: "/search?q=blog"
-
+          url: "/search"
+          capture:
+            - selector: link[rel="stylesheet"][href^="/"]
+              as: "stylesheet"
+              attr: "href"
+            - selector: script[src^="/"]
+              as: "script"
+              attr: "src"
+      - parallel:
+          - get:
+              url: "{{ script }}"
+          - get:
+              url: "{{ stylesheet }}"
+      - get:
+          url: "/search?q=hello"
+          capture: 
+            - selector: a.full-line
+              as: "post"
+              attr: "href"
+      - get:
+          url: "{{ post }}"
+          
   - name: "Blog homepage"
     flow:
       - get:
@@ -36,3 +57,8 @@ scenarios:
               url: "/robots.txt"
           - get: 
               url: "/feed.rss"
+  
+  - name: "Blog broken link"
+    flow:
+      - get:
+          url: "/WOWOWO"      
