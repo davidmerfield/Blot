@@ -134,6 +134,10 @@ FROM source AS prod
 # build the brochure static site and exit (i.e. dont watch for changes)
 RUN node ./app/documentation/build/index.js --no-watch
 
+# re-configure git (for some reason the config is lost)
+RUN git config --global user.email "you@example.com"
+RUN git config --global user.name "Your Name"
+
 # Ensure the logfile directory exists with proper permissions
 RUN mkdir -p /usr/src/app/data/logs/docker && chmod -R 0755 /usr/src/app/data/logs/docker
 
