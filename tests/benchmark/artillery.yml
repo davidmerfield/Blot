@@ -1,0 +1,28 @@
+config:
+  target: "http://benchmark-server:8080" # Uses environment variables for host and port
+  phases:
+    - duration: 30
+      arrivalRate: 10 # 10 requests per second for 30 seconds
+
+scenarios:
+  - flow:
+      - get:
+          url: "/"
+          headers:
+            Host: "david.localhost" # Custom Host header
+            X-Forwarded-For: "https://david.localhost" # Custom X-Forwarded-For header
+      - get:
+          url: "/static/style.css"
+          headers:
+            Host: "david.localhost" # Custom Host header
+            X-Forwarded-For: "https://david.localhost" # Custom X-Forwarded-For header
+      - get:
+          url: "/"
+          headers:
+            Host: "david.localhost" # Custom Host header
+            X-Forwarded-For: "https://david.localhost" # Custom X-Forwarded-For header
+      - get:
+          url: "/static/script.js"
+          headers:
+            Host: "david.localhost" # Custom Host header
+            X-Forwarded-For: "https://david.localhost" # Custom X-Forwarded-For header
