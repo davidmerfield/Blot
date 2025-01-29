@@ -6,7 +6,7 @@ const mustache = require("mustache");
 
 const rootDirectory = config.blot_directory + "/app";
 const toolsDirectory = rootDirectory + "/views/tools";
-const outputDirectory = config.data_directory + "/documentation/tools";
+const outputDirectory = config.views_directory + "/tools";
 const html = require("./html");
 
 const renderTemplate = async (name, data, destination) => {

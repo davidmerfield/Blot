@@ -7,7 +7,7 @@ const favicon = require("./favicon");
 const recursiveReadDir = require("../../helper/recursiveReadDirSync");
 
 const SOURCE_DIRECTORY = join(__dirname, "../../views");
-const DESTINATION_DIRECTORY = config.data_directory + '/documentation';
+const DESTINATION_DIRECTORY = config.views_directory;
 
 const buildCSS = require("./css")({source: SOURCE_DIRECTORY, destination: DESTINATION_DIRECTORY});
 const buildJS = require("./js")({source: SOURCE_DIRECTORY, destination: DESTINATION_DIRECTORY});
