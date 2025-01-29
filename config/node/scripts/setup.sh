@@ -145,11 +145,6 @@ cp $SCRIPTS_DIRECTORY/node.service /etc/systemd/system/node.service
 systemctl daemon-reload
 
 amazon-linux-extras install epel -y
-yum install -y monit
-cp $SCRIPTS_DIRECTORY/monitrc /etc/monitrc
-
-systemctl start monit
-systemctl enable monit
 
 #  add the following to '.bashrc'
 
