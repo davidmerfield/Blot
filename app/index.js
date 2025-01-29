@@ -5,6 +5,7 @@ const email = require("helper/email");
 const scheduler = require("./scheduler");
 const setup = require("./setup");
 const server = require("./server");
+const flush = require("documentation/tools/flush-cache");
 
 console.log(clfdate(), `Starting server pid=${process.pid} environment=${config.environment}`);
 
@@ -22,6 +23,9 @@ server.listen(config.port, function () {
 
     console.log(clfdate(), "Finished setting up server");
 
+    // Flush the cache of documentation
+    flush();
+    
     // Launch scheduler for background tasks, like backups, emails
     scheduler();
 

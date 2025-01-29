@@ -109,6 +109,15 @@ COPY ./config ./config
 COPY ./notes ./notes
 COPY ./todo.txt ./todo.txt
 
+# copy in the git repository so the news page can be generated
+COPY .git .git
+
+# build the brochure static site and exit (i.e. dont watch for changes)
+RUN node ./app/documentation/build/index.js --no-watch --skip-zip
+
+# remove the git repository so it doesn't get copied into the final image
+RUN rm -rf .git
+
 ## Stage 4 (testing)
 # This stage is used for running tests in CI
 FROM source AS test
@@ -122,31 +131,12 @@ COPY --from=dev /usr/src/app/node_modules ./node_modules
 # this copies the tests
 COPY ./tests ./tests
 
-# copy in the git repository so the news page can be generated
-# inside the container, this is a bit of a hack and should be
-# replaced with a better solution in the future
-COPY .git .git
-
 ## Stage 5 (default, production)
 # The final production stage
 FROM source AS prod
 
-# build the brochure static site and exit (i.e. dont watch for changes)
-RUN node ./app/documentation/build/index.js --no-watch --skip-zip
-
 HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=3 \
   CMD curl --fail http://localhost:8080/health || exit 1
-
-# copy in the git repository so the news page can be generated
-# inside the container, this is a bit of a hack and should be
-# replaced with a better solution in the future
-COPY .git .git
-
-# re-configure git (for some reason the config is lost)
-# something still seems to reset this, but it's not clear what?
-# maybe it's run as the wrong user?
-RUN git config --global user.email "you@example.com"
-RUN git config --global user.name "Your Name"
 
 # Ensure the logfile directory exists with proper permissions
 RUN mkdir -p /usr/src/app/data/logs/docker && chmod -R 0755 /usr/src/app/data/logs/docker

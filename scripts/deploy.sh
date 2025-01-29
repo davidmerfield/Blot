@@ -49,9 +49,7 @@ DOCKER_RUN_COMMAND="docker run --pull=always -d \
   ghcr.io/davidmerfield/blot:$GIT_COMMIT_HASH"
 
 # Configurable health check timeout
-timeout=${HEALTH_CHECK_TIMEOUT:-60}  # Default to 6
-
-0 seconds
+timeout=${HEALTH_CHECK_TIMEOUT:-60}  # Default to 60 seconds
 interval=2  # Interval between health checks
 
 # Function to run a command over SSH

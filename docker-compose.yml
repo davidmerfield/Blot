@@ -28,7 +28,7 @@ services:
     # inside docker, resolving the host to the correct IP
     extra_hosts:
       - "${BLOT_HOST}:${HOST_IP}"
-    command: npx nodemon /usr/src/app/app/local.js --watch /usr/src/app/app -e js,html,css --ignore /usr/src/app/app/documentation/data --ignore /usr/src/app/app/documentation/output --ignore /usr/src/app/app/views  --ignore /usr/src/app/app/clients/*/views
+    command: npx nodemon /usr/src/app/app/local.js --watch /usr/src/app/app -e js,html,css --ignore /usr/src/app/app/documentation/data --ignore /usr/src/app/app/documentation/output --ignore /usr/src/app/app/views --ignore /usr/src/app/app/views-built  --ignore /usr/src/app/app/clients/*/views
 
   redis:
     image: "redis:alpine"
