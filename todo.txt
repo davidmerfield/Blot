@@ -6,6 +6,8 @@ Fix missing 'views' property of templates in package.json after downloading a te
 
 Fix bug with pages not appearing in backlinks and [tell questioner](https://blot.im/questions/2913)
 
+Fix issue with curl -o /dev/null -s -w "%{time_total}\n" https://preview-of-my-copy-of-portfolio-on-cerealandsounds.blot.im/bowl-10
+
 Surface Blot client sync errors on dashboard, add email notifications for errors
 - surface dropbox out of space error
 
