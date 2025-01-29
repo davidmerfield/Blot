@@ -46,15 +46,24 @@ ENV NODE_PATH=/usr/src/app/app
 # Set the working directory in the Docker container
 WORKDIR /usr/src/app
 
-# Copy the built application from the builder stage
-COPY --from=builder /usr/src/app .
-COPY --from=builder /usr/local/bin/pandoc /usr/local/bin/pandoc
-
 # Install necessary packages for Puppeteer and the git client
 RUN apk add --no-cache git curl chromium nss freetype harfbuzz ca-certificates ttf-freefont
 
 # Set the Puppeteer executable path
 ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
+
+# Change the ownership of the working directory
+RUN chown -R 1000:1000 /usr/src/app
+
+# Switch to a non-root user (ec2-user in production)
+USER 1000:1000
+
+# Copy the built application from the builder stage and set its ownership
+COPY --from=builder --chown=1000:1000 /usr/src/app .
+COPY --from=builder --chown=1000:1000 /usr/local/bin/pandoc /usr/local/bin/pandoc
+
+# Configure git for the non-root user
+RUN git config --global user.email "you@example.com" && git config --global user.name "Your Name"
 
 ## Stage 2 (development)
 # This stage is for development purposes
@@ -74,14 +83,14 @@ FROM base AS source
 WORKDIR /usr/src/app
 
 # Copy files and set ownership for non-root user
-COPY ./app ./app
-COPY ./scripts ./scripts
-COPY ./config ./config
-COPY ./notes ./notes
-COPY ./todo.txt ./todo.txt
+COPY --chown=1000:1000 ./app ./app
+COPY --chown=1000:1000 ./scripts ./scripts
+COPY --chown=1000:1000 ./config ./config
+COPY --chown=1000:1000 ./notes ./notes
+COPY --chown=1000:1000 ./todo.txt ./todo.txt
 
 # copy in the git repository so the news page can be generated
-COPY  .git .git
+COPY --chown=1000:1000  .git .git
 
 # build the brochure static site and exit (i.e. dont watch for changes)
 # remove the git repository so it doesn't get copied into the final image
@@ -94,13 +103,10 @@ FROM source AS test
 WORKDIR /usr/src/app
 ENV NODE_ENV=test
 
-COPY --from=dev /usr/src/app/node_modules ./node_modules
+COPY --from=dev --chown=1000:1000 /usr/src/app/node_modules ./node_modules
 
 # this copies the tests
-COPY ./tests ./tests
-
-# Configure git so the git client doesn't complain
-RUN git config --global user.email "you@example.com" && git config --global user.name "Your Name"
+COPY --chown=1000:1000 ./tests ./tests
 
 ## Stage 5 (default, production)
 # The final production stage
@@ -108,15 +114,6 @@ FROM source AS prod
 
 HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
   CMD curl --fail http://localhost:8080/health || exit 1
-
-# Ensure the logfile directory exists with proper permissions
-RUN mkdir -p /usr/src/app/data/logs/docker && chmod -R 0755 /usr/src/app/data/logs/docker
-
-# Change to the non-root user for the rest of the Dockerfile
-USER 1000
-
-# Re-configuring git for the non-root user
-RUN git config --global user.email "you@example.com" && git config --global user.name "Your Name"
 
 # 1.5gb max memory is 75% of the 2gb limit for the container
 CMD ["sh", "-c", "node --max-old-space-size=1536 /usr/src/app/app/index.js >> /usr/src/app/data/logs/docker/app.log 2>&1"]
