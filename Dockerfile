@@ -89,7 +89,7 @@ COPY --chown=1000:1000 ./todo.txt ./todo.txt
 COPY --chown=1000:1000 .git .git
 
 # copy in the git repository so the news page can be generated
-COPY .git .git
+COPY --chown=1000:1000 .git .git
 
 # build the brochure static site and exit (i.e. dont watch for changes)
 # remove the git repository so it doesn't get copied into the final image
