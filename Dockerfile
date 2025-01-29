@@ -33,7 +33,6 @@ RUN apk add --no-cache --virtual .build-deps python3 make g++ autoconf automake 
     && npm cache clean --force \
     && apk del .build-deps
 
-
 ## Stage 1 (production base)
 # This stage prepares the production environment
 FROM node:18.20-alpine AS base
@@ -76,11 +75,10 @@ WORKDIR /usr/src/app
 
 # Copy files and set ownership for non-root user
 COPY ./app ./app
-COPY  ./scripts ./scripts
-COPY  ./config ./config
-COPY  ./notes ./notes
-COPY  ./todo.txt ./todo.txt
-COPY  .git .git
+COPY ./scripts ./scripts
+COPY ./config ./config
+COPY ./notes ./notes
+COPY ./todo.txt ./todo.txt
 
 # copy in the git repository so the news page can be generated
 COPY  .git .git
@@ -116,6 +114,8 @@ RUN mkdir -p /usr/src/app/data/logs/docker && chmod -R 0755 /usr/src/app/data/lo
 
 # Change to the non-root user for the rest of the Dockerfile
 USER 1000
+
+RUN git config --global user.email "you@example.com" && git config --global user.name "Your Name"
 
 # 1.5gb max memory is 75% of the 2gb limit for the container
 CMD ["sh", "-c", "node --max-old-space-size=1536 /usr/src/app/app/index.js >> /usr/src/app/data/logs/docker/app.log 2>&1"]

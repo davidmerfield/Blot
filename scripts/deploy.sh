@@ -32,13 +32,8 @@ GREEN_CONTAINER="blot-container-green"
 BLUE_CONTAINER_PORT=8088
 GREEN_CONTAINER_PORT=8089
 
-# To determine the user ID and group ID of the user running the container
-# run `id` on the host machine and replace the values below
-BLOT_USER=1000:1000
-
 # Define the docker run command template with placeholders
 DOCKER_RUN_COMMAND="docker run --pull=always -d \
-  --user $BLOT_USER \
   --name {{CONTAINER_NAME}} \
   -p {{CONTAINER_PORT}}:8080 \
   --env-file /etc/blot/secrets.env \
