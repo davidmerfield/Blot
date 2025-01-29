@@ -1,4 +1,6 @@
-Fix git config -l issue
+Fix folder downloads
+
+Fix news page
 
 Fix missing 'views' property of templates in package.json after downloading a template through the web template editor.
 
