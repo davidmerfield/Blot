@@ -53,9 +53,6 @@ COPY --from=builder /usr/local/bin/pandoc /usr/local/bin/pandoc
 # Install necessary packages for Puppeteer and the git client
 RUN apk add --no-cache git curl chromium nss freetype harfbuzz ca-certificates ttf-freefont
 
-# Configure git so the git client doesn't complain
-RUN git config --global user.email "you@example.com" && git config --global user.name "Your Name"
-
 # Set the Puppeteer executable path
 ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
 
@@ -101,6 +98,9 @@ COPY --from=dev /usr/src/app/node_modules ./node_modules
 
 # this copies the tests
 COPY ./tests ./tests
+
+# Configure git so the git client doesn't complain
+RUN git config --global user.email "you@example.com" && git config --global user.name "Your Name"
 
 ## Stage 5 (default, production)
 # The final production stage
