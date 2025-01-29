@@ -61,7 +61,7 @@ describe("Blot's site'", function () {
       await detectUnusedCSS({
         origin: this.origin, 
         cssFilePaths: [
-          join(config.blot_directory,'app/documentation/data/documentation.min.css')
+          join(config.data_directory, '/documentation/documentation.min.css')
         ],
       });
 
@@ -133,7 +133,7 @@ describe("Blot's site'", function () {
       await detectUnusedCSS({
         origin: this.origin, 
         cssFilePaths: [
-          join(config.blot_directory,'app/documentation/data/dashboard.min.css')
+          join(config.data_directory, '/documentation/dashboard.min.css')
         ],
         headers: {
          'Cookie': cookieHeader,

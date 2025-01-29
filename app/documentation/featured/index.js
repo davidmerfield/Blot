@@ -5,6 +5,7 @@
 // the server's boot. This filtering is also rescheduled
 // once per day to ensure sites are fresh.
 const fs = require("fs-extra");
+const config = require("config");
 
 let featured = { sites: [] };
 
@@ -25,7 +26,7 @@ const loadFeatured = async () => {
   if (featured.sites.length) return featured;
 
   try {
-    const json = await fs.readFile(__dirname + "/data/featured.json", "utf-8");
+    const json = await fs.readFile(config.data_directory + "/featured/featured.json", "utf-8");
     featured = JSON.parse(json);
     featured.sites = featured.sites.map(i => {
         return {

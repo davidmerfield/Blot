@@ -118,7 +118,7 @@ module.exports = async (req, res, next) => {
 
         const zip_name = `${template.demo_folder}.zip`;
         const zip = `/folders/${zip_name}`;
-        const pathToZip = path.join(config.blot_directory, "app/documentation/data", zip);
+        const pathToZip = path.join(config.data_directory + "/documentation", zip);
 
         if (await fs.pathExists(pathToZip)) {
           res.locals.template.zip = zip;

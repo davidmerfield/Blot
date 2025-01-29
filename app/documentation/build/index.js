@@ -7,7 +7,7 @@ const favicon = require("./favicon");
 const recursiveReadDir = require("../../helper/recursiveReadDirSync");
 
 const SOURCE_DIRECTORY = join(__dirname, "../../views");
-const DESTINATION_DIRECTORY = join(__dirname, "../data");
+const DESTINATION_DIRECTORY = config.data_directory + '/documentation';
 
 const buildCSS = require("./css")({source: SOURCE_DIRECTORY, destination: DESTINATION_DIRECTORY});
 const buildJS = require("./js")({source: SOURCE_DIRECTORY, destination: DESTINATION_DIRECTORY});
@@ -67,7 +67,9 @@ module.exports = async ({ watch = false, skipZip = false } = {}) => {
   // we only reset the destination directory in production
   if (config.environment !== "development") {
     await fs.emptyDir(DESTINATION_DIRECTORY);
-  } 
+  } else {
+    await fs.ensureDir(DESTINATION_DIRECTORY);
+  }
 
   if (!skipZip) await zip();
 

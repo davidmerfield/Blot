@@ -5,7 +5,7 @@ const parseCSS = require("css");
 const fetch = require("node-fetch");
 const { parse, resolve } = require("url");
 const { join } = require("path");
-const { blot_directory } = require('config');
+const { blot_directory, data_directory } = require('config');
 const recursiveReadDir = require("helper/recursiveReadDirSync");
 
 const TMP_CACHE = join(blot_directory, 'data/tmp/unused-css-cache.html');
@@ -278,7 +278,7 @@ if (require.main === module) {
     origin: 'https://local.blot',
     cache: true,
     cssFilePaths: [
-      join(blot_directory, 'app/documentation/data/documentation.min.css')
+      join(data_directory, 'documentation/documentation.min.css')
     ]
   });
 }

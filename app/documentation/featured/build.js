@@ -13,8 +13,9 @@ const fs = require("fs-extra");
 const { parse } = require("url");
 const { join } = require("path");
 
+const config = require("config");
 const avatarDirectory = __dirname + "/avatars";
-const thumbnailDirectory = __dirname + "/data/thumbnails";
+const thumbnailDirectory = config.data_directory + "/featured/thumbnails";
 const spriteDestination = __dirname + "/../../views/images/featured.jpg";
 const verifySiteIsOnline = require("./verifySiteIsOnline");
 

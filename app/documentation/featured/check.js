@@ -25,7 +25,7 @@ async function check () {
 
   featured.sites = await filter(featured.sites);
 
-  await fs.outputJSON(__dirname + "/data/featured.json", featured, {
+  await fs.outputJSON(config.data_directory + "/featured/featured.json", featured, {
     spaces: 2
   });
 }

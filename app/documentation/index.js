@@ -6,7 +6,7 @@ const { join } = require("path");
 
 const documentation = Express.Router();
 
-const VIEW_DIRECTORY = join(__dirname, "data");
+const VIEW_DIRECTORY = config.data_directory + "/documentation";
 
 documentation.get(["/how/format/*"], function (req, res, next) {
   res.locals["show-on-this-page"] = true;

@@ -6,7 +6,7 @@ const root = require("helper/rootDir");
 const config = require("config");
 const { join } = require("path");
 
-const VIEW_DIRECTORY = join(root, "app/documentation/data");
+const VIEW_DIRECTORY = config.data_directory + "/documentation";
 
 // Cache ID is used for the static assets
 // eventually remove this when you merge
