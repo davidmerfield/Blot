@@ -99,9 +99,6 @@ COPY --from=dev /usr/src/app/node_modules ./node_modules
 # this copies the tests
 COPY ./tests ./tests
 
-# Change to the non-root user for the rest of the Dockerfile
-USER 1000
-
 ## Stage 5 (default, production)
 # The final production stage
 FROM source AS prod
