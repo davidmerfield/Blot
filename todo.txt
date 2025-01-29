@@ -1,3 +1,5 @@
+Fix git config -l issue
+
 Fix missing 'views' property of templates in package.json after downloading a template through the web template editor.
 
 Fix bug with pages not appearing in backlinks and [tell questioner](https://blot.im/questions/2913)

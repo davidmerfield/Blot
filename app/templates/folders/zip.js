@@ -4,7 +4,7 @@ const archiver = require("archiver");
 const config = require("config");
 
 const VIEW_DIRECTORY =
-  config.blot_directory + "/app/documentation/data/folders";
+  config.views_directory + "/folders";
 const FOLDER_DIRECTORY = __dirname;
 
 const tmp = require("helper/tempDir")();
