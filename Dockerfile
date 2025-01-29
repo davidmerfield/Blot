@@ -51,6 +51,9 @@ WORKDIR /usr/src/app
 COPY --chown=1000:1000 --from=builder /usr/src/app .
 COPY --chown=1000:1000 --from=builder /usr/local/bin/pandoc /usr/local/bin/pandoc
 
+# Change the ownership of the application directory to the non-root user
+RUN chown -R 1000:1000 /usr/src/app
+
 # Install necessary packages for Puppeteer and the git client
 RUN apk add --no-cache git curl chromium nss freetype harfbuzz ca-certificates ttf-freefont
 
