@@ -1,6 +1,7 @@
 var moment = require("moment");
 var exec = require("child_process").exec;
 var rootDir = require("helper/rootDir");
+const { load } = require("text-to-svg");
 
 // Ignores merge commits since they're not useful to readers
 // Ignores commits mentioning 'commit' since they're not useful to readers
@@ -30,9 +31,8 @@ const commitMessageMapRegEx = new RegExp(
   "g"
 );
 
-module.exports = function loadDone (req, res, next) {
-  console.log('News page: fetching git commits with CWD:', rootDir);
-  exec("git log -300", { cwd: rootDir }, function (err, output) {
+module.exports = (req, res, next) => {
+  loadDone(function(err, data) {
 
     if (err) {
       console.log("News page: error fetching git commits");
@@ -40,6 +40,23 @@ module.exports = function loadDone (req, res, next) {
       res.locals.recent_commits = [];
       res.locals.days = [];
       return next();
+    }
+
+    const { recent_commits, days } = data;
+
+    res.locals.recent_commits = recent_commits;
+    res.locals.days = days;
+
+    next();
+  });
+};
+
+function loadDone (callback) {
+  console.log('News page: fetching git commits with CWD:', rootDir);
+  exec("git log -300", { cwd: rootDir }, function (err, output) {
+    if (err) {
+      console.log("News page: error fetching git commits");
+      return callback(err);
     }
 
     output = output.split("\n\n");
@@ -125,7 +142,6 @@ module.exports = function loadDone (req, res, next) {
       return { ...commit, fromNow: moment(commit.date).fromNow() };
     });
 
-    console.log('News page: fetched git commits successfully.', res.locals.recent_commits.length, 'commits', res.locals.days.length, 'days')
-    next();
+    callback(null, { recent_commits, days });
   });
 };
