@@ -26,6 +26,7 @@
   },
   "scripts": {
     "test": "./tests/invoke.sh",
+    "benchmark": "./tests/benchmark/invoke.sh",
     "start": "docker-compose up --build",
     "folder": "docker exec blot-node-app-1 node app/templates/folders"
   },

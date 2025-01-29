@@ -1,0 +1,32 @@
+services:
+
+  benchmark-redis:
+    image: "redis:alpine"
+    command: sh -c "redis-server" # add 'rm -f /data/dump.rdb &&' to reset the database
+      
+  benchmark-server:
+    build:
+      context: ../../
+      dockerfile: Dockerfile
+      target: prod
+    stop_grace_period: 1s
+    depends_on:
+      - benchmark-redis
+    ports:
+      - "8080:8080"
+    environment:
+      - BLOT_REDIS_HOST=benchmark-redis
+      - BLOT_HOST=localhost
+    # rm -rf /usr/src/app/data && mkdir /usr/src/app/data && node -v && npm -v && 
+    command: >
+      sh -c "node app/setup.js && node app/templates/folders david && node app/index.js"
+
+  benchmark-runner:
+    build:
+      context: .
+      dockerfile: Dockerfile.benchmark
+    depends_on:
+      - benchmark-server
+    environment:
+      - BLOT_HOST=benchmark-server
+      - BLOT_PORT=8080

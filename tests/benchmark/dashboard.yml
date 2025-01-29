@@ -1,0 +1,41 @@
+config:
+  target: "http://benchmark-server:8080"
+  phases:
+    - duration: 10
+      arrivalRate: 1
+  defaults:
+    headers:
+      Host: "benchmark-server"
+      User-Agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3"
+      X-Forwarded-For: "217.1.186.106"
+      X-Forwarded-Proto: "https"
+
+before:
+  flow:
+    - post:
+        url: '/sites/log-in'
+        form:
+          email: 'example@example.com'
+          password: 'password'
+        capture:
+          - as: "connectSid"
+            from: "headers['set-cookie']"
+            regex: "connect\\.sid=([^;]+);" # Regex to extract the value of connect.sid
+
+scenarios:
+  - name: "Dashboard view sites"
+    flow:
+      - get:
+          url: '/sites'
+          headers:
+            Cookie: "connect.sid={{ connectSid }}" # Use the extracted cookie
+          redirect: false
+          capture:
+            - selector: a.blog-link
+              as: "site"
+              attr: "href"
+      - get:
+          url: "{{ site }}"
+          headers:
+            Cookie: "connect.sid={{ connectSid }}" # Use the extracted cookie
+          redirect: false
