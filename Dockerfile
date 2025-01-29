@@ -24,18 +24,14 @@ RUN ARCH=$(echo ${TARGETPLATFORM} | sed -nE 's/^linux\/(amd64|arm64)$/\1/p') \
   && chmod +x /usr/local/bin/pandoc \
   && rm -r pandoc-${PANDOC_VERSION}
 
-# Install build dependencies
-RUN apk add --no-cache --virtual .build-deps python3 make g++ autoconf automake libtool nasm libpng-dev git tar 
-
-# Switch to a non-root user (ec2-user in production)
-USER 1000:1000
 # Copy package files
-COPY --chown=1000:1000 package.json package-lock.json ./
-RUN npm ci && npm cache clean --force 
+COPY package.json package-lock.json ./
 
-# Switch back to root to remove build dependencies
-USER root
-RUN apk del .build-deps
+# Install build dependencies
+RUN apk add --no-cache --virtual .build-deps python3 make g++ autoconf automake libtool nasm libpng-dev git tar \
+    && npm ci \
+    && npm cache clean --force \
+    && apk del .build-deps
 
 ## Stage 1 (production base)
 # This stage prepares the production environment
