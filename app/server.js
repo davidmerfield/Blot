@@ -12,10 +12,16 @@ const { PerformanceObserver } = require('perf_hooks');
 // 1. GC Observer
 const obs = new PerformanceObserver((list) => {
   list.getEntries().forEach((entry) => {
-    // Each GC operation is reported here
-    // entry.kind can be 1 (major), 2 (minor), 4 (incremental), 8 (weakcb)
-    // entry.duration is how long the GC pause took (ms)
-    console.log(`${clfdate()} [GC] kind=${entry.kind}, duration=${entry.duration}ms`);
+    // Get memory usage details
+    const memoryUsage = process.memoryUsage();
+    const heapUsedMB = (memoryUsage.heapUsed / 1024 / 1024).toFixed(2);
+    const heapTotalMB = (memoryUsage.heapTotal / 1024 / 1024).toFixed(2);
+
+    // Log GC event and heap size
+    console.log(
+      `${clfdate()} [GC] kind=${entry.kind}, duration=${entry.duration}ms, ` +
+      `heapUsed=${heapUsedMB}MB, heapTotal=${heapTotalMB}MB`
+    );
   });
 });
 obs.observe({ entryTypes: ['gc'], buffered: true });
@@ -29,7 +35,18 @@ setInterval(() => {
   const now = process.hrtime.bigint();
   // Convert nanoseconds to milliseconds, then see how far we deviated from 1000 ms
   const diffMs = (Number(now - lastCheck) / 1e6) - CHECK_INTERVAL_MS;
-  console.log(`${clfdate()} [LoopLag] ${diffMs.toFixed(2)}ms`);
+
+  // Get memory usage details
+  const memoryUsage = process.memoryUsage();
+  const heapUsedMB = (memoryUsage.heapUsed / 1024 / 1024).toFixed(2);
+  const heapTotalMB = (memoryUsage.heapTotal / 1024 / 1024).toFixed(2);
+
+  // Log event loop lag and heap size
+  console.log(
+    `${clfdate()} [LoopLag] ${diffMs.toFixed(2)}ms, ` +
+    `heapUsed=${heapUsedMB}MB, heapTotal=${heapTotalMB}MB`
+  );
+
   lastCheck = now;
 }, CHECK_INTERVAL_MS);
 
