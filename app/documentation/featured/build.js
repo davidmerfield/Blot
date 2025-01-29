@@ -15,7 +15,7 @@ const { join } = require("path");
 
 const config = require("config");
 const avatarDirectory = __dirname + "/avatars";
-const thumbnailDirectory = config.data_directory + "/featured/thumbnails";
+const thumbnailDirectory = config.tmp_directory + "/featured/thumbnails";
 const spriteDestination = __dirname + "/../../views/images/featured.jpg";
 const verifySiteIsOnline = require("./verifySiteIsOnline");
 
@@ -94,7 +94,7 @@ const tidy = bio => {
 };
 
 async function generateSprite (sites) {
-  await fs.ensureDir(thumbnailDirectory);
+  await fs.emptyDir(thumbnailDirectory);
 
   for (let site of sites) {
     const path = join(thumbnailDirectory, site.host + ".jpg");
@@ -173,6 +173,9 @@ async function generateSprite (sites) {
     "utf-8"
   );
 
+  // empty the thumbnail directory
+  await fs.emptyDir(thumbnailDirectory);
+  
   return {
     width: width / 2,
     height: height / 2,
