@@ -37,24 +37,21 @@ GREEN_CONTAINER_PORT=8089
 BLOT_USER=1000:1000
 
 # Define the docker run command template with placeholders
-#  HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=3 \
-# CMD curl --fail http://localhost:8080/health || exit 1
 DOCKER_RUN_COMMAND="docker run --pull=always -d \
   --user $BLOT_USER \
   --name {{CONTAINER_NAME}} \
-  --network host \
-  --health-cmd 'curl --fail http://localhost:{{CONTAINER_PORT}}/health || exit 1' \
-  --health-interval=30s --health-timeout=5s --health-start-period=5s --health-retries=3 \
+  -p {{CONTAINER_PORT}}:8080 \
   --env-file /etc/blot/secrets.env \
   -e CONTAINER_NAME={{CONTAINER_NAME}} \
-  -e BLOT_PORT={{CONTAINER_PORT}} \
   -v /var/www/blot/data:/usr/src/app/data \
   --restart unless-stopped \
   --memory=2g --cpus=1.5 \
   ghcr.io/davidmerfield/blot:$GIT_COMMIT_HASH"
 
 # Configurable health check timeout
-timeout=${HEALTH_CHECK_TIMEOUT:-30}  # Default to 30 seconds
+timeout=${HEALTH_CHECK_TIMEOUT:-60}  # Default to 6
+
+0 seconds
 interval=2  # Interval between health checks
 
 # Function to run a command over SSH
@@ -192,7 +189,7 @@ echo "Both blue and green containers are healthy."
 
 # Prune the old images to save disk space
 echo "Pruning old images..."
-ssh_blot "docker image prune -f"
+ssh_blot "docker image prune -a"
 echo "Pruned old images."
 
 echo "Blue-Green deployment completed successfully!"

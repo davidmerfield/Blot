@@ -134,7 +134,12 @@ FROM source AS prod
 # build the brochure static site and exit (i.e. dont watch for changes)
 RUN node ./app/documentation/build/index.js --no-watch --skip-zip
 
+HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=3 \
+  CMD curl --fail http://localhost:8080/health || exit 1
+
 # re-configure git (for some reason the config is lost)
+# something still seems to reset this, but it's not clear what?
+# maybe it's run as the wrong user?
 RUN git config --global user.email "you@example.com"
 RUN git config --global user.name "Your Name"
 
