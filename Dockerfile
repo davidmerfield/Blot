@@ -137,6 +137,11 @@ RUN node ./app/documentation/build/index.js --no-watch --skip-zip
 HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=3 \
   CMD curl --fail http://localhost:8080/health || exit 1
 
+# copy in the git repository so the news page can be generated
+# inside the container, this is a bit of a hack and should be
+# replaced with a better solution in the future
+COPY .git .git
+
 # re-configure git (for some reason the config is lost)
 # something still seems to reset this, but it's not clear what?
 # maybe it's run as the wrong user?
