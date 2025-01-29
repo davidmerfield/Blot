@@ -1,6 +1,6 @@
 const express = require("express");
 const cdn = new express.Router();
-const { blot_directory } = require("config");
+const config = require("config");
 
 // Use express static and try to match the request to files in the following directories:
 // $blot_directory/data/static/$uri;
@@ -14,8 +14,9 @@ cdn.get("/health", (req, res) => {
   res.send("OK: " + new Date().toISOString());
 });
 
+// e.g. thumbnails or cached images specific to a blog
 cdn.use(
-  express.static(blot_directory + "/data/static", {
+  express.static(config.blog_static_files_dir, {
     maxAge: "1y",
     setHeaders: function (res, path) {
       res.setHeader("Access-Control-Allow-Origin", "*");
@@ -23,8 +24,9 @@ cdn.use(
   })
 );
 
+// e.g. fonts or icons or other static files shared by all blogs
 cdn.use(
-  express.static(blot_directory + "/app/blog/static", {
+  express.static(config.blot_directory + "/app/blog/static", {
     maxAge: "1y",
     setHeaders: function (res, path) {
       res.setHeader("Access-Control-Allow-Origin", "*");
@@ -34,7 +36,7 @@ cdn.use(
 
 cdn.use(
   "/documentation/v-:version",
-  express.static(blot_directory + "/app/documentation/data", {
+  express.static(config.views_directory, {
     maxAge: "1y",
     setHeaders: function (res, path) {
       res.setHeader("Access-Control-Allow-Origin", "*");

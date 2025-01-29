@@ -37,6 +37,7 @@ module.exports = {
   // These directories are used by the application
   blot_directory: BLOT_DIRECTORY,
   data_directory: BLOT_DATA_DIRECTORY,
+  views_directory: BLOT_DATA_DIRECTORY + "/views",
   tmp_directory: process.env.BLOT_TMP_DIRECTORY || BLOT_DATA_DIRECTORY + "/tmp",
   log_directory: process.env.BLOT_LOG_DIRECTORY || BLOT_DATA_DIRECTORY + "/logs",
   blog_static_files_dir: BLOT_DATA_DIRECTORY + "/static",
