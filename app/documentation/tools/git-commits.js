@@ -117,11 +117,11 @@ module.exports = function loadDone (req, res, next) {
       }
     });
 
-    res.locals.days = days.map(commits => {
+    days = days.map(commits => {
       return { day: commits[0].time, commits };
     });
 
-    res.locals.recent_commits = commits.slice(0, 5).map(commit => {
+    const recent_commits = commits.slice(0, 5).map(commit => {
       return { ...commit, fromNow: moment(commit.date).fromNow() };
     });
 

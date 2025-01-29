@@ -185,9 +185,9 @@ fi
 
 echo "Both blue and green containers are healthy."
 
-# Prune the old images to save disk space
+# Prune the old images to save disk space 
 echo "Pruning old images..."
-ssh_blot "docker image prune -a"
+ssh_blot "docker image prune -af"
 echo "Pruned old images."
 
 echo "Blue-Green deployment completed successfully!"
