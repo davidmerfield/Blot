@@ -80,11 +80,13 @@ FROM base AS source
 
 WORKDIR /usr/src/app
 
-COPY ./app ./app
-COPY ./scripts ./scripts
-COPY ./config ./config
-COPY ./notes ./notes
-COPY ./todo.txt ./todo.txt
+# Copy files and set ownership for non-root user
+COPY --chown=1000:1000 ./app ./app
+COPY --chown=1000:1000 ./scripts ./scripts
+COPY --chown=1000:1000 ./config ./config
+COPY --chown=1000:1000 ./notes ./notes
+COPY --chown=1000:1000 ./todo.txt ./todo.txt
+COPY --chown=1000:1000 .git .git
 
 # copy in the git repository so the news page can be generated
 COPY .git .git
