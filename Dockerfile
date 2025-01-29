@@ -53,6 +53,9 @@ COPY --from=builder /usr/local/bin/pandoc /usr/local/bin/pandoc
 # Install necessary packages for Puppeteer and the git client
 RUN apk add --no-cache git curl chromium nss freetype harfbuzz ca-certificates ttf-freefont
 
+# Configure git so the git client doesn't complain
+RUN git config --global user.email "you@example.com" && git config --global user.name "Your Name"
+
 # Set the Puppeteer executable path
 ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
 
@@ -112,6 +115,7 @@ RUN mkdir -p /usr/src/app/data/logs/docker && chmod -R 0755 /usr/src/app/data/lo
 # Change to the non-root user for the rest of the Dockerfile
 USER 1000
 
+# Re-configuring git for the non-root user
 RUN git config --global user.email "you@example.com" && git config --global user.name "Your Name"
 
 # 1.5gb max memory is 75% of the 2gb limit for the container
