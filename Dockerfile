@@ -13,9 +13,6 @@ ENV NODE_PATH=/usr/src/app/app
 # Set the working directory in the Docker container
 WORKDIR /usr/src/app
 
-# Set environment variables
-ENV NODE_ENV=production
-
 # Install necessary packages for Puppeteer, the git client, image processing
 RUN apk add --no-cache git curl chromium nss freetype harfbuzz ca-certificates ttf-freefont
 
@@ -83,7 +80,7 @@ HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
 # Ensure the logfile directory exists with proper permissions
 RUN mkdir -p /usr/src/app/data/logs/docker && chmod -R 0755 /usr/src/app/data/logs/docker
 
-# Change to the non-root user for the rest of the Dockerfile
+# Change to the non-root user for the rest of the Dockerfile (ec2-user)
 USER 1000
 
 # Re-configuring git for the non-root user
