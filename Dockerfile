@@ -28,7 +28,7 @@ RUN ARCH=$(echo ${TARGETPLATFORM} | sed -nE 's/^linux\/(amd64|arm64)$/\1/p') \
 COPY package.json package-lock.json ./
 
 # Install build dependencies
-RUN apk add --no-cache --virtual .build-deps python3 make g++ autoconf automake libtool nasm libpng-dev git tar \
+RUN apk add --no-cache --virtual .build-deps python3 make g++ autoconf automake libtool nasm libpng-dev libimagequant-dev git tar \
     && npm ci \
     && npm cache clean --force \
     && apk del .build-deps
