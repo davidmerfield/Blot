@@ -15,6 +15,7 @@ const buildJS = require("./js")({source: SOURCE_DIRECTORY, destination: DESTINAT
 const zip = require("templates/folders/zip");
 const tools = require("./tools");
 const generateThumbnail = require("./generate-thumbnail");
+const gitCommits = require("../tools/git-commits").build;
 
 const handle = (initial = false) => async (path) => {
   try {
@@ -89,6 +90,8 @@ module.exports = async ({ watch = false, skipZip = false } = {}) => {
 
   await buildJS();
 
+  await gitCommits();
+  
   console.timeEnd("build");
 
   if (watch) {
