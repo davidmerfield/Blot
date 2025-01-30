@@ -147,7 +147,9 @@ server.use(function (req, res, next) {
     console.log.apply(console, args);
   };
 
+  let hasFinished = false;
   res.on("finish", function () {
+    hasFinished = true;
     try {
       if (req.headers["x-request-id"])
         unrespondedRequests = unrespondedRequests.filter(
@@ -167,6 +169,7 @@ server.use(function (req, res, next) {
   });
 
   req.on("close", function () {
+    if (hasFinished) return;
     try {
       if (req.headers["x-request-id"])
         unrespondedRequests = unrespondedRequests.filter(

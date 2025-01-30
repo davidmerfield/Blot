@@ -32,6 +32,8 @@ module.exports = function (req, res, _next) {
   function render(name, next, callback) {
     // console.log(req.url, 'rendering', viewName);
 
+    req.log("Rendering view");
+
     ensure(name, "string").and(next, "function");
 
     if (!req.template) return next();
@@ -51,6 +53,7 @@ module.exports = function (req, res, _next) {
 
     if (callback) callback = callOnce(callback);
 
+
     Template.getFullView(blogID, templateID, name, function (err, response) {
       if (err) {
         return next(err);
@@ -64,6 +67,8 @@ module.exports = function (req, res, _next) {
         return next(err);
       }
 
+      req.log("Loaded view");
+
       var viewLocals = response[0];
       var viewPartials = response[1];
       var missingLocals = response[2];
@@ -76,9 +81,11 @@ module.exports = function (req, res, _next) {
         .and(blog.locals);
 
       extend(res.locals.partials).and(viewPartials);
-
+      
       retrieve(req, missingLocals, function (err, foundLocals) {
         extend(res.locals).and(foundLocals);
+
+        req.log("Loaded missing locals");
 
         // LOAD ANY LOCALS OR PARTIALS
         // WHICH ARE REFERENCED IN LOCALS
@@ -89,6 +96,8 @@ module.exports = function (req, res, _next) {
           // ALL PARTRIAL
           renderLocals(req, res, function (err, req, res) {
             if (err) return next(ERROR.BAD_LOCALS());
+
+            req.log("Loaded other locals");
 
             var output;
 
@@ -227,6 +236,7 @@ window.addEventListener('message', (event) => {
             }
 
             try {
+              req.log("Sending response");
               res.header(CONTENT_TYPE, viewType);
               res.send(output);
             } catch (e) {
