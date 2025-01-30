@@ -1,8 +1,9 @@
 const puppeteer = require("puppeteer");
-const imagemin = require("imagemin");
-const imageminPngquant = require("imagemin-pngquant");
 const dirname = require("path").dirname;
 const fs = require("fs-extra");
+
+// const imagemin = require("imagemin");
+// const imageminPngquant = require("imagemin-pngquant");
 
 async function main(site, path, options = {}) {
   // Launch Puppeteer with Chromium and required arguments for Docker/Node Alpine
@@ -63,15 +64,15 @@ async function main(site, path, options = {}) {
   // Close the browser
   await browser.close();
 
-  // Compress the screenshot using imagemin
-  try {
-    await imagemin([path], {
-      destination: dirname(path),
-      plugins: [imageminPngquant()],
-    });  
-  } catch (e) {
-    console.error("Error compressing screenshot:", e);
-  }
+  // // Compress the screenshot using imagemin
+  // try {
+  //   await imagemin([path], {
+  //     destination: dirname(path),
+  //     plugins: [imageminPngquant()],
+  //   });  
+  // } catch (e) {
+  //   console.error("Error compressing screenshot:", e);
+  // }
 }
 
 module.exports = main;
