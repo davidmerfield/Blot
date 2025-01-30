@@ -32,8 +32,6 @@ module.exports = function (req, res, _next) {
   function render(name, next, callback) {
     // console.log(req.url, 'rendering', viewName);
 
-    req.log("Rendering view");
-
     ensure(name, "string").and(next, "function");
 
     if (!req.template) return next();
@@ -84,8 +82,6 @@ module.exports = function (req, res, _next) {
       
       retrieve(req, missingLocals, function (err, foundLocals) {
         extend(res.locals).and(foundLocals);
-
-        req.log("Loaded missing locals");
 
         // LOAD ANY LOCALS OR PARTIALS
         // WHICH ARE REFERENCED IN LOCALS

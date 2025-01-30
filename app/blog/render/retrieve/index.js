@@ -45,6 +45,8 @@ module.exports = function (req, retrieve, callback) {
 
   var locals = {};
 
+  req.log("Retrieving locals");
+
   async.each(
     _.keys(retrieve),
     function (localName, nextLocal) {
@@ -53,6 +55,7 @@ module.exports = function (req, retrieve, callback) {
         return nextLocal();
       }
 
+      req.log("Retrieving local", localName);
       dictionary[localName](req, function (err, value) {
         if (err) console.log(err);
 
@@ -62,6 +65,7 @@ module.exports = function (req, retrieve, callback) {
       });
     },
     function () {
+      req.log("Retrieved locals");
       callback(null, locals);
     }
   );

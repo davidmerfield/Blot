@@ -33,8 +33,6 @@ blog.use(function (req, res, next) {
 
   if (!req.blog.template) return next();
 
-  req.log("Loading template metadata");
-
   Template.getMetadata(req.blog.template, function (err, metadata) {
     if (err || !metadata) {
       var error = new Error("This template does not exist.");
@@ -71,7 +69,7 @@ blog.use(function (req, res, next) {
       id: req.blog.template
     };
 
-    req.log("Loaded template metadata");
+    req.log("Loaded template");
     return next();
   });
 });

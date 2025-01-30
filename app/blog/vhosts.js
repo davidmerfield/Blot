@@ -22,7 +22,6 @@ module.exports = function (req, res, next) {
   if (!host) {
     err = new Error("No blog");
     err.code = "ENOENT";
-    req.log("No host header");
     return next(err);
   }
 
@@ -53,18 +52,14 @@ module.exports = function (req, res, next) {
     identifier = { domain };
   }
 
-  req.log("Loading blog with identifier", identifier);
-
   Blog.get(identifier, function (err, blog) {
     if (err) {
-      req.log("Error loading blog", err);
       return next(err);
     }
 
     if (!blog || blog.isDisabled || blog.isUnpaid) {
       err = new Error("No blog");
       err.code = "ENOENT";
-      req.log("No blog found");
       return next(err);
     }
 
@@ -144,7 +139,7 @@ module.exports = function (req, res, next) {
     // Store the blog's info so routes can access it
     req.blog = blog;
 
-    req.log('found blog');
+    req.log("loaded blog");
     return next();
   });
 };
