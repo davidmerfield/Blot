@@ -17,7 +17,7 @@ WORKDIR /usr/src/app
 ENV NODE_ENV=production
 
 # Install necessary packages for Puppeteer, the git client, image processing
-RUN apk add --no-cache git curl chromium nss freetype harfbuzz ca-certificates ttf-freefont libpng-dev libimagequant-dev
+RUN apk add --no-cache git curl chromium nss freetype harfbuzz ca-certificates ttf-freefont
 
 # Set the Puppeteer executable path
 ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
@@ -35,6 +35,9 @@ COPY package.json package-lock.json ./
 
 # Install dependencies (args from https://sharp.pixelplumbing.com/install#cross-platform)
 RUN npm install --os=linux --libc=musl --cpu=${TARGETPLATFORM} && npm cache clean --force
+
+# Test the pnquant binary
+RUN ./node_modules/pngquant-bin/vendor/pngquant --version
 
 ## Stage 2 (development)
 # This stage is for development and testing purposes
