@@ -19,6 +19,9 @@ ENV NODE_ENV=production
 # Install necessary packages for Puppeteer, the git client, image processing
 RUN apk add --no-cache git curl chromium nss freetype harfbuzz ca-certificates ttf-freefont
 
+# Install pngquant and its dependencies
+RUN apk add --no-cache pngquant
+
 # Set the Puppeteer executable path
 ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
 
@@ -36,9 +39,11 @@ COPY package.json package-lock.json ./
 # Install dependencies (args from https://sharp.pixelplumbing.com/install#cross-platform)
 RUN npm install --os=linux --libc=musl --cpu=${TARGETPLATFORM} && npm cache clean --force
 
-# Test the pnquant binary
-RUN ./node_modules/pngquant-bin/vendor/pngquant --version
-
+# Add a debugging step to verify pngquant-bin is using the correct binary
+RUN node -e "console.log('PNGQUANT_BIN:', process.env.PNGQUANT_BIN || 'Not set');" && \
+    /usr/bin/pngquant --version && \
+    ls -l /usr/src/app/node_modules/pngquant-bin/vendor/pngquant || echo 'No bundled binary found'
+    
 ## Stage 2 (development)
 # This stage is for development and testing purposes
 # It doesn't include the source code, so it's faster to build
