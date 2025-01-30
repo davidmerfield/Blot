@@ -28,7 +28,7 @@ RUN ARCH=$(echo ${TARGETPLATFORM} | sed -nE 's/^linux\/(amd64|arm64)$/\1/p') \
 COPY package.json package-lock.json ./
 
 # Install build dependencies
-RUN apk add --no-cache --virtual .build-deps python3 make g++ autoconf automake libtool nasm libpng-dev libimagequant-dev git tar \
+RUN apk add --no-cache --virtual .build-deps python3 make g++ autoconf automake libtool nasm git tar \
     && npm ci \
     && npm cache clean --force \
     && apk del .build-deps
@@ -50,8 +50,8 @@ WORKDIR /usr/src/app
 COPY --from=builder /usr/src/app .
 COPY --from=builder /usr/local/bin/pandoc /usr/local/bin/pandoc
 
-# Install necessary packages for Puppeteer and the git client
-RUN apk add --no-cache git curl chromium nss freetype harfbuzz ca-certificates ttf-freefont
+# Install necessary packages for Puppeteer, the git client, image processing
+RUN apk add --no-cache git curl chromium nss freetype harfbuzz ca-certificates ttf-freefont libpng-dev libimagequant-dev
 
 # Set the Puppeteer executable path
 ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
