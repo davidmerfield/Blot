@@ -1,8 +1,5 @@
-Fix issue with curl -o /dev/null -s -w "%{time_total}\n" https://preview-of-my-copy-of-portfolio-on-cerealandsounds.blot.im/bowl-10
-
----
-
 Fix folder downloads on brochure
+- run build script on image before the server starts listening
 
 Fix missing 'views' property of templates in package.json after downloading a template through the web template editor.
 
