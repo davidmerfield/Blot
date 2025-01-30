@@ -1,5 +1,21 @@
 Fix folder downloads on brochure
-- run build script on image before the server starts listening
+- run build script on image before the server starts listening and remove it from dockerfile
+
+Reduce resources given to each blot container on the server then run 4 of them, 2 for the site and 2 for blogs
+- docker exec blot-container-blue node -e "console.log(\`Max Heap Size: \${(require('v8').getHeapStatistics().heap_size_limit / 1024 / 1024).toFixed(2)} MB\`)"
+- Max Heap Size: 1048.00 MB
+
+Monitor slow URLs in the logs
+
+Begin to write tests of rendering engine
+- rewrite rendering engine
+
+Write more tests for the 'models'
+- blog
+- entry
+- tags
+
+---
 
 Fix missing 'views' property of templates in package.json after downloading a template through the web template editor.
 
