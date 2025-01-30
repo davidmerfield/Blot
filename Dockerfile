@@ -1,11 +1,14 @@
-## Stage 0 (builder)
+## Stage 1 (base)
 # This stage installs all dependencies and builds the application if needed
-# n.b. if you update the node version for this stage, don't forget to change
-# the image of the 'base' stage to match as well
-FROM node:18.20-alpine AS builder
+FROM node:21-alpine3.18 AS base
 
 ARG PANDOC_VERSION=3.1.1
 ARG TARGETPLATFORM
+
+EXPOSE 8080
+
+ENV NODE_ENV=production
+ENV NODE_PATH=/usr/src/app/app
 
 # Set the working directory in the Docker container
 WORKDIR /usr/src/app
@@ -13,8 +16,11 @@ WORKDIR /usr/src/app
 # Set environment variables
 ENV NODE_ENV=production
 
-# Install curl
-RUN apk add --no-cache curl
+# Install necessary packages for Puppeteer, the git client, image processing
+RUN apk add --no-cache git curl chromium nss freetype harfbuzz ca-certificates ttf-freefont libpng-dev libimagequant-dev
+
+# Set the Puppeteer executable path
+ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
 
 # Install Pandoc
 RUN ARCH=$(echo ${TARGETPLATFORM} | sed -nE 's/^linux\/(amd64|arm64)$/\1/p') \
@@ -27,34 +33,8 @@ RUN ARCH=$(echo ${TARGETPLATFORM} | sed -nE 's/^linux\/(amd64|arm64)$/\1/p') \
 # Copy package files
 COPY package.json package-lock.json ./
 
-# Install build dependencies
-RUN apk add --no-cache --virtual .build-deps python3 make g++ autoconf automake libtool nasm git tar \
-    && npm ci \
-    && npm cache clean --force \
-    && apk del .build-deps
-
-## Stage 1 (production base)
-# This stage prepares the production environment
-FROM node:18.20-alpine AS base
-
-EXPOSE 8080
-
-# Set environment variables
-ENV NODE_ENV=production
-ENV NODE_PATH=/usr/src/app/app
-
-# Set the working directory in the Docker container
-WORKDIR /usr/src/app
-
-# Copy the built application from the builder stage
-COPY --from=builder /usr/src/app .
-COPY --from=builder /usr/local/bin/pandoc /usr/local/bin/pandoc
-
-# Install necessary packages for Puppeteer, the git client, image processing
-RUN apk add --no-cache git curl chromium nss freetype harfbuzz ca-certificates ttf-freefont libpng-dev libimagequant-dev
-
-# Set the Puppeteer executable path
-ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
+# Install dependencies (args from https://sharp.pixelplumbing.com/install#cross-platform)
+RUN npm install --os=linux --libc=musl --cpu=${TARGETPLATFORM} && npm cache clean --force
 
 ## Stage 2 (development)
 # This stage is for development and testing purposes

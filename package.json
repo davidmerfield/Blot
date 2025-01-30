@@ -33,7 +33,6 @@
   "dependencies": {
     "archiver": "^5.3.0",
     "async": "^2.6.4",
-    "async-exit-hook": "^2.0.1",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.1",
     "cheerio": "^1.0.0-rc.12",
@@ -54,7 +53,6 @@
     "express-session": "^1.16.2",
     "fontkit": "^1.8.1",
     "fs-extra": "^11.1.0",
-    "gifsicle": "^3.0.4",
     "googleapis": "^85.0.0",
     "he": "^1.1.0",
     "helmet": "^3.21.2",
