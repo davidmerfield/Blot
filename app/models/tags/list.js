@@ -1,50 +1,52 @@
-var client = require("models/client");
-var ensure = require("helper/ensure");
-var key = require("./key");
+const client = require("models/client");
+const ensure = require("helper/ensure");
+const key = require("./key");
 
-module.exports = function getAll(blogID, callback) {
-  ensure(blogID, "string").and(callback, "function");
+module.exports = async function getAll(blogID, callback) {
+  try {
+    ensure(blogID, "string").and(callback, "function");
 
-  var tags = [];
-
-  console.time("Tags.list Listing tags");
-
-  client.smembers(key.all(blogID), function (err, allTags) {
-    if (err) throw err;
-
-    if (!allTags || !allTags.length) return callback(null, tags);
-
-    var multi = client.multi();
-    var names = [];
-
-    allTags.forEach(function (tag) {
-      multi.smembers(key.tag(blogID, tag));
-      names.push(key.name(blogID, tag));
+    // Fetch all tags using SMEMBERS
+    const allTags = await new Promise((resolve, reject) => {
+      client.smembers(key.all(blogID), (err, result) => {
+        if (err) return reject(err);
+        resolve(result || []);
+      });
     });
 
-    multi.mget(names);
+    if (allTags.length === 0) {
+      return callback(null, []); // No tags to process
+    }
 
-    console.timeEnd("Tags.list Listing tags");
-    console.time("Tags.list Loading entries for each tag");
+    // Iterate over tags and fetch their details
+    const tags = [];
+    for (const tag of allTags) {
+      const [entries, name] = await Promise.all([
+        new Promise((resolve, reject) => {
+          client.smembers(key.tag(blogID, tag), (err, result) => {
+            if (err) return reject(err);
+            resolve(result || []);
+          });
+        }),
+        new Promise((resolve, reject) => {
+          client.get(key.name(blogID, tag), (err, result) => {
+            if (err) return reject(err);
+            resolve(result || "");
+          });
+        }),
+      ]);
 
-    multi.exec(function (err, res) {
-      if (err) throw err;
-
-      var pretty = res.pop();
-
-      for (var i = 0; i < res.length; i++) {
-        if (!res[i].length) continue;
-
+      if (entries.length > 0) {
         tags.push({
-          name: pretty[i],
-          slug: allTags[i],
-          entries: res[i],
+          name,
+          slug: tag,
+          entries,
         });
       }
+    }
 
-      console.timeEnd("Tags.list Loading entries for each tag");
-
-      return callback(null, tags);
-    });
-  });
+    return callback(null, tags);
+  } catch (error) {
+    return callback(error);
+  }
 };
