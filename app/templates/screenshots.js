@@ -1,5 +1,4 @@
 // todo turn this into a github action? runs when changes made automatically?
-// const imageminify = require("helper/imageminify");
 
 const screenshot = require("helper/screenshot");
 const config = require("config");

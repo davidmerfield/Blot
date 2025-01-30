@@ -13,17 +13,8 @@ ENV NODE_PATH=/usr/src/app/app
 # Set the working directory in the Docker container
 WORKDIR /usr/src/app
 
-# Set environment variables
-ENV NODE_ENV=production
-
 # Install necessary packages for Puppeteer, the git client, image processing
 RUN apk add --no-cache git curl chromium nss freetype harfbuzz ca-certificates ttf-freefont
-
-# Install pngquant and its dependencies
-RUN apk add --no-cache pngquant
-
-# Set the pngquant binary path
-ENV PNGQUANT_BIN=/usr/bin/pngquant
 
 # Set the Puppeteer executable path
 ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
@@ -41,10 +32,6 @@ COPY package.json package-lock.json ./
 
 # Install dependencies (args from https://sharp.pixelplumbing.com/install#cross-platform)
 RUN npm install --os=linux --libc=musl --cpu=${TARGETPLATFORM} && npm cache clean --force
-
-# Add a debugging step to verify pngquant-bin is using the correct binary
-# Overwrite /usr/src/app/node_modules/pngquant-bin/vendor/pngquant with the system binary
-RUN cp /usr/bin/pngquant /usr/src/app/node_modules/pngquant-bin/vendor/pngquant
 
 ## Stage 2 (development)
 # This stage is for development and testing purposes
@@ -93,7 +80,7 @@ HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
 # Ensure the logfile directory exists with proper permissions
 RUN mkdir -p /usr/src/app/data/logs/docker && chmod -R 0755 /usr/src/app/data/logs/docker
 
-# Change to the non-root user for the rest of the Dockerfile
+# Change to the non-root user for the rest of the Dockerfile (ec2-user)
 USER 1000
 
 # Re-configuring git for the non-root user

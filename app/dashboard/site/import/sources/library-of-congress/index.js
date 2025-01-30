@@ -52,6 +52,9 @@ const buildItem = async item => {
     .resize(2500, 2500, {
       fit: "inside"
     })
+    .jpeg({
+      mozjpeg: true
+    })
     .toFile(previewPath);
 
   fs.outputFileSync(
