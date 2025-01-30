@@ -17,7 +17,7 @@ describe("makeSlug", function () {
       "hellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohello"
     );
     is("100% luck 15% skill", "100-percent-luck-15-percent-skill");
-    is("Hello", "hellooooooooo");
+    is("Hello", "hello");
     is("Hello unicode: ", "hello-unicode-%EF%A3%BF");
     is("/Hello/there/", "hello/there");
     is("Hello/THIS/IS/SHIT", "hello/this/is/shit");
