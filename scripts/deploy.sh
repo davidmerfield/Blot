@@ -10,12 +10,41 @@ if [[ $(git rev-parse --abbrev-ref HEAD) != "master" ]]; then
   exit 1
 fi
 
-# Get the most recent full git hash of the current master branch
-GIT_COMMIT_HASH=$(git rev-parse master)
+# Determine the GIT_COMMIT_HASH based on the arguments provided
+if [[ $# -eq 0 ]]; then
+  # No argument provided, use the most recent commit
+  GIT_COMMIT_HASH=$(git rev-parse master)
+elif [[ $# -eq 1 ]]; then
+  # One argument provided, check if it's a valid commit hash
+  ARG=$1
 
-# Print the commit message and commit hash
+  if [[ ${#ARG} -eq 40 && $ARG =~ ^[0-9a-fA-F]{40}$ ]]; then
+    # Full-length hash provided
+    GIT_COMMIT_HASH=$ARG
+  elif [[ ${#ARG} -lt 40 && $ARG =~ ^[0-9a-fA-F]+$ ]]; then
+    # Short hash provided, resolve it to full length
+    GIT_COMMIT_HASH=$(git rev-parse "$ARG")
+  else
+    echo "Error: Invalid commit hash provided."
+    exit 1
+  fi
+else
+  echo "Error: Too many arguments provided."
+  echo "Usage: $0 [commit-hash]"
+  exit 1
+fi
+
+# Print the commit hash and the commit message
 echo "Deploying commit: $GIT_COMMIT_HASH"
-echo "Commit message: $(git log -1 --pretty=%B)"
+echo "Commit message: $(git log -1 --pretty=%B $GIT_COMMIT_HASH)"
+
+# Ask for confirmation
+read -p "Are you sure you want to deploy this commit? (y/n): " CONFIRMATION
+
+if [[ "$CONFIRMATION" != "y" ]]; then
+  echo "Deployment canceled."
+  exit 0
+fi
 
 # Check that a multi-architecture image is available for the commit hash
 echo "Checking for multi-architecture image..."

@@ -7,6 +7,8 @@ module.exports = function getAll(blogID, callback) {
 
   var tags = [];
 
+  console.time("Tags.list Listing tags");
+
   client.smembers(key.all(blogID), function (err, allTags) {
     if (err) throw err;
 
@@ -22,6 +24,9 @@ module.exports = function getAll(blogID, callback) {
 
     multi.mget(names);
 
+    console.timeEnd("Tags.list Listing tags");
+    console.time("Tags.list Loading entries for each tag");
+
     multi.exec(function (err, res) {
       if (err) throw err;
 
@@ -36,6 +41,8 @@ module.exports = function getAll(blogID, callback) {
           entries: res[i],
         });
       }
+
+      console.timeEnd("Tags.list Loading entries for each tag");
 
       return callback(null, tags);
     });
