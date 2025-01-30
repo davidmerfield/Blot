@@ -8,6 +8,11 @@ var fs = require("fs-extra");
 // of users' blogs
 var blog = express();
 
+blog.use((req, res, next) => {
+  req.log = req.log || console.log;
+  next();
+});
+
 // Custom domain & subdomain middleware
 // also handles the mapping of preview domains
 blog.disable("x-powered-by");
