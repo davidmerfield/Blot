@@ -2,7 +2,7 @@ Fix issue with curl -o /dev/null -s -w "%{time_total}\n" https://preview-of-my-c
 
 ---
 
-Fix folder downloads
+Fix folder downloads on brochure
 
 Fix missing 'views' property of templates in package.json after downloading a template through the web template editor.
 
