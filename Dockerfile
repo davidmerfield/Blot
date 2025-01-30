@@ -22,6 +22,9 @@ RUN apk add --no-cache git curl chromium nss freetype harfbuzz ca-certificates t
 # Install pngquant and its dependencies
 RUN apk add --no-cache pngquant
 
+# Set the pngquant binary path
+ENV PNGQUANT_BIN=/usr/bin/pngquant
+
 # Set the Puppeteer executable path
 ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
 
@@ -40,10 +43,8 @@ COPY package.json package-lock.json ./
 RUN npm install --os=linux --libc=musl --cpu=${TARGETPLATFORM} && npm cache clean --force
 
 # Add a debugging step to verify pngquant-bin is using the correct binary
-RUN node -e "console.log('PNGQUANT_BIN:', process.env.PNGQUANT_BIN || 'Not set');" && \
-    /usr/bin/pngquant --version && \
-    ls -l /usr/src/app/node_modules/pngquant-bin/vendor/pngquant || echo 'No bundled binary found'
-    
+RUN node -e "console.log(require('pngquant-bin'))"
+
 ## Stage 2 (development)
 # This stage is for development and testing purposes
 # It doesn't include the source code, so it's faster to build
