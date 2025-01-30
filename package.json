@@ -33,7 +33,6 @@
   "dependencies": {
     "archiver": "^5.3.0",
     "async": "^2.6.4",
-    "async-exit-hook": "^2.0.1",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.1",
     "cheerio": "^1.0.0-rc.12",
