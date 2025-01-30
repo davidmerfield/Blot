@@ -5,6 +5,9 @@ module.exports = function (server) {
   var Entries = require("models/entries");
 
   server.use(function (request, response, next) {
+    
+    request.log("Loading entry");
+    
     var scheduled = !!request.query.scheduled;
     var blog = request.blog;
 
@@ -92,6 +95,7 @@ module.exports = function (server) {
             entry: entry,
           });
 
+          request.log("Loaded entry");
           response.renderView("entry.html", next);
         });
       });

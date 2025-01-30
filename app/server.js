@@ -128,6 +128,25 @@ server.use(function (req, res, next) {
     console.error("Error: Failed to construct canonical log line:", e);
   }
 
+  // add method req.log which exposes a logging function prefixed with the request id, clfdate, and time in ms between each invocation
+  let lastLogTime = Date.now();
+  req.log = function () {
+    let args = Array.prototype.slice.call(arguments);
+    const currentTime = Date.now();
+    const timeDiff = currentTime - lastLogTime;
+    lastLogTime = currentTime;
+
+    args.unshift(`+${timeDiff}ms`);
+
+    if (req.headers["x-request-id"]) {
+      args.unshift(req.headers["x-request-id"]);
+    } else {
+      args.unshift("no-request-id");
+    }
+    args.unshift(clfdate());
+    console.log.apply(console, args);
+  };
+
   res.on("finish", function () {
     try {
       if (req.headers["x-request-id"])

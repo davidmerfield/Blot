@@ -10,7 +10,9 @@ var blog = express();
 
 // Custom domain & subdomain middleware
 // also handles the mapping of preview domains
-blog.disable("x-powered-by").use(require("./vhosts")).use(require("./add")());
+blog.disable("x-powered-by");
+blog.use(require("./vhosts"));
+blog.use(require("./add")());
 
 // Only time uncached responses
 // if (config.flags.time_response)
@@ -25,6 +27,8 @@ blog.use(function (req, res, next) {
   // Also global colors etc...
 
   if (!req.blog.template) return next();
+
+  req.log("Loading template metadata");
 
   Template.getMetadata(req.blog.template, function (err, metadata) {
     if (err || !metadata) {
@@ -62,6 +66,7 @@ blog.use(function (req, res, next) {
       id: req.blog.template
     };
 
+    req.log("Loaded template metadata");
     return next();
   });
 });

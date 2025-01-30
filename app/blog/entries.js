@@ -5,6 +5,9 @@ module.exports = function (server) {
   server.get("/", renderPage);
 
   function renderPage(req, res, next) {
+
+    req.log("Loading entries");
+
     var blog = req.blog;
 
     var pageNo, pageSize;
@@ -40,6 +43,7 @@ module.exports = function (server) {
         pagination: pagination,
       });
 
+      req.log("Rendering entries");
       res.renderView("entries.html", next);
     });
   }
