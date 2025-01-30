@@ -28,7 +28,7 @@ RUN ARCH=$(echo ${TARGETPLATFORM} | sed -nE 's/^linux\/(amd64|arm64)$/\1/p') \
 COPY package.json package-lock.json ./
 
 # Install build dependencies
-RUN apk add --no-cache --virtual .build-deps python3 make g++ autoconf automake libtool nasm libpng-dev git tar \
+RUN apk add --no-cache --virtual .build-deps python3 make g++ autoconf automake libtool nasm libpng-dev libimagequant-dev git tar \
     && npm ci \
     && npm cache clean --force \
     && apk del .build-deps
@@ -57,13 +57,19 @@ RUN apk add --no-cache git curl chromium nss freetype harfbuzz ca-certificates t
 ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
 
 ## Stage 2 (development)
-# This stage is for development purposes
+# This stage is for development and testing purposes
+# It doesn't include the source code, so it's faster to build
+# but you need to use docker bind mounts to get the source code in
+# at runtime. 
 FROM base AS dev
 
 ENV NODE_ENV=development
 ENV PATH=/usr/src/app/node_modules/.bin:$PATH
 
 RUN npm install
+
+# Configure git so the git client doesn't complain
+RUN git config --global --add safe.directory /usr/src/app && git config --global user.email "you@example.com" && git config --global user.name "Your Name"
 
 ## Stage 3 (copy in source)
 # This gets our source code into builder for use in next two stages
@@ -87,22 +93,7 @@ COPY  .git .git
 # remove the git repository so it doesn't get copied into the final image
 RUN node ./app/documentation/build/index.js --no-watch --skip-zip && rm -rf .git
 
-## Stage 4 (testing)
-# This stage is used for running tests in CI
-FROM source AS test
-
-WORKDIR /usr/src/app
-ENV NODE_ENV=test
-
-COPY --from=dev /usr/src/app/node_modules ./node_modules
-
-# this copies the tests
-COPY ./tests ./tests
-
-# Configure git so the git client doesn't complain
-RUN git config --global user.email "you@example.com" && git config --global user.name "Your Name"
-
-## Stage 5 (default, production)
+## Stage 4 (default, production)
 # The final production stage
 FROM source AS prod
 
