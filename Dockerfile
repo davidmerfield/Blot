@@ -2,7 +2,7 @@
 # This stage installs all dependencies and builds the application if needed
 # n.b. if you update the node version for this stage, don't forget to change
 # the image of the 'base' stage to match as well
-FROM node:18.20-alpine AS builder
+FROM node:21-alpine3.18 AS builder
 
 ARG PANDOC_VERSION=3.1.1
 ARG TARGETPLATFORM
@@ -13,7 +13,7 @@ WORKDIR /usr/src/app
 # Set environment variables
 ENV NODE_ENV=production
 
-# Install curl
+# Install curl so we can download Pandoc
 RUN apk add --no-cache curl
 
 # Install Pandoc
@@ -27,15 +27,13 @@ RUN ARCH=$(echo ${TARGETPLATFORM} | sed -nE 's/^linux\/(amd64|arm64)$/\1/p') \
 # Copy package files
 COPY package.json package-lock.json ./
 
-# Install build dependencies
-RUN apk add --no-cache --virtual .build-deps python3 make g++ autoconf automake libtool nasm git tar \
-    && npm ci \
-    && npm cache clean --force \
-    && apk del .build-deps
+# Install dependencies
+RUN npm install --os=linux --libc=musl --cpu=${TARGETPLATFORM} \
+    && npm cache clean --force
 
 ## Stage 1 (production base)
 # This stage prepares the production environment
-FROM node:18.20-alpine AS base
+FROM node:21-alpine3.18 AS base
 
 EXPOSE 8080
 
