@@ -116,7 +116,6 @@ async function generateSprite (sites) {
 
   // use spritesmith to generate a sprite and output it to thumbnailDirectory/sprite.jpg
   // then append the coordinates to each site
-  // then use imagemin to optimize the sprite
   const { width, height } = await new Promise((resolve, reject) => {
     // how do we set the dest path of the sprite?
     // we need to set the dest path of the sprite to thumbnailDirectory/sprite.jpg
