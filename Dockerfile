@@ -69,7 +69,7 @@ ENV PATH=/usr/src/app/node_modules/.bin:$PATH
 RUN npm install
 
 # Configure git so the git client doesn't complain
-RUN git config --global user.email "you@example.com" && git config --global user.name "Your Name"
+RUN git config --global --add safe.directory /usr/src/app && git config --global user.email "you@example.com" && git config --global user.name "Your Name"
 
 ## Stage 3 (copy in source)
 # This gets our source code into builder for use in next two stages
