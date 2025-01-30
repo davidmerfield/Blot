@@ -37,11 +37,6 @@ amazon-linux-extras install firefox
 # What is ntp required for?
 yum -y install git ntp
 
-# Blot's application uses gifsicle, which requires these build tools
-# https://rmoff.net/2017/03/11/install-qemu-on-aws-ec2-amazon-linux/
-# resolves /bin/sh: autoreconf: command not found
-yum -y install autoconf autogen intltool libtool
-
 ## Pandoc installation
 ##########################################################
 
