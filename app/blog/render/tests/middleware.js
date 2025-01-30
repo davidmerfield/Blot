@@ -22,6 +22,7 @@ describe("renderModule", function() {
     // Setup the request, response, and callback objects
     req = {
       query: {},
+      log: () => {},
       template: {
         id: "templateID",
         locals: {}
