@@ -20,12 +20,12 @@ module.exports = function (req, callback) {
         // so we can do {{tag}} since I like it.
         tag.tag = tag.name;
         tag.total = tag.entries.length;
+        next();
+        // Entry.get(req.blog.id, tag.entries, function (entries) {
+        //   tag.entries = entries;
 
-        Entry.get(req.blog.id, tag.entries, function (entries) {
-          tag.entries = entries;
-
-          next();
-        });
+        //   next();
+        // });
       },
       function () {
         callback(null, tags);
