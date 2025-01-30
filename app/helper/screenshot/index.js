@@ -64,10 +64,14 @@ async function main(site, path, options = {}) {
   await browser.close();
 
   // Compress the screenshot using imagemin
-  await imagemin([path], {
-    destination: dirname(path),
-    plugins: [imageminPngquant()],
-  });
+  try {
+    await imagemin([path], {
+      destination: dirname(path),
+      plugins: [imageminPngquant()],
+    });  
+  } catch (e) {
+    console.error("Error compressing screenshot:", e);
+  }
 }
 
 module.exports = main;
