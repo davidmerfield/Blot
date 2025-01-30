@@ -79,12 +79,14 @@ FROM base AS source
 
 WORKDIR /usr/src/app
 
-# Copy in the source code
+# Copy files and set ownership for non-root user
 COPY ./app ./app
 COPY ./scripts ./scripts
 COPY ./config ./config
 COPY ./notes ./notes
 COPY ./todo.txt ./todo.txt
+
+# copy in the git repository so the news page can be generated
 COPY  .git .git
 
 # build the brochure static site and exit (i.e. dont watch for changes)
