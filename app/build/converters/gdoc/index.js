@@ -4,7 +4,6 @@ const LocalPath = require("helper/localPath");
 const extname = require("path").extname;
 const cheerio = require("cheerio");
 const hash = require("helper/hash");
-const fetch = require("node-fetch");
 const { join } = require("path");
 const config = require("config");
 const sharp = require("sharp");

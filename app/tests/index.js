@@ -11,7 +11,6 @@ describe("Blot configuration", function () {
     }).not.toThrow();
   });
 
-  var fetch = require("node-fetch");
   var START_MESSAGE = "listening";
   var server;
   var stderr = "";

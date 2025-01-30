@@ -1,7 +1,6 @@
 
 const each = require("../eachEl");
 const Url = require("url");
-const fetch = require("node-fetch");
 
 function render($, callback) {
 

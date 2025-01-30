@@ -5,7 +5,6 @@ const init = require("dashboard/site/import/init");
 const fs = require("fs-extra");
 const { join } = require("path");
 const URL = require("url");
-const fetch = require("node-fetch");
 const sanitize = require("./sanitize");
 
 Importer.route("/are.na")

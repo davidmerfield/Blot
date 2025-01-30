@@ -1,4 +1,3 @@
-const fetch = require("node-fetch");
 const { parse } = require("url");
 
 var FAIL = "Could not retrieve video properties";

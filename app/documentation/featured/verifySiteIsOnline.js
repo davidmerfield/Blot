@@ -1,4 +1,3 @@
-const fetch = require("node-fetch");
 
 const check = async host => {
   try {

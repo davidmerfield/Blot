@@ -148,7 +148,6 @@ describe("express-mustache", function () {
   const fs = require("fs-extra");
 
   beforeEach(async function () {
-    const fetch = require("node-fetch");
     const { join } = require("path");
     const port = 7766;
     const em = require("helper/express-mustache");

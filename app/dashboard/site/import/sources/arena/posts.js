@@ -1,4 +1,3 @@
-const fetch = require("node-fetch");
 const PAGE_SIZE = 100;
 
 module.exports = async function posts ({ slug, status }) {

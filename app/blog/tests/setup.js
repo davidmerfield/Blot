@@ -3,7 +3,6 @@ module.exports = () => {
   const fs = require("fs-extra");
   const blog = require("blog");
   const TEST_PORT = 3128;
-  const fetch = require("node-fetch");
   const Blog = require("models/blog");
   const express = require("express");
 

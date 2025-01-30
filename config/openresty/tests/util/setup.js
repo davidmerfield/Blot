@@ -1,5 +1,4 @@
 const server = require("./upstream-server");
-const fetch = require("node-fetch");
 const child_process = require("child_process");
 const mustache = require("mustache");
 const { basename, resolve } = require("path");

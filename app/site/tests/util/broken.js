@@ -1,4 +1,3 @@
-const fetch = require("node-fetch");
 const cheerio = require("cheerio");
 const { resolve, parse } = require("url");
 const clfdate = require("helper/clfdate");

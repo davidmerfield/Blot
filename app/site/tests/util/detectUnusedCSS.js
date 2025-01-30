@@ -2,7 +2,6 @@ const colors = require("colors/safe");
 const cheerio = require("cheerio");
 const fs = require("fs-extra");
 const parseCSS = require("css");
-const fetch = require("node-fetch");
 const { parse, resolve } = require("url");
 const { join } = require("path");
 const { blot_directory, views_directory, tmp_directory } = require('config');

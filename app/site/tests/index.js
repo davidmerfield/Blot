@@ -2,7 +2,6 @@ describe("Blot's site'", function () {
     const site = require("site");
     const build = require("documentation/build");
     const templates = require('util').promisify(require("templates"));
-    const fetch = require("node-fetch");
     const checkLinks = require('./util/broken');
 
     global.test.blog();

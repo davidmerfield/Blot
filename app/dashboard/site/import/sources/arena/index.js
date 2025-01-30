@@ -5,7 +5,6 @@
 
 const Posts = require("./posts");
 const parse = require("./parse");
-const fetch = require("node-fetch");
 const fs = require("fs-extra");
 const { join } = require("path");
 

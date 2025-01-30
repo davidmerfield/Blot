@@ -4,7 +4,6 @@ describe("date integration tests", function () {
   const fs = require("fs-extra");
   const Blog = require("models/blog");
   const Template = require("models/template");
-  const fetch = require("node-fetch");
   const Express = require("express");
   const config = require("config");
 

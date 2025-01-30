@@ -1,4 +1,3 @@
-const fetch = require("node-fetch");
 const { parse } = require("url");
 const config = require("config");
 const cheerio = require("cheerio");
