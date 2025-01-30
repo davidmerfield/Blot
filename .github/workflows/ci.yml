@@ -62,13 +62,13 @@ jobs:
             -e BLOT_STRIPE_KEY=$BLOT_STRIPE_KEY \
             -e BLOT_STRIPE_SECRET=$BLOT_STRIPE_SECRET \
             -e BLOT_STRIPE_PRODUCT=$BLOT_STRIPE_PRODUCT \
-            -v ${{ github.workspace }}/app:/usr/src/app/app:ro \ 
-            -v ${{ github.workspace }}/scripts:/usr/src/app/scripts:ro \        
-            -v ${{ github.workspace }}/config:/usr/src/app/config:ro \           
-            -v ${{ github.workspace }}/notes:/usr/src/app/notes:ro \      
-            -v ${{ github.workspace }}/todo.txt:/usr/src/app/todo.txt:ro \        
-            -v ${{ github.workspace }}/.git:/usr/src/app/.git:ro \          
-            -v ${{ github.workspace }}/tests:/usr/src/app/tests:ro \            
+            -v ${{ github.workspace }}/app:/usr/src/app/app \
+            -v ${{ github.workspace }}/scripts:/usr/src/app/scripts \
+            -v ${{ github.workspace }}/config:/usr/src/app/config \
+            -v ${{ github.workspace }}/notes:/usr/src/app/notes \
+            -v ${{ github.workspace }}/todo.txt:/usr/src/app/todo.txt \
+            -v ${{ github.workspace }}/.git:/usr/src/app/.git \
+            -v ${{ github.workspace }}/tests:/usr/src/app/tests \
             ghcr.io/${{ github.repository_owner }}/blot:test-${{ github.sha }} \
             sh -c "node ./app/documentation/build/index.js --no-watch --skip-zip && node tests && npx depcheck --ignores=depcheck,nodemon,blessed-contrib,twit,fontkit,text-to-svg --skip-missing"
 
