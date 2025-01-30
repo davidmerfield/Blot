@@ -29,8 +29,6 @@ async function main(path, outputDirectory, callback) {
   callback = callOnce(callback);
   input = sharp(path, { animated: true})
   result = {};
-  const imageMeta = await input.metadata()
-  const { height: heightAllPages, pages, pageHeight } = imageMeta;
 
 
   async.eachOf(
@@ -49,7 +47,7 @@ async function main(path, outputDirectory, callback) {
       var fileName = name.toLowerCase() + extension;
       var to = outputDirectory + "/" + fileName;
 
-      transform(input, to, options, pages, function (err, width, height) {
+      transform(input, to, options, function (err, width, height) {
         if (err) return next(err);
 
         result[name] = {
@@ -67,7 +65,7 @@ async function main(path, outputDirectory, callback) {
   );
 }
 
-function transform(input, to, options, pages, callback) {
+function transform(input, to, options, callback) {
   var size = options.size;
 
   var transform = input.clone().rotate();
@@ -82,11 +80,15 @@ function transform(input, to, options, pages, callback) {
       fit: "cover",
     });
   } else {
-    transform.resize({ withoutEnlargement: true, fit: "inside", width: size, height: size * pages });
+    transform.resize({ withoutEnlargement: true, fit: "inside", width: size, height: size });
   }
+
+  console.log('HERE', to);
 
   transform.toFile(to, function done(err, info) {
     if (err) return callback(err);
+
+    console.log('INFO', info);
 
     callback(err, info.width, info.height);
   });

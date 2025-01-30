@@ -52,7 +52,7 @@ describe("thumbnail", function () {
     });
   });
 
-  fit("creates thumbnails from gif images", function (done) {
+  it("creates thumbnails from gif images", function (done) {
     var thumbnail = require("../index");
     var metadata = {};
     var imagePath = "/cube.gif";
