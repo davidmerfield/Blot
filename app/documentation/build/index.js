@@ -90,8 +90,15 @@ module.exports = async ({ watch = false, skipZip = false } = {}) => {
 
   await buildJS();
 
-  await gitCommits();
-  
+  try {
+    console.log("Generating list of recent activity for the news page");
+    await gitCommits();
+    console.log("Generated list of recent activity for the news page");
+  } catch (e) {
+    console.error("Failed to generate list of recent activity for the news page");
+    console.error(e);
+  }
+
   console.timeEnd("build");
 
   if (watch) {
