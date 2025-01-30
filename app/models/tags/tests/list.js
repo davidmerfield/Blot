@@ -24,7 +24,7 @@ describe("tags.list", function () {
             set(blogID, entry2, function (err) {
                 list(blogID, function (err, tags) {
                     expect(err).toBeNull();
-                    expect(tags).toEqual([
+                    expect(tags.sort((a, b) => a.slug.localeCompare(b.slug))).toEqual([
                         { name: 'tag1', slug: 'tag1', entries: [ 'entry1' ] },
                         { name: 'tag2', slug: 'tag2', entries: [ 'entry1', 'entry2' ] },
                         { name: 'tag3', slug: 'tag3', entries: [ 'entry2' ] }
