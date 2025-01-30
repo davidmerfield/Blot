@@ -43,7 +43,8 @@ COPY package.json package-lock.json ./
 RUN npm install --os=linux --libc=musl --cpu=${TARGETPLATFORM} && npm cache clean --force
 
 # Add a debugging step to verify pngquant-bin is using the correct binary
-RUN node -e "console.log(require('pngquant-bin'))"
+# Overwrite /usr/src/app/node_modules/pngquant-bin/vendor/pngquant with the system binary
+RUN cp /usr/bin/pngquant /usr/src/app/node_modules/pngquant-bin/vendor/pngquant
 
 ## Stage 2 (development)
 # This stage is for development and testing purposes
