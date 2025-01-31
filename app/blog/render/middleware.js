@@ -147,7 +147,7 @@ module.exports = function (req, res, _next) {
               req.protocol === "http" &&
               fromCloudflare === false &&
               output.indexOf(config.cdn.origin) > -1
-            )
+            ) 
               output = output
                 .split(config.cdn.origin)
                 .join(config.cdn.origin.split("https://").join("http://"));
@@ -216,11 +216,15 @@ window.addEventListener('message', (event) => {
             // advance? If it throws an error, the user
             // probably forgot an equals sign or some bs...
             try {
-              if (viewType === STYLE && !req.preview)
+              if (viewType === STYLE && !req.preview) {
+                req.log("Minifying CSS");
                 output = minimize.minify(output || "").styles;
-
-              if (viewType === JS && !req.preview)
+              }
+                
+              if (viewType === JS && !req.preview) {
+                req.log("Minifying JavaScript");
                 output = UglifyJS.minify(output, { fromString: true }).code;
+              }
             } catch (e) {}
 
             if (res.headerSent) {

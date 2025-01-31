@@ -52,6 +52,7 @@ function main (callback) {
           }
         );
       },
+      
       async function () {
         // we only want to watch for changes in the documentation in development
         log("Building documentation");
