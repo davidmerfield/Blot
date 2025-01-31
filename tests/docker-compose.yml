@@ -27,4 +27,4 @@ services:
       - ../todo.txt:/usr/src/app/todo.txt
       - ../.git:/usr/src/app/.git
     command: >
-      sh -c "rm -rf /usr/src/app/data && mkdir /usr/src/app/data && node -v && npm -v && node tests $TEST_PATH $TEST_SEED"
+      sh -c "rm -rf /usr/src/app/data && mkdir /usr/src/app/data && node -v && npm -v && nyc --include $TEST_PATH node tests $TEST_PATH $TEST_SEED"

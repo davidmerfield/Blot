@@ -19,6 +19,8 @@ Write more tests for the 'models'
 
 Write test for animated gif thumbnail
 
+Rotate the docker log (or move it to var/ssd/logs)
+
 ---
 
 Fix missing 'views' property of templates in package.json after downloading a template through the web template editor.
