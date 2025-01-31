@@ -1,5 +1,8 @@
 Monitor slow URLs in the logs
 
+Make folder build less busy and then re-enable it in app/setup
+- consider using git? use local client in smarter way?
+
 Begin to write tests of rendering engine
 - rewrite rendering engine
 - improve performance
