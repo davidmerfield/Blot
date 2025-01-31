@@ -57,18 +57,11 @@ FROM base AS source
 WORKDIR /usr/src/app
 
 # Copy files and set ownership for non-root user
-COPY ./app ./app
 COPY ./scripts ./scripts
 COPY ./config ./config
 COPY ./notes ./notes
+COPY ./app ./app
 COPY ./todo.txt ./todo.txt
-
-# copy in the git repository so the news page can be generated
-COPY  .git .git
-
-# build the brochure static site and exit (i.e. dont watch for changes)
-# remove the git repository so it doesn't get copied into the final image
-RUN node ./app/documentation/build/index.js --no-watch --skip-zip && rm -rf .git
 
 ## Stage 4 (default, production)
 # The final production stage
@@ -86,5 +79,5 @@ USER 1000
 # Re-configuring git for the non-root user
 RUN git config --global user.email "you@example.com" && git config --global user.name "Your Name"
 
-# 1048.00 MB max memory is 75% of the 2gb limit for the container
+# 1048.00 MB max memory default is 75% of the 1.5gb limit for the container
 CMD ["sh", "-c", "node  /usr/src/app/app/index.js >> /usr/src/app/data/logs/docker/app.log 2>&1"]

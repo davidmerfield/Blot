@@ -15,6 +15,7 @@ services:
     environment:
       - BLOT_REDIS_HOST=redis
       - BLOT_HOST=local.blot
+      - CONTAINER_NAME=blot-container-green
     volumes:
       - ./data:/usr/src/app/data
       - ./.git:/usr/src/app/.git

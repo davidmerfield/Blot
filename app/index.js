@@ -7,25 +7,19 @@ const setup = require("./setup");
 const server = require("./server");
 const flush = require("documentation/tools/flush-cache");
 
+const CONTAINER_NAME = process.env.CONTAINER_NAME;
+
 console.log(clfdate(), `Starting server pid=${process.pid} environment=${config.environment}`);
 
-// Open the server to handle requests
-server.listen(config.port, function () {
-  console.log(
-    clfdate(),
-    `Server listening pid=${process.pid} port=${config.port}`
-  );
+setup(async err => {
+  if (err) throw err;
 
-  email.SERVER_START();
+  // Flush the cache of documentation
+  flush();
 
-  setup(async err => {
-    if (err) throw err;
+  // This is the master process
+  if (CONTAINER_NAME === 'blot-container-green') {
 
-    console.log(clfdate(), "Finished setting up server");
-
-    // Flush the cache of documentation
-    flush();
-    
     // Launch scheduler for background tasks, like backups, emails
     scheduler();
 
@@ -37,5 +31,17 @@ server.listen(config.port, function () {
         init();
       }
     }
+  }
+  
+  // Open the server to handle requests
+  server.listen(config.port, function () {
+    console.log(
+      clfdate(),
+      `Server listening pid=${process.pid} port=${config.port}`
+    );
+
+    email.SERVER_START();
+
+    console.log(clfdate(), "Finished setting up server");
   });
 });
