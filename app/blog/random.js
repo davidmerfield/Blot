@@ -3,6 +3,8 @@ const Entries = require("models/entries");
 // Redirect to random article
 module.exports = function (server) {
   server.get("/random", function (req, res, next) {
+    req.log("Redirecting to random entry"); 
+
     // We preserve the query string for random in case
     // someone wants to get the entry JSON, or find the source
     const url = req.originalUrl;
@@ -18,6 +20,7 @@ module.exports = function (server) {
         attempts++;
       }
       if (!entry.url) return next();
+      req.log("Redirecting to random entry", entry.url);
       res.set("Cache-Control", "no-cache");
       res.redirect(entry.url + queryString);
     });
