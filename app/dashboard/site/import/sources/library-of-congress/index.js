@@ -2,7 +2,6 @@
 // node index.js collection-label <URL_TO_ITEM_OR_COLLECTION>
 
 const cache_directory = __dirname + "/data/cache";
-const fetch = require("node-fetch");
 const cheerio = require("cheerio");
 const sharp = require("sharp");
 const fs = require("fs-extra");

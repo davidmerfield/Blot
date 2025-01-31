@@ -1,5 +1,4 @@
 const config = require("config");
-const fetch = require("node-fetch");
 const User = require("models/user");
 const express = require("express");
 const paypal = new express.Router();

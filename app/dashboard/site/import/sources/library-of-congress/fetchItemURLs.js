@@ -1,4 +1,3 @@
-const fetch = require("node-fetch");
 const cheerio = require("cheerio");
 const fs = require("fs-extra");
 const cache_directory = __dirname + "/data/cache";

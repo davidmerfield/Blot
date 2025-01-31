@@ -3,7 +3,6 @@ describe("Blot's site'", function () {
     const build = require("documentation/build");
     const config = require("config");
     const templates = require('util').promisify(require("templates"));
-    const fetch = require("node-fetch");
     const detectUnusedCSS = require('./util/detectUnusedCSS');
     const { create } = require("models/question");
     const { join } = require("path");

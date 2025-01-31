@@ -1,6 +1,5 @@
 const config = require("config");
 const get = require("../get/user");
-const fetch = require("node-fetch");
 
 async function main (user, callback) {
   const response = await fetch(

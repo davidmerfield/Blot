@@ -4,7 +4,6 @@ describe("drafts work", function () {
   const sync = require("sync");
   const blogServer = require("../../blog");
   const fs = require("fs-extra");
-  const fetch = require("node-fetch");
   const Express = require("express");
   const config = require("config");
   const guid = require("helper/guid");

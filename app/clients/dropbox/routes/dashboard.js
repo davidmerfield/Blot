@@ -3,7 +3,6 @@ const dashboard = express.Router();
 const disconnect = require("clients/dropbox/disconnect");
 const setup = require("./setup");
 const config = require("config");
-const fetch = require("node-fetch");
 const Database = require("clients/dropbox/database");
 const join = require("path").join;
 const moment = require("moment");

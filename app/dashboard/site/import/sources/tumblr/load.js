@@ -1,4 +1,3 @@
-const fetch = require("node-fetch");
 const fs = require("fs-extra");
 const API_KEY = process.env.BLOT_TUMBLR_KEY;
 const URL_TEMPLATE =

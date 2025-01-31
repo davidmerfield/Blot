@@ -1,4 +1,3 @@
-const fetch = require("node-fetch");
 const fs = require("fs").promises;
 const { createWriteStream } = require("fs");
 const ensure = require("helper/ensure");

@@ -26,7 +26,6 @@
 // for every exception after the first, the exception should contain a property 'nameservers' that contains the nameserver addresses of the domain
 
 const dns = require('dns').promises;
-const fetch = require('node-fetch');
 const { parse } = require('tldts');
 
 async function validate({ hostname, handle, ourIP, ourHost }) {

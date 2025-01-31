@@ -4,7 +4,6 @@ var get = require("./get");
 var config = require("config");
 var reverse_proxies = config.reverse_proxies;
 
-const fetch = require("node-fetch");
 
 // This empties the cache for a blog by emptying the cache
 // for its Blot subdomain and its custom domain, if one is set

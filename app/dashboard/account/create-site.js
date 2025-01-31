@@ -4,7 +4,6 @@ var Blog = require("models/blog");
 var _ = require("lodash");
 var prettyPrice = require("helper/prettyPrice");
 var config = require("config");
-var fetch = require("node-fetch");
 var stripe = require("stripe")(config.stripe.secret);
 var User = require("models/user");
 var Email = require("helper/email");

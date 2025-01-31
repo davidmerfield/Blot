@@ -12,7 +12,6 @@ https://www.flickr.com/services/oembed/
 
 const each = require("../eachEl");
 const Url = require("url");
-const fetch = require("node-fetch");
 
 function render($, callback) {
   each(

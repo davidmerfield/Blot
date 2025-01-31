@@ -4,7 +4,6 @@ const client = require("models/client");
 const express = require("express");
 const CHANNEL = "webhook-forwarder";
 const EventSource = require("eventsource");
-const fetch = require("node-fetch");
 const clfdate = require("helper/clfdate");
 const querystring = require("querystring");
 const bodyParser = require("body-parser");

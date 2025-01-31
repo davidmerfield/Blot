@@ -1,5 +1,4 @@
 const fs = require("fs-extra");
-const fetch = require("node-fetch");
 const main = async cache_key_hash => {
   const cache_directory = "/var/instance-ssd";
   // the cache file path is in the following format: $x/$y/$cache_key_hash

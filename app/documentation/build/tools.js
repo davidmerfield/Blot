@@ -15,7 +15,6 @@ const renderTemplate = async (name, data, destination) => {
   await fs.outputFile(outputDirectory + "/" + (destination || name), result);
 };
 
-const fetch = require("node-fetch");
 
 const fetchIcon = async (link, name) => {
   const existingIcon = fs

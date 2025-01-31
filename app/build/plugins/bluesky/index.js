@@ -23,7 +23,6 @@ You can learn more about oEmbed at https://oembed.com. Bluesky is a registered p
 
 const each = require("../eachEl");
 const Url = require("url");
-const fetch = require("node-fetch");
 
 function render($, callback) {
 

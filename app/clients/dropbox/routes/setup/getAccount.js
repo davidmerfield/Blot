@@ -1,5 +1,4 @@
 const config = require("config");
-const fetch = require("node-fetch");
 const { Dropbox } = require("dropbox");
 
 module.exports = async function getAccount(account) {
