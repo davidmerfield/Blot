@@ -60,12 +60,12 @@ function main (callback) {
       },
 
       async function () {
-
-        if (config.environment === "production") {
-          log("Building folders");
-          await folders();
-          log("Built folders");
-        }
+        
+        // if (config.environment === "production") {
+        //   log("Building folders");
+        //   await folders();
+        //   log("Built folders");
+        // }
       },
 
       function (callback) {
