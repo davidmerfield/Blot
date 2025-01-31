@@ -122,9 +122,3 @@ async function buildHTML (path) {
   await fs.outputFile(join(DESTINATION_DIRECTORY, path), result);
 }
 
-if (require.main === module) {
-  module.exports({ 
-    watch: process.argv.includes("--no-watch") ? false : true,
-    skipZip: process.argv.includes("--skip-zip") ? true : false
-   });
-}
