@@ -45,11 +45,6 @@ module.exports = function route(server) {
       });
     });
 
-    // In case we encounter an error...print it out to the console
-    client.on("error", function (err) {
-      console.log("Redis Error: " + err);
-    });
-
     req.on("close", function () {
       client.unsubscribe();
       client.quit();
@@ -57,7 +52,7 @@ module.exports = function route(server) {
   });
 
   console.log('Draft: Route for draft view is set up', drafts.viewRoute);
-  
+
   server.get(drafts.viewRoute, function (request, response, next) {
     // console.log('Draft: Request to a draft view page ' + request.url);
 

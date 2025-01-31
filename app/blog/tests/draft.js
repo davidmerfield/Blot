@@ -23,6 +23,11 @@ describe("drafts", function () {
         expect(body2.trim()).toContain('Hello, world! Updated!');
     });
 
+    it("handles a broken draft url", async function () {
+        const res = await this.get('/draft/view/Drafts/does-not-exist.txt');
+        expect(res.status).toEqual(404);
+    });
+
     it("streams a draft", async function () {
         // Prepare the initial draft and templates
         await this.write({ path: '/Drafts/index.txt', content: 'Hello, world!' });
