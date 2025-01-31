@@ -57,9 +57,13 @@ fi
 
 # Define container names and ports
 BLUE_CONTAINER="blot-container-blue"
-GREEN_CONTAINER="blot-container-green"
 BLUE_CONTAINER_PORT=8088
+GREEN_CONTAINER="blot-container-green"
 GREEN_CONTAINER_PORT=8089
+YELLOW_CONTAINER="blot-container-yellow"
+YELLOW_CONTAINER_PORT=8090
+PURPLE_CONTAINER="blot-container-purple"
+PURPLE_CONTAINER_PORT=8091
 
 # Define the docker run command template with placeholders
 DOCKER_RUN_COMMAND="docker run --pull=always -d \
@@ -69,7 +73,7 @@ DOCKER_RUN_COMMAND="docker run --pull=always -d \
   -e CONTAINER_NAME={{CONTAINER_NAME}} \
   -v /var/www/blot/data:/usr/src/app/data \
   --restart unless-stopped \
-  --memory=2g --cpus=1.5 \
+  --memory=1.5g --cpus=1 \
   ghcr.io/davidmerfield/blot:$GIT_COMMIT_HASH"
 
 # Configurable health check timeout
@@ -192,18 +196,29 @@ rollback_container() {
 }
 
 # Get the currently running image hashes for rollback purposes
-blue_previous_image=$(get_current_image_hash $BLUE_CONTAINER)
-green_previous_image=$(get_current_image_hash $GREEN_CONTAINER)
+rollback_image=$(get_current_image_hash $GREEN_CONTAINER)
 
 # Deploy the blue container
-if ! deploy_container $BLUE_CONTAINER $BLUE_CONTAINER_PORT $blue_previous_image; then
+if ! deploy_container $BLUE_CONTAINER $BLUE_CONTAINER_PORT $rollback_image; then
   echo "Deployment failed. $BLUE_CONTAINER rollback completed. Exiting."
   exit 1
 fi
 
 # Deploy the green container
-if ! deploy_container $GREEN_CONTAINER $GREEN_CONTAINER_PORT $green_previous_image; then
+if ! deploy_container $GREEN_CONTAINER $GREEN_CONTAINER_PORT $rollback_image; then
   echo "Deployment failed. $GREEN_CONTAINER rollback completed. Exiting."
+  exit 1
+fi
+
+# Deploy the yellow container
+if ! deploy_container $YELLOW_CONTAINER $YELLOW_CONTAINER_PORT $rollback_image; then
+  echo "Deployment failed. $YELLOW_CONTAINER rollback completed. Exiting."
+  exit 1
+fi
+
+# Deploy the purple container
+if ! deploy_container $PURPLE_CONTAINER $PURPLE_CONTAINER_PORT $rollback_image; then
+  echo "Deployment failed. $PURPLE_CONTAINER rollback completed. Exiting."
   exit 1
 fi
 

@@ -86,5 +86,5 @@ USER 1000
 # Re-configuring git for the non-root user
 RUN git config --global user.email "you@example.com" && git config --global user.name "Your Name"
 
-# 1.5gb max memory is 75% of the 2gb limit for the container
-CMD ["sh", "-c", "node --max-old-space-size=1536 /usr/src/app/app/index.js >> /usr/src/app/data/logs/docker/app.log 2>&1"]
+# 1048.00 MB max memory is 75% of the 2gb limit for the container
+CMD ["sh", "-c", "node  /usr/src/app/app/index.js >> /usr/src/app/data/logs/docker/app.log 2>&1"]

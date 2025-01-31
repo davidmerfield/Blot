@@ -2,8 +2,6 @@ Fix folder downloads on brochure
 - run build script on image before the server starts listening and remove it from dockerfile
 
 Reduce resources given to each blot container on the server then run 4 of them, 2 for the site and 2 for blogs
-- docker exec blot-container-blue node -e "console.log(\`Max Heap Size: \${(require('v8').getHeapStatistics().heap_size_limit / 1024 / 1024).toFixed(2)} MB\`)"
-- Max Heap Size: 1048.00 MB
 - Update deploy script
 
 Monitor slow URLs in the logs
