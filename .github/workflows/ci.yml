@@ -70,7 +70,7 @@ jobs:
             -v ${{ github.workspace }}/.git:/usr/src/app/.git \
             -v ${{ github.workspace }}/tests:/usr/src/app/tests \
             ghcr.io/${{ github.repository_owner }}/blot:test-${{ github.sha }} \
-            sh -c "node ./app/documentation/build/index.js --no-watch --skip-zip && node tests && npx depcheck --ignores=depcheck,nodemon,blessed-contrib,twit,fontkit,text-to-svg --skip-missing"
+            sh -c "node ./app/documentation/build/index.js --no-watch --skip-zip && node tests && npx depcheck --ignores=depcheck,nyc,nodemon,blessed-contrib,fontkit,text-to-svg --skip-missing"
 
   # ┌────────────────────────────────────┐
   # │ 2) Build Production Images       │
