@@ -6,8 +6,10 @@ const redis = require("models/redis");
 const client = new redis();
 const documentation = require("./documentation/build");
 const templates = require("./templates");
+const folders = require("./templates/folders");
 const async = require("async");
 const clfdate = require("helper/clfdate");
+const configureLocalBlogs = require("./configure-local-blogs");
 
 const log = (...arguments) =>
   console.log.apply(null, [clfdate(), "Setup:", ...arguments]);
@@ -58,6 +60,16 @@ function main (callback) {
         await documentation({ watch: config.environment === "development" });
         log("Built documentation");
       },
+
+      async function () {
+
+        if (config.environment === "production") {
+          log("Building folders");
+          await folders();
+          log("Built folders");
+        }
+      },
+
       function (callback) {
         // we only want to build the templates in development
         // in production we run node app/setup.js to build the documentation
@@ -71,7 +83,17 @@ function main (callback) {
             callback();
           }
         );
-      }
+      },
+
+      async function ()  {
+
+        if (config.environment === "development") {
+          log("Configuring local blogs");
+          await configureLocalBlogs();
+          log("Configured local blogs");
+        }
+      },
+
     ],
     callback
   );
