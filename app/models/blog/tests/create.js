@@ -18,7 +18,7 @@ describe("Blog.create", function () {
   it("creates a blog", function (done) {
     var test = this;
 
-    create(test.user.uid, { handle: "example" }, function (err, blog) {
+    create(test.user.uid, { handle: "exampleblog" }, function (err, blog) {
       if (err) return done.fail(err);
 
       test.blog = blog; // will be cleaned up at the end of this test
@@ -31,7 +31,7 @@ describe("Blog.create", function () {
   it("adds created blog to list of all blogs", function (done) {
     var test = this;
 
-    create(test.user.uid, { handle: "example" }, function (err, blog) {
+    create(test.user.uid, { handle: "exampleblog" }, function (err, blog) {
       if (err) return done.fail(err);
 
       test.blog = blog; // will be cleaned up at the end of this test
