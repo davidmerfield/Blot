@@ -1,9 +1,3 @@
-Fix folder downloads on brochure
-- run build script on image before the server starts listening and remove it from dockerfile
-
-Reduce resources given to each blot container on the server then run 4 of them, 2 for the site and 2 for blogs
-- Update deploy script
-
 Monitor slow URLs in the logs
 
 Begin to write tests of rendering engine
