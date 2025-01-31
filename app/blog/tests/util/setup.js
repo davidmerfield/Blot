@@ -62,8 +62,6 @@ module.exports = function () {
         for (let path in views) {
           await this.write({path: `/Templates/local/${path}`, content: views[path] });
         }
-        
-        await this.blog.rebuild();
       };
 
 
