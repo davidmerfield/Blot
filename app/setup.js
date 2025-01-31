@@ -53,22 +53,17 @@ function main (callback) {
         );
       },
       
-      async function () {
-        // we only want to watch for changes in the documentation in development
-        log("Building documentation");
-        await documentation({ watch: config.environment === "development" });
-        log("Built documentation");
-      },
+       function (callback) {
 
-      // async function () {
-      //   // if (config.environment === "production") {
-      //   //   log("Building folders");
-      //   //   await folders();
-      //   //   log("Built folders");
-      //   // }
-      // },
+        // skip building the templates if the documentation has already been built
+        // this suggests that the server has already been started
+        // and this speeds up the restart process when we run out of memory
+        if (config.environment === "production" && fs.existsSync(config.views_directory + "/documentation.html")) {
+          log("Skipping building templates");
+          return callback();
+        }
 
-      function (callback) {
+        
         // we only want to watch for changes in the templates in development
         log("Building templates");
         templates(
@@ -80,6 +75,31 @@ function main (callback) {
           }
         );
       },
+
+
+      async function () {
+
+        // skip building the documentation if it's already been built
+        // this suggests that the server has already been started
+        // and this speeds up the restart process when we run out of memory
+        if (config.environment === "production" && fs.existsSync(config.views_directory + "/documentation.html")) {
+          log("Skipping building documentation");
+          return;
+        }
+
+        log("Building documentation");
+        // we only want to watch for changes in the documentation in development
+        await documentation({ watch: config.environment === "development" });
+        log("Built documentation");
+      },
+
+      // async function () {
+      //   // if (config.environment === "production") {
+      //   //   log("Building folders");
+      //   //   await folders();
+      //   //   log("Built folders");
+      //   // }
+      // },
 
       async function ()  {
         if (config.environment === "development") {
