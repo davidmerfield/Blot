@@ -59,14 +59,14 @@ function main (callback) {
         log("Built documentation");
       },
 
-      async function () {
-        
-        // if (config.environment === "production") {
-        //   log("Building folders");
-        //   await folders();
-        //   log("Built folders");
-        // }
-      },
+      // async function () {
+
+      //   // if (config.environment === "production") {
+      //   //   log("Building folders");
+      //   //   await folders();
+      //   //   log("Built folders");
+      //   // }
+      // },
 
       function (callback) {
         // we only want to watch for changes in the templates in development
