@@ -73,6 +73,9 @@ HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
 # Ensure the logfile directory exists with proper permissions
 RUN mkdir -p /usr/src/app/data/logs/docker && chmod -R 0755 /usr/src/app/data/logs/docker
 
+# Give the non-root user ownership of the app directory
+RUN chown -R 1000:1000 /usr/src/app/app
+
 # Change to the non-root user for the rest of the Dockerfile (ec2-user)
 USER 1000
 
