@@ -222,11 +222,11 @@ if ! deploy_container $PURPLE_CONTAINER $PURPLE_CONTAINER_PORT $rollback_image; 
   exit 1
 fi
 
-echo "Both blue and green containers are healthy."
+echo "All containers deployed successfully."
 
 # Prune the old images to save disk space 
 echo "Pruning old images..."
 ssh_blot "docker image prune -af"
 echo "Pruned old images."
 
-echo "Blue-Green deployment completed successfully!"
+echo "Blue-Green-Yellow-Purple deployment completed successfully!"
