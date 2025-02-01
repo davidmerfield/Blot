@@ -1,4 +1,3 @@
-const config = require("config");
 const Express = require("express");
 const TemplateEditor = new Express.Router();
 const parse = require("dashboard/util/parse");
@@ -7,7 +6,6 @@ const Template = require("models/template");
 const Blog = require("models/blog");
 const archiver = require('archiver');
 const createTemplate = require("./save/create-template");
-const { tr } = require("faker/lib/locales");
 
 TemplateEditor.param("viewSlug", require("./load/template-views"));
 
