@@ -135,5 +135,4 @@ jobs:
           docker tag ghcr.io/${{ github.repository_owner }}/blot:${{ github.sha }}-pending ghcr.io/${{ github.repository_owner }}/blot:latest
           docker push ghcr.io/${{ github.repository_owner }}/blot:${{ github.sha }}
           docker push ghcr.io/${{ github.repository_owner }}/blot:latest
-          docker rmi ghcr.io/${{ github.repository_owner }}/blot:${{ github.sha }}-pending
           
