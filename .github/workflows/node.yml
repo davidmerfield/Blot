@@ -120,7 +120,7 @@ jobs:
           echo "Redis is ready."
 
           # Start the app container with Redis environment variables
-          container_id=$(docker run -d --env REDIS_HOST=test_redis --env REDIS_PORT=6379 $IMAGE)
+          container_id=$(docker run -d --env BLOT_REDIS_HOST=test_redis $IMAGE)
 
           # Ensure the app container started successfully
           if [ -z "$container_id" ]; then
@@ -175,7 +175,7 @@ jobs:
           docker rm $container_id
           docker stop $redis_container_id
           docker rm $redis_container_id
-          
+
   release:
     runs-on: ubuntu-latest
     needs: [build, test]
