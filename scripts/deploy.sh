@@ -51,9 +51,9 @@ fi
 if docker manifest inspect ghcr.io/davidmerfield/blot:$GIT_COMMIT_HASH 2>/dev/null | \
   jq -e --arg arch "$PLATFORM_ARCH" --arg os "$PLATFORM_OS" \
     '.manifests[] | select(.platform.architecture == $arch and .platform.os == $os)' > /dev/null; then
-  echo "Image for platform $PLATFORM_ARCH/$PLATFORM_OS exists."
+  echo "Image for platform $PLATFORM_OS/$PLATFORM_ARCH exists."
 else
-  echo "Error: Image for platform $PLATFORM_ARCH/$PLATFORM_OS does not exist."
+  echo "Error: Image for platform $PLATFORM_OS/$PLATFORM_ARCH does not exist."
   exit 1
 fi
 
