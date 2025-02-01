@@ -7,6 +7,7 @@ const Template = require("models/template");
 const Blog = require("models/blog");
 const archiver = require('archiver');
 const createTemplate = require("./save/create-template");
+const { tr } = require("faker/lib/locales");
 
 TemplateEditor.param("viewSlug", require("./load/template-views"));
 
@@ -224,15 +225,19 @@ TemplateEditor.route("/:templateSlug/local-editing")
     res.render("dashboard/template/duplicate");
   })
   .post(parse, async (req, res, next) => {
+    try {
       const template = await createTemplate({
         isPublic: false,
         owner: req.blog.id,
         name: req.template.name + ' copy',
         slug: req.template.slug + '-copy',
         cloneFrom: req.template.id,
-    });
+      });
 
-    res.message('/sites/' + req.blog.handle + '/template/' + template.slug, 'Duplicated template <b>' + template.name + '</b>');
+      res.message('/sites/' + req.blog.handle + '/template/' + template.slug, 'Duplicated template <b>' + template.name + '</b>');
+    } catch (err) {
+      next(err);
+    }
   });
 
 TemplateEditor.route("/:templateSlug/rename")
