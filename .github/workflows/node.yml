@@ -26,8 +26,11 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
+      - name: Set up QEMU (for multi-arch)
+        uses: docker/setup-qemu-action@v3
+
       - name: Log in to GitHub Container Registry
-        uses: docker/login-action@v1
+        uses: docker/login-action@v2
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
@@ -37,10 +40,10 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           platforms: linux/amd64
-          load: true              # So we can docker run the image locally
-          cache-from: type=registry,ref=ghcr.io/${{ github.repository_owner }}/blot:test
-          cache-to: type=registry,ref=ghcr.io/${{ github.repository_owner }}/blot:test,mode=max
           target: dev
+          load: true
+          cache-from: type=registry,ref=ghcr.io/${{ github.repository_owner }}/blot
+          cache-to: type=registry,ref=ghcr.io/${{ github.repository_owner }}/blot,mode=max
           tags: ghcr.io/${{ github.repository_owner }}/blot:test-${{ github.sha }}
 
       - name: Run Tests
@@ -50,7 +53,6 @@ jobs:
           BLOT_STRIPE_PRODUCT: ${{ secrets.BLOT_STRIPE_PRODUCT }}
         run: |
           docker run --rm \
-            --network name=${{ job.services.redis.network }} \
             -e BLOT_REDIS_HOST=redis \
             -e BLOT_STRIPE_KEY=$BLOT_STRIPE_KEY \
             -e BLOT_STRIPE_SECRET=$BLOT_STRIPE_SECRET \
@@ -64,3 +66,13 @@ jobs:
             -v ${{ github.workspace }}/tests:/usr/src/app/tests \
             ghcr.io/${{ github.repository_owner }}/blot:test-${{ github.sha }} \
             sh -c "node ./app/documentation/build/index.js --no-watch --skip-zip && node tests && npx depcheck --ignores=depcheck,nyc,nodemon,blessed-contrib,fontkit,text-to-svg --skip-missing"
+
+      - name: Build multi-arch production image
+        uses: docker/build-push-action@v6
+        with:
+          platforms: linux/amd64,linux/arm64
+          target: prod
+          push: true
+          tags: ghcr.io/${{ github.repository_owner }}/blot:${{ github.sha }}
+          cache-from: type=registry,ref=ghcr.io/${{ github.repository_owner }}/blot
+          cache-to: type=registry,ref=ghcr.io/${{ github.repository_owner }}/blot,mode=max
