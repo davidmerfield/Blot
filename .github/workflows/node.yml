@@ -122,8 +122,7 @@ jobs:
           echo "Redis is ready."
 
           # Start the app container with Redis environment variables
-          container_id=$(docker run -d --network test_network --env BLOT_REDIS_HOST=test_redis
-           $IMAGE)
+          container_id=$(docker run -d --network test_network --env BLOT_REDIS_HOST=test_redis $IMAGE)
 
           # Ensure the app container started successfully
           if [ -z "$container_id" ]; then
