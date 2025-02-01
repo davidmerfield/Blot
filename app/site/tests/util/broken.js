@@ -71,8 +71,6 @@ async function checkPage(base, url, options, state) {
 
   const uri = { url, headers: options.headers || {} };
 
-  log("GET", url);
-
   let res;
   try {
     res = await fetch(uri.url, { headers: uri.headers });
@@ -81,8 +79,6 @@ async function checkPage(base, url, options, state) {
     addFailure(base, url, err.code || "Network Error", state);
     return;
   }
-
-  log("GOT", url, res.status);
 
   if (res.status !== 200 && res.status !== 400) {
     addFailure(base, url, res.status, state);
