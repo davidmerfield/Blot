@@ -1,3 +1,5 @@
+Fix global.test.server() so it doesn't use puppeteer then check in on broken link tests
+
 Monitor slow URLs in the logs
 
 Fix bug, the blog was deleted mid-sync:
@@ -87,7 +89,38 @@ Think about docker deploys
 
 Think about migrating to s3 for blog data storage
 - Purge thumbnails and cached images which are no longer in use
+- What about pointing the CDN to an s3 bucket then redirecting to upstream for 404?
+    http {
+        server {
+            listen 80;
 
+            # Main location block
+            location / {
+                # Proxy to the S3 bucket
+                set $s3_bucket "bucket.s3.amazonaws.com";
+                proxy_pass https://$s3_bucket;
+
+                # Pass the original Host header (required by S3)
+                proxy_set_header Host $s3_bucket;
+
+                # Handle S3 redirects properly
+                proxy_redirect off;
+
+                # If the response is 404, redirect to the fallback location
+                error_page 404 = @fallback;
+            }
+
+            # Fallback location if the S3 bucket returns a 404
+            location @fallback {
+                # Proxy to the fallback upstream
+                proxy_pass http://fallback-upstream;
+
+                # Optional: Set a custom Host header for the fallback upstream
+                proxy_set_header Host fallback-upstream;
+            }
+        }
+    }
+    
 Fix issue with server restart:
 - sudo chown ec2-user:ec2-user /var/instance-ssd/tmp
 - sudo chown ec2-user:ec2-user /var/instance-ssd/logs/app.log

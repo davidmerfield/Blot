@@ -1,6 +1,6 @@
 ## Stage 1 (base)
 # This stage installs all dependencies and builds the application if needed
-FROM node:21-alpine3.18 AS base
+FROM node:22.13.1-alpine AS base
 
 ARG PANDOC_VERSION=3.1.1
 ARG TARGETPLATFORM
@@ -31,7 +31,9 @@ RUN ARCH=$(echo ${TARGETPLATFORM} | sed -nE 's/^linux\/(amd64|arm64)$/\1/p') \
 COPY package.json package-lock.json ./
 
 # Install dependencies (args from https://sharp.pixelplumbing.com/install#cross-platform)
-RUN npm install --os=linux --libc=musl --cpu=${TARGETPLATFORM} && npm cache clean --force
+# --maxsockets 1 is a workaround for an issue with npm install timing out with qemu on arm64
+# the other args are to ensure the correct sharp binary is installed
+RUN npm install --maxsockets 1 --os=linux --libc=musl --cpu=${TARGETPLATFORM} && npm cache clean --force
 
 ## Stage 2 (development)
 # This stage is for development and testing purposes
@@ -70,11 +72,11 @@ FROM source AS prod
 HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
   CMD curl --fail http://localhost:8080/health || exit 1
 
-# Ensure the logfile directory exists with proper permissions
-RUN mkdir -p /usr/src/app/data/logs/docker && chmod -R 0755 /usr/src/app/data/logs/docker
+# Ensure the logfile directory exists
+RUN mkdir -p /usr/src/app/data/logs/docker
 
-# Give the non-root user ownership of the app directory
-RUN chown -R 1000:1000 /usr/src/app/app
+# Give the non-root user ownership of the app directory and data directory
+RUN chown -R 1000:1000 /usr/src/app/app && chown -R 1000:1000 /usr/src/app/data
 
 # Change to the non-root user for the rest of the Dockerfile (ec2-user)
 USER 1000
