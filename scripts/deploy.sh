@@ -65,6 +65,7 @@ if [[ "$CONFIRMATION" != "y" ]]; then
   exit 0
 fi
 
+
 # Define container names and ports
 BLUE_CONTAINER="blot-container-blue"
 BLUE_CONTAINER_PORT=8088
