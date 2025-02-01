@@ -114,6 +114,8 @@ jobs:
               echo "Health check failed: container did not become healthy within $timeout seconds."
               echo "Container logs:"
               docker logs $container_id
+              echo "Contents of /usr/src/app/data/logs/docker/app.log:"
+              docker exec $container_id cat /usr/src/app/data/logs/docker/app.log
               docker stop $container_id
               docker rm $container_id
               exit 1
