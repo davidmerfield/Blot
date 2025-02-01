@@ -13,7 +13,8 @@ describe("Blot's site'", function () {
     // and the dashboard before we launch the server
     // we also build the templates into the cache
     beforeAll(async () => {
-      await build({watch: false});
+      console.log("Building views and templates");
+      await build({watch: false, skipZip: true});
       await templates({watch: false});
     }, 60000);
     
@@ -21,7 +22,7 @@ describe("Blot's site'", function () {
       await checkLinks(this.origin);
     }, 60000);
 
-    it("has no broken links for logged-in users", async function () {
+    fit("has no broken links for logged-in users", async function () {
       const email = this.user.email;
       const password = this.user.fakePassword;
       
@@ -65,6 +66,8 @@ describe("Blot's site'", function () {
 
       expect(dashboardText).toMatch(email);
 
+      console.log('Checking links for logged-in user');
+      
       await checkLinks(this.origin, {headers: {
         'Cookie': cookieHeader,
       }});

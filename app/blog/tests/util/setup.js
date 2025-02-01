@@ -21,7 +21,7 @@ module.exports = function () {
          await this.blog.rebuild();
     }
 
-    this.get = (path, options = {}) => this.fetch(`https://${this.blog.handle}.${config.host}${path}`, options);  
+    this.get = (path, options = {}) => this.fetch(`${config.protocol}${this.blog.handle}.${config.host}${path}`, options);  
 
     this.remove = (path) => {
         return new Promise((resolve, reject) => {

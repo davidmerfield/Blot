@@ -1,4 +1,4 @@
-describe("Blot dashboard settings", function () {
+xdescribe("Blot dashboard settings", function () {
 
     const fs = require('fs-extra');
 

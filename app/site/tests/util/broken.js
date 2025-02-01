@@ -75,7 +75,7 @@ async function checkPage(base, url, options, state) {
 
   let res;
   try {
-    res = await fetch(uri.url, { headers: uri.headers});
+    res = await fetch(uri.url, { headers: uri.headers });
   } catch (err) {
     log("Error", err.message);
     addFailure(base, url, err.code || "Network Error", state);
@@ -111,7 +111,7 @@ async function parseURLs(base, body, options, state) {
     .map(url => resolve(base, url))
     .filter(url => {
       if (state.skipped.has(url) || parse(url).host !== parse(base).host) {
-        if (!state.skipped.has(url)) log("skipping", url);
+        // if (!state.skipped.has(url)) log("skipping", url);
         state.skipped.add(url);
         return false;
       }
