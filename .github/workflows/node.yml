@@ -94,28 +94,37 @@ jobs:
         env:
           IMAGE: ghcr.io/${{ github.repository_owner }}/blot:${{ github.sha }}-pending
         run: |
-          # Start a container in detached mode
-          container_id=$(docker run -d --rm $IMAGE)
+          # Start a container in detached mode and capture only the container ID
+          container_id=$(docker run -d $IMAGE 2>/dev/null)
 
-          echo "Waiting for the container to pass the built-in health check..."
+          # Ensure the container ID was successfully captured
+          if [ -z "$container_id" ]; then
+            echo "Failed to start the container. Exiting..."
+            exit 1
+          fi
 
-          # Wait for the container's health status to be "healthy"
+          echo "Waiting for the container ($container_id) to pass the built-in health check..."
+
+          # Wait for the container's health status to become "healthy"
           timeout=60  # Maximum wait time in seconds
           interval=5  # Interval between health status checks
           elapsed=0
           while [ "$(docker inspect --format='{{json .State.Health.Status}}' $container_id)" != '"healthy"' ]; do
             if [ $elapsed -ge $timeout ]; then
               echo "Health check failed: container did not become healthy within $timeout seconds."
+              echo "Container logs:"
               docker logs $container_id
               docker stop $container_id
+              docker rm $container_id
               exit 1
             fi
             sleep $interval
             elapsed=$((elapsed + interval))
           done
 
-          echo "Container passed the health check."
+          echo "Container ($container_id) passed the health check."
           docker stop $container_id
+          docker rm $container_id
 
   release:
     runs-on: ubuntu-latest
