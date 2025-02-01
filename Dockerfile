@@ -31,7 +31,7 @@ RUN ARCH=$(echo ${TARGETPLATFORM} | sed -nE 's/^linux\/(amd64|arm64)$/\1/p') \
 COPY package.json package-lock.json ./
 
 # Install dependencies (args from https://sharp.pixelplumbing.com/install#cross-platform)
-RUN npm install --os=linux --libc=musl --cpu=${TARGETPLATFORM} && npm cache clean --force
+RUN npm update -g npm && npm install --maxsockets 1 --os=linux --libc=musl --cpu=${TARGETPLATFORM} && npm cache clean --force
 
 ## Stage 2 (development)
 # This stage is for development and testing purposes
