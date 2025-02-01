@@ -67,12 +67,75 @@ jobs:
             ghcr.io/${{ github.repository_owner }}/blot:test-${{ github.sha }} \
             sh -c "node ./app/documentation/build/index.js --no-watch --skip-zip && node tests && npx depcheck --ignores=depcheck,nyc,nodemon,blessed-contrib,fontkit,text-to-svg --skip-missing"
 
-      - name: Build production images
+  build-amd64:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build amd64 production image
         uses: docker/build-push-action@v6
         with:
-          platforms: linux/amd64,linux/arm64
+          platforms: linux/amd64
           target: prod
           push: true
-          tags: ghcr.io/${{ github.repository_owner }}/blot:${{ github.sha }}
           cache-from: type=registry,ref=ghcr.io/${{ github.repository_owner }}/blot
           cache-to: type=registry,ref=ghcr.io/${{ github.repository_owner }}/blot,mode=max
+          tags: ghcr.io/${{ github.repository_owner }}/blot:${{ github.sha }}-amd64
+
+  build-arm64:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build arm64 production image
+        uses: docker/build-push-action@v6
+        with:
+          platforms: linux/arm64
+          target: prod
+          push: true
+          cache-from: type=registry,ref=ghcr.io/${{ github.repository_owner }}/blot
+          cache-to: type=registry,ref=ghcr.io/${{ github.repository_owner }}/blot,mode=max
+          tags: ghcr.io/${{ github.repository_owner }}/blot:${{ github.sha }}-arm64
+
+ manifest:
+    runs-on: ubuntu-latest
+    needs: [build-amd64, build-arm64]
+    steps:
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create and push multi-arch manifest
+        run: |
+          docker manifest create ghcr.io/${{ github.repository_owner }}/blot:${{ github.sha }} \
+            ghcr.io/${{ github.repository_owner }}/blot:${{ github.sha }}-amd64 \
+            ghcr.io/${{ github.repository_owner }}/blot:${{ github.sha }}-arm64
+          docker manifest push ghcr.io/${{ github.repository_owner }}/blot:${{ github.sha }}
+
