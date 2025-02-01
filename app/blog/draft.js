@@ -51,8 +51,6 @@ module.exports = function route(server) {
     });
   });
 
-  console.log('Draft: Route for draft view is set up', drafts.viewRoute);
-
   server.get(drafts.viewRoute, function (request, response, next) {
     // console.log('Draft: Request to a draft view page ' + request.url);
 
