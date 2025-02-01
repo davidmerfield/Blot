@@ -1,16 +1,13 @@
 
 module.exports = function () {
-    const Express = require("express");
-    const trace = require("helper/trace");
     const templates = require("templates");
     const blog = require('../../index');
     const sync = require("sync");
+    const config = require("config");
 
     global.test.blog();
 
-    let server;
-    const port = 8926;
-
+    global.test.server(blog);
 
   // Build the templates
   beforeAll(function(done) {
@@ -24,15 +21,7 @@ module.exports = function () {
          await this.blog.rebuild();
     }
 
-    this.get = (path, options = {}) => {
-        return fetch(`${this.origin}${path}`, {
-            ...options,
-            headers: {
-                ...options.headers,
-                'X-Forwarded-Host': `${this.blog.handle}.localhost`,
-            }
-        });
-    };
+    this.get = (path, options = {}) => this.fetch(`${config.protocol}${this.blog.handle}.${config.host}${path}`, options);  
 
     this.remove = (path) => {
         return new Promise((resolve, reject) => {
@@ -130,48 +119,6 @@ module.exports = function () {
 
     });
   
-  // Create a webserver for testing remote files
-  beforeAll(async function (done) {
 
-    // Expose the server origin for the tests
-    // specs so they can use this.origin 
-    this.origin = `http://localhost:${port}`;
-
-    const app = Express();
-
-    // This lets us pretend the test is running over HTTPS
-    app.use((req, res, next) => {
-      req.headers["host"] = req.headers["x-forwarded-host"];
-      req.headers["X-Forwarded-Proto"] = req.headers["X-Forwarded-Proto"] || "https";
-      req.headers["x-forwarded-proto"] = req.headers["x-forwarded-proto"] || "https";
-      next();
-    });
-
-    app.use(trace.init);
-
-    // Trust proxy for secure cookies
-    app.set("trust proxy", true);
-
-    app.use(blog);
-
-    // Start the server
-    server = app.listen(port, () => {
-      console.log(`Test server listening at ${this.origin}`);
-      done();
-    });
-
-    server.on('error', (err) => {
-      console.error("Error starting test server:", err);
-      done.fail(err);
-    });
-  });
-
-  afterAll(function(done) {
-    console.log('Closing test server');
-    server.close(() => {
-        console.log('Test server closed');
-        done();
-    });
-  });
 
 };
