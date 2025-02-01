@@ -69,7 +69,6 @@ jobs:
 
   build-amd64:
     runs-on: ubuntu-latest
-    needs: test
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -96,7 +95,6 @@ jobs:
 
   build-arm64:
     runs-on: ubuntu-latest
-    needs: test
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -120,10 +118,10 @@ jobs:
           cache-from: type=registry,ref=ghcr.io/${{ github.repository_owner }}/blot
           cache-to: type=registry,ref=ghcr.io/${{ github.repository_owner }}/blot,mode=max
           tags: ghcr.io/${{ github.repository_owner }}/blot:${{ github.sha }}-arm64
-          
+
   manifest:
     runs-on: ubuntu-latest
-    needs: [build-amd64, build-arm64]
+    needs: [build-amd64, build-arm64, test]
     steps:
       - name: Log in to GitHub Container Registry
         uses: docker/login-action@v2
