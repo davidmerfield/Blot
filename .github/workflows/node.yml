@@ -52,6 +52,7 @@ jobs:
           BLOT_STRIPE_PRODUCT: ${{ secrets.BLOT_STRIPE_PRODUCT }}
         run: |
           docker run --rm \
+            --network name=${{ job.services.redis.network }} \          
             -e BLOT_REDIS_HOST=redis \
             -e BLOT_STRIPE_KEY=$BLOT_STRIPE_KEY \
             -e BLOT_STRIPE_SECRET=$BLOT_STRIPE_SECRET \
