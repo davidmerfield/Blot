@@ -70,11 +70,11 @@ FROM source AS prod
 HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
   CMD curl --fail http://localhost:8080/health || exit 1
 
-# Ensure the logfile directory exists with proper permissions
-RUN mkdir -p /usr/src/app/data/logs/docker && chmod -R 0755 /usr/src/app/data/logs/docker && touch /usr/src/app/data/logs/docker/app.log && chmod 0644 /usr/src/app/data/logs/docker/app.log
+# Ensure the logfile directory exists
+RUN mkdir -p /usr/src/app/data/logs/docker
 
-# Give the non-root user ownership of the app directory
-RUN chown -R 1000:1000 /usr/src/app/app
+# Give the non-root user ownership of the app directory and data directory
+RUN chown -R 1000:1000 /usr/src/app/app && chown -R 1000:1000 /usr/src/app/data
 
 # Change to the non-root user for the rest of the Dockerfile (ec2-user)
 USER 1000
