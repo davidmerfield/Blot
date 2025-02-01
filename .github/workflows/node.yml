@@ -35,7 +35,7 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build Test Image
+      - name: Build test image
         uses: docker/build-push-action@v6
         with:
           platforms: linux/amd64
@@ -44,8 +44,8 @@ jobs:
           cache-from: type=registry,ref=ghcr.io/${{ github.repository_owner }}/blot
           cache-to: type=registry,ref=ghcr.io/${{ github.repository_owner }}/blot,mode=max
           tags: ghcr.io/${{ github.repository_owner }}/blot:test-${{ github.sha }}
-
-      - name: Run Tests
+    
+      - name: Run tests
         env:
           BLOT_STRIPE_KEY: ${{ secrets.BLOT_STRIPE_KEY }}
           BLOT_STRIPE_SECRET: ${{ secrets.BLOT_STRIPE_SECRET }}
@@ -67,7 +67,7 @@ jobs:
             ghcr.io/${{ github.repository_owner }}/blot:test-${{ github.sha }} \
             sh -c "node ./app/documentation/build/index.js --no-watch --skip-zip && node tests && npx depcheck --ignores=depcheck,nyc,nodemon,blessed-contrib,fontkit,text-to-svg --skip-missing"
 
-      - name: Build multi-arch production image
+      - name: Build production images
         uses: docker/build-push-action@v6
         with:
           platforms: linux/amd64,linux/arm64
