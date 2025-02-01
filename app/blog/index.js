@@ -69,7 +69,7 @@ blog.use(function (req, res, next) {
       id: req.blog.template
     };
 
-    req.log("Loaded template");
+    req.log("Loaded template", req.blog.template);
     return next();
   });
 });
