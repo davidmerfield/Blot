@@ -1,4 +1,4 @@
-name: ci
+name: node
 
 on:
   push:
@@ -10,7 +10,6 @@ on:
 
 jobs:
   test:
-    name: Node tests
     runs-on: ubuntu-latest
 
     services:
