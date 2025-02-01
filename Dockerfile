@@ -1,6 +1,6 @@
 ## Stage 1 (base)
 # This stage installs all dependencies and builds the application if needed
-FROM node:21-alpine3.18 AS base
+FROM node:22.13.1-alpine AS base
 
 ARG PANDOC_VERSION=3.1.1
 ARG TARGETPLATFORM
@@ -31,7 +31,7 @@ RUN ARCH=$(echo ${TARGETPLATFORM} | sed -nE 's/^linux\/(amd64|arm64)$/\1/p') \
 COPY package.json package-lock.json ./
 
 # Install dependencies (args from https://sharp.pixelplumbing.com/install#cross-platform)
-RUN npm update -g npm && npm install --maxsockets 1 --os=linux --libc=musl --cpu=${TARGETPLATFORM} && npm cache clean --force
+RUN npm install --maxsockets 1 --os=linux --libc=musl --cpu=${TARGETPLATFORM} && npm cache clean --force
 
 ## Stage 2 (development)
 # This stage is for development and testing purposes
