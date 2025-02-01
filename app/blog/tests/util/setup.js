@@ -34,6 +34,18 @@ module.exports = function () {
         });
     };
 
+    this.remove = (path) => {
+        return new Promise((resolve, reject) => {
+          sync(this.blog.id, async (err, folder, callback) => {
+            await this.blog.remove(path);
+            folder.update(path, function (err) {
+              if (err) return callback(err, reject);
+              callback(null, resolve);
+            });
+          });
+        });
+    };
+
     this.write = ({path, content}) => {
         return new Promise((resolve, reject) => {
           sync(this.blog.id, async (err, folder, callback) => {
@@ -47,21 +59,33 @@ module.exports = function () {
       };
 
       
-    this.template = async views => {
-        await this.write({
-            path: "/Templates/local/package.json",
-            content: JSON.stringify({
-                name: "local",
-                locals: {},
-                views: {},
-                enabled: true
-              })
-        });
+    this.template = (views = [], package = {}) => {
+      return new Promise((resolve, reject) => {
+          sync(this.blog.id, async (err, folder, callback) => {
+            await this.blog.remove("/Templates/local");
+
+            await this.blog.write({
+                path: "/Templates/local/package.json",
+                content: JSON.stringify({
+                    name: "local",
+                    locals: {},
+                    views: {},
+                    enabled: true,
+                    ...package
+                  })
+            });
   
-        // views is an object with keys as the path and values as the content
-        for (let path in views) {
-          await this.write({path: `/Templates/local/${path}`, content: views[path] });
-        }
+            // views is an object with keys as the path and values as the content
+            for (let path in views) {
+              await this.blog.write({path: `/Templates/local/${path}`, content: views[path] });
+            }
+
+            folder.update("/Templates/local", function (err) {
+              if (err) return callback(err, reject);
+              callback(null, resolve);
+            });
+          });
+        }); 
       };
 
 
