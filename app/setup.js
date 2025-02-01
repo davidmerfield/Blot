@@ -14,7 +14,18 @@ const configureLocalBlogs = require("./configure-local-blogs");
 const log = (...arguments) =>
   console.log.apply(null, [clfdate(), "Setup:", ...arguments]);
 
+// skip building the documentation if it's already been built
+// this suggests that the server has already been started
+// and this speeds up the restart process when we run out of memory
+const SERVER_RESTART = config.environment === "production" && fs.existsSync(config.views_directory + "/documentation.html")
+
 function main (callback) {
+
+  if (SERVER_RESTART) {
+    log("Server restart detected. Skipping setup.");
+    return callback();
+  }
+
   async.series(
     [
       async function () {
@@ -54,16 +65,6 @@ function main (callback) {
       },
       
        function (callback) {
-
-        // skip building the templates if the documentation has already been built
-        // this suggests that the server has already been started
-        // and this speeds up the restart process when we run out of memory
-        if (config.environment === "production" && fs.existsSync(config.views_directory + "/documentation.html")) {
-          log("Skipping building templates");
-          return callback();
-        }
-
-        
         // we only want to watch for changes in the templates in development
         log("Building templates");
         templates(
@@ -78,15 +79,6 @@ function main (callback) {
 
 
       async function () {
-
-        // skip building the documentation if it's already been built
-        // this suggests that the server has already been started
-        // and this speeds up the restart process when we run out of memory
-        if (config.environment === "production" && fs.existsSync(config.views_directory + "/documentation.html")) {
-          log("Skipping building documentation");
-          return;
-        }
-
         log("Building documentation");
         // we only want to watch for changes in the documentation in development
         await documentation({ watch: config.environment === "development" });

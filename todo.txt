@@ -1,5 +1,12 @@
 Monitor slow URLs in the logs
 
+Fix bug, the blog was deleted mid-sync:
+```
+[31/Jan/2025:18:41:29 +0000] [green] build master=1 worker=14 job_4c026b82 completed error=false
+/usr/src/app/app/models/entry/_setUrl.js:54
+  var format = blog.permalink.isCustom ? blog.permalink.custom : blog.permalink.format;
+```
+
 Fix JS minifier and CSS minifier
 
 Make folder build less busy and then re-enable it in app/setup
