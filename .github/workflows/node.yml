@@ -94,8 +94,10 @@ jobs:
         env:
           IMAGE: ghcr.io/${{ github.repository_owner }}/blot:${{ github.sha }}-pending
         run: |
+          docker network create test_network
+
           # Start a Redis container
-          redis_container_id=$(docker run -d --name test_redis redis:latest)
+          redis_container_id=$(docker run -d --name test_redis --network test_network redis:latest)
 
           # Ensure Redis started successfully
           if [ -z "$redis_container_id" ]; then
@@ -120,7 +122,8 @@ jobs:
           echo "Redis is ready."
 
           # Start the app container with Redis environment variables
-          container_id=$(docker run -d --env BLOT_REDIS_HOST=test_redis $IMAGE)
+          container_id=$(docker run -d --network test_network --env BLOT_REDIS_HOST=test_redis
+           $IMAGE)
 
           # Ensure the app container started successfully
           if [ -z "$container_id" ]; then

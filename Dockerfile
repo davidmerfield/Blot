@@ -31,6 +31,8 @@ RUN ARCH=$(echo ${TARGETPLATFORM} | sed -nE 's/^linux\/(amd64|arm64)$/\1/p') \
 COPY package.json package-lock.json ./
 
 # Install dependencies (args from https://sharp.pixelplumbing.com/install#cross-platform)
+# --maxsockets 1 is a workaround for an issue with npm install timing out with qemu on arm64
+# the other args are to ensure the correct sharp binary is installed
 RUN npm install --maxsockets 1 --os=linux --libc=musl --cpu=${TARGETPLATFORM} && npm cache clean --force
 
 ## Stage 2 (development)
