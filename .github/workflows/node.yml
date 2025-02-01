@@ -136,13 +136,6 @@ jobs:
 
           echo "Waiting for the app container ($container_id) to pass the built-in health check..."
 
-          # Stream logs from the app container
-          while true; do
-            docker exec $container_id cat /usr/src/app/data/logs/docker/app.log || true
-            sleep 2
-          done &
-          log_stream_pid=$!
-
           # Wait for the app container's health status to become "healthy"
           timeout=60
           interval=5
@@ -150,10 +143,6 @@ jobs:
           while [ "$(docker inspect --format='{{json .State.Health.Status}}' $container_id)" != '"healthy"' ]; do
             if [ $elapsed -ge $timeout ]; then
               echo "Health check failed: app container did not become healthy within $timeout seconds."
-
-              # Stop the log streaming process
-              kill $log_stream_pid
-              wait $log_stream_pid 2>/dev/null
 
               echo "Final log contents:"
               docker exec $container_id cat /usr/src/app/data/logs/docker/app.log
@@ -167,10 +156,6 @@ jobs:
             sleep $interval
             elapsed=$((elapsed + interval))
           done
-
-          # Stop the log streaming process
-          kill $log_stream_pid
-          wait $log_stream_pid 2>/dev/null
 
           echo "App container passed the health check."
 
