@@ -172,6 +172,8 @@ Make it possible to embed PDF like so `![Video](...)`
 
 Merge comment and disqus into single comments plugin
 
+Totally remove twemoji and emoticons plugin
+
 Fix single line break handling in Word Documents and [tell Paul](https://mail.google.com/mail/u/0/#inbox/FMfcgzGxTNzPZwwxJPTDlBBBcnbpPcJJ)
 
 Rethink google drive client to use similar iCloud interface? i.e. share with sync@blot.im?
