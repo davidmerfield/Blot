@@ -73,9 +73,19 @@ function main (callback) {
           return site && site.host && featured.indexOf(site.host) === -1;
         });
 
+        // ensure we're only checking unique sites
+        sites = sites.filter(function (site, index, self) {
+          return (
+            index ===
+            self.findIndex(function (t) {
+              return t.host === site.host;
+            })
+          );
+        });
+
         const filteredSites = [];
 
-        console.log(sites.length, "candidates");
+        console.log('Checking', sites.length, "candidates");
 
         for (var i = 0; i < sites.length; i++) {
           var isOnline = await verifySiteIsOnline(sites[i].host);
