@@ -86,6 +86,8 @@ const load = async relativePath => {
 
 const main = async () => {
 
+  console.log('Building tools...');
+
   const categories = (await fs.readdir(toolsDirectory)).filter(
     f => f.indexOf(".") === -1 && f !== "icons"
   );
@@ -125,6 +127,7 @@ const main = async () => {
         categories: result.categories.map(c => {
           return { ...c, selected: c.slug === category.slug ? "selected" : "" };
         }),
+        description: category.description,
         tools: category.tools,
         category
       },

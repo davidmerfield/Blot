@@ -22,11 +22,14 @@
         <p><a href="{{{link}}}" target="_blank" rel="nofollow">{{link}}</a> &rarr;</p>
         <h2>Category</h2>
         <a href="/tools/{{category.slug}}">{{category.title}}</a>
+        {{#price}}
+        <h2>Price</h2>
+        <p>{{price}}</p>
+        {{/price}}
         <h2>Platforms</h2>
-        <ul>
-        {{#platforms}}
-        <li>{{{name}}}</li>
-        {{/platforms}}
+        <p>{{#platforms}}
+        {{{name}}}
+        {{/platforms}}</p>
         </ul>
     </div>
 </div>

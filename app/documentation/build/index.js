@@ -20,7 +20,9 @@ const gitCommits = require("../tools/git-commits").build;
 const handle = (initial = false) => async (path) => {
   try {
     
-    if (path.includes("tools/") && !initial) {
+    if (path.includes("tools/")) {
+      if (initial) return;
+      console.log("Rebuilding tools");
       await tools();
     } 
     
