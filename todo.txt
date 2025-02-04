@@ -1,5 +1,7 @@
 Fix global.test.server() so it doesn't use puppeteer then check in on broken link tests
 
+Work out why some blogs are accessible after deletion
+
 Change cookies: Set-Cookie: mycookie=value; Path=/; SameSite=Lax; Secure;
 
 Monitor slow URLs in the logs
