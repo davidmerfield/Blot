@@ -194,6 +194,11 @@ const loadTool = async (category, tool) => {
 
   if (result.link) {
     result.icon = await fetchIcon(result.link, result.slug);
+    // copy the icon to the output directory
+    await fs.copy(
+      toolsDirectory + result.icon,
+      outputDirectory + result.icon
+    );
   }
 
   // transform specific properties
