@@ -23,12 +23,8 @@ const localPath = require("helper/localPath");
 const sync = require("sync");
 const fix = require("sync/fix");
 
-<<<<<<< HEAD
 const FOLDER_ACCOUNT_EMAIL = config.admin.email || "example@example.com";
 const FOLDER_ACCOUNT_PASSWORD = config.session.secret || "password";
-=======
-const FOLDER_ACCOUNT_EMAIL = config.admin.email || "folders@example.com";
->>>>>>> master
 
 const updates = {
   bjorn: {
