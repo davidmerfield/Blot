@@ -2,6 +2,11 @@ Fix global.test.server() so it doesn't use puppeteer then check in on broken lin
 
 Work out why some blogs are accessible after deletion
 
+Finish basic benchmark
+- start using clinic.js on benchmarks to detect memory issues
+
+Refactor helper/screenshot to use a persistent browser
+
 Change cookies: Set-Cookie: mycookie=value; Path=/; SameSite=Lax; Secure;
 
 Monitor slow URLs in the logs
