@@ -1,25 +1,26 @@
-const BLOT_DIRECTORY =
-  process.env.BLOT_DIRECTORY || require("path").resolve(__dirname + "/../");
-const BLOT_HOST = process.env.BLOT_HOST || "localhost";
-const BLOT_PROTOCOL = process.env.BLOT_PROTOCOL || "https";
-const BLOT_PORT = process.env.BLOT_PORT || "8080";
+const { resolve } = require("path");
 
 const environment =
   process.env.NODE_ENV === "production" ? "production" : "development";
 
-const BLOT_CDN = BLOT_PROTOCOL + "://" + (process.env.NODE_ENV === "production" ? "cdn.blot.im" : "cdn." + BLOT_HOST);
+const BLOT_DIRECTORY = process.env.BLOT_DIRECTORY || resolve(__dirname + "/../");
+const BLOT_DATA_DIRECTORY = process.env.BLOT_DATA_DIRECTORY || BLOT_DIRECTORY + "/data";
+const BLOT_HOST = process.env.BLOT_HOST || "localhost";
+const BLOT_PORT = process.env.BLOT_PORT || "8080";
+const BLOT_PROTOCOL = process.env.BLOT_PROTOCOL || "https";
 
+const BLOT_CDN = BLOT_PROTOCOL + "://cdn." + BLOT_HOST;
+
+// The private IP addresses of the proxies which point to this server
+// we need to know this to flush the cache on each proxy when a blog is updated
 const reverse_proxies = process.env.BLOT_REVERSE_PROXY_URLS ? process.env.BLOT_REVERSE_PROXY_URLS.split(",") : environment === "production" ? ["http://127.0.0.1:80"] : [];
 
 module.exports = {
   // codebase expects either 'production' or 'development'
   environment,
   host: BLOT_HOST,
-  // the first is in oregon, the second in frankfurt
-  // we need this to purge the cache stored in each proxy
   reverse_proxies,
   protocol: BLOT_PROTOCOL + "://",
-  pidfile: BLOT_DIRECTORY + "/data/process.pid",
 
   webhooks: {
     server_host: "webhooks." + BLOT_HOST,
@@ -33,14 +34,14 @@ module.exports = {
   cache: process.env.BLOT_CACHE === "true",
   debug: process.env.BLOT_DEBUG === "true",
 
-  tmp_directory: process.env.BLOT_TMP_DIRECTORY || BLOT_DIRECTORY + "/data/tmp",
-  log_directory:
-    process.env.BLOT_LOG_DIRECTORY || BLOT_DIRECTORY + "/data/logs",
+  // These directories are used by the application
   blot_directory: BLOT_DIRECTORY,
-  blog_static_files_dir: BLOT_DIRECTORY + "/data/static",
-  blog_folder_dir: BLOT_DIRECTORY + "/data/blogs",
-  cache_directory:
-    process.env.BLOT_CACHE_DIRECTORY || BLOT_DIRECTORY + "/data/cache",
+  data_directory: BLOT_DATA_DIRECTORY,
+  views_directory: BLOT_DIRECTORY + "/app/views-built",
+  tmp_directory: process.env.BLOT_TMP_DIRECTORY || BLOT_DATA_DIRECTORY + "/tmp",
+  log_directory: process.env.BLOT_LOG_DIRECTORY || BLOT_DATA_DIRECTORY + "/logs",
+  blog_static_files_dir: BLOT_DATA_DIRECTORY + "/static",
+  blog_folder_dir: BLOT_DATA_DIRECTORY + "/blogs",
 
   ip: process.env.BLOT_IP || "127.0.0.1",
 

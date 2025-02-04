@@ -2,6 +2,9 @@ var Blog = require("models/blog");
 var config = require("config");
 
 module.exports = function (req, res, next) {
+
+  req.log("Loading blog");
+
   var identifier, handle, redirect, previewTemplate, err;
   var host = req.get("host");
 
@@ -15,7 +18,7 @@ module.exports = function (req, res, next) {
       .map(key => key.trim().toLowerCase())
       .find(key => key.startsWith("cf-")) !== undefined;
 
-  // Not sure why this happens but it do
+  // The request is missing a host header
   if (!host) {
     err = new Error("No blog");
     err.code = "ENOENT";
@@ -28,7 +31,9 @@ module.exports = function (req, res, next) {
 
   // We don't want to serve a blog in place of
   // the main blot site so leave now.
-  if (host === config.host) return next();
+  if (host === config.host) {
+    return next();
+  }
 
   // Redirect www subdomain of main blot site to
   // the apex domain on which it is served.
@@ -48,7 +53,9 @@ module.exports = function (req, res, next) {
   }
 
   Blog.get(identifier, function (err, blog) {
-    if (err) return next(err);
+    if (err) {
+      return next(err);
+    }
 
     if (!blog || blog.isDisabled || blog.isUnpaid) {
       err = new Error("No blog");
@@ -132,6 +139,7 @@ module.exports = function (req, res, next) {
     // Store the blog's info so routes can access it
     req.blog = blog;
 
+    req.log("loaded blog");
     return next();
   });
 };

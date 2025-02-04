@@ -161,21 +161,21 @@ module.exports = function () {
     });
   });
 
-  console.log(
-    clfdate(),
-    "Scheduled daily check of folders for sync abnormalities"
-  );
-  schedule({ hour: 8, minute: 0 }, function () {
-    console.log(clfdate(), "Fix sync: checking folders");
-    fix(function (err, report) {
-      if (err) {
-        console.log(clfdate(), "Fix sync: error checking folders", err);
-      } else {
-        email.SYNC_REPORT(null, { report: JSON.stringify(report) });
-        console.log(clfdate(), "Fix sync: checked all folders");
-      }
-    });
-  });
+  // console.log(
+  //   clfdate(),
+  //   "Scheduled daily check of folders for sync abnormalities"
+  // );
+  // schedule({ hour: 8, minute: 0 }, function () {
+  //   console.log(clfdate(), "Fix sync: checking folders");
+  //   fix(function (err, report) {
+  //     if (err) {
+  //       console.log(clfdate(), "Fix sync: error checking folders", err);
+  //     } else {
+  //       email.SYNC_REPORT(null, { report: JSON.stringify(report) });
+  //       console.log(clfdate(), "Fix sync: checked all folders");
+  //     }
+  //   });
+  // });
 
 
   console.log(clfdate(), "Scheduled daily check of suspected fraudulent users");

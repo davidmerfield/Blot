@@ -8,9 +8,16 @@ var fs = require("fs-extra");
 // of users' blogs
 var blog = express();
 
+blog.use((req, res, next) => {
+  req.log = req.log || console.log;
+  next();
+});
+
 // Custom domain & subdomain middleware
 // also handles the mapping of preview domains
-blog.disable("x-powered-by").use(require("./vhosts")).use(require("./add")());
+blog.disable("x-powered-by");
+blog.use(require("./vhosts"));
+blog.use(require("./add")());
 
 // Only time uncached responses
 // if (config.flags.time_response)
@@ -62,6 +69,7 @@ blog.use(function (req, res, next) {
       id: req.blog.template
     };
 
+    req.log("Loaded template", req.blog.template);
     return next();
   });
 });

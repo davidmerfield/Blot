@@ -37,11 +37,6 @@ amazon-linux-extras install firefox
 # What is ntp required for?
 yum -y install git ntp
 
-# Blot's application uses gifsicle, which requires these build tools
-# https://rmoff.net/2017/03/11/install-qemu-on-aws-ec2-amazon-linux/
-# resolves /bin/sh: autoreconf: command not found
-yum -y install autoconf autogen intltool libtool
-
 ## Pandoc installation
 ##########################################################
 
@@ -145,11 +140,6 @@ cp $SCRIPTS_DIRECTORY/node.service /etc/systemd/system/node.service
 systemctl daemon-reload
 
 amazon-linux-extras install epel -y
-yum install -y monit
-cp $SCRIPTS_DIRECTORY/monitrc /etc/monitrc
-
-systemctl start monit
-systemctl enable monit
 
 #  add the following to '.bashrc'
 

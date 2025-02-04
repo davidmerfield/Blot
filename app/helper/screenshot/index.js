@@ -1,6 +1,4 @@
 const puppeteer = require("puppeteer");
-const imagemin = require("imagemin");
-const imageminPngquant = require("imagemin-pngquant");
 const dirname = require("path").dirname;
 const fs = require("fs-extra");
 
@@ -62,12 +60,6 @@ async function main(site, path, options = {}) {
 
   // Close the browser
   await browser.close();
-
-  // Compress the screenshot using imagemin
-  await imagemin([path], {
-    destination: dirname(path),
-    plugins: [imageminPngquant()],
-  });
 }
 
 module.exports = main;

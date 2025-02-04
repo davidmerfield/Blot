@@ -12,10 +12,16 @@ const { PerformanceObserver } = require('perf_hooks');
 // 1. GC Observer
 const obs = new PerformanceObserver((list) => {
   list.getEntries().forEach((entry) => {
-    // Each GC operation is reported here
-    // entry.kind can be 1 (major), 2 (minor), 4 (incremental), 8 (weakcb)
-    // entry.duration is how long the GC pause took (ms)
-    console.log(`${clfdate()} [GC] kind=${entry.kind}, duration=${entry.duration}ms`);
+    // Get memory usage details
+    const memoryUsage = process.memoryUsage();
+    const heapUsedMB = (memoryUsage.heapUsed / 1024 / 1024).toFixed(2);
+    const heapTotalMB = (memoryUsage.heapTotal / 1024 / 1024).toFixed(2);
+
+    // Log GC event and heap size
+    console.log(
+      `${clfdate()} [GC] kind=${entry.kind}, duration=${entry.duration}ms, ` +
+      `heapUsed=${heapUsedMB}MB, heapTotal=${heapTotalMB}MB`
+    );
   });
 });
 obs.observe({ entryTypes: ['gc'], buffered: true });
@@ -29,7 +35,18 @@ setInterval(() => {
   const now = process.hrtime.bigint();
   // Convert nanoseconds to milliseconds, then see how far we deviated from 1000 ms
   const diffMs = (Number(now - lastCheck) / 1e6) - CHECK_INTERVAL_MS;
-  console.log(`${clfdate()} [LoopLag] ${diffMs.toFixed(2)}ms`);
+
+  // Get memory usage details
+  const memoryUsage = process.memoryUsage();
+  const heapUsedMB = (memoryUsage.heapUsed / 1024 / 1024).toFixed(2);
+  const heapTotalMB = (memoryUsage.heapTotal / 1024 / 1024).toFixed(2);
+
+  // Log event loop lag and heap size
+  console.log(
+    `${clfdate()} [LoopLag] ${diffMs.toFixed(2)}ms, ` +
+    `heapUsed=${heapUsedMB}MB, heapTotal=${heapTotalMB}MB`
+  );
+
   lastCheck = now;
 }, CHECK_INTERVAL_MS);
 
@@ -111,7 +128,28 @@ server.use(function (req, res, next) {
     console.error("Error: Failed to construct canonical log line:", e);
   }
 
+  // add method req.log which exposes a logging function prefixed with the request id, clfdate, and time in ms between each invocation
+  let lastLogTime = Date.now();
+  req.log = function () {
+    let args = Array.prototype.slice.call(arguments);
+    const currentTime = Date.now();
+    const timeDiff = currentTime - lastLogTime;
+    lastLogTime = currentTime;
+
+    args.unshift(`+${timeDiff}ms`);
+
+    if (req.headers["x-request-id"]) {
+      args.unshift(req.headers["x-request-id"]);
+    } else {
+      args.unshift("no-request-id");
+    }
+    args.unshift(clfdate());
+    console.log.apply(console, args);
+  };
+
+  let hasFinished = false;
   res.on("finish", function () {
+    hasFinished = true;
     try {
       if (req.headers["x-request-id"])
         unrespondedRequests = unrespondedRequests.filter(
@@ -131,6 +169,7 @@ server.use(function (req, res, next) {
   });
 
   req.on("close", function () {
+    if (hasFinished) return;
     try {
       if (req.headers["x-request-id"])
         unrespondedRequests = unrespondedRequests.filter(

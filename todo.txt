@@ -1,3 +1,38 @@
+Fix global.test.server() so it doesn't use puppeteer then check in on broken link tests
+
+Work out why some blogs are accessible after deletion
+
+Change cookies: Set-Cookie: mycookie=value; Path=/; SameSite=Lax; Secure;
+
+Monitor slow URLs in the logs
+
+Fix bug, the blog was deleted mid-sync:
+```
+[31/Jan/2025:18:41:29 +0000] [green] build master=1 worker=14 job_4c026b82 completed error=false
+/usr/src/app/app/models/entry/_setUrl.js:54
+  var format = blog.permalink.isCustom ? blog.permalink.custom : blog.permalink.format;
+```
+
+Fix JS minifier and CSS minifier
+
+Make folder build less busy and then re-enable it in app/setup
+- consider using git? use local client in smarter way?
+
+Begin to write tests of rendering engine
+- rewrite rendering engine
+- improve performance
+
+Write more tests for the 'models'
+- blog
+- entry
+- tags
+
+Write test for animated gif thumbnail
+
+Rotate the docker log (or move it to var/ssd/logs)
+
+---
+
 Fix missing 'views' property of templates in package.json after downloading a template through the web template editor.
 
 Fix bug with pages not appearing in backlinks and [tell questioner](https://blot.im/questions/2913)
@@ -58,7 +93,38 @@ Think about docker deploys
 
 Think about migrating to s3 for blog data storage
 - Purge thumbnails and cached images which are no longer in use
+- What about pointing the CDN to an s3 bucket then redirecting to upstream for 404?
+    http {
+        server {
+            listen 80;
 
+            # Main location block
+            location / {
+                # Proxy to the S3 bucket
+                set $s3_bucket "bucket.s3.amazonaws.com";
+                proxy_pass https://$s3_bucket;
+
+                # Pass the original Host header (required by S3)
+                proxy_set_header Host $s3_bucket;
+
+                # Handle S3 redirects properly
+                proxy_redirect off;
+
+                # If the response is 404, redirect to the fallback location
+                error_page 404 = @fallback;
+            }
+
+            # Fallback location if the S3 bucket returns a 404
+            location @fallback {
+                # Proxy to the fallback upstream
+                proxy_pass http://fallback-upstream;
+
+                # Optional: Set a custom Host header for the fallback upstream
+                proxy_set_header Host fallback-upstream;
+            }
+        }
+    }
+    
 Fix issue with server restart:
 - sudo chown ec2-user:ec2-user /var/instance-ssd/tmp
 - sudo chown ec2-user:ec2-user /var/instance-ssd/logs/app.log
@@ -107,6 +173,8 @@ Make it possible to embed video like so `![Video](...)`
 Make it possible to embed PDF like so `![Video](...)`
 
 Merge comment and disqus into single comments plugin
+
+Totally remove twemoji and emoticons plugin
 
 Fix single line break handling in Word Documents and [tell Paul](https://mail.google.com/mail/u/0/#inbox/FMfcgzGxTNzPZwwxJPTDlBBBcnbpPcJJ)
 

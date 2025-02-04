@@ -1,7 +1,5 @@
-// map 'blot-container-blue' to 'b' for blue
-// map 'blot-container-green' to 'g' for green
-const CONTAINER_NAME = process.env.CONTAINER_NAME;
-const PREFIX = (typeof CONTAINER_NAME === 'string' && CONTAINER_NAME.length > 15) ? CONTAINER_NAME[15] : "";
+// map 'blot-container-<container-name>' to 'container-name'
+const CONTAINER_NAME = (process.env.CONTAINER_NAME || "").split("-").slice(2).join("-");
 
 var CLF_MONTH = [
   "Jan",
@@ -43,7 +41,6 @@ module.exports = function clfdate() {
   var month = CLF_MONTH[dateTime.getMonth()];
 
   return (
-    PREFIX +
     "[" +
     pad2(date) +
     "/" +
@@ -58,6 +55,7 @@ module.exports = function clfdate() {
     pad2(secs) +
     " " +
     offset +
-    "]"
+    "]" + 
+    (CONTAINER_NAME ? " [" + CONTAINER_NAME + "]" : "")
   );
 };

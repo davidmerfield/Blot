@@ -51,6 +51,7 @@ module.exports = function (req, res, _next) {
 
     if (callback) callback = callOnce(callback);
 
+
     Template.getFullView(blogID, templateID, name, function (err, response) {
       if (err) {
         return next(err);
@@ -64,6 +65,8 @@ module.exports = function (req, res, _next) {
         return next(err);
       }
 
+      req.log("Loaded view");
+
       var viewLocals = response[0];
       var viewPartials = response[1];
       var missingLocals = response[2];
@@ -76,7 +79,7 @@ module.exports = function (req, res, _next) {
         .and(blog.locals);
 
       extend(res.locals.partials).and(viewPartials);
-
+      
       retrieve(req, missingLocals, function (err, foundLocals) {
         extend(res.locals).and(foundLocals);
 
@@ -89,6 +92,8 @@ module.exports = function (req, res, _next) {
           // ALL PARTRIAL
           renderLocals(req, res, function (err, req, res) {
             if (err) return next(ERROR.BAD_LOCALS());
+
+            req.log("Loaded other locals");
 
             var output;
 
@@ -142,7 +147,7 @@ module.exports = function (req, res, _next) {
               req.protocol === "http" &&
               fromCloudflare === false &&
               output.indexOf(config.cdn.origin) > -1
-            )
+            ) 
               output = output
                 .split(config.cdn.origin)
                 .join(config.cdn.origin.split("https://").join("http://"));
@@ -211,11 +216,15 @@ window.addEventListener('message', (event) => {
             // advance? If it throws an error, the user
             // probably forgot an equals sign or some bs...
             try {
-              if (viewType === STYLE && !req.preview)
+              if (viewType === STYLE && !req.preview) {
+                req.log("Minifying CSS");
                 output = minimize.minify(output || "").styles;
-
-              if (viewType === JS && !req.preview)
+              }
+                
+              if (viewType === JS && !req.preview) {
+                req.log("Minifying JavaScript");
                 output = UglifyJS.minify(output, { fromString: true }).code;
+              }
             } catch (e) {}
 
             if (res.headerSent) {
@@ -227,6 +236,7 @@ window.addEventListener('message', (event) => {
             }
 
             try {
+              req.log("Sending response");
               res.header(CONTENT_TYPE, viewType);
               res.send(output);
             } catch (e) {

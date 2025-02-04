@@ -80,6 +80,8 @@ https://wellcomecollection.org/search/images?locations.license=pdm&source.contri
 
 [Photochrom Travel Views](https://www.flickr.com/photos/library_of_congress/albums/72157612249760312)
 
+[Pictures of norway](https://www.loc.gov/pictures/search/?q=LOT%2013432&fi=number&op=PHRASE&va=exact&co!=coll&sg=true&st=gallery)
+
 [John Margolie's photos](https://www.loc.gov/pictures/related/?va=exact&st=gallery&q=Nightclubs--1970-1980.&fi=subject&sg=true&op=EQUAL)
 
 [Theodor Horydczak pictures](https://www.loc.gov/pictures/search/?va=exact&co=thc&sp=1&q=Horydczak%2C+Theodor%2C+approximately+1890-1971&fa=displayed%3Aanywhere&fi=author&sg=true&op=EQUAL)

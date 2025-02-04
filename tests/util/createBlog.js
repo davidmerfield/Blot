@@ -33,6 +33,10 @@ module.exports = function (done) {
       await fs.outputFile(join(context.blogDirectory, path), content);
     };
 
+    context.blog.remove = async (path) => {
+      await fs.remove(join(context.blogDirectory, path));
+    };
+    
     context.blog.rebuild = async (options = {}) =>
       await rebuild(context.blog.id, options);
 

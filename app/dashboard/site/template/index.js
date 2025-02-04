@@ -1,4 +1,3 @@
-const config = require("config");
 const Express = require("express");
 const TemplateEditor = new Express.Router();
 const parse = require("dashboard/util/parse");
@@ -224,15 +223,19 @@ TemplateEditor.route("/:templateSlug/local-editing")
     res.render("dashboard/template/duplicate");
   })
   .post(parse, async (req, res, next) => {
+    try {
       const template = await createTemplate({
         isPublic: false,
         owner: req.blog.id,
         name: req.template.name + ' copy',
         slug: req.template.slug + '-copy',
         cloneFrom: req.template.id,
-    });
+      });
 
-    res.message('/sites/' + req.blog.handle + '/template/' + template.slug, 'Duplicated template <b>' + template.name + '</b>');
+      res.message('/sites/' + req.blog.handle + '/template/' + template.slug, 'Duplicated template <b>' + template.name + '</b>');
+    } catch (err) {
+      next(err);
+    }
   });
 
 TemplateEditor.route("/:templateSlug/rename")

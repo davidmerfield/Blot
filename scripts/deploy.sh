@@ -10,51 +10,86 @@ if [[ $(git rev-parse --abbrev-ref HEAD) != "master" ]]; then
   exit 1
 fi
 
-# Get the most recent full git hash of the current master branch
-GIT_COMMIT_HASH=$(git rev-parse master)
+# Determine the GIT_COMMIT_HASH based on the arguments provided
+if [[ $# -eq 0 ]]; then
+  # No argument provided, use the most recent commit
+  GIT_COMMIT_HASH=$(git rev-parse master)
+elif [[ $# -eq 1 ]]; then
+  # One argument provided, check if it's a valid commit hash
+  ARG=$1
 
-# Print the commit message and commit hash
-echo "Deploying commit: $GIT_COMMIT_HASH"
-echo "Commit message: $(git log -1 --pretty=%B)"
-
-# Check that a multi-architecture image is available for the commit hash
-echo "Checking for multi-architecture image..."
-if ! docker manifest inspect ghcr.io/davidmerfield/blot:$GIT_COMMIT_HASH > /dev/null 2>&1; then
-  echo "Error: Multi-architecture image for commit $GIT_COMMIT_HASH does not exist."
-  exit 1
+  if [[ ${#ARG} -eq 40 && $ARG =~ ^[0-9a-fA-F]{40}$ ]]; then
+    # Full-length hash provided
+    GIT_COMMIT_HASH=$ARG
+  elif [[ ${#ARG} -lt 40 && $ARG =~ ^[0-9a-fA-F]+$ ]]; then
+    # Short hash provided, resolve it to full length
+    GIT_COMMIT_HASH=$(git rev-parse "$ARG")
+  else
+    echo "Error: Invalid commit hash provided."
+    exit 1
+  fi
 else
-  echo "Multi-architecture image found."
+  echo "Error: Too many arguments provided."
+  echo "Usage: $0 [commit-hash]"
+  exit 1
 fi
+
+# Print the commit hash and the commit message
+echo "Deploying commit: $GIT_COMMIT_HASH"
+echo "Commit message: $(git log -1 --pretty=%B $GIT_COMMIT_HASH)"
+
+# Detect the architecture of the remote server
+PLATFORM_OS=linux
+PLATFORM_ARCH=$(ssh blot "docker info --format '{{.Architecture}}'")
+
+# If remote architecture is aarch64, replace it with arm64 for compatibility
+if [[ "$PLATFORM_ARCH" == "aarch64" ]]; then
+  PLATFORM_ARCH="arm64"
+fi
+
+# Check if the specific architecture and OS exist in the image manifest
+if docker manifest inspect ghcr.io/davidmerfield/blot:$GIT_COMMIT_HASH 2>/dev/null | \
+  jq -e --arg arch "$PLATFORM_ARCH" --arg os "$PLATFORM_OS" \
+    '.manifests[] | select(.platform.architecture == $arch and .platform.os == $os)' > /dev/null; then
+  echo "Image for platform $PLATFORM_OS/$PLATFORM_ARCH exists."
+else
+  echo "Error: Image for platform $PLATFORM_OS/$PLATFORM_ARCH does not exist."
+  exit 1
+fi
+
+# Ask for confirmation
+read -p "Are you sure you want to deploy this commit? (y/n): " CONFIRMATION
+
+if [[ "$CONFIRMATION" != "y" ]]; then
+  echo "Deployment canceled."
+  exit 0
+fi
+
 
 # Define container names and ports
 BLUE_CONTAINER="blot-container-blue"
-GREEN_CONTAINER="blot-container-green"
 BLUE_CONTAINER_PORT=8088
+GREEN_CONTAINER="blot-container-green"
 GREEN_CONTAINER_PORT=8089
-
-# To determine the user ID and group ID of the user running the container
-# run `id` on the host machine and replace the values below
-BLOT_USER=1000:1000
+YELLOW_CONTAINER="blot-container-yellow"
+YELLOW_CONTAINER_PORT=8090
+PURPLE_CONTAINER="blot-container-purple"
+PURPLE_CONTAINER_PORT=8091
 
 # Define the docker run command template with placeholders
-#  HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=3 \
-# CMD curl --fail http://localhost:8080/health || exit 1
 DOCKER_RUN_COMMAND="docker run --pull=always -d \
-  --user $BLOT_USER \
   --name {{CONTAINER_NAME}} \
-  --network host \
-  --health-cmd 'curl --fail http://localhost:{{CONTAINER_PORT}}/health || exit 1' \
-  --health-interval=30s --health-timeout=5s --health-start-period=5s --health-retries=3 \
+  --platform $PLATFORM_OS/$PLATFORM_ARCH \
+  -p {{CONTAINER_PORT}}:8080 \
   --env-file /etc/blot/secrets.env \
   -e CONTAINER_NAME={{CONTAINER_NAME}} \
-  -e BLOT_PORT={{CONTAINER_PORT}} \
   -v /var/www/blot/data:/usr/src/app/data \
   --restart unless-stopped \
-  --memory=2g --cpus=1.5 \
+  --memory=1.5g --cpus=1 \
   ghcr.io/davidmerfield/blot:$GIT_COMMIT_HASH"
 
 # Configurable health check timeout
-timeout=${HEALTH_CHECK_TIMEOUT:-30}  # Default to 30 seconds
+timeout=${HEALTH_CHECK_TIMEOUT:-60}  # Default to 60 seconds
 interval=2  # Interval between health checks
 
 # Function to run a command over SSH
@@ -173,26 +208,37 @@ rollback_container() {
 }
 
 # Get the currently running image hashes for rollback purposes
-blue_previous_image=$(get_current_image_hash $BLUE_CONTAINER)
-green_previous_image=$(get_current_image_hash $GREEN_CONTAINER)
+rollback_image=$(get_current_image_hash $GREEN_CONTAINER)
 
 # Deploy the blue container
-if ! deploy_container $BLUE_CONTAINER $BLUE_CONTAINER_PORT $blue_previous_image; then
+if ! deploy_container $BLUE_CONTAINER $BLUE_CONTAINER_PORT $rollback_image; then
   echo "Deployment failed. $BLUE_CONTAINER rollback completed. Exiting."
   exit 1
 fi
 
 # Deploy the green container
-if ! deploy_container $GREEN_CONTAINER $GREEN_CONTAINER_PORT $green_previous_image; then
+if ! deploy_container $GREEN_CONTAINER $GREEN_CONTAINER_PORT $rollback_image; then
   echo "Deployment failed. $GREEN_CONTAINER rollback completed. Exiting."
   exit 1
 fi
 
-echo "Both blue and green containers are healthy."
+# Deploy the yellow container
+if ! deploy_container $YELLOW_CONTAINER $YELLOW_CONTAINER_PORT $rollback_image; then
+  echo "Deployment failed. $YELLOW_CONTAINER rollback completed. Exiting."
+  exit 1
+fi
 
-# Prune the old images to save disk space
+# Deploy the purple container
+if ! deploy_container $PURPLE_CONTAINER $PURPLE_CONTAINER_PORT $rollback_image; then
+  echo "Deployment failed. $PURPLE_CONTAINER rollback completed. Exiting."
+  exit 1
+fi
+
+echo "All containers deployed successfully."
+
+# Prune the old images to save disk space 
 echo "Pruning old images..."
-ssh_blot "docker image prune -f"
+ssh_blot "docker image prune -af"
 echo "Pruned old images."
 
-echo "Blue-Green deployment completed successfully!"
+echo "Blue-Green-Yellow-Purple deployment completed successfully!"

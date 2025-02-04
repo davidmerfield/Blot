@@ -13,26 +13,12 @@ const map = {
 
 const Questions = new Express.Router();
 const moment = require("moment");
-const config = require("config");
-const fetch = require("node-fetch");
-
-const reverse_proxy_urls = config.reverse_proxies;
-
-const flush = () => {
-  reverse_proxy_urls.forEach(reverse_proxy_url => {
-    fetch(reverse_proxy_url + "/purge?host=" + config.host)
-      .then(res => {
-        console.log("proxy: " + reverse_proxy_url + " flushed:" + config.host);
-      })
-      .catch(e => {
-        console.log("proxy: " + reverse_proxy_url + " failed to flush: " + config.host);
-      });
-  });
-};
 
 const { tags, create, update, list, get, search } = require("models/question");
 const render = require("./render");
 const Paginator = require("./paginator");
+const config = require("config");
+const flush = require("documentation/tools/flush-cache");
 
 Questions.use(["/ask", "/:id/edit", "/:id/new"], require("dashboard/util/session"));
 Questions.use(["/ask", "/:id/edit", "/:id/new"], urlencoded);
@@ -248,9 +234,10 @@ Questions.route("/:id/new").post(async (req, res) => {
 Questions.route("/:id/edit")
   .get(async (req, res) => {
     const id = parseInt(req.params.id);
-    if (!req.session || !req.session.uid)
+    if (!req.session || !req.session.uid){
       return res.redirect(`/log-in?then=/questions`);
-
+    }
+      
     res.locals.topic = await get(id);
     res.render("questions/edit");
   })
