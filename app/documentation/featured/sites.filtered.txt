@@ -32,7 +32,7 @@
 #7a9951 brainsister.com Jessica Doyle, is a writer
 #945830 poetry.bencallahan.com Ben Callahan, is a poet
 #6b98d2 www.maxkeith.co Max Keith, is a trail runner from Chile
-#99abc4 spittingdog.net Dave Haysom, translates Chinese literature
+#99abc4 spittingdog.net Dave Haysom, is a translator
 #b07246 anitaposch.com Anita Posch, is a writer from Austria
 #d28f00 reillybrennan.com Reilly Brennan, is a venture capitalist
 #c40002 sidenote.ridwansanusi.com Ridwan Sanusi, is a designer
@@ -52,3 +52,4 @@
 #000000 simonuvarov.com Simon Uvarov, is a programmer
 #000000 karaman.is Georgios Karamanis, is a designer
 #000000 carsonvt.me Carson Teschuer, is a historian
+#000000 erinkissane.com Erin Kissane, is a writer

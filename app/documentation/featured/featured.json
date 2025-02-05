@@ -279,7 +279,7 @@
       "link": "https://spittingdog.net",
       "host": "spittingdog.net",
       "name": "Dave Haysom",
-      "bio": "translates Chinese literature",
+      "bio": "is a translator",
       "x": 192,
       "y": 240
     },
@@ -434,6 +434,14 @@
       "bio": "is a historian",
       "x": 336,
       "y": 192
+    },
+    {
+      "link": "https://erinkissane.com",
+      "host": "erinkissane.com",
+      "name": "Erin Kissane",
+      "bio": "is a writer",
+      "x": 336,
+      "y": 240
     }
   ],
   "thumbnail_width": 48

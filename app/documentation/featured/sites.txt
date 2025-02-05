@@ -60,7 +60,7 @@
 #6b98d2 www.maxkeith.co Max Keith, is a trail runner from Chile
 #4a7587 www.aarondowd.com Aaron Dowd, is a podcaster
 #d28f00 www.thoughtsbyora.com Uzoamaka Adaora, is a writer living in Amsterdam
-#99abc4 spittingdog.net Dave Haysom, translates Chinese literature
+#99abc4 spittingdog.net Dave Haysom, is a translator
 #9e4b3d nomathontheweekend.co Liana J. Taylor, is an accountant from Philadelphia
 #bb341f windhausen.co Sönke Windhausen, is a student from Freiburg
 #b07246 anitaposch.com Anita Posch, is a writer from Austria
@@ -87,3 +87,4 @@
 #000000 simonuvarov.com Simon Uvarov, is a programmer
 #000000 karaman.is Georgios Karamanis, is a designer
 #000000 carsonvt.me Carson Teschuer, is a historian
+#000000 erinkissane.com Erin Kissane, is a writer
