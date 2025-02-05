@@ -14,7 +14,7 @@ services:
       - .env
     environment:
       - BLOT_REDIS_HOST=redis
-      - BLOT_HOST=local.blot
+      - BLOT_HOST=localhost
       - CONTAINER_NAME=blot-container-green
     volumes:
       - ./data:/usr/src/app/data
@@ -46,7 +46,7 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - ./data/blot-key.pem:/etc/ssl/private/nginx-selfsigned.key
-      - ./data/blot.pem:/etc/ssl/certs/nginx-selfsigned.crt
+      - ./data/ssl:/etc/ssl
     depends_on:
       - node-app
+    command:  /bin/sh -c "sh  /etc/nginx/init.sh"

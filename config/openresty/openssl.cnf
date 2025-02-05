@@ -12,7 +12,7 @@ L = Tokyo
 O = MyDomain Inc.
 OU = Technology Group
 emailAddress = example@example.com
-CN = BLOT_HOST
+CN = localhost
 
 [v3_req]
 subjectAltName = @alt_names
@@ -21,5 +21,5 @@ subjectAltName = @alt_names
 subjectAltName = @alt_names
 
 [alt_names]
-DNS.1 = *.BLOT_HOST
-DNS.2 = BLOT_HOST
+DNS.1 = *.localhost
+DNS.2 = localhost
