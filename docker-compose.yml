@@ -14,7 +14,6 @@ services:
       - .env
     environment:
       - BLOT_REDIS_HOST=redis
-      - BLOT_HOST=localhost
       - CONTAINER_NAME=blot-container-green
     volumes:
       - ./data:/usr/src/app/data
@@ -28,7 +27,7 @@ services:
     # this is needed so the webhook relay can invoke the request 
     # inside docker, resolving the host to the correct IP
     extra_hosts:
-      - "${BLOT_HOST}:${HOST_IP}"
+      - "localhost:${HOST_IP}"
     command: npx nodemon /usr/src/app/app/index.js --watch /usr/src/app/app -e js,html,css --ignore /usr/src/app/app/documentation/data --ignore /usr/src/app/app/documentation/output --ignore /usr/src/app/app/views --ignore /usr/src/app/app/views-built  --ignore /usr/src/app/app/clients/*/views
 
   redis:
