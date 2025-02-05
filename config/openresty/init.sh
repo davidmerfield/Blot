@@ -1,5 +1,3 @@
-cat /etc/nginx/openssl.cnf
-
 if [ ! -f /etc/ssl/private/wildcard.key ] || [ ! -f /etc/ssl/certs/wildcard.crt ]; then
     mkdir -p /etc/ssl/private /etc/ssl/certs
 
