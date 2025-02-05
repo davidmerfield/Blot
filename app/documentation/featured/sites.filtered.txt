@@ -7,7 +7,7 @@
 #a0aab9 iiiiiiiii.in Ishtaarth Dalmia, is a writer
 #60b7dc www.failuretolerated.com Sean McCoy, is a game designer
 #ab4548 mrfrisby.com Stuart Frisby, is a designer
-#696e66 vaughntan.org Vaughn Tan, is a writer based
+#696e66 vaughntan.org Vaughn Tan, is a writer
 #c56d64 blog.pixelswithin.com Diana Lopez, is a designer
 #e2c556 eli.li Eli Mellen, is a web developer
 #e13934 www.elisamirkil.com Elisa Mirkil, is a designer
