@@ -1,3 +1,8 @@
+Fix local template editing bug 
+- tell [Darren](https://mail.google.com/mail/u/1/#inbox/FMfcgzQXJkXrrLBdCgVqnZppnbwHMgjx)
+- [Ty](https://mail.google.com/mail/u/1/#inbox/FMfcgzQXKhGGvtTbGGhbxzHdWkFtnMhS)
+- [Haider](https://mail.google.com/mail/u/1/#inbox/FMfcgzQXKhGHGKDtgNPRrVlpwHThCJnL)
+
 Fix global.test.server() so it doesn't use puppeteer then check in on broken link tests
 
 Work out why some blogs are accessible after deletion
@@ -44,11 +49,6 @@ Fix bug with pages not appearing in backlinks and [tell questioner](https://blot
 
 Surface Blot client sync errors on dashboard, add email notifications for errors
 - surface dropbox out of space error
-
-Fix local template editing bug 
-- tell [Darren](https://mail.google.com/mail/u/1/#inbox/FMfcgzQXJkXrrLBdCgVqnZppnbwHMgjx)
-- [Ty](https://mail.google.com/mail/u/1/#inbox/FMfcgzQXKhGGvtTbGGhbxzHdWkFtnMhS)
-- [Haider](https://mail.google.com/mail/u/1/#inbox/FMfcgzQXKhGHGKDtgNPRrVlpwHThCJnL)
 
 Fix thumbnail generator to handle 304 responses properly. Right now, you can fetch image and then encounter 304 response. 
 
