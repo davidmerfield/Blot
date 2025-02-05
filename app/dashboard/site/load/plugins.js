@@ -4,7 +4,7 @@ const arrayify = require("helper/arrayify");
 const capitalize = require("helper/capitalize");
 const deCamelize = require("helper/deCamelize");
 
-const pluginsToHide = ["wikilinks", "katex"];
+const pluginsToHide = [];
 
 module.exports = function (req, res, next) {
   const blog = req.blog;
