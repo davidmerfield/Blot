@@ -1,5 +1,5 @@
 {
-  "width": 336,
+  "width": 384,
   "height": 336,
   "sprite": "/images/featured.jpg",
   "sites": [
@@ -151,7 +151,7 @@
       "link": "https://benlog.net",
       "host": "benlog.net",
       "name": "Ben Greenberg",
-      "bio": "is an investigative reporter",
+      "bio": "is a journalist",
       "x": 192,
       "y": 96
     },
@@ -159,7 +159,7 @@
       "link": "https://afc.letterspace.org",
       "host": "afc.letterspace.org",
       "name": "Robert van Vliet",
-      "bio": "is a writer in Minneapolis",
+      "bio": "is a writer",
       "x": 192,
       "y": 144
     },
@@ -279,7 +279,7 @@
       "link": "https://spittingdog.net",
       "host": "spittingdog.net",
       "name": "Dave Haysom",
-      "bio": "translates Chinese literature",
+      "bio": "is a translator",
       "x": 192,
       "y": 240
     },
@@ -354,6 +354,94 @@
       "bio": "is an architect",
       "x": 48,
       "y": 288
+    },
+    {
+      "link": "https://notesof.com",
+      "host": "notesof.com",
+      "name": "Thibault Michel",
+      "bio": "is a designer",
+      "x": 96,
+      "y": 288
+    },
+    {
+      "link": "https://bgreen.lol",
+      "host": "bgreen.lol",
+      "name": "Brandon Lucas Green",
+      "bio": "is a musician",
+      "x": 144,
+      "y": 288
+    },
+    {
+      "link": "https://meredithgran.com",
+      "host": "meredithgran.com",
+      "name": "Meredith Gran",
+      "bio": "is a cartoonist",
+      "x": 192,
+      "y": 288
+    },
+    {
+      "link": "https://ellanew.com",
+      "host": "ellanew.com",
+      "name": "Ellane W",
+      "bio": "is a designer",
+      "x": 240,
+      "y": 288
+    },
+    {
+      "link": "https://raw.taisukemino.com",
+      "host": "raw.taisukemino.com",
+      "name": "Taisuke Mino",
+      "bio": "is a programmer",
+      "x": 288,
+      "y": 288
+    },
+    {
+      "link": "https://alongtheray.com",
+      "host": "alongtheray.com",
+      "name": "Raymond Hines",
+      "bio": "is a writer",
+      "x": 336,
+      "y": 0
+    },
+    {
+      "link": "https://matthiaszeeb.net",
+      "host": "matthiaszeeb.net",
+      "name": "Matthias Zeeb",
+      "bio": "is an economist",
+      "x": 336,
+      "y": 48
+    },
+    {
+      "link": "https://simonuvarov.com",
+      "host": "simonuvarov.com",
+      "name": "Simon Uvarov",
+      "bio": "is a programmer",
+      "x": 336,
+      "y": 96
+    },
+    {
+      "link": "https://karaman.is",
+      "host": "karaman.is",
+      "name": "Georgios Karamanis",
+      "bio": "is a designer",
+      "x": 336,
+      "y": 144
+    },
+    {
+      "link": "https://carsonvt.me",
+      "host": "carsonvt.me",
+      "name": "Carson Teschuer",
+      "bio": "is a historian",
+      "x": 336,
+      "y": 192
+    },
+    {
+      "link": "https://erinkissane.com",
+      "host": "erinkissane.com",
+      "name": "Erin Kissane",
+      "bio": "is a writer",
+      "x": 336,
+      "y": 240
     }
   ],
   "thumbnail_width": 48

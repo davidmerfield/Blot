@@ -48,13 +48,6 @@ module.exports = function extend(blog) {
     blog.pretty.domain = punycode.toUnicode(blog.domain);
   }
 
-  // Based on the code in app/local.js this overwrites
-  // the blog's URL when the simple local server is run
-  if (config.host === 'localhost') {
-    blog.url = 'http://localhost:8081';
-    blog.pretty.url = 'localhost:8081';
-  }
-
   blog.blogURL = protocol + "://" + blog.handle + "." + config.host;
   blog.cssURL = blog.cssURL || url.css(blog.cacheID);
   blog.scriptURL = blog.scriptURL || url.js(blog.cacheID);

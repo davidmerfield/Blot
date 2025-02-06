@@ -19,7 +19,7 @@ describe("asset middleware", function () {
 
   it("sends a file with an underscore prefix and .html extension", function (done) {
     var path = '/Foo/_File.html';
-    var pathWithoutUnderscore = '/Foo/File';
+    var pathWithoutUnderscore = '/Foo/File/';
     var contents = this.fake.file();
 
     fs.outputFileSync(this.blogDirectory + path, contents);
@@ -29,6 +29,20 @@ describe("asset middleware", function () {
       done();
     });
   });  
+
+  it("will set max-age when the url has the query cache and extension", function (done) {
+    var path = this.fake.path(".txt");
+    var contents = this.fake.file();
+
+    fs.outputFileSync(this.blogDirectory + path, contents);
+    this.get(path + '?cache=true&extension=.txt', function (err, body, res) {
+      expect(err).toBeNull();
+      expect(body).toEqual(contents);
+      expect(res.headers['cache-control']).toEqual('public, max-age=86400');
+      done();
+    });
+  });
+
 
   it("sends a file in the blog folder", function (done) {
     var path = this.fake.path(".txt");
@@ -66,6 +80,7 @@ describe("asset middleware", function () {
       done();
     });
   });
+  
 
   // This test ensures that the middleware will pass
   // the request on if it can't find a matching file.
@@ -77,6 +92,21 @@ describe("asset middleware", function () {
       done();
     });
   });
+
+  it("won't send a file in the .git directory of the blog folder", function (done) {
+    var path = '/.git';
+    var contents = this.fake.file();
+
+    fs.outputFileSync(this.blogDirectory + path, contents);
+    this.get(path, function (err, body, res) {
+      expect(err).toBeNull();
+      expect(body).toBeDefined();
+      expect(res.statusCode).toEqual(404);
+      done();
+    });
+  });
+
+
 
   global.test.blog();
 

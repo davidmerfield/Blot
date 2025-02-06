@@ -18,8 +18,6 @@ developers.get(["/reference"], function (req, res, next) {
     )
   );
 
-  console.log(res.locals.docs);
-
   // Render the descriptions as markdown
   res.locals.docs.forEach(section => {
     section.keys.forEach(property => {

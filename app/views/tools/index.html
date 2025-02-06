@@ -1,10 +1,6 @@
 
 <h1>{{^category}}Tools{{/category}}{{#category}}{{title}}{{/category}}</h1>
 
-{{^category}}
-<p>Because Blot has no interface, you can work on your sites with your favorite tools. </p>
-{{/category}}
-
 <ul class="pill-navigation">
 
 <li><a href="/tools" class="{{^category}}selected{{/category}}">All</a></li>
@@ -12,6 +8,9 @@
 <li><a href="/tools/{{slug}}" class="{{selected}}">{{title}}</a></li>
 {{/categories}}
 </ul>
+
+{{{description}}}
+
 
 <ul class="tool-list">
   {{#tools}}

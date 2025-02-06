@@ -38,6 +38,25 @@ fi
 echo "Deploying commit: $GIT_COMMIT_HASH"
 echo "Commit message: $(git log -1 --pretty=%B $GIT_COMMIT_HASH)"
 
+# Detect the architecture of the remote server
+PLATFORM_OS=linux
+PLATFORM_ARCH=$(ssh blot "docker info --format '{{.Architecture}}'")
+
+# If remote architecture is aarch64, replace it with arm64 for compatibility
+if [[ "$PLATFORM_ARCH" == "aarch64" ]]; then
+  PLATFORM_ARCH="arm64"
+fi
+
+# Check if the specific architecture and OS exist in the image manifest
+if docker manifest inspect ghcr.io/davidmerfield/blot:$GIT_COMMIT_HASH 2>/dev/null | \
+  jq -e --arg arch "$PLATFORM_ARCH" --arg os "$PLATFORM_OS" \
+    '.manifests[] | select(.platform.architecture == $arch and .platform.os == $os)' > /dev/null; then
+  echo "Image for platform $PLATFORM_OS/$PLATFORM_ARCH exists."
+else
+  echo "Error: Image for platform $PLATFORM_OS/$PLATFORM_ARCH does not exist."
+  exit 1
+fi
+
 # Ask for confirmation
 read -p "Are you sure you want to deploy this commit? (y/n): " CONFIRMATION
 
@@ -46,14 +65,6 @@ if [[ "$CONFIRMATION" != "y" ]]; then
   exit 0
 fi
 
-# Check that a multi-architecture image is available for the commit hash
-echo "Checking for multi-architecture image..."
-if ! docker manifest inspect ghcr.io/davidmerfield/blot:$GIT_COMMIT_HASH > /dev/null 2>&1; then
-  echo "Error: Multi-architecture image for commit $GIT_COMMIT_HASH does not exist."
-  exit 1
-else
-  echo "Multi-architecture image found."
-fi
 
 # Define container names and ports
 BLUE_CONTAINER="blot-container-blue"
@@ -68,6 +79,7 @@ PURPLE_CONTAINER_PORT=8091
 # Define the docker run command template with placeholders
 DOCKER_RUN_COMMAND="docker run --pull=always -d \
   --name {{CONTAINER_NAME}} \
+  --platform $PLATFORM_OS/$PLATFORM_ARCH \
   -p {{CONTAINER_PORT}}:8080 \
   --env-file /etc/blot/secrets.env \
   -e CONTAINER_NAME={{CONTAINER_NAME}} \

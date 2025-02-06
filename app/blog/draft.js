@@ -45,11 +45,6 @@ module.exports = function route(server) {
       });
     });
 
-    // In case we encounter an error...print it out to the console
-    client.on("error", function (err) {
-      console.log("Redis Error: " + err);
-    });
-
     req.on("close", function () {
       client.unsubscribe();
       client.quit();

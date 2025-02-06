@@ -22,15 +22,15 @@ if (require.main === module) {
         "https://" + site.host,
         colors.dim("last published", moment(site.lastPublishedPost).fromNow())
       );
-      console.log(
-        colors.dim(
-          `mailto:${
-            site.email
-          }?subject=Link%20to%20you%20on%20Blot's%20homepage%3F&body=${encodeURIComponent(`Hello, I'm updating Blot's homepage and I'm going to add some new featured sites hosted on Blot. Would you mind if I added a link to yours? I completely understand if you'd rather not, so no pressure.
+      // console.log(
+      //   colors.dim(
+      //     `mailto:${
+      //       site.email
+      //     }?subject=Link%20to%20you%20on%20Blot's%20homepage%3F&body=${encodeURIComponent(`Hello, I'm updating Blot's homepage and I'm going to add some new featured sites hosted on Blot. Would you mind if I added a link to yours? I completely understand if you'd rather not, so no pressure.
 
-          Sincerely, David`)}`
-        )
-      );
+      //     Sincerely, David`)}`
+      //   )
+      // );
     });
 
     process.exit();
@@ -73,9 +73,19 @@ function main (callback) {
           return site && site.host && featured.indexOf(site.host) === -1;
         });
 
+        // ensure we're only checking unique sites
+        sites = sites.filter(function (site, index, self) {
+          return (
+            index ===
+            self.findIndex(function (t) {
+              return t.host === site.host;
+            })
+          );
+        });
+
         const filteredSites = [];
 
-        console.log(sites.length, "candidates");
+        console.log('Checking', sites.length, "candidates");
 
         for (var i = 0; i < sites.length; i++) {
           var isOnline = await verifySiteIsOnline(sites[i].host);

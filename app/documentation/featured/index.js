@@ -30,12 +30,7 @@ const loadFeatured = async () => {
   // if the JSON file doesn't exist, attempt to create it using await check()
   // and only try again if it's been more than a day since the last attempt
   if (!fs.existsSync(config.data_directory + "/featured/featured.json") && Date.now() - lastCheck > 86400000) {    
-    try {
-      lastCheck = Date.now();
-      await check();
-    } catch (e) {
-      console.error(e);
-    }
+    await fs.copy(__dirname + '/featured.json', config.data_directory + "/featured/featured.json");
   }
 
   
