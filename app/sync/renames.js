@@ -20,10 +20,12 @@ module.exports = function (blogID, callback) {
         var deletedEntriesOfSameTitle;
         var deletedEntry;
 
+        // ensure we only detect entries of the same size
+        // if the size is defined and non-zero
         deletedEntriesOfSameSize = deletedEntries.filter(function (
           deletedEntry
         ) {
-          return deletedEntry.size === createdEntry.size;
+          return deletedEntry.size && deletedEntry.size === createdEntry.size;
         });
 
         deletedEntriesOfSameTitle = deletedEntries.filter(function (
