@@ -15,6 +15,11 @@ module.exports = function (blogID, callback) {
     Entries.getDeleted(blogID, after, function (err, deletedEntries) {
       if (err) return callback(err);
 
+      // filter out deleted entries without guids
+      deletedEntries = deletedEntries.filter(function (entry) {
+        return entry.guid;
+      });
+
       createdEntries.forEach(function (createdEntry) {
         var deletedEntriesOfSameSize;
         var deletedEntriesOfSameTitle;
@@ -92,7 +97,15 @@ module.exports = function (blogID, callback) {
             createdEntry.path
           );
 
-          Entry.set(blogID, createdEntry.path, updates, next);
+          // we need to remove the guid of the deleted entry
+          // so it is only renamed once
+
+
+          Entry.set(blogID, createdEntry.path, updates, (err) => {
+            if (err) return next(err);
+
+            Entry.set(blogID, deletedEntry.path, { guid: '' }, next);
+          });
         },
         callback
       );
