@@ -89,7 +89,7 @@ const main = async () => {
   console.log('Building tools...');
 
   const categories = (await fs.readdir(toolsDirectory)).filter(
-    f => f.indexOf(".") === -1 && f !== "icons"
+    f => f.indexOf(".") === -1 && f !== "icons" && f !== "README"
   );
 
   const result = { categories: [], tools: [] };
