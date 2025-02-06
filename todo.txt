@@ -5,6 +5,12 @@ Fix local template editing bug
 
 Fix global.test.server() so it doesn't use puppeteer then check in on broken link tests
 
+For broken embedded images, attempt to resolve based on a shortest path approach, as in, traverse the folder and attempt to find an image with a matching name
+- Tell [Ellane](https://mail.google.com/mail/u/0/#inbox/QgrcJHsbgZwttcPcXCvTnzchwRZxCNXhQgq)
+
+Make it possible to embed the HTML output of markdown files using Obsidians embedding syntax: ![[Filename]] 
+- Tell [Ellane](https://mail.google.com/mail/u/0/#inbox/QgrcJHsbgZwttcPcXCvTnzchwRZxCNXhQgq)
+
 Work out why some blogs are accessible after deletion
 
 Finish basic benchmark
