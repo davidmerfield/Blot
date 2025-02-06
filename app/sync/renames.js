@@ -3,6 +3,8 @@ var async = require("async");
 var Entry = require("models/entry");
 var clfdate = require("helper/clfdate");
 
+const { isDraft } = require("sync/update/drafts");
+
 module.exports = function (blogID, callback) {
   var RENAME_PERIOD = 1000 * 30; // 30 seconds
   var after = Date.now() - RENAME_PERIOD;
@@ -64,7 +66,6 @@ module.exports = function (blogID, callback) {
           var deletedEntry = rename.deletedEntry;
           var updates = {
             url: deletedEntry.url,
-            created: deletedEntry.created,
             guid: deletedEntry.guid,
           };
 
@@ -83,28 +84,35 @@ module.exports = function (blogID, callback) {
             updates.dateStamp = deletedEntry.dateStamp;
           }
 
-          console.log(
-            clfdate(),
-            blogID.slice(0, 12),
-            "rename",
-            deletedEntry.path
-          );
+          isDraft(blogID, deletedEntry.path, function (err, draft) {
 
-          console.log(
-            clfdate(),
-            blogID.slice(0, 12),
-            "----->",
-            createdEntry.path
-          );
+            // if the deleted entry was a draft, we reset the created date
+            // otherwise we use the old created date of the renamed file
+            if (!draft) {
+              updates.created = deletedEntry.created;
+            }
+              
+            console.log(
+              clfdate(),
+              blogID.slice(0, 12),
+              "rename",
+              deletedEntry.path
+            );
 
-          // we need to remove the guid of the deleted entry
-          // so it is only renamed once
+            console.log(
+              clfdate(),
+              blogID.slice(0, 12),
+              "----->",
+              createdEntry.path
+            );
 
+            // we need to remove the guid of the deleted entry
+            // so it is only renamed once
+            Entry.set(blogID, createdEntry.path, updates, (err) => {
+              if (err) return next(err);
 
-          Entry.set(blogID, createdEntry.path, updates, (err) => {
-            if (err) return next(err);
-
-            Entry.set(blogID, deletedEntry.path, { guid: '' }, next);
+              Entry.set(blogID, deletedEntry.path, { guid: '' }, next);
+            });
           });
         },
         callback
