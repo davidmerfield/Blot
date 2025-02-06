@@ -24,6 +24,7 @@ const handle = (initial = false) => async (path) => {
       if (initial) return;
       console.log("Rebuilding tools");
       await tools();
+      return;
     } 
     
     if (path.includes("images/examples") && path.endsWith(".png")) {

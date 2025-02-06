@@ -2,9 +2,7 @@ const Express = require("express");
 const dashboard = require("dashboard");
 const documentation = require("documentation");
 const mustache = require("helper/express-mustache");
-const root = require("helper/rootDir");
 const config = require("config");
-const { join } = require("path");
 
 const VIEW_DIRECTORY = config.views_directory;
 

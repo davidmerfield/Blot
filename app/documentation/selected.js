@@ -22,7 +22,10 @@ var TITLES = {
   "who": "Who uses Blot?",
   "developers": "Developers",
   "json-feed": "JSON feed",
-  "posts-tagged": "A page with posts with a particular tag"
+  "posts-tagged": "A page with posts with a particular tag",
+  "ifttt": "IFTTT",
+  "soundcloud": "SoundCloud",
+  "youtube": "YouTube",
 };
 
 module.exports = function (req, res, next) {

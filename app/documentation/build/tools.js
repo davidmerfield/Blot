@@ -181,10 +181,13 @@ const loadTool = async (category, tool) => {
     $("h1").text() ||
     (slug[0].toUpperCase() + slug.slice(1)).replace(/-/g, " ");
 
+    const subtitle = $("h2:first-of-type").text() || "";
+
   $("h1").remove();
 
   const result = {
     title,
+    subtitle,
     category,
     html: $.html(),
     updated,
@@ -207,6 +210,11 @@ const loadTool = async (category, tool) => {
       return { name: p.trim() };
     });
 
+  if (result.files) {
+    result.files = result.files.split(",").map(f => {
+      return { name: f, slug: f.trim().toLowerCase().replace(/\s/g, "-") };
+    });
+  }
   return result;
 };
 
