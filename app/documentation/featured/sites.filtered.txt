@@ -38,7 +38,7 @@
 #c40002 sidenote.ridwansanusi.com Ridwan Sanusi, is a designer
 #6e44b3 max.engineer Max Chernyak, is a software engineer
 #f1bd00 oliviaastawood.com Olivia Wood, is a musician
-#387db9 jonahfoss.com Jonah Foss, is a student 
+#387db9 nowaykohei.com Kohei Foss, is a student 
 #21732d www.nitinpai.in Nitin Pai, is a think-tank director
 #000000 jeankapsa.com Jean Kapsa, is a pianist
 #000000 www.declad.com Lewis Martin, is an architect
@@ -51,5 +51,5 @@
 #000000 matthiaszeeb.net Matthias Zeeb, is an economist
 #000000 simonuvarov.com Simon Uvarov, is a programmer
 #000000 karaman.is Georgios Karamanis, is a designer
-#000000 carsonvt.me Carson Teschuer, is a historian
+#000000 carsonvt.me Carson Teuscher, is a historian
 #000000 erinkissane.com Erin Kissane, is a writer
