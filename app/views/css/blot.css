@@ -813,30 +813,39 @@ ul.pill-navigation {
   list-style: none;
   padding: 0;
   margin: 2em 0;
+  display: flex;
+  flex-wrap: wrap;
+  max-width: ;
 }
 
 .tool-list li {
   margin: 0;
+  flex-basis: 50%;
   padding: 0;
   margin-bottom: 0.5em;
 }
 
 .tool-list a {
-  display: block;
+  display: flex;
   padding: 0.5em 1em;
+  font-size: 14px;
   border-radius: 0.5em;
   text-decoration: none;
   color: var(--medium-text-color);
-  border: 1px solid var(--light-border-color);
   transition: background 0.1s, color 0.1s, border-color 0.1s;
 }
 
+.tool-list a b {
+  font-weight: 600;
+  color: var(--text-color);
+  font-size: 16px;
+}
 /* an optional image in the link should have a width and height of 16px
    and an appropriate margin */
 .tool-list a img {
   width: 16px;
   height: 16px;
-  margin-right: 0.8em;
+  margin: 0.4em 0.8em 0.4em 0;
 }
 
 .tool-list a:hover {
