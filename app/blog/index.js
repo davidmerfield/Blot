@@ -34,8 +34,7 @@ require("./entry")(blog);
 require("./entries")(blog);
 
 blog.use(require("./assets"));
-
-require("./random")(blog);
+blog.use('/random', require('./random'));
 require("./error")(blog);
 
 module.exports = blog;

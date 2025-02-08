@@ -1,3 +1,7 @@
+Investigate issues cancelling subscription in production
+
+Investigate issues using git in production
+
 Work out why changes to documentation do not make it into production
 
 Fix local template editing bug 

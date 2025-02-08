@@ -29,18 +29,6 @@ module.exports = function (req, res, next) {
   // this should be req.locals.originalHost
   req.originalHost = host;
 
-  // We don't want to serve a blog in place of
-  // the main blot site so leave now.
-  if (host === config.host) {
-    return next();
-  }
-
-  // Redirect www subdomain of main blot site to
-  // the apex domain on which it is served.
-  if (host === "www." + config.host) {
-    return res.redirect(req.protocol + "://" + config.host + req.originalUrl);
-  }
-
   handle = extractHandle(host);
 
   if (handle) {
