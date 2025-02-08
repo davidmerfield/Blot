@@ -275,7 +275,7 @@
      <td>Summary:</td>
      <td>
        {{#summary}}
-       <pre><code>{{summary}}</code></pre>
+       <pre>{{summary}}</pre>
        {{/summary}}
        {{^summary}}--
        {{/summary}}
@@ -397,8 +397,8 @@
    <!-- GUID -->
    <tr>
      <td>GUID:</td>
-     <td><pre><code>{{guid}}</code></pre>
-       <details>
+     <td>{{guid}} <button class="copy"><span class="icon-copy"></span> Copy</button>
+      <details>
          <summary><span class="icon-support"></span> Explain</summary>
          <p>The globally unique identifier for this post.</p>
        </details>
