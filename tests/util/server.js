@@ -58,6 +58,8 @@ module.exports = function (router) {
 
     app.use(trace.init);
 
+    app.use(require('request-logger'));
+
     // Trust proxy for secure cookies
     app.set("trust proxy", true);
 
