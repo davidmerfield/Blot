@@ -20,10 +20,15 @@ const gitCommits = require("../tools/git-commits").build;
 const handle = (initial = false) => async (path) => {
   try {
     
+    if (path.endsWith("README")) {
+      return;
+    }
+    
     if (path.includes("tools/")) {
       if (initial) return;
       console.log("Rebuilding tools");
       await tools();
+      return;
     } 
     
     if (path.includes("images/examples") && path.endsWith(".png")) {

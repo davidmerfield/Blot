@@ -1,17 +1,20 @@
-Fix global.test.server() so it doesn't use puppeteer then check in on broken link tests
+Work out why changes to documentation do not make it into production
+
+Fix local template editing bug 
+- tell [Darren](https://mail.google.com/mail/u/1/#inbox/FMfcgzQXJkXrrLBdCgVqnZppnbwHMgjx)
+- [Ty](https://mail.google.com/mail/u/1/#inbox/FMfcgzQXKhGGvtTbGGhbxzHdWkFtnMhS)
+- [Haider](https://mail.google.com/mail/u/1/#inbox/FMfcgzQXKhGHGKDtgNPRrVlpwHThCJnL)
 
 Work out why some blogs are accessible after deletion
+
+Finish basic benchmark
+- start using clinic.js on benchmarks to detect memory issues
+
+Refactor helper/screenshot to use a persistent browser
 
 Change cookies: Set-Cookie: mycookie=value; Path=/; SameSite=Lax; Secure;
 
 Monitor slow URLs in the logs
-
-Fix bug, the blog was deleted mid-sync:
-```
-[31/Jan/2025:18:41:29 +0000] [green] build master=1 worker=14 job_4c026b82 completed error=false
-/usr/src/app/app/models/entry/_setUrl.js:54
-  var format = blog.permalink.isCustom ? blog.permalink.custom : blog.permalink.format;
-```
 
 Fix JS minifier and CSS minifier
 
@@ -40,14 +43,7 @@ Fix bug with pages not appearing in backlinks and [tell questioner](https://blot
 Surface Blot client sync errors on dashboard, add email notifications for errors
 - surface dropbox out of space error
 
-Fix local template editing bug 
-- tell [Darren](https://mail.google.com/mail/u/1/#inbox/FMfcgzQXJkXrrLBdCgVqnZppnbwHMgjx)
-- [Ty](https://mail.google.com/mail/u/1/#inbox/FMfcgzQXKhGGvtTbGGhbxzHdWkFtnMhS)
-- [Haider](https://mail.google.com/mail/u/1/#inbox/FMfcgzQXKhGHGKDtgNPRrVlpwHThCJnL)
-
 Fix thumbnail generator to handle 304 responses properly. Right now, you can fetch image and then encounter 304 response. 
-
-Fix duplicate GUID issue caused by renames and tell [Paul](https://mail.google.com/mail/u/1/#inbox/FMfcgzQVxlQFSLBmzLfsBlQSTTcmqjGc)
 
 Fix bug with magic text in posts which breaks backend and tell [Victor](https://mail.google.com/mail/u/1/#inbox/FMfcgzQVxRMzjBtRWVwLWtlBcFGsSVCQ)
 
@@ -70,25 +66,13 @@ Fix bug with Git client and Obsidian then tell levelsi
 
 ---
 
-Think about docker deploys
-- first migrate node.js application:
-  - set up docker on aws instance
-  - pull docker image from github image repo
-  - run node.js app on new port
-  - use docker to expose redis URL, local disk mounting, etc.
-  - set up deployment action on github
-  - add port to openresty config
-  - check application works on openresty port
-  - switch all traffic to new application
-  ---
-  - update note to LTS
-  - fix color profile support
-  - use custom libvips so we can convert HEIC files
-  - Expose exif data on Photo posts?  [https://github.com/lovell/sharp/issues/285](https://github.com/lovell/sharp/issues/285)
-    See if you can add comments to image metadata and tell [Riley](https://mail.google.com/mail/u/1/#sent/164756616df069dd)
-    , also tell [Mike](https://mail.google.com/mail/u/1/#inbox/16423ebe7b027d48)
-    - questioner (search exif)
-    - https://github.com/sambecker/exif-photo-blog
+Use custom libvips so we can convert HEIC files
+
+Expose exif data on Photo posts?  [https://github.com/lovell/sharp/issues/285](https://github.com/lovell/sharp/issues/285)
+  See if you can add comments to image metadata and tell [Riley](https://mail.google.com/mail/u/1/#sent/164756616df069dd)
+  , also tell [Mike](https://mail.google.com/mail/u/1/#inbox/16423ebe7b027d48)
+  - questioner (search exif)
+  - https://github.com/sambecker/exif-photo-blog
 
 
 Think about migrating to s3 for blog data storage
@@ -133,6 +117,12 @@ Fix issue with server restart:
 Investigate performance of rich text editor in Safari on template editor and follow up with [Rachel](https://mail.google.com/mail/u/1/#inbox/FMfcgzQXKNFKbzhWFnsgQrBBfGqZNMhL)
 
 Add pagination to archives and tagged pages on default templates using a new tag
+
+For broken embedded images, attempt to resolve based on a shortest path approach, as in, traverse the folder and attempt to find an image with a matching name
+- Tell [Ellane](https://mail.google.com/mail/u/0/#inbox/QgrcJHsbgZwttcPcXCvTnzchwRZxCNXhQgq)
+
+Make it possible to embed the HTML output of markdown files using Obsidians embedding syntax: ![[Filename]] 
+- Tell [Ellane](https://mail.google.com/mail/u/0/#inbox/QgrcJHsbgZwttcPcXCvTnzchwRZxCNXhQgq)
 
 ---
 
@@ -261,11 +251,6 @@ Fix 'back' button in photo template and tell [Bibi](https://mail.google.com/mail
 Fix bug with images zooming inside footnotes and tell [Nathan](https://mail.google.com/mail/u/0/#inbox/FMfcgzGtwWCBmtldhMfQRgZjHDpFvSGb)
 
 Fix bug with menu which occur when multiple pages are added at once Menu needs concurrency or atomic operations (so we can build posts in parallel)
-
-GUID bugs:
-- Fix duplicate GUID issue and tell [Jason](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrbvKsNQgVWVNKrVqMzRJdDvKk)
-- Fix bug with rename catcher which allows two posts to share a guid. It caused a bug with Disqus comments. To reproduce this bug: Rename an entry. Create new entry with old name. Both entries have same GUID.
-- Fix bug with two entries with the same guid, possibly related to an entry rename event (i.e. copying the guid across). Make sure that when a rename happens, the old entry is permanently deleted and its guid cannot be reused. I imagine that WRITE foo.txt MV foo.txt bar.txt WRITE bar.txt could trigger this bug.
 
 Fix bug with .emf files in Word Document and follow up with Todd. Can we convert EMFs? Can we pass a flag to pandoc to let them deal with it? Is this just caused by Tiff files? I need a Windows machine to test this.
 

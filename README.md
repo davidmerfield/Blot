@@ -10,72 +10,30 @@ The internet <> NGINX (reverse proxy) <> Blot (express.js node application) <> R
 
 ## Development setup
 
-First, clone this repository:
+
+You will need Docker. 
+
+Once you have Docker installed and running, clone the repository:
 
 ```
 git clone https://github.com/davidmerfield/blot
 ```
 
-Then install [node version 16](https://nodejs.org/en/download/package-manager).
-
-Blot requires a number of different hosts to work (one for the dashboard, one for the CDN and many for your sites). In order to get this working in a local development environment, I recommend using [dnsmasq](https://wiki.archlinux.org/index.php/dnsmasq) to resolve everthing under the non-existent `.blot` TLD to the local machine:
-
-```
-brew install dnsmasq
-```
-
-Create config directory for dnsmasq
-
-```
-mkdir -pv $(brew --prefix)/etc/
-```
-
-Setup \*.blot in dnsmasq:
-
-```
-echo 'address=/.blot/127.0.0.1' >> $(brew --prefix)/etc/dnsmasq.conf
-```
-
-Autostart dnsmasq - now and after reboot:
-
-```
-sudo brew services start dnsmasq
-```
-
-Create resolver directory for macOS:
-
-```
-sudo mkdir -v /etc/resolver
-```
-
-Add your nameserver to resolvers:
-
-```
-sudo bash -c 'echo "nameserver 127.0.0.1" > /etc/resolver/blot'
-```
-
-Now, Blot also requires a wildcard SSL certificate so all the template preview subdomains work. First install:
-
-```
-brew install mkcert
-brew install nss
-mkcert -install
-```
-
-Then create the certificates:
-
-```
-mkdir -p ./data
-mkcert -cert-file ./data/blot.pem -key-file ./data/blot-key.pem local.blot "*.local.blot"
-```
-
-Finally, you are ready to start the development environment which uses docker-compose. The first time you run this command it will take a while to download the images and build the containers but subsequent runs will be much faster:
+Then start the server:
 
 ```
 npm start
 ```
 
-The dashboard will be available at [https://local.blot](https://local.blot) and the example site will be available at [https://example.local.blot](https://example.local.blot). You can edit the folder for the example blog inside the `data` directory:
+Before you begin working on the code, you'll need to open up the following URLs in your browser and add an exception for the self-signed SSL certificates which we've generated:
+
+```
+https://localhost/
+https://cdn.localhost/
+https://example.localhost/
+```
+
+After you've trusted the self-signed certificates, the dashboard will be available at [https://localhost](https://localhost) and the example site will be available at [https://example.localhost](https://example.localhost). You can edit the folder for the example blog inside the `data` directory:
 
 ```
 ./data/blogs/blog_$ID

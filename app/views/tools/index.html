@@ -14,6 +14,6 @@
 
 <ul class="tool-list">
   {{#tools}}
-  <li><a href="/tools/{{slug}}">{{#icon}}<img src="/tools{{{icon}}}" width="16">{{/icon}}<span class="a">{{title}}</span></a></li>
+  <li><a href="/tools/{{slug}}">{{#icon}}<img src="/tools{{{icon}}}" width="16">{{/icon}}<span class="a"><b>{{title}} {{#popular}}<span style="font-size:11px">popular</span>{{/popular}}</b><br>{{subtitle}} </span></a></li>
   {{/tools}}  
 </ul>

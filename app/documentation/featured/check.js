@@ -2,6 +2,7 @@ const fs = require("fs-extra");
 const Blog = require("models/blog");
 const User = require("models/user");
 const config = require("config");
+const flush = require("documentation/tools/flush-cache");
 
 const verifySiteIsOnline = require("./verifySiteIsOnline");
 
@@ -28,6 +29,10 @@ async function check () {
   await fs.outputJSON(config.data_directory + "/featured/featured.json", featured, {
     spaces: 2
   });
+
+  await flush();
+
+
 }
 
 async function filter (sites) {
