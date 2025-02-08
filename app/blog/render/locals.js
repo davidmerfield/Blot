@@ -5,7 +5,7 @@ var ensure = require("helper/ensure");
 
 // Recursively render all the locals in
 // the view. This is to ensure that variables
-// inside stuff like pageTitle and entry.html
+// inside stuff like entry.html
 // are replaced with the values they should.
 module.exports = function renderLocals(req, res, callback) {
   ensure(res, "object")

@@ -29,16 +29,10 @@ module.exports = function (server) {
     }
 
     Entries.getPage(blog.id, pageNo, pageSize, function (entries, pagination) {
-      var pageTitle = blog.title;
-
-      if (pageNo > 1) {
-        pageTitle = "Page " + pageNo + " of " + pageTitle;
-      }
 
       pagination.current = pageNo;
 
       res.addLocals({
-        pageTitle: pageTitle,
         entries: entries,
         pagination: pagination,
       });

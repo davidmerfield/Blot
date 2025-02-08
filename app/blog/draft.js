@@ -95,8 +95,6 @@ module.exports = function route(server) {
           entry.adjacent = !!(nextEntry || previousEntry);
 
           response.addLocals({
-            pageTitle: entry.title + " - " + blog.title,
-            pageDescription: entry.summary,
             entry: entry,
           });
 
