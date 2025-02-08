@@ -94,9 +94,7 @@ module.exports = function route(server) {
           entry.previous = previousEntry;
           entry.adjacent = !!(nextEntry || previousEntry);
 
-          response.addLocals({
-            entry: entry,
-          });
+          response.locals.entry = entry;
 
           response.renderView("entry.html", next, function (err, output) {
             drafts.injectScript(output, filePath, callback);

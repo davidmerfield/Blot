@@ -27,13 +27,11 @@ module.exports = function (server) {
 
   // 404s
   server.use(function (req, res, next) {
-    res.addLocals({
-      error: {
-        title: "Page not found",
-        message: "There is no page with this URL.",
-        status: 404,
-      },
-    });
+    res.locals.error = {
+      title: "Page not found",
+      message: "There is no page with this URL.",
+      status: 404,
+    };
 
     res.status(404);
     res.renderView("error.html", next);
@@ -81,13 +79,11 @@ module.exports = function (server) {
       err
     );
 
-    res.addLocals({
-      error: {
-        title: "Error",
-        message: "",
-        status: err.status,
-      },
-    });
+    res.locals.error = {
+      title: "Error",
+      message: "",
+      status: err.status,
+    };
 
     res.renderView("error.html", next, function (err, output) {
       if (err) return next(err);

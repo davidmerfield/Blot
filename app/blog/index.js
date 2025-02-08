@@ -9,6 +9,8 @@ var blog = express();
 
 blog.use((req, res, next) => {
   req.log = req.log || console.log;
+  res.locals = res.locals || {};
+  res.locals.partials = res.locals.partials || {};
   next();
 });
 
@@ -16,7 +18,6 @@ blog.use((req, res, next) => {
 // also handles the mapping of preview domains
 blog.disable("x-powered-by");
 blog.use(require("./vhosts"));
-blog.use(require("./add")());
 
 // Only time uncached responses
 // if (config.flags.time_response)

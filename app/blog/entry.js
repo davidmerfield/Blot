@@ -87,13 +87,9 @@ module.exports = function (server) {
             pluginHTML = "";
           }
 
-          response.addPartials({
-            pluginHTML: pluginHTML,
-          });
+          response.locals.partials.pluginHTML = pluginHTML;
 
-          response.addLocals({
-            entry: entry,
-          });
+          response.locals.entry = entry;
 
           request.log("Loaded entry");
           response.renderView("entry.html", next);

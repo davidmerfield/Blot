@@ -1,6 +1,3 @@
-const { fa } = require('faker/lib/locales');
-const { redirectSubdomain } = require('../../models/blog/defaults');
-
 describe("robots.txt", function () {
 
     require('./util/setup')();

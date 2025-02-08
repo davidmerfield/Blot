@@ -32,10 +32,8 @@ module.exports = function (server) {
 
       pagination.current = pageNo;
 
-      res.addLocals({
-        entries: entries,
-        pagination: pagination,
-      });
+      res.locals.entries = entries;
+      res.locals.pagination = pagination;
 
       req.log("Rendering entries");
       res.renderView("entries.html", next);
