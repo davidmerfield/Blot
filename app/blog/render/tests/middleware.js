@@ -12,7 +12,6 @@ var ensure = require("helper/ensure");
 var extend = require("helper/extend");
 var callOnce = require("helper/callOnce");
 var config = require("config");
-var UglifyJS = require("uglify-js");
 var CleanCSS = require("clean-css");
 
 describe("renderModule", function() {
@@ -54,7 +53,6 @@ describe("renderModule", function() {
     spyOn(ensure, 'call').and.callThrough();
     spyOn(extend, 'call').and.callThrough();
     spyOn(callOnce, 'call').and.callThrough();
-    spyOn(UglifyJS, 'minify').and.returnValue({ code: "minified js" });
     spyOn(CleanCSS.prototype, 'minify').and.returnValue({ styles: "minified css" });
   });
 
