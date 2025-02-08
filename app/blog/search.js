@@ -1,22 +1,22 @@
-module.exports = function (server) {
-  var Entry = require("models/entry");
+const Entry = require('models/entry');
+const search = require('util').promisify(Entry.search);
 
-  server.get("/search", function (request, response, next) {
-    if (request.query.q) {
-      Entry.search(request.blog.id, request.query.q, then);
-    } else {
-      then(null, []);
+module.exports = async (req, res, next) => {
+
+  let entries = [];
+
+  if (req.query.q) {
+    try {
+      entries = await search(req.blog.id, req.query.q);
+    } catch (err) {
+      return next(err);
     }
+  }  
 
-    function then(err, entries) {
-      response.addLocals({
-        query: request.query.q,
-        entries: entries || [],
-      });
+  res.locals.query = req.query.q;
+  res.locals.entries = entries || [];
 
-      // Don't cache search results until we
-      response.set("Cache-Control", "no-cache");
-      response.renderView("search.html", next);
-    }
-  });
+  // Don't cache search results
+  res.set("Cache-Control", "no-cache");
+  res.renderView("search.html", next);
 };

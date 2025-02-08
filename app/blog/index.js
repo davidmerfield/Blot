@@ -4,8 +4,7 @@ var Template = require("models/template");
 var Mustache = require("mustache");
 var fs = require("fs-extra");
 
-// This serves the content
-// of users' blogs
+// This serves the content of users' blogs
 var blog = express();
 
 blog.use((req, res, next) => {
@@ -77,7 +76,9 @@ blog.use(function (req, res, next) {
 // The order of these routes is important
 require("./draft")(blog);
 require("./tagged")(blog);
-require("./search")(blog);
+
+blog.get('/search', require('./search'));
+
 require("./robots")(blog);
 require("./view")(blog);
 require("./entry")(blog);
