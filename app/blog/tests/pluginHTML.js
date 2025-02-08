@@ -1,5 +1,3 @@
-const { enable } = require('..');
-
 describe("pluginHTML", function () {
 
     require('./util/setup')();
