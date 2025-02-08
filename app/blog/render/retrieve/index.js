@@ -45,8 +45,6 @@ module.exports = function (req, retrieve, callback) {
 
   var locals = {};
 
-  req.log("Retrieving locals");
-
   async.each(
     _.keys(retrieve),
     function (localName, nextLocal) {
@@ -66,7 +64,7 @@ module.exports = function (req, retrieve, callback) {
       });
     },
     function () {
-      req.log("Retrieved locals");
+      req.log("Retrieved all locals");
       callback(null, locals);
     }
   );
