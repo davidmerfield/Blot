@@ -16,9 +16,8 @@ var CACHE = config.cache;
 var CONTENT_TYPE = "Content-Type";
 var CACHE_CONTROL = "Cache-Control";
 
-var UglifyJS = require("uglify-js");
-var CleanCSS = require("clean-css");
-var minimize = new CleanCSS();
+const {minifyJS, minifyCSS} = require("./minify");
+const injectScreenshotScript = require("./injectScreenshotScript");
 
 var cacheDuration = "public, max-age=31536000";
 var JS = "application/javascript";
@@ -50,7 +49,6 @@ module.exports = function (req, res, _next) {
         .find((key) => key.startsWith("cf-")) !== undefined;
 
     if (callback) callback = callOnce(callback);
-
 
     Template.getFullView(blogID, templateID, name, function (err, response) {
       if (err) {
@@ -90,7 +88,7 @@ module.exports = function (req, res, _next) {
 
           // VIEW IS ALMOST FINISHED
           // ALL PARTRIAL
-          renderLocals(req, res, function (err, req, res) {
+          renderLocals(req, res, async function (err, req, res) {
             if (err) return next(ERROR.BAD_LOCALS());
 
             req.log("Loaded other locals");
@@ -103,7 +101,6 @@ module.exports = function (req, res, _next) {
             // ?debug=true _AND_ ?json=true to get template locals as JSON
             if (req.query && (req.query.debug || req.query.json)) {
               if (callback) return callback(null, res.locals);
-
               res.set("Cache-Control", "no-cache");
               return res.json(res.locals);
             }
@@ -133,11 +130,7 @@ module.exports = function (req, res, _next) {
 
             // Only cache JavaScript and CSS if the request is not to a preview
             // subdomain and Blot's caching is turned on.
-            if (
-              CACHE &&
-              !req.preview &&
-              (viewType === STYLE || viewType === JS)
-            ) {
+            if (CACHE && !req.preview && (viewType === STYLE || viewType === JS)) {
               res.header(CACHE_CONTROL, cacheDuration);
             }
 
@@ -152,87 +145,23 @@ module.exports = function (req, res, _next) {
                 .split(config.cdn.origin)
                 .join(config.cdn.origin.split("https://").join("http://"));
 
-                // if the request is for the index page of a preview site,
-                // inject the script to generate a screenshot of the page
-                // on demand
+            // if the request is for the index page of a preview site,
+            // inject the script to generate a screenshot of the page
+            // on demand
+            if (req.preview && viewType === "text/html" && req.query.screenshot) {
+              output = injectScreenshotScript({output, protocol: req.protocol, hostname: req.hostname, blogID});
+            }
 
-                const screenshotScripts = `
-                <script src="/html2canvas.min.js"></script>
-<script>
-function generateScreenshot(scale = 0.4) {
-  // Get the current viewport dimensions
-  const viewportWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
-  const viewportHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
-
-  html2canvas(document.body, {
-      width: viewportWidth,
-      height: viewportHeight,
-      windowWidth: viewportWidth,
-      windowHeight: viewportHeight,
-      x: 0,
-      y: 0,
-      logging: false,
-      useCORS: false,      
-  }).then(fullCanvas => {
-
-
-    const thumbnailCanvas = document.createElement('canvas');
-    const thumbnailContext = thumbnailCanvas.getContext('2d');
-    thumbnailCanvas.width = viewportWidth * scale;
-    thumbnailCanvas.height = viewportHeight * scale;
-    thumbnailContext.drawImage(fullCanvas, 0, 0, viewportWidth * scale, viewportHeight * scale);
-
-      const thumbnailDataUrl = thumbnailCanvas.toDataURL('image/png');
-
-      window.parent.postMessage({ type: 'screenshot', screenshot: thumbnailDataUrl }, '*');
-  }).catch(error => {
-    window.parent.postMessage({ type: 'screenshot', screenshot: '' }, '*');
-  });
-}
-
-
-window.addEventListener('message', (event) => {
-  if (event.data && event.data.type === 'requestScreenshot') {
-      generateScreenshot();
-  }
-});
-</script>`;
-
-    if (req.preview && viewType === "text/html" && req.query.screenshot) {
-      
-      // replace all URLs with the CDN URL with the local URL
-      // so we have no cross-origin issues
-      output = output.split(config.cdn.origin + '/' + req.blog.id).join(req.protocol + '://' + req.hostname);
-    
-      output = output
-        .split("</body>")
-        .join(screenshotScripts + "</body>");
-    }
-
-
-            // I believe this minification
-            // bullshit locks up the server while it's
-            // doing it's thing. How can we do this in
-            // advance? If it throws an error, the user
-            // probably forgot an equals sign or some bs...
-            try {
-              if (viewType === STYLE && !req.preview) {
-                req.log("Minifying CSS");
-                output = minimize.minify(output || "").styles;
-              }
-                
-              if (viewType === JS && !req.preview) {
-                req.log("Minifying JavaScript");
-                output = UglifyJS.minify(output, { fromString: true }).code;
-              }
-            } catch (e) {}
-
-            if (res.headerSent) {
-              console.log(
-                "headerSent about to trip for",
-                req.headers["x-request-id"] && req.headers["x-request-id"],
-                req.protocol + "://" + req.hostname + req.originalUrl
-              );
+            if (viewType === STYLE && !req.preview) {
+              req.log("Minifying CSS");
+              output = minifyCSS(output);
+              req.log("Minified CSS");
+            }
+              
+            if (viewType === JS && !req.preview) {
+              req.log("Minifying JavaScript");
+              output = await minifyJS(output);
+              req.log("Minified JavaScript");
             }
 
             try {

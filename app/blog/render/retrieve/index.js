@@ -61,6 +61,7 @@ module.exports = function (req, retrieve, callback) {
 
         if (value !== undefined) locals[localName] = value;
 
+        req.log("Retrieved local", localName);
         return nextLocal();
       });
     },
