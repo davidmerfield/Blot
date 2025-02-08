@@ -22,4 +22,4 @@ jobs:
 
       # Step 3: Run the benchmark
       - name: Run tests
-        run: npm test app/helper
+        run: npm run benchmark
