@@ -6,7 +6,7 @@ describe("errors", function () {
 
     it("returns a nice error when the template does not exist", async function () {
 
-        await this.blog.update({template: ''})
+        await this.blog.update({template: 'INVALID'})
 
         const res = await this.get('/');
         const body = await res.text();
