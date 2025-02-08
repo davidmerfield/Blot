@@ -8,6 +8,17 @@ echo "Running benchmark with threshold $THRESHOLD seconds"
 # Start time
 START_TIME=$(date +%s.%N)
 
+# Get the path to the directory which contains this script
+TESTS_DIR=$(dirname "$0")
+
+echo "Running tests in path: $TESTS_DIR"
+
+# If the file tests.env does not existing the parent directory of the tests directory, then create it
+if [ ! -f "$TESTS_DIR/../test.env" ]; then
+  echo "Creating test.env file in the parent directory of the tests directory..."
+  touch "$TESTS_DIR/../test.env"
+fi
+
 # Run the tests in the specified path using docker-compose
 docker-compose -p blot-benchmark -f tests/benchmark/docker-compose.yml up --build --abort-on-container-exit --remove-orphans
 
