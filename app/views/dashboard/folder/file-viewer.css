@@ -166,6 +166,7 @@ a.template-button.file-helper span {margin-left: 0.5em;}
   display: block;
 }
 
+
 .file-info:after,
 .file-info:before,
 .entry-info:after,
@@ -271,3 +272,14 @@ a.template-button.file-helper span {margin-left: 0.5em;}
               overflow: visible;
               box-shadow: -10px 0 10px var(--background-color);
             }
+
+.entry-info td pre {
+  margin-right: 6rem;
+  text-wrap: wrap;
+  border: 1px solid #eeeeec;
+  border-radius: 4px;
+  overflow-x: auto;
+  background: #fbfbfb;
+  font-size: .9em;
+  padding: 3px 6px;
+}
