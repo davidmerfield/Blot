@@ -10,6 +10,8 @@ module.exports = async function (req, res, next) {
     // Also global colors etc...
     if (!req.blog.template) return next();
 
+    req.log("Loading template", req.blog.template);
+    
     let metadata;
 
     try {

@@ -1,8 +1,24 @@
 describe("errors", function () {
 
     const config = require('config');
+    const {set} = require('models/redirects');
+    const promisify = require('util').promisify;
 
+    const setRedirects = promisify(set);
+    
     require('./util/setup')();
+
+    it("redirects when a redirect is set", async function () {
+
+        await setRedirects(this.blog.id, [{from: '/redirect', to: '/'}]);
+
+        const res = await this.get('/redirect', {redirect: 'manual'});
+        const body = await res.text();
+        const location = res.headers.get('location');
+        expect(res.status).toEqual(301);
+        expect(body).toContain('Redirecting to /');
+        expect(location).toEqual('/');
+    });
 
     it("returns a nice error when the template does not exist", async function () {
 
