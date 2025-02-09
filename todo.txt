@@ -1,3 +1,7 @@
+Investigate issues cancelling subscription in production
+
+Investigate issues using git in production
+
 Work out why changes to documentation do not make it into production
 
 Fix local template editing bug 
@@ -127,6 +131,8 @@ Make it possible to embed the HTML output of markdown files using Obsidians embe
 ---
 
 Clamp length of password and email address in log in and sign up and reset forms
+
+Migrate [Stripe library to v7](https://github.com/stripe/stripe-node/wiki/Migration-guide-for-v7)
 
 Fix issue with Google Drive
 
