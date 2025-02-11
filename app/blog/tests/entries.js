@@ -74,7 +74,7 @@ describe("entries", function () {
                 expect(body).not.toContain('Next');
                 expect(body).toContain('Prev');
                 expect(body).toContain(`Hello, ${(i - 1) * 3 + 1}!`);
-            } if (i === 1) {
+            } else if (i === 1) {
                 expect(body).toContain(`Hello, ${(i - 1) * 3 + 1}!`);
                 expect(body).toContain(`Hello, ${(i - 1) * 3 + 2}!`);
                 expect(body).toContain(`Hello, ${(i - 1) * 3 + 3}!`);    
