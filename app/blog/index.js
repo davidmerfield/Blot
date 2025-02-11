@@ -31,7 +31,9 @@ blog.get('/search', require('./search'));
 require("./robots")(blog);
 require("./view")(blog);
 require("./entry")(blog);
-require("./entries")(blog);
+
+blog.get("/page/:page_number", require("./entries"));
+blog.get("/", require("./entries"));
 
 blog.use(require("./assets"));
 blog.use('/random', require('./random'));
