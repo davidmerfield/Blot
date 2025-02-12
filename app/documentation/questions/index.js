@@ -291,9 +291,12 @@ Questions.route("/:id").get(async (req, res, next) => {
 });
 
 Questions.get(
-  ["/tagged/:tag", "/tagged/:tag/page-:page"],
+  ["/tagged", "/tagged/:tag", "/tagged/:tag/page-:page"],
   async (req, res, next) => {
     // Pagination data
+
+    if (!req.params.tag) 
+      return res.redirect(req.baseUrl + "/tags");
 
     if (req.params.page === "1")
       return res.redirect(req.baseUrl + `/tagged/${req.params.tag}`);
@@ -309,12 +312,11 @@ Questions.get(
       return next();
     }
 
-    res.locals.breadcrumbs = res.locals.breadcrumbs.filter(
-      (x, i) => i !== res.locals.breadcrumbs.length - 2
-    );
     res.locals.prettyTag = lookup(tag);
-    res.locals.breadcrumbs[res.locals.breadcrumbs.length - 1].label =
-      lookup(tag);
+    res.locals.breadcrumbs = res.locals.breadcrumbs.slice(0, 1).concat({
+      label: lookup(tag),
+      url: "/questions/tagged/" + tag
+    });
 
     const { questions, stats } = await list({ tag, page });
 
