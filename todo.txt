@@ -1,9 +1,3 @@
-Add more efficient popular_tags method
-- add new properties to underlying model
-
-Move docker logs to /var/ssd/logs
-- Ensure there is rotation for the docker log 
-
 Fix bugs with template engine:
 - Fix local template editing bug 
   - tell [Darren](https://mail.google.com/mail/u/1/#inbox/FMfcgzQXJkXrrLBdCgVqnZppnbwHMgjx)
@@ -14,6 +8,7 @@ Fix bugs with template engine:
   - Fix bug with title and partials in local editing then tell [Luke](https://mail.google.com/mail/u/1/#inbox/164afa87ede57db7) and [Frank](https://mail.google.com/mail/u/1/#inbox/164ae2e3789b8d4c)
 - Fix bug with template editor which resets content of a view. Follow up with [Nathan](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLhgJQTTQZvpsxJDBgnNQpJnJ) who has extensive steps to reproduce, and John
 - Make it possible to rename template directories and tell [Darren](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwHxvsmgwbnxLbDMNDplTLltlc)
+- Make it possible to rename locally edited template folder and tell [questioner](https://blot.im/questions/1610)
 - Fix bug not exposing issue with invalid JSON in package.json for locally-edited template on dashboard and tell [Jason](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKjndBRlNNjZtlddcVVfFWVBbg)
 - Investigate bug with template views whose names include hashtags and follow up with [Jay](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqPzMvLDJBfbNfLzpkKDzmZSNt)
 - Fix bug with undeleteable template files prefixed with dot and tell [Stuart](https://mail.google.com/mail/u/0/?zx=j8rkxjpin0du#inbox/FMfcgzGqRZbhWzrwNrgrFLQBBDWBzhxL)
@@ -25,6 +20,16 @@ Fix bugs with template engine:
 - Fix date selector for template and tell [Zach](https://mail.google.com/mail/u/0/#inbox/FMfcgzGxTFSjkTvfDRgNHZwSQqDzWKFB)
 - Fix bug with forking / editing new templates
 - Fix missing 'views' property of templates in package.json after downloading a template through the web template editor.
+- Tell [Jarrod](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrbRSDCZqMwzjDdqdGCkScxpsw) when local template folders better reflect template names
+- Add new template lambdas
+  - Whitespace trimming and tell [Chad](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChmTsrnBLkSXfNXKDtXdNFjfk)
+  - Number formatting (e.g. add commas to int.) and tell [Chad](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChmTsrnBLkSXfNXKDtXdNFjfk)
+
+Add more efficient popular_tags method
+- add new properties to underlying model
+
+Move docker logs to /var/ssd/logs
+- Ensure there is rotation for the docker log 
 
 Right now changes to documentation CSS do not make it into production:
 - stale servers serve the old CSS 
@@ -37,7 +42,6 @@ Change dashboard cookies: Set-Cookie: mycookie=value; Path=/; SameSite=Lax; Secu
 Write tests for animated gif thumbnail
 
 ---
-
 
 Investigate issues using git in production
 
@@ -127,6 +131,7 @@ Improvements to template engine
 - Work out why rebuilding template from folder clears cache even if the template is not changed
   - stop this
 - Make template slug seperate from the template ID, simply for human readability
+- Tell [bukit](https://mail.google.com/mail/u/0/#inbox/FMfcgzGtwqMCsWCjhPcWpPszlZhtqNnM) when it's possible to change the URL of the /tagged/x pages in the template engine
 - Investigate performance of rich text editor in Safari on template editor and follow up with [Rachel](https://mail.google.com/mail/u/1/#inbox/FMfcgzQXKNFKbzhWFnsgQrBBfGqZNMhL)
 - Make it possible to change URL of tagged pages and tell [Jarrod](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqQvxkjzVJFTpMQSNJRzptKkdH)
 - Add blog.statistics and entry.statistics (total words, etc.) and tell [Pratik](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmtDzMRWDrnBcZmXBmCWtvbwJD)
@@ -157,6 +162,7 @@ com/mail/u/0/#inbox/1588e3df7489b554)
 - Add dynamic querying of entry list and tell [Naoki](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMjtCWmHCBZWsVPTCftbQCZTn)
 - Fix bug with filtering paginated list of entries and tell [Roy](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVgrQJWNPHHvdxnMtWCGJkZdM) and [Josh](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVzrFNFzLzbWrssWzbrSvtpTm) and [Logan](https://twitter.com/LoganGreer)
 - Add a popular entry list
+- Add way to auto-refresh page during template development on preview subdomains. Tell [Ryan](https://mail.google.com/mail/u/1/#inbox/FMfcgxwBVDHXWxBGqwNlmsmgZjbnHXvg)
 - Add a related entry list and tell [Thomas](https://mail.google.com/mail/u/0/#inbox/156dbe97153fab61) and [questioner](https://blot.im/questions/1484)
 - Add way to list files at a path and tell [Matt](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqxRmLMrTjjpjftkSwddPJkTm) and [Daisy](https://mail.google.com/mail/u/1/#inbox/FMfcgzQXJkVbjxQbLgTRTJrhGtjBblCP)
 - General:
@@ -168,9 +174,36 @@ com/mail/u/0/#inbox/1588e3df7489b554)
   - Add webfont uploader
   - Generate favicons of different sizes from uploaded image
 - Fix bug with template tags in blog post and tell [Shibel](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgCJQhBZwgzQVLkKHnwPKVkFC)
+- Re-enable partial templates in posts/pages
+  - Tell [Matt](https://mail.google.com/mail/u/0/#inbox/FMfcgzGpGwrFkhsBptjFjjmRcNHSBsGX)
+- Add pagination to archives and tagged pages on default templates using a new tag
+- Inject title metadata into h1 tag for all the text-based default templates and tell [questioners](https://blot.im/questions/795)
+- Add 'download as zip' option to template editor
+- Create starter kits for each template
+  - e.g. a starter kit on the blog template for a writer, or a photographer, or a journalist, or an academic.
+  - these could be downloaded as folders on the template page?
+  - Get [David](https://mail.google.com/mail/u/0/#inbox/FMfcgzGpGnDfkQbzQqMVDndbNVzwCWZC)'s feedback when one exists for writers
+- Create an index of customer-created templates and add [Matt's theme](https://www.mattlangford.com/kalena-template-for-blot)
+- Add 'Hidden: yes' metadata to replace 'Menu: no' and tell [Sebastien](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmvTstgvzhzNkPFXdgStpTJvrN)
+- Add method to merge updates into custom templates and tell [Dave](https://mail.google.com/mail/u/0/#inbox/FMfcgzGpGnDfkQbzQqMVDndbNVzwCWZC)
+- Redirect URLs with trailing slash when possible (i.e. not directory browsing) to [fix possible duplicate content penalties](https://moz.com/community/q/duplicate-content-with-a-trailing-slash) and tell [Marius](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKkHhPFPKFBzQjQQHwlrRWwbKq)
+  - Add rel=canonical to all the default templates, or fix the issue that Blot serves the same thing to URLs with a trailing slash, and without. 
+  - If we do add rel=canonical, make sure to consider the situation where someone mounts a page to the index of their site, e.g. /page/1 and / will now be different.
+- add support for dynamic partials to make collections possible, e.g. {{> /:tag.html}} ?
+- Add neat interface to customize blog level variables?
+- How do we transition from a global date display format to one that templates have control over?
+- Consider making file-based template directory a git repo and using this to implement basic undo-redo functionality.
+- Disable re-rendering for locals
+- Add better customization options
+- Local template editing does not clear cache
+- Use Hogan for precompiling and rendering templates for performance?
+- Parse tokens and params from routes and tell [Jason](https://mail.google.com/mail/u/1/#inbox/163186d43aaf52af)
+- Add way to allow all entry lists to access {{#months}} sorting options just like the archives page.
+- Tell [Marco](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNWCgxHCttPshJRSPCMTPffMP) when arbirary list sorting is ready
+- Fix [Frank](https://mail.google.com/mail/u/0/1527fbcf999ba0c3)'s strange template bug
+- Add support for fetching only some properties of an entry (ideally only those that are used). prevent some properties from being fetched in some lists (html, for example in all_entries). Would be a good candidate for hgetall or hget?
+- Incorporate some of [notebook](https://github.com/WesleyAC/notebook)'s features in a template
 
-
-Add pagination to archives and tagged pages on default templates using a new tag
 
 For broken embedded images, attempt to resolve based on a shortest path approach, as in, traverse the folder and attempt to find an image with a matching name
 - Tell [Ellane](https://mail.google.com/mail/u/0/#inbox/QgrcJHsbgZwttcPcXCvTnzchwRZxCNXhQgq)
@@ -397,6 +430,8 @@ Fix bug with [header position on the blog template](https://blot.im/questions/22
 - Image
   - mobile
   - rename from photo
+- Make 'close' button on entry permalink page of reference template work like the photo template and tell [Marco](https://mail.google.com/mail/u/0/#inbox/FMfcgzGsmNSSSRKHnlgCBllnqJCcPhxD)
+- Add [scrubbing pagination to images template](https://jsfiddle.net/tdnc28vm/1/)
 
 Re-attempt iCloud support
 - Be clear it's UNOFFICIAL
@@ -432,7 +467,6 @@ Improvements to website:
   - do this as a marketing strategy, e.g. target 'blog with microsoft word', 'blog with google docs', 'blog with ia writer' etc... contact the people who make text editors and ask them to link to us?
 - Personalize the documentation for logged in customers
 - Add [contributor](https://api.github.com/repos/davidmerfield/blot/contributors) / [language](https://api.github.com/repos/davidmerfield/blot/languages) and repo information to source code page using GitHub API.
-Add a 'Create template' button to dashboard and tell [Shawn](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJckGSfncqlFWBtFRHwfVTFDv)
 - Add upload to dashboard
   - Drag and drop 
 - Add ‘open folder on drive’ link to Client settings page. Same for Dropbox
@@ -463,9 +497,6 @@ Final polish on stats dashboard
 Purge old docs CSS and JS from CDN storage cache
 
 Make sure main server can hard restart without issue
-
-Experiment with ways to map folder structure to template navigation
-- follow up with Misho
 
 Data use minimization:
 - Write automated script to archive overdue blogs from disk and db
@@ -559,13 +590,10 @@ Follow up with [Tim](https://mail.google.com/mail/u/0/#inbox/FMfcgzGtwCvckCnTJHx
 
 Work out why we get a 'Zombie process' notification email every morning at 9:05am – now 8:05am it seems the process hangs
 
-Make 'close' button on entry permalink page of reference template work like the photo template and tell [Marco](https://mail.google.com/mail/u/0/#inbox/FMfcgzGsmNSSSRKHnlgCBllnqJCcPhxD)
 
 Wikilinks should have a class property of 'wikilink' rather than a title attribute and tell [questioner](https://blot.im/questions/39)
 
 ---
-
-Tell [bukit](https://mail.google.com/mail/u/0/#inbox/FMfcgzGtwqMCsWCjhPcWpPszlZhtqNnM) when it's possible to change the URL of the /tagged/x pages in the template engine
 
 Wikilinks should have a class property of 'wikilink' rather than a title attribute and tell [questioner](https://blot.im/questions/39)
 
@@ -578,8 +606,6 @@ Resolve issue with [Stephen's large blog](https://mail.google.com/mail/u/0/#inbo
 - It also seems like server crashes when a massive google drive folder is synced, with a directory containing 6772 items
 
 Add lazy loading option to image settings and tell [questioner](https://blot.im/questions/1806)
-
-Make it possible to rename locally edited template folder and tell [questioner](https://blot.im/questions/1610)
 
 ---
 
@@ -707,8 +733,6 @@ Add way to restore a blog from export
 
 Add way to escape commas in tags and [tell questioner](https://blot.im/questions/1431)
   
-Add way to expose template build metadata errors on dashboard
-
 ---
 
 Investigate ignored files situation
@@ -737,18 +761,11 @@ Add 'confirm email address' flow to prevent typos in emails
 
 Add simple form endpoint, could be used for contact forms
 
-Add a 'light local server' for template development which zips then posts template files to Blot's endpoint for live-auto updating previews for a given blog – there would need to be authentication with a one-time pass
-- some blogs could be used unauthenticated
-
-Add a bootswatch template and [tell Michael](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqRQBnhffbhgdVXCMpzGpbJgbW)
-
 Add theme with photoswipe and use sharp's tile generation feature along with 
 
 Add `Ignore: yes` metadata to trigger the ignored file behaviour
 
 Add [hot reload for preview subdomains](https://blot.im/questions/832)
-
-Tell [Jarrod](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrbRSDCZqMwzjDdqdGCkScxpsw) when local template folders better reflect template names
 
 Add way to set the slug-part of a URL for a post and tell [George](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsdBjKHPdsRXJBGSbxpQQCbCN) and follow up for [post in Questions](https://blot.im/questions/23) and tell [Jarrod](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqQcpsRhzFwxVGFJLLTRsFFGKj)
 
@@ -771,18 +788,14 @@ Add support for new formats:
 
 ---
 
-Add 'download as zip' option to template editor
 
 Explain that the git client uses the master branch and repos from github will use main in the docs and on the dashboard then tell [N](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqPzKcnQKsQQNkzcRpvCWpWKTr)
-
-Inject title metadata into h1 tag for all the text-based default templates and tell [questioners](https://blot.im/questions/795)
 
 Send out cancellation confirmation emails with option to give feedback
 - auto-refund people who immediately close their account after signing up
 
 Get to the bottom of the slow cloudflare issue and follow up with [Wen](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqPzBWZcLJcwtWTXTbQjMbVrZB)
 
-Add [scrubbing pagination to images template](https://jsfiddle.net/tdnc28vm/1/)
 
 Git client improvements:
 - Surface status of git client intialization when you first set up your blog on the git client. 
@@ -791,9 +804,6 @@ Git client improvements:
 
 --
 
-Re-enable partial templates in posts/pages
-- Tell [Matt](https://mail.google.com/mail/u/0/#inbox/FMfcgzGpGwrFkhsBptjFjjmRcNHSBsGX)
-
 Add tag to iterate over all images in a folder and tell [Laurel](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmvBwZtktzGVFtcfDWbGZKhsfh)
 
 Fix bug with Work out why Pandoc cannot handle 'linked' images (instead of conventionally embedded images). For instructiosn on reproducing bug, see [SG's email](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLhcqMVrZbNlKTcVmxVHwRmJC) and follow up when resolved.
@@ -801,21 +811,6 @@ Fix bug with Work out why Pandoc cannot handle 'linked' images (instead of conve
 Fix bug with tags that contain slashes and tell [Jack](https://mail.google.com/mail/u/0/#inbox/FMfcgzGpFgzpsCkCMGqnClfqMkWZqNNz)
 
 ---
-
-Determine why we get zombie processes after running reload server script.
-
-Create starter kits for each template
-- e.g. a starter kit on the blog template for a writer, or a photographer, or a journalist, or an academic.
-- these could be downloaded as folders on the template page?
-- Get [David](https://mail.google.com/mail/u/0/#inbox/FMfcgzGpGnDfkQbzQqMVDndbNVzwCWZC)'s feedback when one exists for writers
-
-Create an index of customer-created templates and add [Matt's theme](https://www.mattlangford.com/kalena-template-for-blot)
-
-Add 'Hidden: yes' metadata to replace 'Menu: no' and tell [Sebastien](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmvTstgvzhzNkPFXdgStpTJvrN)
-
----
-
-Add method to merge updates into custom templates and tell [Dave](https://mail.google.com/mail/u/0/#inbox/FMfcgzGpGnDfkQbzQqMVDndbNVzwCWZC)
 
 Improve backlink's tolerance
 - Add support for full qualified URLs in the backlinks list for each entry. For example, if your blog is example.com, the following link will not appear as an internal link: [Foo](https://example.com/foo) because build/prepare/internalLinks is not aware of the blog domain/handle 
@@ -1020,10 +1015,6 @@ Improve questions section of site, in approximate order of importance:
 
 ---
 
-Redirect URLs with trailing slash when possible (i.e. not directory browsing) to [fix possible duplicate content penalties](https://moz.com/community/q/duplicate-content-with-a-trailing-slash) and tell [Marius](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKkHhPFPKFBzQjQQHwlrRWwbKq)
-- Add rel=canonical to all the default templates, or fix the issue that Blot serves the same thing to URLs with a trailing slash, and without. 
-- If we do add rel=canonical, make sure to consider the situation where someone mounts a page to the index of their site, e.g. /page/1 and / will now be different.
-
 Add way to nest tags / hierarchy for tags and tell [Uzoamaka](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsJwTqFWjRgHLhPXJgBtnGwJJ)
 
 Adjust the chargeForRemaining function in create-blog such that the balance is added or deducted from the proration charge.
@@ -1065,7 +1056,6 @@ Re-send receipt when the customer changes their email after initial payment, pre
 - Once stripe allows programmatic receipt delivery
 
 Improvements to entry builder
-- Adjust title metadata extractor to fallback to file name rather than first sentence of file if the post does not contain a title tag. The current behaviour has suprised a number of people. If this breaks [John's template](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMjqlPTxhSXLNBDCmqXLQHdvX) create new first_sentence property of entry to use on the template.
 - Fix bug with slashes in tags and tell [Dave](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMjqlPTzJxBPcQPnGsQsPSsvh)
 - Generate a list of titles which you could use to generate a table of contents and tell [Zach](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDNNMjbjsSKltGRLDsqXfbMhN)
 - Use time draft was moved into blog folder for entry created/publish date, rather than the time the draft file itself was created. Tell [Kerim](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrHtwmLGkWLvLfklMwRRqDpTk) and [Shibel](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDWsqhHZnPjfgRqFhpdNGZVKn)
@@ -1094,17 +1084,6 @@ is happening before doing this.
 
 Add password protection for blogs then tell [Ed](https://mail.google.com/mail/u/1/#inbox/164edd9d46596ec7), [this person](https://mail.google.com/mail/u/0/#inbox/155f01452a3f7231), [this person](https://mail.google.com/mail/u/1/#inbox/1645b6e48dc13281), and [Will](https://mail.google.com/mail/u/0/#inbox/FMfcgzGlkXsdBcCssKznzgvJQPDQpKlh), and [Modomiro](https://twitter.com/modomiro/status/1053345173743329281) and [Julian](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpVWqGMHszwgxZRxNTNXRTlX) and [Raph](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgzFTCKQXQmQqdNMdjMfDFkMW) and [Jeremy](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmvTvDjVMLQQmxvnZHBnnxdRpk) and [Tara](https://mail.google.com/mail/u/0/#sent/FMfcgxwChJlBCNMWSFhSctjMkBcKdpsq) and [Phil](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChSHbCCgQqZqqKQftJbwHRkss) and [Florian](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrlSVCrQSVMBlFwQcNcGfZLzn) and Roy's friend Tim and [Kaleb](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDNWPljXXlwQVtswFCCLGFCQV) and [Lotus](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDNQfSzPBHtqRCQqCDjMTZLCQ) and [Khaled](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMGBFrctdVXhksCvqXXVPfDWR) and [Noel](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNMdwcwMqfVjmJPHKBMxzQChR) and [Franz](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJXVMfwXfsWswWjvrpVKrPqpDt) and [Justin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKjBRFjtljCQvlhsfXsSxrCKdJ) and [Kyle](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKkHZVgwCNwsdlhdzCggRtsRhN) and [Devan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsJznDjRgbzwPmChbNQdqfnfq) and [John](https://mail.google.com/mail/u/0/?zx=bjx0x027sgct#inbox/FMfcgzGqQvvRpSrnkRNsrhddkzBhMsvf) and [Anita](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsSWMtCTdmrbscFCFLggctmxH) and [Emerald](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLtkXpvTkdGzkFCLtmmLTlvrJL) and [Ben](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmvBmLLlZwPLbdJdXKQXrwrJnL) and [Giuseppe](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmvBnTWqHgFgdwBvcCDcmzLXGV) and [Annie](https://mail.google.com/mail/u/0/?zx=j8rkxjpin0du#inbox/FMfcgzGqRQCwsXBNDJqLjDnJrjGmctdJ) and [Jan](https://mail.google.com/mail/u/0/?zx=j8rkxjpin0du#inbox/FMfcgzGqRPzfVlDPLLjkqCfnBWqmVqKg)
 - Should we just go all the way and support htaccess? Add URL rewrite feature, e.g. rewrite /randomColor to /public/randomColor?
-
-Finish template translation offers
-- [Anders Norén](https://www.andersnoren.se/teman/)
-- [Radek Kozieł](https://github.com/panr)
-- Port [Jane hugo theme](https://github.com/xianmin/hugo-theme-jane) to Blot and tell Jack and Josh on micro.blog
-- [Ghostwriter](https://themes.gohugo.io/ghostwriter/) and tell [Simon](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsScxfcHPpszsvCwTxqwbczTm)
-- Work on [Tim](https://mail.google.com/mail/u/0/#inbox/QgrcJHsNmtgTlZpGFBGxzhPSDHVNczfwqXL)'s template 
-- Translate [this theme](https://github.com/huangyz0918/moving) to Blot and tell [Naveen](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJZlmGfwNKCPLPMbkRHJSjNs)
-- Translate [Ana's](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqTgjDcQwDdcmTkgjjKTdQhQV) designs to Blot
-- Translate [2019](https://themes.gohugo.io/twentynineteen-hugo/) to Blot and tell [Gabriel](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrHqTkZhqhrFllhNGrbzwXqzg)
-- Translate [Paul's template into Blot](https://blot-im.slack.com/messages/DJ39G5WQ0/)
 
 ---
 
@@ -1135,9 +1114,19 @@ Add support for Ulysses .ulz file format and tell [Nash](https://mail.google.com
 
 Add support for Ulysses image syntax and tell [Konstantin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMsRmxKrQzmjmcxnBTqQKHvzj)
 
-Add new template lambdas
-- Whitespace trimming and tell [Chad](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChmTsrnBLkSXfNXKDtXdNFjfk)
-- Number formatting (e.g. add commas to int.) and tell [Chad](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChmTsrnBLkSXfNXKDtXdNFjfk)
+Finish template translation offers
+- [Anders Norén](https://www.andersnoren.se/teman/)
+- [Radek Kozieł](https://github.com/panr)
+- Port [Jane hugo theme](https://github.com/xianmin/hugo-theme-jane) to Blot and tell Jack and Josh on micro.blog
+- [Ghostwriter](https://themes.gohugo.io/ghostwriter/) and tell [Simon](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsScxfcHPpszsvCwTxqwbczTm)
+- Work on [Tim](https://mail.google.com/mail/u/0/#inbox/QgrcJHsNmtgTlZpGFBGxzhPSDHVNczfwqXL)'s template 
+- Translate [this theme](https://github.com/huangyz0918/moving) to Blot and tell [Naveen](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJZlmGfwNKCPLPMbkRHJSjNs)
+- Translate [Ana's](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqTgjDcQwDdcmTkgjjKTdQhQV) designs to Blot
+- Translate [2019](https://themes.gohugo.io/twentynineteen-hugo/) to Blot and tell [Gabriel](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrHqTkZhqhrFllhNGrbzwXqzg)
+- Translate [Paul's template into Blot](https://blot-im.slack.com/messages/DJ39G5WQ0/)
+- Add a bootswatch template and [tell Michael](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqRQBnhffbhgdVXCMpzGpbJgbW)
+- Port the jekyll template [Neocactus](https://github.com/mmarfil/neocactus/) to Blot and document the process
+  then tell [Robert](https://mail.google.com/mail/u/1/#inbox/16288ce117d980e4)
 
 Add way to filter archives page by year or month and tell [Chad](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChmTsrnBLkSXfNXKDtXdNFjfk)
 
@@ -1178,8 +1167,6 @@ Improve 404 log page on Dashboard
 - Add button to clear 404 log and tell [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDLzTVpVZHfgwRgcmtGXFHXx)
 - Add frequency indicator for each route 404 log and tell [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDLzTVpVZHfgwRgcmtGXFHXx)
 - Add filtering by date to 404 log and [tell this person](https://mail.google.com/mail/u/0/#inbox/1566e52d170f29ca)
-
-Add way to auto-refresh page during template development on preview subdomains. Tell [Ryan](https://mail.google.com/mail/u/1/#inbox/FMfcgxwBVDHXWxBGqwNlmsmgZjbnHXvg)
 
 Add support for nesting multiple layout tags e.g. "{<>} {||} Y" and tell [Marius](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVqNqbsQJjcrTXRcsFxHVPzDq)
 
@@ -1339,27 +1326,10 @@ Write self-hosting documentation then tell [Jake](https://mail.google.com/mail/u
 
 Add option to sort posts by filename alphabetically and tell [Steve](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJXpTLwnKwSRTFKRqXKNgQkFDv)
 
-- How do we share info, like a link on a menu, or a header image across templates? Could there be a shared info repository that templates could access?
-- add support for dynamic partials to make collections possible, e.g. {{> /:tag.html}} ?
-- Add neat interface to customize blog level variables?
-- How do we transition from a global date display format to one that templates have control over?
-- Port the jekyll template [Neocactus](https://github.com/mmarfil/neocactus/) to Blot and document the process
-  then tell [Robert](https://mail.google.com/mail/u/1/#inbox/16288ce117d980e4)
-- Install and test a few of these [static site generators](https://news.ycombinator.com/item?id=17942395)
-- Make templates file or folder based
-- Consider making file-based template directory a git repo and using this to implement basic undo-redo functionality.
-- Disable re-rendering for locals
-- Add better customization options
-- Local template editing does not clear cache
-- Use Hogan for precompiling and rendering templates?
-- Parse tokens and params from routes and tell [Jason](https://mail.google.com/mail/u/1/#inbox/163186d43aaf52af)
-- Add way to allow all entry lists to access {{#months}} sorting options just like the archives page.
-- Tell [Marco](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNWCgxHCttPshJRSPCMTPffMP) when arbirary list sorting is ready
-- Fix [Frank](https://mail.google.com/mail/u/0/1527fbcf999ba0c3)'s strange template bug
-- Warn customers that underscore will not work for hidden pages
+Hidden posts:
 - Fix _ entries to true public files, tell john & other folks who depend on the menu: yes, page: no side effect
+- Warn customers that underscore will not work for hidden pages
 - Tell [Rodrigo](https://mail.google.com/mail/u/0/#inbox/1564a13991197f63) don't write previews for _ posts
-- Add support for fetching only some properties of an entry (ideally only those that are used). prevent some properties from being fetched in some lists (html, for example in all_entries). Would be a good candidate for hgetall or hget?
 
 Embed feature
 - Add support for native PDF embeds in posts, just put a link to a PDF or a path, e.g. /_assets/file.pdf --> would become a nice embed.
@@ -1444,8 +1414,6 @@ Consider adding support for nested page structure
 
 Consider adding a global 'ignore' setting on services page of dashboard?
 - could ignore all '.jpg' say, or all 'index.html' files, etc.
-
-Reach out to Wesley about using [notebook](https://github.com/WesleyAC/notebook)'s features in a template
 
 Consider adding a {{titleLink}} property to each entry, which extracts a link from the {{titleTag}} for use in RSS feeds, etc. and tell [Guy](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGBwTplWfqwxrlPtkQsbjddSfl)
 
