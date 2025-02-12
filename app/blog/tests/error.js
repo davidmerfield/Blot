@@ -32,6 +32,19 @@ describe("errors", function () {
         expect(body).toContain('Cannot GET /');
     });
 
+
+    it("returns a nice error when the blog has no template", async function () {
+
+        await this.blog.update({template: ''})
+
+        const res = await this.get('/');
+        const body = await res.text();
+
+        expect(res.status).toEqual(404);
+        // todo: improve this error message
+        expect(body).toContain('Cannot GET /');
+    });
+
     it("returns a nice error when the template has an issue and the request is on a preview domain", async function () {
 
         await this.template({

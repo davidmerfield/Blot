@@ -1,8 +1,8 @@
 describe("pluginHTML", function () {
 
     require('./util/setup')();
-
-    // this is designed to prevent search engines from indexing the blog twice
+    const config = require('config');
+    
     it("injects commento html", async function () {
 
         // enable the commento plugin
@@ -11,34 +11,75 @@ describe("pluginHTML", function () {
 
         await this.template({ "entry.html": "{{{entry.html}}} {{> pluginHTML}}" });
         await this.write({path: '/a.txt', content: 'Link: /foo\n\nHello, world!'});        
+        await this.write({path: '/Pages/about.txt', content: 'Link: /about\n\nHello, page!'});        
+        await this.write({path: '/Drafts/test.txt', content: 'Hello, draft!'});        
 
-        const res = await this.get('/foo');
+        const areThereComments = async (path) => {
+            const res = await this.get(path);
+            const body = await res.text();
+            return body.includes('<script defer') && body.includes('src="https://cdn.commento.io/js/commento.js"');
+        }
+
+        expect(await areThereComments('/foo')).toBe(true, 'comments should appear on posts');
+
+        // but not on the preview subdomain
+        const res = await this.fetch(config.protocol + 'preview-of-my-local-on-' + this.blog.handle + '.' + config.host + '/foo');
         const body = await res.text();
 
         expect(res.status).toEqual(200);
-        expect(body).toContain('<script defer');
-        expect(body).toContain('src="https://cdn.commento.io/js/commento.js"');
+        expect(body).not.toContain('src="https://cdn.commento.io/js/commento.js"');
+
+        expect(await areThereComments('/about')).toBe(false, 'comments should not appear on pages');
+        expect(await areThereComments('/draft/view/Drafts/test.txt')).toBe(false, 'comments should not appear on drafts');
+
+        // disable comments for the post
+        await this.write({path: '/a.txt', content: 'Link: /foo\nComments: No\n\nHello, world!'});
+        // enable comments for the page
+        await this.write({path: '/Pages/about.txt', content: 'Link: /about\nComments: Yes\n\nHello, world!'});
+
+        expect(await areThereComments('/about')).toBe(true, 'comments should appear on a pages with comments enabled');
+
+        expect(await areThereComments('/foo')).toBe(false, 'comments should not appear on posts with comments disabled');
     });
 
     it("injects disqus html", async function () {
 
-        // enable the commento plugin
+        // enable the disqus plugin
         const shortname = 'test';
         const plugins = {...this.blog.plugins, disqus: {enabled: true, options: {shortname}}};
         await this.blog.update({plugins})
 
         await this.template({ "entry.html": "{{{entry.html}}} {{> pluginHTML}}" });
         await this.write({path: '/a.txt', content: 'Link: /foo\n\nHello, world!'});        
+        await this.write({path: '/Pages/about.txt', content: 'Link: /about\n\nHello, world!'});        
+        await this.write({path: '/Drafts/test.txt', content: 'Hello, draft!'});
 
-        const res = await this.get('/foo');
+        const areThereComments = async (path) => {
+            const res = await this.get(path);
+            const body = await res.text();
+            return body.includes('<div id="disqus_thread"></div>') && body.includes('disqus.com/embed.js');
+        }
+
+        expect(await areThereComments('/foo')).toBe(true, 'comments should appear on posts');
+        expect(await areThereComments('/about')).toBe(false, 'comments should not appear on pages');
+        expect(await areThereComments('/draft/view/Drafts/test.txt')).toBe(false, 'comments should not appear on drafts');  
+
+        // but not on the preview subdomain
+        const res = await this.fetch(config.protocol + 'preview-of-my-local-on-' + this.blog.handle + '.' + config.host + '/foo');
         const body = await res.text();
 
         expect(res.status).toEqual(200);
-        expect(body).toContain('<div id="disqus_thread"></div>');
-        expect(body).toContain('disqus.com/embed.js');
-        expect(body).toContain(`disqus_shortname = '${shortname}';`);
-    });
+        expect(body).not.toContain('disqus.com/embed.js');
+        
+        // disable comments for the post
+        await this.write({path: '/a.txt', content: 'Link: /foo\nComments: No\n\nHello, world!'});
+        // enable comments for the page
+        await this.write({path: '/Pages/about.txt', content: 'Link: /about\nComments: Yes\n\nHello, world!'});
 
+        expect(await areThereComments('/about')).toBe(true, 'comments should appear on a pages with comments enabled');
+
+        expect(await areThereComments('/foo')).toBe(false, 'comments should not appear on posts with comments disabled');
+    });
 
     it("injects google analytics into appJS", async function () {
 

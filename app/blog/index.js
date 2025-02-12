@@ -8,7 +8,6 @@ blog.disable("x-powered-by");
 
 blog.use((req, res, next) => {
   req.log = req.log || console.log;
-  res.locals = res.locals || {};
   res.locals.partials = res.locals.partials || {};
   next();
 });
@@ -30,7 +29,7 @@ blog.get('/search', require('./search'));
 
 require("./robots")(blog);
 require("./view")(blog);
-require("./entry")(blog);
+blog.use(require("./entry"));
 
 blog.get("/page/:page_number", require("./entries"));
 blog.get("/", require("./entries"));

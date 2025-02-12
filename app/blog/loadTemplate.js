@@ -16,7 +16,6 @@ module.exports = async function (req, res, next) {
 
     try {
         metadata = await getMetadata(req.blog.template);
-        if (!metadata) { throw new Error("No metadata");}
     } catch (err) {
         const error = new Error("This template does not exist.");
         error.code = "NO_TEMPLATE";
