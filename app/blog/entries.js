@@ -1,50 +1,63 @@
-module.exports = function (server) {
-  var Entries = require("models/entries");
+const Entries = require("models/entries");
 
-  server.get("/page/:page_number", renderPage);
-  server.get("/", renderPage);
+/**
+ * Handles rendering of the page with entries and pagination.
+ */
+module.exports = function (req, res, next) {
+  const blog = req.blog;
 
-  function renderPage(req, res, next) {
+  // Parse and validate page number (user input)
+  const pageNo = parsePageNumber(req.params.page_number);
 
-    req.log("Loading entries");
+  // Parse and validate page size (user input via template)
+  const pageSize = parsePageSize(req.template?.locals?.page_size);
 
-    var blog = req.blog;
+  // Fetch entries and render the view
+  req.log("Loading entries for page", pageNo, "with page size", pageSize);
+  Entries.getPage(blog.id, pageNo, pageSize, (entries, pagination) => {
+    pagination.current = pageNo;
 
-    var pageNo, pageSize;
+    res.locals.entries = entries;
+    res.locals.pagination = pagination;
 
-    try {
-      pageNo = parseInt(req.params.page_number) || 1;
-    } catch (e) {
-      pageNo = 1;
-    }
+    req.log("Rendering entries");
+    res.renderView("entries.html", next);
+  });
+}
 
-    try {
-      // when I remove the blog.pageSize option,
-      // consider users whove customized the page size
-      // but use a default template...
-      pageSize = req.template.locals.page_size || req.blog.pageSize;
-      pageSize = parseInt(pageSize) || 5;
-    } catch (e) {
-      pageSize = 5;
-    }
+/**
+ * Utility function to validate and parse the page number.
+ * Falls back to 1 if the input is invalid or undefined.
+ *
+ * @param {string|undefined} pageNumber - The page number from user input.
+ * @returns {number} - A valid page number (default: 1).
+ */
+function parsePageNumber(pageNumber) {
+  const parsedPageNumber = parseInt(pageNumber, 10);
 
-    Entries.getPage(blog.id, pageNo, pageSize, function (entries, pagination) {
-      var pageTitle = blog.title;
-
-      if (pageNo > 1) {
-        pageTitle = "Page " + pageNo + " of " + pageTitle;
-      }
-
-      pagination.current = pageNo;
-
-      res.addLocals({
-        pageTitle: pageTitle,
-        entries: entries,
-        pagination: pagination,
-      });
-
-      req.log("Rendering entries");
-      res.renderView("entries.html", next);
-    });
+  // Ensure the page number is a positive integer; default to 1 if invalid
+  if (!isNaN(parsedPageNumber) && parsedPageNumber > 0) {
+    return parsedPageNumber;
   }
-};
+
+  return 1; // Default page number
+}
+
+/**
+ * Utility function to validate and parse the page size.
+ * Falls back to a default value if the input is invalid or undefined.
+ *
+ * @param {string|number|undefined} templatePageSize - Page size from the template (user input).
+ * @returns {number} - A valid page size (default: 5).
+ */
+function parsePageSize(templatePageSize) {
+  const defaultPageSize = 5;
+
+  // Attempt to parse and validate template page size (user input)
+  const parsedTemplatePageSize = parseInt(templatePageSize, 10);
+  if (!isNaN(parsedTemplatePageSize) && parsedTemplatePageSize > 0 && parsedTemplatePageSize <= 100) {
+    return parsedTemplatePageSize;
+  }
+
+  return defaultPageSize; // Default page size
+}
