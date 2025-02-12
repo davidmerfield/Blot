@@ -1,11 +1,18 @@
-Add more efficient popular tags method
+Add more efficient popular_tags method
+- add new properties to underlying model
 
-Improvements to template engine:
+Move docker logs to /var/ssd/logs
+- Ensure there is rotation for the docker log 
+
+Fix bugs with template engine:
+- Fix local template editing bug 
+  - tell [Darren](https://mail.google.com/mail/u/1/#inbox/FMfcgzQXJkXrrLBdCgVqnZppnbwHMgjx)
+  - [Ty](https://mail.google.com/mail/u/1/#inbox/FMfcgzQXKhGGvtTbGGhbxzHdWkFtnMhS)
+  - [Haider](https://mail.google.com/mail/u/1/#inbox/FMfcgzQXKhGHGKDtgNPRrVlpwHThCJnL)
+- Prevent double submission on template editor at insertion and front-end levels
 - Local editing
   - Fix bug with title and partials in local editing then tell [Luke](https://mail.google.com/mail/u/1/#inbox/164afa87ede57db7) and [Frank](https://mail.google.com/mail/u/1/#inbox/164ae2e3789b8d4c)
 - Fix bug with template editor which resets content of a view. Follow up with [Nathan](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLhgJQTTQZvpsxJDBgnNQpJnJ) who has extensive steps to reproduce, and John
-- Assign guid template IDs
-- Make template slug seperate from the template ID, simply for human readability
 - Make it possible to rename template directories and tell [Darren](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwHxvsmgwbnxLbDMNDplTLltlc)
 - Fix bug not exposing issue with invalid JSON in package.json for locally-edited template on dashboard and tell [Jason](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKjndBRlNNjZtlddcVVfFWVBbg)
 - Investigate bug with template views whose names include hashtags and follow up with [Jay](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqPzMvLDJBfbNfLzpkKDzmZSNt)
@@ -15,52 +22,29 @@ Improvements to template engine:
 - Fix bug with chinese characters in template name and follow up with [Alex](https://mail.google.com/mail/u/0/#search/alex/FMfcgzGqRGTCSrMXTznCBvTWhQqvkgCL)
 - Fix bug with date settings on the template editor for [magazine template](https://blot.im/questions/2244)
 - Investigate why [Darren cannot open the template editor](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJSBJCRPJsLFddJCNzTnnQgjs)
-- Investigate performance of rich text editor in Safari on template editor and follow up with [Rachel](https://mail.google.com/mail/u/1/#inbox/FMfcgzQXKNFKbzhWFnsgQrBBfGqZNMhL)
-- Continue work on test suite for template engine
 - Fix date selector for template and tell [Zach](https://mail.google.com/mail/u/0/#inbox/FMfcgzGxTFSjkTvfDRgNHZwSQqDzWKFB)
-- [ ] Fix bug with forking / editing new templates
-  Fix local template editing bug 
-  - tell [Darren](https://mail.google.com/mail/u/1/#inbox/FMfcgzQXJkXrrLBdCgVqnZppnbwHMgjx)
-  - [Ty](https://mail.google.com/mail/u/1/#inbox/FMfcgzQXKhGGvtTbGGhbxzHdWkFtnMhS)
-  - [Haider](https://mail.google.com/mail/u/1/#inbox/FMfcgzQXKhGHGKDtgNPRrVlpwHThCJnL)
-  Fix missing 'views' property of templates in package.json after downloading a template through the web template editor.
+- Fix bug with forking / editing new templates
+- Fix missing 'views' property of templates in package.json after downloading a template through the web template editor.
+
+Right now changes to documentation CSS do not make it into production:
+- stale servers serve the old CSS 
+- purge bunny after deployment complete?
+
+Refactor helper/screenshot to use a persistently open browser
+
+Change dashboard cookies: Set-Cookie: mycookie=value; Path=/; SameSite=Lax; Secure;
+
+Write tests for animated gif thumbnail
+
+---
 
 
 Investigate issues using git in production
 
-Work out why changes to documentation CSS do not make it into production:
-- stale servers serve the old CSS 
+Investigate why some blogs are accessible after deletion
 
-Work out why some blogs are accessible after deletion
-
-Finish basic benchmark
-- start using clinic.js on benchmarks to detect memory issues
-
-Refactor helper/screenshot to use a persistent browser
-
-Change cookies: Set-Cookie: mycookie=value; Path=/; SameSite=Lax; Secure;
-
-Monitor slow URLs in the logs
-
-Fix JS minifier and CSS minifier
-
-Make folder build less busy and then re-enable it in app/setup
+Make templates/folders build less busy and then re-enable it in app/setup
 - consider using git? use local client in smarter way?
-
-Begin to write tests of rendering engine
-- rewrite rendering engine
-- improve performance
-
-Write more tests for the 'models'
-- blog
-- entry
-- tags
-
-Write test for animated gif thumbnail
-
-Rotate the docker log (or move it to var/ssd/logs)
-
----
 
 Fix bug with pages not appearing in backlinks and [tell questioner](https://blot.im/questions/2913)
 
@@ -71,7 +55,6 @@ Fix thumbnail generator to handle 304 responses properly. Right now, you can fet
 
 Fix bug with magic text in posts which breaks backend and tell [Victor](https://mail.google.com/mail/u/1/#inbox/FMfcgzQVxRMzjBtRWVwLWtlBcFGsSVCQ)
 
-Add layout fix to blog template and [tell Lewis](https://mail.google.com/mail/u/1/#inbox/FMfcgzQVzFWlSFWmjZrDMrMjPtmtWwQc)
 
 Fix bug with site export and [contact Ryan](https://mail.google.com/mail/u/1/#inbox/FMfcgzQXJtGgnQWMWxjBnHlvMSPFJjnJ)
 
@@ -98,9 +81,9 @@ Expose exif data on Photo posts?  [https://github.com/lovell/sharp/issues/285](h
   - questioner (search exif)
   - https://github.com/sambecker/exif-photo-blog
 
-
 Think about migrating to s3 for blog data storage
 - Purge thumbnails and cached images which are no longer in use
+- Abstract methods which read, write and readdir the blog folder? static files folder?
 - What about pointing the CDN to an s3 bucket then redirecting to upstream for 404?
     http {
         server {
@@ -138,6 +121,54 @@ Fix issue with server restart:
 - sudo chown ec2-user:ec2-user /var/instance-ssd/logs/app.log
 - mkfs -t xfs -f /dev/XXXXXXXX
 
+Improvements to template engine
+- Assign guid template IDs
+- Add search bar to template editor
+- Work out why rebuilding template from folder clears cache even if the template is not changed
+  - stop this
+- Make template slug seperate from the template ID, simply for human readability
+- Investigate performance of rich text editor in Safari on template editor and follow up with [Rachel](https://mail.google.com/mail/u/1/#inbox/FMfcgzQXKNFKbzhWFnsgQrBBfGqZNMhL)
+- Make it possible to change URL of tagged pages and tell [Jarrod](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqQvxkjzVJFTpMQSNJRzptKkdH)
+- Add blog.statistics and entry.statistics (total words, etc.) and tell [Pratik](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmtDzMRWDrnBcZmXBmCWtvbwJD)
+- Work out how to make live but saveable modifications for preview purposes on the template editor. I have already established a messaging channel between preview HTML pages and the template editor with the script injected in render/middleware.
+- Add [background patterns](https://bansal.io/pattern-css#checks) to template editor tools, tell [Ish](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMsVFZBwLtkGslXZXkcxmKdvf)
+- Add 'group by' function which would allow you to group posts by month/ year in the same way that {{#archives}} lets you and tell [Jay](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLtGkSQnQDJRMcxKZhgQfbXvSF)
+- Respond to Michael's [thoughtful emails](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDWqXmTLfljkKdGlfFMhMdkTm) about the template system
+- Add support for chronological template ordering and [follow up with questions](https://blot.im/questions/819) 
+- Add way to iterate over public and private pages to allow sitemap to work properly
+  - tell [Rodrigo](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDsFffNqTnCTjHrNSrrLBtnnGW) 
+  - [questioner](https://blot.im/questions/222)
+  - Tell [Steve](https://mail.google.com/mail/u/0/#inbox/FMfcgzGxTNsdCppzndskLsxJpvgsdgjv)
+  - [Jack](https://mail.google.com/mail/u/0/#inbox/FMfcgzGxTFbfvLCqlhWckvZqTmNPPqSM)
+- Allow the name/slug of a template to change and tell [Marcus](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChSCwzPxFLvSpLcjjRbCkVVbg) and [Pratik](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDDqldQjWRSnwmcMbcpRMHMxL) and [Brad](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGCkmWNjfwTqvrTgJLCSpDcDfk) when the name of a locally-edited template in your blog's folder updates
+- Allow ordering of posts by file name and tell [Jacopo](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNCrgCFZKKzdvTFVvWHCpQChM)
+- Expose request query to views and tell [Abhishek](https://mail.google.com/mail/u/0/?zx=ppqfw9q0jli#inbox/FMfcgzGljvQfHMktFrRNKQWqsxKQWSGZ)
+- Add way to query list of posts using SQL? Something like [jsql](https://archive.codeplex.com/?p=jsql)
+com/mail/u/0/#inbox/1588e3df7489b554) 
+  - [Don't write my own DSL, use SQL](https://news.ycombinator.com/item?id=17890760) Something like this in front matter? recent_posts: SELECT POSTS WHERE ...
+  - Add support for entry lists of variable length and tell [Logan](https://twitter.com/LoganGreer)
+- Add support for the setting of custom headers (e.g. to enable CORS) and tell [Roy](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrRShkTjNqPxcnPjFcGthZgbh)
+- Add support for listing files in arbritary folders (e.g. use a custom folder as a 'public' folder) and tell [Nash](https://twitter.com/nashp/status/1111655667817947137) and [Marco](https://mail.google.com/mail/u/0/#search/marco/FMfcgzGmvBrxCgvXVhZQsbdzpgDktSGV)
+- Add way to list directory contents and tell [Diego](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMZJtkqxhLVWXqdxNVchgGQzp)
+- Move to data directory for templates
+  - Serve the template directory as a static folder, allowing things like favicon.png and humans.txt to not become blog posts. Follow up with [Jamie](https://mail.google.com/mail/u/0/#all/FMfcgxwBVMpMKkNJwJtvbQVFvbmHqHpl)
+- Re-do url redirector to use route-parser and properly support regular expressions
+- Add support for paginated list of entries on other pages and [Dan](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrcrtWVPZdQnHxXtmFsxDtWVrV) tell [Kevin](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLhlvZxhQwWfJmKhnXgkPnmJC) and [Eli](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDJhGpffNsZDjCszcstGVsGh) and [Sven](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJhhfPCqLCXWxtnJsxNfWKdM) and [Nikhil](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrvCRFcMTRcgMJdcCkxSNChXq) and [Adam](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMsQczfjJBHpBSlxTmgxXMQKr) and [Madino](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJXflPbzPWJQdgCxxrSWbzRDWT) and [Ryan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsdFCmRCKzvxTgchlZJzdhwQd)
+- Add dynamic querying of entry list and tell [Naoki](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMjtCWmHCBZWsVPTCftbQCZTn)
+- Fix bug with filtering paginated list of entries and tell [Roy](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVgrQJWNPHHvdxnMtWCGJkZdM) and [Josh](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVzrFNFzLzbWrssWzbrSvtpTm) and [Logan](https://twitter.com/LoganGreer)
+- Add a popular entry list
+- Add a related entry list and tell [Thomas](https://mail.google.com/mail/u/0/#inbox/156dbe97153fab61) and [questioner](https://blot.im/questions/1484)
+- Add way to list files at a path and tell [Matt](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqxRmLMrTjjpjftkSwddPJkTm) and [Daisy](https://mail.google.com/mail/u/1/#inbox/FMfcgzQXJkVbjxQbLgTRTJrhGtjBblCP)
+- General:
+  - Add paginateable entries list
+  - Add downloadable sites
+  - Add static file uploader
+  - Make templates folder based?
+    - data/templates/blog_id/template_name
+  - Add webfont uploader
+  - Generate favicons of different sizes from uploaded image
+- Fix bug with template tags in blog post and tell [Shibel](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgCJQhBZwgzQVLkKHnwPKVkFC)
+
 
 Add pagination to archives and tagged pages on default templates using a new tag
 
@@ -154,13 +185,6 @@ Clamp length of password and email address in log in and sign up and reset forms
 Migrate [Stripe library to v7](https://github.com/stripe/stripe-node/wiki/Migration-guide-for-v7)
 
 Fix issue with Google Drive
-
-Refactor site build
-- needs to be a part of the docker stage:
-  - need to copy in git repo...!
-  - build entire documentation and dashboard views (featured, templates, etc.)
-  - how best to handle development mode?
-  
 
 Make it possible to embed audio like so `![Audio]({{{path}}})`
 
@@ -220,15 +244,11 @@ Infrastructure plan:
 
 ---
 
-Fix bug with [date on magazine template](https://blot.im/questions/2244)
-
-Fix bug with [header position on the blog template](https://blot.im/questions/2211)
 
 Fix issue with camelCase custom metadata and tell [questioner](https://blot.im/questions/2294)
 
 Investigate bug with org mode links and [follow up with Elliot](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwHzDppJbDBZhLLqFQXvMZRsNw)
 
-Fix side navigation on Blog template and tell [Sava](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJcgnPdxPcSqPwmMnFSThFMQg)
 
 Fix light mode colors and tell [Gary](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJSCRWXMlsPRVBsnrcRcbMklc)
 
@@ -245,8 +265,6 @@ Fix bug so that script fix is able to remove tag items without posts
 - can we iterate over all tag keys during fix to detect this?
 
 Fix bug for 'edit this page' link in production
-
-Fix 'back' button in photo template and tell [Bibi](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrcPJTmPXxWvhbmFpvwdfVzhpn)
 
 Fix bug with images zooming inside footnotes and tell [Nathan](https://mail.google.com/mail/u/0/#inbox/FMfcgzGtwWCBmtldhMfQRgZjHDpFvSGb)
 
@@ -303,7 +321,6 @@ Fix bug with handling of queries and tell [this person](https://mail.google.com/
 Fix post encoding bugs
 - Fix [Kevin](https://mail.google.com/mail/u/0/#inbox/1665be131ce98928)'s URL encoding bug. Each entry's url property is not encoded as a URI component on the server but it needs to be.
 - Fix encoding bug with greek URLs then tell [Rodericus](https://mail.google.com/mail/u/0/#search/rodericus/15bb13fafc1c34e5) know
-- Fix bug with template tags in blog post and tell [Shibel](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgCJQhBZwgzQVLkKHnwPKVkFC)
 
 Fix bugs with RSS feeds validation. Perhaps extend absoluteURLs helper function? Tell [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzMBqKpcLTtxTzcfvMCVckLMJJ)
 
@@ -349,6 +366,14 @@ Windows video + windows finder.css
 Rewrite broken link tests
 
 Improvements to templates:
+- Fix bug with videos on Reference template and [Tell Marco](https://mail.google.com/mail/u/0/#inbox/FMfcgzGslbPSKMXkRbvrHKFTWhbJbPlg)
+- Fix post navigation on Portfolio template and tell [Questioner](https://blot.im/questions/1894)
+- Fix responsive thumbnail component on photo template (it loads large thumbnail every time)
+- Fix 'back' button in photo template and tell [Bibi](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrcPJTmPXxWvhbmFpvwdfVzhpn)
+- Fix side navigation on Blog template and tell [Sava](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJcgnPdxPcSqPwmMnFSThFMQg)
+- Fix bug with [date on magazine template](https://blot.im/questions/2244)
+- Add layout fix to blog template and [tell Lewis](https://mail.google.com/mail/u/1/#inbox/FMfcgzQVzFWlSFWmjZrDMrMjPtmtWwQc)
+Fix bug with [header position on the blog template](https://blot.im/questions/2211)
 - Library
   - mobile
   - make links open immediately
@@ -391,15 +416,6 @@ Add Generative tree for account page
 
 Add support for INI files and tell [Frank](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJckFhJhMMwFLzrRTfcSmHbrV)
 
-- General:
-  - Add paginateable entries list
-  - Add downloadable sites
-  - Add static file uploader
-  - Make templates folder based?
-    - data/templates/blog_id/template_name
-  - Add webfont uploader
-  - Generate favicons of different sizes from uploaded image
-
 Add {{#posts-without-:tag}} and [tell steve](https://mail.google.com/mail/u/0/#inbox/FMfcgzGxSRHnwcVVlqvwLFzwRQbsqsnK)
 
 Improvements to website:
@@ -428,11 +444,6 @@ Consider switching domain to blot.site
 - add support for different user subdomain in dev?
 - set up mail
 - switch from mailgun to SES over new domain
-
-Integrate font styles rendering into template model:
-- Remove this behaviour from dashboard/template-editor/save/fonts into update package
-- Remove font styles from manifesto/manifesto and re-insert them when template is readFromFolder
-
 
 Add aws cost usage and forecast to daily update email
 - https://docs.aws.amazon.com/cli/latest/reference/ce/get-cost-and-usage.html
@@ -471,9 +482,6 @@ Prevent overzealous purging of cache for syncs in which the folder does not chan
 
 Add WebDav support
 
-Work out why rebuilding template from folder clears cache even if the template is not changed
-- stop this
-
 Improve paypal integration:
 - [ ] Get create new blog working
   - [ ] Add way to modify subscription quantity for paypal users
@@ -499,8 +507,6 @@ Prevent Google Drive client from re crawling entire folder for every sync
 
 Make {{active}} strip the domain from the link [before checking](https://github.com/davidmerfield/Blot/blob/master/app/blog/render/retrieve/active.js#L22)? Or automatically strip the domain from internal links on Blot's dashboard?
 
-Prevent unneeded cache purge when templates are rebuilt, either from folder or on disk in app/templates
-
 Can we add a 'folder rules' section to create ignore globs, multi post globs, etc.
 
 Git client is extremely slow to set up large folders – we need a loading screen
@@ -511,8 +517,6 @@ Store path -> md5 hash on sync
 - Use to auto version links to files in your folder so they can be cached
 
 Investigate videos instead of gifs for thumbnails
-
-Fix responsive thumbnail component on photo template (it loads large thumbnail every time)
 
 Eventually configure cloud watch reboot sequence then test it
 
@@ -527,8 +531,6 @@ Fix title generator so h2 titles within the file dont become the title of the po
 Get to bottom of issues with questions/tests/list and re-enable disable test suite
 
 The password check on the delete blog page does not print the error message if the password is incorrect? Or just for admin
-
-Fix post navigation on Portfolio template and tell [Questioner](https://blot.im/questions/1894)
 
 ---
 
@@ -561,10 +563,6 @@ Make 'close' button on entry permalink page of reference template work like the 
 
 Wikilinks should have a class property of 'wikilink' rather than a title attribute and tell [questioner](https://blot.im/questions/39)
 
-Prevent double submission on template editor at insertion and front-end levels
-
-Add search bar to template editor
-
 ---
 
 Tell [bukit](https://mail.google.com/mail/u/0/#inbox/FMfcgzGtwqMCsWCjhPcWpPszlZhtqNnM) when it's possible to change the URL of the /tagged/x pages in the template engine
@@ -583,8 +581,6 @@ Add lazy loading option to image settings and tell [questioner](https://blot.im/
 
 Make it possible to rename locally edited template folder and tell [questioner](https://blot.im/questions/1610)
 
-Fix bug with videos on Reference template and [Tell Marco](https://mail.google.com/mail/u/0/#inbox/FMfcgzGslbPSKMXkRbvrHKFTWhbJbPlg)
- 
 ---
 
 Improve CI testing
@@ -1064,39 +1060,6 @@ Use [blurhash](https://github.com/woltapp/blurhash) to generate placeholders whe
 Work out how to cache 404s at the NGINX level
 - I tried extending express-disk-cache to store images inside /https/blot.im/missing/foo-bar.html but I can't set a 404 status code for the specific tryfiles directive which could match that file.
 - The application server ends up spending a lot of time serving 404s
-
-Improvements to template engine
-- Make it possible to change URL of tagged pages and tell [Jarrod](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqQvxkjzVJFTpMQSNJRzptKkdH)
-- Add blog.statistics and entry.statistics (total words, etc.) and tell [Pratik](https://mail.google.com/mail/u/0/#inbox/FMfcgzGmtDzMRWDrnBcZmXBmCWtvbwJD)
-- Work out how to make live but saveable modifications for preview purposes on the template editor. I have already established a messaging channel between preview HTML pages and the template editor with the script injected in render/middleware.
-- Add [background patterns](https://bansal.io/pattern-css#checks) to template editor tools, tell [Ish](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMsVFZBwLtkGslXZXkcxmKdvf)
-- Add 'group by' function which would allow you to group posts by month/ year in the same way that {{#archives}} lets you and tell [Jay](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLtGkSQnQDJRMcxKZhgQfbXvSF)
-- Respond to Michael's [thoughtful emails](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDWqXmTLfljkKdGlfFMhMdkTm) about the template system
-- Add support for chronological template ordering and [follow up with questions](https://blot.im/questions/819) 
-- Add way to iterate over public and private pages to allow sitemap to work properly
-  - tell [Rodrigo](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDsFffNqTnCTjHrNSrrLBtnnGW) 
-  - [questioner](https://blot.im/questions/222)
-  - Tell [Steve](https://mail.google.com/mail/u/0/#inbox/FMfcgzGxTNsdCppzndskLsxJpvgsdgjv)
-  - [Jack](https://mail.google.com/mail/u/0/#inbox/FMfcgzGxTFbfvLCqlhWckvZqTmNPPqSM)
-- Allow the name/slug of a template to change and tell [Marcus](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChSCwzPxFLvSpLcjjRbCkVVbg) and [Pratik](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDDqldQjWRSnwmcMbcpRMHMxL) and [Brad](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGCkmWNjfwTqvrTgJLCSpDcDfk) when the name of a locally-edited template in your blog's folder updates
-- Allow ordering of posts by file name and tell [Jacopo](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNCrgCFZKKzdvTFVvWHCpQChM)
-- Expose request query to views and tell [Abhishek](https://mail.google.com/mail/u/0/?zx=ppqfw9q0jli#inbox/FMfcgzGljvQfHMktFrRNKQWqsxKQWSGZ)
-- Add way to query list of posts using SQL? Something like [jsql](https://archive.codeplex.com/?p=jsql)
-com/mail/u/0/#inbox/1588e3df7489b554) 
-  - [Don't write my own DSL, use SQL](https://news.ycombinator.com/item?id=17890760) Something like this in front matter? recent_posts: SELECT POSTS WHERE ...
-  - Add support for entry lists of variable length and tell [Logan](https://twitter.com/LoganGreer)
-- Add support for the setting of custom headers (e.g. to enable CORS) and tell [Roy](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrRShkTjNqPxcnPjFcGthZgbh)
-- Add support for listing files in arbritary folders (e.g. use a custom folder as a 'public' folder) and tell [Nash](https://twitter.com/nashp/status/1111655667817947137) and [Marco](https://mail.google.com/mail/u/0/#search/marco/FMfcgzGmvBrxCgvXVhZQsbdzpgDktSGV)
-- Add way to list directory contents and tell [Diego](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMZJtkqxhLVWXqdxNVchgGQzp)
-- Move to data directory for templates
-  - Serve the template directory as a static folder, allowing things like favicon.png and humans.txt to not become blog posts. Follow up with [Jamie](https://mail.google.com/mail/u/0/#all/FMfcgxwBVMpMKkNJwJtvbQVFvbmHqHpl)
-- Re-do url redirector to use route-parser and properly support regular expressions
-- Add support for paginated list of entries on other pages and [Dan](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrcrtWVPZdQnHxXtmFsxDtWVrV) tell [Kevin](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLhlvZxhQwWfJmKhnXgkPnmJC) and [Eli](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDJhGpffNsZDjCszcstGVsGh) and [Sven](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJhhfPCqLCXWxtnJsxNfWKdM) and [Nikhil](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrvCRFcMTRcgMJdcCkxSNChXq) and [Adam](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMsQczfjJBHpBSlxTmgxXMQKr) and [Madino](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJXflPbzPWJQdgCxxrSWbzRDWT) and [Ryan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsdFCmRCKzvxTgchlZJzdhwQd)
-- Add dynamic querying of entry list and tell [Naoki](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMjtCWmHCBZWsVPTCftbQCZTn)
-- Fix bug with filtering paginated list of entries and tell [Roy](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVgrQJWNPHHvdxnMtWCGJkZdM) and [Josh](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVzrFNFzLzbWrssWzbrSvtpTm) and [Logan](https://twitter.com/LoganGreer)
-- Add a popular entry list
-- Add a related entry list and tell [Thomas](https://mail.google.com/mail/u/0/#inbox/156dbe97153fab61) and [questioner](https://blot.im/questions/1484)
-- Add way to list files at a path and tell [Matt](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqxRmLMrTjjpjftkSwddPJkTm) and [Daisy](https://mail.google.com/mail/u/1/#inbox/FMfcgzQXJkVbjxQbLgTRTJrhGtjBblCP)
 
 Re-send receipt when the customer changes their email after initial payment, pre-account creation.
 - Once stripe allows programmatic receipt delivery
