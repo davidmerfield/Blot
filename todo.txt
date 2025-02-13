@@ -1,7 +1,5 @@
 Fix bugs with template engine:
 - Fix local template editing bug 
-  - tell [Darren](https://mail.google.com/mail/u/1/#inbox/FMfcgzQXJkXrrLBdCgVqnZppnbwHMgjx)
-  - [Ty](https://mail.google.com/mail/u/1/#inbox/FMfcgzQXKhGGvtTbGGhbxzHdWkFtnMhS)
   - [Haider](https://mail.google.com/mail/u/1/#inbox/FMfcgzQXKhGHGKDtgNPRrVlpwHThCJnL)
 - Prevent double submission on template editor at insertion and front-end levels
 - Local editing
