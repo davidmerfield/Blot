@@ -6,7 +6,7 @@ const { join } = require("path");
 
 const documentation = Express.Router();
 
-const VIEW_DIRECTORY = join(__dirname, "data");
+const VIEW_DIRECTORY = config.views_directory;
 
 documentation.get(["/how/format/*"], function (req, res, next) {
   res.locals["show-on-this-page"] = true;
@@ -96,7 +96,12 @@ documentation.post(['/support', '/contact', '/feedback'],
 documentation.get("/examples", require("./featured"));
 
 documentation.get("/templates",  require("./templates.js"));
-documentation.get("/templates/folders", require("./templates.js"));
+
+documentation.get("/templates/for-:type",  require("./templates.js"), (req, res, next) => {
+  // fix the label of the last breadcrumb from 'For blog' to 'Blog'
+  res.locals.breadcrumbs[res.locals.breadcrumbs.length - 1].label = req.params.type[0].toUpperCase() + req.params.type.slice(1);
+  res.render("templates");
+});
 
 documentation.get(
   "/templates/:template",
@@ -104,15 +109,6 @@ documentation.get(
   (req, res, next) => {
     if (!res.locals.template) return next();
     res.render("templates/template");
-  }
-);
-
-documentation.use(
-  "/templates/folders/:folder",
-  require("./templates.js"),
-  (req, res, next) => {
-    if (!res.locals.folder) return next();
-    res.render("templates/folders/folder");
   }
 );
 

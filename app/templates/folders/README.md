@@ -1,25 +1,22 @@
 # Folders
 
-Add folders for:
+Test material for static site generators. 
 
-- Link blog!
-- Podcast!
-- Music site!
-- Video portfolio!
+## Local development guide
 
-Test material for static site generators. To release new versions of the folders for download:
+To create a new sub-folder e.g. 'marmalade' and then when the server is running elsewhere, run in a seperate window:
 
-```
-git tag 1.1 && git push origin 1.1
-```
+npm run folder marmalade
 
-The [Github Action](./github/workflows/release) will automatically zip the folder contents and make them downloadable here:
+## Publish new folders
 
-```
-https://github.com/davidmerfield/folders/releases/latest/download/$FOLDER.zip
-```
+To release new versions of the folders for download on master branch, just commit and push to master branch.
 
-Make sure you update the [Github Action](./github/workflows/release) if you add or remove a folder.
+## Using new folders
+
+Set the "demo_folder" property in the locals of a given template to the name of this folder to make it available on the website, e.g.
+
+"demo_folder": "marmalade",
 
 ## Folders for each template
 
@@ -40,14 +37,7 @@ https://www.flickr.com/photos/alberta_archives/albums/72157643076560675
 - [Download flickr sets](https://www.npmjs.com/package/flickr-set-get)
   https://www.openculture.com/2016/05/1-8-million-free-works-of-art-from-world-class-museums-a-meta-list.html
 
-## Generating the blogs
-
-You will eventually be able to build these folders into blogs using
-the script:
-
-```
-node scripts/build/folders
-```
+## To do
 
 How to store links in the menu? How to encode an avatar?
 This will be useful food for thought when we allow people
@@ -55,6 +45,14 @@ to edit their blog's settings from the folder, e.g.
 a .blot directory containing config...
 
 ## Ideas
+
+Add folders for:
+
+- Link blog!
+- Podcast!
+- Music site!
+  - music album archive with playable records
+- Video portfolio!
 
 - design a site around each font available on Blot (80 ish fonts)
 
@@ -66,9 +64,23 @@ https://wellcomecollection.org/search/images?locations.license=pdm&source.contri
 
 ## Future test material
 
+[Objects on black](https://commons.wikimedia.org/w/index.php?search=Archaeodontosaurus&title=Special:MediaSearch&go=Go&type=image)
+
+[Collection of botany of museum of toulouse](https://commons.wikimedia.org/wiki/Category:Collection_of_botany_of_the_Mus%C3%A9um_de_Toulouse)
+
+[Pre-colombian art](https://commons.wikimedia.org/wiki/Category:Pre-Columbian_art_in_the_Walters_Art_Museum)
+
+[Objects photographed with black background from prehistory of the Muséum de Toulouse](https://commons.wikimedia.org/wiki/Category:Collection_of_prehistory_of_the_Mus%C3%A9um_de_Toulouse)
+
+[Focus stacking images of plants](https://commons.wikimedia.org/wiki/Category:Focus_stacking_images_of_plants)
+
+[Muséum de Toulouse collection of Lepidoptera](https://commons.wikimedia.org/wiki/Category:Mus%C3%A9um_de_Toulouse_collection_of_Lepidoptera)
+
 ### Photographs
 
 [Photochrom Travel Views](https://www.flickr.com/photos/library_of_congress/albums/72157612249760312)
+
+[Pictures of norway](https://www.loc.gov/pictures/search/?q=LOT%2013432&fi=number&op=PHRASE&va=exact&co!=coll&sg=true&st=gallery)
 
 [John Margolie's photos](https://www.loc.gov/pictures/related/?va=exact&st=gallery&q=Nightclubs--1970-1980.&fi=subject&sg=true&op=EQUAL)
 
@@ -77,6 +89,8 @@ https://wellcomecollection.org/search/images?locations.license=pdm&source.contri
 [Daguerreotypes](https://www.loc.gov/pictures/search/?q=Mathew+Brady+half+plate&sp=1&co=dag&st=grid)
 
 [Macro photos](https://www.rawpixel.com/board/1231804/vintage-botanical-macro-photographs-high-resolution-designs?mode=shop)
+
+[Hippolyte Baraduc's soul images](https://pdimagearchive.org/galleries/artists/hippolyte-baraduc/random/desc) and associated [book](https://publicdomainreview.org/collection/baraduc-soul/)
 
 ### Illustrations
 
@@ -114,6 +128,8 @@ https://publicdomainreview.org/essay/the-substantiality-of-spirit/?utm_source=ne
 
 [Civil rights buttons](https://digitalcollections.nypl.org/search/index?filters%5Bgenre_mtxt_s%5D%5B%5D=Buttons+%28Information+artifacts%29&keywords=&layout=false#/?scroll=39)
 
+[Hippolyte Hodeau's leaves](https://pdimagearchive.org/galleries/artists/hippolyte-hodeau/random/desc)
+
 [Collection of MET cylindrical seals with modern impressions](https://www.metmuseum.org/art/collection/search#!?showOnly=withImage%7CopenAccess&q=cylinder%20seal%20and%20modern%20impression&offset=0&perPage=80&sortOrder=asc&searchField=All&pageSize=0)
 
 [Audio recordings at Yellowstone park](https://www.nps.gov/yell/learn/photosmultimedia/soundlibrary.htm)
@@ -134,7 +150,37 @@ https://publicdomainreview.org/essay/the-substantiality-of-spirit/?utm_source=ne
 
 [Morris Huberland's pictures of New York](https://digitalcollections.nypl.org/collections/)morris-huberland#/?tab=about
 
+### MUSIC
+
+https://www.loc.gov/collections/national-jukebox/about-this-collection/genres/
+
+https://musopen.org/music/777-peer-gynt-suite-no-1-op-46/
+
+https://freemusicarchive.org/genre/Big_BandSwing/
+
+https://www.gutenberg.org/browse/categories/3
+
+https://www.openmusicarchive.org/browse_tag.php?tag=1928
+
+[Bessie Smith](https://archive.org/details/BessieSmithNivenJazzCollection_tracked)
+
+[ McKinney's Cotton Pickers - Vol. 1 (RCA) 1928 ](https://archive.org/details/08-mc-kinneys-cotton-pickers-vol-1-cherry/01-McKinney's+Cotton+Pickers+vol+1+-+Four+or+five+times.flac)
+
+[Tree Star Moon](https://soundcloud.com/tree-star-moon/sets/cc0-public-domain-music)
+
+https://archive.org/details/georgeblood?and%5B%5D=year%3A%5B1923+TO+1928%5D
+
+https://www.google.com/search?client=firefox-b-d&q=site%3Asoundcloud.com+CC0
+
+https://freepd.com/epic.php
+
+https://en.wikipedia.org/wiki/Test_card#Test_card_music
+
+
 ## Places to find test material
+
+Public domain image archive:
+https://pdimagearchive.org/?utm_source=newsletter
 
 Find a photographer here and create a portfolio of work:
 https://commons.wikimedia.org/wiki/Category:Photographs_by_photographer

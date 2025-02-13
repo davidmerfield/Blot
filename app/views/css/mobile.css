@@ -6,7 +6,7 @@
     .header {margin-bottom: 12px;}
     
     .header label {
-      display: block;
+      display: block!important;
     }
   
     .content {

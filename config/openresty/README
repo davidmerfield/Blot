@@ -1,3 +1,41 @@
+# To deploy
+
+first check the environment variables are correct:
+
+sudo nano /etc/blot/openresty-deploy-environment.sh
+
+then source them:
+
+. /etc/blot/openresty-deploy-environment.sh
+
+then run the build config script:
+
+node config/openresty/build-config.js
+
+then once you're happy with the diff, run the deploy script:
+
+./config/openresty/deploy-config.sh
+
+
+
+
+
+-----
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # Can we implement cache purging with LUA?
 
 https://scene-si.org/2016/11/02/purging-cached-items-from-nginx-with-lua/

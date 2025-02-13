@@ -123,7 +123,7 @@ repos.on("push", function (push) {
     // Used for testing purposes only
     started(push.request.blog.id);
 
-    sync(push.request.blog.id, function (err) {
+    sync(push.request.blog.id, push.request.gitHandle, function (err) {
       // Used for testing purposes only
       finished(push.request.blog.id);
 

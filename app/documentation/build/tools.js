@@ -6,7 +6,7 @@ const mustache = require("mustache");
 
 const rootDirectory = config.blot_directory + "/app";
 const toolsDirectory = rootDirectory + "/views/tools";
-const outputDirectory = rootDirectory + "/documentation/data/tools";
+const outputDirectory = config.views_directory + "/tools";
 const html = require("./html");
 
 const renderTemplate = async (name, data, destination) => {
@@ -17,7 +17,7 @@ const renderTemplate = async (name, data, destination) => {
 
 const fetch = require("node-fetch");
 
-const fetchIcon = async (link, name) => {
+const fetchIcon = async (link, name, icon) => {
   const existingIcon = fs
     .readdirSync(toolsDirectory + "/icons")
     .find(f => f.startsWith(name + "."));
@@ -30,6 +30,7 @@ const fetchIcon = async (link, name) => {
   const response = await fetch(link);
 
   if (!response.ok) {
+    console.log("Failed to fetch", link);
     return null;
   }
 
@@ -38,7 +39,7 @@ const fetchIcon = async (link, name) => {
 
   const { hostname, protocol } = new URL(link);
 
-  let icon =
+  icon = icon ||
     $("link[rel='apple-touch-icon']").attr("href") ||
     $("link[rel='shortcut icon']").attr("href") ||
     $("link[rel='SHORTCUT ICON']").attr("href") ||
@@ -65,6 +66,7 @@ const fetchIcon = async (link, name) => {
   const iconResponse = await fetch(icon);
 
   if (!iconResponse.ok) {
+    console.log("Failed to fetch icon", icon);
     return null;
   }
 
@@ -86,9 +88,11 @@ const load = async relativePath => {
 
 const main = async () => {
 
+
   const categories = (await fs.readdir(toolsDirectory)).filter(
-    f => f.indexOf(".") === -1 && f !== "icons"
+    f => f.indexOf(".") === -1 && f !== "icons" && f !== "README"
   );
+
 
   const result = { categories: [], tools: [] };
 
@@ -108,6 +112,7 @@ const main = async () => {
       )
     ).sort((a, b) => b.updated - a.updated);
 
+
     result.categories.push({ title, description, slug: category, tools });
     result.tools = result.tools.concat(tools);
   }
@@ -125,6 +130,7 @@ const main = async () => {
         categories: result.categories.map(c => {
           return { ...c, selected: c.slug === category.slug ? "selected" : "" };
         }),
+        description: category.description,
         tools: category.tools,
         category
       },
@@ -147,6 +153,7 @@ const main = async () => {
   }
 
   return result;
+
 };
 
 const parseYAML = html => {
@@ -178,10 +185,13 @@ const loadTool = async (category, tool) => {
     $("h1").text() ||
     (slug[0].toUpperCase() + slug.slice(1)).replace(/-/g, " ");
 
+    const subtitle = $("h2:first-of-type").text() || "";
+
   $("h1").remove();
 
   const result = {
     title,
+    subtitle,
     category,
     html: $.html(),
     updated,
@@ -190,14 +200,30 @@ const loadTool = async (category, tool) => {
   };
 
   if (result.link) {
-    result.icon = await fetchIcon(result.link, result.slug);
+    result.icon = await fetchIcon(result.link, result.slug, result.icon);
+    if (result.icon) {
+      // copy the icon to the output directory
+      await fs.copy(
+        toolsDirectory + result.icon,
+        outputDirectory + result.icon
+      );
+    } else {
+      throw new Error("Failed to fetch icon for " + result.link);
+    }
   }
+
 
   // transform specific properties
   if (result.platforms)
     result.platforms = result.platforms.split(",").map(p => {
       return { name: p.trim() };
     });
+
+  if (result.files) {
+    result.files = result.files.split(",").map(f => {
+      return { name: f, slug: f.trim().toLowerCase().replace(/\s/g, "-") };
+    });
+  }
 
   return result;
 };

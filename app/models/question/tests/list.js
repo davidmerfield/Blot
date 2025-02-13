@@ -17,13 +17,15 @@ describe("questions.list", function () {
     expect(questions[2].id).toBe(first.id);
   });
 
-  xit("lists questions by most recent reply", async function () {
+  it("lists questions by most recent reply", async function () {
     const first = await create({ title: "How?", body: "Yes" });
     const second = await create({ title: "How?", body: "Yes" });
     const third = await create({ title: "How?", body: "Yes" });
 
     await create({ body: "reply", parent: third.id });
+    await new Promise((resolve) => setTimeout(resolve, 100));
     await create({ body: "reply", parent: first.id });
+    await new Promise((resolve) => setTimeout(resolve, 100));
     await create({ body: "reply", parent: first.id });
 
     const { questions } = await list();
@@ -114,7 +116,9 @@ describe("questions.list", function () {
     const third = await create({ title: "How?", body: "Yes" });
 
     await create({ title: "How?", body: "Yes", parent: first.id });
+    await new Promise((resolve) => setTimeout(resolve, 100));
     await create({ title: "How?", body: "Yes", parent: first.id });
+    await new Promise((resolve) => setTimeout(resolve, 100));
     await create({ title: "How?", body: "Yes", parent: second.id });
 
     const { questions } = await list();

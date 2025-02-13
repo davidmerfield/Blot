@@ -34,8 +34,6 @@ module.exports = function route(server) {
     client.subscribe(channel);
 
     client.on("message", function (_channel) {
-      if (_channel !== channel) return;
-
       renderDraft(req, res, next, path, function (html, bodyHTML) {
         try {
           res.write("\n");
@@ -43,11 +41,6 @@ module.exports = function route(server) {
           res.flushHeaders();
         } catch (e) {}
       });
-    });
-
-    // In case we encounter an error...print it out to the console
-    client.on("error", function (err) {
-      console.log("Redis Error: " + err);
     });
 
     req.on("close", function () {
@@ -99,11 +92,7 @@ module.exports = function route(server) {
           entry.previous = previousEntry;
           entry.adjacent = !!(nextEntry || previousEntry);
 
-          response.addLocals({
-            pageTitle: entry.title + " - " + blog.title,
-            pageDescription: entry.summary,
-            entry: entry,
-          });
+          response.locals.entry = entry;
 
           response.renderView("entry.html", next, function (err, output) {
             drafts.injectScript(output, filePath, callback);

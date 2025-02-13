@@ -30,43 +30,41 @@ function zrangeAsync(key, start, stop) {
 }
 
 async function exportQuestions() {
-  try {
-    const allQuestionIds = await smembersAsync(keys.all_questions);
-    const allQuestions = [];
+  const allQuestionIds = await smembersAsync(keys.all_questions);
+  const allQuestions = [];
 
-    for (const id of allQuestionIds) {
-      const question = await hgetallAsync(keys.item(id));
+  for (const id of allQuestionIds) {
+    const question = await hgetallAsync(keys.item(id));
 
-      // map tags to an array
-      question.tags = JSON.parse(question.tags);
+    // map tags to an array
+    question.tags = JSON.parse(question.tags);
 
 
-      const replies = await zrangeAsync(keys.children(id), 0, -1);
+    const replies = await zrangeAsync(keys.children(id), 0, -1);
 
-      question.replies = [];
-      for (const replyId of replies) {
-        const reply = await hgetallAsync(keys.item(replyId));
-        const comments = await zrangeAsync(keys.children(replyId), 0, -1);
+    question.replies = [];
+    for (const replyId of replies) {
+      const reply = await hgetallAsync(keys.item(replyId));
+      const comments = await zrangeAsync(keys.children(replyId), 0, -1);
 
-        reply.comments = [];
-        for (const commentId of comments) {
-          const comment = await hgetallAsync(keys.item(commentId));
-          reply.comments.push(comment);
-        }
-
+      reply.comments = [];
+      for (const commentId of comments) {
+        const comment = await hgetallAsync(keys.item(commentId));
         // map tags to an array
-        reply.tags = JSON.parse(reply.tags);
-
-        question.replies.push(reply);
+        comment.tags = JSON.parse(comment.tags);
+        reply.comments.push(comment);
       }
 
-      allQuestions.push(question);
+      // map tags to an array
+      reply.tags = JSON.parse(reply.tags);
+
+      question.replies.push(reply);
     }
 
-    return allQuestions;
-  } catch (err) {
-    console.error('Error exporting questions:', err);
+    allQuestions.push(question);
   }
+
+  return allQuestions;
 }
 
 module.exports = exportQuestions;

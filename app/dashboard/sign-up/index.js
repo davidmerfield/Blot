@@ -81,7 +81,7 @@ function validateEmail (req, res, next) {
   });
 }
 
-paymentForm.get(csrf, function (req, res) {
+paymentForm.get(csrf, function (req, res, next) {
   if (
     req.session &&
     req.session.email &&
@@ -90,8 +90,8 @@ paymentForm.get(csrf, function (req, res) {
     return res.redirect(req.baseUrl + passwordForm.path);
 
   if (!config.stripe.key) {
-    console.error("Stripe key is not set");
-    next(new Error("Stripe key is not set"));
+    console.error("Warning: Stripe key is not set");
+    return res.redirect('/');
   }
 
   res.locals.title = "Sign up";
@@ -214,10 +214,7 @@ passwordForm.post(parse, csrf, function (req, res, next) {
           sameSite: "Lax"
         });
 
-        req.session.uid = user.uid;
-
-        Email.CREATED_BLOG(user.uid);
-        
+        req.session.uid = user.uid;        
         res.redirect("/sites/account/create-site");
       }
     );

@@ -1,7 +1,6 @@
 var cheerio = require("cheerio");
 var basename = require("path").basename;
 var parse = require("url").parse;
-var Download = require("download");
 var each_el = require("./each_el");
 var fs = require("fs-extra");
 var sharp = require("sharp");
@@ -34,9 +33,16 @@ function download(url, _callback) {
     callback(new Error("Timeout: >10s downloading " + url));
   }, TIMEOUT);
 
-  Download(url)
-    .then(function (data) {
+  fetch(url)
+    .then(function (res) {
+      if (!res.ok) {
+        return callback(new Error("Bad status code: " + res.status));
+      }
       console.log("Successfully downloaded", url);
+
+      return res.buffer();
+    })
+    .then(function (data) {
       sharp(data).metadata(function (err, metadata) {
         var format;
         if (metadata && metadata.format) {
@@ -45,7 +51,7 @@ function download(url, _callback) {
 
         callback(null, data, format);
       });
-    })
+        })
     .catch(function (err) {
       console.log("Failed to download", url, err);
       callback(err);

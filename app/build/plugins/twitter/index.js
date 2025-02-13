@@ -1,21 +1,9 @@
-var config = require("config");
-var each = require("../eachEl");
-var Url = require("url");
 
-var Twit = require("twit");
-var Twitter;
-var SCRIPT =
-  '<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>';
-
-// Disable this module if we have not set a Twitter key
-if (!config.twitter.consumer_key) {
-  return (module.exports = {});
-}
-
-Twitter = new Twit(config.twitter);
+const each = require("../eachEl");
+const Url = require("url");
+const fetch = require("node-fetch");
 
 function render($, callback) {
-  var prepend;
 
   each(
     $,
@@ -26,70 +14,51 @@ function render($, callback) {
       try {
         href = $(el).attr("href");
         text = $(el).text();
-
         host = Url.parse(href).host;
-        id = parseID(href);
       } catch (e) {
         return next();
       }
 
       // Ensure we managed to extract everything from the url
-      if (!href || !text || !id || !host) return next();
+      if (!href || !text || !host) return next();
 
       // Look for bare links
       if (href !== text) return next();
 
-      // which point to twitter.com
-      if (host !== "twitter.com") return next();
+      // which point to a post on flickr, include all flickr hosts including www. subdomain
+      if (!/^(www\.)?(twitter\.com|x\.com)$/.test(host)) return next();
 
       var params = {
-        id: id,
-        hide_thread: true,
+        url: href,
+        format: "json"
       };
 
-      Twitter.get("statuses/oembed", params, function (err, data) {
-        if (err || !data || !data.html) return callback();
+      var oembedUrl =
+        "https://publish.twitter.com/oembed?" +
+        new URLSearchParams(params).toString();
 
-        var html = data.html;
 
-        if (html.indexOf(SCRIPT) > -1) {
-          html = html.split(SCRIPT).join("");
+      fetch(oembedUrl)
+        .then((res) => res.json())
+        .then((data) => {
+
+
+          if (!data || !data.html) return next();
+
+          var html = data.html;
+
           $(el).replaceWith(html);
-          prepend = true;
-        } else {
-          console.warn("Response from twitter no longer includes script tag");
-        }
 
-        next();
-      });
+          next();
+        })
+        .catch(() => {
+          return next();
+        });
     },
     function () {
-      // Now we add the script tag if needed
-      if (prepend) $.root().prepend(SCRIPT);
-
       callback();
     }
   );
-}
-
-function parseID(url) {
-  var path, paths, tweetID, category;
-
-  path = Url.parse(url).pathname;
-
-  // Trim trailing slash if applicable
-  if (path.slice(-1) === "/") path = path.slice(0, -1);
-
-  // map /USER/status/123 -> ['USER', 'status', '123']
-  paths = path.split("/");
-
-  tweetID = paths.pop();
-  category = paths.pop().toLowerCase();
-
-  // Not a twitter status
-  if (category !== "status") return "";
-
-  return tweetID;
 }
 
 module.exports = {

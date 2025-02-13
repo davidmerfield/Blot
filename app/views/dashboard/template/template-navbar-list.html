@@ -2,20 +2,7 @@
   {{#currentTemplate}}
   {{> template-row}}
   {{/currentTemplate}}
-
-  <div class="template-row">
-
-    <div class="preview" style="border:1px dashed #ccc;box-shadow: none;">
-      <a href="{{{dashboardBase}}}/template/new"></a>
-    </div>
-  
-  
-    <a href="{{{dashboardBase}}}/template/new">New template
-    </a>
-  
-  </div>
-  
-  
+    
   {{#templatesInYourFolder.length}}
   <h2>In folder</h2>
   <hr style="border:none;border-bottom: 1px solid #eeeeec;margin:0 0;">
@@ -42,6 +29,18 @@
   {{#pastTemplates}}
   {{> template-row}}
   {{/pastTemplates}}
+
+  <div class="template-row">
+
+    <div class="preview" style="border:1px dashed #ccc;box-shadow: none;">
+      <a href="{{{dashboardBase}}}/template/new"></a>
+    </div>
+  
+  
+    <a href="{{{dashboardBase}}}/template/new">New template
+    </a>
+  
+  </div>
 
   <hr style="border:none;border-bottom: 1px solid #eeeeec;margin:0 0;">
   <a href="{{{dashboardBase}}}/template/deleted">Deleted templates</a><br>

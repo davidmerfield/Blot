@@ -6,13 +6,26 @@ const redis = require("models/redis");
 const client = new redis();
 const documentation = require("./documentation/build");
 const templates = require("./templates");
+const folders = require("./templates/folders");
 const async = require("async");
 const clfdate = require("helper/clfdate");
+const configureLocalBlogs = require("./configure-local-blogs");
 
 const log = (...arguments) =>
   console.log.apply(null, [clfdate(), "Setup:", ...arguments]);
 
+// skip building the documentation if it's already been built
+// this suggests that the server has already been started
+// and this speeds up the restart process when we run out of memory
+const SERVER_RESTART = config.environment === "production" && fs.existsSync(config.views_directory + "/documentation.html")
+
 function main (callback) {
+
+  if (SERVER_RESTART) {
+    log("Server restart detected. Skipping setup.");
+    return callback();
+  }
+
   async.series(
     [
       async function () {
@@ -50,34 +63,44 @@ function main (callback) {
           }
         );
       },
+      
+       function (callback) {
+        // we only want to watch for changes in the templates in development
+        log("Building templates");
+        templates(
+          { watch: config.environment === "development" },
+          function (err) {
+            if (err) throw err;
+            log("Built templates");
+            callback();
+          }
+        );
+      },
+
+
       async function () {
-        // we only want to build the documentation in development
-        // in production we run node app/setup.js to build the documentation
-        // before starting the server
-        if (config.environment === "development" || require.main === module) {
-          log("Building documentation");
-          await documentation({ watch: config.environment === "development" });
-          log("Built documentation");
+        log("Building documentation");
+        // we only want to watch for changes in the documentation in development
+        await documentation({ watch: config.environment === "development" });
+        log("Built documentation");
+      },
+
+      // async function () {
+      //   // if (config.environment === "production") {
+      //   //   log("Building folders");
+      //   //   await folders();
+      //   //   log("Built folders");
+      //   // }
+      // },
+
+      async function ()  {
+        if (config.environment === "development") {
+          log("Configuring local blogs");
+          await configureLocalBlogs();
+          log("Configured local blogs");
         }
       },
-      function (callback) {
-        // we only want to build the templates in development
-        // in production we run node app/setup.js to build the documentation
-        // before starting the server
-        if (config.environment === "development" || require.main === module) {
-          log("Building templates");
-          templates(
-            { watch: config.environment === "development" },
-            function (err) {
-              if (err) throw err;
-              log("Built templates");
-              callback();
-            }
-          );
-        } else {
-          callback();
-        }
-      }
+
     ],
     callback
   );

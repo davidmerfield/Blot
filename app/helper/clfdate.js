@@ -1,3 +1,6 @@
+// map 'blot-container-<container-name>' to 'container-name'
+const CONTAINER_NAME = (process.env.CONTAINER_NAME || "").split("-").slice(2).join("-");
+
 var CLF_MONTH = [
   "Jan",
   "Feb",
@@ -52,6 +55,7 @@ module.exports = function clfdate() {
     pad2(secs) +
     " " +
     offset +
-    "]"
+    "]" + 
+    (CONTAINER_NAME ? " [" + CONTAINER_NAME + "]" : "")
   );
 };

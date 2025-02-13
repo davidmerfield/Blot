@@ -7,20 +7,9 @@ const cheerio = require("cheerio");
 const sharp = require("sharp");
 const fs = require("fs-extra");
 const makeSlug = require("helper/makeSlug");
-
+const fetchItem = require("./fetchItem");
 // https://www.loc.gov/pictures/search/?q=California&fa=displayed%3Aanywhere&sp=1&co=pga
 
-const getItem = async itemID => {
-  console.log("Getting item", itemID);
-
-  const source = `https://www.loc.gov/pictures/item/${itemID}/`;
-  const json = await getMarcRecord(itemID);
-  const $ = await getItemPage(itemID);
-
-  console.log(item);
-
-  return item;
-};
 
 const buildItem = async item => {
   // create a folder for the collection
@@ -51,6 +40,9 @@ const buildItem = async item => {
   await sharp(path)
     .resize(2500, 2500, {
       fit: "inside"
+    })
+    .jpeg({
+      mozjpeg: true
     })
     .toFile(previewPath);
 
@@ -88,17 +80,17 @@ const fetchURLs = async urls => {
     }
 
     try {
-      await getItem(itemID);
+      await fetchItem(itemID);
     } catch (e) {
       console.error(e);
       console.log("Retrying...");
       try {
-        await getItem(itemID);
+        await fetchItem(itemID);
       } catch (e) {
         console.error(e);
         console.log("Retrying...");
         try {
-          await getItem(itemID);
+          await fetchItem(itemID);
         } catch (e) {
           console.error(e);
           console.log("Skipping...");

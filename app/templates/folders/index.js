@@ -23,6 +23,8 @@ const localPath = require("helper/localPath");
 const sync = require("sync");
 const fix = require("sync/fix");
 
+const FOLDER_ACCOUNT_EMAIL = config.admin.email || "folders@example.com";
+
 const updates = {
   bjorn: {
     title: "Björn Allard",
@@ -70,34 +72,32 @@ const updates = {
   }
 };
 
-function main (options, callback) {
-  if (callback === undefined && typeof options === "function") {
-    callback = options;
-    options = {};
-  }
+function main (options = {}) {
+  return new Promise((resolve, reject) => {
 
-  loadFoldersToBuild(DIR, function (err, folders) {
-    if (err) return callback(err);
+    loadFoldersToBuild(DIR, function (err, folders) {
+      if (err) return reject(err);
 
-    if (options.filter) folders = folders.filter(options.filter);
+      if (options.filter) folders = folders.filter(options.filter);
 
-    setupUser(function (err, user, url) {
-      if (err) return callback(err);
+      setupUser(function (err, user, url) {
+        if (err) return reject(err);
 
-      console.log(
-        "Established user " + user.email + " to manage demonstration blogs"
-      );
-      setupBlogs(user, folders, function (err) {
-        if (err) return callback(err);
+        console.log(
+          "Established user " + user.email + " to manage demonstration blogs"
+        );
+        setupBlogs(user, folders, function (err) {
+          if (err) return reject(err);
 
-        folders.forEach(function (folder) {
-          console.log("http://" + basename(folder) + "." + config.host);
-          console.log("Folder:", folder);
-          console.log();
+          folders.forEach(function (folder) {
+            console.log("http://" + basename(folder) + "." + config.host);
+            console.log("Folder:", folder);
+            console.log();
+          });
+
+          console.log("Dashboard:\n" + url);
+          resolve();
         });
-
-        console.log("Dashboard:\n" + url);
-        callback(null);
       });
     });
   });
@@ -124,12 +124,12 @@ function setupUser (_callback) {
     });
   };
 
-  User.getByEmail(config.admin.email, function (err, user) {
+  User.getByEmail(FOLDER_ACCOUNT_EMAIL, function (err, user) {
     if (err) return callback(err);
 
     if (user) return callback(null, user);
 
-    User.create(config.admin.email, config.session.secret, {}, {}, callback);
+    User.create(FOLDER_ACCOUNT_EMAIL, config.session.secret, {}, {}, callback);
   });
 }
 

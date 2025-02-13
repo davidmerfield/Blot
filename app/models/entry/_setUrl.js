@@ -51,6 +51,7 @@ var UID_PERMUTATIONS = 500;
 
 function Candidates (blog, entry) {
   var candidates = [];
+
   var format = blog.permalink.isCustom ? blog.permalink.custom : blog.permalink.format;
   
   // Don't use the permalink format for pages
@@ -197,6 +198,8 @@ module.exports = function (blogID, entry, callback) {
 
   Blog.get({ id: blogID }, function (err, blog) {
     if (err) return callback(err);
+
+    if (!blog) return callback(new Error("Blog not found"));
 
     // does This cause a memory leak? we sometimes
     // exist before calling all the next functions

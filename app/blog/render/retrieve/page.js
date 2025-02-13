@@ -7,10 +7,6 @@ module.exports = function (req, callback) {
 
   Entries.getPage(blog.id, pageNo, pageSize, function (entries, pagination) {
 
-    var pageTitle = blog.title;
-
-    if (pageNo > 1) pageTitle = "Page " + pageNo + " of " + pageTitle;
-
     pagination.current = pageNo;
 
     return callback(null, {

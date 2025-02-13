@@ -27,6 +27,7 @@ var loaded = loadPlugins({
   disqus: require("./disqus"),
   emoticons: require("./emoticons"),
   externalLinks: require("./externalLinks"),
+  flickr: require("./flickr"),
   image: require("./image"),
   imageCaption: require("./imageCaption"),
   katex: require("./katex"),
