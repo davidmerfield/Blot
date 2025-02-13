@@ -38,7 +38,10 @@ const configureBlog = (blogID) => {
   return new Promise((resolve, reject) => {
     Blog.get({ id: blogID }, (err, blog) => {
       if (err) return reject(err);
-      Blog.set(blogID, { forceSSL: false, client: "local" }, (err) => {
+
+      client = !blog.client ? "local" : blog.client;
+      
+      Blog.set(blogID, { forceSSL: false, client }, (err) => {
         if (err) return reject(err);
         resolve(blog);
       });
