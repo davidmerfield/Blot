@@ -1,5 +1,4 @@
 Fix bugs with template engine:
-- Write changes made via web interface to locally edited template folder to prevent clobbering when folder next syncs
 - Prevent double submission on template editor at insertion and front-end levels
 - Make it possible to rename template directories and tell [Darren](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwHxvsmgwbnxLbDMNDplTLltlc) and tell [questioner](https://blot.im/questions/1610)
 - Fix bug not exposing issue with invalid JSON in package.json for locally-edited template on dashboard and tell [Jason](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKjndBRlNNjZtlddcVVfFWVBbg)
@@ -10,11 +9,7 @@ Fix bugs with template engine:
 - Fix bug with chinese characters in template name and follow up with [Alex](https://mail.google.com/mail/u/0/#search/alex/FMfcgzGqRGTCSrMXTznCBvTWhQqvkgCL)
 - Fix bug with date settings on the template editor for [magazine template](https://blot.im/questions/2244)
 - Fix date selector for template and tell [Zach](https://mail.google.com/mail/u/0/#inbox/FMfcgzGxTFSjkTvfDRgNHZwSQqDzWKFB)
-- Fix bug with forking / editing new templates
-- Tell [Jarrod](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrbRSDCZqMwzjDdqdGCkScxpsw) when local template folders better reflect template names
-- Add new template lambdas
-  - Whitespace trimming and tell [Chad](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChmTsrnBLkSXfNXKDtXdNFjfk)
-  - Number formatting (e.g. add commas to int.) and tell [Chad](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChmTsrnBLkSXfNXKDtXdNFjfk)
+- Fix bug with forking / editing new templates and tell [Jarrod](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrbRSDCZqMwzjDdqdGCkScxpsw) when local template folders better reflect template names
 
 Add more efficient popular_tags method
 - add new properties to underlying model
@@ -118,9 +113,15 @@ Fix issue with server restart:
 
 Improvements to template engine
 - Assign guid template IDs
+- Assign unique path to template
+- Assign template withs with full filename
+- Make writeToFolder more efficient by not removing the entire folder each time (only remove orphaned files) and by no rewriting identical files
 - Add search bar to template editor
 - Work out why rebuilding template from folder clears cache even if the template is not changed
   - stop this
+- Add new template lambdas
+  - Whitespace trimming and tell [Chad](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChmTsrnBLkSXfNXKDtXdNFjfk)
+  - Number formatting (e.g. add commas to int.) and tell [Chad](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChmTsrnBLkSXfNXKDtXdNFjfk)
 - Make template slug seperate from the template ID, simply for human readability
 - Tell [bukit](https://mail.google.com/mail/u/0/#inbox/FMfcgzGtwqMCsWCjhPcWpPszlZhtqNnM) when it's possible to change the URL of the /tagged/x pages in the template engine
 - Investigate performance of rich text editor in Safari on template editor and follow up with [Rachel](https://mail.google.com/mail/u/1/#inbox/FMfcgzQXKNFKbzhWFnsgQrBBfGqZNMhL)
