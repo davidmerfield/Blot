@@ -79,12 +79,16 @@ async function main(userEmail) {
     // Authenticate with the service account
     const drive = await authenticateWithServiceAccount();
 
-    // Create a subfolder in the "Sites" folder
-    const subFolderName = `UserFolder-${Date.now()}`;
-    const subFolderId = await createSubFolder(drive, SITES_FOLDER_ID, subFolderName);
+    // // Create a subfolder in the "Sites" folder
+    // const subFolderName = `UserFolder-${Date.now()}`;
+    // const subFolderId = await createSubFolder(drive, SITES_FOLDER_ID, subFolderName);
 
-    // Share the subfolder with the user
-    await shareFolderWithUser(drive, subFolderId, userEmail);
+    const res = await drive.drives.list();
+
+    console.log(res.data);
+
+    // // Share the subfolder with the user
+    // await shareFolderWithUser(drive, subFolderId, userEmail);
   } catch (error) {
     console.error('Error:', error.message);
   }

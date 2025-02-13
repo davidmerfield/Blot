@@ -12,7 +12,8 @@ module.exports = async (blogID, publish) => {
       console.log(clfdate() + " Google Drive:", args.join(" "));
     };
 
-  const { drive, account } = await createDriveClient(blogID);
+  const drive = await createDriveClient(blogID);
+  const account = await database.getAccount(blogID);
   const { folderId } = account;
 
   const checkWeCanContinue = async () => {

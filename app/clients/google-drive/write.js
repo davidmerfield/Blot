@@ -49,7 +49,8 @@ module.exports = async function write(blogID, path, input, callback) {
       return callback(null);
     }
 
-    const { drive, account } = await createDriveClient(blogID);
+    const drive = await createDriveClient(blogID);
+    const account = await database.getAccount(blogID);
 
     if (account.folderId) {
       console.log(prefix(), "will save remote file");

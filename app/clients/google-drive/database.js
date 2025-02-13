@@ -1,5 +1,6 @@
-const client = require("models/client");
 const promisify = require("util").promisify;
+
+const client = require("models/client");
 const set = promisify(client.set).bind(client);
 const get = promisify(client.get).bind(client);
 const del = promisify(client.del).bind(client);
@@ -8,19 +9,10 @@ const hget = promisify(client.hget).bind(client);
 const hdel = promisify(client.hdel).bind(client);
 const hscan = promisify(client.hscan).bind(client);
 
-const INVALID_ACCOUNT_STRING =
-  "Google Drive client: Error decoding JSON for account of blog ";
-
 const database = {
   keys: {
     // Used to renew webhooks for all connected Google Drives
     allAccounts: "clients:google-drive:all-accounts",
-
-    // Used to determine if another blog is connected to a
-    // given Google Drive account during the disconnection process
-    allBlogs: function (permissionId) {
-      return "clients:google-drive:" + permissionId + ":blogs";
-    },
 
     account: function (blogID) {
       return "blog:" + blogID + ":google-drive:account";
@@ -65,29 +57,10 @@ const database = {
       try {
         account = JSON.parse(account);
       } catch (e) {
-        return callback(new Error(INVALID_ACCOUNT_STRING + blogID));
+        return callback(e);
       }
 
       callback(null, account);
-    });
-  },
-
-  // During account disconnection from Google Drive
-  // on Blot's folder settings page we need to determine
-  // whether or not to revoke the credentials, which
-  // unfortunately has global effects and would tank
-  // other blogs also connected to this Google Drive account.
-  canRevoke: function (permissionId, callback) {
-    let canRevokeCredentials;
-
-    if (!permissionId) {
-      canRevokeCredentials = true;
-      return callback(null, canRevokeCredentials);
-    }
-
-    client.smembers(this.keys.allBlogs(permissionId), (err, blogs) => {
-      canRevokeCredentials = !blogs || blogs.length < 2;
-      callback(null, canRevokeCredentials);
     });
   },
 
@@ -98,18 +71,6 @@ const database = {
       account = account || {};
 
       const multi = client.multi();
-
-      if (changes.permissionId)
-        multi.sadd(this.keys.allBlogs(changes.permissionId), blogID);
-
-      // Clean up if the permissionId for a blog changes
-      if (
-        changes.permissionId &&
-        account.permissionId &&
-        changes.permissionId !== account.permissionId
-      ) {
-        multi.srem(this.keys.allBlogs(account.permissionId), blogID);
-      }
 
       for (var i in changes) {
         account[i] = changes[i];
@@ -128,10 +89,6 @@ const database = {
       const multi = client.multi();
 
       multi.del(this.keys.account(blogID)).srem(this.keys.allAccounts, blogID);
-
-      if (account && account.permissionId) {
-        multi.srem(this.keys.allBlogs(account.permissionId), blogID);
-      }
 
       if (account && account.folderId) {
         multi

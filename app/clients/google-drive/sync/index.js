@@ -5,17 +5,29 @@ const database = require("../database");
 const download = require("../util/download");
 const { promisify } = require("util");
 const createDriveClient = require("../util/createDriveClient");
-const determinePathToFolder = require("../util/determinePathToFolder");
 const establishSyncLock = require("../util/establishSyncLock");
 const getBlog = promisify(require("models/blog").get);
 const fix = promisify(require("sync/fix"));
 
 const reset = require("./reset-to-blot");
 
+// const determinePathToFolder = require("../util/determinePathToFolder");
+
 async function sync(blogID) {
+
+  console.log('SYNCING', blogID);
+
   const blog = await getBlog({ id: blogID });
+
+  console.log('Got blog', blog);
+
+  console.log("waiting for lock");
   const { done, folder } = await establishSyncLock(blogID);
-  const { drive, account } = await createDriveClient(blogID);
+  console.log("got lock");
+
+  
+  const drive = await createDriveClient(blogID);
+  const account = await database.getAccount(blogID);
   const { folderId, error } = account;
 
   if (error) {
@@ -64,8 +76,8 @@ async function sync(blogID) {
       return done();
     } else if (id === folderId) {
       folder.status("You moved your folder on Google Drive");
-      const folderPath = await determinePathToFolder(drive, id);
-      await database.setAccount(blogID, { folderPath });
+      // const folderPath = await determinePathToFolder(drive, id);
+      // await database.setAccount(blogID, { folderPath });
     } else if ((trashed || movedOutsideFolder) && storedPathForId) {
       folder.status("Removing", storedPathForId);
       const removedPaths = await db.remove(id);

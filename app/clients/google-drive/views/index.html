@@ -15,11 +15,9 @@ Blot cannot connect to your <b>Google Drive</b>. Please re-connect to give Blot 
   <div class="line">
     <span class="label">Location</span>
     <span class="center"><span style="margin-top:0em;display:inline-block;">
-      <img src="/images/folder-empty.svg" style="position:relative;top:2px;flex-shrink:0;margin-right:6px" width="16">
-    
-    {{#folderParents}}
-       <span style="color:#000">{{name}} {{^last}}<span style="margin-left:0.3em"><svg width="12" height="10" style="transform:rotate(270deg)" viewBox="0 0 10 12" xmlns="http://www.w3.org/2000/svg"><path d="M5.998 6.244c-.255 0-.51-.098-.703-.292L1.048 1.705C.663 1.32.66.683 1.05.293 1.444-.1 2.073-.1 2.462.29L6 3.83 9.538.29c.384-.384 1.02-.388 1.412.003.393.393.39 1.023.002 1.412L6.705 5.952c-.192.192-.447.29-.702.29z" fill="#000"></path></svg>{{/last}}</span>
-      {{/folderParents}}
+        {{#folderName}}
+           <span style="color:#000"> <span class="icon-folder"></span> {{folderName}} </span>
+        {{/folderName}}
     
     
        <span style="color:rgb(158, 154, 152);max-width:500px;display: block;margin-top: 10px">
@@ -36,6 +34,15 @@ Blot cannot connect to your <b>Google Drive</b>. Please re-connect to give Blot 
 </div>
 
 
+  {{/folderId}}
+
+  {{^folderId}}
+  <div class="line">
+    <span class="label">Location</span>
+    <span class="center">Please create a new folder in your Google Drive and share the new folder with the following:
+    <b>{{blot_googledrive_client_email}}</b><button class="copy" data-copy="{{blot_googledrive_client_email}}"><span class="icon-copy"></span> Copy</button>
+    </span>
+  </div>
   {{/folderId}}
 
    <div class="line">
@@ -57,16 +64,19 @@ Blot cannot connect to your <b>Google Drive</b>. Please re-connect to give Blot 
   <p>Sync folder using <strong>Google Drive</strong></p>
   
   <ul>
-    <li>Blot will create a new folder in your Drive.</li>
-    <li>You can revoke Blot’s access to your Drive at any time.</li>
+    <li>Create a new folder in your Google Drive</li>
+    <li>Share this folder with Blot: {{blot_googledrive_client_email}}</li>
   </ul>
 
-  <form class="dashboard-form" action="{{{base}}}/disconnect" method="post">
+  <form class="dashboard-form" action="{{{base}}}/set-up-folder" method="post">
     <input type="hidden" name="_csrf" value="{{csrftoken}}">
+    <label for="email">Google Drive email address</label>
+    <input type="text" name="email">
     <div class="buttons">
-      <a href="{{{base}}}/redirect">Connect to Google Drive</a>
-      <button type="submit">Cancel</button> 
+      <button type="submit">Submit</button> 
+      <button type="submit" name="cancel" value="true">Cancel</button> 
     </div>
   </form>
+
 </div>
 {{/account}}

@@ -13,7 +13,8 @@ module.exports = async (blogID, publish, update) => {
       console.log(clfdate() + " Google Drive:", args.join(" "));
     };
 
-  const { drive, account } = await createDriveClient(blogID);
+  const drive = await createDriveClient(blogID);
+  const account = await database.getAccount(blogID);
   const { reset, get, set, remove } = database.folder(account.folderId);
 
   // resets pageToken and folderState

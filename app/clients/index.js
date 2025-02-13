@@ -20,7 +20,7 @@ if (
 
 // If we have the require creds to run
 // the google drive app
-if (config.google.drive.key && config.google.drive.secret) {
+if (process.env.BLOT_GOOGLEDRIVE_PROJECT_ID) {
   clients['google-drive'] = require("./google-drive");
 }
 

@@ -3,64 +3,12 @@ const moment = require("moment");
 const config = require("config");
 const querystring = require("querystring");
 const hash = require("helper/hash");
-const sync = require("../sync");
 const clfdate = require("helper/clfdate");
-const database = require("../database");
 const express = require("express");
 const site = new express.Router();
-const cookieParser = require("cookie-parser");
 
-// Customers are sent back to:
-// blot.im/clients/google-drive/authenticate
-// when they have authorized (or declined to authorize)
-// Blot's access to their folder. This is a public-facing
-// route without access to the customer's session by default.
-// We need to work out which blog they were
-// authenticating based on a value stored in their session
-// before they were sent out to Google Drive. Unfortunately we
-// can't pass a blog username in the URL, since it needs to
-// be the same URL every time, e.g. this would not work:
-// blot.im/clients/google-drive/authenticate?handle=david
-
-// Additionally, in development mode, we are:
-// first sent back to:
-// tunnel.blot.im/clients/google-drive/authenticate
-// are then redirected to:
-// blot.development/clients/google-drive/authenticate
-// and finally redirected to:
-// blot.development/dashboard/*/client/google-drive/authenticate
-site.get("/authenticate", cookieParser(), function (req, res) {
-  // This means we hit the public routes on Blot's site
-  if (req.cookies.blogToAuthenticate) {
-    const redirect =
-      "/sites/" +
-      req.cookies.blogToAuthenticate +
-      "/client/google-drive/authenticate?" +
-      querystring.stringify(req.query);
-
-    res.clearCookie("blogToAuthenticate");
-    res.send(`<html>
-<head>
-<meta http-equiv="refresh" content="0;URL='${redirect}'"/>
-<script type="text/javascript">window.location='${redirect}'</script>
-</head>
-<body>
-<noscript><p>Continue to <a href="${redirect}">${redirect}</a>.</p></noscript>
-</body>
-</html>`);
-    // This means we hit the public routes on Blot's webhook
-    // forwarding host (e.g. tunnel.blot.im) we don't have access
-    // to the session info yet so we redirect to the public routes
-    // on Blot's site, which will be able to access the session.
-  } else {
-    const url =
-      config.protocol +
-      config.host +
-      "/clients/google-drive/authenticate?" +
-      querystring.stringify(req.query);
-    res.redirect(url);
-  }
-});
+const sync = require("clients/google-drive/sync");
+const database = require("clients/google-drive/database");
 
 site
   .route("/webhook")
@@ -101,25 +49,14 @@ site
     // We can't call drive.stop on the stale channel since the
     // refresh_token likely changed, just let it expire instead.
     if (!account || !_.isEqual(channel, account.channel)) {
-      return res.send("OK");
+        console.log(prefix(), blogID, "Stale channel, ignoring");
+        return res.send("OK");
     }
 
     res.send("OK");
 
-    try {
-      await sync(blogID);
-    } catch (err) {
-      console.error(prefix(), blogID, "Error:", err);
-      // folder.log("Error:", err.message);
-      //    try {
-      //      await reset(blogID);
-      //      const blog = await getBlog({ id: blogID });
-      //      await fix(blog);
-      //    } catch (e) {
-      //      folder.log("Error verifying folder:", e.message);
-      //      return done(e, callback);
-      //    }
-    }
+    console.log(prefix(), blogID, "Received webhook begin sync");
+    sync(blogID);
   });
 
 module.exports = site;
