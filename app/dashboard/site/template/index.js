@@ -178,7 +178,7 @@ TemplateEditor.route("/:templateSlug/local-editing")
     );
   });
 
-  TemplateEditor.route('/:templateSlug/download')
+  TemplateEditor.route('/:templateSlug/download-zip')
   .get(function (req, res) {
 
     // create a zip file of the template on the fly and send it to the user
@@ -207,8 +207,10 @@ TemplateEditor.route("/:templateSlug/local-editing")
         archive.append(views[view].content, { name: view });
       }
 
+      const package = Template.package.generate(req.blog.id, template, views);
+
       // append the template JSON as 'package.json'
-      archive.append(JSON.stringify(template, null, 2), { name: 'package.json' });
+      archive.append(package, { name: 'package.json' });
 
       // Finalize the archive
       archive.finalize();
@@ -280,14 +282,14 @@ TemplateEditor.route("/:templateSlug/photo")
     
 });
 
-TemplateEditor.route("/:templateSlug/share")
+TemplateEditor.route("/:templateSlug/download")
 
   .get(function (req, res) {
-    res.locals.title = `Share - ${req.template.name}`;
+    res.locals.title = `Download - ${req.template.name}`;
     res.locals.shareURL = `${req.protocol}://${req.hostname}/sites/share-template/${res.locals.template.shareID}`;
-    res.locals.breadcrumbs.add("Share", "share");
+    res.locals.breadcrumbs.add("Download", "download");
 
-    res.render("dashboard/template/share");
+    res.render("dashboard/template/download");
   })
   .post(parse, function (req, res, next) {
     if (req.template.shareID) {
