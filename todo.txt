@@ -1,9 +1,5 @@
 Fix bugs with template engine:
-- Fix local template editing bug 
-  - [Haider](https://mail.google.com/mail/u/1/#inbox/FMfcgzQXKhGHGKDtgNPRrVlpwHThCJnL)
 - Prevent double submission on template editor at insertion and front-end levels
-- Local editing
-  - Fix bug with title and partials in local editing then tell [Luke](https://mail.google.com/mail/u/1/#inbox/164afa87ede57db7) and [Frank](https://mail.google.com/mail/u/1/#inbox/164ae2e3789b8d4c)
 - Fix bug with template editor which resets content of a view. Follow up with [Nathan](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLhgJQTTQZvpsxJDBgnNQpJnJ) who has extensive steps to reproduce, and John
 - Make it possible to rename template directories and tell [Darren](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwHxvsmgwbnxLbDMNDplTLltlc)
 - Make it possible to rename locally edited template folder and tell [questioner](https://blot.im/questions/1610)
@@ -17,7 +13,6 @@ Fix bugs with template engine:
 - Investigate why [Darren cannot open the template editor](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJSBJCRPJsLFddJCNzTnnQgjs)
 - Fix date selector for template and tell [Zach](https://mail.google.com/mail/u/0/#inbox/FMfcgzGxTFSjkTvfDRgNHZwSQqDzWKFB)
 - Fix bug with forking / editing new templates
-- Fix missing 'views' property of templates in package.json after downloading a template through the web template editor.
 - Tell [Jarrod](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrbRSDCZqMwzjDdqdGCkScxpsw) when local template folders better reflect template names
 - Add new template lambdas
   - Whitespace trimming and tell [Chad](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChmTsrnBLkSXfNXKDtXdNFjfk)
