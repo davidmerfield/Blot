@@ -1,4 +1,5 @@
 Fix bugs with template engine:
+- Write changes made via web interface to locally edited template folder to prevent clobbering when folder next syncs
 - Prevent double submission on template editor at insertion and front-end levels
 - Fix bug with template editor which resets content of a view. Follow up with [Nathan](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLhgJQTTQZvpsxJDBgnNQpJnJ) who has extensive steps to reproduce, and John
 - Make it possible to rename template directories and tell [Darren](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwHxvsmgwbnxLbDMNDplTLltlc)
