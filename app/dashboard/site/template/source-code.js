@@ -5,6 +5,7 @@ const Template = require("models/template");
 const formJSON = require("helper/formJSON");
 const extend = require("helper/extend");
 const async = require("async");
+const writeChangeToFolder = require("./save/writeChangeToFolder");
 
 SourceCode.param("viewSlug", require("./load/template-views"));
 SourceCode.param("viewSlug", require("./load/template-view"));
@@ -123,17 +124,22 @@ SourceCode.route("/:viewSlug/edit")
             },
             function (err) {
               if (err) return next(err);
-              res.send("Saved changes!");
+              writeChangeToFolder(req.blog, req.template, view, function (err) {
+                if (err) return next(err);
+                res.send("Saved changes!");
+              });
             }
           );
         }
       );
     } else {
-      Template.setView(req.template.id, view, function (err) {
-        if (err) return next(err);
-
-        res.send("Saved changes!");
-      });
+        Template.setView(req.template.id, view, function (err) {
+          if (err) return next(err);
+          writeChangeToFolder(req.blog, req.template, view, function (err) {
+            if (err) return next(err);
+            res.send("Saved changes!");
+          });
+        });
     }
   });
 
