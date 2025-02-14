@@ -1,10 +1,22 @@
 const database = require('clients/google-drive/database');
+const config = require('config');
 
 module.exports = async function () {
-    const serviceAccounts = await database.serviceAccount.all();
+    let serviceAccounts = await database.serviceAccount.all();
 
     if (!serviceAccounts || serviceAccounts.length === 0) {
         throw new Error('No service accounts found in the database.');
+    }
+
+    // filter the service accounts such that only those whose credentials are valid are considered
+    serviceAccounts = serviceAccounts.filter((account) => {
+        return config.google_drive.service_accounts.some((credentials) => {
+            return credentials.client_id === account.client_id;
+        });
+    });
+
+    if (serviceAccounts.length === 0) {
+        throw new Error('No service accounts with valid credentials found in the database.');
     }
 
     // log all the accounts and their free space

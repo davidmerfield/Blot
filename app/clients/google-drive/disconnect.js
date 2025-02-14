@@ -17,8 +17,8 @@ module.exports = async (blogID, callback) => {
     const account = await database.getAccount(blogID);
 
     if (account && account.channel) {
-        const drive = await createDriveClient(blogID);
         try {
+            const drive = await createDriveClient(blogID);
             debug("attempting to stop listening to webhooks");
             await drive.channels.stop({
               requestBody: account.channel,

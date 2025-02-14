@@ -9,6 +9,9 @@ The service account will automatically accept sharing requests sent to it.
 How is storage usage affected by 'service accounts'?
 - it seems like each service account gets its own storage quota of 15GB!?
 
+Do multiple service accounts share the same storage quota? If we upgrade the storage size and have this affect all service accounts?
+- No they do not share the same quota
+
 ## How to add a new service account
 
 Service accounts are robot google drive accounts which sync the user's folder to Blot's server. The user shares their site folder through Google Drive with the service account, which in turn calls Blot.
@@ -17,11 +20,9 @@ Service accounts are robot google drive accounts which sync the user's folder to
 
 https://console.cloud.google.com
 
-2. Go to 'Enabled APIs & services' and disable all APIs except:
+2. Go to 'Enabled APIs & services' and enable:
 
 Google Drive API 	
-
-Do multiple service accounts share the same storage quota? If we upgrade the storage size and have this affect all service accounts?
 
 3. Create a service account
 
