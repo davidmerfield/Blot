@@ -9,6 +9,7 @@ module.exports = async function () {
     }
 
     // filter the service accounts such that only those whose credentials are valid are considered
+    // this may occur if we remove a service account from the config but it still exists in the database
     serviceAccounts = serviceAccounts.filter((account) => {
         return config.google_drive.service_accounts.some((credentials) => {
             return credentials.client_id === account.client_id;

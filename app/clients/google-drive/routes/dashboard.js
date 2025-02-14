@@ -8,8 +8,6 @@ const createDriveClient = require("../util/createDriveClient");
 const requestServiceAccount = require("../util/requestServiceAccount");
 const setupWebhook = require("../util/setupWebhook");
 const resetFromBlot = require("../sync/reset-from-blot");
-const { client } = require("../../../dashboard/site/load");
-const { error } = require("console");
 const parseBody = require("body-parser").urlencoded({ extended: false });
 
 const VIEWS = require("path").resolve(__dirname + "/../views") + "/";
