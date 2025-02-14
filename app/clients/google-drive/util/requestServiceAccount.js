@@ -1,5 +1,8 @@
 const database = require('clients/google-drive/database');
 const config = require('config');
+const email = require('helper/email');
+
+const MIN_FREE_SPACE_BYTES = 5 * 1024 * 1024 * 1024; // 5 GB
 
 module.exports = async function () {
     let serviceAccounts = await database.serviceAccount.all();
@@ -38,6 +41,10 @@ module.exports = async function () {
     const selectedFreeSpace = serviceAccounts[0].storageQuota.limit - serviceAccounts[0].storageQuota.usage;
 
     console.log('Selected service account:', selectedClientId, 'with', selectedFreeSpace, 'bytes of free space.');
+
+    if (selectedFreeSpace < MIN_FREE_SPACE_BYTES) {
+        email.GOOGLE_DRIVE_SERVICE_ACCOUNT_LOW()
+    }
 
     return selectedClientId;
 }
