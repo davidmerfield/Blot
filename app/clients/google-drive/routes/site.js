@@ -55,8 +55,12 @@ site
 
     res.send("OK");
 
-    console.log(prefix(), blogID, "Received webhook begin sync");
-    sync(blogID);
+    try {
+        console.log(prefix(), blogID, "Received webhook begin sync");
+        sync(blogID);    
+    } catch (e) {
+        console.error(prefix(), blogID, "Error during sync", e);
+    }
   });
 
 module.exports = site;

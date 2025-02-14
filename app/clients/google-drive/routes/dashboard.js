@@ -13,9 +13,14 @@ const VIEWS = require("path").resolve(__dirname + "/../views") + "/";
 
 dashboard.use(async function (req, res, next) {
   const account = await database.getAccount(req.blog.id);
-  res.locals.blot_googledrive_client_email = process.env.BLOT_GOOGLEDRIVE_CLIENT_EMAIL;
+
   res.locals.account = account;
 
+  if (account && account.client_id) {
+    const serviceAccount = await database.serviceAccount.get(account.client_id);
+    console.log('serviceAccount', serviceAccount);
+    res.locals.serviceAccountEmail = serviceAccount.user.emailAddress;
+  }
   next();
 });
 
@@ -35,15 +40,47 @@ dashboard
 
 dashboard.route("/set-up-folder")
     .post(parseBody, async function (req, res, next) {
-        console.log('req.body', req.body);
 
         if (req.body.cancel){
             return disconnect(req.blog.id, next);
         }
 
         if (req.body.email) {
+          // Determine the service account ID we'll use to sync this blog.
+          // We query the database to retrieve all the service accounts, then
+          // sort them by the available space (storageQuota.available - storageQuota.used)
+          // to find the one with the most available space.
+
+          const serviceAccounts = await database.serviceAccount.all();
+
+          if (!serviceAccounts || serviceAccounts.length === 0) {
+              throw new Error('No service accounts found in the database.');
+          }
+
+          console.log('Service accounts:', serviceAccounts);
+
+          // Sort service accounts by the available space in descending order
+          serviceAccounts.sort((a, b) => {
+              const freeSpaceA = parseInt(a.storageQuota.limit) - parseInt(a.storageQuota.usage);
+              const freeSpaceB = parseInt(b.storageQuota.limit) - parseInt(b.storageQuota.usage);
+              return freeSpaceB - freeSpaceA; // Descending order
+          });
+
+          // Select the service account with the most available space
+          const selectedClientId = serviceAccounts[0].client_id;
+          const selectedFreeSpace = serviceAccounts[0].storageQuota.limit - serviceAccounts[0].storageQuota.usage;
+
+          console.log(
+              'Using service account:',
+              {
+                  client_id: selectedClientId,
+                  available_space: `${selectedFreeSpace} bytes`
+              }
+          );
+         
             await database.setAccount(req.blog.id, {
                 email: req.body.email,
+                client_id: selectedClientId,
                 preparing: true
             });
 

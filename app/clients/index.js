@@ -20,7 +20,7 @@ if (
 
 // If we have the require creds to run
 // the google drive app
-if (process.env.BLOT_GOOGLEDRIVE_PROJECT_ID) {
+if (config.google_drive.service_accounts.length) {
   clients['google-drive'] = require("./google-drive");
 }
 

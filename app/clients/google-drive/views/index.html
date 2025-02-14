@@ -40,7 +40,7 @@ Blot cannot connect to your <b>Google Drive</b>. Please re-connect to give Blot 
   <div class="line">
     <span class="label">Location</span>
     <span class="center">Please create a new folder in your Google Drive and share the new folder with the following:
-    <b>{{blot_googledrive_client_email}}</b><button class="copy" data-copy="{{blot_googledrive_client_email}}"><span class="icon-copy"></span> Copy</button>
+    <b>{{serviceAccountEmail}}</b><button class="copy" data-copy="{{serviceAccountEmail}}"><span class="icon-copy"></span> Copy</button>
     </span>
   </div>
   {{/folderId}}
@@ -65,12 +65,12 @@ Blot cannot connect to your <b>Google Drive</b>. Please re-connect to give Blot 
   
   <ul>
     <li>Create a new folder in your Google Drive</li>
-    <li>Share this folder with Blot: {{blot_googledrive_client_email}}</li>
+    <li>Share this folder with Blot</li>
   </ul>
 
   <form class="dashboard-form" action="{{{base}}}/set-up-folder" method="post">
     <input type="hidden" name="_csrf" value="{{csrftoken}}">
-    <label for="email">Google Drive email address</label>
+    <label for="email">Your Google Drive email address:</label>
     <input type="text" name="email">
     <div class="buttons">
       <button type="submit">Submit</button> 

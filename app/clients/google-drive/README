@@ -23,3 +23,39 @@ The internal Google Drive Client uses the captured email to:
 SHould we ask the user to share a folder with our email? This was it's a 'true' folder and doesn't show up in 'shared with me'.
 
 How is storage usage affected by 'service accounts'?
+- it seems like each service account gets its own storage quota of 15GB!?
+
+
+## How to get credentials
+
+1. Create a Google Account
+
+2. Open the cloud console:
+
+https://console.cloud.google.com
+
+3. Go to 'Enabled APIs & services' and disable all APIs except:
+
+Drive Activity API 					
+Google Drive API 	
+
+Do multiple service accounts share the same storage quota? If we upgrade the storage size and have this affect all service accounts?
+
+4. Create service account
+
+Service account name: Blot
+Service account ID: drive-a
+
+Add no permissions (skip, skip)
+
+5. Create a key
+
+Download the JSON and then run:
+
+node app/clients/google-drive/scripts/parseCreds <jsonpath>
+
+Copy/paste the output into the env file:
+- in development: ~/Projects/blot/.env
+- in production: /etc/blot/secrets.env
+
+6. Reload the server
