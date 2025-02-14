@@ -142,13 +142,6 @@ module.exports = {
     password: process.env.BLOT_BACKUP_SECRET
   },
 
-  google: {
-    drive: {
-      key: process.env.BLOT_GOOGLEDRIVE_ID,
-      secret: process.env.BLOT_GOOGLEDRIVE_SECRET
-    }
-  },
-
   google_drive: {
     service_accounts: (() => {
       try {
