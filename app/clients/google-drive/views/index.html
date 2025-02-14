@@ -1,46 +1,53 @@
 {{#account}}
-
-{{> status-line}}
-
 <div class="live-updates">
 
 {{#error}}
-<a href="{{{base}}}/redirect" class="mess error">
-Blot cannot connect to your <b>Google Drive</b>. Please re-connect to give Blot access so you can sync your folder.<br><br>
-<span class="button">Re-connect to Google Drive</span>
-</a>
+
+<form class="mess error" action="{{{base}}}/set-up-folder" method="post">
+    <input type="hidden" name="_csrf" value="{{csrftoken}}">
+    <input type="hidden" name="email" value="{{email}}">
+    {{error}}
+    <div class="buttons">
+        <button type="submit">Re-connect to Google Drive</button> 
+        <button type="submit" name="cancel" value="true">Cancel</button> 
+    </div>  
+</form>
+
+
+
 {{/error}}
 
+
+{{> status-line}}
+
+
   {{#folderId}}
-  <div class="line">
-    <span class="label">Location</span>
-    <span class="center"><span style="margin-top:0em;display:inline-block;">
+  <a class="line" href="https://drive.google.com/drive/folders/{{folderId}}" target="_blank">
+    <span class="label">Folder name</span>
+    <span class="center">
         {{#folderName}}
-           <span style="color:#000"> <span class="icon-folder"></span> {{folderName}} </span>
+           <span style="color:#000"> <span class="icon-folder"></span> {{folderName}} </span> 
+           <span class="right">Open with Google Drive</span>
         {{/folderName}}
+        </span>
     
     
        <span style="color:rgb(158, 154, 152);max-width:500px;display: block;margin-top: 10px">
           {{#preparing}}
           Please wait to make any changes to this folder until the set-up is complete.
           {{/preparing}}
-          {{^preparing}}
-           You can rename and move this folder anywhere within Google Drive.
-          {{/preparing}}
-          </span>
- </span>
-
-
-</div>
-
-
+        </span>
+  </a>
   {{/folderId}}
 
   {{^folderId}}
-  <div class="line">
-    <span class="label">Location</span>
-    <span class="center">Please create a new folder in your Google Drive and share the new folder with the following:
+  <div class="line" style="flex-wrap: nowrap;">
+    <span class="label">Folder name</span>
+    <span class="center">Please create a new folder in your Google Drive and share the folder with the following account, managed by Blot:
+        <br><br>
     <b>{{serviceAccountEmail}}</b><button class="copy" data-copy="{{serviceAccountEmail}}"><span class="icon-copy"></span> Copy</button>
+
+    <br><br>You must grant <b>Editor</b> permissions to the account above.
     </span>
   </div>
   {{/folderId}}
