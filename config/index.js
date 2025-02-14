@@ -142,13 +142,6 @@ module.exports = {
     password: process.env.BLOT_BACKUP_SECRET
   },
 
-  google: {
-    drive: {
-      key: process.env.BLOT_GOOGLEDRIVE_ID,
-      secret: process.env.BLOT_GOOGLEDRIVE_SECRET
-    }
-  },
-
   twitter: {
     consumer_key: process.env.BLOT_TWITTER_CONSUMER_KEY,
     consumer_secret: process.env.BLOT_TWITTER_CONSUMER_SECRET,
