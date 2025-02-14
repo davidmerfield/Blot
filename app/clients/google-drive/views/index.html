@@ -22,22 +22,23 @@
 
 
   {{#folderId}}
-  <a class="line" href="https://drive.google.com/drive/folders/{{folderId}}" target="_blank">
+  <a class="line" style="flex-wrap: nowrap;" href="https://drive.google.com/drive/folders/{{folderId}}" target="_blank">
     <span class="label">Folder name</span>
     <span class="center">
         {{#folderName}}
            <span style="color:#000"> <span class="icon-folder"></span> {{folderName}} </span> 
-           <span class="right">Open with Google Drive</span>
+           <span class="right">Open in Google Drive</span>
         {{/folderName}}
-        </span>
-    
-    
-       <span style="color:rgb(158, 154, 152);max-width:500px;display: block;margin-top: 10px">
-          {{#preparing}}
+        {{#preparing}}
+        <br>
+        <span style="color:rgb(158, 154, 152);max-width:500px;display: block;margin-top: 10px">
           Please wait to make any changes to this folder until the set-up is complete.
-          {{/preparing}}
         </span>
-  </a>
+        {{/preparing}}
+      </span>
+    
+    
+      </a>
   {{/folderId}}
 
   {{^folderId}}

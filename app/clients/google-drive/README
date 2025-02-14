@@ -2,60 +2,44 @@
 
 This repository contains the code for Blot’s Google Drive Client, designed to handle all interactions with Google Drive for the Blot blogging platform. The client is responsible for managing shared folders, syncing changes, and facilitating smooth integration between Blot and Google Drive.
 
-There are two 'apps', one external which requests the user's email address through the OAUTH flow.
-The other is a 'service account' which has access to a Drive folder created by contact@blot.im
+Right now we ask the user for their Google Drive email.
 
-The service account creates a new site folder inside the Sites folder and then shares it with the user's email. I created 
-
-## How It Works
-	1.	User Authentication:
-Users log in via Blot’s external app, which captures their Google email address.
-	2.	Folder Creation and Sharing:
-The internal Google Drive Client uses the captured email to:
-	•	Create a folder in Blot’s Google Drive account.
-	•	Share the folder with the user (role=editor).
-	3.	Change Tracking and Syncing:
-	•	Monitor the shared folder for changes using the Google Drive API.
-	•	Sync updates, including file uploads, edits, and deletions, to Blot’s server.    
-
----
-
-SHould we ask the user to share a folder with our email? This was it's a 'true' folder and doesn't show up in 'shared with me'.
+The service account will automatically accept sharing requests sent to it.
 
 How is storage usage affected by 'service accounts'?
 - it seems like each service account gets its own storage quota of 15GB!?
 
+## How to add a new service account
 
-## How to get credentials
+Service accounts are robot google drive accounts which sync the user's folder to Blot's server. The user shares their site folder through Google Drive with the service account, which in turn calls Blot.
 
-1. Create a Google Account
-
-2. Open the cloud console:
+1. Create a Google Account and open the cloud console:
 
 https://console.cloud.google.com
 
-3. Go to 'Enabled APIs & services' and disable all APIs except:
+2. Go to 'Enabled APIs & services' and disable all APIs except:
 
-Drive Activity API 					
 Google Drive API 	
 
 Do multiple service accounts share the same storage quota? If we upgrade the storage size and have this affect all service accounts?
 
-4. Create service account
+3. Create a service account
 
 Service account name: Blot
 Service account ID: drive-a
 
-Add no permissions (skip, skip)
+Do not grant any permissions (skip, skip)
 
-5. Create a key
+4. Create a key
+
+Add key > Create new key > JSON
 
 Download the JSON and then run:
 
-node app/clients/google-drive/scripts/parseCreds <jsonpath>
+node scripts/google-drive/convertCredentialJSON <path to credentials.json>
 
-Copy/paste the output into the env file:
+This script produces a new env variable. Copy/paste the output into the env file:
 - in development: ~/Projects/blot/.env
 - in production: /etc/blot/secrets.env
 
-6. Reload the server
+5. Reload the server

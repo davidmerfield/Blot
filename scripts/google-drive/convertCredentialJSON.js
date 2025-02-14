@@ -1,7 +1,7 @@
 const fs = require('fs-extra');
 
 if (process.argv.length !== 3) {
-    console.error('Usage: node app/clients/google-drive/scripts/parseCreds.js <path to credentials.json>');
+    console.error('Usage: node scripts/google-drive/convertCredentialJSON <path to credentials.json>');
     process.exit(1);
 }
 
