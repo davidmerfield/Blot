@@ -52,7 +52,7 @@ describe("google drive client: database", function () {
     const updatedServiceAccount = await database.serviceAccount.get(serviceAccountId);
     expect(updatedServiceAccount).toEqual({ foo: "bar", baz: "bat" });
     const allServiceAccounts = await database.serviceAccount.all();
-    expect(allServiceAccounts).toEqual([updatedServiceAccount]);
+    expect(allServiceAccounts).toEqual([{ client_id: serviceAccountId, foo: "bar", baz: "bat" }]);
   });
 
   it("deletes the folder keys when dropping an account", async function () {
