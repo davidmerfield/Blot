@@ -1,73 +1,58 @@
-const config = require("config");
-const database = require("./database");
-const google = require("googleapis").google;
 const Blog = require("models/blog");
 const establishSyncLock = require("./util/establishSyncLock");
+const database = require("./database");
+const createDriveClient = require("./util/createDriveClient");
 const debug = require("debug")("blot:clients:google-drive");
+const config = require("config");
+const WEBHOOK_HOST = config.environment === "development" ? config.webhooks.relay_host : config.host;
+const ADDRESS = `https://${WEBHOOK_HOST}/clients/google-drive/webhook`;
 
-async function disconnect(blogID, callback) {
-	let done;
+module.exports = async (blogID, callback) => {
+    let done;
 
-	try {
-		let lock = await establishSyncLock(blogID);
-		done = lock.done;
-	} catch (err) {
-		return callback(err);
-	}
+    try {
+        let lock = await establishSyncLock(blogID);
+        done = lock.done;
+    } catch (err) {
+        return callback(err);
+    }
 
-	debug("getting account info");
-	const account = await database.getAccount(blogID);
+    // add method to process all channels with a given blogID
+    // we do not wait for this to complete because it is not
+    // critical to the disconnection process and it takes a long time
+    database.channel.processAll(async (channel) => {
+        
+      if (channel.blogID !== blogID) return;
 
-	if (account && account.access_token && account.refresh_token) {
-		const canRevoke = await database.canRevoke(account.permissionId);
-		const auth = new google.auth.OAuth2(
-			config.google.drive.key,
-			config.google.drive.secret
-		);
+        try {
+          const drive = await createDriveClient(blogID);
+          await database.channel.drop(channel.id);
+          debug("attempting to stop listening to webhooks");
+          const res = await drive.channels.stop({
+            requestBody: {
+              id: channel.id,
+              resourceId: channel.resourceId,
+              resourceUri: channel.resourceUri,
+              type: "web_hook",
+              kind: "api#channel",
+              address: ADDRESS,
+            }
+          });
+          
+          if (res.data !== '') throw new Error("Failed to stop listening to webhooks: " + res.data);
 
-		auth.setCredentials({
-			refresh_token: account.refresh_token,
-			access_token: account.access_token,
-		});
+          debug("stop listening to webhooks successfully", res);
+        } catch (e) {
+          debug("failed to stop webhooks but no big deal:", e.message);
+          debug("it will expire automatically");
+        }
+      });
 
-		if (account.channel) {
-			try {
-				debug("attempting to stop listening to webhooks");
-				const drive = google.drive({ version: "v3", auth });
-				await drive.channels.stop({
-					requestBody: account.channel,
-				});
-				debug("stop listening to webhooks successfully");
-			} catch (e) {
-				debug("failed to stop webhooks but no big deal:", e.message);
-				debug("it will expire automatically");
-			}
-		}
+    
+    await database.dropAccount(blogID);
 
-		// We need to preserve Blot's access to this Google
-		// Drive account if another blog uses it. Unfortunately
-		// it seems impossible to simple revoke one blog's access
-		// other blogs connected to the account lose access too.
-		if (canRevoke) {
-			try {
-				debug("Trying to revoke Google API credentials");
-				// destroys the oauth2Client's active
-				// refresh_token and access_token
-				await auth.revokeCredentials();
-			} catch (e) {
-				debug("Failed to revoke but token should expire naturally", e.message);
-			}
-		}
-	}
-
-	debug("dropping blog from database");
-	await database.dropAccount(blogID);
-
-	debug("resetting client setting");
-	Blog.set(blogID, { client: "" }, async function (err) {
-		await done(err);
-		callback();
-	});
-}
-
-module.exports = disconnect;
+    Blog.set(blogID, { client: "" }, async function (err) {
+        await done(err);
+        callback();
+    });
+};

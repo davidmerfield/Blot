@@ -7,7 +7,8 @@ const database = require("./database");
 module.exports = async function remove(blogID, path, callback) {
   const prefix = () => clfdate() + " Google Drive:";
   try {
-    const { drive, account } = await createDriveClient(blogID);
+    const drive = await createDriveClient(blogID);
+    const account = await database.getAccount(blogID);
     const { getByPath } = database.folder(account.folderId);
 
     console.log(prefix(), "Looking up fileId for", path);

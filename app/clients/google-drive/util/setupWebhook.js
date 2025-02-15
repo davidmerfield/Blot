@@ -1,62 +1,90 @@
+const config = require("config");
 const guid = require("helper/guid");
 const hash = require("helper/hash");
-const querystring = require("querystring");
-const database = require("../database");
-const config = require("config");
 const createDriveClient = require("./createDriveClient");
-const debug = require("debug")("blot:clients:google-drive");
+const database = require("../database");
+const clfdate = require("helper/clfdate");
 
-module.exports = async (blogID) => {
-  const { drive, account } = await createDriveClient(blogID);
+const TEN_MINUTES = 1000 * 60 * 10; // in ms
+const WEBHOOK_HOST = config.environment === "development" ? config.webhooks.relay_host : config.host;
+const ADDRESS = `https://${WEBHOOK_HOST}/clients/google-drive/webhook`;
 
-  if (account.channel) {
-    try {
-      debug("attempting to stop listening to webhooks");
-      await drive.channels.stop({
-        requestBody: account.channel,
-      });
-      debug("stop listening to webhooks successfully");
-    } catch (e) {
-      debug("failed to stop webhooks but no big deal:", e.message);
-      debug("it will expire automatically");
+const prefix = () => clfdate() + " Google Drive:";
+
+module.exports = async (blogID, fileId) => {
+
+  if (typeof blogID !== "string") throw new Error("Expected blogID to be a string");
+
+  if (typeof fileId !== "string") throw new Error("Expected fileId to be a string");
+
+  // check the db to prevent duplicate webhooks
+
+  const channel = await database.channel.getByFileId(blogID, fileId);
+
+  if (channel) {
+    console.log(prefix(), "Webhook already exists for", blogID, fileId);
+
+    const tenMinutesFromNow = Date.now() + TEN_MINUTES;
+
+    // The channel will expire in more than ten minutes
+    if (parseInt(channel.expiration) > tenMinutesFromNow) {
+      console.log(prefix(), "Webhook will expire in", channel.expiration - Date.now(), "ms", "no need to renew");
+      return;
     }
+
+    await database.channel.drop(channel.id);
+    console.log(prefix(), "Renewing webhook for", channel);
   }
 
-  const {
-    data: { startPageToken },
-  } = await drive.changes.getStartPageToken({
-    supportsAllDrives: true,
-  });
-  const id = guid();
-  const expectedSignatureInput = blogID + id + config.session.secret;
-  const expectedSignature = hash(expectedSignatureInput);
+  try {
 
-  const response = await drive.changes.watch({
-    // Whether the user is acknowledging the risk of downloading known malware or other abusive files.
-    // The ID for the file in question.
-    supportsAllDrives: true,
-    includeDeleted: true,
-    includeCorpusRemovals: true,
-    includeItemsFromAllDrives: true,
-    pageToken: startPageToken,
-    // Request body metadata
-    requestBody: {
-      id: id,
-      resourceId: account.folderId,
-      type: "web_hook",
-      token: querystring.stringify({
-        blogID: blogID,
-        signature: expectedSignature,
-      }),
-      kind: "api#channel",
-      address: `https://${
-        config.environment === "development"
-          ? config.webhooks.relay_host
-          : config.host
-      }/clients/google-drive/webhook`,
-    },
-  });
+    const drive = await createDriveClient(blogID);
 
-  await database.folder(account.folderId).setPageToken(startPageToken);
-  await database.setAccount(blogID, { channel: response.data });
+    const channelId = guid();
+    const expectedSignatureInput = blogID + channelId + config.google_drive.webhook_secret;
+    const token = hash(expectedSignatureInput);
+
+    // attempt to set up a webhook
+    const response = await drive.files.watch({
+      supportsAllDrives: true,
+      includeDeleted: true,
+      acknowledgeAbuse: true,
+      includeCorpusRemovals: true,
+      includeItemsFromAllDrives: true,
+      restrictToMyDrive: false,
+      fileId,
+      requestBody: {
+        id: channelId,
+        token,
+        type: "web_hook",
+        kind: "api#channel",
+        address: ADDRESS,
+      },
+    });
+
+    const channel = {
+      blogID,
+      fileId,
+      id: channelId,
+      resourceId: response.data.resourceId,
+      resourceUri: response.data.resourceUri,
+      expiration: response.data.expiration,
+    };
+    
+    await database.channel.set(channelId, channel);
+    console.log(prefix(), "Webhook set up for", channel);
+
+  } catch (e) {
+    if (e.message === "Invalid Credentials") {
+      await database.setAccount(blogID, {
+        error: "Invalid Credentials",
+      });
+    } else {
+      await database.setAccount(blogID, {
+        error: "Failed to set up webhook",
+      });
+    }
+
+    console.log(prefix(), "Error renewing webhook for", blogID, e);
+  }
 };

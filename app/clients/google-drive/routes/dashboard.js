@@ -1,60 +1,33 @@
-const config = require("config");
-const google = require("googleapis").google;
 const clfdate = require("helper/clfdate");
 const database = require("../database");
 const disconnect = require("../disconnect");
-const resetFromBlot = require("../sync/reset-from-blot");
-const createDriveClient = require("../util/createDriveClient");
-const setupWebhook = require("../util/setupWebhook");
 const express = require("express");
 const dashboard = new express.Router();
 const establishSyncLock = require("../util/establishSyncLock");
+const createDriveClient = require("../util/createDriveClient");
+const requestServiceAccount = require("../util/requestServiceAccount");
+const setupWebhook = require("../util/setupWebhook");
+const resetFromBlot = require("../sync/reset-from-blot");
+const parseBody = require("body-parser").urlencoded({ extended: false });
+const Blog = require("models/blog");
 
 const VIEWS = require("path").resolve(__dirname + "/../views") + "/";
-
-const REDIRECT_URL =
-  config.environment === "development"
-    ? `https://${config.webhooks.relay_host}/clients/google-drive/authenticate`
-    : `https://${config.host}/clients/google-drive/authenticate`;
 
 dashboard.use(async function (req, res, next) {
   const account = await database.getAccount(req.blog.id);
 
-  if (account && account.folderPath)
-    account.folderParents = account.folderPath
-      .split("/")
-      .slice(1)
-      .map((name, i, arr) => {
-        return { name, last: arr.length - 1 === i };
-      });
-
   res.locals.account = account;
+
+  if (account && account.client_id) {
+    const serviceAccount = await database.serviceAccount.get(account.client_id);
+    res.locals.serviceAccountEmail = serviceAccount.user.emailAddress;
+  }
   next();
 });
 
 dashboard.get("/", function (req, res) {
   res.render(VIEWS + "index");
 });
-
-dashboard
-  .route("/set-up-folder/cancel")
-  .all(function (req, res, next) {
-    if (!res.locals.account.preparing) return res.redirect(req.baseUrl);
-    next();
-  })
-  .get(function (req, res) {
-    res.render(VIEWS + "set-up-folder-cancel");
-  })
-  .post(async function (req, res) {
-    await database.setAccount(req.blog.id, {
-      error: null,
-      channel: null,
-      folderId: null,
-      folderPath: null,
-      preparing: null
-    });
-    res.message(req.baseUrl, "Cancelled the creation of your new folder");
-  });
 
 dashboard
   .route("/disconnect")
@@ -65,175 +38,100 @@ dashboard
     disconnect(req.blog.id, next);
   });
 
-dashboard.get("/redirect", function (req, res) {
-  const oauth2Client = new google.auth.OAuth2(
-    config.google.drive.key,
-    config.google.drive.secret,
-    REDIRECT_URL
-  );
 
-  // It's important that sameSite is set to false so the
-  // cookie is exposed to us when OAUTH redirect occurs
-  res.cookie("blogToAuthenticate", req.blog.handle, {
-    domain: "",
-    path: "/",
-    secure: true,
-    httpOnly: true,
-    maxAge: 15 * 60 * 1000, // 15 minutes
-    sameSite: "Lax" // otherwise we will not see it
-  });
+dashboard.route("/set-up-folder")
+    .post(parseBody, async function (req, res, next) {
 
-  res.redirect(
-    oauth2Client.generateAuthUrl({
-      access_type: "offline",
-      scope: "https://www.googleapis.com/auth/drive",
-      // Prompt: consent forces us to revisit the consent
-      // screen even if we had previously authorized Blot.
-      // This is neccessary to connect multiple blogs under
-      // one google account to Drive. More discussion here:
-      // https://github.com/googleapis/google-api-python-client/issues/213
-      prompt: "consent"
-    })
-  );
-});
+        if (req.body.cancel){
+          return disconnect(req.blog.id, next);
+        }
 
-dashboard.get("/authenticate", function (req, res) {
-  if (!req.query.code) {
-    return res.message(
-      req.baseUrl,
-      new Error("Please authorize Blot to access your Google Drive")
-    );
-  }
+        if (req.body.email) {
 
-  const oauth2Client = new google.auth.OAuth2(
-    config.google.drive.key,
-    config.google.drive.secret,
-    REDIRECT_URL
-  );
+          // Determine the service account ID we'll use to sync this blog.
+          // We query the database to retrieve all the service accounts, then
+          // sort them by the available space (storageQuota.available - storageQuota.used)
+          // to find the one with the most available space.
+          const client_id = await requestServiceAccount();
 
-  // This will provide an object with the access_token and refresh_token.
-  // Save these somewhere safe so they can be used at a later time.
-  oauth2Client.getToken(req.query.code, async function (err, credentials) {
-    if (err) {
-      return res.message(req.baseUrl, err);
-    }
+          await database.setAccount(req.blog.id, {
+            email: req.body.email,
+            client_id,
+            error: null,
+            preparing: true
+          });
 
-    const { refresh_token, access_token, expiry_date } = credentials;
+          setUpBlogFolder(req.blog, req.body.email);
+        }
 
-    if (!refresh_token) {
-      return res.message(
-        req.baseUrl,
-        new Error(
-          "Missing refresh_token from Google Drive. This probably happened because you had previously connected Blot with Google Drive. Please remove Blot on your Google Account permissions page."
-        )
-      );
-    }
-
-    await database.setAccount(req.blog.id, {
-      refresh_token,
-      access_token,
-      expiry_date
+        console.log(clfdate(), "Google Drive Client", "Setting up folder");
+        res.redirect(req.baseUrl);
     });
 
-    try {
-      const { drive } = await createDriveClient(req.blog.id);
-      let email;
-      let permissionId;
-      const response = await drive.about.get({ fields: "*" });
+dashboard.post("/cancel", async function (req, res) {
 
-      email = response.data.user.emailAddress;
-
-      // The user's ID as visible in the permissions collection.
-      // https://developers.google.com/drive/api/v2/reference/about#resource
-      // we use this to work out if another blog is connected
-      // to this google drive account during disconnection so we
-      // can determine whether or not to revoke the refresh_token
-      // which happens globally and would affect other blogs. We could
-      // use the email address but it seems like the ID is more robust
-      // since I suppose the user could change their email address...
-      permissionId = response.data.user.permissionId;
-
-      // If we are re-authenticating because of an error
-      // then remove the error message!
-      await database.setAccount(req.blog.id, {
-        email,
-        permissionId,
-        error: ""
-      });
-    } catch (e) {
-      console.log("Error getting info");
-      await database.setAccount(req.blog.id, { error: e.message });
-      return res.redirect(req.baseUrl);
-    }
-
-    const account = await database.getAccount(req.blog.id);
-
-    res.message(req.baseUrl, "Connected to Google Drive");
-
-    try {
-      if (!account.folderId) {
-        await database.setAccount(req.blog.id, { preparing: true });
-        await setUpBlogFolder(req.blog);
-      } else {
-        await resetFromBlot(req.blog.id);
-        await setupWebhook(req.blog.id);
-      }
-    } catch (e) {
-      await database.setAccount(req.blog.id, {
-        error: "Could not set up webhooks",
-        channel: null,
-        folderId: null,
-        folderPath: null
-      });
-    }
+    console.log(clfdate(), "Google Drive Client", "Cancelling folder setup");
+  
+      await database.dropAccount(req.blog.id);
+  
+      res.message(req.baseUrl, "Cancelled the creation of your new folder");
   });
-});
 
-const setUpBlogFolder = async function (blog) {
-  let releaseLock;
+
+const setUpBlogFolder = async function (blog, email) {
+
+  let done;
+
   try {
     const checkWeCanContinue = async () => {
       const { preparing } = await database.getAccount(blog.id);
       if (!preparing) throw new Error("Permission to set up revoked");
     };
 
-    const { folder, done } = await establishSyncLock(blog.id);
-    releaseLock = done;
-    const publish = folder.status;
+    let sync = await establishSyncLock(blog.id);
 
-    publish("Establishing connection to Google Drive");
-    const { drive } = await createDriveClient(blog.id);
+    // we need to hoist this so we can call it in the catch block
+    done = sync.done;
 
-    var fileMetadata = {
-      name: blog.title.split("/").join("").trim(),
-      mimeType: "application/vnd.google-apps.folder"
-    };
+    sync.folder.status("Establishing connection to Google Drive");
+    const drive = await createDriveClient(blog.id);
+
+    // var fileMetadata = {
+    //   name: blog.title.split("/").join("").trim(),
+    //   mimeType: "application/vnd.google-apps.folder"
+    // };
+
+    let folderId;
+    let folderName;
+
+    sync.folder.status("Waiting for folder to be created");
+
+    do {
+      await checkWeCanContinue();
+      const res = await findEmptySharedFolder(drive, email);
+
+      // wait 3 seconds before trying again
+      if (!res) {
+        await new Promise((resolve) => setTimeout(resolve, 3000));
+        continue;
+      } else {
+        folderId = res.folderId;
+        folderName = res.folderName;
+      }
+    } while (!folderId);
+
+    await database.setAccount(blog.id, { folderId, folderName });
 
     await checkWeCanContinue();
-    publish("Creating new folder");
-    const blogFolder = await drive.files.create({
-      resource: fileMetadata,
-      fields: "id, name"
-    });
-
-    const folderId = blogFolder.data.id;
-    const folderPath = "/My Drive/" + blogFolder.data.name;
-
-    await database.setAccount(blog.id, {
-      folderId: folderId,
-      folderPath: folderPath
-    });
+    sync.folder.status("Ensuring new folder is in sync");
+    await resetFromBlot(blog.id, sync.folder.status);
 
     await checkWeCanContinue();
-    publish("Ensuring new folder is in sync");
-    await resetFromBlot(blog.id, publish);
-
-    await checkWeCanContinue();
-    publish("Setting up webhook");
-    await setupWebhook(blog.id);
+    sync.folder.status("Setting up webhook");
+    await setupWebhook(blog.id, folderId);
 
     await database.setAccount(blog.id, { preparing: null });
-    publish("All files transferred");
+    sync.folder.status("All files transferred");
     done(null, () => {});
   } catch (e) {
     console.log(clfdate(), "Google Drive Client", e);
@@ -244,16 +142,75 @@ const setUpBlogFolder = async function (blog) {
       error = null;
     }
 
+    if (e.message === "Please share an empty folder") {
+      error = "Please share an empty folder";
+    }
+
     await database.setAccount(blog.id, {
       error,
       preparing: null,
-      channel: null,
       folderId: null,
-      folderPath: null
+      folderName: null
     });
 
-    if (releaseLock) releaseLock();
+    if (done) done(null, () => {});
   }
 };
+
+/**
+ * List the contents of root folder.
+ */
+async function findEmptySharedFolder(drive, email) {
+
+  // List all shared folders owned by the given email
+  const res = await drive.files.list({
+    supportsAllDrives: true,
+    includeItemsFromAllDrives: true,
+    q: `'${email}' in owners and trashed = false and mimeType = 'application/vnd.google-apps.folder'`,
+  });
+
+  if (res.data.files.length === 0) {
+    return null;
+  }
+
+  if (res.data.files.length === 1) {
+    // Handle the case where there is only one folder
+    const folder = res.data.files[0];
+
+    // List the contents of the folder
+    const folderContents = await drive.files.list({
+      supportsAllDrives: true,
+      includeItemsFromAllDrives: true,
+      q: `'${folder.id}' in parents and trashed = false`,
+    });
+
+    if (folderContents.data.files.length > 0) {
+      // If the folder is non-empty, throw an error
+      throw new Error("Please share an empty folder");
+    } else {
+      // If the folder is empty, return it
+      return { folderId: folder.id, folderName: folder.name };
+    }
+  }
+
+  // Handle the case where there are multiple folders
+  for (const folder of res.data.files) {
+
+    // List the contents of the current folder
+    const folderContents = await drive.files.list({
+      supportsAllDrives: true,
+      includeItemsFromAllDrives: true,
+      q: `'${folder.id}' in parents and trashed = false`,
+    });
+
+    // If the folder is empty, return it
+    if (folderContents.data.files.length === 0) {
+      return { folderId: folder.id, folderName: folder.name };
+    }
+  }
+
+  // If no empty folder is found, wait and retry
+  return null;
+}
 
 module.exports = dashboard;

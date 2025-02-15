@@ -1,7 +1,6 @@
 var cheerio = require("cheerio");
 var basename = require("path").basename;
 var parse = require("url").parse;
-var Download = require("download");
 var each_el = require("./each_el");
 var fs = require("fs-extra");
 var callOnce = require("helper/callOnce");
@@ -30,9 +29,16 @@ function download(url, _callback) {
     callback(new Error("Timeout: >10s downloading " + url));
   }, TIMEOUT);
 
-  Download(url)
-    .then(function (data) {
+  fetch(url)
+    .then(function (res) {
+      if (!res.ok) {
+        return callback(new Error("Bad status code: " + res.status));
+      }
       console.log("Successfully downloaded", url);
+
+      return res.buffer();
+    })
+    .then(function (data) {
       callback(null, data);
     })
     .catch(function (err) {

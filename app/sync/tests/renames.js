@@ -22,6 +22,62 @@ describe("update", function () {
     });
   });
 
+  it("ignores a renamed file if it is empty", function (done) {
+    var path = this.fake.path(".txt");
+    var newPath = this.fake.path(".txt");
+    var content = '';
+
+    var ctx = this;
+
+    ctx.writeAndSync(path, content, function (err) {
+      if (err) return done.fail(err);
+      ctx.writeAndSync(newPath, content, function (err) {
+        if (err) return done.fail(err);
+        ctx.removeAndSync(path, function (err) {
+          if (err) return done.fail(err);
+          ctx.checkEntry({path, deleted: true}, function(err, entry) {
+            if (err) return done.fail(err);
+            ctx.checkEntry({path: newPath, deleted: false}, function(err, newPathEntry) {
+              if (err) return done.fail(err);
+
+              expect(newPathEntry.guid).not.toBe(entry.guid);
+              expect(newPathEntry.created).not.toBe(entry.created);
+              done();
+            });
+          });
+        });
+      });
+    });
+  });
+
+  it("does not reset the created date for published drafts", function (done) {
+    var path = '/Drafts/Example.txt';
+    var newPath = '/Example.txt';
+    var content = 'Hello, world';
+
+    var ctx = this;
+
+    ctx.writeAndSync(path, content, function (err) {
+      if (err) return done.fail(err);
+      ctx.writeAndSync(newPath, content, function (err) {
+        if (err) return done.fail(err);
+        ctx.removeAndSync(path, function (err) {
+          if (err) return done.fail(err);
+          ctx.checkEntry({path, deleted: true}, function(err, entry) {
+            if (err) return done.fail(err);
+            ctx.checkEntry({path: newPath, deleted: false}, function(err, newPathEntry) {
+              if (err) return done.fail(err);
+
+              expect(newPathEntry.guid).not.toBe(entry.guid);
+              expect(newPathEntry.created).not.toBe(entry.created);
+              done();
+            });
+          });
+        });
+      });
+    });
+  });
+
   it("detects a large number of renamed files", function (testDone) {
     var items = [];
     var ctx = this;
@@ -134,7 +190,7 @@ describe("update", function () {
     this.checkEntry = checkEntry;
 
     this.checkRename = function (oldPath, newPath, callback) {
-      checkEntry({ path: oldPath, deleted: true }, function (err, entry) {
+      checkEntry({ path: oldPath, deleted: true, guid: '' }, function (err, entry) {
         if (err) return callback(err);
 
         checkEntry(

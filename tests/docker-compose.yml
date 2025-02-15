@@ -18,7 +18,7 @@ services:
       - TEST_PATH=${TEST_PATH}
       - TEST_SEED=${TEST_SEED}
       - BLOT_REDIS_HOST=test-redis
-      - BLOT_HOST=local.blot
+      - BLOT_HOST=localhost
     volumes:
       - ../app:/usr/src/app/app
       - ../tests:/usr/src/app/tests
@@ -27,4 +27,4 @@ services:
       - ../todo.txt:/usr/src/app/todo.txt
       - ../.git:/usr/src/app/.git
     command: >
-      sh -c "rm -rf /usr/src/app/data && mkdir /usr/src/app/data && node -v && npm -v && node tests $TEST_PATH $TEST_SEED"
+      sh -c "rm -rf /usr/src/app/data && mkdir /usr/src/app/data && node -v && npm -v && nyc --include $TEST_PATH node tests $TEST_PATH $TEST_SEED"

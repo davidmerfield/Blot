@@ -1,7 +1,6 @@
 const Express = require("express");
 const trace = require("helper/trace");
-const puppeteer = require('puppeteer');
-
+const config = require("config");
 
 module.exports = function (router) {
   let server;
@@ -12,50 +11,54 @@ module.exports = function (router) {
     throw new Error("router must be an express router");
   }
   
-  // for each spec, create a new page
-  // and close it after the spec is done
-  beforeEach(async function () {
-    this.page = await this.browser.newPage();
-
-    // disable cache for each test
-    await this.page.setCacheEnabled(false);
-  });
-
-  afterEach(async function () {
-    // clear cookies after each test
-    // otherwise the next test will have the same cookies
-    // and we'll be logged in as the previous user
-    const cookies = await this.page.cookies();
-
-    for (let cookie of cookies) {
-      await this.page.deleteCookie(cookie);
-    }
-
-    await this.page.close();
-  });
-
   // Create a webserver for testing remote files
   beforeAll(async function (done) {
-
-    this.browser = await puppeteer.launch({
-      headless: true,
-      args: ['--no-sandbox']
-    });
 
     // Expose the server origin for the tests
     // specs so they can use this.origin 
     this.origin = `http://localhost:${port}`;
 
+    // Special function which allows us to make requests
+    // to fake domains in the tests over a fake protocol
+    this.fetch = (input, options = {}) => {
+
+      // parse the input so:
+      // if it's a full URL:
+      // - we remap the host if it's anything other than localhost
+      // - we remap the protocol from https to http
+      // if it's a path:
+      // - we prepend the origin
+      const url = new URL(input, this.origin);
+
+      if (url.hostname !== "localhost") {
+        options.headers = options.headers || {};
+        options.headers["x-forwarded-host"] = url.hostname;
+        url.hostname = "localhost";
+      }
+
+      url.protocol = "http:";
+      url.port = port;
+
+      const modifiedURL = url.toString();
+
+      return fetch(modifiedURL, options);
+    }
+
     const app = Express();
 
-    // This lets us pretend the test is running over HTTPS
     app.use((req, res, next) => {
+      // This lets us pretend the test is running on a different domain
+      req.headers["host"] = req.headers["x-forwarded-host"];
+
+      // This lets us pretend the test is running over HTTPS
       req.headers["X-Forwarded-Proto"] = req.headers["X-Forwarded-Proto"] || "https";
       req.headers["x-forwarded-proto"] = req.headers["x-forwarded-proto"] || "https";
       next();
     });
 
     app.use(trace.init);
+
+    app.use(require('request-logger'));
 
     // Trust proxy for secure cookies
     app.set("trust proxy", true);
@@ -80,13 +83,7 @@ module.exports = function (router) {
     });
   });
 
-  afterAll(function (done) {
-
-    this.browser.close();
-    
-    if (server) {
-      server.close(() => {});
-    } 
-    done();
+  afterAll(function () {
+    server.close();
   });
 };

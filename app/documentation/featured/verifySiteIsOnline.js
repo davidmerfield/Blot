@@ -2,8 +2,10 @@ const fetch = require("node-fetch");
 
 const check = async host => {
   try {
+    console.log("Checking if " + host + " is online...");
+    
     const res = await fetch("https://" + host + "/verify/domain-setup", {
-      timeout: 3000
+      timeout: 10000 // 10 seconds
     });
 
     const body = await res.text();

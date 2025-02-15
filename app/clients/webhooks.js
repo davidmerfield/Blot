@@ -8,6 +8,7 @@ const fetch = require("node-fetch");
 const clfdate = require("helper/clfdate");
 const querystring = require("querystring");
 const bodyParser = require("body-parser");
+const { updated } = require("../models/entry/model");
 
 // This app is run on Blot's server in production
 // and relays webhooks to any connected local clients
@@ -140,27 +141,31 @@ function listen ({ host }) {
   stream.onmessage = async function ({ data }) {
     const { method, body, url, headers } = JSON.parse(data);
 
-    console.log(clfdate(), "Webhooks requesting", url);
+    let path = require("url").parse(url).path;
+
+    console.log(clfdate(), "Webhooks requesting url", url);
 
     try {
-      const https = require("https");
-
-      const agent = new https.Agent({
-        rejectUnauthorized: false
-      });
-
+     
       const options = {
         headers: headers,
         method,
-        agent
       };
+
+      options.headers["x-forwarded-proto"] = "https";
+      options.headers["x-forwarded-host"] = config.host;
+      options.headers.host = config.host;
 
       if (method !== "HEAD" && method !== "GET") options.body = body;
 
-      await fetch("https://" + config.host + url, options);
+      const localURL = "http://" + config.host + ':' + config.port + path;
+
+      console.log(clfdate(), "Webhooks forwarding to", localURL);
+
+      await fetch(localURL, options);
       // const body = await response.text();
     } catch (e) {
-      console.log(e);
+      console.log(clfdate(), "Webhooks error forwarding request", e);
     }
   };
 }

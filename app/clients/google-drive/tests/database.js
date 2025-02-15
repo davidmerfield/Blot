@@ -1,6 +1,6 @@
 describe("google drive client: database", function () {
-  const database = require("../database");
   const redisKeys = require("util").promisify(require("helper/redisKeys"));
+  const database = require("../database");
 
   global.test.blog();
 
@@ -17,44 +17,57 @@ describe("google drive client: database", function () {
     await database.setAccount(blogId, { foo: "bar" });
     const account = await database.getAccount(blogId);
     expect(account).toEqual({ foo: "bar" });
+    await database.setAccount(blogId, { baz: "bat" });
+    const updatedAccount = await database.getAccount(blogId);
+    expect(updatedAccount).toEqual({ foo: "bar", baz: "bat" });
   });
 
-  it("can determine whether its safe to revoke credentials", async function () {
-    const permissionId = "permission_" + Date.now().toString();
-    const secondPermissionId = "permission_" + (Date.now() + 1).toString();
-    const blogId = "blog_" + Date.now().toString();
-    const secondBlogId = "blog_" + (Date.now() + 1).toString();
+  it("can store and retrieve service account information", async function () {
+    const serviceAccountId = "service_account_" + Date.now().toString();
+    await database.serviceAccount.set(serviceAccountId, { foo: "bar" });
+    const serviceAccount = await database.serviceAccount.get(serviceAccountId);
+    expect(serviceAccount).toEqual({ foo: "bar" });
+    await database.serviceAccount.set(serviceAccountId, { baz: "bat" });
+    const updatedServiceAccount = await database.serviceAccount.get(serviceAccountId);
+    expect(updatedServiceAccount).toEqual({ foo: "bar", baz: "bat" });
+    const allServiceAccounts = await database.serviceAccount.all();
+    expect(allServiceAccounts).toEqual([{ client_id: serviceAccountId, foo: "bar", baz: "bat" }]);
+  });
 
-    expect(await database.canRevoke(permissionId)).toEqual(true);
-    await database.setAccount(blogId, { permissionId });
-    expect(await database.canRevoke(permissionId)).toEqual(true);
-    await database.setAccount(secondBlogId, { permissionId });
-    expect(await database.canRevoke(permissionId)).toEqual(false);
-    await database.setAccount(secondBlogId, {
-      permissionId: secondPermissionId,
+
+  it("can store and retrieve channel information", async function () {
+    const blogID = "blog_" + Date.now().toString();
+    const channelId = "channel_" + Date.now().toString();
+    await database.channel.set(channelId, { foo: "bar" });
+    const channel = await database.channel.get(channelId);
+    expect(channel).toEqual({ foo: "bar" });
+    await database.channel.set(channelId, { baz: "bat" });
+    const updatedChannel = await database.channel.get(channelId);
+    expect(updatedChannel).toEqual({ foo: "bar", baz: "bat" });
+
+    await database.channel.processAll(async (channel) => {
+      expect(channel).toEqual({ foo: "bar", baz: "bat" });
+      await database.channel.set(channelId, { qux: "quux" });
     });
-    expect(await database.canRevoke(permissionId)).toEqual(true);
-    await database.dropAccount(secondBlogId);
-    expect(await database.canRevoke(permissionId)).toEqual(true);
+
+    const processedChannel = await database.channel.get(channelId);
+    expect(processedChannel).toEqual({ foo: "bar", baz: "bat", qux: "quux" });
+
+    await database.channel.drop(channelId);
+
+    const droppedChannel = await database.channel.get(channelId);
+    expect(droppedChannel).toEqual(null);
   });
 
-  it("deletes the permissionId keys when dropping an account", async function () {
-    const blogId = "blog_" + Date.now().toString();
-    const permissionId = "permission_" + Date.now().toString();
-
-    await database.setAccount(blogId, { permissionId });
-    await database.dropAccount(blogId);
-    expect(await redisKeys("*" + permissionId + "*")).toEqual([]);
-  });
-
-  it("changing the permissionId removes the corresponding key", async function () {
-    const blogId = "blog_" + Date.now().toString();
-    const permissionId = "permission_" + Date.now().toString();
-    const newPermissionId = "permission_" + (Date.now() + 1).toString();
-
-    await database.setAccount(blogId, { permissionId });
-    await database.setAccount(blogId, { permissionId: newPermissionId });
-    expect(await redisKeys("*" + permissionId + "*")).toEqual([]);
+  it("can store and retrieve channel information by fileId", async function () {
+    const blogID = "blog_" + Date.now().toString();
+    const channelId = "channel_" + Date.now().toString();
+    await database.channel.set(channelId, { fileId: "bar", blogID });
+    const channel = await database.channel.get(channelId);
+    expect(channel).toEqual({ fileId: "bar", blogID });
+    const channelByFileId = await database.channel.getByFileId(blogID, "bar");
+    expect(channelByFileId).toEqual({ fileId: "bar", blogID });
+    await database.channel.drop(channelId);
   });
 
   it("deletes the folder keys when dropping an account", async function () {

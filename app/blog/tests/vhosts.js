@@ -121,6 +121,7 @@ describe("blog server vhosts", function () {
       get: function () {
         return ctx.url.hostname;
       },
+      log: function () {},
       url: ctx.url.pathname,
       protocol: ctx.url.protocol,
     };

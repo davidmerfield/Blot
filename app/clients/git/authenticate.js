@@ -43,7 +43,8 @@ module.exports = auth.connect(
           }
 
           req.blog = blog;
-
+          req.gitHandle = req.params.gitHandle;
+          
           console.log(clfdate() + " Git: authenticate: user", user.uid, "has permission to modify blog", blog.id);
           callback(true);
         });

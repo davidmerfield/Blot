@@ -85,6 +85,11 @@ a.close-button:hover > span,
     margin-right: 4px;
 }
 
+.template-button span {
+  vertical-align: middle;position:relative;top:-0.1em;
+  margin-right: 4px;
+}
+
 .template-button.right-aligned svg {
     margin-right: 0;
     margin-left: 4px;

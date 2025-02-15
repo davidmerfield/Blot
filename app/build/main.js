@@ -8,13 +8,7 @@ var Thumbnail = require("./thumbnail");
 var DateStamp = require("./prepare/dateStamp");
 var moment = require("moment");
 var converters = require("./converters");
-var exitHook = require("async-exit-hook");
 var clfdate = require("helper/clfdate");
-
-exitHook(function () {
-  console.log(clfdate(), `Build: process pid=${process.pid} exiting...`);
-  debug("Shutting down worker:", process.pid);
-});
 
 console.log(clfdate(), `Build: process pid=${process.pid} launched`);
 

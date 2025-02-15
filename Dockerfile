@@ -1,104 +1,54 @@
-## Stage 0 (builder)
+## Stage 1 (base)
 # This stage installs all dependencies and builds the application if needed
-# n.b. if you update the node version for this stage, don't forget to change
-# the image of the 'base' stage to match as well
-FROM node:18.20-alpine AS builder
+FROM node:22.13.1-alpine AS base
 
 ARG PANDOC_VERSION=3.1.1
-
-# Set the working directory in the Docker container
-WORKDIR /usr/src/app
-
-# Install build dependencies for npm packages
-RUN apk add --no-cache --virtual .build-deps \
-        python3 \
-        make \
-        g++ \
-        autoconf \
-        automake \
-        libtool \
-        nasm \
-        libpng-dev \
-        git \
-        curl \
-        tar
-
-# Install Pandoc
 ARG TARGETPLATFORM
-RUN ARCH=$(echo ${TARGETPLATFORM} | sed -nE 's/^linux\/(amd64|arm64)$/\1/p') \
-    && if [ -z "$ARCH" ]; then echo "Unsupported architecture: $TARGETPLATFORM" && exit 1; fi \
-    && curl -L https://github.com/jgm/pandoc/releases/download/${PANDOC_VERSION}/pandoc-${PANDOC_VERSION}-linux-${ARCH}.tar.gz | tar xvz \
-    && mv pandoc-${PANDOC_VERSION}/bin/pandoc /usr/local/bin/pandoc \
-    && chmod +x /usr/local/bin/pandoc \
-    && rm -r pandoc-${PANDOC_VERSION}
-
-# Set environment variables
-ENV NODE_ENV=production
-
-# Copy package files
-COPY package.json .
-COPY package-lock.json .
-
-# Install all dependencies including devDependencies
-RUN npm config list \
-    && npm ci \
-    && npm cache clean --force
-
-# Remove build dependencies
-RUN apk del .build-deps
-
-## Stage 1 (production base)
-# This stage prepares the production environment
-FROM node:18.20-alpine AS base
 
 EXPOSE 8080
 
-# Set environment variables
 ENV NODE_ENV=production
 ENV NODE_PATH=/usr/src/app/app
 
 # Set the working directory in the Docker container
 WORKDIR /usr/src/app
 
-# Copy the built application from the builder stage
-COPY --from=builder /usr/src/app .
-COPY --from=builder /usr/local/bin/pandoc /usr/local/bin/pandoc
-
-# Install git for good since the git client requires it
-RUN apk add --no-cache git
-
-# Install curl for good since the health check requires it
-RUN apk add --no-cache curl
-
-# configure git 
-RUN git config --global user.email "you@example.com"
-RUN git config --global user.name "Your Name"
-# neccessary for the git client to work in the docker container
-# the issue is possibly related to the ownership of the git data
-# directory, and the root user running the git client
-# todo: work out how to fix this
-RUN git config --global --add safe.directory '*'
-
-# Install necessary packages for Puppeteer
-RUN apk add --no-cache \
-      chromium \
-      nss \
-      freetype \
-      harfbuzz \
-      ca-certificates \
-      ttf-freefont
+# Install necessary packages for Puppeteer, the git client, image processing
+RUN apk add --no-cache git curl chromium nss freetype harfbuzz ca-certificates ttf-freefont
 
 # Set the Puppeteer executable path
 ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
 
+# Install Pandoc
+RUN ARCH=$(echo ${TARGETPLATFORM} | sed -nE 's/^linux\/(amd64|arm64)$/\1/p') \
+  && if [ -z "$ARCH" ]; then echo "Unsupported architecture: $TARGETPLATFORM" && exit 1; fi \
+  && curl -L https://github.com/jgm/pandoc/releases/download/${PANDOC_VERSION}/pandoc-${PANDOC_VERSION}-linux-${ARCH}.tar.gz | tar xvz \
+  && mv pandoc-${PANDOC_VERSION}/bin/pandoc /usr/local/bin/pandoc \
+  && chmod +x /usr/local/bin/pandoc \
+  && rm -r pandoc-${PANDOC_VERSION}
+
+# Copy package files
+COPY package.json package-lock.json ./
+
+# Install dependencies (args from https://sharp.pixelplumbing.com/install#cross-platform)
+# --maxsockets 1 is a workaround for an issue with npm install timing out with qemu on arm64
+# the other args are to ensure the correct sharp binary is installed
+RUN npm install --maxsockets 1 --os=linux --libc=musl --cpu=${TARGETPLATFORM} && npm cache clean --force
+
 ## Stage 2 (development)
-# This stage is for development purposes
+# This stage is for development and testing purposes
+# It doesn't include the source code, so it's faster to build
+# but you need to use docker bind mounts to get the source code in
+# at runtime. 
 FROM base AS dev
 
 ENV NODE_ENV=development
 ENV PATH=/usr/src/app/node_modules/.bin:$PATH
 
 RUN npm install
+
+# Configure git so the git client doesn't complain
+RUN git config --global --add safe.directory /usr/src/app && git config --global user.email "you@example.com" && git config --global user.name "Your Name"
 
 ## Stage 3 (copy in source)
 # This gets our source code into builder for use in next two stages
@@ -108,42 +58,31 @@ FROM base AS source
 
 WORKDIR /usr/src/app
 
-COPY ./app ./app
+# Copy files and set ownership for non-root user
 COPY ./scripts ./scripts
 COPY ./config ./config
 COPY ./notes ./notes
+COPY ./app ./app
 COPY ./todo.txt ./todo.txt
 
-## Stage 4 (testing)
-# This stage is used for running tests in CI
-FROM source AS test
-
-WORKDIR /usr/src/app
-ENV NODE_ENV=test
-
-# this copies all dependencies (prod+dev)
-COPY --from=dev /usr/src/app/node_modules ./node_modules
-
-# this copies the tests
-COPY ./tests ./tests
-
-# copy in the git repository so the news page can be generated
-# inside the container, this is a bit of a hack and should be
-# replaced with a better solution in the future
-COPY .git .git
-
-## Stage 5 (default, production)
+## Stage 4 (default, production)
 # The final production stage
 FROM source AS prod
 
-# build the brochure static site and exit (i.e. dont watch for changes)
-RUN node ./app/documentation/build/index.js --no-watch
-
-HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=3 \
+HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
   CMD curl --fail http://localhost:8080/health || exit 1
 
-# Ensure the logfile directory exists with proper permissions
-RUN mkdir -p /usr/src/app/data/logs/docker && chmod -R 0755 /usr/src/app/data/logs/docker
+# Ensure the logfile directory exists
+RUN mkdir -p /usr/src/app/data/logs/docker
 
-# 1.5gb max memory is 75% of the 2gb limit for the container
-CMD ["sh", "-c", "node --max-old-space-size=1536 /usr/src/app/app/index.js >> /usr/src/app/data/logs/docker/app.log 2>&1"]
+# Give the non-root user ownership of the app directory and data directory
+RUN chown -R 1000:1000 /usr/src/app/app && chown -R 1000:1000 /usr/src/app/data
+
+# Change to the non-root user for the rest of the Dockerfile (ec2-user)
+USER 1000
+
+# Re-configuring git for the non-root user
+RUN git config --global user.email "you@example.com" && git config --global user.name "Your Name"
+
+# 1048.00 MB max memory default is 75% of the 1.5gb limit for the container
+CMD ["sh", "-c", "node --max-old-space-size=1048 /usr/src/app/app/index.js >> /usr/src/app/data/logs/docker/app.log 2>&1"]

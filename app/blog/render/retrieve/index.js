@@ -53,15 +53,18 @@ module.exports = function (req, retrieve, callback) {
         return nextLocal();
       }
 
+      req.log("Retrieving local", localName);
       dictionary[localName](req, function (err, value) {
         if (err) console.log(err);
 
         if (value !== undefined) locals[localName] = value;
 
+        req.log("Retrieved local", localName);
         return nextLocal();
       });
     },
     function () {
+      req.log("Retrieved all locals");
       callback(null, locals);
     }
   );

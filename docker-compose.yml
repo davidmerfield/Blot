@@ -14,7 +14,7 @@ services:
       - .env
     environment:
       - BLOT_REDIS_HOST=redis
-      - BLOT_HOST=local.blot
+      - CONTAINER_NAME=blot-container-green
     volumes:
       - ./data:/usr/src/app/data
       - ./.git:/usr/src/app/.git
@@ -24,11 +24,7 @@ services:
       - ./scripts:/usr/src/app/scripts
       - ./todo.txt:/usr/src/app/todo.txt
       - ./config:/usr/src/app/config
-    # this is needed so the webhook relay can invoke the request 
-    # inside docker, resolving the host to the correct IP
-    extra_hosts:
-      - "${BLOT_HOST}:${HOST_IP}"
-    command: npx nodemon /usr/src/app/app/local.js --watch /usr/src/app/app -e js,html,css --ignore /usr/src/app/app/documentation/data --ignore /usr/src/app/app/documentation/output --ignore /usr/src/app/app/views  --ignore /usr/src/app/app/clients/*/views
+    command: npx nodemon /usr/src/app/app/index.js --watch /usr/src/app/app -e js,html,css --ignore /usr/src/app/app/documentation/data --ignore /usr/src/app/app/documentation/output --ignore /usr/src/app/app/views --ignore /usr/src/app/app/views-built  --ignore /usr/src/app/app/clients/*/views
 
   redis:
     image: "redis:alpine"
@@ -45,7 +41,7 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - ./data/blot-key.pem:/etc/ssl/private/nginx-selfsigned.key
-      - ./data/blot.pem:/etc/ssl/certs/nginx-selfsigned.crt
+      - ./data/ssl:/etc/ssl
     depends_on:
       - node-app
+    command:  /bin/sh -c "sh  /etc/nginx/init.sh"

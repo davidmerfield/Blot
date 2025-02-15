@@ -2,23 +2,23 @@ var client = require("models/client");
 var ensure = require("helper/ensure");
 var key = require("./key");
 
-// this is a private method which assumes the
-// tag has been normalized. we
+// This is a private method which assumes the
+// tag has been normalized.
 module.exports = function get(blogID, tag, callback) {
   ensure(blogID, "string").and(tag, "string").and(callback, "function");
 
-  var multi = client.multi();
+  const tagKey = key.name(blogID, tag);
+  const tagSetKey = key.tag(blogID, tag);
 
-  multi.get(key.name(blogID, tag));
-  multi.smembers(key.tag(blogID, tag));
+  // Fetch the name and the set of entry IDs in parallel
+  client.get(tagKey, function (err, prettyTag) {
+    if (err) return callback(err);
 
-  multi.exec(function (err, res) {
-    if (err) throw err;
+    client.smembers(tagSetKey, function (err, entryIDs) {
+      if (err) return callback(err);
 
-    var prettyTag = res[0];
-
-    var entryIDs = res[1];
-
-    return callback(null, entryIDs, prettyTag);
+      // Combine the results and call the callback
+      return callback(null, entryIDs, prettyTag);
+    });
   });
 };
