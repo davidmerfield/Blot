@@ -3,10 +3,13 @@ const guid = require("helper/guid");
 const hash = require("helper/hash");
 const createDriveClient = require("./createDriveClient");
 const database = require("../database");
+const clfdate = require("helper/clfdate");
 
 const TEN_MINUTES = 1000 * 60 * 10; // in ms
 const WEBHOOK_HOST = config.environment === "development" ? config.webhooks.relay_host : config.host;
 const ADDRESS = `https://${WEBHOOK_HOST}/clients/google-drive/webhook`;
+
+const prefix = () => clfdate() + " Google Drive:";
 
 module.exports = async (blogID, fileId) => {
 
@@ -19,17 +22,17 @@ module.exports = async (blogID, fileId) => {
   const channel = await database.channel.getByFileId(blogID, fileId);
 
   if (channel) {
-    console.log("Webhook already exists for", blogID, fileId);
+    console.log(prefix(), "Webhook already exists for", blogID, fileId);
 
     const tenMinutesFromNow = Date.now() + TEN_MINUTES;
 
     // The channel will expire in more than ten minutes
     if (parseInt(channel.expiration) > tenMinutesFromNow) {
-      console.log("Webhook will expire in", channel.expiration - Date.now(), "ms", "no need to renew");
+      console.log(prefix(), "Webhook will expire in", channel.expiration - Date.now(), "ms", "no need to renew");
       return;
     }
 
-    console.log("Renewing webhook for", channel);
+    console.log(prefix(), "Renewing webhook for", channel);
   }
 
   try {
@@ -68,7 +71,7 @@ module.exports = async (blogID, fileId) => {
     };
 
     await database.channel.set(channelId, channel);
-    console.log( "Webhook set up for", channel);
+    console.log(prefix(), "Webhook set up for", channel);
 
   } catch (e) {
     if (e.message === "Invalid Credentials") {
@@ -81,6 +84,6 @@ module.exports = async (blogID, fileId) => {
       });
     }
 
-    console.log( "Error renewing webhook for", blogID, e);
+    console.log(prefix(), "Error renewing webhook for", blogID, e);
   }
 };

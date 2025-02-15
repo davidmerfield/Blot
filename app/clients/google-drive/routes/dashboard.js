@@ -169,7 +169,6 @@ const setUpBlogFolder = async function (blog, email) {
  * List the contents of root folder.
  */
 async function findEmptySharedFolder(drive, email) {
-  console.log("Listing root folder contents for email: " + email);
 
   // List all shared folders owned by the given email
   const res = await drive.files.list({
@@ -182,12 +181,9 @@ async function findEmptySharedFolder(drive, email) {
     return null;
   }
 
-  console.log(`Found ${res.data.files.length} shared folder(s). Checking for empty folders...`);
-
   if (res.data.files.length === 1) {
     // Handle the case where there is only one folder
     const folder = res.data.files[0];
-    console.log(`Only one folder found: ${folder.name} (ID: ${folder.id}). Checking its contents...`);
 
     // List the contents of the folder
     const folderContents = await drive.files.list({
@@ -201,14 +197,12 @@ async function findEmptySharedFolder(drive, email) {
       throw new Error("Please share an empty folder");
     } else {
       // If the folder is empty, return it
-      console.log(`Empty folder found: ${folder.name} (ID: ${folder.id})`);
       return { folderId: folder.id, folderName: folder.name };
     }
   }
 
   // Handle the case where there are multiple folders
   for (const folder of res.data.files) {
-    console.log(`Checking folder: ${folder.name} (ID: ${folder.id})`);
 
     // List the contents of the current folder
     const folderContents = await drive.files.list({
@@ -219,13 +213,11 @@ async function findEmptySharedFolder(drive, email) {
 
     // If the folder is empty, return it
     if (folderContents.data.files.length === 0) {
-      console.log(`Empty folder found: ${folder.name} (ID: ${folder.id})`);
       return { folderId: folder.id, folderName: folder.name };
     }
   }
 
   // If no empty folder is found, wait and retry
-  console.log("No empty folder found... waiting 3 seconds and trying again.");
   return null;
 }
 

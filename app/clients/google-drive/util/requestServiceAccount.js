@@ -1,8 +1,11 @@
 const database = require('clients/google-drive/database');
 const config = require('config');
 const email = require('helper/email');
+const clfdate = require('helper/clfdate');
 
 const MIN_FREE_SPACE_BYTES = 5 * 1024 * 1024 * 1024; // 5 GB
+
+const prefix = () => clfdate() + " Google Drive:";
 
 module.exports = async function () {
     let serviceAccounts = await database.serviceAccount.all();
@@ -26,7 +29,7 @@ module.exports = async function () {
     // log all the accounts and their free space
     serviceAccounts.forEach((account) => {
         const freeSpace = account.storageQuota.limit - account.storageQuota.usage;
-        console.log('Service account:', account.client_id, 'has', freeSpace, 'bytes of free space.');
+        console.log(prefix(), 'service account:', account.client_id, 'has', freeSpace, 'bytes of free space.');
     });
     
     // Sort service accounts by the available space in descending order
@@ -40,9 +43,10 @@ module.exports = async function () {
     const selectedClientId = serviceAccounts[0].client_id;
     const selectedFreeSpace = serviceAccounts[0].storageQuota.limit - serviceAccounts[0].storageQuota.usage;
 
-    console.log('Selected service account:', selectedClientId, 'with', selectedFreeSpace, 'bytes of free space.');
+    console.log(prefix(), 'selected service account:', selectedClientId, 'with', selectedFreeSpace, 'bytes of free space.');
 
     if (selectedFreeSpace < MIN_FREE_SPACE_BYTES) {
+        console.log(prefix(), 'selected service account is low on free space.');
         email.GOOGLE_DRIVE_SERVICE_ACCOUNT_LOW()
     }
 
