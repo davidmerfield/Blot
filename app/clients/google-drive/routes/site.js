@@ -29,17 +29,17 @@ site
     // We can't call drive.stop on the stale channel since the
     // refresh_token likely changed, just let it expire instead.
     if (!storedChannel) {
-        console.log(prefix(), "Stale channel, ignoring", channel);
+        console.log(prefix(), "Stale channel, ignoring", channelID);
         return res.send("OK");
     }
 
     if (!storedChannel.blogID) {
-      console.log(prefix(), "No blog ID, ignoring", channel);
+      console.log(prefix(), "No blog ID, ignoring", channelID);
       return;
     }
 
     if (!storedChannel.id) {
-      console.log(prefix(), "No channel ID, ignoring", channel);
+      console.log(prefix(), "No channel ID, ignoring", channelID);
       return;
     }
 
