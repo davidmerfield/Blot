@@ -11,6 +11,41 @@ Fix bugs with template engine:
 - Fix date selector for template and tell [Zach](https://mail.google.com/mail/u/0/#inbox/FMfcgzGxTFSjkTvfDRgNHZwSQqDzWKFB)
 - Fix bug with forking / editing new templates and tell [Jarrod](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrbRSDCZqMwzjDdqdGCkScxpsw) when local template folders better reflect template names
 
+Improvements to Google Drive client
+- Tell when Google Drive client is working again:
+  - [Mark](https://mail.google.com/mail/u/1/#inbox/FMfcgzQXKhJXqjrbZTsFsvPhzwcdnBrP)
+  - [Roequin](https://mail.google.com/mail/u/0/#inbox/FMfcgzQXJkbDbxzWNXFGqslFTghhTbCR)
+  - [Michael](https://mail.google.com/mail/u/0/#inbox/FMfcgzQXKWgNZSFcmZtCcmGGLpFVcLCW)
+  - [Jonathan](https://mail.google.com/mail/u/0/#inbox/FMfcgzQVxttZGBjqDfCRnvRTvxXmWqrM)
+  - [Paolo](https://mail.google.com/mail/u/0/#inbox/FMfcgzQXKhNCVTBqGdXzbbjjnNSnJZdG)
+  - [Daniel](https://mail.google.com/mail/u/0/#inbox/FMfcgzQVzXbzPFqbrqKmmWhzLgnGqlrV)
+  - [Nat](https://mail.google.com/mail/u/0/#inbox/FMfcgzQZTCjdqLwjqsmSDQKlwskVcLCW)
+  - [Shailesh](https://mail.google.com/mail/u/0/#inbox/FMfcgzQZTCrjbvpjvpfQxFdPTndDKNnH)
+- [ ] Test multiple sites sync in parallel
+- [ ] Refactor sync to handle changes to subfolders
+- [ ] Test multiple Google Drive accounts in parallel
+- [ ] Test drafts
+- [ ] Test local templates
+- Resolve issue with [Stephen's large blog](https://mail.google.com/mail/u/0/#inbox/QgrcJHsBsbkNkMkkkMmLWBxRfnGnWPVwLHl)
+  - It also seems like server crashes when a massive google drive folder is synced, with a directory containing 6772 items
+- [ ] make google drive reset TO store metadata for case of file/folder name
+- [ ] make google drive reset FROM abortable
+- [ ] make google drive reset TO abortable
+- How do we handle two files with same name and same parent? How does our fileId:path hash handle this? Make sure we delete the right file. Will file.title as opposed to file.name give us the deduped version?
+  - Bug: move file with deduplicated name from sub folder to other folder
+  - download should check for an existing file with same name but different fileId and dedupe before storing the path?
+- Handle revoked credentials without tanking server
+- Can the google drive client handle a server restart during setup?
+- database.folder should throw ENOENT and EEXIST errors for del, set, move etc.
+- Error handling
+  - Retry when we get google drive's This service is not available error
+  - Handle storage quota errors
+  - Handle 429 errors with exponential backoff retry
+- Implement `folder.rename` method to take advantage of Google Drive's true rename feature
+- Add a way for sync/build to accept a ctime as an option. We can't set this at the operating system level but google drive's API does return a createdTime value and we could use this as the true file's created date, rather than the date the file is made on the server
+- `write` should use the best method for large file uploading
+- Work out if we can test this using Mocks  
+
 Add more efficient popular_tags method
 - add new properties to underlying model
 
@@ -450,7 +485,6 @@ Improvements to website:
 - Add [contributor](https://api.github.com/repos/davidmerfield/blot/contributors) / [language](https://api.github.com/repos/davidmerfield/blot/languages) and repo information to source code page using GitHub API.
 - Add upload to dashboard
   - Drag and drop 
-- Add ‘open folder on drive’ link to Client settings page. Same for Dropbox
 - Redo demo video
 
 ---
@@ -580,9 +614,6 @@ Preserve file name for SEO purposes when uploading to image cache CDN and tell [
 Add a property to entries which lets you list all the images in a post so [Jean](https://mail.google.com/mail/u/0/#inbox/FMfcgzGtwgpcHJMnwFNXtNHWHMlZFFlb)
  can add them to his sitemap
 
-Resolve issue with [Stephen's large blog](https://mail.google.com/mail/u/0/#inbox/QgrcJHsBsbkNkMkkkMmLWBxRfnGnWPVwLHl)
-- It also seems like server crashes when a massive google drive folder is synced, with a directory containing 6772 items
-
 Add lazy loading option to image settings and tell [questioner](https://blot.im/questions/1806)
 
 ---
@@ -630,27 +661,8 @@ Improvements to sync/reset scripts:
 - [ ] dropbox reset FROM BLOT should handle removed folder
 - [ ] dropbox reset TO BLOT should handle revoked token
 - [ ] dropbox reset FROM BLOT should handle revoked token
-- [ ] make google drive reset TO store metadata for case of file/folder name
-- [ ] make google drive reset FROM abortable
-- [ ] make google drive reset TO abortable
 - [ ] make dropbox reset FROM abortable
 - [ ] make dropbox reset TO abortable
-
-Improve Google Drive client:
-- How do we handle two files with same name and same parent? How does our fileId:path hash handle this? Make sure we delete the right file. Will file.title as opposed to file.name give us the deduped version?
-  - Bug: move file with deduplicated name from sub folder to other folder
-  - download should check for an existing file with same name but different fileId and dedupe before storing the path?
-- Handle revoked credentials without tanking server
-- Can the google drive client handle a server restart during setup?
-- database.folder should throw ENOENT and EEXIST errors for del, set, move etc.
-- Error handling
-  - Retry when we get google drive's This service is not available error
-  - Handle storage quota errors
-  - Handle 429 errors with exponential backoff retry
-- Implement `folder.rename` method to take advantage of Google Drive's true rename feature
-- Add a way for sync/build to accept a ctime as an option. We can't set this at the operating system level but google drive's API does return a createdTime value and we could use this as the true file's created date, rather than the date the file is made on the server
-- `write` should use the best method for large file uploading
-- Work out if we can test this using Mocks
 
 Improvements to Dropbox client:
 - [ ] Determine if we can hack our way to determining the file upload date on Dropbox using their API?
