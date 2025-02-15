@@ -231,6 +231,11 @@ Make it possible to embed the HTML output of markdown files using Obsidians embe
 
 ---
 
+Remove packages:
+- csurf
+- node-fetch (use global fetch)
+- twemoji (delete the plugin)
+
 Clamp length of password and email address in log in and sign up and reset forms
 
 Migrate [Stripe library to v7](https://github.com/stripe/stripe-node/wiki/Migration-guide-for-v7)
