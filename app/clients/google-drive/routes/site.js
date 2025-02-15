@@ -1,7 +1,4 @@
-const _ = require("lodash");
-const moment = require("moment");
 const config = require("config");
-const querystring = require("querystring");
 const hash = require("helper/hash");
 const clfdate = require("helper/clfdate");
 const express = require("express");
@@ -46,7 +43,7 @@ site
       return;
     }
 
-    const signature = hash(storedChannel.blogID + storedChannel.id + config.session.secret);
+    const signature = hash(storedChannel.blogID + storedChannel.id + config.google_drive.webhook_secret);
 
     if (token !== signature) {
       console.log(prefix(), "Invalid signature", token, signature);

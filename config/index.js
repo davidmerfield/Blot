@@ -143,6 +143,7 @@ module.exports = {
   },
 
   google_drive: {
+    webhook_secret: process.env.BLOT_GOOGLEDRIVE_WEBHOOK_SECRET,
     service_accounts: (() => {
       try {
         // Check if the environment variable is defined and not empty

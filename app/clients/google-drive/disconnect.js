@@ -18,7 +18,9 @@ module.exports = async (blogID, callback) => {
     }
 
     // add method to process all channels with a given blogID
-    await database.channel.processAll(async (channel) => {
+    // we do not wait for this to complete because it is not
+    // critical to the disconnection process and it takes a long time
+    database.channel.processAll(async (channel) => {
         
       if (channel.blogID !== blogID) return;
 

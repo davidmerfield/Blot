@@ -56,8 +56,27 @@
     <span class="center">{{email}}</span>
   </div>
 
+  {{#folderId}}
   {{> disconnect-line}}
+  {{/folderId}}
 
+  {{^folderId}}
+  <a class="line" href="{{{dashboardBase}}}/client/activity">
+    <span class="label">Activity</span>
+    <span class="center">  
+      <span class="sync-status" data-sync-status-url="{{{dashboardBase}}}/status">{{blog.status.message}} {{blog.status.fromNow}}</span>
+    </span>
+    <span class="right">View recent activity</span>
+  </a>
+  
+  <form action="{{{base}}}/cancel" method="POST">
+    <input type="hidden" name="_csrf" value="{{csrftoken}}">
+    {{error}}
+    <div class="buttons">
+        <button type="submit">Cancel</button> 
+    </div>  
+</form>
+  {{/folderId}}
 
 </div>
 <br><br>

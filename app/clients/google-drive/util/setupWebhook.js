@@ -32,6 +32,7 @@ module.exports = async (blogID, fileId) => {
       return;
     }
 
+    await database.channel.drop(channel.id);
     console.log(prefix(), "Renewing webhook for", channel);
   }
 
@@ -40,7 +41,7 @@ module.exports = async (blogID, fileId) => {
     const drive = await createDriveClient(blogID);
 
     const channelId = guid();
-    const expectedSignatureInput = blogID + channelId + config.session.secret;
+    const expectedSignatureInput = blogID + channelId + config.google_drive.webhook_secret;
     const token = hash(expectedSignatureInput);
 
     // attempt to set up a webhook
@@ -69,7 +70,7 @@ module.exports = async (blogID, fileId) => {
       resourceUri: response.data.resourceUri,
       expiration: response.data.expiration,
     };
-
+    
     await database.channel.set(channelId, channel);
     console.log(prefix(), "Webhook set up for", channel);
 

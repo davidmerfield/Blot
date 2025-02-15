@@ -9,6 +9,7 @@ const requestServiceAccount = require("../util/requestServiceAccount");
 const setupWebhook = require("../util/setupWebhook");
 const resetFromBlot = require("../sync/reset-from-blot");
 const parseBody = require("body-parser").urlencoded({ extended: false });
+const Blog = require("models/blog");
 
 const VIEWS = require("path").resolve(__dirname + "/../views") + "/";
 
@@ -46,6 +47,20 @@ dashboard.route("/set-up-folder")
         }
 
         if (req.body.email) {
+
+          // Determine the service account ID we'll use to sync this blog.
+          // We query the database to retrieve all the service accounts, then
+          // sort them by the available space (storageQuota.available - storageQuota.used)
+          // to find the one with the most available space.
+          const client_id = await requestServiceAccount();
+
+          await database.setAccount(req.blog.id, {
+            email: req.body.email,
+            client_id,
+            error: null,
+            preparing: true
+          });
+
           setUpBlogFolder(req.blog, req.body.email);
         }
 
@@ -53,23 +68,13 @@ dashboard.route("/set-up-folder")
         res.redirect(req.baseUrl);
     });
 
-dashboard
-  .route("/set-up-folder/cancel")
-  .all(function (req, res, next) {
-    if (!res.locals.account.preparing) return res.redirect(req.baseUrl);
-    next();
-  })
-  .post(async function (req, res) {
-    await database.setAccount(req.blog.id, {
-      error: null,
-      channel: null,
-      email: null,
-      folderId: null,
-      folderName: null,
-      preparing: null,
-      client_id: null
-    });
-    res.message(req.baseUrl, "Cancelled the creation of your new folder");
+dashboard.post("/cancel", async function (req, res) {
+
+    console.log(clfdate(), "Google Drive Client", "Cancelling folder setup");
+  
+      await database.dropAccount(req.blog.id);
+  
+      res.message(req.baseUrl, "Cancelled the creation of your new folder");
   });
 
 
@@ -87,19 +92,6 @@ const setUpBlogFolder = async function (blog, email) {
 
     // we need to hoist this so we can call it in the catch block
     done = sync.done;
-
-    // Determine the service account ID we'll use to sync this blog.
-    // We query the database to retrieve all the service accounts, then
-    // sort them by the available space (storageQuota.available - storageQuota.used)
-    // to find the one with the most available space.
-    const client_id = await requestServiceAccount();
-         
-    await database.setAccount(blog.id, {
-        email,
-        client_id,
-        error: null,
-        preparing: true
-    });
 
     sync.folder.status("Establishing connection to Google Drive");
     const drive = await createDriveClient(blog.id);
