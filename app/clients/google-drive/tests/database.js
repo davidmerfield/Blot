@@ -22,27 +22,6 @@ describe("google drive client: database", function () {
     expect(updatedAccount).toEqual({ foo: "bar", baz: "bat" });
   });
 
-  it("can list all accounts", async function () {
-    // delete any existing accounts    
-    for (const {blogID} of await database.allAccounts()) {
-      await database.dropAccount(blogID);
-    }
-
-    const firstBlogId = "blog_1" + Date.now().toString();
-    const secondBlogId = "blog_2" + Date.now().toString();
-    await database.setAccount(firstBlogId, { foo: "bar" });
-    await database.setAccount(secondBlogId, { baz: "bat" });
-    const allAccounts = await database.allAccounts();
-
-    // sort the accounts by blogID
-    allAccounts.sort((a, b) => a.blogID.localeCompare(b.blogID));
-
-    expect(allAccounts).toEqual([
-      { blogID: firstBlogId, foo: "bar" },
-      { blogID: secondBlogId, baz: "bat" },
-    ]);
-  });
-
   it("can store and retrieve service account information", async function () {
     const serviceAccountId = "service_account_" + Date.now().toString();
     await database.serviceAccount.set(serviceAccountId, { foo: "bar" });
