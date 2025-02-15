@@ -136,7 +136,7 @@ const setUpBlogFolder = async function (blog, email) {
 
     await checkWeCanContinue();
     sync.folder.status("Setting up webhook");
-    await setupWebhook(blog.id);
+    await setupWebhook(blog.id, folderId);
 
     await database.setAccount(blog.id, { preparing: null });
     sync.folder.status("All files transferred");

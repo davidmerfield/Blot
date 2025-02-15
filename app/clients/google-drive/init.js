@@ -48,7 +48,7 @@ const refreshWebhookChannels = async () => {
   console.log(prefix(), "Looking for accounts to renew webhooks ");
   const accounts = await database.allAccounts();
   for (const account of accounts) {
-    if (!account.folderId || !account.channel) continue;
+    if (!account.channel) continue;
     const tenMinutesFromNow = Date.now() + TEN_MINUTES;
 
     // The channel will expire in more than ten minutes
@@ -59,7 +59,7 @@ const refreshWebhookChannels = async () => {
 
     console.log(prefix(), "Renewing webhook for", account.blogID);
     try {
-      await setupWebhook(account.blogID);
+      await setupWebhook(account.blogID, account.channel.resourceId);
     } catch (e) {
       if (e.message === "Invalid Credentials") {
         await database.setAccount(account.blogID, {
