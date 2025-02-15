@@ -12,15 +12,6 @@ Fix bugs with template engine:
 - Fix bug with forking / editing new templates and tell [Jarrod](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrbRSDCZqMwzjDdqdGCkScxpsw) when local template folders better reflect template names
 
 Improvements to Google Drive client
-- Tell when Google Drive client is working again:
-  - [Mark](https://mail.google.com/mail/u/1/#inbox/FMfcgzQXKhJXqjrbZTsFsvPhzwcdnBrP)
-  - [Roequin](https://mail.google.com/mail/u/0/#inbox/FMfcgzQXJkbDbxzWNXFGqslFTghhTbCR)
-  - [Michael](https://mail.google.com/mail/u/0/#inbox/FMfcgzQXKWgNZSFcmZtCcmGGLpFVcLCW)
-  - [Jonathan](https://mail.google.com/mail/u/0/#inbox/FMfcgzQVxttZGBjqDfCRnvRTvxXmWqrM)
-  - [Paolo](https://mail.google.com/mail/u/0/#inbox/FMfcgzQXKhNCVTBqGdXzbbjjnNSnJZdG)
-  - [Daniel](https://mail.google.com/mail/u/0/#inbox/FMfcgzQVzXbzPFqbrqKmmWhzLgnGqlrV)
-  - [Nat](https://mail.google.com/mail/u/0/#inbox/FMfcgzQZTCjdqLwjqsmSDQKlwskVcLCW)
-  - [Shailesh](https://mail.google.com/mail/u/0/#inbox/FMfcgzQZTCrjbvpjvpfQxFdPTndDKNnH)
 - [ ] Test multiple sites sync in parallel
 - [ ] Refactor sync to handle changes to subfolders
 - [ ] Test multiple Google Drive accounts in parallel
