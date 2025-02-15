@@ -142,6 +142,42 @@ module.exports = {
     password: process.env.BLOT_BACKUP_SECRET
   },
 
+  google_drive: {
+    webhook_secret: process.env.BLOT_GOOGLEDRIVE_WEBHOOK_SECRET,
+    service_accounts: (() => {
+      try {
+        // Check if the environment variable is defined and not empty
+        if (!process.env.BLOT_GOOGLEDRIVE_SERVICE_ACCOUNT_IDS) {
+          return [];
+        }
+  
+        // Split the environment variable into an array of IDs
+        return process.env.BLOT_GOOGLEDRIVE_SERVICE_ACCOUNT_IDS.split(",").map(service_account_id => {
+          try {
+            // Retrieve the corresponding service account value
+            const service_account = process.env[`BLOT_GOOGLEDRIVE_SERVICE_ACCOUNT_${service_account_id.trim()}`];
+            
+            // Validate and parse the service account if it exists
+            if (service_account) {
+              return JSON.parse(Buffer.from(service_account, "base64").toString());
+            } else {
+              console.warn(`Service account for ID "${service_account_id}" is missing or undefined.`);
+              return null; // Return null for missing service accounts
+            }
+          } catch (err) {
+            // Handle errors in parsing the individual service account
+            console.error(`Failed to process service account for ID "${service_account_id}":`, err.message);
+            return null; // Return null when parsing fails
+          }
+        }).filter(account => account !== null); // Filter out null entries
+      } catch (err) {
+        // Handle errors in the overall process
+        console.error("Failed to process Google Drive service accounts:", err.message);
+        return []; // Return an empty array if any critical errors occur
+      }
+    })(),
+  },
+
   twitter: {
     consumer_key: process.env.BLOT_TWITTER_CONSUMER_KEY,
     consumer_secret: process.env.BLOT_TWITTER_CONSUMER_SECRET,
