@@ -8,7 +8,9 @@ const hget = promisify(client.hget).bind(client);
 const hdel = promisify(client.hdel).bind(client);
 const hscan = promisify(client.hscan).bind(client);
 const sadd = promisify(client.sadd).bind(client);
+const srem = promisify(client.srem).bind(client);
 const smembers = promisify(client.smembers).bind(client);
+const sscan = promisify(client.sscan).bind(client);
 
 const keys = {
   // Used to renew webhooks for all connected Google Drives
@@ -27,6 +29,22 @@ const keys = {
   // service account. They are typically allocated 15GB and it remains
   // unclear if this can be increased.
   allServiceAccounts: "clients:google-drive:all-service-accounts",
+
+  // We need to list all channels to renew the webhook for each
+  // account. The channel will expire after 7 days.
+  allChannels: "clients:google-drive:all-channels",
+
+  allChannelsForBlog: function (blogID) {
+    return `clients:google-drive:${blogID}:all-channels`;
+  },
+
+  channelByFileId: function (blogID, fileId) {
+    return `clients:google-drive:blog:${blogID}:file:${fileId}`;
+  },
+
+  channel: function (channelId) {
+    return `clients:google-drive:channel:${channelId}`;
+  }
 };
 
 const allAccounts = function (callback) {
@@ -148,6 +166,93 @@ const serviceAccount = {
     return serviceAccounts;
   }
 };
+
+const channel = {
+  get: async function (channelId) {
+    if (typeof channelId !== "string") throw new Error("channelId must be a string");
+
+    const channel = await get(keys.channel(channelId));
+    if (!channel) return null;
+    return JSON.parse(channel);
+  },
+  getByFileId: async function (blogID, fileId) {
+    if (typeof fileId !== "string") throw new Error("fileId must be a string");
+
+    const channelId = await get(keys.channelByFileId(blogID, fileId));
+
+    if (!channelId) return null;
+
+    return await channel.get(channelId);
+  },
+  set: async function (channelId, changes) {
+    if (typeof channelId !== "string") throw new Error("channelId must be a string");
+    if (typeof changes !== "object") throw new Error("changes must be an object");
+
+    const key = keys.channel(channelId);
+
+    const channelString = await get(key);
+    const channel = channelString ? JSON.parse(channelString) : {};
+
+    if (channel.fileId && channel.blogID && changes.fileId && channel.fileId !== changes.fileId) {
+      await del(keys.channelByFileId(channel.blogID, channel.fileId));
+    }
+
+    if (channel.blogID && changes.blogID && channel.blogID !== changes.blogID) {
+      await srem(keys.allChannelsForBlog(channel.blogID), key);
+    }
+
+    for (var i in changes) {
+      channel[i] = changes[i];
+    }
+
+    if (channel.fileId && channel.blogID) {
+      await set(keys.channelByFileId(channel.blogID, channel.fileId), channelId);
+    }
+
+    if (channel.blogID) {
+      await sadd(keys.allChannelsForBlog(changes.blogID), key);
+    }
+
+    await set(key, JSON.stringify(channel));
+
+    await sadd(keys.allChannels, key);
+  },
+  drop: async function (channelId) {
+    if (typeof channelId !== "string") throw new Error("channelId must be a string");
+    const key = keys.channel(channelId);
+    const channelString = await get(key) || "{}";
+    const channel = JSON.parse(channelString);
+
+    if (channel.fileId && channel.blogID) {
+      await del(keys.channelByFileId(channel.blogID, channel.fileId));
+    }
+
+    if (channel.blogID) {
+      await srem(keys.allChannelsForBlog(channel.blogID), key);
+    }
+
+    await del(key);
+    await srem(keys.allChannels, key);
+  },
+  processAll: async function (callback, batchSize = 100) {
+    if (typeof callback !== "function") throw new Error("callback must be a function");
+
+    let cursor = "0"; // Start with the initial cursor.
+    do {
+      // Perform an SSCAN operation to fetch a batch of channel IDs.
+      const [newCursor, channelKeys] = await sscan(keys.allChannels, cursor, "COUNT", batchSize);
+      cursor = newCursor;
+
+      // For each resource ID, fetch the channel data and process it.
+      for (let key of channelKeys) {
+        const channelDataString = await get(key);
+        const channelData = JSON.parse(channelDataString);
+        await callback(channelData); // Call the callback with the channel data.
+      }
+    } while (cursor !== "0"); // Continue until the cursor loops back to "0" (no more data).
+  }
+};
+
 
 function folder (folderId) {
   this.key = `clients:google-drive:${folderId}:folder`;
@@ -276,6 +381,7 @@ function folder (folderId) {
 module.exports = {
   serviceAccount: serviceAccount,
   folder: folder,
+  channel: channel,
   getAccount: promisify(getAccount),
   setAccount: promisify(setAccount),
   dropAccount: promisify(dropAccount),

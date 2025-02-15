@@ -9,10 +9,10 @@ const database = require("./database");
 const setupWebhook = require("./util/setupWebhook");
 const config = require("config");
 const { google } = require('googleapis');
-
-const TEN_MINUTES = 1000 * 60 * 10; // in ms
+const querystring = require("querystring");
 
 const prefix = () => clfdate() + " Google Drive client:";
+const TEN_MINUTES = 1000 * 60 * 10; // in ms
 
 module.exports = () => {
   refreshServiceAccounts();
@@ -45,35 +45,10 @@ const refreshServiceAccounts = async () => {
 }
 
 const refreshWebhookChannels = async () => {
-  console.log(prefix(), "Looking for accounts to renew webhooks ");
-  const accounts = await database.allAccounts();
-  for (const account of accounts) {
-    if (!account.channel) continue;
-    const tenMinutesFromNow = Date.now() + TEN_MINUTES;
+  console.log(prefix(), "Looking for channels to renew");
 
-    // The channel will expire in more than ten minutes
-    if (parseInt(account.channel.expiration) > tenMinutesFromNow) {
-      debug("No need to renew channel for ", account);
-      continue;
-    }
+  await database.channel.processAll(async (channel) => {
+    await setupWebhook(channel.blogID, channel.fileId);
+  });
 
-    console.log(prefix(), "Renewing webhook for", account.blogID);
-    try {
-      await setupWebhook(account.blogID, account.channel.resourceId);
-    } catch (e) {
-      if (e.message === "Invalid Credentials") {
-        await database.setAccount(account.blogID, {
-          channel: null,
-          error: "Invalid Credentials",
-        });
-      } else {
-        await database.setAccount(account.blogID, {
-          channel: null,
-          error: "Failed to set up webhook",
-        });
-      }
-
-      console.log(prefix(), "Error renewing webhook for", account.blogID, e);
-    }
-  }
 };

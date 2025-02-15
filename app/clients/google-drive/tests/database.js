@@ -55,6 +55,42 @@ describe("google drive client: database", function () {
     expect(allServiceAccounts).toEqual([{ client_id: serviceAccountId, foo: "bar", baz: "bat" }]);
   });
 
+
+  it("can store and retrieve channel information", async function () {
+    const blogID = "blog_" + Date.now().toString();
+    const channelId = "channel_" + Date.now().toString();
+    await database.channel.set(channelId, { foo: "bar" });
+    const channel = await database.channel.get(channelId);
+    expect(channel).toEqual({ foo: "bar" });
+    await database.channel.set(channelId, { baz: "bat" });
+    const updatedChannel = await database.channel.get(channelId);
+    expect(updatedChannel).toEqual({ foo: "bar", baz: "bat" });
+
+    await database.channel.processAll(async (channel) => {
+      expect(channel).toEqual({ foo: "bar", baz: "bat" });
+      await database.channel.set(channelId, { qux: "quux" });
+    });
+
+    const processedChannel = await database.channel.get(channelId);
+    expect(processedChannel).toEqual({ foo: "bar", baz: "bat", qux: "quux" });
+
+    await database.channel.drop(channelId);
+
+    const droppedChannel = await database.channel.get(channelId);
+    expect(droppedChannel).toEqual(null);
+  });
+
+  it("can store and retrieve channel information by fileId", async function () {
+    const blogID = "blog_" + Date.now().toString();
+    const channelId = "channel_" + Date.now().toString();
+    await database.channel.set(channelId, { fileId: "bar", blogID });
+    const channel = await database.channel.get(channelId);
+    expect(channel).toEqual({ fileId: "bar", blogID });
+    const channelByFileId = await database.channel.getByFileId(blogID, "bar");
+    expect(channelByFileId).toEqual({ fileId: "bar", blogID });
+    await database.channel.drop(channelId);
+  });
+
   it("deletes the folder keys when dropping an account", async function () {
     const blogId = "blog_" + Date.now().toString();
     const folderId = "folder_" + Date.now().toString();

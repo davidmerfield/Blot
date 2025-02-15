@@ -17,30 +17,13 @@ site
   })
   .post(async function (req, res) {
     const prefix = () => clfdate() + " Google Drive:";
-    const tokenHeader = req.header("x-goog-channel-token");
+    const token = req.header("x-goog-channel-token");
     const channelID = req.header("x-goog-channel-id");
 
-    if (!tokenHeader) return res.status(400).send("Missing header");
+    if (!token) return res.status(400).send("Missing header: x-goog-channel-token");
+    if (!channelID) return res.status(400).send("Missing header: x-goog-channel-id");
 
-    const token = querystring.parse(tokenHeader);
-    const { blogID } = token;
-    const signature = hash(blogID + channelID + config.session.secret);
-
-    if (token.signature !== signature)
-      return res.status(400).send("Invalid signature");
-
-    const channel = {
-      kind: "api#channel",
-      id: req.header("x-goog-channel-id"),
-      resourceId: req.header("x-goog-resource-id"),
-      resourceUri: req.header("x-goog-resource-uri"),
-      token: req.header("x-goog-channel-token"),
-      expiration: moment(req.header("x-goog-channel-expiration"))
-        .valueOf()
-        .toString()
-    };
-
-    const account = await database.getAccount(blogID);
+    const storedChannel = await database.channel.get(channelID);
 
     // When for some reason we can't stop the old webhook
     // for this blog during an account disconnection we sometimes
@@ -48,18 +31,35 @@ site
     // of the blog on Google Drive and happens in my dev env.
     // We can't call drive.stop on the stale channel since the
     // refresh_token likely changed, just let it expire instead.
-    if (!account || !_.isEqual(channel, account.channel)) {
-        console.log(prefix(), blogID, "Stale channel, ignoring");
+    if (!storedChannel) {
+        console.log(prefix(), "Stale channel, ignoring", channel);
         return res.send("OK");
     }
 
+    if (!storedChannel.blogID) {
+      console.log(prefix(), "No blog ID, ignoring", channel);
+      return;
+    }
+
+    if (!storedChannel.id) {
+      console.log(prefix(), "No channel ID, ignoring", channel);
+      return;
+    }
+
+    const signature = hash(storedChannel.blogID + storedChannel.id + config.session.secret);
+
+    if (token !== signature) {
+      console.log(prefix(), "Invalid signature", token, signature);
+      return res.status(400).send("Invalid signature");
+    }
+      
     res.send("OK");
 
     try {
-        console.log(prefix(), blogID, "Received webhook begin sync");
-        sync(blogID);    
+        console.log(prefix(), storedChannel.blogID, "Received webhook begin sync");
+        await sync(storedChannel.blogID);
     } catch (e) {
-        console.error(prefix(), blogID, "Error during sync", e);
+        console.error(prefix(), storedChannel.blogID, "Error during sync", e);
     }
   });
 

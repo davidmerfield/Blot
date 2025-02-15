@@ -3,6 +3,9 @@ const establishSyncLock = require("./util/establishSyncLock");
 const database = require("./database");
 const createDriveClient = require("./util/createDriveClient");
 const debug = require("debug")("blot:clients:google-drive");
+const config = require("config");
+const WEBHOOK_HOST = config.environment === "development" ? config.webhooks.relay_host : config.host;
+const ADDRESS = `https://${WEBHOOK_HOST}/clients/google-drive/webhook`;
 
 module.exports = async (blogID, callback) => {
     let done;
@@ -14,22 +17,36 @@ module.exports = async (blogID, callback) => {
         return callback(err);
     }
 
-    const account = await database.getAccount(blogID);
+    // add method to process all channels with a given blogID
+    await database.channel.processAll(async (channel) => {
+        
+      if (channel.blogID !== blogID) return;
 
-    if (account && account.channel) {
         try {
-            const drive = await createDriveClient(blogID);
-            debug("attempting to stop listening to webhooks");
-            await drive.channels.stop({
-              requestBody: account.channel,
-            });
-            debug("stop listening to webhooks successfully");
-          } catch (e) {
-            debug("failed to stop webhooks but no big deal:", e.message);
-            debug("it will expire automatically");
-          }
-    }
+          const drive = await createDriveClient(blogID);
+          await database.channel.drop(channel.id);
+          debug("attempting to stop listening to webhooks");
+          const res = await drive.channels.stop({
+            requestBody: {
+              id: channel.id,
+              resourceId: channel.resourceId,
+              resourceUri: channel.resourceUri,
+              type: "web_hook",
+              kind: "api#channel",
+              address: ADDRESS,
+            }
+          });
+          
+          if (res.data !== '') throw new Error("Failed to stop listening to webhooks: " + res.data);
 
+          debug("stop listening to webhooks successfully", res);
+        } catch (e) {
+          debug("failed to stop webhooks but no big deal:", e.message);
+          debug("it will expire automatically");
+        }
+      });
+
+    
     await database.dropAccount(blogID);
 
     Blog.set(blogID, { client: "" }, async function (err) {
