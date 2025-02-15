@@ -1,15 +1,8 @@
-// IMPORTANT:
-//
-// If you make changes to this you will need to run sudo stop blot
-// && sudo start blot when you deploy. Simply restarting won't work.
-
-const debug = require("debug")("blot:clients:google-drive");
 const clfdate = require("helper/clfdate");
 const database = require("./database");
 const setupWebhook = require("./util/setupWebhook");
 const config = require("config");
 const { google } = require('googleapis');
-const querystring = require("querystring");
 
 const prefix = () => clfdate() + " Google Drive client:";
 const TEN_MINUTES = 1000 * 60 * 10; // in ms
@@ -46,9 +39,7 @@ const refreshServiceAccounts = async () => {
 
 const refreshWebhookChannels = async () => {
   console.log(prefix(), "Looking for channels to renew");
-
   await database.channel.processAll(async (channel) => {
     await setupWebhook(channel.blogID, channel.fileId);
   });
-
 };
