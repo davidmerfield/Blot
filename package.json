@@ -3,6 +3,8 @@
   "repository": "https://github.com/davidmerfield/Blot",
   "description": "A blogging platform",
   "main": "app/index.js",
+  "os": ["darwin", "linux", "windows"],
+  "cpu": ["x64", "arm64"],
   "jshintConfig": {
     "browser": false,
     "node": true,
