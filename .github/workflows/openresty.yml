@@ -56,7 +56,7 @@ jobs:
         if: steps.cache-node-dependencies.outputs.cache-hit != 'true'
         env:
           PUPETEER_PRODUCT: firefox
-        run: npm ci
+        run: npm install
 
       - name: build openresty config
         env:
