@@ -9,6 +9,8 @@ describe("thumbnail", function () {
   var he = require("he");
   var localPath = require("helper/localPath");
   var fs = require("fs-extra");
+  var sharp = require("sharp");
+  var config = require("config");
 
   it("creates thumbnails", function (done) {
     var thumbnail = require("../index");
@@ -103,6 +105,34 @@ describe("thumbnail", function () {
     thumbnail(this.blog, path, metadata, html, function (err, result) {
       expect(err).toBe(null);
       expect(result).toBe(null);
+
+      done();
+    });
+  });
+
+  it('should preserve the P3 ICC profile of the input image', function (done) {
+
+    var thumbnail = require("../index");
+    var metadata = {};
+    var imagePath = "/p3.jpg";
+    var html = `<img src="${imagePath}">`;
+    var path = "/post.txt";
+
+    fs.copyFileSync(
+      __dirname + "/images/p3.jpg",
+      localPath(this.blog.id, imagePath)
+    );
+
+    thumbnail(this.blog, path, metadata, html, async (err, result) => {
+      expect(err).toBe(null);
+      expect(result).toEqual(jasmine.any(Object));
+      expect(result.small).toEqual(jasmine.any(Object));
+
+      const outputPath = config.blog_static_files_dir + "/" + this.blog.id + '/' + result.large.path;
+      const outputMetadata = await sharp(outputPath).metadata();
+
+      expect(outputMetadata.icc).toBeDefined();
+      expect(outputMetadata.icc).toContain('P3'); // Ensure it is preserved
 
       done();
     });
