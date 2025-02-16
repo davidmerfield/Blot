@@ -28,7 +28,7 @@ RUN ARCH=$(echo ${TARGETPLATFORM} | sed -nE 's/^linux\/(amd64|arm64)$/\1/p') \
   && rm -r pandoc-${PANDOC_VERSION}
 
 # Copy package file
-COPY package.json ./
+COPY package.json npm-shrinkwrap.json ./
 
 RUN npm install --maxsockets 1 && \
     npm cache clean --force
