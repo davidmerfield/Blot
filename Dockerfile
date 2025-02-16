@@ -35,7 +35,9 @@ COPY package.json package-lock.json ./
 # the other args are to ensure the correct sharp binary is installed
 RUN ARCH=$(echo ${TARGETPLATFORM} | sed -nE 's/^linux\/(amd64|arm64)$/\1/p') && \
     if [ -z "$ARCH" ]; then echo "Unsupported TARGETPLATFORM: ${TARGETPLATFORM}" && exit 1; fi && \
-    npm install --maxsockets 1 --os=linux --libc=musl --cpu=${ARCH} && npm cache clean --force
+    npm install --maxsockets 1 && \
+    npm install --os=linux --libc=musl --cpu=${ARCH} sharp && \
+    npm cache clean --force
 
 ## Stage 2 (development)
 # This stage is for development and testing purposes
