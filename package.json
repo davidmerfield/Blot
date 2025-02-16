@@ -3,25 +3,6 @@
   "repository": "https://github.com/davidmerfield/Blot",
   "description": "A blogging platform",
   "main": "app/index.js",
-  "os": ["darwin", "linux", "windows"],
-  "cpu": ["x64", "arm64"],
-  "jshintConfig": {
-    "browser": false,
-    "node": true,
-    "esversion": 9,
-    "laxbreak": true,
-    "globals": {
-      "describe": true,
-      "beforeEach": true,
-      "expect": true,
-      "jasmine": true,
-      "afterEach": true,
-      "it": true
-    },
-    "strict": false,
-    "undef": true,
-    "unused": true
-  },
   "scripts": {
     "test": "./tests/invoke.sh",
     "start": "docker-compose up --build",

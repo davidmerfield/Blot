@@ -25,4 +25,5 @@ scripts/deploy/out/*
 config/nginx/server.conf
 
 # Eventually ignore all node_modules directories
+package-lock.json
 node_modules/*
