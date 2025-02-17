@@ -126,11 +126,9 @@ https://publicdomainreview.org/essay/the-substantiality-of-spirit/?utm_source=ne
 
 ### Objects
 
-[Civil rights buttons](https://digitalcollections.nypl.org/search/index?filters%5Bgenre_mtxt_s%5D%5B%5D=Buttons+%28Information+artifacts%29&keywords=&layout=false#/?scroll=39)
-
 [Hippolyte Hodeau's leaves](https://pdimagearchive.org/galleries/artists/hippolyte-hodeau/random/desc)
 
-[Collection of MET cylindrical seals with modern impressions](https://www.metmuseum.org/art/collection/search#!?showOnly=withImage%7CopenAccess&q=cylinder%20seal%20and%20modern%20impression&offset=0&perPage=80&sortOrder=asc&searchField=All&pageSize=0)
+[Collection of MET cylindrical seals with modern impressions](https://www.metmuseum.org/art/collection/search?q=cylinder+seal+and+modern&showOnly=withImage)
 
 [Audio recordings at Yellowstone park](https://www.nps.gov/yell/learn/photosmultimedia/soundlibrary.htm)
 
@@ -142,7 +140,6 @@ https://publicdomainreview.org/essay/the-substantiality-of-spirit/?utm_source=ne
 
 [Urban J Kinnet Geologist at Berkeley](https://www.flickr.com/photos/105662205@N04/albums/72157670885525146/page1)
 
-[Vancouver neon in black and white](https://www.flickr.com/photos/99915476@N04/albums/72157636305761336)
 
 [Nasa Mission Patches](https://www.flickr.com/search/?text=nasa%20patches&license=7%2C9%2C10)
 

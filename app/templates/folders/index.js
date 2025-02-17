@@ -253,9 +253,11 @@ if (require.main === module) {
       return path.indexOf(process.argv[2]) > -1;
     };
 
-  main(options, function (err) {
-    if (err) throw err;
-    process.exit();
+  main(options).then(() => {
+    process.exit(0);
+  }).catch(err => {
+    console.error(err);
+    process.exit(1);
   });
 }
 
