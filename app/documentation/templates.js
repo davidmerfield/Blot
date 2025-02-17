@@ -9,6 +9,12 @@ const archivedTemplatesDirectory = path.join(__dirname, "../templates/past");
 const foldersDirectory = path.join(__dirname, "../templates/folders");
 const { getMetadata } = require("models/template");
 
+// If the template name needs to be mapped to a different name
+// than first letter capitalized, add it here
+const NAME_MAP = {
+  'cv': 'CV',
+};
+
 const categories = [
   {
     name: "Blog",
@@ -49,7 +55,7 @@ const loadFolders = async () => {
   return folderNames
     .filter(i => !i.startsWith(".") && !i.endsWith(".js") && !i.endsWith(".md"))
     .map(i => ({
-      name: i[0].toUpperCase() + i.slice(1),
+      name: NAME_MAP[i] || i[0].toUpperCase() + i.slice(1),
       demo_folder: i,
       source: `https://github.com/davidmerfield/Blot/tree/master/app/templates/folders/${i}`,
       slug: i
