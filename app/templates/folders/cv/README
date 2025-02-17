@@ -1,0 +1,23 @@
+References:
+
+https://github.com/ibelick/nextjs-resume
+https://read.cv/explore
+https://read.cv/mehdi/writing
+https://read.cv/andy
+https://read.cv/mehdi/building-an-emulator-with-rust
+https://koheifoss.com/
+
+
+Sources for material:
+
+https://unsplash.com/s/photos/shot-on-iphone?order_by=curated
+https://maxkapur.com/formatting/
+https://unsplash.com/photos/blue-and-white-spiral-illustration-_KsnSQoKhUQ
+
+To do:
+
+Add horizontal scrolling for images in resume section:
+    https://codepen.io/toddwebdev/pen/yExKoj
+    https://stackoverflow.com/questions/68478272/horizontal-scroll-with-momentum-in-vanilla-js
+
+Make image zoom plugin work?

@@ -1,3 +1,11 @@
+Overdue subscription payment form not working
+- Possible bug introduced by recent stripe upgrade
+- Revisit stripe integration and try to update
+
+Improvements to local folder experience
+- Interpolate fonts based on an ID (a la web template editor)
+- Interpolate syntax highlighting based on an ID
+
 Fix bugs with template engine:
 - Prevent double submission on template editor at insertion and front-end levels
 - Make it possible to rename template directories and tell [Darren](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwHxvsmgwbnxLbDMNDplTLltlc) and tell [questioner](https://blot.im/questions/1610)
@@ -12,6 +20,9 @@ Fix bugs with template engine:
 - Fix bug with forking / editing new templates and tell [Jarrod](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrbRSDCZqMwzjDdqdGCkScxpsw) when local template folders better reflect template names
 
 Improvements to Google Drive client
+- [ ] Resolve rate limit for new file subscriptions
+  - add new projects and new service accounts – are other projects under their own rate limit?
+  - only 
 - [ ] Test multiple sites sync in parallel
 - [ ] Refactor sync to handle changes to subfolders
 - [ ] Test multiple Google Drive accounts in parallel
@@ -142,6 +153,7 @@ Improvements to template engine
 - Assign template withs with full filename
 - Make writeToFolder more efficient by not removing the entire folder each time (only remove orphaned files) and by no rewriting identical files
 - Add search bar to template editor
+- Make syntax highlight dark mode light mode compatible somehow?
 - Work out why rebuilding template from folder clears cache even if the template is not changed
   - stop this
 - Add new template lambdas
