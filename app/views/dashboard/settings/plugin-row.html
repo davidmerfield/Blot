@@ -12,6 +12,12 @@
         </label>
         <div class="pluginOptions" style="clear:both;margin:0;padding-left:2em">
           {{{formHTML}}}
+          {{#formHTML}}
+          <div class="buttons">
+            <button type="submit">Save changes</button>
+            <a href="">Cancel</a>
+          </div>
+          {{/formHTML}}
         </div>
       </div>
       {{/plugins}}
