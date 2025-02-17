@@ -215,8 +215,13 @@ const channel = {
       // For each resource ID, fetch the channel data and process it.
       for (let key of channelKeys) {
         const channelDataString = await get(key);
+
+        if (!channelDataString) continue;
+
         const channelData = JSON.parse(channelDataString);
 
+        if (!channelData) continue;
+        
         // optionally filter by blogID if provided
         if (blogID && channelData.blogID !== blogID) continue;
 
