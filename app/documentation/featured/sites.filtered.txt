@@ -1,5 +1,6 @@
 #e15f16 zacharykeeting.com Zachary Keeting, is an artist
 #da9a87 blog.andrewjanjigian.com Andrew Janjigian, is a photographer
+#dc1c8e hannautkin.com Hanna Utkin, is a filmmaker
 #7a8aa8 keywords.oxus.net Kerim Friedman, is an anthropologist
 #b59681 discombobulated.co.nz Jessica Nickelsen, is a writer
 #d790c0 blog.aurynn.com Aurynn Shaw, is an engineer
@@ -51,5 +52,6 @@
 #000000 matthiaszeeb.net Matthias Zeeb, is an economist
 #000000 simonuvarov.com Simon Uvarov, is a programmer
 #000000 karaman.is Georgios Karamanis, is a designer
-#000000 carsonvt.me Carson Teuscher, is a historian
+#000000 www.carsonteuscher.com Carson Teuscher, is a historian
 #000000 erinkissane.com Erin Kissane, is a writer
+#000000 nonaneva.com ノナネヷ, is an artist

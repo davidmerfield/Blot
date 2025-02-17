@@ -23,9 +23,6 @@ if (require.main === module) {
   build(async (err, sites) => {
     if (err) throw err;
     await fs.outputJson(__dirname + "/featured.json", sites, { spaces: 2 });
-    const check = require("./check");
-    await check();
-
     process.exit();
   });
 }
@@ -60,7 +57,7 @@ async function build (callback) {
       };
     });
   
-    console.log('Generated thumbnails for', sites.length, 'sites');
+
 
   sites = await Promise.all(
     sites.map(async site => {
@@ -70,7 +67,7 @@ async function build (callback) {
   ).then(sites => sites.filter(i => i));
 
   sites = await generateSprite(sites);
-
+  
   callback(null, sites);
 }
 
