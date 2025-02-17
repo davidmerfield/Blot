@@ -40,6 +40,11 @@ Improvements to Google Drive client
 Add more efficient popular_tags method
 - add new properties to underlying model
 
+Fix issue with server restart:
+- sudo chown ec2-user:ec2-user /var/instance-ssd/tmp
+- sudo chown ec2-user:ec2-user /var/instance-ssd/logs/app.log
+- mkfs -t xfs -f /dev/XXXXXXXX
+
 Move docker logs to /var/ssd/logs
 - Ensure there is rotation for the docker log 
 
@@ -70,7 +75,6 @@ Surface Blot client sync errors on dashboard, add email notifications for errors
 Fix thumbnail generator to handle 304 responses properly. Right now, you can fetch image and then encounter 304 response. 
 
 Fix bug with magic text in posts which breaks backend and tell [Victor](https://mail.google.com/mail/u/1/#inbox/FMfcgzQVxRMzjBtRWVwLWtlBcFGsSVCQ)
-
 
 Fix bug with site export and [contact Ryan](https://mail.google.com/mail/u/1/#inbox/FMfcgzQXJtGgnQWMWxjBnHlvMSPFJjnJ)
 
@@ -132,11 +136,6 @@ Think about migrating to s3 for blog data storage
         }
     }
     
-Fix issue with server restart:
-- sudo chown ec2-user:ec2-user /var/instance-ssd/tmp
-- sudo chown ec2-user:ec2-user /var/instance-ssd/logs/app.log
-- mkfs -t xfs -f /dev/XXXXXXXX
-
 Improvements to template engine
 - Assign guid template IDs
 - Assign unique path to template
@@ -221,7 +220,6 @@ com/mail/u/0/#inbox/1588e3df7489b554)
 - Fix [Frank](https://mail.google.com/mail/u/0/1527fbcf999ba0c3)'s strange template bug
 - Add support for fetching only some properties of an entry (ideally only those that are used). prevent some properties from being fetched in some lists (html, for example in all_entries). Would be a good candidate for hgetall or hget?
 - Incorporate some of [notebook](https://github.com/WesleyAC/notebook)'s features in a template
-
 
 For broken embedded images, attempt to resolve based on a shortest path approach, as in, traverse the folder and attempt to find an image with a matching name
 - Tell [Ellane](https://mail.google.com/mail/u/0/#inbox/QgrcJHsbgZwttcPcXCvTnzchwRZxCNXhQgq)
