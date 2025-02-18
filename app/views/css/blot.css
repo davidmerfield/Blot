@@ -80,7 +80,7 @@ body {
   flex-grow: 0;
   flex-shrink: 0;
   width: 240px;
-  padding: 3rem 1rem;
+  padding: 3rem 1.5rem;
   position: sticky;
   top: 0;
   height: 100vh;
@@ -865,7 +865,7 @@ ul.pill-navigation {
   display: block;
   padding:.35rem 0 .35rem .4rem;
   border-radius: var(--border-radius);
-  color: var(--text-color);
+  color: rgb(53, 58, 68);
   transition: background 0.2s, color 0.2s;
 }
 
