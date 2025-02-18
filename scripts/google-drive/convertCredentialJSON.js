@@ -1,11 +1,14 @@
 const fs = require('fs-extra');
+const jsonPath = process.argv[2];
+const label = require('path').basename(jsonPath, '.json').toUpperCase();
 
-if (process.argv.length !== 3) {
+if (!jsonPath) {
+    console.error('Please provide the path to the JSON file');
     console.error('Usage: node scripts/google-drive/convertCredentialJSON <path to credentials.json>');
     process.exit(1);
 }
 
-const json = JSON.parse(fs.readFileSync(process.argv[2], 'utf8'));
+const json = JSON.parse(fs.readFileSync(jsonPath, 'utf8'));
 
 if (!json.client_id) {
     console.error('The JSON file is missing one of the following keys: client_id');
@@ -27,10 +30,11 @@ if (!json.private_key) {
     process.exit(1);
 }
 
+
 console.log(`Copy and paste the following into your .env file:
 
-BLOT_GOOGLEDRIVE_SERVICE_ACCOUNT_${json.client_id}=${Buffer.from(JSON.stringify(json)).toString('base64')}
+BLOT_GOOGLEDRIVE_SERVICE_ACCOUNT_${label}=${Buffer.from(JSON.stringify(json)).toString('base64')}
 
 Add the following to the comma-seperated list BLOT_GOOGLEDRIVE_CLIENT_IDS in your .env file:
 
-BLOT_GOOGLEDRIVE_SERVICE_ACCOUNT_IDS=${json.client_id}`);
+BLOT_GOOGLEDRIVE_SERVICE_ACCOUNT_IDS=${label}`);
