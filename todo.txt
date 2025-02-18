@@ -1,3 +1,12 @@
+Notify users google drive temporarily disabled
+
+Rewrite without files.watch: 
+- maybe poll activity endpoint?
+- is changes.watch enough?
+
+Notify users again once it's done:
+
+
 Overdue subscription payment form not working
 - Possible bug introduced by recent stripe upgrade
 - Revisit stripe integration and try to update
