@@ -46,7 +46,7 @@ jobs:
           node-version: 21.7.3
 
       - name: Load dependencies
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         id: cache-node-dependencies
         with:
           path: node_modules
