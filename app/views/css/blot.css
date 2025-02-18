@@ -5,7 +5,7 @@ html {
   --light-background-color: #f0f4ff;
 
   --text-color: #000;
-  --medium-text-color: #909bb0;
+  --medium-text-color: #7e848f;
   --light-text-color: #8094ca;
 
   --accent-color: #00f; /* used for links */
@@ -863,9 +863,9 @@ ul.pill-navigation {
   white-space: nowrap;
   text-decoration: none;
   display: block;
-  padding:0.35rem 0.8rem;
-  padding-right: 2.4rem;
+  padding:.35rem 0 .35rem .4rem;
   border-radius: var(--border-radius);
+  color: var(--text-color);
   transition: background 0.2s, color 0.2s;
 }
 
@@ -878,9 +878,9 @@ ul.pill-navigation {
 }
 
 .navigation a.selected {
-  background: #e4eafb;
+  /* background: #e4eafb; */
   font-weight: 600;
-  color: var(--accent-color)
+  color: var(--accent-color);
 }
 .navigation .minor a.selected span {
   color: var(--accent-color)
@@ -892,7 +892,7 @@ ul.pill-navigation {
 
 
 .navigation li.minor.break {
-  border-top: 1px solid var(--light-border-color);
+  /* border-top: 1px solid var(--light-border-color); */
   margin-top: 12px;padding-top: 12px;
 }
 .navigation .minor a {
@@ -903,5 +903,5 @@ ul.pill-navigation {
   font-size: 15px;
   margin-right: 0.8rem;
   margin-left: 0.1rem;
-  color: var(--light-text-color)
+  color: var(--medium-text-color)
 }
