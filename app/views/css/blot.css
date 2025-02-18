@@ -12,9 +12,7 @@ html {
   --light-accent-color: #00f; /* used for button background */
   --dark-accent-color:#00f; /* used for button hover background*/
 
-  --border-color: #E3E3E3;
-  --dark-border-color: #DEDEF9;
-  --light-border-color: #EEEEEC;
+  --border-color: #EEEEEC;
   --inset-image-border-color: rgba(255,255,255,0.05);
 
   --error-text-color: #f76f6c;
@@ -85,7 +83,7 @@ body {
   top: 0;
   height: 100vh;
   box-sizing: border-box;
-  border-right: 1px solid var(--light-border-color);
+  border-right: 1px solid var(--border-color);
 }
 
 .content {
@@ -279,7 +277,7 @@ th,
 td {
   padding: 8px 0;
   text-align: left;
-  border-bottom: 1px solid var(--light-border-color);
+  border-bottom: 1px solid var(--border-color);
 }
 
 th {
@@ -491,7 +489,7 @@ h2 + .clients {margin-top: 12px}
   padding: 18px 36px;
   border-radius: 18px;
   background: var(--light-background-color);
-  border: 1px solid var(--light-border-color);
+  border: 1px solid var(--border-color);
 }
 
 form div:focus-within > label,
@@ -546,7 +544,7 @@ a.bordered-button {
   padding: 5px 0;
 }
 .document-list > li > a {
-  border-bottom: 1px solid var(--light-border-color);
+  border-bottom: 1px solid var(--border-color);
   margin-bottom: 5px;
 }
 
@@ -584,7 +582,7 @@ a.bordered-button {
 }
 
 .document-list.with-border {
-  border: 1px solid var(--light-border-color);
+  border: 1px solid var(--border-color);
   border-radius: 18px;
   margin: 0;
   padding: 0;
@@ -892,7 +890,6 @@ ul.pill-navigation {
 
 
 .navigation li.minor.break {
-  /* border-top: 1px solid var(--light-border-color); */
   margin-top: 12px;padding-top: 12px;
 }
 .navigation .minor a {

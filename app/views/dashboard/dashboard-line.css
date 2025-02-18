@@ -9,7 +9,7 @@
   flex-wrap: wrap;
   padding: 0.667em 1em;
   line-height: 1.4;
-  border-bottom: 1px solid var(--light-border-color);
+  border-bottom: 1px solid var(--border-color);
   background-color: var(--background-color);
   transition: background-color 0.2s;
 }
@@ -31,6 +31,7 @@ a.line:hover .right {
 .link,
 .right {
   color: var(--accent-color);
+  font-size: 14px;
 }
 
 .right {
@@ -41,7 +42,7 @@ a.line:hover .right {
 
 
 .label {
-  color: var(--light-text-color);
+  color: var(--medium-text-color);
   display: inline-block;
   flex-basis: 100%;
   font-size: 14px;

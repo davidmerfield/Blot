@@ -60,7 +60,7 @@ window.addEventListener("message", receiveMessage, false);
 
   <a class="line" href="{{{base}}}/title" >
     <span class="label">Title</span>
-    <span class="center" style="display: flex;width: 100%;">
+    <span class="center" style="display: flex;width: 100%;align-items: baseline;">
       {{#blog.title}}
       <span class="truncate" style="margin-right: 12px;">{{blog.title}}</span>
       <span class="link">Edit</span>
@@ -71,11 +71,10 @@ window.addEventListener("message", receiveMessage, false);
     </span>
   </a>
  
-  <a class="line" href="{{{base}}}/domain" style="border-bottom: none;">
+  <a class="line" href="{{{base}}}/domain/custom" style="border-bottom: none;">
     <span class="label">Domain</span>
-    <span class="center" style="display: flex;max-width: 100%;">
-      <span style="display: flex;width: 100%;">
-        <span style="color:var(--light-text-color);opacity: 0.75;">https://</span>
+    <span class="center" style="display: flex;max-width: 100%;;">
+      <span style="display: flex;width: 100%;align-items: baseline">
         <span class="truncate">{{blog.pretty.url}}</span>
         <span class="link" style="margin-left: 12px;">Edit</span>
       </span>
@@ -176,7 +175,7 @@ window.addEventListener("message", receiveMessage, false);
     margin-right: 0.5em;
   }
   .panel-link.red {
-    color: red;
+    color: #ff3e00;
   }
   
   a.visit-site {
@@ -207,7 +206,7 @@ transition: transform 0.1s ease-in-out;
   }
 
   .dashboard-side {
-    width: 33.3333%;margin-left: 0;max-width: 240px;
+    width: 33.3333%;margin-left: 0;
   }
 
   @media screen and (max-width: 900px) {
