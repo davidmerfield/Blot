@@ -45,17 +45,7 @@ jobs:
         with:
           node-version: 21.7.3
 
-      - name: Load dependencies
-        uses: actions/cache@v4
-        id: cache-node-dependencies
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-${{ hashFiles('package-lock.json') }}
-
       - name: Install Dependencies
-        if: steps.cache-node-dependencies.outputs.cache-hit != 'true'
-        env:
-          PUPETEER_PRODUCT: firefox
         run: npm install
 
       - name: build openresty config
