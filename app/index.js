@@ -6,6 +6,7 @@ const scheduler = require("./scheduler");
 const setup = require("./setup");
 const server = require("./server");
 const flush = require("documentation/tools/flush-cache");
+const configureLocalBlogs = require("./configure-local-blogs");
 
 const CONTAINER_NAME = process.env.CONTAINER_NAME;
 
@@ -32,7 +33,9 @@ setup(async err => {
       }
     }
   }
-  
+
+  email.SERVER_START();
+
   // Open the server to handle requests
   server.listen(config.port, function () {
     console.log(
@@ -40,8 +43,11 @@ setup(async err => {
       `Server listening pid=${process.pid} port=${config.port}`
     );
 
-    email.SERVER_START();
-
     console.log(clfdate(), "Finished setting up server");
+    
+    if (config.environment === "development") {
+      configureLocalBlogs();
+    } 
+    
   });
 });

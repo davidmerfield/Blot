@@ -9,8 +9,6 @@ const templates = require("./templates");
 const folders = require("./templates/folders");
 const async = require("async");
 const clfdate = require("helper/clfdate");
-const configureLocalBlogs = require("./configure-local-blogs");
-
 const log = (...arguments) =>
   console.log.apply(null, [clfdate(), "Setup:", ...arguments]);
 
@@ -93,13 +91,6 @@ function main (callback) {
       //   // }
       // },
 
-      async function ()  {
-        if (config.environment === "development") {
-          log("Configuring local blogs");
-          await configureLocalBlogs();
-          log("Configured local blogs");
-        }
-      },
 
     ],
     callback
