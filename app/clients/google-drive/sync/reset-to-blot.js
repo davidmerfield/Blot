@@ -6,7 +6,7 @@ const database = require("../database");
 const download = require("../util/download");
 const createDriveClient = require("../util/createDriveClient");
 const getmd5Checksum = require("../util/md5Checksum");
-const setupWebhook = require("../util/setupWebhook");
+const setupWebhook = require("../util/setupFilesWebhook");
 
 module.exports = async (blogID, publish, update) => {
   if (!publish)
@@ -24,8 +24,8 @@ module.exports = async (blogID, publish, update) => {
   const walk = async (dir, dirId) => {
     publish("Checking", dir);
 
-    // Monitor this directory for changes
-    await setupWebhook(blogID, dirId);
+    // Monitor this directory for changes if it's the root
+    if (dir === "/") await setupWebhook(blogID, dirId);
 
     const [remoteContents, localContents] = await Promise.all([
       readdir(drive, dirId),
@@ -56,8 +56,11 @@ module.exports = async (blogID, publish, update) => {
       // Store the Drive ID against the path of this item
       await set(id, path);
 
-      // Monitor this item for changes
-      await setupWebhook(blogID, id);
+      // Is a Google Doc
+      if (mimeType === "application/vnd.google-apps.document") {
+        // Monitor this item for changes
+        await setupWebhook(blogID, id);
+      }
 
       if (isDirectory) {
         if (existsLocally && !existsLocally.isDirectory) {

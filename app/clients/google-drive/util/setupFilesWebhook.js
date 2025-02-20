@@ -7,7 +7,7 @@ const clfdate = require("helper/clfdate");
 
 const TEN_MINUTES = 1000 * 60 * 10; // in ms
 const WEBHOOK_HOST = config.environment === "development" ? config.webhooks.relay_host : config.host;
-const ADDRESS = `https://${WEBHOOK_HOST}/clients/google-drive/webhook`;
+const ADDRESS = `https://${WEBHOOK_HOST}/clients/google-drive/webhook/files`;
 
 const prefix = () => clfdate() + " Google Drive:";
 
