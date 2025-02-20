@@ -1,3 +1,5 @@
+Investigate bug with link format using filename and [follow up with yct](https://mail.google.com/mail/u/0/#inbox/FMfcgzQZTMLqzhtlSBrtFqNDFDdXPSfk)
+
 Notify users google drive temporarily disabled
 
 Rewrite without files.watch: 
@@ -157,6 +159,7 @@ Think about migrating to s3 for blog data storage
     }
     
 Improvements to template engine
+- Make it possible to query recent entries by tag and tell [Peter](https://mail.google.com/mail/u/0/#inbox/FMfcgzQZTMPKDrgrtVnjTnLtMZNHldvZ)
 - Assign guid template IDs
 - Assign unique path to template
 - Assign template withs with full filename
