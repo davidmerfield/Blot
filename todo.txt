@@ -120,6 +120,7 @@ Use custom libvips so we can convert HEIC files
 Expose exif data on Photo posts?  [https://github.com/lovell/sharp/issues/285](https://github.com/lovell/sharp/issues/285)
   See if you can add comments to image metadata and tell [Riley](https://mail.google.com/mail/u/1/#sent/164756616df069dd)
   , also tell [Mike](https://mail.google.com/mail/u/1/#inbox/16423ebe7b027d48)
+  - are the source location and website of an image drag and dropped into finder stored in its exif data somewhere? this could be used to attribute the source of an image for personal image archives
   - questioner (search exif)
   - https://github.com/sambecker/exif-photo-blog
 
