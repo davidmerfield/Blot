@@ -8,6 +8,9 @@ const createDriveClient = require("../util/createDriveClient");
 const getmd5Checksum = require("../util/md5Checksum");
 const setupWebhook = require("../util/setupFilesWebhook");
 
+// todo: add a checkWeCanContinue function
+// which verifies the folder is still connected to google drive
+// before applying any changes (e.g. if disconnect happened)
 module.exports = async (blogID, publish, update) => {
   if (!publish)
     publish = (...args) => {

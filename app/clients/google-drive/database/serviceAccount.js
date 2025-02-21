@@ -28,9 +28,15 @@ const serviceAccount = {
     const key = this._key(serviceAccountId);
     const globalSetKey = this._globalSetKey();
   
-    // Store each field of the data object in the Redis hash
+    // Ensure data is an object
+    if (typeof data !== "object" || data === null) {
+      throw new Error("Data must be a non-null object");
+    }
+  
+    // Serialize each field of the data object and store it in the Redis hash
     for (const [field, value] of Object.entries(data)) {
-      await hsetAsync(key, field, value); // Ensure value is a string
+      const serializedValue = JSON.stringify(value); // Serialize value
+      await hsetAsync(key, field, serializedValue);
     }
   
     // Track the service account in the global set
@@ -39,7 +45,27 @@ const serviceAccount = {
   
   async get(serviceAccountId) {
     const key = this._key(serviceAccountId);
-    return await hgetallAsync(key);
+  
+    // Retrieve all fields from the hash
+    const result = await hgetallAsync(key);
+  
+    // Return null if the key does not exist
+    if (!result) {
+      return null;
+    }
+  
+    // Deserialize each field from a JSON string back to its original value
+    const deserializedResult = {};
+    for (const [field, value] of Object.entries(result)) {
+      try {
+        deserializedResult[field] = JSON.parse(value); // Deserialize value
+      } catch (e) {
+        // If deserialization fails, return the raw value (fallback)
+        deserializedResult[field] = value;
+      }
+    }
+  
+    return deserializedResult;
   },
 
   async delete(serviceAccountId) {

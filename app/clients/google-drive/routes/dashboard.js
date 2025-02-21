@@ -5,7 +5,7 @@ const express = require("express");
 const dashboard = new express.Router();
 const establishSyncLock = require("../util/establishSyncLock");
 const createDriveClient = require("../util/createDriveClient");
-const requestServiceAccount = require("../util/requestServiceAccount");
+const requestServiceAccount = require("clients/google-drive/serviceAccount/request");
 const setupWebhook = require("../util/setupFilesWebhook");
 const resetFromBlot = require("../sync/reset-from-blot");
 const parseBody = require("body-parser").urlencoded({ extended: false });
@@ -14,14 +14,13 @@ const Blog = require("models/blog");
 const VIEWS = require("path").resolve(__dirname + "/../views") + "/";
 
 dashboard.use(async function (req, res, next) {
-  const account = await database.getAccount(req.blog.id);
 
-  res.locals.account = account;
-
-  if (account && account.client_id) {
-    const serviceAccount = await database.serviceAccount.get(account.client_id);
-    res.locals.serviceAccountEmail = serviceAccount.user.emailAddress;
+  res.locals.account = await database.blog.get(req.blog.id);
+  
+  if (res.locals.account && res.locals.account.serviceAccountId) {
+    res.locals.serviceAccount = await database.serviceAccount.get(res.locals.account.serviceAccountId)
   }
+
   next();
 });
 
@@ -52,11 +51,11 @@ dashboard.route("/set-up-folder")
           // We query the database to retrieve all the service accounts, then
           // sort them by the available space (storageQuota.available - storageQuota.used)
           // to find the one with the most available space.
-          const client_id = await requestServiceAccount();
+          const serviceAccountId = await requestServiceAccount();
 
-          await database.setAccount(req.blog.id, {
+          await database.blog.store(req.blog.id, {
             email: req.body.email,
-            client_id,
+            serviceAccountId,
             error: null,
             preparing: true
           });
@@ -72,7 +71,7 @@ dashboard.post("/cancel", async function (req, res) {
 
     console.log(clfdate(), "Google Drive Client", "Cancelling folder setup");
   
-      await database.dropAccount(req.blog.id);
+      await database.blog.delete(req.blog.id);
   
       res.message(req.baseUrl, "Cancelled the creation of your new folder");
   });
@@ -84,7 +83,7 @@ const setUpBlogFolder = async function (blog, email) {
 
   try {
     const checkWeCanContinue = async () => {
-      const { preparing } = await database.getAccount(blog.id);
+      const { preparing } = await database.blog.get(blog.id);
       if (!preparing) throw new Error("Permission to set up revoked");
     };
 
@@ -120,7 +119,7 @@ const setUpBlogFolder = async function (blog, email) {
       }
     } while (!folderId);
 
-    await database.setAccount(blog.id, { folderId, folderName });
+    await database.blog.store(blog.id, { folderId, folderName });
 
     await checkWeCanContinue();
     sync.folder.status("Ensuring new folder is in sync");
@@ -130,7 +129,7 @@ const setUpBlogFolder = async function (blog, email) {
     // sync.folder.status("Setting up webhook");
     // await setupWebhook(blog.id, folderId);
 
-    await database.setAccount(blog.id, { preparing: null });
+    await database.blog.store(blog.id, { preparing: false });
     sync.folder.status("All files transferred");
     done(null, () => {});
   } catch (e) {
@@ -146,7 +145,7 @@ const setUpBlogFolder = async function (blog, email) {
       error = "Please share an empty folder";
     }
 
-    await database.setAccount(blog.id, {
+    await database.blog.store(blog.id, {
       error,
       preparing: null,
       folderId: null,

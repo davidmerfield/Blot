@@ -26,9 +26,9 @@ describe("google drive database.blog", function () {
     await database.blog.store(blogID, { foo: "bar" });
     const account = await database.blog.get(blogID);
     expect(account).toEqual({ foo: "bar" });
-    await database.blog.store(blogID, { baz: "bat" });
+    await database.blog.store(blogID, { baz: null, bat: 123 });
     const updatedAccount = await database.blog.get(blogID);
-    expect(updatedAccount).toEqual({ foo: "bar", baz: "bat" });
+    expect(updatedAccount).toEqual({ foo: "bar", baz: null, bat: 123 });
   });
 
   it("can list all blog IDs", async function () {

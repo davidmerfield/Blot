@@ -26,14 +26,15 @@ const blog = {
   async store(blogID, data) {
     const key = this._key(blogID);
 
-    // if data is not an object, throw an error
-    if (typeof data !== "object") {
-      throw new Error("Data must be an object");
+    // Ensure data is an object
+    if (typeof data !== "object" || data === null) {
+      throw new Error("Data must be a non-null object");
     }
-    
-    // Store each field of the data object in the Redis hash
+
+    // Serialize each field of the data object as a JSON string
     for (const [field, value] of Object.entries(data)) {
-      await hsetAsync(key, field, value); // Ensure value is a string
+      const serializedValue = JSON.stringify(value); // Serialize value
+      await hsetAsync(key, field, serializedValue);
     }
 
     // Add the blog ID to the global set
@@ -48,7 +49,22 @@ const blog = {
     const result = await hgetallAsync(key);
 
     // Redis returns null if the key does not exist
-    return result || null;
+    if (!result) {
+      return null;
+    }
+
+    // Deserialize each field from a JSON string back to its original value
+    const deserializedResult = {};
+    for (const [field, value] of Object.entries(result)) {
+      try {
+        deserializedResult[field] = JSON.parse(value); // Deserialize value
+      } catch (e) {
+        // If deserialization fails, return the raw value (fallback)
+        deserializedResult[field] = value;
+      }
+    }
+
+    return deserializedResult;
   },
 
   // Delete account information and remove the blog ID from the global set

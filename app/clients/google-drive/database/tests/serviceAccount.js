@@ -17,6 +17,10 @@ describe("serviceAccount module", function () {
       const serviceAccountData = {
         email: "service_account_1@example.com",
         privateKey: "PRIVATE_KEY",
+        date: 123,
+        nest: { apple: "orange" },
+        time: null,
+        yes: false
       };
   
       // Store the service account
@@ -26,7 +30,7 @@ describe("serviceAccount module", function () {
       const retrievedData = await serviceAccount.get(serviceAccountId);
       expect(retrievedData).toEqual(serviceAccountData);
     });
-  
+    
     it("can list all stored service accounts", async function () {
       const serviceAccountId1 = "service_account_1";
       const serviceAccountId2 = "service_account_2";
