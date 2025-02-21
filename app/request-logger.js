@@ -2,14 +2,14 @@ const clfdate = require("helper/clfdate");
 
 let unrespondedRequests = [];
 
-setInterval(function () {
-  console.log(
-    clfdate(),
-    "PID=" + process.pid,
-    "PENDING=" + unrespondedRequests.length,
-    unrespondedRequests.join(", ")
-  );
-}, 1000 * 15); // 15 seconds
+// setInterval(function () {
+//   console.log(
+//     clfdate(),
+//     "PID=" + process.pid,
+//     "PENDING=" + unrespondedRequests.length,
+//     unrespondedRequests.join(", ")
+//   );
+// }, 1000 * 15); // 15 seconds
 
 module.exports = function (req, res, next) {
     var init = Date.now();
