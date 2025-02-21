@@ -143,8 +143,6 @@ function listen ({ host }) {
 
     let path = require("url").parse(url).path;
 
-    console.log(clfdate(), "Webhooks requesting url", url);
-
     try {
      
       const options = {
@@ -158,8 +156,11 @@ function listen ({ host }) {
 
       if (method !== "HEAD" && method !== "GET") options.body = body;
 
-      const localURL = "http://" + config.host + ':' + config.port + path;
+      let localURL = "http://" + config.host + ':' + config.port + path;
 
+      if (path.includes('/clients/google-drive/api-test')) {
+        localURL = "http://localhost:8865" + path;
+      }
       console.log(clfdate(), "Webhooks forwarding to", localURL);
 
       await fetch(localURL, options);
