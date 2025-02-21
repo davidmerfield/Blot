@@ -12,20 +12,20 @@ module.exports = async function (blogID) {
     throw new Error('No Google Drive service accounts configured: please see the documentation');
   }
 
-  const account = await database.getAccount(blogID);
+  const account = await database.blog.get(blogID);
 
   if (!account) {
     throw new Error('Account not found');
   }
 
-  const client_id = account.client_id;
+  const serviceAccountId = account.serviceAccountId;
 
-  if (!client_id) {
+  if (!serviceAccountId) {
     throw new Error('Service account client_id not found');
   }
 
   const credentials = config.google_drive.service_accounts.find(
-    (account) => account.client_id === client_id
+    (account) => account.client_id === serviceAccountId
   );
 
   if (!credentials) {

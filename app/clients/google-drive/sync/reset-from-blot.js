@@ -6,6 +6,9 @@ const database = require("../database");
 const createDriveClient = require("../util/createDriveClient");
 const getmd5Checksum = require("../util/md5Checksum");
 
+// todo: add a checkWeCanContinue function
+// which verifies the folder is still connected to google drive
+// before applying any changes (e.g. if disconnect happened)
 module.exports = async (blogID, publish) => {
   if (!publish)
     publish = (...args) => {
