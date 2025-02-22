@@ -2,12 +2,14 @@
 
 This repository contains the code for Blot’s Google Drive Client, designed to handle all interactions with Google Drive for the Blot blogging platform. The client is responsible for managing shared folders, syncing changes, and facilitating smooth integration between Blot and Google Drive.
 
-Right now we ask the user for their Google Drive email.
+Right now we ask the user to type in their Google Drive email. We avoid doing any sort of OAUTH because this involves Google  more than is strictly neccessary.
 
-The service account will automatically accept sharing requests sent to it.
+After inserting their email address, the user is asked to create a new folder in their drive and then share it with a service account controlled by Blot.
+
+Google Drive service accounts automatically accept sharing requests sent to them, which is handy.
 
 How is storage usage affected by 'service accounts'?
-- it seems like each service account gets its own storage quota of 15GB!?
+- it seems like each service account gets its own storage quota of 15GB
 
 Do multiple service accounts share the same storage quota? If we upgrade the storage size and have this affect all service accounts?
 - No they do not share the same quota
@@ -23,6 +25,7 @@ https://console.cloud.google.com
 2. Go to 'Enabled APIs & services' and enable:
 
 Google Drive API 	
+Google Drive Activity API
 
 3. Create a service account
 
@@ -48,7 +51,3 @@ This script produces a new env variable. Copy/paste the output into the env file
 ## New update from Google:
 
 Previously, Google Cloud IAM service accounts had access to 15 GB of Google Workspace Storage. However, because they aren't directly managed by administrators, any new service accounts created after April 15, 2025, won't receive this storage. Existing service accounts created before this date will retain their storage.
-
-*   Upload items to [**Shared Drives**](https://notifications.google.com/g/p/ANiao5pYGdWSUCgTiFR2lxP-RR9WkZTEV7GhN0Ms605wKKdMdDI8Dk2tV5e4UM5IK9t6fpAFaEHJcUsH2T1ccKdjVEDGp0wQvxUVF54yGhR1ovYwzLAJmE5T_IN1u6xSuu960n-aL8K4jC1PYoUV6nwdIQ)
-*   [Set up **OAuth** consent](https://notifications.google.com/g/p/ANiao5qbLmUvCPJ7XNgI6PXrB-ckCxVs0LXOYpiEgTWMBhwTCf0Ig4Jrwzp2nMGQeOB4k89pkMABn7a5u8i2BXd-p5xMP-milqu7JeF-jUZDYXc4AbRMCc-zB3uD_Q9AD4_K8gL1lkYz2mm2kpTwOAsZsdO3dIfCdoBjP3A9wAjjhxuASSmUF3Eo-cWGbyCyl6IxRGutlWWhxvM) to upload items on behalf of a human user
-*   Use impersonation via [domain wide delegation](https://notifications.google.com/g/p/ANiao5rUKweUOGkJo48n2H_KT5q-tALrM8P8l5_ce42jwa6WD5-n9JkCw0pUGsZ297ZQ3vKkj951mSyvK1gu8HDmBdRSYDG0Pe8ll4Cga8_-uZcpWoSieO7ZlF6QmzCWbqkC5D0SsAZKJWFa)
