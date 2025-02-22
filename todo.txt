@@ -10,6 +10,9 @@ Improvements to local folder experience
 - Interpolate fonts based on an ID (a la web template editor)
 - Interpolate syntax highlighting based on an ID
 
+Disconnecting a large folder from Dropbox times out
+- then possible sync lock bug
+
 Fix bugs with template engine:
 - Prevent double submission on template editor at insertion and front-end levels
 - Make it possible to rename template directories and tell [Darren](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwHxvsmgwbnxLbDMNDplTLltlc) and tell [questioner](https://blot.im/questions/1610)
