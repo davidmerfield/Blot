@@ -22,15 +22,13 @@
     <div class="folder-box {{#root}}root{{/root}} {{#directory}}directory{{/directory}}" style="{{^root}}min-height:60vh{{/root}}">
     {{#directory}}
     <table class="directory-list {{^contents.length}}empty{{/contents.length}}">
-        {{#contents.length}}
-        <thead>
+        <thead style="height: 1.4em;">
           <tr>
             <th>Name</th>
             <th>Date modified</th>
             <th>Size</th>
           </tr>
         </thead>
-        {{/contents.length}}
         <tbody class="live-updates">
       
           {{^contents.length}}
@@ -117,10 +115,22 @@
             var reverse = order === 'reverse';
             var header = table.querySelector('th:nth-child(' + (parseInt(column) + 1) + ')');
 
-            header.classList.add(order);
-
             var index = Array.from(header.parentNode.children).indexOf(header);
             var rows = Array.from(table.querySelectorAll('tbody tr'));
+
+            if (rows.length === 1 && rows[0].querySelector('td').textContent.trim() === 'This folder is empty.') {
+              document.querySelector('.directory-list').classList.add('empty');
+            } else {
+              document.querySelector('.directory-list').classList.remove('empty');
+            }
+
+            if (rows.length < 2) {
+              return;
+            }
+
+            header.classList.add(order);
+
+
             var sorted = rows.sort(function (a, b) {
               var aText = a.children[index].getAttribute('data-sort') ? parseInt(a.children[index].getAttribute('data-sort')) : a.children[index].textContent.toLocaleLowerCase().trim();
               var bText = b.children[index].getAttribute('data-sort') ? parseInt(b.children[index].getAttribute('data-sort')) : b.children[index].textContent.toLocaleLowerCase().trim();
