@@ -261,10 +261,10 @@ describe("google drive database.blog", function () {
       }
     );
 
-    expect(result).toEqual([
+    expect(result.sort((a, b) => a.blogID.localeCompare(b.blogID))).toEqual([
       { blogID: blogID1, blogData: { foo: "bar", serviceAccountId } },
       { blogID: blogID2, blogData: { baz: "bat", serviceAccountId } },
-    ]);
+    ].sort((a, b) => a.blogID.localeCompare(b.blogID)));
   });
 
   it("should remove a blog from the old serviceAccountId set when the serviceAccountId changes", async function () {
