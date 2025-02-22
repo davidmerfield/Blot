@@ -1,13 +1,11 @@
 const config = require("config");
-
-const fetchStorageInfo = require("./serviceAccount/fetchStorageInfo");
-const watchChanges = require("./serviceAccount/watchChanges");
-const createDriveClient = require("./serviceAccount/createDriveClient");
-const purgeWebhooks = require("./serviceAccount/purgeWebhooks");
-
 const clfdate = require("helper/clfdate");
 const prefix = () => `${clfdate()} Google Drive client:`;
-const TEN_MINUTES = 1000 * 60 * 10; // 10 minutes in milliseconds
+const createDriveClient = require("./serviceAccount/createDriveClient");
+const createDriveActivityClient = require("./serviceAccount/createDriveActivityClient");
+const fetchStorageInfo = require("./serviceAccount/fetchStorageInfo");
+const watchChanges = require("./serviceAccount/watchChanges");
+const pollDriveActivity = require("./serviceAccount/pollDriveActivity");
 
 const main = async () => {
   const serviceAccounts = config.google_drive.service_accounts;
@@ -20,25 +18,28 @@ const main = async () => {
   for (const { client_id: serviceAccountId } of serviceAccounts) {
     try {
       const drive = await createDriveClient(serviceAccountId);
+      const driveactivity = await createDriveActivityClient(serviceAccountId);
+
       console.log(prefix(), "Fetching storage usage of service account");
       await fetchStorageInfo(serviceAccountId, drive);
-      // console.log(prefix(), "Purging old webhooks for service account");
-      // await purgeWebhooks(serviceAccountId, drive);
+
       console.log(prefix(), "Ensuring service account is watching for changes");
       await watchChanges(serviceAccountId, drive);
+
+      console.log(prefix(), "Set up polling for drive activity");
+      pollDriveActivity(serviceAccountId, driveactivity);
+      
       console.log(prefix(), "Service account is running successfully");
     } catch (e) {
       console.error("Google Drive client:", e.message);
     }
   }
-
 };
-
 
 module.exports = async () => {
   main();
   // we do this repeatedly every 10 minutes
   // to refresh the service account data
   // and renew the changes.watch channel
-  setInterval(main, TEN_MINUTES);
+  setInterval(main, 1000 * 60 * 10);
 }

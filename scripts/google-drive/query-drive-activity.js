@@ -13,7 +13,7 @@ async function main(driveactivity, folderId) {
     const res = await driveactivity.activity.query({
         requestBody: {
             pageSize: 1,
-            "filter": "time >= \"2021-01-01T00:00:00Z\"",
+            ancestorName: `items/${folderId}`,
         }
     }); 
 
