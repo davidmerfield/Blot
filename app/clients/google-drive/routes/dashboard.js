@@ -45,6 +45,14 @@ dashboard.route("/set-up-folder")
 
         if (req.body.email) {
 
+          if (req.body.email.length > 100) {
+            return res.message(req.baseUrl, "Email address is too long");
+          }
+            
+          if (req.body.email.indexOf("@") === -1) {
+            return res.message(req.baseUrl, "Please enter a valid email address");
+          } 
+
           // Determine the service account ID we'll use to sync this blog.
           // We query the database to retrieve all the service accounts, then
           // sort them by the available space (storageQuota.available - storageQuota.used)
