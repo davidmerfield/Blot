@@ -2,21 +2,6 @@ Investigate bug with link format using filename and [follow up with yct](https:/
 
 Create more Google Drive service accounts under new gmail users before April 15th deadline (see clients/google-drive/readme)
 
-Improve google drive client:
-- [ ] to improve sync speed, eventually set up temporary channels to watch google docs for changes – is this faster than polling driveactivity?
-- [ ] Is the move to listen on changes.watch and then setup an optional temporary files.watch channel to stream changes for the length of the channel (don't renew)?
-- [ ] make it possible to short-circuit the full folder traversal and immediately begin at a specific file/subfolder
-- [ ] add tests with  nock
-
-Notify users google drive temporarily disabled
-
-Rewrite without files.watch: 
-- maybe poll activity endpoint?
-- is changes.watch enough?
-
-Notify users again once it's done:
-
-
 Overdue subscription payment form not working
 - Possible bug introduced by recent stripe upgrade
 - Revisit stripe integration and try to update
@@ -38,35 +23,6 @@ Fix bugs with template engine:
 - Fix date selector for template and tell [Zach](https://mail.google.com/mail/u/0/#inbox/FMfcgzGxTFSjkTvfDRgNHZwSQqDzWKFB)
 - Fix bug with forking / editing new templates and tell [Jarrod](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrbRSDCZqMwzjDdqdGCkScxpsw) when local template folders better reflect template names
 
-Improvements to Google Drive client
-- [ ] Resolve rate limit for new file subscriptions
-  - add new projects and new service accounts – are other projects under their own rate limit?
-  - only 
-- [ ] Test multiple sites sync in parallel
-- [ ] Refactor sync to handle changes to subfolders
-- [ ] Test multiple Google Drive accounts in parallel
-- [ ] Test drafts
-- [ ] Test local templates
-- Resolve issue with [Stephen's large blog](https://mail.google.com/mail/u/0/#inbox/QgrcJHsBsbkNkMkkkMmLWBxRfnGnWPVwLHl)
-  - It also seems like server crashes when a massive google drive folder is synced, with a directory containing 6772 items
-- [ ] make google drive reset TO store metadata for case of file/folder name
-- [ ] make google drive reset FROM abortable
-- [ ] make google drive reset TO abortable
-- How do we handle two files with same name and same parent? How does our fileId:path hash handle this? Make sure we delete the right file. Will file.title as opposed to file.name give us the deduped version?
-  - Bug: move file with deduplicated name from sub folder to other folder
-  - download should check for an existing file with same name but different fileId and dedupe before storing the path?
-- Handle revoked credentials without tanking server
-- Can the google drive client handle a server restart during setup?
-- database.folder should throw ENOENT and EEXIST errors for del, set, move etc.
-- Error handling
-  - Retry when we get google drive's This service is not available error
-  - Handle storage quota errors
-  - Handle 429 errors with exponential backoff retry
-- Implement `folder.rename` method to take advantage of Google Drive's true rename feature
-- Add a way for sync/build to accept a ctime as an option. We can't set this at the operating system level but google drive's API does return a createdTime value and we could use this as the true file's created date, rather than the date the file is made on the server
-- `write` should use the best method for large file uploading
-- Work out if we can test this using Mocks  
-
 Add more efficient popular_tags method
 - add new properties to underlying model
 
@@ -87,6 +43,33 @@ Refactor helper/screenshot to use a persistently open browser
 Change dashboard cookies: Set-Cookie: mycookie=value; Path=/; SameSite=Lax; Secure;
 
 Write tests for animated gif thumbnail
+
+Improvements to Google Drive client
+- [ ] slowly resync all connected blogs on server restart
+- [ ] make it possible to short-circuit the full folder traversal and immediately begin at a specific file/subfolder
+- [ ] to improve sync speed, eventually set up temporary channels to watch google docs for changes – is this faster than polling driveactivity? or work out the fastest way to get fast updates for google docs. Is the move to listen on changes.watch and then setup an optional temporary files.watch channel to stream changes for the length of the channel (don't renew)?
+- [ ] add tests with nock
+- [ ] Test multiple sites sync in parallel
+- [ ] Test multiple Google Drive accounts in parallel
+- [ ] Test drafts
+- [ ] Test local templates
+- Resolve issue with [Stephen's large blog](https://mail.google.com/mail/u/0/#inbox/QgrcJHsBsbkNkMkkkMmLWBxRfnGnWPVwLHl)
+  - It also seems like server crashes when a massive google drive folder is synced, with a directory containing 6772 items
+- How do we handle two files with same name and same parent? How does our fileId:path hash handle this? Make sure we delete the right file. Will file.title as opposed to file.name give us the deduped version?
+  - Bug: move file with deduplicated name from sub folder to other folder
+  - download should check for an existing file with same name but different fileId and dedupe before storing the path?
+- Handle revoked credentials without tanking server
+- Handle removed blog folder without error
+- Handle renamed blog folder
+- Can the google drive client handle a server restart during setup?
+- database.folder should throw ENOENT and EEXIST errors for del, set, move etc.
+- Error handling
+  - Retry when we get google drive's This service is not available error
+  - Handle storage quota errors
+  - Handle 429 errors with exponential backoff retry
+- Add a way for sync/build to accept a ctime as an option. We can't set this at the operating system level but google drive's API does return a createdTime value and we could use this as the true file's created date, rather than the date the file is made on the server
+- `write` should use the best method for large file uploading
+- Work out if we can test this using Mocks  
 
 ---
 
