@@ -560,4 +560,181 @@ describe("folder module", function () {
   
     done();
   });
+
+  it("returns entries sorted alphabetically by path", async function () {
+    const fileId1 = "file_1";
+    const fileId2 = "file_2";
+    const subfolderId = "subfolder_1";
+    const basePath = "/folder";
+    const filePath1 = `${basePath}/fileB.txt`;
+    const filePath2 = `${basePath}/fileA.txt`;
+    const subfolderPath = `${basePath}/subfolder`;
+
+    await folder.set(fileId1, filePath1);
+    await folder.set(fileId2, filePath2);
+    await folder.set(subfolderId, subfolderPath);
+
+    const entries = await folder.readdir(basePath);
+
+    expect(entries).toEqual([
+      { id: fileId2, path: filePath2, metadata: null }, // fileA.txt
+      { id: fileId1, path: filePath1, metadata: null }, // fileB.txt
+      { id: subfolderId, path: subfolderPath, metadata: null }, // subfolder
+    ]);
+  });
+
+  it("can list files and folders in a directory", async function () {
+    const folderId = "folder_1";
+    const fileId1 = "file_1";
+    const fileId2 = "file_2";
+    const subfolderId = "subfolder_1";
+    const basePath = "/folder";
+    const filePath1 = `${basePath}/file1.txt`;
+    const filePath2 = `${basePath}/file2.txt`;
+    const subfolderPath = `${basePath}/subfolder`;
+
+    await folder.set(folderId, basePath);
+    await folder.set(fileId1, filePath1);
+    await folder.set(fileId2, filePath2);
+    await folder.set(subfolderId, subfolderPath);
+
+    const entries = await folder.readdir(basePath);
+
+    expect(entries).toEqual(
+      jasmine.arrayWithExactContents([
+        { id: fileId1, path: filePath1, metadata: null },
+        { id: fileId2, path: filePath2, metadata: null },
+        { id: subfolderId, path: subfolderPath, metadata: null },
+      ])
+    );
+  });
+
+  it("returns an empty list for an empty directory", async function () {
+    const folderId = "empty_folder";
+    const basePath = "/empty";
+
+    await folder.set(folderId, basePath);
+
+    const entries = await folder.readdir(basePath);
+
+    expect(entries).toEqual([]);
+  });
+
+  it("excludes nested directories and files", async function () {
+    const folderId = "folder_1";
+    const fileId1 = "file_1";
+    const fileId2 = "file_2";
+    const nestedFileId = "nested_file";
+    const basePath = "/folder";
+    const filePath1 = `${basePath}/file1.txt`;
+    const filePath2 = `${basePath}/file2.txt`;
+    const nestedFilePath = `${basePath}/subfolder/nested.txt`;
+
+    await folder.set(folderId, basePath);
+    await folder.set(fileId1, filePath1);
+    await folder.set(fileId2, filePath2);
+    await folder.set(nestedFileId, nestedFilePath);
+
+    const entries = await folder.readdir(basePath);
+
+    expect(entries).toEqual(
+      jasmine.arrayWithExactContents([
+        { id: fileId1, path: filePath1, metadata: null },
+        { id: fileId2, path: filePath2, metadata: null },
+      ])
+    );
+  });
+
+  it("returns metadata for files and folders", async function () {
+    const folderId = "folder_1";
+    const fileId1 = "file_1";
+    const fileId2 = "file_2";
+    const basePath = "/folder";
+    const filePath1 = `${basePath}/file1.txt`;
+    const filePath2 = `${basePath}/file2.txt`;
+    const metadata1 = { size: 1024, lastModified: "2025-02-21" };
+    const metadata2 = { size: 2048, lastModified: "2025-02-22" };
+
+    await folder.set(folderId, basePath);
+    await folder.set(fileId1, filePath1, metadata1);
+    await folder.set(fileId2, filePath2, metadata2);
+
+    const entries = await folder.readdir(basePath);
+
+    expect(entries).toEqual(
+      jasmine.arrayWithExactContents([
+        { id: fileId1, path: filePath1, metadata: metadata1 },
+        { id: fileId2, path: filePath2, metadata: metadata2 },
+      ])
+    );
+  });
+
+  it("throws an error for invalid directory paths", async function (done) {
+    try {
+      await folder.readdir("");
+      done.fail("Expected an error for an empty directory path");
+    } catch (err) {
+      expect(err.message).toBe("Directory path must be a non-empty string");
+    }
+
+    try {
+      await folder.readdir(null);
+      done.fail("Expected an error for a null directory path");
+    } catch (err) {
+      expect(err.message).toBe("Directory path must be a non-empty string");
+    }
+
+    done();
+  });
+
+  it("does not include entries outside the given directory", async function () {
+    const folderId = "folder_1";
+    const fileId1 = "file_1";
+    const fileId2 = "file_2";
+    const unrelatedFileId = "file_3";
+    const basePath = "/folder";
+    const unrelatedPath = "/other";
+    const filePath1 = `${basePath}/file1.txt`;
+    const filePath2 = `${basePath}/file2.txt`;
+    const unrelatedFilePath = `${unrelatedPath}/file3.txt`;
+
+    await folder.set(folderId, basePath);
+    await folder.set(fileId1, filePath1);
+    await folder.set(fileId2, filePath2);
+    await folder.set(unrelatedFileId, unrelatedFilePath);
+
+    const entries = await folder.readdir(basePath);
+
+    expect(entries).toEqual(
+      jasmine.arrayWithExactContents([
+        { id: fileId1, path: filePath1, metadata: null },
+        { id: fileId2, path: filePath2, metadata: null },
+      ])
+    );
+  });
+
+  it("handles case-sensitive paths correctly", async function () {
+    const folderId = "folder_1";
+    const fileId1 = "file_1";
+    const fileId2 = "file_2";
+    const basePath = "/Folder";
+    const filePath1 = `${basePath}/file1.txt`;
+    const filePath2 = `${basePath}/file2.txt`;
+
+    await folder.set(folderId, basePath);
+    await folder.set(fileId1, filePath1);
+    await folder.set(fileId2, filePath2);
+
+    const entries = await folder.readdir(basePath);
+
+    expect(entries).toEqual(
+      jasmine.arrayWithExactContents([
+        { id: fileId1, path: filePath1, metadata: null },
+        { id: fileId2, path: filePath2, metadata: null },
+      ])
+    );
+
+    const entriesLowerCase = await folder.readdir(basePath.toLowerCase());
+    expect(entriesLowerCase).toEqual([]); // Should not match a case-sensitive path
+  });
 });

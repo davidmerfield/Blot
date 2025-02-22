@@ -2,11 +2,8 @@ const { promisify } = require("util");
 
 // Redis client setup
 const client = require("models/client");
-const hsetAsync = promisify(client.hset).bind(client);
 const hgetAsync = promisify(client.hget).bind(client);
-const hdelAsync = promisify(client.hdel).bind(client);
 const hscanAsync = promisify(client.hscan).bind(client);
-const delAsync = promisify(client.del).bind(client);
 
 const PREFIX = require("./prefix");
 
@@ -194,6 +191,45 @@ function folder(folderId) {
     await multi.exec();
   };
 
+  this.readdir = async (dir) => {
+    if (!dir || typeof dir !== "string") {
+      throw new Error("Directory path must be a non-empty string");
+    }
+  
+    // Normalize the directory path to ensure it ends with a "/"
+    const basePath = dir.endsWith("/") ? dir : dir + "/";
+  
+    const START_CURSOR = "0";
+    let cursor = START_CURSOR;
+    let entries = [];
+  
+    do {
+      // Scan the folder key
+      const [nextCursor, results] = await hscanAsync(this.key, cursor);
+      cursor = nextCursor;
+  
+      for (let i = 0; i < results.length; i += 2) {
+        const id = results[i];
+        const path = results[i + 1];
+  
+        // Check if the path is an immediate child of the given directory
+        if (
+          path.startsWith(basePath) &&
+          path !== basePath && // Exclude the directory itself
+          !path.slice(basePath.length).includes("/") // Exclude nested paths
+        ) {
+          const metadata = await this.getMetadata(id);
+          entries.push({ id, path, metadata });
+        }
+      }
+    } while (cursor !== START_CURSOR);
+  
+    // Sort entries alphabetically by path
+    entries.sort((a, b) => a.path.localeCompare(b.path));
+  
+    return entries;
+  };
+    
   // List all files and folders with metadata
   this.listAll = async () => {
     const START_CURSOR = "0";
