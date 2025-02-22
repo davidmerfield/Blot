@@ -6,8 +6,9 @@ const createDriveActivityClient = require("./serviceAccount/createDriveActivityC
 const fetchStorageInfo = require("./serviceAccount/fetchStorageInfo");
 const watchChanges = require("./serviceAccount/watchChanges");
 const pollDriveActivity = require("./serviceAccount/pollDriveActivity");
+const { init } = require(".");
 
-const main = async () => {
+const main = async (initial = false) => {
   const serviceAccounts = config.google_drive.service_accounts;
 
   if (!serviceAccounts || serviceAccounts.length === 0) {
@@ -26,8 +27,13 @@ const main = async () => {
       console.log(prefix(), "Ensuring service account is watching for changes");
       await watchChanges(serviceAccountId, drive);
 
-      console.log(prefix(), "Set up polling for drive activity");
-      pollDriveActivity(serviceAccountId, driveactivity);
+      // We only want to set up polling once, when the service account is first initialized
+      if (initial) {
+        console.log(prefix(), "Set up polling for drive activity");
+        pollDriveActivity(serviceAccountId, driveactivity);
+      }
+
+      // Todo: also sync all sites that are using this service account
       
       console.log(prefix(), "Service account is running successfully");
     } catch (e) {
@@ -38,7 +44,7 @@ const main = async () => {
 };
 
 module.exports = async () => {
-  main();
+  main(true);
   // we do this repeatedly every 10 minutes
   // to refresh the service account data
   // and renew the changes.watch channel
