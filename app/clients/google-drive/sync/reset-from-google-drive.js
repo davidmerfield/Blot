@@ -4,9 +4,8 @@ const localPath = require("helper/localPath");
 const clfdate = require("helper/clfdate");
 const database = require("../database");
 const download = require("../util/download");
-const createDriveClient = require("../util/createDriveClient");
+const createDriveClient = require("../serviceAccount/createDriveClient");
 const getmd5Checksum = require("../util/md5Checksum");
-const setupWebhook = require("../util/setupFilesWebhook");
 
 // todo: add a checkWeCanContinue function
 // which verifies the folder is still connected to google drive
@@ -17,8 +16,8 @@ module.exports = async (blogID, publish, update) => {
       console.log(clfdate() + " Google Drive:", args.join(" "));
     };
 
-  const drive = await createDriveClient(blogID);
-  const account = await database.getAccount(blogID);
+  const account = await database.blog.get(blogID);
+  const drive = await createDriveClient(account.serviceAccountId);
   const { reset, get, set, remove } = database.folder(account.folderId);
 
   // resets pageToken and folderState
@@ -26,9 +25,6 @@ module.exports = async (blogID, publish, update) => {
 
   const walk = async (dir, dirId) => {
     publish("Checking", dir);
-
-    // Monitor this directory for changes if it's the root
-    if (dir === "/") await setupWebhook(blogID, dirId);
 
     const [remoteContents, localContents] = await Promise.all([
       readdir(drive, dirId),
@@ -66,6 +62,7 @@ module.exports = async (blogID, publish, update) => {
       }
 
       if (isDirectory) {
+        publish("Is directory", path, JSON.stringify(existsLocally));
         if (existsLocally && !existsLocally.isDirectory) {
           publish("Removing", path);
           const idToRemove = await get(path);

@@ -3,7 +3,7 @@ const establishSyncLock = require("../util/establishSyncLock");
 const getBlog = promisify(require("models/blog").get);
 const fix = promisify(require("sync/fix"));
 
-const reset = require("./reset-to-blot");
+const reset = require("./reset-from-google-drive");
 
 async function sync(blogID) {
 

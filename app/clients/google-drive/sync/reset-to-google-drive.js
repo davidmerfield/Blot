@@ -3,7 +3,7 @@ const { join } = require("path");
 const localPath = require("helper/localPath");
 const clfdate = require("helper/clfdate");
 const database = require("../database");
-const createDriveClient = require("../util/createDriveClient");
+const createDriveClient = require("../serviceAccount/createDriveClient");
 const getmd5Checksum = require("../util/md5Checksum");
 
 // todo: add a checkWeCanContinue function
@@ -15,8 +15,8 @@ module.exports = async (blogID, publish) => {
       console.log(clfdate() + " Google Drive:", args.join(" "));
     };
 
-  const drive = await createDriveClient(blogID);
   const account = await database.blog.get(blogID);
+  const drive = await createDriveClient(account.serviceAccountId);
   const { folderId } = account;
 
   const checkWeCanContinue = async () => {

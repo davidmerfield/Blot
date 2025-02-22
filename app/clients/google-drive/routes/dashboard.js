@@ -4,12 +4,10 @@ const disconnect = require("../disconnect");
 const express = require("express");
 const dashboard = new express.Router();
 const establishSyncLock = require("../util/establishSyncLock");
-const createDriveClient = require("../util/createDriveClient");
+const createDriveClient = require("../serviceAccount/createDriveClient");
 const requestServiceAccount = require("clients/google-drive/serviceAccount/request");
-const setupWebhook = require("../util/setupFilesWebhook");
-const resetFromBlot = require("../sync/reset-from-blot");
+const resetFromBlot = require("../sync/reset-to-google-drive");
 const parseBody = require("body-parser").urlencoded({ extended: false });
-const Blog = require("models/blog");
 
 const VIEWS = require("path").resolve(__dirname + "/../views") + "/";
 
@@ -60,7 +58,7 @@ dashboard.route("/set-up-folder")
             preparing: true
           });
 
-          setUpBlogFolder(req.blog, req.body.email);
+          setUpBlogFolder(serviceAccountId, req.blog, req.body.email);
         }
 
         console.log(clfdate(), "Google Drive Client", "Setting up folder");
@@ -77,7 +75,7 @@ dashboard.post("/cancel", async function (req, res) {
   });
 
 
-const setUpBlogFolder = async function (blog, email) {
+const setUpBlogFolder = async function (serviceAccountId, blog, email) {
 
   let done;
 
@@ -93,7 +91,7 @@ const setUpBlogFolder = async function (blog, email) {
     done = sync.done;
 
     sync.folder.status("Establishing connection to Google Drive");
-    const drive = await createDriveClient(blog.id);
+    const drive = await createDriveClient(serviceAccountId);
 
     // var fileMetadata = {
     //   name: blog.title.split("/").join("").trim(),

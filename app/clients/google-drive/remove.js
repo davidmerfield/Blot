@@ -1,4 +1,4 @@
-const createDriveClient = require("./util/createDriveClient");
+const createDriveClient = require("./serviceAccount/createDriveClient");
 const localPath = require("helper/localPath");
 const clfdate = require("helper/clfdate");
 const fs = require("fs-extra");
@@ -7,8 +7,8 @@ const database = require("./database");
 module.exports = async function remove(blogID, path, callback) {
   const prefix = () => clfdate() + " Google Drive:";
   try {
-    const drive = await createDriveClient(blogID);
-    const account = await database.getAccount(blogID);
+    const account = await database.blog.get(blogID);
+    const drive = await createDriveClient(account.serviceAccountId);
     const { getByPath } = database.folder(account.folderId);
 
     console.log(prefix(), "Looking up fileId for", path);
