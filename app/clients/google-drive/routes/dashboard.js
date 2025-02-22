@@ -103,9 +103,12 @@ const setUpBlogFolder = async function (serviceAccountId, blog, email) {
 
     sync.folder.status("Waiting for folder to be created");
 
+    // Must be a new folder created after the current time
+    const after = new Date(Date.now()).toISOString();
+
     do {
       await checkWeCanContinue();
-      const res = await findEmptySharedFolder(drive, email);
+      const res = await findEmptySharedFolder(drive, email, after);
 
       // wait 3 seconds before trying again
       if (!res) {
@@ -157,13 +160,13 @@ const setUpBlogFolder = async function (serviceAccountId, blog, email) {
 /**
  * List the contents of root folder.
  */
-async function findEmptySharedFolder(drive, email) {
+async function findEmptySharedFolder(drive, email, after) {
 
-  // List all shared folders owned by the given email
+  // List all shared folders owned by the given email created after the given date
   const res = await drive.files.list({
     supportsAllDrives: true,
     includeItemsFromAllDrives: true,
-    q: `'${email}' in owners and trashed = false and mimeType = 'application/vnd.google-apps.folder'`,
+    q: `'${email}' in owners and trashed = false and mimeType = 'application/vnd.google-apps.folder' and createdTime > '${after}'`,
   });
 
   if (res.data.files.length === 0) {

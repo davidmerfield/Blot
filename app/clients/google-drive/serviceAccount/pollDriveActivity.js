@@ -16,7 +16,7 @@ module.exports = async (serviceAccountId, driveactivity) => {
 
   const checkDriveActivity = limiter.wrap(
     async (blogID, folderId, latestDriveActivityTimestamp) => {
-      const prefix = () => `${clfdate()} Blog ${blogID} pollDriveActivity:`;
+      const prefix = () => `${clfdate()} Google Drive client: pollDriveActivity: ${blogID}`;
 
       try {
         if (!blogID || !folderId) {
