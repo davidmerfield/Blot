@@ -87,7 +87,14 @@ var checkAgain;
 
           if (newState === currentState) return callback();
 
+
           currentNode.innerHTML = newState;
+
+          try {
+            sortTable();
+          } catch (e) {
+            console.error(e);
+          }
         }
 
         callback();
