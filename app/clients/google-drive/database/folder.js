@@ -13,7 +13,6 @@ function folder(folderId) {
   this.key = `${PREFIX}${folderId}:folder`; // ID ↔ Path mapping
   this.reverseKey = `${PREFIX}${folderId}:path`; // Path ↔ ID mapping
   this.metadataKey = `${PREFIX}${folderId}:metadata`; // File metadata
-  this.recentlyModifiedKey = `${PREFIX}${folderId}:recentlyModified`; // Recently modified files
 
   // Set a mapping (ID → Path) and store metadata
   this.set = async (id, path, metadata = {}) => {
@@ -46,20 +45,6 @@ function folder(folderId) {
     // Update metadata if provided
     if (metadata && Object.keys(metadata).length > 0) {
       multi.hset(this.metadataKey, id, JSON.stringify(metadata));
-
-      // If there's a modifiedTime, and this is a file, update the sorted set
-      if (metadata.modifiedTime && metadata.isDirectory === false) {
-        const parsedTime = Date.parse(metadata.modifiedTime);
-
-        if (!Number.isNaN(parsedTime)) {
-          // Use the Unix timestamp as score
-          multi.zadd(this.recentlyModifiedKey, parsedTime, id);
-
-          // Keep only the top 10 (most recent) items
-          // (lowest scores start at rank 0, so remove up to rank -11)
-          multi.zremrangebyrank(this.recentlyModifiedKey, 0, -11);
-        } 
-      }
     }
 
     // Execute the transaction
@@ -161,7 +146,10 @@ function folder(folderId) {
   // Remove a file or folder and its children
   this.remove = async (id) => {
     const from = await this.get(id);
-    if (!from) return [];
+    if (!from) { 
+      console.log("Warning: No file or folder found for ID: ", id);
+      return [];
+    }
 
     const multi = client.multi(); // Start a Redis transaction
     let removedPaths = [];
@@ -184,7 +172,6 @@ function folder(folderId) {
           currentPath === from ||
           currentPath.startsWith(`${from}/`)
         ) {
-          multi.zrem(this.recentlyModifiedKey, currentId); // Remove from recently modified
           multi.hdel(this.key, currentId); // Delete ID ↔ Path mapping
           multi.hdel(this.reverseKey, currentPath); // Delete Path ↔ ID mapping
           multi.hdel(this.metadataKey, currentId); // Delete metadata
@@ -205,7 +192,6 @@ function folder(folderId) {
     multi.del(this.key);
     multi.del(this.reverseKey);
     multi.del(this.metadataKey);
-    multi.del(this.recentlyModifiedKey);
     await multi.exec();
   };
 
@@ -267,13 +253,6 @@ function folder(folderId) {
     } while (cursor !== START_CURSOR);
 
     return results;
-  };
-
-   // Returns up to `limit` file Ids sorted by most-recently modified.
-  this.getRecentlyModifiedFileIds = async (limit = 10) => {
-    // Get the top `limit` IDs from the sorted set, 
-    // from the highest score (most recent) downward.
-    return await zrevrangeAsync(this.recentlyModifiedKey, 0, limit - 1);
   };
 
   return this;

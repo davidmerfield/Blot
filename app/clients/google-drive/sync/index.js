@@ -40,8 +40,9 @@ const sync = async (blogID, publish, update) => {
 
   const databaseReaddir = async (readdir, dir) => {
     const contents = await readdir(dir);
-    return contents.map(({ path, metadata }) => ({
+    return contents.map(({ path, metadata, id }) => ({
       name: path.split("/").pop(),
+      id,
       ...metadata
     }));
   };
@@ -59,12 +60,11 @@ const sync = async (blogID, publish, update) => {
     // we need to restore this now
     set(dirId, dir, {isDirectory: true});
 
-    for (const { name } of localContents) {
+    for (const { name, id } of localContents) {
       if (!remoteContents.find((item) => item.name === name)) {
         const path = join(dir, name);
         await checkWeCanContinue();
         publish("Removing", join(dir, name));
-        const id = await get(path);
         await remove(id);
         await fs.remove(localPath(blogID, path));
         if (update) await update(path);
@@ -84,8 +84,7 @@ const sync = async (blogID, publish, update) => {
         if (existsLocally && !existsLocally.isDirectory) {
           await checkWeCanContinue();
           publish("Removing", path);
-          const idToRemove = await get(path);
-          await remove(idToRemove);
+          await remove(existsLocally.id);
           await fs.remove(localPath(blogID, path));
           publish("Creating directory", path);
           await fs.ensureDir(localPath(blogID, path));
@@ -118,7 +117,10 @@ const sync = async (blogID, publish, update) => {
             await checkWeCanContinue();
             publish("Updating", path);
             await download(blogID, drive, path, file);
-            if (update) await update(path);
+            if (update) {
+              publish("Converting", path);
+              await update(path);
+            } 
           } catch (e) {
             publish("Failed to download", path, e);
           }
@@ -127,7 +129,10 @@ const sync = async (blogID, publish, update) => {
             await checkWeCanContinue();
             publish("Downloading", path);
             await download(blogID, drive, path, file);
-            if (update) await update(path);
+            if (update) {
+              publish("Converting", path);
+              await update(path);
+            }
           } catch (e) {
             publish("Failed to download", path, e);
           }
