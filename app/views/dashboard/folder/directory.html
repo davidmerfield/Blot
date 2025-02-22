@@ -19,7 +19,7 @@
     <div class="folder-top"></div>
     {{/root}}
 
-    <div class="folder-box {{#root}}root{{/root}} {{#directory}}directory{{/directory}}">
+    <div class="folder-box {{#root}}root{{/root}} {{#directory}}directory{{/directory}}" style="{{^root}}min-height:60vh{{/root}}">
     {{#directory}}
     <table class="directory-list {{^contents.length}}empty{{/contents.length}}">
         {{#contents.length}}
@@ -217,12 +217,12 @@
             {{/directory}}
 
   </div>
-{{#root}}
 {{#blog.client}}
+{{#directory}}
 <a href="{{{base}}}/client" class="status-link">
   <span class="sync-status" data-sync-status-url="{{{base}}}/status">{{blog.status.message}} {{blog.status.fromNow}}</span>
 </a>
+{{/directory}}
 {{/blog.client}}
-{{/root}}
 </div>
 {{/folder}}

@@ -61,12 +61,12 @@ var checkAgain;
     currentlyLoading = true;
 
     if (document.querySelector(".live-updates")) loadFolder(function onLoad() {
+      currentlyLoading = false;
+
       if (checkAgain === true) {
         checkAgain = false;
         return loadFolder(onLoad);
       }
-
-      currentlyLoading = false;
     });
   };
 
