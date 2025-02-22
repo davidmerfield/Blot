@@ -8,9 +8,9 @@ module.exports = async (serviceAccountId, driveactivity) => {
     throw new Error("Missing required arguments for pollDriveActivity");
   }
 
-  // This allows up to 20 calls per minute total across all instances
+  // This allows up to 12 calls per minute total 
   const limiter = new Bottleneck({
-    minTime: 3000,
+    minTime: 5000,
     maxConcurrent: 1,
   });
 
