@@ -1,5 +1,4 @@
 const config = require("config");
-const hash = require("helper/hash");
 const clfdate = require("helper/clfdate");
 const express = require("express");
 const site = new express.Router();
@@ -8,56 +7,47 @@ const sync = require("clients/google-drive/sync");
 const database = require("clients/google-drive/database");
 
 site
-  .route("/webhook")
-  .get(function (req, res) {
-    res.send("Ok!");
-  })
+  .route("/webhook/changes.watch/:serviceAccountId")
   .post(async function (req, res) {
-    const prefix = () => clfdate() + " Google Drive:";
-    const token = req.header("x-goog-channel-token");
-    const channelID = req.header("x-goog-channel-id");
+    console.log(
+      `${clfdate()} Google Drive client: Received changes.watch webhook for service account ${
+        req.params.serviceAccountId
+      }`
+    );
 
-    if (!token) return res.status(400).send("Missing header: x-goog-channel-token");
-    if (!channelID) return res.status(400).send("Missing header: x-goog-channel-id");
+    const blogIDs = [];
 
-    const storedChannel = await database.channel.get(channelID);
+    await database.blog.iterateByServiceAccountId(
+      req.params.serviceAccountId,
+      async function (blogID, account) {
+        blogIDs.push(blogID);
+      }
+    );
 
-    // When for some reason we can't stop the old webhook
-    // for this blog during an account disconnection we sometimes
-    // recieve webhooks on stale channels. This can tank the setup
-    // of the blog on Google Drive and happens in my dev env.
-    // We can't call drive.stop on the stale channel since the
-    // refresh_token likely changed, just let it expire instead.
-    if (!storedChannel) {
-        console.log(prefix(), "Stale channel, ignoring", channelID);
-        return res.send("OK");
+    if (!blogIDs.length) {
+      console.log(
+        `${clfdate()} Google Drive client: No blogs found for service account ${
+          req.params.serviceAccountId
+        }`
+      );
+      return res.sendStatus(200);
     }
 
-    if (!storedChannel.blogID) {
-      console.log(prefix(), "No blog ID, ignoring", channelID);
-      return;
-    }
+    // sync all blogs in parallel but if one errors don't stop the others
+    await Promise.all(
+      blogIDs.map(async (blogID) => {
+        try {
+          console.log(
+            `${clfdate()} Google Drive client: Syncing blog ${blogID}`
+          );
+          await sync(blogID);
+        } catch (e) {
+          console.error("Google Drive client:", e.message);
+        }
+      })
+    );
 
-    if (!storedChannel.id) {
-      console.log(prefix(), "No channel ID, ignoring", channelID);
-      return;
-    }
-
-    const signature = hash(storedChannel.blogID + storedChannel.id + config.google_drive.webhook_secret);
-
-    if (token !== signature) {
-      console.log(prefix(), "Invalid signature", token, signature);
-      return res.status(400).send("Invalid signature");
-    }
-      
-    res.send("OK");
-
-    try {
-        console.log(prefix(), storedChannel.blogID, "Received webhook begin sync");
-        await sync(storedChannel.blogID);
-    } catch (e) {
-        console.error(prefix(), storedChannel.blogID, "Error during sync", e);
-    }
+    res.sendStatus(200);
   });
 
 module.exports = site;

@@ -15,6 +15,7 @@
     "async": "2.6.4",
     "bcryptjs": "2.4.3",
     "body-parser": "1.20.1",
+    "bottleneck": "2.19.5",
     "cheerio": "1.0.0-rc.12",
     "chokidar": "3.5.3",
     "clean-css": "4.2.1",

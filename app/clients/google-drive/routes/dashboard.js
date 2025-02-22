@@ -4,24 +4,21 @@ const disconnect = require("../disconnect");
 const express = require("express");
 const dashboard = new express.Router();
 const establishSyncLock = require("../util/establishSyncLock");
-const createDriveClient = require("../util/createDriveClient");
-const requestServiceAccount = require("../util/requestServiceAccount");
-const setupWebhook = require("../util/setupWebhook");
-const resetFromBlot = require("../sync/reset-from-blot");
+const createDriveClient = require("../serviceAccount/createDriveClient");
+const requestServiceAccount = require("clients/google-drive/serviceAccount/request");
+const resetFromBlot = require("../sync/resetToDrive");
 const parseBody = require("body-parser").urlencoded({ extended: false });
-const Blog = require("models/blog");
 
 const VIEWS = require("path").resolve(__dirname + "/../views") + "/";
 
 dashboard.use(async function (req, res, next) {
-  const account = await database.getAccount(req.blog.id);
 
-  res.locals.account = account;
-
-  if (account && account.client_id) {
-    const serviceAccount = await database.serviceAccount.get(account.client_id);
-    res.locals.serviceAccountEmail = serviceAccount.user.emailAddress;
+  res.locals.account = await database.blog.get(req.blog.id);
+  
+  if (res.locals.account && res.locals.account.serviceAccountId) {
+    res.locals.serviceAccount = await database.serviceAccount.get(res.locals.account.serviceAccountId)
   }
+
   next();
 });
 
@@ -48,20 +45,28 @@ dashboard.route("/set-up-folder")
 
         if (req.body.email) {
 
+          if (req.body.email.length > 100) {
+            return res.message(req.baseUrl, "Email address is too long");
+          }
+            
+          if (req.body.email.indexOf("@") === -1) {
+            return res.message(req.baseUrl, "Please enter a valid email address");
+          } 
+
           // Determine the service account ID we'll use to sync this blog.
           // We query the database to retrieve all the service accounts, then
           // sort them by the available space (storageQuota.available - storageQuota.used)
           // to find the one with the most available space.
-          const client_id = await requestServiceAccount();
+          const serviceAccountId = await requestServiceAccount();
 
-          await database.setAccount(req.blog.id, {
+          await database.blog.store(req.blog.id, {
             email: req.body.email,
-            client_id,
+            serviceAccountId,
             error: null,
             preparing: true
           });
 
-          setUpBlogFolder(req.blog, req.body.email);
+          setUpBlogFolder(serviceAccountId, req.blog, req.body.email);
         }
 
         console.log(clfdate(), "Google Drive Client", "Setting up folder");
@@ -72,19 +77,19 @@ dashboard.post("/cancel", async function (req, res) {
 
     console.log(clfdate(), "Google Drive Client", "Cancelling folder setup");
   
-      await database.dropAccount(req.blog.id);
+      await database.blog.delete(req.blog.id);
   
       res.message(req.baseUrl, "Cancelled the creation of your new folder");
   });
 
 
-const setUpBlogFolder = async function (blog, email) {
+const setUpBlogFolder = async function (serviceAccountId, blog, email) {
 
   let done;
 
   try {
     const checkWeCanContinue = async () => {
-      const { preparing } = await database.getAccount(blog.id);
+      const { preparing } = await database.blog.get(blog.id);
       if (!preparing) throw new Error("Permission to set up revoked");
     };
 
@@ -94,7 +99,7 @@ const setUpBlogFolder = async function (blog, email) {
     done = sync.done;
 
     sync.folder.status("Establishing connection to Google Drive");
-    const drive = await createDriveClient(blog.id);
+    const drive = await createDriveClient(serviceAccountId);
 
     // var fileMetadata = {
     //   name: blog.title.split("/").join("").trim(),
@@ -106,9 +111,12 @@ const setUpBlogFolder = async function (blog, email) {
 
     sync.folder.status("Waiting for folder to be created");
 
+    // Must be a new folder created after the current time
+    const after = new Date(Date.now()).toISOString();
+
     do {
       await checkWeCanContinue();
-      const res = await findEmptySharedFolder(drive, email);
+      const res = await findEmptySharedFolder(drive, email, after);
 
       // wait 3 seconds before trying again
       if (!res) {
@@ -120,17 +128,17 @@ const setUpBlogFolder = async function (blog, email) {
       }
     } while (!folderId);
 
-    await database.setAccount(blog.id, { folderId, folderName });
+    await database.blog.store(blog.id, { folderId, folderName });
 
     await checkWeCanContinue();
     sync.folder.status("Ensuring new folder is in sync");
     await resetFromBlot(blog.id, sync.folder.status);
 
-    await checkWeCanContinue();
-    sync.folder.status("Setting up webhook");
-    await setupWebhook(blog.id, folderId);
+    // await checkWeCanContinue();
+    // sync.folder.status("Setting up webhook");
+    // await setupWebhook(blog.id, folderId);
 
-    await database.setAccount(blog.id, { preparing: null });
+    await database.blog.store(blog.id, { preparing: false });
     sync.folder.status("All files transferred");
     done(null, () => {});
   } catch (e) {
@@ -146,7 +154,7 @@ const setUpBlogFolder = async function (blog, email) {
       error = "Please share an empty folder";
     }
 
-    await database.setAccount(blog.id, {
+    await database.blog.store(blog.id, {
       error,
       preparing: null,
       folderId: null,
@@ -160,13 +168,13 @@ const setUpBlogFolder = async function (blog, email) {
 /**
  * List the contents of root folder.
  */
-async function findEmptySharedFolder(drive, email) {
+async function findEmptySharedFolder(drive, email, after) {
 
-  // List all shared folders owned by the given email
+  // List all shared folders owned by the given email created after the given date
   const res = await drive.files.list({
     supportsAllDrives: true,
     includeItemsFromAllDrives: true,
-    q: `'${email}' in owners and trashed = false and mimeType = 'application/vnd.google-apps.folder'`,
+    q: `'${email}' in owners and trashed = false and mimeType = 'application/vnd.google-apps.folder' and createdTime > '${after}'`,
   });
 
   if (res.data.files.length === 0) {

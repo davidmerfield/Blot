@@ -1,45 +1,46 @@
-const clfdate = require("helper/clfdate");
-const database = require("./database");
-const setupWebhook = require("./util/setupWebhook");
 const config = require("config");
-const { google } = require('googleapis');
+const clfdate = require("helper/clfdate");
+const prefix = () => `${clfdate()} Google Drive client:`;
+const createDriveClient = require("./serviceAccount/createDriveClient");
+const createDriveActivityClient = require("./serviceAccount/createDriveActivityClient");
+const fetchStorageInfo = require("./serviceAccount/fetchStorageInfo");
+const watchChanges = require("./serviceAccount/watchChanges");
+const pollDriveActivity = require("./serviceAccount/pollDriveActivity");
 
-const prefix = () => clfdate() + " Google Drive client:";
-const TEN_MINUTES = 1000 * 60 * 10; // in ms
+const main = async () => {
+  const serviceAccounts = config.google_drive.service_accounts;
 
-module.exports = () => {
-  refreshServiceAccounts();
-  setInterval(refreshServiceAccounts, TEN_MINUTES);
-  refreshWebhookChannels();
-  setInterval(refreshWebhookChannels, TEN_MINUTES);
+  if (!serviceAccounts || serviceAccounts.length === 0) {
+    console.log(prefix(), "No service accounts found in the configuration.");
+    return;
+  }
+
+  for (const { client_id: serviceAccountId } of serviceAccounts) {
+    try {
+      const drive = await createDriveClient(serviceAccountId);
+      const driveactivity = await createDriveActivityClient(serviceAccountId);
+
+      console.log(prefix(), "Fetching storage usage of service account");
+      await fetchStorageInfo(serviceAccountId, drive);
+
+      console.log(prefix(), "Ensuring service account is watching for changes");
+      await watchChanges(serviceAccountId, drive);
+
+      console.log(prefix(), "Set up polling for drive activity");
+      pollDriveActivity(serviceAccountId, driveactivity);
+      
+      console.log(prefix(), "Service account is running successfully");
+    } catch (e) {
+      console.error("Google Drive client: error with configuration of serviceAccount");
+      console.error(e);
+    }
+  }
 };
 
-const refreshServiceAccounts = async () => {
-    config.google_drive.service_accounts.forEach(async (credentials) => {
-        const auth = new google.auth.GoogleAuth({
-            credentials,
-            scopes: ['https://www.googleapis.com/auth/drive'],
-          });
-        
-        const drive = google.drive({ version: 'v3', auth });
-
-        console.log(prefix(), "Service account client_id=" + credentials.client_id, "Fetching storage quota");
-
-        try {
-            const res = await drive.about.get({
-                fields: 'user, storageQuota'
-            });
-            console.log(prefix(), "Service account client_id=" + credentials.client_id, res.data.storageQuota.usage / 1024 / 1024, "of", res.data.storageQuota.limit / 1024 / 1024, "MB used"); 
-            await database.serviceAccount.set(credentials.client_id, res.data);
-        } catch (e) {
-            console.log(prefix(), "Failed to update service account", e);
-        }
-    });
+module.exports = async () => {
+  main();
+  // we do this repeatedly every 10 minutes
+  // to refresh the service account data
+  // and renew the changes.watch channel
+  setInterval(main, 1000 * 60 * 10);
 }
-
-const refreshWebhookChannels = async () => {
-  console.log(prefix(), "Looking for channels to renew");
-  await database.channel.processAll(async (channel) => {
-    await setupWebhook(channel.blogID, channel.fileId);
-  });
-};

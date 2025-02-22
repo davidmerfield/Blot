@@ -3,8 +3,12 @@ const { join } = require("path");
 const localPath = require("helper/localPath");
 const clfdate = require("helper/clfdate");
 const database = require("../database");
-const createDriveClient = require("../util/createDriveClient");
-const getmd5Checksum = require("../util/md5Checksum");
+const createDriveClient = require("../serviceAccount/createDriveClient");
+const CheckWeCanContinue = require("../util/checkWeCanContinue");
+const driveReaddir = require("./util/driveReaddir");
+const localReaddir = require("./util/localReaddir");
+
+const truncateToSecond = require("./util/truncateToSecond");
 
 module.exports = async (blogID, publish) => {
   if (!publish)
@@ -12,33 +16,26 @@ module.exports = async (blogID, publish) => {
       console.log(clfdate() + " Google Drive:", args.join(" "));
     };
 
-  const drive = await createDriveClient(blogID);
-  const account = await database.getAccount(blogID);
-  const { folderId } = account;
-
-  const checkWeCanContinue = async () => {
-    if ((await database.getAccount(blogID)).preparing !== account.preparing)
-      throw new Error("Permission to continue verification changed");
-  };
-
+  const account = await database.blog.get(blogID);
+  const { folderId, serviceAccountId } = account;
+  const drive = await createDriveClient(serviceAccountId);
+  const checkWeCanContinue = CheckWeCanContinue(blogID, account);
   const { reset, set } = database.folder(folderId);
 
-  // reset pageToken
   // reset db.folder state
   await reset();
 
   const walk = async (dir, dirId) => {
-    await checkWeCanContinue();
     publish("Checking", dir);
 
     const [remoteContents, localContents] = await Promise.all([
-      readdir(drive, dirId),
-      localreaddir(localPath(blogID, dir)),
+      driveReaddir(drive, dirId),
+      localReaddir(localPath(blogID, dir)),
     ]);
 
     // Since we reset the database of file ids
     // we need to restore this now
-    set(dirId, dir);
+    set(dirId, dir, {isDirectory: true});
 
     for (const { name, id } of remoteContents) {
       if (!localContents.find((item) => item.name === name)) {
@@ -48,10 +45,14 @@ module.exports = async (blogID, publish) => {
       }
     }
 
-    for (const { name, isDirectory, md5Checksum } of localContents) {
+    for (const {
+      name,
+      isDirectory,
+      md5Checksum,
+      modifiedTime,
+    } of localContents) {
       const path = join(dir, name);
       const existsOnRemote = remoteContents.find((f) => f.name === name);
-      await checkWeCanContinue();
 
       if (isDirectory) {
         let pathId;
@@ -60,6 +61,7 @@ module.exports = async (blogID, publish) => {
           existsOnRemote &&
           existsOnRemote.mimeType !== "application/vnd.google-apps.folder"
         ) {
+          await checkWeCanContinue();
           publish("Removing", path);
           await drive.files.delete({ fileId: existsOnRemote.id });
           publish("Creating directory", path);
@@ -67,18 +69,27 @@ module.exports = async (blogID, publish) => {
         } else if (existsOnRemote && existsOnRemote.id) {
           pathId = existsOnRemote.id;
         } else {
+          await checkWeCanContinue();
           publish("Creating directory", path);
           pathId = await mkdir(drive, dirId, name);
         }
 
         await walk(path, pathId);
       } else {
+        // These do not have a md5Checksum so we fall
+        // back to using the modifiedTime
+        const isGoogleAppFile = name.endsWith(".gdoc");
+
         const identicalOnRemote =
-          existsOnRemote && existsOnRemote.md5Checksum === md5Checksum;
+          existsOnRemote &&
+          (isGoogleAppFile
+            ? truncateToSecond(existsOnRemote.modifiedTime) === truncateToSecond(modifiedTime)
+            : existsOnRemote.md5Checksum === md5Checksum);
 
         if (existsOnRemote && !identicalOnRemote) {
+          await checkWeCanContinue();
           publish("Updating", path);
-          set(existsOnRemote.id, path);
+          set(existsOnRemote.id, path, { md5Checksum, modifiedTime, isDirectory: false });
           await drive.files.update({
             fileId: existsOnRemote.id,
             media: {
@@ -86,6 +97,7 @@ module.exports = async (blogID, publish) => {
             },
           });
         } else if (!existsOnRemote) {
+          await checkWeCanContinue();
           publish("Transferring", path);
           const { data } = await drive.files.create({
             resource: {
@@ -97,65 +109,13 @@ module.exports = async (blogID, publish) => {
             },
             fields: "id",
           });
-          set(data.id, path);
+          set(data.id, path, { md5Checksum, modifiedTime, isDirectory: false });
         }
       }
     }
   };
 
   await walk("/", folderId);
-
-  // sync will acquire a startPageToken
-  // when it next runs
-};
-
-const localreaddir = async (dir) => {
-  const contents = await fs.readdir(dir);
-
-  return Promise.all(
-    contents.map(async (name) => {
-      const path = join(dir, name);
-      const [md5Checksum, stat] = await Promise.all([
-        getmd5Checksum(path),
-        fs.stat(path),
-      ]);
-
-      return {
-        name,
-        md5Checksum,
-        isDirectory: stat.isDirectory(),
-      };
-    })
-  );
-};
-
-const readdir = async (drive, dirId) => {
-  let res;
-  let items = [];
-  let nextPageToken;
-
-  do {
-    const params = {
-      q: `'${dirId}' in parents and trashed = false`,
-      pageToken: nextPageToken,
-      fields:
-        "nextPageToken, files/id, files/name, files/md5Checksum, files/mimeType",
-    };
-    res = await drive.files.list(params);
-
-    // we append the extension '.gdoc' to the name of the file
-    // if it is a google doc
-    items = items.concat(res.data.files.map((f) => {
-      if (f.mimeType === "application/vnd.google-apps.document") {
-        f.name += ".gdoc";
-      }
-      return f;
-    }));
-
-    nextPageToken = res.data.nextPageToken;
-  } while (nextPageToken);
-
-  return items;
 };
 
 const mkdir = async (drive, parentId, name) => {
