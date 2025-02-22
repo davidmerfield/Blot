@@ -18,7 +18,6 @@ function folder(folderId) {
 
   // Set a mapping (ID → Path) and store metadata
   this.set = async (id, path, metadata = {}) => {
-
     if (!id || !path || typeof id !== "string" || typeof path !== "string") {
       throw new Error("ID and path must be non-empty strings");
     }
@@ -27,31 +26,31 @@ function folder(folderId) {
       throw new Error("Metadata must be a valid object");
     }
 
-    const previousPath = await hgetAsync(this.key, id);
+    const multi = client.multi(); // Start a Redis transaction
 
-    // remove the previous path if it exists
+    const previousPath = await hgetAsync(this.key, id);
     if (previousPath && previousPath !== path) {
-      await hdelAsync(this.reverseKey, previousPath);
+      // Remove the old reverse mapping for the previous path
+      multi.hdel(this.reverseKey, previousPath);
     }
 
-    // if the id has changed, remove the previous id
     const previousId = await hgetAsync(this.reverseKey, path);
     if (previousId && previousId !== id) {
-      await hdelAsync(this.key, previousId);
+      // Remove the old mapping for the previous ID
+      multi.hdel(this.key, previousId);
     }
 
-    // Update ID ↔ Path mapping
-    await hsetAsync(this.key, id, path);
-    await hsetAsync(this.reverseKey, path, id);
+    // Add the new ID ↔ Path mapping
+    multi.hset(this.key, id, path);
+    multi.hset(this.reverseKey, path, id);
 
-    // Update metadata (if provided)
+    // Update metadata if provided
     if (metadata && Object.keys(metadata).length > 0) {
-      await hsetAsync(
-        this.metadataKey,
-        id,
-        JSON.stringify(metadata) // Store metadata as a JSON string
-      );
+      multi.hset(this.metadataKey, id, JSON.stringify(metadata));
     }
+
+    // Execute the transaction
+    await multi.exec();
   };
 
   // Get the path for a given ID
@@ -85,19 +84,29 @@ function folder(folderId) {
       throw new Error("Cannot move a folder to a subfolder of itself");
     }
   
-    let movedPaths = [];
-  
     // Check if 'to' already exists
     const existingId = await this.getByPath(to);
     if (existingId) {
       throw new Error(`Target path already exists: ${to}`);
     }
   
+    const multi = client.multi(); // Start a Redis transaction
+    let movedPaths = [];
+  
     // If `from` is the exact path of the file, treat it as a file move
     if (from === to || !from.startsWith("/")) {
       const metadata = (await this.getMetadata(id)) || {}; // Default to empty metadata
-      await this.set(id, to, metadata);
+  
+      // Remove old reverse mapping and add new mappings in transaction
+      multi.hdel(this.reverseKey, from);
+      multi.hset(this.reverseKey, to, id);
+      multi.hset(this.key, id, to);
+      multi.hset(this.metadataKey, id, JSON.stringify(metadata));
+  
       movedPaths.push({ from, to });
+  
+      // Execute the transaction and return the result
+      await multi.exec();
       return movedPaths;
     }
   
@@ -109,7 +118,6 @@ function folder(folderId) {
       const [nextCursor, results] = await hscanAsync(this.key, cursor);
       cursor = nextCursor;
   
-      const changes = [];
       for (let i = 0; i < results.length; i += 2) {
         const currentId = results[i];
         const currentPath = results[i + 1];
@@ -118,24 +126,31 @@ function folder(folderId) {
         if (currentPath === from || currentPath.startsWith(`${from}/`)) {
           const newPath = to + currentPath.slice(from.length);
           const metadata = (await this.getMetadata(currentId)) || {}; // Default to empty metadata
-          changes.push({ id: currentId, path: newPath, metadata });
+  
+          // Queue all changes in the transaction
+          multi.hdel(this.reverseKey, currentPath); // Remove old reverse mapping
+          multi.hset(this.reverseKey, newPath, currentId); // Add new reverse mapping
+          multi.hset(this.key, currentId, newPath); // Update the path mapping
+          multi.hset(this.metadataKey, currentId, JSON.stringify(metadata)); // Update metadata
+  
           movedPaths.push({ from: currentPath, to: newPath });
         }
       }
-  
-      // Apply the changes
-      for (const { id, path, metadata } of changes) {
-        await this.set(id, path, metadata);
-      }
     } while (cursor !== START_CURSOR);
   
+    // Execute the transaction
+    await multi.exec();
+  
+    // Return all the affected paths
     return movedPaths;
-  };      
+  };
+  
   // Remove a file or folder and its children
   this.remove = async (id) => {
     const from = await this.get(id);
     if (!from) return [];
 
+    const multi = client.multi(); // Start a Redis transaction
     let removedPaths = [];
 
     // Scan and delete all affected paths
@@ -146,36 +161,37 @@ function folder(folderId) {
       const [nextCursor, results] = await hscanAsync(this.key, cursor);
       cursor = nextCursor;
 
-      const idsToDelete = [];
       for (let i = 0; i < results.length; i += 2) {
         const currentId = results[i];
         const currentPath = results[i + 1];
 
         // Check if the current path is affected by the removal
-        if (from === "/" || currentPath === from || currentPath.startsWith(`${from}/`)) {
-          idsToDelete.push(currentId);
+        if (
+          from === "/" ||
+          currentPath === from ||
+          currentPath.startsWith(`${from}/`)
+        ) {
+          multi.hdel(this.key, currentId); // Delete ID ↔ Path mapping
+          multi.hdel(this.reverseKey, currentPath); // Delete Path ↔ ID mapping
+          multi.hdel(this.metadataKey, currentId); // Delete metadata
           removedPaths.push(currentPath);
-
-          // Delete reverse mapping and metadata
-          await hdelAsync(this.reverseKey, currentPath);
-          await hdelAsync(this.metadataKey, currentId);
         }
       }
-
-      // Delete IDs from the main mapping
-      if (idsToDelete.length > 0) {
-        await hdelAsync(this.key, idsToDelete);
-      }
     } while (cursor !== START_CURSOR);
+
+    // Execute the transaction
+    await multi.exec();
 
     return removedPaths;
   };
 
   // Reset all mappings and metadata
   this.reset = async () => {
-    await delAsync(this.key);
-    await delAsync(this.reverseKey);
-    await delAsync(this.metadataKey);
+    const multi = client.multi();
+    multi.del(this.key);
+    multi.del(this.reverseKey);
+    multi.del(this.metadataKey);
+    await multi.exec();
   };
 
   // List all files and folders with metadata
