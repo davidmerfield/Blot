@@ -35,7 +35,7 @@ module.exports = async (blogID, publish) => {
 
     // Since we reset the database of file ids
     // we need to restore this now
-    set(dirId, dir);
+    set(dirId, dir, {isDirectory: true});
 
     for (const { name, id } of remoteContents) {
       if (!localContents.find((item) => item.name === name)) {
@@ -89,7 +89,7 @@ module.exports = async (blogID, publish) => {
         if (existsOnRemote && !identicalOnRemote) {
           await checkWeCanContinue();
           publish("Updating", path);
-          set(existsOnRemote.id, path);
+          set(existsOnRemote.id, path, { md5Checksum, modifiedTime, isDirectory: false });
           await drive.files.update({
             fileId: existsOnRemote.id,
             media: {
@@ -109,7 +109,7 @@ module.exports = async (blogID, publish) => {
             },
             fields: "id",
           });
-          set(data.id, path);
+          set(data.id, path, { md5Checksum, modifiedTime, isDirectory: false });
         }
       }
     }

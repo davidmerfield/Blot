@@ -36,7 +36,7 @@ module.exports = async (blogID, publish, update) => {
 
     // Since we reset the database of file ids
     // we need to restore this now
-    set(dirId, dir);
+    set(dirId, dir, {isDirectory: true});
 
     for (const { name } of localContents) {
       if (!remoteContents.find((item) => item.name === name)) {
@@ -57,7 +57,7 @@ module.exports = async (blogID, publish, update) => {
       const isDirectory = mimeType === "application/vnd.google-apps.folder";
 
       // Store the Drive ID against the path of this item, along with metadata
-      await set(id, path, { mimeType, md5Checksum, modifiedTime });
+      await set(id, path, { mimeType, md5Checksum, modifiedTime, isDirectory });
 
       if (isDirectory) {
         if (existsLocally && !existsLocally.isDirectory) {

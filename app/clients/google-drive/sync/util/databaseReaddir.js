@@ -2,7 +2,7 @@ const getmd5Checksum = require("clients/google-drive/util/md5Checksum");
 const fs = require("fs-extra");
 const { join } = require("path");
 
-const localreaddir = async (dir) => {
+const readdir = async (dir) => {
     const contents = await fs.readdir(dir);
   
     return Promise.all(
@@ -15,16 +15,15 @@ const localreaddir = async (dir) => {
   
         // Convert the modification time to an ISO string
         const modifiedTime = stat.mtime.toISOString();
-        const isDirectory = stat.isDirectory();
-
+  
         return {
           name,
-          isDirectory,
-          md5Checksum: isDirectory ? undefined : md5Checksum,
-          modifiedTime: isDirectory ? undefined : modifiedTime,
+          md5Checksum,
+          isDirectory: stat.isDirectory(),
+          modifiedTime,
         };
       })
     );
   };
 
-module.exports = localreaddir;
+module.exports = readdir;
