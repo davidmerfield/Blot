@@ -6,7 +6,7 @@ const dashboard = new express.Router();
 const establishSyncLock = require("../util/establishSyncLock");
 const createDriveClient = require("../serviceAccount/createDriveClient");
 const requestServiceAccount = require("clients/google-drive/serviceAccount/request");
-const resetFromBlot = require("../sync/reset-to-google-drive");
+const resetFromBlot = require("../sync/resetToDrive");
 const parseBody = require("body-parser").urlencoded({ extended: false });
 
 const VIEWS = require("path").resolve(__dirname + "/../views") + "/";

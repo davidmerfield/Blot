@@ -173,15 +173,6 @@ describe("folder module", function () {
     expect(retrievedMetadata).toBeNull();
   });
 
-  it("can set and get the page token", async function () {
-    const token = "page_token_123";
-
-    await folder.setPageToken(token);
-    const retrievedToken = await folder.getPageToken();
-
-    expect(retrievedToken).toBe(token);
-  });
-
   it("can list all files and folders with metadata", async function () {
     const id1 = "file_1";
     const id2 = "file_2";
@@ -325,5 +316,248 @@ describe("folder module", function () {
     expect(await folder.get(folderId)).toBe("/baz");
     expect(await folder.get(nestedFolderId)).toBe("/baz/bar");
     expect(await folder.get(fileId)).toBe("/baz/bar/file1.txt");
+  });
+  
+  it("throws an error when trying to set a mapping with an empty ID or path", async function (done) {
+    const metadata = { size: 1024, lastModified: "2025-02-21" };
+  
+    try {
+      await folder.set("", "/file1.txt", metadata);
+      done.fail("Expected an error for empty ID");
+    } catch (err) {
+      expect(err.message).toBe("ID and path must be non-empty strings");
+    }
+  
+    try {
+      await folder.set("file_1", "", metadata);
+      done.fail("Expected an error for empty path");
+    } catch (err) {
+      expect(err.message).toBe("ID and path must be non-empty strings");
+    }
+  
+    try {
+      await folder.set(null, null, metadata);
+      done.fail("Expected an error for null ID and path");
+    } catch (err) {
+      expect(err.message).toBe("ID and path must be non-empty strings");
+    }
+  
+    done();
+  });
+
+  it("throws an error when trying to move a nonexistent file or folder", async function (done) {
+    const nonExistentId = "nonexistent_file";
+    const newPath = "/new/path/file.txt";
+  
+    try {
+      await folder.move(nonExistentId, newPath);
+      done.fail("Expected an error for nonexistent ID");
+    } catch (err) {
+      expect(err.message).toBe(`No file or folder found for ID: ${nonExistentId}`);
+    }
+  
+    done();
+  });
+  
+  it("throws an error when trying to remove a nonexistent file or folder", async function (done) {
+    const nonExistentId = "nonexistent_file";
+  
+    const removedPaths = await folder.remove(nonExistentId);
+    expect(removedPaths).toEqual([]); // Should simply return an empty array
+  
+    done();
+  });
+
+  it("throws an error when metadata is not a valid object", async function (done) {
+    const id = "file_1";
+    const path = "/folder/file1.txt";
+  
+    try {
+      await folder.set(id, path, "invalid_metadata");
+      done.fail("Expected an error for invalid metadata");
+    } catch (err) {
+      expect(err.message).toBe("Metadata must be a valid object");
+    }
+  
+    try {
+      await folder.set(id, path, null); // Null metadata should still succeed
+      done();
+    } catch (err) {
+      done.fail("Did not expect an error for null metadata");
+    }
+  });
+
+  it("handles errors when metadata is corrupted or invalid", async function (done) {
+    const id = "file_1";
+    const path = "/folder/file1.txt";
+  
+    // Corrupt metadata in Redis
+    await client.hset(`${prefix}test_folder:metadata`, id, "corrupted_metadata_string");
+  
+    try {
+      await folder.getMetadata(id);
+      done.fail("Expected a SyntaxError for corrupted metadata");
+    } catch (err) {
+      expect(err instanceof SyntaxError).toBe(true);
+    }
+  
+    done();
+  });
+
+  it("handles path collisions gracefully during move operations", async function (done) {
+    const folderId1 = "folder_1";
+    const folderId2 = "folder_2";
+  
+    await folder.set(folderId1, "/foo");
+    await folder.set(folderId2, "/bar");
+  
+    try {
+      await folder.move(folderId1, "/bar"); // Attempt to move /foo to /bar
+      done.fail("Expected an error due to path collision");
+    } catch (err) {
+      expect(err.message).toBe("Target path already exists: /bar");
+    }
+  
+    done();
+  });
+
+  it("replaces the path when the same ID is reused", async function () {
+    const id = "file_1";
+    const oldPath = "/folder/old/file1.txt";
+    const newPath = "/folder/new/file1.txt";
+  
+    await folder.set(id, oldPath);
+    await folder.set(id, newPath);
+  
+    const retrievedPath = await folder.get(id);
+    expect(retrievedPath).toBe(newPath);
+  
+    // Ensure old path-to-ID mapping is removed
+    const oldId = await folder.getByPath(oldPath);
+    expect(oldId).toBeNull();
+  });
+
+  it("replaces the ID when the same path is reused", async function () {
+    const id1 = "file_1";
+    const id2 = "file_2";
+    const path = "/folder/file.txt";
+  
+    await folder.set(id1, path);
+    await folder.set(id2, path);
+  
+    const retrievedId = await folder.getByPath(path);
+    expect(retrievedId).toBe(id2);
+  
+    // Ensure old ID-to-path mapping is removed
+    const oldPath = await folder.get(id1);
+    expect(oldPath).toBeNull();
+  });
+
+  it("can update metadata without changing the path", async function () {
+    const id = "file_1";
+    const path = "/folder/file1.txt";
+    const oldMetadata = { size: 1024, lastModified: "2025-02-21" };
+    const newMetadata = { size: 2048, lastModified: "2025-02-22" };
+  
+    await folder.set(id, path, oldMetadata);
+    await folder.set(id, path, newMetadata);
+  
+    const retrievedMetadata = await folder.getMetadata(id);
+    expect(retrievedMetadata).toEqual(newMetadata);
+  
+    const retrievedPath = await folder.get(id);
+    expect(retrievedPath).toBe(path); // Path should remain unchanged
+  });
+
+  it("throws an error when trying to move to an existing path", async function (done) {
+    const folderId = "folder_1";
+    const existingFolderId = "folder_2";
+    const oldFolderPath = "/foo";
+    const newFolderPath = "/bar";
+  
+    await folder.set(folderId, oldFolderPath);
+    await folder.set(existingFolderId, newFolderPath);
+  
+    try {
+      await folder.move(folderId, newFolderPath); // This should throw an error
+      done.fail("Expected an error when moving to an existing path");
+    } catch (err) {
+      expect(err.message).toBe("Target path already exists: /bar");
+    }
+  
+    done();
+  });
+
+  it("treats paths as case-sensitive", async function () {
+    const id1 = "file_1";
+    const id2 = "file_2";
+    const path1 = "/Folder/File1.txt";
+    const path2 = "/folder/file1.txt";
+  
+    await folder.set(id1, path1);
+    await folder.set(id2, path2);
+  
+    const retrievedId1 = await folder.getByPath(path1);
+    const retrievedId2 = await folder.getByPath(path2);
+  
+    expect(retrievedId1).toBe(id1);
+    expect(retrievedId2).toBe(id2);
+  });
+
+  it("does not remove paths that are not direct children of a folder", async function () {
+    const folderId = "folder_1";
+    const unrelatedFileId = "file_1";
+    const folderPath = "/foo";
+    const unrelatedPath = "/foobar";
+  
+    await folder.set(folderId, folderPath);
+    await folder.set(unrelatedFileId, unrelatedPath);
+  
+    const removedPaths = await folder.remove(folderId);
+  
+    expect(removedPaths).toEqual([folderPath]); // Only the folder should be removed
+    expect(await folder.get(unrelatedFileId)).toBe(unrelatedPath); // Unrelated path remains
+  });
+
+  it("removes all data when reset is called, even with partial data", async function () {
+    const id1 = "file_1";
+    const id2 = "file_2";
+    const path1 = "/folder/file1.txt";
+    const path2 = "/folder/file2.txt";
+  
+    await folder.set(id1, path1);
+    await folder.set(id2, path2);
+  
+    // Manually remove some Redis data
+    await client.hdel(`${prefix}test_folder:path`, path1);
+  
+    await folder.reset();
+  
+    const allFiles = await folder.listAll();
+    expect(allFiles).toEqual([]); // Everything should be removed
+  });
+
+  it("returns null when requesting metadata for a nonexistent ID", async function () {
+    const nonexistentId = "nonexistent_file";
+  
+    const metadata = await folder.getMetadata(nonexistentId);
+    expect(metadata).toBeNull();
+  });
+
+  it("throws an error when trying to move a folder to a subfolder of itself", async function (done) {
+    const folderId = "folder_1";
+    const oldFolderPath = "/foo";
+    const newFolderPath = "/foo/bar";
+  
+    await folder.set(folderId, oldFolderPath);
+  
+    try {
+      await folder.move(folderId, newFolderPath);
+      done.fail("Expected an error when moving to a subfolder of itself");
+    } catch (err) {
+      expect(err.message).toBe("Cannot move a folder to a subfolder of itself");
+    }
+  
+    done();
   });
 });

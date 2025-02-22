@@ -55,12 +55,6 @@ module.exports = async (blogID, publish, update) => {
       // Store the Drive ID against the path of this item
       await set(id, path);
 
-      // Is a Google Doc
-      if (mimeType === "application/vnd.google-apps.document") {
-        // Monitor this item for changes
-        await setupWebhook(blogID, id);
-      }
-
       if (isDirectory) {
         publish("Is directory", path, JSON.stringify(existsLocally));
         if (existsLocally && !existsLocally.isDirectory) {

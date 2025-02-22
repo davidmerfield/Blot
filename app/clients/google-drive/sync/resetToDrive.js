@@ -5,10 +5,8 @@ const clfdate = require("helper/clfdate");
 const database = require("../database");
 const createDriveClient = require("../serviceAccount/createDriveClient");
 const getmd5Checksum = require("../util/md5Checksum");
+const CheckWeCanContinue = require("../util/checkWeCanContinue");
 
-// todo: add a checkWeCanContinue function
-// which verifies the folder is still connected to google drive
-// before applying any changes (e.g. if disconnect happened)
 module.exports = async (blogID, publish) => {
   if (!publish)
     publish = (...args) => {
@@ -16,22 +14,15 @@ module.exports = async (blogID, publish) => {
     };
 
   const account = await database.blog.get(blogID);
-  const drive = await createDriveClient(account.serviceAccountId);
-  const { folderId } = account;
-
-  const checkWeCanContinue = async () => {
-    if ((await database.blog.get(blogID)).preparing !== account.preparing)
-      throw new Error("Permission to continue verification changed");
-  };
-
+  const { folderId, serviceAccountId } = account;
+  const drive = await createDriveClient(serviceAccountId);
+  const checkWeCanContinue = CheckWeCanContinue(blogID, account);
   const { reset, set } = database.folder(folderId);
 
-  // reset pageToken
   // reset db.folder state
   await reset();
 
   const walk = async (dir, dirId) => {
-    await checkWeCanContinue();
     publish("Checking", dir);
 
     const [remoteContents, localContents] = await Promise.all([
@@ -54,7 +45,6 @@ module.exports = async (blogID, publish) => {
     for (const { name, isDirectory, md5Checksum } of localContents) {
       const path = join(dir, name);
       const existsOnRemote = remoteContents.find((f) => f.name === name);
-      await checkWeCanContinue();
 
       if (isDirectory) {
         let pathId;
@@ -63,6 +53,7 @@ module.exports = async (blogID, publish) => {
           existsOnRemote &&
           existsOnRemote.mimeType !== "application/vnd.google-apps.folder"
         ) {
+          await checkWeCanContinue();
           publish("Removing", path);
           await drive.files.delete({ fileId: existsOnRemote.id });
           publish("Creating directory", path);
@@ -70,6 +61,7 @@ module.exports = async (blogID, publish) => {
         } else if (existsOnRemote && existsOnRemote.id) {
           pathId = existsOnRemote.id;
         } else {
+          await checkWeCanContinue();
           publish("Creating directory", path);
           pathId = await mkdir(drive, dirId, name);
         }
@@ -80,6 +72,7 @@ module.exports = async (blogID, publish) => {
           existsOnRemote && existsOnRemote.md5Checksum === md5Checksum;
 
         if (existsOnRemote && !identicalOnRemote) {
+          await checkWeCanContinue();
           publish("Updating", path);
           set(existsOnRemote.id, path);
           await drive.files.update({
@@ -89,6 +82,7 @@ module.exports = async (blogID, publish) => {
             },
           });
         } else if (!existsOnRemote) {
+          await checkWeCanContinue();
           publish("Transferring", path);
           const { data } = await drive.files.create({
             resource: {
@@ -107,9 +101,6 @@ module.exports = async (blogID, publish) => {
   };
 
   await walk("/", folderId);
-
-  // sync will acquire a startPageToken
-  // when it next runs
 };
 
 const localreaddir = async (dir) => {

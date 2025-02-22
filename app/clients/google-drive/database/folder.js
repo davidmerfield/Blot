@@ -7,8 +7,6 @@ const hgetAsync = promisify(client.hget).bind(client);
 const hdelAsync = promisify(client.hdel).bind(client);
 const hscanAsync = promisify(client.hscan).bind(client);
 const delAsync = promisify(client.del).bind(client);
-const setAsync = promisify(client.set).bind(client);
-const getAsync = promisify(client.get).bind(client);
 
 const PREFIX = require("./prefix");
 
@@ -17,10 +15,31 @@ function folder(folderId) {
   this.key = `${PREFIX}${folderId}:folder`; // ID ↔ Path mapping
   this.reverseKey = `${PREFIX}${folderId}:path`; // Path ↔ ID mapping
   this.metadataKey = `${PREFIX}${folderId}:metadata`; // File metadata
-  this.tokenKey = `${PREFIX}${folderId}:pageToken`; // Sync page token
 
   // Set a mapping (ID → Path) and store metadata
   this.set = async (id, path, metadata = {}) => {
+
+    if (!id || !path || typeof id !== "string" || typeof path !== "string") {
+      throw new Error("ID and path must be non-empty strings");
+    }
+
+    if (metadata && typeof metadata !== "object") {
+      throw new Error("Metadata must be a valid object");
+    }
+
+    const previousPath = await hgetAsync(this.key, id);
+
+    // remove the previous path if it exists
+    if (previousPath && previousPath !== path) {
+      await hdelAsync(this.reverseKey, previousPath);
+    }
+
+    // if the id has changed, remove the previous id
+    const previousId = await hgetAsync(this.reverseKey, path);
+    if (previousId && previousId !== id) {
+      await hdelAsync(this.key, previousId);
+    }
+
     // Update ID ↔ Path mapping
     await hsetAsync(this.key, id, path);
     await hsetAsync(this.reverseKey, path, id);
@@ -61,7 +80,18 @@ function folder(folderId) {
     const from = await this.get(id);
     if (!from) throw new Error(`No file or folder found for ID: ${id}`);
   
+    // Ensure the target path is not a subfolder of the source path
+    if (to.startsWith(from + "/")) {
+      throw new Error("Cannot move a folder to a subfolder of itself");
+    }
+  
     let movedPaths = [];
+  
+    // Check if 'to' already exists
+    const existingId = await this.getByPath(to);
+    if (existingId) {
+      throw new Error(`Target path already exists: ${to}`);
+    }
   
     // If `from` is the exact path of the file, treat it as a file move
     if (from === to || !from.startsWith("/")) {
@@ -100,8 +130,7 @@ function folder(folderId) {
     } while (cursor !== START_CURSOR);
   
     return movedPaths;
-  };
-      
+  };      
   // Remove a file or folder and its children
   this.remove = async (id) => {
     const from = await this.get(id);
@@ -147,16 +176,6 @@ function folder(folderId) {
     await delAsync(this.key);
     await delAsync(this.reverseKey);
     await delAsync(this.metadataKey);
-    await delAsync(this.tokenKey);
-  };
-
-  // Set or get the page token for syncing
-  this.setPageToken = async (token) => {
-    await setAsync(this.tokenKey, token);
-  };
-
-  this.getPageToken = async () => {
-    return await getAsync(this.tokenKey);
   };
 
   // List all files and folders with metadata
