@@ -2,6 +2,12 @@ Investigate bug with link format using filename and [follow up with yct](https:/
 
 Create more Google Drive service accounts under new gmail users before April 15th deadline (see clients/google-drive/readme)
 
+Improve google drive client:
+- [ ] to improve sync speed, eventually set up temporary channels to watch google docs for changes – is this faster than polling driveactivity?
+- [ ] Is the move to listen on changes.watch and then setup an optional temporary files.watch channel to stream changes for the length of the channel (don't renew)?
+- [ ] make it possible to short-circuit the full folder traversal and immediately begin at a specific file/subfolder
+- [ ] add tests with  nock
+
 Notify users google drive temporarily disabled
 
 Rewrite without files.watch: 
