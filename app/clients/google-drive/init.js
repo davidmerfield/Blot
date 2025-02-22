@@ -6,6 +6,7 @@ const createDriveActivityClient = require("./serviceAccount/createDriveActivityC
 const fetchStorageInfo = require("./serviceAccount/fetchStorageInfo");
 const watchChanges = require("./serviceAccount/watchChanges");
 const pollDriveActivity = require("./serviceAccount/pollDriveActivity");
+const pollRecentlyModifiedFiles = require("./serviceAccount/pollRecentlyModifiedFiles");
 
 const main = async () => {
   const serviceAccounts = config.google_drive.service_accounts;
@@ -28,6 +29,9 @@ const main = async () => {
 
       console.log(prefix(), "Set up polling for drive activity");
       pollDriveActivity(serviceAccountId, driveactivity);
+      
+      console.log(prefix(), "Set up polling for recently modified files");
+      pollRecentlyModifiedFiles(serviceAccountId, drive);
       
       console.log(prefix(), "Service account is running successfully");
     } catch (e) {

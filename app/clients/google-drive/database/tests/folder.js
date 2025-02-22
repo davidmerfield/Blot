@@ -737,4 +737,33 @@ describe("folder module", function () {
     const entriesLowerCase = await folder.readdir(basePath.toLowerCase());
     expect(entriesLowerCase).toEqual([]); // Should not match a case-sensitive path
   });
+
+  it("getRecentlyModifiedFileIds returns the most recently modified files", async function () {
+    const fileId1 = "file_1";
+    const fileId2 = "file_2";
+    const fileId3 = "file_3";
+    const fileId4 = "file_4";
+    const fileId5 = "file_5";
+    const basePath = "/folder";
+    const filePath1 = `${basePath}/file1.txt`;
+    const filePath2 = `${basePath}/file2.txt`;
+    const filePath3 = `${basePath}/file3.txt`;
+    const filePath4 = `${basePath}/file4.txt`;
+    const filePath5 = `${basePath}/file5.txt`;
+    const metadata1 = { size: 1024, modifiedTime: new Date("2025-02-21").toISOString() };
+    const metadata2 = { size: 2048, modifiedTime: new Date("2025-02-22").toISOString() };
+    const metadata3 = { size: 3072, modifiedTime: new Date("2025-02-23").toISOString() };
+    const metadata4 = { size: 4096, modifiedTime: new Date("2025-02-24").toISOString() };
+    const metadata5 = { size: 5120, modifiedTime: new Date("2025-02-25").toISOString() };
+  
+    await folder.set(fileId1, filePath1, metadata1);
+    await folder.set(fileId2, filePath2, metadata2);
+    await folder.set(fileId3, filePath3, metadata3);
+    await folder.set(fileId4, filePath4, metadata4);
+    await folder.set(fileId5, filePath5, metadata5);
+
+    const fileIds = await folder.getRecentlyModifiedFileIds(3);
+
+    expect(fileIds).toEqual([fileId5, fileId4, fileId3]); // Most recent files first
+  });
 });

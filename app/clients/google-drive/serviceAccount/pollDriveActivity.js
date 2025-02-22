@@ -2,7 +2,6 @@ const Bottleneck = require("bottleneck");
 const database = require("clients/google-drive/database");
 const clfdate = require("helper/clfdate");
 const sync = require("clients/google-drive/sync");
-const { max } = require("lodash");
 
 module.exports = async (serviceAccountId, driveactivity) => {
   if (!serviceAccountId || !driveactivity) {
@@ -17,7 +16,7 @@ module.exports = async (serviceAccountId, driveactivity) => {
 
   const checkDriveActivity = limiter.wrap(
     async (blogID, folderId, latestDriveActivityTimestamp) => {
-      const prefix = () => `${clfdate()} Blog ${blogID} drive activity:`;
+      const prefix = () => `${clfdate()} Blog ${blogID} pollDriveActivity:`;
 
       try {
         if (!blogID || !folderId) {

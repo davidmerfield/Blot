@@ -4,6 +4,7 @@ const { promisify } = require("util");
 const client = require("models/client");
 const hgetAsync = promisify(client.hget).bind(client);
 const hscanAsync = promisify(client.hscan).bind(client);
+const zrevrangeAsync = promisify(client.zrevrange).bind(client);
 
 const PREFIX = require("./prefix");
 
@@ -12,6 +13,7 @@ function folder(folderId) {
   this.key = `${PREFIX}${folderId}:folder`; // ID ↔ Path mapping
   this.reverseKey = `${PREFIX}${folderId}:path`; // Path ↔ ID mapping
   this.metadataKey = `${PREFIX}${folderId}:metadata`; // File metadata
+  this.recentlyModifiedKey = `${PREFIX}${folderId}:recentlyModified`; // Recently modified files
 
   // Set a mapping (ID → Path) and store metadata
   this.set = async (id, path, metadata = {}) => {
@@ -44,6 +46,20 @@ function folder(folderId) {
     // Update metadata if provided
     if (metadata && Object.keys(metadata).length > 0) {
       multi.hset(this.metadataKey, id, JSON.stringify(metadata));
+
+      // If there's a modifiedTime, and this is a file, update the sorted set
+      if (metadata.modifiedTime && metadata.isDirectory === false) {
+        const parsedTime = Date.parse(metadata.modifiedTime);
+
+        if (!Number.isNaN(parsedTime)) {
+          // Use the Unix timestamp as score
+          multi.zadd(this.recentlyModifiedKey, parsedTime, id);
+
+          // Keep only the top 10 (most recent) items
+          // (lowest scores start at rank 0, so remove up to rank -11)
+          multi.zremrangebyrank(this.recentlyModifiedKey, 0, -11);
+        } 
+      }
     }
 
     // Execute the transaction
@@ -72,76 +88,76 @@ function folder(folderId) {
     if (id === "/" || to === "/") {
       throw new Error("Cannot move to or from root");
     }
-  
+
     const from = await this.get(id);
     if (!from) throw new Error(`No file or folder found for ID: ${id}`);
-  
+
     // Ensure the target path is not a subfolder of the source path
     if (to.startsWith(from + "/")) {
       throw new Error("Cannot move a folder to a subfolder of itself");
     }
-  
+
     // Check if 'to' already exists
     const existingId = await this.getByPath(to);
     if (existingId) {
       throw new Error(`Target path already exists: ${to}`);
     }
-  
+
     const multi = client.multi(); // Start a Redis transaction
     let movedPaths = [];
-  
+
     // If `from` is the exact path of the file, treat it as a file move
     if (from === to || !from.startsWith("/")) {
       const metadata = (await this.getMetadata(id)) || {}; // Default to empty metadata
-  
+
       // Remove old reverse mapping and add new mappings in transaction
       multi.hdel(this.reverseKey, from);
       multi.hset(this.reverseKey, to, id);
       multi.hset(this.key, id, to);
       multi.hset(this.metadataKey, id, JSON.stringify(metadata));
-  
+
       movedPaths.push({ from, to });
-  
+
       // Execute the transaction and return the result
       await multi.exec();
       return movedPaths;
     }
-  
+
     // For folders, update all child paths
     const START_CURSOR = "0";
     let cursor = START_CURSOR;
-  
+
     do {
       const [nextCursor, results] = await hscanAsync(this.key, cursor);
       cursor = nextCursor;
-  
+
       for (let i = 0; i < results.length; i += 2) {
         const currentId = results[i];
         const currentPath = results[i + 1];
-  
+
         // Check if the current path is affected by the move
         if (currentPath === from || currentPath.startsWith(`${from}/`)) {
           const newPath = to + currentPath.slice(from.length);
           const metadata = (await this.getMetadata(currentId)) || {}; // Default to empty metadata
-  
+
           // Queue all changes in the transaction
           multi.hdel(this.reverseKey, currentPath); // Remove old reverse mapping
           multi.hset(this.reverseKey, newPath, currentId); // Add new reverse mapping
           multi.hset(this.key, currentId, newPath); // Update the path mapping
           multi.hset(this.metadataKey, currentId, JSON.stringify(metadata)); // Update metadata
-  
+
           movedPaths.push({ from: currentPath, to: newPath });
         }
       }
     } while (cursor !== START_CURSOR);
-  
+
     // Execute the transaction
     await multi.exec();
-  
+
     // Return all the affected paths
     return movedPaths;
   };
-  
+
   // Remove a file or folder and its children
   this.remove = async (id) => {
     const from = await this.get(id);
@@ -168,6 +184,7 @@ function folder(folderId) {
           currentPath === from ||
           currentPath.startsWith(`${from}/`)
         ) {
+          multi.zrem(this.recentlyModifiedKey, currentId); // Remove from recently modified
           multi.hdel(this.key, currentId); // Delete ID ↔ Path mapping
           multi.hdel(this.reverseKey, currentPath); // Delete Path ↔ ID mapping
           multi.hdel(this.metadataKey, currentId); // Delete metadata
@@ -188,6 +205,7 @@ function folder(folderId) {
     multi.del(this.key);
     multi.del(this.reverseKey);
     multi.del(this.metadataKey);
+    multi.del(this.recentlyModifiedKey);
     await multi.exec();
   };
 
@@ -195,23 +213,23 @@ function folder(folderId) {
     if (!dir || typeof dir !== "string") {
       throw new Error("Directory path must be a non-empty string");
     }
-  
+
     // Normalize the directory path to ensure it ends with a "/"
     const basePath = dir.endsWith("/") ? dir : dir + "/";
-  
+
     const START_CURSOR = "0";
     let cursor = START_CURSOR;
     let entries = [];
-  
+
     do {
       // Scan the folder key
       const [nextCursor, results] = await hscanAsync(this.key, cursor);
       cursor = nextCursor;
-  
+
       for (let i = 0; i < results.length; i += 2) {
         const id = results[i];
         const path = results[i + 1];
-  
+
         // Check if the path is an immediate child of the given directory
         if (
           path.startsWith(basePath) &&
@@ -223,13 +241,13 @@ function folder(folderId) {
         }
       }
     } while (cursor !== START_CURSOR);
-  
+
     // Sort entries alphabetically by path
     entries.sort((a, b) => a.path.localeCompare(b.path));
-  
+
     return entries;
   };
-    
+
   // List all files and folders with metadata
   this.listAll = async () => {
     const START_CURSOR = "0";
@@ -249,6 +267,13 @@ function folder(folderId) {
     } while (cursor !== START_CURSOR);
 
     return results;
+  };
+
+   // Returns up to `limit` file Ids sorted by most-recently modified.
+  this.getRecentlyModifiedFileIds = async (limit = 10) => {
+    // Get the top `limit` IDs from the sorted set, 
+    // from the highest score (most recent) downward.
+    return await zrevrangeAsync(this.recentlyModifiedKey, 0, limit - 1);
   };
 
   return this;

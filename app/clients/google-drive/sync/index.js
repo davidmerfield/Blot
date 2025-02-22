@@ -47,7 +47,8 @@ const sync = async (blogID, publish, update) => {
   };
 
   const walk = async (dir, dirId) => {
-    publish("Checking", dir);
+    // publish("Checking", dir);
+    console.log(clfdate() + " Google Drive: Checking", dir);
 
     const [remoteContents, localContents] = await Promise.all([
       driveReaddir(drive, dirId),
@@ -62,7 +63,7 @@ const sync = async (blogID, publish, update) => {
       if (!remoteContents.find((item) => item.name === name)) {
         const path = join(dir, name);
         await checkWeCanContinue();
-        publish("Removing local item", join(dir, name));
+        publish("Removing", join(dir, name));
         const id = await get(path);
         await remove(id);
         await fs.remove(localPath(blogID, path));
