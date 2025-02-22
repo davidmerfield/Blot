@@ -5,13 +5,13 @@ const clfdate = require("helper/clfdate");
 const database = require("../database");
 const download = require("../util/download");
 const createDriveClient = require("../serviceAccount/createDriveClient");
+const CheckWeCanContinue = require("../util/checkWeCanContinue");
 
 const localReaddir = require('./util/localReaddir');
 const driveReaddir = require('./util/driveReaddir');
 
-// todo: add a checkWeCanContinue function
-// which verifies the folder is still connected to google drive
-// before applying any changes (e.g. if disconnect happened)
+const truncateToSecond = require("./util/truncateToSecond");
+
 module.exports = async (blogID, publish, update) => {
   if (!publish)
     publish = (...args) => {
@@ -21,6 +21,7 @@ module.exports = async (blogID, publish, update) => {
   const account = await database.blog.get(blogID);
   const drive = await createDriveClient(account.serviceAccountId);
   const { reset, get, set, remove } = database.folder(account.folderId);
+  const checkWeCanContinue = CheckWeCanContinue(blogID, account);
 
   // resets pageToken and folderState
   await reset();
@@ -40,6 +41,7 @@ module.exports = async (blogID, publish, update) => {
     for (const { name } of localContents) {
       if (!remoteContents.find((item) => item.name === name)) {
         const path = join(dir, name);
+        await checkWeCanContinue();
         publish("Removing local item", join(dir, name));
         const id = await get(path);
         await remove(id);
@@ -58,8 +60,8 @@ module.exports = async (blogID, publish, update) => {
       await set(id, path, { mimeType, md5Checksum, modifiedTime });
 
       if (isDirectory) {
-        publish("Is directory", path, JSON.stringify(existsLocally));
         if (existsLocally && !existsLocally.isDirectory) {
+          await checkWeCanContinue();
           publish("Removing", path);
           const idToRemove = await get(path);
           await remove(idToRemove);
@@ -68,6 +70,7 @@ module.exports = async (blogID, publish, update) => {
           await fs.ensureDir(localPath(blogID, path));
           if (update) await update(path);
         } else if (!existsLocally) {
+          await checkWeCanContinue();
           publish("Creating directory", path);
           await fs.ensureDir(localPath(blogID, path));
           if (update) await update(path);
@@ -91,7 +94,8 @@ module.exports = async (blogID, publish, update) => {
 
         if (existsLocally && !identicalOnRemote) {
           try {
-            publish("Updating", path, "modifiedTime", modifiedTime, "local.modifiedTime", existsLocally.modifiedTime, "md5Checksum", md5Checksum, "local.md5Checksum", existsLocally.md5Checksum, "isGoogleAppFile", isGoogleAppFile);
+            await checkWeCanContinue();
+            publish("Updating", path);
             await download(blogID, drive, path, file);
             if (update) await update(path);
           } catch (e) {
@@ -99,6 +103,7 @@ module.exports = async (blogID, publish, update) => {
           }
         } else if (!existsLocally) {
           try {
+            await checkWeCanContinue();
             publish("Downloading", path);
             await download(blogID, drive, path, file);
             if (update) await update(path);
@@ -121,9 +126,3 @@ module.exports = async (blogID, publish, update) => {
 
 
 
-function truncateToSecond(isoString) {
-  if (!isoString) return null; // Guard in case of null/undefined
-  const date = new Date(isoString);
-  date.setMilliseconds(0);
-  return date.toISOString();
-}

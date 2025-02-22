@@ -1,4 +1,3 @@
-
 const readdir = async (drive, dirId) => {
     let res;
     let items = [];
@@ -27,3 +26,5 @@ const readdir = async (drive, dirId) => {
   
     return items;
   };
+
+  module.exports = readdir;

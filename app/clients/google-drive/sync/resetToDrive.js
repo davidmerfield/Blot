@@ -4,8 +4,11 @@ const localPath = require("helper/localPath");
 const clfdate = require("helper/clfdate");
 const database = require("../database");
 const createDriveClient = require("../serviceAccount/createDriveClient");
-const getmd5Checksum = require("../util/md5Checksum");
 const CheckWeCanContinue = require("../util/checkWeCanContinue");
+const driveReaddir = require("./util/driveReaddir");
+const localReaddir = require("./util/localReaddir");
+
+const truncateToSecond = require("./util/truncateToSecond");
 
 module.exports = async (blogID, publish) => {
   if (!publish)
@@ -26,8 +29,8 @@ module.exports = async (blogID, publish) => {
     publish("Checking", dir);
 
     const [remoteContents, localContents] = await Promise.all([
-      readdir(drive, dirId),
-      localreaddir(localPath(blogID, dir)),
+      driveReaddir(drive, dirId),
+      localReaddir(localPath(blogID, dir)),
     ]);
 
     // Since we reset the database of file ids
@@ -42,7 +45,12 @@ module.exports = async (blogID, publish) => {
       }
     }
 
-    for (const { name, isDirectory, md5Checksum } of localContents) {
+    for (const {
+      name,
+      isDirectory,
+      md5Checksum,
+      modifiedTime,
+    } of localContents) {
       const path = join(dir, name);
       const existsOnRemote = remoteContents.find((f) => f.name === name);
 
@@ -68,8 +76,15 @@ module.exports = async (blogID, publish) => {
 
         await walk(path, pathId);
       } else {
+        // These do not have a md5Checksum so we fall
+        // back to using the modifiedTime
+        const isGoogleAppFile = name.endsWith(".gdoc");
+
         const identicalOnRemote =
-          existsOnRemote && existsOnRemote.md5Checksum === md5Checksum;
+          existsOnRemote &&
+          (isGoogleAppFile
+            ? truncateToSecond(existsOnRemote.modifiedTime) === truncateToSecond(modifiedTime)
+            : existsOnRemote.md5Checksum === md5Checksum);
 
         if (existsOnRemote && !identicalOnRemote) {
           await checkWeCanContinue();
@@ -101,55 +116,6 @@ module.exports = async (blogID, publish) => {
   };
 
   await walk("/", folderId);
-};
-
-const localreaddir = async (dir) => {
-  const contents = await fs.readdir(dir);
-
-  return Promise.all(
-    contents.map(async (name) => {
-      const path = join(dir, name);
-      const [md5Checksum, stat] = await Promise.all([
-        getmd5Checksum(path),
-        fs.stat(path),
-      ]);
-
-      return {
-        name,
-        md5Checksum,
-        isDirectory: stat.isDirectory(),
-      };
-    })
-  );
-};
-
-const readdir = async (drive, dirId) => {
-  let res;
-  let items = [];
-  let nextPageToken;
-
-  do {
-    const params = {
-      q: `'${dirId}' in parents and trashed = false`,
-      pageToken: nextPageToken,
-      fields:
-        "nextPageToken, files/id, files/name, files/md5Checksum, files/mimeType",
-    };
-    res = await drive.files.list(params);
-
-    // we append the extension '.gdoc' to the name of the file
-    // if it is a google doc
-    items = items.concat(res.data.files.map((f) => {
-      if (f.mimeType === "application/vnd.google-apps.document") {
-        f.name += ".gdoc";
-      }
-      return f;
-    }));
-
-    nextPageToken = res.data.nextPageToken;
-  } while (nextPageToken);
-
-  return items;
 };
 
 const mkdir = async (drive, parentId, name) => {
