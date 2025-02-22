@@ -1,5 +1,5 @@
 const config = require("config");
-const { refreshServiceAccount } = require("../../serviceAccount/refresh");
+const { refreshServiceAccount } = require("../fetchStorageInfo");
 const intercept  = require("./util/intercept");
 
 xdescribe("refreshServiceAccount", function () {

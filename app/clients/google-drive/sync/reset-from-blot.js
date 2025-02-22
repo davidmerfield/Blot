@@ -16,11 +16,11 @@ module.exports = async (blogID, publish) => {
     };
 
   const drive = await createDriveClient(blogID);
-  const account = await database.getAccount(blogID);
+  const account = await database.blog.get(blogID);
   const { folderId } = account;
 
   const checkWeCanContinue = async () => {
-    if ((await database.getAccount(blogID)).preparing !== account.preparing)
+    if ((await database.blog.get(blogID)).preparing !== account.preparing)
       throw new Error("Permission to continue verification changed");
   };
 

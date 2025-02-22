@@ -20,9 +20,6 @@ const serviceAccount = {
   _globalSetKey() {
     return `${PREFIX}service-accounts`;
   },
-  _blogsKey(serviceAccountId) {
-    return `${PREFIX}service-accounts:${serviceAccountId}:blogs`;
-  },
 
   async store(serviceAccountId, data) {
     const key = this._key(serviceAccountId);
@@ -80,10 +77,6 @@ const serviceAccount = {
     return await smembersAsync(globalSetKey); // Fetch all service accounts from the set
   },
 
-  async listBlogs(serviceAccountId) {
-    const blogsKey = this._blogsKey(serviceAccountId);
-    return await smembersAsync(blogsKey); // Fetch all blogs associated with the service account
-  },
 };
 
 module.exports = serviceAccount;

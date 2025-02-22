@@ -13,7 +13,6 @@ const smembersAsync = promisify(client.smembers).bind(client);
 const PREFIX = require("./prefix");
 
 const blog = {
-  // Generate a Redis key for a specific blog
   _key(blogID) {
     return `${PREFIX}blogs:${blogID}`;
   },
@@ -22,44 +21,56 @@ const blog = {
     return `${PREFIX}blogs`;
   },
 
-  // Store account information and add the blog ID to the global set
+  _serviceAccountSetKey(serviceAccountId) {
+    return `${PREFIX}serviceAccountId:${serviceAccountId}`;
+  },
+
   async store(blogID, data) {
     const key = this._key(blogID);
 
-    // Ensure data is an object
     if (typeof data !== "object" || data === null) {
       throw new Error("Data must be a non-null object");
     }
 
-    // Serialize each field of the data object as a JSON string
+    const currentData = await this.get(blogID);
+    const currentServiceAccountId = currentData?.serviceAccountId;
+
+    // Serialize and save fields
     for (const [field, value] of Object.entries(data)) {
-      const serializedValue = JSON.stringify(value); // Serialize value
+      const serializedValue = JSON.stringify(value);
       await hsetAsync(key, field, serializedValue);
     }
 
-    // Add the blog ID to the global set
+    // Add blog ID to the global set
     await saddAsync(this._globalSetKey(), blogID);
+
+    // Manage serviceAccountId sets
+    const newServiceAccountId = data.serviceAccountId;
+    if (newServiceAccountId && newServiceAccountId !== currentServiceAccountId) {
+      // Remove blog ID from the old serviceAccountId set
+      if (currentServiceAccountId) {
+        await sremAsync(this._serviceAccountSetKey(currentServiceAccountId), blogID);
+      }
+      // Add blog ID to the new serviceAccountId set
+      if (newServiceAccountId) {
+        await saddAsync(this._serviceAccountSetKey(newServiceAccountId), blogID);
+      }
+    }
   },
 
-  // Retrieve account information for a blog
   async get(blogID) {
     const key = this._key(blogID);
-
-    // Retrieve all fields from the hash
     const result = await hgetallAsync(key);
 
-    // Redis returns null if the key does not exist
     if (!result) {
       return null;
     }
 
-    // Deserialize each field from a JSON string back to its original value
     const deserializedResult = {};
     for (const [field, value] of Object.entries(result)) {
       try {
-        deserializedResult[field] = JSON.parse(value); // Deserialize value
+        deserializedResult[field] = JSON.parse(value);
       } catch (e) {
-        // If deserialization fails, return the raw value (fallback)
         deserializedResult[field] = value;
       }
     }
@@ -67,33 +78,49 @@ const blog = {
     return deserializedResult;
   },
 
-  // Delete account information and remove the blog ID from the global set
   async delete(blogID) {
     const key = this._key(blogID);
 
-    // Remove the Redis hash for this blog
+    // Get the current data to find the serviceAccountId
+    const currentData = await this.get(blogID);
+    const currentServiceAccountId = currentData?.serviceAccountId;
+
+    // Remove the Redis hash
     await delAsync(key);
 
-    // Remove the blog ID from the global set
+    // Remove blog ID from the global set
     await sremAsync(this._globalSetKey(), blogID);
+
+    // Remove blog ID from the serviceAccountId set if it exists
+    if (currentServiceAccountId) {
+      await sremAsync(this._serviceAccountSetKey(currentServiceAccountId), blogID);
+    }
   },
 
-  // List all blog IDs from the global set
   async list() {
-    // Retrieve all blog IDs in the global set
     return await smembersAsync(this._globalSetKey());
   },
 
-  // Iterate through all blogs and apply a callback
   async iterate(callback) {
-    // Retrieve all blog IDs from the global set
     const blogIDs = await this.list();
 
-    // Iterate over each blog ID and apply the callback
     for (const blogID of blogIDs) {
-      const blogData = await this.get(blogID); // Fetch blog data
+      const blogData = await this.get(blogID);
       if (blogData) {
-        await callback(blogID, blogData); // Pass blog ID and data to the callback
+        await callback(blogID, blogData);
+      }
+    }
+  },
+
+  async iterateByServiceAccountId(serviceAccountId, callback) {
+    const setKey = this._serviceAccountSetKey(serviceAccountId);
+    const blogIDs = await smembersAsync(setKey);
+
+
+    for (const blogID of blogIDs) {
+      const blogData = await this.get(blogID);
+      if (blogData) {
+        await callback(blogID, blogData);
       }
     }
   },

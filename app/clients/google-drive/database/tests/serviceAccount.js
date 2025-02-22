@@ -73,21 +73,6 @@ describe("serviceAccount module", function () {
       expect(serviceAccounts).not.toContain(serviceAccountId);
     });
   
-    it("can list blogs associated with a service account", async function () {
-      const serviceAccountId = "service_account_1";
-  
-      // Add blogs to the service account
-      const blogsKey = `${prefix}service-accounts:${serviceAccountId}:blogs`;
-      const blogs = ["blog_1", "blog_2", "blog_3"];
-      for (const blog of blogs) {
-        await client.sadd(blogsKey, blog);
-      }
-  
-      // List the blogs
-      const listedBlogs = await serviceAccount.listBlogs(serviceAccountId);
-      expect(listedBlogs.sort()).toEqual(blogs.sort());
-    });
-  
     it("gracefully handles deletion of a non-existent service account", async function () {
       const nonExistentServiceAccountId = "non_existent_service_account";
   
