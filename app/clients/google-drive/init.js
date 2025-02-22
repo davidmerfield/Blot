@@ -6,7 +6,6 @@ const createDriveActivityClient = require("./serviceAccount/createDriveActivityC
 const fetchStorageInfo = require("./serviceAccount/fetchStorageInfo");
 const watchChanges = require("./serviceAccount/watchChanges");
 const pollDriveActivity = require("./serviceAccount/pollDriveActivity");
-const { init } = require(".");
 
 const main = async (initial = false) => {
   const serviceAccounts = config.google_drive.service_accounts;
