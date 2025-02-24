@@ -8,9 +8,10 @@ module.exports = async (serviceAccountId, driveactivity) => {
     throw new Error("Missing required arguments for pollDriveActivity");
   }
 
-  // This allows up to 20 calls per minute total for a given service account
+  // This allows up to 48 calls per minute total for a given service account
+  // which represents half of the actual quota limit for the Drive API.
   const limiter = new Bottleneck({
-    minTime: 3000,
+    minTime: 1250,
     maxConcurrent: 1,
   });
 

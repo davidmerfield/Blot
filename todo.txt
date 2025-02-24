@@ -6,6 +6,8 @@ Overdue subscription payment form not working
 - Possible bug introduced by recent stripe upgrade
 - Revisit stripe integration and try to update
 
+Fix file sorting on folder on dashboard (clicking 'Date modified' e.g. does nothing)
+
 Improvements to local folder experience
 - Interpolate fonts based on an ID (a la web template editor)
 - Interpolate syntax highlighting based on an ID
@@ -48,6 +50,7 @@ Change dashboard cookies: Set-Cookie: mycookie=value; Path=/; SameSite=Lax; Secu
 Write tests for animated gif thumbnail
 
 Improvements to Google Drive client
+- [ ] new folder setup (e.g. waiting for user to share folder on drive) needs to survive a server restart (See init.js TODO)
 - [ ] slowly resync all connected blogs on server restart
 - [ ] make it possible to short-circuit the full folder traversal and immediately begin at a specific file/subfolder
 - [ ] to improve sync speed, eventually set up temporary channels to watch google docs for changes – is this faster than polling driveactivity? or work out the fastest way to get fast updates for google docs. Is the move to listen on changes.watch and then setup an optional temporary files.watch channel to stream changes for the length of the channel (don't renew)?

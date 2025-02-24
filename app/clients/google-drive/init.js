@@ -34,6 +34,8 @@ const main = async (initial = false) => {
 
       // Todo: also sync all sites that are using this service account
       
+      // Todo: re-watch for new folders for sites in the middle of the setup process
+      
       console.log(prefix(), "Service account is running successfully");
     } catch (e) {
       console.error("Google Drive client: error with configuration of serviceAccount");
