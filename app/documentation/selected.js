@@ -11,6 +11,7 @@ var TITLES = {
   "google-drive": "Google Drive",
   "sub-folders": "Sub-folders",
   "google-docs": "Google Docs",
+  "cv": "CV",
   "examples": "Example sites",
   "markdown": "Markdown",
   "word-documents": "Word Documents",
