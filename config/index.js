@@ -103,13 +103,15 @@ module.exports = {
     client_id: process.env.BLOT_PAYPAL_CLIENT_ID,
     secret: process.env.BLOT_PAYPAL_SECRET,
 
-    plan: process.env.BLOT_PAYPAL_MONTHLY_5,
+    plan: process.env.BLOT_PAYPAL_MONTHLY_6,
 
     plans: {
       monthly_4: process.env.BLOT_PAYPAL_MONTHLY_4,
       yearly_44: process.env.BLOT_PAYPAL_YEARLY_44,
       monthly_5: process.env.BLOT_PAYPAL_MONTHLY_5,
-      yearly_55: process.env.BLOT_PAYPAL_YEARLY_55
+      yearly_55: process.env.BLOT_PAYPAL_YEARLY_55,
+      monthly_6: process.env.BLOT_PAYPAL_MONTHLY_6,
+      yearly_72: process.env.BLOT_PAYPAL_YEARLY_72
     },
 
     api_base: `https://api.${
