@@ -55,4 +55,20 @@ describe("template engine", function () {
 
     expect(await res.text()).not.toContain("<a href='/second'>");
   });
+
+  it("embeds the HTML for a given post as a partial template, including lowercase", async function () {
+    await this.write({path: "/hello.txt", content: "Foo"});
+
+    // We're interested in testing lowercase because the Dropbox client
+    // stores all files in lowercase.
+    await this.template({
+      "entries.html": "{{> /Hello.txt}} {{> /hello.txt}}"
+    });
+
+    const res = await this.get(`/`);
+
+    expect((await res.text()).trim().toLowerCase()).toEqual(
+      "<p>foo</p><p>foo</p>"
+    );
+  });
 });
