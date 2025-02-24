@@ -73,7 +73,7 @@ module.exports = {
     // annual plan, and vice versa, and that these IDs
     // correspond to plans on Stripe in both live and
     // test modes when you change Blot's price.
-    plan: "monthly_5",
+    plan: "monthly_6",
 
     plan_map: {
       yearly_30: "monthly_3",
@@ -86,7 +86,10 @@ module.exports = {
       monthly_4: "yearly_44",
 
       yearly_55: "monthly_5",
-      monthly_5: "yearly_55"
+      monthly_5: "yearly_55",
+
+      monthly_6: "yearly_72",
+      yearly_72: "monthly_6"
     }
   },
 
