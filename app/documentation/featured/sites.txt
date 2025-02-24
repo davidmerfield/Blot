@@ -69,7 +69,7 @@
 #8c8c8c www.adamsandell.com Adam Sandell, is a doctor
 #c40002 sidenote.ridwansanusi.com Ridwan Sanusi, is a designer
 #6e44b3 max.engineer Max Chernyak, is a software engineer
-#f1bd00 oliviaastawood.com Olivia Wood, is a musician
+#f1bd00 oliviaastawood.com Olivia Wood, is a writer
 #387db9 nowaykohei.com Kohei Foss, is a student 
 #21732d www.nitinpai.in Nitin Pai, is a think-tank director
 #81e4e5 dannymcclainstudio.com Danny McClain, is an artist

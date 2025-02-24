@@ -1,3 +1,31 @@
+Schedule concierge email for new accounts 1 day after signing up
+
+Add 'blue dot' notifications icon to updates and questions based on last post
+
+Improve importer
+
+As much static file delivery through CDN as possible
+
+Get folders out of build images
+
+Start my own interview of customers 'behind the folder'?
+- inspired by usesthis and p&b
+- which tools they use
+- how they organize their folder
+
+Add auto template translator
+
+Add interactive template renderer to developer docs
+
+Drag and drop file and folder upload to dashboard
+
+global site search of:
+- files on site
+- posts on site
+- documentation
+- questions
+- templates
+
 Investigate bug with link format using filename and [follow up with yct](https://mail.google.com/mail/u/0/#inbox/FMfcgzQZTMLqzhtlSBrtFqNDFDdXPSfk)
 
 Create more Google Drive service accounts under new gmail users before April 15th deadline (see clients/google-drive/readme)

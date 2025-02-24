@@ -38,7 +38,7 @@
 #d28f00 reillybrennan.com Reilly Brennan, is a venture capitalist
 #c40002 sidenote.ridwansanusi.com Ridwan Sanusi, is a designer
 #6e44b3 max.engineer Max Chernyak, is a software engineer
-#f1bd00 oliviaastawood.com Olivia Wood, is a musician
+#f1bd00 oliviaastawood.com Olivia Wood, is a writer
 #387db9 nowaykohei.com Kohei Foss, is a student 
 #21732d www.nitinpai.in Nitin Pai, is a think-tank director
 #000000 jeankapsa.com Jean Kapsa, is a pianist
