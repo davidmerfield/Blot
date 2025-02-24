@@ -858,7 +858,7 @@ ul.pill-navigation {
 }
 
 
- .top-tools  {max-width: none;flex-wrap: nowrap;overflow: hidden;margin: 0}
+ .top-tools  {max-width: none;flex-wrap: wrap;overflow: hidden;margin: 0;height:160px;padding-right: 150px;}
 
  .top-tools li a {
   background-color: #fbfaf9;

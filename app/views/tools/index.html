@@ -48,15 +48,21 @@
     {{{description}}}    
     </div>
   </div>
-  <ul class="tool-list top-tools">
+  <ul class="tool-list top-tools" style="position: relative;flex-grow: 1;">
     {{#top_tools}}
     <li><a href="/tools/{{slug}}">{{#icon}}<img src="/tools{{{icon}}}" width="16">{{/icon}}<span class="a"><b>{{title}} 
       <!-- {{#popular}}<span style="font-size:11px">popular</span>{{/popular}} -->
     </b><br>{{subtitle}} </span></a></li>
     {{/top_tools}}  
+    <li style="position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    bottom: 0;
+    background: #fff;
+    box-shadow: 0 0 40px #fff;"><a href="/tools/{{slug}}">View all </a></li>
+
   </ul>
-  
-  <p><a href="/tools/{{slug}}">View all {{tools.length}} {{title}}</a></p>
   
   
 </div>
