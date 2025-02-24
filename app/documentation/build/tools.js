@@ -112,13 +112,30 @@ const main = async () => {
       )
     ).sort((a, b) => b.updated - a.updated);
 
+    // this lets us use mustache to filter by tool
+     const is = {};
+     is[category] = true;
 
-    result.categories.push({ title, description, slug: category, tools });
+     // tools sorted by either popular then updated date
+     const top_tools = tools.slice().sort((a, b) => {
+        if (a.popular && b.popular) {
+          return b.updated - a.updated;
+        } else if (a.popular) {
+          return -1;
+        } else if (b.popular) {
+          return 1;
+        } else {
+          return b.updated - a.updated;
+        }
+    }).slice(0, 6);
+
+    result.categories.push({ title, description, slug: 'all-' + category, tools, is, top_tools });
     result.tools = result.tools.concat(tools);
   }
 
   // sort categories by the number of tools
   result.categories.sort((a, b) => b.tools.length - a.tools.length);
+
   result.tools.sort((a, b) => b.updated - a.updated);
 
   await renderTemplate("index.html", result);
@@ -145,7 +162,7 @@ const main = async () => {
         ...tool,
         category: result.categories.find(c => c.slug === tool.category),
         related: result.categories
-          .find(c => c.slug === tool.category)
+          .find(c => c.slug === 'all-' + tool.category)
           .tools.filter(t => t.slug !== tool.slug)
       },
       tool.slug + "/index.html"
