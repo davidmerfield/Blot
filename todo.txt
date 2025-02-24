@@ -352,6 +352,8 @@ Fix Git client bugs
 - Pipe custom message when you change a blog's handle (breaking repo url)
 - Tell [Koen](https://mail.google.com/mail/u/0/#inbox/1670f516115ef9bd) about the broken repo URL fix
 
+Add an option to use the date modified property of the file, rather than the date created property as the publish date. This would be especially useful for the Dropbox client, which nukes the original file creation date but preserves the client modified data. This should be opt in because it could lead to misleading behaviour where an old file is dragged into your folder and is published way deep in your archives. Tell [Dirt](https://mail.google.com/mail/u/0/#inbox/FMfcgzQZTMSlvtWcHcckPtWlJljHVPdH)
+
 Fix bug so that script fix is able to remove tag items without posts
 - how to reproduce this bug?
 - it seems there is a phanton entry which no longer exists on a tag index
