@@ -113,6 +113,7 @@ documentation.get(
   require("./templates.js"),
   (req, res, next) => {
     if (!res.locals.template) return next();
+    res.locals.layout = 'partials/layout-full-screen';
     res.render("templates/template");
   }
 );
