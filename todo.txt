@@ -1,8 +1,14 @@
-Schedule concierge email for new accounts 1 day after signing up
+iCloud client
 
-Add 'blue dot' notifications icon to updates and questions based on last post
+Improve tools section
+
+Add 'Event' folder
+
+---
 
 Improve importer
+
+Add 'blue dot' notifications icon to updates and questions based on last post
 
 As much static file delivery through CDN as possible
 
