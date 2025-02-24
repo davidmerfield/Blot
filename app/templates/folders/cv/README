@@ -16,12 +16,4 @@ https://unsplash.com/photos/blue-and-white-spiral-illustration-_KsnSQoKhUQ
 
 To do:
 
-Add polish external link animation:
-    https://jsfiddle.net/sbptr7y2/1/
-    https://cubic-bezier.com/#.21,-0.34,.9,1.24
-    
-Add horizontal scrolling for images in resume section:
-    https://codepen.io/toddwebdev/pen/yExKoj
-    https://stackoverflow.com/questions/68478272/horizontal-scroll-with-momentum-in-vanilla-js
-
 Make image zoom plugin work?

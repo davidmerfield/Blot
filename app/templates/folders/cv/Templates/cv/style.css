@@ -201,8 +201,39 @@ kbd {
 
 /* add an arrow to the right of the links */
 .arrow-after-link h3 + p a:after {
-  content: " ↗";
+  content: "→";
+  width: 1.25em;
+  height: 1.25em;
+  line-height: 1.25;
+  font-size:0.8em;
+  border-radius:100%;
+  overflow:hidden;
+  text-align: center;
+  background:#f0f0f0;
+  transform: rotate(-45deg);
+  display:inline-block;
+  text-indent: 0px;
+  margin-left:6px;
 }
+
+.arrow-after-link h3 + p:hover a:after {
+  animation: chevronLoop 0.4s linear;
+}
+
+@keyframes chevronLoop {
+      0% {
+        text-indent: 0;
+      }
+      50% {
+        text-indent: 15px;
+      }
+      51% {
+        text-indent: -15px;        
+      }
+      100% {
+        text-indent: 0;
+      }
+    }
   
 .fade-in {
   animation: fadeIn 0.5s; 
