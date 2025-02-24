@@ -1,0 +1,3 @@
+User sent welcome email
+
+{{email}} ({{blogs.length}} blog{{s}} – {{pretty.price}} total) was sent the welcome email.
