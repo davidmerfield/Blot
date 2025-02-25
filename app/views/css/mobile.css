@@ -18,8 +18,8 @@
       display: none;
       flex-direction: column;
       position: absolute;
-      z-index: 2;
-      top: 48px;
+      z-index: 20;
+      top: 42px;
       right: 0;
       width: 100%;
       padding: 1rem
