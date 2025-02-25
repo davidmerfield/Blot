@@ -9,7 +9,7 @@ const saddAsync = promisify(client.sadd).bind(client);
 const sremAsync = promisify(client.srem).bind(client);
 const smembersAsync = promisify(client.smembers).bind(client);
 
-const PREFIX = require("./prefix");
+const PREFIX = require("./key-prefix");
 
 // Service account operations
 const serviceAccount = {
