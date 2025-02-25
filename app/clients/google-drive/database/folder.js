@@ -6,7 +6,7 @@ const hgetAsync = promisify(client.hget).bind(client);
 const hscanAsync = promisify(client.hscan).bind(client);
 const zrevrangeAsync = promisify(client.zrevrange).bind(client);
 
-const PREFIX = require("./key-prefix");
+const PREFIX = require("./prefix");
 
 function folder(folderId) {
   // Redis keys
