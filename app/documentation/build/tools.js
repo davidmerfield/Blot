@@ -112,10 +112,6 @@ const main = async () => {
       )
     ).sort((a, b) => b.updated - a.updated);
 
-    // this lets us use mustache to filter by tool
-     const is = {};
-     is[category] = true;
-
      // tools sorted by either popular then updated date
      const top_tools = tools.slice().sort((a, b) => {
         if (a.popular && b.popular) {
@@ -129,7 +125,7 @@ const main = async () => {
         }
     }).slice(0, 6);
 
-    result.categories.push({ title, description, slug: 'all-' + category, tools, is, top_tools });
+    result.categories.push({ title, description, slug: 'all-' + category, tools, top_tools });
     result.tools = result.tools.concat(tools);
   }
 

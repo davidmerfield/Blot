@@ -11,40 +11,12 @@
 
 {{^category}}
 {{#categories}}
-<div style="display: flex;border-bottom: 1px solid var(--border-color);padding-bottom: 12px;margin-bottom: 12px;">
-  <div style="flex-basis: 240px;flex-shrink: 0;">
-    <h3 style="border-bottom: none;padding-bottom: none;margin-top:0;">
-      <a href="/tools/{{slug}}">
-      {{#is.text-editors}}
-      <span class="icon-file"></span> 
-      {{/is.text-editors}}
-      {{#is.photography}}
-      <span class="icon-book"></span> 
-      {{/is.photography}}
-      {{#is.audio}}
-      <span class="icon-audio"></span>
-      {{/is.audio}}
-      {{#is.images}}
-      <span class="icon-image"></span>
-      {{/is.images}}
-      {{#is.video}}
-      <span class="icon-play"></span>
-      {{/is.video}}
-      {{#is.comments}}
-      <span class="icon-questions"></span>
-      {{/is.comments}}
-      {{#is.automation}}
-      <span class="icon-developers"></span>
-      {{/is.automation}}
-      {{#is.analytics}}
-      <span class="icon-analytics"></span>
-      {{/is.analytics}}
-      {{#is.newsletters}}
-      <span class="icon-updates"></span>
-      {{/is.newsletters}}
-      {{title}}</a>
+<div class="top-tool-row collapse-on-small-screens">
+  <div class="tool-category">
+    <h3>
+      <a href="/tools/{{slug}}">{{title}}</a>
     </h3>
-    <div class="description" style="font-size: 14px;color:var(--medium-text-color);padding-right:24px">
+    <div class="category-description">
     {{{description}}}    
     </div>
   </div>
@@ -59,8 +31,10 @@
     right: 0;
     margin: 0;
     bottom: 0;
+    width: 60px;
+    min-width: 60px;
     background: #fff;
-    box-shadow: 0 0 40px #fff;"><a href="/tools/{{slug}}">View all </a></li>
+    box-shadow: 0 0 40px #fff;"><a style="background: none;padding:0;text-align: right;" href="/tools/{{slug}}">View all </a></li>
 
   </ul>
   
