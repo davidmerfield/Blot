@@ -1,1 +1,1 @@
-module.exports = "blot:google-drive:";
+module.exports = "blot:clients:google-drive:";
