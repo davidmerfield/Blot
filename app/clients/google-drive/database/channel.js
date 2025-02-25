@@ -10,7 +10,7 @@ const sremAsync = promisify(client.srem).bind(client);
 const smembersAsync = promisify(client.smembers).bind(client);
 const sscanAsync = promisify(client.sscan).bind(client);
 
-const PREFIX = require("./key-prefix");
+const PREFIX = require("./prefix");
 
 // Channel operations
 const channel = {

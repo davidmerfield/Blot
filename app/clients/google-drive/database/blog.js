@@ -10,7 +10,7 @@ const saddAsync = promisify(client.sadd).bind(client);
 const sremAsync = promisify(client.srem).bind(client);
 const smembersAsync = promisify(client.smembers).bind(client);
 
-const PREFIX = require("./key-prefix");
+const PREFIX = require("./prefix");
 
 const blog = {
   _key(blogID) {
