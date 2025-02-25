@@ -187,5 +187,9 @@ module.exports = {
     consumer_secret: process.env.BLOT_TWITTER_CONSUMER_SECRET,
     access_token: process.env.BLOT_TWITTER_ACCESS_TOKEN_KEY,
     access_token_secret: process.env.BLOT_TWITTER_ACCESS_TOKEN_SECRET
+  },
+
+  icloud: {
+    server_address: process.env.BLOT_ICLOUD_SERVER_ADDRESS
   }
 };
