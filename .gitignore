@@ -27,3 +27,4 @@ config/nginx/server.conf
 # Eventually ignore all node_modules directories
 package-lock.json
 node_modules/*
+app/clients/icloud/macserver/node_modules
