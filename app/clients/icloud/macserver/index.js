@@ -22,6 +22,14 @@ if (!Authorization) {
   throw new Error("BLOT_ICLOUD_SERVER_SECRET is not set");
 }
 
+// verify we can read, write and delete files 
+fs.access(iCloudDriveDirectory, fs.constants.R_OK | fs.constants.W_OK | fs.constants.X_OK)
+    .then(() => console.log(`Directory ${iCloudDriveDirectory} is accessible`))
+    .catch((err) => {
+        console.error(`Directory ${iCloudDriveDirectory} is not accessible:`, err);
+        process.exit(1);
+    });
+
 let watchedBlogs = new Set(); // Track blogIDs that are being watched
 
 /**
@@ -169,9 +177,6 @@ const setupBlog = async (blogID, sharingLink) => {
  */
 const initializeWatcher = () => {
   console.log(`Watching iCloud Drive directory: ${iCloudDriveDirectory}`);
-
-  const contents = fs.readdirSync(iCloudDriveDirectory, { withFileTypes: true });
-  console.log('current contents:', contents);
 
   chokidar
     .watch(iCloudDriveDirectory, { ignoreInitial: true })
