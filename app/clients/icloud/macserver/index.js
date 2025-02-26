@@ -38,7 +38,7 @@ fs.access(iCloudDriveDirectory, fs.constants.R_OK | fs.constants.W_OK | fs.const
  */
 const ping = async () => {
   try {
-    const res = await fetch(remoteServer + "/webhook/ping", {
+    const res = await fetch(remoteServer + "/ping", {
       headers: {
         Authorization, // Use the Authorization header
       },

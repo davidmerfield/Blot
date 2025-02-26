@@ -27,7 +27,7 @@ site.use(verifyAuthorization); // This will apply to all routes below
 site.use(express.raw({ type: "application/octet-stream", limit: "10mb" })); // For handling binary data
 
 // Ping endpoint
-site.route("/webhook/ping").post(async function (req, res) {
+site.get("/ping", async function (req, res) {
   res.send("pong");
 });
 
@@ -74,6 +74,7 @@ site.post("/upload", async function (req, res) {
     res.status(500).send("Internal Server Error");
   }
 });
+
 
 // Delete endpoint
 site.post("/delete", async function (req, res) {
