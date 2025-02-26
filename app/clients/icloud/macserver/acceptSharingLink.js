@@ -14,6 +14,7 @@ end tell
 // Function to run inline AppleScript
 function runInlineAppleScript(sharingLink) {
   return new Promise((resolve, reject) => {
+    console.log(`Running AppleScript to accept sharing link: ${sharingLink}`);
     exec(`osascript -e '${appleScript(sharingLink)}'`, (error, stdout, stderr) => {
       if (error) {
         console.error(`Error executing AppleScript: ${error.message}`);
@@ -35,7 +36,7 @@ if (require.main === module) {
     console.error("Please provide a sharing link as an argument");
     process.exit(1);
   }
-  
+
   runInlineAppleScript(process.argv[2])
     .then((output) => {
       console.log("AppleScript executed successfully:", output);

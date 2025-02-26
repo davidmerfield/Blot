@@ -6,6 +6,7 @@ const fetch = require("node-fetch");
 const fs = require("fs-extra");
 const path = require("path");
 const acceptSharingLink = require("./acceptSharingLink");
+const { set } = require("lodash");
 
 const remoteServer = process.env.REMOTE_SERVER;
 const iCloudDriveDirectory = process.env.ICLOUD_DRIVE_DIRECTORY;
@@ -137,7 +138,11 @@ const setupBlog = async (blogID, sharingLink) => {
     console.log(`Initial state of iCloud Drive: ${initialDirNames.join(", ") || "No directories"}`);
 
     // run the acceptSharingLink script in the background
-    acceptSharingLink(sharingLink);
+    console.log('waiting 15 seconds to run the acceptSharingLink script');
+    setTimeout(() => {
+        console.log('running the acceptSharingLink script');
+        acceptSharingLink(sharingLink);
+    }, 15 * 1000); // wait 15 seconds before running the script
 
     while (true) {
         // Get the current state of the top-level directories
