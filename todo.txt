@@ -4,13 +4,19 @@ Fix image profile retention not working in production and tell [Simon](https://m
 
 Improve tools section
 
+Improvements to questions section:
+- Add 'blue dot' notifications icon to updates and questions based on last post
+- Add colors to tags on questions section:
+  - https://gauthierroussilhe.com/articles
+  - https://designportland.org/
+- Add a filter for topic index to show questions by: 'Newest', 'Active', 'Unanswered', 'Votes'
+
 Add 'Event' folder
 
 ---
 
 Improve importer
 
-Add 'blue dot' notifications icon to updates and questions based on last post
 
 As much static file delivery through CDN as possible
 
@@ -1045,16 +1051,11 @@ Reduce image compression settings and tell [Joshua](https://mail.google.com/mail
 Improve questions section of site, in approximate order of importance:
   - Add way to mass-rename tags
   - Add display aliases for tags e.g. how -> How to use Blot, etc.
-  - Fix breadcrumbs within Questions section
-  - Fix pagination
-  - store version history of the question and answer edits
-  - add option to hide/delete a question
-  - question tagging, including a list of all tags, and popular tags
+  - Store version history of the question and answer edits
   - give the 'ask' and 'answer' textarea inputs the full functionality of the GitHub issue/PR comment inputs (i.e. code snippets / preview / copy/paste screenshots from clipboard)
   - email notifications (There's an existing system in place for sending emails in app/helper/email)  
   - upvoting for topics and upvote-based ranking on the topic index
   - show vote count and answer count next to each question on index
-  - add a filter for topic index to show questions by: 'Newest', 'Active', 'Unanswered', 'Votes'
   - 'run code snippet' feature / similar to trinkets.io
 
 ---
