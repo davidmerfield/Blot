@@ -31,6 +31,12 @@ site.get("/ping", async function (req, res) {
   res.send("pong");
 });
 
+site.get("/setup-complete", async function (req, res) {
+  const blogID = req.header("blogID");
+  await database.store(blogID, { setupComplete: true });
+  res.send("Setup complete");
+});
+
 // Upload endpoint (handles binary files)
 site.post("/upload", async function (req, res) {
   try {

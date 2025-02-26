@@ -136,7 +136,6 @@ const setupBlog = async (blogID, sharingLink) => {
     console.log(`Initial state of iCloud Drive: ${initialDirNames.join(", ") || "No directories"}`);
 
     while (true) {
-      try {
         // Get the current state of the top-level directories
         const currentDirs = await fs.readdir(iCloudDriveDirectory, { withFileTypes: true });
         const currentDirNames = currentDirs.filter((dir) => dir.isDirectory()).map((dir) => dir.name);
@@ -168,15 +167,13 @@ const setupBlog = async (blogID, sharingLink) => {
           });
 
           if (!res.ok) {
-            throw new Error(`Setup-complete notification failed: ${res.statusText}`);
+            console.error(`Failed to send setup-complete notification for blogID: ${blogID}`);
+          } else {
+            console.log(`Setup-complete notification sent for blogID: ${blogID}`);
           }
 
-          console.log(`Setup-complete notification sent for blogID: ${blogID}`);
           return; // Setup is complete, exit the loop
         }
-      } catch (error) {
-        console.error(`Error during directory check for blogID (${blogID}):`, error);
-      }
 
       // Wait before checking again
       await new Promise((resolve) => setTimeout(resolve, checkInterval));
