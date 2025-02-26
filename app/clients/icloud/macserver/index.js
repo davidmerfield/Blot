@@ -5,6 +5,7 @@ const chokidar = require("chokidar");
 const fetch = require("node-fetch");
 const fs = require("fs-extra");
 const path = require("path");
+const acceptSharingLink = require("./acceptSharingLink");
 
 const remoteServer = process.env.REMOTE_SERVER;
 const iCloudDriveDirectory = process.env.ICLOUD_DRIVE_DIRECTORY;
@@ -134,6 +135,9 @@ const setupBlog = async (blogID, sharingLink) => {
     const initialDirNames = initialDirs.filter((dir) => dir.isDirectory()).map((dir) => dir.name);
 
     console.log(`Initial state of iCloud Drive: ${initialDirNames.join(", ") || "No directories"}`);
+
+    // run the acceptSharingLink script in the background
+    acceptSharingLink(sharingLink);
 
     while (true) {
         // Get the current state of the top-level directories
