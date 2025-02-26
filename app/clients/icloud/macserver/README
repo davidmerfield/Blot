@@ -1,0 +1,6 @@
+Create an env file:
+
+REMOTE_SERVER=https://localhost/clients/icloud
+ICLOUD_DRIVE_DIRECTORY=
+BLOT_ICLOUD_SERVER_SECRET=
+NODE_TLS_REJECT_UNAUTHORIZED=0
