@@ -1,6 +1,5 @@
 const express = require("express");
 const fs = require("fs-extra"); // For filesystem operations
-const path = require("path");
 const config = require("config"); // For accessing configuration values
 
 // Helper functions
@@ -55,8 +54,8 @@ site.post("/upload", async function (req, res) {
       console.log(`Storing file at: ${pathOnDisk}`);
 
       // Ensure the directory exists and write the binary data to the file
-      await fs.ensureDir(path.dirname(pathOnDisk)); // Ensure directories exist
-      await fs.writeFile(pathOnDisk, req.body); // Write the binary data (req.body is raw binary)
+      // Write the binary data (req.body is raw binary)
+      await fs.outputFile(pathOnDisk, req.body); 
 
       // Call the folder's update method to register the file change
       await folder.update(filePath);
