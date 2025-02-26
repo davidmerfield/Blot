@@ -5,7 +5,7 @@ const config = require("config"); // For accessing configuration values
 // Helper functions
 const localPath = require("helper/localPath");
 const establishSyncLock = require("../util/establishSyncLock");
-
+const database = require("../database");
 const site = new express.Router();
 
 // Middleware to verify the Authorization header
@@ -52,8 +52,12 @@ site.get("/ping", async function (req, res) {
   res.send("pong");
 });
 
-site.get("/setup-complete", async function (req, res) {
+site.post("/setup-complete", async function (req, res) {
   const blogID = req.header("blogID");
+  // establish sync lock
+  const { folder, done } = await establishSyncLock(blogID);
+  folder.status("Setup complete");
+  await done();
   await database.store(blogID, { setupComplete: true });
   res.send("Setup complete");
 });

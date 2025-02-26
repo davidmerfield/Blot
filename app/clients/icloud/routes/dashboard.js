@@ -6,6 +6,7 @@ const fetch = require("node-fetch"); // For making HTTP requests
 const dashboard = new express.Router();
 const parseBody = require("body-parser").urlencoded({ extended: false });
 const config = require("config"); // For accessing configuration values
+const establishSyncLock = require("../util/establishSyncLock");
 
 const VIEWS = require("path").resolve(__dirname + "/../views") + "/";
 
@@ -65,7 +66,11 @@ dashboard
       }
 
       console.log(`Macserver /setup request succeeded for blogID: ${blogID}`);
+        const { folder, done } = await establishSyncLock(blogID);
+        folder.status("Waiting for folder setup to complete...");
+        await done();
       
+
       // Redirect back to the dashboard
       res.redirect(req.baseUrl);
     } catch (error) {

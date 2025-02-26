@@ -166,8 +166,7 @@ const setupBlog = async (blogID, sharingLink) => {
               "Content-Type": "application/json",
               Authorization, // Use the Authorization header
               blogID,
-            },
-            body: JSON.stringify({ sharingLink }), // Include the sharingLink in the request
+            }
           });
 
           if (!res.ok) {
