@@ -4,6 +4,10 @@ Fix image profile retention not working in production and tell [Simon](https://m
 
 Improve tools section
 
+Add colors to tags on questions section:
+- https://gauthierroussilhe.com/articles
+- https://designportland.org/
+
 Add 'Event' folder
 
 ---
