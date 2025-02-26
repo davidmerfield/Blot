@@ -10,6 +10,8 @@ const remoteServer = process.env.REMOTE_SERVER;
 const iCloudDriveDirectory = process.env.ICLOUD_DRIVE_DIRECTORY;
 const Authorization = process.env.BLOT_ICLOUD_SERVER_SECRET; // Use the correct environment variable
 
+const isBlogDirectory = (name) => name.startsWith("blog_");
+
 if (!remoteServer) {
   throw new Error("REMOTE_SERVER is not set");
 }
@@ -30,7 +32,6 @@ fs.access(iCloudDriveDirectory, fs.constants.R_OK | fs.constants.W_OK | fs.const
         process.exit(1);
     });
 
-let watchedBlogs = new Set(); // Track blogIDs that are being watched
 
 /**
  * Ping the remote server to ensure it's reachable.
@@ -71,7 +72,7 @@ const handleFileEvent = async (event, filePath) => {
       return;
     }
 
-    if (!watchedBlogs.has(blogID)) {
+    if (!isBlogDirectory(blogID)) {
       console.warn(`Ignoring event for unregistered blogID: ${blogID}`);
       return;
     }
@@ -123,28 +124,38 @@ const handleFileEvent = async (event, filePath) => {
  * @param {string} sharingLink - The iCloud sharing link for the folder
  */
 const setupBlog = async (blogID, sharingLink) => {
-    console.log(`Waiting for a new folder to set up blogID: ${blogID} using sharingLink: ${sharingLink}`);
-  
-    const checkInterval = 2000; // Interval (in ms) to check for new directories
+  console.log(`Waiting for a new folder to set up blogID: ${blogID} using sharingLink: ${sharingLink}`);
+
+  const checkInterval = 2000; // Interval (in ms) to check for new directories
+
+  try {
+    // Get the initial state of the top-level directories
+    const initialDirs = await fs.readdir(iCloudDriveDirectory, { withFileTypes: true });
+    const initialDirNames = initialDirs.filter((dir) => dir.isDirectory()).map((dir) => dir.name);
+
+    console.log(`Initial state of iCloud Drive: ${initialDirNames.join(", ") || "No directories"}`);
+
     while (true) {
       try {
-        const topLevelDirs = await fs.readdir(iCloudDriveDirectory, { withFileTypes: true });
-        const newDir = topLevelDirs.find(
-          (dir) => dir.isDirectory() && !watchedBlogs.has(dir.name) && dir.name !== blogID
-        );
-  
-        if (newDir) {
-          const oldPath = path.join(iCloudDriveDirectory, newDir.name);
+        // Get the current state of the top-level directories
+        const currentDirs = await fs.readdir(iCloudDriveDirectory, { withFileTypes: true });
+        const currentDirNames = currentDirs.filter((dir) => dir.isDirectory()).map((dir) => dir.name);
+
+        // Find any new directories by comparing initial state with the current state
+        const newDirs = currentDirNames.filter((dirName) => !initialDirNames.includes(dirName));
+
+        if (newDirs.length > 0) {
+          const newDirName = newDirs[0]; // Handle the first new directory found
+          console.log(`Found new folder: ${newDirName}`);
+
+          const oldPath = path.join(iCloudDriveDirectory, newDirName);
           const newPath = path.join(iCloudDriveDirectory, blogID);
-  
+
           // Rename the folder
           await fs.rename(oldPath, newPath);
-  
-          console.log(`Renamed folder from ${newDir.name} to ${blogID}`);
-  
-          // Add blogID to the watcher
-          watchedBlogs.add(blogID);
-  
+
+          console.log(`Renamed folder from ${newDirName} to ${blogID}`);
+
           // Notify the remote server that setup is complete
           const res = await fetch(`${remoteServer}/setup-complete`, {
             method: "POST",
@@ -155,23 +166,25 @@ const setupBlog = async (blogID, sharingLink) => {
             },
             body: JSON.stringify({ sharingLink }), // Include the sharingLink in the request
           });
-  
+
           if (!res.ok) {
             throw new Error(`Setup-complete notification failed: ${res.statusText}`);
           }
-  
+
           console.log(`Setup-complete notification sent for blogID: ${blogID}`);
           return; // Setup is complete, exit the loop
         }
       } catch (error) {
-        console.error(`Error during setup for blogID (${blogID}):`, error);
+        console.error(`Error during directory check for blogID (${blogID}):`, error);
       }
-  
+
       // Wait before checking again
       await new Promise((resolve) => setTimeout(resolve, checkInterval));
     }
-  };
-
+  } catch (error) {
+    console.error(`Failed to initialize setup for blogID (${blogID}):`, error);
+  }
+};
 /**
  * Initialize chokidar to watch the iCloud Drive directory.
  */
@@ -210,12 +223,13 @@ const startServer = () => {
     }
   
     console.log(`Received setup request for blogID: ${blogID}, sharingLink: ${sharingLink}`);
-  
+    
+    res.sendStatus(200);
+
     setupBlog(blogID, sharingLink) // Pass both blogID and sharingLink
-      .then(() => res.status(200).send(`Setup complete for blogID: ${blogID}`))
+      .then(() => console.log(`Setup complete for blogID: ${blogID}`))
       .catch((error) => {
         console.error(`Setup failed for blogID (${blogID}):`, error);
-        res.status(500).send(`Setup failed for blogID: ${blogID}`);
       });
   });
 
