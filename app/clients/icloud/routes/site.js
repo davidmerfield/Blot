@@ -21,6 +21,27 @@ function verifyAuthorization(req, res, next) {
   next(); // Proceed to the next middleware or route handler
 }
 
+async function checkBlogUsesICloud(req, res, next) {
+  const blogID = req.header("blogID");
+
+  if (!blogID) {
+    return res.status(400).send("Missing blogID header");
+  }
+
+  // Check with the database that the blog is connected to the iCloud Drive
+  const blog = await database.get(blogID);
+
+  if (!blog || !blog.sharingLink) {
+    return res.status(400).send("Blog is not connected to iCloud Drive");
+  }
+
+  if (!blog.setupComplete) {
+    return res.status(400).send("Blog setup is not complete");
+  }
+
+  next();
+}
+
 // Apply the middleware to all routes
 site.use(verifyAuthorization); // This will apply to all routes below
 
@@ -38,7 +59,7 @@ site.get("/setup-complete", async function (req, res) {
 });
 
 // Upload endpoint (handles binary files)
-site.post("/upload", async function (req, res) {
+site.post("/upload", checkBlogUsesICloud, async function (req, res) {
   try {
     const blogID = req.header("blogID");
     const filePath = req.header("path");
@@ -48,7 +69,9 @@ site.post("/upload", async function (req, res) {
       return res.status(400).send("Missing required headers: blogID or path");
     }
 
-    console.log(`Uploading binary file for blogID: ${blogID}, path: ${filePath}`);
+    console.log(
+      `Uploading binary file for blogID: ${blogID}, path: ${filePath}`
+    );
 
     // Establish sync lock to allow safe file operations
     const { done, folder } = await establishSyncLock(blogID);
@@ -61,7 +84,7 @@ site.post("/upload", async function (req, res) {
 
       // Ensure the directory exists and write the binary data to the file
       // Write the binary data (req.body is raw binary)
-      await fs.outputFile(pathOnDisk, req.body); 
+      await fs.outputFile(pathOnDisk, req.body);
 
       // Call the folder's update method to register the file change
       await folder.update(filePath);
@@ -81,9 +104,8 @@ site.post("/upload", async function (req, res) {
   }
 });
 
-
 // Delete endpoint
-site.post("/delete", async function (req, res) {
+site.post("/delete", checkBlogUsesICloud, async function (req, res) {
   try {
     const blogID = req.header("blogID");
     const filePath = req.header("path");
