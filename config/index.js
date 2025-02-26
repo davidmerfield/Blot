@@ -190,6 +190,7 @@ module.exports = {
   },
 
   icloud: {
+    secret: process.env.BLOT_ICLOUD_SERVER_SECRET,
     server_address: process.env.BLOT_ICLOUD_SERVER_ADDRESS
   }
 };
