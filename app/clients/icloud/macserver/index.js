@@ -1,7 +1,9 @@
+require("dotenv").config();
+
 const express = require("express");
 const chokidar = require("chokidar");
 const fetch = require("node-fetch");
-const fs = require("fs/promises");
+const fs = require("fs-extra");
 const path = require("path");
 
 const remoteServer = process.env.REMOTE_SERVER;
@@ -167,6 +169,9 @@ const setupBlog = async (blogID, sharingLink) => {
  */
 const initializeWatcher = () => {
   console.log(`Watching iCloud Drive directory: ${iCloudDriveDirectory}`);
+
+  const contents = fs.readdirSync(iCloudDriveDirectory, { withFileTypes: true });
+  console.log('current contents:', contents);
 
   chokidar
     .watch(iCloudDriveDirectory, { ignoreInitial: true })

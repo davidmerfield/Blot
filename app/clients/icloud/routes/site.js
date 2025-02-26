@@ -5,7 +5,7 @@ const config = require("config"); // For accessing configuration values
 
 // Helper functions
 const localPath = require("helper/localPath");
-const establishSyncLock = require("util/establishSyncLock");
+const establishSyncLock = require("../util/establishSyncLock");
 
 const site = new express.Router();
 
