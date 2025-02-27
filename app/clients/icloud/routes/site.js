@@ -84,7 +84,7 @@ site.post("/upload", checkBlogUsesICloud, async function (req, res) {
       // Compute the local file path on disk
       const pathOnDisk = localPath(blogID, filePath);
 
-      console.log(`Storing file at: ${pathOnDisk}`);
+      folder.status("Saving " + filePath);
 
       // Ensure the directory exists and write the binary data to the file
       // Write the binary data (req.body is raw binary)
@@ -94,7 +94,7 @@ site.post("/upload", checkBlogUsesICloud, async function (req, res) {
       await folder.update(filePath);
 
       // Set the folder status to reflect the upload action
-      folder.status("Uploaded " + filePath);
+      folder.status("Updated " + filePath);
 
       console.log(`File successfully written to: ${pathOnDisk}`);
       res.status(200).send(`File successfully uploaded for blogID: ${blogID}`);
