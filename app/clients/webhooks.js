@@ -8,7 +8,6 @@ const fetch = require("node-fetch");
 const clfdate = require("helper/clfdate");
 const querystring = require("querystring");
 const bodyParser = require("body-parser");
-const { updated } = require("../models/entry/model");
 
 // This app is run on Blot's server in production
 // and relays webhooks to any connected local clients
@@ -102,7 +101,7 @@ server.use(
       url: req.url,
       headers,
       method: req.method,
-      body: req.body ? req.body.toString() : ""
+      body: req.body ? req.body.toString("base64") : ""
     };
 
     const messageString = JSON.stringify(message);
@@ -154,17 +153,13 @@ function listen ({ host }) {
       options.headers["x-forwarded-host"] = config.host;
       options.headers.host = config.host;
 
-      if (method !== "HEAD" && method !== "GET") options.body = body;
+      if (method !== "HEAD" && method !== "GET" && body) options.body = Buffer.from(body, "base64");
 
       let localURL = "http://" + config.host + ':' + config.port + path;
 
-      if (path.includes('/clients/google-drive/api-test')) {
-        localURL = "http://localhost:8865" + path;
-      }
       console.log(clfdate(), "Webhooks forwarding to", localURL);
 
       await fetch(localURL, options);
-      // const body = await response.text();
     } catch (e) {
       console.log(clfdate(), "Webhooks error forwarding request", e);
     }
