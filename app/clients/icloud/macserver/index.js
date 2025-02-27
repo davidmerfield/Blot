@@ -137,11 +137,8 @@ const setupBlog = async (blogID, sharingLink) => {
     console.log(`Initial state of iCloud Drive: ${initialDirNames.join(", ") || "No directories"}`);
 
     // run the acceptSharingLink script in the background
-    console.log('waiting 15 seconds to run the acceptSharingLink script');
-    setTimeout(() => {
-        console.log('running the acceptSharingLink script');
-        acceptSharingLink(sharingLink);
-    }, 15 * 1000); // wait 15 seconds before running the script
+    console.log('running the acceptSharingLink script');
+    acceptSharingLink(sharingLink);
 
     while (true) {
         // Get the current state of the top-level directories
@@ -223,7 +220,7 @@ const startServer = () => {
     
     next();
   });
-  
+
   app.post("/setup", async (req, res) => {
     const blogID = req.header("blogID");
     
