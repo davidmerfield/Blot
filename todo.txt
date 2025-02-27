@@ -4,6 +4,9 @@ Fix image profile retention not working in production and tell [Simon](https://m
 
 Improve tools section
 
+Improve design of default error page
+- https://kristianhjelle.com/
+
 Improvements to questions section:
 - Add 'blue dot' notifications icon to updates and questions based on last post
 - Add colors to tags on questions section:
