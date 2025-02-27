@@ -6,7 +6,6 @@ const fetch = require("node-fetch");
 const fs = require("fs-extra");
 const path = require("path");
 const acceptSharingLink = require("./acceptSharingLink");
-const { set } = require("lodash");
 
 const remoteServer = process.env.REMOTE_SERVER;
 const iCloudDriveDirectory = process.env.ICLOUD_DRIVE_DIRECTORY;
@@ -215,8 +214,19 @@ const startServer = () => {
     res.send("pong");
   });
 
+  app.use((req, res, next)=>{
+    const authorization = req.header("Authorization"); // New header for the Authorization secret
+
+    if (authorization !== Authorization) {
+      return res.status(403).send("Unauthorized");
+    }
+    
+    next();
+  });
+  
   app.post("/setup", async (req, res) => {
     const blogID = req.header("blogID");
+    
     const sharingLink = req.header("sharingLink"); // New header for the sharing link
   
     if (!blogID) {
