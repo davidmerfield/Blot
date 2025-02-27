@@ -1,0 +1,76 @@
+{{> head}}
+<link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
+<style>
+    .main-carousel {
+        height: 100vh;
+        width: 100%;
+    }
+
+    .carousel-cell {
+        width: 100%;
+        height: calc(100vh - 40px);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .carousel-cell img {
+       max-width: 100%;
+        height: auto;
+    }
+</style>    
+<div style="display: flex;">
+
+<div style="position: sticky;
+top: 0;
+width: 50%;
+background-color: #000;
+height: 100vh;">
+
+<div class="main-carousel fade-in" >
+    <div class="carousel-cell" >
+        <img src="/_background.jpg" width="500" >
+    </div>
+    <div class="carousel-cell" >
+            <img src="/_1.png" width="500" >
+    </div>
+    <div class="carousel-cell" >
+            <img src="/_2.jpg" width="500">
+    </div>
+    <div class="carousel-cell" >
+        <img src="/_3.jpg" width="500">
+    </div>
+    <div class="carousel-cell" >
+        <img src="/_4.jpg" width="500">
+    </div>
+</div>  
+</div>
+<div style="width:50%" class="main">
+    <div class="header subpage">
+        <a href="/">
+        {{> /Profile.txt}}
+        </a>
+    </div>
+    
+    <div class="fade-in entry">
+    
+    {{{entry.html}}}
+    </div>
+    
+    {{> footer}}    
+</div>
+</div>
+<script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
+<script>
+    var elem = document.querySelector('.main-carousel');
+var flkty = new Flickity( elem, {
+  // options
+  cellAlign: 'left',
+  contain: true
+});
+
+// element argument can be a selector string
+//   for an individual element
+var flkty = new Flickity( '.main-carousel', {
+  // options
+});</script>
