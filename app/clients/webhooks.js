@@ -79,7 +79,7 @@ server.get("/clients/dropbox/webhook", (req, res, next) => {
 server.use(
   bodyParser.raw({
     inflate: true,
-    limit: "100kb",
+    limit: "20mb",
     type: "application/*"
   }),
   (req, res) => {
