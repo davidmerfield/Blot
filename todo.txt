@@ -95,6 +95,7 @@ Change dashboard cookies: Set-Cookie: mycookie=value; Path=/; SameSite=Lax; Secu
 Write tests for animated gif thumbnail
 
 Improvements to Google Drive client
+- [ ] Fix bug with Mark's site which unneccessarily re-downloads some (all?) files on sync rather than using the correct hash and tell [Mark](https://mail.google.com/mail/u/0/#inbox/FMfcgzQZTVmrvkvcfPvcJhcLvrwSndWS)
 - [ ] new folder setup (e.g. waiting for user to share folder on drive) needs to survive a server restart (See init.js TODO)
 - [ ] slowly resync all connected blogs on server restart
 - [ ] make it possible to short-circuit the full folder traversal and immediately begin at a specific file/subfolder
