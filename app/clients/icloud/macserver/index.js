@@ -58,6 +58,27 @@ const ping = async () => {
 
 
 
+const Bottleneck = require("bottleneck");
+
+// Create a map of limiters, one per blogID
+const limiters = new Map();
+
+/**
+ * Get or create a Bottleneck limiter for a specific blogID.
+ * Each blogID gets its own limiter to ensure events are processed sequentially.
+ * @param {string} blogID - The blog ID for which to get the limiter.
+ * @returns {Bottleneck} The Bottleneck limiter for the blogID.
+ */
+const getLimiterForBlogID = (blogID) => {
+  if (!limiters.has(blogID)) {
+    // Create a new limiter for this blogID with concurrency of 1
+    const limiter = new Bottleneck({
+      maxConcurrent: 1, // Only one task per blogID can run at a time
+    });
+    limiters.set(blogID, limiter);
+  }
+  return limiters.get(blogID);
+};
 
 /**
  * Handle file events from chokidar and interact with remote server.
@@ -82,58 +103,63 @@ const handleFileEvent = async (event, filePath) => {
 
     console.log(`Event: ${event}, blogID: ${blogID}, path: ${path}`);
 
-    if (event === "add" || event === "change") {
+    // Get the limiter for this specific blogID
+    const limiter = getLimiterForBlogID(blogID);
 
-      let body;
-      for (let i = 0; i < 5; i++) {
-        try {
-          console.log(`Reading file: ${filePath}`);
-          body = await fs.readFile(filePath);
-          break;
-        } catch (error) {
-          console.error(`Failed to read file (${filePath}):`);
-          await new Promise((resolve) => setTimeout(resolve, 500 * i)); // Exponential backoff
+    // Schedule the event handler to run within the limiter
+    await limiter.schedule(async () => {
+      if (event === "add" || event === "change") {
+        let body;
+        for (let i = 0; i < 5; i++) {
+          try {
+            console.log(`Reading file: ${filePath}`);
+            body = await fs.readFile(filePath);
+            break;
+          } catch (error) {
+            console.error(`Failed to read file (${filePath}):`);
+            await new Promise((resolve) => setTimeout(resolve, 500 * i)); // Exponential backoff
+          }
         }
+
+        if (!body) {
+          console.error(`Failed to read file (${filePath}) after 5 attempts`);
+          return;
+        }
+
+        const res = await fetch(`${remoteServer}/upload`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/octet-stream",
+            Authorization, // Use the Authorization header
+            blogID,
+            path,
+          },
+          body,
+        });
+
+        if (!res.ok) {
+          throw new Error(`Upload failed: ${res.statusText}`);
+        }
+
+        console.log(`Upload successful: ${await res.text()}`);
+      } else if (event === "unlink") {
+        const res = await fetch(`${remoteServer}/delete`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization, // Use the Authorization header
+            blogID,
+            path,
+          },
+        });
+
+        if (!res.ok) {
+          throw new Error(`Delete failed: ${res.statusText}`);
+        }
+
+        console.log(`Delete successful: ${await res.text()}`);
       }
-
-      if (!body) {
-        console.error(`Failed to read file (${filePath}) after 5 attempts`);
-        return;
-      }
-
-      const res = await fetch(`${remoteServer}/upload`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/octet-stream",
-          Authorization, // Use the Authorization header
-          blogID,
-          path,
-        },
-        body,
-      });
-
-      if (!res.ok) {
-        throw new Error(`Upload failed: ${res.statusText}`);
-      }
-
-      console.log(`Upload successful: ${await res.text()}`);
-    } else if (event === "unlink") {
-      const res = await fetch(`${remoteServer}/delete`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization, // Use the Authorization header
-          blogID,
-          path,
-        },
-      });
-
-      if (!res.ok) {
-        throw new Error(`Delete failed: ${res.statusText}`);
-      }
-
-      console.log(`Delete successful: ${await res.text()}`);
-    }
+    });
   } catch (error) {
     console.error(`Error handling file event (${event}, ${filePath}):`, error);
   }
