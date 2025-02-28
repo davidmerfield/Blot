@@ -1,5 +1,6 @@
 {{> head}}
-<link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
+<link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.css">
+<link rel="stylesheet" href="https://unpkg.com/flickity-fade@1/flickity-fade.css">
 <style>
     .main-carousel {
         height: 100vh;
@@ -19,40 +20,89 @@
         height: auto;
     }
 
-    .flickity-button {
-  position: absolute;
+    .flickity-page-dots {
+      top: auto;
+      bottom: auto;
+      font-size: 0.6em;
+    }
+
+.flickity-page-dots .dot {
+  background: transparent;
+  margin:0;
+  width: 1em;
+    height: 1em;
+    padding: 0.5em;
+}
+
+.flickity-page-dots .dot:after {
+    content: '';
+    display: block;
+    width: 1em;
+    height: 1em;
+    border-radius: 50%;
+    background: var(--text-color);
+    transition: transform 0.2s;
+}
+
+
+.flickity-page-dots .dot:hover:after {
+    transform: scale(1.2);
+}
+
+.flickity-prev-next-button.previous,
+.flickity-prev-next-button.next {
+  top: 0;
+  width: auto;
+  height: auto;
+  bottom: 0;
   background: transparent;
   border: none;
-  color: #ccc;
+  border-radius: 0;
+  transform: none;
 }
-.flickity-button:hover {
-  color: #fff;
-  background: transparent;
+
+.flickity-prev-next-button.previous svg,
+.flickity-prev-next-button.next svg {
+    display: none;
 }
+
+.flickity-prev-next-button.previous {
+    cursor: w-resize;
+    left: 0;
+  right: 50%;
+}
+
+.flickity-prev-next-button.next {
+    cursor: e-resize;
+    right: 0;
+  left: 50%;
+}
+
+
 </style>    
 <div style="display: flex;">
 
 <div style="position: sticky;
 top: 0;
 width: 50%;
-background-color: #000;
-height: 100vh;">
+box-sizing: border-box;
+height: 100vh;border-right: 1px solid #ccc;">
 
 <div class="main-carousel fade-in" >
     <div class="carousel-cell" >
-        <img src="/_background.jpg" width="500" >
+        <img src="/_0.png" width="500" >
     </div>
     <div class="carousel-cell" >
             <img src="/_1.png" width="500" >
     </div>
     <div class="carousel-cell" >
-            <img src="/_2.jpg" width="500">
+            <img src="/_2.png" width="500">
     </div>
     <div class="carousel-cell" >
-        <img src="/_3.jpg" width="500">
+        <img src="/_3.png" width="500">
     </div>
     <div class="carousel-cell" >
-        <img src="/_4.jpg" width="500">
+        <img src="/_4.png" width="500">
     </div>
 </div>  
 </div>
@@ -71,17 +121,12 @@ height: 100vh;">
     {{> footer}}    
 </div>
 </div>
-<script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
+<script src="https://unpkg.com/flickity@2.2/dist/flickity.pkgd.js"></script>
+<script src="https://unpkg.com/flickity-fade@1/flickity-fade.js"></script>
 <script>
-    var elem = document.querySelector('.main-carousel');
-var flkty = new Flickity( elem, {
-  // options
-  cellAlign: 'left',
-  contain: true
-});
 
-// element argument can be a selector string
-//   for an individual element
 var flkty = new Flickity( '.main-carousel', {
-  // options
-});</script>
+  fade: true,
+  wrapAround: true,
+});
+</script>

@@ -69,6 +69,7 @@ h1 {
   margin: 0;
   font-size: 3em;
   line-height: 1.2;
+  font-weight: 400;
 }
 
 h1 + h2 {
@@ -79,7 +80,7 @@ h1 + h2 {
 
 h2 {
   font-size: 100%;
-  font-weight: 600;
+  font-weight: 400;
   margin: 4em 0 0 0;
 }
 
