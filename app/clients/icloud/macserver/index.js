@@ -122,6 +122,7 @@ const handleFileEvent = async (event, filePath) => {
           blogID,
           path,
         },
+        duplex: "half", // Required when using streams with fetch
         body: stream, // Send the stream directly in the request body
       });
 
