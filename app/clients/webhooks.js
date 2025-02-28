@@ -82,9 +82,12 @@ server.use(
 
     const body = req.body ? req.body.toString("base64") : null;
 
+    const requestId = Date.now() + Math.random();
+
     const message = {
       url: req.url,
       headers,
+      requestId,
       method: req.method,
       bodySize: body ? body.length : 0, // Include the size of the body
     };
@@ -114,6 +117,7 @@ server.use(
         const chunk = body.substring(i * chunkSize, (i + 1) * chunkSize);
         const chunkMessage = JSON.stringify({
           chunk,
+          requestId,
           chunkIndex: i,
           totalChunks,
         });
@@ -132,6 +136,7 @@ server.use(
     }
   }
 );
+const pendingRequests = new Map();
 
 function listen({ host }) {
   const url = "https://" + host + "/connect";
@@ -162,23 +167,65 @@ function listen({ host }) {
 
     if (parsed.chunk !== undefined) {
       // Handle chunked data on the client
-      if (!this.bodyChunks) this.bodyChunks = [];
-      this.bodyChunks[parsed.chunkIndex] = parsed.chunk;
+      const requestId = parsed.requestId; // Ensure each request has a unique ID
+      let requestState = pendingRequests.get(requestId);
 
-      if (this.bodyChunks.length === parsed.totalChunks) {
-        const completeBody = this.bodyChunks.join("");
-        delete this.bodyChunks;
+      if (!requestState) {
+        console.error(clfdate(), `No metadata found for requestId: ${requestId}`);
+        return;
+      }
 
-        console.log(clfdate(), "Webhooks received complete body");
+      // Ensure bodyChunks array exists
+      if (!requestState.bodyChunks) {
+        requestState.bodyChunks = [];
+      }
 
-        forwardToLocal(JSON.parse(completeBody), parsed.headers);
+      // Store the chunk in the correct index
+      requestState.bodyChunks[parsed.chunkIndex] = parsed.chunk;
+
+      console.log(
+        clfdate(),
+        `Webhooks received chunk ${parsed.chunkIndex + 1}/${parsed.totalChunks} for requestId: ${requestId}`
+      );
+
+      // Check if all chunks have been received
+      if (requestState.bodyChunks.filter(Boolean).length === parsed.totalChunks) {
+        const completeBody = requestState.bodyChunks.join("");
+
+        console.log(clfdate(), `Webhooks received complete body for requestId: ${requestId}`);
+
+        // Remove the request from the map after completion
+        pendingRequests.delete(requestId);
+
+        // Forward the complete request to the local server
+        forwardToLocal(
+          {
+            ...requestState.metadata,
+            body: completeBody,
+          },
+          parsed.headers
+        );
       }
     } else {
       // Handle metadata
-      this.metadata = parsed;
-      console.log(clfdate(), "Webhooks received metadata", this.metadata);
+      const requestId = parsed.requestId; // Ensure this is part of the metadata
+      if (!requestId) {
+        console.error(clfdate(), "Received metadata without a requestId:", parsed);
+        return;
+      }
+
+      console.log(clfdate(), `Webhooks received metadata for requestId: ${requestId}`);
+
+      if (parsed.bodySize === 0) {
+        // If there's no body, forward immediately
+        forwardToLocal(parsed, parsed.headers);
+      } else {
+        // Store metadata in the pendingRequests map
+        pendingRequests.set(requestId, { metadata: parsed });
+      }
     }
   };
+
 
   async function forwardToLocal(metadata, headers) {
     const path = require("url").parse(metadata.url).path;
