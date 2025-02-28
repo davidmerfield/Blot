@@ -58,31 +58,29 @@ const ping = async () => {
 
 
 /**
- * Wrapper function to create a readable stream with retries in case of transient errors.
- * @param {string} filePath - The path of the file to read.
+ * Wait for a file to become ready (fully downloaded and available for reading).
+ * @param {string} filePath - The path of the file to check.
  * @param {number} retries - Number of retry attempts (default: 5).
  * @param {number} delay - Delay between retries in milliseconds (default: 1000).
  * @returns {Promise<ReadableStream>} A readable stream for the file.
  */
-const createReadStreamWithRetries = async (filePath, retries = 5, delay = 1000) => {
+const waitForFileReady = async (filePath, retries = 5, delay = 1000) => {
   for (let attempt = 1; attempt <= retries; attempt++) {
     try {
-      // Check file existence with fs-extra's `pathExists`
-      const exists = await fs.pathExists(filePath);
-      if (!exists) {
-        throw new Error(`File does not exist: ${filePath}`);
-      }
+      // Check if the file is accessible and fully readable
+      const fileHandle = await fs.open(filePath, "r");
+      await fileHandle.close();
 
-      // Create and return a readable stream
+      // Create and return a readable stream once the file is ready
       return fs.createReadStream(filePath);
     } catch (err) {
-      if (attempt < retries && (err.code === "EIO" || err.message.includes("File does not exist"))) {
+      if (attempt < retries && (err.code === "EIO" || err.code === "UNKNOWN")) {
         console.warn(
-          `File stream error (attempt ${attempt}/${retries}): ${err.message}. Retrying in ${delay}ms...`
+          `File not ready (attempt ${attempt}/${retries}): ${err.message}. Retrying in ${delay}ms...`
         );
         await new Promise((resolve) => setTimeout(resolve, delay));
       } else {
-        // If retries are exhausted or the error is not transient, rethrow
+        // If retries are exhausted or error is not transient, rethrow
         throw err;
       }
     }
@@ -113,8 +111,8 @@ const handleFileEvent = async (event, filePath) => {
     console.log(`Event: ${event}, blogID: ${blogID}, path: ${path}`);
 
     if (event === "add" || event === "change") {
-      // Use createReadStreamWithRetries to handle transient errors
-      const stream = await createReadStreamWithRetries(filePath);
+      // Wait for the file to be fully available
+      const stream = await waitForFileReady(filePath);
 
       const res = await fetch(`${remoteServer}/upload`, {
         method: "POST",
@@ -153,6 +151,7 @@ const handleFileEvent = async (event, filePath) => {
     console.error(`Error handling file event (${event}, ${filePath}):`, error);
   }
 };
+
 
 /**
  * Wait for a new top-level directory to appear, rename it, and notify the remote server.
