@@ -117,7 +117,7 @@ const handleFileEvent = async (event, filePath) => {
           try {
             // brctl download /path/to/file.txt
             console.log(`Downloading file: ${filePath}`);
-            const { stdout, stderr } = await exec(`brctl download ${relativePath}`, { cwd: iCloudDriveDirectory });
+            const { stdout, stderr } = await exec(`brctl download "${relativePath}"`, { cwd: iCloudDriveDirectory });
             console.log('stdout:', stdout);
             console.log('stderr:', stderr);
 
