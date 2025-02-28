@@ -4,3 +4,50 @@ REMOTE_SERVER=https://localhost/clients/icloud
 ICLOUD_DRIVE_DIRECTORY=
 BLOT_ICLOUD_SERVER_SECRET=
 NODE_TLS_REJECT_UNAUTHORIZED=0
+
+Setup:
+
+install node
+
+install pm2:
+
+npm install -g pm2
+
+Step 2: Start Your Application
+
+Run your index.js application with pm2:
+bash
+
+pm2 start index.js --name macserver
+
+To ensure your app restarts automatically when the server reboots, run the following commands:
+
+pm2 startup
+
+To deploy new code:
+
+Pull the Changes:
+Run the git pull command to fetch the latest changes from your repository:
+bash
+
+git pull
+
+Restart the Application in pm2:
+After pulling the changes, restart your application using pm2:
+bash
+
+pm2 restart myapp
+
+Step 5: Monitor Logs
+
+To observe the logs (stdout and stderr) for your app:
+bash
+
+pm2 logs myapp
+
+You can also use:
+bash
+
+pm2 monit
+
+This gives you an interactive dashboard showing CPU, memory usage, and logs for each process.
