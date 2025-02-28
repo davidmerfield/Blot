@@ -112,14 +112,14 @@ const handleFileEvent = async (event, filePath) => {
     await limiter.schedule(async () => {
       if (event === "add" || event === "change") {
         let body;
-        for (let i = 0; i < 5; i++) {
+        for (let i = 0; i < 10; i++) {
           try {
             console.log(`Reading file: ${filePath}`);
             body = await fs.readFile(filePath);
             break;
           } catch (error) {
             console.error(`Failed to read file (${filePath}):`);
-            await new Promise((resolve) => setTimeout(resolve, 500 * i)); // Exponential backoff
+            await new Promise((resolve) => setTimeout(resolve, 1000 * i)); // Exponential backoff
           }
         }
 
