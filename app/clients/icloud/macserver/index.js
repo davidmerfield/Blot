@@ -1,6 +1,7 @@
 require("dotenv").config();
 
 const express = require("express");
+const exec = require("util").promisify(require("child_process").exec);
 const chokidar = require("chokidar");
 const fs = require("fs-extra");
 const path = require("path");
@@ -114,6 +115,12 @@ const handleFileEvent = async (event, filePath) => {
         let body;
         for (let i = 0; i < 10; i++) {
           try {
+            // brctl download /path/to/file.txt
+            console.log(`Downloading file: ${filePath}`);
+            const { stdout, stderr } = await exec(`brctl download ${filePath}`);
+            console.log('stdout:', stdout);
+            console.log('stderr:', stderr);
+
             console.log(`Reading file: ${filePath}`);
             body = await fs.readFile(filePath);
             break;
