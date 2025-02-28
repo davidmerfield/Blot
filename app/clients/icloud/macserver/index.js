@@ -69,8 +69,10 @@ const waitForFileReady = async (filePath, retries = 5, delay = 1000) => {
   for (let attempt = 1; attempt <= retries; attempt++) {
     try {
       // Check if the file is accessible and ready for reading
+      console.log(`Checking file access: ${filePath}`);
       await fs.access(filePath, fs.constants.R_OK); // Ensure the file is readable
 
+      console.log(`File is accessible: ${filePath}`);
       // Create and return a readable stream once the file is ready
       return fs.createReadStream(filePath);
     } catch (err) {
@@ -112,7 +114,9 @@ const handleFileEvent = async (event, filePath) => {
 
     if (event === "add" || event === "change") {
       // Wait for the file to be fully available
+      console.log(`Waiting for file to be ready: ${filePath}`);
       const stream = await waitForFileReady(filePath);
+      console.log(`File is ready: ${filePath}`);
 
       const res = await fetch(`${remoteServer}/upload`, {
         method: "POST",
