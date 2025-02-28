@@ -58,36 +58,6 @@ const ping = async () => {
 
 
 
-/**
- * Wait for a file to become ready (fully downloaded and available for reading).
- * @param {string} filePath - The path of the file to check.
- * @param {number} retries - Number of retry attempts (default: 5).
- * @param {number} delay - Delay between retries in milliseconds (default: 1000).
- * @returns {Promise<ReadableStream>} A readable stream for the file.
- */
-const waitForFileReady = async (filePath, retries = 5, delay = 1000) => {
-  for (let attempt = 1; attempt <= retries; attempt++) {
-    try {
-      // Check if the file is accessible and ready for reading
-      console.log(`Checking file access: ${filePath}`);
-      await fs.access(filePath, fs.constants.R_OK); // Ensure the file is readable
-
-      console.log(`File is accessible: ${filePath}`);
-      // Create and return a readable stream once the file is ready
-      return fs.createReadStream(filePath);
-    } catch (err) {
-      if (attempt < retries && (err.code === "EIO" || err.code === "ENOENT" || err.code === "UNKNOWN")) {
-        console.warn(
-          `File not ready (attempt ${attempt}/${retries}): ${err.message}. Retrying in ${delay}ms...`
-        );
-        await new Promise((resolve) => setTimeout(resolve, delay));
-      } else {
-        // If retries are exhausted or error is not transient, rethrow
-        throw err;
-      }
-    }
-  }
-};
 
 /**
  * Handle file events from chokidar and interact with remote server.
@@ -113,10 +83,18 @@ const handleFileEvent = async (event, filePath) => {
     console.log(`Event: ${event}, blogID: ${blogID}, path: ${path}`);
 
     if (event === "add" || event === "change") {
-      // Wait for the file to be fully available
-      console.log(`Waiting for file to be ready: ${filePath}`);
-      const stream = await waitForFileReady(filePath);
-      console.log(`File is ready: ${filePath}`);
+
+      let body;
+      for (let i = 0; i < 5; i++) {
+        try {
+          console.log(`Reading file: ${filePath}`);
+          body = await fs.readFile(filePath);
+          break;
+        } catch (error) {
+          console.error(`Failed to read file (${filePath}):`, error);
+          await new Promise((resolve) => setTimeout(resolve, 100));
+        }
+      }
 
       const res = await fetch(`${remoteServer}/upload`, {
         method: "POST",
@@ -126,8 +104,7 @@ const handleFileEvent = async (event, filePath) => {
           blogID,
           path,
         },
-        duplex: "half", // Required when using streams with fetch
-        body: stream, // Send the stream directly in the request body
+        body,
       });
 
       if (!res.ok) {
