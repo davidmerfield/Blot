@@ -8,6 +8,17 @@ const bodyParser = require("body-parser");
 
 const maxFileSize = config.webhooks.client_max_body_size;
 
+
+/*
+
+
+Production code
+---------------
+
+This section runs on the remote server and listens for incoming webhooks from clients. It forwards the webhooks to connected clients (i.e. me developing) in real-time.
+
+*/
+
 // In-memory map to store connected clients
 const subscribers = new Map();
 
@@ -136,6 +147,21 @@ server.use(
     }
   }
 );
+
+
+
+
+
+/*
+
+Development code
+----------------
+
+This section runs locally when I'm developing and testing the webhooks client. It listens for events from the remote server and forwards them to the local server.
+
+*/
+
+
 const pendingRequests = new Map();
 
 function listen({ host }) {
@@ -203,7 +229,7 @@ function listen({ host }) {
             ...requestState.metadata,
             body: completeBody,
           },
-          parsed.headers
+          requestState.metadata.headers
         );
       }
     } else {
