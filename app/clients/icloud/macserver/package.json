@@ -12,7 +12,6 @@
     "chokidar": "4.0.3",
     "dotenv": "16.4.7",
     "express": "4.21.2",
-    "fs-extra": "^11.3.0",
-    "puppeteer": "24.3.0"
+    "fs-extra": "11.3.0"
   }
 }
