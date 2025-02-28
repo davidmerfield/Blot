@@ -2,7 +2,6 @@ require("dotenv").config();
 
 const express = require("express");
 const chokidar = require("chokidar");
-const fetch = require("node-fetch");
 const fs = require("fs-extra");
 const path = require("path");
 const acceptSharingLink = require("./acceptSharingLink");
