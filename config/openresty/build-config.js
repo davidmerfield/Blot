@@ -2,6 +2,7 @@ const mustache = require("mustache");
 const config = require("config");
 const fs = require("fs-extra");
 const child_process = require("child_process");
+const { webhooks } = require("..");
 
 const NODE_SERVER_IP = process.env.NODE_SERVER_IP;
 const REDIS_IP = process.env.REDIS_IP;
@@ -20,12 +21,19 @@ const partials = {};
 const config_directory =
   process.env.OPENRESTY_CONFIG_DIRECTORY || "/home/ec2-user/openresty";
 
+
+// strip the trailing 'B' from 'MB' in config.webhooks.client_max_body_size
+const webhooks_client_max_body_size = config.webhooks.client_max_body_size.replace(/b/i, "");
+
 const locals = {
   host: "blot.im",
   blot_directory: config.blot_directory,
   disable_http2: process.env.DISABLE_HTTP2,
   node_ip: NODE_SERVER_IP,
   node_port: "8088",
+
+  // The maximum size of webhooks bodies forwarded to the node server
+  webhooks_client_max_body_size,
 
   // used in production by the node application container running inside docker
   // to communicate with the openresty cache purge endpoint on localhost

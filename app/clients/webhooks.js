@@ -6,7 +6,7 @@ const clfdate = require("helper/clfdate");
 const querystring = require("querystring");
 const bodyParser = require("body-parser");
 
-const maxFileSize = "100MB"; // Maximum file size for webhooks relay
+const maxFileSize = config.webhooks.client_max_body_size;
 
 // In-memory map to store connected clients
 const subscribers = new Map();
