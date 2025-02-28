@@ -74,12 +74,14 @@ const waitForFileReady = async (filePath, retries = 5, delay = 1000) => {
       // Create and return a readable stream once the file is ready
       return fs.createReadStream(filePath);
     } catch (err) {
+      console.log('Caught error:', err);
       if (attempt < retries && (err.code === "EIO" || err.code === "UNKNOWN")) {
         console.warn(
           `File not ready (attempt ${attempt}/${retries}): ${err.message}. Retrying in ${delay}ms...`
         );
         await new Promise((resolve) => setTimeout(resolve, delay));
       } else {
+        console.log('Rethrowing error');
         // If retries are exhausted or error is not transient, rethrow
         throw err;
       }
