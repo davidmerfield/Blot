@@ -92,8 +92,13 @@ const handleFileEvent = async (event, filePath) => {
           break;
         } catch (error) {
           console.error(`Failed to read file (${filePath}):`, error);
-          await new Promise((resolve) => setTimeout(resolve, 100));
+          await new Promise((resolve) => setTimeout(resolve, 100 * i)); // Exponential backoff
         }
+      }
+
+      if (!body) {
+        console.error(`Failed to read file (${filePath}) after 5 attempts`);
+        return;
       }
 
       const res = await fetch(`${remoteServer}/upload`, {
