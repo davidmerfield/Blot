@@ -6,10 +6,7 @@ const resolve = require("path").resolve;
 const dirname = require("path").dirname;
 const caseSensitivePath = require("helper/caseSensitivePath");
 
-module.exports = function (blog, path, text, callback) {
-  if (!text) return callback();
-
-  const metadata = extractMetadata(text).metadata;
+module.exports = function (blog, path, metadata, callback) {
 
   let paths = {
     bib: metadata.bibliography,

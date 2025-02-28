@@ -1,0 +1,14 @@
+---
+Slides:
+    - a.txt
+    - b.txt
+    - c.jpg
+Url: /foo
+Nesting:
+    How:
+        yes: true
+---
+
+# Title
+
+Hey.
