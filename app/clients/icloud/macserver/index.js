@@ -92,7 +92,7 @@ const handleFileEvent = async (event, filePath) => {
           break;
         } catch (error) {
           console.error(`Failed to read file (${filePath}):`, error);
-          await new Promise((resolve) => setTimeout(resolve, 100 * i)); // Exponential backoff
+          await new Promise((resolve) => setTimeout(resolve, 500 * i)); // Exponential backoff
         }
       }
 
