@@ -214,7 +214,15 @@ const initializeWatcher = () => {
   console.log(`Watching iCloud Drive directory: ${iCloudDriveDirectory}`);
 
   chokidar
-    .watch(iCloudDriveDirectory, { ignoreInitial: true })
+    .watch(iCloudDriveDirectory, { 
+      ignoreInitial: true,
+      
+      // emit single event when chunked writes are completed
+      awaitWriteFinish: {
+        stabilityThreshold: 1000,
+        pollInterval: 100,
+      },
+     })
     .on("all", async (event, filePath) => {
       await handleFileEvent(event, filePath);
     });
