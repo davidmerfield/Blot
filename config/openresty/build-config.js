@@ -20,12 +20,21 @@ const partials = {};
 const config_directory =
   process.env.OPENRESTY_CONFIG_DIRECTORY || "/home/ec2-user/openresty";
 
+// max file size for icloud uploads
+// nginx requires 'M' instead of 'MB' but unfortunately
+// node rawbody parser requires 'MB' instead of 'M'
+// so this maps '25MB' to '25M' for nginx
+const icloudMaxFileSize = config.icloud.maxFileSize ? config.icloud.maxFileSize.replace(/MB/i, "M")
+  : '50M';
+
 const locals = {
   host: "blot.im",
   blot_directory: config.blot_directory,
   disable_http2: process.env.DISABLE_HTTP2,
   node_ip: NODE_SERVER_IP,
   node_port: "8088",
+
+  icloudMaxFileSize,
 
   // used in production by the node application container running inside docker
   // to communicate with the openresty cache purge endpoint on localhost

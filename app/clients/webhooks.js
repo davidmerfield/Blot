@@ -9,6 +9,8 @@ const clfdate = require("helper/clfdate");
 const querystring = require("querystring");
 const bodyParser = require("body-parser");
 
+const maxFileSize = config.icloud.maxFileSize;
+
 // This app is run on Blot's server in production
 // and relays webhooks to any connected local clients
 // Should this be authenticated in some way?
@@ -79,7 +81,7 @@ server.get("/clients/dropbox/webhook", (req, res, next) => {
 server.use(
   bodyParser.raw({
     inflate: true,
-    limit: "20mb",
+    limit: maxFileSize,
     type: "application/*"
   }),
   (req, res) => {

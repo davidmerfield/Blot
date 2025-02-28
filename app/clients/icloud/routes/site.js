@@ -2,6 +2,8 @@ const express = require("express");
 const fs = require("fs-extra"); // For filesystem operations
 const config = require("config"); // For accessing configuration values
 
+const maxiCloudFileSize = config.icloud.maxFileSize; // Maximum file size for iCloud uploads
+
 // Helper functions
 const localPath = require("helper/localPath");
 const establishSyncLock = require("../util/establishSyncLock");
@@ -45,7 +47,7 @@ async function checkBlogUsesICloud(req, res, next) {
 // Apply the middleware to all routes
 site.use(verifyAuthorization); // This will apply to all routes below
 
-site.use(express.raw({ type: "application/octet-stream", limit: "10mb" })); // For handling binary data
+site.use(express.raw({ type: "application/octet-stream", limit: maxiCloudFileSize })); // For handling binary data
 
 // Ping endpoint
 site.get("/ping", async function (req, res) {
