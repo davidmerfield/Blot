@@ -57,6 +57,7 @@ const ping = async () => {
 };
 
 
+
 /**
  * Wait for a file to become ready (fully downloaded and available for reading).
  * @param {string} filePath - The path of the file to check.
@@ -67,21 +68,18 @@ const ping = async () => {
 const waitForFileReady = async (filePath, retries = 5, delay = 1000) => {
   for (let attempt = 1; attempt <= retries; attempt++) {
     try {
-      // Check if the file is accessible and fully readable
-      const fileHandle = await fs.open(filePath, "r");
-      await fileHandle.close();
+      // Check if the file is accessible and ready for reading
+      await fs.access(filePath, fs.constants.R_OK); // Ensure the file is readable
 
       // Create and return a readable stream once the file is ready
       return fs.createReadStream(filePath);
     } catch (err) {
-      console.log('Caught error:', err);
-      if (attempt < retries && (err.code === "EIO" || err.code === "UNKNOWN")) {
+      if (attempt < retries && (err.code === "EIO" || err.code === "ENOENT" || err.code === "UNKNOWN")) {
         console.warn(
           `File not ready (attempt ${attempt}/${retries}): ${err.message}. Retrying in ${delay}ms...`
         );
         await new Promise((resolve) => setTimeout(resolve, delay));
       } else {
-        console.log('Rethrowing error');
         // If retries are exhausted or error is not transient, rethrow
         throw err;
       }
