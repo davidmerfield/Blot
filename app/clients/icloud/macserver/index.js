@@ -142,7 +142,7 @@ const handleFileEvent = async (event, filePath) => {
         }
 
         console.log(`Upload successful: ${await res.text()}`);
-      } else if (event === "unlink") {
+      } else if (event === "unlink" || event === "unlinkDir") {
         const res = await fetch(`${remoteServer}/delete`, {
           method: "POST",
           headers: {
