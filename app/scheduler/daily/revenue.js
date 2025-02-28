@@ -16,6 +16,7 @@ function main (callback) {
   User.getAllIds(function (err, uids) {
     async.map(uids, User.getById, function (err, users) {
       users.forEach(function (user) {
+        if (!user) return;
         user = extend(user);
 
         if (user.isDisabled) return;
