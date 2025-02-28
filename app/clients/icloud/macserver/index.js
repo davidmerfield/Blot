@@ -89,7 +89,7 @@ const getLimiterForBlogID = (blogID) => {
 const handleFileEvent = async (event, filePath) => {
   try {
     // handle paths with special characters e.g. umlauts
-    const normalizedFilePath = filePath;//.normalize("NFC");
+    const normalizedFilePath = filePath.normalize("NFC");
     const relativePath = normalizedFilePath.replace(`${iCloudDriveDirectory}/`, "");
     const [blogID, ...restPath] = relativePath.split("/");
     const path = restPath.join("/");
