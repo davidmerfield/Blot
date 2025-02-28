@@ -2,11 +2,13 @@ Link: /
 
 # The Cartography of Solitude: Ethnographic Tales from the Sǒlvara Archipelago
 
-## July 18th, 2025 at 7 PM
+## <span class="icon-calendar"></span> July 18th, 2025 at 7 PM
 
 <a class="button" href="https://tickets.com">Buy tickets</a>
 
 <br><br><br>
+
+<span class="icon-location"></span> Violet Auditorium
 
 Step into a world of peculiar traditions, forgotten rituals, and uncharted humanity. Join us for an exclusive lecture exploring the anthropology of the **Velisara Islands**—an enigmatic archipelago lost to modernity. Delivered by celebrated cultural historian **Dr. Marguerite St. Clair**, this immersive evening will unveil the eccentric lives, philosophies, and myths of the Velisaran people.
 

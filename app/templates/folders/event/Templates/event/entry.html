@@ -82,12 +82,14 @@
 </style>    
 <div style="display: flex;">
 
+    
 <div style="position: sticky;
 top: 0;
 width: 50%;
 box-sizing: border-box;
 height: 100vh;border-right: 1px solid #ccc;">
 
+{{#entry.metadata.link}}
 <div class="main-carousel fade-in" >
     <div class="carousel-cell" >
         <img src="/_0.png" width="500" >
@@ -105,14 +107,16 @@ height: 100vh;border-right: 1px solid #ccc;">
         <img src="/_4.png" width="500">
     </div>
 </div>  
+{{/entry.metadata.link}}
 </div>
+
 <div style="width:50%" class="main">
-    <div class="header subpage">
-        <a href="/">
-        {{> /Profile.txt}}
-        </a>
+    <div class="navigation" style="border-bottom: 1px solid;padding-bottom: 6px;">
+        <a href="/" class="selected">Information</a>
+        <a href="/speakers">Speakers</a>
+        <a href="/faqs">FAQs</a>
+        <a href="/updates">Updates</a>
     </div>
-    
     <div class="fade-in entry">
     
     {{{entry.html}}}
@@ -120,6 +124,7 @@ height: 100vh;border-right: 1px solid #ccc;">
     
     {{> footer}}    
 </div>
+
 </div>
 <script src="https://unpkg.com/flickity@2.2/dist/flickity.pkgd.js"></script>
 <script src="https://unpkg.com/flickity-fade@1/flickity-fade.js"></script>

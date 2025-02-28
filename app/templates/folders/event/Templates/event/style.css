@@ -18,6 +18,29 @@ on the services page of the dashboard */
   --link-color: {{link_color}};
 }
 
+/* calendar icon */
+
+span[class^="icon-"] {
+  background-color: currentColor;
+  mask-repeat: no-repeat;
+  mask-position: 0 0;
+  width: 1em;
+  height: 1em;
+  mask-size: 1em;
+  display: inline-block;
+  vertical-align: sub;
+  position: relative;
+  top:-0.03em;
+}
+
+span.icon-calendar {
+  mask-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiI+PHBhdGggZD0iTTQuNzUgMGEuNzUuNzUgMCAwIDEgLjc1Ljc1VjJoNVYuNzVhLjc1Ljc1IDAgMCAxIDEuNSAwVjJoMS4yNWMuOTY2IDAgMS43NS43ODQgMS43NSAxLjc1djEwLjVBMS43NSAxLjc1IDAgMCAxIDEzLjI1IDE2SDIuNzVBMS43NSAxLjc1IDAgMCAxIDEgMTQuMjVWMy43NUMxIDIuNzg0IDEuNzg0IDIgMi43NSAySDRWLjc1QS43NS43NSAwIDAgMSA0Ljc1IDBaTTIuNSA3LjV2Ni43NWMwIC4xMzguMTEyLjI1LjI1LjI1aDEwLjVhLjI1LjI1IDAgMCAwIC4yNS0uMjVWNy41Wm0xMC43NS00SDIuNzVhLjI1LjI1IDAgMCAwLS4yNS4yNVY2aDExVjMuNzVhLjI1LjI1IDAgMCAwLS4yNS0uMjVaIi8+PC9zdmc+")
+}
+
+span.icon-location {
+  mask-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiI+PHBhdGggZD0ibTEyLjU5NiAxMS41OTYtMy41MzUgMy41MzZhMS41IDEuNSAwIDAgMS0yLjEyMiAwbC0zLjUzNS0zLjUzNmE2LjUgNi41IDAgMSAxIDkuMTkyLTkuMTkzIDYuNSA2LjUgMCAwIDEgMCA5LjE5M1ptLTEuMDYtOC4xMzJ2LS4wMDFhNSA1IDAgMSAwLTcuMDcyIDcuMDcyTDggMTQuMDdsMy41MzYtMy41MzRhNSA1IDAgMCAwIDAtNy4wNzJaTTggOWEyIDIgMCAxIDEtLjAwMS0zLjk5OUEyIDIgMCAwIDEgOCA5WiIvPjwvc3ZnPg==")
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     --background-color: {{dark_background_color}};
@@ -44,7 +67,7 @@ body {
 }
 
 .main {
-  padding: 2em;
+  padding: 0.7em 1.4em;
   box-sizing: border-box;
 }
 
