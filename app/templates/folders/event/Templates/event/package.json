@@ -57,10 +57,10 @@
         "description": "{{{tag}}} on {{{title}}}"
       }
     },
-    "writing.html": {
-      "url": "/writing",
+    "announcements.html": {
+      "url": "/announcements",
       "partials": {
-        "title": "{{{title}}} - Writing",
+        "title": "{{{title}}} - Announcements",
         "description": ""
       }
     },

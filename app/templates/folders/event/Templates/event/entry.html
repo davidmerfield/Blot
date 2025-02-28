@@ -82,14 +82,14 @@
 </style>    
 <div style="display: flex;">
 
-    
+    {{#entry.metadata.link}}
+
 <div style="position: sticky;
 top: 0;
 width: 50%;
 box-sizing: border-box;
 height: 100vh;border-right: 1px solid #ccc;">
 
-{{#entry.metadata.link}}
 <div class="main-carousel fade-in" >
     <div class="carousel-cell" >
         <img src="/_0.png" width="500" >
@@ -107,15 +107,16 @@ height: 100vh;border-right: 1px solid #ccc;">
         <img src="/_4.png" width="500">
     </div>
 </div>  
-{{/entry.metadata.link}}
 </div>
+{{/entry.metadata.link}}
 
 <div style="width:50%" class="main">
     <div class="navigation" style="border-bottom: 1px solid;padding-bottom: 6px;">
         <a href="/" class="selected">Information</a>
         <a href="/speakers">Speakers</a>
         <a href="/faqs">FAQs</a>
-        <a href="/updates">Updates</a>
+        <a href="/announcements">Announcements</a>
+        <a class="button" href="/tickets">Buy tickets</a>
     </div>
     <div class="fade-in entry">
     

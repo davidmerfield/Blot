@@ -4,7 +4,6 @@ Link: /
 
 ## <span class="icon-calendar"></span> July 18th, 2025 at 7 PM
 
-<a class="button" href="https://tickets.com">Buy tickets</a>
 
 <br><br><br>
 
@@ -31,6 +30,20 @@ Expect a whimsical, thought-provoking evening that blends the precision of anthr
 
 4. **The Museum of Borrowed Bones**  
    A deep dive into Velisara’s sacred repository of relics, showcasing how the community honors their ancestors with artifacts from other cultures.
+
+---
+
+### Schedule
+
+| Time          | Activity                                       | Description                                                                 |
+|---------------|-----------------------------------------------|-----------------------------------------------------------------------------|
+| **6:00 PM**   | Cocktail Reception                            | Enjoy a curated selection of island-inspired drinks and hors d'oeuvres.    |
+| **7:00 PM**   | Opening Remarks                               | Welcome and introduction to the evening by the event host.                 |
+| **7:15 PM**   | Lecture by Dr. Marguerite St. Clair           | *"Liquid Time: The Philosophy of Velisara"* – A deep dive into Velisaran temporal traditions and rituals. |
+| **8:00 PM**   | Lecture by Prof. Laurence Winslow (Posthumous)| *"The Singing Cartographers: Mapping the Unknown"* – A dramatic reading of Winslow’s journals with modern interpretation by Dr. St. Clair. |
+| **8:45 PM**   | Q&A Session                                   | An interactive discussion with Dr. St. Clair about Velisara, Winslow, and the mysteries of anthropology. |
+| **9:15 PM**   | Live Music Performance                        | A performance inspired by Velisaran choral traditions with a modern twist. |
+| **10:00 PM**  | Closing Reception                             | A chance to mingle, discuss, and enjoy the evening's atmosphere.           |
 
 ---
 
