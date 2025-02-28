@@ -2,6 +2,7 @@ const mustache = require("mustache");
 const config = require("config");
 const fs = require("fs-extra");
 const child_process = require("child_process");
+const { webhooks } = require("..");
 
 const NODE_SERVER_IP = process.env.NODE_SERVER_IP;
 const REDIS_IP = process.env.REDIS_IP;
@@ -20,12 +21,16 @@ const partials = {};
 const config_directory =
   process.env.OPENRESTY_CONFIG_DIRECTORY || "/home/ec2-user/openresty";
 
-// max file size for icloud uploads
+// max file size for icloud uploads and webhooks bodies
 // nginx requires 'M' instead of 'MB' but unfortunately
 // node rawbody parser requires 'MB' instead of 'M'
 // so this maps '25MB' to '25M' for nginx
-const icloudMaxFileSize = config.icloud.maxFileSize ? config.icloud.maxFileSize.replace(/MB/i, "M")
-  : '50M';
+const icloudMaxFileSize = config.icloud.maxFileSize
+  ? config.icloud.maxFileSize.replace(/MB/i, "M")
+  : "50M";
+const webhooks_client_max_body_size = config.webhooks.client_max_body_size
+  ? config.webhooks.client_max_body_size.replace(/MB/i, "M")
+  : "100M";
 
 const locals = {
   host: "blot.im",
@@ -34,7 +39,11 @@ const locals = {
   node_ip: NODE_SERVER_IP,
   node_port: "8088",
 
+  // The maximum size of icloud uploads
   icloudMaxFileSize,
+
+  // The maximum size of webhooks bodies forwarded to the node server
+  webhooks_client_max_body_size,
 
   // used in production by the node application container running inside docker
   // to communicate with the openresty cache purge endpoint on localhost
@@ -59,19 +68,19 @@ const locals = {
   ssl_certificate:
     process.env.SSL_CERTIFICATE || "/etc/ssl/private/letsencrypt-domain.pem",
   ssl_certificate_key:
-    process.env.SSL_CERTIFICATE_KEY || "/etc/ssl/private/letsencrypt-domain.key"
+    process.env.SSL_CERTIFICATE_KEY ||
+    "/etc/ssl/private/letsencrypt-domain.key",
 };
 
 // move the previous contents of the data directory to a backup
 // so we can compare the new contents with the old
-if (fs.existsSync(OUTPUT))
-  fs.moveSync(OUTPUT, PREVIOUS, { overwrite: true });
+if (fs.existsSync(OUTPUT)) fs.moveSync(OUTPUT, PREVIOUS, { overwrite: true });
 
 fs.emptyDirSync(OUTPUT);
 
 fs.copySync(`${__dirname}/html`, `${OUTPUT}/html`);
 
-fs.readdirSync(CONFIG_DIRECTORY).forEach(file => {
+fs.readdirSync(CONFIG_DIRECTORY).forEach((file) => {
   // copy lua files to data directory so they are available to nginx
   if (file.endsWith(".lua")) {
     fs.copySync(CONFIG_DIRECTORY + "/" + file, OUTPUT + "/" + file);
@@ -110,7 +119,11 @@ if (process.argv.includes("--skip-confirmation")) {
 }
 
 // compare the new contents with the old
-const diff = child_process.spawnSync("/opt/homebrew/bin/diff", ['--color', "-r", PREVIOUS, OUTPUT ], { stdio: 'inherit' });
+const diff = child_process.spawnSync(
+  "/opt/homebrew/bin/diff",
+  ["--color", "-r", PREVIOUS, OUTPUT],
+  { stdio: "inherit" }
+);
 
 if (diff.error) {
   console.error(diff.error);
@@ -125,11 +138,11 @@ if (diff.error) {
 
   const rl = readline.createInterface({
     input: process.stdin,
-    output: process.stdout
+    output: process.stdout,
   });
 
   const question = () => {
-    rl.question("Do you want to keep these changes? [y/n] ", answer => {
+    rl.question("Do you want to keep these changes? [y/n] ", (answer) => {
       if (answer === "y") {
         console.log("Changes kept. Build complete");
         rl.close();
@@ -151,4 +164,3 @@ if (diff.error) {
 
   question();
 }
-

@@ -23,6 +23,7 @@ module.exports = {
   protocol: BLOT_PROTOCOL + "://",
 
   webhooks: {
+    client_max_body_size: "100MB",
     server_host: "webhooks." + BLOT_HOST,
     // replace with "webhooks.blot.development" to test
     relay_host: environment === "development" && "webhooks.blot.im",
