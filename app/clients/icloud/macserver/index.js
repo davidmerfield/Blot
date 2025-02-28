@@ -56,6 +56,39 @@ const ping = async () => {
   }
 };
 
+
+/**
+ * Wrapper function to create a readable stream with retries in case of transient errors.
+ * @param {string} filePath - The path of the file to read.
+ * @param {number} retries - Number of retry attempts (default: 5).
+ * @param {number} delay - Delay between retries in milliseconds (default: 1000).
+ * @returns {Promise<ReadableStream>} A readable stream for the file.
+ */
+const createReadStreamWithRetries = async (filePath, retries = 5, delay = 1000) => {
+  for (let attempt = 1; attempt <= retries; attempt++) {
+    try {
+      // Check file existence with fs-extra's `pathExists`
+      const exists = await fs.pathExists(filePath);
+      if (!exists) {
+        throw new Error(`File does not exist: ${filePath}`);
+      }
+
+      // Create and return a readable stream
+      return fs.createReadStream(filePath);
+    } catch (err) {
+      if (attempt < retries && (err.code === "EIO" || err.message.includes("File does not exist"))) {
+        console.warn(
+          `File stream error (attempt ${attempt}/${retries}): ${err.message}. Retrying in ${delay}ms...`
+        );
+        await new Promise((resolve) => setTimeout(resolve, delay));
+      } else {
+        // If retries are exhausted or the error is not transient, rethrow
+        throw err;
+      }
+    }
+  }
+};
+
 /**
  * Handle file events from chokidar and interact with remote server.
  * @param {string} event - The file event (add, change, unlink, etc.)
@@ -80,6 +113,9 @@ const handleFileEvent = async (event, filePath) => {
     console.log(`Event: ${event}, blogID: ${blogID}, path: ${path}`);
 
     if (event === "add" || event === "change") {
+      // Use createReadStreamWithRetries to handle transient errors
+      const stream = await createReadStreamWithRetries(filePath);
+
       const res = await fetch(`${remoteServer}/upload`, {
         method: "POST",
         headers: {
@@ -88,7 +124,7 @@ const handleFileEvent = async (event, filePath) => {
           blogID,
           path,
         },
-        body: await fs.readFile(filePath), // Send binary file content
+        body: stream, // Send the stream directly in the request body
       });
 
       if (!res.ok) {
