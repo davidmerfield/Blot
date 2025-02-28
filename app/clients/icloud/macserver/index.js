@@ -91,7 +91,7 @@ const handleFileEvent = async (event, filePath) => {
           body = await fs.readFile(filePath);
           break;
         } catch (error) {
-          console.error(`Failed to read file (${filePath}):`, error);
+          console.error(`Failed to read file (${filePath}):`);
           await new Promise((resolve) => setTimeout(resolve, 500 * i)); // Exponential backoff
         }
       }
@@ -218,9 +218,15 @@ const initializeWatcher = () => {
       ignoreInitial: true,
       
       // emit single event when chunked writes are completed
+      // Was designed to solve this error:
+      // Error handling file event (add, /Users/admin/Library/Mobile Documents/com~apple~Cloud  
+      // errno: -11,
+      // code: 'Unknown system error -11',   
+      // syscall: 'read'                       
+      // which occurs when the file is only partially written
       awaitWriteFinish: {
         stabilityThreshold: 1000,
-        pollInterval: 100,
+        pollInterval: 50,
       },
      })
     .on("all", async (event, filePath) => {
