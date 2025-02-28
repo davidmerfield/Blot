@@ -229,7 +229,7 @@ function listen({ host }) {
             ...requestState.metadata,
             body: completeBody,
           },
-          parsed.headers
+          requestState.metadata.headers
         );
       }
     } else {
