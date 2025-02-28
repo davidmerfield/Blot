@@ -56,6 +56,16 @@ describe("metadata parser", function () {
     });
   });
 
+  it("parses arrays in YAML metadata", function () {
+    expect(
+      Metadata(
+        ["---", "Tags:", "  - one", "  - two", "---", "", "# Hi"].join("\n")
+      ).metadata
+    ).toEqual({
+      tags: ["one", "two"]
+    });
+  });
+
   it("parses empty metadata", function () {
     expect(Metadata(["Summary: ", "", "# Hi"].join("\n")).metadata).toEqual({
       summary: ""
