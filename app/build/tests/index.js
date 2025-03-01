@@ -334,4 +334,50 @@ describe("build", function () {
     done();
   });
 
+  it("will build without error if date is a YAML array (i.e. not a string)", async function (done) {
+    const path = "/post.txt";
+    const contents = `---\ndate:\n  - 2020\n  - 12\n  - 25\n---\n\n# Hello`;
+    const entry = await this.build(path, contents);
+
+    expect(entry.path).toEqual(path);
+    done();
+  });
+
+  it("will build without error if page is a YAML array (i.e. not a string)", async function (done) {
+    const path = "/post.txt";
+    const contents = `---\npage:\n  - 2020\n  - 12\n  - 25\n---\n\n# Hello`;
+    const entry = await this.build(path, contents);
+
+    expect(entry.path).toEqual(path);
+    done();
+  });
+
+
+  it("will build without error if draft is a YAML array (i.e. not a bool)", async function (done) {
+    const path = "/post.txt";
+    const contents = `---\ndraft:\n  - 2020\n  - 12\n  - 25\n---\n\n# Hello`;
+    const entry = await this.build(path, contents);
+
+    expect(entry.path).toEqual(path);
+    done();
+  });
+
+  it("will build without error if menu is a YAML array (i.e. not a bool)", async function (done) {
+    const path = "/post.txt";
+    const contents = `---\nmenu:\n  - 2020\n  - 12\n  - 25\n---\n\n# Hello`;
+    const entry = await this.build(path, contents);
+
+    expect(entry.path).toEqual(path);
+    done();
+  });
+
+  it("will build without error if thumbnail is a YAML array (i.e. not a string)", async function (done) {
+    const path = "/post.txt";
+    const contents = `---\nthumbnail:\n  - 2020\n  - 12\n  - 25\n---\n\n# Hello`;
+    const entry = await this.build(path, contents);
+
+    expect(entry.path).toEqual(path);
+    done();
+  });
+
 });

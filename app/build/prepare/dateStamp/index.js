@@ -17,7 +17,9 @@ module.exports = function (blog, path, metadata) {
   // field in the entry's metadata,
   // try and parse a timestamp from it.
   if (metadata.date) {
-    let parsedFromMetadata = fromMetadata(metadata.date, dateFormat, timeZone);
+    // Since there is the possibilty of using YAML, the date might not be a string
+    let dateMetadataString = String(metadata.date);
+    let parsedFromMetadata = fromMetadata(dateMetadataString, dateFormat, timeZone);
     dateStamp = validate(parsedFromMetadata.created);
     if (dateStamp && parsedFromMetadata.adjusted) {
       return dateStamp;
