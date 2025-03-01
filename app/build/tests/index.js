@@ -318,4 +318,20 @@ describe("build", function () {
     
     done();
   });
+
+  it("will extract tags in nested YAML metadata arrays", async function (done) {
+    const path = "/post.txt";
+    const contents = `---\ntags:\n  - one\n  - two\nobject:\n  key: value\n---\n\n# Hello`;
+    const entry = await this.build(path, contents);
+
+    expect(entry.metadata).toEqual({
+      tags: ["one", "two"],
+      object: { key: "value" },
+    });
+
+    expect(entry.tags).toEqual(["one", "two"]);
+    
+    done();
+  });
+
 });
