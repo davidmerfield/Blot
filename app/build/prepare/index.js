@@ -119,7 +119,7 @@ function Prepare (entry, options = {}) {
 
   if (entry.metadata.tags) {
     if (Array.isArray(entry.metadata.tags)) {
-      tags = entry.metadata.tags;
+      tags = entry.metadata.tags.map(tag => String(tag));
     } else if (typeof entry.metadata.tags === 'string') {
       tags = entry.metadata.tags.split(",");
     }
