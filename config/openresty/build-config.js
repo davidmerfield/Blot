@@ -21,10 +21,13 @@ const partials = {};
 const config_directory =
   process.env.OPENRESTY_CONFIG_DIRECTORY || "/home/ec2-user/openresty";
 
-// max file size for webhooks bodies
+// max file size for icloud uploads and webhooks bodies
 // nginx requires 'M' instead of 'MB' but unfortunately
 // node rawbody parser requires 'MB' instead of 'M'
 // so this maps '25MB' to '25M' for nginx
+const icloudMaxFileSize = config.icloud.maxFileSize
+  ? config.icloud.maxFileSize.replace(/MB/i, "M")
+  : "50M";
 const webhooks_client_max_body_size = config.webhooks.client_max_body_size
   ? config.webhooks.client_max_body_size.replace(/MB/i, "M")
   : "100M";
@@ -35,6 +38,9 @@ const locals = {
   disable_http2: process.env.DISABLE_HTTP2,
   node_ip: NODE_SERVER_IP,
   node_port: "8088",
+
+  // The maximum size of icloud uploads
+  icloudMaxFileSize,
 
   // The maximum size of webhooks bodies forwarded to the node server
   webhooks_client_max_body_size,
