@@ -1,6 +1,6 @@
 const { exec } = require("child_process");
 
-// Optimized AppleScript code with Finder window closure
+// Updated AppleScript code to handle Finder-specific dialogs
 const appleScript = (sharingLink) => `
 -- Open the specified sharing link in Finder
 try
@@ -8,19 +8,19 @@ try
         open location "${sharingLink}"
     end tell
 
-    -- Wait for a system popup (dialog) to appear
+    -- Wait for a Finder-specific popup or sheet to appear
     tell application "System Events"
-        repeat until exists (first window whose role description is "dialog")
-            delay 0.1 -- Check every 0.1 seconds for the popup
-        end repeat
+        tell process "Finder"
+            repeat until exists (button "Open" of window 1)
+                delay 0.1 -- Check every 0.1 seconds for the "Open" button
+            end repeat
 
-        -- Once the dialog appears, click the default button (e.g., "Accept" or "OK")
-        tell (first window whose role description is "dialog")
-            click button 1 -- Clicks the first button in the dialog
+            -- Once the button is detected, click it
+            click button "Open" of window 1
         end tell
     end tell
 
-    -- Close all Finder windows
+    -- Close all Finder windows after handling the popup
     tell application "Finder"
         close every window
     end tell
