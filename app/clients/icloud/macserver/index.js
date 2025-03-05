@@ -372,6 +372,45 @@ const startServer = () => {
     res.sendStatus(200);
   });
 
+  app.post("/mkdir", async (req, res) => {
+    const blogID = req.header("blogID");
+    const path = req.header("path");
+
+    if (!blogID || !path) {
+      return res.status(400).send("Missing blogID or path header");
+    }
+
+    console.log(`Received mkdir request for blogID: ${blogID}, path: ${path}`);
+
+    const dirPath = path.join(iCloudDriveDirectory, blogID, path);
+
+    await fs.ensureDir(dirPath);
+
+    console.log(`Created directory: ${dirPath}`);
+  });
+
+  app.get("/readdir", async (req, res) => {
+    const blogID = req.header("blogID");
+    const path = req.header("path");
+
+    if (!blogID || !path) {
+      return res.status(400).send("Missing blogID or path header");
+    }
+
+    console.log(`Received readdir request for blogID: ${blogID}, path: ${path}`);
+
+    const dirPath = path.join(iCloudDriveDirectory, blogID, path);
+    const files = await fs.readdir(dirPath, { withFileTypes: true });
+
+    const result = files.map((file) => ({
+      name: file.name,
+      isDirectory: file.isDirectory(),
+    }));
+
+    res.json(result);
+  });
+
+
   app.get('/stats', async (req, res) => {
     
     const result = {};
