@@ -1,26 +1,27 @@
 const { exec } = require("child_process");
 
-// Updated AppleScript code to handle Finder-specific dialogs
 const appleScript = (sharingLink) => `
 -- Open the specified sharing link in Finder
 try
+    -- Open the sharing link in Finder
     tell application "Finder"
         open location "${sharingLink}"
     end tell
 
-    -- Wait for a Finder-specific popup or sheet to appear
+    -- Wait for the iCloud Drive sharing dialog to appear
     tell application "System Events"
-        tell process "Finder"
+        tell process "CloudUI"
+            -- Wait until the "Open" button is detected in the dialog
             repeat until exists (button "Open" of window 1)
                 delay 0.1 -- Check every 0.1 seconds for the "Open" button
             end repeat
 
-            -- Once the button is detected, click it
+            -- Click the "Open" button
             click button "Open" of window 1
         end tell
     end tell
 
-    -- Close all Finder windows after handling the popup
+    -- Close all Finder windows after interacting with the sharing dialog
     tell application "Finder"
         close every window
     end tell
