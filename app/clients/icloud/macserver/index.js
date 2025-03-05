@@ -189,8 +189,9 @@ const setupLimiter = new Bottleneck({
 const setupBlog = setupLimiter.wrap(async (blogID, sharingLink) => {
   console.log(`Waiting for a new folder to set up blogID: ${blogID} using sharingLink: ${sharingLink}`);
 
-  const checkInterval = 2000; // Interval (in ms) to check for new directories
-
+  const checkInterval = 100; // Interval (in ms) to check for new directories
+  const timeout = 1000 * 15; // Timeout (in ms) to wait for a new directory: 15 seconds
+  const start = Date.now();
   try {
     // Get the initial state of the top-level directories
     const initialDirs = await fs.readdir(iCloudDriveDirectory, { withFileTypes: true });
@@ -202,7 +203,7 @@ const setupBlog = setupLimiter.wrap(async (blogID, sharingLink) => {
     console.log('running the acceptSharingLink script');
     acceptSharingLink(sharingLink);
 
-    while (true) {
+    while (true && Date.now() - start < timeout) {
         // Get the current state of the top-level directories
         const currentDirs = await fs.readdir(iCloudDriveDirectory, { withFileTypes: true });
         const currentDirNames = currentDirs.filter((dir) => dir.isDirectory()).map((dir) => dir.name);
@@ -244,6 +245,9 @@ const setupBlog = setupLimiter.wrap(async (blogID, sharingLink) => {
       // Wait before checking again
       await new Promise((resolve) => setTimeout(resolve, checkInterval));
     }
+
+    console.error(`Timed out waiting for a new folder to set up blogID: ${blogID}`);
+    
   } catch (error) {
     console.error(`Failed to initialize setup for blogID (${blogID}):`, error);
   }
