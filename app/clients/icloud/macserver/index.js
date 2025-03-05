@@ -175,12 +175,18 @@ const handleFileEvent = async (event, filePath) => {
 };
 
 
+// Only one setup can run at a time otherwise the apple script
+// might not work correctly or accept the wrong sharing link
+const setupLimiter = new Bottleneck({
+  maxConcurrent: 1, 
+});
+
 /**
  * Wait for a new top-level directory to appear, rename it, and notify the remote server.
  * @param {string} blogID - The blogID to associate with the folder
  * @param {string} sharingLink - The iCloud sharing link for the folder
  */
-const setupBlog = async (blogID, sharingLink) => {
+const setupBlog = setupLimiter.wrap(async (blogID, sharingLink) => {
   console.log(`Waiting for a new folder to set up blogID: ${blogID} using sharingLink: ${sharingLink}`);
 
   const checkInterval = 2000; // Interval (in ms) to check for new directories
@@ -241,7 +247,8 @@ const setupBlog = async (blogID, sharingLink) => {
   } catch (error) {
     console.error(`Failed to initialize setup for blogID (${blogID}):`, error);
   }
-};
+});
+
 /**
  * Initialize chokidar to watch the iCloud Drive directory.
  */
