@@ -7,8 +7,7 @@ const fs = require("fs-extra");
 const path = require("path");
 const acceptSharingLink = require("./acceptSharingLink");
 
-const config = require("config");
-const maxiCloudFileSize = config.icloud.maxFileSize;
+const maxiCloudFileSize = "50MB"
 const remoteServer = process.env.REMOTE_SERVER;
 const iCloudDriveDirectory = process.env.ICLOUD_DRIVE_DIRECTORY;
 const Authorization = process.env.BLOT_ICLOUD_SERVER_SECRET; // Use the correct environment variable

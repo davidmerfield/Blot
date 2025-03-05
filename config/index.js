@@ -193,6 +193,8 @@ module.exports = {
   icloud: {
     secret: process.env.BLOT_ICLOUD_SERVER_SECRET,
     server_address: process.env.BLOT_ICLOUD_SERVER_ADDRESS,
-    maxFileSize: "50MB" // maximum individual file size to sync with iCloud
+    // The maximum file size to sync with iCloud
+    // if you change this, also change maxiCloudFileSize in macserver/index.js
+    maxFileSize: "50MB" 
   }
 };
