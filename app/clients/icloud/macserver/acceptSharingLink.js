@@ -1,14 +1,33 @@
 const { exec } = require("child_process");
 
-// AppleScript code as a string
+// Optimized AppleScript code with Finder window closure
 const appleScript = (sharingLink) => `
-tell application "Finder"
-    open location "${sharingLink}"
-end tell
-delay 5
-tell application "System Events"
-    keystroke return
-end tell
+-- Open the specified sharing link in Finder
+try
+    tell application "Finder"
+        open location "${sharingLink}"
+    end tell
+
+    -- Wait for a system popup (dialog) to appear
+    tell application "System Events"
+        repeat until exists (first window whose role description is "dialog")
+            delay 0.1 -- Check every 0.1 seconds for the popup
+        end repeat
+
+        -- Once the dialog appears, click the default button (e.g., "Accept" or "OK")
+        tell (first window whose role description is "dialog")
+            click button 1 -- Clicks the first button in the dialog
+        end tell
+    end tell
+
+    -- Close all Finder windows
+    tell application "Finder"
+        close every window
+    end tell
+on error errMsg
+    -- Handle any errors that occur during the process
+    display dialog "An error occurred: " & errMsg
+end try
 `;
 
 // Function to run inline AppleScript
