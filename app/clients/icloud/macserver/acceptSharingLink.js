@@ -8,15 +8,15 @@ try
         open location "${sharingLink}"
     end tell
 
-    -- Wait for the iCloud Drive sharing dialog to appear
+    -- Wait for the iCloud sharing system dialog to appear
     tell application "System Events"
-        tell process "CloudUI"
-            -- Wait until the "Open" button is detected in the dialog
+        tell process "UserNotificationCenter"
+            -- Wait until the "Open" button in the system dialog is detected
             repeat until exists (button "Open" of window 1)
                 delay 0.1 -- Check every 0.1 seconds for the "Open" button
             end repeat
 
-            -- Click the "Open" button
+            -- Click the "Open" button in the system dialog
             click button "Open" of window 1
         end tell
     end tell
