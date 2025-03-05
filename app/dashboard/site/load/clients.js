@@ -3,6 +3,9 @@ var list = [];
 
 // Build the list of clients for the dashboard
 for (var i in clients) {
+  // temporarily hide the icloud client
+  if (i === 'icloud') continue;
+
   list.push({
     name: i,
     display_name: clients[i].display_name,
@@ -17,7 +20,7 @@ list.sort(function (a, b) {
 });
 
 module.exports = function (req, res, next) {
-  res.locals.clients = list.slice();
+  res.locals.clients = list.slice()
 
   if (req.blog.client) {
     res.locals.clients = res.locals.clients.map(function (client) {
