@@ -7,6 +7,8 @@ const fs = require("fs-extra");
 const path = require("path");
 const acceptSharingLink = require("./acceptSharingLink");
 
+const config = require("config");
+const maxiCloudFileSize = config.icloud.maxFileSize;
 const remoteServer = process.env.REMOTE_SERVER;
 const iCloudDriveDirectory = process.env.ICLOUD_DRIVE_DIRECTORY;
 const Authorization = process.env.BLOT_ICLOUD_SERVER_SECRET; // Use the correct environment variable
@@ -280,26 +282,70 @@ const initializeWatcher = () => {
     });
 };
 
+const checkAuthorization = (req, res, next)=>{
+  const authorization = req.header("Authorization"); // New header for the Authorization secret
+
+  if (authorization !== Authorization) {
+    return res.status(403).send("Unauthorized");
+  }
+  
+  next();
+};
+
 /**
  * Start the local express server.
  */
 const startServer = () => {
   const app = express();
 
+  app.use(checkAuthorization); // This will apply to all routes below
+
   app.use(express.json());
+
+  app.use(express.raw({ type: "application/octet-stream", limit: maxiCloudFileSize })); // For handling binary data
 
   app.get("/ping", async (req, res) => {
     res.send("pong");
   });
 
-  app.use((req, res, next)=>{
-    const authorization = req.header("Authorization"); // New header for the Authorization secret
+  app.post("/upload", async (req, res) => {
+    const blogID = req.header("blogID");
+    const path = req.header("path");
 
-    if (authorization !== Authorization) {
-      return res.status(403).send("Unauthorized");
+    // Validate required headers
+    if (!blogID || !path) {
+      return res.status(400).send("Missing required headers: blogID or path");
     }
+
+    console.log(`Received upload request for blogID: ${blogID}, path: ${path}`);
+
+    const filePath = path.join(iCloudDriveDirectory, blogID, path);
     
-    next();
+    await fs.outputFile(filePath, req.body);
+
+    console.log(`Uploaded file: ${filePath}`);
+
+    res.sendStatus(200);
+  });
+
+  app.post("/delete", async (req, res) => {
+    const blogID = req.header("blogID");
+    const path = req.header("path");
+
+    // Validate required headers
+    if (!blogID || !path) {
+      return res.status(400).send("Missing required headers: blogID or path");
+    }
+
+    console.log(`Received delete request for blogID: ${blogID}, path: ${path}`);
+
+    const filePath = path.join(iCloudDriveDirectory, blogID, path);
+
+    await fs.remove(filePath);
+
+    console.log(`Deleted file: ${filePath}`);
+
+    res.sendStatus(200);
   });
 
   app.post("/disconnect", async (req, res) => {
