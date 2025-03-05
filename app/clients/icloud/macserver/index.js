@@ -247,7 +247,7 @@ const setupBlog = setupLimiter.wrap(async (blogID, sharingLink) => {
     }
 
     console.error(`Timed out waiting for a new folder to set up blogID: ${blogID}`);
-    
+
   } catch (error) {
     console.error(`Failed to initialize setup for blogID (${blogID}):`, error);
   }
