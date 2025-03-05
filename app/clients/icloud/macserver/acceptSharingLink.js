@@ -1,5 +1,7 @@
 const { exec } = require("child_process");
 
+// I used the accessiblity inspector to find the UI elements to interact with
+// and then wrote this AppleScript to automate the process
 const appleScript = (sharingLink) => `
 -- Open the specified sharing link in Finder
 try

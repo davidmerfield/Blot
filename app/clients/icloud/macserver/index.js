@@ -322,10 +322,35 @@ const startServer = () => {
     await fs.remove(path.join(iCloudDriveDirectory, blogID));
 
     console.log(`Disconnected blogID: ${blogID}`);
-    
+
     res.sendStatus(200);
   });
 
+  app.get('/stats', async (req, res) => {
+    
+    const result = {};
+
+    // use brctl quota to get the iCloud Drive quota and usage
+    // e.g. '1899909948243 bytes of quota remaining in personal account'
+    const { stdout: quota, stderr: quotaErr } = await exec('brctl quota');
+    if (quotaErr) {
+      console.error(`Error getting iCloud Drive quota: ${quotaErr}`);
+      return res.status(500).send(quotaErr);
+    }
+
+    result.icloud_bytes_available = quota.match(/(\d+) bytes of quota remaining/)[1];
+
+    // get root disk free space on the mac as a whole in bytes
+    const { stdout: diskFree, stderr: diskFreeErr } = await exec('df /');
+    if (diskFreeErr) {
+      console.error(`Error getting disk free space: ${diskFreeErr}`);
+      return res.status(500).send(diskFreeErr);
+    }
+
+    result.disk_bytes_available = diskFree.split('\n')[1].split(/\s+/)[3];
+
+    res.json(result);
+  });
 
   app.post("/setup", async (req, res) => {
     const blogID = req.header("blogID");
