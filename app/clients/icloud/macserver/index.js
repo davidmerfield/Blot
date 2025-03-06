@@ -53,22 +53,18 @@ const startServer = async () => {
 
     // Test connectivity with the remote server
     console.log("Pinging remote server...");
-    try {
-      const res = await fetch(remoteServer + "/ping", {
-        headers: {
-          Authorization, // Use the Authorization header
-        },
-      });
+    const res = await fetch(remoteServer + "/ping", {
+      headers: {
+        Authorization, // Use the Authorization header
+      },
+    });
 
-      if (!res.ok) {
-        throw new Error(`Ping failed: ${res.statusText}`);
-      }
-
-      const text = await res.text();
-      console.log(`Ping response: ${text}`);
-    } catch (error) {
-      console.error("Error pinging remote server:", error);
+    if (!res.ok) {
+      throw new Error(`Ping failed: ${res.statusText}`);
     }
+
+    const text = await res.text();
+    console.log(`Ping response: ${text}`);
 
     // Start the local server
     console.log("Starting macserver...");
