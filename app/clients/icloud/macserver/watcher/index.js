@@ -4,6 +4,7 @@ const add = require("./add");
 const remove = require("./remove");
 const mkdir = require("./mkdir");
 const fs = require("fs-extra");
+const { join } = require("path");
 const { getLimiterForBlogID } = require("../limiters");
 const { iCloudDriveDirectory } = require("../config");
 
