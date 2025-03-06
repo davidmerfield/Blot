@@ -320,6 +320,12 @@ const checkAuthorization = (req, res, next)=>{
 const startServer = () => {
   const app = express();
 
+  // log all requests
+  app.use((req, res, next) => {
+    console.log(`Request: ${req.method} ${req.url}`);
+    next();
+  });
+  
   app.use(checkAuthorization); // This will apply to all routes below
 
   app.use(express.json());
