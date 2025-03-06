@@ -1,8 +1,7 @@
-const config = require("config");
-const MAC_SERVER_ADDRESS = config.icloud.server_address;
 const clfdate = require("helper/clfdate");
 
-const MACSERVER_URL = config.icloud.server_address; // The Macserver base URL from config
+const config = require("config");
+const MAC_SERVER_ADDRESS = config.icloud.server_address;
 const MACSERVER_AUTH = config.icloud.secret; // The Macserver Authorization secret from config
 
 module.exports = async () => {

@@ -429,6 +429,8 @@ const startServer = () => {
       });
     }
 
+    console.log(`Readdir complete for blogID: ${blogID}, path: ${path}`);
+    console.log(result);
     res.json(result);
   });
 
