@@ -22,13 +22,18 @@ const handleFileEvent = async (event, filePath) => {
     // handle paths with special characters e.g. umlauts
     const path = restPath.join("/").normalize("NFC");
 
-    if (!blogID || !path) {
-      console.warn(`Invalid path: blogID or path is missing (${filePath})`);
+    if (!blogID) {
+      console.warn(`Failed to parse blogID from path: ${filePath}`);
       return;
     }
 
     if (!isBlogDirectory(blogID) || !fs.existsSync(join(iCloudDriveDirectory, blogID))) {
       console.warn(`Ignoring event for unregistered blogID: ${blogID}`);
+      return;
+    }
+
+    if (!path) {
+      console.warn(`Failed to parse path from path: ${filePath}`);
       return;
     }
 
