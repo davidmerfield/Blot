@@ -66,7 +66,6 @@ const startServer = async () => {
 
       const text = await res.text();
       console.log(`Ping response: ${text}`);
-      return text;
     } catch (error) {
       console.error("Error pinging remote server:", error);
     }
