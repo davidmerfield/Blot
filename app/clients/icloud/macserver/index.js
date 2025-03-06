@@ -61,7 +61,7 @@ const ping = async () => {
 
 
 const Bottleneck = require("bottleneck");
-const md5Checksum = require("../sync/util/md5Checksum");
+const getmd5Checksum = require("../sync/util/md5Checksum");
 
 // Create a map of limiters, one per blogID
 const limiters = new Map();
@@ -415,7 +415,7 @@ const startServer = () => {
     for (const file of files) {
       const filePath = join(dirPath, file.name);
       const [md5Checksum, stat] = await Promise.all([
-        file.isDirectory() ? undefined : md5Checksum(filePath),
+        file.isDirectory() ? undefined : getmd5Checksum(filePath),
         fs.stat(filePath),
       ]);
 
