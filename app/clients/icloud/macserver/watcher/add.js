@@ -1,7 +1,6 @@
 const exec = require("util").promisify(require("child_process").exec);
 const fs = require("fs-extra");
 const { join } = require("path");
-const fetch = require("node-fetch");
 
 const { iCloudDriveDirectory, remoteServer, Authorization } = require("../config");
 
