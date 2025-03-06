@@ -6,7 +6,6 @@ const chokidar = require("chokidar");
 const fs = require("fs-extra");
 const path = require("path");
 const acceptSharingLink = require("./acceptSharingLink");
-const md5Checksum = require('../sync/util/md5Checksum');
 const maxiCloudFileSize = "50MB"
 const remoteServer = process.env.REMOTE_SERVER;
 const iCloudDriveDirectory = process.env.ICLOUD_DRIVE_DIRECTORY;
