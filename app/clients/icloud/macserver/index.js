@@ -72,7 +72,7 @@ const startServer = () => {
     }
 
     // Initialize the file watcher
-    initializeWatcher();
+    await initializeWatcher();
 
     // Start the local server
     startServer();
