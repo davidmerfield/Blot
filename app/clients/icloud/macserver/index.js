@@ -1,6 +1,7 @@
 require("dotenv").config();
 
 const express = require("express");
+const { join } = require("path");
 const exec = require("util").promisify(require("child_process").exec);
 const chokidar = require("chokidar");
 const fs = require("fs-extra");
@@ -405,14 +406,14 @@ const startServer = () => {
 
     console.log(`Received readdir request for blogID: ${blogID}, path: ${path}`);
 
-    const dirPath = path.join(iCloudDriveDirectory, blogID, path);
+    const dirPath = join(iCloudDriveDirectory, blogID, path);
     const files = await fs.readdir(dirPath, { withFileTypes: true });
 
 
     const result = [];
 
     for (const file of files) {
-      const filePath = path.join(dirPath, file.name);
+      const filePath = join(dirPath, file.name);
       const [md5Checksum, stat] = await Promise.all([
         file.isDirectory() ? undefined : md5Checksum(filePath),
         fs.stat(filePath),
