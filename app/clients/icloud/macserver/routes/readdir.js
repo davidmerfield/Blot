@@ -1,7 +1,7 @@
 const fs = require("fs-extra");
 const { join } = require("path");
 const { iCloudDriveDirectory } = require("../config");
-const getmd5Checksum = require("../sync/util/md5Checksum");
+const getmd5Checksum = require("../../sync/util/md5Checksum");
 
 module.exports = async (req, res) => {
   const blogID = req.header("blogID");
