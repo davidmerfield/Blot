@@ -45,11 +45,11 @@ const handleFileEvent = async (event, filePath) => {
     // Schedule the event handler to run within the limiter
     await limiter.schedule(async () => {
       if (event === "add" || event === "change") {
-        add(blogID, path);
+        await add(blogID, path);
       } else if (event === "unlink" || event === "unlinkDir") {
-        remove(blogID, path);
+        await remove(blogID, path);
       } else if (event === "addDir") {
-        mkdir(blogID, path);
+        await mkdir(blogID, path);
       }
     });
   } catch (error) {
