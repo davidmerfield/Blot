@@ -176,6 +176,22 @@ const handleFileEvent = async (event, filePath) => {
         }
 
         console.log(`Delete successful: ${await res.text()}`);
+      } else if (event === "addDir") {
+        const res = await fetch(`${remoteServer}/mkdir`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization, // Use the Authorization header
+            blogID,
+            path,
+          },
+        });
+
+        if (!res.ok) {
+          throw new Error(`Mkdir failed: ${res.statusText}`);
+        }
+
+        console.log(`Mkdir successful: ${await res.text()}`);
       }
     });
   } catch (error) {
