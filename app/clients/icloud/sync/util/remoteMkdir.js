@@ -4,12 +4,13 @@ const MACSERVER_AUTH = config.icloud.secret; // The Macserver Authorization secr
 
 module.exports = async (blogID, path) => {
   const res = await fetch(MAC_SERVER_ADDRESS + "/mkdir", {
+    method: "POST",
     headers: { Authorization: MACSERVER_AUTH, blogID: blogID, path: path },
   });
 
   if (!res.ok) {
     throw new Error(`Failed to create directory ${path}`);
   }
-  
+
   return res.ok;
 };

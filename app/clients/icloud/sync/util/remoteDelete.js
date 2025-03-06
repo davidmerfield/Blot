@@ -4,6 +4,7 @@ const MACSERVER_AUTH = config.icloud.secret; // The Macserver Authorization secr
 
 module.exports = async (blogID, path) => {
   const res = await fetch(MAC_SERVER_ADDRESS + "/delete", {
+    method: "POST",
     headers: { Authorization: MACSERVER_AUTH, blogID: blogID, path: path },
   });
 
