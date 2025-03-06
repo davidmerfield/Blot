@@ -4,7 +4,7 @@ const localPath = require("helper/localPath");
 const clfdate = require("helper/clfdate");
 const download = require("./util/download");
 const CheckWeCanContinue = require("./util/checkWeCanContinue");
-
+const truncateToSecond = require("./util/truncateToSecond");
 const localReaddir = require("./util/localReaddir");
 const remoteReaddir = require("./util/remoteReaddir");
 
@@ -65,7 +65,7 @@ module.exports = async (blogID, publish, update) => {
         const identicalOnRemote =
           existsLocally &&
           existsLocally.md5Checksum === md5Checksum &&
-          existsLocally.modifiedTime === modifiedTime;
+          truncateToSecond(existsLocally.modifiedTime) === truncateToSecond(modifiedTime);
 
         if (existsLocally && !identicalOnRemote) {
           try {

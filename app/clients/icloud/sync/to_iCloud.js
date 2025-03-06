@@ -8,6 +8,7 @@ const remoteMkdir = require("./util/remoteMkdir");
 const remoteDelete = require("./util/remoteDelete");
 const localReaddir = require("./util/localReaddir");
 const remoteReaddir = require("./util/remoteReaddir");
+const truncateToSecond = require("./util/truncateToSecond");
 
 module.exports = async (blogID, publish, update) => {
   if (!publish)
@@ -64,12 +65,12 @@ module.exports = async (blogID, publish, update) => {
         const identicalOnRemote =
           existsRemotely &&
           existsRemotely.md5Checksum === md5Checksum &&
-          existsRemotely.modifiedTime === modifiedTime;
+          truncateToSecond(existsRemotely.modifiedTime) === truncateToSecond(modifiedTime);
 
         if (existsRemotely && !identicalOnRemote) {
           try {
             await checkWeCanContinue();
-            publish("Uploading", path);
+            publish("Updating", path);
             await upload(blogID, path);
           } catch (e) {
             publish("Failed to upload", path, e);
@@ -77,7 +78,7 @@ module.exports = async (blogID, publish, update) => {
         } else if (!existsRemotely) {
           try {
             await checkWeCanContinue();
-            publish("Uploading", path);
+            publish("Transferring", path);
             await upload(blogID, path);
           } catch (e) {
             publish("Failed to download", path, e);

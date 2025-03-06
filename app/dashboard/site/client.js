@@ -168,18 +168,19 @@ client_routes.post("/reset/resync", load.client, function (req, res, next) {
       console.log("ERROR:", err);
     }
 
-    Rebuild(req.blog.id, function (err) {
-      if (err) console.log(err);
-      folder.status("Checking your site for issues");
-      Fix(req.blog, function (err) {
-        if (err) console.log(err);
+    // Rebuild(req.blog.id, function (err) {
+    //   if (err) console.log(err);
+    //   folder.status("Checking your site for issues");
+    //   Fix(req.blog, function (err) {
+    //     if (err) console.log(err);
+
         folder.status("Finished site rebuild");
 
         done(null, function (err) {
           if (err) console.log(err);
         });
-      });
-    });
+    //   });
+    // });
   });
 });
 
