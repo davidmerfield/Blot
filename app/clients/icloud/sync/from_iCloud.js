@@ -33,13 +33,13 @@ module.exports = async (blogID, publish, update) => {
         const path = join(dir, name);
         await checkWeCanContinue();
         publish("Removing local item", join(dir, name));
-        // await fs.remove(localPath(blogID, path));
-        // await update(path);
+        await fs.remove(localPath(blogID, path));
+        await update(path);
       }
     }
 
     for (const file of remoteContents) {
-      const { name, md5Checksum, modifiedTime } = file;
+      const { name, md5Checksum, isDirectory, modifiedTime } = file;
       const path = join(dir, name);
       const existsLocally = localContents.find((item) => item.name === name);
 
@@ -47,28 +47,28 @@ module.exports = async (blogID, publish, update) => {
         if (existsLocally && !existsLocally.isDirectory) {
           await checkWeCanContinue();
           publish("Removing", path);
-        //   await fs.remove(localPath(blogID, path));
+          await fs.remove(localPath(blogID, path));
           publish("Creating directory", path);
-        //   await fs.ensureDir(localPath(blogID, path));
-        //   await update(path);
+          await fs.ensureDir(localPath(blogID, path));
+          await update(path);
         } else if (!existsLocally) {
           await checkWeCanContinue();
           publish("Creating directory", path);
-        //   await fs.ensureDir(localPath(blogID, path));
-        //   await update(path);
+          await fs.ensureDir(localPath(blogID, path));
+          await update(path);
         }
 
-        await walk(path, id);
+        await walk(path);
       } else {
 
-        const identicalOnRemote = existsLocally.md5Checksum === md5Checksum;
+        const identicalOnRemote = existsLocally && existsLocally.md5Checksum === md5Checksum && existsLocally.modifiedTime === modifiedTime;
 
         if (existsLocally && !identicalOnRemote) {
           try {
             await checkWeCanContinue();
             publish("Updating", path);
-            // await download(blogID, drive, path, file);
-            // await update(path);
+            await download(blogID, path);
+            await update(path);
           } catch (e) {
             publish("Failed to download", path, e);
           }
@@ -76,8 +76,8 @@ module.exports = async (blogID, publish, update) => {
           try {
             await checkWeCanContinue();
             publish("Downloading", path);
-            // await download(blogID, drive, path, file);
-            // await update(path);
+            await download(blogID, path);
+            await update(path);
           } catch (e) {
             publish("Failed to download", path, e);
           }

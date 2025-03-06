@@ -334,17 +334,20 @@ const startServer = () => {
   app.post("/upload", async (req, res) => {
     const blogID = req.header("blogID");
     const path = req.header("path");
+    const modifiedTime = req.header("modifiedTime");
 
-    // Validate required headers
-    if (!blogID || !path) {
-      return res.status(400).send("Missing required headers: blogID or path");
+    if (!blogID || !path || !modifiedTime) {
+      return res.status(400).send("Missing blogID, path, or modifiedTime header");
     }
 
     console.log(`Received upload request for blogID: ${blogID}, path: ${path}`);
 
     const filePath = path.join(iCloudDriveDirectory, blogID, path);
-    
+
     await fs.outputFile(filePath, req.body);
+
+    const modifiedTimeDate = new Date(modifiedTime);
+    await fs.utimes(filePath, modifiedTimeDate, modifiedTimeDate);
 
     console.log(`Uploaded file: ${filePath}`);
 
@@ -412,6 +415,7 @@ const startServer = () => {
     console.log(`Created directory: ${dirPath}`);
   });
 
+  
   app.get("/readdir", async (req, res) => {
     const blogID = req.header("blogID");
     const path = req.header("path");
@@ -449,6 +453,29 @@ const startServer = () => {
     console.log(`Readdir complete for blogID: ${blogID}, path: ${path}`);
     console.log(result);
     res.json(result);
+  });
+
+  app.get("/download", async (req, res) => {
+    const blogID = req.header("blogID");
+    const path = req.header("path");
+
+    if (!blogID || !path) {
+      return res.status(400).send("Missing blogID or path header");
+    }
+
+    console.log(`Received download request for blogID: ${blogID}, path: ${path}`);
+
+    const filePath = join(iCloudDriveDirectory, blogID, path);
+
+    // set the modifiedTime header to the file's modified time as an ISO string
+    const modifiedTime = (await fs.stat
+      (filePath))
+      .mtime
+      .toISOString();
+
+    res.setHeader("modifiedTime", modifiedTime);
+    
+    res.download(filePath, path);
   });
 
 

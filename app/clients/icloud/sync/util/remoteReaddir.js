@@ -8,6 +8,7 @@ module.exports = async (blogID, path) => {
   });
   const json = await res.json();
 
-  console.log(json);
+  console.log('REMOTE:', json);
+
   return json;
 };

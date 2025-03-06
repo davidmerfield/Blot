@@ -5,7 +5,7 @@ const { join } = require("path");
 const localreaddir = async (dir) => {
     const contents = await fs.readdir(dir);
   
-    return Promise.all(
+    const result = await Promise.all(
       contents.map(async (name) => {
         const path = join(dir, name);
         const [md5Checksum, stat] = await Promise.all([
@@ -25,6 +25,10 @@ const localreaddir = async (dir) => {
         };
       })
     );
+
+    console.log('Local:', result);
+
+    return result;
   };
 
 module.exports = localreaddir;
