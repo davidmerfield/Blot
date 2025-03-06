@@ -6,20 +6,12 @@ const exec = require("util").promisify(require("child_process").exec);
 const chokidar = require("chokidar");
 const fs = require("fs-extra");
 const acceptSharingLink = require("./acceptSharingLink");
-const maxiCloudFileSize = "50MB"
+const maxiCloudFileSize = "50MB";
 const remoteServer = process.env.REMOTE_SERVER;
 const iCloudDriveDirectory = process.env.ICLOUD_DRIVE_DIRECTORY;
 const Authorization = process.env.BLOT_ICLOUD_SERVER_SECRET; // Use the correct environment variable
 
 const isBlogDirectory = (name) => name.startsWith("blog_");
-
-const os = require('os'); 
-const tempDir = join(os.tmpdir(), 'macserver');
-
-// ensure the temp directory exists
-fs.ensureDirSync(tempDir);
-
-console.log('Using tempDir:', tempDir);
 
 if (!remoteServer) {
   throw new Error("REMOTE_SERVER is not set");
@@ -33,14 +25,16 @@ if (!Authorization) {
   throw new Error("BLOT_ICLOUD_SERVER_SECRET is not set");
 }
 
-// verify we can read, write and delete files 
-fs.access(iCloudDriveDirectory, fs.constants.R_OK | fs.constants.W_OK | fs.constants.X_OK)
-    .then(() => console.log(`Directory ${iCloudDriveDirectory} is accessible`))
-    .catch((err) => {
-        console.error(`Directory ${iCloudDriveDirectory} is not accessible:`, err);
-        process.exit(1);
-    });
-
+// verify we can read, write and delete files
+fs.access(
+  iCloudDriveDirectory,
+  fs.constants.R_OK | fs.constants.W_OK | fs.constants.X_OK
+)
+  .then(() => console.log(`Directory ${iCloudDriveDirectory} is accessible`))
+  .catch((err) => {
+    console.error(`Directory ${iCloudDriveDirectory} is not accessible:`, err);
+    process.exit(1);
+  });
 
 /**
  * Ping the remote server to ensure it's reachable.
@@ -64,8 +58,6 @@ const ping = async () => {
     console.error("Error pinging remote server:", error);
   }
 };
-
-
 
 const Bottleneck = require("bottleneck");
 const getmd5Checksum = require("../sync/util/md5Checksum");
@@ -99,7 +91,10 @@ const handleFileEvent = async (event, filePath) => {
   try {
     // handle paths with special characters e.g. umlauts
     const normalizedFilePath = filePath.normalize("NFC");
-    const relativePath = normalizedFilePath.replace(`${iCloudDriveDirectory}/`, "");
+    const relativePath = normalizedFilePath.replace(
+      `${iCloudDriveDirectory}/`,
+      ""
+    );
     const [blogID, ...restPath] = relativePath.split("/");
     const path = restPath.join("/");
 
@@ -127,16 +122,16 @@ const handleFileEvent = async (event, filePath) => {
           try {
             // brctl download /path/to/file.txt
             console.log(`Downloading file: ${filePath}`);
-            const { stdout, stderr } = await exec(`brctl download "${relativePath}"`, { cwd: iCloudDriveDirectory });
-            console.log('stdout:', stdout);
-            console.log('stderr:', stderr);
+            const { stdout, stderr } = await exec(
+              `brctl download "${relativePath}"`,
+              { cwd: iCloudDriveDirectory }
+            );
+            console.log("stdout:", stdout);
+            console.log("stderr:", stderr);
 
             console.log(`Reading file: ${filePath}`);
             body = await fs.readFile(filePath);
-            modifiedTime = (await fs
-              .stat(filePath))
-              .mtime
-              .toISOString();
+            modifiedTime = (await fs.stat(filePath)).mtime.toISOString();
 
             break;
           } catch (error) {
@@ -206,11 +201,10 @@ const handleFileEvent = async (event, filePath) => {
   }
 };
 
-
 // Only one setup can run at a time otherwise the apple script
 // might not work correctly or accept the wrong sharing link
 const setupLimiter = new Bottleneck({
-  maxConcurrent: 1, 
+  maxConcurrent: 1,
 });
 
 /**
@@ -219,67 +213,86 @@ const setupLimiter = new Bottleneck({
  * @param {string} sharingLink - The iCloud sharing link for the folder
  */
 const setupBlog = setupLimiter.wrap(async (blogID, sharingLink) => {
-  console.log(`Waiting for a new folder to set up blogID: ${blogID} using sharingLink: ${sharingLink}`);
+  console.log(
+    `Waiting for a new folder to set up blogID: ${blogID} using sharingLink: ${sharingLink}`
+  );
 
   const checkInterval = 100; // Interval (in ms) to check for new directories
   const timeout = 1000 * 15; // Timeout (in ms) to wait for a new directory: 15 seconds
   const start = Date.now();
   try {
     // Get the initial state of the top-level directories
-    const initialDirs = await fs.readdir(iCloudDriveDirectory, { withFileTypes: true });
-    const initialDirNames = initialDirs.filter((dir) => dir.isDirectory()).map((dir) => dir.name);
+    const initialDirs = await fs.readdir(iCloudDriveDirectory, {
+      withFileTypes: true,
+    });
+    const initialDirNames = initialDirs
+      .filter((dir) => dir.isDirectory())
+      .map((dir) => dir.name);
 
-    console.log(`Initial state of iCloud Drive: ${initialDirNames.join(", ") || "No directories"}`);
+    console.log(
+      `Initial state of iCloud Drive: ${
+        initialDirNames.join(", ") || "No directories"
+      }`
+    );
 
     // run the acceptSharingLink script in the background
-    console.log('running the acceptSharingLink script');
+    console.log("running the acceptSharingLink script");
     acceptSharingLink(sharingLink);
 
     while (true && Date.now() - start < timeout) {
-        // Get the current state of the top-level directories
-        const currentDirs = await fs.readdir(iCloudDriveDirectory, { withFileTypes: true });
-        const currentDirNames = currentDirs.filter((dir) => dir.isDirectory()).map((dir) => dir.name);
+      // Get the current state of the top-level directories
+      const currentDirs = await fs.readdir(iCloudDriveDirectory, {
+        withFileTypes: true,
+      });
+      const currentDirNames = currentDirs
+        .filter((dir) => dir.isDirectory())
+        .map((dir) => dir.name);
 
-        // Find any new directories by comparing initial state with the current state
-        const newDirs = currentDirNames.filter((dirName) => !initialDirNames.includes(dirName));
+      // Find any new directories by comparing initial state with the current state
+      const newDirs = currentDirNames.filter(
+        (dirName) => !initialDirNames.includes(dirName)
+      );
 
-        if (newDirs.length > 0) {
-          const newDirName = newDirs[0]; // Handle the first new directory found
-          console.log(`Found new folder: ${newDirName}`);
+      if (newDirs.length > 0) {
+        const newDirName = newDirs[0]; // Handle the first new directory found
+        console.log(`Found new folder: ${newDirName}`);
 
-          const oldPath = join(iCloudDriveDirectory, newDirName);
-          const newPath = join(iCloudDriveDirectory, blogID);
+        const oldPath = join(iCloudDriveDirectory, newDirName);
+        const newPath = join(iCloudDriveDirectory, blogID);
 
-          // Rename the folder
-          await fs.rename(oldPath, newPath);
+        // Rename the folder
+        await fs.rename(oldPath, newPath);
 
-          console.log(`Renamed folder from ${newDirName} to ${blogID}`);
+        console.log(`Renamed folder from ${newDirName} to ${blogID}`);
 
-          // Notify the remote server that setup is complete
-          const res = await fetch(`${remoteServer}/setup-complete`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization, // Use the Authorization header
-              blogID,
-            }
-          });
+        // Notify the remote server that setup is complete
+        const res = await fetch(`${remoteServer}/setup-complete`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization, // Use the Authorization header
+            blogID,
+          },
+        });
 
-          if (!res.ok) {
-            console.error(`Failed to send setup-complete notification for blogID: ${blogID}`);
-          } else {
-            console.log(`Setup-complete notification sent for blogID: ${blogID}`);
-          }
-
-          return; // Setup is complete, exit the loop
+        if (!res.ok) {
+          console.error(
+            `Failed to send setup-complete notification for blogID: ${blogID}`
+          );
+        } else {
+          console.log(`Setup-complete notification sent for blogID: ${blogID}`);
         }
+
+        return; // Setup is complete, exit the loop
+      }
 
       // Wait before checking again
       await new Promise((resolve) => setTimeout(resolve, checkInterval));
     }
 
-    console.error(`Timed out waiting for a new folder to set up blogID: ${blogID}`);
-
+    console.error(
+      `Timed out waiting for a new folder to set up blogID: ${blogID}`
+    );
   } catch (error) {
     console.error(`Failed to initialize setup for blogID (${blogID}):`, error);
   }
@@ -292,33 +305,33 @@ const initializeWatcher = () => {
   console.log(`Watching iCloud Drive directory: ${iCloudDriveDirectory}`);
 
   chokidar
-    .watch(iCloudDriveDirectory, { 
+    .watch(iCloudDriveDirectory, {
       ignoreInitial: true,
-      
+
       // emit single event when chunked writes are completed
       // Was designed to solve this error:
-      // Error handling file event (add, /Users/admin/Library/Mobile Documents/com~apple~Cloud  
+      // Error handling file event (add, /Users/admin/Library/Mobile Documents/com~apple~Cloud
       // errno: -11,
-      // code: 'Unknown system error -11',   
-      // syscall: 'read'                       
+      // code: 'Unknown system error -11',
+      // syscall: 'read'
       // which occurs when the file is only partially written
       awaitWriteFinish: {
         stabilityThreshold: 1000,
         pollInterval: 50,
       },
-     })
+    })
     .on("all", async (event, filePath) => {
       await handleFileEvent(event, filePath);
     });
 };
 
-const checkAuthorization = (req, res, next)=>{
+const checkAuthorization = (req, res, next) => {
   const authorization = req.header("Authorization"); // New header for the Authorization secret
 
   if (authorization !== Authorization) {
     return res.status(403).send("Unauthorized");
   }
-  
+
   next();
 };
 
@@ -338,7 +351,9 @@ const startServer = () => {
 
   app.use(express.json());
 
-  app.use(express.raw({ type: "application/octet-stream", limit: maxiCloudFileSize })); // For handling binary data
+  app.use(
+    express.raw({ type: "application/octet-stream", limit: maxiCloudFileSize })
+  ); // For handling binary data
 
   app.get("/ping", async (req, res) => {
     res.send("pong");
@@ -350,25 +365,30 @@ const startServer = () => {
     const modifiedTime = req.header("modifiedTime");
 
     if (!blogID || !path || !modifiedTime) {
-      return res.status(400).send("Missing blogID, path, or modifiedTime header");
+      return res
+        .status(400)
+        .send("Missing blogID, path, or modifiedTime header");
     }
 
     console.log(`Received upload request for blogID: ${blogID}, path: ${path}`);
 
-    // write the file to a temporary location first
-    // we run into issues when writing directly to the final location
-    // since it's an iCloud Drive folder
-    const tempFilePath = join(tempDir, blogID, path);
-    await fs.outputFile(tempFilePath, req.body);
+    const filePath = join(iCloudDriveDirectory, blogID, path);
 
-    const modifiedTimeDate = new Date(modifiedTime);
-    await fs.utimes(tempFilePath, modifiedTimeDate, modifiedTimeDate);
-
-    // move the file to the final location using 'exec mv' to avoid partial writes
-    await exec(`mv "${tempFilePath}" "${join(blogID, path)}"`, { cwd: iCloudDriveDirectory });
+    for (let i = 0; i < 10; i++) {
+      try {
+        await fs.outputFile(filePath, req.body);
+        console.log(`Wrote file: ${filePath}`);
+        const modifiedTimeDate = new Date(modifiedTime);
+        await fs.utimes(filePath, modifiedTimeDate, modifiedTimeDate);
+        console.log(`Set modified time for file: ${filePath}`);
+        break;
+      } catch (error) {
+        console.error(`Failed to write file (${filePath}):`, error);
+        await new Promise((resolve) => setTimeout(resolve, 1000 * i)); // Exponential backoff
+      }
+    }
 
     console.log(`Recieved upload of file: ${filePath}`);
-
     res.sendStatus(200);
   });
 
@@ -385,11 +405,46 @@ const startServer = () => {
 
     const filePath = join(iCloudDriveDirectory, blogID, path);
 
-    await fs.remove(filePath);
+    for (let i = 0; i < 10; i++) {
+      try {
+        await fs.remove(filePath);
+        console.log(`Deleted file: ${filePath}`);
+        break;
+      } catch (error) {
+        console.error(`Failed to delete file (${filePath}):`, error);
+        await new Promise((resolve) => setTimeout(resolve, 1000 * i)); // Exponential backoff
+      }
+    }
 
-    console.log(`Deleted file: ${filePath}`);
+    console.log(`Handled file deletion: ${filePath}`);
 
     res.sendStatus(200);
+  });
+
+  app.post("/mkdir", async (req, res) => {
+    const blogID = req.header("blogID");
+    const path = req.header("path");
+
+    if (!blogID || !path) {
+      return res.status(400).send("Missing blogID or path header");
+    }
+
+    console.log(`Received mkdir request for blogID: ${blogID}, path: ${path}`);
+
+    const dirPath = join(iCloudDriveDirectory, blogID, path);
+
+    for (let i = 0; i < 10; i++) {
+      try {
+        await fs.ensureDir(dirPath);
+        console.log(`Created directory: ${dirPath}`);
+        break;
+      } catch (error) {
+        console.error(`Failed to create directory (${dirPath}):`, error);
+        await new Promise((resolve) => setTimeout(resolve, 1000 * i)); // Exponential backoff
+      }
+    }
+
+    console.log(`Created directory: ${dirPath}`);
   });
 
   app.post("/disconnect", async (req, res) => {
@@ -416,22 +471,6 @@ const startServer = () => {
     res.sendStatus(200);
   });
 
-  app.post("/mkdir", async (req, res) => {
-    const blogID = req.header("blogID");
-    const path = req.header("path");
-
-    if (!blogID || !path) {
-      return res.status(400).send("Missing blogID or path header");
-    }
-
-    console.log(`Received mkdir request for blogID: ${blogID}, path: ${path}`);
-
-    await exec(`mkdir -p "${join(blogID, path)}"`, { cwd: iCloudDriveDirectory });
-
-    console.log(`Created directory: ${dirPath}`);
-  });
-
-  
   app.get("/readdir", async (req, res) => {
     const blogID = req.header("blogID");
     const path = req.header("path");
@@ -440,16 +479,16 @@ const startServer = () => {
       return res.status(400).send("Missing blogID or path header");
     }
 
-    console.log(`Received readdir request for blogID: ${blogID}, path: ${path}`);
+    console.log(
+      `Received readdir request for blogID: ${blogID}, path: ${path}`
+    );
 
     const dirPath = join(iCloudDriveDirectory, blogID, path);
     const files = await fs.readdir(dirPath, { withFileTypes: true });
 
-
     const result = [];
 
     for (const file of files) {
-      
       const filePath = join(dirPath, file.name);
       const [md5Checksum, stat] = await Promise.all([
         file.isDirectory() ? undefined : getmd5Checksum(filePath),
@@ -480,47 +519,48 @@ const startServer = () => {
       return res.status(400).send("Missing blogID or path header");
     }
 
-    console.log(`Received download request for blogID: ${blogID}, path: ${path}`);
+    console.log(
+      `Received download request for blogID: ${blogID}, path: ${path}`
+    );
 
     const filePath = join(iCloudDriveDirectory, blogID, path);
 
     // set the modifiedTime header to the file's modified time as an ISO string
-    const modifiedTime = (await fs.stat
-      (filePath))
-      .mtime
-      .toISOString();
+    const modifiedTime = (await fs.stat(filePath)).mtime.toISOString();
 
     res.setHeader("modifiedTime", modifiedTime);
-    
+
     res.download(filePath, path);
   });
 
-
-  app.get('/stats', async (req, res) => {
-    
+  app.get("/stats", async (req, res) => {
     const result = {};
 
     // use brctl quota to get the iCloud Drive quota and usage
     // e.g. '1899909948243 bytes of quota remaining in personal account'
-    const { stdout: quota, stderr: quotaErr } = await exec('brctl quota');
+    const { stdout: quota, stderr: quotaErr } = await exec("brctl quota");
     if (quotaErr) {
       console.error(`Error getting iCloud Drive quota: ${quotaErr}`);
       return res.status(500).send(quotaErr);
     }
 
-    result.icloud_bytes_available = quota.match(/(\d+) bytes of quota remaining/)[1];
+    result.icloud_bytes_available = quota.match(
+      /(\d+) bytes of quota remaining/
+    )[1];
 
     // get root disk free space on the mac as a whole in bytes
-    const { stdout: diskFree, stderr: diskFreeErr } = await exec('df /');
+    const { stdout: diskFree, stderr: diskFreeErr } = await exec("df /");
     if (diskFreeErr) {
       console.error(`Error getting disk free space: ${diskFreeErr}`);
       return res.status(500).send(diskFreeErr);
     }
 
-    result.disk_bytes_available = diskFree.split('\n')[1].split(/\s+/)[3];
+    result.disk_bytes_available = diskFree.split("\n")[1].split(/\s+/)[3];
 
     // get number of blogs connected
-    const blogs = await fs.readdir(iCloudDriveDirectory, { withFileTypes: true });
+    const blogs = await fs.readdir(iCloudDriveDirectory, {
+      withFileTypes: true,
+    });
 
     result.blogs_connected = blogs.filter((blog) => blog.isDirectory()).length;
 
@@ -529,19 +569,21 @@ const startServer = () => {
 
   app.post("/setup", async (req, res) => {
     const blogID = req.header("blogID");
-    
+
     const sharingLink = req.header("sharingLink"); // New header for the sharing link
-  
+
     if (!blogID) {
       return res.status(400).send("Missing blogID header");
     }
-  
+
     if (!sharingLink) {
       return res.status(400).send("Missing sharingLink header");
     }
-  
-    console.log(`Received setup request for blogID: ${blogID}, sharingLink: ${sharingLink}`);
-    
+
+    console.log(
+      `Received setup request for blogID: ${blogID}, sharingLink: ${sharingLink}`
+    );
+
     res.sendStatus(200);
 
     setupBlog(blogID, sharingLink) // Pass both blogID and sharingLink
