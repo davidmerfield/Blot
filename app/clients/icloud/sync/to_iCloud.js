@@ -28,10 +28,6 @@ module.exports = async (blogID, publish, update) => {
     ]);
 
     for (const { name } of remoteContents) {
-      if (name === ".DS_Store") {
-        continue;
-      }
-
       if (!localContents.find((item) => item.name === name)) {
         const path = join(dir, name);
         await checkWeCanContinue();
@@ -46,9 +42,6 @@ module.exports = async (blogID, publish, update) => {
       isDirectory,
       modifiedTime,
     } of localContents) {
-      if (name === ".DS_Store") {
-        continue;
-      }
 
       const path = join(dir, name);
       const existsRemotely = remoteContents.find((item) => item.name === name);
