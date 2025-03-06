@@ -1,6 +1,7 @@
 const express = require("express");
 const { raw } = express;
 const { Authorization, maxiCloudFileSize, remoteServer } = require("./config");
+const { initializeWatcher } = require("./watcher");
 
 const startServer = () => {
   const app = express();

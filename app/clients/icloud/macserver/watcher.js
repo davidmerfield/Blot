@@ -3,7 +3,11 @@ const chokidar = require("chokidar");
 const fs = require("fs-extra");
 
 const { getLimiterForBlogID } = require("./limiters");
-const { remoteServer, iCloudDriveDirectory, Authorization } = require("./config");
+const {
+  remoteServer,
+  iCloudDriveDirectory,
+  Authorization,
+} = require("./config");
 
 const isBlogDirectory = (name) => name.startsWith("blog_");
 
@@ -160,3 +164,5 @@ const initializeWatcher = () => {
       await handleFileEvent(event, filePath);
     });
 };
+
+module.exports = { initializeWatcher };
