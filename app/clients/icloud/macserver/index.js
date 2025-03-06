@@ -116,6 +116,7 @@ const handleFileEvent = async (event, filePath) => {
     // Schedule the event handler to run within the limiter
     await limiter.schedule(async () => {
       if (event === "add" || event === "change") {
+        console.log(`Issuing external upload for blogID: ${blogID}, path: ${path}`);
         let body;
         let modifiedTime;
         for (let i = 0; i < 10; i++) {
@@ -163,6 +164,7 @@ const handleFileEvent = async (event, filePath) => {
 
         console.log(`Upload successful: ${await res.text()}`);
       } else if (event === "unlink" || event === "unlinkDir") {
+        console.log(`Issuing external delete for blogID: ${blogID}, path: ${path}`);
         const res = await fetch(`${remoteServer}/delete`, {
           method: "POST",
           headers: {
@@ -179,10 +181,10 @@ const handleFileEvent = async (event, filePath) => {
 
         console.log(`Delete successful: ${await res.text()}`);
       } else if (event === "addDir") {
+        console.log(`Issuing external mkdir for blogID: ${blogID}, path: ${path}`);
         const res = await fetch(`${remoteServer}/mkdir`, {
           method: "POST",
           headers: {
-            "Content-Type": "application/json",
             Authorization, // Use the Authorization header
             blogID,
             path,
@@ -193,7 +195,7 @@ const handleFileEvent = async (event, filePath) => {
           throw new Error(`Mkdir failed: ${res.statusText}`);
         }
 
-        console.log(`Mkdir successful: ${await res.text()}`);
+        console.log(`Issuing external mkdir successful: ${await res.text()}`);
       }
     });
   } catch (error) {
