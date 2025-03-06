@@ -5,7 +5,6 @@ const { join } = require("path");
 const exec = require("util").promisify(require("child_process").exec);
 const chokidar = require("chokidar");
 const fs = require("fs-extra");
-const path = require("path");
 const acceptSharingLink = require("./acceptSharingLink");
 const maxiCloudFileSize = "50MB"
 const remoteServer = process.env.REMOTE_SERVER;
@@ -240,8 +239,8 @@ const setupBlog = setupLimiter.wrap(async (blogID, sharingLink) => {
           const newDirName = newDirs[0]; // Handle the first new directory found
           console.log(`Found new folder: ${newDirName}`);
 
-          const oldPath = path.join(iCloudDriveDirectory, newDirName);
-          const newPath = path.join(iCloudDriveDirectory, blogID);
+          const oldPath = join(iCloudDriveDirectory, newDirName);
+          const newPath = join(iCloudDriveDirectory, blogID);
 
           // Rename the folder
           await fs.rename(oldPath, newPath);
@@ -342,7 +341,7 @@ const startServer = () => {
 
     console.log(`Received upload request for blogID: ${blogID}, path: ${path}`);
 
-    const filePath = path.join(iCloudDriveDirectory, blogID, path);
+    const filePath = join(iCloudDriveDirectory, blogID, path);
 
     await fs.outputFile(filePath, req.body);
 
@@ -365,7 +364,7 @@ const startServer = () => {
 
     console.log(`Received delete request for blogID: ${blogID}, path: ${path}`);
 
-    const filePath = path.join(iCloudDriveDirectory, blogID, path);
+    const filePath = join(iCloudDriveDirectory, blogID, path);
 
     await fs.remove(filePath);
 
@@ -391,7 +390,7 @@ const startServer = () => {
 
     // remove the blogid folder and the limiter
     limiters.delete(blogID);
-    await fs.remove(path.join(iCloudDriveDirectory, blogID));
+    await fs.remove(join(iCloudDriveDirectory, blogID));
 
     console.log(`Disconnected blogID: ${blogID}`);
 
@@ -408,7 +407,7 @@ const startServer = () => {
 
     console.log(`Received mkdir request for blogID: ${blogID}, path: ${path}`);
 
-    const dirPath = path.join(iCloudDriveDirectory, blogID, path);
+    const dirPath = join(iCloudDriveDirectory, blogID, path);
 
     await fs.ensureDir(dirPath);
 
