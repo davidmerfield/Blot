@@ -26,7 +26,7 @@ const handleFileEvent = async (event, filePath) => {
       return;
     }
 
-    if (!isBlogDirectory(blogID)) {
+    if (!isBlogDirectory(blogID) || !fs.existsSync(join(iCloudDriveDirectory, blogID))) {
       console.warn(`Ignoring event for unregistered blogID: ${blogID}`);
       return;
     }
