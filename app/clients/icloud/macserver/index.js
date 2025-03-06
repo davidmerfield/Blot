@@ -13,6 +13,14 @@ const Authorization = process.env.BLOT_ICLOUD_SERVER_SECRET; // Use the correct 
 
 const isBlogDirectory = (name) => name.startsWith("blog_");
 
+const os = require('os'); 
+const tempDir = join(os.tmpdir(), 'macserver');
+
+// ensure the temp directory exists
+fs.ensureDirSync(tempDir);
+
+console.log('Using tempDir:', tempDir);
+
 if (!remoteServer) {
   throw new Error("REMOTE_SERVER is not set");
 }
@@ -325,7 +333,7 @@ const startServer = () => {
     console.log(`Request: ${req.method} ${req.url}`);
     next();
   });
-  
+
   app.use(checkAuthorization); // This will apply to all routes below
 
   app.use(express.json());
