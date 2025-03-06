@@ -4,9 +4,10 @@ const { join } = require("path");
 
 const localreaddir = async (dir) => {
     const contents = await fs.readdir(dir);
-  
+
+    
     const result = await Promise.all(
-      contents.map(async (name) => {
+      contents.filter(name => name !== '.DS_Store').map(async (name) => {
         const path = join(dir, name);
         const [md5Checksum, stat] = await Promise.all([
           getmd5Checksum(path),

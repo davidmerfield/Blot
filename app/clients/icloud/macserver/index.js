@@ -348,7 +348,7 @@ const startServer = () => {
     const modifiedTimeDate = new Date(modifiedTime);
     await fs.utimes(filePath, modifiedTimeDate, modifiedTimeDate);
 
-    console.log(`Uploaded file: ${filePath}`);
+    console.log(`Recieved upload of file: ${filePath}`);
 
     res.sendStatus(200);
   });
@@ -432,6 +432,11 @@ const startServer = () => {
     const result = [];
 
     for (const file of files) {
+      
+      if (file === ".DS_Store") {
+        continue;
+      }
+
       const filePath = join(dirPath, file.name);
       const [md5Checksum, stat] = await Promise.all([
         file.isDirectory() ? undefined : getmd5Checksum(filePath),
