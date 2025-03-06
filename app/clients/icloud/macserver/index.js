@@ -355,12 +355,17 @@ const startServer = () => {
 
     console.log(`Received upload request for blogID: ${blogID}, path: ${path}`);
 
-    const filePath = join(iCloudDriveDirectory, blogID, path);
-
-    await fs.outputFile(filePath, req.body);
+    // write the file to a temporary location first
+    // we run into issues when writing directly to the final location
+    // since it's an iCloud Drive folder
+    const tempFilePath = join(tempDir, blogID, path);
+    await fs.outputFile(tempFilePath, req.body);
 
     const modifiedTimeDate = new Date(modifiedTime);
-    await fs.utimes(filePath, modifiedTimeDate, modifiedTimeDate);
+    await fs.utimes(tempFilePath, modifiedTimeDate, modifiedTimeDate);
+
+    // move the file to the final location using 'exec mv' to avoid partial writes
+    await exec(`mv "${tempFilePath}" "${join(blogID, path)}"`, { cwd: iCloudDriveDirectory });
 
     console.log(`Recieved upload of file: ${filePath}`);
 
@@ -421,9 +426,7 @@ const startServer = () => {
 
     console.log(`Received mkdir request for blogID: ${blogID}, path: ${path}`);
 
-    const dirPath = join(iCloudDriveDirectory, blogID, path);
-
-    await fs.ensureDir(dirPath);
+    await exec(`mkdir -p "${join(blogID, path)}"`, { cwd: iCloudDriveDirectory });
 
     console.log(`Created directory: ${dirPath}`);
   });
