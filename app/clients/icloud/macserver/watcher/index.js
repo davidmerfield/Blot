@@ -5,7 +5,7 @@ const remove = require("./remove");
 const mkdir = require("./mkdir");
 
 const { getLimiterForBlogID } = require("../limiters");
-const { iCloudDriveDirectory } = require("./config");
+const { iCloudDriveDirectory } = require("../config");
 
 const isBlogDirectory = (name) => name.startsWith("blog_");
 
