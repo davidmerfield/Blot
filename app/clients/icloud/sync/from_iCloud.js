@@ -2,7 +2,6 @@ const fs = require("fs-extra");
 const { join } = require("path");
 const localPath = require("helper/localPath");
 const clfdate = require("helper/clfdate");
-const database = require("../database");
 const download = require("./util/download");
 const CheckWeCanContinue = require("./util/checkWeCanContinue");
 

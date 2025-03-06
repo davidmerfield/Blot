@@ -9,6 +9,10 @@ module.exports = async (blogID, path) => {
     headers: { Authorization: MACSERVER_AUTH, blogID: blogID, path: path },
   });
 
+  if (!res.ok) {
+    throw new Error(`Failed to download ${path}`);
+  }
+  
   // the modifiedTime header is sent by the server
   const modifiedTime = res.headers.get("modifiedTime");
   const arrayBuffer = await res.arrayBuffer();

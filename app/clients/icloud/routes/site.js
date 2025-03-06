@@ -9,6 +9,7 @@ const localPath = require("helper/localPath");
 const establishSyncLock = require("../util/establishSyncLock");
 const database = require("../database");
 const site = new express.Router();
+const syncToiCloud = require("../sync/to_iCloud");
 
 // Middleware to verify the Authorization header
 function verifyAuthorization(req, res, next) {
@@ -56,12 +57,15 @@ site.get("/ping", async function (req, res) {
 
 site.post("/setup-complete", async function (req, res) {
   const blogID = req.header("blogID");
+  res.send("ok");
+
   // establish sync lock
   const { folder, done } = await establishSyncLock(blogID);
+  folder.status("Setting up iCloud sync");
+  await syncToiCloud(blogID, folder.status, folder.update);
+  await database.store(blogID, { setupComplete: true });
   folder.status("Setup complete");
   await done();
-  await database.store(blogID, { setupComplete: true });
-  res.send("Setup complete");
 });
 
 // Upload endpoint (handles binary files)
