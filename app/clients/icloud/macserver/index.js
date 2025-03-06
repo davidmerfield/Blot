@@ -447,6 +447,7 @@ const startServer = () => {
     }
 
     console.log(`Created directory: ${dirPath}`);
+    res.sendStatus(200);
   });
 
   app.post("/disconnect", async (req, res) => {

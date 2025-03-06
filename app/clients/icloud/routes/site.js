@@ -28,6 +28,7 @@ async function checkBlogUsesICloud(req, res, next) {
   const blogID = req.header("blogID");
 
   if (!blogID) {
+    console.warn("Missing blogID header");
     return res.status(400).send("Missing blogID header");
   }
 
@@ -35,10 +36,12 @@ async function checkBlogUsesICloud(req, res, next) {
   const blog = await database.get(blogID);
 
   if (!blog || !blog.sharingLink) {
+    console.warn("Blog is not connected to iCloud Drive");
     return res.status(400).send("Blog is not connected to iCloud Drive");
   }
 
   if (!blog.setupComplete) {
+    console.warn("Blog setup is not complete");
     return res.status(400).send("Blog setup is not complete");
   }
 
@@ -77,6 +80,7 @@ site.post("/upload", checkBlogUsesICloud, async function (req, res) {
 
     // Validate required headers
     if (!blogID || !filePath) {
+      console.warn("Missing required headers: blogID or path");
       return res.status(400).send("Missing required headers: blogID or path");
     }
 
