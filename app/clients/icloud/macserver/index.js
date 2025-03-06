@@ -502,7 +502,7 @@ const startServer = () => {
       const isDirectory = file.isDirectory();
 
       result.push({
-        name: file.name,
+        name: file.name.normalize("NFC"),
         isDirectory,
         md5Checksum: isDirectory ? undefined : md5Checksum,
         modifiedTime: isDirectory ? undefined : modifiedTime,

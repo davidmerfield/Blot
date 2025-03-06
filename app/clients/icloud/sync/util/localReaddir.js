@@ -18,7 +18,7 @@ const localreaddir = async (dir) => {
         const isDirectory = stat.isDirectory();
 
         return {
-          name,
+          name: name.normalize('NFC'),
           isDirectory,
           md5Checksum: isDirectory ? undefined : md5Checksum,
           modifiedTime: isDirectory ? undefined : modifiedTime,
