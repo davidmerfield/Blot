@@ -433,10 +433,6 @@ const startServer = () => {
 
     for (const file of files) {
       
-      if (file === ".DS_Store") {
-        continue;
-      }
-
       const filePath = join(dirPath, file.name);
       const [md5Checksum, stat] = await Promise.all([
         file.isDirectory() ? undefined : getmd5Checksum(filePath),

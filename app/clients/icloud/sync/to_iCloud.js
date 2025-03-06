@@ -6,8 +6,8 @@ const upload = require("./util/upload");
 const CheckWeCanContinue = require("./util/checkWeCanContinue");
 const remoteMkdir = require("./util/remoteMkdir");
 const remoteDelete = require("./util/remoteDelete");
-const localReaddir = require('./util/localReaddir');
-const remoteReaddir = require('./util/remoteReaddir');
+const localReaddir = require("./util/localReaddir");
+const remoteReaddir = require("./util/remoteReaddir");
 
 module.exports = async (blogID, publish, update) => {
   if (!publish)
@@ -15,8 +15,7 @@ module.exports = async (blogID, publish, update) => {
       console.log(clfdate() + " iCloud:", args.join(" "));
     };
 
-  if (!update)
-    update = () => {};
+  if (!update) update = () => {};
 
   const checkWeCanContinue = CheckWeCanContinue(blogID);
 
@@ -24,11 +23,15 @@ module.exports = async (blogID, publish, update) => {
     publish("Checking", dir);
 
     const [remoteContents, localContents] = await Promise.all([
-        remoteReaddir(blogID, dir),
-        localReaddir(localPath(blogID, dir)),
+      remoteReaddir(blogID, dir),
+      localReaddir(localPath(blogID, dir)),
     ]);
 
     for (const { name } of remoteContents) {
+      if (name === ".DS_Store") {
+        continue;
+      }
+
       if (!localContents.find((item) => item.name === name)) {
         const path = join(dir, name);
         await checkWeCanContinue();
@@ -37,8 +40,16 @@ module.exports = async (blogID, publish, update) => {
       }
     }
 
-    for (const file of localContents) {
-      const { name, md5Checksum, isDirectory, modifiedTime } = file;
+    for (const {
+      name,
+      md5Checksum,
+      isDirectory,
+      modifiedTime,
+    } of localContents) {
+      if (name === ".DS_Store") {
+        continue;
+      }
+
       const path = join(dir, name);
       const existsRemotely = remoteContents.find((item) => item.name === name);
 
@@ -57,8 +68,10 @@ module.exports = async (blogID, publish, update) => {
 
         await walk(path);
       } else {
-
-        const identicalOnRemote = existsRemotely && existsRemotely.md5Checksum === md5Checksum && existsRemotely.modifiedTime === modifiedTime;
+        const identicalOnRemote =
+          existsRemotely &&
+          existsRemotely.md5Checksum === md5Checksum &&
+          existsRemotely.modifiedTime === modifiedTime;
 
         if (existsRemotely && !identicalOnRemote) {
           try {
@@ -88,7 +101,3 @@ module.exports = async (blogID, publish, update) => {
     // Possibly rethrow or handle
   }
 };
-
-
-
-
