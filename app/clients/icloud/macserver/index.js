@@ -6,7 +6,7 @@ const chokidar = require("chokidar");
 const fs = require("fs-extra");
 const path = require("path");
 const acceptSharingLink = require("./acceptSharingLink");
-
+const md5Checksum = require('../sync/util/md5Checksum');
 const maxiCloudFileSize = "50MB"
 const remoteServer = process.env.REMOTE_SERVER;
 const iCloudDriveDirectory = process.env.ICLOUD_DRIVE_DIRECTORY;
@@ -61,6 +61,7 @@ const ping = async () => {
 
 
 const Bottleneck = require("bottleneck");
+const md5Checksum = require("../sync/util/md5Checksum");
 
 // Create a map of limiters, one per blogID
 const limiters = new Map();
@@ -114,6 +115,7 @@ const handleFileEvent = async (event, filePath) => {
     await limiter.schedule(async () => {
       if (event === "add" || event === "change") {
         let body;
+        let modifiedTime;
         for (let i = 0; i < 10; i++) {
           try {
             // brctl download /path/to/file.txt
@@ -124,6 +126,11 @@ const handleFileEvent = async (event, filePath) => {
 
             console.log(`Reading file: ${filePath}`);
             body = await fs.readFile(filePath);
+            modifiedTime = (await fs
+              .stat(filePath))
+              .mtime
+              .toISOString();
+
             break;
           } catch (error) {
             console.error(`Failed to read file (${filePath}):`, error);
@@ -143,6 +150,7 @@ const handleFileEvent = async (event, filePath) => {
             Authorization, // Use the Authorization header
             blogID,
             path,
+            modifiedTime,
           },
           body,
         });
@@ -401,10 +409,26 @@ const startServer = () => {
     const dirPath = path.join(iCloudDriveDirectory, blogID, path);
     const files = await fs.readdir(dirPath, { withFileTypes: true });
 
-    const result = files.map((file) => ({
-      name: file.name,
-      isDirectory: file.isDirectory(),
-    }));
+
+    const result = [];
+
+    for (const file of files) {
+      const filePath = path.join(dirPath, file.name);
+      const [md5Checksum, stat] = await Promise.all([
+        file.isDirectory() ? undefined : md5Checksum(filePath),
+        fs.stat(filePath),
+      ]);
+
+      const modifiedTime = stat.mtime.toISOString();
+      const isDirectory = file.isDirectory();
+
+      result.push({
+        name: file.name,
+        isDirectory,
+        md5Checksum: isDirectory ? undefined : md5Checksum,
+        modifiedTime: isDirectory ? undefined : modifiedTime,
+      });
+    }
 
     res.json(result);
   });
@@ -432,6 +456,11 @@ const startServer = () => {
     }
 
     result.disk_bytes_available = diskFree.split('\n')[1].split(/\s+/)[3];
+
+    // get number of blogs connected
+    const blogs = await fs.readdir(iCloudDriveDirectory, { withFileTypes: true });
+
+    result.blogs_connected = blogs.filter((blog) => blog.isDirectory()).length;
 
     res.json(result);
   });

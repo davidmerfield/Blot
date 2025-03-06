@@ -1,7 +1,6 @@
 const { exec } = require("child_process");
 
-// I used the accessiblity inspector to find the UI elements to interact with
-// and then wrote this AppleScript to automate the process
+// Used the accessiblity inspector to find the UI elements to interact with
 const appleScript = (sharingLink) => `
 -- Open the specified sharing link in Finder
 try
@@ -34,7 +33,7 @@ end try
 `;
 
 // Function to run inline AppleScript
-function runInlineAppleScript(sharingLink) {
+module.exports = function runInlineAppleScript(sharingLink) {
   return new Promise((resolve, reject) => {
     console.log(`Running AppleScript to accept sharing link: ${sharingLink}`);
     exec(`osascript -e '${appleScript(sharingLink)}'`, (error, stdout, stderr) => {
@@ -51,21 +50,3 @@ function runInlineAppleScript(sharingLink) {
     });
   });
 }
-
-if (require.main === module) {
-  // Run the inline AppleScript and handle the result
-  if (!process.argv[2]) {
-    console.error("Please provide a sharing link as an argument");
-    process.exit(1);
-  }
-
-  runInlineAppleScript(process.argv[2])
-    .then((output) => {
-      console.log("AppleScript executed successfully:", output);
-    })
-    .catch((error) => {
-      console.error("Failed to execute AppleScript:", error);
-    });
-}
-
-module.exports = runInlineAppleScript;

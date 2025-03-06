@@ -69,6 +69,7 @@ site.post("/upload", checkBlogUsesICloud, async function (req, res) {
   try {
     const blogID = req.header("blogID");
     const filePath = req.header("path");
+    const modifiedTime = req.header("modifiedTime");
 
     // Validate required headers
     if (!blogID || !filePath) {
@@ -92,6 +93,12 @@ site.post("/upload", checkBlogUsesICloud, async function (req, res) {
       // Write the binary data (req.body is raw binary)
       await fs.outputFile(pathOnDisk, req.body);
 
+      // Use the iso string modifiedTime if provided
+      if (modifiedTime) {
+        const modifiedTimeDate = new Date(modifiedTime);
+        await fs.utimes(pathOnDisk, modifiedTimeDate, modifiedTimeDate);
+      }
+      
       // Call the folder's update method to register the file change
       await folder.update(filePath);
 
