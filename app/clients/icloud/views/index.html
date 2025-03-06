@@ -7,18 +7,21 @@
 
 {{/error}}
 
-
 {{> status-line}}
+
+{{#sharingLink}}
+{{^setupComplete}}
+<div class="line">
+  <span class="label">Setup</span>
+  <span class="center">Setting up folder...</span>
+</div>
+{{/setupComplete}}
+{{/sharingLink}}
+
+
 
 
   
-
-{{#email}}
-   <div class="line">
-    <span class="label">Account on iCloud</span>
-    <span class="center">{{email}}</span>
-  </div>
-  {{/email}}
 
   {{> disconnect-line}}
 
