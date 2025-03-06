@@ -3,7 +3,7 @@ const { raw } = express;
 const { Authorization, maxiCloudFileSize, remoteServer } = require("./config");
 const { initializeWatcher } = require("./watcher");
 
-const startServer = () => {
+const startServer = async () => {
   const app = express();
 
   app.use((req, res, next) => {
@@ -50,9 +50,9 @@ const startServer = () => {
 // Main entry point
 (async () => {
   try {
-    console.log("Starting macserver...");
 
     // Test connectivity with the remote server
+    console.log("Pinging remote server...");
     try {
       const res = await fetch(remoteServer + "/ping", {
         headers: {
@@ -71,11 +71,15 @@ const startServer = () => {
       console.error("Error pinging remote server:", error);
     }
 
+    // Start the local server
+    console.log("Starting macserver...");
+    await startServer();
+
     // Initialize the file watcher
+    console.log("Initializing file watcher...");
     await initializeWatcher();
 
-    // Start the local server
-    startServer();
+    console.log("Macserver started successfully");
   } catch (error) {
     console.error("Error starting macserver:", error);
     process.exit(1);
