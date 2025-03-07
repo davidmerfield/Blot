@@ -2,7 +2,7 @@ const { iCloudDriveDirectory } = require("../config");
 const fs = require("fs-extra");
 const exec = require("util").promisify(require("child_process").exec);
 const TIMEOUT = 20 * 1000; // 20 seconds
-const POLLING_INTERVAL = 1000; // 1 second
+const POLLING_INTERVAL = 200; // 200 ms
 
 const BLOCK_SIZE = 512;
 
