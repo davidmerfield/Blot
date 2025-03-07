@@ -15,7 +15,8 @@ module.exports = async (...args) => {
     throw new Error("Invalid number of arguments: expected 2");
   }
 
-  // Notify the remote server that setup is complete
+  console.log(`Sending status for blogID: ${blogID}`, status);
+
   const res = await fetch(`${remoteServer}/status`, {
     method: "POST",
     headers: {
@@ -30,5 +31,5 @@ module.exports = async (...args) => {
     throw new Error(`Setup complete failed: ${res.statusText}`);
   }
 
-  console.log(`Setup complete successful: ${await res.text()}`);
+  console.log(`Status sent for blogID: ${blogID}`);
 };

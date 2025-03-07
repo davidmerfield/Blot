@@ -40,11 +40,6 @@ async function checkBlogUsesICloud(req, res, next) {
     return res.status(400).send("Blog is not connected to iCloud Drive");
   }
 
-  if (!blog.setupComplete) {
-    console.warn("Blog setup is not complete");
-    return res.status(400).send("Blog setup is not complete");
-  }
-
   next();
 }
 
@@ -60,10 +55,10 @@ site.get("/ping", async function (req, res) {
   res.send("pong");
 });
 
-site.post("/status", async function (req, res) {
+site.post("/status", checkBlogUsesICloud, async function (req, res) {
   const blogID = req.header("blogID");
   const status = req.body;
-  
+
   res.send("ok");
 
   // establish sync lock
