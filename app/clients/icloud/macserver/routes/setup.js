@@ -89,7 +89,7 @@ try
     end tell
 
     -- Wait for the iCloud sharing system dialog to appear
-    set timeoutSeconds to 10 -- Set the timeout (in seconds)
+    set timeoutSeconds to 5 -- Set the timeout (in seconds)
     set startTime to (current date) -- Track the start time
 
     tell application "System Events"
@@ -102,7 +102,7 @@ try
 
                 -- Check if the timeout has been reached
                 if ((current date) - startTime) > timeoutSeconds then
-                    error "Timed out waiting for the sharing dialog to appear"
+                    exit repeat -- Exit the loop if the timeout has been reached
                 end if
 
                 delay 0.1 -- Check every 0.1 seconds
@@ -112,7 +112,6 @@ try
             -- This means the sharing link is invalid
             if exists (button "Continue" of window 1) then
                 click button "Cancel" of window 1
-                error "Invalid sharing link"
             end if
 
             -- Click the "Open" button if it exists
@@ -123,13 +122,13 @@ try
         end tell
     end tell
 
+    -- wait 1 second for the Finder to process the new folder if it was created
+    delay 1
+    
     -- Close all Finder windows after interacting with the sharing dialog
     tell application "Finder"
         close every window
     end tell
-on error errMsg
-    -- Pass the error message to stdout (with -s o, this will be captured)
-    error errMsg    
 end try
 `;
 
@@ -137,7 +136,7 @@ function acceptSharingLink(sharingLink) {
   return new Promise((resolve, reject) => {
     console.log(`Running AppleScript to accept sharing link: ${sharingLink}`);
     exec(
-      `osascript -s o -e '${appleScript(sharingLink)}'`,
+      `osascript -e '${appleScript(sharingLink)}'`,
       (error, stdout, stderr) => {
         if (error) {
           console.error(`Error executing AppleScript: ${error.message}`);
