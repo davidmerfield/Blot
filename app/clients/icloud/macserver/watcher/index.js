@@ -7,6 +7,7 @@ const fs = require("fs-extra");
 const { join } = require("path");
 const { getLimiterForBlogID } = require("../limiters");
 const { iCloudDriveDirectory } = require("../config");
+const path = require("path");
 
 const isBlogDirectory = (name) => name.startsWith("blog_");
 
@@ -57,13 +58,15 @@ const handleFileEvent = async (event, filePath) => {
   }
 };
 
+let watcher;
+
 /**
  * Initialize chokidar to watch the iCloud Drive directory.
  */
 const initializeWatcher = () => {
   console.log(`Watching iCloud Drive directory: ${iCloudDriveDirectory}`);
 
-  chokidar
+  watcher = chokidar
     .watch(iCloudDriveDirectory, {
       ignoreInitial: true,
       // emit single event when chunked writes are completed
@@ -83,4 +86,12 @@ const initializeWatcher = () => {
     });
 };
 
-module.exports = { initializeWatcher };
+const unwatch = (path) => {
+  watcher.unwatch(path);
+}
+
+const watch = (path) => {
+  watcher.add(path);
+}
+
+module.exports = { initializeWatcher, unwatch, watch };
