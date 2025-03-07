@@ -127,6 +127,9 @@ try
     tell application "Finder"
         close every window
     end tell
+on error errMsg
+    -- Pass the error message to stdout (with -s o, this will be captured)
+    error errMsg    
 end try
 `;
 
@@ -134,7 +137,7 @@ function acceptSharingLink(sharingLink) {
   return new Promise((resolve, reject) => {
     console.log(`Running AppleScript to accept sharing link: ${sharingLink}`);
     exec(
-      `osascript -e '${appleScript(sharingLink)}'`,
+      `osascript -s o -e '${appleScript(sharingLink)}'`,
       (error, stdout, stderr) => {
         if (error) {
           console.error(`Error executing AppleScript: ${error.message}`);
