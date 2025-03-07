@@ -16,7 +16,8 @@ module.exports = async (path) => {
   console.log("initialStat", initialStat);
 
   // Determine if the file is already downloaded
-  const expectedBlocks = Math.max(Math.ceil(initialStat.size / 512), 8);
+  const roundUpBy8 = (x) => Math.ceil(x / 8) * 8;
+  const expectedBlocks = Math.max(roundUpBy8(Math.ceil(stats.size / 512)), 8);
   const isDownloaded = initialStat.blocks === expectedBlocks;
 
   console.log(`Expected blocks: ${expectedBlocks}`);
