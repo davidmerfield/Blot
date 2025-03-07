@@ -16,12 +16,14 @@ module.exports = async (...args) => {
   }
 
   console.log(`Issuing external delete for blogID: ${blogID}, path: ${path}`);
+  const pathBase64 = Buffer.from(path).toString("base64");
+
   const res = await fetch(`${remoteServer}/delete`, {
     method: "POST",
     headers: {
       Authorization,
       blogID,
-      path,
+      pathBase64,
     },
   });
 

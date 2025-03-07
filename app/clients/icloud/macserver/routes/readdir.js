@@ -5,7 +5,7 @@ const getmd5Checksum = require("../../sync/util/md5Checksum");
 
 module.exports = async (req, res) => {
   const blogID = req.header("blogID");
-  const path = req.header("path");
+  const path = Buffer.from(req.header("pathBase64"), "base64").toString("utf8");
 
   if (!blogID || !path) {
     return res.status(400).send("Missing blogID or path header");

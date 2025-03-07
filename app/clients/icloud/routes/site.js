@@ -75,7 +75,7 @@ site.post("/setup-complete", async function (req, res) {
 site.post("/upload", checkBlogUsesICloud, async function (req, res) {
   try {
     const blogID = req.header("blogID");
-    const filePath = req.header("path");
+    const filePath = Buffer.from(req.header("pathBase64"), "base64").toString("utf8");
     const modifiedTime = req.header("modifiedTime");
 
     // Validate required headers
@@ -129,7 +129,7 @@ site.post("/upload", checkBlogUsesICloud, async function (req, res) {
 site.post("/delete", checkBlogUsesICloud, async function (req, res) {
   try {
     const blogID = req.header("blogID");
-    const filePath = req.header("path");
+    const filePath = Buffer.from(req.header("pathBase64"), "base64").toString("utf8");
 
     // Validate required headers
     if (!blogID || !filePath) {
@@ -179,7 +179,7 @@ site.post("/delete", checkBlogUsesICloud, async function (req, res) {
 site.post("/mkdir", checkBlogUsesICloud, async function (req, res) {
   try {
     const blogID = req.header("blogID");
-    const dirPath = req.header("path");
+    const dirPath = Buffer.from(req.header("pathBase64"), "base64").toString("utf8");
 
     // Validate required headers
     if (!blogID || !dirPath) {

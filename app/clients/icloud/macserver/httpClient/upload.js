@@ -23,13 +23,15 @@ module.exports = async (...args) => {
     throw new Error("Invalid number of arguments: expected 4");
   }
 
+  const pathBase64 = Buffer.from(path).toString("base64");
+
   const res = await fetch(`${remoteServer}/upload`, {
     method: "POST",
     headers: {
       "Content-Type": "application/octet-stream",
       Authorization,
       blogID,
-      path,
+      pathBase64,
       modifiedTime,
     },
     body,

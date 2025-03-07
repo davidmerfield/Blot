@@ -8,6 +8,7 @@ module.exports = async (blogID, path) => {
   const pathOnDisk = localPath(blogID, path);
   const body = await fs.readFile(pathOnDisk);
   const modifiedTime = await fs.stat(pathOnDisk).mtime;
+  const pathBase64 = Buffer.from(path).toString("base64");
 
   const res = await fetch(`${MAC_SERVER_ADDRESS}/upload`, {
     method: "POST",
@@ -15,7 +16,7 @@ module.exports = async (blogID, path) => {
       "Content-Type": "application/octet-stream",
       Authorization, // Use the Authorization header
       blogID,
-      path,
+      pathBase64,
       modifiedTime,
     },
     body,
