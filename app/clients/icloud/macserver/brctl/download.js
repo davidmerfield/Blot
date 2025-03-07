@@ -9,7 +9,7 @@ const BLOCK_SIZE = 512;
 module.exports = async (path) => {
   console.log(`Downloading file: ${path}`);
 
-  const initialStat = await fs.stat(path);
+  const stat = await fs.stat(path);
   const start = Date.now();
 
   if (!path.startsWith(iCloudDriveDirectory)) {
@@ -18,21 +18,19 @@ module.exports = async (path) => {
 
   // Determine if the file is already downloaded
   const roundUpBy8 = (x) => Math.ceil(x / 8) * 8;
-  const expectedBlocks = Math.max(roundUpBy8(Math.ceil(initialStat.size / BLOCK_SIZE)), 8);
-  const isDownloaded = initialStat.blocks === expectedBlocks;
+  const expectedBlocks = Math.max(roundUpBy8(Math.ceil(stat.size / BLOCK_SIZE)), 8);
+  const isDownloaded = stat.blocks === expectedBlocks;
 
-  console.log(`Expected blocks: ${expectedBlocks}`);
-  console.log(`Current blocks: ${initialStat.blocks}`);
-  console.log(`Is downloaded: ${isDownloaded}`);
+  console.log(`Blocks: ${stat.blocks} / ${expectedBlocks}`);
 
   if (isDownloaded) {
     console.log(`File already downloaded: ${path}`);
-    return initialStat;
+    return stat;
   }
 
   const pathInDrive = path.replace(iCloudDriveDirectory, "").slice(1);
 
-  console.log(`Path in drive: ${pathInDrive}`);
+  console.log(`Issuing brctl download for path: ${pathInDrive}`);
 
   const { stdout, stderr } = await exec(`brctl download "${pathInDrive}"`, {
     cwd: iCloudDriveDirectory,
@@ -52,14 +50,14 @@ module.exports = async (path) => {
     // we re-calculate the expected blocks in case the file size has changed
     const expectedBlocks = Math.max(roundUpBy8(Math.ceil(stat.size / BLOCK_SIZE)), 8);
 
+    console.log(`Blocks: ${stat.blocks} / ${expectedBlocks}`);
+
     if (stat.blocks === expectedBlocks) {
       console.log(`Download complete: ${path}`);
       return stat;
     } else {
-      console.log(`Blocks: ${stat.blocks} / ${expectedBlocks}`);
+        await new Promise((resolve) => setTimeout(resolve, POLLING_INTERVAL));
     }
-
-    await new Promise((resolve) => setTimeout(resolve, POLLING_INTERVAL));
   }
 
   throw new Error(`Timeout downloading file: ${path}`);
