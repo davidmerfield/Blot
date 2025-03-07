@@ -81,6 +81,7 @@ const initializeWatcher = () => {
   watcher = chokidar
     .watch(iCloudDriveDirectory, {
       ignoreInitial: true,
+      usePolling: true,
       // emit single event when chunked writes are completed
       // Was designed to solve this error:
       // Error handling file event (add, /Users/admin/Library/Mobile Documents/com~apple~Cloud
