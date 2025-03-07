@@ -18,7 +18,7 @@ module.exports = async (path) => {
 
   // Determine if the file is already downloaded
   const roundUpBy8 = (x) => Math.ceil(x / 8) * 8;
-  const expectedBlocks = Math.max(roundUpBy8(Math.ceil(stat.size / BLOCK_SIZE)), 8);
+  const expectedBlocks = roundUpBy8(Math.ceil(stat.size / BLOCK_SIZE));
   const isDownloaded = stat.blocks === expectedBlocks;
 
   console.log(`Blocks: ${stat.blocks} / ${expectedBlocks}`);
@@ -48,7 +48,7 @@ module.exports = async (path) => {
     console.log(`Checking download status: ${path}`);
     const stat = await fs.stat(path);
     // we re-calculate the expected blocks in case the file size has changed
-    const expectedBlocks = Math.max(roundUpBy8(Math.ceil(stat.size / BLOCK_SIZE)), 8);
+    const expectedBlocks = roundUpBy8(Math.ceil(stat.size / BLOCK_SIZE));
 
     console.log(`Blocks: ${stat.blocks} / ${expectedBlocks}`);
 

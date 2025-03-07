@@ -19,6 +19,8 @@ dashboard.use(async function (req, res, next) {
 });
 
 dashboard.get("/", function (req, res) {
+  console.log("Rendering dashboard", config.icloud.email);
+  res.locals.blotiCloudAccount = config.icloud.email;
   res.render(VIEWS + "index");
 });
 
@@ -41,10 +43,11 @@ dashboard
 
       const blogID = req.blog.id;
       const sharingLink = req.body.sharingLink;
+      const blotiCloudAccount = req.body.blotiCloudAccount;
 
       // Store the sharingLink in the database if provided
       if (sharingLink) {
-        await database.store(blogID, { sharingLink });
+        await database.store(blogID, { sharingLink, blotiCloudAccount });
       }
 
       // Make the request to the Macserver /setup endpoint
