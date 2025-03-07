@@ -29,7 +29,7 @@ module.exports = async (path) => {
 
   if (isDownloaded) {
     console.log(`File already downloaded: ${path}`);
-    return;
+    return initialStat;
   }
 
   const pathInDrive = path.replace(iCloudDriveDirectory, "").slice(1);
