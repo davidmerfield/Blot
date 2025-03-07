@@ -16,8 +16,6 @@ module.exports = async (path) => {
     throw new Error(`File not in iCloud Drive: ${path}`);
   }
 
-  console.log("initialStat", initialStat);
-
   // Determine if the file is already downloaded
   const roundUpBy8 = (x) => Math.ceil(x / 8) * 8;
   const expectedBlocks = Math.max(roundUpBy8(Math.ceil(initialStat.size / BLOCK_SIZE)), 8);
@@ -51,6 +49,8 @@ module.exports = async (path) => {
   while (Date.now() - start < TIMEOUT) {
     console.log(`Checking download status: ${path}`);
     const stat = await fs.stat(path);
+    // we re-calculate the expected blocks in case the file size has changed
+    const expectedBlocks = Math.max(roundUpBy8(Math.ceil(stat.size / BLOCK_SIZE)), 8);
 
     if (stat.blocks === expectedBlocks) {
       console.log(`Download complete: ${path}`);
