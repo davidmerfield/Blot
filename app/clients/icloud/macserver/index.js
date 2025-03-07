@@ -28,6 +28,8 @@ const startServer = async () => {
   });
 
   app.post("/upload", require("./routes/upload"));
+  
+  app.post("/evict", require("./routes/evict"));
 
   app.post("/delete", require("./routes/delete"));
 
@@ -55,7 +57,7 @@ const startServer = async () => {
     // Test connectivity with the remote server
     console.log("Pinging remote server...");
     await ping();
-    
+
     // Start the local server
     console.log("Starting macserver...");
     await startServer();
