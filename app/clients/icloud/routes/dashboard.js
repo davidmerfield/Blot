@@ -50,7 +50,7 @@ dashboard
 
         // validate the sharing link format
         // it should look like: https://www.icloud.com/iclouddrive/08d83wAt2lMHc46hEEi0D5zcQ#example
-        if (!/^https:\/\/www\.icloud\.com\/iclouddrive\/[a-zA-Z0-9]+#/.test(sharingLink)) {
+        if (!/^https:\/\/www\.icloud\.com\/iclouddrive\/[a-zA-Z0-9_-]+#/.test(sharingLink)) {
           return next(new Error("Invalid sharing link format"));
         }
 
