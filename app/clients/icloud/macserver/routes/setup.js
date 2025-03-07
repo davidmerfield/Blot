@@ -67,8 +67,9 @@ const setupBlog = setupLimiter.wrap(async (blogID, sharingLink) => {
 
       // ensure the folder is empty
       // wait a bit for the folder to be created
-      await new Promise((resolve) => setTimeout(resolve, 4000));
-
+      console.log("Waiting for the folder to be created");
+      await new Promise((resolve) => setTimeout(resolve, 6000));
+      
       console.log(`Checking if the folder is empty: ${oldPath}`);
       const files = await fs.readdir(oldPath);
       console.log(`Files in the folder: ${files}`);

@@ -1,3 +1,5 @@
+{{> message}}
+
 {{#account}}
 <div class="live-updates">
 
@@ -43,8 +45,6 @@
 {{/account}}
 
 {{^account}}
-
-
 <div class="inset">
   <p>
     <img width="16" height="16" src="{{#cdn}}/images/sync/icloud.svg{{/cdn}}" style="position: relative;top:2px;margin-right: 4px;width:16px" />
@@ -63,8 +63,9 @@
 </ol>
   <form class="dashboard-form" action="{{{base}}}/set-up-folder" method="post">
     <input type="hidden" name="_csrf" value="{{csrftoken}}">
+    <input type="hidden" name="redirect" value="{{{base}}}">
     <input type="hidden" name="blotiCloudAccount" value="{{blotiCloudAccount}}">
-    <label for="email">iCloud folder share link:</label>
+    <label for="email">iCloud folder sharing link:</label>
     <input type="text" name="sharingLink" value="">
     <div class="buttons">
       <button type="submit">Submit link</button> 
