@@ -79,8 +79,7 @@ const setupBlog = setupLimiter.wrap(async (blogID, sharingLink) => {
   );
   throw new Error("Invalid sharing link");
 });
-
-// Used the accessiblity inspector to find the UI elements to interact with
+// Used the accessibility inspector to find the UI elements to interact with
 const appleScript = (sharingLink) => `
 -- Open the specified sharing link in Finder
 try
@@ -90,24 +89,34 @@ try
     end tell
 
     -- Wait for the iCloud sharing system dialog to appear
+    set timeoutSeconds to 10 -- Set the timeout (in seconds)
+    set startTime to (current date) -- Track the start time
+
     tell application "System Events"
         tell process "UserNotificationCenter"
-            -- Loop until either the "Open" or "Continue" button is detected
-            repeat until (exists (button "Open" of window 1)) or (exists (button "Continue" of window 1))
+            -- Loop until either the "Open" or "Continue" button is detected, or timeout occurs
+            repeat
+                if (exists (button "Open" of window 1)) or (exists (button "Continue" of window 1)) then
+                    exit repeat -- Exit the loop if a button is detected
+                end if
+
+                -- Check if the timeout has been reached
+                if ((current date) - startTime) > timeoutSeconds then
+                    error "Timed out waiting for the sharing dialog to appear"
+                end if
+
                 delay 0.1 -- Check every 0.1 seconds
             end repeat
 
             -- Check if the "Continue" button exists
+            -- This means the sharing link is invalid
             if exists (button "Continue" of window 1) then
                 click button "Cancel" of window 1
-                -- Close all Finder windows after interacting with the sharing dialog
-                tell application "Finder"
-                    close every window
-                end tell
-                error "Invalid sharing link" -- Throw an error if the "Continue" button is found
+                error "Invalid sharing link"
             end if
 
             -- Click the "Open" button if it exists
+            -- This means the sharing link is valid
             if exists (button "Open" of window 1) then
                 click button "Open" of window 1
             end if
@@ -121,7 +130,6 @@ try
 end try
 `;
 
-// Function to run inline AppleScript
 function acceptSharingLink(sharingLink) {
   return new Promise((resolve, reject) => {
     console.log(`Running AppleScript to accept sharing link: ${sharingLink}`);
