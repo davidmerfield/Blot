@@ -5,9 +5,9 @@ const { join } = require("path");
 const { getLimiterForBlogID } = require("../limiters");
 const { iCloudDriveDirectory } = require("../config");
 const isBlogDirectory = (name) => name.startsWith("blog_");
-const brctl = require('../brctl');
+const brctl = require("../brctl");
 
-const status =  require("../httpClient/status");
+const status = require("../httpClient/status");
 const upload = require("../httpClient/upload");
 const mkdir = require("../httpClient/mkdir");
 const remove = require("../httpClient/remove");
@@ -25,20 +25,20 @@ const handleFileEvent = async (event, filePath) => {
     // handle paths with special characters e.g. umlauts
     const path = restPath.join("/").normalize("NFC");
 
-    if (!blogID) {
+    if (!blogID || !isBlogDirectory(blogID)) {
       console.warn(`Failed to parse blogID from path: ${filePath}`);
-      return;
-    }
-
-    if (!isBlogDirectory(blogID) || !fs.existsSync(join(iCloudDriveDirectory, blogID))) {
-      console.warn(`Ignoring event for unregistered blogID: ${blogID}`);
       return;
     }
 
     // handle the deletion of the entire blog directory
     if (event === "unlinkDir" && path === "") {
       console.warn(`Blog directory deleted: ${blogID}`);
-      await status(blogID, {error: "Blog directory deleted"});
+      await status(blogID, { error: "Blog directory deleted" });
+      return;
+    }
+
+    if (!fs.existsSync(join(iCloudDriveDirectory, blogID))) {
+      console.warn(`Ignoring event for unregistered blogID: ${blogID}`);
       return;
     }
 
@@ -58,7 +58,7 @@ const handleFileEvent = async (event, filePath) => {
         const stat = await brctl.download(filePath);
         const body = await fs.readFile(filePath);
         const modifiedTime = stat.mtime.toISOString();
-        await upload(blogID, path, body, modifiedTime);      
+        await upload(blogID, path, body, modifiedTime);
       } else if (event === "unlink" || event === "unlinkDir") {
         await remove(blogID, path);
       } else if (event === "addDir") {
@@ -100,10 +100,10 @@ const initializeWatcher = () => {
 
 const unwatch = (path) => {
   watcher.unwatch(path);
-}
+};
 
 const watch = (path) => {
   watcher.add(path);
-}
+};
 
 module.exports = { initializeWatcher, unwatch, watch };
