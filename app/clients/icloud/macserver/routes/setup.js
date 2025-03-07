@@ -77,7 +77,7 @@ const setupBlog = setupLimiter.wrap(async (blogID, sharingLink) => {
   console.error(
     `Timed out waiting for a new folder to set up blogID: ${blogID}`
   );
-  throw new Error("Timed out waiting for a new folder");
+  throw new Error("Invalid sharing link");
 });
 
 // Used the accessiblity inspector to find the UI elements to interact with
