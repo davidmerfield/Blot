@@ -64,27 +64,9 @@ const setupBlog = setupLimiter.wrap(async (blogID, sharingLink) => {
       const oldPath = join(iCloudDriveDirectory, newDirName);
       const newPath = join(iCloudDriveDirectory, blogID);
 
-
-      // ensure the folder is empty
-      // wait a bit for the folder to be created
-      console.log("Waiting for the folder to be created");
-      await new Promise((resolve) => setTimeout(resolve, 6000));
-      
-      console.log(`Checking if the folder is empty: ${oldPath}`);
-      const files = await fs.readdir(oldPath);
-      console.log(`Files in the folder: ${files}`);
-      if (files.filter((file) => file !== ".DS_Store").length > 0) {
-        // remove the folder
-        await fs.remove(oldPath);
-        console.error("The folder you share must be empty");
-        throw new Error("The folder you share must be empty");
-      }
-
       // Rename the folder
       await fs.rename(oldPath, newPath);
-
       console.log(`Renamed folder from ${newDirName} to ${blogID}`);
-
       return; // Setup is complete, exit the loop
     }
 
