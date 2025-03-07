@@ -99,7 +99,7 @@ try
 
             -- Check if the "Continue" button exists
             if exists (button "Continue" of window 1) then
-                click button "Continue" of window 1
+                click button "Cancel" of window 1
                 -- Close all Finder windows after interacting with the sharing dialog
                 tell application "Finder"
                     close every window
@@ -118,9 +118,6 @@ try
     tell application "Finder"
         close every window
     end tell
-on error errMsg
-    -- Handle any errors that occur during the process
-    display dialog "An error occurred: " & errMsg
 end try
 `;
 
