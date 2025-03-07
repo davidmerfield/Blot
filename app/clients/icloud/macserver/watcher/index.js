@@ -98,12 +98,12 @@ const initializeWatcher = () => {
     });
 };
 
-const unwatch = (path) => {
-  watcher.unwatch(path);
+const unwatch = async (path) => {
+  await watcher.unwatch(path);
 };
 
-const watch = (path) => {
-  watcher.add(path);
+const watch = async (path) => {
+  await watcher.add(path);
 };
 
 module.exports = { initializeWatcher, unwatch, watch };

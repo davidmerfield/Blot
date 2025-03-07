@@ -19,7 +19,7 @@ module.exports = async (req, res) => {
   const blogFolder = join(iCloudDriveDirectory, blogID);
 
   // first unwatch the blogID to prevent further events from being triggered
-  unwatch(filePath);
+  await unwatch(filePath);
 
   for (let i = 0; i < 10; i++) {
     try {
@@ -35,7 +35,7 @@ module.exports = async (req, res) => {
   console.log(`Handled file deletion: ${filePath}`);
 
   // re-watch the blogID
-  watch(filePath);
+  await watch(filePath);
 
   res.sendStatus(200);
 };
