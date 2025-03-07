@@ -20,14 +20,14 @@ module.exports = async (req, res) => {
   const blogFolder = join(iCloudDriveDirectory, blogID);
 
   // first unwatch the blogID to prevent further events from being triggered
-  unwatch(blogFolder);
+  unwatch(filePath);
 
   await brctl.evict(filePath);
 
   console.log(`Handled file eviction: ${filePath}`);
 
   // re-watch the blogID
-  watch(blogFolder);
+  watch(filePath);
 
   res.sendStatus(200);
 };
