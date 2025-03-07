@@ -2,7 +2,7 @@ const exec = require("util").promisify(require("child_process").exec);
 const { join } = require("path");
 const fs = require("fs-extra");
 const Bottleneck = require("bottleneck");
-const setupComplete = require("../httpClient/setup-complete");
+const status = require("../httpClient/status");
 const { iCloudDriveDirectory } = require("../config");
 
 // Only one setup can run at a time otherwise the apple script
@@ -68,9 +68,6 @@ const setupBlog = setupLimiter.wrap(async (blogID, sharingLink) => {
         await fs.rename(oldPath, newPath);
 
         console.log(`Renamed folder from ${newDirName} to ${blogID}`);
-        await setupComplete(blogID);
-        
-
         return; // Setup is complete, exit the loop
       }
 
@@ -157,9 +154,12 @@ module.exports = async (req, res) => {
 
   res.sendStatus(200);
 
-  setupBlog(blogID, sharingLink) // Pass both blogID and sharingLink
-    .then(() => console.log(`Setup complete for blogID: ${blogID}`))
-    .catch((error) => {
-      console.error(`Setup failed for blogID (${blogID}):`, error);
-    });
-};
+  try {
+    await setupBlog(blogID, sharingLink);
+    console.log(`Setup complete for blogID: ${blogID}`);
+    await status(blogID, {setupComplete: true});
+  } catch (error) {
+    console.error(`Setup failed for blogID (${blogID}):`, error);
+    await status(blogID, {setupComplete: false, error: error.message});
+  }
+}

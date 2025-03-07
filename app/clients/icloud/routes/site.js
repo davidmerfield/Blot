@@ -51,6 +51,8 @@ async function checkBlogUsesICloud(req, res, next) {
 // Apply the middleware to all routes
 site.use(verifyAuthorization); // This will apply to all routes below
 
+site.use(express.json());
+
 site.use(express.raw({ type: "application/octet-stream", limit: maxiCloudFileSize })); // For handling binary data
 
 // Ping endpoint
@@ -58,16 +60,29 @@ site.get("/ping", async function (req, res) {
   res.send("pong");
 });
 
-site.post("/setup-complete", async function (req, res) {
+site.post("/status", async function (req, res) {
   const blogID = req.header("blogID");
+  const status = req.body;
+  
   res.send("ok");
 
   // establish sync lock
   const { folder, done } = await establishSyncLock(blogID);
-  folder.status("Setting up iCloud sync");
-  await syncToiCloud(blogID, folder.status, folder.update);
-  await database.store(blogID, { setupComplete: true });
-  folder.status("Setup complete");
+
+  // run when the macserver has successfully recieved the sharing link
+  // and created the folder
+  if (status.setupComplete) {
+    folder.status("Setting up iCloud sync");
+    await syncToiCloud(blogID, folder.status, folder.update);
+    await database.store(blogID, { setupComplete: true });
+    folder.status("Setup complete");
+  } else {
+    folder.status("Sync update from iCloud");
+    console.log("Sync update from iCloud", status);
+    await database.store(blogID, status);
+    folder.status("Sync complete");
+  }
+
   await done();
 });
 

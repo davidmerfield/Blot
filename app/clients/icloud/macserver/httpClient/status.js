@@ -1,25 +1,29 @@
 const { remoteServer, Authorization } = require("../config");
 
 module.exports = async (...args) => {
+  const [blogID, status] = args;
 
-    const [blogID] = args;
-
-    if (!blogID || typeof blogID !== "string") {
+  if (!blogID || typeof blogID !== "string") {
     throw new Error("Invalid blogID");
   }
 
-  if (args.length !== 1) {
-    throw new Error("Invalid number of arguments: expected 1");
+  if (!status || typeof status !== "object") {
+    throw new Error("Invalid status");
+  }
+
+  if (args.length !== 2) {
+    throw new Error("Invalid number of arguments: expected 2");
   }
 
   // Notify the remote server that setup is complete
-  const res = await fetch(`${remoteServer}/setup-complete`, {
+  const res = await fetch(`${remoteServer}/status`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
       Authorization, // Use the Authorization header
       blogID,
     },
+    body: JSON.stringify(status),
   });
 
   if (!res.ok) {

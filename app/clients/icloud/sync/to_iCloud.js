@@ -1,9 +1,8 @@
-const fs = require("fs-extra");
 const { join } = require("path");
 const localPath = require("helper/localPath");
 const clfdate = require("helper/clfdate");
-const upload = require("./util/upload");
 const CheckWeCanContinue = require("./util/checkWeCanContinue");
+const remoteUpload = require("./util/remoteUpload");
 const remoteMkdir = require("./util/remoteMkdir");
 const remoteDelete = require("./util/remoteDelete");
 const localReaddir = require("./util/localReaddir");
@@ -71,7 +70,7 @@ module.exports = async (blogID, publish, update) => {
           try {
             await checkWeCanContinue();
             publish("Updating", path);
-            await upload(blogID, path);
+            await remoteUpload(blogID, path);
           } catch (e) {
             publish("Failed to upload", path, e);
           }
@@ -79,7 +78,7 @@ module.exports = async (blogID, publish, update) => {
           try {
             await checkWeCanContinue();
             publish("Transferring", path);
-            await upload(blogID, path);
+            await remoteUpload(blogID, path);
           } catch (e) {
             publish("Failed to download", path, e);
           }
