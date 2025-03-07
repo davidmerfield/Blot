@@ -1,20 +1,32 @@
 {{#account}}
 <div class="live-updates">
 
-{{#error}}
+  {{#error}}
 
-    {{error}}
-
-{{/error}}
+  <form class="mess error" action="{{{base}}}/set-up-folder" method="post">
+      <input type="hidden" name="_csrf" value="{{csrftoken}}">
+      {{error}}
+      <div class="buttons">
+          <button type="submit">Re-connect to iCloud</button> 
+          <button type="submit" name="cancel" value="true">Cancel</button> 
+      </div>  
+  </form>
+  
+  
+  
+  {{/error}}
+  
 
 {{> status-line}}
 
 {{#sharingLink}}
 {{^setupComplete}}
+{{^error}}
 <div class="line">
   <span class="label">Setup</span>
   <span class="center">Setting up folder...</span>
 </div>
+{{/error}}
 {{/setupComplete}}
 {{/sharingLink}}
 

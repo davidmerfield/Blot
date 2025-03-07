@@ -48,6 +48,10 @@ dashboard
       // Store the sharingLink in the database if provided
       if (sharingLink) {
         await database.store(blogID, { sharingLink, blotiCloudAccount });
+      } else {
+        // this allows us to reset the client
+        await database.delete(blogID);
+        return res.redirect(req.baseUrl);
       }
 
       // Make the request to the Macserver /setup endpoint
