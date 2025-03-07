@@ -92,13 +92,25 @@ try
     -- Wait for the iCloud sharing system dialog to appear
     tell application "System Events"
         tell process "UserNotificationCenter"
-            -- Wait until the "Open" button in the system dialog is detected
-            repeat until exists (button "Open" of window 1)
-                delay 0.1 -- Check every 0.1 seconds for the "Open" button
+            -- Loop until either the "Open" or "Continue" button is detected
+            repeat until (exists (button "Open" of window 1)) or (exists (button "Continue" of window 1))
+                delay 0.1 -- Check every 0.1 seconds
             end repeat
 
-            -- Click the "Open" button in the system dialog
-            click button "Open" of window 1
+            -- Check if the "Continue" button exists
+            if exists (button "Continue" of window 1) then
+                click button "Continue" of window 1
+                -- Close all Finder windows after interacting with the sharing dialog
+                tell application "Finder"
+                    close every window
+                end tell
+                error "Invalid sharing link" -- Throw an error if the "Continue" button is found
+            end if
+
+            -- Click the "Open" button if it exists
+            if exists (button "Open" of window 1) then
+                click button "Open" of window 1
+            end if
         end tell
     end tell
 
