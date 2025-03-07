@@ -1,7 +1,6 @@
-const exec = require("util").promisify(require("child_process").exec);
 const fs = require("fs-extra");
 const { join } = require("path");
-
+const download = require('../brctl/download');
 const { iCloudDriveDirectory, remoteServer, Authorization } = require("../config");
 
 module.exports = async (blogID, path) => {
@@ -14,13 +13,8 @@ module.exports = async (blogID, path) => {
 
   for (let i = 0; i < 10; i++) {
     try {
-      // brctl download /path/to/file.txt
-      const { stdout, stderr } = await exec(
-        `brctl download "${path}"`,
-        { cwd: join(iCloudDriveDirectory, blogID) }
-      );
-      console.log("stdout:", stdout);
-      console.log("stderr:", stderr);
+      // ensure the file is downloaded from iCloud Drive before uploading
+      await download(filePath);
 
       console.log(`Reading file: ${filePath}`);
       body = await fs.readFile(filePath);
