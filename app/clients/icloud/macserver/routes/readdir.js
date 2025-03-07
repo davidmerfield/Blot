@@ -1,7 +1,6 @@
 const fs = require("fs-extra");
 const { join } = require("path");
 const { iCloudDriveDirectory } = require("../config");
-const getmd5Checksum = require("../../sync/util/md5Checksum");
 
 module.exports = async (req, res) => {
   const blogID = req.header("blogID");
@@ -20,18 +19,16 @@ module.exports = async (req, res) => {
 
   for (const file of files) {
     const filePath = join(dirPath, file.name);
-    const [md5Checksum, stat] = await Promise.all([
-      file.isDirectory() ? undefined : getmd5Checksum(filePath),
-      fs.stat(filePath),
-    ]);
+    const stat = await fs.stat(filePath);
 
     const modifiedTime = stat.mtime.toISOString();
+    const size = stat.size;
     const isDirectory = file.isDirectory();
 
     result.push({
       name: file.name.normalize("NFC"),
       isDirectory,
-      md5Checksum: isDirectory ? undefined : md5Checksum,
+      size: isDirectory ? undefined : size,
       modifiedTime: isDirectory ? undefined : modifiedTime,
     });
   }

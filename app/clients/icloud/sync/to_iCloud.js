@@ -38,7 +38,7 @@ module.exports = async (blogID, publish, update) => {
 
     for (const {
       name,
-      md5Checksum,
+      size,
       isDirectory,
       modifiedTime,
     } of localContents) {
@@ -63,7 +63,7 @@ module.exports = async (blogID, publish, update) => {
       } else {
         const identicalOnRemote =
           existsRemotely &&
-          existsRemotely.md5Checksum === md5Checksum &&
+          existsRemotely.size === size &&
           truncateToSecond(existsRemotely.modifiedTime) === truncateToSecond(modifiedTime);
 
         if (existsRemotely && !identicalOnRemote) {
