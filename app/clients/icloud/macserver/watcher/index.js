@@ -1,15 +1,16 @@
 const chokidar = require("chokidar");
 
-const add = require("./add");
-const remove = require("./remove");
-const mkdir = require("./mkdir");
 const fs = require("fs-extra");
 const { join } = require("path");
 const { getLimiterForBlogID } = require("../limiters");
 const { iCloudDriveDirectory } = require("../config");
-const path = require("path");
 
 const isBlogDirectory = (name) => name.startsWith("blog_");
+const download = require('../brctl/download');
+
+const upload = require("../httpClient/upload");
+const mkdir = require("../httpClient/mkdir");
+const remove = require("../httpClient/remove");
 
 /**
  * Handle file events from chokidar and interact with remote server.
@@ -46,7 +47,10 @@ const handleFileEvent = async (event, filePath) => {
     // Schedule the event handler to run within the limiter
     await limiter.schedule(async () => {
       if (event === "add" || event === "change") {
-        await add(blogID, path);
+        const stat = await download(filePath);
+        const body = await fs.readFile(filePath);
+        const modifiedTime = stat.mtime.toISOString();
+        await upload(blogID, path, body, modifiedTime);      
       } else if (event === "unlink" || event === "unlinkDir") {
         await remove(blogID, path);
       } else if (event === "addDir") {
