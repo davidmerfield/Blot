@@ -18,6 +18,8 @@ module.exports = async (path) => {
 
   // Determine if the file is already downloaded
   const roundUpBy8 = (x) => Math.ceil(x / 8) * 8;
+  // It's important that if stat.size is 0, we expect 0 blocks
+  // after 1 byte, we expect at least 8 blocks
   const expectedBlocks = roundUpBy8(Math.ceil(stat.size / BLOCK_SIZE));
   const isDownloaded = stat.blocks === expectedBlocks;
 
