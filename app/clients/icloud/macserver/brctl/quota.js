@@ -1,4 +1,4 @@
-const exec = util.promisify(require("child_process").exec);
+const exec = require("util").promisify(require("child_process").exec);
 
 module.exports = async () => {
   // use brctl quota to get the iCloud Drive quota and usage
