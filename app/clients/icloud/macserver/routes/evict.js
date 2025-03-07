@@ -1,8 +1,9 @@
-const fs = require("fs-extra");
 const { join } = require("path");
 const { iCloudDriveDirectory } = require("../config");
 
 const brctl = require("../brctl");
+
+const { unwatch, watch } = require("../watcher");
 
 module.exports = async (req, res) => {
   const blogID = req.header("blogID");
