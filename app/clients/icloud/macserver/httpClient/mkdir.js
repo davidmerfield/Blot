@@ -1,6 +1,8 @@
 const { remoteServer, Authorization } = require("../config");
 
-module.exports = async (blogID, path) => {
+module.exports = async (...args) => {
+  const [blogID, path] = args;
+
   if (!blogID || typeof blogID !== "string") {
     throw new Error("Invalid blogID");
   }
@@ -9,7 +11,7 @@ module.exports = async (blogID, path) => {
     throw new Error("Invalid path");
   }
 
-  if (this.arguments.length !== 2) {
+  if (args.length !== 2) {
     throw new Error("Invalid number of arguments: expected 2");
   }
 

@@ -2,7 +2,7 @@ const exec = require("util").promisify(require("child_process").exec);
 const { join } = require("path");
 const fs = require("fs-extra");
 const Bottleneck = require("bottleneck");
-const setupComplete = require("../httpClient/setupComplete");
+const setupComplete = require("../httpClient/setup-complete");
 const { iCloudDriveDirectory } = require("../config");
 
 // Only one setup can run at a time otherwise the apple script

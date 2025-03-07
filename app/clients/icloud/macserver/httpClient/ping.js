@@ -1,7 +1,7 @@
 const { remoteServer, Authorization } = require("../config");
 
-module.exports = async () => {
-  if (this.arguments && this.arguments.length !== 0) {
+module.exports = async (...args) => {
+  if (args.length !== 0) {
     throw new Error("Invalid number of arguments: expected 0");
   }
 
