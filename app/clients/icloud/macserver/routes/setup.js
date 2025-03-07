@@ -62,6 +62,14 @@ const setupBlog = setupLimiter.wrap(async (blogID, sharingLink) => {
       console.log(`Found new folder: ${newDirName}`);
 
       const oldPath = join(iCloudDriveDirectory, newDirName);
+
+      // ensure the folder is empty
+      const files = await fs.readdir(oldPath);
+      
+      if (files.filter((file) => file !== ".DS_Store").length > 0) {
+        throw new Error("The folder you share must be empty");
+      }
+
       const newPath = join(iCloudDriveDirectory, blogID);
 
       // Rename the folder
