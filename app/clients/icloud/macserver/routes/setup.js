@@ -24,65 +24,62 @@ const setupBlog = setupLimiter.wrap(async (blogID, sharingLink) => {
   const checkInterval = 100; // Interval (in ms) to check for new directories
   const timeout = 1000 * 15; // Timeout (in ms) to wait for a new directory: 15 seconds
   const start = Date.now();
-  try {
-    // Get the initial state of the top-level directories
-    const initialDirs = await fs.readdir(iCloudDriveDirectory, {
+
+  // Get the initial state of the top-level directories
+  const initialDirs = await fs.readdir(iCloudDriveDirectory, {
+    withFileTypes: true,
+  });
+  const initialDirNames = initialDirs
+    .filter((dir) => dir.isDirectory())
+    .map((dir) => dir.name);
+
+  console.log(
+    `Initial state of iCloud Drive: ${
+      initialDirNames.join(", ") || "No directories"
+    }`
+  );
+
+  // run the acceptSharingLink script in the background
+  console.log("running the acceptSharingLink script");
+  acceptSharingLink(sharingLink);
+
+  while (true && Date.now() - start < timeout) {
+    // Get the current state of the top-level directories
+    const currentDirs = await fs.readdir(iCloudDriveDirectory, {
       withFileTypes: true,
     });
-    const initialDirNames = initialDirs
+    const currentDirNames = currentDirs
       .filter((dir) => dir.isDirectory())
       .map((dir) => dir.name);
 
-    console.log(
-      `Initial state of iCloud Drive: ${
-        initialDirNames.join(", ") || "No directories"
-      }`
+    // Find any new directories by comparing initial state with the current state
+    const newDirs = currentDirNames.filter(
+      (dirName) => !initialDirNames.includes(dirName)
     );
 
-    // run the acceptSharingLink script in the background
-    console.log("running the acceptSharingLink script");
-    acceptSharingLink(sharingLink);
+    if (newDirs.length > 0) {
+      const newDirName = newDirs[0]; // Handle the first new directory found
+      console.log(`Found new folder: ${newDirName}`);
 
-    while (true && Date.now() - start < timeout) {
-      // Get the current state of the top-level directories
-      const currentDirs = await fs.readdir(iCloudDriveDirectory, {
-        withFileTypes: true,
-      });
-      const currentDirNames = currentDirs
-        .filter((dir) => dir.isDirectory())
-        .map((dir) => dir.name);
+      const oldPath = join(iCloudDriveDirectory, newDirName);
+      const newPath = join(iCloudDriveDirectory, blogID);
 
-      // Find any new directories by comparing initial state with the current state
-      const newDirs = currentDirNames.filter(
-        (dirName) => !initialDirNames.includes(dirName)
-      );
+      // Rename the folder
+      await fs.rename(oldPath, newPath);
 
-      if (newDirs.length > 0) {
-        const newDirName = newDirs[0]; // Handle the first new directory found
-        console.log(`Found new folder: ${newDirName}`);
-
-        const oldPath = join(iCloudDriveDirectory, newDirName);
-        const newPath = join(iCloudDriveDirectory, blogID);
-
-        // Rename the folder
-        await fs.rename(oldPath, newPath);
-
-        console.log(`Renamed folder from ${newDirName} to ${blogID}`);
-        return; // Setup is complete, exit the loop
-      }
-
-      // Wait before checking again
-      await new Promise((resolve) => setTimeout(resolve, checkInterval));
+      console.log(`Renamed folder from ${newDirName} to ${blogID}`);
+      return; // Setup is complete, exit the loop
     }
 
-    console.error(
-      `Timed out waiting for a new folder to set up blogID: ${blogID}`
-    );
-  } catch (error) {
-    console.error(`Failed to initialize setup for blogID (${blogID}):`, error);
+    // Wait before checking again
+    await new Promise((resolve) => setTimeout(resolve, checkInterval));
   }
-});
 
+  console.error(
+    `Timed out waiting for a new folder to set up blogID: ${blogID}`
+  );
+  throw new Error("Timed out waiting for a new folder");
+});
 
 // Used the accessiblity inspector to find the UI elements to interact with
 const appleScript = (sharingLink) => `
@@ -120,18 +117,21 @@ end try
 function acceptSharingLink(sharingLink) {
   return new Promise((resolve, reject) => {
     console.log(`Running AppleScript to accept sharing link: ${sharingLink}`);
-    exec(`osascript -e '${appleScript(sharingLink)}'`, (error, stdout, stderr) => {
-      if (error) {
-        console.error(`Error executing AppleScript: ${error.message}`);
-        return reject(error);
+    exec(
+      `osascript -e '${appleScript(sharingLink)}'`,
+      (error, stdout, stderr) => {
+        if (error) {
+          console.error(`Error executing AppleScript: ${error.message}`);
+          return reject(error);
+        }
+        if (stderr) {
+          console.error(`AppleScript stderr: ${stderr}`);
+          return reject(new Error(stderr));
+        }
+        console.log(`AppleScript stdout: ${stdout}`);
+        resolve(stdout);
       }
-      if (stderr) {
-        console.error(`AppleScript stderr: ${stderr}`);
-        return reject(new Error(stderr));
-      }
-      console.log(`AppleScript stdout: ${stdout}`);
-      resolve(stdout);
-    });
+    );
   });
 }
 
@@ -157,9 +157,9 @@ module.exports = async (req, res) => {
   try {
     await setupBlog(blogID, sharingLink);
     console.log(`Setup complete for blogID: ${blogID}`);
-    await status(blogID, {setupComplete: true});
+    await status(blogID, { setupComplete: true });
   } catch (error) {
     console.error(`Setup failed for blogID (${blogID}):`, error);
-    await status(blogID, {setupComplete: false, error: error.message});
+    await status(blogID, { setupComplete: false, error: error.message });
   }
-}
+};
