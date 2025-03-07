@@ -2,7 +2,8 @@ const exec = require("util").promisify(require("child_process").exec);
 const { join } = require("path");
 const fs = require("fs-extra");
 const Bottleneck = require("bottleneck");
-const { remoteServer, Authorization, iCloudDriveDirectory } = require("../config");
+const setupComplete = require("../httpClient/setupComplete");
+const { iCloudDriveDirectory } = require("../config");
 
 // Only one setup can run at a time otherwise the apple script
 // might not work correctly or accept the wrong sharing link
@@ -67,24 +68,8 @@ const setupBlog = setupLimiter.wrap(async (blogID, sharingLink) => {
         await fs.rename(oldPath, newPath);
 
         console.log(`Renamed folder from ${newDirName} to ${blogID}`);
-
-        // Notify the remote server that setup is complete
-        const res = await fetch(`${remoteServer}/setup-complete`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization, // Use the Authorization header
-            blogID,
-          },
-        });
-
-        if (!res.ok) {
-          console.error(
-            `Failed to send setup-complete notification for blogID: ${blogID}`
-          );
-        } else {
-          console.log(`Setup-complete notification sent for blogID: ${blogID}`);
-        }
+        await setupComplete(blogID);
+        
 
         return; // Setup is complete, exit the loop
       }

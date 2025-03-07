@@ -1,7 +1,8 @@
 const express = require("express");
 const { raw } = express;
-const { Authorization, maxiCloudFileSize, remoteServer } = require("./config");
+const { Authorization, maxiCloudFileSize } = require("./config");
 const { initializeWatcher } = require("./watcher");
+const ping = require("./httpClient/ping");
 
 const startServer = async () => {
   const app = express();
@@ -53,19 +54,8 @@ const startServer = async () => {
 
     // Test connectivity with the remote server
     console.log("Pinging remote server...");
-    const res = await fetch(remoteServer + "/ping", {
-      headers: {
-        Authorization, // Use the Authorization header
-      },
-    });
-
-    if (!res.ok) {
-      throw new Error(`Ping failed: ${res.statusText}`);
-    }
-
-    const text = await res.text();
-    console.log(`Ping response: ${text}`);
-
+    await ping();
+    
     // Start the local server
     console.log("Starting macserver...");
     await startServer();
