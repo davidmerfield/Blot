@@ -1,11 +1,10 @@
 const { remoteServer, Authorization } = require("../config");
 
 module.exports = async () => {
+  if (this.arguments && this.arguments.length !== 0) {
+    throw new Error("Invalid number of arguments: expected 0");
+  }
 
-    if (this.arguments.length !== 0) {
-        throw new Error("Invalid number of arguments: expected 0");
-      }
-    
   const res = await fetch(remoteServer + "/ping", {
     headers: {
       Authorization, // Use the Authorization header
