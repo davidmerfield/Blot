@@ -99,11 +99,32 @@ const initializeWatcher = () => {
 };
 
 const unwatch = async (path) => {
-  await watcher.unwatch(path);
+  if (!path.startsWith(iCloudDriveDirectory)) {
+    console.warn(
+      `Ignoring unwatch request for path outside of iCloud Drive: ${path}`
+    );
+    return;
+  }
+
+  const pathInDrive = path.replace(iCloudDriveDirectory, "");
+
+  console.log(`Unwatching path: ${pathInDrive}`);
+  await watcher.unwatch(pathInDrive);
 };
 
 const watch = async (path) => {
-  await watcher.add(path);
+  if (!path.startsWith(iCloudDriveDirectory)) {
+    console.warn(
+      `Ignoring watch request for path outside of iCloud Drive: ${path}`
+    );
+    return;
+  }
+
+  const pathInDrive = path.replace(iCloudDriveDirectory, "");
+
+  console.log(`Watching path: ${pathInDrive}`);
+
+  await watcher.add(pathInDrive);
 };
 
 module.exports = { initializeWatcher, unwatch, watch };
