@@ -30,8 +30,8 @@ module.exports = async () => {
         throw new Error("No stats returned");
       }
 
-      stats.disk_bytes_available_human = prettySize(stats.disk_bytes_available);
-      stats.icloud_bytes_available_human = prettySize(stats.icloud_bytes_available);
+      stats.disk_bytes_available_human = prettySize(stats.disk_bytes_available / 1000);
+      stats.icloud_bytes_available_human = prettySize(stats.icloud_bytes_available / 1000);
 
       console.log(clfdate(), "Mac server stats: ", stats);
 
