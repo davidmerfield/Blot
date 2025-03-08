@@ -70,8 +70,17 @@ const handleFileEvent = async (event, filePath) => {
   }
 };
 
-const initializeWatcher = () => {
+const initializeWatcher = async () => {
   console.log(`Watching iCloud Drive directory for blog folders: ${iCloudDriveDirectory}`);
+
+  // Since we have ignoreInitial: true, we need to manually scan the directory
+  // to find existing blog folders and start watchers for them
+  const existingContents = await fs.readdir(iCloudDriveDirectory);
+  for (const name of existingContents) {
+    if (isBlogDirectory(name)) {
+      await watch(name);
+    }
+  }
 
   // Top-level watcher to manage blog folder creation and deletion
   const topLevelWatcher = chokidar
