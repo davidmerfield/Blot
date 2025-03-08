@@ -79,15 +79,18 @@ const check = async (evictFiles) => {
     let bytesToBeEvicted = 0;
 
     for (const { filePath } of files) {
+      let stat;
+      
       try {
-        const stat = await fs.stat(filePath);
-        // Skip already evicted files
-        if (stat.blocks === 0) {
-          console.log(`Skipping evicted file: ${filePath}`);
-          continue;
-        }
+        stat = await fs.stat(filePath);
       } catch (fileError) {
         console.error(`Error getting file stat: ${fileError}`);
+        continue;
+      }
+
+      // Skip already evicted files
+      if (stat.blocks === 0) {
+        console.log(`Skipping evicted file: ${filePath}`);
         continue;
       }
 
