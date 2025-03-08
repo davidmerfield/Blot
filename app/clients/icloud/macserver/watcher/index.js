@@ -128,6 +128,12 @@ const initializeWatcher = async () => {
       depth: 0, // Only watch the top level
     })
     .on("addDir", (folderPath) => {
+
+      // Ignore the iCloud Drive directory itself
+      if (folderPath === iCloudDriveDirectory) {
+        return;
+      }
+
       const blogID = folderPath.replace(`${iCloudDriveDirectory}/`, "");
       if (isBlogDirectory(blogID)) {
         console.log(`Detected new blog folder: ${blogID}`);
