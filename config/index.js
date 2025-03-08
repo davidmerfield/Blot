@@ -196,6 +196,10 @@ module.exports = {
     email: process.env.BLOT_ICLOUD_EMAIL,
     // The maximum file size to sync with iCloud
     // if you change this, also change maxiCloudFileSize in macserver/index.js
-    maxFileSize: "50MB" 
+    maxFileSize: "50MB",
+    diskSpaceWarning: 1e9, // 1GB
+    diskSpaceLimit: 1e8, // 100MB
+    iCloudSpaceWarning: 1e9, // 1GB
+    iCloudSpaceLimit: 1e8, // 100MB
   }
 };
