@@ -15,9 +15,12 @@ module.exports = async (req, res) => {
   const dirPath = join(iCloudDriveDirectory, blogID, path);
   const files = await fs.readdir(dirPath, { withFileTypes: true });
 
+  // Ignore dotfiles and directories
+  const filteredFiles = files.filter((file) => !file.name.startsWith("."));
+
   const result = [];
 
-  for (const file of files) {
+  for (const file of filteredFiles) {
     const filePath = join(dirPath, file.name);
     const stat = await fs.stat(filePath);
 

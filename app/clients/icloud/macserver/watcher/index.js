@@ -80,7 +80,12 @@ const initializeWatcher = () => {
 
   watcher = chokidar
     .watch(iCloudDriveDirectory, {
-      ignoreInitial: true
+      // watch for add, change, unlink, unlinkDir events after initial scan
+      ignoreInitial: true,
+      // apparently polling causes poor performance
+      usePolling: false,
+      // ignore dotfiles
+      ignore: /(^|[/\\])\../,
     })
     .on("all", async (event, filePath) => {
       await handleFileEvent(event, filePath);
