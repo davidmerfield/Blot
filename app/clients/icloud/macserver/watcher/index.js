@@ -19,7 +19,7 @@ const {
   removeBlog,
   addFile,
   removeFile,
-} = require("./diskSpace");
+} = require("./monitorDiskUsage");
 
 
 // Map to track active chokidar watchers for each blog folder
