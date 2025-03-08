@@ -4,8 +4,8 @@ const exec = promisify(require("child_process").exec);
 
 const { iCloudDriveDirectory } = require("../config");
 
-const POLL_INTERVAL = 10 * 1000; // Check every 10 seconds
-const NUMBER_OF_LARGEST_FILES_TO_TRACK = 100;
+const POLL_INTERVAL = 15 * 1000; // Check every 15 seconds
+const MAX_NUMBER_OF_FILES_TRACKED_PER_BLOG = 150;
 const MAX_DISK_USAGE_BYTES = 10 * 1024 * 1024; // 10 MB
 
 // Map to track the largest files and metadata for each blog folder
@@ -30,7 +30,6 @@ const removeBlog = (blogID) => {
 const addFile = async (blogID, filePath) => {
   const stat = await fs.stat(filePath);
   const size = stat.size;
-  const updatedTime = Math.max(stat.ctimeMs, stat.mtimeMs); // Use the most recent time
 
   // Initialize blog data if it doesn't exist
   if (!largestFilesMap.has(blogID)) {
@@ -60,8 +59,8 @@ const addFile = async (blogID, filePath) => {
   files.sort((a, b) => b.size - a.size);
 
   // Keep only the top N largest files
-  if (files.length > NUMBER_OF_LARGEST_FILES_TO_TRACK) {
-    files.length = NUMBER_OF_LARGEST_FILES_TO_TRACK;
+  if (files.length > MAX_NUMBER_OF_FILES_TRACKED_PER_BLOG) {
+    files.length = MAX_NUMBER_OF_FILES_TRACKED_PER_BLOG;
   }
 
   largestFilesMap.set(blogID, files);
@@ -70,6 +69,7 @@ const addFile = async (blogID, filePath) => {
   const lastUpdateTime = Math.max(
     ...files.map((file) => Math.max(file.ctimeMs, file.mtimeMs))
   );
+
   blogUpdateTimes.set(blogID, lastUpdateTime);
 };
 
@@ -118,7 +118,12 @@ const check = async (evictFiles) => {
   // Get blogs sorted by least recent update time
   const sortedBlogs = sortBlogsByUpdateTime();
 
+
   for (const blogID of sortedBlogs) {
+
+    const lastUpdated = (Date.now() - blogUpdateTimes.get(blogID)) / 1000;
+    console.log(`Checking blogID ${blogID} for files to evict, blog was last updated: ${lastUpdated} seconds ago`);
+
     const files = largestFilesMap.get(blogID);
     if (!files || files.length === 0) continue;
 
@@ -137,7 +142,7 @@ const check = async (evictFiles) => {
 
       // Skip already evicted files
       if (stat.blocks === 0) {
-        console.log(`Skipping evicted file: ${filePath}`);
+        console.info(`Skipping evicted file: ${filePath}`);
         continue;
       }
 
