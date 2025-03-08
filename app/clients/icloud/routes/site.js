@@ -1,6 +1,7 @@
 const express = require("express");
 const fs = require("fs-extra"); // For filesystem operations
 const config = require("config"); // For accessing configuration values
+const email = require("helper/email");
 
 const maxiCloudFileSize = config.icloud.maxFileSize; // Maximum file size for iCloud uploads
 
@@ -51,8 +52,9 @@ site.use(express.json());
 site.use(express.raw({ type: "application/octet-stream", limit: maxiCloudFileSize })); // For handling binary data
 
 // Ping endpoint
-site.get("/ping", async function (req, res) {
-  res.send("pong");
+site.get("/started", async function (req, res) {
+  email.ICLOUD_SERVER_STARTED();
+  res.sendStatus(200);
 });
 
 site.post("/status", checkBlogUsesICloud, async function (req, res) {

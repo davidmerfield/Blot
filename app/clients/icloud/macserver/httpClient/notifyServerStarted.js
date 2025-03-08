@@ -5,14 +5,14 @@ module.exports = async (...args) => {
   if (args.length !== 0) {
     throw new Error("Invalid number of arguments: expected 0");
   }
+  
+  console.log(`Notifying server that the client has started`);
 
-  const res = await fetch(remoteServer + "/ping", {
+  await fetch(remoteServer + "/started", {
     headers: {
       Authorization, // Use the Authorization header
     },
   });
 
-  const text = await res.text();
-
-  console.log(`Ping response: ${text}`);
+  console.log(`Server notified that the client has started`);
 };
