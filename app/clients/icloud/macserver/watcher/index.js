@@ -79,17 +79,21 @@ const initializeWatcher = async () => {
       depth: 0 // Only watch the top level
     })
     .on("addDir", async (folderPath) => {
-      const folderName = folderPath.replace(`${iCloudDriveDirectory}/`, "");
-      if (isBlogDirectory(folderName)) {
-        console.log(`Detected new blog folder: ${folderName}`);
-        await watch(folderName); // Add a watcher for the new blog folder
+      const blogID = folderPath.replace(`${iCloudDriveDirectory}/`, "");
+      if (isBlogDirectory(blogID)) {
+        console.log(`Detected new blog folder: ${blogID}`);
+        await watch(blogID); // Add a watcher for the new blog folder
+      } else {
+        console.warn(`Ignoring non-blog folder: ${blogID}`);
       }
     })
     .on("unlinkDir", async (folderPath) => {
-      const folderName = folderPath.replace(`${iCloudDriveDirectory}/`, "");
-      if (isBlogDirectory(folderName)) {
-        console.warn(`Blog folder removed: ${folderName}`);
-        await unwatch(folderName); // Remove the watcher for the deleted blog folder
+      const blogID = folderPath.replace(`${iCloudDriveDirectory}/`, "");
+      if (isBlogDirectory(blogID)) {
+        console.warn(`Blog folder removed: ${blogID}`);
+        await unwatch(blogID); // Remove the watcher for the deleted blog folder
+      } else {
+        console.warn(`Ignoring non-blog folder: ${blogID}`);
       }
     });
 

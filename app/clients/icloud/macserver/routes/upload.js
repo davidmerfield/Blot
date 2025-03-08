@@ -15,10 +15,9 @@ module.exports = async (req, res) => {
   console.log(`Received upload request for blogID: ${blogID}, path: ${path}`);
 
   const filePath = join(iCloudDriveDirectory, blogID, path);
-  const blogFolder = join(iCloudDriveDirectory, blogID);
 
   // first unwatch the blogID to prevent further events from being triggered
-  unwatch(blogFolder);
+  await unwatch(blogID);
 
   for (let i = 0; i < 10; i++) {
     try {
@@ -35,7 +34,7 @@ module.exports = async (req, res) => {
   }
 
   // re-watch the blogID
-  watch(blogFolder);
+  await watch(blogID);
 
   console.log(`Recieved upload of file: ${filePath}`);
   res.sendStatus(200);
