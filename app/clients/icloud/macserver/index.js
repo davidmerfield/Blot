@@ -7,9 +7,6 @@ const notifyServerStarted = require("./httpClient/notifyServerStarted");
 // maxFileSize is in bytes but limit must be in the format '5mb'
 const limit = `${maxFileSize / 1000000}mb`;
 
-console.log("maxFileSize:", maxFileSize);
-console.log("limit:", limit);
-
 const startServer = async () => {
   const app = express();
 

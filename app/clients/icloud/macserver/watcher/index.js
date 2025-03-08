@@ -79,14 +79,9 @@ const handleFileEvent = async (event, blogID, filePath) => {
     // Schedule the event handler to run within the limiter
     await limiter.schedule(async () => {
       if (event === "add" || event === "change") {
-        const stat = await brctl.download(filePath);
-        const body = await fs.readFile(filePath);
-        const modifiedTime = stat.mtime.toISOString();
-        await upload(blogID, pathInBlogDirectory, body, modifiedTime);
-        addFile(blogID, filePath);
+        await upload(blogID, pathInBlogDirectory);
       } else if (event === "unlink" || event === "unlinkDir") {
         await remove(blogID, pathInBlogDirectory);
-        removeFile(blogID, filePath);
       } else if (event === "addDir") {
         await mkdir(blogID, pathInBlogDirectory);
       }
@@ -128,7 +123,6 @@ const initializeWatcher = async () => {
       depth: 0, // Only watch the top level
     })
     .on("addDir", (folderPath) => {
-
       // Ignore the iCloud Drive directory itself
       if (folderPath === iCloudDriveDirectory) {
         return;
@@ -170,15 +164,17 @@ const watch = async (blogID) => {
         return;
       }
 
-      if (initialScanComplete) {
-        handleFileEvent(event, blogID, filePath); // Pass a flag for initial events
-      } else {
-        if (event === "add" || event === "change") {
-          addFile(blogID, filePath);
-        } else if (event === "unlink") {
-          removeFile(blogID, filePath);
-        }
+      // Update the internal file map for disk usage monitoring
+      if (event === "add" || event === "change") {
+        addFile(blogID, filePath);
+      } else if (event === "unlink") {
+        removeFile(blogID, filePath);
       }
+
+      // We only handle file events after the initial scan is complete
+      if (initialScanComplete) {
+        handleFileEvent(event, blogID, filePath);
+      } 
     })
     .on("ready", () => {
       console.log(`Initial scan complete for blog folder: ${blogID}`);

@@ -1,8 +1,16 @@
-const { remoteServer, Authorization } = require("../config");
+const {
+  remoteServer,
+  Authorization,
+  iCloudDriveDirectory,
+  maxFileSize,
+} = require("../config");
+
+const fs = require("fs-extra");
+const brctl = require("../brctl");
 const fetch = require("./rateLimitedFetchWithRetriesAndTimeout");
 
 module.exports = async (...args) => {
-  const [blogID, path, body, modifiedTime] = args;
+  const [blogID, path] = args;
 
   if (!blogID || typeof blogID !== "string") {
     throw new Error("Invalid blogID");
@@ -12,17 +20,21 @@ module.exports = async (...args) => {
     throw new Error("Invalid path");
   }
 
-  if (!body || !(body instanceof Buffer)) {
-    throw new Error("Invalid body");
+  if (args.length !== 2) {
+    throw new Error("Invalid number of arguments: expected 2");
   }
 
-  if (!modifiedTime || typeof modifiedTime !== "string") {
-    throw new Error("Invalid modifiedTime");
+  const filePath = join(iCloudDriveDirectory, blogID, path);
+  const stat = await brctl.download(filePath);
+
+  if (stat.size > maxFileSize) {
+    throw new Error(
+      `File size exceeds maximum allowed size: ${maxFileSize} bytes`
+    );
   }
 
-  if (args.length !== 4) {
-    throw new Error("Invalid number of arguments: expected 4");
-  }
+  const modifiedTime = stat.mtime.toISOString();
+  const body = fs.createReadStream(filePath);
 
   const pathBase64 = Buffer.from(path).toString("base64");
 

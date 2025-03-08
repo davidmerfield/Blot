@@ -7,9 +7,6 @@ const maxFileSize = config.icloud.maxFileSize; // Maximum file size for iCloud u
 // limit must be in the format '5mb'
 const limit = `${maxFileSize / 1000000}mb`;
 
-console.log("maxFileSize:", maxFileSize);
-console.log("limit:", limit);
-
 // Helper functions
 const localPath = require("helper/localPath");
 const establishSyncLock = require("../util/establishSyncLock");

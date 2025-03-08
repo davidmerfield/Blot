@@ -8,6 +8,9 @@ const truncateToSecond = require("./util/truncateToSecond");
 const localReaddir = require("./util/localReaddir");
 const remoteReaddir = require("./util/remoteReaddir");
 
+const config = require("config");
+const maxFileSize = config.icloud.maxFileSize; // Maximum file size for iCloud uploads in bytes
+
 module.exports = async (blogID, publish, update) => {
   if (!publish)
     publish = (...args) => {
@@ -27,7 +30,11 @@ module.exports = async (blogID, publish, update) => {
     ]);
 
     for (const { name } of localContents) {
-      if (!remoteContents.find((item) => item.name.normalize("NFC") === name.normalize("NFC"))) {
+      if (
+        !remoteContents.find(
+          (item) => item.name.normalize("NFC") === name.normalize("NFC")
+        )
+      ) {
         const path = join(dir, name);
         await checkWeCanContinue();
         publish("Removing local item", join(dir, name));
@@ -36,14 +43,11 @@ module.exports = async (blogID, publish, update) => {
       }
     }
 
-    for (const {
-      name,
-      size,
-      isDirectory,
-      modifiedTime,
-    } of remoteContents) {
+    for (const { name, size, isDirectory, modifiedTime } of remoteContents) {
       const path = join(dir, name);
-      const existsLocally = localContents.find((item) => item.name.normalize("NFC") === name.normalize("NFC"));
+      const existsLocally = localContents.find(
+        (item) => item.name.normalize("NFC") === name.normalize("NFC")
+      );
 
       if (isDirectory) {
         if (existsLocally && !existsLocally.isDirectory) {
@@ -65,21 +69,18 @@ module.exports = async (blogID, publish, update) => {
         const identicalOnRemote =
           existsLocally &&
           existsLocally.size === size &&
-          truncateToSecond(existsLocally.modifiedTime) === truncateToSecond(modifiedTime);
+          truncateToSecond(existsLocally.modifiedTime) ===
+            truncateToSecond(modifiedTime);
 
-        if (existsLocally && !identicalOnRemote) {
+        if (!existsLocally || (existsLocally && !identicalOnRemote)) {
           try {
+            if (size > maxFileSize) {
+              publish("File too large", path);
+              continue;
+            }
+
             await checkWeCanContinue();
             publish("Updating", path);
-            await download(blogID, path);
-            await update(path);
-          } catch (e) {
-            publish("Failed to download", path, e);
-          }
-        } else if (!existsLocally) {
-          try {
-            await checkWeCanContinue();
-            publish("Downloading", path);
             await download(blogID, path);
             await update(path);
           } catch (e) {
