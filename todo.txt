@@ -1,7 +1,5 @@
 Fix handle validation error (save a one letter handle, it tanks server)
 
-iCloud client
-
 Fix image profile retention not working in production and tell [Simon](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJchvfhDcWNkrZtNJqlLmLfsx)
 
 Improve tools section
@@ -16,12 +14,13 @@ Improvements to questions section:
   - https://designportland.org/
 - Add a filter for topic index to show questions by: 'Newest', 'Active', 'Unanswered', 'Votes'
 
-Add 'Event' folder
-
 ---
 
 Improve importer
 
+Rewrite code which generates a fake 'macOS' folder to work cross platform:
+- if the user is browsing from Windows create a windows folder
+- if the user is browsing from linux create a linux folder
 
 As much static file delivery through CDN as possible
 
