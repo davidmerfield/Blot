@@ -80,19 +80,7 @@ const initializeWatcher = () => {
 
   watcher = chokidar
     .watch(iCloudDriveDirectory, {
-      ignoreInitial: true,
-      usePolling: true,
-      // emit single event when chunked writes are completed
-      // Was designed to solve this error:
-      // Error handling file event (add, /Users/admin/Library/Mobile Documents/com~apple~Cloud
-      // errno: -11,
-      // code: 'Unknown system error -11',
-      // syscall: 'read'
-      // which occurs when the file is only partially written
-      awaitWriteFinish: {
-        stabilityThreshold: 1000,
-        pollInterval: 50,
-      },
+      ignoreInitial: true
     })
     .on("all", async (event, filePath) => {
       await handleFileEvent(event, filePath);
