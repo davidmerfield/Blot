@@ -1,8 +1,14 @@
 const express = require("express");
 const { raw } = express;
-const { Authorization, maxiCloudFileSize } = require("./config");
+const { Authorization, maxFileSize } = require("./config");
 const { initializeWatcher } = require("./watcher");
 const notifyServerStarted = require("./httpClient/notifyServerStarted");
+
+// maxFileSize is in bytes but limit must be in the format '5mb'
+const limit = `${maxFileSize / 1000000}mb`;
+
+console.log("maxFileSize:", maxFileSize);
+console.log("limit:", limit);
 
 const startServer = async () => {
   const app = express();
@@ -21,7 +27,7 @@ const startServer = async () => {
 
   app.use(express.json());
 
-  app.use(raw({ type: "application/octet-stream", limit: maxiCloudFileSize }));
+  app.use(raw({ type: "application/octet-stream", limit }));
 
   app.post("/upload", require("./routes/upload"));
   

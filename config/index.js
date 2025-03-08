@@ -23,7 +23,7 @@ module.exports = {
   protocol: BLOT_PROTOCOL + "://",
 
   webhooks: {
-    client_max_body_size: "100MB",
+    client_max_body_size: 1e8, // 100MB
     server_host: "webhooks." + BLOT_HOST,
     // replace with "webhooks.blot.development" to test
     relay_host: environment === "development" && "webhooks.blot.im",
@@ -195,11 +195,11 @@ module.exports = {
     server_address: process.env.BLOT_ICLOUD_SERVER_ADDRESS,
     email: process.env.BLOT_ICLOUD_EMAIL,
     // The maximum file size to sync with iCloud
-    // if you change this, also change maxiCloudFileSize in macserver/index.js
-    maxFileSize: "50MB",
-    diskSpaceWarning: 1e9, // 1GB
-    diskSpaceLimit: 1e8, // 100MB
-    iCloudSpaceWarning: 5368620811, // 1GB
-    iCloudSpaceLimit: 1e8, // 100MB
+    maxFileSize: 1e8, // 100MB
+    // The thresholds for sending warning emails
+    diskSpaceWarning: 5e9, // 5GB
+    diskSpaceLimit: 1e9, // 1GB
+    iCloudSpaceWarning: 2e9, // 2GB
+    iCloudSpaceLimit: 1e9, // 1GB
   }
 };

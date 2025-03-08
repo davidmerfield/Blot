@@ -3,7 +3,12 @@ const fs = require("fs-extra"); // For filesystem operations
 const config = require("config"); // For accessing configuration values
 const email = require("helper/email");
 
-const maxiCloudFileSize = config.icloud.maxFileSize; // Maximum file size for iCloud uploads
+const maxFileSize = config.icloud.maxFileSize; // Maximum file size for iCloud uploads in bytes
+// limit must be in the format '5mb'
+const limit = `${maxFileSize / 1000000}mb`;
+
+console.log("maxFileSize:", maxFileSize);
+console.log("limit:", limit);
 
 // Helper functions
 const localPath = require("helper/localPath");
@@ -49,7 +54,7 @@ site.use(verifyAuthorization); // This will apply to all routes below
 
 site.use(express.json());
 
-site.use(express.raw({ type: "application/octet-stream", limit: maxiCloudFileSize })); // For handling binary data
+site.use(express.raw({ type: "application/octet-stream", limit })); // For handling binary data
 
 // Ping endpoint
 site.get("/started", async function (req, res) {

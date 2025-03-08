@@ -5,7 +5,7 @@ const fs = require("fs-extra");
 const remoteServer = process.env.REMOTE_SERVER;
 const iCloudDriveDirectory = process.env.ICLOUD_DRIVE_DIRECTORY;
 const Authorization = process.env.BLOT_ICLOUD_SERVER_SECRET; // Use the correct environment variable
-const maxiCloudFileSize = "50MB";
+const maxFileSize = require('../../../config').icloud.maxFileSize; // Maximum file size for iCloud uploads
 
 if (!remoteServer) {
   throw new Error("REMOTE_SERVER is not set");
@@ -34,5 +34,5 @@ module.exports = {
   remoteServer,
   iCloudDriveDirectory,
   Authorization,
-  maxiCloudFileSize,
+  maxFileSize,
 };

@@ -25,12 +25,8 @@ const config_directory =
 // nginx requires 'M' instead of 'MB' but unfortunately
 // node rawbody parser requires 'MB' instead of 'M'
 // so this maps '25MB' to '25M' for nginx
-const icloudMaxFileSize = config.icloud.maxFileSize
-  ? config.icloud.maxFileSize.replace(/MB/i, "M")
-  : "50M";
-const webhooks_client_max_body_size = config.webhooks.client_max_body_size
-  ? config.webhooks.client_max_body_size.replace(/MB/i, "M")
-  : "100M";
+const iCloud_max_body_size = `${config.icloud.maxFileSize / 1000000}M`;
+const webhooks_client_max_body_size = `${config.webhooks.client_max_body_size / 1000000}M`;
 
 const locals = {
   host: "blot.im",
@@ -40,7 +36,7 @@ const locals = {
   node_port: "8088",
 
   // The maximum size of icloud uploads
-  icloudMaxFileSize,
+  iCloud_max_body_size,
 
   // The maximum size of webhooks bodies forwarded to the node server
   webhooks_client_max_body_size,
