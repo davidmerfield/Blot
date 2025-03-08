@@ -42,6 +42,7 @@ module.exports = async (...args) => {
 
   await fetch(`${remoteServer}/upload`, {
     method: "POST",
+    duplex: true,
     headers: {
       "Content-Type": "application/octet-stream",
       Authorization,
