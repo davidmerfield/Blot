@@ -195,7 +195,7 @@ module.exports = {
     server_address: process.env.BLOT_ICLOUD_SERVER_ADDRESS,
     email: process.env.BLOT_ICLOUD_EMAIL,
     // The maximum file size to sync with iCloud
-    maxFileSize: 1e8, // 100MB
+    maxFileSize: 1e6, // 1MB
     // The thresholds for sending warning emails
     diskSpaceWarning: 5e9, // 5GB
     diskSpaceLimit: 1e9, // 1GB
