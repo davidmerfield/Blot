@@ -77,9 +77,8 @@ const initializeWatcher = () => {
   const topLevelWatcher = chokidar
     .watch(iCloudDriveDirectory, {
       depth: 1,
-      ignoreInitial: false,
+      ignoreInitial: true,
       usePolling: false,
-      ignored: /(^|[/\\])\../, // Ignore dotfiles
     })
     .on("addDir", async (folderPath) => {
       const folderName = folderPath.replace(`${iCloudDriveDirectory}/`, "");
