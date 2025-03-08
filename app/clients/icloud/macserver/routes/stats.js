@@ -1,9 +1,7 @@
-const fs = require("fs-extra");
 const brctl = require("../brctl");
 const { promisify } = require("util");
-const exec = promisify(require("child_process").exec);
-const fs = require("fs");
-const statfs = promisify(fs.statfs);
+const fs = require("fs-extra");
+const statfs = promisify(require("fs").statfs);
 const { iCloudDriveDirectory } = require("../config");
 
 module.exports = async (req, res) => {
@@ -17,7 +15,7 @@ module.exports = async (req, res) => {
   }
 
   try {
-    const stats = statfs('/');
+    const stats = await statfs('/');
     // get disk free space in bytes
     result.disk_bytes_available = stats.bavail * stats.bsize
   } catch (error) {
