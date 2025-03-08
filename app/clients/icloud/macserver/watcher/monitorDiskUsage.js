@@ -6,7 +6,7 @@ const { iCloudDriveDirectory } = require("../config");
 
 const POLL_INTERVAL = 15 * 1000; // Check every 15 seconds
 const MAX_NUMBER_OF_FILES_TRACKED_PER_BLOG = 150;
-const MAX_DISK_USAGE_BYTES = 10 * 1024 * 1024; // 10 MB
+const MAX_DISK_USAGE_BYTES = 40 * 1024 * 1024 * 1024; // 40 GB
 
 // Map to track the largest files and metadata for each blog folder
 const largestFilesMap = new Map();
