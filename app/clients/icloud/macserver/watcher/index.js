@@ -1,5 +1,4 @@
 const chokidar = require("chokidar");
-
 const fs = require("fs-extra");
 const { constants } = require("fs-extra");
 const { join } = require("path");
@@ -13,6 +12,9 @@ const upload = require("../httpClient/upload");
 const mkdir = require("../httpClient/mkdir");
 const remove = require("../httpClient/remove");
 
+// Map to track active chokidar watchers for each blog folder
+const blogWatchers = new Map();
+
 const handleFileEvent = async (event, filePath) => {
   try {
     const relativePath = filePath.replace(`${iCloudDriveDirectory}/`, "");
@@ -24,10 +26,11 @@ const handleFileEvent = async (event, filePath) => {
       return;
     }
 
-    // handle the deletion of the entire blog directory
+    // Handle the deletion of the entire blog directory
     if (event === "unlinkDir" && path === "") {
       console.warn(`Blog directory deleted: ${blogID}`);
       await status(blogID, { error: "Blog directory deleted" });
+      await unwatch(blogID); // Stop watching this blog folder
       return;
     }
 
@@ -67,52 +70,67 @@ const handleFileEvent = async (event, filePath) => {
   }
 };
 
-let watcher;
-
 const initializeWatcher = () => {
-  console.log(`Watching iCloud Drive directory: ${iCloudDriveDirectory}`);
+  console.log(`Watching iCloud Drive directory for blog folders: ${iCloudDriveDirectory}`);
 
-  watcher = chokidar
+  // Top-level watcher to manage blog folder creation and deletion
+  const topLevelWatcher = chokidar
     .watch(iCloudDriveDirectory, {
-      // watch for add, change, unlink, unlinkDir events after initial scan
-      ignoreInitial: true,
-      // apparently polling causes poor performance
+      depth: 1,
+      ignoreInitial: false,
       usePolling: false,
-      // ignore dotfiles
-      ignore: /(^|[/\\])\../,
+      ignored: /(^|[/\\])\../, // Ignore dotfiles
+    })
+    .on("addDir", async (folderPath) => {
+      const folderName = folderPath.replace(`${iCloudDriveDirectory}/`, "");
+      if (isBlogDirectory(folderName)) {
+        console.log(`Detected new blog folder: ${folderName}`);
+        await watch(folderName); // Add a watcher for the new blog folder
+      }
+    })
+    .on("unlinkDir", async (folderPath) => {
+      const folderName = folderPath.replace(`${iCloudDriveDirectory}/`, "");
+      if (isBlogDirectory(folderName)) {
+        console.warn(`Blog folder removed: ${folderName}`);
+        await unwatch(folderName); // Remove the watcher for the deleted blog folder
+      }
+    });
+
+  return topLevelWatcher;
+};
+
+const watch = async (blogID) => {
+  if (blogWatchers.has(blogID)) {
+    console.warn(`Already watching blog folder: ${blogID}`);
+    return;
+  }
+
+  const blogPath = join(iCloudDriveDirectory, blogID);
+
+  console.log(`Starting watcher for blog folder: ${blogID}`);
+  const watcher = chokidar
+    .watch(blogPath, {
+      ignoreInitial: true,
+      usePolling: false,
+      ignored: /(^|[/\\])\../, // Ignore dotfiles
     })
     .on("all", async (event, filePath) => {
       await handleFileEvent(event, filePath);
     });
+
+  blogWatchers.set(blogID, watcher);
 };
 
-const unwatch = async (path) => {
-  if (!path.startsWith(iCloudDriveDirectory)) {
-    console.warn(
-      `Ignoring unwatch request for path outside of iCloud Drive: ${path}`
-    );
+const unwatch = async (blogID) => {
+  const watcher = blogWatchers.get(blogID);
+  if (!watcher) {
+    console.warn(`No active watcher for blog folder: ${blogID}`);
     return;
   }
 
-  const pathInDrive = path.replace(iCloudDriveDirectory, "");
-
-  console.log(`Unwatching path: ${pathInDrive}`);
-  await watcher.unwatch(pathInDrive);
-};
-
-const watch = async (path) => {
-  if (!path.startsWith(iCloudDriveDirectory)) {
-    console.warn(
-      `Ignoring watch request for path outside of iCloud Drive: ${path}`
-    );
-    return;
-  }
-
-  const pathInDrive = path.replace(iCloudDriveDirectory, "");
-
-  console.log(`Watching path: ${pathInDrive}`);
-
-  await watcher.add(pathInDrive);
+  console.log(`Stopping watcher for blog folder: ${blogID}`);
+  await watcher.close();
+  blogWatchers.delete(blogID);
 };
 
 module.exports = { initializeWatcher, unwatch, watch };
