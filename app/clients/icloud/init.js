@@ -10,11 +10,11 @@ module.exports = async () => {
     console.log(clfdate(), "Checking Mac server stats");
     try {
       // fetching stats
-      const stats = await fetch(MAC_SERVER_ADDRESS + "/stats", {
+      const res = await fetch(MAC_SERVER_ADDRESS + "/stats", {
         headers: { Authorization: MACSERVER_AUTH },
       });
-      const statsText = await stats.text();
-      console.log(clfdate(), "Mac server stats: ", statsText);
+      const stats = await res.json();
+      console.log(clfdate(), "Mac server stats: ", stats);
     } catch (error) {
       console.log(clfdate(), "Error connecting to mac server: ", error);
     }

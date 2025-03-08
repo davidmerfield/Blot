@@ -9,5 +9,5 @@ module.exports = async () => {
     return res.status(500).send(quotaErr);
   }
 
-  return quota.match(/(\d+) bytes of quota remaining/)[1];
+  return parseInt(quota.match(/(\d+) bytes of quota remaining/)[1]);
 };

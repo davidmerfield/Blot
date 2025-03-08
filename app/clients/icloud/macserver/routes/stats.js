@@ -22,7 +22,7 @@ module.exports = async (req, res) => {
       return res.status(500).send(diskFreeErr);
     }
 
-    result.disk_bytes_available = diskFree.split("\n")[1].split(/\s+/)[3];
+    result.disk_bytes_available = parseInt(diskFree.split("\n")[1].split(/\s+/)[3]);
   } catch (error) {
     console.error(`Error getting disk free space: ${error}`);
   }
