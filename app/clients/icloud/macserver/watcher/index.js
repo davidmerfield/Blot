@@ -144,13 +144,19 @@ const monitorDiskSpace = async () => {
   let freeBytes = await getFreeBytes();
 
   if (freeBytes > MIN_FREE_DISK_SPACE_BYTES) {
-    console.log(`Free disk space: ${freeBytes} is above threshold of ${MIN_FREE_DISK_SPACE_BYTES}`);
+    console.log(
+      `Free disk space: ${freeBytes} is above threshold of ${MIN_FREE_DISK_SPACE_BYTES}`
+    );
     return;
   }
 
   console.warn(
-    `Free disk space (${freeBytes}) is below threshold (${MIN_FREE_DISK_SPACE_BYTES}). Evicting files...`
+    `Free disk space is below threshold by ${
+      freeBytes - MIN_FREE_DISK_SPACE_BYTES
+    } bytes`
   );
+  console.warn(`Disk space: ${freeBytes} bytes`);
+  console.warn(` Threshold: ${MIN_FREE_DISK_SPACE_BYTES} bytes`);
 
   for (const [blogID, files] of largestFilesMap) {
     try {
@@ -163,7 +169,7 @@ const monitorDiskSpace = async () => {
 
           // Skip already evicted files
           if (stats.blocks === 0) {
-            console.log(`File already evicted: ${filePath}`);
+            console.log(`Skipping evicted file: ${filePath}`);
             continue;
           }
 
@@ -197,8 +203,12 @@ const monitorDiskSpace = async () => {
 
   if (freeBytes <= MIN_FREE_DISK_SPACE_BYTES) {
     console.warn(
-      `Failed to free up sufficient disk space. Free disk space: ${freeBytes}`
+      `Failed to free up sufficient disk space. We are short by ${
+        MIN_FREE_DISK_SPACE_BYTES - freeBytes
+      } bytes`
     );
+    console.warn(`Disk space: ${freeBytes} bytes`);
+    console.warn(` Threshold: ${MIN_FREE_DISK_SPACE_BYTES} bytes`);
   }
 };
 
