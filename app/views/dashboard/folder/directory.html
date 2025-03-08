@@ -36,13 +36,10 @@
             <td colspan="3" style="vertical-align: middle;">
               <small style="display: flex;flex-grow: 1;
               font-size: 14px;
-              {{#directory}}{{^root}}
-              min-height: 300px;
-              {{/root}}{{/directory}}
-              text-align: center;
+              text-align: center;{{#directory}}min-height: 300px;{{/directory}}
               color: var(--light-text-color);justify-content: center;">  
                 <span style="align-self: center; text-align: center;display: block;">
-                  {{#root}}This folder is empty.<br>{{^blog.client}}<a href="{{{base}}}/client">Sync this folder</a>{{/blog.client}}{{/root}}
+                  {{#root}}This folder is empty.<br>{{^blog.client}}<a style="display: inline;" href="{{{base}}}/client">Sync this folder</a>{{/blog.client}}{{/root}}
                   {{^root}}There is nothing here.{{/root}}
                 </span>
               </small>
