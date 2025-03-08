@@ -5,7 +5,6 @@ const {
   maxFileSize,
 } = require("../config");
 
-const { Readable } = require("stream");
 const fs = require("fs-extra");
 const brctl = require("../brctl");
 const fetch = require("./rateLimitedFetchWithRetriesAndTimeout");
@@ -37,8 +36,7 @@ module.exports = async (...args) => {
   }
 
   const modifiedTime = stat.mtime.toISOString();
-  const readStream = fs.createReadStream(filePath);
-  const body = Readable.toWeb(readStream);
+  const body = fs.createReadStream(filePath);
 
   const pathBase64 = Buffer.from(path).toString("base64");
 
@@ -52,6 +50,7 @@ module.exports = async (...args) => {
       modifiedTime,
     },
     body,
+    duplex: "half",
   });
 
   console.log(`Upload successful`);
