@@ -70,7 +70,6 @@ module.exports = {
     await sremAsync(this._globalSetKey(), blogID);
   },
 
-  
   async list() {
     return await smembersAsync(this._globalSetKey());
   },
