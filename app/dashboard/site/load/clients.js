@@ -3,9 +3,6 @@ var list = [];
 
 // Build the list of clients for the dashboard
 for (var i in clients) {
-  // temporarily hide the icloud client
-  if (i === 'icloud') continue;
-
   list.push({
     name: i,
     display_name: clients[i].display_name,
