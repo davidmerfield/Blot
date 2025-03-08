@@ -1,4 +1,5 @@
 const { remoteServer, Authorization } = require("../config");
+const fetch = require("../../util/rateLimitedFetchWithRetriesAndTimeout");
 
 module.exports = async (...args) => {
   const [blogID, path] = args;
@@ -16,9 +17,10 @@ module.exports = async (...args) => {
   }
 
   console.log(`Issuing external mkdir for blogID: ${blogID}, path: ${path}`);
-  const pathBase64 = Buffer.from(path).toString("base64");
 
-  const res = await fetch(`${remoteServer}/mkdir`, {
+  const pathBase64 = Buffer.from(path).toString("base64");
+  
+  await fetch(`${remoteServer}/mkdir`, {
     method: "POST",
     headers: {
       Authorization, // Use the Authorization header
@@ -27,9 +29,5 @@ module.exports = async (...args) => {
     },
   });
 
-  if (!res.ok) {
-    throw new Error(`Mkdir failed: ${res.statusText}`);
-  }
-
-  console.log(`Issuing external mkdir successful: ${await res.text()}`);
+  console.log(`Issuing external mkdir successful`);
 };

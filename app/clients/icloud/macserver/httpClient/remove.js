@@ -1,4 +1,5 @@
 const { remoteServer, Authorization } = require("../config");
+const fetch = require("../../util/rateLimitedFetchWithRetriesAndTimeout");
 
 module.exports = async (...args) => {
   const [blogID, path] = args;
@@ -18,7 +19,7 @@ module.exports = async (...args) => {
   console.log(`Issuing external delete for blogID: ${blogID}, path: ${path}`);
   const pathBase64 = Buffer.from(path).toString("base64");
 
-  const res = await fetch(`${remoteServer}/delete`, {
+  await fetch(`${remoteServer}/delete`, {
     method: "POST",
     headers: {
       Authorization,
@@ -27,9 +28,5 @@ module.exports = async (...args) => {
     },
   });
 
-  if (!res.ok) {
-    throw new Error(`Delete failed: ${res.statusText}`);
-  }
-
-  console.log(`Delete successful: ${await res.text()}`);
+  console.log(`Delete successful`);
 };

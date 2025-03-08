@@ -1,4 +1,5 @@
 const { remoteServer, Authorization } = require("../config");
+const fetch = require("../../util/rateLimitedFetchWithRetriesAndTimeout");
 
 module.exports = async (...args) => {
   const [blogID, path, body, modifiedTime] = args;
@@ -25,7 +26,7 @@ module.exports = async (...args) => {
 
   const pathBase64 = Buffer.from(path).toString("base64");
 
-  const res = await fetch(`${remoteServer}/upload`, {
+  await fetch(`${remoteServer}/upload`, {
     method: "POST",
     headers: {
       "Content-Type": "application/octet-stream",
@@ -37,10 +38,5 @@ module.exports = async (...args) => {
     body,
   });
 
-  if (!res.ok) {
-    throw new Error(`Upload failed: ${res.statusText}`);
-  }
-
-  console.log(`Upload successful: ${await res.text()}`);
-  return;
+  console.log(`Upload successful`);
 };

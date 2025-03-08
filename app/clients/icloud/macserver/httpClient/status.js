@@ -1,4 +1,5 @@
 const { remoteServer, Authorization } = require("../config");
+const fetch = require("../../util/rateLimitedFetchWithRetriesAndTimeout");
 
 module.exports = async (...args) => {
   const [blogID, status] = args;
@@ -17,7 +18,7 @@ module.exports = async (...args) => {
 
   console.log(`Sending status for blogID: ${blogID}`, status);
 
-  const res = await fetch(`${remoteServer}/status`, {
+  await fetch(`${remoteServer}/status`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -26,10 +27,6 @@ module.exports = async (...args) => {
     },
     body: JSON.stringify(status),
   });
-
-  if (!res.ok) {
-    throw new Error(`Setup complete failed: ${res.statusText}`);
-  }
 
   console.log(`Status sent for blogID: ${blogID}`);
 };
