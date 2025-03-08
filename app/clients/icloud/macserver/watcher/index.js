@@ -5,7 +5,8 @@ const { iCloudDriveDirectory } = require("../config");
 const { constants } = require("fs");
 const { join } = require("path");
 const { promisify } = require("util");
-const statfs = promisify(require("fs").statfs);
+const exec = require("util").promisify(require("child_process").exec);
+
 const brctl = require("../brctl");
 
 const status = require("../httpClient/status");
@@ -15,14 +16,17 @@ const remove = require("../httpClient/remove");
 
 const isBlogDirectory = (name) => name.startsWith("blog_");
 
-const getFreeBytes = async () => {
-  const stats = await statfs("/");
-  return stats.bavail * stats.bsize;
+
+const getDiskUsage = async () => {
+  const {stdout, stderr} = await exec("du -sk " + iCloudDriveDirectory);
+  if (stderr) {
+    throw new Error(`Error getting disk usage: ${stderr}`);
+  }
+  return parseInt(stdout.split("\t")[0]) * 1024;
 };
 
 const NUMBER_OF_LARGEST_FILES_TO_TRACK = 100;
-const MIN_FREE_DISK_SPACE_BYTES = 172485603328; // 161.1 GB
-// const MIN_FREE_DISK_SPACE_BYTES = 100 * 1024 * 1024; // 100 MB
+const MAX_DISK_USAGE_BYTES = 10 * 1024 * 1024; // 10 MB
 const POLL_INTERVAL = 10 * 1000; // Check every 10 seconds
 
 // Map to track active chokidar watchers for each blog folder
@@ -141,22 +145,16 @@ const removeFileFromLargestFiles = (blogID, filePath) => {
 const monitorDiskSpace = async () => {
   console.log(`Checking free disk space...`);
 
-  let freeBytes = await getFreeBytes();
+  let diskUsage = await getDiskUsage();
 
-  if (freeBytes > MIN_FREE_DISK_SPACE_BYTES) {
+  if (diskUsage < MAX_DISK_USAGE_BYTES) {
     console.log(
-      `Free disk space: ${freeBytes} is above threshold of ${MIN_FREE_DISK_SPACE_BYTES}`
+      `Disk usage is below threshold: ${diskUsage} bytes of ${MAX_DISK_USAGE_BYTES} bytes`
     );
     return;
   }
 
-  console.warn(
-    `Free disk space is below threshold by ${
-      freeBytes - MIN_FREE_DISK_SPACE_BYTES
-    } bytes`
-  );
-  console.warn(`Disk space: ${freeBytes} bytes`);
-  console.warn(` Threshold: ${MIN_FREE_DISK_SPACE_BYTES} bytes`);
+  
 
   for (const [blogID, files] of largestFilesMap) {
     try {
@@ -176,40 +174,32 @@ const monitorDiskSpace = async () => {
           console.log(`Evicting file: ${filePath}`);
           await brctl.evict(filePath); // Evict the file
 
-          // Update free space after eviction
-          freeBytes = await getFreeBytes();
-
-          if (freeBytes > MIN_FREE_DISK_SPACE_BYTES) {
-            console.log(
-              `Free disk space: ${freeBytes} is above threshold of ${MIN_FREE_DISK_SPACE_BYTES}`
-            );
-            break; // Stop evicting for this blogID
-          }
         } catch (fileError) {
           console.error(`Error evicting file: ${filePath}`, fileError);
         }
       }
 
-      if (freeBytes > MIN_FREE_DISK_SPACE_BYTES) {
-        break; // Stop evicting if we've freed enough space
-      }
+      
     } catch (blogError) {
       console.error(`Error processing blogID: ${blogID}`, blogError);
     } finally {
+
       // Re-watch the blog folder after eviction
       await watch(blogID);
+
+      diskUsage = await getDiskUsage();
+      console.log(`Disk usage after eviction: ${disk} bytes`);
+
+      if (diskUsage < MAX_DISK_USAGE_BYTES) {
+        console.log(
+          `Disk usage is below threshold after eviction: ${disk} bytes of ${MAX_DISK_USAGE_BYTES} bytes`
+        );
+        return;
+      }
     }
   }
 
-  if (freeBytes <= MIN_FREE_DISK_SPACE_BYTES) {
-    console.warn(
-      `Failed to free up sufficient disk space. We are short by ${
-        MIN_FREE_DISK_SPACE_BYTES - freeBytes
-      } bytes`
-    );
-    console.warn(`Disk space: ${freeBytes} bytes`);
-    console.warn(` Threshold: ${MIN_FREE_DISK_SPACE_BYTES} bytes`);
-  }
+  console.warn(`Disk usage is still above threshold: ${diskUsage} bytes`);
 };
 
 // Initializes the top-level watcher and starts disk monitoring
