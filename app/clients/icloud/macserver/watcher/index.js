@@ -21,7 +21,6 @@ const {
   removeFile,
 } = require("./monitorDiskUsage");
 
-
 // Map to track active chokidar watchers for each blog folder
 const blogWatchers = new Map();
 
@@ -104,8 +103,18 @@ const initializeWatcher = async () => {
   );
 
   // Start periodic disk space monitoring
-  checkDiskSpace();
-  
+  checkDiskSpace(async (blogID, files) => {
+    // Unwatch the blogID to prevent file locks during eviction
+    await unwatch(blogID);
+
+    for (const filePath of files) {
+      await brctl.evict(filePath); // Evict the file
+    }
+
+    // Re-watch the blogID after eviction
+    await watch(blogID);
+  });
+
   // Top-level watcher to manage blog folder creation and deletion
   const topLevelWatcher = chokidar
     .watch(iCloudDriveDirectory, {
