@@ -1,7 +1,9 @@
 const fs = require("fs-extra");
 const brctl = require("../brctl");
-const exec = require("util").promisify(require("child_process").exec);
-
+const { promisify } = require("util");
+const exec = promisify(require("child_process").exec);
+const fs = require("fs");
+const statfs = promisify(fs.statfs);
 const { iCloudDriveDirectory } = require("../config");
 
 module.exports = async (req, res) => {
@@ -15,14 +17,9 @@ module.exports = async (req, res) => {
   }
 
   try {
-    // get root disk free space in bytes
-    const { stdout: diskFree, stderr: diskFreeErr } = await exec("df /");
-    if (diskFreeErr) {
-      console.error(`Error getting disk free space: ${diskFreeErr}`);
-      return res.status(500).send(diskFreeErr);
-    }
-
-    result.disk_bytes_available = parseInt(diskFree.split("\n")[1].split(/\s+/)[3]);
+    const stats = statfs('/');
+    // get disk free space in bytes
+    result.disk_bytes_available = stats.bavail * stats.bsize
   } catch (error) {
     console.error(`Error getting disk free space: ${error}`);
   }
