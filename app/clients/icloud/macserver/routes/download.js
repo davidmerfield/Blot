@@ -1,6 +1,7 @@
 const fs = require("fs-extra");
 const { join } = require("path");
 const { iCloudDriveDirectory } = require("../config");
+const brctl = require('../brctl');
 
 module.exports = async (req, res) => {
   const blogID = req.header("blogID");
@@ -14,8 +15,11 @@ module.exports = async (req, res) => {
 
   const filePath = join(iCloudDriveDirectory, blogID, path);
 
+  // first download the file to make sure it's present on the local machine
+  const stat = await brctl.download(filePath);
+
   // set the modifiedTime header to the file's modified time as an ISO string
-  const modifiedTime = (await fs.stat(filePath)).mtime.toISOString();
+  const modifiedTime = stat.mtime.toISOString();
 
   res.setHeader("modifiedTime", modifiedTime);
 
