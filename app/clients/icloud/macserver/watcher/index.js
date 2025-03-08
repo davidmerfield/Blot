@@ -1,6 +1,7 @@
 const chokidar = require("chokidar");
 
 const fs = require("fs-extra");
+const { constants } = require("fs-extra");
 const { join } = require("path");
 const { getLimiterForBlogID } = require("../limiters");
 const { iCloudDriveDirectory } = require("../config");
@@ -23,7 +24,7 @@ const handleFileEvent = async (event, filePath) => {
     const relativePath = filePath.replace(`${iCloudDriveDirectory}/`, "");
     const [blogID, ...restPath] = relativePath.split("/");
     // handle paths with special characters e.g. umlauts
-    const path = restPath.join("/").normalize("NFC");
+    const path = restPath.join("/");//.normalize("NFC");
 
     if (!blogID || !isBlogDirectory(blogID)) {
       console.warn(`Failed to parse blogID from path: ${filePath}`);
@@ -37,7 +38,10 @@ const handleFileEvent = async (event, filePath) => {
       return;
     }
 
-    if (!fs.existsSync(join(iCloudDriveDirectory, blogID))) {
+    try {
+      // Check if the directory for the blogID exists
+      await fs.access(join(iCloudDriveDirectory, blogID), constants.F_OK);
+    } catch (err) {
       console.warn(`Ignoring event for unregistered blogID: ${blogID}`);
       return;
     }
