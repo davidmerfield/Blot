@@ -139,11 +139,11 @@ async function acceptSharingLink(sharingLink) {
     appleScript(sharingLink),
   ]);
 
-  if (stderr) {
+  if (stderr && stderr.trim()) {
     throw new Error(`Unexpected AppleScript stderr: ${stderr}`);
   }
 
-  if (stdout) {
+  if (stdout && stdout.trim()) {
     throw new Error(`Unexpected AppleScript stdout: ${stdout}`);
   }
 
