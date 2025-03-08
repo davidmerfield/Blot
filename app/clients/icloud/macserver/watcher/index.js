@@ -4,8 +4,6 @@ const { getLimiterForBlogID } = require("../limiters");
 const { iCloudDriveDirectory } = require("../config");
 const { constants } = require("fs");
 const { join } = require("path");
-const { promisify } = require("util");
-const exec = require("util").promisify(require("child_process").exec);
 
 const brctl = require("../brctl");
 
@@ -16,23 +14,16 @@ const remove = require("../httpClient/remove");
 
 const isBlogDirectory = (name) => name.startsWith("blog_");
 
+const {
+  checkDiskSpace,
+  removeBlog,
+  addFile,
+  removeFile,
+} = require("./diskSpace");
 
-const getDiskUsage = async () => {
-  const {stdout, stderr} = await exec(`du -sk "${iCloudDriveDirectory}"`);
-  if (stderr) {
-    throw new Error(`Error getting disk usage: ${stderr}`);
-  }
-  return parseInt(stdout.split("\t")[0]) * 1024;
-};
-
-const NUMBER_OF_LARGEST_FILES_TO_TRACK = 100;
-const MAX_DISK_USAGE_BYTES = 10 * 1024 * 1024; // 10 MB
-const POLL_INTERVAL = 10 * 1000; // Check every 10 seconds
 
 // Map to track active chokidar watchers for each blog folder
 const blogWatchers = new Map();
-// Map to track the largest files for each blog folder
-const largestFilesMap = new Map();
 
 // Handle file events
 const handleFileEvent = async (event, filePath, isInitialEvent) => {
@@ -51,7 +42,7 @@ const handleFileEvent = async (event, filePath, isInitialEvent) => {
       console.warn(`Blog directory deleted: ${blogID}`);
       await status(blogID, { error: "Blog directory deleted" });
       await unwatch(blogID); // Stop watching this blog folder
-      largestFilesMap.delete(blogID); // Remove from largest files map
+      removeBlog(blogID); // Remove from largest files map
       return;
     }
 
@@ -65,9 +56,9 @@ const handleFileEvent = async (event, filePath, isInitialEvent) => {
 
     if (event === "add" || event === "change") {
       const stats = await fs.stat(filePath);
-      updateLargestFiles(blogID, filePath, stats.size);
+      addFile(blogID, filePath, stats.size);
     } else if (event === "unlink") {
-      removeFileFromLargestFiles(blogID, filePath);
+      removeFile(blogID, filePath);
     }
 
     // Skip processing the file event if it's part of the initial scan
@@ -106,102 +97,6 @@ const handleFileEvent = async (event, filePath, isInitialEvent) => {
   }
 };
 
-// Updates the map of largest files for a given blogID
-const updateLargestFiles = (blogID, filePath, size) => {
-  if (!largestFilesMap.has(blogID)) {
-    largestFilesMap.set(blogID, []);
-  }
-
-  const files = largestFilesMap.get(blogID);
-
-  // Check if the file already exists in the map
-  const fileIndex = files.findIndex((file) => file.filePath === filePath);
-  if (fileIndex !== -1) {
-    files[fileIndex].size = size; // Update the size if the file already exists
-  } else {
-    files.push({ filePath, size });
-  }
-
-  // Sort by size (largest first)
-  files.sort((a, b) => b.size - a.size);
-
-  // Keep only the top N largest files (optional, adjust N as needed)
-  if (files.length > NUMBER_OF_LARGEST_FILES_TO_TRACK) {
-    files.length = NUMBER_OF_LARGEST_FILES_TO_TRACK;
-  }
-
-  largestFilesMap.set(blogID, files);
-};
-
-// Removes a file from the largest files map
-const removeFileFromLargestFiles = (blogID, filePath) => {
-  if (!largestFilesMap.has(blogID)) return;
-  const files = largestFilesMap
-    .get(blogID)
-    .filter((file) => file.filePath !== filePath);
-  largestFilesMap.set(blogID, files);
-};
-
-const monitorDiskSpace = async () => {
-  console.log(`Checking free disk space...`);
-
-  let diskUsage = await getDiskUsage();
-
-  if (diskUsage < MAX_DISK_USAGE_BYTES) {
-    console.log(
-      `Disk usage is below threshold: ${diskUsage} bytes of ${MAX_DISK_USAGE_BYTES} bytes`
-    );
-    return;
-  }
-
-  
-
-  for (const [blogID, files] of largestFilesMap) {
-    try {
-      // Unwatch the blogID to prevent file locks during eviction
-      await unwatch(blogID);
-
-      for (const { filePath } of files) {
-        try {
-          const stats = await fs.stat(filePath);
-
-          // Skip already evicted files
-          if (stats.blocks === 0) {
-            console.log(`Skipping evicted file: ${filePath}`);
-            continue;
-          }
-
-          console.log(`Evicting file: ${filePath}`);
-          await brctl.evict(filePath); // Evict the file
-
-        } catch (fileError) {
-          console.error(`Error evicting file: ${filePath}`, fileError);
-        }
-      }
-
-      
-    } catch (blogError) {
-      console.error(`Error processing blogID: ${blogID}`, blogError);
-    } finally {
-
-      // Re-watch the blog folder after eviction
-      await watch(blogID);
-
-      diskUsage = await getDiskUsage();
-      console.log(`Disk usage after eviction: ${disk} bytes`);
-
-      if (diskUsage < MAX_DISK_USAGE_BYTES) {
-        console.log(
-          `Disk usage is below threshold after eviction: ${disk} bytes of ${MAX_DISK_USAGE_BYTES} bytes`
-        );
-        return;
-      }
-    }
-  }
-
-  console.warn(`Disk usage is still above threshold: ${diskUsage} bytes`);
-};
-
 // Initializes the top-level watcher and starts disk monitoring
 const initializeWatcher = async () => {
   console.log(
@@ -209,8 +104,8 @@ const initializeWatcher = async () => {
   );
 
   // Start periodic disk space monitoring
-  setInterval(monitorDiskSpace, POLL_INTERVAL);
-
+  checkDiskSpace();
+  
   // Top-level watcher to manage blog folder creation and deletion
   const topLevelWatcher = chokidar
     .watch(iCloudDriveDirectory, {
@@ -230,7 +125,7 @@ const initializeWatcher = async () => {
       if (isBlogDirectory(blogID)) {
         console.warn(`Blog folder removed: ${blogID}`);
         unwatch(blogID); // Remove the watcher for the deleted blog folder
-        largestFilesMap.delete(blogID);
+        removeBlog(blogID); // Remove from largest files map
       } else {
         console.warn(`Ignoring non-blog folder: ${blogID}`);
       }
