@@ -85,7 +85,7 @@ const initializeWatcher = async () => {
   // Top-level watcher to manage blog folder creation and deletion
   const topLevelWatcher = chokidar
     .watch(iCloudDriveDirectory, {
-      depth: 1,
+      depth: 0,
       ignoreInitial: true,
       usePolling: false,
     })
