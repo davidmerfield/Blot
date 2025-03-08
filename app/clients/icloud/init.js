@@ -46,13 +46,13 @@ module.exports = async () => {
       if (stats.disk_bytes_available < DISK_SPACE_LIMIT) {
         console.log(clfdate(), "Disk space is low");
         if (!notificationsSent.disk_space_low) {
-          email.ICLOUD_DISK_LIMIT(null, { stats });
+          email.ICLOUD_DISK_LIMIT(null, stats);
           notificationsSent.disk_space_low = true;
         }
       } else if (stats.disk_bytes_available < DISK_SPACE_WARNING_THRESHOLD) {
         console.log(clfdate(), "Disk space is running out");
         if (!notificationsSent.disk_space_warning) {
-          email.ICLOUD_APPROACHING_DISK_LIMIT(null, { stats });
+          email.ICLOUD_APPROACHING_DISK_LIMIT(null, stats );
           notificationsSent.disk_space_warning = true;
         }
       }
@@ -60,7 +60,7 @@ module.exports = async () => {
       if (stats.icloud_bytes_available < ICLOUD_SPACE_LIMIT) {
         console.log(clfdate(), "iCloud drive space is low");
         if (!notificationsSent.icloud_space_low) {
-          email.ICLOUD_QUOTA_LIMIT(null, { stats });
+          email.ICLOUD_QUOTA_LIMIT(null, stats);
           notificationsSent.icloud_space_low = true;
         }
       } else if (
@@ -68,7 +68,7 @@ module.exports = async () => {
       ) {
         console.log(clfdate(), "iCloud drive space is running out");
         if (!notificationsSent.icloud_space_warning) {
-          email.ICLOUD_APPROACHING_QUOTA_LIMIT(null, { stats });
+          email.ICLOUD_APPROACHING_QUOTA_LIMIT(null, stats);
           notificationsSent.icloud_space_warning = true;
         }
       }

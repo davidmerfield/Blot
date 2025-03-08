@@ -199,7 +199,7 @@ module.exports = {
     maxFileSize: "50MB",
     diskSpaceWarning: 1e9, // 1GB
     diskSpaceLimit: 1e8, // 100MB
-    iCloudSpaceWarning: 1e9, // 1GB
+    iCloudSpaceWarning: 5368620811, // 1GB
     iCloudSpaceLimit: 1e8, // 100MB
   }
 };

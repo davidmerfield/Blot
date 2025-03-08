@@ -1,4 +1,4 @@
-iCloud Server iCloud account has no space left
+iCloud Server is approaching limit for iCloud space
 
 There is {{icloud_available_human}} available on iCloud drive.
 
