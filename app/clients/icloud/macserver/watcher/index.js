@@ -19,15 +19,16 @@ const extractBlogID = (filePath) => {
     return null;
   }
   const relativePath = filePath.replace(`${iCloudDriveDirectory}/`, "");
-  const [blogID, ...restPath] = relativePath.split("/");
+  const [blogID] = relativePath.split("/");
   return blogID;
 };
+
 const extractPathInBlogDirectory = (filePath) => {
   if (!filePath.startsWith(iCloudDriveDirectory)) {
     return null;
   }
   const relativePath = filePath.replace(`${iCloudDriveDirectory}/`, "");
-  const [blogID, ...restPath] = relativePath.split("/");
+  const [, ...restPath] = relativePath.split("/");
   return restPath.join("/");
 };
 
