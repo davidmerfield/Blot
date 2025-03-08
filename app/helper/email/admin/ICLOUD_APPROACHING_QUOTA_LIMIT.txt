@@ -1,3 +1,5 @@
 iCloud Server iCloud account has no space left
 
+There is {{icloud_bytes_available_human}} available on iCloud drive.
+
 Please log in to iCloud and purchase more storage space for the mac server.
