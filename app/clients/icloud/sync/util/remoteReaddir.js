@@ -9,8 +9,5 @@ module.exports = async (blogID, path) => {
     headers: { Authorization: MACSERVER_AUTH, blogID, pathBase64 },
   });
   const json = await res.json();
-
-  console.log('REMOTE:', json);
-
   return json;
 };

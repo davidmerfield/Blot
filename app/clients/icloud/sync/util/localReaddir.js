@@ -26,8 +26,6 @@ const localreaddir = async (dir) => {
     })
   );
 
-  console.log("Local:", result);
-
   return result;
 };
 

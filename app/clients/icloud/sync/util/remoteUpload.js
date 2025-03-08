@@ -6,9 +6,10 @@ const fs = require("fs-extra");
 
 module.exports = async (blogID, path) => {
   const pathOnDisk = localPath(blogID, path);
-  const body = await fs.readFile(pathOnDisk);
   const modifiedTime = await fs.stat(pathOnDisk).mtime;
   const pathBase64 = Buffer.from(path).toString("base64");
+
+  const body = fs.createReadStream(pathOnDisk);
 
   const res = await fetch(`${MAC_SERVER_ADDRESS}/upload`, {
     method: "POST",
@@ -20,6 +21,7 @@ module.exports = async (blogID, path) => {
       modifiedTime,
     },
     body,
+    duplex: "half"
   });
 
   if (!res.ok) {
