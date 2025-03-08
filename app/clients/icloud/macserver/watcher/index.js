@@ -18,7 +18,7 @@ const isBlogDirectory = (name) => name.startsWith("blog_");
 
 
 const getDiskUsage = async () => {
-  const {stdout, stderr} = await exec("du -sk " + iCloudDriveDirectory);
+  const {stdout, stderr} = await exec(`du -sk "${iCloudDriveDirectory}"`);
   if (stderr) {
     throw new Error(`Error getting disk usage: ${stderr}`);
   }
