@@ -10,6 +10,7 @@ const limit = `${maxFileSize / 1000000}mb`;
 // Helper functions
 const localPath = require("helper/localPath");
 const establishSyncLock = require("../util/establishSyncLock");
+const resyncRecentlySynced = require("../util/resyncRecentlySynced");
 const database = require("../database");
 const site = new express.Router();
 const syncToiCloud = require("../sync/to_iCloud");
@@ -57,6 +58,7 @@ site.use(express.raw({ type: "application/octet-stream", limit })); // For handl
 site.get("/started", async function (req, res) {
   email.ICLOUD_SERVER_STARTED();
   res.sendStatus(200);
+  await resyncRecentlySynced();
 });
 
 site.post("/status", checkBlogUsesICloud, async function (req, res) {
@@ -89,7 +91,9 @@ site.post("/status", checkBlogUsesICloud, async function (req, res) {
 site.post("/upload", checkBlogUsesICloud, async function (req, res) {
   try {
     const blogID = req.header("blogID");
-    const filePath = Buffer.from(req.header("pathBase64"), "base64").toString("utf8");
+    const filePath = Buffer.from(req.header("pathBase64"), "base64").toString(
+      "utf8"
+    );
     const modifiedTime = req.header("modifiedTime");
 
     // Validate required headers
@@ -143,7 +147,9 @@ site.post("/upload", checkBlogUsesICloud, async function (req, res) {
 site.post("/delete", checkBlogUsesICloud, async function (req, res) {
   try {
     const blogID = req.header("blogID");
-    const filePath = Buffer.from(req.header("pathBase64"), "base64").toString("utf8");
+    const filePath = Buffer.from(req.header("pathBase64"), "base64").toString(
+      "utf8"
+    );
 
     // Validate required headers
     if (!blogID || !filePath) {
@@ -193,7 +199,9 @@ site.post("/delete", checkBlogUsesICloud, async function (req, res) {
 site.post("/mkdir", checkBlogUsesICloud, async function (req, res) {
   try {
     const blogID = req.header("blogID");
-    const dirPath = Buffer.from(req.header("pathBase64"), "base64").toString("utf8");
+    const dirPath = Buffer.from(req.header("pathBase64"), "base64").toString(
+      "utf8"
+    );
 
     // Validate required headers
     if (!blogID || !dirPath) {
@@ -221,7 +229,9 @@ site.post("/mkdir", checkBlogUsesICloud, async function (req, res) {
       folder.status("Created " + dirPath);
 
       console.log(`Directory successfully created: ${pathOnDisk}`);
-      res.status(200).send(`Directory successfully created for blogID: ${blogID}`);
+      res
+        .status(200)
+        .send(`Directory successfully created for blogID: ${blogID}`);
     } finally {
       // Release the sync lock
       done();
@@ -231,6 +241,5 @@ site.post("/mkdir", checkBlogUsesICloud, async function (req, res) {
     res.status(500).send("Internal Server Error");
   }
 });
-
 
 module.exports = site;
