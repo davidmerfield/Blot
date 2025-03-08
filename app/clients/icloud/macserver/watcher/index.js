@@ -12,14 +12,17 @@ const upload = require("../httpClient/upload");
 const mkdir = require("../httpClient/mkdir");
 const remove = require("../httpClient/remove");
 
-const isBlogDirectory = (name) => name.startsWith("blog_");
-
 const extractBlogID = (filePath) => {
   if (!filePath.startsWith(iCloudDriveDirectory)) {
     return null;
   }
   const relativePath = filePath.replace(`${iCloudDriveDirectory}/`, "");
   const [blogID] = relativePath.split("/");
+
+  if (!blogID.startsWith("blog_")) {
+    return null;
+  }
+  
   return blogID;
 };
 
@@ -128,13 +131,15 @@ const initializeWatcher = async () => {
         return;
       }
 
-      const blogID = folderPath.replace(`${iCloudDriveDirectory}/`, "");
-      if (isBlogDirectory(blogID)) {
-        console.log(`Detected new blog folder: ${blogID}`);
-        watch(blogID); // Add a watcher for the new blog folder
-      } else {
+      const blogID = extractBlogID(folderPath);
+
+      if (!blogID) {
         console.warn(`Ignoring non-blog folder: ${blogID}`);
+        return;
       }
+      
+      console.log(`Detected new blog folder: ${blogID}`);
+      watch(blogID); // Add a watcher for the new blog folder
     });
 
   return topLevelWatcher;
@@ -159,7 +164,7 @@ const watch = async (blogID) => {
     .on("all", (event, filePath) => {
       const blogID = extractBlogID(filePath);
 
-      if (!blogID || !isBlogDirectory(blogID)) {
+      if (!blogID) {
         console.warn(`Failed to parse blogID from path: ${filePath}`);
         return;
       }
