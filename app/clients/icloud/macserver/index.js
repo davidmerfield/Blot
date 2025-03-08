@@ -2,7 +2,7 @@ const express = require("express");
 const { raw } = express;
 const { Authorization, maxiCloudFileSize } = require("./config");
 const { initializeWatcher } = require("./watcher");
-const ping = require("./httpClient/ping");
+const notifyServerStarted = require("./httpClient/notifyServerStarted");
 
 const startServer = async () => {
   const app = express();
@@ -22,10 +22,6 @@ const startServer = async () => {
   app.use(express.json());
 
   app.use(raw({ type: "application/octet-stream", limit: maxiCloudFileSize }));
-
-  app.get("/ping", async (req, res) => {
-    res.send("pong");
-  });
 
   app.post("/upload", require("./routes/upload"));
   
@@ -56,7 +52,7 @@ const startServer = async () => {
 
     // Test connectivity with the remote server
     console.log("Pinging remote server...");
-    await ping();
+    await notifyServerStarted();
 
     // Start the local server
     console.log("Starting macserver...");
