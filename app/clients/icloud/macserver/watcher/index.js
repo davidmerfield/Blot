@@ -120,7 +120,8 @@ const initializeWatcher = async () => {
     });
   });
 
-  // Top-level watcher to manage blog folder creation and deletion
+  // Top-level watcher to manage blog folder creation
+  // Deletion is handled by the blog folder watcher
   const topLevelWatcher = chokidar
     .watch(iCloudDriveDirectory, {
       depth: 0, // Only watch the top level
@@ -130,16 +131,6 @@ const initializeWatcher = async () => {
       if (isBlogDirectory(blogID)) {
         console.log(`Detected new blog folder: ${blogID}`);
         watch(blogID); // Add a watcher for the new blog folder
-      } else {
-        console.warn(`Ignoring non-blog folder: ${blogID}`);
-      }
-    })
-    .on("unlinkDir", async (folderPath) => {
-      const blogID = folderPath.replace(`${iCloudDriveDirectory}/`, "");
-      if (isBlogDirectory(blogID)) {
-        console.warn(`Blog folder removed: ${blogID}`);
-        unwatch(blogID); // Remove the watcher for the deleted blog folder
-        removeBlog(blogID); // Remove from largest files map
       } else {
         console.warn(`Ignoring non-blog folder: ${blogID}`);
       }
