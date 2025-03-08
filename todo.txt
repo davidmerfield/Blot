@@ -1,3 +1,5 @@
+Fix handle validation error (save a one letter handle, it tanks server)
+
 iCloud client
 
 Fix image profile retention not working in production and tell [Simon](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJchvfhDcWNkrZtNJqlLmLfsx)
