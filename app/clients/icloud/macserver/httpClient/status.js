@@ -1,5 +1,5 @@
 const { remoteServer, Authorization } = require("../config");
-const fetch = require("../../util/rateLimitedFetchWithRetriesAndTimeout");
+const fetch = require("./rateLimitedFetchWithRetriesAndTimeout");
 
 module.exports = async (...args) => {
   const [blogID, status] = args;

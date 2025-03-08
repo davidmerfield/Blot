@@ -1,5 +1,5 @@
 const { remoteServer, Authorization } = require("../config");
-const fetch = require("../../util/rateLimitedFetchWithRetriesAndTimeout");
+const fetch = require("./rateLimitedFetchWithRetriesAndTimeout");
 
 module.exports = async (...args) => {
   if (args.length !== 0) {
@@ -13,6 +13,6 @@ module.exports = async (...args) => {
   });
 
   const text = await res.text();
-  
+
   console.log(`Ping response: ${text}`);
 };
