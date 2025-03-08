@@ -12,6 +12,8 @@ const DISK_SPACE_LIMIT = config.icloud.diskSpaceLimit;
 const ICLOUD_SPACE_WARNING_THRESHOLD = config.icloud.iCloudSpaceWarning;
 const ICLOUD_SPACE_LIMIT = config.icloud.iCloudSpaceLimit;
 
+const POLLING_INTERVAL = 60 * 1000; // 1 minute
+
 // map to keep track of which notifications have been sent
 const notificationsSent = {};
 
@@ -79,5 +81,5 @@ module.exports = () => {
         notificationsSent.icloud_server_down = true;
       }
     }
-  }, 1000 * 15); // 15 seconds
+  }, POLLING_INTERVAL); 
 };

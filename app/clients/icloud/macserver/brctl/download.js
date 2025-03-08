@@ -1,8 +1,8 @@
 const { iCloudDriveDirectory } = require("../config");
 const fs = require("fs-extra");
-const exec = require("util").promisify(require("child_process").exec);
-const TIMEOUT = 20 * 1000; // 20 seconds
-const POLLING_INTERVAL = 200; // 200 ms
+const exec = require("../exec");
+const TIMEOUT = 15 * 1000; // 15 seconds
+const POLLING_INTERVAL = 200; // 100 ms
 
 const BLOCK_SIZE = 512;
 
@@ -34,7 +34,7 @@ module.exports = async (path) => {
 
   console.log(`Issuing brctl download for path: ${pathInDrive}`);
 
-  const { stdout, stderr } = await exec(`brctl download "${pathInDrive}"`, {
+  const { stdout, stderr } = await exec('brctl', ['download', pathInDrive], {
     cwd: iCloudDriveDirectory,
   });
 

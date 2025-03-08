@@ -1,6 +1,6 @@
 const fs = require("fs-extra");
 const { promisify } = require("util");
-const exec = promisify(require("child_process").exec);
+const exec = require("../exec");
 
 const { iCloudDriveDirectory } = require("../config");
 
@@ -13,10 +13,12 @@ const largestFilesMap = new Map();
 const blogUpdateTimes = new Map(); // Tracks the last update time for each blog
 
 const getDiskUsage = async () => {
-  const { stdout, stderr } = await exec(`du -sk "${iCloudDriveDirectory}"`);
+  const { stdout, stderr } = await exec("du", ["-sk", iCloudDriveDirectory]);
+
   if (stderr) {
     throw new Error(`Error getting disk usage: ${stderr}`);
   }
+  
   return parseInt(stdout.split("\t")[0]) * 1024;
 };
 
@@ -118,11 +120,11 @@ const check = async (evictFiles) => {
   // Get blogs sorted by least recent update time
   const sortedBlogs = sortBlogsByUpdateTime();
 
-
   for (const blogID of sortedBlogs) {
-
     const lastUpdated = (Date.now() - blogUpdateTimes.get(blogID)) / 1000;
-    console.log(`Checking blogID ${blogID} for files to evict, blog was last updated: ${lastUpdated} seconds ago`);
+    console.log(
+      `Checking blogID ${blogID} for files to evict, blog was last updated: ${lastUpdated} seconds ago`
+    );
 
     const files = largestFilesMap.get(blogID);
     if (!files || files.length === 0) continue;

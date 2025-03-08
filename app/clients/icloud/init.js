@@ -3,7 +3,7 @@ const resync = require('./util/resyncRecentlySynced');
 
 module.exports = async () => {
 
-  await resync();
+  resync();
   
   monitorMacServerStats();
 };

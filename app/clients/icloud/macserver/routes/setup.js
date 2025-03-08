@@ -1,4 +1,4 @@
-const exec = require("util").promisify(require("child_process").exec);
+const exec = require("../exec");
 const { join } = require("path");
 const fs = require("fs-extra");
 const Bottleneck = require("bottleneck");
@@ -131,25 +131,26 @@ try
 end try
 `;
 
-function acceptSharingLink(sharingLink) {
-  return new Promise((resolve, reject) => {
-    console.log(`Running AppleScript to accept sharing link: ${sharingLink}`);
-    exec(
-      `osascript -e '${appleScript(sharingLink)}'`,
-      (error, stdout, stderr) => {
-        if (error) {
-          console.error(`Error executing AppleScript: ${error.message}`);
-          return reject(error);
-        }
-        if (stderr) {
-          console.error(`AppleScript stderr: ${stderr}`);
-          return reject(new Error(stderr));
-        }
-        console.log(`AppleScript stdout: ${stdout}`);
-        resolve(stdout);
-      }
-    );
-  });
+async function acceptSharingLink(sharingLink) {
+  console.log(`Running AppleScript to accept sharing link: ${sharingLink}`);
+
+  const { stdout, stderr } = await exec("osascript", [
+    "-e",
+    appleScript(sharingLink),
+  ]);
+
+  if (stderr) {
+    throw new Error(`Unexpected AppleScript stderr: ${stderr}`);
+  }
+
+  if (stdout) {
+    throw new Error(`Unexpected AppleScript stdout: ${stdout}`);
+  }
+
+  // We don't know if the script succeeded or failed because it's hard to 
+  // write to stdout or stderr from AppleScript. We check if it worked
+  // by determining if the folder was created
+  console.log(`AppleScript finished`);
 }
 
 module.exports = async (req, res) => {

@@ -1,6 +1,6 @@
 const { iCloudDriveDirectory } = require("../config");
 const fs = require("fs-extra");
-const exec = require("util").promisify(require("child_process").exec);
+const exec = require("../exec");
 const TIMEOUT = 10 * 1000; // 10 seconds
 const POLLING_INTERVAL = 200; // 200 ms
 
@@ -28,7 +28,7 @@ module.exports = async (path) => {
 
   console.log(`Issuing brctl evict for path: ${pathInDrive}`);
 
-  const { stdout, stderr } = await exec(`brctl evict "${pathInDrive}"`, {
+  const { stdout, stderr } = await exec("brctl", ["evict", pathInDrive], {
     cwd: iCloudDriveDirectory,
   });
 
