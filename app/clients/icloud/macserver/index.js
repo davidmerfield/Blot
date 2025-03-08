@@ -55,7 +55,11 @@ const startServer = async () => {
 
     // Test connectivity with the remote server
     console.log("Pinging remote server...");
-    await notifyServerStarted();
+    try {
+      await notifyServerStarted();
+    } catch (error) {
+      console.error("Failed to ping remote server:", error);
+    }
 
     // Start the local server
     console.log("Starting macserver...");
