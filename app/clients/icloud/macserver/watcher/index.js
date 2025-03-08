@@ -85,9 +85,7 @@ const initializeWatcher = async () => {
   // Top-level watcher to manage blog folder creation and deletion
   const topLevelWatcher = chokidar
     .watch(iCloudDriveDirectory, {
-      depth: 0,
-      ignoreInitial: true,
-      usePolling: false,
+      depth: 0
     })
     .on("addDir", async (folderPath) => {
       const folderName = folderPath.replace(`${iCloudDriveDirectory}/`, "");
@@ -119,7 +117,6 @@ const watch = async (blogID) => {
   const watcher = chokidar
     .watch(blogPath, {
       ignoreInitial: true,
-      usePolling: false,
       ignored: /(^|[/\\])\../, // Ignore dotfiles
     })
     .on("all", async (event, filePath) => {
