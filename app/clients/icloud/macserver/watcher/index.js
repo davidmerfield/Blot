@@ -12,19 +12,12 @@ const status = require("../httpClient/status");
 const upload = require("../httpClient/upload");
 const mkdir = require("../httpClient/mkdir");
 const remove = require("../httpClient/remove");
-const { error } = require("console");
 
-/**
- * Handle file events from chokidar and interact with remote server.
- * @param {string} event - The file event (add, change, unlink, etc.)
- * @param {string} filePath - The full path of the file triggering the event
- */
 const handleFileEvent = async (event, filePath) => {
   try {
     const relativePath = filePath.replace(`${iCloudDriveDirectory}/`, "");
     const [blogID, ...restPath] = relativePath.split("/");
-    // handle paths with special characters e.g. umlauts
-    const path = restPath.join("/");//.normalize("NFC");
+    const path = restPath.join("/");
 
     if (!blogID || !isBlogDirectory(blogID)) {
       console.warn(`Failed to parse blogID from path: ${filePath}`);
@@ -76,9 +69,6 @@ const handleFileEvent = async (event, filePath) => {
 
 let watcher;
 
-/**
- * Initialize chokidar to watch the iCloud Drive directory.
- */
 const initializeWatcher = () => {
   console.log(`Watching iCloud Drive directory: ${iCloudDriveDirectory}`);
 

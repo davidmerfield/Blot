@@ -27,7 +27,7 @@ module.exports = async (blogID, publish, update) => {
     ]);
 
     for (const { name } of localContents) {
-      if (!remoteContents.find((item) => item.name === name)) {
+      if (!remoteContents.find((item) => item.name.normalize("NFC") === name.normalize("NFC"))) {
         const path = join(dir, name);
         await checkWeCanContinue();
         publish("Removing local item", join(dir, name));
@@ -43,7 +43,7 @@ module.exports = async (blogID, publish, update) => {
       modifiedTime,
     } of remoteContents) {
       const path = join(dir, name);
-      const existsLocally = localContents.find((item) => item.name === name);
+      const existsLocally = localContents.find((item) => item.name.normalize("NFC") === name.normalize("NFC"));
 
       if (isDirectory) {
         if (existsLocally && !existsLocally.isDirectory) {

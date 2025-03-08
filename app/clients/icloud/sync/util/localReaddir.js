@@ -18,7 +18,7 @@ const localreaddir = async (dir) => {
       const size = stat.size;
 
       return {
-        name, //: name.normalize("NFC"),
+        name,
         isDirectory,
         size: isDirectory ? undefined : size,
         modifiedTime: isDirectory ? undefined : modifiedTime,

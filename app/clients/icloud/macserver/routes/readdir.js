@@ -29,7 +29,6 @@ module.exports = async (req, res) => {
     const isDirectory = file.isDirectory();
 
     result.push({
-      // name: file.name.normalize("NFC"),
       name: file.name,
       isDirectory,
       size: isDirectory ? undefined : size,
