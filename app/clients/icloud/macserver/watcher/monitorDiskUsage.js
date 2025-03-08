@@ -8,8 +8,9 @@ const POLL_INTERVAL = 10 * 1000; // Check every 10 seconds
 const NUMBER_OF_LARGEST_FILES_TO_TRACK = 100;
 const MAX_DISK_USAGE_BYTES = 10 * 1024 * 1024; // 10 MB
 
-// Map to track the largest files for each blog folder
+// Map to track the largest files and metadata for each blog folder
 const largestFilesMap = new Map();
+const blogUpdateTimes = new Map(); // Tracks the last update time for each blog
 
 const getDiskUsage = async () => {
   const { stdout, stderr } = await exec(`du -sk "${iCloudDriveDirectory}"`);
@@ -22,12 +23,16 @@ const getDiskUsage = async () => {
 const removeBlog = (blogID) => {
   if (!largestFilesMap.has(blogID)) return;
   largestFilesMap.delete(blogID);
+  blogUpdateTimes.delete(blogID); // Remove update time
 };
 
-// Updates the map of largest files for a given blogID
+// Updates the map of largest files for a given blogID and tracks update time
 const addFile = async (blogID, filePath) => {
   const stat = await fs.stat(filePath);
   const size = stat.size;
+  const updatedTime = Math.max(stat.ctimeMs, stat.mtimeMs); // Use the most recent time
+
+  // Initialize blog data if it doesn't exist
   if (!largestFilesMap.has(blogID)) {
     largestFilesMap.set(blogID, []);
   }
@@ -37,29 +42,63 @@ const addFile = async (blogID, filePath) => {
   // Check if the file already exists in the map
   const fileIndex = files.findIndex((file) => file.filePath === filePath);
   if (fileIndex !== -1) {
-    files[fileIndex].size = size; // Update the size if the file already exists
+    // Update the existing file's size and update time
+    files[fileIndex].size = size;
+    files[fileIndex].ctimeMs = stat.ctimeMs;
+    files[fileIndex].mtimeMs = stat.mtimeMs;
   } else {
-    files.push({ filePath, size });
+    // Add the new file with metadata
+    files.push({
+      filePath,
+      size,
+      ctimeMs: stat.ctimeMs,
+      mtimeMs: stat.mtimeMs,
+    });
   }
 
   // Sort by size (largest first)
   files.sort((a, b) => b.size - a.size);
 
-  // Keep only the top N largest files (optional, adjust N as needed)
+  // Keep only the top N largest files
   if (files.length > NUMBER_OF_LARGEST_FILES_TO_TRACK) {
     files.length = NUMBER_OF_LARGEST_FILES_TO_TRACK;
   }
 
   largestFilesMap.set(blogID, files);
+
+  // Update the blog's last update time
+  const lastUpdateTime = Math.max(
+    ...files.map((file) => Math.max(file.ctimeMs, file.mtimeMs))
+  );
+  blogUpdateTimes.set(blogID, lastUpdateTime);
 };
 
-// Removes a file from the largest files map
+// Removes a file and updates the blog's last update time
 const removeFile = (blogID, filePath) => {
   if (!largestFilesMap.has(blogID)) return;
+
   const files = largestFilesMap
     .get(blogID)
     .filter((file) => file.filePath !== filePath);
+
   largestFilesMap.set(blogID, files);
+
+  // Update the blog's last update time
+  if (files.length > 0) {
+    const lastUpdateTime = Math.max(
+      ...files.map((file) => Math.max(file.ctimeMs, file.mtimeMs))
+    );
+    blogUpdateTimes.set(blogID, lastUpdateTime);
+  } else {
+    blogUpdateTimes.delete(blogID);
+  }
+};
+
+// Sort blogs by their last update time (least recently updated first)
+const sortBlogsByUpdateTime = () => {
+  return Array.from(blogUpdateTimes.entries())
+    .sort(([, timeA], [, timeB]) => timeA - timeB)
+    .map(([blogID]) => blogID);
 };
 
 const check = async (evictFiles) => {
@@ -76,7 +115,13 @@ const check = async (evictFiles) => {
 
   let bytesToEvict = diskUsage - MAX_DISK_USAGE_BYTES;
 
-  for (const [blogID, files] of largestFilesMap) {
+  // Get blogs sorted by least recent update time
+  const sortedBlogs = sortBlogsByUpdateTime();
+
+  for (const blogID of sortedBlogs) {
+    const files = largestFilesMap.get(blogID);
+    if (!files || files.length === 0) continue;
+
     const filesToEvict = [];
     let bytesToBeEvicted = 0;
 
