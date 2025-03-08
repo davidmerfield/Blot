@@ -22,7 +22,7 @@ const setupBlog = setupLimiter.wrap(async (blogID, sharingLink) => {
   );
 
   const checkInterval = 100; // Interval (in ms) to check for new directories
-  const timeout = 1000 * 15; // Timeout (in ms) to wait for a new directory: 15 seconds
+  const timeout = 1000 * 5; // Timeout (in ms) to wait for a new directory: 5 seconds
   const start = Date.now();
 
   // Get the initial state of the top-level directories
@@ -39,9 +39,8 @@ const setupBlog = setupLimiter.wrap(async (blogID, sharingLink) => {
     }`
   );
 
-  // run the acceptSharingLink script in the background
   console.log("running the acceptSharingLink script");
-  acceptSharingLink(sharingLink);
+  await acceptSharingLink(sharingLink);
 
   while (true && Date.now() - start < timeout) {
     // Get the current state of the top-level directories

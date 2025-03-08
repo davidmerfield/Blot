@@ -1,0 +1,3 @@
+iCloud Server iCloud account has no space left
+
+Please log in to iCloud and purchase more storage space for the mac server.
