@@ -95,7 +95,7 @@ try
         tell process "UserNotificationCenter"
             -- Loop until either the "Open" or "Continue" button is detected, or timeout occurs
             repeat
-                if (exists (button "Open" of window 1)) or (exists (button "Continue" of window 1)) then
+                if (exists (button "Open" of window 1)) or (exists (button "Continue" of window 1)) or (exists (button "OK" of window 1)) then
                     exit repeat -- Exit the loop if a button is detected
                 end if
 
@@ -108,9 +108,15 @@ try
             end repeat
 
             -- Check if the "Continue" button exists
-            -- This means the sharing link is invalid
+            -- This means the sharing link is for another user
             if exists (button "Continue" of window 1) then
                 click button "Cancel" of window 1
+            end if
+
+            -- Check if the "OK" button exists
+            -- This means the sharing link is invalid
+            if exists (button "OK" of window 1) then
+                click button "OK" of window 1
             end if
 
             -- Click the "Open" button if it exists
