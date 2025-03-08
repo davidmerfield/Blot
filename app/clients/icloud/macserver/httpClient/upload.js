@@ -5,6 +5,7 @@ const {
   maxFileSize,
 } = require("../config");
 
+const { Readable } = require("stream");
 const fs = require("fs-extra");
 const brctl = require("../brctl");
 const fetch = require("./rateLimitedFetchWithRetriesAndTimeout");
@@ -36,13 +37,13 @@ module.exports = async (...args) => {
   }
 
   const modifiedTime = stat.mtime.toISOString();
-  const body = fs.createReadStream(filePath);
+  const readStream = fs.createReadStream(filePath);
+  const body = Readable.toWeb(readStream);
 
   const pathBase64 = Buffer.from(path).toString("base64");
 
   await fetch(`${remoteServer}/upload`, {
     method: "POST",
-    duplex: true,
     headers: {
       "Content-Type": "application/octet-stream",
       Authorization,
