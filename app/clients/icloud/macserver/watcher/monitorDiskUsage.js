@@ -25,7 +25,9 @@ const removeBlog = (blogID) => {
 };
 
 // Updates the map of largest files for a given blogID
-const addFile = (blogID, filePath, size) => {
+const addFile = async (blogID, filePath) => {
+  const stat = await fs.stat(filePath);
+  const size = stat.size;
   if (!largestFilesMap.has(blogID)) {
     largestFilesMap.set(blogID, []);
   }
@@ -80,7 +82,7 @@ const check = async (evictFiles) => {
 
     for (const { filePath } of files) {
       let stat;
-      
+
       try {
         stat = await fs.stat(filePath);
       } catch (fileError) {

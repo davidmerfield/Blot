@@ -14,6 +14,23 @@ const remove = require("../httpClient/remove");
 
 const isBlogDirectory = (name) => name.startsWith("blog_");
 
+const extractBlogID = (filePath) => {
+  if (!filePath.startsWith(iCloudDriveDirectory)) {
+    return null;
+  }
+  const relativePath = filePath.replace(`${iCloudDriveDirectory}/`, "");
+  const [blogID, ...restPath] = relativePath.split("/");
+  return blogID;
+};
+const extractPathInBlogDirectory = (filePath) => {
+  if (!filePath.startsWith(iCloudDriveDirectory)) {
+    return null;
+  }
+  const relativePath = filePath.replace(`${iCloudDriveDirectory}/`, "");
+  const [blogID, ...restPath] = relativePath.split("/");
+  return restPath.join("/");
+};
+
 const {
   checkDiskSpace,
   removeBlog,
@@ -25,16 +42,9 @@ const {
 const blogWatchers = new Map();
 
 // Handle file events
-const handleFileEvent = async (event, filePath, isInitialEvent) => {
+const handleFileEvent = async (event, blogID, filePath) => {
   try {
-    const relativePath = filePath.replace(`${iCloudDriveDirectory}/`, "");
-    const [blogID, ...restPath] = relativePath.split("/");
-    const pathInBlogDirectory = restPath.join("/");
-
-    if (!blogID || !isBlogDirectory(blogID)) {
-      console.warn(`Failed to parse blogID from path: ${filePath}`);
-      return;
-    }
+    const pathInBlogDirectory = extractPathInBlogDirectory(filePath);
 
     // Handle the deletion of the entire blog directory
     if (event === "unlinkDir" && pathInBlogDirectory === "") {
@@ -50,19 +60,6 @@ const handleFileEvent = async (event, filePath, isInitialEvent) => {
       await fs.access(join(iCloudDriveDirectory, blogID), constants.F_OK);
     } catch (err) {
       console.warn(`Ignoring event for unregistered blogID: ${blogID}`);
-      return;
-    }
-
-    if (event === "add" || event === "change") {
-      const stats = await fs.stat(filePath);
-      addFile(blogID, filePath, stats.size);
-    } else if (event === "unlink") {
-      removeFile(blogID, filePath);
-    }
-
-    // Skip processing the file event if it's part of the initial scan
-    // othwerwise, we will re-upload all files on startup
-    if (isInitialEvent) {
       return;
     }
 
@@ -85,8 +82,10 @@ const handleFileEvent = async (event, filePath, isInitialEvent) => {
         const body = await fs.readFile(filePath);
         const modifiedTime = stat.mtime.toISOString();
         await upload(blogID, pathInBlogDirectory, body, modifiedTime);
+        addFile(blogID, filePath);
       } else if (event === "unlink" || event === "unlinkDir") {
         await remove(blogID, pathInBlogDirectory);
+        removeFile(blogID, filePath);
       } else if (event === "addDir") {
         await mkdir(blogID, pathInBlogDirectory);
       }
@@ -104,15 +103,21 @@ const initializeWatcher = async () => {
 
   // Start periodic disk space monitoring
   checkDiskSpace(async (blogID, files) => {
-    // Unwatch the blogID to prevent file locks during eviction
-    await unwatch(blogID);
+    // Get the limiter for this specific blogID
+    const limiter = getLimiterForBlogID(blogID);
 
-    for (const filePath of files) {
-      await brctl.evict(filePath); // Evict the file
-    }
+    // Schedule the event handler to run within the limiter
+    await limiter.schedule(async () => {
+      // Unwatch the blogID to prevent file locks during eviction
+      await unwatch(blogID);
 
-    // Re-watch the blogID after eviction
-    await watch(blogID);
+      for (const filePath of files) {
+        await brctl.evict(filePath); // Evict the file
+      }
+
+      // Re-watch the blogID after eviction
+      await watch(blogID);
+    });
   });
 
   // Top-level watcher to manage blog folder creation and deletion
@@ -160,7 +165,22 @@ const watch = async (blogID) => {
       ignored: /(^|[/\\])\../, // Ignore dotfiles
     })
     .on("all", (event, filePath) => {
-      handleFileEvent(event, filePath, !initialScanComplete); // Pass a flag for initial events
+      const blogID = extractBlogID(filePath);
+
+      if (!blogID || !isBlogDirectory(blogID)) {
+        console.warn(`Failed to parse blogID from path: ${filePath}`);
+        return;
+      }
+
+      if (initialScanComplete) {
+        handleFileEvent(event, blogID, filePath); // Pass a flag for initial events
+      } else {
+        if (event === "add" || event === "change") {
+          addFile(blogID, filePath);
+        } else if (event === "unlink") {
+          removeFile(blogID, filePath);
+        }
+      }
     })
     .on("ready", () => {
       console.log(`Initial scan complete for blog folder: ${blogID}`);
