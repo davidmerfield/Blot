@@ -21,7 +21,7 @@ const getFreeBytes = async () => {
 };
 
 const NUMBER_OF_LARGEST_FILES_TO_TRACK = 100;
-const MIN_FREE_DISK_SPACE_BYTES = 172552736768; // 161.1 GB
+const MIN_FREE_DISK_SPACE_BYTES = 172485603328; // 161.1 GB
 // const MIN_FREE_DISK_SPACE_BYTES = 100 * 1024 * 1024; // 100 MB
 const POLL_INTERVAL = 10 * 1000; // Check every 10 seconds
 
