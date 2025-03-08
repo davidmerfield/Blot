@@ -20,6 +20,7 @@ const getFreeBytes = async () => {
   return stats.bavail * stats.bsize;
 };
 
+const NUMBER_OF_LARGEST_FILES_TO_TRACK = 100;
 const MIN_FREE_DISK_SPACE_BYTES = 172596154368; // 161.1 GB
 // const MIN_FREE_DISK_SPACE_BYTES = 100 * 1024 * 1024; // 100 MB
 const POLL_INTERVAL = 10 * 1000; // Check every 10 seconds
@@ -60,13 +61,7 @@ const handleFileEvent = async (event, filePath, isInitialEvent) => {
 
     if (event === "add" || event === "change") {
       const stats = await fs.stat(filePath);
-
-      // Only include files that are not already evicted
-      if (stats.blocks > 0) {
-        updateLargestFiles(blogID, filePath, stats.size);
-      } else {
-        console.log(`File already evicted, skipping: ${filePath}`);
-      }
+      updateLargestFiles(blogID, filePath, stats.size);
     } else if (event === "unlink") {
       removeFileFromLargestFiles(blogID, filePath);
     }
@@ -127,8 +122,8 @@ const updateLargestFiles = (blogID, filePath, size) => {
   files.sort((a, b) => b.size - a.size);
 
   // Keep only the top N largest files (optional, adjust N as needed)
-  if (files.length > 100) {
-    files.length = 100;
+  if (files.length > NUMBER_OF_LARGEST_FILES_TO_TRACK) {
+    files.length = NUMBER_OF_LARGEST_FILES_TO_TRACK;
   }
 
   largestFilesMap.set(blogID, files);
