@@ -143,58 +143,68 @@ const removeFileFromLargestFiles = (blogID, filePath) => {
   largestFilesMap.set(blogID, files);
 };
 
-// Polls the root disk to check free space and evict files if necessary
 const monitorDiskSpace = async () => {
-
   console.log(`Checking free disk space...`);
 
-  let free_bytes = await getFreeBytes();
+  let freeBytes = await getFreeBytes();
 
-  
-  if (free_bytes > MIN_FREE_DISK_SPACE_BYTES) {
-    console.log(`Free disk space: ${free_bytes} is above threshold of ${MIN_FREE_DISK_SPACE_BYTES}`);
+  if (freeBytes > MIN_FREE_DISK_SPACE_BYTES) {
+    console.log(`Free disk space: ${freeBytes} is above threshold of ${MIN_FREE_DISK_SPACE_BYTES}`);
     return;
   }
 
   console.warn(
-    `Free disk space (${free_bytes}) is below threshold (${MIN_FREE_DISK_SPACE_BYTES}). Evicting files...`
+    `Free disk space (${freeBytes}) is below threshold (${MIN_FREE_DISK_SPACE_BYTES}). Evicting files...`
   );
 
   for (const [blogID, files] of largestFilesMap) {
-    for (const { filePath } of files) {
-      try {
-        const stats = await fs.stat(filePath);
+    try {
+      // Unwatch the blogID to prevent file locks during eviction
+      await unwatch(blogID);
 
-        // Skip already evicted files
-        if (stats.blocks === 0) {
-          console.log(`File already evicted: ${filePath}`);
-          continue;
+      for (const { filePath } of files) {
+        try {
+          const stats = await fs.stat(filePath);
+
+          // Skip already evicted files
+          if (stats.blocks === 0) {
+            console.log(`File already evicted: ${filePath}`);
+            continue;
+          }
+
+          console.log(`Evicting file: ${filePath}`);
+          await brctl.evict(filePath); // Evict the file
+
+          // Update free space after eviction
+          freeBytes = await getFreeBytes();
+
+          if (freeBytes > MIN_FREE_DISK_SPACE_BYTES) {
+            console.log(
+              `Free disk space: ${freeBytes} is above threshold of ${MIN_FREE_DISK_SPACE_BYTES}`
+            );
+            break; // Stop evicting for this blogID
+          }
+        } catch (fileError) {
+          console.error(`Error evicting file: ${filePath}`, fileError);
         }
-
-        console.log(`Evicting file: ${filePath}`);
-        await unwatch(blogID); // Unwatch to avoid file lock
-        await brctl.evict(filePath); // Evict the file
-        await watch(blogID); // Re-watch the blog folder
-
-        // Update free space after eviction
-        free_bytes = await getFreeBytes();
-
-        if (free_bytes > MIN_FREE_DISK_SPACE_BYTES) {
-          console.log(
-            `Free disk space: ${free_bytes} is above threshold of ${MIN_FREE_DISK_SPACE_BYTES}`
-          );
-          return;
-        }
-
-      } catch (error) {
-        console.error(`Error evicting file: ${filePath}`, error);
       }
+
+      if (freeBytes > MIN_FREE_DISK_SPACE_BYTES) {
+        break; // Stop evicting if we've freed enough space
+      }
+    } catch (blogError) {
+      console.error(`Error processing blogID: ${blogID}`, blogError);
+    } finally {
+      // Re-watch the blog folder after eviction
+      await watch(blogID);
     }
   }
 
-  console.warn(
-    `Failed to free up disk space. Free disk space: ${free_bytes}`
-  );
+  if (freeBytes <= MIN_FREE_DISK_SPACE_BYTES) {
+    console.warn(
+      `Failed to free up sufficient disk space. Free disk space: ${freeBytes}`
+    );
+  }
 };
 
 // Initializes the top-level watcher and starts disk monitoring
