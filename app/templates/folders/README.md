@@ -12,6 +12,16 @@ npm run folder marmalade
 
 To release new versions of the folders for download on master branch, just commit and push to master branch.
 
+Then deploy the latest version of the code:
+
+./scripts/deploy.sh
+
+Then ssh into the server and run the build script for the new folder:
+
+ssh blot
+login
+node app/templates/folders <newfoldername>
+
 ## Using new folders
 
 Set the "demo_folder" property in the locals of a given template to the name of this folder to make it available on the website, e.g.
