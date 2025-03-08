@@ -9,6 +9,8 @@ const fs = require("fs-extra");
 const brctl = require("../brctl");
 const fetch = require("./rateLimitedFetchWithRetriesAndTimeout");
 
+const { join } = require("path");
+
 module.exports = async (...args) => {
   const [blogID, path] = args;
 
