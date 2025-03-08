@@ -1,0 +1,107 @@
+# Guide for Setting Up and Running Your Application with PM2
+
+### Step 1: Create an `.env` File
+
+Create a `.env` file to store your environment variables:
+
+    REMOTE_SERVER=https://localhost/clients/icloud
+    ICLOUD_DRIVE_DIRECTORY=
+    BLOT_ICLOUD_SERVER_SECRET=
+    NODE_TLS_REJECT_UNAUTHORIZED=0
+
+---
+
+### Step 2: Setup
+
+#### 1. Install Node.js
+
+Ensure Node.js is installed on your system. You can download it from the website
+
+#### 2. Install PM2
+Install PM2 globally using npm:
+
+    npm install -g pm2
+
+---
+
+### Step 3: Start Your Application
+
+Run your `index.js` application with PM2:
+
+    pm2 start index.js --name macserver
+
+This will start your application and name the process `macserver` for easier management.
+
+#### Ensure the Application Restarts Automatically on Reboot
+
+First, make sure the Mac automatically logs in on boot, rather than loading the login screen. You can configure this in **System Settings → Users & Groups → Login Options → Automatic Login**.
+
+Run the following command in the **GUI session** (e.g., via VNC or physical login) to configure PM2 to start on boot:
+
+    pm2 startup
+
+Copy and run the command provided by PM2 (it will include `sudo` and some environment setup specific to your system). This sets up PM2 as a startup service specifically for the GUI session.
+
+Save the current PM2 process list so it persists across reboots:
+
+    pm2 save
+
+After completing this setup, PM2 will start automatically when the GUI session is ready. You can still observe and manage the GUI-based PM2 processes via SSH.
+
+---
+
+**Notes for Managing PM2 via SSH**:
+
+PM2 running in the GUI session can also be managed from an SSH connection. Log in via SSH and use the following commands to interact with your PM2 processes:
+
+- View running processes:
+  
+      pm2 list
+
+- Restart a process:
+  
+      pm2 restart macserver
+
+- View logs:
+  
+      pm2 logs macserver
+
+This ensures the application relies on GUI functionality and starts properly after a reboot, while remaining manageable remotely.
+
+---
+
+### Step 4: Deploy New Code
+
+When you deploy new code, follow these steps:
+
+#### 1. Pull the Changes
+Run the following to fetch the latest changes from your Git repository:
+
+    git pull
+
+#### 2. Restart the Application in PM2
+After pulling the changes, restart your application using PM2:
+
+    pm2 restart macserver
+
+---
+
+### Step 5: Monitor Logs
+
+To view the logs (`stdout` and `stderr`) for your application, run:
+
+    pm2 logs macserver
+
+You can also use:
+
+    pm2 monit
+
+This provides an interactive dashboard that shows CPU, memory usage, and logs for each process.
+
+---
+
+### New server checklist
+
+- restart and still
+- sync blogs
+- connect new blogs

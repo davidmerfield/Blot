@@ -1,0 +1,3 @@
+iCloud Server started
+
+If this was unexpected please log in and check the logs for the error
