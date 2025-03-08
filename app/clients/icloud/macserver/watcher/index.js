@@ -20,7 +20,8 @@ const getFreeBytes = async () => {
   return stats.bavail * stats.bsize;
 };
 
-const MIN_FREE_DISK_SPACE_BYTES = 100 * 1024 * 1024; // 100 MB
+const MIN_FREE_DISK_SPACE_BYTES = 172596154368; // 161.1 GB
+// const MIN_FREE_DISK_SPACE_BYTES = 100 * 1024 * 1024; // 100 MB
 const POLL_INTERVAL = 10 * 1000; // Check every 10 seconds
 
 // Map to track active chokidar watchers for each blog folder
@@ -161,8 +162,6 @@ const monitorDiskSpace = async () => {
 
   for (const [blogID, files] of largestFilesMap) {
     for (const { filePath } of files) {
-      if (free_bytes > MIN_FREE_DISK_SPACE_BYTES) break;
-
       try {
         const stats = await fs.stat(filePath);
 
@@ -179,11 +178,23 @@ const monitorDiskSpace = async () => {
 
         // Update free space after eviction
         free_bytes = await getFreeBytes();
+
+        if (free_bytes > MIN_FREE_DISK_SPACE_BYTES) {
+          console.log(
+            `Free disk space: ${free_bytes} is above threshold of ${MIN_FREE_DISK_SPACE_BYTES}`
+          );
+          return;
+        }
+
       } catch (error) {
         console.error(`Error evicting file: ${filePath}`, error);
       }
     }
   }
+
+  console.warn(
+    `Failed to free up disk space. Free disk space: ${free_bytes}`
+  );
 };
 
 // Initializes the top-level watcher and starts disk monitoring
