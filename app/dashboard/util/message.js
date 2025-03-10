@@ -81,7 +81,6 @@ function errorHandler(err, req, res, next) {
   if (type(err, "object"))
     for (var i in err) if (type(err[i], "string")) message = err[i];
 
-  console.log('redirecting here...', redirect, message);
   res.message(redirect, new Error(message));
 }
 

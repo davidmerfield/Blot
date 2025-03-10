@@ -61,10 +61,9 @@ Domain.route('/')
         if (req.body.handle) {
             try{
                 await updateHandle(blogID, req.body.handle);
-            } catch (e) {
-                res.message(res.locals.base + '/domain', e);
-            } finally {
                 return res.message('/sites/' + req.body.handle  + '/domain', 'Updated subdomain on Blot');
+            } catch (e) {
+                return res.message(res.locals.base + '/domain/subdomain', e);
             }
         }
 
@@ -138,6 +137,7 @@ const updateDomain = (blogID, domain) => {
 const updateHandle = (blogID, handle) => {
     return new Promise((resolve, reject) => {
         Blog.set(blogID, { handle }, (errors, changes) => {
+            if (errors && errors.handle) return reject(errors.handle);
             if (errors) return reject(errors);
             resolve(changes);
         });
