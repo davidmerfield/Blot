@@ -1,0 +1,34 @@
+---
+Link: /
+Title: Introduction
+---
+
+**ConnectKit** is a powerful React component library for connecting a wallet to your dApp. It supports the most popular connectors and chains, and provides a beautiful, seamless experience.
+
+## Features
+
+### Get the experience you and your users deserve.
+
+- **TypeScript Ready**  
+  Get types straight out of the box.
+
+- **Ecosystem Standards**  
+  Uses top libraries such as `wagmi`.
+
+- **Customize Chains**  
+  Easily set up L2s and other chains.
+
+- **Sign In With Ethereum**  
+  Prove wallet ownership by authenticating.
+
+- **Responsive Design**  
+  Tailored experience across devices.
+
+- **Simple UX**  
+  Give users a simple, attractive experience.
+
+- **Beautiful Themes**  
+  Predesigned themes or full customization.
+
+- **Translations**  
+  Choose from multiple languages.

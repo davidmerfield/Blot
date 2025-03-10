@@ -1,0 +1,77 @@
+/* GLOBAL STYLES AND RESETS */
+
+/* Injected styles from templates and external sources */
+{{{appCSS}}}
+{{{body_font.styles}}}
+{{{syntax_highlighter.styles}}}
+{{> flickity.css}}
+
+/* Root variables for theme customization */
+:root {
+  {{#body_font}}
+  --font-family: {{{stack}}};
+  --font-size: {{{font_size}}}px;
+  --line-height: {{{line_height}}};
+  {{/body_font}}
+  --background-color: {{background_color}};
+  --text-color: {{text_color}};
+  --off-background-color: rgba({{#rgb}}{{text_color}}{{/rgb}}, 0.02);
+  --light-text-color: rgba({{#rgb}}{{text_color}}{{/rgb}}, 0.5);
+  --medium-text-color: rgba({{#rgb}}{{text_color}}{{/rgb}}, 0.6666);
+  --border-color: rgba({{#rgb}}{{text_color}}{{/rgb}}, 0.06);
+  --link-color: {{link_color}};
+  --dots-height: 2.8rem;
+  --caption-height: 1.4rem;
+  --slides-width: 50vw;
+  --slides-height: 100vh;
+  --padding: 1.4rem;
+}
+
+/* Dark mode variables */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background-color: {{dark_background_color}};
+    --off-background-color: rgba({{#rgb}}{{dark_text_color}}{{/rgb}}, 0.04);
+    --text-color: {{dark_text_color}};
+    --border-color: rgba({{#rgb}}{{dark_text_color}}{{/rgb}}, 0.08);
+    --light-text-color: rgba({{#rgb}}{{dark_text_color}}{{/rgb}}, 0.3333);
+    --medium-text-color: rgba({{#rgb}}{{dark_text_color}}{{/rgb}}, 0.6666);
+    --link-color: {{dark_link_color}};
+  }
+}
+
+/* General resets */
+html, body {
+  width: 100%; padding: 0; margin: 0 auto; -webkit-font-smoothing: antialiased;
+  color: var(--text-color); background: var(--background-color);
+  font-family: var(--font-family); font-size: var(--font-size); line-height: var(--line-height);
+}
+
+body {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.header,
+.navigation,
+main {
+  padding: var(--padding);
+  box-sizing: border-box;
+}
+
+.header {
+  width: 100%;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.navigation {
+  width: 200px;
+  border-right: 1px solid var(--border-color);
+  background: var(--background-color);
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  width: calc(100vw - 200px - 16px);
+}

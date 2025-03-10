@@ -1,0 +1,62 @@
+{
+  "name": "Documentation",
+  "locals": {
+    "title": "The Cartography of Solitude",
+    "navigation": [
+      {"url": "/", "label": "Information"},
+      {"url": "/speakers", "label": "Speakers"},
+      {"url": "/faqs", "label": "FAQs"},
+      {"url": "/page/1", "label": "Announcements"},
+      {"url": "/tickets", "label": "Get tickets"}
+    ],
+    "call_to_action": "/tickets",
+    "page_size": 18,
+    "spacing": 1,
+    "dark_slides_background": true,
+    "background_color": "#fff",
+    "text_color": "#000",
+    "link_color": "#000",
+    "dark_background_color": "#111",
+    "dark_text_color": "#eee",
+    "dark_link_color": "#eee",
+    "hide_dates": false,
+    "date_display": "MMM D",
+    "syntax_highlighter": {
+      "id": "stackoverflow-light"
+    },
+    "syntax_highlighter": {
+      "id": "arduino-light",
+      "styles": ".hljs{background:#fff;color:#434f54}.hljs-subst{color:#434f54}.hljs-attribute,.hljs-doctag,.hljs-keyword,.hljs-name,.hljs-selector-tag{color:#00979d}.hljs-addition,.hljs-built_in,.hljs-bullet,.hljs-code,.hljs-literal{color:#d35400}.hljs-link,.hljs-regexp,.hljs-selector-attr,.hljs-selector-pseudo,.hljs-symbol,.hljs-template-variable,.hljs-variable{color:#00979d}.hljs-deletion,.hljs-quote,.hljs-selector-class,.hljs-selector-id,.hljs-string,.hljs-template-tag,.hljs-type{color:#005c5f}.hljs-comment{color:rgba(149,165,166,.8)}.hljs-meta .hljs-keyword{color:#728e00}.hljs-meta{color:#434f54}.hljs-emphasis{font-style:italic}.hljs-strong{font-weight:700}.hljs-function{color:#728e00}.hljs-section,.hljs-title{color:#800;font-weight:700}.hljs-number{color:#8a7b52}pre code.hljs{display:block;overflow:auto;padding:1em;margin:1em 0;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space:-o-pre-wrap;word-wrap:break-word}.hljs,code.hljs{padding:0;margin:0}"
+    },
+    "body_font": {
+      "name": "System sans-serif",
+      "id": "system-sans",
+      "stack": "-apple-system, BlinkMacSystemFont, 'avenir next', avenir, 'helvetica neue', helvetica, ubuntu, roboto, noto, 'segoe ui', arial, sans-serif",
+      "tags": [
+        "sans"
+      ],
+      "line_height": 1.6,
+      "line_width": 38,
+      "font_size": 15,
+      "styles": ""
+    }
+  },
+  "enabled": true,
+  "views": {
+    "error.html": {
+      "partials": {
+        "title": "{{{error.title}}} - {{{title}}}"
+      }
+    },
+    "entry.html": {
+      "partials": {
+        "title": "{{{entry.title}}}"
+      }
+    },
+    "entries.html": {
+      "partials": {
+        "title": "{{{title}}}"
+      }
+    }
+  }
+}
