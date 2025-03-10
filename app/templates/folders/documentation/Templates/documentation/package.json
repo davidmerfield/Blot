@@ -11,6 +11,7 @@
     ],
     "call_to_action": "/tickets",
     "page_size": 18,
+    "sort_by": "id",
     "spacing": 1,
     "dark_slides_background": true,
     "background_color": "#fff",

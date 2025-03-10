@@ -6,9 +6,9 @@ ConnectKit is the simplest way to integrate a connect wallet experience into you
 
 Install ConnectKit and its peer dependencies:
 
-'''
+```
 npm install connectkit wagmi viem@2.x @tanstack/react-query
-'''
+```
 
 - **Wagmi** is a React Hooks library for Ethereum, used to interact with the connected wallet.
 - **Viem** is a TypeScript interface for Ethereum that performs blockchain operations.
@@ -37,7 +37,7 @@ Below is a simple example app using `getDefaultConfig()` to help you get started
 
 ### Web3Provider.tsx
 
-'''
+```
 import { WagmiProvider, createConfig, http } from "wagmi";
 import { mainnet } from "wagmi/chains";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -78,7 +78,7 @@ export const Web3Provider = ({ children }) => {
     </WagmiProvider>
   );
 };
-'''
+```
 
 ### Wrapping Your App
 
@@ -86,7 +86,7 @@ Now that you have your `Web3Provider` component, you can wrap your app with it:
 
 #### App.tsx
 
-'''
+```
 import { Web3Provider } from "./Web3Provider";
 import { ConnectKitButton } from "connectkit";
 
@@ -99,7 +99,7 @@ const App = () => {
 };
 
 export default App;
-'''
+```
 
 And voilà, you've successfully set up ConnectKit.
 
@@ -117,7 +117,7 @@ Below is a simple example component that uses the `useAccount` hook to access co
 
 #### MyComponent.tsx
 
-'''
+```
 import { useAccount } from "wagmi";
 
 // Ensure this component is wrapped with ConnectKitProvider
@@ -129,7 +129,7 @@ const MyComponent = () => {
 
   return <div>Connected Wallet: {address}</div>;
 };
-'''
+```
 
 That's it—you now have a simple component that displays the connected wallet's address.
 
@@ -145,14 +145,14 @@ ConnectKit uses WalletConnect's SDK, which pulls in Node.js dependencies that Ne
 
 #### next.config.js
 
-'''
+```
 module.exports = {
   webpack: (config) => {
     config.resolve.fallback = { fs: false, net: false, tls: false };
     return config;
   },
 };
-'''
+```
 
 ### Next.js App Router
 
@@ -160,7 +160,7 @@ If using Next.js App Router (or any framework that supports React Server Compone
 
 #### Web3Provider.tsx
 
-'''
+```
 "use client";
 
 export const Web3Provider = ({ children }) => {
@@ -168,7 +168,7 @@ export const Web3Provider = ({ children }) => {
     ...
   );
 };
-'''
+```
 
 ---
 

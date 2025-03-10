@@ -1,0 +1,42 @@
+# Libraries
+
+ConnectKit uses two key open source libraries, wagmi and viem, to achieve its intended use cases. Both libraries may be helpful if your app requires any additional functionality outside of ConnectKit.
+wagmi
+
+ConnectKit uses wagmi internally and therefore it's possible to use hooks from wagmi to fetch data such as info about the connected account. Below are a couple of examples of some wagmi hooks in use.
+Connected Wallet Info
+
+Start by importing useAccount from wagmi into your app. Then simply use the hook as following:
+,
+Example.tsx
+
+import { useAccount } from "wagmi";
+
+const App = () => {
+  const { address } = useAccount();
+  return <div>{address ?? "Loading address"}</div>;
+};
+
+That's it—you should now be able to access things like the address and ENS name for the active account. You can read more about useAccount on wagmi.
+Disconnecting Account
+
+Let's say you wanted to build a disconnect button that interacts with ConnectKit. Start by importing useDisconnect from wagmi into your app. Then simply use the hook as following:
+,
+Example.tsx
+
+import { useDisconnect } from "wagmi";
+
+const App = () => {
+  const { disconnect } = useDisconnect();
+  return <button onClick={disconnect}>Disconnect</button>;
+};
+
+Additional Hooks
+
+In the examples above, we use some of wagmi's hooks for some common use cases. Make sure to check out the wagmi documentation for a full list of all available hooks and their use cases.
+viem
+
+viem is a lightweight, composable, and type-safe modules that interface with Ethereum. It provides methods and functionality around parsing data and interacting with smart contracts.
+TanStack Query
+
+TanStack Query is an async state manager that handles requests, caching, and more.It's used by wagmi to handle all of its data fetching and caching.
