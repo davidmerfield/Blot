@@ -28,7 +28,9 @@ Start my own interview of customers 'behind the folder'?
 
 Add auto template translator
 
-Add interactive template renderer to developer docs
+Improve developer documentation:
+- Add interactive template renderer to developer docs
+- Document page_size, sort_order, sort_by properties of templates
 
 Drag and drop file and folder upload to dashboard
 
