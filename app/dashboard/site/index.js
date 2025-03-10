@@ -24,6 +24,8 @@ site
     save.finish
   )
 
+site.get("/", require('./load/scheduled'));
+
 // Load the files and folders inside a blog's folder
 site.get(["/", "/folder/:path(*)"], require("./folder"));
 
