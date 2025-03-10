@@ -44,6 +44,55 @@ describe("entries", function () {
         expect(body2).toContain('Hello, C!');
     });
 
+    it("respects the sort_order property in templates", async function () {
+
+        await this.write({path: '/c.txt', content: 'Hello, C!'});
+        await this.write({path: '/b.txt', content: 'Hello, B!'});
+        await this.write({path: '/a.txt', content: 'Hello, A!'});
+
+        await this.template({ "entries.html": "{{#entries}}{{{html}}}{{/entries}}" }, {
+            locals: {sort_order: 'desc'}
+        });
+
+        const res = await this.get('/');
+        const body = await res.text();
+
+        expect(body).toEqual('<p>Hello, C!</p><p>Hello, B!</p><p>Hello, A!</p>');
+
+        await this.template({ "entries.html": "{{#entries}}{{{html}}}{{/entries}}" }, {
+            locals: {sort_order: 'asc'}
+        });
+
+        const res2 = await this.get('/');
+        const body2 = await res2.text();
+        expect(body2).toEqual('<p>Hello, A!</p><p>Hello, B!</p><p>Hello, C!</p>');
+    });
+
+
+    it("respects the sort_by property in templates", async function () {
+
+        await this.write({path: '/a.txt', content: 'Hello, A!'});
+        await this.write({path: '/b.txt', content: 'Hello, B!'});
+        await this.write({path: '/c.txt', content: 'Hello, C!'});
+
+        await this.template({ "entries.html": "{{#entries}}{{{html}}}{{/entries}}" }, {
+            locals: {sort_by: 'date'}
+        });
+
+        const res = await this.get('/');
+        const body = await res.text();
+
+        expect(body).toEqual('<p>Hello, C!</p><p>Hello, B!</p><p>Hello, A!</p>');
+
+        await this.template({ "entries.html": "{{#entries}}{{{html}}}{{/entries}}" }, {
+            locals: {sort_by: 'id'}
+        });
+
+        const res2 = await this.get('/');
+        const body2 = await res2.text();
+        expect(body2).toEqual('<p>Hello, A!</p><p>Hello, B!</p><p>Hello, C!</p>');
+    });
+
     it("generates pagination properly", async function () {
 
         const numberOfEntries = 10;
