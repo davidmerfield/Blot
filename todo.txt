@@ -28,7 +28,9 @@ Start my own interview of customers 'behind the folder'?
 
 Add auto template translator
 
-Add interactive template renderer to developer docs
+Improve developer documentation:
+- Add interactive template renderer to developer docs
+- Document page_size, sort_order, sort_by properties of templates
 
 Drag and drop file and folder upload to dashboard
 
@@ -68,6 +70,8 @@ Fix bugs with template engine:
 - Fix bug with date settings on the template editor for [magazine template](https://blot.im/questions/2244)
 - Fix date selector for template and tell [Zach](https://mail.google.com/mail/u/0/#inbox/FMfcgzGxTFSjkTvfDRgNHZwSQqDzWKFB)
 - Fix bug with forking / editing new templates and tell [Jarrod](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrbRSDCZqMwzjDdqdGCkScxpsw) when local template folders better reflect template names
+
+Use [thumbhash](https://github.com/evanw/thumbhash?tab=readme-ov-file) to generate placeholders when lazy loading images and tell [David](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJXfqzZvHgrtSxzLBCwcvTsFFB) and [Marius](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLtQPwXwJrwgMzjfvDtcwFZzFC)
 
 Add more efficient popular_tags method
 - add new properties to underlying model
@@ -1095,8 +1099,6 @@ Improvements to server infrastructure
 Improve the automatic title generated for screenshots with default MacOs filename from 'at 14:40pm'
 
 Add support for posts generated from Excel files, would generate a table. Use [this library](https://github.com/joshboyan/excel-to-html-table)?
-
-Use [blurhash](https://github.com/woltapp/blurhash) to generate placeholders when lazy loading images and tell [David](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJXfqzZvHgrtSxzLBCwcvTsFFB) and [Marius](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLtQPwXwJrwgMzjfvDtcwFZzFC)
 
 Work out how to cache 404s at the NGINX level
 - I tried extending express-disk-cache to store images inside /https/blot.im/missing/foo-bar.html but I can't set a 404 status code for the specific tryfiles directive which could match that file.
