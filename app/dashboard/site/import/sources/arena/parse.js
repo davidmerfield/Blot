@@ -1,7 +1,6 @@
 const { join, extname } = require("path");
 const moment = require("moment");
 const fs = require("fs-extra");
-const download = require("download");
 const sharp = require("sharp");
 const sanitize = require("./sanitize");
 
@@ -46,7 +45,8 @@ async function link(item, outputDirectory) {
 }
 
 async function image(item, outputDirectory) {
-  const data = await download(item.image.original.url);
+  const response = await fetch(item.image.original.url);
+  const data = await response.buffer();
   const title = item.title || item.generated_title || "Untitled";
 
   // TODO, take advantage of item.source to show where the

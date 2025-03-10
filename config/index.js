@@ -1,34 +1,33 @@
-const BLOT_DIRECTORY =
-  process.env.BLOT_DIRECTORY || require("path").resolve(__dirname + "/../");
-const BLOT_HOST = process.env.BLOT_HOST || "localhost";
-const BLOT_PROTOCOL = process.env.BLOT_PROTOCOL || "https";
-const BLOT_PORT = process.env.BLOT_PORT || "8080";
-
-let BLOT_CDN;
-
-if (process.env.NODE_ENV === "production") {
-  BLOT_CDN = BLOT_PROTOCOL + "://cdn.blot.im";
-} else {
-  BLOT_CDN = BLOT_PROTOCOL + "://cdn." + BLOT_HOST;
-}
+const { resolve } = require("path");
 
 const environment =
   process.env.NODE_ENV === "production" ? "production" : "development";
+
+const BLOT_DIRECTORY = process.env.BLOT_DIRECTORY || resolve(__dirname + "/../");
+const BLOT_DATA_DIRECTORY = process.env.BLOT_DATA_DIRECTORY || BLOT_DIRECTORY + "/data";
+const BLOT_HOST = process.env.BLOT_HOST || "localhost";
+const BLOT_PORT = process.env.BLOT_PORT || "8080";
+const BLOT_PROTOCOL = process.env.BLOT_PROTOCOL || "https";
+
+const BLOT_CDN = BLOT_PROTOCOL + "://cdn." + BLOT_HOST;
+
+// The private IP addresses of the proxies which point to this server
+// we need to know this to flush the cache on each proxy when a blog is updated
+const reverse_proxies = process.env.BLOT_REVERSE_PROXY_URLS ? process.env.BLOT_REVERSE_PROXY_URLS.split(",") : environment === "production" ? ["http://127.0.0.1:80"] : [];
 
 module.exports = {
   // codebase expects either 'production' or 'development'
   environment,
   host: BLOT_HOST,
-  // the first is in oregon, the second in frankfurt
-  reverse_proxies: environment === "production" ? ["127.0.0.1"] : [],
+  reverse_proxies,
   protocol: BLOT_PROTOCOL + "://",
-  pidfile: BLOT_DIRECTORY + "/data/process.pid",
 
   webhooks: {
+    client_max_body_size: 1e8, // 100MB
     server_host: "webhooks." + BLOT_HOST,
     // replace with "webhooks.blot.development" to test
     relay_host: environment === "development" && "webhooks.blot.im",
-    development_host: "local.blot",
+    development_host: "localhost",
     secret: process.env.BLOT_WEBHOOKS_SECRET
   },
 
@@ -36,14 +35,14 @@ module.exports = {
   cache: process.env.BLOT_CACHE === "true",
   debug: process.env.BLOT_DEBUG === "true",
 
-  tmp_directory: process.env.BLOT_TMP_DIRECTORY || BLOT_DIRECTORY + "/data/tmp",
-  log_directory:
-    process.env.BLOT_LOG_DIRECTORY || BLOT_DIRECTORY + "/data/logs",
+  // These directories are used by the application
   blot_directory: BLOT_DIRECTORY,
-  blog_static_files_dir: BLOT_DIRECTORY + "/data/static",
-  blog_folder_dir: BLOT_DIRECTORY + "/data/blogs",
-  cache_directory:
-    process.env.BLOT_CACHE_DIRECTORY || BLOT_DIRECTORY + "/data/cache",
+  data_directory: BLOT_DATA_DIRECTORY,
+  views_directory: BLOT_DIRECTORY + "/app/views-built",
+  tmp_directory: process.env.BLOT_TMP_DIRECTORY || BLOT_DATA_DIRECTORY + "/tmp",
+  log_directory: process.env.BLOT_LOG_DIRECTORY || BLOT_DATA_DIRECTORY + "/logs",
+  blog_static_files_dir: BLOT_DATA_DIRECTORY + "/static",
+  blog_folder_dir: BLOT_DATA_DIRECTORY + "/blogs",
 
   ip: process.env.BLOT_IP || "127.0.0.1",
 
@@ -75,7 +74,7 @@ module.exports = {
     // annual plan, and vice versa, and that these IDs
     // correspond to plans on Stripe in both live and
     // test modes when you change Blot's price.
-    plan: "monthly_5",
+    plan: "monthly_6",
 
     plan_map: {
       yearly_30: "monthly_3",
@@ -88,7 +87,10 @@ module.exports = {
       monthly_4: "yearly_44",
 
       yearly_55: "monthly_5",
-      monthly_5: "yearly_55"
+      monthly_5: "yearly_55",
+
+      monthly_6: "yearly_72",
+      yearly_72: "monthly_6"
     }
   },
 
@@ -102,13 +104,15 @@ module.exports = {
     client_id: process.env.BLOT_PAYPAL_CLIENT_ID,
     secret: process.env.BLOT_PAYPAL_SECRET,
 
-    plan: process.env.BLOT_PAYPAL_MONTHLY_5,
+    plan: process.env.BLOT_PAYPAL_MONTHLY_6,
 
     plans: {
       monthly_4: process.env.BLOT_PAYPAL_MONTHLY_4,
       yearly_44: process.env.BLOT_PAYPAL_YEARLY_44,
       monthly_5: process.env.BLOT_PAYPAL_MONTHLY_5,
-      yearly_55: process.env.BLOT_PAYPAL_YEARLY_55
+      yearly_55: process.env.BLOT_PAYPAL_YEARLY_55,
+      monthly_6: process.env.BLOT_PAYPAL_MONTHLY_6,
+      yearly_72: process.env.BLOT_PAYPAL_YEARLY_72
     },
 
     api_base: `https://api.${
@@ -144,11 +148,39 @@ module.exports = {
     password: process.env.BLOT_BACKUP_SECRET
   },
 
-  google: {
-    drive: {
-      key: process.env.BLOT_GOOGLEDRIVE_ID,
-      secret: process.env.BLOT_GOOGLEDRIVE_SECRET
-    }
+  google_drive: {
+    service_accounts: (() => {
+      try {
+        // Check if the environment variable is defined and not empty
+        if (!process.env.BLOT_GOOGLEDRIVE_SERVICE_ACCOUNT_IDS) {
+          return [];
+        }
+  
+        // Split the environment variable into an array of IDs
+        return process.env.BLOT_GOOGLEDRIVE_SERVICE_ACCOUNT_IDS.split(",").map(service_account_id => {
+          try {
+            // Retrieve the corresponding service account value
+            const service_account = process.env[`BLOT_GOOGLEDRIVE_SERVICE_ACCOUNT_${service_account_id.trim()}`];
+            
+            // Validate and parse the service account if it exists
+            if (service_account) {
+              return JSON.parse(Buffer.from(service_account, "base64").toString());
+            } else {
+              console.warn(`Service account for ID "${service_account_id}" is missing or undefined.`);
+              return null; // Return null for missing service accounts
+            }
+          } catch (err) {
+            // Handle errors in parsing the individual service account
+            console.error(`Failed to process service account for ID "${service_account_id}":`, err.message);
+            return null; // Return null when parsing fails
+          }
+        }).filter(account => account !== null); // Filter out null entries
+      } catch (err) {
+        // Handle errors in the overall process
+        console.error("Failed to process Google Drive service accounts:", err.message);
+        return []; // Return an empty array if any critical errors occur
+      }
+    })(),
   },
 
   twitter: {
@@ -156,5 +188,18 @@ module.exports = {
     consumer_secret: process.env.BLOT_TWITTER_CONSUMER_SECRET,
     access_token: process.env.BLOT_TWITTER_ACCESS_TOKEN_KEY,
     access_token_secret: process.env.BLOT_TWITTER_ACCESS_TOKEN_SECRET
+  },
+
+  icloud: {
+    secret: process.env.BLOT_ICLOUD_SERVER_SECRET,
+    server_address: process.env.BLOT_ICLOUD_SERVER_ADDRESS,
+    email: process.env.BLOT_ICLOUD_EMAIL,
+    // The maximum file size to sync with iCloud
+    maxFileSize: 1e8, // 100MB
+    // The thresholds for sending warning emails
+    diskSpaceWarning: 1e10, // 10GB
+    diskSpaceLimit: 5e9, // 5GB
+    iCloudSpaceWarning: 2e9, // 2GB
+    iCloudSpaceLimit: 1e9, // 1GB
   }
 };

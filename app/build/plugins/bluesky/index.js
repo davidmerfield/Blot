@@ -26,7 +26,6 @@ const Url = require("url");
 const fetch = require("node-fetch");
 
 function render($, callback) {
-  console.log("bluesky plugin", "render", $.html());
 
   each(
     $,
@@ -61,7 +60,7 @@ function render($, callback) {
         "https://embed.bsky.app/oembed?" +
         new URLSearchParams(params).toString();
 
-      console.log(oembedUrl);
+      // console.log(oembedUrl);
 
       fetch(oembedUrl)
         .then((res) => res.json())

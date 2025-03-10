@@ -1,51 +1,53 @@
-// IMPORTANT:
-//
-// If you make changes to this you will need to run sudo stop blot
-// && sudo start blot when you deploy. Simply restarting won't work.
-
-const debug = require("debug")("blot:clients:google-drive");
+const config = require("config");
 const clfdate = require("helper/clfdate");
-const database = require("./database");
-const setupWebhook = require("./util/setupWebhook");
-const TEN_MINUTES = 1000 * 60 * 10; // in ms
+const prefix = () => `${clfdate()} Google Drive client:`;
+const createDriveClient = require("./serviceAccount/createDriveClient");
+const createDriveActivityClient = require("./serviceAccount/createDriveActivityClient");
+const fetchStorageInfo = require("./serviceAccount/fetchStorageInfo");
+const watchChanges = require("./serviceAccount/watchChanges");
+const pollDriveActivity = require("./serviceAccount/pollDriveActivity");
 
-const prefix = () => clfdate() + " Google Drive client:";
+const main = async (initial = false) => {
+  const serviceAccounts = config.google_drive.service_accounts;
 
-module.exports = () => {
-  refreshWebhookChannels();
-  setInterval(refreshWebhookChannels, TEN_MINUTES);
-};
+  if (!serviceAccounts || serviceAccounts.length === 0) {
+    console.log(prefix(), "No service accounts found in the configuration.");
+    return;
+  }
 
-const refreshWebhookChannels = async () => {
-  console.log(prefix(), "Looking for accounts to renew webhooks ");
-  const accounts = await database.allAccounts();
-  for (const account of accounts) {
-    if (!account.folderId || !account.channel) continue;
-    const tenMinutesFromNow = Date.now() + TEN_MINUTES;
-
-    // The channel will expire in more than ten minutes
-    if (parseInt(account.channel.expiration) > tenMinutesFromNow) {
-      debug("No need to renew channel for ", account);
-      continue;
-    }
-
-    console.log(prefix(), "Renewing webhook for", account.blogID);
+  for (const { client_id: serviceAccountId } of serviceAccounts) {
     try {
-      await setupWebhook(account.blogID);
-    } catch (e) {
-      if (e.message === "Invalid Credentials") {
-        await database.setAccount(account.blogID, {
-          channel: null,
-          error: "Invalid Credentials",
-        });
-      } else {
-        await database.setAccount(account.blogID, {
-          channel: null,
-          error: "Failed to set up webhook",
-        });
+      const drive = await createDriveClient(serviceAccountId);
+      const driveactivity = await createDriveActivityClient(serviceAccountId);
+
+      console.log(prefix(), "Fetching storage usage of service account");
+      await fetchStorageInfo(serviceAccountId, drive);
+
+      console.log(prefix(), "Ensuring service account is watching for changes");
+      await watchChanges(serviceAccountId, drive);
+
+      // We only want to set up polling once, when the service account is first initialized
+      if (initial) {
+        console.log(prefix(), "Set up polling for drive activity");
+        pollDriveActivity(serviceAccountId, driveactivity);
       }
 
-      console.log(prefix(), "Error renewing webhook for", account.blogID, e);
+      // Todo: also sync all sites that are using this service account
+      
+      // Todo: re-watch for new folders for sites in the middle of the setup process
+      
+      console.log(prefix(), "Service account is running successfully");
+    } catch (e) {
+      console.error("Google Drive client: error with configuration of serviceAccount");
+      console.error(e);
     }
   }
 };
+
+module.exports = async () => {
+  main(true);
+  // we do this repeatedly every 10 minutes
+  // to refresh the service account data
+  // and renew the changes.watch channel
+  setInterval(main, 1000 * 60 * 10);
+}

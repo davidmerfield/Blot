@@ -13,8 +13,9 @@ const fs = require("fs-extra");
 const { parse } = require("url");
 const { join } = require("path");
 
+const config = require("config");
 const avatarDirectory = __dirname + "/avatars";
-const thumbnailDirectory = __dirname + "/data/thumbnails";
+const thumbnailDirectory = config.tmp_directory + "/featured/thumbnails";
 const spriteDestination = __dirname + "/../../views/images/featured.jpg";
 const verifySiteIsOnline = require("./verifySiteIsOnline");
 
@@ -22,9 +23,6 @@ if (require.main === module) {
   build(async (err, sites) => {
     if (err) throw err;
     await fs.outputJson(__dirname + "/featured.json", sites, { spaces: 2 });
-    const check = require("./check");
-    await check();
-
     process.exit();
   });
 }
@@ -58,17 +56,18 @@ async function build (callback) {
         )
       };
     });
+  
+
 
   sites = await Promise.all(
     sites.map(async site => {
       const isOnline = await verifySiteIsOnline(site.host);
-      if (!isOnline) console.log(site.host + " is offline");
       return isOnline ? site : null;
     })
   ).then(sites => sites.filter(i => i));
 
   sites = await generateSprite(sites);
-
+  
   callback(null, sites);
 }
 
@@ -93,7 +92,7 @@ const tidy = bio => {
 };
 
 async function generateSprite (sites) {
-  await fs.ensureDir(thumbnailDirectory);
+  await fs.emptyDir(thumbnailDirectory);
 
   for (let site of sites) {
     const path = join(thumbnailDirectory, site.host + ".jpg");
@@ -115,7 +114,6 @@ async function generateSprite (sites) {
 
   // use spritesmith to generate a sprite and output it to thumbnailDirectory/sprite.jpg
   // then append the coordinates to each site
-  // then use imagemin to optimize the sprite
   const { width, height } = await new Promise((resolve, reject) => {
     // how do we set the dest path of the sprite?
     // we need to set the dest path of the sprite to thumbnailDirectory/sprite.jpg
@@ -172,6 +170,9 @@ async function generateSprite (sites) {
     "utf-8"
   );
 
+  // empty the thumbnail directory
+  await fs.emptyDir(thumbnailDirectory);
+  
   return {
     width: width / 2,
     height: height / 2,

@@ -3,8 +3,33 @@ module.exports = function({login = false} = {}){
     const site = require("site");
     const build = require("documentation/build");
     const templates = require('util').promisify(require("templates"));
+    const puppeteer = require('puppeteer');
 
     global.test.server(site);
+
+
+    // for each spec, create a new page
+    // and close it after the spec is done
+    beforeEach(async function () {
+        this.page = await this.browser.newPage();
+
+        // disable cache for each test
+        await this.page.setCacheEnabled(false);
+    });
+
+    afterEach(async function () {
+        // clear cookies after each test
+        // otherwise the next test will have the same cookies
+        // and we'll be logged in as the previous user
+        const cookies = await this.page.cookies();
+
+        for (let cookie of cookies) {
+            await this.page.deleteCookie(cookie);
+        }
+
+        await this.page.close();
+    });
+
 
     if (login) {
         global.test.blog();
@@ -34,6 +59,10 @@ module.exports = function({login = false} = {}){
     beforeAll(async () => {
         await build({watch: false});
         await templates({watch: false});
+        this.browser = await puppeteer.launch({
+                  headless: true,
+                  args: ['--no-sandbox']
+                });
     }, LONG_TIMEOUT);
 
     // increase the timeout for all tests
@@ -44,5 +73,10 @@ module.exports = function({login = false} = {}){
     // reset the timeout after each test
     afterEach(function () {
         jasmine.DEFAULT_TIMEOUT_INTERVAL = 5000;
+    });
+
+    // close the browser after all tests are done
+    afterAll(async () => {
+        await this.browser.close();
     });
 }

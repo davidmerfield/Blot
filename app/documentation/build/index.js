@@ -7,7 +7,7 @@ const favicon = require("./favicon");
 const recursiveReadDir = require("../../helper/recursiveReadDirSync");
 
 const SOURCE_DIRECTORY = join(__dirname, "../../views");
-const DESTINATION_DIRECTORY = join(__dirname, "../data");
+const DESTINATION_DIRECTORY = config.views_directory;
 
 const buildCSS = require("./css")({source: SOURCE_DIRECTORY, destination: DESTINATION_DIRECTORY});
 const buildJS = require("./js")({source: SOURCE_DIRECTORY, destination: DESTINATION_DIRECTORY});
@@ -15,12 +15,20 @@ const buildJS = require("./js")({source: SOURCE_DIRECTORY, destination: DESTINAT
 const zip = require("templates/folders/zip");
 const tools = require("./tools");
 const generateThumbnail = require("./generate-thumbnail");
+const gitCommits = require("../tools/git-commits").build;
 
 const handle = (initial = false) => async (path) => {
   try {
     
-    if (path.includes("tools/") && !initial) {
+    if (path.endsWith("README")) {
+      return;
+    }
+    
+    if (path.includes("tools/")) {
+      if (initial) return;
+      console.log("Rebuilding tools");
       await tools();
+      return;
     } 
     
     if (path.includes("images/examples") && path.endsWith(".png")) {
@@ -61,15 +69,17 @@ const handle = (initial = false) => async (path) => {
   }
 }
 
-module.exports = async ({ watch = false } = {}) => {
+module.exports = async ({ watch = false, skipZip = false } = {}) => {
   console.time("build");
 
   // we only reset the destination directory in production
   if (config.environment !== "development") {
     await fs.emptyDir(DESTINATION_DIRECTORY);
-  } 
+  } else {
+    await fs.ensureDir(DESTINATION_DIRECTORY);
+  }
 
-  await zip();
+  if (!skipZip) await zip();
 
   await favicon(join(SOURCE_DIRECTORY, "images/logo.svg"), join(DESTINATION_DIRECTORY, "favicon.ico"));
 
@@ -86,6 +96,15 @@ module.exports = async ({ watch = false } = {}) => {
   await buildCSS();
 
   await buildJS();
+
+  try {
+    console.log("Generating list of recent activity for the news page");
+    await gitCommits();
+    console.log("Generated list of recent activity for the news page");
+  } catch (e) {
+    console.error("Failed to generate list of recent activity for the news page");
+    console.error(e);
+  }
 
   console.timeEnd("build");
 
@@ -110,6 +129,3 @@ async function buildHTML (path) {
   await fs.outputFile(join(DESTINATION_DIRECTORY, path), result);
 }
 
-if (require.main === module) {
-  module.exports({ watch: true });
-}

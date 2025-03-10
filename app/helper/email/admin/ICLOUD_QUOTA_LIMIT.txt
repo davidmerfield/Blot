@@ -1,0 +1,5 @@
+iCloud Server has no iCloud space left
+
+There is {{icloud_available_human}} available on iCloud drive.
+
+Please log in to iCloud and purchase more storage space for the mac server. The root disk on the machine has {{disk_available_human}} free.

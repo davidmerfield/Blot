@@ -1,4 +1,4 @@
-const createDriveClient = require("./util/createDriveClient");
+const createDriveClient = require("./serviceAccount/createDriveClient");
 const dirname = require("path").dirname;
 const basename = require("path").basename;
 const computeMd5Checksum = require("./util/md5Checksum");
@@ -49,7 +49,8 @@ module.exports = async function write(blogID, path, input, callback) {
       return callback(null);
     }
 
-    const { drive, account } = await createDriveClient(blogID);
+    const account = await database.blog.get(blogID);
+    const drive = await createDriveClient(account.serviceAccountId);
 
     if (account.folderId) {
       console.log(prefix(), "will save remote file");

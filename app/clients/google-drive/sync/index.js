@@ -1,149 +1,150 @@
-const fs = require("fs-extra");
-const { join } = require("path");
-const localPath = require("helper/localPath");
-const database = require("../database");
-const download = require("../util/download");
 const { promisify } = require("util");
-const createDriveClient = require("../util/createDriveClient");
-const determinePathToFolder = require("../util/determinePathToFolder");
 const establishSyncLock = require("../util/establishSyncLock");
 const getBlog = promisify(require("models/blog").get);
 const fix = promisify(require("sync/fix"));
 
-const reset = require("./reset-to-blot");
+const fs = require("fs-extra");
+const { join } = require("path");
+const localPath = require("helper/localPath");
+const clfdate = require("helper/clfdate");
+const database = require("../database");
+const download = require("../util/download");
+const createDriveClient = require("../serviceAccount/createDriveClient");
+const CheckWeCanContinue = require("../util/checkWeCanContinue");
 
-async function sync(blogID) {
+const driveReaddir = require('./util/driveReaddir');
+
+const truncateToSecond = require("./util/truncateToSecond");
+
+module.exports = async function (blogID) {
+
   const blog = await getBlog({ id: blogID });
+
   const { done, folder } = await establishSyncLock(blogID);
-  const { drive, account } = await createDriveClient(blogID);
-  const { folderId, error } = account;
 
-  if (error) {
-    await done(new Error("Account has error: " + account.error));
-    return;
-  }
-
-  const db = database.folder(folderId);
-
-  folder.status("Checking for changes");
-  const pageToken = await getStartPageToken(db, drive);
-
-  const { changes, newStartPageToken, nextPageToken } = await getChanges(
-    drive,
-    pageToken
-  );
-
-  let pathsToUpdate = [];
-
-  for (const { file } of changes) {
-    const { id, parents, trashed } = file;
-
-    // we append '.gdoc' to the name of the file
-    // if it is a google doc 
-    const name = file.mimeType === "application/vnd.google-apps.document"
-      ? file.name + '.gdoc'
-      : file.name;
-
-    const storedPathForId = await db.get(id);
-    const storedPathForParentId = await db.get(parents && parents[0]);
-
-    const path = storedPathForParentId
-      ? join(storedPathForParentId, name)
-      : null;
-
-    const movedOutsideFolder = storedPathForId && !storedPathForParentId;
-
-    if (trashed && id === folderId) {
-      folder.status("You removed your folder on Google Drive");
-      await db.remove(id);
-      await database.setAccount(blogID, {
-        folderId: "",
-        folderPath: "",
-        latestActivity: "",
-      });
-      return done();
-    } else if (id === folderId) {
-      folder.status("You moved your folder on Google Drive");
-      const folderPath = await determinePathToFolder(drive, id);
-      await database.setAccount(blogID, { folderPath });
-    } else if ((trashed || movedOutsideFolder) && storedPathForId) {
-      folder.status("Removing", storedPathForId);
-      const removedPaths = await db.remove(id);
-      removedPaths.forEach((removedPath) => pathsToUpdate.push(removedPath));
-      await fs.remove(localPath(blogID, storedPathForId));
-    } else if (path && storedPathForId && path !== storedPathForId) {
-      folder.status("Moving", storedPathForId);
-      const movedPaths = await db.move(id, path);
-      movedPaths.forEach((movedPath) => pathsToUpdate.push(movedPath));
-      await fs.move(
-        localPath(blogID, storedPathForId),
-        localPath(blogID, path)
-      );
-    } else if (path && !storedPathForId && !trashed) {
-      folder.log("Downloading", path);
-      await db.set(id, path);
-      await download(blogID, drive, path, file);
-      pathsToUpdate.push(path);
-    } else if (path && storedPathForId) {
-      folder.log("Updating", storedPathForId);
-      await download(blogID, drive, path, file);
-      pathsToUpdate.push(path);
-    } else {
-      folder.log("IGNORE", id, "outside folder");
-    }
-  }
-
-  for (const path of pathsToUpdate) {
-    try {
-      await folder.update(path);
-    } catch (e) {
-      folder.log("ERROR updating", path, e);
-    }
-  }
-
-  // Store the latest page token
-  await db.setPageToken(nextPageToken || newStartPageToken);
-
-  folder.log("All checks complete");
-
-  await reset(blogID, folder.status, folder.update);
+  await sync(blogID, folder.status, folder.update);
   await fix(blog);
   await done();
 }
 
-const getStartPageToken = async (db, drive) => {
-  const tokenInDB = await db.getPageToken();
+const sync = async (blogID, publish, update) => {
+  if (!publish)
+    publish = (...args) => {
+      console.log(clfdate() + " Google Drive:", args.join(" "));
+    };
 
-  if (tokenInDB) return tokenInDB;
+  const account = await database.blog.get(blogID);
+  const drive = await createDriveClient(account.serviceAccountId);
+  const { get, set, remove, readdir } = database.folder(account.folderId);
+  const checkWeCanContinue = CheckWeCanContinue(blogID, account);
 
-  const { data } = await drive.changes.getStartPageToken({
-    supportsAllDrives: true,
-    includeDeleted: true,
-    includeCorpusRemovals: true,
-    includeItemsFromAllDrives: true,
-  });
-  return data.startPageToken;
+  const databaseReaddir = async (readdir, dir) => {
+    const contents = await readdir(dir);
+    return contents.map(({ path, metadata, id }) => ({
+      name: path.split("/").pop(),
+      id,
+      ...metadata
+    }));
+  };
+
+  const walk = async (dir, dirId) => {
+    // publish("Checking", dir);
+    console.log(clfdate() + " Google Drive: Checking", dir);
+
+    const [remoteContents, localContents] = await Promise.all([
+      driveReaddir(drive, dirId),
+      databaseReaddir(readdir, dir)
+    ]);
+
+    // Since we reset the database of file ids
+    // we need to restore this now
+    set(dirId, dir, {isDirectory: true});
+
+    for (const { name, id } of localContents) {
+      if (!remoteContents.find((item) => item.name === name)) {
+        const path = join(dir, name);
+        await checkWeCanContinue();
+        publish("Removing", join(dir, name));
+        await remove(id);
+        await fs.remove(localPath(blogID, path));
+        if (update) await update(path);
+      }
+    }
+
+    for (const file of remoteContents) {
+      const { id, name, mimeType, md5Checksum, modifiedTime } = file;
+      const path = join(dir, name);
+      const existsLocally = localContents.find((item) => item.name === name);
+      const isDirectory = mimeType === "application/vnd.google-apps.folder";
+
+      // Store the Drive ID against the path of this item, along with metadata
+      await set(id, path, { mimeType, md5Checksum, modifiedTime, isDirectory });
+
+      if (isDirectory) {
+        if (existsLocally && !existsLocally.isDirectory) {
+          await checkWeCanContinue();
+          publish("Removing", path);
+          await remove(existsLocally.id);
+          await fs.remove(localPath(blogID, path));
+          publish("Creating directory", path);
+          await fs.ensureDir(localPath(blogID, path));
+          if (update) await update(path);
+        } else if (!existsLocally) {
+          await checkWeCanContinue();
+          publish("Creating directory", path);
+          await fs.ensureDir(localPath(blogID, path));
+          if (update) await update(path);
+        }
+
+        await walk(path, id);
+      } else {
+        // These do not have a md5Checksum so we fall
+        // back to using the modifiedTime
+        const isGoogleAppFile = mimeType.startsWith(
+          "application/vnd.google-apps."
+        );
+
+        // We truncate to the second because the Google Drive API returns
+        // precise mtimes but the local file system only has second precision
+        const identicalOnRemote =
+          existsLocally &&
+          (isGoogleAppFile
+            ? truncateToSecond(existsLocally.modifiedTime) === truncateToSecond(modifiedTime)
+            : existsLocally.md5Checksum === md5Checksum);
+
+        if (existsLocally && !identicalOnRemote) {
+          try {
+            await checkWeCanContinue();
+            publish("Updating", path);
+            await download(blogID, drive, path, file);
+            if (update) {
+              publish("Converting", path);
+              await update(path);
+            } 
+          } catch (e) {
+            publish("Failed to download", path, e);
+          }
+        } else if (!existsLocally) {
+          try {
+            await checkWeCanContinue();
+            publish("Downloading", path);
+            await download(blogID, drive, path, file);
+            if (update) {
+              publish("Converting", path);
+              await update(path);
+            }
+          } catch (e) {
+            publish("Failed to download", path, e);
+          }
+        }
+      }
+    }
+  };
+
+  try {
+    await walk("/", account.folderId);
+  } catch (err) {
+    publish("Sync failed", err.message);
+    // Possibly rethrow or handle
+  }
 };
-
-const getChanges = async (drive, pageToken) => {
-  const response = await drive.changes.list({
-    supportsAllDrives: true,
-    includeDeleted: true,
-    includeCorpusRemovals: true,
-    includeItemsFromAllDrives: true,
-    fields: [
-      "nextPageToken",
-      "newStartPageToken",
-      "changes/file/id",
-      "changes/file/name",
-      "changes/file/mimeType",
-      "changes/file/trashed",
-      "changes/file/parents",
-      "changes/file/modifiedTime",
-      "changes/file/md5Checksum",
-    ].join(","),
-    pageToken,
-  });
-  return response.data;
-};
-module.exports = sync;

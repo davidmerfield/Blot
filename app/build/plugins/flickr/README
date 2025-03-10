@@ -1,0 +1,20 @@
+Flickr oEmbed Plugin
+
+This module converts plain Flickr URLs in HTML into embedded Flickr widgets using the Flickr oEmbed API.
+
+Features
+	•	Supports both short (flic.kr) and full (flickr.com) Flickr URLs.
+	•	Automatically replaces bare links with Flickr embeds.
+	•	Graceful handling of invalid URLs or API failures.
+
+e.g. in your markdown file:
+
+```
+# Title of post
+
+https://www.flickr.com/photos/jemostrom/54145631949/
+
+Some text here
+```
+
+When rendered will include a flickr embed for the linked photo, rather than a plain link.

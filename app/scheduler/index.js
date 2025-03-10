@@ -14,6 +14,7 @@ const exec = require("child_process").exec;
 const fix = require("sync/fix/all");
 const zombies = require("./zombies");
 const checkCardTesters = require("./check-card-testers");
+const welcomeEmail = require("./welcome-email");
 
 // If any disk has less than 2GB of space, we should notify the admin
 const MINIMUM_DISK_SPACE_IN_K = 2 * 1024 * 1024;
@@ -118,6 +119,9 @@ module.exports = function () {
     console.log(clfdate(), "Scheduled entries for future publication");
   });
 
+  // Schedule welcome emails for new users
+  welcomeEmail();
+  
   // Warn users about impending subscriptions
   User.getAllIds(function (err, uids) {
     async.each(uids, User.scheduleSubscriptionEmail, function (err) {
@@ -161,21 +165,21 @@ module.exports = function () {
     });
   });
 
-  console.log(
-    clfdate(),
-    "Scheduled daily check of folders for sync abnormalities"
-  );
-  schedule({ hour: 8, minute: 0 }, function () {
-    console.log(clfdate(), "Fix sync: checking folders");
-    fix(function (err, report) {
-      if (err) {
-        console.log(clfdate(), "Fix sync: error checking folders", err);
-      } else {
-        email.SYNC_REPORT(null, { report: JSON.stringify(report) });
-        console.log(clfdate(), "Fix sync: checked all folders");
-      }
-    });
-  });
+  // console.log(
+  //   clfdate(),
+  //   "Scheduled daily check of folders for sync abnormalities"
+  // );
+  // schedule({ hour: 8, minute: 0 }, function () {
+  //   console.log(clfdate(), "Fix sync: checking folders");
+  //   fix(function (err, report) {
+  //     if (err) {
+  //       console.log(clfdate(), "Fix sync: error checking folders", err);
+  //     } else {
+  //       email.SYNC_REPORT(null, { report: JSON.stringify(report) });
+  //       console.log(clfdate(), "Fix sync: checked all folders");
+  //     }
+  //   });
+  // });
 
 
   console.log(clfdate(), "Scheduled daily check of suspected fraudulent users");

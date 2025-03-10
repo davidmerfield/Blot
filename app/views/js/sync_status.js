@@ -61,12 +61,12 @@ var checkAgain;
     currentlyLoading = true;
 
     if (document.querySelector(".live-updates")) loadFolder(function onLoad() {
+      currentlyLoading = false;
+
       if (checkAgain === true) {
         checkAgain = false;
         return loadFolder(onLoad);
       }
-
-      currentlyLoading = false;
     });
   };
 
@@ -87,7 +87,14 @@ var checkAgain;
 
           if (newState === currentState) return callback();
 
+
           currentNode.innerHTML = newState;
+
+          try {
+            sortTable();
+          } catch (e) {
+            console.error(e);
+          }
         }
 
         callback();

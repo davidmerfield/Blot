@@ -19,32 +19,27 @@
     <div class="folder-top"></div>
     {{/root}}
 
-    <div class="folder-box {{#root}}root{{/root}} {{#directory}}directory{{/directory}} live-updates">
+    <div class="folder-box {{#root}}root{{/root}} {{#directory}}directory{{/directory}}" style="{{^root}}min-height:60vh{{/root}}">
     {{#directory}}
     <table class="directory-list {{^contents.length}}empty{{/contents.length}}">
-        {{#contents.length}}
-        <thead>
+        <thead style="height: 1.4em;">
           <tr>
             <th>Name</th>
             <th>Date modified</th>
             <th>Size</th>
           </tr>
         </thead>
-        {{/contents.length}}
-        <tbody>
+        <tbody class="live-updates">
       
           {{^contents.length}}
           <tr>
             <td colspan="3" style="vertical-align: middle;">
               <small style="display: flex;flex-grow: 1;
               font-size: 14px;
-              {{#directory}}{{^root}}
-              min-height: 300px;
-              {{/root}}{{/directory}}
-              text-align: center;
+              text-align: center;{{#directory}}min-height: 300px;{{/directory}}
               color: var(--light-text-color);justify-content: center;">  
                 <span style="align-self: center; text-align: center;display: block;">
-                  {{#root}}Folder is empty.<br>{{^blog.client}}<a href="{{{base}}}/client">Sync this folder</a>{{/blog.client}}{{/root}}
+                  {{#root}}This folder is empty.<br>{{^blog.client}}<a style="display: inline;" href="{{{base}}}/client">Sync this folder</a>{{/blog.client}}{{/root}}
                   {{^root}}There is nothing here.{{/root}}
                 </span>
               </small>
@@ -77,8 +72,21 @@
         </table>
         <script>
           const table = document.querySelector('.directory-list');
-      
-      
+          
+          const state = {
+            column: null,
+            order: null
+          };
+
+          // on page load restore the sort order from local storage
+          var storedColumn = localStorage.getItem('sort-column');
+
+          if (storedColumn) state.column = storedColumn;
+
+          var storedOrder = localStorage.getItem('sort-order');
+
+          if (storedOrder) state.order = storedOrder;
+
           // Restore the width of each column from local storage
           document.querySelectorAll('.directory-list th').forEach(function (th, index) {
             var width = localStorage.getItem('column-width-' + index);
@@ -92,19 +100,34 @@
             }
           });
       
-          // on page load restore the sort order from local storage
-            var column = localStorage.getItem('sort-column');
-            var order = localStorage.getItem('sort-order');
-      
-            if (column && order) {
-              var header = table.querySelector('th:nth-child(' + (parseInt(column) + 1) + ')');
-              header.classList.add(order);
-              sortTable(header, order === 'reverse');
-            }
-      
-          function sortTable(header, reverse) {
+
+          sortTable();
+          
+           
+          function sortTable() {
+            
+            var order = state.order || 'sorted';
+            var column = state.column;
+
+            var reverse = order === 'reverse';
+            var header = table.querySelector('th:nth-child(' + (parseInt(column) + 1) + ')');
+
             var index = Array.from(header.parentNode.children).indexOf(header);
             var rows = Array.from(table.querySelectorAll('tbody tr'));
+
+            if (rows.length === 1 && rows[0].querySelector('td').textContent.trim() === 'This folder is empty.') {
+              document.querySelector('.directory-list').classList.add('empty');
+            } else {
+              document.querySelector('.directory-list').classList.remove('empty');
+            }
+
+            if (rows.length < 2) {
+              return;
+            }
+
+            header.classList.add(order);
+
+
             var sorted = rows.sort(function (a, b) {
               var aText = a.children[index].getAttribute('data-sort') ? parseInt(a.children[index].getAttribute('data-sort')) : a.children[index].textContent.toLocaleLowerCase().trim();
               var bText = b.children[index].getAttribute('data-sort') ? parseInt(b.children[index].getAttribute('data-sort')) : b.children[index].textContent.toLocaleLowerCase().trim();
@@ -143,13 +166,14 @@
               }
       
               var reverse = header.classList.contains('sorted') && !header.classList.contains('reverse');
+
+              state.column = Array.from(header.parentNode.children).indexOf(header);
+              state.order = reverse ? 'reverse' : 'sorted';
+
+              sortTable();
       
-              sortTable(header, reverse);
-      
-              // persist the column and sort order in local storage
-              var index = Array.from(header.parentNode.children).indexOf(header);
-              localStorage.setItem('sort-column', index);
-              localStorage.setItem('sort-order', reverse ? 'reverse' : 'sorted');
+              localStorage.setItem('sort-column', state.column);
+              localStorage.setItem('sort-order', state.order);
             });
           });
       
@@ -200,12 +224,12 @@
             {{/directory}}
 
   </div>
-{{#root}}
 {{#blog.client}}
+{{#directory}}
 <a href="{{{base}}}/client" class="status-link">
   <span class="sync-status" data-sync-status-url="{{{base}}}/status">{{blog.status.message}} {{blog.status.fromNow}}</span>
 </a>
+{{/directory}}
 {{/blog.client}}
-{{/root}}
 </div>
 {{/folder}}

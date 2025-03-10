@@ -23,7 +23,7 @@ module.exports = function (blogID, handle, callback) {
 
   if (BANNED_NAMES.indexOf(handle) > -1) return callback(new Error(IN_USE));
 
-  if (handle.length < 3) return callback(new Error(TOO_SHORT));
+  if (handle.length < 2) return callback(new Error(TOO_SHORT));
 
   get({ handle: handle }, function (err, blog) {
     // Sometimes we want to check if

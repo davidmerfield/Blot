@@ -2,7 +2,7 @@ var BackupDomain = require("./util/backupDomain");
 var debug = require("debug")("blot:blog:flushCache");
 var get = require("./get");
 var config = require("config");
-var proxy_hosts = config.reverse_proxies;
+var reverse_proxies = config.reverse_proxies;
 
 const fetch = require("node-fetch");
 
@@ -48,21 +48,20 @@ module.exports = function (blogID, former, callback) {
     // We make sure to empty cache directories when deleting a blog
     if (affectedHosts.length) {
       debug("Emptying cache directories for:", affectedHosts);
-      for (const host of proxy_hosts) {
+      for (const reverse_proxy_url of reverse_proxies) {
         fetch(
-          "http://" +
-            host +
+          reverse_proxy_url +
             "/purge?" +
             affectedHosts.map(host => "host=" + host).join("&")
         )
           .then(res => {
             console.log(
-              "proxy: " + host + " flushed:" + affectedHosts.join(",")
+              "proxy: " + reverse_proxy_url + " flushed:" + affectedHosts.join(",")
             );
           })
           .catch(e => {
             console.log(
-              "proxy: " + host + " failed to flush: " + affectedHosts.join(",")
+              "proxy: " + reverse_proxy_url + " failed to flush: " + affectedHosts.join(",")
             );
           });
       }

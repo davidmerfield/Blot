@@ -1,5 +1,4 @@
 // todo turn this into a github action? runs when changes made automatically?
-// const imageminify = require("helper/imageminify");
 
 const screenshot = require("helper/screenshot");
 const config = require("config");
@@ -18,20 +17,32 @@ const templateOptions = {
   magazine: {
     handle: "plants"
   },
+  grid: {
+    handle: "botanist"
+  },
   photo: {
     handle: "william"
   },
   portfolio: {
     handle: "bjorn"
   },
+  'photo-old': {
+    handle: "photographer"
+  },
+  scroll: {
+    handle: "illustrator",
+  },
+  terminal: {
+    handle: "photographer"
+  },
   reference: {
     handle: "frances"
   },
   blank: {
-    handle: "essay"
+    handle: "david"
   },
   isola: {
-    handle: "william"
+    handle: "writer"
   },
   marfa: {
     handle: "david"
@@ -49,9 +60,6 @@ const foldersOptions = {
   },
   frances: {
     template: "reference"
-  },
-  william: {
-    template: "photo"
   }
 };
 

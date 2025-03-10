@@ -74,7 +74,7 @@ function parsePageSize(templatePageSize) {
  * Falls back to a default value if the input is invalid or undefined.
  *
  * @param {string|undefined} templateSortBy - Sort by field from the template (user input).
- * @returns {string} - A valid sort by field (default: "publishedAt").
+ * @returns {string} - A valid sort by field (default: "date").
  */
 function parseSortBy(templateSortBy) {
   const defaultSortBy = "date";
@@ -92,7 +92,7 @@ function parseSortBy(templateSortBy) {
  * Falls back to a default value if the input is invalid or undefined.
  *
  * @param {string|undefined} templateSortOrder - Sort order from the template (user input).
- * @returns {string} - A valid sort order (default: "desc").
+ * @returns {string} - A valid sort order (default: "asc").
  */
 function parseSortOrder(templateSortOrder) {
   const defaultSortOrder = "asc";

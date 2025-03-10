@@ -5,7 +5,6 @@ var isOwner = require("./isOwner");
 var getAllViews = require("./getAllViews");
 var localPath = require("helper/localPath");
 var fs = require("fs-extra");
-const { template } = require("lodash");
 var generatePackage = require("./package").generate;
 
 function writeToFolder (blogID, templateID, callback) {

@@ -13,28 +13,12 @@ const map = {
 
 const Questions = new Express.Router();
 const moment = require("moment");
-const config = require("config");
-const fetch = require("node-fetch");
-
-const proxy_hosts = config.reverse_proxies;
-
-const flush = () => {
-  proxy_hosts.forEach(host => {
-    fetch("http://" + host + "/purge?host=" + config.host, {
-      method: "PURGE"
-    })
-      .then(res => {
-        console.log("proxy: " + host + " flushed:" + config.host);
-      })
-      .catch(e => {
-        console.log("proxy: " + host + " failed to flush: " + config.host);
-      });
-  });
-};
 
 const { tags, create, update, list, get, search } = require("models/question");
 const render = require("./render");
 const Paginator = require("./paginator");
+const config = require("config");
+const flush = require("documentation/tools/flush-cache");
 
 Questions.use(["/ask", "/:id/edit", "/:id/new"], require("dashboard/util/session"));
 Questions.use(["/ask", "/:id/edit", "/:id/new"], urlencoded);
@@ -250,9 +234,10 @@ Questions.route("/:id/new").post(async (req, res) => {
 Questions.route("/:id/edit")
   .get(async (req, res) => {
     const id = parseInt(req.params.id);
-    if (!req.session || !req.session.uid)
+    if (!req.session || !req.session.uid){
       return res.redirect(`/log-in?then=/questions`);
-
+    }
+      
     res.locals.topic = await get(id);
     res.render("questions/edit");
   })
@@ -306,9 +291,12 @@ Questions.route("/:id").get(async (req, res, next) => {
 });
 
 Questions.get(
-  ["/tagged/:tag", "/tagged/:tag/page-:page"],
+  ["/tagged", "/tagged/:tag", "/tagged/:tag/page-:page"],
   async (req, res, next) => {
     // Pagination data
+
+    if (!req.params.tag) 
+      return res.redirect(req.baseUrl + "/tags");
 
     if (req.params.page === "1")
       return res.redirect(req.baseUrl + `/tagged/${req.params.tag}`);
@@ -324,12 +312,11 @@ Questions.get(
       return next();
     }
 
-    res.locals.breadcrumbs = res.locals.breadcrumbs.filter(
-      (x, i) => i !== res.locals.breadcrumbs.length - 2
-    );
     res.locals.prettyTag = lookup(tag);
-    res.locals.breadcrumbs[res.locals.breadcrumbs.length - 1].label =
-      lookup(tag);
+    res.locals.breadcrumbs = res.locals.breadcrumbs.slice(0, 1).concat({
+      label: lookup(tag),
+      url: "/questions/tagged/" + tag
+    });
 
     const { questions, stats } = await list({ tag, page });
 

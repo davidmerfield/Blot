@@ -3,6 +3,7 @@ const getBreadcrumbs = require("./breadcrumbs");
 const getFile = require("./file");
 const getFolder = require("./folder");
 const Stat = require("./stat");
+const clfdate = require("helper/clfdate");
 
 async function middleware(req, res, next) {
   try {
@@ -43,15 +44,20 @@ async function middleware(req, res, next) {
 }
 
 // Cache the root directory folder data for 100 folders
+// unless the blog is currenltly in the process of syncing
 const folderCache = {};
 
 const loadFolder = async (blog, dir) => {
 
   const cacheKey = blog.id + '_' + blog.cacheID + '_' + dir;
-
-  if (folderCache[cacheKey]) {
+  const synced = blog.status.message.toLowerCase() === 'synced';
+  
+  if (synced && folderCache[cacheKey]) {
+    console.log(clfdate(), 'folder cache HIT', cacheKey);
     return folderCache[cacheKey];
-  } 
+  } else {
+    console.log(clfdate(), 'folder cache MISS', cacheKey);
+  }
 
   if (Object.keys(folderCache).length >= 100) {
     const oldestCacheKey = Object.keys(folderCache)[0];
@@ -91,7 +97,7 @@ const loadFolder = async (blog, dir) => {
     folderCache[cacheKey] = folder;
   }
 
-  console.log('folder cache is', JSON.stringify(folderCache, null, 2));
+  // console.log('folder cache is', JSON.stringify(folderCache, null, 2));
 
   return folder;
 }

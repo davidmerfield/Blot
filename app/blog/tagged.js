@@ -12,12 +12,10 @@ module.exports = function (server) {
       Entry.get(blogID, entryIDs, function (entries) {
         entries = _.sortBy(entries, "dateStamp").reverse();
 
-        response.addLocals({
-          tag: tag,
-          slug: slug,
-          entries: entries,
-          total: entries.length,
-        });
+        response.locals.tag = tag;
+        response.locals.slug = slug;
+        response.locals.entries = entries;
+        response.locals.total = entries.length;
 
         response.renderView("tagged.html", next);
       });

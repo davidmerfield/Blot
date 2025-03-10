@@ -1,22 +1,30 @@
 const config = require("config");
-const redis = require("models/redis");
-const client = require("models/client");
 const express = require("express");
-const CHANNEL = "webhook-forwarder";
 const EventSource = require("eventsource");
 const fetch = require("node-fetch");
 const clfdate = require("helper/clfdate");
 const querystring = require("querystring");
 const bodyParser = require("body-parser");
 
-// This app is run on Blot's server in production
-// and relays webhooks to any connected local clients
-// Should this be authenticated in some way?
+const maxFileSize = config.webhooks.client_max_body_size;
+
+
+/*
+
+
+Production code
+---------------
+
+This section runs on the remote server and listens for incoming webhooks from clients. It forwards the webhooks to connected clients (i.e. me developing) in real-time.
+
+*/
+
+// In-memory map to store connected clients
+const subscribers = new Map();
+
 const server = express();
 
 server.get("/connect", function (req, res) {
-  const client = new redis();
-
   if (req.header("Authorization") !== config.webhooks.secret) {
     return res.status(403).send("Unauthorized");
   }
@@ -26,29 +34,20 @@ server.get("/connect", function (req, res) {
     "X-Accel-Buffering": "no",
     "Content-Type": "text/event-stream",
     "Cache-Control": "no-cache",
-    "Connection": "keep-alive"
+    "Connection": "keep-alive",
   });
 
   res.write("\n");
 
-  client.subscribe(CHANNEL);
+  // Add the client to the in-memory map
+  const clientId = Date.now() + Math.random();
+  subscribers.set(clientId, res);
 
-  client.on("message", function (_channel, message) {
-    if (_channel !== CHANNEL) return;
-    res.write("\n");
-    res.write("data: " + message + "\n\n");
-    console.log(clfdate(), "Webhooks delivering message to client", message);
-    res.flushHeaders();
-  });
-
-  client.on("error", function (err) {
-    console.error(err);
-    res.socket.destroy();
-  });
+  console.log(clfdate(), `Client connected: ${clientId}. Total subscribers: ${subscribers.size}`);
 
   req.on("close", function () {
-    client.unsubscribe();
-    client.quit();
+    subscribers.delete(clientId);
+    console.log(clfdate(), `Client disconnected: ${clientId}. Total subscribers: ${subscribers.size}`);
   });
 });
 
@@ -79,43 +78,95 @@ server.get("/clients/dropbox/webhook", (req, res, next) => {
 server.use(
   bodyParser.raw({
     inflate: true,
-    limit: "100kb",
-    type: "application/*"
+    limit: maxFileSize,
+    type: "application/*",
   }),
   (req, res) => {
     res.send("OK");
 
     const headers = req.headers;
 
-    // These headers trigger a redirect loop?
-    // host: 'webhooks.blot.development',
-    // 'x-real-ip': '127.0.0.1',
-    // 'x-forwarded-for': '127.0.0.1',
-    // 'x-forwarded-proto': 'https',
     delete headers.host;
     delete headers["x-real-ip"];
     delete headers["x-forwarded-for"];
     delete headers["x-forwarded-proto"];
 
+    const body = req.body ? req.body.toString("base64") : null;
+
+    const requestId = Date.now() + Math.random();
+
     const message = {
       url: req.url,
       headers,
+      requestId,
       method: req.method,
-      body: req.body ? req.body.toString() : ""
+      bodySize: body ? body.length : 0, // Include the size of the body
     };
 
-    const messageString = JSON.stringify(message);
+    const metadata = JSON.stringify(message);
 
-    console.log(clfdate(), "Webhooks publishing webhook", messageString);
-    client.publish(CHANNEL, messageString);
+    console.log(clfdate(), "Webhooks publishing metadata", metadata);
+
+    // Broadcast metadata first
+    for (const [clientId, subscriber] of subscribers.entries()) {
+      try {
+        subscriber.write("\n");
+        subscriber.write("data: " + metadata + "\n\n");
+        console.log(clfdate(), "Delivered metadata to client", clientId);
+      } catch (err) {
+        console.error(clfdate(), `Error delivering metadata to client ${clientId}:`, err);
+        subscribers.delete(clientId);
+      }
+    }
+
+    // If there's a body, send it in chunks
+    if (body) {
+      const chunkSize = 64 * 1024; // 64 KB
+      const totalChunks = Math.ceil(body.length / chunkSize);
+
+      for (let i = 0; i < totalChunks; i++) {
+        const chunk = body.substring(i * chunkSize, (i + 1) * chunkSize);
+        const chunkMessage = JSON.stringify({
+          chunk,
+          requestId,
+          chunkIndex: i,
+          totalChunks,
+        });
+
+        for (const [clientId, subscriber] of subscribers.entries()) {
+          try {
+            subscriber.write("\n");
+            subscriber.write("data: " + chunkMessage + "\n\n");
+            console.log(clfdate(), `Delivered chunk ${i + 1}/${totalChunks} to client`, clientId);
+          } catch (err) {
+            console.error(clfdate(), `Error delivering chunk to client ${clientId}:`, err);
+            subscribers.delete(clientId);
+          }
+        }
+      }
+    }
   }
 );
 
-function listen ({ host }) {
+
+
+
+
+/*
+
+Development code
+----------------
+
+This section runs locally when I'm developing and testing the webhooks client. It listens for events from the remote server and forwards them to the local server.
+
+*/
+
+
+const pendingRequests = new Map();
+
+function listen({ host }) {
   const url = "https://" + host + "/connect";
-  
-  // when testing this, replace REMOTE_HOST with 'webhooks.blot.development'
-  // and pass this as second argument to new EventSource();
+
   const options = { headers: { Authorization: config.webhooks.secret } };
 
   if (
@@ -138,31 +189,96 @@ function listen ({ host }) {
   };
 
   stream.onmessage = async function ({ data }) {
-    const { method, body, url, headers } = JSON.parse(data);
+    const parsed = JSON.parse(data);
 
-    console.log(clfdate(), "Webhooks requesting", url);
+    if (parsed.chunk !== undefined) {
+      // Handle chunked data on the client
+      const requestId = parsed.requestId; // Ensure each request has a unique ID
+      let requestState = pendingRequests.get(requestId);
 
-    try {
-      const https = require("https");
+      if (!requestState) {
+        console.error(clfdate(), `No metadata found for requestId: ${requestId}`);
+        return;
+      }
 
-      const agent = new https.Agent({
-        rejectUnauthorized: false
-      });
+      // Ensure bodyChunks array exists
+      if (!requestState.bodyChunks) {
+        requestState.bodyChunks = [];
+      }
 
-      const options = {
-        headers: headers,
-        method,
-        agent
-      };
+      // Store the chunk in the correct index
+      requestState.bodyChunks[parsed.chunkIndex] = parsed.chunk;
 
-      if (method !== "HEAD" && method !== "GET") options.body = body;
+      console.log(
+        clfdate(),
+        `Webhooks received chunk ${parsed.chunkIndex + 1}/${parsed.totalChunks} for requestId: ${requestId}`
+      );
 
-      await fetch("https://" + config.host + url, options);
-      // const body = await response.text();
-    } catch (e) {
-      console.log(e);
+      // Check if all chunks have been received
+      if (requestState.bodyChunks.filter(Boolean).length === parsed.totalChunks) {
+        const completeBody = requestState.bodyChunks.join("");
+
+        console.log(clfdate(), `Webhooks received complete body for requestId: ${requestId}`);
+
+        // Remove the request from the map after completion
+        pendingRequests.delete(requestId);
+
+        // Forward the complete request to the local server
+        forwardToLocal(
+          {
+            ...requestState.metadata,
+            body: completeBody,
+          },
+          requestState.metadata.headers
+        );
+      }
+    } else {
+      // Handle metadata
+      const requestId = parsed.requestId; // Ensure this is part of the metadata
+      if (!requestId) {
+        console.error(clfdate(), "Received metadata without a requestId:", parsed);
+        return;
+      }
+
+      console.log(clfdate(), `Webhooks received metadata for requestId: ${requestId}`);
+
+      if (parsed.bodySize === 0) {
+        // If there's no body, forward immediately
+        forwardToLocal(parsed, parsed.headers);
+      } else {
+        // Store metadata in the pendingRequests map
+        pendingRequests.set(requestId, { metadata: parsed });
+      }
     }
   };
+
+
+  async function forwardToLocal(metadata, headers) {
+    const path = require("url").parse(metadata.url).path;
+
+    try {
+      const options = {
+        headers,
+        method: metadata.method,
+      };
+
+      options.headers["x-forwarded-proto"] = "https";
+      options.headers["x-forwarded-host"] = config.host;
+      options.headers.host = config.host;
+
+      if (metadata.method !== "HEAD" && metadata.method !== "GET" && metadata.body) {
+        options.body = Buffer.from(metadata.body, "base64");
+      }
+
+      const localURL = "http://" + config.host + ":" + config.port + path;
+
+      console.log(clfdate(), "Webhooks forwarding to", localURL);
+
+      await fetch(localURL, options);
+    } catch (e) {
+      console.log(clfdate(), "Webhooks error forwarding request", e);
+    }
+  }
 }
 
 if (config.environment === "development" && config.webhooks.relay_host) {

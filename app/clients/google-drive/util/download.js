@@ -2,7 +2,7 @@ const fs = require("fs-extra");
 const localPath = require("helper/localPath");
 const colors = require("colors/safe");
 const join = require("path").join;
-const debug = require("debug")("blot:clients:google-drive:sync");
+const debug = require("debug")("blot:clients:google-drive:download");
 const tempDir = require("helper/tempDir")();
 const guid = require("helper/guid");
 const computeMd5Checksum = require("../util/md5Checksum");
@@ -40,7 +40,6 @@ module.exports = async (blogID, drive, path, file) => {
 
       // if the file is a google doc, then add the gdoc extension to pathOnBlot
       if (mimeType === "application/vnd.google-apps.document") {
-        console.log('we are here! with google doc');
         const res = await drive.files.export(
           {
             fileId: id,
@@ -68,7 +67,7 @@ module.exports = async (blogID, drive, path, file) => {
           }
 
           try {
-            debug("Setting mtime for file", pathOnBlot);
+            debug("Setting mtime for file", pathOnBlot, "to", modifiedTime);
             debug("mtime before:", (await fs.stat(pathOnBlot)).mtime);
             const mtime = new Date(modifiedTime);
             debug("mtime to set:", mtime);

@@ -10,13 +10,16 @@ Metadata is optional. It must be separated from the rest of the post by at least
 <h2>Metadata reference</h2>
 <table style="max-width:39em;table-layout:auto">
   <tbody>
+  
     <tr>
-      <td><h2>Link</h2></td>
-      <td>By default is a URL-friendly version of the post’s title. Specify a different link in the file’s metadata, or adjust the <a href="/how/configure/link-format">default link format</a>. The leading slash is optional. Do not include a protocol or the host of your site.
-        <pre class="metadata-example"><code>Link: /custom-link-url</code></pre>
+      <td><h2>Title</h2></td>
+      <td>By default is the text of the first heading in the post or the file’s name.
+        You should generally only set this metadata when you want to show a different title for the post or page in your site's menu or on your archives page. It is best practice to either rename the source file or use a heading in the post itself.
+        <pre class="metadata-example"><code>Title: Your title here</code></pre>
       </td>
     </tr>
-  
+
+    
     <tr>
       <td><h2>Date</h2></td>
       <td>By default is the file’s creation date. Specify a different date in the file’s metadata with one of the <a href="#dates">supported formats</a>. You can also change a post's date <a href="#dates-path">using the file’s path</a>.
@@ -79,43 +82,14 @@ Metadata is optional. It must be separated from the rest of the post by at least
 
       </td>
     </tr>
-    
+
     <tr>
-      <td><h2>Title</h2></td>
-      <td>By default is the text of the first heading in the post or the file’s name.
-        You should generally only set this metadata when you want to show a different title for the post or page in your site's menu or on your archives page. It is best practice to either rename the source file or use a heading in the post itself.
-        <pre class="metadata-example"><code>Title: Your title here</code></pre>
+      <td><h2>Link</h2></td>
+      <td>By default is a URL-friendly version of the post’s title. Specify a different link in the file’s metadata, or adjust the <a href="/how/configure/link-format">default link format</a>. The leading slash is optional. Do not include a protocol or the host of your site.
+        <pre class="metadata-example"><code>Link: /custom-link-url</code></pre>
       </td>
     </tr>
 
-    <tr>
-      <td><h2>Comments</h2></td>
-      <td>Determines whether comments are enabled on the post or the page. Can be <code>Yes</code> or <code>No</code>. By default is <code>Yes</code> for posts and <code>No</code> for pages. Has no effect if comments are disabled in the site settings.
-        <pre class="metadata-example"><code>Comments: No</code></pre>
-      </td>
-    </tr>
-    <tr>
-      <td><h2>Summary</h2></td>
-      <td>By default is the text of the first sentence of the first paragraph in the file. Some templates make use of this metadata, others do not.
-        <pre class="metadata-example"><code>Summary: A brief summary of the post</code></pre>
-
-      </td>
-    </tr>
-    <tr>
-        {{=[[ ]]=}}
-
-      <td><h2>Teaser</h2></td>
-      <td>By default is the first few paragraphs of the post. You can specify a teaser in the file’s metadata or insert the breakpoint <code>{{more}}</code> yourself. You can specify the end of the teaser using the <code>{{more}}</code> tag somewhere in the file.</td>
-
-        [[={{ }}=]]
-    </tr>
-    <tr>
-      <td><h2>Search</h2></td>
-      <td>Determines whether a post is included in your site’s search results. Can be <code>Yes</code> or <code>No</code>. By default is <code>Yes</code> for posts and <code>No</code> for pages.
-        <pre class="metadata-example"><code>Search: No</code></pre>
-      </td>
-    </tr>
-    </tr>
     <tr>
       <td><h2>Tags</h2></td>
       <td>Use tags to connect posts with similar subjects. Specify tags in the file’s metadata or in its <a href="#set-tags-using-your-folder">path</a>. Here’s an example post with two tags in its metadata:</p>
@@ -154,6 +128,49 @@ Metadata is optional. It must be separated from the rest of the post by at least
 </table>
 <p>If you specify tags in both the file’s metadata and its path, Blot will combine them.</p>
       </td>
+    </tr>
+
+    
+
+    <tr>
+      <td><h2>Comments</h2></td>
+      <td>Determines whether comments are enabled on the post or the page. Can be <code>Yes</code> or <code>No</code>. By default is <code>Yes</code> for posts and <code>No</code> for pages. Has no effect if comments are disabled in the site settings.
+        <pre class="metadata-example"><code>Comments: No</code></pre>
+      </td>
+    </tr>
+    <tr>
+      <td><h2>Summary</h2></td>
+      <td>By default is the text of the first sentence of the first paragraph in the file. Some templates make use of this metadata, others do not.
+        <pre class="metadata-example"><code>Summary: A brief summary of the post</code></pre>
+
+      </td>
+    </tr>
+    <tr>
+        
+
+      <td><h2>Teaser</h2></td>
+      <td>
+        By default is the first few paragraphs of the post. You can specify the end of the teaser using the <code>{{=[[ ]]=}}{{more}}[[={{ }}=]]</code> tag:
+        <pre class="metadata-example"><code>This line will be included in the teaser.
+
+{{=[[ ]]=}}{{more}}[[={{ }}=]]
+
+This line will not be in the teaser.</code></pre>
+<!-- The following tags are equivalent to the <code>{{=[[ ]]=}}{{more}}[[={{ }}=]]</code> tag:
+        <pre class="metadata-example"><code><< more >>
+{{=[[ ]]=}}{{more}}[[={{ }}=]]
+&lt;&lt;more&gt;&gt;
+&lt;!-- comment --&gt;
+</code> 
+</pre>   -->
+</td>   
+    </tr>
+    <tr>
+      <td><h2>Search</h2></td>
+      <td>Determines whether a post is included in your site’s search results. Can be <code>Yes</code> or <code>No</code>. By default is <code>Yes</code> for posts and <code>No</code> for pages.
+        <pre class="metadata-example"><code>Search: No</code></pre>
+      </td>
+    </tr>
     </tr>
     <tr>
       <td><h2>Thumbnail</h2></td>

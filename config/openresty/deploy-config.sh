@@ -1,5 +1,6 @@
 #!/bin/sh
 
+# this exits the script if any command fails
 set -e
 
 if [ -z "$SSH_KEY" ]; then
@@ -28,8 +29,8 @@ echo "Building openresty config files..."
 BUILD_SCRIPT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/build-config.js"
 node $BUILD_SCRIPT
 
-# upload all the built in the directory './data'  
-DATA_DIRECTORY="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/data"
+# upload all the built in the directory './data/latest'  
+DATA_DIRECTORY="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/data/latest"
 echo "Uploading $DATA_DIRECTORY to ~/openresty on $PUBLIC_IP"
 ssh -i $SSH_KEY ec2-user@$PUBLIC_IP "rm -rf /home/ec2-user/openresty"
 scp -i $SSH_KEY -r $DATA_DIRECTORY ec2-user@$PUBLIC_IP:/home/ec2-user/openresty

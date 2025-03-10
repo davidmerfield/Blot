@@ -11,6 +11,8 @@ var TITLES = {
   "google-drive": "Google Drive",
   "sub-folders": "Sub-folders",
   "google-docs": "Google Docs",
+  "icloud": "iCloud",
+  "cv": "CV",
   "examples": "Example sites",
   "markdown": "Markdown",
   "word-documents": "Word Documents",
@@ -22,7 +24,10 @@ var TITLES = {
   "who": "Who uses Blot?",
   "developers": "Developers",
   "json-feed": "JSON feed",
-  "posts-tagged": "A page with posts with a particular tag"
+  "posts-tagged": "A page with posts with a particular tag",
+  "ifttt": "IFTTT",
+  "soundcloud": "SoundCloud",
+  "youtube": "YouTube",
 };
 
 module.exports = function (req, res, next) {

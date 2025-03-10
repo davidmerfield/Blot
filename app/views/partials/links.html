@@ -18,6 +18,7 @@
           >Google Drive</a
         >
       </li>
+      <li class="{{selected.icloud }}"><a  href="/how/sync/icloud">iCloud</a></li>
     </ul>
   </li>
     
@@ -50,6 +51,29 @@
       <a  href="/how/metadata"
         >Metadata</a
       >
+      <ul>
+        <li class="{{ selected.title }}">
+          <a  href="/how/metadata#title"
+            >Title</a
+          >
+        </li>            
+        <li class="{{ selected.date }}">
+          <a  href="/how/metadata#date"
+            >Date</a
+          >
+        </li>            
+        <li class="{{ selected.link }}">
+          <a  href="/how/metadata#link"
+            >Link</a
+          >
+        </li>        
+        <li class="{{ selected.tags }}">
+          <a  href="/how/metadata#tags"
+            >Tags</a
+          >
+        </li>  
+      </ul>
+
     </li>
     <li class="{{ selected.sub-foldersIndex }}">
       <a  href="/how/sub-folders">Sub-folders</a>

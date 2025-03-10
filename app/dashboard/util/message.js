@@ -68,7 +68,7 @@ function errorHandler(err, req, res, next) {
     return next(err);
   }
 
-  var redirect = req.body.redirect || req.path;
+  var redirect = req.body.redirect || req.baseUrl + req.path;
   var message = "Error";
 
   // this should not be an object but I made
@@ -81,7 +81,6 @@ function errorHandler(err, req, res, next) {
   if (type(err, "object"))
     for (var i in err) if (type(err[i], "string")) message = err[i];
 
-  console.log('redirecting here...', redirect, message);
   res.message(redirect, new Error(message));
 }
 

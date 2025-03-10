@@ -1,11 +1,22 @@
-var mime = require("mime");
+const { URL } = require("url");
+
+// Define a list of common image extensions
+const imageExtensions = [
+  ".jpg",
+  ".jpeg",
+  ".png",
+  ".gif",
+  ".bmp",
+  ".webp",
+  ".svg",
+];
 
 function render($, callback) {
   $("a").each(function () {
     try {
-      var href = $(this).attr("href");
-      var text = $(this).text();
-      var isImage = IsImage(href);
+      const href = $(this).attr("href");
+      const text = $(this).text();
+      const isImage = IsImage(href);
 
       if (href && isImage && href === text) {
         $(this).replaceWith(template(href));
@@ -21,7 +32,25 @@ function template(url) {
 }
 
 function IsImage(url) {
-  return url && mime.lookup(url) && mime.lookup(url).slice(0, 6) === "image/";
+  if (!url) return false;
+
+  try {
+    // Parse the URL using the Node.js URL library
+    const parsedURL = new URL(url, "http://example.com"); // Use a base URL for relative URLs
+
+    // Check if the protocol is valid (http or https)
+    const validProtocols = ["http:", "https:"];
+    if (!validProtocols.includes(parsedURL.protocol)) {
+      return false;
+    }
+
+    // Extract the file extension from the pathname
+    const pathname = parsedURL.pathname.toLowerCase();
+    return imageExtensions.some((ext) => pathname.endsWith(ext));
+  } catch (e) {
+    // If URL parsing fails, return false
+    return false;
+  }
 }
 
 module.exports = {

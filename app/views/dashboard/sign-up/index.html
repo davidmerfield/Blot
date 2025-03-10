@@ -14,7 +14,7 @@
 .tabs {
         margin: 0 0 2em 0;
         display: flex;
-        border-bottom: 1px solid var(--light-border-color);
+        border-bottom: 1px solid var(--border-color);
       }
       .tabs input {
         display: none;
@@ -62,7 +62,7 @@
     {{/subscription}}
 
     {{^subscription}}
-      <p style="margin-top: 0;">$5 per month per site. You can cancel at any point. You must agree to the <a href="/terms">terms of use</a>.</p><br>
+      <p style="margin-top: 0;">{{price}} per month per site. You can cancel at any point. You must agree to the <a href="/terms">terms of use</a>.</p><br>
     {{/subscription}}
 
 <noscript>
@@ -111,7 +111,7 @@
           style="
             margin: 2px 0;
             border: none;
-            border-top: 1px solid var(--light-border-color)
+            border-top: 1px solid var(--border-color)
           " />
         <p style="margin-top: 4px">{{ price }}.00</p>
         <input

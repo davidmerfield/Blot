@@ -117,7 +117,13 @@ function Prepare (entry, options = {}) {
   debug(entry.path, "Generating tags");
   var tags = [];
 
-  if (entry.metadata.tags) tags = entry.metadata.tags.split(",");
+  if (entry.metadata.tags) {
+    if (Array.isArray(entry.metadata.tags)) {
+      tags = entry.metadata.tags.map(tag => String(tag));
+    } else if (typeof entry.metadata.tags === 'string') {
+      tags = entry.metadata.tags.split(",");
+    }
+  }
 
   tags = Tags(entry.pathDisplay || entry.path, tags);
   tags = _(tags)

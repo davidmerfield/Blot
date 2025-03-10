@@ -60,7 +60,7 @@ window.addEventListener("message", receiveMessage, false);
 
   <a class="line" href="{{{base}}}/title" >
     <span class="label">Title</span>
-    <span class="center" style="display: flex;width: 100%;">
+    <span class="center" style="display: flex;width: 100%;align-items: baseline;">
       {{#blog.title}}
       <span class="truncate" style="margin-right: 12px;">{{blog.title}}</span>
       <span class="link">Edit</span>
@@ -71,11 +71,10 @@ window.addEventListener("message", receiveMessage, false);
     </span>
   </a>
  
-  <a class="line" href="{{{base}}}/domain" style="border-bottom: none;">
+  <a class="line" href="{{{base}}}/domain/custom" style="border-bottom: none;">
     <span class="label">Domain</span>
-    <span class="center" style="display: flex;max-width: 100%;">
-      <span style="display: flex;width: 100%;">
-        <span style="color:var(--light-text-color);opacity: 0.75;">https://</span>
+    <span class="center" style="display: flex;max-width: 100%;;">
+      <span style="display: flex;width: 100%;align-items: baseline">
         <span class="truncate">{{blog.pretty.url}}</span>
         <span class="link" style="margin-left: 12px;">Edit</span>
       </span>
@@ -87,6 +86,17 @@ window.addEventListener("message", receiveMessage, false);
 
   
 </div>
+
+{{#scheduled.length}}
+<div class="line" style="border: 1px solid var(--border-color);border-radius: var(--border-radius);overflow: hidden;margin-bottom: 2.4rem;">
+  <span class="label">Scheduled posts</span>
+  <span class="center" style="display: flex;align-items: baseline;">
+    {{#scheduled}}
+    <a href="{{{base}}}/folder/{{{path}}}" class="truncate" style="margin-right: 12px;">{{title}} {{date}}</a>
+    {{/scheduled}}
+  </span>
+</div>
+{{/scheduled.length}}
 
     
     {{> directory}}
@@ -105,7 +115,7 @@ window.addEventListener("message", receiveMessage, false);
   <div class="site-preview" data-url="{{{previewURL}}}" data-cache-id="{{blog.cacheID}}"></div>
 </div>
 
-<div style="margin: -5px 0 2rem;position: relative;z-index: 1;border-radius: 0 0 var(--border-radius)  var(--border-radius);overflow: hidden;border: 1px solid var(--border-color);border-top: none;">
+<div style="margin: -1px 0 2rem;position: relative;z-index: 1;border-radius: 0 0 var(--border-radius)  var(--border-radius);overflow: hidden;border: 1px solid var(--border-color);border-top: none;">
   <a href="{{{base}}}/template/{{template.slug}}" class="panel-link">Edit template 
     <svg style="float: right;fill:currentColor;position:relative;top:4px;right:-8px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><path d="M8.22 2.97a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042l2.97-2.97H3.75a.75.75 0 0 1 0-1.5h7.44L8.22 4.03a.75.75 0 0 1 0-1.06Z"></path></svg>    
   </a>
@@ -144,6 +154,11 @@ window.addEventListener("message", receiveMessage, false);
 </div>
 
 <style>
+
+  .site-preview {
+    border-radius: var(--border-radius) var(--border-radius) 0 0;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.5),0 -1px 0 rgba(0,0,0,.11),0 1px 0 rgba(0,0,0,.1),-1px 0 0 rgba(0,0,0,.13),1px 0 0 rgba(0,0,0,.13);
+  }
   .panel-link {
     display: block;
     border-bottom: 1px solid var(--border-color);
@@ -171,7 +186,7 @@ window.addEventListener("message", receiveMessage, false);
     margin-right: 0.5em;
   }
   .panel-link.red {
-    color: red;
+    color: #ff3e00;
   }
   
   a.visit-site {
@@ -202,7 +217,7 @@ transition: transform 0.1s ease-in-out;
   }
 
   .dashboard-side {
-    width: 33.3333%;margin-left: 0;max-width: 240px;
+    width: 33.3333%;margin-left: 0;
   }
 
   @media screen and (max-width: 900px) {

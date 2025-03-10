@@ -25,10 +25,27 @@
     border-top:1px solid #eeeeec;display: block;width: 100%;box-sizing: border-box;padding: 8px 16px;font-size: 14px;overflow: hidden;color:var(--light-text-color);
     background-color: none;
     transition: background-color 0.2s;
+    position: relative;
+  }
+
+  .status-link:after {
+    content: " ";
+    width: 2em;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0), var(--background-color) 50%);
   }
 
   .status-link:hover {
     background-color: #f0f4ff70;
+  }
+
+  .sync-status {
+    height: 1.5em;
+    display: block;
+    overflow: hidden;
   }
 
   .folder-corner {

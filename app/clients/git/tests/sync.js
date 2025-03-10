@@ -143,7 +143,7 @@ describe("git client sync", function () {
   xit("should return an error if there is no git repo in blog folder", function (done) {
     fs.removeSync(this.blogDirectory + "/.git");
 
-    sync(this.blog.id, function (err) {
+    sync(this.blog.id, this.blog.handle, function (err) {
       expect(err.message).toContain("not");
       done();
     });
