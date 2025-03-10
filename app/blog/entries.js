@@ -1,58 +1,107 @@
-module.exports = function (server) {
-  var Entries = require("models/entries");
+const Entries = require("models/entries");
 
-  server.get("/page/:page_number", renderPage);
-  server.get("/", renderPage);
+/**
+ * Handles rendering of the page with entries and pagination.
+ */
+module.exports = function (req, res, next) {
+  const blog = req.blog;
 
-  function renderPage(req, res, next) {
-    var blog = req.blog;
+  // Parse and validate page number (user input)
+  const pageNo = parsePageNumber(req.params.page_number);
 
-    var pageNo, pageSize, sortBy, order;
+  // Parse and validate page size (user input via template)
+  const pageSize = parsePageSize(req.template?.locals?.page_size);
 
-    try {
-      pageNo = parseInt(req.params.page_number) || 1;
-    } catch (e) {
-      pageNo = 1;
-    }
+  // Parse and validate sort order (user input via template)
+  const sortBy = parseSortBy(req.template?.locals?.sort_by);
 
-    try {
-      // when I remove the blog.pageSize option,
-      // consider users whove customized the page size
-      // but use a default template...
-      pageSize = req.template.locals.page_size || req.blog.pageSize;
-      pageSize = parseInt(pageSize) || 5;
-    } catch (e) {
-      pageSize = 5;
-    }
+  // Parse and validate sort order (user input via template)
+  const order = parseSortOrder(req.template?.locals?.sort_order);
 
-    try {
-      sortBy = req.template.locals.sort_by || "date";
-    } catch (e) {
-      sortBy = "date";
-    }
-  
-    try {
-      order = req.template.locals.sort_order || "asc";
-    } catch (e) {
-      order = "asc";
-    }
+  // Fetch entries and render the view
+  req.log("Loading entries for page", pageNo, "with page size", pageSize);
+  Entries.getPage(blog.id, pageNo, pageSize, (entries, pagination) => {
+    pagination.current = pageNo;
 
-    Entries.getPage(blog.id, pageNo, pageSize, function (entries, pagination) {
-      var pageTitle = blog.title;
+    res.locals.entries = entries;
+    res.locals.pagination = pagination;
 
-      if (pageNo > 1) {
-        pageTitle = "Page " + pageNo + " of " + pageTitle;
-      }
+    req.log("Rendering entries");
+    res.renderView("entries.html", next);
+  }, { sortBy, order });
+}
 
-      pagination.current = pageNo;
+/**
+ * Utility function to validate and parse the page number.
+ * Falls back to 1 if the input is invalid or undefined.
+ *
+ * @param {string|undefined} pageNumber - The page number from user input.
+ * @returns {number} - A valid page number (default: 1).
+ */
+function parsePageNumber(pageNumber) {
+  const parsedPageNumber = parseInt(pageNumber, 10);
 
-      res.addLocals({
-        pageTitle: pageTitle,
-        entries: entries,
-        pagination: pagination,
-      });
-
-      res.renderView("entries.html", next);
-    }, { sortBy, order });
+  // Ensure the page number is a positive integer; default to 1 if invalid
+  if (!isNaN(parsedPageNumber) && parsedPageNumber > 0) {
+    return parsedPageNumber;
   }
-};
+
+  return 1; // Default page number
+}
+
+/**
+ * Utility function to validate and parse the page size.
+ * Falls back to a default value if the input is invalid or undefined.
+ *
+ * @param {string|number|undefined} templatePageSize - Page size from the template (user input).
+ * @returns {number} - A valid page size (default: 5).
+ */
+function parsePageSize(templatePageSize) {
+  const defaultPageSize = 5;
+
+  // Attempt to parse and validate template page size (user input)
+  const parsedTemplatePageSize = parseInt(templatePageSize, 10);
+  if (!isNaN(parsedTemplatePageSize) && parsedTemplatePageSize > 0 && parsedTemplatePageSize <= 100) {
+    return parsedTemplatePageSize;
+  }
+
+  return defaultPageSize; // Default page size
+}
+
+
+/**
+ * Utility function to validate and parse the sort by field.
+ * Falls back to a default value if the input is invalid or undefined.
+ *
+ * @param {string|undefined} templateSortBy - Sort by field from the template (user input).
+ * @returns {string} - A valid sort by field (default: "publishedAt").
+ */
+function parseSortBy(templateSortBy) {
+  const defaultSortBy = "date";
+
+  // Validate and parse sort by field (user input)
+  if (templateSortBy === "id") {
+    return templateSortBy;
+  }
+
+  return defaultSortBy; // Default sort by field
+}
+
+/**
+ * Utility function to validate and parse the sort order.
+ * Falls back to a default value if the input is invalid or undefined.
+ *
+ * @param {string|undefined} templateSortOrder - Sort order from the template (user input).
+ * @returns {string} - A valid sort order (default: "desc").
+ */
+function parseSortOrder(templateSortOrder) {
+  const defaultSortOrder = "asc";
+
+  // Validate and parse sort order (user input)
+  if (templateSortOrder === "asc" || templateSortOrder === "desc") {
+    return templateSortOrder;
+  }
+
+  return defaultSortOrder; // Default sort order
+} 
+
