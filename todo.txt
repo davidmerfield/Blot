@@ -1,7 +1,3 @@
-Surface posts scheduled for future publication on the site tab of the dashboard
-
-Surface recently edited posts on the sites tab of the dashboard
-
 Fix image profile retention not working in production and tell [Simon](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJchvfhDcWNkrZtNJqlLmLfsx)
 
 Improve tools section
@@ -75,6 +71,8 @@ Fix bugs with template engine:
 
 Add more efficient popular_tags method
 - add new properties to underlying model
+
+Surface recently edited posts on the sites tab of the dashboard
 
 Fix issue with server restart:
 - sudo chown ec2-user:ec2-user /var/instance-ssd/tmp
