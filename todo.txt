@@ -41,6 +41,8 @@ global site search of:
 - questions
 - templates
 
+April 2nd: contact mac server host and request annual billing + reduce root disk size to 50 GB.
+
 Investigate bug with link format using filename and [follow up with yct](https://mail.google.com/mail/u/0/#inbox/FMfcgzQZTMLqzhtlSBrtFqNDFDdXPSfk)
 
 Create more Google Drive service accounts under new gmail users before April 15th deadline (see clients/google-drive/readme)
