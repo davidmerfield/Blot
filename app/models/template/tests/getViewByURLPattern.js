@@ -8,7 +8,7 @@ describe("template", function() {
 		var test = this;
 		var view = {
 			name: test.fake.random.word(),
-			urlPatterns: ["/page/:page"]
+			url: ["/page/:page"]
 		};
 
 		setView(test.template.id, view, function(err) {
@@ -30,7 +30,7 @@ describe("template", function() {
 		var test = this;
 		var view = {
 			name: test.fake.random.word(),
-			urlPatterns: ["/apple"]
+			url: ["/apple"]
 		};
 
 		setView(test.template.id, view, function(err) {
@@ -54,7 +54,7 @@ describe("template", function() {
 		var test = this;
 		var view = {
 			name: test.fake.random.word(),
-			urlPatterns: ["/apple"]
+			url: ["/apple"]
 		};
 
 		setView(test.template.id, view, function(err) {
@@ -71,7 +71,7 @@ describe("template", function() {
 		var test = this;
 		var view = {
 			name: test.fake.random.word(),
-			urlPatterns: ["/apple/"]
+			url: ["/apple/"]
 		};
 
 		setView(test.template.id, view, function(err) {
@@ -84,11 +84,11 @@ describe("template", function() {
 		});
 	});
 
-	it("gets a view by multiple urlPatterns", function(done) {
+	it("gets a view by multiple url", function(done) {
 		var test = this;
 		var view = {
 			name: test.fake.random.word(),
-			urlPatterns: ["/page/:page", "/"]
+			url: ["/page/:page", "/"]
 		};
 
 		setView(test.template.id, view, function(err) {
@@ -108,15 +108,15 @@ describe("template", function() {
 
 	it("gets a view by a lowercase URL without slash", function(done) {
 	  var test = this;
-      var url = test.fake.random.word().toLowerCase();
+      var url = '/Apple';
 	  var view = {
 	    name: test.fake.random.word(),
-	    urlPatterns: [url]
+	    url: [url]
 	  };
 
 	  setView(test.template.id, view, function(err) {
 	    if (err) return done.fail(err);
-	    getViewByURLPattern(test.template.id, url, function(err, viewName) {
+	    getViewByURLPattern(test.template.id, 'apple', function(err, viewName) {
 	      if (err) return done.fail(err);
 	      expect(viewName).toEqual(view.name);
 	      done();
@@ -126,15 +126,15 @@ describe("template", function() {
 
 	it("gets a view by an uppercase URL", function(done) {
 	  var test = this;
-      var url = "/" + encodeURIComponent(test.fake.random.word().toUpperCase());
+      var url = "/apple";
 	  var view = {
 	    name: test.fake.random.word(),
-	    urlPatterns: [url]
+	    url: [url]
 	  };
 
 	  setView(test.template.id, view, function(err) {
 	    if (err) return done.fail(err);
-	    getViewByURLPattern(test.template.id, url, function(err, viewName) {
+	    getViewByURLPattern(test.template.id, '/Apple', function(err, viewName) {
 	      if (err) return done.fail(err);
 	      expect(viewName).toEqual(view.name);
 	      done();

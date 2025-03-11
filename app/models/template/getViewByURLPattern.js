@@ -21,6 +21,8 @@ module.exports = async function getViewByURLPattern(templateID, url, callback) {
     const { pathname, query } = parse(url, true); // `true` parses query string into an object
     const normalizedPathname = normalizePathname(pathname);
 
+    debug("Normalized URL:", normalizedPathname);
+
     // Fetch all views and their patterns for the given template ID
     const viewPatternStrings = await hgetall(key.urlPatterns(templateID));
 
@@ -69,11 +71,12 @@ module.exports = async function getViewByURLPattern(templateID, url, callback) {
 };
 
 /**
- * Normalize a pathname by removing trailing slashes and converting to lowercase.
+ * Normalize a pathname by adding a leading slash, removing trailing slashes, and converting to lowercase.
  *
  * @param {string} pathname - The pathname to normalize.
  * @returns {string} - The normalized pathname.
  */
 function normalizePathname(pathname) {
-  return pathname.replace(/\/+$/, "").toLowerCase();
+  // Ensure pathname is a string, add a leading slash if missing, remove trailing slashes, then lowercase
+  return `/${pathname.replace(/^\/+/, "").replace(/\/+$/, "").toLowerCase()}`;
 }
