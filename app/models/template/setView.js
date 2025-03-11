@@ -12,15 +12,13 @@ var getMetadata = require("./getMetadata");
 var Blog = require("models/blog");
 var parseTemplate = require("./parseTemplate");
 
-module.exports = function setView (templateID, updates, callback) {
+module.exports = function setView(templateID, updates, callback) {
+  ensure(templateID, "string").and(updates, "object").and(callback, "function");
+
   if (updates.partials !== undefined && type(updates.partials) !== "object") {
     updates.partials = {};
     console.log(templateID, updates, "Partials are wrong type");
   }
-
-  ensure(templateID, "string")
-    .and(updates, viewModel)
-    .and(callback, "function");
 
   var name = updates.name;
 
@@ -50,17 +48,26 @@ module.exports = function setView (templateID, updates, callback) {
 
       // Look up previous state of view if applicable
       getView(templateID, name, function (err, view) {
-        // This will error if no view exists
-        // we ust this method to create a view
-        // to so dont use this error...
-        // if (err) return callback(err);
-
         view = view || {};
 
         var changes;
 
+        // Handle `url` logic
         if (updates.url) {
-          updates.url = urlNormalizer(updates.url || "");
+          if (type(updates.url, "array")) {
+            // If `url` is an array, use the first item as `url` and the array as `urlPatterns`
+            const normalizedUrls = updates.url.map(urlNormalizer);
+            updates.url = normalizedUrls[0];
+            updates.urlPatterns = normalizedUrls;
+          } else if (type(updates.url, "string")) {
+            // If `url` is a string, normalize it and use `[url]` as `urlPatterns`
+            updates.url = urlNormalizer(updates.url);
+            updates.urlPatterns = [updates.url];
+          } else {
+            return callback(
+              new Error("The provided `url` must be a string or an array")
+            );
+          }
 
           client.set(key.url(templateID, updates.url), name);
 
@@ -74,6 +81,17 @@ module.exports = function setView (templateID, updates, callback) {
           view[i] = updates[i];
         }
 
+        ensure(view, viewModel);
+
+        if (updates.urlPatterns) {
+          // Store `urlPatterns` in Redis
+          const urlPatternsKey = key.urlPatterns(templateID);
+          client.hset(
+            urlPatternsKey,
+            name,
+            JSON.stringify(updates.urlPatterns)
+          );
+        }
         view.locals = view.locals || {};
         view.retrieve = view.retrieve || {};
         view.partials = view.partials || {};

@@ -71,4 +71,16 @@ describe("template engine", function () {
       "<p>foo</p><p>foo</p>"
     );
   });
+
+  it("exposes the url query to the template view", async function () {
+
+    await this.template({
+      "foo.html": `{{query.bar}}`
+    });
+
+    const res = await this.get(`/foo.html?bar=baz`);
+
+    expect(await res.text()).toEqual("baz");
+  });
+
 });

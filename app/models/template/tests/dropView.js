@@ -67,6 +67,27 @@ describe("template", function () {
     });
   });
 
+  it("dropView removes the URL patterns key for the view", function (done) {
+    var test = this;
+    var searchPattern = "template:" + test.template.id + ":url_patterns";
+
+    client.keys(searchPattern, function (err, result) {
+      if (err) return done.fail(err);
+      expect(result.length).toEqual(1);
+
+      dropView(test.template.id, test.view.name, function (err) {
+        if (err) return done.fail(err);
+
+        client.keys(searchPattern, function (err, result) {
+          if (err) return done.fail(err);
+
+          expect(result).toEqual([]);
+          done();
+        });
+      });
+    });
+  });
+
   // dropView does not remove the URL key for the view at the moment
   // so it might be worth writing a check against this in future...
 
