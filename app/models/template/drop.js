@@ -17,6 +17,7 @@ module.exports = function drop(owner, templateName, callback) {
     multi.srem(key.blogTemplates(owner), templateID);
     multi.srem(key.publicTemplates(), templateID);
     multi.del(key.metadata(templateID));
+    multi.del(key.urlPatterns(templateID));
     multi.del(key.allViews(templateID));
 
     if (metadata.shareID) {

@@ -28,7 +28,7 @@ require("./tagged")(blog);
 blog.get('/search', require('./search'));
 
 require("./robots")(blog);
-require("./view")(blog);
+blog.use(require("./view"));
 blog.use(require("./entry"));
 
 blog.get("/page/:page_number", require("./entries"));

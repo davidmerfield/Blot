@@ -14,6 +14,7 @@ module.exports = function dropView(templateID, viewName, callback) {
       if (err) return callback(err);
 
       multi.del(key.view(templateID, viewName));
+      multi.hdel(key.urlPatterns(templateID), viewName);
       multi.srem(key.allViews(templateID), viewName);
 
       // View might not neccessarily exist
