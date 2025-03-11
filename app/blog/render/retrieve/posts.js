@@ -7,7 +7,7 @@ module.exports = function (req, callback) {
   const blog = req.blog;
 
   // Parse and validate page number (user input)
-  const pageNo = parsePageNumber(req.params.page_number);
+  const pageNo = parsePageNumber(req.params?.page);
 
   // Parse and validate page size (user input via template)
   const pageSize = parsePageSize(req.template?.locals?.page_size);
