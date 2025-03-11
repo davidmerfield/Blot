@@ -41,6 +41,8 @@ global site search of:
 - questions
 - templates
 
+April 2nd: contact mac server host and request annual billing + reduce root disk size to 50 GB.
+
 Investigate bug with link format using filename and [follow up with yct](https://mail.google.com/mail/u/0/#inbox/FMfcgzQZTMLqzhtlSBrtFqNDFDdXPSfk)
 
 Create more Google Drive service accounts under new gmail users before April 15th deadline (see clients/google-drive/readme)
@@ -100,11 +102,13 @@ Improvements to Google Drive client
 - [ ] Fix bug with Mark's site which unneccessarily re-downloads some (all?) files on sync rather than using the correct hash and tell [Mark](https://mail.google.com/mail/u/0/#inbox/FMfcgzQZTVmrvkvcfPvcJhcLvrwSndWS)
 - [ ] new folder setup (e.g. waiting for user to share folder on drive) needs to survive a server restart (See init.js TODO)
 - [ ] slowly resync all connected blogs on server restart
+- [ ] It seems like sometimes the first sentence of Google Docs become titles unexpectedly – possibly a mis-identified title tag?
 - [ ] make it possible to short-circuit the full folder traversal and immediately begin at a specific file/subfolder
 - [ ] to improve sync speed, eventually set up temporary channels to watch google docs for changes – is this faster than polling driveactivity? or work out the fastest way to get fast updates for google docs. Is the move to listen on changes.watch and then setup an optional temporary files.watch channel to stream changes for the length of the channel (don't renew)?
 - [ ] add tests with nock
 - [ ] Test multiple sites sync in parallel
 - [ ] Test multiple Google Drive accounts in parallel
+- [ ] On disconnect, convert Google Docs in folder into Markdown and inform the user
 - [ ] Test drafts
 - [ ] Test local templates
 - Resolve issue with [Stephen's large blog](https://mail.google.com/mail/u/0/#inbox/QgrcJHsBsbkNkMkkkMmLWBxRfnGnWPVwLHl)

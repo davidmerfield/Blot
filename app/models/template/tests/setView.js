@@ -1,102 +1,142 @@
+const exp = require("constants");
+const { promisify } = require("util");
+
 describe("template", function () {
   require("./setup")({ createTemplate: true });
 
-  var setView = require("../index").setView;
-  var getView = require("../index").getView;
-  var Blog = require("models/blog");
+  const setView = promisify(require("../index").setView);
+  const getView = promisify(require("../index").getView);
+  const Blog = require("models/blog");
+  const client = require("models/client");
+  const hdel = promisify(client.hdel).bind(client);
+  const key = require("../key");
 
-  it("sets a view", function (done) {
-    var test = this;
-    var view = {
+  it("sets a view", async function () {
+    const test = this;
+    const view = {
       name: test.fake.random.word() + ".txt",
       content: test.fake.random.word(),
     };
 
-    setView(test.template.id, view, function (err) {
-      if (err) return done.fail(err);
-      getView(test.template.id, view.name, function (err, savedView) {
-        if (err) return done.fail(err);
-        expect(savedView.name).toEqual(view.name);
-        expect(savedView.content).toEqual(view.content);
-        done();
-      });
-    });
+    await setView(test.template.id, view);
+    const savedView = await getView(test.template.id, view.name);
+
+    expect(savedView.name).toEqual(view.name);
+    expect(savedView.content).toEqual(view.content);
   });
 
-  it("sets changes to an existing view", function (done) {
-    var test = this;
-    var view = {
+  it("sets changes to an existing view", async function () {
+    const test = this;
+    const view = {
       name: test.fake.random.word(),
       content: test.fake.random.word(),
     };
 
-    setView(test.template.id, view, function (err) {
-      if (err) return done.fail(err);
+    await setView(test.template.id, view);
+    let savedView = await getView(test.template.id, view.name);
 
-      getView(test.template.id, view.name, function (err, savedView) {
-        if (err) return done.fail(err);
-        expect(savedView.name).toEqual(view.name);
-        expect(savedView.content).toEqual(view.content);
+    expect(savedView.name).toEqual(view.name);
+    expect(savedView.content).toEqual(view.content);
 
-        view.content = test.fake.random.word();
+    view.content = test.fake.random.word();
+    await setView(test.template.id, view);
 
-        setView(test.template.id, view, function (err) {
-          if (err) return done.fail(err);
+    savedView = await getView(test.template.id, view.name);
 
-          getView(test.template.id, view.name, function (err, savedView) {
-            if (err) return done.fail(err);
-            expect(savedView.content).toEqual(view.content);
-            done();
-          });
-        });
-      });
-    });
+    expect(savedView.content).toEqual(view.content);
   });
 
-  it("won't set a view with invalid mustache content", function (done) {
-    var test = this;
-    var view = {
+  it("won't set a view with invalid mustache content", async function () {
+    const test = this;
+    const view = {
       name: test.fake.random.word(),
       content: "{{#x}}", // without the closing {{/x}} mustache will err.
     };
 
-    setView(test.template.id, view, function (err) {
+    try {
+      await setView(test.template.id, view);
+    } catch (err) {
       expect(err instanceof Error).toBe(true);
-      done();
-    });
+    }
   });
 
-  it("won't set a view against a template that does not exist", function (done) {
-    var test = this;
-    var view = { name: test.fake.random.word() };
+  it("won't set a view against a template that does not exist", async function () {
+    const test = this;
+    const view = { name: test.fake.random.word() };
 
-    setView(test.fake.random.word(), view, function (err) {
+    try {
+      await setView(test.fake.random.word(), view);
+    } catch (err) {
       expect(err instanceof Error).toBe(true);
-      done();
-    });
+    }
   });
 
   // In future this should return an error to the callback, lol
-  it("won't set a view with a name that is not a string", function () {
-    var test = this;
+  it("won't set a view with a name that is not a string", async function () {
+    const test = this;
 
-    expect(function () {
-      setView(test.template.id, { name: null }, function () {});
-    }).toThrow();
+    try {
+      await setView(test.template.id, { name: null });
+    } catch (err) {
+      expect(err instanceof Error).toBe(true);
+    }
   });
 
-  it("updates the cache ID of the blog which owns a template after setting a view", function (done) {
-    var test = this;
-    var initialCacheID = test.blog.cacheID;
-    var view = { name: test.fake.random.word() };
+  it("updates the cache ID of the blog which owns a template after setting a view", async function () {
+    const test = this;
+    const initialCacheID = test.blog.cacheID;
+    const view = { name: test.fake.random.word() };
 
-    setView(test.template.id, view, function (err) {
-      if (err) return done.fail(err);
-      Blog.get({ id: test.template.owner }, function (err, blog) {
-        if (err) return done.fail(err);
-        expect(blog.cacheID).not.toEqual(initialCacheID);
-        done();
-      });
+    await setView(test.template.id, view);
+    const blog = await promisify(Blog.get)({ id: test.template.owner });
+
+    expect(blog.cacheID).not.toEqual(initialCacheID);
+  });
+
+  it("will save a view with a url array", async function () {
+    await setView(this.template.id, {
+      name: "index.html",
+      url: ["/a", "/b"],
     });
+
+    const view1 = await getView(this.template.id, "index.html");
+
+    expect(view1.urlPatterns).toEqual(["/a", "/b"]);
+    expect(view1.url).toEqual("/a");
+
+    await setView(this.template.id, {
+      name: "index.html",
+      url: "/a",
+    });
+
+    const view2 = await getView(this.template.id, "index.html");
+
+    expect(view2.urlPatterns).toEqual(["/a"]);
+    expect(view2.url).toEqual("/a");
+  });
+
+  it("will get and set a view with or without the internal urlPatterns array", async function () {
+    await setView(this.template.id, {
+      name: "index.html",
+      content: "123",
+      url: "/a",
+    });
+
+    const view1 = await getView(this.template.id, "index.html");
+
+    expect(view1.content).toEqual("123");
+
+    const res = await hdel(key.urlPatterns(this.template.id), "index.html");
+
+    expect(res).toEqual(1);
+
+    await setView(this.template.id, {
+      name: "index.html",
+      content: "456",
+    });
+
+    const view2 = await getView(this.template.id, "index.html");
+
+    expect(view2.content).toEqual("456");
   });
 });

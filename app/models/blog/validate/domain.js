@@ -5,6 +5,9 @@ var HOST = /^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]
 
 var INVALID = "Please enter a valid hostname";
 var IN_USE = "That domain was already in use.";
+var SUBDOMAIN = "Do not enter a Blot subdomain. This is for custom domains only.";
+
+var config = require("config");
 
 module.exports = function (blogID, domain, callback) {
   var get = require("../get");
@@ -29,6 +32,10 @@ module.exports = function (blogID, domain, callback) {
 
   if (!HOST.test(domain)) {
     return callback(INVALID);
+  }
+
+  if (domain.endsWith(config.host)) {
+    return callback(SUBDOMAIN);
   }
 
   get({ domain: domain }, function (err, blog) {

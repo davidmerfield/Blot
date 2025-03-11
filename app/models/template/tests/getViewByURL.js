@@ -1,73 +1,166 @@
 describe("template", function () {
   require("./setup")({ createTemplate: true });
 
-  var setView = require("../index").setView;
-  var getViewByURL = require("../index").getViewByURL;
-
-  it("gets a view by a lowercase URL", function (done) {
-    var test = this;
-    var view = {
-      name: test.fake.random.word(),
-      url: "/xyz", // this should be random in future
-    };
-
-    setView(test.template.id, view, function (err) {
-      if (err) return done.fail(err);
-      getViewByURL(test.template.id, view.url, function (err, viewName) {
-        if (err) return done.fail(err);
-        expect(viewName).toEqual(view.name);
-        done();
-      });
+  it("gets a view from a URL", async function () {
+    await this.setView({
+      name: "apple.html",
+      url: ["/page/:page", "/"],
     });
+
+    const { viewName: viewName1, params: params1 } = await this.getViewByURL(
+      "/page/1"
+    );
+
+    expect(viewName1).toEqual("apple.html");
+    expect(params1).toEqual({ page: "1" });
+
+    const { viewName: viewName2, params: params2 } = await this.getViewByURL(
+      "/"
+    );
+
+    expect(viewName2).toEqual("apple.html");
+    expect(params2).toEqual({});
+
+    const { viewName: viewName3, params: params3 } = await this.getViewByURL(
+      "/page/2"
+    );
+
+    expect(viewName3).toEqual("apple.html");
+    expect(params3).toEqual({ page: "2" });
   });
 
-  // This fails because of a bug in the order of the processing
-  // of view.url in setView. It determines the redis key before
-  // normalizing the Url property of the view for storage...
-  xit("gets a view by a lowercase URL without slash", function (done) {
-    var test = this;
-    var view = {
-      name: test.fake.random.word(),
-      url: test.fake.random.word().toLowerCase(),
+  it("gets a view from a URL with a query string", async function () {
+    const view = {
+      name: this.fake.random.word(),
+      url: ["/apple"],
     };
 
-    setView(test.template.id, view, function (err) {
-      if (err) return done.fail(err);
-      getViewByURL(test.template.id, view.url, function (err, viewName) {
-        if (err) return done.fail(err);
-        expect(viewName).toEqual(view.name);
-        done();
-      });
-    });
+    await this.setView(view);
+
+    const { viewName, params, query } = await this.getViewByURL(
+      "/apple?foo=bar"
+    );
+
+    expect(viewName).toEqual(view.name);
+    expect(params).toEqual({});
+    expect(query).toEqual({ foo: "bar" });
   });
 
-  // This fails because of a bug in the order of the processing
-  // of view.url in setView. It determines the redis key before
-  // normalizing the Url property of the view for storage...
-  xit("gets a view by an uppercase URL", function (done) {
-    var test = this;
-    var view = {
-      name: test.fake.random.word(),
-      url: "/" + test.fake.random.word().toUpperCase(),
+  it("gets a view from a URL with a trailing slash", async function () {
+    const view = {
+      name: this.fake.random.word(),
+      url: ["/apple"],
     };
 
-    setView(test.template.id, view, function (err) {
-      if (err) return done.fail(err);
-      getViewByURL(test.template.id, view.url, function (err, viewName) {
-        if (err) return done.fail(err);
-        expect(viewName).toEqual(view.name);
-        done();
-      });
-    });
+    await this.setView(view);
+    const { viewName } = await this.getViewByURL("/apple/");
+
+    expect(viewName).toEqual(view.name);
   });
 
-  // This just returns an empty view
-  xit("returns an error for a non-existent URL", function (done) {
-    var test = this;
-    getViewByURL(test.template.id, "", function (err, viewName) {
+  it("gets a view whose route contains a trailing slash from a URL without", async function () {
+    const view = {
+      name: this.fake.random.word(),
+      url: ["/apple/"],
+    };
+
+    await this.setView(view);
+    const { viewName } = await this.getViewByURL("/apple");
+
+    expect(viewName).toEqual(view.name);
+  });
+
+  it("gets a view by multiple url", async function () {
+    const view = {
+      name: this.fake.random.word(),
+      url: ["/page/:page", "/"],
+    };
+
+    await this.setView(view);
+
+    const { viewName: rootViewName } = await this.getViewByURL("/");
+    expect(rootViewName).toEqual(view.name);
+
+    const { viewName: pageViewName } = await this.getViewByURL("/page/2");
+    expect(pageViewName).toEqual(view.name);
+  });
+
+  it("gets a view by a lowercase URL without slash", async function () {
+    const url = "/Apple";
+    const view = {
+      name: this.fake.random.word(),
+      url: [url],
+    };
+
+    await this.setView(view);
+    const { viewName } = await this.getViewByURL("apple");
+
+    expect(viewName).toEqual(view.name);
+  });
+
+  it("orders views alphabetically if multiple match", async function () {
+    await this.setView({
+      name: "a.html",
+      url: "/apple",
+    });
+    await this.setView({
+      name: "b.html",
+      url: "/apple",
+    });
+    await this.setView({
+      name: "c.html",
+      url: "/apple",
+    });
+
+    const { viewName: view1 } = await this.getViewByURL("/apple");
+
+    expect(view1).toEqual("a.html");
+
+    await this.dropView("a.html");
+
+    const { viewName: view2 } = await this.getViewByURL("/apple");
+
+    expect(view2).toEqual("b.html");
+
+    await this.dropView("b.html");
+
+    const { viewName: view3 } = await this.getViewByURL("/apple");
+
+    expect(view3).toEqual("c.html");
+  });
+
+  it("gets a view by an uppercase URL", async function () {
+    const url = "/apple";
+    const view = {
+      name: this.fake.random.word(),
+      url: [url],
+    };
+
+    await this.setView(view);
+    const { viewName } = await this.getViewByURL("/Apple");
+
+    expect(viewName).toEqual(view.name);
+  });
+
+  it("gets a view with accented characters", async function () {
+    const url = "/ápple";
+    const view = {
+      name: this.fake.random.word(),
+      url: [url],
+    };
+
+    await this.setView(view);
+    const { viewName } = await this.getViewByURL("/ápple");
+
+    expect(viewName).toEqual(view.name);
+  });
+
+
+  it("returns an error for a non-existent URL", async function () {
+    try {
+      await this.getViewByURL("");
+    } catch (err) {
       expect(err instanceof Error).toBe(true);
-      expect(viewName).toBe(null);
-      done();
-    });
+    }
   });
 });
