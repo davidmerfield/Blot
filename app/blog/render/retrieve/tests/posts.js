@@ -10,7 +10,7 @@ describe("posts", function () {
 
     await this.template(
       {
-        "foo.html": `{{#posts}}{{{summary}}} {{/posts}}`,
+        "foo.html": `{{#posts}}{{{name}}} {{/posts}}`,
       },
       {
         views: {
@@ -27,10 +27,10 @@ describe("posts", function () {
     const res = await this.get("/foo");
     const text = await res.text();
 
-    expect(text.trim()).toEqual("Quux Qux Baz");
+    expect(text.trim()).toEqual("e.txt d.txt c.txt");
 
     const res2 = await this.get("/foo/page/2");
     const text2 = await res2.text();
-    expect(text2.trim()).toEqual("Bar Foo");
+    expect(text2.trim()).toEqual("b.txt a.txt");
   });
 });
