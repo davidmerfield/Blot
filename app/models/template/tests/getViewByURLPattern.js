@@ -37,10 +37,14 @@ describe("template", function() {
 			if (err) return done.fail(err);
 			getViewByURLPattern(test.template.id, "/apple?foo=bar", function(
 				err,
-				viewName
+				viewName,
+                params,
+                query
 			) {
 				if (err) return done.fail(err);
 				expect(viewName).toEqual(view.name);
+                expect(params).toEqual({});
+                expect(query).toEqual({ foo: "bar" });
 				done();
 			});
 		});
@@ -122,7 +126,7 @@ describe("template", function() {
 
 	it("gets a view by an uppercase URL", function(done) {
 	  var test = this;
-      var url = "/" + test.fake.random.word().toUpperCase();
+      var url = "/" + encodeURIComponent(test.fake.random.word().toUpperCase());
 	  var view = {
 	    name: test.fake.random.word(),
 	    urlPatterns: [url]

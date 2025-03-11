@@ -2,29 +2,31 @@ const key = require("./key");
 const client = require("models/client");
 const { promisify } = require("util");
 const hgetall = promisify(client.hgetall).bind(client);
-const debug = require("debug")("template:getViewByURLPattern");
+const debug = require("debug")("blot:template:getViewByURLPattern");
 const { match } = require("path-to-regexp");
+const { parse } = require("url");
 
 /**
  * Get a view by matching its URL pattern.
  *
  * @param {string} templateID - The ID of the template.
  * @param {string} url - The URL to match.
- * @param {function} callback - Callback function (err, viewName, params).
+ * @param {function} callback - Callback function (err, viewName, params, query).
  */
 module.exports = async function getViewByURLPattern(templateID, url, callback) {
   debug("Looking up views for templateID:", templateID, "URL:", url);
 
   try {
-    // Normalize the URL: remove query string, trailing slash, and convert to lowercase
-    const normalizedUrl = normalizeUrl(url);
+    // Parse the URL into components (using Node.js `url` module)
+    const { pathname, query } = parse(url, true); // `true` parses query string into an object
+    const normalizedPathname = normalizePathname(pathname);
 
     // Fetch all views and their patterns for the given template ID
     const viewPatternStrings = await hgetall(key.urlPatterns(templateID));
 
     if (!viewPatternStrings) {
       debug("No views found for templateID:", templateID);
-      return callback(new Error("No views found for the given template ID"), null);
+      return callback(new Error("No views found for the given template ID"), null, null, query);
     }
 
     // Parse the Redis hash object into an array of [viewName, urlPatterns]
@@ -39,32 +41,39 @@ module.exports = async function getViewByURLPattern(templateID, url, callback) {
     // Iterate through views and match the URL
     for (const [viewName, urlPatterns] of views) {
       for (const rawPattern of urlPatterns) {
-        const normalizedPattern = normalizeUrl(rawPattern);
+        const normalizedPattern = normalizePathname(rawPattern);
         const matchPattern = match(normalizedPattern, { decode: decodeURIComponent });
-        const matchResult = matchPattern(normalizedUrl);
+        const matchResult = matchPattern(normalizedPathname);
 
         if (matchResult) {
-          debug("Matched pattern:", rawPattern, "with URL:", url, "in view:", viewName);
-          return callback(null, viewName, matchResult.params);
+          debug(
+            "Matched pattern:",
+            rawPattern,
+            "with normalized URL:",
+            normalizedPathname,
+            "in view:",
+            viewName
+          );
+          return callback(null, viewName, matchResult.params, query);
         }
       }
     }
 
     // No matching pattern found
     debug("No matching pattern found for URL:", url);
-    return callback(new Error("No matching pattern found"), null);
+    return callback(new Error("No matching pattern found: " + url + "\n" + views), null, null, null);
   } catch (error) {
     debug("Error while matching URL:", error);
-    return callback(error, null);
+    return callback(error, null, null, null);
   }
 };
 
 /**
- * Normalize a URL by removing the query string, trailing slash, and converting to lowercase.
+ * Normalize a pathname by removing trailing slashes and converting to lowercase.
  *
- * @param {string} url - The URL to normalize.
- * @returns {string} - The normalized URL.
+ * @param {string} pathname - The pathname to normalize.
+ * @returns {string} - The normalized pathname.
  */
-function normalizeUrl(url) {
-  return url.split("?")[0].replace(/\/+$/, "").toLowerCase();
+function normalizePathname(pathname) {
+  return pathname.replace(/\/+$/, "").toLowerCase();
 }
