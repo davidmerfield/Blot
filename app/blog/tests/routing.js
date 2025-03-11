@@ -6,7 +6,7 @@ describe("routing", function () {
 
     await this.template(
       {
-        "example.html": "Success",
+        "example.html": "Success {{params.page}}",
       },
       {
         views: {
@@ -22,25 +22,25 @@ describe("routing", function () {
     const res = await this.get(`/eg/page/1`);
     const body = await res.text();
     
-    expect(body).toContain("Success");
+    expect(body).toContain("Success 1");
 
     // Test without params
     const res2 = await this.get(`/eg/page/x`);
     const body2 = await res2.text();
 
-    expect(body2).toContain("Success");
+    expect(body2).toContain("Success ");
 
     // Test spaces
     const res3 = await this.get(`/e%20g`);
     const body3 = await res3.text();
 
-    expect(body3).toContain("Success");
+    expect(body3).toContain("Success ");
 
     // Test accented characters
     const res4 = await this.get(`/ë`);
     const body4 = await res4.text();
 
-    expect(body4).toContain("Success");
+    expect(body4).toContain("Success ");
   });
 
   it("when there are duplicate URLs, router will serve a template view, then an entry, then a file in that order", async function () {

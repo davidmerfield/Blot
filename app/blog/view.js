@@ -1,18 +1,30 @@
-module.exports = function (server) {
-  var Template = require("models/template");
+const { getViewByURL } = require("models/template");
 
-  server.use(function (request, response, next) {
-    var blog = request.blog,
-      templateID = blog.template,
-      url = decodeURIComponent(request.url);
+module.exports = function (req, res, next) {
+  const template = req?.blog?.template;
 
+  if (!template) return next();
 
-    Template.getViewByURL(templateID, url, function (err, viewName) {
-      if (err) return next(err);
+  // If you don't decode the URL here, you'll see issues
+  // with URLs containing special characters e.g. %20 or %2F
+  // We intentionally do minimal processing in getViewsByURL
+  const url = decodeURIComponent(req.url);
 
-      if (viewName) return response.renderView(viewName, next);
+  getViewByURL(template, url, function (err, viewName, params, query) {
+    if (err) return next(err);
 
-      return next();
-    });
+    if (!viewName) return next();
+
+    if (params) {
+      req.params = params;
+      res.locals.params = params;
+    }
+
+    if (query) {
+      req.query = query;
+      res.locals.query = query;
+    }
+
+    return res.renderView(viewName, next);
   });
 };
