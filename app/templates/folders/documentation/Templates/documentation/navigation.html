@@ -1,5 +1,21 @@
-<div class="navigation">
-    {{#posts}}
-    <a href="{{{url}}}" class="{{active}}">{{{title}}}</a>
-    {{/posts}}
-</div>
+
+    <!-- Hidden Checkboxes -->
+    <input type="checkbox" id="toggle-left" class="toggle-checkbox" />
+    <input type="checkbox" id="toggle-right" class="toggle-checkbox" />
+
+    <!-- Control Bar -->
+    <div class="control-bar">
+      <label for="toggle-left" class="control-label">Navigation</label>
+      <label for="toggle-right" class="control-label">Table of Contents</label>
+    </div>
+    <div class="column-container">
+      <!-- Left Column: High-Level Navigation -->
+      <div class="column">
+        <h3>Navigation</h3>
+        {{#posts}}
+        <a href="{{{url}}}" class="{{active}}">{{{title}}}</a>
+        {{/posts}}
+      </div>
+
+      <!-- Main Content -->
+      <div class="main">

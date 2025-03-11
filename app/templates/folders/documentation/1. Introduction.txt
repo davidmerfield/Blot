@@ -3,32 +3,72 @@ Link: /
 Title: Introduction
 ---
 
-**ConnectKit** is a powerful React component library for connecting a wallet to your dApp. It supports the most popular connectors and chains, and provides a beautiful, seamless experience.
+# Technical Documentation
 
-## Features
+Welcome to the documentation for our sample project. This guide will walk you through the basics, provide you with API references, and show you example use cases.
 
-### Get the experience you and your users deserve.
+## Introduction
 
-- **TypeScript Ready**  
-  Get types straight out of the box.
+The project is a lightweight, fast, and reliable framework designed to help developers build amazing applications. It supports the following features:
 
-- **Ecosystem Standards**  
-  Uses top libraries such as `wagmi`.
+- Easy-to-use API
+- Cross-platform compatibility
+- Modular architecture
 
-- **Customize Chains**  
-  Easily set up L2s and other chains.
+## Getting Started
 
-- **Sign In With Ethereum**  
-  Prove wallet ownership by authenticating.
+To begin using the framework, you'll need to install it via your package manager. Here's how:
 
-- **Responsive Design**  
-  Tailored experience across devices.
+```
+npm install my-framework
+```
 
-- **Simple UX**  
-  Give users a simple, attractive experience.
+Once installed, you can import it into your project:
 
-- **Beautiful Themes**  
-  Predesigned themes or full customization.
+```
+import { Framework } from 'my-framework';
+```
 
-- **Translations**  
-  Choose from multiple languages.
+Next, initialize the framework with your configuration:
+
+```
+const config = {
+  apiKey: 'your-api-key',
+  environment: 'production'
+};
+const app = new Framework(config);
+```
+
+## API Reference
+
+The framework exposes several methods to help you interact with your application:
+
+- `app.start()`: Starts the application.
+- `app.stop()`: Stops the application.
+- `app.getStatus()`: Returns the current status of the application.
+
+## Examples
+
+Here is a simple example of using the framework to create a basic application:
+
+```
+import { Framework } from 'my-framework';
+
+const app = new Framework({
+  apiKey: 'your-api-key',
+  environment: 'development'
+});
+
+app.start();
+console.log('App status:', app.getStatus());
+```
+
+## FAQ
+
+Here are some common questions and answers:
+
+- **Q:** Is the framework open-source?  
+  **A:** Yes, it is fully open-source and available on GitHub.
+
+- **Q:** Does it support TypeScript?  
+  **A:** Absolutely! TypeScript types are included by default.

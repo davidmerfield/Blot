@@ -1,5 +1,16 @@
-<div class="header">
+<!-- Hidden checkbox to toggle navigation -->
+<input type="checkbox" id="nav-toggle" />
+<nav class="nav-container">
+  <label for="nav-toggle" class="nav-label"
+    ><span class="icon-dots"></span
+  ></label>
+  <div class="index-link">
+    <a href="/">Home</a>
+  </div>
+  <div class="nav-links">
     {{#menu}}
     <a href="{{{url}}}" class="{{active}}">{{{label}}}</a>
     {{/menu}}
-</div>
+  </div>
+</nav>
+<label for="nav-toggle" class="popup-cover"></label>
