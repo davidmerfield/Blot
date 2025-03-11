@@ -76,7 +76,7 @@ describe("template engine", function () {
 
   it("exposes the url query to the template view", async function () {
     await this.template({
-      "foo.html": `{{query.bar}}`,
+      "foo.html": `{{request.query.bar}}`,
     });
 
     const res = await this.get(`/foo.html?bar=baz`);
@@ -92,6 +92,6 @@ describe("template engine", function () {
 
     const res1 = await this.get(`/foo.html`);
 
-    expect((await res1.text()).trim()).toEqual("[object Object]");
+    expect((await res1.text()).trim()).toEqual("");
   });
 });
