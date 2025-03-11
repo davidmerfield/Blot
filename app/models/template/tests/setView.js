@@ -1,3 +1,4 @@
+const exp = require("constants");
 const { promisify } = require("util");
 
 describe("template", function () {
@@ -6,6 +7,9 @@ describe("template", function () {
   const setView = promisify(require("../index").setView);
   const getView = promisify(require("../index").getView);
   const Blog = require("models/blog");
+  const client = require("models/client");
+  const hdel = promisify(client.hdel).bind(client);
+  const key = require("../key");
 
   it("sets a view", async function () {
     const test = this;
@@ -89,27 +93,50 @@ describe("template", function () {
     expect(blog.cacheID).not.toEqual(initialCacheID);
   });
 
-
   it("will save a view with a url array", async function () {
-    
     await setView(this.template.id, {
-      name: 'index.html',
-      url: ["/a", "/b"]
+      name: "index.html",
+      url: ["/a", "/b"],
     });
 
-    const view1 = await getView(this.template.id, 'index.html');
+    const view1 = await getView(this.template.id, "index.html");
 
     expect(view1.urlPatterns).toEqual(["/a", "/b"]);
-    expect(view1.url).toEqual('/a');
+    expect(view1.url).toEqual("/a");
 
     await setView(this.template.id, {
-      name: 'index.html',
-      url: '/a',
+      name: "index.html",
+      url: "/a",
     });
 
-    const view2 = await getView(this.template.id, 'index.html');
+    const view2 = await getView(this.template.id, "index.html");
 
     expect(view2.urlPatterns).toEqual(["/a"]);
-    expect(view2.url).toEqual('/a');
+    expect(view2.url).toEqual("/a");
+  });
+
+  it("will get and set a view with or without the internal urlPatterns array", async function () {
+    await setView(this.template.id, {
+      name: "index.html",
+      content: "123",
+      url: "/a",
+    });
+
+    const view1 = await getView(this.template.id, "index.html");
+
+    expect(view1.content).toEqual("123");
+
+    const res = await hdel(key.urlPatterns(this.template.id), "index.html");
+
+    expect(res).toEqual(1);
+
+    await setView(this.template.id, {
+      name: "index.html",
+      content: "456",
+    });
+
+    const view2 = await getView(this.template.id, "index.html");
+
+    expect(view2.content).toEqual("456");
   });
 });
