@@ -6,7 +6,7 @@ describe("routing", function () {
 
     await this.template(
       {
-        "example.html": "Success {{params.page}}",
+        "example.html": "Success {{request.params.page}}",
       },
       {
         views: {

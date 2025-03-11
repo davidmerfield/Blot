@@ -15,13 +15,13 @@ module.exports = function (req, res, next) {
 
     if (!viewName) return next();
 
+    // Overwrite the request params with the params parsed from the URL
     if (params) {
       req.params = params;
-      res.locals.params = params;
     }
 
-    // we expose the query string object parsed by express
-    res.locals.query = req.query;
+    // expose the query and params to the view
+    res.locals.request = { query: req.query, params: req.params };
 
     return res.renderView(viewName, next);
   });
