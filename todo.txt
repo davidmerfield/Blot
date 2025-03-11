@@ -1,3 +1,5 @@
+Fix Carson's image gallery
+
 Fix bug with case-insensitivity and Dropbox for relative images then tell Carson
 - ```<a href="_birdwings.JPG"><img src="_birdwings.JPG"></a>```
 
