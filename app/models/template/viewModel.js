@@ -5,4 +5,5 @@ module.exports = {
   locals: "object",
   retrieve: "object",
   url: "string",
+  urlPatterns: "array",
 };

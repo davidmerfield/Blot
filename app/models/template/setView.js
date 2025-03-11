@@ -12,7 +12,7 @@ var getMetadata = require("./getMetadata");
 var Blog = require("models/blog");
 var parseTemplate = require("./parseTemplate");
 
-module.exports = function setView (templateID, updates, callback) {
+module.exports = function setView(templateID, updates, callback) {
   if (updates.partials !== undefined && type(updates.partials) !== "object") {
     updates.partials = {};
     console.log(templateID, updates, "Partials are wrong type");
@@ -51,8 +51,8 @@ module.exports = function setView (templateID, updates, callback) {
       // Look up previous state of view if applicable
       getView(templateID, name, function (err, view) {
         // This will error if no view exists
-        // we ust this method to create a view
-        // to so dont use this error...
+        // we use this method to create a view
+        // so don't use this error...
         // if (err) return callback(err);
 
         view = view || {};
@@ -67,6 +67,15 @@ module.exports = function setView (templateID, updates, callback) {
           if (updates.url !== view.url) {
             client.del(key.url(templateID, view.url));
           }
+
+          // If `urlPatterns` is not provided, set it to `[url]`
+          updates.urlPatterns = updates.urlPatterns || [updates.url];
+        }
+
+        // If `urlPatterns` exists, store it in Redis
+        if (updates.urlPatterns) {
+          const urlPatternsKey = key.urlPatterns(templateID);
+          client.hset(urlPatternsKey, name, JSON.stringify(updates.urlPatterns));
         }
 
         for (var i in updates) {

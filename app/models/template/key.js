@@ -7,6 +7,10 @@ module.exports = {
     return "template:" + name + ":view:" + viewName;
   },
 
+  urlPatterns: function urlPatterns (name) {
+    return "template:" + name + ":url_patterns";
+  },
+  
   url: function url (templateID, url) {
     return "template:" + templateID + ":url:" + url;
   },

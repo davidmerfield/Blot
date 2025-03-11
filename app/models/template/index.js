@@ -9,6 +9,7 @@ module.exports = {
   getFullView: require("./getFullView"),
   getView: require("./getView"),
   getViewByURL: require("./getViewByURL"),
+  getViewByURLPattern: require("./getViewByURLPattern"),
   setView: require("./setView"),
   dropView: require("./dropView"),
   getPartials: require("./getPartials"),
