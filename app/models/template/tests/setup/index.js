@@ -1,7 +1,7 @@
 var create = require("models/template/index").create;
 var getTemplateList = require("models/template/index").getTemplateList;
 var setView = require("models/template/index").setView;
-var Blog = require("models/blog");
+var getViewByURL = require("models/template/index").getViewByURL;
 
 module.exports = function setup(options) {
   options = options || {};
@@ -28,6 +28,36 @@ module.exports = function setup(options) {
           done();
         });
       });
+    });
+
+    beforeEach(function () {
+      this.setView = (view) => {
+        return new Promise((resolve, reject) => {
+          setView(this.template.id, view, (err) => {
+            if (err) {
+              reject(err);
+            } else {
+              resolve();
+            }
+          });
+        });
+      };
+
+      this.getViewByURL = (url) => {
+        return new Promise((resolve, reject) => {
+          getViewByURL(
+            this.template.id,
+            url,
+            (err, viewName, params, query) => {
+              if (err) {
+                reject(err);
+              } else {
+                resolve({ viewName, params, query });
+              }
+            }
+          );
+        });
+      };
     });
   }
 

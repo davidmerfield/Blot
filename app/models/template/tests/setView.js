@@ -89,16 +89,27 @@ describe("template", function () {
     expect(blog.cacheID).not.toEqual(initialCacheID);
   });
 
-  it("will save a view with urlPatterns", async function () {
-    const test = this;
-    const view = {
-      name: test.fake.random.word(),
-      urlPatterns: ["/a", "/b"],
-    };
 
-    await setView(test.template.id, view);
-    const savedView = await getView(test.template.id, view.name);
+  it("will save a view with a url array", async function () {
+    
+    await setView(this.template.id, {
+      name: 'index.html',
+      url: ["/a", "/b"]
+    });
 
-    expect(savedView.urlPatterns).toEqual(view.urlPatterns);
+    const view1 = await getView(this.template.id, 'index.html');
+
+    expect(view1.urlPatterns).toEqual(["/a", "/b"]);
+    expect(view1.url).toEqual('/a');
+
+    await setView(this.template.id, {
+      name: 'index.html',
+      url: '/a',
+    });
+
+    const view2 = await getView(this.template.id, 'index.html');
+
+    expect(view2.urlPatterns).toEqual(["/a"]);
+    expect(view2.url).toEqual('/a');
   });
 });
