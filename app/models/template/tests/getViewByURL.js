@@ -1,5 +1,4 @@
 describe("template", function () {
-	
   require("./setup")({ createTemplate: true });
 
   it("gets a view from a URL", async function () {
@@ -97,6 +96,37 @@ describe("template", function () {
     const { viewName } = await this.getViewByURL("apple");
 
     expect(viewName).toEqual(view.name);
+  });
+
+  it("orders views alphabetically if multiple match", async function () {
+    await this.setView({
+      name: "a.html",
+      url: "/apple",
+    });
+    await this.setView({
+      name: "b.html",
+      url: "/apple",
+    });
+    await this.setView({
+      name: "c.html",
+      url: "/apple",
+    });
+
+    const { viewName: view1 } = await this.getViewByURL("/apple");
+
+    expect(view1).toEqual("a.html");
+
+    await this.dropView("a.html");
+
+    const { viewName: view2 } = await this.getViewByURL("/apple");
+
+    expect(view2).toEqual("b.html");
+
+    await this.dropView("b.html");
+
+    const { viewName: view3 } = await this.getViewByURL("/apple");
+
+    expect(view3).toEqual("c.html");
   });
 
   it("gets a view by an uppercase URL", async function () {

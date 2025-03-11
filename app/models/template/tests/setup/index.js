@@ -1,6 +1,7 @@
 var create = require("models/template/index").create;
 var getTemplateList = require("models/template/index").getTemplateList;
 var setView = require("models/template/index").setView;
+var dropView = require("models/template/index").dropView;
 var getViewByURL = require("models/template/index").getViewByURL;
 
 module.exports = function setup(options) {
@@ -42,6 +43,18 @@ module.exports = function setup(options) {
           });
         });
       };
+
+      this.dropView = (view) => {
+        return new Promise((resolve, reject) => {
+          dropView(this.template.id, view, (err) => {
+            if (err) {
+              reject(err);
+            } else {
+              resolve();
+            }
+          });
+        });
+      };      
 
       this.getViewByURL = (url) => {
         return new Promise((resolve, reject) => {
