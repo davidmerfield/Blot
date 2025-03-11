@@ -10,7 +10,7 @@ module.exports = function (req, res, next) {
   // We intentionally do minimal processing in getViewsByURL
   const url = decodeURIComponent(req.url);
 
-  getViewByURL(template, url, function (err, viewName, params, query) {
+  getViewByURL(template, url, function (err, viewName, params) {
     if (err) return next(err);
 
     if (!viewName) return next();
@@ -20,10 +20,8 @@ module.exports = function (req, res, next) {
       res.locals.params = params;
     }
 
-    if (query) {
-      req.query = query;
-      res.locals.query = query;
-    }
+    // we expose the query string object parsed by express
+    res.locals.query = req.query;
 
     return res.renderView(viewName, next);
   });
