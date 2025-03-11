@@ -1,7 +1,7 @@
 describe("routing", function () {
   require("./util/setup")();
 
-  fit("retrieves template views with params", async function () {
+  it("retrieves template views with params", async function () {
     await this.write({ path: "/post.txt", content: "Foo" });
 
     await this.template(
