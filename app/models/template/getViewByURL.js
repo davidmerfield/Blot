@@ -46,9 +46,12 @@ module.exports = async function getViewByURLPattern(templateID, url, callback) {
       for (const [viewName, urlPatterns] of views) {
         for (const rawPattern of urlPatterns) {
           const normalizedPattern = normalizePathname(rawPattern);
+
+          // We decode the URL and disable decoding in the path-to-regexp library
           const matchPattern = match(normalizedPattern, {
-            decode: decodeURIComponent,
+            decode: false,
           });
+          
           const matchResult = matchPattern(normalizedPathname);
 
           if (matchResult) {

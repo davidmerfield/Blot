@@ -142,6 +142,20 @@ describe("template", function () {
     expect(viewName).toEqual(view.name);
   });
 
+  it("gets a view with accented characters", async function () {
+    const url = "/ápple";
+    const view = {
+      name: this.fake.random.word(),
+      url: [url],
+    };
+
+    await this.setView(view);
+    const { viewName } = await this.getViewByURL("/ápple");
+
+    expect(viewName).toEqual(view.name);
+  });
+
+
   it("returns an error for a non-existent URL", async function () {
     try {
       await this.getViewByURL("");

@@ -4,7 +4,8 @@ module.exports = function (server) {
   server.use(function (request, response, next) {
     var blog = request.blog,
       templateID = blog.template,
-      url = request.url;
+      url = decodeURIComponent(request.url);
+
 
     Template.getViewByURL(templateID, url, function (err, viewName) {
       if (err) return next(err);
