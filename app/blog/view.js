@@ -21,6 +21,8 @@ module.exports = function (req, res, next) {
     }
 
     // expose the query and params to the view
+    // DON'T set query directly because a lot of templates rely
+    // on the previous mapping of req.query.q to res.locals.query
     res.locals.request = { query: req.query, params: req.params };
 
     return res.renderView(viewName, next);
