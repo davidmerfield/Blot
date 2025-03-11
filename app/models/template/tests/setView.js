@@ -99,4 +99,21 @@ describe("template", function () {
       });
     });
   });
+
+  it("will save a view with urlPatterns", function(done) {
+    var test = this;
+    var view = {
+      name: test.fake.random.word(),
+      urlPatterns: ["/a", "/b"],
+    };
+
+    setView(test.template.id, view, function(err) {
+      if (err) return done.fail(err);
+      getView(test.template.id, view.name, function(err, savedView) {
+        if (err) return done.fail(err);
+        expect(savedView.urlPatterns).toEqual(view.urlPatterns);
+        done();
+      });
+    });
+  });
 });

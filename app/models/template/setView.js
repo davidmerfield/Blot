@@ -67,9 +67,6 @@ module.exports = function setView(templateID, updates, callback) {
           if (updates.url !== view.url) {
             client.del(key.url(templateID, view.url));
           }
-
-          // If `urlPatterns` is not provided, set it to `[url]`
-          updates.urlPatterns = updates.urlPatterns || [updates.url];
         }
 
         // If `urlPatterns` exists, store it in Redis
@@ -97,6 +94,10 @@ module.exports = function setView(templateID, updates, callback) {
             _partials[view.partials[i]] = null;
 
           view.partials = _partials;
+        }
+
+        if (!view.urlPatterns) {
+          view.urlPatterns = [view.url];
         }
 
         extend(view.partials).and(parseResult.partials);
