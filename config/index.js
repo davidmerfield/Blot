@@ -197,8 +197,8 @@ module.exports = {
     // The maximum file size to sync with iCloud
     maxFileSize: 1e8, // 100MB
     // The thresholds for sending warning emails
-    diskSpaceWarning: 1e10, // 10GB
-    diskSpaceLimit: 5e9, // 5GB
+    diskSpaceWarning: 4e9, // 4GB
+    diskSpaceLimit: 1e9, // 1GB
     iCloudSpaceWarning: 2e9, // 2GB
     iCloudSpaceLimit: 1e9, // 1GB
   }
