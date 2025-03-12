@@ -24,6 +24,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
+      test_suites: ${{ steps.set-matrix.outputs.test_suites }}
       image_hash: ${{ steps.hash.outputs.image_hash }}
       image_tag: ${{ steps.set-image-tag.outputs.image_tag }}
     env:
@@ -118,8 +119,12 @@ jobs:
           echo "Test suites defined:"
           echo "$TEST_SUITES"
           
+          # Convert to array for direct use in validation
+          TEST_SUITES_JSON=$(echo "$TEST_SUITES" | yq eval 'array' -)
+          echo "test_suites=$TEST_SUITES_JSON" >> $GITHUB_OUTPUT
+          
           # Format as JSON for GitHub Actions matrix
-          echo "matrix={\"test_suite\":$(echo "$TEST_SUITES" | yq eval 'array')}" >> $GITHUB_OUTPUT
+          echo "matrix={\"test_suite\":$TEST_SUITES_JSON}" >> $GITHUB_OUTPUT
 
   validate-test-coverage:
     needs: setup-tests
@@ -131,15 +136,15 @@ jobs:
 
       - name: Extract test suites
         run: |
-          # Extract test suites from the matrix JSON
-          TEST_SUITES=$(echo '${{ needs.setup-tests.outputs.matrix }}' | 
-                       jq -r '.test_suite[]')
-          
+          # Extract test suites directly from the output
           echo "Test suites defined in matrix:"
-          echo "$TEST_SUITES"
+          echo '${{ needs.setup-tests.outputs.test_suites }}'
           
-          # Save to file for validation script
-          echo "$TEST_SUITES" > matrix_suites.txt
+          # Parse the JSON array and create a file with one suite per line
+          echo '${{ needs.setup-tests.outputs.test_suites }}' | jq -r '.[]' > matrix_suites.txt
+          
+          echo "Test suites for validation:"
+          cat matrix_suites.txt
 
       - name: Find all test files
         run: |
