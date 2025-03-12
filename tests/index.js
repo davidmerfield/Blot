@@ -88,6 +88,8 @@ global.test = {
 
   compareDir: require("./util/compareDir"),
 
+  brokenLinks: require("./util/brokenLinks"),
+  
   fake: require("./util/fake"),
 
   user: function () {

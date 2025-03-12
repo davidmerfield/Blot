@@ -1,3 +1,14 @@
+# The reason this is so complicated is because github actions cache for docker
+# build doesn't seem to work as well as it should. Ideally it just caches the
+# work it has done before but I couldn't get this to work with much trying.
+# So we manually compute the hash of the files which the base docker image layer
+# depends upon and use this to tag images. If for some reason at some point
+# the github actions docker cache works more efficiently, we can simplyify.
+
+# The goals are:
+# - reproducible builds
+# - fast tests
+# - fast deployments
 name: node
 
 on:
@@ -92,6 +103,8 @@ jobs:
           - app/blog
           - app/build
           - app/clients
+          - app/dashboard
+          - app/documentation
           - app/helper
           - app/models
           - app/site
@@ -138,7 +151,7 @@ jobs:
             $IMAGE_TAG \
             sh -c "node /usr/src/app/app/documentation/build/index.js --no-watch --skip-zip && node tests ${{ matrix.test_suite }} && npx depcheck --ignores=depcheck,nyc,nodemon,blessed-contrib,fontkit,text-to-svg --skip-missing"
 
-  build:
+  build-production-images:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
