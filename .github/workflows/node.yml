@@ -182,28 +182,36 @@ jobs:
           echo "Files with both describe() and it() - pre-filtering:"
           echo "$SPEC_FILES"
           
-          # Apply skip paths if any exist
-          if [ -n "$SKIP_PATHS" ]; then
-            echo "Skip paths defined:"
-            echo "$SKIP_PATHS"
+          # Process and apply skip paths
+          echo "Processing skip paths..."
+          FINAL_SPEC_FILES=""
+          while IFS= read -r file; do
+            if [ -z "$file" ]; then continue; fi
             
-            # Process each skip path
-            echo "$SKIP_PATHS" | grep "^- " | sed 's/^- //' | while read -r path; do
-              if [ -n "$path" ]; then
-                echo "Excluding path: $path"
-                # Use grep -v to filter out lines matching the path
-                if [ -n "$SPEC_FILES" ]; then
-                  SPEC_FILES=$(echo "$SPEC_FILES" | grep -v "./$path" || true)
-                fi
+            SKIP=false
+            # Check each file against all skip paths
+            while IFS= read -r skip_path; do
+              skip_path=$(echo "$skip_path" | sed 's/^- //')
+              if [ -z "$skip_path" ]; then continue; fi
+              
+              if [[ "$file" == *"$skip_path"* ]]; then
+                echo "Skipping file: $file (matches skip path: $skip_path)"
+                SKIP=true
+                break
               fi
-            done
-          fi
+            done < <(echo "$SKIP_PATHS" | grep "^- ")
+            
+            # Add file to final list if not skipped
+            if [[ "$SKIP" != "true" ]]; then
+              FINAL_SPEC_FILES+="$file"$'\n'
+            fi
+          done < <(echo "$SPEC_FILES")
           
           echo "Final spec files (after applying filters):"
-          echo "$SPEC_FILES"
+          echo "$FINAL_SPEC_FILES"
           
           # Save the list to a file for further processing
-          echo "$SPEC_FILES" > all_spec_files.txt
+          echo "$FINAL_SPEC_FILES" > all_spec_files.txt
 
       - name: Check if all specs are executed by test matrix
         run: |
@@ -212,11 +220,13 @@ jobs:
             exit 0
           fi
           
-          # Create a regex pattern from the matrix suites
+          # Create a regex pattern from the matrix suites for RUNNABLE test files
+          # This matches files in /tests/ directories or named tests.js within the matrix suites
           PATTERN=""
           while read -r suite; do
             if [ -n "$suite" ]; then
-              PATTERN="${PATTERN}|^\./${suite}"
+              # Only match files in /tests/ directories or named tests.js within each suite
+              PATTERN="${PATTERN}|^\./${suite}/.*/tests/.*\.js|^\./${suite}/.*tests\.js|^\./${suite}/tests/.*\.js"
             fi
           done < matrix_suites.txt
           
@@ -226,22 +236,27 @@ jobs:
           fi
           
           PATTERN="${PATTERN:1}" # Remove the leading |
-          echo "Test suite pattern: $PATTERN"
+          echo "Test execution pattern: $PATTERN"
           
-          # Find spec files not matching any suite pattern
-          echo "Checking for spec files not covered by test matrix..."
+          # Find spec files not matching the execution pattern
+          echo "Checking for spec files not executed by any test suite in the matrix..."
           UNEXECUTED_SPECS=$(grep -v -E "$PATTERN" all_spec_files.txt || true)
           
           if [ -n "$UNEXECUTED_SPECS" ]; then
-            echo "WARNING: Found spec files not executed by any test suite in the matrix:"
+            echo "WARNING: Found spec files that contain tests but won't be executed by the test runner:"
             echo "$UNEXECUTED_SPECS"
             echo ""
-            echo "Please add the appropriate directories to the TEST_SUITES env var in the 'setup-tests' job."
-            echo "Or add them to SKIP_PATHS if they should be skipped."
+            echo "These files contain describe() and it() blocks but aren't in a /tests/ directory or named tests.js,"
+            echo "so they won't be picked up by the test runner within their respective test suites."
+            echo ""
+            echo "Please either:"
+            echo "1. Move them to a /tests/ directory"
+            echo "2. Rename them to tests.js"
+            echo "3. Add their directories to SKIP_PATHS if they should be skipped"
             exit 1
           else
-            echo "All spec files are covered by the test matrix. Good job!"
-          fi   
+            echo "All spec files are properly located to be executed by the test runner. Good job!"
+          fi
                 
   test:
     needs: setup-tests
