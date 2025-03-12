@@ -21,7 +21,7 @@ describe("template engine", function () {
     const res = await this.get(`/archives`);
 
     expect((await res.text()).trim().toLowerCase()).toEqual(
-      "<p><a href='/first'>firsts</a></p>"
+      "<p><a href='/first'>first</a></p>"
     );
   });
 
