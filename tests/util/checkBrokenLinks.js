@@ -139,7 +139,7 @@ class LinkChecker {
   }
 
   async check() {
-    await this.checkPage(null, this.baseUrl);
+    await this.checkPage(this.baseUrl, this.baseUrl);
 
     const brokenLinks = this.getBrokenLinks();
     
