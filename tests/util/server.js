@@ -1,5 +1,6 @@
 const Express = require("express");
 const trace = require("helper/trace");
+const checkBrokenLinks = require("./checkBrokenLinks");
 
 module.exports = function (router) {
   let server;
@@ -69,6 +70,8 @@ module.exports = function (router) {
 
       return fetch(modifiedURL, options);
     };
+
+    this.checkBrokenLinks = (url = this.origin, options = {}) => checkBrokenLinks(this.fetch, url, options);
   });
 
   afterAll(function () {
