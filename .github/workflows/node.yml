@@ -18,13 +18,19 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Calculate hash of Dockerfile and package.json
+      - name: Calculate hash of build-related files
         id: hash
         run: |
-          HASH=$(cat Dockerfile package.json | sha256sum | cut -d ' ' -f 1)
+          # Create a list of files to hash
+          FILES_TO_HASH="Dockerfile package.json .dockerignore .github/workflows/node.yml"
+          
+          echo "Hashing files: $FILES_TO_HASH"
+          
+          # Calculate hash of all these files combined
+          HASH=$(cat $FILES_TO_HASH 2>/dev/null | sha256sum | cut -d ' ' -f 1)
           echo "image_hash=$HASH" >> $GITHUB_OUTPUT
           echo "Hash: $HASH"
-
+          
       - name: Log in to GitHub Container Registry
         uses: docker/login-action@v2
         with:
