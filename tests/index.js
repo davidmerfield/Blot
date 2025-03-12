@@ -78,7 +78,6 @@ jasmine.addReporter({
       .map((fullName) => durations[fullName] + "ms " + colors.dim(fullName))
       .slice(0, 10)
       .forEach((line) => console.log(line));
-
   },
 });
 
@@ -89,7 +88,7 @@ global.test = {
   compareDir: require("./util/compareDir"),
 
   brokenLinks: require("./util/brokenLinks"),
-  
+
   fake: require("./util/fake"),
 
   user: function () {
@@ -97,7 +96,22 @@ global.test = {
     afterEach(require("./util/removeUser"));
   },
 
-  server: require('./util/server'),
+  server: require("./util/server"),
+
+  timeout: function (ms) {
+    let prevTimeout;
+
+    // Set timeout for all specs in this suite and nested suites
+    beforeAll(function () {
+      prevTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
+      jasmine.DEFAULT_TIMEOUT_INTERVAL = ms;
+    });
+
+    // Reset to default after tests
+    afterAll(function () {
+      jasmine.DEFAULT_TIMEOUT_INTERVAL = prevTimeout;
+    });
+  },
 
   blogs: function (total) {
     beforeEach(require("./util/createUser"));
@@ -150,7 +164,6 @@ global.test = {
 
 // get the number of keys in the database
 client.keys("*", function (err, keys) {
-  
   if (err) {
     throw err;
   }

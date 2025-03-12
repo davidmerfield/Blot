@@ -27,6 +27,9 @@ const runTest = (html) => {
 }
 
 describe("twitter plugin", function () {
+
+  global.test.timeout(10000); // 10 seconds
+
   it("handles valid URLs", async () => {
     for (const url of validTweetURLs) {
       const html = `<p><a href='${url}'>${url}</a></p>`;

@@ -2,6 +2,8 @@ describe("bluesky plugin", function () {
   const replaceURLsWithEmbeds = require("./index.js").render;
   const cheerio = require("cheerio");
 
+  global.test.timeout(10000); // 10 seconds
+  
   it("works", function (done) {
     // html bare link to a post on bluesky
     const html =
@@ -10,9 +12,12 @@ describe("bluesky plugin", function () {
     const $ = cheerio.load(html);
 
     replaceURLsWithEmbeds($, function () {
-
-        console.log('html:', $.html());
-      expect($("a[href='https://bsky.app/profile/logicallyjc.bsky.social/post/3lbretguxqk2b']").length).toBe(0);
+      console.log("html:", $.html());
+      expect(
+        $(
+          "a[href='https://bsky.app/profile/logicallyjc.bsky.social/post/3lbretguxqk2b']"
+        ).length
+      ).toBe(0);
       expect($("blockquote").length).toBe(1);
       done();
     });
