@@ -24,7 +24,6 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
-      test_suites: ${{ steps.set-matrix.outputs.test_suites }}
       image_hash: ${{ steps.hash.outputs.image_hash }}
       image_tag: ${{ steps.set-image-tag.outputs.image_tag }}
     env:
@@ -122,16 +121,15 @@ jobs:
           # Clean the input - remove any leading/trailing whitespace from each line
           CLEANED_TEST_SUITES=$(echo "$TEST_SUITES" | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
           
-          # Process the YAML list into a proper JSON array for the test_suites output
+          # Process the YAML list into a proper JSON array 
           TEST_SUITES_JSON=$(echo "$CLEANED_TEST_SUITES" | grep '^- ' | sed 's/^- /"/g' | sed 's/$/"/g' | tr '\n' ',' | sed 's/,$//' | sed 's/^/[/' | sed 's/$/]/')
-          echo "test_suites=$TEST_SUITES_JSON" >> $GITHUB_OUTPUT
           
           # Format as JSON for GitHub Actions matrix - ensure it's valid JSON
           echo "Creating matrix JSON..."
           MATRIX_JSON="{\"test_suite\":$TEST_SUITES_JSON}"
           echo "$MATRIX_JSON" | jq '.' # Validate JSON format
           echo "matrix=$MATRIX_JSON" >> $GITHUB_OUTPUT
-            
+
   validate-test-coverage:
     needs: setup-tests
     runs-on: ubuntu-latest
