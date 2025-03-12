@@ -9,15 +9,8 @@ on:
       - "master"
 
 jobs:
-  test:
+  build-test-image:
     runs-on: ubuntu-latest
-
-    services:
-      redis:
-        image: redis:6
-        ports:
-          - 6379:6379
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -38,20 +31,45 @@ jobs:
           platforms: linux/amd64
           target: dev
           context: .
-          load: true
+          push: true # Push to registry so other jobs can use it
           cache-from: type=registry,ref=ghcr.io/${{ github.repository_owner }}/blot
           cache-to: type=registry,ref=ghcr.io/${{ github.repository_owner }}/blot,mode=max
           tags: ghcr.io/${{ github.repository_owner }}/blot:test-${{ github.sha }}
-    
-      - name: Run tests
+
+  test:
+    needs: build-test-image
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        test_suite: [app, config, build]
+      fail-fast: false
+
+    services:
+      redis:
+        image: redis:6
+        ports:
+          - 6379:6379
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Run tests - ${{ matrix.test_suite }}
         env:
           BLOT_STRIPE_KEY: ${{ secrets.BLOT_STRIPE_KEY }}
           BLOT_STRIPE_SECRET: ${{ secrets.BLOT_STRIPE_SECRET }}
           BLOT_STRIPE_PRODUCT: ${{ secrets.BLOT_STRIPE_PRODUCT }}
         run: |
           docker run --rm \
-            --network name=${{ job.services.redis.network }} \
-            -e BLOT_REDIS_HOST=redis \
+            --network host \
+            -e BLOT_REDIS_HOST=localhost \
             -e BLOT_STRIPE_KEY=$BLOT_STRIPE_KEY \
             -e BLOT_STRIPE_SECRET=$BLOT_STRIPE_SECRET \
             -e BLOT_STRIPE_PRODUCT=$BLOT_STRIPE_PRODUCT \
@@ -63,9 +81,10 @@ jobs:
             -v ${{ github.workspace }}/.git:/usr/src/app/.git \
             -v ${{ github.workspace }}/tests:/usr/src/app/tests \
             ghcr.io/${{ github.repository_owner }}/blot:test-${{ github.sha }} \
-            sh -c "node /usr/src/app/app/documentation/build/index.js --no-watch --skip-zip && node tests && npx depcheck --ignores=depcheck,nyc,nodemon,blessed-contrib,fontkit,text-to-svg --skip-missing"
+            sh -c "node /usr/src/app/app/documentation/build/index.js --no-watch --skip-zip && node tests ${{ matrix.test_suite }} && npx depcheck --ignores=depcheck,nyc,nodemon,blessed-contrib,fontkit,text-to-svg --skip-missing"
 
   build:
+    needs: test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
