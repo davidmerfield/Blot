@@ -138,10 +138,14 @@ jobs:
         run: |
           # Extract test suites directly from the output
           echo "Test suites defined in matrix:"
-          echo '${{ needs.setup-tests.outputs.test_suites }}'
+          TEST_SUITES='${{ needs.setup-tests.outputs.test_suites }}'
+          
+          # Fix any potential JSON formatting issues
+          TEST_SUITES=$(echo "$TEST_SUITES" | sed 's/,"]$/]/')
+          echo "$TEST_SUITES"
           
           # Parse the JSON array and create a file with one suite per line
-          echo '${{ needs.setup-tests.outputs.test_suites }}' | jq -r '.[]' > matrix_suites.txt
+          echo "$TEST_SUITES" | jq -r '.[]' > matrix_suites.txt
           
           echo "Test suites for validation:"
           cat matrix_suites.txt
