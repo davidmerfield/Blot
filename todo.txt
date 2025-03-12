@@ -1,7 +1,3 @@
-Write a test suite that attempts to render every page on every template for every demo folder?
-- detect broken links
-- query search form too
-
 Fix bug with case-insensitivity and Dropbox for relative images then tell Carson
 - ```<a href="_birdwings.JPG"><img src="_birdwings.JPG"></a>```
 
