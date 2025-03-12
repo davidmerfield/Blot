@@ -130,10 +130,9 @@ jobs:
           echo "$MATRIX_JSON" | jq '.' # Validate JSON format
           echo "matrix=$MATRIX_JSON" >> $GITHUB_OUTPUT
 
-  validate-test-coverage:
+  detect-unexecuted-specs:
     needs: setup-tests
     runs-on: ubuntu-latest
-    # This job runs in parallel with other jobs
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -153,20 +152,24 @@ jobs:
           # Save to file for validation script
           echo "$TEST_SUITES" > matrix_suites.txt
 
-      - name: Find all test files
+      - name: Find all spec files
         run: |
-          # Find all files containing test specifications
-          echo "Finding all files containing 'describe(' or 'it('"
-          TEST_FILES=$(grep -r --include="*.js" -l -E "(describe\(|it\()" --include="**/tests/**/*.js" --include="**/tests.js" . | 
-                      grep -v "node_modules" || true)
+          # First find files containing "describe("
+          echo "Finding all potential spec files..."
+          DESCRIBE_FILES=$(grep -r --include="*.js" -l "describe(" --include="**/tests/**/*.js" --include="**/tests.js" . | 
+                        grep -v "node_modules" || true)
           
-          echo "Found test files:"
-          echo "$TEST_FILES"
+          # Then among those, find files also containing "it("
+          echo "Filtering for files with both describe() and it()..."
+          SPEC_FILES=$(echo "$DESCRIBE_FILES" | xargs grep -l "it(" || true)
+          
+          echo "Found spec files:"
+          echo "$SPEC_FILES"
           
           # Save the list to a file for further processing
-          echo "$TEST_FILES" > all_test_files.txt
+          echo "$SPEC_FILES" > all_spec_files.txt
 
-      - name: Check if all tests are covered by matrix
+      - name: Check if all specs are executed by test matrix
         run: |
           # Create a regex pattern from the matrix suites
           PATTERN=""
@@ -175,20 +178,20 @@ jobs:
           done < matrix_suites.txt
           PATTERN="${PATTERN:1}" # Remove the leading |
           
-          # Find test files not matching any suite pattern
-          echo "Checking for test files not covered by matrix..."
-          UNCOVERED_TESTS=$(grep -v -E "$PATTERN" all_test_files.txt || true)
+          # Find spec files not matching any suite pattern
+          echo "Checking for spec files not covered by test matrix..."
+          UNEXECUTED_SPECS=$(grep -v -E "$PATTERN" all_spec_files.txt || true)
           
-          if [ -n "$UNCOVERED_TESTS" ]; then
-            echo "ERROR: Found test files not covered by any test suite in the matrix:"
-            echo "$UNCOVERED_TESTS"
+          if [ -n "$UNEXECUTED_SPECS" ]; then
+            echo "WARNING: Found spec files not executed by any test suite in the matrix:"
+            echo "$UNEXECUTED_SPECS"
             echo ""
             echo "Please add the appropriate directories to the TEST_SUITES env var in the 'setup-tests' job."
             exit 1
           else
-            echo "All test files are covered by the test matrix. Good job!"
+            echo "All spec files are covered by the test matrix. Good job!"
           fi
-                  
+          
   test:
     needs: setup-tests
     runs-on: ubuntu-latest
