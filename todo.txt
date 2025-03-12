@@ -3,10 +3,17 @@ Fix bug with case-insensitivity and Dropbox for relative images then tell Carson
 
 Fix Carson's image gallery
 
+Fix image profile retention not working in production and tell [Simon](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJchvfhDcWNkrZtNJqlLmLfsx)
+- maybe a caching issue and actually works?
+
 Use tinify free api to compress some of the folder images
 - maybe consider building this into the main product? it might pay for itself
 
-Fix image profile retention not working in production and tell [Simon](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJchvfhDcWNkrZtNJqlLmLfsx)
+Extract multiple thumbnails per blog post (as many as there are images) for cooler image grid possibilities.
+
+Run image analysis on all images in post
+- extract colors for searching
+- use something to identify related images
 
 Improve tools section
 
