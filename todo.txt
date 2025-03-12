@@ -1,11 +1,22 @@
-Fix Carson's image gallery
+Use tinify free api to compress some of the folder images
+- maybe consider building this into the main product? it might pay for itself
+
+Write a test suite that attempts to render every page on every template for every demo folder?
+- detect broken links
+- query search form too
+
+Add global.test.site({login: true}) to test utilities
 
 Fix bug with case-insensitivity and Dropbox for relative images then tell Carson
 - ```<a href="_birdwings.JPG"><img src="_birdwings.JPG"></a>```
 
+Fix Carson's image gallery
+
 Fix image profile retention not working in production and tell [Simon](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJchvfhDcWNkrZtNJqlLmLfsx)
 
 Improve tools section
+
+Fix hammering of github api for commit history for news page – cache locally to data directory
 
 Improvements to questions section:
 - Add 'blue dot' notifications icon to updates and questions based on last post

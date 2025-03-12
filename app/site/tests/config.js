@@ -7,7 +7,7 @@ describe("Blot configuration", function () {
   // TODO: check that g
   it("config loads without error", function () {
     expect(function () {
-      require("../../config");
+      require("config");
     }).not.toThrow();
   });
 
@@ -17,7 +17,7 @@ describe("Blot configuration", function () {
   var stderr = "";
 
   beforeAll(function (done) {
-    server = require("child_process").fork(__dirname + "/../../app", {
+    server = require("child_process").fork(__dirname + "/../../../app", {
       silent: true
     });
 
@@ -59,8 +59,9 @@ describe("Blot configuration", function () {
   });
 
   it("can connect to redis", function (done) {
-    require("models/client").ping(function (err) {
+    require("models/client").ping(function (err, res) {
       expect(err).toBe(null);
+      expect(res).toBe("PONG");
       done();
     });
   });
