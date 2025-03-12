@@ -26,9 +26,16 @@ jobs:
       image_hash: ${{ steps.hash.outputs.image_hash }}
       image_exists: ${{ steps.check-image.outputs.image_exists }}
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
+      - name: Sparse checkout
+            uses: actions/checkout@v4
+            with:
+              sparse-checkout: |
+                Dockerfile
+                package.json
+                .dockerignore
+                .github/workflows/node.yml
+              sparse-checkout-cone-mode: false
+              
       - name: Calculate hash of build-related files
         id: hash
         run: |
