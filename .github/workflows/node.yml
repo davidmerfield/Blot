@@ -41,7 +41,17 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        test_suite: [app, config, build]
+        test_suite:
+          - app/blog
+          - app/build
+          - app/clients
+          - app/dashboard
+          - app/documentation
+          - app/helper
+          - app/models
+          - app/site
+          - app/templates
+          - app/tests
       fail-fast: false
 
     services:
@@ -99,11 +109,11 @@ jobs:
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
-        
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Build production image 
+      - name: Build production image
         uses: docker/build-push-action@v6
         with:
           platforms: linux/amd64,linux/arm64

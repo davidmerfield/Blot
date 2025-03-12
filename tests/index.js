@@ -8,10 +8,10 @@ var seed;
 var config = {
   spec_dir: "",
   spec_files: [
-    "tests/**/*.js",
-    "app/**/tests/**/*.js",
-    "app/**/tests.js",
-    "!app/documentation/build/finder", // excludes tests inside node_modules directories
+    "**/tests/**/*.js",
+    "**/tests.js",
+    // Exclude node_modules since we don't want to run tests in dependencies
+    "!**/node_modules/**",
   ],
   helpers: [],
   stopSpecOnExpectationFailure: false,
@@ -29,11 +29,6 @@ if (process.argv[2]) {
     // We have passed directory of tests to run
   } else {
     config.spec_dir = process.argv[2];
-    config.spec_files = [
-      "**/tests/**/*.js",
-      "**/tests.js",
-      "!**/node_modules/**",
-    ];
   }
 } else {
   console.log(
