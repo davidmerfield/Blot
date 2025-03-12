@@ -3,72 +3,119 @@ const Mustache = require("mustache");
 const config = require("config");
 const SYNTAX_HIGHLIGHTER_THEMES = require("blog/static/syntax-highlighter");
 
-module.exports = (locals) => {
+const FONT_PROTECTED_PROPS = ['styles', 'name', 'stack', 'id', 'svg', 'tags'];
+const SYNTAX_HIGHLIGHTER_PROPS_TO_DELETE = ['background', 'tags', 'name', 'colors'];
 
-    console.log("locals", locals);
+// Cache for rendered font styles
+const fontStylesCache = new Map();
 
-  // handle fonts
-  for (let key in locals) {
-    if (!key.includes("_font") && key !== "font") continue;
+function renderFontStyles(fontStyles, fontId) {
+  try {
+    // Check cache first
+    if (fontStylesCache.has(fontId)) {
+      return fontStylesCache.get(fontId);
+    }
 
-    console.log("key", key);
+    // Render and cache if not found
+    const renderedStyles = Mustache.render(fontStyles, {
+      config: {
+        cdn: { origin: config.cdn.origin },
+      },
+    });
+    
+    fontStylesCache.set(fontId, renderedStyles);
+    return renderedStyles;
+  } catch (error) {
+    console.error('Error rendering font styles:', error);
+    return '';
+  }
+}
 
-    let match = FONTS.slice().filter(({ id }) => locals[key].id === id)[0];
+function updateFontProperties(targetFont, sourceFont) {
+  try {
+    // Update core properties
+    targetFont.stack = sourceFont.stack;
+    targetFont.name = sourceFont.name;
+    targetFont.styles = renderFontStyles(sourceFont.styles, sourceFont.id);
 
-    if (match) {
+    // Merge remaining properties
+    Object.entries(sourceFont).forEach(([prop, value]) => {
+      if (!FONT_PROTECTED_PROPS.includes(prop)) {
+        targetFont[prop] = targetFont[prop] || value;
+      }
+    });
+  } catch (error) {
+    console.error('Error updating font properties:', error);
+  }
+}
 
-        console.log("match", match);
+function processFonts(locals) {
+  Object.entries(locals).forEach(([key, value]) => {
+    if (!key.includes('_font') && key !== 'font') return;
 
-      // always keep these in sync with the font model
-      locals[key].stack = match.stack;
-      locals[key].name = match.name;
-      locals[key].styles = Mustache.render(match.styles, {
-        config: {
-          cdn: { origin: config.cdn.origin },
-        },
-      });
+    try {
+      const match = FONTS.find(font => font.id === value.id);
+      
+      if (match) {
+        updateFontProperties(locals[key], match);
+      } else {
+        console.warn(`No matching font found for ID: ${value.id}`);
+      }
+    } catch (error) {
+      console.error(`Error processing font for key ${key}:`, error);
+    }
+  });
+}
 
-      // merge the new font object into the existing one
-      for (let prop in match) {
-        if (
-          prop === "styles" ||
-          prop === "name" ||
-          prop === "stack" ||
-          prop === "id" ||
-          prop === "svg" ||
-          prop === "tags"
-        )
-          continue;
+function processSyntaxHighlighter(locals) {
+  Object.entries(locals).forEach(([key, value]) => {
+    if (!key.includes('_syntax_highlighter') && key !== 'syntax_highlighter') return;
 
-        locals[key][prop] = locals[key][prop] || match[prop];
+    try {
+      const match = SYNTAX_HIGHLIGHTER_THEMES.find(
+        theme => theme.id === locals.syntax_highlighter.id
+      );
+
+      if (!match) {
+        console.warn(`No matching syntax highlighter theme found for ID: ${locals.syntax_highlighter.id}`);
+        return;
       }
 
-      console.log("locals[key]", locals[key]);
-    } else {
-        console.log("no match for font", locals[key].id);
+      // Merge properties
+      Object.entries(match).forEach(([prop, value]) => {
+        locals.syntax_highlighter[prop] = locals.syntax_highlighter[prop] || value;
+      });
+
+      // Remove unnecessary properties
+      SYNTAX_HIGHLIGHTER_PROPS_TO_DELETE.forEach(prop => {
+        delete locals.syntax_highlighter[prop];
+      });
+    } catch (error) {
+      console.error(`Error processing syntax highlighter for key ${key}:`, error);
     }
+  });
+}
+
+// Initialize cache with all known fonts
+function initializeFontStylesCache() {
+  try {
+    FONTS.forEach(font => {
+      renderFontStyles(font.styles, font.id);
+    });
+    console.log(`Font styles cache initialized with ${fontStylesCache.size} entries`);
+  } catch (error) {
+    console.error('Error initializing font styles cache:', error);
   }
+}
 
-  // handle syntax highlighter
-  for (let key in locals) {
-    if (!key.includes("_syntax_highlighter") && key !== "syntax_highlighter")
-      continue;
+// Initialize the cache when the module loads
+initializeFontStylesCache();
 
-    let match = SYNTAX_HIGHLIGHTER_THEMES.find(
-      ({ id }) => locals.syntax_highlighter.id === id
-    );
-
-    if (!match) continue;
-
-    for (let prop in match)
-      locals.syntax_highlighter[prop] =
-        locals.syntax_highlighter[prop] || match[prop];
-
-    // we don't need these in the template
-    delete locals.syntax_highlighter.background;
-    delete locals.syntax_highlighter.tags;
-    delete locals.syntax_highlighter.name;
-    delete locals.syntax_highlighter.colors;
+module.exports = (locals) => {
+  try {
+    processFonts(locals);
+    processSyntaxHighlighter(locals);
+  } catch (error) {
+    console.error('Error processing locals:', error);
   }
-
 };
