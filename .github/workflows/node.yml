@@ -20,13 +20,26 @@ on:
       - "master"
 
 jobs:
-  calculate-image-hash:
+  setup-tests:
     runs-on: ubuntu-latest
     outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
       image_hash: ${{ steps.hash.outputs.image_hash }}
-      image_exists: ${{ steps.check-image.outputs.image_exists }}
+      image_tag: ${{ steps.set-image-tag.outputs.image_tag }}
+    env:
+      # Define test suites here - single source of truth
+      TEST_SUITES: |
+        - app/blog
+        - app/build
+        - app/clients
+        - app/dashboard
+        - app/documentation
+        - app/helper
+        - app/models
+        - app/site
+        - app/templates
     steps:
-      - name: Sparse checkout
+      - name: Sparse checkout for hash calculation
         uses: actions/checkout@v4
         with:
           sparse-checkout: |
@@ -48,7 +61,14 @@ jobs:
           HASH=$(cat $FILES_TO_HASH 2>/dev/null | sha256sum | cut -d ' ' -f 1)
           echo "image_hash=$HASH" >> $GITHUB_OUTPUT
           echo "Hash: $HASH"
-          
+      
+      - name: Set image tag
+        id: set-image-tag
+        run: |
+          IMAGE_TAG="ghcr.io/${{ github.repository_owner }}/blot:test-${{ steps.hash.outputs.image_hash }}"
+          echo "image_tag=$IMAGE_TAG" >> $GITHUB_OUTPUT
+          echo "Image tag: $IMAGE_TAG"
+      
       - name: Log in to GitHub Container Registry
         uses: docker/login-action@v2
         with:
@@ -59,35 +79,26 @@ jobs:
       - name: Check if image exists
         id: check-image
         run: |
-          IMAGE_TAG="ghcr.io/${{ github.repository_owner }}/blot:test-${{ steps.hash.outputs.image_hash }}"
+          IMAGE_TAG="${{ steps.set-image-tag.outputs.image_tag }}"
           
           if docker manifest inspect "$IMAGE_TAG" > /dev/null 2>&1; then
-            echo "Image $IMAGE_TAG exists"
+            echo "Image $IMAGE_TAG exists, skipping build"
             echo "image_exists=true" >> $GITHUB_OUTPUT
           else
-            echo "Image $IMAGE_TAG does not exist"
+            echo "Image $IMAGE_TAG does not exist, will build it"
             echo "image_exists=false" >> $GITHUB_OUTPUT
           fi
-
-  build-test-image:
-    needs: calculate-image-hash
-    if: needs.calculate-image-hash.outputs.image_exists != 'true'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
+      
+      - name: Checkout full code for build
+        if: steps.check-image.outputs.image_exists != 'true'
         uses: actions/checkout@v4
 
-      - name: Log in to GitHub Container Registry
-        uses: docker/login-action@v2
-        with:
-          registry: ghcr.io
-          username: ${{ github.repository_owner }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Set up Docker Buildx
+        if: steps.check-image.outputs.image_exists != 'true'
         uses: docker/setup-buildx-action@v3
 
       - name: Build test image
+        if: steps.check-image.outputs.image_exists != 'true'
         uses: docker/build-push-action@v6
         with:
           platforms: linux/amd64
@@ -97,25 +108,80 @@ jobs:
           cache-from: type=registry,ref=ghcr.io/${{ github.repository_owner }}/blot
           cache-to: type=registry,ref=ghcr.io/${{ github.repository_owner }}/blot,mode=max
           tags: |
-            ghcr.io/${{ github.repository_owner }}/blot:test-${{ needs.calculate-image-hash.outputs.image_hash }}
+            ${{ steps.set-image-tag.outputs.image_tag }}
             ghcr.io/${{ github.repository_owner }}/blot:test-latest
+      
+      - name: Convert test suites to matrix
+        id: set-matrix
+        run: |
+          # Read test suites from environment variable
+          echo "Test suites defined:"
+          echo "$TEST_SUITES"
+          
+          # Format as JSON for GitHub Actions matrix
+          echo "matrix={\"test_suite\":$(echo "$TEST_SUITES" | yq eval 'array')}" >> $GITHUB_OUTPUT
+
+  validate-test-coverage:
+    needs: setup-tests
+    runs-on: ubuntu-latest
+    # This job runs in parallel with other jobs
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Extract test suites
+        run: |
+          # Extract test suites from the matrix JSON
+          TEST_SUITES=$(echo '${{ needs.setup-tests.outputs.matrix }}' | 
+                       jq -r '.test_suite[]')
+          
+          echo "Test suites defined in matrix:"
+          echo "$TEST_SUITES"
+          
+          # Save to file for validation script
+          echo "$TEST_SUITES" > matrix_suites.txt
+
+      - name: Find all test files
+        run: |
+          # Find all files containing test specifications
+          echo "Finding all files containing 'describe(' or 'it('"
+          TEST_FILES=$(grep -r --include="*.js" -l -E "(describe\(|it\()" --include="**/tests/**/*.js" --include="**/tests.js" . | 
+                      grep -v "node_modules" || true)
+          
+          echo "Found test files:"
+          echo "$TEST_FILES"
+          
+          # Save the list to a file for further processing
+          echo "$TEST_FILES" > all_test_files.txt
+
+      - name: Check if all tests are covered by matrix
+        run: |
+          # Create a regex pattern from the matrix suites
+          PATTERN=""
+          while read suite; do
+            PATTERN="${PATTERN}|^\./${suite}"
+          done < matrix_suites.txt
+          PATTERN="${PATTERN:1}" # Remove the leading |
+          
+          # Find test files not matching any suite pattern
+          echo "Checking for test files not covered by matrix..."
+          UNCOVERED_TESTS=$(grep -v -E "$PATTERN" all_test_files.txt || true)
+          
+          if [ -n "$UNCOVERED_TESTS" ]; then
+            echo "ERROR: Found test files not covered by any test suite in the matrix:"
+            echo "$UNCOVERED_TESTS"
+            echo ""
+            echo "Please add the appropriate directories to the TEST_SUITES env var in the 'setup-tests' job."
+            exit 1
+          else
+            echo "All test files are covered by the test matrix. Good job!"
+          fi
 
   test:
-    needs: [calculate-image-hash, build-test-image]
-    if: always() && (needs.build-test-image.result == 'success' || needs.calculate-image-hash.outputs.image_exists == 'true')
+    needs: setup-tests
     runs-on: ubuntu-latest
     strategy:
-      matrix:
-        test_suite:
-          - app/blog
-          - app/build
-          - app/clients
-          - app/dashboard
-          - app/documentation
-          - app/helper
-          - app/models
-          - app/site
-          - app/templates
+      matrix: ${{ fromJson(needs.setup-tests.outputs.matrix) }}
       fail-fast: false
 
     services:
@@ -140,7 +206,7 @@ jobs:
           BLOT_STRIPE_KEY: ${{ secrets.BLOT_STRIPE_KEY }}
           BLOT_STRIPE_SECRET: ${{ secrets.BLOT_STRIPE_SECRET }}
           BLOT_STRIPE_PRODUCT: ${{ secrets.BLOT_STRIPE_PRODUCT }}
-          IMAGE_TAG: ghcr.io/${{ github.repository_owner }}/blot:test-${{ needs.calculate-image-hash.outputs.image_hash }}
+          IMAGE_TAG: ${{ needs.setup-tests.outputs.image_tag }}
         run: |
           docker run --rm \
             --network host \
@@ -159,6 +225,8 @@ jobs:
             sh -c "node /usr/src/app/app/documentation/build/index.js --no-watch --skip-zip && node tests ${{ matrix.test_suite }} && npx depcheck --ignores=depcheck,nyc,nodemon,blessed-contrib,fontkit,text-to-svg --skip-missing"
 
   build-production-images:
+    needs: test
+    if: success() && github.event_name == 'push' && github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
