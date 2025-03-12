@@ -1,24 +1,9 @@
-describe("Blot's site'", function () {
-    const site = require("site");
-    const build = require("documentation/build");
-    const templates = require('util').promisify(require("templates"));
+describe("Blot's documentation'", function () {
 
-    global.test.blog();
-  
-    global.test.server(site);
+  global.test.site();
+  global.test.timeout(5 * 60 * 1000); // Set timeout to 5 minutes
 
-    // we must build the views for the documentation
-    // and the dashboard before we launch the server
-    // we also build the templates into the cache
-    beforeAll(async () => {
-      console.log("Building views and templates");
-      await build({watch: false, skipZip: true});
-      await templates({watch: false});
-    }, 60000);
-    
-    it("has no broken links", async function () {
-      await global.test.brokenLinks(this.origin);
-    }, 60000);
-
+  it("has no broken links", async function () {
+    await this.checkBrokenLinks();
   });
-  
+});

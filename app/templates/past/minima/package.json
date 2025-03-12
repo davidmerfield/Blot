@@ -15,7 +15,8 @@
     }
   },
   "views": {
-    "archives": {
+    "archives.html": {
+      "url": "/archives",
       "partials": {
         "title": "Archives - {{{title}}}",
         "description": "All the entries posted on {{{title}}}"
