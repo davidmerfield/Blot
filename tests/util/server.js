@@ -1,77 +1,35 @@
 const Express = require("express");
 const trace = require("helper/trace");
-const config = require("config");
 
 module.exports = function (router) {
   let server;
   const port = 8919;
 
-  // Verify that router is an express router or an instance of express
   if (!router || !router.use) {
     throw new Error("router must be an express router");
   }
   
-  // Create a webserver for testing remote files
-  beforeAll(async function (done) {
-
-    // Expose the server origin for the tests
-    // specs so they can use this.origin 
+  beforeAll(function (done) {
     this.origin = `http://localhost:${port}`;
 
-    // Special function which allows us to make requests
-    // to fake domains in the tests over a fake protocol
-    this.fetch = (input, options = {}) => {
-
-      // parse the input so:
-      // if it's a full URL:
-      // - we remap the host if it's anything other than localhost
-      // - we remap the protocol from https to http
-      // if it's a path:
-      // - we prepend the origin
-      const url = new URL(input, this.origin);
-
-      if (url.hostname !== "localhost") {
-        options.headers = options.headers || {};
-        options.headers["x-forwarded-host"] = url.hostname;
-        url.hostname = "localhost";
-      }
-
-      url.protocol = "http:";
-      url.port = port;
-
-      const modifiedURL = url.toString();
-
-      return fetch(modifiedURL, options);
-    }
-
+    // Move the fetch function definition to a beforeEach hook
+    // so it has access to the latest this.Cookie value
     const app = Express();
 
     app.use((req, res, next) => {
-      // This lets us pretend the test is running on a different domain
       req.headers["host"] = req.headers["x-forwarded-host"];
-
-      // This lets us pretend the test is running over HTTPS
       req.headers["X-Forwarded-Proto"] = req.headers["X-Forwarded-Proto"] || "https";
       req.headers["x-forwarded-proto"] = req.headers["x-forwarded-proto"] || "https";
       next();
     });
 
     app.use(trace.init);
-
     app.use(require('request-logger'));
-
-    // Trust proxy for secure cookies
     app.set("trust proxy", true);
-
-    // Remove x-powered-by header
     app.disable("x-powered-by");
-
-    // Turn off etags for responses
     app.set("etag", false);
-
     app.use(router);
 
-    // Start the server
     server = app.listen(port, () => {
       console.log(`Test server listening at ${this.origin}`);
       done();
@@ -81,6 +39,36 @@ module.exports = function (router) {
       console.error("Error starting test server:", err);
       done.fail(err);
     });
+  });
+
+  // Add this beforeEach hook to define the fetch function
+  beforeEach(function() {
+    this.fetch = (input, options = {}) => {
+      console.log("Special Fetching", input, options);
+      const url = new URL(input, this.origin);
+
+      if (url.hostname !== "localhost") {
+        options.headers = options.headers || {};
+        options.headers["x-forwarded-host"] = url.hostname;
+        url.hostname = "localhost";
+      }
+
+      // Now this.Cookie will be available from the current context
+      if (this.Cookie) {
+        console.log("Cached cookie found, using", this.Cookie);
+        options.headers = options.headers || {};
+        options.headers.Cookie = this.Cookie;
+      } else {
+        console.log("No cookie found");
+      }
+      
+      url.protocol = "http:";
+      url.port = port;
+
+      const modifiedURL = url.toString();
+
+      return fetch(modifiedURL, options);
+    };
   });
 
   afterAll(function () {

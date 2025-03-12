@@ -1,6 +1,9 @@
 describe("Templates", function () {
-  var buildTemplates = require("templates");
+  const buildTemplates = require("templates");
 
+  // Set timeout to 5 minutes
+  global.test.timeout(5 * 60 * 1000);
+  
   it(
     "build without error",
     function (done) {
@@ -9,6 +12,5 @@ describe("Templates", function () {
         done();
       });
     },
-    5 * 60 * 1000
   );
 });
