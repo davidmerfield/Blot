@@ -41,6 +41,7 @@ jobs:
         - app/helper
         - app/models
         - app/site
+        - app/sync
         - app/templates
     steps:
       - name: Sparse checkout for hash calculation
@@ -137,6 +138,10 @@ jobs:
   detect-unexecuted-specs:
     needs: setup-tests
     runs-on: ubuntu-latest
+    env:
+      # Copy the SKIP_PATHS definition from setup-tests
+      SKIP_PATHS: |
+        - config/openresty
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -156,6 +161,22 @@ jobs:
           # Save to file for validation script
           echo "$TEST_SUITES" > matrix_suites.txt
 
+      - name: Process skip paths
+        run: |
+          # Read skip paths from environment variable
+          echo "Skip paths defined:"
+          echo "$SKIP_PATHS"
+          
+          # Convert YAML list to regex pattern for grep
+          SKIP_PATTERN=""
+          echo "$SKIP_PATHS" | grep "^- " | sed 's/^- //' | while read path; do
+            SKIP_PATTERN="${SKIP_PATTERN}|^\./${path}"
+          done
+          SKIP_PATTERN="${SKIP_PATTERN:1}" # Remove the leading |
+          
+          echo "Skip pattern: $SKIP_PATTERN"
+          echo "$SKIP_PATTERN" > skip_pattern.txt
+
       - name: Find all spec files
         run: |
           # First find files containing "describe("
@@ -167,7 +188,14 @@ jobs:
           echo "Filtering for files with both describe() and it()..."
           SPEC_FILES=$(echo "$DESCRIBE_FILES" | xargs grep -l "it(" || true)
           
-          echo "Found spec files:"
+          # Apply skip pattern if it exists
+          if [ -s skip_pattern.txt ]; then
+            SKIP_PATTERN=$(cat skip_pattern.txt)
+            echo "Applying skip pattern to filter out paths: $SKIP_PATTERN"
+            SPEC_FILES=$(echo "$SPEC_FILES" | grep -v -E "$SKIP_PATTERN" || true)
+          fi
+          
+          echo "Found spec files (after applying filters):"
           echo "$SPEC_FILES"
           
           # Save the list to a file for further processing
@@ -191,6 +219,7 @@ jobs:
             echo "$UNEXECUTED_SPECS"
             echo ""
             echo "Please add the appropriate directories to the TEST_SUITES env var in the 'setup-tests' job."
+            echo "Or add them to SKIP_PATHS if they should be skipped."
             exit 1
           else
             echo "All spec files are covered by the test matrix. Good job!"
