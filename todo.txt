@@ -7,8 +7,6 @@ Fix bug with case-insensitivity and Dropbox for relative images then tell Carson
 
 Fix Carson's image gallery
 
-Add global.test.site({login: true}) to test utilities
-
 Use tinify free api to compress some of the folder images
 - maybe consider building this into the main product? it might pay for itself
 

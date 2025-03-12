@@ -4,8 +4,8 @@ const removeUser = require("./removeUser");
 const createBlog = require("./createBlog");
 const removeBlog = require("./removeBlog");
 
-const site = require("site");
-const server = require("./server");
+const Server = require("server");
+const checkBrokenLinks = require("./checkBrokenLinks");
 const build = require("documentation/build");
 const templates = require("util").promisify(require("templates"));
 
@@ -25,7 +25,72 @@ module.exports = function (options = {}) {
   beforeEach(createBlog);
   afterEach(removeBlog);
 
-  server(site);
+  let server;
+
+  const port = 8919;
+
+  beforeAll(function (done) {
+    this.origin = `http://localhost:${port}`;
+
+    const app = require("express")();
+
+    // Override the host header with the x-forwarded-host header
+    // it's not possible to override the Host header in fetch for 
+    // lame security reasons
+    // https://github.com/nodejs/node/issues/50305
+    app.use((req, res, next) => {
+      req.headers["host"] = req.headers["x-forwarded-host"] || req.headers["host"];
+      req.headers["X-Forwarded-Proto"] = req.headers["X-Forwarded-Proto"] || "https";
+      req.headers["x-forwarded-proto"] = req.headers["x-forwarded-proto"] || "https";
+      next();
+    });
+
+    app.use(Server);
+
+    server = app.listen(port, () => {
+      console.log(`Test server listening at ${this.origin}`);
+      done();
+    });
+
+    server.on("error", (err) => {
+      console.error("Error starting test server:", err);
+      done.fail(err);
+    });
+  });
+
+  // Add this beforeEach hook to define the fetch function
+  beforeEach(function () {
+    this.fetch = (input, options = {}) => {
+      const url = new URL(input, this.origin);
+
+      if (url.hostname !== "localhost") {
+        options.headers = options.headers || {};
+        options.headers["Host"] = url.hostname;
+        options.headers["x-forwarded-host"] = url.hostname;
+        url.hostname = "localhost";
+      }
+
+      // Now this.Cookie will be available from the current context
+      if (this.Cookie) {
+        options.headers = options.headers || {};
+        options.headers.Cookie = this.Cookie;
+      } 
+
+      url.protocol = "http:";
+      url.port = port;
+
+      const modifiedURL = url.toString();
+
+      return fetch(modifiedURL, options);
+    };
+
+    this.checkBrokenLinks = (url = this.origin, options = {}) =>
+      checkBrokenLinks(this.fetch, url, options);
+  });
+
+  afterAll(function () {
+    server.close();
+  });
 
   if (options.login) {
     beforeEach(async function () {

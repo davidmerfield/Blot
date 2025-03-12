@@ -68,6 +68,7 @@ module.exports = function (router) {
 
       const modifiedURL = url.toString();
 
+      console.log('calling fetch with', modifiedURL, options);
       return fetch(modifiedURL, options);
     };
 
