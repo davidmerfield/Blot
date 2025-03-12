@@ -5,8 +5,9 @@ var serialize = require("./util/serialize");
 var metadataModel = require("./metadataModel");
 var ensure = require("helper/ensure");
 var Blog = require("models/blog");
+var injectLocals = require("./injectLocals");
 
-module.exports = function setMetadata (id, updates, callback) {
+module.exports = function setMetadata(id, updates, callback) {
   try {
     ensure(id, "string").and(updates, "object").and(callback, "function");
   } catch (e) {
@@ -18,13 +19,21 @@ module.exports = function setMetadata (id, updates, callback) {
 
     metadata = metadata || {};
 
-      
     for (var i in updates) {
       if (metadata[i] !== updates[i]) changes = true;
       metadata[i] = updates[i];
     }
 
-    if (!metadata.owner) return callback(new Error("No owner: please specify an owner for this template"));
+    if (!metadata.owner)
+      return callback(
+        new Error("No owner: please specify an owner for this template")
+      );
+
+    try {
+      injectLocals(metadata.locals);
+    } catch (e) {
+      console.log("error injecting locals:", e);
+    }
 
     metadata = serialize(metadata, metadataModel);
 
