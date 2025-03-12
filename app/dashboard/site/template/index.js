@@ -124,8 +124,6 @@ TemplateEditor.route("/:templateSlug")
       next();
     },
     require("./save/layout-inputs"),
-    require("./save/syntax-highlighter"),
-    require("./save/fonts"),
     function (req, res, next) {
       Template.update(
         req.blog.id,
