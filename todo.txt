@@ -1,3 +1,6 @@
+Use tinify free api to compress some of the folder images
+- maybe consider building this into the main product? it might pay for itself
+
 Write a test suite that attempts to render every page on every template for every demo folder?
 - detect broken links
 - query search form too
