@@ -8,8 +8,6 @@ const server = require("./server");
 const flush = require("documentation/tools/flush-cache");
 const configureLocalBlogs = require("./configure-local-blogs");
 
-const CONTAINER_NAME = process.env.CONTAINER_NAME;
-
 console.log(clfdate(), `Starting server pid=${process.pid} environment=${config.environment}`);
 
 setup(async err => {
@@ -19,7 +17,7 @@ setup(async err => {
   flush();
 
   // This is the master process
-  if (CONTAINER_NAME === 'blot-container-green') {
+  if (config.master) {
 
     // Launch scheduler for background tasks, like backups, emails
     scheduler();

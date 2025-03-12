@@ -21,7 +21,8 @@ module.exports = {
   host: BLOT_HOST,
   reverse_proxies,
   protocol: BLOT_PROTOCOL + "://",
-
+  master: process.env.CONTAINER_NAME === 'blot-container-green',
+  
   webhooks: {
     client_max_body_size: 1e8, // 100MB
     server_host: "webhooks." + BLOT_HOST,

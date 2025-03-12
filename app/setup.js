@@ -1,5 +1,4 @@
 const config = require("config");
-const root = require("helper/rootDir");
 const fs = require("fs-extra");
 
 const redis = require("models/redis");
@@ -21,6 +20,11 @@ function main (callback) {
 
   if (SERVER_RESTART) {
     log("Server restart detected. Skipping setup.");
+    return callback();
+  }
+
+  if (!config.master) {
+    log("Not the master process. Skipping setup.");
     return callback();
   }
 
@@ -83,13 +87,13 @@ function main (callback) {
         log("Built documentation");
       },
 
-      // async function () {
-      //   // if (config.environment === "production") {
-      //   //   log("Building folders");
-      //   //   await folders();
-      //   //   log("Built folders");
-      //   // }
-      // },
+      async function () {
+        if (config.environment === "production") {
+          log("Building folders");
+          await folders();
+          log("Built folders");
+        }
+      },
 
 
     ],
