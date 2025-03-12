@@ -131,7 +131,7 @@ jobs:
           MATRIX_JSON="{\"test_suite\":$TEST_SUITES_JSON}"
           echo "$MATRIX_JSON" | jq '.' # Validate JSON format
           echo "matrix=$MATRIX_JSON" >> $GITHUB_OUTPUT
-          
+            
   validate-test-coverage:
     needs: setup-tests
     runs-on: ubuntu-latest
@@ -140,21 +140,20 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Extract test suites
+      - name: Extract test suites from matrix
         run: |
-          # Extract test suites directly from the output
+          # Extract test suites directly from the matrix JSON
           echo "Test suites defined in matrix:"
-          TEST_SUITES='${{ needs.setup-tests.outputs.test_suites }}'
+          MATRIX_JSON='${{ needs.setup-tests.outputs.matrix }}'
+          echo "$MATRIX_JSON"
           
-          # Fix any potential JSON formatting issues
-          TEST_SUITES=$(echo "$TEST_SUITES" | sed 's/,"]$/]/')
+          # Extract the test_suite array from the matrix JSON
+          TEST_SUITES=$(echo "$MATRIX_JSON" | jq -r '.test_suite[]')
+          echo "Extracted test suites:"
           echo "$TEST_SUITES"
           
-          # Parse the JSON array and create a file with one suite per line
-          echo "$TEST_SUITES" | jq -r '.[]' > matrix_suites.txt
-          
-          echo "Test suites for validation:"
-          cat matrix_suites.txt
+          # Save to file for validation script
+          echo "$TEST_SUITES" > matrix_suites.txt
 
       - name: Find all test files
         run: |
@@ -191,7 +190,7 @@ jobs:
           else
             echo "All test files are covered by the test matrix. Good job!"
           fi
-
+                  
   test:
     needs: setup-tests
     runs-on: ubuntu-latest
