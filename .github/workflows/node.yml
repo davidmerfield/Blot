@@ -9,7 +9,45 @@ on:
       - "master"
 
 jobs:
+  calculate-image-hash:
+    runs-on: ubuntu-latest
+    outputs:
+      image_hash: ${{ steps.hash.outputs.image_hash }}
+      image_exists: ${{ steps.check-image.outputs.image_exists }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Calculate hash of Dockerfile and package.json
+        id: hash
+        run: |
+          HASH=$(cat Dockerfile package.json | sha256sum | cut -d ' ' -f 1)
+          echo "image_hash=$HASH" >> $GITHUB_OUTPUT
+          echo "Hash: $HASH"
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Check if image exists
+        id: check-image
+        run: |
+          IMAGE_TAG="ghcr.io/${{ github.repository_owner }}/blot:test-${{ steps.hash.outputs.image_hash }}"
+          
+          if docker manifest inspect "$IMAGE_TAG" > /dev/null 2>&1; then
+            echo "Image $IMAGE_TAG exists"
+            echo "image_exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "Image $IMAGE_TAG does not exist"
+            echo "image_exists=false" >> $GITHUB_OUTPUT
+          fi
+
   build-test-image:
+    needs: calculate-image-hash
+    if: needs.calculate-image-hash.outputs.image_exists != 'true'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -31,13 +69,16 @@ jobs:
           platforms: linux/amd64
           target: dev
           context: .
-          push: true # Push to registry so other jobs can use it
+          push: true
           cache-from: type=registry,ref=ghcr.io/${{ github.repository_owner }}/blot
           cache-to: type=registry,ref=ghcr.io/${{ github.repository_owner }}/blot,mode=max
-          tags: ghcr.io/${{ github.repository_owner }}/blot:test-${{ github.sha }}
+          tags: |
+            ghcr.io/${{ github.repository_owner }}/blot:test-${{ needs.calculate-image-hash.outputs.image_hash }}
+            ghcr.io/${{ github.repository_owner }}/blot:test-latest
 
   test:
-    needs: build-test-image
+    needs: [calculate-image-hash, build-test-image]
+    if: always() && (needs.build-test-image.result == 'success' || needs.calculate-image-hash.outputs.image_exists == 'true')
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -73,6 +114,7 @@ jobs:
           BLOT_STRIPE_KEY: ${{ secrets.BLOT_STRIPE_KEY }}
           BLOT_STRIPE_SECRET: ${{ secrets.BLOT_STRIPE_SECRET }}
           BLOT_STRIPE_PRODUCT: ${{ secrets.BLOT_STRIPE_PRODUCT }}
+          IMAGE_TAG: ghcr.io/${{ github.repository_owner }}/blot:test-${{ needs.calculate-image-hash.outputs.image_hash }}
         run: |
           docker run --rm \
             --network host \
@@ -87,7 +129,7 @@ jobs:
             -v ${{ github.workspace }}/todo.txt:/usr/src/app/todo.txt \
             -v ${{ github.workspace }}/.git:/usr/src/app/.git \
             -v ${{ github.workspace }}/tests:/usr/src/app/tests \
-            ghcr.io/${{ github.repository_owner }}/blot:test-${{ github.sha }} \
+            $IMAGE_TAG \
             sh -c "node /usr/src/app/app/documentation/build/index.js --no-watch --skip-zip && node tests ${{ matrix.test_suite }} && npx depcheck --ignores=depcheck,nyc,nodemon,blessed-contrib,fontkit,text-to-svg --skip-missing"
 
   build:
