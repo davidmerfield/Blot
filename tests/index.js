@@ -98,18 +98,19 @@ global.test = {
 
   server: require("./util/server"),
 
-  timeout: function (ms) {
-    let prevTimeout;
-
-    // Set timeout for all specs in this suite and nested suites
-    beforeAll(function () {
-      prevTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
-      jasmine.DEFAULT_TIMEOUT_INTERVAL = ms;
+  timeout: function(ms) {
+    // Store original value
+    let originalTimeout;
+  
+    beforeAll(function() {
+      // In your setup, jasmine.DEFAULT_TIMEOUT_INTERVAL isn't available 
+      // We need to access the timeout through the Jasmine instance
+      originalTimeout = jasmine.jasmine.DEFAULT_TIMEOUT_INTERVAL;
+      jasmine.jasmine.DEFAULT_TIMEOUT_INTERVAL = ms;
     });
-
-    // Reset to default after tests
-    afterAll(function () {
-      jasmine.DEFAULT_TIMEOUT_INTERVAL = prevTimeout;
+  
+    afterAll(function() {
+      jasmine.jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout || 5000;
     });
   },
 

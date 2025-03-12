@@ -31,6 +31,10 @@ describe("twitter plugin", function () {
   global.test.timeout(10000); // 10 seconds
 
   it("handles valid URLs", async () => {
+
+    // wait for 5 seconds
+    await new Promise((resolve) => setTimeout(resolve, 5000));
+    
     for (const url of validTweetURLs) {
       const html = `<p><a href='${url}'>${url}</a></p>`;
       const newHTML = await runTest(html);

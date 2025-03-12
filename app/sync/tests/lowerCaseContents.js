@@ -6,8 +6,6 @@ const entries = require("models/entries");
 const localPath = require("helper/localPath");
 const getMetadata = promisify(require("models/metadata").get);
 
-const LONG_TIMEOUT = 10000;
-
 entries.getAll[promisify.custom] = (blogID) =>
   new Promise((resolve, reject) => {
     entries.getAll(blogID, (entries) => {
@@ -18,6 +16,9 @@ entries.getAll[promisify.custom] = (blogID) =>
 describe("lowerCaseContents", function () {
   // Create test blog
   global.test.blog();
+
+  // Increase individual spec timeout to 10 seconds
+  global.test.timeout(10 * 1000);
 
   it("lowercases folder contents", async function () {
     await this.write("/Posts/Foo/Bar.txt", "test 1");
@@ -142,9 +143,6 @@ describe("lowerCaseContents", function () {
     const ctx = this;
     const sync = require("sync");
     const blogID = this.blog.id;
-
-    originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = LONG_TIMEOUT;
 
     ctx.getAll = async () => {
       const allEntries = await promisify(entries.getAll)(this.blog.id);
@@ -271,7 +269,6 @@ describe("lowerCaseContents", function () {
   });
 
   afterEach(function (done) {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
     this.complete(null, done);
   });
 });
