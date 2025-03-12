@@ -19,19 +19,19 @@ The project is a lightweight, fast, and reliable framework designed to help deve
 
 To begin using the framework, you'll need to install it via your package manager. Here's how:
 
-```
+```sh
 npm install my-framework
 ```
 
 Once installed, you can import it into your project:
 
-```
+```js
 import { Framework } from 'my-framework';
 ```
 
 Next, initialize the framework with your configuration:
 
-```
+```js
 const config = {
   apiKey: 'your-api-key',
   environment: 'production'
@@ -51,7 +51,7 @@ The framework exposes several methods to help you interact with your application
 
 Here is a simple example of using the framework to create a basic application:
 
-```
+```js
 import { Framework } from 'my-framework';
 
 const app = new Framework({

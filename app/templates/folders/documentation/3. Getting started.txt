@@ -6,7 +6,7 @@ ConnectKit is the simplest way to integrate a connect wallet experience into you
 
 Install ConnectKit and its peer dependencies:
 
-```
+```sh
 npm install connectkit wagmi viem@2.x @tanstack/react-query
 ```
 
@@ -37,7 +37,7 @@ Below is a simple example app using `getDefaultConfig()` to help you get started
 
 ### Web3Provider.tsx
 
-```
+```js
 import { WagmiProvider, createConfig, http } from "wagmi";
 import { mainnet } from "wagmi/chains";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";

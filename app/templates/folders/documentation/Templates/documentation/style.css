@@ -31,6 +31,8 @@
 
 }
 
+{{{syntax_highlighter.styles}}}
+
 /* Dark mode variables */
 @media (prefers-color-scheme: dark) {
   :root {
@@ -42,6 +44,10 @@
     --medium-text-color: rgba({{#rgb}}{{dark_text_color}}{{/rgb}}, 0.6666);
     --link-color: {{dark_link_color}};
   }
+
+  /**/
+  {{{dark_syntax_highlighter.styles}}}
+  /**/
 }
 
 /* General resets */
@@ -81,10 +87,9 @@ html, body {
   color: var(--text-color);
 }
 
-
 .main {
   flex-grow: 1; /* Main content takes up remaining space */
-  padding: 68px 96px;
+  padding: 2em 4em;
   min-height: 100vh;
   box-sizing: border-box;
 }
@@ -97,8 +102,7 @@ html, body {
 /* Control Bar */
 .control-bar {
   display: none; /* Hidden by default on large screens */
-  background: #f4f4f4; /* Match sidebars' background color */
-  border-bottom: 1px solid #ddd; /* Add a bottom border */
+  border-bottom: 1px solid var(--border-color);
   z-index: 20;
   padding: 6px 15px;
   box-sizing: border-box;
@@ -155,14 +159,6 @@ html, body {
 
 }
 
-pre {
-  background-color: #f8f9fa;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  overflow-x: auto;
-}
-
 
 .control-label:hover {
   text-decoration: underline;
@@ -213,7 +209,6 @@ pre {
 
 .nav-links {
   display: flex;
-  flex-grow: 1;
   align-items: center;
   flex-wrap: none;
   gap: 1rem;
@@ -294,7 +289,18 @@ span[class^="icon-"] {
   padding-bottom: 16px;
 }
 
+.nav-container form {
+  flex-grow: 1;
+  margin-right: 2em;
+}
 
+.nav-container form  input {
+  width: 100%;
+  padding: 0.5em;
+  margin: 0.5em 0;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+}
 
 .navigation {
   display: flex;
@@ -305,4 +311,15 @@ span[class^="icon-"] {
   align-self: flex-start; /* <-- this is the fix */
   position: sticky;
   top: 0;
+}
+
+
+code.hljs {
+  background: transparent
+}
+
+pre {
+  background: var(--off-background-color);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
 }

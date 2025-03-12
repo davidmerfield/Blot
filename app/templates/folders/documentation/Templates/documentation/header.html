@@ -5,12 +5,15 @@
     ><span class="icon-dots"></span
   ></label>
   <div class="index-link">
-    <a href="/">Home</a>
+    <a href="/">{{title}}</a>
   </div>
+  <form action="/search">
+    <input name="q" type="search" placeholder="Search" />
+  </form>
   <div class="nav-links">
-    {{#menu}}
+    {{#navigation}}
     <a href="{{{url}}}" class="{{active}}">{{{label}}}</a>
-    {{/menu}}
+    {{/navigation}}
   </div>
 </nav>
 <label for="nav-toggle" class="popup-cover"></label>
