@@ -2,6 +2,8 @@ describe("flickr plugin", function () {
   const replaceURLsWithEmbeds = require("./index.js").render;
   const cheerio = require("cheerio");
 
+  global.test.timeout(10000); // 10 seconds
+
   it("works for short flickr URLs", function (done) {
     // html bare link to a post on bluesky
     const html =

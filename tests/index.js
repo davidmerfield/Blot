@@ -8,10 +8,10 @@ var seed;
 var config = {
   spec_dir: "",
   spec_files: [
-    "tests/**/*.js",
-    "app/**/tests/**/*.js",
-    "app/**/tests.js",
-    "!app/documentation/build/finder", // excludes tests inside node_modules directories
+    "**/tests/**/*.js",
+    "**/tests.js",
+    // Exclude node_modules since we don't want to run tests in dependencies
+    "!**/node_modules/**",
   ],
   helpers: [],
   stopSpecOnExpectationFailure: false,
@@ -29,11 +29,6 @@ if (process.argv[2]) {
     // We have passed directory of tests to run
   } else {
     config.spec_dir = process.argv[2];
-    config.spec_files = [
-      "**/tests/**/*.js",
-      "**/tests.js",
-      "!**/node_modules/**",
-    ];
   }
 } else {
   console.log(
@@ -83,7 +78,6 @@ jasmine.addReporter({
       .map((fullName) => durations[fullName] + "ms " + colors.dim(fullName))
       .slice(0, 10)
       .forEach((line) => console.log(line));
-
   },
 });
 
@@ -100,7 +94,25 @@ global.test = {
     afterEach(require("./util/removeUser"));
   },
 
-  server: require('./util/server'),
+  server: require("./util/server"),
+
+  site: require("./util/site"),
+
+  timeout: function (ms) {
+    // Store original value
+    let originalTimeout;
+
+    beforeAll(function () {
+      // In your setup, jasmine.DEFAULT_TIMEOUT_INTERVAL isn't available
+      // We need to access the timeout through the Jasmine instance
+      originalTimeout = jasmine.jasmine.DEFAULT_TIMEOUT_INTERVAL;
+      jasmine.jasmine.DEFAULT_TIMEOUT_INTERVAL = ms;
+    });
+
+    afterAll(function () {
+      jasmine.jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout || 5000;
+    });
+  },
 
   blogs: function (total) {
     beforeEach(require("./util/createUser"));
@@ -153,7 +165,6 @@ global.test = {
 
 // get the number of keys in the database
 client.keys("*", function (err, keys) {
-  
   if (err) {
     throw err;
   }

@@ -6,8 +6,8 @@ module.exports = function setup(options) {
   var createFolder = require("./createFolder");
   var createClient = require("clients/dropbox/util/createClient");
 
-  // Increase timeout
-  jasmine.DEFAULT_TIMEOUT_INTERVAL = 60 * 1000;
+  // Increase individual spec timeout to 60 seconds
+  global.test.timeout(60 * 1000); 
 
   global.test.blog();
 

@@ -1,6 +1,23 @@
+Fix bug with case-insensitivity and Dropbox for relative images then tell Carson
+- ```<a href="_birdwings.JPG"><img src="_birdwings.JPG"></a>```
+
+Fix Carson's image gallery
+
 Fix image profile retention not working in production and tell [Simon](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJchvfhDcWNkrZtNJqlLmLfsx)
+- maybe a caching issue and actually works?
+
+Use tinify free api to compress some of the folder images
+- maybe consider building this into the main product? it might pay for itself
+
+Extract multiple thumbnails per blog post (as many as there are images) for cooler image grid possibilities.
+
+Run image analysis on all images in post
+- extract colors for searching
+- use something to identify related images
 
 Improve tools section
+
+Fix hammering of github api for commit history for news page – cache locally to data directory
 
 Improvements to questions section:
 - Add 'blue dot' notifications icon to updates and questions based on last post
@@ -8,6 +25,18 @@ Improvements to questions section:
   - https://gauthierroussilhe.com/articles
   - https://designportland.org/
 - Add a filter for topic index to show questions by: 'Newest', 'Active', 'Unanswered', 'Votes'
+
+Switch license to GPL
+
+Move notes into about views folder
+
+Move Dockerfile into app
+
+Remove dockerignore
+
+Move docker-compose into scripts/development/docker-compose
+
+Clean up scripts directory, lots of unused scripts
 
 ---
 

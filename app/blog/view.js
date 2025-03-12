@@ -10,20 +10,20 @@ module.exports = function (req, res, next) {
   // We intentionally do minimal processing in getViewsByURL
   const url = decodeURIComponent(req.url);
 
-  getViewByURL(template, url, function (err, viewName, params, query) {
+  getViewByURL(template, url, function (err, viewName, params) {
     if (err) return next(err);
 
     if (!viewName) return next();
 
+    // Overwrite the request params with the params parsed from the URL
     if (params) {
       req.params = params;
-      res.locals.params = params;
     }
 
-    if (query) {
-      req.query = query;
-      res.locals.query = query;
-    }
+    // expose the query and params to the view
+    // DON'T set query directly because a lot of templates rely
+    // on the previous mapping of req.query.q to res.locals.query
+    res.locals.request = { query: req.query, params: req.params };
 
     return res.renderView(viewName, next);
   });
