@@ -161,41 +161,45 @@ jobs:
           # Save to file for validation script
           echo "$TEST_SUITES" > matrix_suites.txt
 
-      - name: Process skip paths
-        run: |
-          # Read skip paths from environment variable
-          echo "Skip paths defined:"
-          echo "$SKIP_PATHS"
-          
-          # Convert YAML list to regex pattern for grep
-          SKIP_PATTERN=""
-          echo "$SKIP_PATHS" | grep "^- " | sed 's/^- //' | while read path; do
-            SKIP_PATTERN="${SKIP_PATTERN}|^\./${path}"
-          done
-          SKIP_PATTERN="${SKIP_PATTERN:1}" # Remove the leading |
-          
-          echo "Skip pattern: $SKIP_PATTERN"
-          echo "$SKIP_PATTERN" > skip_pattern.txt
-
       - name: Find all spec files
         run: |
           # First find files containing "describe("
           echo "Finding all potential spec files..."
-          DESCRIBE_FILES=$(grep -r --include="*.js" -l "describe(" --include="**/tests/**/*.js" --include="**/tests.js" . | 
+          DESCRIBE_FILES=$(grep -r --include="*.js" -l "describe(" . | 
                         grep -v "node_modules" || true)
           
-          # Then among those, find files also containing "it("
-          echo "Filtering for files with both describe() and it()..."
-          SPEC_FILES=$(echo "$DESCRIBE_FILES" | xargs grep -l "it(" || true)
+          echo "Files with describe():"
+          echo "$DESCRIBE_FILES"
           
-          # Apply skip pattern if it exists
-          if [ -s skip_pattern.txt ]; then
-            SKIP_PATTERN=$(cat skip_pattern.txt)
-            echo "Applying skip pattern to filter out paths: $SKIP_PATTERN"
-            SPEC_FILES=$(echo "$SPEC_FILES" | grep -v -E "$SKIP_PATTERN" || true)
+          # Then among those, find files also containing "it("
+          if [ -n "$DESCRIBE_FILES" ]; then
+            echo "Filtering for files with both describe() and it()..."
+            SPEC_FILES=$(echo "$DESCRIBE_FILES" | xargs grep -l "it(" || true)
+          else
+            SPEC_FILES=""
           fi
           
-          echo "Found spec files (after applying filters):"
+          echo "Files with both describe() and it() - pre-filtering:"
+          echo "$SPEC_FILES"
+          
+          # Apply skip paths if any exist
+          if [ -n "$SKIP_PATHS" ]; then
+            echo "Skip paths defined:"
+            echo "$SKIP_PATHS"
+            
+            # Process each skip path
+            echo "$SKIP_PATHS" | grep "^- " | sed 's/^- //' | while read -r path; do
+              if [ -n "$path" ]; then
+                echo "Excluding path: $path"
+                # Use grep -v to filter out lines matching the path
+                if [ -n "$SPEC_FILES" ]; then
+                  SPEC_FILES=$(echo "$SPEC_FILES" | grep -v "./$path" || true)
+                fi
+              fi
+            done
+          fi
+          
+          echo "Final spec files (after applying filters):"
           echo "$SPEC_FILES"
           
           # Save the list to a file for further processing
@@ -203,12 +207,26 @@ jobs:
 
       - name: Check if all specs are executed by test matrix
         run: |
+          if [ ! -s all_spec_files.txt ]; then
+            echo "No spec files found or all have been filtered out. Nothing to check."
+            exit 0
+          fi
+          
           # Create a regex pattern from the matrix suites
           PATTERN=""
-          while read suite; do
-            PATTERN="${PATTERN}|^\./${suite}"
+          while read -r suite; do
+            if [ -n "$suite" ]; then
+              PATTERN="${PATTERN}|^\./${suite}"
+            fi
           done < matrix_suites.txt
+          
+          if [ -z "$PATTERN" ]; then
+            echo "No test suites defined in matrix. Cannot perform check."
+            exit 1
+          fi
+          
           PATTERN="${PATTERN:1}" # Remove the leading |
+          echo "Test suite pattern: $PATTERN"
           
           # Find spec files not matching any suite pattern
           echo "Checking for spec files not covered by test matrix..."
@@ -223,8 +241,8 @@ jobs:
             exit 1
           else
             echo "All spec files are covered by the test matrix. Good job!"
-          fi
-          
+          fi   
+                
   test:
     needs: setup-tests
     runs-on: ubuntu-latest
