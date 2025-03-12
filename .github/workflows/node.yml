@@ -45,13 +45,10 @@ jobs:
           - app/blog
           - app/build
           - app/clients
-          - app/dashboard
-          - app/documentation
           - app/helper
           - app/models
           - app/site
           - app/templates
-          - app/tests
       fail-fast: false
 
     services:

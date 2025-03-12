@@ -7,7 +7,7 @@ describe("Blot configuration", function () {
   // TODO: check that g
   it("config loads without error", function () {
     expect(function () {
-      require("../../config");
+      require("../../../config");
     }).not.toThrow();
   });
 
