@@ -139,7 +139,6 @@ jobs:
             sh -c "node /usr/src/app/app/documentation/build/index.js --no-watch --skip-zip && node tests ${{ matrix.test_suite }} && npx depcheck --ignores=depcheck,nyc,nodemon,blessed-contrib,fontkit,text-to-svg --skip-missing"
 
   build:
-    needs: test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
