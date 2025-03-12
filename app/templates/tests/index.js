@@ -12,18 +12,15 @@ describe("Templates", function () {
     .filter((i) => i.indexOf(".") === -1);
 
   templates.forEach((template) => {
-    it(
-      "has no broken links for the " + template + " template",
-      async function () {
-        await this.checkBrokenLinks(
-          "https://preview-of-" +
-            template +
-            "-on-" +
-            this.blog.handle +
-            "." +
-            config.host 
-        );
-      }
-    );
+    it(template + " template has no broken links", async function () {
+      await this.checkBrokenLinks(
+        "https://preview-of-" +
+          template +
+          "-on-" +
+          this.blog.handle +
+          "." +
+          config.host
+      );
+    });
   });
 });
