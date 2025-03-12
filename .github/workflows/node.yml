@@ -19,6 +19,10 @@ on:
     branches:
       - "master"
 
+permissions:
+  contents: read  # To check out code
+  packages: write # To push to GitHub Container Registry
+
 jobs:
   setup-tests:
     runs-on: ubuntu-latest
