@@ -119,8 +119,8 @@ jobs:
           echo "Test suites defined:"
           echo "$TEST_SUITES"
           
-          # Convert to array for direct use in validation
-          TEST_SUITES_JSON=$(echo "$TEST_SUITES" | yq eval 'array' -)
+          # Convert the YAML list to a JSON array using a simpler approach
+          TEST_SUITES_JSON=$(echo "$TEST_SUITES" | sed 's/- /"/g' | sed 's/$/"/g' | tr '\n' ',' | sed 's/,$/]/' | sed 's/^/[/')
           echo "test_suites=$TEST_SUITES_JSON" >> $GITHUB_OUTPUT
           
           # Format as JSON for GitHub Actions matrix
