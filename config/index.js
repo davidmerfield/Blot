@@ -183,7 +183,7 @@ module.exports = {
                 );
               } else {
                 console.warn(
-                  `Service account for ID "${service_account_id}" is missing or undefined.`
+                  "A service account is missing or undefined."
                 );
                 return null; // Return null for missing service accounts
               }
