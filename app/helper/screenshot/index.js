@@ -50,7 +50,7 @@ class ScreenshotManager {
     const page = await this.browser.newPage();
     await page.setUserAgent(CONFIG.DEFAULT_USER_AGENT);
     await page.setRequestInterception(true);
-    
+
     page.on("request", (request) => {
       request.continue();
     });
@@ -64,13 +64,13 @@ class ScreenshotManager {
       console.log("Already restarting, skipping");
       return;
     }
-    
+
     this.isRestarting = true;
     console.log("Waiting for pending pages to complete");
-    
+
     // Wait for any pending page operations to complete
     while (this.activePages > 0) {
-      await new Promise(resolve => setTimeout(resolve, 100));
+      await new Promise((resolve) => setTimeout(resolve, 100));
     }
 
     console.log("Closing browser");
@@ -97,9 +97,12 @@ class ScreenshotManager {
 
     this.activePages++;
     const page = await this.createPage();
+    let success = false;
 
     try {
-      const viewport = options.mobile ? CONFIG.VIEWPORT.mobile : CONFIG.VIEWPORT.desktop;
+      const viewport = options.mobile
+        ? CONFIG.VIEWPORT.mobile
+        : CONFIG.VIEWPORT.desktop;
       await page.setViewport({
         width: options.width ?? viewport.width,
         height: options.height ?? viewport.height,
@@ -108,22 +111,34 @@ class ScreenshotManager {
 
       await fs.ensureDir(dirname(path));
 
-      console.log('going to', site);
+      console.log("going to", site);
       await page.goto(site, {
         waitUntil: "networkidle0",
         timeout: CONFIG.PAGE_TIMEOUT,
       });
 
-      console.log('screenshotting', site, 'to', path);
-      await page.screenshot({
-        path,
-        type: "png",
-        omitBackground: true,
-      });
+      console.log("screenshotting", site, "to", path);
+      await Promise.race([
+        page.screenshot({
+          path,
+          type: "png",
+          omitBackground: true,
+        }),
+        new Promise((_, reject) =>
+          setTimeout(
+            () =>
+              reject(
+                new Error("Timeout calling page.screenshot() after 2 seconds")
+              ),
+            2000
+          )
+        ),
+      ]);
 
+      success = true;
       this.screenshotCount++;
     } finally {
-      console.log('closing page');
+      console.log("closing page");
       await page.close().catch(() => {});
       this.activePages--;
 
@@ -131,15 +146,23 @@ class ScreenshotManager {
       if (this.isRestarting) {
         console.log("Waiting for restart to complete");
         while (this.isRestarting) {
-          await new Promise(resolve => setTimeout(resolve, 100));
+          await new Promise((resolve) => setTimeout(resolve, 100));
         }
         console.log("Restart complete");
       }
-
       // Check if restart is needed after the screenshot is complete
-      if (Date.now() - this.lastRestartTime >= CONFIG.DEFAULT_RESTART_INTERVAL) {
-        // Schedule restart without awaiting it
-        this.restart().catch(console.error);
+      if (
+        Date.now() - this.lastRestartTime >=
+        CONFIG.DEFAULT_RESTART_INTERVAL
+      ) {
+        // Schedule restart without waiting for it to complete
+        this.restart().catch((error) => {
+          console.error("Failed to restart browser:", error.message);
+        });
+      }
+
+      if (!success) {
+        throw new Error("Failed to take screenshot");
       }
     }
   }
@@ -147,9 +170,33 @@ class ScreenshotManager {
 
 const manager = new ScreenshotManager();
 
+const retry = async (fn, retries = 3, delay = 1000) => {
+  let lastError;
+
+  for (let attempt = 1; attempt <= retries; attempt++) {
+    try {
+      return await fn();
+    } catch (error) {
+      lastError = error;
+      console.log(`Attempt ${attempt} failed:`, error.message);
+
+      if (attempt < retries) {
+        console.log(`Waiting ${delay}ms before retry...`);
+        await new Promise((resolve) => setTimeout(resolve, delay));
+      }
+    }
+  }
+
+  throw new Error(
+    `Failed after ${retries} attempts. Last error: ${lastError.message}`
+  );
+};
+
 // Export main function
 module.exports = async (site, path, options = {}) => {
-  return manager.limiter.schedule(() => manager.takeScreenshot(site, path, options));
+  return retry(() =>
+    manager.limiter.schedule(() => manager.takeScreenshot(site, path, options))
+  );
 };
 
 // Export restart function for testing
