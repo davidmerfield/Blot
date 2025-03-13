@@ -106,6 +106,37 @@ async function loadFoldersToBuild(foldersDirectory) {
     });
 }
 
+async function applyChanges(blog, changes) {
+  new Promise((resolve, reject) => {
+    sync(blog.id, async function (err, folder, done) {
+      if (err) return reject(err);
+
+      const update = promisify(folder.update);
+
+      try {
+        // Update only modified and added files
+        const changedPaths = [
+          ...changes.modified,
+          ...changes.added,
+          ...changes.removed,
+        ];
+        for (const relativePath of changedPaths) {
+          await update(relativePath);
+        }
+
+        await fix(blog);
+        console.log("Built folder for blog", blog.handle);
+        done(null, resolve);
+      } catch (err) {
+        console.error("Error building folder for blog", blog.handle, err);
+        done(null, () => {
+          reject(err);
+        });
+      }
+    });
+  });
+}
+
 async function main(options = {}) {
   let folders = await loadFoldersToBuild(DIR);
 
@@ -121,47 +152,18 @@ async function main(options = {}) {
   const blogs = await setupBlogs(user, folders);
 
   // Update and sync blogs
-  for (const [id, { path, blog }] of Object.entries(blogs)) {
-    console.log("Building folder", path, "for blog", blog.handle);
+  for (const [blogID, { path, blog }] of Object.entries(blogs)) {
+    try {
+      console.log("Building folder", path, "for blog", blog.handle);
 
-    // Sync changed files and get list of changes
-    const changes = await syncFolder(path, localPath(id, "/"));
+      // Sync changed files and get list of changes
+      const changes = await syncFolder(path, localPath(blogID, "/"));
 
-    // Only update changed files
-    await new Promise((resolve, reject) => {
-      sync(id, async function (err, folder, done) {
-        if (err) return reject(err);
-
-        const update = promisify(folder.update);
-
-        try {
-          // Update only modified and added files
-          const changedPaths = [
-            ...changes.modified,
-            ...changes.added,
-            ...changes.removed,
-          ];
-          for (const relativePath of changedPaths) {
-            await update(relativePath);
-          }
-
-          await fix(blog);
-          console.log("Built folder", path, "for blog", blog.handle);
-          done(null, resolve);
-        } catch (err) {
-          console.error(
-            "Error building folder",
-            path,
-            "for blog",
-            blog.handle,
-            err
-          );
-          done(null, () => {
-            reject(err);
-          });
-        }
-      });
-    });
+      // Only update changed files
+      await applyChanges(blog, changes);
+    } catch (e) {
+      console.error("Error syncing folder", path, "for blog", blog.handle, e);
+    }
   }
 
   folders.forEach((folder) => {
