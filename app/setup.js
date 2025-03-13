@@ -24,11 +24,6 @@ function main(callback) {
     return callback();
   }
 
-  if (!config.master) {
-    log("Not the master process. Skipping setup.");
-    return callback();
-  }
-
   async.series(
     [
       async function () {
@@ -88,7 +83,7 @@ function main(callback) {
       },
 
       async function () {
-        if (config.environment === "production") {
+        if (config.environment === "production" && config.master) {
           log("Building folders");
           try {
             await folders();
@@ -96,6 +91,8 @@ function main(callback) {
           } catch (e) {
             log("Error building folders", e);
           }
+        } else {
+          log("Skipping folder build");
         }
       },
     ],
