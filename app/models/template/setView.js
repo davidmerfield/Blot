@@ -96,6 +96,10 @@ module.exports = function setView(templateID, updates, callback) {
         view.retrieve = view.retrieve || {};
         view.partials = view.partials || {};
 
+        // Todo, identify links or hrefs to static files 
+        // and add them to the retrieve list so at runtime
+        // they can be replaced with CDN links? We want to
+        // avoid serving static files from the server if possible
         var parseResult = parseTemplate(view.content);
 
         // TO DO REMOVE THIS
