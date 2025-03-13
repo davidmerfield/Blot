@@ -107,7 +107,7 @@ async function loadFoldersToBuild(foldersDirectory) {
 }
 
 async function applyChanges(blog, changes) {
-  new Promise((resolve, reject) => {
+  return new Promise((resolve, reject) => {
     sync(blog.id, async function (err, folder, done) {
       if (err) return reject(err);
 
