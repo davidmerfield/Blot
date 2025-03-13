@@ -1,12 +1,12 @@
 const express = require("express");
-const http = require("http");
 const screenshot = require("../index.js");
 const fs = require("fs-extra");
 const hashFile = require("helper/hashFile");
 
 describe("screenshot plugin", function () {
   let server;
-  const port = 3000;
+
+  const port = 7623;
   const site = `http://localhost:${port}`;
   const path = __dirname + "/data/screenshot.png";
   const expectedPath = __dirname + "/expected.png";
@@ -34,8 +34,7 @@ describe("screenshot plugin", function () {
       );
     });
 
-    server = http.createServer(app);
-    server.listen(port, done);
+    server = app.listen(port, done);
   });
 
   beforeEach(() => {
