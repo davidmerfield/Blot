@@ -1,8 +1,14 @@
+April 2nd: contact mac server host and request annual billing + reduce root disk size to 50 GB.
+
+April 1st: Create more Google Drive service accounts under new gmail users before April 15th deadline (see clients/google-drive/readme)
+
+---
+
 Work out why the mac server is restarting and resolve the issue
-- every time it restarts
+- every time it restarts, add the debug command to the email notification
 
 Work out why the main server is restarting and resolve the issue
-- every time it restarts
+- every time it restarts, add the debug command to the email notification
 
 Fix image profile retention not working in production and tell [Simon](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJchvfhDcWNkrZtNJqlLmLfsx)
 - maybe a caching issue and actually works?
@@ -10,9 +16,6 @@ Fix image profile retention not working in production and tell [Simon](https://m
 Improve production image build time for fast bug fixes and deploys
 - When should folder zipping happen?
 - Can we move documentation building and folder zipping into dockerfile? improve build speed by removing github actions cache?
-
-Add an open folder button to Local folder client
-- maybe add a highlevel function which clients can expose to open a file (e.g. link to dropbox.com or google drive)?
 
 Use tinify free api to compress some of the folder images
 - maybe consider building this into the main product? it might pay for itself
@@ -25,7 +28,13 @@ Fix bug with first edit on forked template on template editor:
 Add asset library / file upload to template editor and share files across templates
 - use this to help implement a favicon feature which minifies the favicon
 
+Extend markdown parser to add a special class to a list of only images for targeting into an image grid or gallery?
+- `- ![Image](_image.jpg)...` -> `<ul class="image-list">`... could then be used in CSS?
+
 Extract multiple thumbnails per blog post (as many as there are images) for cooler image grid possibilities.
+
+Add an open folder button to Local folder client
+- maybe add a highlevel function which clients can expose to open a file (e.g. link to dropbox.com or google drive)?
 
 Run image analysis on all images in post
 - extract colors for searching
@@ -86,11 +95,9 @@ global site search of:
 - questions
 - templates
 
-April 2nd: contact mac server host and request annual billing + reduce root disk size to 50 GB.
 
 Investigate bug with link format using filename and [follow up with yct](https://mail.google.com/mail/u/0/#inbox/FMfcgzQZTMLqzhtlSBrtFqNDFDdXPSfk)
 
-Create more Google Drive service accounts under new gmail users before April 15th deadline (see clients/google-drive/readme)
 
 Overdue subscription payment form not working
 - Possible bug introduced by recent stripe upgrade
