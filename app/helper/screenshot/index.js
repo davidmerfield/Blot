@@ -2,19 +2,19 @@ const puppeteer = require("puppeteer");
 const { dirname } = require("path");
 const fs = require("fs-extra");
 const Bottleneck = require("bottleneck");
+const retry = require("./retry");
 
-const CONFIG = {
-  DEFAULT_MAX_PAGES: 2,
-  DEFAULT_RESTART_INTERVAL: 1000 * 60 * 60, // 1 hour
-  MIN_TIME_BETWEEN_OPS: 1000,
-  BROWSER_ARGS: require("./args"),
-  DEFAULT_USER_AGENT:
-    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36",
-  PAGE_TIMEOUT: 20000,
-  VIEWPORT: {
-    desktop: { width: 1260, height: 778 },
-    mobile: { width: 400, height: 650 },
-  },
+// CONFIG
+const DEFAULT_MAX_PAGES = 2;
+const DEFAULT_RESTART_INTERVAL = 1000 * 60 * 60; // 1 hour
+const MIN_TIME_BETWEEN_OPS = 1000;
+const BROWSER_ARGS = require("./args");
+const DEFAULT_USER_AGENT =
+  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36";
+const PAGE_TIMEOUT = 20000;
+const VIEWPORT = {
+  desktop: { width: 1260, height: 778 },
+  mobile: { width: 400, height: 650 },
 };
 
 class ScreenshotManager {
@@ -26,8 +26,8 @@ class ScreenshotManager {
     this.isRestarting = false;
 
     this.limiter = new Bottleneck({
-      maxConcurrent: CONFIG.DEFAULT_MAX_PAGES,
-      minTime: CONFIG.MIN_TIME_BETWEEN_OPS,
+      maxConcurrent: DEFAULT_MAX_PAGES,
+      minTime: MIN_TIME_BETWEEN_OPS,
     });
   }
 
@@ -36,15 +36,19 @@ class ScreenshotManager {
       this.browser = await puppeteer.launch({
         headless: "new",
         devtools: false,
-        args: CONFIG.BROWSER_ARGS,
+        args: BROWSER_ARGS,
         ignoreDefaultArgs: ["--disable-extensions"],
       });
+
+      // open a single blank page to avoid the first page load delay
+      const page = await this.createPage();
+      await page.goto("about:blank");
     }
   }
 
   async createPage() {
     const page = await this.browser.newPage();
-    await page.setUserAgent(CONFIG.DEFAULT_USER_AGENT);
+    await page.setUserAgent(DEFAULT_USER_AGENT);
     await page.setRequestInterception(true);
 
     page.on("request", (request) => {
@@ -96,9 +100,7 @@ class ScreenshotManager {
     let success = false;
 
     try {
-      const viewport = options.mobile
-        ? CONFIG.VIEWPORT.mobile
-        : CONFIG.VIEWPORT.desktop;
+      const viewport = options.mobile ? VIEWPORT.mobile : VIEWPORT.desktop;
       await page.setViewport({
         width: options.width ?? viewport.width,
         height: options.height ?? viewport.height,
@@ -110,32 +112,47 @@ class ScreenshotManager {
       console.log("going to", site);
       await page.goto(site, {
         waitUntil: "networkidle0",
-        timeout: CONFIG.PAGE_TIMEOUT,
+        timeout: PAGE_TIMEOUT,
       });
 
       console.log("screenshotting", site, "to", path);
-      await Promise.race([
-        page.screenshot({
-          path,
-          type: "png",
-          omitBackground: true,
-        }),
-        new Promise((_, reject) =>
-          setTimeout(
-            () =>
-              reject(
-                new Error("Timeout calling page.screenshot() after 2 seconds")
-              ),
-            2000
-          )
-        ),
-      ]);
+      try {
+        await Promise.race([
+          page.screenshot({
+            path,
+            type: "png",
+            omitBackground: true,
+          }),
+          new Promise((_, reject) =>
+            setTimeout(
+              () =>
+                reject(
+                  new Error("Timeout calling page.screenshot() after 2 seconds")
+                ),
+              2000
+            )
+          ),
+        ]);  
+      } catch (e) {
+        // if we error here we need to restart the browser
+        // this means it's locked up and even calls to close the page
+        // will hang
+        console.error("Error taking screenshot:", e.message);
+        this.activePages = 0;
+        await this.restart();
+        console.log("Browser restarted, retrying screenshot");
+        return this.takeScreenshot(site, path, options);
+      }
 
       success = true;
       this.screenshotCount++;
     } finally {
       console.log("closing page");
-      await page.close().catch(() => {});
+      await page.close().catch((e) => {
+        console.error("Failed to close page:", e.message);
+      });
+      console.log("page closed");
+      
       this.activePages--;
 
       // If we are restarting, wait until the restart is complete to hold the queue
@@ -147,10 +164,7 @@ class ScreenshotManager {
         console.log("Restart complete");
       }
       // Check if restart is needed after the screenshot is complete
-      if (
-        Date.now() - this.lastRestartTime >=
-        CONFIG.DEFAULT_RESTART_INTERVAL
-      ) {
+      if (Date.now() - this.lastRestartTime >= DEFAULT_RESTART_INTERVAL) {
         // Schedule restart without waiting for it to complete
         this.restart().catch((error) => {
           console.error("Failed to restart browser:", error.message);
@@ -158,6 +172,7 @@ class ScreenshotManager {
       }
 
       if (!success) {
+        console.error("Failed to take screenshot");
         throw new Error("Failed to take screenshot");
       }
     }
@@ -165,28 +180,6 @@ class ScreenshotManager {
 }
 
 const manager = new ScreenshotManager();
-
-const retry = async (fn, retries = 3, delay = 1000) => {
-  let lastError;
-
-  for (let attempt = 1; attempt <= retries; attempt++) {
-    try {
-      return await fn();
-    } catch (error) {
-      lastError = error;
-      console.log(`Attempt ${attempt} failed:`, error.message);
-
-      if (attempt < retries) {
-        console.log(`Waiting ${delay}ms before retry...`);
-        await new Promise((resolve) => setTimeout(resolve, delay));
-      }
-    }
-  }
-
-  throw new Error(
-    `Failed after ${retries} attempts. Last error: ${lastError.message}`
-  );
-};
 
 // Export main function
 module.exports = async (site, path, options = {}) => {
