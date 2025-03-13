@@ -77,12 +77,14 @@ PURPLE_CONTAINER="blot-container-purple"
 PURPLE_CONTAINER_PORT=8091
 
 # Define the docker run command template with placeholders
+# 1048.00 MB max memory default is 75% of the 1.5gb limit for the container
 DOCKER_RUN_COMMAND="docker run --pull=always -d \
   --name {{CONTAINER_NAME}} \
   --platform $PLATFORM_OS/$PLATFORM_ARCH \
   -p {{CONTAINER_PORT}}:8080 \
   --env-file /etc/blot/secrets.env \
   -e CONTAINER_NAME={{CONTAINER_NAME}} \
+  -e NODE_OPTIONS='--max-old-space-size=1048' \
   -v /var/www/blot/data:/usr/src/app/data \
   --restart unless-stopped \
   --memory=1.5g --cpus=1 \

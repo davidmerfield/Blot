@@ -7,8 +7,11 @@ const setup = require("./setup");
 const server = require("./server");
 const flush = require("documentation/tools/flush-cache");
 const configureLocalBlogs = require("./configure-local-blogs");
+const v8 = require('v8');
+const heapStats = v8.getHeapStatistics();
 
 console.log(clfdate(), `Starting server pid=${process.pid} environment=${config.environment}`);
+console.log(clfdate(), 'Max heap size (MB):', heapStats.heap_size_limit / (1024 * 1024));
 
 setup(async err => {
   if (err) throw err;

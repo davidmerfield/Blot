@@ -4,10 +4,16 @@ April 1st: Create more Google Drive service accounts under new gmail users befor
 
 ---
 
+halve memory for blog-only containers
+- once verified this is applied: add two more of them
+- ensure nginx will retry a request two times (but not four) so an expensive request can't take down the whole server list
+
 Improve screenshot utility:
 - handle browser crash
 - add global top level timeout for individual invocation
 - improve fonts
+
+Why are there four chromium processes when there are only two containers which use the screenshot module?
 
 Work out why the mac server is restarting and resolve the issue
 - every time it restarts, add the debug command to the email notification
