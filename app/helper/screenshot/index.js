@@ -29,10 +29,6 @@ class ScreenshotManager {
       maxConcurrent: CONFIG.DEFAULT_MAX_PAGES,
       minTime: CONFIG.MIN_TIME_BETWEEN_OPS,
     });
-
-    // Handle cleanup on process termination
-    process.on("SIGINT", () => this.cleanup());
-    process.on("SIGTERM", () => this.cleanup());
   }
 
   async initialize() {
