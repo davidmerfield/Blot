@@ -399,27 +399,37 @@ function removeOldVersionFromTestBlogs(templateID, callback) {
     async.eachSeries(
       ids,
       function (blogID, next) {
-        Template.getTemplateList(blogID, function (err, templates) {
-          const TemplateToRemove = templates.find(function (template) {
-            return (
-              template.cloneFrom === templateID &&
-              template.owner === blogID &&
-              template.name.toLowerCase() ===
-                templateID.split(":")[1].toLowerCase()
-            );
-          });
-
-          if (!TemplateToRemove) {
-            console.log("No template to remove for", blogID, templateID);
-            return next();
-          }
-
-          console.log("Removing", TemplateToRemove.id);
-
-          Template.drop(blogID, TemplateToRemove.slug, function (err) {
+        Blog.get({ id: blogID }, function (err, blog) {
+          if (err) return next(err);
+          Template.getTemplateList(blogID, function (err, templates) {
             if (err) return next(err);
 
-            next();
+            const TemplateToRemove = templates.find(function (template) {
+              return (
+                template.cloneFrom === templateID &&
+                template.owner === blogID &&
+                template.name.toLowerCase() ===
+                  templateID.split(":")[1].toLowerCase()
+              );
+            });
+
+            if (!TemplateToRemove) return next();
+
+            
+            console.log("Removing old version of development template", TemplateToRemove.id);
+            Template.drop(blogID, TemplateToRemove.slug, function (err) {
+              if (err) return next(err);
+
+              if (TemplateToRemove.id === blog.template) {
+                Blog.set(blogID, { template: TemplateToRemove.cloneFrom }, function (err) {
+                  if (err) return next(err);
+                  console.log("Removed template from", blogID);
+                  next();
+                });
+              } else {
+                next();
+              }
+            });
           });
         });
       },

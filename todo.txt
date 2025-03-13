@@ -19,6 +19,14 @@ Improve production image build time for fast bug fixes and deploys
 Use tinify free api to compress some of the folder images
 - maybe consider building this into the main product? it might pay for itself
 
+Fix bug with first edit on forked template on template editor:
+- 1. open template editor for fresh blog
+- 2. change the text color
+- 3. nothing happens (due to the inital fork) until you reload the page
+
+Add asset library / file upload to template editor and share files across templates
+- use this to help implement a favicon feature which minifies the favicon
+
 Extract multiple thumbnails per blog post (as many as there are images) for cooler image grid possibilities.
 
 Run image analysis on all images in post
