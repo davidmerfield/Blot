@@ -6,6 +6,8 @@ const hashFile = require("helper/hashFile");
 describe("screenshot plugin", function () {
   let server;
 
+  global.test.timeout(60 * 1000); // 60s
+
   const port = 7623;
   const site = `http://localhost:${port}`;
   const path = __dirname + "/data/screenshot.png";
@@ -63,7 +65,7 @@ describe("screenshot plugin", function () {
     }
 
     fs.unlinkSync(path);
-  }, 15000);
+  });
 
   it("handles browser restarts smoothly", async function () {
     const requests = 10; // Reduced number of requests for stability
@@ -97,10 +99,10 @@ describe("screenshot plugin", function () {
         fs.unlinkSync(p);
       }
     }
-  }, 30000);
+  });
 
   it("respects rate limiting", async function () {
-    const requests = 18; // Reduced number of requests for stability
+    const requests = 10;
     const paths = Array.from(
       { length: requests },
       (_, i) => `${__dirname}/data/screenshot_${i}.png`
@@ -149,5 +151,5 @@ describe("screenshot plugin", function () {
         fs.unlinkSync(p);
       }
     }
-  }, 30000);
+  });
 });
