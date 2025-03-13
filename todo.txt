@@ -16,6 +16,9 @@ Improve production image build time for fast bug fixes and deploys
 - When should folder zipping happen?
 - Can we move documentation building and folder zipping into dockerfile? improve build speed by removing github actions cache?
 
+Add an open folder button to Local folder client
+- maybe add a highlevel function which clients can expose to open a file (e.g. link to dropbox.com or google drive)?
+
 Use tinify free api to compress some of the folder images
 - maybe consider building this into the main product? it might pay for itself
 
