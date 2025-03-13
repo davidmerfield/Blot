@@ -190,7 +190,7 @@ module.exports = {
             } catch (err) {
               // Handle errors in parsing the individual service account
               console.error(
-                `Failed to process service account for ID "${service_account_id}":`,
+                "Failed to process a service account:",
                 err.message
               );
               return null; // Return null when parsing fails
