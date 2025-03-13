@@ -125,11 +125,11 @@ async function main(options = {}) {
     console.log("Building folder", path, "for blog", blog.handle);
 
     // Sync changed files and get list of changes
-    const changes = await syncFolder(path, localPath(blog.id, "/"));
+    const changes = await syncFolder(path, localPath(id, "/"));
 
     // Only update changed files
     await new Promise((resolve, reject) => {
-      sync(blog.id, async function (err, folder, done) {
+      sync(id, async function (err, folder, done) {
         if (err) return reject(err);
 
         const update = promisify(folder.update);
