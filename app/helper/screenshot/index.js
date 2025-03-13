@@ -4,9 +4,16 @@ const fs = require("fs-extra");
 const Bottleneck = require("bottleneck");
 
 const CONFIG = {
-  DEFAULT_MAX_PAGES: 3,
+  DEFAULT_MAX_PAGES: 2,
+
   DEFAULT_RESTART_INTERVAL: 1000 * 60 * 60, // 1 hour
-  MIN_TIME_BETWEEN_OPS: 1000, // 1 screenshot per second
+  
+  // 1 screenshot per second rate limit
+  // be careful about increasing this, sometimes it
+  // causes screenshot() to hang indefinitely
+  // https://stackoverflow.com/a/78272496
+  MIN_TIME_BETWEEN_OPS: 1000,
+
   BROWSER_ARGS: require("./args"),
   DEFAULT_USER_AGENT:
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36",
@@ -96,18 +103,25 @@ class ScreenshotManager {
   }
 
   async releasePage(page) {
-    if (!page || !this.pagePool.has(page)) return;
+    if (!page || !this.pagePool.has(page)) {
+      console.error("Invalid page");
+      return;
+    } 
 
     try {
+      console.log('going to about:blank');
       await page.goto("about:blank", { waitUntil: "load", timeout: 5000 });
+      console.log('closing page');
     } catch (e) {
       // Ignore navigation errors
     }
 
+    console.log('releasing page');
     this.pagePool.set(page, false);
   }
 
   async restart() {
+    console.log("Restarting browser");
     await this.cleanup();
     await this.initialize();
     this.lastRestartTime = Date.now();
@@ -145,6 +159,7 @@ class ScreenshotManager {
         timeout: CONFIG.PAGE_TIMEOUT,
       });
 
+      console.log('screenshotting', site, 'to', path);
       await page.screenshot({
         path,
         type: "png",
@@ -153,6 +168,7 @@ class ScreenshotManager {
 
       this.screenshotCount++;
     } finally {
+      console.log('releasing page');
       await this.releasePage(page);
     }
   }

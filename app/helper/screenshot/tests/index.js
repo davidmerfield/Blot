@@ -28,6 +28,7 @@ describe("screenshot plugin", function () {
         });
 
         app.get("/", (req, res) => {
+            console.log("sending response");
             res.send("<html><head><style>body{background:white}</style></head><body><h1>Hello, world!</h1></body></html>");
         });
 
