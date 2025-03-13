@@ -5,15 +5,8 @@ const Bottleneck = require("bottleneck");
 
 const CONFIG = {
   DEFAULT_MAX_PAGES: 2,
-
   DEFAULT_RESTART_INTERVAL: 1000 * 60 * 60, // 1 hour
-  
-  // 1 screenshot per second rate limit
-  // be careful about increasing this, sometimes it
-  // causes screenshot() to hang indefinitely
-  // https://stackoverflow.com/a/78272496
   MIN_TIME_BETWEEN_OPS: 1000,
-
   BROWSER_ARGS: require("./args"),
   DEFAULT_USER_AGENT:
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36",
@@ -27,10 +20,11 @@ const CONFIG = {
 class ScreenshotManager {
   constructor() {
     this.browser = null;
-    this.pagePool = new Map();
+    this.activePages = 0;
     this.screenshotCount = 0;
     this.lastRestartTime = Date.now();
-    
+    this.isRestarting = false;
+
     this.limiter = new Bottleneck({
       maxConcurrent: CONFIG.DEFAULT_MAX_PAGES,
       minTime: CONFIG.MIN_TIME_BETWEEN_OPS,
@@ -64,84 +58,45 @@ class ScreenshotManager {
     return page;
   }
 
-  async acquirePage(maxPages) {
-    await this.initialize();
-
-    // Check if restart is needed
-    if (Date.now() - this.lastRestartTime >= CONFIG.DEFAULT_RESTART_INTERVAL) {
-      await this.restart();
-    }
-
-    // Find an available page or create new one
-    for (const [page, inUse] of this.pagePool) {
-      if (!inUse) {
-        this.pagePool.set(page, true);
-        return page;
-      }
-    }
-
-    // Create new page if under limit
-    if (this.pagePool.size < maxPages) {
-      const page = await this.createPage();
-      this.pagePool.set(page, true);
-      return page;
-    }
-
-    // Wait for a page to become available
-    return new Promise((resolve) => {
-      const interval = setInterval(() => {
-        for (const [page, inUse] of this.pagePool) {
-          if (!inUse) {
-            clearInterval(interval);
-            this.pagePool.set(page, true);
-            resolve(page);
-            return;
-          }
-        }
-      }, 100);
-    });
-  }
-
-  async releasePage(page) {
-    if (!page || !this.pagePool.has(page)) {
-      console.error("Invalid page");
-      return;
-    } 
-
-    try {
-      console.log('going to about:blank');
-      await page.goto("about:blank", { waitUntil: "load", timeout: 5000 });
-      console.log('closing page');
-    } catch (e) {
-      // Ignore navigation errors
-    }
-
-    console.log('releasing page');
-    this.pagePool.set(page, false);
-  }
-
   async restart() {
-    console.log("Restarting browser");
+    console.log("Attempting browser restart");
+    if (this.isRestarting) {
+      console.log("Already restarting, skipping");
+      return;
+    }
+    
+    this.isRestarting = true;
+    console.log("Waiting for pending pages to complete");
+    
+    // Wait for any pending page operations to complete
+    while (this.activePages > 0) {
+      await new Promise(resolve => setTimeout(resolve, 100));
+    }
+
+    console.log("Closing browser");
     await this.cleanup();
+
+    console.log("Browser closed, restarting now");
     await this.initialize();
+    console.log("Browser restarted");
     this.lastRestartTime = Date.now();
     this.screenshotCount = 0;
+    this.isRestarting = false;
   }
 
   async cleanup() {
     if (this.browser) {
-      for (const page of this.pagePool.keys()) {
-        await page.close().catch(() => {});
-      }
-      this.pagePool.clear();
       await this.browser.close().catch(() => {});
       this.browser = null;
+      this.activePages = 0;
     }
   }
 
   async takeScreenshot(site, path, options = {}) {
-    const maxPages = options.maxPages || CONFIG.DEFAULT_MAX_PAGES;
-    const page = await this.acquirePage(maxPages);
+    await this.initialize();
+
+    this.activePages++;
+    const page = await this.createPage();
 
     try {
       const viewport = options.mobile ? CONFIG.VIEWPORT.mobile : CONFIG.VIEWPORT.desktop;
@@ -168,8 +123,24 @@ class ScreenshotManager {
 
       this.screenshotCount++;
     } finally {
-      console.log('releasing page');
-      await this.releasePage(page);
+      console.log('closing page');
+      await page.close().catch(() => {});
+      this.activePages--;
+
+      // If we are restarting, wait until the restart is complete to hold the queue
+      if (this.isRestarting) {
+        console.log("Waiting for restart to complete");
+        while (this.isRestarting) {
+          await new Promise(resolve => setTimeout(resolve, 100));
+        }
+        console.log("Restart complete");
+      }
+
+      // Check if restart is needed after the screenshot is complete
+      if (Date.now() - this.lastRestartTime >= CONFIG.DEFAULT_RESTART_INTERVAL) {
+        // Schedule restart without awaiting it
+        this.restart().catch(console.error);
+      }
     }
   }
 }
@@ -180,3 +151,6 @@ const manager = new ScreenshotManager();
 module.exports = async (site, path, options = {}) => {
   return manager.limiter.schedule(() => manager.takeScreenshot(site, path, options));
 };
+
+// Export restart function for testing
+module.exports.restart = () => manager.restart();
