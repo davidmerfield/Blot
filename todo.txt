@@ -1,3 +1,9 @@
+Work out why the mac server is restarting and resolve the issue
+- every time it restarts
+
+Work out why the main server is restarting and resolve the issue
+- every time it restarts
+
 Fix bug with case-insensitivity and Dropbox for relative images then tell Carson
 - ```<a href="_birdwings.JPG"><img src="_birdwings.JPG"></a>```
 
@@ -6,8 +12,20 @@ Fix Carson's image gallery
 Fix image profile retention not working in production and tell [Simon](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJchvfhDcWNkrZtNJqlLmLfsx)
 - maybe a caching issue and actually works?
 
+Improve production image build time for fast bug fixes and deploys
+- When should folder zipping happen?
+- Can we move documentation building and folder zipping into dockerfile? improve build speed by removing github actions cache?
+
 Use tinify free api to compress some of the folder images
 - maybe consider building this into the main product? it might pay for itself
+
+Fix bug with first edit on forked template on template editor:
+- 1. open template editor for fresh blog
+- 2. change the text color
+- 3. nothing happens (due to the inital fork) until you reload the page
+
+Add asset library / file upload to template editor and share files across templates
+- use this to help implement a favicon feature which minifies the favicon
 
 Extract multiple thumbnails per blog post (as many as there are images) for cooler image grid possibilities.
 

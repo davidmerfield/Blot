@@ -115,7 +115,7 @@ server.use(vhost(config.host, site));
 // The Webhook forwarder
 // -------------
 // Forwards webhooks to development environment
-if (config.webhooks.server_host && process.env.CONTAINER_NAME === "blot-container-green") {
+if (config.webhooks.server_host && config.master) {
   console.log(clfdate(), "Webhooks relay on", config.webhooks.server_host);
   server.use(vhost(config.webhooks.server_host, require("./clients/webhooks")));
 }

@@ -27,7 +27,7 @@
     "body_font": {
       "id": "system-sans",
       "line_height": 1.6,
-      "font_size": 15,
+      "font_size": 15
     }
   },
   "enabled": true,
