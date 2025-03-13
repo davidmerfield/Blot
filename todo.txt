@@ -4,11 +4,6 @@ Work out why the mac server is restarting and resolve the issue
 Work out why the main server is restarting and resolve the issue
 - every time it restarts
 
-Fix bug with case-insensitivity and Dropbox for relative images then tell Carson
-- ```<a href="_birdwings.JPG"><img src="_birdwings.JPG"></a>```
-
-Fix Carson's image gallery
-
 Fix image profile retention not working in production and tell [Simon](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJchvfhDcWNkrZtNJqlLmLfsx)
 - maybe a caching issue and actually works?
 
