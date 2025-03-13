@@ -9,11 +9,6 @@ var converters = require("./converters");
 module.exports = function (blog, path, options, callback) {
   ensure(blog, "object").and(path, "string").and(callback, "function");
 
-  // Used for testing
-  if (options.kill) {
-    throw new Error("KILL THIS PROCESS PLEASE");
-  }
-
   async.each(
     converters,
     function (converter, next) {
