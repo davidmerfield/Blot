@@ -25,6 +25,8 @@ Fix bug with first edit on forked template on template editor:
 - 2. change the text color
 - 3. nothing happens (due to the inital fork) until you reload the page
 
+Move welcome email to send after user creation
+
 Add asset library / file upload to template editor and share files across templates
 - use this to help implement a favicon feature which minifies the favicon
 
