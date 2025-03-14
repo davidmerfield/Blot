@@ -10,13 +10,18 @@ The internet <> NGINX (reverse proxy) <> Blot (express.js node application) <> R
 
 ## Development setup
 
-
-You will need Docker. 
+You will need Docker.
 
 Once you have Docker installed and running, clone the repository:
 
 ```
-git clone https://github.com/davidmerfield/blot
+git clone https://github.com/davidmerfield/blot --depth 1
+```
+
+Create an empty `.env`:
+
+```
+touch .env
 ```
 
 Then start the server:
