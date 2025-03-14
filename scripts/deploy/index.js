@@ -59,18 +59,12 @@ async function getCurrentImageHash(containerName) {
   }
 }
 
-async function deployContainer(container, platform, commitHash, previousHash) {
-  const { name: containerName, port: containerPort } = container;
+async function deployContainer(container, platform, imageHash) {
+  const currentHash = await getCurrentImageHash(container.name);
 
-  if (previousHash && !/^[0-9a-fA-F]{40}$/.test(previousHash)) {
-    throw new Error("Invalid previous hash provided.");
-  }
-
-  const currentHash = await getCurrentImageHash(containerName);
-
-  if (currentHash === commitHash) {
+  if (currentHash === imageHash) {
     console.log(
-      `${containerName} already running with desired hash. Skipping.`
+      `${container.name} already running with desired hash. Skipping.`
     );
     return true;
   }
@@ -78,12 +72,13 @@ async function deployContainer(container, platform, commitHash, previousHash) {
   const dockerRunCommand = await generateDockerCommand(
     container,
     platform,
-    commitHash
+    imageHash
   );
 
-  console.log(
-    `Would deploy ${containerName}... with command: ${dockerRunCommand}`
-  );
+  console.log(`Would deploy ${container.name}... with command:`);
+  console.log();
+  console.log(dockerRunCommand);
+  console.log();
 
   if (!confirmed) {
     confirmed = await askForConfirmation(
@@ -96,57 +91,11 @@ async function deployContainer(container, platform, commitHash, previousHash) {
     process.exit(0);
   }
 
-  await removeContainer(containerName);
-
-  try {
-    await sshCommand(dockerRunCommand);
-    if (await checkHealth(containerName)) {
-      return true;
-    }
-    await rollbackContainer(
-      containerName,
-      containerPort,
-      previousHash,
-      platform
-    );
-    return false;
-  } catch (error) {
-    console.error(`Deployment failed for ${containerName}:`, error);
-    await rollbackContainer(
-      containerName,
-      containerPort,
-      previousHash,
-      platform
-    );
-    return false;
-  }
-}
-
-async function rollbackContainer(
-  containerName,
-  containerPort,
-  previousHash,
-  platform
-) {
-  if (!previousHash) return false;
-
-  console.log(`Rolling back ${containerName} to ${previousHash}...`);
-  await removeContainer(containerName);
-
-  const rollbackCommand = `docker run --pull=always -d \
-    --name ${containerName} \
-    --platform ${platform.platformOs}/${platform.platformArch} \
-    -p ${containerPort}:8080 \
-    --env-file /etc/blot/secrets.env \
-    -e CONTAINER_NAME=${containerName} \
-    -e NODE_OPTIONS='--max-old-space-size=1048' \
-    -v /var/www/blot/data:/usr/src/app/data \
-    --restart unless-stopped \
-    --memory=1.5g --cpus=1 \
-    ${REGISTRY_URL}:${previousHash}`;
-
-  await sshCommand(rollbackCommand);
-  return await checkHealth(containerName);
+  await removeContainer(container.name);
+  await sshCommand(dockerRunCommand);
+  // This will throw an error if the container is unhealthy
+  // after a certain amount of time
+  await checkHealth(container.name, container.port);
 }
 
 async function main() {
@@ -160,10 +109,11 @@ async function main() {
 
     const { commitHash, commitMessage } = await getGitCommit(process.argv[2]);
 
-    console.log(`Deploying commit: ${commitHash} - ${commitMessage}`);
+    console.log(`Deploying image for commit: ${commitHash} - ${commitMessage}`);
 
+    const imageHash = commitHash;
     const platform = await detectPlatform();
-    const manifestExists = await verifyImageManifest(commitHash, platform);
+    const manifestExists = await verifyImageManifest(imageHash, platform);
 
     if (!manifestExists) {
       throw new Error(
@@ -171,26 +121,32 @@ async function main() {
       );
     }
 
-    const rollbackHash = await getCurrentImageHash(CONTAINERS.GREEN.name);
-
-    console.log("Using rollback hash:", rollbackHash);
     console.log("Deploying containers...");
-
     // Deploy all containers
     for (const container of Object.values(CONTAINERS)) {
-      if (
-        !(await deployContainer(container, platform, commitHash, rollbackHash))
-      ) {
-        throw new Error(`Deployment failed for ${container.name}`);
+      const rollbackHash = await getCurrentImageHash(container.name);
+      console.log("Determined rollback hash:", rollbackHash);
+      try {
+        await deployContainer(container, platform, imageHash);
+      } catch (error) {
+        console.error(`Deployment failed for ${container.name}`);
+        console.error("Rolling back...");
+        try {
+          await deployContainer(container, platform, rollbackHash);
+          console.error("Rollback succeeded.");
+        } catch (rollbackError) {
+          console.error("Rollback failed:", rollbackError);
+        }
+        throw error;
       }
     }
 
     console.log("Pruning old images...");
     const pruned = await sshCommand("docker image prune -af");
     console.log(pruned);
-    console.log("Blue-Green-Yellow-Purple deployment completed successfully!");
+    console.log("Deployment completed successfully!");
   } catch (error) {
-    console.error("Deployment failed:", error.message);
+    console.error("Deployment failed:", error);
     process.exit(1);
   }
 }

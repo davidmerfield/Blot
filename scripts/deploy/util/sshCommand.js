@@ -4,11 +4,20 @@ const execAsync = promisify(exec);
 
 module.exports = async function sshCommand(command) {
   try {
-    // console.log(`Running SSH command: ${command}`);
-    const { stdout } = await execAsync(`ssh blot "${command}"`);
-    // console.log(`SSH command output: ${stdout}`);
+    const timeoutMs = 30000;
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+
+    const { stdout } = await execAsync(`ssh blot "${command}"`, {
+      signal: controller.signal
+    });
+
+    clearTimeout(timeoutId);
     return stdout.trim();
   } catch (error) {
+    if (error.name === 'AbortError') {
+      throw new Error(`SSH command timed out after ${timeoutMs/1000} seconds: ${command}`);
+    }
     throw new Error(`SSH command failed: ${command}\n${error.message}`);
   }
 }
