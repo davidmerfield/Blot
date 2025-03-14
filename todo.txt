@@ -1,15 +1,88 @@
-Fix bug with case-insensitivity and Dropbox for relative images then tell Carson
-- ```<a href="_birdwings.JPG"><img src="_birdwings.JPG"></a>```
+April 2nd: contact mac server host and request annual billing + reduce root disk size to 50 GB.
 
-Fix Carson's image gallery
+April 1st: Create more Google Drive service accounts under new gmail users before April 15th deadline (see clients/google-drive/readme)
+
+---
+
+Convert callbacks to async/await
+- literally anywhere in the codebase – use util.callbackify to add backwards compatibility
+
+Write unit tests for database models which have no tests subdirectory
+- e.g. models/404, models/entries, models/redirects
+
+Improve screenshot utility:
+- handle / detect pupeteer browser crash and restart
+- add global timeout top-level screenshot function for individual invocations
+- improve fonts if possible? 
+- the source code for the screenshot is in helper/screenshot and it's only used in app/build/
+- improve and extend tests for resilience, buggy webpages – verify 100% test coverage
+
+
+Clamp length of password and email address in log in and sign up and reset forms
+- ensure the forms have tight max-bodies
+- return an error if these are too long
+
+---
+
+Re-introduce http_500 to proxy error and check that the backup is never marked as bad by visiting an endpoint which returns a 500 error
+
+Write a post mortem on the dumb status(500) -> upstream marked as down bug with the reverse proxy and my node server
+
+Write tests for deploy script
+
+Get critique on full openresty config
+
+Speed up templates.build 
+
+Create a folder{watch} equivalent so we don't have to run a seperate process for development
+
+Run documentation build on github actions
+
+Check in on philpins folder issues (icloud continuously syncing?)
+- seems to be causing the icloud server to restart sometimes
+
+Set up log rotation in docker:
+--log-driver=json-file
+--log-opt max-size=10m
+--log-opt max-file=3
+
+Work out why the mac server is restarting and resolve the issue
+- every time it restarts, add the debug command to the email notification
+
+Containerize the proxy (openresty/nginx)
+- add varnish afterwards to handle the load balancing and caching
+- get rid of openrestycache
+
+Work out why the main server is restarting and resolve the issue
+- every time it restarts
 
 Fix image profile retention not working in production and tell [Simon](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJchvfhDcWNkrZtNJqlLmLfsx)
 - maybe a caching issue and actually works?
 
+Improve production image build time for fast bug fixes and deploys
+- When should folder zipping happen?
+- Can we move documentation building and folder zipping into dockerfile? improve build speed by removing github actions cache?
+
 Use tinify free api to compress some of the folder images
 - maybe consider building this into the main product? it might pay for itself
 
+Fix bug with first edit on forked template on template editor:
+- 1. open template editor for fresh blog
+- 2. change the text color
+- 3. nothing happens (due to the inital fork) until you reload the page
+
+Move welcome email to send after user creation
+
+Add asset library / file upload to template editor and share files across templates
+- use this to help implement a favicon feature which minifies the favicon
+
+Extend markdown parser to add a special class to a list of only images for targeting into an image grid or gallery?
+- `- ![Image](_image.jpg)...` -> `<ul class="image-list">`... could then be used in CSS?
+
 Extract multiple thumbnails per blog post (as many as there are images) for cooler image grid possibilities.
+
+Add an open folder button to Local folder client
+- maybe add a highlevel function which clients can expose to open a file (e.g. link to dropbox.com or google drive)?
 
 Run image analysis on all images in post
 - extract colors for searching
@@ -70,11 +143,9 @@ global site search of:
 - questions
 - templates
 
-April 2nd: contact mac server host and request annual billing + reduce root disk size to 50 GB.
 
 Investigate bug with link format using filename and [follow up with yct](https://mail.google.com/mail/u/0/#inbox/FMfcgzQZTMLqzhtlSBrtFqNDFDdXPSfk)
 
-Create more Google Drive service accounts under new gmail users before April 15th deadline (see clients/google-drive/readme)
 
 Overdue subscription payment form not working
 - Possible bug introduced by recent stripe upgrade
@@ -339,8 +410,6 @@ Remove packages:
 - csurf
 - node-fetch (use global fetch)
 - twemoji (delete the plugin)
-
-Clamp length of password and email address in log in and sign up and reset forms
 
 Migrate [Stripe library to v7](https://github.com/stripe/stripe-node/wiki/Migration-guide-for-v7)
 

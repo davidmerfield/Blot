@@ -281,7 +281,7 @@ function listen({ host }) {
   }
 }
 
-if (config.environment === "development" && config.webhooks.relay_host) {
+if (config.environment === "development" && config.webhooks.relay_host && config.webhooks.secret) {
   listen({ host: config.webhooks.relay_host });
 }
 

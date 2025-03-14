@@ -1,5 +1,4 @@
 const config = require("config");
-const root = require("helper/rootDir");
 const fs = require("fs-extra");
 
 const redis = require("models/redis");
@@ -9,16 +8,18 @@ const templates = require("./templates");
 const folders = require("./templates/folders");
 const async = require("async");
 const clfdate = require("helper/clfdate");
+
 const log = (...arguments) =>
   console.log.apply(null, [clfdate(), "Setup:", ...arguments]);
 
 // skip building the documentation if it's already been built
 // this suggests that the server has already been started
 // and this speeds up the restart process when we run out of memory
-const SERVER_RESTART = config.environment === "production" && fs.existsSync(config.views_directory + "/documentation.html")
+const SERVER_RESTART =
+  config.environment === "production" &&
+  fs.existsSync(config.views_directory + "/documentation.html");
 
-function main (callback) {
-
+function main(callback) {
   if (SERVER_RESTART) {
     log("Server restart detected. Skipping setup.");
     return callback();
@@ -61,20 +62,25 @@ function main (callback) {
           }
         );
       },
-      
-       function (callback) {
-        // we only want to watch for changes in the templates in development
-        log("Building templates");
-        templates(
-          { watch: config.environment === "development" },
-          function (err) {
-            if (err) throw err;
-            log("Built templates");
-            callback();
-          }
-        );
-      },
 
+      function (callback) {
+        // we only want to build the templates once per deployment
+        if (config.master) {
+          log("Building templates");
+          templates(
+            // we only want to watch for changes in the templates in development
+            { watch: config.environment === "development" },
+            function (err) {
+              if (err) throw err;
+              log("Built templates");
+              callback();
+            }
+          );
+        } else {
+          log("Skipping template build");
+          callback();
+        }
+      },
 
       async function () {
         log("Building documentation");
@@ -83,25 +89,29 @@ function main (callback) {
         log("Built documentation");
       },
 
-      // async function () {
-      //   // if (config.environment === "production") {
-      //   //   log("Building folders");
-      //   //   await folders();
-      //   //   log("Built folders");
-      //   // }
-      // },
-
-
+      async function () {
+        if (config.environment === "production" && config.master) {
+          log("Building folders");
+          try {
+            await folders();
+            log("Built folders");
+          } catch (e) {
+            log("Error building folders", e);
+          }
+        } else {
+          log("Skipping folder build");
+        }
+      },
     ],
     callback
   );
 }
 
 if (require.main === module) {
-  console.log("Setting up Blot...");
+  log("Setting up Blot...");
   main(function (err) {
     if (err) throw err;
-    console.log("Setup complete!");
+    log("Setup complete!");
     process.exit();
   });
 }

@@ -85,7 +85,7 @@ server.get("/redis-health", function (req, res) {
 
   client.ping(function (err, reply) {
     if (err) {
-      res.status(500).send("Failed to ping redis");
+      res.status(400).send("Failed to ping redis");
     } else {
       res.send("OK");
     }
@@ -115,7 +115,7 @@ server.use(vhost(config.host, site));
 // The Webhook forwarder
 // -------------
 // Forwards webhooks to development environment
-if (config.webhooks.server_host && process.env.CONTAINER_NAME === "blot-container-green") {
+if (config.webhooks.server_host && config.master) {
   console.log(clfdate(), "Webhooks relay on", config.webhooks.server_host);
   server.use(vhost(config.webhooks.server_host, require("./clients/webhooks")));
 }

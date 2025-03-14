@@ -59,7 +59,7 @@ module.exports = function ({ login = false } = {}) {
       headless: true,
       args: ["--no-sandbox"],
     });
-  }, LONG_TIMEOUT);
+  });
 
   // Increase individual spec timeout to 60 seconds
   global.test.timeout(60 * 1000);

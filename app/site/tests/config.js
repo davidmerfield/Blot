@@ -2,7 +2,7 @@ describe("Blot configuration", function () {
   // The test to start the main server
   // and resolve unused dependencies both
   // needs a little longer to run. 50s should be plenty
-  var LONG_TIMEOUT = 50 * 1000;
+  global.test.timeout(50 * 1000);
 
   // TODO: check that g
   it("config loads without error", function () {
@@ -34,7 +34,7 @@ describe("Blot configuration", function () {
         done();
       }
     });
-  }, LONG_TIMEOUT);
+  });
 
   afterAll(function (done) {
     server.on("exit", function () {

@@ -67,7 +67,7 @@ COPY ./todo.txt ./todo.txt
 # The final production stage
 FROM source AS prod
 
-HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
+HEALTHCHECK --interval=30s --timeout=5s --start-period=120s --start-interval=5s --retries=3 \
   CMD curl --fail http://localhost:8080/health || exit 1
 
 # Ensure the logfile directory exists
@@ -82,5 +82,4 @@ USER 1000
 # Re-configuring git for the non-root user
 RUN git config --global user.email "you@example.com" && git config --global user.name "Your Name"
 
-# 1048.00 MB max memory default is 75% of the 1.5gb limit for the container
-CMD ["sh", "-c", "node --max-old-space-size=1048 /usr/src/app/app/index.js >> /usr/src/app/data/logs/docker/app.log 2>&1"]
+CMD ["sh", "-c", "node /usr/src/app/app/index.js >> /usr/src/app/data/logs/docker/app.log 2>&1"]

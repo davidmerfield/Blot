@@ -1,261 +1,187 @@
-// Generate demonstration blogs from the folders inside
-// for showing templates and explaining how Blot works
-// in the docs. This script will create a blog for each
-// folder e.g. one 'bjorn' for folders/bjorn
-
-// 1. Create admin user if none exists
-// 2. Create blogs against admin user assuming the
-//    handle is not taken.
-// 3. Configure each blog with the local client
-//    pointing to the source folder. Local client will
-//    watch source folder so changes should appear.
-
 const join = require("path").join;
 const fs = require("fs-extra");
-const async = require("async");
 const config = require("config");
-const User = require("models/user");
-const Blog = require("models/blog");
 const basename = require("path").basename;
 const DIR = require("helper/rootDir") + "/app/templates/folders";
-const format = require("url").format;
 const localPath = require("helper/localPath");
+const hashFile = require("helper/hashFile");
 const sync = require("sync");
-const fix = require("sync/fix");
+const { dirname } = require("path");
+const { promisify } = require("util");
+const fix = promisify(require("sync/fix"));
 
-const FOLDER_ACCOUNT_EMAIL = config.admin.email || "folders@example.com";
+const setupUser = require("./setupUser");
+const setupBlogs = require("./setupBlogs");
 
-const updates = {
-  bjorn: {
-    title: "Björn Allard",
-    template: "SITE:portfolio"
-  },
-  botanist: {
-    title: "William Copeland McCalla",
-    template: "SITE:photo"
-  },
-  david: {
-    title: "David",
-    template: "SITE:blog"
-  },
-  frances: {
-    title: "Frances Benjamin Johnston",
-    template: "SITE:reference"
-  },
-  illustrator: {
-    title: "Thought-forms",
-    template: "SITE:portfolio"
-  },
-  manifesto: {
-    title: "Manifesto",
-    template: "SITE:blog"
-  },
-  painter: {
-    title: "Piet Mondrian",
-    template: "SITE:portfolio"
-  },
-  photographer: {
-    title: "Sergey Prokudin-Gorsky",
-    template: "SITE:portfolio"
-  },
-  plants: {
-    title: "Plants",
-    template: "SITE:magazine"
-  },
-  programmer: {
-    title: "Programmer",
-    template: "SITE:blog"
-  },
-  writer: {
-    title: "Writer",
-    template: "SITE:blog"
-  }
-};
-
-function main (options = {}) {
-  return new Promise((resolve, reject) => {
-
-    loadFoldersToBuild(DIR, function (err, folders) {
-      if (err) return reject(err);
-
-      if (options.filter) folders = folders.filter(options.filter);
-
-      setupUser(function (err, user, url) {
-        if (err) return reject(err);
-
-        console.log(
-          "Established user " + user.email + " to manage demonstration blogs"
-        );
-        setupBlogs(user, folders, function (err) {
-          if (err) return reject(err);
-
-          folders.forEach(function (folder) {
-            console.log("http://" + basename(folder) + "." + config.host);
-            console.log("Folder:", folder);
-            console.log();
-          });
-
-          console.log("Dashboard:\n" + url);
-          resolve();
-        });
-      });
-    });
-  });
-}
-
-function setupUser (_callback) {
-  const callback = (err, user) => {
-    if (err) return _callback(err);
-
-    User.generateAccessToken({ uid: user.uid }, function (err, token) {
-      if (err) return _callback(err);
-
-      // The full one-time log-in link to be sent to the user
-      var url = format({
-        protocol: "https",
-        host: config.host,
-        pathname: "/log-in",
-        query: {
-          token: token
-        }
-      });
-
-      _callback(null, user, url);
-    });
+async function getChangedFiles(sourcePath, destPath) {
+  const changes = {
+    modified: new Set(),
+    added: new Set(),
+    removed: new Set(),
   };
 
-  User.getByEmail(FOLDER_ACCOUNT_EMAIL, function (err, user) {
-    if (err) return callback(err);
+  // Get all files in source and destination recursively
+  async function getAllFiles(dir) {
+    const results = new Set();
+    const items = await fs.readdir(dir, { withFileTypes: true });
+    for (const item of items) {
+      const fullPath = join(dir, item.name);
+      if (item.isDirectory()) {
+        const subFiles = await getAllFiles(fullPath);
+        subFiles.forEach((f) => results.add(f));
+      } else {
+        results.add(fullPath);
+      }
+    }
+    return results;
+  }
 
-    if (user) return callback(null, user);
+  const sourceFiles = await getAllFiles(sourcePath);
+  const destFiles = await getAllFiles(destPath);
 
-    User.create(FOLDER_ACCOUNT_EMAIL, config.session.secret, {}, {}, callback);
-  });
+  // Check for modified and added files
+  for (const sourceFile of sourceFiles) {
+    const relPath = sourceFile.slice(sourcePath.length);
+    const destFile = join(destPath, relPath);
+
+    if (!destFiles.has(destFile)) {
+      changes.added.add(relPath);
+    } else {
+      try {
+        const [sourceHash, destHash] = await Promise.all([
+          hashFile(sourceFile),
+          hashFile(destFile),
+        ]);
+        if (sourceHash !== destHash) {
+          changes.modified.add(relPath);
+        }
+      } catch (err) {
+        changes.modified.add(relPath);
+      }
+    }
+  }
+
+  // Check for removed files
+  for (const destFile of destFiles) {
+    const relPath = destFile.slice(destPath.length);
+    const sourceFile = join(sourcePath, relPath);
+    if (!sourceFiles.has(sourceFile)) {
+      changes.removed.add(relPath);
+    }
+  }
+
+  return changes;
 }
 
-function setupBlogs (user, folders, callback) {
-  var blogs = {};
+async function syncFolder(sourcePath, destPath) {
+  await fs.ensureDir(destPath);
 
-  async.eachSeries(
-    folders,
-    function (path, next) {
-      var handle = basename(path);
-      Blog.get({ handle: handle }, function (err, existingBlog) {
-        if (err) return next(err);
+  // Copy changed files
+  const changes = await getChangedFiles(sourcePath, destPath);
 
-        if (existingBlog && existingBlog.owner !== user.uid)
-          return next(
-            new Error(existingBlog.handle + " owned by another user")
-          );
+  for (const relPath of [...changes.added, ...changes.modified]) {
+    const sourceFile = join(sourcePath, relPath);
+    const destFile = join(destPath, relPath);
+    await fs.ensureDir(dirname(destFile));
+    await fs.copy(sourceFile, destFile, { preserveTimestamps: true });
+  }
 
-        if (existingBlog) {
-          blogs[existingBlog.id] = { path, blog: existingBlog };
-          return next();
+  // Remove deleted files
+  for (const relPath of changes.removed) {
+    await fs.remove(join(destPath, relPath));
+  }
+
+  return changes;
+}
+
+async function loadFoldersToBuild(foldersDirectory) {
+  const items = await fs.readdir(foldersDirectory);
+  return items
+    .map((name) => join(foldersDirectory, name))
+    .filter((path) => {
+      const name = basename(path);
+      return (
+        name[0] !== "-" && name[0] !== "." && fs.statSync(path).isDirectory()
+      );
+    });
+}
+
+async function applyChanges(blog, changes) {
+  return new Promise((resolve, reject) => {
+    sync(blog.id, async function (err, folder, done) {
+      if (err) return reject(err);
+
+      const update = promisify(folder.update);
+
+      try {
+        // Update only modified and added files
+        const changedPaths = [
+          ...changes.modified,
+          ...changes.added,
+          ...changes.removed,
+        ];
+        for (const relativePath of changedPaths) {
+          await update(relativePath);
         }
 
-        Blog.create(user.uid, { handle: handle }, function (err, newBlog) {
-          if (err) return next(err);
-          blogs[newBlog.id] = { path, blog: newBlog };
-          next();
+        await fix(blog);
+        console.log("Built folder for blog", blog.handle);
+        done(null, resolve);
+      } catch (err) {
+        console.error("Error building folder for blog", blog.handle, err);
+        done(null, () => {
+          reject(err);
         });
-      });
-    },
-    function (err) {
-      if (err) return callback(err);
-      async.eachOfSeries(
-        blogs,
-        function ({ path, blog }, id, next) {
-          console.log("Building folder", path, "for blog", blog.handle);
-          const update = updates[blog.handle] || {};
-
-          Blog.set(id, { ...update, client: "" }, async function (err) {
-            if (err) return next(err);
-
-            // replace the contents of the blog folder 'localPath(id, "/")'
-            // with the contents of the folder 'path', overwriting anything
-            // and removing anything that is not in 'path'
-            await fs.remove(localPath(blog.id, "/"));
-            console.log("copying", path, "to", localPath(blog.id, "/"));
-            await fs.copy(path, localPath(blog.id, "/"), {
-              preserveTimestamps: true
-            });
-
-            // resync the folder
-            sync(blog.id, async function (err, folder, done) {
-              if (err) return next(err);
-
-              // walk the contents of the folder and call folder.update
-              // in series for each file
-              // path must be relative to the root of the blog folder
-              const walk = async dir => {
-                const items = await fs.readdir(dir);
-                for (const name of items) {
-                  const path = join(dir, name);
-                  const stat = await fs.stat(path);
-                  if (stat.isDirectory()) {
-                    await walk(path);
-                  } else {
-                    await new Promise((resolve, reject) => {
-                      const relativePath = path.slice(
-                        localPath(blog.id, "/").length
-                      );
-                      folder.update(relativePath, {}, function (err) {
-                        if (err) return reject(err);
-                        resolve();
-                      });
-                    });
-                  }
-                }
-              };
-
-              await walk(localPath(blog.id, "/"));
-
-              fix(blog, function (err) {
-                if (err) return done(err);
-
-                console.log("Built folder", path, "for blog", blog.handle);
-                done(null, next);
-              });
-            });
-          });
-        },
-        callback
-      );
-    }
-  );
+      }
+    });
+  });
 }
 
-function loadFoldersToBuild (foldersDirectory, callback) {
-  fs.readdir(foldersDirectory, function (err, folders) {
-    if (err) return callback(err);
+async function main(options = {}) {
+  let folders = await loadFoldersToBuild(DIR);
 
-    folders = folders
-      .map(function (name) {
-        return foldersDirectory + "/" + name;
-      })
-      .filter(function (path) {
-        return (
-          basename(path)[0] !== "-" &&
-          basename(path)[0] !== "." &&
-          fs.statSync(path).isDirectory()
-        );
-      });
+  if (options.filter) {
+    folders = folders.filter(options.filter);
+  }
 
-    callback(null, folders);
+  const { user, url } = await setupUser();
+  console.log(
+    "Established user " + user.email + " to manage demonstration blogs"
+  );
+
+  const blogs = await setupBlogs(user, folders);
+
+  // Update and sync blogs
+  for (const [blogID, { path, blog }] of Object.entries(blogs)) {
+    try {
+      console.log("Building folder", path, "for blog", blog.handle);
+
+      // Sync changed files and get list of changes
+      const changes = await syncFolder(path, localPath(blogID, "/"));
+
+      // Only update changed files
+      await applyChanges(blog, changes);
+    } catch (e) {
+      console.error("Error syncing folder", path, "for blog", blog.handle, e);
+    }
+  }
+
+  folders.forEach((folder) => {
+    console.log("http://" + basename(folder) + "." + config.host);
+    console.log("Folder:", folder);
+    console.log();
   });
+
+  console.log("Dashboard:\n" + url);
 }
 
 if (require.main === module) {
-  var options = {};
+  const options = {};
+  if (process.argv[2]) {
+    options.filter = (path) => path.includes(process.argv[2]);
+  }
 
-  if (process.argv[2])
-    options.filter = function (path) {
-      return path.indexOf(process.argv[2]) > -1;
-    };
-
-  main(options).then(() => {
-    process.exit(0);
-  }).catch(err => {
+  main(options).catch((err) => {
     console.error(err);
     process.exit(1);
   });

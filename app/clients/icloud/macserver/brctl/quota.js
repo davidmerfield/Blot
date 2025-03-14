@@ -7,7 +7,7 @@ module.exports = async () => {
   
   if (stderr) {
     console.error(`Error getting iCloud Drive quota: ${stderr}`);
-    return res.status(500).send(stderr);
+    throw new Error("Failed to get iCloud Drive quota");
   }
 
   return parseInt(stdout.match(/(\d+) bytes of quota remaining/)[1]);

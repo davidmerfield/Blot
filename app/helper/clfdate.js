@@ -1,5 +1,4 @@
-// map 'blot-container-<container-name>' to 'container-name'
-const CONTAINER_NAME = (process.env.CONTAINER_NAME || "").split("-").slice(2).join("-");
+const CONTAINER_NAME = require('config').container;
 
 var CLF_MONTH = [
   "Jan",
