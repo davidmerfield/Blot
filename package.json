@@ -6,6 +6,7 @@
   "scripts": {
     "test": "./tests/invoke.sh",
     "start": "docker-compose up --build",
+    "deploy": "node scripts/deploy",
     "featured": "docker exec blot-node-app-1 node app/documentation/featured/build",
     "folder": "docker exec blot-node-app-1 npx nodemon app/templates/folders --ext '*' --watch /usr/src/app/app/templates/folders"
   },

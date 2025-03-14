@@ -1,19 +1,20 @@
-// Constants
-const CONTAINERS = require("./containers");
-
-const HEALTH_CHECK_TIMEOUT = process.env.HEALTH_CHECK_TIMEOUT || 120;
-const HEALTH_CHECK_INTERVAL = 5;
-
 // Utility functions
 const sshCommand = require("./util/sshCommand");
 const askForConfirmation = require("./util/askForConfirmation");
 const checkBranch = require("./util/checkBranch");
 const getGitCommit = require("./util/getGitCommit");
+const checkHealth = require("./util/checkHealth");
+const generateDockerCommand = require("./util/generateDockerCommand");
 
-const REGISTRY_URL = "ghcr.io/davidmerfield/blot";
-const PLATFORM_OS = "linux";
+const constants = require("./constants");
+
+const { CONTAINERS } = constants;
+const { REGISTRY_URL, PLATFORM_OS } = constants;
+
+let confirmed = false;
 
 async function detectPlatform() {
+  console.log("Detecting server platform...");
   const platformOs = PLATFORM_OS;
   let platformArch = await sshCommand(
     "docker info --format '{{.Architecture}}'"
@@ -24,6 +25,7 @@ async function detectPlatform() {
 
 async function verifyImageManifest(commitHash, platform) {
   try {
+    console.log("Checking that an image exists...");
     const manifest = await sshCommand(
       `docker manifest inspect ${REGISTRY_URL}:${commitHash} 2>/dev/null`
     );
@@ -39,33 +41,16 @@ async function verifyImageManifest(commitHash, platform) {
 }
 
 async function removeContainer(containerName) {
+  console.log(`Removing container ${containerName}...`);
   await sshCommand(
     `docker ps -a --format '{{.Names}}' | grep -q '^${containerName}$' && ` +
       `docker rm -f ${containerName} || true`
   );
 }
 
-async function checkHealth(containerName) {
-  const startTime = Date.now();
-
-  while (Date.now() - startTime < HEALTH_CHECK_TIMEOUT * 1000) {
-    const health = await sshCommand(
-      `docker inspect --format='{{.State.Health.Status}}' ${containerName} || echo 'unhealthy'`
-    );
-
-    if (health === "healthy") return true;
-
-    console.log(`Still waiting for ${containerName} to become healthy...`);
-    await new Promise((resolve) =>
-      setTimeout(resolve, HEALTH_CHECK_INTERVAL * 1000)
-    );
-  }
-
-  return false;
-}
-
 async function getCurrentImageHash(containerName) {
   try {
+    console.log(`Getting current image hash for ${containerName}...`);
     return await sshCommand(
       `docker inspect --format='{{.Config.Image}}' ${containerName} 2>/dev/null | sed 's/.*://'`
     );
@@ -75,64 +60,10 @@ async function getCurrentImageHash(containerName) {
 }
 
 async function deployContainer(container, platform, commitHash, previousHash) {
-  const {
-    name: containerName,
-    port: containerPort,
-    cpus,
-    memory,
-    maxOldSpaceSize,
-  } = container;
+  const { name: containerName, port: containerPort } = container;
 
-  // validate all the variables
-  if (
-    !containerName ||
-    !containerPort ||
-    !cpus ||
-    !memory ||
-    !maxOldSpaceSize
-  ) {
-    throw new Error(
-      "Invalid container configuration passed to deployContainer."
-    );
-  }
-
-  // verify that platform os and arch are in the format of linux/arm64
-  if (
-    !/^[a-z]+\/[a-z0-9]+$/.test(
-      platform.platformOs + "/" + platform.platformArch
-    )
-  ) {
-    throw new Error("Invalid platform string provided.");
-  }
-
-  // verify that commitHash is a 40-character hash
-  if (!/^[0-9a-fA-F]{40}$/.test(commitHash)) {
-    throw new Error("Invalid commit hash provided.");
-  }
-
-  // verify that previousHash is a 40-character hash
   if (previousHash && !/^[0-9a-fA-F]{40}$/.test(previousHash)) {
     throw new Error("Invalid previous hash provided.");
-  }
-
-  // verify that port is a 4-digit number
-  if (!/^\d{4}$/.test(containerPort)) {
-    throw new Error("Invalid port number provided.");
-  }
-
-  // verify that cpus is a number
-  if (isNaN(cpus)) {
-    throw new Error("Invalid cpus number provided.");
-  }
-
-  // verify that memory is a string in the format of 1.5g
-  if (!/^\d+(\.\d+)?[mg]$/.test(memory)) {
-    throw new Error("Invalid memory string provided.");
-  }
-
-  // verify that maxOldSpaceSize is a integer
-  if (isNaN(maxOldSpaceSize)) {
-    throw new Error("Invalid maxOldSpaceSize number provided.");
   }
 
   const currentHash = await getCurrentImageHash(containerName);
@@ -144,25 +75,21 @@ async function deployContainer(container, platform, commitHash, previousHash) {
     return true;
   }
 
-  const dockerRunCommand = `docker run --pull=always -d \
-    --name ${containerName} \
-    --platform ${platform.platformOs}/${platform.platformArch} \
-    -p ${containerPort}:8080 \
-    --env-file /etc/blot/secrets.env \
-    -e CONTAINER_NAME=${containerName} \
-    -e NODE_OPTIONS='--max-old-space-size=${maxOldSpaceSize}' \
-    -v /var/www/blot/data:/usr/src/app/data \
-    --restart unless-stopped \
-    --memory=${memory} --cpus=${cpus} \
-    ${REGISTRY_URL}:${commitHash}`;
+  const dockerRunCommand = await generateDockerCommand(
+    container,
+    platform,
+    commitHash
+  );
 
   console.log(
     `Would deploy ${containerName}... with command: ${dockerRunCommand}`
   );
 
-  const confirmed = await askForConfirmation(
-    "Are you sure you want to run this command? (y/n): "
-  );
+  if (!confirmed) {
+    confirmed = await askForConfirmation(
+      "Are you sure you want to run this command? (y/n): "
+    );
+  }
 
   if (!confirmed) {
     console.log("Deployment canceled.");
@@ -242,14 +169,6 @@ async function main() {
       throw new Error(
         `Image for platform ${platform.platformOs}/${platform.platformArch} does not exist.`
       );
-    }
-
-    const confirmed = await askForConfirmation(
-      "Are you sure you want to deploy this commit? (y/n): "
-    );
-    if (!confirmed) {
-      console.log("Deployment canceled.");
-      process.exit(0);
     }
 
     const rollbackHash = await getCurrentImageHash(CONTAINERS.GREEN.name);
