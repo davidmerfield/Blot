@@ -1,10 +1,11 @@
-var BackupDomain = require("./util/backupDomain");
-var debug = require("debug")("blot:blog:flushCache");
-var get = require("./get");
-var config = require("config");
-var reverse_proxies = config.reverse_proxies;
+const BackupDomain = require("./util/backupDomain");
+const flushCache = require("helper/flushCache");
+const debug = require("debug")("blot:blog:flushCache");
+const get = require("./get");
 
-const fetch = require("node-fetch");
+const config = require("config");
+const { reverse_proxies } = config;
+const flush = flushCache({ reverse_proxies });
 
 // This empties the cache for a blog by emptying the cache
 // for its Blot subdomain and its custom domain, if one is set
@@ -17,8 +18,8 @@ module.exports = function (blogID, former, callback) {
     former = {};
   }
 
-  var blogHosts = [];
-  var affectedHosts = [];
+  const blogHosts = [];
+  const affectedHosts = [];
 
   get({ id: blogID }, function (err, blog) {
     if (err) return callback(err);
@@ -26,7 +27,6 @@ module.exports = function (blogID, former, callback) {
     if (blog.domain) {
       blogHosts.push(blog.domain);
       affectedHosts.push(blog.domain);
-
       blogHosts.push(BackupDomain(blog.domain));
       affectedHosts.push(BackupDomain(blog.domain));
     }
@@ -46,25 +46,16 @@ module.exports = function (blogID, former, callback) {
     }
 
     // We make sure to empty cache directories when deleting a blog
+    // This can be done in the background since it's not critical
     if (affectedHosts.length) {
-      debug("Emptying cache directories for:", affectedHosts);
-      for (const reverse_proxy_url of reverse_proxies) {
-        fetch(
-          reverse_proxy_url +
-            "/purge?" +
-            affectedHosts.map(host => "host=" + host).join("&")
-        )
-          .then(res => {
-            console.log(
-              "proxy: " + reverse_proxy_url + " flushed:" + affectedHosts.join(",")
-            );
-          })
-          .catch(e => {
-            console.log(
-              "proxy: " + reverse_proxy_url + " failed to flush: " + affectedHosts.join(",")
-            );
-          });
-      }
+      debug("Emptying cache directories for any affected hosts", affectedHosts);
+      flush(affectedHosts)
+        .then(() => {
+          debug("Cache directories flushed for:", affectedHosts);
+        })
+        .catch((error) => {
+          console.error("Error flushing cache directories:", error);
+        });
     }
 
     callback();
