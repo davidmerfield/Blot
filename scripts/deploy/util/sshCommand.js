@@ -3,7 +3,7 @@ const { promisify } = require("util");
 const execAsync = promisify(exec);
 
 module.exports = async function sshCommand(command) {
-  const timeoutMs = 30000;
+  const timeoutMs = 60 * 1000;
   try {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), timeoutMs);

@@ -6,11 +6,14 @@ April 1st: Create more Google Drive service accounts under new gmail users befor
 
 Write tests for deploy script
 
-Check that a bad image is rolled back automatically
-
 Speed up templates.build 
 
+Speed up and add debouncing to flushCache function
+
 Run documentation build on github actions
+
+Check in on philpins folder issues (icloud continuously syncing?)
+- seems to be causing the icloud server to restart sometimes
 
 Set up log rotation in docker:
 --log-driver=json-file
