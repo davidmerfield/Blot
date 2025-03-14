@@ -1,103 +1,20 @@
-const { execSync, exec } = require("child_process");
-const { promisify } = require("util");
-const readline = require("readline");
-const execAsync = promisify(exec);
-
 // Constants
-const CONTAINERS = {
-  BLUE: {
-    name: "blot-container-blue",
-    port: 8088,
-    cpus: 1,
-    memory: "1.5g",
-    maxOldSpaceSize: 1048,
-  },
-  GREEN: {
-    name: "blot-container-green",
-    port: 8089,
-    cpus: 1,
-    memory: "1.5g",
-    maxOldSpaceSize: 1048,
-  },
-  YELLOW: {
-    name: "blot-container-yellow",
-    port: 8090,
-    cpus: 1,
-    memory: "1.5g",
-    maxOldSpaceSize: 1048,
-  },
-  PURPLE: {
-    name: "blot-container-purple",
-    port: 8091,
-    cpus: 1,
-    memory: "1.5g",
-    maxOldSpaceSize: 1048,
-  },
-};
+const CONTAINERS = require("./containers");
 
 const HEALTH_CHECK_TIMEOUT = process.env.HEALTH_CHECK_TIMEOUT || 120;
 const HEALTH_CHECK_INTERVAL = 5;
 
 // Utility functions
-function execCommand(command) {
-  try {
-    return execSync(command).toString().trim();
-  } catch (error) {
-    throw new Error(`Command failed: ${command}\n${error.message}`);
-  }
-}
+const sshCommand = require("./util/sshCommand");
+const askForConfirmation = require("./util/askForConfirmation");
+const checkBranch = require("./util/checkBranch");
+const getGitCommit = require("./util/getGitCommit");
 
-async function sshCommand(command) {
-  try {
-    // console.log(`Running SSH command: ${command}`);
-    const { stdout } = await execAsync(`ssh blot "${command}"`);
-    // console.log(`SSH command output: ${stdout}`);
-    return stdout.trim();
-  } catch (error) {
-    throw new Error(`SSH command failed: ${command}\n${error.message}`);
-  }
-}
-
-async function askForConfirmation(question) {
-  const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout,
-  });
-
-  return new Promise((resolve) => {
-    rl.question(question, (answer) => {
-      rl.close();
-      resolve(answer.toLowerCase() === "y");
-    });
-  });
-}
-
-// Main deployment functions
-async function getGitCommitHash(arg) {
-  if (!arg) {
-    return execCommand("git rev-parse master");
-  }
-
-  if (/^[0-9a-fA-F]{40}$/.test(arg)) {
-    return arg;
-  }
-
-  if (/^[0-9a-fA-F]+$/.test(arg)) {
-    return execCommand(`git rev-parse "${arg}"`);
-  }
-
-  throw new Error("Invalid commit hash provided.");
-}
-
-async function checkBranch() {
-  const currentBranch = execCommand("git rev-parse --abbrev-ref HEAD");
-  if (currentBranch !== "master") {
-    throw new Error("You must be on the master branch to deploy.");
-  }
-}
+const REGISTRY_URL = "ghcr.io/davidmerfield/blot";
+const PLATFORM_OS = "linux";
 
 async function detectPlatform() {
-  const platformOs = "linux";
+  const platformOs = PLATFORM_OS;
   let platformArch = await sshCommand(
     "docker info --format '{{.Architecture}}'"
   );
@@ -108,7 +25,7 @@ async function detectPlatform() {
 async function verifyImageManifest(commitHash, platform) {
   try {
     const manifest = await sshCommand(
-      `docker manifest inspect ghcr.io/davidmerfield/blot:${commitHash} 2>/dev/null`
+      `docker manifest inspect ${REGISTRY_URL}:${commitHash} 2>/dev/null`
     );
     const manifestData = JSON.parse(manifest);
     return manifestData.manifests.some(
@@ -197,7 +114,7 @@ async function deployContainer(container, platform, commitHash, previousHash) {
   if (previousHash && !/^[0-9a-fA-F]{40}$/.test(previousHash)) {
     throw new Error("Invalid previous hash provided.");
   }
-  
+
   // verify that port is a 4-digit number
   if (!/^\d{4}$/.test(containerPort)) {
     throw new Error("Invalid port number provided.");
@@ -227,8 +144,6 @@ async function deployContainer(container, platform, commitHash, previousHash) {
     return true;
   }
 
-  await removeContainer(containerName);
-
   const dockerRunCommand = `docker run --pull=always -d \
     --name ${containerName} \
     --platform ${platform.platformOs}/${platform.platformArch} \
@@ -239,11 +154,22 @@ async function deployContainer(container, platform, commitHash, previousHash) {
     -v /var/www/blot/data:/usr/src/app/data \
     --restart unless-stopped \
     --memory=${memory} --cpus=${cpus} \
-    ghcr.io/davidmerfield/blot:${commitHash}`;
+    ${REGISTRY_URL}:${commitHash}`;
 
   console.log(
-    `Deploying ${containerName}... with command: ${dockerRunCommand}`
+    `Would deploy ${containerName}... with command: ${dockerRunCommand}`
   );
+
+  const confirmed = await askForConfirmation(
+    "Are you sure you want to run this command? (y/n): "
+  );
+
+  if (!confirmed) {
+    console.log("Deployment canceled.");
+    process.exit(0);
+  }
+
+  await removeContainer(containerName);
 
   try {
     await sshCommand(dockerRunCommand);
@@ -290,7 +216,7 @@ async function rollbackContainer(
     -v /var/www/blot/data:/usr/src/app/data \
     --restart unless-stopped \
     --memory=1.5g --cpus=1 \
-    ghcr.io/davidmerfield/blot:${previousHash}`;
+    ${REGISTRY_URL}:${previousHash}`;
 
   await sshCommand(rollbackCommand);
   return await checkHealth(containerName);
@@ -304,12 +230,10 @@ async function main() {
     }
 
     await checkBranch();
-    const commitHash = await getGitCommitHash(process.argv[2]);
 
-    console.log(`Deploying commit: ${commitHash}`);
-    console.log(
-      `Commit message: ${execCommand(`git log -1 --pretty=%B ${commitHash}`)}`
-    );
+    const { commitHash, commitMessage } = await getGitCommit(process.argv[2]);
+
+    console.log(`Deploying commit: ${commitHash} - ${commitMessage}`);
 
     const platform = await detectPlatform();
     const manifestExists = await verifyImageManifest(commitHash, platform);
