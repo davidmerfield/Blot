@@ -6,6 +6,8 @@ April 1st: Create more Google Drive service accounts under new gmail users befor
 
 Write tests for deploy script
 
+Write a post mortem on the dumb status(500) -> upstream marked as down bug with the reverse proxy and my node server
+
 Get critique on full openresty config
 
 Speed up templates.build 
