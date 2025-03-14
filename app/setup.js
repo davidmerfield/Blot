@@ -8,6 +8,7 @@ const templates = require("./templates");
 const folders = require("./templates/folders");
 const async = require("async");
 const clfdate = require("helper/clfdate");
+
 const log = (...arguments) =>
   console.log.apply(null, [clfdate(), "Setup:", ...arguments]);
 
@@ -63,16 +64,22 @@ function main(callback) {
       },
 
       function (callback) {
-        // we only want to watch for changes in the templates in development
-        log("Building templates");
-        templates(
-          { watch: config.environment === "development" },
-          function (err) {
-            if (err) throw err;
-            log("Built templates");
-            callback();
-          }
-        );
+        // we only want to build the templates once per deployment
+        if (config.master) {
+          log("Building templates");
+          templates(
+            // we only want to watch for changes in the templates in development
+            { watch: config.environment === "development" },
+            function (err) {
+              if (err) throw err;
+              log("Built templates");
+              callback();
+            }
+          );
+        } else {
+          log("Skipping template build");
+          callback();
+        }
       },
 
       async function () {
@@ -101,10 +108,10 @@ function main(callback) {
 }
 
 if (require.main === module) {
-  console.log("Setting up Blot...");
+  log("Setting up Blot...");
   main(function (err) {
     if (err) throw err;
-    console.log("Setup complete!");
+    log("Setup complete!");
     process.exit();
   });
 }
