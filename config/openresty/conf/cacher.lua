@@ -244,12 +244,12 @@ local function cacher_purge (self, ngx)
         ngx.exit(ngx.OK)
     end
 
-    for host in string.gmatch(ngx.var.args, "host=([^&]+)") do
+    for host in string.gmatch(ngx.var.args, "host=([^&]+)&*") do
         ngx.log(ngx.NOTICE, "purging host: " .. host)
         local total_keys = purge_host(host, shared_dictionary, cache_directory)
         message = message .. host .. ": " .. total_keys .. "\n"
     end
-
+    
     -- if message is empty then replace it with a message saying that no hosts were purged
     if (message == '') then
         message = "no hosts were purged"

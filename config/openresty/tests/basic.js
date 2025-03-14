@@ -77,6 +77,14 @@ describe("cacher", function () {
     expect(await this.listCache({ watch: false })).toEqual([]);
   });
 
+  it("can purge multiple hosts", async function () {
+    const purgeResponse = await fetch(this.origin + "/purge?host=example1.com&host=example2.com");
+    const purgeText = await purgeResponse.text();
+
+    expect(purgeResponse.status).toBe(200);
+    expect(purgeText.trim()).toBe("example1.com: 0\nexample2.com: 0");
+  });
+
   it("purges a large number of cached requests", async function () {
     const number_of_requests = 500;
 
