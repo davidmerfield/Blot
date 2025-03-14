@@ -4,19 +4,38 @@ April 1st: Create more Google Drive service accounts under new gmail users befor
 
 ---
 
+Convert callbacks to async/await
+- literally anywhere in the codebase – use util.callbackify to add backwards compatibility
+
+Write unit tests for database models which have no tests subdirectory
+- e.g. models/404, models/entries, models/redirects
+
+Improve screenshot utility:
+- handle / detect pupeteer browser crash and restart
+- add global timeout top-level screenshot function for individual invocations
+- improve fonts if possible? 
+- the source code for the screenshot is in helper/screenshot and it's only used in app/build/
+- improve and extend tests for resilience, buggy webpages – verify 100% test coverage
+
+
+Clamp length of password and email address in log in and sign up and reset forms
+- ensure the forms have tight max-bodies
+- return an error if these are too long
+
+---
+
 halve memory for blog-only containers
 - once verified this is applied: add two more of them
 - ensure nginx will retry a request two times (but not four) so an expensive request can't take down the whole server list
-
-Improve screenshot utility:
-- handle browser crash
-- add global top level timeout for individual invocation
-- improve fonts
 
 Why are there four chromium processes when there are only two containers which use the screenshot module?
 
 Work out why the mac server is restarting and resolve the issue
 - every time it restarts, add the debug command to the email notification
+
+Containerize the proxy (openresty/nginx)
+- add varnish afterwards to handle the load balancing and caching
+- get rid of openrestycache
 
 Work out why the main server is restarting and resolve the issue
 - every time it restarts, add the debug command to the email notification
@@ -375,8 +394,6 @@ Remove packages:
 - csurf
 - node-fetch (use global fetch)
 - twemoji (delete the plugin)
-
-Clamp length of password and email address in log in and sign up and reset forms
 
 Migrate [Stripe library to v7](https://github.com/stripe/stripe-node/wiki/Migration-guide-for-v7)
 
