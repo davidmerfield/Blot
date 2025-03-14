@@ -60,15 +60,6 @@ async function getCurrentImageHash(containerName) {
 }
 
 async function deployContainer(container, platform, imageHash) {
-  const currentHash = await getCurrentImageHash(container.name);
-
-  if (currentHash === imageHash) {
-    console.log(
-      `${container.name} already running with desired hash. Skipping.`
-    );
-    return true;
-  }
-
   const dockerRunCommand = await generateDockerCommand(
     container,
     platform,
@@ -91,10 +82,11 @@ async function deployContainer(container, platform, imageHash) {
     process.exit(0);
   }
 
+  console.log('Removing running container...');
   await removeContainer(container.name);
+  console.log('Starting new container...');
   await sshCommand(dockerRunCommand);
-  // This will throw an error if the container is unhealthy
-  // after a certain amount of time
+  console.log('Checking health of new container...');
   await checkHealth(container.name, container.port);
 }
 
@@ -125,6 +117,14 @@ async function main() {
     // Deploy all containers
     for (const container of Object.values(CONTAINERS)) {
       const rollbackHash = await getCurrentImageHash(container.name);
+
+      if (rollbackHash === imageHash) {
+        console.log(
+          `Image for ${container.name} is already deployed. Skipping...`
+        );
+        continue;
+      }
+
       console.log("Determined rollback hash:", rollbackHash);
       try {
         await deployContainer(container, platform, imageHash);
