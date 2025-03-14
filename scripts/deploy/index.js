@@ -82,11 +82,11 @@ async function deployContainer(container, platform, imageHash) {
     process.exit(0);
   }
 
-  console.log('Removing running container...');
+  console.log("Removing running container...");
   await removeContainer(container.name);
-  console.log('Starting new container...');
+  console.log("Starting new container...");
   await sshCommand(dockerRunCommand);
-  console.log('Checking health of new container...');
+  console.log("Checking health of new container...");
   await checkHealth(container.name, container.port);
 }
 
@@ -113,23 +113,51 @@ async function main() {
       );
     }
 
+    // validate that each container has a unique name and port
+    const containerNames = Object.values(CONTAINERS).map(
+      (container) => container.name
+    );
+    const uniqueContainerNames = new Set(containerNames);
+    if (containerNames.length !== uniqueContainerNames.size) {
+      throw new Error("Container names must be unique.");
+    }
+
+    const containerPorts = Object.values(CONTAINERS).map(
+      (container) => container.port
+    );
+    const uniqueContainerPorts = new Set(containerPorts);
+    if (containerPorts.length !== uniqueContainerPorts.size) {
+      throw new Error("Container ports must be unique.");
+    }
+
     console.log("Deploying containers...");
     // Deploy all containers
     for (const container of Object.values(CONTAINERS)) {
       const rollbackHash = await getCurrentImageHash(container.name);
 
-      if (rollbackHash === imageHash) {
+      if (rollbackHash && rollbackHash === imageHash) {
         console.log(
           `Image for ${container.name} is already deployed. Skipping...`
         );
         continue;
       }
 
-      console.log("Determined rollback hash:", rollbackHash);
+      if (rollbackHash) {
+        console.log("Determined rollback hash:", rollbackHash);
+      } else {
+        console.log("No previous image found for rollback.");
+      }
+
       try {
         await deployContainer(container, platform, imageHash);
       } catch (error) {
         console.error(`Deployment failed for ${container.name}`);
+
+        if (!rollbackHash) {
+          console.error("No previous image to rollback to. Exiting...");
+          throw error;
+        }
+        
         console.error("Rolling back...");
         try {
           await deployContainer(container, platform, rollbackHash);

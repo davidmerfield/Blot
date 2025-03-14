@@ -1,4 +1,4 @@
-const HEALTH_CHECK_TIMEOUT = 120; // 90 seconds
+const HEALTH_CHECK_TIMEOUT = 180; // 3 minutes
 const HEALTH_CHECK_INTERVAL = 15; // 15 seconds
 const MAX_PORT = 65535;
 

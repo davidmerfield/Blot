@@ -67,7 +67,7 @@ COPY ./todo.txt ./todo.txt
 # The final production stage
 FROM source AS prod
 
-HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
+HEALTHCHECK --interval=30s --timeout=5s --start-period=60s --retries=3 \
   CMD curl --fail http://localhost:8080/health || exit 1
 
 # Ensure the logfile directory exists
