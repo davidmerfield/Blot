@@ -1,3 +1,7 @@
+// N.B. The image deployed should be capable of serving both
+// sites and blogs. The difference in configuration is in the
+// number of cpus, memory, and maxOldSpaceSize only.
+
 // We need more overhead between maxOldSpaceSize and memory
 // for the site servers because they need to run chromium
 // and pandoc for building posts. The blog servers don't.
@@ -7,6 +11,9 @@ const siteConfig = {
   maxOldSpaceSize: 750,
 };
 
+// The blog servers only have a single node.js process and 
+// also the esbuild process which is much lighter so the
+// gap between memory and maxOldSpaceSize can be smaller.
 const blogsConfig = {
   cpus: 1,
   memory: "1g",
