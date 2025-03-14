@@ -172,7 +172,7 @@ documentation.use(function (err, req, res, next) {
   }
 
   res.locals.layout = "";
-  res.status(err.status || 500);
+  res.status(err.status || 400);
   res.render("error");
 });
 

@@ -85,7 +85,7 @@ server.get("/redis-health", function (req, res) {
 
   client.ping(function (err, reply) {
     if (err) {
-      res.status(500).send("Failed to ping redis");
+      res.status(400).send("Failed to ping redis");
     } else {
       res.send("OK");
     }

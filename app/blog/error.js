@@ -68,7 +68,7 @@ module.exports = function (server) {
       return;
     }
 
-    var status = 500;
+    var status = 400;
 
     if (err.status && type(err.status, "number")) status = err.status;
 

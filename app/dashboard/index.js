@@ -93,7 +93,7 @@ dashboard.use(function (err, req, res, next) {
     );
   }
 
-  const status = err.status || 500;
+  const status = err.status || 400;
 
   if (config.environment === "development") {
     res.locals.error = {

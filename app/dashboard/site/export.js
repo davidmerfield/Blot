@@ -28,7 +28,7 @@ Export.get("/download", async function (req, res) {
         if (res.headersSent) {
             console.log('Error while sending zip file to the user', err);
         } else {
-            res.status(500).send({error: err.message});
+            res.status(400).send({error: err.message});
         }
     });
 
@@ -60,7 +60,7 @@ Export.get("/download", async function (req, res) {
         if (res.headersSent) {
             console.log('Error while sending zip file to the user', err);
         } else {
-            res.status(500).send({error: err.message});
+            res.status(400).send({error: err.message});
         }
     }
 

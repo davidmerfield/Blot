@@ -191,14 +191,14 @@ TemplateEditor.route("/:templateSlug/local-editing")
 
     // Handle errors
     archive.on('error', function(err) {
-      res.status(500).send({error: err.message});
+      res.status(400).send({error: err.message});
     });
 
     // Pipe the archive data to the response.
     archive.pipe(res);
 
     Template.getAllViews(req.template.id, function (err, views, template) {
-      if (err || !views || !template) return     res.status(500).send({error: err.message});
+      if (err || !views || !template) return     res.status(400).send({error: err.message});
 
       // Add the views to the archive
       for (const view in views) {
