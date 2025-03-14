@@ -62,6 +62,7 @@ module.exports = ({
           .filter((host, index, self) => self.indexOf(host) === index)
           .map((host) => `host=${encodeURIComponent(host)}`)
           .join("&")}`;
+          
         const res = await fetch(url);
 
         if (res.ok) {
