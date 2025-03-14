@@ -26,7 +26,6 @@ module.exports = ({
     isProcessing = true;
 
     while (queue.size > 0) {
-
       console.log(prefix(), "processing", queue.size, "hosts");
       const now = Date.now();
       const timeSinceLastRequest = now - lastRequestTime;
@@ -75,16 +74,14 @@ module.exports = ({
         console.log(prefix(), "fetching", url);
         const res = await fetch(url);
 
-        if (res.ok) {
-          console.log(
-            prefix(),
-            `flushed ${hosts.join(",")} from ${reverse_proxy_url}`
-          );
-        } else {
+        if (!res.ok) {
           throw new Error(
             `Failed to flush proxy ${reverse_proxy_url}: ${res.status} ${res.statusText}`
           );
         }
+
+        const text = await res.text();
+        console.log(prefix(), text.trim().split("\n").join(" "));
       } catch (error) {
         console.log(prefix(), "failed to flush", reverse_proxy_url);
         console.log(prefix(), error);
@@ -103,9 +100,6 @@ module.exports = ({
     if (!Array.isArray(hosts)) {
       throw new Error("hosts must be a string or an array of strings");
     }
-
-    // Add to queue and wait for completion
-    console.log(prefix(), "adding", hosts);
 
     await add(hosts);
   };
