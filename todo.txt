@@ -6,6 +6,8 @@ April 1st: Create more Google Drive service accounts under new gmail users befor
 
 Write tests for deploy script
 
+Get critique on full openresty config
+
 Speed up templates.build 
 
 Speed up and add debouncing to flushCache function
