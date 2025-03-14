@@ -4,27 +4,6 @@ April 1st: Create more Google Drive service accounts under new gmail users befor
 
 ---
 
-Write tests for deploy script
-
-Write a post mortem on the dumb status(500) -> upstream marked as down bug with the reverse proxy and my node server
-
-Get critique on full openresty config
-
-Speed up templates.build 
-
-Create a folder{watch} equivalent so we don't have to run a seperate process for development
-
-Run documentation build on github actions
-
-Check in on philpins folder issues (icloud continuously syncing?)
-- seems to be causing the icloud server to restart sometimes
-
-Set up log rotation in docker:
---log-driver=json-file
---log-opt max-size=10m
---log-opt max-file=3
-
----
 
 Convert callbacks to async/await
 - literally anywhere in the codebase – use util.callbackify to add backwards compatibility
@@ -46,11 +25,25 @@ Clamp length of password and email address in log in and sign up and reset forms
 
 ---
 
-halve memory for blog-only containers
-- once verified this is applied: add two more of them
-- ensure nginx will retry a request two times (but not four) so an expensive request can't take down the whole server list
+Write tests for deploy script
 
-Why are there four chromium processes when there are only two containers which use the screenshot module?
+Write a post mortem on the dumb status(500) -> upstream marked as down bug with the reverse proxy and my node server
+
+Get critique on full openresty config
+
+Speed up templates.build 
+
+Create a folder{watch} equivalent so we don't have to run a seperate process for development
+
+Run documentation build on github actions
+
+Check in on philpins folder issues (icloud continuously syncing?)
+- seems to be causing the icloud server to restart sometimes
+
+Set up log rotation in docker:
+--log-driver=json-file
+--log-opt max-size=10m
+--log-opt max-file=3
 
 Work out why the mac server is restarting and resolve the issue
 - every time it restarts, add the debug command to the email notification
@@ -60,7 +53,7 @@ Containerize the proxy (openresty/nginx)
 - get rid of openrestycache
 
 Work out why the main server is restarting and resolve the issue
-- every time it restarts, add the debug command to the email notification
+- every time it restarts
 
 Fix image profile retention not working in production and tell [Simon](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJchvfhDcWNkrZtNJqlLmLfsx)
 - maybe a caching issue and actually works?
