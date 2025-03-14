@@ -63,7 +63,7 @@ module.exports = ({
           .map((host) => `host=${encodeURIComponent(host)}`)
           .join("&")}`;
 
-        console.log("calling flushCache on", url);
+        console.log("calling flushCache server on", url);
         const res = await fetch(url);
 
         if (res.ok) {
@@ -94,6 +94,8 @@ module.exports = ({
     }
 
     // Add to queue and wait for completion
+    console.log("adding to flushCache queue", hosts);
+
     await add(hosts);
   };
 };
