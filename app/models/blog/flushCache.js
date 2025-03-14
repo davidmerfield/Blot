@@ -48,14 +48,16 @@ module.exports = function (blogID, former, callback) {
     // We make sure to empty cache directories when deleting a blog
     // This can be done in the background since it's not critical
     if (affectedHosts.length) {
-      debug("Emptying cache directories for any affected hosts", affectedHosts);
+      debug("blog.flushCache: hosts", affectedHosts);
       flush(affectedHosts)
         .then(() => {
-          debug("Cache directories flushed for:", affectedHosts);
+          debug("blog.flushCache: directories flushed for:", affectedHosts);
         })
         .catch((error) => {
-          console.error("Error flushing cache directories:", error);
+          console.error("blog.flushCache: flushing cache directories:", error);
         });
+    } else {
+      debug("blog.flushCache: no cache directories to flush for blog", blogID);
     }
 
     callback();
