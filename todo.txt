@@ -10,6 +10,8 @@ Get critique on full openresty config
 
 Speed up templates.build 
 
+Create a folder{watch} equivalent so we don't have to run a seperate process for development
+
 Speed up and add debouncing to flushCache function
 
 Run documentation build on github actions
