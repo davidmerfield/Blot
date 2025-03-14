@@ -171,7 +171,7 @@ async function generateDockerCommand(container, platform, commitHash) {
 
   // Construct command string
   return [
-    "docker run --pull=always",
+    "docker run",
     // Run the container in the background
     "-d",
     // If the container stops, restart it unless explicitly stopped

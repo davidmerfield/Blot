@@ -82,6 +82,9 @@ async function deployContainer(container, platform, imageHash) {
     process.exit(0);
   }
 
+  console.log("Pulling new image...");
+  await sshCommand(`docker pull ${REGISTRY_URL}:${imageHash}`);
+
   console.log("Removing running container...");
   await removeContainer(container.name);
   console.log("Starting new container...");
@@ -157,7 +160,7 @@ async function main() {
           console.error("No previous image to rollback to. Exiting...");
           throw error;
         }
-        
+
         console.error("Rolling back...");
         try {
           await deployContainer(container, platform, rollbackHash);
@@ -173,6 +176,7 @@ async function main() {
     const pruned = await sshCommand("docker image prune -af");
     console.log(pruned);
     console.log("Deployment completed successfully!");
+    process.exit(0);
   } catch (error) {
     console.error("Deployment failed:", error);
     process.exit(1);
