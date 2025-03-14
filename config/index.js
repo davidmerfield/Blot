@@ -33,11 +33,17 @@ module.exports = {
 
   webhooks: {
     client_max_body_size: 1e8, // 100MB
+    // ensure the reverse proxy supports SSE
+    // on this host otherwise we can't relay webhooks
     server_host: "webhooks." + BLOT_HOST,
-    // replace with "webhooks.blot.development" to test
-    relay_host: environment === "development" && "webhooks.blot.im",
-    development_host: "localhost",
     secret: process.env.BLOT_WEBHOOKS_SECRET,
+    // we have to hard-code these so the redirects
+    // for oauth2 work correctly – the production server
+    // needs to know the development server's host and 
+    // the development server needs to know the production
+    // server's host. This let's us use the same code
+    relay_host: "webhooks.blot.im",
+    development_host: "localhost",
   },
 
   maintenance: process.env.BLOT_MAINTENANCE === "true",
