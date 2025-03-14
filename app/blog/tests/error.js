@@ -54,7 +54,7 @@ describe("errors", function () {
         const res = await this.fetch(config.protocol + 'preview-of-my-local-on-' + this.blog.handle + '.' + config.host);
         const body = await res.text();
 
-        expect(res.status).toEqual(500);
+        expect(res.status).toEqual(400);
         // todo: improve this error message
         expect(body).toContain('Error with your template');
         expect(body).toContain('unclosed');
@@ -62,7 +62,7 @@ describe("errors", function () {
         const mainRes = await this.get('/');
         const mainBody = await mainRes.text();
 
-        expect(mainRes.status).toEqual(500);
+        expect(mainRes.status).toEqual(400);
         expect(mainBody).not.toContain('unclosed');
     });
 

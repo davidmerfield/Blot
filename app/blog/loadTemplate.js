@@ -37,7 +37,7 @@ module.exports = async function (req, res, next) {
             path: metadata.localEditing ? "Templates/" + metadata.slug + "/" : ""
         });
 
-        return res.status(500).send(html);
+        return res.status(400).send(html);
     }
 
     req.template = {
