@@ -100,6 +100,12 @@ async function main() {
       throw new Error("Too many arguments provided.");
     }
 
+    console.log("When running a deployment, it's helpful to ssh into the server and run in two seperate windows");
+    console.log("See live overview of docker containers:");
+    console.log("watch 'docker ps' ");
+    console.log("Watch traffic to backup servers (ideally this should not happen during deployment):");
+    console.log("backup-servers");
+
     await checkBranch();
 
     const { commitHash, commitMessage } = await getGitCommit(process.argv[2]);

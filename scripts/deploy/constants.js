@@ -1,14 +1,17 @@
+// We need more overhead between maxOldSpaceSize and memory
+// for the site servers because they need to run chromium
+// and pandoc for building posts. The blog servers don't.
 const siteConfig = {
   cpus: 1,
-  memory: "1.3g",
-  maxOldSpaceSize: 700
+  memory: "1.5g",
+  maxOldSpaceSize: 750,
 };
 
 const blogsConfig = {
-  cpus: 0.33,
-  memory: "0.7g",
-  maxOldSpaceSize: 600
-}
+  cpus: 1,
+  memory: "1g",
+  maxOldSpaceSize: 900,
+};
 
 module.exports = {
   REGISTRY_URL: "ghcr.io/davidmerfield/blot",
@@ -28,34 +31,30 @@ module.exports = {
   ENV_FILE_ON_SERVER: "/etc/blot/secrets.env",
 
   CONTAINERS: {
+    // Failover server (both sites and blogs)
     BLUE: {
       name: "blot-container-blue",
       port: 8088,
       ...siteConfig,
     },
+
+    // Site server (dashboard, brochure, sync folders)
     GREEN: {
       name: "blot-container-green",
       port: 8089,
       ...siteConfig,
     },
+
+    // Blog servers (previews, published blogs)
     YELLOW: {
       name: "blot-container-yellow",
       port: 8090,
-      ...siteConfig,
+      ...blogsConfig,
     },
+
     PURPLE: {
       name: "blot-container-purple",
       port: 8091,
-      ...blogsConfig,
-    },
-    RED: {
-      name: "blot-container-red",
-      port: 8092,
-      ...blogsConfig,
-    },
-    ORANGE: {
-      name: "blot-container-orange",
-      port: 8093,
       ...blogsConfig,
     },
   },
