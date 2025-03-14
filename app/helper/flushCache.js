@@ -1,16 +1,17 @@
 module.exports = ({
   reverse_proxies,
-  requestsPerSecond = 1,
+  requestsPerSecond = 5,
   maxHostsPerPurge = 10,
 }) => {
-  let queue = [];
+  let queue = new Set(); // Changed to Set to automatically handle duplicates
   let isProcessing = false;
   let lastRequestTime = 0;
   let currentBatchResolvers = [];
 
   async function add(hosts) {
     return new Promise((resolve, reject) => {
-      queue.push(...hosts);
+      // Add all hosts to the Set (duplicates will be automatically ignored)
+      hosts.forEach(host => queue.add(host));
       currentBatchResolvers.push({ resolve, reject });
       process();
     });
@@ -21,7 +22,7 @@ module.exports = ({
 
     isProcessing = true;
 
-    while (queue.length > 0) {
+    while (queue.size > 0) {
       const now = Date.now();
       const timeSinceLastRequest = now - lastRequestTime;
       const minimumGap = 1000 / requestsPerSecond;
@@ -32,12 +33,15 @@ module.exports = ({
         );
       }
 
-      const hostsBatch = queue.splice(0, maxHostsPerPurge);
+      // Convert part of the Set to Array for processing
+      const hostsBatch = Array.from(queue).slice(0, maxHostsPerPurge);
+      // Remove processed hosts from the Set
+      hostsBatch.forEach(host => queue.delete(host));
 
       try {
         await flushHosts(hostsBatch);
 
-        if (queue.length === 0) {
+        if (queue.size === 0) {
           // Resolve all promises when the entire queue is processed
           currentBatchResolvers.forEach(({ resolve }) => resolve());
           currentBatchResolvers = [];
@@ -46,7 +50,7 @@ module.exports = ({
         // Reject all promises if there's an error
         currentBatchResolvers.forEach(({ reject }) => reject(error));
         currentBatchResolvers = [];
-        queue = [];
+        queue.clear();
       }
 
       lastRequestTime = Date.now();
@@ -59,7 +63,6 @@ module.exports = ({
     for (const reverse_proxy_url of reverse_proxies) {
       try {
         const url = `${reverse_proxy_url}/purge?${hosts
-          .filter((host, index, self) => self.indexOf(host) === index)
           .map((host) => `host=${encodeURIComponent(host)}`)
           .join("&")}`;
 
