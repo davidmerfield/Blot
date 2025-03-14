@@ -1,6 +1,9 @@
+const clfdate = require("./clfdate");
+const prefix = () => `${clfdate()} flushCache:`;
+
 module.exports = ({
   reverse_proxies,
-  requestsPerSecond = 5,
+  requestsPerSecond = 3,
   maxHostsPerPurge = 10,
 }) => {
   let queue = new Set(); // Changed to Set to automatically handle duplicates
@@ -11,7 +14,7 @@ module.exports = ({
   async function add(hosts) {
     return new Promise((resolve, reject) => {
       // Add all hosts to the Set (duplicates will be automatically ignored)
-      hosts.forEach(host => queue.add(host));
+      hosts.forEach((host) => queue.add(host));
       currentBatchResolvers.push({ resolve, reject });
       process();
     });
@@ -21,6 +24,8 @@ module.exports = ({
     if (isProcessing) return;
 
     isProcessing = true;
+
+    console.log(prefix(), "processing", queue.size, "hosts");
 
     while (queue.size > 0) {
       const now = Date.now();
@@ -36,7 +41,7 @@ module.exports = ({
       // Convert part of the Set to Array for processing
       const hostsBatch = Array.from(queue).slice(0, maxHostsPerPurge);
       // Remove processed hosts from the Set
-      hostsBatch.forEach(host => queue.delete(host));
+      hostsBatch.forEach((host) => queue.delete(host));
 
       try {
         await flushHosts(hostsBatch);
@@ -56,6 +61,7 @@ module.exports = ({
       lastRequestTime = Date.now();
     }
 
+    console.log(prefix(), "done processing, queue is empty");
     isProcessing = false;
   }
 
@@ -66,12 +72,13 @@ module.exports = ({
           .map((host) => `host=${encodeURIComponent(host)}`)
           .join("&")}`;
 
-        console.log("calling flushCache server on", url);
+        console.log(prefix(), "fetching", url);
         const res = await fetch(url);
 
         if (res.ok) {
           console.log(
-            `proxy: ${reverse_proxy_url} flushed: ${hosts.join(",")}`
+            prefix(),
+            `flushed ${hosts.join(",")} from ${reverse_proxy_url}`
           );
         } else {
           throw new Error(
@@ -79,7 +86,8 @@ module.exports = ({
           );
         }
       } catch (error) {
-        console.error(`Error flushing proxy ${reverse_proxy_url}:`, error);
+        console.log(prefix(), "failed to flush", reverse_proxy_url);
+        console.log(prefix(), error);
         throw error;
       }
     }
@@ -97,7 +105,7 @@ module.exports = ({
     }
 
     // Add to queue and wait for completion
-    console.log("adding to flushCache queue", hosts);
+    console.log(prefix(), "adding", hosts);
 
     await add(hosts);
   };
