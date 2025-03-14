@@ -25,9 +25,9 @@ module.exports = ({
 
     isProcessing = true;
 
-    console.log(prefix(), "processing", queue.size, "hosts");
-
     while (queue.size > 0) {
+
+      console.log(prefix(), "processing", queue.size, "hosts");
       const now = Date.now();
       const timeSinceLastRequest = now - lastRequestTime;
       const minimumGap = 1000 / requestsPerSecond;
