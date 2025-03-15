@@ -38,6 +38,8 @@ Write tests for deploy script
 
 Get critique on full openresty config
 
+Add container label to server restart email
+
 Speed up templates.build 
 
 Create a folder{watch} equivalent so we don't have to run a seperate process for development
@@ -51,6 +53,8 @@ Set up log rotation in docker:
 --log-driver=json-file
 --log-opt max-size=10m
 --log-opt max-file=3
+
+Worried about depending on Bunny – can we work out a plan to move away from them if needed?
 
 Work out why the mac server is restarting and resolve the issue
 - every time it restarts, add the debug command to the email notification
