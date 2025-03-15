@@ -7,11 +7,11 @@
   <div class="index-link" style="flex-grow: 1;">
     <a href="/">{{title}}</a>
   </div>
-  
-  <div class="nav-links">
+
+  <ul class="nav-links menubar">
     {{#menu}}
-    <a href="{{{url}}}" class="{{active}}" data-depth="{{#depth}}{{path}}{{/depth}}">{{{label}}}</a>
+    <li data-depth="{{#depth}}{{id}}{{/depth}}"><a href="{{{url}}}">{{{label}}}</a></li>
     {{/menu}}
-  </div>
+  </ul>
 </nav>
 <label for="nav-toggle" class="popup-cover"></label>

@@ -1,7 +1,5 @@
----
 Link: /
 Title: Introduction
----
 
 # Technical Documentation
 

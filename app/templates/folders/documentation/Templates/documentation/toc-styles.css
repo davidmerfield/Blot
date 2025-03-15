@@ -1,0 +1,12 @@
+
+.toc{overflow-y:auto}.toc>.toc-list{overflow:hidden;position:relative}.toc>.toc-list li{list-style:none}.toc-list{margin:0;padding-left:10px}a.toc-link{color:currentColor;height:100%}.is-collapsible{max-height:1000px;overflow:hidden;}.is-collapsed{max-height:0}.is-position-fixed{position:fixed !important;top:0}.is-active-link{font-weight:600}.toc-link::before{background-color:#eee;content:" ";display:inline-block;height:inherit;left:0;margin-top:-1px;position:absolute;width:2px}.is-active-link::before{background-color:var(--text-color)}/*# sourceMappingURL=tocbot.css.map */
+
+#toc-wrapper {
+  overflow: hidden;
+  position: fixed;
+  background: var(--background-color);
+}
+
+.toc-list {
+list-style-type: none;
+}

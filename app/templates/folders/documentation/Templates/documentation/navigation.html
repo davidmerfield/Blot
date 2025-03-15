@@ -6,16 +6,18 @@
     <!-- Control Bar -->
     <div class="control-bar">
       <label for="toggle-left" class="control-label">Navigation</label>
-      <label for="toggle-right" class="control-label">Table of Contents</label>
+      <label for="toggle-right" class="control-label">On this page</label>
     </div>
     <div class="column-container">
       <!-- Left Column: High-Level Navigation -->
       <div class="column">
         <div class="navigation">
-          {{#posts}}
-          <a href="{{{url}}}" class="{{active}}">{{{title}}}</a>
-          {{/posts}}  
-        </div>
+          <ul class="sidebar">
+            {{#posts}}
+            <li data-depth="{{#depth}}{{path}}{{/depth}}" data-filename="{{name}}"><a href="{{{url}}}">{{title}}</a></li>
+            {{/posts}}
+          </ul>   
+      </div>
       </div>
 
       <!-- Main Content -->
