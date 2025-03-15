@@ -4,16 +4,14 @@
   <label for="nav-toggle" class="nav-label"
     ><span class="icon-dots"></span
   ></label>
-  <div class="index-link">
+  <div class="index-link" style="flex-grow: 1;">
     <a href="/">{{title}}</a>
   </div>
-  <form action="/search">
-    <input name="q" type="search" placeholder="Search" />
-  </form>
+  
   <div class="nav-links">
-    {{#navigation}}
-    <a href="{{{url}}}" class="{{active}}">{{{label}}}</a>
-    {{/navigation}}
+    {{#menu}}
+    <a href="{{{url}}}" class="{{active}}" data-depth="{{#depth}}{{path}}{{/depth}}">{{{label}}}</a>
+    {{/menu}}
   </div>
 </nav>
 <label for="nav-toggle" class="popup-cover"></label>
