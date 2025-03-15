@@ -24,6 +24,12 @@ Clamp length of password and email address in log in and sign up and reset forms
 
 ---
 
+Add local multi container setup
+
+Use openresty config locally
+
+Write cache purge integration tests
+
 Re-introduce http_500 to proxy error and check that the backup is never marked as bad by visiting an endpoint which returns a 500 error
 
 Write a post mortem on the dumb status(500) -> upstream marked as down bug with the reverse proxy and my node server
