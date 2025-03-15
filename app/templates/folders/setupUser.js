@@ -13,7 +13,7 @@ module.exports = async function setupUser() {
   if (!user) {
     user = await createUser(
       FOLDER_ACCOUNT_EMAIL,
-      config.session.secret,
+      config.session.secret || "",
       {},
       {}
     );
