@@ -32,8 +32,12 @@ Try and be more selective about which blog model updates trigger blog.flushCache
 - Write now sync updates (e.g. checking /) all trigger blogs to flush cache
 
 Move data dir to s3
+- Come up with plan for static files directory
+  - abstract write / read from static files directory
+- Come up with plan for blog files directory
+ - abstract write / read from blog directory
 - If we can come up with a git client plan that works, this is a go
-- Git S3: https://news.ycombinator.com/item?id=41887004
+  - Git S3: https://news.ycombinator.com/item?id=41887004
 
 Fix bad links (e.g. incorrect case) in files at build-time rather than run-time so we can avoid the expensive disk lookups in blog/assets.js
 - how does this work with the dropbox client which stores files on disk lowercase?
@@ -45,9 +49,7 @@ Use openresty config locally
 
 Write cache purge integration tests
 
-Get critique on full openresty config
-
-Add container label to server restart email
+Get critique on full openresty config from LLM
 
 Speed up templates.build 
 

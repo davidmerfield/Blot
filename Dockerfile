@@ -83,4 +83,7 @@ USER 1000
 # Re-configuring git for the non-root user
 RUN git config --global user.email "you@example.com" && git config --global user.name "Your Name"
 
+# Build the documentation
+RUN node app/documentation/build
+
 CMD ["node", "/usr/src/app/app/index.js"]
