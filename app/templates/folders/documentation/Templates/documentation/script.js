@@ -3,6 +3,7 @@
 {{> flickity-pkgd}}
 {{> toc}}
 {{> navigation-collapser}}
+{{> menubar.js}}
 
 tocbot.init({
     // Where to render the table of contents.
