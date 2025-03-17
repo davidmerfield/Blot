@@ -12,19 +12,7 @@ const clfdate = require("helper/clfdate");
 const log = (...arguments) =>
   console.log.apply(null, [clfdate(), "Setup:", ...arguments]);
 
-// skip building the documentation if it's already been built
-// this suggests that the server has already been started
-// and this speeds up the restart process when we run out of memory
-const SERVER_RESTART =
-  config.environment === "production" &&
-  fs.existsSync(config.views_directory + "/index.html");
-
 function main(callback) {
-  if (SERVER_RESTART) {
-    log("Server restart detected. Skipping setup.");
-    return callback();
-  }
-
   async.series(
     [
       async function () {
@@ -83,10 +71,12 @@ function main(callback) {
       },
 
       async function () {
-        log("Building documentation");
-        // we only want to watch for changes in the documentation in development
-        await documentation({ watch: config.environment === "development" });
-        log("Built documentation");
+        // The docker build stage for production runs this script ahead of time
+        if (config.environment === "development") {
+          await documentation({ watch: true });
+        } else {
+          log("Skipping documentation build");
+        }
       },
 
       async function () {
@@ -105,15 +95,6 @@ function main(callback) {
     ],
     callback
   );
-}
-
-if (require.main === module) {
-  log("Setting up Blot...");
-  main(function (err) {
-    if (err) throw err;
-    log("Setup complete!");
-    process.exit();
-  });
 }
 
 module.exports = main;
