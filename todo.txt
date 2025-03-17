@@ -1,9 +1,3 @@
-April 2nd: contact mac server host and request annual billing + reduce root disk size to 50 GB.
-
-April 1st: Create more Google Drive service accounts under new gmail users before April 15th deadline (see clients/google-drive/readme)
-
----
-
 Convert callbacks to async/await
 - literally anywhere in the codebase – use util.callbackify to add backwards compatibility
 

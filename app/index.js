@@ -8,26 +8,16 @@ const server = require("./server");
 const flush = require("documentation/tools/flush-cache");
 const configureLocalBlogs = require("./configure-local-blogs");
 
-console.log(clfdate(), `Starting server pid=${process.pid} environment=${config.environment}`);
+console.log(clfdate(), `Starting server`);
 
-try {
-  const v8 = require('v8');
-  const heapStats = v8.getHeapStatistics();
-  console.log(clfdate(), 'Max heap size (MB):', heapStats.heap_size_limit / (1024 * 1024));  
-} catch (e) {
-  console.log(clfdate(), 'Error getting heap size:', e);
-}
-
-
-setup(async err => {
+setup(async (err) => {
   if (err) throw err;
 
-  // Flush the cache of documentation
+  // Flush the cache of the public site and documentation
   flush();
 
   // This is the master process
   if (config.master) {
-
     // Launch scheduler for background tasks, like backups, emails
     scheduler();
 
@@ -41,20 +31,17 @@ setup(async err => {
     }
   }
 
-  email.SERVER_START(null, {container: config.container});
+  // Send an email notification if the server starts or restarts
+  email.SERVER_START(null, { container: config.container });
+
+  console.log(clfdate(), "Finished setting up server");
 
   // Open the server to handle requests
   server.listen(config.port, function () {
-    console.log(
-      clfdate(),
-      `Server listening pid=${process.pid} port=${config.port}`
-    );
+    console.log(clfdate(), `Server listening`);
 
-    console.log(clfdate(), "Finished setting up server");
-    
     if (config.environment === "development") {
       configureLocalBlogs();
-    } 
-    
+    }
   });
 });
