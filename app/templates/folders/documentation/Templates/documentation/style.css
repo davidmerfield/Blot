@@ -355,6 +355,12 @@ pre {
   border-radius: 4px;
 }
 
+.code-group, pre {
+  background: var(--off-background-color);
+}
+
 .code-toolbar + .code-block-wrapper pre {
   border-radius: 0 0 4px 4px;
+  border-top: none;
+  background: none;
 }

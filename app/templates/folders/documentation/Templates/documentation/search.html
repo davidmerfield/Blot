@@ -7,10 +7,11 @@
 
   <ul class="nav-links menubar">
     <li>
-      <a href="/" onclick="return document.referrer?history.back():window.location.href=&quot;/&quot;,!1" aria-label="Close menu (back)"><span class="icon-close"></span> Search</a></li>
+      <a href="/" onclick="return document.referrer?history.back():window.location.href=&quot;/&quot;,!1" aria-label="Close menu (back)"><span class="icon-close"></span></a></li>
   </ul>
 </nav>
 
+<div style="max-width: 800px;margin:0 auto">
 
 <form action='/search'>
     <input placeholder="Search" value="{{#query}}{{query}}{{/query}}" name="q" type="text" />
@@ -49,4 +50,6 @@
     <p><a class="small date" href="/archives">View the archives &rarr;</a></p>
     {{/query}}
 
+  </div>
+  
     {{> footer}}
