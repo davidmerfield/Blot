@@ -140,6 +140,10 @@ module.exports = {
     origin: BLOT_CDN,
   },
 
+  bunny: {
+    secret: process.env.BUNNY_API_SECRET,
+  },
+
   session: {
     secret: process.env.BLOT_SESSION_SECRET,
   },

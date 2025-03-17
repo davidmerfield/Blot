@@ -9,65 +9,72 @@ const recursiveReadDir = require("../../helper/recursiveReadDirSync");
 const SOURCE_DIRECTORY = join(__dirname, "../../views");
 const DESTINATION_DIRECTORY = config.views_directory;
 
-const buildCSS = require("./css")({source: SOURCE_DIRECTORY, destination: DESTINATION_DIRECTORY});
-const buildJS = require("./js")({source: SOURCE_DIRECTORY, destination: DESTINATION_DIRECTORY});
+const buildCSS = require("./css")({
+  source: SOURCE_DIRECTORY,
+  destination: DESTINATION_DIRECTORY,
+});
+const buildJS = require("./js")({
+  source: SOURCE_DIRECTORY,
+  destination: DESTINATION_DIRECTORY,
+});
 
 const zip = require("templates/folders/zip");
 const tools = require("./tools");
 const generateThumbnail = require("./generate-thumbnail");
 const gitCommits = require("../tools/git-commits").build;
 
-const handle = (initial = false) => async (path) => {
-  try {
-    
-    if (path.endsWith("README")) {
-      return;
+const handle =
+  (initial = false) =>
+  async (path) => {
+    try {
+      if (path.endsWith("README")) {
+        return;
+      }
+
+      if (path.includes("tools/")) {
+        if (initial) return;
+        console.log("Rebuilding tools");
+        await tools();
+        return;
+      }
+
+      if (path.includes("images/examples") && path.endsWith(".png")) {
+        await fs.copy(
+          join(SOURCE_DIRECTORY, path),
+          join(DESTINATION_DIRECTORY, path)
+        );
+        await generateThumbnail(
+          join(SOURCE_DIRECTORY, path),
+          join(
+            DESTINATION_DIRECTORY,
+            dirname(path),
+            basename(path, extname(path)) + "-thumb.png"
+          )
+        );
+      } else if (path.endsWith(".html") && !path.includes("dashboard/")) {
+        await buildHTML(path);
+      } else if (path.endsWith(".css") && !initial) {
+        await fs.copy(
+          join(SOURCE_DIRECTORY, path),
+          join(DESTINATION_DIRECTORY, path)
+        );
+        await buildCSS();
+      } else if (path.endsWith(".js") && !initial) {
+        await fs.copy(
+          join(SOURCE_DIRECTORY, path),
+          join(DESTINATION_DIRECTORY, path)
+        );
+        await buildJS();
+      } else {
+        await fs.copy(
+          join(SOURCE_DIRECTORY, path),
+          join(DESTINATION_DIRECTORY, path)
+        );
+      }
+    } catch (e) {
+      console.error(e);
     }
-    
-    if (path.includes("tools/")) {
-      if (initial) return;
-      console.log("Rebuilding tools");
-      await tools();
-      return;
-    } 
-    
-    if (path.includes("images/examples") && path.endsWith(".png")) {
-      await fs.copy(
-        join(SOURCE_DIRECTORY, path),
-        join(DESTINATION_DIRECTORY, path)
-      );
-      await generateThumbnail(
-        join(SOURCE_DIRECTORY, path),
-        join(
-          DESTINATION_DIRECTORY,
-          dirname(path),
-          basename(path, extname(path)) + "-thumb.png"
-        )
-      );
-    } else if (path.endsWith(".html") && !path.includes("dashboard/")) {
-      await buildHTML(path);
-    } else if (path.endsWith(".css") && !initial) {
-      await fs.copy(
-        join(SOURCE_DIRECTORY, path),
-        join(DESTINATION_DIRECTORY, path)
-      );
-      await buildCSS();
-    } else if (path.endsWith(".js") && !initial) {
-      await fs.copy(
-        join(SOURCE_DIRECTORY, path),
-        join(DESTINATION_DIRECTORY, path)
-      );
-      await buildJS();
-    } else {
-      await fs.copy(
-        join(SOURCE_DIRECTORY, path),
-        join(DESTINATION_DIRECTORY, path)
-      );
-    }
-  } catch (e) {
-    console.error(e);
-  }
-}
+  };
 
 module.exports = async ({ watch = false, skipZip = false } = {}) => {
   console.time("build");
@@ -81,9 +88,12 @@ module.exports = async ({ watch = false, skipZip = false } = {}) => {
 
   if (!skipZip) await zip();
 
-  await favicon(join(SOURCE_DIRECTORY, "images/logo.svg"), join(DESTINATION_DIRECTORY, "favicon.ico"));
+  await favicon(
+    join(SOURCE_DIRECTORY, "images/logo.svg"),
+    join(DESTINATION_DIRECTORY, "favicon.ico")
+  );
 
-  const paths = recursiveReadDir(SOURCE_DIRECTORY).map(path =>
+  const paths = recursiveReadDir(SOURCE_DIRECTORY).map((path) =>
     path.slice(SOURCE_DIRECTORY.length + 1)
   );
 
@@ -102,7 +112,9 @@ module.exports = async ({ watch = false, skipZip = false } = {}) => {
     await gitCommits();
     console.log("Generated list of recent activity for the news page");
   } catch (e) {
-    console.error("Failed to generate list of recent activity for the news page");
+    console.error(
+      "Failed to generate list of recent activity for the news page"
+    );
     console.error(e);
   }
 
@@ -114,7 +126,7 @@ module.exports = async ({ watch = false, skipZip = false } = {}) => {
     chokidar
       .watch(SOURCE_DIRECTORY, {
         cwd: SOURCE_DIRECTORY,
-        ignoreInitial: true
+        ignoreInitial: true,
       })
       .on("all", async (event, path) => {
         if (path) handler(path);
@@ -122,10 +134,15 @@ module.exports = async ({ watch = false, skipZip = false } = {}) => {
   }
 };
 
-async function buildHTML (path) {
+async function buildHTML(path) {
   const contents = await fs.readFile(join(SOURCE_DIRECTORY, path), "utf-8");
   const result = await html(contents);
 
   await fs.outputFile(join(DESTINATION_DIRECTORY, path), result);
 }
 
+if (require.main === module) {
+  console.log("Building documentation");
+  module.exports();
+  console.log("Documentation built");
+}

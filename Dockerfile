@@ -67,11 +67,12 @@ COPY ./todo.txt ./todo.txt
 # The final production stage
 FROM source AS prod
 
-HEALTHCHECK --interval=30s --timeout=5s --start-period=120s --start-interval=5s --retries=3 \
+HEALTHCHECK --interval=10s --timeout=5s --start-period=120s --start-interval=5s --retries=3 \
   CMD curl --fail http://localhost:8080/health || exit 1
 
-# Ensure the logfile directory exists
-RUN mkdir -p /usr/src/app/data/logs/docker
+# Ensure the data directory exists
+# In production we mount the shared data directory to this location
+RUN mkdir -p /usr/src/app/data
 
 # Give the non-root user ownership of the app directory and data directory
 RUN chown -R 1000:1000 /usr/src/app/app && chown -R 1000:1000 /usr/src/app/data
@@ -82,4 +83,7 @@ USER 1000
 # Re-configuring git for the non-root user
 RUN git config --global user.email "you@example.com" && git config --global user.name "Your Name"
 
-CMD ["sh", "-c", "node /usr/src/app/app/index.js >> /usr/src/app/data/logs/docker/app.log 2>&1"]
+# Build the documentation
+RUN node app/documentation/build
+
+CMD ["node", "/usr/src/app/app/index.js"]

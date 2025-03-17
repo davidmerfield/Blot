@@ -178,6 +178,12 @@ async function generateDockerCommand(container, platform, commitHash) {
     "--restart unless-stopped",
     `--name ${sanitizedName}`,
     `--platform ${platformOs}/${platformArch}`,
+
+    // Log driver configuration
+    "--log-driver json-file",
+    "--log-opt max-size=20m",
+    "--log-opt max-file=5",
+
     // Expose the internal port to the host network
     // Since each container listens on the same internal port
     // we need to map it to a different port on the host

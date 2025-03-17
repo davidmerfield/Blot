@@ -1,29 +1,5 @@
-April 2nd: contact mac server host and request annual billing + reduce root disk size to 50 GB.
-
-April 1st: Create more Google Drive service accounts under new gmail users before April 15th deadline (see clients/google-drive/readme)
-
-Check in with Michael about [Google Drive](https://mail.google.com/mail/u/0/#inbox/FMfcgzQZTgVptZjbKJmSgjqvKXvfbMJH) sync issue 
-- Check service workers are not seeing errors on Google Cloud Console
-
----
-
 Convert callbacks to async/await
 - literally anywhere in the codebase – use util.callbackify to add backwards compatibility
-
-Log sites which cause screenshot function to error or timeout
-- sapiens.org
-- harpers.org
-
-Try and be more selective about which blog model updates trigger blog.flushCache
-- Write now sync updates (e.g. checking /) all trigger blogs to flush cache
-
-Move data dir to s3
-- If we can come up with a git client plan that works, this is a go
-- Git S3: https://news.ycombinator.com/item?id=41887004
-
-Fix bad links (e.g. incorrect case) in files at build-time rather than run-time so we can avoid the expensive disk lookups in blog/assets.js
-- how does this work with the dropbox client which stores files on disk lowercase?
-- can we rewrite the dropbox client to not do this?
 
 Try and reorganize code into a cleaner MVC division. It's really the controllers that need to be moved.
 
@@ -36,7 +12,9 @@ Improve screenshot utility:
 - improve fonts if possible? 
 - the source code for the screenshot is in helper/screenshot and it's only used in app/build/
 - improve and extend tests for resilience, buggy webpages – verify 100% test coverage
-
+- Log sites which cause screenshot function to error or timeout
+  - sapiens.org
+  - harpers.org
 
 Clamp length of password and email address in log in and sign up and reset forms
 - ensure the forms have tight max-bodies
@@ -44,54 +22,43 @@ Clamp length of password and email address in log in and sign up and reset forms
 
 ---
 
+Speed up templates.build 
+- It seems setView already checks for changes
+- Try and be more selective about which blog model updates trigger blog.flushCache
+- Write now sync updates (e.g. checking /) all trigger blogs to flush cache
+
+Move data dir to s3
+- Come up with plan for static files directory
+  - abstract write / read from static files directory
+- Come up with plan for blog files directory
+ - abstract write / read from blog directory
+- If we can come up with a git client plan that works, this is a go
+  - Git S3: https://news.ycombinator.com/item?id=41887004
+
+Fix bad links (e.g. incorrect case) in files at build-time rather than run-time so we can avoid the expensive disk lookups in blog/assets.js
+- how does this work with the dropbox client which stores files on disk lowercase?
+- can we rewrite the dropbox client to not do this?
+
 Add local multi container setup
 
 Use openresty config locally
 
 Write cache purge integration tests
 
-Re-introduce http_500 to proxy error and check that the backup is never marked as bad by visiting an endpoint which returns a 500 error
-
-Write a post mortem on the dumb status(500) -> upstream marked as down bug with the reverse proxy and my node server
-
-Write tests for deploy script
-
-Get critique on full openresty config
-
-Add container label to server restart email
-
-Speed up templates.build 
+Get critique on full openresty config from LLM
 
 Create a folder{watch} equivalent so we don't have to run a seperate process for development
-
-Run documentation build on github actions
-
-Check in on philpins folder issues (icloud continuously syncing?)
-- seems to be causing the icloud server to restart sometimes
-
-Set up log rotation in docker:
---log-driver=json-file
---log-opt max-size=10m
---log-opt max-file=3
-
-Worried about depending on Bunny – can we work out a plan to move away from them if needed?
-
-Work out why the mac server is restarting and resolve the issue
-- every time it restarts, add the debug command to the email notification
 
 Containerize the proxy (openresty/nginx)
 - add varnish afterwards to handle the load balancing and caching
 - get rid of openrestycache
-
-Work out why the main server is restarting and resolve the issue
-- every time it restarts
 
 Fix image profile retention not working in production and tell [Simon](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJchvfhDcWNkrZtNJqlLmLfsx)
 - maybe a caching issue and actually works?
 
 Improve production image build time for fast bug fixes and deploys
 - When should folder zipping happen?
-- Can we move documentation building and folder zipping into dockerfile? improve build speed by removing github actions cache?
+- Can we improve build speed by removing github actions cache and using some base image with dependencies?
 
 Use tinify free api to compress some of the folder images
 - maybe consider building this into the main product? it might pay for itself
@@ -100,8 +67,6 @@ Fix bug with first edit on forked template on template editor:
 - 1. open template editor for fresh blog
 - 2. change the text color
 - 3. nothing happens (due to the inital fork) until you reload the page
-
-Move welcome email to send after user creation
 
 Add asset library / file upload to template editor and share files across templates
 - use this to help implement a favicon feature which minifies the favicon
@@ -173,9 +138,7 @@ global site search of:
 - questions
 - templates
 
-
 Investigate bug with link format using filename and [follow up with yct](https://mail.google.com/mail/u/0/#inbox/FMfcgzQZTMLqzhtlSBrtFqNDFDdXPSfk)
-
 
 Overdue subscription payment form not working
 - Possible bug introduced by recent stripe upgrade
@@ -214,9 +177,6 @@ Fix issue with server restart:
 - sudo chown ec2-user:ec2-user /var/instance-ssd/tmp
 - sudo chown ec2-user:ec2-user /var/instance-ssd/logs/app.log
 - mkfs -t xfs -f /dev/XXXXXXXX
-
-Move docker logs to /var/ssd/logs
-- Ensure there is rotation for the docker log 
 
 Right now changes to documentation CSS do not make it into production:
 - stale servers serve the old CSS 

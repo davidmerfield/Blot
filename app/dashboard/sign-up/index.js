@@ -214,6 +214,8 @@ passwordForm.post(parse, csrf, function (req, res, next) {
           sameSite: "Lax"
         });
 
+        Email.WELCOME(user.uid);
+
         req.session.uid = user.uid;        
         res.redirect("/sites/account/create-site");
       }
