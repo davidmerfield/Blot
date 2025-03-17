@@ -2,28 +2,10 @@ April 2nd: contact mac server host and request annual billing + reduce root disk
 
 April 1st: Create more Google Drive service accounts under new gmail users before April 15th deadline (see clients/google-drive/readme)
 
-Check in with Michael about [Google Drive](https://mail.google.com/mail/u/0/#inbox/FMfcgzQZTgVptZjbKJmSgjqvKXvfbMJH) sync issue 
-- Check service workers are not seeing errors on Google Cloud Console
-
 ---
 
 Convert callbacks to async/await
 - literally anywhere in the codebase – use util.callbackify to add backwards compatibility
-
-Log sites which cause screenshot function to error or timeout
-- sapiens.org
-- harpers.org
-
-Try and be more selective about which blog model updates trigger blog.flushCache
-- Write now sync updates (e.g. checking /) all trigger blogs to flush cache
-
-Move data dir to s3
-- If we can come up with a git client plan that works, this is a go
-- Git S3: https://news.ycombinator.com/item?id=41887004
-
-Fix bad links (e.g. incorrect case) in files at build-time rather than run-time so we can avoid the expensive disk lookups in blog/assets.js
-- how does this work with the dropbox client which stores files on disk lowercase?
-- can we rewrite the dropbox client to not do this?
 
 Try and reorganize code into a cleaner MVC division. It's really the controllers that need to be moved.
 
@@ -36,7 +18,9 @@ Improve screenshot utility:
 - improve fonts if possible? 
 - the source code for the screenshot is in helper/screenshot and it's only used in app/build/
 - improve and extend tests for resilience, buggy webpages – verify 100% test coverage
-
+- Log sites which cause screenshot function to error or timeout
+  - sapiens.org
+  - harpers.org
 
 Clamp length of password and email address in log in and sign up and reset forms
 - ensure the forms have tight max-bodies
@@ -44,17 +28,22 @@ Clamp length of password and email address in log in and sign up and reset forms
 
 ---
 
+Try and be more selective about which blog model updates trigger blog.flushCache
+- Write now sync updates (e.g. checking /) all trigger blogs to flush cache
+
+Move data dir to s3
+- If we can come up with a git client plan that works, this is a go
+- Git S3: https://news.ycombinator.com/item?id=41887004
+
+Fix bad links (e.g. incorrect case) in files at build-time rather than run-time so we can avoid the expensive disk lookups in blog/assets.js
+- how does this work with the dropbox client which stores files on disk lowercase?
+- can we rewrite the dropbox client to not do this?
+
 Add local multi container setup
 
 Use openresty config locally
 
 Write cache purge integration tests
-
-Re-introduce http_500 to proxy error and check that the backup is never marked as bad by visiting an endpoint which returns a 500 error
-
-Write a post mortem on the dumb status(500) -> upstream marked as down bug with the reverse proxy and my node server
-
-Write tests for deploy script
 
 Get critique on full openresty config
 
@@ -65,14 +54,6 @@ Speed up templates.build
 Create a folder{watch} equivalent so we don't have to run a seperate process for development
 
 Run documentation build on github actions
-
-Check in on philpins folder issues (icloud continuously syncing?)
-- seems to be causing the icloud server to restart sometimes
-
-Set up log rotation in docker:
---log-driver=json-file
---log-opt max-size=10m
---log-opt max-file=3
 
 Worried about depending on Bunny – can we work out a plan to move away from them if needed?
 

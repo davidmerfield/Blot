@@ -41,7 +41,7 @@ setup(async err => {
     }
   }
 
-  email.SERVER_START();
+  email.SERVER_START(null, {container: config.container});
 
   // Open the server to handle requests
   server.listen(config.port, function () {

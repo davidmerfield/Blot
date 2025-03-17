@@ -1,8 +1,8 @@
-Node server started
+{{container}} server started
 
 Log in to server and grep:
 
-tail -n 1000000 data/logs/docker/app.log | grep -i "Starting server on" -B 100
+docker logs blot-container-{{container}} | grep -B 5 "Starting server on"
 
 To find recently killed services for memory reasons, log in to server and run:
 
