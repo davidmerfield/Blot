@@ -4,7 +4,7 @@ set -e
 ACME=/usr/local/bin/acme-nginx
 
 # Sources the environment variables required
-source /etc/blot/secrets.env
+. /etc/blot/wildcard-ssl-env.sh
 
 if [ -z "$BLOT_HOST" ]; then
   echo "BLOT_HOST variable missing, pass the hostname of the blot instance as an argument to this script"
@@ -13,6 +13,16 @@ fi
 
 if [ -z "$BLOT_REDIS_HOST" ]; then
   echo "BLOT_REDIS_HOST variable missing, pass the hostname of the redis instance as an argument to this script"
+  exit 1
+fi
+
+if [ -z "$AWS_ACCESS_KEY_ID" ]; then
+  echo "AWS_ACCESS_KEY_ID variable missing, pass the aws access key as an argument to this script"
+  exit 1
+fi
+
+if [ -z "$AWS_SECRET_ACCESS_KEY" ]; then
+  echo "AWS_SECRET_ACCESS_KEY variable missing, pass the aws access key as an argument to this script"
   exit 1
 fi
 
@@ -39,7 +49,7 @@ if [ "$HASH_OF_PEM_BEFORE" = "$HASH_OF_PEM_AFTER" ]; then
   echo "[`date -u +%Y-%m-%dT%T.%3NZ`] Pem changed after renewal, hash after: $HASH_OF_PEM_AFTER hash before: $HASH_OF_PEM_BEFORE"
 fi
 
-# We need to store the key and pem in redis so that the openresty reload script can fetch them
+# We store the key and pem in redis so that the openresty reload script can fetch them
 echo "[`date -u +%Y-%m-%dT%T.%3NZ`] Beginning storage of key and pem in redis"
 
 cat /etc/ssl/private/letsencrypt-domain.key | redis-cli -h $BLOT_REDIS_HOST -x set 'blot:openresty:ssl:key'
@@ -48,4 +58,4 @@ cat /etc/ssl/private/letsencrypt-domain.pem | redis-cli -h $BLOT_REDIS_HOST -x s
 redis-cli -h $BLOT_REDIS_HOST set 'blot:openresty:ssl:updated' $(date -u +%s)
 
 # Restart openresty to use the new cert
-sudo openresty -s reload
+openresty -s reload
