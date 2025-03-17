@@ -1,23 +1,41 @@
 document.addEventListener('DOMContentLoaded', () => {
     const menubar = document.querySelector('.menubar');
     const items = [...menubar.children];
-    
-    // Create nested structure
+
+    items.forEach(item => {
+      // handle index items
+      const itemPath = item.dataset.path;
+      if (!itemPath) {
+        return;
+      }
+      const depth = itemPath?.split('/').length - 1;
+      
+      item.dataset.depth = depth;
+
+      const filename = itemPath?.split('/').pop();
+      const filenameWithoutExt = filename?.replace(/\.[^.]*$/, '');
+
+      if (filenameWithoutExt?.toLowerCase().endsWith('index')) {
+          item.dataset.depth = parseInt(item.dataset.depth) - 1;
+      }
+    });
+
+    const minDepth = Math.min(...items.map(item => parseInt(item.dataset.depth)).filter(Boolean));
+    const delta = minDepth - 1;
+
+    if (delta > 0) {
+      items.forEach(item => {
+        const currentDepth = parseInt(item.dataset.depth);
+        item.dataset.depth = currentDepth - delta;
+      });
+    }
+
+      // Create nested structure
     const processLevel = (items, depth) => {
       let currentParent = null;
       let currentSubmenu = null;
       
       items.forEach(item => {
-
-        // handle index items
-        const itemPath = item.dataset.path;
-        const filename = itemPath?.split('/').pop();
-        const filenameWithoutExt = filename?.replace(/\.[^.]*$/, '');
-
-        if (filenameWithoutExt?.toLowerCase().endsWith('index')) {
-            item.dataset.depth = parseInt(item.dataset.depth) - 1;
-        }
-
         const itemDepth = parseInt(item.dataset.depth);
                 
         if (itemDepth === depth) {

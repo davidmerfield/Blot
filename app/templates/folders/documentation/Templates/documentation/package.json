@@ -9,17 +9,17 @@
     "dark_slides_background": true,
     "background_color": "#fff",
     "text_color": "#000",
-    "link_color": "#000",
+    "link_color": "#007bff",
     "dark_background_color": "#111",
     "dark_text_color": "#eee",
     "dark_link_color": "#eee",
     "hide_dates": false,
     "date_display": "MMM D",
     "syntax_highlighter": {
-      "id": "github"
+      "id": "solarized-light"
     },
     "dark_syntax_highlighter": {
-      "id": "github-dark"
+      "id": "solarized-dark"
     },
     "syntax_highlighter_font": {
       "id": "plex-mono"

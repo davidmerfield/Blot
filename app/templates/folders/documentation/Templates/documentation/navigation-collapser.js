@@ -5,7 +5,17 @@ class SidebarNavigation {
       this.items = Array.from(this.menubar.querySelectorAll('li'));
       this.menuStructure = new Map();
     }
-  
+    
+    calculateDepthsAndFilename() {
+      this.items.forEach(item => {
+        console.log(item.dataset.path);
+        const depth = item.dataset.path.split('/').length;
+        const filename = item.dataset.path.split('/').pop();
+        item.dataset.depth = depth;
+        item.dataset.filename = filename;
+      });
+    }
+
     normalizeDepths() {
       const minDepth = Math.min(...this.items.map(item => parseInt(item.dataset.depth)));
       const delta = minDepth - 1;
@@ -167,6 +177,7 @@ class SidebarNavigation {
     }
   
     init() {
+      this.calculateDepthsAndFilename();
       this.normalizeDepths();
       this.adjustIndexPageDepths();
       this.buildMenuStructure();

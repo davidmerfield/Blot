@@ -1,4 +1,14 @@
 {{> head}}
+{{> header}}
+
+{{^entry.page}}
+{{> navigation}}
+{{/entry.page}}
+{{#entry.page}}
+<div class="column-container">
+<div class="main">
+{{/entry.page}}
+<main>
 
 <div class="entry">
 {{{entry.html}}}

@@ -1,23 +1,12 @@
 // Plugin JavaScript for analytics embed code
 {{{appJS}}}
-{{> flickity-pkgd}}
-{{> toc}}
-{{> navigation-collapser}}
+{{> toc.js}}
+{{> flickity-pkgd.js}}
+{{> navigation-collapser.js}}
 {{> menubar.js}}
+{{> multi-lingual.js}}
 
-tocbot.init({
-    // Where to render the table of contents.
-    tocSelector: '#toc',
-    // Where to grab the headings to build the table of contents.
-    contentSelector: '.entry',
-    // Which headings to grab inside of the contentSelector element.
-    headingSelector: 'h2, h3, h4',
-  });
-
-
-
-
-  class PageTransitioner {
+class PageTransitioner {
     constructor(linkSelector, contentSelector) {
         this.linkSelector = linkSelector;
         this.contentSelector = contentSelector;
@@ -114,7 +103,8 @@ tocbot.init({
                 });
                 
                 window.scrollTo(0, scrollPos);
-                tocbot.refresh();
+                refreshToc();
+                renderMultiLingual();
             }
             
         } catch (err) {

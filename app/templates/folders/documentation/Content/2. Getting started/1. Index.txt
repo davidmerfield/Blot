@@ -2,7 +2,7 @@
 
 ConnectKit is the simplest way to integrate a connect wallet experience into your React.js web application. It comes with sensible defaults out of the box so you can focus on building.
 
-## 1. Install
+## Install
 
 Install ConnectKit and its peer dependencies:
 
@@ -17,13 +17,13 @@ npm install connectkit wagmi viem@2.x @tanstack/react-query
 
 ---
 
-## 2. API Keys
+## API Keys
 
 ConnectKit utilizes WalletConnect's SDK to help with connecting wallets. WalletConnect 2.0 requires a `projectId`, which you can create quickly and easily for free over at [WalletConnect Cloud](https://cloud.walletconnect.com/).
 
 ---
 
-## 3. Implementation
+## Implementation
 
 It is recommended to wrap your app within a new component that will help you set up ConnectKit and its dependencies.
 
@@ -105,7 +105,7 @@ And voilà, you've successfully set up ConnectKit.
 
 ---
 
-## 4. Connected Wallet Info
+## Connected Wallet Info
 
 To interact with the connected wallet, you can use various hooks, such as `useAccount`, from Wagmi (a ConnectKit dependency).
 

@@ -1,5 +1,17 @@
 {{> head}}
 
+<nav class="nav-container">
+  <div class="index-link" style="flex-grow: 1;">
+    <a href="/">{{title}}</a>
+  </div>
+
+  <ul class="nav-links menubar">
+    <li>
+      <a href="/" onclick="return document.referrer?history.back():window.location.href=&quot;/&quot;,!1" aria-label="Close menu (back)"><span class="icon-close"></span> Search</a></li>
+  </ul>
+</nav>
+
+
 <form action='/search'>
     <input placeholder="Search" value="{{#query}}{{query}}{{/query}}" name="q" type="text" />
   </form>

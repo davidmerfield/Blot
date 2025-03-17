@@ -14,9 +14,7 @@
   
   .sidebar a {
     display: block;
-    padding: 8px 12px;
-    color: #333;
-  cursor: pointer!important;
+    padding: 6px 12px;
     text-decoration: none;
     transition: background-color 0.2s;
   }

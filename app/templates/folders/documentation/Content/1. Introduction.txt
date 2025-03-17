@@ -3,7 +3,7 @@ Title: Introduction
 
 # Technical Documentation
 
-Welcome to the documentation for our sample project. This guide will walk you through the basics, provide you with API references, and show you example use cases.
+Welcome to the documentation for our sample project. This guide will walk you through the basics, provide you with [API references](/api-reference), and show you example use cases.
 
 ## Introduction
 
@@ -17,14 +17,20 @@ The project is a lightweight, fast, and reliable framework designed to help deve
 
 To begin using the framework, you'll need to install it via your package manager. Here's how:
 
-```sh
+```js
 npm install my-framework
+```
+```python
+pip install my-framework
 ```
 
 Once installed, you can import it into your project:
 
 ```js
 import { Framework } from 'my-framework';
+```
+```python
+from my_framework import Framework
 ```
 
 Next, initialize the framework with your configuration:
@@ -35,6 +41,15 @@ const config = {
   environment: 'production'
 };
 const app = new Framework(config);
+```
+```python
+config = {
+    "api_key": "your-api-key",
+    "environment": "production"
+}
+app = Framework(config)
+
+Would you like me to explai
 ```
 
 ## API Reference

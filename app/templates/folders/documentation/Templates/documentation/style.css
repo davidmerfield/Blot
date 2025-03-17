@@ -6,6 +6,7 @@
 {{{syntax_highlighter.styles}}}
 {{> flickity.css}}
 {{> toc-styles.css}}
+{{> multi-lingual-styles.css}}
 {{> navigation-styles.css}}
 {{> menubar-styles.css}}
 
@@ -57,6 +58,12 @@ html, body {
   font-family: var(--font-family); font-size: var(--font-size); line-height: var(--line-height);
 }
 
+
+hr {
+  border: none;
+  border-top: 1px solid var(--border-color);
+  margin: 1em 0;
+}
 
 .column-container {
   display: flex;
@@ -228,7 +235,7 @@ html, body {
   display: flex;
   align-items: center;
   flex-wrap: none;
-  gap: 1rem;
+  gap: 1.4rem;
   background-color: var(--navigation-background-color);
   position: relative;
   z-index: 3;
@@ -272,8 +279,13 @@ html, body {
   flex-wrap: none;
   gap: 1rem;
   margin-right: 1em;
-
 }
+
+.index-link a {
+  color:var(--text-color);
+  font-weight: 600;
+}
+
 .nav-container {
   padding: 0 1em;
 }
@@ -296,8 +308,16 @@ span[class^="icon-"] {
     top:-0.02em;
 }
 
+.icon-search {
+  mask-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiI+PHBhdGggZD0iTTEwLjY4IDExLjc0YTYgNiAwIDAgMS03LjkyMi04Ljk4MiA2IDYgMCAwIDEgOC45ODIgNy45MjJsMy4wNCAzLjA0YS43NDkuNzQ5IDAgMCAxLS4zMjYgMS4yNzUuNzQ5Ljc0OSAwIDAgMS0uNzM0LS4yMTVaTTExLjUgN2E0LjQ5OSA0LjQ5OSAwIDEgMC04Ljk5NyAwQTQuNDk5IDQuNDk5IDAgMCAwIDExLjUgN1oiLz48L3N2Zz4=");
+}
+
 .icon-dots {
    mask-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiI+PHBhdGggZD0iTTggOWExLjUgMS41IDAgMSAwIDAtMyAxLjUgMS41IDAgMCAwIDAgM1pNMS41IDlhMS41IDEuNSAwIDEgMCAwLTMgMS41IDEuNSAwIDAgMCAwIDNabTEzIDBhMS41IDEuNSAwIDEgMCAwLTMgMS41IDEuNSAwIDAgMCAwIDNaIi8+PC9zdmc+")
+}
+
+.icon-close {
+  mask-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiI+PHBhdGggZD0iTTMuNzIgMy43MmEuNzUuNzUgMCAwIDEgMS4wNiAwTDggNi45NGwzLjIyLTMuMjJhLjc0OS43NDkgMCAwIDEgMS4yNzUuMzI2Ljc0OS43NDkgMCAwIDEtLjIxNS43MzRMOS4wNiA4bDMuMjIgMy4yMmEuNzQ5Ljc0OSAwIDAgMS0uMzI2IDEuMjc1Ljc0OS43NDkgMCAwIDEtLjczNC0uMjE1TDggOS4wNmwtMy4yMiAzLjIyYS43NTEuNzUxIDAgMCAxLTEuMDQyLS4wMTguNzUxLjc1MSAwIDAgMS0uMDE4LTEuMDQyTDYuOTQgOCAzLjcyIDQuNzhhLjc1Ljc1IDAgMCAxIDAtMS4wNloiLz48L3N2Zz4=")
 }
 
 /* When checkbox is checked, expand the navigation */
@@ -331,9 +351,10 @@ code.hljs {
 }
 
 pre {
-  background: var(--off-background-color);
   border: 1px solid var(--border-color);
   border-radius: 4px;
 }
 
-
+.code-toolbar + .code-block-wrapper pre {
+  border-radius: 0 0 4px 4px;
+}
