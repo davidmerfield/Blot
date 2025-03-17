@@ -2,10 +2,30 @@ April 2nd: contact mac server host and request annual billing + reduce root disk
 
 April 1st: Create more Google Drive service accounts under new gmail users before April 15th deadline (see clients/google-drive/readme)
 
+Check in with Michael about [Google Drive](https://mail.google.com/mail/u/0/#inbox/FMfcgzQZTgVptZjbKJmSgjqvKXvfbMJH) sync issue 
+- Check service workers are not seeing errors on Google Cloud Console
+
 ---
 
 Convert callbacks to async/await
 - literally anywhere in the codebase – use util.callbackify to add backwards compatibility
+
+Log sites which cause screenshot function to error or timeout
+- sapiens.org
+- harpers.org
+
+Try and be more selective about which blog model updates trigger blog.flushCache
+- Write now sync updates (e.g. checking /) all trigger blogs to flush cache
+
+Move data dir to s3
+- If we can come up with a git client plan that works, this is a go
+- Git S3: https://news.ycombinator.com/item?id=41887004
+
+Fix bad links (e.g. incorrect case) in files at build-time rather than run-time so we can avoid the expensive disk lookups in blog/assets.js
+- how does this work with the dropbox client which stores files on disk lowercase?
+- can we rewrite the dropbox client to not do this?
+
+Try and reorganize code into a cleaner MVC division. It's really the controllers that need to be moved.
 
 Write unit tests for database models which have no tests subdirectory
 - e.g. models/404, models/entries, models/redirects
