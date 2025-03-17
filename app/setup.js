@@ -1,16 +1,18 @@
 const config = require("config");
 const fs = require("fs-extra");
 
-const redis = require("models/redis");
-const client = new redis();
+const client = require("models/client");
 const documentation = require("./documentation/build");
 const templates = require("./templates");
 const folders = require("./templates/folders");
 const async = require("async");
 const clfdate = require("helper/clfdate");
+const scheduler = require("./scheduler");
+const flush = require("documentation/tools/flush-cache");
+const configureLocalBlogs = require("./configure-local-blogs");
 
-const log = (...arguments) =>
-  console.log.apply(null, [clfdate(), "Setup:", ...arguments]);
+const log = (...args) =>
+  console.log.apply(null, [clfdate(), "Setup:", ...args]);
 
 function main(callback) {
   async.series(
@@ -72,25 +74,57 @@ function main(callback) {
 
       async function () {
         // The docker build stage for production runs this script ahead of time
-        if (config.environment === "development") {
-          await documentation({ watch: true });
-        } else {
-          log("Skipping documentation build");
-        }
+        if (config.environment !== "development") return;
+        await documentation({ watch: true });
       },
 
       async function () {
-        if (config.environment === "production" && config.master) {
-          log("Building folders");
-          try {
-            await folders();
-            log("Built folders");
-          } catch (e) {
-            log("Error building folders", e);
-          }
-        } else {
-          log("Skipping folder build");
+        if (config.environment !== "production") return;
+        if (!config.master) return;
+
+        log("Building folders");
+        try {
+          await folders();
+          log("Built folders");
+        } catch (e) {
+          log("Error building folders", e);
         }
+      },
+
+      function (callback) {
+        if (!config.master) return callback();
+
+        // Launch scheduler for background tasks, like backups, emails
+        scheduler();
+        callback();
+      },
+
+      function (callback) {
+        if (!config.master) return callback();
+
+        // Run any initialization that clients need
+        // Google Drive will renew any webhooks, e.g.
+        for (const { init, display_name } of Object.values(
+          require("clients")
+        )) {
+          if (init) {
+            console.log(clfdate(), display_name + " client:", "Initializing");
+            init();
+          }
+        }
+        callback();
+      },
+
+      function (callback) {
+        // Flush the cache of the public site and documentation
+        flush();
+
+        callback();
+      },
+
+      function (callback) {
+        if (config.environment !== "development") return callback();
+        configureLocalBlogs();
       },
     ],
     callback
