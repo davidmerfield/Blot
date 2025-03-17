@@ -4,7 +4,7 @@ set -e
 ACME=/usr/local/bin/acme-nginx
 
 # Sources the environment variables required
-. /etc/blot/environment.sh
+source /etc/blot/secrets.env
 
 if [ -z "$BLOT_HOST" ]; then
   echo "BLOT_HOST variable missing, pass the hostname of the blot instance as an argument to this script"
@@ -46,3 +46,6 @@ cat /etc/ssl/private/letsencrypt-domain.key | redis-cli -h $BLOT_REDIS_HOST -x s
 cat /etc/ssl/private/letsencrypt-domain.pem | redis-cli -h $BLOT_REDIS_HOST -x set 'blot:openresty:ssl:pem'
 
 redis-cli -h $BLOT_REDIS_HOST set 'blot:openresty:ssl:updated' $(date -u +%s)
+
+# Restart openresty to use the new cert
+sudo openresty -s reload
