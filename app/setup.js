@@ -17,7 +17,7 @@ const log = (...arguments) =>
 // and this speeds up the restart process when we run out of memory
 const SERVER_RESTART =
   config.environment === "production" &&
-  fs.existsSync(config.views_directory + "/documentation.html");
+  fs.existsSync(config.views_directory + "/index.html");
 
 function main(callback) {
   if (SERVER_RESTART) {
