@@ -22,6 +22,8 @@ Clamp length of password and email address in log in and sign up and reset forms
 
 ---
 
+Speed up templates.build 
+
 Try and be more selective about which blog model updates trigger blog.flushCache
 - Write now sync updates (e.g. checking /) all trigger blogs to flush cache
 
@@ -44,8 +46,6 @@ Use openresty config locally
 Write cache purge integration tests
 
 Get critique on full openresty config from LLM
-
-Speed up templates.build 
 
 Create a folder{watch} equivalent so we don't have to run a seperate process for development
 
