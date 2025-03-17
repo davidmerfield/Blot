@@ -126,6 +126,49 @@ function main(callback) {
         configureLocalBlogs();
         callback();
       },
+
+      // This is neccessary because when we deploy new dashboard or site code
+      // the old container will continue to serve the old code until they are
+      // replaced. So once the new code is deployed, we need to purge the CDN
+      // at the end of each setup.
+      async function () {
+        if (!config.bunny.secret) return;
+
+        if (config.environment !== "production") return;
+
+        try {
+          const cdnURL = require("documentation/tools/cdn-url-helper")({
+            cacheID: new Date().getTime(),
+            viewDirectory: config.views_directory,
+          })();
+
+          const urls = [
+            "/dashboard.min.css",
+            "/dashboard.min.js",
+            "/documentation.min.css",
+            "/documentation.min.js",
+          ]
+            .map((path) => cdnURL(path, (p) => p))
+            .map((p) => encodeURIComponent(p));
+
+          for (const urlToPurge of urls) {
+            const url = `https://api.bunny.net/purge?url=${urlToPurge}&async=false`;
+            const options = {
+              method: "POST",
+              headers: { AccessKey: config.bunny.secret },
+            };
+            console.log("Purging Bunny CDN cache", url);
+            const res = await fetch(url, options);
+            if (res.status !== 200) {
+              console.error("Failed to purge Bunny CDN cache", res.status);
+            } else {
+              console.log("Purged Bunny CDN cache", res.status);
+            }
+          }
+        } catch (e) {
+          console.error("Failed to run function to purge Bunny CDN cache", e);
+        }
+      },
     ],
     callback
   );
