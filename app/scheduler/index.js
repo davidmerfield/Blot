@@ -11,10 +11,8 @@ const freeDiskSpace = require("./free-disk-space");
 const os = require("os");
 const fs = require("fs-extra");
 const exec = require("child_process").exec;
-const fix = require("sync/fix/all");
 const zombies = require("./zombies");
 const checkCardTesters = require("./check-card-testers");
-const welcomeEmail = require("./welcome-email");
 
 // If any disk has less than 2GB of space, we should notify the admin
 const MINIMUM_DISK_SPACE_IN_K = 2 * 1024 * 1024;
@@ -119,9 +117,6 @@ module.exports = function () {
     console.log(clfdate(), "Scheduled entries for future publication");
   });
 
-  // Schedule welcome emails for new users
-  welcomeEmail();
-  
   // Warn users about impending subscriptions
   User.getAllIds(function (err, uids) {
     async.each(uids, User.scheduleSubscriptionEmail, function (err) {

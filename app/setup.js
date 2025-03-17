@@ -104,9 +104,8 @@ function main(callback) {
 
         // Run any initialization that clients need
         // Google Drive will renew any webhooks, e.g.
-        for (const { init, display_name } of Object.values(
-          require("clients")
-        )) {
+        const clients = Object.values(require("clients"));
+        for (const { init, display_name } of clients) {
           if (init) {
             console.log(clfdate(), display_name + " client:", "Initializing");
             init();
@@ -118,13 +117,14 @@ function main(callback) {
       function (callback) {
         // Flush the cache of the public site and documentation
         flush();
-
         callback();
       },
 
       function (callback) {
         if (config.environment !== "development") return callback();
+
         configureLocalBlogs();
+        callback();
       },
     ],
     callback

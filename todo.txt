@@ -49,26 +49,18 @@ Speed up templates.build
 
 Create a folder{watch} equivalent so we don't have to run a seperate process for development
 
-Run documentation build on github actions
-
 Worried about depending on Bunny – can we work out a plan to move away from them if needed?
-
-Work out why the mac server is restarting and resolve the issue
-- every time it restarts, add the debug command to the email notification
 
 Containerize the proxy (openresty/nginx)
 - add varnish afterwards to handle the load balancing and caching
 - get rid of openrestycache
-
-Work out why the main server is restarting and resolve the issue
-- every time it restarts
 
 Fix image profile retention not working in production and tell [Simon](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJchvfhDcWNkrZtNJqlLmLfsx)
 - maybe a caching issue and actually works?
 
 Improve production image build time for fast bug fixes and deploys
 - When should folder zipping happen?
-- Can we move documentation building and folder zipping into dockerfile? improve build speed by removing github actions cache?
+- Can we improve build speed by removing github actions cache and using some base image with dependencies?
 
 Use tinify free api to compress some of the folder images
 - maybe consider building this into the main product? it might pay for itself
@@ -77,8 +69,6 @@ Fix bug with first edit on forked template on template editor:
 - 1. open template editor for fresh blog
 - 2. change the text color
 - 3. nothing happens (due to the inital fork) until you reload the page
-
-Move welcome email to send after user creation
 
 Add asset library / file upload to template editor and share files across templates
 - use this to help implement a favicon feature which minifies the favicon
