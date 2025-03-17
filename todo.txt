@@ -23,8 +23,8 @@ Clamp length of password and email address in log in and sign up and reset forms
 ---
 
 Speed up templates.build 
-
-Try and be more selective about which blog model updates trigger blog.flushCache
+- It seems setView already checks for changes
+- Try and be more selective about which blog model updates trigger blog.flushCache
 - Write now sync updates (e.g. checking /) all trigger blogs to flush cache
 
 Move data dir to s3
@@ -48,8 +48,6 @@ Write cache purge integration tests
 Get critique on full openresty config from LLM
 
 Create a folder{watch} equivalent so we don't have to run a seperate process for development
-
-Worried about depending on Bunny – can we work out a plan to move away from them if needed?
 
 Containerize the proxy (openresty/nginx)
 - add varnish afterwards to handle the load balancing and caching
@@ -140,9 +138,7 @@ global site search of:
 - questions
 - templates
 
-
 Investigate bug with link format using filename and [follow up with yct](https://mail.google.com/mail/u/0/#inbox/FMfcgzQZTMLqzhtlSBrtFqNDFDdXPSfk)
-
 
 Overdue subscription payment form not working
 - Possible bug introduced by recent stripe upgrade
@@ -181,9 +177,6 @@ Fix issue with server restart:
 - sudo chown ec2-user:ec2-user /var/instance-ssd/tmp
 - sudo chown ec2-user:ec2-user /var/instance-ssd/logs/app.log
 - mkfs -t xfs -f /dev/XXXXXXXX
-
-Move docker logs to /var/ssd/logs
-- Ensure there is rotation for the docker log 
 
 Right now changes to documentation CSS do not make it into production:
 - stale servers serve the old CSS 
