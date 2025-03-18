@@ -4,7 +4,7 @@
   "description": "A blogging platform",
   "main": "app/index.js",
   "scripts": {
-    "test": "./tests/invoke.sh",
+    "test": "./scripts/tests/invoke.sh",
     "start": "docker-compose -f scripts/development/docker-compose.yml up --build",
     "deploy-node": "node scripts/deploy",
     "deploy-stats": "node scripts/stats/deploy",

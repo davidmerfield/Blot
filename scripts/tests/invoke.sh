@@ -18,11 +18,8 @@ TEST_IMAGE="blot-tests"
 
 # Paths (adjust as needed)
 TESTS_DIR=$(dirname "$0") # Directory containing this script
-APP_DIR=$(realpath "$TESTS_DIR/../app")
-CONFIG_DIR=$(realpath "$TESTS_DIR/../config")
-NOTES_DIR=$(realpath "$TESTS_DIR/../notes")
-TODO_FILE=$(realpath "$TESTS_DIR/../todo.txt")
-GIT_DIR=$(realpath "$TESTS_DIR/../.git")
+APP_DIR=$(realpath "$TESTS_DIR/../../app")
+CONFIG_DIR=$(realpath "$TESTS_DIR/../../config")
 TEST_ENV_FILE="$TESTS_DIR/test.env"
 
 # Stop and remove any existing containers
@@ -45,7 +42,7 @@ docker run -d \
 docker build \
   --target dev \
   -t $TEST_IMAGE \
-  $(realpath "$TESTS_DIR/..")
+  $(realpath "$TESTS_DIR/../..")
 
 # Run the test container
 docker run --rm \
@@ -59,9 +56,6 @@ docker run --rm \
   -v "$APP_DIR:/usr/src/app/app" \
   -v "$TESTS_DIR:/usr/src/app/tests" \
   -v "$CONFIG_DIR:/usr/src/app/config" \
-  -v "$NOTES_DIR:/usr/src/app/notes" \
-  -v "$TODO_FILE:/usr/src/app/todo.txt" \
-  -v "$GIT_DIR:/usr/src/app/.git" \
   $TEST_IMAGE \
   sh -c "rm -rf /usr/src/app/data && mkdir /usr/src/app/data && node -v && npm -v && nyc --include $TEST_PATH node tests $TEST_PATH $TEST_SEED"
 
