@@ -135,6 +135,15 @@ jobs:
           echo "$MATRIX_JSON" | jq '.' # Validate JSON format
           echo "matrix=$MATRIX_JSON" >> $GITHUB_OUTPUT
 
+  detect-unused-dependencies:
+    needs: setup-tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Find unused dependencies
+        run: npx depcheck --ignores=depcheck,nyc,nodemon,blessed-contrib,fontkit,text-to-svg --skip-missing
+        
   detect-unexecuted-specs:
     needs: setup-tests
     runs-on: ubuntu-latest
@@ -298,11 +307,9 @@ jobs:
             -v ${{ github.workspace }}/app:/usr/src/app/app \
             -v ${{ github.workspace }}/scripts:/usr/src/app/scripts \
             -v ${{ github.workspace }}/config:/usr/src/app/config \
-            -v ${{ github.workspace }}/todo.txt:/usr/src/app/todo.txt \
-            -v ${{ github.workspace }}/.git:/usr/src/app/.git \
             -v ${{ github.workspace }}/tests:/usr/src/app/tests \
             $IMAGE_TAG \
-            sh -c "node /usr/src/app/app/documentation/build/index.js --no-watch --skip-zip && node tests ${{ matrix.test_suite }} && npx depcheck --ignores=depcheck,nyc,nodemon,blessed-contrib,fontkit,text-to-svg --skip-missing"
+            sh -c "node scripts/tests ${{ matrix.test_suite }}"
 
   build-production-images:
     runs-on: ubuntu-latest
