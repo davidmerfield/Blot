@@ -50,7 +50,6 @@ jobs:
           sparse-checkout: |
             Dockerfile
             package.json
-            .dockerignore
             .github/workflows/node.yml
           sparse-checkout-cone-mode: false
 
@@ -58,7 +57,7 @@ jobs:
         id: hash
         run: |
           # Create a list of files to hash
-          FILES_TO_HASH="Dockerfile package.json .dockerignore .github/workflows/node.yml"
+          FILES_TO_HASH="Dockerfile package.json .github/workflows/node.yml"
           
           echo "Hashing files: $FILES_TO_HASH"
           
@@ -143,7 +142,7 @@ jobs:
         uses: actions/checkout@v4
       - name: Find unused dependencies
         run: npx depcheck --ignores=depcheck,nyc,nodemon,blessed-contrib,fontkit,text-to-svg --skip-missing
-        
+
   detect-unexecuted-specs:
     needs: setup-tests
     runs-on: ubuntu-latest
@@ -307,7 +306,6 @@ jobs:
             -v ${{ github.workspace }}/app:/usr/src/app/app \
             -v ${{ github.workspace }}/scripts:/usr/src/app/scripts \
             -v ${{ github.workspace }}/config:/usr/src/app/config \
-            -v ${{ github.workspace }}/tests:/usr/src/app/tests \
             $IMAGE_TAG \
             sh -c "node scripts/tests ${{ matrix.test_suite }}"
 
@@ -394,8 +392,7 @@ jobs:
               echo "Health check failed: app container did not become healthy within $timeout seconds."
 
               echo "Final log contents:"
-              docker exec $container_id cat /usr/src/app/data/logs/docker/app.log
-
+              docker logs $container_id
               docker stop $container_id
               docker rm $container_id
               docker stop $redis_container_id
