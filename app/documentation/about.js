@@ -4,7 +4,7 @@ const { marked } = require("marked");
 const fs = require("fs-extra");
 const rootDir = require("helper/rootDir");
 
-const NOTES_DIRECTORY = rootDir + "/notes";
+const NOTES_DIRECTORY = rootDir + "/app/views/about/notes";
 let buildTOC = require("./tools/toc");
 
 let TOC = buildTOC(NOTES_DIRECTORY);
