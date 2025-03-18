@@ -4,6 +4,7 @@
 {{> flickity-pkgd.js}}
 {{> navigation-collapser.js}}
 {{> menubar.js}}
+{{> next-previous.js}}
 {{> multi-lingual.js}}
 
 class PageTransitioner {
@@ -102,9 +103,22 @@ class PageTransitioner {
                     oldScript.parentNode.replaceChild(newScript, oldScript);
                 });
                 
+                // remove class 'active' from all links
+                document.querySelectorAll('.sidebar a').forEach(link => {
+                    link.classList.remove('active');
+                });
+
+                // add class 'active' to the current link
+                document.querySelectorAll('.sidebar a').forEach(link => {
+                    if (link.href === url) {
+                        link.classList.add('active');
+                    }
+                });
+
                 window.scrollTo(0, scrollPos);
                 refreshToc();
                 renderMultiLingual();
+                renderNextPrevious();
             }
             
         } catch (err) {

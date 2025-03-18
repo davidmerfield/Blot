@@ -3,9 +3,6 @@
   <url>
     <loc>{{blogURL}}</loc> 
   </url>
-  <url>
-    <loc>{{blogURL}}/archives/</loc> 
-  </url>
   {{#menu}}
   {{#isPage}}
   <url>

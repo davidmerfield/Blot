@@ -23,6 +23,11 @@
     color: var(--text-color);
   }
   
+  .sidebar a.active {
+    color: var(--text-color);
+    font-weight: 500;
+  }
+
   .sidebar [data-depth] > a {
     font-weight: 500;
   }

@@ -1,12 +1,23 @@
 document.addEventListener("DOMContentLoaded", renderMultiLingual);
 
 function renderMultiLingual() {
+  const STORAGE_KEY = 'preferredCodeLanguage';
   const codeBlocks = document.querySelectorAll("pre code");
   const codeGroups = [];
   let currentGroup = [];
 
   const getLanguage = (codeElement) => {
     return Array.from(codeElement.classList).find((cls) => cls !== "hljs");
+  };
+
+  // Get stored language preference
+  const getStoredLanguage = () => {
+    return localStorage.getItem(STORAGE_KEY);
+  };
+
+  // Save language preference
+  const saveLanguagePreference = (lang) => {
+    localStorage.setItem(STORAGE_KEY, lang);
   };
 
   codeBlocks.forEach((block, index) => {
@@ -40,17 +51,19 @@ function renderMultiLingual() {
       ),
     ];
 
+    const storedLanguage = getStoredLanguage();
+
     if (languages.length === 1) {
-      // Create a non-clickable label for single language
       const label = document.createElement("span");
       label.className = "code-tab";
       label.textContent = languages[0];
       tabsContainer.appendChild(label);
     } else if (languages.length > 1) {
-      // Create clickable tabs for multiple languages
       languages.forEach((lang, i) => {
         const tab = document.createElement("button");
-        tab.className = `code-tab ${i === 0 ? "active" : ""}`;
+        const isStoredLang = lang === storedLanguage;
+        const isFirstTab = i === 0;
+        tab.className = `code-tab ${(isStoredLang || (!storedLanguage && isFirstTab)) ? "active" : ""}`;
         tab.textContent = lang;
         tab.setAttribute("data-lang", lang);
         tabsContainer.appendChild(tab);
@@ -89,7 +102,9 @@ function renderMultiLingual() {
     group.forEach((pre, i) => {
       const lang = getLanguage(pre.firstElementChild);
       const blockWrapper = document.createElement("div");
-      blockWrapper.className = `code-block-wrapper ${i === 0 ? "active" : ""}`;
+      const isStoredLang = lang === storedLanguage;
+      const isFirstBlock = i === 0;
+      blockWrapper.className = `code-block-wrapper ${(isStoredLang || (!storedLanguage && isFirstBlock)) ? "active" : ""}`;
       if (lang) {
         blockWrapper.setAttribute("data-lang", lang);
       }
@@ -105,6 +120,10 @@ function renderMultiLingual() {
       tabsContainer.addEventListener("click", (e) => {
         if (e.target.classList.contains("code-tab")) {
           const lang = e.target.getAttribute("data-lang");
+          
+          // Save the selected language
+          saveLanguagePreference(lang);
+
           const allTabs = tabsContainer.querySelectorAll(".code-tab");
           const allBlocks = wrapper.querySelectorAll(".code-block-wrapper");
 
@@ -119,6 +138,7 @@ function renderMultiLingual() {
             );
           });
 
+          // Sync all other code groups
           document.querySelectorAll(".code-group").forEach((otherGroup) => {
             if (otherGroup !== wrapper) {
               const matchingTab = otherGroup.querySelector(
@@ -133,4 +153,13 @@ function renderMultiLingual() {
       });
     }
   });
+
+  // Initialize stored language on page load
+  const storedLang = getStoredLanguage();
+  if (storedLang) {
+    const firstGroupTab = document.querySelector(`.code-tab[data-lang="${storedLang}"]`);
+    if (firstGroupTab && !firstGroupTab.classList.contains('active')) {
+      firstGroupTab.click();
+    }
+  }
 }
