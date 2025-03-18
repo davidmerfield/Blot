@@ -60,7 +60,7 @@ WORKDIR /usr/src/app
 COPY ./scripts ./scripts
 COPY ./config ./config
 COPY ./app ./app
-COPY ./todo.txt ./todo.txt
+COPY ./TODO ./TODO
 
 ## Stage 4 (default, production)
 # The final production stage

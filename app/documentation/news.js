@@ -214,7 +214,7 @@ news.post("/sign-up", parse, function (req, res, next) {
 });
 
 function loadToDo (req, res, next) {
-  fs.readFile(join(root, "todo.txt"), "utf-8", function (err, todo) {
+  fs.readFile(join(root, "TODO"), "utf-8", function (err, todo) {
     if (err) {
       console.log(err);
       res.locals.todo = "";
