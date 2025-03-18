@@ -10,6 +10,12 @@ Why don't empty files sync on the dashboard?
 Improve build and test workflow
 - Create a blot-base image and use that for testing and production image?
 
+Migrate scripts in bashrc into deployment flow
+- run them all inside backup server -blot-blue
+
+Use npm run test in production
+- echo github env -> scripts/tests/.env
+
 ---
 
 Convert callbacks to async/await
