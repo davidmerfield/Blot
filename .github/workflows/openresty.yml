@@ -14,7 +14,25 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@master
+      - uses: actions/checkout@v4 # Update to latest version
+
+      # Cache npm dependencies
+      - name: Cache npm packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-
+
+      # Cache luarocks
+      - name: Cache luarocks
+        uses: actions/cache@v4
+        with:
+          path: ~/.luarocks
+          key: ${{ runner.os }}-luarocks-${{ hashFiles('**/*.rockspec') }}
+          restore-keys: |
+            ${{ runner.os }}-luarocks-
 
       - name: Install PCRE library
         run: sudo apt-get install -y libpcre3 libpcre3-dev
@@ -28,7 +46,7 @@ jobs:
         with:
           withLuaPath: "/usr/local/openresty/luajit/"
 
-      - name: install auto-ssl
+      - name: Install auto-ssl
         run: |
           which luarocks
           sudo /home/runner/work/Blot/Blot/.luarocks/bin/luarocks install lua-resty-auto-ssl
@@ -41,14 +59,20 @@ jobs:
           redis-version: 6.2.6
 
       - name: Set up Node
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4 # Update to latest version
         with:
           node-version: 21.7.3
+          cache: 'npm' # Enable built-in npm caching
 
       - name: Install Dependencies
-        run: npm install
+        run: npm ci # Use ci instead of install for more reliable builds
 
-      - name: build openresty config
+      - name: Create required directories
+        run: |
+          sudo mkdir -p /var/instance-ssd/logs
+          mkdir -p /home/runner/work/Blot/Blot/config/openresty/data/latest
+
+      - name: Build openresty config
         env:
           NODE_PATH: /home/runner/work/Blot/Blot/app
           NODE_SERVER_IP: 127.0.0.1
@@ -64,25 +88,23 @@ jobs:
           node config/openresty/build-config.js --skip-confirmation
           cat config/openresty/data/latest/openresty.conf
 
-      # run this after building config since building config will overwrite the data directory
-      - name: generate self-signed SSL certs
+      - name: Generate self-signed SSL certs
         run: |
-          mkdir -p /home/runner/work/Blot/Blot/config/openresty/data/latest
-          openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /home/runner/work/Blot/Blot/config/openresty/data/latest/selfsigned.key -out /home/runner/work/Blot/Blot/config/openresty/data/latest/selfsigned.crt -subj "/C=US/ST=Oregon/L=Portland/O=Company Name/OU=Org/CN=localhost"
+          openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+            -keyout /home/runner/work/Blot/Blot/config/openresty/data/latest/selfsigned.key \
+            -out /home/runner/work/Blot/Blot/config/openresty/data/latest/selfsigned.crt \
+            -subj "/C=US/ST=Oregon/L=Portland/O=Company Name/OU=Org/CN=localhost"
 
-      - name: run openresty
+      - name: Run openresty
+        run: sudo /usr/local/openresty/bin/openresty -c /home/runner/work/Blot/Blot/config/openresty/data/latest/openresty.conf
+
+      - name: Verify openresty is running
         run: |
-          sudo mkdir -p /var/instance-ssd/logs
-          sudo /usr/local/openresty/bin/openresty -c /home/runner/work/Blot/Blot/config/openresty/data/latest/openresty.conf
+          curl -f localhost:80 || (sudo cat /var/instance-ssd/logs/* && exit 1)
 
-      - name: check openresty is running on port 80
-        run: |
-          curl localhost:80
-
-      - name: run openresty tests
+      - name: Run openresty tests
         env:
           NODE_PATH: /home/runner/work/Blot/Blot/app
           BLOT_OPENRESTY_TEST_USER: runner
           BLOT_OPENRESTY_TEST_GROUP: runner
-        run: |
-          node scripts/tests config/openresty
+        run: node scripts/tests config/openresty
