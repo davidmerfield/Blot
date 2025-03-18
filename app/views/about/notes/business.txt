@@ -11,7 +11,7 @@ Instead, we offer a straightforward proposition: we provide hosting for your web
 
 ## Will you sell Blot one day?
 
-My exit strategy is death. I've made strategic decisions, like dedicating the source code to the public domain, to reduce my temptation to ever sell Blot.
+No, I plan to work on Blot for the rest of my life. I've made strategic decisions, like releasing the source code under the AGPL license, to reduce my temptation to ever sell Blot.
 
 ## Leave money on the table
 
