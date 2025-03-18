@@ -2,7 +2,34 @@ const mustache = require("mustache");
 const config = require("config");
 const fs = require("fs-extra");
 const child_process = require("child_process");
-const { webhooks } = require("..");
+
+function loadEnvFile() {
+  const envPath = require('path').join(__dirname, "..", "..", ".env");
+  try {
+    const envContent = fs.readFileSync(envPath, "utf8");
+    const envVars = envContent
+      .split("\n")
+      .filter((line) => line.trim() && !line.startsWith("#"))
+      .reduce((vars, line) => {
+        const [key, ...valueParts] = line.split("=");
+        const value = valueParts.join("=").trim();
+        if (key && value) {
+          vars[key.trim()] = value.replace(/^["']|["']$/g, "");
+        }
+        return vars;
+      }, {});
+
+    Object.assign(process.env, envVars);
+  } catch (error) {
+    console.error("Error reading .env file:", error);
+  }
+}
+
+loadEnvFile();
+
+const NETDATA_USER = process.env.NETDATA_USER;
+const NETDATA_PASSWORD = process.env.NETDATA_PASSWORD;
+const NETDATA_PORT = process.env.NETDATA_PORT;
 
 const NODE_SERVER_IP = process.env.NODE_SERVER_IP;
 const REDIS_IP = process.env.REDIS_IP;
@@ -26,7 +53,9 @@ const config_directory =
 // node rawbody parser requires 'MB' instead of 'M'
 // so this maps '25MB' to '25M' for nginx
 const iCloud_max_body_size = `${config.icloud.maxFileSize / 1000000}M`;
-const webhooks_client_max_body_size = `${config.webhooks.client_max_body_size / 1000000}M`;
+const webhooks_client_max_body_size = `${
+  config.webhooks.client_max_body_size / 1000000
+}M`;
 
 const locals = {
   host: "blot.im",
@@ -66,6 +95,10 @@ const locals = {
   ssl_certificate_key:
     process.env.SSL_CERTIFICATE_KEY ||
     "/etc/ssl/private/letsencrypt-domain.key",
+
+  NETDATA_PASSWORD,
+  NETDATA_USER,
+  NETDATA_PORT,
 };
 
 // move the previous contents of the data directory to a backup

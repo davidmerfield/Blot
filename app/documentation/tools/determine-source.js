@@ -13,7 +13,7 @@ module.exports = function determineSource (req, res, next) {
     let paths;
 
     if (path === "/news") {
-      paths = ["/todo.txt"];
+      paths = ["/TODO"];
     } else if (path.startsWith("/about/notes")) {
       paths = [
         join(path.slice("/about".length) + ".txt"),

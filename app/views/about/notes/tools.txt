@@ -1,0 +1,31 @@
+# Tools
+
+Not much software is needed to run the day-to-day operation of Blot. 
+
+## Email
+
+We communicate amongst ourselves and with our customers using email. Email is good because it is asynchronous and decentralized.
+
+## Analytics
+
+We don't gather analytics data. There are no metrics and there are no A/B tests. When we make design or engineering decisions we rely on our judgement and trust in our taste.
+
+## Task tracking
+
+We use [a text-file](https://github.com/davidmerfield/Blot/blob/master/TODO) to keep track of tasks. If somebody needs to be notified when a task is complete, we include a link to the appropriate email thread in the text file, along with a description of the task. This text-file is checked into version control which means we can easily summarize our completed tasks – the [updates page](/news) is generated from this file. 
+
+## Accounting
+
+We use a spreadsheet which we update once per month with revenue and costs. Our costs are as follows:
+- Hosting (AWS, Bunny)
+- Payment processing fees (Stripe and PayPal)
+- Domain registration (AWS and Cloudflare)
+- Email hosting (Google Workspace) 
+- Status monitoring (Updown.io)
+- Other software (Microsoft Office, iCloud, TurboTax)
+
+At the end of the year we use TurboTax to generate our tax documents.
+
+## Payment processing
+
+We use Stripe and PayPal to process payments. 
