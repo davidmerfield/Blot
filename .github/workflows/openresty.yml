@@ -37,19 +37,38 @@ jobs:
       - name: Install PCRE library
         run: sudo apt-get install -y libpcre3 libpcre3-dev
 
-      - uses: leafo/gh-actions-openresty@v1
+      # Debug: Show directory structure before cleanup
+      - name: Debug - Show initial directory structure
+        run: |
+          pwd
+          ls -la
+          ls -la ~/.openresty || echo "No ~/.openresty directory"
+          ls -la /usr/local/openresty || echo "No /usr/local/openresty directory"
+
+      # Clear previous installation
+      - name: Clean previous installation
+        run: |
+          sudo rm -rf ~/.openresty /usr/local/openresty
+          sudo mkdir -p /usr/local/openresty
+          sudo chown -R $USER:$USER /usr/local/openresty
+
+      # Install OpenResty without using cache
+      - name: Install OpenResty
+        uses: leafo/gh-actions-openresty@v1
         with:
           openrestyVersion: "1.21.4.2"
           configureFlags: "--with-pcre-jit --with-ipv6 --with-http_v2_module"
-          skipCache: true  # Skip cache temporarily to test clean installation
+          buildCache: false
 
-      # Add verification step
-      - name: Verify OpenResty Installation
+      # Debug: Verify installation
+      - name: Debug - Verify OpenResty installation
         run: |
+          echo "Directory structure after installation:"
+          ls -la /usr/local/openresty
+          echo "OpenResty version:"
           /usr/local/openresty/bin/openresty -v || true
-          ls -la /usr/local/openresty || true
-          echo "OpenResty installation directory contents:"
-          find /usr/local/openresty -type f -ls || true
+          echo "LuaJIT directory contents:"
+          ls -la /usr/local/openresty/luajit || true
 
       - uses: leafo/gh-actions-luarocks@v4
         with:
