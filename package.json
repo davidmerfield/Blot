@@ -5,8 +5,11 @@
   "main": "app/index.js",
   "scripts": {
     "test": "./tests/invoke.sh",
-    "start": "docker-compose up --build",
-    "deploy": "node scripts/deploy",
+    "start": "docker-compose -f scripts/development/docker-compose.yml up --build",
+    "deploy-node": "node scripts/deploy",
+    "deploy-stats": "node scripts/stats/deploy",
+    "deploy-macserver": "./scripts/macserver/deploy.sh",
+    "deploy-openresty": ". /etc/blot/openresty-deploy-environment.sh && ./config/openresty/deploy-config.sh",
     "featured": "docker exec blot-node-app-1 node app/documentation/featured/build",
     "folder": "docker exec blot-node-app-1 npx nodemon app/templates/folders --ext '*' --watch /usr/src/app/app/templates/folders"
   },

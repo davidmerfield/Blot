@@ -53,8 +53,6 @@ Containerize the proxy (openresty/nginx)
 - add varnish afterwards to handle the load balancing and caching
 - get rid of openrestycache
 
-Add stats dashboard with netdata and remove old code
-
 Fix image profile retention not working in production and tell [Simon](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJchvfhDcWNkrZtNJqlLmLfsx)
 - maybe a caching issue and actually works?
 

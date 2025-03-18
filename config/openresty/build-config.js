@@ -22,13 +22,10 @@ function loadEnvFile() {
     Object.assign(process.env, envVars);
   } catch (error) {
     console.error("Error reading .env file:", error);
-    process.exit(1);
   }
 }
 
 loadEnvFile();
-
-const { webhooks } = require("..");
 
 const NETDATA_USER = process.env.NETDATA_USER;
 const NETDATA_PASSWORD = process.env.NETDATA_PASSWORD;

@@ -77,8 +77,8 @@ EOL
   --security-opt apparmor=unconfined \
   netdata/netdata`;
 
+    // Only remove the container, keep the volumes
     await executeCommand(`ssh blot "docker rm -f netdata || true"`);
-    await executeCommand(`ssh blot "docker volume rm netdatalib netdatacache || true"`);
     await executeCommand(`ssh blot "${dockerCommand}"`);
 
     console.log(`Netdata deployment completed successfully`);
