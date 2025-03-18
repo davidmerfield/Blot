@@ -1,3 +1,17 @@
+Make initial health check /health more powerful
+- inspect blogs directory and verify there are the expected number of folders
+- check we can communicate with redis
+- verify pandoc is installed and running
+- make the initial timeout in the health check longer?
+- subsequent requests can just check redis connection?
+
+Why don't empty files sync on the dashboard?
+
+Improve build and test workflow
+- Create a blot-base image and use that for testing and production image?
+
+---
+
 Convert callbacks to async/await
 - literally anywhere in the codebase – use util.callbackify to add backwards compatibility
 
