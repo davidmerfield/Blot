@@ -298,7 +298,6 @@ jobs:
             -v ${{ github.workspace }}/app:/usr/src/app/app \
             -v ${{ github.workspace }}/scripts:/usr/src/app/scripts \
             -v ${{ github.workspace }}/config:/usr/src/app/config \
-            -v ${{ github.workspace }}/notes:/usr/src/app/notes \
             -v ${{ github.workspace }}/todo.txt:/usr/src/app/todo.txt \
             -v ${{ github.workspace }}/.git:/usr/src/app/.git \
             -v ${{ github.workspace }}/tests:/usr/src/app/tests \
