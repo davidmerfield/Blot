@@ -41,6 +41,15 @@ jobs:
         with:
           openrestyVersion: "1.21.4.2"
           configureFlags: "--with-pcre-jit --with-ipv6 --with-http_v2_module"
+          skipCache: true  # Skip cache temporarily to test clean installation
+
+      # Add verification step
+      - name: Verify OpenResty Installation
+        run: |
+          /usr/local/openresty/bin/openresty -v || true
+          ls -la /usr/local/openresty || true
+          echo "OpenResty installation directory contents:"
+          find /usr/local/openresty -type f -ls || true
 
       - uses: leafo/gh-actions-luarocks@v4
         with:
