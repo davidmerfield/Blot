@@ -10,12 +10,10 @@ function renderMultiLingual() {
     return Array.from(codeElement.classList).find((cls) => cls !== "hljs");
   };
 
-  // Get stored language preference
   const getStoredLanguage = () => {
     return localStorage.getItem(STORAGE_KEY);
   };
 
-  // Save language preference
   const saveLanguagePreference = (lang) => {
     localStorage.setItem(STORAGE_KEY, lang);
   };
@@ -52,6 +50,8 @@ function renderMultiLingual() {
     ];
 
     const storedLanguage = getStoredLanguage();
+    // Determine which language to show initially
+    const initialLang = languages.includes(storedLanguage) ? storedLanguage : languages[0];
 
     if (languages.length === 1) {
       const label = document.createElement("span");
@@ -61,9 +61,7 @@ function renderMultiLingual() {
     } else if (languages.length > 1) {
       languages.forEach((lang, i) => {
         const tab = document.createElement("button");
-        const isStoredLang = lang === storedLanguage;
-        const isFirstTab = i === 0;
-        tab.className = `code-tab ${(isStoredLang || (!storedLanguage && isFirstTab)) ? "active" : ""}`;
+        tab.className = `code-tab ${lang === initialLang ? "active" : ""}`;
         tab.textContent = lang;
         tab.setAttribute("data-lang", lang);
         tabsContainer.appendChild(tab);
@@ -102,9 +100,7 @@ function renderMultiLingual() {
     group.forEach((pre, i) => {
       const lang = getLanguage(pre.firstElementChild);
       const blockWrapper = document.createElement("div");
-      const isStoredLang = lang === storedLanguage;
-      const isFirstBlock = i === 0;
-      blockWrapper.className = `code-block-wrapper ${(isStoredLang || (!storedLanguage && isFirstBlock)) ? "active" : ""}`;
+      blockWrapper.className = `code-block-wrapper ${lang === initialLang ? "active" : ""}`;
       if (lang) {
         blockWrapper.setAttribute("data-lang", lang);
       }
@@ -121,7 +117,6 @@ function renderMultiLingual() {
         if (e.target.classList.contains("code-tab")) {
           const lang = e.target.getAttribute("data-lang");
           
-          // Save the selected language
           saveLanguagePreference(lang);
 
           const allTabs = tabsContainer.querySelectorAll(".code-tab");
@@ -138,11 +133,18 @@ function renderMultiLingual() {
             );
           });
 
-          // Sync all other code groups
           document.querySelectorAll(".code-group").forEach((otherGroup) => {
             if (otherGroup !== wrapper) {
+              const otherGroupLangs = Array.from(
+                otherGroup.querySelectorAll(".code-block-wrapper")
+              ).map(block => block.getAttribute("data-lang"));
+              
+              // If the selected language exists in this group, switch to it
+              // Otherwise, switch to the first language in the group
+              const targetLang = otherGroupLangs.includes(lang) ? lang : otherGroupLangs[0];
+              
               const matchingTab = otherGroup.querySelector(
-                `.code-tab[data-lang="${lang}"]`
+                `.code-tab[data-lang="${targetLang}"]`
               );
               if (matchingTab && !matchingTab.classList.contains("active")) {
                 matchingTab.click();
@@ -154,12 +156,21 @@ function renderMultiLingual() {
     }
   });
 
-  // Initialize stored language on page load
   const storedLang = getStoredLanguage();
   if (storedLang) {
-    const firstGroupTab = document.querySelector(`.code-tab[data-lang="${storedLang}"]`);
-    if (firstGroupTab && !firstGroupTab.classList.contains('active')) {
-      firstGroupTab.click();
-    }
+    document.querySelectorAll(".code-group").forEach(group => {
+      const groupLangs = Array.from(
+        group.querySelectorAll(".code-block-wrapper")
+      ).map(block => block.getAttribute("data-lang"));
+      
+      // If the stored language exists in this group, switch to it
+      // Otherwise, switch to the first language in the group
+      const targetLang = groupLangs.includes(storedLang) ? storedLang : groupLangs[0];
+      
+      const targetTab = group.querySelector(`.code-tab[data-lang="${targetLang}"]`);
+      if (targetTab && !targetTab.classList.contains('active')) {
+        targetTab.click();
+      }
+    });
   }
 }

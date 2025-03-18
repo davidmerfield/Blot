@@ -1,3 +1,10 @@
+.sidebar {
+  visibility: hidden;
+}
+.sidebar.initialized {
+  visibility: visible;
+  transition: visibility 0s;
+}
 
 .sidebar {
     list-style: none;

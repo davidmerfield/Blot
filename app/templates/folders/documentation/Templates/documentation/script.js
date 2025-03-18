@@ -2,7 +2,6 @@
 {{{appJS}}}
 {{> toc.js}}
 {{> flickity-pkgd.js}}
-{{> navigation-collapser.js}}
 {{> menubar.js}}
 {{> next-previous.js}}
 {{> multi-lingual.js}}

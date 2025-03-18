@@ -177,6 +177,8 @@ hr {
     position: absolute;
     display: flex;
     left:0;
+    background: var(--background-color);
+    border: 1px solid var(--border-color);
   }
 
   .main {
@@ -360,8 +362,64 @@ pre {
   background: var(--off-background-color);
 }
 
-.code-toolbar + .code-block-wrapper pre {
+.code-group pre {
   border-radius: 0 0 4px 4px;
   border-top: none;
   background: none;
+}
+
+
+
+details {
+  max-width: 600px;
+  border-top: 1px solid var(--border-color);
+  background: white;
+}
+
+summary {
+  list-style: none;
+  padding: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  position: relative;
+  padding-left: 32px;
+}
+
+summary:focus {
+  outline: none;
+}
+
+/* Remove default marker */
+summary::-webkit-details-marker {
+  display: none;
+}
+
+/* Custom + and - symbol */
+summary::before,
+summary::after {
+  content: '';
+  position: absolute;
+  left: 8px;
+  top: 50%;
+  width: 12px;
+  height: 2px;
+  background-color: #4b5563;
+  transition: all 0.3s ease;
+}
+
+summary::after {
+  transform: rotate(90deg);
+}
+
+details[open] {
+  padding-bottom: 16px;
+}
+
+details[open] summary::after {
+  transform: rotate(0);
+  opacity: 0;
+}
+
+details[open] summary::before {
+  transform: rotate(180deg);
 }

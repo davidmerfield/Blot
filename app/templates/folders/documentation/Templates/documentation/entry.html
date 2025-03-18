@@ -5,7 +5,19 @@
 {{> navigation}}
 {{/entry.page}}
 {{#entry.page}}
+
+
+    <!-- Hidden Checkboxes -->
+    <input type="checkbox" id="toggle-left" class="toggle-checkbox" />
+    <input type="checkbox" id="toggle-right" class="toggle-checkbox" />
+
+    <!-- Control Bar -->
+    <div class="control-bar">
+      <label for="toggle-left" class="control-label"> </label>
+      <label for="toggle-right" class="control-label">On this page</label>
+    </div>
 <div class="column-container">
+    <div class="column" style="display:none!important;"></div>
 <div class="main">
 {{/entry.page}}
 <main>
@@ -26,7 +38,7 @@
     </a>
 </div>
 
-<p>Updated on {{updated}}</p>
+<p>Updated on {{#entry.formatUpdated}}DD MMMM, YYYY{{/entry.formatUpdated}}</p>
 </div>
 
 {{> footer}}
