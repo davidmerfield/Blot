@@ -16,6 +16,8 @@ Migrate scripts in bashrc into deployment flow
 Use npm run test in production
 - echo github env -> scripts/tests/.env
 
+Can we configure email notifications easily with netdata?
+
 ---
 
 Convert callbacks to async/await
