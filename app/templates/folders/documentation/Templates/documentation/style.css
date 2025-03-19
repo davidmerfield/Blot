@@ -18,6 +18,7 @@
   --font-size: {{{font_size}}}px;
   --line-height: {{{line_height}}};
   {{/body_font}}
+  --red-color: color(display-p3 1 0.32549 0.0627451);
   --background-color: {{background_color}};
   --text-color: {{text_color}};
   --off-background-color: rgba({{#rgb}}{{text_color}}{{/rgb}}, 0.02);
@@ -426,20 +427,20 @@ details[open] summary::before {
 
 
 
-.main ol {
+.steps ol {
   list-style: none;
   counter-reset: steps;
   padding-left: 32px;
   position: relative;
 }
 
-.main  ol li {
+.steps  ol li {
   counter-increment: steps;
   margin: 0 0 1em 0;
   position: relative;
 }
 
-.main  ol li::before {
+.steps  ol li::before {
   content: counter(steps);
   border: 1px solid var(--border-color);
   color: var(--light-text-color);
@@ -456,7 +457,7 @@ details[open] summary::before {
   font-size: 0.75rem;
 }
 
-.main ol li::after {
+.steps ol li::after {
   content: "";
   position: absolute;
   left: calc(1.25rem/2 - 32px);
@@ -466,7 +467,7 @@ details[open] summary::before {
   background: var(--border-color);
 }
 
-.main  ol li:last-child::after {
+.steps  ol li:last-child::after {
   display: none;
 }
 
@@ -506,4 +507,23 @@ h3 {
   font-weight: 550;
   margin-bottom: 24px;
   margin-top: 24px;
+}
+
+.info, .warning, .success, .error {
+  padding: 0 1em;
+  margin: 1em 0;
+  border-radius: 4px;
+  border: 1px solid;
+  font-size: 14px;
+}
+
+.error {
+  color: var(--red-color);
+  border-color: var(--red-color);
+  background-color: var(--red-color);
+}
+.info {
+  border-color:  var(--border-color);
+  background-color: var(--off-background-color);
+  color: var(--light-text-color)
 }

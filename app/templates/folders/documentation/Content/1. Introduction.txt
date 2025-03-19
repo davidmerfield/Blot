@@ -11,6 +11,24 @@ Welcome to the documentation for our sample project. This guide will walk you th
 
 ## Getting Started
 
+::: info
+Information content
+:::
+
+::: warning
+Warning content
+:::
+
+::: error
+Error content
+:::
+
+::: success
+Error content
+:::
+
+::: steps
+
 1. To begin using the framework, you'll need to install it via your package manager. Here are the installation commands for the most common ones:
 
     ```js
@@ -45,6 +63,7 @@ Welcome to the documentation for our sample project. This guide will walk you th
     }
     app = Framework(config)
     ```
+::: 
 
 ## API Reference
 
