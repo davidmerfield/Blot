@@ -1,189 +1,89 @@
-# Getting Started
+# Getting Started  
 
-ConnectKit is the simplest way to integrate a connect wallet experience into your React.js web application. It comes with sensible defaults out of the box so you can focus on building.
+This guide will help you install and set up the framework for your project. If you haven't already, check out the [Introduction](/) to get an overview of the framework.  
 
-## Install
+## Installation  
 
-Install ConnectKit and its peer dependencies:
+::: info  
+Ensure you have Python 3 or Node.js installed before proceeding.  
+:::  
 
-```sh
-npm install connectkit wagmi viem@2.x @tanstack/react-query
-```
+::: steps  
 
-- **Wagmi** is a React Hooks library for Ethereum, used to interact with the connected wallet.
-- **Viem** is a TypeScript interface for Ethereum that performs blockchain operations.
-- **TanStack Query** is an async state manager that handles requests, caching, and more.
-- **TypeScript** is optional, but highly recommended.
+1. Install the framework using your package manager:  
 
----
+    ```js  
+    npm install my-framework  
+    ```  
+    ```python  
+    pip install my-framework  
+    ```  
 
-## API Keys
+2. Import the framework into your project:  
 
-ConnectKit utilizes WalletConnect's SDK to help with connecting wallets. WalletConnect 2.0 requires a `projectId`, which you can create quickly and easily for free over at [WalletConnect Cloud](https://cloud.walletconnect.com/).
+    ```js  
+    import { Framework } from 'my-framework';  
+    ```  
+    ```python  
+    from my_framework import Framework  
+    ```  
 
----
+3. Initialize the framework with your configuration:  
 
-## Implementation
+    ```js  
+    const config = {  
+      apiKey: 'your-api-key',  
+      environment: 'production'  
+    };  
+    const app = new Framework(config);  
+    ```  
+    ```python  
+    config = {  
+        "api_key": "your-api-key",  
+        "environment": "production"  
+    }  
+    app = Framework(config)  
+    ```  
 
-It is recommended to wrap your app within a new component that will help you set up ConnectKit and its dependencies.
+:::  
 
-### Creating a Web3Provider
+## Configuration  
 
-Start by creating a new component called `Web3Provider`. Here you will import the required providers and create a config using Wagmi's `createConfig` method. ConnectKit provides a pre-configured `getDefaultConfig` function to simplify this process.
+Once installed, you may need to configure the framework to match your needs. Configuration can be set via environment variables or a configuration file.  
 
-Below is a simple example app using `getDefaultConfig()` to help you get started:
+**Example configuration file (`config.json`):**  
 
-> **Note:** When using a framework that supports React Server Components, you will need to include the `"use client"` directive at the beginning of this file.
+```json  
+{  
+  "apiKey": "your-api-key",  
+  "environment": "production"  
+}  
+```  
 
-### Web3Provider.tsx
+To load this configuration in your project:  
 
-```js
-import { WagmiProvider, createConfig, http } from "wagmi";
-import { mainnet } from "wagmi/chains";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ConnectKitProvider, getDefaultConfig } from "connectkit";
+```js  
+import fs from 'fs';  
 
-const config = createConfig(
-  getDefaultConfig({
-    // Your dApp's chains
-    chains: [mainnet],
-    transports: {
-      // RPC URL for each chain
-      [mainnet.id]: http(
-        `https://eth-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_ID}`
-      ),
-    },
+const config = JSON.parse(fs.readFileSync('config.json', 'utf-8'));  
+const app = new Framework(config);  
+```  
 
-    // Required API Keys
-    walletConnectProjectId: process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID,
+```python  
+import json  
 
-    // Required App Info
-    appName: "Your App Name",
+with open('config.json', 'r') as file:  
+    config = json.load(file)  
 
-    // Optional App Info
-    appDescription: "Your App Description",
-    appUrl: "https://family.co", // Your app's URL
-    appIcon: "https://family.co/logo.png", // Your app's icon (max. 1MB, 1024x1024px)
-  })
-);
+app = Framework(config)  
+```  
 
-const queryClient = new QueryClient();
+## Next Steps  
 
-export const Web3Provider = ({ children }) => {
-  return (
-    <WagmiProvider config={config}>
-      <QueryClientProvider client={queryClient}>
-        <ConnectKitProvider>{children}</ConnectKitProvider>
-      </QueryClientProvider>
-    </WagmiProvider>
-  );
-};
-```
+Now that your framework is set up, you can start building your application!  
 
-### Wrapping Your App
+- Read the [API Reference](/api-reference)  
+- Learn how to [Handle Authentication](/authentication)  
+- Explore [Advanced Usage](/advanced-usage)  
 
-Now that you have your `Web3Provider` component, you can wrap your app with it:
-
-#### App.tsx
-
-```
-import { Web3Provider } from "./Web3Provider";
-import { ConnectKitButton } from "connectkit";
-
-const App = () => {
-  return (
-    <Web3Provider>
-      <ConnectKitButton />
-    </Web3Provider>
-  );
-};
-
-export default App;
-```
-
-And voilà, you've successfully set up ConnectKit.
-
----
-
-## Connected Wallet Info
-
-To interact with the connected wallet, you can use various hooks, such as `useAccount`, from Wagmi (a ConnectKit dependency).
-
-In the example above, we wrapped our app with a `<ConnectKitProvider>`. Before utilizing any Wagmi hooks, make sure the components you build are mounted under this provider.
-
-### Example: Accessing Wallet Info
-
-Below is a simple example component that uses the `useAccount` hook to access connection state and the connected wallet address:
-
-#### MyComponent.tsx
-
-```
-import { useAccount } from "wagmi";
-
-// Ensure this component is wrapped with ConnectKitProvider
-const MyComponent = () => {
-  const { address, isConnecting, isDisconnected } = useAccount();
-
-  if (isConnecting) return <div>Connecting...</div>;
-  if (isDisconnected) return <div>Disconnected</div>;
-
-  return <div>Connected Wallet: {address}</div>;
-};
-```
-
-That's it—you now have a simple component that displays the connected wallet's address.
-
----
-
-## Additional Build Tooling Setup
-
-Some build tools require additional setup to work with ConnectKit.
-
-### Next.js
-
-ConnectKit uses WalletConnect's SDK, which pulls in Node.js dependencies that Next.js does not support by default. You can mitigate this by adding the following to your `next.config.js` file:
-
-#### next.config.js
-
-```
-module.exports = {
-  webpack: (config) => {
-    config.resolve.fallback = { fs: false, net: false, tls: false };
-    return config;
-  },
-};
-```
-
-### Next.js App Router
-
-If using Next.js App Router (or any framework that supports React Server Components), include the `"use client"` directive at the beginning of your `Web3Provider` file:
-
-#### Web3Provider.tsx
-
-```
-"use client";
-
-export const Web3Provider = ({ children }) => {
-  return (
-    ...
-  );
-};
-```
-
----
-
-## Components
-
-Below is a list of React.js components provided by the library:
-
-| Component                     | Description                                                                                     |
-|-------------------------------|-------------------------------------------------------------------------------------------------|
-| `<ConnectKitProvider />`      | Provides state and data to various ConnectKit components. Wrap it around your React.js app.     |
-| `<ConnectKitButton />`        | The ConnectKit button. Place it where you'd like the "Connect Wallet" button to appear.         |
-| `<ConnectKitButton.Custom />` | Design your own Connect button. Wallet connection states are provided through render props.     |
-
----
-
-## Quick Start
-
-To get started quickly, feel free to use any of our example apps below.
+For troubleshooting or more details, visit the [FAQ](/faq).  

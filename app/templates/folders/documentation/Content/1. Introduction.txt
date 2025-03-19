@@ -11,22 +11,6 @@ Welcome to the documentation for our sample project. This guide will walk you th
 
 ## Getting Started
 
-::: info
-Information content
-:::
-
-::: warning
-Warning content
-:::
-
-::: error
-Error content
-:::
-
-::: success
-Error content
-:::
-
 ::: steps
 
 1. To begin using the framework, you'll need to install it via your package manager. Here are the installation commands for the most common ones:
@@ -72,6 +56,10 @@ The framework exposes several methods to help you interact with your application
 - `app.start()`: Starts the application. [Learn more](https://example.com/docs/start)
 - `app.stop()`: Stops the application. [Read more](https://example.com/docs/stop)
 - `app.getStatus()`: Returns the current status of the application. [Details here](https://example.com/docs/status)
+
+::: info
+We recommend installing this framework as soon as possible
+:::
 
 ### Example API Usage
 
