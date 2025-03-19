@@ -26,6 +26,9 @@
   .next-previous .next {
     text-align: right;
   }
+  .next-previous .label {
+    display: block;
+  }
   
   .next-previous .title {
     font-weight: 500;
@@ -43,12 +46,12 @@
   }
   
   /* Optional: Add subtle directional indicators */
-  .previous::before {
+  .previous .label::before {
     content: "←";
     margin-right: 0.5em;
   }
   
-  .next::after {
+  .next .label::after {
     content: "→";
     margin-left: 0.5em;
   }

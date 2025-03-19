@@ -34,6 +34,12 @@ a.toc-link.is-active-link {
   font-weight: 500;
   color: var(--text-color);
 }
+
+.toc-list .toc-list a {
+  font-size: 14px;
+  padding-left: 2em;
+}
+
 .toc-link::before {
   background-color: var(--border-color);
   content: " ";

@@ -4,12 +4,12 @@
 {{{appCSS}}}
 {{{body_font.styles}}}
 {{{syntax_highlighter.styles}}}
-{{> flickity.css}}
 {{> toc-styles.css}}
 {{> multi-lingual-styles.css}}
 {{> next-previous-styles.css}}
 {{> navigation-styles.css}}
 {{> menubar-styles.css}}
+{{> breadcrumbs-styles.css}}
 
 /* Root variables for theme customization */
 :root {
@@ -422,4 +422,88 @@ details[open] summary::after {
 
 details[open] summary::before {
   transform: rotate(180deg);
+}
+
+
+
+.main ol {
+  list-style: none;
+  counter-reset: steps;
+  padding-left: 32px;
+  position: relative;
+}
+
+.main  ol li {
+  counter-increment: steps;
+  margin: 0 0 1em 0;
+  position: relative;
+}
+
+.main  ol li::before {
+  content: counter(steps);
+  border: 1px solid var(--border-color);
+  color: var(--light-text-color);
+  width: 1.25rem;
+  height: 1.25rem;
+  line-height: 1.25;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  left: -32px;
+  font-weight: bold;
+  font-size: 0.75rem;
+}
+
+.main ol li::after {
+  content: "";
+  position: absolute;
+  left: calc(1.25rem/2 - 32px);
+  top: calc(1.25rem + 1px);
+  width: 1px;
+  bottom: calc(-1.25rem + 3px);
+  background: var(--border-color);
+}
+
+.main  ol li:last-child::after {
+  display: none;
+}
+
+a {
+  color: var(--link-color)
+}
+
+.main ul {
+  list-style-type: circle;
+  padding: 0;margin-left:0;margin-right:0;
+}
+
+.main ul li {
+  margin-left: 1em;
+  padding-left: 8px;
+  margin-bottom: 8px;
+}
+
+h1 {
+  font-size: 24px;
+font-weight: 550;
+line-height: 28.6333px;
+margin-bottom: 24px;
+}
+
+h2 {
+  font-size: 20px;
+  line-height: 22.67px;
+  font-weight: 550;
+  margin-bottom: 24px;
+  margin-top: 36px;
+}
+
+h3 {
+  font-size: 18px;
+  line-height: 22.67px;
+  font-weight: 550;
+  margin-bottom: 24px;
+  margin-top: 24px;
 }

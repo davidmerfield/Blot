@@ -3,11 +3,7 @@ Title: Introduction
 
 # Documentation
 
-Welcome to the documentation for our sample project. This guide will walk you through the basics, provide you with detailed [API references](https://example.com/api-reference), and demonstrate example use cases.
-
-## Introduction
-
-The project is a lightweight, fast, and reliable framework designed to help developers build applications efficiently. It supports the following features:
+Welcome to the documentation for our sample project. This guide will walk you through the basics, provide you with detailed [API references](https://example.com/api-reference), and demonstrate example use cases. The project is a lightweight, fast, and reliable framework designed to help developers build applications efficiently. It supports the following features:
 
 - Easy-to-use API
 - Cross-platform compatibility
@@ -173,19 +169,3 @@ print('File uploaded successfully')
   <summary>Is there a free trial available?</summary>
   Yes, we offer a free trial with limited features. [Sign up here](https://example.com/signup) to get started.
 </details>
-
-## Documentation Links
-
-- [Installation Guide](https://example.com/installation)
-- [API Reference](https://example.com/api-reference)
-- [GitHub Repository](https://example.com/github)
-- [Support](https://example.com/support)
-- [Changelog](https://example.com/changelog)
-
-## Community
-
-Join our community on [Discord](https://example.com/discord) or [Twitter](https://example.com/twitter) for real-time support and discussion.
-
----
-
-Thank you for using our framework. We hope it helps you build great applications.
