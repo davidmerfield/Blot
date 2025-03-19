@@ -16,6 +16,9 @@ module.exports = function (blog, text, options, callback) {
     // producing extra <p> tags (see ./tests/examples/mix-of-html-and-markdown.txt)
     "-native_divs" +
 
+    // Add support for nice fenced divs e.g. ::: info
+    "+fenced_divs" +
+
     // replace url strings with a tags
     "+autolink_bare_uris" +
     // wikilinks
