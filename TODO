@@ -204,6 +204,11 @@ Right now changes to documentation CSS do not make it into production:
 - stale servers serve the old CSS 
 - purge bunny after deployment complete?
 
+We should have a plan to switch CDN from Bunny to Cloudfront in an emergency
+- Should be a simple DNS change
+
+Can we support white-label cdn subdomain so there are no Blot CDN links?
+
 Refactor helper/screenshot to use a persistently open browser
 
 Change dashboard cookies: Set-Cookie: mycookie=value; Path=/; SameSite=Lax; Secure;
