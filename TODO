@@ -147,6 +147,13 @@ Start my own interview of customers 'behind the folder'?
 
 Add auto template translator
 
+Re-set up html minification using html-terser
+
+Investigate whether openrestycache can be modified to pre-compress gzip responses
+- can we add support for brotli?
+- can we use https://nginx.org/en/docs/http/ngx_http_gzip_static_module.html#gzip_static
+- should we just be using varnish?
+
 Improve developer documentation:
 - Add interactive template renderer to developer docs
 - Document page_size, sort_order, sort_by properties of templates
