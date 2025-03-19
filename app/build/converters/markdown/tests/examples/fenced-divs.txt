@@ -1,0 +1,7 @@
+::: info
+Information content
+:::
+
+::: warning
+Warning content
+:::
