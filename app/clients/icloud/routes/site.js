@@ -74,9 +74,11 @@ site.post("/status", checkBlogUsesICloud, async function (req, res) {
     // run when the macserver has successfully recieved the sharing link
     // and created the folder
     if (status.setupComplete) {
-      folder.status("Setting up iCloud sync");
-      await syncToiCloud(blogID, folder.status, folder.update);
       await database.store(blogID, { setupComplete: true });
+      folder.status("Setting up iCloud sync");
+      await database.store(blogID, { transferringToiCloud: true });
+      await syncToiCloud(blogID, folder.status, folder.update);
+      await database.store(blogID, { transferringToiCloud: false });
       folder.status("Setup complete");
     } else {
       folder.status("Sync update from iCloud");

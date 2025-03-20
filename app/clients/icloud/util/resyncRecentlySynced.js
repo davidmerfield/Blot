@@ -24,11 +24,16 @@ const getLastSyncDateStamp = (blogID) => {
 module.exports = async () => {
   console.log(clfdate(), "Resyncing recently synced blogs");
 
-  await database.iterate(async (blogID) => {
+  await database.iterate(async (blogID, account) => {
     const lastSync = await getLastSyncDateStamp(blogID);
 
     if (!lastSync) {
       console.log(clfdate(), "No last sync date found for blogID: ", blogID);
+      return;
+    }
+
+    if (account && account.transferringToiCloud)  {
+      console.log(clfdate(), "Blog is transferring to iCloud, skipping resync: ", blogID);
       return;
     }
 
