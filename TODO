@@ -1,3 +1,6 @@
+Fix bug with Google Drive client which is causing [Mark's folder to resync](https://mail.google.com/mail/u/0/#inbox/FMfcgzQZTVmrvkvcfPvcJhcLvrwSndWS)
+- The issue is caused by a difference between the database readdir and the local readdir results
+
 Work out why there are still 502 errors 'Blot is offline' during deployments during the failtimout window – why isn't proxy next retries kicking in?
 
 Work out why iCloud bugs out with philpin's folder
@@ -11,6 +14,7 @@ Work out why iCloud bugs out with philpin's folder
   - https://github.com/paulmillr/chokidar/issues/1385
   - I made changes to macserver/README so revert them since the change had no effect
 - Can we refactor anything to ensure as much data is flowing from iCloud -> Blot server to save on bandwidth?
+- Make the setup flow more robust – only start watching for changes once the initial transfer is complete
 - Is there an issue writing preview files?
   - maybe during other operations?
   - is the issue when the preview file already exists?

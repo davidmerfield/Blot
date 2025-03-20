@@ -12,12 +12,11 @@ const download = require("../util/download");
 const createDriveClient = require("../serviceAccount/createDriveClient");
 const CheckWeCanContinue = require("../util/checkWeCanContinue");
 
-const driveReaddir = require('./util/driveReaddir');
+const driveReaddir = require("./util/driveReaddir");
 
 const truncateToSecond = require("./util/truncateToSecond");
 
 module.exports = async function (blogID) {
-
   const blog = await getBlog({ id: blogID });
 
   const { done, folder } = await establishSyncLock(blogID);
@@ -25,7 +24,7 @@ module.exports = async function (blogID) {
   await sync(blogID, folder.status, folder.update);
   await fix(blog);
   await done();
-}
+};
 
 const sync = async (blogID, publish, update) => {
   if (!publish)
@@ -43,7 +42,7 @@ const sync = async (blogID, publish, update) => {
     return contents.map(({ path, metadata, id }) => ({
       name: path.split("/").pop(),
       id,
-      ...metadata
+      ...metadata,
     }));
   };
 
@@ -53,12 +52,12 @@ const sync = async (blogID, publish, update) => {
 
     const [remoteContents, localContents] = await Promise.all([
       driveReaddir(drive, dirId),
-      databaseReaddir(readdir, dir)
+      databaseReaddir(readdir, dir),
     ]);
 
     // Since we reset the database of file ids
     // we need to restore this now
-    set(dirId, dir, {isDirectory: true});
+    set(dirId, dir, { isDirectory: true });
 
     for (const { name, id } of localContents) {
       if (!remoteContents.find((item) => item.name === name)) {
@@ -109,29 +108,56 @@ const sync = async (blogID, publish, update) => {
         const identicalOnRemote =
           existsLocally &&
           (isGoogleAppFile
-            ? truncateToSecond(existsLocally.modifiedTime) === truncateToSecond(modifiedTime)
+            ? truncateToSecond(existsLocally.modifiedTime) ===
+              truncateToSecond(modifiedTime)
             : existsLocally.md5Checksum === md5Checksum);
 
-        if (existsLocally && !identicalOnRemote) {
-          try {
-            await checkWeCanContinue();
-            publish("Updating", path);
-            await download(blogID, drive, path, file);
-            if (update) {
-              publish("Converting", path);
-              await update(path);
-            } 
-          } catch (e) {
-            publish("Failed to download", path, e);
-          }
-        } else if (!existsLocally) {
+        if (!existsLocally || !identicalOnRemote) {
           try {
             await checkWeCanContinue();
             publish("Downloading", path);
             await download(blogID, drive, path, file);
             if (update) {
-              publish("Converting", path);
+              publish("Saving", path);
               await update(path);
+            }
+
+            if (!existsLocally) {
+              console.log(
+                path,
+                "was not found in database existsSync=",
+                fs.existsSync(localPath(blogID, path))
+              );
+            } else {
+              if (existsLocally.md5Checksum !== md5Checksum) {
+                console.log(
+                  path,
+                  "md5Checksum in database does not match local=",
+                  existsLocally.md5Checksum,
+                  "remote=",
+                  md5Checksum
+                );
+              }
+              if (
+                truncateToSecond(existsLocally.modifiedTime) !==
+                truncateToSecond(modifiedTime)
+              ) {
+                console.log(
+                  path,
+                  "isGoogleAppFile=",
+                  isGoogleAppFile,
+                  "mime=",
+                  mimeType,
+                  "modifiedTime in database local=",
+                  existsLocally.modifiedTime,
+                  "remote=",
+                  modifiedTime,
+                  "localTruncated=",
+                  truncateToSecond(existsLocally.modifiedTime),
+                  "remoteTruncated=",
+                  truncateToSecond(modifiedTime)
+                );
+              }
             }
           } catch (e) {
             publish("Failed to download", path, e);
