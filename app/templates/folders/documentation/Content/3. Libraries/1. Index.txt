@@ -1,42 +1,49 @@
+Link: /libraries
+Title: Libraries
+
 # Libraries
 
-ConnectKit uses two key open source libraries, wagmi and viem, to achieve its intended use cases. Both libraries may be helpful if your app requires any additional functionality outside of ConnectKit.
-wagmi
+Our framework supports a variety of libraries to extend functionality and streamline development. Below are the key library categories available:
 
-ConnectKit uses wagmi internally and therefore it's possible to use hooks from wagmi to fetch data such as info about the connected account. Below are a couple of examples of some wagmi hooks in use.
-Connected Wallet Info
+- **Widgets**: Pre-built UI components to speed up frontend development. [Explore Widgets](/widgets)
+- **Modules**: Backend extensions that enhance application capabilities. [Explore Modules](/modules)
 
-Start by importing useAccount from wagmi into your app. Then simply use the hook as following:
-,
-Example.tsx
+## Choosing the Right Library
 
-import { useAccount } from "wagmi";
+Each library type serves a different purpose. Use the table below to determine which fits your needs:
 
-const App = () => {
-  const { address } = useAccount();
-  return <div>{address ?? "Loading address"}</div>;
-};
+| Library Type | Purpose | Example Use Case |
+|-------------|---------|------------------|
+| **Widgets** | UI components for frontend development | Custom buttons, modals, forms |
+| **Modules** | Backend utilities for application logic | Authentication, database connectors |
 
-That's it—you should now be able to access things like the address and ENS name for the active account. You can read more about useAccount on wagmi.
-Disconnecting Account
+## Installation
 
-Let's say you wanted to build a disconnect button that interacts with ConnectKit. Start by importing useDisconnect from wagmi into your app. Then simply use the hook as following:
-,
-Example.tsx
+To install a library, follow these steps:
 
-import { useDisconnect } from "wagmi";
+::: steps
+1. **Select the library**: Choose a library from the [Widgets](/widgets) or [Modules](/modules) collection.
+2. **Install the package**:
+    ```js
+    npm install my-framework-widget
+    ```
+    ```python
+    pip install my-framework-module
+    ```
+3. **Import and use the library**:
+    ```js
+    import Widget from 'my-framework-widget';
+    ```
+    ```python
+    from my_framework_module import Module
+    ```
+:::
 
-const App = () => {
-  const { disconnect } = useDisconnect();
-  return <button onClick={disconnect}>Disconnect</button>;
-};
+## Best Practices
 
-Additional Hooks
+- Keep your libraries up to date to ensure compatibility.
+- Only install necessary libraries to optimize performance.
+- Check the documentation for configuration details.
 
-In the examples above, we use some of wagmi's hooks for some common use cases. Make sure to check out the wagmi documentation for a full list of all available hooks and their use cases.
-viem
+For more information, visit our [Support](/support) page.
 
-viem is a lightweight, composable, and type-safe modules that interface with Ethereum. It provides methods and functionality around parsing data and interacting with smart contracts.
-TanStack Query
-
-TanStack Query is an async state manager that handles requests, caching, and more.It's used by wagmi to handle all of its data fetching and caching.
