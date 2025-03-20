@@ -29,7 +29,7 @@ client_routes
   .get(load.clients, function (req, res) {
     res.locals.breadcrumbs.add("Switch", "switch");
     res.render("dashboard/clients/switch", {
-      title: "Switch to another client"
+      title: "Switch to another client",
     });
   })
 
@@ -58,7 +58,7 @@ const verbs = {
   Downloading: "downloaded",
   Syncing: "synced",
   Transferring: "transferred",
-  Removing: "removed"
+  Removing: "removed",
 };
 
 client_routes.route("/activity").get(load.clients, async function (req, res) {
@@ -71,8 +71,8 @@ client_routes.route("/activity").get(load.clients, async function (req, res) {
     .map((value, key) => ({
       syncID: key,
       messages: value
-        .map(item => {
-          const matchedVerb = Object.keys(verbs).find(i =>
+        .map((item) => {
+          const matchedVerb = Object.keys(verbs).find((i) =>
             item.message.startsWith(i + " /")
           );
 
@@ -91,16 +91,16 @@ client_routes.route("/activity").get(load.clients, async function (req, res) {
 
           return item;
         })
-        .filter(({ message }) => message !== "Syncing" && message !== "Synced")
+        .filter(({ message }) => message !== "Syncing" && message !== "Synced"),
     }))
-    .filter(i => i.messages && i.messages.length)
+    .filter((i) => i.messages && i.messages.length)
     .value();
 
   res.render("dashboard/clients/activity", {
     title: "Activity",
     statuses,
     next,
-    previous
+    previous,
   });
 });
 
@@ -111,7 +111,7 @@ client_routes
   .get(load.client, function (req, res) {
     res.locals.breadcrumbs.add("Reset", "reset");
     res.render("dashboard/clients/reset", {
-      title: "Reset your folder"
+      title: "Reset your folder",
     });
   });
 
@@ -168,17 +168,9 @@ client_routes.post("/reset/resync", load.client, function (req, res, next) {
       console.log("ERROR:", err);
     }
 
-    Rebuild(req.blog.id, function (err) {
+    folder.status("Finished re-syncing your site");
+    done(null, function (err) {
       if (err) console.log(err);
-      folder.status("Checking your site for issues");
-      Fix(req.blog, function (err) {
-        if (err) console.log(err);
-        folder.status("Finished site rebuild");
-
-        done(null, function (err) {
-          if (err) console.log(err);
-        });
-      });
     });
   });
 });
@@ -189,7 +181,7 @@ client_routes
   .get(load.clients, function (req, res) {
     if (req.blog.client) {
       return res.redirect(req.baseUrl + "/" + req.blog.client);
-    } 
+    }
 
     res.render("dashboard/clients", { title: "Select a client" });
   })
