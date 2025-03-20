@@ -1,4 +1,8 @@
 Work out why iCloud bugs out with philpin's folder
+- Re-set up development env so I can test this
+- It seems that when you try and send changes to blogs with folder locks pending, the follow up requests always fail. I think we need to re-create the read stream
+- Issue seems to be with modified time – what is the significates of 2262-04-11T23?
+- issue seems to be with inital transfer, mtimes, etc. This means 2262-04-11T23:47:16.854775807Z is the last valid timestamp before integer overflow occurs in a nanosecond-precision int64_t timestamp system.
 - Can we get rid of chokidar and stream changes use brctl logs? or events?
 - We're using polling to workaround the issue with chokidar and large numbers of 
   - https://github.com/bluwy/chokidar-lots-of-files-repro

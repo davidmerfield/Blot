@@ -34,7 +34,7 @@ const fetchWithRetriesAndTimeout = async (url, options = {}) => {
       if (error.name === "AbortError") {
         console.error(`Request timed out (attempt ${attempt} of ${retries})`);
       } else {
-        console.error(`Request failed: ${error.message} (attempt ${attempt} of ${retries})`);
+        console.error(`Request failed: ${url} ${error.message} (attempt ${attempt}/${retries})`);
       }
 
       // If all retries fail, throw the error

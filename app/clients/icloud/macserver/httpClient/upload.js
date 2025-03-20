@@ -10,67 +10,58 @@ const brctl = require("../brctl");
 const fetch = require("./rateLimitedFetchWithRetriesAndTimeout");
 const { join } = require("path");
 
-module.exports = (...args) =>
-  new Promise(async (resolve, reject) => {
-    const [blogID, path] = args;
+module.exports = async (blogID, path) => {
+  // Input validation
+  if (!blogID || typeof blogID !== "string") {
+    throw new Error("Invalid blogID");
+  }
 
-    if (!blogID || typeof blogID !== "string") {
-      return reject(new Error("Invalid blogID"));
-    }
+  if (!path || typeof path !== "string") {
+    throw new Error("Invalid path");
+  }
 
-    if (!path || typeof path !== "string") {
-      return reject(new Error("Invalid path"));
-    }
+  const filePath = join(iCloudDriveDirectory, blogID, path);
+  
+  // Download and check file
+  let stat;
+  try {
+    stat = await brctl.download(filePath);
+  } catch (e) {
+    throw new Error(`Download failed: ${e.message}`);
+  }
 
-    if (args.length !== 2) {
-      return reject(new Error("Invalid number of arguments: expected 2"));
-    }
+  if (stat.size > maxFileSize) {
+    throw new Error(`File size exceeds maximum of ${maxFileSize} bytes`);
+  }
 
-    const filePath = join(iCloudDriveDirectory, blogID, path);
-    let stat;
+  const modifiedTime = stat.mtime.toISOString();
 
-    try {
-      stat = await brctl.download(filePath);
-    } catch (e) {
-      return reject(new Error(`Download failed: ${e.message}`));
-    }
+  // Read entire file into memory
+  console.log(`Reading file into memory: ${filePath}`);
+  let fileBuffer;
+  try {
+    fileBuffer = await fs.readFile(filePath);
+  } catch (error) {
+    throw new Error(`Failed to read file: ${error.message}`);
+  }
 
-    if (stat.size > maxFileSize) {
-      return reject(
-        new Error(`File size exceeds maximum of ${maxFileSize} bytes`)
-      );
-    }
+  const pathBase64 = Buffer.from(path).toString("base64");
 
-    const modifiedTime = stat.mtime.toISOString();
+  console.log(`Issuing HTTP /upload request to remote server: ${path}`);
 
-    console.log(`Creating read stream to file: ${filePath}`);
-
-    body = fs.createReadStream(filePath);
-
-    body.on("error", (error) => {
-      body.destroy();
-      reject(new Error(`Read stream error: ${error.message}`));
+  try {
+    await fetch(`${remoteServer}/upload`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/octet-stream",
+        Authorization,
+        blogID,
+        pathBase64,
+        modifiedTime,
+      },
+      body: fileBuffer,
     });
-
-    const pathBase64 = Buffer.from(path).toString("base64");
-
-    console.log(`Issuing HTTP /upload request to remote server: ${path}`);
-
-    try {
-      await fetch(`${remoteServer}/upload`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/octet-stream",
-          Authorization,
-          blogID,
-          pathBase64,
-          modifiedTime,
-        },
-        body,
-        duplex: "half",
-      });
-      resolve();
-    } catch (error) {
-      reject(new Error(`HTTP /upload request failed: ${error.message}`));
-    }
-  });
+  } catch (error) {
+    throw new Error(`HTTP /upload request failed: ${error.message}`);
+  }
+};
