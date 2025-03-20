@@ -1,0 +1,44 @@
+Spring Newsletter 2025  
+
+*You received this email because you subscribed to [Blot’s newsletter](https://blot.im/news). You can [unsubscribe](https://blot.im/news/cancel) if you like. Please reply directly to this email if you have any thoughts or questions.*  
+
+**New features**  
+- You can now [sync your folder using iCloud](https://blot.im/how/sync/icloud).
+- Added three new templates. Download the folders to see how Blot generates the site. The templates are:
+    - [CV](https://blot.im/templates/cv) a profile page, could be used as a personal site.
+    - [Documentation](https://blot.im/templates/cv) a developer docs template, could also be used for a digital garden.
+    - [Event](https://blot.im/templates/cv) a template for an event suitable for conferences, lectures, parties and weddings.
+- Implemented [color profile preservation](https://blot.im/how/files/images#compression-and-color-profile) for images so you can publish images using P3.
+- New image formats can become posts: [TIFF, WEBP and AVIF](https://blot.im/how/files/images).
+- Added new plugins which turn bare links to posts on Bluesky and Flickr into embeds.
+
+**Changes**  
+- Rewrote the [Google Drive](https://blot.im/how/sync/google-drive) integration to workaround their changes to the rules for using their API which temporarily broke syncing with Blot.
+- Updated the Twitter plugin to support *x.com* URLs.  
+- We updated Blot’s dependencies to patch known security vulnerabilities, per tradition.  
+
+**Bugs fixed**  
+- Resolved issues with nested objects, arrays, and tags in [YAML metadata](https://blot.im/how/metadata).  
+- Fixed a bug with empty renamed files.
+- Fixed a bug with the markdown converted which led to the insertion of extra paragraph tags.
+- Fixed a bug with PayPal subscriptions which briefly prevented the creation of additional sites.
+
+**Questions**
+- [How would one go about implementing Tufte CSS?](https://blot.im/questions/1449)
+- [Image Gallery on an Ordinary Markdown Blot page?](https://blot.im/questions/2993)
+- [Posting videos?](https://blot.im/questions/1753)
+
+**Mistakes**
+There were no truly catastrophic downtime incidents this season but I was plagued by a persistent issue with the connection between the reverse proxy and Blot's application server. When both of the upstreams were marked as bad at once, this led to a failwhale error page 'This site is offline'. Eventually, I worked it out: the reverse proxy was incorrectly marking the upstream application servers as offline when they were not. Eventually I worked out why: younger me was responding to requests in the application server with the wrong HTTP error codes. Damn.
+
+**Plans for this season**
+- I'm considering changing the license for Blot's code from [CC0 to GPL](https://blot.im/questions/3053). Please feel free to [respond to the question](https://blot.im/questions/3053) or this email with your thoughts.
+- Add more new templates. If you have any burning requests please reply to this email.
+- Improve template engine and developer documentation
+- Improve the performance and reliability of Blot’s servers.
+
+If you have any thoughts or questions about any of this, please don’t hesitate to reply directly to this email.  
+
+Sincerely,  
+David  
+
