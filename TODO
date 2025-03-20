@@ -1,3 +1,8 @@
+Work out why iCloud bugs out with philpin's folder
+- Check in on the number of file descriptors used by the macserver
+- Work out why stats are failing
+- Test reboot of entire macserver – does file descriptor setting persist?
+
 Make initial health check /health more powerful
 - inspect blogs directory and verify there are the expected number of folders
 - check we can communicate with redis
