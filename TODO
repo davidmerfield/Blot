@@ -1,4 +1,10 @@
 Work out why iCloud bugs out with philpin's folder
+- Can we get rid of chokidar and stream changes use brctl logs? or events?
+- We're using polling to workaround the issue with chokidar and large numbers of 
+- Is there an issue writing preview files?
+  - maybe during other operations?
+  - is the issue when the preview file already exists?
+  - with spaces in their name?
 - Check in on the number of file descriptors used by the macserver
 - Work out why stats are failing
 - Test reboot of entire macserver – does file descriptor setting persist?
