@@ -7,7 +7,6 @@ const remoteMkdir = require("./util/remoteMkdir");
 const remoteDelete = require("./util/remoteDelete");
 const localReaddir = require("./util/localReaddir");
 const remoteReaddir = require("./util/remoteReaddir");
-const truncateToSecond = require("./util/truncateToSecond");
 
 const config = require("config");
 const maxFileSize = config.icloud.maxFileSize; // Maximum file size for iCloud uploads in bytes
@@ -43,7 +42,7 @@ module.exports = async (blogID, publish, update) => {
       }
     }
 
-    for (const { name, size, isDirectory, modifiedTime } of localContents) {
+    for (const { name, size, isDirectory } of localContents) {
       const path = join(dir, name);
       const existsRemotely = remoteContents.find(
         (item) => item.name.normalize("NFC") === name.normalize("NFC")
@@ -65,10 +64,7 @@ module.exports = async (blogID, publish, update) => {
         await walk(path);
       } else {
         const identicalOnRemote =
-          existsRemotely &&
-          existsRemotely.size === size &&
-          truncateToSecond(existsRemotely.modifiedTime) ===
-            truncateToSecond(modifiedTime);
+          existsRemotely && existsRemotely.size === size;
 
         if (!existsRemotely || (existsRemotely && !identicalOnRemote)) {
           try {

@@ -4,7 +4,6 @@ const localPath = require("helper/localPath");
 const clfdate = require("helper/clfdate");
 const download = require("./util/download");
 const CheckWeCanContinue = require("./util/checkWeCanContinue");
-const truncateToSecond = require("./util/truncateToSecond");
 const localReaddir = require("./util/localReaddir");
 const remoteReaddir = require("./util/remoteReaddir");
 
@@ -43,7 +42,7 @@ module.exports = async (blogID, publish, update) => {
       }
     }
 
-    for (const { name, size, isDirectory, modifiedTime } of remoteContents) {
+    for (const { name, size, isDirectory } of remoteContents) {
       const path = join(dir, name);
       const existsLocally = localContents.find(
         (item) => item.name.normalize("NFC") === name.normalize("NFC")
@@ -66,11 +65,8 @@ module.exports = async (blogID, publish, update) => {
 
         await walk(path);
       } else {
-        const identicalOnRemote =
-          existsLocally &&
-          existsLocally.size === size &&
-          truncateToSecond(existsLocally.modifiedTime) ===
-            truncateToSecond(modifiedTime);
+        // We could compare modified time but this seems to bug out on some sites
+        const identicalOnRemote = existsLocally && existsLocally.size === size;
 
         if (!existsLocally || (existsLocally && !identicalOnRemote)) {
           try {
@@ -81,41 +77,6 @@ module.exports = async (blogID, publish, update) => {
 
             await checkWeCanContinue();
             publish("Updating", path);
-
-            try {
-              if (!existsLocally) {
-                console.log(path, "does not exist locally");
-              } else if (!identicalOnRemote) {
-                if (existsLocally.size !== size) {
-                  console.log(
-                    path,
-                    "has a different size locally local=",
-                    existsLocally.size,
-                    "remote=",
-                    size
-                  );
-                }
-
-                if (
-                  truncateToSecond(existsLocally.modifiedTime) !==
-                  truncateToSecond(modifiedTime)
-                ) {
-                  console.log(
-                    path,
-                    "has a different modified time locally local=",
-                    existsLocally.modifiedTime,
-                    "localTruncated=",
-                    truncateToSecond(existsLocally.modifiedTime),
-                    "remote=",
-                    modifiedTime,
-                    "remoteTruncated=",
-                    truncateToSecond(modifiedTime)
-                  );
-                }
-              }
-            } catch (e) {
-              console.error("Error checking for differences", e);
-            }
 
             await download(blogID, path);
             await update(path);
