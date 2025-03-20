@@ -7,8 +7,8 @@ const download = require("../util/download");
 const createDriveClient = require("../serviceAccount/createDriveClient");
 const CheckWeCanContinue = require("../util/checkWeCanContinue");
 
-const localReaddir = require('./util/localReaddir');
-const driveReaddir = require('./util/driveReaddir');
+const localReaddir = require("./util/localReaddir");
+const driveReaddir = require("./util/driveReaddir");
 
 const truncateToSecond = require("./util/truncateToSecond");
 
@@ -36,7 +36,7 @@ module.exports = async (blogID, publish, update) => {
 
     // Since we reset the database of file ids
     // we need to restore this now
-    set(dirId, dir, {isDirectory: true});
+    set(dirId, dir, { isDirectory: true });
 
     for (const { name } of localContents) {
       if (!remoteContents.find((item) => item.name === name)) {
@@ -89,7 +89,8 @@ module.exports = async (blogID, publish, update) => {
         const identicalOnRemote =
           existsLocally &&
           (isGoogleAppFile
-            ? truncateToSecond(existsLocally.modifiedTime) === truncateToSecond(modifiedTime)
+            ? truncateToSecond(existsLocally.modifiedTime) ===
+              truncateToSecond(modifiedTime)
             : existsLocally.md5Checksum === md5Checksum);
 
         if (existsLocally && !identicalOnRemote) {
@@ -98,6 +99,40 @@ module.exports = async (blogID, publish, update) => {
             publish("Updating", path);
             await download(blogID, drive, path, file);
             if (update) await update(path);
+
+            if (!existsLocally) {
+              console.log(path, "was not found locally");
+            } else {
+              if (existsLocally.md5Checksum !== md5Checksum) {
+                console.log(
+                  path,
+                  "md5Checksum does not match local=",
+                  existsLocally.md5Checksum,
+                  "remote=",
+                  md5Checksum
+                );
+              }
+              if (
+                truncateToSecond(existsLocally.modifiedTime) !==
+                truncateToSecond(modifiedTime)
+              ) {
+                console.log(
+                  path,
+                  "isGoogleAppFile=",
+                  isGoogleAppFile,
+                  "mime=",
+                  mimeType,
+                  "modifiedTime local=",
+                  existsLocally.modifiedTime,
+                  "remote=",
+                  modifiedTime,
+                  "localTruncated=",
+                  truncateToSecond(existsLocally.modifiedTime),
+                  "remoteTruncated=",
+                  truncateToSecond(modifiedTime)
+                );
+              }
+            }
           } catch (e) {
             publish("Failed to download", path, e);
           }
@@ -122,7 +157,3 @@ module.exports = async (blogID, publish, update) => {
     // Possibly rethrow or handle
   }
 };
-
-
-
-
