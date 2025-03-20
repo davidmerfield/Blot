@@ -30,7 +30,7 @@ Spring newsletter
 **Mistakes**  
 There were no major downtime incidents this season. However, there was a persistent issue between the reverse proxy and Blot’s application servers. At times, visitors briefly saw an error page even when both application servers were running and healthy. After extensive debugging, I traced the problem to a long-standing issue in the blog renderer. Some ancient parts of the blog renderer were returning incorrect HTTP error codes in response to specific template issues. As a result, the proxy incorrectly marked the application server as offline. When both were marked offline, your visitors saw the error page. This is now fixed.
 
-**Plans for this season**  
+**Plans for the summer**  
 - Considering changing Blot’s license from [CC0 to GPL](https://blot.im/questions/3053). Feel free to [share your thoughts](https://blot.im/questions/3053) or reply to this email.  
 - Adding more templates. If you have any requests, please reply to this email.  
 - Improving the template engine and developer documentation.  
