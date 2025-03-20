@@ -11,7 +11,7 @@
 // - user ID, see its blogs, subscription info
 // - email, see its blogs, subscription info
 
-var User = require("user");
+var User = require("models/user");
 var getEntry = require("../get/entry");
 var getBlog = require("../get/blog");
 var config = require("config");
