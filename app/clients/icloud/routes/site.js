@@ -67,24 +67,28 @@ site.post("/status", checkBlogUsesICloud, async function (req, res) {
 
   res.send("ok");
 
-  // establish sync lock
-  const { folder, done } = await establishSyncLock(blogID);
+  try {
+    // establish sync lock
+    const { folder, done } = await establishSyncLock(blogID);
 
-  // run when the macserver has successfully recieved the sharing link
-  // and created the folder
-  if (status.setupComplete) {
-    folder.status("Setting up iCloud sync");
-    await syncToiCloud(blogID, folder.status, folder.update);
-    await database.store(blogID, { setupComplete: true });
-    folder.status("Setup complete");
-  } else {
-    folder.status("Sync update from iCloud");
-    console.log("Sync update from iCloud", status);
-    await database.store(blogID, status);
-    folder.status("Sync complete");
+    // run when the macserver has successfully recieved the sharing link
+    // and created the folder
+    if (status.setupComplete) {
+      folder.status("Setting up iCloud sync");
+      await syncToiCloud(blogID, folder.status, folder.update);
+      await database.store(blogID, { setupComplete: true });
+      folder.status("Setup complete");
+    } else {
+      folder.status("Sync update from iCloud");
+      console.log("Sync update from iCloud", status);
+      await database.store(blogID, status);
+      folder.status("Sync complete");
+    }
+
+    await done();
+  } catch (err) {
+    console.log("Error in /status", err);
   }
-
-  await done();
 });
 
 // Upload endpoint (handles binary files)

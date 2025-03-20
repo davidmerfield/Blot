@@ -66,6 +66,7 @@ module.exports = async (blogID, path) => {
       },
       body: fileBuffer,
     });
+    console.log('Upload successful', path);
   } catch (error) {
     throw new Error(`HTTP /upload request failed: ${error.message}`);
   }

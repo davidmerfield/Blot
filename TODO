@@ -1,3 +1,5 @@
+Work out why there are still 502 errors 'Blot is offline' during deployments during the failtimout window – why isn't proxy next retries kicking in?
+
 Work out why iCloud bugs out with philpin's folder
 - Re-set up development env so I can test this
 - It seems that when you try and send changes to blogs with folder locks pending, the follow up requests always fail. I think we need to re-create the read stream
