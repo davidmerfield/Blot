@@ -5,7 +5,7 @@ Make initial health check /health more powerful
 - make the initial timeout in the health check longer?
 - subsequent requests can just check redis connection?
 
-Why don't empty files sync on the dashboard?
+Why don't empty files sync on the dashboard? (esp. via iCloud client)
 
 Improve build and test workflow
 - Create a blot-base image and use that for testing and production image?
@@ -61,19 +61,9 @@ Fix bad links (e.g. incorrect case) in files at build-time rather than run-time 
 - how does this work with the dropbox client which stores files on disk lowercase?
 - can we rewrite the dropbox client to not do this?
 
-Add local multi container setup
-
-Use openresty config locally
-
-Write cache purge integration tests
-
-Get critique on full openresty config from LLM
+Add local multi container setup to mirror production
 
 Create a folder{watch} equivalent so we don't have to run a seperate process for development
-
-Containerize the proxy (openresty/nginx)
-- add varnish afterwards to handle the load balancing and caching
-- get rid of openrestycache
 
 Fix image profile retention not working in production and tell [Simon](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJchvfhDcWNkrZtNJqlLmLfsx)
 - maybe a caching issue and actually works?
@@ -122,10 +112,6 @@ Move notes into about views folder
 
 Move Dockerfile into app
 
-Remove dockerignore
-
-Move docker-compose into scripts/development/docker-compose
-
 Clean up scripts directory, lots of unused scripts
 
 ---
@@ -153,6 +139,10 @@ Investigate whether openrestycache can be modified to pre-compress gzip response
 - can we add support for brotli?
 - can we use https://nginx.org/en/docs/http/ngx_http_gzip_static_module.html#gzip_static
 - should we just be using varnish?
+
+Get critique on full openresty config from LLM
+
+Consider adding varnish in between openresty and nginx and get rid of openrestycache?
 
 Improve developer documentation:
 - Add interactive template renderer to developer docs

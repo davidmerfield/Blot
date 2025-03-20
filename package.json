@@ -11,7 +11,8 @@
     "deploy-macserver": "./scripts/macserver/deploy.sh",
     "deploy-openresty": ". /etc/blot/openresty-deploy-environment.sh && ./config/openresty/deploy-config.sh",
     "featured": "docker exec blot-node-app-1 node app/documentation/featured/build",
-    "folder": "docker exec blot-node-app-1 npx nodemon app/templates/folders --ext '*' --watch /usr/src/app/app/templates/folders"
+    "folder": "docker exec blot-node-app-1 npx nodemon app/templates/folders --ext '*' --watch /usr/src/app/app/templates/folders",
+    "preview-newsletter": "open $(docker exec -e PREVIEW_NEWSLETTER=true $(docker ps --filter \"name=blot\" --format \"{{.ID}}\" | head -n1) node scripts/email/newsletter $(ls -1 app/helper/email/newsletters | tail -n 3 | head -n 1) | grep 'preview' | awk -F\"'\" '{gsub(\"/usr/src/app/\", \"./\", $2); print $2}')"
   },
   "version": "0.0.0",
   "dependencies": {
