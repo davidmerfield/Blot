@@ -38,6 +38,11 @@ module.exports = async (blogID, path) => {
 
   // Read entire file into memory
   console.log(`Reading file into memory: ${filePath}`);
+
+  // Beware: if you try and rewrite this to use streams you also have to
+  // update rateLimitedFetchWithRetriesAndTimeout to re-create the stream
+  // correctly for subsequent retries otherwise the stream will be in a
+  // bad state and will not work correctly
   let fileBuffer;
   try {
     fileBuffer = await fs.readFile(filePath);
