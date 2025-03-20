@@ -2,6 +2,7 @@
   "name": "Blot",
   "repository": "https://github.com/davidmerfield/Blot",
   "description": "A blogging platform",
+  "license": "AGPL-3.0",
   "main": "app/index.js",
   "scripts": {
     "test": "./scripts/tests/invoke.sh",
