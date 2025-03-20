@@ -20,7 +20,7 @@ Spring Newsletter 2025
 **Bug fixes**  
 - Resolved issues with nested objects, arrays, and tags in [YAML metadata](https://blot.im/how/metadata).  
 - Fixed a bug where empty renamed files caused new posts to have incorrect dates.  
-- Fixed a Markdown conversion issue that inserted extra paragraph tags.  
+- Fixed a [Markdown](https://blot.im/how/files/markdown) conversion issue that inserted extra paragraph tags.  
 
 **Questions**  
 - [How would one go about implementing Tufte CSS?](https://blot.im/questions/1449)  
@@ -28,7 +28,7 @@ Spring Newsletter 2025
 - [Posting videos?](https://blot.im/questions/1753)  
 
 **Mistakes**  
-There were no major downtime incidents this season. However, I struggled with a persistent issue between the reverse proxy and Blot’s application server. When both upstreams were marked as bad, visitors briefly saw an error page. After much debugging, I discovered the problem—Blot’s reverse proxy was marking the application servers as offline due to a mistake I made years ago. Some ancient parts of the blog renderer were responding with incorrect HTTP error codes, causing the proxy to assume they were offline. This has now been fixed.  
+There were no major downtime incidents this season. However, there was a persistent issue between the reverse proxy and Blot’s application servers. At times, visitors briefly saw an error page even when both application servers were running and healthy. After extensive debugging, I traced the problem to a long-standing issue in the blog renderer. Some ancient parts of the blog renderer were returning incorrect HTTP error codes in response to specific template issues. As a result, the proxy incorrectly marked the application server as offline. When both were marked offline, your visitors saw the error page. This is now fixed.
 
 **Plans for this season**  
 - Considering changing Blot’s license from [CC0 to GPL](https://blot.im/questions/3053). Feel free to [share your thoughts](https://blot.im/questions/3053) or reply to this email.  
