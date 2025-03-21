@@ -31,6 +31,7 @@ const check = async (blogID) => {
       databaseReaddir(readdir, dir),
     ]);
 
+
     for (const file of databaseContents) {
       if (!localContents.find((item) => item.name === file.name)) {
         console.log(
@@ -41,9 +42,16 @@ const check = async (blogID) => {
       }
     }
 
-    for (const { name, isDirectory } of localContents) {
-      if (!databaseContents.find((item) => item.name === name)) {
+    for (const { name, isDirectory, md5Checksum } of localContents) {
+      const itemInDatabase = databaseContents.find(
+        (item) => item.name === name
+      );
+      if (!itemInDatabase) {
         console.log("path=", join(dir, name), "not found in database");
+      } else if (itemInDatabase.isDirectory !== isDirectory) {
+        console.log("path=", join(dir, name), "isDirectory mismatch");
+      } else if (itemInDatabase.md5Checksum !== md5Checksum) {
+        console.log("path=", join(dir, name), "md5Checksum mismatch");
       }
 
       if (isDirectory) {
