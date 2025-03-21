@@ -7,16 +7,20 @@ const download = require("../util/download");
 const createDriveClient = require("../serviceAccount/createDriveClient");
 const CheckWeCanContinue = require("../util/checkWeCanContinue");
 
+const truncateToSecond = require("./util/truncateToSecond");
+
 const localReaddir = require("./util/localReaddir");
 const driveReaddir = require("./util/driveReaddir");
-
-const truncateToSecond = require("./util/truncateToSecond");
 
 module.exports = async (blogID, publish, update) => {
   if (!publish)
     publish = (...args) => {
       console.log(clfdate() + " Google Drive:", args.join(" "));
     };
+
+  if (!update) {
+    update = async () => {};
+  }
 
   const account = await database.blog.get(blogID);
   const drive = await createDriveClient(account.serviceAccountId);
@@ -27,122 +31,90 @@ module.exports = async (blogID, publish, update) => {
   await reset();
 
   const walk = async (dir, dirId) => {
-    publish("Checking", dir);
+    if (!dir || !dirId) {
+      throw new Error("Missing required arguments for walk");
+    }
+
+    // Ensure the dir is stored against the dirId
+    await set(dirId, dir, { isDirectory: true });
 
     const [remoteContents, localContents] = await Promise.all([
       driveReaddir(drive, dirId),
       localReaddir(localPath(blogID, dir)),
     ]);
 
-    // Since we reset the database of file ids
-    // we need to restore this now
-    await set(dirId, dir, { isDirectory: true });
-
     for (const { name } of localContents) {
       if (!remoteContents.find((item) => item.name === name)) {
         const path = join(dir, name);
         await checkWeCanContinue();
-        publish("Removing local item", join(dir, name));
-        await remove(await getByPath(path));
+        publish("Removing", join(dir, name));
         await fs.remove(localPath(blogID, path));
-        if (update) await update(path);
+        await update(path);
+        await remove(await getByPath(path));
       }
     }
 
-    for (const file of remoteContents) {
-      const { id, name, mimeType, md5Checksum, modifiedTime } = file;
+    for (const {
+      id,
+      name,
+      isDirectory,
+      size,
+      modifiedTime,
+      mimeType,
+      md5Checksum,
+    } of remoteContents) {
       const path = join(dir, name);
       const existsLocally = localContents.find((item) => item.name === name);
-      const isDirectory = mimeType === "application/vnd.google-apps.folder";
-
-      // Store the Drive ID against the path of this item, along with metadata
-      await set(id, path, { mimeType, md5Checksum, modifiedTime, isDirectory });
 
       if (isDirectory) {
         if (existsLocally && !existsLocally.isDirectory) {
           await checkWeCanContinue();
-          publish("Removing", path);
-          await remove(await getByPath(path));
+          publish("Removing file", path);
           await fs.remove(localPath(blogID, path));
           publish("Creating directory", path);
           await fs.ensureDir(localPath(blogID, path));
-          if (update) await update(path);
+          await update(path);
         } else if (!existsLocally) {
           await checkWeCanContinue();
           publish("Creating directory", path);
           await fs.ensureDir(localPath(blogID, path));
-          if (update) await update(path);
+          await update(path);
         }
 
         await walk(path, id);
       } else {
+        // Ensure the file is stored in the database
+        // any folders will be stored as they are walked
+        await set(id, path, { isDirectory, modifiedTime });
+
         // These do not have a md5Checksum so we fall
         // back to using the modifiedTime
         const isGoogleAppFile = mimeType.startsWith(
           "application/vnd.google-apps."
         );
 
-        // We truncate to the second because the Google Drive API returns
-        // precise mtimes but the local file system only has second precision
-        const identicalOnRemote =
-          existsLocally &&
-          (isGoogleAppFile
-            ? truncateToSecond(existsLocally.modifiedTime) ===
-              truncateToSecond(modifiedTime)
-            : existsLocally.md5Checksum === md5Checksum);
+        const identical = isGoogleAppFile
+          ? truncateToSecond(existsLocally?.modifiedTime) ===
+            truncateToSecond(modifiedTime)
+          : existsLocally?.size === size;
 
-        if (existsLocally && !identicalOnRemote) {
-          try {
-            await checkWeCanContinue();
-            publish("Updating", path);
-            await download(blogID, drive, path, file);
-            if (update) await update(path);
-
-            if (!existsLocally) {
-              console.log(path, "was not found locally");
-            } else {
-              if (existsLocally.md5Checksum !== md5Checksum) {
-                console.log(
-                  path,
-                  "md5Checksum does not match local=",
-                  existsLocally.md5Checksum,
-                  "remote=",
-                  md5Checksum
-                );
-              }
-              if (
-                truncateToSecond(existsLocally.modifiedTime) !==
-                truncateToSecond(modifiedTime)
-              ) {
-                console.log(
-                  path,
-                  "isGoogleAppFile=",
-                  isGoogleAppFile,
-                  "mime=",
-                  mimeType,
-                  "modifiedTime local=",
-                  existsLocally.modifiedTime,
-                  "remote=",
-                  modifiedTime,
-                  "localTruncated=",
-                  truncateToSecond(existsLocally.modifiedTime),
-                  "remoteTruncated=",
-                  truncateToSecond(modifiedTime)
-                );
-              }
-            }
-          } catch (e) {
-            publish("Failed to download", path, e);
-          }
-        } else if (!existsLocally) {
-          try {
-            await checkWeCanContinue();
-            publish("Downloading", path);
-            await download(blogID, drive, path, file);
-            if (update) await update(path);
-          } catch (e) {
-            publish("Failed to download", path, e);
-          }
+        if (!existsLocally || !identical) {
+          await checkWeCanContinue();
+          publish(
+            "Downloading",
+            path,
+            "local=" + !!existsLocally,
+            "localSize=" + (existsLocally?.size || "N/A"),
+            "size=" + size,
+            "identical=" + identical
+          );
+          const updated = await download(blogID, drive, path, {
+            id,
+            md5Checksum,
+            mimeType,
+            modifiedTime,
+          });
+          if (updated) await update(path);
         }
       }
     }
