@@ -1,5 +1,9 @@
-Fix bug with Google Drive client which is causing [Mark's folder to resync](https://mail.google.com/mail/u/0/#inbox/FMfcgzQZTVmrvkvcfPvcJhcLvrwSndWS)
-- The issue is caused by a difference between the database readdir and the local readdir results
+Finish updating avatars for featured sites
+
+Resolve persistent issue with Google Drive sync:
+- docker exec -it blot-container-green node scripts/google-drive/reset.js
+
+---
 
 Work out why there are still 502 errors 'Blot is offline' during deployments during the failtimout window – why isn't proxy next retries kicking in?
 - Monitor the nginx error log for 'disabled' while doing a deployment
