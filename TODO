@@ -2,6 +2,8 @@ Fix bug with Google Drive client which is causing [Mark's folder to resync](http
 - The issue is caused by a difference between the database readdir and the local readdir results
 
 Work out why there are still 502 errors 'Blot is offline' during deployments during the failtimout window – why isn't proxy next retries kicking in?
+- Monitor the nginx error log for 'disabled' while doing a deployment
+- Try and work out rigorously how try_next upstream works, make sure it does this for 502
 
 Work out why iCloud bugs out with philpin's folder
 - Re-set up development env so I can test this
