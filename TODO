@@ -3,6 +3,11 @@ Finish updating avatars for featured sites
 Resolve persistent issue with Google Drive sync:
 - docker exec -it blot-container-green node scripts/google-drive/reset.js
 
+Come up with plan to handle google docs on disconnection from Google drive -> convert to markdown?
+- tell henryirvine about issues with his site
+
+Write proper tests for Google Drive client
+
 ---
 
 Work out why there are still 502 errors 'Blot is offline' during deployments during the failtimout window – why isn't proxy next retries kicking in?
