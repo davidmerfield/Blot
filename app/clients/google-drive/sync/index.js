@@ -21,20 +21,35 @@ module.exports = async function (blogID) {
 
   const { done, folder } = await establishSyncLock(blogID);
 
-  await sync(blogID, folder.status, folder.update);
+  try {
+    await sync(blogID, folder.status, folder.update);
+  } catch (err) {
+    console.log(clfdate(), "Google Drive:", "Sync failed", err);
+  }
+
   await fix(blog);
   await done();
 };
 
 const sync = async (blogID, publish, update) => {
+  const account = await database.blog.get(blogID);
+
+  const { serviceAccountId, folderId } = account;
+
+  if (!serviceAccountId || !folderId) {
+    throw new Error("Missing required arguments for sync");
+  }
+
+  const prefix = () =>
+    `${clfdate()} Google Drive: ${blogID} serviceAccountId=${serviceAccountId} folderId=${folderId}`;
+
   if (!publish)
     publish = (...args) => {
-      console.log(clfdate() + " Google Drive:", args.join(" "));
+      console.log(prefix(), args.join(" "));
     };
 
-  const account = await database.blog.get(blogID);
-  const drive = await createDriveClient(account.serviceAccountId);
-  const { get, set, remove, readdir } = database.folder(account.folderId);
+  const drive = await createDriveClient(serviceAccountId);
+  const { get, set, remove, readdir } = database.folder(folderId);
   const checkWeCanContinue = CheckWeCanContinue(blogID, account);
 
   const databaseReaddir = async (readdir, dir) => {
@@ -48,7 +63,7 @@ const sync = async (blogID, publish, update) => {
 
   const walk = async (dir, dirId) => {
     // publish("Checking", dir);
-    console.log(clfdate() + " Google Drive: Checking", dir);
+    console.log(prefix(), "readdir", dir);
 
     const [remoteContents, localContents] = await Promise.all([
       driveReaddir(drive, dirId),
@@ -57,6 +72,12 @@ const sync = async (blogID, publish, update) => {
 
     // Since we reset the database of file ids
     // we need to restore this now
+    console.log(
+      prefix(),
+      "set dir=" + dir,
+      "dirId=" + dirId,
+      "isDirectory=true"
+    );
     set(dirId, dir, { isDirectory: true });
 
     for (const { name, id } of localContents) {
@@ -64,6 +85,7 @@ const sync = async (blogID, publish, update) => {
         const path = join(dir, name);
         await checkWeCanContinue();
         publish("Removing", join(dir, name));
+        console.log(prefix(), "remove database/local path=" + path, "id=" + id);
         await remove(id);
         await fs.remove(localPath(blogID, path));
         if (update) await update(path);
@@ -77,20 +99,32 @@ const sync = async (blogID, publish, update) => {
       const isDirectory = mimeType === "application/vnd.google-apps.folder";
 
       // Store the Drive ID against the path of this item, along with metadata
+      console.log(
+        prefix(),
+        "set path=" + path,
+        "id=" + id,
+        "mimeType=" + mimeType,
+        "md5Checksum=" + md5Checksum,
+        "modifiedTime=" + modifiedTime,
+        "isDirectory=" + isDirectory
+      );
       await set(id, path, { mimeType, md5Checksum, modifiedTime, isDirectory });
 
       if (isDirectory) {
         if (existsLocally && !existsLocally.isDirectory) {
           await checkWeCanContinue();
           publish("Removing", path);
+          console.log(prefix(), "remove file path=" + path, "id=" + id);
           await remove(existsLocally.id);
           await fs.remove(localPath(blogID, path));
           publish("Creating directory", path);
+          console.log(prefix(), "create dir path=" + path, "id=" + id);
           await fs.ensureDir(localPath(blogID, path));
           if (update) await update(path);
         } else if (!existsLocally) {
           await checkWeCanContinue();
           publish("Creating directory", path);
+          console.log(prefix(), "ensure dir path=" + path, "id=" + id);
           await fs.ensureDir(localPath(blogID, path));
           if (update) await update(path);
         }
@@ -123,14 +157,11 @@ const sync = async (blogID, publish, update) => {
             }
 
             if (!existsLocally) {
-              console.log(
-                path,
-                "was not found in database existsSync=",
-                fs.existsSync(localPath(blogID, path))
-              );
+              console.log(prefix(), path, "was not found in database");
             } else {
               if (existsLocally.md5Checksum !== md5Checksum) {
                 console.log(
+                  prefix(),
                   path,
                   "md5Checksum in database does not match local=",
                   existsLocally.md5Checksum,
@@ -143,6 +174,7 @@ const sync = async (blogID, publish, update) => {
                 truncateToSecond(modifiedTime)
               ) {
                 console.log(
+                  prefix(),
                   path,
                   "isGoogleAppFile=",
                   isGoogleAppFile,

@@ -53,10 +53,10 @@ const loadFolder = async (blog, dir) => {
   const synced = blog.status.message.toLowerCase() === 'synced';
   
   if (synced && folderCache[cacheKey]) {
-    console.log(clfdate(), 'folder cache HIT', cacheKey);
+    // console.log(clfdate(), 'folder cache HIT', cacheKey);
     return folderCache[cacheKey];
   } else {
-    console.log(clfdate(), 'folder cache MISS', cacheKey);
+    // console.log(clfdate(), 'folder cache MISS', cacheKey);
   }
 
   if (Object.keys(folderCache).length >= 100) {
