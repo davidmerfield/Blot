@@ -7,17 +7,21 @@ const tempDir = require("helper/tempDir")();
 const guid = require("helper/guid");
 const computeMd5Checksum = require("../util/md5Checksum");
 
-module.exports = async (blogID, drive, path, file) => {
+module.exports = async (
+  blogID,
+  drive,
+  path,
+  { id, md5Checksum, mimeType, modifiedTime }
+) => {
   return new Promise(async function (resolve, reject) {
     let pathOnBlot = localPath(blogID, path);
     const tempPath = join(tempDir, guid());
-    const { id, md5Checksum, mimeType, modifiedTime } = file;
     try {
       if (mimeType === "application/vnd.google-apps.folder") {
         await fs.ensureDir(pathOnBlot);
         debug("MKDIR folder");
         debug("   to:", colors.green(pathOnBlot));
-        return resolve();
+        return resolve(false);
       }
 
       const existingMd5Checksum = await computeMd5Checksum(pathOnBlot);
@@ -27,7 +31,7 @@ module.exports = async (blogID, drive, path, file) => {
         debug("      path:", path);
         debug("   locally:", existingMd5Checksum);
         debug("    remote:", md5Checksum);
-        return resolve();
+        return resolve(false);
       }
 
       debug("DOWNLOAD file");
@@ -78,7 +82,7 @@ module.exports = async (blogID, drive, path, file) => {
           }
 
           debug("DOWNLOAD file SUCCEEDED");
-          resolve();
+          resolve(true);
         })
         .on("error", reject)
         .pipe(dest);
