@@ -7,7 +7,7 @@ describe("bluesky plugin", function () {
   it("works", function (done) {
     // html bare link to a post on bluesky
     const html =
-      '<a href="https://bsky.app/profile/logicallyjc.bsky.social/post/3lbretguxqk2b">https://bsky.app/profile/logicallyjc.bsky.social/post/3lbretguxqk2b</a>';
+      '<a href="https://bsky.app/profile/lukelukeluke.bsky.social/post/3lksqcsyvvs22">https://bsky.app/profile/lukelukeluke.bsky.social/post/3lksqcsyvvs22</a>';
 
     const $ = cheerio.load(html);
 
@@ -15,7 +15,7 @@ describe("bluesky plugin", function () {
       console.log("html:", $.html());
       expect(
         $(
-          "a[href='https://bsky.app/profile/logicallyjc.bsky.social/post/3lbretguxqk2b']"
+          "a[href='https://bsky.app/profile/lukelukeluke.bsky.social/post/3lksqcsyvvs22']"
         ).length
       ).toBe(0);
       expect($("blockquote").length).toBe(1);
