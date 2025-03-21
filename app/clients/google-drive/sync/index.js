@@ -24,7 +24,7 @@ module.exports = async function (blogID) {
   try {
     await sync(blogID, folder.status, folder.update);
   } catch (err) {
-    console.log(clfdate(), "Google Drive:", "Sync failed", err);
+    console.log(clfdate(), "Google Drive Sync:", "Sync failed", err);
   }
 
   await fix(blog);
@@ -41,7 +41,7 @@ const sync = async (blogID, publish, update) => {
   }
 
   const prefix = () =>
-    `${clfdate()} Google Drive: ${blogID} serviceAccountId=${serviceAccountId} folderId=${folderId}`;
+    `${clfdate()} Google Drive Sync: ${blogID} serviceAccountId=${serviceAccountId} folderId=${folderId}`;
 
   if (!publish)
     publish = (...args) => {
