@@ -42,17 +42,13 @@ const check = async (blogID) => {
       }
     }
 
-    for (const { name, isDirectory, md5Checksum } of localContents) {
+    for (const { name, isDirectory } of localContents) {
       const itemInDatabase = databaseContents.find(
         (item) => item.name === name
       );
       if (!itemInDatabase) {
         console.log("path=", join(dir, name), "not found in database");
-      } else if (itemInDatabase.isDirectory !== isDirectory) {
-        console.log("path=", join(dir, name), "isDirectory mismatch");
-      } else if (itemInDatabase.md5Checksum !== md5Checksum) {
-        console.log("path=", join(dir, name), "md5Checksum mismatch");
-      }
+      } 
 
       if (isDirectory) {
         await walk(join(dir, name));
