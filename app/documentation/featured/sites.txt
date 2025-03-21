@@ -12,7 +12,7 @@
 #d790c0 blog.aurynn.com Aurynn Shaw, is an engineer
 #f2496a www.alexgibson.nyc Alexander Gibson, is an artist
 #a5a374 john.pavlusoffice.com John Pavlus, is a writer
-#702225 photos.rachelpietraszek.com Rachel Pietraszek, is a lawyer
+#702225 rachelpietraszek.com Rachel Pietraszek, is a lawyer
 #a0aab9 iiiiiiiii.in Ishtaarth Dalmia, is a writer
 #516f82 kiefer.design Kiefer Sutherland, is a designer
 #60b7dc www.failuretolerated.com Sean McCoy, is a game designer
@@ -92,3 +92,5 @@
 #000000 ilovewasting.ink Peter Orosz, is a writer
 #000000 blog.vesikar.com Yash Vesikar, is a computer scientist
 #000000 words.studiopallister.com James Pallister, is a writer
+#000000 www.gillianrosselli.com Gillian Rosselli, is an artist
+#000000 chrispugh.com Chris Pugh, is an editor
