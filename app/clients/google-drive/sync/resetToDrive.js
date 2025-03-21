@@ -108,7 +108,7 @@ module.exports = async (blogID, publish) => {
             },
             fields: "id",
           });
-          set(data.id, path, { md5Checksum, modifiedTime, isDirectory: false });
+          set(data.id, path, { modifiedTime, isDirectory: false });
         }
       }
     }
