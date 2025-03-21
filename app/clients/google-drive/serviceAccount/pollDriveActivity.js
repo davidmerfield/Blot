@@ -27,7 +27,7 @@ module.exports = async (serviceAccountId, driveactivity) => {
         return;
       }
 
-      console.log(prefix(), "fetching");
+      // console.log(prefix(), "fetching");
 
       const res = await driveactivity.activity.query({
         requestBody: {
@@ -41,7 +41,7 @@ module.exports = async (serviceAccountId, driveactivity) => {
       const timestamp = activity?.timestamp;
 
       if (!activity) {
-        console.log(prefix(), "Warning: no activity found");
+        // console.log(prefix(), "Warning: no activity found");
         return;
       }
 
@@ -59,7 +59,7 @@ module.exports = async (serviceAccountId, driveactivity) => {
           latestDriveActivityTimestamp: timestamp,
         });
       } else {
-        console.log(prefix(), "no new activity");
+        // console.log(prefix(), "no new activity");
       }
     }
   );

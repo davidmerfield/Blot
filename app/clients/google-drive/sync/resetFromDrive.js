@@ -20,7 +20,7 @@ module.exports = async (blogID, publish, update) => {
 
   const account = await database.blog.get(blogID);
   const drive = await createDriveClient(account.serviceAccountId);
-  const { reset, get, set, remove } = database.folder(account.folderId);
+  const { reset, getByPath, set, remove } = database.folder(account.folderId);
   const checkWeCanContinue = CheckWeCanContinue(blogID, account);
 
   // resets pageToken and folderState
@@ -36,15 +36,14 @@ module.exports = async (blogID, publish, update) => {
 
     // Since we reset the database of file ids
     // we need to restore this now
-    set(dirId, dir, { isDirectory: true });
+    await set(dirId, dir, { isDirectory: true });
 
     for (const { name } of localContents) {
       if (!remoteContents.find((item) => item.name === name)) {
         const path = join(dir, name);
         await checkWeCanContinue();
         publish("Removing local item", join(dir, name));
-        const id = await get(path);
-        await remove(id);
+        await remove(await getByPath(path));
         await fs.remove(localPath(blogID, path));
         if (update) await update(path);
       }
@@ -63,8 +62,7 @@ module.exports = async (blogID, publish, update) => {
         if (existsLocally && !existsLocally.isDirectory) {
           await checkWeCanContinue();
           publish("Removing", path);
-          const idToRemove = await get(path);
-          await remove(idToRemove);
+          await remove(await getByPath(path));
           await fs.remove(localPath(blogID, path));
           publish("Creating directory", path);
           await fs.ensureDir(localPath(blogID, path));

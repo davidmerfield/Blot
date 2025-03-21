@@ -57,7 +57,6 @@ function sync (blogID, callback) {
       });
       log("Successfully acquired lock on folder");
     } catch (e) {
-      console.error(e);
       log("Failed to acquire lock on folder");
       return callback(new Error("Failed to acquire folder lock"));
     }
