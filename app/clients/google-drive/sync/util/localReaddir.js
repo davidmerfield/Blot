@@ -13,10 +13,12 @@ const localreaddir = async (dir) => {
       // Convert the modification time to an ISO string
       const modifiedTime = stat.mtime.toISOString();
       const isDirectory = stat.isDirectory();
+      const size = stat.size;
 
       return {
         name,
         isDirectory,
+        size,
         modifiedTime: isDirectory ? undefined : modifiedTime,
       };
     })

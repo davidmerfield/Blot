@@ -85,6 +85,7 @@ const sync = async (blogID, publish, update) => {
       id,
       name,
       isDirectory,
+      size,
       modifiedTime,
       mimeType,
       md5Checksum,
@@ -113,22 +114,25 @@ const sync = async (blogID, publish, update) => {
         // any folders will be stored as they are walked
         await set(id, path, { isDirectory, modifiedTime });
 
-        // We truncate to the second because the Google Drive API returns
-        // precise mtimes but the local file system only has second precision
-        const identical =
-          truncateToSecond(existsLocally?.modifiedTime) ===
-          truncateToSecond(modifiedTime);
-
+        const identical = existsLocally?.size === size;
+        
         if (!existsLocally || !identical) {
           await checkWeCanContinue();
-          publish("Downloading", path);
-          await download(blogID, drive, path, {
+          publish(
+            "Downloading",
+            path,
+            "local=" + !!existsLocally,
+            "localSize=" + (existsLocally?.size || "N/A"),
+            "size=" + size,
+            "identical=" + identical
+          );
+          const updated = await download(blogID, drive, path, {
             id,
             md5Checksum,
             mimeType,
             modifiedTime,
           });
-          await update(path);
+          if (updated) await update(path);
         }
       }
     }

@@ -21,7 +21,7 @@ module.exports = async (
         await fs.ensureDir(pathOnBlot);
         debug("MKDIR folder");
         debug("   to:", colors.green(pathOnBlot));
-        return resolve();
+        return resolve(false);
       }
 
       const existingMd5Checksum = await computeMd5Checksum(pathOnBlot);
@@ -31,7 +31,7 @@ module.exports = async (
         debug("      path:", path);
         debug("   locally:", existingMd5Checksum);
         debug("    remote:", md5Checksum);
-        return resolve();
+        return resolve(false);
       }
 
       debug("DOWNLOAD file");
@@ -82,7 +82,7 @@ module.exports = async (
           }
 
           debug("DOWNLOAD file SUCCEEDED");
-          resolve();
+          resolve(true);
         })
         .on("error", reject)
         .pipe(dest);

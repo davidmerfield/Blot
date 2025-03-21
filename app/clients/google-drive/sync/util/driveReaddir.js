@@ -8,7 +8,7 @@ const readdir = async (drive, dirId) => {
       q: `'${dirId}' in parents and trashed = false`,
       pageToken: nextPageToken,
       fields:
-        "nextPageToken, files/id, files/name, files/modifiedTime, files/md5Checksum, files/mimeType",
+        "nextPageToken, files/id, files/name, files/modifiedTime, files/md5Checksum, files/mimeType, files/size",
     };
     res = await drive.files.list(params);
 
@@ -18,6 +18,7 @@ const readdir = async (drive, dirId) => {
         f.name += ".gdoc";
       }
 
+      f.size = Number(f.size);
       f.isDirectory = f.mimeType === "application/vnd.google-apps.folder";
 
       return f;

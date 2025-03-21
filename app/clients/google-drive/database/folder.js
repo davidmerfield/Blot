@@ -225,7 +225,7 @@ function folder(folderId) {
         if (
           path.startsWith(basePath) &&
           path !== basePath && // Exclude the directory itself
-          !path.slice(basePath.length).includes("/") // Exclude nested paths
+          !path.slice(basePath.length).includes("/") // Exclude paths inside subdirectories of the directory
         ) {
           const metadata = await this.getMetadata(id);
           entries.push({ id, path, metadata });
