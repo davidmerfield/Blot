@@ -3,6 +3,8 @@ const database = require("clients/google-drive/database");
 const clfdate = require("helper/clfdate");
 const sync = require("clients/google-drive/sync");
 
+const prefix = () => `${clfdate()} Google Drive:`;
+
 module.exports = async (serviceAccountId, driveactivity) => {
   if (!serviceAccountId || !driveactivity) {
     throw new Error("Missing required arguments for pollDriveActivity");
