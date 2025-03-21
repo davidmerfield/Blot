@@ -55,3 +55,5 @@
 #000000 erinkissane.com Erin Kissane, is a writer
 #000000 nonaneva.com ノナネヷ, is an artist
 #000000 ilovewasting.ink Peter Orosz, is a writer
+#000000 blog.vesikar.com Yash Vesikar, is a computer scientist
+#000000 words.studiopallister.com James Pallister, is a writer

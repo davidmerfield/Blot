@@ -458,6 +458,22 @@
       "bio": "is a writer",
       "x": 0,
       "y": 336
+    },
+    {
+      "link": "https://blog.vesikar.com",
+      "host": "blog.vesikar.com",
+      "name": "Yash Vesikar",
+      "bio": "is a computer scientist",
+      "x": 48,
+      "y": 336
+    },
+    {
+      "link": "https://words.studiopallister.com",
+      "host": "words.studiopallister.com",
+      "name": "James Pallister",
+      "bio": "is a writer",
+      "x": 96,
+      "y": 336
     }
   ],
   "thumbnail_width": 48
