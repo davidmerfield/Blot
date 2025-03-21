@@ -11,7 +11,6 @@
 #696e66 vaughntan.org Vaughn Tan, is a writer
 #c56d64 blog.pixelswithin.com Diana Lopez, is a designer
 #e2c556 eli.li Eli Mellen, is a web developer
-#e13934 www.elisamirkil.com Elisa Mirkil, is a designer
 #d08573 paul.af Paul Esch-Laurent, is a software engineer
 #9e826d diary.craigwhite.nyc Craig White, is an artist
 #44679d mariusmasalar.me Marius Masalar, is a photographer
@@ -55,3 +54,4 @@
 #000000 www.carsonteuscher.com Carson Teuscher, is a historian
 #000000 erinkissane.com Erin Kissane, is a writer
 #000000 nonaneva.com ノナネヷ, is an artist
+#000000 ilovewasting.ink Peter Orosz, is a writer

@@ -9,6 +9,7 @@
 #516f82 kiefer.design Kiefer Sutherland, is a designer
 #757196 www.querlin.com Querlin Ricci, is a designer
 #af8f8a rile.yt Riley Tomasek, is a software engineer
+#e13934 www.elisamirkil.com Elisa Mirkil, is a designer
 #ff690b shashwati.com Shashwati Talukdar, is a filmmaker
 #5f8293 tyler.vc Tyler Menezes, is a programmer
 #8a9144 blog.tomwhite.io Thomas White, is a biologist
