@@ -63,3 +63,4 @@
 #000000 chrispugh.com Chris Pugh, is a newspaper editor
 #000000 www.caitlinmrivers.com Caitlin Rivers, is an epidemiologist
 #000000 jbeau.info Jeremy Beaudry, is an artist
+#000000 www.audunberdal.no Audun Berdal, is a designer

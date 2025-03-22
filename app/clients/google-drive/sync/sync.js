@@ -102,8 +102,6 @@ module.exports = async function sync(blogID, publish, update) {
               "identical=false localSize=" + existsLocally.size,
               "remoteSize=" + size
             );
-            console.log("remote contents:", remoteContents);
-            console.log();
           } else {
             console.log("Downloading missing:", path);
           }

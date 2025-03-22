@@ -522,6 +522,14 @@
       "bio": "is an artist",
       "x": 384,
       "y": 0
+    },
+    {
+      "link": "https://www.audunberdal.no",
+      "host": "www.audunberdal.no",
+      "name": "Audun Berdal",
+      "bio": "is a designer",
+      "x": 384,
+      "y": 48
     }
   ],
   "thumbnail_width": 48
