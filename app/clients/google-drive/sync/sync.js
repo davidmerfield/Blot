@@ -10,7 +10,7 @@ const driveReaddir = require("./util/driveReaddir");
 const localReaddir = require("./util/localReaddir");
 
 const truncateToSecond = require("./util/truncateToSecond");
-const { exists } = require("fs");
+const transformDriveItems = require("./util/transformDriveItems");
 
 module.exports = async function sync(blogID, publish, update) {
   publish = publish || function () {};
@@ -43,10 +43,14 @@ module.exports = async function sync(blogID, publish, update) {
     // Ensure the dir is stored against the dirId
     await set(dirId, dir, { isDirectory: true });
 
-    const [remoteContents, localContents] = await Promise.all([
+    const [driveItems, localContents] = await Promise.all([
       driveReaddir(drive, dirId),
       localReaddir(localPath(blogID, dir)),
     ]);
+
+    // We handle file name deduplication and the mapping of
+    // google docs to .gdoc files here.
+    const remoteContents = transformDriveItems(driveItems);
 
     for (const { name } of localContents) {
       if (!remoteContents.find((item) => item.name === name)) {

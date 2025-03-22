@@ -11,20 +11,7 @@ const readdir = async (drive, dirId) => {
         "nextPageToken, files/id, files/name, files/modifiedTime, files/md5Checksum, files/mimeType, files/size",
     };
     res = await drive.files.list(params);
-
-    // Transform only once
-    const transformed = res.data.files.map((f) => {
-      if (f.mimeType === "application/vnd.google-apps.document") {
-        f.name += ".gdoc";
-      }
-
-      f.size = Number(f.size);
-      f.isDirectory = f.mimeType === "application/vnd.google-apps.folder";
-
-      return f;
-    });
-
-    items = items.concat(transformed);
+    items = items.concat(res.data.files);
     nextPageToken = res.data.nextPageToken;
   } while (nextPageToken);
 
