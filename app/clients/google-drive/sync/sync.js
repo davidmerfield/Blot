@@ -53,6 +53,11 @@ module.exports = async function sync(blogID, publish, update) {
         const path = join(dir, name);
         await checkWeCanContinue();
         publish("Removing", join(dir, name));
+        console.log(
+          "Removing",
+          join(dir, name),
+          "which does not exist remotely"
+        );
         await fs.remove(localPath(blogID, path));
         await update(path);
         await remove(await getByPath(path));
@@ -92,19 +97,15 @@ module.exports = async function sync(blogID, publish, update) {
           publish("Downloading", path);
 
           if (existsLocally) {
-            console.log("Downloading missing:", path);
-            console.log("local contents:", localContents);
-            console.log("remote contents:", remoteContents);
-            console.log();
-          } else {
             console.log("Updating out-of-sync:", path);
             console.log(
               "identical=false localSize=" + existsLocally.size,
               "remoteSize=" + size
             );
-            console.log("local contents:", localContents);
             console.log("remote contents:", remoteContents);
             console.log();
+          } else {
+            console.log("Downloading missing:", path);
           }
 
           const updated = await download(blogID, drive, path, {
@@ -120,6 +121,7 @@ module.exports = async function sync(blogID, publish, update) {
         if (existsLocally && !existsLocally.isDirectory) {
           await checkWeCanContinue();
           publish("Removing file", path);
+          console.log("Removing file", path, "which is a directory remotely");
           await fs.remove(localPath(blogID, path));
           publish("Creating directory", path);
           await fs.ensureDir(localPath(blogID, path));
@@ -127,6 +129,7 @@ module.exports = async function sync(blogID, publish, update) {
         } else if (!existsLocally) {
           await checkWeCanContinue();
           publish("Creating directory", path);
+          console.log("Creating directory locally", path);
           await fs.ensureDir(localPath(blogID, path));
           await update(path);
         }
