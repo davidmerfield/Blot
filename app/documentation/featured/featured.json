@@ -530,6 +530,14 @@
       "bio": "is a designer",
       "x": 384,
       "y": 48
+    },
+    {
+      "link": "https://www.amirsharif.com",
+      "host": "www.amirsharif.com",
+      "name": "Amir Sharif",
+      "bio": "is an engineer",
+      "x": 384,
+      "y": 96
     }
   ],
   "thumbnail_width": 48
