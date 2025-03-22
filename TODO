@@ -1,7 +1,6 @@
-Finish updating avatars for featured sites
-
-Resolve persistent issue with Google Drive sync:
-- docker exec -it blot-container-green node scripts/google-drive/reset.js
+Check that Google Drive is staying in sync:
+- login -> node scripts/google-drive/reset.js
+- add proper bottlenecks then run this regularly
 
 Come up with plan to handle google docs on disconnection from Google drive -> convert to markdown?
 - tell henryirvine about issues with his site
@@ -46,8 +45,9 @@ Use sockets for communication between nginx and node
 
 Why don't empty files sync on the dashboard? (esp. via iCloud client)
 
-Improve build and test workflow
-- Create a blot-base image and use that for testing and production image?
+Improve speed of production build
+- When should folder zipping happen?
+- Can we improve build speed by removing github actions cache and using some base image with dependencies?
 
 Migrate scripts in bashrc into deployment flow
 - run them all inside backup server -blot-blue
@@ -107,10 +107,6 @@ Create a folder{watch} equivalent so we don't have to run a seperate process for
 Fix image profile retention not working in production and tell [Simon](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJchvfhDcWNkrZtNJqlLmLfsx)
 - maybe a caching issue and actually works?
 
-Improve production image build time for fast bug fixes and deploys
-- When should folder zipping happen?
-- Can we improve build speed by removing github actions cache and using some base image with dependencies?
-
 Use tinify free api to compress some of the folder images
 - maybe consider building this into the main product? it might pay for itself
 
@@ -145,13 +141,9 @@ Improvements to questions section:
   - https://designportland.org/
 - Add a filter for topic index to show questions by: 'Newest', 'Active', 'Unanswered', 'Votes'
 
-Switch license to GPL
-
-Move notes into about views folder
-
 Move Dockerfile into app
 
-Clean up scripts directory, lots of unused scripts
+Clean up scripts directory, lots of unused or broken scripts
 
 ---
 
