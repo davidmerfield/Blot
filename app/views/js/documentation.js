@@ -4,6 +4,7 @@ require('./sync_status.js');
 require('./instant.page.js');
 require('./contact-form.js');
 require('./tagify.js');
+require('./examples.js');
 
 // must come before copy-buttons.js so that the copy buttons are generated
 require('./multi-lingual-code.js');

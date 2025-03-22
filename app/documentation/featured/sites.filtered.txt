@@ -3,6 +3,7 @@
 #dc1c8e hannautkin.com Hanna Utkin, is a filmmaker
 #7a8aa8 keywords.oxus.net Kerim Friedman, is an anthropologist
 #b59681 discombobulated.co.nz Jessica Nickelsen, is a writer
+#1b6cb5 rebeccakukshtel.com Rebecca Kukshtel, is an engineer
 #d790c0 blog.aurynn.com Aurynn Shaw, is an engineer
 #a5a374 john.pavlusoffice.com John Pavlus, is a writer
 #702225 rachelpietraszek.com Rachel Pietraszek, is a lawyer
@@ -15,8 +16,8 @@
 #d08573 paul.af Paul Esch-Laurent, is a software engineer
 #9e826d diary.craigwhite.nyc Craig White, is an artist
 #44679d mariusmasalar.me Marius Masalar, is a photographer
-#4c919c www.ishshah.me Ish Shah, is a software engineer
-#5177a4 www.chrbutler.com Chris Butler, is a designer
+#4c919c www.ishshah.me Ish Shah, is a software developer
+#5177a4 www.chrbutler.com Christopher Butler, is a designer
 #576c50 benlog.net Ben Greenberg, is a journalist
 #111111 afc.letterspace.org Robert van Vliet, is a writer
 #94c5df inhab.it Wil Turner, is a writer
@@ -32,14 +33,14 @@
 #d0a66f tellyou.today Neale Stokes, is a librarian
 #7a9951 brainsister.com Jessica Doyle, is a writer
 #945830 poetry.bencallahan.com Ben Callahan, is a poet
-#6b98d2 www.maxkeith.co Max Keith, is a trail runner from Chile
+#6b98d2 www.maxkeith.co Max Keith, is a runner
 #99abc4 spittingdog.net Dave Haysom, is a translator
 #b07246 anitaposch.com Anita Posch, is a writer from Austria
 #d28f00 reillybrennan.com Reilly Brennan, is a venture capitalist
 #c40002 sidenote.ridwansanusi.com Ridwan Sanusi, is a designer
 #6e44b3 max.engineer Max Chernyak, is a software engineer
 #f1bd00 oliviaastawood.com Olivia Wood, is a writer
-#387db9 nowaykohei.com Kohei Foss, is a student 
+#387db9 nowaykohei.com Kohei Foss, is a project manager 
 #21732d www.nitinpai.in Nitin Pai, is a think-tank director
 #000000 jeankapsa.com Jean Kapsa, is a pianist
 #000000 www.declad.com Lewis Martin, is an architect
@@ -59,4 +60,6 @@
 #000000 blog.vesikar.com Yash Vesikar, is a computer scientist
 #000000 words.studiopallister.com James Pallister, is a writer
 #000000 www.gillianrosselli.com Gillian Rosselli, is an artist
-#000000 chrispugh.com Chris Pugh, is an editor
+#000000 chrispugh.com Chris Pugh, is a newspaper editor
+#000000 www.caitlinmrivers.com Caitlin Rivers, is an epidemiologist
+#000000 jbeau.info Jeremy Beaudry, is an artist
