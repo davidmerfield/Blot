@@ -1,5 +1,5 @@
 const keys = require("../db/keys");
-const yesno = require("yesno");
+const getConfirmation = require("../util/getConfirmation");
 const client = require("client");
 
 const KEYS_TO_DELETE = [];
@@ -21,7 +21,8 @@ keys(
     }
 
     console.log(KEYS_TO_DELETE);
-    yesno.ask(`Delete ${KEYS_TO_DELETE.length} keys? (y/N)`, false, function (
+    getConfirmation(`Delete ${KEYS_TO_DELETE.length} keys? (y/N)`, function (
+      err,
       ok
     ) {
       if (!ok) {

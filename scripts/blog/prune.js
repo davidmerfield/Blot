@@ -1,7 +1,7 @@
 var each = require("../each/blog");
 var Blog = require("models/blog");
 var client = require("redis").createClient();
-var yesno = require("yesno");
+var getConfirmation = require("../util/getConfirmation");
 let multi = client.multi();
 let keysToDelete = {};
 
@@ -30,7 +30,7 @@ each(
     Object.keys(keysToDelete).forEach((key) => {
       console.log(key, keysToDelete[key] + " blogs");
     });
-    yesno.ask("Proceed?", false, function (ok) {
+    getConfirmation("Proceed?", function (err, ok) {
       if (!ok) {
         console.log("Did not prune.");
         return process.exit();

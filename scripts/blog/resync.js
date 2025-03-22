@@ -2,7 +2,7 @@ const Sync = require("sync");
 const clients = require("clients");
 
 const each = require("../each/blog");
-const yesno = require("yesno");
+var getConfirmation = require("../util/getConfirmation");
 const get = require("../get/blog");
 
 // const Fix = require("sync/fix");
@@ -19,7 +19,7 @@ if (process.argv[2]) {
     });
   });
 } else {
-  yesno.ask("Resync all blogs? (y/N)", false, function (ok) {
+  getConfirmation("Resync all blogs? (y/N)", function (err, ok) {
     if (!ok) {
       console.log("You answered no");
       process.exit();

@@ -1,5 +1,5 @@
 var async = require("async");
-var yesno = require("yesno");
+var getConfirmation = require("../util/getConfirmation");
 var fs = require("fs-extra");
 var path = require("path");
 var get = require("../get/blog");
@@ -30,7 +30,7 @@ function main(blog, from, to, callback) {
       console.log("  TO:", to);
     }
 
-    yesno.ask("Proceed (y/N)?", false, function (ok) {
+    getConfirmation("Proceed (y/N)?", function (err, ok) {
       if (!ok) return callback(new Error("Not ok"));
 
       async.eachOfSeries(

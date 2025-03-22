@@ -1,6 +1,6 @@
 var get = require("../get/blog");
 var localPath = require("helper/localPath");
-var yesno = require("yesno");
+var getConfirmation = require("../util/getConfirmation");
 var async = require("async");
 var fs = require("fs-extra");
 var join = require("path").join;
@@ -16,7 +16,7 @@ get(process.argv[2], function (err, user, blog) {
       return process.exit();
     }
     console.log(pathsToRemove);
-    yesno.ask("Remove paths? (y/n)", false, function (ok) {
+    getConfirmation("Remove paths? (y/n)", function (err, ok) {
       if (!ok) return process.exit();
       async.eachSeries(pathsToRemove, fs.remove, function (err) {
         if (err) throw err;

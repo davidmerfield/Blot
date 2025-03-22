@@ -2,7 +2,7 @@ const get = require("../get/blog");
 const Entry = require("entry");
 const Entries = require("entries");
 const colors = require("colors");
-const yesno = require("yesno");
+var getConfirmation = require("../util/getConfirmation");
 const async = require("async");
 const moment = require("moment");
 
@@ -57,7 +57,7 @@ get(process.argv[2], function (err, user, blog) {
             )}
  use the deleted entry's dateStamp and created date for this entry? (y/n)`;
 
-            yesno.ask(message, false, function (ok) {
+            getConfirmation(message, function (err, ok) {
               if (!ok) {
                 console.log(" skipped".dim);
                 return nextCandidate();

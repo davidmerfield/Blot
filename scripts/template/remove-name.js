@@ -1,6 +1,5 @@
 var fixEachView = require("./fixEachView");
-var yesno = require("yesno");
-var colors = require("colors");
+var getConfirmation = require("../util/getConfirmation");
 var jsdiff = require("diff");
 
 fixEachView(
@@ -28,7 +27,7 @@ fixEachView(
 
     process.stdout.write("\n");
 
-    yesno.ask("Apply changes to " + view.name + "?", true, function (ok) {
+    getConfirmation("Apply changes to " + view.name + "?", function (err, ok) {
       if (!ok) view.content = oldcontent;
 
       callback();

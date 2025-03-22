@@ -1,7 +1,6 @@
 var fixEachView = require("./fixEachView");
 var containsTagWithName = /{{#tags}}(.|\n|\r)*({{name}})(.|\n|\r)*{{\/tags}}/g;
-var yesno = require("yesno");
-var colors = require("colors");
+var getConfirmation = require("../util/getConfirmation");
 var jsdiff = require("diff");
 
 fixEachView(
@@ -27,10 +26,9 @@ fixEachView(
 
     if (!totalChanges) return callback();
 
-    yesno.ask(
+    getConfirmation(
       "Apply " + totalChanges + " changes to " + view.name + "?",
-      true,
-      function (ok) {
+      function (err, ok) {
         if (ok) view.content = after;
 
         if (view.content.indexOf("{{name}}") > -1)

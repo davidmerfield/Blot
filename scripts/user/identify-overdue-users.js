@@ -2,7 +2,6 @@ const each = require("../each/user");
 const child_process = require("child_process");
 const { blog_static_files_dir, blog_folder_dir } = require("config");
 const prettySize = require("helper/prettySize");
-const yesno = require("yesno");
 
 let rolling_total = 0;
 

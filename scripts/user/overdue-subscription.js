@@ -1,5 +1,5 @@
 var Blog = require("blog");
-var User = require("user");
+var User = require("models/user");
 var config = require("config");
 var async = require("async");
 var stripe = require("stripe")(config.stripe.secret);

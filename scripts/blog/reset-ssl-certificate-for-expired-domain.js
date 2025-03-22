@@ -5,7 +5,7 @@ const get = require("../get/blog");
 const client = require("client");
 const exec = require("child_process").exec;
 const nginx = "/usr/local/openresty/bin/openresty";
-const yesno = require("yesno");
+var getConfirmation = require("../util/getConfirmation");
 
 // This doesn't work because of a cluster of permissions
 // related issues but it should show you what needs to happen
@@ -39,29 +39,19 @@ get(process.argv[2], function (err, user, blog) {
   console.log("Keys to drop:", certKeys);
   console.log("Directories to remove:", certDirs);
 
-  yesno.ask("Proceed? (y/n)", false, function (ok) {
+  getConfirmation("Proceed? (y/n)", function (err, ok) {
     if (!ok) throw "Not ok!";
-
-    certDirs.forEach((dir) => fs.removeSync(dir));
-
-    console.log("removed certificate dirs", certDirs);
 
     client.del(certKeys, function (err) {
       if (err) throw err;
 
       console.log("removed redis keys", certKeys);
-
-      exec(`${nginx} -s reload`, function (err, stdout) {
-        if (err) throw err;
-        console.log(stdout);
-        console.log("restarted nginx");
-
-        request(secureURL, function (err) {
-          if (err) throw err;
-          console.log("certificate renewed successfully");
-          process.exit();
-        });
+      console.log("You need to remove the directories manually");
+      certDirs.forEach((dir) => {
+        console.log("rm -rf", dir);
       });
+      console.log("You need to restart nginx manually");
+      console.log("sudo", nginx, "-s reload");
     });
   });
 });
