@@ -11,6 +11,8 @@ const remoteReaddir = require("./util/remoteReaddir");
 const config = require("config");
 const maxFileSize = config.icloud.maxFileSize; // Maximum file size for iCloud uploads in bytes
 
+// fix
+
 module.exports = async (blogID, publish, update) => {
   if (!publish)
     publish = (...args) => {
