@@ -10,6 +10,7 @@ const driveReaddir = require("./util/driveReaddir");
 const localReaddir = require("./util/localReaddir");
 
 const truncateToSecond = require("./util/truncateToSecond");
+const { exists } = require("fs");
 
 module.exports = async function sync(blogID, publish, update) {
   publish = publish || function () {};
@@ -90,14 +91,21 @@ module.exports = async function sync(blogID, publish, update) {
           await checkWeCanContinue();
           publish("Downloading", path);
 
-          console.log(
-            "Downloading",
-            path,
-            "local=" + !!existsLocally,
-            "localSize=" + (existsLocally?.size || "N/A"),
-            "size=" + size,
-            "identical=" + identical
-          );
+          if (existsLocally) {
+            console.log("Downloading missing:", path);
+            console.log("local contents:", localContents);
+            console.log("remote contents:", remoteContents);
+            console.log();
+          } else {
+            console.log("Updating out-of-sync:", path);
+            console.log(
+              "identical=false localSize=" + existsLocally.size,
+              "remoteSize=" + size
+            );
+            console.log("local contents:", localContents);
+            console.log("remote contents:", remoteContents);
+            console.log();
+          }
 
           const updated = await download(blogID, drive, path, {
             id,
