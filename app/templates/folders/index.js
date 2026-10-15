@@ -9,6 +9,7 @@ const sync = require("sync");
 const { dirname } = require("path");
 const { promisify } = require("util");
 const fix = promisify(require("sync/fix"));
+const lock = require("helper/lock");
 const syncReport = require("clients/util/syncReport");
 
 const setupUser = require("./setupUser");
@@ -140,7 +141,7 @@ async function applyChanges(blog, changes) {
   });
 }
 
-async function main(options = {}) {
+async function build(options = {}) {
   let folders = await loadFoldersToBuild(DIR);
 
   if (options.templates !== undefined) {
@@ -186,6 +187,35 @@ async function main(options = {}) {
   });
 
   console.log("Dashboard:\n" + url);
+}
+
+// Folders are idempotent, so if another process holds the lock it is doing
+// the same work and this run is skipped rather than waited for.
+async function main(options = {}) {
+  let held;
+
+  try {
+    held = await lock("templates:folders", {
+      ttl: 60 * 1000,
+      heartbeat: 10 * 1000,
+      onCompromised: (err) =>
+        console.error("[templates:folders] lock compromised:", err.message),
+    });
+  } catch (e) {
+    if (e.code === "ELOCKED") {
+      console.log("Skipping folders: another process is building folders");
+      return;
+    }
+    throw e;
+  }
+
+  try {
+    return await build(options);
+  } finally {
+    await held.release().catch((e) => {
+      console.error("[templates:folders] lock release failed:", e.message);
+    });
+  }
 }
 
 if (require.main === module) {
