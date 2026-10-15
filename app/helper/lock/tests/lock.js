@@ -124,6 +124,53 @@ describe("helper/lock lock", function () {
     await held.release().catch(() => {});
   });
 
+  it("rejects a stale acquire reply and releases the key", async function () {
+    spyOn(console, "error");
+    const key = newKey();
+    const original = client.eval.bind(client);
+    const scripts = [];
+    spyOn(client, "eval").and.callFake(async (script, opts) => {
+      const first = scripts.push(script) === 1;
+      const result = await original(script, opts);
+      // The reply to the first ACQUIRE arrives after the ttl has passed
+      if (first) await sleep(150);
+      return result;
+    });
+    let error;
+    try {
+      await lock(key, { ttl: 100, heartbeat: 10000, retries: 0 });
+    } catch (e) {
+      error = e;
+    }
+    expect(error && error.code).toEqual("ELOCKED");
+    await sleep(50);
+    expect(scripts.length).toEqual(2);
+    expect(scripts[1]).toContain("DEL");
+    expect(await client.get(key)).toBeNull();
+  });
+
+  it("calls onCompromised once if the heartbeat stalls for a full ttl", async function () {
+    spyOn(console, "error");
+    const key = newKey();
+    const compromised = [];
+    const held = await lock(key, {
+      ttl: 200,
+      heartbeat: 30,
+      onCompromised: (e) => compromised.push(e),
+    });
+    // From here on every command hangs, as on a stalled connection
+    spyOn(client, "eval").and.callFake(() => new Promise(() => {}));
+    await sleep(500);
+    expect(compromised.length).toEqual(1);
+    expect(compromised[0].code).toEqual("ECOMPROMISED");
+    expect(compromised[0].message).toContain("stalled");
+    // One EXTEND went out and none was stacked behind it
+    expect(client.eval).toHaveBeenCalledTimes(1);
+    await sleep(100);
+    expect(compromised.length).toEqual(1);
+    expect(held.token).toEqual(jasmine.any(String));
+  });
+
   it("reports inspect and heldSince", async function () {
     const key = newKey();
     expect((await lock.inspect(key)).held).toEqual(false);

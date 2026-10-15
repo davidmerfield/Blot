@@ -58,6 +58,15 @@ describe("helper/lock cron", function () {
     ).toEqual(1);
   });
 
+  it("keeps the marker for about 24 hours by default", async function () {
+    const name = newName();
+    const fireDate = new Date("2030-02-03T04:05:00.000Z");
+    await lock.cron._fire(name, fireDate, () => {});
+    const ttlMs = await client.pTTL("cron:" + name + ":" + fireDate.toISOString());
+    expect(ttlMs).toBeGreaterThan(60 * 60 * 1000);
+    expect(ttlMs).toBeLessThanOrEqual(24 * 60 * 60 * 1000);
+  });
+
   it("swallows errors from fn", async function () {
     const name = newName();
     spyOn(console, "error");

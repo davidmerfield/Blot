@@ -55,14 +55,35 @@ async function lock(key, options = {}) {
 
   const token = randomUUID() + ":" + Date.now();
 
+  // Redis starts the PX countdown when it runs ACQUIRE, which is no earlier
+  // than startedAt. If the reply took (nearly) a whole ttl to reach us, the
+  // key may already have expired and been taken by someone else, so we must
+  // not believe it. The margin keeps a reply that arrives with almost no
+  // lifetime left from counting as a success.
+  const staleAfter = ttl - Math.min(1000, ttl / 10);
+
   let acquired = false;
+  let startedAt;
   for (let attempt = 0; attempt <= retries; attempt++) {
     if (attempt > 0) await sleep(minTimeout * Math.pow(2, attempt - 1));
-    acquired = await client.eval(ACQUIRE, {
+    startedAt = Date.now();
+    const ok = await client.eval(ACQUIRE, {
       keys: [key],
       arguments: [token, String(ttl)],
     });
-    if (acquired) break;
+    if (!ok) continue;
+    if (Date.now() - startedAt >= staleAfter) {
+      console.error(clfdate(), "[LOCK] stale acquire reply", key);
+      // Compare-and-delete: harmless if it already expired or isn't ours.
+      client
+        .eval(RELEASE, { keys: [key], arguments: [token] })
+        .catch((e) =>
+          console.error(clfdate(), "[LOCK] stale release failed", key, e.message)
+        );
+      continue;
+    }
+    acquired = true;
+    break;
   }
 
   if (!acquired) {
@@ -73,12 +94,34 @@ async function lock(key, options = {}) {
 
   let released = false;
   let compromised = false;
-  let lastExtended = Date.now();
-  let lastTickAt = lastExtended;
+  let inFlight = false;
+  // The key's lifetime counts from when Redis ran the script, which is no
+  // later than the moment we sent it.
+  let lastExtended = startedAt;
+  let lastTickAt = Date.now();
+
+  function compromise(err) {
+    if (released || compromised) return;
+    compromised = true;
+    clearInterval(timer);
+    err.code = "ECOMPROMISED";
+    onCompromised(err);
+  }
 
   const timer = setInterval(async () => {
     if (released || compromised) return;
-    let err;
+    // Watchdog, independent of any Redis reply: if a full ttl has passed
+    // since the last confirmed extension the key has expired as far as we
+    // can tell, however many commands are still pending on a stalled
+    // connection.
+    if (Date.now() - lastExtended >= ttl) {
+      compromise(new Error("Lock heartbeat stalled: " + key));
+      return;
+    }
+    // Never stack EXTENDs behind a stalled one.
+    if (inFlight) return;
+    inFlight = true;
+
     // Redis starts the new TTL when it runs the script, so measure from
     // before the round trip; a delayed reply must not lengthen our lease.
     const attemptedAt = Date.now();
@@ -90,6 +133,8 @@ async function lock(key, options = {}) {
         keys: [key],
         arguments: [token, String(ttl)],
       });
+      // A reply after compromise or release is too late to mean anything.
+      if (released || compromised) return;
       const roundTripMs = Date.now() - attemptedAt;
       if (
         tickDelayMs >= HEARTBEAT_LOG_THRESHOLD_MS ||
@@ -105,21 +150,16 @@ async function lock(key, options = {}) {
       }
       if (ok) {
         lastExtended = attemptedAt;
-        return;
+      } else {
+        compromise(new Error("Lock was lost: " + key));
       }
-      err = new Error("Lock was lost: " + key);
     } catch (e) {
+      // Redis hiccup: nothing to do, the watchdog gives up once the TTL has
+      // really elapsed, since until then nobody else can have taken the lock.
       console.error(clfdate(), "[LOCK] heartbeat error", key, e.message);
-      // Redis hiccup: only give up once the TTL has really elapsed, since
-      // until then nobody else can have taken the lock.
-      if (Date.now() - lastExtended < ttl) return;
-      err = e;
+    } finally {
+      inFlight = false;
     }
-    if (released || compromised) return;
-    compromised = true;
-    clearInterval(timer);
-    err.code = "ECOMPROMISED";
-    onCompromised(err);
   }, heartbeat);
   timer.unref();
 
@@ -191,7 +231,10 @@ function checkScope(scope) {
 // fires late still agrees), and only the winner runs fn. Never throws: errors
 // from Redis or fn are logged. Resolves true if fn ran to completion here.
 async function fire(name, fireDate, fn, options = {}) {
-  const { scope = "cluster", ttl = 60 * 60 * 1000 } = options;
+  // The marker must outlive any late firing: a process whose event loop or
+  // container was suspended still gets the original fireDate from
+  // node-schedule when it wakes, and must find the marker. The keys are tiny.
+  const { scope = "cluster", ttl = 24 * 60 * 60 * 1000 } = options;
   try {
     checkScope(scope);
     const won = await once(cronKey(name, fireDate, scope), ttl);
@@ -230,7 +273,8 @@ function lease(key, fn, options = {}) {
   const {
     ttl = 10 * 1000,
     heartbeat = 3 * 1000,
-    retryEvery = 30 * 1000,
+    // A standby tries again about when the holder's key can have expired.
+    retryEvery = ttl,
   } = options;
 
   let stopped = false;

@@ -101,6 +101,26 @@ describe("helper/lock lease", function () {
     expect(console.error).toHaveBeenCalled();
   });
 
+  it("defaults retryEvery to ttl so a standby takes over about one ttl later", async function () {
+    spyOn(console, "error");
+    const holder = await lock(key, { ttl: 300, heartbeat: 10000 });
+    let enteredAt = null;
+    const began = Date.now();
+    const l = lock.lease(
+      key,
+      (signal) => {
+        enteredAt = Date.now();
+        return untilAborted(signal);
+      },
+      { ttl: 300, heartbeat: 50 }
+    );
+    leases.push(l);
+    // The holder never heartbeats, so its key expires after 300ms
+    expect(await until(() => enteredAt, 2000)).toBeTruthy();
+    expect(enteredAt - began).toBeLessThan(1500);
+    expect(holder.token).toEqual(jasmine.any(String));
+  });
+
   it("stop resolves, aborts the signal and releases the lock", async function () {
     let signal;
     const l = start((s) => {
