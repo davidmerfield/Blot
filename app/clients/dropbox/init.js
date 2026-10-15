@@ -1,8 +1,9 @@
-const scheduler = require("node-schedule");
 const { promisify } = require("util");
 const Blog = require("models/blog");
 const Entries = require("models/entries");
 const clfdate = require("helper/clfdate");
+const scheduleExclusive = require("clients/util/scheduleExclusive");
+const onceAtStartup = require("clients/util/onceAtStartup");
 const email = require("helper/email");
 const syncReport = require("clients/util/syncReport");
 const resetToBlot = require("./sync/reset-to-blot");
@@ -123,23 +124,6 @@ const hasRecentSync = (account) => {
   return Date.now() - account.last_sync <= ONE_HOUR_IN_MS;
 };
 
-
-let validationRunning = false;
-
-const runValidation = async () => {
-  if (validationRunning) {
-    console.log(clfdate(), "Dropbox: Validation still running, skipping");
-    return;
-  }
-
-  validationRunning = true;
-
-  try {
-    await validateAllBlogs();
-  } finally {
-    validationRunning = false;
-  }
-};
 
 const validateAllBlogs = async () => {
   console.log(clfdate(), "Dropbox: Running hourly sync validation");
@@ -360,10 +344,18 @@ const resyncRecentSyncsOnStartup = async () => {
 
 module.exports = async function init() {
   console.log(clfdate(), "Dropbox: Scheduling hourly sync validation");
-  scheduler.scheduleJob("0 * * * *", runValidation);
-  resyncRecentSyncsOnStartup().catch(function (err) {
-    console.error(clfdate(), "Dropbox: Startup resync failed", err);
-  });
+  // One process per hour runs the sweep, and a sweep that outlasts the hour
+  // is not overlapped by the next one (the "running" lock is cross-process).
+  scheduleExclusive("dropbox-validation", "0 * * * *", validateAllBlogs);
+
+  // Once per deploy across all processes, not once per process.
+  onceAtStartup("dropbox-resync-recent")
+    .then(function (first) {
+      if (first) return resyncRecentSyncsOnStartup();
+    })
+    .catch(function (err) {
+      console.error(clfdate(), "Dropbox: Startup resync failed", err);
+    });
 };
 
 // Exposed for tests: both resyncRecentSyncsOnStartup and validateAllBlogs
