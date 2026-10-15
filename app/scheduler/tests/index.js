@@ -145,6 +145,8 @@ describe("scheduler", function () {
 
       expect(email.WARNING_LOW_DISK_SPACE.calls.count()).toEqual(1);
       expect(email.WARNING_LOW_DISK_SPACE.calls.argsFor(0)[1].headline).toContain("95%");
+      // The lower level's marker expires like the others
+      expect(await client.pTTL("notify:data-disk-percent:90")).toBeGreaterThan(0);
     });
   });
 });

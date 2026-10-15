@@ -72,7 +72,7 @@ async function notifyLowDisk(disks) {
       if (lower.length) {
         const multi = client.multi();
         for (const other of lower) {
-          multi.set(DATA_DISK_NOTIFIED_KEY + other.percent, "1", "PX", DISK_NOTIFY_TTL_MS);
+          multi.set(DATA_DISK_NOTIFIED_KEY + other.percent, "1", { PX: DISK_NOTIFY_TTL_MS });
         }
         await multi.exec();
       }
