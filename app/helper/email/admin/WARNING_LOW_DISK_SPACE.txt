@@ -1,4 +1,4 @@
-{{headline}}
+{{{headline}}}
 
 A disk attached to Blot's server is running low on space:
 
