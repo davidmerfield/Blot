@@ -160,6 +160,9 @@ describe("entry scheduled publication", function () {
 
     await alarms.poll();
 
+    // The retry finishes the publication even though the first re-save had
+    // already marked the entry unscheduled
+    expect(Blog.bumpCacheID.calls.count()).toEqual(2);
     expect((await this.get("/flaky.txt")).scheduled).toBe(false);
     expect(await alarms.when(id)).toBe(null);
   });

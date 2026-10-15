@@ -61,8 +61,11 @@ var alarms = alarm(
     var path = parsed.path;
     var entry = await getEntry(blogID, path);
 
-    // Gone, deleted, drafted or already published: nothing left to do
-    if (!entry || !entry.scheduled) return;
+    // Gone, deleted or drafted: nothing to publish. An entry that is already
+    // unscheduled may be a publication that failed part way (the re-save ran
+    // but a later step didn't), so it falls through and is re-saved, which is
+    // harmless for one that was published fine.
+    if (!entry || entry.deleted || entry.draft) return;
 
     // Rescheduled to a later date since this alarm was set
     if (entry.dateStamp > Date.now()) {
