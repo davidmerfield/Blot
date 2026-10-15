@@ -61,6 +61,35 @@ describe("templates startup build locks", function () {
     });
   });
 
+  describe("buildPass failures", function () {
+    it("passes a synchronous build error to the callback once", async function () {
+      const templates = require("templates");
+      const original = fsExtra.readdirSync;
+      fsExtra.readdirSync = () => {
+        throw new Error("cannot read directory");
+      };
+      let calls = 0;
+
+      try {
+        const err = await new Promise((resolve) =>
+          templates({}, (e) => {
+            calls++;
+            resolve(e);
+          })
+        );
+        await sleep(50);
+        expect(err && err.message).toBe("cannot read directory");
+        expect(calls).toBe(1);
+      } finally {
+        fsExtra.readdirSync = original;
+      }
+
+      // The lock was released despite the throw.
+      const again = await lock("templates:build", { ttl: 10000 });
+      await again.release();
+    });
+  });
+
   describe("folders()", function () {
     const foldersPath = require.resolve("templates/folders");
     const setupUserPath = require.resolve("templates/folders/setupUser");
@@ -92,15 +121,22 @@ describe("templates startup build locks", function () {
       else delete require.cache[setupUserPath];
     });
 
-    it("skips the run when another process holds the lock", async function () {
+    it("waits for a held lock, then runs", async function () {
       const folders = require("templates/folders");
       const held = await lock("templates:folders", { ttl: 10000 });
+      let released = false;
 
       try {
-        await folders();
+        const run = folders().catch(() => {});
+        await sleep(300);
         expect(setupUser).not.toHaveBeenCalled();
-      } finally {
+
         await held.release();
+        released = true;
+        await run;
+        expect(setupUser).toHaveBeenCalled();
+      } finally {
+        if (!released) await held.release();
       }
     });
   });

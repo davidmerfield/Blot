@@ -116,7 +116,12 @@ async function buildLocked(options, callback) {
     );
   }
 
-  buildPass(options, async function (err) {
+  // buildPass can throw synchronously (e.g. an unreadable directory); every
+  // outcome must still release the lock and reach the callback exactly once.
+  let finished = false;
+  const finish = async function (err) {
+    if (finished) return;
+    finished = true;
     if (held) {
       try {
         await held.release();
@@ -125,7 +130,13 @@ async function buildLocked(options, callback) {
       }
     }
     callback(err);
-  });
+  };
+
+  try {
+    buildPass(options, finish);
+  } catch (e) {
+    finish(e);
+  }
 }
 
 function buildPass(options, callback) {

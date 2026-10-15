@@ -189,37 +189,39 @@ async function build(options = {}) {
   console.log("Dashboard:\n" + url);
 }
 
-// Folders are idempotent, so if another process holds the lock it is doing
-// the same work and this run is skipped rather than waited for.
+// Like templates(), wait for the lock (retries with backoff, about 95s in
+// total) rather than skip: an overlapping invocation may have asked for a
+// different folder selection, and a slow Redis reply (ESLOW) doesn't mean
+// anyone else holds the lock. If it still can't be acquired, build anyway.
+// Folders are idempotent (hash compare), so a duplicate build is cheap and
+// better than a skipped one.
 async function main(options = {}) {
-  let held;
+  let held = null;
 
   try {
     held = await lock("templates:folders", {
       ttl: 60 * 1000,
       heartbeat: 10 * 1000,
+      retries: 7,
       onCompromised: (err) =>
         console.error("[templates:folders] lock compromised:", err.message),
     });
   } catch (e) {
-    if (e.code === "ELOCKED") {
-      console.log("Skipping folders: another process is building folders");
-      return;
-    }
-    // Redis answered too slowly to trust the lock; the next start retries
-    if (e.code === "ESLOW") {
-      console.log("Skipping folders: lock reply too slow:", e.message);
-      return;
-    }
-    throw e;
+    console.error(
+      e.code === "ELOCKED"
+        ? "[templates:folders] lock still held after waiting, building anyway"
+        : "[templates:folders] lock unavailable, building anyway: " + e.message
+    );
   }
 
   try {
     return await build(options);
   } finally {
-    await held.release().catch((e) => {
-      console.error("[templates:folders] lock release failed:", e.message);
-    });
+    if (held) {
+      await held.release().catch((e) => {
+        console.error("[templates:folders] lock release failed:", e.message);
+      });
+    }
   }
 }
 
