@@ -5,8 +5,9 @@ const { isRedisUnavailableError } = require("helper/redisUnavailable");
 
 // Alarms held in Redis that any process can claim: an alarm is set for a
 // time, can be reset or cancelled, and fires in whichever of any number of
-// processes claims it (at least once - see below). It replaces per-process in-memory timers, which had
-// to be rebuilt at boot and only ran in one container.
+// processes claims it (at least once - see below). It replaces per-process
+// in-memory timers, which had to be rebuilt at boot and only ran in one
+// container.
 //
 //   const alarms = alarm("scheduled-entries", async (id) => {...});
 //   await alarms.set(id, when);  // replaces any existing alarm for id
