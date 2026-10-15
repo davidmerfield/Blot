@@ -9,6 +9,10 @@ const lock = require("sync/lock");
 const DRAIN_TIMEOUT_MS = parseInt(process.env.BLOT_DRAIN_TIMEOUT_MS) || 25000;
 const LOCK_POLL_MS = 100;
 
+// The final release is best effort (the TTL frees anything we miss), so it
+// gets a short cap that fits in the gap before Docker's SIGKILL.
+const RELEASE_TIMEOUT_MS = 2000;
+
 let draining = false;
 let httpServer = null;
 let promise = null;
@@ -46,6 +50,9 @@ async function run(timeout) {
   const startedAt = Date.now();
   draining = true;
   console.log(clfdate(), "[DRAIN] starting");
+
+  // No new syncs from here on, so once held locks reach zero they stay there
+  lock.stopAcquiring();
 
   for (const fn of [...listeners]) {
     try {
@@ -96,11 +103,15 @@ async function run(timeout) {
     if (server) server.closeAllConnections();
   }
 
-  try {
-    await lock.releaseAll();
-  } catch (err) {
-    console.error(clfdate(), "[DRAIN] releasing locks failed", err);
-  }
+  let releaseTimer;
+  await Promise.race([
+    lock.releaseAll(),
+    new Promise((resolve) => {
+      releaseTimer = setTimeout(resolve, RELEASE_TIMEOUT_MS);
+      releaseTimer.unref();
+    }),
+  ]);
+  clearTimeout(releaseTimer);
 
   console.log(clfdate(), "[DRAIN] done", `${Date.now() - startedAt}ms`);
 }
@@ -136,6 +147,7 @@ function _reset() {
   httpServer = null;
   promise = null;
   listeners.clear();
+  lock.resumeAcquiring();
 }
 
 module.exports = {

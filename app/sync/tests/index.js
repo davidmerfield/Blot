@@ -143,6 +143,21 @@ describe("sync folder lock", function () {
     expect(await client.get(folderLock.key(this.blog.id))).toBe(null);
   });
 
+  it("refuses new locks once drain has stopped acquiring", async function () {
+    folderLock.stopAcquiring();
+    let error;
+    try {
+      await folderLock.lock(this.blog.id);
+    } catch (e) {
+      error = e;
+    } finally {
+      folderLock.resumeAcquiring();
+    }
+
+    expect(error.code).toBe("ELOCKED");
+    expect((await folderLock.inspect(this.blog.id)).held).toBe(false);
+  });
+
   it("rejects with ELOCKED while another holder has it", async function () {
     const lock = await folderLock.lock(this.blog.id);
     let error;
