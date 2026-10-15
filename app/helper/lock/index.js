@@ -53,27 +53,34 @@ async function lock(key, options = {}) {
     onCompromised = () => {},
   } = options;
 
-  const token = randomUUID() + ":" + Date.now();
-
   // Redis starts the PX countdown when it runs the SET, which is no earlier
-  // than startedAt. If the reply took (nearly) a whole ttl to reach us, the
-  // key may already have expired and been taken by someone else, so we must
-  // not believe it. The margin keeps a reply that arrives with almost no
-  // lifetime left from counting as a success.
-  const staleAfter = ttl - Math.min(1000, ttl / 10);
+  // than startedAt. The first heartbeat EXTEND goes out `heartbeat` ms after
+  // we return, so an acquisition is only believable if enough lifetime is
+  // left to survive until then (plus a margin for the EXTEND round trip). A
+  // reply that took longer than that may already be too late, or after a full
+  // ttl, found the key expired and taken by someone else. Heartbeat should be
+  // well under ttl; if it is not, the requirement is capped at three quarters
+  // of the ttl so that acquiring stays possible.
+  const margin = Math.min(1000, ttl / 10);
+  const staleAfter = Math.max(ttl - heartbeat - margin, ttl / 4);
 
+  // Per attempt, so the ":<ms>" suffix heldSince() reads is when the winning
+  // SET was sent, not when we first tried.
+  let token;
   let acquired = false;
   let startedAt;
   for (let attempt = 0; attempt <= retries; attempt++) {
     if (attempt > 0) await sleep(minTimeout * Math.pow(2, attempt - 1));
     startedAt = Date.now();
+    token = randomUUID() + ":" + startedAt;
     const ok = await client.set(key, token, { NX: true, PX: ttl });
     if (ok === null) continue;
     if (Date.now() - startedAt >= staleAfter) {
+      const staleToken = token;
       console.error(clfdate(), "[LOCK] stale acquire reply", key);
       // Compare-and-delete: harmless if it already expired or isn't ours.
       client
-        .eval(RELEASE, { keys: [key], arguments: [token] })
+        .eval(RELEASE, { keys: [key], arguments: [staleToken] })
         .catch((e) =>
           console.error(clfdate(), "[LOCK] stale release failed", key, e.message)
         );
@@ -89,7 +96,10 @@ async function lock(key, options = {}) {
     throw err;
   }
 
+  const heldToken = token;
   let released = false;
+  let releasedOk = false;
+  let releasing = null;
   let compromised = false;
   let inFlight = false;
   // The key's lifetime counts from when Redis ran the script, which is no
@@ -128,7 +138,7 @@ async function lock(key, options = {}) {
     try {
       const ok = await client.eval(EXTEND, {
         keys: [key],
-        arguments: [token, String(ttl)],
+        arguments: [heldToken, String(ttl)],
       });
       // A reply after compromise or release is too late to mean anything.
       if (released || compromised) return;
@@ -160,23 +170,42 @@ async function lock(key, options = {}) {
   }, heartbeat);
   timer.unref();
 
+  async function doRelease() {
+    const deleted = await client.eval(RELEASE, {
+      keys: [key],
+      arguments: [heldToken],
+    });
+    if (!deleted && !compromised) {
+      compromised = true;
+      releasedOk = true; // the lock is gone for good; nothing to retry
+      const err = new Error("Lock was lost before release: " + key);
+      err.code = "ECOMPROMISED";
+      onCompromised(err);
+      throw err;
+    }
+  }
+
   return {
-    token,
+    token: heldToken,
+    // The heartbeat stops on the first call and stays stopped. If the command
+    // fails (Redis unavailable) the caller can call release() again; calls
+    // while one is in flight share it, and after success it is a no-op.
     async release() {
-      if (released) return;
+      if (releasedOk) return;
       released = true;
       clearInterval(timer);
-      const deleted = await client.eval(RELEASE, {
-        keys: [key],
-        arguments: [token],
-      });
-      if (!deleted && !compromised) {
-        compromised = true;
-        const err = new Error("Lock was lost before release: " + key);
-        err.code = "ECOMPROMISED";
-        onCompromised(err);
-        throw err;
+      if (!releasing) {
+        releasing = doRelease().then(
+          () => {
+            releasedOk = true;
+          },
+          (e) => {
+            releasing = null;
+            throw e;
+          }
+        );
       }
+      return releasing;
     },
   };
 }

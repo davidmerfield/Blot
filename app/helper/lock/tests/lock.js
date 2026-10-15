@@ -151,6 +151,60 @@ describe("helper/lock lock", function () {
     expect(await client.get(key)).toBeNull();
   });
 
+  it("timestamps the winning attempt, not the first try", async function () {
+    const key = newKey();
+    const other = await lock(key);
+    const started = Date.now();
+    setTimeout(() => other.release(), 250);
+    const held = await lock(key, { retries: 2, minTimeout: 200 });
+    const acquiredAt = Date.now();
+    const since = await lock.heldSince(key);
+    expect(since).toBeGreaterThan(started + 200);
+    expect(acquiredAt - since).toBeLessThan(150);
+    await held.release();
+  });
+
+  it("lets release be retried if the command fails", async function () {
+    const key = newKey();
+    const held = await lock(key);
+    spyOn(client, "eval").and.returnValue(
+      Promise.reject(new Error("redis down"))
+    );
+    let error;
+    try {
+      await held.release();
+    } catch (e) {
+      error = e;
+    }
+    expect(error && error.message).toEqual("redis down");
+    expect(await client.get(key)).toEqual(held.token);
+    client.eval.and.callThrough();
+    await held.release();
+    expect(await client.get(key)).toBeNull();
+    await held.release();
+  });
+
+  it("rejects an acquire with no room left for the first heartbeat", async function () {
+    spyOn(console, "error");
+    const key = newKey();
+    const original = client.set.bind(client);
+    spyOn(client, "set").and.callFake(async (...args) => {
+      const result = await original(...args);
+      await sleep(450);
+      return result;
+    });
+    let error;
+    try {
+      // 1000 - 500 - 100 = 400ms of the lifetime may be spent; 450 was
+      await lock(key, { ttl: 1000, heartbeat: 500 });
+    } catch (e) {
+      error = e;
+    }
+    expect(error && error.code).toEqual("ELOCKED");
+    await sleep(50);
+    expect(await client.get(key)).toBeNull();
+  });
+
   it("calls onCompromised once if the heartbeat stalls for a full ttl", async function () {
     spyOn(console, "error");
     const key = newKey();
