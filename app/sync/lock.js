@@ -135,7 +135,7 @@ function probe(lockKey, pendingForMs) {
     });
 }
 
-// Locks this process currently holds, so a graceful shutdown (drain.js) can
+// Locks this process currently holds, so a graceful shutdown (helper/drain.js) can
 // wait for them and release them.
 const held = new Set();
 

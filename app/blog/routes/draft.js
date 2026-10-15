@@ -2,7 +2,7 @@ const { getEntry } = require("../lib/models");
 const attachAdjacent = require("../lib/attachAdjacent");
 const drafts = require("sync/update/drafts");
 const redisSubscriber = require("helper/redisSubscriber");
-const drain = require("drain");
+const drain = require("helper/drain");
 
 // (node:73631) TimeoutOverflowWarning: 1.7976931348623157e+308 does not fit into a 32-bit signed integer.
 // Timer duration was truncated to 2147483647.

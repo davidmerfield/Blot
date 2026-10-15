@@ -1,5 +1,5 @@
 const redisSubscriber = require("helper/redisSubscriber");
-const drain = require("drain");
+const drain = require("helper/drain");
 
 // Some upstream proxies (e.g. the preview subdomain's nginx config) have a
 // read timeout well under a minute and will close an idle connection before

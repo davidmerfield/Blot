@@ -6,7 +6,7 @@ const redis = require("models/client");
 const { isRedisUnavailableError } = require("helper/redisUnavailable");
 const setup = require("./setup");
 const server = require("./server");
-const drain = require("./drain");
+const drain = require("helper/drain");
 
 const DEPLOYMENT_MARKER_EXPIRATION_SECONDS = 90 * 24 * 60 * 60;
 const REQUEST_TIMEOUT_MS = 60 * 60 * 1000;

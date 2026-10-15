@@ -1,6 +1,6 @@
 describe("drain", function () {
   const http = require("http");
-  const drain = require("drain");
+  const drain = require("helper/drain");
 
   let server, port;
 

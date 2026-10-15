@@ -3,7 +3,7 @@ describe("/health", function () {
   const Blog = require("models/blog");
   const { ClientOfflineError } = require("redis");
   const server = require("server");
-  const drain = require("drain");
+  const drain = require("helper/drain");
 
   let listener, origin;
 

@@ -144,7 +144,7 @@ async function removeContainer(containerName) {
 
   if (containerExists) {
     // stop sends SIGTERM so the app can drain in-flight requests and release
-    // its locks (app/drain.js); rm -f stays as a guarantee it's gone
+    // its locks (app/helper/drain.js); rm -f stays as a guarantee it's gone
     await sshCommand(`docker stop --time 30 ${containerName}`);
     await sshCommand(`docker rm -f ${containerName}`);
   }

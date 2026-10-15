@@ -5,7 +5,7 @@ var blog = require("blog");
 var site = require("site");
 var trace = require("helper/trace");
 var clfdate = require("helper/clfdate");
-var drain = require("drain");
+var drain = require("helper/drain");
 
 // Welcome to Blot. This is the Express application which listens on port 8080.
 // NGINX listens on port 80 in front of Express app and proxies requests to
@@ -39,7 +39,7 @@ server.set("trust proxy", 1);
 // middleware, which looks up the request's host in Redis (there is no blog
 // with the host 'localhost'), otherwise an outage of Redis makes every
 // container unhealthy. The proxy answers /health itself for public traffic.
-// While draining (SIGTERM, see drain.js) it answers 503 so the deploy script
+// While draining (SIGTERM, see helper/drain.js) it answers 503 so the deploy script
 // and Docker see the container is going away; public traffic is failed over
 // by closing the listener instead, since nginx does not retry on a 503.
 // If you remove this, change monit.rc too.
