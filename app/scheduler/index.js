@@ -26,8 +26,12 @@ const SCHEDULE_RETRY_MAX_MS = 60 * 60 * 1000;
 // If any disk has less than 2GB of space, we should notify the admin
 const MINIMUM_DISK_SPACE_IN_K = 2 * 1024 * 1024;
 
-// If the data disk has less than 10GB of space, we should notify the admin
+// If the data disk has less than 10GB of space, or is 95% full, we should
+// notify the admin. The volume is sized close to what it holds (see
+// config/host/data-volume) and grows online in minutes, so the percentage is
+// the early warning and the 10GB floor the last one.
 const DATA_DISK_MINIMUM_DISK_SPACE_IN_K = 10 * 1024 * 1024;
+const DATA_DISK_MAXIMUM_USED_PERCENT = 95;
 
 let NOTIFIED_LOW_DISK_SPACE = false;
 
@@ -58,10 +62,12 @@ module.exports = function () {
         shouldNotify = true;
       }
 
+      const dataDisk = disks.find(disk => disk.label === "data");
+
       if (
-        disks.find(disk => disk.label === "data") &&
-        disks.find(disk => disk.label === "data").available_k <
-          DATA_DISK_MINIMUM_DISK_SPACE_IN_K
+        dataDisk &&
+        (dataDisk.available_k < DATA_DISK_MINIMUM_DISK_SPACE_IN_K ||
+          dataDisk.used_percent >= DATA_DISK_MAXIMUM_USED_PERCENT)
       ) {
         shouldNotify = true;
       }

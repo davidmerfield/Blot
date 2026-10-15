@@ -31,6 +31,11 @@ const main = callback => {
             mount: values.at(-1),
             label: LABELS[values.at(-1)],
             used_k: parseInt(values.at(2)),
+            // Rounded up, the way df's Use% column is
+            used_percent: Math.ceil(
+              (parseInt(values.at(2)) * 100) /
+                (parseInt(values.at(2)) + parseInt(values.at(3)))
+            ),
             used_human: prettySize(values.at(2)),
             available_k: parseInt(values.at(3)),
             available_human: prettySize(values.at(3))
