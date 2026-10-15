@@ -94,6 +94,22 @@ describe("alarm", function () {
     expect(total).toEqual(ids.length);
   });
 
+  it("lets exactly one of two racing instances claim a single due id", async function () {
+    for (let round = 0; round < 20; round++) {
+      const calls = [];
+      const handler = async (id) => calls.push(id);
+      const one = this.make(handler);
+      const two = this.make(handler);
+
+      await one.set("a", this.t);
+      const counts = await Promise.all([one.poll(), two.poll()]);
+
+      expect(counts[0] + counts[1]).toEqual(1);
+      expect(calls).toEqual(["a"]);
+      expect(await one.when("a")).toBe(null);
+    }
+  });
+
   it("retries a failed handler only after the lease expires", async function () {
     let attempts = 0;
     const alarms = this.make(

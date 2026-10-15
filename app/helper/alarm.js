@@ -26,17 +26,12 @@ const { isRedisUnavailableError } = require("helper/redisUnavailable");
 // set and cancel drop the token, so an alarm set again during handling (a
 // post rescheduled while it was publishing) keeps its new time, and one
 // cancelled during handling stays gone.
+//
+// set and cancel are a plain MULTI. Only claim, renew and complete use Lua,
+// because each compares before it writes and Redis 6.2 can't do that natively.
 
-const SET = `
-redis.call("ZADD", KEYS[1], ARGV[1], ARGV[2])
-redis.call("HDEL", KEYS[2], ARGV[2])
-return 1`;
-
-const CANCEL = `
-redis.call("ZREM", KEYS[1], ARGV[1])
-redis.call("HDEL", KEYS[2], ARGV[1])
-return 1`;
-
+// The three steps that compare before they write need to be atomic, and
+// Redis 6.2 has no compare-and-set, so each is a short Lua script.
 const CLAIM = `
 local due = redis.call("ZRANGEBYSCORE", KEYS[1], "-inf", ARGV[1], "LIMIT", 0, 1)
 if #due == 0 then return false end
@@ -99,15 +94,16 @@ module.exports = function alarm(name, handler, options = {}) {
 
   async function set(id, when) {
     requireString(id, "id");
-    await client.eval(SET, {
-      keys: [key, claimsKey],
-      arguments: [String(toMs(when)), id],
-    });
+    await client
+      .multi()
+      .zAdd(key, { score: toMs(when), value: id })
+      .hDel(claimsKey, id)
+      .exec();
   }
 
   async function cancel(id) {
     requireString(id, "id");
-    await client.eval(CANCEL, { keys: [key, claimsKey], arguments: [id] });
+    await client.multi().zRem(key, id).hDel(claimsKey, id).exec();
   }
 
   async function when(id) {
