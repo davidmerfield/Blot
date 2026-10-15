@@ -98,8 +98,7 @@ var alarms = alarm(
       await setEntry(blogID, path);
       await bumpCacheID(blogID);
     } catch (err) {
-      await alarms.set(id, Date.now() + module.exports.reconcile = reconcile;
-module.exports.RETRY_MS);
+      await alarms.set(id, Date.now() + module.exports.RETRY_MS);
       throw err;
     }
 
