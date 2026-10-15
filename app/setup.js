@@ -91,7 +91,12 @@ async function runPostListenTasks() {
   try {
     // Every container polls for scheduled entries that have come due
     log("Starting scheduled entry publication asynchronously");
-    require("models/entry/scheduled").alarm.start();
+    const { alarm } = require("models/entry/scheduled");
+    alarm.start();
+    // Claim nothing new once draining; an unfinished one is retried elsewhere
+    require("helper/drain").onStart(() => {
+      alarm.stop().catch((err) => logError("Failed to stop scheduled entry publication", err));
+    });
   } catch (err) {
     logError("Failed to start scheduled entry publication", err);
   }
