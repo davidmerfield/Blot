@@ -132,15 +132,18 @@ async function lock(key, options = {}) {
   // unhandled rejection, so whatever the callback does stays contained.
   function notify(err) {
     err.code = "ECOMPROMISED";
-    try {
-      onCompromised(err);
-    } catch (e) {
+    const report = (e) =>
       console.error(
         clfdate(),
         "[LOCK] onCompromised threw",
         key,
         e && e.stack ? e.stack : e
       );
+    try {
+      // An async callback's rejection must not go unhandled either
+      Promise.resolve(onCompromised(err)).catch(report);
+    } catch (e) {
+      report(e);
     }
   }
 

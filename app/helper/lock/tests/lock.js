@@ -313,6 +313,38 @@ describe("helper/lock lock", function () {
     }
   });
 
+  it("contains an async onCompromised that rejects", async function () {
+    spyOn(console, "error");
+    const key = newKey();
+    const unhandled = [];
+    const onUnhandled = (reason) => unhandled.push(reason);
+    process.on("unhandledRejection", onUnhandled);
+    let calls = 0;
+    const held = await lock(key, {
+      ttl: 1000,
+      heartbeat: 30,
+      onCompromised: async () => {
+        calls++;
+        throw new Error("async boom");
+      },
+    });
+    try {
+      await client.set(key, "someone-else");
+      expect(await until(() => calls > 0)).toEqual(true);
+      // Give a stray rejection time to surface
+      await sleep(100);
+      expect(calls).toEqual(1);
+      expect(unhandled).toEqual([]);
+      const logged = console.error.calls
+        .allArgs()
+        .some((args) => args[1] === "[LOCK] onCompromised threw");
+      expect(logged).toEqual(true);
+    } finally {
+      process.removeListener("unhandledRejection", onUnhandled);
+      await held.release().catch(() => {});
+    }
+  });
+
   it("still rejects release with ECOMPROMISED when onCompromised throws", async function () {
     spyOn(console, "error");
     const key = newKey();
