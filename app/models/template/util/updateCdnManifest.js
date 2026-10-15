@@ -10,8 +10,6 @@ const generateCdnUrl = require("./generateCdnUrl");
 const { minifyCSS, minifyJS } = require("helper/minify");
 const purgeCdnUrls = require("helper/purgeCdnUrls");
 const path = require("path");
-const fs = require("fs-extra");
-const config = require("config");
 
 // Promisify callback-based functions
 const getMetadataAsync = promisify(getMetadata);
@@ -23,40 +21,6 @@ const setAsync = client.set.bind(client);
 
 // Maximum size for rendered output (2MB)
 const MAX_RENDERED_OUTPUT_SIZE = 2 * 1024 * 1024;
-
-// Base directory for rendered output storage
-const RENDERED_OUTPUT_BASE_DIR = path.join(config.data_directory, "cdn", "template");
-
-
-function getRenderedOutputPath(hash, viewName) {
-  if (!hash || typeof hash !== "string" || hash.length < 4) {
-    throw new Error("Invalid hash: must be a string with at least 4 characters");
-  }
-  if (!viewName || typeof viewName !== "string") {
-    throw new Error("viewName must be a non-empty string");
-  }
-  // Use basename only for file storage (e.g., "header.html" from "partials/header.html")
-  // The full path is preserved in the URL via generateCdnUrl
-  const viewBaseName = path.basename(viewName);
-  const dir1 = hash.substring(0, 2);
-  const dir2 = hash.substring(2, 4);
-  const hashRemainder = hash.substring(4);
-  return path.join(RENDERED_OUTPUT_BASE_DIR, dir1, dir2, hashRemainder, viewBaseName);
-}
-
-async function writeRenderedOutputToDisk(hash, content, viewName) {
-  const filePath = getRenderedOutputPath(hash, viewName);
-  await fs.ensureDir(path.dirname(filePath));
-  await fs.writeFile(filePath, content, "utf8");
-}
-
-async function deleteRenderedOutputFromDisk(hash, viewName) {
-  const filePath = getRenderedOutputPath(hash, viewName);
-  await fs.remove(filePath).catch((err) => {
-    // Ignore ENOENT errors (file doesn't exist)
-    if (err.code !== "ENOENT") throw err;
-  });
-}
 
 function isValidTarget(target) {
   if (!target || typeof target !== "string") {
@@ -149,13 +113,9 @@ async function processTarget(
     contentToWrite = renderedOutputString;
   }
 
-  // Store rendered output on disk and in Redis (for backward compatibility during migration)
+  // Redis is the store for rendered output; the CDN route serves it from here
   const renderedKey = key.renderedOutput(computedHash);
   try {
-    // Write to disk (primary storage) with original view name
-    await writeRenderedOutputToDisk(computedHash, contentToWrite, target);
-
-    // Also write to Redis for backward compatibility during migration period
     await setAsync(renderedKey, contentToWrite);
   } catch (err) {
     console.error(`Error storing rendered output for ${target}:`, err);
@@ -168,13 +128,18 @@ async function processTarget(
 /**
  * Clean up old rendered output and purge CDN URL
  */
-async function cleanupOldHash(target, oldHash) {
+async function cleanupOldHash(templateID, target, oldHash) {
   if (!oldHash || typeof oldHash !== 'string') return;
   
   try {
-    // Delete from disk using original view name
-    await deleteRenderedOutputFromDisk(oldHash, target);
-    
+    // A quick revert can make the old hash current again. Redis is the only
+    // copy, so deleting it now would 404 the live file.
+    const current = await getMetadataAsync(templateID);
+    const currentManifest =
+      current && current.cdn && typeof current.cdn === "object" ? current.cdn : {};
+
+    if (Object.values(currentManifest).includes(oldHash)) return;
+
     // Delete from Redis
     const oldRenderedKey = key.renderedOutput(oldHash);
     await delAsync(oldRenderedKey);
@@ -236,7 +201,7 @@ module.exports = function updateCdnManifest(templateID, callback) {
         await hsetAsync(key.metadata(templateID), "cdn", JSON.stringify({}));
 
         for (const target in oldManifest) {
-          await cleanupOldHash(target, oldManifest[target]);
+          await cleanupOldHash(templateID, target, oldManifest[target]);
         }
 
         return callback(null, {});
@@ -259,6 +224,7 @@ module.exports = function updateCdnManifest(templateID, callback) {
 
       const sortedTargets = Array.from(allTargets).sort();
       const manifest = {};
+      const staleHashes = [];
       const inProgressManifest = Object.assign({}, oldManifest);
       metadata.cdn = inProgressManifest;
 
@@ -281,10 +247,8 @@ module.exports = function updateCdnManifest(templateID, callback) {
             // Clean up old hash if it changed
             const oldHash = oldManifest[target];
             if (oldHash && oldHash !== result && typeof oldHash === 'string') {
-              // Run cleanup in background - don't await
-              cleanupOldHash(target, oldHash).catch(err => {
-                // Error already logged in cleanupOldHash, but catch to prevent unhandled rejection
-              });
+              // Cleaned up once the new manifest is saved, see below
+              staleHashes.push([target, oldHash]);
             }
           } else {
             if (Object.prototype.hasOwnProperty.call(inProgressManifest, target)) {
@@ -308,15 +272,20 @@ module.exports = function updateCdnManifest(templateID, callback) {
       // Clean up rendered outputs for targets that were removed entirely
       for (const target in oldManifest) {
         if (!manifest.hasOwnProperty(target)) {
-          // Run cleanup in background - don't await
-          cleanupOldHash(target, oldManifest[target]).catch(err => {
-            // Error already logged in cleanupOldHash, but catch to prevent unhandled rejection
-          });
+          staleHashes.push([target, oldManifest[target]]);
         }
       }
 
       // Save manifest to Redis
       await hsetAsync(key.metadata(templateID), "cdn", JSON.stringify(manifest));
+
+      // Run cleanup in background - don't await. It re-reads the saved
+      // manifest so it must start after the save above.
+      for (const [target, oldHash] of staleHashes) {
+        cleanupOldHash(templateID, target, oldHash).catch(err => {
+          // Error already logged in cleanupOldHash, but catch to prevent unhandled rejection
+        });
+      }
       
       callback(null, manifest);
     } catch (err) {
@@ -324,3 +293,5 @@ module.exports = function updateCdnManifest(templateID, callback) {
     }
   })();
 };
+
+module.exports.cleanupOldHash = cleanupOldHash;
