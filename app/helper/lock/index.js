@@ -13,7 +13,7 @@ const clfdate = require("helper/clfdate");
 //   cron    at most once per scheduled run: every process registers the same
 //           job and one of them wins the run.
 //   lease   one holder at a time of a continuous loop, with takeover by
-//           another process about one ttl after the holder dies.
+//           another process between one and two ttls after the holder dies.
 //
 // The lock is a Redis key whose value is a random token, ending in
 // ":<acquired at, ms>" so heldSince() can tell how long it has been held
@@ -41,9 +41,16 @@ const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 // Redis round trip was slow).
 const HEARTBEAT_LOG_THRESHOLD_MS = 500;
 
-// Resolves to { release, token } or rejects with code ELOCKED once retries
-// are exhausted. onCompromised(err) fires at most once if the heartbeat finds
-// the lock is no longer ours (expired, or Redis unreachable for a full TTL).
+// Resolves to { release, token } or rejects once retries are exhausted: with
+// code ELOCKED if someone else holds the lock, or ESLOW if the last attempt
+// got its reply too late to trust (nobody necessarily holds the lock then).
+// onCompromised(err) fires at most once if the heartbeat finds the lock is no
+// longer ours (expired, or Redis unreachable for long enough that it may
+// have). It must not be relied on to stop the key living on: callers must
+// still call release() after onCompromised. An EXTEND that was stalled on the
+// connection can reach Redis after we gave up and still extend the key, so
+// it stays held for up to another ttl unless released. RELEASE compares the
+// token, so calling it is always safe, even if someone else holds the lock.
 async function lock(key, options = {}) {
   const {
     ttl = 10 * 1000,
@@ -56,26 +63,31 @@ async function lock(key, options = {}) {
   // Redis starts the PX countdown when it runs the SET, which is no earlier
   // than startedAt. The first heartbeat EXTEND goes out `heartbeat` ms after
   // we return, so an acquisition is only believable if enough lifetime is
-  // left to survive until then (plus a margin for the EXTEND round trip). A
+  // left to survive until then, plus two margins: one because the watchdog
+  // gives up a margin before the key can expire, and one for the EXTEND
+  // round trip, so the first EXTEND is not sent right at that deadline. A
   // reply that took longer than that may already be too late, or after a full
   // ttl, found the key expired and taken by someone else. Heartbeat should be
   // well under ttl; if it is not, the requirement is capped at three quarters
   // of the ttl so that acquiring stays possible.
   const margin = Math.min(1000, ttl / 10);
-  const staleAfter = Math.max(ttl - heartbeat - margin, ttl / 4);
+  const staleAfter = Math.max(ttl - heartbeat - 2 * margin, ttl / 4);
 
   // Per attempt, so the ":<ms>" suffix heldSince() reads is when the winning
   // SET was sent, not when we first tried.
   let token;
   let acquired = false;
+  let lastWasStale = false;
   let startedAt;
   for (let attempt = 0; attempt <= retries; attempt++) {
     if (attempt > 0) await sleep(minTimeout * Math.pow(2, attempt - 1));
+    lastWasStale = false;
     startedAt = Date.now();
     token = randomUUID() + ":" + startedAt;
     const ok = await client.set(key, token, { NX: true, PX: ttl });
     if (ok === null) continue;
     if (Date.now() - startedAt >= staleAfter) {
+      lastWasStale = true;
       const staleToken = token;
       console.error(clfdate(), "[LOCK] stale acquire reply", key);
       // Compare-and-delete: harmless if it already expired or isn't ours.
@@ -91,6 +103,13 @@ async function lock(key, options = {}) {
   }
 
   if (!acquired) {
+    // A stale reply says nothing about who holds the key, so don't claim
+    // someone does.
+    if (lastWasStale) {
+      const err = new Error("Lock acquire reply too slow: " + key);
+      err.code = "ESLOW";
+      throw err;
+    }
     const err = new Error("Lock is held: " + key);
     err.code = "ELOCKED";
     throw err;
@@ -101,30 +120,58 @@ async function lock(key, options = {}) {
   let releasedOk = false;
   let releasing = null;
   let compromised = false;
+  let releaseFailed = false;
   let inFlight = false;
   // The key's lifetime counts from when Redis ran the script, which is no
   // later than the moment we sent it.
   let lastExtended = startedAt;
   let lastTickAt = Date.now();
 
+  // The one place onCompromised is called. It runs from timers and from
+  // release(), where a throw would become an uncaught exception or an
+  // unhandled rejection, so whatever the callback does stays contained.
+  function notify(err) {
+    err.code = "ECOMPROMISED";
+    const report = (e) =>
+      console.error(
+        clfdate(),
+        "[LOCK] onCompromised threw",
+        key,
+        e && e.stack ? e.stack : e
+      );
+    try {
+      // An async callback's rejection must not go unhandled either
+      Promise.resolve(onCompromised(err)).catch(report);
+    } catch (e) {
+      report(e);
+    }
+  }
+
   function compromise(err) {
     if (released || compromised) return;
     compromised = true;
     clearInterval(timer);
-    err.code = "ECOMPROMISED";
-    onCompromised(err);
+    clearTimeout(deadline);
+    notify(err);
+  }
+
+  // Watchdog, independent of any Redis reply and of when the heartbeat ticks
+  // land: unless an extension is confirmed first, give up `margin` before the
+  // key can expire, however many commands are still pending on a stalled
+  // connection. Re-armed after every confirmed extension. A timer that fires
+  // late because the event loop is blocked cannot be covered from here.
+  let deadline;
+  function armDeadline() {
+    clearTimeout(deadline);
+    deadline = setTimeout(
+      () => compromise(new Error("Lock heartbeat stalled: " + key)),
+      Math.max(0, lastExtended + ttl - margin - Date.now())
+    );
+    deadline.unref();
   }
 
   const timer = setInterval(async () => {
     if (released || compromised) return;
-    // Watchdog, independent of any Redis reply: if a full ttl has passed
-    // since the last confirmed extension the key has expired as far as we
-    // can tell, however many commands are still pending on a stalled
-    // connection.
-    if (Date.now() - lastExtended >= ttl) {
-      compromise(new Error("Lock heartbeat stalled: " + key));
-      return;
-    }
     // Never stack EXTENDs behind a stalled one.
     if (inFlight) return;
     inFlight = true;
@@ -157,18 +204,20 @@ async function lock(key, options = {}) {
       }
       if (ok) {
         lastExtended = attemptedAt;
+        armDeadline();
       } else {
         compromise(new Error("Lock was lost: " + key));
       }
     } catch (e) {
-      // Redis hiccup: nothing to do, the watchdog gives up once the TTL has
-      // really elapsed, since until then nobody else can have taken the lock.
+      // Redis hiccup: nothing to do, the deadline gives up before the key
+      // can expire; until then nobody else can have taken the lock.
       console.error(clfdate(), "[LOCK] heartbeat error", key, e.message);
     } finally {
       inFlight = false;
     }
   }, heartbeat);
   timer.unref();
+  armDeadline();
 
   async function doRelease() {
     const deleted = await client.eval(RELEASE, {
@@ -176,11 +225,15 @@ async function lock(key, options = {}) {
       arguments: [heldToken],
     });
     if (!deleted && !compromised) {
+      // A retry after a failed release may find the key gone because the
+      // first RELEASE deleted it and the reply was lost, or because it
+      // expired. RELEASE compares the token, so nobody else's lock was
+      // touched either way.
+      if (releaseFailed) return;
       compromised = true;
       releasedOk = true; // the lock is gone for good; nothing to retry
       const err = new Error("Lock was lost before release: " + key);
-      err.code = "ECOMPROMISED";
-      onCompromised(err);
+      notify(err);
       throw err;
     }
   }
@@ -194,6 +247,7 @@ async function lock(key, options = {}) {
       if (releasedOk) return;
       released = true;
       clearInterval(timer);
+      clearTimeout(deadline);
       if (!releasing) {
         releasing = doRelease().then(
           () => {
@@ -201,6 +255,7 @@ async function lock(key, options = {}) {
           },
           (e) => {
             releasing = null;
+            releaseFailed = true;
             throw e;
           }
         );
@@ -256,6 +311,14 @@ function checkScope(scope) {
 // the fire date node-schedule passes in (not Date.now(), so a process that
 // fires late still agrees), and only the winner runs fn. Never throws: errors
 // from Redis or fn are logged. Resolves true if fn ran to completion here.
+//
+// Two things callers must keep in mind. Every process has to run in the same
+// timezone, because node-schedule reads cron strings and object rules in
+// local time unless a `tz` is given, and processes in different zones would
+// compute different fire dates, so different keys, and both would run. And
+// consecutive runs are not mutually exclusive: a run still going when the
+// next fire date arrives can overlap with it on another process, so wrap fn
+// in lock() if a job must not overlap itself.
 async function fire(name, fireDate, fn, options = {}) {
   // The marker must outlive any late firing: a process whose event loop or
   // container was suspended still gets the original fireDate from
@@ -299,7 +362,9 @@ function lease(key, fn, options = {}) {
   const {
     ttl = 10 * 1000,
     heartbeat = 3 * 1000,
-    // A standby tries again about when the holder's key can have expired.
+    // A standby tries every ttl. The holder's key lives up to one ttl past
+    // its last extension, so a standby takes over between one and two ttls
+    // after the holder dies.
     retryEvery = ttl,
   } = options;
 
