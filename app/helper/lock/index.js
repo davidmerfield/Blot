@@ -20,10 +20,10 @@ const clfdate = require("helper/clfdate");
 // without a second key: the scripts below only ever compare the whole value
 // for equality, so the suffix changes nothing for them. While held, a
 // heartbeat re-extends the TTL; if the process dies the key simply expires.
-
-const ACQUIRE = `
-if redis.call("SET", KEYS[1], ARGV[1], "NX", "PX", ARGV[2]) then return 1 end
-return 0`;
+//
+// Acquiring is a plain SET NX PX. Redis 6.2 has no native compare-and-set
+// (SET ... IFEQ and DELEX arrive in 8.4), so the two compare-then-act steps,
+// extend and release, are the only Lua here: a few lines, one decision each.
 
 const EXTEND = `
 if redis.call("GET", KEYS[1]) == ARGV[1] then
@@ -67,11 +67,8 @@ async function lock(key, options = {}) {
   for (let attempt = 0; attempt <= retries; attempt++) {
     if (attempt > 0) await sleep(minTimeout * Math.pow(2, attempt - 1));
     startedAt = Date.now();
-    const ok = await client.eval(ACQUIRE, {
-      keys: [key],
-      arguments: [token, String(ttl)],
-    });
-    if (!ok) continue;
+    const ok = await client.set(key, token, { NX: true, PX: ttl });
+    if (ok === null) continue;
     if (Date.now() - startedAt >= staleAfter) {
       console.error(clfdate(), "[LOCK] stale acquire reply", key);
       // Compare-and-delete: harmless if it already expired or isn't ours.

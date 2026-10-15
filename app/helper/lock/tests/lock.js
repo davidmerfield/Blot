@@ -127,15 +127,16 @@ describe("helper/lock lock", function () {
   it("rejects a stale acquire reply and releases the key", async function () {
     spyOn(console, "error");
     const key = newKey();
-    const original = client.eval.bind(client);
-    const scripts = [];
-    spyOn(client, "eval").and.callFake(async (script, opts) => {
-      const first = scripts.push(script) === 1;
-      const result = await original(script, opts);
-      // The reply to the first ACQUIRE arrives after the ttl has passed
+    const original = client.set.bind(client);
+    let calls = 0;
+    spyOn(client, "set").and.callFake(async (...args) => {
+      const first = ++calls === 1;
+      const result = await original(...args);
+      // The reply to the first acquire arrives after the ttl has passed
       if (first) await sleep(150);
       return result;
     });
+    spyOn(client, "eval").and.callThrough();
     let error;
     try {
       await lock(key, { ttl: 100, heartbeat: 10000, retries: 0 });
@@ -144,8 +145,9 @@ describe("helper/lock lock", function () {
     }
     expect(error && error.code).toEqual("ELOCKED");
     await sleep(50);
-    expect(scripts.length).toEqual(2);
-    expect(scripts[1]).toContain("DEL");
+    expect(client.set).toHaveBeenCalledTimes(1);
+    expect(client.eval).toHaveBeenCalledTimes(1);
+    expect(client.eval.calls.argsFor(0)[0]).toContain("DEL");
     expect(await client.get(key)).toBeNull();
   });
 
