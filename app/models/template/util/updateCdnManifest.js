@@ -16,8 +16,6 @@ const getMetadataAsync = promisify(getMetadata);
 const getAllViewsAsync = promisify(getAllViews);
 const getViewAsync = promisify(getView);
 const hsetAsync = client.hSet.bind(client);
-const delAsync = client.del.bind(client);
-const setAsync = client.set.bind(client);
 
 // Maximum size for rendered output (2MB)
 const MAX_RENDERED_OUTPUT_SIZE = 2 * 1024 * 1024;
@@ -113,17 +111,16 @@ async function processTarget(
     contentToWrite = renderedOutputString;
   }
 
-  // Redis is the store for rendered output; the CDN route serves it from here
-  const renderedKey = key.renderedOutput(computedHash);
-  try {
-    await setAsync(renderedKey, contentToWrite);
-  } catch (err) {
-    console.error(`Error storing rendered output for ${target}:`, err);
-    return null; // Don't create manifest entry if storage fails
-  }
-
-  return computedHash;
+  // Stored with the manifest that references it, see updateCdnManifest below
+  return { hash: computedHash, content: contentToWrite };
 }
+
+// Deletes a rendered output unless the template's saved manifest references
+// it. One step, so a save that makes the hash current again (it writes the
+// output and the manifest together) can't land between the check and the DEL.
+const DELETE_IF_UNREFERENCED = `
+if string.find(redis.call("HGET", KEYS[1], "cdn") or "", ARGV[1], 1, true) then return 0 end
+return redis.call("DEL", KEYS[2])`;
 
 /**
  * Clean up old rendered output and purge CDN URL
@@ -133,16 +130,13 @@ async function cleanupOldHash(templateID, target, oldHash) {
   
   try {
     // A quick revert can make the old hash current again. Redis is the only
-    // copy, so deleting it now would 404 the live file.
-    const current = await getMetadataAsync(templateID);
-    const currentManifest =
-      current && current.cdn && typeof current.cdn === "object" ? current.cdn : {};
+    // copy, so deleting it then would 404 the live file.
+    const deleted = await client.eval(DELETE_IF_UNREFERENCED, {
+      keys: [key.metadata(templateID), key.renderedOutput(oldHash)],
+      arguments: [oldHash],
+    });
 
-    if (Object.values(currentManifest).includes(oldHash)) return;
-
-    // Delete from Redis
-    const oldRenderedKey = key.renderedOutput(oldHash);
-    await delAsync(oldRenderedKey);
+    if (!deleted) return;
     
     // Background purge CDN URL from Bunny in background (not important)
     // if it fails, worst case we pay to store a stale file. the url used
@@ -232,17 +226,31 @@ module.exports = function updateCdnManifest(templateID, callback) {
       for (const target of sortedTargets) {
         try {
           let manifestChanged = false;
-          const result = await processTarget(
+          const output = await processTarget(
             templateID,
             target
           );
+          const result = output && output.hash;
           if (result && typeof result === 'string') {
-            manifest[target] = result;
             const previousHash = inProgressManifest[target];
             inProgressManifest[target] = result;
-            if (previousHash !== result) {
-              manifestChanged = true;
+
+            // Write the output and the manifest that references it together,
+            // so a concurrent cleanup of this hash sees both or neither.
+            // If storage fails, keep the target out of the manifest.
+            try {
+              await client
+                .multi()
+                .set(key.renderedOutput(result), output.content)
+                .hSet(key.metadata(templateID), "cdn", JSON.stringify(inProgressManifest))
+                .exec();
+            } catch (err) {
+              if (previousHash === undefined) delete inProgressManifest[target];
+              else inProgressManifest[target] = previousHash;
+              throw err;
             }
+
+            manifest[target] = result;
 
             // Clean up old hash if it changed
             const oldHash = oldManifest[target];

@@ -75,6 +75,9 @@ cdn.get("/template/:d1/:d2/:rest/:name", async (req, res, next) => {
     return res.sendStatus(404);
   }
 
+  // The name only picks the Content-Type, but a view basename never holds these
+  if (/[\/\\\0]/.test(name) || name.startsWith("..")) return res.sendStatus(404);
+
   try {
     const output = await client.get(key.renderedOutput(d1 + d2 + rest));
 

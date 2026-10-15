@@ -1,17 +1,20 @@
 // docker exec -it blot-container-green node scripts/template/purge-unused-cdn-output.js [--apply]
 //
-// Removes rendered {{#cdn}} output that no template manifest references any more,
-// left behind now that template CDN output is served from Redis alone:
+// Moves rendered {{#cdn}} output off the old disk store (data/cdn/template) now
+// that it is served from Redis alone. Run it before deploying that change
+// (the code before it still writes both stores), then remove the directory:
 //
 // 1. Collects every hash in use from the cdn field of each template:*:info hash
-// 2. Walks data/cdn/template (the old disk store): purges each unused file's URL
-//    from Bunny and deletes its cdn:rendered:<hash> key
-// 3. Scans cdn:rendered:* and deletes unused keys with no file on disk (no file
-//    name, so no URL to purge; nothing links to them)
+// 2. Backfills Redis from disk for hashes in use whose cdn:rendered:<hash> key
+//    is missing (scripts/db/migrate-rendered-output-to-disk.js deleted them)
+// 3. Deletes unused output: unused files' keys, plus unused keys with no file
+// 4. Rescans the manifests and restores anything deleted that a save made
+//    current again in the meantime
+// 5. Writes the unused files' URLs to a list, then purges them from Bunny.
+//    Keys with no file have no file name, so no URL; nothing links to them.
 //
-// A hash is only treated as unused if it is missing from the manifests both
-// before and after the scan, so a template saved mid-run keeps its new output.
-// Dry run by default; pass --apply to delete and purge.
+// A hash only counts as unused if it is missing from the manifests both before
+// and after the scan. Dry run by default; pass --apply to write and delete.
 // Afterwards: rm -rf <data_directory>/cdn/template
 
 const fs = require("fs-extra");
@@ -25,18 +28,22 @@ const redisKeys = require("../util/redisKeys");
 
 const APPLY = process.argv.includes("--apply");
 const DISK_DIR = path.join(config.data_directory, "cdn", "template");
+const URL_LIST = path.join(config.data_directory, "cdn-template-purge-urls.txt");
 const HASH = /^[a-f0-9]{32}$/;
 
 async function hashesInUse() {
   const hashes = new Set();
 
+  // A failed read throws: a missed manifest would make live output look unused
   await redisKeys("template:*:info", async (metadataKey) => {
-    let manifest;
+    const json = await client.hGet(metadataKey, "cdn");
+    if (!json) return;
 
+    let manifest;
     try {
-      manifest = JSON.parse((await client.hGet(metadataKey, "cdn")) || "{}");
+      manifest = JSON.parse(json);
     } catch (err) {
-      return; // not a template metadata hash, or no valid manifest
+      throw new Error(`Invalid cdn manifest in ${metadataKey}: ${err.message}`);
     }
 
     for (const target in manifest) {
@@ -61,8 +68,9 @@ async function filesOnDisk() {
 
         const dir = path.join(DISK_DIR, dir1, dir2, rest);
         for (const name of await readdirSafe(dir)) {
-          const { size } = await fs.stat(path.join(dir, name));
-          files.push({ hash, name, size });
+          const filePath = path.join(dir, name);
+          const { size } = await fs.stat(filePath);
+          files.push({ hash, name, size, path: filePath });
         }
       }
     }
@@ -81,48 +89,83 @@ async function readdirSafe(dir) {
 }
 
 async function main() {
-  console.log(APPLY ? "Applying" : "Dry run (pass --apply to delete and purge)");
+  console.log(APPLY ? "Applying" : "Dry run (pass --apply to write and delete)");
 
   const before = await hashesInUse();
   console.log(`Hashes in use: ${before.size}`);
 
   const files = await filesOnDisk();
-  const keys = [];
+  const keys = new Set();
   await redisKeys("cdn:rendered:*", async (redisKey) => {
-    keys.push(redisKey.slice("cdn:rendered:".length));
+    keys.add(redisKey.slice("cdn:rendered:".length));
   });
-  console.log(`Files on disk: ${files.length}, cdn:rendered keys: ${keys.length}`);
+  console.log(`Files on disk: ${files.length}, cdn:rendered keys: ${keys.size}`);
 
   const after = await hashesInUse();
-  const unused = (hash) => !before.has(hash) && !after.has(hash);
+  const inUse = (hash) => before.has(hash) || after.has(hash);
 
-  const unusedFiles = files.filter((file) => unused(file.hash));
   const fileHashes = new Set(files.map((file) => file.hash));
-  const unusedKeys = keys.filter((hash) => unused(hash) && !fileHashes.has(hash));
+  const backfill = files.filter((file) => after.has(file.hash) && !keys.has(file.hash));
+  const missing = Array.from(after).filter((hash) => !keys.has(hash) && !fileHashes.has(hash));
+
+  const unusedFiles = files.filter((file) => !inUse(file.hash));
+  const unusedKeys = Array.from(keys).filter((hash) => !inUse(hash) && !fileHashes.has(hash));
 
   const urls = unusedFiles.map((file) => generateCdnUrl(file.name, file.hash));
   const bytes = unusedFiles.reduce((total, file) => total + file.size, 0);
 
+  console.log(`Hashes in use to backfill from disk: ${backfill.length}`);
+  console.log(`Hashes in use with neither a key nor a file: ${missing.length}`);
+  missing.slice(0, 10).forEach((hash) => console.log(`  ${hash}`));
   console.log(
     `Unused files: ${unusedFiles.length} (${(bytes / 1024 / 1024).toFixed(1)}MB), ` +
       `URLs to purge: ${urls.length}`
   );
   console.log(`Unused keys with no file: ${unusedKeys.length}`);
-  urls.slice(0, 10).forEach((url) => console.log(`  ${url}`));
 
   if (!APPLY) return;
 
-  const deleteHashes = new Set(unusedFiles.map((file) => file.hash).concat(unusedKeys));
-  const hashes = Array.from(deleteHashes);
+  for (const file of backfill) {
+    await client.set(key.renderedOutput(file.hash), await fs.readFile(file.path, "utf8"), {
+      NX: true,
+    });
+  }
+  console.log(`Backfilled ${backfill.length} keys from disk`);
 
+  // Keep what is deleted, in case a save makes it current again meanwhile
+  const deleted = new Map();
+  for (const file of unusedFiles) {
+    if (keys.has(file.hash)) deleted.set(file.hash, () => fs.readFile(file.path, "utf8"));
+  }
+  for (const hash of unusedKeys) {
+    const content = await client.get(key.renderedOutput(hash));
+    if (content != null) deleted.set(hash, () => content);
+  }
+
+  const hashes = Array.from(deleted.keys());
   for (let i = 0; i < hashes.length; i += 500) {
     await client.del(hashes.slice(i, i + 500).map((hash) => key.renderedOutput(hash)));
   }
   console.log(`Deleted ${hashes.length} cdn:rendered keys`);
 
-  console.log(`Purging ${urls.length} URLs from Bunny...`);
+  const now = await hashesInUse();
+  let restored = 0;
+  for (const [hash, read] of deleted) {
+    if (!now.has(hash)) continue;
+    try {
+      await client.set(key.renderedOutput(hash), await read(), { NX: true });
+      restored++;
+    } catch (err) {
+      console.error(`Could not restore ${hash}:`, err);
+    }
+  }
+  if (restored) console.log(`Restored ${restored} keys a save made current again`);
+
+  // purgeCdnUrls logs failures without throwing: keep the list to retry from
+  await fs.writeFile(URL_LIST, urls.join("\n") + "\n");
+  console.log(`Wrote ${urls.length} URLs to ${URL_LIST}; purging from Bunny...`);
   await purgeCdnUrls(urls);
-  console.log(`Done. Now remove ${DISK_DIR}`);
+  console.log(`Done. Check the log for failed purges, then remove ${DISK_DIR}`);
 }
 
 main()
