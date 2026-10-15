@@ -55,7 +55,7 @@ async function lock(key, options = {}) {
 
   const token = randomUUID() + ":" + Date.now();
 
-  // Redis starts the PX countdown when it runs ACQUIRE, which is no earlier
+  // Redis starts the PX countdown when it runs the SET, which is no earlier
   // than startedAt. If the reply took (nearly) a whole ttl to reach us, the
   // key may already have expired and been taken by someone else, so we must
   // not believe it. The margin keeps a reply that arrives with almost no
