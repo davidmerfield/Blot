@@ -122,7 +122,7 @@ nothing is rewritten. Only `/blog_*` changes origin. Everything else
 2. **Edge rule "Storage bucket for generated assets"**, two actions:
    **Override Origin URL** to
    `https://blot-storage-prod.s3.us-west-2.amazonaws.com` (HTTPS: the bucket
-   name has no dots, so S3's wildcard certificate matches), and **Set Request
+   name has no dots, so S3's wildcard certificate matches), and **Add Request
    Header** `Host` = `blot-storage-prod.s3.us-west-2.amazonaws.com` (step 4).
    Condition:
    Request URL matches any of
@@ -145,9 +145,9 @@ nothing is rewritten. Only `/blog_*` changes origin. Everything else
 4. **Host header.** The pull zone forces `Host: cdn.blot.im` on origin
    requests, and Override Origin URL has no host field of its own. S3 would
    read `cdn.blot.im` as the bucket name and fail (`NoSuchBucket`, or a
-   wrong-host error), so rule 2 also sets `Host` with Set Request Header, the
-   way Bunny's direct-IP-origin guide does. Confirm it in the test. If Bunny
-   still sends `cdn.blot.im`:
+   wrong-host error), so rule 2 also sets `Host` with Add Request Header (Bunny has no Set
+   Request Header action; Add replaces the forced `Host`, confirmed on 15 Oct
+   2026 by `x-amz-*` response headers on a 200). If that ever stops working:
    give the app origin its own DNS name (for example `origin-cdn.blot.im`
    pointing at the app host), add it to `server_name` in the `cdn.` server
    block of `proxy/config/server.conf`, set the pull zone's Origin URL to it
