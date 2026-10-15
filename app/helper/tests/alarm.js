@@ -25,7 +25,12 @@ describe("alarm", function () {
   });
 
   afterEach(async function () {
-    await client.del("alarm:" + this.name, "alarm:" + this.name + ":claims");
+    await client.del(
+      "alarm:due:" + this.name,
+      "alarm:claims:" + this.name,
+      "alarm:due:" + this.name + ":claims",
+      "alarm:claims:" + this.name + ":claims"
+    );
   });
 
   it("does not call the handler before the alarm is due, then handles it once", async function () {
@@ -295,5 +300,58 @@ describe("alarm", function () {
     await new Promise((resolve) => setTimeout(resolve, 60));
     expect(calls).toEqual(["a"]);
     expect(await alarms.when("b")).toEqual(this.t);
+  });
+
+  it("rejects invalid options", function () {
+    const make = (options) => () => alarm("x", async () => {}, options);
+
+    expect(make({ leaseMs: 100, renewMs: 100 })).toThrowError(TypeError);
+    expect(make({ leaseMs: 100, renewMs: 150 })).toThrowError(TypeError);
+    expect(make({ leaseMs: 1 })).toThrowError(TypeError);
+    expect(make({ pollMs: 0 })).toThrowError(TypeError);
+    expect(make({ pollMs: -5 })).toThrowError(TypeError);
+    expect(make({ pollMs: NaN })).toThrowError(TypeError);
+    expect(make({ batch: 0 })).toThrowError(TypeError);
+    expect(make({ renewMs: 0 })).toThrowError(TypeError);
+    expect(make({ leaseMs: 2 })).not.toThrow();
+  });
+
+  it("skips a claim whose reply arrived too late to renew in time", async function () {
+    const calls = [];
+    const alarms = this.make(async (id) => calls.push(id), {
+      leaseMs: 200,
+      renewMs: 50,
+    });
+    spyOn(console, "log");
+
+    const real = client.eval.bind(client);
+    spyOn(client, "eval").and.callFake(async (script, opts) => {
+      const result = await real(script, opts);
+      if (script.includes("ZRANGEBYSCORE")) await this.sleep(180);
+      return result;
+    });
+
+    await alarms.set("a", this.t);
+    expect(await alarms.poll()).toEqual(0);
+    expect(calls).toEqual([]);
+    expect(await alarms.when("a")).toEqual(this.t + 200);
+  });
+
+  it("allows names that differ only by a :claims suffix side by side", async function () {
+    const calls = [];
+    const one = alarm(this.name, async (id) => calls.push("one:" + id), {
+      now: () => this.t,
+    });
+    const two = alarm(
+      this.name + ":claims",
+      async (id) => calls.push("two:" + id),
+      { now: () => this.t }
+    );
+
+    await one.set("a", this.t);
+    await two.set("a", this.t);
+    expect(await one.poll()).toEqual(1);
+    expect(await two.poll()).toEqual(1);
+    expect(calls.sort()).toEqual(["one:a", "two:a"]);
   });
 });

@@ -12,8 +12,9 @@ const { isRedisUnavailableError } = require("helper/redisUnavailable");
 //   await alarms.set(id, when);  // replaces any existing alarm for id
 //   alarms.start();              // poll for due alarms every pollMs
 //
-// Each name is one sorted set, alarm:<name>: member = id, score = due time
-// in ms, plus a hash alarm:<name>:claims: id -> token of the current claim.
+// Each name is one sorted set, alarm:due:<name>: member = id, score = due time
+// in ms, plus a hash alarm:claims:<name>: id -> token of the current claim.
+// The kind comes first so no two names can ever share a key.
 // There is no payload; the handler re-reads state when it fires.
 //
 // Delivery is at-least-once, so handlers must be idempotent. A poll claims
@@ -83,8 +84,27 @@ module.exports = function alarm(name, handler, options = {}) {
     now = () => Date.now(),
   } = options;
 
-  const key = "alarm:" + name;
-  const claimsKey = key + ":claims";
+  if (!Number.isInteger(leaseMs) || leaseMs < 2) {
+    throw new TypeError("alarm: leaseMs must be an integer of at least 2");
+  }
+  for (const [label, value] of [
+    ["pollMs", pollMs],
+    ["renewMs", renewMs],
+    ["batch", batch],
+  ]) {
+    if (!Number.isFinite(value) || value <= 0) {
+      throw new TypeError("alarm: " + label + " must be a positive number");
+    }
+  }
+  if (!Number.isInteger(batch)) {
+    throw new TypeError("alarm: batch must be an integer");
+  }
+  if (renewMs >= leaseMs) {
+    throw new TypeError("alarm: renewMs must be less than leaseMs");
+  }
+
+  const key = "alarm:due:" + name;
+  const claimsKey = "alarm:claims:" + name;
   let timer = null;
   let inFlight = null;
 
@@ -150,6 +170,8 @@ module.exports = function alarm(name, handler, options = {}) {
     for (let i = 0; i < batch; i++) {
       const token = crypto.randomUUID();
       let id;
+      // Real clock, not the now option: it measures how long the reply took
+      const sentAt = Date.now();
 
       try {
         id = await client.eval(CLAIM, {
@@ -162,6 +184,15 @@ module.exports = function alarm(name, handler, options = {}) {
       }
 
       if (!id) break;
+
+      // The lease started when Redis ran the claim. If the reply took so long
+      // that the first renewal could no longer land before it runs out, another
+      // process may already own this id, so don't run it: the lease expires
+      // and it is claimed again later.
+      if (Date.now() - sentAt >= leaseMs - renewMs) {
+        log("claim reply too late for " + id);
+        continue;
+      }
 
       try {
         await handle(id, token);
