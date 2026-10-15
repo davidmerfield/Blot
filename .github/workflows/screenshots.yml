@@ -50,6 +50,18 @@ jobs:
       - name: Detect changed templates
         id: detect
         run: |
+          # This workflow pushes its own "Updates screenshots of templates"
+          # commit with a token that triggers another run, and the PR diff
+          # below still contains whatever selected the templates, so without
+          # this a PR touching the folder builder screenshots itself forever
+          # (renders differ slightly every time). Skip runs for our own commit.
+          head_subject=$(git log -1 --format=%s "${{ github.event.pull_request.head.sha }}")
+          if [ "$head_subject" = "Updates screenshots of templates" ]; then
+            echo "Head commit is this workflow's own screenshot commit; skipping"
+            echo "templates=" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
           changed_files=$(mktemp)
           # Treat a move as a deletion and an addition. Rename detection would
           # report only the destination path, leaving previews which use the
