@@ -4,6 +4,7 @@ var dailyUpdate = require("./daily");
 var email = require("helper/email");
 var clfdate = require("helper/clfdate");
 const scheduler = require("node-schedule");
+const lock = require("helper/lock");
 var checkFeaturedSites = require("../documentation/featured/check");
 var config = require("config");
 var publishScheduledEntries = require("./publish-scheduled-entries");
@@ -150,37 +151,13 @@ module.exports = function () {
     });
   })(0);
 
-  // Warn users about impending subscriptions
-  User.getAllIds(function (err, uids) {
-    if (err) {
-      console.error("Error fetching user ids for scheduling:", err);
-      return;
-    }
-
-    async.each(uids, User.scheduleSubscriptionEmail, function (err) {
-      if (err) {
-        console.error("Error scheduling subscription emails:", err);
-      } else {
-        console.log(clfdate(), "Scheduled emails for renewals and expiries!");
-      }
-    });
-
-    async.each(
-      uids,
-      function (uid, next) {
-        User.scheduleWelcomeEmail(uid, function (err) {
-          if (err) console.error("Error scheduling welcome email for", uid, err);
-          next();
-        });
-      },
-      function (err) {
-        if (err) {
-          console.error("Error scheduling welcome emails:", err);
-        } else {
-          console.log(clfdate(), "Scheduled welcome emails where needed!");
-        }
-      }
-    );
+  // Warn users about impending renewals and expiries. The scan looks at every
+  // user, and a Redis marker per user and billing period means each warning is
+  // sent once however many processes run it.
+  console.log(clfdate(), "Scheduled daily subscription renewal and expiry emails");
+  lock.cron("subscription-emails", { hour: 14, minute: 0 }, async function () {
+    const sent = await User.sendSubscriptionEmails();
+    console.log(clfdate(), "Sent", sent, "subscription renewal and expiry emails");
   });
 
   console.log(clfdate(), "Scheduled daily check of storage disk usage");
