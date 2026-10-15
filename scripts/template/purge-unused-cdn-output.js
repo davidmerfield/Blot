@@ -14,7 +14,10 @@
 //    Keys with no file have no file name, so no URL; nothing links to them.
 //
 // A hash only counts as unused if it is missing from the manifests both before
-// and after the scan. Dry run by default; pass --apply to write and delete.
+// and after the scan, and its file is over an hour old: a save writes the file
+// and key before it publishes the manifest, so a fresh file may be about to go
+// live. (A key with no file predates disk storage; the app writes both.)
+// Dry run by default; pass --apply to write and delete.
 // Once the Redis-only route is deployed: rm -rf <data_directory>/cdn/template
 
 const fs = require("fs-extra");
@@ -30,6 +33,7 @@ const APPLY = process.argv.includes("--apply");
 const DISK_DIR = path.join(config.data_directory, "cdn", "template");
 const URL_LIST = path.join(config.data_directory, "cdn-template-purge-urls.txt");
 const HASH = /^[a-f0-9]{32}$/;
+const MIN_AGE = 60 * 60 * 1000;
 
 async function hashesInUse() {
   const hashes = new Set();
@@ -69,8 +73,8 @@ async function filesOnDisk() {
         const dir = path.join(DISK_DIR, dir1, dir2, rest);
         for (const name of await readdirSafe(dir)) {
           const filePath = path.join(dir, name);
-          const { size } = await fs.stat(filePath);
-          files.push({ hash, name, size, path: filePath });
+          const { size, mtimeMs } = await fs.stat(filePath);
+          files.push({ hash, name, size, mtimeMs, path: filePath });
         }
       }
     }
@@ -108,7 +112,10 @@ async function main() {
   const backfill = files.filter((file) => after.has(file.hash) && !keys.has(file.hash));
   const missing = Array.from(after).filter((hash) => !keys.has(hash) && !fileHashes.has(hash));
 
-  const unusedFiles = files.filter((file) => !inUse(file.hash));
+  const recent = new Set(
+    files.filter((file) => Date.now() - file.mtimeMs < MIN_AGE).map((file) => file.hash)
+  );
+  const unusedFiles = files.filter((file) => !inUse(file.hash) && !recent.has(file.hash));
   const unusedKeys = Array.from(keys).filter((hash) => !inUse(hash) && !fileHashes.has(hash));
 
   const urls = unusedFiles.map((file) => generateCdnUrl(file.name, file.hash));
@@ -150,6 +157,7 @@ async function main() {
 
   const now = await hashesInUse();
   let restored = 0;
+  const failed = [];
   for (const [hash, read] of deleted) {
     if (!now.has(hash)) continue;
     try {
@@ -157,9 +165,15 @@ async function main() {
       restored++;
     } catch (err) {
       console.error(`Could not restore ${hash}:`, err);
+      failed.push(hash);
     }
   }
   if (restored) console.log(`Restored ${restored} keys a save made current again`);
+
+  // Rerunning backfills them from disk, which is still in place
+  if (failed.length) {
+    throw new Error(`Could not restore ${failed.length} live keys, rerun the script: ${failed.join(" ")}`);
+  }
 
   // purgeCdnUrls logs failures without throwing: keep the list to retry from
   await fs.writeFile(URL_LIST, urls.join("\n") + "\n");
