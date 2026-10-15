@@ -89,6 +89,14 @@ async function runPostListenTasks() {
   }
 
   try {
+    // Every container polls for scheduled entries that have come due
+    log("Starting scheduled entry publication asynchronously");
+    require("models/entry/scheduled").alarm.start();
+  } catch (err) {
+    logError("Failed to start scheduled entry publication", err);
+  }
+
+  try {
     if (config.master) {
       log("Starting scheduler asynchronously");
       scheduler();

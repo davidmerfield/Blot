@@ -15,7 +15,7 @@ var Blog = require("models/blog");
 var rebuildDependencyGraph = require("./_rebuildDependencyGraph");
 var backlinksToUpdate = require("./_backlinksToUpdate");
 var updateTagList = require("models/tags").set;
-var addToSchedule = require("./_addToSchedule");
+var addToSchedule = require("./scheduled");
 var notifyDrafts = require("./_notifyDrafts");
 var assignToLists = require("./_assign");
 var { DELETED_ENTRY_TTL_SECONDS } = require("../entries/sweepExpiredDeleted");
@@ -188,10 +188,9 @@ module.exports = function set (blogID, path, updates, callback) {
               updateTagList.bind(this, blogID, entry),
               assignToLists.bind(this, blogID, entry),
               rebuildDependencyGraph.bind(this, blogID, entry, previousDependencies),
+              // Arms the publication alarm, or cancels it if not scheduled
+              addToSchedule.bind(this, blogID, entry),
             ];
-
-            if (entry.scheduled)
-              queue.push(addToSchedule.bind(this, blogID, entry));
 
             if (entry.draft) queue.push(notifyDrafts.bind(this, blogID, entry));
 
