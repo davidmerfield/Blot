@@ -4,8 +4,8 @@ const clfdate = require("helper/clfdate");
 const { isRedisUnavailableError } = require("helper/redisUnavailable");
 
 // Alarms held in Redis that any process can claim: an alarm is set for a
-// time, can be reset or cancelled, and fires once - in exactly one of any
-// number of processes. It replaces per-process in-memory timers, which had
+// time, can be reset or cancelled, and fires in whichever of any number of
+// processes claims it (at least once - see below). It replaces per-process in-memory timers, which had
 // to be rebuilt at boot and only ran in one container.
 //
 //   const alarms = alarm("scheduled-entries", async (id) => {...});
@@ -107,6 +107,7 @@ module.exports = function alarm(name, handler, options = {}) {
   const claimsKey = "alarm:claims:" + name;
   let timer = null;
   let inFlight = null;
+  let stopping = false;
 
   function log(message, err) {
     console.log(clfdate(), "[alarm]", name, message, err ? err.message : "");
@@ -167,7 +168,7 @@ module.exports = function alarm(name, handler, options = {}) {
   async function run() {
     let handled = 0;
 
-    for (let i = 0; i < batch; i++) {
+    for (let i = 0; i < batch && !stopping; i++) {
       const token = crypto.randomUUID();
       let id;
       // Real clock, not the now option: it measures how long the reply took
@@ -236,10 +237,17 @@ module.exports = function alarm(name, handler, options = {}) {
     timer.unref();
   }
 
+  // Waits for the handler underway, but claims nothing more in its batch
   async function stop() {
     if (timer) clearInterval(timer);
     timer = null;
-    if (inFlight) await inFlight.catch(() => {});
+    if (!inFlight) return;
+    stopping = true;
+    try {
+      await inFlight.catch(() => {});
+    } finally {
+      stopping = false;
+    }
   }
 
   return { set, cancel, when, start, stop, poll };

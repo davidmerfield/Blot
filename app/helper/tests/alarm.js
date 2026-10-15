@@ -192,7 +192,7 @@ describe("alarm", function () {
 
     for (let i = 0; i < 3; i++) {
       spec.t += 600; // well past the original lease by the end
-      await this.sleep(60);
+      await this.sleep(200); // ten renewal ticks; one is enough
     }
 
     expect(await two.poll()).toEqual(0);
@@ -300,6 +300,36 @@ describe("alarm", function () {
     await new Promise((resolve) => setTimeout(resolve, 60));
     expect(calls).toEqual(["a"]);
     expect(await alarms.when("b")).toEqual(this.t);
+  });
+
+  it("stop finishes the handler underway but claims no more of its batch", async function () {
+    const calls = [];
+    let started = false;
+    let release;
+    const gate = new Promise((resolve) => (release = resolve));
+    const alarms = this.make(
+      async (id) => {
+        calls.push(id);
+        started = true;
+        await gate;
+      },
+      { batch: 3 }
+    );
+
+    for (const id of ["a", "b", "c"]) await alarms.set(id, this.t);
+
+    const first = alarms.poll();
+    await this.waitFor(() => started);
+    const stopped = alarms.stop();
+    release();
+    await stopped;
+
+    expect(await first).toEqual(1);
+    expect(calls.length).toEqual(1);
+    const rest = ["a", "b", "c"].filter((id) => id !== calls[0]);
+    for (const id of rest) expect(await alarms.when(id)).toEqual(this.t);
+
+    expect(await alarms.poll()).toEqual(2);
   });
 
   it("rejects invalid options", function () {
