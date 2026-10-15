@@ -206,6 +206,11 @@ async function main(options = {}) {
       console.log("Skipping folders: another process is building folders");
       return;
     }
+    // Redis answered too slowly to trust the lock; the next start retries
+    if (e.code === "ESLOW") {
+      console.log("Skipping folders: lock reply too slow:", e.message);
+      return;
+    }
     throw e;
   }
 
