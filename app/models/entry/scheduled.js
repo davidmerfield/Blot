@@ -91,12 +91,13 @@ var alarms = alarm(
 
     // Re-saving cancels this alarm (the entry is no longer scheduled) in
     // parallel with the list updates, so if a later step fails the alarm is
-    // already gone: re-arm it now so a later poll retries, then rethrow
+    // already gone: re-arm it so a later poll retries, then rethrow. Not for
+    // right now, or the same poll would claim it again and spin on a failure.
     try {
       await setEntry(blogID, path);
       await bumpCacheID(blogID);
     } catch (err) {
-      await alarms.set(id, Date.now());
+      await alarms.set(id, Date.now() + module.exports.RETRY_MS);
       throw err;
     }
 
@@ -126,3 +127,4 @@ addToSchedule.toID = toID;
 addToSchedule.fromID = fromID;
 
 module.exports = addToSchedule;
+module.exports.RETRY_MS = 30 * 1000;

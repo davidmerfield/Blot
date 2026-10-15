@@ -153,12 +153,20 @@ describe("entry scheduled publication", function () {
       return bump.call(Blog, blogID, callback);
     });
 
-    await alarms.poll();
+    const retryMs = scheduled.RETRY_MS;
+    scheduled.RETRY_MS = 200;
 
-    expect(failed).toBe(true);
-    expect(await alarms.when(id)).not.toBe(null);
+    try {
+      await alarms.poll();
 
-    await alarms.poll();
+      expect(failed).toBe(true);
+      expect(await alarms.when(id)).not.toBe(null);
+
+      await sleep(300);
+      await alarms.poll();
+    } finally {
+      scheduled.RETRY_MS = retryMs;
+    }
 
     // The retry finishes the publication even though the first re-save had
     // already marked the entry unscheduled
