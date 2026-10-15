@@ -101,7 +101,7 @@ describe("helper/lock lease", function () {
     expect(console.error).toHaveBeenCalled();
   });
 
-  it("defaults retryEvery to ttl so a standby takes over about one ttl later", async function () {
+  it("defaults retryEvery to ttl so a standby takes over within two ttls", async function () {
     spyOn(console, "error");
     const holder = await lock(key, { ttl: 300, heartbeat: 10000 });
     let enteredAt = null;
@@ -118,7 +118,23 @@ describe("helper/lock lease", function () {
     // The holder never heartbeats, so its key expires after 300ms
     expect(await until(() => enteredAt, 2000)).toBeTruthy();
     expect(enteredAt - began).toBeLessThan(1500);
-    expect(holder.token).toEqual(jasmine.any(String));
+    await holder.release().catch(() => {});
+  });
+
+  it("stop while still acquiring never runs fn", async function () {
+    const original = client.set.bind(client);
+    spyOn(client, "set").and.callFake(async (...args) => {
+      const result = await original(...args);
+      await sleep(150);
+      return result;
+    });
+    let ran = false;
+    const l = start(() => {
+      ran = true;
+    });
+    await l.stop();
+    expect(ran).toEqual(false);
+    expect(await client.get(key)).toBeNull();
   });
 
   it("stop resolves, aborts the signal and releases the lock", async function () {

@@ -4,6 +4,12 @@ describe("helper/lock lock", function () {
   const { randomUUID } = require("crypto");
 
   const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+  async function until(condition, ms = 3000) {
+    const end = Date.now() + ms;
+    while (!condition() && Date.now() < end) await sleep(20);
+    return condition();
+  }
+
   const prefix = "test:helper-lock:lock:" + randomUUID() + ":";
   let n = 0;
   const keys = [];
@@ -22,12 +28,15 @@ describe("helper/lock lock", function () {
     const first = await lock(key);
     let error;
     try {
-      await lock(key);
-    } catch (e) {
-      error = e;
+      try {
+        await lock(key);
+      } catch (e) {
+        error = e;
+      }
+      expect(error && error.code).toEqual("ELOCKED");
+    } finally {
+      await first.release();
     }
-    expect(error && error.code).toEqual("ELOCKED");
-    await first.release();
     const second = await lock(key);
     await second.release();
   });
@@ -37,8 +46,11 @@ describe("helper/lock lock", function () {
     const first = await lock(key);
     setTimeout(() => first.release(), 100);
     const second = await lock(key, { retries: 3, minTimeout: 100 });
-    expect(second.token).toEqual(jasmine.any(String));
-    await second.release();
+    try {
+      expect(await client.get(key)).toEqual(second.token);
+    } finally {
+      await second.release();
+    }
   });
 
   it("gives up with ELOCKED when retries are exhausted", async function () {
@@ -46,12 +58,15 @@ describe("helper/lock lock", function () {
     const first = await lock(key);
     let error;
     try {
-      await lock(key, { retries: 1, minTimeout: 20 });
-    } catch (e) {
-      error = e;
+      try {
+        await lock(key, { retries: 1, minTimeout: 20 });
+      } catch (e) {
+        error = e;
+      }
+      expect(error && error.code).toEqual("ELOCKED");
+    } finally {
+      await first.release();
     }
-    expect(error && error.code).toEqual("ELOCKED");
-    await first.release();
   });
 
   it("is safe to release twice", async function () {
@@ -67,30 +82,36 @@ describe("helper/lock lock", function () {
     const first = await lock(key, { ttl: 100, heartbeat: 10000 });
     await sleep(200);
     const second = await lock(key);
-    let error;
     try {
-      await first.release();
-    } catch (e) {
-      error = e;
+      let error;
+      try {
+        await first.release();
+      } catch (e) {
+        error = e;
+      }
+      expect(error && error.code).toEqual("ECOMPROMISED");
+      expect(await client.get(key)).toEqual(second.token);
+    } finally {
+      await second.release();
     }
-    expect(error && error.code).toEqual("ECOMPROMISED");
-    expect(await client.get(key)).toEqual(second.token);
-    await second.release();
   });
 
   it("keeps the lock alive past its ttl with the heartbeat", async function () {
     const key = newKey();
     const held = await lock(key, { ttl: 300, heartbeat: 50 });
-    await sleep(900);
-    expect(await client.get(key)).toEqual(held.token);
-    let error;
     try {
-      await lock(key);
-    } catch (e) {
-      error = e;
+      await sleep(900);
+      expect(await client.get(key)).toEqual(held.token);
+      let error;
+      try {
+        await lock(key);
+      } catch (e) {
+        error = e;
+      }
+      expect(error && error.code).toEqual("ELOCKED");
+    } finally {
+      await held.release();
     }
-    expect(error && error.code).toEqual("ELOCKED");
-    await held.release();
   });
 
   it("calls onCompromised once if the key is deleted underneath", async function () {
@@ -101,11 +122,14 @@ describe("helper/lock lock", function () {
       heartbeat: 30,
       onCompromised: (e) => compromised.push(e),
     });
-    await client.del(key);
-    await sleep(250);
-    expect(compromised.length).toEqual(1);
-    expect(compromised[0].code).toEqual("ECOMPROMISED");
-    await held.release().catch(() => {});
+    try {
+      await client.del(key);
+      await sleep(250);
+      expect(compromised.length).toEqual(1);
+      expect(compromised[0].code).toEqual("ECOMPROMISED");
+    } finally {
+      await held.release().catch(() => {});
+    }
     expect(compromised.length).toEqual(1);
   });
 
@@ -117,11 +141,14 @@ describe("helper/lock lock", function () {
       heartbeat: 30,
       onCompromised: (e) => compromised.push(e),
     });
-    await client.set(key, "someone-else");
-    await sleep(250);
-    expect(compromised.length).toEqual(1);
-    expect(await client.get(key)).toEqual("someone-else");
-    await held.release().catch(() => {});
+    try {
+      await client.set(key, "someone-else");
+      await sleep(250);
+      expect(compromised.length).toEqual(1);
+      expect(await client.get(key)).toEqual("someone-else");
+    } finally {
+      await held.release().catch(() => {});
+    }
   });
 
   it("rejects a stale acquire reply and releases the key", async function () {
@@ -143,7 +170,7 @@ describe("helper/lock lock", function () {
     } catch (e) {
       error = e;
     }
-    expect(error && error.code).toEqual("ELOCKED");
+    expect(error && error.code).toEqual("ESLOW");
     await sleep(50);
     expect(client.set).toHaveBeenCalledTimes(1);
     expect(client.eval).toHaveBeenCalledTimes(1);
@@ -157,11 +184,14 @@ describe("helper/lock lock", function () {
     const started = Date.now();
     setTimeout(() => other.release(), 250);
     const held = await lock(key, { retries: 2, minTimeout: 200 });
-    const acquiredAt = Date.now();
-    const since = await lock.heldSince(key);
-    expect(since).toBeGreaterThan(started + 200);
-    expect(acquiredAt - since).toBeLessThan(150);
-    await held.release();
+    try {
+      const acquiredAt = Date.now();
+      const since = await lock.heldSince(key);
+      expect(since).toBeGreaterThan(started + 200);
+      expect(acquiredAt - since).toBeLessThan(150);
+    } finally {
+      await held.release();
+    }
   });
 
   it("lets release be retried if the command fails", async function () {
@@ -176,9 +206,9 @@ describe("helper/lock lock", function () {
     } catch (e) {
       error = e;
     }
+    client.eval.and.callThrough();
     expect(error && error.message).toEqual("redis down");
     expect(await client.get(key)).toEqual(held.token);
-    client.eval.and.callThrough();
     await held.release();
     expect(await client.get(key)).toBeNull();
     await held.release();
@@ -200,12 +230,12 @@ describe("helper/lock lock", function () {
     } catch (e) {
       error = e;
     }
-    expect(error && error.code).toEqual("ELOCKED");
+    expect(error && error.code).toEqual("ESLOW");
     await sleep(50);
     expect(await client.get(key)).toBeNull();
   });
 
-  it("calls onCompromised once if the heartbeat stalls for a full ttl", async function () {
+  it("calls onCompromised once if the heartbeat stalls past the point the key could expire", async function () {
     spyOn(console, "error");
     const key = newKey();
     const compromised = [];
@@ -224,7 +254,109 @@ describe("helper/lock lock", function () {
     expect(client.eval).toHaveBeenCalledTimes(1);
     await sleep(100);
     expect(compromised.length).toEqual(1);
-    expect(held.token).toEqual(jasmine.any(String));
+    client.eval.and.callThrough();
+    await held.release().catch(() => {});
+  });
+
+  it("gives up before the key can expire, not on the first tick after", async function () {
+    spyOn(console, "error");
+    const key = newKey();
+    const compromised = [];
+    const before = Date.now();
+    const held = await lock(key, {
+      ttl: 600,
+      heartbeat: 200,
+      onCompromised: () => compromised.push(Date.now()),
+    });
+    try {
+      spyOn(client, "eval").and.returnValue(new Promise(() => {}));
+      expect(await until(() => compromised.length > 0)).toEqual(true);
+      // Redis started the countdown no earlier than `before`
+      expect(compromised[0]).toBeLessThan(before + 600);
+    } finally {
+      client.eval.and.callThrough();
+      await held.release().catch(() => {});
+    }
+  });
+
+  it("contains an onCompromised that throws", async function () {
+    spyOn(console, "error");
+    const key = newKey();
+    const unhandled = [];
+    const onUnhandled = (reason) => unhandled.push(reason);
+    process.on("unhandledRejection", onUnhandled);
+    let calls = 0;
+    const held = await lock(key, {
+      ttl: 1000,
+      heartbeat: 30,
+      onCompromised: () => {
+        calls++;
+        throw new Error("boom");
+      },
+    });
+    try {
+      await client.set(key, "someone-else");
+      expect(await until(() => calls > 0)).toEqual(true);
+      // Give a stray rejection time to surface
+      await sleep(100);
+      expect(calls).toEqual(1);
+      expect(unhandled).toEqual([]);
+      const logged = console.error.calls
+        .allArgs()
+        .some((args) => args[1] === "[LOCK] onCompromised threw");
+      expect(logged).toEqual(true);
+    } finally {
+      process.removeListener("unhandledRejection", onUnhandled);
+      await held.release().catch(() => {});
+    }
+  });
+
+  it("still rejects release with ECOMPROMISED when onCompromised throws", async function () {
+    spyOn(console, "error");
+    const key = newKey();
+    const held = await lock(key, {
+      ttl: 100,
+      heartbeat: 10000,
+      onCompromised: () => {
+        throw new Error("boom");
+      },
+    });
+    await sleep(200);
+    let error;
+    try {
+      await held.release();
+    } catch (e) {
+      error = e;
+    }
+    expect(error && error.code).toEqual("ECOMPROMISED");
+    // Nothing left to retry
+    await held.release();
+  });
+
+  it("treats a release retried after the key expired naturally as released", async function () {
+    const key = newKey();
+    const compromised = [];
+    const held = await lock(key, {
+      ttl: 200,
+      heartbeat: 10000,
+      onCompromised: (e) => compromised.push(e),
+    });
+    spyOn(client, "eval").and.returnValue(
+      Promise.reject(new Error("redis down"))
+    );
+    let error;
+    try {
+      await held.release();
+    } catch (e) {
+      error = e;
+    }
+    client.eval.and.callThrough();
+    expect(error && error.message).toEqual("redis down");
+    // The heartbeat stopped at the first call, so the key runs out on its own
+    await sleep(400);
+    expect(await client.get(key)).toBeNull();
+    await held.release();
+    expect(compromised.length).toEqual(0);
   });
 
   it("reports inspect and heldSince", async function () {
