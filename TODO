@@ -1,5 +1,4 @@
 App changes toward consolidated units and horizontal scaling (#2119), each useful on its own:
-- Remove the master: cron jobs take a per-run Redis lock (SET NX cron:<job>:<date>); scheduled posts and welcome/renewal emails move to a Redis due-time sorted set any process can claim; client init() watchers become locked periodic jobs; templates()/folders() startup builds idempotent + locked
 - Node listens on a Unix socket when configured
 - Serve the new template CDN URL format from Redis, not only local disk
 - Parallelize app/sync/rebuild.js
