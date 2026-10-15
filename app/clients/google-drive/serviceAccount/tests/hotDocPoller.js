@@ -99,6 +99,61 @@ describe("google drive hotDocPoller", function () {
     expect(await poller.alarms.when(id)).toBeGreaterThan(Date.now());
   });
 
+  it("starts one sync when two docs of the same blog change at once", async function () {
+    const otherFileId = fileId + "-other";
+    const otherId = [serviceAccountId, blogID, otherFileId].join(":");
+    const cooldownKey = "blot:google-drive:hotdocs:cooldown:" + blogID;
+    try {
+      await poller.enqueue({ blogID, serviceAccountId, fileId, folderId });
+      await poller.enqueue({ blogID, serviceAccountId, fileId: otherFileId, folderId });
+      revision = "rev-2";
+
+      poller.triggerDownloadAndSync.and.callThrough();
+      spyOn(poller, "downloadAndSync").and.callFake(async () => {
+        await new Promise((resolve) => setTimeout(resolve, 50));
+        return "synced";
+      });
+
+      await Promise.all([poller.handleAlarm(id), poller.handleAlarm(otherId)]);
+
+      expect(poller.downloadAndSync).toHaveBeenCalledTimes(1);
+    } finally {
+      await poller.remove(otherId, serviceAccountId);
+      await client.del(cooldownKey);
+    }
+  });
+
+  it("releases the blog's sync cooldown when the sync fails", async function () {
+    const cooldownKey = "blot:google-drive:hotdocs:cooldown:" + blogID;
+    await poller.enqueue({ blogID, serviceAccountId, fileId, folderId });
+    revision = "rev-2";
+
+    poller.triggerDownloadAndSync.and.callThrough();
+    spyOn(poller, "downloadAndSync").and.callFake(async () => {
+      throw new Error("boom");
+    });
+
+    await poller.handleAlarm(id);
+
+    expect(await client.exists(cooldownKey)).toEqual(0);
+  });
+
+  it("re-arms at the first tier when the doc was enqueued again during the poll", async function () {
+    await poller.enqueue({ blogID, serviceAccountId, fileId, folderId });
+    // Old enough for the 10s tier
+    await client.hSet(ITEM_PREFIX + id, "lastSeen", String(Date.now() - 90 * 1000));
+    poller.fetchRateLimited.and.callFake(async (sa, docs, each) => {
+      await client.hSet(ITEM_PREFIX + id, "lastSeen", String(Date.now()));
+      return poller.fetchLatestRevisionState(docs, each);
+    });
+
+    await poller.handleAlarm(id);
+
+    const due = await poller.alarms.when(id);
+    expect(due).toBeGreaterThan(Date.now());
+    expect(due).toBeLessThanOrEqual(Date.now() + 2000 + 300 + 1);
+  });
+
   it("lengthens the interval as the doc ages and stops polling it after ten minutes", async function () {
     await poller.enqueue({ blogID, serviceAccountId, fileId, folderId });
 

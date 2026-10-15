@@ -500,7 +500,16 @@ class HotDocPoller {
     // Counted from when the poll started, as before; setting it only now
     // keeps the doc claimed (not due for another process) while it runs.
     if (rearm) {
-      await this.alarms.set(id, startedAt + intervalMs + jitterMs(intervalMs));
+      // An enqueue() during the poll refreshes lastSeen and arms an early
+      // alarm; re-arming from our stale tier would overwrite it. If lastSeen
+      // moved, poll from the first tier instead. A small race remains if the
+      // enqueue lands between this read and the set below.
+      const stored = await client.hGet(ITEM_PREFIX + id, "lastSeen");
+      if (stored != null && stored !== String(item.lastSeen)) {
+        await this.alarms.set(id, Date.now() + 2000 + jitterMs(300));
+      } else {
+        await this.alarms.set(id, startedAt + intervalMs + jitterMs(intervalMs));
+      }
     }
   }
 
@@ -546,8 +555,16 @@ class HotDocPoller {
   }
 
   async triggerDownloadAndSync(item) {
-    // Shared by all processes: a sync anywhere starts the blog's cooldown
-    if (await client.exists(COOLDOWN_PREFIX + item.blogID)) {
+    // Shared by all processes. Claimed before the work starts (not after) so
+    // two processes handling different docs of one blog can't both sync. A
+    // sync that outlasts the TTL is fine: the folder lock serialises the work.
+    const cooldownKey = COOLDOWN_PREFIX + item.blogID;
+    const claimed = await client.set(cooldownKey, "1", {
+      NX: true,
+      PX: BLOG_SYNC_COOLDOWN_MS,
+    });
+
+    if (!claimed) {
       this.log("sync-cooldown", {
         blogID: item.blogID,
         serviceAccountId: item.serviceAccountId,
@@ -556,6 +573,20 @@ class HotDocPoller {
       return "sync-cooldown";
     }
 
+    let outcome;
+    try {
+      outcome = await this.downloadAndSync(item);
+    } catch (err) {
+      // Release so a retry isn't blocked by a sync that never happened
+      await client.del(cooldownKey);
+      throw err;
+    }
+
+    if (outcome !== "synced") await client.del(cooldownKey);
+    return outcome;
+  }
+
+  async downloadAndSync(item) {
     const { done, folder } = await establishSyncLock(item.blogID);
     try {
       const drive = await this.getDrive(item.serviceAccountId);
@@ -652,9 +683,6 @@ class HotDocPoller {
     });
 
     await sync(item.blogID);
-    await client.set(COOLDOWN_PREFIX + item.blogID, "1", {
-      PX: BLOG_SYNC_COOLDOWN_MS,
-    });
     return "synced";
   }
 
