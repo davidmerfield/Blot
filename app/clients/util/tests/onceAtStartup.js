@@ -36,9 +36,15 @@ describe("onceAtStartup", function () {
   });
 
   it("does not mark done when the work fails, so a restart runs it again", async function () {
-    await expectAsync(
-      onceAtStartup(name, () => Promise.reject(new Error("boom")))
-    ).toBeRejectedWithError("boom");
+    let err;
+    try {
+      await onceAtStartup(name, async () => {
+        throw new Error("boom");
+      });
+    } catch (e) {
+      err = e;
+    }
+    expect(err && err.message).toEqual("boom");
     expect(await client.exists(prefix + ":done")).toEqual(0);
 
     const fn = jasmine.createSpy("fn").and.returnValue(Promise.resolve());

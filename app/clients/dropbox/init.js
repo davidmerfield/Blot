@@ -300,46 +300,44 @@ const resyncRecentSyncsOnStartup = async () => {
 
   if (!blogsToResync.length) return;
 
-  setImmediate(async () => {
-    for (const { blog, blogID } of blogsToResync) {
-      const publish = (...args) => {
-        console.log(clfdate(), "Dropbox:", blogID, ...args);
-      };
+  for (const { blog, blogID } of blogsToResync) {
+    const publish = (...args) => {
+      console.log(clfdate(), "Dropbox:", blogID, ...args);
+    };
 
-      try {
-        console.log(clfdate(), "Dropbox: Resyncing recent blog", blogID);
-        const summary = await resetToBlotWithLock(blogID, publish);
-        if (summary === TRANSFER_INCOMPLETE) {
-          console.log(
-            clfdate(),
-            "Dropbox: Skipping blog with incomplete transfer",
-            blogID
-          );
-          continue;
-        }
-        // Runs on every restart, so only log what Fix() repaired - the
-        // hourly sweep is what reports repairs to the operator.
-        const fixed = await fixBlog(blog);
-        const repaired = syncReport.summarize(fixed.report);
-        if (repaired) {
-          console.log(clfdate(), "Dropbox: Fix repaired", blogID, repaired);
-        }
-        await catchUpSync(blog);
-        console.log(clfdate(), "Dropbox: Resync complete for blog", blogID);
-      } catch (err) {
-        if (err.message === "Failed to acquire folder lock") {
-          console.log(clfdate(), "Dropbox: Skipping busy blog", blogID);
-          continue;
-        }
-        console.error(
+    try {
+      console.log(clfdate(), "Dropbox: Resyncing recent blog", blogID);
+      const summary = await resetToBlotWithLock(blogID, publish);
+      if (summary === TRANSFER_INCOMPLETE) {
+        console.log(
           clfdate(),
-          "Dropbox: Resync error for blog",
-          blogID,
-          err
+          "Dropbox: Skipping blog with incomplete transfer",
+          blogID
         );
+        continue;
       }
+      // Runs on every restart, so only log what Fix() repaired - the
+      // hourly sweep is what reports repairs to the operator.
+      const fixed = await fixBlog(blog);
+      const repaired = syncReport.summarize(fixed.report);
+      if (repaired) {
+        console.log(clfdate(), "Dropbox: Fix repaired", blogID, repaired);
+      }
+      await catchUpSync(blog);
+      console.log(clfdate(), "Dropbox: Resync complete for blog", blogID);
+    } catch (err) {
+      if (err.message === "Failed to acquire folder lock") {
+        console.log(clfdate(), "Dropbox: Skipping busy blog", blogID);
+        continue;
+      }
+      console.error(
+        clfdate(),
+        "Dropbox: Resync error for blog",
+        blogID,
+        err
+      );
     }
-  });
+  }
 };
 
 module.exports = async function init() {
