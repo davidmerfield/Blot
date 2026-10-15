@@ -8,6 +8,12 @@ describe("alarm", function () {
     spec.name = "test-" + randomUUID();
     spec.t = 1000000; // fake clock, ms
 
+    spec.sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+    spec.waitFor = async function (condition) {
+      for (let i = 0; i < 200 && !condition(); i++) await spec.sleep(10);
+      expect(condition()).toBe(true);
+    };
+
     // Instances in a spec share a name, as two processes would
     spec.make = function (handler, options = {}) {
       return alarm(
@@ -19,7 +25,7 @@ describe("alarm", function () {
   });
 
   afterEach(async function () {
-    await client.del("alarm:" + this.name);
+    await client.del("alarm:" + this.name, "alarm:" + this.name + ":claims");
   });
 
   it("does not call the handler before the alarm is due, then handles it once", async function () {
@@ -123,6 +129,105 @@ describe("alarm", function () {
     await alarms.set("a", this.t);
     expect(await alarms.poll()).toEqual(1);
     expect(await alarms.when("a")).toEqual(later);
+  });
+
+  it("keeps an alarm set again to exactly the claimed lease score", async function () {
+    const leaseMs = 1000;
+    const claimedScore = this.t + leaseMs;
+    const alarms = this.make(
+      async (id) => {
+        await alarms.set(id, claimedScore);
+      },
+      { leaseMs }
+    );
+
+    await alarms.set("a", this.t);
+    expect(await alarms.poll()).toEqual(1);
+    expect(await alarms.when("a")).toEqual(claimedScore);
+  });
+
+  it("renews the lease while a handler is still running", async function () {
+    const spec = this;
+    let started = false;
+    let release;
+    const gate = new Promise((resolve) => (release = resolve));
+    const calls = [];
+    const one = this.make(
+      async (id) => {
+        calls.push(id);
+        started = true;
+        await gate;
+      },
+      { leaseMs: 1000, renewMs: 20 }
+    );
+    const two = this.make(async (id) => calls.push(id), {
+      leaseMs: 1000,
+      renewMs: 20,
+    });
+
+    await one.set("a", this.t);
+    const first = one.poll();
+    await this.waitFor(() => started);
+
+    for (let i = 0; i < 3; i++) {
+      spec.t += 600; // well past the original lease by the end
+      await this.sleep(60);
+    }
+
+    expect(await two.poll()).toEqual(0);
+    expect(calls).toEqual(["a"]);
+
+    release();
+    expect(await first).toEqual(1);
+    expect(await one.when("a")).toBe(null);
+    expect(await two.poll()).toEqual(0);
+    expect(calls).toEqual(["a"]);
+  });
+
+  it("does not lease batch items that have not started", async function () {
+    let started = false;
+    let release;
+    const gate = new Promise((resolve) => (release = resolve));
+    const calls = [];
+    const one = this.make(
+      async (id) => {
+        calls.push(id);
+        if (id === "a") {
+          started = true;
+          await gate;
+        }
+      },
+      { batch: 2 }
+    );
+    const two = this.make(async (id) => calls.push(id), { batch: 2 });
+
+    await one.set("a", this.t);
+    await one.set("b", this.t);
+
+    const first = one.poll();
+    await this.waitFor(() => started);
+
+    expect(await two.poll()).toEqual(1);
+    expect(calls).toEqual(["a", "b"]);
+
+    release();
+    expect(await first).toEqual(1);
+    expect(calls).toEqual(["a", "b"]);
+    expect(await one.when("a")).toBe(null);
+    expect(await one.when("b")).toBe(null);
+  });
+
+  it("does not resurrect an alarm cancelled while it was being handled", async function () {
+    const alarms = this.make(async (id) => {
+      await alarms.cancel(id);
+    });
+
+    await alarms.set("a", this.t);
+    expect(await alarms.poll()).toEqual(1);
+    expect(await alarms.when("a")).toBe(null);
+
+    this.t += 100000;
+    expect(await alarms.poll()).toEqual(0);
   });
 
   it("claims at most batch ids per poll", async function () {

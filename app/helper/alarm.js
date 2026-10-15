@@ -1,3 +1,4 @@
+const crypto = require("crypto");
 const client = require("models/client");
 const clfdate = require("helper/clfdate");
 const { isRedisUnavailableError } = require("helper/redisUnavailable");
@@ -12,29 +13,49 @@ const { isRedisUnavailableError } = require("helper/redisUnavailable");
 //   alarms.start();              // poll for due alarms every pollMs
 //
 // Each name is one sorted set, alarm:<name>: member = id, score = due time
-// in ms. There is no payload; the handler re-reads state when it fires.
+// in ms, plus a hash alarm:<name>:claims: id -> token of the current claim.
+// There is no payload; the handler re-reads state when it fires.
 //
 // Delivery is at-least-once, so handlers must be idempotent. A poll claims
-// due ids by moving their score to now + leaseMs, which stops other
-// processes claiming them while this one handles them. If the handler
-// throws, or the process dies, the id simply becomes due again once the
-// lease runs out and is retried by whichever process polls next. When the
-// handler succeeds the id is removed only if its score is still the one we
-// claimed, so an alarm set again during handling (a post rescheduled while
-// it was publishing) survives with its new time.
+// one due id at a time, moving its score to now + leaseMs and storing a
+// fresh random token, so each id's lease starts when its handling begins.
+// While the handler runs the lease is renewed every renewMs. If the handler
+// throws, or the process dies, renewal stops and the id becomes due again
+// once the lease runs out, to be retried by whichever process polls next.
+// Completion, like renewal, only applies while the id still holds our token.
+// set and cancel drop the token, so an alarm set again during handling (a
+// post rescheduled while it was publishing) keeps its new time, and one
+// cancelled during handling stays gone.
+
+const SET = `
+redis.call("ZADD", KEYS[1], ARGV[1], ARGV[2])
+redis.call("HDEL", KEYS[2], ARGV[2])
+return 1`;
+
+const CANCEL = `
+redis.call("ZREM", KEYS[1], ARGV[1])
+redis.call("HDEL", KEYS[2], ARGV[1])
+return 1`;
 
 const CLAIM = `
-local due = redis.call("ZRANGEBYSCORE", KEYS[1], "-inf", ARGV[1], "LIMIT", 0, tonumber(ARGV[3]))
-local lease = tonumber(ARGV[1]) + tonumber(ARGV[2])
-for _, member in ipairs(due) do
-  redis.call("ZADD", KEYS[1], lease, member)
+local due = redis.call("ZRANGEBYSCORE", KEYS[1], "-inf", ARGV[1], "LIMIT", 0, 1)
+if #due == 0 then return false end
+redis.call("ZADD", KEYS[1], tonumber(ARGV[1]) + tonumber(ARGV[2]), due[1])
+redis.call("HSET", KEYS[2], due[1], ARGV[3])
+return due[1]`;
+
+const RENEW = `
+if redis.call("HGET", KEYS[2], ARGV[1]) == ARGV[2] then
+  redis.call("ZADD", KEYS[1], ARGV[3], ARGV[1])
+  return 1
 end
-return due`;
+return 0`;
 
 const COMPLETE = `
-local score = redis.call("ZSCORE", KEYS[1], ARGV[1])
-if score and tonumber(score) == tonumber(ARGV[2]) then
-  return redis.call("ZREM", KEYS[1], ARGV[1])
+if redis.call("HGET", KEYS[2], ARGV[1]) == ARGV[2] then
+  redis.call("ZREM", KEYS[1], ARGV[1])
+  redis.call("HDEL", KEYS[2], ARGV[1])
+  return 1
 end
 return 0`;
 
@@ -62,11 +83,13 @@ module.exports = function alarm(name, handler, options = {}) {
   const {
     pollMs = 5000,
     leaseMs = 60000,
+    renewMs = Math.max(1, Math.floor(leaseMs / 3)),
     batch = 10,
     now = () => Date.now(),
   } = options;
 
   const key = "alarm:" + name;
+  const claimsKey = key + ":claims";
   let timer = null;
   let inFlight = null;
 
@@ -76,12 +99,15 @@ module.exports = function alarm(name, handler, options = {}) {
 
   async function set(id, when) {
     requireString(id, "id");
-    await client.zAdd(key, { score: toMs(when), value: id });
+    await client.eval(SET, {
+      keys: [key, claimsKey],
+      arguments: [String(toMs(when)), id],
+    });
   }
 
   async function cancel(id) {
     requireString(id, "id");
-    await client.zRem(key, id);
+    await client.eval(CANCEL, { keys: [key, claimsKey], arguments: [id] });
   }
 
   async function when(id) {
@@ -90,26 +116,59 @@ module.exports = function alarm(name, handler, options = {}) {
     return score === null || score === undefined ? null : Number(score);
   }
 
-  async function run() {
-    const claimedAt = now();
-    const claimedScore = claimedAt + leaseMs;
-    let ids;
+  // Runs the handler for a claimed id, renewing its lease until it settles
+  async function handle(id, token) {
+    let renewing = true;
+    let renewal = null;
+
+    const renew = setInterval(() => {
+      if (!renewing || renewal) return;
+      renewal = client
+        .eval(RENEW, {
+          keys: [key, claimsKey],
+          arguments: [id, token, String(now() + leaseMs)],
+        })
+        .then((renewed) => {
+          // Set again, cancelled or claimed elsewhere: no longer ours
+          if (Number(renewed) !== 1) renewing = false;
+        })
+        .catch((err) => log("could not renew " + id + ":", err))
+        .then(() => {
+          renewal = null;
+        });
+    }, renewMs);
+    renew.unref();
 
     try {
-      ids = await client.eval(CLAIM, {
-        keys: [key],
-        arguments: [String(claimedAt), String(leaseMs), String(batch)],
-      });
-    } catch (err) {
-      log(isRedisUnavailableError(err) ? "Redis unavailable:" : "claim failed:", err);
-      return 0;
+      await handler(id);
+    } finally {
+      renewing = false;
+      clearInterval(renew);
+      if (renewal) await renewal;
     }
+  }
 
+  async function run() {
     let handled = 0;
 
-    for (const id of ids) {
+    for (let i = 0; i < batch; i++) {
+      const token = crypto.randomUUID();
+      let id;
+
       try {
-        await handler(id);
+        id = await client.eval(CLAIM, {
+          keys: [key, claimsKey],
+          arguments: [String(now()), String(leaseMs), token],
+        });
+      } catch (err) {
+        log(isRedisUnavailableError(err) ? "Redis unavailable:" : "claim failed:", err);
+        break;
+      }
+
+      if (!id) break;
+
+      try {
+        await handle(id, token);
       } catch (err) {
         // Left in place: it becomes due again when the lease expires
         log("handler failed for " + id + ":", err);
@@ -120,8 +179,8 @@ module.exports = function alarm(name, handler, options = {}) {
 
       try {
         await client.eval(COMPLETE, {
-          keys: [key],
-          arguments: [id, String(claimedScore)],
+          keys: [key, claimsKey],
+          arguments: [id, token],
         });
       } catch (err) {
         // The handler ran, so it will run again after the lease
