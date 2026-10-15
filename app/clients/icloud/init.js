@@ -314,9 +314,7 @@ const init = async () => {
   // Resuming can take a long time, so the sweep is scheduled first. Once per
   // deploy across all processes, not once per process.
   try {
-    if (await onceAtStartup("icloud-resume-transfers")) {
-      await resumeInitialTransfers();
-    }
+    await onceAtStartup("icloud-resume-transfers", resumeInitialTransfers);
   } catch (error) {
     console.error(clfdate(), "iCloud: Error resuming initial transfers", error);
   }

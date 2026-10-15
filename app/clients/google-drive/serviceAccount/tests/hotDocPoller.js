@@ -118,6 +118,33 @@ describe("google drive hotDocPoller", function () {
     expect(await client.exists(ITEM_PREFIX + id)).toEqual(0);
   });
 
+  it("does not evict a doc that was enqueued again after the poll read it", async function () {
+    await poller.enqueue({ blogID, serviceAccountId, fileId, folderId });
+    const stale = await poller.loadItem(id);
+    // Another process re-enqueues it after our snapshot
+    const refreshed = String(Date.now());
+    await client.hSet(ITEM_PREFIX + id, "lastSeen", refreshed);
+
+    expect(await poller.evictIfUnchanged(stale, "age")).toBe(false);
+    expect(await field("lastSeen")).toEqual(refreshed);
+
+    expect(await poller.evictIfUnchanged(await poller.loadItem(id), "age")).toBe(true);
+    expect(await client.exists(ITEM_PREFIX + id)).toEqual(0);
+  });
+
+  it("spaces docs.get slots 250ms apart for a service account", async function () {
+    poller.fetchRateLimited.and.callThrough();
+    const times = [];
+    for (let i = 0; i < 3; i++) {
+      await poller.acquireDocsSlot(serviceAccountId);
+      times.push(Date.now());
+    }
+    // Three slots need at least two slot boundaries between them
+    expect(times[2] - times[0]).toBeGreaterThanOrEqual(250);
+    const slots = new Set(times.map((t) => Math.floor(t / 250)));
+    expect(slots.size).toEqual(3);
+  });
+
   it("evicts the oldest docs beyond the per service account cap", async function () {
     const ids = [];
     // Enough to pass the per service account cap of 150 without polling

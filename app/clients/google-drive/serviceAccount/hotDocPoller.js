@@ -15,8 +15,8 @@
  *     complete once the doc has aged out;
  *   - the global and per-service-account caps are sorted sets of ids scored by
  *     first seen, from which the oldest are evicted;
- *   - the docs.get limit per service account is a per-second counter shared
- *     by all processes, and the per-blog sync cooldown is a key with a TTL.
+ *   - the docs.get limit per service account is a set of 250ms slots, one call
+ *     each, claimed through Redis by all processes, and the per-blog sync cooldown is a key with a TTL.
  * The id of a doc is <serviceAccountId>:<blogID>:<fileId>.
  */
 const Bottleneck = require("bottleneck");
@@ -34,8 +34,12 @@ const sync = require("../sync");
 
 const prefix = () => `${clfdate()} Google Drive hotDocPoller:`;
 
-// docs.get() quota: 5/sec per service account; we use 4/sec for buffer
-const DOCS_GET_MAX_PER_SERVICE_ACCOUNT_PER_SEC = 4;
+// docs.get() quota: 5/sec per service account; we use 4/sec for buffer, as one
+// call per 250ms slot (a per-second counter would allow 8 calls across a
+// second boundary).
+const DOCS_GET_SLOT_MS = 250;
+// Slots tried before giving up on a rate-limit slot (about 10s)
+const DOCS_GET_MAX_SLOT_ATTEMPTS = 40;
 
 const POLL_INTERVAL_MS = 1000;
 const BLOG_SYNC_COOLDOWN_MS = 10000;
@@ -52,7 +56,7 @@ const ALARM_BATCH = 20;
 const REDIS_PREFIX = "blot:google-drive:hotdocs:";
 const ITEM_PREFIX = REDIS_PREFIX + "item:";
 const COOLDOWN_PREFIX = REDIS_PREFIX + "cooldown:";
-const RATE_PREFIX = REDIS_PREFIX + "rate:";
+const RATE_PREFIX = REDIS_PREFIX + "docs-slot:";
 const ALL_KEY = REDIS_PREFIX + "all";
 const serviceAccountKey = (serviceAccountId) =>
   REDIS_PREFIX + "by-service-account:" + serviceAccountId;
@@ -228,16 +232,22 @@ class HotDocPoller {
     await this.saveItem(item.id, { lastKnownRevision: latest.lastKnownRevision });
   }
 
-  // Waits for one of the service account's docs.get slots in the current
-  // second. The counter is shared by every process, so the quota holds
-  // however many are polling.
+  // Waits to win the service account's docs.get slot for the current 250ms.
+  // Each slot allows one call, claimed with SET NX by whichever process gets
+  // there first, so the rate is at most 4 a second across all processes, also
+  // across second boundaries. If no slot is won after DOCS_GET_MAX_SLOT_ATTEMPTS
+  // we proceed anyway: Redis being busy or the account being saturated for
+  // ten seconds shouldn't wedge the poll, and a real 429 is handled by the
+  // caller's backoff.
   async acquireDocsSlot(serviceAccountId) {
-    for (;;) {
-      const second = Math.floor(Date.now() / 1000);
-      const key = RATE_PREFIX + serviceAccountId + ":" + second;
-      const [count] = await client.multi().incr(key).expire(key, 3).exec();
-      if (Number(count) <= DOCS_GET_MAX_PER_SERVICE_ACCOUNT_PER_SEC) return;
-      await sleep(1000 - (Date.now() % 1000) + 1);
+    for (let attempt = 0; attempt < DOCS_GET_MAX_SLOT_ATTEMPTS; attempt++) {
+      const now = Date.now();
+      const slot = Math.floor(now / DOCS_GET_SLOT_MS);
+      const key = RATE_PREFIX + serviceAccountId + ":" + slot;
+      const won = await client.set(key, "1", { NX: true, PX: 1000 });
+      if (won !== null) return;
+      const untilNextSlot = (slot + 1) * DOCS_GET_SLOT_MS - Date.now();
+      await sleep(Math.max(0, untilNextSlot) + 1 + jitterMs(20));
     }
   }
 
@@ -296,6 +306,18 @@ class HotDocPoller {
       .exec();
     await this.alarms.cancel(id);
     this.metrics.evictions += 1;
+  }
+
+  // Evicts only if the doc wasn't enqueued again since item was loaded.
+  // Resolves false (nothing evicted) if it was. Another process could still
+  // enqueue between the re-read and the delete; that window is tiny and we
+  // accept it rather than lock every enqueue (a doc that loses that race is
+  // simply enqueued again by its next edit).
+  async evictIfUnchanged(item, reason) {
+    const stored = await client.hGet(ITEM_PREFIX + item.id, "lastSeen");
+    if (stored !== String(item.lastSeen)) return false;
+    await this.evict(item, reason);
+    return true;
   }
 
   async evict(item, reason, level = "info", extra = {}) {
@@ -428,16 +450,21 @@ class HotDocPoller {
     const startedAt = Date.now();
     const ageSeconds = Math.floor((startedAt - item.lastSeen) / 1000);
 
-    if (ageSeconds > EVICT_AFTER_SECONDS) {
-      await this.evict(item, "age");
+    const evictReason =
+      ageSeconds > EVICT_AFTER_SECONDS
+        ? "age"
+        : this.getPollIntervalMs(ageSeconds)
+        ? null
+        : "tier-ended";
+
+    if (evictReason) {
+      if (await this.evictIfUnchanged(item, evictReason)) return;
+      // Enqueued again while we were looking: poll it from the first tier
+      await this.alarms.set(id, Date.now() + 2000 + jitterMs(300));
       return;
     }
 
     const intervalMs = this.getPollIntervalMs(ageSeconds);
-    if (!intervalMs) {
-      await this.evict(item, "tier-ended");
-      return;
-    }
 
     let rearm = true;
 

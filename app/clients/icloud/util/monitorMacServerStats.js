@@ -35,13 +35,16 @@ const shouldNotify = (type, ttl) => lock.once(key(type), ttl);
 
 const check = async () => {
   console.log(clfdate(), "Checking Mac server stats");
+  let stats;
+  // Only a failure to fetch or validate /stats means the macserver is down.
+  // Redis errors in the notification state below must never look like an outage.
   try {
     // fetching stats
     const res = await fetch(MAC_SERVER_ADDRESS + "/stats", {
       headers: { Authorization },
     });
 
-    const stats = await res.json();
+    stats = await res.json();
 
     if (!stats || !stats.disk_bytes_available || !stats.icloud_bytes_available) {
       throw new Error("No stats returned");
@@ -52,8 +55,21 @@ const check = async () => {
       stats.icloud_bytes_available / 1000
     );
 
-    console.log(clfdate(), "Mac server stats: ", stats);
+  } catch (error) {
+    console.log(clfdate(), "Error connecting to mac server: ", error);
+    try {
+      if (await shouldNotify("icloud_server_down", DOWN_NOTIFICATION_TTL)) {
+        email.ICLOUD_SERVER_DOWN();
+      }
+    } catch (redisError) {
+      console.error(clfdate(), "Could not record server down", redisError);
+    }
+    return;
+  }
 
+  console.log(clfdate(), "Mac server stats: ", stats);
+
+  try {
     // Check if server recovered from being down. DEL says whether the marker
     // was there, so exactly one process announces the recovery.
     if (await client.del(key("icloud_server_down"))) {
@@ -84,14 +100,8 @@ const check = async () => {
       }
     }
   } catch (error) {
-    console.log(clfdate(), "Error connecting to mac server: ", error);
-    try {
-      if (await shouldNotify("icloud_server_down", DOWN_NOTIFICATION_TTL)) {
-        email.ICLOUD_SERVER_DOWN();
-      }
-    } catch (redisError) {
-      console.error(clfdate(), "Could not record server down", redisError);
-    }
+    // Redis failure: skip notifying this tick, the next one retries
+    console.error(clfdate(), "Could not update Mac server notifications", error);
   }
 };
 

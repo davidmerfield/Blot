@@ -63,8 +63,7 @@ module.exports = async () => {
 
   // Re-watch for new folders for sites in the middle of the setup process.
   // Once per deploy across all processes.
-  onceAtStartup("google-drive-restart-setup")
-    .then((first) => first && restartSetupProcesses())
+  onceAtStartup("google-drive-restart-setup", () => restartSetupProcesses())
     .catch((err) =>
       console.error(prefix(), "Restarting setup processes failed", err)
     );

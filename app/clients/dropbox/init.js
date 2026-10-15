@@ -349,11 +349,7 @@ module.exports = async function init() {
   scheduleExclusive("dropbox-validation", "0 * * * *", validateAllBlogs);
 
   // Once per deploy across all processes, not once per process.
-  onceAtStartup("dropbox-resync-recent")
-    .then(function (first) {
-      if (first) return resyncRecentSyncsOnStartup();
-    })
-    .catch(function (err) {
+  onceAtStartup("dropbox-resync-recent", resyncRecentSyncsOnStartup).catch(function (err) {
       console.error(clfdate(), "Dropbox: Startup resync failed", err);
     });
 };

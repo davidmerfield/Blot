@@ -117,6 +117,21 @@ describe("icloud monitorMacServerStats", function () {
     expect(sent).toEqual(["down", "recovered", "down"]);
   });
 
+  it("does not email server down when /stats is fine but Redis fails", async function () {
+    stub("redis", {
+      del: async () => {
+        throw new Error("redis unavailable");
+      },
+    });
+    delete require.cache[paths.monitor];
+    const monitor = require("../util/monitorMacServerStats");
+    response = healthy();
+
+    await monitor.check();
+
+    expect(sent).toEqual([]);
+  });
+
   it("registers a per-minute cron job", function () {
     let registered;
     stub("scheduleExclusive", {
