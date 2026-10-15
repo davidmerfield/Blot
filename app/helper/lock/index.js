@@ -63,13 +63,15 @@ async function lock(key, options = {}) {
   // Redis starts the PX countdown when it runs the SET, which is no earlier
   // than startedAt. The first heartbeat EXTEND goes out `heartbeat` ms after
   // we return, so an acquisition is only believable if enough lifetime is
-  // left to survive until then (plus a margin for the EXTEND round trip). A
+  // left to survive until then, plus two margins: one because the watchdog
+  // gives up a margin before the key can expire, and one for the EXTEND
+  // round trip, so the first EXTEND is not sent right at that deadline. A
   // reply that took longer than that may already be too late, or after a full
   // ttl, found the key expired and taken by someone else. Heartbeat should be
   // well under ttl; if it is not, the requirement is capped at three quarters
   // of the ttl so that acquiring stays possible.
   const margin = Math.min(1000, ttl / 10);
-  const staleAfter = Math.max(ttl - heartbeat - margin, ttl / 4);
+  const staleAfter = Math.max(ttl - heartbeat - 2 * margin, ttl / 4);
 
   // Per attempt, so the ":<ms>" suffix heldSince() reads is when the winning
   // SET was sent, not when we first tried.
@@ -220,10 +222,11 @@ async function lock(key, options = {}) {
       arguments: [heldToken],
     });
     if (!deleted && !compromised) {
-      // A retry after a failed release may simply find the key expired: the
-      // heartbeat stopped at the first call, so a full ttl since the last
-      // extension means it ran out on its own, not that it was taken.
-      if (releaseFailed && Date.now() - lastExtended >= ttl) return;
+      // A retry after a failed release may find the key gone because the
+      // first RELEASE deleted it and the reply was lost, or because it
+      // expired. RELEASE compares the token, so nobody else's lock was
+      // touched either way.
+      if (releaseFailed) return;
       compromised = true;
       releasedOk = true; // the lock is gone for good; nothing to retry
       const err = new Error("Lock was lost before release: " + key);

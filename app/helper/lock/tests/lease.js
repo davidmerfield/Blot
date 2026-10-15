@@ -4,7 +4,7 @@ describe("helper/lock lease", function () {
   const { randomUUID } = require("crypto");
 
   const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-  const options = { ttl: 300, heartbeat: 50, retryEvery: 100 };
+  const options = { ttl: 1500, heartbeat: 100, retryEvery: 100 };
   const key = "test:helper-lock:lease:" + randomUUID();
   const leases = [];
   const start = (fn, opts) => {
@@ -40,7 +40,8 @@ describe("helper/lock lease", function () {
     };
     start(fn);
     start(fn);
-    await sleep(600);
+    // Past the ttl, so a holder that stopped renewing would be replaced
+    await sleep(1800);
     expect(started).toEqual(1);
     expect(max).toEqual(1);
   });

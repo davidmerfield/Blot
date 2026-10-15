@@ -99,9 +99,9 @@ describe("helper/lock lock", function () {
 
   it("keeps the lock alive past its ttl with the heartbeat", async function () {
     const key = newKey();
-    const held = await lock(key, { ttl: 300, heartbeat: 50 });
+    const held = await lock(key, { ttl: 1500, heartbeat: 100 });
     try {
-      await sleep(900);
+      await sleep(2000);
       expect(await client.get(key)).toEqual(held.token);
       let error;
       try {
@@ -160,14 +160,15 @@ describe("helper/lock lock", function () {
     spyOn(client, "set").and.callFake(async (...args) => {
       const first = ++calls === 1;
       const result = await original(...args);
-      // The reply to the first acquire arrives after the ttl has passed
-      if (first) await sleep(150);
+      // The reply to the first acquire arrives after staleAfter (250ms) but
+      // well before the key would expire on its own (1000ms)
+      if (first) await sleep(400);
       return result;
     });
     spyOn(client, "eval").and.callThrough();
     let error;
     try {
-      await lock(key, { ttl: 100, heartbeat: 10000, retries: 0 });
+      await lock(key, { ttl: 1000, heartbeat: 10000, retries: 0 });
     } catch (e) {
       error = e;
     }
@@ -226,7 +227,7 @@ describe("helper/lock lock", function () {
     });
     let error;
     try {
-      // 1000 - 500 - 100 = 400ms of the lifetime may be spent; 450 was
+      // 1000 - 500 - 2 * 100 = 300ms of the lifetime may be spent; 450 was
       await lock(key, { ttl: 1000, heartbeat: 500 });
     } catch (e) {
       error = e;
@@ -265,15 +266,15 @@ describe("helper/lock lock", function () {
     const compromised = [];
     const before = Date.now();
     const held = await lock(key, {
-      ttl: 600,
+      ttl: 2000,
       heartbeat: 200,
       onCompromised: () => compromised.push(Date.now()),
     });
     try {
       spyOn(client, "eval").and.returnValue(new Promise(() => {}));
-      expect(await until(() => compromised.length > 0)).toEqual(true);
+      expect(await until(() => compromised.length > 0, 4000)).toEqual(true);
       // Redis started the countdown no earlier than `before`
-      expect(compromised[0]).toBeLessThan(before + 600);
+      expect(compromised[0]).toBeLessThan(before + 2000);
     } finally {
       client.eval.and.callThrough();
       await held.release().catch(() => {});
@@ -354,6 +355,31 @@ describe("helper/lock lock", function () {
     expect(error && error.message).toEqual("redis down");
     // The heartbeat stopped at the first call, so the key runs out on its own
     await sleep(400);
+    expect(await client.get(key)).toBeNull();
+    await held.release();
+    expect(compromised.length).toEqual(0);
+  });
+
+  it("treats a release retried after the first one deleted the key as released", async function () {
+    const key = newKey();
+    const compromised = [];
+    const held = await lock(key, {
+      heartbeat: 10000,
+      onCompromised: (e) => compromised.push(e),
+    });
+    const original = client.eval.bind(client);
+    spyOn(client, "eval").and.callFake(async (...args) => {
+      await original(...args);
+      throw new Error("reply lost");
+    });
+    let error;
+    try {
+      await held.release();
+    } catch (e) {
+      error = e;
+    }
+    client.eval.and.callThrough();
+    expect(error && error.message).toEqual("reply lost");
     expect(await client.get(key)).toBeNull();
     await held.release();
     expect(compromised.length).toEqual(0);
