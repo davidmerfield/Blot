@@ -1,8 +1,15 @@
+Investigate slow creep of green's baseline heap (~40-80MB/day lowest heapUsed in [STATS], never resets until a V8 OOM crash; crashed 13+14 Oct 2026). Leak or unbounded cache? Compare heap snapshots taken hours apart
+- Spikes from heavy post builds (e.g. blog_825ed2a 'All paths', ~250MB) only crash it once the baseline has crept up
+
 How could we generate the directory tree structure used in the hypertext template sidebar on the Server in the template engine
+
+We should filter and only locally client-side cache redis keys with specific prefixes (this is a blunt tool right now and a large site with many entries would wipe the cache. we want to keep blog info keys super hot and ready) 
 
 Suppress new site admin notification for no subscription change (i.e. user deletes then adds back in a single site)
 
 PayPal end cancellation didn't fire native admin notification for cancellation jesse@xxx 
+
+Add an arbritrary input: import this site which just emails me
 
 Add one time login cancellation links to renewal emails 
 
@@ -30,9 +37,10 @@ Add rebuild button to each file on dashboard
 - Add json viewer to files on dashboard
 
 Rewrite node deploy to wait for image after all the init steps to speed up runs
-S3 assets (#2111 waits on both):
-- Bunny: add the blot-storage-prod edge rule with the X-Blot-Origin: s3 test condition, run the checks in config/storage-bucket/README.md (#2111), then drop the test condition to go live
-- Back up blot-storage-prod off AWS (Backblaze B2, hourly, no --delete) before #2111 deletes data/static
+16 Oct: check Bunny's origin error statistics after /blog_* moved to the S3 origin on 15 Oct (rollback: disable edge rules 4 and 5); cdn.blot.site is a pull zone hostname but doesn't resolve in DNS: add a record or drop it
+backfill-assets.js --verify only counts missing/different/stale files: list the keys (like the odd keys), so a gap can be traced without a separate find + S3 listing
+
+Back up blot-storage-prod off AWS (Backblaze B2, hourly, no --delete): _avatars and _template_assets can't be regenerated
 
 Bunny: decide Volume vs Standard tier (more PoPs, faster first byte far from Volume PoPs) once we've run the numbers on cost and latency; also why cache HIT is low (Statistics: status codes, top uncached URLs)
 
@@ -79,7 +87,6 @@ Redis host follow-ups (from #2041, new host since 8 Oct):
 - Consider dropping Redis client-side caching (CLIENT TRACKING) in favour of the app's in-process LRU caches: on prod 10 clients have tracking on and the server's tracking table sits at its 1M-key cap (tracking-table-max-keys), so Redis is constantly evicting entries and sending invalidations
 
 Image cache and thumbnails name some files after a slug that is still percent-encoded (literal %E8..., sometimes cut mid-sequence: ...-%E2.png, large.jpg%e2%80%9d) and build URLs without escaping, so those images 404/400 today: slug from the decoded name, then rebuild affected blogs (backfill --dry-run lists them)
-odt converter extracts every document's media into one shared _assets/media (image1.png etc. overwrite each other, served immutable): give it a per-document hash dir like docx
 
 Proxy container follow-ups (cut over 8 Oct 2026, #1941)
 - Check webhooks. SSE through the container, and that a known /blog_* asset on cdn. has Cache-Control 1y and no Blot-Upstream
