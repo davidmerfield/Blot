@@ -23,9 +23,12 @@ function fromID(id) {
 
 function getEntry(blogID, path) {
   var get = require("./get");
-  return new Promise(function (resolve) {
-    get(blogID, path, function (entry) {
-      resolve(entry);
+  return new Promise(function (resolve, reject) {
+    // Entry.get calls back (entry, err); on a read error entry is undefined,
+    // which must not be mistaken for "no such entry"
+    get(blogID, path, function (entry, err) {
+      if (err) reject(err);
+      else resolve(entry);
     });
   });
 }
@@ -63,14 +66,36 @@ var alarms = alarm(
 
     // Rescheduled to a later date since this alarm was set
     if (entry.dateStamp > Date.now()) {
-      await alarms.set(id, entry.dateStamp);
+      // A save can land between our read and our set, and its own hook may
+      // already have run, so our set would leave its older date behind. Re-read
+      // and correct until stable: the saver's hook runs after its write, so
+      // this converges on the newest state.
+      for (var attempt = 0; attempt < 3; attempt++) {
+        await alarms.set(id, entry.dateStamp);
+        var latest = await getEntry(blogID, path);
+
+        if (!latest || !latest.scheduled) {
+          await alarms.cancel(id);
+          break;
+        }
+
+        if (latest.dateStamp === entry.dateStamp) break;
+
+        entry = latest;
+      }
       return;
     }
 
-    // Errors (e.g. Redis unavailable) propagate: the alarm is retried
-    // when its lease runs out
-    await setEntry(blogID, path);
-    await bumpCacheID(blogID);
+    // Re-saving cancels this alarm (the entry is no longer scheduled) in
+    // parallel with the list updates, so if a later step fails the alarm is
+    // already gone: re-arm it now so a later poll retries, then rethrow
+    try {
+      await setEntry(blogID, path);
+      await bumpCacheID(blogID);
+    } catch (err) {
+      await alarms.set(id, Date.now());
+      throw err;
+    }
 
     console.log(clfdate(), "Blog:", blogID + ":", "Published entry as scheduled!", path);
   },

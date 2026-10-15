@@ -8,6 +8,7 @@
 
 const Blog = require("models/blog");
 const Entries = require("models/entries");
+const Entry = require("models/entry");
 const scheduled = require("models/entry/scheduled");
 
 function blogIDs() {
@@ -16,11 +17,17 @@ function blogIDs() {
   );
 }
 
+// Entries.get swallows failures into an empty list; getListIDs and Entry.get
+// report them, so a read failure is counted rather than mistaken for "none"
 function scheduledEntries(blogID) {
   return new Promise((resolve, reject) =>
-    Entries.get(blogID, { lists: ["scheduled"] }, (err, list) =>
-      err ? reject(err) : resolve(list.scheduled || [])
-    )
+    Entries.getListIDs(blogID, "scheduled", {}, (err, ids) => {
+      if (err) return reject(err);
+      if (!ids.length) return resolve([]);
+      Entry.get(blogID, ids, (entries, err) =>
+        err ? reject(err) : resolve(entries)
+      );
+    })
   );
 }
 

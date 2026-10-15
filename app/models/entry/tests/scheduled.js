@@ -123,4 +123,73 @@ describe("entry scheduled publication", function () {
 
     expect(await alarms.when(id)).toBe(null);
   });
+
+  // The handler requires ./get on each run, so swapping the cached export
+  // changes what it reads without touching the real entry
+  async function withGetter(fake, fn) {
+    const path = require.resolve("../get");
+    const original = require.cache[path].exports;
+    require.cache[path].exports = fake;
+    try {
+      await fn();
+    } finally {
+      require.cache[path].exports = original;
+    }
+  }
+
+  it("keeps the alarm if publishing fails after the re-save", async function () {
+    const id = this.id("/flaky.txt");
+    await this.set("/flaky.txt", "Date: " + this.future(1500) + "\n\nHello");
+    await sleep(2000);
+
+    const Blog = require("models/blog");
+    const bump = Blog.bumpCacheID;
+    let failed = false;
+    spyOn(Blog, "bumpCacheID").and.callFake(function (blogID, callback) {
+      if (!failed) {
+        failed = true;
+        return callback(new Error("boom"));
+      }
+      return bump.call(Blog, blogID, callback);
+    });
+
+    await alarms.poll();
+
+    expect(failed).toBe(true);
+    expect(await alarms.when(id)).not.toBe(null);
+
+    await alarms.poll();
+
+    expect((await this.get("/flaky.txt")).scheduled).toBe(false);
+    expect(await alarms.when(id)).toBe(null);
+  });
+
+  it("keeps the alarm if the entry cannot be read", async function () {
+    const id = this.id("/unreadable.txt");
+    await alarms.set(id, Date.now() - 1000);
+
+    await withGetter(
+      (blogID, path, callback) => callback(undefined, new Error("boom")),
+      () => alarms.poll()
+    );
+
+    expect(await alarms.when(id)).not.toBe(null);
+  });
+
+  it("does not overwrite a newer reschedule that lands mid-handling", async function () {
+    const id = this.id("/moving.txt");
+    const d1 = Date.now() + DAY;
+    const d2 = Date.now() + 2 * DAY;
+    const reads = [d1, d2];
+
+    await alarms.set(id, Date.now() - 1000);
+
+    await withGetter(
+      (blogID, path, callback) =>
+        callback({ scheduled: true, dateStamp: reads.length > 1 ? reads.shift() : reads[0] }),
+      () => alarms.poll()
+    );
+
+    expect(await alarms.when(id)).toEqual(d2);
+  });
 });
