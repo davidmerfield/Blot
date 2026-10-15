@@ -116,6 +116,7 @@ Newest last. Times in UTC.
   slave of the host's mount and goes with the host's umount, so it is now a
   `follower=` that doesn't block (#2117). Release and detach then went
   cleanly.
-- Follow-up: delete the old volume and its snapshot from 22 Oct (TODO). New
+- Afterwards: the operator deleted the old volume the same day (the snapshot
+  is the rollback). Follow-up: delete that snapshot from 22 Oct (TODO). New
   data-disk emails at 90/95/99% and a daily-email line (#2115) watch the
   smaller margin; grow with `resize.sh grow`.
