@@ -136,5 +136,15 @@ describe("scheduler", function () {
       expect(headlines[0]).toContain("90%");
       expect(headlines[1]).toContain("95%");
     });
+
+    it("does not email for a lower level after a higher one", async function () {
+      const at = (percent) => [disk("data", 100 * GB, percent)];
+
+      await this.notifyLowDisk(at(96));
+      await this.notifyLowDisk(at(91));
+
+      expect(email.WARNING_LOW_DISK_SPACE.calls.count()).toEqual(1);
+      expect(email.WARNING_LOW_DISK_SPACE.calls.argsFor(0)[1].headline).toContain("95%");
+    });
   });
 });

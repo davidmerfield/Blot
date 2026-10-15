@@ -63,6 +63,19 @@ async function notifyLowDisk(disks) {
       (await lock.once(DATA_DISK_NOTIFIED_KEY + alert.percent, DISK_NOTIFY_TTL_MS))
     ) {
       sendLowDiskEmail(disks, alert.headline);
+
+      // Having emailed for this level, a later reading at a lower one (the
+      // disk recovering a little) must not email again within the TTL.
+      const lower = freeDiskSpace.DATA_DISK_ALERTS.filter(
+        other => other.percent < alert.percent
+      );
+      if (lower.length) {
+        const multi = client.multi();
+        for (const other of lower) {
+          multi.set(DATA_DISK_NOTIFIED_KEY + other.percent, "1", "PX", DISK_NOTIFY_TTL_MS);
+        }
+        await multi.exec();
+      }
     }
   } catch (err) {
     console.error(clfdate(), "Error checking whether to send low disk space email", err);
@@ -73,6 +86,11 @@ async function notifyLowDisk(disks) {
 // have been in another process, so when it last ran is kept in Redis (its
 // alert state is at check-redis-host's STATE_KEY).
 const REDIS_HOST_CHECKED_AT_KEY = "blot:redis-host:checked-at";
+
+// If Redis is readable but refuses writes (OOM, MISCONF) the SET below fails
+// and the stored time goes stale, so the last completed check is also kept in
+// this process and the newer of the two is used.
+let redisHostCheckedAtInMemory = null;
 
 module.exports = function () {
   // Log useful system information, once per minute
@@ -312,7 +330,11 @@ module.exports = function () {
   lock.cron("check-redis-host", "2-59/5 * * * *", async function () {
     try {
       const checkedAt = await client.get(REDIS_HOST_CHECKED_AT_KEY);
-      const redisHostCheckedAt = checkedAt === null ? null : Number(checkedAt);
+      const stored = checkedAt === null ? null : Number(checkedAt);
+      const redisHostCheckedAt =
+        stored === null || Number.isNaN(stored)
+          ? redisHostCheckedAtInMemory
+          : Math.max(stored, redisHostCheckedAtInMemory || 0);
       const { sent, report } = await checkRedisHost({
         lastCheckAt: redisHostCheckedAt,
         sendEmail: (view) =>
@@ -322,7 +344,12 @@ module.exports = function () {
             )
           ),
       });
-      await client.set(REDIS_HOST_CHECKED_AT_KEY, String(report.now));
+      redisHostCheckedAtInMemory = report.now;
+      try {
+        await client.set(REDIS_HOST_CHECKED_AT_KEY, String(report.now));
+      } catch (err) {
+        console.log(clfdate(), "Error: Saving Redis host check time", err.message);
+      }
       if (sent) console.log(clfdate(), "Sent Redis host alert email");
     } catch (err) {
       if (isRedisUnavailableError(err)) {
