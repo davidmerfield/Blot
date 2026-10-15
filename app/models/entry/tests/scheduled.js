@@ -42,14 +42,28 @@ describe("entry scheduled publication", function () {
     expect(await alarms.when(id)).toEqual(entry.dateStamp);
   });
 
-  it("cancels the alarm when the date moves to the past", async function () {
+  it("leaves the alarm alone when the date moves to the past", async function () {
     const id = this.id("/future.txt");
     await this.set("/future.txt", "Date: " + this.future(DAY) + "\n\nHello");
     expect(await alarms.when(id)).not.toBe(null);
 
     const entry = await this.set("/future.txt", "Date: 2020-01-01\n\nHello");
 
+    // Published by this save, but only the alarm handler completes (removes)
+    // the alarm, after the whole publication
     expect(entry.scheduled).toBe(false);
+    expect(await alarms.when(id)).not.toBe(null);
+  });
+
+  it("removes the alarm when the handler publishes a due entry", async function () {
+    const id = this.id("/due.txt");
+    await this.set("/due.txt", "Date: " + this.future(1500) + "\n\nHello");
+    await sleep(2000);
+    expect(await alarms.when(id)).not.toBe(null);
+
+    await alarms.poll();
+
+    expect((await this.get("/due.txt")).scheduled).toBe(false);
     expect(await alarms.when(id)).toBe(null);
   });
 
@@ -64,6 +78,16 @@ describe("entry scheduled publication", function () {
         err ? reject(err) : resolve()
       )
     );
+
+    expect(await alarms.when(id)).toBe(null);
+  });
+
+  it("cancels the alarm when the entry is deleted", async function () {
+    const id = this.id("/future.txt");
+    await this.set("/future.txt", "Date: " + this.future(DAY) + "\n\nHello");
+    expect(await alarms.when(id)).not.toBe(null);
+
+    await this.drop("/future.txt");
 
     expect(await alarms.when(id)).toBe(null);
   });
@@ -202,5 +226,58 @@ describe("entry scheduled publication", function () {
     );
 
     expect(await alarms.when(id)).toEqual(d2);
+  });
+
+  describe("reconcile", function () {
+    it("sets the alarm of a scheduled entry that has none", async function () {
+      const id = this.id("/missing.txt");
+      const entry = await this.set(
+        "/missing.txt",
+        "Date: " + this.future(DAY) + "\n\nHello"
+      );
+      await alarms.cancel(id);
+
+      const counts = await scheduled.reconcile();
+
+      expect(counts.failed).toEqual(0);
+      expect(counts.set).toBeGreaterThan(0);
+      expect(await alarms.when(id)).toEqual(entry.dateStamp);
+    });
+
+    it("corrects an alarm at the wrong time", async function () {
+      const id = this.id("/wrong.txt");
+      const entry = await this.set(
+        "/wrong.txt",
+        "Date: " + this.future(DAY) + "\n\nHello"
+      );
+      await alarms.set(id, entry.dateStamp + DAY);
+
+      await scheduled.reconcile();
+
+      expect(await alarms.when(id)).toEqual(entry.dateStamp);
+    });
+
+    it("leaves a correct alarm untouched", async function () {
+      const id = this.id("/right.txt");
+      const entry = await this.set(
+        "/right.txt",
+        "Date: " + this.future(DAY) + "\n\nHello"
+      );
+      spyOn(alarms, "set").and.callThrough();
+
+      await scheduled.reconcile();
+
+      expect(alarms.set).not.toHaveBeenCalledWith(id, jasmine.anything());
+      expect(await alarms.when(id)).toEqual(entry.dateStamp);
+    });
+
+    it("ignores a published entry", async function () {
+      const id = this.id("/published.txt");
+      await this.set("/published.txt", "Date: 2020-01-01\n\nHello");
+
+      await scheduled.reconcile();
+
+      expect(await alarms.when(id)).toBe(null);
+    });
   });
 });

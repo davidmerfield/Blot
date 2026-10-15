@@ -19,6 +19,7 @@ describe("scheduler", function () {
     "daily-update",
     "subscription-emails",
     "welcome-email-reconcile",
+    "scheduled-entries-reconcile",
   ];
 
   describe("registering jobs", function () {

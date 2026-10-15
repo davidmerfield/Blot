@@ -89,15 +89,17 @@ var alarms = alarm(
       return;
     }
 
-    // Re-saving cancels this alarm (the entry is no longer scheduled) in
-    // parallel with the list updates, so if a later step fails the alarm is
-    // already gone: re-arm it so a later poll retries, then rethrow. Not for
-    // right now, or the same poll would claim it again and spin on a failure.
+    // The alarm survives the re-save (see addToSchedule) and is removed by the
+    // alarm helper only when this handler returns, i.e. after the whole
+    // publication. If a step fails, push the alarm out by RETRY_MS so a later
+    // poll retries, then rethrow. Not for right now, or the same poll would
+    // claim it again and spin on a failure.
     try {
       await setEntry(blogID, path);
       await bumpCacheID(blogID);
     } catch (err) {
-      await alarms.set(id, Date.now() + module.exports.RETRY_MS);
+      await alarms.set(id, Date.now() + module.exports.reconcile = reconcile;
+module.exports.RETRY_MS);
       throw err;
     }
 
@@ -106,20 +108,92 @@ var alarms = alarm(
   { pollMs: 5000 }
 );
 
-// Called from entry.set for every save: arms the alarm if the entry is
-// scheduled, otherwise cancels any alarm it had (date moved to the past,
-// made a draft, deleted or dropped). Cancelling a missing alarm is a no-op.
+// Called from entry.set for every save. Arms the alarm if the entry is
+// scheduled; cancels it if the entry is a draft, deleted or gone. A published
+// entry (date now in the past) is left alone: the alarm handler removes its
+// own alarm only once the whole publication (re-save and cache bump) has
+// succeeded, so a process that exits mid-publish leaves the claimed alarm to
+// be retried after its lease. A stray alarm for an already published entry
+// just re-saves it (idempotent) when it fires, then completes.
 function addToSchedule(blogID, entry, callback) {
   ensure(blogID, "string").and(entry, model).and(callback, "function");
 
   var id = toID(blogID, entry.path);
-  var done = entry.scheduled
-    ? alarms.set(id, entry.dateStamp)
-    : alarms.cancel(id);
+  var done;
+
+  if (entry.scheduled) done = alarms.set(id, entry.dateStamp);
+  else if (entry.draft || entry.deleted) done = alarms.cancel(id);
+  else done = Promise.resolve();
 
   done.then(function () {
     callback();
   }, callback);
+}
+
+// Safety net for alarms that went missing or stale (a lost race, a flush, an
+// entry scheduled before alarms existed): for every blog, makes sure each
+// entry in the scheduled list has an alarm at its dateStamp. Only writes
+// missing or different alarms. Resolves to counts; a blog that fails is
+// logged and counted, and the rest carry on.
+async function reconcile() {
+  var Blog = require("models/blog");
+  var Entries = require("models/entries");
+  var Entry = require("./index");
+
+  var blogIDs = await new Promise(function (resolve, reject) {
+    Blog.getAllIDs(function (err, ids) {
+      if (err) reject(err);
+      else resolve(ids);
+    });
+  });
+
+  // Entries.get swallows failures into an empty list; getListIDs and Entry.get
+  // report them, so a read failure is counted rather than mistaken for "none"
+  function scheduledEntries(blogID) {
+    return new Promise(function (resolve, reject) {
+      Entries.getListIDs(blogID, "scheduled", {}, function (err, ids) {
+        if (err) return reject(err);
+        if (!ids.length) return resolve([]);
+        Entry.get(blogID, ids, function (entries, err) {
+          if (err) reject(err);
+          else resolve(entries);
+        });
+      });
+    });
+  }
+
+  var counts = { blogs: 0, set: 0, failed: 0 };
+
+  for (var blogID of blogIDs) {
+    counts.blogs++;
+
+    try {
+      var entries = await scheduledEntries(blogID);
+
+      for (var entry of entries) {
+        if (!entry.scheduled) continue;
+
+        var id = toID(blogID, entry.path);
+        var current = await alarms.when(id);
+
+        if (current === null || current !== entry.dateStamp) {
+          await alarms.set(id, entry.dateStamp);
+          counts.set++;
+        }
+      }
+    } catch (err) {
+      counts.failed++;
+      console.error(
+        clfdate(),
+        "Blog:",
+        blogID + ":",
+        "Could not reconcile scheduled entries:",
+        (err && err.message) || err
+      );
+    }
+  }
+
+  return counts;
 }
 
 addToSchedule.alarm = alarms;
@@ -127,4 +201,5 @@ addToSchedule.toID = toID;
 addToSchedule.fromID = fromID;
 
 module.exports = addToSchedule;
+module.exports.reconcile = reconcile;
 module.exports.RETRY_MS = 30 * 1000;

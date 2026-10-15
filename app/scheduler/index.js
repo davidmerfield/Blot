@@ -372,6 +372,26 @@ module.exports = function () {
     }
   });
 
+  // Hourly safety net: re-arms any missing or wrong publication alarm
+  console.log(clfdate(), "Scheduled hourly reconcile of scheduled entry alarms");
+  lock.cron("scheduled-entries-reconcile", "20 * * * *", async function () {
+    try {
+      const counts = await require("models/entry/scheduled").reconcile();
+
+      if (counts.set || counts.failed)
+        console.log(
+          clfdate(),
+          "Scheduled entries: reconciled",
+          counts.blogs,
+          "blogs, set",
+          counts.set,
+          "alarms" + (counts.failed ? ", " + counts.failed + " blogs failed" : "")
+        );
+    } catch (err) {
+      console.log(clfdate(), "Error: Reconciling scheduled entry alarms", err);
+    }
+  });
+
   console.log(clfdate(), "Scheduled daily check of featured sites");
   lock.cron("check-featured-sites", { hour: 8, minute: 0 }, function () {
     console.log(clfdate(), "Checking featured sites");
