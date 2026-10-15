@@ -1,8 +1,50 @@
+How could we generate the directory tree structure used in the hypertext template sidebar on the Server in the template engine
+
+Suppress new site admin notification for no subscription change (i.e. user deletes then adds back in a single site)
+
+PayPal end cancellation didn't fire native admin notification for cancellation jesse@xxx 
+
+Add one time login cancellation links to renewal emails 
+
+Add lifetime subscription to the billing interval page
+
+Implement liveline for stats streaming
+- https://benji.org/liveline
+
+Merge proxy and note containers into a single image which may be used as child processes
+- Does the airlock need to be a separate image or can we bake this in as well? 
+
+Add a tool which randomly samples, production markdown posts, and runs version of build and version B of build on it
+- Goal would be to identify regression in a new version of the build process 
+
+add transfer site flow to blot
+- for designers and develeopers to transfer a site to their client after building it
+
+Add site per customer stat to daily update
+
+Open source as content marketing
+- Close my GitHub account 
+- Release pane and other open source projects that I can spin out of blot
+
+Add rebuild button to each file on dashboard
+- Add json viewer to files on dashboard
+
+Rewrite node deploy to wait for image after all the init steps to speed up runs
+S3 assets (#2111 waits on both):
+- Bunny: add the blot-storage-prod edge rule with the X-Blot-Origin: s3 test condition, run the checks in config/storage-bucket/README.md (#2111), then drop the test condition to go live
+- Back up blot-storage-prod off AWS (Backblaze B2, hourly, no --delete) before #2111 deletes data/static
+
+Bunny: decide Volume vs Standard tier (more PoPs, faster first byte far from Volume PoPs) once we've run the numbers on cost and latency; also why cache HIT is low (Statistics: status codes, top uncached URLs)
+
 Rewrite node deploy to wait for image after all the init steps to speed up runs
 
-Create a skill which interacts with the production test blogs through the locally synced folders
-
 Set up cloud, watch memory agent on instance and in code
+
+We get two emails one after the other and we should only get one
+- User in overdue disabled grace period
+- User account has been closed after for late payments
+
+Should we do a hybrid static build into s3 for blog HTML JS and CSS only?
 
 Data volume follow-ups (shrunk to gp3 on 9 Oct with config/host/data-volume/resize.sh; see the data-volume skill):
 - From 16 Oct: delete the 8 snapshots of the old data volume vol-0a2e04d301e025e60 (deleted 9 Oct): the pre-resize snapshot snap-0e4fdce70e58e0da6 (the rollback until then) and the 7 daily DLM ones, which the policy stopped managing when the volume lost its Name tag
