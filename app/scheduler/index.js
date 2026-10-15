@@ -160,6 +160,14 @@ module.exports = function () {
     console.log(clfdate(), "Sent", sent, "subscription renewal and expiry emails");
   });
 
+  // Repair users whose welcome email alarm was never set (the sign-up route
+  // schedules it after the user is committed, and can fail)
+  console.log(clfdate(), "Scheduled daily welcome email alarm reconcile");
+  lock.cron("welcome-email-reconcile", { hour: 15, minute: 0 }, async function () {
+    const scheduled = await User.scheduleWelcomeEmail.reconcile({ days: 7 });
+    console.log(clfdate(), "Re-armed", scheduled, "welcome email alarms");
+  });
+
   console.log(clfdate(), "Scheduled daily check of storage disk usage");
   scheduler.scheduleJob({ hour: 10, minute: 0 }, function () {
     console.log(clfdate(), "Scheduler: Checking available disk space");

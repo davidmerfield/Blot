@@ -44,6 +44,13 @@ function sentKey (uid, periodEnd) {
   return "subscription-email:" + uid + ":" + periodEnd;
 }
 
+// Short claim held while a send is in progress (longer than any send)
+var SENDING_CLAIM_TTL_MS = 10 * 60 * 1000;
+
+function sendingKey (uid, periodEnd) {
+  return "subscription-email:sending:" + uid + ":" + periodEnd;
+}
+
 // Which email, if any, is this user due right now? Pure: returns
 // { name, periodEnd } where name is the helper/email method to call, or null.
 // A user is due from the warning date (the period end minus DAYS_WARNING)
@@ -104,18 +111,24 @@ function sendEmail (name, uid) {
 }
 
 // Sends the user's warning email if they are due one and nobody has sent it
-// for this billing period. Resolves to the email name sent, or null. If the
-// send fails the marker is removed so the next scan tries again.
+// for this billing period. Resolves to the email name sent, or null. The
+// durable sent marker is set only after the send succeeds; a short sending
+// claim keeps concurrent runs from sending at the same time. If the send
+// fails the claim is removed so the next scan tries again. A crash between
+// the send and the durable marker can resend after the claim expires, which
+// is accepted: a duplicate warning beats a lost one.
 async function sendForUser (uid, now) {
   var user = await getUser(uid);
   var decision = decide(user, now);
 
   if (!decision) return null;
 
-  var won = await lock.once(
-    sentKey(uid, decision.periodEnd),
-    SENT_MARKER_TTL_MS
-  );
+  var durable = sentKey(uid, decision.periodEnd);
+  var claim = sendingKey(uid, decision.periodEnd);
+
+  if (await client.exists(durable)) return null;
+
+  var won = await lock.once(claim, SENDING_CLAIM_TTL_MS);
 
   if (!won) return null;
 
@@ -124,9 +137,12 @@ async function sendForUser (uid, now) {
   try {
     await sendEmail(decision.name, uid);
   } catch (err) {
-    await client.del(sentKey(uid, decision.periodEnd));
+    await client.del(claim);
     throw err;
   }
+
+  await client.set(durable, "1", { PX: SENT_MARKER_TTL_MS });
+  await client.del(claim);
 
   return decision.name;
 }
@@ -160,5 +176,7 @@ module.exports = {
   sendForUser: sendForUser,
   scan: scan,
   sentKey: sentKey,
+  sendingKey: sendingKey,
+  SENDING_CLAIM_TTL_MS: SENDING_CLAIM_TTL_MS,
   SENT_MARKER_TTL_MS: SENT_MARKER_TTL_MS
 };

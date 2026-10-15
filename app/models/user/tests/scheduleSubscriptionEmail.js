@@ -107,8 +107,10 @@ describe("scheduleSubscriptionEmail", function () {
     });
 
     afterEach(async function () {
-      for (var periodEnd of this.periodEnds)
+      for (var periodEnd of this.periodEnds) {
         await client.del(subscriptionEmail.sentKey(this.user.uid, periodEnd));
+        await client.del(subscriptionEmail.sendingKey(this.user.uid, periodEnd));
+      }
     });
 
     function setUser(uid, updates) {
@@ -166,7 +168,7 @@ describe("scheduleSubscriptionEmail", function () {
       expect(this.sends.length).toBe(2);
     });
 
-    it("clears its marker when the send fails so the next scan retries", async function () {
+    it("clears its claim when the send fails so the next scan retries", async function () {
       var uid = this.user.uid;
       var sub = subscription(5);
       this.periodEnds.push(sub.current_period_end);
@@ -192,6 +194,22 @@ describe("scheduleSubscriptionEmail", function () {
       expect(await subscriptionEmail.sendForUser(uid, now)).toBe(
         "UPCOMING_RENEWAL"
       );
+    });
+
+    it("can resend after a crash between the send and the durable marker, once the claim expires", async function () {
+      var uid = this.user.uid;
+      var sub = subscription(5);
+      this.periodEnds.push(sub.current_period_end);
+
+      await setUser(uid, { subscription: sub });
+      // Simulate a process that sent, then died before setting the durable
+      // marker: only a (short-lived) claim remains.
+      await client.set(subscriptionEmail.sendingKey(uid, sub.current_period_end), "1", { PX: 150 });
+
+      expect(await subscriptionEmail.sendForUser(uid, now)).toBe(null);
+      await new Promise(function (r) { setTimeout(r, 250); });
+      expect(await subscriptionEmail.sendForUser(uid, now)).toBe("UPCOMING_RENEWAL");
+      expect(await subscriptionEmail.sendForUser(uid, now)).toBe(null);
     });
 
     it("sends nothing to users outside the window", async function () {

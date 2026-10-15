@@ -35,7 +35,13 @@ describe("user", function () {
   }
 
   function sentKey(uid) {
-    return scheduleWelcomeEmail.sentKey(uid);
+    return scheduleWelcomeEmail.sendingKey(uid);
+  }
+
+  function sleep(ms) {
+    return new Promise(function (resolve) {
+      setTimeout(resolve, ms);
+    });
   }
 
   beforeEach(function () {
@@ -77,17 +83,79 @@ describe("user", function () {
     expect(await alarms.when(uid)).toBe(null);
   });
 
-  it("sends the welcome email once when the handler runs twice at the same time", async function () {
+  it("sends once when the handler runs twice at the same time; the loser throws", async function () {
     var uid = this.user.uid;
 
     await setUser(uid, { welcomeEmailSent: false });
-    await Promise.all([
+    var results = await Promise.allSettled([
       scheduleWelcomeEmail.handler(uid),
       scheduleWelcomeEmail.handler(uid),
     ]);
 
     expect(this.sends).toEqual([uid]);
+    expect(results.filter((r) => r.status === "rejected").length).toBe(1);
     expect((await getUser(uid)).welcomeEmailSent).toBe(true);
+  });
+
+  it("is blocked by a stale sending claim only until it expires", async function () {
+    var uid = this.user.uid;
+
+    await setUser(uid, { welcomeEmailSent: false });
+    // A claim left by a process that died mid-send
+    await client.set(sentKey(uid), "1", { PX: 150 });
+
+    var failed = false;
+    try {
+      await scheduleWelcomeEmail.handler(uid);
+    } catch (err) {
+      failed = true;
+    }
+    expect(failed).toBe(true);
+    expect(this.sends).toEqual([]);
+
+    await sleep(250);
+    await scheduleWelcomeEmail.handler(uid);
+
+    expect(this.sends).toEqual([uid]);
+    expect((await getUser(uid)).welcomeEmailSent).toBe(true);
+  });
+
+  describe("reconcile", function () {
+    it("sets an alarm for a recent user without one", async function () {
+      var uid = this.user.uid;
+
+      await setUser(uid, { created: Date.now() - 1000, welcomeEmailSent: false });
+      await alarms.cancel(uid);
+
+      await scheduleWelcomeEmail.reconcile({ days: 7 });
+
+      expect(await alarms.when(uid)).not.toBe(null);
+    });
+
+    it("sets nothing for a user who was already sent the email", async function () {
+      var uid = this.user.uid;
+
+      await setUser(uid, { created: Date.now() - 1000, welcomeEmailSent: true });
+      await alarms.cancel(uid);
+
+      await scheduleWelcomeEmail.reconcile({ days: 7 });
+
+      expect(await alarms.when(uid)).toBe(null);
+    });
+
+    it("sets nothing for a user older than the window", async function () {
+      var uid = this.user.uid;
+
+      await setUser(uid, {
+        created: Date.now() - 10 * 24 * 60 * 60 * 1000,
+        welcomeEmailSent: false,
+      });
+      await alarms.cancel(uid);
+
+      await scheduleWelcomeEmail.reconcile({ days: 7 });
+
+      expect(await alarms.when(uid)).toBe(null);
+    });
   });
 
   it("skips users who were already sent the email", async function () {
@@ -105,7 +173,7 @@ describe("user", function () {
     expect(this.sends).toEqual([]);
   });
 
-  it("clears its marker when the send fails so a retry sends", async function () {
+  it("clears its claim when the send fails so a retry sends", async function () {
     var uid = this.user.uid;
     var sends = this.sends;
 
