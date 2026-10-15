@@ -180,8 +180,9 @@ nothing is rewritten. Only `/blog_*` changes origin. Everything else
 ## Backup
 
 `_avatars` and `_template_assets` exist only here and can't be regenerated, so
-the bucket is backed up hourly to Backblaze B2 (see `app/storage/README` §3).
-Check that backup before anything which could lose objects.
+the bucket is to be backed up hourly to Backblaze B2 (see `app/storage/README`
+§3). That isn't set up yet (see TODO); once it is, check it before anything
+which could lose objects.
 
 ## Re-seeding from a local copy
 
