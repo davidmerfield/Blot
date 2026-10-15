@@ -33,6 +33,7 @@ module.exports = ({
   pending,
 }) => {
   let isRetrying = false;
+  let lastScore = 0;
 
   const minimumGap = 1000 / requestsPerSecond;
   const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -161,22 +162,30 @@ module.exports = ({
     }
   }
 
-  // The proxy failed to purge these hosts: record the ones that were not
-  // recorded up front (because the store was unreachable then).
+  // The proxy failed to purge these hosts: record them again with a fresh
+  // score, whether or not they were recorded up front, so the retry loop
+  // has them even if another purge's success removed an earlier record.
   async function record(target, entries) {
-    const unrecorded = entries.filter(({ score }) => score === null);
-
-    if (!pending || !unrecorded.length) return;
+    if (!pending || !entries.length) return;
 
     try {
       await pending.add(
         target,
-        unrecorded.map(({ host }) => host),
-        Date.now()
+        entries.map(({ host }) => host),
+        nextScore()
       );
     } catch (error) {
       console.log(prefix(), "could not record pending purge for", target, error);
     }
+  }
+
+  // Scores identify one purge's records, so a removal only clears its own.
+  // A millisecond timestamp plus a random sub-millisecond part makes two
+  // processes unlikely to collide, and this process never repeats one.
+  function nextScore() {
+    const score = Date.now() + Math.floor(Math.random() * 1000) / 1000;
+    lastScore = Math.round(Math.max(score, lastScore + 0.001) * 1000) / 1000;
+    return lastScore;
   }
 
   // Record hosts as pending on every proxy before purging them. Returns the
@@ -186,7 +195,7 @@ module.exports = ({
 
     if (!pending || !hosts.length) return scores;
 
-    const score = Date.now();
+    const score = nextScore();
 
     await Promise.all(
       reverse_proxies.map(async (target) => {
