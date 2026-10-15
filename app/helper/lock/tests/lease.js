@@ -57,8 +57,10 @@ describe("helper/lock lease", function () {
     start(make("b"));
     await sleep(200);
     expect(log).toEqual(["a"]);
+    const aToken = await client.get(key);
     await a.stop();
-    expect(await client.get(key)).toBeNull();
+    // a released its token; b may already hold the key by the time we look
+    expect(await client.get(key)).not.toEqual(aToken);
     expect(await until(() => log.length === 2)).toEqual(true);
     expect(log[1]).toEqual("b");
   });
