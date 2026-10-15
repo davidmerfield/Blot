@@ -23,17 +23,12 @@ const pruneTmp = require("./prune-tmp");
 const SCHEDULE_RETRY_MS = 60 * 1000;
 const SCHEDULE_RETRY_MAX_MS = 60 * 60 * 1000;
 
-// If any disk has less than 2GB of space, we should notify the admin
+// If any other disk has less than 2GB of space, we should notify the admin.
+// The data disk is watched by percentage instead (free-disk-space.js).
 const MINIMUM_DISK_SPACE_IN_K = 2 * 1024 * 1024;
 
-// If the data disk has less than 10GB of space, or is 95% full, we should
-// notify the admin. The volume is sized close to what it holds (see
-// config/host/data-volume) and grows online in minutes, so the percentage is
-// the early warning and the 10GB floor the last one.
-const DATA_DISK_MINIMUM_DISK_SPACE_IN_K = 10 * 1024 * 1024;
-const DATA_DISK_MAXIMUM_USED_PERCENT = 95;
-
 let NOTIFIED_LOW_DISK_SPACE = false;
+let NOTIFIED_DATA_DISK_PERCENT = 0;
 
 module.exports = function () {
   // Log useful system information, once per minute
@@ -44,7 +39,6 @@ module.exports = function () {
     });
 
     freeDiskSpace(function (err, disks) {
-      let shouldNotify = false;
 
       if (err || !disks) {
         console.error(clfdate(), "Error checking disk space", err);
@@ -58,25 +52,32 @@ module.exports = function () {
         disks.map(disk => disk.label + "=" + disk.available_human).join(", ")
       );
 
-      if (disks.some(disk => disk.available_k < MINIMUM_DISK_SPACE_IN_K)) {
-        shouldNotify = true;
-      }
+      const lowDisk = disks.some(
+        disk => disk.label !== "data" && disk.available_k < MINIMUM_DISK_SPACE_IN_K
+      );
 
-      const dataDisk = disks.find(disk => disk.label === "data");
-
-      if (
-        dataDisk &&
-        (dataDisk.available_k < DATA_DISK_MINIMUM_DISK_SPACE_IN_K ||
-          dataDisk.used_percent >= DATA_DISK_MAXIMUM_USED_PERCENT)
-      ) {
-        shouldNotify = true;
-      }
-
-      if (shouldNotify && !NOTIFIED_LOW_DISK_SPACE) {
+      if (lowDisk && !NOTIFIED_LOW_DISK_SPACE) {
         NOTIFIED_LOW_DISK_SPACE = true;
-        email.WARNING_LOW_DISK_SPACE(null, { disks }, function (err) {
-          if (err) console.log(clfdate(), err);
-        });
+        email.WARNING_LOW_DISK_SPACE(
+          null,
+          { disks, headline: "Warning: Blot's disk is low on space" },
+          function (err) {
+            if (err) console.log(clfdate(), err);
+          }
+        );
+      }
+
+      const alert = freeDiskSpace.dataDiskAlert(disks);
+
+      if (alert && alert.percent > NOTIFIED_DATA_DISK_PERCENT) {
+        NOTIFIED_DATA_DISK_PERCENT = alert.percent;
+        email.WARNING_LOW_DISK_SPACE(
+          null,
+          { disks, headline: alert.headline },
+          function (err) {
+            if (err) console.log(clfdate(), err);
+          }
+        );
       }
     });
 
