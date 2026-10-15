@@ -77,10 +77,11 @@ describe("helper/lock lock", function () {
     expect(await client.get(key)).toBeNull();
   });
 
-  it("does not delete another holder's lock when released after expiry", async function () {
+  it("does not delete another holder's lock when released after losing it", async function () {
     const key = newKey();
-    const first = await lock(key, { ttl: 100, heartbeat: 10000 });
-    await sleep(200);
+    const first = await lock(key, { heartbeat: 10000 });
+    // The key goes before the watchdog notices, and someone else takes it
+    await client.del(key);
     const second = await lock(key);
     try {
       let error;
@@ -315,13 +316,12 @@ describe("helper/lock lock", function () {
     spyOn(console, "error");
     const key = newKey();
     const held = await lock(key, {
-      ttl: 100,
       heartbeat: 10000,
       onCompromised: () => {
         throw new Error("boom");
       },
     });
-    await sleep(200);
+    await client.del(key);
     let error;
     try {
       await held.release();

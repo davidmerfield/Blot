@@ -146,27 +146,27 @@ async function lock(key, options = {}) {
     if (released || compromised) return;
     compromised = true;
     clearInterval(timer);
+    clearTimeout(deadline);
     notify(err);
   }
 
-  // The watchdog only runs every `heartbeat` ms, so if the next tick would
-  // come at or after the key's expiry it has to give up now, or someone else
-  // could hold the lock for up to a heartbeat while we still think we do. A
-  // timer that fires late because the event loop is blocked cannot be covered
-  // by any check made from here. Capped so a heartbeat as long as the ttl
-  // (which cannot work anyway) doesn't give up on the first tick.
-  const giveUpAfter = Math.max(ttl - heartbeat, ttl / 4);
+  // Watchdog, independent of any Redis reply and of when the heartbeat ticks
+  // land: unless an extension is confirmed first, give up `margin` before the
+  // key can expire, however many commands are still pending on a stalled
+  // connection. Re-armed after every confirmed extension. A timer that fires
+  // late because the event loop is blocked cannot be covered from here.
+  let deadline;
+  function armDeadline() {
+    clearTimeout(deadline);
+    deadline = setTimeout(
+      () => compromise(new Error("Lock heartbeat stalled: " + key)),
+      Math.max(0, lastExtended + ttl - margin - Date.now())
+    );
+    deadline.unref();
+  }
 
   const timer = setInterval(async () => {
     if (released || compromised) return;
-    // Watchdog, independent of any Redis reply: if the key could expire
-    // before the next tick since the last confirmed extension, we treat it as
-    // expired however many commands are still pending on a stalled
-    // connection.
-    if (Date.now() - lastExtended >= giveUpAfter) {
-      compromise(new Error("Lock heartbeat stalled: " + key));
-      return;
-    }
     // Never stack EXTENDs behind a stalled one.
     if (inFlight) return;
     inFlight = true;
@@ -199,19 +199,20 @@ async function lock(key, options = {}) {
       }
       if (ok) {
         lastExtended = attemptedAt;
+        armDeadline();
       } else {
         compromise(new Error("Lock was lost: " + key));
       }
     } catch (e) {
-      // Redis hiccup: nothing to do, the watchdog gives up once the key could
-      // expire before the next tick; until then nobody else can have taken
-      // the lock.
+      // Redis hiccup: nothing to do, the deadline gives up before the key
+      // can expire; until then nobody else can have taken the lock.
       console.error(clfdate(), "[LOCK] heartbeat error", key, e.message);
     } finally {
       inFlight = false;
     }
   }, heartbeat);
   timer.unref();
+  armDeadline();
 
   async function doRelease() {
     const deleted = await client.eval(RELEASE, {
@@ -240,6 +241,7 @@ async function lock(key, options = {}) {
       if (releasedOk) return;
       released = true;
       clearInterval(timer);
+      clearTimeout(deadline);
       if (!releasing) {
         releasing = doRelease().then(
           () => {
