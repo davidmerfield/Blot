@@ -5,11 +5,13 @@
 describe("google drive hotDocPoller", function () {
   const { randomUUID } = require("crypto");
   const client = require("models/client");
+  const alarm = require("helper/alarm");
   const poller = require("../hotDocPoller");
 
   const ITEM_PREFIX = "blot:google-drive:hotdocs:item:";
 
   let serviceAccountId, blogID, fileId, folderId, id, revision;
+  let originalAlarms, queueName;
 
   beforeEach(function () {
     serviceAccountId = "test-sa-" + randomUUID();
@@ -18,6 +20,17 @@ describe("google drive hotDocPoller", function () {
     folderId = "folder-" + randomUUID();
     id = [serviceAccountId, blogID, fileId].join(":");
     revision = "rev-1";
+
+    // Each spec polls its own alarm queue, so alarms left in the shared one
+    // (by other specs, processes or earlier runs) are never claimed here.
+    // Nothing polls on a timer: specs drive alarms.poll() themselves.
+    originalAlarms = poller.alarms;
+    queueName = "google-drive-hot-docs-test-" + randomUUID();
+    poller.alarms = alarm(queueName, (each) => poller.handleAlarm(each), {
+      pollMs: 1000,
+      batch: 20,
+    });
+    spyOn(poller, "start");
 
     spyOn(console, "log");
     spyOn(console, "warn");
@@ -28,12 +41,21 @@ describe("google drive hotDocPoller", function () {
         }),
       },
     }));
-    spyOn(poller, "triggerDownloadAndSync").and.resolveTo("synced");
+    // Skip the shared rate limiter (4 docs.get a second per service account),
+    // which would make the cap spec take over half a minute
+    spyOn(poller, "fetchRateLimited").and.callFake((sa, docs, each) =>
+      poller.fetchLatestRevisionState(docs, each)
+    );
+    spyOn(poller, "triggerDownloadAndSync").and.returnValue(
+      Promise.resolve("synced")
+    );
   });
 
   afterEach(async function () {
     await poller.stop();
     await poller.remove(id, serviceAccountId);
+    await client.del(["alarm:due:" + queueName, "alarm:claims:" + queueName]);
+    poller.alarms = originalAlarms;
   });
 
   const makeDue = (when = Date.now() - 1) => poller.alarms.set(id, when);
@@ -126,5 +148,5 @@ describe("google drive hotDocPoller", function () {
     } finally {
       for (const each of ids) await poller.remove(each, serviceAccountId);
     }
-  });
+  }, 30000);
 });
