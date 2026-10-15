@@ -1,6 +1,5 @@
 const lock = require("helper/lock");
 
-const ONE_HOUR_IN_MS = 60 * 60 * 1000;
 const FIFTEEN_MINUTES_IN_MS = 15 * 60 * 1000;
 
 // Identifies the deploy this process belongs to. The deploy script passes the
@@ -14,10 +13,12 @@ function releaseId(now = Date.now()) {
 }
 
 // Resolves true in the first process of a deploy to ask for this name, false
-// in every other process (and in later restarts of the same release within
-// the ttl). Used for startup one-offs that must not be repeated by every
-// container. Rejects on Redis errors; callers decide what that means.
-function onceAtStartup(name, ttl = ONE_HOUR_IN_MS) {
+// in every other process starting within the ttl. Used for startup one-offs
+// that must not be repeated by every container. The ttl only needs to cover
+// containers starting together during a deploy: a crash-restart later on
+// should run them again (e.g. Dropbox's resync of blogs that were syncing).
+// Rejects on Redis errors; callers decide what that means.
+function onceAtStartup(name, ttl = FIFTEEN_MINUTES_IN_MS) {
   return lock.once("startup:" + name + ":" + releaseId(), ttl);
 }
 
