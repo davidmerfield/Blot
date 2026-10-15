@@ -3,6 +3,7 @@ const express = require("express");
 const EventSource = require("eventsource");
 const fetch = require("node-fetch");
 const clfdate = require("helper/clfdate");
+const drain = require("drain");
 const querystring = require("querystring");
 const bodyParser = require("body-parser");
 
@@ -45,7 +46,13 @@ server.get("/connect", function (req, res) {
 
   console.log(clfdate(), `Client connected: ${clientId}. Total subscribers: ${subscribers.size}`);
 
+  // EventSource clients reconnect, and nginx routes them to another container
+  const offDrain = drain.onStart(function () {
+    res.end();
+  });
+
   req.on("close", function () {
+    offDrain();
     subscribers.delete(clientId);
     console.log(clfdate(), `Client disconnected: ${clientId}. Total subscribers: ${subscribers.size}`);
   });

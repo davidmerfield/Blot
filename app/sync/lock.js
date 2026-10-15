@@ -135,6 +135,10 @@ function probe(lockKey, pendingForMs) {
     });
 }
 
+// Locks this process currently holds, so a graceful shutdown (drain.js) can
+// wait for them and release them.
+const held = new Set();
+
 function key(blogID) {
   return "blog:" + blogID + ":folder-lock";
 }
@@ -236,17 +240,19 @@ async function lock(blogID, options = {}) {
     }
     if (released || compromised) return;
     compromised = true;
+    held.delete(handle);
     clearInterval(timer);
     err.code = "ECOMPROMISED";
     onCompromised(err);
   }, heartbeat);
   timer.unref();
 
-  return {
+  const handle = {
     token,
     async release() {
       if (released) return;
       released = true;
+      held.delete(handle);
       clearInterval(timer);
       const deleted = await client.eval(RELEASE, {
         keys: [lockKey],
@@ -261,6 +267,8 @@ async function lock(blogID, options = {}) {
       }
     },
   };
+  held.add(handle);
+  return handle;
 }
 
 // Reports who holds a lock and for how long it will live, for diagnostics.
@@ -284,4 +292,15 @@ async function heldSince(blogID) {
   return match ? Number(match[1]) : null;
 }
 
-module.exports = { lock, inspect, heldSince, key };
+function heldCount() {
+  return held.size;
+}
+
+// Called by drain just before exit so other containers needn't wait for the
+// TTL. An in-flight sync whose lock we release will be killed by the exit
+// straight after anyway.
+function releaseAll() {
+  return Promise.allSettled([...held].map((h) => h.release()));
+}
+
+module.exports = { lock, inspect, heldSince, key, heldCount, releaseAll };
