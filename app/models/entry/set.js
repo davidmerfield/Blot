@@ -46,6 +46,9 @@ module.exports = function set (blogID, path, updates, callback) {
 
     var previousPermalink = entry.permalink;
 
+    // So an entry that stops being scheduled cancels its publication alarm
+    var wasScheduled = !!entry.scheduled;
+
     var previousInternalLinks = entry.internalLinks
       ? entry.internalLinks.slice()
       : [];
@@ -188,9 +191,12 @@ module.exports = function set (blogID, path, updates, callback) {
               updateTagList.bind(this, blogID, entry),
               assignToLists.bind(this, blogID, entry),
               rebuildDependencyGraph.bind(this, blogID, entry, previousDependencies),
-              // Arms the publication alarm, or cancels it if not scheduled
-              addToSchedule.bind(this, blogID, entry),
             ];
+
+            // Arms the publication alarm, or cancels it when an entry stops
+            // being scheduled. Other saves skip the Redis round trip.
+            if (entry.scheduled || wasScheduled)
+              queue.push(addToSchedule.bind(this, blogID, entry));
 
             if (entry.draft) queue.push(notifyDrafts.bind(this, blogID, entry));
 
