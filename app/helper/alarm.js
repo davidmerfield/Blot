@@ -187,6 +187,10 @@ module.exports = function alarm(name, handler, options = {}) {
 
       if (!id) break;
 
+      // stop() was called while the claim was in flight: start nothing new.
+      // The lease runs out and the id is claimed again later.
+      if (stopping) break;
+
       // The lease started when Redis ran the claim. If the reply took so long
       // that the first renewal could no longer land before it runs out, another
       // process may already own this id, so don't run it: the lease expires
