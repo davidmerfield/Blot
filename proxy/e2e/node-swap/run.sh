@@ -28,6 +28,6 @@ bash $D/swap.sh rolling || echo "swap.sh failed"
 wait $load; rc=$?
 
 echo "== proxy errors =="
-docker logs --tail 200 ns-proxy 2>&1 | grep -E 'upstream|connect\(\)|prematurely|no live' || true
+docker logs ns-proxy 2>&1 | grep -E '\[(error|crit)\]|temporarily disabled|no live' | grep -v cacher | tail -80 || true
 for c in blue green yellow; do echo "== blot-container-$c =="; docker logs --tail 15 blot-container-$c 2>&1; done
 exit $rc
