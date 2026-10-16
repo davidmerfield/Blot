@@ -369,14 +369,19 @@ certs_all_served() { # certs_all_served [port]
 
 all_ok() { ! echo "$1" | tr ' ' '\n' | grep -v '=200$' | grep -q .; }
 
-# The certificate being served must be the file on disk, not the image's
-# self-signed placeholder or a stale one.
-served_cert_matches_disk() { # served_cert_matches_disk [port]
-  local served disk
+# The certificate being served must be the wildcard certificate the app keeps
+# in Redis (renewed there by app/scheduler/renew-wildcard-ssl.js), not the
+# image's self-signed placeholder or a stale one. The file on disk is only the
+# fallback when Redis has none, and goes stale once the app renews.
+served_cert_matches_wildcard() { # served_cert_matches_wildcard [port]
+  local served expected pem
   served=$(echo | openssl s_client -connect "$SITE_IP:${1:-443}" -servername "$BLOT_HOST" 2>/dev/null \
     | openssl x509 -noout -fingerprint -sha256 2>/dev/null)
-  disk=$(openssl x509 -in "$CERT_DIR/letsencrypt-domain.pem" -noout -fingerprint -sha256 2>/dev/null)
-  [ -n "$served" ] && [ "$served" = "$disk" ]
+  pem=$(redis-cli -h "$REDIS_HOST" --raw get blot:openresty:ssl:pem 2>/dev/null || true)
+  expected=""
+  [ -n "$pem" ] && expected=$(echo "$pem" | openssl x509 -noout -fingerprint -sha256 2>/dev/null)
+  [ -n "$expected" ] || expected=$(openssl x509 -in "$CERT_DIR/letsencrypt-domain.pem" -noout -fingerprint -sha256 2>/dev/null)
+  [ -n "$served" ] && [ "$served" = "$expected" ]
 }
 
 purge_urls() {
@@ -441,8 +446,8 @@ live_checks() { # live_checks <expected-snapshot | ""> [port]
   else
     all_ok "$got" || { log "not every host answers 200: [$got]"; return 1; }
   fi
-  served_cert_matches_disk "${2:-443}" \
-    || { log "the certificate served is not $CERT_DIR/letsencrypt-domain.pem"; return 1; }
+  served_cert_matches_wildcard "${2:-443}" \
+    || { log "the certificate served is not the wildcard certificate in Redis (or $CERT_DIR/letsencrypt-domain.pem if Redis has none)"; return 1; }
   if [ -n "${CERT_BASELINE:-}" ]; then certs_unchanged "$CERT_BASELINE" "$(cert_sweep "${2:-443}")" || return 1; fi
   purge_reachable || return 1
   redis_reachable || return 1
