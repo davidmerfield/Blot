@@ -26,7 +26,9 @@ Subscription.route("/cancel")
 
   .get(function (req, res) {
     res.render("dashboard/account/cancel", {
-      title: "Cancel your subscription"
+      title: "Cancel your subscription",
+      // Only an ACTIVE PayPal subscription is cancelled at PayPal
+      paypal: req.user.paypal && req.user.paypal.status === "ACTIVE"
     });
   })
 
@@ -36,7 +38,7 @@ Subscription.route("/cancel")
     function (req, res) {
       // PayPal's cancellation email is sent by updateSubscription, once,
       // however many times PayPal's webhook also reports the cancellation.
-      if (!req.user.paypal || !req.user.paypal.id) {
+      if (req.cancelledStripe) {
         if (subscriptionLifecycle.isFirstPeriod(req.user)) {
           email.CANCELLED_FIRST_PERIOD(req.user.uid);
         } else {
@@ -204,8 +206,13 @@ function determineNewPlan (req, res, next) {
 
 function requireCancelledSubscription (req, res, next) {
   // Only a cancelled Stripe subscription can be restarted: PayPal can't
-  // reactivate a cancelled subscription.
-  if (!req.user.isSubscribed && !req.user.paypal?.status) {
+  // reactivate a cancelled subscription. Historical PayPal data on a user
+  // with a Stripe subscription doesn't matter.
+  if (
+    !req.user.isSubscribed &&
+    req.user.subscription &&
+    req.user.subscription.customer
+  ) {
     next();
   } else {
     res.redirect("/account/subscription");
@@ -243,7 +250,7 @@ const paypal = require("dashboard/webhooks/paypal_webhook");
 async function cancelPaypalSubscription (req, res, next) {
   const id = req.user.paypal && req.user.paypal.id;
 
-  if (!id || req.user.paypal.status === "CANCELLED") return next();
+  if (!id || req.user.paypal.status !== "ACTIVE") return next();
 
   try {
     const response = await fetch(
@@ -265,12 +272,21 @@ async function cancelPaypalSubscription (req, res, next) {
     if (response.status !== 204) {
       throw new Error(`PayPal cancel API error: ${response.status}`);
     }
-
-    await paypal.updateSubscription(id);
-    next();
   } catch (err) {
-    next(err);
+    return next(err);
   }
+
+  // PayPal has cancelled, so a failed re-fetch is not a failed cancellation.
+  // Don't write CANCELLED locally: PayPal's BILLING.SUBSCRIPTION.CANCELLED
+  // webhook will save the status and send the email, and it only does so if
+  // it sees the transition.
+  try {
+    await paypal.updateSubscription(id);
+  } catch (err) {
+    console.log("PayPal cancel: re-fetch after cancelling failed:", err);
+  }
+
+  next();
 }
 
 function cancelStripeSubscription (req, res, next) {
@@ -285,6 +301,7 @@ function cancelStripeSubscription (req, res, next) {
 
       if (!subscription) return next(new Error("No subscription"));
 
+      req.cancelledStripe = true;
       User.set(req.user.uid, { subscription: subscription }, next);
     }
   );

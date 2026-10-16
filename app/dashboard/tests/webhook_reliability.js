@@ -182,7 +182,8 @@ describe("payment webhook delivery reliability", function () {
     });
     it("sends the cancellation email on the first CANCELLED transition", async function () {
       await paypal.updateSubscription("I-TEST");
-      expect(email.CANCELLED).toHaveBeenCalledOnceWith("test-user");
+      expect(email.CANCELLED).toHaveBeenCalledTimes(1);
+      expect(email.CANCELLED).toHaveBeenCalledWith("test-user");
       expect(email.CANCELLED_FIRST_PERIOD).not.toHaveBeenCalled();
       expect(client.set).toHaveBeenCalledWith(
         "user:test-user:paypal_cancel_email:I-TEST", "1",
@@ -191,7 +192,8 @@ describe("payment webhook delivery reliability", function () {
     it("sends the first-period variant within 30 days of the start", async function () {
       cancel({ start_time: new Date(Date.now() - 3 * DAY).toISOString() });
       await paypal.updateSubscription("I-TEST");
-      expect(email.CANCELLED_FIRST_PERIOD).toHaveBeenCalledOnceWith("test-user");
+      expect(email.CANCELLED_FIRST_PERIOD).toHaveBeenCalledTimes(1);
+      expect(email.CANCELLED_FIRST_PERIOD).toHaveBeenCalledWith("test-user");
       expect(email.CANCELLED).not.toHaveBeenCalled();
     });
     it("sends it once when the update is retried or concurrent", async function () {
@@ -210,14 +212,16 @@ describe("payment webhook delivery reliability", function () {
     it("sends CLOSED instead when the paid period has ended", async function () {
       cancel({ billing_info: { next_billing_time: new Date(Date.now() - DAY).toISOString() } });
       await paypal.updateSubscription("I-TEST");
-      expect(email.CLOSED).toHaveBeenCalledOnceWith("test-user");
+      expect(email.CLOSED).toHaveBeenCalledTimes(1);
+      expect(email.CLOSED).toHaveBeenCalledWith("test-user");
       expect(email.CANCELLED).not.toHaveBeenCalled();
       expect(client.set).not.toHaveBeenCalled();
     });
     it("sends ALREADY_CANCELLED instead for a disabled account", async function () {
       user.isDisabled = true;
       await paypal.updateSubscription("I-TEST");
-      expect(email.ALREADY_CANCELLED).toHaveBeenCalledOnceWith("test-user");
+      expect(email.ALREADY_CANCELLED).toHaveBeenCalledTimes(1);
+      expect(email.ALREADY_CANCELLED).toHaveBeenCalledWith("test-user");
       expect(email.CANCELLED).not.toHaveBeenCalled();
       expect(client.set).not.toHaveBeenCalled();
     });

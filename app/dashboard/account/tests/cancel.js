@@ -89,6 +89,41 @@ describe("dashboard subscription cancel", function () {
     expect(paypal.updateSubscription).not.toHaveBeenCalled();
   });
 
+  it("still succeeds when the re-fetch fails after PayPal cancelled", async function () {
+    spyOn(console, "log");
+    paypal.updateSubscription.and.returnValue(Promise.reject(new Error("boom")));
+
+    const result = await post(paypalUser("ACTIVE"));
+
+    expect(result.err).toBeUndefined();
+    expect(paypal.updateSubscription).toHaveBeenCalledWith("I-TEST");
+    expect(console.log).toHaveBeenCalled();
+    expect(email.CANCELLED).not.toHaveBeenCalled();
+    expect(email.CANCELLED_FIRST_PERIOD).not.toHaveBeenCalled();
+  });
+
+  it("sends the Stripe email for a Stripe user with historical cancelled PayPal data", async function () {
+    const cancelled = { id: "sub_1", customer: "cus_1" };
+    const customers = Object.getPrototypeOf(
+      require("stripe")("sk_test_unused").customers
+    );
+    spyOn(customers, "cancelSubscription").and.callFake(
+      (customer, id, options, cb) => cb(null, cancelled)
+    );
+    spyOn(User, "set").and.callFake((uid, updates, cb) => cb(null));
+
+    const result = await post({
+      uid: "uid",
+      subscription: { id: "sub_1", customer: "cus_1", created: 1 },
+      paypal: { id: "I-OLD", status: "CANCELLED" }
+    });
+
+    expect(result.err).toBeUndefined();
+    expect(fetch).not.toHaveBeenCalled();
+    expect(paypal.updateSubscription).not.toHaveBeenCalled();
+    expect(email.CANCELLED).toHaveBeenCalledWith("uid");
+  });
+
   it("still cancels a Stripe subscription and sends the cancellation email", async function () {
     const cancelled = { id: "sub_1", customer: "cus_1" };
     // stripe.customers methods live on the resource prototype
@@ -120,5 +155,47 @@ describe("dashboard subscription cancel", function () {
     expect(fetch).not.toHaveBeenCalled();
     expect(paypal.updateSubscription).not.toHaveBeenCalled();
     expect(email.CANCELLED).toHaveBeenCalledWith("uid");
+  });
+
+  describe("restart guard", function () {
+    function guard(user) {
+      const layer = Subscription.stack.find(
+        layer => layer.route && layer.route.path === "/restart/pay"
+      );
+      const handle = layer.route.stack[0].handle;
+      return new Promise(resolve => {
+        handle(
+          { user },
+          { redirect: location => resolve({ redirected: location }) },
+          () => resolve({ allowed: true })
+        );
+      });
+    }
+
+    it("allows restart for a cancelled Stripe user with PayPal history", async function () {
+      const result = await guard({
+        isSubscribed: false,
+        subscription: { customer: "cus_1" },
+        paypal: { id: "I-OLD", status: "CANCELLED" }
+      });
+      expect(result.allowed).toBe(true);
+    });
+
+    it("redirects a PayPal-only user", async function () {
+      const result = await guard({
+        isSubscribed: false,
+        subscription: {},
+        paypal: { id: "I-TEST", status: "CANCELLED" }
+      });
+      expect(result.redirected).toBe("/account/subscription");
+    });
+
+    it("redirects a subscribed user", async function () {
+      const result = await guard({
+        isSubscribed: true,
+        subscription: { customer: "cus_1" }
+      });
+      expect(result.redirected).toBe("/account/subscription");
+    });
   });
 });

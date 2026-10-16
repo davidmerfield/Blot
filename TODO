@@ -1,3 +1,4 @@
+PayPal cancellation email: if Mailgun fails after the Redis claim the email is lost (status already CANCELLED so retries skip it) - track pending/sent or release the claim on failure
 
 Add a new template which just looks like finder on the index page
 
