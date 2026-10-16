@@ -6,6 +6,7 @@
 // so limit_req (general 6r/s/IP, hostlimit 10r/s/host, burst 30) and limit_conn
 // (20/IP) apply. 6 workers x one request per ~1.2s = ~5 r/s total, 6 connections.
 const http = require("http");
+const https = require("https");
 const fs = require("fs");
 
 const DURATION = parseInt(process.env.DURATION || "10", 10) * 1000;
@@ -15,6 +16,9 @@ const HOSTIP = process.env.HOSTIP || "127.0.0.1";
 const OUT = process.env.OUT || "load-result.json";
 
 const agent = new http.Agent({ keepAlive: true });
+// The site (Host: localhost) redirects plain HTTP to HTTPS; the CI proxy
+// serves a self-signed certificate.
+const tlsAgent = new https.Agent({ keepAlive: true, rejectUnauthorized: false, servername: "localhost" });
 let n = 0;
 
 // Routes (proxy/config): blog GET -> blot_blogs_node (server.conf:107, unique path
@@ -22,8 +26,8 @@ let n = 0;
 // GET /dashboard/<n> -> blot_dashboard_node (blot-site.conf:1 default, uncached).
 const KINDS = [
   (i) => ({ name: "blog-get", host: "someblog.example", method: "GET", path: `/p/${i}` }),
-  (i) => ({ name: "site-post", host: "localhost", method: "POST", path: "/clients/dropbox/webhook", body: `{"n":${i}}` }),
-  (i) => ({ name: "site-get", host: "localhost", method: "GET", path: `/dashboard/${i}` }),
+  (i) => ({ name: "site-post", host: "localhost", tls: true, method: "POST", path: "/clients/dropbox/webhook", body: `{"n":${i}}` }),
+  (i) => ({ name: "site-get", host: "localhost", tls: true, method: "GET", path: `/dashboard/${i}` }),
 ];
 
 const stats = Object.fromEntries(KINDS.map((k) => [k(0).name, { total: 0, status: {}, errors: {} }]));
@@ -31,8 +35,8 @@ const failures = [];
 
 function request(r) {
   return new Promise((resolve) => {
-    const req = http.request(
-      { host: HOSTIP, port: 80, agent, method: r.method, path: r.path, timeout: 20000,
+    const req = (r.tls ? https : http).request(
+      { host: HOSTIP, port: r.tls ? 443 : 80, agent: r.tls ? tlsAgent : agent, method: r.method, path: r.path, timeout: 20000,
         headers: { Host: r.host, ...(r.body ? { "Content-Type": "application/json", "Content-Length": Buffer.byteLength(r.body) } : {}) } },
       (res) => {
         let data = "";
@@ -76,5 +80,6 @@ Promise.all(Array.from({ length: WORKERS }, () => worker(end))).then(() => {
   for (const f of failures) console.log(JSON.stringify(f));
   fs.writeFileSync(OUT, JSON.stringify({ stats, failures }, null, 2));
   agent.destroy();
+  tlsAgent.destroy();
   process.exit(failures.length ? 1 : 0);
 });
