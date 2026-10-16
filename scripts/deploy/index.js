@@ -9,7 +9,7 @@ const generateAirlockCommand = require("./util/generateAirlockCommand");
 const constants = require("./constants");
 
 const { CONTAINERS, AIRLOCK } = constants;
-const { REGISTRY_URL, PLATFORM_OS } = constants;
+const { REGISTRY_URL, PLATFORM_OS, SOCKET_DIRECTORY } = constants;
 
 const AIRLOCK_HEALTH_CHECK_TIMEOUT = 60; // seconds
 const AIRLOCK_HEALTH_CHECK_INTERVAL = 5; // seconds
@@ -161,6 +161,20 @@ async function getCurrentImageHash(containerName) {
   }
 }
 
+// The app containers bind-mount the socket directory (generateDockerCommand.js),
+// so docker create fails without it. The host creates it at boot from
+// config/host/tmpfiles.d/blot.conf (installed by npm run deploy-host). Checked
+// before any container is stopped.
+async function checkSocketDirectory() {
+  try {
+    await sshCommand(`test -d ${SOCKET_DIRECTORY}`);
+  } catch (err) {
+    throw new Error(
+      `${SOCKET_DIRECTORY} is missing on the host: run npm run deploy-host first`
+    );
+  }
+}
+
 async function deployContainer(
   container,
   platform,
@@ -216,7 +230,7 @@ async function deployContainer(
   console.log("Starting new container...");
   await sshCommand(`docker start ${container.name}`);
   console.log("Checking health of new container...");
-  await checkHealth(container.name, container.port);
+  await checkHealth(container.name, container.port, container.socket);
 
   if (verify) await verifyContainer(container, imageHash);
 }
@@ -478,6 +492,8 @@ async function main() {
     if (containerPorts.length !== uniqueContainerPorts.size) {
       throw new Error("Container ports must be unique.");
     }
+
+    await checkSocketDirectory();
 
     console.log("Deploying containers...");
     // Deploy all containers
