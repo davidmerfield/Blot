@@ -6,7 +6,7 @@ const CLASSES = [
   ["info", /^blog:[^:]+:info$/],
   ["domain", /^domain:/],
   ["handle", /^handle:/],
-  ["template", /^template:[^:]+:info$/],
+  ["template", /^template:[^:]+:[^:]+:info$/], // template IDs are owner:slug
   ["url", /^blog:[^:]+:url:/],
   ["entry", /^blog:[^:]+:entry:/],
   ["tags", /^blog:[^:]+:tags:/],

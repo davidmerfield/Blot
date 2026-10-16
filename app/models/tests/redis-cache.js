@@ -6,8 +6,9 @@ describe("models/redis-cache", function () {
       "blog:blog_123:info": "info",
       "domain:example.com": "domain",
       "handle:david": "handle",
-      "template:SITE:info": "template",
-      "template:SITE:view:entry.html": "other",
+      "template:SITE:blog:info": "template",
+      "template:blog_123:my-theme:info": "template",
+      "template:SITE:blog:view:entry.html": "other",
       "blog:blog_123:url:/foo": "url",
       "blog:blog_123:entry:/foo.txt": "entry",
       "blog:blog_123:tags:all": "tags",
@@ -56,6 +57,12 @@ describe("models/redis-cache", function () {
       const { classStats } = createRedisClient.getClientSideCacheStats(client);
       expect(classStats.info).toEqual({ hits: 1, misses: 1, bypass: 0 });
       expect(classStats.entry).toEqual({ hits: 0, misses: 0, bypass: 2 });
+
+      // The server only tracks the key if CACHING YES reached it right
+      // before the read, so a write must invalidate the cached value. Redis
+      // pushes the invalidation on this connection ahead of the SET reply.
+      await client.set(id + ":info", "c");
+      expect(await client.get(id + ":info")).toBe("c");
     } finally {
       await client.del([id + ":info", id + ":entry:/a"]);
       await client.quit();
