@@ -35,8 +35,6 @@ We should filter and only locally client-side cache redis keys with specific pre
 
 Suppress new site admin notification for no subscription change (i.e. user deletes then adds back in a single site)
 
-PayPal end cancellation didn't fire native admin notification for cancellation jesse@xxx 
-
 Add an arbritrary input: import this site which just emails me
 
 Add one time login cancellation links to renewal emails 

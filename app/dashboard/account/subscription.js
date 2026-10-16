@@ -5,9 +5,9 @@ var User = require("models/user");
 var config = require("config");
 var stripe = require("stripe")(config.stripe.secret);
 var email = require("helper/email");
+var subscriptionLifecycle = require("models/user/subscriptionLifecycle");
 var prettyPrice = require("helper/prettyPrice");
 const PLAN_MAP = config.stripe.plan_map;
-const THIRTY_DAYS_MS = 30 * 24 * 60 * 60 * 1000;
 
 Subscription.route("/").get(function (req, res) {
   res.render("dashboard/account/subscription", {
@@ -34,23 +34,16 @@ Subscription.route("/cancel")
     cancelStripeSubscription,
     cancelPaypalSubscription,
     function (req, res) {
-      const now = Date.now();
-      const stripeCreatedMs = toMs(req.user.subscription?.created);
-      const stripePeriodStartMs = toMs(req.user.subscription?.current_period_start);
-      const paypalStartMs = toMs(req.user.paypal?.start_time);
-      const subscriptionStartMs =
-        paypalStartMs ||
-        stripeCreatedMs ||
-        stripePeriodStartMs;
-      const isFirstPeriod = Boolean(
-        subscriptionStartMs && now - subscriptionStartMs <= THIRTY_DAYS_MS
-      );
-
-      if (isFirstPeriod) {
-        email.CANCELLED_FIRST_PERIOD(req.user.uid);
-      } else {
-        email.CANCELLED(req.user.uid);
+      // PayPal's cancellation email is sent by updateSubscription, once,
+      // however many times PayPal's webhook also reports the cancellation.
+      if (!req.user.paypal || !req.user.paypal.id) {
+        if (subscriptionLifecycle.isFirstPeriod(req.user)) {
+          email.CANCELLED_FIRST_PERIOD(req.user.uid);
+        } else {
+          email.CANCELLED(req.user.uid);
+        }
       }
+
       res.message(req.baseUrl, "Your subscription has been cancelled");
     }
   );
@@ -210,9 +203,9 @@ function determineNewPlan (req, res, next) {
 }
 
 function requireCancelledSubscription (req, res, next) {
-  // Make sure the user has a subscription
-  // otherwise they have nothing to cancel
-  if (!req.user.isSubscribed) {
+  // Only a cancelled Stripe subscription can be restarted: PayPal can't
+  // reactivate a cancelled subscription.
+  if (!req.user.isSubscribed && !req.user.paypal?.status) {
     next();
   } else {
     res.redirect("/account/subscription");
@@ -241,12 +234,43 @@ function requireSubscription (req, res, next) {
   }
 }
 
-const { updateSubscription } = require("dashboard/webhooks/paypal_webhook");
+const paypal = require("dashboard/webhooks/paypal_webhook");
 
+// Cancels at PayPal, then re-fetches the subscription so the CANCELLED status
+// is saved and the cancellation email sent now rather than when PayPal's own
+// webhook arrives. PayPal keeps the paid period running, as for Stripe's
+// cancel_at_period_end, so access continues until it ends.
 async function cancelPaypalSubscription (req, res, next) {
-  // The cancel button is hidden for PayPal subscribers. They must delete their
-  // account to end their subscription immediately through the deletion flow.
-  next();
+  const id = req.user.paypal && req.user.paypal.id;
+
+  if (!id || req.user.paypal.status === "CANCELLED") return next();
+
+  try {
+    const response = await fetch(
+      `${config.paypal.api_base}/v1/billing/subscriptions/${id}/cancel`,
+      {
+        method: "POST",
+        headers: {
+          Authorization:
+            "Basic " +
+            Buffer.from(
+              `${config.paypal.client_id}:${config.paypal.secret}`
+            ).toString("base64"),
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ reason: "Customer cancelled subscription" })
+      }
+    );
+
+    if (response.status !== 204) {
+      throw new Error(`PayPal cancel API error: ${response.status}`);
+    }
+
+    await paypal.updateSubscription(id);
+    next();
+  } catch (err) {
+    next(err);
+  }
 }
 
 function cancelStripeSubscription (req, res, next) {
@@ -358,26 +382,6 @@ function restartStripeSubscription (req, res, next) {
       User.set(req.user.uid, { subscription: subscription }, next);
     }
   );
-}
-
-function toMs(timestamp) {
-  if (!timestamp) return null;
-
-  if (timestamp instanceof Date) return timestamp.getTime();
-
-  if (typeof timestamp === "number") {
-    if (!Number.isFinite(timestamp)) return null;
-
-    return timestamp < 1e12 ? timestamp * 1000 : timestamp;
-  }
-
-  if (typeof timestamp === "string") {
-    const parsed = Date.parse(timestamp);
-
-    return Number.isNaN(parsed) ? null : parsed;
-  }
-
-  return null;
 }
 
 module.exports = Subscription;
