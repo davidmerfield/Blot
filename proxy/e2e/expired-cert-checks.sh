@@ -28,7 +28,7 @@ PAST_TTL=$((CACHE_TTL + 2))
 redis() { docker exec "$REDIS" redis-cli "$@"; }
 
 workdir=$(mktemp -d)
-cleanup() { redis del "ssl:$ORPHAN:latest" >/dev/null 2>&1 || true; }
+cleanup() { redis del "ssl:$ORPHAN:latest" "domain:$ORPHAN" >/dev/null 2>&1 || true; }
 trap cleanup EXIT
 
 served_subject() {
@@ -91,6 +91,18 @@ echo "$ORPHAN: $subject"
 echo "$subject" | grep -q blot-proxy-placeholder
 if docker logs "$PROXY" 2>&1 | grep -q "issuing new certificate for $ORPHAN"; then
   echo "FAIL: proxy started an ACME order for $ORPHAN" >&2
+  exit 1
+fi
+
+echo "=== An unlisted domain's expired certificate does not use up the hour ==="
+# Listing the domain afterwards must still get an issuance attempt. (The test
+# ACME server cannot validate this name, so no certificate comes back: what
+# matters is that an order was started.)
+redis set "domain:$ORPHAN" 1 >/dev/null
+sleep "$PAST_TTL"
+served_subject "$ORPHAN" >/dev/null || true
+if ! docker logs "$PROXY" 2>&1 | grep -q "issuing new certificate for $ORPHAN"; then
+  echo "FAIL: proxy did not try to issue a certificate for $ORPHAN once it was listed" >&2
   exit 1
 fi
 
