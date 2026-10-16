@@ -302,6 +302,26 @@ custom_cert_domains() {
   printf '%s' "$keys" | sed '/^$/d' | sed -E 's/^ssl:(.*):latest$/\1/' | sort -u
 }
 
+# The proxy treats a stored certificate whose expiry has passed as missing
+# (get_cert in proxy/config/init.conf), so a domain that presents none because
+# its certificate has expired is not the replacement's fault. drop_expired
+# filters such domains out of lines starting with a domain name. The expiry is
+# read from the stored JSON with grep, as no JSON tool is guaranteed on the host.
+cert_expired() { # cert_expired <domain>
+  local expiry
+  expiry=$(redis-cli -h "$REDIS_HOST" --raw get "ssl:$1:latest" 2>/dev/null \
+    | grep -o '"expiry":[0-9]*' | head -n 1 | cut -d: -f2) || true
+  [ -n "$expiry" ] && [ "$expiry" -le "$(date +%s)" ]
+}
+
+drop_expired() {
+  local line
+  while IFS= read -r line; do
+    [ -n "$line" ] || continue
+    cert_expired "${line%% *}" || printf '%s\n' "$line"
+  done
+}
+
 # cert_sweep [port] -> sorted "<domain> <sha256 fingerprint | none>" lines
 cert_sweep() {
   local port="${1:-443}" domains
@@ -316,7 +336,7 @@ cert_sweep() {
 # now. (A domain with none before is not held against the replacement.)
 certs_unchanged() { # certs_unchanged <baseline> <now>
   local bad
-  bad=$(comm -23 <(printf '%s\n' "$1" | grep -v ' none$' | sort) <(printf '%s\n' "$2" | sort))
+  bad=$(comm -23 <(printf '%s\n' "$1" | grep -v ' none$' | sort) <(printf '%s\n' "$2" | sort) | drop_expired)
   [ -z "$bad" ] || {
     log "custom-domain certificates changed or went missing ($(printf '%s\n' "$bad" | wc -l | tr -d ' ')): first few, as they were:"
     printf '%s\n' "$bad" | head -5 | while read -r line; do log "  $line"; done
@@ -358,7 +378,7 @@ certs_all_served() { # certs_all_served [port]
   # A custom domain served the wildcard file is auto-ssl falling back: it
   # could not load that domain's certificate, and browsers will reject it.
   wildcard=$(openssl x509 -in "$CERT_DIR/letsencrypt-domain.pem" -noout -fingerprint -sha256 2>/dev/null | cut -d= -f2)
-  missing="$(printf '%s\n' "$sweep" | awk -v w="$wildcard" '$2 == "none" || (w != "" && $2 == w) { print $1 }')"
+  missing="$(printf '%s\n' "$sweep" | awk -v w="$wildcard" '$2 == "none" || (w != "" && $2 == w) { print $1 }' | drop_expired)"
   if [ -n "$missing" ]; then
     log "no certificate of its own presented for $(printf '%s\n' "$missing" | wc -l | tr -d ' ') of $total custom domains in Redis: first few:"
     printf '%s\n' "$missing" | head -5 | while read -r line; do log "  $line"; done

@@ -109,6 +109,12 @@ if [[ " $* " == *" scan "* ]]; then
   for d in ${FAKE_CUSTOM_DOMAINS-a.custom.test b.custom.test}; do echo "ssl:$d:latest"; done
   exit
 fi
+if [[ " $* " == *" get ssl:"* ]]; then
+  # common.sh's cert_expired: the stored certificate JSON
+  d="$*"; d=${d##* get ssl:}; d=${d%:latest}
+  if [[ " ${FAKE_EXPIRED_DOMAINS:-} " == *" $d "* ]]; then echo '{"expiry":1}'; else echo '{"expiry":99999999999}'; fi
+  exit
+fi
 echo "redis-cli $*" >> "$FAKE/calls"
 if [[ "$*" == *" exists "* ]]; then echo "${FAKE_KEY_EXISTS:-0}"; fi
 F
@@ -188,6 +194,9 @@ check "PROXY_SKIP_CERT_SWEEP=1 skips the comparison" '[ $RC = 0 ] && mentions "n
 
 reset container; FAKE_CUSTOM_FP_AFTER_STOP=B bluegreen
 check "a custom-domain certificate differs after the swap: rolled back" '[ $RC != 0 ] && called "docker start blot-proxy-blue" && ! called "docker rm blot-proxy-blue" && mentions "custom-domain certificates"'
+
+reset container; FAKE_CUSTOM_FP_AFTER_STOP=B FAKE_EXPIRED_DOMAINS="a.custom.test b.custom.test" bluegreen
+check "a custom-domain certificate that has expired and is no longer served is not held against the swap" '[ $RC = 0 ]'
 
 echo "try-issuance.sh"
 
@@ -299,6 +308,9 @@ check "fresh start with no custom domains in Redis: nothing to serve, allowed" '
 
 reset none; FAKE_CUSTOM_FP_CONTAINER=A bluegreen
 check "fresh start where custom domains get the wildcard (auto-ssl fallback): refused, never made permanent" '[ $RC != 0 ] && mentions "no certificate of its own" && mentions "2 of 2" && called "docker rm -f blot-proxy-blue" && ! called "docker update"'
+
+reset none; FAKE_NO_CUSTOM_CERT=b.custom.test FAKE_EXPIRED_DOMAINS=b.custom.test bluegreen
+check "fresh start where the domain without a certificate has an expired one in Redis: allowed" '[ $RC = 0 ] && mentions "all 2 in Redis are being served"'
 
 reset none; FAKE_SCAN_FAIL=1 bluegreen
 check "fresh start where the Redis SCAN fails: refused, not mistaken for no custom domains" '[ $RC != 0 ] && mentions "SCAN failed" && ! called "docker update"'
