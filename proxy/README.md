@@ -79,9 +79,28 @@ on any change under `proxy/` (plus `package.json` and
 
 `lua-resty-auto-ssl` issues a certificate on the first HTTPS request for a
 custom blog domain and stores it in Redis (`storage_adapter = redis`). The
-wildcard `*.blot.im` / `blot.im` certificate is still a static file mounted
-over `/etc/ssl/private/letsencrypt-domain.{pem,key}` (the image ships a
-self-signed placeholder so OpenResty can start).
+wildcard `*.blot.im` / `blot.im` certificate is served from Redis (below),
+with a static file mounted over `/etc/ssl/private/letsencrypt-domain.{pem,key}`
+as the fallback (the image ships a self-signed placeholder so OpenResty can
+start).
+
+- **The wildcard certificate**: [`config/wildcard_cert.lua`](config/wildcard_cert.lua)
+  runs in `ssl_certificate_by_lua` on the wildcard server blocks and presents
+  the chain in `blot:openresty:ssl:pem` and the key in `blot:openresty:ssl:key`,
+  so a renewal that writes them takes effect with no reload. Redis is the
+  source of truth; the file is only used when Redis has nothing usable. The
+  parsed copy is kept in the `wildcard_cert` shared dict for five minutes
+  (`PROXY_WILDCARD_CERT_CACHE_TTL`, seconds; CI shortens it), so a renewal is
+  served within five minutes. Writers should set the key and the chain
+  together (`MSET`): the proxy reads both with one `MGET`, but a pair written
+  one after the other can be read half-updated, and the proxy cannot tell. If
+  Redis cannot be reached, answers slowly (500ms connect and read timeouts),
+  has no certificate or key, or has one that does not parse, the handshake
+  carries on with the last copy read from Redis (when Redis errored) or the
+  file (when it has none), one line is logged (`wildcard cert: ...`), and
+  Redis is not asked again for ten seconds. Custom domains are unaffected;
+  they use auto-ssl below. Checked by
+  [`e2e/wildcard-cert-checks.sh`](e2e/wildcard-cert-checks.sh).
 
 - **Which domains are allowed**: `allow_domain` in
   [`config/init.conf`](config/init.conf) returns true only if

@@ -78,6 +78,7 @@ jobs:
           echo -n "served from disk" > "$RUNNER_TEMP/global-static/cdn-test.txt"
           docker run -d --name proxy -p 8080:80 -p 8443:443 -p 8443:443/udp \
             -e BLOT_HOST=localhost \
+            -e PROXY_WILDCARD_CERT_CACHE_TTL=3 \
             -v "$RUNNER_TEMP/global-static":/var/www/blot/app/blog/static:ro \
             blot-proxy:e2e
           docker run -d --name stub --network container:proxy \
@@ -104,6 +105,15 @@ jobs:
           "$RUNNER_TEMP/h3/bin/pip" install --quiet aioquic
           "$RUNNER_TEMP/h3/bin/python" proxy/e2e/h3-check.py 127.0.0.1 8443 localhost /
           "$RUNNER_TEMP/h3/bin/python" proxy/e2e/h3-check.py 127.0.0.1 8443 someblog.example /
+
+      # The wildcard certificate comes from Redis when it is there, else from
+      # the file. Starts a Redis in the proxy's network namespace, which the
+      # proxy has not had until now; keep this the last check.
+      - name: Wildcard certificate from Redis
+        env:
+          PROXY_HTTPS_HOST: 127.0.0.1:8443
+          CACHE_TTL: "3"
+        run: bash proxy/e2e/wildcard-cert-checks.sh
 
       - name: Proxy logs
         if: always()
