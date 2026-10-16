@@ -1,3 +1,8 @@
+Set aside 16 Oct (from the 15 Oct latency + deploy-error review):
+- Isolate slow sites: one site's CPU-heavy renders stall every blog on yellow's event loop (15 Oct 18:26-18:33, a client crawling nashp entries at 3-4 r/s under the 6 r/s per-IP limit; again 20:56). Options: per-host concurrency cap on upstream misses (worry: image-heavy pages), route known-heavy hosts to their own pool via map $host, or cut the render cost (nashp, #1806)
+- Find out why 5 internal /purge requests got 503 during the 09:06 15 Oct proxy swap
+- Find out what closes yellow's upstream connections after ~1s ("upstream prematurely closed", 502 at st~1.0s, no retry since it's past next_upstream_timeout 800ms) under load and during yellow's deploy stop
+
 Publish Node container ports on loopback only: docker-proxy binds 8088-8090 on 0.0.0.0 and :: (scripts/deploy/util/generateDockerCommand.js emits -p 808x:8080), but the proxy only connects to 127.0.0.1. Use -p 127.0.0.1:808x:8080
 - Measured 15 Oct: docker-proxy hop costs ~0.7% of Node CPU, +0.2ms median per new connection; not worth a dockerd restart (live-restore=false), Unix sockets come with #2119
 
@@ -105,7 +110,7 @@ Proxy container follow-ups (cut over 8 Oct 2026, #1941)
 - Stored custom-domain certs without an `expiry` field (legacy records) bypass the proxy's expired-cert check in init.conf get_cert: fall back to the PEM notAfter, or migrate the records
 - Check webhooks. SSE through the container, and that a known /blog_* asset on cdn. has Cache-Control 1y and no Blot-Upstream
 - After the next 03:46 logrotate: access.log/error.log still written after copytruncate, fail2ban counts still moving
-- After the next wildcard renewal (/home/ec2-user/renew-wildcard.log): container reloaded, served cert fingerprint matches /etc/ssl/private/letsencrypt-domain.pem
+- After the next wildcard renewal: the served cert fingerprint matches the Redis copy (blot:openresty:ssl:pem), with no proxy reload needed (the proxy re-reads Redis every 10 seconds; "wildcard cert:" lines in the proxy error log mean it fell back to the file). Once seen, `docker exec` reload in renew-wildcard-ssl.sh and the disk comparison in proxy/deploy/common.sh (served_cert_matches_disk) can go
 - Custom-domain certs renew inside the container: none within ~20 days of expiry apart from domains that no longer point at Blot; after a daily renewal run, error.log should show no "certificate for ... expired at" warnings for domains still pointing at Blot (the proxy now refuses to serve an expired stored cert; no host cron)
 - auto-ssl's daily renewal timer first fires 24h after a container starts, so a proxy restarted more often than daily never runs it: confirm proxy deploys are far enough apart, or kick the first run from init_worker
 - Reboot the host once in a maintenance window: mount-instance-store mounts without reformatting, docker starts after it, the proxy comes back with cache/log mounts, :80/:443 answer
