@@ -19,7 +19,8 @@ name: integration
 #                    serves every request while the old container is stopped.
 #  node-swap       : a rolling redeploy of the Node containers (stop, rm,
 #                    create, start, blue/green/yellow) under load through the
-#                    proxy; any dropped or failed request fails the job.
+#                    proxy, over the Unix sockets like production; any
+#                    dropped or failed request fails the job.
 
 on:
   push:
@@ -31,6 +32,7 @@ on:
       - "app/config.js"
       - "config/index.js"
       - "app/helper/drain.js"
+      - "app/helper/listen.js"
       - "app/server.js"
       - "app/index.js"
       - "scripts/deploy/**"
@@ -43,6 +45,7 @@ on:
       - "app/config.js"
       - "config/index.js"
       - "app/helper/drain.js"
+      - "app/helper/listen.js"
       - "app/server.js"
       - "app/index.js"
       - "scripts/deploy/**"

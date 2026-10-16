@@ -1,15 +1,16 @@
 // Stand-in for the Blot app, wired like app/index.js + app/server.js, but it
-// uses the REAL app/helper/drain.js (mounted at /app/helper/drain.js; its two
-// deps come from ./fake via NODE_PATH=/fake:/app). Plain node, no dependencies.
-const http = require("http");
+// uses the REAL app/helper/drain.js and listen.js (mounted under /app/helper;
+// drain's two deps come from ./fake via NODE_PATH=/fake:/app). Plain node, no
+// dependencies. Listens on 8080 and on BLOT_SOCKET, as production does.
 const drain = require("helper/drain");
+const listen = require("helper/listen");
 
 const BOOT_DELAY_MS = parseInt(process.env.BOOT_DELAY_MS ?? "3000", 10);
 
 // Like app/index.js: installed before setup so SIGTERM during boot exits cleanly
 drain.install();
 
-const server = http.createServer((req, res) => {
+const handler = (req, res) => {
   const url = new URL(req.url, "http://x");
   // app/server.js: /health is 503 while draining
   if (url.pathname === "/health") {
@@ -35,11 +36,18 @@ const server = http.createServer((req, res) => {
       );
     }, 30);
   });
-});
+};
 
 // app/index.js: setup() (Redis, templates, ...) runs before listen
 setTimeout(() => {
-  drain.setServer(server);
-  server.listen(8080, "0.0.0.0", () => console.log(`${process.env.NAME} listening`));
-  server.keepAliveTimeout = 65000;
+  const servers = listen(
+    handler,
+    {
+      port: 8080,
+      socket: process.env.BLOT_SOCKET,
+      configure: (server) => (server.keepAliveTimeout = 65000),
+    },
+    () => console.log(`${process.env.NAME} listening`),
+  );
+  servers.forEach((server) => drain.setServer(server));
 }, BOOT_DELAY_MS);
