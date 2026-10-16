@@ -56,7 +56,7 @@ connection) and the config's own `worker_rlimit_nofile 20480`
    `sudo setfacl -m u:deploy:r /etc/blot/proxy.env`
    ([`setup-deploy-user.sh`](../../scripts/deploy/setup-deploy-user.sh) does this if the file already exists).
 3. **The certificate-renewal helpers.** The proxy serves the wildcard
-   certificate from Redis (within five minutes of a renewal, no reload needed;
+   certificate from Redis (within seconds of a renewal, no reload needed;
    see [`../README.md`](../README.md)) and uses the file only as a fallback.
    `config/host/scripts/renew-wildcard-ssl.sh` still reloads the container after renewing; install it with `npm run deploy-host`.
    See [`config/host/README.md`](../../config/host/README.md) for the cron entry

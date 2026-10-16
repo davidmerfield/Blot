@@ -5,21 +5,21 @@
 # proxy-behaviour job in .github/workflows/integration.yml, after the other
 # checks, against:
 #
-#   - the proxy container (BLOT_HOST=localhost), started with
-#     PROXY_WILDCARD_CERT_CACHE_TTL set (seconds; it stands in for a few
-#     minutes) and the image's self-signed placeholder as the certificate file
+#   - the proxy container (BLOT_HOST=localhost), with the image's self-signed
+#     placeholder as the certificate file
 #   - a Redis 6.2 container sharing the proxy's network namespace, so the
 #     proxy's default Redis host (127.0.0.1) reaches it. It must not be
 #     started before this script.
 #
 # Environment: PROXY_HTTPS_HOST (host:port of the proxy's TLS port, default
-# 127.0.0.1:8443), CACHE_TTL (the proxy's PROXY_WILDCARD_CERT_CACHE_TTL), and
-# optionally PROXY_CONTAINER / REDIS_CONTAINER if not named proxy / redis.
+# 127.0.0.1:8443), and optionally PROXY_CONTAINER / REDIS_CONTAINER if not named proxy / redis.
 # No pipefail: `docker logs ... | grep -q` would fail on the SIGPIPE grep
 # sends when it stops reading at the first match.
 set -eu
 
-: "${CACHE_TTL:?}"
+# Seconds between the proxy's reads of Redis: INTERVAL in
+# proxy/config/wildcard_cert.lua. Keep the two in step.
+INTERVAL=10
 CONNECT=${PROXY_HTTPS_HOST:-127.0.0.1:8443}
 PROXY=${PROXY_CONTAINER:-proxy}
 REDIS=${REDIS_CONTAINER:-redis}
@@ -27,7 +27,7 @@ WORK=$(mktemp -d)
 trap 'rm -rf "$WORK"' EXIT
 
 # the failed-read backoff in wildcard_cert.lua, plus the TTL, plus slack
-WAIT=$((CACHE_TTL + 20))
+WAIT=$((INTERVAL + 20))
 
 redis() { docker exec -i "$REDIS" redis-cli "$@"; }
 
@@ -112,7 +112,7 @@ echo "Redis stopped: the last certificate read keeps being served, quickly"
 put_cert wildcard-a
 wait_for wildcard-a anything.localhost
 docker stop "$REDIS" >/dev/null
-sleep $((CACHE_TTL + 2))
+sleep $((INTERVAL + 2))
 start=$(date +%s)
 subject=$(served_subject anything.localhost)
 elapsed=$(( $(date +%s) - start ))

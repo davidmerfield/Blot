@@ -10,7 +10,7 @@
 -- and is the fallback: serve() changes nothing when there is no usable copy in
 -- Redis, so the handshake carries on with the file.
 --
--- One worker (id 0) reads Redis from a timer, once per TTL (a few minutes),
+-- One worker (id 0) reads Redis from a timer, every few seconds,
 -- validates what it read and publishes it to the shared dict as one value, so
 -- no worker can pair a new certificate with an old key. serve() only reads the
 -- shared dict: a handshake never opens a connection, because yielding in
@@ -37,14 +37,18 @@ local PRIV_KEY = "blot:openresty:ssl:key"
 -- read together. Absent means serve the file.
 local PAIR = "pair"
 
+-- Seconds between reads of Redis, after a success and after a failure alike.
+-- A read is one MGET of two small keys from worker 0 per container, so 10s
+-- costs Redis nothing, a renewal is served within 10s, and a Redis outage
+-- is noticed (and logged, once) just as fast. Short enough for the CI check
+-- (proxy/e2e/wildcard-cert-checks.sh, which repeats this value) to wait out.
+local INTERVAL = 10
+
 function _M.new(options)
   return setmetatable({
     dict = options.dict,
     host = options.host,
     port = options.port or 6379,
-    ttl = options.ttl or 300,
-    -- delay before trying again after a failed read
-    retry = math.min(options.retry or 10, options.ttl or 300),
     timeout = options.timeout or 500,
     failing = false,
   }, mt)
@@ -183,19 +187,14 @@ local function run(premature, self)
     current = false
   end
 
-  local delay = self.ttl
-  if not current then
-    delay = self.retry
-  end
-
-  local timer_ok, timer_err = ngx.timer.at(delay, run, self)
+  local timer_ok, timer_err = ngx.timer.at(INTERVAL, run, self)
   if not timer_ok and not ngx.worker.exiting() then
     ngx.log(ngx.ERR, "wildcard cert: cannot schedule the next read: ", timer_err)
   end
 end
 
 -- Call from init_worker_by_lua in every worker; only worker 0 reads Redis.
--- Reads now, then again each TTL (sooner after a failure).
+-- Reads now, then again every INTERVAL seconds.
 function _M:start()
   if ngx.worker.id() ~= 0 then
     return

@@ -89,8 +89,8 @@ start).
   the chain in `blot:openresty:ssl:pem` and the key in `blot:openresty:ssl:key`,
   so a renewal that writes them takes effect with no reload. Redis is the
   source of truth; the file is only used when Redis has nothing usable. One
-  worker (id 0) reads Redis from a timer (`PROXY_WILDCARD_CERT_CACHE_TTL` seconds,
-  default 300; CI shortens it), so a renewal is served within five minutes,
+  worker (id 0) reads Redis from a timer every 10 seconds, so a renewal is served within
+  about ten seconds,
   and publishes the validated chain and key to the `wildcard_cert` shared dict
   as one value. Handshakes only read that dict and never touch Redis, because
   a handshake that yields in `ssl_certificate_by_lua` breaks HTTP/3
@@ -103,8 +103,7 @@ start).
   timeouts), has no certificate or key, or has one that does not parse, the
   proxy keeps serving the last copy read from Redis (the file if there is
   none, or if Redis answered with no keys), logs one line per run of failures
-  (`wildcard cert: ...`), and tries again after ten seconds (the TTL if
-  shorter). A cached copy that OpenSSL then refuses is dropped, so handshakes
+  (`wildcard cert: ...`), and tries again after ten seconds. A cached copy that OpenSSL then refuses is dropped, so handshakes
   fall back to the file. Custom domains are unaffected; they use auto-ssl
   below. Checked by [`e2e/wildcard-cert-checks.sh`](e2e/wildcard-cert-checks.sh).
 
