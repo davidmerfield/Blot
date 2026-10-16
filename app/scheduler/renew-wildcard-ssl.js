@@ -5,8 +5,8 @@
 //   blot:openresty:ssl:pem      leaf certificate followed by its chain, PEM
 //   blot:openresty:ssl:updated  Unix seconds of the last write
 //
-// It renews only when the certificate in Redis is missing, unreadable or has
-// less than RENEW_DAYS left, so running it daily is cheap. Failures throw: the
+// It renews only when the certificate in Redis is missing, unreadable, lacks
+// a matching key, or has less than RENEW_DAYS left, so running it daily is cheap. Failures throw: the
 // scheduler logs them, and app/scheduler/check-ssl-certificates.js emails the
 // admin if the certificate gets under 21 days, about nine daily attempts in.
 //
@@ -111,6 +111,21 @@ function daysLeft(pem, now) {
   }
 }
 
+// Days left on the certificate in Redis, or null if it is missing or
+// unreadable, or the key beside it is missing or does not match it: the proxy
+// needs both, and without them serves the file, which goes stale.
+function usableDaysLeft(pem, key, now) {
+  const days = daysLeft(pem, now);
+  if (days === null) return null;
+
+  try {
+    const cert = new crypto.X509Certificate(pem);
+    return cert.checkPrivateKey(crypto.createPrivateKey(key)) ? days : null;
+  } catch (e) {
+    return null;
+  }
+}
+
 // One ACME account per Blot, kept in Redis so Let's Encrypt sees the same one
 // each time. SET NX so two racing processes still agree on a key.
 async function accountKey({ client, acme }) {
@@ -199,7 +214,7 @@ async function renew(deps = {}) {
     force = false,
   } = deps;
 
-  const current = daysLeft(await client.get(PEM_KEY), now);
+  const current = usableDaysLeft(await client.get(PEM_KEY), await client.get(KEY_KEY), now);
 
   if (!force && current !== null && current > RENEW_DAYS) {
     return { renewed: false, daysLeft: current };
@@ -214,7 +229,7 @@ async function renew(deps = {}) {
 
   console.log(
     "Wildcard SSL: renewing certificate for " + host + " and *." + host + " (" +
-      (current === null ? "none in Redis" : current + " days left") + ")"
+      (current === null ? "no usable certificate and key in Redis" : current + " days left") + ")"
   );
 
   const acme = deps.acme || require("acme-client");

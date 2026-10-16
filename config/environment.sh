@@ -102,10 +102,6 @@ export BLOT_STORAGE_ENDPOINT=
 export BLOT_WILDCARD_SSL_HOSTED_ZONE_ID=
 export BLOT_ACME_DIRECTORY_URL=
 
-# AWS for controlling route 53 for wildcard SSL certficate
-export AWS_ACCESS_KEY_ID=
-export AWS_SECRET_ACCESS_KEY=
-
 # Mailgun for sending emails to customers
 export BLOT_MAILGUN_KEY=
 

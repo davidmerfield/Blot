@@ -5,20 +5,29 @@ describe("scheduler renew-wildcard-ssl", function () {
   const DAY = 24 * 60 * 60 * 1000;
   const HOST = "blot.test";
 
-  // A real (public) self-signed certificate for blot.test and *.blot.test,
-  // valid until 2126, with no private key.
+  // A self-signed certificate for blot.test and *.blot.test, valid until
+  // 2126, and its private key (generated for this spec, used nowhere else).
   const PEM = [
     "-----BEGIN CERTIFICATE-----",
-    "MIIBojCCAUigAwIBAgIUfQvnfcQNm6AnlXtqjMyCHlif0kQwCgYIKoZIzj0EAwIw",
-    "FDESMBAGA1UEAwwJYmxvdC50ZXN0MCAXDTI2MTAxNjA3MTE1MVoYDzIxMjYwOTIy",
-    "MDcxMTUxWjAUMRIwEAYDVQQDDAlibG90LnRlc3QwWTATBgcqhkjOPQIBBggqhkjO",
-    "PQMBBwNCAATIfd7LeQUBBdyemanEfbl3NTK8VtGRvmeUDe27EwPuzoUw9MLmD3Ci",
-    "NnmA2/LS0WV0cXS8X38XRhiwluBeVoYEo3YwdDAdBgNVHQ4EFgQUMWxsikLFO9rY",
-    "MWOE3w0In3z3cqYwHwYDVR0jBBgwFoAUMWxsikLFO9rYMWOE3w0In3z3cqYwDwYD",
+    "MIIBoTCCAUigAwIBAgIUSosXqqtnqGjm3jP/fRLBUXu+ruYwCgYIKoZIzj0EAwIw",
+    "FDESMBAGA1UEAwwJYmxvdC50ZXN0MCAXDTI2MTAxNjE0MjAzNVoYDzIxMjYwOTIy",
+    "MTQyMDM1WjAUMRIwEAYDVQQDDAlibG90LnRlc3QwWTATBgcqhkjOPQIBBggqhkjO",
+    "PQMBBwNCAAQ2Uw6ZTA4PhJcW52SFKBOgLgxu3jUr3Wuuk8a1KecFwvIjR7Xhw3W1",
+    "6BLFmoFHZlPCYXG9LRYWXyZOJ9VRGC3to3YwdDAdBgNVHQ4EFgQU+YWnnDUTvsGR",
+    "Ye/D+iJAQrs3BTMwHwYDVR0jBBgwFoAU+YWnnDUTvsGRYe/D+iJAQrs3BTMwDwYD",
     "VR0TAQH/BAUwAwEB/zAhBgNVHREEGjAYgglibG90LnRlc3SCCyouYmxvdC50ZXN0",
-    "MAoGCCqGSM49BAMCA0gAMEUCIQDEaLkTJ/lUVQlvIou60A305vsq63VrKliqbRb7",
-    "F7mNmwIgbHweVU8rZ6RV/wrrIDhTp2URKAiSTwsarHtuY3xH+EQ=",
+    "MAoGCCqGSM49BAMCA0cAMEQCIBvPoVtuptTk4/oTgeJib7iqd2s1Jg9PrDWgwvia",
+    "xgTtAiBIovKjQBSKY1C4n/e7xMQ5SWMYMJcRs3oxdv23ENZRXQ==",
     "-----END CERTIFICATE-----",
+    "",
+  ].join("\n");
+
+  const CERT_KEY = [
+    "-----BEGIN PRIVATE KEY-----",
+    "MIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQgLGksTtUukjS6bFvm",
+    "QdHGV34EckBPJcPb9kON1PPyVqihRANCAAQ2Uw6ZTA4PhJcW52SFKBOgLgxu3jUr",
+    "3Wuuk8a1KecFwvIjR7Xhw3W16BLFmoFHZlPCYXG9LRYWXyZOJ9VRGC3t",
+    "-----END PRIVATE KEY-----",
     "",
   ].join("\n");
 
@@ -123,18 +132,40 @@ describe("scheduler renew-wildcard-ssl", function () {
 
   describe("renewal decision", function () {
     it("leaves a certificate with more than 30 days left alone", async function () {
-      const client = fakeRedis({ [PEM_KEY]: PEM });
+      const client = fakeRedis({ [PEM_KEY]: PEM, [KEY_KEY]: CERT_KEY });
       const { events, dns, acme } = fakes();
 
       const result = await renew({ client, dns, acme, host: HOST, now: EXPIRES - 31 * DAY });
 
       expect(result).toEqual({ renewed: false, daysLeft: 31 });
       expect(events).toEqual([]);
-      expect(client.store.has(KEY_KEY)).toBe(false);
+      expect(client.store.get(KEY_KEY)).toEqual(CERT_KEY);
+    });
+
+    it("renews a certificate whose key is missing or does not match it", async function () {
+      const other = crypto
+        .generateKeyPairSync("ec", { namedCurve: "P-256" })
+        .privateKey.export({ type: "pkcs8", format: "pem" });
+
+      for (const key of [undefined, "garbage", other]) {
+        const initial = { [PEM_KEY]: PEM };
+        if (key !== undefined) initial[KEY_KEY] = key;
+        const { dns, acme } = fakes();
+
+        const result = await renew({
+          client: fakeRedis(initial),
+          dns,
+          acme,
+          host: HOST,
+          now: EXPIRES - 80 * DAY,
+        });
+
+        expect(result.renewed).toBe(true);
+      }
     });
 
     it("renews a certificate with 30 days or fewer left", async function () {
-      const client = fakeRedis({ [PEM_KEY]: PEM });
+      const client = fakeRedis({ [PEM_KEY]: PEM, [KEY_KEY]: CERT_KEY });
       const { dns, acme } = fakes();
 
       const result = await renew({ client, dns, acme, host: HOST, now: EXPIRES - 30 * DAY });
