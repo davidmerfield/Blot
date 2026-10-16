@@ -72,6 +72,18 @@ expiry=$(redis get "ssl:$TEST_DOMAIN:latest" | node -e '
 echo "$TEST_DOMAIN now expires at $expiry"
 [ "$expiry" -gt "$(date +%s)" ]
 
+echo "=== The same domain expiring again within the hour is not issued another ==="
+# One issuance attempt per domain per hour per container, so a listed domain
+# that cannot be issued does not start an ACME order on every handshake
+redis copy "ssl:$TEST_DOMAIN:latest" "ssl-test-backup" replace >/dev/null
+write_expired_cert "$TEST_DOMAIN"
+sleep "$PAST_TTL"
+subject=$(served_subject "$TEST_DOMAIN")
+echo "$TEST_DOMAIN: $subject"
+echo "$subject" | grep -q blot-proxy-placeholder
+redis copy "ssl-test-backup" "ssl:$TEST_DOMAIN:latest" replace >/dev/null
+redis del "ssl-test-backup" >/dev/null
+
 echo "=== An unlisted domain with an expired certificate gets the fallback ==="
 write_expired_cert "$ORPHAN"
 subject=$(served_subject "$ORPHAN")

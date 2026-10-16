@@ -109,10 +109,17 @@ if [[ " $* " == *" scan "* ]]; then
   for d in ${FAKE_CUSTOM_DOMAINS-a.custom.test b.custom.test}; do echo "ssl:$d:latest"; done
   exit
 fi
-if [[ " $* " == *" get ssl:"* ]]; then
-  # common.sh's cert_expired: the stored certificate JSON
-  d="$*"; d=${d##* get ssl:}; d=${d%:latest}
-  if [[ " ${FAKE_EXPIRED_DOMAINS:-} " == *" $d "* ]]; then echo '{"expiry":1}'; else echo '{"expiry":99999999999}'; fi
+if [ "$*" = "-h 10.0.0.5 --raw" ]; then
+  # common.sh's expired_cert_domains: "get ssl:<domain>:latest" lines on stdin,
+  # one stored certificate JSON line back for each
+  while read -r _ key; do
+    d=${key#ssl:}; d=${d%:latest}
+    if [[ " ${FAKE_EXPIRED_DOMAINS:-} " == *" $d "* ]] && { [ -z "${FAKE_EXPIRED_ONLY_AT_BASELINE:-}" ] || [ ! -e "$FAKE/stopped" ]; }; then
+      echo '{"expiry":1}'
+    else
+      echo '{"expiry":99999999999}'
+    fi
+  done
   exit
 fi
 echo "redis-cli $*" >> "$FAKE/calls"
@@ -197,6 +204,13 @@ check "a custom-domain certificate differs after the swap: rolled back" '[ $RC !
 
 reset container; FAKE_CUSTOM_FP_AFTER_STOP=B FAKE_EXPIRED_DOMAINS="a.custom.test b.custom.test" bluegreen
 check "a custom-domain certificate that has expired and is no longer served is not held against the swap" '[ $RC = 0 ]'
+
+# The replacement issues a new certificate for a domain whose stored one had
+# expired, so the fingerprint changes. Expiry is judged before the swap: the
+# fake Redis shows the fresh certificate afterwards, so a re-read then would
+# call the domain unexpired.
+reset container; FAKE_CUSTOM_FP_AFTER_STOP=B FAKE_EXPIRED_DOMAINS="a.custom.test b.custom.test" FAKE_EXPIRED_ONLY_AT_BASELINE=1 bluegreen
+check "a certificate that expired and was reissued by the replacement is judged by its expiry before the swap" '[ $RC = 0 ]'
 
 echo "try-issuance.sh"
 

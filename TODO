@@ -102,6 +102,7 @@ Redis host follow-ups (from #2041, new host since 8 Oct):
 Image cache and thumbnails name some files after a slug that is still percent-encoded (literal %E8..., sometimes cut mid-sequence: ...-%E2.png, large.jpg%e2%80%9d) and build URLs without escaping, so those images 404/400 today: slug from the decoded name, then rebuild affected blogs (backfill --dry-run lists them)
 
 Proxy container follow-ups (cut over 8 Oct 2026, #1941)
+- Stored custom-domain certs without an `expiry` field (legacy records) bypass the proxy's expired-cert check in init.conf get_cert: fall back to the PEM notAfter, or migrate the records
 - Check webhooks. SSE through the container, and that a known /blog_* asset on cdn. has Cache-Control 1y and no Blot-Upstream
 - After the next 03:46 logrotate: access.log/error.log still written after copytruncate, fail2ban counts still moving
 - After the next wildcard renewal (/home/ec2-user/renew-wildcard.log): container reloaded, served cert fingerprint matches /etc/ssl/private/letsencrypt-domain.pem

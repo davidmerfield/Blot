@@ -303,23 +303,29 @@ custom_cert_domains() {
 }
 
 # The proxy treats a stored certificate whose expiry has passed as missing
-# (get_cert in proxy/config/init.conf), so a domain that presents none because
-# its certificate has expired is not the replacement's fault. drop_expired
-# filters such domains out of lines starting with a domain name. The expiry is
-# read from the stored JSON with grep, as no JSON tool is guaranteed on the host.
-cert_expired() { # cert_expired <domain>
-  local expiry
-  expiry=$(redis-cli -h "$REDIS_HOST" --raw get "ssl:$1:latest" 2>/dev/null \
-    | grep -o '"expiry":[0-9]*' | head -n 1 | cut -d: -f2) || true
-  [ -n "$expiry" ] && [ "$expiry" -le "$(date +%s)" ]
+# (get_cert in proxy/config/init.conf), so a domain that presents none (or, on
+# a swap, a different one, once the replacement issues a new certificate)
+# because its stored certificate had expired is not the replacement's fault.
+# expired_cert_domains lists such domains, from domain names on stdin. It is
+# called BEFORE the replacement starts (or, on a fresh start, before the
+# sweep), because the replacement's own handshakes can replace the stored
+# certificate. The expiry is read from the stored JSON with awk, as no JSON
+# tool is guaranteed on the host. One redis-cli session reads every key, one
+# reply line per key.
+expired_cert_domains() {
+  local domains
+  domains="$(sed '/^$/d')"
+  [ -n "$domains" ] || return 0
+  paste -d' ' <(printf '%s\n' "$domains") \
+    <(printf '%s\n' "$domains" | sed 's/^/get ssl:/; s/$/:latest/' | redis-cli -h "$REDIS_HOST" --raw 2>/dev/null \
+      | awk '{ if (match($0, /"expiry":[0-9]+/)) print substr($0, RSTART + 9, RLENGTH - 9); else print "-" }') \
+    | awk -v now="$(date +%s)" '$2 != "-" && $2 + 0 <= now { print $1 }'
 }
 
+# drop_expired: lines starting with a domain name on stdin, minus the domains
+# in $EXPIRED_CERTS (newline separated)
 drop_expired() {
-  local line
-  while IFS= read -r line; do
-    [ -n "$line" ] || continue
-    cert_expired "${line%% *}" || printf '%s\n' "$line"
-  done
+  awk -v list="${EXPIRED_CERTS:-}" 'BEGIN { n = split(list, a, "\n"); for (i = 1; i <= n; i++) if (a[i] != "") e[a[i]] = 1 } !($1 in e)'
 }
 
 # cert_sweep [port] -> sorted "<domain> <sha256 fingerprint | none>" lines
@@ -353,6 +359,7 @@ cert_baseline() {
   command -v redis-cli >/dev/null 2>&1 \
     || { log "redis-cli is not installed, so custom-domain certificates cannot be compared (PROXY_SKIP_CERT_SWEEP=1 to skip)"; return 1; }
   CERT_BASELINE="$(cert_sweep | sed '/^$/d')"
+  EXPIRED_CERTS="$(printf '%s\n' "$CERT_BASELINE" | awk '{ print $1 }' | expired_cert_domains)"
   local total served
   total=$(printf '%s\n' "$CERT_BASELINE" | sed '/^$/d' | wc -l | tr -d ' ')
   served=$(printf '%s\n' "$CERT_BASELINE" | sed '/^$/d' | grep -vc ' none$' || true)
@@ -371,6 +378,7 @@ certs_all_served() { # certs_all_served [port]
   command -v redis-cli >/dev/null 2>&1 \
     || { log "redis-cli is not installed, so custom-domain certificates cannot be checked (PROXY_SKIP_CERT_SWEEP=1 to skip)"; return 1; }
   local sweep total missing wildcard
+  EXPIRED_CERTS="$(custom_cert_domains | expired_cert_domains)"
   sweep="$(cert_sweep "${1:-443}")" \
     || { log "cannot list the custom domains in Redis (SCAN failed), so their certificates cannot be checked"; return 1; }
   sweep="$(printf '%s\n' "$sweep" | sed '/^$/d')"
