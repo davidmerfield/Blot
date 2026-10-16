@@ -115,6 +115,13 @@ jobs:
           CACHE_TTL: "3"
         run: bash proxy/e2e/wildcard-cert-checks.sh
 
+      # The wildcard certificate set from Redis must also complete a QUIC
+      # handshake (the script above leaves the last one cached, Redis stopped).
+      - name: HTTP/3 with the wildcard certificate from Redis
+        run: |
+          set -eux
+          "$RUNNER_TEMP/h3/bin/python" proxy/e2e/h3-check.py 127.0.0.1 8443 anything.localhost / anything.localhost
+
       - name: Proxy logs
         if: always()
         run: docker logs proxy || true

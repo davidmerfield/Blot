@@ -10,11 +10,16 @@
 -- and is the fallback: serve() changes nothing when there is no usable copy in
 -- Redis, so the handshake carries on with the file.
 --
--- Each handshake asks the shared dict first. Redis is read only when the copy
--- there is older than the TTL (a few minutes), by one worker at a time. If
--- that read fails, the previous Redis copy is served when there is one (it is
--- newer than the file), and for a few seconds nobody tries again, so an
--- outage costs one failed connect per backoff window, not one per handshake.
+-- One worker (id 0) reads Redis from a timer, once per TTL (a few minutes),
+-- validates what it read and publishes it to the shared dict as one value, so
+-- no worker can pair a new certificate with an old key. serve() only reads the
+-- shared dict: a handshake never opens a connection, because yielding in
+-- ssl_certificate_by_lua breaks HTTP/3 handshakes
+-- (https://github.com/openresty/openresty/issues/1049).
+--
+-- If a read fails, the previous Redis copy keeps being served when there is one
+-- (it is newer than the file), the next attempt comes a few seconds later, and
+-- one line is logged per run of failures.
 --
 -- Used from proxy/config/wildcard-cert.conf and set up in init.conf.
 
@@ -27,15 +32,10 @@ local mt = { __index = _M }
 local CERT_KEY = "blot:openresty:ssl:pem"
 local PRIV_KEY = "blot:openresty:ssl:key"
 
--- Keys in the shared dict. der_cert and der_key never expire on their own (the
--- dict drops the least recently used entries if it is ever full); "fresh" is
--- the marker that they were read from Redis within the TTL, "down" that the
--- last read failed, and "lock" that a worker is reading now.
-local FRESH = "fresh"
-local DOWN = "down"
-local LOCK = "lock"
-local DER_CERT = "der_cert"
-local DER_KEY = "der_key"
+-- The only key in the shared dict: the DER certificate chain and private key
+-- as one value, "<length of the chain>:<chain><key>", so they are published and
+-- read together. Absent means serve the file.
+local PAIR = "pair"
 
 function _M.new(options)
   return setmetatable({
@@ -43,8 +43,10 @@ function _M.new(options)
     host = options.host,
     port = options.port or 6379,
     ttl = options.ttl or 300,
-    backoff = options.backoff or 10,
+    -- delay before trying again after a failed read
+    retry = math.min(options.retry or 10, options.ttl or 300),
     timeout = options.timeout or 500,
+    failing = false,
   }, mt)
 end
 
@@ -106,9 +108,24 @@ local function parse(pem, key)
   return der_cert, der_key
 end
 
--- Reads Redis and updates the shared dict. Only the worker holding the lock
--- calls this, and it is the only place that logs about Redis, so there is one
--- log line per backoff window.
+-- Whether the key belongs to the certificate, when lua-resty-openssl happens to
+-- be installed (it is not a dependency). Returns false only on a proven
+-- mismatch.
+local function key_matches(pem, key)
+  local has_x509, x509 = pcall(require, "resty.openssl.x509")
+  local has_pkey, pkey = pcall(require, "resty.openssl.pkey")
+  if not (has_x509 and has_pkey) then
+    return true
+  end
+  local ok, same = pcall(function()
+    local cert = x509.new(pem)
+    local priv = pkey.new(key)
+    return cert:get_pubkey():to_PEM("public") == priv:to_PEM("public")
+  end)
+  return not (ok and same == false)
+end
+
+-- Reads Redis and publishes the result. Returns true if the copy is current.
 function _M:refresh()
   local dict = self.dict
 
@@ -120,56 +137,96 @@ function _M:refresh()
     der_cert, der_key = parse(pem, key)
     if not der_cert then
       reason = der_key
+    elseif not key_matches(pem, key) then
+      der_cert = nil
+      reason = "the private key does not match the certificate"
     end
   end
 
   if der_cert then
-    dict:set(DER_CERT, der_cert)
-    dict:set(DER_KEY, der_key)
-    dict:set(FRESH, true, self.ttl)
-    dict:delete(DOWN)
-    return
+    dict:set(PAIR, #der_cert .. ":" .. der_cert .. der_key)
+    if self.failing then
+      ngx.log(ngx.NOTICE, "wildcard cert: read from redis again")
+    end
+    self.failing = false
+    return true
   end
-
-  dict:set(DOWN, true, self.backoff)
 
   if missing then
     -- Redis answered and has no wildcard certificate: do not keep serving an
     -- old copy of one, use the file
-    dict:delete(DER_CERT)
-    dict:delete(DER_KEY)
-    ngx.log(ngx.WARN, "wildcard cert: ", reason, "; serving the certificate file")
-  elseif dict:get(DER_CERT) then
-    ngx.log(ngx.ERR, "wildcard cert: ", reason, "; serving the last copy read from redis")
-  else
-    ngx.log(ngx.ERR, "wildcard cert: ", reason, "; serving the certificate file")
+    dict:delete(PAIR)
+  end
+
+  if not self.failing then
+    local serving = "the certificate file"
+    if dict:get(PAIR) then
+      serving = "the last copy read from redis"
+    end
+    ngx.log(missing and ngx.WARN or ngx.ERR, "wildcard cert: ", reason, "; serving ", serving)
+  end
+  self.failing = true
+  return false
+end
+
+local function run(premature, self)
+  if premature then
+    return
+  end
+
+  local ok, current = pcall(self.refresh, self)
+  if not ok then
+    if not self.failing then
+      ngx.log(ngx.ERR, "wildcard cert: ", current, "; serving the certificate file")
+    end
+    self.failing = true
+    current = false
+  end
+
+  local delay = self.ttl
+  if not current then
+    delay = self.retry
+  end
+
+  local timer_ok, timer_err = ngx.timer.at(delay, run, self)
+  if not timer_ok and not ngx.worker.exiting() then
+    ngx.log(ngx.ERR, "wildcard cert: cannot schedule the next read: ", timer_err)
+  end
+end
+
+-- Call from init_worker_by_lua in every worker; only worker 0 reads Redis.
+-- Reads now, then again each TTL (sooner after a failure).
+function _M:start()
+  if ngx.worker.id() ~= 0 then
+    return
+  end
+  local ok, err = ngx.timer.at(0, run, self)
+  if not ok then
+    ngx.log(ngx.ERR, "wildcard cert: cannot start the timer: ", err)
   end
 end
 
 -- ssl_certificate_by_lua: swap in the certificate from Redis if there is one.
+-- Shared dict reads only: no cosockets, so the handshake never yields.
 function _M:serve()
-  local dict = self.dict
-
-  if not dict:get(FRESH) and not dict:get(DOWN) then
-    -- One worker reads Redis; the others carry on with what is cached
-    if dict:add(LOCK, true, 5) then
-      local ok, err = pcall(self.refresh, self)
-      dict:delete(LOCK)
-      if not ok then
-        dict:set(DOWN, true, self.backoff)
-        ngx.log(ngx.ERR, "wildcard cert: ", err, "; serving the certificate file")
-      end
-    end
-  end
-
-  local der_cert = dict:get(DER_CERT)
-  local der_key = dict:get(DER_KEY)
-  if not der_cert or not der_key then
+  local pair = self.dict:get(PAIR)
+  if not pair then
     return
   end
 
-  -- From here the static certificate is dropped, so a failure to set the
-  -- cached one is worth knowing about: the handshake will fail.
+  local length, start = pair:match("^(%d+):()")
+  length = tonumber(length)
+  local der_cert = length and pair:sub(start, start + length - 1)
+  local der_key = length and pair:sub(start + length)
+  if not der_cert or der_key == "" then
+    self.dict:delete(PAIR)
+    ngx.log(ngx.ERR, "wildcard cert: cached copy is malformed; serving the certificate file")
+    return
+  end
+
+  -- From clear_certs the static certificate is dropped. If the cached one then
+  -- cannot be set, forget it, so later handshakes use the file rather than
+  -- fail until the next read.
   local ok, err = ssl.clear_certs()
   if not ok then
     ngx.log(ngx.ERR, "wildcard cert: clear_certs: ", err)
@@ -177,15 +234,12 @@ function _M:serve()
   end
 
   ok, err = ssl.set_der_cert(der_cert)
-  if not ok then
-    ngx.log(ngx.ERR, "wildcard cert: set_der_cert: ", err)
-    return
+  if ok then
+    ok, err = ssl.set_der_priv_key(der_key)
   end
-
-  ok, err = ssl.set_der_priv_key(der_key)
   if not ok then
-    ngx.log(ngx.ERR, "wildcard cert: set_der_priv_key: ", err)
-    return
+    self.dict:delete(PAIR)
+    ngx.log(ngx.ERR, "wildcard cert: cannot use the cached copy (", err, "); serving the certificate file")
   end
 end
 
