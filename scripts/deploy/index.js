@@ -179,7 +179,7 @@ async function deployContainer(
   container,
   platform,
   imageHash,
-  { verify = true } = {}
+  { verify = true, checkSocket = true } = {}
 ) {
   const dockerCreateCommand = await generateDockerCommand(
     container,
@@ -230,7 +230,11 @@ async function deployContainer(
   console.log("Starting new container...");
   await sshCommand(`docker start ${container.name}`);
   console.log("Checking health of new container...");
-  await checkHealth(container.name, container.port, container.socket);
+  await checkHealth(
+    container.name,
+    container.port,
+    checkSocket ? container.socket : undefined
+  );
 
   if (verify) await verifyContainer(container, imageHash);
 }
@@ -546,9 +550,12 @@ async function main() {
         console.error("Rolling back...");
         try {
           // Skip verification on rollback: the priority is to get
-          // something serving again, not to gate it.
+          // something serving again, not to gate it. The socket check is
+          // skipped too: an image from before the socket (helper/listen.js)
+          // ignores BLOT_SOCKET and serves on the port only.
           await deployContainer(container, platform, rollbackHash, {
             verify: false,
+            checkSocket: false,
           });
           console.error("Rollback succeeded.");
         } catch (rollbackError) {
