@@ -89,10 +89,18 @@ subject=$(served_subject someblog.example)
 echo "  someblog.example: $subject"
 case "$subject" in *wildcard-*) echo "  FAIL - custom domain got a wildcard certificate" >&2; exit 1 ;; esac
 
-echo "a certificate that does not parse falls back to the file"
+echo "a certificate that does not parse is logged and the last good one keeps being served"
 redis set blot:openresty:ssl:pem "not a certificate" >/dev/null
-wait_for blot-proxy-placeholder anything.localhost
+for _ in $(seq 1 "$WAIT"); do
+  docker logs "$PROXY" 2>&1 | grep -q "wildcard cert: the certificate does not parse" && break
+  served_subject anything.localhost >/dev/null
+  sleep 1
+done
 docker logs "$PROXY" 2>&1 | grep -q "wildcard cert: the certificate does not parse"
+case "$(served_subject anything.localhost)" in
+  *wildcard-b*) echo "  ok  - still serving wildcard-b" ;;
+  *) echo "  FAIL - did not keep the last good certificate" >&2; exit 1 ;;
+esac
 
 echo "missing keys fall back to the file"
 put_cert wildcard-a
