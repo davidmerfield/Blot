@@ -34,8 +34,10 @@ echo "== phase 2: load during rolling swap =="
 DURATION=60 OUT=swap.json node $D/load.js &
 load=$!
 sleep 3
-bash $D/swap.sh rolling || echo "swap.sh failed"
+bash $D/swap.sh rolling; swap_rc=$?
 wait $load; rc=$?
+# A swap that stopped early still leaves the backups answering 2xx
+if [ "$swap_rc" -ne 0 ]; then echo "FAIL: swap.sh exited $swap_rc"; rc=1; fi
 
 echo "== proxy errors =="
 docker logs ns-proxy 2>&1 | grep -E '\[(error|crit)\]|temporarily disabled|no live' | grep -v cacher | tail -80 || true

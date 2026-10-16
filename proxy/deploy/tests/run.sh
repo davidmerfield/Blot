@@ -350,7 +350,7 @@ reset container; FAKE_REDIS_DOWN=1 bluegreen
 check "Redis unreachable after the swap: rolled back" '[ $RC != 0 ] && called "docker start blot-proxy-blue" && ! called "docker rm blot-proxy-blue"'
 
 reset container; FAKE_UPSTREAM_DOWN=8089 bluegreen
-check "master upstream unreachable after the swap: rolled back" '[ $RC != 0 ] && called "docker start blot-proxy-blue" && ! called "docker rm blot-proxy-blue"'
+check "upstream unreachable: refused in preflight, before the new colour exists" '[ $RC != 0 ] && ! called "docker create" && ! called "docker stop"'
 
 reset container; bluegreen
 check "TCP upstreams (the default): /run/blot is not mounted into the proxy" '[ $RC = 0 ] && ! called "/run/blot"'
