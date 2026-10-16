@@ -109,6 +109,7 @@ if [[ " $* " == *" scan "* ]]; then
   for d in ${FAKE_CUSTOM_DOMAINS-a.custom.test b.custom.test}; do echo "ssl:$d:latest"; done
   exit
 fi
+if [[ " $* " == *" get blot:openresty:ssl:pem "* ]]; then echo "${FAKE_REDIS_WILDCARD_PEM:-}"; exit; fi
 if [ "$*" = "-h 10.0.0.5 --raw" ]; then
   # common.sh's expired_cert_domains: "get ssl:<domain>:latest" lines on stdin,
   # one stored certificate JSON line back for each
@@ -150,6 +151,7 @@ case "$1" in
         elif [[ "$(cat "$FAKE/serving")" = baremetal ]]; then echo "fp=${FAKE_CUSTOM_FP_BAREMETAL:-C}"; fi
         exit
       fi
+      if [[ "$served" == *redis-wildcard* ]]; then echo fp=R; exit; fi
       if [[ "$*" == *" -in "* ]]; then echo fp=A
       elif [ "$(cat "$FAKE/sclient_port" 2>/dev/null)" = 443 ]; then echo "fp=${FAKE_SERVED_FP:-A}"   # only the live port
       else echo fp=A; fi; exit; fi ;;
@@ -325,6 +327,9 @@ check "fresh start where custom domains get the wildcard (auto-ssl fallback): re
 
 reset none; FAKE_NO_CUSTOM_CERT=b.custom.test FAKE_EXPIRED_DOMAINS=b.custom.test bluegreen
 check "fresh start where the domain without a certificate has an expired one in Redis: allowed" '[ $RC = 0 ] && mentions "all 2 in Redis are being served"'
+
+reset none; FAKE_REDIS_WILDCARD_PEM=redis-wildcard FAKE_SERVED_FP=R FAKE_CUSTOM_FP_CONTAINER=R bluegreen
+check "fresh start where custom domains get the Redis wildcard: refused" '[ $RC != 0 ] && mentions "no certificate of its own" && mentions "2 of 2" && called "docker rm -f blot-proxy-blue" && ! called "docker update"'
 
 reset none; FAKE_SCAN_FAIL=1 bluegreen
 check "fresh start where the Redis SCAN fails: refused, not mistaken for no custom domains" '[ $RC != 0 ] && mentions "SCAN failed" && ! called "docker update"'

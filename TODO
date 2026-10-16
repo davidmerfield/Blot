@@ -1,3 +1,13 @@
+Build queue and worker process (#2119; one host for now, multi-host later). Goal: the web Node process never runs syncs, builds or client background jobs, so dashboard and sites stay snappy and every unit is identical
+- Queue per blog, not per file: ZADD sync:pending NX <now> <blogID> collapses repeat webhooks (Dropbox sent ~19k on 15-16 Oct) to one entry. Workers BZPOPMIN, take the existing per-blog sync lock, and re-add with a short delay if it's held. This replaces the per-process pendingResyncs sets a deploy loses. Plain commands, no Lua
+- Web process only enqueues: Drive/Dropbox/iCloud webhooks, git post-receive, dashboard rebuild/resync. Flows that await a sync inline (Drive/Dropbox setup, resync) become enqueue + status updates
+- Worker child process (spawned by the container entrypoint today, one process in the consolidated unit later) consumes the queue and runs what init() and the scheduler start now: Drive activity/hot-doc pollers, validation sweeps, crons, still coordinated by leases and cron locks. Nice it, keep concurrency below the unit's CPUs, give it its own heap cap and a higher oom_score_adj so an OOM kills the worker, not web
+- Deploy drain: worker finishes its current sync or re-adds the blog, so the queue survives a unit swap
+- Makes steering background syncs to green unnecessary (16 Oct webhook-gating idea, not merged)
+- Multi-host later: blog folders and git repos on the local data volume are the blocker, not the queue
+
+Add a new template which just looks like finder on the index page
+
 Set aside 16 Oct (from the 15 Oct latency + deploy-error review):
 - Isolate slow sites: one site's CPU-heavy renders stall every blog on yellow's event loop (15 Oct 18:26-18:33, a client crawling nashp entries at 3-4 r/s under the 6 r/s per-IP limit; again 20:56). Options: per-host concurrency cap on upstream misses (worry: image-heavy pages), route known-heavy hosts to their own pool via map $host, or cut the render cost (nashp, #1806)
 - Find out why 5 internal /purge requests got 503 during the 09:06 15 Oct proxy swap
@@ -9,7 +19,7 @@ Publish Node container ports on loopback only: docker-proxy binds 8088-8090 on 0
 App changes toward consolidated units and horizontal scaling (#2119), each useful on its own:
 - Node listens on a Unix socket when configured
 - Parallelize app/sync/rebuild.js
-- Later: build queue (sync and dashboard writes enqueue per-blog builds, workers consume) so dashboard writes stop queueing behind builds
+- Build queue and worker process: see the top entry
 
 From 22 Oct: delete snap-02793374b4e56ea7b, the pre-resize snapshot of the 15 Oct data volume shrink (its volume vol-07c767ac8b6aeab4f was deleted 15 Oct), and any DLM dailies of that volume
 
@@ -110,7 +120,7 @@ Proxy container follow-ups (cut over 8 Oct 2026, #1941)
 - Stored custom-domain certs without an `expiry` field (legacy records) bypass the proxy's expired-cert check in init.conf get_cert: fall back to the PEM notAfter, or migrate the records
 - Check webhooks. SSE through the container, and that a known /blog_* asset on cdn. has Cache-Control 1y and no Blot-Upstream
 - After the next 03:46 logrotate: access.log/error.log still written after copytruncate, fail2ban counts still moving
-- After the next wildcard renewal: the served cert fingerprint matches the Redis copy (blot:openresty:ssl:pem), with no proxy reload needed (the proxy re-reads Redis every 10 seconds; "wildcard cert:" lines in the proxy error log mean it fell back to the file). Once seen, `docker exec` reload in renew-wildcard-ssl.sh and the disk comparison in proxy/deploy/common.sh (served_cert_matches_disk) can go
+- After the first wildcard renewal by the app (scheduler log "Wildcard SSL"): the proxy serves the new cert fingerprint from Redis within ~10 seconds, with no reload ("wildcard cert:" lines in the proxy error log mean it fell back to the file)
 - Custom-domain certs renew inside the container: none within ~20 days of expiry apart from domains that no longer point at Blot; after a daily renewal run, error.log should show no "certificate for ... expired at" warnings for domains still pointing at Blot (the proxy now refuses to serve an expired stored cert; no host cron)
 - auto-ssl's daily renewal timer first fires 24h after a container starts, so a proxy restarted more often than daily never runs it: confirm proxy deploys are far enough apart, or kick the first run from init_worker
 - Reboot the host once in a maintenance window: mount-instance-store mounts without reformatting, docker starts after it, the proxy comes back with cache/log mounts, :80/:443 answer
