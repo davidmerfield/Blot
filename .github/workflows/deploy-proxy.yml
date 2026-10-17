@@ -31,14 +31,6 @@ jobs:
     environment: deploy
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          # Full history (treeless) so a short code can be resolved and
-          # checked against master; see deploy.yml.
-          fetch-depth: 0
-          filter: blob:none
-
       - name: Check branch
         run: |
           if [ "${{ github.ref }}" != "refs/heads/master" ]; then
@@ -47,7 +39,20 @@ jobs:
             exit 1
           fi
 
-      - name: Resolve target commit
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          # Full history, commits only, so a short code can be resolved and
+          # checked against master; the sparse checkout then fetches just
+          # what proxy.sh uses. See deploy.yml.
+          fetch-depth: 0
+          filter: tree:0
+          sparse-checkout: |
+            scripts/deploy
+            proxy/deploy
+
+      # Run the deploy scripts from the commit being deployed.
+      - name: Resolve and check out target commit
         id: resolve
         env:
           # Bind inputs to the environment so a dispatcher cannot inject
@@ -74,21 +79,17 @@ jobs:
             exit 1
           fi
 
+          git checkout --quiet --detach "$SHA"
+
           echo "sha=$SHA" >> "$GITHUB_OUTPUT"
           echo "✅ Target commit: $SHA"
-
-      # Run the deploy scripts from the commit being deployed.
-      - name: Switch workspace to target commit
-        env:
-          TARGET_SHA: ${{ steps.resolve.outputs.sha }}
-        run: git checkout --detach "$TARGET_SHA"
 
       - name: Setup SSH
         uses: webfactory/ssh-agent@v0.9.0
         with:
           ssh-private-key: ${{ secrets.BLOT_DEPLOY_SSH_KEY }}
 
-      - name: Configure SSH alias
+      - name: Configure and verify SSH
         run: |
           mkdir -p ~/.ssh
           chmod 700 ~/.ssh
@@ -100,11 +101,13 @@ jobs:
             StrictHostKeyChecking no
             UserKnownHostsFile /dev/null
             ServerAliveInterval 30
+            # Reuse one connection for proxy.sh's ssh calls.
+            ControlMaster auto
+            ControlPath ~/.ssh/cm-%C
+            ControlPersist 30m
           EOF
           chmod 600 ~/.ssh/config
-
-      - name: Verify SSH connection
-        run: ssh blot "echo 'SSH connection successful'"
+          ssh blot "echo 'SSH connection successful'"
 
       # proxy.sh waits for the image (up to 25 min for the dispatched commit,
       # 2 min for a chosen one, as deploy.yml does).
