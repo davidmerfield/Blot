@@ -44,3 +44,4 @@ blog.use("/random", require("./routes/random"));
 require("./routes/error")(blog);
 
 module.exports = blog;
+// ci measurement

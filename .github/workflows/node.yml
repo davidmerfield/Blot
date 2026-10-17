@@ -221,7 +221,7 @@ jobs:
       matrix:
         # One entry per test job. plan.js reads the count from
         # strategy.job-total, so adding or removing one is all it takes.
-        runner: [1, 2, 3, 4]
+        runner: [1, 2, 3]
 
     steps:
       - name: Log in to GitHub Container Registry
