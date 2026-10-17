@@ -20,7 +20,7 @@ describe("Blot sign up", function () {
     // which a test can use. Accounts that were paid for elsewhere sign up
     // through a link with an access token instead, which skips only the
     // payment form and goes through the same account and site creation.
-    const token = await promisify(User.generateAccessToken)({});
+    const token = await promisify(User.generateAccessToken)({ uid: "sign-up" });
 
     await page.goto("/sites/sign-up/paid/" + token);
     page.type("input[name=email]", email);
