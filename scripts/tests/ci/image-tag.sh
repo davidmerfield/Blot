@@ -4,6 +4,9 @@
 # node.yml builds and pushes it when it doesn't exist yet; the test jobs and
 # benchmarks.yml pull it. Bump BUILD_SETTINGS when you change how node.yml
 # builds the image (compression, target, ...) to force a rebuild.
+#
+# Hashes the files next to this script's checkout, so node.yml can run a copy
+# fetched with those files into another directory, before any checkout.
 set -euo pipefail
 BUILD_SETTINGS=zstd-1
 cd "$(dirname "$0")/../../.."

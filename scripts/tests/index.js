@@ -251,7 +251,7 @@ registerGlobalTest();
 // BLOT_TEST_TIMINGS=FILE writes how long each spec file took, in seconds, as
 // JSON ({ "app/x/tests/y.js": 12.3 }), for scripts/tests/ci/plan.js to balance
 // CI lanes with. Jasmine 3.3 doesn't say which file a spec came from, so note
-// the file being loaded when each top-level describe() is declared, and time
+// the file being loaded when each top-level suite is declared, and time
 // those suites (random order still runs a suite's specs together).
 if (process.env.BLOT_TEST_TIMINGS) {
   const fileOfSuite = {};
