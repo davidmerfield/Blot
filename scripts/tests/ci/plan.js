@@ -30,6 +30,7 @@
 // TEST_SUITES format, one per line: "<path>[|<exclude>,<exclude>...]".
 // Refresh timings.json from a test run: see scripts/tests/ci/README.
 
+const fs = require("fs");
 const listSpecFiles = require("../util/listSpecFiles");
 const timings = require("./timings.json");
 
@@ -58,8 +59,15 @@ function parseSuites(text) {
     });
 }
 
+// Files under a tests/ directory that declare no specs (shared helpers, fake
+// servers) are left out: a process given only those would fail with "No specs
+// found", and the specs that need them require them anyway.
+function declaresSpecs(file) {
+  return /\b(describe|it)\s*\(/.test(fs.readFileSync(file, "utf8"));
+}
+
 function weighFiles(suite) {
-  const files = listSpecFiles(suite.suite, suite.excludes);
+  const files = listSpecFiles(suite.suite, suite.excludes).filter(declaresSpecs);
   const known = files.filter((f) => timings[f] !== undefined);
   const unknown = files.length - known.length;
   const knownSeconds = known.reduce((sum, f) => sum + timings[f], 0);
