@@ -247,7 +247,8 @@ describe("entry.search", function () {
       Array.from({ length: 1000 }, (_, i) => ({
         path: `/post${i}.txt`,
         contents: `Hello, world ${i}! Some more content to search through.`,
-      }))
+      })),
+      32
     );
 
     const startTime = Date.now();
@@ -316,7 +317,8 @@ describe("entry.search", function () {
 
         ${Array(100).fill(`This is entry ${i}`).join(" ")}
       `,
-      }))
+      })),
+      32
     );
 
     const startTime = Date.now();
@@ -335,7 +337,8 @@ describe("entry.search", function () {
       Array.from({ length: 200 }, (_, i) => ({
         path: `/concurrent${i}.txt`,
         contents: `Post ${i} with some searchable content`,
-      }))
+      })),
+      32
     );
 
     const startTime = Date.now();
