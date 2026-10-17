@@ -1,14 +1,11 @@
-# The reason this is so complicated is because github actions cache for docker
-# build doesn't seem to work as well as it should. Ideally it just caches the
-# work it has done before but I couldn't get this to work with much trying.
-# So we manually compute the hash of the files which the base docker image layer
-# depends upon and use this to tag images. If for some reason at some point
-# the github actions docker cache works more efficiently, we can simplyify.
-
-# The goals are:
-# - reproducible builds
-# - fast tests
-# - fast deployments
+# Builds the production app image, checks it starts healthy, and on master
+# publishes the multi-arch manifest deploy.yml waits for. The airlock image is
+# built by airlock.yml.
+#
+# Pull requests build arm64 only - production is arm64 (Graviton) and deploys
+# only ever use master commits - so a PR proves the image builds and starts on
+# the architecture that matters with one runner instead of three. Master
+# builds both architectures and assembles the manifest.
 name: build
 
 on:
@@ -23,7 +20,6 @@ permissions:
 
 env:
   IMAGE_NAME: ghcr.io/${{ github.repository_owner }}/blot
-  AIRLOCK_IMAGE_NAME: ghcr.io/${{ github.repository_owner }}/blot-airlock
   # True for push builds and PRs from a branch of this repo; false for PRs
   # from a fork, whose GITHUB_TOKEN is read-only and cannot write to GHCR.
   # Fork PRs still build the images and run the health checks locally
@@ -31,25 +27,28 @@ env:
   # registry cache export, and the manifest jobs.
   PUSH_IMAGES: ${{ github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository }}
 
+# Superseded PR pushes are cancelled. Each master push gets its own group: a
+# shared one would drop a queued master run, and deploys need its image.
+concurrency:
+  group: build-${{ github.event_name == 'pull_request' && github.ref || github.run_id }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 jobs:
   build:
     strategy:
       matrix:
-        include:
-          - arch: amd64
-            platform: linux/amd64
-            runs-on: ubuntu-latest
-          - arch: arm64
-            platform: linux/arm64
-            runs-on: ubuntu-24.04-arm
+        include: ${{ fromJson(github.event_name == 'pull_request' && '[{"arch":"arm64","platform":"linux/arm64","runs-on":"ubuntu-24.04-arm"}]' || '[{"arch":"amd64","platform":"linux/amd64","runs-on":"ubuntu-latest"},{"arch":"arm64","platform":"linux/arm64","runs-on":"ubuntu-24.04-arm"}]') }}
     runs-on: ${{ matrix.runs-on }}
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          # Full history so template "Latest" timestamps can be computed below
+          # Full history so template "Latest" timestamps can be computed
+          # below. Blobless: `git log -- <path>` needs commits and trees, not
+          # file contents, and the history's blobs are several GB.
           fetch-depth: 0
+          filter: blob:none
 
       # The image is built without .git, so record each template's latest
       # commit time now for the docs site to read at runtime.
@@ -127,8 +126,8 @@ jobs:
   manifest:
     needs: build
     runs-on: ubuntu-latest
-    # Nothing was pushed on a fork PR, so there is no manifest to assemble.
-    if: ${{ always() && needs.build.result == 'success' && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) }}
+    # Deploys only use master commits, and a PR builds one architecture.
+    if: ${{ always() && needs.build.result == 'success' && github.event_name != 'pull_request' }}
     steps:
       - name: Login to GHCR
         uses: docker/login-action@v3

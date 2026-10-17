@@ -1,0 +1,19 @@
+{
+  "app/blog": 190,
+  "app/build": 75,
+  "app/clients|app/clients/git": 38,
+  "app/clients/git": 196,
+  "app/dashboard": 103,
+  "app/documentation": 48,
+  "app/helper": 107,
+  "app/models|app/models/entry": 92,
+  "app/models/entry": 74,
+  "app/scheduler": 11,
+  "app/site": 21,
+  "app/storage": 28,
+  "app/sync": 98,
+  "app/templates": 20,
+  "config/redis": 9,
+  "proxy": 28,
+  "scripts/deploy": 10
+}
