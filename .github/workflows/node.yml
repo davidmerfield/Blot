@@ -237,7 +237,7 @@ jobs:
       matrix:
         # One entry per test job. plan.js reads the count from
         # strategy.job-total, so adding or removing one is all it takes.
-        runner: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+        runner: [1, 2, 3, 4, 5, 6]
 
     steps:
       - name: Log in to GitHub Container Registry
@@ -283,6 +283,7 @@ jobs:
 
       - name: Plan
         run: |
+          node scripts/tests/ci/plan.js --runners=${{ strategy.job-total }} --lanes="$TEST_LANES" --check
           LANES=$(node scripts/tests/ci/plan.js --runners=${{ strategy.job-total }} --lanes="$TEST_LANES" --runner=${{ matrix.runner }})
           echo "LANES=$LANES" >> "$GITHUB_ENV"
           node scripts/tests/ci/plan.js --runners=${{ strategy.job-total }} --lanes="$TEST_LANES" | awk '/^runner ${{ matrix.runner }} /{p=1;print;next} /^runner /{p=0} p'
@@ -299,10 +300,12 @@ jobs:
           BLOT_STRIPE_SECRET: ${{ secrets.BLOT_STRIPE_SECRET }}
           BLOT_STRIPE_PRODUCT: ${{ secrets.BLOT_STRIPE_PRODUCT }}
           RUNNER_INDEX: ${{ matrix.runner }}
+          # Coverage is only collected on master; it slows the specs down
+          COVERAGE: ${{ github.event_name == 'push' && '1' || '' }}
         run: bash scripts/tests/ci/run-lanes.sh
 
       - name: Upload coverage
-        if: always()
+        if: always() && github.event_name == 'push'
         uses: actions/upload-artifact@v4
         with:
           name: coverage-${{ matrix.runner }}
@@ -328,9 +331,10 @@ jobs:
           retention-days: 7
           overwrite: true
 
+  # Master only: pull requests run without coverage, and get no report.
   coverage-report:
     needs: test
-    if: always()
+    if: always() && github.event_name == 'push'
     runs-on: ubuntu-24.04-arm
     permissions:
       contents: read
