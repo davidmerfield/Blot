@@ -127,15 +127,14 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       # node.yml publishes the amd64 dev image as blot:test-<hash of the files
-      # it is built from> (same hash as its setup-tests job). When it is
+      # it is built from> (scripts/tests/ci/image-tag.sh). When it is
       # already there - any PR that doesn't touch dependencies - pulling it is
       # quicker than building and exporting our own.
       - name: Reuse test image
         id: reuse
         if: matrix.arch == 'amd64'
         run: |
-          HASH=$( (cat Dockerfile .dockerignore package.json; echo zstd-1) | sha256sum | cut -d ' ' -f 1)
-          IMAGE="ghcr.io/${{ github.repository_owner }}/blot:test-$HASH"
+          IMAGE=$(bash scripts/tests/ci/image-tag.sh)
           if docker pull -q "$IMAGE"; then
             docker tag "$IMAGE" blot-bench:latest
             echo "hit=true" >> "$GITHUB_OUTPUT"
