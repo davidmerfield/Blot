@@ -23,6 +23,9 @@ SHARD_TIMEOUT="${SHARD_TIMEOUT:-12m}"
 NYC_ARGS="--include=app/**/*.js --exclude=**/tests/** --exclude=**/tests.js --exclude=app/views-built/** --exclude=app/templates/source/**"
 
 WORKSPACE="$(pwd)"
+# Field separator for the lane lists and results. Not a tab: `read` folds runs
+# of whitespace separators, so an empty field (no exclude) would vanish.
+SEP=$'\x1f'
 ROOT="${RUNNER_TEMP:-/tmp}/lanes"
 LANE_COUNT=$(jq 'length' <<< "$LANES")
 
@@ -79,17 +82,17 @@ run_shard() {
     docker rm -f "$name" > /dev/null 2>&1
   fi
 
-  printf '%s\t%s\t%s\t%s\t%s\t%s\n' "$n" "$suite" "$exclude" "$shard" "$status" "$(( $(date +%s) - start ))" \
+  printf "%s$SEP%s$SEP%s$SEP%s$SEP%s$SEP%s\n" "$n" "$suite" "$exclude" "$shard" "$status" "$(( $(date +%s) - start ))" \
     >> "$dir/results.tsv"
   echo "lane $lane: $suite $shard $([ "$status" = 0 ] && echo passed || echo "FAILED ($status)") in $(( $(date +%s) - start ))s"
 }
 
 run_lane() {
   local lane=$1 n=0
-  while IFS=$'\t' read -r suite exclude shard; do
+  while IFS="$SEP" read -r suite exclude shard; do
     n=$((n + 1))
     run_shard "$lane" "$n" "$suite" "$exclude" "$shard"
-  done < <(jq -r ".[$lane] | .[] | [.suite, .exclude, .shard] | @tsv" <<< "$LANES")
+  done < <(jq -r ".[$lane] | .[] | [.suite, .exclude, .shard] | join(\"\\u001f\")" <<< "$LANES")
 }
 
 # Set up every lane before starting any, so the copies and container starts
@@ -113,7 +116,7 @@ failed=0
 for lane in $(seq 0 $((LANE_COUNT - 1))); do
   dir="$ROOT/$lane"
   cp -a "$dir/.nyc_output/." "$WORKSPACE/.nyc_output/" 2>/dev/null || true
-  while IFS=$'\t' read -r n suite exclude shard status seconds; do
+  while IFS="$SEP" read -r n suite exclude shard status seconds; do
     label="$suite${exclude:+ (excluding $exclude)} $shard"
     if [ "$status" = 0 ]; then
       echo "::group::✓ $label (${seconds}s)"
