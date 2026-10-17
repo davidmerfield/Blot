@@ -24,4 +24,9 @@ describe("clients/util countChanges", function () {
   it("handles a missing summary", function () {
     expect(countChanges()).toEqual(0);
   });
+
+  // Deliberately failing: checks the master ruleset blocks a red PR. Do not merge.
+  it("fails on purpose", function () {
+    expect(1).toEqual(2);
+  });
 });
