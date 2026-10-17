@@ -63,7 +63,7 @@ jobs:
   # Builds and pushes the test image when nothing has pushed it yet, i.e. when
   # Dockerfile, .dockerignore or package.json changed.
   setup-tests:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04-arm
     steps:
       - name: Set image tag
         id: set-image-tag
@@ -112,7 +112,7 @@ jobs:
         if: steps.check-image.outputs.image_exists != 'true'
         uses: docker/build-push-action@v6
         with:
-          platforms: linux/amd64
+          platforms: linux/arm64
           target: dev
           context: .
           # Push zstd-compressed layers instead of gzip. Every test job pays a
@@ -123,16 +123,15 @@ jobs:
           # >= 23 to pull, which GitHub-hosted ubuntu images satisfy.
           outputs: type=image,push=true,compression=zstd,force-compression=true,oci-mediatypes=true
           cache-from: |
-            type=registry,ref=ghcr.io/${{ github.repository_owner }}/blot:buildcache
-            type=registry,ref=ghcr.io/${{ github.repository_owner }}/blot:${{ github.sha }}
-          cache-to: type=registry,ref=ghcr.io/${{ github.repository_owner }}/blot:buildcache,mode=max
+            type=registry,ref=ghcr.io/${{ github.repository_owner }}/blot:buildcache-arm64
+          cache-to: type=registry,ref=ghcr.io/${{ github.repository_owner }}/blot:buildcache-arm64,mode=max
           tags: |
             ${{ steps.set-image-tag.outputs.image_tag }}
             ghcr.io/${{ github.repository_owner }}/blot:test-latest
 
   # Static checks, folded into one job so they share a runner and checkout.
   lint:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04-arm
     # Every file with describe()/it() must sit in a <suite>/tests/ directory
     # (or be named tests.js) so the runner picks it up. The only exception is
     # scripts/benchmarks/spec/build-render.spec.js: it is a Jasmine spec run
@@ -229,7 +228,7 @@ jobs:
                 
   test:
     name: test ${{ matrix.runner }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04-arm
     # run-lanes.sh caps each test process at 12 minutes; this is the backstop,
     # with room to wait for setup-tests to build the image.
     timeout-minutes: 40
@@ -332,7 +331,7 @@ jobs:
   coverage-report:
     needs: test
     if: always()
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04-arm
     permissions:
       contents: read
       actions: write # to read/write the coverage-baseline cache
