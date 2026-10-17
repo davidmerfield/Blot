@@ -6,7 +6,7 @@
 # suite's spec files, and gets everything a process expects to have to
 # itself: its own Docker network, Redis (the runner refuses to start against
 # a non-empty database) and MinIO, its own copy of the working tree (some
-# specs write into app/; the first lane uses the checkout itself), and its own
+# specs write into app/; an overlay of the checkout), and its own
 # network namespace (the test servers listen on fixed ports). A lane's
 # processes run one after another, each in a fresh container against a
 # flushed Redis.
@@ -32,20 +32,28 @@ SEP=$'\x1f'
 ROOT="${RUNNER_TEMP:-/tmp}/lanes"
 LANE_COUNT=$(jq 'length' <<< "$LANES")
 
-rm -rf "$ROOT" "$WORKSPACE/.test-timings"
+rm -rf "$WORKSPACE/.test-timings"; sudo -n rm -rf "$ROOT" 2> /dev/null || rm -rf "$ROOT"
 mkdir -p "$ROOT" "$WORKSPACE/.nyc_output" "$WORKSPACE/.test-timings"
 
 lane_tree() {
-  if [ "$1" = 0 ]; then echo "$WORKSPACE"; else echo "$ROOT/$1/tree"; fi
+  if [ -e "$ROOT/$1/use-checkout" ]; then echo "$WORKSPACE"; else echo "$ROOT/$1/tree"; fi
 }
 
 start_lane() {
   local lane=$1 dir="$ROOT/$1" tree
   tree=$(lane_tree "$lane")
   mkdir -p "$dir/logs" "$dir/meta" "$dir/.nyc_output"
-  if [ "$lane" != 0 ]; then
-    mkdir -p "$tree"
-    cp -a "$WORKSPACE/app" "$WORKSPACE/scripts" "$WORKSPACE/config" "$WORKSPACE/proxy" "$tree/"
+  # An overlay of the checkout: instant, and the lane's writes land in its
+  # own upper directory, never in the checkout the other lanes see. Where it
+  # can't mount, the first lane uses the checkout itself and the others a copy.
+  mkdir -p "$tree" "$dir/upper" "$dir/work"
+  if ! sudo -n mount -t overlay overlay \
+    -o "lowerdir=$WORKSPACE,upperdir=$dir/upper,workdir=$dir/work" "$tree" 2> /dev/null; then
+    if [ "$lane" = 0 ]; then
+      touch "$dir/use-checkout"
+    else
+      cp -a "$WORKSPACE/app" "$WORKSPACE/scripts" "$WORKSPACE/config" "$WORKSPACE/proxy" "$tree/"
+    fi
   fi
   docker network create "lane-$lane" > /dev/null
   docker run -d --name "lane-$lane-redis" --network "lane-$lane" "$REDIS_IMAGE" > /dev/null
@@ -112,8 +120,10 @@ run_lane() {
 
 # Set up every lane before starting any, so the copies and container starts
 # don't compete with running specs.
+setup_start=$(date +%s)
 for lane in $(seq 0 $((LANE_COUNT - 1))); do start_lane "$lane" & done
 wait
+echo "Lanes set up in $(( $(date +%s) - setup_start ))s"
 
 pids=()
 for lane in $(seq 0 $((LANE_COUNT - 1))); do
@@ -159,6 +169,7 @@ jq -s 'add // {}' "$ROOT"/*/meta/*.json > "$WORKSPACE/.test-timings/${GITHUB_JOB
 for lane in $(seq 0 $((LANE_COUNT - 1))); do
   docker rm -f "lane-$lane-redis" "lane-$lane-minio" > /dev/null 2>&1
   docker network rm "lane-$lane" > /dev/null 2>&1
+  mountpoint -q "$ROOT/$lane/tree" 2> /dev/null && sudo -n umount "$ROOT/$lane/tree"
 done
 
 exit $failed
