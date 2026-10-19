@@ -53,14 +53,29 @@ describe("icloud macserver disconnect handling", function () {
       res.end();
     });
     await new Promise((resolve) => server.listen(0, "127.0.0.1", resolve));
-    process.env.REMOTE_SERVER = `http://127.0.0.1:${server.address().port}`;
-    process.env.ICLOUD_DRIVE_DIRECTORY = os.tmpdir();
-    process.env.BLOT_ICLOUD_SERVER_SECRET = "test-secret";
+    const env = {
+      REMOTE_SERVER: `http://127.0.0.1:${server.address().port}`,
+      ICLOUD_DRIVE_DIRECTORY: os.tmpdir(),
+      BLOT_ICLOUD_SERVER_SECRET: "test-secret",
+    };
+    const previous = {};
+    for (const key in env) {
+      previous[key] = process.env[key];
+      process.env[key] = env[key];
+    }
 
     globalThis.__macserverMocks = {};
-    limiters = await load("limiters.js");
-    actions = await load("watcher/actions.js");
-    resync = (await load("httpClient/resync.js")).default;
+    try {
+      limiters = await load("limiters.js");
+      actions = await load("watcher/actions.js");
+      resync = (await load("httpClient/resync.js")).default;
+    } finally {
+      // config.js has read them by now; don't leak them into other specs
+      for (const key in previous) {
+        if (previous[key] === undefined) delete process.env[key];
+        else process.env[key] = previous[key];
+      }
+    }
   });
 
   afterAll(function (done) {
