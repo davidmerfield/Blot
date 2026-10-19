@@ -153,6 +153,13 @@ describe("asset middleware", function () {
       }
     });
 
+    it("serves a blog-folder file under an asset prefix instead of redirecting", async function () {
+      await this.write({ path: "/_assets/hero.jpg", content: "folder-bytes" });
+      const res = await this.get("/_assets/hero.jpg", { redirect: "manual" });
+      expect(res.status).toEqual(200);
+      expect(await res.text()).toEqual("folder-bytes");
+    });
+
     it("serves large files under a dot directory directly", async function () {
       const res = await writeAndGet(this, "/.hidden/big.pdf", big);
       expect(res.status).toEqual(200);

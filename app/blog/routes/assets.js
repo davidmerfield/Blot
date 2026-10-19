@@ -109,8 +109,15 @@ assets.use(BLOG_STATIC_PATHS, async (req, res, next) => {
     const relPath = req.baseUrl + decodeURIComponent(req.path);
 
     // These names are unique and immutable, and the CDN reads the same
-    // bucket key ({blogID}/{relPath}), so there is no need to stat first.
-    if (canRedirectToCdn(req, relPath)) {
+    // bucket key ({blogID}/{relPath}), so there is no need to check the
+    // bucket first. A same-named file in the blog folder keeps the old
+    // bucket-then-folder lookup instead, since the bucket may not have it.
+    if (
+      canRedirectToCdn(req, relPath) &&
+      !(await fs.pathExists(
+        join(config.blog_folder_dir, req.blog.id, relPath)
+      ))
+    ) {
       return redirectToCdn(
         req,
         res,
@@ -253,8 +260,12 @@ function redirectToCdn(req, res, cdnPath) {
 // Sends a 302 to the CDN for a large file of a safe type, mirroring the URL
 // lookupFile builds. Resolves false when the file should be served here.
 async function redirectLargeFolderFile(req, res, blogFolder, path) {
-  if (!canRedirectToCdn(req, path)) return false;
-  if (path !== blogFolder && !path.startsWith(blogFolder + "/")) return false;
+  if (!path.startsWith(blogFolder + "/")) return false;
+
+  // Only the part the CDN URL exposes, so dot directories above the blog
+  // folder (e.g. in the data directory's own path) don't matter.
+  const relPath = path.slice(blogFolder.length);
+  if (!canRedirectToCdn(req, relPath)) return false;
 
   await assertNoSymlinks(blogFolder, path);
   const stat = await fs.stat(path);
@@ -264,7 +275,7 @@ async function redirectLargeFolderFile(req, res, blogFolder, path) {
   redirectToCdn(
     req,
     res,
-    "/folder/" + versionedFolderPath(req.blog.id, path.slice(blogFolder.length), stat)
+    "/folder/" + versionedFolderPath(req.blog.id, relPath, stat)
   );
   return true;
 }
