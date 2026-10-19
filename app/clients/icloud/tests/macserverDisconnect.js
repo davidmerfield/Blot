@@ -152,6 +152,19 @@ describe("icloud macserver disconnect handling", function () {
       expect(globalThis.__macserverMocks.resync).not.toHaveBeenCalled();
     });
 
+    it("drops actions that arrive after the disconnect until the blog is watched again", async function () {
+      const blogID = newBlogID();
+      limiters.removeLimiterForBlogID(blogID);
+
+      await actions.performAction(blogID, "/late.txt", "remove");
+      expect(globalThis.__macserverMocks.remove).not.toHaveBeenCalled();
+      expect(globalThis.__macserverMocks.resync).not.toHaveBeenCalled();
+
+      limiters.reviveLimiterForBlogID(blogID);
+      await actions.performAction(blogID, "/late.txt", "remove");
+      expect(globalThis.__macserverMocks.remove).toHaveBeenCalledTimes(1);
+    });
+
     it("still requests a resync and rejects when an action fails", async function () {
       const blogID = newBlogID();
       const failure = new Error("boom");

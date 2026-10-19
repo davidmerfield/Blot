@@ -3,6 +3,7 @@ import fs from "fs-extra";
 import {
   getLimiterForBlogID,
   removeLimiterForBlogID,
+  reviveLimiterForBlogID,
   getLimiterCount,
 } from "../limiters.js";
 import clfdate from "../util/clfdate.js";
@@ -359,6 +360,9 @@ const initialize = async () => {
 
 // Watches a specific blog folder
 const watch = async (blogID) => {
+  // a blog disconnected earlier (or whose folder was deleted) is live again
+  reviveLimiterForBlogID(blogID);
+
   if (blogWatchers.has(blogID)) {
     console.warn(clfdate(), `Already watching blog folder: ${blogID}`);
 
