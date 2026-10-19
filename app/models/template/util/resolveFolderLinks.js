@@ -12,9 +12,9 @@ const {
 
 // Template views can't be baked per blog at render time the way entries are
 // (app/build/plugins/folderAssets), and rewriting the whole rendered page on
-// every request (app/blog/render/replaceFolderLinks) is the cost this module
-// exists to remove. Instead, when a view is saved (setView), literal links to
-// files in the blog's folder are wrapped in the existing {{#cdn}} helper:
+// every request is a cost we don't pay. Instead, when a view is saved
+// (setView), literal links to files in the blog's folder are wrapped in the
+// existing {{#cdn}} helper:
 //
 //   <img src="/a.png">  ->  <img src="{{#cdn}}/a.png{{/cdn}}">
 //
@@ -31,20 +31,19 @@ const {
 // and a value containing a tag is left alone (the one exception is a value
 // that starts with {{blog.url}}, followed by a literal path).
 //
-// The eligibility rules deliberately mirror the request-time pass
-// (replaceFolderLinks/html.js and css.js) so the two agree about which links
-// are folder files:
+// The eligibility rules keep the semantics the old request-time folder-link
+// pass had (since removed) about which links are folder files:
 //   - href, src, poster and each srcset candidate; CSS url(...) in CSS views,
 //     <style> blocks and style="" attributes
 //   - own-host absolute URLs are treated as paths; other hosts, data:, mailto:
 //     and other schemes, #fragments, paths ending in .html and paths whose
 //     last segment has no extension are skipped
 //   - one addition: literal <meta content="/path/to/file.ext"> (og:image and
-//     friends), which the request-time pass never touched
+//     friends), which the old request-time pass never touched
 //
 // Relative links. HTML views have no single URL (they can be served at many
-// URL patterns), so a relative link keeps the request-time pass's semantics:
-// it is resolved against "/". A CSS view is served at one URL, so a relative
+// URL patterns), so a relative link keeps the old request-time pass's
+// semantics: it is resolved against "/". A CSS view is served at one URL, so a relative
 // url() in it is resolved the way the browser does: against the directory of
 // the view's url. Sites that worked only because of the old root-relative
 // behaviour must keep working, so when the browser-correct path differs from
@@ -63,8 +62,8 @@ const {
 const CANDIDATE = /(?:\b(?:href|src|poster|srcset|content|style)\s*=|url\s*\()/i;
 
 // {{=<% %>=}} changes what a tag looks like for the rest of the template, so
-// the {{#cdn}} we'd insert would render as literal text. Leave such views to
-// the request-time pass.
+// the {{#cdn}} we'd insert would render as literal text. Such views are left
+// as written, and their links are served by the origin.
 const DELIMITER_CHANGE = /\{\{=/;
 
 const BLOG_URL_PREFIX =
@@ -207,17 +206,49 @@ function linkReplacement(ctx, value, opts) {
 
   if (htmlExtRegex.test(path) || !fileExtRegex.test(path)) return null;
 
-  const target = path + suffix;
+  // A {{#cdn}} target can't contain whitespace, but file names often have
+  // spaces. Percent-encode them: the manifest builder decodes the path
+  // before looking the file up.
+  const target = encodeSpaces(path + suffix);
 
   if (!isSafeTarget(target)) return null;
 
   let replacement = "{{#cdn}}" + target + "{{/cdn}}";
 
-  if (rootPath && isSafeTarget(rootPath + suffix)) {
-    replacement += "{{!root-fallback:" + rootPath + suffix + "}}";
+  if (rootPath && isSafeTarget(encodeSpaces(rootPath + suffix))) {
+    replacement += "{{!root-fallback:" + encodeSpaces(rootPath + suffix) + "}}";
   }
 
   return replacement;
+}
+
+function encodeSpaces(value) {
+  return value.indexOf(" ") > -1 ? value.split(" ").join("%20") : value;
+}
+
+// The {{#cdn}} target for a plain value which is, in its entirety, a link to
+// a file in the blog's folder: "/a.png", "https://<own host>/a.png" or
+// "{{blog.url}}/a.png". Returns it without a leading slash (the form the
+// manifest is keyed by), or null. Used for values that never pass through
+// the template text, such as template locals and {{#asset}} sections (see
+// updateCdnManifest and blog/render/folderManifestUrl), so it only accepts
+// rooted links: there is no page to resolve a relative one against.
+function folderTarget(value, hosts) {
+  return folderTargetFor(hostPatterns(hosts), value);
+}
+
+function folderTargetFor(patterns, value) {
+  if (typeof value !== "string" || value.length > 1024) return null;
+
+  const replacement = linkReplacement({ depth: 0, patterns }, value, {
+    strictRoot: true,
+  });
+
+  if (!replacement) return null;
+
+  return replacement
+    .slice("{{#cdn}}".length, replacement.indexOf("{{/cdn}}"))
+    .replace(/^\//, "");
 }
 
 function rewrite(ctx, start, end, opts) {
@@ -305,8 +336,8 @@ function scanCssUrl(ctx, i, to, dir) {
     let after = k + 1;
     while (after < to && isSpace(src.charAt(after))) after++;
 
-    // not a well-formed url("...") - leave it alone, as the request-time
-    // pass's strict regex does
+    // not a well-formed url("...") - leave it alone, as the old
+    // request-time pass's strict regex did
     if (src.charAt(after) !== ")") return k + 1;
 
     rewrite(ctx, valueStart, k, { dir });
@@ -486,7 +517,7 @@ function scanOpenTag(ctx, i, to) {
 }
 
 // Candidates are split at commas and each URL is its first whitespace
-// delimited token, exactly as the request-time pass's parseSrcset does. As
+// delimited token, exactly as the old request-time pass's parseSrcset did. As
 // there, a srcset with an empty candidate (", /a.png 1x" or a trailing comma)
 // is malformed and left entirely alone.
 function scanSrcset(ctx, from, to) {
@@ -559,8 +590,8 @@ function resolveFolderLinks(content, options) {
       scanHtml(ctx, 0, content.length);
     }
   } catch (err) {
-    // A bug here must never stop a template saving: the request-time pass
-    // still covers the view.
+    // A bug here must never stop a template saving: the links just stay
+    // as written and are served by the origin.
     console.error("resolveFolderLinks failed for", options.viewName, err);
     return content;
   }
@@ -612,6 +643,54 @@ function rootFallbacks(resolvedContent) {
   return fallbacks;
 }
 
+// Walks template locals (package.json "locals", a view's own locals) and
+// calls fn(target, value) for every string value which is a folder link
+// (see folderTarget). Returns a copy of locals with each such value replaced
+// by fn's return value, or locals itself if fn never returned one: the
+// manifest builder uses it to collect targets, the render to swap in CDN
+// URLs (blog/render/folderManifestUrl). Bounded, since locals are authored.
+const LOCALS_MAX_DEPTH = 4;
+const LOCALS_MAX_VALUES = 500;
+
+function mapFolderLocals(locals, hosts, fn) {
+  const patterns = hostPatterns(hosts);
+  let seen = 0;
+
+  function walk(value, depth) {
+    if (typeof value === "string") {
+      if (++seen > LOCALS_MAX_VALUES) return value;
+      if (value.indexOf(".") === -1) return value;
+
+      const target = folderTargetFor(patterns, value);
+      if (!target) return value;
+
+      const replacement = fn(target, value);
+      return typeof replacement === "string" ? replacement : value;
+    }
+
+    if (!value || typeof value !== "object" || depth >= LOCALS_MAX_DEPTH)
+      return value;
+
+    let copy = null;
+    const keys = Object.keys(value);
+
+    for (const k of keys) {
+      const mapped = walk(value[k], depth + 1);
+
+      if (mapped !== value[k]) {
+        if (!copy) copy = Array.isArray(value) ? value.slice() : Object.assign({}, value);
+        copy[k] = mapped;
+      }
+    }
+
+    return copy || value;
+  }
+
+  return walk(locals, 0);
+}
+
 module.exports = resolveFolderLinks;
 module.exports.mayContainFolderLinks = mayContainFolderLinks;
 module.exports.rootFallbacks = rootFallbacks;
+module.exports.folderTarget = folderTarget;
+module.exports.mapFolderLocals = mapFolderLocals;

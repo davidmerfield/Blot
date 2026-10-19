@@ -141,9 +141,12 @@ assets.use(async (req, res, next) => {
   const decodedPath = decodeURIComponent(req.path);
 
   async function sendFolderFile(path) {
-    if (await redirectLargeFolderFile(req, res, blogFolder, path)) return;
+    if (await redirectLargeFolderFile(req, res, blogFolder, path)) {
+      logFolderAsset(req, "cdn-redirect");
+      return;
+    }
     await sendFile(path, { req, res });
-    logSameSiteReferer(req);
+    logFolderAsset(req, "origin");
   }
 
   try {
@@ -212,31 +215,46 @@ assets.use((err, req, res, next) => {
   next(err);
 });
 
-// A blog-folder file was fetched from one of the blog's own pages, i.e. a
-// link there points at the origin instead of the CDN. Only logged so we can
-// find out where such links still come from. Pages (the .html fallbacks
-// above, extensionless paths) are skipped: navigating between them is
-// expected, and the folder-link passes never rewrite them either.
-function logSameSiteReferer(req) {
+// Logs every blog-folder file served here, with how it was served and the
+// page that linked to it. Pages no longer have their folder links rewritten
+// to the CDN at request time, so this is how we find the links that still
+// reach the origin: a template or entry that wasn't baked, a link built from
+// a variable, a relative link. Pages (the .html fallbacks above,
+// extensionless paths) are skipped: navigating between them is expected.
+//
+//   [folder-asset] blog=<id> handle=<h> served=origin|cdn-redirect
+//     path=<path> referer=<host><path>|- same_site=1|0
+function logFolderAsset(req, served) {
   try {
     const path = decodeURIComponent(req.path);
     if (htmlExtRegex.test(path) || !fileExtRegex.test(path)) return;
 
-    const referer = req.get("referer");
-    if (!referer) return;
+    let referer = "-";
+    let sameSite = 0;
+    const header = req.get("referer");
 
-    const url = new URL(referer);
-    if (!blogHosts(req.blog).includes(url.hostname.toLowerCase())) return;
+    if (header) {
+      try {
+        const url = new URL(header);
+        const host = url.hostname.toLowerCase();
+        referer = encodeURI(host + url.pathname);
+        sameSite = blogHosts(req.blog).includes(host) ? 1 : 0;
+      } catch (e) {
+        referer = "invalid";
+      }
+    }
 
     req.log(
-      "[folder-asset-origin]",
+      "[folder-asset]",
       `blog=${req.blog.id}`,
       `handle=${req.blog.handle}`,
+      `served=${served}`,
       `path=${encodeURI(req.originalUrl.split("?")[0])}`,
-      `referer_path=${encodeURI(url.pathname)}`
+      `referer=${referer}`,
+      `same_site=${sameSite}`
     );
   } catch (e) {
-    // an unparseable Referer must not affect the response
+    // logging must not affect the response
   }
 }
 
@@ -257,8 +275,8 @@ function redirectToCdn(req, res, cdnPath) {
   res.redirect(302, cdnOrigin(req) + cdnPath);
 }
 
-// Sends a 302 to the CDN for a large file of a safe type, mirroring the URL
-// lookupFile builds. Resolves false when the file should be served here.
+// Sends a 302 to the CDN for a large file of a safe type, at the same
+// versioned URL the build-time and save-time passes produce. Resolves false when the file should be served here.
 async function redirectLargeFolderFile(req, res, blogFolder, path) {
   if (!path.startsWith(blogFolder + "/")) return false;
 

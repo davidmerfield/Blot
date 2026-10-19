@@ -1,0 +1,79 @@
+describe("[folder-asset] log", function () {
+  require("./util/setup")();
+
+  const config = require("config");
+
+  // The blog router logs through req.log, which is console.log in these
+  // specs (there is no request logger on the test server).
+  let lines;
+
+  beforeEach(function () {
+    lines = [];
+    const log = console.log;
+
+    spyOn(console, "log").and.callFake(function (...args) {
+      if (args[0] === "[folder-asset]") lines.push(args.slice(1).join(" "));
+      else return log.apply(console, args);
+    });
+  });
+
+  const ownHost = (blog) => `${blog.handle}.${config.host}`;
+
+  it("logs a file served from the origin with its referer", async function () {
+    await this.write({ path: "/img/a.png", content: "one" });
+
+    const res = await this.get("/img/a.png", {
+      headers: { Referer: `https://${ownHost(this.blog)}/posts/hello?x=1` },
+    });
+
+    expect(res.status).toBe(200);
+    expect(lines.length).toBe(1);
+    expect(lines[0]).toBe(
+      [
+        `blog=${this.blog.id}`,
+        `handle=${this.blog.handle}`,
+        "served=origin",
+        "path=/img/a.png",
+        `referer=${ownHost(this.blog)}/posts/hello`,
+        "same_site=1",
+      ].join(" ")
+    );
+  });
+
+  it("logs same_site=0 for a referer on another host", async function () {
+    await this.write({ path: "/img/a.png", content: "one" });
+    await this.get("/img/a.png", {
+      headers: { Referer: "https://example.com/some/page" },
+    });
+
+    expect(lines.length).toBe(1);
+    expect(lines[0]).toContain("referer=example.com/some/page same_site=0");
+  });
+
+  it("logs referer=- when there is no Referer", async function () {
+    await this.write({ path: "/img/a.png", content: "one" });
+    await this.get("/img/a.png");
+
+    expect(lines.length).toBe(1);
+    expect(lines[0]).toContain("served=origin");
+    expect(lines[0]).toContain("referer=- same_site=0");
+  });
+
+  it("logs served=cdn-redirect for a large jpg", async function () {
+    await this.write({ path: "/big.jpg", content: "x".repeat(300 * 1024) });
+
+    const res = await this.get("/big.jpg", { redirect: "manual" });
+
+    expect(res.status).toBe(302);
+    expect(lines.length).toBe(1);
+    expect(lines[0]).toContain("served=cdn-redirect");
+    expect(lines[0]).toContain("path=/big.jpg");
+  });
+
+  it("logs nothing for a page", async function () {
+    await this.write({ path: "/page.html", content: "<p>hi</p>" });
+
+    expect(await this.text("/page.html")).toBe("<p>hi</p>");
+    expect(lines).toEqual([]);
+  });
+});

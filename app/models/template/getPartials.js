@@ -5,6 +5,7 @@ var promisify = require("util").promisify;
 var parseTemplate = require("./parseTemplate");
 var mergeRetrieve = require("./util/mergeRetrieve");
 var renderSource = require("./util/renderSource");
+var resolveFolderLinks = require("./util/resolveFolderLinks");
 
 module.exports = function getPartials(
   blogID,
@@ -30,7 +31,27 @@ module.exports = function getPartials(
   var allPartials = {};
   var retrieve = {};
 
-  for (var i in partials) if (partials[i]) allPartials[i] = partials[i];
+  // Inline partials (package.json) aren't saved through setView, so their
+  // literal folder links are wrapped in {{#cdn}} here instead, the same way
+  // (util/resolveFolderLinks). Only on the blog's own template, whose CDN
+  // manifest collects the same targets (util/updateCdnManifest). The full
+  // view is cached per cacheID, so this doesn't run on every request.
+  var ownTemplate = templateID.indexOf(blogID + ":") === 0;
+
+  for (var i in partials) {
+    if (!partials[i]) continue;
+
+    allPartials[i] = partials[i];
+
+    if (!ownTemplate || typeof partials[i] !== "string") continue;
+
+    var wrapped = resolveFolderLinks(partials[i], { viewName: "partial.html" });
+
+    if (wrapped === partials[i]) continue;
+
+    allPartials[i] = wrapped;
+    mergeRetrieve(retrieve, { cdn: parseTemplate(wrapped).retrieve.cdn || [] });
+  }
 
   Object.keys(partials || {}).forEach(function (partialName) {
     // Keep any previously-discovered usage contexts for this partial.

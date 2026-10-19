@@ -14,6 +14,7 @@ const fs = require("fs-extra");
 const config = require("config");
 const parseTemplate = require("../parseTemplate");
 const resolveFolderLinks = require("./resolveFolderLinks");
+const blogHosts = require("blog/lib/blogHosts");
 const pathNormalizer = require("helper/pathNormalizer");
 const { hashFolderFile } = require("blog/render/replaceFolderLinks/folderFile");
 const {
@@ -64,7 +65,7 @@ function isValidTarget(target) {
 // A folder target's manifest entry is { path, version }: path is the file's
 // real (case-corrected) path, version a hash of its content, from which
 // retrieve/cdn.js builds %%BLOT_CDN%%/folder/v-<version>/<blogID><path> - the
-// URL entries and the request-time pass use. Reserved global paths (/fonts,
+// URL entries use. Reserved global paths (/fonts,
 // /katex, ...) are served from Blot's own static directory, have no version,
 // and so no version in the entry. A view's entry stays a plain hash string, so
 // existing manifests are valid as they are.
@@ -86,7 +87,12 @@ async function viewExists(templateID, target) {
   }
 }
 
-function collectTargets(views) {
+// A literal {{#asset}}/path{{/asset}} section (see blog/render/retrieve/asset)
+const ASSET_SECTION = /\{\{#asset\}\}([^{}]+)\{\{\/asset\}\}/g;
+
+function collectTargets(views, options) {
+  options = options || {};
+  const hosts = options.hosts || [];
   const explicit = new Set();
   const wrapped = new Set();
   const fallbacks = {};
@@ -115,6 +121,48 @@ function collectTargets(views) {
       );
 
       Object.assign(fallbacks, resolveFolderLinks.rootFallbacks(view.resolvedContent));
+    }
+  }
+
+  // Values which never pass through a view's text, and so can't be wrapped
+  // in {{#cdn}} when it's saved, are resolved as folder files too: template
+  // and view locals ("logo": "/images/logo.png", swapped for the CDN URL at
+  // render time by blog/render/folderManifestUrl), {{#asset}} sections, and
+  // inline partials defined in package.json.
+  const addFolderTarget = (target) => {
+    add(wrapped, target);
+  };
+
+  resolveFolderLinks.mapFolderLocals(options.locals, hosts, addFolderTarget);
+
+  for (const viewName in views) {
+    const view = views[viewName];
+    if (!view) continue;
+
+    resolveFolderLinks.mapFolderLocals(view.locals, hosts, addFolderTarget);
+
+    if (typeof view.content === "string" && view.content.indexOf("{{#asset}}") > -1) {
+      for (const match of view.content.matchAll(ASSET_SECTION)) {
+        const value = match[1].trim();
+        const target = resolveFolderLinks.folderTarget(
+          value.charAt(0) === "/" ? value : "/" + value,
+          []
+        );
+        if (target) addFolderTarget(target);
+      }
+    }
+
+    for (const name in view.partials || {}) {
+      const inline = view.partials[name];
+      if (typeof inline !== "string" || !inline) continue;
+
+      // Without hosts, as models/template/getPartials wraps them
+      const resolved = resolveFolderLinks(inline, { viewName: "partial.html" });
+
+      if (resolved === inline) continue;
+
+      const parsed = parseTemplate(resolved);
+      ((parsed.retrieve && parsed.retrieve.cdn) || []).forEach(addFolderTarget);
     }
   }
 
@@ -390,7 +438,10 @@ module.exports = function updateCdnManifest(templateID, callback) {
 
       // Get all views and collect their CDN targets
       const views = await getAllViewsAsync(templateID);
-      const { explicit, wrapped, fallbacks } = collectTargets(views);
+      const { explicit, wrapped, fallbacks } = collectTargets(views, {
+        hosts: blogHosts(blog),
+        locals: metadata.locals,
+      });
 
       const sortedTargets = [];
       const folderTargets = new Set(wrapped);

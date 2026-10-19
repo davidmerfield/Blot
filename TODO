@@ -4,9 +4,6 @@ Internationalization inc currency
 
 Force renew all current ssl certs and switch wildcard to ecdsa cert to save bandwidth?
 
-Finish 2035 and move replaceFolderLinks off the render path
-- inspect the existing instrumentation
-
 On 23 Oct: check custom-domain certs issued since 19 Oct are ECDSA (#2163 set KEY_ALGO=prime256v1; RSA certs switch at renewal). Run: ssh -n blot "grep -ohE '^\S+ \S+ \S+ \S+ \S+ \S+ https://[^/ ]+' /var/instance-ssd/logs/access.log | sed 's|.*https://||' | grep -v 'blot\.im$' | sort -u" | while read d; do printf '%s ' "$d"; echo | openssl s_client -connect "$d:443" -servername "$d" 2>/dev/null | openssl x509 -noout -startdate -text 2>/dev/null | grep -E 'notBefore|Public Key Algorithm' | tr -s ' \n' ' '; echo; done | grep -E 'notBefore=Oct (19|2[0-9]) ' - every line should say id-ecPublicKey; if any say rsaEncryption, check that /etc/resty-auto-ssl/letsencrypt/conf.d/key-algo.sh exists in the proxy container.
 
 Consider a proxy-level throttle for unconditional feed polling: 429 + Retry-After for a repeat request without If-None-Match/If-Modified-Since from the same IP + feed within ~15 min (access-phase Lua, before the cache). Prototyped and dropped from #2162 as too complicated. Caveat: its 429s must not feed fail2ban's nginx-429 jail (lrs=PASSED vs limit_req's lrs=REJECTED in the access log).
@@ -215,12 +212,8 @@ hypertext template on indexes:
 
 Could we improve the performance of posts/pages with lots of images by adding loading=lazy in the output HTML?
 
-Folder-link lookups: the rewrite tries to look up mailto: links as files in the blog's folder.
-
 Make sync logs more useful, surface recent changes on dashboard. Group multiple files together if changed at same time, etc. make it useful!
 - Add error / getHealth issues to sync log (folder.status) for Dropbox/other client Issues
-
-Work on removing replaceFolderLinks
 
 Excercise the backlinks with big entries / many backlinks in the benchmarks somewhere
 
@@ -306,7 +299,6 @@ Fix performance bugs on various sites:
   - entry pages take ~3.8s on every render, warm or cold: ~1000 Redis commands / 18MB per render while loading entries (render-probe, 2026-10-06)
 - heydingus /search 0.5-0.8s warm (search_results reads ~10MB per query); its template emits `…/null` links that crawlers 404 on
 - blot.im /questions pages 250-750ms, mostly I/O (elu 0.2-0.4), incl. 302s from /questions/:id/edit
-- replaceFolderLinks looks up `mailto:` links as folder files (`No file found in folder: mailto:…`); skip non-path schemes
 - using additional req trace logging and more possible LRU caching
 - do we need a seperate incrementally updated index of skinny entry properties, e.g. title url etc for rendering archives / allEntries?
 

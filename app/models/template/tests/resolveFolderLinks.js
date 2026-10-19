@@ -267,10 +267,15 @@ describe("resolveFolderLinks", function () {
       expect(html(input)).toBe(input);
     });
 
-    it("skips values with whitespace, empty values and values with stray padding", function () {
-      const input =
-        '<img src=""><img src=" /a.png "><img src="/my file.png"><img src>';
+    it("skips empty values and values with stray padding", function () {
+      const input = '<img src=""><img src=" /a.png "><img src>';
       expect(html(input)).toBe(input);
+    });
+
+    it("percent-encodes spaces in a path instead of skipping it", function () {
+      expect(html('<img src="/my file.png">')).toBe(
+        `<img src="${wrap("/my%20file.png")}">`
+      );
     });
 
     it("keeps the case and percent-encoding of the path as written", function () {
@@ -459,6 +464,93 @@ describe("resolveFolderLinks", function () {
       expect(Mustache.render(resolved, { cdn: identity })).toBe(
         "a{background:url(/css/img/a.png)}"
       );
+    });
+  });
+
+  describe("folderTarget", function () {
+    const folderTarget = resolveFolderLinks.folderTarget;
+
+    it("returns a rooted link without its leading slash", function () {
+      expect(folderTarget("/img/a.png", hosts)).toBe("img/a.png");
+      expect(folderTarget("/a.png?v=2", hosts)).toBe("a.png?v=2");
+    });
+
+    it("accepts an absolute link on one of the blog's own hosts", function () {
+      expect(folderTarget("https://example.blot.im/img/a.png", hosts)).toBe(
+        "img/a.png"
+      );
+      expect(folderTarget("http://example.com/a.png", hosts)).toBe("a.png");
+    });
+
+    it("returns null for a relative link", function () {
+      expect(folderTarget("img/a.png", hosts)).toBe(null);
+      expect(folderTarget("./a.png", hosts)).toBe(null);
+    });
+
+    it("returns null for a page or a path without an extension", function () {
+      expect(folderTarget("/about.html", hosts)).toBe(null);
+      expect(folderTarget("/about", hosts)).toBe(null);
+    });
+
+    it("percent-encodes spaces", function () {
+      expect(folderTarget("/my pic.jpg", hosts)).toBe("my%20pic.jpg");
+    });
+
+    it("returns null for another host, non-strings and plain text", function () {
+      expect(folderTarget("https://other.com/a.png", hosts)).toBe(null);
+      expect(folderTarget("//other.com/a.png", hosts)).toBe(null);
+      expect(folderTarget("hello.world", hosts)).toBe(null);
+      expect(folderTarget(42, hosts)).toBe(null);
+      expect(folderTarget(null, hosts)).toBe(null);
+    });
+  });
+
+  describe("mapFolderLocals", function () {
+    const mapFolderLocals = resolveFolderLinks.mapFolderLocals;
+    const swap = (target) => "CDN:" + target;
+
+    it("replaces folder links and leaves the original object untouched", function () {
+      const locals = { logo: "/img/a.png", title: "hello.world", n: 1 };
+      const result = mapFolderLocals(locals, hosts, swap);
+
+      expect(result).toEqual({ logo: "CDN:img/a.png", title: "hello.world", n: 1 });
+      expect(result).not.toBe(locals);
+      expect(locals.logo).toBe("/img/a.png");
+    });
+
+    it("walks nested objects and arrays without modifying them", function () {
+      const locals = {
+        site: { images: ["/a.png", "/b.png", "text"], other: { x: "/c.png" } },
+        keep: { y: "plain" },
+      };
+      const result = mapFolderLocals(locals, hosts, swap);
+
+      expect(result.site.images).toEqual(["CDN:a.png", "CDN:b.png", "text"]);
+      expect(Array.isArray(result.site.images)).toBe(true);
+      expect(result.site.other.x).toBe("CDN:c.png");
+      expect(result.keep).toBe(locals.keep);
+      expect(locals.site.images[0]).toBe("/a.png");
+      expect(locals.site.other.x).toBe("/c.png");
+    });
+
+    it("returns the same object when nothing matches or fn declines", function () {
+      const locals = { a: "text", b: { c: "https://other.com/a.png" } };
+
+      expect(mapFolderLocals(locals, hosts, swap)).toBe(locals);
+
+      const same = { a: "/a.png" };
+      expect(mapFolderLocals(same, hosts, () => null)).toBe(same);
+      expect(mapFolderLocals(same, hosts, () => undefined)).toBe(same);
+    });
+
+    it("passes the target and the original value to fn", function () {
+      const calls = [];
+
+      mapFolderLocals({ a: "https://example.blot.im/a.png" }, hosts, (t, v) => {
+        calls.push([t, v]);
+      });
+
+      expect(calls).toEqual([["a.png", "https://example.blot.im/a.png"]]);
     });
   });
 });

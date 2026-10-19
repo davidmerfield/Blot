@@ -1,12 +1,7 @@
 const config = require("config");
 const generateCdnUrl = require("models/template/util/generateCdnUrl");
-const BLOT_CDN_TOKEN = require("../replaceFolderLinks/cdnToken");
-const { folderUrl } = require("../replaceFolderLinks/folderFile");
-const {
-  pathPartOf,
-  encodeFolderPath,
-  isSafeCdnTarget,
-} = require("../replaceFolderLinks/shared");
+const folderManifestUrl = require("../folderManifestUrl");
+const { isSafeCdnTarget } = require("../replaceFolderLinks/shared");
 const asRetriever = require("../../lib/asRetriever");
 
 module.exports = asRetriever(function (req, res) {
@@ -38,21 +33,9 @@ module.exports = asRetriever(function (req, res) {
             return generateCdnUrl(renderedNormalized, entry);
           }
 
-          // A file in the blog's folder (see updateCdnManifest): the entry is
-          // { path, version }, path being the file's real, case-corrected
-          // path (without any ?query or #hash, which are kept from the link).
-          // Reserved global paths such as /fonts have no version. The
-          // %%BLOT_CDN%% token is swapped for the real origin once the page
-          // has rendered (blog/render/middleware.js).
-          if (entry && typeof entry === "object" && typeof entry.path === "string") {
-            const suffix = renderedNormalized.slice(
-              pathPartOf(renderedNormalized).length
-            );
-
-            if (!entry.version) return BLOT_CDN_TOKEN + encodeFolderPath(entry.path) + suffix;
-
-            return folderUrl(req.blog.id, entry.path, entry.version, suffix);
-          }
+          // A file in the blog's folder (see updateCdnManifest)
+          const folderFileUrl = folderManifestUrl(req, renderedNormalized);
+          if (folderFileUrl) return folderFileUrl;
         }
 
         // Not in the manifest (e.g. the file doesn't exist). A rooted path

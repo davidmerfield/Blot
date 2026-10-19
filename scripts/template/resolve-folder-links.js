@@ -3,8 +3,8 @@
 // Since setView started wrapping literal links to files in the blog's folder
 // in {{#cdn}} (models/template/util/resolveFolderLinks), views saved before
 // that have no resolved copy. Until they are saved again they keep rendering
-// from their raw content, and the request-time pass in blog/render/
-// replaceFolderLinks keeps rewriting their links. This re-saves each view
+// from their raw content, and links in them go to the origin instead of the
+// CDN. This re-saves each view
 // that could contain a link through setView, which computes the resolved
 // copy, then regenerates the template's CDN manifest once.
 //

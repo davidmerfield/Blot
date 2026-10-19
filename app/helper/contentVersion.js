@@ -45,7 +45,7 @@ module.exports = async function contentVersion(filePath, stat) {
 };
 
 // Cheap size+mtime token, for callers that can't afford to read the file
-// (lookupFile.js runs during a page render).
+// (e.g. the {{#folder}} helper runs during a page render).
 module.exports.fromStat = statToken;
 
 function statToken(stat) {

@@ -82,10 +82,9 @@ async function bakeHTML(html, options) {
   return { html: changed ? $.html() : html, dependencies };
 }
 
-function bake($, options) {
+function makeContext(options) {
   const blogID = options.blogID;
   const blogFolder = join(config.blog_folder_dir, blogID);
-  const dependencies = new Set();
   // Absolute URLs on one of the blog's own hosts (https://blog.example.com/
   // photo.jpg) are baked like relative links; see stripOwnHost.
   const hostPatterns = toHostPatterns(
@@ -96,16 +95,98 @@ function bake($, options) {
   );
   // Resolved path -> Promise<{ path, version }>, so a file referenced
   // several times in one entry (src and srcset) is only read and hashed once.
-  const ctx = {
+  return {
     blogID,
     blogFolder,
-    dependencies,
+    dependencies: new Set(),
     hostPatterns,
     entryPath: options.path,
     files: new Map(),
     globalFiles: new Map(),
     changed: false,
   };
+}
+
+// Entry metadata keys which are never baked, compared case-insensitively
+// (the same way build/prepare reads them):
+// - link, permalink, url: Prepare turns these into entry.permalink and
+//   models/entry/_setUrl routes the entry by them, so a baked token would
+//   change the URL the entry is served from.
+// - slug, title, titleTag, summary, body, teaser, teaserBody: front matter
+//   overwrites these entry fields outright (see build/prepare), as text or
+//   markup rather than as a link; markup is baked by bakeHTML instead.
+const SKIPPED_METADATA_KEYS = [
+  "link",
+  "permalink",
+  "url",
+  "slug",
+  "title",
+  "titletag",
+  "summary",
+  "body",
+  "teaser",
+  "teaserbody",
+];
+
+// Bakes entry metadata values that are a single link to a file in the
+// blog's folder, so templates which output them in attributes
+// (<meta property="og:image" content="{{metadata.image}}">) still get a
+// versioned CDN URL without any work at request time. Metadata isn't markup,
+// so only values which are unambiguously a path on this blog are touched:
+// rooted (/cover.jpg) or on one of the blog's own hosts
+// (https://blog.example.com/cover.jpg), with no whitespace, and eligible
+// under the same rules as attributes (isEligible). A relative value
+// (cover.jpg) is left alone, since we can't know what it is relative to.
+//
+// Called after Prepare, so everything which reads the plain metadata while
+// building (thumbnail, permalink, dates) has already seen the original
+// values. Returns { metadata, dependencies }: a copy of the metadata with
+// baked values, and the files baked or still missing (so the entry is
+// rebuilt when they appear, change or are deleted - a deleted file simply
+// isn't baked on the rebuild, leaving the plain original value).
+async function bakeMetadata(metadata, options) {
+  if (!metadata || typeof metadata !== "object" || Array.isArray(metadata)) {
+    return { metadata, dependencies: [] };
+  }
+
+  const ctx = makeContext(options);
+  const baked = Object.assign({}, metadata);
+  const keys = Object.keys(metadata).filter(
+    (key) =>
+      typeof metadata[key] === "string" &&
+      SKIPPED_METADATA_KEYS.indexOf(key.toLowerCase()) === -1
+  );
+
+  await new Promise((resolve, reject) => {
+    async.eachLimit(
+      keys,
+      HASH_CONCURRENCY,
+      (key, next) => {
+        const value = metadata[key].trim();
+
+        if (/\s/.test(value)) return next();
+
+        // Rooted or own-host only; stripOwnHost leaves other hosts (and
+        // relative values, which isEligible rejects) as they were.
+        if (value.charAt(0) !== "/" && stripOwnHost(ctx, value) === value) {
+          return next();
+        }
+
+        bakeValue(ctx, value, false).then((result) => {
+          if (result !== null) baked[key] = result;
+          next();
+        }, next);
+      },
+      (err) => (err ? reject(err) : resolve())
+    );
+  });
+
+  return { metadata: baked, dependencies: Array.from(ctx.dependencies) };
+}
+
+function bake($, options) {
+  const ctx = makeContext(options);
+  const dependencies = ctx.dependencies;
   const tasks = [];
 
   $("[href], [src], [poster], [srcset]").each(function () {
@@ -152,8 +233,7 @@ function bake($, options) {
 }
 
 // Same-host absolute URLs are baked at build time too, so nothing about them
-// is left for request-time replaceFolderLinks (html.js/css.js) to do. The
-// host is stripped exactly as html.js does at request time, leaving a path
+// is left for later. The host is stripped, leaving a path
 // that is then treated like any other folder-relative link. Returns the
 // value unchanged if it isn't on one of the blog's hosts.
 function stripOwnHost(ctx, value) {
@@ -220,8 +300,8 @@ async function bakeValue(ctx, value, resolveRelative) {
   // gone). Still record the dependency so the entry is rebuilt, and baked,
   // if the file (re)appears - regardless of whether another entry's HTML
   // we embedded had already dropped back to the plain path. Where the link
-  // was baked, drop back to the plain path so request-time resolution
-  // decides instead of keeping a URL for a now-missing versioned file.
+  // was baked, drop back to the plain path (served by the origin) instead
+  // of keeping a URL for a now-missing versioned file.
   //
   // The path is decoded the way resolveBuildFile decodes it (baked links
   // hold an encoded path too), because the file which arrives is
@@ -269,9 +349,8 @@ async function rewriteSrcset(ctx, value) {
 // inside the blog's folder, per app/build/dependencies/index.js) into a
 // %%BLOT_CDN%%-prefixed, versioned URL. Returns { url, path } (path being
 // the case-corrected file path, for recording as a dependency), or null
-// (ENOENT) if there's no matching file - mirroring
-// app/blog/render/replaceFolderLinks/lookupFile.js's "leave untouched"
-// behavior.
+// (ENOENT) if there's no matching file - the link is
+// left untouched.
 async function resolveBuildFile(ctx, value) {
   const { blogID, blogFolder } = ctx;
   const hashIndex = value.indexOf("#");
@@ -285,9 +364,9 @@ async function resolveBuildFile(ctx, value) {
   const query = rest.length ? `?${rest.join("?")}` : "";
   const pathFromValue = decodeFolderPath(encodedPath);
 
-  // Checked after percent-decoding (e.g. /f%6Fnts). Mirrors lookupFile.js: a
-  // file in the global static directory wins, otherwise the path is looked
-  // up in the blog's folder like any other.
+  // Checked after percent-decoding (e.g. /f%6Fnts). A file in the global static
+  // directory wins, otherwise the path is looked up in the blog's folder like
+  // any other.
   if (
     isReservedStaticPath(pathFromValue) &&
     (await globalStaticFileExists(ctx, pathFromValue))
@@ -338,9 +417,24 @@ function globalStaticFileExists(ctx, path) {
   return ctx.globalFiles.get(normalized);
 }
 
+// The reverse of bakeMetadata for a single value, for showing metadata to a
+// person (the dashboard's file view) rather than rendering it: a baked link
+// becomes the path it was baked from. Anything else is returned unchanged.
+function unbakeMetadataValue(value, blogID) {
+  const unwrapped = unwrapFolderLink(value, blogID);
+
+  if (unwrapped === null) return value;
+
+  const path = pathPartOf(unwrapped);
+
+  return decodeFolderPath(path) + unwrapped.slice(path.length);
+}
+
 module.exports = {
   render,
+  unbakeMetadataValue,
   bakeHTML,
+  bakeMetadata,
   // Internal build optimization, not a user setting: always runs, and is
   // hidden from the plugins page (see dashboard/site/load/plugins.js).
   optional: false,
