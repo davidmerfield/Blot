@@ -130,12 +130,6 @@ module.exports = configFile => {
       lua_directory: CACHER_DIRECTORY + "/config",
       data_directory: DATA_DIRECTORY,
       cache_directory
-    }, {
-      // Partials from proxy/config that a test config includes
-      "feed-throttle.conf": await fs.readFile(
-        CACHER_DIRECTORY + "/config/feed-throttle.conf",
-        "utf8"
-      )
     });
 
     await fs.outputFile(configPath, result, "utf8");
