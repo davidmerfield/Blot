@@ -1,5 +1,5 @@
 import clfdate from "../util/clfdate.js";
-import { getLimiterForBlogID } from "../limiters.js";
+import { getLimiterForBlogID, isLimiterStoppedError } from "../limiters.js";
 import mkdir from "../httpClient/mkdir.js";
 import remove from "../httpClient/remove.js";
 import resync from "../httpClient/resync.js";
@@ -8,6 +8,8 @@ import upload from "../httpClient/upload.js";
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 const isFileTooLargeError = (error) => error?.code === "ERR_FILE_TOO_LARGE";
+
+const isFileMissingError = (error) => error?.code === "ERR_FILE_MISSING";
 
 const withRetries = async (label, operation, options = {}) => {
   const { attempts = 4, baseDelayMs = 200 } = options;
@@ -18,6 +20,11 @@ const withRetries = async (label, operation, options = {}) => {
       return await operation();
     } catch (error) {
       lastError = error;
+
+      // the file is gone, retrying cannot help
+      if (isFileMissingError(error)) {
+        throw error;
+      }
 
       if (isFileTooLargeError(error)) {
         console.warn(
@@ -60,7 +67,8 @@ const performAction = async (blogID, pathInBlogDirectory, action) => {
 
   const limiter = getLimiterForBlogID(blogID);
 
-  await limiter.schedule(async () => {
+  // resolves to the result of the action; mkdir reports whether Blot created the directory
+  return limiter.schedule(async () => {
     try {
       if (action === "upload") {
         await withRetries(
@@ -73,12 +81,20 @@ const performAction = async (blogID, pathInBlogDirectory, action) => {
           () => remove(blogID, pathInBlogDirectory)
         );
       } else if (action === "mkdir") {
-        await withRetries(
+        return await withRetries(
           `mkdir ${blogID}/${pathInBlogDirectory}`,
           () => mkdir(blogID, pathInBlogDirectory)
         );
       }
     } catch (error) {
+      if (isFileMissingError(error)) {
+        console.log(clfdate(), "Skipping upload: file no longer exists", {
+          blogID,
+          pathInBlogDirectory,
+        });
+        return;
+      }
+
       if (isFileTooLargeError(error)) {
         console.warn(
           clfdate(),
@@ -106,6 +122,12 @@ const performAction = async (blogID, pathInBlogDirectory, action) => {
       });
       throw error;
     }
+  }).catch((error) => {
+    // The blog was disconnected (or its folder deleted) while this action was
+    // queued. removeLimiterForBlogID logged how many were dropped; there is
+    // nothing to do and no point asking Blot for a resync.
+    if (isLimiterStoppedError(error)) return;
+    throw error;
   });
 };
 

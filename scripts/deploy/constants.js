@@ -30,7 +30,29 @@ const blogsConfig = {
   maxOldSpaceSize: 1500,
 };
 
+// CPU weights (docker --cpu-shares), set per container in CONTAINERS below.
+// Docker's default weight is 1024. Shares only matter when the host's CPUs
+// are contended - they decide who gets the CPU when there isn't enough to
+// go around - so green can still use its full `cpus` quota whenever the box
+// is idle. Under contention blog serving (yellow) and dashboard reads (blue)
+// get ~4x green's CPU time. Green holds the background work - entry builds,
+// syncs, webhooks and the scheduler - but also takes the dashboard writes,
+// so dashboard POSTs are deprioritised along with it. That is accepted: a
+// slightly slower save is better than a slow blog.
+const SERVING_CPU_SHARES = 2048;
+const BACKGROUND_CPU_SHARES = 512;
+
+// Each app container also listens on a Unix socket in this host directory,
+// bind-mounted at the same path into the app containers and the proxy
+// (app/helper/listen.js). Unlike the published port, a socket nobody is
+// listening on refuses a connection outright, so nginx can retry the backup
+// while a container drains or boots. /run is a tmpfs: the host recreates the
+// directory at boot (config/host/tmpfiles.d/blot.conf) and the deploy
+// ensures it exists.
+const SOCKET_DIRECTORY = "/run/blot";
+
 module.exports = {
+  SOCKET_DIRECTORY,
   REGISTRY_URL: "ghcr.io/blotcms/blot",
   PLATFORM_OS: "linux",
   // A single 512m file only held ~6 hours of yellow's logs, so the output
@@ -57,6 +79,15 @@ module.exports = {
   // can all access the same data.
   DATA_DIRECTORY_ON_SERVER: "/var/www/blot/data",
   DATA_DIRECTORY_ON_CONTAINER: "/usr/src/app/data",
+
+  // Scratch space for uploads, imports and conversions (config.tmp_directory,
+  // set in the container by BLOT_TMP_DIRECTORY). It is on the host's
+  // ephemeral NVMe instance store, mounted at /var/instance-ssd, not the data
+  // volume: nothing in it needs to outlive an instance stop/start, which wipes
+  // it. The host creates it at boot (config/host/scripts/mount-instance-store.sh)
+  // and it is mounted at the same path inside the containers, so the
+  // instance-store disk free-disk-space.js reports there is the one tmp fills.
+  TMP_DIRECTORY: "/var/instance-ssd/tmp",
 
   ENV_FILE_ON_SERVER: "/etc/blot/secrets.env",
 
@@ -91,6 +122,9 @@ module.exports = {
     network: "blotnet",
     memory: "512m",
     cpus: 1,
+    // Screenshots and remote downloads for entry builds - background work,
+    // weighted like green (see the CPU weights note above).
+    cpuShares: BACKGROUND_CPU_SHARES,
   },
 
   CONTAINERS: {
@@ -100,23 +134,29 @@ module.exports = {
     // failure rolls it back before green and yellow are touched.
     BLUE: {
       name: "blot-container-blue",
+      socket: `${SOCKET_DIRECTORY}/blue.sock`,
       port: 8088,
       verify: true,
       ...siteConfig,
+      cpuShares: SERVING_CPU_SHARES,
     },
 
     // Site server (dashboard, brochure, sync folders)
     GREEN: {
       name: "blot-container-green",
+      socket: `${SOCKET_DIRECTORY}/green.sock`,
       port: 8089,
       ...siteConfig,
+      cpuShares: BACKGROUND_CPU_SHARES,
     },
 
     // Blog server (previews, published blogs)
     YELLOW: {
       name: "blot-container-yellow",
+      socket: `${SOCKET_DIRECTORY}/yellow.sock`,
       port: 8090,
       ...blogsConfig,
+      cpuShares: SERVING_CPU_SHARES,
     },
   },
 };

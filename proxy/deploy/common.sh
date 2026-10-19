@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 #
-# Shared by blue-green.sh and cutover-from-baremetal.sh. Source it, do not run
-# it. Everything here runs ON the production host (copy proxy/deploy/ across,
-# or run it in place from a checkout):
+# Shared by blue-green.sh, try-issuance.sh and reload-config.sh. Source it, do
+# not run it. Everything here runs ON the production host (copy proxy/deploy/
+# across, or run it in place from a checkout):
 #
 #   scp -r proxy/deploy blot:~/proxy-deploy
 #
@@ -10,13 +10,10 @@
 #
 #   PROXY_ENV_FILE         /etc/blot/proxy.env  docker --env-file for the proxy
 #                                               (see proxy.env.example)
-#   PROXY_CACHE_DIR        /var/instance-ssd/cache  the same disk cache the
-#                                               bare-metal OpenResty uses
+#   PROXY_CACHE_DIR        /var/instance-ssd/cache  the proxy's disk cache
 #   PROXY_LOG_DIR          /var/instance-ssd/logs   fail2ban and logrotate
 #                                               read the access log here
 #   PROXY_CERT_DIR         /etc/ssl/private     wildcard cert + key (read-only)
-#   PROXY_BLOG_STATIC_DIR  /var/www/blot/data/static  per-blog static files
-#                                               (thumbnails, etc), read-only (see run_args())
 #   PROXY_GLOBAL_STATIC_DIR /var/www/blot/app/blog/static  the app's own static
 #                                               assets, read-only (see run_args())
 #   PROXY_AUTOSSL_VOLUME   blot-proxy-auto-ssl  dehydrated account state
@@ -28,16 +25,17 @@
 #   PROXY_DRAIN_TIMEOUT    30                   seconds an old container may drain
 #   PROXY_DEPLOY_LOCK      /tmp/blot-proxy-deploy.lock  held by every deploy script
 #   PROXY_SKIP_CERT_SWEEP  (unset)              1 skips the custom-domain certificate
-#                                               comparison (see cert_baseline)
+#                                               checks (see cert_baseline and
+#                                               certs_all_served)
 #   PROXY_NOFILE           65536                --ulimit nofile=N:N. Each proxied
 #                                               connection holds ~2 fds (client +
 #                                               upstream), so worker_connections
-#                                               10000 (config/openresty/conf/initial.conf)
+#                                               10000 (proxy/config/initial.conf)
 #                                               needs ~20000 plus cache/log fds;
 #                                               this leaves headroom above that
-#   PROXY_REHYDRATE_TIMEOUT 180                 seconds the rehearsal waits for
-#                                               "rehydrate: complete" in error.log
-#                                               (~20s for today's ~200k files)
+#   PROXY_REHYDRATE_TIMEOUT 120                 seconds a new container may take to
+#                                               rebuild its purge index (see
+#                                               wait_rehydrated; ~2.5s in production)
 #
 # PROXY_DEPLOY_SLEEP replaces `sleep` (the tests set it to a no-op).
 
@@ -45,7 +43,6 @@ ENV_FILE="${PROXY_ENV_FILE:-/etc/blot/proxy.env}"
 CACHE_DIR="${PROXY_CACHE_DIR:-/var/instance-ssd/cache}"
 LOG_DIR="${PROXY_LOG_DIR:-/var/instance-ssd/logs}"
 CERT_DIR="${PROXY_CERT_DIR:-/etc/ssl/private}"
-BLOG_STATIC_DIR="${PROXY_BLOG_STATIC_DIR:-/var/www/blot/data/static}"
 GLOBAL_STATIC_DIR="${PROXY_GLOBAL_STATIC_DIR:-/var/www/blot/app/blog/static}"
 AUTOSSL_VOLUME="${PROXY_AUTOSSL_VOLUME:-blot-proxy-auto-ssl}"
 NODE_CONTAINER="${PROXY_NODE_CONTAINER:-blot-container-blue}"
@@ -55,7 +52,7 @@ HEALTH_SOCK="/run/openresty/health.sock"
 LOCK_FILE="${PROXY_DEPLOY_LOCK:-/tmp/blot-proxy-deploy.lock}"
 SITE_IP="127.0.0.1"
 PRODUCTION_ACME_CA="https://acme-v02.api.letsencrypt.org/directory"
-# worker_connections is 10000 (config/openresty/conf/initial.conf) and each
+# worker_connections is 10000 (proxy/config/initial.conf) and each
 # proxied connection holds about two fds (client + upstream), so 10000
 # connections can need about 20000; add cache/log/socket fds on top and
 # Docker's default (1024) is nowhere close. This is the CONTAINER's limit; the
@@ -63,25 +60,34 @@ PRODUCTION_ACME_CA="https://acme-v02.api.letsencrypt.org/directory"
 # the same reason. 65536 leaves real headroom above both - a root dockerd
 # allows it.
 NOFILE="${PROXY_NOFILE:-65536}"
-REHYDRATE_TIMEOUT="${PROXY_REHYDRATE_TIMEOUT:-180}"
+REHYDRATE_TIMEOUT="${PROXY_REHYDRATE_TIMEOUT:-120}"
 
-# Never fail because the terminal went away: the cutover ignores SIGPIPE and
+# Never fail because the terminal went away: a deploy ignores SIGPIPE and
 # must still be able to finish and roll back with nobody watching.
 log() { printf '[%s] %s\n' "$(date -u +%H:%M:%S)" "$*" 2>/dev/null || true; }
 die() { log "ERROR: $*" >&2; exit 1; }
 nap() { ${PROXY_DEPLOY_SLEEP:-sleep} "$1"; }
 
-# Commands which need root (systemctl). The deploy user has passwordless sudo;
-# fail early and clearly rather than hanging on a prompt mid-cutover.
+# Commands which need root (systemctl). `sudo -n` fails rather than prompting,
+# and the `deploy` user GitHub runs as has no sudo, so under it this always
+# fails: its only caller is blue-green.sh's fresh-start check for a legacy
+# openresty unit, which then passes without having checked.
 sys() {
   if [ "$(id -u)" = 0 ]; then "$@"; else sudo -n "$@"; fi
 }
 
 # One deploy at a time on this host: two scripts would pick the same colours
 # and remove each other's containers. Held (fd 9) until the script exits.
+# Deploys run as different users (ec2-user from a Mac, deploy from GitHub), and
+# fs.protected_regular refuses a creating open of another user's file in /tmp,
+# so an existing lock is opened read-only (flock does not need write access).
 acquire_lock() {
-  exec 9>>"$LOCK_FILE" || die "cannot open the deploy lock $LOCK_FILE"
-  chmod 666 "$LOCK_FILE" 2>/dev/null || true
+  if [ -e "$LOCK_FILE" ]; then
+    exec 9<"$LOCK_FILE" || die "cannot open the deploy lock $LOCK_FILE"
+  else
+    exec 9>>"$LOCK_FILE" || die "cannot open the deploy lock $LOCK_FILE"
+    chmod 666 "$LOCK_FILE" 2>/dev/null || true
+  fi
   flock -n 9 || die "another proxy deploy is already running on this host (lock $LOCK_FILE)"
 }
 
@@ -125,14 +131,46 @@ resolve_image() {
   case "$1" in */*|*:*) echo "$1" ;; *) echo "$PROXY_REGISTRY_URL:$1" ;; esac
 }
 
+# After a committed deploy, remove the other tags of the deployed image's
+# repository, so proxy deploys do not pile up ~400MB images between app deploys
+# (scripts/deploy prunes every unused image, but only when it runs). Only this
+# repository, never the image just deployed; `docker rmi` refuses an image any
+# container still uses. Best effort: it never fails the deploy.
+prune_old_images() { # prune_old_images <image just deployed>
+  case "$1" in *@*) return 0 ;; esac
+  local repo="${1%:*}" ref
+  docker images "$repo" --format '{{.Repository}}:{{.Tag}}' 2>/dev/null | while read -r ref; do
+    if [ "$ref" = "$1" ] || [ "$ref" = "$repo:<none>" ]; then continue; fi
+    if docker rmi "$ref" >/dev/null 2>&1; then log "Removed old image $ref"; fi
+  done
+  return 0
+}
+
 ensure_image() { # pull only when it is not already on the host
   docker image inspect "$1" >/dev/null 2>&1 || { log "Pulling $1"; docker pull "$1"; }
 }
 
-# Arguments common to every real proxy container (not the rehearsal).
-# Host networking: the generated upstreams are 127.0.0.1:8088-8090 and the
-# Node containers publish those ports on the host.
+# The upstream address for a colour (BLUE, GREEN, YELLOW): PROXY_UPSTREAM_*
+# from the env file, else the host port the Node container publishes.
+upstream_addr() { # upstream_addr <COLOUR> <default>
+  local addr
+  addr="$(env_value "$ENV_FILE" "PROXY_UPSTREAM_$1")"
+  echo "${addr:-$2}"
+}
+
+UPSTREAMS="BLUE:127.0.0.1:8088 GREEN:127.0.0.1:8089 YELLOW:127.0.0.1:8090"
+
+# Arguments common to every real proxy container.
+# Host networking: the default upstreams are 127.0.0.1:8088-8090 and the Node
+# containers publish those ports on the host. Upstreams written unix:/run/blot/...
+# are the Node containers' sockets: bind-mounted with --mount so a missing
+# /run/blot fails the deploy rather than Docker creating it as root.
 run_args() { # run_args <name>
+  local var addr unix=
+  for var in $UPSTREAMS; do
+    addr="$(upstream_addr "${var%%:*}" "${var#*:}")"
+    case "$addr" in unix:*) unix=1 ;; esac
+  done
   RUN_ARGS=(
     --name "$1"
     --network host
@@ -144,21 +182,26 @@ run_args() { # run_args <name>
     -v "$LOG_DIR":/var/log/openresty
     -v "$AUTOSSL_VOLUME":/etc/resty-auto-ssl
     -v "$CERT_DIR":/etc/ssl/private:ro
-    # Mounted at the same paths the image defaults to
-    # (BLOG_STATIC_FILES_DIR / GLOBAL_STATIC_FILES_DIR in
-    # config/openresty/locals.js), so `try_files` on cdn.<host> finds files on
-    # disk instead of falling through to @cdn_node, which misses the
-    # Cache-Control/CORS headers `location /` sets.
-    -v "$BLOG_STATIC_DIR":/var/www/blot/data/static:ro
+    # Mounted at the path the image defaults to (GLOBAL_STATIC_FILES_DIR in
+    # proxy/build/locals.js), so `try_files` on cdn.<host> finds the app's
+    # own static files on disk instead of falling through to @cdn_node,
+    # which misses the Cache-Control/CORS headers `location /` sets.
     -v "$GLOBAL_STATIC_DIR":/var/www/blot/app/blog/static:ro
   )
+  if [ -n "$unix" ]; then
+    RUN_ARGS+=(--mount type=bind,source=/run/blot,target=/run/blot)
+  fi
 }
 
-# Render the image's config with this host's settings and have nginx parse it,
-# without binding anything. Only the certificate directory is mounted: the
-# check must not touch the live cache or logs.
+# Render the image's config with this host's settings and have nginx parse it.
+# Only the certificate directory is mounted: the check must not touch the live
+# cache or logs. `openresty -t` can bind the listeners, and on the Docker bridge
+# the purge listener's PROXY_PRIVATE_IP is not a local address (prod: "bind()
+# ... failed (99: Address not available)"), so allow non-local binds in the
+# container's own network namespace.
 validate_image() { # validate_image <image>
   docker run --rm --entrypoint bash \
+    --sysctl net.ipv4.ip_nonlocal_bind=1 \
     --env-file "$ENV_FILE" -e PROXY_FETCH_CDN_IPS=false \
     -v "$CERT_DIR":/etc/ssl/private:ro \
     "$1" -c 'render-config >/dev/null && /usr/local/openresty/bin/openresty -t' 2>&1
@@ -190,24 +233,37 @@ wait_healthy() { # wait_healthy <name> <timeout>
 }
 
 # Worker 0 rebuilds the purge index (cacher.lua build_index) once nginx starts
-# listening, and logs "rehydrate: complete files=... hosts=..." to error.log
-# when it finishes, or "[error] ... rehydrate: <reason>" (e.g. cannot read a
-# file, or "increase lua_shared_dict cacher_dictionary") if it gives up. Read
-# BOTH log sinks: normally the container's own error.log (no log mount here),
-# but with ALLOW_STDOUT_LOGS=1 (image_logs_to_file's override) error_log goes
-# to stderr instead, where only `docker logs` sees it - checking just the file
-# would then time out and refuse every cutover on such an image. Poll until
-# one or the other shows the complete/error line, or <timeout> seconds pass
-# (~20s for today's ~200k files; a cold disk can take longer, hence a
-# generous default).
+# listening, and logs "rehydrate: complete files=... hosts=..." when it
+# finishes, or "[error] ... rehydrate: <reason>" (e.g. cannot read a file, or
+# "increase lua_shared_dict cacher_dictionary") if it gives up. Until it
+# completes every /purge answers 503, so a proxy that never gets there serves
+# stale pages indefinitely. Wait for one or the other, up to <timeout> seconds.
+#
+# Where the line goes: the image writes error.log to the shared $LOG_DIR (also
+# written by the other colour during a swap), or to stderr (`docker logs`) with
+# ALLOW_STDOUT_LOGS=1. Both are read. In the shared file only lines stamped at
+# or after the container's start time count: the old colour's own "complete"
+# line is older, and container pids cannot tell the two apart (each container
+# has its own pid namespace, so both log as 1#1 / 7#7).
 wait_rehydrated() { # wait_rehydrated <name> <timeout>
-  local deadline=$(( $(date +%s) + $2 )) log
+  local deadline=$(( $(date +%s) + $2 )) started text
+  started="$(docker inspect -f '{{.State.StartedAt}}' "$1" 2>/dev/null || true)"
+  started="${started%%.*}"; started="${started%Z}"    # 2026-10-08T12:34:56
+  started="${started//-//}"; started="${started/T/ }" # 2026/10/08 12:34:56 (nginx's stamp)
+  [ -n "$started" ] || { log "cannot read when $1 started"; return 1; }
   while true; do
-    log="$( { docker exec "$1" cat /var/log/openresty/error.log 2>/dev/null; docker logs "$1" 2>&1; } || true)"
-    echo "$log" | grep -q '\[error\].*rehydrate:' && return 1
-    echo "$log" | grep -q 'rehydrate: complete' && return 0
-    running "$1" || return 1
-    [ "$(date +%s)" -lt "$deadline" ] || return 1
+    text="$( { tail -n 5000 "$LOG_DIR/error.log" 2>/dev/null \
+                 | awk -v start="$started" 'substr($0, 1, 19) >= start'
+               docker logs "$1" 2>&1; } || true)"
+    # here-strings, not a pipe: grep -q exiting early would SIGPIPE printf and
+    # fail the pipeline under pipefail
+    if grep -q '\[error\].*rehydrate:' <<< "$text"; then
+      log "$1 failed to rebuild its purge index: $(grep -m1 '\[error\].*rehydrate:' <<< "$text")"
+      return 1
+    fi
+    ! grep -q 'rehydrate: complete' <<< "$text" || return 0
+    running "$1" || { log "$1 stopped before its purge index was rebuilt"; return 1; }
+    [ "$(date +%s)" -lt "$deadline" ] || { log "$1 did not log \"rehydrate: complete\" in ${2}s"; return 1; }
     nap 1
   done
 }
@@ -247,15 +303,56 @@ snapshot() { # snapshot [port] -> "host=status host=status ..."
 # without any of the checked hosts noticing. So ask the proxy for every one of
 # them (by SNI) and require the same certificates from the replacement.
 
+# SCAN by hand: `redis-cli --scan --count` needs redis-cli 7, and the
+# production host has 6.2, whose --scan uses SCAN's default COUNT of 10 (a
+# round trip per 10 keys of the whole keyspace).
+# Fails (rather than listing nothing) if a SCAN fails or returns an error
+# reply, so a broken Redis cannot pass for one with no custom domains. The loop
+# is not piped: a failure inside a pipeline would be lost.
 custom_cert_domains() {
-  redis-cli -h "$REDIS_HOST" --scan --count 1000 --pattern 'ssl:*:latest' \
-    | sed -E 's/^ssl:(.*):latest$/\1/' | sort -u
+  local cursor=0 reply keys=""
+  while :; do
+    reply=$(redis-cli -h "$REDIS_HOST" --raw scan "$cursor" match 'ssl:*:latest' count 1000) || return 1
+    cursor=$(printf '%s\n' "$reply" | head -n 1)
+    case "$cursor" in ''|*[!0-9]*) return 1 ;; esac
+    keys="$keys$(printf '%s\n' "$reply" | tail -n +2)
+"
+    [ "$cursor" != 0 ] || break
+  done
+  printf '%s' "$keys" | sed '/^$/d' | sed -E 's/^ssl:(.*):latest$/\1/' | sort -u
+}
+
+# The proxy treats a stored certificate whose expiry has passed as missing
+# (get_cert in proxy/config/init.conf), so a domain that presents none (or, on
+# a swap, a different one, once the replacement issues a new certificate)
+# because its stored certificate had expired is not the replacement's fault.
+# expired_cert_domains lists such domains, from domain names on stdin. It is
+# called BEFORE the replacement starts (or, on a fresh start, before the
+# sweep), because the replacement's own handshakes can replace the stored
+# certificate. The expiry is read from the stored JSON with awk, as no JSON
+# tool is guaranteed on the host. One redis-cli session reads every key, one
+# reply line per key.
+expired_cert_domains() {
+  local domains
+  domains="$(sed '/^$/d')"
+  [ -n "$domains" ] || return 0
+  paste -d' ' <(printf '%s\n' "$domains") \
+    <(printf '%s\n' "$domains" | sed 's/^/get ssl:/; s/$/:latest/' | redis-cli -h "$REDIS_HOST" --raw 2>/dev/null \
+      | awk '{ if (match($0, /"expiry":[0-9]+/)) print substr($0, RSTART + 9, RLENGTH - 9); else print "-" }') \
+    | awk -v now="$(date +%s)" '$2 != "-" && $2 + 0 <= now { print $1 }'
+}
+
+# drop_expired: lines starting with a domain name on stdin, minus the domains
+# in $EXPIRED_CERTS (newline separated)
+drop_expired() {
+  awk -v list="${EXPIRED_CERTS:-}" 'BEGIN { n = split(list, a, "\n"); for (i = 1; i <= n; i++) if (a[i] != "") e[a[i]] = 1 } !($1 in e)'
 }
 
 # cert_sweep [port] -> sorted "<domain> <sha256 fingerprint | none>" lines
 cert_sweep() {
-  local port="${1:-443}"
-  custom_cert_domains | xargs -r -P 16 -I{} bash -c '
+  local port="${1:-443}" domains
+  domains="$(custom_cert_domains)" || return 1
+  printf '%s\n' "$domains" | sed '/^$/d' | xargs -r -P 16 -I{} bash -c '
     fp=$(echo | timeout 5 openssl s_client -connect "$1:$2" -servername "$3" 2>/dev/null \
       | openssl x509 -noout -fingerprint -sha256 2>/dev/null | cut -d= -f2)
     echo "$3 ${fp:-none}"' _ "$SITE_IP" "$port" {} | sort
@@ -265,7 +362,7 @@ cert_sweep() {
 # now. (A domain with none before is not held against the replacement.)
 certs_unchanged() { # certs_unchanged <baseline> <now>
   local bad
-  bad=$(comm -23 <(printf '%s\n' "$1" | grep -v ' none$' | sort) <(printf '%s\n' "$2" | sort))
+  bad=$(comm -23 <(printf '%s\n' "$1" | grep -v ' none$' | sort) <(printf '%s\n' "$2" | sort) | drop_expired)
   [ -z "$bad" ] || {
     log "custom-domain certificates changed or went missing ($(printf '%s\n' "$bad" | wc -l | tr -d ' ')): first few, as they were:"
     printf '%s\n' "$bad" | head -5 | while read -r line; do log "  $line"; done
@@ -274,7 +371,7 @@ certs_unchanged() { # certs_unchanged <baseline> <now>
 }
 
 # Record the certificates the running proxy serves; CERT_BASELINE is what
-# live_checks and the rehearsal compare against. Refuses to go on with no
+# live_checks compares against. Refuses to go on with no
 # certificates to compare unless PROXY_SKIP_CERT_SWEEP=1.
 cert_baseline() {
   CERT_BASELINE=""
@@ -282,6 +379,7 @@ cert_baseline() {
   command -v redis-cli >/dev/null 2>&1 \
     || { log "redis-cli is not installed, so custom-domain certificates cannot be compared (PROXY_SKIP_CERT_SWEEP=1 to skip)"; return 1; }
   CERT_BASELINE="$(cert_sweep | sed '/^$/d')"
+  EXPIRED_CERTS="$(printf '%s\n' "$CERT_BASELINE" | awk '{ print $1 }' | expired_cert_domains)"
   local total served
   total=$(printf '%s\n' "$CERT_BASELINE" | sed '/^$/d' | wc -l | tr -d ' ')
   served=$(printf '%s\n' "$CERT_BASELINE" | sed '/^$/d' | grep -vc ' none$' || true)
@@ -290,16 +388,58 @@ cert_baseline() {
   log "Custom-domain certificates: $served of $total in Redis are being served"
 }
 
+# A fresh start has no running proxy to compare with, so require instead that
+# the new one presents a certificate for EVERY custom domain in Redis
+# (ssl:<domain>:latest), looked up by SNI. A container that cannot read or
+# serve them would otherwise pass every other check. A Redis with no custom
+# domains has nothing to serve and passes.
+certs_all_served() { # certs_all_served [port]
+  [ "${PROXY_SKIP_CERT_SWEEP:-}" != 1 ] || { log "PROXY_SKIP_CERT_SWEEP=1: not checking custom-domain certificates"; return 0; }
+  command -v redis-cli >/dev/null 2>&1 \
+    || { log "redis-cli is not installed, so custom-domain certificates cannot be checked (PROXY_SKIP_CERT_SWEEP=1 to skip)"; return 1; }
+  local sweep total missing wildcard redis_wildcard
+  EXPIRED_CERTS="$(custom_cert_domains | expired_cert_domains)"
+  sweep="$(cert_sweep "${1:-443}")" \
+    || { log "cannot list the custom domains in Redis (SCAN failed), so their certificates cannot be checked"; return 1; }
+  sweep="$(printf '%s\n' "$sweep" | sed '/^$/d')"
+  total=$(printf '%s\n' "$sweep" | sed '/^$/d' | wc -l | tr -d ' ')
+  # A custom domain served the wildcard file is auto-ssl falling back: it
+  # could not load that domain's certificate, and browsers will reject it.
+  wildcard=$(openssl x509 -in "$CERT_DIR/letsencrypt-domain.pem" -noout -fingerprint -sha256 2>/dev/null | cut -d= -f2)
+  # Custom domains fall back to the disk file today, but neither wildcard
+  # (disk, or the current one in Redis) is ever a custom domain's certificate.
+  redis_wildcard=$(redis_wildcard_fingerprint)
+  missing="$(printf '%s\n' "$sweep" | awk -v w="$wildcard" -v r="$redis_wildcard" '$2 == "none" || (w != "" && $2 == w) || (r != "" && $2 == r) { print $1 }' | drop_expired)"
+  if [ -n "$missing" ]; then
+    log "no certificate of its own presented for $(printf '%s\n' "$missing" | wc -l | tr -d ' ') of $total custom domains in Redis: first few:"
+    printf '%s\n' "$missing" | head -5 | while read -r line; do log "  $line"; done
+    return 1
+  fi
+  log "Custom-domain certificates: all $total in Redis are being served"
+}
+
 all_ok() { ! echo "$1" | tr ' ' '\n' | grep -v '=200$' | grep -q .; }
 
-# The certificate being served must be the file on disk, not the image's
-# self-signed placeholder or a stale one.
-served_cert_matches_disk() { # served_cert_matches_disk [port]
-  local served disk
+# SHA-256 fingerprint of the wildcard certificate in Redis, empty if there is
+# none or it cannot be read.
+redis_wildcard_fingerprint() {
+  local pem
+  pem=$(redis-cli -h "$REDIS_HOST" --raw get blot:openresty:ssl:pem 2>/dev/null || true)
+  [ -n "$pem" ] || return 0
+  echo "$pem" | openssl x509 -noout -fingerprint -sha256 2>/dev/null | cut -d= -f2 || true
+}
+
+# The certificate being served must be the wildcard certificate the app keeps
+# in Redis (renewed there by app/scheduler/renew-wildcard-ssl.js), not the
+# image's self-signed placeholder or a stale one. The file on disk is only the
+# fallback when Redis has none, and goes stale once the app renews.
+served_cert_matches_wildcard() { # served_cert_matches_wildcard [port]
+  local served expected
   served=$(echo | openssl s_client -connect "$SITE_IP:${1:-443}" -servername "$BLOT_HOST" 2>/dev/null \
-    | openssl x509 -noout -fingerprint -sha256 2>/dev/null)
-  disk=$(openssl x509 -in "$CERT_DIR/letsencrypt-domain.pem" -noout -fingerprint -sha256 2>/dev/null)
-  [ -n "$served" ] && [ "$served" = "$disk" ]
+    | openssl x509 -noout -fingerprint -sha256 2>/dev/null | cut -d= -f2)
+  expected=$(redis_wildcard_fingerprint)
+  [ -n "$expected" ] || expected=$(openssl x509 -in "$CERT_DIR/letsencrypt-domain.pem" -noout -fingerprint -sha256 2>/dev/null | cut -d= -f2)
+  [ -n "$served" ] && [ "$served" = "$expected" ]
 }
 
 purge_urls() {
@@ -339,15 +479,16 @@ redis_reachable() {
     || { log "the proxy cannot reach Redis at $REDIS_HOST:6379"; return 1; }
 }
 
-# The webhook route goes straight to the master upstream (PROXY_UPSTREAM_GREEN)
-# and no checked host exercises it, so probe every configured upstream.
+# No checked host exercises every upstream, so probe each one directly.
 upstreams_reachable() {
-  local var default addr
-  for var in BLUE:127.0.0.1:8088 GREEN:127.0.0.1:8089 YELLOW:127.0.0.1:8090; do
-    default="${var#*:}"
-    addr="$(env_value "$ENV_FILE" "PROXY_UPSTREAM_${var%%:*}")"
-    addr="${addr:-$default}"
-    [ "$(curl -s -o /dev/null -w '%{http_code}' --max-time 5 "http://$addr/health" || true)" = 200 ] \
+  local var addr target=() # target: curl's arguments for the address
+  for var in $UPSTREAMS; do
+    addr="$(upstream_addr "${var%%:*}" "${var#*:}")"
+    case "$addr" in
+      unix:*) target=(--unix-socket "${addr#unix:}" http://localhost/health) ;;
+      *) target=("http://$addr/health") ;;
+    esac
+    [ "$(curl -s -o /dev/null -w '%{http_code}' --max-time 5 "${target[@]}" || true)" = 200 ] \
       || { log "upstream $addr (PROXY_UPSTREAM_${var%%:*}) is not healthy"; return 1; }
   done
 }
@@ -365,8 +506,8 @@ live_checks() { # live_checks <expected-snapshot | ""> [port]
   else
     all_ok "$got" || { log "not every host answers 200: [$got]"; return 1; }
   fi
-  served_cert_matches_disk "${2:-443}" \
-    || { log "the certificate served is not $CERT_DIR/letsencrypt-domain.pem"; return 1; }
+  served_cert_matches_wildcard "${2:-443}" \
+    || { log "the certificate served is not the wildcard certificate in Redis (or $CERT_DIR/letsencrypt-domain.pem if Redis has none)"; return 1; }
   if [ -n "${CERT_BASELINE:-}" ]; then certs_unchanged "$CERT_BASELINE" "$(cert_sweep "${2:-443}")" || return 1; fi
   purge_reachable || return 1
   redis_reachable || return 1

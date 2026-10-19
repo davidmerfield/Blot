@@ -74,8 +74,9 @@ async function main() {
     tool: "build-probe",
     script: path.join(__dirname, "probe.js"),
     probeArgs,
-    // Either mode builds, and a build works in data/tmp and caches images
-    // and thumbnails in data/static.
+    // Either mode builds, and a build uploads the images and thumbnails it
+    // caches to the storage bucket (its scratch files, and the staging area
+    // for those uploads, go in the tmp mount run.js adds).
     writableData: true,
     // Builds fetch remote images and take screenshots through the airlock.
     airlock: true,

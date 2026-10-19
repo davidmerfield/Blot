@@ -1,0 +1,33 @@
+How CI runs the unit tests (.github/workflows/node.yml)
+
+Each test job (the `runner` list in node.yml) runs `plan.js --runner=N` to
+get its share of the spec files, then `run-lanes.sh`, which runs that share
+as TEST_LANES lanes in parallel, each with its own Redis, MinIO, network and
+copy of the working tree. A lane is a sequence of test runner processes
+(`node scripts/tests <suite> --files-from=...`), one per suite it was given.
+
+plan.js balances the lanes with timings.json: seconds per spec file, plus
+per-suite entries (keyed as written in TEST_SUITES) as a fallback for files
+it hasn't timed. Every test job computes the plan independently, so it only
+depends on files in the checkout - never anything fetched at run time.
+
+Refreshing timings.json, when a run's lanes finish far apart: every test job
+uploads the seconds it measured per spec file as a `timings-<n>` artifact
+(master runs also merge them into `test-timings`, in coverage-report, which
+pull requests don't run). Use a pull request run, since those run without
+nyc, as CI does for most runs.
+
+  gh run download <run id> -p 'timings-*' -D /tmp/test-timings
+  jq -S -s 'add | with_entries(.value |= (. * 10 | round / 10))' /tmp/test-timings/*/*.json > /tmp/new.json
+  jq -S -s '.[0] * .[1]' scripts/tests/ci/timings.json /tmp/new.json > /tmp/t.json
+  mv /tmp/t.json scripts/tests/ci/timings.json
+
+`plan.js --check` (run by every test job) fails the job if a spec file isn't
+planned exactly once.
+
+Times measured with two lanes per 4-vCPU runner include some contention, which
+is fine: the plan only needs them in proportion.
+
+To reproduce one CI process locally, take the suite and file list from the
+job log and run them with `npm test <suite> -- --files-from=<file>`, or just
+run the whole suite with `npm test <suite>`.

@@ -133,7 +133,7 @@ describe("build-time baked folder links", function () {
 
     expect(stored.entry.html).toContain("/folder/v-");
     // folder URLs percent-encode each path segment (encodeFolderPath)
-    expect(stored.entry.html).toContain("my%20pic.jpg");
+    expect(stored.entry.html).toContain("/my%20pic.jpg");
   });
 
   it("falls back to the plain path when a baked file is deleted", async function () {

@@ -31,7 +31,8 @@ container to the launcher shared by the production probes,
   directory only the ssh user can enter (only its `out/` subdirectory, which
   is mounted into the container, is writable by the container's user);
 - runs them in a container of that image with the production env file, the
-  data directory mounted **read-only**, the access logs mounted read-only at
+  data directory mounted **read-only**, the host's tmp directory
+  (`/var/instance-ssd/tmp`) mounted read-write, the access logs mounted read-only at
   `/logs`, no published port, no airlock network, its own memory limit (with swap disabled) and one
   CPU, and `--restart no`;
 - prints the container's exit code and whether the kernel OOM-killed it, then
@@ -88,8 +89,7 @@ capped at 8 requests in flight, and `--speed` at 4x. Keep replays short.
 too) and fails if no requests to yellow started in the window.
 
 The container's `CONTAINER_NAME` is `blot-probe-render-probe`, so its log lines
-are tagged `[render-probe]` and `config.master` is false. The probe never loads
-`app/setup.js`, so it starts no scheduled jobs and never flushes the
+are tagged `[render-probe]`. The probe never loads `app/setup.js`, so it starts no scheduled jobs and never flushes the
 render-time metric to Redis: its renders stay out of the daily numbers.
 
 ## Crash reports from the app containers

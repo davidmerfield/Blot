@@ -7,6 +7,8 @@ describe("screenshot plugin", function () {
   let server;
   const streams = new Set();
   let previewReloadRequests = 0;
+  let neverIdlePageRequests = 0;
+  const hangingResponses = new Set();
 
   global.test.timeout(60 * 1000); // 60s
 
@@ -44,6 +46,35 @@ describe("screenshot plugin", function () {
       );
     });
 
+    app.get("/not-found", (req, res) => {
+      res
+        .status(404)
+        .send(
+          "<html><head><style>body{background:white}</style></head><body><h1>Not found</h1></body></html>"
+        );
+    });
+
+    // Never answers, like the long-lived fetch some sites leave open, which
+    // stops the network from ever going idle.
+    app.get("/never-responds", (req, res) => {
+      hangingResponses.add(res);
+      res.on("close", () => hangingResponses.delete(res));
+    });
+
+    app.get("/never-idle", (req, res) => {
+      neverIdlePageRequests++;
+      res.send(
+        "<html><head><style>body{background:white}</style></head><body><h1>Hello, world!</h1><script>fetch('/never-responds').catch(function () {});</script></body></html>"
+      );
+    });
+
+    // An image that never arrives holds back the load event
+    app.get("/never-loads", (req, res) => {
+      res.send(
+        "<html><head><style>body{background:white}</style></head><body><h1>Hello, world!</h1><img src='/never-responds'></body></html>"
+      );
+    });
+
     // Track request times for rate limiting tests
     app.use((req, res, next) => {
       requestTimes.push(Date.now());
@@ -64,15 +95,22 @@ describe("screenshot plugin", function () {
   beforeEach(() => {
     requestTimes = [];
     previewReloadRequests = 0;
+    neverIdlePageRequests = 0;
     // Clean up any leftover screenshots
     if (fs.existsSync(path)) {
       fs.unlinkSync(path);
     }
   });
 
+  afterEach(() => {
+    screenshot.configure({ minTime: screenshot.MIN_TIME_BETWEEN_OPS });
+    for (const res of hangingResponses) res.end();
+  });
+
   afterAll(() => {
     console.log("Closing server");
     for (const res of streams) res.end();
+    for (const res of hangingResponses) res.end();
     server.close();
   });
 
@@ -102,8 +140,35 @@ describe("screenshot plugin", function () {
     fs.unlinkSync(path);
   });
 
+  it("screenshots a page that responds with an error status", async function () {
+    await screenshot(`${site}/not-found`, path);
+    expect(fs.existsSync(path)).toBe(true);
+    fs.unlinkSync(path);
+  });
+
+  it("screenshots a page whose network never goes idle without retrying", async function () {
+    const started = Date.now();
+    await screenshot(`${site}/never-idle`, path);
+    // RENDER_GRACE (8s) plus overhead, rather than three timed-out attempts
+    expect(Date.now() - started).toBeLessThan(15 * 1000);
+    expect(fs.existsSync(path)).toBe(true);
+    expect(neverIdlePageRequests).toBe(1);
+    fs.unlinkSync(path);
+  });
+
+  it("screenshots a page whose load event never fires", async function () {
+    const started = Date.now();
+    await screenshot(`${site}/never-loads`, path);
+    expect(Date.now() - started).toBeLessThan(15 * 1000);
+    expect(fs.existsSync(path)).toBe(true);
+    fs.unlinkSync(path);
+  });
+
   it("handles browser restarts smoothly", async function () {
     const requests = 10; // Reduced number of requests for stability
+
+    // 10 requests at 800ms still run well past the restart at 2s
+    screenshot.configure({ minTime: 800 });
     const paths = Array.from(
       { length: requests },
       (_, i) => `${__dirname}/data/screenshot_${i}.png`
@@ -118,7 +183,7 @@ describe("screenshot plugin", function () {
     }, 2000);
 
     // Issue screenshot requests in parallel and await all to finish
-    // this should take ~10 seconds
+    // this should take ~8 seconds
     await Promise.all(paths.map((p) => screenshot(site, p)));
 
     // Cleanup
@@ -138,6 +203,9 @@ describe("screenshot plugin", function () {
 
   it("respects rate limiting", async function () {
     const requests = 10;
+
+    // Pacing stays comfortably above the 500ms average asserted below
+    screenshot.configure({ minTime: 800 });
     const paths = Array.from(
       { length: requests },
       (_, i) => `${__dirname}/data/screenshot_${i}.png`

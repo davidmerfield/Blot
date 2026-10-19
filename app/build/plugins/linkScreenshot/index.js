@@ -1,7 +1,7 @@
 const { callbackify } = require("util");
 const screenshot = callbackify(require("helper/screenshot"));
-const { join } = require("path");
-const config = require("config");
+const assets = require("storage/assets");
+const clfdate = require("helper/clfdate");
 const { v4: uuid } = require("uuid");
 const { is } = require("build/converters/webloc");
 const SCREENSHOT_DIR = "_bookmark_screenshots";
@@ -14,13 +14,11 @@ function render($, callback, { blogID, path }) {
   const link = $("p a.bookmark").first();
   const href = link.attr("href");
   const caption = link.html();
-  const pathToScreenshot = join(blogID, SCREENSHOT_DIR, uuid() + ".png");
-  const localPathToScreenshot = join(
-    config.blog_static_files_dir,
-    pathToScreenshot
-  );
+  const filename = uuid() + ".png";
+  const screenshotPath = SCREENSHOT_DIR + "/" + filename;
+  const localPathToScreenshot = assets.path(blogID, screenshotPath);
 
-  const src = config.cdn.origin + "/" + pathToScreenshot;
+  const src = assets.url(blogID, screenshotPath);
 
   if (!href) {
     return callback();
@@ -58,16 +56,30 @@ function render($, callback, { blogID, path }) {
         return callback();
       }
 
-      $.root().html(
-        `<p class="bookmark-container">
+      // The screenshot was written locally by the browser, now it's in place
+      callbackify(assets.commit)(blogID, screenshotPath, function (err) {
+        if (err) {
+          console.log(
+            clfdate(),
+            "[linkScreenshot] commit failed",
+            "blog=" + blogID,
+            "path=" + screenshotPath,
+            err.message
+          );
+          return callback();
+        }
+
+        $.root().html(
+          `<p class="bookmark-container">
         <a class="bookmark-screenshot" href="${href}">
           <img width="${SCREENSHOT_WIDTH}" height="${SCREENSHOT_HEIGHT}" src="${src}" title="Screenshot of ${caption}" />
         </a>
         <a class="bookmark" href="${href}">${caption}</a>
        </p>`
-      );
+        );
 
-      return callback();
+        return callback();
+      });
     }
   );
 }

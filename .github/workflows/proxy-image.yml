@@ -1,11 +1,12 @@
 # Publishes the proxy container image (proxy/) to GHCR as
-# ghcr.io/<owner>/blot-proxy:<commit sha>, for proxy/deploy/blue-green.sh and
-# cutover-from-baremetal.sh to pull. Mirrors the app and airlock jobs in
-# build.yml: one image per architecture, then a multi-arch manifest.
+# ghcr.io/<owner>/blot-proxy:<commit sha>, for proxy/deploy/blue-green.sh to
+# pull. Mirrors the app and airlock jobs in
+# build.yml: arm64 only (production is Graviton), as a manifest list.
 #
-# Only runs when something the image is built from changes (same paths as
-# proxy.yml), so not every commit has an image: deploy a SHA from a run of this
-# workflow. Pull requests build and check the image; same-repo PRs also push it (as build.yml does), fork PRs do not.
+# Every push to master gets an image, so `npm run deploy-proxy` and the Deploy
+# proxy workflow can deploy any master commit (like build.yml for the app).
+# Pull requests only build when something the image is built from changes
+# (same paths as proxy.yml), and check the image; same-repo PRs also push it (as build.yml does), fork PRs do not.
 #
 # The image is built for production: file logging (LOG_TO_STDOUT=false, so
 # fail2ban and logrotate on the host keep working) and BLOT_HOST=blot.im. Host
@@ -16,19 +17,11 @@ name: proxy-image
 on:
   push:
     branches: [master]
-    paths:
-      - ".github/workflows/proxy-image.yml"
-      - "proxy/**"
-      - "config/openresty/**"
-      - "package.json"
-      - "app/config.js"
-      - "config/index.js"
   pull_request:
     branches: [master]
     paths:
       - ".github/workflows/proxy-image.yml"
       - "proxy/**"
-      - "config/openresty/**"
       - "package.json"
       - "app/config.js"
       - "config/index.js"
@@ -48,9 +41,6 @@ jobs:
     strategy:
       matrix:
         include:
-          - arch: amd64
-            platform: linux/amd64
-            runs-on: ubuntu-latest
           - arch: arm64
             platform: linux/arm64
             runs-on: ubuntu-24.04-arm
@@ -125,25 +115,10 @@ jobs:
               curl -fsS -o /dev/null https://acme-v02.api.letsencrypt.org/directory
             '
 
-  manifest-proxy:
-    needs: build-proxy
-    runs-on: ubuntu-latest
-    if: ${{ always() && needs.build-proxy.result == 'success' && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) }}
-    steps:
-      - name: Login to GHCR
-        uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.repository_owner }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - uses: docker/setup-buildx-action@v3
-
-      - name: Create and push multi-arch manifest
+      - name: Publish the manifest list
+        if: ${{ env.PUSH_IMAGES == 'true' }}
         run: |
           set -euo pipefail
-          SHA="${{ github.sha }}"
           docker buildx imagetools create \
-            -t "$IMAGE_NAME:$SHA" \
-            "$IMAGE_NAME:$SHA-amd64" \
-            "$IMAGE_NAME:$SHA-arm64"
+            -t "$IMAGE_NAME:${{ github.sha }}" \
+            "$IMAGE_NAME:${{ github.sha }}-arm64"

@@ -5,6 +5,7 @@ var blog = require("blog");
 var site = require("site");
 var trace = require("helper/trace");
 var clfdate = require("helper/clfdate");
+var drain = require("helper/drain");
 
 // Welcome to Blot. This is the Express application which listens on port 8080.
 // NGINX listens on port 80 in front of Express app and proxies requests to
@@ -32,6 +33,34 @@ console.log(
 // per request and bypass the log-in rate limiter. With a hop count of 1,
 // req.ip is the address NGINX appended, which a client cannot spoof.
 server.set("trust proxy", 1);
+
+// Docker's HEALTHCHECK and the deploy script request localhost/health to see
+// whether the process is serving requests. This must come before the blog
+// middleware, which looks up the request's host in Redis (there is no blog
+// with the host 'localhost'), otherwise an outage of Redis makes every
+// container unhealthy. The proxy answers /health itself for public traffic.
+// While draining (SIGTERM, see helper/drain.js) it answers 503 so the deploy script
+// and Docker see the container is going away; public traffic is failed over
+// by closing the listener instead, since nginx does not retry on a 503.
+// If you remove this, change monit.rc too.
+const LOOPBACK_HOSTS = new Set(["localhost", "127.0.0.1", "[::1]", "::1"]);
+server.get("/health", function (req, res, next) {
+  // Only the internal probe (localhost or a loopback address, e.g. the proxy
+  // cutover script's 127.0.0.1): routing is not strict, so this would also
+  // catch a customer's /health/ page, which the blog serves.
+  if (req.path !== "/health" || !LOOPBACK_HOSTS.has(req.hostname)) return next();
+  // do not cache response
+  res.set("Cache-Control", "no-store");
+  if (drain.isDraining()) return res.status(503).send("Draining");
+  res.send("OK");
+});
+
+// Once draining, tell keep-alive clients (nginx holds idle upstream
+// connections open) to close after this response so server.close() can finish.
+server.use(function (req, res, next) {
+  if (drain.isDraining()) res.set("Connection", "close");
+  next();
+});
 
 // Check if the database is healthy. Uses the shared client rather than
 // opening a new connection, which would hang while Redis is down.
@@ -113,7 +142,7 @@ server.use(vhost(config.host, site));
 // The Webhook forwarder
 // -------------
 // Forwards webhooks to development environment
-if (config.webhooks.server_host && config.master) {
+if (config.webhooks.server_host) {
   console.log(clfdate(), "Webhooks relay on", config.webhooks.server_host);
   server.use(vhost(config.webhooks.server_host, require("./clients/webhooks")));
 }
@@ -128,15 +157,6 @@ server.use(vhost("cdn." + config.host, require("./cdn")));
 // most important. We don't know the hosts for all the blogs in
 // advance so all requests hit this middleware.
 server.use(blog);
-
-// Monit, which we use to monitor the server's health, requests
-// localhost/health to see if it should attempt to restart Blot.
-// If you remove this, change monit.rc too.
-server.get("/health", function (req, res) {
-  // do not cache response
-  res.set("Cache-Control", "no-store");
-  res.send("OK");
-});
 
 // Errors from the site that bubble up to here: respond 503 if Redis is
 // unreachable. The blog and dashboard have their own handlers for the same case.

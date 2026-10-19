@@ -1,4 +1,5 @@
 var fs = require("fs-extra");
+var callbackify = require("util").callbackify;
 var ensure = require("helper/ensure");
 var LocalPath = require("helper/localPath");
 var makeUid = require("helper/makeUid");
@@ -7,8 +8,8 @@ var execFile = require("child_process").execFile;
 var cheerio = require("cheerio");
 var Metadata = require("build/metadata");
 var extend = require("helper/extend");
-var join = require("path").join;
 var config = require("config");
+var assets = require("storage/assets");
 var Pandoc = config.pandoc.bin;
 var hash = require("helper/hash");
 var tempDir = require("helper/tempDir");
@@ -31,8 +32,8 @@ function read (blog, path, callback) {
   var outDir = TempDir();
   var outPath = outDir + "/out.html";
 
-  var blogDir = join(config.blog_static_files_dir, blog.id);
-  var assetDir = join(blogDir, "_assets", hash(path));
+  var blogDir = assets.path(blog.id);
+  var assetDir = assets.path(blog.id, "_assets", hash(path));
 
   fs.ensureDir(outDir, function (err) {
     if (err) return callback(err);
@@ -213,8 +214,15 @@ function read (blog, path, callback) {
               html = metadataString + html;
             }
 
-            callback(null, html, stat);
-            fs.remove(outPath, function (err) {});
+            // pandoc extracted any media from the document into the blog's
+            // asset directory, now it is all in place
+            callbackify(assets.commit)(blog.id, "_assets/" + hash(path), function (err) {
+              fs.remove(outDir, function (err) {});
+
+              if (err) return callback(err);
+
+              callback(null, html, stat);
+            });
           });
         }
       );

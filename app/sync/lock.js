@@ -5,6 +5,10 @@ const clfdate = require("helper/clfdate");
 // A per-blog mutex held in Redis so that it works across processes and hosts
 // without a shared disk. The value is a random token so that a holder whose
 // key expired can never release or extend a lock now owned by someone else.
+// The token ends in ":<acquired at, ms>" so heldSince() can tell how long a
+// lock has been held without a second key: the scripts below only ever
+// compare the whole value for equality, so the suffix changes nothing for
+// them, and it lives and dies with the lock.
 // While held, a heartbeat re-extends the TTL; if the process dies the key
 // simply expires.
 
@@ -131,6 +135,20 @@ function probe(lockKey, pendingForMs) {
     });
 }
 
+// Locks this process currently holds, so a graceful shutdown (helper/drain.js) can
+// wait for them and release them.
+const held = new Set();
+
+// Cleared by drain so a sync can't start once shutdown has begun: we would
+// either have to wait for it or kill it part way through.
+let acquiring = true;
+
+function drainError(lockKey) {
+  const err = new Error("Shutting down, not taking lock: " + lockKey);
+  err.code = "ELOCKED";
+  return err;
+}
+
 function key(blogID) {
   return "blog:" + blogID + ":folder-lock";
 }
@@ -148,13 +166,14 @@ async function lock(blogID, options = {}) {
   } = options;
 
   const lockKey = key(blogID);
-  const token = randomUUID();
+  const token = randomUUID() + ":" + Date.now();
 
   setupProbe();
 
   let acquired = false;
   for (let attempt = 0; attempt <= retries; attempt++) {
     if (attempt > 0) await sleep(minTimeout * Math.pow(2, attempt - 1));
+    if (!acquiring) throw drainError(lockKey);
     acquired = await client.eval(ACQUIRE, {
       keys: [lockKey],
       arguments: [token, String(ttl)],
@@ -232,18 +251,29 @@ async function lock(blogID, options = {}) {
     }
     if (released || compromised) return;
     compromised = true;
+    held.delete(handle);
     clearInterval(timer);
     err.code = "ECOMPROMISED";
     onCompromised(err);
   }, heartbeat);
   timer.unref();
 
-  return {
+  const handle = {
     token,
-    async release() {
-      if (released) return;
-      released = true;
-      clearInterval(timer);
+    release() {
+      if (!releasing) releasing = doRelease();
+      return releasing;
+    },
+  };
+
+  let releasing = null;
+
+  // The handle stays in held until Redis has answered, so drain waits for a
+  // release that is still in flight rather than exiting before it lands.
+  async function doRelease() {
+    released = true;
+    clearInterval(timer);
+    try {
       const deleted = await client.eval(RELEASE, {
         keys: [lockKey],
         arguments: [token],
@@ -255,8 +285,19 @@ async function lock(blogID, options = {}) {
         onCompromised(err);
         throw err;
       }
-    },
-  };
+    } finally {
+      held.delete(handle);
+    }
+  }
+
+  // Drain began while we were acquiring: give it straight back
+  if (!acquiring) {
+    await handle.release().catch(() => {});
+    throw drainError(lockKey);
+  }
+
+  held.add(handle);
+  return handle;
 }
 
 // Reports who holds a lock and for how long it will live, for diagnostics.
@@ -269,4 +310,43 @@ async function inspect(blogID) {
   return { lockKey, held: holder !== null, holder, ttlMs };
 }
 
-module.exports = { lock, inspect, key };
+// When the current holder acquired the lock (ms since epoch), or null if it
+// isn't held or the value predates the timestamp suffix. The heartbeat keeps
+// extending the TTL for as long as the holder's process is alive, so a lock
+// that has been held for a long time means a sync hung inside a live process
+// (a crashed process's lock expires within seconds).
+async function heldSince(blogID) {
+  const holder = await client.get(key(blogID));
+  const match = typeof holder === "string" && /^[^:]+:(\d{10,})$/.exec(holder);
+  return match ? Number(match[1]) : null;
+}
+
+function heldCount() {
+  return held.size;
+}
+
+// Called by drain just before exit so other containers needn't wait for the
+// TTL. An in-flight sync whose lock we release will be killed by the exit
+// straight after anyway.
+function stopAcquiring() {
+  acquiring = false;
+}
+
+function resumeAcquiring() {
+  acquiring = true;
+}
+
+function releaseAll() {
+  return Promise.allSettled([...held].map((h) => h.release()));
+}
+
+module.exports = {
+  lock,
+  inspect,
+  heldSince,
+  key,
+  heldCount,
+  releaseAll,
+  stopAcquiring,
+  resumeAcquiring,
+};

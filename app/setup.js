@@ -15,6 +15,12 @@ const renderTimeMetric = require("./blog/render/renderTimeMetric");
 const flush = require("documentation/tools/flush-cache");
 const configureLocalBlogs = require("./configure-local-blogs");
 const purgeCdnUrls = require("helper/purgeCdnUrls");
+const { assertConfigured: assertStorageBucket } = require("storage/s3");
+
+// The offline queue is still on while we boot, so a command sent while Redis
+// is unreachable waits for the connection instead of failing. Don't let that
+// stop the server from listening.
+const REDIS_BOOT_TIMEOUT_MS = 10 * 1000;
 
 const log = (...args) =>
   console.log.apply(null, [clfdate(), "Setup:", ...args]);
@@ -27,24 +33,20 @@ async function runPostListenTasks() {
 
   let templatesBuilt = false;
 
-  // Preview slots opt in with BLOT_BUILD_TEMPLATES so template source edits
-  // in a worktree rebuild (and overwrite the shared dev templates).
-  if (config.master || process.env.BLOT_BUILD_TEMPLATES === "true") {
-    log("Building templates after listen");
-    try {
-      await new Promise((resolve, reject) => {
-        templates(
-          { watch: config.environment === "development" },
-          (err) => (err ? reject(err) : resolve())
-        );
-      });
-      templatesBuilt = true;
-      log("Built templates after listen");
-    } catch (err) {
-      logError("Failed to build templates after listen", err);
-    }
-  } else {
-    log("Skipping template build after listen (not master)");
+  // Every process builds templates: the build takes a Redis lock and the
+  // losers find nothing to change. In development, preview slots overwrite
+  // the shared dev templates with their worktree's copy.
+  log("Building templates after listen");
+  try {
+    await new Promise((resolve, reject) => {
+      templates({ watch: config.environment === "development" }, (err) =>
+        err ? reject(err) : resolve()
+      );
+    });
+    templatesBuilt = true;
+    log("Built templates after listen");
+  } catch (err) {
+    logError("Failed to build templates after listen", err);
   }
 
   try {
@@ -65,10 +67,8 @@ async function runPostListenTasks() {
   }
 
   try {
-    if (config.master || process.env.BLOT_EVENT_LOOP_MONITOR === "true") {
-      log("Starting event loop monitor");
-      require("helper/eventLoopMonitor").start();
-    }
+    log("Starting event loop monitor");
+    require("helper/eventLoopMonitor").start();
   } catch (err) {
     logError("Failed to start event loop monitor", err);
   }
@@ -83,7 +83,32 @@ async function runPostListenTasks() {
   }
 
   try {
-    if (config.master) {
+    // Every container polls for scheduled entries that have come due
+    log("Starting scheduled entry publication asynchronously");
+    const { alarm } = require("models/entry/scheduled");
+    alarm.start();
+    // Claim nothing new once draining; an unfinished one is retried elsewhere
+    require("helper/drain").onStart(() => {
+      alarm.stop().catch((err) => logError("Failed to stop scheduled entry publication", err));
+    });
+  } catch (err) {
+    logError("Failed to start scheduled entry publication", err);
+  }
+
+  try {
+    // Any container may claim a due alarm, so every container polls
+    log("Starting welcome email alarm");
+    const welcomeEmailAlarm = require("models/user/scheduleWelcomeEmail").alarm;
+    welcomeEmailAlarm.start();
+    require("helper/drain").onStart(() => welcomeEmailAlarm.stop());
+  } catch (err) {
+    logError("Failed to start welcome email alarm", err);
+  }
+
+  // Cron jobs and client jobs take Redis locks, so every container runs them.
+  // Worktree previews share the dev Redis and skip them.
+  try {
+    if (!config.preview) {
       log("Starting scheduler asynchronously");
       scheduler();
     }
@@ -92,7 +117,7 @@ async function runPostListenTasks() {
   }
 
   try {
-    if (config.master) {
+    if (!config.preview) {
       const clients = Object.values(require("clients"));
       for (const { init, display_name } of clients) {
         if (init) {
@@ -133,7 +158,7 @@ async function runPostListenTasks() {
     logError("Failed to configure local blogs", err);
   }
 
-  if (config.master && config.environment === "production") {
+  if (config.environment === "production") {
     log("Building folders asynchronously");
 
     setImmediate(async () => {
@@ -168,6 +193,18 @@ async function runPostListenTasks() {
 function main(callback) {
   async.series(
     [
+      function (callback) {
+        // Generated assets live only in the storage bucket: without one every
+        // build and upload would fail, so refuse to start
+        try {
+          assertStorageBucket();
+        } catch (err) {
+          return callback(err);
+        }
+
+        callback();
+      },
+
       async function () {
         const featuredDir = path.join(config.data_directory, "featured");
         const featuredFile = path.join(featuredDir, "featured.json");
@@ -181,7 +218,6 @@ function main(callback) {
       async function () {
         log("Creating required directories");
         await fs.ensureDir(config.blog_folder_dir);
-        await fs.ensureDir(config.blog_static_files_dir);
         await fs.ensureDir(config.log_directory);
         await fs.ensureDir(config.tmp_directory);
         log("Created required directories");
@@ -197,11 +233,21 @@ function main(callback) {
         // but since the homepage is not a blog, we just use a placeholder 'X'
         log("Creating SSL key for redis");
         (async function () {
+          let timer;
           try {
-            await client.mSetNX({
-              ["domain:" + config.host]: "X",
-              ["domain:www." + config.host]: "X",
-            });
+            await Promise.race([
+              client.mSetNX({
+                ["domain:" + config.host]: "X",
+                ["domain:www." + config.host]: "X",
+              }),
+              new Promise(function (resolve, reject) {
+                // By now models/redis has stopped the client queueing, so
+                // requests served from here on fail fast with a 503
+                timer = setTimeout(function () {
+                  reject(new Error("Timed out waiting for Redis"));
+                }, REDIS_BOOT_TIMEOUT_MS);
+              }),
+            ]);
           } catch (err) {
             console.error(
               "Unable to set domain flag for host" +
@@ -209,20 +255,13 @@ function main(callback) {
                 ". SSL may not work on site."
             );
             console.error(err);
+          } finally {
+            clearTimeout(timer);
           }
 
           log("Created SSL key for redis");
           callback();
         })();
-      },
-
-      function (callback) {
-        if (config.master) {
-          log("Deferring template build until after listen");
-        } else {
-          log("Skipping template build (not master)");
-        }
-        callback();
       },
 
       async function () {

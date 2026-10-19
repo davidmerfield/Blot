@@ -9,6 +9,8 @@ const BLOT_DATA_DIRECTORY =
   process.env.BLOT_DATA_DIRECTORY || BLOT_DIRECTORY + "/data";
 const BLOT_HOST = process.env.BLOT_HOST || "localhost";
 const BLOT_PORT = process.env.BLOT_PORT || "8080";
+// Unix socket the server also listens on, for the reverse proxy; empty for none
+const BLOT_SOCKET = process.env.BLOT_SOCKET || "";
 const BLOT_PROTOCOL = process.env.BLOT_PROTOCOL || "https";
 const BLOT_IPV6 = process.env.BLOT_IPV6 || null;
 
@@ -59,7 +61,10 @@ module.exports = {
   // same BLOT_PURGE_TOKEN.
   purge_token: process.env.BLOT_PURGE_TOKEN,
   protocol: BLOT_PROTOCOL + "://",
-  master: process.env.CONTAINER_NAME === "blot-container-green",
+  // A worktree preview sidecar sharing the dev stack's Redis
+  // (scripts/development/worktrees.md); it skips the scheduler, sync clients
+  // and the start email.
+  preview: process.env.BLOT_PREVIEW === "true",
   // map 'blot-container-<container-name>' to 'container-name'
   container: (process.env.CONTAINER_NAME || "").split("-").slice(2).join("-"),
 
@@ -78,7 +83,6 @@ module.exports = {
     development_host: "local.blot",
   },
 
-  maintenance: process.env.BLOT_MAINTENANCE === "true",
   cache: process.env.BLOT_CACHE === "true",
   debug: process.env.BLOT_DEBUG === "true",
 
@@ -89,13 +93,12 @@ module.exports = {
   tmp_directory: process.env.BLOT_TMP_DIRECTORY || BLOT_DATA_DIRECTORY + "/tmp",
   log_directory:
     process.env.BLOT_LOG_DIRECTORY || BLOT_DATA_DIRECTORY + "/logs",
-  blog_static_files_dir: BLOT_DATA_DIRECTORY + "/static",
   blog_folder_dir: BLOT_DATA_DIRECTORY + "/blogs",
-
   ip: process.env.BLOT_IP || "127.0.0.1",
   ipv6: BLOT_IPV6,
 
   port: BLOT_PORT,
+  socket: BLOT_SOCKET,
   clients_port: 8888,
 
   redis: { port: 6379, host: process.env.BLOT_REDIS_HOST || "127.0.0.1" },
@@ -212,9 +215,33 @@ module.exports = {
     secret: process.env.BLOT_YOUTUBE_SECRET,
   },
 
+  // Credentials for the S3 client in app/storage/s3.js. When these aren't
+  // set the AWS SDK's default provider chain is used instead.
   aws: {
     key: process.env.BLOT_AWS_KEY,
     secret: process.env.BLOT_AWS_SECRET,
+  },
+
+  // Renewal of the wildcard certificate for BLOT_HOST and *.BLOT_HOST
+  // (app/scheduler/renew-wildcard-ssl.js). It answers the ACME DNS-01
+  // challenge in this Route 53 hosted zone, using the credentials in aws above.
+  // Point the directory URL at Let's Encrypt staging to try it without limits.
+  wildcardSSL: {
+    hostedZoneId: process.env.BLOT_WILDCARD_SSL_HOSTED_ZONE_ID || "",
+    directoryUrl:
+      process.env.BLOT_ACME_DIRECTORY_URL ||
+      "https://acme-v02.api.letsencrypt.org/directory",
+  },
+
+  // The S3 bucket behind app/storage. Today it holds generated per-blog
+  // assets (app/storage/assets.js), their only home, keyed {blogID}/{path},
+  // identical to the public CDN path. The app refuses to start without a
+  // bucket.
+  storage: {
+    bucket: process.env.BLOT_STORAGE_BUCKET || "",
+    region: process.env.BLOT_STORAGE_REGION || "us-west-2",
+    // Set to point at a simulated S3 (MinIO) in development and tests.
+    endpoint: process.env.BLOT_STORAGE_ENDPOINT || "",
   },
 
   mailgun: {

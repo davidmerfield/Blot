@@ -71,6 +71,24 @@ async function redisRoundTrip({ redis }) {
   return "ping, write and read succeeded";
 }
 
+// config/host/scripts/mount-data-volume.sh requires this file on the data
+// volume before it will mount it. A container started against an empty
+// directory on the root disk (the volume not mounted) won't have it.
+const DATA_VOLUME_MARKER = ".blot-data-volume";
+
+async function dataVolumeMarker({ config }) {
+  const file = path.join(config.data_directory, DATA_VOLUME_MARKER);
+  let volumeID;
+  try {
+    volumeID = (await fs.readFile(file, "utf8")).trim();
+  } catch (err) {
+    throw new Error(
+      `cannot read ${file}: ${err.message} - data volume not mounted?`
+    );
+  }
+  return volumeID ? `data volume ${volumeID}` : `${file} is present`;
+}
+
 async function dataDirectory({ config, redis }) {
   const blogsDir = config.blog_folder_dir;
   let entries;
@@ -96,13 +114,41 @@ async function dataDirectory({ config, redis }) {
   return summary;
 }
 
-async function dataDirectoryWritable({ config }) {
-  // The mount is owned by the host; the app runs as uid 1000.
-  await fs.mkdir(config.tmp_directory, { recursive: true });
-  const file = path.join(config.tmp_directory, `deploy-verify-${process.pid}`);
+async function writable(directory) {
+  const file = path.join(directory, `deploy-verify-${process.pid}`);
   await fs.writeFile(file, "ok");
   await fs.unlink(file);
-  return `${config.tmp_directory} is writable`;
+  return `${directory} is writable`;
+}
+
+// The mount is owned by the host; the app runs as uid 1000.
+async function dataDirectoryWritable({ config }) {
+  return writable(config.data_directory);
+}
+
+// The tmp directory is a separate mount (the host's instance store), so
+// proving the data volume writable says nothing about it. The host creates it
+// (mount-instance-store.sh): not creating it here means a missing or
+// root-owned one fails the deploy rather than being papered over.
+async function tmpDirectoryWritable({ config }) {
+  return writable(config.tmp_directory);
+}
+
+// Generated assets live only in the storage bucket, so a container that can't
+// reach it (no bucket, wrong region or credentials) must not go live. Asking
+// for a key which isn't there proves the bucket, the credentials and
+// s3:GetObject together: it answers "not found", where a wrong bucket or
+// credentials is an error.
+async function storageBucket({ config }) {
+  const s3 = require("storage/s3");
+
+  s3.assertConfigured();
+
+  const missing = await s3.head("deploy-verify/does-not-exist");
+
+  if (missing) throw new Error("deploy-verify/does-not-exist exists in the storage bucket");
+
+  return `storage bucket ${config.storage.bucket} is reachable`;
 }
 
 async function diskSpace({ config }) {
@@ -211,8 +257,11 @@ async function loginPage({ config }) {
 module.exports = [
   { name: "release ID", run: releaseID },
   { name: "redis read/write", run: redisRoundTrip },
+  { name: "data volume marker", run: dataVolumeMarker },
   { name: "blog folders match redis", run: dataDirectory },
   { name: "data directory writable", run: dataDirectoryWritable },
+  { name: "tmp directory writable", run: tmpDirectoryWritable },
+  { name: "storage bucket reachable", run: storageBucket },
   { name: "disk space", run: diskSpace },
   { name: "pandoc", run: pandoc },
   { name: "git", run: git },

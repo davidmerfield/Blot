@@ -2,7 +2,7 @@
 #
 # Nearly all of the wall-clock time used to go on rebuilding the demo blogs the
 # previews are rendered from, so this workflow:
-#   - caches the built demo blogs (data/blogs, data/static, data/redis) and
+#   - caches the built demo blogs (data/blogs, data/minio, data/redis) and
 #     re-uses them, leaving the folder build to sync only what changed
 #   - builds only the demo folders needed by the templates being screenshotted
 #   - takes screenshots several at a time instead of one every two seconds
@@ -50,6 +50,20 @@ jobs:
       - name: Detect changed templates
         id: detect
         run: |
+          # This workflow pushes its own "Updates screenshots of templates"
+          # commit with a token that triggers another run, and the PR diff
+          # below still contains whatever selected the templates, so without
+          # this a PR touching the folder builder screenshots itself forever
+          # (renders differ slightly every time). Skip runs whose head is a
+          # full run's commit (the exact subject below); a partial manual run
+          # commits "<subject>: <templates>", which is not skipped.
+          head_subject=$(git log -1 --format=%s "${{ github.event.pull_request.head.sha }}")
+          if [ "$head_subject" = "Updates screenshots of templates" ]; then
+            echo "Head commit is this workflow's own screenshot commit; skipping"
+            echo "templates=" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
           changed_files=$(mktemp)
           # Treat a move as a deletion and an addition. Rename detection would
           # report only the destination path, leaving previews which use the
@@ -217,8 +231,8 @@ jobs:
           restore-keys: |
             homebrew-${{ runner.os }}-
 
-      - name: Install dnsmasq, Redis and Nginx
-        run: brew install dnsmasq redis nginx
+      - name: Install dnsmasq, Redis, Nginx and MinIO
+        run: brew install dnsmasq redis nginx minio
 
       - name: Use dnsmasq to resolve blot.development
         run: |
@@ -267,7 +281,7 @@ jobs:
         with:
           path: |
             data/blogs
-            data/static
+            data/minio
             data/cdn
             data/redis
           key: ${{ env.DEMO_BLOGS_CACHE_KEY }}
@@ -282,6 +296,23 @@ jobs:
         run: |
           gh cache delete "$DEMO_BLOGS_CACHE_KEY" --repo "${{ github.repository }}" ||
             echo "No cached demo blogs at $DEMO_BLOGS_CACHE_KEY to delete"
+
+      # The resized images and thumbnails of the demo blogs live only in the
+      # storage bucket (a simulated S3), so its data directory is cached with
+      # the folders and Redis, and the app is configured to use it.
+      - name: Start MinIO
+        run: |
+          mkdir -p data/minio
+          MINIO_ROOT_USER=blot-test MINIO_ROOT_PASSWORD=blot-test-secret \
+            minio server data/minio --address :9000 > "$RUNNER_TEMP/minio.log" 2>&1 &
+          until curl -fsS http://localhost:9000/minio/health/live > /dev/null 2>&1; do sleep 0.5; done
+          {
+            echo "BLOT_STORAGE_BUCKET=blot-test-storage"
+            echo "BLOT_STORAGE_ENDPOINT=http://localhost:9000"
+            echo "BLOT_STORAGE_REGION=us-east-1"
+            echo "BLOT_AWS_KEY=blot-test"
+            echo "BLOT_AWS_SECRET=blot-test-secret"
+          } >> "$GITHUB_ENV"
 
       - name: Start Redis
         run: |
@@ -299,6 +330,9 @@ jobs:
         run: |
           export BLOT_DIRECTORY=$(pwd)
           export NODE_PATH=$(pwd)/app
+
+          echo "Creating the storage bucket"
+          node -e 'require("./scripts/tests/util/bucket")().then(() => process.exit(0), (err) => { console.error(err); process.exit(1); })'
 
           echo "Building templates"
           node app/templates/index.js --no-watch
@@ -338,7 +372,7 @@ jobs:
         with:
           path: |
             data/blogs
-            data/static
+            data/minio
             data/cdn
             data/redis
           key: ${{ env.DEMO_BLOGS_CACHE_KEY }}
@@ -347,6 +381,8 @@ jobs:
       # directory is emptied before a run, so committing a partial run would
       # publish a template gallery with missing images.
       - name: Commit changes
+        env:
+          INPUT_TEMPLATES: ${{ inputs.templates }}
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
@@ -354,6 +390,10 @@ jobs:
           if git diff --staged --quiet; then
             echo "No changes to commit"
           else
-            git commit -m "Updates screenshots of templates"
+            subject="Updates screenshots of templates"
+            if [ -n "$INPUT_TEMPLATES" ]; then
+              subject="$subject: $INPUT_TEMPLATES"
+            fi
+            git commit -m "$subject"
             git push
           fi

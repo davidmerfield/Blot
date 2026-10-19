@@ -3,6 +3,8 @@ const establishSyncLock = require("sync/establishSyncLock");
 const fs = require("fs-extra");
 const path = require("path");
 const { handleSyncLockError } = require("../lock");
+const { handleRedisUnavailable } = require("../unavailable");
+const stampLastSync = require("./stampLastSync");
 
 module.exports = async function (req, res) {
   try {
@@ -15,6 +17,8 @@ module.exports = async function (req, res) {
     if (!blogID || !filePath) {
       return res.status(400).send("Missing required headers: blogID or path");
     }
+
+    await stampLastSync(blogID);
 
     // Compute the local file path on disk before taking the lock
     const pathOnDisk = localPath(blogID, filePath);
@@ -72,7 +76,11 @@ module.exports = async function (req, res) {
         );
       }
 
-      // Remove the file (if it exists)
+      // The file is removed before Blot's entries are updated. If Redis
+      // refuses the update the route answers 503, but the file is already
+      // gone, so the macserver's retry is told there is nothing to delete and
+      // the entries (for a folder, those of the files inside it) stay until a
+      // resync or Fix(). Accepted: it needs Redis to fail in the middle of a delete.
       await fs.remove(pathOnDisk); // Removes the file or directory
 
       // Call the folder's update method to register the file deletion
@@ -86,11 +94,17 @@ module.exports = async function (req, res) {
       return res.status(200).send(`Successfully deleted for blogID: ${blogID}`);
     } finally {
       // Release the sync lock
-      done();
+      done().catch((err) => console.error("Error releasing lock:", err));
     }
   } catch (err) {
     if (
       handleSyncLockError({
+        err,
+        res,
+        blogID: req.header("blogID"),
+        action: "delete",
+      }) ||
+      handleRedisUnavailable({
         err,
         res,
         blogID: req.header("blogID"),

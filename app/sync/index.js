@@ -10,6 +10,7 @@ const gatherLockDiagnostics = require("./lock-diagnostics");
 const clfdate = require("helper/clfdate");
 const previewReload = require("helper/publishPreviewReload");
 const regenerateTemplateManifests = require("./update/regenerateTemplateManifests");
+const readOnly = require("helper/readOnly");
 const {
   addPendingSync,
   removePendingSync,
@@ -32,6 +33,16 @@ function sync(blogID, callback) {
     );
   }
 
+  // While the data directory is read-only, wait rather than fail, so the
+  // sync runs as soon as the freeze lifts. Nothing is held while waiting,
+  // and the blog is loaded afterwards so the sync sees current settings.
+  readOnly.whenWritable("sync " + blogID).then(
+    () => start(blogID, callback),
+    (err) => callback(err)
+  );
+}
+
+function start(blogID, callback) {
   Blog.get({ id: blogID }, async function (err, blog) {
     if (err || !blog || !blog.id || blog.isDisabled) {
       return callback(new Error("Cannot sync blog " + blogID));
@@ -94,6 +105,16 @@ function sync(blogID, callback) {
             });
         }
       });
+      // The freeze may have begun between the check in sync() and taking the
+      // lock. Back off and wait again, so that once the freeze is on, any
+      // lock still held belongs to a sync that started before it.
+      // A failed check counts as writable, so it can never strand the lock.
+      if (await readOnly.status().catch(() => null)) {
+        await lock.release();
+        log("Data directory became read-only, waiting");
+        return sync(blogID, callback);
+      }
+
       release = lock.release;
       lockAcquiredAt = Date.now();
       addPendingSync(blogID, syncID);
@@ -194,30 +215,40 @@ function sync(blogID, callback) {
           // We could do these next two things in parallel
           // but it's a little bit of refactoring...
           log("Releasing lock");
+          let releaseError = null;
           try {
             await release();
-          } catch (releaseError) {
+            log("Finished sync");
+          } catch (err) {
             // Redis unreachable or the lock was already lost. Never leave
             // the caller's callback pending; surface the failure instead.
-            log("Failed to release lock", releaseError.message);
-            return callback(syncError || releaseError);
+            // The folder still changed, so the cacheID must still be bumped.
+            log("Failed to release lock", err.message);
+            releaseError = err;
           }
-          log("Finished sync");
 
           if (!changes) {
-            return callback(syncError);
+            return callback(syncError || releaseError);
           }
 
+          // If Redis is unavailable the bump is retried in the background,
+          // and the preview reloaded again once it lands
           log("Updating cacheID of blog");
-          Blog.set(blogID, { cacheID: Date.now() }, async function (err) {
-            if (err) {
-              log("Error updating cacheID of blog");
+          Blog.bumpCacheID(
+            blogID,
+            function (err) {
+              if (err) {
+                log("Error updating cacheID of blog");
+              }
+
+              previewReload.publish(blogID);
+
+              callback(syncError || releaseError);
+            },
+            function () {
+              previewReload.publish(blogID);
             }
-
-            previewReload.publish(blogID);
-
-            callback(syncError);
-          });
+          );
         });
       });
     });

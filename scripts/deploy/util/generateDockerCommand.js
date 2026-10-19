@@ -5,6 +5,8 @@ const sshCommand = require("./sshCommand");
 const { INTERNAL_PORT } = CONSTANTS;
 const { DATA_DIRECTORY_ON_SERVER } = CONSTANTS;
 const { DATA_DIRECTORY_ON_CONTAINER } = CONSTANTS;
+const { TMP_DIRECTORY } = CONSTANTS;
+const { SOCKET_DIRECTORY } = CONSTANTS;
 const { ENV_FILE_ON_SERVER } = CONSTANTS;
 const { REGISTRY_URL } = CONSTANTS;
 const { LOG_MAX_SIZE, LOG_MAX_FILE, LOG_COMPRESS } = CONSTANTS;
@@ -19,6 +21,8 @@ const MIN_PORT = 1024;
 const MAX_PORT = 65535;
 const MIN_CPUS = 0.1;
 const MAX_CPUS = 32;
+const MIN_CPU_SHARES = 2; // the range Docker accepts for --cpu-shares
+const MAX_CPU_SHARES = 262144;
 const MIN_MEMORY_MB = 32;
 const MAX_MEMORY_MB = 1024 * 128; // 128GB
 const MIN_OLD_SPACE_SIZE = 512;
@@ -123,8 +127,10 @@ async function generateDockerCommand(container, platform, commitHash) {
 
   const {
     name: containerName,
+    socket,
     port: containerPort,
     cpus,
+    cpuShares,
     memory,
     maxOldSpaceSize,
   } = container;
@@ -157,6 +163,19 @@ async function generateDockerCommand(container, platform, commitHash) {
   const cpuValue = parseFloat(cpus);
   if (isNaN(cpuValue) || cpuValue < MIN_CPUS || cpuValue > MAX_CPUS) {
     throw new Error(`CPUs must be between ${MIN_CPUS} and ${MAX_CPUS}`);
+  }
+
+  // Validate CPU shares (optional: omitted, Docker's default weight applies)
+  if (cpuShares !== undefined) {
+    if (
+      !Number.isInteger(cpuShares) ||
+      cpuShares < MIN_CPU_SHARES ||
+      cpuShares > MAX_CPU_SHARES
+    ) {
+      throw new Error(
+        `cpuShares must be an integer between ${MIN_CPU_SHARES} and ${MAX_CPU_SHARES}`
+      );
+    }
   }
 
   // Validate memory
@@ -195,6 +214,9 @@ async function generateDockerCommand(container, platform, commitHash) {
     // If the container stops, restart it unless explicitly stopped
     "--restart unless-stopped",
     `--name ${sanitizedName}`,
+    // Grace period between SIGTERM and SIGKILL on `docker stop`/`restart`;
+    // must stay above the app's drain timeout (app/helper/drain.js)
+    "--stop-timeout 30",
     `--platform ${platformOs}/${platformArch}`,
 
     // Log driver configuration
@@ -229,10 +251,31 @@ async function generateDockerCommand(container, platform, commitHash) {
     // --network here - see the comment on AIRLOCK in ../constants.js for why.
     ...Object.entries(AIRLOCK_ENV).map(([key, value]) => `-e ${key}=${value}`),
     // Mount the data directory on the host to the container
-    // Every container has access to the same data directory
-    `-v ${DATA_DIRECTORY_ON_SERVER}:${DATA_DIRECTORY_ON_CONTAINER}`,
+    // Every container has access to the same data directory.
+    // rslave propagation: a mount made on the host at this path (swapping
+    // the data volume for another, see config/host/scripts/mount-data-volume.sh)
+    // reaches running containers without a restart. Docker only accepts it if
+    // the host mount is shared, which mount-data-volume.sh ensures.
+    `--mount type=bind,source=${DATA_DIRECTORY_ON_SERVER},target=${DATA_DIRECTORY_ON_CONTAINER},bind-propagation=rslave`,
+    // The tmp directory lives on the instance store, not the data volume.
+    // It is wiped when the instance is stopped and started, and the host
+    // recreates it at boot (mount-instance-store.sh). --mount, unlike -v,
+    // fails if the source is missing rather than quietly creating it on the
+    // root disk, so a host without the instance store can't start a container.
+    `--mount type=bind,source=${TMP_DIRECTORY},target=${TMP_DIRECTORY}`,
+    `-e BLOT_TMP_DIRECTORY=${TMP_DIRECTORY}`,
+    // The socket the proxy connects to, alongside the published port (see
+    // SOCKET_DIRECTORY in ../constants.js). --mount fails on a missing source
+    // where -v would create it owned by root, which the app couldn't write to.
+    ...(socket
+      ? [
+          `--mount type=bind,source=${SOCKET_DIRECTORY},target=${SOCKET_DIRECTORY}`,
+          `-e BLOT_SOCKET=${socket}`,
+        ]
+      : []),
     `--memory=${memory}`,
     `--cpus=${cpuValue}`,
+    ...(cpuShares !== undefined ? [`--cpu-shares=${cpuShares}`] : []),
     `${REGISTRY_URL}:${commitHash}`,
   ].join(" ");
 }

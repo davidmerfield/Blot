@@ -130,6 +130,34 @@ describe("sync folder lock", function () {
     expect((await folderLock.inspect(this.blog.id)).held).toBe(false);
   });
 
+  it("tracks held locks and releaseAll releases them", async function () {
+    const before = folderLock.heldCount();
+    await folderLock.lock(this.blog.id, { ttl: 5000 });
+
+    expect(folderLock.heldCount()).toBe(before + 1);
+    expect((await folderLock.inspect(this.blog.id)).held).toBe(true);
+
+    await folderLock.releaseAll();
+
+    expect(folderLock.heldCount()).toBe(0);
+    expect(await client.get(folderLock.key(this.blog.id))).toBe(null);
+  });
+
+  it("refuses new locks once drain has stopped acquiring", async function () {
+    folderLock.stopAcquiring();
+    let error;
+    try {
+      await folderLock.lock(this.blog.id);
+    } catch (e) {
+      error = e;
+    } finally {
+      folderLock.resumeAcquiring();
+    }
+
+    expect(error.code).toBe("ELOCKED");
+    expect((await folderLock.inspect(this.blog.id)).held).toBe(false);
+  });
+
   it("rejects with ELOCKED while another holder has it", async function () {
     const lock = await folderLock.lock(this.blog.id);
     let error;
@@ -183,6 +211,33 @@ describe("sync folder lock", function () {
     const err = await compromised;
     expect(err.code).toEqual("ECOMPROMISED");
   });
+
+  describe("heldSince", function () {
+    it("returns when the current holder acquired the lock", async function () {
+      const before = Date.now();
+      const lock = await folderLock.lock(this.blog.id, { ttl: 5000 });
+      const since = await folderLock.heldSince(this.blog.id);
+
+      expect(since).toBeGreaterThan(before - 1);
+      expect(since).not.toBeGreaterThan(Date.now());
+
+      await lock.release();
+    });
+
+    it("returns null when the lock is not held", async function () {
+      expect(await folderLock.heldSince(this.blog.id)).toBeNull();
+    });
+
+    it("returns null for a lock taken before the timestamp was added", async function () {
+      await client.set(folderLock.key(this.blog.id), "0f8fad5b-d9cb-469f-a165-70867728950e", {
+        PX: 5000,
+      });
+
+      expect(await folderLock.heldSince(this.blog.id)).toBeNull();
+
+      await client.del(folderLock.key(this.blog.id));
+    });
+  });
 });
 
 describe("sync folder lock release", function () {
@@ -207,5 +262,60 @@ describe("sync folder lock release", function () {
     }
     expect(error && error.code).toEqual("ECOMPROMISED");
     expect(compromised && compromised.code).toEqual("ECOMPROMISED");
+  });
+});
+
+describe("sync cacheID", function () {
+  const sync = require("../index");
+  const folderLock = require("../lock");
+  const Blog = require("models/blog");
+  const fs = require("fs-extra");
+
+  global.test.blog();
+
+  // Changes one file in the blog's folder, then finishes the sync
+  function syncChange(blogID, callback) {
+    sync(blogID, function (err, folder, done) {
+      if (err) return callback(err);
+      fs.outputFileSync(folder.path + "/a.txt", "Hello");
+      folder.update("/a.txt", function (err) {
+        if (err) return callback(err);
+        done(null, callback);
+      });
+    });
+  }
+
+  // Render caches are keyed on cacheID, so skipping the bump leaves the
+  // site serving stale pages until something else bumps it
+  it("bumps the cacheID even if releasing the lock fails", function (testDone) {
+    const blogID = this.blog.id;
+    const lock = folderLock.lock;
+    const releaseError = new Error("NOREPLICAS Not enough good replicas to write.");
+
+    spyOn(folderLock, "lock").and.callFake(async function () {
+      const held = await lock.apply(folderLock, arguments);
+      const release = held.release;
+      held.release = async function () {
+        await release();
+        throw releaseError;
+      };
+      return held;
+    });
+    spyOn(Blog, "bumpCacheID").and.callThrough();
+
+    Blog.get({ id: blogID }, function (err, before) {
+      if (err) return testDone.fail(err);
+
+      syncChange(blogID, function (err) {
+        expect(err).toBe(releaseError);
+        expect(Blog.bumpCacheID).toHaveBeenCalled();
+
+        Blog.get({ id: blogID }, function (err, after) {
+          if (err) return testDone.fail(err);
+          expect(after.cacheID).toBeGreaterThan(before.cacheID);
+          testDone();
+        });
+      });
+    });
   });
 });

@@ -3,7 +3,6 @@
 # Flags
 export NODE_ENV=production
 export BLOT_CACHE=true
-export BLOT_MAINTENANCE=false
 export BLOT_DEBUG=false
 
 # Server configuration
@@ -83,13 +82,25 @@ export BLOT_DROPBOX_TEST_ACCOUNT_FULL_TOKEN=
 # Youtube for fetching video player codes
 export BLOT_YOUTUBE_SECRET=
 
-# AWS for uploading images to Blot's CDN
+# AWS access key for the storage bucket below (the key of the IAM user created
+# by config/storage-bucket/setup.sh). Leave unset to use the AWS SDK's default
+# credential provider chain.
 export BLOT_AWS_KEY=
 export BLOT_AWS_SECRET=
 
-# AWS for controlling route 53 for wildcard SSL certficate
-export AWS_ACCESS_KEY_ID=
-export AWS_SECRET_ACCESS_KEY=
+# Bucket for generated per-blog assets (config/storage-bucket/README.md). They
+# live nowhere else, so the app will not start without it.
+export BLOT_STORAGE_BUCKET=
+export BLOT_STORAGE_REGION=us-west-2
+# Only for a simulated S3 such as MinIO in development
+export BLOT_STORAGE_ENDPOINT=
+
+# Route 53 hosted zone of BLOT_HOST, where the scheduler answers the DNS
+# challenge to renew the wildcard certificate (uses BLOT_AWS_KEY above). To try
+# it against Let's Encrypt staging set BLOT_ACME_DIRECTORY_URL to
+# https://acme-staging-v02.api.letsencrypt.org/directory
+export BLOT_WILDCARD_SSL_HOSTED_ZONE_ID=
+export BLOT_ACME_DIRECTORY_URL=
 
 # Mailgun for sending emails to customers
 export BLOT_MAILGUN_KEY=

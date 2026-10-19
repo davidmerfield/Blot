@@ -5,36 +5,37 @@ name: integration
 #
 #  proxy-behaviour : the built image vs a stub upstream (routing, caching,
 #                    gzip, hardening). Proves the generated production config.
-#  app-e2e         : a real round trip through the proxy to a Blot app
-#                    container (site + dashboard sign in / sign out, plus a
-#                    seeded blog rendering on its own vhost). Not yet fully
-#                    hardened - see TODO "Proxy container (OpenResty)" - so it
-#                    is allowed to fail without failing the workflow.
 #  cert-issuance   : on-demand custom-domain certificate issuance through the
-#                    proxy against a Pebble ACME test server, and that an
-#                    issued cert survives a container recreate (persistence).
+#                    proxy against a Pebble ACME test server, that an issued
+#                    cert survives a container recreate (persistence), and
+#                    what custom-domain HTTPS does while Redis is paused,
+#                    stopped, READONLY or NOREPLICAS.
 #  zero-downtime   : a blue/green handover (SO_REUSEPORT + graceful drain)
 #                    serves every request while the old container is stopped.
+#  node-swap       : a rolling redeploy of the Node containers (stop, rm,
+#                    create, start, blue/green/yellow) under load through the
+#                    proxy, over the Unix sockets like production; any
+#                    dropped or failed request fails the job.
 
+# Pull requests only run it when something it covers changed (the paths
+# below); every push to master runs it. The real-app round trip through the
+# proxy is app-e2e.yml, which runs on every PR.
 on:
   push:
     branches: [master]
-    paths:
-      - ".github/workflows/integration.yml"
-      - "proxy/**"
-      - "config/openresty/**"
-      - "package.json"
-      - "app/config.js"
-      - "config/index.js"
   pull_request:
     branches: [master]
     paths:
       - ".github/workflows/integration.yml"
       - "proxy/**"
-      - "config/openresty/**"
       - "package.json"
       - "app/config.js"
       - "config/index.js"
+      - "app/helper/drain.js"
+      - "app/helper/listen.js"
+      - "app/server.js"
+      - "app/index.js"
+      - "scripts/deploy/**"
 
 env:
   BLOT_HOST: localhost
@@ -71,8 +72,8 @@ jobs:
       - name: Start proxy + stub upstream
         run: |
           # A file under the image's default GLOBAL_STATIC_FILES_DIR
-          # (config/openresty/locals.js), read-only, so checks.sh can prove
-          # cdn. serves it from disk (location @cdn_global in server.conf)
+          # (proxy/build/locals.js), read-only, so checks.sh can prove
+          # cdn. serves it from disk (location / on cdn. in server.conf)
           # instead of falling through to the stub upstream.
           mkdir -p "$RUNNER_TEMP/global-static"
           echo -n "served from disk" > "$RUNNER_TEMP/global-static/cdn-test.txt"
@@ -105,89 +106,24 @@ jobs:
           "$RUNNER_TEMP/h3/bin/python" proxy/e2e/h3-check.py 127.0.0.1 8443 localhost /
           "$RUNNER_TEMP/h3/bin/python" proxy/e2e/h3-check.py 127.0.0.1 8443 someblog.example /
 
+      # The wildcard certificate comes from Redis when it is there, else from
+      # the file. Starts a Redis in the proxy's network namespace, which the
+      # proxy has not had until now; keep this the last check.
+      - name: Wildcard certificate from Redis
+        env:
+          PROXY_HTTPS_HOST: 127.0.0.1:8443
+        run: bash proxy/e2e/wildcard-cert-checks.sh
+
+      # The wildcard certificate set from Redis must also complete a QUIC
+      # handshake (the script above leaves the last one cached, Redis stopped).
+      - name: HTTP/3 with the wildcard certificate from Redis
+        run: |
+          set -eux
+          "$RUNNER_TEMP/h3/bin/python" proxy/e2e/h3-check.py 127.0.0.1 8443 anything.localhost / anything.localhost
+
       - name: Proxy logs
         if: always()
         run: docker logs proxy || true
-
-  app-e2e:
-    runs-on: ubuntu-latest
-    needs: proxy-behaviour
-    permissions:
-      contents: read
-      packages: read
-    # The real-app round trip is still being stabilised; surface its result
-    # without blocking the scaffolding.
-    continue-on-error: true
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 21.7.3
-
-      - name: Install config generator dependencies
-        run: |
-          mkdir -p "$RUNNER_TEMP/gendeps"
-          cd "$RUNNER_TEMP/gendeps"
-          npm init -y >/dev/null
-          npm install --no-audit --no-fund mustache@4.2.0 fs-extra@11.1.0
-
-      - name: Generate proxy config (BLOT_HOST=localhost)
-        run: bash proxy/build/build.sh
-        env:
-          NODE_PATH: ${{ runner.temp }}/gendeps/node_modules:${{ github.workspace }}/app
-
-      - name: Build proxy image
-        run: docker build -f proxy/Dockerfile -t blot-proxy:e2e proxy/
-
-      - name: Login to GHCR
-        uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.repository_owner }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Pull Blot app image
-        run: docker pull ghcr.io/blotcms/blot:test-latest
-
-      - name: Start the stack
-        run: docker compose -f proxy/e2e/docker-compose.yml up -d --wait --wait-timeout 420
-
-      - name: Seed a user
-        run: |
-          docker compose -f proxy/e2e/docker-compose.yml cp \
-            proxy/e2e/seed-user.js app:/tmp/seed-user.js
-          docker compose -f proxy/e2e/docker-compose.yml exec -T app \
-            node /tmp/seed-user.js e2e@example.com e2e-password
-
-      - name: Seed a blog
-        id: seed-blog
-        run: |
-          docker compose -f proxy/e2e/docker-compose.yml cp \
-            proxy/e2e/seed-blog.js app:/tmp/seed-blog.js
-          out=$(docker compose -f proxy/e2e/docker-compose.yml exec -T app \
-            node /tmp/seed-blog.js e2e@example.com e2eblog)
-          echo "$out"
-          json=$(echo "$out" | grep -o 'SEED_BLOG_RESULT=.*' | head -n1 | cut -d= -f2-)
-          host=$(printf '%s' "$json" | node -e 'let s="";process.stdin.on("data",d=>s+=d).on("end",()=>console.log(JSON.parse(s).host))')
-          test -n "$host"
-          echo "host=$host" >> "$GITHUB_OUTPUT"
-
-      - name: Run end-to-end checks
-        env:
-          PROXY_ORIGIN: https://127.0.0.1
-          E2E_EMAIL: e2e@example.com
-          E2E_PASSWORD: e2e-password
-          E2E_BLOG_HOST: ${{ steps.seed-blog.outputs.host }}
-        run: node proxy/e2e/run.js
-
-      - name: Stack logs
-        if: always()
-        run: docker compose -f proxy/e2e/docker-compose.yml logs --no-color --tail 300 || true
-
-      - name: Tear down
-        if: always()
-        run: docker compose -f proxy/e2e/docker-compose.yml down -v || true
 
   # On-demand certificate issuance for custom domains, end to end, against a
   # Pebble ACME test server (no public DNS or rate limits). Also asserts the
@@ -417,6 +353,38 @@ jobs:
           after=$(docker logs proxy 2>&1 | grep -c "failed to obtain lock" || true)
           [ "$after" -eq "$before" ]
 
+      # auto-ssl caches a certificate for an hour before reading Redis again;
+      # PROXY_AUTO_SSL_CACHE_TTL shortens that so the checks below can get
+      # past it.
+      - name: Restart the proxy with a 5s certificate cache
+        run: |
+          set -eux
+          docker rm -f proxy
+          docker run -d --name proxy --network host --cap-add SYS_NICE \
+            -e BLOT_HOST=localhost \
+            -e PROXY_ACME_CA=https://127.0.0.1:14000/dir \
+            -e ACME_CA_CERT=/pebble-ca.pem \
+            -e PROXY_AUTO_SSL_CACHE_TTL=5 \
+            -v "$PWD/pebble.minica.pem:/pebble-ca.pem:ro" \
+            -v blot-acme-storage:/etc/resty-auto-ssl \
+            blot-proxy:acme
+          for i in $(seq 1 30); do
+            [ "$(docker inspect -f '{{.State.Health.Status}}' proxy)" = healthy ] && break
+            sleep 2
+          done
+
+      - name: Redis stopped, a newer certificate in Redis, READONLY and NOREPLICAS
+        env:
+          CA_BUNDLE: pebble-ca.bundle.pem
+          CACHE_TTL: "5"
+        run: bash proxy/e2e/redis-outage-checks.sh
+
+      - name: An expired certificate in Redis is not served
+        env:
+          CA_BUNDLE: pebble-ca.bundle.pem
+          CACHE_TTL: "5"
+        run: bash proxy/e2e/expired-cert-checks.sh
+
       - name: Logs
         if: always()
         run: |
@@ -520,3 +488,44 @@ jobs:
       - name: Tear down
         if: always()
         run: docker rm -f zd-a zd-b stub 2>/dev/null || true
+
+  node-swap:
+    runs-on: ubuntu-latest
+    needs: proxy-behaviour
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 21.7.3
+
+      - name: Install config generator dependencies
+        run: |
+          mkdir -p "$RUNNER_TEMP/gendeps"
+          cd "$RUNNER_TEMP/gendeps"
+          npm init -y >/dev/null
+          npm install --no-audit --no-fund mustache@4.2.0 fs-extra@11.1.0
+
+      - name: Generate proxy config (BLOT_HOST=localhost)
+        run: bash proxy/build/build.sh
+        env:
+          NODE_PATH: ${{ runner.temp }}/gendeps/node_modules:${{ github.workspace }}/app
+
+      - name: Build proxy image
+        run: docker build -f proxy/Dockerfile -t blot-proxy:ns proxy/
+
+      - name: Rolling swap under load
+        run: bash proxy/e2e/node-swap/run.sh
+        env:
+          PROXY_IMAGE: blot-proxy:ns
+
+      - name: Logs
+        if: always()
+        run: |
+          for c in ns-proxy blot-container-blue blot-container-green blot-container-yellow; do
+            echo "=== $c ==="; docker logs --tail 80 "$c" 2>&1 || true
+          done
+
+      - name: Tear down
+        if: always()
+        run: docker rm -f ns-proxy blot-container-blue blot-container-green blot-container-yellow 2>/dev/null || true

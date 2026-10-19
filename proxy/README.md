@@ -1,28 +1,25 @@
-# Containerised OpenResty proxy (build-only scaffolding)
+# Containerised OpenResty proxy
 
-This directory is a work-in-progress containerisation of the OpenResty reverse
-proxy that currently runs on bare metal from [`config/openresty`](../config/openresty).
-
-**It is not wired to production.** Nothing here is deployed, and merging it
-changes no running system. The goal at this stage is only that the image
-builds, the generated config is valid, and the container boots and serves a
-health check, so the work stops rotting while the remaining pieces are done
-separately.
+The OpenResty reverse proxy that fronts Blot. Production has run it from this
+image since 8 Oct 2026 (#1941), deployed with `npm run deploy-proxy` or the
+Deploy proxy workflow (see [`deploy/README.md`](deploy/README.md)). The
+nginx config and Lua in `config/` are the only copy. The bare-metal OpenResty
+install that preceded the container has been removed from the host; to roll
+back, deploy an older image.
 
 ## Layout
 
 | Path | Purpose |
 | --- | --- |
-| `config/` | Generated copy of [`config/openresty/conf`](../config/openresty/conf). Do not edit. |
-| `html/` | Generated copy of [`config/openresty/html`](../config/openresty/html). Do not edit. |
-| `build/sync-config.js` | Copies the canonical files into `config/` + `html/` and applies container-only patches (stdout logs, `reuseport`, ACME CA, health socket, ...). |
-| `build/index.js` | Renders `config/server.conf` + partials into a single `openresty.conf`, with the locals from [`config/openresty/locals.js`](../config/openresty/locals.js) (shared with the bare-metal generator; `config/openresty/tests/locals.js` fails if a template reads a variable either leaves undefined). |
+| `config/` | The nginx config as mustache templates (`server.conf` includes the others as partials) plus `cacher.lua`. Edit these. |
+| `html/` | Error pages served when an upstream is offline. |
+| `build/index.js` | Renders `config/server.conf` + partials into a single `openresty.conf`, with the locals from [`build/locals.js`](build/locals.js). `tests/locals.js` fails if a template reads a variable that `locals.js` leaves undefined. |
 | `build/build.sh` | Wrapper that runs `build/index.js` with the container's paths. Run this before `docker build`. |
 | `build/data/latest/` | Generated output (git-ignored). |
 | `Dockerfile` | Two-stage build: vendors the Lua deps, then assembles the image. |
 | `entrypoint.sh` | Fixes volume ownership, optionally trusts a test ACME CA, then starts OpenResty with a SIGTERM drain (`openresty -s quit`). |
-| `deploy/` | `blue-green.sh` (image swap via SO_REUSEPORT + drain, per-container health socket, requires a real cert mount) (and `reload-config.sh`, which needs a bind-mounted conf dir the production scripts do not use). They are run on the host; see [`deploy/README.md`](deploy/README.md) for the first cutover from bare-metal (`cutover-from-baremetal.sh`) and the checks each script makes. |
-| `tests/` | Cache (`cacher.lua`) behaviour specs. Run as the `proxy` suite in the `node` workflow's test matrix, same as `config/openresty`. |
+| `deploy/` | `blue-green.sh` (image swap via SO_REUSEPORT + drain, per-container health socket, requires a real cert mount) (and `reload-config.sh`, which needs a bind-mounted conf dir the production scripts do not use). They are run on the host; see [`deploy/README.md`](deploy/README.md) for the checks each script makes. |
+| `tests/` | Cache (`cacher.lua`) behaviour specs and a check that every variable the config reads has a value. Run as the `proxy` suite in the `node` workflow's test matrix. |
 | `e2e/` | Full-stack checks driven through the built image (stub upstream + a real Blot app container + Pebble for certs). Run by the `integration` workflow. |
 
 ## Build and run locally
@@ -50,21 +47,24 @@ serves any host:
 | `PROXY_PRIVATE_IP` | build-time `OPENRESTY_INSTANCE_PRIVATE_IP`, else `127.0.0.1` | address of the extra `:8077` cache-purge listener, for Node containers that cannot reach the host's `127.0.0.1:80` |
 | `PROXY_RESOLVER` | build-time `OPENRESTY_RESOLVER`, else `8.8.8.8 ipv6=off` | DNS resolver (`127.0.0.11` on a user-defined Docker network) |
 | `PROXY_ACME_CA` | build-time `ACME_CA`, else Let's Encrypt production | ACME directory for custom-domain certificates. Leave it alone in production: the deploy scripts refuse anything else in `proxy.env` |
-| `PROXY_UPSTREAM_GREEN` | `127.0.0.1:8089` | the master Node (webhooks, `/clients`) |
-| `PROXY_UPSTREAM_BLUE` | `127.0.0.1:8088` | the dashboard Node, and failover for the others |
-| `PROXY_UPSTREAM_YELLOW` | `127.0.0.1:8090` | the blog Node |
+| `PROXY_UPSTREAM_GREEN` | `127.0.0.1:8089` (production: `unix:/run/blot/green.sock`) | the master Node (webhooks, `/clients`) |
+| `PROXY_UPSTREAM_BLUE` | `127.0.0.1:8088` (`unix:/run/blot/blue.sock`) | the dashboard Node, and failover for the others |
+| `PROXY_UPSTREAM_YELLOW` | `127.0.0.1:8090` (`unix:/run/blot/yellow.sock`) | the blog Node |
 | `PROXY_FETCH_CDN_IPS` | `true` | fetch the Bunny edge list (exempt from rate limits) at start; `false` uses the list baked into the image |
 
 The upstream groups keep their weights and failover roles from
-`config/openresty/conf/http.conf`; only where each Node is changes. The Bunny
+`config/http.conf`; only where each Node is changes. A `unix:` upstream is a socket the Node
+container listens on in `/run/blot` (a failed connect is immediate, so nginx
+retries the backup); the deploy scripts bind-mount that directory into the
+proxy when any upstream is one. The Bunny
 list is fetched on start and falls back to the baked-in one, so a running
 container does not pick up changes to it until it restarts.
 
 `BLOT_HOST` at `docker run` time is only read by `entrypoint.sh` for
 certificate handling; it does not change the already-generated vhosts. Set it
 when running `build.sh` to change the domain the config is built for.
-`build.sh` also fetches BunnyCDN edge IPs for the rate-limit whitelist (same
-as `config/openresty/build-config.js`); CI sets `FETCH_CDN_IPS=false` so image
+`build.sh` also fetches BunnyCDN edge IPs for the rate-limit whitelist (the
+list baked into the image as a fallback); CI sets `FETCH_CDN_IPS=false` so image
 builds do not depend on that API.
 
 HTTP/3 (QUIC) is served on UDP `:443` as on bare-metal, so the host firewall and
@@ -75,19 +75,43 @@ using `--network host`.
 `worker_priority` in an unprivileged container.
 
 CI runs the same steps in [`.github/workflows/proxy.yml`](../.github/workflows/proxy.yml)
-on any change under `proxy/` or `config/openresty/` (plus `package.json` and
+on any change under `proxy/` (plus `package.json` and
 `config/index.js`, which the generator reads).
 
 ## Certificate issuance for custom domains
 
 `lua-resty-auto-ssl` issues a certificate on the first HTTPS request for a
 custom blog domain and stores it in Redis (`storage_adapter = redis`). The
-wildcard `*.blot.im` / `blot.im` certificate is still a static file mounted
-over `/etc/ssl/private/letsencrypt-domain.{pem,key}` (the image ships a
-self-signed placeholder so OpenResty can start).
+wildcard `*.blot.im` / `blot.im` certificate is served from Redis (below),
+with a static file mounted over `/etc/ssl/private/letsencrypt-domain.{pem,key}`
+as the fallback (the image ships a self-signed placeholder so OpenResty can
+start).
+
+- **The wildcard certificate**: [`config/wildcard_cert.lua`](config/wildcard_cert.lua)
+  runs in `ssl_certificate_by_lua` (from a shared dict only, see below) on the wildcard server blocks and presents
+  the chain in `blot:openresty:ssl:pem` and the key in `blot:openresty:ssl:key`,
+  so a renewal that writes them takes effect with no reload. Redis is the
+  source of truth; the file is only used when Redis has nothing usable. One
+  worker (id 0) reads Redis from a timer every 10 seconds, so a renewal is served within
+  about ten seconds,
+  and publishes the validated chain and key to the `wildcard_cert` shared dict
+  as one value. Handshakes only read that dict and never touch Redis, because
+  a handshake that yields in `ssl_certificate_by_lua` breaks HTTP/3
+  ([openresty#1049](https://github.com/openresty/openresty/issues/1049)).
+  Writers should set the key and the chain together (`MSET`, as
+  `app/scheduler/renew-wildcard-ssl.js` does with one `multi()`): the proxy reads both with one `MGET`, but a
+  pair written one after the other can be read half-updated. If
+  lua-resty-openssl is installed the proxy also rejects a key that does not
+  match the certificate. If Redis cannot be reached, answers slowly (500ms
+  timeouts), has no certificate or key, or has one that does not parse, the
+  proxy keeps serving the last copy read from Redis (the file if there is
+  none, or if Redis answered with no keys), logs one line per run of failures
+  (`wildcard cert: ...`), and tries again after ten seconds. A cached copy that OpenSSL then refuses is dropped, so handshakes
+  fall back to the file. Custom domains are unaffected; they use auto-ssl
+  below. Checked by [`e2e/wildcard-cert-checks.sh`](e2e/wildcard-cert-checks.sh).
 
 - **Which domains are allowed**: `allow_domain` in
-  [`config/openresty/conf/init.conf`](../config/openresty/conf/init.conf) returns true only if
+  [`config/init.conf`](config/init.conf) returns true only if
   `domain:<host>` exists in Redis (Blot writes this key in
   `app/models/blog/set.js`) or the cert is already cached.
 - **ACME endpoint**: the runtime setting `PROXY_ACME_CA`, default Let's
@@ -100,19 +124,72 @@ self-signed placeholder so OpenResty can start).
 - **Trusting a test CA**: set `ACME_CA_CERT` to a PEM path (mounted into the
   container); `entrypoint.sh` exports `CURL_CA_BUNDLE`/`SSL_CERT_FILE` so the
   `dehydrated` hook accepts a non-public ACME endpoint. Unset in production.
-- **Pre-cutover check against a real ACME server**:
+- **Check against a real ACME server before deploying an image**:
   [`deploy/try-issuance.sh`](deploy/try-issuance.sh) runs the image with
   `PROXY_ACME_CA` set to Let's Encrypt staging for a throwaway domain and
   confirms a staging certificate is issued. See
   [`deploy/README.md`](deploy/README.md).
+- **When Redis is down**: auto-ssl caches each certificate in memory for an
+  hour, then reads Redis again. A handshake that cannot read Redis falls back
+  to the last certificate this proxy read for that domain (the
+  `auto_ssl_stale` shared dict, kept until the certificate expires), so
+  domains served recently keep HTTPS through a longer outage. Domains it has
+  no copy of get the fallback certificate, and nothing new is issued. The
+  copies are in memory: they survive `openresty -s reload` but not a restart
+  or a new container, so do not restart or redeploy the proxy while Redis is
+  down. `PROXY_AUTO_SSL_CACHE_TTL` (seconds) shortens the hour; it exists for
+  the CI checks and is unset in production.
+
+- **Expired certificates**: lua-resty-auto-ssl 0.13.1 serves whatever is
+  stored for a domain without looking at its expiry, and only deletes a
+  certificate from Redis when a daily renewal fails after it has expired (its
+  in-memory copy then lingers for up to an hour). `get_cert` in
+  `config/init.conf` therefore treats a stored certificate whose `expiry` has
+  passed as missing: a domain still listed in Redis (`domain:<host>`) is
+  issued a new one, any other gets the fallback certificate, and the key is
+  left for renewal to delete. Deleting a certificate also drops this
+  container's cached copies. Nothing on the host needs to restart the proxy to
+  clear a stale certificate. The proxy still asks for an OCSP response on every
+  handshake (0.13.1 cannot be told not to); Let's Encrypt certificates no
+  longer name a responder, so this fails at once and is logged at notice level.
+
+- **Key type**: `entrypoint.sh` writes `KEY_ALGO="prime256v1"` to
+  `/etc/resty-auto-ssl/letsencrypt/conf.d/key-algo.sh` on every start (the
+  directory is on a volume, so a file in the image would not show up), which
+  dehydrated reads. New and renewed custom-domain certificates are ECDSA, with
+  a shorter chain than RSA 4096; existing RSA ones keep working until their
+  renewal. Nothing in the config, `wildcard_cert.lua` or the scheduler checks
+  assumes a key type. The `*.blot.im` wildcard is issued by
+  `app/scheduler/renew-wildcard-ssl.js`, not by dehydrated, and is unchanged.
+
+### Scanner bans and TLS resumption
+
+`ban.lua` bans a client IP for an hour after three `444` responses within two
+minutes (the `444`s in `blot-blogs.conf` are for scanners; one alone may be a
+typo). It runs in the log phase of every server, and the ban is enforced in
+`ssl_client_hello_by_lua` (in `wildcard-ssl.conf`), which aborts the handshake
+before a certificate is chosen or sent, and in `rewrite_by_lua` for requests
+(plain HTTP, and HTTPS via Cloudflare, where the handshake only sees
+Cloudflare's address). Whitelisted IPs (the `$whitelist` geo in `http.conf`),
+loopback and private addresses are never banned. Bans live in the
+`banned_ips` shared dict, so they are per container and lost on restart;
+fail2ban (host) is the longer-lived layer. A `return` in a location (only
+`/health`) runs before the rewrite phase and is not blocked. The http-level
+`log_by_lua` is replaced in any location with its own (`reverse-proxy-cache.conf`
+has one); that is harmless, as those locations proxy upstream and never return
+444.
+
+`ssl_session_cache` is 100m and `ssl_session_timeout` 24h (`wildcard-ssl.conf`):
+a resumed handshake is about 250 bytes against about 5 KB for a full one.
+Session tickets stay off.
 
 ### Possible replacement for `lua-resty-auto-ssl` (to investigate)
 
 `lua-resty-auto-ssl` is effectively unmaintained, and its shell-out chain
 (`dehydrated` + `sockproc` + the `:8999` hook server) is why the image vendors
-and patches so much, why `dehydrated` has drifted from the bare-metal pin, and
+and patches so much, why `dehydrated` is vendored separately from its pin, and
 why issuance can be flaky during a blue/green overlap. Options worth a spike
-before cutover - none evaluated or tested yet:
+(none evaluated or tested yet):
 
 - **[`lua-resty-acme`](https://github.com/fffonion/lua-resty-acme)** - pure-Lua
   ACMEv2 client with an on-demand `autossl` mode; would keep OpenResty and
@@ -129,17 +206,15 @@ before cutover - none evaluated or tested yet:
   statically declared `server_name`s and probably does not fit on-demand
   issuance (unverified).
 
-## Deployment (mechanism only - not wired to production)
+## Deployment
 
 The container runs with `--network host` (the generated upstreams are
 `127.0.0.1:8088-8091`). Two kinds of change:
 
-- **Config-only** (a `.conf` edit): keep the container, use
-  [`deploy/reload-config.sh`](deploy/reload-config.sh)`<container> <host-conf-dir>`
-  - it regenerates the config, **writes `nginx.conf` into the bind-mounted
-    config dir**, then runs `openresty -t` and `openresty -s reload` inside
-    the container. The listening sockets are never dropped. `cacher.lua` /
-    `html` need their own bind-mounts if a change touches them.
+- **Config-only** (a `.conf` edit): ship it as a new image like any other
+  change. [`deploy/reload-config.sh`](deploy/reload-config.sh) can reload a
+  container whose conf directory is bind-mounted, but the production
+  containers do not mount one.
 - **Image change** (base image, Lua deps, Dockerfile): use
   [`deploy/blue-green.sh`](deploy/blue-green.sh). The generated config sets
   `reuseport` on the single default server for `:80` and `:443` (and on the
@@ -208,28 +283,25 @@ Reproducibility relies on pinning, because the upstream toolchain has drifted:
 
 ## Not done yet
 
-Still build-only scaffolding: nothing here is deployed. Certificate issuance,
-the deploy mechanism and persistent volumes now exist and are covered by CI
-(above), but before this can replace `config/openresty`:
+Open items are tracked in the repo's `TODO` under "Proxy container (OpenResty)"
+and "Proxy container follow-ups". The main ones:
 
-- **Fold container adaptations back in.** `proxy/build/sync-config.js` still
-  patches a copy of `config/openresty` (stdout logs, `reuseport`, ACME CA,
-  the per-container health socket). When this directory becomes canon, those
-  bits belong in the files themselves and the copy step goes away.
-- **Redis auth/TLS**. `config/openresty/conf/init.conf` hard-codes port 6379 with no auth;
+- **Redis auth/TLS**. `config/init.conf` hard-codes port 6379 with no auth;
   production Redis credentials need wiring.
-- **`fail2ban` / `logrotate`** are host-level in `config/openresty`; the
-  container logs to stdout/stderr (so `docker logs` and the host's log
-  shipper work) but has no equivalent request-ban layer.
-
-Tracked in the repo's `TODO` under "Proxy container (OpenResty)".
+- **`fail2ban` / `logrotate`** are host-level in [`config/host`](../config/host); the
+  container logs to stdout/stderr by default (so `docker logs` works), but the
+  production image is built with `LOG_TO_STDOUT=false` so the host's fail2ban
+  and logrotate can read the shared log directory. The nginx-* jails ban with
+  a second `iptables-multiport` action for UDP so the ban covers UDP 443
+  (HTTP/3) too, without blocking ssh. The container has its own short-lived scanner ban (`ban.lua`, above).
+- **Replacing `lua-resty-auto-ssl`** (above).
 
 ## Tests
 
 - **`proxy` suite** (`.github/workflows/node.yml` test matrix) runs
   `proxy/tests/*.js` inside the Blot dev image, spinning up OpenResty against
-  `config/openresty/conf/cacher.lua` - the `cacher.lua` behaviour specs (`basic`, `gzip`,
-  `inspect`, `lru_purge`, `rehydrate`, plus `coverage` for per-host keys,
+  `config/cacher.lua` - the `cacher.lua` behaviour specs (`basic`, `gzip`,
+  `inspect`, `lru_purge`, `rehydrate`, `startup`, plus `coverage` for per-host keys,
   method/health cacheability, binary bodies and argument validation).
 - **`integration` workflow** (`.github/workflows/integration.yml`):
   - `proxy/e2e/checks.sh` drives the built image against
@@ -247,7 +319,12 @@ Tracked in the repo's `TODO` under "Proxy container (OpenResty)".
   - `cert-issuance` issues a real custom-domain certificate through the proxy
     against a Pebble ACME server, checks it persists across a container
     recreate, and checks that a Redis which stops answering neither stalls the
-    handshake nor lets the proxy start issuing for an unlisted domain.
+    handshake nor lets the proxy start issuing for an unlisted domain. Then
+    [`e2e/redis-outage-checks.sh`](e2e/redis-outage-checks.sh) stops Redis
+    and checks the issued certificate is still served past the (shortened)
+    cache, including after a reload, that a newer certificate in Redis wins
+    once it is back, and that `READONLY` / `NOREPLICAS` Redis still serves
+    certificates while issuance fails fast.
   - `zero-downtime` runs two proxy containers sharing `:80`/`:443` via
     SO_REUSEPORT and asserts no request is dropped while the first is stopped
     with a drain timeout.

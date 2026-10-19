@@ -1,6 +1,6 @@
 ---
 name: investigate-dropbox-sync-issue
-description: Investigate a "Dropbox sync issue" alert email from Blot's hourly Dropbox sync validation ("detected previously unsynced changes from Dropbox for the following sites"). Uses the production log helpers to work out whether the flagged blog had a genuinely missed/dropped webhook sync, a race with a live edit, or a real bug, then appends a short entry to this skill's incident log. Use when the user pastes or forwards one of these alerts, or asks to look into a Dropbox sync validation issue.
+description: Investigate a "Dropbox sync issue" alert email from Blot's hourly Dropbox sync validation (each flagged blog lists unsynced changes, Fix() repairs, errors and/or a stuck folder lock; the changes line is what this skill investigates. For Fix() repairs use `triage-sync-fix-repair`). Uses the production log helpers to work out whether the flagged blog had a genuinely missed/dropped webhook sync, a race with a live edit, or a real bug, then appends a short entry to this skill's incident log. Use when the user pastes or forwards one of these alerts, or asks to look into a Dropbox sync validation issue.
 ---
 
 # Investigate a Dropbox sync issue alert
@@ -12,10 +12,27 @@ hour in the **green** container. For each Dropbox blog with a `last_sync`
 in the last hour it takes the folder lock, does a full resync of the folder
 from Dropbox (`resetToBlotWithLock`), and counts how many files it had to
 change. If the count is > 0 the blog goes in the email
-(`app/helper/email/admin/DROPBOX_SYNC_ISSUE.txt`) — meaning "a full listing
+(`app/helper/email/admin/DROPBOX_SYNC_ISSUE.txt`, built by
+`app/clients/util/syncReport.js`, "N unsynced changes (downloaded, removed,
+created dirs)") — meaning "a full listing
 of Dropbox disagreed with Blot's copy, so the normal delta/webhook sync
 missed something (or hadn't caught up yet)". After the resync it runs
-`fixBlog` and a `catchUpSync`.
+`fixBlog` and a `catchUpSync`. The same email also lists a blog whose Fix()
+repaired anything, whose walk / Fix() / catch-up sync threw ("error during
+<phase>: …"), or whose folder lock is busy and has been held for over an hour
+("folder lock held for Xh Ym - sync may be hung"; a hung sync inside a live
+process, on whichever container holds it).
+
+Changes made in Dropbox during the walk, or in the 30s before it, are not
+counted: the walk logs `N change(s) were made in Dropbox during or just before
+the walk`. Downloads are excused by `server_modified`. A removal or created
+folder has no timestamp in a folder listing, so it is excused if Dropbox lists
+it as changed since the pre-walk cursor, or, failing that, if its revision
+history dates it: `files/list_revisions` gives a deleted file's
+`server_deleted` (for a removed folder, one of the files that were in it), and a
+created folder is dated by a recently modified file downloaded into it. So a
+flagged change was made earlier than that, or had no date to check (an empty
+removed folder, a failed lookup).
 
 The email is sent right after the run finishes, so its timestamp ≈ the
 `Sync validation complete checked=N issues=M` log line (email times are the
@@ -40,6 +57,13 @@ Run everything as `ssh blot "docker logs blot-container-green --timestamps 2>&1 
 directly so you can window by time.) Docker logs are lost when the container
 is recreated by a deploy, so investigate promptly and say so if the window is
 gone.
+
+**A read-only freeze explains delays, not failures.** While the data volume is
+being resized (or anyone ran `scripts/read-only.js on`), syncs deliberately
+wait and client writes get 503s; the dashboard shows "Sync paused". If the
+alert window overlaps one, look for `[READ ONLY] waiting to write` in the
+container logs and see the `data-volume` skill's incident log before
+classifying anything as a bug.
 
 1. **Find the validation run that sent the alert.** The run's `issues=` is
    the number of blogs flagged.
@@ -69,6 +93,10 @@ gone.
      validation walked the folder → race, not a missed webhook.
    - Was a webhook sync dropped? `Failed to acquire lock on folder` while
      validation held the lock is **by design** (the `catchUpSync` covers it).
+     A removal or folder is excused if its deletion (or a file in it) is
+     dated within 30s before the walk, so a flagged one was made earlier, or
+     had no date to check (an empty folder, a failed lookup), or a webhook
+     that lagged more than 30s is the likely cause.
    - Was a sync still running / stuck when validation started (`Starting sync`
      with no `Finished sync`)? Any slow steps (`Saving file in database`
      taking many seconds)?
@@ -252,3 +280,26 @@ Entry template:
   `resetToBlot` lists what Dropbox changed since its pre-walk cursor and
   doesn't count those changes (`changedDuringWalk`; it logs `N change(s) were
   made in Dropbox during the walk`).
+
+### 2026-10-08 15:00:00 UTC validation run — race with a live edit (benign)
+
+- Alert: 1 removal for 1 blog; run complete at 15:02:38 UTC (green).
+- Key events (UTC): the user's tooling was rewriting files in a template folder
+  (syncs every few seconds, many `Webhook received mid-sync`). Last normal sync
+  `sync_d8a98e7` finished in sync at 14:59:59. A generated cache directory was
+  deleted in Dropbox shortly before validation `sync_0f8a25a` took the lock and
+  fetched its pre-walk cursor at 15:01:09.48. That change's webhook arrived
+  15:01:10.2. Its sync (`sync_116b8ad`) and the follow-up (`sync_3ea890d`) both hit
+  `Failed to acquire lock` (by design). Validation removed the directory at
+  15:01:29. Catch-up `sync_b933cb4` (15:01:43) fetched 0 changes. The 14:00 run
+  was clean.
+- Cause: the deletion landed just *before* the pre-walk cursor, so
+  `changedDuringWalk` (added 2026-09-28) didn't excuse it. Dropbox's webhook lag
+  is about 1s, so this edge remains.
+- Follow-up: fixed in the PR for this entry. Removals that would still be
+  counted are dated through `files/list_revisions` (a removed folder via the
+  files that were in it) and excused if deleted within the 30s grace before
+  the walk; a created folder is excused if a file downloaded into it was
+  modified within the grace. An empty folder, or a failed lookup, is still counted.
+  Tip: use `sync_` ids, not webhook lines, to tell which webhooks were for this
+  blog. Webhook POSTs are shared across all Dropbox accounts.

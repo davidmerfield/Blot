@@ -33,6 +33,7 @@ const {
   DATA_DIRECTORY_ON_CONTAINER,
   AIRLOCK,
   CONTAINERS,
+  TMP_DIRECTORY,
 } = require("../deploy/constants");
 
 const execFileAsync = promisify(execFile);
@@ -55,6 +56,10 @@ const WRAPPER_OPTIONS = {
   "heap-snapshot": { help: "write a heap snapshot when the heap nears its limit" },
   "cpu-prof": { help: "write a CPU profile (on a clean exit)" },
   "heap-prof": { help: "write a sampling heap profile (on a clean exit)" },
+  overlay: {
+    value: "FILES",
+    help: "comma-separated local files mounted over the image's copies, to try a change on production data before it is deployed",
+  },
   yes: { help: "skip the confirmation prompt" },
 };
 
@@ -69,6 +74,7 @@ function fromWrapperOptions(options, defaults = {}) {
     heapSnapshot: !!options["heap-snapshot"],
     cpuProf: !!options["cpu-prof"],
     heapProf: !!options["heap-prof"],
+    overlay: options.overlay ? options.overlay.split(",").filter(Boolean) : [],
     yes: !!options.yes,
   };
 }
@@ -93,6 +99,8 @@ function parseMemoryMB(value) {
 //   cpus          container CPU limit (default 1)
 //   release       image tag (a commit SHA) instead of yellow's current image
 //   yes           skip the confirmation prompt
+//   overlay       local files inside this repository, each mounted read-only
+//                 over the image's copy at the same path
 //   heapSnapshot  --heapsnapshot-near-heap-limit=1, written to /out
 //   cpuProf       --cpu-prof, written to /out
 //   heapProf      --heap-prof, written to /out
@@ -101,7 +109,14 @@ function parseMemoryMB(value) {
 //   airlock       connect the container to the airlock network before it
 //                 starts and pass the airlock env vars, as the deploy does
 //   mounts        extra -v specs, e.g. ["/var/instance-ssd/logs:/logs:ro"]
-//   env           extra environment variables, { NAME: value }
+//   env           extra environment variables, { NAME: value }; these come
+//                 last, so they win over the ones set here
+//
+// Every probe container also gets the host's tmp directory (TMP_DIRECTORY,
+// on the instance store) bind-mounted read-write at the same path, with
+// BLOT_TMP_DIRECTORY pointing at it, as the app containers do. Without it
+// the app would fall back to <data>/tmp, which no longer exists on the data
+// volume (and can't be created when the data directory is mounted read-only).
 //
 // Resolves to { exitCode, localDir }; exitCode is the container's, or null
 // if it never ran.
@@ -122,6 +137,7 @@ async function runProbe({
   airlock = false,
   mounts = [],
   env = {},
+  overlay = [],
 }) {
   if (!/^[a-z][a-z-]*$/.test(tool)) throw new Error(`Invalid tool name ${tool}`);
   const memoryMB = parseMemoryMB(memory);
@@ -166,7 +182,10 @@ async function runProbe({
   // Each script is uploaded under the run directory and mounted where it
   // sits in the repository, so `require("models/...")` (NODE_PATH) and
   // relative requires of the shared files both resolve inside the image.
-  const files = [script, ...SHARED_FILES].map((local, i) => {
+  for (const local of overlay) {
+    if (!fs.existsSync(local)) throw new Error(`--overlay ${local} doesn't exist`);
+  }
+  const files = [script, ...SHARED_FILES, ...overlay].map((local, i) => {
     const relative = path.relative(REPO_ROOT, path.resolve(local));
     if (relative.startsWith("..")) throw new Error(`${local} is outside the repository`);
     return {
@@ -194,11 +213,13 @@ async function runProbe({
 
   const environment = {
     // config.container is the part after "blot-<x>-", so log lines are
-    // tagged [<tool>]; and config.master is false.
+    // tagged [<tool>].
     CONTAINER_NAME: `blot-probe-${tool}`,
     ...(/^[0-9a-f]{7,40}$/.test(releaseId) ? { BLOT_RELEASE_ID: releaseId } : {}),
     // Empty, so the env file can't override the flags given to node below.
     NODE_OPTIONS: "",
+    // Where the app's tmp directory is (config.tmp_directory); mounted below.
+    BLOT_TMP_DIRECTORY: TMP_DIRECTORY,
     ...(airlock ? AIRLOCK_ENV : {}),
     ...env,
   };
@@ -210,6 +231,10 @@ async function runProbe({
     `--env-file ${ENV_FILE_ON_SERVER}`,
     ...Object.entries(environment).map(([key, value]) => `-e ${shellQuote(`${key}=${value}`)}`),
     `-v ${DATA_DIRECTORY_ON_SERVER}:${DATA_DIRECTORY_ON_CONTAINER}${writableData ? "" : ":ro"}`,
+    // Scratch space for helper/tempDir, writable even when data is read-only.
+    // --mount, unlike -v, fails if the source is missing rather than quietly
+    // creating it on the root disk (as generateDockerCommand.js does).
+    `--mount ${shellQuote(`type=bind,source=${TMP_DIRECTORY},target=${TMP_DIRECTORY}`)}`,
     `-v ${remoteDir}/out:${OUT}`,
     ...files.map((file) => `-v ${shellQuote(`${file.remote}:${file.container}:ro`)}`),
     ...mounts.map((mount) => `-v ${shellQuote(mount)}`),

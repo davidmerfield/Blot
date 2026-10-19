@@ -6,8 +6,10 @@ const cdn = new express.Router();
 const mime = require("mime-types");
 
 const client = require("models/client");
+const { isRedisUnavailableError } = require("helper/redisUnavailable");
 const key = require("models/template/key");
 const path = require("path");
+const assets = require("storage/assets");
 
 const GLOBAL_STATIC_FILES = config.blot_directory + "/app/blog/static";
 
@@ -63,107 +65,99 @@ cdn.use("/folder/v-:version", async (req, res, next) => {
   }
 }, static(config.blog_folder_dir));
 
-// New route format: /template/{hash[0:2]}/{hash[2:4]}/{hash}{ext}
-// Serves rendered output directly from disk using Express static middleware
-// This route must come before the legacy route to match the new format first
-// fallthrough: true allows requests to continue to legacy route if file not found
-cdn.use("/template", express.static(path.join(config.data_directory, "cdn", "template"), {
-  maxAge: "1y",
-  immutable: true,
-  fallthrough: true,
-  setHeaders: (res) => {
-    res.set("Cache-Control", "public, max-age=31536000, immutable");
-  },
-}));
+// Template output from the {{#cdn}} helper, stored in Redis by hash, e.g.
+// /template/{hash[0:2]}/{hash[2:4]}/{hash[4:]}/{basename}
+// A miss is a 404 and must not fall through to the blog asset handler below.
+cdn.get("/template/:d1/:d2/:rest/:name", async (req, res, next) => {
+  const { d1, d2, rest, name } = req.params;
 
-// Legacy route format: /template/viewname.digest.extension (backward compatibility)
-cdn.get("/template/:encodedViewAndHash(*)", async (req, res, next) => {
+  if (!/^[a-f0-9]{2}$/.test(d1) || !/^[a-f0-9]{2}$/.test(d2) || !/^[a-f0-9]{28}$/.test(rest)) {
+    return res.sendStatus(404);
+  }
+
+  // The name only picks the Content-Type, but a view basename never holds these
+  if (/[\/\\\0]/.test(name) || name.startsWith("..")) return res.sendStatus(404);
+
   try {
-    // Parse URL format: viewname.digest.extension
-    const parsed = parseCdnPath(req.params.encodedViewAndHash);
-    if (!parsed) {
-      return res.status(400).send("Invalid CDN path format");
-    }
+    const output = await client.get(key.renderedOutput(d1 + d2 + rest));
 
-    const hash = parsed.hash;
-    const viewName = parsed.viewName + parsed.extension;
+    // null means a miss, but an empty string is a valid stored value
+    if (output == null) return res.sendStatus(404);
 
-    // Fetch rendered output directly by hash
-    const renderedKey = key.renderedOutput(hash);
-    const cachedOutput = await client.get(renderedKey);
-
-    if (cachedOutput == null) {
-      // Cache miss - return 404 (shouldn't happen if manifest is up to date)
-      // Note: cachedOutput == null checks for both null and undefined,
-      // but allows empty strings (which are valid cached values)
-      console.warn('CDN cache miss for', viewName, hash);
-      return next();
-    }
-
-    // Determine content type from view name
-    const contentType = getContentType(viewName);
-    
-    // Set cache headers
     res.set("Cache-Control", "public, max-age=31536000, immutable");
-    res.set("Content-Type", contentType);
-    
-    // Return cached output
-    return res.send(cachedOutput);
+    res.set("Content-Type", getContentType(name));
+    return res.send(output);
   } catch (err) {
-    return next();
+    // Not a missing file: say so with a 503 rather than a 404
+    if (isRedisUnavailableError(err)) return next(err);
+    return res.sendStatus(404);
   }
 });
 
+// Anything else under /template is not a CDN file
+cdn.use("/template", (req, res) => res.sendStatus(404));
+
 // Blog-specific static files, e.g.
 // /blog_de64881e0dd94a5f8ba8f7aeaf807b86/_image_cache/739749f7-85eb-4b51-a6b9-c238b61c2c97.jpg
-cdn.use(static(config.blog_static_files_dir));
+// Served from storage/assets with the semantics express.static had here:
+// GET/HEAD only, a year of caching, dotfiles ignored, and a miss is a 404
+// error rather than falling through to another handler.
+cdn.use(async (req, res, next) => {
+  if (req.method !== "GET" && req.method !== "HEAD") {
+    res.statusCode = 405;
+    res.setHeader("Allow", "GET, HEAD");
+    res.setHeader("Content-Length", "0");
+    return res.end();
+  }
+
+  let pathname;
+
+  try {
+    pathname = decodeURIComponent(req.path);
+  } catch (err) {
+    return next(httpError(400, "Bad Request"));
+  }
+
+  // pathname is /{blogID}/{path in the blog's assets}
+  const match = /^\/(blog_[^/]+)\/(.+)$/.exec(pathname);
+
+  if (!match || pathname.indexOf("\0") !== -1) {
+    return next(httpError(404, "Not Found"));
+  }
+
+  if (match[2].split("/").indexOf("..") !== -1) {
+    return next(httpError(403, "Forbidden"));
+  }
+
+  try {
+    await assets.serve(req, res, match[1], match[2], {
+      maxAge: "1y",
+      dotfiles: "ignore",
+    });
+  } catch (err) {
+    // The client went away after we started sending
+    if (res.headersSent) return;
+
+    if (err instanceof assets.NotFoundError) {
+      return next(httpError(404, "Not Found"));
+    }
+
+    next(err);
+  }
+});
 
 module.exports = cdn;
+
+function httpError(status, message) {
+  const err = new Error(message);
+  err.status = err.statusCode = status;
+  err.expose = true;
+  return err;
+}
 
 /**
  * Get content type from view name
  */
 function getContentType(viewName) {
   return mime.lookup(viewName) || 'text/plain';
-}
-
-/**
- * Parse CDN path format: viewname.digest.extension
- * Returns {viewName, hash, extension} or null if invalid
- */
-function parseCdnPath(path) {
-  if (!path) return null;
-
-  try {
-    // Decode and validate path segments
-    const decoded = path
-      .split("/")
-      .map(function (part) {
-        const decoded = decodeURIComponent(part);
-        // Validate: no path traversal, no null bytes, reasonable length
-        if (decoded.includes("..") || decoded.includes("\0") || decoded.length > 255) {
-          throw new Error("Invalid path segment");
-        }
-        return decoded;
-      })
-      .join("/");
-
-    // Extract hash (32 hex chars) and extension from the last segment
-    const hashPattern = /\.([a-f0-9]{32})(\.[^/]+)?$/;
-    const match = decoded.match(hashPattern);
-    if (!match) return null;
-
-    const hash = match[1];
-    const extension = match[2] || "";
-    const viewName = decoded.slice(0, match.index);
-
-    // Final validation: no path traversal (already checked above, but double-check)
-    if (viewName.includes("..") || viewName.includes("\0")) {
-      return null;
-    }
-
-    return { viewName, hash, extension };
-  } catch (err) {
-    return null;
-  }
 }

@@ -1,5 +1,7 @@
 const config = require("config");
 const redis = require("redis");
+const AllowlistClientSideCache = require("./redis-cache");
+const { markRedisClientError } = require("helper/redisUnavailable");
 
 const url = `redis://${config.redis.host}:${config.redis.port}`;
 const clientSideCaches = new WeakMap();
@@ -20,12 +22,16 @@ function reconnectStrategy(retries) {
   return Math.min(Math.pow(2, retries) * 50, 2000) + jitter;
 }
 
-function createRedisClient() {
-  const clientSideCache = new redis.BasicClientSideCache({
-    ttl: 0,
-    maxEntries: 3333,
-    evictPolicy: "LRU",
-  });
+// Pass { clientSideCache: false } for a client which never reads cacheable
+// keys (the pubsub subscriber), so Redis does not track anything for it.
+function createRedisClient({ clientSideCache: useCache = true } = {}) {
+  const clientSideCache = useCache
+    ? new AllowlistClientSideCache({
+        ttl: 0,
+        maxEntries: 3333,
+        evictPolicy: "LRU",
+      })
+    : undefined;
 
   const client = redis.createClient({
     url,
@@ -41,10 +47,11 @@ function createRedisClient() {
     clientSideCache,
   });
 
-  clientSideCaches.set(client, clientSideCache);
+  if (clientSideCache) clientSideCaches.set(client, clientSideCache);
   createRedisClient.failFastOnceReady(client);
 
   client.on("error", function (err) {
+    markRedisClientError(err);
     console.log("Redis Error:");
     console.log(err);
     if (err.trace) console.log(err.trace);
@@ -64,8 +71,19 @@ createRedisClient.failFast = function (client) {
   client.options.disableOfflineQueue = true;
 };
 
+// If Redis is never reached, stop queueing anyway after a grace period, or
+// every client created during an outage (the shared one, sessions, the log-in
+// rate limiter) would hold requests open until Redis first connects.
+const BOOT_QUEUE_MS = 10 * 1000;
+
 createRedisClient.failFastOnceReady = function (client) {
+  const timer = setTimeout(function () {
+    createRedisClient.failFast(client);
+  }, BOOT_QUEUE_MS);
+  if (typeof timer.unref === "function") timer.unref();
+
   client.once("ready", function () {
+    clearTimeout(timer);
     createRedisClient.failFast(client);
   });
 };
@@ -89,6 +107,7 @@ createRedisClient.createLibraryClient = function (label) {
   });
 
   client.on("error", function (err) {
+    markRedisClientError(err);
     console.error(label + " Redis error:", err.message);
   });
   createRedisClient.failFastOnceReady(client);
@@ -101,6 +120,7 @@ createRedisClient.createLibraryClient = function (label) {
 
 createRedisClient.reconnectStrategy = reconnectStrategy;
 createRedisClient.PING_INTERVAL_MS = PING_INTERVAL_MS;
+createRedisClient.BOOT_QUEUE_MS = BOOT_QUEUE_MS;
 createRedisClient.SOCKET_TIMEOUT_MS = SOCKET_TIMEOUT_MS;
 
 // Only expose an immutable stats snapshot, rather than the controllable cache.
@@ -114,6 +134,8 @@ createRedisClient.getClientSideCacheStats = function (client) {
   // entryCount/maxEntries is the only signal for how full it actually is.
   stats.entryCount = clientSideCache.size();
   stats.maxEntries = clientSideCache.maxEntries;
+  // Cumulative hits/misses/bypass per key class, see models/redis-cache
+  stats.classStats = JSON.parse(JSON.stringify(clientSideCache.classStats));
   return stats;
 };
 

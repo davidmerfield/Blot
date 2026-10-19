@@ -1,15 +1,13 @@
 const Transformer = require("helper/transformer");
-const fs = require("fs-extra");
-const { join, extname } = require("path");
+const { extname } = require("path");
 const hash = require("helper/hash");
-const config = require("config");
+const assets = require("storage/assets");
 const sharp = require("sharp");
 const mime = require("mime-types");
 
 async function processImages(blogID, docPath, $) {
   const docHash = hash(docPath);
-  const blogDir = join(config.blog_static_files_dir, blogID);
-  const assetDir = join(blogDir, "_assets", docHash);
+  const assetDir = "_assets/" + docHash;
 
   const transformer = new Transformer(blogID, "gdoc-images");
 
@@ -18,8 +16,6 @@ async function processImages(blogID, docPath, $) {
   $("img").each(function (i, elem) {
     images.push(elem);
   });
-
-  await fs.ensureDir(assetDir);
 
   const dataImages = images.filter((elem) => {
     const src = $(elem).attr("src");
@@ -80,7 +76,7 @@ async function processImages(blogID, docPath, $) {
       }
 
       filename = hash(src) + "." + ext;
-      await fs.outputFile(join(assetDir, filename), buffer);
+      await assets.write(blogID, assetDir + "/" + filename, buffer);
 
       $(elem).attr("src", "/_assets/" + docHash + "/" + filename);
     } catch {
@@ -94,7 +90,7 @@ async function processImages(blogID, docPath, $) {
 
     try {
 
-      const cachedFilename = await findCachedAsset(assetDir, filenameBase);
+      const cachedFilename = await findCachedAsset(blogID, assetDir, filenameBase);
 
       if (cachedFilename) {
         $(elem).attr(
@@ -109,9 +105,12 @@ async function processImages(blogID, docPath, $) {
           const determinedExt = await determineExtension(resolvedPath);
 
           const computedFilename = `${filenameBase}.${determinedExt}`;
-          const destination = join(assetDir, computedFilename);
 
-          await fs.copy(resolvedPath, destination);
+          await assets.writeFrom(
+            blogID,
+            assetDir + "/" + computedFilename,
+            resolvedPath
+          );
           done(null, {
             output: "/_assets/" + docHash + "/" + computedFilename,
           });
@@ -128,7 +127,7 @@ async function processImages(blogID, docPath, $) {
 
       $(elem).attr("src", output);
     } catch {
-      const fallbackFilename = await findCachedAsset(assetDir, filenameBase);
+      const fallbackFilename = await findCachedAsset(blogID, assetDir, filenameBase);
 
       if (fallbackFilename) {
         $(elem).attr(
@@ -140,15 +139,9 @@ async function processImages(blogID, docPath, $) {
   }
 }
 
-async function findCachedAsset(assetDir, filenameBase) {
-  try {
-    const files = await fs.readdir(assetDir);
-    return files.find((file) => file.startsWith(`${filenameBase}.`));
-  } catch (err) {
-    if (err && err.code !== "ENOENT") {
-      throw err;
-    }
-  }
+async function findCachedAsset(blogID, assetDir, filenameBase) {
+  const files = await assets.list(blogID, assetDir);
+  return files.find((file) => file.startsWith(`${filenameBase}.`));
 }
 
 function lookupWithTransformer(transformer, src, transform) {

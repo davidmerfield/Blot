@@ -54,7 +54,7 @@ env:
 
 jobs:
   render-benchmark:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-24.04-arm
     timeout-minutes: 120
     if: github.event_name != 'pull_request' || github.event.pull_request.draft == false
 
@@ -80,9 +80,6 @@ jobs:
         with:
           node-version: 22
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
       - name: Log in to GitHub Container Registry
         uses: docker/login-action@v3
         with:
@@ -90,7 +87,23 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      # node.yml's arm64 dev image (scripts/tests/ci/image-tag.sh), when it is
+      # already pushed, is quicker to pull than building our own.
+      - name: Reuse test image
+        id: reuse
+        run: |
+          IMAGE=$(bash scripts/tests/ci/image-tag.sh)
+          if docker pull -q "$IMAGE"; then
+            docker tag "$IMAGE" blot-bench:latest
+            echo "hit=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Set up Docker Buildx
+        if: steps.reuse.outputs.hit != 'true'
+        uses: docker/setup-buildx-action@v3
+
       - name: Build benchmark image
+        if: steps.reuse.outputs.hit != 'true'
         uses: docker/build-push-action@v6
         with:
           context: .
@@ -98,9 +111,9 @@ jobs:
           load: true
           tags: blot-bench:latest
           cache-from: |
-            type=gha,scope=benchmarks-amd64
-            type=registry,ref=ghcr.io/${{ github.repository_owner }}/blot:buildcache
-          cache-to: type=gha,scope=benchmarks-amd64,mode=max
+            type=gha,scope=benchmarks-arm64
+            type=registry,ref=ghcr.io/${{ github.repository_owner }}/blot:buildcache-arm64
+          cache-to: type=gha,scope=benchmarks-arm64,mode=max
 
       # --- restore the corpus (read-only) ----------------------------------
       - name: Restore corpus cache
@@ -110,7 +123,6 @@ jobs:
           path: |
             ${{ env.CORPUS_DIR }}/redis-dump.rdb
             ${{ env.CORPUS_DIR }}/blogs.tar.gz
-            ${{ env.CORPUS_DIR }}/static.tar.gz
             ${{ env.CORPUS_DIR }}/manifest.json
           key: benchmark-corpus-v${{ env.CORPUS_SCHEMA_VERSION }}-nonexistent
           restore-keys: |
@@ -132,7 +144,7 @@ jobs:
         id: corpus-check
         run: |
           available=true
-          for f in redis-dump.rdb blogs.tar.gz static.tar.gz manifest.json; do
+          for f in redis-dump.rdb blogs.tar.gz manifest.json; do
             if [ ! -s "$CORPUS_DIR/$f" ]; then
               available=false
             fi
@@ -147,7 +159,7 @@ jobs:
         run: |
           node scripts/benchmarks/pr-comment.js \
             --pr "${{ github.event.pull_request.number }}" \
-            --arch amd64 \
+            --arch arm64 \
             --status skipped \
             --sha "$HEAD_SHA" \
             --comment-tag render \
@@ -172,32 +184,37 @@ jobs:
       - name: Extract corpus data directories
         if: steps.corpus-check.outputs.available == 'true'
         run: |
-          mkdir -p .benchmarks/corpus/data/blogs .benchmarks/corpus/data/static
+          mkdir -p .benchmarks/corpus/data/blogs
           tar -xzf "$CORPUS_DIR/blogs.tar.gz" -C .benchmarks/corpus/data
-          tar -xzf "$CORPUS_DIR/static.tar.gz" -C .benchmarks/corpus/data
 
       - name: Mark PR benchmark comment as running
         if: steps.corpus-check.outputs.available == 'true' && github.event_name == 'pull_request'
         run: |
           node scripts/benchmarks/pr-comment.js \
             --pr "${{ github.event.pull_request.number }}" \
-            --arch amd64 \
+            --arch arm64 \
             --status running \
             --sha "$HEAD_SHA" \
             --comment-tag render \
             --title "Render benchmark (large corpus)"
+
+      # The app needs a storage bucket to start serving; nothing the render
+      # benchmark requests is in it
+      - name: Start MinIO
+        if: steps.corpus-check.outputs.available == 'true'
+        uses: ./.github/actions/start-minio
 
       - name: Restore render benchmark history
         if: steps.corpus-check.outputs.available == 'true'
         uses: actions/cache/restore@v4
         with:
           path: ${{ env.HISTORY_DIR }}
-          key: render-benchmarks-history-amd64-${{ github.run_id }}
+          key: render-benchmarks-history-arm64-${{ github.run_id }}
           restore-keys: |
-            render-benchmarks-history-amd64-
+            render-benchmarks-history-arm64-
 
       # Mirrors benchmarks.yml's cache-miss fallback: a render-benchmark-
-      # history-amd64 artifact is uploaded on every push run (see "Upload
+      # history-arm64 artifact is uploaded on every push run (see "Upload
       # render benchmark history" below), so if the Actions cache was ever
       # evicted, restore from that instead of silently starting sustained-
       # regression detection over from zero.
@@ -205,10 +222,10 @@ jobs:
         if: steps.corpus-check.outputs.available == 'true'
         run: |
           node scripts/benchmarks/seed-history.js \
-            --arch amd64 \
+            --arch arm64 \
             --history-dir "$HISTORY_DIR" \
             --workflow benchmarks-render.yml \
-            --artifact-name render-benchmark-history-amd64
+            --artifact-name render-benchmark-history-arm64
 
       - name: Run render benchmark against the cached corpus
         if: steps.corpus-check.outputs.available == 'true'
@@ -218,6 +235,11 @@ jobs:
             -e BLOT_REDIS_HOST=localhost \
             -e BLOT_HOST=localhost \
             -e BLOT_PROTOCOL=https \
+            -e BLOT_STORAGE_BUCKET \
+            -e BLOT_STORAGE_ENDPOINT \
+            -e BLOT_STORAGE_REGION \
+            -e BLOT_AWS_KEY \
+            -e BLOT_AWS_SECRET \
             -e GITHUB_SHA=${{ github.sha }} \
             -v ${{ github.workspace }}/app:/usr/src/app/app \
             -v ${{ github.workspace }}/scripts:/usr/src/app/scripts \
@@ -244,7 +266,7 @@ jobs:
         run: |
           node scripts/benchmarks/pr-comment.js \
             --pr "${{ github.event.pull_request.number }}" \
-            --arch amd64 \
+            --arch arm64 \
             --status done \
             --sha "$HEAD_SHA" \
             --result "$RESULT_FILE" \
@@ -258,7 +280,7 @@ jobs:
         run: |
           node scripts/benchmarks/pr-comment.js \
             --pr "${{ github.event.pull_request.number }}" \
-            --arch amd64 \
+            --arch arm64 \
             --status failed \
             --sha "$HEAD_SHA" \
             --comment-tag render \
@@ -268,14 +290,14 @@ jobs:
         if: steps.corpus-check.outputs.available == 'true' && github.event_name == 'push'
         run: |
           node scripts/benchmarks/update-history.js \
-            --result "$RESULT_FILE" --arch amd64 --history-dir "$HISTORY_DIR" \
+            --result "$RESULT_FILE" --arch arm64 --history-dir "$HISTORY_DIR" \
             --exclude-phase build
 
       - name: Detect sustained regression
         if: steps.corpus-check.outputs.available == 'true' && github.event_name == 'push'
         run: |
           node scripts/benchmarks/detect-regression.js \
-            --history-dir "$HISTORY_DIR" --arch amd64 --alert \
+            --history-dir "$HISTORY_DIR" --arch arm64 --alert \
             --issue-label render-benchmark-regression \
             --workflow-name benchmarks-render.yml \
             --exclude-phase build
@@ -285,7 +307,7 @@ jobs:
         uses: actions/cache/save@v4
         with:
           path: ${{ env.HISTORY_DIR }}
-          key: render-benchmarks-history-amd64-${{ github.run_id }}
+          key: render-benchmarks-history-arm64-${{ github.run_id }}
 
       - name: Upload render benchmark result
         if: steps.corpus-check.outputs.available == 'true' && always()
@@ -299,7 +321,7 @@ jobs:
         if: steps.corpus-check.outputs.available == 'true' && always() && github.event_name == 'push'
         uses: actions/upload-artifact@v4
         with:
-          name: render-benchmark-history-amd64
+          name: render-benchmark-history-arm64
           path: ${{ env.HISTORY_DIR }}
           retention-days: 90
           if-no-files-found: warn

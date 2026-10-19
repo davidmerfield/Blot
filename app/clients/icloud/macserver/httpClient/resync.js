@@ -9,7 +9,7 @@ const RESYNC_DEDUP_WINDOW_MS = 10 * 1000;
 const RESYNC_MAX_DELAY_MS = 5 * 60 * 1000;
 const resyncDebounceRegistry = new Map();
 
-const requestResyncOnce = async (blogID) => {
+const requestResyncOnce = async (blogID, reason) => {
   if (!blogID || typeof blogID !== "string") {
     console.error(clfdate(), "Invalid blogID for resync request", { blogID });
     throw new Error("Invalid blogID");
@@ -25,7 +25,10 @@ const requestResyncOnce = async (blogID) => {
         Authorization,
         blogID,
       },
-      body: JSON.stringify({ resyncRequested: true }),
+      // The reason goes into the operator's resync report email
+      body: JSON.stringify(
+        reason ? { resyncRequested: true, reason } : { resyncRequested: true }
+      ),
     });
 
     // technically our fetch wrapper already throws on non-OK responses
@@ -76,13 +79,25 @@ export default async (blogID, reason) => {
   const resyncPromise = (async () => {
     for (let attempt = 1; attempt <= RESYNC_MAX_ATTEMPTS; attempt += 1) {
       try {
-        await requestResyncOnce(blogID);
+        await requestResyncOnce(blogID, reason);
         console.log(
           clfdate(),
           `Resync acknowledged for blogID: ${blogID} after ${attempt} attempt(s)`
         );
         return;
       } catch (error) {
+        // Blot answers 400 when the blog is not connected to iCloud Drive
+        // (e.g. disconnected while actions were queued), which retrying
+        // cannot fix. 409 (setup incomplete), 423 (locked) and 5xx are
+        // deliberate "try again later" replies, so those keep retrying.
+        if (error.status === 400) {
+          console.log(
+            clfdate(),
+            `Resync not needed: blog ${blogID} is no longer connected`
+          );
+          return;
+        }
+
         const delayMs = Math.min(
           RESYNC_BASE_DELAY_MS * 2 ** (attempt - 1),
           RESYNC_MAX_DELAY_MS
