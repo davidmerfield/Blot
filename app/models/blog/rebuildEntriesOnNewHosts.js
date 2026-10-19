@@ -132,3 +132,5 @@ function mentionsHost(html, hosts) {
 
   return hosts.some((host) => lower.indexOf("//" + host) > -1);
 }
+
+module.exports.mentionsHost = mentionsHost;
