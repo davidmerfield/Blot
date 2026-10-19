@@ -174,7 +174,10 @@ Cloudflare's address). Whitelisted IPs (the `$whitelist` geo in `http.conf`),
 loopback and private addresses are never banned. Bans live in the
 `banned_ips` shared dict, so they are per container and lost on restart;
 fail2ban (host) is the longer-lived layer. A `return` in a location (only
-`/health`) runs before the rewrite phase and is not blocked.
+`/health`) runs before the rewrite phase and is not blocked. The http-level
+`log_by_lua` is replaced in any location with its own (`reverse-proxy-cache.conf`
+has one); that is harmless, as those locations proxy upstream and never return
+444.
 
 `ssl_session_cache` is 100m and `ssl_session_timeout` 24h (`wildcard-ssl.conf`):
 a resumed handshake is about 250 bytes against about 5 KB for a full one.
@@ -289,8 +292,8 @@ and "Proxy container follow-ups". The main ones:
   container logs to stdout/stderr by default (so `docker logs` works), but the
   production image is built with `LOG_TO_STDOUT=false` so the host's fail2ban
   and logrotate can read the shared log directory. The nginx-* jails ban with
-  `iptables-allports` so the ban covers UDP 443 (HTTP/3) too. The container has
-  its own short-lived scanner ban (`ban.lua`, above).
+  a second `iptables-multiport` action for UDP so the ban covers UDP 443
+  (HTTP/3) too, without blocking ssh. The container has its own short-lived scanner ban (`ban.lua`, above).
 - **Replacing `lua-resty-auto-ssl`** (above).
 
 ## Tests

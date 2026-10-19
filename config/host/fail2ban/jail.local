@@ -22,9 +22,10 @@ findtime = 300
 bantime = 3600
 banaction = iptables-multiport
 
-# The nginx-* jails use iptables-allports, not iptables-multiport: multiport
-# only blocks TCP, and HTTP/3 (QUIC) is UDP 443, so a banned IP could keep
-# talking to the proxy over h3. (allports ignores the port lines below.)
+# The nginx-* jails ban http,https over TCP and also over UDP (a second,
+# separately named iptables-multiport action), because HTTP/3 (QUIC) is UDP
+# 443 and a TCP-only ban would let a banned IP keep talking to the proxy over
+# h3. They do not use iptables-allports: that would also block ssh.
 [nginx-403]
 filter = nginx-403
 enabled = true
@@ -33,7 +34,9 @@ backend = polling
 port = http,https
 maxretry = 15
 bantime = 1800
-banaction = iptables-allports
+banaction = iptables-multiport
+action = %(action_)s
+         iptables-multiport[name=%(__name__)s-udp, port="http,https", protocol=udp]
 logencoding = auto
 polling_file = true
 findtime = 30
@@ -46,7 +49,9 @@ backend = polling
 port = http,https
 maxretry = 80
 bantime = 1800
-banaction = iptables-allports
+banaction = iptables-multiport
+action = %(action_)s
+         iptables-multiport[name=%(__name__)s-udp, port="http,https", protocol=udp]
 logencoding = auto
 polling_file = true
 findtime = 30
@@ -59,7 +64,9 @@ backend = polling
 port = http,https
 maxretry = 10 
 bantime = 1800
-banaction = iptables-allports
+banaction = iptables-multiport
+action = %(action_)s
+         iptables-multiport[name=%(__name__)s-udp, port="http,https", protocol=udp]
 logencoding = auto
 polling_file = true
 findtime = 30
@@ -74,7 +81,9 @@ port = http,https
 maxretry = 3
 findtime = 120
 bantime = 3600
-banaction = iptables-allports
+banaction = iptables-multiport
+action = %(action_)s
+         iptables-multiport[name=%(__name__)s-udp, port="http,https", protocol=udp]
 logencoding = auto
 polling_file = true
 maxlines = 100
