@@ -4,8 +4,8 @@ import clfdate from "./util/clfdate.js";
 // Create a map of limiters, one per blogID
 const limiters = new Map();
 
-// Stopped limiters of disconnected blogs, kept until the blog is watched
-// again: a watcher callback already past its checks when the blog was
+// Stopped limiters of disconnected blogs, kept until a reconnect calls
+// /watch: a watcher callback already past its checks when the blog was
 // disconnected must not create a fresh limiter and push to Blot.
 const stoppedLimiters = new Map();
 
@@ -61,8 +61,8 @@ const removeLimiterForBlogID = (blogID) => {
   });
 };
 
-// Called when a blog is watched again (setup, or a restart), so its actions
-// get a fresh limiter.
+// Called by the /watch route when a blog is reconnected, so its actions get
+// a fresh limiter. A restart starts with no stopped limiters.
 const reviveLimiterForBlogID = (blogID) => {
   stoppedLimiters.delete(blogID);
 };
