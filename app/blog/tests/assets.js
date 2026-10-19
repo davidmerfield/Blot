@@ -153,6 +153,11 @@ describe("asset middleware", function () {
       }
     });
 
+    it("serves large files under a dot directory directly", async function () {
+      const res = await writeAndGet(this, "/.hidden/big.pdf", big);
+      expect(res.status).toEqual(200);
+    });
+
     it("never redirects on a preview host", async function () {
       await this.write({ path: "/big.pdf", content: big });
       const res = await this.fetch(

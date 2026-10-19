@@ -237,6 +237,8 @@ function canRedirectToCdn(req, path) {
   return (
     !req.preview &&
     (req.method === "GET" || req.method === "HEAD") &&
+    // the CDN's express.static ignores dotfiles, so it would 404 these
+    !path.split("/").some((segment) => segment.startsWith(".")) &&
     CDN_REDIRECT_EXTENSIONS.has(extname(path).slice(1).toLowerCase())
   );
 }
