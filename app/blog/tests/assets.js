@@ -159,6 +159,8 @@ describe("asset middleware", function () {
     });
 
     it("never redirects on a preview host", async function () {
+      // the preview host needs the blog's local template to exist
+      await this.template({ "entry.html": "{{{entry.html}}}" });
       await this.write({ path: "/big.pdf", content: big });
       const res = await this.fetch(
         `${config.protocol}preview-of-my-local-on-${this.blog.handle}.${config.host}/big.pdf`,
