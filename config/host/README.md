@@ -28,6 +28,9 @@ the private key) and `PUBLIC_IP` (the host), and optionally `SSH_PORT`
 | `tmpfiles.d/blot.conf` | `/etc/tmpfiles.d/blot.conf` (creates `/run/blot`) |
 | `.bashrc` | `/home/ec2-user/.bashrc` |
 
+The `nginx-*` fail2ban jails ban with `iptables-allports`, so a ban also blocks
+UDP 443 (HTTP/3), which `iptables-multiport` would not.
+
 It also turns off X11 forwarding in `sshd_config`. The systemd files are
 installed and `daemon-reload`ed only: docker is not restarted, so the
 mount-before-docker ordering takes effect at the next reboot.
