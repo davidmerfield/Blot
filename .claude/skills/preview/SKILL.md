@@ -47,8 +47,8 @@ operator to check the branch out; use a preview slot. Design and limits:
 
 ## Local Agentation feedback
 
-The optional `scripts/agentation/` overlay adds a DOM annotation toolbar to local
-pages without changing application views. See `scripts/agentation/README.md` for
+`npm start` enables the `scripts/development/agentation/` overlay, which adds a DOM annotation toolbar to local
+pages without changing application views. See `scripts/development/agentation/README.md` for
 startup, MCP registration, shutdown and persistence. A running HTTP server does
 not prove browser delivery: save a recognizable annotation and retrieve it using
 `agentation_get_all_pending`, checking its comment, URL and `elementPath`.

@@ -20,5 +20,5 @@ proxy/tests/data/
 app/**/tests/
 app/**/benchmarks/
 
-# Optional development tools never enter the application image build context.
-scripts/agentation/
+# Agentation never enters the application image build context.
+scripts/development/agentation/

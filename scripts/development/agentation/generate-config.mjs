@@ -1,6 +1,6 @@
 import { readFile, mkdir, writeFile } from "node:fs/promises";
 
-const root = new URL("../../", import.meta.url);
+const root = new URL("../../../", import.meta.url);
 const host = process.env.BLOT_HOST || "local.blot";
 if (!/^[a-z0-9]+(?:[.-][a-z0-9]+)*$/.test(host)) {
   throw new Error("BLOT_HOST must be a lowercase local hostname without a scheme or port");

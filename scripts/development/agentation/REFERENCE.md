@@ -1,32 +1,43 @@
 # Local Agentation
 
-Optional toolbar and MCP server for Blot's server-rendered pages. Requires the
-normal development stack (`npm start`), Node 22+ on the host, and Docker Compose v2.
-Run from the main checkout, whose proxy also serves worktree preview slots.
+Toolbar and MCP server for Blot's server-rendered pages, enabled by `npm start`.
+Requires Codex CLI, Node 22+ on the host, and Docker Compose v2. Run from the main
+checkout, whose proxy also serves worktree preview slots.
 
 ## Start and stop
 
-Keep `npm start` running in its terminal, then in another terminal:
+Register Codex first using the command in the README, restart Codex, then run
+`npm start`. Its preflight calls `run.sh check` before TLS setup, background
+processes or Docker changes. `codex mcp list --json` must report an enabled stdio
+server named `agentation`, running Bash with this checkout's `run.sh mcp`.
+Missing Codex, unreadable configuration, disabled entries and stale paths stop
+startup with a registration command. Rerun registration after moving the checkout
+or upgrading from `scripts/agentation/`.
+
+After the normal stack starts, `npm start` calls `run.sh up`, which checks Codex
+again, builds the pinned packages, generates Nginx config from the current
+development config, starts the HTTP service and recreates Nginx with its mounts.
+Ctrl+C or startup failure runs `run.sh down` before stopping the rest of the stack
+and folder opener; annotation volumes are retained. Cleanup is installed before
+startup so failed builds are covered.
+
+To temporarily disable Agentation with the app still running:
 
 ```sh
-bash scripts/agentation/run.sh up
-# Open https://local.blot, sign in, or open a template preview.
-# When finished:
-bash scripts/agentation/run.sh down
+bash scripts/development/agentation/run.sh down
 ```
 
-`up` builds the pinned packages, generates an Nginx config from the current
-development config, starts the HTTP service, and recreates only Nginx with the
-optional mounts. `down` recreates Nginx with its original config and stops
-Agentation. Reload open pages after either command. Start the normal stack first;
-this tool deliberately does not start or reconfigure its dependencies. Running
-`npm start` again recreates the normal proxy; rerun `up` to reenable the toolbar.
+This restores the original Nginx configuration and stops Agentation. Reload open
+pages. `npm start` enables it again next time. You can also run `run.sh up` to
+reenable it on an already-running stack. The standalone tool does not start or
+reconfigure the application's dependencies. `down` and `mcp` do not check Codex
+registration, so shutdown works without Codex and the adapter avoids recursion.
 
 Use the same `BLOT_HOST` as the normal stack (default `local.blot`). The optional
 `AGENTATION_PORT` changes only the loopback HTTP port, e.g.:
 
 ```sh
-BLOT_HOST=localhost AGENTATION_PORT=8478 bash scripts/agentation/run.sh up
+BLOT_HOST=localhost AGENTATION_PORT=8478 bash scripts/development/agentation/run.sh up
 ```
 
 The container always uses 8477; the existing Toxiproxy port 8474 is untouched.
@@ -34,27 +45,26 @@ No host npm install is needed. For a managed environment that requires an extra
 certificate, pass Docker's optional `proxy_ca` build secret through a local
 Compose override using `AGENTATION_COMPOSE_OVERRIDE=/absolute/path/override.yml`.
 The override is also applied by `down`, so keep it set for both commands.
-Normal local builds do
-not need that secret. Preserve your environment's Docker proxy configuration.
+Normal local builds do not need that secret. Preserve your environment's Docker proxy configuration.
 
 ## Connect an MCP client
 
-After `up`, register a stdio command in your client using an absolute checkout
-path. For Codex CLI, from the checkout:
+Before starting development, register a stdio command in Codex using an absolute
+checkout path. For Codex CLI, from the checkout:
 
 ```sh
-codex mcp add agentation -- bash "$(pwd)/scripts/agentation/run.sh" mcp
+codex mcp add agentation -- bash "$(pwd)/scripts/development/agentation/run.sh" mcp
 ```
 
-For Claude Code use `claude mcp add agentation -- bash ... mcp`, or use this
-equivalent client configuration (replace the path):
+Other clients can use the same stdio command, in addition to the Codex entry
+required by startup. For example (replace the path):
 
 ```json
 {
   "mcpServers": {
     "agentation": {
       "command": "bash",
-      "args": ["/absolute/path/to/blot/scripts/agentation/run.sh", "mcp"]
+      "args": ["/absolute/path/to/blot/scripts/development/agentation/run.sh", "mcp"]
     }
   }
 }
@@ -103,15 +113,15 @@ ignored; annotations and credentials must never be committed.
 ## Production boundary and verification
 
 The production Dockerfile copies `scripts/`. Root `.dockerignore` therefore
-explicitly excludes **`scripts/agentation/`** from the build context. Keep this
+explicitly excludes **`scripts/development/agentation/`** from the build context. Keep this
 exclusion when changing the build. Neither the production Dockerfile nor normal
 Compose references this overlay. The root package manifest, application source,
-templates and normal development proxy remain unchanged. All optional runtime
+templates and normal development proxy remain unchanged. All Agentation runtime
 configuration and browser assets live here, outside the production build context.
 
 ```sh
 # Optional host-side checks (dependencies stay in this directory):
-cd scripts/agentation
+cd scripts/development/agentation
 npm ci
 npm run build
 ```
