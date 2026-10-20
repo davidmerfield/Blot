@@ -1,4 +1,5 @@
 {
+  "ignore": ["scripts/agentation/**"],
   "entry": [
     "scripts/**/*.js",
     "**/tests/**/*.js",
