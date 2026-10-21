@@ -16,6 +16,7 @@ var load = require("./load");
 var save = require("./save");
 var trace = require("helper/trace");
 var flags = require("./flags");
+var loadClient = require("dashboard/site/load/client");
 const sse = require("helper/sse")({
   channel: (req) => `sync:status:${req.blog.id}`,
 });
@@ -39,16 +40,64 @@ site.post(
   save.finish
 );
 
-site.get("/", require("./load/scheduled"));
+const dashboardViews = ["/", "/recents", "/posts", "/posts/:filter"];
+const postFilters = new Set(["posts", "pages", "drafts", "scheduled"]);
+
+site.get(
+  dashboardViews,
+  (req, res, next) => {
+    if (req.path === "/recents") {
+      res.locals.dashboardView = "recent";
+      res.locals.dashboardFilter = "all";
+      res.locals.breadcrumbs.add("Recents", "recents");
+    } else if (req.path === "/posts" || req.path.startsWith("/posts/")) {
+      const filter = req.params.filter || "all";
+      if (filter !== "all" && !postFilters.has(filter)) {
+        return res.redirect(`${res.locals.base}/posts`);
+      }
+
+      res.locals.dashboardView = "posts";
+      res.locals.dashboardFilter = filter;
+      res.locals.breadcrumbs.add("Posts", "posts");
+      if (filter !== "all") {
+        const filterLabels = {
+          posts: "Published",
+          pages: "Pages",
+          drafts: "Drafts",
+          scheduled: "Scheduled",
+        };
+        res.locals.breadcrumbs.add(filterLabels[filter], filter);
+      }
+    } else {
+      res.locals.dashboardView = "folder";
+      res.locals.dashboardFilter = "all";
+    }
+
+    res.locals.isFolderView = res.locals.dashboardView === "folder";
+    res.locals.isRecentView = res.locals.dashboardView === "recent";
+    res.locals.isPostsView = res.locals.dashboardView === "posts";
+    res.locals.isAllPostsFilter = res.locals.dashboardFilter === "all";
+    next();
+  },
+  require("./load/posts"),
+  require("./load/recent-activity"),
+  require("./folder"),
+  loadClient,
+  (req, res) => {
+    res.render("dashboard/site", {
+      title: req.blog.pretty.label,
+    });
+  }
+);
 
 // Load the files and folders inside a blog's folder
-site.get(["/", "/folder/:path(*)"], require("./folder"));
+site.get("/folder/:path(*)", load.client, require("./folder"));
 site.post("/folder/upload", require("./folder/upload"));
 site.post("/folder/remove/:path(*)", require("./folder/remove"));
 
 site.get("/folder", (req, res) => {
   // redirect to client settings page
-  res.redirect(`/sites/${req.params.handle}/client`);
+  res.redirect(`/sites/${req.params.handle}/settings/folder`);
 });
 
 const templateEditor = require("./template");
@@ -64,9 +113,10 @@ site.use("/template-folder", templateEditor);
 site.use("/delete", require("./delete"));
 site.use("/import", require("./import"));
 site.use("/export", require("./export"));
-site.use("/domain", require("./domain"));
-site.use("/client", require("./client"));
-site.use("/title", require("./title"));
+const domain = require("./domain");
+const title = require("./title");
+site.use("/domain", domain);
+site.use("/title", title);
 
 site.use("/settings/date", require("./date"));
 site.use("/settings/links", load.plugins, require("./link-format"));
@@ -76,16 +126,23 @@ site.get("/status", sse);
 // allow the download of files directly
 site.use("/folder-download/:path(*)", require("./folder/download"));
 
-site.get("/", require("dashboard/site/load/client"), (req, res) => {
-  res.render("dashboard/site", {
-    title: req.blog.pretty.label,
-  });
-});
-
 site.use("/settings", (req, res, next) => {
   res.locals.breadcrumbs.add("Settings", "settings");
   next();
 });
+
+site.use("/settings/folder", require("./client"));
+
+// Keep old dashboard bookmarks working while the folder settings move under
+// the Settings section. These paths are dashboard routes; provider callbacks
+// and public client endpoints are mounted elsewhere.
+site.use("/client", (req, res) => {
+  const suffix = req.url === "/" ? "" : req.url;
+  res.redirect(308, `${res.locals.base}/settings/folder${suffix}`);
+});
+
+site.use("/settings/title", title);
+site.use("/settings/domain", domain);
 
 site.get("/settings", load.plugins,  (req, res) => {
   res.render("dashboard/site/settings");
