@@ -623,6 +623,12 @@ body.upload-modal-open {
   flex: 1;
 }
 
+.directory-row__name-cell > .directory-row__link.cover {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
 .directory-row__link.cover {
   position: absolute;
   inset: 0;
