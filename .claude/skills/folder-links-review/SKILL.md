@@ -214,3 +214,12 @@ Entry template:
 - Since last run: <what migration work landed, how the shares moved>
 - Next: <the work the biggest bucket points to>
 ```
+
+### 2026-10-22 — 2h across blue/green/yellow (since the last deploy)
+- Pass hit: ~97% of HTML/CSS renders logged a [folder-links] line; misses outnumbered rewrites ~3.6:1; mean ~5ms per render in the pass
+- Rewrites by source: template ~95%, entry ~0.3%, metadata <0.1%, other ~4.5%
+- Forms: root ~81%, static ~14%, host ~4%, relative ~1.5%
+- Notable: one blog-owned template accounted for ~48% of rewrites, through favicons and scripts linked literally in its views. Copies of one bundled magazine theme rewrite /plugins/katex font URLs in their CSS view. "Other" is mostly own-host URLs from locals or {{blog.url}}-built links. Every rewrite came from a blog-owned template.
+- [folder-asset-origin] (old line, same-site only): ~0.2% of renders
+- Since last run: none of the migration has landed yet. #2035 is being split into smaller PRs; this run's job is the baseline
+- Next: wrap literal template links in {{#cdn}} (the template bucket), then locals/{{#asset}}
