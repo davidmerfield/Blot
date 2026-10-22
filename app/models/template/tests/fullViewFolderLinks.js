@@ -99,7 +99,7 @@ describe("getFullView folder links", function () {
 
     const response = await getFullView(this.blog.id, this.template.id, "style.css");
 
-    expect(response[SOURCE]).toBe(`a{background:url(${wrap("/img/a.png")})}`);
+    expect(response[SOURCE]).toBe(`a{background:url(${wrap("img/a.png")})}`);
   });
 
   describe("partials", function () {
