@@ -5,8 +5,7 @@
 // and updateCdnManifest resolves those wrapped targets. Manifests computed
 // before that have no entries for them, so until a template is next saved or
 // synced its wrapped links miss the manifest and render as blog.url + path
-// (which the request-time folder-link pass still rewrites to the CDN). This
-// fills them in.
+// (which the origin serves). This fills them in.
 //
 // Safe to re-run, and to stop and resume: updateCdnManifest is idempotent and
 // rewrites the whole manifest each time. SITE templates are skipped (they
