@@ -1,4 +1,4 @@
-Investigate flaky spec "Blot dashboard settings lets you update the title of a site" (app/site/tests/config.js): failed once in CI with "Lock was lost before release ... folder-lock" (ECOMPROMISED) from app/sync/lock.js, unrelated to the PR it failed on: https://github.com/blotcms/blot/actions/runs/39750297005/job/119728891014
+Investigate flaky spec "Blot dashboard settings lets you update the title of a site" (app/site/tests/settings.js): failed once in CI with "Lock was lost before release ... folder-lock" (ECOMPROMISED) from app/sync/lock.js, unrelated to the PR it failed on: https://github.com/blotcms/blot/actions/runs/39750297005/job/119728891014
 
 Check in on ec2 bandwidth egress after October 22nd and update billing breakdown on aws issue
 
