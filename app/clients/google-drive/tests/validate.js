@@ -12,11 +12,14 @@ function stubModule(path, exports) {
   require.cache[path] = { id: path, filename: path, loaded: true, exports };
 }
 
-function stubRedis(heldSince, reported) {
+function stubRedis(heldSince, reported, markers) {
   stubModule(cachePaths[0], {
     heldSince: async (blogID) => heldSince[blogID] || null,
   });
   stubModule(cachePaths[1], {
+    exists: async (key) => (markers.has(key) ? 1 : 0),
+    set: async (key) => markers.add(key),
+    del: async (key) => markers.delete(key),
     sMembers: async () => Array.from(reported),
     multi() {
       const ops = [];
@@ -42,6 +45,7 @@ function load({
   blogs,
   walks = {},
   walkErrors = {},
+  markers = new Set(),
   locks = {},
   fixes = {},
   onWalk = {},
@@ -126,7 +130,7 @@ function load({
   };
 
   // syncReport itself is the real thing; only its Redis reads are faked
-  stubRedis(heldSince, reported);
+  stubRedis(heldSince, reported, markers);
 
   vm.runInNewContext(fs.readFileSync(require.resolve("../validate"), "utf8"), {
     module,
@@ -319,19 +323,51 @@ describe("Google Drive hourly sync validation", function () {
     ]);
   });
 
-  it("does not report a transient Google API failure", async function () {
+  it("skips the first transient Google API failure", async function () {
     const internal = Object.assign(new Error("Internal Error"), { code: 500 });
     const { validate, calls } = load({
-      accounts: { a: driveAccount(), b: driveAccount(), c: driveAccount() },
-      blogs: blogsFor("a", "b", "c"),
-      walks: { a: false, b: false, c: false },
-      walkErrors: { a: internal, b: new Error("Transient failure."), c: internal },
+      accounts: { a: driveAccount(), b: driveAccount() },
+      blogs: blogsFor("a", "b"),
+      walks: { a: false, b: false },
+      walkErrors: { a: internal, b: new Error("Transient failure.") },
     });
 
     await validate.runValidation();
 
     expect(calls.fixed).toEqual([]);
     expect(calls.emails).toEqual([]);
+  });
+
+  it("reports a transient failure that repeats on the next sweep", async function () {
+    const internal = Object.assign(new Error("Internal Error"), { code: 500 });
+    const { validate, calls } = load({
+      accounts: { a: driveAccount() },
+      blogs: blogsFor("a"),
+      walks: { a: false },
+      walkErrors: { a: internal },
+    });
+
+    await validate.runValidation();
+    expect(calls.emails).toEqual([]);
+
+    await validate.runValidation();
+    expect(calls.emails.length).toBe(1);
+    expect(calls.emails[0].blogs[0].errors).toEqual([
+      { phase: "walk", message: "Internal Error" },
+    ]);
+  });
+
+  it("clears the transient marker after a successful walk", async function () {
+    const markers = new Set(["sync:sweep:google-drive:transient:a"]);
+    const { validate } = load({
+      accounts: { a: driveAccount() },
+      blogs: blogsFor("a"),
+      markers,
+    });
+
+    await validate.runValidation();
+
+    expect(markers.size).toBe(0);
   });
 
   it("reports a walk that throws, and still releases the lock", async function () {
