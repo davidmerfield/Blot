@@ -6,6 +6,7 @@ const key = require("../key");
 const getMetadata = require("../getMetadata");
 const getView = require("../getView");
 const getAllViews = require("../getAllViews");
+const parseTemplate = require("../parseTemplate");
 const generateCdnUrl = require("./generateCdnUrl");
 const { minifyCSS, minifyJS } = require("helper/minify");
 const purgeCdnUrls = require("helper/purgeCdnUrls");
@@ -92,18 +93,32 @@ async function viewExists(templateID, target) {
 // files. extraFolderTargets are further targets which are only ever looked up
 // in the folder, never as views: the literal links the render wraps (see
 // wrappedTargets).
+//
+// setView carries a view's previous retrieve.cdn forward (see
+// applyUserRetrieveOptions), so a target the author has since removed can
+// linger there. That is harmless for a view target, but a folder target would
+// keep a manifest entry and a file dependency forever, so folder targets only
+// count while the view's current content still has them.
 async function collectTargets(templateID, views, extraFolderTargets) {
   const explicit = new Set();
+  const current = new Set();
+
+  const addValid = (set, target) => {
+    if (typeof target === "string" && target.trim() && isValidTarget(target.trim())) {
+      set.add(target.trim());
+    }
+  };
 
   for (const viewName in views) {
     const view = views[viewName];
 
     if (view?.retrieve?.cdn && Array.isArray(view.retrieve.cdn)) {
-      view.retrieve.cdn.forEach((target) => {
-        if (typeof target === "string" && target.trim() && isValidTarget(target.trim())) {
-          explicit.add(target.trim());
-        }
-      });
+      view.retrieve.cdn.forEach((target) => addValid(explicit, target));
+    }
+
+    if (typeof view?.content === "string") {
+      const parsed = parseTemplate(view.content).retrieve || {};
+      (parsed.cdn || []).forEach((target) => addValid(current, target));
     }
   }
 
@@ -115,7 +130,7 @@ async function collectTargets(templateID, views, extraFolderTargets) {
       viewTargets.push(target);
       // the author's own target wins over the same one wrapped
       folderTargets.delete(target);
-    } else {
+    } else if (current.has(target)) {
       folderTargets.add(target);
     }
   }

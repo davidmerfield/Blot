@@ -56,6 +56,10 @@ module.exports = function drop(owner, templateName, callback) {
       multi.sRem(key.templateDependents(dependencyOwner, file), templateID);
     });
 
+    // Nor should a sync regenerate its manifest (see
+    // sync/update/regenerateTemplateManifests, which retries failures)
+    multi.sRem(key.templateManifestsPending(dependencyOwner), templateID);
+
     multi.sRem(key.blogTemplates(owner), templateID);
     multi.del(key.metadata(templateID));
     multi.del(key.urlPatterns(templateID));
