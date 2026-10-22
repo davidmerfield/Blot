@@ -10,7 +10,7 @@ const scheduleExclusive = require("clients/util/scheduleExclusive");
 const getHealth = require("./getHealth");
 const { measure: measureEventLoop } = require("helper/eventLoopMonitor");
 const database = require("./database");
-const { classify } = require("./database/error");
+const { classify, isTransientDriveError } = require("./database/error");
 // sync.js directly, not sync/index.js: that is the webhook/poll entry point
 // and stamps lastSync, which would keep every blog eligible forever.
 const sync = require("./sync/sync");
@@ -102,7 +102,7 @@ const fixBlog = (blog) =>
 // Walks the blog's folder while holding its folder lock, so it can't race a
 // webhook sync. Resolves to sync's summary, false if the walk failed, or
 // NOT_ELIGIBLE.
-const walkWithLock = async (blogID, publish) => {
+const walkWithLock = async (blogID, publish, options) => {
   const { folder, done } = await establishSyncLock(blogID);
   let error = null;
 
@@ -111,7 +111,7 @@ const walkWithLock = async (blogID, publish) => {
     // may have waited for it: setup or a stored error can have started since.
     if (!isEligible(await database.blog.get(blogID))) return NOT_ELIGIBLE;
 
-    return await sync(blogID, publish, folder.update);
+    return await sync(blogID, publish, folder.update, options);
   } catch (err) {
     error = err;
     throw err;
@@ -123,6 +123,13 @@ const walkWithLock = async (blogID, publish) => {
     });
   }
 };
+
+// A single Google-side blip (HTTP 429/5xx, "Internal Error") that gaxios's own
+// retries didn't ride out. Not worth a digest line: the next sweep walks the
+// blog again, and live syncs retry on the next webhook or poll.
+const isTransientWalkFailure = (err) =>
+  isTransientDriveError(err) ||
+  /^(Transient failure\.?|Internal Error)$/i.test(String((err && err.message) || ""));
 
 // Overlap between sweeps is prevented across processes by scheduleExclusive
 const runValidation = async () => {
@@ -171,8 +178,12 @@ const validateAllBlogs = async () => {
       const stopWalkMeasure = measureEventLoop();
       phase = "walk";
 
+      let walkError;
+
       try {
-        summary = await walkWithLock(blogID, publish);
+        summary = await walkWithLock(blogID, publish, {
+          onError: (err) => (walkError = err),
+        });
         logLag(blogID, "walk", entryCount, stopWalkMeasure());
       } catch (err) {
         stopWalkMeasure();
@@ -201,7 +212,16 @@ const validateAllBlogs = async () => {
       // changes". Don't run Fix() on a folder we couldn't read. If the
       // failure was the user trashing or unsharing the folder, sync.js has
       // stored that on the account and send() drops the blog by its health.
-      if (!summary) throw new Error("walk failed (see logs)");
+      if (!summary) {
+        // Skipped like a busy lock; see isTransientWalkFailure.
+        if (walkError && isTransientWalkFailure(walkError)) {
+          console.log(clfdate(), "Google Drive: Skipping transient failure", blogID, walkError.message);
+          checkedBlogs -= 1;
+          return;
+        }
+
+        throw new Error((walkError && walkError.message) || "walk failed (see logs)");
+      }
 
       // A walk that skipped files reports a walk error (and the changes it
       // did apply), and Fix() is skipped for it.
