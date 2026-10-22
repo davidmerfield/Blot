@@ -66,9 +66,9 @@ function trend({ history, now, used, limit, action = "resize", scope, over }) {
 }
 
 // "19% (stable, 22 GB free)", or "19% (22 GB free)" with no trend yet.
-// `percent` is the text, "19%", and `free` is in bytes.
+// `percent` is the text, "19%", and `free` is in bytes (none, if over).
 function status({ percent, free, trend }) {
-  return `${percent} (${[trend, size(free) + " free"].filter(Boolean).join(", ")})`;
+  return `${percent} (${[trend, size(Math.max(0, free)) + " free"].filter(Boolean).join(", ")})`;
 }
 
 // Stores the history with today's reading. A failure to store it only costs

@@ -142,6 +142,12 @@ describe("scheduler/daily/redis-server", function () {
       expect(await render({ memory: info({ used: 10 * GB }) })).toContain("memory 91% (**[resize now]");
     });
 
+    it("shows no negative headroom when memory is over maxmemory", async function () {
+      const result = await render({ memory: info({ used: 11.5 * GB }) });
+      expect(result).toContain("memory 105% (**[resize now](");
+      expect(result).toContain("**, 0 Bytes free)");
+    });
+
     it("copes with no maxmemory", async function () {
       expect(await render({ memory: info({ maxmemory: 0 }), ...withSnapshot })).toContain(
         "memory 3 GB, no maxmemory set,"

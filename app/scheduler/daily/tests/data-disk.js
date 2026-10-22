@@ -90,6 +90,12 @@ describe("daily update data disk", function () {
     );
   });
 
+  it("says to grow now whenever the alert level is reached, by the rounded percentage", function () {
+    // 89.1% is shown as 90%
+    const line = dataDisk.line(disks(294, 36), { history: [], now: NOW });
+    expect(line).toBe("**Data disk: 90% (grow now, 36 GB free)**");
+  });
+
   it("picks the highest alert level reached", function () {
     expect(dataDiskAlert(disks(280, 50))).toBe(null);
     expect(dataDiskAlert(disks(297, 33)).percent).toBe(90);

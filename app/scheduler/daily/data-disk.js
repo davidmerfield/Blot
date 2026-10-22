@@ -21,6 +21,10 @@ function line(disks, { history = [], now = Date.now() } = {}) {
 
   const alert = freeDiskSpace.DATA_DISK_ALERTS[0];
   const used = data.used_k * KB;
+  // The alert goes by the rounded-up percentage shown, so "grow now" does too
+  const limit = freeDiskSpace.dataDiskAlert(disks)
+    ? used
+    : ((data.used_k + data.available_k) * KB * alert.percent) / 100;
   const text =
     "Data disk: " +
     trend.status({
@@ -30,7 +34,7 @@ function line(disks, { history = [], now = Date.now() } = {}) {
         history,
         now,
         used,
-        limit: ((data.used_k + data.available_k) * KB * alert.percent) / 100,
+        limit,
         action: "grow"
       })
     });
