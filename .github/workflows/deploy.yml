@@ -136,7 +136,7 @@ jobs:
           TARGET_SHA: ${{ steps.resolve.outputs.sha }}
           CUSTOM: ${{ steps.resolve.outputs.custom }}
           SKIP_CHECKS: ${{ github.event.inputs.skip_checks }}
-          REQUIRED: "node build"
+          REQUIRED: "node build app-e2e integration"
           OPTIONAL: ""
         run: |
           if [ "$SKIP_CHECKS" = "true" ]; then
