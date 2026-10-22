@@ -60,7 +60,15 @@ module.exports = function extend (user) {
     if (user.isUnpaid || user.isPastDue) user.needsToPay = true;
   }
 
-  if (user.paypal && user.paypal.status) {
+  // A Stripe customer's leftover PayPal record is history, not their plan:
+  // PayPal only takes over from Stripe once it is ACTIVE.
+  var paypalIsCurrent =
+    user.paypal &&
+    user.paypal.status &&
+    (user.paypal.status === "ACTIVE" ||
+      !(subscription && subscription.customer));
+
+  if (paypalIsCurrent) {
     if (user.paypal.status === "ACTIVE") user.isSubscribed = true;
 
     // PayPal keeps a cancelled subscription running to the end of the paid

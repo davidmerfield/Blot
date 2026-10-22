@@ -169,17 +169,32 @@ const updateSubscription = async subscriptionID => {
           email.CLOSED(user.uid);
         else if (becameCancelled && user.isDisabled)
           email.ALREADY_CANCELLED(user.uid);
-        else if (becameCancelled && !shouldDisable) {
-          const claimed = await client.set(
-            key.paypalCancelEmail(user.uid, subscriptionID),
-            "1",
-            { NX: true, EX: CANCEL_EMAIL_TTL_SECONDS }
-          );
+        else if (!shouldDisable && paypal.status === "CANCELLED") {
+          const claimKey = key.paypalCancelEmail(user.uid, subscriptionID);
 
-          if (claimed) {
-            if (subscriptionLifecycle.isFirstPeriod({ paypal }))
-              email.CANCELLED_FIRST_PERIOD(user.uid);
-            else email.CANCELLED(user.uid);
+          // A send that failed after claiming left "failed" behind; GETDEL
+          // hands that retry to exactly one caller.
+          const retry =
+            !becameCancelled && (await client.getDel(claimKey)) === "failed";
+
+          if (
+            (becameCancelled || retry) &&
+            (await client.set(claimKey, "1", {
+              NX: true,
+              EX: CANCEL_EMAIL_TTL_SECONDS
+            }))
+          ) {
+            const send = subscriptionLifecycle.isFirstPeriod({ paypal })
+              ? email.CANCELLED_FIRST_PERIOD
+              : email.CANCELLED;
+
+            send(user.uid, {}, sendErr => {
+              if (!sendErr) return;
+              console.log(prefix(), "cancellation email failed", sendErr);
+              client
+                .set(claimKey, "failed", { EX: CANCEL_EMAIL_TTL_SECONDS })
+                .catch(() => {});
+            });
           }
         }
       } catch (emailErr) {
@@ -187,7 +202,7 @@ const updateSubscription = async subscriptionID => {
         console.log(prefix(), "cancellation email error", emailErr);
       }
 
-      resolve();
+      resolve(paypal);
     };
 
     if (shouldDisable && !user.isDisabled) return User.disable(user, updates, done);
