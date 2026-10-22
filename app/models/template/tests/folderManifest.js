@@ -164,6 +164,19 @@ describe("updateCdnManifest folder files", function () {
       expect((await this.manifest())["a.png"]).toBeUndefined();
     });
 
+    it("drops the old file when a link is replaced", async function () {
+      await this.write({ path: "/a.png", content: "one" });
+      await this.write({ path: "/b.png", content: "two" });
+      await this.setView({ name: "index.html", content: '<img src="{{#cdn}}/a.png{{/cdn}}">' });
+      await this.setView({ name: "index.html", content: '<img src="{{#cdn}}/b.png{{/cdn}}">' });
+
+      const manifest = await this.manifest();
+
+      expect(manifest["a.png"]).toBeUndefined();
+      expect(manifest["b.png"]).toEqual(jasmine.objectContaining({ path: "/b.png" }));
+      expect(await this.dependents("/a.png")).toEqual([]);
+    });
+
     it("renders a view's folder links before hashing it", async function () {
       await this.write({ path: "/a.png", content: "one" });
       await this.setView({
@@ -431,6 +444,17 @@ describe("updateCdnManifest folder files", function () {
       await dropTemplate(this.blog.id, this.template.name);
 
       expect(await this.dependents("/a.png")).toEqual([]);
+    });
+
+    it("is no longer pending regeneration once the template is dropped", async function () {
+      const pending = key.templateManifestsPending(this.blog.id);
+
+      await this.setView({ name: "index.html", content: '<img src="{{#cdn}}/a.png{{/cdn}}">' });
+      await client.sAdd(pending, this.template.id);
+      await this.uninstall();
+      await dropTemplate(this.blog.id, this.template.name);
+
+      expect(await client.sIsMember(pending, this.template.id)).toBeFalsy();
     });
 
     it("is not copied to a cloned template", async function () {
