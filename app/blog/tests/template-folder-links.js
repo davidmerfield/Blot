@@ -9,9 +9,8 @@ describe("folder links in templates", function () {
   const version = (content) =>
     crypto.createHash("sha1").update(content).digest("hex").slice(0, 8);
 
-  // where a link to a file that isn't in the folder ends up: on the blog's host
-  const missingUrl = (blog, path) =>
-    `https://${blog.handle}.${config.host}${path}`;
+  // where a link to a file that isn't in the folder ends up: as written
+  const missingUrl = (blog, path) => path;
 
   const folderUrl = (blog, content, path) =>
     `${config.cdn.origin}/folder/v-${version(content)}/${blog.id}${path}`;
@@ -102,7 +101,7 @@ describe("folder links in templates", function () {
     );
   });
 
-  it("keeps {{blog.url}} links absolute when the file is missing", async function () {
+  it("drops the host from a {{blog.url}} link when the file is missing", async function () {
     await this.template({
       "entries.html": '<meta property="og:image" content="{{{blog.url}}}/share.png">',
     });
