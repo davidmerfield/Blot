@@ -153,25 +153,37 @@ function linkTarget(ctx, value, opts) {
   if (SCHEME.test(raw)) return null;
   if (opts.strictRoot && raw.charAt(0) !== "/") return null;
 
-  const pathPart = pathPartOf(raw);
+  let pathPart = pathPartOf(raw);
   const suffix = raw.slice(pathPart.length);
+
+  // A relative link stays relative inside the section: the manifest is keyed
+  // without a leading slash, so it resolves against "/" just as a rooted one
+  // does, and a miss is left as written. A leading "./" changes nothing and
+  // is dropped; ".." can't be kept as written, so such a link is left alone.
+  if (pathPart.charAt(0) !== "/") {
+    pathPart = pathPart.replace(/^(?:\.\/)+/, "");
+    if (/(?:^|\/)\.{1,2}(?:\/|$)/.test(pathPart)) return null;
+  }
+
   const path =
-    pathPart.charAt(0) === "/"
-      ? normalizeAbsolute(pathPart)
-      : posix.resolve("/", pathPart);
+    pathPart.charAt(0) === "/" ? normalizeAbsolute(pathPart) : pathPart;
 
   if (htmlExtRegex.test(path) || !fileExtRegex.test(path)) return null;
 
-  // A {{#cdn}} target can't contain whitespace, but file names often have
-  // spaces. Percent-encode them: the manifest builder decodes the path
-  // before looking the file up.
-  const target = encodeSpaces(path + suffix);
+  const target = encodeTarget(path + suffix);
 
   return isSafeCdnTarget(target) ? target : null;
 }
 
-function encodeSpaces(value) {
-  return value.indexOf(" ") > -1 ? value.split(" ").join("%20") : value;
+// A {{#cdn}} target can't contain whitespace, but file names often have
+// spaces, so percent-encode them. The manifest builder decodes the path
+// before looking the file up, so a literal "%" that doesn't start an escape
+// ("100% luck.jpg") is encoded too, or the path wouldn't decode.
+function encodeTarget(value) {
+  return value
+    .replace(/%(?![0-9a-fA-F]{2})/g, "%25")
+    .split(" ")
+    .join("%20");
 }
 
 // The {{#cdn}} target for a plain value which is, in its entirety, a link to

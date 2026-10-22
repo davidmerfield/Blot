@@ -278,6 +278,12 @@ describe("resolveFolderLinks", function () {
       );
     });
 
+    it("percent-encodes a % that doesn't start an escape", function () {
+      expect(html('<img src="/100% luck.jpg">')).toBe(
+        `<img src="${wrap("/100%25%20luck.jpg")}">`
+      );
+    });
+
     it("keeps the case and percent-encoding of the path as written", function () {
       expect(html('<img src="/Photos/My%20Photo.JPG">')).toBe(
         `<img src="${wrap("/Photos/My%20Photo.JPG")}">`
@@ -297,12 +303,12 @@ describe("resolveFolderLinks", function () {
       expect(html(input)).toBe(input);
     });
 
-    it("never lets path traversal climb out of the blog's folder", function () {
-      expect(html('<img src="../../../../a.jpg">')).toBe(
-        `<img src="${wrap("/a.jpg")}">`
-      );
+    it("leaves relative links that climb with .. alone", function () {
+      const input = '<img src="../../../../a.jpg">';
+
+      expect(html(input)).toBe(input);
       expect(css("a{background:url(../../../../a.jpg)}")).toBe(
-        `a{background:url(${wrap("/a.jpg")})}`
+        "a{background:url(../../../../a.jpg)}"
       );
     });
 
@@ -314,17 +320,20 @@ describe("resolveFolderLinks", function () {
   });
 
   describe("relative paths", function () {
-    it("resolves relative HTML links against the root", function () {
+    // The manifest is keyed without a leading slash, so a relative target
+    // resolves against the root (as the request-time pass did) while a miss
+    // still renders exactly as written
+    it("keeps relative HTML links relative, dropping a leading ./", function () {
       expect(html('<img src="img/a.png"><img src="./b.png"><img src="../c.png">')).toBe(
-        `<img src="${wrap("/img/a.png")}"><img src="${wrap("/b.png")}"><img src="${wrap("/c.png")}">`
+        `<img src="${wrap("img/a.png")}"><img src="${wrap("b.png")}"><img src="../c.png">`
       );
     });
 
-    it("resolves relative CSS links against the root (the same as for HTML)", function () {
+    it("keeps relative CSS links relative, dropping a leading ./", function () {
       expect(
         css("a{background:url(img/a.png)} b{background:url(../img/b.png)} c{background:url(./c.png?v=1)}")
       ).toBe(
-        `a{background:url(${wrap("/img/a.png")})} b{background:url(${wrap("/img/b.png")})} c{background:url(${wrap("/c.png?v=1")})}`
+        `a{background:url(${wrap("img/a.png")})} b{background:url(../img/b.png)} c{background:url(${wrap("c.png?v=1")})}`
       );
     });
   });
