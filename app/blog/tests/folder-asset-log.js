@@ -6,17 +6,19 @@ describe("[folder-asset] log", function () {
   // The blog router logs through req.log, which console.logs one string:
   // the request logger puts a date, the request id and +Nms before the
   // arguments. Keep the text after the marker, which is the end of the line.
+  // The marker must follow the +Nms: the logger's response line can quote
+  // the request's slowest step (slowest=+Nms:"[folder-asset] ...", cut to
+  // 80 characters), which is not a second log.
   let lines;
-  const marker = "[folder-asset] ";
+  const pattern = / \+\d+ms \[folder-asset\] (.*)$/;
 
   beforeEach(function () {
     lines = [];
     const log = console.log;
 
     spyOn(console, "log").and.callFake(function (...args) {
-      const text = args.join(" ");
-      const index = text.indexOf(marker);
-      if (index !== -1) lines.push(text.slice(index + marker.length));
+      const match = pattern.exec(args.join(" "));
+      if (match) lines.push(match[1]);
       else return log.apply(console, args);
     });
   });

@@ -75,6 +75,10 @@ function safeDecode(value) {
 
 // Returns null for any line that isn't one of ours.
 function parseLine(line) {
+  // The request logger's response line quotes the request's slowest step,
+  // which can be one of our lines cut to 80 characters: not a record.
+  if (line.includes(' slowest=+')) return null;
+
   let index = line.indexOf(REWRITE_MARKER);
   if (index !== -1) {
     const fields = parseFields(line.slice(index + REWRITE_MARKER.length));
