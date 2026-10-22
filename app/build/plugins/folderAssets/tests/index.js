@@ -458,7 +458,7 @@ describe("folderAssets plugin", function () {
       buildWithMetadata(this, ["Image: /public/2025/cover.jpg"], function (err, entry) {
         if (err) return done.fail(err);
 
-        expect(entry.metadata.image).toMatch(
+        expect(entry.metadata.Image).toMatch(
           new RegExp("^" + tokenRegex("/public/2025/cover\\.jpg").source + "$")
         );
         expect(entry.dependencies).toContain("/public/2025/cover.jpg");
@@ -474,8 +474,8 @@ describe("folderAssets plugin", function () {
       buildWithMetadata(this, ["Image: https://" + host + "/cover.jpg"], function (err, entry) {
         if (err) return done.fail(err);
 
-        expect(entry.metadata.image).toMatch(tokenRegex("/cover\\.jpg"));
-        expect(entry.metadata.image).not.toContain(host);
+        expect(entry.metadata.Image).toMatch(tokenRegex("/cover\\.jpg"));
+        expect(entry.metadata.Image).not.toContain(host);
         done();
       });
     });
@@ -495,10 +495,10 @@ describe("folderAssets plugin", function () {
         function (err, entry) {
           if (err) return done.fail(err);
 
-          expect(entry.metadata.relative).toEqual("cover.jpg");
-          expect(entry.metadata.elsewhere).toEqual("https://example.com/cover.jpg");
-          expect(entry.metadata.spaced).toEqual("/cover.jpg /cover.jpg");
-          expect(entry.metadata.doc).toEqual("/other.html");
+          expect(entry.metadata.Relative).toEqual("cover.jpg");
+          expect(entry.metadata.Elsewhere).toEqual("https://example.com/cover.jpg");
+          expect(entry.metadata.Spaced).toEqual("/cover.jpg /cover.jpg");
+          expect(entry.metadata.Doc).toEqual("/other.html");
           done();
         }
       );
@@ -510,8 +510,8 @@ describe("folderAssets plugin", function () {
       buildWithMetadata(this, ["Link: /cover.jpg", "Slug: /cover.jpg"], function (err, entry) {
         if (err) return done.fail(err);
 
-        expect(entry.metadata.link).toEqual("/cover.jpg");
-        expect(entry.metadata.slug).toEqual("/cover.jpg");
+        expect(entry.metadata.Link).toEqual("/cover.jpg");
+        expect(entry.metadata.Slug).toEqual("/cover.jpg");
         expect(entry.permalink).toEqual("/cover.jpg");
         done();
       });
@@ -524,7 +524,7 @@ describe("folderAssets plugin", function () {
       buildWithMetadata(ctx, ["Image: /late.jpg"], function (err, entry) {
         if (err) return done.fail(err);
 
-        expect(entry.metadata.image).toEqual("/late.jpg");
+        expect(entry.metadata.Image).toEqual("/late.jpg");
         expect(entry.dependencies).toContain("/late.jpg");
 
         fs.outputFileSync(file, "late");
@@ -532,14 +532,14 @@ describe("folderAssets plugin", function () {
         build(ctx.blog, "/Hello.txt", function (err, entry) {
           if (err) return done.fail(err);
 
-          expect(entry.metadata.image).toMatch(tokenRegex("/late\\.jpg"));
+          expect(entry.metadata.Image).toMatch(tokenRegex("/late\\.jpg"));
 
           fs.removeSync(file);
 
           build(ctx.blog, "/Hello.txt", function (err, entry) {
             if (err) return done.fail(err);
 
-            expect(entry.metadata.image).toEqual("/late.jpg");
+            expect(entry.metadata.Image).toEqual("/late.jpg");
             expect(entry.dependencies).toContain("/late.jpg");
             done();
           });
