@@ -210,12 +210,17 @@ describe("payment webhook delivery reliability", function () {
       expect(email.CANCELLED).toHaveBeenCalledTimes(1);
     });
     it("retries once on the next update after a failed send", async function () {
+      const K = "user:test-user:paypal_cancel_email:I-TEST";
+      const multi = { del: jasmine.createSpy("del"), set: jasmine.createSpy("set") };
+      multi.del.and.returnValue(multi);
+      multi.set.and.returnValue(multi);
+      multi.exec = () => { claimed.delete(K); failed.add(K + ":failed"); return Promise.resolve([]); };
+      spyOn(client, "multi").and.returnValue(multi);
       email.CANCELLED.and.callFake((uid, locals, cb) => cb(new Error("mailgun")));
       await paypal.updateSubscription("I-TEST");
-      expect(client.set).toHaveBeenCalledWith(
-        "user:test-user:paypal_cancel_email:I-TEST", "failed", { EX: 90 * DAY / 1000 });
-      failed.add("user:test-user:paypal_cancel_email:I-TEST");
-      claimed.clear();
+      await new Promise(r => setImmediate(r));
+      expect(multi.del).toHaveBeenCalledWith(K);
+      expect(multi.set).toHaveBeenCalledWith(K + ":failed", "1", { EX: 90 * DAY / 1000 });
       email.CANCELLED.and.stub();
       user.paypal = { status: "CANCELLED" };
       await paypal.updateSubscription("I-TEST");

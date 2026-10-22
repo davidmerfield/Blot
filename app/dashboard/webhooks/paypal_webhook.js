@@ -172,10 +172,11 @@ const updateSubscription = async subscriptionID => {
         else if (!shouldDisable && paypal.status === "CANCELLED") {
           const claimKey = key.paypalCancelEmail(user.uid, subscriptionID);
 
-          // A send that failed after claiming left "failed" behind; GETDEL
-          // hands that retry to exactly one caller.
-          const retry =
-            !becameCancelled && (await client.getDel(claimKey)) === "failed";
+          // A failed send releases its claim and leaves this marker; GETDEL
+          // hands that retry to exactly one caller, and never touches a
+          // live claim.
+          const failedKey = claimKey + ":failed";
+          const retry = !becameCancelled && Boolean(await client.getDel(failedKey));
 
           if (
             (becameCancelled || retry) &&
@@ -192,7 +193,10 @@ const updateSubscription = async subscriptionID => {
               if (!sendErr) return;
               console.log(prefix(), "cancellation email failed", sendErr);
               client
-                .set(claimKey, "failed", { EX: CANCEL_EMAIL_TTL_SECONDS })
+                .multi()
+                .del(claimKey)
+                .set(failedKey, "1", { EX: CANCEL_EMAIL_TTL_SECONDS })
+                .exec()
                 .catch(() => {});
             });
           }

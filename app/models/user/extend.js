@@ -62,11 +62,14 @@ module.exports = function extend (user) {
 
   // A Stripe customer's leftover PayPal record is history, not their plan:
   // PayPal only takes over from Stripe once it is ACTIVE.
-  var paypalIsCurrent =
+  var paypalIsCurrent = Boolean(
     user.paypal &&
     user.paypal.status &&
     (user.paypal.status === "ACTIVE" ||
-      !(subscription && subscription.customer));
+      !(subscription && subscription.customer))
+  );
+
+  user.usesPaypal = paypalIsCurrent;
 
   if (paypalIsCurrent) {
     if (user.paypal.status === "ACTIVE") user.isSubscribed = true;

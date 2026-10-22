@@ -271,7 +271,8 @@ async function cancelPaypalSubscription (req, res, next) {
 
     if (response.status !== 204) {
       const rejected = new Error(`PayPal cancel API error: ${response.status}`);
-      rejected.rejected = true;
+      // A 5xx is indeterminate: PayPal may have applied the cancel.
+      rejected.rejected = response.status < 500;
       throw rejected;
     }
   } catch (err) {
