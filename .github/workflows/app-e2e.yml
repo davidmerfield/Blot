@@ -65,13 +65,13 @@ jobs:
       - name: Pull Blot app image
         run: |
           IMAGE="ghcr.io/${{ github.repository_owner }}/blot:${{ github.sha }}-arm64"
-          for i in $(seq 1 360); do
+          for i in $(seq 1 240); do
             docker manifest inspect "$IMAGE" > /dev/null 2>&1 && break
             [ "$i" = 1 ] && echo "Waiting for build.yml to push $IMAGE"
             sleep 5
           done
           if ! docker manifest inspect "$IMAGE" > /dev/null 2>&1; then
-            echo "::error::$IMAGE was not pushed within 30 minutes; did the build workflow fail?"
+            echo "::error::$IMAGE was not pushed within 20 minutes; did the build workflow fail?"
             exit 1
           fi
           docker pull "$IMAGE"
