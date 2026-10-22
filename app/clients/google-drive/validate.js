@@ -1,7 +1,6 @@
 const { promisify } = require("util");
 const Blog = require("models/blog");
 const Entries = require("models/entries");
-const client = require("models/client");
 const clfdate = require("helper/clfdate");
 const email = require("helper/email");
 const Fix = require("sync/fix");
@@ -11,7 +10,7 @@ const scheduleExclusive = require("clients/util/scheduleExclusive");
 const getHealth = require("./getHealth");
 const { measure: measureEventLoop } = require("helper/eventLoopMonitor");
 const database = require("./database");
-const { classify, isTransientDriveError } = require("./database/error");
+const { classify } = require("./database/error");
 // sync.js directly, not sync/index.js: that is the webhook/poll entry point
 // and stamps lastSync, which would keep every blog eligible forever.
 const sync = require("./sync/sync");
@@ -125,19 +124,6 @@ const walkWithLock = async (blogID, publish, options) => {
   }
 };
 
-// A Google-side blip (HTTP 429/5xx, "Internal Error") that gaxios's own
-// retries didn't ride out. The first one for a blog is not worth a digest line:
-// the next sweep walks it again. But a transient failure on consecutive sweeps
-// is an outage the operator should hear about, since nothing else records it
-// (no health issue is stored and the blog stays in every sweep). So the first
-// is skipped and remembered in a per-blog marker, which a successful walk
-// clears and which expires if the blog drops out of the sweep.
-const transientKey = (blogID) => "sync:sweep:google-drive:transient:" + blogID;
-const TRANSIENT_MARKER_TTL_SECONDS = 2 * 60 * 60;
-const isTransientWalkFailure = (err) =>
-  isTransientDriveError(err) ||
-  /^(Transient failure\.?|Internal Error)$/i.test(String((err && err.message) || ""));
-
 // Overlap between sweeps is prevented across processes by scheduleExclusive
 const runValidation = async () => {
   try {
@@ -220,22 +206,8 @@ const validateAllBlogs = async () => {
       // failure was the user trashing or unsharing the folder, sync.js has
       // stored that on the account and send() drops the blog by its health.
       if (!summary) {
-        if (walkError && isTransientWalkFailure(walkError)) {
-          const key = transientKey(blogID);
-
-          // First one: skip, like a busy lock. A repeat is reported below.
-          if (!(await client.exists(key))) {
-            await client.set(key, "1", { EX: TRANSIENT_MARKER_TTL_SECONDS });
-            console.log(clfdate(), "Google Drive: Skipping transient failure", blogID, walkError.message);
-            checkedBlogs -= 1;
-            return;
-          }
-        }
-
         throw new Error((walkError && walkError.message) || "walk failed (see logs)");
       }
-
-      await client.del(transientKey(blogID));
 
       // A walk that skipped files reports a walk error (and the changes it
       // did apply), and Fix() is skipped for it.
