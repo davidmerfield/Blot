@@ -444,4 +444,107 @@ describe("folderAssets plugin", function () {
       done();
     });
   });
+  describe("entry metadata", function () {
+    var blogHosts = require("blog/lib/blogHosts");
+
+    function buildWithMetadata(ctx, lines, callback) {
+      fs.outputFileSync(ctx.blogDirectory + "/Hello.txt", lines.join("\n") + "\n\nBody");
+      build(ctx.blog, "/Hello.txt", callback);
+    }
+
+    it("bakes a rooted image path in metadata", function (done) {
+      fs.outputFileSync(this.blogDirectory + "/public/2025/cover.jpg", "cover");
+
+      buildWithMetadata(this, ["Image: /public/2025/cover.jpg"], function (err, entry) {
+        if (err) return done.fail(err);
+
+        expect(entry.metadata.image).toMatch(
+          new RegExp("^" + tokenRegex("/public/2025/cover\\.jpg").source + "$")
+        );
+        expect(entry.dependencies).toContain("/public/2025/cover.jpg");
+        done();
+      });
+    });
+
+    it("bakes an absolute URL on the blog's own host", function (done) {
+      var host = blogHosts({ handle: this.blog.handle, domain: this.blog.domain })[0];
+
+      fs.outputFileSync(this.blogDirectory + "/cover.jpg", "cover");
+
+      buildWithMetadata(this, ["Image: https://" + host + "/cover.jpg"], function (err, entry) {
+        if (err) return done.fail(err);
+
+        expect(entry.metadata.image).toMatch(tokenRegex("/cover\\.jpg"));
+        expect(entry.metadata.image).not.toContain(host);
+        done();
+      });
+    });
+
+    it("leaves relative, other-host, spaced and ineligible values alone", function (done) {
+      fs.outputFileSync(this.blogDirectory + "/cover.jpg", "cover");
+      fs.outputFileSync(this.blogDirectory + "/other.html", "<p>hi</p>");
+
+      buildWithMetadata(
+        this,
+        [
+          "Relative: cover.jpg",
+          "Elsewhere: https://example.com/cover.jpg",
+          "Spaced: /cover.jpg /cover.jpg",
+          "Doc: /other.html",
+        ],
+        function (err, entry) {
+          if (err) return done.fail(err);
+
+          expect(entry.metadata.relative).toEqual("cover.jpg");
+          expect(entry.metadata.elsewhere).toEqual("https://example.com/cover.jpg");
+          expect(entry.metadata.spaced).toEqual("/cover.jpg /cover.jpg");
+          expect(entry.metadata.doc).toEqual("/other.html");
+          done();
+        }
+      );
+    });
+
+    it("leaves routing keys alone", function (done) {
+      fs.outputFileSync(this.blogDirectory + "/cover.jpg", "cover");
+
+      buildWithMetadata(this, ["Link: /cover.jpg", "Slug: /cover.jpg"], function (err, entry) {
+        if (err) return done.fail(err);
+
+        expect(entry.metadata.link).toEqual("/cover.jpg");
+        expect(entry.metadata.slug).toEqual("/cover.jpg");
+        expect(entry.permalink).toEqual("/cover.jpg");
+        done();
+      });
+    });
+
+    it("leaves a missing file alone, bakes it once it appears, and falls back when deleted", function (done) {
+      var ctx = this;
+      var file = this.blogDirectory + "/late.jpg";
+
+      buildWithMetadata(ctx, ["Image: /late.jpg"], function (err, entry) {
+        if (err) return done.fail(err);
+
+        expect(entry.metadata.image).toEqual("/late.jpg");
+        expect(entry.dependencies).toContain("/late.jpg");
+
+        fs.outputFileSync(file, "late");
+
+        build(ctx.blog, "/Hello.txt", function (err, entry) {
+          if (err) return done.fail(err);
+
+          expect(entry.metadata.image).toMatch(tokenRegex("/late\\.jpg"));
+
+          fs.removeSync(file);
+
+          build(ctx.blog, "/Hello.txt", function (err, entry) {
+            if (err) return done.fail(err);
+
+            expect(entry.metadata.image).toEqual("/late.jpg");
+            expect(entry.dependencies).toContain("/late.jpg");
+            done();
+          });
+        });
+      });
+    });
+  });
 });
