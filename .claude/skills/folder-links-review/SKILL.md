@@ -19,8 +19,9 @@ at request time (the request-time pass, `replaceFolderLinks`, is gone):
 What reaches the origin by design:
 
 - views that use `{{=` delimiters, which the wrapping skips;
-- links built from variables (`{{blog.url}}/x.jpg`, `{{{metadata.image}}}`),
-  because no literal path exists to wrap;
+- links built from variables (`{{base}}/x.jpg`, `{{{someLocal}}}/x.jpg`),
+  because no literal path exists to wrap (`{{blog.url}}/x.jpg` is wrapped;
+  entry metadata like `{{metadata.image}}` is baked at build time);
 - menu `<a href>`s to files, which are data, not template text;
 - relative links containing `..`;
 - large files 302'd to the CDN (`served=cdn-redirect`): fine, but each one
