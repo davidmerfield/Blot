@@ -23,13 +23,19 @@ env:
   BLOT_DEPLOY_SSH_HOST: ${{ secrets.BLOT_DEPLOY_SSH_HOST }}
   BLOT_DEPLOY_SSH_PORT: ${{ secrets.BLOT_DEPLOY_SSH_PORT }}
 
+# One production deploy at a time: a Deploy proxy that overlaps this one would
+# find an upstream mid-restart and refuse (or roll back). A queued run waits.
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
 # Everything that doesn't depend on the image (checkout, SSH, Node, GHCR
 # login) runs first, so when the run is dispatched straight after a merge the
 # only thing left once build.yml publishes the image is the deploy itself.
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 75
     environment: deploy
 
     steps:
@@ -136,7 +142,7 @@ jobs:
           TARGET_SHA: ${{ steps.resolve.outputs.sha }}
           CUSTOM: ${{ steps.resolve.outputs.custom }}
           SKIP_CHECKS: ${{ github.event.inputs.skip_checks }}
-          REQUIRED: "node build"
+          REQUIRED: "node build app-e2e integration"
           OPTIONAL: ""
         run: |
           if [ "$SKIP_CHECKS" = "true" ]; then
@@ -149,7 +155,7 @@ jobs:
           if [ "$CUSTOM" = "true" ]; then
             MAX_TRIES=12    # ~2 min
           else
-            MAX_TRIES=150   # ~25 min
+            MAX_TRIES=240   # ~40 min: app-e2e alone may wait 20 min for the image
           fi
 
           for i in $(seq 1 "$MAX_TRIES"); do
