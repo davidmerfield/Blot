@@ -176,7 +176,7 @@ describe("dropbox resetToBlot", function () {
       const inner = require.cache[createClientPath].exports;
       const state = { calls: 0 };
       require.cache[createClientPath].exports = function (id, callback) {
-        inner(id, (err, client) => {
+        inner(id, (err, client, ...rest) => {
           const real = client.filesListFolder;
           client.filesListFolder = async (args) => {
             if (++state.calls <= failures)
@@ -185,7 +185,7 @@ describe("dropbox resetToBlot", function () {
               });
             return real(args);
           };
-          callback(err, client);
+          callback(err, client, ...rest);
         });
       };
       delete require.cache[resetPath];
