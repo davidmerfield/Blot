@@ -27,6 +27,8 @@ describe("google drive client retryConfig", function () {
     });
     stub("config", { google_drive: { service_accounts: [{ client_id: "x" }] } });
 
+    // Other specs may have loaded it already, bound to the real config
+    delete require.cache[require.resolve(createDriveClient)];
     await require(createDriveClient)("x");
 
     expect(options.retryConfig).toBe(retryConfig);
