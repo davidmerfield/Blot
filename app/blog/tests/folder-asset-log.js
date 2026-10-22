@@ -3,16 +3,20 @@ describe("[folder-asset] log", function () {
 
   const config = require("config");
 
-  // The blog router logs through req.log, which is console.log in these
-  // specs (there is no request logger on the test server).
+  // The blog router logs through req.log, which console.logs one string:
+  // the request logger puts a date, the request id and +Nms before the
+  // arguments. Keep the text after the marker, which is the end of the line.
   let lines;
+  const marker = "[folder-asset] ";
 
   beforeEach(function () {
     lines = [];
     const log = console.log;
 
     spyOn(console, "log").and.callFake(function (...args) {
-      if (args[0] === "[folder-asset]") lines.push(args.slice(1).join(" "));
+      const text = args.join(" ");
+      const index = text.indexOf(marker);
+      if (index !== -1) lines.push(text.slice(index + marker.length));
       else return log.apply(console, args);
     });
   });
