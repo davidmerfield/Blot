@@ -423,6 +423,16 @@ function globalStaticFileExists(ctx, path) {
 // person (the dashboard's file view) rather than rendering it: a baked link
 // becomes the path it was baked from. Anything else is returned unchanged.
 function unbakeMetadataValue(value, blogID) {
+  // A reserved global-static file (/icons/search.svg) is baked as
+  // %%BLOT_CDN%%/icons/search.svg, with no /folder/ prefix or version
+  if (
+    typeof value === "string" &&
+    value.indexOf(BLOT_CDN_TOKEN + "/") === 0 &&
+    value.indexOf(BLOT_CDN_TOKEN + "/folder/") !== 0
+  ) {
+    return value.slice(BLOT_CDN_TOKEN.length);
+  }
+
   const unwrapped = unwrapFolderLink(value, blogID);
 
   if (unwrapped === null) return value;

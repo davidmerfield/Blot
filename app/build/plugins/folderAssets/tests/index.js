@@ -447,6 +447,15 @@ describe("folderAssets plugin", function () {
   describe("entry metadata", function () {
     var blogHosts = require("blog/lib/blogHosts");
 
+    it("unbakes folder and global-static values for display", function () {
+      var unbake = require("../index").unbakeMetadataValue;
+      var blogID = this.blog.id;
+
+      expect(unbake("%%BLOT_CDN%%/folder/v-abcd1234/" + blogID + "/my%20pic.jpg?x=1", blogID)).toBe("/my pic.jpg?x=1");
+      expect(unbake("%%BLOT_CDN%%/icons/search.svg", blogID)).toBe("/icons/search.svg");
+      expect(unbake("/plain.jpg", blogID)).toBe("/plain.jpg");
+    });
+
     function buildWithMetadata(ctx, lines, callback) {
       fs.outputFileSync(ctx.blogDirectory + "/Hello.txt", lines.join("\n") + "\n\nBody");
       build(ctx.blog, "/Hello.txt", callback);

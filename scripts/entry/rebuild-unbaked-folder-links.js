@@ -64,11 +64,10 @@ const {
   stripOwnHost,
   pathPartOf,
 } = require("blog/render/replaceFolderLinks/shared");
-const getBlog = require("../get/blog");
 
 // The stored fields app/build/index.js bakes (html via the plugin pipeline,
 // the rest when front matter overrides them).
-const FIELDS = ["html", "body", "teaser", "teaserBody"];
+const FIELDS = ["html", "titleTag", "body", "teaser", "teaserBody"];
 
 // Pre-filter: href/src/poster/srcset attributes, double, single or unquoted.
 const ATTRIBUTE =
@@ -219,8 +218,9 @@ async function rebuild(blog, paths) {
 
     try {
       // Read again under the lock: a sync may have rebuilt or removed it.
-      const entry = await new Promise((resolve) =>
-        Entry.get(blog.id, path, resolve)
+      // Entry.get calls back (entry) on success and (undefined, err) on error
+      const entry = await new Promise((resolve, reject) =>
+        Entry.get(blog.id, path, (entry, err) => (err ? reject(err) : resolve(entry)))
       );
 
       if (entry && !entry.deleted) {
@@ -291,13 +291,25 @@ function blogIDs() {
 
   // An explicit identifier must resolve - never silently fall back to every
   // blog from a typo.
-  return new Promise((resolve, reject) =>
-    getBlog(identifier, (err, user, blog) =>
-      err || !blog
-        ? reject(new Error(`No blog found for "${identifier}"`))
-        : resolve([blog.id])
-    )
-  );
+  // Looked up with Blog.get directly: scripts/get/blog also mints a login
+  // token, which a read-only dry run mustn't do.
+  const lookups = identifier.indexOf("blog_") === 0
+    ? [{ id: identifier }]
+    : [{ handle: identifier }, { domain: identifier }];
+
+  return lookups.reduce(
+    (found, query) =>
+      found.then((ids) =>
+        ids ||
+        new Promise((resolve, reject) =>
+          Blog.get(query, (err, blog) => (err ? reject(err) : resolve(blog ? [blog.id] : null)))
+        )
+      ),
+    Promise.resolve(null)
+  ).then((ids) => {
+    if (!ids) throw new Error(`No blog found for "${identifier}"`);
+    return ids;
+  });
 }
 
 async function main() {
