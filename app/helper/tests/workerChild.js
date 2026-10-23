@@ -27,7 +27,7 @@ describe("workerChild", function () {
           script: "/app/index.js",
           socket: "/run/blot/a-worker.sock",
           fork: fakeFork,
-          env: { CONTAINER_NAME: "blot-container-a", BLOT_ROLE: "web", BLOT_WORKER_SOCKET: "/run/blot/a-worker.sock" },
+          env: { CONTAINER_NAME: "blot-container-a", BLOT_WORKER_SOCKET: "/run/blot/a-worker.sock" },
           minBackoffMs: 20,
           maxBackoffMs: 80,
           stableMs: 1000,
@@ -48,13 +48,12 @@ describe("workerChild", function () {
     supervisor = null;
   });
 
-  it("forks the script as a worker serving on the socket", function () {
+  it("forks the script to serve on the socket alone", function () {
     start({ maxOldSpaceSize: 900, drainTimeoutMs: 25000 });
 
     expect(forks.length).toBe(1);
     const { env, execArgv } = forks[0].options;
     expect(forks[0].script).toBe("/app/index.js");
-    expect(env.BLOT_ROLE).toBe("worker");
     expect(env.BLOT_WORKER_CHILD).toBe("true");
     expect(env.BLOT_SOCKET).toBe("/run/blot/a-worker.sock");
     expect(env.BLOT_WORKER_SOCKET).toBe("");

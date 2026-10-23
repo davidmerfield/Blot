@@ -50,7 +50,7 @@ Publish Node container ports on loopback only: docker-proxy binds 8088-8090 on 0
 
 App changes toward consolidated units and horizontal scaling (#2119), each useful on its own:
 - Parallelize app/sync/rebuild.js
-- Worker child per unit (#2119): BLOT_ROLE gates the background jobs (app/setup.js; green is the only worker today), and a web process given BLOT_WORKER_SOCKET forks and supervises a worker child serving on that socket (helper/workerChild). Left for the units:
+- Worker child per unit (#2119): a process given BLOT_WORKER_SOCKET forks and supervises a worker child serving on that socket (helper/workerChild). Background jobs stay in every process, shared out by Redis locks and leases. Left for the units:
   - Proxy: send today's blot_node routes (webhooks, /clients, non-GET /sites, import, Dropbox OAuth, cdn, webhooks relay) to the unit's worker socket, the other unit's worker as backup; everything else to the web process
   - Deploy: health-check the worker socket too, and set BLOT_WORKER_MAX_OLD_SPACE_SIZE out of the unit's memory budget
   - Multi-host later: blog folders and git repos on the local data volume are the blocker

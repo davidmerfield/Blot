@@ -31,17 +31,10 @@ async function runPostListenTasks() {
     console.error(clfdate(), "Setup:", message, error || "");
   };
 
-  // The scheduler, the sync clients' background jobs, follow-up syncs and the
-  // alarms below run in worker processes (and in development's single "all"
-  // process), never in a web one, so they can't stall requests there. Worktree
-  // previews share the dev Redis and skip them all.
-  const runsBackgroundJobs = !config.preview && config.role !== "web";
-
   let templatesBuilt = false;
 
-  // Every process builds templates, web ones too: the build takes a Redis lock
-  // and the losers find nothing to change, and a web process deployed before
-  // the workers must not serve the new release against old templates. In development, preview slots overwrite
+  // Every process builds templates: the build takes a Redis lock and the
+  // losers find nothing to change. In development, preview slots overwrite
   // the shared dev templates with their worktree's copy.
   log("Building templates after listen");
   try {
@@ -90,36 +83,33 @@ async function runPostListenTasks() {
   }
 
   try {
-    // Every worker polls for scheduled entries that have come due
-    if (runsBackgroundJobs) {
-      log("Starting scheduled entry publication asynchronously");
-      const { alarm } = require("models/entry/scheduled");
-      alarm.start();
-      // Claim nothing new once draining; an unfinished one is retried elsewhere
-      require("helper/drain").onStart(() => {
-        alarm.stop().catch((err) => logError("Failed to stop scheduled entry publication", err));
-      });
-    }
+    // Every container polls for scheduled entries that have come due
+    log("Starting scheduled entry publication asynchronously");
+    const { alarm } = require("models/entry/scheduled");
+    alarm.start();
+    // Claim nothing new once draining; an unfinished one is retried elsewhere
+    require("helper/drain").onStart(() => {
+      alarm.stop().catch((err) => logError("Failed to stop scheduled entry publication", err));
+    });
   } catch (err) {
     logError("Failed to start scheduled entry publication", err);
   }
 
   try {
-    // Any worker may claim a due alarm, so every worker polls
-    if (runsBackgroundJobs) {
-      log("Starting welcome email alarm");
-      const welcomeEmailAlarm = require("models/user/scheduleWelcomeEmail").alarm;
-      welcomeEmailAlarm.start();
-      require("helper/drain").onStart(() => welcomeEmailAlarm.stop());
-    }
+    // Any container may claim a due alarm, so every container polls
+    log("Starting welcome email alarm");
+    const welcomeEmailAlarm = require("models/user/scheduleWelcomeEmail").alarm;
+    welcomeEmailAlarm.start();
+    require("helper/drain").onStart(() => welcomeEmailAlarm.stop());
   } catch (err) {
     logError("Failed to start welcome email alarm", err);
   }
 
   try {
     // Webhooks that arrived while their blog was syncing leave a follow-up
-    // sync which any worker may run
-    if (runsBackgroundJobs) {
+    // sync which any container may run. Previews share the dev Redis and skip
+    // them, as they skip the clients.
+    if (!config.preview) {
       log("Starting follow-up syncs");
       const followUpSync = require("clients/util/followUpSync");
       // Loads each client's routes, which create their follow-up syncs
@@ -133,9 +123,10 @@ async function runPostListenTasks() {
     logError("Failed to start follow-up syncs", err);
   }
 
-  // Cron jobs and client jobs take Redis locks, so every worker runs them
+  // Cron jobs and client jobs take Redis locks, so every container runs them.
+  // Worktree previews share the dev Redis and skip them.
   try {
-    if (runsBackgroundJobs) {
+    if (!config.preview) {
       log("Starting scheduler asynchronously");
       scheduler();
     }
@@ -144,7 +135,7 @@ async function runPostListenTasks() {
   }
 
   try {
-    if (runsBackgroundJobs) {
+    if (!config.preview) {
       const clients = Object.values(require("clients"));
       for (const { init, display_name } of clients) {
         if (init) {
@@ -185,7 +176,7 @@ async function runPostListenTasks() {
     logError("Failed to configure local blogs", err);
   }
 
-  if (config.environment === "production" && runsBackgroundJobs) {
+  if (config.environment === "production") {
     log("Building folders asynchronously");
 
     setImmediate(async () => {

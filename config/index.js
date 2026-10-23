@@ -11,14 +11,6 @@ const BLOT_HOST = process.env.BLOT_HOST || "localhost";
 const BLOT_PORT = process.env.BLOT_PORT || "8080";
 // Unix socket the server also listens on, for the reverse proxy; empty for none
 const BLOT_SOCKET = process.env.BLOT_SOCKET || "";
-// Which background work this process runs (see app/setup.js). "web" only
-// serves requests. "worker" and "all" also run the scheduler, the sync
-// clients' background jobs and follow-up syncs. "all" is the default, for
-// development and anything else that runs a single process.
-const BLOT_ROLE = process.env.BLOT_ROLE || "all";
-if (!["web", "worker", "all"].includes(BLOT_ROLE)) {
-  throw new Error("BLOT_ROLE must be web, worker or all, not " + BLOT_ROLE);
-}
 // Set by helper/workerChild on the worker it forks: it serves on a socket only
 const BLOT_WORKER_CHILD = process.env.BLOT_WORKER_CHILD === "true";
 const BLOT_PROTOCOL = process.env.BLOT_PROTOCOL || "https";
@@ -80,10 +72,9 @@ module.exports = {
   container:
     (process.env.CONTAINER_NAME || "").split("-").slice(2).join("-") +
     (BLOT_WORKER_CHILD ? "-worker" : ""),
-  role: BLOT_ROLE,
   worker_child: BLOT_WORKER_CHILD,
-  // On a web process, the socket for a worker child to serve on: set, the
-  // process forks one (see helper/workerChild) and supervises it
+  // The socket for a worker child to serve on: set, the process forks one
+  // (see helper/workerChild) and supervises it
   worker_socket: process.env.BLOT_WORKER_SOCKET || "",
   // The forked worker's --max-old-space-size in MB, or Node's default
   worker_max_old_space_size: parseInt(process.env.BLOT_WORKER_MAX_OLD_SPACE_SIZE) || null,

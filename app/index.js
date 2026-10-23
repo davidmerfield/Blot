@@ -139,9 +139,9 @@ setup(async (err) => {
         );
     }
 
-    // A web process given a socket for one forks a worker child and keeps
-    // it running, and stops it when draining (see helper/workerChild)
-    if (config.role === "web" && config.worker_socket) {
+    // A process given a socket for one forks a worker child and keeps it
+    // running, and stops it when draining (see helper/workerChild)
+    if (config.worker_socket && !config.worker_child) {
       const worker = workerChild({
         script: __filename,
         socket: config.worker_socket,

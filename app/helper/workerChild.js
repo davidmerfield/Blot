@@ -1,14 +1,14 @@
 const childProcess = require("child_process");
 const clfdate = require("helper/clfdate");
 
-// Forks a worker child from a web process and keeps it running (#2119).
+// Forks a worker child and keeps it running (#2119).
 //
-// The child runs the same app (script) with BLOT_ROLE=worker, so it runs the
-// scheduler, the sync clients' background jobs and follow-up syncs, which
-// the web parent doesn't (see app/setup.js). It serves HTTP on its own Unix
-// socket only, for the reverse proxy to send it the requests that sync or
-// build (webhooks, /clients, dashboard writes), so they never block the web
-// process's event loop.
+// The child runs the same app (script) and serves HTTP on its own Unix socket
+// only, for the reverse proxy to send it the requests that sync or build
+// (webhooks, /clients, dashboard writes), so they never block the parent's
+// event loop while it serves blogs and dashboard pages. Both run the same
+// background jobs, which Redis locks and leases share out between every
+// process, so either may pick up a given one.
 //
 // A child that exits is forked again after a delay that doubles from
 // minBackoffMs to maxBackoffMs, and starts again from minBackoffMs once a
@@ -43,7 +43,6 @@ module.exports = function workerChild({
   let backoffMs = minBackoffMs;
 
   const childEnv = Object.assign({}, env, {
-    BLOT_ROLE: "worker",
     BLOT_WORKER_CHILD: "true",
     BLOT_SOCKET: socket,
     BLOT_WORKER_SOCKET: "",
