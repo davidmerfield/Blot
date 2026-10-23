@@ -168,8 +168,6 @@ Proxy container follow-ups (cut over 8 Oct 2026, #1941)
 - Tune proxy next upstream status code conditions to preserve zero-downtime-deployments but prevent expensive requests (timeout?)
 - Add support for IPv6 and tell [Raul](https://mail.google.com/mail/u/0/#inbox/167083384282a5df)
 - Verify that nginx config serves as many CDN static files as possible
-  - can we use https://nginx.org/en/docs/http/ngx_http_gzip_static_module.html#gzip_static
-  - should we just be using varnish?
 - Can I use proxy_store instead of openrestycache?
 - Re-set up html minification using html-terser?
 - Get blot proxy communicating with node process via unix socket
