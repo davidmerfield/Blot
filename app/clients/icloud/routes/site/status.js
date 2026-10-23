@@ -43,8 +43,8 @@ const resyncReportSender = (blogID, reason) => async (err, locals, callback) => 
       email.ICLOUD_RESYNC_ISSUE(null, Object.assign({}, locals, { reason }), callback)
     );
   } catch (e) {
-    console.error("Resync report not sent, could not check the cap", { blogID }, e);
-    return callback();
+    // syncReport logs the failure and won't remember the issue as reported
+    return callback(e);
   }
 
   if (result === "suppressed") {
