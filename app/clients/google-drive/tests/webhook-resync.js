@@ -99,7 +99,7 @@ describe("google drive changes.watch webhook", function () {
   });
 
   it("asks sync to reject when the folder is locked, so a follow-up is queued", async function () {
-    const sync = jasmine.createSpy("sync").and.resolveTo({});
+    const sync = jasmine.createSpy("sync").and.returnValue(Promise.resolve({}));
     const deliver = load({ blogIDs: [], sync, run: jasmine.createSpy("run") });
 
     await deliver.syncBlog("blog_a");

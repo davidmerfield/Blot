@@ -38,7 +38,7 @@ describe("followUpSync", function () {
   const makeDue = (followUps) => followUps.alarm.set(blogID, Date.now());
 
   it("syncs straight away when no sync is running", async function () {
-    const syncBlog = jasmine.createSpy("syncBlog").and.resolveTo();
+    const syncBlog = jasmine.createSpy("syncBlog").and.returnValue(Promise.resolve());
     const followUps = followUpSync(name, syncBlog);
 
     await followUps.run(blogID);
@@ -48,7 +48,7 @@ describe("followUpSync", function () {
   });
 
   it("collapses requests during a running sync into one follow-up, run once the lock is free", async function () {
-    const syncBlog = jasmine.createSpy("syncBlog").and.resolveTo();
+    const syncBlog = jasmine.createSpy("syncBlog").and.returnValue(Promise.resolve());
     const followUps = followUpSync(name, syncBlog);
 
     await holdLock();
@@ -68,8 +68,8 @@ describe("followUpSync", function () {
   });
 
   it("is run by another instance, as by another process", async function () {
-    const here = jasmine.createSpy("here").and.resolveTo();
-    const there = jasmine.createSpy("there").and.resolveTo();
+    const here = jasmine.createSpy("here").and.returnValue(Promise.resolve());
+    const there = jasmine.createSpy("there").and.returnValue(Promise.resolve());
     const followUps = followUpSync(name, here);
     const elsewhere = followUpSync(name, there);
 
@@ -84,7 +84,7 @@ describe("followUpSync", function () {
   });
 
   it("queues a follow-up when the sync itself finds the lock taken", async function () {
-    const syncBlog = jasmine.createSpy("syncBlog").and.rejectWith(lockedError());
+    const syncBlog = jasmine.createSpy("syncBlog").and.callFake(() => Promise.reject(lockedError()));
     const followUps = followUpSync(name, syncBlog);
 
     await followUps.run(blogID);
@@ -94,7 +94,7 @@ describe("followUpSync", function () {
   });
 
   it("re-queues a follow-up whose sync finds the lock taken again", async function () {
-    const syncBlog = jasmine.createSpy("syncBlog").and.rejectWith(lockedError());
+    const syncBlog = jasmine.createSpy("syncBlog").and.callFake(() => Promise.reject(lockedError()));
     const followUps = followUpSync(name, syncBlog);
 
     await makeDue(followUps);
@@ -105,7 +105,7 @@ describe("followUpSync", function () {
   });
 
   it("logs other sync errors without retrying", async function () {
-    const syncBlog = jasmine.createSpy("syncBlog").and.rejectWith(new Error("boom"));
+    const syncBlog = jasmine.createSpy("syncBlog").and.callFake(() => Promise.reject(new Error("boom")));
     const followUps = followUpSync(name, syncBlog);
 
     await followUps.run(blogID);
