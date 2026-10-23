@@ -63,26 +63,43 @@ module.exports = function workerChild({
   function start() {
     restartTimer = null;
     const startedAt = Date.now();
-    const forked = fork(script, [], { env: childEnv, execArgv });
-    child = forked;
-    log("Started", "pid=" + forked.pid);
 
-    forked.on("exit", function (code, signal) {
+    // Called once per child, when it exits or could not be spawned
+    let ended = false;
+    function restart(reason) {
+      if (ended) return;
+      ended = true;
       if (child === forked) child = null;
       if (stopping) return;
 
       if (Date.now() - startedAt >= stableMs) backoffMs = minBackoffMs;
 
-      log(
-        "Exited",
-        "pid=" + forked.pid,
-        "code=" + code,
-        "signal=" + signal,
-        "restarting in " + backoffMs + "ms"
-      );
+      log(reason, "restarting in " + backoffMs + "ms");
 
       restartTimer = setTimeout(start, backoffMs);
       backoffMs = Math.min(backoffMs * 2, maxBackoffMs);
+    }
+
+    let forked = null;
+    try {
+      forked = fork(script, [], { env: childEnv, execArgv });
+    } catch (err) {
+      return restart("Could not fork: " + err.message);
+    }
+
+    child = forked;
+    log("Started", "pid=" + forked.pid);
+
+    forked.on("exit", function (code, signal) {
+      restart("Exited pid=" + forked.pid + " code=" + code + " signal=" + signal);
+    });
+
+    // An unhandled "error" would crash this process. A failed spawn (no pid)
+    // emits it and may never emit "exit"; other errors, such as a failed
+    // kill, leave the child running.
+    forked.on("error", function (err) {
+      if (forked.pid === undefined) return restart("Could not spawn: " + err.message);
+      log("Error", "pid=" + forked.pid, err.message);
     });
   }
 

@@ -78,6 +78,49 @@ describe("workerChild", function () {
     expect(forks.length).toBe(3);
   });
 
+  it("retries a child that fails to spawn, without crashing", async function () {
+    const realFork = fakeFork;
+    let failed = false;
+    start({
+      fork: function () {
+        const child = realFork.apply(null, arguments);
+        if (!failed) {
+          failed = true;
+          child.pid = undefined;
+          // Spawn failures arrive as "error" (fatal unless handled), and
+          // sometimes "exit" too: one restart either way
+          setImmediate(() => {
+            child.emit("error", new Error("EAGAIN"));
+            child.emit("exit", null, null);
+          });
+        }
+        return child;
+      },
+    });
+
+    await wait(40);
+    expect(forks.length).toBe(2);
+    await wait(60);
+    expect(forks.length).toBe(2);
+  });
+
+  it("retries when fork itself throws", async function () {
+    let threw = false;
+    start({
+      fork: function () {
+        if (!threw) {
+          threw = true;
+          throw new Error("EMFILE");
+        }
+        return fakeFork.apply(null, arguments);
+      },
+    });
+
+    expect(forks.length).toBe(0);
+    await wait(40);
+    expect(forks.length).toBe(1);
+  });
+
   it("stops the child with SIGTERM and resolves once it has exited", async function () {
     start();
 
