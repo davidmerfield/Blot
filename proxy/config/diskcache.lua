@@ -218,20 +218,23 @@ local function serve_hit(self, dir, key, jump)
         return false
     end
 
-    ngx.header["Blot-Cache"] = "HIT"
-    send_headers(meta)
-
     local body = dir .. "/" .. key .. "." .. meta.id
 
     if meta.s ~= 200 then
         -- redirects and error pages: small, and the static module only
-        -- sends a 200, so print them
+        -- sends a 200, so print them. No body file means the sweeper
+        -- removed the entry after its metadata was read: a miss.
+        local content = read_file(self.directory .. "/" .. body)
+
+        if not content then
+            return false
+        end
+
+        ngx.header["Blot-Cache"] = "HIT"
+        send_headers(meta)
         ngx.status = meta.s
 
-        local content = ngx.req.get_method() ~= "HEAD"
-            and read_file(self.directory .. "/" .. body)
-
-        if content and #content > 0 then
+        if #content > 0 and ngx.req.get_method() ~= "HEAD" then
             ngx.print(content)
         else
             ngx.send_headers()
@@ -239,6 +242,9 @@ local function serve_hit(self, dir, key, jump)
 
         return ngx.exit(ngx.HTTP_OK)
     end
+
+    ngx.header["Blot-Cache"] = "HIT"
+    send_headers(meta)
 
     local encoding = pick_encoding(meta)
 
@@ -611,6 +617,51 @@ function diskcache.purge(self)
     end
 
     return ngx.exit(ngx.OK)
+end
+
+-- Called from init_worker_by_lua: worker 0 runs the sweeper (proxy/evict.sh)
+-- every interval seconds. Each container sharing the cache runs one; the
+-- script's flock lets one sweep at a time.
+function diskcache.start_sweeper(self, options)
+    if ngx.worker.id() ~= 0 then
+        return
+    end
+
+    local command = {
+        options.command,
+        self.directory,
+        tostring(options.max_bytes),
+        tostring(options.max_filesystem_percent or 90),
+    }
+
+    local function sweep(premature)
+        if premature then
+            return
+        end
+
+        local proc, err = ngx_pipe.spawn(command)
+
+        if not proc then
+            ngx.log(ngx.ERR, "diskcache: could not start the sweeper: ", err)
+            return
+        end
+
+        -- a sweep of a large cache can take minutes; well under an interval
+        proc:set_timeouts(nil, options.interval * 1000, options.interval * 1000, options.interval * 1000)
+
+        local output = proc:stdout_read_all() or ""
+        local stderr = proc:stderr_read_all() or ""
+        local ok, reason, status = proc:wait()
+
+        if ok then
+            ngx.log(ngx.NOTICE, "diskcache: ", output)
+        else
+            proc:kill(9)
+            ngx.log(ngx.ERR, "diskcache: sweeper ", tostring(reason), " ", tostring(status), ": ", output, stderr:sub(1, 500))
+        end
+    end
+
+    ngx.timer.every(options.interval, sweep)
 end
 
 return diskcache

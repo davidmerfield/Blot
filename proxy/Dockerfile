@@ -107,10 +107,11 @@ RUN cd "openresty-${OPENRESTY_VERSION}/bundle/nginx-${NGINX_VERSION}" && \
 # ---------------------------------------------------------------------------
 FROM openresty/openresty:${OPENRESTY_TAG}
 
-# brotli is the CLI diskcache.lua compresses stored bodies with.
+# brotli is the CLI diskcache.lua compresses stored bodies with, and
+# findutils the GNU find (-printf) its sweeper, evict.sh, lists the cache with.
 # gettext provides envsubst, which render-config.sh uses to fill in the
 # runtime placeholders in the generated config
-RUN apk add --no-cache bash openssl gettext brotli
+RUN apk add --no-cache bash openssl gettext brotli findutils
 
 # Match the production convention (workers run as ec2-user)
 RUN addgroup -S ec2-user && adduser -S -u 1000 -G ec2-user ec2-user
@@ -164,7 +165,8 @@ COPY build/data/latest/diskcache.lua /etc/openresty/diskcache.lua
 COPY build/data/latest/html /etc/openresty/html
 
 COPY render-config.sh /usr/local/bin/render-config
-RUN chmod +x /usr/local/bin/render-config
+COPY evict.sh /usr/local/bin/diskcache-evict
+RUN chmod +x /usr/local/bin/render-config /usr/local/bin/diskcache-evict
 
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
