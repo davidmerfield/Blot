@@ -139,6 +139,9 @@ module.exports = {
       verify: true,
       ...siteConfig,
       cpuShares: SERVING_CPU_SHARES,
+      // Serves requests only: green runs the background jobs (BLOT_ROLE,
+      // see app/setup.js)
+      role: "web",
     },
 
     // Site server (dashboard, brochure, sync folders)
@@ -148,6 +151,10 @@ module.exports = {
       port: 8089,
       ...siteConfig,
       cpuShares: BACKGROUND_CPU_SHARES,
+      // The only container running the scheduler, the sync clients'
+      // background jobs and follow-up syncs. While it restarts they pause;
+      // the consolidated units (#2119) each run a worker of their own.
+      role: "worker",
     },
 
     // Blog server (previews, published blogs)
@@ -157,6 +164,7 @@ module.exports = {
       port: 8090,
       ...blogsConfig,
       cpuShares: SERVING_CPU_SHARES,
+      role: "web",
     },
   },
 };

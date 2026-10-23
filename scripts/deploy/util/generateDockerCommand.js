@@ -133,7 +133,12 @@ async function generateDockerCommand(container, platform, commitHash) {
     cpuShares,
     memory,
     maxOldSpaceSize,
+    role,
   } = container;
+
+  if (role !== undefined && !["web", "worker", "all"].includes(role)) {
+    throw new Error("role must be web, worker or all");
+  }
 
   // Validate required fields
   if (!containerName || typeof containerName !== "string") {
@@ -232,6 +237,8 @@ async function generateDockerCommand(container, platform, commitHash) {
     `--env-file ${ENV_FILE_ON_SERVER}`,
     `-e CONTAINER_NAME=${sanitizedName}`,
     `-e BLOT_RELEASE_ID=${commitHash}`,
+    // Whether this container runs the background jobs (see app/setup.js)
+    ...(role ? [`-e BLOT_ROLE=${role}`] : []),
     // Configure the maximum memory usage for the node process, and have
     // Node write a report (without env vars, which hold secrets) if it dies
     // of a fatal error - otherwise a V8 out-of-memory crash only leaves a
