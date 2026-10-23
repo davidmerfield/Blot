@@ -107,9 +107,10 @@ RUN cd "openresty-${OPENRESTY_VERSION}/bundle/nginx-${NGINX_VERSION}" && \
 # ---------------------------------------------------------------------------
 FROM openresty/openresty:${OPENRESTY_TAG}
 
+# brotli is the CLI diskcache.lua compresses stored bodies with.
 # gettext provides envsubst, which render-config.sh uses to fill in the
 # runtime placeholders in the generated config
-RUN apk add --no-cache bash openssl gettext
+RUN apk add --no-cache bash openssl gettext brotli
 
 # Match the production convention (workers run as ec2-user)
 RUN addgroup -S ec2-user && adduser -S -u 1000 -G ec2-user ec2-user
@@ -159,6 +160,7 @@ COPY build/data/latest/cdn-ips.conf /etc/openresty/cdn-ips.default.conf
 COPY build/data/latest/cacher.lua /etc/openresty/cacher.lua
 COPY build/data/latest/wildcard_cert.lua /etc/openresty/wildcard_cert.lua
 COPY build/data/latest/ban.lua /etc/openresty/ban.lua
+COPY build/data/latest/diskcache.lua /etc/openresty/diskcache.lua
 COPY build/data/latest/html /etc/openresty/html
 
 COPY render-config.sh /usr/local/bin/render-config
