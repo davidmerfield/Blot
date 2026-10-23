@@ -1,5 +1,6 @@
 import exec from "../exec.js";
 import { join } from "path";
+import { homedir } from "os";
 import fs from "fs-extra";
 import Bottleneck from "bottleneck";
 import status from "../httpClient/status.js";
@@ -27,6 +28,91 @@ const SETUP_ERRORS = {
 // folder, so we can fail fast instead of waiting out the timeout
 const askForAccessInterval = 2000;
 
+// Screen dumps and other detail from failed setups go to files here, not the
+// pm2 logs, so they can be purged on their own after a week
+const diagnosticsDirectory = join(homedir(), "setup-diagnostics");
+const diagnosticsMaxAge = 1000 * 60 * 60 * 24 * 7;
+
+async function pruneDiagnostics() {
+  try {
+    await fs.ensureDir(diagnosticsDirectory);
+    for (const name of await fs.readdir(diagnosticsDirectory)) {
+      const path = join(diagnosticsDirectory, name);
+      const { mtimeMs } = await fs.stat(path);
+      if (Date.now() - mtimeMs > diagnosticsMaxAge) await fs.remove(path);
+    }
+  } catch (error) {
+    console.error(clfdate(), "Failed to prune setup diagnostics", error);
+  }
+}
+
+async function recordDiagnostics(blogID, reason, detail) {
+  const name = `${new Date().toISOString().replace(/[:.]/g, "-")}-${blogID}-${reason}.txt`;
+  try {
+    await fs.ensureDir(diagnosticsDirectory);
+    await fs.outputFile(join(diagnosticsDirectory, name), `${detail}\n`);
+    console.error(
+      clfdate(),
+      `Recorded setup diagnostics (${reason}) in ${join(diagnosticsDirectory, name)}`
+    );
+  } catch (error) {
+    console.error(clfdate(), "Failed to record setup diagnostics", error);
+  }
+}
+
+// Who owns a shared folder and which share it is, read from the metadata
+// iCloud puts on it. Two folders with the same identifier are the same share.
+async function shareInfo(path) {
+  const keys = [
+    "kMDItemOwnerName",
+    "kMDItemCollaborationIdentifier",
+    "kMDItemSharedItemCurrentUserRole",
+  ];
+  const info = {};
+  for (const key of keys) {
+    try {
+      const { stdout } = await exec(
+        "sh",
+        [
+          "-c",
+          `xattr -px com.apple.metadata:${key} "$1" | xxd -r -p | plutil -p -`,
+          "sh",
+          path,
+        ],
+        { timeout: 5000 }
+      );
+      info[key.replace("kMDItem", "")] = stdout.trim().replace(/^"|"$/g, "");
+    } catch (error) {
+      info[key.replace("kMDItem", "")] = "(none)";
+    }
+  }
+  return JSON.stringify(info);
+}
+
+// iCloud can undo a rename of a shared folder (the folder comes back under
+// its old name, empty). Check a little after the rename and shout if so.
+function watchRename(oldName, newPath, blogID) {
+  for (const delay of [5000, 30000]) {
+    setTimeout(async () => {
+      try {
+        const exists = await fs.pathExists(newPath);
+        const entries = exists ? (await fs.readdir(newPath)).length : 0;
+        const oldBack = await fs.pathExists(join(iCloudDriveDirectory, oldName));
+        const message = `Rename check after ${delay / 1000}s for ${blogID}: folder ${
+          exists ? `present (${entries} entries)` : "MISSING"
+        }, ${oldName} ${oldBack ? "has reappeared" : "not present"}`;
+        if (!exists || oldBack) {
+          console.error(clfdate(), `RENAME REVERTED? ${message}`);
+        } else {
+          console.log(clfdate(), message);
+        }
+      } catch (error) {
+        console.error(clfdate(), "Rename check failed", error);
+      }
+    }, delay);
+  }
+}
+
 /**
  * Wait for a new top-level directory to appear, rename it, and notify the remote server.
  * Always leaves Finder tidy: after a failure the next setup would otherwise
@@ -38,6 +124,12 @@ const setupBlog = setupLimiter.wrap(async (blogID, sharingLink) => {
   try {
     await setupFolder(blogID, sharingLink);
   } catch (error) {
+    // Record what is on screen before the reset wipes it
+    await recordDiagnostics(
+      blogID,
+      "failed",
+      `Error: ${error.message}\nSharing link: ${sharingLink}\n\nScreen:\n${await describeScreen()}`
+    );
     await resetFinder();
     throw error;
   }
@@ -54,8 +146,17 @@ async function setupFolder(blogID, sharingLink) {
   // Start from a clean slate: no leftover Finder windows, Safari windows or
   // dialogs from an earlier run, and no unclaimed folders that would hide
   // the new one
+  const timings = {};
+  let mark = Date.now();
+  const lap = (name) => {
+    timings[name] = Date.now() - mark;
+    mark = Date.now();
+  };
+
+  await pruneDiagnostics();
   await resetFinder();
   await removeStaleFolders();
+  lap("reset");
 
   // Get the initial state of the top-level directories
   const initialDirs = await fs.readdir(iCloudDriveDirectory, {
@@ -65,14 +166,16 @@ async function setupFolder(blogID, sharingLink) {
     .filter((dir) => dir.isDirectory())
     .map((dir) => dir.name);
 
-  console.log(clfdate(), 
-    `Initial state of iCloud Drive: ${
-      initialDirNames.join(", ") || "No directories"
-    }`
+  const otherDirNames = initialDirNames.filter((name) => !name.startsWith("blog_"));
+  console.log(
+    clfdate(),
+    `Initial state of iCloud Drive: ${initialDirNames.length} folders` +
+      (otherDirNames.length ? `, not blog_ folders: ${otherDirNames.join(", ")}` : "")
   );
 
   console.log(clfdate(), "running the acceptSharingLink script");
   const outcome = await acceptSharingLink(sharingLink);
+  lap("acceptSharingLink");
 
   if (SETUP_ERRORS[outcome] && outcome !== "TIMEOUT") {
     throw new Error(SETUP_ERRORS[outcome]);
@@ -80,6 +183,7 @@ async function setupFolder(blogID, sharingLink) {
 
   // Time the wait from here so the reset and the AppleScript don't eat into it
   const start = Date.now();
+  mark = start;
   let lastAskForAccessCheck = start;
 
   while (true && Date.now() - start < timeout) {
@@ -103,12 +207,32 @@ async function setupFolder(blogID, sharingLink) {
       const oldPath = join(iCloudDriveDirectory, newDirName);
       const newPath = join(iCloudDriveDirectory, blogID);
 
+      lap("folderWait");
+      console.log(
+        clfdate(),
+        `New folder ${newDirName} share: ${await shareInfo(oldPath)}`
+      );
+
       // If there is already a folder with the blogID, delete it
-      await fs.remove(newPath);
+      if (await fs.pathExists(newPath)) {
+        const existing = (await fs.readdir(newPath)).length;
+        console.error(
+          clfdate(),
+          `Replacing existing folder for ${blogID} (${existing} entries), share: ${await shareInfo(newPath)}`
+        );
+        await fs.remove(newPath);
+      }
 
       // Rename the folder
       await fs.rename(oldPath, newPath);
       console.log(clfdate(), `Renamed folder from ${newDirName} to ${blogID}`);
+      console.log(
+        clfdate(),
+        `Setup timings: ${Object.entries(timings)
+          .map(([name, ms]) => `${name} ${ms}ms`)
+          .join(", ")}`
+      );
+      watchRename(newDirName, newPath, blogID);
       return; // Setup is complete, exit the loop
     }
 
@@ -128,9 +252,8 @@ async function setupFolder(blogID, sharingLink) {
     `Timed out waiting for a new folder to set up blogID: ${blogID} after ${timeout}ms`
   );
 
-  // One last look, and record what was on screen so the cause can be found
+  // One last look; the screen is recorded by setupBlog when this throws
   if (await dismissAskForAccess()) throw new Error(SETUP_ERRORS.NO_ACCESS);
-  console.error(clfdate(), `Screen at timeout:\n${await describeScreen()}`);
   throw new Error(SETUP_ERRORS.TIMEOUT);
 }
 
@@ -317,7 +440,17 @@ async function removeStaleFolders() {
 // Prints one of: OPENED, NO_ACCESS, INVALID_LINK, PRIVATE, TIMEOUT
 const appleScript = (sharingLink) => `
 ${askForAccessHandler}
+on windowText(w)
+    tell application "System Events"
+        try
+            return (value of static texts of w) as text
+        end try
+    end tell
+    return ""
+end windowText
+
 set outcome to "TIMEOUT"
+set dialogText to ""
 try
     tell application "Finder"
         open location "${sharingLink}"
@@ -335,10 +468,12 @@ try
                         -- "Continue" means the link is private ("... is private.
                         -- Please verify that you're allowed to open it")
                         if exists (button "Continue" of window 1) then
+                            set dialogText to my windowText(window 1)
                             click button "Cancel" of window 1
                             set outcome to "PRIVATE"
                         -- "OK" means the sharing link is invalid
                         else if exists (button "OK" of window 1) then
+                            set dialogText to my windowText(window 1)
                             click button "OK" of window 1
                             set outcome to "INVALID_LINK"
                         -- "Open" means the sharing link is valid
@@ -374,7 +509,7 @@ try
     end tell
 end try
 
-return outcome
+return outcome & "|" & dialogText
 `;
 
 async function acceptSharingLink(sharingLink) {
@@ -403,8 +538,12 @@ async function acceptSharingLink(sharingLink) {
     throw new Error(`Unexpected AppleScript stderr: ${stderr}`);
   }
 
-  const outcome = String(stdout || "").trim();
-  console.log(clfdate(), `AppleScript finished: ${outcome}`);
+  // The script prints "<outcome>|<text of the dialog it dismissed>"
+  const [outcome, ...detail] = String(stdout || "").trim().split("|");
+  console.log(
+    clfdate(),
+    `AppleScript finished: ${outcome}${detail.join("|") ? ` (dialog: ${detail.join("|")})` : ""}`
+  );
 
   if (outcome.startsWith("ERROR")) {
     await resetFinder();
