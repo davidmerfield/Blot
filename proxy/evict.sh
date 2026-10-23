@@ -16,6 +16,10 @@
 #    the filesystem limit. "Recently read" is the .meta file's atime: every
 #    hit reads it, and relatime updates it about once a day, which is enough
 #    to tell a page read this week from one not read for months.
+# 5. Prints "queue <entry>" for each entry filled over ten minutes ago with
+#    no "v" in its metadata: its compressed copies were never made, since the
+#    compression queue lives in memory and a restart loses it. diskcache.lua
+#    reads these lines and queues the entries again.
 #
 # Deleting an entry while a hit is serving it is safe: a hit that finds its
 # body gone falls through to a fill.
@@ -109,4 +113,10 @@ if [ "$need" -gt 0 ]; then
   delete_keys < "$victims"
 fi
 
-echo "evict: entries=$entries bytes=$total orphans_deleted=$orphans evicted=$evicted freed=$freed seconds=$(($(date +%s) - started))"
+# grep -L lists the files without a match; it exits 1 when none are listed
+find "$DIR" -mindepth 4 -maxdepth 4 -name '*.meta' -mmin +10 -print0 \
+  | xargs -0 -r grep -L '"v":' > "$victims" || true
+backfill=$(wc -l < "$victims")
+sed -e "s|^$DIR/||" -e 's|\.meta$||' -e 's|^|queue |' "$victims"
+
+echo "evict: entries=$entries bytes=$total orphans_deleted=$orphans evicted=$evicted freed=$freed uncompressed=$backfill seconds=$(($(date +%s) - started))"

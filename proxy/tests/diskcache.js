@@ -69,6 +69,11 @@ const upstream = ({ port }) =>
           return res.end(html(100));
         }
 
+        if (path.startsWith("/article-")) {
+          res.writeHead(200, { "Content-Type": "text/html" });
+          return res.end(html(50) + path);
+        }
+
         if (path === "/small") {
           res.writeHead(200, { "Content-Type": "text/html" });
           return res.end("<p>tiny</p>");
@@ -292,6 +297,13 @@ describe("diskcache", function () {
       it("serves a " + name + " copy once it is made", async function () {
         await fill.call(this, "/page");
 
+        // until then the gzip filter compresses on the fly, which is not
+        // what this checks
+        await until(async () => {
+          const dir = entry(this.cache_directory, host, `http://${host}/page`).directory;
+          return (await fs.readdir(dir)).some((file) => file.endsWith(encoding === "br" ? ".br" : ".gz"));
+        }, { message: encoding + " copy on disk" });
+
         const response = await until(
           async () => {
             const r = await request(this.origin, "/page", withEncoding(encoding));
@@ -321,6 +333,35 @@ describe("diskcache", function () {
       expect(response.headers["blot-cache"]).toBe("HIT");
       expect(response.headers["content-encoding"]).toBeUndefined();
       expect(response.body.toString()).toBe(html(100));
+    });
+
+    it("compresses every entry when more are filled than compressors run at once", async function () {
+      const paths = Array.from({ length: 8 }, (_, i) => "/article-" + i);
+
+      await Promise.all(paths.map((path) => fill.call(this, path)));
+
+      for (const path of paths) {
+        const response = await until(
+          async () => {
+            const r = await request(this.origin, path, withEncoding("br"));
+            return r.headers["content-encoding"] === "br" && r;
+          },
+          { message: "br copy of " + path, timeout: 20000 }
+        );
+
+        expect(zlib.brotliDecompressSync(response.body).toString()).toBe(html(50) + path);
+      }
+    }, 30000);
+
+    it("records that a small body or an image has no copies to make", async function () {
+      await fill.call(this, "/photo.jpg");
+
+      const { directory, key } = entry(this.cache_directory, host, `http://${host}/photo.jpg`);
+      const meta = JSON.parse(await fs.readFile(join(directory, key + ".meta"), "utf8"));
+      expect(meta.v).toEqual({});
+
+      const response = await request(this.origin, "/photo.jpg", withEncoding("br, gzip"));
+      expect(response.headers.vary).toBeUndefined();
     });
 
     it("does not compress a small body or an image", async function () {

@@ -101,9 +101,9 @@ function diskcache.new(options)
         locks = options.locks,
         -- the internal location that serves stored bodies, ending in /
         location = options.location or "/__diskcache/",
-        -- compressions running at once in each worker
-        compressions = options.compressions or 2,
-        running = 0,
+        -- the compression queue's shared dict, and its length limit
+        queue = options.queue,
+        queue_max = options.queue_max or 10000,
     }, diskcache)
 end
 
@@ -248,7 +248,7 @@ local function serve_hit(self, dir, key, jump)
 
     local encoding = pick_encoding(meta)
 
-    if meta.v then
+    if meta.v and (meta.v.br or meta.v.gz) then
         ngx.header["Vary"] = "Accept-Encoding"
     end
 
@@ -425,79 +425,170 @@ local function discard_if_purged(self, fill, paths)
     end
 end
 
--- Store gzip and brotli copies of a published body, then point its metadata
--- at them. Runs in a timer, away from any request.
-local function compress(premature, self, fill)
-    if premature then
-        self.running = self.running - 1
+-- Whether an entry's body is worth storing compressed
+local function compressible(meta, size)
+    if size < MIN_COMPRESS then
+        return false
+    end
+
+    for _, pair in ipairs(meta.h) do
+        if pair[1]:lower() == "content-type" then
+            return COMPRESSIBLE[pair[2]:match("^[^;%s]+")] == true
+        end
+    end
+
+    return false
+end
+
+local function file_size(path)
+    local file = io.open(path, "rb")
+
+    if not file then
+        return nil
+    end
+
+    local size = file:seek("end")
+    file:close()
+
+    return size
+end
+
+-- Point an entry's metadata at its stored copies (v), if it still names the
+-- same fill: the key may have been purged and filled again meanwhile. A
+-- refill landing between the read and the rename loses its metadata, which
+-- is a miss, not a stale page; a purge in that gap is caught by the check
+-- after the rename.
+local function update_variants(self, job, id, variants)
+    local base = self.directory .. "/" .. job
+    local meta = cjson.decode(read_file(base .. ".meta") or "")
+
+    if not meta or meta.id ~= id then
         return
     end
 
-    local directory = self.directory .. "/" .. fill.dir
-    local body = directory .. "/" .. fill.key .. "." .. fill.id
-    local tmp = directory .. "/.tmp/" .. fill.key .. "." .. fill.id
-    local ok = true
+    meta.v = variants
 
+    local tmp = base:match("^(.*)/") .. "/.tmp/" .. job:match("[^/]+$") .. "." .. id .. ".meta"
+
+    if not write_file(tmp, cjson.encode(meta)) then
+        return
+    end
+
+    if not os.rename(tmp, base .. ".meta") then
+        os.remove(tmp)
+        return
+    end
+
+    -- <dir>.purged, beside the host directory
+    if purged_at(self, job:match("^(.*)/") .. ".purged") >= meta.t then
+        os.remove(base .. ".meta")
+    end
+end
+
+-- Store gzip and brotli copies of an entry's body, then point its metadata
+-- at them. job is the entry's path under the cache directory without
+-- .meta: <a>/<bc>/<host>/<key>. Called by the compressors worker 0 runs.
+local function compress(self, job)
+    local base = self.directory .. "/" .. job
+    local meta = cjson.decode(read_file(base .. ".meta") or "")
+
+    -- purged, evicted, or done already
+    if not meta or meta.v then
+        return
+    end
+
+    local body = base .. "." .. meta.id
+    local size = file_size(body)
+
+    if not size then
+        return
+    end
+
+    if not compressible(meta, size) then
+        -- an entry from before v was written at fill time, which the
+        -- sweeper queued: record that it has no copies to make
+        return update_variants(self, job, meta.id, {})
+    end
+
+    local tmp = base:match("^(.*)/") .. "/.tmp/" .. job:match("[^/]+$") .. "." .. meta.id
+
+    -- niced, so serving wins when the CPU is busy
     local commands = {
-        br = { "brotli", "-q", "11", "-f", "-o", tmp .. ".br", body },
-        gz = { "sh", "-c", 'gzip -9 -n -c "$1" > "$2"', "sh", body, tmp .. ".gz" },
+        br = { "nice", "-n", "10", "brotli", "-q", "11", "-f", "-o", tmp .. ".br", body },
+        gz = { "nice", "-n", "10", "sh", "-c", 'gzip -9 -n -c "$1" > "$2"', "sh", body, tmp .. ".gz" },
     }
 
     for _, encoding in ipairs({ "br", "gz" }) do
         local proc = ngx_pipe.spawn(commands[encoding])
+        local ok = false
 
-        if not proc then
-            ok = false
-            break
+        if proc then
+            -- brotli 11 on a large page takes seconds
+            proc:set_timeouts(nil, nil, nil, 300000)
+            ok = proc:wait() and os.rename(tmp .. "." .. encoding, body .. "." .. encoding)
         end
 
-        -- brotli 11 on a large page takes seconds
-        proc:set_timeouts(nil, nil, nil, 120000)
-
-        if not proc:wait() then
-            ok = false
-            break
-        end
-
-        if not os.rename(tmp .. "." .. encoding, body .. "." .. encoding) then
-            ok = false
-            break
+        if not ok then
+            if proc then
+                proc:kill(9)
+            end
+            os.remove(tmp .. ".br")
+            os.remove(tmp .. ".gz")
+            ngx.log(ngx.ERR, "diskcache: could not compress ", body)
+            return
         end
     end
 
-    self.running = self.running - 1
+    update_variants(self, job, meta.id, { br = true, gz = true })
+end
 
-    if not ok then
-        os.remove(tmp .. ".br")
-        os.remove(tmp .. ".gz")
-        ngx.log(ngx.ERR, "diskcache: could not compress ", body)
+-- Queue an entry for compress(). Returns false if the queue is full; the
+-- entry is then compressed on the fly until the sweeper queues it again.
+local function enqueue(self, job)
+    local queue = ngx.shared[self.queue]
+
+    if queue:llen("jobs") >= self.queue_max then
+        return false
+    end
+
+    -- already waiting
+    if not queue:add("queued:" .. job, true, 86400) then
+        return true
+    end
+
+    if not queue:rpush("jobs", job) then
+        queue:delete("queued:" .. job)
+        return false
+    end
+
+    return true
+end
+
+-- One of worker 0's compressors: takes entries off the queue until the
+-- worker exits. The queue is a shared dict, so it survives a reload and the
+-- new worker 0 carries on with it.
+local function compressor(premature, self)
+    if premature then
         return
     end
 
-    -- Only update the metadata if it still names this fill: the key may have
-    -- been purged and filled again while this ran. There is a gap between
-    -- this read and the rename below, which the purge check afterwards
-    -- covers; another refill landing inside it would lose its metadata,
-    -- which is a miss, not a stale page.
-    local meta_path = directory .. "/" .. fill.key .. ".meta"
-    local current = cjson.decode(read_file(meta_path) or "")
+    local queue = ngx.shared[self.queue]
 
-    if not current or current.id ~= fill.id then
-        return
+    while not ngx.worker.exiting() do
+        local job = queue:lpop("jobs")
+
+        if job then
+            queue:delete("queued:" .. job)
+
+            local ok, err = pcall(compress, self, job)
+
+            if not ok then
+                ngx.log(ngx.ERR, "diskcache: compressing ", job, ": ", err)
+            end
+        else
+            ngx.sleep(0.25)
+        end
     end
-
-    fill.meta.v = { br = true, gz = true }
-
-    if not write_file(tmp .. ".meta", cjson.encode(fill.meta)) then
-        return
-    end
-
-    if not os.rename(tmp .. ".meta", meta_path) then
-        os.remove(tmp .. ".meta")
-        return
-    end
-
-    discard_if_purged(self, fill, { meta_path })
 end
 
 -- Release the fill lock this request holds, if any. Called from log_by_lua
@@ -554,6 +645,14 @@ function diskcache.log(self)
         return done()
     end
 
+    -- v lists the stored copies: none yet, or none to make, which tells
+    -- the sweeper's backfill to leave the entry alone
+    fill.compress = fill.size >= MIN_COMPRESS and COMPRESSIBLE[fill.type] == true
+
+    if not fill.compress then
+        fill.meta.v = {}
+    end
+
     local tmp_meta = fill.tmp .. ".meta"
 
     if not write_file(tmp_meta, cjson.encode(fill.meta)) or not os.rename(tmp_meta, meta_path) then
@@ -570,11 +669,8 @@ function diskcache.log(self)
         return
     end
 
-    if fill.size >= MIN_COMPRESS and COMPRESSIBLE[fill.type] and self.running < self.compressions then
-        self.running = self.running + 1
-        if not ngx.timer.at(0, compress, self, fill) then
-            self.running = self.running - 1
-        end
+    if fill.compress and not enqueue(self, fill.dir .. "/" .. fill.key) then
+        ngx.log(ngx.WARN, "diskcache: compression queue full, ", fill.dir, "/", fill.key, " waits for the sweeper")
     end
 end
 
@@ -639,16 +735,27 @@ function diskcache.purge(self)
     return ngx.exit(ngx.OK)
 end
 
--- Called from init_worker_by_lua: worker 0 runs the sweeper (proxy/evict.sh)
--- every interval seconds. Each container sharing the cache runs one; the
--- script's flock lets one sweep at a time.
-function diskcache.start_sweeper(self, options)
+-- Called from init_worker_by_lua. Worker 0 runs the compressors and, every
+-- options.interval seconds, the sweeper (proxy/evict.sh). Each container
+-- sharing the cache runs one sweeper; the script's flock lets one sweep at a
+-- time. The sweeper prints "queue <entry>" for entries whose compressed
+-- copies were never made (the queue lives in memory, so a restart loses
+-- it), and they are queued again here.
+function diskcache.start(self, options)
     if ngx.worker.id() ~= 0 then
         return
     end
 
+    for _ = 1, options.compressors or 2 do
+        ngx.timer.at(0, compressor, self)
+    end
+
+    if not options.sweeper then
+        return
+    end
+
     local command = {
-        options.command,
+        options.sweeper,
         self.directory,
         tostring(options.max_bytes),
         tostring(options.max_filesystem_percent or 90),
@@ -667,17 +774,41 @@ function diskcache.start_sweeper(self, options)
         end
 
         -- a sweep of a large cache can take minutes; well under an interval
-        proc:set_timeouts(nil, options.interval * 1000, options.interval * 1000, options.interval * 1000)
+        local timeout = options.interval * 1000
+        proc:set_timeouts(nil, timeout, timeout, timeout)
 
-        local output = proc:stdout_read_all() or ""
+        local queued, full = 0, 0
+
+        while true do
+            local line, read_err = proc:stdout_read_line()
+
+            if not line then
+                if read_err ~= "closed" then
+                    proc:kill(9)
+                    ngx.log(ngx.ERR, "diskcache: reading the sweeper failed: ", read_err)
+                    return
+                end
+                break
+            end
+
+            local job = line:match("^queue (.+)$")
+
+            if job then
+                if enqueue(self, job) then
+                    queued = queued + 1
+                else
+                    full = full + 1
+                end
+            else
+                ngx.log(ngx.NOTICE, "diskcache: ", line, " queued=", queued, " queue_full=", full)
+            end
+        end
+
         local stderr = proc:stderr_read_all() or ""
         local ok, reason, status = proc:wait()
 
-        if ok then
-            ngx.log(ngx.NOTICE, "diskcache: ", output)
-        else
-            proc:kill(9)
-            ngx.log(ngx.ERR, "diskcache: sweeper ", tostring(reason), " ", tostring(status), ": ", output, stderr:sub(1, 500))
+        if not ok then
+            ngx.log(ngx.ERR, "diskcache: sweeper ", tostring(reason), " ", tostring(status), ": ", stderr:sub(1, 500))
         end
     end
 
