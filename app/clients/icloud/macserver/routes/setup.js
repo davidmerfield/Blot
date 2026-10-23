@@ -56,7 +56,9 @@ const setupBlog = setupLimiter.wrap(async (blogID, sharingLink) => {
   if (outcome === "INVALID_LINK") throw new Error("Invalid sharing link");
 
   if (outcome === "OTHER_USER") {
-    throw new Error("This sharing link was made for another iCloud user");
+    throw new Error(
+      "This sharing link is private. Share the folder with Blot's iCloud account, or allow anyone with the link to access it"
+    );
   }
 
   // Time the wait from here so the reset and the AppleScript don't eat into it
@@ -201,7 +203,8 @@ try
             if exists process "UserNotificationCenter" then
                 tell process "UserNotificationCenter"
                     if exists window 1 then
-                        -- "Continue" means the link was made for another user
+                        -- "Continue" means the link is private ("... is private.
+                        -- Please verify that you're allowed to open it")
                         if exists (button "Continue" of window 1) then
                             click button "Cancel" of window 1
                             set outcome to "OTHER_USER"
