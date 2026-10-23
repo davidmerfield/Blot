@@ -592,8 +592,9 @@ local function compressor(premature, self)
 end
 
 -- Release the fill lock this request holds, if any. Called from log_by_lua
--- in @diskcache_fill and, for a request an error_page redirected elsewhere,
--- from the log_by_lua every other location inherits from http.conf.
+-- in @diskcache_fill and, for a request error_page redirected, in the error
+-- page's location (blot-blogs.conf). Not on hits: reading a variable no
+-- `set` ran for logs a warning and costs ~1us.
 function diskcache.release(self)
     local key = ngx.var.diskcache_lock
 
