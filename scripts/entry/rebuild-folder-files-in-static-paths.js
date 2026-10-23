@@ -1,30 +1,41 @@
-// Lists the blogs with entries which link to a real file in the blog's folder
-// through one of the per-blog generated-asset prefixes (/_assets,
-// /_image_cache, ...; see blog/lib/staticPaths).
+// Rebuilds the entries which link to a real file in the blog's folder through
+// one of the per-blog generated-asset prefixes (/_assets, /_image_cache, ...;
+// see blog/lib/staticPaths), so that folderAssets bakes those links into
+// versioned CDN URLs.
 //
 // scripts/entry/rebuild-unbaked-folder-links.js never selects those entries,
 // because a link under one of those prefixes is normally a generated asset,
 // not a folder file, and would match on every run. But a blog can keep its own
 // files under such a name (a folder called _assets/images), and the entries
-// which link to them are only baked to CDN URLs if they are rebuilt for some
-// other reason. This finds them: an entry is reported when a stored html,
+// which link to them stay unbaked, and are served from the origin, until they
+// are rebuilt for some other reason. An entry is selected when a stored html,
 // body, teaser or teaserBody link under one of those prefixes names a file
-// which exists in the blog's folder, and which is not already baked.
+// which exists in the blog's folder. Once rebuilt the link is baked, so a
+// second run finds nothing to do.
 //
-// Read-only: it takes no lock and writes nothing. A reported entry is baked
-// when it is next rebuilt (the folderAssets plugin has no such exclusion).
+// WHEN TO RUN: on a host which can reach the blog folders and Redis, e.g.
+// inside the app container. Run with --dry-run first to list the blogs and
+// entries it would rebuild.
 //
-// Run it on a host which can reach the blog folders and Redis, e.g. inside
-// the app container.
+// Safe to re-run, and to stop and resume. Entries are rebuilt one at a time,
+// each under the blog's sync lock (re-read under the lock, since a sync may
+// have changed it since the scan). If a blog's sync lock cannot be acquired
+// (it is syncing) the blog is skipped with a log line rather than waited for;
+// run the script again later. A blog whose entries were rebuilt gets a new
+// cacheID, as at the end of a sync. The exit code is non-zero if anything
+// errored or was skipped.
 //
 // Usage:
-//   node scripts/entry/find-folder-files-in-static-paths.js [blog id, handle or domain] [--paths]
+//   node scripts/entry/rebuild-folder-files-in-static-paths.js [blog id, handle or domain] [--dry-run] [--paths]
 //
-// With no blog argument every blog is scanned. --paths also lists each
-// entry's path.
+// With no blog argument every blog is processed. --dry-run writes nothing and
+// takes no lock. --paths also lists each entry's path.
 
 const Blog = require("models/blog");
 const Entries = require("models/entries");
+const Entry = require("models/entry");
+const establishSyncLock = require("sync/establishSyncLock");
+const rebuildEntry = require("sync/update/rebuildEntry");
 const config = require("config");
 const blogHosts = require("blog/lib/blogHosts");
 const BLOT_CDN_TOKEN = require("blog/render/replaceFolderLinks/cdnToken");
@@ -46,6 +57,7 @@ const ATTRIBUTE =
   /\b(href|src|poster|srcset)\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s"'>]+))/gi;
 
 const args = process.argv.slice(2);
+const dryRun = args.includes("--dry-run");
 const listPaths = args.includes("--paths");
 const identifier = args.find((arg) => !arg.startsWith("--"));
 
@@ -142,6 +154,72 @@ async function scanBlog(blog) {
   return entries;
 }
 
+async function rebuild(blog, entries, totals) {
+  let rebuilt = 0;
+
+  for (let i = 0; i < entries.length; i++) {
+    const path = entries[i].path;
+    let lock;
+
+    // Skip rather than wait if the blog is syncing.
+    try {
+      lock = await establishSyncLock(blog.id);
+    } catch (err) {
+      console.log(
+        `${blog.handle} ${blog.id}: could not acquire sync lock, skipping ${
+          entries.length - i
+        } entries (re-run later): ${err.message}`
+      );
+      totals.skippedBlogs++;
+      totals.notRebuilt += entries.length - i;
+      break;
+    }
+
+    try {
+      // Read again under the lock: a sync may have rebuilt or removed it.
+      // Entry.get calls back (entry) on success and (undefined, err) on error
+      const entry = await new Promise((resolve, reject) =>
+        Entry.get(blog.id, path, (entry, err) => (err ? reject(err) : resolve(entry)))
+      );
+
+      if (entry && !entry.deleted) {
+        await new Promise((resolve, reject) =>
+          rebuildEntry(blog, entry, (err) => (err ? reject(err) : resolve()))
+        );
+        rebuilt++;
+      }
+    } catch (err) {
+      totals.errors++;
+      console.error(`${blog.handle} ${blog.id}: error rebuilding ${path}:`, err.message || err);
+    } finally {
+      try {
+        await lock.done();
+      } catch (err) {
+        totals.errors++;
+        console.error(`${blog.handle} ${blog.id}: error releasing sync lock:`, err.message || err);
+      }
+    }
+
+    // Yield between entries so a large blog doesn't hog the event loop.
+    await new Promise((resolve) => setImmediate(resolve));
+  }
+
+  if (rebuilt) {
+    // Same as the end of a sync: render caches are keyed on cacheID.
+    await new Promise((resolve) =>
+      Blog.set(blog.id, { cacheID: Date.now() }, (err) => {
+        if (err) {
+          totals.errors++;
+          console.error(`${blog.handle} ${blog.id}: error updating cacheID:`, err.message || err);
+        }
+        resolve();
+      })
+    );
+  }
+
+  return rebuilt;
+}
+
 function blogIDs() {
   if (!identifier) {
     return new Promise((resolve, reject) =>
@@ -176,8 +254,20 @@ function blogIDs() {
 }
 
 async function main() {
+  console.log(
+    dryRun ? "Dry run (nothing will be rebuilt)" : "Rebuilding entries with folder files under generated-asset prefixes"
+  );
+
   const ids = (await blogIDs()).slice().sort();
-  const totals = { blogs: 0, blogsWithMatches: 0, entries: 0, errors: 0 };
+  const totals = {
+    blogs: 0,
+    blogsWithMatches: 0,
+    entries: 0,
+    rebuilt: 0,
+    skippedBlogs: 0,
+    notRebuilt: 0,
+    errors: 0,
+  };
 
   for (const blogID of ids) {
     const blog = await new Promise((resolve, reject) =>
@@ -203,7 +293,15 @@ async function main() {
         `${blog.handle} ${blog.id}: ${entries.length} entries link to ${files.size} folder files`
       );
 
-      if (listPaths) entries.forEach((entry) => console.log(`  ${entry.path}`));
+      if (listPaths || dryRun)
+        entries.forEach((entry) => console.log(`  ${entry.path}`));
+
+      if (!dryRun) {
+        const rebuilt = await rebuild(blog, entries, totals);
+
+        totals.rebuilt += rebuilt;
+        console.log(`${blog.handle} ${blog.id}: rebuilt ${rebuilt} of ${entries.length} entries`);
+      }
     } catch (err) {
       totals.errors++;
       console.error(`${blog.handle} ${blog.id}: failed:`, err.message || err);
@@ -213,10 +311,15 @@ async function main() {
   console.log("\n=== Folder files under generated-asset prefixes ===");
   console.log(`Blogs scanned: ${totals.blogs}`);
   console.log(`Blogs with entries to rebuild: ${totals.blogsWithMatches}`);
-  console.log(`Entries to rebuild: ${totals.entries}`);
+  console.log(`Entries matched: ${totals.entries}`);
+  if (!dryRun) {
+    console.log(`Entries rebuilt: ${totals.rebuilt}`);
+    console.log(`Blogs skipped (sync lock busy): ${totals.skippedBlogs}`);
+    console.log(`Entries not rebuilt (skipped blogs): ${totals.notRebuilt}`);
+  }
   console.log(`Errors: ${totals.errors}`);
 
-  return totals.errors === 0;
+  return totals.errors === 0 && totals.skippedBlogs === 0;
 }
 
 main()
