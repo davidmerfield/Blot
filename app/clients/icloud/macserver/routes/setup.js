@@ -23,8 +23,13 @@ const setupBlog = setupLimiter.wrap(async (blogID, sharingLink) => {
   );
 
   const checkInterval = 100; // Interval (in ms) to check for new directories
-  const timeout = 1000 * 15; // Timeout (in ms) to wait for a new directory: 15 seconds 
+  const timeout = 1000 * 30; // Timeout (in ms) to wait for a new directory: 30 seconds
   const start = Date.now();
+
+  // Start from a clean slate: no leftover Finder windows or sheets from an
+  // earlier run, and no unclaimed folders that would hide the new one
+  await resetFinder();
+  await removeStaleFolders();
 
   // Get the initial state of the top-level directories
   const initialDirs = await fs.readdir(iCloudDriveDirectory, {
@@ -41,7 +46,19 @@ const setupBlog = setupLimiter.wrap(async (blogID, sharingLink) => {
   );
 
   console.log(clfdate(), "running the acceptSharingLink script");
-  await acceptSharingLink(sharingLink);
+  const outcome = await acceptSharingLink(sharingLink);
+
+  if (outcome === "NO_ACCESS") {
+    throw new Error(
+      "The iCloud account does not have access to this folder. Check the sharing link allows anyone with the link to access it"
+    );
+  }
+
+  if (outcome === "INVALID_LINK") throw new Error("Invalid sharing link");
+
+  if (outcome === "OTHER_USER") {
+    throw new Error("This sharing link was made for another iCloud user");
+  }
 
   while (true && Date.now() - start < timeout) {
     // Get the current state of the top-level directories
@@ -88,63 +105,157 @@ const escapeAppleScriptString = (value) =>
     .replace(/"/g, "\\\"")
     .replace(/\r\n|\r|\n/g, "\\n");
 
-// Used the accessibility inspector to find the UI elements to interact with
-const appleScript = (sharingLink) => `
--- Open the specified sharing link in Finder
+// Finder windows and sheets left over from an earlier run (e.g. an "Ask for
+// Access" sheet) block the next sharing link, so each run starts by closing
+// them and each run ends by closing them again
+const resetScript = `
 try
-    -- Open the sharing link in Finder
+    tell application "System Events"
+        if exists process "Finder" then
+            tell process "Finder"
+                repeat with w in windows
+                    try
+                        click button "Cancel" of sheet 1 of w
+                    end try
+                end repeat
+            end tell
+        end if
+    end tell
+end try
+try
+    tell application "Finder" to close every window
+end try
+tell application "System Events"
+    if exists process "Finder" then
+        return (count of windows of process "Finder") as text
+    end if
+end tell
+return "0"
+`;
+
+async function resetFinder() {
+  try {
+    const { stdout } = await exec("osascript", ["-e", resetScript], {
+      timeout: 15000,
+    });
+    if (stdout.trim() === "0") return;
+  } catch (error) {
+    console.error(clfdate(), "Finder reset script failed", error);
+  }
+
+  // Something is still open (or the script could not run): relaunch Finder
+  console.log(clfdate(), "Finder windows remain after reset, relaunching Finder");
+  try {
+    await exec("killall", ["Finder"], { timeout: 5000 });
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+  } catch (error) {
+    console.error(clfdate(), "Failed to relaunch Finder", error);
+  }
+}
+
+// A top-level folder that is not a blog_ folder is a shared folder that was
+// accepted but never renamed (a failed or timed out setup). Left in place it
+// stops a new share with the same name from looking like a new folder
+async function removeStaleFolders() {
+  const entries = await fs.readdir(iCloudDriveDirectory, {
+    withFileTypes: true,
+  });
+
+  for (const entry of entries) {
+    if (!entry.isDirectory()) continue;
+    if (entry.name.startsWith(".") || entry.name.startsWith("blog_")) continue;
+
+    const path = join(iCloudDriveDirectory, entry.name);
+    const contents = await fs.readdir(path);
+
+    if (contents.length) {
+      console.error(
+        clfdate(),
+        `Leaving unclaimed non-empty folder in iCloud Drive: ${entry.name}`
+      );
+      continue;
+    }
+
+    console.log(clfdate(), `Removing empty unclaimed folder: ${entry.name}`);
+    await fs.rmdir(path);
+  }
+}
+
+// Used the accessibility inspector to find the UI elements to interact with.
+// Prints one of: OPENED, NO_ACCESS, INVALID_LINK, OTHER_USER, TIMEOUT
+const appleScript = (sharingLink) => `
+set outcome to "TIMEOUT"
+try
     tell application "Finder"
         open location "${sharingLink}"
     end tell
 
-    -- Wait for the iCloud sharing system dialog to appear
-    set timeoutSeconds to 10 -- Set the timeout (in seconds)
-    set startTime to (current date) -- Track the start time
+    set timeoutSeconds to 10
+    set startTime to (current date)
 
     tell application "System Events"
-        tell process "UserNotificationCenter"
-            -- Loop until either the "Open" or "Continue" button is detected, or timeout occurs
-            repeat
-                if (exists (button "Open" of window 1)) or (exists (button "Continue" of window 1)) or (exists (button "OK" of window 1)) then
-                    exit repeat -- Exit the loop if a button is detected
-                end if
-
-                -- Check if the timeout has been reached
-                if ((current date) - startTime) > timeoutSeconds then
-                    exit repeat -- Exit the loop if the timeout has been reached
-                end if
-
-                delay 0.1 -- Check every 0.1 seconds
-            end repeat
-
-            -- Check if the "Continue" button exists
-            -- This means the sharing link is for another user
-            if exists (button "Continue" of window 1) then
-                click button "Cancel" of window 1
+        repeat
+            -- Dialogs from the iCloud sharing system
+            if exists process "UserNotificationCenter" then
+                tell process "UserNotificationCenter"
+                    if exists window 1 then
+                        -- "Continue" means the link was made for another user
+                        if exists (button "Continue" of window 1) then
+                            click button "Cancel" of window 1
+                            set outcome to "OTHER_USER"
+                        -- "OK" means the sharing link is invalid
+                        else if exists (button "OK" of window 1) then
+                            click button "OK" of window 1
+                            set outcome to "INVALID_LINK"
+                        -- "Open" means the sharing link is valid
+                        else if exists (button "Open" of window 1) then
+                            click button "Open" of window 1
+                            set outcome to "OPENED"
+                        end if
+                    end if
+                end tell
             end if
 
-            -- Check if the "OK" button exists
-            -- This means the sharing link is invalid
-            if exists (button "OK" of window 1) then
-                click button "OK" of window 1
+            -- Finder's "Ask for Access" sheet: the account is not allowed in
+            if outcome is "TIMEOUT" and (exists process "Finder") then
+                tell process "Finder"
+                    repeat with w in windows
+                        try
+                            if exists (button "Send Request" of sheet 1 of w) then
+                                click button "Cancel" of sheet 1 of w
+                                set outcome to "NO_ACCESS"
+                            end if
+                        end try
+                        try
+                            if exists (button "Send Request" of w) then
+                                click button "Cancel" of w
+                                set outcome to "NO_ACCESS"
+                            end if
+                        end try
+                    end repeat
+                end tell
             end if
 
-            -- Click the "Open" button if it exists
-            -- This means the sharing link is valid
-            if exists (button "Open" of window 1) then
-                click button "Open" of window 1
-            end if
-        end tell
+            if outcome is not "TIMEOUT" then exit repeat
+            if ((current date) - startTime) > timeoutSeconds then exit repeat
+            delay 0.1
+        end repeat
     end tell
 
     -- wait 2 seconds for the Finder to process the new folder if it was created
     delay 2
-    
-    -- Close all Finder windows after interacting with the sharing dialog
+on error errorMessage
+    set outcome to "ERROR " & errorMessage
+end try
+
+-- Always close the Finder windows, even after an error
+try
     tell application "Finder"
         close every window
     end tell
 end try
+
+return outcome
 `;
 
 async function acceptSharingLink(sharingLink) {
@@ -165,6 +276,7 @@ async function acceptSharingLink(sharingLink) {
       `AppleScript execution failed for sharing link: ${sharingLink}`,
       error
     );
+    await resetFinder();
     throw error;
   }
 
@@ -172,14 +284,18 @@ async function acceptSharingLink(sharingLink) {
     throw new Error(`Unexpected AppleScript stderr: ${stderr}`);
   }
 
-  if (stdout && stdout.trim()) {
-    throw new Error(`Unexpected AppleScript stdout: ${stdout}`);
+  const outcome = String(stdout || "").trim();
+  console.log(clfdate(), `AppleScript finished: ${outcome}`);
+
+  if (outcome.startsWith("ERROR")) {
+    await resetFinder();
+    throw new Error(`AppleScript failed: ${outcome}`);
   }
 
-  // We don't know if the script succeeded or failed because it's hard to 
-  // write to stdout or stderr from AppleScript. We check if it worked
-  // by determining if the folder was created
-  console.log(clfdate(), `AppleScript finished`);
+  // On OPENED or TIMEOUT we can't tell if it worked because the dialogs are
+  // hard to observe from AppleScript. We check if it worked by determining if
+  // the folder was created
+  return outcome;
 }
 
 export default async (req, res) => {
