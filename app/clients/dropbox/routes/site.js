@@ -68,8 +68,14 @@ function finishedAllSyncs (blogID) {
 
 // Used for testing purposes only to determine when a sync has finished
 // Redlock means we can't reliably determine this just by calling sync()
-site.get("/webhook/syncs-finished/:blogID", function (req, res) {
-  res.send(finishedAllSyncs(req.params.blogID));
+// A follow-up still queued in Redis counts as a sync to come.
+site.get("/webhook/syncs-finished/:blogID", async function (req, res, next) {
+  try {
+    const blogID = req.params.blogID;
+    res.send(finishedAllSyncs(blogID) && !(await followUps.pending(blogID)));
+  } catch (err) {
+    next(err);
+  }
 });
 
 // This is called by Dropbox to verify the webhook exists

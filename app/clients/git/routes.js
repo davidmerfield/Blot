@@ -188,8 +188,14 @@ function finishedAllSyncs(blogID) {
 // Used for testing purposes only to determine when a sync has finished
 // Redlock means we can't reliably determine this just by calling
 // Blot.sync();
-site.get("/syncs-finished/:blogID", function (req, res) {
-  res.send(finishedAllSyncs(req.params.blogID));
+// A follow-up still queued in Redis counts as a sync to come.
+site.get("/syncs-finished/:blogID", async function (req, res, next) {
+  try {
+    var blogID = req.params.blogID;
+    res.send(finishedAllSyncs(blogID) && !(await followUps.pending(blogID)));
+  } catch (err) {
+    next(err);
+  }
 });
 
 // Tags and fetches have no special handling: pushover accepts them when nobody

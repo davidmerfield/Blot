@@ -72,7 +72,16 @@ function followUpSync(name, syncBlog) {
     return attempt(blogID);
   }
 
-  const instance = { run, alarm: alarms };
+  // For the clients' test-only syncs-finished routes: whether a follow-up is
+  // still waiting for the blog. Setup doesn't run in tests, so nothing else
+  // polls there; this starts a poll to run any follow-up that is due.
+  async function pending(blogID) {
+    if ((await alarms.when(blogID)) === null) return false;
+    alarms.poll().catch((err) => log("Poll failed", err));
+    return true;
+  }
+
+  const instance = { run, pending, alarm: alarms };
   instances.push(instance);
   return instance;
 }
