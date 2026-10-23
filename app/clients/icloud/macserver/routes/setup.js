@@ -24,7 +24,6 @@ const setupBlog = setupLimiter.wrap(async (blogID, sharingLink) => {
 
   const checkInterval = 100; // Interval (in ms) to check for new directories
   const timeout = 1000 * 30; // Timeout (in ms) to wait for a new directory: 30 seconds
-  const start = Date.now();
 
   // Start from a clean slate: no leftover Finder windows or sheets from an
   // earlier run, and no unclaimed folders that would hide the new one
@@ -59,6 +58,9 @@ const setupBlog = setupLimiter.wrap(async (blogID, sharingLink) => {
   if (outcome === "OTHER_USER") {
     throw new Error("This sharing link was made for another iCloud user");
   }
+
+  // Time the wait from here so the reset and the AppleScript don't eat into it
+  const start = Date.now();
 
   while (true && Date.now() - start < timeout) {
     // Get the current state of the top-level directories
