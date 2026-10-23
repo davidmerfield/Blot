@@ -74,13 +74,14 @@ describe("notificationCap", function () {
   });
 
   it("starts counting again once resetAfterMs has passed, escalating again too", async function () {
-    const notify = cap({ resetAfterMs: 200 });
+    // Long enough that a slow CI runner cannot expire the window mid-test
+    const notify = cap({ resetAfterMs: 1500 });
 
     expect(await notify("a", send, escalate)).toBe("sent");
     expect(await notify("a", send, escalate)).toBe("escalated");
     expect(await notify("a", send, escalate)).toBe("suppressed");
 
-    await sleep(300);
+    await sleep(1700);
     expect(await notify("a", send, escalate)).toBe("sent");
     expect(await notify("a", send, escalate)).toBe("escalated");
     expect(calls).toEqual(["send", "escalate", "send", "escalate"]);
