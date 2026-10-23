@@ -16,9 +16,10 @@
 -- as nginx's levels=1:2. <id> names one fill, so a compression that finishes
 -- after a refill can never be served with the new metadata.
 --
--- A hit reads the .meta file and hands the body to an internal location that
--- serves it with sendfile; a compressed copy is sent as it is, so a hit costs
--- no compression. A miss streams Node's response into .tmp and publishes it
+-- A hit reads the .meta file, sets its headers and leaves the body to
+-- try_files in the same location, which sends it with sendfile (an internal
+-- redirect cost ~6us a hit); a compressed copy is sent as it is, so a hit
+-- costs no compression. A miss streams Node's response into .tmp and publishes it
 -- with rename, which is atomic, so another instance sees either the old entry
 -- or the new one.
 --
@@ -202,7 +203,9 @@ local function send_headers(meta)
 end
 
 -- Serve the entry if there is one. Returns true when the request was handled.
-local function serve_hit(self, dir, key)
+-- A 200 is left for try_files to send (see reverse-proxy-cache.conf), or
+-- with jump, sent from the internal locations.
+local function serve_hit(self, dir, key, jump)
     local data = read_file(self.directory .. "/" .. dir .. "/" .. key .. ".meta")
 
     if not data then
@@ -244,15 +247,23 @@ local function serve_hit(self, dir, key)
     end
 
     if encoding then
+        -- the gzip and brotli filters leave a response with a
+        -- Content-Encoding alone
         ngx.header["Content-Encoding"] = encoding == "br" and "br" or "gzip"
-        return ngx.exec(self.location .. "encoded/" .. body .. "." .. encoding)
+        body = body .. "." .. encoding
     end
 
-    return ngx.exec(self.location .. "plain/" .. body)
+    if jump then
+        return ngx.exec(self.location .. (encoding and "encoded/" or "plain/") .. body)
+    end
+
+    ngx.var.diskcache_path = "/" .. body
+
+    return true
 end
 
--- access_by_lua: serve a hit, or wait for a fill of the same key in progress
--- and serve that, or let the request through to Node and record it.
+-- access_by_lua in the cached location: serve a hit, otherwise try_files
+-- passes the request to @diskcache_fill
 function diskcache.access(self)
     local method = ngx.req.get_method()
 
@@ -260,29 +271,34 @@ function diskcache.access(self)
         return
     end
 
-    local host = ngx.var.host
-    local key = ngx.md5(ngx.var.cache_key)
-    local dir, marker = host_path(host)
+    local dir = host_path(ngx.var.host)
 
-    if serve_hit(self, dir, key) then
-        return
-    end
+    serve_hit(self, dir, ngx.md5(ngx.var.cache_key))
+end
 
+-- access_by_lua in @diskcache_fill: wait for a fill of the same key in
+-- progress and serve that, or let the request through to Node and record it
+function diskcache.fill(self)
     -- HEAD has no body to store
-    if method == "HEAD" then
+    if ngx.req.get_method() ~= "GET" then
         ngx.ctx.diskcache = { skip = true }
         return
     end
 
+    local dir, marker = host_path(ngx.var.host)
+    local key = ngx.md5(ngx.var.cache_key)
     local lock = resty_lock:new(self.locks, { exptime = 60, timeout = LOCK_TIMEOUT })
     local elapsed = lock and lock:lock(dir .. "/" .. key)
 
     if elapsed and elapsed > 0 then
         -- another request in this instance filled it while we waited
-        if serve_hit(self, dir, key) then
-            lock:unlock()
+        lock:unlock()
+
+        if serve_hit(self, dir, key, true) then
             return
         end
+
+        elapsed = lock:lock(dir .. "/" .. key)
     end
 
     ngx.ctx.diskcache = {
