@@ -10,9 +10,14 @@ const fixPath = require.resolve("sync/fix");
 const getHealthPath = require.resolve("../../../getHealth");
 const validateBlogPath = require.resolve("../../../sync/validateBlog");
 const stampLastSyncPath = require.resolve("../stampLastSync");
-const notificationCapPath = require.resolve("../../../util/notificationCap");
 
 describe("icloud status route", function () {
+  // The resync email cap counts in Redis, so its counts outlive a spec
+  const clearEmailCap = () =>
+    require("models/client").del(
+      ["blog_a", "blog_b"].map((id) => "notify-cap:icloud-resync-requested:" + id)
+    );
+
   const originals = new Map();
 
   const mockModule = (modulePath, exportsValue) => {
@@ -81,7 +86,8 @@ describe("icloud status route", function () {
     },
   });
 
-  beforeEach(function () {
+  beforeEach(async function () {
+    await clearEmailCap();
     jasmine.clock().install();
     jasmine.clock().mockDate(new Date());
 
@@ -130,30 +136,6 @@ describe("icloud status route", function () {
       callback(null, {});
     });
     mockModule(getHealthPath, async () => ({ issues: [] }));
-    // The real cap counts in Redis (see tests/notificationCap.js), which
-    // would carry counts between specs and ignore the mocked clock. This one
-    // keeps the same rules in memory, per reload of status.js.
-    mockModule(notificationCapPath, ({ max, resetAfterMs }) => {
-      const entries = new Map();
-      return async (key, send, escalate) => {
-        const now = Date.now();
-        let entry = entries.get(key);
-        if (!entry || entry.expiresAt <= now) {
-          entry = { count: 0, expiresAt: now + resetAfterMs };
-          entries.set(key, entry);
-        }
-        entry.count++;
-        if (entry.count <= max) {
-          send();
-          return "sent";
-        }
-        if (entry.count === max + 1 && escalate) {
-          escalate();
-          return "escalated";
-        }
-        return "suppressed";
-      };
-    });
     mockModule(emailPath, {
       ICLOUD_RESYNC_ISSUE: (_, locals, callback) => {
         emails.push(locals);
@@ -202,8 +184,10 @@ describe("icloud status route", function () {
     await requestResync(status, "blog_b");
     expect(emailed()).toEqual(["blog_a", "blog_b"]);
 
-    // After an hour the blog can email again
+    // After an hour the blog can email again. The window expires in Redis,
+    // out of reach of the mocked clock, so clear it as the hour would.
     jasmine.clock().tick(60 * 60 * 1000);
+    await clearEmailCap();
     await requestResync(status, "blog_a");
     expect(emailed()).toEqual(["blog_a", "blog_b", "blog_a"]);
     expect(syncs.length).toBe(5);
