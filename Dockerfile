@@ -214,8 +214,10 @@ RUN git config --global --add safe.directory /usr/src/app \
 # Alpine's community package installs the binary at /usr/lib/nginx/bin/openresty,
 # which start-openresty.sh already probes for. procps provides the `ps` used when
 # restarting OpenResty between specs; the /var dirs are nginx's compiled-in
-# defaults for the pid file and logs.
-RUN apk add --no-cache openresty sudo procps \
+# defaults for the pid file and logs. The brotli CLI makes the .br copies in
+# the disk cache specs (diskcache.lua runs it; Alpine's openresty has no
+# brotli module).
+RUN apk add --no-cache openresty brotli sudo procps \
  && mkdir -p /var/run/nginx /var/log/nginx /var/tmp/nginx
 
 ## Stage 5 (copy in source)

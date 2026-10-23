@@ -108,7 +108,11 @@ const stopOpenresty = async () => {
   } catch (e) {}
 };
 
-module.exports = configFile => {
+// Options:
+//   waitForIndex: false for configs without cacher.lua's index (diskcache.conf)
+//   upstream: a function({ port }) resolving to a server, instead of the
+//     stub in upstream-server.js
+module.exports = (configFile, { waitForIndex: indexed = true, upstream = server } = {}) => {
   beforeEach(async function () {
     await fs.emptyDir(DATA_DIRECTORY);
 
@@ -138,9 +142,9 @@ module.exports = configFile => {
 
     await stopOpenresty();
 
-    await startOpenresty(configPath, this.origin);
+    await startOpenresty(configPath, this.origin, { waitForIndex: indexed });
 
-    this.server = await server({ port: config.node.port });
+    this.server = await upstream({ port: config.node.port });
 
     this.inspectCache = ({ verbose = false, host = null } = {}) =>
       inspectCache(origin + "/inspect", cache_directory, host, verbose);
@@ -167,7 +171,7 @@ module.exports = configFile => {
       const pidBefore = masterpid();
 
       await stopOpenresty();
-      await startOpenresty(configPath, origin, options);
+      await startOpenresty(configPath, origin, { waitForIndex: indexed, ...options });
 
       // check that the pid has changed
       const pidAfter = masterpid();

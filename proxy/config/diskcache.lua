@@ -307,8 +307,14 @@ function diskcache.fill(self)
         elapsed = lock:lock(dir .. "/" .. key)
     end
 
+    -- An error_page redirect (an intercepted 500, or nginx's own 502 when
+    -- Node is down) clears ngx.ctx before log_by_lua runs, but keeps
+    -- variables, so the lock is named here for diskcache:release()
+    if elapsed then
+        ngx.var.diskcache_lock = dir .. "/" .. key
+    end
+
     ngx.ctx.diskcache = {
-        lock = elapsed and lock or nil,
         dir = dir,
         marker = marker,
         key = key,
@@ -494,6 +500,18 @@ local function compress(premature, self, fill)
     discard_if_purged(self, fill, { meta_path })
 end
 
+-- Release the fill lock this request holds, if any. Called from log_by_lua
+-- in @diskcache_fill and, for a request an error_page redirected elsewhere,
+-- from the log_by_lua every other location inherits from http.conf.
+function diskcache.release(self)
+    local key = ngx.var.diskcache_lock
+
+    if key and key ~= "" then
+        ngx.shared[self.locks]:delete(key)
+        ngx.var.diskcache_lock = ""
+    end
+end
+
 -- log_by_lua: publish a complete fill, release the lock, queue compression
 function diskcache.log(self)
     local fill = ngx.ctx.diskcache
@@ -505,9 +523,7 @@ function diskcache.log(self)
     -- published or not, requests waiting on the lock then go ahead: they
     -- find the entry or fetch it themselves
     local function done()
-        if fill.lock then
-            fill.lock:unlock()
-        end
+        self:release()
     end
 
     if fill.skip or not fill.file then
@@ -580,14 +596,18 @@ function diskcache.purge(self)
 
         -- the marker first, so a fill that publishes after the rename below
         -- finds it
+        -- the shard directory may not exist yet, with a fill of this host
+        -- in flight that must still find the marker
+        mkdir_p(self.directory .. "/" .. marker:match("^(.*)/"))
+
         local tmp_marker = self.directory .. "/" .. marker .. "." .. random_id()
         local ok = write_file(tmp_marker, stamp)
             and os.rename(tmp_marker, self.directory .. "/" .. marker)
 
         if not ok then
-            -- the shard directory does not exist yet: nothing was cached
             os.remove(tmp_marker)
-            table.insert(message, host .. ": 0")
+            ngx.log(ngx.ERR, "diskcache: could not write the purge marker for ", host)
+            table.insert(message, host .. ": failed")
         else
             local target = trash .. "/" .. host_name(host) .. "." .. random_id()
             local moved = os.rename(self.directory .. "/" .. dir, target)
