@@ -273,18 +273,15 @@ async function resetFinder() {
     const { stdout } = await exec("osascript", ["-e", resetScript], {
       timeout: 15000,
     });
-    if (stdout.trim() === "0") return;
+    const windowsLeft = stdout.trim();
+    if (windowsLeft !== "0") {
+      console.error(
+        clfdate(),
+        `Finder windows remain after reset: ${windowsLeft}`
+      );
+    }
   } catch (error) {
     console.error(clfdate(), "Finder reset script failed", error);
-  }
-
-  // Something is still open (or the script could not run): relaunch Finder
-  console.log(clfdate(), "Finder windows remain after reset, relaunching Finder");
-  try {
-    await exec("killall", ["Finder"], { timeout: 5000 });
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-  } catch (error) {
-    console.error(clfdate(), "Failed to relaunch Finder", error);
   }
 }
 
