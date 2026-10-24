@@ -1,27 +1,28 @@
 -- A response cache on disk that any number of OpenResty instances on the same
--- host can share, with no index. Prototype, behind the disk_cache build flag
--- (see reverse-proxy-cache.conf); proxy_cache and cacher.lua stay the default.
+-- host can share, with no index. It replaces nginx's proxy_cache, which each
+-- instance keeps to itself, so two proxies could not run side by side and a
+-- purge only reached the one that received it.
 --
 -- Layout, under the cache directory:
 --
---   <a>/<bc>/<host>/<key>.meta         status, headers, the variants stored
+--   <a>/<bc>/<host>/<key>.meta         status, headers, the fill id
 --   <a>/<bc>/<host>/<key>.<id>         the body as Node sent it
---   <a>/<bc>/<host>/<key>.<id>.br      written after the fill, for
---   <a>/<bc>/<host>/<key>.<id>.gz      compressible types only
+--   <a>/<bc>/<host>/<key>.<id>.br      a brotli copy, made after the first hit
 --   <a>/<bc>/<host>/.tmp/              fills and compressions in progress
 --   <a>/<bc>/<host>.purged             time of the host's last purge
 --   .trash/                            purged host directories, being removed
 --
 -- <key> is md5(cache key) and <a>/<bc> are the last characters of md5(host),
--- as nginx's levels=1:2. <id> names one fill, so a compression that finishes
--- after a refill can never be served with the new metadata.
+-- as nginx's levels=1:2. <id> names one fill, so a body never changes once
+-- written and a compression that finishes after a refill cannot be served
+-- with the new metadata.
 --
 -- A hit reads the .meta file, sets its headers and leaves the body to
--- try_files in the same location, which sends it with sendfile (an internal
--- redirect cost ~6us a hit); a compressed copy is sent as it is, so a hit
--- costs no compression. A miss streams Node's response into .tmp and publishes it
--- with rename, which is atomic, so another instance sees either the old entry
--- or the new one.
+-- try_files in the same location, which sends it with sendfile; brotli_static
+-- picks the .br copy when the client accepts it, so a hit costs no
+-- compression. A miss streams Node's response into .tmp and publishes it with
+-- rename, which is atomic, so another instance sees either the old entry or
+-- the new one.
 --
 -- A purge writes <host>.purged, then renames the host directory into .trash.
 -- Every writer checks <host>.purged after its last rename and deletes what it
@@ -36,11 +37,11 @@ local ngx_pipe = require("ngx.pipe")
 local diskcache = {}
 diskcache.__index = diskcache
 
--- Statuses cached, as proxy_cache_valid does today
+-- Statuses cached, as proxy_cache_valid did
 local CACHEABLE = { [200] = true, [301] = true, [302] = true, [400] = true, [404] = true }
 
--- Upstream headers that are not sent again on a hit. Content-Length, ETag
--- and Last-Modified come from the file being served instead.
+-- Upstream headers that are not sent again on a hit. Content-Length and
+-- Last-Modified come from the file being served; ETag is kept apart (meta.e).
 local SKIP_HEADERS = {
     ["connection"] = true,
     ["keep-alive"] = true,
@@ -59,8 +60,8 @@ local SKIP_HEADERS = {
     ["x-content-type-options"] = true,
 }
 
--- Types worth storing compressed: gzip_types and brotli_types in
--- static-file.conf, less the ones that hardly shrink
+-- Types worth a brotli copy: brotli_types in static-file.conf, less the ones
+-- that hardly shrink
 local COMPRESSIBLE = {
     ["text/html"] = true,
     ["text/css"] = true,
@@ -89,18 +90,22 @@ local COMPRESSIBLE = {
     ["font/eot"] = true,
 }
 
--- Smaller bodies are not compressed (gzip_min_length)
+-- Smaller bodies are not compressed (brotli_min_length)
 local MIN_COMPRESS = 256
 
--- How long a miss waits for another request filling the same key
-local LOCK_TIMEOUT = 15
+-- How long a miss waits for another request filling the same key, as
+-- proxy_cache_lock_timeout
+local LOCK_TIMEOUT = 5
+
+-- A fill releases its lock once the body passes this size. The body filter
+-- runs at the pace the client reads, so waiters fetch a large file from Node
+-- themselves rather than queue behind one slow download.
+local LOCK_MAX_BYTES = 1024 * 1024
 
 function diskcache.new(options)
     return setmetatable({
         directory = options.directory,
         locks = options.locks,
-        -- the internal location that serves stored bodies, ending in /
-        location = options.location or "/__diskcache/",
         -- the compression queue's shared dict, and its length limit
         queue = options.queue,
         queue_max = options.queue_max or 10000,
@@ -155,6 +160,10 @@ local function write_file(path, data)
     return true
 end
 
+local function read_meta(path)
+    return cjson.decode(read_file(path) or "")
+end
+
 ffi.cdef([[int mkdir(const char *path, unsigned int mode);]])
 
 -- mkdir -p without a child process: header filters cannot yield
@@ -168,54 +177,70 @@ local function mkdir_p(path)
     end
 end
 
+-- Unique across the containers sharing the cache: the worker pid sets apart
+-- two fills of one key in the same millisecond, since nothing seeds
+-- math.random
 local function random_id()
-    return string.format("%x%06x", ngx.now() * 1000, math.random(0, 0xffffff))
+    return string.format("%x%x%04x", ngx.now() * 1000, ngx.worker.pid(), math.random(0, 0xffff))
 end
 
 -- Time of the host's last purge, or 0
 local function purged_at(self, marker)
-    local data = read_file(self.directory .. "/" .. marker)
-
-    return tonumber(data) or 0
+    return tonumber(read_file(self.directory .. "/" .. marker)) or 0
 end
 
--- Which stored copy suits the request's Accept-Encoding
-local function pick_encoding(meta)
-    local accept = ngx.var.http_accept_encoding
+-- Queue an entry for compress(). The queued: key stays until the compression
+-- is done, so hits meanwhile do not queue it again. A full queue drops the
+-- entry: a later hit queues it again.
+local function enqueue(self, job)
+    local queue = ngx.shared[self.queue]
 
-    if not accept or not meta.v then
-        return nil
+    if queue:llen("jobs") >= self.queue_max then
+        return
     end
 
-    if meta.v.br and accept:find("br", 1, true) and not accept:find("br;q=0", 1, true) then
-        return "br"
+    if queue:add("queued:" .. job, true, 600) then
+        queue:rpush("jobs", job)
+    end
+end
+
+-- The ETag a hit sends: Node's, weak, since the same validator covers the
+-- plain body and its brotli copy. A miss sends Node's own (the brotli filter
+-- weakens it when it compresses), and If-None-Match compares weakly, so a
+-- client keeps its validator across purges for as long as the page is
+-- unchanged.
+local function weak(etag)
+    if etag:sub(1, 2) == "W/" then
+        return etag
     end
 
-    if meta.v.gz and accept:find("gzip", 1, true) and not accept:find("gzip;q=0", 1, true) then
-        return "gz"
-    end
+    return "W/" .. etag
 end
 
 local function send_headers(meta)
     for _, pair in ipairs(meta.h) do
         ngx.header[pair[1]] = pair[2]
     end
+
+    ngx.header["Blot-Cache"] = "HIT"
 end
 
--- Serve the entry if there is one. Returns true when the request was handled.
--- A 200 is left for try_files to send (see reverse-proxy-cache.conf), or
--- with jump, sent from the internal locations.
-local function serve_hit(self, dir, key, jump)
-    local data = read_file(self.directory .. "/" .. dir .. "/" .. key .. ".meta")
+-- access_by_lua in the cached location (reverse-proxy-cache.conf): serve a
+-- hit, otherwise try_files passes the request to @diskcache_fill. A 200 is
+-- left for try_files to send; other statuses are printed here.
+function diskcache.access(self)
+    local method = ngx.req.get_method()
 
-    if not data then
-        return false
+    if method ~= "GET" and method ~= "HEAD" then
+        return
     end
 
-    local meta = cjson.decode(data)
+    local dir = host_path(ngx.var.host)
+    local key = ngx.md5(ngx.var.cache_key)
+    local meta = read_meta(self.directory .. "/" .. dir .. "/" .. key .. ".meta")
 
     if not meta then
-        return false
+        return
     end
 
     local body = dir .. "/" .. key .. "." .. meta.id
@@ -227,59 +252,57 @@ local function serve_hit(self, dir, key, jump)
         local content = read_file(self.directory .. "/" .. body)
 
         if not content then
-            return false
+            return
         end
 
-        ngx.header["Blot-Cache"] = "HIT"
         send_headers(meta)
         ngx.status = meta.s
 
-        if #content > 0 and ngx.req.get_method() ~= "HEAD" then
+        -- Lua would otherwise add default_type to a response Node sent
+        -- without one (a redirect with no body)
+        if not ngx.header["Content-Type"] then
+            ngx.header["Content-Type"] = nil
+        end
+
+        if #content > 0 and method ~= "HEAD" then
             ngx.print(content)
-        else
-            ngx.send_headers()
         end
 
         return ngx.exit(ngx.HTTP_OK)
     end
 
-    ngx.header["Blot-Cache"] = "HIT"
     send_headers(meta)
 
-    local encoding = pick_encoding(meta)
+    if meta.e then
+        ngx.header["ETag"] = weak(meta.e)
 
-    if meta.v and (meta.v.br or meta.v.gz) then
-        ngx.header["Vary"] = "Accept-Encoding"
+        -- nginx would answer 200 when If-Modified-Since misses, even if the
+        -- ETag matches; the file's mtime changes with every fill, and
+        -- If-None-Match takes precedence anyway (RFC 9110 13.1.3)
+        if ngx.var.http_if_none_match then
+            ngx.req.clear_header("If-Modified-Since")
+        end
     end
 
-    if encoding then
-        -- the gzip and brotli filters leave a response with a
-        -- Content-Encoding alone
-        ngx.header["Content-Encoding"] = encoding == "br" and "br" or "gzip"
-        body = body .. "." .. encoding
-    end
-
-    if jump then
-        return ngx.exec(self.location .. (encoding and "encoded/" or "plain/") .. body)
+    -- the entry has been read again since its fill: worth a brotli copy
+    if meta.c then
+        enqueue(self, dir .. "/" .. key)
     end
 
     ngx.var.diskcache_path = "/" .. body
-
-    return true
 end
 
--- access_by_lua in the cached location: serve a hit, otherwise try_files
--- passes the request to @diskcache_fill
-function diskcache.access(self)
-    local method = ngx.req.get_method()
+-- Release the fill lock this request holds, if any. Called from the fill's
+-- filters and log_by_lua and, for a request error_page redirected, in the
+-- error page's location (blot-blogs.conf, blot-site.conf): that redirect
+-- clears ngx.ctx but keeps variables.
+function diskcache.release(self)
+    local key = ngx.var.diskcache_lock
 
-    if method ~= "GET" and method ~= "HEAD" then
-        return
+    if key and key ~= "" then
+        ngx.shared[self.locks]:delete(key)
+        ngx.var.diskcache_lock = ""
     end
-
-    local dir = host_path(ngx.var.host)
-
-    serve_hit(self, dir, ngx.md5(ngx.var.cache_key))
 end
 
 -- access_by_lua in @diskcache_fill: wait for a fill of the same key in
@@ -297,19 +320,17 @@ function diskcache.fill(self)
     local elapsed = lock and lock:lock(dir .. "/" .. key)
 
     if elapsed and elapsed > 0 then
-        -- another request in this instance filled it while we waited
+        -- another request in this instance filled it while we waited:
+        -- serve it from the cached location
         lock:unlock()
 
-        if serve_hit(self, dir, key, true) then
-            return
+        if read_file(self.directory .. "/" .. dir .. "/" .. key .. ".meta") then
+            return ngx.exec(ngx.var.uri, ngx.var.args)
         end
 
         elapsed = lock:lock(dir .. "/" .. key)
     end
 
-    -- An error_page redirect (an intercepted 500, or nginx's own 502 when
-    -- Node is down) clears ngx.ctx before log_by_lua runs, but keeps
-    -- variables, so the lock is named here for diskcache:release()
     if elapsed then
         ngx.var.diskcache_lock = dir .. "/" .. key
     end
@@ -344,7 +365,7 @@ function diskcache.header_filter(self)
     -- intercepted error page)
     if not CACHEABLE[status] or ngx.var.upstream_status == nil then
         fill.skip = true
-        return
+        return self:release()
     end
 
     local headers = {}
@@ -367,7 +388,14 @@ function diskcache.header_filter(self)
     fill.tmp = directory .. "/.tmp/" .. fill.key .. "." .. fill.id
     fill.length = tonumber(ngx.header["Content-Length"])
     fill.type = (ngx.header["Content-Type"] or ""):match("^[^;%s]+")
-    fill.meta = { s = status, h = headers, id = fill.id, k = ngx.var.cache_key, t = fill.started }
+    fill.meta = {
+        s = status,
+        h = headers,
+        e = ngx.header["ETag"],
+        id = fill.id,
+        k = ngx.var.cache_key,
+        t = fill.started,
+    }
 
     local file = io.open(fill.tmp, "wb")
 
@@ -379,11 +407,15 @@ function diskcache.header_filter(self)
     if not file then
         ngx.log(ngx.ERR, "diskcache: cannot write ", fill.tmp)
         fill.skip = true
-        return
+        return self:release()
     end
 
     fill.file = file
     fill.size = 0
+
+    if fill.length and fill.length > LOCK_MAX_BYTES then
+        self:release()
+    end
 end
 
 -- body_filter_by_lua: stream the body into the temporary file, whatever its
@@ -409,6 +441,10 @@ function diskcache.body_filter(self)
         end
 
         fill.size = fill.size + #chunk
+
+        if fill.size > LOCK_MAX_BYTES then
+            self:release()
+        end
     end
 
     if eof then
@@ -416,210 +452,16 @@ function diskcache.body_filter(self)
     end
 end
 
-local function discard_if_purged(self, fill, paths)
-    if purged_at(self, fill.marker) >= fill.started then
-        for _, path in ipairs(paths) do
-            os.remove(path)
-        end
-        return true
-    end
-end
-
--- Whether an entry's body is worth storing compressed
-local function compressible(meta, size)
-    if size < MIN_COMPRESS then
-        return false
-    end
-
-    for _, pair in ipairs(meta.h) do
-        if pair[1]:lower() == "content-type" then
-            return COMPRESSIBLE[pair[2]:match("^[^;%s]+")] == true
-        end
-    end
-
-    return false
-end
-
-local function file_size(path)
-    local file = io.open(path, "rb")
-
-    if not file then
-        return nil
-    end
-
-    local size = file:seek("end")
-    file:close()
-
-    return size
-end
-
--- Point an entry's metadata at its stored copies (v), if it still names the
--- same fill: the key may have been purged and filled again meanwhile. A
--- refill landing between the read and the rename loses its metadata, which
--- is a miss, not a stale page; a purge in that gap is caught by the check
--- after the rename.
-local function update_variants(self, job, id, variants)
-    local base = self.directory .. "/" .. job
-    local meta = cjson.decode(read_file(base .. ".meta") or "")
-
-    if not meta or meta.id ~= id then
-        return
-    end
-
-    meta.v = variants
-
-    local tmp = base:match("^(.*)/") .. "/.tmp/" .. job:match("[^/]+$") .. "." .. id .. ".meta"
-
-    if not write_file(tmp, cjson.encode(meta)) then
-        return
-    end
-
-    if not os.rename(tmp, base .. ".meta") then
-        os.remove(tmp)
-        return
-    end
-
-    -- <dir>.purged, beside the host directory
-    if purged_at(self, job:match("^(.*)/") .. ".purged") >= meta.t then
-        os.remove(base .. ".meta")
-    end
-end
-
--- Store gzip and brotli copies of an entry's body, then point its metadata
--- at them. job is the entry's path under the cache directory without
--- .meta: <a>/<bc>/<host>/<key>. Called by the compressors worker 0 runs.
-local function compress(self, job)
-    local base = self.directory .. "/" .. job
-    local meta = cjson.decode(read_file(base .. ".meta") or "")
-
-    -- purged, evicted, or done already
-    if not meta or meta.v then
-        return
-    end
-
-    local body = base .. "." .. meta.id
-    local size = file_size(body)
-
-    if not size then
-        return
-    end
-
-    if not compressible(meta, size) then
-        -- an entry from before v was written at fill time, which the
-        -- sweeper queued: record that it has no copies to make
-        return update_variants(self, job, meta.id, {})
-    end
-
-    local tmp = base:match("^(.*)/") .. "/.tmp/" .. job:match("[^/]+$") .. "." .. meta.id
-
-    -- niced, so serving wins when the CPU is busy
-    local commands = {
-        br = { "nice", "-n", "10", "brotli", "-q", "11", "-f", "-o", tmp .. ".br", body },
-        gz = { "nice", "-n", "10", "sh", "-c", 'gzip -9 -n -c "$1" > "$2"', "sh", body, tmp .. ".gz" },
-    }
-
-    for _, encoding in ipairs({ "br", "gz" }) do
-        local proc = ngx_pipe.spawn(commands[encoding])
-        local ok = false
-
-        if proc then
-            -- brotli 11 on a large page takes seconds
-            proc:set_timeouts(nil, nil, nil, 300000)
-            ok = proc:wait() and os.rename(tmp .. "." .. encoding, body .. "." .. encoding)
-        end
-
-        if not ok then
-            if proc then
-                proc:kill(9)
-            end
-            os.remove(tmp .. ".br")
-            os.remove(tmp .. ".gz")
-            ngx.log(ngx.ERR, "diskcache: could not compress ", body)
-            return
-        end
-    end
-
-    update_variants(self, job, meta.id, { br = true, gz = true })
-end
-
--- Queue an entry for compress(). Returns false if the queue is full; the
--- entry is then compressed on the fly until the sweeper queues it again.
-local function enqueue(self, job)
-    local queue = ngx.shared[self.queue]
-
-    if queue:llen("jobs") >= self.queue_max then
-        return false
-    end
-
-    -- already waiting
-    if not queue:add("queued:" .. job, true, 86400) then
-        return true
-    end
-
-    if not queue:rpush("jobs", job) then
-        queue:delete("queued:" .. job)
-        return false
-    end
-
-    return true
-end
-
--- One of worker 0's compressors: takes entries off the queue until the
--- worker exits. The queue is a shared dict, so it survives a reload and the
--- new worker 0 carries on with it.
-local function compressor(premature, self)
-    if premature then
-        return
-    end
-
-    local queue = ngx.shared[self.queue]
-
-    while not ngx.worker.exiting() do
-        local job = queue:lpop("jobs")
-
-        if job then
-            queue:delete("queued:" .. job)
-
-            local ok, err = pcall(compress, self, job)
-
-            if not ok then
-                ngx.log(ngx.ERR, "diskcache: compressing ", job, ": ", err)
-            end
-        else
-            ngx.sleep(0.25)
-        end
-    end
-end
-
--- Release the fill lock this request holds, if any. Called from log_by_lua
--- in @diskcache_fill and, for a request error_page redirected, in the error
--- page's location (blot-blogs.conf). Not on hits: reading a variable no
--- `set` ran for logs a warning and costs ~1us.
-function diskcache.release(self)
-    local key = ngx.var.diskcache_lock
-
-    if key and key ~= "" then
-        ngx.shared[self.locks]:delete(key)
-        ngx.var.diskcache_lock = ""
-    end
-end
-
--- log_by_lua: publish a complete fill, release the lock, queue compression
+-- log_by_lua: publish a complete fill and release the lock
 function diskcache.log(self)
     local fill = ngx.ctx.diskcache
 
-    if not fill then
-        return
-    end
-
     -- published or not, requests waiting on the lock then go ahead: they
     -- find the entry or fetch it themselves
-    local function done()
-        self:release()
-    end
+    self:release()
 
-    if fill.skip or not fill.file then
-        return done()
+    if not fill or fill.skip or not fill.file then
+        return
     end
 
     fill.file:close()
@@ -637,45 +479,150 @@ function diskcache.log(self)
 
     if truncated then
         os.remove(fill.tmp)
-        return done()
+        return
     end
 
-    -- the body first, then the metadata that points at it
-    if not os.rename(fill.tmp, body) then
-        os.remove(fill.tmp)
-        return done()
-    end
+    -- the entry this fill replaces, if another instance filled the key too
+    local previous = read_meta(meta_path)
 
-    -- v lists the stored copies: none yet, or none to make, which tells
-    -- the sweeper's backfill to leave the entry alone
-    fill.compress = fill.size >= MIN_COMPRESS and COMPRESSIBLE[fill.type] == true
-
-    if not fill.compress then
-        fill.meta.v = {}
+    -- c: compress after the first hit (diskcache:access)
+    if fill.size >= MIN_COMPRESS and COMPRESSIBLE[fill.type] then
+        fill.meta.c = true
     end
 
     local tmp_meta = fill.tmp .. ".meta"
 
-    if not write_file(tmp_meta, cjson.encode(fill.meta)) or not os.rename(tmp_meta, meta_path) then
+    -- the body first, then the metadata that points at it
+    if not os.rename(fill.tmp, body)
+        or not write_file(tmp_meta, cjson.encode(fill.meta))
+        or not os.rename(tmp_meta, meta_path)
+    then
+        os.remove(fill.tmp)
         os.remove(tmp_meta)
         os.remove(body)
-        return done()
-    end
-
-    -- the previous fill's body and copies are left for the sweeper
-
-    done()
-
-    if discard_if_purged(self, fill, { meta_path, body }) then
         return
     end
 
-    if fill.compress and not enqueue(self, fill.dir .. "/" .. fill.key) then
-        ngx.log(ngx.WARN, "diskcache: compression queue full, ", fill.dir, "/", fill.key, " waits for the sweeper")
+    if purged_at(self, fill.marker) >= fill.started then
+        os.remove(meta_path)
+        os.remove(body)
+        return
+    end
+
+    if previous and previous.id and previous.id ~= fill.id then
+        local old = directory .. "/" .. fill.key .. "." .. previous.id
+        os.remove(old)
+        os.remove(old .. ".br")
     end
 end
 
--- The /purge endpoint, ?host=a&host=b as cacher.lua's
+-- Make the brotli copy of an entry's body, then mark the entry done. job is
+-- the entry's path under the cache directory without .meta:
+-- <a>/<bc>/<host>/<key>. Called by worker 0's compressor.
+local function compress(self, job)
+    local base = self.directory .. "/" .. job
+    local meta = read_meta(base .. ".meta")
+
+    -- purged, evicted, or done already
+    if not meta or not meta.c then
+        return
+    end
+
+    local body = base .. "." .. meta.id
+    local tmp = base:match("^(.*)/") .. "/.tmp/" .. job:match("[^/]+$") .. "." .. meta.id .. ".br"
+
+    -- niced, so serving wins when the CPU is busy. Level 11 costs ~40 times
+    -- level 9's CPU for pages ~10% smaller, paid once per entry that is read
+    -- at least twice, against every hit's egress.
+    local proc = ngx_pipe.spawn({ "nice", "-n", "10", "brotli", "-q", "11", "-f", "-o", tmp, body })
+
+    if not proc then
+        return
+    end
+
+    proc:set_timeouts(nil, nil, nil, 300000)
+
+    if not proc:wait() or not os.rename(tmp, body .. ".br") then
+        proc:kill(9)
+        os.remove(tmp)
+        -- no body: refilled or evicted since the metadata was read
+        if io.open(body) then
+            ngx.log(ngx.ERR, "diskcache: could not compress ", body)
+        end
+        return
+    end
+
+    -- a purge after the metadata was read moved the host directory away;
+    -- the rename above may have landed in a new one
+    if purged_at(self, job:match("^(.*)/") .. ".purged") >= meta.t then
+        os.remove(body .. ".br")
+        return
+    end
+
+    -- Mark it done if the metadata still names the same fill. A refill
+    -- landing between the read and the rename loses its metadata, which is a
+    -- miss, not a stale page.
+    local current = read_meta(base .. ".meta")
+
+    if not current or current.id ~= meta.id then
+        return
+    end
+
+    current.c = nil
+
+    local tmp_meta = tmp .. ".meta"
+
+    if not write_file(tmp_meta, cjson.encode(current)) or not os.rename(tmp_meta, base .. ".meta") then
+        os.remove(tmp_meta)
+    end
+end
+
+-- Worker 0's compressor: takes entries off the queue until the worker exits.
+-- The queue is a shared dict, so it survives a reload and the new worker 0
+-- carries on with it. A restart loses it; the next hit queues an entry again.
+local function compressor(premature, self)
+    if premature then
+        return
+    end
+
+    local queue = ngx.shared[self.queue]
+
+    while not ngx.worker.exiting() do
+        local job = queue:lpop("jobs")
+
+        if job then
+            local ok, err = pcall(compress, self, job)
+
+            if not ok then
+                ngx.log(ngx.ERR, "diskcache: compressing ", job, ": ", err)
+            end
+
+            queue:delete("queued:" .. job)
+        else
+            ngx.sleep(0.25)
+        end
+    end
+end
+
+-- Empty .trash in the background, one removal at a time per instance. A
+-- directory purged during a removal waits for the next purge or sweep.
+local function empty_trash(premature, self, trash)
+    if premature or not ngx.shared[self.queue]:add("emptying", true, 3600) then
+        return
+    end
+
+    local proc = ngx_pipe.spawn({ "find", trash, "-mindepth", "1", "-maxdepth", "1", "-exec", "rm", "-rf", "{}", "+" })
+
+    if proc then
+        proc:set_timeouts(nil, nil, nil, 3600000)
+        proc:wait()
+    end
+
+    ngx.shared[self.queue]:delete("emptying")
+end
+
+-- The /purge endpoint, ?host=a&host=b. Every instance sharing the cache sees
+-- the purge at once, so it only needs to reach one of them.
 function diskcache.purge(self)
     local args = ngx.var.args
 
@@ -689,12 +636,15 @@ function diskcache.purge(self)
 
     for host in args:gmatch("host=([^&]+)") do
         local dir, marker = host_path(host)
+
+        -- ngx.now() is cached for the event loop pass; a stamp earlier than
+        -- the purge could let a fill that started before it through
+        ngx.update_time()
         local stamp = string.format("%.3f", ngx.now())
 
         -- the marker first, so a fill that publishes after the rename below
-        -- finds it
-        -- the shard directory may not exist yet, with a fill of this host
-        -- in flight that must still find the marker
+        -- finds it. The shard directory may not exist yet, with a fill of
+        -- this host in flight that must still find the marker.
         mkdir_p(self.directory .. "/" .. marker:match("^(.*)/"))
 
         local tmp_marker = self.directory .. "/" .. marker .. "." .. random_id()
@@ -718,14 +668,7 @@ function diskcache.purge(self)
         end
     end
 
-    -- the trash is emptied in the background
-    ngx.timer.at(0, function()
-        local proc = ngx_pipe.spawn({ "find", trash, "-mindepth", "1", "-maxdepth", "1", "-exec", "rm", "-rf", "{}", "+" })
-        if proc then
-            proc:set_timeouts(nil, nil, nil, 600000)
-            proc:wait()
-        end
-    end)
+    ngx.timer.at(0, empty_trash, self, trash)
 
     if #message == 0 then
         ngx.say("no hosts were purged")
@@ -736,30 +679,22 @@ function diskcache.purge(self)
     return ngx.exit(ngx.OK)
 end
 
--- Called from init_worker_by_lua. Worker 0 runs the compressors and, every
+-- Called from init_worker_by_lua. Worker 0 runs the compressor and, every
 -- options.interval seconds, the sweeper (proxy/evict.sh). Each container
 -- sharing the cache runs one sweeper; the script's flock lets one sweep at a
--- time. The sweeper prints "queue <entry>" for entries whose compressed
--- copies were never made (the queue lives in memory, so a restart loses
--- it), and they are queued again here.
+-- time, so a sweep that outlasts an interval is left to finish.
 function diskcache.start(self, options)
     if ngx.worker.id() ~= 0 then
         return
     end
 
-    for _ = 1, options.compressors or 2 do
-        ngx.timer.at(0, compressor, self)
-    end
-
-    if not options.sweeper then
-        return
-    end
+    ngx.timer.at(0, compressor, self)
 
     local command = {
         options.sweeper,
         self.directory,
         tostring(options.max_bytes),
-        tostring(options.max_filesystem_percent or 90),
+        tostring(options.max_filesystem_percent),
     }
 
     local function sweep(premature)
@@ -774,42 +709,23 @@ function diskcache.start(self, options)
             return
         end
 
-        -- a sweep of a large cache can take minutes; well under an interval
         local timeout = options.interval * 1000
         proc:set_timeouts(nil, timeout, timeout, timeout)
 
-        local queued, full = 0, 0
+        local output, read_err = proc:stdout_read_all()
 
-        while true do
-            local line, read_err = proc:stdout_read_line()
-
-            if not line then
-                if read_err ~= "closed" then
-                    proc:kill(9)
-                    ngx.log(ngx.ERR, "diskcache: reading the sweeper failed: ", read_err)
-                    return
-                end
-                break
-            end
-
-            local job = line:match("^queue (.+)$")
-
-            if job then
-                if enqueue(self, job) then
-                    queued = queued + 1
-                else
-                    full = full + 1
-                end
-            else
-                ngx.log(ngx.NOTICE, "diskcache: ", line, " queued=", queued, " queue_full=", full)
-            end
+        if not output then
+            ngx.log(ngx.ERR, "diskcache: reading the sweeper failed: ", read_err)
+            return
         end
 
-        local stderr = proc:stderr_read_all() or ""
         local ok, reason, status = proc:wait()
 
-        if not ok then
-            ngx.log(ngx.ERR, "diskcache: sweeper ", tostring(reason), " ", tostring(status), ": ", stderr:sub(1, 500))
+        if ok then
+            ngx.log(ngx.NOTICE, "diskcache: ", output)
+        else
+            local stderr = proc:stderr_read_all() or ""
+            ngx.log(ngx.ERR, "diskcache: sweeper ", tostring(reason), " ", tostring(status), ": ", output, stderr:sub(1, 500))
         end
     end
 

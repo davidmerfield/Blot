@@ -19,7 +19,7 @@ HOSTIP="$(hostname -I | awk '{print $1}')"
 
 log() { printf '[setup] %s\n' "$*"; }
 
-mkdir -p "$E2E_ROOT/cache" "$E2E_ROOT/logs" "$E2E_ROOT/global-static"
+mkdir -p "$E2E_ROOT/cache" "$E2E_ROOT/disk-cache" "$E2E_ROOT/logs" "$E2E_ROOT/global-static"
 
 # ---- certificate -------------------------------------------------------
 log "Generating a wildcard certificate for $BLOT_HOST and trusting its CA"
@@ -33,10 +33,17 @@ bash "$HERE/gen-certs.sh" "$BLOT_HOST" "$PROXY_CERT_DIR"
 # rehydrates ("rehydrate: complete files=0") just as well. Seed BEFORE chowning
 # to 1000: the runner user (not uid 1000) cannot write into the directory
 # afterwards.
+#
+# The image built from this branch uses the disk cache, so it mounts
+# PROXY_DISK_CACHE_DIR (PROXY_CACHE_DIR is the legacy proxy_cache directory,
+# created too so both exist as on the host). The seeded disk cache files stand
+# for a cache left by an image of another kind: the fresh start in the workflow
+# must empty them (blue-green.sh's reset_cache_dir).
 for f in warm-1 warm-2 warm-3; do
   echo "seeded by proxy/deploy/e2e" > "$PROXY_CACHE_DIR/$f"
+  echo "seeded by proxy/deploy/e2e" > "$PROXY_DISK_CACHE_DIR/$f"
 done
-sudo chown -R 1000:1000 "$PROXY_CACHE_DIR" "$PROXY_LOG_DIR"
+sudo chown -R 1000:1000 "$PROXY_CACHE_DIR" "$PROXY_DISK_CACHE_DIR" "$PROXY_LOG_DIR"
 
 # ---- proxy.env ------------------------------------------------------------
 # PROXY_REDIS_HOST is $HOSTIP rather than 127.0.0.1; both are reachable from

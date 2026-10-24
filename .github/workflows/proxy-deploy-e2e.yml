@@ -70,6 +70,7 @@ jobs:
             # scenarios below (see proxy/deploy/e2e/setup.sh, which writes it).
             echo "PROXY_ENV_FILE_BAD=$E2E_ROOT/proxy-unroutable-private-ip.env"
             echo "PROXY_CACHE_DIR=$E2E_ROOT/cache"
+            echo "PROXY_DISK_CACHE_DIR=$E2E_ROOT/disk-cache"
             echo "PROXY_LOG_DIR=$E2E_ROOT/logs"
             echo "PROXY_CERT_DIR=$E2E_ROOT/certs"
             echo "PROXY_GLOBAL_STATIC_DIR=$E2E_ROOT/global-static"
@@ -108,12 +109,15 @@ jobs:
           [ "$(docker inspect -f '{{.State.Running}}' blot-proxy-blue)" = true ]
           code=$(curl -sS -o /dev/null -w '%{http_code}' --connect-to "$BLOT_HOST:443:127.0.0.1:443" "https://$BLOT_HOST/")
           [ "$code" = 200 ]
+          # a fresh start empties the cache directory of the image's kind (the
+          # files are deleted in the background, so only the top level is checked)
+          [ ! -e "$PROXY_DISK_CACHE_DIR/warm-1" ]
 
       # ---- 2. blue-green: no failed requests during the swap --------------
       # HTTPS with --connect-to (same technique https_status() in common.sh
       # uses, already proven above against the container). A plain-HTTP request to 127.0.0.1 with only a Host header
       # (tried first) got 404 for every attempt, not just during the swap:
-      # server.conf's internal purge/inspect server also `listen`s on
+      # server.conf's internal purge server also `listen`s on
       # `127.0.0.1:80` (plain HTTP only, no `:443`), a more specific bind
       # than the vhosts' `listen 80`, so nginx sends a connection that
       # literally targets 127.0.0.1 there regardless of Host header - not a

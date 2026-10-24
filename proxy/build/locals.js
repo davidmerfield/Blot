@@ -51,11 +51,6 @@ function container({ env = process.env, config }) {
   return {
     disable_http2: env.DISABLE_HTTP2,
 
-    // Prototype: serve blogs from the shared disk cache in
-    // config/diskcache.lua instead of proxy_cache (PROXY_DISK_CACHE=true at
-    // build time). Off by default.
-    disk_cache: env.PROXY_DISK_CACHE === "true",
-
     // The maximum size of webhooks bodies forwarded to the node server
     webhooks_client_max_body_size,
 
