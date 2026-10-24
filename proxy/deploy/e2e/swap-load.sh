@@ -49,6 +49,24 @@ as_root() { if [ "$(id -u)" = 0 ]; then "$@"; else sudo "$@"; fi; }
 say() { printf '\n=== %s\n' "$*"; }
 fail() { printf 'FAIL: %s\n' "$*" >&2; exit 1; }
 
+# blue-green.sh runs in production as a user that is in the docker group and has
+# no sudo (the GitHub Deploy proxy workflow's `deploy` user), so it must not
+# need root for anything: anything it does to files of uid 1000 (the cache) has
+# to go through a container. This runs it as such a user (DEPLOY_AS_ROOT=1: as
+# the caller).
+DEPLOY_USER=sl-deploy
+if [ "${DEPLOY_AS_ROOT:-0}" != 1 ]; then
+  id "$DEPLOY_USER" >/dev/null 2>&1 || as_root useradd -m -G docker "$DEPLOY_USER"
+  # the harness' certificate and env files, readable as production's are for its deploy user
+  as_root chmod -R a+rX "$E2E_ROOT"
+  as_root chmod a+r "$PROXY_CERT_DIR"/*
+  d="$E2E_ROOT"; while [ "$d" != / ]; do as_root chmod a+x "$d"; d="$(dirname "$d")"; done
+  ! as_root runuser -u "$DEPLOY_USER" -- sudo -n true >/dev/null 2>&1 || fail "$DEPLOY_USER can sudo: the test would not catch a script that needs it"
+fi
+run_bg() {
+  if [ "${DEPLOY_AS_ROOT:-0}" = 1 ]; then bash "$BG" "$@"; else as_root runuser -u "$DEPLOY_USER" -- bash "$BG" "$@"; fi
+}
+
 current() { docker ps --format '{{.Names}}' | grep '^blot-proxy-' | sed 's/blot-proxy-//'; }
 assert_running() { # assert_running <colour>
   docker ps --format '{{.Names}}' | grep -qx "blot-proxy-$1" || fail "blot-proxy-$1 is not running"
@@ -103,7 +121,7 @@ swap_under_load() {
   for _ in $(seq 1 60); do [ -e "$WORK/ready" ] && break; sleep 0.5; done
   [ -e "$WORK/ready" ] || fail "the load generator did not start"
   sleep 5
-  bash "$BG" "$image" 2>&1 | tee "$WORK/$name.log" || bg_rc=${PIPESTATUS[0]}
+  run_bg "$image" 2>&1 | tee "$WORK/$name.log" || bg_rc=${PIPESTATUS[0]}
   # both containers were up from when the new one started to when the old one
   # had stopped (the log's one-second stamps, so the generator allows a margin)
   echo "start $(log_ms "$WORK/$name.log" 'Starting blot-proxy-')" >> "$WORK/marks"
@@ -133,7 +151,7 @@ PROBE_F="probe-failed.$BLOT_HOST"
 # ---- 1. a fresh start with A -----------------------------------------------
 say "1. fresh start with A"
 ! docker ps -a --format '{{.Names}}' | grep -q '^blot-proxy-' || fail "a proxy container exists before the test starts"
-bash "$BG" "$IMAGE_A" 2>&1 | tee "$WORK/fresh.log"
+run_bg "$IMAGE_A" 2>&1 | tee "$WORK/fresh.log"
 assert_running blue
 assert_image "$IMAGE_A"
 T warm
@@ -191,7 +209,7 @@ T get "$PROBE_F" /probe >/dev/null; sleep 0.3
 docker stop blot-e2e-redis >/dev/null
 FILL_FILE="$WORK/fill.txt" node "$HERE/swap-load.js" fill ov >/dev/null 2>&1 & fill_pid=$!
 sleep 1
-bash "$BG" "$IMAGE_A" > "$WORK/failed-swap.log" 2>&1 & failed_pid=$!
+run_bg "$IMAGE_A" > "$WORK/failed-swap.log" 2>&1 & failed_pid=$!
 for _ in $(seq 1 1500); do grep -q "Checking the site through" "$WORK/failed-swap.log" 2>/dev/null && break; sleep 0.02; done
 grep -q "Checking the site through" "$WORK/failed-swap.log" || { cat "$WORK/failed-swap.log"; fail "the swap never reached its post-swap checks"; }
 kill -TERM "$fill_pid"; wait "$fill_pid" || true

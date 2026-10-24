@@ -43,6 +43,11 @@ different cache, points `IMAGE_A` at the old build instead.
    proxy being told while B is stopped. B must be put back and must not serve a
    page that changed.
 
+`swap-load.sh` runs `blue-green.sh` as a user in the docker group with no sudo, as the
+Deploy proxy workflow's `deploy` user is (`DEPLOY_AS_ROOT=1` to run it as the
+caller), so a deploy step that needs root on the cache files (uid 1000) fails
+here; `drop_overlap_cache` deletes them through a root container instead.
+
 Each swap runs with `swap-load.js load`: 24 workers sending cached pages
 (identity, gzip and brotli), HEAD, conditional GETs, `Range` requests, a 2.5 MB
 file, a slow fill, uncached GETs, POSTs of up to 24 MB, 6-second event

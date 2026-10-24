@@ -118,12 +118,18 @@ docker rm -f "$NEW" >/dev/null 2>&1 || true
 #   committed nothing to undo
 STATE=starting
 OVERLAP_MARK=""
-# Delete the cache files written (ctime, as nginx sets the mtime from the
-# response's Last-Modified) since $OVERLAP_MARK was made, see above. Best effort.
+# Delete the cache files written (by ctime: nginx sets the mtime from the
+# response's Last-Modified) since $OVERLAP_MARK (an epoch), see above. The files
+# belong to uid 1000 and the deploy user has no sudo, so a throwaway root
+# container of the image does it (the image has BusyBox find: stat and awk pick
+# the files; cache file names have no spaces). Best effort.
 drop_overlap_cache() {
   [ -n "$OVERLAP_MARK" ] || return 0
-  if sys find "$CACHE_DIR" -type f -cnewer "$OVERLAP_MARK" -delete 2>/dev/null; then
-    log "Dropped the cache files written since $NEW started (the other colour's purge index does not know them)"
+  local began=$SECONDS
+  if docker run --rm --user 0 --entrypoint sh -v "$CACHE_DIR":/cache "$NEW_IMAGE" -c '
+      find /cache -type f -not -path "/cache/.trash/*" -exec stat -c "%Z %n" {} + \
+        | awk -v t="$1" "\$1 >= t {print \$2}" | xargs -r rm -f' drop-overlap "$OVERLAP_MARK" >/dev/null; then
+    log "Dropped the cache files written since $NEW started (the other colour's purge index does not know them) in $((SECONDS - began))s"
   else
     log "WARNING: could not drop the cache files written since $NEW started: a page purged during the overlap may still be served"
   fi
@@ -151,7 +157,6 @@ swap_rollback() {
       fi
       ;;
   esac
-  rm -f "$OVERLAP_MARK"
   exit "$status"
 }
 trap swap_rollback EXIT
@@ -160,7 +165,7 @@ trap '' HUP PIPE
 
 run_args "$NEW"
 docker create --restart no "${RUN_ARGS[@]}" "$NEW_IMAGE" >/dev/null
-[ -z "$OLD" ] || OVERLAP_MARK="$(mktemp)"
+[ -z "$OLD" ] || OVERLAP_MARK="$(date +%s)"
 docker start "$NEW" >/dev/null
 
 log "Waiting up to ${HEALTH_TIMEOUT}s for $NEW to answer its own health socket"
