@@ -346,7 +346,8 @@ async function etag() {
   const ims = await req(A, host, p, {
     headers: { "If-None-Match": node, "If-Modified-Since": "Mon, 01 Jan 2001 00:00:00 GMT" },
   });
-  check("old If-Modified-Since with a matching If-None-Match still gets 304", ims.status === 304, ims.status);
+  // nginx's not_modified filter tests If-Modified-Since first, as it did for proxy_cache
+  check("old If-Modified-Since with a matching If-None-Match gets the page (200), as with proxy_cache", ims.status === 200, ims.status);
   const other = await req(A, host, p, { headers: { "If-None-Match": '"something-else"' } });
   check("non-matching If-None-Match gets the page", other.status === 200 && other.body.equals(h.body), other.status);
 
