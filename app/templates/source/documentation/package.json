@@ -54,6 +54,12 @@
 				"title": "{{{title}}}"
 			}
 		},
+		"pagination.html": {
+			"url": "/pagination/:page",
+			"locals": {
+				"page_size": 100
+			}
+		},
 		"archives.html": {
 			"url": "/archives",
 			"partials": {
