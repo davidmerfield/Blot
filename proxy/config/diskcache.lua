@@ -232,6 +232,21 @@ local function enqueue(self, job)
     end
 end
 
+-- Whether If-None-Match lists etag, compared weakly (RFC 9110 13.1.2)
+local function etag_listed(list, etag)
+    local bare = etag:gsub("^W/", "")
+
+    for tag in list:gmatch("[^,]+") do
+        tag = tag:match("^%s*(.-)%s*$")
+
+        if tag == "*" or tag:gsub("^W/", "") == bare then
+            return true
+        end
+    end
+
+    return false
+end
+
 -- The ETag of a hit served from the brotli copy: Node's, weak, as the brotli
 -- filter makes it when it compresses on a miss. The plain body keeps Node's
 -- own, so If-Range (a strong comparison) still matches it.
@@ -308,17 +323,21 @@ function diskcache.access(self)
     send_headers(meta)
 
     if meta.e then
-        -- brotli_static sends the .br copy (meta.b) to a client that accepts br
+        -- brotli_static sends the .br copy (meta.b) to a client that accepts
+        -- br, but not with a 304, which carries Node's own as proxy_cache's did
         local ae = meta.b and ngx.var.http_accept_encoding
         local br = ae and ngx.re.find(ae, [[(?:^|[,\s])br(?:$|[,;\s])]], "jo")
+        local inm = br and ngx.var.http_if_none_match
+        br = br and not (inm and etag_listed(inm, meta.e))
         ngx.header["ETag"] = br and weak(meta.e) or meta.e
     end
 
     if not meta.l then
         -- Node sent no Last-Modified, so the file's mtime is the fill's:
-        -- send none (hit_header_filter) and compare no date with it
+        -- send none (hit_header_filter), and let no If-Range date match it.
+        -- An If-Modified-Since is left to nginx: no client has that date,
+        -- so it answers 200, as it did with no Last-Modified at all.
         ngx.ctx.diskcache_no_last_modified = true
-        ngx.req.clear_header("If-Modified-Since")
 
         local if_range = ngx.var.http_if_range
 
@@ -435,43 +454,31 @@ local function byte_range(header, length)
     return first, last
 end
 
--- Whether If-None-Match lists etag, compared weakly (RFC 9110 13.1.2)
-local function etag_listed(list, etag)
-    local bare = etag:gsub("^W/", "")
-
-    for tag in list:gmatch("[^,]+") do
-        tag = tag:match("^%s*(.-)%s*$")
-
-        if tag == "*" or tag:gsub("^W/", "") == bare then
-            return true
-        end
-    end
-
-    return false
-end
-
 -- Answer a conditional GET from a whole 200 from Node, as proxy_cache did on
--- a miss (nginx's not_modified filter): 304 when If-None-Match lists Node's
--- ETag or, without If-None-Match, If-Modified-Since is Node's Last-Modified
--- (if_modified_since exact). nginx sends a 304 without passing the body
+-- a miss (nginx's not_modified filter, in its order): 304 when an
+-- If-Modified-Since is Node's Last-Modified (if_modified_since exact) and an
+-- If-None-Match lists Node's ETag, whichever of the two were sent. nginx sends a 304 without passing the body
 -- through body_filter, so proxy_store keeps it (fill.store).
 local function answer_not_modified(fill)
     local inm = ngx.var.http_if_none_match
     local ims = ngx.var.http_if_modified_since
-    local etag = ngx.header["ETag"]
-    local match
+    local etag = fill.meta.e
 
-    if inm then
-        match = etag and etag_listed(inm, etag)
-    elseif ims then
-        match = fill.meta.l and ngx.parse_http_time(ims) == fill.meta.l
+    if not inm and not ims then
+        return false
     end
 
-    if not match then
+    if ims and not (fill.meta.l and ngx.parse_http_time(ims) == fill.meta.l) then
+        return false
+    end
+
+    if inm and not (etag and etag_listed(inm, etag)) then
         return false
     end
 
     ngx.status = 304
+    -- Node's, not the one the brotli filter weakened for the 200
+    ngx.header["ETag"] = etag
     fill.not_modified = true
     ngx.header["Content-Length"] = nil
     ngx.header["Content-Type"] = nil
@@ -566,7 +573,8 @@ function diskcache.header_filter(self)
     fill.meta = {
         s = status,
         h = headers,
-        e = ngx.header["ETag"],
+        -- Node's: ngx.header's is weak once the brotli filter has run
+        e = ngx.var.upstream_http_etag,
         l = ngx.parse_http_time(ngx.header["Last-Modified"] or ""),
         id = fill.id,
         k = ngx.var.cache_key,
