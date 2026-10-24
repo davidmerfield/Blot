@@ -10,24 +10,50 @@ var collectionKey = "collectionNavigation";
 var cacheID = "{{cacheID}}";
 var infiniteScroll = {{#infinite_scroll}}true{{/infinite_scroll}}{{^infinite_scroll}}false{{/infinite_scroll}};
 var closeURL;
-var closeTrail = 0;
+var closeDepth = 0;
 var infiniteEnded = false;
 var firstPage = parseInt((window.location.pathname.match(/\/page\/(\d+)/) || [0, 1])[1], 10);
 
-// Close by walking back through the entries stepped through since the listing,
+// Close by walking back through the history entries pushed since the listing,
 // so the browser restores the listing exactly as it was left.
 function closeEntry() {
-  if (closeTrail && closeTrail < window.history.length) {
-    window.history.go(-closeTrail);
-  } else if (closeURL) {
-    window.location.href = closeURL;
-  } else if (document.referrer) {
-    window.history.back();
+  if (closeDepth && closeDepth < window.history.length) {
+    window.history.go(-closeDepth);
   } else {
-    window.location.href = '/';
+    window.location.href = closeURL || '/';
   }
   return false;
 }
+
+// Each entry page remembers how many history entries sit between it and the
+// listing. A page opened from the listing is one deep, and one reached with an
+// arrow is one deeper than the page it was left from. The depth is handed over
+// through sessionStorage, and kept in history.state so back, forward and
+// reload see the same value.
+var depthKey = "collectionDepth";
+
+function handOverDepth(link, depth) {
+  try {
+    sessionStorage.setItem(depthKey, JSON.stringify({ path: pathOf(link.href), depth: depth }));
+  } catch (e) {}
+}
+
+function takeDepth() {
+  var saved = window.history.state && window.history.state.closeDepth;
+  if (saved) return saved;
+  try {
+    var handed = JSON.parse(sessionStorage.getItem(depthKey));
+    sessionStorage.removeItem(depthKey);
+    return handed && handed.path === pathOf(window.location.href) ? handed.depth : 0;
+  } catch (e) {
+    return 0;
+  }
+}
+
+document.addEventListener("click", function (e) {
+  var link = e.target.closest("a.entry-next, a.entry-previous");
+  if (link && closeDepth) handOverDepth(link, closeDepth + 1);
+}, true);
 
 function pathOf(url) {
   try {
@@ -95,9 +121,11 @@ function writeCollection(state) {
 
 // Record the order shown by the listing before following one of its entries.
 document.addEventListener("click", function (e) {
-  if (!e.target.closest("a.collection-entry")) return;
+  var entryLink = e.target.closest("a.collection-entry");
+  if (!entryLink) return;
+  handOverDepth(entryLink, 1);
   var listing = parseListing(document, window.location.href, true);
-  if (listing) writeCollection({ cacheID: cacheID, listings: [listing], trail: [] });
+  if (listing) writeCollection({ cacheID: cacheID, listings: [listing] });
 }, true);
 
 function initializeCollectionNavigation() {
@@ -113,12 +141,8 @@ function initializeCollectionNavigation() {
   }
   if (index < 0) return;
 
-  // The entries visited since the listing; revisiting one (back, reload) trims it.
-  var trail = state.trail || [];
-  var visited = trail.indexOf(path);
-  state.trail = visited < 0 ? trail.concat(path) : trail.slice(0, visited + 1);
-  writeCollection(state);
-  closeTrail = state.trail.length;
+  closeDepth = takeDepth();
+  if (closeDepth) window.history.replaceState({ closeDepth: closeDepth }, "");
 
   var listing = state.listings[page];
   closeURL = listing.url;
@@ -133,15 +157,18 @@ function initializeCollectionNavigation() {
   // Resolves to the neighbour's path, null at the end of the collection, and
   // rejects when unsure (so the chronological link stays).
   function neighbor(direction) {
-    var step = direction === "next" ? 1 : -1;
+    // entry.next is the newer entry, so it sits earlier in the listing; the
+    // listing's own "next" page is the older one.
+    var step = direction === "next" ? -1 : 1;
+    var pageLink = listing[direction === "next" ? "previous" : "next"];
     if (listing.entries[index + step]) return Promise.resolve(listing.entries[index + step]);
 
     var loaded = state.listings[page + step];
     if (loaded) return Promise.resolve(edge(loaded, step));
     if (listing.unknown) return Promise.reject();
-    if (!listing[direction]) return Promise.resolve(null);
+    if (!pageLink) return Promise.resolve(null);
 
-    return fetch(listing[direction], { credentials: "same-origin" }).then(function (res) {
+    return fetch(pageLink, { credentials: "same-origin" }).then(function (res) {
       if (!res.ok) throw new Error("Could not load collection page");
       return res.text().then(function (html) {
         var doc = new DOMParser().parseFromString(html, "text/html");
@@ -234,7 +261,7 @@ document.onkeydown = function(e) {
 
   var selector = { 37: "a.entry-next", 39: "a.entry-previous" }[e.keyCode];
   var link = selector && document.querySelector(selector);
-  if (link && link.href) return window.location = link.href;
+  if (link && link.href) return link.click();
 
   if (!parents(document.activeElement, searchForm)) return;
 
