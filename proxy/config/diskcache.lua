@@ -231,8 +231,22 @@ local function weak(etag)
 end
 
 local function send_headers(meta)
+    -- a header Node sent more than once (Link) is set once, as a list:
+    -- assigning each value would keep only the last
+    local values = {}
+
     for _, pair in ipairs(meta.h) do
-        ngx.header[pair[1]] = pair[2]
+        local name = pair[1]:lower()
+
+        if values[name] then
+            table.insert(values[name], pair[2])
+        else
+            values[name] = { pair[2] }
+        end
+    end
+
+    for name, list in pairs(values) do
+        ngx.header[name] = #list == 1 and list[1] or list
     end
 
     ngx.header["Blot-Cache"] = "HIT"
@@ -270,12 +284,6 @@ function diskcache.access(self)
 
         send_headers(meta)
         ngx.status = meta.s
-
-        -- Lua would otherwise add default_type to a response Node sent
-        -- without one (a redirect with no body)
-        if not ngx.header["Content-Type"] then
-            ngx.header["Content-Type"] = nil
-        end
 
         if #content > 0 and method ~= "HEAD" then
             ngx.print(content)
@@ -353,7 +361,74 @@ function diskcache.fill(self)
         marker = marker,
         key = key,
         started = ngx.now(),
+        -- reverse-proxy-fill.conf strips Range so the whole body is stored;
+        -- header_filter answers the client's range from it
+        range = ngx.var.http_range,
+        if_range = ngx.var.http_if_range,
     }
+end
+
+-- The bytes [first, last] of a body of length bytes a single-range Range
+-- header asks for. Returns nil for a header to ignore (a multi-range or
+-- malformed one: the whole body is sent), or false when no byte of the
+-- body is in range (416).
+local function byte_range(header, length)
+    local first, last = header:match("^bytes=(%d*)-(%d*)$")
+
+    if not first or (first == "" and last == "") then
+        return nil
+    end
+
+    if first == "" then
+        -- the last n bytes
+        local n = tonumber(last)
+        if n == 0 then
+            return false
+        end
+        return math.max(length - n, 0), length - 1
+    end
+
+    first = tonumber(first)
+    last = last == "" and length - 1 or math.min(tonumber(last), length - 1)
+
+    if first > last then
+        return first < length and nil or false
+    end
+
+    return first, last
+end
+
+-- Answer the client's Range from a whole 200 from Node, as proxy_cache did
+-- on a miss: 206 with the range (body_filter cuts it from the stream) or 416.
+-- Like proxy_cache, only when Node offers ranges (Accept-Ranges), with a
+-- known length, and if If-Range, when sent, still matches.
+local function answer_range(fill)
+    if not fill.range or not fill.length or ngx.header["Accept-Ranges"] ~= "bytes" then
+        return
+    end
+
+    if fill.if_range and fill.if_range ~= ngx.header["ETag"] and fill.if_range ~= ngx.header["Last-Modified"] then
+        return
+    end
+
+    local first, last = byte_range(fill.range, fill.length)
+
+    if first == nil then
+        return
+    end
+
+    if first == false then
+        ngx.status = 416
+        ngx.header["Content-Range"] = "bytes */" .. fill.length
+        ngx.header["Content-Length"] = 0
+        fill.first, fill.last = 1, 0
+        return
+    end
+
+    ngx.status = 206
+    ngx.header["Content-Range"] = "bytes " .. first .. "-" .. last .. "/" .. fill.length
+    ngx.header["Content-Length"] = last - first + 1
+    fill.first, fill.last = first, last
 end
 
 -- header_filter_by_lua: decide whether the response from Node is stored
@@ -376,7 +451,12 @@ function diskcache.header_filter(self)
 
     -- ngx.var.upstream_status is unset when nginx answered itself (an
     -- intercepted error page)
-    if not CACHEABLE[status] or ngx.var.upstream_status == nil then
+    -- X-Accel-Buffering: no (helper/sse.js) is a stream: proxy_cache never
+    -- stored one, since it needs buffering. nginx consumes the header, so
+    -- it is read from the upstream's.
+    if not CACHEABLE[status] or ngx.var.upstream_status == nil
+        or ngx.var.upstream_http_x_accel_buffering == "no"
+    then
         fill.skip = true
         return self:release()
     end
@@ -426,6 +506,10 @@ function diskcache.header_filter(self)
     fill.file = file
     fill.size = 0
 
+    if status == 200 then
+        answer_range(fill)
+    end
+
     if fill.length and fill.length > LOCK_MAX_BYTES then
         self:release()
     end
@@ -436,24 +520,27 @@ end
 function diskcache.body_filter(self)
     local fill = ngx.ctx.diskcache
 
-    if not fill or fill.skip or not fill.file then
+    if not fill or fill.skip then
         return
     end
 
     local chunk, eof = ngx.arg[1], ngx.arg[2]
 
     if chunk and #chunk > 0 then
-        local ok = fill.file:write(chunk)
+        local offset = fill.size
+        fill.size = fill.size + #chunk
 
-        if not ok then
-            fill.failed = true
-            fill.file:close()
-            fill.file = nil
-            os.remove(fill.tmp)
-            return
+        -- a range request gets only its bytes; the file gets them all
+        if fill.first then
+            local from = math.max(fill.first - offset, 0) + 1
+            local to = math.min(fill.last - offset + 1, #chunk)
+            ngx.arg[1] = from <= to and chunk:sub(from, to) or ""
         end
 
-        fill.size = fill.size + #chunk
+        if not fill.failed and not fill.file:write(chunk) then
+            fill.failed = true
+            os.remove(fill.tmp)
+        end
 
         if fill.size > LOCK_MAX_BYTES then
             self:release()
@@ -488,7 +575,7 @@ function diskcache.log(self)
     local truncated = not fill.complete or fill.failed
         or (fill.length and fill.length ~= fill.size)
         -- the last upstream tried, after a retry ("502, 200")
-        or (ngx.var.upstream_status or ""):match("(%d+)$") ~= tostring(ngx.status)
+        or (ngx.var.upstream_status or ""):match("(%d+)$") ~= tostring(fill.meta.s)
 
     if truncated then
         os.remove(fill.tmp)
