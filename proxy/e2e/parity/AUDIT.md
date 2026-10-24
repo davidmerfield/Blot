@@ -89,11 +89,8 @@ Tests: **RM** = `request-matrix.js` (section number), **CH** = `checks.sh`,
 miss, hit, hit (brotli copies exist), purge + refill, Node stopped and Node back.
 Each accepted difference is a rule with a reason in `INTENDED` there (class
 *intended* = the design, *harmless* = not designed but not observable in
-practice): `accept-ranges-on-hit`, `last-modified-fill-time`,
-`vary-dropped-on-hit`, `weak-etag-on-hit`, `range-on-hit`,
-`set-cookie-not-replayed`, `head-does-not-fill`, `head-forwarded`,
-`head-hit-content-length`, `head-error-vary`,
-`if-none-match-before-if-modified-since`, `preconditions-on-hit`,
-`conditional-on-miss`, `if-modified-since-only`, `precondition-failed-headers`,
-`unsatisfiable-range-stored`, `accept-ranges-on-range-miss`,
-`empty-body-not-compressed`. Anything else fails the run.
+practice): `range-on-hit`, `preconditions-on-hit`, `head-does-not-fill`,
+`head-forwarded`, `head-hit-content-length`, `head-error-vary`,
+`precondition-failed-headers`, `unsatisfiable-range-stored`,
+`set-cookie-not-replayed`, `vary-dropped-on-hit`, `accept-ranges-on-range-miss`,
+`accept-ranges-on-hit`, `empty-body-not-compressed`. Anything else fails the run.
