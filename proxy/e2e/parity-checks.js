@@ -165,8 +165,17 @@ function purge(c, hosts) {
   return { code: parseInt(lines.pop(), 10), text: lines.join("\n") };
 }
 
+// The stubs are restarted for the "Node back" pass: retry while one is
+// still starting
 function stubCounts(c) {
-  return JSON.parse(sh(c, "wget -qO- -T2 http://127.0.0.1:8088/__counts"));
+  for (let i = 0; ; i++) {
+    try {
+      return JSON.parse(sh(c, "wget -qO- -T2 http://127.0.0.1:8088/__counts"));
+    } catch (e) {
+      if (i === 20) throw e;
+      execFileSync("sleep", ["0.5"]);
+    }
+  }
 }
 
 // ---- requests -----------------------------------------------------------
