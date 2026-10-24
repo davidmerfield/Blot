@@ -29,29 +29,6 @@
     {{{html}}}
     {{> pluginHTML}}
   
-    {{#show_adjacent_posts}}
-    <script type="text/javascript">
-
-document.onkeydown = checkKey;
-
-function checkKey(e) {
-
-    e = e || window.event;
-
-    var nextLink = document.querySelector("a.entry-next");
-    var previousLink = document.querySelector("a.entry-previous");
-    
-    if (previousLink && previousLink.href && e.keyCode == '37') {
-      window.location = previousLink.href
-    }
-
-     if (nextLink && nextLink.href && e.keyCode == '39') {
-      window.location = nextLink.href
-    }
-
-}
-    </script>
-    {{/show_adjacent_posts}}
   {{/entry}}
   </div>
 

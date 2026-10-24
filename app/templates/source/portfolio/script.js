@@ -132,211 +132,145 @@ function stopPreloading() {
 
 // end of instant.page
 
-// Keep the collection that an entry was opened from so its arrows stay within it.
-var collectionNavigationKey = "portfolioCollectionNavigation";
+// Keep the collection an entry was opened from so its arrows stay within it.
+// The chronological prev/next hrefs are only ever replaced once we know better.
+var collectionKey = "portfolioCollection";
+var cacheID = "{{cacheID}}";
+var closeURL;
 
-function collectionPath(url) {
-  try {
-    var parsed = new URL(url, window.location.href);
-    if (parsed.origin !== window.location.origin) return null;
-    return parsed.pathname.replace(/\/+$/, "") || "/";
-  } catch (e) {
-    return null;
-  }
-}
+var articles = [{{#all_entries}}'{{{url}}}'{{^last}},{{/last}}{{/all_entries}}];
 
-function collectionPageFromDocument(doc, url) {
-  var entries = [];
-  var seen = {};
-
-  doc.querySelectorAll("a.collection-entry").forEach(function (link) {
-    var path = collectionPath(link.href);
-    if (!path || seen[path]) return;
-    seen[path] = true;
-    entries.push(path);
-  });
-
-  if (!entries.length) return null;
-
-  function paginationURL(selector) {
-    var link = doc.querySelector(selector);
-    return link && link.hasAttribute("href") ? link.href : null;
-  }
-
-  var pageURL = new URL(url, window.location.href);
-  pageURL.hash = "";
-
-  return {
-    url: pageURL.href,
-    entries: entries,
-    next: paginationURL("a.collection-next"),
-    previous: paginationURL("a.collection-previous")
-  };
-}
-
-function readCollectionNavigation() {
-  try {
-    return JSON.parse(sessionStorage.getItem(collectionNavigationKey) || "null");
-  } catch (e) {
-    return null;
-  }
-}
-
-function writeCollectionNavigation(state) {
-  try {
-    sessionStorage.setItem(collectionNavigationKey, JSON.stringify(state));
-  } catch (e) {}
-}
-
-function currentCollectionPosition() {
-  var state = readCollectionNavigation();
-  if (!state || !Array.isArray(state.pages)) return null;
-
-  var path = collectionPath(window.location.href);
-  for (var pageIndex = 0; pageIndex < state.pages.length; pageIndex++) {
-    var page = state.pages[pageIndex];
-    if (!page || !Array.isArray(page.entries)) continue;
-    var entryIndex = page.entries.indexOf(path);
-    if (entryIndex !== -1) {
-      return { state: state, page: page, pageIndex: pageIndex, entryIndex: entryIndex };
-    }
-  }
-
-  return null;
-}
-
-// Close to the listing page containing this entry; fall back to browser history
-// when the entry was opened outside one of the portfolio's collections.
 function closeEntry() {
-  var position = currentCollectionPosition();
-  if (position) {
-    window.location.href = position.page.url;
-  } else if (document.referrer && collectionPath(document.referrer)) {
+  if (closeURL) {
+    window.location.href = closeURL;
+  } else if (document.referrer) {
     window.history.back();
   } else {
-    window.location.href = "/";
+    window.location.href = '/';
   }
   return false;
 }
 
-// Capture the exact order shown by each collection page before following an entry.
-document.addEventListener("click", function (event) {
-  var link = event.target.closest && event.target.closest("a.collection-entry");
-  if (!link) return;
+function pathOf(url) {
+  try {
+    var u = new URL(url, window.location.href);
+    return u.origin === window.location.origin ? u.pathname.replace(/\/+$/, "") || "/" : null;
+  } catch (e) {
+    return null;
+  }
+}
 
-  var page = collectionPageFromDocument(document, window.location.href);
-  if (!page) return;
+function parseListing(doc, url) {
+  var entries = [];
+  doc.querySelectorAll("a.collection-entry").forEach(function (a) {
+    var path = pathOf(a.href);
+    if (path && entries.indexOf(path) === -1) entries.push(path);
+  });
+  if (!entries.length) return null;
 
-  writeCollectionNavigation({ pages: [page] });
+  function pagination(selector) {
+    var a = doc.querySelector(selector);
+    return a && a.getAttribute("href") ? a.href : null;
+  }
+
+  return {
+    url: url.split("#")[0],
+    entries: entries,
+    next: pagination("a.collection-next"),
+    previous: pagination("a.collection-previous")
+  };
+}
+
+function readCollection() {
+  try {
+    var state = JSON.parse(sessionStorage.getItem(collectionKey));
+    return state && state.cacheID === cacheID ? state : null;
+  } catch (e) {
+    return null;
+  }
+}
+
+function writeCollection(state) {
+  try {
+    sessionStorage.setItem(collectionKey, JSON.stringify(state));
+  } catch (e) {}
+}
+
+// Record the order shown by the listing before following one of its entries.
+document.addEventListener("click", function (e) {
+  if (!e.target.closest("a.collection-entry")) return;
+  var listing = parseListing(document, window.location.href);
+  if (listing) writeCollection({ cacheID: cacheID, listings: [listing] });
 }, true);
 
 function initializeCollectionNavigation() {
-  var position = currentCollectionPosition();
-  if (!position) return;
+  var state = readCollection();
+  // Only trust the collection when arriving from elsewhere on this site.
+  if (!state || !pathOf(document.referrer)) return;
 
-  var previousLink = document.querySelector("a.entry-previous");
-  var nextLink = document.querySelector("a.entry-next");
-  var closeLinks = document.querySelectorAll("a.entry-close");
+  var path = pathOf(window.location.href);
+  var page = -1, index = -1;
+  for (var n = 0; n < state.listings.length && index < 0; n++) {
+    page = n;
+    index = state.listings[n].entries.indexOf(path);
+  }
+  if (index < 0) return;
 
-  closeLinks.forEach(function (link) {
-    link.href = position.page.url;
+  var listing = state.listings[page];
+  closeURL = listing.url;
+  document.querySelectorAll("a.entry-close").forEach(function (a) {
+    a.href = closeURL;
   });
 
-  function setTarget(link, path) {
-    if (!link) return;
-    if (path) {
-      link.href = window.location.origin + path;
-      link.removeAttribute("aria-disabled");
-    } else {
-      link.removeAttribute("href");
-      link.setAttribute("aria-disabled", "true");
-    }
+  function edge(l, step) {
+    return l.entries[step > 0 ? 0 : l.entries.length - 1];
   }
 
-  function pageEntriesFor(position, direction) {
-    var page = position.page;
-    var entryIndex = position.entryIndex;
-    var inPageIndex = entryIndex + (direction === "next" ? 1 : -1);
-
-    if (inPageIndex >= 0 && inPageIndex < page.entries.length) {
-      return Promise.resolve(page.entries[inPageIndex]);
-    }
-
-    var neighborPage = position.state.pages[
-      position.pageIndex + (direction === "next" ? 1 : -1)
-    ];
-    if (neighborPage) {
-      return Promise.resolve(
-        direction === "next"
-          ? neighborPage.entries[0]
-          : neighborPage.entries[neighborPage.entries.length - 1]
-      );
-    }
-
-    var pageURL = direction === "next" ? page.next : page.previous;
-    if (!pageURL) return Promise.resolve(null);
-
-    return fetch(pageURL, { credentials: "same-origin" })
-      .then(function (response) {
-        if (!response.ok) throw new Error("Could not load collection page");
-        return response.text().then(function (html) {
-          return { html: html, url: response.url || pageURL };
-        });
-      })
-      .then(function (result) {
-        var doc = new DOMParser().parseFromString(result.html, "text/html");
-        var fetchedPage = collectionPageFromDocument(doc, result.url);
-        if (!fetchedPage) return null;
-
-        var alreadyLoaded = position.state.pages.some(function (loadedPage) {
-          return loadedPage.url === fetchedPage.url;
-        });
-        if (!alreadyLoaded) {
-          if (direction === "next") {
-            position.state.pages.push(fetchedPage);
-          } else {
-            position.state.pages.unshift(fetchedPage);
-          }
-        }
-
-        writeCollectionNavigation(position.state);
-        return direction === "next"
-          ? fetchedPage.entries[0]
-          : fetchedPage.entries[fetchedPage.entries.length - 1];
-      });
-  }
-
-  function updateArrow(link, direction) {
+  // Resolves to the neighbour's path, null at the end of the collection, and
+  // rejects when unsure (so the chronological link stays).
+  function neighbor(direction) {
     var step = direction === "next" ? 1 : -1;
-    var atBoundary = position.entryIndex + step < 0 ||
-      position.entryIndex + step >= position.page.entries.length;
-    var loadedNeighbor = position.state.pages[position.pageIndex + step];
-    var needsFetch = atBoundary && !loadedNeighbor &&
-      (direction === "next" ? position.page.next : position.page.previous);
-    var fallback = link && link.getAttribute("href");
+    if (listing.entries[index + step]) return Promise.resolve(listing.entries[index + step]);
 
-    if (needsFetch && link) {
-      link.removeAttribute("href");
-      link.setAttribute("aria-busy", "true");
-    }
+    var loaded = state.listings[page + step];
+    if (loaded) return Promise.resolve(edge(loaded, step));
+    if (!listing[direction]) return Promise.resolve(null);
 
-    pageEntriesFor(position, direction)
-      .then(function (path) { setTarget(link, path); })
-      .catch(function () {
-        if (needsFetch && link && fallback) link.href = fallback;
-      })
-      .then(function () {
-        if (link) link.removeAttribute("aria-busy");
+    return fetch(listing[direction], { credentials: "same-origin" }).then(function (res) {
+      if (!res.ok) throw new Error("Could not load collection page");
+      return res.text().then(function (html) {
+        var doc = new DOMParser().parseFromString(html, "text/html");
+        var fetched = parseListing(doc, res.url);
+        if (!fetched) return null;
+        state.listings[step > 0 ? "push" : "unshift"](fetched);
+        writeCollection(state);
+        return edge(fetched, step);
       });
+    });
   }
 
-  updateArrow(previousLink, "previous");
-  updateArrow(nextLink, "next");
+  [["a.entry-previous", "previous"], ["a.entry-next", "next"]].forEach(function (pair) {
+    var link = document.querySelector(pair[0]);
+    if (!link) return;
+    neighbor(pair[1]).then(function (target) {
+      if (target) {
+        link.href = window.location.origin + target;
+      } else {
+        link.removeAttribute("href");
+        link.setAttribute("aria-disabled", "true");
+      }
+    }, function () {});
+  });
 }
 
 initializeCollectionNavigation();
 
-var articles = [{{#all_entries}}'{{{url}}}'{{^last}},{{/last}}{{/all_entries}}];
+document.addEventListener("keydown", function (e) {
+  var selector = { 37: "a.entry-previous", 39: "a.entry-next" }[e.keyCode];
+  var link = selector && document.querySelector(selector);
+  if (link && link.href) window.location.href = link.href;
+});
+
 var candidates = sessionStorage.getItem("randomPostCandidates");
 
 try {
