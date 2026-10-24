@@ -81,9 +81,13 @@ const routes = {
   "/image.jpg": ["image/jpeg", image],
 };
 
-http.createServer((req, res) => {
+const server = http.createServer((req, res) => {
   const r = routes[req.url.split("?")[0]];
   if (!r) { res.writeHead(404, { "Content-Type": "text/plain" }); return res.end("not found"); }
   res.writeHead(200, { "Content-Type": r[0], "Content-Length": r[1].length });
   res.end(r[1]);
-}).listen(8090, "0.0.0.0");
+});
+// Node closes idle keep-alive connections after 5s, which races with nginx
+// reusing one ("upstream prematurely closed connection"); stay open longer
+server.keepAliveTimeout = 65000;
+server.listen(8090, "0.0.0.0");
