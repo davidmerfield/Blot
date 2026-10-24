@@ -184,15 +184,15 @@ T get "$PROBE_F" /probe >/dev/null; sleep 0.3
 [ "$(T get "$PROBE_F" /probe | awk '{print $3}')" = HIT ] || fail "the proxy did not cache the probe page"
 # Redis down for the whole deploy: nothing before the post-swap checks needs it,
 # and they fail on it (as in proxy-deploy-e2e.yml's forced-failure step). While
-# both containers are up a filler requests many distinct pages of other hosts: a
-# page the OLD container caches after the new one rebuilt its purge index is not
-# in the new one's index. Then, with the old container stopped, the pages change
+# the swap a filler requests many distinct pages of other hosts: a page the OLD
+# container caches after the new one rebuilt its purge index is not in the new
+# one's index. Then, with the old container stopped, the pages change
 # and the proxy is told: the purge can only reach the new container.
 docker stop blot-e2e-redis >/dev/null
-bash "$BG" "$IMAGE_A" > "$WORK/failed-swap.log" 2>&1 & failed_pid=$!
-for _ in $(seq 1 300); do grep -q "rebuild its purge index" "$WORK/failed-swap.log" 2>/dev/null && break; sleep 0.1; done
 FILL_FILE="$WORK/fill.txt" node "$HERE/swap-load.js" fill ov >/dev/null 2>&1 & fill_pid=$!
-for _ in $(seq 1 300); do grep -q "Checking the site through" "$WORK/failed-swap.log" 2>/dev/null && break; sleep 0.05; done
+sleep 1
+bash "$BG" "$IMAGE_A" > "$WORK/failed-swap.log" 2>&1 & failed_pid=$!
+for _ in $(seq 1 1500); do grep -q "Checking the site through" "$WORK/failed-swap.log" 2>/dev/null && break; sleep 0.02; done
 grep -q "Checking the site through" "$WORK/failed-swap.log" || { cat "$WORK/failed-swap.log"; fail "the swap never reached its post-swap checks"; }
 kill -TERM "$fill_pid"; wait "$fill_pid" || true
 T change "$PROBE_F" >/dev/null
