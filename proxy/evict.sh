@@ -51,6 +51,11 @@ if [ -d "$DIR/.trash" ]; then
   find "$DIR/.trash" -mindepth 1 -maxdepth 1 -exec rm -rf {} + 2>/dev/null || true
 fi
 
+# A body's mtime is Node's Last-Modified (diskcache.lua), so "an hour old"
+# can be true of a body the moment it is published, before its .meta is: a
+# sweep in that instant removes it, and the entry is a miss. .tmp files
+# keep the time they were written.
+#
 # "<atime> <mtime> <bytes> <path>" for every file under <a>/<bc>/<host>/,
 # sorted by path so a key's files (<key>.meta, <key>.<id>, <key>.<id>.br)
 # are adjacent

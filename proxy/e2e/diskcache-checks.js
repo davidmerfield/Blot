@@ -335,7 +335,8 @@ async function etag() {
   await settle();
   check("miss carries Node's ETag", m.headers.etag === node, m.headers.etag);
   const h = await req(A, host, p);
-  check("hit sends the weak form of Node's ETag", cacheStatus(h) === "HIT" && h.headers.etag === "W/" + node, h.headers.etag);
+  check("hit sends Node's ETag as Node sent it (strong), as proxy_cache did", cacheStatus(h) === "HIT" && h.headers.etag === node, h.headers.etag);
+  check("hit of a page Node sent without Last-Modified has none", cacheStatus(h) === "HIT" && h.headers["last-modified"] === undefined, h.headers["last-modified"]);
 
   const strong = await req(A, host, p, { headers: { "If-None-Match": node } });
   check("If-None-Match (strong form) gets 304 on a hit", strong.status === 304, strong.status);

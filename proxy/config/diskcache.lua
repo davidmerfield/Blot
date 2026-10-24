@@ -43,7 +43,8 @@ diskcache.__index = diskcache
 local CACHEABLE = { [200] = true, [301] = true, [302] = true, [400] = true, [404] = true }
 
 -- Upstream headers that are not sent again on a hit. Content-Length and
--- Last-Modified come from the file being served; ETag is kept apart (meta.e).
+-- Last-Modified come from the file being served (its mtime is Node's
+-- Last-Modified, meta.l); ETag is kept apart (meta.e).
 local SKIP_HEADERS = {
     ["connection"] = true,
     ["keep-alive"] = true,
@@ -179,7 +180,19 @@ local function read_meta(path)
     return cjson.decode(read_file(path) or "")
 end
 
-ffi.cdef([[int mkdir(const char *path, unsigned int mode);]])
+ffi.cdef([[
+int mkdir(const char *path, unsigned int mode);
+struct utimbuf { long actime; long modtime; };
+int utime(const char *path, const struct utimbuf *times);
+]])
+
+-- Give a body Node's Last-Modified as its mtime, so the static module sends
+-- it on a hit and compares If-Modified-Since and If-Range with it, as
+-- proxy_cache did with the stored header (see evict.sh on what an old mtime
+-- means to the sweeper).
+local function set_mtime(path, time)
+    ffi.C.utime(path, ffi.new("struct utimbuf", { ngx.time(), time }))
+end
 
 -- mkdir -p without a child process: header filters cannot yield
 local function mkdir_p(path)
@@ -219,11 +232,9 @@ local function enqueue(self, job)
     end
 end
 
--- The ETag a hit sends: Node's, weak, since the same validator covers the
--- plain body and its brotli copy. A miss sends Node's own (the brotli filter
--- weakens it when it compresses), and If-None-Match compares weakly, so a
--- client keeps its validator across purges for as long as the page is
--- unchanged.
+-- The ETag of a hit served from the brotli copy: Node's, weak, as the brotli
+-- filter makes it when it compresses on a miss. The plain body keeps Node's
+-- own, so If-Range (a strong comparison) still matches it.
 local function weak(etag)
     if etag:sub(1, 2) == "W/" then
         return etag
@@ -297,13 +308,22 @@ function diskcache.access(self)
     send_headers(meta)
 
     if meta.e then
-        ngx.header["ETag"] = weak(meta.e)
+        -- brotli_static sends the .br copy (meta.b) to a client that accepts br
+        local ae = meta.b and ngx.var.http_accept_encoding
+        local br = ae and ngx.re.find(ae, [[(?:^|[,\s])br(?:$|[,;\s])]], "jo")
+        ngx.header["ETag"] = br and weak(meta.e) or meta.e
+    end
 
-        -- nginx would answer 200 when If-Modified-Since misses, even if the
-        -- ETag matches; the file's mtime changes with every fill, and
-        -- If-None-Match takes precedence anyway (RFC 9110 13.1.3)
-        if ngx.var.http_if_none_match then
-            ngx.req.clear_header("If-Modified-Since")
+    if not meta.l then
+        -- Node sent no Last-Modified, so the file's mtime is the fill's:
+        -- send none (hit_header_filter) and compare no date with it
+        ngx.ctx.diskcache_no_last_modified = true
+        ngx.req.clear_header("If-Modified-Since")
+
+        local if_range = ngx.var.http_if_range
+
+        if if_range and not if_range:find('"', 1, true) then
+            ngx.req.set_header("If-Range", '"no-last-modified"')
         end
     end
 
@@ -313,6 +333,14 @@ function diskcache.access(self)
     end
 
     ngx.var.diskcache_path = "/" .. body
+end
+
+-- header_filter_by_lua in the cached location: a hit of an entry Node sent
+-- without Last-Modified gets none, as proxy_cache sent the stored headers
+function diskcache.hit_header_filter()
+    if ngx.ctx.diskcache_no_last_modified then
+        ngx.header["Last-Modified"] = nil
+    end
 end
 
 -- Release the fill lock this request holds, if any. Called from the fill's
@@ -335,6 +363,13 @@ function diskcache.fill(self)
     if ngx.req.get_method() ~= "GET" then
         ngx.ctx.diskcache = { skip = true }
         return
+    end
+
+    -- see reverse-proxy-fill.conf
+    if (ngx.var.http_if_none_match or ngx.var.http_if_modified_since)
+        and ngx.var.diskcache_conditional ~= "1"
+    then
+        return ngx.exec("@diskcache_fill_conditional")
     end
 
     local dir, marker = host_path(ngx.var.host)
@@ -398,6 +433,51 @@ local function byte_range(header, length)
     end
 
     return first, last
+end
+
+-- Whether If-None-Match lists etag, compared weakly (RFC 9110 13.1.2)
+local function etag_listed(list, etag)
+    local bare = etag:gsub("^W/", "")
+
+    for tag in list:gmatch("[^,]+") do
+        tag = tag:match("^%s*(.-)%s*$")
+
+        if tag == "*" or tag:gsub("^W/", "") == bare then
+            return true
+        end
+    end
+
+    return false
+end
+
+-- Answer a conditional GET from a whole 200 from Node, as proxy_cache did on
+-- a miss (nginx's not_modified filter): 304 when If-None-Match lists Node's
+-- ETag or, without If-None-Match, If-Modified-Since is Node's Last-Modified
+-- (if_modified_since exact). nginx sends a 304 without passing the body
+-- through body_filter, so proxy_store keeps it (fill.store).
+local function answer_not_modified(fill)
+    local inm = ngx.var.http_if_none_match
+    local ims = ngx.var.http_if_modified_since
+    local etag = ngx.header["ETag"]
+    local match
+
+    if inm then
+        match = etag and etag_listed(inm, etag)
+    elseif ims then
+        match = fill.meta.l and ngx.parse_http_time(ims) == fill.meta.l
+    end
+
+    if not match then
+        return false
+    end
+
+    ngx.status = 304
+    fill.not_modified = true
+    ngx.header["Content-Length"] = nil
+    ngx.header["Content-Type"] = nil
+    ngx.header["Accept-Ranges"] = nil
+    fill.first, fill.last = 1, 0
+    return true
 end
 
 -- Answer the client's Range from a whole 200 from Node, as proxy_cache did
@@ -487,6 +567,7 @@ function diskcache.header_filter(self)
         s = status,
         h = headers,
         e = ngx.header["ETag"],
+        l = ngx.parse_http_time(ngx.header["Last-Modified"] or ""),
         id = fill.id,
         k = ngx.var.cache_key,
         t = fill.started,
@@ -508,7 +589,14 @@ function diskcache.header_filter(self)
     fill.file = file
     fill.size = 0
 
-    if status == 200 then
+    if ngx.var.diskcache_conditional == "1" then
+        -- proxy_store's copy of the body (reverse-proxy-fill.conf)
+        fill.store = fill.tmp .. ".store"
+        ngx.var.diskcache_store = fill.store
+    end
+
+    -- the conditional first, as nginx's filters run (RFC 9110 13.2.2)
+    if status == 200 and not answer_not_modified(fill) then
         answer_range(fill)
     end
 
@@ -569,6 +657,17 @@ function diskcache.log(self)
     fill.file:close()
     fill.file = nil
 
+    if fill.not_modified then
+        -- proxy_store wrote the body, and only if it was whole: a 200 of the
+        -- length Node announced
+        os.remove(fill.tmp)
+        fill.tmp = fill.store
+        fill.size = file_size(fill.tmp)
+        fill.complete = fill.size ~= nil
+    elseif fill.store then
+        os.remove(fill.store)
+    end
+
     local directory = self.directory .. "/" .. fill.dir
     local body = directory .. "/" .. fill.key .. "." .. fill.id
     local meta_path = directory .. "/" .. fill.key .. ".meta"
@@ -593,6 +692,10 @@ function diskcache.log(self)
     end
 
     local tmp_meta = fill.tmp .. ".meta"
+
+    if fill.meta.l then
+        set_mtime(fill.tmp, fill.meta.l)
+    end
 
     -- the body first, then the metadata that points at it
     if not os.rename(fill.tmp, body)
@@ -655,7 +758,14 @@ local function compress(self, job)
 
     proc:set_timeouts(nil, nil, nil, 300000)
 
-    if not proc:wait() or not os.rename(tmp, body .. ".br") then
+    local done = proc:wait()
+
+    -- brotli_static sends the copy's mtime as Last-Modified
+    if done and meta.l then
+        set_mtime(tmp, meta.l)
+    end
+
+    if not done or not os.rename(tmp, body .. ".br") then
         proc:kill(9)
         os.remove(tmp)
         -- the body can go mid-compression (a refill): not an error
@@ -682,6 +792,8 @@ local function compress(self, job)
     end
 
     current.c = nil
+    -- b: there is a brotli copy, whose ETag is weak (diskcache:access)
+    current.b = true
 
     local tmp_meta = tmp .. ".meta"
 
