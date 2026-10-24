@@ -29,3 +29,14 @@ The album template uses this pattern in both `album/_grid_square.html` and `albu
 Other thumbnail views now use the same pattern: `gallery/_item.html` (`thumbnail_size` square), `links/_post.html` and `links/search.html` (responsive grid columns), `studio/entries.html` and `studio/tagged.html` (responsive grid columns), `fieldnotes/related.html` (350px image slot), and `magazine/entry_line.html` (one-third and two-thirds columns). Their existing CSS, image styles, and fallback URLs are preserved; `sizes` describes their current layout so the browser can select among generated variants without changing the rendered dimensions.
 
 Use responsive candidates for displayed thumbnails, not social preview metadata or full-size entry images. When a template has a `<noscript>` image, keep its `srcset` and `sizes` in sync with the primary image.
+
+## Contextual navigation
+
+On an entry page, the next/previous arrows and the close button can follow the listing the visitor came from (home grid, archives, a tag, search results, a page of entries) instead of always following chronological order. Portfolio, album and links implement it; copy the block from `portfolio/script.js` (the "Keep the collection an entry was opened from" section) when adding it to another template.
+
+- **Markup contract.** Mark listing entry links `collection-entry` and listing pagination links `collection-previous` / `collection-next`. Mark entry-page links `entry-previous`, `entry-next` and `entry-close`; there may be several of each (links has toolbar and top copies). Keep the real `{{entry.next}}` / `{{entry.previous}}` hrefs in the HTML so the page works without JavaScript.
+- **Saving.** Clicking a `collection-entry` link saves the listing's entry order and pagination hrefs to `sessionStorage`. The saved state is dropped when `{{cacheID}}` changes and ignored unless the visitor arrived from elsewhere on the same site.
+- **Upgrading.** On the entry page the script only replaces an arrow's href once the collection neighbour is known. At the edge of a page it fetches the adjacent listing page once and appends it to the saved state. It removes an href only when the collection has genuinely ended, and a failed or uncertain lookup leaves the chronological link alone.
+- **Infinite scroll.** Listings that infinite-scroll only know the pages loaded so far, so at their edge the chronological link stays.
+- **Keys.** Handle the left/right keys in `script.js` from the same `entry-*` links so keys and clicks agree. Portfolio maps left to previous; album and links map left to next, matching their arrows.
+- **Closing.** `closeEntry()` returns to the saved listing URL when there is one, otherwise to the referrer or `/`.

@@ -1,13 +1,146 @@
 {{{app_js}}}
 
+// Keep the collection an entry was opened from so its arrows stay within it.
+// The chronological prev/next hrefs are only ever replaced once we know better.
+var collectionKey = "collectionNavigation";
+var cacheID = "{{cacheID}}";
+var infiniteScroll = {{#infinite_scroll}}true{{/infinite_scroll}}{{^infinite_scroll}}false{{/infinite_scroll}};
+var closeURL;
+
 function closeEntry() {
-  if (document.referrer) {
+  if (closeURL) {
+    window.location.href = closeURL;
+  } else if (document.referrer) {
     window.history.back();
   } else {
     window.location.href = '/';
   }
   return false;
 }
+
+function pathOf(url) {
+  try {
+    var u = new URL(url, window.location.href);
+    return u.origin === window.location.origin ? u.pathname.replace(/\/+$/, "") || "/" : null;
+  } catch (e) {
+    return null;
+  }
+}
+
+function parseListing(doc, url) {
+  var entries = [];
+  doc.querySelectorAll("a.collection-entry").forEach(function (a) {
+    var path = pathOf(a.href);
+    if (path && entries.indexOf(path) === -1) entries.push(path);
+  });
+  if (!entries.length) return null;
+
+  function pagination(selector) {
+    var a = doc.querySelector(selector);
+    return a && a.getAttribute("href") ? a.href : null;
+  }
+
+  return {
+    url: url.split("#")[0],
+    entries: entries,
+    next: pagination("a.collection-next"),
+    previous: pagination("a.collection-previous")
+  };
+}
+
+function readCollection() {
+  try {
+    var state = JSON.parse(sessionStorage.getItem(collectionKey));
+    return state && state.cacheID === cacheID ? state : null;
+  } catch (e) {
+    return null;
+  }
+}
+
+function writeCollection(state) {
+  try {
+    sessionStorage.setItem(collectionKey, JSON.stringify(state));
+  } catch (e) {}
+}
+
+// Record the order shown by the listing before following one of its entries.
+document.addEventListener("click", function (e) {
+  if (!e.target.closest("a.collection-entry")) return;
+  var listing = parseListing(document, window.location.href);
+  if (listing) writeCollection({ cacheID: cacheID, listings: [listing] });
+}, true);
+
+function initializeCollectionNavigation() {
+  var state = readCollection();
+  // Only trust the collection when arriving from elsewhere on this site.
+  if (!state || !pathOf(document.referrer)) return;
+
+  var path = pathOf(window.location.href);
+  var page = -1, index = -1;
+  for (var n = 0; n < state.listings.length && index < 0; n++) {
+    page = n;
+    index = state.listings[n].entries.indexOf(path);
+  }
+  if (index < 0) return;
+
+  var listing = state.listings[page];
+  closeURL = listing.url;
+  document.querySelectorAll("a.entry-close").forEach(function (a) {
+    a.href = closeURL;
+  });
+
+  function edge(l, step) {
+    return l.entries[step > 0 ? 0 : l.entries.length - 1];
+  }
+
+  // Resolves to the neighbour's path, null at the end of the collection, and
+  // rejects when unsure (so the chronological link stays).
+  function neighbor(direction) {
+    var step = direction === "next" ? 1 : -1;
+    if (listing.entries[index + step]) return Promise.resolve(listing.entries[index + step]);
+
+    var loaded = state.listings[page + step];
+    if (loaded) return Promise.resolve(edge(loaded, step));
+    // Infinite scroll listings only hold the pages scrolled so far.
+    if (infiniteScroll) return Promise.reject();
+    if (!listing[direction]) return Promise.resolve(null);
+
+    return fetch(listing[direction], { credentials: "same-origin" }).then(function (res) {
+      if (!res.ok) throw new Error("Could not load collection page");
+      return res.text().then(function (html) {
+        var doc = new DOMParser().parseFromString(html, "text/html");
+        var fetched = parseListing(doc, res.url);
+        if (!fetched) return null;
+        state.listings[step > 0 ? "push" : "unshift"](fetched);
+        writeCollection(state);
+        return edge(fetched, step);
+      });
+    });
+  }
+
+  ["previous", "next"].forEach(function (direction) {
+    var links = document.querySelectorAll("a.entry-" + direction);
+    if (!links.length) return;
+    neighbor(direction).then(function (target) {
+      links.forEach(function (link) {
+        if (target) {
+          link.href = window.location.origin + target;
+        } else {
+          link.removeAttribute("href");
+          link.setAttribute("aria-disabled", "true");
+        }
+      });
+    }, function () {});
+  });
+}
+
+initializeCollectionNavigation();
+
+document.addEventListener("keydown", function (e) {
+  var selector = { 37: "a.entry-next", 39: "a.entry-previous" }[e.keyCode];
+  var link = selector && document.querySelector(selector);
+  if (link && link.href) window.location.href = link.href;
+});
 
 document.querySelectorAll('.page img').forEach(function(el){
   el.setAttribute('data-action', 'zoom');
