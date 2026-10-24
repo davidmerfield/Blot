@@ -711,14 +711,12 @@ function diff(spec, ra, rb) {
 // cacher.lua, so the baseline is the old cache and these are its differences.
 const isHit = (r) => header(r, "blot-cache")[0] === "HIT";
 const isMiss = (r) => header(r, "blot-cache")[0] === "MISS";
-const stripWeak = (v) => (v || "").replace(/^W\//, "");
 const tokens = (v) =>
   (v || "")
     .toLowerCase()
     .split(",")
     .map((t) => t.trim())
     .filter(Boolean);
-const conditional = (spec) => reqHeader(spec, "if-none-match") !== undefined || reqHeader(spec, "if-modified-since") !== undefined;
 
 const INTENDED = [
   // --- whole comparisons
@@ -735,27 +733,6 @@ const INTENDED = [
     whole: true,
     reason: "a hit evaluates If-Match and If-Unmodified-Since (412, RFC 9110); the baseline ignored them. No browser sends either on a GET",
     match: (c) => (reqHeader(c.spec, "if-match") !== undefined || reqHeader(c.spec, "if-unmodified-since") !== undefined) && c.ra.status === 200 && c.rb.status === 412,
-  },
-  {
-    id: "if-none-match-before-if-modified-since",
-    class: "intended",
-    whole: true,
-    reason: "a matching If-None-Match gets 304 even when If-Modified-Since says the page changed (RFC 9110 13.1.3; diskcache.lua clears If-Modified-Since); the baseline sent 200",
-    match: (c) => reqHeader(c.spec, "if-none-match") !== undefined && reqHeader(c.spec, "if-modified-since") !== undefined && c.ra.status === 200 && c.rb.status === 304 && isHit(c.ra) && isHit(c.rb),
-  },
-  {
-    id: "conditional-on-miss",
-    class: "harmless",
-    whole: true,
-    reason: "a conditional GET on a MISS gets the whole page (200) from the branch, where the baseline compared the validator with Node's fresh response and sent 304; from the next request on both answer 304. Costs one full transfer per entry fill",
-    match: (c) => conditional(c.spec) && c.ra.status === 304 && c.rb.status === 200 && isMiss(c.ra) && isMiss(c.rb),
-  },
-  {
-    id: "if-modified-since-only",
-    class: "harmless",
-    whole: true,
-    reason: "a hit's Last-Modified is the time of the fill, not Node's, so a client that revalidates with If-Modified-Since alone (no If-None-Match) gets 200 where the baseline sent 304. Node sends an ETag with every Last-Modified and browsers send both, so If-None-Match decides",
-    match: (c) => reqHeader(c.spec, "if-modified-since") !== undefined && reqHeader(c.spec, "if-none-match") === undefined && c.ra.status === 304 && c.rb.status === 200 && isHit(c.ra) && isHit(c.rb) && header(c.ra, "last-modified").length > 0,
   },
   {
     id: "head-does-not-fill",
@@ -797,12 +774,6 @@ const INTENDED = [
   },
   // --- single headers
   {
-    id: "weak-etag-on-hit",
-    class: "intended",
-    reason: "a hit sends Node's ETag weak (one validator for the plain and the brotli body); the baseline sent it strong to clients that accept no encoding",
-    match: (c, d) => d.name === "etag" && isHit(c.rb) && d.a !== "(absent)" && stripWeak(d.a) === stripWeak(d.b),
-  },
-  {
     id: "set-cookie-not-replayed",
     class: "intended",
     reason: "a hit does not replay the Set-Cookie of whoever filled the entry (the baseline sent one visitor's cookies to every later visitor)",
@@ -825,12 +796,6 @@ const INTENDED = [
     class: "intended",
     reason: "a hit sends Accept-Ranges: bytes, since it honours Range",
     match: (c, d) => d.name === "accept-ranges" && isHit(c.rb) && d.a === "(absent)" && d.b === "bytes",
-  },
-  {
-    id: "last-modified-fill-time",
-    class: "harmless",
-    reason: "a hit sends the time of the fill as Last-Modified where Node sent none (a free validator), or in place of Node's, which is kept only as ETag: Node sends an ETag with every Last-Modified, and If-None-Match decides",
-    match: (c, d) => d.name === "last-modified" && isHit(c.rb) && (d.a === "(absent)" || header(c.ra, "etag").length > 0),
   },
   {
     id: "empty-body-not-compressed",
