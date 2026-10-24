@@ -1,4 +1,5 @@
-# The variables proxy-deploy-e2e.yml's proxy-transition-e2e job sets, for entry.sh
+# The variables proxy-deploy-e2e.yml's proxy-swap-load-e2e and
+# proxy-transition-e2e jobs set, for entry.sh
 export BLOT_HOST=blot.im
 export PROXY_CANARY_HOST=preview-of-wireframe-on-david.blot.im
 export PROXY_AUTOSSL_VOLUME=blot-e2e-auto-ssl
@@ -12,5 +13,3 @@ export PROXY_DISK_CACHE_DIR=$E2E_ROOT/disk-cache
 export PROXY_LOG_DIR=$E2E_ROOT/logs
 export PROXY_CERT_DIR=$E2E_ROOT/certs
 export PROXY_GLOBAL_STATIC_DIR=$E2E_ROOT/global-static
-export IMAGE_LEGACY=blot-proxy-tr-legacy:e2e
-export IMAGE_DISK=blot-proxy-tr-disk:e2e

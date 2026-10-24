@@ -101,16 +101,23 @@ jobs:
       - name: Disk cache checks
         run: node proxy/e2e/diskcache-checks.js
 
-      # The proxy of origin/master (nginx proxy_cache) and this one side by
-      # side, the same ~770 requests to both (miss, hit, purge, refill, Node
-      # down, Node back): status, decoded body and headers must match unless
-      # a rule in parity-checks.js explains the difference. Builds the
-      # baseline image itself, from a worktree of origin/master; takes about
-      # ten minutes. Containers pa-*, ports 18090-18093.
-      - name: Parity with the previous proxy
+      # What a client sees through the cached locations, request kind by
+      # request kind, against the same image: starts its own rm-* containers
+      # (ports 18120-18139), each with a stub upstream, and removes them.
+      # Behaviour that looks wrong today is asserted and labelled KNOWN.
+      - name: Request matrix
+        run: node proxy/e2e/request-matrix.js
+
+      # The proxy of the base ref (origin/master) and this tree's side by side,
+      # the same ~770 requests to both (miss, hit, purge, refill, Node down,
+      # Node back): status, decoded body and headers must match unless a rule
+      # in parity-checks.js explains the difference. Builds the baseline image
+      # itself, from a worktree of origin/master. Containers pa-*, ports
+      # 18090-18093.
+      - name: Parity with origin/master
         env:
           PARITY_GENDEPS: ${{ runner.temp }}/gendeps
-          PARITY_BRANCH_IMAGE: blot-proxy:e2e
+          PARITY_TREE_IMAGE: blot-proxy:e2e
         run: |
           git fetch --no-tags --depth=1 origin '+refs/heads/master:refs/remotes/origin/master'
           node proxy/e2e/parity-checks.js

@@ -59,6 +59,14 @@
 # of a kind change have the gap, and the new colour can keep a page that missed
 # a purge: after the swap it purges every host its directory has pages for, and
 # a swap that is undone starts the old colour on an emptied directory.
+#
+# For legacy images, what stays behind from that window is dropped: a page the
+# old colour caches after the new one has indexed the cache directory is a file
+# the new one knows nothing about but still serves (nginx opens the file for a key it has
+# no record of), and no later purge reaches it, for as long as the cache keeps
+# it (a year). So once the old colour is stopped, or before it is put back, the
+# files written since the new colour started are deleted (drop_overlap_cache).
+# That costs a few seconds of cache misses, never a wrong page.
 set -euo pipefail
 
 NEW_IMAGE="${1:?usage: blue-green.sh <commit-sha | image>}"
@@ -141,6 +149,23 @@ docker rm -f "$NEW" >/dev/null 2>&1 || true
 #   swapping  $OLD stopped                    -> start $OLD, then remove $NEW
 #   committed nothing to undo
 STATE=starting
+OVERLAP_MARK=""
+# Delete the cache files written (by ctime: nginx sets the mtime from the
+# response's Last-Modified) since $OVERLAP_MARK (an epoch), see above. The files
+# belong to uid 1000 and the deploy user has no sudo, so a throwaway root
+# container of the image does it (the image has BusyBox find: stat and awk pick
+# the files; cache file names have no spaces). Best effort.
+drop_overlap_cache() {
+  [ -n "$OVERLAP_MARK" ] || return 0
+  local began=$SECONDS
+  if docker run --rm --user 0 --entrypoint sh -v "$CACHE_DIR":/cache "$NEW_IMAGE" -c '
+      find /cache -type f -not -path "/cache/.trash/*" -exec stat -c "%Z %n" {} + \
+        | awk -v t="$1" "\$1 >= t {print \$2}" | xargs -r rm -f' drop-overlap "$OVERLAP_MARK" >/dev/null; then
+    log "Dropped the cache files written since $NEW started (the other colour's purge index does not know them) in $((SECONDS - began))s"
+  else
+    log "WARNING: could not drop the cache files written since $NEW started: a page purged during the overlap may still be served"
+  fi
+}
 swap_rollback() {
   local status=$?
   case "$STATE" in
@@ -159,7 +184,10 @@ swap_rollback() {
           || log "WARNING: could not empty $(cache_dir_for "$OLD_KIND"): $OLD may serve pages changed since it was stopped"
       fi
       # $NEW may be the only proxy answering if $OLD cannot come back, so it is
-      # removed only once $OLD is up and healthy.
+      # removed only once $OLD is up and healthy. $OLD indexes the cache
+      # directory as it finds it: anything it cached while both were up and a
+      # purge since reached only $NEW for is gone first.
+      drop_overlap_cache
       if docker start "$OLD" >/dev/null 2>&1 && wait_healthy "$OLD" "$HEALTH_TIMEOUT"; then
         docker logs --tail 50 "$NEW" >&2 || true
         docker rm -f "$NEW" >/dev/null 2>&1 || true
@@ -176,6 +204,7 @@ trap '' HUP PIPE
 
 run_args "$NEW" "$NEW_KIND"
 docker create --restart no "${RUN_ARGS[@]}" "$NEW_IMAGE" >/dev/null
+[ -z "$OLD" ] || OVERLAP_MARK="$(date +%s)"
 docker start "$NEW" >/dev/null
 
 log "Waiting up to ${HEALTH_TIMEOUT}s for $NEW to answer its own health socket"
@@ -213,6 +242,7 @@ docker update --restart unless-stopped "$NEW" >/dev/null
 STATE=swapping
 log "Draining and stopping $OLD (timeout ${DRAIN_TIMEOUT}s)"
 docker stop --time "$DRAIN_TIMEOUT" "$OLD" >/dev/null
+drop_overlap_cache
 
 log "Checking the site through $NEW"
 live_checks "$BASELINE" || die "checks failed after the swap to $NEW_IMAGE"

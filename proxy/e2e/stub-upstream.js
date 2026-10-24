@@ -13,8 +13,9 @@ const PORTS = (process.env.STUB_PORTS || "8088,8089,8090,8091")
 // 0.0.0.0, as production Node containers (published with docker -p) are.
 const BIND = process.env.STUB_BIND || "127.0.0.1";
 
-// Requests seen per path, for proxy/e2e/diskcache-checks.js to tell whether
-// the proxy asked Node again. Read with /__count?path=/some/path.
+// Requests seen per path, for proxy/e2e/request-matrix.js and
+// diskcache-checks.js to tell whether the proxy asked Node again. Read with
+// /__count?path=/some/path.
 const counts = {};
 
 // A deterministic ~3 MB body (not compressible as a type, see /large)
@@ -159,10 +160,10 @@ function parityRoute(req, res, url) {
     if (r) {
       const start = r[1] === "" ? all.length - parseInt(r[2], 10) : parseInt(r[1], 10);
       const end = r[1] === "" || r[2] === "" ? all.length - 1 : Math.min(parseInt(r[2], 10), all.length - 1);
-      res.writeHead(206, { "Content-Type": "application/octet-stream", "Accept-Ranges": "bytes", "Content-Range": `bytes ${start}-${end}/${all.length}`, "Content-Length": end - start + 1 });
+      res.writeHead(206, { "Content-Type": "application/octet-stream", "Accept-Ranges": "bytes", ETag: '"ranged-1"', "Last-Modified": "Wed, 01 Jan 2020 00:00:00 GMT", "Content-Range": `bytes ${start}-${end}/${all.length}`, "Content-Length": end - start + 1 });
       res.end(all.subarray(start, end + 1));
     } else {
-      res.writeHead(200, { "Content-Type": "application/octet-stream", "Accept-Ranges": "bytes", "Content-Length": all.length });
+      res.writeHead(200, { "Content-Type": "application/octet-stream", "Accept-Ranges": "bytes", ETag: '"ranged-1"', "Last-Modified": "Wed, 01 Jan 2020 00:00:00 GMT", "Content-Length": all.length });
       res.end(all);
     }
     return true;
@@ -188,6 +189,70 @@ function parityRoute(req, res, url) {
   return true;
 }
 
+// Routes that look like the Blot app's, for request-matrix.js
+let cookieSeq = 0;
+function matrixRoute(req, res, url) {
+  const p = url.pathname;
+  // with a Content-Length, as Express sends for a rendered page
+  const page = (headers) => {
+    const body = "<html><body>" + p + " " + "a repeatable filler sentence. ".repeat(40) + "</body></html>";
+    res.writeHead(200, { "Content-Type": "text/html; charset=utf-8", "Content-Length": Buffer.byteLength(body), ...headers });
+    res.end(body);
+    return true;
+  };
+
+  // anything that is not a GET or HEAD (webhooks, form posts) is echoed:
+  // method, headers Node received, size and hash of the body
+  if (req.method !== "GET" && req.method !== "HEAD") {
+    const chunks = [];
+    req.on("data", (d) => chunks.push(d));
+    req.on("end", () => {
+      const body = Buffer.from(JSON.stringify(echo(req, Buffer.concat(chunks))));
+      res.writeHead(200, { "Content-Type": "application/json", "Content-Length": body.length });
+      res.end(body);
+    });
+    return true;
+  }
+
+  // site pages that set the csrf cookie, one value per request
+  if (/^\/questions\/[^/]+$/.test(p) && !/^\/questions\/\d+$/.test(p)) {
+    const headers = { "Set-Cookie": "__Host-csrf=token" + ++cookieSeq + "; Path=/; Secure; HttpOnly; SameSite=Strict" };
+    if (p === "/questions/search") headers["Cache-Control"] = "private";
+    return page(headers);
+  }
+  // pages Node marks as not for sharing
+  if (p.startsWith("/draft/view/") || p.startsWith("/verify/")) return page({ "Cache-Control": "no-cache" });
+  if (isSSE(p)) {
+    sse(req, res);
+    return true;
+  }
+  if (p.startsWith("/clients/") || p === "/stripe-webhook" || p === "/dashboard" || p === "/sites" || p.startsWith("/sites/")) {
+    return page({ "Cache-Control": "no-store" });
+  }
+  if (p === "/tiny") {
+    res.writeHead(200, { "Content-Type": "text/html; charset=utf-8", "Content-Length": 11 });
+    res.end("<p>tiny</p>");
+    return true;
+  }
+  // the kinds of page a blog has (the generic answer below is JSON)
+  if (/^\/(post|page|tagged|archive|search)(\/|$)/.test(p)) return page({});
+  // files by extension: text types compress, binaries do not
+  const ext = (p.match(/\.([a-z0-9]+)$/) || [])[1];
+  if (TYPES[ext]) {
+    const binary = ["jpg", "woff2", "pdf", "mp4"].includes(ext);
+    const body = binary ? noise(p, 20000) : Buffer.from("/* " + p + " */\n" + "a repeatable filler sentence. ".repeat(40));
+    res.writeHead(200, { "Content-Type": TYPES[ext], "Content-Length": body.length });
+    res.end(body);
+    return true;
+  }
+  if (p === "/random") {
+    res.writeHead(302, { Location: "/some-post", "Cache-Control": "no-cache" });
+    res.end();
+    return true;
+  }
+  return false;
+}
+
 const handler = (req, res) => {
   const url = new URL(req.url, "http://x");
 
@@ -204,7 +269,7 @@ const handler = (req, res) => {
   }
   counts[url.pathname] = (counts[url.pathname] || 0) + 1;
 
-  // --- routes for proxy/e2e/diskcache-checks.js ---
+  // --- routes for proxy/e2e/request-matrix.js and diskcache-checks.js ---
   if (url.pathname === "/etag-page") {
     res.writeHead(200, { "Content-Type": "text/html; charset=utf-8", ETag: '"node-etag-1"' });
     res.end("<html><body>" + "an etagged page ".repeat(60) + "</body></html>");
@@ -273,6 +338,9 @@ const handler = (req, res) => {
     res.end(Buffer.from("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==", "base64"));
     return;
   }
+
+  // Blot-like routes (not in STUB_PARITY mode, which echoes everything)
+  if (!PARITY && matrixRoute(req, res, url)) return;
 
   // --- routes for proxy/e2e/parity-checks.js ---
   // /p/* are always on. STUB_PARITY=1 also makes every other path answer with

@@ -1,29 +1,33 @@
-// Differential parity test: the proxy built from origin/master (nginx
-// proxy_cache + cacher.lua) against the proxy built from this branch (the disk
-// cache, proxy/config/diskcache.lua). The same request corpus goes to both, in
-// the same order, and status, decoded body and headers are compared. Plain
-// node, no dependencies. Run by the proxy-behaviour job in
-// .github/workflows/integration.yml after diskcache-checks.js; locally:
+// Differential parity test: the proxy built from a base ref (origin/master by
+// default) against the proxy built from the working tree. The same request
+// corpus goes to both, in the same order, and status, decoded body and
+// headers are compared. On master the two are the same code, so the run must
+// show 0 differences; it guards later proxy PRs, which list each change they
+// make to what a client sees in INTENDED below, with a reason. Plain node, no
+// dependencies. Run by the proxy-behaviour job in
+// .github/workflows/integration.yml after request-matrix.js; locally:
 //
 //   node proxy/e2e/parity-checks.js
 //
 // It builds both images itself unless they exist (PARITY_BUILD=1 forces a
-// rebuild): the baseline from a temporary git worktree of origin/master
-// (its own proxy/build renders its own config), this branch's from the
-// working tree. Environment:
+// rebuild): the baseline from a temporary git worktree of the base ref (its
+// own proxy/build renders its own config), the other from the working tree.
+// Environment:
 //
 //   PARITY_BASE      git ref of the baseline          (default origin/master)
 //   PARITY_BUILD     1: rebuild both images even if present
 //   PARITY_VERBOSE   1: print every difference, intended ones too
 //   PARITY_PORT_BASE first of the host ports used     (default 18090)
+//   PARITY_PREFIX    container / volume name prefix   (default pa)
+//   PARITY_BASE_IMAGE, PARITY_TREE_IMAGE   image tags to use or build
 //   PARITY_KEEP      1: leave the containers running afterwards
 //
-// Containers (names prefixed pa-): pa-master and pa-branch, each with the
-// stub upstream (proxy/e2e/stub-upstream.js, STUB_PARITY=1: deterministic
-// echo bodies) in its network namespace. Every client address is on the
-// rate-limit whitelist, as in diskcache-checks.js.
+// Containers (prefix-base and prefix-tree), each with the stub upstream
+// (proxy/e2e/stub-upstream.js, STUB_PARITY=1: deterministic echo bodies) in
+// its network namespace. Every client address is on the rate-limit whitelist,
+// as in request-matrix.js.
 //
-// The passes: miss, hit, purge, refill, hit, hit again after the brotli
+// The passes: miss, hit, purge, refill, hit, hit again after the compressed
 // copies exist, Node stopped (cached pages are still served, the rest get the
 // offline page), Node back. A difference that is not in INTENDED below fails
 // the run; see proxy/e2e/parity/AUDIT.md for what each request kind is.
@@ -48,8 +52,9 @@ const CACHE = "/var/cache/openresty";
 const FILTER = process.env.PARITY_GROUPS ? new RegExp(process.env.PARITY_GROUPS) : null;
 const DUMP = process.env.PARITY_DUMP;
 
-const M = { name: "pa-master", image: process.env.PARITY_MASTER_IMAGE || "blot-proxy:parity-master", http: PORT, https: PORT + 1, volume: "pa-cache-master" };
-const B = { name: "pa-branch", image: process.env.PARITY_BRANCH_IMAGE || "blot-proxy:parity-branch", http: PORT + 2, https: PORT + 3, volume: "pa-cache-branch" };
+const PREFIX = process.env.PARITY_PREFIX || "pa";
+const M = { name: PREFIX + "-base", image: process.env.PARITY_BASE_IMAGE || "blot-proxy:parity-base", http: PORT, https: PORT + 1, volume: PREFIX + "-cache-base" };
+const B = { name: PREFIX + "-tree", image: process.env.PARITY_TREE_IMAGE || "blot-proxy:parity-tree", http: PORT + 2, https: PORT + 3, volume: PREFIX + "-cache-tree" };
 
 const started = Date.now();
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -108,7 +113,7 @@ function buildImages() {
   const force = process.env.PARITY_BUILD === "1";
   if (force || !imageExists(B.image)) buildImage(REPO, B.image);
   if (force || !imageExists(M.image)) {
-    const dir = fs.mkdtempSync(path.join(os.tmpdir(), "parity-master-"));
+    const dir = fs.mkdtempSync(path.join(os.tmpdir(), "parity-base-"));
     try {
       execFileSync("git", ["worktree", "add", "--detach", "-f", dir, BASE_REF], { cwd: REPO, stdio: "ignore" });
       buildImage(dir, M.image);
@@ -642,7 +647,7 @@ function boundaryless(buffer) {
 }
 
 // Compare two responses to one request. Returns [{ kind, name, a, b }]: kind
-// is "status", "body" or "header"; a is the baseline's value, b this branch's.
+// is "status", "body" or "header"; a is the baseline's value, b the working tree's.
 function diff(spec, ra, rb) {
   const out = [];
   if (ra.status !== rb.status) out.push({ kind: "status", name: "status", a: ra.status, b: rb.status });
@@ -684,14 +689,26 @@ function diff(spec, ra, rb) {
 
 // ---- INTENDED differences -----------------------------------------------
 //
-// Every difference between the baseline and this branch that is accepted, and
+// Every difference between the baseline and the working tree that is accepted, and
 // why. A rule either explains a whole comparison (whole: true; match gets the
 // context) or single differences (match gets the context and the difference).
 // ctx = { spec, pass, ra, rb } (ra: the baseline's response, rb: this
-// branch's). A difference no rule explains fails the run. `class` is
+// tree's). A difference no rule explains fails the run. `class` is
 // "intended" (the design) or "harmless" (not designed, but nothing a client
 // can notice or depend on); a bug does not belong here.
 
+// One entry per intended difference, each with a reason:
+//
+//   {
+//     id: "short-name",
+//     class: "intended",            // or "harmless"
+//     whole: true,                  // optional: explains a whole comparison
+//     reason: "what differs and why this PR means it",
+//     match: (c, d) => ...,         // c = ctx, d = the difference (not for whole)
+//   },
+//
+// The disk cache (proxy/config/diskcache.lua) replaces nginx proxy_cache +
+// cacher.lua, so the baseline is the old cache and these are its differences.
 const isHit = (r) => header(r, "blot-cache")[0] === "HIT";
 const isMiss = (r) => header(r, "blot-cache")[0] === "MISS";
 const stripWeak = (v) => (v || "").replace(/^W\//, "");
@@ -966,9 +983,9 @@ async function coalescing() {
   const out = await Promise.all([M, B].map((c) => Promise.all(Array.from({ length: 10 }, () => send(c, { host: BLOG, path })))));
   const after = [M, B].map((c) => stubCounts(c)["/p/slow"] || 0);
   const asked = [after[0] - before[0], after[1] - before[1]];
-  console.log(`  coalescing: 10 simultaneous requests -> Node asked ${asked[0]}x (master), ${asked[1]}x (branch)`);
-  if (asked[0] !== asked[1]) coalesceFailures.push(`Node was asked ${asked[0]}x by the baseline and ${asked[1]}x by the branch`);
-  for (const [i, label] of ["master", "branch"].entries()) {
+  console.log(`  coalescing: 10 simultaneous requests -> Node asked ${asked[0]}x (base), ${asked[1]}x (tree)`);
+  if (asked[0] !== asked[1]) coalesceFailures.push(`Node was asked ${asked[0]}x by the baseline and ${asked[1]}x by the tree`);
+  for (const [i, label] of ["base", "tree"].entries()) {
     const bad = out[i].filter((r) => r.status !== 200 || !r.body.equals(out[i][0].body));
     if (bad.length) coalesceFailures.push(`${label}: ${bad.length} of 10 simultaneous requests differed from the first`);
   }
@@ -981,8 +998,8 @@ function report(countDiffs) {
     fs.writeFileSync(DUMP, JSON.stringify(results.map((r) => ({
       pass: r.pass, id: r.spec.id, group: r.spec.group, errors: r.errors,
       diffs: r.diffs, bad: r.bad,
-      master: r.ra && { status: r.ra.status, raw: r.ra.raw, len: r.ra.body.length },
-      branch: r.rb && { status: r.rb.status, raw: r.rb.raw, len: r.rb.body.length },
+      base: r.ra && { status: r.ra.status, raw: r.ra.raw, len: r.ra.body.length },
+      tree: r.rb && { status: r.rb.status, raw: r.rb.raw, len: r.rb.body.length },
     }))));
   }
 
@@ -1004,8 +1021,8 @@ function report(countDiffs) {
     console.log(`\nUNEXPECTED ${key}  (${items.length})`);
     for (const { r, d } of items.slice(0, VERBOSE ? 1000 : 8)) {
       console.log(`  [${r.pass}] ${label(r.spec)}`);
-      console.log(`      master: ${d.a}`);
-      console.log(`      branch: ${d.b}`);
+      console.log(`      base: ${d.a}`);
+      console.log(`      tree: ${d.b}`);
     }
     if (items.length > 8 && !VERBOSE) console.log(`  ... ${items.length - 8} more (PARITY_VERBOSE=1 lists all)`);
   }
@@ -1013,17 +1030,17 @@ function report(countDiffs) {
   const unexplained = countDiffs.filter((c) => !COUNT_OK(c));
   const explained = countDiffs.filter(COUNT_OK);
   if (explained.length) {
-    console.log(`\nNode was asked a different number of times for ${explained.length} paths the HEAD / first-request rules explain (HEADs the baseline cached, ranges it left unstored): ${explained.map((c) => c.path).join(" ")}`);
+    console.log(`\nNode was asked a different number of times for ${explained.length} paths INTENDED explains: ${explained.map((c) => c.path).join(" ")}`);
   }
   if (unexplained.length) {
     console.log(`\nUNEXPECTED Node request counts, ${unexplained.length} paths (through the miss, hit, purge, refill passes):`);
-    for (const c of unexplained.slice(0, 40)) console.log(`  ${c.path}  master ${c.a}  branch ${c.b}`);
+    for (const c of unexplained.slice(0, 40)) console.log(`  ${c.path}  base ${c.a}  tree ${c.b}`);
   }
 
   // streams really stream, on both
   const sseFail = [];
   for (const r of results.filter((x) => x.spec.sse && x.pass === "1-miss" && x.ra && x.rb)) {
-    for (const [label, resp] of [["master", r.ra], ["branch", r.rb]]) {
+    for (const [label, resp] of [["base", r.ra], ["tree", r.rb]]) {
       // the first event is written at once; a buffering proxy would hold it for the 1.5 s the stream lasts
       if (resp.status === 200 && !(resp.firstByteMs < 700)) sseFail.push(`${label} ${r.spec.id}: first byte after ${resp.firstByteMs} ms`);
     }
@@ -1043,8 +1060,9 @@ function report(countDiffs) {
   if (failed) process.exitCode = 1;
 }
 
-// Node request counts that may differ, by path: the HEADs the baseline turned
-// into GETs and cached (head-does-not-fill), and the stream it did not cache
+// Node request counts that may differ, by path: a PR whose change makes Node
+// be asked a different number of times for some paths lists them here
+// (empty on master)
 let COUNT_EXPLAINED = new Set();
 const COUNT_OK = (c) => COUNT_EXPLAINED.has(c.path);
 
