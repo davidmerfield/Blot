@@ -828,7 +828,7 @@ const INTENDED = [
 const results = []; // every comparison
 const hardFailures = [];
 
-function describe(spec) {
+function label(spec) {
   return spec.id;
 }
 
@@ -880,14 +880,14 @@ function classify() {
     const whole = INTENDED.find((x) => x.whole && x.match(ctx));
     if (whole) {
       intended[whole.id] = (intended[whole.id] || 0) + 1;
-      if (VERBOSE) console.log(`  (${whole.class}: ${whole.id}) [${r.pass}] ${describe(r.spec)}  ${r.ra.status} -> ${r.rb.status}`);
+      if (VERBOSE) console.log(`  (${whole.class}: ${whole.id}) [${r.pass}] ${label(r.spec)}  ${r.ra.status} -> ${r.rb.status}`);
       continue;
     }
     for (const d of r.diffs) {
       const rule = INTENDED.find((x) => !x.whole && x.match(ctx, d));
       if (rule) {
         intended[rule.id] = (intended[rule.id] || 0) + 1;
-        if (VERBOSE) console.log(`  (${rule.class}: ${rule.id}) [${r.pass}] ${describe(r.spec)} ${d.kind} ${d.name}: ${d.a}  ->  ${d.b}`);
+        if (VERBOSE) console.log(`  (${rule.class}: ${rule.id}) [${r.pass}] ${label(r.spec)} ${d.kind} ${d.name}: ${d.a}  ->  ${d.b}`);
       } else {
         unexpected.push({ r, d });
         (r.bad = r.bad || []).push(d);
@@ -1003,7 +1003,7 @@ function report(countDiffs) {
   for (const [key, items] of groups) {
     console.log(`\nUNEXPECTED ${key}  (${items.length})`);
     for (const { r, d } of items.slice(0, VERBOSE ? 1000 : 8)) {
-      console.log(`  [${r.pass}] ${describe(r.spec)}`);
+      console.log(`  [${r.pass}] ${label(r.spec)}`);
       console.log(`      master: ${d.a}`);
       console.log(`      branch: ${d.b}`);
     }
