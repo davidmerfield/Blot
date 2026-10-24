@@ -1,11 +1,12 @@
 {{> header}}
 
+{{#sticky_navigation}}
+<div style="height: calc({{spacing}}rem + 1.4em)"></div>
+{{/sticky_navigation}}
+
 <style type="text/css">
   .archives {
     padding: 0 {{spacing}}rem;
-    {{#sticky_navigation}}
-    padding-top: calc({{spacing}}rem + 1.4em);
-    {{/sticky_navigation}}
   }
 
   .archives a {
