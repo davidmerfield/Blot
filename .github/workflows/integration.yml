@@ -101,6 +101,20 @@ jobs:
       - name: Disk cache checks
         run: node proxy/e2e/diskcache-checks.js
 
+      # The proxy of origin/master (nginx proxy_cache) and this one side by
+      # side, the same ~770 requests to both (miss, hit, purge, refill, Node
+      # down, Node back): status, decoded body and headers must match unless
+      # a rule in parity-checks.js explains the difference. Builds the
+      # baseline image itself, from a worktree of origin/master; takes about
+      # ten minutes. Containers pa-*, ports 18090-18093.
+      - name: Parity with the previous proxy
+        env:
+          PARITY_GENDEPS: ${{ runner.temp }}/gendeps
+          PARITY_BRANCH_IMAGE: blot-proxy:e2e
+        run: |
+          git fetch --no-tags --depth=1 origin '+refs/heads/master:refs/remotes/origin/master'
+          node proxy/e2e/parity-checks.js
+
       # HTTP/3 over UDP: a real QUIC handshake and request, for the site and
       # for a custom domain (the default server, which owns the reuseport
       # QUIC socket).

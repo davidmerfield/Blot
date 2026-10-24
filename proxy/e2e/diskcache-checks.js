@@ -168,7 +168,7 @@ function req(c, host, p, { method = "GET", headers = {}, tls = false, body } = {
       const chunks = [];
       res.on("data", (d) => chunks.push(d));
       res.on("end", () =>
-        resolve({ status: res.statusCode, headers: res.headers, body: Buffer.concat(chunks), ms: Date.now() - started })
+        resolve({ status: res.statusCode, headers: res.headers, rawHeaders: res.rawHeaders, body: Buffer.concat(chunks), ms: Date.now() - started })
       );
       res.on("error", reject);
     });
@@ -738,13 +738,81 @@ function logChecks() {
   }
 }
 
+
+// How the headers Node sends come back on a hit (proxy/e2e/parity-checks.js
+// compares them with the previous proxy's)
+async function nodeHeaders() {
+  console.log("headers Node sends, on a miss and on a hit");
+  const host = "nodehdr.example";
+  const count = (r, name) => r.rawHeaders.filter((h, i) => i % 2 === 0 && h.toLowerCase() === name).length;
+
+  // Set-Cookie: whoever fills the entry gets it, nobody after
+  let m = await req(A, host, "/p/set-cookie");
+  await settle();
+  let h = await req(A, host, "/p/set-cookie");
+  check("Set-Cookie: the miss passes both cookies to the client", count(m, "set-cookie") === 2, String(count(m, "set-cookie")));
+  check("Set-Cookie: the next request is a HIT without a cookie", cacheStatus(h) === "HIT" && count(h, "set-cookie") === 0, `${cacheStatus(h)} ${count(h, "set-cookie")}`);
+
+  // Cache-Control, Expires and Pragma from Node do not stop the entry being stored, and are sent on
+  m = await req(A, host, "/p/cache-control");
+  await settle();
+  h = await req(A, host, "/p/cache-control");
+  check("Cache-Control: no-store, Expires in the past: still stored (a HIT)", cacheStatus(h) === "HIT", cacheStatus(h));
+  for (const name of ["cache-control", "expires", "pragma"]) {
+    check(`${name} on the hit is what Node sent`, h.headers[name] === m.headers[name] && !!h.headers[name], `${m.headers[name]} / ${h.headers[name]}`);
+  }
+
+  // The same header twice stays twice
+  m = await req(A, host, "/p/dup");
+  await settle();
+  h = await req(A, host, "/p/dup");
+  check("two Link headers on the miss", count(m, "link") === 2, String(count(m, "link")));
+  check("two Link headers on the hit", count(h, "link") === 2, String(count(h, "link")));
+  check("two X-Dup headers on the hit", count(h, "x-dup") === 2, String(count(h, "x-dup")));
+
+  // No Content-Type from Node: none on the hit (nginx would otherwise add its default)
+  m = await req(A, host, "/p/no-content-type");
+  await settle();
+  h = await req(A, host, "/p/no-content-type");
+  check("no Content-Type on the miss", m.headers["content-type"] === undefined, m.headers["content-type"]);
+  check("no Content-Type on the hit either", cacheStatus(h) === "HIT" && h.headers["content-type"] === undefined, `${cacheStatus(h)} ${h.headers["content-type"]}`);
+
+  // A long header value (6000 bytes) and Content-Disposition come back whole
+  m = await req(A, host, "/p/long-header");
+  await settle();
+  h = await req(A, host, "/p/long-header");
+  check("a 6000 byte header value survives a hit", h.headers["x-long"] === m.headers["x-long"] && m.headers["x-long"].length === 6000, String((h.headers["x-long"] || "").length));
+  m = await req(A, host, "/p/content-disposition");
+  await settle();
+  h = await req(A, host, "/p/content-disposition");
+  check("Content-Disposition survives a hit", h.headers["content-disposition"] === m.headers["content-disposition"] && !!m.headers["content-disposition"], h.headers["content-disposition"]);
+
+  // Range on a hit: several ranges, and one that cannot be satisfied
+  const p = "/p/strong-etag";
+  m = await req(A, host, p);
+  await settle();
+  const multi = await req(A, host, p, { headers: { Range: "bytes=0-9,20-29" } });
+  check("two ranges: 206 multipart/byteranges", multi.status === 206 && /^multipart\/byteranges; boundary=/.test(multi.headers["content-type"] || ""), `${multi.status} ${multi.headers["content-type"]}`);
+  check("the parts are the right bytes", multi.body.includes(m.body.subarray(0, 10)) && multi.body.includes(m.body.subarray(20, 30)));
+  const unsat = await req(A, host, p, { headers: { Range: "bytes=99999999-" } });
+  check("unsatisfiable range: 416 with the length", unsat.status === 416 && unsat.headers["content-range"] === `bytes */${m.body.length}`, `${unsat.status} ${unsat.headers["content-range"]}`);
+
+  // A query string makes another entry, however alike; a miss for one never answers for the other
+  const q1 = await req(A, host, "/q?a=1&b=2");
+  await settle();
+  const q2 = await req(A, host, "/q?b=2&a=1");
+  const q3 = await req(A, host, "/q?a=1&b=2");
+  check("same query, other order: another entry (MISS)", cacheStatus(q2) === "MISS" && q2.body.toString() !== q1.body.toString(), cacheStatus(q2));
+  check("the first query is a HIT with its own body", cacheStatus(q3) === "HIT" && q3.body.equals(q1.body));
+}
+
 // ---- main ---------------------------------------------------------------
 
 async function main() {
   cleanup();
   try {
     await Promise.all(ALL.map(startProxy));
-    const sections = [basicBlogAndSite, brotli, etag, redirectsAndErrors, purgeChecks, sharedCache, slowClients, rateLimit, evictChecks];
+    const sections = [basicBlogAndSite, brotli, etag, redirectsAndErrors, nodeHeaders, purgeChecks, sharedCache, slowClients, rateLimit, evictChecks];
     for (const section of sections) {
       try {
         await section();
