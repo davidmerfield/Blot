@@ -33,6 +33,7 @@ case "$1" in
       while [ $# -gt 0 ]; do [ "$1" = test ] && { img="$2"; break; }; shift; done
       [[ " ${FAKE_LEGACY_IMAGES:-} " == *" $img "* ]]; exit
     fi
+    if [[ " $* " == *" drop-overlap "* ]]; then [ -z "${FAKE_DROP_FAILS:-}" ]; exit; fi
     # reset_cache_dir: the foreground container moves the entries aside, the
     # detached one deletes them
     if [[ "$*" == *"--entrypoint sh"* ]]; then
@@ -40,7 +41,6 @@ case "$1" in
       exit 0
     fi
     if [[ " $* " == *" -d "* ]]; then n=$(name_arg "$@"); touch "$R/$n" "$FAKE/all/$n" 2>/dev/null || { mkdir -p "$FAKE/all"; touch "$R/$n" "$FAKE/all/$n"; }; exit 0; fi
-    if [[ " $* " == *" drop-overlap "* ]]; then [ -z "${FAKE_DROP_FAILS:-}" ]; exit; fi
     if [[ "$*" == *"openresty -t"* ]]; then [ -z "${FAKE_VALIDATE_FAIL:-}" ] || { echo "nginx: [emerg] bad"; exit 1; }; exit 0; fi
     if [[ "$*" == *"access_log"* ]]; then [ -z "${FAKE_STDOUT_LOGS:-}" ]; exit; fi ;;
   create) [ -z "${FAKE_CREATE_FAILS:-}" ] || exit 1; n=$(name_arg "$@"); mkdir -p "$FAKE/all"; touch "$FAKE/all/$n" ;;
@@ -303,12 +303,16 @@ check "success: the new colour is restartable BEFORE the old one is stopped" '[ 
 reset none; FAKE_UNIT_ENABLED=1 bluegreen
 check "fresh start while the bare-metal unit is still enabled: refused" '[ $RC != 0 ] && ! called "docker create" && mentions "systemctl disable --now openresty"'
 reset none; bluegreen
-reset container; bluegreen
+# drop_overlap_cache is for legacy -> legacy swaps (disk cache images share one
+# directory), so both images are legacy here
+reset container; FAKE_LEGACY_IMAGES="img:old img:2" bluegreen
 check "swap: the cache files the old colour wrote meanwhile are dropped by a root container of the new image, after the old colour stops" '[ $RC = 0 ] && before "docker stop" "drop-overlap" && called "run --rm --user 0 --entrypoint sh -v $PROXY_CACHE_DIR:/cache img:2" && before "drop-overlap" "docker rm -f blot-proxy-blue"'
-reset container; FAKE_DROP_FAILS=1 bluegreen
+reset container; FAKE_LEGACY_IMAGES="img:old img:2" FAKE_DROP_FAILS=1 bluegreen
 check "swap: a failed drop only warns" '[ $RC = 0 ] && mentions "WARNING: could not drop the cache files" && called "docker rm -f blot-proxy-blue"'
-reset container; FAKE_CUSTOM_FP_AFTER_STOP=B bluegreen
+reset container; FAKE_LEGACY_IMAGES="img:old img:2" FAKE_CUSTOM_FP_AFTER_STOP=B bluegreen
 check "rolled-back swap: dropped again before the old colour is started" '[ $RC != 0 ] && [ "$(grep -c drop-overlap "$FAKE/calls")" = 2 ] && [ "$(grep -n drop-overlap "$FAKE/calls" | tail -1 | cut -d: -f1)" -lt "$(grep -n "docker start blot-proxy-blue" "$FAKE/calls" | tail -1 | cut -d: -f1)" ]'
+reset container; bluegreen
+check "disk -> disk swap: nothing dropped (one shared directory, a purge reaches both)" '[ $RC = 0 ] && ! called drop-overlap'
 reset none; bluegreen
 check "fresh start (nothing running): the container is checked, then made permanent" '[ $RC = 0 ] && ! called "docker stop" && ! called drop-overlap && before "docker start blot-proxy-blue" "docker update --restart unless-stopped blot-proxy-blue" && serving container'
 
@@ -371,7 +375,7 @@ reset container; FAKE_OLD_IMAGE=img:1 FAKE_LEGACY_IMAGES="img:1 img:2" bluegreen
 check "legacy -> legacy: no cache page is listed to be purged" '[ $RC = 0 ] && ! called ":/cache:ro"'
 
 reset container; FAKE_OLD_IMAGE=img:1 FAKE_LEGACY_IMAGES="img:1 img:2" bluegreen
-check "legacy -> legacy: nothing is emptied" '[ $RC = 0 ] && ! called "--entrypoint sh" && mounted "$T/cache"'
+check "legacy -> legacy: nothing is emptied (only the overlap files are dropped)" '[ $RC = 0 ] && ! called "rm -rf /cache/.trash" && mounted "$T/cache"'
 
 reset container; FAKE_OLD_IMAGE=img:1 FAKE_LEGACY_IMAGES=img:1 FAKE_FAIL_AFTER_STOP=1 bluegreen
 check "failed legacy -> disk swap after the old colour was stopped: the legacy directory is emptied before it is started again (purges since went to the disk colour)" \

@@ -204,7 +204,9 @@ trap '' HUP PIPE
 
 run_args "$NEW" "$NEW_KIND"
 docker create --restart no "${RUN_ARGS[@]}" "$NEW_IMAGE" >/dev/null
-[ -z "$OLD" ] || OVERLAP_MARK="$(date +%s)"
+# legacy -> legacy only: disk cache containers share one directory, and a
+# change of kind resets the directories instead
+[ -z "$OLD" ] || [ "$OLD_KIND/$NEW_KIND" != legacy/legacy ] || OVERLAP_MARK="$(date +%s)"
 docker start "$NEW" >/dev/null
 
 log "Waiting up to ${HEALTH_TIMEOUT}s for $NEW to answer its own health socket"
