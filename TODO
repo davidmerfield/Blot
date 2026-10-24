@@ -1,35 +1,60 @@
-Upgrade the Stripe integration (low priority): the stripe npm package is 6.36.0 (2019) and the account's default API version is 2011-11-17, except app/models/user/syncPaymentMethods.js, which pins 2020-08-27. Move to a current stripe-node and pin one explicit API version on every client, after checking the webhook handler (app/dashboard/webhooks/stripe_webhook.js), subscription create/cancel/pay and card update against the API changelog. Upgrade the account default in the Dashboard only once the code no longer relies on it.
+- Fix bugs with documentation template and tell [Ray](https://blot.im/questions/3233)
 
-Turn the airlock into a sandbox: run Node inside it so the whole "fetch or receive untrusted bytes -> decode/parse -> safe output" pipeline happens in a container with no secrets, no data mount and kernel-filtered egress, and the app only ever gets back a normalised result. Today the airlock only constrains where a fetch connects; the app containers (which hold every secret in /etc/blot/secrets.env and mount all blog folders read-write) still decompress (node-fetch gzip/br), sharp/libvips/libheif-decode, exiftool, pandoc, yauzl-unzip and cheerio-parse the hostile bytes - CVE-2026-111497 was reachable this way. Shape: rename airlock -> sandbox; add a Node worker under its own uid (own egress.nft rules, loopback still confined) exposing a small internal API that returns only simple re-encoded outputs - e.g. screenshot(url) -> re-encoded PNG/WebP, asset(url) -> metadata-stripped resized image variants, json(url) -> size-capped validated JSON, verify(domain) -> {status, match}; read-only rootfs, tmpfs scratch, per-job time/size limits. Phase it: (1) remote assets in posts (helper/transformer/download + the sharp resize/thumbnail after it), (2) bookmark screenshots (re-encode the PNG instead of committing Chromium's bytes), (3) importer downloads, (4) the bigger surface - converting synced blog-folder files (img/HEIC + exiftool, docx/odt/rtf via pandoc, gdoc/zip, template zip and image uploads) by posting bytes to a no-egress convert endpoint. Watch: the 512m memory budget and throughput (one container today), latency of shipping bytes both ways, and keeping the output formats boring enough that the app's own decode of them is low-risk. Also fix config/airlock/README.md, which still says the importer downloaders aren't routed (they are) and links a "Known sinks not covered" section that doesn't exist.
+- Fix bug with Documentation template and the setting 'Adds zoom to large images' and [tell customer](https://mail.google.com/mail/u/0/#inbox/FMfcgzQbgJMGTSPcnwTNxVJVPZZnrhJB)
 
-Move the app/proxy host off Amazon Linux 2, which stopped getting security updates on 2026-06-30 (scripts/security/check-advisories.js flags it). Plan a replacement AL2023 host the way the Redis host was replaced (config/redis/launch.sh), port config/host setup (yum -> dnf), drill it, then cut over.
+- Improve post navigation on Portfolio template within tagged collections and tell [Questioner](https://blot.im/questions/1894)
+
+- Links template:
+  Navigation:
+  - [ ] Add dropdown support to navigation
+  Entry page:
+  - [ ] Close button should go 'back'
+  - [ ] Add layout CSS
+  - [ ] Next / prev should respect tag collections
+  - [ ] Add exif info
+  - [ ] Add backlinks
+
+---
 
 Bump the airlock image off Alpine 3.20 (EOL 2026-04-01) in config/airlock/Dockerfile to a supported release. Its Chromium renders untrusted pages for bookmark screenshots, so it needs current security patches; check the Chromium version still matches the puppeteer pin.
 
 Upgrade OpenResty from 1.25.3.1 (proxy/Dockerfile, bundled nginx 1.25.3) to the current 1.31.x release. nginx 1.25.3 is in the Vulnerable range of ~30 nginx.org advisories; check which affect modules we enable (HTTP/2, HTTP/3, mp4, resolver, etc.) to judge urgency, then rebuild the proxy image and run the proxy e2e tests.
 
-Bump simple-git to >= 4.0.1 to fix the critical Dependabot alert (unsafe-operation guard does not block trailer command config) and two high command-execution bypasses; 4.x is a major bump, so check our git sync usage. Also bump katex to >= 0.18.2 (low, prototype pollution).
+---
 
-Add multi-currency subscription signup with fixed, rounded market prices for EUR, GBP, JPY, CAD, AUD, and a catalog that can expand to more currencies. Keep the catalog as the source of truth and add idempotent scripts to create/reconcile Stripe Prices and PayPal plans, recording provider IDs without changing plans used by existing subscribers. Update signup to suggest a currency from geo-IP while letting customers choose, then select and verify the matching provider price server-side.
+Finish the container consolidation:
+- Audit consolidated containers spawned subprocesses for memory max oom usage
+- Template editor writes (Template.writeToFolder/removeFromFolder via client.write/remove) take no folder lock and race with syncs; take the lock, or route them with the other folder writes to the worker
+- Move the app/proxy host off Amazon Linux 2, which stopped getting security updates on 2026-06-30 (scripts/security/check-advisories.js flags it). Plan a replacement AL2023 host the way the Redis host was replaced (config/redis/launch.sh), port config/host setup (yum -> dnf), drill it, then cut over.
+- Set up cloud, watch memory agent on instance and in code
+- purchase reserved instance for consolidated host
 
-Internationalize the dashboard and brochure site with a standard catalog-based i18n library (e.g. i18next), locale-aware formatting, and a translation workflow. For user templates, build a small compile step that turns localized source/catalogs into ordinary Mustache views, keeping templates portable and easy to extend with languages. Start with major European languages plus Chinese and Japanese; decide Simplified/Traditional Chinese scope and phase brochure content by priority.
+Finish the host consolidation
+- should we use unix sockets for communication with redis?
 
-Overdue sites should have their data exported, archived in s3 (download link in email) for up to a year after closure.
+---
 
-Add macserver deploy to github actions
-- Consider making the deploy via github much safer – how?
-  - remove ssh keys from deployment. maybe set up a minimal deployment agents on the servers? maybe autodeploy images with a given tag? 
-  - how do we add 2fa to deployment flow, require email confirmation somehow? onetimelink? assume github could 
-  - if github is owned are we owned? ideally not
+Finish move to s3
+- Harden app against s3 unavailable
+
+Look into https://github.com/tobi/walgit for s3 backed git server
+- https://cursor.com/blog/git-at-any-scale
+- Investigate S3-backed Git hosting with incremental folder materialization. Prototype replacing Blot's EBS-backed Git repository storage with Walgit, a Git server using S3 as its source of truth and local disks as disposable caches, enabling cheaper storage and horizontal scaling across thousands of customer repositories. Run Walgit as a private service behind Blot's existing Express.js authentication (static username/password), without its UI, authentication, policies, or other unnecessary features. Build a Node.js materializer that incrementally synchronizes the master branch of each repository to ordinary files under a separate prefix in the same S3 bucket, uploading only changed files and deleting removed ones. Trigger materialization immediately after successful pushes, ideally reusing locally cached Git objects to minimize latency, with durable progress tracking, concurrency control, and automatic recovery from failures. Evaluate Git LFS support and benchmark cold pushes, S3 costs, and performance at scale. Consider a native Node.js implementation inspired by Walgit if maintaining the Rust service proves unnecessarily complex.
+- this will also solve: Bump simple-git to >= 4.0.1 to fix the critical Dependabot alert (unsafe-operation guard does not block trailer command config) and two high command-execution bypasses; 4.x is a major bump, so check our git sync usage. Also bump katex to >= 0.18.2 (low, prototype pollution).
+
+---
+
+Turn the airlock into a sandbox: run Node inside it so the whole "fetch or receive untrusted bytes -> decode/parse -> safe output" pipeline happens in a container with no secrets, no data mount and kernel-filtered egress, and the app only ever gets back a normalised result. Today the airlock only constrains where a fetch connects; the app containers (which hold every secret in /etc/blot/secrets.env and mount all blog folders read-write) still decompress (node-fetch gzip/br), sharp/libvips/libheif-decode, exiftool, pandoc, yauzl-unzip and cheerio-parse the hostile bytes - CVE-2026-111497 was reachable this way. Shape: rename airlock -> sandbox; add a Node worker under its own uid (own egress.nft rules, loopback still confined) exposing a small internal API that returns only simple re-encoded outputs - e.g. screenshot(url) -> re-encoded PNG/WebP, asset(url) -> metadata-stripped resized image variants, json(url) -> size-capped validated JSON, verify(domain) -> {status, match}; read-only rootfs, tmpfs scratch, per-job time/size limits. Phase it: (1) remote assets in posts (helper/transformer/download + the sharp resize/thumbnail after it), (2) bookmark screenshots (re-encode the PNG instead of committing Chromium's bytes), (3) importer downloads, (4) the bigger surface - converting synced blog-folder files (img/HEIC + exiftool, docx/odt/rtf via pandoc, gdoc/zip, template zip and image uploads) by posting bytes to a no-egress convert endpoint. Watch: the 512m memory budget and throughput (one container today), latency of shipping bytes both ways, and keeping the output formats boring enough that the app's own decode of them is low-risk. Also fix config/airlock/README.md, which still says the importer downloaders aren't routed (they are) and links a "Known sinks not covered" section that doesn't exist.
+
+---
+
+Investigate slow creep of green's baseline heap (~40-80MB/day lowest heapUsed in [STATS], never resets until a V8 OOM crash; crashed 13+14 Oct 2026). Leak or unbounded cache? Compare heap snapshots taken hours apart
+- Spikes from heavy post builds (e.g. blog_825ed2a 'All paths', ~250MB) only crash it once the baseline has crept up
 
 Check in on the redis client side caching change and then audit the in memory LRU caches for tuning the sizes of them
 - clicking down the list of templates in the template editor is now slower, can we analyze the LRU caching to optimize this part too?
 
 Is the status page just measuring the lru caches? how do we make it verify a cold request to get a real sense for system performance?
-
-Look into https://github.com/tobi/walgit for s3 backed git server
-- https://cursor.com/blog/git-at-any-scale
-- Investigate S3-backed Git hosting with incremental folder materialization. Prototype replacing Blot's EBS-backed Git repository storage with Walgit, a Git server using S3 as its source of truth and local disks as disposable caches, enabling cheaper storage and horizontal scaling across thousands of customer repositories. Run Walgit as a private service behind Blot's existing Express.js authentication (static username/password), without its UI, authentication, policies, or other unnecessary features. Build a Node.js materializer that incrementally synchronizes the master branch of each repository to ordinary files under a separate prefix in the same S3 bucket, uploading only changed files and deleting removed ones. Trigger materialization immediately after successful pushes, ideally reusing locally cached Git objects to minimize latency, with durable progress tracking, concurrency control, and automatic recovery from failures. Evaluate Git LFS support and benchmark cold pushes, S3 costs, and performance at scale. Consider a native Node.js implementation inspired by Walgit if maintaining the Rust service proves unnecessarily complex.
 
 How to reduce likelihood of downtime?
 - s3 for storage only (replicated?)
@@ -40,28 +65,6 @@ How to reduce likelihood of downtime?
 - are we as well insulated from most likely aws issues?
 
 Add a new template which just looks like finder on the index page
-
-Set aside 16 Oct (from the 15 Oct latency + deploy-error review):
-- Isolate slow sites: one site's CPU-heavy renders stall every blog on yellow's event loop (15 Oct 18:26-18:33, a client crawling nashp entries at 3-4 r/s under the 6 r/s per-IP limit; again 20:56). Options: per-host concurrency cap on upstream misses (worry: image-heavy pages), route known-heavy hosts to their own pool via map $host, or cut the render cost (nashp, #1806)
-- Confirm the 65s keepalive (a4c4fb482) fixed yellow's "upstream prematurely closed" 502s at st~1.0s (no retry, past next_upstream_timeout 800ms). Checked 16 Oct: 28 such 502s on 15 Oct, each ending at an event-loop stall, none on 16 Oct despite stalls continuing (504s at 02:51, 05:06, 15:33). Suspected cause: Node's 5s idle-socket timer fires during a stall and destroys a socket with a request already queued. Not proven: unknown which image ran 20:06 15 Oct to 14:38 16 Oct, and no Node-side log of the close. Close this once a heavy burst passes on the new image with no 502, or reproduce locally (old 5s timeout, block the loop ~1s on an idle keep-alive socket, send a request). Deploy stop: 14:38 16 Oct retried cleanly onto blue; 20:05 15 Oct gave two unretryable Dropbox-webhook POST 502s (docker-proxy accepts then drops); the Unix socket (#2119) should remove that
-
-Publish Node container ports on loopback only: docker-proxy binds 8088-8090 on 0.0.0.0 and :: (scripts/deploy/util/generateDockerCommand.js emits -p 808x:8080), but the proxy only connects to 127.0.0.1. Use -p 127.0.0.1:808x:8080
-- Measured 15 Oct: docker-proxy hop costs ~0.7% of Node CPU, +0.2ms median per new connection; not worth a dockerd restart (live-restore=false), Unix sockets come with #2119
-
-App changes toward consolidated units and horizontal scaling (#2119), each useful on its own:
-- Parallelize app/sync/rebuild.js
-- Build queue and worker process (#2119; one host for now, multi-host later). Goal: the web Node process never runs syncs, builds or client background jobs, so dashboard and sites stay snappy and every unit is identical
-  - Queue per blog, not per file: ZADD sync:pending NX <now> <blogID> collapses repeat webhooks (Dropbox sent ~19k on 15-16 Oct) to one entry. Workers BZPOPMIN, take the existing per-blog sync lock, and re-add with a short delay if it's held. This replaces the per-process pendingResyncs sets a deploy loses. Plain commands, no Lua
-  - Web process only enqueues: Drive/Dropbox/iCloud webhooks, git post-receive, dashboard rebuild/resync. Flows that await a sync inline (Drive/Dropbox setup, resync) become enqueue + status updates
-  - Worker child process (spawned by the container entrypoint today, one process in the consolidated unit later) consumes the queue and runs what init() and the scheduler start now: Drive activity/hot-doc pollers, validation sweeps, crons, still coordinated by leases and cron locks. Nice it, keep concurrency below the unit's CPUs, give it its own heap cap and a higher oom_score_adj so an OOM kills the worker, not web
-  - Deploy drain: worker finishes its current sync or re-adds the blog, so the queue survives a unit swap
-  - Makes steering background syncs to green unnecessary (16 Oct webhook-gating idea, not merged)
-  - Multi-host later: blog folders and git repos on the local data volume are the blocker, not the queue
-- Audit consolidated containers spawned subprocesses for memory max oom usage
-- Template editor writes (Template.writeToFolder/removeFromFolder via client.write/remove) take no folder lock and race with syncs; take the lock, or route them with the other folder writes to the worker
-
-Investigate slow creep of green's baseline heap (~40-80MB/day lowest heapUsed in [STATS], never resets until a V8 OOM crash; crashed 13+14 Oct 2026). Leak or unbounded cache? Compare heap snapshots taken hours apart
-- Spikes from heavy post builds (e.g. blog_825ed2a 'All paths', ~250MB) only crash it once the baseline has crept up
 
 How could we generate the directory tree structure used in the hypertext template sidebar on the Server in the template engine
 
@@ -77,16 +80,22 @@ Add one time login cancellation links to renewal emails
 
 Add lifetime subscription to the billing interval page
 
+Add multi-currency subscription signup with fixed, rounded market prices for EUR, GBP, JPY, CAD, AUD, and a catalog that can expand to more currencies. Keep the catalog as the source of truth and add idempotent scripts to create/reconcile Stripe Prices and PayPal plans, recording provider IDs without changing plans used by existing subscribers. Update signup to suggest a currency from geo-IP while letting customers choose, then select and verify the matching provider price server-side.
+
 Implement liveline for stats streaming
 - https://benji.org/liveline
 
 Add a tool which randomly samples, production markdown posts, and runs version of build and version B of build on it
 - Goal would be to identify regression in a new version of the build process 
 
-add transfer site flow to blot
+Add transfer site flow to blot from one user account to another, somewhere in settings?
 - for designers and develeopers to transfer a site to their client after building it
 
-Add site per customer stat to daily update
+Improve daily update email:
+- Add site per customer stat to daily update
+- Add daily aws cost to email update
+  - Set up AWS cost anomaly detection
+
 
 Open source as content marketing
 - Close my GitHub account 
@@ -95,10 +104,7 @@ Open source as content marketing
 Add rebuild button to each file on dashboard
 - Add json viewer to files on dashboard
 
-Rewrite node deploy to wait for image after all the init steps to speed up runs
-16 Oct: check Bunny's origin error statistics after /blog_* moved to the S3 origin on 15 Oct (rollback: disable edge rules 4 and 5); cdn.blot.site is a pull zone hostname but doesn't resolve in DNS: add a record or drop it
 Render benchmark skips with "No cached corpus": run benchmarks-corpus.yml (workflow_dispatch) once, probably needed since #2111 dropped data/static from the corpus
-backfill-assets.js --verify only counts missing/different/stale files: list the keys (like the odd keys), so a gap can be traced without a separate find + S3 listing
 
 Upgrade the Redis server from 6.2 to 8.4+ for native compare-and-set (SET ... IFEQ, DELEX), then drop Lua: helper/lock extend/release become plain commands; helper/alarm claim/renew/complete need per-id claim keys to go native; also the legacy scripts in sync/lock.js, models/user/set.js, helper/flushCachePending.js, clients/icloud/database.js
 
@@ -106,31 +112,17 @@ Back up blot-storage-prod off AWS (Backblaze B2, hourly, no --delete): _avatars 
 
 Bunny: decide Volume vs Standard tier (more PoPs, faster first byte far from Volume PoPs) once we've run the numbers on cost and latency; also why cache HIT is low (Statistics: status codes, top uncached URLs)
 
-Rewrite node deploy to wait for image after all the init steps to speed up runs
-
-Set up cloud, watch memory agent on instance and in code
-
 We get two emails one after the other and we should only get one
 - User in overdue disabled grace period
 - User account has been closed after for late payments
 
-Should we do a hybrid static build into s3 for blog HTML JS and CSS only?
-
 Add a list of billing history / invoices to subscription page
 
-create skills which delegate cheap subagents to scan logs for issues:
+Create skills which delegate cheap subagents to scan logs for issues:
 - proxy logs (focussed on error)
 - node container logs
 
-adjust disk resize script to autosuggest values on run without args
-- i.e. propose shrink if free space found via ssh is X or grow if Y
-
-harden app against full  disk
-
-Our AWS bill is high because we have run out of reserved instance. Decide on the plan.
-- can we have multiple smaller webservers with load balancing? 
-- Should we move to a single, AWS instance and make redis a container as well? This may be makes deployment harder perhaps we should consider moving to three AWS instances one for proxy one for node and one for redis we could still consider using a container on the redis instance? 
-- Safely and very carefully switch AWS account root user email to @blot.im
+Upgrade the Stripe integration (low priority): the stripe npm package is 6.36.0 (2019) and the account's default API version is 2011-11-17, except app/models/user/syncPaymentMethods.js, which pins 2020-08-27. Move to a current stripe-node and pin one explicit API version on every client, after checking the webhook handler (app/dashboard/webhooks/stripe_webhook.js), subscription create/cancel/pay and card update against the API changelog. Upgrade the account default in the Dashboard only once the code no longer relies on it.
 
 Redis host follow-ups (from #2041, new host since 8 Oct):
 - From 15 Oct 2026: run config/redis/perf/fetch.sh redis blot and compare.js (a full day on the new host against the 8 Oct baseline), then uninstall the perf collectors: config/redis/perf/install.sh --uninstall redis blot
@@ -139,7 +131,6 @@ Redis host follow-ups (from #2041, new host since 8 Oct):
 - Remaining dropped write errors: await set() in resetToDrive; Dropbox disconnect.js and _assign.js dropFromMenu check the wrong error; write order in Blog.create; the list-ghosts restore path; error paths for background resave and rebuild; a callback for the messenger's setStatus; make Entry.set atomic
 - Proxy: auto-ssl's lock and hook calls can reuse a timed-out Redis connection
 - Deploy log archive (scripts/deploy/index.js): docker logs -t, outside /tmp, more than 3 files, size-capped; let config/redis/perf/fetch.sh read it
-- Upgrade Redis (7 or Valkey), revisit AOF
 - Offsite Redis backups (e.g. Backblaze B2) alongside S3, so a lost AWS account or region doesn't take the backups with it: upload from config/redis/bin/backup.sh, and let launch.sh/restore.sh restore from B2 too (#2041)
 - Consider dropping Redis client-side caching (CLIENT TRACKING) in favour of the app's in-process LRU caches: on prod 10 clients have tracking on and the server's tracking table sits at its 1M-key cap (tracking-table-max-keys), so Redis is constantly evicting entries and sending invalidations
 
@@ -178,15 +169,21 @@ archives and all_entries in the template engine should be bounded to a maximum o
 Maybe horizontal scaling involves redis replicas in other aws regions?
 - s3 multi region replication?
 
-Add aws billing info to daily update
-
 Add client status to status page (check api)
 
 Add email warnings if no sync from client for more than x hours
 
 ---
 
-When you re-connect to Dropbox or Google Drive, you have to re-create a folder and perform a full transfer. It would be great if we could re-use the existing folder... Maybe an option during the connect flow? Would be nice to avoid requiring a full transfer
+Internationalize the dashboard and brochure site with a standard catalog-based i18n library (e.g. i18next), locale-aware formatting, and a translation workflow. For user templates, build a small compile step that turns localized source/catalogs into ordinary Mustache views, keeping templates portable and easy to extend with languages. Start with major European languages plus Chinese and Japanese; decide Simplified/Traditional Chinese scope and phase brochure content by priority.
+
+Overdue sites should have their data exported, archived in s3 (download link in email) for up to a year after closure.
+
+Add macserver deploy to github actions
+- Consider making the deploy via github much safer – how?
+  - remove ssh keys from deployment. maybe set up a minimal deployment agents on the servers? maybe autodeploy images with a given tag? 
+  - how do we add 2fa to deployment flow, require email confirmation somehow? onetimelink? assume github could 
+  - if github is owned are we owned? ideally not
 
 Can the status page avoid the LRU caches somehow and fully work redis? Maybe we synthesise a route somehow? Thoughts?
 
@@ -202,15 +199,6 @@ Make sync logs more useful, surface recent changes on dashboard. Group multiple 
 
 Excercise the backlinks with big entries / many backlinks in the benchmarks somewhere
 
-Fix Google Drive sync outage caused by Google account suspesion
-- Future fix to Google Drive client needs to never use the service account to create files (ask the user to handle the initial transfer)
-- Revert 1958
-- Create simple config option to disable a given client when something like the Google Drive issue happens. Make it clear on the dashboard and docs that it's not working.
-- Add google drive kill switch (when platform goes down, etc.)
-
-We need a plan for the suspension of the iCloud user as well... is the code resilient to data loss in this scenario?
-- Add icloud kill switch (when platform goes down, etc.)
-
 How do we think about a shared asset library across templates? 
 - e.g. shared favicons
 - can we unwind some of the complete delete favion on template delete, etc. code?
@@ -220,18 +208,8 @@ Decide whether or not to revert the preset system – should it only be used for
 Test script for point-in-time restoration of specific blog folders at specific time (e.g. 2 days ago)
 - test npm run restore-folder
 
-iCloud server should periodically:
-- quit safari (some error flow during auth sometimes opens it)
-- close all system UI prompts (sometimes we get error for maybe accessing a revoked folder?)
-
 Under templates index
 - Clicking on file in folder pulls up post on preview site ?
-
-Make Google Drive incremental sync efficient
-- Store hash of their api responses
-- Don’t touch disk
-- Support huge folders with huge directories
-- Start with recently changed files and dirs first
 
 Clarify on cancel / delete / overdue pages for accounts with grandfathered subscription prices that if they re-join Blot they will lose their grandfathered rate.
 
@@ -251,8 +229,6 @@ Perform caching and header audit of site and templates
 - use macserver  (docker container?)
 
 Make sure next bill amount is in all billing emails to customers
-
-Add fast rollback action
 
 Explain on the about page the websites started out as files in a folder. But they had to be HTML. Blot makes other file types possible too.
 
@@ -297,6 +273,14 @@ Fix benchmark build-corpus action issue
 ---
 
 Improve Google Drive sync
+- Fix Google Drive sync outage caused by Google account suspesion
+  - Future fix to Google Drive client needs to never use the service account to create files (ask the user to handle the initial transfer)
+  - Revert 1958
+  - Create simple config option to disable a given client when something like the Google Drive issue happens. Make it clear on the dashboard and docs that it's not working.
+  - Add google drive kill switch (when platform goes down, etc.)
+- Fix bug with Google Drive client and [Stephen's large blog](https://mail.google.com/mail/u/0/#inbox/QgrcJHsBsbkNkMkkkMmLWBxRfnGnWPVwLHl)
+  - It also seems like server crashes when a massive google drive folder is synced, with a directory containing 6772 items
+- When you re-connect to Google Drive, you have to re-create a folder and perform a full transfer. It would be great if we could re-use the existing folder... Maybe an option during the connect flow? Would be nice to avoid requiring a full transfer
 - Fix bug with shared drive folders for [Chuck](https://mail.google.com/mail/u/0/#inbox/FMfcgzQfBkLKSVzvjZLRSCpRJwcKBPlf)
 - Fix bug with Google Docs when disconnecting a site from Google Drive on Blot then reconnecting the site to Google Drive. We need to work out how to handle this (Google Docs are not real files)
 - Improve sync efficieny with option to target a specific folder or file first (Track ids in database) and tell [Chuck](https://mail.google.com/mail/u/0/#inbox/FMfcgzQfBspgLdtHcrTZqRcPTJFNzBbd) maybe use touch metadata method to force syncs periodically for hot files?
@@ -317,8 +301,14 @@ Improve Google Drive sync
 - Add a way for sync/build to accept a ctime as an option. We can't set this at the operating system level but google drive's API does return a createdTime value and we could use this as the true file's created date, rather than the date the file is made on the server
 - Google Drive `write` should use the best method for large file uploading
 - Add proper testing for this
+- Make Google Drive incremental sync efficient
+  - Store hash of their api responses
+  - Don’t touch disk
+  - Support huge folders with huge directories
+  - Start with recently changed files and dirs first
 
 Improve Dropbox sync
+- When you re-connect to Dropbox, you have to re-create a folder and perform a full transfer. It would be great if we could re-use the existing folder... Maybe an option during the connect flow? Would be nice to avoid requiring a full transfer
 - Bug: removing a directory in Dropbox resync only updates the directory path; child entries wait for Fix
 - Bug: Dropbox validation's catch-up sync restores last_sync from outside sync() after releasing the lock, so it can clobber a webhook sync's stamp; teach sync() not to stamp last_sync for catch-up instead
 - Sync verification should instrument the sync/fix function to also report errors where the folder doesn't match the database.
@@ -327,6 +317,7 @@ Improve Dropbox sync
   - Bug: handle a sync lock failure on second blog when migrating an app folder
 - Bug: retry transient Dropbox API errors with exponential backoff while surfacing hard failures for manual intervention.
 - Bug: re-use iCloud resolve case-conflicts function (maybe move into sync?) to ensure blogs with case-sensitive file conflicts are properly initialized on Dropbox
+- Fix bug with Client.write which does not propogate sync errors... to demonstrate this, revoke dropbox token then try to enable local editing.
 - Bug: Switch uploads >150 MB to the Dropbox upload session API with chunked transfer and resumable checkpoints
 - Bug: run reset-to-blot when sync fails / errors
 - Bug: ensure you can move the folder in full-folder permission mode
@@ -376,9 +367,15 @@ Improve git sync
 - Rate limit authentication route?
 
 Improve iCloud sync
+- The dashboard needs more feedback as the macserver goes through iCloud setup: it would be useful to echo that the invite link is valid, we're waiting for the new folder, then that step can wait up to a minute while so the user understands what's happening?  the google drive client has a step based system
+- We need a plan for the suspension of the iCloud user as well... is the code resilient to data loss in this scenario?
+  - Add icloud kill switch (when platform goes down, etc.)
 - iCloud: the hourly integrity check is back; once it has run cleanly for a while, decide whether to re-enable the daily resync (resyncAllConnected) and the startup/`/started` resync (resyncRecentlySynced), still disabled from these commits
   - 0043d91b36621ecd6aef2bcc263f51f209924792
   - 98dc9405c883825917de8e436ec620f60adaf975
+- iCloud server should periodically:
+  - quit safari (some error flow during auth sometimes opens it)
+  - close all system UI prompts (sometimes we get error for maybe accessing a revoked folder?)
 - iCloud macserver: the new-directory walk (#2147) is gated on /mkdir's directory-created header, so it is skipped if a child upload/mkdir created the folder on Blot first (some children reported, siblings missed). Decide the walk from something other than whether Blot already had the directory
 - iCloud macserver: a disk-usage eviction during the new-directory walk marks the blog eviction-suppressed and the walk skips everything left; pause and restart the walk instead
 - Sync no-progress watchdog: app/sync/lock.js renews a folder lock for as long as the process lives, so any hung sync holds a blog's lock until a container restart (7h+ on 16 Oct, #2147). Track the sync's last progress (file processed / status update) and, after N minutes with none, stop renewing and fail the sync so the lock expires and the next resync or hourly check can run
@@ -414,26 +411,6 @@ Improve iCloud sync
 - Investigate setting up paralell server with 'Advanced Data Protection' enabled so users with this setting can sync to Blot as well
 
 ---
-
-Fix bugs with templates
-- Fix responsive thumbnail component on photo template (it loads large thumbnail every time)
-- Fix 'back' button in photo template and tell [Bibi](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrcPJTmPXxWvhbmFpvwdfVzhpn)
-- Fix side navigation on Blog template and tell [Sava](https://mail.google.com/mail/u/0/#inbox/FMfcgzGwJcgnPdxPcSqPwmMnFSThFMQg)
-- Add layout fix to blog template and [tell Lewis](https://mail.google.com/mail/u/0/#inbox/FMfcgzQVzFWlSFWmjZrDMrMjPtmtWwQc)
-- Fix bug with [header position on the blog template](https://blot.im/questions/2211)
-- Make 'close' button on entry permalink page of reference template work like the photo template and tell [Marco](https://mail.google.com/mail/u/0/#inbox/FMfcgzGsmNSSSRKHnlgCBllnqJCcPhxD)
-- Fix bugs with documentation template and tell [Ray](https://blot.im/questions/3233)
-- Fix bug with Documentation template and the setting 'Adds zoom to large images' and [tell customer](https://mail.google.com/mail/u/0/#inbox/FMfcgzQbgJMGTSPcnwTNxVJVPZZnrhJB)
-- Improve post navigation on Portfolio template within tagged collections and tell [Questioner](https://blot.im/questions/1894)
-- Links template:
-  Navigation:
-  - [ ] Add dropdown support to navigation
-  Entry page:
-  - [ ] Close button should go 'back'
-  - [ ] Add layout CSS
-  - [ ] Next / prev should respect tag collections
-  - [ ] Add exif info
-  - [ ] Add backlinks
 
 Fix bug with placeholder files when switching clients which will lead to data loss because Blot will not transfer the contents of placeholder files across
 
@@ -506,11 +483,6 @@ Fix bug with blockquotes and tell [Kerim](https://mail.google.com/mail/u/0/#inbo
 Fix bug with indented code in pre tags and tell [Michael](https://mail.google.com/mail/u/0/#inbox/166704e2c0187e5c)
 
 Fix bug with nested Markdown and tell [Martin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqnhgBjBSKzvtclvqcFcMptMR):
-
-Fix bug with Client.write which does not propogate sync errors... to demonstrate this, revoke dropbox token then try to enable local editing.
-
-Fix bug with Google Drive client and [Stephen's large blog](https://mail.google.com/mail/u/0/#inbox/QgrcJHsBsbkNkMkkkMmLWBxRfnGnWPVwLHl)
-  - It also seems like server crashes when a massive google drive folder is synced, with a directory containing 6772 items
 
 Fix bug accessibility issue with menu links reordering and tell [Grace](https://mail.google.com/mail/u/0/#inbox/FMfcgzQbfBpBkKCLVRWBGxzDDDkhSXfl)
 
@@ -661,9 +633,6 @@ Add GitHub deploy button for macserver
 
 Add GitHub deploy button for openresty 
 
-Set up AWS cost anomaly detection
-- add daily aws cost to email update
-
 ---
 
 Add support for 2FA (Two factor authentication) then tell [Luke](https://mail.google.com/mail/u/0/#inbox/163993b0f8499ab3), [Max](https://mail.google.com/mail/u/0/#inbox/1641e9bd104c5b77), [Chaz](https://mail.google.com/mail/u/0/#inbox/165b726aa900158a), [Prathamesh](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqQmWhhpCVSlbhdvlvWdmdtJWQ) and [Tom](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqnpZncgBDbDskMZdPMXkgGCN).
@@ -677,13 +646,6 @@ Compute 'words' text property for each entry (unique words, sorted possibly?) to
 
 Identify areas of the codebase which need resource limits to be more secure, e.g. max file size for the image converter, max file size for the docx converter. look across the codebase and create a series of implementation tasks for the most pressing
 
-Modify slowest function to aggregate by upstream response time
-- amend daily update:
-- send daily report of slowest URLs 
-- send daily report of biggest URLs and bandwidth
-
-Build out simple discover page with links to publish in daily email
-
 Add photo/pictures/pics/images grid to tagged page of blog template and photos subfolder to default folder.
 
 Add plugin to generate anchor links next to headings automatically and tell [Peter](https://mail.google.com/mail/u/0/#inbox/FMfcgzQZTzTSGBNGZrJghtTNGNKvdzlg)
@@ -693,8 +655,6 @@ Inbox
 - don't delete custom domain, though (maybe add property redirectDomain ?)
 
 Think about how to improve the efficieny of the app/views/js/sync_status.js response from the server when loading the new contents of `.live-updates`. perhaps we could intercept send requests and use cheerio to filter out everything except the live update div? or some other method? and once we do that we could then leverage etags for improved performance too
-
-Add screenshot feature to macserver:
 
 Reach out to include Blot on textbundle website
 
@@ -866,14 +826,8 @@ Reduce service provider risk:
   - ideally all this should involved is changing some DNS records
 - test plan to transition off AWS
 
-Implement mac server screenshot endpoint
-- We should use the helper/transformer to speed up screenshot re-generation
-
 Update redis client for improved performance
 - perhaps to ioredis?
-
-Update redis server to version 8
-- take advantage of full text search? or switch to postgres?
 
 Move folder lock location to instance ssd for improved reliability and performance (non-networked drive...) – could be inside the cache
 
@@ -958,8 +912,6 @@ Add global site search of:
 - questions
 - templates
 
-Add an option to use the date modified property of the file, rather than the date created property as the publish date. This would be especially useful for the Dropbox client, which nukes the original file creation date but preserves the client modified data. This should be opt in because it could lead to misleading behaviour where an old file is dragged into your folder and is published way deep in your archives. Tell [Dirt](https://mail.google.com/mail/u/0/#inbox/FMfcgzQZTMSlvtWcHcckPtWlJljHVPdH)
-
 Improvements to local folder experience
 - Interpolate fonts based on an ID (a la web template editor)
 - Interpolate syntax highlighting based on an ID
@@ -1015,9 +967,6 @@ Add {{#posts-without-:tag}} and [tell steve](https://mail.google.com/mail/u/0/#i
 
 ---
 
-Add aws cost usage and forecast to daily update email
-- https://docs.aws.amazon.com/cli/latest/reference/ce/get-cost-and-usage.html
-
 Ensure that overdue PayPal subscription webhooks map to notification emails
 
 Clean up CDN permanent storage:
@@ -1035,8 +984,6 @@ When a post is deleted, we should remove everything except the created time?
 Create a queue for purging cache, group requests together to prevent stampede
 
 Prevent overzealous purging of cache for syncs in which the folder does not change
-
-Add WebDav support
 
 Improve paypal integration:
 - [ ] Get create new blog working
@@ -1136,10 +1083,6 @@ Investigate migrating from Redis to SQLite per-blog database
 - Assess performance implications (memory usage, query speed, connection management)
 
 Can Blot blogs be federated? Respond to [Nigel](https://mail.google.com/mail/u/0/#inbox/FMfcgzGrbRWfcBdwKdRZxsBKjKDwrkTp) once I do some research on this
-
----
-
-Support larger files on DB client and tell [Marco](https://mail.google.com/mail/u/0/#inbox/FMfcgzGqQmWjKnmPrwKSXMdZNmlqmtss)
 
 ---
 
@@ -1341,6 +1284,7 @@ Write new clients to sync blog folders
 - Proton Drive
   - Tell [Ted](https://mail.google.com/mail/u/0/#search/proton+drive/FMfcgzQVxlMmFdqvrMHgfsFRfRDHLFTh)
   - Tell [Francois](https://mail.google.com/mail/u/0/#inbox/FMfcgzQZVJvWMbgrxGpRlLvKXsSPTtDr)
+- WebDav
 
 ---
 
