@@ -3,7 +3,7 @@
 <div class="entry align-{{navigation_alignment}}">
   
   <div class="nav">
-    <a href="/" onclick="return closeEntry()">
+    <a class="entry-close" href="/" onclick="return closeEntry()">
       <svg viewBox="0 0 36 36">
         <line x1="10" y1="10" x2="26" y2="26"></line>
         <line x1="26" y1="10" x2="10" y2="26"></line>
@@ -12,7 +12,7 @@
     {{#show_adjacent_posts}}
     {{^entry.page}}
     <div>
-      <a {{#entry.previous}}href="{{entry.previous.url}}"{{/entry.previous}}>
+      <a class="entry-previous" {{#entry.previous}}href="{{entry.previous.url}}"{{/entry.previous}}>
         <svg viewBox="0 0 36 36">
           <line x1="18" y1="18" x2="26" y2="10"></line>
           <line x1="18" y1="18" x2="26" y2="26"></line>
@@ -38,15 +38,15 @@ function checkKey(e) {
 
     e = e || window.event;
 
-    var nextURL = "{{{entry.next.url}}}";
-    var previousURL = "{{{entry.previous.url}}}";
+    var nextLink = document.querySelector("a.entry-next");
+    var previousLink = document.querySelector("a.entry-previous");
     
-    if (previousURL && e.keyCode == '37') {
-      window.location = previousURL
+    if (previousLink && previousLink.href && e.keyCode == '37') {
+      window.location = previousLink.href
     }
 
-     if (nextURL && e.keyCode == '39') {
-      window.location = nextURL
+     if (nextLink && nextLink.href && e.keyCode == '39') {
+      window.location = nextLink.href
     }
 
 }
@@ -56,7 +56,7 @@ function checkKey(e) {
   </div>
 
   <div class="nav">
-    <a href="/" onclick="return closeEntry()">
+    <a class="entry-close" href="/" onclick="return closeEntry()">
       <svg viewBox="0 0 36 36">
         <line x1="10" y1="10" x2="26" y2="26"></line>
         <line x1="26" y1="10" x2="10" y2="26"></line>
@@ -65,7 +65,7 @@ function checkKey(e) {
     {{#show_adjacent_posts}}
     {{^entry.page}}
     <div>
-      <a {{#entry.next}}href="{{entry.next.url}}"{{/entry.next}} >
+      <a class="entry-next" {{#entry.next}}href="{{entry.next.url}}"{{/entry.next}} >
         <svg viewBox="0 0 36 36">
           <line x1="10" y1="10" x2="18" y2="18"></line>
           <line x1="10" y1="26" x2="18" y2="18"></line>
