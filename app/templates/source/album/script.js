@@ -6,6 +6,8 @@ var collectionKey = "collectionNavigation";
 var cacheID = "{{cacheID}}";
 var infiniteScroll = {{#infinite_scroll}}true{{/infinite_scroll}}{{^infinite_scroll}}false{{/infinite_scroll}};
 var closeURL;
+var infiniteEnded = false;
+var firstPage = parseInt((window.location.pathname.match(/^\/page\/(\d+)/) || [0, 1])[1], 10);
 
 function closeEntry() {
   if (closeURL) {
@@ -27,7 +29,23 @@ function pathOf(url) {
   }
 }
 
-function parseListing(doc, url) {
+// Infinite scroll listings are runs of /page/N pages, so work out the pages on
+// either side by number. Anything else (tags, search) is unknown.
+function infinitePagination(doc, url, live) {
+  var path = pathOf(url);
+  var match = path && path.match(/^(?:\/page\/(\d+)|\/)$/);
+  if (!match) return { unknown: true };
+
+  var first = live ? firstPage : parseInt(match[1] || 1, 10);
+  var last = live && typeof infScroll !== "undefined" ? infScroll.pageIndex : first;
+  var ended = live ? infiniteEnded : !doc.querySelector("a.collection-next[href]");
+  return {
+    next: ended ? null : window.location.origin + "/page/" + (last + 1),
+    previous: first > 1 ? window.location.origin + "/page/" + (first - 1) : null
+  };
+}
+
+function parseListing(doc, url, live) {
   var entries = [];
   doc.querySelectorAll("a.collection-entry").forEach(function (a) {
     var path = pathOf(a.href);
@@ -40,12 +58,14 @@ function parseListing(doc, url) {
     return a && a.getAttribute("href") ? a.href : null;
   }
 
-  return {
+  var listing = {
     url: url.split("#")[0],
     entries: entries,
     next: pagination("a.collection-next"),
     previous: pagination("a.collection-previous")
   };
+  if (infiniteScroll) Object.assign(listing, infinitePagination(doc, url, live));
+  return listing;
 }
 
 function readCollection() {
@@ -66,7 +86,7 @@ function writeCollection(state) {
 // Record the order shown by the listing before following one of its entries.
 document.addEventListener("click", function (e) {
   if (!e.target.closest("a.collection-entry")) return;
-  var listing = parseListing(document, window.location.href);
+  var listing = parseListing(document, window.location.href, true);
   if (listing) writeCollection({ cacheID: cacheID, listings: [listing] });
 }, true);
 
@@ -101,8 +121,7 @@ function initializeCollectionNavigation() {
 
     var loaded = state.listings[page + step];
     if (loaded) return Promise.resolve(edge(loaded, step));
-    // Infinite scroll listings only hold the pages scrolled so far.
-    if (infiniteScroll) return Promise.reject();
+    if (listing.unknown) return Promise.reject();
     if (!listing[direction]) return Promise.resolve(null);
 
     return fetch(listing[direction], { credentials: "same-origin" }).then(function (res) {
@@ -225,6 +244,8 @@ let infScroll = new InfiniteScroll( '.posts', {
   debug: false,
   // Logs events and state changes to the console.
 })
+
+infScroll.on( 'last', function() { infiniteEnded = true; });
 
 infScroll.on( 'history', function( title, path ) {
   const pageNumber = parseInt(path.split('/').pop()) || 1;
