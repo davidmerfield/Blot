@@ -64,7 +64,9 @@ if [ "${DEPLOY_AS_ROOT:-0}" != 1 ]; then
   ! as_root runuser -u "$DEPLOY_USER" -- sudo -n true >/dev/null 2>&1 || fail "$DEPLOY_USER can sudo: the test would not catch a script that needs it"
 fi
 run_bg() {
-  if [ "${DEPLOY_AS_ROOT:-0}" = 1 ]; then bash "$BG" "$@"; else as_root runuser -u "$DEPLOY_USER" -- bash "$BG" "$@"; fi
+  if [ "${DEPLOY_AS_ROOT:-0}" = 1 ]; then bash "$BG" "$@"; else local vars; mapfile -t vars < <(env | grep -E '^(PROXY_|BLOT_|ALLOW_STDOUT_LOGS=)')
+    # sudo drops the environment, so it is passed on explicitly
+    as_root runuser -u "$DEPLOY_USER" -- env "PATH=$PATH" "${vars[@]}" bash "$BG" "$@"; fi
 }
 
 current() { docker ps --format '{{.Names}}' | grep '^blot-proxy-' | sed 's/blot-proxy-//'; }
