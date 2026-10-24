@@ -160,6 +160,19 @@ local function write_file(path, data)
     return true
 end
 
+local function file_size(path)
+    local file = io.open(path, "rb")
+
+    if not file then
+        return nil
+    end
+
+    local size = file:seek("end")
+    file:close()
+
+    return size
+end
+
 local function read_meta(path)
     return cjson.decode(read_file(path) or "")
 end
@@ -532,9 +545,18 @@ local function compress(self, job)
     local tmp = base:match("^(.*)/") .. "/.tmp/" .. job:match("[^/]+$") .. "." .. meta.id .. ".br"
 
     -- niced, so serving wins when the CPU is busy. Level 11 costs ~40 times
-    -- level 9's CPU for pages ~10% smaller, paid once per entry that is read
-    -- at least twice, against every hit's egress.
-    local proc = ngx_pipe.spawn({ "nice", "-n", "10", "brotli", "-q", "11", "-f", "-o", tmp, body })
+    -- level 9's CPU for pages 10-13% smaller, paid once per entry that is
+    -- read at least twice, against every hit's egress. Above 1 MB it would
+    -- hold up the queue for seconds (~2s for 2 MB), so level 9.
+    local size = file_size(body)
+
+    -- no body: refilled or evicted since the metadata was read
+    if not size then
+        return
+    end
+
+    local level = size > 1024 * 1024 and "9" or "11"
+    local proc = ngx_pipe.spawn({ "nice", "-n", "10", "brotli", "-q", level, "-f", "-o", tmp, body })
 
     if not proc then
         return
@@ -545,8 +567,8 @@ local function compress(self, job)
     if not proc:wait() or not os.rename(tmp, body .. ".br") then
         proc:kill(9)
         os.remove(tmp)
-        -- no body: refilled or evicted since the metadata was read
-        if io.open(body) then
+        -- the body can go mid-compression (a refill): not an error
+        if file_size(body) then
             ngx.log(ngx.ERR, "diskcache: could not compress ", body)
         end
         return
