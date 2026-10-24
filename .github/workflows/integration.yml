@@ -95,6 +95,12 @@ jobs:
           PROXY_HTTPS: https://127.0.0.1:8443
         run: bash proxy/e2e/checks.sh
 
+      # The disk cache (proxy/config/diskcache.lua, proxy/evict.sh) against the
+      # real image: starts its own dc-* proxy containers on ports 18080-18084,
+      # two of them sharing a cache volume, and removes them afterwards.
+      - name: Disk cache checks
+        run: node proxy/e2e/diskcache-checks.js
+
       # What a client sees through the cached locations, request kind by
       # request kind, against the same image: starts its own rm-* containers
       # (ports 18120-18139), each with a stub upstream, and removes them.
