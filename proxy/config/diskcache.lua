@@ -33,6 +33,8 @@ local ffi = require("ffi")
 local cjson = require("cjson.safe")
 local resty_lock = require("resty.lock")
 local ngx_pipe = require("ngx.pipe")
+local resty_random = require("resty.random")
+local resty_string = require("resty.string")
 
 local diskcache = {}
 diskcache.__index = diskcache
@@ -190,11 +192,11 @@ local function mkdir_p(path)
     end
 end
 
--- Unique across the containers sharing the cache: the worker pid sets apart
--- two fills of one key in the same millisecond, since nothing seeds
--- math.random
+-- Unique across the containers sharing the cache. Not the worker pid or
+-- math.random: each container has its own pid namespace, so worker pids
+-- repeat across containers, and nothing seeds math.random.
 local function random_id()
-    return string.format("%x%x%04x", ngx.now() * 1000, ngx.worker.pid(), math.random(0, 0xffff))
+    return string.format("%x", ngx.now() * 1000) .. resty_string.to_hex(resty_random.bytes(6))
 end
 
 -- Time of the host's last purge, or 0
@@ -629,7 +631,9 @@ local function compress(self, job)
     end
 
     local body = base .. "." .. meta.id
-    local tmp = base:match("^(.*)/") .. "/.tmp/" .. job:match("[^/]+$") .. "." .. meta.id .. ".br"
+    -- its own name: another instance sharing the cache can compress the same
+    -- entry at the same time, and brotli -f truncates an existing output
+    local tmp = base:match("^(.*)/") .. "/.tmp/" .. job:match("[^/]+$") .. "." .. meta.id .. "." .. random_id() .. ".br"
 
     -- niced, so serving wins when the CPU is busy. Level 11 costs ~40 times
     -- level 9's CPU for pages 10-13% smaller, paid once per entry that is
@@ -741,6 +745,7 @@ function diskcache.purge(self)
     end
 
     local message = {}
+    local failed = false
     local trash = self.directory .. "/.trash"
 
     for host in args:gmatch("host=([^&]+)") do
@@ -764,6 +769,8 @@ function diskcache.purge(self)
             os.remove(tmp_marker)
             ngx.log(ngx.ERR, "diskcache: could not write the purge marker for ", host)
             table.insert(message, host .. ": failed")
+            -- not ok, so flushCache.js keeps the purge and retries it
+            failed = true
         else
             local target = trash .. "/" .. host_name(host) .. "." .. random_id()
             local moved = os.rename(self.directory .. "/" .. dir, target)
@@ -778,6 +785,10 @@ function diskcache.purge(self)
     end
 
     ngx.timer.at(0, empty_trash, self, trash)
+
+    if failed then
+        ngx.status = ngx.HTTP_INTERNAL_SERVER_ERROR
+    end
 
     if #message == 0 then
         ngx.say("no hosts were purged")
