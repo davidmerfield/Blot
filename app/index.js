@@ -141,7 +141,8 @@ setup(async (err) => {
 
     // A process given a socket for one forks a worker child and keeps it
     // running, and stops it when draining (see helper/workerChild)
-    if (config.worker_socket && !config.worker_child) {
+    // (not when a SIGTERM during startup has begun the drain already)
+    if (config.worker_socket && !config.worker_child && !drain.isDraining()) {
       const worker = workerChild({
         script: __filename,
         socket: config.worker_socket,
