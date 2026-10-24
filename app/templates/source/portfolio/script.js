@@ -137,11 +137,16 @@ function stopPreloading() {
 var collectionKey = "portfolioCollection";
 var cacheID = "{{cacheID}}";
 var closeURL;
+var closeTrail = 0;
 
 var articles = [{{#all_entries}}'{{{url}}}'{{^last}},{{/last}}{{/all_entries}}];
 
+// Close by walking back through the entries stepped through since the listing,
+// so the browser restores the listing exactly as it was left.
 function closeEntry() {
-  if (closeURL) {
+  if (closeTrail && closeTrail < window.history.length) {
+    window.history.go(-closeTrail);
+  } else if (closeURL) {
     window.location.href = closeURL;
   } else if (document.referrer) {
     window.history.back();
@@ -200,7 +205,7 @@ function writeCollection(state) {
 document.addEventListener("click", function (e) {
   if (!e.target.closest("a.collection-entry")) return;
   var listing = parseListing(document, window.location.href);
-  if (listing) writeCollection({ cacheID: cacheID, listings: [listing] });
+  if (listing) writeCollection({ cacheID: cacheID, listings: [listing], trail: [] });
 }, true);
 
 function initializeCollectionNavigation() {
@@ -215,6 +220,13 @@ function initializeCollectionNavigation() {
     index = state.listings[n].entries.indexOf(path);
   }
   if (index < 0) return;
+
+  // The entries visited since the listing; revisiting one (back, reload) trims it.
+  var trail = state.trail || [];
+  var visited = trail.indexOf(path);
+  state.trail = visited < 0 ? trail.concat(path) : trail.slice(0, visited + 1);
+  writeCollection(state);
+  closeTrail = state.trail.length;
 
   var listing = state.listings[page];
   closeURL = listing.url;
@@ -266,7 +278,7 @@ function initializeCollectionNavigation() {
 initializeCollectionNavigation();
 
 document.addEventListener("keydown", function (e) {
-  var selector = { 37: "a.entry-previous", 39: "a.entry-next" }[e.keyCode];
+  var selector = { 37: "a.entry-next", 39: "a.entry-previous" }[e.keyCode];
   var link = selector && document.querySelector(selector);
   if (link && link.href) window.location.href = link.href;
 });

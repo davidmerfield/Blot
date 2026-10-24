@@ -6,11 +6,16 @@ var collectionKey = "collectionNavigation";
 var cacheID = "{{cacheID}}";
 var infiniteScroll = {{#infinite_scroll}}true{{/infinite_scroll}}{{^infinite_scroll}}false{{/infinite_scroll}};
 var closeURL;
+var closeTrail = 0;
 var infiniteEnded = false;
-var firstPage = parseInt((window.location.pathname.match(/^\/page\/(\d+)/) || [0, 1])[1], 10);
+var firstPage = parseInt((window.location.pathname.match(/\/page\/(\d+)/) || [0, 1])[1], 10);
 
+// Close by walking back through the entries stepped through since the listing,
+// so the browser restores the listing exactly as it was left.
 function closeEntry() {
-  if (closeURL) {
+  if (closeTrail && closeTrail < window.history.length) {
+    window.history.go(-closeTrail);
+  } else if (closeURL) {
     window.location.href = closeURL;
   } else if (document.referrer) {
     window.history.back();
@@ -33,15 +38,16 @@ function pathOf(url) {
 // either side by number. Anything else (tags, search) is unknown.
 function infinitePagination(doc, url, live) {
   var path = pathOf(url);
-  var match = path && path.match(/^(?:\/page\/(\d+)|\/)$/);
+  var match = path && (path === "/" ? ["", "", ""] : path.match(/^((?:\/tagged\/[^\/]+)?)(?:\/page\/(\d+))?$/));
   if (!match) return { unknown: true };
+  var base = window.location.origin + match[1] + "/page/";
 
-  var first = live ? firstPage : parseInt(match[1] || 1, 10);
+  var first = live ? firstPage : parseInt(match[2] || 1, 10);
   var last = live && typeof infScroll !== "undefined" ? infScroll.pageIndex : first;
   var ended = live ? infiniteEnded : !doc.querySelector("a.collection-next[href]");
   return {
-    next: ended ? null : window.location.origin + "/page/" + (last + 1),
-    previous: first > 1 ? window.location.origin + "/page/" + (first - 1) : null
+    next: ended ? null : base + (last + 1),
+    previous: first > 1 ? base + (first - 1) : null
   };
 }
 
@@ -87,7 +93,7 @@ function writeCollection(state) {
 document.addEventListener("click", function (e) {
   if (!e.target.closest("a.collection-entry")) return;
   var listing = parseListing(document, window.location.href, true);
-  if (listing) writeCollection({ cacheID: cacheID, listings: [listing] });
+  if (listing) writeCollection({ cacheID: cacheID, listings: [listing], trail: [] });
 }, true);
 
 function initializeCollectionNavigation() {
@@ -102,6 +108,13 @@ function initializeCollectionNavigation() {
     index = state.listings[n].entries.indexOf(path);
   }
   if (index < 0) return;
+
+  // The entries visited since the listing; revisiting one (back, reload) trims it.
+  var trail = state.trail || [];
+  var visited = trail.indexOf(path);
+  state.trail = visited < 0 ? trail.concat(path) : trail.slice(0, visited + 1);
+  writeCollection(state);
+  closeTrail = state.trail.length;
 
   var listing = state.listings[page];
   closeURL = listing.url;
@@ -251,8 +264,9 @@ infScroll.on( 'history', function( title, path ) {
   const pageNumber = parseInt(path.split('/').pop()) || 1;
   const current = document.getElementById('current-page');
   if (current) current.innerHTML = pageNumber;
+  const base = path.replace(/\/page\/\d+\/?$/, '').replace(/\/$/, '');
   const next = document.querySelector('.next-page');
-  if (next) next.href = '/page/' + (pageNumber+1);
+  if (next) next.href = base + '/page/' + (pageNumber+1);
   const previous = document.querySelector('.previous-page');
   if (previous) previous.href = '/page/'  + (pageNumber-1);
 });
