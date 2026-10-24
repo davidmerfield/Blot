@@ -55,6 +55,10 @@
 # keys in per-process memory). Disk cache images do not have this gap: every
 # container on the host shares one cache directory, so a purge reaching either
 # one purges both. Deploy at a quiet time (see proxy/deploy/README.md).
+# Two colours with different kinds of cache share nothing, so both directions
+# of a kind change have the gap, and the new colour can keep a page that missed
+# a purge: after the swap it purges every host its directory has pages for, and
+# a swap that is undone starts the old colour on an emptied directory.
 set -euo pipefail
 
 NEW_IMAGE="${1:?usage: blue-green.sh <commit-sha | image>}"
@@ -147,6 +151,13 @@ swap_rollback() {
       ;;
     swapping)
       log "Swap interrupted or failed (exit $status): putting $OLD back and removing $NEW"
+      # With another kind of cache, every purge since $OLD was stopped reached
+      # $NEW, which does not share $OLD's cache: start $OLD cold rather than let
+      # it serve a page that has changed since.
+      if [ "$OLD_KIND" != "$NEW_KIND" ]; then
+        reset_cache_dir "$(cache_dir_for "$OLD_KIND")" "$NEW_IMAGE" \
+          || log "WARNING: could not empty $(cache_dir_for "$OLD_KIND"): $OLD may serve pages changed since it was stopped"
+      fi
       # $NEW may be the only proxy answering if $OLD cannot come back, so it is
       # removed only once $OLD is up and healthy.
       if docker start "$OLD" >/dev/null 2>&1 && wait_healthy "$OLD" "$HEALTH_TIMEOUT"; then
@@ -225,5 +236,13 @@ if [ "$OLD_KIND" != "$NEW_KIND" ]; then
   if [ -d "$OLD_CACHE_DIR" ]; then
     reset_cache_dir "$OLD_CACHE_DIR" "$NEW_IMAGE" || log "WARNING: could not empty $OLD_CACHE_DIR: empty it by hand before rolling back to a $OLD_KIND cache image"
   fi
+fi
+# While both colours were up they did not share a cache, so a purge reached only
+# one of them: pages the new colour cached in that time may predate a purge it
+# never received. It is the only colour left, so purge everything it holds (a few
+# seconds' worth of pages) now that purges reach it.
+if [ "$OLD_KIND" != "$NEW_KIND" ]; then
+  cached_hosts "$NEW_KIND" "$NEW_CACHE_DIR" "$NEW_IMAGE" | purge_hosts \
+    || log "WARNING: could not purge the pages $NEW cached while $OLD was still up: a page purged in that time may be stale until its next purge"
 fi
 prune_old_images "$NEW_IMAGE" || true

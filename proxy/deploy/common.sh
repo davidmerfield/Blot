@@ -207,6 +207,39 @@ reset_cache_dir() { # reset_cache_dir <host dir> <image>
   docker run -d --rm --user 0 --entrypoint sh -v "$dir":/cache "$image" -c 'rm -rf /cache/.trash' >/dev/null || true
 }
 
+# The hosts a cache directory holds pages for, one per line: a disk cache has a
+# directory per host (<a>/<bc>/<host>), a legacy cache files that carry
+# "KEY: <scheme>://<host><uri>". Read by a container, as the files belong to
+# uid 1000.
+cached_hosts() { # cached_hosts <legacy|disk> <host dir> <image>
+  local script
+  if [ "$1" = disk ]; then
+    script='find /cache -mindepth 3 -maxdepth 3 -type d -not -path "/cache/.trash/*" -printf "%f\n"'
+  else
+    script='find /cache -type f -not -path "/cache/.trash/*" -exec grep -ah -m1 "^KEY: " {} + | sed -E "s#^KEY: [a-z]+://([^/?]+).*#\1#"'
+  fi
+  docker run --rm --user 0 --entrypoint sh -v "$2":/cache:ro "$3" -c "$script" | sort -u
+}
+
+# Purge the hosts on stdin through the proxy now serving (the internal listener
+# on 127.0.0.1:80, which a host-network container shares with the host).
+purge_hosts() {
+  local token host args=() n=0
+  token="$(env_value "$ENV_FILE" BLOT_PURGE_TOKEN)"
+  while read -r host; do
+    [ -n "$host" ] || continue
+    args+=(--data-urlencode "host=$host"); n=$((n + 1))
+    if [ "${#args[@]}" -ge 100 ]; then
+      curl -fsS -o /dev/null --retry 3 --retry-delay 1 --retry-all-errors --max-time 15 -G ${token:+-H "X-Blot-Purge-Token: $token"} "${args[@]}" "http://127.0.0.1/purge" || return 1
+      args=()
+    fi
+  done
+  if [ "${#args[@]}" -gt 0 ]; then
+    curl -fsS -o /dev/null --retry 3 --retry-delay 1 --retry-all-errors --max-time 15 -G ${token:+-H "X-Blot-Purge-Token: $token"} "${args[@]}" "http://127.0.0.1/purge" || return 1
+  fi
+  log "Purged $n host(s)"
+}
+
 # Arguments common to every real proxy container.
 # Host networking: the default upstreams are 127.0.0.1:8088-8090 and the Node
 # containers publish those ports on the host. Upstreams written unix:/run/blot/...

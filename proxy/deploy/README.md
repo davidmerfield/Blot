@@ -121,8 +121,20 @@ is running, so after a switch the other kind's directory is stale. So:
   `npm run deploy-proxy -- <older-commit>` runs the *current* `blue-green.sh`,
   but the GitHub workflow runs the target commit's own, which may not reset
   anything: either way a rollback must find the directory empty, not stale. It
-  also frees the space. A failed swap leaves the old directory alone: the old
-  container is back and serving from it.
+  also frees the space.
+- While both colours of different kinds are up (a couple of seconds) they do
+  not share a cache and a purge reaches only one of them, so the new colour can
+  hold a page it never got the purge for. Once the old colour is gone,
+  `blue-green.sh` purges every host the new colour's directory has pages for
+  (what it cached meanwhile, seconds' worth). Until then the old colour can
+  still serve such a page, for as long as both are up.
+- A swap that fails *before* the old container was stopped leaves its directory
+  alone. One that fails *after* (the old container is started again) empties
+  the old kind's directory first: every purge since it was stopped reached the
+  other kind, so the old cache is stale.
+
+`proxy/deploy/e2e/transition.sh` runs all of this with real images under load
+(see `proxy/deploy/e2e/README.md`).
 
 Emptying moves every top-level entry into `.trash/<timestamp>/` (instant: a
 cache has a few shard directories) and deletes that in a detached container, so

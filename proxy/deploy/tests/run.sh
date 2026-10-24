@@ -357,12 +357,18 @@ reset container; FAKE_OLD_IMAGE=img:1 FAKE_LEGACY_IMAGES="img:2" bluegreen
 check "disk -> legacy (rollback): the legacy directory is emptied before start, the disk one after the swap, and the purge index is awaited" \
   '[ $RC = 0 ] && [ "$(reset_of "$T/cache")" -lt "$(line "docker create")" ] && after_last "run --rm --user 0 --entrypoint sh -v $T/disk-cache:/cache" "docker rm -f blot-proxy-blue" && mounted "$T/cache" && ! mounted "$T/disk-cache" && mentions "rebuild its purge index"'
 
+reset container; FAKE_OLD_IMAGE=img:1 FAKE_LEGACY_IMAGES=img:1 bluegreen
+check "legacy -> disk: once the old colour is gone, the pages the disk colour cached meanwhile are listed to be purged" \
+  '[ $RC = 0 ] && after_last "run --rm --user 0 --entrypoint sh -v $T/disk-cache:/cache:ro" "docker rm -f blot-proxy-blue"'
+reset container; FAKE_OLD_IMAGE=img:1 FAKE_LEGACY_IMAGES="img:1 img:2" bluegreen
+check "legacy -> legacy: no cache page is listed to be purged" '[ $RC = 0 ] && ! called ":/cache:ro"'
+
 reset container; FAKE_OLD_IMAGE=img:1 FAKE_LEGACY_IMAGES="img:1 img:2" bluegreen
 check "legacy -> legacy: nothing is emptied" '[ $RC = 0 ] && ! called "--entrypoint sh" && mounted "$T/cache"'
 
 reset container; FAKE_OLD_IMAGE=img:1 FAKE_LEGACY_IMAGES=img:1 FAKE_FAIL_AFTER_STOP=1 bluegreen
-check "failed legacy -> disk swap: the legacy directory (still serving) is not emptied" \
-  '[ $RC != 0 ] && called "docker start blot-proxy-blue" && ! reset_in "$T/cache"'
+check "failed legacy -> disk swap after the old colour was stopped: the legacy directory is emptied before it is started again (purges since went to the disk colour)" \
+  '[ $RC != 0 ] && called "docker start blot-proxy-blue" && [ "$(reset_of "$T/cache")" -lt "$(line "docker start blot-proxy-blue")" ]'
 
 reset container; FAKE_OLD_IMAGE=img:1 FAKE_LEGACY_IMAGES=img:1 FAKE_UNHEALTHY=blot-proxy-green bluegreen
 check "legacy -> disk where the new colour never becomes healthy: the legacy directory is not emptied" '[ $RC != 0 ] && ! reset_in "$T/cache"'
