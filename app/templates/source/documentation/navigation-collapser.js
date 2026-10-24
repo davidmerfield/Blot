@@ -1,13 +1,12 @@
-const COLLAPSE_NAVIGATION_BY_DEFAULT = true;
+const COLLAPSE_NAVIGATION_BY_DEFAULT = {{#collapse_navigation_by_default}}true{{/collapse_navigation_by_default}}{{^collapse_navigation_by_default}}false{{/collapse_navigation_by_default}};
 
 class SidebarNavigation {
   constructor() {
     this.root = document.querySelector(".sidebar");
     this.maxPages = 100;
     this.cacheKey = `documentation-sidebar:${
-      document.querySelector('meta[name="blot-cache-id"]')?.content ||
-      window.location.host
-    }`;
+      document.querySelector('meta[name="blot-cache-id"]')?.content
+    }:sort:${this.root?.dataset.sortBy || "id"}:${this.root?.dataset.sortOrder || "asc"}`;
   }
 
   normalizePathname(pathname) {
@@ -266,8 +265,12 @@ class SidebarNavigation {
       if (!folder) return;
       // An index-backed folder label remains a link. Expand it before its
       // normal navigation so the index page is shown with its children open.
+      // Clicking it again while already on that page toggles instead.
       const isIndexLink = control.matches("a.folder-label");
-      const open = isIndexLink || folder.getAttribute("aria-expanded") !== "true";
+      const isCurrent = isIndexLink && control.classList.contains("active");
+      const expanded = folder.getAttribute("aria-expanded") === "true";
+      const open = isIndexLink && !isCurrent ? true : !expanded;
+      if (isCurrent) event.preventDefault();
       this.setFolder(folder, open);
       this.saveExpandedPaths();
     });
